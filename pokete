@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+# this is bash, I won't develope this further
+
+clear
+# player
+. ./player
+poke1
+
+# enemy
+. ./enemys
+enemylvl=$(( $RANDOM % 21 + 20 ))
+enemylvl=$enemylvl$(python3 -c 'print('$(expr 3 - ${#enemylvl})'*" ")')
+wpoke$(( $RANDOM % $pokecount + 1 ))
+enemyap=$enemyap$(python3 -c 'print('$(expr 5 - ${#enemyap})'*" ")')
+enemyhp=$enemyhp$(python3 -c 'print('$(expr 3 - ${#enemyhp})'*" ")')
+
+. ./attacks
+
+$playeratc1
+atcname1=$atcname
+$playeratc2
+atcname2=$atcname
+
+end=0
+
+while [ $end == 0 ]
+do
+
+enemyap=$enemyap$(python3 -c 'print('$(expr 5 - ${#enemyap})'*" ")')
+enemyhp=$enemyhp$(python3 -c 'print('$(expr 3 - ${#enemyhp})'*" ")')
+playerhp=$playerhp$(python3 -c 'print('$(expr 3 - ${#playerhp})'*" ")')
+
+ clear
+echo "_________________________________________________"
+echo "|$enemypoke|                              |"
+echo "|Lvl:$enemylvl         |                $epokeico1   |"
+echo "|AP:$enemyap HP:$enemyhp |                $epokeico2   |"
+echo "|----------------+                $epokeico3   |"
+echo "|                                 $epokeico4   |"
+echo "|                                               |"
+echo "|                                               |"
+echo "|                                               |"
+echo "|                                               |"
+echo "|   $pokeico1                +----------------|"
+echo "|   $pokeico2                |$playerpoke|"
+echo "|   $pokeico3                |Lvl:$playerlvl         |"
+echo "|   $pokeico4                |AP:$playerap HP:$playerhp |"
+echo "|______________________________|________________|"
+echo "+-----------------------------------------------+"
+echo "|                                               |"
+echo "|                                               |"
+echo "+-----------------------------------------------+"
+echo " 1 $atcname1"
+echo " 2 $atcname2"
+printf "Attack =>> "
+read inp
+
+if [ $inp == 1 ]
+then
+  $playeratc1
+  enemyhp=$(expr $enemyhp - $playeratk \* $atcfactor / $enemydef)
+  playerdef=$(expr $playerdef + $defbetter)
+  playeratk=$(expr $playeratk + $atcbetter)
+elif [ $inp == 2 ]
+then
+  $playeratc2
+  enemyhp=$(expr $enemyhp - $playeratk \* $atcfactor / $enemydef)
+  playerdef=$(expr $playerdef + $defbetter)
+  playeratk=$(expr $playeratk + $atcbetter)
+fi
+
+$enemyatc1
+playerhp=$(expr $playerhp - $enemyatk \* $atcfactor / $playerdef)
+
+if [ $playerhp -lt 0 ] || [ $playerhp == 0 ]
+  then
+    echo $enemypoke "(wild) won"
+    end=1
+elif [ $enemyhp -lt 0 ] || [ $enemyhp == 0 ]
+  then
+    echo $playerpoke "(player) won!"
+    end=1
+fi
+
+done

@@ -1,0 +1,49 @@
+pokecount=1
+
+wpoke1(){
+enemyap="$(expr $enemylvl + 20)"
+enemypoke="Steini          "
+enemyhp="$(expr $enemylvl \* 2)"
+enemyatk=$(expr 5 + $enemylvl)
+enemydef=$(expr 1 + 1 \* $enemylvl / 3)
+enemyatc1=atc1
+
+epokeico1=" +-------+ "
+epokeico2=" | o   o | "
+epokeico3=" |  www  | "
+epokeico4=" +-------+ "
+}
+
+wpoke2(){
+enemyap="$(expr $enemylvl + 20)"
+enemypoke="Vogli           "
+enemyhp="$(expr $enemylvl \* 2)"
+
+epokeico1="    A      "
+epokeico2="   <')     "
+epokeico3="    www*   "
+epokeico4="    ||     "
+}
+
+wpoke3(){
+enemyap="$(expr $enemylvl + 5)"
+enemypoke="Karpi           "
+enemyhp="$(expr $enemylvl \* 3 / 2)"
+
+epokeico1="           "
+epokeico2="           "
+epokeico3="  <°))))>< "
+epokeico4="           "
+}
+
+
+wpoke4(){
+enemyap="$(expr $enemylvl + 5)"
+enemypoke="Würgos          "
+enemyhp="$(expr $enemylvl \* 3 / 2)"
+
+epokeico1=" {{{{{{{{{ "
+epokeico2="  }}}}}}}  "
+epokeico3="  >'({{{   "
+epokeico4="           "
+}

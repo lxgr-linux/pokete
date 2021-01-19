@@ -1,0 +1,15 @@
+poke1(){
+playerap="50   "
+playerpoke="Steini          "
+playerlvl="10 "
+playerhp="100"
+playeratk="10"
+playerdef="10"
+playeratc1=atc1
+playeratc2=atc2
+
+pokeico1=" +-------+ "
+pokeico2=" | o   o | "
+pokeico3=" |  www  | "
+pokeico4=" +-------+ "
+}

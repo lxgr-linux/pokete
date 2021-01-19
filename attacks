@@ -1,0 +1,17 @@
+attackcount=1
+
+atc1(){
+atcname="Tackle"
+atcfactor="3 / 2"
+defbetter="0"
+atcbetter="0"
+atcap=5
+}
+
+atc2(){
+atcname="politure"
+atcfactor="0"
+defbetter="5"
+atcbetter="5"
+atcap=5
+}
