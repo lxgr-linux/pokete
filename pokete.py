@@ -160,111 +160,123 @@ recognising=threading.Thread(target=recogniser)
 recognising.daemon=True
 recognising.start()
 
-enemy = Poke(random.choice([i for i in pokes]), 5, player=False)
-player = Poke(random.choice([i for i in pokes]), 6)
+def fight():
+    global ev, attack, fightmap, outp
 
-fightmap = se.Map(background=" ")
-line_left = se.Square("|", 1, fightmap.height-7)
-line_right = se.Square("|", 1, fightmap.height-7)
-line_top = se.Square("_", fightmap.width, 1)
-line_top_text_box = se.Square("-", fightmap.width-2, 1)
-line_bottom_text_box = se.Square("-", fightmap.width-2, 1)
-line_middle = se.Square("_", fightmap.width-2, 1)
-line_l_text_box = se.Text("+\n|\n|\n+")
-line_r_text_box = se.Text("+\n|\n|\n+")
-e_underline = se.Text("----------------+")
-e_sideline = se.Square("|", 1, 3)
-p_upperline = se.Text("+----------------")
-p_sideline = se.Square("|", 1, 4)
-outp = se.Text("")
+    enemy = Poke(random.choice([i for i in pokes]), 5, player=False)
+    player = Poke(random.choice([i for i in pokes]), 6)
 
-enemy.text_ap = se.Text("AP: ")
-enemy.text_hp = se.Text("HP: ")
-enemy.text_lvl = se.Text("Lvl: ")
-enemy.text_name = se.Text("")
-player.text_ap = se.Text("AP: ")
-player.text_hp = se.Text("HP: ")
-player.text_lvl = se.Text("Lvl: ")
-player.text_name = se.Text("")
+    fightmap = se.Map(background=" ")
+    line_left = se.Square("|", 1, fightmap.height-7)
+    line_right = se.Square("|", 1, fightmap.height-7)
+    line_top = se.Square("_", fightmap.width, 1)
+    line_top_text_box = se.Square("-", fightmap.width-2, 1)
+    line_bottom_text_box = se.Square("-", fightmap.width-2, 1)
+    line_middle = se.Square("_", fightmap.width-2, 1)
+    line_l_text_box = se.Text("+\n|\n|\n+")
+    line_r_text_box = se.Text("+\n|\n|\n+")
+    e_underline = se.Text("----------------+")
+    e_sideline = se.Square("|", 1, 3)
+    p_upperline = se.Text("+----------------")
+    p_sideline = se.Square("|", 1, 4)
+    outp = se.Text("")
 
-line_left.add(fightmap, 0, 1)
-line_right.add(fightmap, fightmap.width-1, 1)
-line_top.add(fightmap, 0, 0)
-line_top_text_box.add(fightmap, 1, fightmap.height-6)
-line_bottom_text_box.add(fightmap, 1, fightmap.height-3)
-line_l_text_box.add(fightmap, 0, fightmap.height-6)
-line_r_text_box.add(fightmap, fightmap.width-1, fightmap.height-6)
-outp.add(fightmap, 1, fightmap.height-5)
-e_underline.add(fightmap, 1, 4)
-e_sideline.add(fightmap, len(e_underline.text), 1)
-p_upperline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-11)
-p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-10)
-line_middle.add(fightmap, 1, fightmap.height-7)
+    enemy.text_ap = se.Text("AP: ")
+    enemy.text_hp = se.Text("HP: ")
+    enemy.text_lvl = se.Text("Lvl: ")
+    enemy.text_name = se.Text("")
+    player.text_ap = se.Text("AP: ")
+    player.text_hp = se.Text("HP: ")
+    player.text_lvl = se.Text("Lvl: ")
+    player.text_name = se.Text("")
 
-enemy.text_name.add(fightmap, 1, 1)
-enemy.text_lvl.add(fightmap, 1, 2)
-enemy.text_ap.add(fightmap, 1, 3)
-enemy.text_hp.add(fightmap, 10, 3)
+    line_left.add(fightmap, 0, 1)
+    line_right.add(fightmap, fightmap.width-1, 1)
+    line_top.add(fightmap, 0, 0)
+    line_top_text_box.add(fightmap, 1, fightmap.height-6)
+    line_bottom_text_box.add(fightmap, 1, fightmap.height-3)
+    line_l_text_box.add(fightmap, 0, fightmap.height-6)
+    line_r_text_box.add(fightmap, fightmap.width-1, fightmap.height-6)
+    outp.add(fightmap, 1, fightmap.height-5)
+    e_underline.add(fightmap, 1, 4)
+    e_sideline.add(fightmap, len(e_underline.text), 1)
+    p_upperline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-11)
+    p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-10)
+    line_middle.add(fightmap, 1, fightmap.height-7)
 
-player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
-player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
-player.text_ap.add(fightmap, fightmap.width-17, fightmap.height-8)
-player.text_hp.add(fightmap, fightmap.width-8, fightmap.height-8)
+    enemy.text_name.add(fightmap, 1, 1)
+    enemy.text_lvl.add(fightmap, 1, 2)
+    enemy.text_ap.add(fightmap, 1, 3)
+    enemy.text_hp.add(fightmap, 10, 3)
 
-fightmap.show(init=True)
+    player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
+    player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
+    player.text_ap.add(fightmap, fightmap.width-17, fightmap.height-8)
+    player.text_hp.add(fightmap, fightmap.width-8, fightmap.height-8)
 
-enemy.text_name.rechar(str(enemy.name))
-enemy.text_lvl.rechar("Lvl:"+str(enemy.lvl))
-enemy.text_ap.rechar("AP:"+str(enemy.ap))
-enemy.text_hp.rechar("HP:"+str(enemy.hp))
-enemy.ico.add(fightmap, fightmap.width-14, 2)
+    fightmap.show(init=True)
 
-player.text_name.rechar(str(player.name))
-player.text_lvl.rechar("Lvl:"+str(player.lvl))
-player.text_ap.rechar("AP:"+str(player.ap))
-player.text_hp.rechar("HP:"+str(player.hp))
-player.ico.add(fightmap, 3, fightmap.height-11)
+    enemy.text_name.rechar(str(enemy.name))
+    enemy.text_lvl.rechar("Lvl:"+str(enemy.lvl))
+    enemy.text_ap.rechar("AP:"+str(enemy.ap))
+    enemy.text_hp.rechar("HP:"+str(enemy.hp))
+    enemy.ico.add(fightmap, fightmap.width-14, 2)
 
-player.atc_labels = []
+    player.text_name.rechar(str(player.name))
+    player.text_lvl.rechar("Lvl:"+str(player.lvl))
+    player.text_ap.rechar("AP:"+str(player.ap))
+    player.text_hp.rechar("HP:"+str(player.hp))
+    player.ico.add(fightmap, 3, fightmap.height-11)
 
-for i, atc in enumerate(player.attacs):
-    player.atc_labels.append(se.Text(str(i)+": "+atc.name))
+    player.atc_labels = []
 
-for ob, x, y in zip(player.atc_labels, [1, 1, 7, 7], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
-    ob.add(fightmap, x, y)
+    for i, atc in enumerate(player.attacs):
+        player.atc_labels.append(se.Text(str(i)+": "+atc.name))
 
-fightmap.show()
+    for ob, x, y in zip(player.atc_labels, [1, 1, 7, 7], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
+        ob.add(fightmap, x, y)
 
-players = [player, enemy]
-while player.hp > 0 and enemy.hp > 0:
-    for ob in players:
-        enem = [i for i in players if i != ob][0]
-        if ob.player:
-            outp.rechar(outp.text+("\n" if outp.text != "" else "")+ "What do you want to do?")
-            fightmap.show()
-            while True:
-                if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
-                    exec("attack = ob.attacs[int("+ev+")]")
-                    ev=""
-                    break
-                elif ev == "exit":
-                    raise KeyboardInterrupt
-        else:
-            attack = random.choice(ob.attacs)
-        time.sleep(0.3)
-        ob.attack(attack, enem)
-        ob.text_name.rechar(str(ob.name))
-        ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
-        ob.text_ap.rechar("AP:"+str(ob.ap if ob.ap > 0 else 0))
-        ob.text_hp.rechar("HP:"+str(ob.hp))
-        fightmap.show()
-        time.sleep(0.5)
-        if enem.hp <= 0:
-            enem.text_hp.rechar("HP:0")
-            winner = ob
-            break
     fightmap.show()
-outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!")
-fightmap.show()
 
-time.sleep(1)
+    players = [player, enemy]
+    while player.hp > 0 and enemy.hp > 0:
+        for ob in players:
+            enem = [i for i in players if i != ob][0]
+            if ob.player:
+                outp.rechar(outp.text+("\n" if outp.text != "" else "")+ "What do you want to do?")
+                fightmap.show()
+                while True:
+                    if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
+                        exec("global attack; attack = ob.attacs[int("+ev+")]")
+                        ev=""
+                        break
+                    elif ev == "exit":
+                        raise KeyboardInterrupt
+            else:
+                attack = random.choice(ob.attacs)
+            time.sleep(0.3)
+            ob.attack(attack, enem)
+            ob.text_name.rechar(str(ob.name))
+            ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
+            ob.text_ap.rechar("AP:"+str(ob.ap if ob.ap > 0 else 0))
+            ob.text_hp.rechar("HP:"+str(ob.hp))
+            fightmap.show()
+            time.sleep(0.5)
+            if enem.hp <= 0:
+                enem.text_hp.rechar("HP:0")
+                winner = ob
+                break
+        fightmap.show()
+    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!")
+    fightmap.show()
+    time.sleep(1)
+
+def main():
+    fight()
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt")
+        exiter()
