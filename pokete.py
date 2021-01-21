@@ -47,16 +47,36 @@ class Poke():
         self.attacs = pokes[poke]["attacs"]
         self.ico = se.Text(pokes[poke]["ico"])
 
-    def attack(self, attac, enemy):
+    def attack(self, attac, enem):
         if self.ap > 0:
-            enemy.hp = round(enemy.hp - self.atc * attacs[attac]["atcfactor"] / enemy.defense)
+            time.sleep(0.4)
+            self.ico.move(3 if self.player else -3, -2 if self.player else 2)
+            fightmap.show()
+            time.sleep(0.3)
+            self.ico.move(-3 if self.player else 3, 2 if self.player else -2)
+            fightmap.show()
+            oldhp = enem.hp
+            oldap = self.ap
+            enem.hp = round(enem.hp - self.atc * attacs[attac]["atcfactor"] / enem.defense)
             self.defense += attacs[attac]["defbetter"]
             self.atc += attacs[attac]["atcbetter"]
             self.ap -= attacs[attac]["atcap"]
+            outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac+" against "+enem.name+"("+("you" if not self.player else "enemy")+")")
+            while oldhp > enem.hp and oldhp > 0:
+                oldhp-=1
+                enem.text_hp.rechar("HP:"+str(oldhp))
+                time.sleep(0.1)
+                fightmap.show()
+            while oldap > self.ap and oldap > 0:
+                oldap-=1
+                self.text_ap.rechar("AP:"+str(oldap))
+                time.sleep(0.1)
+                fightmap.show()
+
 
 
 enemy = Poke("steini", 5, player=False)
-player = Poke("steini", 5)
+player = Poke("steini", 6)
 
 fightmap = se.Map(background=" ")
 line_left = se.Square("|", 1, fightmap.height-7)
@@ -127,6 +147,7 @@ while player.hp > 0 and enemy.hp > 0:
     for ob in players:
         if ob.hp <= 0:
             ob.text_hp.rechar("HP:0")
+            loser = ob
             break
         enem = [i for i in players if i != ob][0]
         attack = "tackle"
@@ -135,9 +156,11 @@ while player.hp > 0 and enemy.hp > 0:
         ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
         ob.text_ap.rechar("AP:"+str(ob.ap))
         ob.text_hp.rechar("HP:"+str(ob.hp))
-        outp.rechar(ob.name+"("+("you" if ob.player else "enemy")+") used "+attack+" against "+enem.name+"("+("you" if not ob.player else "enemy")+")")
         fightmap.show()
         time.sleep(0.5)
     fightmap.show()
+winner = [ob for ob in players if ob != loser][0]
+outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!")
+fightmap.show()
 
 time.sleep(1)
