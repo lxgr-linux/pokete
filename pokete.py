@@ -4,74 +4,6 @@
 import scrap_engine as se
 import random, time
 
-attacs={
-    "tackle": {
-        "atcname": "Tackle",
-        "atcfactor": 3/2,
-        "defbetter": 0,
-        "atcbetter": 0,
-        "atcap": 5,
-    },
-    "politure": {
-        "atcname": "Politure",
-        "atcfactor": 0,
-        "defbetter": 5,
-        "atcbetter": 5,
-        "atcap": 5,
-    },
-}
-
-pokes={
-    "steini": {
-        "ap": "self.lvl+20",
-        "name": "Steini",
-        "hp": "self.lvl*2",
-        "atc": "self.lvl+2",
-        "defense": "4+self.lvl/3",
-        "attacs": ["tackle", "politure"],
-        "ico": """ +-------+
- | o   o |
- |  www  |
- +-------+ """,
-    },
-    "vogli": {
-        "ap": "self.lvl+20",
-        "name": "Vogli",
-        "hp": "self.lvl*2",
-        "atc": "self.lvl+6",
-        "defense": "self.lvl/3",
-        "attacs": ["tackle"],
-        "ico":"""    A
-   <')
-    www*
-    ||     """
-    },
-    "karpi": {
-        "ap": "self.lvl+5",
-        "name": "Karpi",
-        "hp": "self.lvl*3/2",
-        "atc": "self.lvl",
-        "defense": "self.lvl/4",
-        "attacs": ["tackle"],
-        "ico":"""
-
-  <°))))><
-           """
-    },
-    "würgos": {
-        "ap": "self.lvl+5",
-        "name": "Würgos",
-        "hp": "self.lvl*3/2",
-        "atc": "self.lvl",
-        "defense": "self.lvl/4",
-        "attacs": ["tackle"],
-        "ico": """ {{{{{{{{{
-  }}}}}}}
-  >'({{{
-           """
-    },
-}
-
 
 class Poke():
     def __init__(self, poke, lvl, player=True):
@@ -93,11 +25,11 @@ class Poke():
             fightmap.show()
             oldhp = enem.hp
             oldap = self.ap
-            enem.hp = round(enem.hp - (self.atc * attacs[attac]["atcfactor"] / enem.defense)*random.choice([0.75, 1, 1.26]))
-            self.defense += attacs[attac]["defbetter"]
-            self.atc += attacs[attac]["atcbetter"]
-            self.ap -= attacs[attac]["atcap"]
-            outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac+" against "+enem.name+"("+("you" if not self.player else "enemy")+")")
+            enem.hp = round(enem.hp - (self.atc * attac.factor / enem.defense)*random.choice([0.75, 1, 1.26]))
+            self.defense += attac.defbetter
+            self.atc += attac.atcbetter
+            self.ap -= attac.ap
+            outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+")")
             while oldhp > enem.hp and oldhp > 0:
                 oldhp-=1
                 enem.text_hp.rechar("HP:"+str(oldhp), esccode="\033[33m")
@@ -109,6 +41,83 @@ class Poke():
                 self.text_ap.rechar("AP:"+str(oldap))
                 time.sleep(0.1)
                 fightmap.show()
+
+
+class Attack():
+    def __init__(self, index):
+        for i in attacs[index]:
+            exec("self."+i+"=attacs[index][i]")
+
+attacs={
+    "tackle": {
+        "name": "Tackle",
+        "factor": 3/2,
+        "defbetter": 0,
+        "atcbetter": 0,
+        "ap": 5,
+    },
+    "politure": {
+        "name": "Politure",
+        "factor": 0,
+        "defbetter": 5,
+        "atcbetter": 5,
+        "ap": 5,
+    },
+}
+
+for attac in attacs:
+    exec(attac+"=Attack(attac)")
+
+pokes={
+    "steini": {
+        "ap": "self.lvl+20",
+        "name": "Steini",
+        "hp": "self.lvl*2",
+        "atc": "self.lvl+2",
+        "defense": "4+self.lvl/3",
+        "attacs": [tackle, politure],
+        "ico": """ +-------+
+ | o   o |
+ |  www  |
+ +-------+ """,
+    },
+    "vogli": {
+        "ap": "self.lvl+20",
+        "name": "Vogli",
+        "hp": "self.lvl*2",
+        "atc": "self.lvl+6",
+        "defense": "self.lvl/3",
+        "attacs": [tackle],
+        "ico":"""    A
+   <')
+    www*
+    ||     """
+    },
+    "karpi": {
+        "ap": "self.lvl+5",
+        "name": "Karpi",
+        "hp": "self.lvl*3/2",
+        "atc": "self.lvl",
+        "defense": "self.lvl/4",
+        "attacs": [tackle],
+        "ico":"""
+
+  <°))))><
+           """
+    },
+    "würgos": {
+        "ap": "self.lvl+5",
+        "name": "Würgos",
+        "hp": "self.lvl*3/2",
+        "atc": "self.lvl",
+        "defense": "self.lvl/4",
+        "attacs": [tackle],
+        "ico": """ {{{{{{{{{
+  }}}}}}}
+  >'({{{
+           """
+    },
+}
 
 
 
@@ -177,13 +186,17 @@ player.text_ap.rechar("AP:"+str(player.ap))
 player.text_hp.rechar("HP:"+str(player.hp))
 player.ico.add(fightmap, 3, fightmap.height-11)
 
+for i, attac in enumerate(player.attacs):
+    print(i, )
+
 fightmap.show()
 
 players = [player, enemy]
 while player.hp > 0 and enemy.hp > 0:
     for ob in players:
         enem = [i for i in players if i != ob][0]
-        attack = "tackle"
+        attack = tackle
+
         ob.attack(attack, enem)
         ob.text_name.rechar(str(ob.name))
         ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
