@@ -47,6 +47,11 @@ class Attack():
         for i in attacs[index]:
             exec("self."+i+"=attacs[index][i]")
 
+def exiter():
+    global do_exit
+    do_exit=True
+    exit()
+
 def on_press(key):
     global ev
     ev=str(key)
@@ -171,7 +176,7 @@ e_underline = se.Text("----------------+")
 e_sideline = se.Square("|", 1, 3)
 p_upperline = se.Text("+----------------")
 p_sideline = se.Square("|", 1, 4)
-outp = se.Text(" ")
+outp = se.Text("")
 
 enemy.text_ap = se.Text("AP: ")
 enemy.text_hp = se.Text("HP: ")
@@ -235,18 +240,22 @@ while player.hp > 0 and enemy.hp > 0:
     for ob in players:
         enem = [i for i in players if i != ob][0]
         if ob.player:
+            outp.rechar(outp.text+("\n" if outp.text != "" else "")+ "What do you want to do?")
+            fightmap.show()
             while True:
                 if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
                     exec("attack = ob.attacs[int("+ev+")]")
                     ev=""
                     break
+                elif ev == "exit":
+                    raise KeyboardInterrupt
         else:
             attack = random.choice(ob.attacs)
         time.sleep(0.3)
         ob.attack(attack, enem)
         ob.text_name.rechar(str(ob.name))
         ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
-        ob.text_ap.rechar("AP:"+str(ob.ap))
+        ob.text_ap.rechar("AP:"+str(ob.ap if ob.ap > 0 else 0))
         ob.text_hp.rechar("HP:"+str(ob.hp))
         fightmap.show()
         time.sleep(0.5)
