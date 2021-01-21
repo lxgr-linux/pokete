@@ -57,16 +57,17 @@ class Poke():
             fightmap.show()
             oldhp = enem.hp
             oldap = self.ap
-            enem.hp = round(enem.hp - self.atc * attacs[attac]["atcfactor"] / enem.defense)
+            enem.hp = round(enem.hp - (self.atc * attacs[attac]["atcfactor"] / enem.defense)*random.choice([0.75, 1, 1.26]))
             self.defense += attacs[attac]["defbetter"]
             self.atc += attacs[attac]["atcbetter"]
             self.ap -= attacs[attac]["atcap"]
             outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac+" against "+enem.name+"("+("you" if not self.player else "enemy")+")")
             while oldhp > enem.hp and oldhp > 0:
                 oldhp-=1
-                enem.text_hp.rechar("HP:"+str(oldhp))
+                enem.text_hp.rechar("HP:"+str(oldhp), esccode="\033[33m")
                 time.sleep(0.1)
                 fightmap.show()
+            enem.text_hp.rechar("HP:"+str(oldhp))
             while oldap > self.ap and oldap > 0:
                 oldap-=1
                 self.text_ap.rechar("AP:"+str(oldap))
@@ -82,9 +83,9 @@ fightmap = se.Map(background=" ")
 line_left = se.Square("|", 1, fightmap.height-7)
 line_right = se.Square("|", 1, fightmap.height-7)
 line_top = se.Square("_", fightmap.width, 1)
-line_middle = se.Square("_", fightmap.width-2, 1)
 line_top_text_box = se.Square("-", fightmap.width-2, 1)
 line_bottom_text_box = se.Square("-", fightmap.width-2, 1)
+line_middle = se.Square("_", fightmap.width-2, 1)
 line_l_text_box = se.Text("+\n|\n|\n+")
 line_r_text_box = se.Text("+\n|\n|\n+")
 e_underline = se.Text("----------------+")
@@ -105,7 +106,6 @@ player.text_name = se.Text("")
 line_left.add(fightmap, 0, 1)
 line_right.add(fightmap, fightmap.width-1, 1)
 line_top.add(fightmap, 0, 0)
-line_middle.add(fightmap, 1, fightmap.height-7)
 line_top_text_box.add(fightmap, 1, fightmap.height-6)
 line_bottom_text_box.add(fightmap, 1, fightmap.height-3)
 line_l_text_box.add(fightmap, 0, fightmap.height-6)
@@ -115,6 +115,7 @@ e_underline.add(fightmap, 1, 4)
 e_sideline.add(fightmap, len(e_underline.text), 1)
 p_upperline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-11)
 p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-10)
+line_middle.add(fightmap, 1, fightmap.height-7)
 
 enemy.text_name.add(fightmap, 1, 1)
 enemy.text_lvl.add(fightmap, 1, 2)
