@@ -152,6 +152,7 @@ def fight():
     time.sleep(1)
 
 def main():
+    global ev
     ev=""
     os.system("")
     recognising=threading.Thread(target=recogniser)
@@ -159,6 +160,7 @@ def main():
     recognising.start()
 
     fight()
+    exiter()
 
 
 attacs={
@@ -244,7 +246,7 @@ pokes={
         "name": "Würgos",
         "ap": "25",
         "hp": "20",
-        "atc": "self.lvl+1",
+        "atc": "self.lvl+3",
         "defense": "self.lvl",
         "attacs": [chocer, bite],
         "ico": """ {{{{{{{{{
@@ -283,15 +285,8 @@ p_upperline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.heigh
 p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-10)
 line_middle.add(fightmap, 1, fightmap.height-7)
 
-ev=""
-os.system("")
-recognising=threading.Thread(target=recogniser)
-recognising.daemon=True
-recognising.start()
-
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
         print("KeyboardInterrupt")
-        exiter()
