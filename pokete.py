@@ -26,14 +26,50 @@ pokes={
         "ap": "self.lvl+20",
         "name": "Steini",
         "hp": "self.lvl*2",
-        "atc": "self.lvl+5",
-        "defense": "1+self.lvl/3",
+        "atc": "self.lvl+2",
+        "defense": "4+self.lvl/3",
         "attacs": ["tackle", "politure"],
         "ico": """ +-------+
  | o   o |
  |  www  |
  +-------+ """,
-    }
+    },
+    "vogli": {
+        "ap": "self.lvl+20",
+        "name": "Vogli",
+        "hp": "self.lvl*2",
+        "atc": "self.lvl+6",
+        "defense": "self.lvl/3",
+        "attacs": ["tackle"],
+        "ico":"""    A
+   <')
+    www*
+    ||     """
+    },
+    "karpi": {
+        "ap": "self.lvl+5",
+        "name": "Karpi",
+        "hp": "self.lvl*3/2",
+        "atc": "self.lvl",
+        "defense": "self.lvl/4",
+        "attacs": ["tackle"],
+        "ico":"""
+
+  <°))))><
+           """
+    },
+    "würgos": {
+        "ap": "self.lvl+5",
+        "name": "Würgos",
+        "hp": "self.lvl*3/2",
+        "atc": "self.lvl",
+        "defense": "self.lvl/4",
+        "attacs": ["tackle"],
+        "ico": """ {{{{{{{{{
+  }}}}}}}
+  >'({{{
+           """
+    },
 }
 
 
@@ -42,7 +78,7 @@ class Poke():
         self.lvl = lvl
         self.player = player
         for name in ["ap", "hp", "atc", "defense"]:
-            exec("self."+name+" = "+pokes[poke][name])
+            exec("self."+name+" = int("+pokes[poke][name]+")")
         self.name = pokes[poke]["name"]
         self.attacs = pokes[poke]["attacs"]
         self.ico = se.Text(pokes[poke]["ico"])
@@ -76,8 +112,8 @@ class Poke():
 
 
 
-enemy = Poke("steini", 5, player=False)
-player = Poke("steini", 6)
+enemy = Poke(random.choice([i for i in pokes]), 5, player=False)
+player = Poke(random.choice([i for i in pokes]), 6)
 
 fightmap = se.Map(background=" ")
 line_left = se.Square("|", 1, fightmap.height-7)
@@ -146,10 +182,6 @@ fightmap.show()
 players = [player, enemy]
 while player.hp > 0 and enemy.hp > 0:
     for ob in players:
-        if ob.hp <= 0:
-            ob.text_hp.rechar("HP:0")
-            loser = ob
-            break
         enem = [i for i in players if i != ob][0]
         attack = "tackle"
         ob.attack(attack, enem)
@@ -159,8 +191,11 @@ while player.hp > 0 and enemy.hp > 0:
         ob.text_hp.rechar("HP:"+str(ob.hp))
         fightmap.show()
         time.sleep(0.5)
+        if enem.hp <= 0:
+            enem.text_hp.rechar("HP:0")
+            winner = ob
+            break
     fightmap.show()
-winner = [ob for ob in players if ob != loser][0]
 outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!")
 fightmap.show()
 
