@@ -2,8 +2,7 @@
 # This software is licensed under the GPL3
 
 import scrap_engine as se
-import random, time
-
+import random, time, os, sys, threading
 
 class Poke():
     def __init__(self, poke, lvl, player=True):
@@ -47,6 +46,36 @@ class Attack():
     def __init__(self, index):
         for i in attacs[index]:
             exec("self."+i+"=attacs[index][i]")
+
+def on_press(key):
+    global ev
+    ev=str(key)
+
+if sys.platform == "linux":  # Use another (not on xserver relying) way to read keyboard input, to make this shit work in tty or via ssh, where no xserver is available
+    def recogniser():
+        import tty, sys, termios
+        global ev, old_settings, termios, fd, do_exit
+
+        do_exit=False
+        fd=sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        tty.setraw(fd)
+        while True:
+            char=sys.stdin.read(1)
+            if ord(char) == 13:
+                ev="Key.enter"
+            else:
+                ev="'"+char.rstrip()+"'"
+            if ord(char) == 3 or do_exit:
+                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+                ev="exit"
+else:
+    from pynput.keyboard import Key, Listener
+    def recogniser():
+        global ev
+        while True:
+            with Listener(on_press=on_press) as listener:
+                listener.join()
 
 attacs={
     "tackle": {
@@ -120,6 +149,11 @@ pokes={
 }
 
 
+ev=""
+os.system("")
+recognising=threading.Thread(target=recogniser)
+recognising.daemon=True
+recognising.start()
 
 enemy = Poke(random.choice([i for i in pokes]), 5, player=False)
 player = Poke(random.choice([i for i in pokes]), 6)
@@ -186,8 +220,13 @@ player.text_ap.rechar("AP:"+str(player.ap))
 player.text_hp.rechar("HP:"+str(player.hp))
 player.ico.add(fightmap, 3, fightmap.height-11)
 
-for i, attac in enumerate(player.attacs):
-    print(i, )
+player.atc_labels = []
+
+for i, atc in enumerate(player.attacs):
+    player.atc_labels.append(se.Text(str(i)+": "+atc.name))
+
+for ob, x, y in zip(player.atc_labels, [1, 1, 7, 7], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
+    ob.add(fightmap, x, y)
 
 fightmap.show()
 
@@ -195,8 +234,15 @@ players = [player, enemy]
 while player.hp > 0 and enemy.hp > 0:
     for ob in players:
         enem = [i for i in players if i != ob][0]
-        attack = tackle
-
+        if ob.player:
+            while True:
+                if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
+                    exec("attack = ob.attacs[int("+ev+")]")
+                    ev=""
+                    break
+        else:
+            attack = random.choice(ob.attacs)
+        time.sleep(0.3)
         ob.attack(attack, enem)
         ob.text_name.rechar(str(ob.name))
         ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
