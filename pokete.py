@@ -8,14 +8,17 @@ class Poke():
     def __init__(self, poke, lvl, player=True):
         self.lvl = lvl
         self.player = player
-        for name in ["ap", "hp", "atc", "defense"]:
+        for name in ["hp", "atc", "defense"]:
             exec("self."+name+" = int("+pokes[poke][name]+")")
         self.name = pokes[poke]["name"]
         self.attacs = pokes[poke]["attacs"]
         self.ico = se.Text(pokes[poke]["ico"])
+        self.attac_obs = []
+        for atc in self.attacs:
+            self.attac_obs.append(Attack(atc))
 
     def attack(self, attac, enem):
-        if self.ap > 0:
+        if attac.ap > 0:
             time.sleep(0.4)
             self.ico.move(3 if self.player else -3, -2 if self.player else 2)
             fightmap.show()
@@ -23,13 +26,12 @@ class Poke():
             self.ico.move(-3 if self.player else 3, 2 if self.player else -2)
             fightmap.show()
             oldhp = enem.hp
-            oldap = self.ap
             enem.hp = round(enem.hp - (self.atc * attac.factor / enem.defense)*random.choice([0.75, 1, 1.26]))
             self.defense += attac.pdefbetter
             self.atc += attac.patcbetter
             enem.defense += attac.edefbetter
             enem.atc += attac.eatcbetter
-            self.ap -= attac.ap
+            attac.ap -= 1
             outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+")")
             while oldhp > enem.hp and oldhp > 0:
                 oldhp-=1
@@ -37,11 +39,10 @@ class Poke():
                 time.sleep(0.1)
                 fightmap.show()
             enem.text_hp.rechar("HP:"+str(oldhp))
-            while oldap > self.ap and oldap > 0:
-                oldap-=1
-                self.text_ap.rechar("AP:"+str(oldap))
-                time.sleep(0.1)
-                fightmap.show()
+            if self.player:
+                for i, atc in enumerate(self.attac_obs):
+                    self.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
+            fightmap.show()
 
 
 class Attack():
@@ -91,28 +92,24 @@ def fight():
     player = Poke(random.choice([i for i in pokes]), 6)
 
     enemy.text_name = se.Text(str(enemy.name))
-    enemy.text_ap = se.Text("AP:"+str(enemy.ap))
     enemy.text_hp = se.Text("HP:"+str(enemy.hp))
     enemy.text_lvl = se.Text("Lvl:"+str(enemy.lvl))
-    player.text_ap = se.Text("AP:"+str(player.ap))
     player.text_hp = se.Text("HP:"+str(player.hp))
     player.text_lvl = se.Text("Lvl:"+str(player.lvl))
     player.text_name = se.Text(str(player.name))
 
     enemy.text_name.add(fightmap, 1, 1)
     enemy.text_lvl.add(fightmap, 1, 2)
-    enemy.text_ap.add(fightmap, 1, 3)
-    enemy.text_hp.add(fightmap, 10, 3)
+    enemy.text_hp.add(fightmap, 1, 3)
     enemy.ico.add(fightmap, fightmap.width-14, 2)
     player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
     player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
-    player.text_ap.add(fightmap, fightmap.width-17, fightmap.height-8)
-    player.text_hp.add(fightmap, fightmap.width-8, fightmap.height-8)
+    player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
     player.ico.add(fightmap, 3, fightmap.height-11)
 
     player.atc_labels = []
-    for i, atc in enumerate(player.attacs):
-        player.atc_labels.append(se.Text(str(i)+": "+atc.name))
+    for i, atc in enumerate(player.attac_obs):
+        player.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
     for ob, x, y in zip(player.atc_labels, [1, 1, 7, 7], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
 
@@ -127,18 +124,18 @@ def fight():
                 fightmap.show()
                 while True:
                     if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
-                        exec("global attack; attack = ob.attacs[int("+ev+")]")
+                        exec("global attack; attack = ob.attac_obs[int("+ev+")]")
                         ev=""
                         break
                     elif ev == "exit":
                         raise KeyboardInterrupt
+                    time.sleep(0.1)
             else:
-                attack = random.choice(ob.attacs)
+                attack = random.choice(ob.attac_obs)
             time.sleep(0.3)
             ob.attack(attack, enem)
             ob.text_name.rechar(str(ob.name))
             ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
-            ob.text_ap.rechar("AP:"+str(ob.ap if ob.ap > 0 else 0))
             ob.text_hp.rechar("HP:"+str(ob.hp))
             fightmap.show()
             time.sleep(0.5)
@@ -162,7 +159,6 @@ def main():
     fight()
     exiter()
 
-
 attacs={
     "tackle": {
         "name": "Tackle",
@@ -171,7 +167,7 @@ attacs={
         "patcbetter": 0,
         "edefbetter": 0,
         "eatcbetter": 0,
-        "ap": 2,
+        "ap": 20,
     },
     "bite": {
         "name": "Bite",
@@ -180,16 +176,16 @@ attacs={
         "patcbetter": 0,
         "edefbetter": 0,
         "eatcbetter": 0,
-        "ap": 2,
+        "ap": 20,
     },
     "politure": {
         "name": "Politure",
         "factor": 0,
-        "pdefbetter": 5,
-        "patcbetter": 5,
+        "pdefbetter": 2,
+        "patcbetter": 2,
         "edefbetter": 0,
         "eatcbetter": 0,
-        "ap": 3,
+        "ap": 10,
     },
     "chocer": {
         "name": "Chocer",
@@ -197,22 +193,18 @@ attacs={
         "pdefbetter": 0,
         "patcbetter": 0,
         "edefbetter": 0,
-        "eatcbetter": -3,
-        "ap": 5,
+        "eatcbetter": -2,
+        "ap": 10,
     },
 }
-
-for attac in attacs:
-    exec(attac+"=Attack(attac)")
 
 pokes={
     "steini": {
         "name": "Steini",
-        "ap": "25",
         "hp": "25",
         "atc": "self.lvl+2",
         "defense": "self.lvl+4",
-        "attacs": [tackle, politure],
+        "attacs": ["tackle", "politure"],
         "ico": """ +-------+
  | o   o |
  |  www  |
@@ -220,11 +212,10 @@ pokes={
     },
     "vogli": {
         "name": "Vogli",
-        "ap": "25",
         "hp": "20",
         "atc": "self.lvl+6",
         "defense": "self.lvl+1",
-        "attacs": [tackle],
+        "attacs": ["tackle"],
         "ico":"""    A
    <')
     www*
@@ -232,11 +223,10 @@ pokes={
     },
     "karpi": {
         "name": "Karpi",
-        "ap": "25",
         "hp": "15",
         "atc": "self.lvl",
         "defense": "self.lvl/2",
-        "attacs": [tackle],
+        "attacs": ["tackle"],
         "ico":"""
 
   <°))))><
@@ -244,11 +234,10 @@ pokes={
     },
     "würgos": {
         "name": "Würgos",
-        "ap": "25",
         "hp": "20",
         "atc": "self.lvl+3",
         "defense": "self.lvl",
-        "attacs": [chocer, bite],
+        "attacs": ["chocer", "bite"],
         "ico": """ {{{{{{{{{
   }}}}}}}
   >'({{{
