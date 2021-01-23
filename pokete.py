@@ -10,6 +10,7 @@ class Poke():
         self.player = player
         for name in ["hp", "atc", "defense"]:
             exec("self."+name+" = int("+pokes[poke][name]+")")
+        self.full_hp = self.hp
         self.name = pokes[poke]["name"]
         self.attacs = pokes[poke]["attacs"]
         self.ico = se.Text(pokes[poke]["ico"])
@@ -36,6 +37,14 @@ class Poke():
             while oldhp > enem.hp and oldhp > 0:
                 oldhp-=1
                 enem.text_hp.rechar("HP:"+str(oldhp), esccode="\033[33m")
+                bar_num = round(oldhp*8/self.full_hp)
+                if bar_num > 6:
+                    esccode = "\033[32m"
+                elif bar_num > 2:
+                    esccode = "\033[33m"
+                else:
+                    esccode = "\033[31m"
+                enem.hp_bar.rechar(bar_num*"#", esccode)
                 time.sleep(0.1)
                 fightmap.show()
             enem.text_hp.rechar("HP:"+str(oldhp))
@@ -94,18 +103,22 @@ def fight():
     enemy.text_name = se.Text(str(enemy.name))
     enemy.text_hp = se.Text("HP:"+str(enemy.hp))
     enemy.text_lvl = se.Text("Lvl:"+str(enemy.lvl))
+    enemy.hp_bar = se.Text(8*"#", esccode="\033[32m")
     player.text_hp = se.Text("HP:"+str(player.hp))
     player.text_lvl = se.Text("Lvl:"+str(player.lvl))
     player.text_name = se.Text(str(player.name))
+    player.hp_bar = se.Text(8*"#", esccode="\033[32m")
 
     enemy.text_name.add(fightmap, 1, 1)
     enemy.text_lvl.add(fightmap, 1, 2)
     enemy.text_hp.add(fightmap, 1, 3)
     enemy.ico.add(fightmap, fightmap.width-14, 2)
+    enemy.hp_bar.add(fightmap, 8, 3)
     player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
     player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
     player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
     player.ico.add(fightmap, 3, fightmap.height-11)
+    player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
 
     player.atc_labels = []
     for i, atc in enumerate(player.attac_obs):
@@ -257,8 +270,12 @@ line_l_text_box = se.Text("+\n|\n|\n+")
 line_r_text_box = se.Text("+\n|\n|\n+")
 e_underline = se.Text("----------------+")
 e_sideline = se.Square("|", 1, 3)
+e_tril = se.Object("<")
+e_trir = se.Object(">")
 p_upperline = se.Text("+----------------")
 p_sideline = se.Square("|", 1, 4)
+p_tril = se.Object("<")
+p_trir = se.Object(">")
 outp = se.Text("")
 line_left.add(fightmap, 0, 1)
 line_right.add(fightmap, fightmap.width-1, 1)
@@ -270,8 +287,12 @@ line_r_text_box.add(fightmap, fightmap.width-1, fightmap.height-6)
 outp.add(fightmap, 1, fightmap.height-5)
 e_underline.add(fightmap, 1, 4)
 e_sideline.add(fightmap, len(e_underline.text), 1)
+e_tril.add(fightmap, 7, 3)
+e_trir.add(fightmap, 16, 3)
 p_upperline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-11)
 p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-10)
+e_tril.add(fightmap, fightmap.width-11, fightmap.height-8)
+e_trir.add(fightmap, fightmap.width-2, fightmap.height-8)
 line_middle.add(fightmap, 1, fightmap.height-7)
 
 if __name__ == "__main__":
