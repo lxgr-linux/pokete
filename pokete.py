@@ -27,7 +27,8 @@ class Poke():
             self.ico.move(-3 if self.player else 3, 2 if self.player else -2)
             fightmap.show()
             oldhp = enem.hp
-            enem.hp = round(enem.hp - (self.atc * attac.factor / enem.defense)*random.choice([0.75, 1, 1.26]))
+            n_hp = round((self.atc * attac.factor / enem.defense)*random.choice([0.75, 1, 1.26]))
+            enem.hp -= n_hp if n_hp >= 0 else 0
             self.defense += attac.pdefbetter
             self.atc += attac.patcbetter
             enem.defense += attac.edefbetter
@@ -144,7 +145,7 @@ def fight():
                         raise KeyboardInterrupt
                     time.sleep(0.1)
             else:
-                attack = random.choice(ob.attac_obs)
+                attack = random.choices([ob for ob in ob.attac_obs], weights=[ob.ap for ob in ob.attac_obs])[0]
             time.sleep(0.3)
             ob.attack(attack, enem)
             ob.text_name.rechar(str(ob.name))
@@ -194,8 +195,8 @@ attacs={
     "politure": {
         "name": "Politure",
         "factor": 0,
-        "pdefbetter": 2,
-        "patcbetter": 2,
+        "pdefbetter": 1,
+        "patcbetter": 1,
         "edefbetter": 0,
         "eatcbetter": 0,
         "ap": 10,
@@ -206,7 +207,7 @@ attacs={
         "pdefbetter": 0,
         "patcbetter": 0,
         "edefbetter": 0,
-        "eatcbetter": -2,
+        "eatcbetter": -1,
         "ap": 10,
     },
 }
