@@ -21,11 +21,7 @@ class Poke():
     def attack(self, attac, enem):
         if attac.ap > 0:
             time.sleep(0.4)
-            self.ico.move(3 if self.player else -3, -2 if self.player else 2)
-            fightmap.show()
-            time.sleep(0.3)
-            self.ico.move(-3 if self.player else 3, 2 if self.player else -2)
-            fightmap.show()
+            exec("self.move_"+attac.move+"()")
             oldhp = enem.hp
             n_hp = round((self.atc * attac.factor / enem.defense)*random.choice([0.75, 1, 1.26]))
             enem.hp -= n_hp if n_hp >= 0 else 0
@@ -53,6 +49,23 @@ class Poke():
                 for i, atc in enumerate(self.attac_obs):
                     self.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
             fightmap.show()
+
+    def move_attack(self):
+        self.ico.move(3 if self.player else -3, -2 if self.player else 2)
+        fightmap.show()
+        time.sleep(0.3)
+        self.ico.move(-3 if self.player else 3, 2 if self.player else -2)
+        fightmap.show()
+
+    def move_shine(self):
+        for i, x, y in zip(shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):
+            i.add(fightmap, x, y)
+            fightmap.show()
+            time.sleep(0.2)
+        time.sleep(0.2)
+        for i in shines:
+            i.remove()
+        fightmap.show()
 
 
 class Attack():
@@ -181,6 +194,7 @@ attacs={
         "patcbetter": 0,
         "edefbetter": 0,
         "eatcbetter": 0,
+        "move": "attack",
         "ap": 20,
     },
     "bite": {
@@ -190,6 +204,7 @@ attacs={
         "patcbetter": 0,
         "edefbetter": 0,
         "eatcbetter": 0,
+        "move": "attack",
         "ap": 20,
     },
     "politure": {
@@ -199,6 +214,7 @@ attacs={
         "patcbetter": 1,
         "edefbetter": 0,
         "eatcbetter": 0,
+        "move": "shine",
         "ap": 10,
     },
     "chocer": {
@@ -208,7 +224,18 @@ attacs={
         "patcbetter": 0,
         "edefbetter": 0,
         "eatcbetter": -1,
+        "move": "attack",
         "ap": 10,
+    },
+    "power_pick": {
+        "name": "Power pick",
+        "factor": 2,
+        "pdefbetter": 0,
+        "patcbetter": 0,
+        "edefbetter": 0,
+        "eatcbetter": 0,
+        "move": "attack",
+        "ap": 5,
     },
 }
 
@@ -229,7 +256,7 @@ pokes={
         "hp": "20",
         "atc": "self.lvl+6",
         "defense": "self.lvl+1",
-        "attacs": ["tackle"],
+        "attacs": ["tackle", "power_pick"],
         "ico":"""    A
    <')
     www*
@@ -278,6 +305,7 @@ p_sideline = se.Square("|", 1, 4)
 p_tril = se.Object("<")
 p_trir = se.Object(">")
 outp = se.Text("")
+shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
 line_left.add(fightmap, 0, 1)
 line_right.add(fightmap, fightmap.width-1, 1)
 line_top.add(fightmap, 0, 0)
