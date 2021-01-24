@@ -4,6 +4,11 @@
 import scrap_engine as se
 import random, time, os, sys, threading
 
+class Hight_grass(se.Object):
+    def action(self, ob):
+        if random.randint(0,6) == 0:
+            fight(figure.pokes[0], Poke(random.choice([i for i in pokes]), 5, player=False))
+
 class Poke():
     def __init__(self, poke, lvl, player=True):
         self.lvl = lvl
@@ -18,6 +23,10 @@ class Poke():
         self.attac_obs = []
         for atc in self.attacs:
             self.attac_obs.append(Attack(atc))
+        if self.player:
+            self.atc_labels = []
+            for i, atc in enumerate(self.attac_obs):
+                self.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
 
     def attack(self, attac, enem):
         if attac.ap > 0:
@@ -45,6 +54,7 @@ class Poke():
             enem.text_hp.rechar("HP:"+str(oldhp))
             if self.player:
                 for i, atc in enumerate(self.attac_obs):
+                    time.sleep(0.1)
                     self.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
             fightmap.show()
 
@@ -113,11 +123,8 @@ else:
             with Listener(on_press=on_press) as listener:
                 listener.join()
 
-def fight():
+def fight(player, enemy):
     global ev, attack, fightmap, outp
-
-    enemy = Poke(random.choice([i for i in pokes]), 5, player=False)
-    player = Poke(random.choice([i for i in pokes]), 6)
 
     enemy.text_name = se.Text(str(enemy.name))
     enemy.text_hp = se.Text("HP:"+str(enemy.hp))
@@ -139,9 +146,6 @@ def fight():
     player.ico.add(fightmap, 3, fightmap.height-11)
     player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
 
-    player.atc_labels = []
-    for i, atc in enumerate(player.attac_obs):
-        player.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
     for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
 
@@ -191,6 +195,17 @@ def fight():
     deadico2.remove()
     fightmap.show()
 
+    enemy.text_name.remove()
+    enemy.text_lvl.remove()
+    enemy.text_hp.remove()
+    enemy.ico.remove()
+    enemy.hp_bar.remove()
+    player.text_name.remove()
+    player.text_lvl.remove()
+    player.text_hp.remove()
+    player.ico.remove()
+    player.hp_bar.remove()
+
 def main():
     global ev
     ev=""
@@ -198,6 +213,36 @@ def main():
     recognising=threading.Thread(target=recogniser)
     recognising.daemon=True
     recognising.start()
+
+    movemap.remap()
+    movemap.show()
+
+    while True:
+        if ev == "'w'":
+            figure.direction="t"
+            figure.set(figure.x, figure.y-1)
+            ev=""
+        elif ev == "'a'":
+            figure.direction="l"
+            figure.set(figure.x-1, figure.y)
+            ev=""
+        elif ev == "'s'":
+            figure.direction="b"
+            figure.set(figure.x, figure.y+1)
+            ev=""
+        elif ev == "'d'":
+            figure.direction="r"
+            figure.set(figure.x+1, figure.y)
+            ev=""
+        elif ev == "exit":
+            raise KeyboardInterrupt
+        time.sleep(0.05)
+        if figure.x+5 > movemap.x+movemap.width:
+            movemap.set(movemap.x+1, movemap.y)
+        if figure.x < movemap.x+5:
+            movemap.set(movemap.x-1, movemap.y)
+        movemap.remap()
+        movemap.show()
 
     fight()
     exiter()
@@ -384,6 +429,15 @@ pokes={
            """
     },
 }
+
+playmap_1 = se.Map(background=" ", height=1000, width=1000)
+movemap = se.Submap(playmap_1, 0, 0)
+figure = se.Object("a")
+figure.pokes = []
+figure.pokes.append(Poke("poundi", 6))
+meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
+figure.add(playmap_1, 1, 1)
+meadow.add(playmap_1, 5, 5)
 
 # objects relevant for fight()
 fightmap = se.Map(background=" ")
