@@ -172,6 +172,12 @@ def fight(player, enemy):
                         exec("global attack; attack = ob.attac_obs[int("+ev+")]")
                         ev=""
                         break
+                    elif ev == "'5'":
+                        outp.rechar("You ran away!")
+                        fightmap.show()
+                        time.sleep(1)
+                        fight_clean_up(player, enemy)
+                        return
                     elif ev == "exit":
                         raise KeyboardInterrupt
                     time.sleep(0.1)
@@ -203,7 +209,9 @@ def fight(player, enemy):
     time.sleep(0.1)
     deadico2.remove()
     fightmap.show()
+    fight_clean_up(player, enemy)
 
+def fight_clean_up(player, enemy):
     enemy.text_name.remove()
     enemy.text_lvl.remove()
     enemy.text_hp.remove()
@@ -465,9 +473,8 @@ playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
 figure.pokes = []
-figure.pokes.append(Poke("rosi", 6))
-figure.pokes.append(Poke("voglo", 6))
 figure.pokes.append(Poke("poundi", 6))
+figure.pokes.append(Poke("voglo", 6))
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 figure.add(playmap_1, 1, 1)
 meadow.add(playmap_1, 5, 5)
