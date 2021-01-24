@@ -23,18 +23,15 @@ class Poke():
             time.sleep(0.4)
             exec("self.move_"+attac.move+"()")
             oldhp = enem.hp
-            n_hp = round((self.atc * attac.factor / enem.defense)*random.choice([0.75, 1, 1.26]))
+            n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance, 1, 1, 1], k=1)[0])
             enem.hp -= n_hp if n_hp >= 0 else 0
-            self.defense += attac.pdefbetter
-            self.atc += attac.patcbetter
-            enem.defense += attac.edefbetter
-            enem.atc += attac.eatcbetter
+            exec(attac.action)
             attac.ap -= 1
-            outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+")")
+            outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""))
             while oldhp > enem.hp and oldhp > 0:
                 oldhp-=1
                 enem.text_hp.rechar("HP:"+str(oldhp), esccode="\033[33m")
-                bar_num = round(oldhp*8/self.full_hp)
+                bar_num = round(oldhp*8/enem.full_hp)
                 if bar_num > 6:
                     esccode = "\033[32m"
                 elif bar_num > 2:
@@ -55,6 +52,13 @@ class Poke():
         fightmap.show()
         time.sleep(0.3)
         self.ico.move(-3 if self.player else 3, 2 if self.player else -2)
+        fightmap.show()
+
+    def move_pound(self):
+        self.ico.move(0, -1)
+        fightmap.show()
+        time.sleep(0.3)
+        self.ico.move(0, 1)
         fightmap.show()
 
     def move_shine(self):
@@ -137,7 +141,7 @@ def fight():
     player.atc_labels = []
     for i, atc in enumerate(player.attac_obs):
         player.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
-    for ob, x, y in zip(player.atc_labels, [1, 1, 7, 7], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
+    for ob, x, y in zip(player.atc_labels, [1, 1, 17, 17], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
 
     fightmap.show(init=True)
@@ -190,51 +194,57 @@ attacs={
     "tackle": {
         "name": "Tackle",
         "factor": 3/2,
-        "pdefbetter": 0,
-        "patcbetter": 0,
-        "edefbetter": 0,
-        "eatcbetter": 0,
+        "action": "",
         "move": "attack",
+        "miss_chance": 0.2,
         "ap": 20,
+    },
+    "earch_quake": {
+        "name": "Earch quake",
+        "factor": 0,
+        "action": "enem.hp -= 4",
+        "move": "pound",
+        "miss_chance": 0,
+        "ap": 5,
     },
     "bite": {
         "name": "Bite",
         "factor": 1.75,
-        "pdefbetter": 0,
-        "patcbetter": 0,
-        "edefbetter": 0,
-        "eatcbetter": 0,
+        "action": "",
         "move": "attack",
+        "miss_chance": 0.1,
         "ap": 20,
     },
     "politure": {
         "name": "Politure",
         "factor": 0,
-        "pdefbetter": 1,
-        "patcbetter": 1,
-        "edefbetter": 0,
-        "eatcbetter": 0,
+        "action": "self.defense += 1; self.atc += 1",
         "move": "shine",
+        "miss_chance": 0,
         "ap": 10,
     },
     "chocer": {
         "name": "Chocer",
         "factor": 1,
-        "pdefbetter": 0,
-        "patcbetter": 0,
-        "edefbetter": 0,
-        "eatcbetter": -1,
+        "action": "enem.atc -= 1",
         "move": "attack",
+        "miss_chance": 0.2,
         "ap": 10,
+    },
+    "poison_bite": {
+        "name": "Poison bite",
+        "factor": 1,
+        "action": "enem.atc -= 1; enem.defense -= 1",
+        "move": "attack",
+        "miss_chance": 0.3,
+        "ap": 5,
     },
     "power_pick": {
         "name": "Power pick",
         "factor": 2,
-        "pdefbetter": 0,
-        "patcbetter": 0,
-        "edefbetter": 0,
-        "eatcbetter": 0,
+        "action": "",
         "move": "attack",
+        "miss_chance": 0.4,
         "ap": 5,
     },
 }
@@ -251,6 +261,17 @@ pokes={
  |  www  |
  +-------+ """,
     },
+    "poundi": {
+        "name": "Poundi",
+        "hp": "25",
+        "atc": "self.lvl+2",
+        "defense": "self.lvl+4",
+        "attacs": ["tackle", "politure", "earch_quake"],
+        "ico": """   A-A-A
+  < o o >
+  < --- >
+   VvVvV""",
+   },
     "vogli": {
         "name": "Vogli",
         "hp": "20",
@@ -278,7 +299,7 @@ pokes={
         "hp": "20",
         "atc": "self.lvl+3",
         "defense": "self.lvl",
-        "attacs": ["chocer", "bite"],
+        "attacs": ["chocer", "bite", "poison_bite"],
         "ico": """ {{{{{{{{{
   }}}}}}}
   >'({{{
