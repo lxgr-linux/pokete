@@ -7,7 +7,7 @@ import random, time, os, sys, threading
 class Hight_grass(se.Object):
     def action(self, ob):
         if random.randint(0,6) == 0:
-            fight(figure.pokes[0], Poke(random.choice([i for i in pokes]), 5, player=False))
+            fight([poke for poke in figure.pokes if poke.hp > 0][0], Poke(random.choice([i for i in pokes]), 5, player=False))
 
 class Poke():
     def __init__(self, poke, lvl, player=True):
@@ -28,30 +28,35 @@ class Poke():
             for i, atc in enumerate(self.attac_obs):
                 self.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
 
+    def health_bar_maker(self, oldhp):
+        bar_num = round(oldhp*8/self.full_hp)
+        if bar_num > 6:
+            esccode = "\033[32m"
+        elif bar_num > 2:
+            esccode = "\033[33m"
+        else:
+            esccode = "\033[31m"
+        self.hp_bar.rechar(bar_num*"#", esccode)
+
     def attack(self, attac, enem):
         if attac.ap > 0:
             time.sleep(0.4)
             exec("self.move_"+attac.move+"()")
-            oldhp = enem.hp
+            enem.oldhp = enem.hp
+            self.oldhp = self.hp
             n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0])
             enem.hp -= n_hp if n_hp >= 0 else 0
             exec(attac.action)
             attac.ap -= 1
             outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""))
-            while oldhp > enem.hp and oldhp > 0:
-                oldhp-=1
-                enem.text_hp.rechar("HP:"+str(oldhp), esccode="\033[33m")
-                bar_num = round(oldhp*8/enem.full_hp)
-                if bar_num > 6:
-                    esccode = "\033[32m"
-                elif bar_num > 2:
-                    esccode = "\033[33m"
-                else:
-                    esccode = "\033[31m"
-                enem.hp_bar.rechar(bar_num*"#", esccode)
-                time.sleep(0.1)
-                fightmap.show()
-            enem.text_hp.rechar("HP:"+str(oldhp))
+            for ob in [enem, self]:
+                while ob.oldhp != ob.hp and ob.oldhp > 0:
+                    ob.oldhp += -1 if ob.oldhp > ob.hp else 1
+                    ob.text_hp.rechar("HP:"+str(ob.oldhp), esccode="\033[33m")
+                    ob.health_bar_maker(ob.oldhp)
+                    time.sleep(0.1)
+                    fightmap.show()
+                ob.text_hp.rechar("HP:"+str(ob.oldhp))
             if self.player:
                 for i, atc in enumerate(self.attac_obs):
                     time.sleep(0.1)
@@ -126,6 +131,8 @@ else:
 def fight(player, enemy):
     global ev, attack, fightmap, outp
 
+    outp.rechar("")
+
     enemy.text_name = se.Text(str(enemy.name))
     enemy.text_hp = se.Text("HP:"+str(enemy.hp))
     enemy.text_lvl = se.Text("Lvl:"+str(enemy.lvl))
@@ -134,6 +141,7 @@ def fight(player, enemy):
     player.text_lvl = se.Text("Lvl:"+str(player.lvl))
     player.text_name = se.Text(str(player.name))
     player.hp_bar = se.Text(8*"#", esccode="\033[32m")
+    player.health_bar_maker(player.hp,)
 
     enemy.text_name.add(fightmap, 1, 1)
     enemy.text_lvl.add(fightmap, 1, 2)
@@ -206,6 +214,9 @@ def fight(player, enemy):
     player.ico.remove()
     player.hp_bar.remove()
 
+    for ob in player.atc_labels:
+        ob.remove()
+
 def main():
     global ev
     ev=""
@@ -243,8 +254,6 @@ def main():
             movemap.set(movemap.x-1, movemap.y)
         movemap.remap()
         movemap.show()
-
-    fight()
     exiter()
 
 attacs={
@@ -434,6 +443,7 @@ playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
 figure.pokes = []
+figure.pokes.append(Poke("voglo", 6))
 figure.pokes.append(Poke("poundi", 6))
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 figure.add(playmap_1, 1, 1)
