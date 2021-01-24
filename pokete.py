@@ -214,7 +214,7 @@ attacs={
         "action": "enem.miss_chance += 1",
         "move": "attack",
         "miss_chance": 0,
-        "ap": 5,
+        "ap": 3,
     },
     "bite": {
         "name": "Bite",
@@ -295,6 +295,18 @@ pokes={
    |'ᵕ'|
    ‾‾‾‾‾
 """,
+  },
+  "gobost": {
+      "name": "Gobost",
+      "hp": "25",
+      "atc": "self.lvl+2",
+      "defense": "self.lvl+1",
+      "attacs": ["tackle"],
+      "miss_chance": 0,
+      "ico": """ .░░░░░░░.
+ ░░o░░░o░░
+ ░░░░░░░░░
+ ░ ░ ░ ░ ░""",
   },
     "vogli": {
         "name": "Vogli",
