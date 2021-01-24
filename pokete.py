@@ -23,8 +23,7 @@ class Poke():
         if attac.ap > 0:
             time.sleep(0.4)
             exec("self.move_"+attac.move+"()")
-            enem.oldhp = enem.hp
-            self.oldhp = self.hp
+            oldhp = enem.hp
             n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0])
             enem.hp -= n_hp if n_hp >= 0 else 0
             exec(attac.action)
@@ -180,6 +179,17 @@ def fight():
     outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!")
     fightmap.show()
     time.sleep(1)
+    ico = [ob for ob in players if ob != winner][0].ico
+    ico.remove()
+    deadico1.add(fightmap, ico.x, ico.y)
+    fightmap.show()
+    time.sleep(0.1)
+    deadico1.remove()
+    deadico2.add(fightmap, ico.x, ico.y)
+    fightmap.show()
+    time.sleep(0.1)
+    deadico2.remove()
+    fightmap.show()
 
 def main():
     global ev
@@ -395,6 +405,16 @@ p_tril = se.Object("<")
 p_trir = se.Object(">")
 outp = se.Text("")
 shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
+deadico1 = se.Text("""
+    \ /
+     o
+    / \\
+""")
+deadico2 = se.Text("""
+
+     o
+
+""")
 line_left.add(fightmap, 0, 1)
 line_right.add(fightmap, fightmap.width-1, 1)
 line_top.add(fightmap, 0, 0)
