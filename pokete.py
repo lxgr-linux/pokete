@@ -13,6 +13,7 @@ class Poke():
         self.full_hp = self.hp
         self.name = pokes[poke]["name"]
         self.attacs = pokes[poke]["attacs"]
+        self.miss_chance = pokes[poke]["miss_chance"]
         self.ico = se.Text(pokes[poke]["ico"])
         self.attac_obs = []
         for atc in self.attacs:
@@ -23,7 +24,7 @@ class Poke():
             time.sleep(0.4)
             exec("self.move_"+attac.move+"()")
             oldhp = enem.hp
-            n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance, 1, 1, 1], k=1)[0])
+            n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0])
             enem.hp -= n_hp if n_hp >= 0 else 0
             exec(attac.action)
             attac.ap -= 1
@@ -207,6 +208,14 @@ attacs={
         "miss_chance": 0,
         "ap": 5,
     },
+    "pepple_fire": {
+        "name": "Pepple fire",
+        "factor": 1,
+        "action": "enem.miss_chance += 1",
+        "move": "attack",
+        "miss_chance": 0,
+        "ap": 5,
+    },
     "bite": {
         "name": "Bite",
         "factor": 1.75,
@@ -256,6 +265,7 @@ pokes={
         "atc": "self.lvl+2",
         "defense": "self.lvl+4",
         "attacs": ["tackle", "politure"],
+        "miss_chance": 0,
         "ico": """ +-------+
  | o   o |
  |  www  |
@@ -265,19 +275,34 @@ pokes={
         "name": "Poundi",
         "hp": "25",
         "atc": "self.lvl+2",
-        "defense": "self.lvl+4",
+        "defense": "self.lvl+3",
         "attacs": ["tackle", "politure", "earch_quake"],
+        "miss_chance": 0,
         "ico": """   A-A-A
   < o o >
   < --- >
    VvVvV""",
    },
+   "lilstone": {
+       "name": "Lilstone",
+       "hp": "20",
+       "atc": "self.lvl+1",
+       "defense": "self.lvl+2",
+       "attacs": ["tackle", "politure", "pepple_fire"],
+       "miss_chance": 0,
+       "ico": """
+   _____
+   |'ᵕ'|
+   ‾‾‾‾‾
+""",
+  },
     "vogli": {
         "name": "Vogli",
         "hp": "20",
         "atc": "self.lvl+6",
         "defense": "self.lvl+1",
         "attacs": ["tackle", "power_pick"],
+        "miss_chance": 0,
         "ico":"""    A
    <')
     www*
@@ -289,6 +314,7 @@ pokes={
         "atc": "self.lvl",
         "defense": "self.lvl/2",
         "attacs": ["tackle"],
+        "miss_chance": 0,
         "ico":"""
 
   <°))))><
@@ -300,9 +326,10 @@ pokes={
         "atc": "self.lvl+3",
         "defense": "self.lvl",
         "attacs": ["chocer", "bite", "poison_bite"],
-        "ico": """ {{{{{{{{{
+        "miss_chance": 0,
+        "ico": """  >'({{{
   }}}}}}}
-  >'({{{
+ {{{{{{{{{
            """
     },
 }
