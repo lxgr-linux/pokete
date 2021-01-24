@@ -131,7 +131,7 @@ else:
 def fight(player, enemy):
     global ev, attack, fightmap, outp
 
-    outp.rechar("")
+    outp.rechar("A wild "+enemy.name+" appeared!")
 
     enemy.text_name = se.Text(str(enemy.name))
     enemy.text_hp = se.Text("HP:"+str(enemy.hp))
@@ -158,6 +158,7 @@ def fight(player, enemy):
         ob.add(fightmap, x, y)
 
     fightmap.show(init=True)
+    time.sleep(1)
 
     players = [player, enemy]
     while player.hp > 0 and enemy.hp > 0:
@@ -281,6 +282,14 @@ attacs={
         "miss_chance": 0.5,
         "ap": 5,
     },
+    "sucker": {
+        "name": "Sucker",
+        "factor": 0,
+        "action": "enem.hp -=2; self.hp +=2 if self.hp+2 <= self.full_hp else 0",
+        "move": "attack",
+        "miss_chance": 0,
+        "ap": 20,
+    },
     "brooding": {
         "name": "Brooding",
         "factor": 0,
@@ -377,6 +386,19 @@ pokes={
    ‾‾‾‾‾
 """,
   },
+  "rosi": {
+      "name": "Rosi",
+      "hp": "20",
+      "atc": "self.lvl",
+      "defense": "self.lvl+1",
+      "attacs": ["sucker"],
+      "miss_chance": 0,
+      "ico": """
+    (@)
+     |
+    \|/
+""",
+ },
   "gobost": {
       "name": "Gobost",
       "hp": "20",
@@ -443,6 +465,7 @@ playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
 figure.pokes = []
+figure.pokes.append(Poke("rosi", 6))
 figure.pokes.append(Poke("voglo", 6))
 figure.pokes.append(Poke("poundi", 6))
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
@@ -468,6 +491,7 @@ p_sideline = se.Square("|", 1, 4)
 p_tril = se.Object("<")
 p_trir = se.Object(">")
 outp = se.Text("")
+run = se.Text("5: Run!")
 shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
 deadico1 = se.Text("""
     \ /
@@ -496,6 +520,7 @@ p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height
 e_tril.add(fightmap, fightmap.width-11, fightmap.height-8)
 e_trir.add(fightmap, fightmap.width-2, fightmap.height-8)
 line_middle.add(fightmap, 1, fightmap.height-7)
+run.add(fightmap, 38, fightmap.height-2)
 
 if __name__ == "__main__":
     try:
