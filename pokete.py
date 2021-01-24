@@ -23,7 +23,8 @@ class Poke():
         if attac.ap > 0:
             time.sleep(0.4)
             exec("self.move_"+attac.move+"()")
-            oldhp = enem.hp
+            enem.oldhp = enem.hp
+            self.oldhp = self.hp
             n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0])
             enem.hp -= n_hp if n_hp >= 0 else 0
             exec(attac.action)
@@ -142,7 +143,7 @@ def fight():
     player.atc_labels = []
     for i, atc in enumerate(player.attac_obs):
         player.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
-    for ob, x, y in zip(player.atc_labels, [1, 1, 17, 17], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
+    for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
 
     fightmap.show(init=True)
@@ -205,6 +206,22 @@ attacs={
         "factor": 0,
         "action": "enem.hp -= 4",
         "move": "pound",
+        "miss_chance": 0,
+        "ap": 5,
+    },
+    "wing_hit": {
+        "name": "Wing hit",
+        "factor": 2.5,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.5,
+        "ap": 5,
+    },
+    "brooding": {
+        "name": "Brooding",
+        "factor": 0,
+        "action": "self.hp += 2 if self.hp+2 <= self.full_hp else 0",
+        "move": "shine",
         "miss_chance": 0,
         "ap": 5,
     },
@@ -298,7 +315,7 @@ pokes={
   },
   "gobost": {
       "name": "Gobost",
-      "hp": "25",
+      "hp": "20",
       "atc": "self.lvl+2",
       "defense": "self.lvl+1",
       "attacs": ["tackle"],
@@ -317,6 +334,18 @@ pokes={
         "miss_chance": 0,
         "ico":"""    A
    <')
+    www*
+    ||     """
+    },
+    "voglo": {
+        "name": "Voglo",
+        "hp": "20",
+        "atc": "self.lvl+7",
+        "defense": "self.lvl+1",
+        "attacs": ["tackle", "power_pick", "wing_hit", "brooding"],
+        "miss_chance": 0,
+        "ico":"""    ?
+   >´)
     www*
     ||     """
     },
