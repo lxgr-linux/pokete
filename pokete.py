@@ -21,6 +21,10 @@ class Poke():
         self.miss_chance = pokes[poke]["miss_chance"]
         self.ico = se.Text(pokes[poke]["ico"])
         self.attac_obs = []
+        self.text_hp = se.Text("HP:"+str(self.hp))
+        self.text_lvl = se.Text("Lvl:"+str(self.lvl))
+        self.text_name = se.Text(str(self.name))
+        self.hp_bar = se.Text(8*"#", esccode="\033[32m")
         for atc in self.attacs:
             self.attac_obs.append(Attack(atc))
         if self.player:
@@ -132,16 +136,7 @@ def fight(player, enemy):
     global ev, attack, fightmap, outp
 
     outp.rechar("A wild "+enemy.name+" appeared!")
-
-    enemy.text_name = se.Text(str(enemy.name))
-    enemy.text_hp = se.Text("HP:"+str(enemy.hp))
-    enemy.text_lvl = se.Text("Lvl:"+str(enemy.lvl))
-    enemy.hp_bar = se.Text(8*"#", esccode="\033[32m")
-    player.text_hp = se.Text("HP:"+str(player.hp))
-    player.text_lvl = se.Text("Lvl:"+str(player.lvl))
-    player.text_name = se.Text(str(player.name))
-    player.hp_bar = se.Text(8*"#", esccode="\033[32m")
-    player.health_bar_maker(player.hp,)
+    #player.health_bar_maker(player.hp,)
 
     enemy.text_name.add(fightmap, 1, 1)
     enemy.text_lvl.add(fightmap, 1, 2)
@@ -469,15 +464,24 @@ pokes={
     },
 }
 
+
+# objects for main()
 playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
 figure.pokes = []
 figure.pokes.append(Poke("poundi", 6))
 figure.pokes.append(Poke("voglo", 6))
+figure.name = "Player name"
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 figure.add(playmap_1, 1, 1)
 meadow.add(playmap_1, 5, 5)
+
+# objects for movemap
+movemap_underline = se.Square("-", movemap.width, 1)
+name_label = se.Text(figure.name)
+name_label.add(movemap, 2, movemap.height-2)
+movemap_underline.add(movemap, 0, movemap.height-2)
 
 # objects relevant for fight()
 fightmap = se.Map(background=" ")
