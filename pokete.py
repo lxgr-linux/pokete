@@ -29,10 +29,9 @@ class Poke():
         self.trir = se.Object(">")
         for atc in self.attacs:
             self.attac_obs.append(Attack(atc))
-        if self.player:
-            self.atc_labels = []
-            for i, atc in enumerate(self.attac_obs):
-                self.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
+        self.atc_labels = []
+        for i, atc in enumerate(self.attac_obs):
+            self.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
 
     def health_bar_maker(self, oldhp):
         bar_num = round(oldhp*8/self.full_hp)
@@ -179,13 +178,45 @@ def fight(player, enemy):
                         time.sleep(1)
                         fight_clean_up(player, enemy)
                         return
+                    elif ev == "'6'":
+                        outp.rechar("You threw a poketeball!")
+                        enem.ico.remove()
+                        deadico1.add(fightmap, enem.ico.x, enem.ico.y)
+                        fightmap.show()
+                        time.sleep(0.1)
+                        deadico1.remove()
+                        deadico2.add(fightmap, enem.ico.x, enem.ico.y)
+                        fightmap.show()
+                        time.sleep(0.1)
+                        deadico2.remove()
+                        pball.add(fightmap, enem.ico.x, enem.ico.y)
+                        fightmap.show()
+                        time.sleep(random.choice([1,2,3,4]))
+                        if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
+                            figure.pokes.append(enem)
+                            outp.rechar("You catched "+enem.name)
+                            fightmap.show()
+                            time.sleep(1)
+                            pball.remove()
+                            fight_clean_up(player, enemy)
+                            return
+                        else:
+                            outp.rechar("You missed!")
+                            fightmap.show()
+                            pball.remove()
+                            enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
+                            fightmap.show()
+                        ev = ""
+                        attack = ""
+                        break
                     elif ev == "exit":
                         raise KeyboardInterrupt
                     time.sleep(0.1)
             else:
                 attack = random.choices([ob for ob in ob.attac_obs], weights=[ob.ap for ob in ob.attac_obs])[0]
             time.sleep(0.3)
-            ob.attack(attack, enem)
+            if attack != "":
+                ob.attack(attack, enem)
             ob.text_name.rechar(str(ob.name))
             ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
             ob.text_hp.rechar("HP:"+str(ob.hp))
@@ -234,7 +265,7 @@ def fight_clean_up(player, enemy):
 def deck():
     global ev
 
-    for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 12, 12]):
+    for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
         poke.ico.add(deckmap, x, y)
         poke.text_name.add(deckmap, x+12, y)
         poke.text_lvl.add(deckmap, x+12, y+1)
@@ -429,8 +460,7 @@ pokes={
        "ico": """
    _____
    |'ᵕ'|
-   ‾‾‾‾‾
-""",
+   ‾‾‾‾‾""",
   },
   "rosi": {
       "name": "Rosi",
@@ -442,8 +472,7 @@ pokes={
       "ico": """
     (@)
      |
-    \|/
-""",
+    \|/""",
  },
   "gobost": {
       "name": "Gobost",
@@ -565,17 +594,20 @@ p_upperline = se.Text("+----------------")
 p_sideline = se.Square("|", 1, 4)
 outp = se.Text("")
 run = se.Text("5: Run!")
+catch = se.Text("6: Catch")
 shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
 deadico1 = se.Text("""
     \ /
      o
-    / \\
-""")
+    / \\""")
 deadico2 = se.Text("""
 
      o
-
 """)
+pball = se.Text("""   _____
+  /_____\\
+  |__O__|
+  \_____/""")
 line_left.add(fightmap, 0, 1)
 line_right.add(fightmap, fightmap.width-1, 1)
 line_top.add(fightmap, 0, 0)
@@ -590,6 +622,7 @@ p_upperline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.heigh
 p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-10)
 line_middle.add(fightmap, 1, fightmap.height-7)
 run.add(fightmap, 38, fightmap.height-2)
+catch.add(fightmap, 38, fightmap.height-1)
 
 if __name__ == "__main__":
     try:
