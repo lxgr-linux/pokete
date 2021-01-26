@@ -62,10 +62,9 @@ class Poke():
                     time.sleep(0.1)
                     fightmap.show()
                 ob.text_hp.rechar("HP:"+str(ob.oldhp))
-            if self.player:
-                for i, atc in enumerate(self.attac_obs):
-                    time.sleep(0.1)
-                    self.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
+            for i, atc in enumerate(self.attac_obs):
+                time.sleep(0.1)
+                self.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
             fightmap.show()
 
     def move_attack(self):
@@ -193,6 +192,7 @@ def fight(player, enemy):
                         fightmap.show()
                         time.sleep(random.choice([1,2,3,4]))
                         if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
+                            enem.player = True
                             figure.pokes.append(enem)
                             outp.rechar("You catched "+enem.name)
                             fightmap.show()
