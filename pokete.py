@@ -25,6 +25,8 @@ class Poke():
         self.text_lvl = se.Text("Lvl:"+str(self.lvl))
         self.text_name = se.Text(str(self.name))
         self.hp_bar = se.Text(8*"#", esccode="\033[32m")
+        self.tril = se.Object("<")
+        self.trir = se.Object(">")
         for atc in self.attacs:
             self.attac_obs.append(Attack(atc))
         if self.player:
@@ -138,11 +140,15 @@ def fight(player, enemy):
     outp.rechar("A wild "+enemy.name+" appeared!")
     #player.health_bar_maker(player.hp,)
 
+    enemy.tril.add(fightmap, 7, 3)
+    enemy.trir.add(fightmap, 16, 3)
     enemy.text_name.add(fightmap, 1, 1)
     enemy.text_lvl.add(fightmap, 1, 2)
     enemy.text_hp.add(fightmap, 1, 3)
     enemy.ico.add(fightmap, fightmap.width-14, 2)
     enemy.hp_bar.add(fightmap, 8, 3)
+    player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
+    player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
     player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
     player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
     player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
@@ -212,14 +218,47 @@ def fight_clean_up(player, enemy):
     enemy.text_hp.remove()
     enemy.ico.remove()
     enemy.hp_bar.remove()
+    enemy.tril.remove()
+    enemy.trir.remove()
     player.text_name.remove()
     player.text_lvl.remove()
     player.text_hp.remove()
     player.ico.remove()
     player.hp_bar.remove()
+    player.tril.remove()
+    player.trir.remove()
 
     for ob in player.atc_labels:
         ob.remove()
+
+def deck():
+    global ev
+
+    for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 12, 12]):
+        poke.ico.add(deckmap, x, y)
+        poke.text_name.add(deckmap, x+12, y)
+        poke.text_lvl.add(deckmap, x+12, y+1)
+        poke.text_hp.add(deckmap, x+12, y+2)
+        poke.tril.add(deckmap, x+18, y+2)
+        poke.trir.add(deckmap, x+27, y+2)
+        poke.hp_bar.add(deckmap, x+19, y+2)
+    deckmap.show(init=True)
+    while True:
+        if ev == "'1'":
+            ev=""
+            for poke in figure.pokes:
+                poke.ico.remove()
+                poke.text_name.remove()
+                poke.text_lvl.remove()
+                poke.text_hp.remove()
+                poke.tril.remove()
+                poke.trir.remove()
+                poke.hp_bar.remove()
+            return
+        elif ev == "exit":
+            raise KeyboardInterrupt
+        time.sleep(0.05)
+        deckmap.show()
 
 def main():
     global ev
@@ -249,6 +288,10 @@ def main():
             figure.direction="r"
             figure.set(figure.x+1, figure.y)
             ev=""
+        elif ev == "'1'":
+            ev=""
+            deck()
+            movemap.show(init=True)
         elif ev == "exit":
             raise KeyboardInterrupt
         time.sleep(0.05)
@@ -479,9 +522,32 @@ meadow.add(playmap_1, 5, 5)
 
 # objects for movemap
 movemap_underline = se.Square("-", movemap.width, 1)
-name_label = se.Text(figure.name)
+name_label = se.Text(figure.name, esccode="\033[1m")
+deck_label = se.Text("1: Deck")
 name_label.add(movemap, 2, movemap.height-2)
+deck_label.add(movemap, 0, movemap.height-1)
 movemap_underline.add(movemap, 0, movemap.height-2)
+
+# objects for deck
+deckmap = se.Map(background=" ")
+deck_name = se.Text("Your deck", esccode="\033[1m")
+deck_line_top = se.Square("_", deckmap.width, 1)
+deck_line_sep1 = se.Square("-", deckmap.width-2, 1)
+deck_line_sep2 = se.Square("-", deckmap.width-2, 1)
+deck_line_left = se.Square("|", 1, 15)
+deck_line_right = se.Square("|", 1, 15)
+deck_line_middle = se.Square("|", 1, 15)
+deck_line_bottom = se.Square("_", deckmap.width-2, 1)
+deck_exit_label = se.Text("1: Exit")
+deck_name.add(deckmap, 2, 0)
+deck_line_left.add(deckmap, 0, 1)
+deck_line_right.add(deckmap, deckmap.width-1, 1)
+deck_line_middle.add(deckmap, round(deckmap.width/2), 1)
+deck_line_top.add(deckmap, 0, 0)
+deck_line_sep1.add(deckmap, 1, 5)
+deck_line_sep2.add(deckmap, 1, 10)
+deck_line_bottom.add(deckmap, 1, 15)
+deck_exit_label.add(deckmap, 0, deckmap.height-1)
 
 # objects relevant for fight()
 fightmap = se.Map(background=" ")
@@ -495,12 +561,8 @@ line_l_text_box = se.Text("+\n|\n|\n+")
 line_r_text_box = se.Text("+\n|\n|\n+")
 e_underline = se.Text("----------------+")
 e_sideline = se.Square("|", 1, 3)
-e_tril = se.Object("<")
-e_trir = se.Object(">")
 p_upperline = se.Text("+----------------")
 p_sideline = se.Square("|", 1, 4)
-p_tril = se.Object("<")
-p_trir = se.Object(">")
 outp = se.Text("")
 run = se.Text("5: Run!")
 shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
@@ -524,12 +586,8 @@ line_r_text_box.add(fightmap, fightmap.width-1, fightmap.height-6)
 outp.add(fightmap, 1, fightmap.height-5)
 e_underline.add(fightmap, 1, 4)
 e_sideline.add(fightmap, len(e_underline.text), 1)
-e_tril.add(fightmap, 7, 3)
-e_trir.add(fightmap, 16, 3)
 p_upperline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-11)
 p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-10)
-e_tril.add(fightmap, fightmap.width-11, fightmap.height-8)
-e_trir.add(fightmap, fightmap.width-2, fightmap.height-8)
 line_middle.add(fightmap, 1, fightmap.height-7)
 run.add(fightmap, 38, fightmap.height-2)
 
