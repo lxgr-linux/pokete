@@ -96,6 +96,12 @@ class Attack():
     def __init__(self, index):
         for i in attacs[index]:
             exec("self."+i+"=attacs[index][i]")
+        self.max_ap = self.ap
+        self.label_name = se.Text(self.name, esccode="\033[4m")
+        self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
+        self.label_factor = se.Text("Attack:"+str(self.factor))
+        self.desc = se.Text(self.desc)
+
 
 def exiter():
     global do_exit
@@ -270,30 +276,84 @@ def deck():
     global ev
 
     for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
-        poke.ico.add(deckmap, x, y)
-        poke.text_name.add(deckmap, x+12, y)
-        poke.text_lvl.add(deckmap, x+12, y+1)
-        poke.text_hp.add(deckmap, x+12, y+2)
-        poke.tril.add(deckmap, x+18, y+2)
-        poke.trir.add(deckmap, x+27, y+2)
-        poke.hp_bar.add(deckmap, x+19, y+2)
+        deck_add(poke, deckmap, x, y)
     deckmap.show(init=True)
+    deck_index.index = 0
+    deck_index.add(deckmap, figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
     while True:
         if ev == "'1'":
             ev=""
             for poke in figure.pokes:
-                poke.ico.remove()
-                poke.text_name.remove()
-                poke.text_lvl.remove()
-                poke.text_hp.remove()
-                poke.tril.remove()
-                poke.trir.remove()
-                poke.hp_bar.remove()
+                deck_remove(poke)
             return
+        elif ev == "'a'":
+            if deck_index.index != 0:
+                deck_index.index -= 1
+            else:
+                deck_index.index = len(figure.pokes)-1
+            deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+            ev=""
+        elif ev == "'d'":
+            if deck_index.index != len(figure.pokes)-1:
+                deck_index.index += 1
+            else:
+                deck_index.index = 0
+            deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+            ev=""
+        elif ev == "Key.enter":
+            ev=""
+            detail(figure.pokes[deck_index.index])
+            deckmap.show(init=True)
         elif ev == "exit":
             raise KeyboardInterrupt
         time.sleep(0.05)
         deckmap.show()
+
+def deck_add(poke, map, x, y):
+    poke.ico.add(map, x, y)
+    poke.text_name.add(map, x+12, y)
+    poke.text_lvl.add(map, x+12, y+1)
+    poke.text_hp.add(map, x+12, y+2)
+    poke.tril.add(map, x+18, y+2)
+    poke.trir.add(map, x+27, y+2)
+    poke.hp_bar.add(map, x+19, y+2)
+
+def deck_remove(poke):
+    poke.ico.remove()
+    poke.text_name.remove()
+    poke.text_lvl.remove()
+    poke.text_hp.remove()
+    poke.tril.remove()
+    poke.trir.remove()
+    poke.hp_bar.remove()
+
+def detail(poke):
+    global ev
+    x = 1
+    y = 1
+    deck_add(poke, detailmap, 1, 1)
+    detail_attack.rechar("Attack:"+str(poke.atc))
+    detail_defense.rechar("Defense:"+str(poke.defense))
+
+    for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
+        atc.label_name.add(detailmap, x, y)
+        atc.label_factor.add(detailmap, x, y+1)
+        atc.label_ap.rechar("AP:"+str(atc.ap)+"/"+str(atc.max_ap))
+        atc.label_ap.add(detailmap, x, y+2)
+        try:
+            atc.desc.add(detailmap, x, y+3)
+        except:
+            continue
+
+    detailmap.show(init=True)
+    while True:
+        if ev == "'1'":
+            ev=""
+            return
+        elif ev == "exit":
+            raise KeyboardInterrupt
+        time.sleep(0.05)
+        detailmap.show()
 
 def main():
     global ev
@@ -345,6 +405,7 @@ attacs={
         "action": "",
         "move": "attack",
         "miss_chance": 0.2,
+        "desc": "Tackles the enemy very hard",
         "ap": 20,
     },
     "earch_quake": {
@@ -353,6 +414,7 @@ attacs={
         "action": "enem.hp -= 4",
         "move": "pound",
         "miss_chance": 0,
+        "desc": "Brings the earth to shift",
         "ap": 5,
     },
     "wing_hit": {
@@ -361,6 +423,7 @@ attacs={
         "action": "",
         "move": "attack",
         "miss_chance": 0.5,
+        "desc": "Hits the enemy with a wing",
         "ap": 5,
     },
     "sucker": {
@@ -369,6 +432,7 @@ attacs={
         "action": "enem.hp -=2; self.hp +=2 if self.hp+2 <= self.full_hp else 0",
         "move": "attack",
         "miss_chance": 0,
+        "desc": "Sucks 2 HP from the enemy and adds it to it's own",
         "ap": 20,
     },
     "brooding": {
@@ -377,6 +441,7 @@ attacs={
         "action": "self.hp += 2 if self.hp+2 <= self.full_hp else 0",
         "move": "shine",
         "miss_chance": 0,
+        "desc": "Regenerates 2 HP",
         "ap": 5,
     },
     "pepple_fire": {
@@ -385,6 +450,7 @@ attacs={
         "action": "enem.miss_chance += 1",
         "move": "attack",
         "miss_chance": 0,
+        "desc": "Fires pepples at the enemy and makes it blind",
         "ap": 3,
     },
     "bite": {
@@ -393,6 +459,7 @@ attacs={
         "action": "",
         "move": "attack",
         "miss_chance": 0.1,
+        "desc": "A hard bite the sharp teeth",
         "ap": 20,
     },
     "politure": {
@@ -401,6 +468,7 @@ attacs={
         "action": "self.defense += 1; self.atc += 1",
         "move": "shine",
         "miss_chance": 0,
+        "desc": "Upgrades defense and attack points",
         "ap": 10,
     },
     "chocer": {
@@ -409,6 +477,7 @@ attacs={
         "action": "enem.atc -= 1",
         "move": "attack",
         "miss_chance": 0.2,
+        "desc": "Choces the enemy and makes it weaker",
         "ap": 10,
     },
     "poison_bite": {
@@ -417,6 +486,7 @@ attacs={
         "action": "enem.atc -= 1; enem.defense -= 1",
         "move": "attack",
         "miss_chance": 0.3,
+        "desc": "Makes the enemy weaker",
         "ap": 5,
     },
     "power_pick": {
@@ -425,6 +495,7 @@ attacs={
         "action": "",
         "move": "attack",
         "miss_chance": 0.4,
+        "desc": "A harsh picking on the enemys head",
         "ap": 5,
     },
 }
@@ -572,6 +643,7 @@ deck_line_right = se.Square("|", 1, 15)
 deck_line_middle = se.Square("|", 1, 15)
 deck_line_bottom = se.Square("_", deckmap.width-2, 1)
 deck_exit_label = se.Text("1: Exit")
+deck_index = se.Object("*")
 deck_name.add(deckmap, 2, 0)
 deck_line_left.add(deckmap, 0, 1)
 deck_line_right.add(deckmap, deckmap.width-1, 1)
@@ -581,6 +653,33 @@ deck_line_sep1.add(deckmap, 1, 5)
 deck_line_sep2.add(deckmap, 1, 10)
 deck_line_bottom.add(deckmap, 1, 15)
 deck_exit_label.add(deckmap, 0, deckmap.height-1)
+
+# onjects for detail
+detailmap = se.Map(background=" ")
+detail_name = se.Text("Details", esccode="\033[1m")
+detail_name_attacks = se.Text("Attacks", esccode="\033[1m")
+detail_line_top = se.Square("_", detailmap.width, 1)
+detail_line_left = se.Square("|", 1, 16)
+detail_line_right = se.Square("|", 1, 16)
+detail_attack = se.Text("Attack:")
+detail_defense = se.Text("Defense:")
+detail_exit_label = se.Text("1: Exit")
+detail_line_sep1 = se.Square("-", deckmap.width-2, 1)
+detail_line_sep2 = se.Square("-", deckmap.width-2, 1)
+detail_line_bottom = se.Square("_", deckmap.width-2, 1)
+detail_line_middle = se.Square("|", 1, 10)
+detail_name.add(detailmap, 2, 0)
+detail_name_attacks.add(detailmap, 2, 6)
+detail_line_top.add(detailmap, 0, 0)
+detail_line_left.add(detailmap, 0, 1)
+detail_line_right.add(detailmap, detailmap.width-1, 1)
+detail_attack.add(detailmap, 13, 4)
+detail_defense.add(detailmap, 13, 5)
+detail_exit_label.add(detailmap, 0, detailmap.height-1)
+detail_line_middle.add(detailmap, round(deckmap.width/2), 7)
+detail_line_sep1.add(detailmap, 1, 6)
+detail_line_sep2.add(detailmap, 1, 11)
+detail_line_bottom.add(detailmap, 1, 16)
 
 # objects relevant for fight()
 fightmap = se.Map(background=" ")
