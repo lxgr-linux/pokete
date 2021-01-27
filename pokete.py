@@ -600,7 +600,7 @@ outp = se.Text("")
 run = se.Text("5: Run!")
 catch = se.Text("6: Catch")
 shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
-pball_small = se.Object("ɵ")
+pball_small = se.Object("o")
 deadico1 = se.Text("""
     \ /
      o
