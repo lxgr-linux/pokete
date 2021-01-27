@@ -429,6 +429,15 @@ attacs={
         "desc": "Tackles the enemy very hard",
         "ap": 20,
     },
+    "eye_pick": {
+        "name": "Eye pick",
+        "factor": 2.5,
+        "action": "enem.miss_chance += 2",
+        "move": "attack",
+        "miss_chance": 0.6,
+        "desc": "Picks out one of the enemys eyes",
+        "ap": 5,
+    },
     "earch_quake": {
         "name": "Earch quake",
         "factor": 0,
@@ -612,6 +621,19 @@ pokes={
    >´)
     www*
     ||     """
+    },
+    "ostri": {
+        "name": "Ostri",
+        "hp": "20",
+        "atc": "self.lvl+8",
+        "defense": "self.lvl",
+        "attacs": ["tackle", "eye_pick", "brooding"],
+        "miss_chance": 0,
+        "desc": "A very agressive bird Pokete that lives near deserts and will try to pick out your eyes",
+        "ico":"""   !
+  >´)
+    \www'
+     ||"""
     },
     "karpi": {
         "name": "Karpi",
