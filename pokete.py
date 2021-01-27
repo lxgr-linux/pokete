@@ -313,6 +313,26 @@ def deck():
                 deck_index.index = 0
             deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
             ev=""
+        elif ev == "'s'":
+            if deck_index.index+2 < len(figure.pokes):
+                deck_index.index += 2
+            elif deck_index.index+2 == len(figure.pokes):
+                deck_index.index = 0
+            elif deck_index.index+2 == len(figure.pokes)+1:
+                deck_index.index = 1
+            deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+            ev=""
+        elif ev == "'w'":
+            if deck_index.index-2 >= 0:
+                deck_index.index -= 2
+            elif deck_index.index-2 == -2:
+                deck_index.index = len(figure.pokes)-2
+            elif deck_index.index-2 == -1:
+                deck_index.index = len(figure.pokes)-1
+            else:
+                deck_index.index = len(figure.pokes)-1
+            deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+            ev=""
         elif ev == "Key.enter":
             ev=""
             for poke in figure.pokes:
@@ -671,6 +691,7 @@ figure = se.Object("a")
 figure.pokes = []
 figure.pokes.append(Poke("poundi", 6))
 figure.pokes.append(Poke("voglo", 6))
+figure.pokes.append(Poke("ostri", 6))
 figure.name = "Player name"
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 figure.add(playmap_1, 1, 1)
