@@ -19,6 +19,7 @@ class Poke():
         self.name = pokes[poke]["name"]
         self.attacs = pokes[poke]["attacs"]
         self.miss_chance = pokes[poke]["miss_chance"]
+        self.desc = se.Text(liner(pokes[poke]["desc"], movemap.width-34))
         self.ico = se.Text(pokes[poke]["ico"])
         self.attac_obs = []
         self.text_hp = se.Text("HP:"+str(self.hp))
@@ -102,6 +103,18 @@ class Attack():
         self.label_factor = se.Text("Attack:"+str(self.factor))
         self.desc = se.Text(self.desc)
 
+
+def liner(text, width):
+    lens = 0
+    out = ""
+    for name in text.split(" "):
+        if lens+len(name)+1 < width:
+            out += name+" "
+            lens+=len(name)+1
+        else:
+            lens=len(name)+1
+            out += "\n"+name+" "
+    return out
 
 def exiter():
     global do_exit
@@ -334,6 +347,7 @@ def detail(poke):
     deck_add(poke, detailmap, 1, 1)
     detail_attack.rechar("Attack:"+str(poke.atc))
     detail_defense.rechar("Defense:"+str(poke.defense))
+    poke.desc.add(detailmap, 34, 2)
 
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.label_name.add(detailmap, x, y)
@@ -508,6 +522,7 @@ pokes={
         "defense": "self.lvl+4",
         "attacs": ["tackle", "politure"],
         "miss_chance": 0,
+        "desc": "A squared stone that can casually be found on the ground",
         "ico": """ +-------+
  | o   o |
  |  www  |
@@ -520,6 +535,7 @@ pokes={
         "defense": "self.lvl+3",
         "attacs": ["tackle", "politure", "earch_quake"],
         "miss_chance": 0,
+        "desc": "A powerfull and heavy stone Pokete that lives in mountain caves",
         "ico": """   A-A-A
   < o o >
   < --- >
@@ -532,6 +548,7 @@ pokes={
        "defense": "self.lvl+2",
        "attacs": ["tackle", "politure", "pepple_fire"],
        "miss_chance": 0,
+       "desc": "A small but powerfull stone Pokete that lives in the mountains",
        "ico": """
    _____
    |'ᵕ'|
@@ -544,6 +561,7 @@ pokes={
       "defense": "self.lvl+1",
       "attacs": ["sucker"],
       "miss_chance": 0,
+      "desc": "A plant Pokete, that's often mistaken for a normal flower",
       "ico": """
     (@)
      |
@@ -556,6 +574,7 @@ pokes={
       "defense": "self.lvl+1",
       "attacs": ["tackle"],
       "miss_chance": 0,
+      "desc": "A scary ghost Pokete that lives in caves and old houses",
       "ico": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
@@ -568,6 +587,7 @@ pokes={
         "defense": "self.lvl+1",
         "attacs": ["tackle", "power_pick"],
         "miss_chance": 0,
+        "desc": "A very common bird Pokete that lives in town but also in the nature",
         "ico":"""    A
    <')
     www*
@@ -580,6 +600,7 @@ pokes={
         "defense": "self.lvl+1",
         "attacs": ["tackle", "power_pick", "wing_hit", "brooding"],
         "miss_chance": 0,
+        "desc": "a very agressive bird Pokete that can only be found in the woods",
         "ico":"""    ?
    >´)
     www*
@@ -592,6 +613,7 @@ pokes={
         "defense": "self.lvl/2",
         "attacs": ["tackle"],
         "miss_chance": 0,
+        "desc": "A very harmless water Pokete that can be found everywhere",
         "ico":"""
 
   <°))))><
@@ -604,6 +626,7 @@ pokes={
         "defense": "self.lvl",
         "attacs": ["chocer", "bite", "poison_bite"],
         "miss_chance": 0,
+        "desc": "A dangerous snake Pokete",
         "ico": """  >'({{{
   }}}}}}}
  {{{{{{{{{
