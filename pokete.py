@@ -342,13 +342,10 @@ def deck_remove(poke):
 
 def detail(poke):
     global ev
-    x = 1
-    y = 1
     deck_add(poke, detailmap, 1, 1)
     detail_attack.rechar("Attack:"+str(poke.atc))
     detail_defense.rechar("Defense:"+str(poke.defense))
     poke.desc.add(detailmap, 34, 2)
-
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.label_name.add(detailmap, x, y)
         atc.label_factor.add(detailmap, x, y+1)
@@ -358,11 +355,17 @@ def detail(poke):
             atc.desc.add(detailmap, x, y+3)
         except:
             continue
-
     detailmap.show(init=True)
     while True:
         if ev == "'1'":
             ev=""
+            deck_remove(poke)
+            poke.desc.remove()
+            for atc in poke.attac_obs:
+                atc.label_name.remove()
+                atc.label_factor.remove()
+                atc.label_ap.remove()
+                atc.desc.remove()
             return
         elif ev == "exit":
             raise KeyboardInterrupt
@@ -600,7 +603,7 @@ pokes={
         "defense": "self.lvl+1",
         "attacs": ["tackle", "power_pick", "wing_hit", "brooding"],
         "miss_chance": 0,
-        "desc": "a very agressive bird Pokete that can only be found in the woods",
+        "desc": "A very agressive bird Pokete that can only be found in the woods",
         "ico":"""    ?
    >´)
     www*
