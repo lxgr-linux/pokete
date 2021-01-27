@@ -316,6 +316,8 @@ def deck():
         elif ev == "Key.enter":
             ev=""
             detail(figure.pokes[deck_index.index])
+            for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
+                deck_add(poke, deckmap, x, y)
             deckmap.show(init=True)
         elif ev == "exit":
             raise KeyboardInterrupt
