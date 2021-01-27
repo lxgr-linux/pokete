@@ -153,6 +153,9 @@ def fight(player, enemy):
     player.ico.add(fightmap, 3, fightmap.height-11)
     player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
 
+    if enemy.name in [ob.name for ob in figure.pokes]:
+        pball_small.add(fightmap, len(e_underline.text)-1, 1)
+
     for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
 
@@ -258,6 +261,7 @@ def fight_clean_up(player, enemy):
     player.hp_bar.remove()
     player.tril.remove()
     player.trir.remove()
+    pball_small.remove()
 
     for ob in player.atc_labels:
         ob.remove()
@@ -596,6 +600,7 @@ outp = se.Text("")
 run = se.Text("5: Run!")
 catch = se.Text("6: Catch")
 shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
+pball_small = se.Object("ɵ")
 deadico1 = se.Text("""
     \ /
      o
