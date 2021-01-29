@@ -24,7 +24,7 @@ class Poke():
         self.attac_obs = []
         self.text_hp = se.Text("HP:"+str(self.hp))
         self.text_lvl = se.Text("Lvl:"+str(self.lvl))
-        self.text_name = se.Text(str(self.name))
+        self.text_name = se.Text(str(self.name), esccode="\033[4m")
         self.hp_bar = se.Text(8*"#", esccode="\033[32m")
         self.tril = se.Object("<")
         self.trir = se.Object(">")
@@ -428,6 +428,9 @@ def main():
             ev=""
             deck()
             movemap.show(init=True)
+        elif ev == "'2'":
+            ev=""
+            exiter()
         elif ev == "exit":
             raise KeyboardInterrupt
         time.sleep(0.05)
@@ -437,7 +440,6 @@ def main():
             movemap.set(movemap.x-1, movemap.y)
         movemap.remap()
         movemap.show()
-    exiter()
 
 attacs={
     "tackle": {
@@ -700,9 +702,11 @@ meadow.add(playmap_1, 5, 5)
 # objects for movemap
 movemap_underline = se.Square("-", movemap.width, 1)
 name_label = se.Text(figure.name, esccode="\033[1m")
-deck_label = se.Text("1: Deck")
+move_deck_label = se.Text("1: Deck")
+move_exit_label = se.Text("2: Exit")
 name_label.add(movemap, 2, movemap.height-2)
-deck_label.add(movemap, 0, movemap.height-1)
+move_deck_label.add(movemap, 0, movemap.height-1)
+move_exit_label.add(movemap, 9, movemap.height-1)
 movemap_underline.add(movemap, 0, movemap.height-2)
 
 # objects for deck
