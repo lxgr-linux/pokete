@@ -2,16 +2,16 @@
 # This software is licensed under the GPL3
 
 import scrap_engine as se
-import random, time, os, sys, threading
+import random, time, os, sys, threading, math
 
 class Hight_grass(se.Object):
     def action(self, ob):
         if random.randint(0,6) == 0:
-            fight([poke for poke in figure.pokes if poke.hp > 0][0], Poke(random.choice([i for i in pokes]), 5, player=False))
+            fight([poke for poke in figure.pokes if poke.hp > 0][0], Poke(random.choice([i for i in pokes]), 24, player=False))
 
 class Poke():
-    def __init__(self, poke, lvl, player=True):
-        self.lvl = lvl
+    def __init__(self, poke, xp, player=True):
+        self.xp = xp
         self.player = player
         for name in ["hp", "atc", "defense"]:
             exec("self."+name+" = int("+pokes[poke][name]+")")
@@ -23,8 +23,9 @@ class Poke():
         self.ico = se.Text(pokes[poke]["ico"])
         self.attac_obs = []
         self.text_hp = se.Text("HP:"+str(self.hp))
-        self.text_lvl = se.Text("Lvl:"+str(self.lvl))
+        self.text_lvl = se.Text("Lvl:"+str(self.lvl()))
         self.text_name = se.Text(str(self.name), esccode="\033[4m")
+        self.text_xp = se.Text("XP:"+str(self.xp-(self.lvl()**2-1))+"/"+str(((self.lvl()+1)**2-1)-(self.lvl()**2-1)))
         self.hp_bar = se.Text(8*"#", esccode="\033[32m")
         self.tril = se.Object("<")
         self.trir = se.Object(">")
@@ -33,6 +34,9 @@ class Poke():
         self.atc_labels = []
         for i, atc in enumerate(self.attac_obs):
             self.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
+
+    def lvl(self):
+        return int(math.sqrt(self.xp+1))
 
     def health_bar_maker(self, oldhp):
         bar_num = round(oldhp*8/self.full_hp)
@@ -239,8 +243,8 @@ def fight(player, enemy):
             time.sleep(0.3)
             if attack != "":
                 ob.attack(attack, enem)
-            ob.text_name.rechar(str(ob.name))
-            ob.text_lvl.rechar("Lvl:"+str(ob.lvl))
+            ob.text_name.rechar(str(ob.name), esccode="\033[4m")
+            ob.text_lvl.rechar("Lvl:"+str(ob.lvl()))
             ob.text_hp.rechar("HP:"+str(ob.hp))
             fightmap.show()
             time.sleep(0.5)
@@ -250,6 +254,9 @@ def fight(player, enemy):
                 break
         fightmap.show()
     outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!")
+    winner.xp += 2
+    winner.text_xp.rechar("XP:"+str(winner.xp-(winner.lvl()**2-1))+"/"+str(((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)))
+    winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
     fightmap.show()
     time.sleep(1)
     ico = [ob for ob in players if ob != winner][0].ico
@@ -354,6 +361,7 @@ def deck_add(poke, map, x, y):
     poke.tril.add(map, x+18, y+2)
     poke.trir.add(map, x+27, y+2)
     poke.hp_bar.add(map, x+19, y+2)
+    poke.text_xp.add(map, x+12, y+3)
 
 def deck_remove(poke):
     poke.ico.remove()
@@ -363,12 +371,12 @@ def deck_remove(poke):
     poke.tril.remove()
     poke.trir.remove()
     poke.hp_bar.remove()
+    poke.text_xp.remove()
 
 def detail(poke):
     global ev
     deck_add(poke, detailmap, 1, 1)
-    detail_attack.rechar("Attack:"+str(poke.atc))
-    detail_defense.rechar("Defense:"+str(poke.defense))
+    detail_attack_defense.rechar("Attack:"+str(poke.atc)+(4-len(str(poke.atc)))*" "+"Defense:"+str(poke.defense))
     poke.desc.add(detailmap, 34, 2)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.label_name.add(detailmap, x, y)
@@ -556,8 +564,8 @@ pokes={
     "steini": {
         "name": "Steini",
         "hp": "25",
-        "atc": "self.lvl+2",
-        "defense": "self.lvl+4",
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+4",
         "attacs": ["tackle", "politure"],
         "miss_chance": 0,
         "desc": "A squared stone that can casually be found on the ground",
@@ -569,8 +577,8 @@ pokes={
     "poundi": {
         "name": "Poundi",
         "hp": "25",
-        "atc": "self.lvl+2",
-        "defense": "self.lvl+3",
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+3",
         "attacs": ["tackle", "politure", "earch_quake"],
         "miss_chance": 0,
         "desc": "A powerfull and heavy stone Pokete that lives in mountain caves",
@@ -582,8 +590,8 @@ pokes={
    "lilstone": {
        "name": "Lilstone",
        "hp": "20",
-       "atc": "self.lvl+1",
-       "defense": "self.lvl+2",
+       "atc": "self.lvl()+1",
+       "defense": "self.lvl()+2",
        "attacs": ["tackle", "politure", "pepple_fire"],
        "miss_chance": 0,
        "desc": "A small but powerfull stone Pokete that lives in the mountains",
@@ -595,8 +603,8 @@ pokes={
   "rosi": {
       "name": "Rosi",
       "hp": "20",
-      "atc": "self.lvl",
-      "defense": "self.lvl+1",
+      "atc": "self.lvl()",
+      "defense": "self.lvl()+1",
       "attacs": ["sucker"],
       "miss_chance": 0,
       "desc": "A plant Pokete, that's often mistaken for a normal flower",
@@ -608,8 +616,8 @@ pokes={
   "gobost": {
       "name": "Gobost",
       "hp": "20",
-      "atc": "self.lvl+2",
-      "defense": "self.lvl+1",
+      "atc": "self.lvl()+2",
+      "defense": "self.lvl()+1",
       "attacs": ["tackle"],
       "miss_chance": 0,
       "desc": "A scary ghost Pokete that lives in caves and old houses",
@@ -621,8 +629,8 @@ pokes={
     "vogli": {
         "name": "Vogli",
         "hp": "20",
-        "atc": "self.lvl+6",
-        "defense": "self.lvl+1",
+        "atc": "self.lvl()+6",
+        "defense": "self.lvl()+1",
         "attacs": ["tackle", "power_pick"],
         "miss_chance": 0,
         "desc": "A very common bird Pokete that lives in town but also in the nature",
@@ -634,8 +642,8 @@ pokes={
     "voglo": {
         "name": "Voglo",
         "hp": "20",
-        "atc": "self.lvl+7",
-        "defense": "self.lvl+1",
+        "atc": "self.lvl()+7",
+        "defense": "self.lvl()+1",
         "attacs": ["tackle", "power_pick", "wing_hit", "brooding"],
         "miss_chance": 0,
         "desc": "A very agressive bird Pokete that can only be found in the woods",
@@ -647,8 +655,8 @@ pokes={
     "ostri": {
         "name": "Ostri",
         "hp": "20",
-        "atc": "self.lvl+8",
-        "defense": "self.lvl",
+        "atc": "self.lvl()+8",
+        "defense": "self.lvl()",
         "attacs": ["tackle", "eye_pick", "brooding"],
         "miss_chance": 0,
         "desc": "A very agressive bird Pokete that lives near deserts and will try to pick out your eyes",
@@ -660,8 +668,8 @@ pokes={
     "karpi": {
         "name": "Karpi",
         "hp": "15",
-        "atc": "self.lvl",
-        "defense": "self.lvl/2",
+        "atc": "self.lvl()",
+        "defense": "self.lvl()/2",
         "attacs": ["tackle"],
         "miss_chance": 0,
         "desc": "A very harmless water Pokete that can be found everywhere",
@@ -673,8 +681,8 @@ pokes={
     "würgos": {
         "name": "Würgos",
         "hp": "20",
-        "atc": "self.lvl+3",
-        "defense": "self.lvl",
+        "atc": "self.lvl()+3",
+        "defense": "self.lvl()",
         "attacs": ["chocer", "bite", "poison_bite"],
         "miss_chance": 0,
         "desc": "A dangerous snake Pokete",
@@ -691,9 +699,9 @@ playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
 figure.pokes = []
-figure.pokes.append(Poke("poundi", 6))
-figure.pokes.append(Poke("voglo", 6))
-figure.pokes.append(Poke("ostri", 6))
+figure.pokes.append(Poke("poundi", 35))
+figure.pokes.append(Poke("voglo", 35))
+figure.pokes.append(Poke("ostri", 35))
 figure.name = "Player name"
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 figure.add(playmap_1, 1, 1)
@@ -738,8 +746,7 @@ detail_name_attacks = se.Text("Attacks", esccode="\033[1m")
 detail_line_top = se.Square("_", detailmap.width, 1)
 detail_line_left = se.Square("|", 1, 16)
 detail_line_right = se.Square("|", 1, 16)
-detail_attack = se.Text("Attack:")
-detail_defense = se.Text("Defense:")
+detail_attack_defense = se.Text("Attack:   Defense:")
 detail_exit_label = se.Text("1: Exit")
 detail_line_sep1 = se.Square("-", deckmap.width-2, 1)
 detail_line_sep2 = se.Square("-", deckmap.width-2, 1)
@@ -750,8 +757,7 @@ detail_name_attacks.add(detailmap, 2, 6)
 detail_line_top.add(detailmap, 0, 0)
 detail_line_left.add(detailmap, 0, 1)
 detail_line_right.add(detailmap, detailmap.width-1, 1)
-detail_attack.add(detailmap, 13, 4)
-detail_defense.add(detailmap, 13, 5)
+detail_attack_defense.add(detailmap, 13, 5)
 detail_exit_label.add(detailmap, 0, detailmap.height-1)
 detail_line_middle.add(detailmap, round(deckmap.width/2), 7)
 detail_line_sep1.add(detailmap, 1, 6)
