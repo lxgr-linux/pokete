@@ -3,6 +3,7 @@
 
 import scrap_engine as se
 import random, time, os, sys, threading, math
+from pathlib import Path
 
 class Hight_grass(se.Object):
     def action(self, ob):
@@ -253,7 +254,7 @@ def fight(player, enemy):
                 winner = ob
                 break
         fightmap.show()
-    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!")
+    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + 2" if winner.player else ""))
     winner.xp += 2
     winner.text_xp.rechar("XP:"+str(winner.xp-(winner.lvl()**2-1))+"/"+str(((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)))
     winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
@@ -694,15 +695,25 @@ pokes={
 }
 
 
+home = str(Path.home())
+Path(home+"/.cache/pokete").mkdir(parents=True, exist_ok=True)
+Path(home+"/.cache/pokete/pokete.py").touch(exist_ok=True)
+
+session_info = {
+    "user": "DEFAULT",
+    "pokes": {
+    }
+}
+
+with open(home+"/.cache/pokete/pokete.py") as file:
+    exec(file.read())
+
 # objects for main()
 playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
-figure.pokes = []
-figure.pokes.append(Poke("poundi", 35))
-figure.pokes.append(Poke("voglo", 35))
-figure.pokes.append(Poke("ostri", 35))
-figure.name = "Player name"
+figure.pokes = [Poke(poke, session_info["pokes"][poke][0]) for poke in session_info["pokes"]]
+figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 figure.add(playmap_1, 1, 1)
 meadow.add(playmap_1, 5, 5)
