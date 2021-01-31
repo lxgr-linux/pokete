@@ -214,6 +214,8 @@ def fight(player, enemy):
                 while True:
                     if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
                         exec("global attack; attack = ob.attac_obs[int("+ev+")]")
+                        if attack.ap == 0:
+                            continue
                         ev=""
                         break
                     elif ev == "'5'":
