@@ -11,12 +11,16 @@ class Hight_grass(se.Object):
             fight([poke for poke in figure.pokes if poke.hp > 0][0], Poke(random.choice([i for i in pokes]), 24, player=False))
 
 class Poke():
-    def __init__(self, poke, xp, player=True):
+    def __init__(self, poke, xp, _hp="SKIP", player=True):
         self.xp = xp
         self.player = player
         for name in ["hp", "atc", "defense"]:
             exec("self."+name+" = int("+pokes[poke][name]+")")
         self.full_hp = self.hp
+        self.hp_bar = se.Text(8*"#", esccode="\033[32m")
+        if _hp != "SKIP":
+            self.hp = _hp if _hp <= self.full_hp else self.hp
+            self.health_bar_maker(self.hp)
         self.name = pokes[poke]["name"]
         self.attacs = pokes[poke]["attacs"]
         self.miss_chance = pokes[poke]["miss_chance"]
@@ -27,7 +31,6 @@ class Poke():
         self.text_lvl = se.Text("Lvl:"+str(self.lvl()))
         self.text_name = se.Text(str(self.name), esccode="\033[4m")
         self.text_xp = se.Text("XP:"+str(self.xp-(self.lvl()**2-1))+"/"+str(((self.lvl()+1)**2-1)-(self.lvl()**2-1)))
-        self.hp_bar = se.Text(8*"#", esccode="\033[32m")
         self.tril = se.Object("<")
         self.trir = se.Object(">")
         for atc in self.attacs:
@@ -712,7 +715,7 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
-figure.pokes = [Poke(poke, session_info["pokes"][poke][0]) for poke in session_info["pokes"]]
+figure.pokes = [Poke(poke, session_info["pokes"][poke][0], session_info["pokes"][poke][1]) for poke in session_info["pokes"]]
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 figure.add(playmap_1, 1, 1)
