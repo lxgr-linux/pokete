@@ -463,7 +463,7 @@ def save():
     }
 
     for poke in figure.pokes:
-        session_info["pokes"][poke.identifier] = [poke.xp, poke.hp]
+        session_info["pokes"][poke.identifier] = [poke.xp, poke.hp, [atc.ap for atc in poke.attac_obs]]
 
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
@@ -732,6 +732,9 @@ playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
 figure.pokes = [Poke(poke, session_info["pokes"][poke][0], session_info["pokes"][poke][1]) for poke in session_info["pokes"]]
+for poke in figure.pokes:
+    for atc, ap in zip(poke.attac_obs, session_info["pokes"][poke.identifier][2]):
+        atc.ap = ap
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 figure.add(playmap_1, 1, 1)
