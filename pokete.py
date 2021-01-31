@@ -10,13 +10,24 @@ class Hight_grass(se.Object):
         if random.randint(0,6) == 0:
             fight([poke for poke in figure.pokes if poke.hp > 0][0], Poke(random.choice([i for i in pokes]), 24, player=False))
 
+class Heal(se.Object):
+    def action(self, ob):
+        for poke in figure.pokes:
+            poke.hp = poke.full_hp
+            poke.text_hp.rechar("HP:"+str(poke.hp))
+            poke.health_bar_maker(poke.hp)
+            for atc in poke.attac_obs:
+                atc.ap = atc.max_ap
+            for i, atc in enumerate(poke.attac_obs):
+                poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
+
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", player=True):
         self.xp = xp
         self.player = player
         self.identifier = poke
-        for name in ["hp", "atc", "defense"]:
-            exec("self."+name+" = int("+pokes[poke][name]+")")
+        self.set_vars()
+        self.hp = int(pokes[poke]["hp"])
         self.full_hp = self.hp
         self.hp_bar = se.Text(8*"#", esccode="\033[32m")
         if _hp != "SKIP":
@@ -39,6 +50,10 @@ class Poke():
         self.atc_labels = []
         for i, atc in enumerate(self.attac_obs):
             self.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
+
+    def set_vars(self):
+        for name in ["atc", "defense"]:
+            exec("self."+name+" = int("+pokes[self.identifier][name]+")")
 
     def lvl(self):
         return int(math.sqrt(self.xp+1))
@@ -164,7 +179,6 @@ def fight(player, enemy):
     global ev, attack, fightmap, outp
 
     outp.rechar("A wild "+enemy.name+" appeared!")
-    #player.health_bar_maker(player.hp,)
 
     enemy.tril.add(fightmap, 7, 3)
     enemy.trir.add(fightmap, 16, 3)
@@ -262,6 +276,7 @@ def fight(player, enemy):
     winner.xp += 2
     winner.text_xp.rechar("XP:"+str(winner.xp-(winner.lvl()**2-1))+"/"+str(((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)))
     winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
+    winner.set_vars()
     fightmap.show()
     time.sleep(1)
     ico = [ob for ob in players if ob != winner][0].ico
@@ -735,10 +750,14 @@ figure.pokes = [Poke(poke, session_info["pokes"][poke][0], session_info["pokes"]
 for poke in figure.pokes:
     for atc, ap in zip(poke.attac_obs, session_info["pokes"][poke.identifier][2]):
         atc.ap = ap if ap != "SKIP" else atc.ap
+    for i, atc in enumerate(poke.attac_obs):
+        poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
+center = Heal("+", state="float")
 figure.add(playmap_1, 1, 1)
 meadow.add(playmap_1, 5, 5)
+center.add(playmap_1, 10, 4)
 
 # objects for movemap
 movemap_underline = se.Square("-", movemap.width, 1)
