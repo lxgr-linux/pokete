@@ -689,6 +689,7 @@ Path(home+"/.cache/pokete/pokete.py").touch(exist_ok=True)
 session_info = {
     "user": "DEFAULT",
     "pokes": {
+        "steini": [35, "SKIP", ["SKIP", "SKIP"]]
     }
 }
 with open(home+"/.cache/pokete/pokete.py") as file:
