@@ -14,12 +14,12 @@ class Heal(se.Object):
     def action(self, ob):
         for poke in figure.pokes:
             poke.hp = poke.full_hp
+            poke.miss_chance = poke.full_miss_chance
             poke.text_hp.rechar("HP:"+str(poke.hp))
             poke.health_bar_maker(poke.hp)
             for atc in poke.attac_obs:
                 atc.ap = atc.max_ap
-            for i, atc in enumerate(poke.attac_obs):
-                poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
+            poke.label_rechar()
 
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", player=True):
@@ -27,45 +27,43 @@ class Poke():
         self.player = player
         self.identifier = poke
         self.set_vars()
-        self.hp = int(pokes[poke]["hp"])
+        for name in ["hp", "attacs", "name", "miss_chance"]:
+            exec("self."+name+" = pokes[self.identifier][name]")
         self.full_hp = self.hp
+        self.full_miss_chance = self.miss_chance
         self.hp_bar = se.Text(8*"#", esccode="\033[32m")
         if _hp != "SKIP":
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
-        self.name = pokes[poke]["name"]
-        self.attacs = pokes[poke]["attacs"]
-        self.miss_chance = pokes[poke]["miss_chance"]
         self.desc = se.Text(liner(pokes[poke]["desc"], movemap.width-34))
         self.ico = se.Text(pokes[poke]["ico"])
-        self.attac_obs = []
         self.text_hp = se.Text("HP:"+str(self.hp))
         self.text_lvl = se.Text("Lvl:"+str(self.lvl()))
         self.text_name = se.Text(str(self.name), esccode="\033[4m")
         self.text_xp = se.Text("XP:"+str(self.xp-(self.lvl()**2-1))+"/"+str(((self.lvl()+1)**2-1)-(self.lvl()**2-1)))
         self.tril = se.Object("<")
         self.trir = se.Object(">")
-        for atc in self.attacs:
-            self.attac_obs.append(Attack(atc))
-        self.atc_labels = []
-        for i, atc in enumerate(self.attac_obs):
-            self.atc_labels.append(se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)))
+        self.attac_obs = [Attack(atc) for atc in self.attacs]
+        self.atc_labels = [se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)) for i, atc in enumerate(self.attac_obs)]
 
     def set_vars(self):
         for name in ["atc", "defense"]:
             exec("self."+name+" = int("+pokes[self.identifier][name]+")")
+
+    def label_rechar(self):
+        for i, atc in enumerate(self.attac_obs):
+            self.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
 
     def lvl(self):
         return int(math.sqrt(self.xp+1))
 
     def health_bar_maker(self, oldhp):
         bar_num = round(oldhp*8/self.full_hp)
-        if bar_num > 6:
-            esccode = "\033[32m"
-        elif bar_num > 2:
-            esccode = "\033[33m"
-        else:
-            esccode = "\033[31m"
+        esccode = "\033[31m"
+        for size, num in zip([6, 2 ], [2, 3]):
+            if bar_num > size:
+                esccode = "\033[3"+str(num)+"m"
+                break
         self.hp_bar.rechar(bar_num*"#", esccode)
 
     def attack(self, attac, enem):
@@ -87,9 +85,8 @@ class Poke():
                     time.sleep(0.1)
                     fightmap.show()
                 ob.text_hp.rechar("HP:"+str(ob.oldhp))
-            for i, atc in enumerate(self.attac_obs):
                 time.sleep(0.1)
-                self.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
+            self.label_rechar()
             fightmap.show()
 
     def move_attack(self):
@@ -264,9 +261,6 @@ def fight(player, enemy):
             time.sleep(0.3)
             if attack != "":
                 ob.attack(attack, enem)
-            ob.text_name.rechar(str(ob.name), esccode="\033[4m")
-            ob.text_lvl.rechar("Lvl:"+str(ob.lvl()))
-            ob.text_hp.rechar("HP:"+str(ob.hp))
             fightmap.show()
             time.sleep(0.5)
             if enem.hp <= 0:
@@ -295,23 +289,7 @@ def fight(player, enemy):
     fight_clean_up(player, enemy)
 
 def fight_clean_up(player, enemy):
-    enemy.text_name.remove()
-    enemy.text_lvl.remove()
-    enemy.text_hp.remove()
-    enemy.ico.remove()
-    enemy.hp_bar.remove()
-    enemy.tril.remove()
-    enemy.trir.remove()
-    player.text_name.remove()
-    player.text_lvl.remove()
-    player.text_hp.remove()
-    player.ico.remove()
-    player.hp_bar.remove()
-    player.tril.remove()
-    player.trir.remove()
-    pball_small.remove()
-
-    for ob in player.atc_labels:
+    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, pball_small]+player.atc_labels:
         ob.remove()
 
 def deck():
@@ -386,14 +364,8 @@ def deck_add(poke, map, x, y):
     poke.text_xp.add(map, x+12, y+3)
 
 def deck_remove(poke):
-    poke.ico.remove()
-    poke.text_name.remove()
-    poke.text_lvl.remove()
-    poke.text_hp.remove()
-    poke.tril.remove()
-    poke.trir.remove()
-    poke.hp_bar.remove()
-    poke.text_xp.remove()
+    for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp]:
+        ob.remove()
 
 def detail(poke):
     global ev
@@ -416,10 +388,8 @@ def detail(poke):
             deck_remove(poke)
             poke.desc.remove()
             for atc in poke.attac_obs:
-                atc.label_name.remove()
-                atc.label_factor.remove()
-                atc.label_ap.remove()
-                atc.desc.remove()
+                for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.desc]:
+                    ob.remove()
             return
         elif ev == "exit":
             raise KeyboardInterrupt
@@ -438,23 +408,12 @@ def main():
     movemap.show()
 
     while True:
-        if ev == "'w'":
-            figure.direction="t"
-            figure.set(figure.x, figure.y-1)
-            ev=""
-        elif ev == "'a'":
-            figure.direction="l"
-            figure.set(figure.x-1, figure.y)
-            ev=""
-        elif ev == "'s'":
-            figure.direction="b"
-            figure.set(figure.x, figure.y+1)
-            ev=""
-        elif ev == "'d'":
-            figure.direction="r"
-            figure.set(figure.x+1, figure.y)
-            ev=""
-        elif ev == "'1'":
+        for name, dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"], ["t", "l", "b", "r"], [0, -1, 0, 1], [-1, 0, 1, 0]):
+            if ev == name:
+                figure.direction = dir
+                figure.set(figure.x+x, figure.y+y)
+                ev=""
+        if ev == "'1'":
             ev=""
             deck()
             movemap.show(init=True)
@@ -600,7 +559,7 @@ attacs={
 pokes={
     "steini": {
         "name": "Steini",
-        "hp": "25",
+        "hp": 25,
         "atc": "self.lvl()+2",
         "defense": "self.lvl()+4",
         "attacs": ["tackle", "politure"],
@@ -613,7 +572,7 @@ pokes={
     },
     "poundi": {
         "name": "Poundi",
-        "hp": "25",
+        "hp": 25,
         "atc": "self.lvl()+2",
         "defense": "self.lvl()+3",
         "attacs": ["tackle", "politure", "earch_quake"],
@@ -626,7 +585,7 @@ pokes={
    },
    "lilstone": {
        "name": "Lilstone",
-       "hp": "20",
+       "hp": 20,
        "atc": "self.lvl()+1",
        "defense": "self.lvl()+2",
        "attacs": ["tackle", "politure", "pepple_fire"],
@@ -639,7 +598,7 @@ pokes={
   },
   "rosi": {
       "name": "Rosi",
-      "hp": "20",
+      "hp": 20,
       "atc": "self.lvl()",
       "defense": "self.lvl()+1",
       "attacs": ["sucker"],
@@ -652,7 +611,7 @@ pokes={
  },
   "gobost": {
       "name": "Gobost",
-      "hp": "20",
+      "hp": 20,
       "atc": "self.lvl()+2",
       "defense": "self.lvl()+1",
       "attacs": ["tackle"],
@@ -665,7 +624,7 @@ pokes={
   },
     "vogli": {
         "name": "Vogli",
-        "hp": "20",
+        "hp": 20,
         "atc": "self.lvl()+6",
         "defense": "self.lvl()+1",
         "attacs": ["tackle", "power_pick"],
@@ -678,7 +637,7 @@ pokes={
     },
     "voglo": {
         "name": "Voglo",
-        "hp": "20",
+        "hp": 20,
         "atc": "self.lvl()+7",
         "defense": "self.lvl()+1",
         "attacs": ["tackle", "power_pick", "wing_hit", "brooding"],
@@ -691,7 +650,7 @@ pokes={
     },
     "ostri": {
         "name": "Ostri",
-        "hp": "20",
+        "hp": 20,
         "atc": "self.lvl()+8",
         "defense": "self.lvl()",
         "attacs": ["tackle", "eye_pick", "brooding"],
@@ -704,7 +663,7 @@ pokes={
     },
     "karpi": {
         "name": "Karpi",
-        "hp": "15",
+        "hp": 15,
         "atc": "self.lvl()",
         "defense": "self.lvl()/2",
         "attacs": ["tackle"],
@@ -717,7 +676,7 @@ pokes={
     },
     "würgos": {
         "name": "Würgos",
-        "hp": "20",
+        "hp": 20,
         "atc": "self.lvl()+3",
         "defense": "self.lvl()",
         "attacs": ["chocer", "bite", "poison_bite"],
