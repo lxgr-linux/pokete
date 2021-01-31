@@ -295,14 +295,36 @@ def deck():
     for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
         deck_add(poke, deckmap, x, y)
     deckmap.show(init=True)
+    _first_index = ""
+    _second_index = ""
     deck_index.index = 0
-    deck_index.add(deckmap, figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+    deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
     while True:
         if ev == "'1'":
             ev=""
             for poke in figure.pokes:
                 deck_remove(poke)
             return
+        elif ev == "'2'":
+            ev=""
+            if _first_index == "":
+                _first_index = deck_index.index
+                deck_move_label.rechar("2: Move to?")
+            else:
+                _second_index = deck_index.index
+                _first_item = figure.pokes[_first_index]
+                _second_item = figure.pokes[_second_index]
+                figure.pokes[_first_index] = _second_item
+                figure.pokes[_second_index] = _first_item
+                _first_index = ""
+                _second_index = ""
+                for poke in figure.pokes:
+                    deck_remove(poke)
+                for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
+                    deck_add(poke, deckmap, x, y)
+                deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+                deck_move_label.rechar("2: Move")
+                deckmap.show()
         elif ev == "'a'":
             if deck_index.index != 0:
                 deck_index.index -= 1
@@ -733,6 +755,7 @@ deck_line_right = se.Square("|", 1, 15)
 deck_line_middle = se.Square("|", 1, 15)
 deck_line_bottom = se.Square("_", deckmap.width-2, 1)
 deck_exit_label = se.Text("1: Exit")
+deck_move_label = se.Text("2: Move")
 deck_index = se.Object("*")
 deck_name.add(deckmap, 2, 0)
 deck_line_left.add(deckmap, 0, 1)
@@ -743,6 +766,8 @@ deck_line_sep1.add(deckmap, 1, 5)
 deck_line_sep2.add(deckmap, 1, 10)
 deck_line_bottom.add(deckmap, 1, 15)
 deck_exit_label.add(deckmap, 0, deckmap.height-1)
+deck_move_label.add(deckmap, 9, deckmap.height-1)
+deck_index.add(deckmap, 8, deckmap.height-1)
 
 # onjects for detail
 detailmap = se.Map(background=" ")
