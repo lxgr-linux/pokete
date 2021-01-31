@@ -14,6 +14,7 @@ class Poke():
     def __init__(self, poke, xp, _hp="SKIP", player=True):
         self.xp = xp
         self.player = player
+        self.identifier = poke
         for name in ["hp", "atc", "defense"]:
             exec("self."+name+" = int("+pokes[poke][name]+")")
         self.full_hp = self.hp
@@ -442,6 +443,7 @@ def main():
             movemap.show(init=True)
         elif ev == "'2'":
             ev=""
+            save()
             exiter()
         elif ev == "exit":
             raise KeyboardInterrupt
@@ -452,6 +454,20 @@ def main():
             movemap.set(movemap.x-1, movemap.y)
         movemap.remap()
         movemap.show()
+
+def save():
+    session_info={
+        "user": figure.name,
+        "pokes": {
+        }
+    }
+
+    for poke in figure.pokes:
+        session_info["pokes"][poke.identifier] = [poke.xp, poke.hp]
+
+    with open(home+"/.cache/pokete/pokete.py", "w+") as file:
+        file.write("session_info="+str(session_info))
+
 
 attacs={
     "tackle": {
@@ -698,16 +714,16 @@ pokes={
 }
 
 
+# reading config file
 home = str(Path.home())
 Path(home+"/.cache/pokete").mkdir(parents=True, exist_ok=True)
 Path(home+"/.cache/pokete/pokete.py").touch(exist_ok=True)
-
+# Default test session_info
 session_info = {
     "user": "DEFAULT",
     "pokes": {
     }
 }
-
 with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
 
