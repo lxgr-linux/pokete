@@ -131,15 +131,15 @@ def liner(text, width):
     for name in text.split(" "):
         if lens+len(name)+1 < width:
             out += name+" "
-            lens+=len(name)+1
+            lens += len(name)+1
         else:
-            lens=len(name)+1
+            lens = len(name)+1
             out += "\n"+name+" "
     return out
 
 def exiter():
     global do_exit
-    do_exit=True
+    do_exit = True
     exit()
 
 def on_press(key):
@@ -223,17 +223,14 @@ def fight(player, enemy):
                         return
                     elif ev == "'6'":
                         outp.rechar("You threw a poketeball!")
-                        enem.ico.remove()
-                        deadico1.add(fightmap, enem.ico.x, enem.ico.y)
-                        fightmap.show()
-                        time.sleep(0.1)
-                        deadico1.remove()
-                        deadico2.add(fightmap, enem.ico.x, enem.ico.y)
-                        fightmap.show()
-                        time.sleep(0.1)
-                        deadico2.remove()
-                        pball.add(fightmap, enem.ico.x, enem.ico.y)
-                        fightmap.show()
+                        arr = [enem.ico, deadico1, deadico2, pball]
+                        _i = 1
+                        while _i < len(arr):
+                            arr[_i-1].remove()
+                            arr[_i].add(fightmap, enem.ico.x, enem.ico.y)
+                            fightmap.show()
+                            time.sleep(0.1)
+                            _i += 1
                         time.sleep(random.choice([1,2,3,4]))
                         if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
                             enem.player = True
@@ -276,14 +273,14 @@ def fight(player, enemy):
     fightmap.show()
     time.sleep(1)
     ico = [ob for ob in players if ob != winner][0].ico
-    ico.remove()
-    deadico1.add(fightmap, ico.x, ico.y)
-    fightmap.show()
-    time.sleep(0.1)
-    deadico1.remove()
-    deadico2.add(fightmap, ico.x, ico.y)
-    fightmap.show()
-    time.sleep(0.1)
+    arr = [ico, deadico1, deadico2]
+    _i = 1
+    while _i < len(arr):
+        arr[_i-1].remove()
+        arr[_i].add(fightmap, ico.x, ico.y)
+        fightmap.show()
+        time.sleep(0.1)
+        _i += 1
     deadico2.remove()
     fightmap.show()
     fight_clean_up(player, enemy)
@@ -354,14 +351,8 @@ def deck():
         deckmap.show()
 
 def deck_add(poke, map, x, y):
-    poke.ico.add(map, x, y)
-    poke.text_name.add(map, x+12, y)
-    poke.text_lvl.add(map, x+12, y+1)
-    poke.text_hp.add(map, x+12, y+2)
-    poke.tril.add(map, x+18, y+2)
-    poke.trir.add(map, x+27, y+2)
-    poke.hp_bar.add(map, x+19, y+2)
-    poke.text_xp.add(map, x+12, y+3)
+    for ob, _x, _y in zip([poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp], [0, 12, 12, 12, 18, 27, 19, 12], [0, 0, 1, 2, 2, 2, 2, 3]):
+        ob.add(map, x+_x, y+_y)
 
 def deck_remove(poke):
     for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp]:
