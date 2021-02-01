@@ -470,6 +470,15 @@ attacs={
         "desc": "Tackles the enemy very hard",
         "ap": 20,
     },
+    "apple_drop": {
+        "name": "Apple drop",
+        "factor": 1.7,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.3,
+        "desc": "Lets an apple drop on the enemys head",
+        "ap": 20,
+    },
     "eye_pick": {
         "name": "Eye pick",
         "factor": 2.5,
@@ -701,6 +710,20 @@ pokes={
   }}}}}}}
  {{{{{{{{{
            """
+    },
+    "treenator": {
+        "name": "Treenator",
+        "hp": 25,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+2",
+        "attacs": ["apple_drop"],
+        "miss_chance": 0,
+        "desc": "A scary an dangerous apple tree",
+        "ico": """    (()
+   (()))
+     H
+     H
+"""
     },
 }
 
