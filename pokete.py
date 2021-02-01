@@ -177,6 +177,9 @@ def fight(player, enemy):
 
     outp.rechar("A wild "+enemy.name+" appeared!")
 
+    for poke in figure.pokes:  # why this is needed has to be looked over later
+        for atc in poke.atc_labels:
+            atc.remove()
     enemy.tril.add(fightmap, 7, 3)
     enemy.trir.add(fightmap, 16, 3)
     enemy.text_name.add(fightmap, 1, 1)
