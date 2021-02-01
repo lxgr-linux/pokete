@@ -320,6 +320,7 @@ def deck():
                 _second_index = ""
                 for poke in figure.pokes:
                     deck_remove(poke)
+                deck_index.set(8, deckmap.height-1)
                 for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
                     deck_add(poke, deckmap, x, y)
                 deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
