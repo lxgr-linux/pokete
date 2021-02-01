@@ -734,12 +734,12 @@ for poke in figure.pokes:
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 center = Heal("+", state="float")
+center.add(playmap_1, 10, 4)
+meadow.add(playmap_1, 5, 5)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
 except:
     figure.add(playmap_1, 1, 1)
-meadow.add(playmap_1, 5, 5)
-center.add(playmap_1, 10, 4)
 
 # objects for movemap
 movemap_underline = se.Square("-", movemap.width, 1)
