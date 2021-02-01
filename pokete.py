@@ -447,6 +447,8 @@ def main():
 def save():
     session_info={
         "user": figure.name,
+        "x": figure.x,
+        "y": figure.y,
         "pokes": {
         }
     }
@@ -710,6 +712,8 @@ Path(home+"/.cache/pokete/pokete.py").touch(exist_ok=True)
 # Default test session_info
 session_info = {
     "user": "DEFAULT",
+    "x": 1,
+    "y": 1,
     "pokes": {
         "steini": [35, "SKIP", ["SKIP", "SKIP"]]
     }
@@ -730,7 +734,10 @@ for poke in figure.pokes:
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 center = Heal("+", state="float")
-figure.add(playmap_1, 1, 1)
+try:
+    figure.add(playmap_1, session_info["x"], session_info["y"])
+except:
+    figure.add(playmap_1, 1, 1)
 meadow.add(playmap_1, 5, 5)
 center.add(playmap_1, 10, 4)
 
