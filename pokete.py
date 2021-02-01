@@ -454,7 +454,7 @@ def save():
     }
 
     for poke in figure.pokes:
-        session_info["pokes"][poke.identifier] = [poke.xp, poke.hp, [atc.ap for atc in poke.attac_obs]]
+        session_info["pokes"][poke.identifier] = {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]}
 
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
@@ -725,9 +725,9 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
-figure.pokes = [Poke(poke, session_info["pokes"][poke][0], session_info["pokes"][poke][1]) for poke in session_info["pokes"]]
+figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
-    for atc, ap in zip(poke.attac_obs, session_info["pokes"][poke.identifier][2]):
+    for atc, ap in zip(poke.attac_obs, session_info["pokes"][poke.identifier]["ap"]):
         atc.ap = ap if ap != "SKIP" else atc.ap
     for i, atc in enumerate(poke.attac_obs):
         poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
