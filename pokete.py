@@ -178,6 +178,9 @@ def fight(player, enemy):
     outp.rechar("A wild "+enemy.name+" appeared!")
 
     for poke in figure.pokes:  # why this is needed has to be looked over later
+        poke.hp_bar.remove()
+        poke.text_hp.remove()
+        poke.text_lvl.remove()
         for atc in poke.atc_labels:
             atc.remove()
     enemy.tril.add(fightmap, 7, 3)
@@ -456,13 +459,10 @@ def save():
         "pokes": {
         }
     }
-
     for poke in figure.pokes:
         session_info["pokes"][poke.identifier] = {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]}
-
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
-
 
 attacs={
     "tackle": {
@@ -553,6 +553,15 @@ attacs={
         "move": "shine",
         "miss_chance": 0,
         "desc": "Upgrades defense and attack points",
+        "ap": 10,
+    },
+    "bark_hardening": {
+        "name": "Bark hardening",
+        "factor": 0,
+        "action": "self.defense += 1",
+        "move": "shine",
+        "miss_chance": 0,
+        "desc": "Hardens the bark to protect it better",
         "ap": 10,
     },
     "chocer": {
@@ -720,7 +729,7 @@ pokes={
         "hp": 25,
         "atc": "self.lvl()+2",
         "defense": "self.lvl()+2",
-        "attacs": ["apple_drop"],
+        "attacs": ["apple_drop", "bark_hardening"],
         "miss_chance": 0,
         "desc": "A scary an dangerous apple tree",
         "ico": """    (()
