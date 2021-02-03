@@ -16,6 +16,7 @@ class Heal(se.Object):
             poke.hp = poke.full_hp
             poke.miss_chance = poke.full_miss_chance
             poke.text_hp.rechar("HP:"+str(poke.hp))
+            poke.set_vars()
             poke.health_bar_maker(poke.hp)
             for atc in poke.attac_obs:
                 atc.ap = atc.max_ap
