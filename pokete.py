@@ -270,10 +270,9 @@ def fight(player, enemy):
     if winner.player:
         old_lvl = winner.lvl()
         winner.xp += 2
-        new_lvl = winner.lvl()
         winner.text_xp.rechar("XP:"+str(winner.xp-(winner.lvl()**2-1))+"/"+str(((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)))
         winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
-        if old_lvl < new_lvl:
+        if old_lvl < winner.lvl():
             time.sleep(1)
             outp.rechar(winner.name+" reached lvl "+str(winner.lvl())+"!")
             winner.move_shine()
