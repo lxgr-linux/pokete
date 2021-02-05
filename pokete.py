@@ -160,6 +160,8 @@ if sys.platform == "linux":  # Use another (not on xserver relying) way to read 
             char=sys.stdin.read(1)
             if ord(char) == 13:
                 ev="Key.enter"
+            elif ord(char) == 127:
+                ev="Key.backspace"
             else:
                 ev="'"+char.rstrip()+"'"
             if ord(char) == 3 or do_exit:
@@ -419,7 +421,7 @@ def detail(poke):
         detailmap.show()
 
 def main():
-    global ev
+    global ev, exec_string
     ev=""
     os.system("")
     recognising=threading.Thread(target=recogniser)
@@ -443,6 +445,36 @@ def main():
             ev=""
             save()
             exiter()
+        elif ev == "':'":
+            ev=""
+            exec_string = ""
+            move_code_label.rechar(":"+exec_string)
+            movemap.show()
+            while True:
+                if ev == "Key.enter":
+                    move_code_label.rechar("")
+                    movemap.show()
+                    codes(exec_string)
+                    break
+                elif ev == "exit":
+                    move_code_label.rechar("")
+                    movemap.show()
+                    break
+                elif ev == "Key.backspace":
+                    if len(exec_string) == 0:
+                        move_code_label.rechar("")
+                        movemap.show()
+                        break
+                    exec_string = exec_string[:-1]
+                    move_code_label.rechar(":"+exec_string)
+                    movemap.show()
+                    ev = ""
+                elif ev not in ["", "Key.enter", "exit", "Key.backspace"]:
+                    exec("global exec_string; exec_string += str("+ev+")")
+                    move_code_label.rechar(":"+exec_string)
+                    movemap.show()
+                    ev = ""
+            ev=""
         elif ev == "exit":
             raise KeyboardInterrupt
         time.sleep(0.05)
@@ -452,6 +484,13 @@ def main():
             movemap.set(movemap.x-1, movemap.y)
         movemap.remap()
         movemap.show()
+
+def codes(string):
+    for i in string:
+        if i == "w":
+            save()
+        elif i == "q":
+            exiter()
 
 def save():
     session_info={
@@ -784,10 +823,12 @@ movemap_underline = se.Square("-", movemap.width, 1)
 name_label = se.Text(figure.name, esccode="\033[1m")
 move_deck_label = se.Text("1: Deck")
 move_exit_label = se.Text("2: Exit")
+move_code_label = se.Text("")
 name_label.add(movemap, 2, movemap.height-2)
 move_deck_label.add(movemap, 0, movemap.height-1)
 move_exit_label.add(movemap, 9, movemap.height-1)
 movemap_underline.add(movemap, 0, movemap.height-2)
+move_code_label.add(movemap, 0, 0)
 
 # objects for deck
 deckmap = se.Map(background=" ")
