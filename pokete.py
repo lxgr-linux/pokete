@@ -162,6 +162,8 @@ if sys.platform == "linux":  # Use another (not on xserver relying) way to read 
                 ev="Key.enter"
             elif ord(char) == 127:
                 ev="Key.backspace"
+            elif ord(char) == 32:
+                ev="Key.space"
             else:
                 ev="'"+char.rstrip()+"'"
             if ord(char) == 3 or do_exit:
@@ -448,7 +450,7 @@ def main():
         elif ev == "':'":
             ev=""
             exec_string = ""
-            move_code_label.rechar(":"+exec_string)
+            move_code_label.rechar(":"+exec_string+"█")
             movemap.show()
             while True:
                 if ev == "Key.enter":
@@ -466,12 +468,14 @@ def main():
                         movemap.show()
                         break
                     exec_string = exec_string[:-1]
-                    move_code_label.rechar(":"+exec_string)
+                    move_code_label.rechar(":"+exec_string+"█")
                     movemap.show()
                     ev = ""
                 elif ev not in ["", "Key.enter", "exit", "Key.backspace"]:
+                    if ev == "Key.space":
+                        ev = "' '"
                     exec("global exec_string; exec_string += str("+ev+")")
-                    move_code_label.rechar(":"+exec_string)
+                    move_code_label.rechar(":"+exec_string+"█")
                     movemap.show()
                     ev = ""
             ev=""
@@ -489,6 +493,9 @@ def codes(string):
     for i in string:
         if i == "w":
             save()
+        elif i == "e":
+            exec(string[string.index("e")+2:])
+            return
         elif i == "q":
             exiter()
 
