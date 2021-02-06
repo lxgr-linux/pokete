@@ -992,7 +992,7 @@ p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height
 line_middle.add(fightmap, 1, fightmap.height-7)
 run.add(fightmap, 38, fightmap.height-2)
 catch.add(fightmap, 38, fightmap.height-1)
-summon.add(fightmap, 47, fightmap.height-2)
+summon.add(fightmap, 49, fightmap.height-2)
 
 if __name__ == "__main__":
     try:
