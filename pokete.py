@@ -8,7 +8,10 @@ from pathlib import Path
 class Hight_grass(se.Object):
     def action(self, ob):
         if random.randint(0,6) == 0:
-            fight([poke for poke in figure.pokes if poke.hp > 0][0], Poke(random.choice([i for i in pokes]), 24, player=False))
+            if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
+                fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choice([i for i in pokes if i != "__fallback__"]), 24, player=False))
+            else:
+                fight(Poke("__fallback__", 0), Poke(random.choice([i for i in pokes if i != "__fallback__"]), 24, player=False))
 
 class Heal(se.Object):
     def action(self, ob):
@@ -189,13 +192,14 @@ def fight(player, enemy):
     enemy.text_hp.add(fightmap, 1, 3)
     enemy.ico.add(fightmap, fightmap.width-14, 2)
     enemy.hp_bar.add(fightmap, 8, 3)
-    player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
-    player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
-    player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
-    player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
-    player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
-    player.ico.add(fightmap, 3, fightmap.height-11)
-    player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
+    if player.identifier != "__fallback__":
+        player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
+        player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
+        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
+        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
+        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
+        player.ico.add(fightmap, 3, fightmap.height-11)
+        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
 
     if enemy.name in [ob.name for ob in figure.pokes]:
         pball_small.add(fightmap, len(e_underline.text)-1, 1)
@@ -205,14 +209,19 @@ def fight(player, enemy):
 
     fightmap.show(init=True)
     time.sleep(1)
+    fight_running = True
 
     players = [player, enemy]
-    while player.hp > 0 and enemy.hp > 0:
+    while fight_running:
         for ob in players:
             enem = [i for i in players if i != ob][0]
             if ob.player:
                 outp.rechar(outp.text+("\n" if outp.text != "" else "")+ "What do you want to do?")
                 fightmap.show()
+                if ob.identifier == "__fallback__":
+                    time.sleep(1)
+                    outp.rechar("You don't have any living poketes left!")
+                    fightmap.show()
                 while True:
                     if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
                         exec("global attack; attack = ob.attac_obs[int("+ev+")]")
@@ -227,6 +236,8 @@ def fight(player, enemy):
                         fight_clean_up(player, enemy)
                         return
                     elif ev == "'6'":
+                        if ob.identifier == "__fallback__":
+                            continue
                         outp.rechar("You threw a poketeball!")
                         arr = [enem.ico, deadico1, deadico2, pball]
                         _i = 1
@@ -268,6 +279,7 @@ def fight(player, enemy):
             if enem.hp <= 0:
                 enem.text_hp.rechar("HP:0")
                 winner = ob
+                fight_running = False
                 break
         fightmap.show()
     outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + 2" if winner.player else ""))
@@ -310,7 +322,8 @@ def deck():
     _first_index = ""
     _second_index = ""
     deck_index.index = 0
-    deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+    if len(figure.pokes) > 0:
+        deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
     while True:
         if ev == "'1'":
             ev=""
@@ -319,6 +332,8 @@ def deck():
             return
         elif ev == "'2'":
             ev=""
+            if len(figure.pokes) == 0:
+                continue
             if _first_index == "":
                 _first_index = deck_index.index
                 deck_move_label.rechar("2: Move to?")
@@ -339,20 +354,27 @@ def deck():
                 deck_move_label.rechar("2: Move")
                 deckmap.show()
         elif ev == "'a'":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
             if deck_index.index != 0:
                 deck_index.index -= 1
             else:
                 deck_index.index = len(figure.pokes)-1
             deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
-            ev=""
         elif ev == "'d'":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
             if deck_index.index != len(figure.pokes)-1:
                 deck_index.index += 1
             else:
                 deck_index.index = 0
             deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
-            ev=""
         elif ev == "'s'":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
             if deck_index.index+2 < len(figure.pokes):
                 deck_index.index += 2
             elif deck_index.index+2 == len(figure.pokes):
@@ -360,8 +382,10 @@ def deck():
             elif deck_index.index+2 == len(figure.pokes)+1:
                 deck_index.index = 1
             deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
-            ev=""
         elif ev == "'w'":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
             if deck_index.index-2 >= 0:
                 deck_index.index -= 2
             elif deck_index.index-2 == -2:
@@ -371,9 +395,10 @@ def deck():
             else:
                 deck_index.index = len(figure.pokes)-1
             deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
-            ev=""
         elif ev == "Key.enter":
             ev=""
+            if len(figure.pokes) == 0:
+                continue
             for poke in figure.pokes:
                 deck_remove(poke)
             detail(figure.pokes[deck_index.index])
@@ -642,6 +667,16 @@ attacs={
 }
 
 pokes={
+    "__fallback__": {
+        "name": "",
+        "hp": 0,
+        "atc": "0",
+        "defense": "0",
+        "attacs": [],
+        "miss_chance": 0,
+        "desc": "",
+        "ico": """ """,
+    },
     "steini": {
         "name": "Steini",
         "hp": 25,
