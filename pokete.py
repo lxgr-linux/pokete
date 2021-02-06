@@ -185,33 +185,12 @@ def fight(player, enemy):
 
     outp.rechar("A wild "+enemy.name+" appeared!")
 
-    enemy.tril.add(fightmap, 7, 3)
-    enemy.trir.add(fightmap, 16, 3)
-    enemy.text_name.add(fightmap, 1, 1)
-    enemy.text_lvl.add(fightmap, 1, 2)
-    enemy.text_hp.add(fightmap, 1, 3)
-    enemy.ico.add(fightmap, fightmap.width-14, 2)
-    enemy.hp_bar.add(fightmap, 8, 3)
-    if player.identifier != "__fallback__":
-        player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
-        player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
-        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
-        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
-        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
-        player.ico.add(fightmap, 3, fightmap.height-11)
-        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
-
-    if enemy.name in [ob.name for ob in figure.pokes]:
-        pball_small.add(fightmap, len(e_underline.text)-1, 1)
-
-    for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
-        ob.add(fightmap, x, y)
+    players = fight_add(player, enemy)
 
     fightmap.show(init=True)
     time.sleep(1)
     fight_running = True
 
-    players = [player, enemy]
     while fight_running:
         for ob in players:
             enem = [i for i in players if i != ob][0]
@@ -236,6 +215,7 @@ def fight(player, enemy):
                         fight_clean_up(player, enemy)
                         return
                     elif ev == "'6'":
+                        ev = ""
                         if ob.identifier == "__fallback__":
                             continue
                         outp.rechar("You threw a poketeball!")
@@ -263,7 +243,18 @@ def fight(player, enemy):
                             pball.remove()
                             enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
                             fightmap.show()
+                        attack = ""
+                        break
+                    elif ev == "'7'":
                         ev = ""
+                        if ob.identifier == "__fallback__":
+                            continue
+                        fight_clean_up(player, enemy)
+                        new_player = deck(in_fight=True)
+                        player = new_player if new_player != None else player
+                        players = fight_add(player, enemy)
+                        outp.rechar("You have choosen "+player.name)
+                        fightmap.show(init=True)
                         attack = ""
                         break
                     elif ev == "exit":
@@ -313,7 +304,33 @@ def fight_clean_up(player, enemy):
     for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, pball_small]+player.atc_labels:
         ob.remove()
 
-def deck():
+def fight_add(player, enemy):
+    enemy.tril.add(fightmap, 7, 3)
+    enemy.trir.add(fightmap, 16, 3)
+    enemy.text_name.add(fightmap, 1, 1)
+    enemy.text_lvl.add(fightmap, 1, 2)
+    enemy.text_hp.add(fightmap, 1, 3)
+    enemy.ico.add(fightmap, fightmap.width-14, 2)
+    enemy.hp_bar.add(fightmap, 8, 3)
+    if player.identifier != "__fallback__":
+        player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
+        player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
+        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
+        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
+        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
+        player.ico.add(fightmap, 3, fightmap.height-11)
+        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
+
+    if enemy.name in [ob.name for ob in figure.pokes]:
+        pball_small.add(fightmap, len(e_underline.text)-1, 1)
+
+    for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
+        ob.add(fightmap, x, y)
+
+    return [player, enemy]
+
+
+def deck(in_fight=False):
     global ev
 
     for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
@@ -399,12 +416,18 @@ def deck():
             ev=""
             if len(figure.pokes) == 0:
                 continue
-            for poke in figure.pokes:
-                deck_remove(poke)
-            detail(figure.pokes[deck_index.index])
-            for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
-                deck_add(poke, deckmap, x, y)
-            deckmap.show(init=True)
+            if in_fight:
+                if figure.pokes[deck_index.index].hp > 0:
+                    for poke in figure.pokes:
+                        deck_remove(poke)
+                    return figure.pokes[deck_index.index]
+            else:
+                for poke in figure.pokes:
+                    deck_remove(poke)
+                detail(figure.pokes[deck_index.index])
+                for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
+                    deck_add(poke, deckmap, x, y)
+                deckmap.show(init=True)
         elif ev == "exit":
             raise KeyboardInterrupt
         time.sleep(0.05)
@@ -939,6 +962,7 @@ p_sideline = se.Square("|", 1, 4)
 outp = se.Text("")
 run = se.Text("5: Run!")
 catch = se.Text("6: Catch")
+summon = se.Text("7: Deck")
 shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
 pball_small = se.Object("o")
 deadico1 = se.Text("""
@@ -968,6 +992,7 @@ p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height
 line_middle.add(fightmap, 1, fightmap.height-7)
 run.add(fightmap, 38, fightmap.height-2)
 catch.add(fightmap, 38, fightmap.height-1)
+summon.add(fightmap, 47, fightmap.height-2)
 
 if __name__ == "__main__":
     try:
