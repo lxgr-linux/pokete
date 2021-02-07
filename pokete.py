@@ -338,20 +338,89 @@ def full_deck():
     se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, 0, 1)
     se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, fulldeckmap.width-1, 1)
     se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, round(fulldeckmap.width/2), 1)
-    for i in range(int(len(figure.pokes)/2)):
-        se.Square("-", fulldeckmap.width-2, 1).add(fulldeckmap, 1, i*5+5)
+    ev = ""
     j = 0
     for i, poke in enumerate(figure.pokes):
         deck_add(poke, fulldeckmap, 1 if i % 2 == 0 else round(fulldeckmap.width/2)+1, j*5+1)
+        if i % 2 == 0:
+            se.Square("-", fulldeckmap.width-2, 1).add(fulldeckmap, 1, j*5+5)
         if i % 2 == 1:
             j += 1
+    fulldeck_index = se.Object("*")
+    fulldeck_index.index = 0
+    fulldeck_index.add(fulldeckmap, figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
+    fulldecksubmap.remap()
     fulldecksubmap.show(init=True)
     while True:
         if ev == "'1'":
             ev=""
+            for poke in figure.pokes:
+                deck_remove(poke)
+            for ob in fulldeckmap.obs:
+                ob.remove()
             return
+        elif ev == "'a'":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
+            if fulldeck_index.index != 0:
+                fulldeck_index.index -= 1
+            else:
+                fulldeck_index.index = len(figure.pokes)-1
+            fulldeck_index.set(figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
+        elif ev == "'d'":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
+            if fulldeck_index.index != len(figure.pokes)-1:
+                fulldeck_index.index += 1
+            else:
+                fulldeck_index.index = 0
+            fulldeck_index.set(figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
+        elif ev == "'s'":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
+            if fulldeck_index.index+2 < len(figure.pokes):
+                fulldeck_index.index += 2
+            elif fulldeck_index.index+2 == len(figure.pokes):
+                fulldeck_index.index = 0
+            elif fulldeck_index.index+2 == len(figure.pokes)+1:
+                fulldeck_index.index = 1
+            fulldeck_index.set(figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
+        elif ev == "'w'":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
+            if fulldeck_index.index-2 >= 0:
+                fulldeck_index.index -= 2
+            elif fulldeck_index.index-2 == -2:
+                fulldeck_index.index = len(figure.pokes)-2
+            elif fulldeck_index.index-2 == -1:
+                fulldeck_index.index = len(figure.pokes)-1
+            else:
+                fulldeck_index.index = len(figure.pokes)-1
+            fulldeck_index.set(figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
+        elif ev == "Key.enter":
+            ev=""
+            if len(figure.pokes) == 0:
+                continue
+            for poke in figure.pokes:
+                deck_remove(poke)
+            detail(figure.pokes[fulldeck_index.index])
+            j = 0
+            for i, poke in enumerate(figure.pokes):
+                deck_add(poke, fulldeckmap, 1 if i % 2 == 0 else round(fulldeckmap.width/2)+1, j*5+1)
+                if i % 2 == 1:
+                    j += 1
+            fulldecksubmap.remap()
+            fulldecksubmap.show(init=True)
         elif ev == "exit":
             raise KeyboardInterrupt
+        if fulldeck_index.y-fulldecksubmap.y +5 > fulldecksubmap.height:
+            fulldecksubmap.set(fulldecksubmap.x, fulldecksubmap.y+1)
+        elif fulldeck_index.y-1 < fulldecksubmap.y:
+            fulldecksubmap.set(fulldecksubmap.x, fulldecksubmap.y-1)
         time.sleep(0.05)
         fulldecksubmap.remap()
         fulldecksubmap.show()
