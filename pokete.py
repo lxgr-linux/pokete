@@ -332,12 +332,13 @@ def fight_add(player, enemy):
 def full_deck():
     global ev
 
+    fulldeckmap.resize(5*int(len(figure.pokes)/2+1)+1, fulldeckmap.width, fulldeckmap.background)
     se.Text("Your full deck", esccode="\033[1m").add(fulldeckmap, 2, 0)
     se.Square("_", fulldeckmap.width, 1).add(fulldeckmap, 0, 0)
-    se.Square("_", fulldeckmap.width-2, 1).add(fulldeckmap, 0, fulldeckmap.height-1)
     se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, 0, 1)
     se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, fulldeckmap.width-1, 1)
     se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, round(fulldeckmap.width/2), 1)
+    se.Square("_", fulldeckmap.width-2, 1).add(fulldeckmap, 1, fulldeckmap.height-1)
     ev = ""
     j = 0
     for i, poke in enumerate(figure.pokes):
@@ -1041,7 +1042,7 @@ detail_line_sep2.add(detailmap, 1, 11)
 detail_line_bottom.add(detailmap, 1, 16)
 
 # Objects for fulldeckmap
-fulldeckmap = se.Map(background=" ", height=1000)
+fulldeckmap = se.Map(background=" ")
 fulldecksubmap = se.Submap(fulldeckmap, 0, 0)
 
 # objects relevant for fight()
