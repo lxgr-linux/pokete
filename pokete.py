@@ -329,6 +329,32 @@ def fight_add(player, enemy):
 
     return [player, enemy]
 
+def full_deck():
+    global ev
+
+    se.Text("Your full deck", esccode="\033[1m").add(fulldeckmap, 2, 0)
+    se.Square("_", fulldeckmap.width, 1).add(fulldeckmap, 0, 0)
+    se.Square("_", fulldeckmap.width-2, 1).add(fulldeckmap, 0, fulldeckmap.height-1)
+    se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, 0, 1)
+    se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, fulldeckmap.width-1, 1)
+    se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, round(fulldeckmap.width/2), 1)
+    for i in range(int(len(figure.pokes)/2)):
+        se.Square("-", fulldeckmap.width-2, 1).add(fulldeckmap, 1, i*5+5)
+    j = 0
+    for i, poke in enumerate(figure.pokes):
+        deck_add(poke, fulldeckmap, 1 if i % 2 == 0 else round(fulldeckmap.width/2)+1, j*5+1)
+        if i % 2 == 1:
+            j += 1
+    fulldecksubmap.show(init=True)
+    while True:
+        if ev == "'1'":
+            ev=""
+            return
+        elif ev == "exit":
+            raise KeyboardInterrupt
+        time.sleep(0.05)
+        fulldecksubmap.remap()
+        fulldecksubmap.show()
 
 def deck(in_fight=False):
     global ev
@@ -944,6 +970,10 @@ detail_line_middle.add(detailmap, round(deckmap.width/2), 7)
 detail_line_sep1.add(detailmap, 1, 6)
 detail_line_sep2.add(detailmap, 1, 11)
 detail_line_bottom.add(detailmap, 1, 16)
+
+# Objects for fulldeckmap
+fulldeckmap = se.Map(background=" ", height=1000)
+fulldecksubmap = se.Submap(fulldeckmap, 0, 0)
 
 # objects relevant for fight()
 fightmap = se.Map(background=" ")
