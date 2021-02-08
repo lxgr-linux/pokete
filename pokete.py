@@ -360,48 +360,9 @@ def full_deck():
             for ob in fulldeckmap.obs:
                 ob.remove()
             return
-        elif ev == "'a'":
-            ev=""
-            if len(figure.pokes) == 0:
-                continue
-            if fulldeck_index.index != 0:
-                fulldeck_index.index -= 1
-            else:
-                fulldeck_index.index = len(figure.pokes)-1
-            fulldeck_index.set(figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
-        elif ev == "'d'":
-            ev=""
-            if len(figure.pokes) == 0:
-                continue
-            if fulldeck_index.index != len(figure.pokes)-1:
-                fulldeck_index.index += 1
-            else:
-                fulldeck_index.index = 0
-            fulldeck_index.set(figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
-        elif ev == "'s'":
-            ev=""
-            if len(figure.pokes) == 0:
-                continue
-            if fulldeck_index.index+2 < len(figure.pokes):
-                fulldeck_index.index += 2
-            elif fulldeck_index.index+2 == len(figure.pokes):
-                fulldeck_index.index = 0
-            elif fulldeck_index.index+2 == len(figure.pokes)+1:
-                fulldeck_index.index = 1
-            fulldeck_index.set(figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
-        elif ev == "'w'":
-            ev=""
-            if len(figure.pokes) == 0:
-                continue
-            if fulldeck_index.index-2 >= 0:
-                fulldeck_index.index -= 2
-            elif fulldeck_index.index-2 == -2:
-                fulldeck_index.index = len(figure.pokes)-2
-            elif fulldeck_index.index-2 == -1:
-                fulldeck_index.index = len(figure.pokes)-1
-            else:
-                fulldeck_index.index = len(figure.pokes)-1
-            fulldeck_index.set(figure.pokes[fulldeck_index.index].text_name.x+len(figure.pokes[fulldeck_index.index].text_name.text)+1, figure.pokes[fulldeck_index.index].text_name.y)
+        elif ev in ["'w'", "'a'", "'s'", "'d'"]:
+            deck_control(figure.pokes, ev, fulldeck_index)
+            ev = ""
         elif ev == "Key.enter":
             ev=""
             if len(figure.pokes) == 0:
@@ -418,7 +379,7 @@ def full_deck():
             fulldecksubmap.show(init=True)
         elif ev == "exit":
             raise KeyboardInterrupt
-        if fulldeck_index.y-fulldecksubmap.y +5 > fulldecksubmap.height:
+        if fulldeck_index.y-fulldecksubmap.y +6 > fulldecksubmap.height:
             fulldecksubmap.set(fulldecksubmap.x, fulldecksubmap.y+1)
         elif fulldeck_index.y-1 < fulldecksubmap.y:
             fulldecksubmap.set(fulldecksubmap.x, fulldecksubmap.y-1)
@@ -434,7 +395,6 @@ def deck(in_fight=False):
     deckmap.show(init=True)
     _first_index = ""
     _second_index = ""
-    deck_index.index = 0
     if len(figure.pokes) > 0:
         deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
     while True:
@@ -466,48 +426,9 @@ def deck(in_fight=False):
                 deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
                 deck_move_label.rechar("2: Move")
                 deckmap.show()
-        elif ev == "'a'":
-            ev=""
-            if len(figure.pokes) == 0:
-                continue
-            if deck_index.index != 0:
-                deck_index.index -= 1
-            else:
-                deck_index.index = len(figure.pokes)-1
-            deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
-        elif ev == "'d'":
-            ev=""
-            if len(figure.pokes) == 0:
-                continue
-            if deck_index.index != len(figure.pokes)-1:
-                deck_index.index += 1
-            else:
-                deck_index.index = 0
-            deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
-        elif ev == "'s'":
-            ev=""
-            if len(figure.pokes) == 0:
-                continue
-            if deck_index.index+2 < len(figure.pokes):
-                deck_index.index += 2
-            elif deck_index.index+2 == len(figure.pokes):
-                deck_index.index = 0
-            elif deck_index.index+2 == len(figure.pokes)+1:
-                deck_index.index = 1
-            deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
-        elif ev == "'w'":
-            ev=""
-            if len(figure.pokes) == 0:
-                continue
-            if deck_index.index-2 >= 0:
-                deck_index.index -= 2
-            elif deck_index.index-2 == -2:
-                deck_index.index = len(figure.pokes)-2
-            elif deck_index.index-2 == -1:
-                deck_index.index = len(figure.pokes)-1
-            else:
-                deck_index.index = len(figure.pokes)-1
-            deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+        elif ev in ["'w'", "'a'", "'s'", "'d'"]:
+            deck_control(figure.pokes[:6], ev, deck_index)
+            ev = ""
         elif ev == "Key.enter":
             ev=""
             if len(figure.pokes) == 0:
@@ -528,6 +449,44 @@ def deck(in_fight=False):
             raise KeyboardInterrupt
         time.sleep(0.05)
         deckmap.show()
+
+def deck_control(pokes, ev, index):
+    if len(pokes) == 0:
+        return
+    if ev == "'a'":
+        ev=""
+        if index.index != 0:
+            index.index -= 1
+        else:
+            index.index = len(pokes)-1
+        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+    elif ev == "'d'":
+        ev=""
+        if index.index != len(pokes)-1:
+            index.index += 1
+        else:
+            index.index = 0
+        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+    elif ev == "'s'":
+        ev=""
+        if index.index+2 < len(pokes):
+            index.index += 2
+        elif index.index+2 == len(pokes):
+            index.index = 0
+        elif index.index+2 == len(pokes)+1:
+            index.index = 1
+        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+    elif ev == "'w'":
+        ev=""
+        if index.index-2 >= 0:
+            index.index -= 2
+        elif index.index-2 == -2:
+            index.index = len(pokes)-2
+        elif index.index-2 == -1:
+            index.index = len(pokes)-1
+        else:
+            index.index = len(pokes)-1
+        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
 
 def deck_add(poke, map, x, y):
     for ob, _x, _y in zip([poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp], [0, 12, 12, 12, 18, 27, 19, 12], [0, 0, 1, 2, 2, 2, 2, 3]):
@@ -1004,6 +963,7 @@ deck_line_bottom = se.Square("_", deckmap.width-2, 1)
 deck_exit_label = se.Text("1: Exit")
 deck_move_label = se.Text("2: Move")
 deck_index = se.Object("*")
+deck_index.index = 0
 deck_name.add(deckmap, 2, 0)
 deck_line_left.add(deckmap, 0, 1)
 deck_line_right.add(deckmap, deckmap.width-1, 1)
@@ -1044,6 +1004,10 @@ detail_line_bottom.add(detailmap, 1, 16)
 # Objects for fulldeckmap
 fulldeckmap = se.Map(background=" ")
 fulldecksubmap = se.Submap(fulldeckmap, 0, 0)
+fulldeck_exit_label = se.Text("1: Exit")
+fulldeck_move_label = se.Text("2: Move")
+fulldeck_exit_label.add(fulldecksubmap, 0, fulldecksubmap.height-1)
+fulldeck_move_label.add(fulldecksubmap, 9, fulldecksubmap.height-1)
 
 # objects relevant for fight()
 fightmap = se.Map(background=" ")
