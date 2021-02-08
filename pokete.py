@@ -13,6 +13,12 @@ class Hight_grass(se.Object):
             else:
                 fight(Poke("__fallback__", 0), Poke(random.choice([i for i in pokes if i != "__fallback__"]), 24, player=False))
 
+class PC(se.Object):
+    def action(self, ob):
+        deck(figure.pokes)
+        movemap.remap()
+        movemap.show(init=True)
+
 class Heal(se.Object):
     def action(self, ob):
         for poke in figure.pokes:
@@ -354,8 +360,8 @@ def deck(pokes, label="Your full deck", in_fight=False):
             ev=""
             for poke in pokes:
                 deck_remove(poke)
-            for ob in deckmap.obs:
-                ob.remove()
+            while len(deckmap.obs) > 0:
+                deckmap.obs[0].remove()
             return
         elif ev == "'2'":
             ev=""
@@ -391,8 +397,8 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 if pokes[deck_index.index].hp > 0:
                     for poke in pokes:
                         deck_remove(poke)
-                    for ob in deckmap.obs:
-                        ob.remove()
+                    while len(deckmap.obs) > 0:
+                        deckmap.obs[0].remove()
                     return pokes[deck_index.index]
             else:
                 for poke in pokes:
@@ -901,7 +907,9 @@ for poke in figure.pokes:
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 center = Heal("+", state="float")
+pc = PC("#", state="float")
 center.add(playmap_1, 10, 4)
+pc.add(playmap_1, 9, 4)
 meadow.add(playmap_1, 5, 5)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
