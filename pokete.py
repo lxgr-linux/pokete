@@ -332,7 +332,7 @@ def fight_add(player, enemy):
 def full_deck():
     global ev
 
-    fulldeckmap.resize(5*int(len(figure.pokes)/2+1)+1, fulldeckmap.width, fulldeckmap.background)
+    fulldeckmap.resize(5*int((len(figure.pokes)+1)/2)+1, fulldeckmap.width, fulldeckmap.background)
     se.Text("Your full deck", esccode="\033[1m").add(fulldeckmap, 2, 0)
     se.Square("_", fulldeckmap.width, 1).add(fulldeckmap, 0, 0)
     se.Square("|", 1, fulldeckmap.height-1).add(fulldeckmap, 0, 1)
@@ -392,11 +392,11 @@ def deck(in_fight=False):
 
     for poke, x, y in zip(figure.pokes, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [1, 1, 6, 6, 11, 11]):
         deck_add(poke, deckmap, x, y)
-    deckmap.show(init=True)
     _first_index = ""
     _second_index = ""
     if len(figure.pokes) > 0:
         deck_index.set(figure.pokes[deck_index.index].text_name.x+len(figure.pokes[deck_index.index].text_name.text)+1, figure.pokes[deck_index.index].text_name.y)
+    deckmap.show(init=True)
     while True:
         if ev == "'1'":
             ev=""
