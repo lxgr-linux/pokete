@@ -374,8 +374,8 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 _second_index = deck_index.index
                 _first_item = pokes[_first_index]
                 _second_item = pokes[_second_index]
-                pokes[_first_index] = _second_item
-                pokes[_second_index] = _first_item
+                pokes[_first_index] = figure.pokes[_first_index] = _second_item
+                pokes[_second_index] = figure.pokes[_second_index] = _first_item
                 _first_index = ""
                 _second_index = ""
                 for poke in pokes:
