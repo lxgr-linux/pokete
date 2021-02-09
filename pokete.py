@@ -352,7 +352,8 @@ def deck(pokes, label="Your full deck", in_fight=False):
     deck_add_all(pokes, True)
     deck_index = se.Object("*")
     deck_index.index = 0
-    deck_index.add(deckmap, pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
+    if len(pokes) > 0:
+        deck_index.add(deckmap, pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
     decksubmap.remap()
     decksubmap.show(init=True)
     while True:
@@ -362,6 +363,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 deck_remove(poke)
             while len(deckmap.obs) > 0:
                 deckmap.obs[0].remove()
+            decksubmap.set(0, 0)
             return
         elif ev == "'2'":
             ev=""
@@ -399,6 +401,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                         deck_remove(poke)
                     while len(deckmap.obs) > 0:
                         deckmap.obs[0].remove()
+                    decksubmap.set(0, 0)
                     return pokes[deck_index.index]
             else:
                 for poke in pokes:
@@ -409,9 +412,9 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 decksubmap.show(init=True)
         elif ev == "exit":
             raise KeyboardInterrupt
-        if deck_index.y-decksubmap.y +6 > decksubmap.height:
+        if len(pokes) > 0 and deck_index.y-decksubmap.y +6 > decksubmap.height:
             decksubmap.set(decksubmap.x, decksubmap.y+1)
-        elif deck_index.y-1 < decksubmap.y:
+        elif len(pokes) > 0 and deck_index.y-1 < decksubmap.y:
             decksubmap.set(decksubmap.x, decksubmap.y-1)
         time.sleep(0.05)
         decksubmap.remap()
@@ -427,7 +430,7 @@ def deck_add_all(pokes, init=False):
             j += 1
 
 def deck_control(pokes, ev, index):
-    if len(pokes) == 0:
+    if len(pokes) <= 1:
         return
     if ev == "'a'":
         ev=""
@@ -447,21 +450,15 @@ def deck_control(pokes, ev, index):
         ev=""
         if index.index+2 < len(pokes):
             index.index += 2
-        elif index.index+2 == len(pokes):
-            index.index = 0
-        elif index.index+2 == len(pokes)+1:
-            index.index = 1
+        else:
+            index.index = index.index % 2
         index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
     elif ev == "'w'":
         ev=""
         if index.index-2 >= 0:
             index.index -= 2
-        elif index.index-2 == -2:
-            index.index = len(pokes)-2
-        elif index.index-2 == -1:
-            index.index = len(pokes)-1
         else:
-            index.index = len(pokes)-1
+            index.index = [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]
         index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
 
 def deck_add(poke, map, x, y):
