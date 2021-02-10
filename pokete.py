@@ -726,6 +726,15 @@ attacs={
         "desc": "A harsh picking on the enemys head",
         "ap": 5,
     },
+    "bubble_bomb": {
+        "name": "Bubble bomb",
+        "factor": 6,
+        "action": "enem.miss_chance += 1",
+        "move": "attack",
+        "miss_chance": 0,
+        "desc": "A deadly bubble",
+        "ap": 5,
+    },
 }
 
 pokes={
@@ -907,6 +916,21 @@ pokes={
         "ico": """    ___
 WW\/* *\/WW
    \\v-v/
+"""
+    },
+    "blub": {
+        "name": "Blub",
+        "hp": 20,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+1",
+        "attacs": ["tackle", "bubble_bomb"],
+        "miss_chance": 0,
+        "desc": "Very delicious and low fat water Pokete",
+        "lose_xp": 2,
+        "ico": """  _____
+ / o   \\
+ >   v  ><
+ \_____/
 """
     },
 }
