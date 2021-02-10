@@ -661,6 +661,15 @@ attacs={
         "desc": "Fires pepples at the enemy and makes it blind",
         "ap": 3,
     },
+    "cry": {
+        "name": "Cry",
+        "factor": 0,
+        "action": "enem.miss_chance += 1",
+        "move": "attack",
+        "miss_chance": 0,
+        "desc": "So loud, it confuses the enemy",
+        "ap": 5,
+    },
     "bite": {
         "name": "Bite",
         "factor": 1.75,
@@ -870,6 +879,19 @@ pokes={
    (()))
      H
      H
+"""
+    },
+    "bato": {
+        "name": "Bato",
+        "hp": 20,
+        "atc": "self.lvl()+3",
+        "defense": "self.lvl()+1",
+        "attacs": ["bite", "cry"],
+        "miss_chance": 0,
+        "desc": "An annoying flying rat",
+        "ico": """    ___
+WW\/* *\/WW
+   \\v-v/
 """
     },
 }
