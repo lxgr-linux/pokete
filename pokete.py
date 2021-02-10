@@ -84,6 +84,8 @@ class Poke():
             self.oldhp = self.hp
             n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0])
             enem.hp -= n_hp if n_hp >= 0 else 0
+            if enem.hp < 0:
+                enem.hp = 0
             exec(attac.action)
             attac.ap -= 1
             outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""))
@@ -274,7 +276,6 @@ def fight(player, enemy):
             fightmap.show()
             time.sleep(0.5)
             if enem.hp <= 0:
-                enem.text_hp.rechar("HP:0")
                 winner = ob
                 fight_running = False
                 break
