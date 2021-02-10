@@ -55,6 +55,7 @@ class Poke():
         self.trir = se.Object(">")
         self.attac_obs = [Attack(atc) for atc in self.attacs]
         self.atc_labels = [se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)) for i, atc in enumerate(self.attac_obs)]
+        self.pball_small = se.Object("o")
 
     def set_vars(self):
         for name in ["atc", "defense"]:
@@ -309,7 +310,7 @@ def fight(player, enemy):
     fight_clean_up(player, enemy)
 
 def fight_clean_up(player, enemy):
-    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, pball_small]+player.atc_labels:
+    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]+player.atc_labels:
         ob.remove()
 
 def fight_add(player, enemy):
@@ -330,7 +331,7 @@ def fight_add(player, enemy):
         player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
 
     if enemy.name in [ob.name for ob in figure.pokes]:
-        pball_small.add(fightmap, len(e_underline.text)-1, 1)
+        enemy.pball_small.add(fightmap, len(e_underline.text)-1, 1)
 
     for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
@@ -347,6 +348,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
     se.Square("|", 1, deckmap.height-2).add(deckmap, deckmap.width-1, 1)
     se.Square("|", 1, deckmap.height-2).add(deckmap, round(deckmap.width/2), 1)
     se.Square("_", deckmap.width-2, 1).add(deckmap, 1, deckmap.height-2)
+    deck_move_label.rechar("2: Move    ")
     ev = ""
     j = 0
     _first_index = ""
@@ -360,7 +362,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
     decksubmap.show(init=True)
     while True:
         if ev == "'1'":
-            ev=""
+            ev = ""
             for poke in pokes:
                 deck_remove(poke)
             while len(deckmap.obs) > 0:
@@ -368,7 +370,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
             decksubmap.set(0, 0)
             return
         elif ev == "'2'":
-            ev=""
+            ev = ""
             if len(pokes) == 0:
                 continue
             if _first_index == "":
@@ -394,7 +396,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
             deck_control(pokes, ev, deck_index)
             ev = ""
         elif ev == "Key.enter":
-            ev=""
+            ev = ""
             if len(pokes) == 0:
                 continue
             if in_fight:
@@ -463,17 +465,19 @@ def deck_control(pokes, ev, index):
             index.index = [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]
         index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
 
-def deck_add(poke, map, x, y):
+def deck_add(poke, map, x, y, in_deck=True):
     for ob, _x, _y in zip([poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp], [0, 12, 12, 12, 18, 27, 19, 12], [0, 0, 1, 2, 2, 2, 2, 3]):
         ob.add(map, x+_x, y+_y)
+    if figure.pokes.index(poke) < 6 and in_deck:
+        poke.pball_small.add(map, round(deckmap.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else deckmap.width-2, y)
 
 def deck_remove(poke):
-    for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp]:
+    for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp, poke.pball_small]:
         ob.remove()
 
 def detail(poke):
     global ev
-    deck_add(poke, detailmap, 1, 1)
+    deck_add(poke, detailmap, 1, 1, False)
     detail_attack_defense.rechar("Attack:"+str(poke.atc)+(4-len(str(poke.atc)))*" "+"Defense:"+str(poke.defense))
     poke.desc.add(detailmap, 34, 2)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
@@ -578,7 +582,7 @@ def codes(string):
             exiter()
 
 def save():
-    session_info={
+    session_info = {
         "user": figure.name,
         "x": figure.x,
         "y": figure.y,
@@ -590,7 +594,7 @@ def save():
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
 
-attacs={
+attacs = {
     "tackle": {
         "name": "Tackle",
         "factor": 3/2,
@@ -755,7 +759,7 @@ attacs={
     },
 }
 
-pokes={
+pokes = {
     "__fallback__": {
         "name": "",
         "hp": 0,
@@ -1069,7 +1073,6 @@ run = se.Text("5: Run!")
 catch = se.Text("6: Catch")
 summon = se.Text("7: Deck")
 shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
-pball_small = se.Object("o")
 deadico1 = se.Text("""
     \ /
      o
