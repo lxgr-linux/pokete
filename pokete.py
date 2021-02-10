@@ -600,6 +600,15 @@ attacs={
         "desc": "Tackles the enemy very hard",
         "ap": 20,
     },
+    "pick": {
+        "name": "Pick",
+        "factor": 1.7,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.1,
+        "desc": "A pick at the enemys weakest spot",
+        "ap": 20,
+    },
     "apple_drop": {
         "name": "Apple drop",
         "factor": 1.7,
@@ -901,8 +910,7 @@ pokes={
         "ico": """    (()
    (()))
      H
-     H
-"""
+     H"""
     },
     "bato": {
         "name": "Bato",
@@ -930,7 +938,21 @@ WW\/* *\/WW
         "ico": """  _____
  / o   \\
  >   v  ><
- \_____/
+ \_____/"""
+    },
+    "owol": {
+        "name": "Owol",
+        "hp": 20,
+        "atc": "self.lvl()+7",
+        "defense": "self.lvl()+2",
+        "attacs": ["pick", "wing_hit", "cry"],
+        "miss_chance": 0,
+        "desc": "A night active Pokete, that is looking for lil children as a midnight snack",
+        "lose_xp": 2,
+        "ico": """   ,___,
+   {o,o}
+   /)_)
+    ""
 """
     },
 }
