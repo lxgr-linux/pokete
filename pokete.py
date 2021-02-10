@@ -744,6 +744,15 @@ attacs={
         "desc": "A deadly bubble",
         "ap": 5,
     },
+    "mind_blow": {
+        "name": "Mind blow",
+        "factor": 0,
+        "action": "enem.miss_chance += 2",
+        "move": "attack",
+        "miss_chance": 0,
+        "desc": "Causes confusion deep in the enemys mind",
+        "ap": 10,
+    },
 }
 
 pokes={
@@ -819,7 +828,7 @@ pokes={
       "hp": 20,
       "atc": "self.lvl()+2",
       "defense": "self.lvl()+1",
-      "attacs": ["tackle"],
+      "attacs": ["tackle", "mind_blow"],
       "miss_chance": 0,
       "desc": "A scary ghost Pokete that lives in caves and old houses",
       "lose_xp": 2,
