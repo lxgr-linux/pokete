@@ -37,7 +37,7 @@ class Poke():
         self.player = player
         self.identifier = poke
         self.set_vars()
-        for name in ["hp", "attacs", "name", "miss_chance"]:
+        for name in ["hp", "attacs", "name", "miss_chance", "lose_xp"]:
             exec("self."+name+" = pokes[self.identifier][name]")
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
@@ -280,10 +280,11 @@ def fight(player, enemy):
                 fight_running = False
                 break
         fightmap.show()
-    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + 2" if winner.player else ""))
+    loser = [ob for ob in players if ob != winner][0]
+    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp) if winner.player else ""))
     if winner.player:
         old_lvl = winner.lvl()
-        winner.xp += 2
+        winner.xp += loser.lose_xp
         winner.text_xp.rechar("XP:"+str(winner.xp-(winner.lvl()**2-1))+"/"+str(((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)))
         winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
         if old_lvl < winner.lvl():
@@ -736,6 +737,7 @@ pokes={
         "attacs": [],
         "miss_chance": 0,
         "desc": "",
+        "lose_xp": 0,
         "ico": """ """,
     },
     "steini": {
@@ -746,6 +748,7 @@ pokes={
         "attacs": ["tackle", "politure"],
         "miss_chance": 0,
         "desc": "A squared stone that can casually be found on the ground",
+        "lose_xp": 2,
         "ico": """ +-------+
  | o   o |
  |  www  |
@@ -759,6 +762,7 @@ pokes={
         "attacs": ["tackle", "politure", "earch_quake"],
         "miss_chance": 0,
         "desc": "A powerfull and heavy stone Pokete that lives in mountain caves",
+        "lose_xp": 3,
         "ico": """   A-A-A
   < o o >
   < --- >
@@ -772,6 +776,7 @@ pokes={
        "attacs": ["tackle", "politure", "pepple_fire"],
        "miss_chance": 0,
        "desc": "A small but powerfull stone Pokete that lives in the mountains",
+       "lose_xp": 2,
        "ico": """
    _____
    |'ᵕ'|
@@ -785,6 +790,7 @@ pokes={
       "attacs": ["sucker"],
       "miss_chance": 0,
       "desc": "A plant Pokete, that's often mistaken for a normal flower",
+      "lose_xp": 2,
       "ico": """
     (@)
      |
@@ -798,6 +804,7 @@ pokes={
       "attacs": ["tackle"],
       "miss_chance": 0,
       "desc": "A scary ghost Pokete that lives in caves and old houses",
+      "lose_xp": 2,
       "ico": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
@@ -811,6 +818,7 @@ pokes={
         "attacs": ["tackle", "power_pick"],
         "miss_chance": 0,
         "desc": "A very common bird Pokete that lives in town but also in the nature",
+        "lose_xp": 2,
         "ico":"""    A
    <')
     www*
@@ -824,6 +832,7 @@ pokes={
         "attacs": ["tackle", "power_pick", "wing_hit", "brooding"],
         "miss_chance": 0,
         "desc": "A very agressive bird Pokete that can only be found in the woods",
+        "lose_xp": 2,
         "ico":"""    ?
    >´)
     www*
@@ -837,6 +846,7 @@ pokes={
         "attacs": ["tackle", "eye_pick", "brooding"],
         "miss_chance": 0,
         "desc": "A very agressive bird Pokete that lives near deserts and will try to pick out your eyes",
+        "lose_xp": 2,
         "ico":"""   !
   >´)
     \www'
@@ -850,6 +860,7 @@ pokes={
         "attacs": ["tackle"],
         "miss_chance": 0,
         "desc": "A very harmless water Pokete that can be found everywhere",
+        "lose_xp": 1,
         "ico":"""
 
   <°))))><
@@ -863,6 +874,7 @@ pokes={
         "attacs": ["chocer", "bite", "poison_bite"],
         "miss_chance": 0,
         "desc": "A dangerous snake Pokete",
+        "lose_xp": 2,
         "ico": """  >'({{{
   }}}}}}}
  {{{{{{{{{
@@ -876,6 +888,7 @@ pokes={
         "attacs": ["apple_drop", "bark_hardening"],
         "miss_chance": 0,
         "desc": "A scary an dangerous apple tree",
+        "lose_xp": 2,
         "ico": """    (()
    (()))
      H
@@ -890,6 +903,7 @@ pokes={
         "attacs": ["bite", "cry"],
         "miss_chance": 0,
         "desc": "An annoying flying rat",
+        "lose_xp": 2,
         "ico": """    ___
 WW\/* *\/WW
    \\v-v/
