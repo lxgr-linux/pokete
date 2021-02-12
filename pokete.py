@@ -553,7 +553,7 @@ def main():
                     move_code_label.rechar(":"+exec_string+"█")
                     movemap.show()
                     ev = ""
-                elif ev not in ["", "Key.enter", "exit", "Key.backspace"]:
+                elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift"]:
                     if ev == "Key.space":
                         ev = "' '"
                     exec("global exec_string; exec_string += str("+ev+")")
@@ -586,11 +586,8 @@ def save():
         "user": figure.name,
         "x": figure.x,
         "y": figure.y,
-        "pokes": {
-        }
+        "pokes": {poke.identifier: {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for poke in figure.pokes}
     }
-    for poke in figure.pokes:
-        session_info["pokes"][poke.identifier] = {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]}
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
 
@@ -985,6 +982,20 @@ WW\/* *\/WW
    /)_)
     ""
 """
+    },
+    "rato": {
+        "name": "Rato",
+        "hp": 20,
+        "atc": "self.lvl()+4",
+        "defense": "self.lvl()+2",
+        "attacs": ["tackle"],
+        "miss_chance": 0,
+        "desc": "An annoying rat",
+        "lose_xp": 2,
+        "ico": """
+   ^---^
+   \o o/
+   >\./<"""
     },
 }
 
