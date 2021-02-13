@@ -772,6 +772,15 @@ attacs = {
         "desc": "Causes confusion deep in the enemys mind",
         "ap": 10,
     },
+    "tail_wipe": {
+        "name": "Tail wipe",
+        "factor": 2.5,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.5,
+        "desc": "Wipes throught the enemys face",
+        "ap": 5,
+    },
 }
 
 pokes = {
@@ -988,14 +997,14 @@ WW\/* *\/WW
         "hp": 20,
         "atc": "self.lvl()+4",
         "defense": "self.lvl()+2",
-        "attacs": ["tackle"],
+        "attacs": ["tackle", "tail_wipe"],
         "miss_chance": 0,
         "desc": "An annoying rat",
         "lose_xp": 2,
-        "ico": """
-   ^---^
+        "ico": """   ^---^
    \o o/
-   >\./<"""
+   >\./<
+"""
     },
 }
 
