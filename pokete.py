@@ -135,7 +135,7 @@ class Attack():
         self.label_name = se.Text(self.name, esccode="\033[4m")
         self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
         self.label_factor = se.Text("Attack:"+str(self.factor))
-        self.desc = se.Text(self.desc)
+        self.desc = se.Text(self.desc[:int(movemap.width/2-1)])
 
 
 def liner(text, width):
@@ -189,12 +189,18 @@ else:
             with Listener(on_press=on_press) as listener:
                 listener.join()
 
-def fight(player, enemy):
+def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap, outp
 
-    outp.rechar("A wild "+enemy.name+" appeared!")
-
     players = fight_add(player, enemy)
+
+    if info["type"] == "wild":
+        outp.rechar("A wild "+enemy.name+" appeared!")
+    elif info["type"] == "duel":
+        outp.rechar(info["player"]+" started a fight!")
+        fightmap.show(init=True)
+        time.sleep(2)
+        outp.rechar("He used "+enemy.name+" against you!")
 
     fightmap.show(init=True)
     time.sleep(1)
@@ -218,14 +224,17 @@ def fight(player, enemy):
                         ev=""
                         break
                     elif ev == "'5'":
+                        ev = ""
+                        if info["type"] == "duel":
+                            continue
                         outp.rechar("You ran away!")
                         fightmap.show()
                         time.sleep(1)
                         fight_clean_up(player, enemy)
-                        return
+                        return enem
                     elif ev == "'6'":
                         ev = ""
-                        if ob.identifier == "__fallback__":
+                        if ob.identifier == "__fallback__" or info["type"] == "duel":
                             continue
                         outp.rechar("You threw a poketeball!")
                         arr = [enem.ico, deadico1, deadico2, pball]
@@ -282,10 +291,10 @@ def fight(player, enemy):
                 break
         fightmap.show()
     loser = [ob for ob in players if ob != winner][0]
-    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp) if winner.player else ""))
+    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp)*(2 if info["type"] == "duel" else 1) if winner.player else ""))
     if winner.player:
         old_lvl = winner.lvl()
-        winner.xp += loser.lose_xp
+        winner.xp += loser.lose_xp*(2 if info["type"] == "duel" else 1)
         winner.text_xp.rechar("XP:"+str(winner.xp-(winner.lvl()**2-1))+"/"+str(((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)))
         winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
         if old_lvl < winner.lvl():
@@ -308,6 +317,7 @@ def fight(player, enemy):
     deadico2.remove()
     fightmap.show()
     fight_clean_up(player, enemy)
+    return winner
 
 def fight_clean_up(player, enemy):
     for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]+player.atc_labels:
@@ -563,6 +573,31 @@ def main():
             ev=""
         elif ev == "exit":
             raise KeyboardInterrupt
+        for trainer in playmap_1.trainers:
+            if figure.x == trainer.x and trainer.poke.hp > 0 and trainer.will:
+                movemap.remap()
+                movemap.show()
+                time.sleep(0.5)
+                exclamation.add(movemap, trainer.x-movemap.x, trainer.y-1-movemap.y)
+                movemap.show()
+                time.sleep(1)
+                exclamation.remove()
+                while trainer.y != figure.y+(2 if trainer.y > figure.y else -2):
+                    trainer.set(trainer.x, trainer.y+(-1 if trainer.y > figure.y+1 or trainer.y == figure.y-1 else 1))
+                    movemap.remap()
+                    movemap.show()
+                    time.sleep(0.5)
+                movemap_text(trainer, trainer.texts)
+                if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
+                    winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], trainer.poke, info={"type": "duel", "player": trainer.name})
+                else:
+                    winner = fight(Poke("__fallback__", 0), trainer.poke, info={"type": "duel", "player": trainer.name})
+                if winner == trainer.poke:
+                    movemap_text(trainer, trainer.lose_texts)
+                else:
+                    movemap_text(trainer, trainer.win_texts)
+                    trainer.will = False
+                multitext.remove()
         time.sleep(0.05)
         if figure.x+5 > movemap.x+movemap.width:
             movemap.set(movemap.x+1, movemap.y)
@@ -570,6 +605,16 @@ def main():
             movemap.set(movemap.x-1, movemap.y)
         movemap.remap()
         movemap.show()
+
+def movemap_text(trainer, arr):
+    for t in arr:
+        multitext.rechar("")
+        multitext.add(movemap, trainer.x-movemap.x+1, trainer.y-movemap.y)
+        for i in range(len(t)+1):
+            multitext.rechar(t[:i])
+            movemap.show()
+            time.sleep(0.05)
+        time.sleep(1)
 
 def codes(string):
     for i in string:
@@ -1029,6 +1074,16 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 playmap_1 = se.Map(background=" ", height=1000, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
+trainer1 = se.Object("a")
+trainer1.poke = Poke("poundi", 60, player=False)
+trainer1.texts = [" < Wanna fight?"]
+trainer1.lose_texts = [" < Hahaha!", " < You're a loser!"]
+trainer1.win_texts = [" < Your a very good trainer!"]
+trainer1.name = "Franz"
+trainer1.will = True
+playmap_1.trainers = [trainer1]
+exclamation = se.Object("!")
+multitext = se.Text("")
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
     for atc, ap in zip(poke.attac_obs, session_info["pokes"][poke.identifier]["ap"]):
@@ -1041,6 +1096,7 @@ center = Heal("+", state="float")
 pc = PC("#", state="float")
 center.add(playmap_1, 10, 4)
 pc.add(playmap_1, 9, 4)
+trainer1.add(playmap_1, 30, 10)
 meadow.add(playmap_1, 5, 5)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
