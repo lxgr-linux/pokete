@@ -45,7 +45,7 @@ class Poke():
         if _hp != "SKIP":
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
-        self.desc = se.Text(liner(pokes[poke]["desc"], movemap.width-34))
+        self.desc = se.Text(liner(pokes[poke]["desc"], se.width-34))
         self.ico = se.Text(pokes[poke]["ico"])
         self.text_hp = se.Text("HP:"+str(self.hp))
         self.text_lvl = se.Text("Lvl:"+str(self.lvl()))
@@ -135,7 +135,7 @@ class Attack():
         self.label_name = se.Text(self.name, esccode="\033[4m")
         self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
         self.label_factor = se.Text("Attack:"+str(self.factor))
-        self.desc = se.Text(self.desc[:int(movemap.width/2-1)])
+        self.desc = se.Text(self.desc[:int(se.width/2-1)])
 
 
 def liner(text, width):
@@ -515,13 +515,14 @@ def detail(poke):
         time.sleep(0.05)
         detailmap.show()
 
-def main():
+def game(map):
     global ev, exec_string
     ev=""
     os.system("")
     recognising=threading.Thread(target=recogniser)
     recognising.daemon=True
     recognising.start()
+    movemap.bamp = map
 
     movemap.remap()
     movemap.show()
@@ -574,11 +575,11 @@ def main():
             ev=""
         elif ev == "exit":
             raise KeyboardInterrupt
-        for trainer in playmap_1.trainers:
+        for trainer in map.trainers:
             if figure.x == trainer.x and trainer.poke.hp > 0 and trainer.will:
                 arr = []
                 for i in range(sorted([figure.y+(2 if trainer.y > figure.y else -2), trainer.y])[0], sorted([figure.y+(2 if trainer.y > figure.y else -2), trainer.y])[-1]):
-                    arr += playmap_1.obmap[i][trainer.x]
+                    arr += map.obmap[i][trainer.x]
                 if any(ob.state == "solid" for ob in arr):
                     continue
                 movemap.remap()
@@ -626,6 +627,9 @@ def movemap_text(trainer, arr):
             movemap.show()
             time.sleep(0.05)
         time.sleep(1)
+
+def main():
+    game(playmap_1)
 
 def codes(string):
     for i in string:
@@ -1096,15 +1100,19 @@ trainer1.sy = 10
 trainer1.will = True
 playmap_1.trainers = [trainer1]
 exclamation = se.Object("!")
-tree_goup = se.Text(""" (()(()((())((()((()
+tree_group_1 = se.Text(""" (()(()((())((()((()
 ())(())))())))()))(()
  || ||| ||||| |||||
-""")
+""", ignore=" ")
+tree_group_2 = se.Text(""" (()(()((())((()((()
+())(())))())))()))(()
+ || ||| ||||| |||||
+""", ignore=" ")
 house = se.Text("""  __________
  /         /\\
 /_________/  \\
 | # ___ # |  |
-|___| |___|__|""")
+|___| |___|__|""", ignore=" ")
 multitext = se.Text("")
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
@@ -1120,7 +1128,8 @@ center.add(playmap_1, 10, 4)
 pc.add(playmap_1, 9, 4)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
 house.add(playmap_1, 20, 0)
-tree_goup.add(playmap_1, 25, 14)
+tree_group_1.add(playmap_1, 25, 14)
+tree_group_1.add(playmap_1, 35, 2)
 meadow.add(playmap_1, 5, 7)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
