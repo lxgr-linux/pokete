@@ -291,7 +291,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 break
         fightmap.show()
     loser = [ob for ob in players if ob != winner][0]
-    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp)*(2 if info["type"] == "duel" else 1) if winner.player else ""))
+    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp*(2 if info["type"] == "duel" else 1)) if winner.player else ""))
+    fightmap.show()
     if winner.player:
         old_lvl = winner.lvl()
         winner.xp += loser.lose_xp*(2 if info["type"] == "duel" else 1)
@@ -598,6 +599,11 @@ def main():
                     movemap_text(trainer, trainer.win_texts)
                     trainer.will = False
                 multitext.remove()
+                while trainer.y != trainer.sy:
+                    trainer.set(trainer.x, trainer.y+(1 if trainer.y < trainer.sy else -1))
+                    movemap.remap()
+                    movemap.show()
+                    time.sleep(0.5)
         time.sleep(0.05)
         if figure.x+5 > movemap.x+movemap.width:
             movemap.set(movemap.x+1, movemap.y)
@@ -1080,6 +1086,8 @@ trainer1.texts = [" < Wanna fight?"]
 trainer1.lose_texts = [" < Hahaha!", " < You're a loser!"]
 trainer1.win_texts = [" < Your a very good trainer!"]
 trainer1.name = "Franz"
+trainer1.sx = 30
+trainer1.sy = 10
 trainer1.will = True
 playmap_1.trainers = [trainer1]
 exclamation = se.Object("!")
@@ -1096,7 +1104,7 @@ center = Heal("+", state="float")
 pc = PC("#", state="float")
 center.add(playmap_1, 10, 4)
 pc.add(playmap_1, 9, 4)
-trainer1.add(playmap_1, 30, 10)
+trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
 meadow.add(playmap_1, 5, 5)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
