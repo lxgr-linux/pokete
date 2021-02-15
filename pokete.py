@@ -578,7 +578,7 @@ def game(map):
         for trainer in map.trainers:
             if figure.x == trainer.x and trainer.poke.hp > 0 and trainer.will:
                 arr = []
-                for i in range(sorted([figure.y+(2 if trainer.y > figure.y else -2), trainer.y])[0], sorted([figure.y+(2 if trainer.y > figure.y else -2), trainer.y])[-1]):
+                for i in range(figure.y+2 if figure.y < trainer.y else trainer.y+1, trainer.y if figure.y < trainer.y else figure.y-2):
                     arr += map.obmap[i][trainer.x]
                 if any(ob.state == "solid" for ob in arr):
                     continue
