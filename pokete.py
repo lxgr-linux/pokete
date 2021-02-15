@@ -9,9 +9,9 @@ class Hight_grass(se.Object):
     def action(self, ob):
         if random.randint(0,6) == 0:
             if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
-                fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choice([i for i in pokes if i != "__fallback__"]), 24, player=False))
+                fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choice([i for i in pokes if i != "__fallback__"]), random.choices(list(range(24, 60)))[0], player=False))
             else:
-                fight(Poke("__fallback__", 0), Poke(random.choice([i for i in pokes if i != "__fallback__"]), 24, player=False))
+                fight(Poke("__fallback__", 0), Poke(random.choice([i for i in pokes if i != "__fallback__"]), random.choices(list(range(24, 40)))[0], player=False))
 
 class PC(se.Object):
     def action(self, ob):
@@ -576,9 +576,14 @@ def main():
             raise KeyboardInterrupt
         for trainer in playmap_1.trainers:
             if figure.x == trainer.x and trainer.poke.hp > 0 and trainer.will:
+                arr = []
+                for i in range(sorted([figure.y+(2 if trainer.y > figure.y else -2), trainer.y])[0], sorted([figure.y+(2 if trainer.y > figure.y else -2), trainer.y])[-1]):
+                    arr += playmap_1.obmap[i][trainer.x]
+                if any(ob.state == "solid" for ob in arr):
+                    continue
                 movemap.remap()
                 movemap.show()
-                time.sleep(0.5)
+                time.sleep(0.7)
                 exclamation.add(movemap, trainer.x-movemap.x, trainer.y-1-movemap.y)
                 movemap.show()
                 time.sleep(1)
@@ -587,7 +592,7 @@ def main():
                     trainer.set(trainer.x, trainer.y+(-1 if trainer.y > figure.y+1 or trainer.y == figure.y-1 else 1))
                     movemap.remap()
                     movemap.show()
-                    time.sleep(0.5)
+                    time.sleep(0.3)
                 movemap_text(trainer, trainer.texts)
                 if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
                     winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], trainer.poke, info={"type": "duel", "player": trainer.name})
@@ -603,7 +608,7 @@ def main():
                     trainer.set(trainer.x, trainer.y+(1 if trainer.y < trainer.sy else -1))
                     movemap.remap()
                     movemap.show()
-                    time.sleep(0.5)
+                    time.sleep(0.3)
         time.sleep(0.05)
         if figure.x+5 > movemap.x+movemap.width:
             movemap.set(movemap.x+1, movemap.y)
@@ -1091,6 +1096,15 @@ trainer1.sy = 10
 trainer1.will = True
 playmap_1.trainers = [trainer1]
 exclamation = se.Object("!")
+tree_goup = se.Text(""" (()(()((())((()((()
+())(())))())))()))(()
+ || ||| ||||| |||||
+""")
+house = se.Text("""  __________
+ /         /\\
+/_________/  \\
+| # ___ # |  |
+|___| |___|__|""")
 multitext = se.Text("")
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
@@ -1105,7 +1119,9 @@ pc = PC("#", state="float")
 center.add(playmap_1, 10, 4)
 pc.add(playmap_1, 9, 4)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
-meadow.add(playmap_1, 5, 5)
+house.add(playmap_1, 20, 0)
+tree_goup.add(playmap_1, 25, 14)
+meadow.add(playmap_1, 5, 7)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
 except:
