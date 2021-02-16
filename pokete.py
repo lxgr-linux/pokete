@@ -19,6 +19,10 @@ class PC(se.Object):
         movemap.remap()
         movemap.show(init=True)
 
+class Dor(se.Object):
+    def action(self, ob):
+        game(centermap)
+
 class Heal(se.Object):
     def action(self, ob):
         for poke in figure.pokes:
@@ -1099,6 +1103,8 @@ trainer1.sx = 30
 trainer1.sy = 10
 trainer1.will = True
 playmap_1.trainers = [trainer1]
+centermap = se.Map(background=" ")
+centermap.trainers = []
 exclamation = se.Object("!")
 tree_group_1 = se.Text(""" (()(()((())((()((()
 ())(())))())))()))(()
@@ -1123,11 +1129,13 @@ for poke in figure.pokes:
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 center = Heal("+", state="float")
+dor = Dor("#", state="float")
 pc = PC("#", state="float")
 center.add(playmap_1, 10, 4)
 pc.add(playmap_1, 9, 4)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
 house.add(playmap_1, 20, 0)
+dor.add(playmap_1, 25, 4)
 tree_group_1.add(playmap_1, 25, 14)
 tree_group_1.add(playmap_1, 35, 2)
 meadow.add(playmap_1, 5, 7)
