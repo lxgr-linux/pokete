@@ -191,44 +191,111 @@ def liner(text, width):
             out += "\n"+name+" "
     return out
 
-def exiter():
-    global do_exit
-    do_exit = True
-    exit()
+def codes(string):
+    for i in string:
+        if i == "w":
+            save()
+        elif i == "e":
+            exec(string[string.index("e")+2:])
+            return
+        elif i == "q":
+            exiter()
+
+def save():
+    session_info = {
+        "user": figure.name,
+        "x": figure.x,
+        "y": figure.y,
+        "pokes": {poke.identifier: {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for poke in figure.pokes}
+    }
+    with open(home+"/.cache/pokete/pokete.py", "w+") as file:
+        file.write("session_info="+str(session_info))
 
 def on_press(key):
     global ev
     ev=str(key)
 
-if sys.platform == "linux":  # Use another (not on xserver relying) way to read keyboard input, to make this shit work in tty or via ssh, where no xserver is available
-    def recogniser():
-        import tty, sys, termios
-        global ev, old_settings, termios, fd, do_exit
+def exiter():
+    global do_exit
+    do_exit = True
+    exit()
 
-        do_exit=False
-        fd=sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        tty.setraw(fd)
-        while True:
-            char=sys.stdin.read(1)
-            if ord(char) == 13:
-                ev="Key.enter"
-            elif ord(char) == 127:
-                ev="Key.backspace"
-            elif ord(char) == 32:
-                ev="Key.space"
-            else:
-                ev="'"+char.rstrip()+"'"
-            if ord(char) == 3 or do_exit:
-                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-                ev="exit"
-else:
-    from pynput.keyboard import Key, Listener
-    def recogniser():
-        global ev
-        while True:
-            with Listener(on_press=on_press) as listener:
-                listener.join()
+def deck_add(poke, map, x, y, in_deck=True):
+    for ob, _x, _y in zip([poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp], [0, 12, 12, 12, 18, 27, 19, 12], [0, 0, 1, 2, 2, 2, 2, 3]):
+        ob.add(map, x+_x, y+_y)
+    if figure.pokes.index(poke) < 6 and in_deck:
+        poke.pball_small.add(map, round(deckmap.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else deckmap.width-2, y)
+
+def deck_remove(poke):
+    for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp, poke.pball_small]:
+        ob.remove()
+
+def deck_add_all(pokes, init=False):
+    j = 0
+    for i, poke in enumerate(pokes):
+        deck_add(poke, deckmap, 1 if i % 2 == 0 else round(deckmap.width/2)+1, j*5+1)
+        if i % 2 == 0 and init:
+            se.Square("-", deckmap.width-2, 1).add(deckmap, 1, j*5+5)
+        if i % 2 == 1:
+            j += 1
+
+def deck_control(pokes, ev, index):
+    if len(pokes) <= 1:
+        return
+    if ev == "'a'":
+        ev=""
+        if index.index != 0:
+            index.index -= 1
+        else:
+            index.index = len(pokes)-1
+        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+    elif ev == "'d'":
+        ev=""
+        if index.index != len(pokes)-1:
+            index.index += 1
+        else:
+            index.index = 0
+        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+    elif ev == "'s'":
+        ev=""
+        if index.index+2 < len(pokes):
+            index.index += 2
+        else:
+            index.index = index.index % 2
+        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+    elif ev == "'w'":
+        ev=""
+        if index.index-2 >= 0:
+            index.index -= 2
+        else:
+            index.index = [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]
+        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+
+def fight_clean_up(player, enemy):
+    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]+player.atc_labels:
+        ob.remove()
+
+def fight_add(player, enemy):
+    enemy.tril.add(fightmap, 7, 3)
+    enemy.trir.add(fightmap, 16, 3)
+    enemy.text_name.add(fightmap, 1, 1)
+    enemy.text_lvl.add(fightmap, 1, 2)
+    enemy.text_hp.add(fightmap, 1, 3)
+    enemy.ico.add(fightmap, fightmap.width-14, 2)
+    enemy.hp_bar.add(fightmap, 8, 3)
+    if player.identifier != "__fallback__":
+        player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
+        player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
+        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
+        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
+        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
+        player.ico.add(fightmap, 3, fightmap.height-11)
+        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
+    if enemy.name in [ob.name for ob in figure.pokes]:
+        enemy.pball_small.add(fightmap, len(e_underline.text)-1, 1)
+    for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
+        ob.add(fightmap, x, y)
+    return [player, enemy]
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap, outp
@@ -361,35 +428,6 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     fight_clean_up(player, enemy)
     return winner
 
-def fight_clean_up(player, enemy):
-    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]+player.atc_labels:
-        ob.remove()
-
-def fight_add(player, enemy):
-    enemy.tril.add(fightmap, 7, 3)
-    enemy.trir.add(fightmap, 16, 3)
-    enemy.text_name.add(fightmap, 1, 1)
-    enemy.text_lvl.add(fightmap, 1, 2)
-    enemy.text_hp.add(fightmap, 1, 3)
-    enemy.ico.add(fightmap, fightmap.width-14, 2)
-    enemy.hp_bar.add(fightmap, 8, 3)
-    if player.identifier != "__fallback__":
-        player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
-        player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
-        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
-        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
-        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
-        player.ico.add(fightmap, 3, fightmap.height-11)
-        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
-
-    if enemy.name in [ob.name for ob in figure.pokes]:
-        enemy.pball_small.add(fightmap, len(e_underline.text)-1, 1)
-
-    for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
-        ob.add(fightmap, x, y)
-
-    return [player, enemy]
-
 def deck(pokes, label="Your full deck", in_fight=False):
     global ev
 
@@ -475,57 +513,6 @@ def deck(pokes, label="Your full deck", in_fight=False):
         time.sleep(0.05)
         decksubmap.remap()
         decksubmap.show()
-
-def deck_add_all(pokes, init=False):
-    j = 0
-    for i, poke in enumerate(pokes):
-        deck_add(poke, deckmap, 1 if i % 2 == 0 else round(deckmap.width/2)+1, j*5+1)
-        if i % 2 == 0 and init:
-            se.Square("-", deckmap.width-2, 1).add(deckmap, 1, j*5+5)
-        if i % 2 == 1:
-            j += 1
-
-def deck_control(pokes, ev, index):
-    if len(pokes) <= 1:
-        return
-    if ev == "'a'":
-        ev=""
-        if index.index != 0:
-            index.index -= 1
-        else:
-            index.index = len(pokes)-1
-        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
-    elif ev == "'d'":
-        ev=""
-        if index.index != len(pokes)-1:
-            index.index += 1
-        else:
-            index.index = 0
-        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
-    elif ev == "'s'":
-        ev=""
-        if index.index+2 < len(pokes):
-            index.index += 2
-        else:
-            index.index = index.index % 2
-        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
-    elif ev == "'w'":
-        ev=""
-        if index.index-2 >= 0:
-            index.index -= 2
-        else:
-            index.index = [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]
-        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
-
-def deck_add(poke, map, x, y, in_deck=True):
-    for ob, _x, _y in zip([poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp], [0, 12, 12, 12, 18, 27, 19, 12], [0, 0, 1, 2, 2, 2, 2, 3]):
-        ob.add(map, x+_x, y+_y)
-    if figure.pokes.index(poke) < 6 and in_deck:
-        poke.pball_small.add(map, round(deckmap.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else deckmap.width-2, y)
-
-def deck_remove(poke):
-    for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp, poke.pball_small]:
-        ob.remove()
 
 def detail(poke):
     global ev
@@ -681,26 +668,6 @@ def movemap_text(x, y, arr):
 
 def main():
     game(playmap_1)
-
-def codes(string):
-    for i in string:
-        if i == "w":
-            save()
-        elif i == "e":
-            exec(string[string.index("e")+2:])
-            return
-        elif i == "q":
-            exiter()
-
-def save():
-    session_info = {
-        "user": figure.name,
-        "x": figure.x,
-        "y": figure.y,
-        "pokes": {poke.identifier: {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for poke in figure.pokes}
-    }
-    with open(home+"/.cache/pokete/pokete.py", "w+") as file:
-        file.write("session_info="+str(session_info))
 
 attacs = {
     "tackle": {
@@ -1119,6 +1086,36 @@ WW\/* *\/WW
     },
 }
 
+# deciding on wich input to use
+if sys.platform == "linux":  # Use another (not on xserver relying) way to read keyboard input, to make this shit work in tty or via ssh, where no xserver is available
+    def recogniser():
+        import tty, sys, termios
+        global ev, old_settings, termios, fd, do_exit
+
+        do_exit=False
+        fd=sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        tty.setraw(fd)
+        while True:
+            char=sys.stdin.read(1)
+            if ord(char) == 13:
+                ev="Key.enter"
+            elif ord(char) == 127:
+                ev="Key.backspace"
+            elif ord(char) == 32:
+                ev="Key.space"
+            else:
+                ev="'"+char.rstrip()+"'"
+            if ord(char) == 3 or do_exit:
+                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+                ev="exit"
+else:
+    from pynput.keyboard import Key, Listener
+    def recogniser():
+        global ev
+        while True:
+            with Listener(on_press=on_press) as listener:
+                listener.join()
 
 # reading config file
 home = str(Path.home())
@@ -1173,6 +1170,12 @@ inner_center = se.Text(""" ________________
  |              |
  |______  ______|
  |_____|  |_____|""", ignore=" ")
+meadow2 = se.Text("""    ;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;
+;;;;;;;;;;;;
+ ;;;;;;;;;
+""", ignore=" ", ob_class=Hight_grass, state="float")
 multitext = se.Text("")
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
@@ -1182,14 +1185,15 @@ for poke in figure.pokes:
         poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
-center = Heal("+", state="float")
+# center = Heal("+", state="float")
 dor = Dor("#", centermap, int(centermap.width/2), 7, state="float")
 dor_back1 = Dor(" ", playmap_1, 25, 5, state="float")
 dor_back2 = Dor(" ", playmap_1, 25, 5, state="float")
 interact = CenterInteract("¯", state="float")
-pc = PC("#", state="float")
-center.add(playmap_1, 10, 4)
-pc.add(playmap_1, 9, 4)
+# pc = PC("#", state="float")
+# center.add(playmap_1, 10, 4)
+# pc.add(playmap_1, 9, 4)
+meadow2.add(playmap_1, 67, 8)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
 house.add(playmap_1, 20, 0)
 dor.add(playmap_1, 25, 4)
