@@ -878,12 +878,22 @@ attacs = {
         "desc": "Wipes throught the enemys face",
         "ap": 5,
     },
+    "meat_skewer": {
+        "name": "Meat skewer",
+        "factor": 3.5,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.7,
+        "desc": "Drills the horn deep in the enemys flesh",
+        "ap": 5,
+    },
 }
 
 # Here starts to definition of all the Poketes
 # If you want to contribute Poketes, you have to keep in mind, that "ico" can be max 11x4 chars big
 # and that the max for attacks is (until now) 4
 # All attributes have to be present make a Pokete work
+# Hornita was inspired and partly designed by Pia <pialandrath@gmail.com>
 
 pokes = {
     "__fallback__": {
@@ -1106,6 +1116,21 @@ WW\/* *\/WW
         "ico": """   ^---^
    \o o/
    >\./<
+"""
+    },
+    "hornita": {
+        "name": "Hornita",
+        "hp": 20,
+        "atc": "self.lvl()+6",
+        "defense": "self.lvl()+2",
+        "attacs": ["tackle", "meat_skewer", "tail_wipe"],
+        "miss_chance": 0,
+        "desc": "An majestetic horse that is always looking for something to pick with its horn.",
+        "lose_xp": 2,
+        "ico": """ \\
+ =')
+   (¯¯¯¯)~
+   //¯¯\\\\
 """
     },
 }

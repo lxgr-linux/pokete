@@ -21,8 +21,10 @@ There you can also take a look at all your poketes, and not just the first six. 
 - Do't be offended by the other trainers, they may swear at you
 
 ## TODO
-- Add a deamon to set name and choose starter pokete at the start
+- Add a wizard to set name and choose starter pokete at the start
 - Add More maps
+- Add types for attacks and poketes
+- Add evolving
 
 ## Dependencies
 Pokete depends on python3 and the python-scrap_engine module.
