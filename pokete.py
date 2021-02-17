@@ -21,9 +21,24 @@ class PC(se.Object):
 
 class CenterInteract(se.Object):
     def action(self, ob):
+        global ev
+        ev = ""
         movemap.remap()
         movemap.show()
-        deck(figure.pokes)
+        movemap_text(int(movemap.width/2), 3, [" < Welcome to the Pokete-Center", " < What do you want to?", " < a: See your full deck\n   b: Heal all your Poketes\n   c: Go"])
+        while True:
+            if ev == "'a'":
+                ev = ""
+                deck(figure.pokes)
+                break
+            elif ev == "'b'":
+                ev = ""
+                heal()
+                break
+            elif ev == "'c'":
+                ev = ""
+                break
+        multitext.remove()
         movemap.remap()
         movemap.show(init=True)
 
@@ -43,15 +58,7 @@ class Dor(se.Object):
 
 class Heal(se.Object):
     def action(self, ob):
-        for poke in figure.pokes:
-            poke.hp = poke.full_hp
-            poke.miss_chance = poke.full_miss_chance
-            poke.text_hp.rechar("HP:"+str(poke.hp))
-            poke.set_vars()
-            poke.health_bar_maker(poke.hp)
-            for atc in poke.attac_obs:
-                atc.ap = atc.max_ap
-            poke.label_rechar()
+        heal()
 
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", player=True):
@@ -159,6 +166,17 @@ class Attack():
         self.label_factor = se.Text("Attack:"+str(self.factor))
         self.desc = se.Text(self.desc[:int(se.width/2-1)])
 
+
+def heal():
+    for poke in figure.pokes:
+        poke.hp = poke.full_hp
+        poke.miss_chance = poke.full_miss_chance
+        poke.text_hp.rechar("HP:"+str(poke.hp))
+        poke.set_vars()
+        poke.health_bar_maker(poke.hp)
+        for atc in poke.attac_obs:
+            atc.ap = atc.max_ap
+        poke.label_rechar()
 
 def liner(text, width):
     lens = 0
@@ -616,15 +634,15 @@ def game(map):
                     movemap.remap()
                     movemap.show()
                     time.sleep(0.3)
-                movemap_text(trainer, trainer.texts)
+                movemap_text(trainer.x, trainer.y, trainer.texts)
                 if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
                     winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], trainer.poke, info={"type": "duel", "player": trainer.name})
                 else:
                     winner = fight(Poke("__fallback__", 0), trainer.poke, info={"type": "duel", "player": trainer.name})
                 if winner == trainer.poke:
-                    movemap_text(trainer, trainer.lose_texts)
+                    movemap_text(trainer.x, trainer.y, trainer.lose_texts)
                 else:
-                    movemap_text(trainer, trainer.win_texts)
+                    movemap_text(trainer.x, trainer.y, trainer.win_texts)
                     trainer.will = False
                 multitext.remove()
                 while trainer.y != trainer.sy:
@@ -640,10 +658,10 @@ def game(map):
         movemap.remap()
         movemap.show()
 
-def movemap_text(trainer, arr):
+def movemap_text(x, y, arr):
     for t in arr:
         multitext.rechar("")
-        multitext.add(movemap, trainer.x-movemap.x+1, trainer.y-movemap.y)
+        multitext.add(movemap, x-movemap.x+1, y-movemap.y)
         for i in range(len(t)+1):
             multitext.rechar(t[:i])
             movemap.show()
