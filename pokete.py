@@ -25,7 +25,7 @@ class CenterInteract(se.Object):
         ev = ""
         movemap.remap()
         movemap.show()
-        movemap_text(int(movemap.width/2), 3, [" < Welcome to the Pokete-Center", " < What do you want to?", " < a: See your full deck\n   b: Heal all your Poketes\n   c: Go"])
+        movemap_text(int(movemap.width/2), 3, [" < Welcome to the Pokete-Center", " < What do you want to do?", " < a: See your full deck\n   b: Heal all your Poketes\n   c: Go"])
         while True:
             if ev == "'a'":
                 ev = ""
@@ -38,6 +38,7 @@ class CenterInteract(se.Object):
             elif ev == "'c'":
                 ev = ""
                 break
+            time.sleep(0.05)
         multitext.remove()
         movemap.remap()
         movemap.show(init=True)
@@ -659,14 +660,24 @@ def game(map):
         movemap.show()
 
 def movemap_text(x, y, arr):
+    global ev
     for t in arr:
+        ev = ""
         multitext.rechar("")
         multitext.add(movemap, x-movemap.x+1, y-movemap.y)
         for i in range(len(t)+1):
             multitext.rechar(t[:i])
             movemap.show()
+            time.sleep(0.045)
+            if ev != "":
+                ev = ""
+                break
+        multitext.rechar(t)
+        movemap.show()
+        while True:
+            if ev != "":
+                break
             time.sleep(0.05)
-        time.sleep(1)
 
 def main():
     game(playmap_1)
