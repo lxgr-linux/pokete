@@ -24,3 +24,7 @@ There you can also take a look at all your poketes, and not just the first six. 
 
 ## Dependencies
 Pokete depends on python3 and the python-scrap_engine module.
+
+## Contributing
+Feel free to contribute what eaver you want to this game.
+New Pokete contributions are especially welcome.
