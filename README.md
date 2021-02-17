@@ -17,6 +17,8 @@ There you can also take a look at all your poketes, and not just the first six. 
 ## Tips
 - In conversations you can very easiely skip the text printing by pressing any key
 - When you want to see the next text in a conversation, also just press any key
+- Don't play on fullscreen, the game then starts to be overseeable
+- Do't be offended by the other trainers, they may swear at you
 
 ## TODO
 - Add a deamon to set name and choose starter pokete at the start
@@ -26,5 +28,5 @@ There you can also take a look at all your poketes, and not just the first six. 
 Pokete depends on python3 and the python-scrap_engine module.
 
 ## Contributing
-Feel free to contribute what eaver you want to this game.
+Feel free to contribute what ever you want to this game.
 New Pokete contributions are especially welcome.

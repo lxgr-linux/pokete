@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 # This software is licensed under the GPL3
+# You should have gotten an copy of the GPL3 license anlonside this software
+# Feel free to contribute what ever you want to this game
+# New Pokete contributions are especially welcome
+# For this see the comments in the definations area
 
 import scrap_engine as se
 import random, time, os, sys, threading, math
 from pathlib import Path
 
-class Hight_grass(se.Object):
+class HightGrass(se.Object):
     def action(self, ob):
         if random.randint(0,6) == 0:
             if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
@@ -13,11 +17,22 @@ class Hight_grass(se.Object):
             else:
                 fight(Poke("__fallback__", 0), Poke(random.choice([i for i in pokes if i != "__fallback__"]), random.choices(list(range(24, 40)))[0], player=False))
 
+# The following two classes (PC and Heal) where initially needed to manage healing
+# and reviewing off all Poketes in the deck
+# They are now obsolete (because of the Pokete-Center) and will be removed later,
+# but I will keep them for now for testing purposes
+
 class PC(se.Object):
     def action(self, ob):
         deck(figure.pokes)
         movemap.remap()
         movemap.show(init=True)
+
+
+class Heal(se.Object):
+    def action(self, ob):
+        heal()
+
 
 class CenterInteract(se.Object):
     def action(self, ob):
@@ -38,10 +53,13 @@ class CenterInteract(se.Object):
             elif ev == "'c'":
                 ev = ""
                 break
+            elif ev == "exit":
+                raise KeyboardInterrupt
             time.sleep(0.05)
         multitext.remove()
         movemap.remap()
         movemap.show(init=True)
+
 
 class Dor(se.Object):
     def __init__(self, char, map_adder, x, y, state="solid"):
@@ -57,9 +75,6 @@ class Dor(se.Object):
         figure.add(self.map_adder, self.setx, self.sety)
         game(self.map_adder)
 
-class Heal(se.Object):
-    def action(self, ob):
-        heal()
 
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", player=True):
@@ -546,10 +561,6 @@ def detail(poke):
 def game(map):
     global ev, exec_string
     ev=""
-    os.system("")
-    recognising=threading.Thread(target=recogniser)
-    recognising.daemon=True
-    recognising.start()
     movemap.bmap = map
 
     movemap.remap()
@@ -656,17 +667,25 @@ def movemap_text(x, y, arr):
             multitext.rechar(t[:i])
             movemap.show()
             time.sleep(0.045)
-            if ev != "":
+            if ev == "exit":
+                raise KeyboardInterrupt
+            elif ev != "":
                 ev = ""
                 break
         multitext.rechar(t)
         movemap.show()
         while True:
-            if ev != "":
+            if ev == "exit":
+                raise KeyboardInterrupt
+            elif ev != "":
                 break
             time.sleep(0.05)
 
 def main():
+    os.system("")
+    recognising=threading.Thread(target=recogniser)
+    recognising.daemon=True
+    recognising.start()
     game(playmap_1)
 
 attacs = {
@@ -860,6 +879,11 @@ attacs = {
         "ap": 5,
     },
 }
+
+# Here starts to definition of all the Poketes
+# If you want to contribute Poketes, you have to keep in mind, that "ico" can be max 11x4 chars big
+# and that the max for attacks is (until now) 4
+# All attributes have to be present make a Pokete work
 
 pokes = {
     "__fallback__": {
@@ -1134,9 +1158,8 @@ with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
 
 # objects for main()
-playmap_1 = se.Map(background=" ", height=1000, width=1000)
+playmap_1 = se.Map(background=" ", height=30, width=1000)
 movemap = se.Submap(playmap_1, 0, 0)
-figure = se.Object("a")
 trainer1 = se.Object("a")
 trainer1.poke = Poke("poundi", 60, player=False)
 trainer1.texts = [" < Wanna fight?"]
@@ -1149,6 +1172,7 @@ trainer1.will = True
 playmap_1.trainers = [trainer1]
 centermap = se.Map(background=" ")
 centermap.trainers = []
+figure = se.Object("a")
 exclamation = se.Object("!")
 tree_group_1 = se.Text(""" (()(()((())((()((()
 ())(())))())))()))(()
@@ -1175,7 +1199,7 @@ meadow2 = se.Text("""    ;;;;;;;;;;;
 ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;
  ;;;;;;;;;
-""", ignore=" ", ob_class=Hight_grass, state="float")
+""", ignore=" ", ob_class=HightGrass, state="float")
 multitext = se.Text("")
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
@@ -1184,15 +1208,11 @@ for poke in figure.pokes:
     for i, atc in enumerate(poke.attac_obs):
         poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
 figure.name = session_info["user"]
-meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
-# center = Heal("+", state="float")
+meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass)
 dor = Dor("#", centermap, int(centermap.width/2), 7, state="float")
 dor_back1 = Dor(" ", playmap_1, 25, 5, state="float")
 dor_back2 = Dor(" ", playmap_1, 25, 5, state="float")
 interact = CenterInteract("¯", state="float")
-# pc = PC("#", state="float")
-# center.add(playmap_1, 10, 4)
-# pc.add(playmap_1, 9, 4)
 meadow2.add(playmap_1, 67, 8)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
 house.add(playmap_1, 20, 0)
