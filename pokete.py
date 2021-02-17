@@ -19,9 +19,27 @@ class PC(se.Object):
         movemap.remap()
         movemap.show(init=True)
 
-class Dor(se.Object):
+class CenterInteract(se.Object):
     def action(self, ob):
-        game(centermap)
+        movemap.remap()
+        movemap.show()
+        deck(figure.pokes)
+        movemap.remap()
+        movemap.show(init=True)
+
+class Dor(se.Object):
+    def __init__(self, char, map_adder, x, y, state="solid"):
+        self.char = char
+        self.state = state
+        self.map_adder = map_adder
+        self.added = False
+        self.setx = x
+        self.sety = y
+
+    def action(self, ob):
+        figure.remove()
+        figure.add(self.map_adder, self.setx, self.sety)
+        game(self.map_adder)
 
 class Heal(se.Object):
     def action(self, ob):
@@ -526,7 +544,7 @@ def game(map):
     recognising=threading.Thread(target=recogniser)
     recognising.daemon=True
     recognising.start()
-    movemap.bamp = map
+    movemap.bmap = map
 
     movemap.remap()
     movemap.show()
@@ -1119,6 +1137,13 @@ house = se.Text("""  __________
 /_________/  \\
 | # ___ # |  |
 |___| |___|__|""", ignore=" ")
+inner_center = se.Text(""" ________________
+ |______________|
+ |     |a |     |
+ |     ¯ ¯¯     |
+ |              |
+ |______  ______|
+ |_____|  |_____|""", ignore=" ")
 multitext = se.Text("")
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
@@ -1129,7 +1154,10 @@ for poke in figure.pokes:
 figure.name = session_info["user"]
 meadow = se.Square(";", 10, 5, state="float", ob_class=Hight_grass)
 center = Heal("+", state="float")
-dor = Dor("#", state="float")
+dor = Dor("#", centermap, int(centermap.width/2), 7, state="float")
+dor_back1 = Dor(" ", playmap_1, 25, 5, state="float")
+dor_back2 = Dor(" ", playmap_1, 25, 5, state="float")
+interact = CenterInteract("¯", state="float")
 pc = PC("#", state="float")
 center.add(playmap_1, 10, 4)
 pc.add(playmap_1, 9, 4)
@@ -1139,6 +1167,10 @@ dor.add(playmap_1, 25, 4)
 tree_group_1.add(playmap_1, 25, 14)
 tree_group_1.add(playmap_1, 35, 2)
 meadow.add(playmap_1, 5, 7)
+inner_center.add(centermap, int(centermap.width/2)-8, 1)
+dor_back1.add(centermap, int(centermap.width/2), 8)
+dor_back1.add(centermap, int(centermap.width/2)+1, 8)
+interact.add(centermap, int(centermap.width/2), 4)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
 except:
