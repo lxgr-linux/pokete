@@ -1128,10 +1128,23 @@ WW\/* *\/WW
         "desc": "An majestetic horse that is always looking for something to pick with its horn.",
         "lose_xp": 2,
         "ico": """ \\
- =')
+ =')~
    (¯¯¯¯)~
-   //¯¯\\\\
-"""
+   //¯¯\\\\"""
+    },
+    "horny": {
+        "name": "Horny",
+        "hp": 20,
+        "atc": "self.lvl()+5",
+        "defense": "self.lvl()+1",
+        "attacs": ["tackle", "meat_skewer"],
+        "miss_chance": 0.2,
+        "desc": "A teenaged unicorn in the middle of puberty.",
+        "lose_xp": 2,
+        "ico": """  ,
+ =')
+   (¯¯¯)~
+   //¯\\\\"""
     },
 }
 
