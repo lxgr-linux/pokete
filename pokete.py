@@ -1238,6 +1238,8 @@ meadow2 = se.Text("""    ;;;;;;;;;;;
 ;;;;;;;;;;;;
  ;;;;;;;;;
 """, ignore=" ", ob_class=HightGrass, state="float")
+cave_entrance = se.Text("""\  \_/  _____/ \______/
+ \_____/""", ignore=" ")
 multitext = se.Text("")
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
@@ -1254,6 +1256,7 @@ interact = CenterInteract("¯", state="float")
 meadow2.add(playmap_1, 67, 8)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
 house.add(playmap_1, 20, 0)
+cave_entrance.add(playmap_1, 60, 0)
 dor.add(playmap_1, 25, 4)
 tree_group_1.add(playmap_1, 25, 14)
 tree_group_1.add(playmap_1, 35, 2)
