@@ -309,10 +309,10 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     if info["type"] == "wild":
         outp.rechar("A wild "+enemy.name+" appeared!")
     elif info["type"] == "duel":
-        outp.rechar(info["player"]+" started a fight!")
+        outp.rechar(info["player"].name+" started a fight!")
         fightmap.show(init=True)
         time.sleep(2)
-        outp.rechar("He used "+enemy.name+" against you!")
+        outp.rechar(info["player"].gender+" used "+enemy.name+" against you!")
 
     fightmap.show(init=True)
     time.sleep(1)
@@ -624,7 +624,7 @@ def game(map):
                     time.sleep(0.3)
                 movemap_text(trainer.x, trainer.y, trainer.texts)
                 if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
-                    winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], trainer.poke, info={"type": "duel", "player": trainer.name})
+                    winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], trainer.poke, info={"type": "duel", "player": trainer})
                 else:
                     winner = fight(Poke("__fallback__", 0), trainer.poke, info={"type": "duel", "player": trainer.name})
                 if winner == trainer.poke:
@@ -1214,11 +1214,22 @@ trainer1.name = "Franz"
 trainer1.sx = 30
 trainer1.sy = 10
 trainer1.will = True
+trainer1.gender = "He"
+trainer2 = se.Object("a")
+trainer2.poke = Poke("hornita", 128, player=False)
+trainer2.texts = [" < Hello noble traveler", " < Are you willing to fight with me?"]
+trainer2.lose_texts = [" < Hahaha!", " < Looooser!"]
+trainer2.win_texts = [" < Congratulations!", " < Have a great day!"]
+trainer2.name = "Josi"
+trainer2.sx = 23
+trainer2.sy = 10
+trainer2.will = True
+trainer2.gender = "She"
 playmap_1.trainers = [trainer1]
 centermap = se.Map(background=" ")
 centermap.trainers = []
 cave_1 = se.Map(background=" ")
-cave_1.trainers = []
+cave_1.trainers = [trainer2]
 figure = se.Object("a")
 exclamation = se.Object("!")
 tree_group_1 = se.Text(""" (()(()((())((()((()
@@ -1259,9 +1270,9 @@ cave_1_innerwalls = se.Text("""+--------+
 +--------+   +----+  +---------+   |
              |                     |
              |                     |
-             |  +----+  +----------+
-      +------+  |    |  |
-      |         |    +--+
+             |  +-----+ +----------+
+      +------+  |     | |
+      |         |     +-+
       |  +-+    |
       |  +-+    |
       |         |
@@ -1279,8 +1290,8 @@ cave_1_inner = se.Text("""##########################################
 ###################  ###########   #######
 ##############                     #######
 ##############                     #######
-##############  ######  ##################
-##############  ######  ##################
+##############  ##########################
+##############  ##########################
 #######         ##########################
 #######  ###    ##########################
 #######  ###    ##########################
@@ -1307,6 +1318,7 @@ dor_cave_1_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74,
 interact = CenterInteract("¯", state="float")
 meadow2.add(playmap_1, 67, 8)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
+trainer2.add(cave_1, trainer2.sx, trainer2.sy)
 house.add(playmap_1, 20, 0)
 cave_entrance.add(playmap_1, 60, 0)
 dor.add(playmap_1, 25, 4)
