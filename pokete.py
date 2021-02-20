@@ -12,10 +12,7 @@ from pathlib import Path
 class HightGrass(se.Object):
     def action(self, ob):
         if random.randint(0,6) == 0:
-            if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
-                fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choice([i for i in pokes if i != "__fallback__"]), random.choices(list(range(24, 60)))[0], player=False))
-            else:
-                fight(Poke("__fallback__", 0), Poke(random.choice([i for i in pokes if i != "__fallback__"]), random.choices(list(range(24, 40)))[0], player=False))
+            fight(Poke("__fallback__", 0) if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) == 0 else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choice([i for i in self.arg_proto["pokes"]]), random.choices(list(range(self.arg_proto["minlvl"], self.arg_proto["maxlvl"])))[0], player=False))
 
 # The following two classes (PC and Heal) where initially needed to manage healing
 # and reviewing off all Poketes in the deck
@@ -62,18 +59,10 @@ class CenterInteract(se.Object):
 
 
 class Dor(se.Object):
-    def __init__(self, char, map_adder, x, y, state="solid"):
-        self.char = char
-        self.state = state
-        self.map_adder = map_adder
-        self.added = False
-        self.setx = x
-        self.sety = y
-
     def action(self, ob):
         figure.remove()
-        figure.add(self.map_adder, self.setx, self.sety)
-        game(self.map_adder)
+        figure.add(self.arg_proto["map"], self.arg_proto["x"], self.arg_proto["y"])
+        game(self.arg_proto["map"])
 
 
 class Poke():
@@ -1210,6 +1199,8 @@ trainer1.will = True
 playmap_1.trainers = [trainer1]
 centermap = se.Map(background=" ")
 centermap.trainers = []
+cave_1 = se.Map(background=" ")
+cave_1.trainers = []
 figure = se.Object("a")
 exclamation = se.Object("!")
 tree_group_1 = se.Text(""" (()(()((())((()((()
@@ -1237,7 +1228,7 @@ meadow2 = se.Text("""    ;;;;;;;;;;;
 ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;
  ;;;;;;;;;
-""", ignore=" ", ob_class=HightGrass, state="float")
+""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 40, "maxlvl": 128}, state="float")
 cave_entrance = se.Text("""\  \_/  _____/ \______/
  \_____/""", ignore=" ")
 multitext = se.Text("")
@@ -1248,10 +1239,11 @@ for poke in figure.pokes:
     for i, atc in enumerate(poke.attac_obs):
         poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
 figure.name = session_info["user"]
-meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass)
-dor = Dor("#", centermap, int(centermap.width/2), 7, state="float")
-dor_back1 = Dor(" ", playmap_1, 25, 5, state="float")
-dor_back2 = Dor(" ", playmap_1, 25, 5, state="float")
+meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
+dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+dor_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
+dor_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
+dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 25, "y": 5})
 interact = CenterInteract("¯", state="float")
 meadow2.add(playmap_1, 67, 8)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
@@ -1264,6 +1256,7 @@ meadow.add(playmap_1, 5, 7)
 inner_center.add(centermap, int(centermap.width/2)-8, 1)
 dor_back1.add(centermap, int(centermap.width/2), 8)
 dor_back1.add(centermap, int(centermap.width/2)+1, 8)
+dor_cave_1.add(playmap_1, 74, 0)
 interact.add(centermap, int(centermap.width/2), 4)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
