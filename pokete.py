@@ -12,7 +12,7 @@ from pathlib import Path
 class HightGrass(se.Object):
     def action(self, ob):
         if random.randint(0,6) == 0:
-            fight(Poke("__fallback__", 0) if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) == 0 else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choice([i for i in self.arg_proto["pokes"]]), random.choices(list(range(self.arg_proto["minlvl"], self.arg_proto["maxlvl"])))[0], player=False))
+            fight(Poke("__fallback__", 0) if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) == 0 else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choices(self.arg_proto["pokes"], weights=[pokes[i]["rarity"] for i in self.arg_proto["pokes"]])[0], random.choices(list(range(self.arg_proto["minlvl"], self.arg_proto["maxlvl"])))[0], player=False))
 
 # The following two classes (PC and Heal) where initially needed to manage healing
 # and reviewing off all Poketes in the deck
@@ -894,6 +894,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "",
         "lose_xp": 0,
+        "rarity": 0,
         "ico": """ """,
     },
     "steini": {
@@ -905,6 +906,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "A squared stone that can casually be found on the ground",
         "lose_xp": 2,
+        "rarity": 1,
         "ico": """ +-------+
  | o   o |
  |  www  |
@@ -919,6 +921,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "A powerfull and heavy stone Pokete that lives in mountain caves",
         "lose_xp": 3,
+        "rarity": 0.7,
         "ico": """   A-A-A
   < o o >
   < --- >
@@ -933,6 +936,7 @@ pokes = {
        "miss_chance": 0,
        "desc": "A small but powerfull stone Pokete that lives in the mountains",
        "lose_xp": 2,
+       "rarity": 1,
        "ico": """
    _____
    |'ᵕ'|
@@ -947,6 +951,7 @@ pokes = {
       "miss_chance": 0,
       "desc": "A plant Pokete, that's often mistaken for a normal flower",
       "lose_xp": 2,
+      "rarity": 0.8,
       "ico": """
     (@)
      |
@@ -961,12 +966,13 @@ pokes = {
       "miss_chance": 0,
       "desc": "A scary ghost Pokete that lives in caves and old houses",
       "lose_xp": 2,
+      "rarity": 1,
       "ico": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
  ░ ░ ░ ░ ░""",
   },
-    "vogli": {
+  "vogli": {
         "name": "Vogli",
         "hp": 20,
         "atc": "self.lvl()+6",
@@ -975,6 +981,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "A very common bird Pokete that lives in town but also in the nature",
         "lose_xp": 2,
+        "rarity": 1,
         "ico":"""    A
    <')
     www*
@@ -989,6 +996,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "A very agressive bird Pokete that can only be found in the woods",
         "lose_xp": 2,
+        "rarity": 0.8,
         "ico":"""    ?
    >´)
     www*
@@ -1002,6 +1010,7 @@ pokes = {
         "attacs": ["tackle", "eye_pick", "brooding"],
         "miss_chance": 0,
         "desc": "A very agressive bird Pokete that lives near deserts and will try to pick out your eyes",
+        "rarity": 0.6,
         "lose_xp": 2,
         "ico":"""   !
   >´)
@@ -1017,6 +1026,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "A very harmless water Pokete that can be found everywhere",
         "lose_xp": 1,
+        "rarity": 1.5,
         "ico":"""
 
   <°))))><
@@ -1031,6 +1041,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "A dangerous snake Pokete",
         "lose_xp": 2,
+        "rarity": 1,
         "ico": """  >'({{{
   }}}}}}}
  {{{{{{{{{
@@ -1045,6 +1056,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "A scary an dangerous apple tree",
         "lose_xp": 2,
+        "rarity": 1,
         "ico": """    (()
    (()))
      H
@@ -1059,6 +1071,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "An annoying flying rat",
         "lose_xp": 2,
+        "rarity": 1.3,
         "ico": """    ___
 WW\/* *\/WW
    \\v-v/
@@ -1073,6 +1086,7 @@ WW\/* *\/WW
         "miss_chance": 0,
         "desc": "Very delicious and low fat water Pokete",
         "lose_xp": 2,
+        "rarity": 1,
         "ico": """  _____
  / o   \\
  >   v  ><
@@ -1087,6 +1101,7 @@ WW\/* *\/WW
         "miss_chance": 0,
         "desc": "A night active Pokete, that is looking for lil children as a midnight snack",
         "lose_xp": 2,
+        "rarity": 0.5,
         "ico": """   ,___,
    {o,o}
    /)_)
@@ -1102,6 +1117,7 @@ WW\/* *\/WW
         "miss_chance": 0,
         "desc": "An annoying rat",
         "lose_xp": 2,
+        "rarity": 1.3,
         "ico": """   ^---^
    \o o/
    >\./<
@@ -1116,6 +1132,7 @@ WW\/* *\/WW
         "miss_chance": 0,
         "desc": "An majestetic horse that is always looking for something to pick with its horn.",
         "lose_xp": 2,
+        "rarity": 1,
         "ico": """ \\
  =')~
    (¯¯¯¯)~
@@ -1129,6 +1146,7 @@ WW\/* *\/WW
         "attacs": ["tackle", "meat_skewer"],
         "miss_chance": 0.2,
         "desc": "A teenaged unicorn in the middle of puberty.",
+        "rarity": 1,
         "lose_xp": 2,
         "ico": """  ,
  =')
@@ -1231,6 +1249,46 @@ meadow2 = se.Text("""    ;;;;;;;;;;;
 """, ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 40, "maxlvl": 128}, state="float")
 cave_entrance = se.Text("""\  \_/  _____/ \______/
  \_____/""", ignore=" ")
+cave_1_innerwalls = se.Text("""+--------+
+|        |
+|        |                     +-------\_
+|        +-----------+         |         )
+|                    |         |   +---/¯
+|        +--------+  |         |   |
+|        |        |  |         |   |
++--------+   +----+  +---------+   |
+             |                     |
+             |                     |
+             |  +----+  +----------+
+      +------+  |    |  |
+      |         |    +--+
+      |  +-+    |
+      |  +-+    |
+      |         |
+      +------+  |
+             |  |
+             |  |
+             |  |""", ignore=" ")
+cave_1_inner = se.Text("""##########################################
+#         ################################
+#         ################################
+#         ######################         #
+#                    ###########   #######
+#         #########  ###########   #######
+#         #########  ###########   #######
+###################  ###########   #######
+##############                     #######
+##############                     #######
+##############  ######  ##################
+##############  ######  ##################
+#######         ##########################
+#######  ###    ##########################
+#######  ###    ##########################
+#######         ##########################
+##############  ##########################
+##############  ##########################
+##############  ##########################
+##############  ##########################""", ignore="#", ob_class=HightGrass, ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40, "maxlvl": 128}, state="float")
 multitext = se.Text("")
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
@@ -1243,7 +1301,9 @@ meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pok
 dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 dor_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
 dor_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
-dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 25, "y": 5})
+dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 14, "y": 19})
+dor_cave_1_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
+dor_cave_1_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
 interact = CenterInteract("¯", state="float")
 meadow2.add(playmap_1, 67, 8)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
@@ -1257,7 +1317,11 @@ inner_center.add(centermap, int(centermap.width/2)-8, 1)
 dor_back1.add(centermap, int(centermap.width/2), 8)
 dor_back1.add(centermap, int(centermap.width/2)+1, 8)
 dor_cave_1.add(playmap_1, 74, 0)
+dor_cave_1_back1.add(cave_1, 14, 20)
+dor_cave_1_back2.add(cave_1, 15, 20)
 interact.add(centermap, int(centermap.width/2), 4)
+cave_1_innerwalls.add(cave_1, 0, 0)
+cave_1_inner.add(cave_1, 0, 0)
 try:
     figure.add(playmap_1, session_info["x"], session_info["y"])
 except:
