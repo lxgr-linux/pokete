@@ -1221,10 +1221,12 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 # maps
 centermap = se.Map(background=" ")
 centermap.name = "centermap"
-playmap_1 = se.Map(background=" ", height=30, width=1000)
+playmap_1 = se.Map(background=" ", height=30, width=90)
 playmap_1.name = "playmap_1"
-cave_1 = se.Map(background=" ")
+cave_1 = se.Map(background=" ", height=30, width=90)
 cave_1.name = "cave_1"
+playmap_2 = se.Map(background=" ", height=30, width=180)
+playmap_2.name = "playmap_2"
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0)
@@ -1273,7 +1275,7 @@ meadow2 = se.Text("""    ;;;;;;;;;;;
 ;;;;;;;;;;;;
  ;;;;;;;;;
 """, ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 40, "maxlvl": 128}, state="float")
-cave_entrance = se.Text("""\  \_/  _____/ \______/
+cave_1_entrance = se.Text("""\  \_/  _____/ \______/
  \_____/""", ignore=" ")
 meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
 dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
@@ -1285,10 +1287,65 @@ dor.add(playmap_1, 25, 4)
 house.add(playmap_1, 20, 0)
 tree_group_1.add(playmap_1, 35, 2)
 tree_group_1.add(playmap_1, 25, 14)
-cave_entrance.add(playmap_1, 60, 0)
+cave_1_entrance.add(playmap_1, 60, 0)
 meadow.add(playmap_1, 5, 7)
 dor_cave_1.add(playmap_1, 74, 0)
 
+# playmap_2
+trainer3 = se.Object("a")
+trainer3.poke = Poke("ostri", 160, player=False)
+trainer3.texts = [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"]
+trainer3.lose_texts = [" < It is stronger than you might have exspected"]
+trainer3.win_texts = [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"]
+trainer3.name = "Wanderer Murrad"
+trainer3.sx = 32
+trainer3.sy = 12
+trainer3.will = True
+trainer3.gender = "He"
+playmap_2.trainers = [trainer3]
+tree_group_3 = se.Text(""" ())
+())))
+())()
+(()))
+((())
+ |||""", ignore=" ")
+tree_group_4 = se.Text("""                        ())
+                       ())))
+                       ())())
+                      ((())()
+                      (((())
+                       ())))
+                       ((())
+                      ((())))
+(((()()))))()(((((()))))))()())()()())))()()()))))))(()()()()()()))))))((()))))()(
+(()())))))(())))))((((())))((((()))((((()()()))))(()()))))()()(()))))))()(()()))))
+(()())))))((()()()))()()())))()()))())))))((((()()))))()()()))((((((((()(((((()()(
+|||||||| |||||| | | | ||| | | |  ||||||| | | ||||||| | | |  |||||| | | |||| | | ||""", ignore=" ")
+cave_1_entrance_2 = cave_1_entrance = se.Text("""\\
+ \\
+ |
+(
+ |
+ |
+ /
+/
+""", ignore=" ")
+meadow3 = se.Text("""        ;;;;;;
+      ;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;
+  ;;;;;; ;;;;;;
+ ;;;;;;;;;;;;
+ ;;;;;;;;;
+  ;;;;;;;""", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 60, "maxlvl": 128}, state="float")
+dor_cave_1_2 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
+# adding
+trainer3.add(playmap_2, trainer3.sx, trainer3.sy)
+tree_group_3.add(playmap_2, 36, 0)
+tree_group_4.add(playmap_2, 0, 7)
+cave_1_entrance_2.add(playmap_2, 0, 2)
+dor_cave_1_2.add(playmap_2, 1, 5)
+meadow3.add(playmap_2, 10, 0)
 
 # cave_1
 trainer2 = se.Object("a")
@@ -1325,7 +1382,7 @@ cave_1_innerwalls = se.Text("""+--------+
 cave_1_inner = se.Text("""##########################################
 #         ################################
 #         ################################
-#         ######################         #
+#         ######################        ##
 #                    ###########   #######
 #         #########  ###########   #######
 #         #########  ###########   #######
@@ -1344,7 +1401,9 @@ cave_1_inner = se.Text("""##########################################
 ##############  ##########################""", ignore="#", ob_class=HightGrass, ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40, "maxlvl": 128}, state="float")
 dor_cave_1_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
 dor_cave_1_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
+dor_playmap_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 2, "y": 5})
 # adding
+dor_playmap_2.add(cave_1, 40, 3)
 trainer2.add(cave_1, trainer2.sx, trainer2.sy)
 dor_cave_1_back1.add(cave_1, 14, 20)
 dor_cave_1_back2.add(cave_1, 15, 20)
