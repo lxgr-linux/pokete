@@ -208,6 +208,7 @@ def codes(string):
 def save():
     session_info = {
         "user": figure.name,
+        "map": figure.map.name,
         "x": figure.x,
         "y": figure.y,
         "pokes": {poke.identifier: {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for poke in figure.pokes}
@@ -675,7 +676,7 @@ def main():
     recognising=threading.Thread(target=recogniser)
     recognising.daemon=True
     recognising.start()
-    game(playmap_1)
+    game(figure.map)
 
 attacs = {
     "tackle": {
@@ -1193,6 +1194,7 @@ Path(home+"/.cache/pokete/pokete.py").touch(exist_ok=True)
 # Default test session_info
 session_info = {
     "user": "DEFAULT",
+    "map": "playmap_1",
     "x": 1,
     "y": 1,
     "pokes": {
@@ -1202,9 +1204,45 @@ session_info = {
 with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
 
-# objects for main()
+
+# All playmaps have to have the .trainers array that can also be empty and the .name atribute.
+# every trainer Object has to have the:
+# .poke = Poke("poundi", 60, player=False)
+# .texts = [" < some text to start"]
+# .lose_texts = [" < Hahaha!", " < You're a loser!"]
+# .win_texts = [" < Your a very good trainer!"]
+# .name = "some name"
+# .sx = 30
+# .sy = 10
+# .will = True
+# .gender = "He"
+# attributes
+
+# maps
+centermap = se.Map(background=" ")
+centermap.name = "centermap"
 playmap_1 = se.Map(background=" ", height=30, width=1000)
+playmap_1.name = "playmap_1"
+cave_1 = se.Map(background=" ")
+cave_1.name = "cave_1"
+
+# movemap
 movemap = se.Submap(playmap_1, 0, 0)
+figure = se.Object("a")
+exclamation = se.Object("!")
+multitext = se.Text("")
+movemap_underline = se.Square("-", movemap.width, 1)
+move_deck_label = se.Text("1: Deck")
+move_exit_label = se.Text("2: Exit")
+move_code_label = se.Text("")
+# adding
+move_deck_label.add(movemap, 0, movemap.height-1)
+move_exit_label.add(movemap, 9, movemap.height-1)
+movemap_underline.add(movemap, 0, movemap.height-2)
+move_code_label.add(movemap, 0, 0)
+
+
+# playmap_1
 trainer1 = se.Object("a")
 trainer1.poke = Poke("poundi", 60, player=False)
 trainer1.texts = [" < Wanna fight?"]
@@ -1215,23 +1253,7 @@ trainer1.sx = 30
 trainer1.sy = 10
 trainer1.will = True
 trainer1.gender = "He"
-trainer2 = se.Object("a")
-trainer2.poke = Poke("hornita", 128, player=False)
-trainer2.texts = [" < Hello noble traveler", " < Are you willing to fight with me?"]
-trainer2.lose_texts = [" < Hahaha!", " < Looooser!"]
-trainer2.win_texts = [" < Congratulations!", " < Have a great day!"]
-trainer2.name = "Josi"
-trainer2.sx = 23
-trainer2.sy = 10
-trainer2.will = True
-trainer2.gender = "She"
 playmap_1.trainers = [trainer1]
-centermap = se.Map(background=" ")
-centermap.trainers = []
-cave_1 = se.Map(background=" ")
-cave_1.trainers = [trainer2]
-figure = se.Object("a")
-exclamation = se.Object("!")
 tree_group_1 = se.Text(""" (()(()((())((()((()
 ())(())))())))()))(()
  || ||| ||||| |||||
@@ -1245,13 +1267,6 @@ house = se.Text("""  __________
 /_________/  \\
 | # ___ # |  |
 |___| |___|__|""", ignore=" ")
-inner_center = se.Text(""" ________________
- |______________|
- |     |a |     |
- |     ¯ ¯¯     |
- |              |
- |______  ______|
- |_____|  |_____|""", ignore=" ")
 meadow2 = se.Text("""    ;;;;;;;;;;;
   ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;
@@ -1260,6 +1275,33 @@ meadow2 = se.Text("""    ;;;;;;;;;;;
 """, ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 40, "maxlvl": 128}, state="float")
 cave_entrance = se.Text("""\  \_/  _____/ \______/
  \_____/""", ignore=" ")
+meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
+dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 14, "y": 19})
+# adding
+meadow2.add(playmap_1, 67, 8)
+trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
+dor.add(playmap_1, 25, 4)
+house.add(playmap_1, 20, 0)
+tree_group_1.add(playmap_1, 35, 2)
+tree_group_1.add(playmap_1, 25, 14)
+cave_entrance.add(playmap_1, 60, 0)
+meadow.add(playmap_1, 5, 7)
+dor_cave_1.add(playmap_1, 74, 0)
+
+
+# cave_1
+trainer2 = se.Object("a")
+trainer2.poke = Poke("hornita", 128, player=False)
+trainer2.texts = [" < Hello noble traveler", " < Are you willing to fight with me?"]
+trainer2.lose_texts = [" < Hahaha!", " < Looooser!"]
+trainer2.win_texts = [" < Congratulations!", " < Have a great day!"]
+trainer2.name = "Josi"
+trainer2.sx = 23
+trainer2.sy = 10
+trainer2.will = True
+trainer2.gender = "She"
+cave_1.trainers = [trainer2]
 cave_1_innerwalls = se.Text("""+--------+
 |        |
 |        |                     +-------\_
@@ -1300,7 +1342,36 @@ cave_1_inner = se.Text("""##########################################
 ##############  ##########################
 ##############  ##########################
 ##############  ##########################""", ignore="#", ob_class=HightGrass, ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40, "maxlvl": 128}, state="float")
-multitext = se.Text("")
+dor_cave_1_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
+dor_cave_1_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
+# adding
+trainer2.add(cave_1, trainer2.sx, trainer2.sy)
+dor_cave_1_back1.add(cave_1, 14, 20)
+dor_cave_1_back2.add(cave_1, 15, 20)
+cave_1_innerwalls.add(cave_1, 0, 0)
+cave_1_inner.add(cave_1, 0, 0)
+
+
+# centermap
+centermap.trainers = []
+inner_center = se.Text(""" ________________
+ |______________|
+ |     |a |     |
+ |     ¯ ¯¯     |
+ |              |
+ |______  ______|
+ |_____|  |_____|""", ignore=" ")
+dor_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
+dor_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
+interact = CenterInteract("¯", state="float")
+# adding
+inner_center.add(centermap, int(centermap.width/2)-8, 1)
+dor_back1.add(centermap, int(centermap.width/2), 8)
+interact.add(centermap, int(centermap.width/2), 4)
+dor_back1.add(centermap, int(centermap.width/2)+1, 8)
+
+
+# processing data from save file
 figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
 for poke in figure.pokes:
     for atc, ap in zip(poke.attac_obs, session_info["pokes"][poke.identifier]["ap"]):
@@ -1308,48 +1379,13 @@ for poke in figure.pokes:
     for i, atc in enumerate(poke.attac_obs):
         poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
 figure.name = session_info["user"]
-meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
-dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
-dor_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
-dor_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
-dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 14, "y": 19})
-dor_cave_1_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
-dor_cave_1_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
-interact = CenterInteract("¯", state="float")
-meadow2.add(playmap_1, 67, 8)
-trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
-trainer2.add(cave_1, trainer2.sx, trainer2.sy)
-house.add(playmap_1, 20, 0)
-cave_entrance.add(playmap_1, 60, 0)
-dor.add(playmap_1, 25, 4)
-tree_group_1.add(playmap_1, 25, 14)
-tree_group_1.add(playmap_1, 35, 2)
-meadow.add(playmap_1, 5, 7)
-inner_center.add(centermap, int(centermap.width/2)-8, 1)
-dor_back1.add(centermap, int(centermap.width/2), 8)
-dor_back1.add(centermap, int(centermap.width/2)+1, 8)
-dor_cave_1.add(playmap_1, 74, 0)
-dor_cave_1_back1.add(cave_1, 14, 20)
-dor_cave_1_back2.add(cave_1, 15, 20)
-interact.add(centermap, int(centermap.width/2), 4)
-cave_1_innerwalls.add(cave_1, 0, 0)
-cave_1_inner.add(cave_1, 0, 0)
 try:
-    figure.add(playmap_1, session_info["x"], session_info["y"])
+    exec('figure.add('+session_info["map"]+', session_info["x"], session_info["y"])')
 except:
     figure.add(playmap_1, 1, 1)
-
-# objects for movemap
-movemap_underline = se.Square("-", movemap.width, 1)
 name_label = se.Text(figure.name, esccode="\033[1m")
-move_deck_label = se.Text("1: Deck")
-move_exit_label = se.Text("2: Exit")
-move_code_label = se.Text("")
 name_label.add(movemap, 2, movemap.height-2)
-move_deck_label.add(movemap, 0, movemap.height-1)
-move_exit_label.add(movemap, 9, movemap.height-1)
-movemap_underline.add(movemap, 0, movemap.height-2)
-move_code_label.add(movemap, 0, 0)
+
 
 # onjects for detail
 detailmap = se.Map(background=" ")
@@ -1364,6 +1400,7 @@ detail_line_sep1 = se.Square("-", detailmap.width-2, 1)
 detail_line_sep2 = se.Square("-", detailmap.width-2, 1)
 detail_line_bottom = se.Square("_", detailmap.width-2, 1)
 detail_line_middle = se.Square("|", 1, 10)
+# adding
 detail_name.add(detailmap, 2, 0)
 detail_name_attacks.add(detailmap, 2, 6)
 detail_line_top.add(detailmap, 0, 0)
@@ -1381,6 +1418,7 @@ deckmap = se.Map(background=" ")
 decksubmap = se.Submap(deckmap, 0, 0)
 deck_exit_label = se.Text("1: Exit  ")
 deck_move_label = se.Text("2: Move    ")
+# adding
 deck_exit_label.add(decksubmap, 0, decksubmap.height-1)
 deck_move_label.add(decksubmap, 9, decksubmap.height-1)
 
@@ -1415,6 +1453,7 @@ pball = se.Text("""   _____
   /_____\\
   |__O__|
   \_____/""")
+# adding
 line_left.add(fightmap, 0, 1)
 line_right.add(fightmap, fightmap.width-1, 1)
 line_top.add(fightmap, 0, 0)
