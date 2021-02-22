@@ -1154,6 +1154,20 @@ WW\/* *\/WW
    (¯¯¯)~
    //¯\\\\"""
     },
+    "bushy": {
+        "name": "Bushy",
+        "hp": 25,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+1",
+        "attacs": ["tackle", "bark_hardening"],
+        "miss_chance": 0,
+        "desc": "A bush, and just a bush. But watch out!",
+        "lose_xp": 2,
+        "rarity": 1,
+        "ico": """
+    (()
+   (()))"""
+    },
 }
 
 # deciding on wich input to use
