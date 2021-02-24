@@ -151,12 +151,12 @@ class Poke():
         fightmap.show()
 
     def move_shine(self):
-        for i, x, y in zip(shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):
+        for i, x, y in zip(fightmap.shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):
             i.add(fightmap, x, y)
             fightmap.show()
             time.sleep(0.2)
         time.sleep(0.2)
-        for i in shines:
+        for i in fightmap.shines:
             i.remove()
         fightmap.show()
 
@@ -348,14 +348,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     fightmap.show(init=True)
     time.sleep(1)
     fight_add_2(player, enemy)
-    arr = [player.ico, deadico2, deadico1, player.ico]
-    _i = 1
-    while _i < len(arr):
-        arr[_i-1].remove()
-        arr[_i].add(fightmap, player.ico.x, player.ico.y)
-        fightmap.show()
-        time.sleep(0.1)
-        _i += 1
+    fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
     fightmap.outp.rechar("You used "+player.name)
     fightmap.show()
     time.sleep(0.5)
@@ -392,14 +385,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         if ob.identifier == "__fallback__" or info["type"] == "duel":
                             continue
                         fightmap.outp.rechar("You threw a poketeball!")
-                        arr = [enem.ico, deadico1, deadico2, pball]
-                        _i = 1
-                        while _i < len(arr):
-                            arr[_i-1].remove()
-                            arr[_i].add(fightmap, enem.ico.x, enem.ico.y)
-                            fightmap.show()
-                            time.sleep(0.1)
-                            _i += 1
+                        fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
                         time.sleep(random.choice([1,2,3,4]))
                         if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
                             enem.player = True
@@ -462,18 +448,20 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     fightmap.show()
     time.sleep(1)
     ico = [ob for ob in players if ob != winner][0].ico
-    arr = [ico, deadico1, deadico2]
-    _i = 1
-    while _i < len(arr):
-        arr[_i-1].remove()
-        arr[_i].add(fightmap, ico.x, ico.y)
-        fightmap.show()
-        time.sleep(0.1)
-        _i += 1
+    fast_change([ico, deadico1, deadico2], ico)
     deadico2.remove()
     fightmap.show()
     fight_clean_up(player, enemy)
     return winner
+
+def fast_change(arr, setob):
+    _i = 1
+    while _i < len(arr):
+        arr[_i-1].remove()
+        arr[_i].add(fightmap, setob.x, setob.y)
+        fightmap.show()
+        time.sleep(0.1)
+        _i += 1
 
 def deck(pokes, label="Your full deck", in_fight=False):
     global ev
