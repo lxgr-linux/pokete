@@ -123,7 +123,7 @@ class Poke():
                 enem.hp = 0
             exec(attac.action)
             attac.ap -= 1
-            outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""))
+            fightmap.outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""))
             for ob in [enem, self]:
                 while ob.oldhp != ob.hp and ob.oldhp > 0:
                     ob.oldhp += -1 if ob.oldhp > ob.hp else 1
@@ -297,7 +297,7 @@ def fight_add(player, enemy):
         player.ico.add(fightmap, 3, fightmap.height-11)
         player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
     if enemy.name in [ob.name for ob in figure.pokes]:
-        enemy.pball_small.add(fightmap, len(e_underline.text)-1, 1)
+        enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
     for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
     return [player, enemy]
@@ -311,7 +311,7 @@ def fight_add_1(player, enemy):
     enemy.ico.add(fightmap, fightmap.width-14, 2)
     enemy.hp_bar.add(fightmap, 8, 3)
     if enemy.name in [ob.name for ob in figure.pokes]:
-        enemy.pball_small.add(fightmap, len(e_underline.text)-1, 1)
+        enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
     for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
     return [player, enemy]
@@ -333,17 +333,17 @@ def fight_add_2(player, enemy):
         player.ico.add(fightmap, 3, fightmap.height-11)
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
-    global ev, attack, fightmap, outp
+    global ev, attack, fightmap
 
     players = fight_add_1(player, enemy)
 
     if info["type"] == "wild":
-        outp.rechar("A wild "+enemy.name+" appeared!")
+        fightmap.outp.rechar("A wild "+enemy.name+" appeared!")
     elif info["type"] == "duel":
-        outp.rechar(info["player"].name+" started a fight!")
+        fightmap.outp.rechar(info["player"].name+" started a fight!")
         fightmap.show(init=True)
         time.sleep(1)
-        outp.rechar(outp.text+"\n"+info["player"].gender+" used "+enemy.name+" against you!")
+        fightmap.outp.rechar(fightmap.outp.text+"\n"+info["player"].gender+" used "+enemy.name+" against you!")
 
     fightmap.show(init=True)
     time.sleep(1)
@@ -356,7 +356,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         fightmap.show()
         time.sleep(0.1)
         _i += 1
-    outp.rechar("You used "+player.name)
+    fightmap.outp.rechar("You used "+player.name)
     fightmap.show()
     time.sleep(0.5)
     fight_running = True
@@ -365,11 +365,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         for ob in players:
             enem = [i for i in players if i != ob][0]
             if ob.player:
-                outp.rechar(outp.text+("\n" if outp.text != "" else "")+ "What do you want to do?")
+                fightmap.outp.rechar(fightmap.outp.text+("\n" if fightmap.outp.text != "" else "")+ "What do you want to do?")
                 fightmap.show()
                 if ob.identifier == "__fallback__":
                     time.sleep(1)
-                    outp.rechar("You don't have any living poketes left!")
+                    fightmap.outp.rechar("You don't have any living poketes left!")
                     fightmap.show()
                 while True:
                     if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
@@ -382,7 +382,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         ev = ""
                         if info["type"] == "duel":
                             continue
-                        outp.rechar("You ran away!")
+                        fightmap.outp.rechar("You ran away!")
                         fightmap.show()
                         time.sleep(1)
                         fight_clean_up(player, enemy)
@@ -391,7 +391,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         ev = ""
                         if ob.identifier == "__fallback__" or info["type"] == "duel":
                             continue
-                        outp.rechar("You threw a poketeball!")
+                        fightmap.outp.rechar("You threw a poketeball!")
                         arr = [enem.ico, deadico1, deadico2, pball]
                         _i = 1
                         while _i < len(arr):
@@ -404,14 +404,14 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
                             enem.player = True
                             figure.pokes.append(enem)
-                            outp.rechar("You catched "+enem.name)
+                            fightmap.outp.rechar("You catched "+enem.name)
                             fightmap.show()
                             time.sleep(1)
                             pball.remove()
                             fight_clean_up(player, enemy)
                             return
                         else:
-                            outp.rechar("You missed!")
+                            fightmap.outp.rechar("You missed!")
                             fightmap.show()
                             pball.remove()
                             enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
@@ -426,7 +426,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         new_player = deck(figure.pokes[:6], "Your deck", True)
                         player = new_player if new_player != None else player
                         players = fight_add(player, enemy)
-                        outp.rechar("You have choosen "+player.name)
+                        fightmap.outp.rechar("You have choosen "+player.name)
                         fightmap.show(init=True)
                         attack = ""
                         break
@@ -446,7 +446,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 break
         fightmap.show()
     loser = [ob for ob in players if ob != winner][0]
-    outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp*(2 if info["type"] == "duel" else 1)) if winner.player else ""))
+    fightmap.outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp*(2 if info["type"] == "duel" else 1)) if winner.player else ""))
     fightmap.show()
     if winner.player:
         old_lvl = winner.lvl()
@@ -455,7 +455,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
         if old_lvl < winner.lvl():
             time.sleep(1)
-            outp.rechar(winner.name+" reached lvl "+str(winner.lvl())+"!")
+            fightmap.outp.rechar(winner.name+" reached lvl "+str(winner.lvl())+"!")
             winner.move_shine()
             time.sleep(0.5)
     #winner.set_vars()
@@ -485,7 +485,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
     se.Square("|", 1, deckmap.height-2).add(deckmap, deckmap.width-1, 1)
     se.Square("|", 1, deckmap.height-2).add(deckmap, round(deckmap.width/2), 1)
     se.Square("_", deckmap.width-2, 1).add(deckmap, 1, deckmap.height-2)
-    deck_move_label.rechar("2: Move    ")
+    decksubmap.move_label.rechar("2: Move    ")
     ev = ""
     j = 0
     _first_index = ""
@@ -512,7 +512,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 continue
             if _first_index == "":
                 _first_index = deck_index.index
-                deck_move_label.rechar("2: Move to?")
+                decksubmap.move_label.rechar("2: Move to?")
             else:
                 _second_index = deck_index.index
                 _first_item = pokes[_first_index]
@@ -526,7 +526,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 deck_index.set(0, deckmap.height-1)
                 deck_add_all(pokes)
                 deck_index.set(pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
-                deck_move_label.rechar("2: Move    ")
+                decksubmap.move_label.rechar("2: Move    ")
                 decksubmap.remap()
                 decksubmap.show()
         elif ev in ["'w'", "'a'", "'s'", "'d'"]:
@@ -564,7 +564,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
 def detail(poke):
     global ev
     deck_add(poke, detailmap, 1, 1, False)
-    detail_attack_defense.rechar("Attack:"+str(poke.atc)+(4-len(str(poke.atc)))*" "+"Defense:"+str(poke.defense))
+    detailmap.attack_defense.rechar("Attack:"+str(poke.atc)+(4-len(str(poke.atc)))*" "+"Defense:"+str(poke.defense))
     poke.desc.add(detailmap, 34, 2)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.label_name.add(detailmap, x, y)
@@ -615,32 +615,32 @@ def game(map):
         elif ev == "':'":
             ev=""
             exec_string = ""
-            move_code_label.rechar(":"+exec_string+"█")
+            movemap.code_label.rechar(":"+exec_string+"█")
             movemap.show()
             while True:
                 if ev == "Key.enter":
-                    move_code_label.rechar("")
+                    movemap.code_label.rechar("")
                     movemap.show()
                     codes(exec_string)
                     break
                 elif ev == "exit":
-                    move_code_label.rechar("")
+                    movemap.code_label.rechar("")
                     movemap.show()
                     break
                 elif ev == "Key.backspace":
                     if len(exec_string) == 0:
-                        move_code_label.rechar("")
+                        movemap.code_label.rechar("")
                         movemap.show()
                         break
                     exec_string = exec_string[:-1]
-                    move_code_label.rechar(":"+exec_string+"█")
+                    movemap.code_label.rechar(":"+exec_string+"█")
                     movemap.show()
                     ev = ""
                 elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift"]:
                     if ev == "Key.space":
                         ev = "' '"
                     exec("global exec_string; exec_string += str("+ev+")")
-                    move_code_label.rechar(":"+exec_string+"█")
+                    movemap.code_label.rechar(":"+exec_string+"█")
                     movemap.show()
                     ev = ""
             ev=""
@@ -1289,15 +1289,14 @@ movemap = se.Submap(playmap_1, 0, 0)
 figure = se.Object("a")
 exclamation = se.Object("!")
 multitext = se.Text("")
-movemap_underline = se.Square("-", movemap.width, 1)
-move_deck_label = se.Text("1: Deck")
-move_exit_label = se.Text("2: Exit")
-move_code_label = se.Text("")
+movemap.underline = se.Square("-", movemap.width, 1)
+movemap.deck_label = se.Text("1: Deck")
+movemap.exit_label = se.Text("2: Exit")
+movemap.code_label = se.Text("")
 # adding
-move_deck_label.add(movemap, 0, movemap.height-1)
-move_exit_label.add(movemap, 9, movemap.height-1)
-movemap_underline.add(movemap, 0, movemap.height-2)
-move_code_label.add(movemap, 0, 0)
+movemap.deck_label.add(movemap, 0, movemap.height-1)
+movemap.exit_label.add(movemap, 9, movemap.height-1)
+movemap.code_label.add(movemap, 0, 0)
 
 
 # playmap_1
@@ -1312,40 +1311,40 @@ trainer1.sy = 10
 trainer1.will = True
 trainer1.gender = "He"
 playmap_1.trainers = [trainer1]
-tree_group_1 = se.Text(""" (()(()((())((()((()
+playmap_1.tree_group_1 = se.Text(""" (()(()((())((()((()
 ())(())))())))()))(()
  || ||| ||||| |||||
 """, ignore=" ")
-tree_group_2 = se.Text(""" (()(()((())((()((()
+playmap_1.tree_group_2 = se.Text(""" (()(()((())((()((()
 ())(())))())))()))(()
  || ||| ||||| |||||
 """, ignore=" ")
-house = se.Text("""  __________
+playmap_1.house = se.Text("""  __________
  /         /\\
 /_________/  \\
 | # ___ # |  |
 |___| |___|__|""", ignore=" ")
-meadow2 = se.Text("""    ;;;;;;;;;;;
+playmap_1.meadow2 = se.Text("""    ;;;;;;;;;;;
   ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;
  ;;;;;;;;;
 """, ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 40, "maxlvl": 128}, state="float")
-cave_1_entrance = se.Text("""\  \_/  _____/ \______/
+playmap_1.cave_1_entrance = se.Text("""\  \_/  _____/ \______/
  \_____/""", ignore=" ")
-meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
-dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
-dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 14, "y": 19})
+playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
+playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_1.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 14, "y": 19})
 # adding
-meadow2.add(playmap_1, 67, 8)
 trainer1.add(playmap_1, trainer1.sx, trainer1.sy)
-dor.add(playmap_1, 25, 4)
-house.add(playmap_1, 20, 0)
-tree_group_1.add(playmap_1, 35, 2)
-tree_group_1.add(playmap_1, 25, 14)
-cave_1_entrance.add(playmap_1, 60, 0)
-meadow.add(playmap_1, 5, 7)
-dor_cave_1.add(playmap_1, 74, 0)
+playmap_1.meadow2.add(playmap_1, 67, 8)
+playmap_1.dor.add(playmap_1, 25, 4)
+playmap_1.house.add(playmap_1, 20, 0)
+playmap_1.tree_group_1.add(playmap_1, 35, 2)
+playmap_1.tree_group_1.add(playmap_1, 25, 14)
+playmap_1.cave_1_entrance.add(playmap_1, 60, 0)
+playmap_1.meadow.add(playmap_1, 5, 7)
+playmap_1.dor_cave_1.add(playmap_1, 74, 0)
 
 # playmap_2
 trainer3 = se.Object("a")
@@ -1359,13 +1358,13 @@ trainer3.sy = 12
 trainer3.will = True
 trainer3.gender = "He"
 playmap_2.trainers = [trainer3]
-tree_group_3 = se.Text(""" ())
+playmap_2.tree_group_1 = se.Text(""" ())
 ())))
 ())()
 (()))
 ((())
  |||""", ignore=" ")
-tree_group_4 = se.Text("""                        ())
+playmap_2.tree_group_2 = se.Text("""                        ())
                        ())))
                        ())())
                       ((())()
@@ -1377,7 +1376,7 @@ tree_group_4 = se.Text("""                        ())
 (()())))))(())))))((((())))((((()))((((()()()))))(()()))))()()(()))))))()(()()))))
 (()())))))((()()()))()()())))()()))())))))((((()()))))()()()))((((((((()(((((()()(
 |||||||| |||||| | | | ||| | | |  ||||||| | | ||||||| | | |  |||||| | | |||| | | ||""", ignore=" ")
-cave_1_entrance_2 = cave_1_entrance = se.Text("""\\
+playmap_2.cave_1_entrance = cave_1_entrance = se.Text("""\\
  \\
  |
 (
@@ -1386,7 +1385,7 @@ cave_1_entrance_2 = cave_1_entrance = se.Text("""\\
  /
 /
 """, ignore=" ")
-meadow3 = se.Text("""        ;;;;;;
+playmap_2.meadow1 = se.Text("""        ;;;;;;
       ;;;;;;;;;;
     ;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;
@@ -1394,14 +1393,14 @@ meadow3 = se.Text("""        ;;;;;;
  ;;;;;;;;;;;;
  ;;;;;;;;;
   ;;;;;;;""", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 60, "maxlvl": 128}, state="float")
-dor_cave_1_2 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
+playmap_2.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
 # adding
 trainer3.add(playmap_2, trainer3.sx, trainer3.sy)
-tree_group_3.add(playmap_2, 36, 0)
-tree_group_4.add(playmap_2, 0, 7)
-cave_1_entrance_2.add(playmap_2, 0, 2)
-dor_cave_1_2.add(playmap_2, 1, 5)
-meadow3.add(playmap_2, 10, 0)
+playmap_2.tree_group_1.add(playmap_2, 36, 0)
+playmap_2.tree_group_2.add(playmap_2, 0, 7)
+playmap_2.cave_1_entrance.add(playmap_2, 0, 2)
+playmap_2.dor_cave_1.add(playmap_2, 1, 5)
+playmap_2.meadow1.add(playmap_2, 10, 0)
 
 # cave_1
 trainer2 = se.Object("a")
@@ -1415,7 +1414,7 @@ trainer2.sy = 10
 trainer2.will = True
 trainer2.gender = "She"
 cave_1.trainers = [trainer2]
-cave_1_innerwalls = se.Text("""+--------+
+cave_1.innerwalls = se.Text("""+--------+
 |        |
 |        |                     +-------\_
 |        +-----------+         |         )
@@ -1435,7 +1434,7 @@ cave_1_innerwalls = se.Text("""+--------+
              |  |
              |  |
              |  |""", ignore=" ")
-cave_1_inner = se.Text("""##########################################
+cave_1.inner = se.Text("""##########################################
 #         ################################
 #         ################################
 #         ######################        ##
@@ -1455,35 +1454,35 @@ cave_1_inner = se.Text("""##########################################
 ##############  ##########################
 ##############  ##########################
 ##############  ##########################""", ignore="#", ob_class=HightGrass, ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40, "maxlvl": 128}, state="float")
-dor_cave_1_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
-dor_cave_1_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
-dor_playmap_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 2, "y": 5})
+cave_1.dor_playmap_1_1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
+cave_1.dor_playmap_1_2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 74, "y": 1})
+cave_1.dor_playmap_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 2, "y": 5})
 # adding
-dor_playmap_2.add(cave_1, 40, 3)
+cave_1.dor_playmap_2.add(cave_1, 40, 3)
 trainer2.add(cave_1, trainer2.sx, trainer2.sy)
-dor_cave_1_back1.add(cave_1, 14, 20)
-dor_cave_1_back2.add(cave_1, 15, 20)
-cave_1_innerwalls.add(cave_1, 0, 0)
-cave_1_inner.add(cave_1, 0, 0)
+cave_1.dor_playmap_1_1.add(cave_1, 14, 20)
+cave_1.dor_playmap_1_2.add(cave_1, 15, 20)
+cave_1.innerwalls.add(cave_1, 0, 0)
+cave_1.inner.add(cave_1, 0, 0)
 
 
 # centermap
 centermap.trainers = []
-inner_center = se.Text(""" ________________
+centermap.inner = se.Text(""" ________________
  |______________|
  |     |a |     |
  |     ¯ ¯¯     |
  |              |
  |______  ______|
  |_____|  |_____|""", ignore=" ")
-dor_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
-dor_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
-interact = CenterInteract("¯", state="float")
+centermap.dor_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
+centermap.dor_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
+centermap.interact = CenterInteract("¯", state="float")
 # adding
-inner_center.add(centermap, int(centermap.width/2)-8, 1)
-dor_back1.add(centermap, int(centermap.width/2), 8)
-interact.add(centermap, int(centermap.width/2), 4)
-dor_back1.add(centermap, int(centermap.width/2)+1, 8)
+centermap.inner.add(centermap, int(centermap.width/2)-8, 1)
+centermap.dor_back1.add(centermap, int(centermap.width/2), 8)
+centermap.dor_back2.add(centermap, int(centermap.width/2)+1, 8)
+centermap.interact.add(centermap, int(centermap.width/2), 4)
 
 
 # processing data from save file
@@ -1498,64 +1497,65 @@ try:
     exec('figure.add('+session_info["map"]+', session_info["x"], session_info["y"])')
 except:
     figure.add(playmap_1, 1, 1)
-name_label = se.Text(figure.name, esccode="\033[1m")
-name_label.add(movemap, 2, movemap.height-2)
+movemap.name_label = se.Text(figure.name, esccode="\033[1m")
+movemap.name_label.add(movemap, 2, movemap.height-2)
+movemap.underline.add(movemap, 0, movemap.height-2)
 
 
 # onjects for detail
 detailmap = se.Map(background=" ")
-detail_name = se.Text("Details", esccode="\033[1m")
-detail_name_attacks = se.Text("Attacks", esccode="\033[1m")
-detail_line_top = se.Square("_", detailmap.width, 1)
-detail_line_left = se.Square("|", 1, 16)
-detail_line_right = se.Square("|", 1, 16)
-detail_attack_defense = se.Text("Attack:   Defense:")
-detail_exit_label = se.Text("1: Exit")
-detail_line_sep1 = se.Square("-", detailmap.width-2, 1)
-detail_line_sep2 = se.Square("-", detailmap.width-2, 1)
-detail_line_bottom = se.Square("_", detailmap.width-2, 1)
-detail_line_middle = se.Square("|", 1, 10)
+detailmap.name_label = se.Text("Details", esccode="\033[1m")
+detailmap.name_attacks = se.Text("Attacks", esccode="\033[1m")
+detailmap.line_top = se.Square("_", detailmap.width, 1)
+detailmap.line_left = se.Square("|", 1, 16)
+detailmap.line_right = se.Square("|", 1, 16)
+detailmap.attack_defense = se.Text("Attack:   Defense:")
+detailmap.exit_label = se.Text("1: Exit")
+detailmap.line_sep1 = se.Square("-", detailmap.width-2, 1)
+detailmap.line_sep2 = se.Square("-", detailmap.width-2, 1)
+detailmap.line_bottom = se.Square("_", detailmap.width-2, 1)
+detailmap.line_middle = se.Square("|", 1, 10)
 # adding
-detail_name.add(detailmap, 2, 0)
-detail_name_attacks.add(detailmap, 2, 6)
-detail_line_top.add(detailmap, 0, 0)
-detail_line_left.add(detailmap, 0, 1)
-detail_line_right.add(detailmap, detailmap.width-1, 1)
-detail_attack_defense.add(detailmap, 13, 5)
-detail_exit_label.add(detailmap, 0, detailmap.height-1)
-detail_line_middle.add(detailmap, round(detailmap.width/2), 7)
-detail_line_sep1.add(detailmap, 1, 6)
-detail_line_sep2.add(detailmap, 1, 11)
-detail_line_bottom.add(detailmap, 1, 16)
+detailmap.name_label.add(detailmap, 2, 0)
+detailmap.name_attacks.add(detailmap, 2, 6)
+detailmap.line_top.add(detailmap, 0, 0)
+detailmap.line_left.add(detailmap, 0, 1)
+detailmap.line_right.add(detailmap, detailmap.width-1, 1)
+detailmap.attack_defense.add(detailmap, 13, 5)
+detailmap.exit_label.add(detailmap, 0, detailmap.height-1)
+detailmap.line_middle.add(detailmap, round(detailmap.width/2), 7)
+detailmap.line_sep1.add(detailmap, 1, 6)
+detailmap.line_sep2.add(detailmap, 1, 11)
+detailmap.line_bottom.add(detailmap, 1, 16)
 
 # Objects for deckmap
 deckmap = se.Map(background=" ")
 decksubmap = se.Submap(deckmap, 0, 0)
-deck_exit_label = se.Text("1: Exit  ")
-deck_move_label = se.Text("2: Move    ")
+decksubmap.exit_label = se.Text("1: Exit  ")
+decksubmap.move_label = se.Text("2: Move    ")
 # adding
-deck_exit_label.add(decksubmap, 0, decksubmap.height-1)
-deck_move_label.add(decksubmap, 9, decksubmap.height-1)
+decksubmap.exit_label.add(decksubmap, 0, decksubmap.height-1)
+decksubmap.move_label.add(decksubmap, 9, decksubmap.height-1)
 
 # objects relevant for fight()
 fightmap = se.Map(background=" ")
-line_left = se.Square("|", 1, fightmap.height-7)
-line_right = se.Square("|", 1, fightmap.height-7)
-line_top = se.Square("_", fightmap.width, 1)
-line_top_text_box = se.Square("-", fightmap.width-2, 1)
-line_bottom_text_box = se.Square("-", fightmap.width-2, 1)
-line_middle = se.Square("_", fightmap.width-2, 1)
-line_l_text_box = se.Text("+\n|\n|\n+")
-line_r_text_box = se.Text("+\n|\n|\n+")
-e_underline = se.Text("----------------+")
-e_sideline = se.Square("|", 1, 3)
-p_upperline = se.Text("+----------------")
-p_sideline = se.Square("|", 1, 4)
-outp = se.Text("")
-run = se.Text("5: Run!")
-catch = se.Text("6: Catch")
-summon = se.Text("7: Deck")
-shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
+fightmap.line_left = se.Square("|", 1, fightmap.height-7)
+fightmap.line_right = se.Square("|", 1, fightmap.height-7)
+fightmap.line_top = se.Square("_", fightmap.width, 1)
+fightmap.line_top_text_box = se.Square("-", fightmap.width-2, 1)
+fightmap.line_bottom_text_box = se.Square("-", fightmap.width-2, 1)
+fightmap.line_middle = se.Square("_", fightmap.width-2, 1)
+fightmap.line_l_text_box = se.Text("+\n|\n|\n+")
+fightmap.line_r_text_box = se.Text("+\n|\n|\n+")
+fightmap.e_underline = se.Text("----------------+")
+fightmap.e_sideline = se.Square("|", 1, 3)
+fightmap.p_upperline = se.Text("+----------------")
+fightmap.p_sideline = se.Square("|", 1, 4)
+fightmap.outp = se.Text("")
+fightmap.run = se.Text("5: Run!")
+fightmap.catch = se.Text("6: Catch")
+fightmap.summon = se.Text("7: Deck")
+fightmap.shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
 deadico1 = se.Text("""
     \ /
      o
@@ -1569,22 +1569,22 @@ pball = se.Text("""   _____
   |__O__|
   \_____/""")
 # adding
-line_left.add(fightmap, 0, 1)
-line_right.add(fightmap, fightmap.width-1, 1)
-line_top.add(fightmap, 0, 0)
-line_top_text_box.add(fightmap, 1, fightmap.height-6)
-line_bottom_text_box.add(fightmap, 1, fightmap.height-3)
-line_l_text_box.add(fightmap, 0, fightmap.height-6)
-line_r_text_box.add(fightmap, fightmap.width-1, fightmap.height-6)
-outp.add(fightmap, 1, fightmap.height-5)
-e_underline.add(fightmap, 1, 4)
-e_sideline.add(fightmap, len(e_underline.text), 1)
-p_upperline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-11)
-p_sideline.add(fightmap, fightmap.width-1-len(p_upperline.text), fightmap.height-10)
-line_middle.add(fightmap, 1, fightmap.height-7)
-run.add(fightmap, 38, fightmap.height-2)
-catch.add(fightmap, 38, fightmap.height-1)
-summon.add(fightmap, 49, fightmap.height-2)
+fightmap.line_left.add(fightmap, 0, 1)
+fightmap.line_right.add(fightmap, fightmap.width-1, 1)
+fightmap.line_top.add(fightmap, 0, 0)
+fightmap.line_top_text_box.add(fightmap, 1, fightmap.height-6)
+fightmap.line_bottom_text_box.add(fightmap, 1, fightmap.height-3)
+fightmap.line_l_text_box.add(fightmap, 0, fightmap.height-6)
+fightmap.line_r_text_box.add(fightmap, fightmap.width-1, fightmap.height-6)
+fightmap.outp.add(fightmap, 1, fightmap.height-5)
+fightmap.e_underline.add(fightmap, 1, 4)
+fightmap.e_sideline.add(fightmap, len(fightmap.e_underline.text), 1)
+fightmap.p_upperline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-11)
+fightmap.p_sideline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-10)
+fightmap.line_middle.add(fightmap, 1, fightmap.height-7)
+fightmap.run.add(fightmap, 38, fightmap.height-2)
+fightmap.catch.add(fightmap, 38, fightmap.height-1)
+fightmap.summon.add(fightmap, 49, fightmap.height-2)
 
 if __name__ == "__main__":
     try:
