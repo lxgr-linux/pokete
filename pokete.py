@@ -302,21 +302,63 @@ def fight_add(player, enemy):
         ob.add(fightmap, x, y)
     return [player, enemy]
 
+def fight_add_1(player, enemy):
+    enemy.tril.add(fightmap, 7, 3)
+    enemy.trir.add(fightmap, 16, 3)
+    enemy.text_name.add(fightmap, 1, 1)
+    enemy.text_lvl.add(fightmap, 1, 2)
+    enemy.text_hp.add(fightmap, 1, 3)
+    enemy.ico.add(fightmap, fightmap.width-14, 2)
+    enemy.hp_bar.add(fightmap, 8, 3)
+    if enemy.name in [ob.name for ob in figure.pokes]:
+        enemy.pball_small.add(fightmap, len(e_underline.text)-1, 1)
+    for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
+        ob.add(fightmap, x, y)
+    return [player, enemy]
+
+def fight_add_2(player, enemy):
+    if player.identifier != "__fallback__":
+        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
+        time.sleep(0.05)
+        fightmap.show()
+        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
+        time.sleep(0.05)
+        fightmap.show()
+        player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
+        player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
+        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
+        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
+        time.sleep(0.05)
+        fightmap.show()
+        player.ico.add(fightmap, 3, fightmap.height-11)
+
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap, outp
 
-    players = fight_add(player, enemy)
+    players = fight_add_1(player, enemy)
 
     if info["type"] == "wild":
         outp.rechar("A wild "+enemy.name+" appeared!")
     elif info["type"] == "duel":
         outp.rechar(info["player"].name+" started a fight!")
         fightmap.show(init=True)
-        time.sleep(2)
-        outp.rechar(info["player"].gender+" used "+enemy.name+" against you!")
+        time.sleep(1)
+        outp.rechar(outp.text+"\n"+info["player"].gender+" used "+enemy.name+" against you!")
 
     fightmap.show(init=True)
     time.sleep(1)
+    fight_add_2(player, enemy)
+    arr = [player.ico, deadico2, deadico1, player.ico]
+    _i = 1
+    while _i < len(arr):
+        arr[_i-1].remove()
+        arr[_i].add(fightmap, player.ico.x, player.ico.y)
+        fightmap.show()
+        time.sleep(0.1)
+        _i += 1
+    outp.rechar("You used "+player.name)
+    fightmap.show()
+    time.sleep(0.5)
     fight_running = True
 
     while fight_running:
