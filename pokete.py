@@ -348,8 +348,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     fightmap.show(init=True)
     time.sleep(1)
     fight_add_2(player, enemy)
-    fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
-    fightmap.outp.rechar("You used "+player.name)
+    if player.identifier != "__fallback__":
+        fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
+        fightmap.outp.rechar("You used "+player.name)
     fightmap.show()
     time.sleep(0.5)
     fight_running = True
@@ -654,15 +655,16 @@ def game(map):
                     movemap.remap()
                     movemap.show()
                     time.sleep(0.3)
-                movemap_text(trainer.x, trainer.y, trainer.texts)
-                if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) > 0:
+                if any([poke.hp > 0 for poke in figure.pokes[:6]]):
+                    movemap_text(trainer.x, trainer.y, trainer.texts)
                     winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], trainer.poke, info={"type": "duel", "player": trainer})
+                    if winner == trainer.poke:
+                        movemap_text(trainer.x, trainer.y, trainer.lose_texts)
+                    else:
+                        movemap_text(trainer.x, trainer.y, trainer.win_texts)
+                        trainer.will = False
                 else:
-                    winner = fight(Poke("__fallback__", 0), trainer.poke, info={"type": "duel", "player": trainer.name})
-                if winner == trainer.poke:
-                    movemap_text(trainer.x, trainer.y, trainer.lose_texts)
-                else:
-                    movemap_text(trainer.x, trainer.y, trainer.win_texts)
+                    movemap_text(trainer.x, trainer.y, trainer.no_poke_texts)
                     trainer.will = False
                 multitext.remove()
                 while trainer.y != trainer.sy:
@@ -1297,6 +1299,7 @@ trainer1 = se.Object("a")
 trainer1.poke = Poke("poundi", 60, player=False)
 trainer1.texts = [" < Wanna fight?"]
 trainer1.lose_texts = [" < Hahaha!", " < You're a loser!"]
+trainer1.no_poke_texts = [" < I see you don't have a living Pokete"]
 trainer1.win_texts = [" < Your a very good trainer!"]
 trainer1.name = "Franz"
 trainer1.sx = 30
@@ -1345,6 +1348,7 @@ trainer3.poke = Poke("ostri", 160, player=False)
 trainer3.texts = [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"]
 trainer3.lose_texts = [" < It is stronger than you might have exspected"]
 trainer3.win_texts = [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"]
+trainer3.no_poke_texts = [" < I see you don't have a living Pokete"]
 trainer3.name = "Wanderer Murrad"
 trainer3.sx = 32
 trainer3.sy = 12
@@ -1400,6 +1404,7 @@ trainer2 = se.Object("a")
 trainer2.poke = Poke("hornita", 128, player=False)
 trainer2.texts = [" < Hello noble traveler", " < Are you willing to fight with me?"]
 trainer2.lose_texts = [" < Hahaha!", " < Looooser!"]
+trainer2.no_poke_texts = [" < I see you don't have a living Pokete"]
 trainer2.win_texts = [" < Congratulations!", " < Have a great day!"]
 trainer2.name = "Josi"
 trainer2.sx = 23
