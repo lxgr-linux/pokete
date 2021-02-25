@@ -581,6 +581,7 @@ def detail(poke):
 def game(map):
     global ev, exec_string
     ev=""
+    print("\033]0;Pokete - "+map.pretty_name+"\a", end="")
     movemap.bmap = map
 
     movemap.remap()
@@ -1265,12 +1266,16 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 # maps
 centermap = se.Map(background=" ")
 centermap.name = "centermap"
+centermap.pretty_name = "Pokete-Center"
 playmap_1 = se.Map(background=" ", height=30, width=90)
 playmap_1.name = "playmap_1"
+playmap_1.pretty_name = "Nice Town"
 cave_1 = se.Map(background=" ", height=30, width=90)
 cave_1.name = "cave_1"
+cave_1.pretty_name = "Nice Town cave"
 playmap_2 = se.Map(background=" ", height=30, width=180)
 playmap_2.name = "playmap_2"
+playmap_2.pretty_name = "Route 1"
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0)
