@@ -182,6 +182,7 @@ def heal():
         for atc in poke.attac_obs:
             atc.ap = atc.max_ap
         poke.label_rechar()
+        balls_label_rechar()
 
 def liner(text, width):
     lens = 0
@@ -332,6 +333,12 @@ def fight_add_2(player, enemy):
         fightmap.show()
         player.ico.add(fightmap, 3, fightmap.height-11)
 
+def balls_label_rechar():
+    movemap.balls_label.text = ""
+    for i in ["o" if j.hp > 0 else "x" for j in figure.pokes[:6]]:
+        movemap.balls_label.text += i
+    movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
+
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap
 
@@ -453,6 +460,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     deadico2.remove()
     fightmap.show()
     fight_clean_up(player, enemy)
+    balls_label_rechar()
     return winner
 
 def fast_change(arr, setob):
@@ -583,6 +591,7 @@ def game(map):
     global ev, exec_string
     ev=""
     print("\033]0;Pokete - "+map.pretty_name+"\a", end="")
+    movemap.code_label.rechar(figure.map.pretty_name)
     movemap.bmap = map
 
     movemap.remap()
@@ -609,17 +618,17 @@ def game(map):
             movemap.show()
             while True:
                 if ev == "Key.enter":
-                    movemap.code_label.rechar("")
+                    movemap.code_label.rechar(figure.map.pretty_name)
                     movemap.show()
                     codes(exec_string)
                     break
                 elif ev == "exit":
-                    movemap.code_label.rechar("")
+                    movemap.code_label.rechar(figure.map.pretty_name)
                     movemap.show()
                     break
                 elif ev == "Key.backspace":
                     if len(exec_string) == 0:
-                        movemap.code_label.rechar("")
+                        movemap.code_label.rechar(figure.map.pretty_name)
                         movemap.show()
                         break
                     exec_string = exec_string[:-1]
@@ -1396,14 +1405,14 @@ playmap_2.meadow1 = se.Text("""        ;;;;;;
   ;;;;;; ;;;;;;
  ;;;;;;;;;;;;
  ;;;;;;;;;
-  ;;;;;;;""", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo"], "minlvl": 60, "maxlvl": 128}, state="float")
+  ;;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo"], "minlvl": 60, "maxlvl": 128}, state="float")
 playmap_2.meadow2 = se.Text("""      ;;;;;;;
     ;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;
  ;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;
      ;;;;;;;;;;;;;
-         ;;;;;;""", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo"], "minlvl": 60, "maxlvl": 128}, state="float")
+         ;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo"], "minlvl": 60, "maxlvl": 128}, state="float")
 playmap_2.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
 # adding
 trainer3.add(playmap_2, trainer3.sx, trainer3.sy)
@@ -1512,7 +1521,11 @@ try:
 except:
     figure.add(playmap_1, 1, 1)
 movemap.name_label = se.Text(figure.name, esccode="\033[1m")
+movemap.balls_label = se.Text("", esccode="\033[1m")
+movemap.code_label.rechar(figure.map.pretty_name)
+balls_label_rechar()
 movemap.name_label.add(movemap, 2, movemap.height-2)
+movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
 movemap.underline.add(movemap, 0, movemap.height-2)
 
 
