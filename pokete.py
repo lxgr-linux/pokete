@@ -1288,6 +1288,9 @@ cave_1.pretty_name = "Nice Town cave"
 playmap_2 = se.Map(background=" ", height=30, width=180)
 playmap_2.name = "playmap_2"
 playmap_2.pretty_name = "Route 1"
+playmap_3 = se.Map(background=" ", height=30, width=90)
+playmap_3.name = "playmap_3"
+playmap_3.pretty_name = "Josi Town"
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0)
@@ -1377,18 +1380,28 @@ playmap_2.tree_group_3 = se.Text(""" ())
 (()))
 ((())
  |||""", ignore=" ")
-playmap_2.tree_group_2 = se.Text("""                        ())
+playmap_2.tree_group_4 = se.Text(""" ())
+())))
+(()))
+())()
+())))
+(()))
+(()))
+((())
+ |||""", ignore=" ")
+playmap_2.tree_group_2 = se.Text("""
+                        ())
                        ())))
                        ())())
-                      ((())()
-                      (((())
-                       ())))
-                       ((())
-                      ((())))
-(((()()))))()(((((()))))))()())()()())))()()()))))))(()()()()()()))))))((()))))()(
-(()())))))(())))))((((())))((((()))((((()()()))))(()()))))()()(()))))))()(()()))))
-(()())))))((()()()))()()())))()()))())))))((((()()))))()()()))((((((((()(((((()()(
-|||||||| |||||| | | | ||| | | |  ||||||| | | ||||||| | | |  |||||| | | |||| | | ||""", ignore=" ")
+                      ((())()                                                                              ())
+                      (((())                                                                              ()())
+                       ())))                                                                              ((())
+                       ((())                                                                              (()))
+                      ((())))                                                                            (())))
+(((()()))))()(((((()))))))()())()()())))()()()))))))(()()()()()()))))))((()))))()(()))))))))(((((())))))))())))
+(()())))))(())))))((((())))((((()))((((()()()))))(()()))))()()(()))))))()(()()))))((()))))))))(((()))))))))))()
+(()())))))((()()()))()()())))()()))())))))((((()()))))()()()))((((((((()(((((()()()))))(())))))(((())))))))()))
+|||||||| |||||| | | | ||| | | |  ||||||| | | ||||||| | | |  |||||| | | |||| | | || |||| ||| ||| ||  |||||| || |""", ignore=" ")
 playmap_2.cave_1_entrance = cave_1_entrance = se.Text("""\\
  \\
  |
@@ -1414,13 +1427,18 @@ playmap_2.meadow2 = se.Text("""      ;;;;;;;
      ;;;;;;;;;;;;;
          ;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo"], "minlvl": 60, "maxlvl": 128}, state="float")
 playmap_2.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
+playmap_2.dor_playmap_3_1 = Dor("#", state="float", arg_proto={"map": playmap_3, "x": 0, "y": 10})
+playmap_2.dor_playmap_3_2 = Dor("#", state="float", arg_proto={"map": playmap_3, "x": 0, "y": 10})
 # adding
 trainer3.add(playmap_2, trainer3.sx, trainer3.sy)
 playmap_2.tree_group_1.add(playmap_2, 36, 0)
 playmap_2.tree_group_3.add(playmap_2, 58, 0)
+playmap_2.tree_group_4.add(playmap_2, 106, 0)
 playmap_2.tree_group_2.add(playmap_2, 0, 7)
 playmap_2.cave_1_entrance.add(playmap_2, 0, 2)
 playmap_2.dor_cave_1.add(playmap_2, 1, 5)
+playmap_2.dor_playmap_3_1.add(playmap_2, 108, 9)
+playmap_2.dor_playmap_3_2.add(playmap_2, 108, 10)
 playmap_2.meadow1.add(playmap_2, 10, 0)
 playmap_2.meadow2.add(playmap_2, 40, 7)
 
