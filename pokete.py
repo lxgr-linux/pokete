@@ -61,9 +61,18 @@ class CenterInteract(se.Object):
 class Dor(se.Object):
     def action(self, ob):
         figure.remove()
+        i = figure.map.name
         figure.add(self.arg_proto["map"], self.arg_proto["x"], self.arg_proto["y"])
+        exec("figure.oldmap = "+i)
         game(self.arg_proto["map"])
 
+class CenterDor(se.Object):
+    def action(self, ob):
+        figure.remove()
+        i = figure.map.name
+        figure.add(figure.oldmap, figure.oldmap.dor.x, figure.oldmap.dor.y+1)
+        exec("figure.oldmap = "+i)
+        game(figure.map)
 
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", player=True):
@@ -210,6 +219,7 @@ def save():
     session_info = {
         "user": figure.name,
         "map": figure.map.name,
+        "oldmap": figure.oldmap.name,
         "x": figure.x,
         "y": figure.y,
         "pokes": {poke.identifier: {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for poke in figure.pokes}
@@ -592,6 +602,7 @@ def game(map):
     ev=""
     print("\033]0;Pokete - "+map.pretty_name+"\a", end="")
     movemap.code_label.rechar(figure.map.pretty_name)
+    movemap.set(0, 0)
     movemap.bmap = map
 
     movemap.remap()
@@ -686,6 +697,10 @@ def game(map):
             movemap.set(movemap.x+1, movemap.y)
         if figure.x < movemap.x+5:
             movemap.set(movemap.x-1, movemap.y)
+        if figure.y+4 > movemap.y+movemap.height:
+            movemap.set(movemap.x, movemap.y+1)
+        if figure.y < movemap.y+4:
+            movemap.set(movemap.x, movemap.y-1)
         movemap.remap()
         movemap.show()
 
@@ -1251,6 +1266,7 @@ Path(home+"/.cache/pokete/pokete.py").touch(exist_ok=True)
 session_info = {
     "user": "DEFAULT",
     "map": "playmap_1",
+    "oldmap": "playmap_1",
     "x": 1,
     "y": 1,
     "pokes": {
@@ -1305,7 +1321,6 @@ movemap.code_label = se.Text("")
 movemap.deck_label.add(movemap, 0, movemap.height-1)
 movemap.exit_label.add(movemap, 9, movemap.height-1)
 movemap.code_label.add(movemap, 0, 0)
-
 
 # playmap_1
 trainer1 = se.Object("a")
@@ -1427,8 +1442,8 @@ playmap_2.meadow2 = se.Text("""      ;;;;;;;
      ;;;;;;;;;;;;;
          ;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo"], "minlvl": 60, "maxlvl": 128}, state="float")
 playmap_2.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
-playmap_2.dor_playmap_3_1 = Dor("#", state="float", arg_proto={"map": playmap_3, "x": 0, "y": 10})
-playmap_2.dor_playmap_3_2 = Dor("#", state="float", arg_proto={"map": playmap_3, "x": 0, "y": 10})
+playmap_2.dor_playmap_3_1 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 9})
+playmap_2.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 10})
 # adding
 trainer3.add(playmap_2, trainer3.sx, trainer3.sy)
 playmap_2.tree_group_1.add(playmap_2, 36, 0)
@@ -1506,6 +1521,38 @@ cave_1.dor_playmap_1_2.add(cave_1, 15, 20)
 cave_1.innerwalls.add(cave_1, 0, 0)
 cave_1.inner.add(cave_1, 0, 0)
 
+# playmap_3
+playmap_3.trainers = []
+playmap_3.tree_group_1 = se.Text("""())
+))()
+()))
+)()(
+))()
+()))
+()))
+(())
+|||""", ignore=" ")
+playmap_3.tree_group_2 = se.Text("""())
+))()
+()))
+)()(
+(())
+|||""", ignore=" ")
+playmap_3.house = se.Text("""  __________
+ /         /\\
+/_________/  \\
+| # ___ # |  |
+|___| |___|__|""", ignore=" ")
+playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_3.dor_playmap_2_1 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 9})
+playmap_3.dor_playmap_2_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 10})
+# adding
+playmap_3.tree_group_1.add(playmap_3, 0, 0)
+playmap_3.tree_group_2.add(playmap_3, 0, 11)
+playmap_3.dor.add(playmap_3, 25, 4)
+playmap_3.house.add(playmap_3, 20, 0)
+playmap_3.dor_playmap_2_1.add(playmap_3, 0, 9)
+playmap_3.dor_playmap_2_2.add(playmap_3, 0, 10)
 
 # centermap
 centermap.trainers = []
@@ -1516,13 +1563,13 @@ centermap.inner = se.Text(""" ________________
  |              |
  |______  ______|
  |_____|  |_____|""", ignore=" ")
-centermap.dor_back1 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
-centermap.dor_back2 = Dor(" ", state="float", arg_proto={"map": playmap_1, "x": 25, "y": 5})
 centermap.interact = CenterInteract("¯", state="float")
+centermap.dor_back1 = CenterDor(" ", state="float")
+centermap.dor_back2 = CenterDor(" ", state="float")
 # adding
-centermap.inner.add(centermap, int(centermap.width/2)-8, 1)
 centermap.dor_back1.add(centermap, int(centermap.width/2), 8)
 centermap.dor_back2.add(centermap, int(centermap.width/2)+1, 8)
+centermap.inner.add(centermap, int(centermap.width/2)-8, 1)
 centermap.interact.add(centermap, int(centermap.width/2), 4)
 
 
@@ -1538,6 +1585,10 @@ try:
     exec('figure.add('+session_info["map"]+', session_info["x"], session_info["y"])')
 except:
     figure.add(playmap_1, 1, 1)
+try:
+    exec("figure.oldmap = "+session_info["oldmap"])
+except:
+    figure.oldmap = playmap_1
 movemap.name_label = se.Text(figure.name, esccode="\033[1m")
 movemap.balls_label = se.Text("", esccode="\033[1m")
 movemap.code_label.rechar(figure.map.pretty_name)
@@ -1545,7 +1596,6 @@ balls_label_rechar()
 movemap.name_label.add(movemap, 2, movemap.height-2)
 movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
 movemap.underline.add(movemap, 0, movemap.height-2)
-
 
 # onjects for detail
 detailmap = se.Map(background=" ")
