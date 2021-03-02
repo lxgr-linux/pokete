@@ -1464,7 +1464,7 @@ trainer2.texts = [" < Hello noble traveler", " < Are you willing to fight with m
 trainer2.lose_texts = [" < Hahaha!", " < Looooser!"]
 trainer2.no_poke_texts = [" < I see you don't have a living Pokete"]
 trainer2.win_texts = [" < Congratulations!", " < Have a great day!"]
-trainer2.name = "Josi"
+trainer2.name = "Monica"
 trainer2.sx = 23
 trainer2.sy = 10
 trainer2.will = True
@@ -1522,7 +1522,18 @@ cave_1.innerwalls.add(cave_1, 0, 0)
 cave_1.inner.add(cave_1, 0, 0)
 
 # playmap_3
-playmap_3.trainers = []
+trainer4 = se.Object("a")
+trainer4.poke = Poke("hornita", 200, player=False)
+trainer4.texts = [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"]
+trainer4.lose_texts = [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"]
+trainer4.no_poke_texts = [" < I see you don't have a living Pokete", " < Loooser!"]
+trainer4.win_texts = [" < Damn, I lost!"]
+trainer4.name = "Josi"
+trainer4.sx = 11
+trainer4.sy = 5
+trainer4.will = True
+trainer4.gender = "She"
+playmap_3.trainers = [trainer4]
 playmap_3.tree_group_1 = se.Text("""())
 ))()
 ()))
@@ -1538,19 +1549,42 @@ playmap_3.tree_group_2 = se.Text("""())
 )()(
 (())
 |||""", ignore=" ")
+playmap_3.tree_group_3 = se.Text(""" ())
+())()
+ |||""", ignore=" ")
 playmap_3.house = se.Text("""  __________
  /         /\\
 /_________/  \\
 | # ___ # |  |
 |___| |___|__|""", ignore=" ")
+playmap_3.house2 = se.Text("""  ________
+ /       /\\
+/_______/  \\
+|# ___ #|  |
+|__| |__|__|""", ignore=" ")
+playmap_3.fence1 =  se.Text("""  ##################################
+  #
+  #
+  #
+  #
+  #
+  #
+###
+""", ignore=" ")
+playmap_3.fence2 = se.Square("#", 35, 1)
 playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_3.dor_playmap_2_1 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 9})
 playmap_3.dor_playmap_2_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 10})
 # adding
+trainer4.add(playmap_3, trainer4.sx, trainer4.sy)
 playmap_3.tree_group_1.add(playmap_3, 0, 0)
 playmap_3.tree_group_2.add(playmap_3, 0, 11)
-playmap_3.dor.add(playmap_3, 25, 4)
-playmap_3.house.add(playmap_3, 20, 0)
+playmap_3.tree_group_3.add(playmap_3, 35, 4)
+playmap_3.dor.add(playmap_3, 25, 6)
+playmap_3.house.add(playmap_3, 20, 2)
+playmap_3.house2.add(playmap_3, 18, 11)
+playmap_3.fence1.add(playmap_3, 3, 1)
+playmap_3.fence2.add(playmap_3, 45, 1)
 playmap_3.dor_playmap_2_1.add(playmap_3, 0, 9)
 playmap_3.dor_playmap_2_2.add(playmap_3, 0, 10)
 
