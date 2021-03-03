@@ -1562,7 +1562,8 @@ playmap_3.house2 = se.Text("""  ________
 /_______/  \\
 |# ___ #|  |
 |__| |__|__|""", ignore=" ")
-playmap_3.fence1 =  se.Text("""  ##################################
+playmap_3.fence1 =  se.Text("""                                   #
+  ##################################
   #
   #
   #
@@ -1571,7 +1572,49 @@ playmap_3.fence1 =  se.Text("""  ##################################
   #
 ###
 """, ignore=" ")
-playmap_3.fence2 = se.Square("#", 35, 1)
+playmap_3.fence3 =  se.Text("""###
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  ##################################
+                                   #""", ignore=" ")
+playmap_3.fence2 =  se.Text("""#
+###################################
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+                                  #
+###################################
+#""", ignore=" ")
 playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_3.dor_playmap_2_1 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 9})
 playmap_3.dor_playmap_2_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 10})
@@ -1583,8 +1626,9 @@ playmap_3.tree_group_3.add(playmap_3, 35, 4)
 playmap_3.dor.add(playmap_3, 25, 6)
 playmap_3.house.add(playmap_3, 20, 2)
 playmap_3.house2.add(playmap_3, 18, 11)
-playmap_3.fence1.add(playmap_3, 3, 1)
-playmap_3.fence2.add(playmap_3, 45, 1)
+playmap_3.fence1.add(playmap_3, 3, 0)
+playmap_3.fence2.add(playmap_3, 45, 0)
+playmap_3.fence3.add(playmap_3, 3, 11)
 playmap_3.dor_playmap_2_1.add(playmap_3, 0, 9)
 playmap_3.dor_playmap_2_2.add(playmap_3, 0, 10)
 
