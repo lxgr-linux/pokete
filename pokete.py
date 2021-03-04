@@ -101,6 +101,7 @@ class Poke():
         self.text_lvl = se.Text("Lvl:"+str(self.lvl()))
         self.text_name = se.Text(str(self.name), esccode="\033[4m")
         self.text_xp = se.Text("XP:"+str(self.xp-(self.lvl()**2-1))+"/"+str(((self.lvl()+1)**2-1)-(self.lvl()**2-1)))
+        self.text_type = se.Text("Type:"+self.type.name)
         self.tril = se.Object("<")
         self.trir = se.Object(">")
         self.attac_obs = [Attack(atc) for atc in self.attacs]
@@ -192,6 +193,7 @@ class Attack():
         self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
         self.label_factor = se.Text("Attack:"+str(self.factor))
         self.desc = se.Text(self.desc[:int(se.width/2-1)])
+        self.label_type = se.Text("Type:"+self.type.name)
 
 
 def heal():
@@ -586,9 +588,11 @@ def detail(poke):
     deck_add(poke, detailmap, 1, 1, False)
     detailmap.attack_defense.rechar("Attack:"+str(poke.atc)+(4-len(str(poke.atc)))*" "+"Defense:"+str(poke.defense))
     poke.desc.add(detailmap, 34, 2)
+    poke.text_type.add(detailmap, 36, 5)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.label_name.add(detailmap, x, y)
         atc.label_factor.add(detailmap, x, y+1)
+        atc.label_type.add(detailmap, x+11, y+1)
         atc.label_ap.rechar("AP:"+str(atc.ap)+"/"+str(atc.max_ap))
         atc.label_ap.add(detailmap, x, y+2)
         try:
@@ -601,8 +605,9 @@ def detail(poke):
             ev=""
             deck_remove(poke)
             poke.desc.remove()
+            poke.text_type.remove()
             for atc in poke.attac_obs:
-                for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.desc]:
+                for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.desc, atc.label_type]:
                     ob.remove()
             return
         elif ev == "exit":
@@ -749,7 +754,7 @@ def main():
     game(figure.map)
 
 for i in [("normal", [], []),
-("stone", ["flying"], []),
+("stone", ["flying", "fire"], ["plant"]),
 ("plant", ["stone", "flore"], ["fire"]),
 ("water", ["stone", "flore", "flying"], ["fire"]),
 ("flore", ["normal"], ["flying"]),
