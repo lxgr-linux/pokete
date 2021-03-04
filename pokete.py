@@ -31,6 +31,13 @@ class Heal(se.Object):
         heal()
 
 
+class PokeType():
+    def __init__(self, name, effective, ineffective):
+        self.name = name
+        self.effective = effective
+        self.ineffective = ineffective
+
+
 class CenterInteract(se.Object):
     def action(self, ob):
         global ev
@@ -80,7 +87,7 @@ class Poke():
         self.player = player
         self.identifier = poke
         self.set_vars()
-        for name in ["hp", "attacs", "name", "miss_chance", "lose_xp"]:
+        for name in ["hp", "attacs", "name", "miss_chance", "lose_xp", "type"]:
             exec("self."+name+" = pokes[self.identifier][name]")
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
@@ -126,7 +133,13 @@ class Poke():
             exec("self.move_"+attac.move+"()")
             enem.oldhp = enem.hp
             self.oldhp = self.hp
-            n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0])
+            if enem.type.name in attac.type.effective:
+                effectivity = 1.5
+            elif enem.type.name in attac.type.ineffective:
+                effectivity = 0.5
+            else:
+                effectivity = 1
+            n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0]*effectivity)
             enem.hp -= n_hp if n_hp >= 0 else 0
             if enem.hp < 0:
                 enem.hp = 0
@@ -735,6 +748,14 @@ def main():
     recognising.start()
     game(figure.map)
 
+for i in [("normal", [], []),
+("stone", ["flying"], []),
+("plant", ["stone", "flore"], ["fire"]),
+("water", ["stone", "flore", "flying"], ["fire"]),
+("flore", ["normal"], ["flying"]),
+("flying", ["plant"], ["stone"])]:
+    exec(i[0]+" = PokeType(i[0], i[1], i[2])")
+
 attacs = {
     "tackle": {
         "name": "Tackle",
@@ -743,6 +764,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.2,
         "desc": "Tackles the enemy very hard",
+        "type": normal,
         "ap": 20,
     },
     "pick": {
@@ -752,6 +774,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.1,
         "desc": "A pick at the enemys weakest spot",
+        "type": flying,
         "ap": 20,
     },
     "apple_drop": {
@@ -761,6 +784,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.3,
         "desc": "Lets an apple drop on the enemys head",
+        "type": plant,
         "ap": 20,
     },
     "eye_pick": {
@@ -770,6 +794,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.6,
         "desc": "Picks out one of the enemys eyes",
+        "type": flying,
         "ap": 5,
     },
     "earch_quake": {
@@ -779,6 +804,7 @@ attacs = {
         "move": "pound",
         "miss_chance": 0,
         "desc": "Brings the earth to shift",
+        "type": flore,
         "ap": 5,
     },
     "wing_hit": {
@@ -788,6 +814,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.5,
         "desc": "Hits the enemy with a wing",
+        "type": flying,
         "ap": 5,
     },
     "super_sucker": {
@@ -797,6 +824,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0,
         "desc": "Sucks 2 HP from the enemy and adds it to it's own",
+        "type": plant,
         "ap": 5,
     },
     "sucker": {
@@ -806,6 +834,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0,
         "desc": "Sucks 1 HP from the enemy and adds it to it's own",
+        "type": plant,
         "ap": 20,
     },
     "brooding": {
@@ -815,6 +844,7 @@ attacs = {
         "move": "shine",
         "miss_chance": 0,
         "desc": "Regenerates 2 HP",
+        "type": normal,
         "ap": 5,
     },
     "pepple_fire": {
@@ -824,6 +854,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0,
         "desc": "Fires pepples at the enemy and makes it blind",
+        "type": stone,
         "ap": 3,
     },
     "cry": {
@@ -833,6 +864,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0,
         "desc": "So loud, it confuses the enemy",
+        "type": normal,
         "ap": 5,
     },
     "bite": {
@@ -842,6 +874,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.1,
         "desc": "A hard bite the sharp teeth",
+        "type": normal,
         "ap": 20,
     },
     "politure": {
@@ -851,6 +884,7 @@ attacs = {
         "move": "shine",
         "miss_chance": 0,
         "desc": "Upgrades defense and attack points",
+        "type": stone,
         "ap": 10,
     },
     "bark_hardening": {
@@ -860,6 +894,7 @@ attacs = {
         "move": "shine",
         "miss_chance": 0,
         "desc": "Hardens the bark to protect it better",
+        "type": plant,
         "ap": 10,
     },
     "chocer": {
@@ -869,6 +904,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.2,
         "desc": "Choces the enemy and makes it weaker",
+        "type": normal,
         "ap": 10,
     },
     "poison_bite": {
@@ -878,6 +914,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.3,
         "desc": "Makes the enemy weaker",
+        "type": normal,
         "ap": 5,
     },
     "power_pick": {
@@ -887,6 +924,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.4,
         "desc": "A harsh picking on the enemys head",
+        "type": flying,
         "ap": 5,
     },
     "bubble_bomb": {
@@ -896,6 +934,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0,
         "desc": "A deadly bubble",
+        "type": water,
         "ap": 5,
     },
     "bubble_shield": {
@@ -905,6 +944,7 @@ attacs = {
         "move": "shine",
         "miss_chance": 0,
         "desc": "Creates a giant bubble that protects the Pokete",
+        "type": water,
         "ap": 5,
     },
     "mind_blow": {
@@ -914,6 +954,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0,
         "desc": "Causes confusion deep in the enemys mind",
+        "type": normal,
         "ap": 10,
     },
     "tail_wipe": {
@@ -923,6 +964,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.5,
         "desc": "Wipes throught the enemys face",
+        "type": normal,
         "ap": 5,
     },
     "meat_skewer": {
@@ -932,6 +974,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.7,
         "desc": "Drills the horn deep in the enemys flesh",
+        "type": normal,
         "ap": 5,
     },
 }
@@ -953,6 +996,7 @@ pokes = {
         "desc": "",
         "lose_xp": 0,
         "rarity": 0,
+        "type": normal,
         "ico": """ """,
     },
     "steini": {
@@ -965,6 +1009,7 @@ pokes = {
         "desc": "A squared stone that can casually be found on the ground",
         "lose_xp": 2,
         "rarity": 1,
+        "type": stone,
         "ico": """ +-------+
  | o   o |
  |  www  |
@@ -980,6 +1025,7 @@ pokes = {
         "desc": "A powerfull and heavy stone Pokete that lives in mountain caves",
         "lose_xp": 3,
         "rarity": 0.7,
+        "type": stone,
         "ico": """   A-A-A
   < o o >
   < --- >
@@ -995,6 +1041,7 @@ pokes = {
        "desc": "A small but powerfull stone Pokete that lives in the mountains",
        "lose_xp": 2,
        "rarity": 1,
+       "type": stone,
        "ico": """
    _____
    |'ᵕ'|
@@ -1010,6 +1057,7 @@ pokes = {
       "desc": "A plant Pokete, that's often mistaken for a normal flower",
       "lose_xp": 2,
       "rarity": 0.8,
+      "type": plant,
       "ico": """
     (@)
      |
@@ -1025,6 +1073,7 @@ pokes = {
       "desc": "A scary ghost Pokete that lives in caves and old houses",
       "lose_xp": 2,
       "rarity": 1,
+      "type": normal,
       "ico": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
@@ -1040,6 +1089,7 @@ pokes = {
         "desc": "A very common bird Pokete that lives in town but also in the nature",
         "lose_xp": 2,
         "rarity": 1,
+        "type": flying,
         "ico":"""    A
    <')
     www*
@@ -1055,6 +1105,7 @@ pokes = {
         "desc": "A very agressive bird Pokete that can only be found in the woods",
         "lose_xp": 2,
         "rarity": 0.8,
+        "type": flying,
         "ico":"""    ?
    >´)
     www*
@@ -1070,6 +1121,7 @@ pokes = {
         "desc": "A very agressive bird Pokete that lives near deserts and will try to pick out your eyes",
         "rarity": 0.6,
         "lose_xp": 2,
+        "type": flying,
         "ico":"""   !
   >´)
     \www'
@@ -1085,6 +1137,7 @@ pokes = {
         "desc": "A very harmless water Pokete that can be found everywhere",
         "lose_xp": 1,
         "rarity": 1.5,
+        "type": water,
         "ico":"""
 
   <°))))><
@@ -1100,6 +1153,7 @@ pokes = {
         "desc": "A dangerous snake Pokete",
         "lose_xp": 2,
         "rarity": 1,
+        "type": normal,
         "ico": """  >'({{{
   }}}}}}}
  {{{{{{{{{
@@ -1115,6 +1169,7 @@ pokes = {
         "desc": "A scary an dangerous apple tree",
         "lose_xp": 2,
         "rarity": 1,
+        "type": plant,
         "ico": """    (()
    (()))
      H
@@ -1130,6 +1185,7 @@ pokes = {
         "desc": "An annoying flying rat",
         "lose_xp": 2,
         "rarity": 1.3,
+        "type": flying,
         "ico": """    ___
 WW\/* *\/WW
    \\v-v/
@@ -1145,6 +1201,7 @@ WW\/* *\/WW
         "desc": "Very delicious and low fat water Pokete",
         "lose_xp": 2,
         "rarity": 1,
+        "type": water,
         "ico": """  _____
  / o   \\
  >   v  ><
@@ -1160,6 +1217,7 @@ WW\/* *\/WW
         "desc": "A night active Pokete, that is looking for lil children as a midnight snack",
         "lose_xp": 2,
         "rarity": 0.5,
+        "type": flying,
         "ico": """   ,___,
    {o,o}
    /)_)
@@ -1176,6 +1234,7 @@ WW\/* *\/WW
         "desc": "An annoying rat",
         "lose_xp": 2,
         "rarity": 1.3,
+        "type": normal,
         "ico": """   ^---^
    \o o/
    >\./<
@@ -1191,6 +1250,7 @@ WW\/* *\/WW
         "desc": "An majestetic horse that is always looking for something to pick with its horn.",
         "lose_xp": 2,
         "rarity": 1,
+        "type": normal,
         "ico": """ \\
  =')~
    (¯¯¯¯)~
@@ -1206,6 +1266,7 @@ WW\/* *\/WW
         "desc": "A teenaged unicorn in the middle of puberty.",
         "rarity": 1,
         "lose_xp": 2,
+        "type": normal,
         "ico": """  ,
  =')
    (¯¯¯)~
@@ -1221,6 +1282,7 @@ WW\/* *\/WW
         "desc": "A bush, and just a bush. But watch out!",
         "lose_xp": 2,
         "rarity": 1,
+        "type": plant,
         "ico": """
     (()
    (()))"""
