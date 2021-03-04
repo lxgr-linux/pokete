@@ -757,6 +757,7 @@ for i in [("normal", [], []),
 ("stone", ["flying", "fire"], ["plant"]),
 ("plant", ["stone", "flore"], ["fire"]),
 ("water", ["stone", "flore", "flying"], ["fire"]),
+("fire", ["water", "flying"], ["stone"]),
 ("flore", ["normal"], ["flying"]),
 ("flying", ["plant"], ["stone"])]:
     exec(i[0]+" = PokeType(i[0], i[1], i[2])")
@@ -981,6 +982,16 @@ attacs = {
         "desc": "Drills the horn deep in the enemys flesh",
         "type": normal,
         "ap": 5,
+    },
+    "fire_bite": {
+        "name": "Fire bite",
+        "factor": 2,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.2,
+        "desc": "Burns and bites the enemy at the same time",
+        "type": fire,
+        "ap": 10,
     },
 }
 
@@ -1292,6 +1303,21 @@ WW\/* *\/WW
     (()
    (()))"""
     },
+    "wolfior": {
+        "name": "Wolfior",
+        "hp": 20,
+        "atc": "self.lvl()+6",
+        "defense": "self.lvl()+3",
+        "attacs": ["tackle", "fire_bite"],
+        "miss_chance": 0,
+        "desc": "A fiery wolf straight from hell, that likes to burn 11 years old butts of.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "type": fire,
+        "ico": """   ^---^
+   (* *)
+   >(.)<"""
+    },
 }
 
 # deciding on wich input to use
@@ -1500,14 +1526,14 @@ playmap_2.meadow1 = se.Text("""        ;;;;;;
   ;;;;;; ;;;;;;
  ;;;;;;;;;;;;
  ;;;;;;;;;
-  ;;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo"], "minlvl": 60, "maxlvl": 128}, state="float")
+  ;;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128}, state="float")
 playmap_2.meadow2 = se.Text("""      ;;;;;;;
     ;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;
  ;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;
      ;;;;;;;;;;;;;
-         ;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo"], "minlvl": 60, "maxlvl": 128}, state="float")
+         ;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128}, state="float")
 playmap_2.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
 playmap_2.dor_playmap_3_1 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 9})
 playmap_2.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 10})
@@ -1629,6 +1655,11 @@ playmap_3.house2 = se.Text("""  ________
 /_______/  \\
 |# ___ #|  |
 |__| |__|__|""", ignore=" ")
+playmap_3.house3 = se.Text("""  ________
+ /       /\\
+/_______/  \\
+|# ___ #|  |
+|__| |__|__|""", ignore=" ")
 playmap_3.fence1 =  se.Text("""                                   #
   ##################################
   #
@@ -1693,6 +1724,7 @@ playmap_3.tree_group_3.add(playmap_3, 35, 4)
 playmap_3.dor.add(playmap_3, 25, 6)
 playmap_3.house.add(playmap_3, 20, 2)
 playmap_3.house2.add(playmap_3, 18, 11)
+playmap_3.house3.add(playmap_3, 18, 17)
 playmap_3.fence1.add(playmap_3, 3, 0)
 playmap_3.fence2.add(playmap_3, 45, 0)
 playmap_3.fence3.add(playmap_3, 3, 11)
