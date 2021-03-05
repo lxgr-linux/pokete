@@ -756,8 +756,8 @@ def main():
 for i in [("normal", [], []),
 ("stone", ["flying", "fire"], ["plant"]),
 ("plant", ["stone", "flore"], ["fire"]),
-("water", ["stone", "flore", "flying"], ["fire"]),
-("fire", ["water", "flying"], ["stone"]),
+("water", ["stone", "flore", "flying", "fire"], ["plant"]),
+("fire", ["flying"], ["stone", "water"]),
 ("flore", ["normal"], ["flying"]),
 ("flying", ["plant"], ["stone"])]:
     exec(i[0]+" = PokeType(i[0], i[1], i[2])")

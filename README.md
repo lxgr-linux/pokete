@@ -14,6 +14,19 @@ Since your a Pokete-Trainer, you can also fight against other trainers, the one 
 In case one of your Poketes dies, or is too weak, you can heal it by going into the house, aka, Pokete-Center, talk the the person there and choose the healing option.
 There you can also take a look at all your poketes, and not just the first six. The ones marked with an "o" are the ones in your deck.
 
+## Game depth
+Not only are there Poketes that are stronger than others, but also Poketes with different types, wich are effective against some types and ineffective gainst others.
+
+type|effective against|ineffective against
+---|---|---
+normal| |
+stone|flying, fire|plant
+plant|stone, flore|fire
+water|stone, flore, flying, fire|plant
+fire|flying|stone, water
+flore|normal|flying
+flying|plant|stone 
+
 ## Tips
 - In conversations you can very easiely skip the text printing by pressing any key
 - When you want to see the next text in a conversation, also just press any key
