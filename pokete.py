@@ -146,7 +146,7 @@ class Poke():
                 enem.hp = 0
             exec(attac.action)
             attac.ap -= 1
-            fightmap.outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""))
+            fightmap.outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else "")+("\nThat was very effective! " if effectivity == 1.5 and n_hp > 0 else "")+("\nThat was not effective! " if effectivity == 0.5 and n_hp > 0 else ""))
             for ob in [enem, self]:
                 while ob.oldhp != ob.hp and ob.oldhp > 0:
                     ob.oldhp += -1 if ob.oldhp > ob.hp else 1
@@ -366,9 +366,7 @@ def balls_label_rechar():
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap
-
     players = fight_add_1(player, enemy)
-
     if info["type"] == "wild":
         fightmap.outp.rechar("A wild "+enemy.name+" appeared!")
     elif info["type"] == "duel":
@@ -376,7 +374,6 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         fightmap.show(init=True)
         time.sleep(1)
         fightmap.outp.rechar(fightmap.outp.text+"\n"+info["player"].gender+" used "+enemy.name+" against you!")
-
     fightmap.show(init=True)
     time.sleep(1)
     fight_add_2(player, enemy)
@@ -386,12 +383,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     fightmap.show()
     time.sleep(0.5)
     fight_running = True
-
     while fight_running:
         for ob in players:
             enem = [i for i in players if i != ob][0]
             if ob.player:
-                fightmap.outp.rechar(fightmap.outp.text+("\n" if fightmap.outp.text != "" else "")+ "What do you want to do?")
+                fightmap.outp.rechar(fightmap.outp.text+("\n" if fightmap.outp.text != "" and "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
                 fightmap.show()
                 if ob.identifier == "__fallback__":
                     time.sleep(1)
@@ -758,7 +754,7 @@ for i in [("normal", [], []),
 ("stone", ["flying", "fire"], ["plant"]),
 ("plant", ["stone", "flore"], ["fire"]),
 ("water", ["stone", "flying", "fire"], ["plant"]),
-("fire", ["flying"], ["stone", "water"]),
+("fire", ["flying", "plant"], ["stone", "water"]),
 ("flore", ["normal"], ["flying"]),
 ("flying", ["plant"], ["stone"])]:
     exec(i[0]+" = PokeType(i[0], i[1], i[2])")

@@ -23,7 +23,7 @@ normal| |
 stone|flying, fire|plant
 plant|stone, flore|fire
 water|stone, flying, fire|plant
-fire|flying|stone, water
+fire|flying, plant|stone, water
 flore|normal|flying
 flying|plant|stone
 
