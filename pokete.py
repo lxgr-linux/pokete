@@ -362,7 +362,7 @@ def balls_label_rechar():
     movemap.balls_label.text = ""
     for i in ["o" if j.hp > 0 else "x" for j in figure.pokes[:6]]:
         movemap.balls_label.text += i
-    movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
+    movemap.balls_label.rechar(movemap.balls_label.text+(6-len(figure.pokes[:6]))*"-", esccode="\033[1m")
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap
@@ -428,6 +428,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                             time.sleep(1)
                             pball.remove()
                             fight_clean_up(player, enemy)
+                            balls_label_rechar()
                             return
                         else:
                             fightmap.outp.rechar("You missed!")

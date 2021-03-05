@@ -36,11 +36,14 @@ flying|plant|stone
 ## TODO
 - Add a wizard to set name and choose starter pokete at the start
 - Add More maps
-- Add types for attacks and poketes
+- Add types for attacks and poketes --- Done
 - Add evolving
+- Add more than one Pokete for trainers
+- Colored Poketes
 
 ## Dependencies
 Pokete depends on python3 and the python-scrap_engine module.
+On windows pynput has to be installed too.
 
 ## Contributing
 Feel free to contribute what ever you want to this game.
