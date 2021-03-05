@@ -756,7 +756,7 @@ def main():
 for i in [("normal", [], []),
 ("stone", ["flying", "fire"], ["plant"]),
 ("plant", ["stone", "flore"], ["fire"]),
-("water", ["stone", "flore", "flying", "fire"], ["plant"]),
+("water", ["stone", "flying", "fire"], ["plant"]),
 ("fire", ["flying"], ["stone", "water"]),
 ("flore", ["normal"], ["flying"]),
 ("flying", ["plant"], ["stone"])]:

@@ -22,10 +22,10 @@ type|effective against|ineffective against
 normal| |
 stone|flying, fire|plant
 plant|stone, flore|fire
-water|stone, flore, flying, fire|plant
+water|stone, flying, fire|plant
 fire|flying|stone, water
 flore|normal|flying
-flying|plant|stone 
+flying|plant|stone
 
 ## Tips
 - In conversations you can very easiely skip the text printing by pressing any key
