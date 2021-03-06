@@ -402,7 +402,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         break
                     elif ev == "'5'":
                         ev = ""
-                        if info["type"] == "duel":
+                        if info["type"] == "duel" and player.identifier != "__fallback__":
                             continue
                         fightmap.outp.rechar("You ran away!")
                         fightmap.show()
