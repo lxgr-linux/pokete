@@ -991,6 +991,16 @@ attacs = {
         "type": fire,
         "ap": 10,
     },
+    "power_roll": {
+        "name": "Power roll",
+        "factor": 2.5,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.2,
+        "desc": "Rolls over the enemy",
+        "type": ground,
+        "ap": 10,
+    },
 }
 
 # Here starts to definition of all the Poketes
@@ -1316,6 +1326,22 @@ WW\/* *\/WW
    (* *)
    >(.)<"""
     },
+    "rollator": {
+        "name": "Rollator",
+        "hp": 25,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+5",
+        "attacs": ["tackle", "power_roll"],
+        "miss_chance": 0,
+        "desc": "A big chunck of stone and dirt, that roles around.",
+        "lose_xp": 2,
+        "rarity": 0.5,
+        "type": ground,
+        "ico": """   _____
+  / o o \\
+  | ___ |
+  \_____/"""
+    },
 }
 
 # deciding on wich input to use
@@ -1531,7 +1557,7 @@ playmap_2.meadow2 = se.Text("""      ;;;;;;;
  ;;;;;;;;;;;;;;;;;;;
   ;;;;;;;;;;;;;;;;;
      ;;;;;;;;;;;;;
-         ;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128}, state="float")
+         ;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior", "rollator"], "minlvl": 60, "maxlvl": 128}, state="float")
 playmap_2.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
 playmap_2.dor_playmap_3_1 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 9})
 playmap_2.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 10})
