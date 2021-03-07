@@ -752,10 +752,11 @@ def main():
 
 for i in [("normal", [], []),
 ("stone", ["flying", "fire"], ["plant"]),
-("plant", ["stone", "flore"], ["fire"]),
+("plant", ["stone", "ground"], ["fire"]),
 ("water", ["stone", "flying", "fire"], ["plant"]),
 ("fire", ["flying", "plant"], ["stone", "water"]),
-("flore", ["normal"], ["flying"]),
+("ground", ["normal"], ["flying"]),
+("electro", ["stone", "flying"], ["ground"]),
 ("flying", ["plant"], ["stone"])]:
     exec(i[0]+" = PokeType(i[0], i[1], i[2])")
 
@@ -802,12 +803,12 @@ attacs = {
     },
     "earch_quake": {
         "name": "Earch quake",
-        "factor": 0,
-        "action": "enem.hp -= 4",
+        "factor": 4,
+        "action": "",
         "move": "pound",
         "miss_chance": 0,
         "desc": "Brings the earth to shift",
-        "type": flore,
+        "type": ground,
         "ap": 5,
     },
     "wing_hit": {

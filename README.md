@@ -21,10 +21,11 @@ type|effective against|ineffective against
 ---|---|---
 normal| |
 stone|flying, fire|plant
-plant|stone, flore|fire
+plant|stone, ground|fire
 water|stone, flying, fire|plant
 fire|flying, plant|stone, water
-flore|normal|flying
+ground|normal|flying
+electro|stone, flying|ground
 flying|plant|stone
 
 ## Tips
