@@ -1829,9 +1829,11 @@ deckmap = se.Map(background=" ")
 decksubmap = se.Submap(deckmap, 0, 0)
 decksubmap.exit_label = se.Text("1: Exit  ")
 decksubmap.move_label = se.Text("2: Move    ")
+decksubmap.move_free = se.Text("3: Free")
 # adding
 decksubmap.exit_label.add(decksubmap, 0, decksubmap.height-1)
 decksubmap.move_label.add(decksubmap, 9, decksubmap.height-1)
+decksubmap.move_free.add(decksubmap, 20, decksubmap.height-1)
 
 # objects relevant for fight()
 fightmap = se.Map(background=" ")
