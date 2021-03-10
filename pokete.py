@@ -48,6 +48,9 @@ class CenterInteract(se.Object):
         while True:
             if ev == "'a'":
                 ev = ""
+                while "__fallback__" in [p.identifier for p in figure.pokes]:
+                    figure.pokes.pop([p.identifier for p in figure.pokes].index("__fallback__"))
+                balls_label_rechar()
                 deck(figure.pokes)
                 break
             elif ev == "'b'":
@@ -73,6 +76,7 @@ class Dor(se.Object):
         exec("figure.oldmap = "+i)
         game(self.arg_proto["map"])
 
+
 class CenterDor(se.Object):
     def action(self, ob):
         figure.remove()
@@ -80,6 +84,7 @@ class CenterDor(se.Object):
         figure.add(figure.oldmap, figure.oldmap.dor.x, figure.oldmap.dor.y+1)
         exec("figure.oldmap = "+i)
         game(figure.map)
+
 
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", player=True):
@@ -252,10 +257,12 @@ def exiter():
     exit()
 
 def deck_add(poke, map, x, y, in_deck=True):
-    for ob, _x, _y in zip([poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp], [0, 12, 12, 12, 18, 27, 19, 12], [0, 0, 1, 2, 2, 2, 2, 3]):
-        ob.add(map, x+_x, y+_y)
-    if figure.pokes.index(poke) < 6 and in_deck:
-        poke.pball_small.add(map, round(deckmap.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else deckmap.width-2, y)
+    poke.text_name.add(map, x+12, y+0)
+    if poke.identifier != "__fallback__":
+        for ob, _x, _y in zip([poke.ico, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp], [0, 12, 12, 18, 27, 19, 12], [0, 1, 2, 2, 2, 2, 3]):
+            ob.add(map, x+_x, y+_y)
+        if figure.pokes.index(poke) < 6 and in_deck:
+            poke.pball_small.add(map, round(deckmap.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else deckmap.width-2, y)
 
 def deck_remove(poke):
     for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp, poke.pball_small]:
@@ -360,9 +367,14 @@ def fight_add_2(player, enemy):
 
 def balls_label_rechar():
     movemap.balls_label.text = ""
-    for i in ["o" if j.hp > 0 else "x" for j in figure.pokes[:6]]:
-        movemap.balls_label.text += i
-    movemap.balls_label.rechar(movemap.balls_label.text+(6-len(figure.pokes[:6]))*"-", esccode="\033[1m")
+    for i in range(6):
+        if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__":
+            movemap.balls_label.text += "-"
+        elif figure.pokes[i].hp > 0:
+            movemap.balls_label.text += "o"
+        else:
+            movemap.balls_label.text += "x"
+    movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap
@@ -548,6 +560,15 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 decksubmap.move_label.rechar("2: Move    ")
                 decksubmap.remap()
                 decksubmap.show()
+        elif ev == "'3'":
+            ev = ""
+            for poke in pokes:
+                deck_remove(poke)
+            figure.pokes[deck_index.index] = Poke("__fallback__", 10, 0)
+            pokes = figure.pokes[:len(pokes)]
+            deck_add_all(pokes)
+            deck_index.set(pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
+            balls_label_rechar()
         elif ev in ["'w'", "'a'", "'s'", "'d'"]:
             deck_control(pokes, ev, deck_index)
             ev = ""
@@ -1012,7 +1033,7 @@ attacs = {
 pokes = {
     "__fallback__": {
         "name": "",
-        "hp": 0,
+        "hp": 20,
         "atc": "0",
         "defense": "0",
         "attacs": [],
