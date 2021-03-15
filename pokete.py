@@ -31,6 +31,24 @@ class Heal(se.Object):
         heal()
 
 
+class Trainer(se.Object):
+    def __init__(self, name, gender, poke, texts, lose_texts, no_poke_texts, win_texts, sx, sy, state="solid", arg_proto={}):
+        self.char="a"
+        self.state=state
+        self.added=False
+        self.arg_proto=arg_proto
+        self.name = name
+        self.gender = gender
+        self.poke = poke
+        self.texts = texts
+        self.lose_texts = lose_texts
+        self.no_poke_texts = no_poke_texts
+        self.win_texts = win_texts
+        self.sx = sx
+        self.sy = sy
+        self.will = True
+
+
 class PokeType():
     def __init__(self, name, effective, ineffective):
         self.name = name
@@ -314,13 +332,15 @@ def fight_clean_up(player, enemy):
         ob.remove()
 
 def fight_add(player, enemy):
-    enemy.tril.add(fightmap, 7, 3)
-    enemy.trir.add(fightmap, 16, 3)
-    enemy.text_name.add(fightmap, 1, 1)
-    enemy.text_lvl.add(fightmap, 1, 2)
-    enemy.text_hp.add(fightmap, 1, 3)
-    enemy.ico.add(fightmap, fightmap.width-14, 2)
-    enemy.hp_bar.add(fightmap, 8, 3)
+    for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar], [7, 16, 1, 1, 1, fightmap.width-14, 8], [3, 3, 1, 2, 3, 2, 3]):
+        ob.add(fightmap, x, y)
+    # enemy.tril.add(fightmap, 7, 3)
+    # enemy.trir.add(fightmap, 16, 3)
+    # enemy.text_name.add(fightmap, 1, 1)
+    # enemy.text_lvl.add(fightmap, 1, 2)
+    # enemy.text_hp.add(fightmap, 1, 3)
+    # enemy.ico.add(fightmap, fightmap.width-14, 2)
+    # enemy.hp_bar.add(fightmap, 8, 3)
     if player.identifier != "__fallback__":
         player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
         player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
@@ -336,13 +356,15 @@ def fight_add(player, enemy):
     return [player, enemy]
 
 def fight_add_1(player, enemy):
-    enemy.tril.add(fightmap, 7, 3)
-    enemy.trir.add(fightmap, 16, 3)
-    enemy.text_name.add(fightmap, 1, 1)
-    enemy.text_lvl.add(fightmap, 1, 2)
-    enemy.text_hp.add(fightmap, 1, 3)
-    enemy.ico.add(fightmap, fightmap.width-14, 2)
-    enemy.hp_bar.add(fightmap, 8, 3)
+    for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar], [7, 16, 1, 1, 1, fightmap.width-14, 8], [3, 3, 1, 2, 3, 2, 3]):
+        ob.add(fightmap, x, y)
+    # enemy.tril.add(fightmap, 7, 3)
+    # enemy.trir.add(fightmap, 16, 3)
+    # enemy.text_name.add(fightmap, 1, 1)
+    # enemy.text_lvl.add(fightmap, 1, 2)
+    # enemy.text_hp.add(fightmap, 1, 3)
+    # enemy.ico.add(fightmap, fightmap.width-14, 2)
+    # enemy.hp_bar.add(fightmap, 8, 3)
     if enemy.name in [ob.name for ob in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
     for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
@@ -1428,6 +1450,7 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 # .will = True
 # .gender = "He"
 # attributes
+# Replaced with Trainer class
 
 # maps
 centermap = se.Map(background=" ")
@@ -1461,17 +1484,7 @@ movemap.exit_label.add(movemap, 9, movemap.height-1)
 movemap.code_label.add(movemap, 0, 0)
 
 # playmap_1
-trainer1 = se.Object("a")
-trainer1.poke = Poke("poundi", 60, player=False)
-trainer1.texts = [" < Wanna fight?"]
-trainer1.lose_texts = [" < Hahaha!", " < You're a loser!"]
-trainer1.no_poke_texts = [" < I see you don't have a living Pokete"]
-trainer1.win_texts = [" < Your a very good trainer!"]
-trainer1.name = "Franz"
-trainer1.sx = 30
-trainer1.sy = 10
-trainer1.will = True
-trainer1.gender = "He"
+trainer1 = Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)
 playmap_1.trainers = [trainer1]
 playmap_1.tree_group_1 = se.Text(""" (()(()((())((()((()
 ())(())))())))()))(()
@@ -1509,17 +1522,7 @@ playmap_1.meadow.add(playmap_1, 5, 7)
 playmap_1.dor_cave_1.add(playmap_1, 74, 0)
 
 # playmap_2
-trainer3 = se.Object("a")
-trainer3.poke = Poke("ostri", 160, player=False)
-trainer3.texts = [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"]
-trainer3.lose_texts = [" < It is stronger than you might have exspected"]
-trainer3.win_texts = [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"]
-trainer3.no_poke_texts = [" < I see you don't have a living Pokete"]
-trainer3.name = "Wanderer Murrad"
-trainer3.sx = 32
-trainer3.sy = 12
-trainer3.will = True
-trainer3.gender = "He"
+trainer3 = Trainer("Wanderer Murrad", "He", Poke("ostri", 160, player=False), [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"], [" < It is stronger than you might have exspected"], [" < I see you don't have a living Pokete"], [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"], 32, 12)
 playmap_2.trainers = [trainer3]
 playmap_2.tree_group_1 = se.Text(""" ())
 ())))
@@ -1596,17 +1599,7 @@ playmap_2.meadow1.add(playmap_2, 10, 0)
 playmap_2.meadow2.add(playmap_2, 40, 7)
 
 # cave_1
-trainer2 = se.Object("a")
-trainer2.poke = Poke("hornita", 128, player=False)
-trainer2.texts = [" < Hello noble traveler", " < Are you willing to fight with me?"]
-trainer2.lose_texts = [" < Hahaha!", " < Looooser!"]
-trainer2.no_poke_texts = [" < I see you don't have a living Pokete"]
-trainer2.win_texts = [" < Congratulations!", " < Have a great day!"]
-trainer2.name = "Monica"
-trainer2.sx = 23
-trainer2.sy = 10
-trainer2.will = True
-trainer2.gender = "She"
+trainer2 = Trainer("Monica", "She", Poke("hornita", 128, player=False), [" < Hello noble traveler", " < Are you willing to fight with me?"], [" < Hahaha!", " < Looooser!"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < Have a great day!"], 23, 10)
 cave_1.trainers = [trainer2]
 cave_1.innerwalls = se.Text("""+--------+
 |        |
