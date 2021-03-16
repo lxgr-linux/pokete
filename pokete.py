@@ -197,12 +197,7 @@ class Poke():
             exec("self.move_"+attac.move+"()")
             enem.oldhp = enem.hp
             self.oldhp = self.hp
-            if enem.type.name in attac.type.effective:
-                effectivity = 1.5
-            elif enem.type.name in attac.type.ineffective:
-                effectivity = 0.5
-            else:
-                effectivity = 1
+            effectivity = 1.5 if enem.type.name in attac.type.effective else 0.5 if enem.type.name in attac.type.ineffective else 1
             n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0]*effectivity)
             enem.hp -= n_hp if n_hp >= 0 else 0
             if enem.hp < 0:
@@ -340,33 +335,26 @@ def deck_control(pokes, ev, index):
     if len(pokes) <= 1:
         return
     if ev == "'a'":
-        ev=""
         if index.index != 0:
             index.index -= 1
         else:
             index.index = len(pokes)-1
-        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
     elif ev == "'d'":
-        ev=""
         if index.index != len(pokes)-1:
             index.index += 1
         else:
             index.index = 0
-        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
     elif ev == "'s'":
-        ev=""
         if index.index+2 < len(pokes):
             index.index += 2
         else:
             index.index = index.index % 2
-        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
     elif ev == "'w'":
-        ev=""
         if index.index-2 >= 0:
             index.index -= 2
         else:
             index.index = [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]
-        index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+    index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
 
 def fight_clean_up(player, enemy):
     for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]+player.atc_labels:
@@ -417,12 +405,7 @@ def fight_add_2(player, enemy):
 def balls_label_rechar():
     movemap.balls_label.text = ""
     for i in range(6):
-        if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__":
-            movemap.balls_label.text += "-"
-        elif figure.pokes[i].hp > 0:
-            movemap.balls_label.text += "o"
-        else:
-            movemap.balls_label.text += "x"
+        movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__" else "o" if figure.pokes[i].hp > 0 else "x"
     movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
@@ -689,10 +672,8 @@ def game(map):
     movemap.code_label.rechar(figure.map.pretty_name)
     movemap.set(0, 0)
     movemap.bmap = map
-
     movemap.remap()
     movemap.show()
-
     while True:
         for name, dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"], ["t", "l", "b", "r"], [0, -1, 0, 1], [-1, 0, 1, 0]):
             if ev == name:
