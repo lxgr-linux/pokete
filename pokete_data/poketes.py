@@ -2,6 +2,7 @@
 # If you want to contribute Poketes, you have to keep in mind, that "ico" can be max 11x4 chars big
 # and that the max for attacks is (until now) 4
 # All attributes have to be present make a Pokete work
+# A type has to be present
 # Hornita was inspired and partly designed by Pia <pialandrath@gmail.com>
 
 pokes = {
@@ -338,3 +339,6 @@ WW\/* *\/WW
   \_____/"""
     },
 }
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!")
