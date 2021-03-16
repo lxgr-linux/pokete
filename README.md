@@ -48,4 +48,4 @@ On windows pynput has to be installed too.
 
 ## Contributing
 Feel free to contribute what ever you want to this game.
-New Pokete contributions are especially welcome.
+New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
