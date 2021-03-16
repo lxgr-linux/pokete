@@ -8,6 +8,8 @@
 import scrap_engine as se
 import random, time, os, sys, threading, math
 from pathlib import Path
+from pokete_data.poketes import *
+from pokete_data.attacks import *
 
 class HightGrass(se.Object):
     def action(self, ob):
@@ -47,6 +49,43 @@ class Trainer(se.Object):
         self.sx = sx
         self.sy = sy
         self.will = True
+
+    def do(self, map):
+        if figure.x == self.x and self.poke.hp > 0 and self.will:
+            arr = []
+            for i in range(figure.y+2 if figure.y < self.y else self.y+1, self.y if figure.y < self.y else figure.y-2):
+                arr += map.obmap[i][self.x]
+            if any(ob.state == "solid" for ob in arr):
+                return
+            movemap.remap()
+            movemap.show()
+            time.sleep(0.7)
+            exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)
+            movemap.show()
+            time.sleep(1)
+            exclamation.remove()
+            while self.y != figure.y+(2 if self.y > figure.y else -2):
+                self.set(self.x, self.y+(-1 if self.y > figure.y+1 or self.y == figure.y-1 else 1))
+                movemap.remap()
+                movemap.show()
+                time.sleep(0.3)
+            if any([poke.hp > 0 for poke in figure.pokes[:6]]):
+                movemap_text(self.x, self.y, self.texts)
+                winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], self.poke, info={"type": "duel", "player": self})
+                if winner == self.poke:
+                    movemap_text(self.x, self.y, self.lose_texts)
+                else:
+                    movemap_text(self.x, self.y, self.win_texts)
+                    self.will = False
+            else:
+                movemap_text(self.x, self.y, self.no_poke_texts)
+                self.will = False
+            multitext.remove()
+            while self.y != self.sy:
+                self.set(self.x, self.y+(1 if self.y < self.sy else -1))
+                movemap.remap()
+                movemap.show()
+                time.sleep(0.3)
 
 
 class PokeType():
@@ -110,8 +149,9 @@ class Poke():
         self.player = player
         self.identifier = poke
         self.set_vars()
-        for name in ["hp", "attacs", "name", "miss_chance", "lose_xp", "type"]:
+        for name in ["hp", "attacs", "name", "miss_chance", "lose_xp"]:
             exec("self."+name+" = pokes[self.identifier][name]")
+        exec("self.type = "+pokes[self.identifier]["type"])
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
         self.hp_bar = se.Text(8*"#", esccode="\033[32m")
@@ -211,6 +251,7 @@ class Attack():
     def __init__(self, index):
         for i in attacs[index]:
             exec("self."+i+"=attacs[index][i]")
+        exec("self.type = "+attacs[index]["type"])
         self.max_ap = self.ap
         self.label_name = se.Text(self.name, esccode="\033[4m")
         self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
@@ -334,13 +375,6 @@ def fight_clean_up(player, enemy):
 def fight_add(player, enemy):
     for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar], [7, 16, 1, 1, 1, fightmap.width-14, 8], [3, 3, 1, 2, 3, 2, 3]):
         ob.add(fightmap, x, y)
-    # enemy.tril.add(fightmap, 7, 3)
-    # enemy.trir.add(fightmap, 16, 3)
-    # enemy.text_name.add(fightmap, 1, 1)
-    # enemy.text_lvl.add(fightmap, 1, 2)
-    # enemy.text_hp.add(fightmap, 1, 3)
-    # enemy.ico.add(fightmap, fightmap.width-14, 2)
-    # enemy.hp_bar.add(fightmap, 8, 3)
     if player.identifier != "__fallback__":
         player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
         player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
@@ -358,13 +392,6 @@ def fight_add(player, enemy):
 def fight_add_1(player, enemy):
     for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar], [7, 16, 1, 1, 1, fightmap.width-14, 8], [3, 3, 1, 2, 3, 2, 3]):
         ob.add(fightmap, x, y)
-    # enemy.tril.add(fightmap, 7, 3)
-    # enemy.trir.add(fightmap, 16, 3)
-    # enemy.text_name.add(fightmap, 1, 1)
-    # enemy.text_lvl.add(fightmap, 1, 2)
-    # enemy.text_hp.add(fightmap, 1, 3)
-    # enemy.ico.add(fightmap, fightmap.width-14, 2)
-    # enemy.hp_bar.add(fightmap, 8, 3)
     if enemy.name in [ob.name for ob in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
     for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
@@ -715,41 +742,7 @@ def game(map):
         elif ev == "exit":
             raise KeyboardInterrupt
         for trainer in map.trainers:
-            if figure.x == trainer.x and trainer.poke.hp > 0 and trainer.will:
-                arr = []
-                for i in range(figure.y+2 if figure.y < trainer.y else trainer.y+1, trainer.y if figure.y < trainer.y else figure.y-2):
-                    arr += map.obmap[i][trainer.x]
-                if any(ob.state == "solid" for ob in arr):
-                    continue
-                movemap.remap()
-                movemap.show()
-                time.sleep(0.7)
-                exclamation.add(movemap, trainer.x-movemap.x, trainer.y-1-movemap.y)
-                movemap.show()
-                time.sleep(1)
-                exclamation.remove()
-                while trainer.y != figure.y+(2 if trainer.y > figure.y else -2):
-                    trainer.set(trainer.x, trainer.y+(-1 if trainer.y > figure.y+1 or trainer.y == figure.y-1 else 1))
-                    movemap.remap()
-                    movemap.show()
-                    time.sleep(0.3)
-                if any([poke.hp > 0 for poke in figure.pokes[:6]]):
-                    movemap_text(trainer.x, trainer.y, trainer.texts)
-                    winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], trainer.poke, info={"type": "duel", "player": trainer})
-                    if winner == trainer.poke:
-                        movemap_text(trainer.x, trainer.y, trainer.lose_texts)
-                    else:
-                        movemap_text(trainer.x, trainer.y, trainer.win_texts)
-                        trainer.will = False
-                else:
-                    movemap_text(trainer.x, trainer.y, trainer.no_poke_texts)
-                    trainer.will = False
-                multitext.remove()
-                while trainer.y != trainer.sy:
-                    trainer.set(trainer.x, trainer.y+(1 if trainer.y < trainer.sy else -1))
-                    movemap.remap()
-                    movemap.show()
-                    time.sleep(0.3)
+            trainer.do(map)
         time.sleep(0.05)
         if figure.x+5 > movemap.x+movemap.width:
             movemap.set(movemap.x+1, movemap.y)
@@ -802,590 +795,6 @@ for i in [("normal", [], []),
 ("electro", ["stone", "flying"], ["ground"]),
 ("flying", ["plant"], ["stone"])]:
     exec(i[0]+" = PokeType(i[0], i[1], i[2])")
-
-attacs = {
-    "tackle": {
-        "name": "Tackle",
-        "factor": 3/2,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.2,
-        "desc": "Tackles the enemy very hard",
-        "type": normal,
-        "ap": 20,
-    },
-    "pick": {
-        "name": "Pick",
-        "factor": 1.7,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.1,
-        "desc": "A pick at the enemys weakest spot",
-        "type": flying,
-        "ap": 20,
-    },
-    "apple_drop": {
-        "name": "Apple drop",
-        "factor": 1.7,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.3,
-        "desc": "Lets an apple drop on the enemys head",
-        "type": plant,
-        "ap": 20,
-    },
-    "eye_pick": {
-        "name": "Eye pick",
-        "factor": 2.5,
-        "action": "enem.miss_chance += 2",
-        "move": "attack",
-        "miss_chance": 0.6,
-        "desc": "Picks out one of the enemys eyes",
-        "type": flying,
-        "ap": 5,
-    },
-    "earch_quake": {
-        "name": "Earch quake",
-        "factor": 4,
-        "action": "",
-        "move": "pound",
-        "miss_chance": 0,
-        "desc": "Brings the earth to shift",
-        "type": ground,
-        "ap": 5,
-    },
-    "wing_hit": {
-        "name": "Wing hit",
-        "factor": 2.5,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.5,
-        "desc": "Hits the enemy with a wing",
-        "type": flying,
-        "ap": 5,
-    },
-    "super_sucker": {
-        "name": "Super sucker",
-        "factor": 0,
-        "action": "enem.hp -=2; self.hp +=2 if self.hp+2 <= self.full_hp else 0",
-        "move": "attack",
-        "miss_chance": 0,
-        "desc": "Sucks 2 HP from the enemy and adds it to it's own",
-        "type": plant,
-        "ap": 5,
-    },
-    "sucker": {
-        "name": "Sucker",
-        "factor": 0,
-        "action": "enem.hp -=1; self.hp +=1 if self.hp+1 <= self.full_hp else 0",
-        "move": "attack",
-        "miss_chance": 0,
-        "desc": "Sucks 1 HP from the enemy and adds it to it's own",
-        "type": plant,
-        "ap": 20,
-    },
-    "brooding": {
-        "name": "Brooding",
-        "factor": 0,
-        "action": "self.hp += 2 if self.hp+2 <= self.full_hp else 0",
-        "move": "shine",
-        "miss_chance": 0,
-        "desc": "Regenerates 2 HP",
-        "type": normal,
-        "ap": 5,
-    },
-    "pepple_fire": {
-        "name": "Pepple fire",
-        "factor": 1,
-        "action": "enem.miss_chance += 1",
-        "move": "attack",
-        "miss_chance": 0,
-        "desc": "Fires pepples at the enemy and makes it blind",
-        "type": stone,
-        "ap": 3,
-    },
-    "cry": {
-        "name": "Cry",
-        "factor": 0,
-        "action": "enem.miss_chance += 1",
-        "move": "attack",
-        "miss_chance": 0,
-        "desc": "So loud, it confuses the enemy",
-        "type": normal,
-        "ap": 5,
-    },
-    "bite": {
-        "name": "Bite",
-        "factor": 1.75,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.1,
-        "desc": "A hard bite the sharp teeth",
-        "type": normal,
-        "ap": 20,
-    },
-    "politure": {
-        "name": "Politure",
-        "factor": 0,
-        "action": "self.defense += 1; self.atc += 1",
-        "move": "shine",
-        "miss_chance": 0,
-        "desc": "Upgrades defense and attack points",
-        "type": stone,
-        "ap": 10,
-    },
-    "bark_hardening": {
-        "name": "Bark hardening",
-        "factor": 0,
-        "action": "self.defense += 1",
-        "move": "shine",
-        "miss_chance": 0,
-        "desc": "Hardens the bark to protect it better",
-        "type": plant,
-        "ap": 10,
-    },
-    "chocer": {
-        "name": "Chocer",
-        "factor": 1,
-        "action": "enem.atc -= 1",
-        "move": "attack",
-        "miss_chance": 0.2,
-        "desc": "Choces the enemy and makes it weaker",
-        "type": normal,
-        "ap": 10,
-    },
-    "poison_bite": {
-        "name": "Poison bite",
-        "factor": 1,
-        "action": "enem.atc -= 1; enem.defense -= 1",
-        "move": "attack",
-        "miss_chance": 0.3,
-        "desc": "Makes the enemy weaker",
-        "type": normal,
-        "ap": 5,
-    },
-    "power_pick": {
-        "name": "Power pick",
-        "factor": 2,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.4,
-        "desc": "A harsh picking on the enemys head",
-        "type": flying,
-        "ap": 5,
-    },
-    "bubble_bomb": {
-        "name": "Bubble bomb",
-        "factor": 6,
-        "action": "enem.miss_chance += 1",
-        "move": "attack",
-        "miss_chance": 0,
-        "desc": "A deadly bubble",
-        "type": water,
-        "ap": 5,
-    },
-    "bubble_shield": {
-        "name": "Bubble shield",
-        "factor": 0,
-        "action": "self.defense += 2",
-        "move": "shine",
-        "miss_chance": 0,
-        "desc": "Creates a giant bubble that protects the Pokete",
-        "type": water,
-        "ap": 5,
-    },
-    "mind_blow": {
-        "name": "Mind blow",
-        "factor": 0,
-        "action": "enem.miss_chance += 2",
-        "move": "attack",
-        "miss_chance": 0,
-        "desc": "Causes confusion deep in the enemys mind",
-        "type": normal,
-        "ap": 10,
-    },
-    "tail_wipe": {
-        "name": "Tail wipe",
-        "factor": 2.5,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.5,
-        "desc": "Wipes throught the enemys face",
-        "type": normal,
-        "ap": 5,
-    },
-    "meat_skewer": {
-        "name": "Meat skewer",
-        "factor": 3.5,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.7,
-        "desc": "Drills the horn deep in the enemys flesh",
-        "type": normal,
-        "ap": 5,
-    },
-    "fire_bite": {
-        "name": "Fire bite",
-        "factor": 2,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.2,
-        "desc": "Burns and bites the enemy at the same time",
-        "type": fire,
-        "ap": 10,
-    },
-    "power_roll": {
-        "name": "Power roll",
-        "factor": 2.5,
-        "action": "",
-        "move": "attack",
-        "miss_chance": 0.2,
-        "desc": "Rolls over the enemy",
-        "type": ground,
-        "ap": 10,
-    },
-}
-
-# Here starts to definition of all the Poketes
-# If you want to contribute Poketes, you have to keep in mind, that "ico" can be max 11x4 chars big
-# and that the max for attacks is (until now) 4
-# All attributes have to be present make a Pokete work
-# Hornita was inspired and partly designed by Pia <pialandrath@gmail.com>
-
-pokes = {
-    "__fallback__": {
-        "name": "",
-        "hp": 20,
-        "atc": "0",
-        "defense": "0",
-        "attacs": [],
-        "miss_chance": 0,
-        "desc": "",
-        "lose_xp": 0,
-        "rarity": 0,
-        "type": normal,
-        "ico": """ """,
-    },
-    "steini": {
-        "name": "Steini",
-        "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+4",
-        "attacs": ["tackle", "politure"],
-        "miss_chance": 0,
-        "desc": "A squared stone that can casually be found on the ground",
-        "lose_xp": 2,
-        "rarity": 1,
-        "type": stone,
-        "ico": """ +-------+
- | o   o |
- |  www  |
- +-------+ """,
-    },
-    "poundi": {
-        "name": "Poundi",
-        "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+3",
-        "attacs": ["tackle", "politure", "earch_quake"],
-        "miss_chance": 0,
-        "desc": "A powerfull and heavy stone Pokete that lives in mountain caves",
-        "lose_xp": 3,
-        "rarity": 0.7,
-        "type": stone,
-        "ico": """   A-A-A
-  < o o >
-  < --- >
-   VvVvV""",
-   },
-   "lilstone": {
-       "name": "Lilstone",
-       "hp": 20,
-       "atc": "self.lvl()+1",
-       "defense": "self.lvl()+2",
-       "attacs": ["tackle", "politure", "pepple_fire"],
-       "miss_chance": 0,
-       "desc": "A small but powerfull stone Pokete that lives in the mountains",
-       "lose_xp": 2,
-       "rarity": 1,
-       "type": stone,
-       "ico": """
-   _____
-   |'ᵕ'|
-   ‾‾‾‾‾""",
-  },
-  "rosi": {
-      "name": "Rosi",
-      "hp": 20,
-      "atc": "self.lvl()",
-      "defense": "self.lvl()+1",
-      "attacs": ["sucker", "super_sucker"],
-      "miss_chance": 0,
-      "desc": "A plant Pokete, that's often mistaken for a normal flower",
-      "lose_xp": 2,
-      "rarity": 0.8,
-      "type": plant,
-      "ico": """
-    (@)
-     |
-    \|/""",
- },
-  "gobost": {
-      "name": "Gobost",
-      "hp": 20,
-      "atc": "self.lvl()+2",
-      "defense": "self.lvl()+1",
-      "attacs": ["tackle", "mind_blow"],
-      "miss_chance": 0,
-      "desc": "A scary ghost Pokete that lives in caves and old houses",
-      "lose_xp": 2,
-      "rarity": 1,
-      "type": normal,
-      "ico": """ .░░░░░░░.
- ░░o░░░o░░
- ░░░░░░░░░
- ░ ░ ░ ░ ░""",
-  },
-  "vogli": {
-        "name": "Vogli",
-        "hp": 20,
-        "atc": "self.lvl()+6",
-        "defense": "self.lvl()+1",
-        "attacs": ["tackle", "power_pick"],
-        "miss_chance": 0,
-        "desc": "A very common bird Pokete that lives in town but also in the nature",
-        "lose_xp": 2,
-        "rarity": 1,
-        "type": flying,
-        "ico":"""    A
-   <')
-    www*
-    ||     """
-    },
-    "voglo": {
-        "name": "Voglo",
-        "hp": 20,
-        "atc": "self.lvl()+7",
-        "defense": "self.lvl()+1",
-        "attacs": ["tackle", "power_pick", "wing_hit", "brooding"],
-        "miss_chance": 0,
-        "desc": "A very agressive bird Pokete that can only be found in the woods",
-        "lose_xp": 2,
-        "rarity": 0.8,
-        "type": flying,
-        "ico":"""    ?
-   >´)
-    www*
-    ||     """
-    },
-    "ostri": {
-        "name": "Ostri",
-        "hp": 20,
-        "atc": "self.lvl()+8",
-        "defense": "self.lvl()",
-        "attacs": ["tackle", "eye_pick", "brooding"],
-        "miss_chance": 0,
-        "desc": "A very agressive bird Pokete that lives near deserts and will try to pick out your eyes",
-        "rarity": 0.6,
-        "lose_xp": 2,
-        "type": flying,
-        "ico":"""   !
-  >´)
-    \www'
-     ||"""
-    },
-    "karpi": {
-        "name": "Karpi",
-        "hp": 15,
-        "atc": "self.lvl()",
-        "defense": "self.lvl()/2",
-        "attacs": ["tackle"],
-        "miss_chance": 0,
-        "desc": "A very harmless water Pokete that can be found everywhere",
-        "lose_xp": 1,
-        "rarity": 1.5,
-        "type": water,
-        "ico":"""
-
-  <°))))><
-           """
-    },
-    "würgos": {
-        "name": "Würgos",
-        "hp": 20,
-        "atc": "self.lvl()+3",
-        "defense": "self.lvl()",
-        "attacs": ["chocer", "bite", "poison_bite"],
-        "miss_chance": 0,
-        "desc": "A dangerous snake Pokete",
-        "lose_xp": 2,
-        "rarity": 1,
-        "type": normal,
-        "ico": """  >'({{{
-  }}}}}}}
- {{{{{{{{{
-           """
-    },
-    "treenator": {
-        "name": "Treenator",
-        "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+2",
-        "attacs": ["apple_drop", "bark_hardening"],
-        "miss_chance": 0,
-        "desc": "A scary an dangerous apple tree",
-        "lose_xp": 2,
-        "rarity": 1,
-        "type": plant,
-        "ico": """    (()
-   (()))
-     H
-     H"""
-    },
-    "bato": {
-        "name": "Bato",
-        "hp": 20,
-        "atc": "self.lvl()+3",
-        "defense": "self.lvl()+1",
-        "attacs": ["bite", "cry"],
-        "miss_chance": 0,
-        "desc": "An annoying flying rat",
-        "lose_xp": 2,
-        "rarity": 1.3,
-        "type": flying,
-        "ico": """    ___
-WW\/* *\/WW
-   \\v-v/
-"""
-    },
-    "blub": {
-        "name": "Blub",
-        "hp": 20,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+1",
-        "attacs": ["tackle", "bubble_bomb", "bubble_shield"],
-        "miss_chance": 0,
-        "desc": "Very delicious and low fat water Pokete",
-        "lose_xp": 2,
-        "rarity": 1,
-        "type": water,
-        "ico": """  _____
- / o   \\
- >   v  ><
- \_____/"""
-    },
-    "owol": {
-        "name": "Owol",
-        "hp": 20,
-        "atc": "self.lvl()+7",
-        "defense": "self.lvl()+2",
-        "attacs": ["pick", "wing_hit", "cry"],
-        "miss_chance": 0,
-        "desc": "A night active Pokete, that is looking for lil children as a midnight snack",
-        "lose_xp": 2,
-        "rarity": 0.5,
-        "type": flying,
-        "ico": """   ,___,
-   {o,o}
-   /)_)
-    ""
-"""
-    },
-    "rato": {
-        "name": "Rato",
-        "hp": 20,
-        "atc": "self.lvl()+4",
-        "defense": "self.lvl()+2",
-        "attacs": ["tackle", "tail_wipe"],
-        "miss_chance": 0,
-        "desc": "An annoying rat",
-        "lose_xp": 2,
-        "rarity": 1.3,
-        "type": normal,
-        "ico": """   ^---^
-   \o o/
-   >\./<
-"""
-    },
-    "hornita": {
-        "name": "Hornita",
-        "hp": 20,
-        "atc": "self.lvl()+6",
-        "defense": "self.lvl()+2",
-        "attacs": ["tackle", "meat_skewer", "tail_wipe"],
-        "miss_chance": 0,
-        "desc": "An majestetic horse that is always looking for something to pick with its horn.",
-        "lose_xp": 2,
-        "rarity": 1,
-        "type": normal,
-        "ico": """ \\
- =')~
-   (¯¯¯¯)~
-   //¯¯\\\\"""
-    },
-    "horny": {
-        "name": "Horny",
-        "hp": 20,
-        "atc": "self.lvl()+5",
-        "defense": "self.lvl()+1",
-        "attacs": ["tackle", "meat_skewer"],
-        "miss_chance": 0.2,
-        "desc": "A teenaged unicorn in the middle of puberty.",
-        "rarity": 1,
-        "lose_xp": 2,
-        "type": normal,
-        "ico": """  ,
- =')
-   (¯¯¯)~
-   //¯\\\\"""
-    },
-    "bushy": {
-        "name": "Bushy",
-        "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+1",
-        "attacs": ["tackle", "bark_hardening"],
-        "miss_chance": 0,
-        "desc": "A bush, and just a bush. But watch out!",
-        "lose_xp": 2,
-        "rarity": 1,
-        "type": plant,
-        "ico": """
-    (()
-   (()))"""
-    },
-    "wolfior": {
-        "name": "Wolfior",
-        "hp": 20,
-        "atc": "self.lvl()+6",
-        "defense": "self.lvl()+3",
-        "attacs": ["tackle", "fire_bite"],
-        "miss_chance": 0,
-        "desc": "A fiery wolf straight from hell, that likes to burn 11 years old butts of.",
-        "lose_xp": 2,
-        "rarity": 1,
-        "type": fire,
-        "ico": """   ^---^
-   (* *)
-   >(.)<"""
-    },
-    "rollator": {
-        "name": "Rollator",
-        "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+5",
-        "attacs": ["tackle", "power_roll"],
-        "miss_chance": 0,
-        "desc": "A big chunck of stone and dirt, that roles around.",
-        "lose_xp": 2,
-        "rarity": 0.5,
-        "type": ground,
-        "ico": """   _____
-  / o o \\
-  | ___ |
-  \_____/"""
-    },
-}
 
 # deciding on wich input to use
 if sys.platform == "linux":  # Use another (not on xserver relying) way to read keyboard input, to make this shit work in tty or via ssh, where no xserver is available
@@ -1653,17 +1062,7 @@ cave_1.innerwalls.add(cave_1, 0, 0)
 cave_1.inner.add(cave_1, 0, 0)
 
 # playmap_3
-trainer4 = se.Object("a")
-trainer4.poke = Poke("hornita", 200, player=False)
-trainer4.texts = [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"]
-trainer4.lose_texts = [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"]
-trainer4.no_poke_texts = [" < I see you don't have a living Pokete", " < Loooser!"]
-trainer4.win_texts = [" < Damn, I lost!"]
-trainer4.name = "Josi"
-trainer4.sx = 11
-trainer4.sy = 5
-trainer4.will = True
-trainer4.gender = "She"
+trainer4 = Trainer("Josi", "She", Poke("hornita", 200, player=False), [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"], [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"], [" < I see you don't have a living Pokete", " < Loooser!"], [" < Damn, I lost!"], 11, 5)
 playmap_3.trainers = [trainer4]
 playmap_3.tree_group_1 = se.Text("""())
 ))()
