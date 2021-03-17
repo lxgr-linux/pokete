@@ -57,8 +57,7 @@ class Trainer(se.Object):
                 arr += map.obmap[i][self.x]
             if any(ob.state == "solid" for ob in arr):
                 return
-            movemap.remap()
-            movemap.show()
+            movemap.full_show()
             time.sleep(0.7)
             exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)
             movemap.show()
@@ -66,25 +65,20 @@ class Trainer(se.Object):
             exclamation.remove()
             while self.y != figure.y+(2 if self.y > figure.y else -2):
                 self.set(self.x, self.y+(-1 if self.y > figure.y+1 or self.y == figure.y-1 else 1))
-                movemap.remap()
-                movemap.show()
+                movemap.full_show()
                 time.sleep(0.3)
             if any([poke.hp > 0 for poke in figure.pokes[:6]]):
                 movemap_text(self.x, self.y, self.texts)
                 winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], self.poke, info={"type": "duel", "player": self})
-                if winner == self.poke:
-                    movemap_text(self.x, self.y, self.lose_texts)
-                else:
-                    movemap_text(self.x, self.y, self.win_texts)
-                    self.will = False
+                movemap_text(self.x, self.y, {True : self.lose_texts, False: self.win_texts}[winner == self.poke])
+                self.will = (winner == self.poke)
             else:
                 movemap_text(self.x, self.y, self.no_poke_texts)
                 self.will = False
             multitext.remove()
             while self.y != self.sy:
                 self.set(self.x, self.y+(1 if self.y < self.sy else -1))
-                movemap.remap()
-                movemap.show()
+                movemap.full_show()
                 time.sleep(0.3)
 
 
@@ -218,18 +212,16 @@ class Poke():
             fightmap.show()
 
     def move_attack(self):
-        self.ico.move(3 if self.player else -3, -2 if self.player else 2)
-        fightmap.show()
-        time.sleep(0.3)
-        self.ico.move(-3 if self.player else 3, 2 if self.player else -2)
-        fightmap.show()
+        for i, j in zip([3, -3], [2, -2]):
+            self.ico.move(i if self.player else -i, -j if self.player else j)
+            fightmap.show()
+            time.sleep(0.3)
 
     def move_pound(self):
-        self.ico.move(0, -1)
-        fightmap.show()
-        time.sleep(0.3)
-        self.ico.move(0, 1)
-        fightmap.show()
+        for i in [-1, 1]:
+            self.ico.move(0, i)
+            fightmap.show()
+            time.sleep(0.3)
 
     def move_shine(self):
         for i, x, y in zip(fightmap.shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):
@@ -551,15 +543,13 @@ def deck(pokes, label="Your full deck", in_fight=False):
     decksubmap.move_label.rechar("2: Move    ")
     ev = ""
     j = 0
-    _first_index = ""
-    _second_index = ""
+    indici = []
     deck_add_all(pokes, True)
     deck_index = se.Object("*")
     deck_index.index = 0
     if len(pokes) > 0:
         deck_index.add(deckmap, pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
-    decksubmap.remap()
-    decksubmap.show(init=True)
+    decksubmap.full_show(init=True)
     while True:
         if ev == "'1'":
             ev = ""
@@ -573,25 +563,21 @@ def deck(pokes, label="Your full deck", in_fight=False):
             ev = ""
             if len(pokes) == 0:
                 continue
-            if _first_index == "":
-                _first_index = deck_index.index
+            if indici == []:
+                indici.append(deck_index.index)
                 decksubmap.move_label.rechar("2: Move to?")
             else:
-                _second_index = deck_index.index
-                _first_item = pokes[_first_index]
-                _second_item = pokes[_second_index]
-                pokes[_first_index] = figure.pokes[_first_index] = _second_item
-                pokes[_second_index] = figure.pokes[_second_index] = _first_item
-                _first_index = ""
-                _second_index = ""
+                indici.append(deck_index.index)
+                figure.pokes[indici[0]], figure.pokes[indici[1]] = pokes[indici[1]], pokes[indici[0]]
+                pokes = figure.pokes[:len(pokes)]
+                indici = []
                 for poke in pokes:
                     deck_remove(poke)
                 deck_index.set(0, deckmap.height-1)
                 deck_add_all(pokes)
                 deck_index.set(pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
                 decksubmap.move_label.rechar("2: Move    ")
-                decksubmap.remap()
-                decksubmap.show()
+                decksubmap.full_show()
         elif ev == "'3'":
             ev = ""
             for poke in pokes:
@@ -621,8 +607,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                     deck_remove(poke)
                 detail(pokes[deck_index.index])
                 deck_add_all(pokes)
-                decksubmap.remap()
-                decksubmap.show(init=True)
+                decksubmap.full_show(init=True)
         elif ev == "exit":
             raise KeyboardInterrupt
         if len(pokes) > 0 and deck_index.y-decksubmap.y +6 > decksubmap.height:
@@ -630,8 +615,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
         elif len(pokes) > 0 and deck_index.y-1 < decksubmap.y:
             decksubmap.set(decksubmap.x, decksubmap.y-1)
         time.sleep(0.05)
-        decksubmap.remap()
-        decksubmap.show()
+        decksubmap.full_show()
 
 def detail(poke):
     global ev
@@ -640,11 +624,9 @@ def detail(poke):
     poke.desc.add(detailmap, 34, 2)
     poke.text_type.add(detailmap, 36, 5)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
-        atc.label_name.add(detailmap, x, y)
-        atc.label_factor.add(detailmap, x, y+1)
-        atc.label_type.add(detailmap, x+11, y+1)
         atc.label_ap.rechar("AP:"+str(atc.ap)+"/"+str(atc.max_ap))
-        atc.label_ap.add(detailmap, x, y+2)
+        for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type, atc.label_ap], [0, 0, 11, 0], [0, 1, 1, 2]):
+            label.add(detailmap, x+_x, y+_y)
         try:
             atc.desc.add(detailmap, x, y+3)
         except:
@@ -672,8 +654,7 @@ def game(map):
     movemap.code_label.rechar(figure.map.pretty_name)
     movemap.set(0, 0)
     movemap.bmap = map
-    movemap.remap()
-    movemap.show()
+    movemap.full_show()
     while True:
         for name, dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"], ["t", "l", "b", "r"], [0, -1, 0, 1], [-1, 0, 1, 0]):
             if ev == name:
@@ -733,8 +714,7 @@ def game(map):
             movemap.set(movemap.x, movemap.y+1)
         if figure.y < movemap.y+4:
             movemap.set(movemap.x, movemap.y-1)
-        movemap.remap()
-        movemap.show()
+        movemap.full_show()
 
 def movemap_text(x, y, arr):
     global ev
