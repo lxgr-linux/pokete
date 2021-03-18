@@ -625,12 +625,8 @@ def detail(poke):
     poke.text_type.add(detailmap, 36, 5)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.label_ap.rechar("AP:"+str(atc.ap)+"/"+str(atc.max_ap))
-        for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type, atc.label_ap], [0, 0, 11, 0], [0, 1, 1, 2]):
+        for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type, atc.label_ap, atc.desc], [0, 0, 11, 0, 0], [0, 1, 1, 2, 3]):
             label.add(detailmap, x+_x, y+_y)
-        try:
-            atc.desc.add(detailmap, x, y+3)
-        except:
-            continue
     detailmap.show(init=True)
     while True:
         if ev == "'1'":
