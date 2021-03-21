@@ -339,7 +339,7 @@ def deck_control(pokes, ev, index):
     index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
 
 def fight_clean_up(player, enemy):
-    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]+player.atc_labels:
+    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small] + player.atc_labels:
         ob.remove()
 
 def fight_add(player, enemy):
@@ -749,23 +749,16 @@ if sys.platform == "linux":  # Use another (not on xserver relying) way to read 
         import tty, sys, termios
         global ev, old_settings, termios, fd, do_exit
 
-        do_exit=False
-        fd=sys.stdin.fileno()
+        do_exit = False
+        fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         tty.setraw(fd)
         while True:
-            char=sys.stdin.read(1)
-            if ord(char) == 13:
-                ev="Key.enter"
-            elif ord(char) == 127:
-                ev="Key.backspace"
-            elif ord(char) == 32:
-                ev="Key.space"
-            else:
-                ev="'"+char.rstrip()+"'"
+            char = sys.stdin.read(1)
+            ev = {ord(char): "'"+char.rstrip()+"'", 13: "Key.enter", 127: "Key.backspace", 32: "Key.space"}[ord(char)]
             if ord(char) == 3 or do_exit:
                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-                ev="exit"
+                ev = "exit"
 else:
     from pynput.keyboard import Key, Listener
     def recogniser():
