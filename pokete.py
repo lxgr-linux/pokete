@@ -212,10 +212,10 @@ class Poke():
             fightmap.show()
 
     def move_attack(self):
-        for i, j in zip([3, -3], [2, -2]):
+        for i, j, t in zip([3, -3], [2, -2], [0.3, 0]):
             self.ico.move(i if self.player else -i, -j if self.player else j)
             fightmap.show()
-            time.sleep(0.3)
+            time.sleep(t)
 
     def move_pound(self):
         for i in [-1, 1]:
@@ -326,26 +326,16 @@ def deck_add_all(pokes, init=False):
 def deck_control(pokes, ev, index):
     if len(pokes) <= 1:
         return
-    if ev == "'a'":
-        if index.index != 0:
-            index.index -= 1
-        else:
-            index.index = len(pokes)-1
-    elif ev == "'d'":
-        if index.index != len(pokes)-1:
-            index.index += 1
-        else:
-            index.index = 0
-    elif ev == "'s'":
-        if index.index+2 < len(pokes):
-            index.index += 2
-        else:
-            index.index = index.index % 2
-    elif ev == "'w'":
-        if index.index-2 >= 0:
-            index.index -= 2
-        else:
-            index.index = [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]
+    for control, statement, first, second in zip(
+["'a'", "'d'", "'s'", "'w'"],
+[index.index != 0, index.index != len(pokes)-1, index.index+2 < len(pokes), index.index-2 >= 0],
+[-1, 1, 2, -2],
+[len(pokes)-1, 0, index.index % 2, [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]]):
+        if ev == control:
+            if statement:
+                index.index += first
+            else:
+                index.index = second
     index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
 
 def fight_clean_up(player, enemy):
