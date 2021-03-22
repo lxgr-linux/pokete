@@ -327,15 +327,16 @@ def deck_control(pokes, ev, index):
     if len(pokes) <= 1:
         return
     for control, statement, first, second in zip(
-["'a'", "'d'", "'s'", "'w'"],
-[index.index != 0, index.index != len(pokes)-1, index.index+2 < len(pokes), index.index-2 >= 0],
-[-1, 1, 2, -2],
-[len(pokes)-1, 0, index.index % 2, [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]]):
+    ["'a'", "'d'", "'s'", "'w'"],
+    [index.index != 0, index.index != len(pokes)-1, index.index+2 < len(pokes), index.index-2 >= 0],
+    [-1, 1, 2, -2],
+    [len(pokes)-1, 0, index.index % 2, [i for i in range(len(pokes)) if i % 2 == index.index % 2][-1]]):
         if ev == control:
             if statement:
                 index.index += first
             else:
                 index.index = second
+            break
     index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
 
 def fight_clean_up(player, enemy):
@@ -646,17 +647,17 @@ def game(map):
             if ev == name:
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
-                ev=""
+                ev = ""
         if ev == "'1'":
-            ev=""
+            ev = ""
             deck(figure.pokes[:6], "Your deck")
             movemap.show(init=True)
         elif ev == "'2'":
-            ev=""
+            ev = ""
             save()
             exiter()
         elif ev == "':'":
-            ev=""
+            ev = ""
             exec_string = ""
             movemap.code_label.rechar(":"+exec_string+"█")
             movemap.show()
@@ -686,20 +687,18 @@ def game(map):
                     movemap.code_label.rechar(":"+exec_string+"█")
                     movemap.show()
                     ev = ""
-            ev=""
+            ev = ""
         elif ev == "exit":
             raise KeyboardInterrupt
         for trainer in map.trainers:
             trainer.do(map)
         time.sleep(0.05)
-        if figure.x+5 > movemap.x+movemap.width:
-            movemap.set(movemap.x+1, movemap.y)
-        if figure.x < movemap.x+5:
-            movemap.set(movemap.x-1, movemap.y)
-        if figure.y+4 > movemap.y+movemap.height:
-            movemap.set(movemap.x, movemap.y+1)
-        if figure.y < movemap.y+4:
-            movemap.set(movemap.x, movemap.y-1)
+        for statement, x, y in zip(
+        [figure.x+5 > movemap.x+movemap.width, figure.x < movemap.x+5, figure.y+4 > movemap.y+movemap.height, figure.y < movemap.y+4],
+        [1, -1, 0, 0],
+        [0, 0, 1, -1]):
+            if statement:
+                movemap.set(movemap.x+x, movemap.y+y)
         movemap.full_show()
 
 def movemap_text(x, y, arr):
