@@ -766,6 +766,21 @@ else:
             with Listener(on_press=on_press) as listener:
                 listener.join()
 
+width, height = os.get_terminal_size()
+tss = se.Map(background=" ")
+warning_label = se.Text("Minimum windowsize is 70x20")
+size_label = se.Text(str(width)+"x"+str(height))
+
+warning_label.add(tss, int(tss.width/2)-13, int(tss.height/2)-1)
+size_label.add(tss, 0, 0)
+while width < 70 or height < 20:
+    width, height = os.get_terminal_size()
+    warning_label.set(0, 1)
+    tss.resize(height-1, width, " ")
+    warning_label.set(int(tss.width/2)-13, int(tss.height/2)-1)
+    size_label.rechar(str(width)+"x"+str(height))
+    tss.show()
+
 # reading config file
 home = str(Path.home())
 Path(home+"/.cache/pokete").mkdir(parents=True, exist_ok=True)
@@ -801,7 +816,7 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 # Replaced with Trainer class
 
 # maps
-centermap = se.Map(background=" ")
+centermap = se.Map(height-1, width, " ")
 centermap.name = "centermap"
 centermap.pretty_name = "Pokete-Center"
 playmap_1 = se.Map(background=" ", height=30, width=90)
@@ -818,7 +833,7 @@ playmap_3.name = "playmap_3"
 playmap_3.pretty_name = "Josi Town"
 
 # movemap
-movemap = se.Submap(playmap_1, 0, 0)
+movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = se.Object("a")
 exclamation = se.Object("!")
 multitext = se.Text("")
@@ -1147,7 +1162,7 @@ movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-
 movemap.underline.add(movemap, 0, movemap.height-2)
 
 # onjects for detail
-detailmap = se.Map(background=" ")
+detailmap = se.Map(height-1, width, " ")
 detailmap.name_label = se.Text("Details", esccode="\033[1m")
 detailmap.name_attacks = se.Text("Attacks", esccode="\033[1m")
 detailmap.line_top = se.Square("_", detailmap.width, 1)
@@ -1173,8 +1188,8 @@ detailmap.line_sep2.add(detailmap, 1, 11)
 detailmap.line_bottom.add(detailmap, 1, 16)
 
 # Objects for deckmap
-deckmap = se.Map(background=" ")
-decksubmap = se.Submap(deckmap, 0, 0)
+deckmap = se.Map(height-1, width, " ")
+decksubmap = se.Submap(deckmap, 0, 0, height=height-1, width=width)
 decksubmap.exit_label = se.Text("1: Exit  ")
 decksubmap.move_label = se.Text("2: Move    ")
 decksubmap.move_free = se.Text("3: Free")
@@ -1184,7 +1199,7 @@ decksubmap.move_label.add(decksubmap, 9, decksubmap.height-1)
 decksubmap.move_free.add(decksubmap, 20, decksubmap.height-1)
 
 # objects relevant for fight()
-fightmap = se.Map(background=" ")
+fightmap = se.Map(height-1, width, " ")
 fightmap.line_left = se.Square("|", 1, fightmap.height-7)
 fightmap.line_right = se.Square("|", 1, fightmap.height-7)
 fightmap.line_top = se.Square("_", fightmap.width, 1)
