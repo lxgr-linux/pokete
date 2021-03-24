@@ -111,8 +111,7 @@ class CenterInteract(se.Object):
             elif ev == "'c'":
                 ev = ""
                 break
-            elif ev == "exit":
-                raise KeyboardInterrupt
+            std_loop()
             time.sleep(0.05)
         multitext.remove()
         movemap.remap()
@@ -302,6 +301,15 @@ def exiter():
     do_exit = True
     exit()
 
+def std_loop(map):
+    global ev
+    if ev == "exit":
+        raise KeyboardInterrupt
+    elif ev == "'e'":
+        ev = ""
+        menu()
+        map.show(init=True)
+
 def deck_add(poke, map, x, y, in_deck=True):
     poke.text_name.add(map, x+12, y+0)
     if poke.identifier != "__fallback__":
@@ -391,6 +399,56 @@ def balls_label_rechar():
         movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__" else "o" if figure.pokes[i].hp > 0 else "x"
     movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
 
+def menu():
+    global ev, name
+    menumap.show(init=True)
+    while True:
+        if ev == "Key.enter":
+            ev = ""
+            name = figure.name
+            menumap.realname_label.rechar(name+"█")
+            menumap.show()
+            while True:
+                if ev == "Key.enter":
+                    ev = ""
+                    menumap.realname_label.rechar(name)
+                    figure.name = name
+                    menumap.show()
+                    break
+                elif ev == "exit":
+                    menumap.realname_label.rechar(name+"█")
+                    menumap.show()
+                    break
+                elif ev == "Key.backspace":
+                    if len(name) <= 0:
+                        ev = ""
+                        name = figure.name
+                        menumap.realname_label.rechar(name)
+                        menumap.show()
+                        break
+                    name = name[:-1]
+                    menumap.realname_label.rechar(name+"█")
+                    menumap.show()
+                    ev = ""
+                elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift"]:
+                    if ev == "Key.space":
+                        ev = "' '"
+                    exec("global name; name += str("+ev+")")
+                    menumap.realname_label.rechar(name+"█")
+                    menumap.show()
+                    ev = ""
+            movemap.underline.remove()
+            movemap.name_label.rechar(figure.name, esccode="\033[1m")
+            movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
+            movemap.underline.add(movemap, 0, movemap.height-2)
+        elif ev == "exit":
+            raise KeyboardInterrupt
+        elif ev == "'e'":
+            ev = ""
+            return
+        time.sleep(0.1)
+        menumap.show()
+
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap
     players = fight_add_1(player, enemy)
@@ -473,8 +531,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fightmap.show(init=True)
                         attack = ""
                         break
-                    elif ev == "exit":
-                        raise KeyboardInterrupt
+                    std_loop(fightmap)
                     time.sleep(0.1)
             else:
                 attack = random.choices([ob for ob in ob.attac_obs], weights=[ob.ap for ob in ob.attac_obs])[0]
@@ -599,8 +656,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 detail(pokes[deck_index.index])
                 deck_add_all(pokes)
                 decksubmap.full_show(init=True)
-        elif ev == "exit":
-            raise KeyboardInterrupt
+        std_loop(decksubmap)
         if len(pokes) > 0 and deck_index.y-decksubmap.y +6 > decksubmap.height:
             decksubmap.set(decksubmap.x, decksubmap.y+1)
         elif len(pokes) > 0 and deck_index.y-1 < decksubmap.y:
@@ -629,8 +685,7 @@ def detail(poke):
                 for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.desc, atc.label_type]:
                     ob.remove()
             return
-        elif ev == "exit":
-            raise KeyboardInterrupt
+        std_loop(detailmap)
         time.sleep(0.05)
         detailmap.show()
 
@@ -688,8 +743,7 @@ def game(map):
                     movemap.show()
                     ev = ""
             ev = ""
-        elif ev == "exit":
-            raise KeyboardInterrupt
+        std_loop(movemap)
         for trainer in map.trainers:
             trainer.do(map)
         time.sleep(0.05)
@@ -711,24 +765,22 @@ def movemap_text(x, y, arr):
             multitext.rechar(t[:i])
             movemap.show()
             time.sleep(0.045)
-            if ev == "exit":
-                raise KeyboardInterrupt
-            elif ev != "":
+            std_loop(movemap)
+            if ev != "":
                 ev = ""
                 break
         multitext.rechar(t)
         movemap.show()
         while True:
-            if ev == "exit":
-                raise KeyboardInterrupt
-            elif ev != "":
+            std_loop(movemap)
+            if ev != "":
                 break
             time.sleep(0.05)
 
 def main():
     os.system("")
-    recognising=threading.Thread(target=recogniser)
-    recognising.daemon=True
+    recognising = threading.Thread(target=recogniser)
+    recognising.daemon = True
     recognising.start()
     game(figure.map)
 
@@ -766,6 +818,7 @@ else:
             with Listener(on_press=on_press) as listener:
                 listener.join()
 
+# resizing screen
 width, height = os.get_terminal_size()
 tss = se.Map(background=" ")
 warning_label = se.Text("Minimum windowsize is 70x20")
@@ -799,21 +852,14 @@ session_info = {
 with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
 
-
-# All playmaps have to have the .trainers array that can also be empty and the .name atribute.
-# every trainer Object has to have the:
-# .poke = Poke("poundi", 60, player=False)
-# .texts = [" < some text to start"]
-# .lose_texts = [" < Hahaha!", " < You're a loser!"]
-# .win_texts = [" < Your a very good trainer!"]
-# .no_poke_texts = [" < I see you don't have a living Pokete"]
-# .name = "some name"
-# .sx = 30
-# .sy = 10
-# .will = True
-# .gender = "He"
-# attributes
-# Replaced with Trainer class
+# menu
+menumap = se.Map(height-1, width, " ")
+menumap.label = se.Text("Menu", esccode="\033[1m")
+menumap.name_label = se.Text("Playername: ")
+menumap.realname_label = se.Text(session_info["user"])
+menumap.label.add(menumap, 0, 0)
+menumap.name_label.add(menumap, 2, 2)
+menumap.realname_label.add(menumap, menumap.name_label.x+len(menumap.name_label.text), menumap.name_label.y)
 
 # maps
 centermap = se.Map(height-1, width, " ")
