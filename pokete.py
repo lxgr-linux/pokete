@@ -430,7 +430,7 @@ def menu():
                     menumap.realname_label.rechar(name+"█")
                     menumap.show()
                     ev = ""
-                elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift"]:
+                elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
                     if ev == "Key.space":
                         ev = "' '"
                     exec("global name; name += str("+ev+")")
@@ -438,6 +438,7 @@ def menu():
                     menumap.show()
                     ev = ""
             movemap.underline.remove()
+            movemap.balls_label.set(0, 1)
             movemap.name_label.rechar(figure.name, esccode="\033[1m")
             movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
             movemap.underline.add(movemap, 0, movemap.height-2)
@@ -735,7 +736,7 @@ def game(map):
                     movemap.code_label.rechar(":"+exec_string+"█")
                     movemap.show()
                     ev = ""
-                elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift"]:
+                elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
                     if ev == "Key.space":
                         ev = "' '"
                     exec("global exec_string; exec_string += str("+ev+")")
@@ -806,7 +807,7 @@ if sys.platform == "linux":  # Use another (not on xserver relying) way to read 
         tty.setraw(fd)
         while True:
             char = sys.stdin.read(1)
-            ev = {ord(char): "'"+char.rstrip()+"'", 13: "Key.enter", 127: "Key.backspace", 32: "Key.space"}[ord(char)]
+            ev = {ord(char): "'"+char.rstrip()+"'", 13: "Key.enter", 127: "Key.backspace", 32: "Key.space", 27: "Key.esc"}[ord(char)]
             if ord(char) == 3 or do_exit:
                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
                 ev = "exit"
