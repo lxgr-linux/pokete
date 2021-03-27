@@ -111,7 +111,7 @@ class CenterInteract(se.Object):
             elif ev == "'c'":
                 ev = ""
                 break
-            std_loop()
+            std_loop(movemap)
             time.sleep(0.05)
         multitext.remove()
         movemap.remap()
@@ -398,6 +398,13 @@ def balls_label_rechar():
     for i in range(6):
         movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__" else "o" if figure.pokes[i].hp > 0 else "x"
     movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
+
+def mapresize(map):
+    width, height = os.get_terminal_size()
+    if map.width != width or map.height != height-1:
+        map.resize(height-1, width, " ")
+        return True
+    return False
 
 def menu():
     global ev, name
@@ -754,6 +761,19 @@ def game(map):
         [0, 0, 1, -1]):
             if statement:
                 movemap.set(movemap.x+x, movemap.y+y)
+        # checking for resizing
+        width, height = os.get_terminal_size()
+        if movemap.width != width or movemap.height != height-1:
+            for ob in [movemap.underline, movemap.deck_label, movemap.exit_label, movemap.code_label, movemap.name_label, movemap.balls_label]:
+                ob.remove()
+            movemap.resize(height-1, width, " ")
+            movemap.underline = se.Square("-", movemap.width, 1)
+            movemap.name_label.add(movemap, 2, movemap.height-2)
+            movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
+            movemap.underline.add(movemap, 0, movemap.height-2)
+            movemap.deck_label.add(movemap, 0, movemap.height-1)
+            movemap.exit_label.add(movemap, 9, movemap.height-1)
+            movemap.code_label.add(movemap, 0, 0)
         movemap.full_show()
 
 def movemap_text(x, y, arr):
