@@ -246,6 +246,29 @@ class Attack():
         self.label_type = se.Text("Type:"+self.type.name)
 
 
+class Station(se.Object):
+    choosen = None
+    def __init__(self, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
+        self.org_char = char
+        super().__init__(char, state, arg_proto)
+        for i in ["w_next", "a_next", "s_next", "d_next"]:
+            exec("self."+i+"="+i)
+
+    def choose(self):
+        self.rechar("\033[1m"+self.org_char+"\033[0m")
+        Station.choosen = self
+
+    def unchoose(self):
+        self.rechar(self.org_char)
+
+    def next(self, ev):
+        ev = eval(ev)
+        ne = eval("self."+ev+"_next")
+        if ne != "":
+            self.unchoose()
+            exec(ne+".choose()")
+
+
 def heal():
     for poke in figure.pokes:
         poke.hp = poke.full_hp
@@ -405,6 +428,18 @@ def mapresize(map):
         map.resize(height-1, width, " ")
         return True
     return False
+
+def map_test():
+    global ev
+    mapmap.show(init=True)
+    mapmap.a.choose()
+    while True:
+        if ev == "exit":
+            raise KeyboardInterrupt
+        elif ev in ["'w'", "'a'", "'s'", "'d'"]:
+            Station.choosen.next(ev)
+        time.sleep(0.1)
+        mapmap.show()
 
 def menu():
     global ev, name
@@ -1228,7 +1263,14 @@ movemap.name_label.add(movemap, 2, movemap.height-2)
 movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
 movemap.underline.add(movemap, 0, movemap.height-2)
 
-# onjects for detail
+# mapmap
+mapmap = se.Map(height-1, width, " ")
+mapmap.a = Station(d_next="mapmap.b")
+mapmap.b = Station(a_next="mapmap.a")
+mapmap.a.add(mapmap, 5, 5)
+mapmap.b.add(mapmap, 6, 5)
+
+# objects for detail
 detailmap = se.Map(height-1, width, " ")
 detailmap.name_label = se.Text("Details", esccode="\033[1m")
 detailmap.name_attacks = se.Text("Attacks", esccode="\033[1m")
