@@ -246,17 +246,19 @@ class Attack():
         self.label_type = se.Text("Type:"+self.type.name)
 
 
-class Station(se.Object):
+class Station(se.Square):
     choosen = None
-    def __init__(self, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
+    def __init__(self, associate, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
         self.org_char = char
-        super().__init__(char, state, arg_proto)
+        self.associate = associate
+        super().__init__(char, width, height)
         for i in ["w_next", "a_next", "s_next", "d_next"]:
             exec("self."+i+"="+i)
 
     def choose(self):
-        self.rechar("\033[1m"+self.org_char+"\033[0m")
+        self.rechar("\033[31;1m"+self.org_char+"\033[0m")
         Station.choosen = self
+        mapmap.info_label.rechar(self.associate.pretty_name)
 
     def unchoose(self):
         self.rechar(self.org_char)
@@ -429,16 +431,21 @@ def mapresize(map):
         return True
     return False
 
-def map_test():
+def roadmap():
     global ev
+    ev = ""
+    [i for i in [mapmap.a, mapmap.b, mapmap.c, mapmap.d] if i.associate == [j for j in [figure.map, figure.oldmap] if j != centermap][0]][0].choose()
     mapmap.show(init=True)
-    mapmap.a.choose()
     while True:
         if ev == "exit":
             raise KeyboardInterrupt
         elif ev in ["'w'", "'a'", "'s'", "'d'"]:
             Station.choosen.next(ev)
-        time.sleep(0.1)
+            ev = ""
+        elif ev == "'1'":
+            Station.choosen.unchoose()
+            return
+        time.sleep(0.05)
         mapmap.show()
 
 def menu():
@@ -746,9 +753,9 @@ def game(map):
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev == "'1'":
+        if ev in ["'1'", "'3'"]:
+            exec({"'1'": 'deck(figure.pokes[:6], "Your deck")', "'3'": 'roadmap()'}[ev])
             ev = ""
-            deck(figure.pokes[:6], "Your deck")
             movemap.show(init=True)
         elif ev == "'2'":
             ev = ""
@@ -934,6 +941,31 @@ playmap_3 = se.Map(background=" ", height=30, width=90)
 playmap_3.name = "playmap_3"
 playmap_3.pretty_name = "Josi Town"
 
+# mapmap
+mapmap = se.Map(height-1, width, " ")
+mapmap.a = Station(playmap_1, 2, 1, w_next="mapmap.b")
+mapmap.b = Station(cave_1, 1, 2, s_next="mapmap.a", d_next="mapmap.c")
+mapmap.c = Station(playmap_2, 2, 1, a_next="mapmap.b", d_next="mapmap.d")
+mapmap.d = Station(playmap_3, 2, 1, a_next="mapmap.c")
+mapmap.a.add(mapmap, 5, 7)
+mapmap.b.add(mapmap, 6, 5)
+mapmap.c.add(mapmap, 7, 5)
+mapmap.d.add(mapmap, 9, 5)
+mapmap.name_label = se.Text("Map", esccode="\033[1m")
+mapmap.exit_label = se.Text("1: Exit")
+mapmap.line_top = se.Square("_", 70, 1)
+mapmap.line_left = se.Square("|", 1, 17)
+mapmap.line_right = se.Square("|", 1, 17)
+mapmap.line_bottom = se.Square("_", 68, 1)
+mapmap.info_label = se.Text("")
+mapmap.name_label.add(mapmap, 2, 0)
+mapmap.exit_label.add(mapmap, 0, mapmap.height-1)
+mapmap.line_top.add(mapmap, 0, 0)
+mapmap.line_left.add(mapmap, 0, 1)
+mapmap.line_right.add(mapmap, 69, 1)
+mapmap.line_bottom.add(mapmap, 1, 17)
+mapmap.info_label.add(mapmap, 1, 1)
+
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = se.Object("a")
@@ -942,10 +974,12 @@ multitext = se.Text("")
 movemap.underline = se.Square("-", movemap.width, 1)
 movemap.deck_label = se.Text("1: Deck")
 movemap.exit_label = se.Text("2: Exit")
+movemap.map_label = se.Text("3: Map")
 movemap.code_label = se.Text("")
 # adding
 movemap.deck_label.add(movemap, 0, movemap.height-1)
 movemap.exit_label.add(movemap, 9, movemap.height-1)
+movemap.map_label.add(movemap, 18, movemap.height-1)
 movemap.code_label.add(movemap, 0, 0)
 
 # playmap_1
@@ -1262,13 +1296,6 @@ balls_label_rechar()
 movemap.name_label.add(movemap, 2, movemap.height-2)
 movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
 movemap.underline.add(movemap, 0, movemap.height-2)
-
-# mapmap
-mapmap = se.Map(height-1, width, " ")
-mapmap.a = Station(d_next="mapmap.b")
-mapmap.b = Station(a_next="mapmap.a")
-mapmap.a.add(mapmap, 5, 5)
-mapmap.b.add(mapmap, 6, 5)
 
 # objects for detail
 detailmap = se.Map(height-1, width, " ")
