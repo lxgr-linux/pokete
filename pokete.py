@@ -118,15 +118,6 @@ class CenterInteract(se.Object):
         movemap.show(init=True)
 
 
-class Dor(se.Object):
-    def action(self, ob):
-        figure.remove()
-        i = figure.map.name
-        figure.add(self.arg_proto["map"], self.arg_proto["x"], self.arg_proto["y"])
-        exec("figure.oldmap = "+i)
-        game(self.arg_proto["map"])
-
-
 class CenterDor(se.Object):
     def action(self, ob):
         figure.remove()
@@ -134,6 +125,15 @@ class CenterDor(se.Object):
         figure.add(figure.oldmap, figure.oldmap.dor.x, figure.oldmap.dor.y+1)
         exec("figure.oldmap = "+i)
         game(figure.map)
+
+
+class Dor(se.Object):
+    def action(self, ob):
+        figure.remove()
+        i = figure.map.name
+        figure.add(self.arg_proto["map"], self.arg_proto["x"], self.arg_proto["y"])
+        exec("figure.oldmap = "+i)
+        game(self.arg_proto["map"])
 
 
 class Poke():
@@ -940,6 +940,9 @@ playmap_2.pretty_name = "Route 1"
 playmap_3 = se.Map(background=" ", height=30, width=90)
 playmap_3.name = "playmap_3"
 playmap_3.pretty_name = "Josi Town"
+playmap_4 = se.Map(background=" ", height=60, width=60)
+playmap_4.name = "playmap_4"
+playmap_4.pretty_name = "Josi Lake"
 
 # mapmap
 mapmap = se.Map(height-1, width, " ")
@@ -1236,6 +1239,12 @@ playmap_3.fence2 =  se.Text("""#
 playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_3.dor_playmap_2_1 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 9})
 playmap_3.dor_playmap_2_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 10})
+playmap_3.dor_playmap_4_1 = Dor(" ", state="float", arg_proto={"map": playmap_4, "x": 29, "y": 58})
+playmap_3.dor_playmap_4_2 = Dor(" ", state="float", arg_proto={"map": playmap_4, "x": 29, "y": 58})
+playmap_3.dor_playmap_4_3 = Dor(" ", state="float", arg_proto={"map": playmap_4, "x": 29, "y": 58})
+playmap_3.dor_playmap_4_4 = Dor(" ", state="float", arg_proto={"map": playmap_4, "x": 30, "y": 58})
+playmap_3.dor_playmap_4_5 = Dor(" ", state="float", arg_proto={"map": playmap_4, "x": 30, "y": 58})
+playmap_3.dor_playmap_4_6 = Dor(" ", state="float", arg_proto={"map": playmap_4, "x": 30, "y": 58})
 # adding
 playmap_3.tree_group_1.add(playmap_3, 0, 0)
 playmap_3.tree_group_2.add(playmap_3, 0, 11)
@@ -1249,9 +1258,40 @@ playmap_3.fence2.add(playmap_3, 45, 0)
 playmap_3.fence3.add(playmap_3, 3, 11)
 playmap_3.dor_playmap_2_1.add(playmap_3, 0, 9)
 playmap_3.dor_playmap_2_2.add(playmap_3, 0, 10)
+playmap_3.dor_playmap_4_1.add(playmap_3, 39, 0)
+playmap_3.dor_playmap_4_2.add(playmap_3, 40, 0)
+playmap_3.dor_playmap_4_3.add(playmap_3, 41, 0)
+playmap_3.dor_playmap_4_4.add(playmap_3, 42, 0)
+playmap_3.dor_playmap_4_5.add(playmap_3, 43, 0)
+playmap_3.dor_playmap_4_6.add(playmap_3, 44, 0)
+
+# playmap_4
+playmap_4.trainers = []
+playmap_4.dor_playmap_3_1 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 41, "y": 1})
+playmap_4.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 42, "y": 1})
+playmap_4.tree_group_1 =  se.Text("""(())))))()                                             ()(()
+())))()()))(((()                                (()())))))()
+())))((((((()()()))()                   ()()))()((((((((((()
+()))))))()((((((((()))))))         (((()()))))(((((((()()())
+()()()))))()()()())))((()))))  (((())()(((()()(()((((((())))
+|||| || | |||| | |||| | | ||    || |||| | ||| ||||| |||| |||""", ignore=" ")
+playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
+~~~~~~~~~
+~~~""", esccode="\033[34m", ignore=" ")
+# adding
+playmap_4.dor_playmap_3_1.add(playmap_4, 29, 59)
+playmap_4.dor_playmap_3_2.add(playmap_4, 30, 59)
+playmap_4.tree_group_1.add(playmap_4, 0, 54)
+playmap_4.lake_1.add(playmap_4, 0, 0)
 
 # adding all trainer to map
-for map in [playmap_1, playmap_2, playmap_3, cave_1]:
+for map in [playmap_1, playmap_2, playmap_3, playmap_4, cave_1]:
     for trainer in map.trainers:
         trainer.add(map, trainer.sx, trainer.sy)
 
