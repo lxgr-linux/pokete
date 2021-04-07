@@ -431,10 +431,15 @@ def mapresize(map):
         return True
     return False
 
+def playmap_4_extra_action():
+    for ob in playmap_4.lake_1.obs:
+        if random.randint(0,6) == 0:
+            ob.rechar([i for i in ["\033[1;34m~\033[0m", "\033[34m~\033[0m"] if i != ob.char][0])
+
 def roadmap():
     global ev
     ev = ""
-    [i for i in [mapmap.a, mapmap.b, mapmap.c, mapmap.d] if i.associate == [j for j in [figure.map, figure.oldmap] if j != centermap][0]][0].choose()
+    [i for i in [mapmap.a, mapmap.b, mapmap.c, mapmap.d, mapmap.e] if i.associate == [j for j in [figure.map, figure.oldmap] if j != centermap][0]][0].choose()
     mapmap.show(init=True)
     while True:
         if ev == "exit":
@@ -794,6 +799,10 @@ def game(map):
                     ev = ""
             ev = ""
         std_loop(movemap)
+        try:
+            map.extra_actions()
+        except AttributeError:
+            pass
         for trainer in map.trainers:
             trainer.do(map)
         time.sleep(0.05)
@@ -941,6 +950,7 @@ playmap_3 = se.Map(background=" ", height=30, width=90)
 playmap_3.name = "playmap_3"
 playmap_3.pretty_name = "Josi Town"
 playmap_4 = se.Map(background=" ", height=60, width=60)
+playmap_4.extra_actions = playmap_4_extra_action
 playmap_4.name = "playmap_4"
 playmap_4.pretty_name = "Josi Lake"
 
@@ -949,11 +959,13 @@ mapmap = se.Map(height-1, width, " ")
 mapmap.a = Station(playmap_1, 2, 1, w_next="mapmap.b")
 mapmap.b = Station(cave_1, 1, 2, s_next="mapmap.a", d_next="mapmap.c")
 mapmap.c = Station(playmap_2, 2, 1, a_next="mapmap.b", d_next="mapmap.d")
-mapmap.d = Station(playmap_3, 2, 1, a_next="mapmap.c")
+mapmap.d = Station(playmap_3, 2, 1, a_next="mapmap.c", w_next="mapmap.e")
+mapmap.e = Station(playmap_4, 1, 3, s_next="mapmap.d")
 mapmap.a.add(mapmap, 5, 7)
 mapmap.b.add(mapmap, 6, 5)
 mapmap.c.add(mapmap, 7, 5)
 mapmap.d.add(mapmap, 9, 5)
+mapmap.e.add(mapmap, 10, 2)
 mapmap.name_label = se.Text("Map", esccode="\033[1m")
 mapmap.exit_label = se.Text("1: Exit")
 mapmap.line_top = se.Square("_", 70, 1)
