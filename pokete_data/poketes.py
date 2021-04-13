@@ -156,7 +156,7 @@ pokes = {
         "miss_chance": 0,
         "desc": "A very harmless water Pokete that can be found everywhere",
         "lose_xp": 1,
-        "rarity": 1.5,
+        "rarity": 3,
         "type": "water",
         "ico":"""
 

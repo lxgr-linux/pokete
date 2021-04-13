@@ -433,8 +433,10 @@ def mapresize(map):
 
 def playmap_4_extra_action():
     for ob in playmap_4.lake_1.obs:
-        if random.randint(0,6) == 0:
+        if random.randint(0, 7) == 0:
             ob.rechar([i for i in ["\033[1;34m~\033[0m", "\033[34m~\033[0m"] if i != ob.char][0])
+            if ob.x == figure.x and ob.y == figure.y:
+                figure.redraw()
 
 def roadmap():
     global ev
@@ -815,7 +817,7 @@ def game(map):
         # checking for resizing
         width, height = os.get_terminal_size()
         if movemap.width != width or movemap.height != height-1:
-            for ob in [movemap.underline, movemap.deck_label, movemap.exit_label, movemap.code_label, movemap.name_label, movemap.balls_label]:
+            for ob in [movemap.underline, movemap.deck_label, movemap.exit_label, movemap.code_label, movemap.name_label, movemap.balls_label, movemap.map_label]:
                 ob.remove()
             movemap.resize(height-1, width, " ")
             movemap.underline = se.Square("-", movemap.width, 1)
@@ -824,6 +826,7 @@ def game(map):
             movemap.underline.add(movemap, 0, movemap.height-2)
             movemap.deck_label.add(movemap, 0, movemap.height-1)
             movemap.exit_label.add(movemap, 9, movemap.height-1)
+            movemap.map_label.add(movemap, 18, movemap.height-1)
             movemap.code_label.add(movemap, 0, 0)
         movemap.full_show()
 
@@ -1287,20 +1290,33 @@ playmap_4.tree_group_1 =  se.Text("""(())))))()                                 
 ()))))))()((((((((()))))))         (((()()))))(((((((()()())
 ()()()))))()()()())))((()))))  (((())()(((()()(()((((((())))
 |||| || | |||| | |||| | | ||    || |||| | ||| ||||| |||| |||""", ignore=" ")
-playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~
-~~~~~~~~~
-~~~""", esccode="\033[34m", ignore=" ")
+playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~                 ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~                    ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
+~~~~~~~~~                                           ~~~~~~~~
+~~~""", esccode="\033[34m", ignore="\033[34m \033[0m", ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 60, "maxlvl": 128}, state="float")
+playmap_4.meadow_1 = se.Text("""      ;;;;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;;;
+   ;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;
+ ;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;;;;;
+      ;;;;;;;;;;;;;;;;;
+         ;;;;;;;;;;;;;
+            ;;;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior", "rollator"], "minlvl": 60, "maxlvl": 128}, state="float")
 # adding
 playmap_4.dor_playmap_3_1.add(playmap_4, 29, 59)
 playmap_4.dor_playmap_3_2.add(playmap_4, 30, 59)
 playmap_4.tree_group_1.add(playmap_4, 0, 54)
 playmap_4.lake_1.add(playmap_4, 0, 0)
+playmap_4.meadow_1.add(playmap_4, 17, 42)
 
 # adding all trainer to map
 for map in [playmap_1, playmap_2, playmap_3, playmap_4, cave_1]:
