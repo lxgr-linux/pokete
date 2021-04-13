@@ -1052,38 +1052,18 @@ movemap.code_label.add(movemap, 0, 0)
 
 # playmap_1
 playmap_1.trainers = [Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)]
-playmap_1.meadow2 = se.Text("""    ;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;
-;;;;;;;;;;;;
- ;;;;;;;;;
-""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 40, "maxlvl": 128}, state="float")
-playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
+playmap_1.poke_args = {"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60}
+playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
 playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_1.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 14, "y": 19})
 # adding
-playmap_1.meadow2.add(playmap_1, 67, 8)
 playmap_1.dor.add(playmap_1, 25, 4)
 playmap_1.meadow.add(playmap_1, 5, 7)
 playmap_1.dor_cave_1.add(playmap_1, 74, 0)
 
 # playmap_2
 playmap_2.trainers = [Trainer("Wanderer Murrad", "He", Poke("ostri", 160, player=False), [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"], [" < It is stronger than you might have exspected"], [" < I see you don't have a living Pokete"], [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"], 32, 12)]
-playmap_2.meadow1 = se.Text("""        ;;;;;;
-      ;;;;;;;;;;
-    ;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;
-  ;;;;;; ;;;;;;
- ;;;;;;;;;;;;
- ;;;;;;;;;
-  ;;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128}, state="float")
-playmap_2.meadow2 = se.Text("""      ;;;;;;;
-    ;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;
- ;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;
-     ;;;;;;;;;;;;;
-         ;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior", "rollator"], "minlvl": 60, "maxlvl": 128}, state="float")
+playmap_2.poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128}
 playmap_2.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39, "y": 3})
 playmap_2.dor_playmap_3_1 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 9})
 playmap_2.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 10})
@@ -1091,8 +1071,6 @@ playmap_2.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3,
 playmap_2.dor_cave_1.add(playmap_2, 1, 5)
 playmap_2.dor_playmap_3_1.add(playmap_2, 108, 9)
 playmap_2.dor_playmap_3_2.add(playmap_2, 108, 10)
-playmap_2.meadow1.add(playmap_2, 10, 0)
-playmap_2.meadow2.add(playmap_2, 40, 7)
 
 # cave_1
 cave_1.trainers = [Trainer("Monica", "She", Poke("hornita", 128, player=False), [" < Hello noble traveler", " < Are you willing to fight with me?"], [" < Hahaha!", " < Looooser!"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < Have a great day!"], 23, 10)]
@@ -1149,6 +1127,7 @@ playmap_3.dor_playmap_4_6.add(playmap_3, 44, 0)
 
 # playmap_4
 playmap_4.trainers = []
+playmap_4.poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior", "rollator"], "minlvl": 60, "maxlvl": 128}
 playmap_4.dor_playmap_3_1 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 41, "y": 1})
 playmap_4.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 42, "y": 1})
 playmap_4.dor_playmap_5 = ChanceDor("~", state="float", arg_proto={"chance": 6, "map": playmap_5, "x": 1, "y": 1})
@@ -1163,22 +1142,11 @@ playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
 ~~~""", esccode="\033[34m", ignore="\033[34m \033[0m", ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 60, "maxlvl": 128}, state="float")
-playmap_4.meadow_1 = se.Text("""      ;;;;;;;;;;;;;
-    ;;;;;;;;;;;;;;;;;;
-   ;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;
- ;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;;;;;;;;;;;;;;;;;;;;;;
-    ;;;;;;;;;;;;;;;;;;;;
-      ;;;;;;;;;;;;;;;;;
-         ;;;;;;;;;;;;;
-            ;;;;;;;;""", ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior", "rollator"], "minlvl": 60, "maxlvl": 128}, state="float")
 # adding
 playmap_4.dor_playmap_3_1.add(playmap_4, 29, 59)
 playmap_4.dor_playmap_3_2.add(playmap_4, 30, 59)
 playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
 playmap_4.lake_1.add(playmap_4, 0, 0)
-playmap_4.meadow_1.add(playmap_4, 17, 42)
 
 # playmap_5
 playmap_5.trainers = []
@@ -1190,6 +1158,9 @@ for map in map_data:
     for hard_ob in map_data[map]["hard_obs"]:
         exec(map+'.'+hard_ob+' = se.Text(map_data[map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
         exec(map+'.'+hard_ob+'.add('+map+', map_data[map]["hard_obs"][hard_ob]["x"], map_data[map]["hard_obs"][hard_ob]["y"])')
+    for soft_ob in map_data[map]["soft_obs"]:
+        exec(map+'.'+soft_ob+' = se.Text(map_data[map]["soft_obs"][soft_ob]["txt"], ignore=" ", ob_class=HightGrass, ob_args='+map+'.poke_args, state="float")')
+        exec(map+'.'+soft_ob+'.add('+map+', map_data[map]["soft_obs"][soft_ob]["x"], map_data[map]["soft_obs"][soft_ob]["y"])')
 
 # adding all trainer to map
 for map in [playmap_1, playmap_2, playmap_3, playmap_4, playmap_5, cave_1]:
