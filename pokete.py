@@ -434,9 +434,10 @@ def mapresize(map):
 def playmap_4_extra_action():
     for ob in playmap_4.lake_1.obs:
         if random.randint(0, 7) == 0:
-            ob.rechar([i for i in ["\033[1;34m~\033[0m", "\033[34m~\033[0m"] if i != ob.char][0])
-            if ob.x == figure.x and ob.y == figure.y:
-                figure.redraw()
+            if " " not in ob.char:
+                ob.rechar([i for i in ["\033[1;34m~\033[0m", "\033[34m~\033[0m"] if i != ob.char][0])
+                if ob.x == figure.x and ob.y == figure.y:
+                    figure.redraw()
 
 def roadmap():
     global ev
