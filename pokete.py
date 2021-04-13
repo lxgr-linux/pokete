@@ -11,6 +11,9 @@ from pathlib import Path
 from pokete_data.poketes import *
 from pokete_data.attacks import *
 
+# Class definition
+##################
+
 class HightGrass(se.Object):
     def action(self, ob):
         if random.randint(0,6) == 0:
@@ -270,6 +273,8 @@ class Station(se.Square):
             self.unchoose()
             exec(ne+".choose()")
 
+# General use functions
+#######################
 
 def heal():
     for poke in figure.pokes:
@@ -283,6 +288,7 @@ def heal():
         poke.label_rechar()
         balls_label_rechar()
 
+
 def liner(text, width):
     lens = 0
     out = ""
@@ -295,15 +301,6 @@ def liner(text, width):
             out += "\n"+name+" "
     return out
 
-def codes(string):
-    for i in string:
-        if i == "w":
-            save()
-        elif i == "e":
-            exec(string[string.index("e")+2:])
-            return
-        elif i == "q":
-            exiter()
 
 def save():
     session_info = {
@@ -317,14 +314,17 @@ def save():
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
 
+
 def on_press(key):
     global ev
     ev=str(key)
+
 
 def exiter():
     global do_exit
     do_exit = True
     exit()
+
 
 def std_loop(map):
     global ev
@@ -335,6 +335,70 @@ def std_loop(map):
         menu()
         map.show(init=True)
 
+# Functions needed for movemap
+##############################
+
+def fast_change(arr, setob):
+    _i = 1
+    while _i < len(arr):
+        arr[_i-1].remove()
+        arr[_i].add(fightmap, setob.x, setob.y)
+        fightmap.show()
+        time.sleep(0.1)
+        _i += 1
+
+
+def balls_label_rechar():
+    movemap.balls_label.text = ""
+    for i in range(6):
+        movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__" else "o" if figure.pokes[i].hp > 0 else "x"
+    movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
+
+
+def mapresize(map):
+    width, height = os.get_terminal_size()
+    if map.width != width or map.height != height-1:
+        map.resize(height-1, width, " ")
+        return True
+    return False
+
+
+def codes(string):
+    for i in string:
+        if i == "w":
+            save()
+        elif i == "e":
+            exec(string[string.index("e")+2:])
+            return
+        elif i == "q":
+            exiter()
+
+
+def movemap_text(x, y, arr):
+    global ev
+    for t in arr:
+        ev = ""
+        multitext.rechar("")
+        multitext.add(movemap, x-movemap.x+1, y-movemap.y)
+        for i in range(len(t)+1):
+            multitext.rechar(t[:i])
+            movemap.show()
+            time.sleep(0.045)
+            std_loop(movemap)
+            if ev != "":
+                ev = ""
+                break
+        multitext.rechar(t)
+        movemap.show()
+        while True:
+            std_loop(movemap)
+            if ev != "":
+                break
+            time.sleep(0.05)
+
+# Functions for deck
+####################
+
 def deck_add(poke, map, x, y, in_deck=True):
     poke.text_name.add(map, x+12, y+0)
     if poke.identifier != "__fallback__":
@@ -343,9 +407,11 @@ def deck_add(poke, map, x, y, in_deck=True):
         if figure.pokes.index(poke) < 6 and in_deck:
             poke.pball_small.add(map, round(deckmap.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else deckmap.width-2, y)
 
+
 def deck_remove(poke):
     for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp, poke.pball_small]:
         ob.remove()
+
 
 def deck_add_all(pokes, init=False):
     j = 0
@@ -355,6 +421,7 @@ def deck_add_all(pokes, init=False):
             se.Square("-", deckmap.width-2, 1).add(deckmap, 1, j*5+5)
         if i % 2 == 1:
             j += 1
+
 
 def deck_control(pokes, ev, index):
     if len(pokes) <= 1:
@@ -372,9 +439,13 @@ def deck_control(pokes, ev, index):
             break
     index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
 
+# Functions for fight
+#####################
+
 def fight_clean_up(player, enemy):
     for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small] + player.atc_labels:
         ob.remove()
+
 
 def fight_add(player, enemy):
     for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar], [7, 16, 1, 1, 1, fightmap.width-14, 8], [3, 3, 1, 2, 3, 2, 3]):
@@ -393,6 +464,7 @@ def fight_add(player, enemy):
         ob.add(fightmap, x, y)
     return [player, enemy]
 
+
 def fight_add_1(player, enemy):
     for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar], [7, 16, 1, 1, 1, fightmap.width-14, 8], [3, 3, 1, 2, 3, 2, 3]):
         ob.add(fightmap, x, y)
@@ -401,6 +473,7 @@ def fight_add_1(player, enemy):
     for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
         ob.add(fightmap, x, y)
     return [player, enemy]
+
 
 def fight_add_2(player, enemy):
     if player.identifier != "__fallback__":
@@ -418,18 +491,9 @@ def fight_add_2(player, enemy):
         fightmap.show()
         player.ico.add(fightmap, 3, fightmap.height-11)
 
-def balls_label_rechar():
-    movemap.balls_label.text = ""
-    for i in range(6):
-        movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__" else "o" if figure.pokes[i].hp > 0 else "x"
-    movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
-
-def mapresize(map):
-    width, height = os.get_terminal_size()
-    if map.width != width or map.height != height-1:
-        map.resize(height-1, width, " ")
-        return True
-    return False
+# Playmap extra action functions
+# Those are adding additional actions to playmaps
+#################################################
 
 def playmap_4_extra_action():
     for ob in playmap_4.lake_1.obs:
@@ -438,6 +502,9 @@ def playmap_4_extra_action():
                 ob.rechar([i for i in ["\033[1;34m~\033[0m", "\033[34m~\033[0m"] if i != ob.char][0])
                 if ob.x == figure.x and ob.y == figure.y:
                     figure.redraw()
+
+# Main functions
+################
 
 def roadmap():
     global ev
@@ -455,6 +522,7 @@ def roadmap():
             return
         time.sleep(0.05)
         mapmap.show()
+
 
 def menu():
     global ev, name
@@ -506,6 +574,7 @@ def menu():
             return
         time.sleep(0.1)
         menumap.show()
+
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev, attack, fightmap
@@ -627,18 +696,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     balls_label_rechar()
     return winner
 
-def fast_change(arr, setob):
-    _i = 1
-    while _i < len(arr):
-        arr[_i-1].remove()
-        arr[_i].add(fightmap, setob.x, setob.y)
-        fightmap.show()
-        time.sleep(0.1)
-        _i += 1
 
 def deck(pokes, label="Your full deck", in_fight=False):
     global ev
-
     deckmap.resize(5*int((len(pokes)+1)/2)+2, deckmap.width, deckmap.background)
     se.Text(label, esccode="\033[1m").add(deckmap, 2, 0)
     se.Square("_", deckmap.width, 1).add(deckmap, 0, 0)
@@ -722,6 +782,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
         time.sleep(0.05)
         decksubmap.full_show()
 
+
 def detail(poke):
     global ev
     deck_add(poke, detailmap, 1, 1, False)
@@ -746,6 +807,7 @@ def detail(poke):
         std_loop(detailmap)
         time.sleep(0.05)
         detailmap.show()
+
 
 def game(map):
     global ev, exec_string
@@ -831,27 +893,6 @@ def game(map):
             movemap.code_label.add(movemap, 0, 0)
         movemap.full_show()
 
-def movemap_text(x, y, arr):
-    global ev
-    for t in arr:
-        ev = ""
-        multitext.rechar("")
-        multitext.add(movemap, x-movemap.x+1, y-movemap.y)
-        for i in range(len(t)+1):
-            multitext.rechar(t[:i])
-            movemap.show()
-            time.sleep(0.045)
-            std_loop(movemap)
-            if ev != "":
-                ev = ""
-                break
-        multitext.rechar(t)
-        movemap.show()
-        while True:
-            std_loop(movemap)
-            if ev != "":
-                break
-            time.sleep(0.05)
 
 def main():
     os.system("")
@@ -859,6 +900,9 @@ def main():
     recognising.daemon = True
     recognising.start()
     game(figure.map)
+
+# Actual code execution
+#######################
 
 for i in [("normal", [], []),
 ("stone", ["flying", "fire"], ["plant"]),
@@ -927,6 +971,9 @@ session_info = {
 }
 with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
+
+# Defining and adding of objetcs and maps
+#########################################
 
 # menu
 menumap = se.Map(height-1, width, " ")
