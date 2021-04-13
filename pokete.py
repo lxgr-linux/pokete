@@ -10,6 +10,7 @@ import random, time, os, sys, threading, math
 from pathlib import Path
 from pokete_data.poketes import *
 from pokete_data.attacks import *
+from pokete_data.maps import *
 
 # Class definition
 ##################
@@ -38,20 +39,11 @@ class Heal(se.Object):
 
 class Trainer(se.Object):
     def __init__(self, name, gender, poke, texts, lose_texts, no_poke_texts, win_texts, sx, sy, state="solid", arg_proto={}):
-        self.char="a"
-        self.state=state
-        self.added=False
-        self.arg_proto=arg_proto
-        self.name = name
-        self.gender = gender
-        self.poke = poke
-        self.texts = texts
-        self.lose_texts = lose_texts
-        self.no_poke_texts = no_poke_texts
-        self.win_texts = win_texts
-        self.sx = sx
-        self.sy = sy
+        self.char = "a"
+        self.added = False
         self.will = True
+        for i in ["state", "arg_proto", "name", "gender", "poke", "texts", "lose_texts", "no_poke_texts", "win_texts", "sx", "sy"]:
+            exec("self."+i+" = "+i)
 
     def do(self, map):
         if figure.x == self.x and self.poke.hp > 0 and self.will:
@@ -139,6 +131,12 @@ class Dor(se.Object):
         game(self.arg_proto["map"])
 
 
+class ChanceDor(Dor):
+    def action(self, ob):
+        if random.randint(0, self.arg_proto["chance"]) == 0:
+            super().action(ob)
+
+
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", player=True):
         self.xp = xp
@@ -181,7 +179,7 @@ class Poke():
     def health_bar_maker(self, oldhp):
         bar_num = round(oldhp*8/self.full_hp)
         esccode = "\033[31m"
-        for size, num in zip([6, 2 ], [2, 3]):
+        for size, num in zip([6, 2], [2, 3]):
             if bar_num > size:
                 esccode = "\033[3"+str(num)+"m"
                 break
@@ -1004,6 +1002,9 @@ playmap_4 = se.Map(background=" ", height=60, width=60)
 playmap_4.extra_actions = playmap_4_extra_action
 playmap_4.name = "playmap_4"
 playmap_4.pretty_name = "Josi Lake"
+playmap_5 = se.Map(background=" ", height=60, width=60)
+playmap_5.name = "playmap_5"
+playmap_5.pretty_name = "Mysterious cave"
 
 # mapmap
 mapmap = se.Map(height-1, width, " ")
@@ -1048,87 +1049,26 @@ movemap.exit_label.add(movemap, 9, movemap.height-1)
 movemap.map_label.add(movemap, 18, movemap.height-1)
 movemap.code_label.add(movemap, 0, 0)
 
+
 # playmap_1
 playmap_1.trainers = [Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)]
-playmap_1.tree_group_1 = se.Text(""" (()(()((())((()((()
-())(())))())))()))(()
- || ||| ||||| |||||
-""", ignore=" ")
-playmap_1.tree_group_2 = se.Text(""" (()(()((())((()((()
-())(())))())))()))(()
- || ||| ||||| |||||
-""", ignore=" ")
-playmap_1.house = se.Text("""  __________
- /         /\\
-/_________/  \\
-| # ___ # |  |
-|___| |___|__|""", ignore=" ")
 playmap_1.meadow2 = se.Text("""    ;;;;;;;;;;;
   ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;
  ;;;;;;;;;
 """, ignore=" ", ob_class=HightGrass, ob_args={"pokes": ["rato", "hornita", "steini", "voglo", "ostri"], "minlvl": 40, "maxlvl": 128}, state="float")
-playmap_1.cave_1_entrance = se.Text("""\  \_/  _____/ \______/
- \_____/""", ignore=" ")
 playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
 playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_1.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 14, "y": 19})
 # adding
 playmap_1.meadow2.add(playmap_1, 67, 8)
 playmap_1.dor.add(playmap_1, 25, 4)
-playmap_1.house.add(playmap_1, 20, 0)
-playmap_1.tree_group_1.add(playmap_1, 35, 2)
-playmap_1.tree_group_1.add(playmap_1, 25, 14)
-playmap_1.cave_1_entrance.add(playmap_1, 60, 0)
 playmap_1.meadow.add(playmap_1, 5, 7)
 playmap_1.dor_cave_1.add(playmap_1, 74, 0)
 
 # playmap_2
 playmap_2.trainers = [Trainer("Wanderer Murrad", "He", Poke("ostri", 160, player=False), [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"], [" < It is stronger than you might have exspected"], [" < I see you don't have a living Pokete"], [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"], 32, 12)]
-playmap_2.tree_group_1 = se.Text(""" ())
-())))
-())()
-(()))
-((())
- |||""", ignore=" ")
-playmap_2.tree_group_3 = se.Text(""" ())
-())))
-())()
-(()))
-((())
- |||""", ignore=" ")
-playmap_2.tree_group_4 = se.Text(""" ())
-())))
-(()))
-())()
-())))
-(()))
-(()))
-((())
- |||""", ignore=" ")
-playmap_2.tree_group_2 = se.Text("""
-                        ())
-                       ())))
-                       ())())
-                      ((())()                                                                              ())
-                      (((())                                                                              ()())
-                       ())))                                                                              ((())
-                       ((())                                                                              (()))
-                      ((())))                                                                            (())))
-(((()()))))()(((((()))))))()())()()())))()()()))))))(()()()()()()))))))((()))))()(()))))))))(((((())))))))())))
-(()())))))(())))))((((())))((((()))((((()()()))))(()()))))()()(()))))))()(()()))))((()))))))))(((()))))))))))()
-(()())))))((()()()))()()())))()()))())))))((((()()))))()()()))((((((((()(((((()()()))))(())))))(((())))))))()))
-|||||||| |||||| | | | ||| | | |  ||||||| | | ||||||| | | |  |||||| | | |||| | | || |||| ||| ||| ||  |||||| || |""", ignore=" ")
-playmap_2.cave_1_entrance = cave_1_entrance = se.Text("""\\
- \\
- |
-(
- |
- |
- /
-/
-""", ignore=" ")
 playmap_2.meadow1 = se.Text("""        ;;;;;;
       ;;;;;;;;;;
     ;;;;;;;;;;;;;;;;
@@ -1148,11 +1088,6 @@ playmap_2.dor_cave_1 = Dor(" ", state="float", arg_proto={"map": cave_1, "x": 39
 playmap_2.dor_playmap_3_1 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 9})
 playmap_2.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 1, "y": 10})
 # adding
-playmap_2.tree_group_1.add(playmap_2, 36, 0)
-playmap_2.tree_group_3.add(playmap_2, 58, 0)
-playmap_2.tree_group_4.add(playmap_2, 106, 0)
-playmap_2.tree_group_2.add(playmap_2, 0, 7)
-playmap_2.cave_1_entrance.add(playmap_2, 0, 2)
 playmap_2.dor_cave_1.add(playmap_2, 1, 5)
 playmap_2.dor_playmap_3_1.add(playmap_2, 108, 9)
 playmap_2.dor_playmap_3_2.add(playmap_2, 108, 10)
@@ -1161,26 +1096,6 @@ playmap_2.meadow2.add(playmap_2, 40, 7)
 
 # cave_1
 cave_1.trainers = [Trainer("Monica", "She", Poke("hornita", 128, player=False), [" < Hello noble traveler", " < Are you willing to fight with me?"], [" < Hahaha!", " < Looooser!"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < Have a great day!"], 23, 10)]
-cave_1.innerwalls = se.Text("""+--------+
-|        |
-|        |                     +-------\_
-|        +-----------+         |         )
-|                    |         |   +---/¯
-|        +--------+  |         |   |
-|        |        |  |         |   |
-+--------+   +----+  +---------+   |
-             |                     |
-             |                     |
-             |  +-----+ +----------+
-      +------+  |     | |
-      |         |     +-+
-      |  +-+    |
-      |  +-+    |
-      |         |
-      +------+  |
-             |  |
-             |  |
-             |  |""", ignore=" ")
 cave_1.inner = se.Text("""##########################################
 #         ################################
 #         ################################
@@ -1208,97 +1123,10 @@ cave_1.dor_playmap_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x":
 cave_1.dor_playmap_2.add(cave_1, 40, 3)
 cave_1.dor_playmap_1_1.add(cave_1, 14, 20)
 cave_1.dor_playmap_1_2.add(cave_1, 15, 20)
-cave_1.innerwalls.add(cave_1, 0, 0)
 cave_1.inner.add(cave_1, 0, 0)
 
 # playmap_3
 playmap_3.trainers = [Trainer("Josi", "She", Poke("hornita", 200, player=False), [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"], [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"], [" < I see you don't have a living Pokete", " < Loooser!"], [" < Damn, I lost!"], 11, 5)]
-playmap_3.tree_group_1 = se.Text("""())
-))()
-()))
-)()(
-))()
-()))
-()))
-(())
-|||""", ignore=" ")
-playmap_3.tree_group_2 = se.Text("""())
-))()
-()))
-)()(
-(())
-|||""", ignore=" ")
-playmap_3.tree_group_3 = se.Text(""" ())
-())()
- |||""", ignore=" ")
-playmap_3.house = se.Text("""  __________
- /         /\\
-/_________/  \\
-| # ___ # |  |
-|___| |___|__|""", ignore=" ")
-playmap_3.house2 = se.Text("""  ________
- /       /\\
-/_______/  \\
-|# ___ #|  |
-|__| |__|__|""", ignore=" ")
-playmap_3.house3 = se.Text("""  ________
- /       /\\
-/_______/  \\
-|# ___ #|  |
-|__| |__|__|""", ignore=" ")
-playmap_3.fence1 =  se.Text("""                                   #
-  ##################################
-  #
-  #
-  #
-  #
-  #
-  #
-###
-""", ignore=" ")
-playmap_3.fence3 =  se.Text("""###
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  ##################################
-                                   #""", ignore=" ")
-playmap_3.fence2 =  se.Text("""#
-###################################
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-                                  #
-###################################
-#""", ignore=" ")
 playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_3.dor_playmap_2_1 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 9})
 playmap_3.dor_playmap_2_2 = Dor(" ", state="float", arg_proto={"map": playmap_2, "x": 107, "y": 10})
@@ -1309,16 +1137,7 @@ playmap_3.dor_playmap_4_4 = Dor(" ", state="float", arg_proto={"map": playmap_4,
 playmap_3.dor_playmap_4_5 = Dor(" ", state="float", arg_proto={"map": playmap_4, "x": 30, "y": 58})
 playmap_3.dor_playmap_4_6 = Dor(" ", state="float", arg_proto={"map": playmap_4, "x": 30, "y": 58})
 # adding
-playmap_3.tree_group_1.add(playmap_3, 0, 0)
-playmap_3.tree_group_2.add(playmap_3, 0, 11)
-playmap_3.tree_group_3.add(playmap_3, 35, 4)
 playmap_3.dor.add(playmap_3, 25, 6)
-playmap_3.house.add(playmap_3, 20, 2)
-playmap_3.house2.add(playmap_3, 18, 11)
-playmap_3.house3.add(playmap_3, 18, 17)
-playmap_3.fence1.add(playmap_3, 3, 0)
-playmap_3.fence2.add(playmap_3, 45, 0)
-playmap_3.fence3.add(playmap_3, 3, 11)
 playmap_3.dor_playmap_2_1.add(playmap_3, 0, 9)
 playmap_3.dor_playmap_2_2.add(playmap_3, 0, 10)
 playmap_3.dor_playmap_4_1.add(playmap_3, 39, 0)
@@ -1332,14 +1151,9 @@ playmap_3.dor_playmap_4_6.add(playmap_3, 44, 0)
 playmap_4.trainers = []
 playmap_4.dor_playmap_3_1 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 41, "y": 1})
 playmap_4.dor_playmap_3_2 = Dor(" ", state="float", arg_proto={"map": playmap_3, "x": 42, "y": 1})
-playmap_4.tree_group_1 =  se.Text("""(())))))()                                             ()(()
-())))()()))(((()                                (()())))))()
-())))((((((()()()))()                   ()()))()((((((((((()
-()))))))()((((((((()))))))         (((()()))))(((((((()()())
-()()()))))()()()())))((()))))  (((())()(((()()(()((((((())))
-|||| || | |||| | |||| | | ||    || |||| | ||| ||||| |||| |||""", ignore=" ")
+playmap_4.dor_playmap_5 = ChanceDor("~", state="float", arg_proto={"chance": 6, "map": playmap_5, "x": 1, "y": 1})
 playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1362,12 +1176,23 @@ playmap_4.meadow_1 = se.Text("""      ;;;;;;;;;;;;;
 # adding
 playmap_4.dor_playmap_3_1.add(playmap_4, 29, 59)
 playmap_4.dor_playmap_3_2.add(playmap_4, 30, 59)
-playmap_4.tree_group_1.add(playmap_4, 0, 54)
+playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
 playmap_4.lake_1.add(playmap_4, 0, 0)
 playmap_4.meadow_1.add(playmap_4, 17, 42)
 
+# playmap_5
+playmap_5.trainers = []
+playmap_5.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass, ob_args={"pokes": ["bato"],"minlvl": 24, "maxlvl": 60})
+# adding
+playmap_5.inner.add(playmap_5, 26, 1)
+
+for map in map_data:
+    for hard_ob in map_data[map]["hard_obs"]:
+        exec(map+'.'+hard_ob+' = se.Text(map_data[map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
+        exec(map+'.'+hard_ob+'.add('+map+', map_data[map]["hard_obs"][hard_ob]["x"], map_data[map]["hard_obs"][hard_ob]["y"])')
+
 # adding all trainer to map
-for map in [playmap_1, playmap_2, playmap_3, playmap_4, cave_1]:
+for map in [playmap_1, playmap_2, playmap_3, playmap_4, playmap_5, cave_1]:
     for trainer in map.trainers:
         trainer.add(map, trainer.sx, trainer.sy)
 
