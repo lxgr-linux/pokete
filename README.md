@@ -5,12 +5,12 @@ Pokete is a small terminal based game in the style of a very popular and old gam
 
 ## Installation
 For linux just do this:
-´´´Shell
+```Shell
 $ git clone https://github.com/lxgr-linux/scrap_engine.git
 $ git clone https://github.com/lxgr-linux/pokete.git
 $ cp ./scrap_engine/scrap_engine.py ./pokete
 $ ./pokete/pokete.py
-´´´
+````
 For windows first install pynput and then do a windows equivalent to the above.
 
 ## How to play?
