@@ -211,6 +211,23 @@ WW\/* *\/WW
    \\v-v/
 """
     },
+    "bator": {
+        "name": "Bator",
+        "hp": 25,
+        "atc": "self.lvl()+4",
+        "defense": "self.lvl()+2",
+        "attacs": ["bite", "cry", "poison_bite", "wing_hit"],
+        "miss_chance": 0,
+        "desc": "A chongus flying rat",
+        "lose_xp": 3,
+        "rarity": 0.2,
+        "type": "flying",
+        "ico": """    ___
+WW\/o o\/WW
+   |v-v|
+   \\___/
+"""
+    },
     "blub": {
         "name": "Blub",
         "hp": 20,
