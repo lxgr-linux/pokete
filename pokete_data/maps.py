@@ -37,6 +37,13 @@ map_data = {
 ;;;;;;;;;;;;
  ;;;;;;;;;
 """},
+        },
+        "dors": {
+            "dor_cave_1": {
+                "x": 74,
+                "y": 0,
+                "args": '{"map": cave_1, "x": 14, "y": 19}'
+            },
         }
     },
     "playmap_2": {
@@ -122,6 +129,23 @@ map_data = {
   ;;;;;;;;;;;;;;;;;
      ;;;;;;;;;;;;;
          ;;;;;;"""},
+        },
+        "dors": {
+            "dor_cave_1": {
+                "x": 1,
+                "y": 5,
+                "args": '{"map": cave_1, "x": 39, "y": 3}'
+            },
+            "dor_playmap_3_1": {
+                "x": 108,
+                "y": 9,
+                "args": '{"map": playmap_3, "x": 1, "y": 9}'
+            },
+            "dor_playmap_3_2": {
+                "x": 108,
+                "y": 10,
+                "args": '{"map": playmap_3, "x": 1, "y": 10}'
+            },
         }
     },
     "cave_1": {
@@ -151,6 +175,23 @@ map_data = {
              |  |"""},
         },
         "soft_obs": {
+        },
+        "dors": {
+            "dor_playmap_1_1": {
+                "x": 14,
+                "y": 20,
+                "args": '{"map": playmap_1, "x": 74, "y": 1}'
+            },
+            "dor_playmap_1_2": {
+                "x": 15,
+                "y": 20,
+                "args": '{"map": playmap_1, "x": 74, "y": 1}'
+            },
+            "dor_playmap_2": {
+                "x": 40,
+                "y": 3,
+                "args": '{"map": playmap_2, "x": 2, "y": 5}'
+            },
         }
     },
     "playmap_3": {
@@ -270,6 +311,48 @@ map_data = {
                                    #"""},
         },
         "soft_obs": {
+        },
+        "dors": {
+            "dor_playmap_2_1": {
+                "x": 0,
+                "y": 9,
+                "args": '{"map": playmap_2, "x": 107, "y": 9}'
+            },
+            "dor_playmap_2_2": {
+                "x": 0,
+                "y": 10,
+                "args": '{"map": playmap_2, "x": 107, "y": 10}'
+            },
+            "dor_playmap_4_1": {
+                "x": 39,
+                "y": 0,
+                "args": '{"map": playmap_4, "x": 29, "y": 58}'
+            },
+            "dor_playmap_4_2": {
+                "x": 40,
+                "y": 0,
+                "args": '{"map": playmap_4, "x": 29, "y": 58}'
+            },
+            "dor_playmap_4_3": {
+                "x": 41,
+                "y": 0,
+                "args": '{"map": playmap_4, "x": 29, "y": 58}'
+            },
+            "dor_playmap_4_4": {
+                "x": 42,
+                "y": 0,
+                "args": '{"map": playmap_4, "x": 30, "y": 58}'
+            },
+            "dor_playmap_4_5": {
+                "x": 43,
+                "y": 0,
+                "args": '{"map": playmap_4, "x": 30, "y": 58}'
+            },
+            "dor_playmap_4_6": {
+                "x": 44,
+                "y": 0,
+                "args": '{"map": playmap_4, "x": 30, "y": 58}'
+            },
         }
     },
     "playmap_4": {
@@ -298,6 +381,18 @@ map_data = {
       ;;;;;;;;;;;;;;;;;
          ;;;;;;;;;;;;;
             ;;;;;;;;"""},
+        },
+        "dors": {
+            "dor_playmap_3_1": {
+                "x": 29,
+                "y": 59,
+                "args": '{"map": playmap_3, "x": 41, "y": 1}'
+            },
+            "dor_playmap_3_2": {
+                "x": 30,
+                "y": 59,
+                "args": '{"map": playmap_3, "x": 42, "y": 1}'
+            },
         }
     },
     "playmap_5": {
@@ -324,6 +419,9 @@ map_data = {
                 | |"""},
         },
         "soft_obs": {
+        },
+        "dors": {
+
         }
     },
 }
