@@ -3,6 +3,16 @@
 ## What is it?
 Pokete is a small terminal based game in the style of a very popular and old game from gamefreak.
 
+## Installation
+For linux just do this:
+´´´Shell
+$ git clone https://github.com/lxgr-linux/scrap_engine.git
+$ git clone https://github.com/lxgr-linux/pokete.git
+$ cp ./scrap_engine/scrap_engine.py ./pokete
+$ ./pokete/pokete.py
+´´´
+For windows first install pynput and then do a windows equivalent to the above.
+
 ## How to play?
 Imagine your a Pokete-Trainer and your goal is it to run aroud in the world and catch/train as many Poketes as possible and to get the best trainer.
 
