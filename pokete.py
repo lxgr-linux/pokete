@@ -409,6 +409,50 @@ def movemap_text(x, y, arr):
                 break
             time.sleep(0.05)
 
+
+def movemap_text_input():
+    global ev
+    exec_string = ""
+    movemap.code_label.rechar(":"+exec_string+"█")
+    movemap.show()
+    while True:
+        if ev == "Key.enter":
+            movemap.code_label.rechar(figure.map.pretty_name)
+            movemap.show()
+            codes(exec_string)
+            break
+        elif ev == "exit":
+            movemap.code_label.rechar(figure.map.pretty_name)
+            movemap.show()
+            break
+        elif ev == "Key.backspace":
+            if len(exec_string) == 0:
+                movemap.code_label.rechar(figure.map.pretty_name)
+                movemap.show()
+                break
+            exec_string = exec_string[:-1]
+            movemap.code_label.rechar(":"+exec_string+"█")
+            movemap.show()
+            ev = ""
+        elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
+            if ev == "Key.space":
+                ev = "' '"
+            exec_string += eval("str("+ev+")")
+            movemap.code_label.rechar(":"+exec_string+"█")
+            movemap.show()
+            ev = ""
+
+
+def movemap_add_obs():
+    movemap.underline = se.Square("-", movemap.width, 1)
+    movemap.name_label.add(movemap, 2, movemap.height-2)
+    movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
+    movemap.underline.add(movemap, 0, movemap.height-2)
+    movemap.deck_label.add(movemap, 0, movemap.height-1)
+    movemap.exit_label.add(movemap, 9, movemap.height-1)
+    movemap.map_label.add(movemap, 18, movemap.height-1)
+    movemap.code_label.add(movemap, 0, 0)
+
 # Functions for deck
 ####################
 
@@ -522,7 +566,7 @@ def playmap_4_extra_action():
 def roadmap():
     global ev
     ev = ""
-    [i for i in [mapmap.a, mapmap.b, mapmap.c, mapmap.d, mapmap.e] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5]][0]][0].choose()
+    [i for i in [mapmap.a, mapmap.b, mapmap.c, mapmap.d, mapmap.e, mapmap.f] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5]][0]][0].choose()
     mapmap.show(init=True)
     while True:
         if ev == "exit":
@@ -823,8 +867,8 @@ def detail(poke):
 
 
 def game(map):
-    global ev, exec_string
-    ev=""
+    global ev
+    ev = ""
     print("\033]0;Pokete - "+map.pretty_name+"\a", end="")
     movemap.code_label.rechar(figure.map.pretty_name)
     movemap.set(0, 0)
@@ -846,35 +890,7 @@ def game(map):
             exiter()
         elif ev == "':'":
             ev = ""
-            exec_string = ""
-            movemap.code_label.rechar(":"+exec_string+"█")
-            movemap.show()
-            while True:
-                if ev == "Key.enter":
-                    movemap.code_label.rechar(figure.map.pretty_name)
-                    movemap.show()
-                    codes(exec_string)
-                    break
-                elif ev == "exit":
-                    movemap.code_label.rechar(figure.map.pretty_name)
-                    movemap.show()
-                    break
-                elif ev == "Key.backspace":
-                    if len(exec_string) == 0:
-                        movemap.code_label.rechar(figure.map.pretty_name)
-                        movemap.show()
-                        break
-                    exec_string = exec_string[:-1]
-                    movemap.code_label.rechar(":"+exec_string+"█")
-                    movemap.show()
-                    ev = ""
-                elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
-                    if ev == "Key.space":
-                        ev = "' '"
-                    exec("global exec_string; exec_string += str("+ev+")")
-                    movemap.code_label.rechar(":"+exec_string+"█")
-                    movemap.show()
-                    ev = ""
+            movemap_text_input()
             ev = ""
         std_loop(movemap)
         map.extra_actions()
@@ -893,14 +909,7 @@ def game(map):
             for ob in [movemap.underline, movemap.deck_label, movemap.exit_label, movemap.code_label, movemap.name_label, movemap.balls_label, movemap.map_label]:
                 ob.remove()
             movemap.resize(height-1, width, " ")
-            movemap.underline = se.Square("-", movemap.width, 1)
-            movemap.name_label.add(movemap, 2, movemap.height-2)
-            movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
-            movemap.underline.add(movemap, 0, movemap.height-2)
-            movemap.deck_label.add(movemap, 0, movemap.height-1)
-            movemap.exit_label.add(movemap, 9, movemap.height-1)
-            movemap.map_label.add(movemap, 18, movemap.height-1)
-            movemap.code_label.add(movemap, 0, 0)
+            movemap_add_obs()
         movemap.full_show()
 
 
@@ -1013,19 +1022,23 @@ playmap_4 = PlayMap(background=" ", height=60, width=60, name="playmap_4", prett
 playmap_5 = PlayMap(background=" ", height=60, width=60, name="playmap_5", pretty_name="Mysterious cave",
                     trainers = [Trainer("Caveman Marc", "He", Poke("bator", 350, player=False), [" < Oh!", " < I've not seen anyone\n   down here for while", " < Can I show you my rare Pokete,\n   that can only be found\n   in this cave?"], [" < Oh!", " < My Pokete is not just rare", " < It's also strong"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < I hope you can also catch one!"], 23, 12)],
                     poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180, "maxlvl": 230})
+playmap_6 = PlayMap(background=" ", height=60, width=60, name="playmap_6", pretty_name="Route 2",
+                    poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180, "maxlvl": 230})
 
 # mapmap
 mapmap = se.Map(height-1, width, " ")
 mapmap.a = Station(playmap_1, 2, 1, w_next="mapmap.b")
 mapmap.b = Station(cave_1, 1, 2, s_next="mapmap.a", d_next="mapmap.c")
 mapmap.c = Station(playmap_2, 2, 1, a_next="mapmap.b", d_next="mapmap.d")
-mapmap.d = Station(playmap_3, 2, 1, a_next="mapmap.c", w_next="mapmap.e")
+mapmap.d = Station(playmap_3, 2, 1, a_next="mapmap.c", w_next="mapmap.e", s_next="mapmap.f")
 mapmap.e = Station(playmap_4, 1, 3, s_next="mapmap.d")
+mapmap.f = Station(playmap_6, 1, 2, w_next="mapmap.d")
 mapmap.a.add(mapmap, 5, 7)
 mapmap.b.add(mapmap, 6, 5)
 mapmap.c.add(mapmap, 7, 5)
 mapmap.d.add(mapmap, 9, 5)
 mapmap.e.add(mapmap, 10, 2)
+mapmap.f.add(mapmap, 10, 6)
 mapmap.name_label = se.Text("Map", esccode="\033[1m")
 mapmap.exit_label = se.Text("1: Exit")
 mapmap.line_top = se.Square("_", 70, 1)
@@ -1046,16 +1059,10 @@ movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = se.Object("a")
 exclamation = se.Object("!")
 multitext = se.Text("")
-movemap.underline = se.Square("-", movemap.width, 1)
 movemap.deck_label = se.Text("1: Deck")
 movemap.exit_label = se.Text("2: Exit")
 movemap.map_label = se.Text("3: Map")
 movemap.code_label = se.Text("")
-# adding
-movemap.deck_label.add(movemap, 0, movemap.height-1)
-movemap.exit_label.add(movemap, 9, movemap.height-1)
-movemap.map_label.add(movemap, 18, movemap.height-1)
-movemap.code_label.add(movemap, 0, 0)
 
 # Definiton of objects for the playmaps
 # Most of the objects ar generated from map_data for maps.py
@@ -1175,9 +1182,7 @@ movemap.name_label = se.Text(figure.name, esccode="\033[1m")
 movemap.balls_label = se.Text("", esccode="\033[1m")
 movemap.code_label.rechar(figure.map.pretty_name)
 balls_label_rechar()
-movemap.name_label.add(movemap, 2, movemap.height-2)
-movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
-movemap.underline.add(movemap, 0, movemap.height-2)
+movemap_add_obs()
 
 # objects for detail
 detailmap = se.Map(height-1, width, " ")
