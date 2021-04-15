@@ -995,9 +995,7 @@ menumap.name_label.add(menumap, 2, 2)
 menumap.realname_label.add(menumap, menumap.name_label.x+len(menumap.name_label.text), menumap.name_label.y)
 
 # maps
-centermap = se.Map(height-1, width, " ")
-centermap.name = "centermap"
-centermap.pretty_name = "Pokete-Center"
+centermap = PlayMap(height-1, width, " ", name = "centermap", pretty_name = "Pokete-Center")
 playmap_1 = PlayMap(background=" ", height=30, width=90, name="playmap_1", pretty_name="Nice Town",
                     trainers=[Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)],
                     poke_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
