@@ -271,6 +271,21 @@ class Station(se.Square):
             self.unchoose()
             exec(ne+".choose()")
 
+
+class PlayMap(se.Map):
+    def __init__(self, height=se.height-1, width=se.width, background="#", trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
+        super().__init__(height=height, width=width, background=background, dynfps=dynfps)
+        self.trainers = trainers
+        self.name = name
+        self.pretty_name = pretty_name
+        self.poke_args = poke_args
+        self.__extra_actions = extra_actions
+
+    def extra_actions(self):
+        if self.__extra_actions != None:
+            self.__extra_actions()
+
+
 # General use functions
 #######################
 
@@ -862,10 +877,7 @@ def game(map):
                     ev = ""
             ev = ""
         std_loop(movemap)
-        try:
-            map.extra_actions()
-        except AttributeError:
-            pass
+        map.extra_actions()
         for trainer in map.trainers:
             trainer.do(map)
         time.sleep(0.05)
@@ -986,25 +998,23 @@ menumap.realname_label.add(menumap, menumap.name_label.x+len(menumap.name_label.
 centermap = se.Map(height-1, width, " ")
 centermap.name = "centermap"
 centermap.pretty_name = "Pokete-Center"
-playmap_1 = se.Map(background=" ", height=30, width=90)
-playmap_1.name = "playmap_1"
-playmap_1.pretty_name = "Nice Town"
-cave_1 = se.Map(background=" ", height=30, width=90)
-cave_1.name = "cave_1"
-cave_1.pretty_name = "Nice Town cave"
-playmap_2 = se.Map(background=" ", height=30, width=180)
-playmap_2.name = "playmap_2"
-playmap_2.pretty_name = "Route 1"
-playmap_3 = se.Map(background=" ", height=30, width=90)
-playmap_3.name = "playmap_3"
-playmap_3.pretty_name = "Josi Town"
-playmap_4 = se.Map(background=" ", height=60, width=60)
-playmap_4.extra_actions = playmap_4_extra_action
-playmap_4.name = "playmap_4"
-playmap_4.pretty_name = "Josi Lake"
-playmap_5 = se.Map(background=" ", height=60, width=60)
-playmap_5.name = "playmap_5"
-playmap_5.pretty_name = "Mysterious cave"
+playmap_1 = PlayMap(background=" ", height=30, width=90, name="playmap_1", pretty_name="Nice Town",
+                    trainers=[Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)],
+                    poke_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
+cave_1 = PlayMap(background=" ", height=30, width=90, name="cave_1", pretty_name="Nice Town cave",
+                trainers=[Trainer("Monica", "She", Poke("hornita", 128, player=False), [" < Hello noble traveler", " < Are you willing to fight with me?"], [" < Hahaha!", " < Looooser!"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < Have a great day!"], 23, 10)])
+playmap_2 = PlayMap(background=" ", height=30, width=180, name="playmap_2", pretty_name="Route 1",
+                    trainers = [Trainer("Wanderer Murrad", "He", Poke("ostri", 160, player=False), [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"], [" < It is stronger than you might have exspected"], [" < I see you don't have a living Pokete"], [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"], 32, 12)],
+                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128})
+playmap_3 = PlayMap(background=" ", height=30, width=90, name="playmap_3", pretty_name="Josi Town",
+                    trainers=[Trainer("Josi", "She", Poke("hornita", 200, player=False), [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"], [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"], [" < I see you don't have a living Pokete", " < Loooser!"], [" < Damn, I lost!"], 11, 5)])
+playmap_4 = PlayMap(background=" ", height=60, width=60, name="playmap_4", pretty_name="Josi Lake",
+                    trainers=[Trainer("Kevin", "He", Poke("karpi", 340, player=False), [" < Jo!", " < What up?", " < Wanna see my sick ass Pokete?"], [" < Yeaaah!", " < My Pokete is sooo sick!"], [" < I see you don't have a\n   living Pokete"], [" < Daaaamn", " < Your Pokete is noot\n   from this planet!"], 32, 31)],
+                    poke_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior", "rollator"], "minlvl": 180, "maxlvl": 230},
+                    extra_actions = playmap_4_extra_action)
+playmap_5 = PlayMap(background=" ", height=60, width=60, name="playmap_5", pretty_name="Mysterious cave",
+                    trainers = [Trainer("Caveman Marc", "He", Poke("bator", 350, player=False), [" < Oh!", " < I've not seen anyone\n   down here for while", " < Can I show you my rare Pokete,\n   that can only be found\n   in this cave?"], [" < Oh!", " < My Pokete is not just rare", " < It's also strong"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < I hope you can also catch one!"], 23, 12)],
+                    poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180, "maxlvl": 230})
 
 # mapmap
 mapmap = se.Map(height-1, width, " ")
@@ -1055,20 +1065,13 @@ movemap.code_label.add(movemap, 0, 0)
 ############################################################
 
 # playmap_1
-playmap_1.trainers = [Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)]
-playmap_1.poke_args = {"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60}
 playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
 playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 # adding
 playmap_1.dor.add(playmap_1, 25, 4)
 playmap_1.meadow.add(playmap_1, 5, 7)
 
-# playmap_2
-playmap_2.trainers = [Trainer("Wanderer Murrad", "He", Poke("ostri", 160, player=False), [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"], [" < It is stronger than you might have exspected"], [" < I see you don't have a living Pokete"], [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"], 32, 12)]
-playmap_2.poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128}
-
 # cave_1
-cave_1.trainers = [Trainer("Monica", "She", Poke("hornita", 128, player=False), [" < Hello noble traveler", " < Are you willing to fight with me?"], [" < Hahaha!", " < Looooser!"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < Have a great day!"], 23, 10)]
 cave_1.inner = se.Text("""##########################################
 #         ################################
 #         ################################
@@ -1093,14 +1096,11 @@ cave_1.inner = se.Text("""##########################################
 cave_1.inner.add(cave_1, 0, 0)
 
 # playmap_3
-playmap_3.trainers = [Trainer("Josi", "She", Poke("hornita", 200, player=False), [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"], [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"], [" < I see you don't have a living Pokete", " < Loooser!"], [" < Damn, I lost!"], 11, 5)]
 playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 # adding
 playmap_3.dor.add(playmap_3, 25, 6)
 
 # playmap_4
-playmap_4.trainers = [Trainer("Kevin", "He", Poke("karpi", 340, player=False), [" < Jo!", " < What up?", " < Wanna see my sick ass Pokete?"], [" < Yeaaah!", " < My Pokete is sooo sick!"], [" < I see you don't have a\n   living Pokete"], [" < Daaaamn", " < Your Pokete is noot\n   from this planet!"], 32, 31)]
-playmap_4.poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior", "rollator"], "minlvl": 180, "maxlvl": 230}
 playmap_4.dor_playmap_5 = ChanceDor("~", state="float", arg_proto={"chance": 6, "map": playmap_5, "x": 17, "y": 16})
 playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
@@ -1118,8 +1118,6 @@ playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
 playmap_4.lake_1.add(playmap_4, 0, 0)
 
 # playmap_5
-playmap_5.trainers = [Trainer("Caveman Marc", "He", Poke("bator", 350, player=False), [" < Oh!", " < I've not seen anyone\n   down here for while", " < Can I show you my rare Pokete,\n   that can only be found\n   in this cave?"], [" < Oh!", " < My Pokete is not just rare", " < It's also strong"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < I hope you can also catch one!"], 23, 12)]
-playmap_5.poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180, "maxlvl": 230}
 playmap_5.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass, ob_args=playmap_5.poke_args)
 # adding
 playmap_5.inner.add(playmap_5, 26, 1)
