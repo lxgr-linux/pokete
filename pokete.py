@@ -573,7 +573,7 @@ def playmap_7_extra_action():
 def roadmap():
     global ev
     ev = ""
-    [i for i in [mapmap.a, mapmap.b, mapmap.c, mapmap.d, mapmap.e, mapmap.f] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5]][0]][0].choose()
+    [i for i in [mapmap.a, mapmap.b, mapmap.c, mapmap.d, mapmap.e, mapmap.f, mapmap.g] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5]][0]][0].choose()
     mapmap.show(init=True)
     while True:
         if ev == "exit":
@@ -1044,13 +1044,15 @@ mapmap.b = Station(cave_1, 1, 2, s_next="mapmap.a", d_next="mapmap.c")
 mapmap.c = Station(playmap_2, 2, 1, a_next="mapmap.b", d_next="mapmap.d")
 mapmap.d = Station(playmap_3, 2, 1, a_next="mapmap.c", w_next="mapmap.e", s_next="mapmap.f")
 mapmap.e = Station(playmap_4, 1, 3, s_next="mapmap.d")
-mapmap.f = Station(playmap_6, 1, 2, w_next="mapmap.d")
+mapmap.f = Station(playmap_6, 1, 2, w_next="mapmap.d", a_next="mapmap.g")
+mapmap.g = Station(playmap_7, 1, 1, d_next="mapmap.f")
 mapmap.a.add(mapmap, 5, 7)
 mapmap.b.add(mapmap, 6, 5)
 mapmap.c.add(mapmap, 7, 5)
 mapmap.d.add(mapmap, 9, 5)
 mapmap.e.add(mapmap, 10, 2)
 mapmap.f.add(mapmap, 10, 6)
+mapmap.g.add(mapmap, 9, 7)
 mapmap.name_label = se.Text("Map", esccode="\033[1m")
 mapmap.exit_label = se.Text("1: Exit")
 mapmap.line_top = se.Square("_", 70, 1)
