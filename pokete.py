@@ -560,6 +560,13 @@ def playmap_4_extra_action():
                 if ob.x == figure.x and ob.y == figure.y:
                     figure.redraw()
 
+def playmap_7_extra_action():
+    for ob in playmap_7.inner_walls.obs + playmap_7.trainers:
+        if ob.added and math.sqrt((ob.y-figure.y)**2+(ob.x-figure.x)**2) <= 3:
+            ob.rechar(ob.bchar)
+        else:
+            ob.rechar(" ")
+
 # Main functions
 ################
 
@@ -1025,6 +1032,10 @@ playmap_5 = PlayMap(background=" ", height=60, width=60, name="playmap_5", prett
 playmap_6 = PlayMap(background=" ", height=60, width=60, name="playmap_6", pretty_name="Route 2",
                     trainers = [Trainer("Eva", "She", Poke("treenator", 400, player=False), [" < Hi!", " < Fight?"], [" < Loser"], [" < I see you don't have a living Pokete"], [" < I lost!"], 47, 43)],
                     poke_args = {"pokes": ["steini", "voglo", "bushy", "rollator"], "minlvl": 200, "maxlvl": 260})
+playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", pretty_name="Dark cave",
+                    trainers = [Trainer("Caveman Dieter", "He", Poke("steini", 400, player=False), [" < Oh!", " < I didn't see you comming"], [" < My steini is old but classy"], [" < I see you don't have a living Pokete"], [" < You're a great trainer!"], 18, 7)],
+                    extra_actions = playmap_7_extra_action,
+                    poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator"], "minlvl": 200, "maxlvl": 260})
 
 # mapmap
 mapmap = se.Map(height-1, width, " ")
@@ -1069,6 +1080,18 @@ movemap.code_label = se.Text("")
 # Most of the objects ar generated from map_data for maps.py
 # .poke_arg is relevant for meadow genration
 ############################################################
+
+# generating objects from map_data
+for map in map_data:
+    for hard_ob in map_data[map]["hard_obs"]:
+        exec(map+'.'+hard_ob+' = se.Text(map_data[map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
+        exec(map+'.'+hard_ob+'.add('+map+', map_data[map]["hard_obs"][hard_ob]["x"], map_data[map]["hard_obs"][hard_ob]["y"])')
+    for soft_ob in map_data[map]["soft_obs"]:
+        exec(map+'.'+soft_ob+' = se.Text(map_data[map]["soft_obs"][soft_ob]["txt"], ignore=" ", ob_class=HightGrass, ob_args='+map+'.poke_args, state="float")')
+        exec(map+'.'+soft_ob+'.add('+map+', map_data[map]["soft_obs"][soft_ob]["x"], map_data[map]["soft_obs"][soft_ob]["y"])')
+    for dor in map_data[map]["dors"]:
+        exec(map+'.'+dor+' = Dor(" ", state="float", arg_proto='+map_data[map]["dors"][dor]["args"]+')')
+        exec(map+'.'+dor+'.add('+map+', map_data[map]["dors"][dor]["x"], map_data[map]["dors"][dor]["y"])')
 
 # playmap_1
 playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
@@ -1128,17 +1151,32 @@ playmap_5.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass, ob_
 # adding
 playmap_5.inner.add(playmap_5, 26, 1)
 
-# generating objects from map_data
-for map in map_data:
-    for hard_ob in map_data[map]["hard_obs"]:
-        exec(map+'.'+hard_ob+' = se.Text(map_data[map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
-        exec(map+'.'+hard_ob+'.add('+map+', map_data[map]["hard_obs"][hard_ob]["x"], map_data[map]["hard_obs"][hard_ob]["y"])')
-    for soft_ob in map_data[map]["soft_obs"]:
-        exec(map+'.'+soft_ob+' = se.Text(map_data[map]["soft_obs"][soft_ob]["txt"], ignore=" ", ob_class=HightGrass, ob_args='+map+'.poke_args, state="float")')
-        exec(map+'.'+soft_ob+'.add('+map+', map_data[map]["soft_obs"][soft_ob]["x"], map_data[map]["soft_obs"][soft_ob]["y"])')
-    for dor in map_data[map]["dors"]:
-        exec(map+'.'+dor+' = Dor(" ", state="float", arg_proto='+map_data[map]["dors"][dor]["args"]+')')
-        exec(map+'.'+dor+'.add('+map+', map_data[map]["dors"][dor]["x"], map_data[map]["dors"][dor]["y"])')
+# playmap_7
+playmap_7.inner = se.Text("""##############################
+#########        #############
+#########        #############
+#########        #############
+#########        #############
+#########               ######
+#    ####     ####      ######
+#    ####     ####      ######
+#             ################
+#    ####     ################
+#########     ################
+#########     ################
+#########                   ##
+#########     ################
+#########     ################
+#########     ################
+#########             ########
+###################   ########
+###################   ########
+##############################""", ignore="#", ob_class=HightGrass, ob_args=playmap_7.poke_args, state="float")
+for ob in playmap_7.inner_walls.obs + playmap_7.trainers:
+    ob.bchar = ob.char
+    ob.rechar(" ")
+# adding
+playmap_7.inner.add(playmap_7, 0, 0)
 
 # adding all trainer to map
 for map in map_data:
