@@ -239,6 +239,16 @@ attacs = {
         "type": "ground",
         "ap": 10,
     },
+    "brick_throw": {
+        "name": "Brick throw",
+        "factor": 2,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.3,
+        "desc": "Throws an euler brick at the enemy",
+        "type": "stone",
+        "ap": 15,
+    },
 }
 
 if __name__ == "__main__":

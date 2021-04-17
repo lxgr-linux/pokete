@@ -24,7 +24,7 @@ pokes = {
         "hp": 25,
         "atc": "self.lvl()+2",
         "defense": "self.lvl()+4",
-        "attacs": ["tackle", "politure"],
+        "attacs": ["tackle", "politure", "brick_throw"],
         "miss_chance": 0,
         "desc": "A squared stone that can casually be found on the ground",
         "lose_xp": 2,
