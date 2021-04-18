@@ -142,7 +142,6 @@ class Poke():
         self.xp = xp
         self.player = player
         self.identifier = poke
-        self.set_vars()
         for name in ["hp", "attacs", "name", "miss_chance", "lose_xp"]:
             exec("self."+name+" = pokes[self.identifier][name]")
         exec("self.type = "+pokes[self.identifier]["type"])
@@ -161,13 +160,18 @@ class Poke():
         self.text_type = se.Text("Type:"+self.type.name)
         self.tril = se.Object("<")
         self.trir = se.Object(">")
-        self.attac_obs = [Attack(atc) for atc in self.attacs]
-        self.atc_labels = [se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)) for i, atc in enumerate(self.attac_obs)]
+        self.attac_obs = []
         self.pball_small = se.Object("o")
+        self.set_vars()
 
     def set_vars(self):
         for name in ["atc", "defense"]:
             exec("self."+name+" = int("+pokes[self.identifier][name]+")")
+        i = [Attack(atc) for atc in self.attacs if self.lvl() >= attacs[atc]["min_lvl"]]
+        for old_ob, ob in zip(self.attac_obs, i):
+            ob.ap = old_ob.hp
+        self.attac_obs = i
+        self.atc_labels = [se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)) for i, atc in enumerate(self.attac_obs)]
 
     def label_rechar(self):
         for i, atc in enumerate(self.attac_obs):
@@ -749,7 +753,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             fightmap.outp.rechar(winner.name+" reached lvl "+str(winner.lvl())+"!")
             winner.move_shine()
             time.sleep(0.5)
-    #winner.set_vars()
+            winner.set_vars()
     fightmap.show()
     time.sleep(1)
     ico = [ob for ob in players if ob != winner][0].ico
