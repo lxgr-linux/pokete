@@ -161,6 +161,7 @@ class Poke():
         self.tril = se.Object("<")
         self.trir = se.Object(">")
         self.attac_obs = []
+        self.atc_labels = []
         self.pball_small = se.Object("o")
         self.set_vars()
 
@@ -169,8 +170,10 @@ class Poke():
             exec("self."+name+" = int("+pokes[self.identifier][name]+")")
         i = [Attack(atc) for atc in self.attacs if self.lvl() >= attacs[atc]["min_lvl"]]
         for old_ob, ob in zip(self.attac_obs, i):
-            ob.ap = old_ob.hp
+            ob.ap = old_ob.ap
         self.attac_obs = i
+        for ob in self.atc_labels:
+            ob.remove()
         self.atc_labels = [se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)) for i, atc in enumerate(self.attac_obs)]
 
     def label_rechar(self):
@@ -326,7 +329,7 @@ def save():
         "oldmap": figure.oldmap.name,
         "x": figure.x,
         "y": figure.y,
-        "pokes": {poke.identifier: {"xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for poke in figure.pokes}
+        "pokes": {i: {"name": poke.identifier, "xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for i, poke in enumerate(figure.pokes)}
     }
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
@@ -1208,9 +1211,9 @@ centermap.inner.add(centermap, int(centermap.width/2)-8, 1)
 centermap.interact.add(centermap, int(centermap.width/2), 4)
 
 # processing data from save file
-figure.pokes = [Poke(poke, session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
-for poke in figure.pokes:
-    for atc, ap in zip(poke.attac_obs, session_info["pokes"][poke.identifier]["ap"]):
+figure.pokes = [Poke((session_info["pokes"][poke]["name"] if type(poke) is int else poke), session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
+for j, poke in enumerate(figure.pokes):
+    for atc, ap in zip(poke.attac_obs, session_info["pokes"][j]["ap"]):
         atc.ap = ap if ap != "SKIP" else atc.ap
     for i, atc in enumerate(poke.attac_obs):
         poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
