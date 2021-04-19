@@ -93,7 +93,7 @@ attacs = {
         "action": "self.hp += 2 if self.hp+2 <= self.full_hp else 0",
         "move": "shine",
         "miss_chance": 0,
-        "min_lvl": 0,
+        "min_lvl": 15,
         "desc": "Regenerates 2 HP",
         "type": "normal",
         "ap": 5,

@@ -1042,7 +1042,7 @@ playmap_6 = PlayMap(background=" ", height=60, width=60, name="playmap_6", prett
 playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", pretty_name="Dark cave",
                     trainers = [Trainer("Caveman Dieter", "He", Poke("steini", 400, player=False), [" < Oh!", " < I didn't see you comming"], [" < My steini is old but classy"], [" < I see you don't have a living Pokete"], [" < You're a great trainer!"], 18, 7)],
                     extra_actions = playmap_7_extra_action,
-                    poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator"], "minlvl": 200, "maxlvl": 260})
+                    poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
 
 # mapmap
 mapmap = se.Map(height-1, width, " ")
