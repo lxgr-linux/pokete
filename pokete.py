@@ -5,8 +5,8 @@
 # New Pokete contributions are especially welcome
 # For this see the comments in the definations area
 
-import scrap_engine as se
 import random, time, os, sys, threading, math
+import scrap_engine as se
 from pathlib import Path
 from pokete_data.poketes import *
 from pokete_data.attacks import *
@@ -118,7 +118,7 @@ class CenterDor(se.Object):
         figure.remove()
         i = figure.map.name
         figure.add(figure.oldmap, figure.oldmap.dor.x, figure.oldmap.dor.y+1)
-        exec("figure.oldmap = "+i)
+        figure.oldmap = eval(i)
         game(figure.map)
 
 
@@ -127,7 +127,7 @@ class Dor(se.Object):
         figure.remove()
         i = figure.map.name
         figure.add(self.arg_proto["map"], self.arg_proto["x"], self.arg_proto["y"])
-        exec("figure.oldmap = "+i)
+        figure.oldmap = eval(i)
         game(self.arg_proto["map"])
 
 
@@ -144,7 +144,7 @@ class Poke():
         self.identifier = poke
         for name in ["hp", "attacs", "name", "miss_chance", "lose_xp"]:
             exec("self."+name+" = pokes[self.identifier][name]")
-        exec("self.type = "+pokes[self.identifier]["type"])
+        self.type = eval(pokes[self.identifier]["type"])
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
         self.hp_bar = se.Text(8*"#", esccode="\033[32m")
@@ -426,7 +426,10 @@ def movemap_text_input():
         if ev == "Key.enter":
             movemap.code_label.rechar(figure.map.pretty_name)
             movemap.show()
-            codes(exec_string)
+            try:
+                codes(exec_string)
+            except:
+                print("execution failed")
             break
         elif ev == "exit":
             movemap.code_label.rechar(figure.map.pretty_name)
