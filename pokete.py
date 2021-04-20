@@ -245,7 +245,7 @@ class Attack():
     def __init__(self, index):
         for i in attacs[index]:
             exec("self."+i+"=attacs[index][i]")
-        exec("self.type = "+attacs[index]["type"])
+        self.type = eval(attacs[index]["type"])
         self.max_ap = self.ap
         self.label_name = se.Text(self.name, esccode="\033[4m")
         self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
@@ -629,7 +629,7 @@ def menu():
                 elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
                     if ev == "Key.space":
                         ev = "' '"
-                    exec("global name; name += str("+ev+")")
+                    name += str(eval(ev))
                     menumap.realname_label.rechar(name+"█")
                     menumap.show()
                     ev = ""
@@ -678,7 +678,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fightmap.show()
                 while True:
                     if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
-                        exec("global attack; attack = ob.attac_obs[int("+ev+")]")
+                        attack = ob.attac_obs[int(eval(ev))]
                         if attack.ap == 0:
                             continue
                         ev=""
@@ -802,7 +802,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 continue
             if indici == []:
                 indici.append(deck_index.index)
-                decksubmap.move_label.rechar("2: Move to?")
+                decksubmap.move_label.rechar("2: Move to ")
             else:
                 indici.append(deck_index.index)
                 figure.pokes[indici[0]], figure.pokes[indici[1]] = pokes[indici[1]], pokes[indici[0]]
@@ -1219,7 +1219,7 @@ for j, poke in enumerate(figure.pokes):
         poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
 figure.name = session_info["user"]
 try:
-    if eval(session_info["map"]) == centermap:
+    if eval(session_info["map"]) == centermap:  # Looking if figure would be in centermap, so the player may spawn out of the center
         figure.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
     else:
         figure.add(eval(session_info["map"]), session_info["x"], session_info["y"])
