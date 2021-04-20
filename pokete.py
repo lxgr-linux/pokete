@@ -1219,11 +1219,14 @@ for j, poke in enumerate(figure.pokes):
         poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
 figure.name = session_info["user"]
 try:
-    exec('figure.add('+session_info["map"]+', session_info["x"], session_info["y"])')
+    if eval(session_info["map"]) == centermap:
+        figure.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
+    else:
+        figure.add(eval(session_info["map"]), session_info["x"], session_info["y"])
 except:
     figure.add(playmap_1, 1, 1)
 try:
-    exec("figure.oldmap = "+session_info["oldmap"])
+    figure.oldmap = eval(session_info["oldmap"])
 except:
     figure.oldmap = playmap_1
 movemap.name_label = se.Text(figure.name, esccode="\033[1m")
