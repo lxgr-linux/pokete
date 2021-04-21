@@ -37,6 +37,17 @@ class Heal(se.Object):
         heal()
 
 
+class Color:
+    reset = "\033[0m"
+    thicc = "\033[1m"
+    underlined = "\033[4m"
+    red = "\033[31m"
+    green = "\033[32m"
+    yellow = "\033[33m"
+    lightblue = "\033[1;34m"
+    blue = "\033[34m"
+
+
 class Trainer(se.Object):
     def __init__(self, name, gender, poke, texts, lose_texts, no_poke_texts, win_texts, sx, sy, state="solid", arg_proto={}):
         self.char = "a"
@@ -147,7 +158,7 @@ class Poke():
         self.type = eval(pokes[self.identifier]["type"])
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
-        self.hp_bar = se.Text(8*"#", esccode="\033[32m")
+        self.hp_bar = se.Text(8*"#", esccode=Color.green)
         if _hp != "SKIP":
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
@@ -155,7 +166,7 @@ class Poke():
         self.ico = se.Text(pokes[poke]["ico"])
         self.text_hp = se.Text("HP:"+str(self.hp))
         self.text_lvl = se.Text("Lvl:"+str(self.lvl()))
-        self.text_name = se.Text(str(self.name), esccode="\033[4m")
+        self.text_name = se.Text(str(self.name), esccode=Color.underlined)
         self.text_xp = se.Text("XP:"+str(self.xp-(self.lvl()**2-1))+"/"+str(((self.lvl()+1)**2-1)-(self.lvl()**2-1)))
         self.text_type = se.Text("Type:"+self.type.name)
         self.tril = se.Object("<")
@@ -185,7 +196,7 @@ class Poke():
 
     def health_bar_maker(self, oldhp):
         bar_num = round(oldhp*8/self.full_hp)
-        esccode = "\033[31m"
+        esccode = Color.red
         for size, num in zip([6, 2], [2, 3]):
             if bar_num > size:
                 esccode = "\033[3"+str(num)+"m"
@@ -209,7 +220,7 @@ class Poke():
             for ob in [enem, self]:
                 while ob.oldhp != ob.hp and ob.oldhp > 0:
                     ob.oldhp += -1 if ob.oldhp > ob.hp else 1
-                    ob.text_hp.rechar("HP:"+str(ob.oldhp), esccode="\033[33m")
+                    ob.text_hp.rechar("HP:"+str(ob.oldhp), esccode=Color.yellow)
                     ob.health_bar_maker(ob.oldhp)
                     time.sleep(0.1)
                     fightmap.show()
@@ -247,7 +258,7 @@ class Attack():
             exec("self."+i+"=attacs[index][i]")
         self.type = eval(attacs[index]["type"])
         self.max_ap = self.ap
-        self.label_name = se.Text(self.name, esccode="\033[4m")
+        self.label_name = se.Text(self.name, esccode=Color.underlined)
         self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
         self.label_factor = se.Text("Attack:"+str(self.factor))
         self.desc = se.Text(self.desc[:int(se.width/2-1)])
@@ -264,7 +275,7 @@ class Station(se.Square):
             exec("self."+i+"="+i)
 
     def choose(self):
-        self.rechar("\033[31;1m"+self.org_char+"\033[0m")
+        self.rechar(Color.red+Color.thicc+self.org_char+Color.reset)
         Station.choosen = self
         mapmap.info_label.rechar(self.associate.pretty_name)
 
@@ -282,10 +293,8 @@ class Station(se.Square):
 class PlayMap(se.Map):
     def __init__(self, height=se.height-1, width=se.width, background="#", trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
         super().__init__(height=height, width=width, background=background, dynfps=dynfps)
-        self.trainers = trainers
-        self.name = name
-        self.pretty_name = pretty_name
-        self.poke_args = poke_args
+        for i in ["trainers", "name", "pretty_name", "poke_args"]:
+            exec("self."+i+"="+i)
         self.__extra_actions = extra_actions
 
     def extra_actions(self):
@@ -372,7 +381,7 @@ def balls_label_rechar():
     movemap.balls_label.text = ""
     for i in range(6):
         movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__" else "o" if figure.pokes[i].hp > 0 else "x"
-    movemap.balls_label.rechar(movemap.balls_label.text, esccode="\033[1m")
+    movemap.balls_label.rechar(movemap.balls_label.text, esccode=Color.thicc)
 
 
 def mapresize(map):
@@ -566,7 +575,7 @@ def playmap_4_extra_action():
     for ob in playmap_4.lake_1.obs:
         if random.randint(0, 7) == 0:
             if " " not in ob.char:
-                ob.rechar([i for i in ["\033[1;34m~\033[0m", "\033[34m~\033[0m"] if i != ob.char][0])
+                ob.rechar([i for i in [Color.lightblue+"~"+Color.reset, Color.blue+"~"+Color.reset] if i != ob.char][0])
                 if ob.x == figure.x and ob.y == figure.y:
                     figure.redraw()
 
@@ -638,7 +647,7 @@ def menu():
                     ev = ""
             movemap.underline.remove()
             movemap.balls_label.set(0, 1)
-            movemap.name_label.rechar(figure.name, esccode="\033[1m")
+            movemap.name_label.rechar(figure.name, esccode=Color.thicc)
             movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
             movemap.underline.add(movemap, 0, movemap.height-2)
         elif ev == "exit":
@@ -774,7 +783,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
 def deck(pokes, label="Your full deck", in_fight=False):
     global ev
     deckmap.resize(5*int((len(pokes)+1)/2)+2, deckmap.width, deckmap.background)
-    se.Text(label, esccode="\033[1m").add(deckmap, 2, 0)
+    se.Text(label, esccode=Color.thicc).add(deckmap, 2, 0)
     se.Square("_", deckmap.width, 1).add(deckmap, 0, 0)
     se.Square("|", 1, deckmap.height-2).add(deckmap, 0, 1)
     se.Square("|", 1, deckmap.height-2).add(deckmap, deckmap.width-1, 1)
@@ -1013,7 +1022,7 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 
 # menu
 menumap = se.Map(height-1, width, " ")
-menumap.label = se.Text("Menu", esccode="\033[1m")
+menumap.label = se.Text("Menu", esccode=Color.thicc)
 menumap.name_label = se.Text("Playername: ")
 menumap.realname_label = se.Text(session_info["user"])
 menumap.label.add(menumap, 0, 0)
@@ -1063,7 +1072,7 @@ mapmap.d.add(mapmap, 9, 5)
 mapmap.e.add(mapmap, 10, 2)
 mapmap.f.add(mapmap, 10, 6)
 mapmap.g.add(mapmap, 9, 7)
-mapmap.name_label = se.Text("Map", esccode="\033[1m")
+mapmap.name_label = se.Text("Map", esccode=Color.thicc)
 mapmap.exit_label = se.Text("1: Exit")
 mapmap.line_top = se.Square("_", 70, 1)
 mapmap.line_left = se.Square("|", 1, 17)
@@ -1153,7 +1162,7 @@ playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~                    ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
-~~~""", esccode="\033[34m", ignore="\033[34m \033[0m", ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230}, state="float")
+~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230}, state="float")
 # adding
 playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
 playmap_4.lake_1.add(playmap_4, 0, 0)
@@ -1293,7 +1302,7 @@ fightmap.outp = se.Text("")
 fightmap.run = se.Text("5: Run!")
 fightmap.catch = se.Text("6: Catch")
 fightmap.summon = se.Text("7: Deck")
-fightmap.shines = [se.Object("\033[1;32m*\033[0m") for i in range(4)]
+fightmap.shines = [se.Object(Color.thicc+Color.green+"*"+Color.reset) for i in range(4)]
 deadico1 = se.Text("""
     \ /
      o
