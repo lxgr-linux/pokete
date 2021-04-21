@@ -1001,6 +1001,16 @@ while width < 70 or height < 20:
     frame.add(tss, 0, 0)
     tss.show()
 
+# loading screen
+loading_screen = se.Map(background=" ", width=width, height=height-1)
+se.Text("""  _____      _        _
+ |  __ \    | |      | |
+ | |__) |__ | | _____| |_ ___
+ |  ___/ _ \| |/ / _ \ __/ _ \\
+ | |  | (_) |   <  __/ ||  __/
+ |_|   \___/|_|\_\___|\__\___|""").add(loading_screen, int(loading_screen.width/2)-15, int(loading_screen.height/2)-4)
+loading_screen.show()
+
 # reading config file
 home = str(Path.home())
 Path(home+"/.cache/pokete").mkdir(parents=True, exist_ok=True)
