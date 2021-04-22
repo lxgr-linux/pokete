@@ -946,16 +946,6 @@ def main():
 # Actual code execution
 #######################
 
-for i in [("normal", [], []),
-("stone", ["flying", "fire"], ["plant"]),
-("plant", ["stone", "ground"], ["fire"]),
-("water", ["stone", "flying", "fire"], ["plant"]),
-("fire", ["flying", "plant"], ["stone", "water"]),
-("ground", ["normal"], ["flying"]),
-("electro", ["stone", "flying"], ["ground"]),
-("flying", ["plant"], ["stone"])]:
-    exec(i[0]+" = PokeType(i[0], i[1], i[2])")
-
 # deciding on wich input to use
 if sys.platform == "linux":  # Use another (not on xserver relying) way to read keyboard input, to make this shit work in tty or via ssh, where no xserver is available
     def recogniser():
@@ -1011,6 +1001,17 @@ se.Text("""  _____      _        _
  |_|   \___/|_|\_\___|\__\___|""").add(loading_screen, int(loading_screen.width/2)-15, int(loading_screen.height/2)-4)
 loading_screen.show()
 
+# types
+for i in [("normal", [], []),
+("stone", ["flying", "fire"], ["plant"]),
+("plant", ["stone", "ground"], ["fire"]),
+("water", ["stone", "flying", "fire"], ["plant"]),
+("fire", ["flying", "plant"], ["stone", "water"]),
+("ground", ["normal"], ["flying"]),
+("electro", ["stone", "flying"], ["ground"]),
+("flying", ["plant"], ["stone"])]:
+    exec(i[0]+" = PokeType(i[0], i[1], i[2])")
+
 # reading config file
 home = str(Path.home())
 Path(home+"/.cache/pokete").mkdir(parents=True, exist_ok=True)
@@ -1037,6 +1038,7 @@ menumap = se.Map(height-1, width, " ")
 menumap.label = se.Text("Menu", esccode=Color.thicc)
 menumap.name_label = se.Text("Playername: ")
 menumap.realname_label = se.Text(session_info["user"])
+# adding
 menumap.label.add(menumap, 0, 0)
 menumap.name_label.add(menumap, 2, 2)
 menumap.realname_label.add(menumap, menumap.name_label.x+len(menumap.name_label.text), menumap.name_label.y)
