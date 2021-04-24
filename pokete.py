@@ -1024,7 +1024,7 @@ session_info = {
     "x": 1,
     "y": 1,
     "pokes": {
-        "steini": {"xp": 35, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
+        0: {"name": "steini", "xp": 35, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
     }
 }
 with open(home+"/.cache/pokete/pokete.py") as file:
