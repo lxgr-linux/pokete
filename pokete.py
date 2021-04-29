@@ -364,6 +364,38 @@ def std_loop(map):
         menu()
         map.show(init=True)
 
+
+def text_input(ob, map, name):
+    global ev
+    ev = ""
+    ob.rechar(name+"█")
+    bname = name
+    map.show()
+    while True:
+        if ev == "Key.enter":
+            ev = ""
+            ob.rechar(name)
+            map.show()
+            return name
+        elif ev == "Key.backspace":
+            if len(name) <= 0:
+                ev = ""
+                ob.rechar(bname)
+                map.show()
+                return bname
+            name = name[:-1]
+            ob.rechar(name+"█")
+            map.show()
+            ev = ""
+        elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
+            if ev == "Key.space":
+                ev = "' '"
+            name += str(eval(ev))
+            ob.rechar(name+"█")
+            map.show()
+            ev = ""
+
+
 # Functions needed for movemap
 ##############################
 
@@ -397,7 +429,10 @@ def codes(string):
         if i == "w":
             save()
         elif i == "e":
-            exec(string[string.index("e")+2:])
+            try:
+                exec(string[string.index("e")+2:])
+            except:
+                print("Execution failed!")
             return
         elif i == "q":
             exiter()
@@ -424,42 +459,6 @@ def movemap_text(x, y, arr):
             if ev != "":
                 break
             time.sleep(0.05)
-
-
-def movemap_text_input():
-    global ev
-    exec_string = ""
-    movemap.code_label.rechar(":"+exec_string+"█")
-    movemap.show()
-    while True:
-        if ev == "Key.enter":
-            movemap.code_label.rechar(figure.map.pretty_name)
-            movemap.show()
-            try:
-                codes(exec_string)
-            except:
-                print("execution failed")
-            break
-        elif ev == "exit":
-            movemap.code_label.rechar(figure.map.pretty_name)
-            movemap.show()
-            break
-        elif ev == "Key.backspace":
-            if len(exec_string) == 0:
-                movemap.code_label.rechar(figure.map.pretty_name)
-                movemap.show()
-                break
-            exec_string = exec_string[:-1]
-            movemap.code_label.rechar(":"+exec_string+"█")
-            movemap.show()
-            ev = ""
-        elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
-            if ev == "Key.space":
-                ev = "' '"
-            exec_string += eval("str("+ev+")")
-            movemap.code_label.rechar(":"+exec_string+"█")
-            movemap.show()
-            ev = ""
 
 
 def movemap_add_obs():
@@ -612,39 +611,7 @@ def menu():
     menumap.show(init=True)
     while True:
         if ev == "Key.enter":
-            ev = ""
-            name = figure.name
-            menumap.realname_label.rechar(name+"█")
-            menumap.show()
-            while True:
-                if ev == "Key.enter":
-                    ev = ""
-                    menumap.realname_label.rechar(name)
-                    figure.name = name
-                    menumap.show()
-                    break
-                elif ev == "exit":
-                    menumap.realname_label.rechar(name+"█")
-                    menumap.show()
-                    break
-                elif ev == "Key.backspace":
-                    if len(name) <= 0:
-                        ev = ""
-                        name = figure.name
-                        menumap.realname_label.rechar(name)
-                        menumap.show()
-                        break
-                    name = name[:-1]
-                    menumap.realname_label.rechar(name+"█")
-                    menumap.show()
-                    ev = ""
-                elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
-                    if ev == "Key.space":
-                        ev = "' '"
-                    name += str(eval(ev))
-                    menumap.realname_label.rechar(name+"█")
-                    menumap.show()
-                    ev = ""
+            figure.name = text_input(menumap.realname_label, menumap, figure.name)
             movemap.underline.remove()
             movemap.balls_label.set(0, 1)
             movemap.name_label.rechar(figure.name, esccode=Color.thicc)
@@ -913,7 +880,10 @@ def game(map):
             exiter()
         elif ev == "':'":
             ev = ""
-            movemap_text_input()
+            inp = text_input(movemap.code_label, movemap, ":")[1:]
+            movemap.code_label.rechar(figure.map.pretty_name)
+            movemap.show()
+            codes(inp)
             ev = ""
         std_loop(movemap)
         map.extra_actions()
