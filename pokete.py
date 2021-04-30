@@ -346,7 +346,7 @@ def save():
 
 def on_press(key):
     global ev
-    ev=str(key)
+    ev = str(key)
 
 
 def exiter():
@@ -387,7 +387,7 @@ def text_input(ob, map, name):
             ob.rechar(name+"█")
             map.show()
             ev = ""
-        elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.esc"]:
+        elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.shift_r", "Key.esc"]:
             if ev == "Key.space":
                 ev = "' '"
             name += str(eval(ev))
@@ -660,7 +660,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         attack = ob.attac_obs[int(eval(ev))]
                         if attack.ap == 0:
                             continue
-                        ev=""
+                        ev = ""
                         break
                     elif ev == "'5'":
                         ev = ""
@@ -843,7 +843,7 @@ def detail(poke):
     detailmap.show(init=True)
     while True:
         if ev == "'1'":
-            ev=""
+            ev = ""
             deck_remove(poke)
             poke.desc.remove()
             poke.text_type.remove()
