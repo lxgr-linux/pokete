@@ -55,6 +55,12 @@ class Color:
     blue = "\033[34m"
 
 
+class InvItem:
+    def __init__(self, name, desc):
+        self.name = name
+        self.desc = desc
+
+
 class Trainer(se.Object):
     def __init__(self, name, gender, poke, texts, lose_texts, no_poke_texts, win_texts, sx, sy, state="solid", arg_proto={}):
         self.char = "a"
@@ -608,15 +614,37 @@ def inv():
     movemap.show()
     obs = [se.Text(i.capitalize()+" : "+str(figure.inv[i])) for i in figure.inv]
     for i, ob in enumerate(obs):
-        invbox.add_ob(ob, 1, 1+i)
+        invbox.add_ob(ob, 3, 1+i)
     while True:
         if ev == "exit":
             raise KeyboardInterrupt
+        elif ev in ["'s'", "'w'"]:
+            if {"'s'": invbox.index.index+1 < len(obs), "'w'": invbox.index.index-1 >= 0}[ev]:
+                invbox.index.index += {"'s'": 1, "'w'": -1}[ev]
+            else:
+                invbox.index.index = {"'s'": 0, "'w'": len(obs)-1}[ev]
+            invbox.set_ob(invbox.index, 2, obs[invbox.index.index].ry)
+            ev = ""
         elif ev == "'4'":
             invbox.remove()
             for ob in obs:
                 invbox.rem_ob(ob)
             return
+        elif ev == "Key.enter":
+            ob = eval("invbox."+[i for i in figure.inv][invbox.index.index])
+            invbox2.name_label.rechar(ob.name)
+            invbox2.desc_label.rechar(liner(ob.desc, 19))
+            invbox2.add(movemap, invbox.x-19, 4)
+            ev = ""
+            while True:
+                if ev == "exit":
+                    raise KeyboardInterrupt
+                elif ev in ["Key.enter", "Key.esc", "'q'"]:
+                    ev = ""
+                    invbox2.remove()
+                    break
+                time.sleep(0.05)
+                movemap.show()
         time.sleep(0.05)
         movemap.show()
 
@@ -937,7 +965,7 @@ def game(map):
         # checking for resizing
         width, height = os.get_terminal_size()
         if movemap.width != width or movemap.height != height-1:
-            for ob in [movemap.underline, movemap.deck_label, movemap.exit_label, movemap.code_label, movemap.name_label, movemap.balls_label, movemap.map_label]:
+            for ob in [movemap.underline, movemap.deck_label, movemap.exit_label, movemap.code_label, movemap.name_label, movemap.balls_label, movemap.map_label, movemap.inv_label]:
                 ob.remove()
             movemap.resize(height-1, width, " ")
             movemap_add_obs()
@@ -1348,11 +1376,27 @@ fightmap.summon.add(fightmap, 49, fightmap.height-2)
 # objects for inv
 invbox = se.Box(height-3, 35)
 invbox.name_label = se.Text("Inventory")
-invbox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+invbox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
 invbox.inner = se.Square(char=" ", width=33, height=height-5, state="float")
+invbox.index = se.Object("*")
+invbox.index.index = 0
+invbox.poketeballs = InvItem("Poketeballs", "A ball you can use to catch Poketes")
+invbox.test = InvItem("Test", "A fucking test, a test, a test bla bla bla. test test 123")
 invbox.add_ob(invbox.name_label, 2, 0)
 invbox.add_ob(invbox.frame, 0, 0)
 invbox.add_ob(invbox.inner, 1, 1)
+invbox.add_ob(invbox.index, 2, 1)
+invbox2 = se.Box(6, 21)
+invbox2.name_label = se.Text(" ")
+invbox2.frame = se.Frame(width=21, height=6, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+invbox2.inner = se.Square(char=" ", width=19, height=4, state="float")
+invbox2.desc_label = se.Text(" ")
+invbox2.add_ob(invbox2.name_label, 2, 0)
+invbox2.add_ob(invbox2.frame, 0, 0)
+invbox2.add_ob(invbox2.inner, 1, 1)
+invbox2.add_ob(invbox2.desc_label, 1, 1)
+
+# objects for inv
 
 if __name__ == "__main__":
     try:
