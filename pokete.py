@@ -4,6 +4,7 @@
 # Feel free to contribute what ever you want to this game
 # New Pokete contributions are especially welcome
 # For this see the comments in the definations area
+# You can contribute here: https://github.com/lxgr-linux/pokete
 
 import random, time, os, sys, threading, math
 import scrap_engine as se
@@ -17,7 +18,7 @@ from pokete_data.maps import *
 
 class HightGrass(se.Object):
     def action(self, ob):
-        if random.randint(0,6) == 0:
+        if random.randint(0,8) == 0:
             fight(Poke("__fallback__", 0) if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) == 0 else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choices(self.arg_proto["pokes"], weights=[pokes[i]["rarity"] for i in self.arg_proto["pokes"]])[0], random.choices(list(range(self.arg_proto["minlvl"], self.arg_proto["maxlvl"])))[0], player=False))
 
 # The following two classes (PC and Heal) where initially needed to manage healing
@@ -338,7 +339,8 @@ def save():
         "oldmap": figure.oldmap.name,
         "x": figure.x,
         "y": figure.y,
-        "pokes": {i: {"name": poke.identifier, "xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for i, poke in enumerate(figure.pokes)}
+        "pokes": {i: {"name": poke.identifier, "xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for i, poke in enumerate(figure.pokes)},
+        "inv": figure.inv
     }
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
@@ -469,7 +471,9 @@ def movemap_add_obs():
     movemap.deck_label.add(movemap, 0, movemap.height-1)
     movemap.exit_label.add(movemap, 9, movemap.height-1)
     movemap.map_label.add(movemap, 18, movemap.height-1)
+    movemap.inv_label.add(movemap, 26, movemap.height-1)
     movemap.code_label.add(movemap, 0, 0)
+
 
 # Functions for deck
 ####################
@@ -513,6 +517,7 @@ def deck_control(pokes, ev, index):
                 index.index = second
             break
     index.set(pokes[index.index].text_name.x+len(pokes[index.index].text_name.text)+1, pokes[index.index].text_name.y)
+
 
 # Functions for fight
 #####################
@@ -566,6 +571,7 @@ def fight_add_2(player, enemy):
         fightmap.show()
         player.ico.add(fightmap, 3, fightmap.height-11)
 
+
 # Playmap extra action functions
 # Those are adding additional actions to playmaps
 #################################################
@@ -585,8 +591,29 @@ def playmap_7_extra_action():
         else:
             ob.rechar(" ")
 
+
 # Main functions
 ################
+
+def inv():
+    global ev
+    ev = ""
+    invbox.add(movemap, movemap.width-35, 0)
+    movemap.show()
+    obs = [se.Text(i.capitalize()+" : "+str(figure.inv[i])) for i in figure.inv]
+    for i, ob in enumerate(obs):
+        invbox.add_ob(ob, 1, 1+i)
+    while True:
+        if ev == "exit":
+            raise KeyboardInterrupt
+        elif ev == "'4'":
+            invbox.remove()
+            for ob in obs:
+                invbox.rem_ob(ob)
+            return
+        time.sleep(0.05)
+        movemap.show()
+
 
 def roadmap():
     global ev
@@ -675,9 +702,14 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         ev = ""
                         if ob.identifier == "__fallback__" or info["type"] == "duel":
                             continue
+                        if figure.inv["poketeballs"] == 0:
+                            fightmap.outp.rechar("You have no poketeballs left!\nWhat do you want to do? ")
+                            fightmap.show()
+                            continue
                         fightmap.outp.rechar("You threw a poketeball!")
                         fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
                         time.sleep(random.choice([1,2,3,4]))
+                        figure.inv["poketeballs"] -= 1
                         if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
                             enem.player = True
                             figure.pokes.append(enem)
@@ -870,8 +902,8 @@ def game(map):
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in ["'1'", "'3'"]:
-            exec({"'1'": 'deck(figure.pokes[:6], "Your deck")', "'3'": 'roadmap()'}[ev])
+        if ev in ["'1'", "'3'", "'4'"]:
+            exec({"'1'": 'deck(figure.pokes[:6], "Your deck")', "'3'": 'roadmap()', "'4'": 'inv()'}[ev])
             ev = ""
             movemap.show(init=True)
         elif ev == "'2'":
@@ -912,6 +944,7 @@ def main():
     recognising.daemon = True
     recognising.start()
     game(figure.map)
+
 
 # Actual code execution
 #######################
@@ -995,10 +1028,12 @@ session_info = {
     "y": 1,
     "pokes": {
         0: {"name": "steini", "xp": 35, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
-    }
+    },
+    "inv": {"poketeballs": 10}
 }
 with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
+
 
 # Defining and adding of objetcs and maps
 #########################################
@@ -1073,7 +1108,9 @@ multitext = se.Text("")
 movemap.deck_label = se.Text("1: Deck")
 movemap.exit_label = se.Text("2: Exit")
 movemap.map_label = se.Text("3: Map")
+movemap.inv_label = se.Text("4: Inv.")
 movemap.code_label = se.Text("")
+
 
 # Definiton of objects for the playmaps
 # Most of the objects ar generated from map_data for maps.py
@@ -1219,6 +1256,10 @@ try:
     figure.oldmap = eval(session_info["oldmap"])
 except:
     figure.oldmap = playmap_1
+try:
+    figure.inv = session_info["inv"]
+except:
+    figure.inv = {"poketeballs": 10}
 movemap.name_label = se.Text(figure.name, esccode=Color.thicc)
 movemap.balls_label = se.Text("", esccode=Color.thicc)
 movemap.code_label.rechar(figure.map.pretty_name)
@@ -1292,6 +1333,15 @@ fightmap.frame_small.add(fightmap, 0, fightmap.height-6)
 fightmap.run.add(fightmap, 38, fightmap.height-2)
 fightmap.catch.add(fightmap, 38, fightmap.height-1)
 fightmap.summon.add(fightmap, 49, fightmap.height-2)
+
+# objects for inv
+invbox = se.Box(height-3, 35)
+invbox.name_label = se.Text("Inventory")
+invbox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+invbox.inner = se.Square(char=" ", width=33, height=height-5, state="float")
+invbox.add_ob(invbox.name_label, 2, 0)
+invbox.add_ob(invbox.frame, 0, 0)
+invbox.add_ob(invbox.inner, 1, 1)
 
 if __name__ == "__main__":
     try:
