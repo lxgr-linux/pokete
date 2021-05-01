@@ -44,6 +44,8 @@ map_data = {
                 "y": 0,
                 "args": '{"map": cave_1, "x": 14, "y": 19}'
             },
+        },
+        "balls": {
         }
     },
     "playmap_2": {
@@ -146,6 +148,16 @@ map_data = {
                 "y": 10,
                 "args": '{"map": playmap_3, "x": 1, "y": 10}'
             },
+        },
+        "balls": {
+            "ball_1": {
+                "x": 58,
+                "y": 0
+            },
+            "ball_2": {
+                "x": 18,
+                "y": 4
+            },
         }
     },
     "cave_1": {
@@ -191,6 +203,16 @@ map_data = {
                 "x": 40,
                 "y": 3,
                 "args": '{"map": playmap_2, "x": 2, "y": 5}'
+            },
+        },
+        "balls": {
+            "ball_1": {
+                "x": 1,
+                "y": 1
+            },
+            "ball_2": {
+                "x": 7,
+                "y": 12
             },
         }
     },
@@ -384,6 +406,9 @@ map_data = {
                 "args": '{"map": playmap_6, "x": 30, "y": 1}'
             },
         }
+        ,
+        "balls": {
+        }
     },
     "playmap_4": {
         "hard_obs": {
@@ -453,6 +478,20 @@ map_data = {
                 "y": 59,
                 "args": '{"map": playmap_3, "x": 42, "y": 1}'
             },
+        },
+        "balls": {
+            "ball_1": {
+                "x": 0,
+                "y": 44
+            },
+            "ball_2": {
+                "x": 46,
+                "y": 35
+            },
+            "ball_3": {
+                "x": 8,
+                "y": 32
+            },
         }
     },
     "playmap_5": {
@@ -486,6 +525,9 @@ map_data = {
                 "y": 17,
                 "args": '{"map": playmap_4, "x": 56, "y": 2}'
             },
+        }
+        ,
+        "balls": {
         }
     },
     "playmap_6": {
@@ -669,6 +711,12 @@ map_data = {
                 "y": 34,
                 "args": '{"map": playmap_7, "x": 27, "y": 12}'
             },
+        },
+        "balls": {
+            "ball_1": {
+                "x": 42,
+                "y": 42
+            },
         }
     },
     "playmap_7": {
@@ -705,6 +753,20 @@ map_data = {
                 "x": 28,
                 "y": 12,
                 "args": '{"map": playmap_6, "x": 3, "y": 34}'
+            },
+        },
+        "balls": {
+            "ball_1": {
+                "x": 19,
+                "y": 18
+            },
+            "ball_2": {
+                "x": 23,
+                "y": 7
+            },
+            "ball_3": {
+                "x": 1,
+                "y": 6
             },
         }
     },

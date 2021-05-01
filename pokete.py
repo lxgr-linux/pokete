@@ -21,6 +21,12 @@ class HightGrass(se.Object):
         if random.randint(0,8) == 0:
             fight(Poke("__fallback__", 0) if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) == 0 else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choices(self.arg_proto["pokes"], weights=[pokes[i]["rarity"] for i in self.arg_proto["pokes"]])[0], random.choices(list(range(self.arg_proto["minlvl"], self.arg_proto["maxlvl"])))[0], player=False))
 
+
+class Poketeball(se.Object):
+    def action(self, ob):
+        figure.inv["poketeballs"] += 1
+        self.remove()
+
 # The following two classes (PC and Heal) where initially needed to manage healing
 # and reviewing off all Poketes in the deck
 # They are now obsolete (because of the Pokete-Center) and will be removed later,
@@ -585,7 +591,7 @@ def playmap_4_extra_action():
                     figure.redraw()
 
 def playmap_7_extra_action():
-    for ob in playmap_7.inner_walls.obs + playmap_7.trainers:
+    for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"]]:
         if ob.added and math.sqrt((ob.y-figure.y)**2+(ob.x-figure.x)**2) <= 3:
             ob.rechar(ob.bchar)
         else:
@@ -1128,6 +1134,9 @@ for map in map_data:
     for dor in map_data[map]["dors"]:
         exec(map+'.'+dor+' = Dor(" ", state="float", arg_proto='+map_data[map]["dors"][dor]["args"]+')')
         exec(map+'.'+dor+'.add('+map+', map_data[map]["dors"][dor]["x"], map_data[map]["dors"][dor]["y"])')
+    for ball in map_data[map]["balls"]:
+        exec(map+'.'+ball+' = Poketeball(Color.thicc+Color.red+"o"+Color.reset, state="float")')
+        exec(map+'.'+ball+'.add('+map+', map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
 
 # playmap_1
 playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
@@ -1138,7 +1147,7 @@ playmap_1.meadow.add(playmap_1, 5, 7)
 
 # cave_1
 cave_1.inner = se.Text("""##########################################
-#         ################################
+##        ################################
 #         ################################
 #         ######################        ##
 #                    ###########   #######
@@ -1149,7 +1158,7 @@ cave_1.inner = se.Text("""##########################################
 ##############                     #######
 ##############  ##########################
 ##############  ##########################
-#######         ##########################
+########        ##########################
 #######  ###    ##########################
 #######  ###    ##########################
 #######         ##########################
@@ -1178,9 +1187,11 @@ playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
 ~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230}, state="float")
+#playmap_4.ball = Poketeball(Color.thicc+Color.red+"o"+Color.reset, state="float")
 # adding
 playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
 playmap_4.lake_1.add(playmap_4, 0, 0)
+#playmap_4.ball.add(playmap_4, 0, 44)
 
 # playmap_5
 playmap_5.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass, ob_args=playmap_5.poke_args)
@@ -1194,8 +1205,8 @@ playmap_7.inner = se.Text("""##############################
 #########        #############
 #########        #############
 #########               ######
-#    ####     ####      ######
-#    ####     ####      ######
+##   ####     ####      ######
+#    ####     ####     #######
 #             ################
 #    ####     ################
 #########     ################
@@ -1206,9 +1217,9 @@ playmap_7.inner = se.Text("""##############################
 #########     ################
 #########             ########
 ###################   ########
-###################   ########
+####################  ########
 ##############################""", ignore="#", ob_class=HightGrass, ob_args=playmap_7.poke_args, state="float")
-for ob in playmap_7.inner_walls.obs + playmap_7.trainers:
+for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"]]:
     ob.bchar = ob.char
     ob.rechar(" ")
 # adding
