@@ -335,7 +335,7 @@ def liner(text, width):
     lens = 0
     out = ""
     for name in text.split(" "):
-        if lens+len(name)+1 < width:
+        if lens+len(name)+1 <= width:
             out += name+" "
             lens += len(name)+1
         else:
