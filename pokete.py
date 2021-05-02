@@ -604,7 +604,7 @@ def playmap_7_extra_action():
             ob.rechar(" ")
 
 
-# Main functions
+# main functions
 ################
 
 def inv():
@@ -614,7 +614,7 @@ def inv():
     movemap.show()
     obs = [se.Text(i.capitalize()+" : "+str(figure.inv[i])) for i in figure.inv]
     for i, ob in enumerate(obs):
-        invbox.add_ob(ob, 3, 1+i)
+        invbox.add_ob(ob, 4, 1+i)
     while True:
         if ev == "exit":
             raise KeyboardInterrupt
@@ -625,7 +625,7 @@ def inv():
                 invbox.index.index = {"'s'": 0, "'w'": len(obs)-1}[ev]
             invbox.set_ob(invbox.index, 2, obs[invbox.index.index].ry)
             ev = ""
-        elif ev == "'4'":
+        elif ev in ["'4'", "Key.esc", "'q'"]:
             invbox.remove()
             for ob in obs:
                 invbox.rem_ob(ob)
@@ -634,7 +634,7 @@ def inv():
             ob = eval("invbox."+[i for i in figure.inv][invbox.index.index])
             invbox2.name_label.rechar(ob.name)
             invbox2.desc_label.rechar(liner(ob.desc, 19))
-            invbox2.add(movemap, invbox.x-19, 4)
+            invbox2.add(movemap, invbox.x-19, 3)
             ev = ""
             while True:
                 if ev == "exit":
@@ -680,7 +680,7 @@ def menu():
             movemap.underline.add(movemap, 0, movemap.height-2)
         elif ev == "exit":
             raise KeyboardInterrupt
-        elif ev == "'e'":
+        elif ev in ["'e'", "Key.esc", "'q'"]:
             ev = ""
             return
         time.sleep(0.1)
@@ -830,7 +830,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
         deck_index.add(deckmap, pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
     decksubmap.full_show(init=True)
     while True:
-        if ev == "'1'":
+        if ev in ["'1'", "Key.esc", "'q'"]:
             ev = ""
             for poke in pokes:
                 deck_remove(poke)
@@ -908,7 +908,7 @@ def detail(poke):
             label.add(detailmap, x+_x, y+_y)
     detailmap.show(init=True)
     while True:
-        if ev == "'1'":
+        if ev in ["'1'", "Key.esc", "'q'"]:
             ev = ""
             deck_remove(poke)
             poke.desc.remove()
@@ -1373,28 +1373,32 @@ fightmap.run.add(fightmap, 38, fightmap.height-2)
 fightmap.catch.add(fightmap, 38, fightmap.height-1)
 fightmap.summon.add(fightmap, 49, fightmap.height-2)
 
-# objects for inv
+# invbox
 invbox = se.Box(height-3, 35)
 invbox.name_label = se.Text("Inventory")
 invbox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
 invbox.inner = se.Square(char=" ", width=33, height=height-5, state="float")
 invbox.index = se.Object("*")
 invbox.index.index = 0
-invbox.poketeballs = InvItem("Poketeballs", "A ball you can use to catch Poketes")
-invbox.test = InvItem("Test", "A fucking test, a test, a test bla bla bla. test test 123")
+# adding
 invbox.add_ob(invbox.name_label, 2, 0)
 invbox.add_ob(invbox.frame, 0, 0)
 invbox.add_ob(invbox.inner, 1, 1)
 invbox.add_ob(invbox.index, 2, 1)
-invbox2 = se.Box(6, 21)
+# invbox2
+invbox2 = se.Box(7, 21)
 invbox2.name_label = se.Text(" ")
-invbox2.frame = se.Frame(width=21, height=6, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
-invbox2.inner = se.Square(char=" ", width=19, height=4, state="float")
+invbox2.frame = se.Frame(width=21, height=7, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+invbox2.inner = se.Square(char=" ", width=19, height=5, state="float")
 invbox2.desc_label = se.Text(" ")
+# adding
 invbox2.add_ob(invbox2.name_label, 2, 0)
 invbox2.add_ob(invbox2.frame, 0, 0)
 invbox2.add_ob(invbox2.inner, 1, 1)
 invbox2.add_ob(invbox2.desc_label, 1, 1)
+# every possible item for the inv has to have such an onbject 
+invbox.poketeballs = InvItem("Poketeballs", "A ball you can use to catch Poketes")
+invbox.test = InvItem("Test", "A fucking test, a test, a test bla bla bla. test test 123")
 
 # objects for inv
 
