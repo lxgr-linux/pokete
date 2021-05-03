@@ -1086,7 +1086,7 @@ menumap.realname_label.add(menumap, menumap.name_label.x+len(menumap.name_label.
 centermap = PlayMap(height-1, width, " ", name = "centermap", pretty_name = "Pokete-Center")
 playmap_1 = PlayMap(background=" ", height=30, width=90, name="playmap_1", pretty_name="Nice Town",
                     trainers=[Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)],
-                    poke_args={"pokes": ["rato", "horny", "steini", "vogli", "owol"],"minlvl": 24, "maxlvl": 60})
+                    poke_args={"pokes": ["rato", "horny", "steini", "vogli"],"minlvl": 15, "maxlvl": 40})
 cave_1 = PlayMap(background=" ", height=30, width=90, name="cave_1", pretty_name="Nice Town cave",
                 trainers=[Trainer("Monica", "She", Poke("hornita", 128, player=False), [" < Hello noble traveler", " < Are you willing to fight with me?"], [" < Hahaha!", " < Looooser!"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < Have a great day!"], 23, 10)])
 playmap_2 = PlayMap(background=" ", height=30, width=180, name="playmap_2", pretty_name="Route 1",
