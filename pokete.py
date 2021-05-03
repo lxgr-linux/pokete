@@ -717,7 +717,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fightmap.outp.rechar("You don't have any living poketes left!")
                     fightmap.show()
                 while True:
-                    if ev in ["'"+str(i)+"'" for i in range(len(ob.attacs))]:
+                    if ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]:
                         attack = ob.attac_obs[int(eval(ev))]
                         if attack.ap == 0:
                             continue
@@ -1396,7 +1396,7 @@ invbox2.add_ob(invbox2.name_label, 2, 0)
 invbox2.add_ob(invbox2.frame, 0, 0)
 invbox2.add_ob(invbox2.inner, 1, 1)
 invbox2.add_ob(invbox2.desc_label, 1, 1)
-# every possible item for the inv has to have such an onbject 
+# every possible item for the inv has to have such an onbject
 invbox.poketeballs = InvItem("Poketeballs", "A ball you can use to catch Poketes")
 invbox.test = InvItem("Test", "A fucking test, a test, a test bla bla bla. test test 123")
 
