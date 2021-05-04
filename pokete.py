@@ -290,7 +290,7 @@ class Station(se.Square):
     def choose(self):
         self.rechar(Color.red+Color.thicc+self.org_char+Color.reset)
         Station.choosen = self
-        mapmap.info_label.rechar(self.associate.pretty_name)
+        mapbox.info_label.rechar(self.associate.pretty_name)
 
     def unchoose(self):
         self.rechar(self.org_char)
@@ -652,19 +652,21 @@ def inv():
 def roadmap():
     global ev
     ev = ""
-    [i for i in [mapmap.a, mapmap.b, mapmap.c, mapmap.d, mapmap.e, mapmap.f, mapmap.g] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5]][0]][0].choose()
-    mapmap.show(init=True)
+    mapbox.add(movemap, movemap.width-mapbox.width, 0)
+    [i for i in [mapbox.a, mapbox.b, mapbox.c, mapbox.d, mapbox.e, mapbox.f, mapbox.g] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5]][0]][0].choose()
+    movemap.show()
     while True:
         if ev == "exit":
             raise KeyboardInterrupt
         elif ev in ["'w'", "'a'", "'s'", "'d'"]:
             Station.choosen.next(ev)
             ev = ""
-        elif ev == "'1'":
+        elif ev in ["'3'", "Key.esc", "'q'"]:
+            mapbox.remove()
             Station.choosen.unchoose()
             return
         time.sleep(0.05)
-        mapmap.show()
+        movemap.show()
 
 
 def menu():
@@ -1110,29 +1112,29 @@ playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", prett
                     poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
 
 # mapmap
-mapmap = se.Map(height-1, width, " ")
-mapmap.a = Station(playmap_1, 2, 1, w_next="mapmap.b")
-mapmap.b = Station(cave_1, 1, 2, s_next="mapmap.a", d_next="mapmap.c")
-mapmap.c = Station(playmap_2, 2, 1, a_next="mapmap.b", d_next="mapmap.d")
-mapmap.d = Station(playmap_3, 2, 1, a_next="mapmap.c", w_next="mapmap.e", s_next="mapmap.f")
-mapmap.e = Station(playmap_4, 1, 3, s_next="mapmap.d")
-mapmap.f = Station(playmap_6, 1, 2, w_next="mapmap.d", a_next="mapmap.g")
-mapmap.g = Station(playmap_7, 1, 1, d_next="mapmap.f")
-mapmap.a.add(mapmap, 5, 7)
-mapmap.b.add(mapmap, 6, 5)
-mapmap.c.add(mapmap, 7, 5)
-mapmap.d.add(mapmap, 9, 5)
-mapmap.e.add(mapmap, 10, 2)
-mapmap.f.add(mapmap, 10, 6)
-mapmap.g.add(mapmap, 9, 7)
-mapmap.name_label = se.Text("Map", esccode=Color.thicc)
-mapmap.exit_label = se.Text("1: Exit")
-mapmap.frame = se.Frame(height=18, width=70, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"])
-mapmap.info_label = se.Text("")
-mapmap.name_label.add(mapmap, 2, 0)
-mapmap.exit_label.add(mapmap, 0, mapmap.height-1)
-mapmap.frame.add(mapmap, 0, 0)
-mapmap.info_label.add(mapmap, 1, 1)
+mapbox = se.Box(11, 40)
+mapbox.name_label = se.Text("Roadmap")
+mapbox.frame = se.Frame(width=mapbox.width, height=mapbox.height, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
+mapbox.inner = se.Square(char=" ", width=mapbox.width-2, height=mapbox.height-2, state="float")
+mapbox.info_label = se.Text("")
+mapbox.add_ob(mapbox.name_label, 2, 0)
+mapbox.add_ob(mapbox.frame, 0, 0)
+mapbox.add_ob(mapbox.inner, 1, 1)
+mapbox.add_ob(mapbox.info_label, 1, 1)
+mapbox.a = Station(playmap_1, 2, 1, w_next="mapbox.b")
+mapbox.b = Station(cave_1, 1, 2, s_next="mapbox.a", d_next="mapbox.c")
+mapbox.c = Station(playmap_2, 2, 1, a_next="mapbox.b", d_next="mapbox.d")
+mapbox.d = Station(playmap_3, 2, 1, a_next="mapbox.c", w_next="mapbox.e", s_next="mapbox.f")
+mapbox.e = Station(playmap_4, 1, 3, s_next="mapbox.d")
+mapbox.f = Station(playmap_6, 1, 2, w_next="mapbox.d", a_next="mapbox.g")
+mapbox.g = Station(playmap_7, 1, 1, d_next="mapbox.f")
+mapbox.add_ob(mapbox.a, 5, 7)
+mapbox.add_ob(mapbox.b, 6, 5)
+mapbox.add_ob(mapbox.c, 7, 5)
+mapbox.add_ob(mapbox.d, 9, 5)
+mapbox.add_ob(mapbox.e, 10, 2)
+mapbox.add_ob(mapbox.f, 10, 6)
+mapbox.add_ob(mapbox.g, 9, 7)
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)

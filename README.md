@@ -23,6 +23,7 @@ Changes will only be saved by quiting the game using the exit function.
 Since your a Pokete-Trainer, you can also fight against other trainers, the one other "a", that's stayng in the middle of the landscape will start a fight with you, when you go into his way. You can not escape from such a trainer fight, you either have to win, or lose. Those trainer fights give double the XP.
 In case one of your Poketes dies, or is too weak, you can heal it by going into the house, aka, Pokete-Center, talk the the person there and choose the healing option.
 There you can also take a look at all your poketes, and not just the first six. The ones marked with an "o" are the ones in your deck.
+
 The red balls all over the map, are Poketeballs, you need to catch poketes. Stepping on such a ball adds it to your inventory. A store to buy them will be added later.
 
 ## Game depth
