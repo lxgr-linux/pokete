@@ -114,7 +114,7 @@ class CenterInteract(se.Object):
         ev = ""
         movemap.remap()
         movemap.show()
-        movemap_text(int(movemap.width/2), 3, [" < Welcome to the Pokete-Center", " < What do you want to do?", " < a: See your full deck\n   b: Heal all your Poketes\n   c: Go"])
+        movemap_text(int(movemap.width/2), 3, [" < Welcome to the Pokete-Center", " < What do you want to do?", " < a: See your full deck\n b: Heal all your Poketes\n c: Go"])
         while True:
             if ev == "'a'":
                 ev = ""
@@ -331,16 +331,19 @@ def heal():
         balls_label_rechar()
 
 
-def liner(text, width):
+def liner(text, width, pre=""):
     lens = 0
     out = ""
     for name in text.split(" "):
-        if lens+len(name)+1 <= width:
+        if "\n" in name:
+            lens = len(pre)
+            out += name+pre
+        elif lens+len(name)+1 <= width:
             out += name+" "
             lens += len(name)+1
         else:
-            lens = len(name)+1
-            out += "\n"+name+" "
+            lens = len(name)+1+len(pre)
+            out += "\n"+pre+name+" "
     return out
 
 
@@ -459,14 +462,15 @@ def movemap_text(x, y, arr):
         multitext.rechar("")
         multitext.add(movemap, x-movemap.x+1, y-movemap.y)
         for i in range(len(t)+1):
-            multitext.rechar(t[:i])
+            multitext.rechar(liner(t[:i], movemap.width-(x-movemap.x+1), "   "))
+            #multitext.rechar(t[:i])
             movemap.show()
             time.sleep(0.045)
             std_loop(movemap)
             if ev != "":
                 ev = ""
                 break
-        multitext.rechar(t)
+        multitext.rechar(liner(t, movemap.width-(x-movemap.x+1), "   "))
         movemap.show()
         while True:
             std_loop(movemap)
@@ -1099,11 +1103,11 @@ playmap_2 = PlayMap(background=" ", height=30, width=180, name="playmap_2", pret
 playmap_3 = PlayMap(background=" ", height=30, width=90, name="playmap_3", pretty_name="Josi Town",
                     trainers=[Trainer("Josi", "She", Poke("hornita", 200, player=False), [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"], [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"], [" < I see you don't have a living Pokete", " < Loooser!"], [" < Damn, I lost!"], 11, 5)])
 playmap_4 = PlayMap(background=" ", height=60, width=60, name="playmap_4", pretty_name="Josi Lake",
-                    trainers=[Trainer("Kevin", "He", Poke("karpi", 340, player=False), [" < Jo!", " < What up?", " < Wanna see my sick ass Pokete?"], [" < Yeaaah!", " < My Pokete is sooo sick!"], [" < I see you don't have a\n   living Pokete"], [" < Daaaamn", " < Your Pokete is noot\n   from this planet!"], 32, 31)],
+                    trainers=[Trainer("Kevin", "He", Poke("karpi", 340, player=False), [" < Jo!", " < What up?", " < Wanna see my sick ass Pokete?"], [" < Yeaaah!", " < My Pokete is sooo sick!"], [" < I see you don't have a living Pokete"], [" < Daaaamn", " < Your Pokete is noot from this planet!"], 32, 31)],
                     poke_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 180, "maxlvl": 230},
                     extra_actions = playmap_4_extra_action)
 playmap_5 = PlayMap(background=" ", height=60, width=60, name="playmap_5", pretty_name="Mysterious cave",
-                    trainers = [Trainer("Caveman Marc", "He", Poke("bator", 350, player=False), [" < Oh!", " < I've not seen anyone\n   down here for while", " < Can I show you my rare Pokete,\n   that can only be found\n   in this cave?"], [" < Oh!", " < My Pokete is not just rare", " < It's also strong"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < I hope you can also catch one!"], 23, 12)],
+                    trainers = [Trainer("Caveman Marc", "He", Poke("bator", 350, player=False), [" < Oh!", " < I've not seen anyone down here for while", " < Can I show you my rare Pokete, that can only be found in this cave?"], [" < Oh!", " < My Pokete is not just rare", " < It's also strong"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < I hope you can also catch one!"], 23, 12)],
                     poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180, "maxlvl": 230})
 playmap_6 = PlayMap(background=" ", height=60, width=60, name="playmap_6", pretty_name="Route 2",
                     trainers = [Trainer("Eva", "She", Poke("treenator", 400, player=False), [" < Hi!", " < Fight?"], [" < Loser"], [" < I see you don't have a living Pokete"], [" < I lost!"], 47, 43)],
