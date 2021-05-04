@@ -487,6 +487,14 @@ def movemap_add_obs():
     movemap.code_label.add(movemap, 0, 0)
 
 
+def menu_input(box, ev, list):
+    if {"'s'": box.index.index+1 < len(list), "'w'": box.index.index-1 >= 0}[ev]:
+        box.index.index += {"'s'": 1, "'w'": -1}[ev]
+    else:
+        box.index.index = {"'s'": 0, "'w'": len(list)-1}[ev]
+    box.set_ob(box.index, 2, list[box.index.index].ry)
+
+
 # Functions for deck
 ####################
 
@@ -619,11 +627,7 @@ def inv():
         if ev == "exit":
             raise KeyboardInterrupt
         elif ev in ["'s'", "'w'"]:
-            if {"'s'": invbox.index.index+1 < len(obs), "'w'": invbox.index.index-1 >= 0}[ev]:
-                invbox.index.index += {"'s'": 1, "'w'": -1}[ev]
-            else:
-                invbox.index.index = {"'s'": 0, "'w'": len(obs)-1}[ev]
-            invbox.set_ob(invbox.index, 2, obs[invbox.index.index].ry)
+            menu_input(invbox, ev, obs)
             ev = ""
         elif ev in ["'4'", "Key.esc", "'q'"]:
             invbox.remove()
@@ -662,6 +666,7 @@ def roadmap():
             Station.choosen.next(ev)
             ev = ""
         elif ev in ["'3'", "Key.esc", "'q'"]:
+            ev = ""
             mapbox.remove()
             Station.choosen.unchoose()
             return
@@ -670,23 +675,30 @@ def roadmap():
 
 
 def menu():
-    global ev, name
-    menumap.show(init=True)
+    global ev
+    ev = ""
+    menubox.add(movemap, movemap.width-menubox.width, 0)
+    movemap.show()
     while True:
         if ev == "Key.enter":
-            figure.name = text_input(menumap.realname_label, menumap, figure.name)
-            movemap.underline.remove()
-            movemap.balls_label.set(0, 1)
-            movemap.name_label.rechar(figure.name, esccode=Color.thicc)
-            movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
-            movemap.underline.add(movemap, 0, movemap.height-2)
+            if menubox.op_list[menubox.index.index] == menubox.playername_label:
+                figure.name = text_input(menubox.realname_label, movemap, figure.name)
+                movemap.underline.remove()
+                movemap.balls_label.set(0, 1)
+                movemap.name_label.rechar(figure.name, esccode=Color.thicc)
+                movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
+                movemap.underline.add(movemap, 0, movemap.height-2)
+        elif ev in ["'s'", "'w'"]:
+            menu_input(menubox, ev, menubox.op_list)
+            ev = ""
         elif ev == "exit":
             raise KeyboardInterrupt
         elif ev in ["'e'", "Key.esc", "'q'"]:
             ev = ""
+            menubox.remove()
             return
         time.sleep(0.1)
-        menumap.show()
+        movemap.show()
 
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
@@ -1074,21 +1086,11 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 # Defining and adding of objetcs and maps
 #########################################
 
-# menu
-menumap = se.Map(height-1, width, " ")
-menumap.label = se.Text("Menu", esccode=Color.thicc)
-menumap.name_label = se.Text("Playername: ")
-menumap.realname_label = se.Text(session_info["user"])
-# adding
-menumap.label.add(menumap, 0, 0)
-menumap.name_label.add(menumap, 2, 2)
-menumap.realname_label.add(menumap, menumap.name_label.x+len(menumap.name_label.text), menumap.name_label.y)
-
 # maps
 centermap = PlayMap(height-1, width, " ", name = "centermap", pretty_name = "Pokete-Center")
 playmap_1 = PlayMap(background=" ", height=30, width=90, name="playmap_1", pretty_name="Nice Town",
                     trainers=[Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)],
-                    poke_args={"pokes": ["rato", "horny", "steini", "vogli"],"minlvl": 15, "maxlvl": 40})
+                    poke_args={"pokes": ["rato", "horny", "vogli"], "minlvl": 15, "maxlvl": 40})
 cave_1 = PlayMap(background=" ", height=30, width=90, name="cave_1", pretty_name="Nice Town cave",
                 trainers=[Trainer("Monica", "She", Poke("hornita", 128, player=False), [" < Hello noble traveler", " < Are you willing to fight with me?"], [" < Hahaha!", " < Looooser!"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < Have a great day!"], 23, 10)])
 playmap_2 = PlayMap(background=" ", height=30, width=180, name="playmap_2", pretty_name="Route 1",
@@ -1146,6 +1148,24 @@ movemap.exit_label = se.Text("2: Exit")
 movemap.map_label = se.Text("3: Map")
 movemap.inv_label = se.Text("4: Inv.")
 movemap.code_label = se.Text("")
+
+# menubox
+menubox = se.Box(height-3, 35)
+menubox.name_label = se.Text("Menu")
+menubox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
+menubox.inner = se.Square(char=" ", width=33, height=height-5, state="float")
+menubox.index = se.Object("*")
+menubox.index.index = 0
+menubox.playername_label = se.Text("Playername: ")
+menubox.realname_label = se.Text(session_info["user"])
+menubox.op_list = [menubox.playername_label]
+# adding
+menubox.add_ob(menubox.name_label, 2, 0)
+menubox.add_ob(menubox.frame, 0, 0)
+menubox.add_ob(menubox.inner, 1, 1)
+menubox.add_ob(menubox.index, 2, 1)
+menubox.add_ob(menubox.playername_label, 4, 1)
+menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.playername_label.text), menubox.playername_label.ry)
 
 
 # Definiton of objects for the playmaps
