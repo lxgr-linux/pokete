@@ -347,6 +347,13 @@ def liner(text, width, pre=""):
     return out
 
 
+def hard_liner(l_len, name):
+    ret = ""
+    for i in range(int(len(name)/l_len)+1):
+        ret += name[i*l_len:(i+1)*l_len]+("\n" if i != int(len(name)/l_len) else "")
+    return ret
+
+
 def save():
     session_info = {
         "user": figure.name,
@@ -382,16 +389,16 @@ def std_loop(map):
         map.show(init=True)
 
 
-def text_input(ob, map, name):
+def text_input(ob, map, name, wrap_len, max_len=1000000):
     global ev
     ev = ""
-    ob.rechar(name+"█")
+    ob.rechar(hard_liner(wrap_len, name+"█"))
     bname = name
     map.show()
     while True:
         if ev == "Key.enter":
             ev = ""
-            ob.rechar(name)
+            ob.rechar(hard_liner(wrap_len, name))
             map.show()
             return name
         elif ev == "Key.backspace":
@@ -401,14 +408,14 @@ def text_input(ob, map, name):
                 map.show()
                 return bname
             name = name[:-1]
-            ob.rechar(name+"█")
+            ob.rechar(hard_liner(wrap_len, name+"█"))
             map.show()
             ev = ""
-        elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.shift_r", "Key.esc"]:
+        elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift", "Key.shift_r", "Key.esc"] and len(name) < max_len:
             if ev == "Key.space":
                 ev = "' '"
             name += str(eval(ev))
-            ob.rechar(name+"█")
+            ob.rechar(hard_liner(wrap_len, name+"█"))
             map.show()
             ev = ""
 
@@ -686,7 +693,7 @@ def menu():
     while True:
         if ev == "Key.enter":
             if menubox.op_list[menubox.index.index] == menubox.playername_label:
-                figure.name = text_input(menubox.realname_label, movemap, figure.name)
+                figure.name = text_input(menubox.realname_label, movemap, figure.name, 18, 17)
                 movemap.underline.remove()
                 movemap.balls_label.set(0, 1)
                 movemap.name_label.rechar(figure.name, esccode=Color.thicc)
@@ -964,7 +971,7 @@ def game(map):
             exiter()
         elif ev == "':'":
             ev = ""
-            inp = text_input(movemap.code_label, movemap, ":")[1:]
+            inp = text_input(movemap.code_label, movemap, ":", movemap.width, (movemap.width-2)*movemap.height-1)[1:]
             movemap.code_label.rechar(figure.map.pretty_name)
             movemap.show()
             codes(inp)
