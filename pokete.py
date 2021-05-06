@@ -91,7 +91,7 @@ class Trainer(se.Object):
                 winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], self.poke, info={"type": "duel", "player": self})
                 movemap_text(self.x, self.y, {True : self.lose_texts, False: self.win_texts+[" < Here u go 20$"]}[winner == self.poke])
                 if (winner != self.poke):
-                    figure.set_money(figure.money+20)
+                    figure.add_money(20)
                 self.will = (winner == self.poke)
             else:
                 movemap_text(self.x, self.y, self.no_poke_texts)
@@ -320,7 +320,7 @@ class PlayMap(se.Map):
 class Figure(se.Object):
     def __init__(self, char, state="solid", arg_proto={}):
         super().__init__(char, state="solid", arg_proto={})
-        self.money = 10
+        self.__money = 10
         self.inv = {"poketeballs": 10}
         self.name = ""
         self.pokes = []
@@ -351,7 +351,7 @@ class Figure(se.Object):
         except:
             pass
         try:
-            self.money = session_info["money"]
+            self.__money = session_info["money"]
         except:
             pass
         movemap.name_label = se.Text(self.name, esccode=Color.thicc)
@@ -360,9 +360,16 @@ class Figure(se.Object):
         balls_label_rechar()
         movemap_add_obs()
 
+    def add_money(self, money):
+        self.set_money(self.__money+money)
+
+    def get_money(self):
+        return self.__money
+
     def set_money(self, money):
-        self.money = money
-        invbox.money_label.rechar(str(self.money)+"$")
+        assert money >= 0, "money has to be positive"
+        self.__money = money
+        invbox.money_label.rechar(str(self.__money)+"$")
         invbox.set_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
 
 
@@ -414,7 +421,7 @@ def save():
         "y": figure.y,
         "pokes": {i: {"name": poke.identifier, "xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,
-        "money": figure.money
+        "money": figure.get_money()
     }
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
@@ -1439,7 +1446,7 @@ invbox.name_label = se.Text("Inventory")
 invbox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
 invbox.inner = se.Square(char=" ", width=33, height=height-5, state="float")
 invbox.index = se.Object("*")
-invbox.money_label = se.Text(str(figure.money)+"$")
+invbox.money_label = se.Text(str(figure.get_money())+"$")
 invbox.index.index = 0
 # adding
 invbox.add_ob(invbox.name_label, 2, 0)
