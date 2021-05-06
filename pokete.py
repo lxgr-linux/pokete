@@ -315,6 +315,55 @@ class PlayMap(se.Map):
             self.__extra_actions()
 
 
+class Figure(se.Object):
+    def __init__(self, char, state="solid", arg_proto={}):
+        super().__init__(char, state="solid", arg_proto={})
+        self.money = 10
+        self.inv = {"poketeballs": 10}
+        self.name = ""
+        self.pokes = []
+        self.oldmap = playmap_1
+
+    def set_args(self, session_info):
+        # processing data from save file
+        self.pokes = [Poke((session_info["pokes"][poke]["name"] if type(poke) is int else poke), session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
+        self.name = session_info["user"]
+        for j, poke in enumerate(self.pokes):
+            for atc, ap in zip(poke.attac_obs, session_info["pokes"][j]["ap"]):
+                atc.ap = ap if ap != "SKIP" else atc.ap
+            for i, atc in enumerate(poke.attac_obs):
+                poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
+        try:
+            if eval(session_info["map"]) == centermap:  # Looking if figure would be in centermap, so the player may spawn out of the center
+                self.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
+            else:
+                self.add(eval(session_info["map"]), session_info["x"], session_info["y"])
+        except:
+            self.add(playmap_1, 1, 1)
+        try:
+            self.oldmap = eval(session_info["oldmap"])
+        except:
+            pass
+        try:
+            self.inv = session_info["inv"]
+        except:
+            pass
+        try:
+            self.money = session_info["money"]
+        except:
+            pass
+        movemap.name_label = se.Text(self.name, esccode=Color.thicc)
+        movemap.balls_label = se.Text("", esccode=Color.thicc)
+        movemap.code_label.rechar(self.map.pretty_name)
+        balls_label_rechar()
+        movemap_add_obs()
+
+    def set_money(self, money):
+        self.money = money
+        invbox.money_label.rechar(str(self.money)+"$")
+        invbox.set_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
+
+
 # General use functions
 #######################
 
@@ -362,7 +411,8 @@ def save():
         "x": figure.x,
         "y": figure.y,
         "pokes": {i: {"name": poke.identifier, "xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for i, poke in enumerate(figure.pokes)},
-        "inv": figure.inv
+        "inv": figure.inv,
+        "money": figure.money
     }
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
@@ -396,7 +446,7 @@ def text_input(ob, map, name, wrap_len, max_len=1000000):
     bname = name
     map.show()
     while True:
-        if ev == "Key.enter":
+        if ev in ["Key.enter", "Key.esc"]:
             ev = ""
             ob.rechar(hard_liner(wrap_len, name))
             map.show()
@@ -418,6 +468,8 @@ def text_input(ob, map, name, wrap_len, max_len=1000000):
             ob.rechar(hard_liner(wrap_len, name+"█"))
             map.show()
             ev = ""
+        elif ev == "exit":
+            raise KeyboardInterrupt
 
 
 # Functions needed for movemap
@@ -630,10 +682,10 @@ def inv():
     global ev
     ev = ""
     invbox.add(movemap, movemap.width-35, 0)
-    movemap.show()
     obs = [se.Text(i.capitalize()+" : "+str(figure.inv[i])) for i in figure.inv]
     for i, ob in enumerate(obs):
         invbox.add_ob(ob, 4, 1+i)
+    movemap.show()
     while True:
         if ev == "exit":
             raise KeyboardInterrupt
@@ -1151,7 +1203,7 @@ mapbox.add_ob(mapbox.g, 9, 7)
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
-figure = se.Object("a")
+figure = Figure("a")
 exclamation = se.Object("!")
 multitext = se.Text("")
 movemap.deck_label = se.Text("1: Deck")
@@ -1309,34 +1361,7 @@ centermap.dor_back2.add(centermap, int(centermap.width/2)+1, 8)
 centermap.inner.add(centermap, int(centermap.width/2)-8, 1)
 centermap.interact.add(centermap, int(centermap.width/2), 4)
 
-# processing data from save file
-figure.pokes = [Poke((session_info["pokes"][poke]["name"] if type(poke) is int else poke), session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
-for j, poke in enumerate(figure.pokes):
-    for atc, ap in zip(poke.attac_obs, session_info["pokes"][j]["ap"]):
-        atc.ap = ap if ap != "SKIP" else atc.ap
-    for i, atc in enumerate(poke.attac_obs):
-        poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
-figure.name = session_info["user"]
-try:
-    if eval(session_info["map"]) == centermap:  # Looking if figure would be in centermap, so the player may spawn out of the center
-        figure.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
-    else:
-        figure.add(eval(session_info["map"]), session_info["x"], session_info["y"])
-except:
-    figure.add(playmap_1, 1, 1)
-try:
-    figure.oldmap = eval(session_info["oldmap"])
-except:
-    figure.oldmap = playmap_1
-try:
-    figure.inv = session_info["inv"]
-except:
-    figure.inv = {"poketeballs": 10}
-movemap.name_label = se.Text(figure.name, esccode=Color.thicc)
-movemap.balls_label = se.Text("", esccode=Color.thicc)
-movemap.code_label.rechar(figure.map.pretty_name)
-balls_label_rechar()
-movemap_add_obs()
+figure.set_args(session_info)
 
 # objects for detail
 detailmap = se.Map(height-1, width, " ")
@@ -1412,12 +1437,14 @@ invbox.name_label = se.Text("Inventory")
 invbox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
 invbox.inner = se.Square(char=" ", width=33, height=height-5, state="float")
 invbox.index = se.Object("*")
+invbox.money_label = se.Text(str(figure.money)+"$")
 invbox.index.index = 0
 # adding
 invbox.add_ob(invbox.name_label, 2, 0)
 invbox.add_ob(invbox.frame, 0, 0)
 invbox.add_ob(invbox.inner, 1, 1)
 invbox.add_ob(invbox.index, 2, 1)
+invbox.add_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
 # invbox2
 invbox2 = se.Box(7, 21)
 invbox2.name_label = se.Text(" ")
