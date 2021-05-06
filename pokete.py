@@ -89,7 +89,9 @@ class Trainer(se.Object):
             if any([poke.hp > 0 for poke in figure.pokes[:6]]):
                 movemap_text(self.x, self.y, self.texts)
                 winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0], self.poke, info={"type": "duel", "player": self})
-                movemap_text(self.x, self.y, {True : self.lose_texts, False: self.win_texts}[winner == self.poke])
+                movemap_text(self.x, self.y, {True : self.lose_texts, False: self.win_texts+[" < Here u go 20$"]}[winner == self.poke])
+                if (winner != self.poke):
+                    figure.set_money(figure.money+20)
                 self.will = (winner == self.poke)
             else:
                 movemap_text(self.x, self.y, self.no_poke_texts)
