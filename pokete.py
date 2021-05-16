@@ -132,7 +132,7 @@ class CenterInteract(se.Object):
             elif ev == "'c'":
                 ev = ""
                 break
-            std_loop(movemap)
+            std_loop()
             time.sleep(0.05)
         multitext.remove()
         movemap.remap()
@@ -178,7 +178,7 @@ class Poke():
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
         self.desc = se.Text(liner(pokes[poke]["desc"], se.width-34))
-        self.ico = se.Text(pokes[poke]["ico"])
+        self.ico = se.Text(pokes[poke]["ico"], state="float")
         self.text_hp = se.Text("HP:"+str(self.hp))
         self.text_lvl = se.Text("Lvl:"+str(self.lvl()))
         self.text_name = se.Text(str(self.name), esccode=Color.underlined)
@@ -438,14 +438,10 @@ def exiter():
     exit()
 
 
-def std_loop(map):
+def std_loop():
     global ev
     if ev == "exit":
         raise KeyboardInterrupt
-    elif ev == "'e'":
-        ev = ""
-        menu()
-        map.show(init=True)
 
 
 def text_input(ob, map, name, wrap_len, max_len=1000000):
@@ -477,8 +473,7 @@ def text_input(ob, map, name, wrap_len, max_len=1000000):
             ob.rechar(hard_liner(wrap_len, name+"█"))
             map.show()
             ev = ""
-        elif ev == "exit":
-            raise KeyboardInterrupt
+        std_loop()
 
 
 # Functions needed for movemap
@@ -531,17 +526,16 @@ def movemap_text(x, y, arr):
         multitext.add(movemap, x-movemap.x+1, y-movemap.y)
         for i in range(len(t)+1):
             multitext.rechar(liner(t[:i], movemap.width-(x-movemap.x+1), "   "))
-            #multitext.rechar(t[:i])
             movemap.show()
             time.sleep(0.045)
-            std_loop(movemap)
+            std_loop()
             if ev != "":
                 ev = ""
                 break
         multitext.rechar(liner(t, movemap.width-(x-movemap.x+1), "   "))
         movemap.show()
         while True:
-            std_loop(movemap)
+            std_loop()
             if ev != "":
                 break
             time.sleep(0.05)
@@ -615,25 +609,27 @@ def deck_control(pokes, ev, index):
 #####################
 
 def fight_clean_up(player, enemy):
-    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small] + player.atc_labels:
+    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]:
         ob.remove()
+    for ob in player.atc_labels:
+        fightbox.rem_ob(ob)
 
 
 def fight_add(player, enemy):
     for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar], [7, 16, 1, 1, 1, fightmap.width-14, 8], [3, 3, 1, 2, 3, 2, 3]):
         ob.add(fightmap, x, y)
     if player.identifier != "__fallback__":
-        player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
-        player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
-        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
-        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
-        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
-        player.ico.add(fightmap, 3, fightmap.height-11)
-        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
+        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-9)
+        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-8)
+        player.tril.add(fightmap, fightmap.width-11, fightmap.height-7)
+        player.trir.add(fightmap, fightmap.width-2, fightmap.height-7)
+        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-7)
+        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-7)
+        player.ico.add(fightmap, 3, fightmap.height-10)
     if enemy.name in [ob.name for ob in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
-    for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
-        ob.add(fightmap, x, y)
+    for ob, y in zip(player.atc_labels, range(4)):
+        fightbox.add_ob(ob, 1, 1+y)
     return [player, enemy]
 
 
@@ -642,26 +638,26 @@ def fight_add_1(player, enemy):
         ob.add(fightmap, x, y)
     if enemy.name in [ob.name for ob in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
-    for ob, x, y in zip(player.atc_labels, [1, 1, 19, 19], [fightmap.height-2, fightmap.height-1, fightmap.height-2, fightmap.height-1]):
-        ob.add(fightmap, x, y)
+    for ob, y in zip(player.atc_labels, range(4)):
+        fightbox.add_ob(ob, 1, 1+y)
     return [player, enemy]
 
 
 def fight_add_2(player, enemy):
     if player.identifier != "__fallback__":
-        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-10)
+        player.text_name.add(fightmap, fightmap.width-17, fightmap.height-9)
         time.sleep(0.05)
         fightmap.show()
-        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-9)
+        player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-8)
         time.sleep(0.05)
         fightmap.show()
-        player.tril.add(fightmap, fightmap.width-11, fightmap.height-8)
-        player.trir.add(fightmap, fightmap.width-2, fightmap.height-8)
-        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-8)
-        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-8)
+        player.tril.add(fightmap, fightmap.width-11, fightmap.height-7)
+        player.trir.add(fightmap, fightmap.width-2, fightmap.height-7)
+        player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-7)
+        player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-7)
         time.sleep(0.05)
         fightmap.show()
-        player.ico.add(fightmap, 3, fightmap.height-11)
+        player.ico.add(fightmap, 3, fightmap.height-10)
 
 
 # Playmap extra action functions
@@ -696,9 +692,7 @@ def inv():
         invbox.add_ob(ob, 4, 1+i)
     movemap.show()
     while True:
-        if ev == "exit":
-            raise KeyboardInterrupt
-        elif ev in ["'s'", "'w'"]:
+        if ev in ["'s'", "'w'"]:
             menu_input(invbox, ev, obs)
             ev = ""
         elif ev in ["'4'", "Key.esc", "'q'"]:
@@ -721,6 +715,7 @@ def inv():
                     break
                 time.sleep(0.05)
                 movemap.show()
+        std_loop()
         time.sleep(0.05)
         movemap.show()
 
@@ -732,9 +727,7 @@ def roadmap():
     [i for i in [mapbox.a, mapbox.b, mapbox.c, mapbox.d, mapbox.e, mapbox.f, mapbox.g] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5]][0]][0].choose()
     movemap.show()
     while True:
-        if ev == "exit":
-            raise KeyboardInterrupt
-        elif ev in ["'w'", "'a'", "'s'", "'d'"]:
+        if ev in ["'w'", "'a'", "'s'", "'d'"]:
             Station.choosen.next(ev)
             ev = ""
         elif ev in ["'3'", "Key.esc", "'q'"]:
@@ -742,6 +735,7 @@ def roadmap():
             mapbox.remove()
             Station.choosen.unchoose()
             return
+        std_loop()
         time.sleep(0.05)
         movemap.show()
 
@@ -763,18 +757,17 @@ def menu():
         elif ev in ["'s'", "'w'"]:
             menu_input(menubox, ev, menubox.op_list)
             ev = ""
-        elif ev == "exit":
-            raise KeyboardInterrupt
         elif ev in ["'e'", "Key.esc", "'q'"]:
             ev = ""
             menubox.remove()
             return
+        std_loop()
         time.sleep(0.1)
         movemap.show()
 
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
-    global ev, attack, fightmap
+    global ev
     players = fight_add_1(player, enemy)
     if info["type"] == "wild":
         fightmap.outp.rechar("A wild "+enemy.name+" appeared!")
@@ -803,13 +796,29 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fightmap.outp.rechar("You don't have any living poketes left!")
                     fightmap.show()
                 while True:
-                    if ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]:
-                        attack = ob.attac_obs[int(eval(ev))]
-                        if attack.ap == 0:
-                            continue
+                    if ev == "'1'":
                         ev = ""
-                        break
-                    elif ev == "'5'":
+                        fightbox.add(fightmap, 1, fightmap.height-7)
+                        fightmap.show()
+                        while True:
+                            if ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]:
+                                attack = ob.attac_obs[int(eval(ev))]
+                                if attack.ap == 0:
+                                    continue
+                                ev = ""
+                                fightbox.remove()
+                                fightmap.show()
+                                break
+                            elif ev in ["Key.enter", "Key.esc", "'q'"]:
+                                ev = ""
+                                attack = ""
+                                fightbox.remove()
+                                fightmap.show()
+                                break
+                            std_loop()
+                        if attack != "":
+                            break
+                    elif ev == "'2'":
                         ev = ""
                         if info["type"] == "duel" and player.identifier != "__fallback__":
                             continue
@@ -818,7 +827,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         time.sleep(1)
                         fight_clean_up(player, enemy)
                         return enem
-                    elif ev == "'6'":
+                    elif ev == "'3'":
                         ev = ""
                         if ob.identifier == "__fallback__" or info["type"] == "duel":
                             continue
@@ -848,7 +857,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                             fightmap.show()
                         attack = ""
                         break
-                    elif ev == "'7'":
+                    elif ev == "'4'":
                         ev = ""
                         if ob.identifier == "__fallback__":
                             continue
@@ -860,7 +869,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fightmap.show(init=True)
                         attack = ""
                         break
-                    std_loop(fightmap)
+                    std_loop()
                     time.sleep(0.1)
             else:
                 attack = random.choices([ob for ob in ob.attac_obs], weights=[ob.ap for ob in ob.attac_obs])[0]
@@ -973,7 +982,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 detail(pokes[deck_index.index])
                 deck_add_all(pokes)
                 decksubmap.full_show(init=True)
-        std_loop(decksubmap)
+        std_loop()
         if len(pokes) > 0 and deck_index.y-decksubmap.y +6 > decksubmap.height:
             decksubmap.set(decksubmap.x, decksubmap.y+1)
         elif len(pokes) > 0 and deck_index.y-1 < decksubmap.y:
@@ -1003,7 +1012,7 @@ def detail(poke):
                 for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.desc, atc.label_type]:
                     ob.remove()
             return
-        std_loop(detailmap)
+        std_loop()
         time.sleep(0.05)
         detailmap.show()
 
@@ -1037,7 +1046,11 @@ def game(map):
             movemap.show()
             codes(inp)
             ev = ""
-        std_loop(movemap)
+        elif ev == "'e'":
+            ev = ""
+            menu()
+            movemap.show(init=True)
+        std_loop()
         map.extra_actions()
         for trainer in map.trainers:
             trainer.do(map)
@@ -1405,16 +1418,17 @@ decksubmap.move_free.add(decksubmap, 20, decksubmap.height-1)
 
 # objects relevant for fight()
 fightmap = se.Map(height-1, width, " ")
-fightmap.frame_big = se.Frame(height=fightmap.height-6, width=fightmap.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"])
-fightmap.frame_small = se.Frame(height=4, width=fightmap.width)
-fightmap.e_underline = se.Text("----------------+")
-fightmap.e_sideline = se.Square("|", 1, 3)
-fightmap.p_upperline = se.Text("+----------------")
-fightmap.p_sideline = se.Square("|", 1, 4)
-fightmap.outp = se.Text("")
-fightmap.run = se.Text("5: Run!")
-fightmap.catch = se.Text("6: Catch")
-fightmap.summon = se.Text("7: Deck")
+fightmap.frame_big = se.Frame(height=fightmap.height-5, width=fightmap.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"], state="float")
+fightmap.frame_small = se.Frame(height=4, width=fightmap.width, state="float")
+fightmap.e_underline = se.Text("----------------+", state="float")
+fightmap.e_sideline = se.Square("|", 1, 3, state="float")
+fightmap.p_upperline = se.Text("+----------------", state="float")
+fightmap.p_sideline = se.Square("|", 1, 4, state="float")
+fightmap.outp = se.Text("", state="float")
+fightmap.attack = se.Text("1: Attack")
+fightmap.run = se.Text("2: Run!")
+fightmap.catch = se.Text("3: Catch")
+fightmap.summon = se.Text("4: Deck")
 fightmap.shines = [se.Object(Color.thicc+Color.green+"*"+Color.reset) for i in range(4)]
 deadico1 = se.Text("""
     \ /
@@ -1429,16 +1443,25 @@ pball = se.Text("""   _____
   |__O__|
   \_____/""")
 # adding
-fightmap.outp.add(fightmap, 1, fightmap.height-5)
+fightmap.outp.add(fightmap, 1, fightmap.height-4)
 fightmap.e_underline.add(fightmap, 1, 4)
 fightmap.e_sideline.add(fightmap, len(fightmap.e_underline.text), 1)
-fightmap.p_upperline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-11)
-fightmap.p_sideline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-10)
+fightmap.p_upperline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-10)
 fightmap.frame_big.add(fightmap, 0, 0)
-fightmap.frame_small.add(fightmap, 0, fightmap.height-6)
-fightmap.run.add(fightmap, 38, fightmap.height-2)
-fightmap.catch.add(fightmap, 38, fightmap.height-1)
-fightmap.summon.add(fightmap, 49, fightmap.height-2)
+fightmap.p_sideline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-9)
+fightmap.frame_small.add(fightmap, 0, fightmap.height-5)
+fightmap.attack.add(fightmap, 0, fightmap.height-1)
+fightmap.run.add(fightmap, 11, fightmap.height-1)
+fightmap.catch.add(fightmap, 20, fightmap.height-1)
+fightmap.summon.add(fightmap, 30, fightmap.height-1)
+
+# fightbox
+fightbox = se.Box(6, 22)
+fightbox.frame = se.Frame(width=22, height=6, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
+fightbox.inner = se.Square(char=" ", width=20, height=4, state="float")
+# adding
+fightbox.add_ob(fightbox.frame, 0, 0)
+fightbox.add_ob(fightbox.inner, 1, 1)
 
 # invbox
 invbox = se.Box(height-3, 35)
