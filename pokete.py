@@ -558,7 +558,7 @@ def menu_input(box, ev, list):
         box.index.index += {"'s'": 1, "'w'": -1}[ev]
     else:
         box.index.index = {"'s'": 0, "'w'": len(list)-1}[ev]
-    box.set_ob(box.index, 2, list[box.index.index].ry)
+    box.set_ob(box.index, box.index.rx, list[box.index.index].ry)
 
 
 # Functions for deck
@@ -629,7 +629,7 @@ def fight_add(player, enemy):
     if enemy.name in [ob.name for ob in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
     for ob, y in zip(player.atc_labels, range(4)):
-        fightbox.add_ob(ob, 1, 1+y)
+        fightbox.add_ob(ob, 2, 1+y)
     return [player, enemy]
 
 
@@ -639,7 +639,7 @@ def fight_add_1(player, enemy):
     if enemy.name in [ob.name for ob in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
     for ob, y in zip(player.atc_labels, range(4)):
-        fightbox.add_ob(ob, 1, 1+y)
+        fightbox.add_ob(ob, 2, 1+y)
     return [player, enemy]
 
 
@@ -782,6 +782,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     if player.identifier != "__fallback__":
         fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
         fightmap.outp.rechar("You used "+player.name)
+    fightbox.set_ob(fightbox.index, 1, 1)
+    fightbox.index.index = 0
     fightmap.show()
     time.sleep(0.5)
     fight_running = True
@@ -801,7 +803,19 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fightbox.add(fightmap, 1, fightmap.height-7)
                         fightmap.show()
                         while True:
-                            if ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]:
+                            if ev in ["'s'", "'w'"]:
+                                menu_input(fightbox, ev, ob.atc_labels)
+                                fightmap.show()
+                                ev = ""
+                            elif ev == "Key.enter":
+                                attack = ob.attac_obs[fightbox.index.index]
+                                if attack.ap == 0:
+                                    continue
+                                ev = ""
+                                fightbox.remove()
+                                fightmap.show()
+                                break
+                            elif ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]:
                                 attack = ob.attac_obs[int(eval(ev))]
                                 if attack.ap == 0:
                                     continue
@@ -809,13 +823,14 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                 fightbox.remove()
                                 fightmap.show()
                                 break
-                            elif ev in ["Key.enter", "Key.esc", "'q'"]:
+                            elif ev in ["Key.esc", "'q'"]:
                                 ev = ""
                                 attack = ""
                                 fightbox.remove()
                                 fightmap.show()
                                 break
                             std_loop()
+                            time.sleep(0.05)
                         if attack != "":
                             break
                     elif ev == "'2'":
@@ -1456,12 +1471,15 @@ fightmap.catch.add(fightmap, 20, fightmap.height-1)
 fightmap.summon.add(fightmap, 30, fightmap.height-1)
 
 # fightbox
-fightbox = se.Box(6, 22)
-fightbox.frame = se.Frame(width=22, height=6, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
-fightbox.inner = se.Square(char=" ", width=20, height=4, state="float")
+fightbox = se.Box(6, 25)
+fightbox.frame = se.Frame(width=25, height=6, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
+fightbox.inner = se.Square(char=" ", width=23, height=4, state="float")
+fightbox.index = se.Object("*")
+fightbox.index.index = 0
 # adding
 fightbox.add_ob(fightbox.frame, 0, 0)
 fightbox.add_ob(fightbox.inner, 1, 1)
+fightbox.add_ob(fightbox.index, 1, 1)
 
 # invbox
 invbox = se.Box(height-3, 35)
@@ -1492,7 +1510,6 @@ invbox2.add_ob(invbox2.desc_label, 1, 1)
 invbox.poketeballs = InvItem("Poketeballs", "A ball you can use to catch Poketes")
 invbox.test = InvItem("Test", "A fucking test, a test, a test bla bla bla. test test 123")
 
-# objects for inv
 
 if __name__ == "__main__":
     try:
