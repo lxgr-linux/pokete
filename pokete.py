@@ -115,8 +115,7 @@ class CenterInteract(se.Object):
     def action(self, ob):
         global ev
         ev = ""
-        movemap.remap()
-        movemap.show()
+        movemap.full_show()
         movemap_text(int(movemap.width/2), 3, [" < Welcome to the Pokete-Center", " < What do you want to do?", " < a: See your full deck\n b: Heal all your Poketes\n c: Go"])
         while True:
             if ev == "'a'":
@@ -136,15 +135,27 @@ class CenterInteract(se.Object):
             std_loop()
             time.sleep(0.05)
         multitext.remove()
-        movemap.remap()
-        movemap.show(init=True)
+        movemap.full_show(init=True)
+
+
+class ShopInteract(se.Object):
+    def action(self, ob):
+        global ev
+        ev = ""
+        movemap.full_show()
+        movemap_text(int(movemap.width/2), 3, [" < Welcome to the Pokete-Shop", " < Wanna buy something?"])
+        multitext.remove()
+        buy()
+        movemap.full_show(init=True)
+        movemap_text(int(movemap.width/2), 3, [" < Have a great day!"])
+        multitext.remove()
 
 
 class CenterDor(se.Object):
     def action(self, ob):
         figure.remove()
         i = figure.map.name
-        figure.add(figure.oldmap, figure.oldmap.dor.x, figure.oldmap.dor.y+1)
+        figure.add(figure.oldmap, figure.oldmap.dor.x if figure.map == centermap else figure.oldmap.shopdor.x, figure.oldmap.dor.y+1 if figure.map == centermap else figure.oldmap.shopdor.y+1)
         figure.oldmap = eval(i)
         game(figure.map)
 
@@ -1254,6 +1265,7 @@ with open(home+"/.cache/pokete/pokete.py") as file:
 
 # maps
 centermap = PlayMap(height-1, width, " ", name = "centermap", pretty_name = "Pokete-Center")
+shopmap = PlayMap(height-1, width, " ", name = "shopmap", pretty_name = "Pokete-Shop")
 playmap_1 = PlayMap(background=" ", height=30, width=90, name="playmap_1", pretty_name="Nice Town",
                     trainers=[Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)],
                     poke_args={"pokes": ["rato", "horny", "vogli"], "minlvl": 15, "maxlvl": 40})
@@ -1302,7 +1314,7 @@ mapbox.add_ob(mapbox.g, 9, 7)
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = Figure("a")
 exclamation = se.Object("!")
-multitext = se.Text("")
+multitext = se.Text("", state="float")
 movemap.deck_label = se.Text("1: Deck")
 movemap.exit_label = se.Text("2: Exit")
 movemap.map_label = se.Text("3: Map")
@@ -1372,8 +1384,10 @@ cave_1.inner.add(cave_1, 0, 0)
 
 # playmap_3
 playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_3.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
 # adding
 playmap_3.dor.add(playmap_3, 25, 6)
+playmap_3.shopdor.add(playmap_3, 61, 6)
 
 # playmap_4
 playmap_4.dor_playmap_5 = ChanceDor("~", state="float", arg_proto={"chance": 6, "map": playmap_5, "x": 17, "y": 16})
@@ -1448,6 +1462,24 @@ centermap.dor_back1.add(centermap, int(centermap.width/2), 8)
 centermap.dor_back2.add(centermap, int(centermap.width/2)+1, 8)
 centermap.inner.add(centermap, int(centermap.width/2)-8, 1)
 centermap.interact.add(centermap, int(centermap.width/2), 4)
+
+# shopmap
+shopmap.trainers = []
+shopmap.inner = se.Text(""" __________________
+ |________________|
+ |      |a |      |
+ |      ¯ ¯¯      |
+ |                |
+ |_______  _______|
+ |______|  |______|""", ignore=" ")
+shopmap.interact = ShopInteract("¯", state="float")
+shopmap.dor_back1 = CenterDor(" ", state="float")
+shopmap.dor_back2 = CenterDor(" ", state="float")
+# adding
+shopmap.dor_back1.add(shopmap, int(shopmap.width/2), 8)
+shopmap.dor_back2.add(shopmap, int(shopmap.width/2)+1, 8)
+shopmap.inner.add(shopmap, int(shopmap.width/2)-9, 1)
+shopmap.interact.add(shopmap, int(shopmap.width/2), 4)
 
 figure.set_args(session_info)
 

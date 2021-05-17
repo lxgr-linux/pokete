@@ -58,7 +58,7 @@ flying|plant|stone
 - Add evolving
 - Add more than one Pokete for trainers
 - Coloured Poketes
-- A store to buy Poketeballs
+- A store to buy Poketeballs --- Done
 
 ## Dependencies
 Pokete depends on python3 and the python-scrap_engine module.
