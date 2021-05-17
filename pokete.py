@@ -56,9 +56,10 @@ class Color:
 
 
 class InvItem:
-    def __init__(self, name, desc):
+    def __init__(self, name, desc, price):
         self.name = name
         self.desc = desc
+        self.price = price
 
 
 class Trainer(se.Object):
@@ -369,8 +370,9 @@ class Figure(se.Object):
     def set_money(self, money):
         assert money >= 0, "money has to be positive"
         self.__money = money
-        invbox.money_label.rechar(str(self.__money)+"$")
-        invbox.set_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
+        for box in [invbox, buybox]:
+            box.money_label.rechar(str(self.__money)+"$")
+            box.set_ob(box.money_label, box.width-2-len(box.money_label.text), 0)
 
 
 class Box(se.Box):
@@ -537,6 +539,9 @@ def codes(string):
     for i in string:
         if i == "w":
             save()
+        elif i == "!":
+            exec(string[string.index("!")+2:])
+            return
         elif i == "e":
             try:
                 exec(string[string.index("e")+2:])
@@ -681,6 +686,15 @@ def fight_add_2(player, enemy):
         player.ico.add(fightmap, 3, fightmap.height-10)
 
 
+# Functions for buy
+#####################
+
+def buy_rechar(items):
+    ob = items[buybox.index.index]
+    buybox2.name_label.rechar(ob.name.capitalize())
+    buybox2.desc_label.rechar(liner(ob.desc, 19))
+
+
 # Playmap extra action functions
 # Those are adding additional actions to playmaps
 #################################################
@@ -708,7 +722,7 @@ def inv():
     global ev
     ev = ""
     invbox.add(movemap, movemap.width-35, 0)
-    obs = [se.Text(i.capitalize()+" : "+str(figure.inv[i])) for i in figure.inv]
+    obs = [se.Text(i.capitalize()+"s : "+str(figure.inv[i])) for i in figure.inv]
     for i, ob in enumerate(obs):
         invbox.add_ob(ob, 4, 1+i)
     movemap.show()
@@ -723,7 +737,7 @@ def inv():
             return
         elif ev == "Key.enter":
             ob = eval("invbox."+[i for i in figure.inv][invbox.index.index])
-            invbox2.name_label.rechar(ob.name)
+            invbox2.name_label.rechar(ob.name.capitalize())
             invbox2.desc_label.rechar(liner(ob.desc, 19))
             invbox2.add(movemap, invbox.x-19, 3)
             ev = ""
@@ -736,6 +750,42 @@ def inv():
                     break
                 time.sleep(0.05)
                 movemap.show()
+        std_loop()
+        time.sleep(0.05)
+        movemap.show()
+
+
+def buy():
+    global ev
+    ev = ""
+    buybox.add(movemap, movemap.width-35, 0)
+    buybox2.add(movemap, buybox.x-19, 3)
+    items = [invbox.poketeball, invbox.test]
+    obs = [se.Text(ob.name.capitalize()+" : "+str(ob.price)+"$") for ob in items]
+    for i, ob in enumerate(obs):
+        buybox.add_ob(ob, 4, 1+i)
+    buy_rechar(items)
+    movemap.show()
+    while True:
+        if ev in ["'s'", "'w'"]:
+            buybox.input(ev, obs)
+            buy_rechar(items)
+            ev = ""
+        elif ev in ["Key.esc", "'q'"]:
+            buybox.remove()
+            buybox2.remove()
+            for ob in obs:
+                buybox.rem_ob(ob)
+            return
+        elif ev == "Key.enter":
+            ob = items[buybox.index.index]
+            if figure.get_money()-ob.price >= 0:
+                figure.add_money(-ob.price)
+                if ob.name in figure.inv:
+                    figure.inv[ob.name] += 1
+                else:
+                    figure.inv[ob.name] = 1
+            ev = ""
         std_loop()
         time.sleep(0.05)
         movemap.show()
@@ -1193,7 +1243,7 @@ session_info = {
     "pokes": {
         0: {"name": "steini", "xp": 35, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
     },
-    "inv": {"poketeballs": 10}
+    "inv": {"poketeball": 10}
 }
 with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
@@ -1485,9 +1535,19 @@ invbox2.desc_label = se.Text(" ")
 # adding
 invbox2.add_ob(invbox2.desc_label, 1, 1)
 # every possible item for the inv has to have such an onbject
-invbox.poketeballs = InvItem("Poketeballs", "A ball you can use to catch Poketes")
-invbox.test = InvItem("Test", "A fucking test, a test, a test bla bla bla. test test 123")
+invbox.poketeball = InvItem("poketeball", "A ball you can use to catch Poketes", 2)
+invbox.test = InvItem("test", "A fucking test, a test, a test bla bla bla. test test 123", 10)
 
+# buybox
+buybox = ChooseBox(height-3, 35, "Shop")
+buybox.money_label = se.Text(str(figure.get_money())+"$")
+# adding
+buybox.add_ob(buybox.money_label, buybox.width-2-len(buybox.money_label.text), 0)
+# shopbox2
+buybox2 = Box(7, 21,)
+buybox2.desc_label = se.Text(" ")
+# adding
+buybox2.add_ob(buybox2.desc_label, 1, 1)
 
 if __name__ == "__main__":
     try:
