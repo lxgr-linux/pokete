@@ -373,6 +373,35 @@ class Figure(se.Object):
         invbox.set_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
 
 
+class Box(se.Box):
+    def __init__(self, height, width, name=""):
+        super().__init__(height, width)
+        self.frame = se.Frame(width=width, height=height, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
+        self.inner = se.Square(char=" ", width=width-2, height=height-2, state="float")
+        self.name_label = se.Text(name)
+        # adding
+        self.add_ob(self.frame, 0, 0)
+        self.add_ob(self.inner, 1, 1)
+        self.add_ob(self.name_label, 2, 0)
+
+
+class ChooseBox(Box):
+    def __init__(self, height, width, name="", index_x=2):
+        super().__init__(height, width, name)
+        self.index_x = index_x
+        self.index = se.Object("*")
+        self.index.index = 0
+        # adding
+        self.add_ob(self.index, self.index_x, 1)
+
+    def input(self, ev, list):
+        if {"'s'": self.index.index+1 < len(list), "'w'": self.index.index-1 >= 0}[ev]:
+            self.index.index += {"'s'": 1, "'w'": -1}[ev]
+        else:
+            self.index.index = {"'s'": 0, "'w'": len(list)-1}[ev]
+        self.set_ob(self.index, self.index.rx, list[self.index.index].ry)
+
+
 # General use functions
 #######################
 
@@ -553,14 +582,6 @@ def movemap_add_obs():
     movemap.code_label.add(movemap, 0, 0)
 
 
-def menu_input(box, ev, list):
-    if {"'s'": box.index.index+1 < len(list), "'w'": box.index.index-1 >= 0}[ev]:
-        box.index.index += {"'s'": 1, "'w'": -1}[ev]
-    else:
-        box.index.index = {"'s'": 0, "'w'": len(list)-1}[ev]
-    box.set_ob(box.index, box.index.rx, list[box.index.index].ry)
-
-
 # Functions for deck
 ####################
 
@@ -693,7 +714,7 @@ def inv():
     movemap.show()
     while True:
         if ev in ["'s'", "'w'"]:
-            menu_input(invbox, ev, obs)
+            invbox.input(ev, obs)
             ev = ""
         elif ev in ["'4'", "Key.esc", "'q'"]:
             invbox.remove()
@@ -755,7 +776,7 @@ def menu():
                 movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
                 movemap.underline.add(movemap, 0, movemap.height-2)
         elif ev in ["'s'", "'w'"]:
-            menu_input(menubox, ev, menubox.op_list)
+            menubox.input(ev, menubox.op_list)
             ev = ""
         elif ev in ["'e'", "Key.esc", "'q'"]:
             ev = ""
@@ -797,26 +818,21 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     time.sleep(1)
                     fightmap.outp.rechar("You don't have any living poketes left!")
                     fightmap.show()
-                while True:
+                while True:  # Inputloop for general options
                     if ev == "'1'":
                         ev = ""
                         fightbox.add(fightmap, 1, fightmap.height-7)
                         fightmap.show()
-                        while True:
+                        while True:  # Inputloop for attack options
                             if ev in ["'s'", "'w'"]:
-                                menu_input(fightbox, ev, ob.atc_labels)
+                                fightbox.input(ev, ob.atc_labels)
                                 fightmap.show()
                                 ev = ""
-                            elif ev == "Key.enter":
-                                attack = ob.attac_obs[fightbox.index.index]
-                                if attack.ap == 0:
-                                    continue
-                                ev = ""
-                                fightbox.remove()
-                                fightmap.show()
-                                break
-                            elif ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]:
-                                attack = ob.attac_obs[int(eval(ev))]
+                            elif ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
+                                if ev == "Key.enter":
+                                    attack = ob.attac_obs[fightbox.index.index]
+                                else:
+                                    attack = ob.attac_obs[int(eval(ev))]
                                 if attack.ap == 0:
                                     continue
                                 ev = ""
@@ -1214,14 +1230,8 @@ playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", prett
                     poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
 
 # mapmap
-mapbox = se.Box(11, 40)
-mapbox.name_label = se.Text("Roadmap")
-mapbox.frame = se.Frame(width=mapbox.width, height=mapbox.height, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
-mapbox.inner = se.Square(char=" ", width=mapbox.width-2, height=mapbox.height-2, state="float")
+mapbox = Box(11, 40, "Roadmap")
 mapbox.info_label = se.Text("")
-mapbox.add_ob(mapbox.name_label, 2, 0)
-mapbox.add_ob(mapbox.frame, 0, 0)
-mapbox.add_ob(mapbox.inner, 1, 1)
 mapbox.add_ob(mapbox.info_label, 1, 1)
 mapbox.a = Station(playmap_1, 2, 1, w_next="mapbox.b")
 mapbox.b = Station(cave_1, 1, 2, s_next="mapbox.a", d_next="mapbox.c")
@@ -1250,20 +1260,11 @@ movemap.inv_label = se.Text("4: Inv.")
 movemap.code_label = se.Text("")
 
 # menubox
-menubox = se.Box(height-3, 35)
-menubox.name_label = se.Text("Menu")
-menubox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
-menubox.inner = se.Square(char=" ", width=33, height=height-5, state="float")
-menubox.index = se.Object("*")
-menubox.index.index = 0
+menubox = ChooseBox(height-3, 35, "Menu")
 menubox.playername_label = se.Text("Playername: ")
 menubox.realname_label = se.Text(session_info["user"])
 menubox.op_list = [menubox.playername_label]
 # adding
-menubox.add_ob(menubox.name_label, 2, 0)
-menubox.add_ob(menubox.frame, 0, 0)
-menubox.add_ob(menubox.inner, 1, 1)
-menubox.add_ob(menubox.index, 2, 1)
 menubox.add_ob(menubox.playername_label, 4, 1)
 menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.playername_label.text), menubox.playername_label.ry)
 
@@ -1471,40 +1472,17 @@ fightmap.catch.add(fightmap, 20, fightmap.height-1)
 fightmap.summon.add(fightmap, 30, fightmap.height-1)
 
 # fightbox
-fightbox = se.Box(6, 25)
-fightbox.frame = se.Frame(width=25, height=6, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
-fightbox.inner = se.Square(char=" ", width=23, height=4, state="float")
-fightbox.index = se.Object("*")
-fightbox.index.index = 0
-# adding
-fightbox.add_ob(fightbox.frame, 0, 0)
-fightbox.add_ob(fightbox.inner, 1, 1)
-fightbox.add_ob(fightbox.index, 1, 1)
+fightbox = ChooseBox(6, 25, "Attacks", 1)
 
 # invbox
-invbox = se.Box(height-3, 35)
-invbox.name_label = se.Text("Inventory")
-invbox.frame = se.Frame(width=35, height=height-3, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
-invbox.inner = se.Square(char=" ", width=33, height=height-5, state="float")
-invbox.index = se.Object("*")
+invbox = ChooseBox(height-3, 35, "Inventory")
 invbox.money_label = se.Text(str(figure.get_money())+"$")
-invbox.index.index = 0
 # adding
-invbox.add_ob(invbox.name_label, 2, 0)
-invbox.add_ob(invbox.frame, 0, 0)
-invbox.add_ob(invbox.inner, 1, 1)
-invbox.add_ob(invbox.index, 2, 1)
 invbox.add_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
 # invbox2
-invbox2 = se.Box(7, 21)
-invbox2.name_label = se.Text(" ")
-invbox2.frame = se.Frame(width=21, height=7, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
-invbox2.inner = se.Square(char=" ", width=19, height=5, state="float")
+invbox2 = Box(7, 21,)
 invbox2.desc_label = se.Text(" ")
 # adding
-invbox2.add_ob(invbox2.name_label, 2, 0)
-invbox2.add_ob(invbox2.frame, 0, 0)
-invbox2.add_ob(invbox2.inner, 1, 1)
 invbox2.add_ob(invbox2.desc_label, 1, 1)
 # every possible item for the inv has to have such an onbject
 invbox.poketeballs = InvItem("Poketeballs", "A ball you can use to catch Poketes")
