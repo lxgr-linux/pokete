@@ -537,10 +537,7 @@ def movemap_add_obs():
     movemap.name_label.add(movemap, 2, movemap.height-2)
     movemap.balls_label.add(movemap, 4+len(movemap.name_label.text), movemap.height-2)
     movemap.underline.add(movemap, 0, movemap.height-2)
-    movemap.deck_label.add(movemap, 0, movemap.height-1)
-    movemap.exit_label.add(movemap, 9, movemap.height-1)
-    movemap.map_label.add(movemap, 18, movemap.height-1)
-    movemap.inv_label.add(movemap, 26, movemap.height-1)
+    movemap.label.add(movemap, 0, movemap.height-1)
     movemap.code_label.add(movemap, 0, 0)
 
 
@@ -876,7 +873,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fightmap.outp.rechar("You threw a poketeball!")
                         fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
                         time.sleep(random.choice([1,2,3,4]))
-                        figure.inv["poketeballs"] -= 1
+                        figure.inv["poketeball"] -= 1
                         if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
                             enem.player = True
                             figure.pokes.append(enem)
@@ -1102,7 +1099,7 @@ def game(map):
         # checking for resizing
         width, height = os.get_terminal_size()
         if movemap.width != width or movemap.height != height-1:
-            for ob in [movemap.underline, movemap.deck_label, movemap.exit_label, movemap.code_label, movemap.name_label, movemap.balls_label, movemap.map_label, movemap.inv_label]:
+            for ob in [movemap.underline, movemap.label, movemap.code_label, movemap.name_label, movemap.balls_label]:
                 ob.remove()
             movemap.resize(height-1, width, " ")
             movemap_add_obs()
@@ -1261,10 +1258,7 @@ movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = Figure("a")
 exclamation = se.Object("!")
 multitext = se.Text("", state="float")
-movemap.deck_label = se.Text("1: Deck")
-movemap.exit_label = se.Text("2: Exit")
-movemap.map_label = se.Text("3: Map")
-movemap.inv_label = se.Text("4: Inv.")
+movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.")
 movemap.code_label = se.Text("")
 
 # menubox
@@ -1469,10 +1463,7 @@ fightmap.e_sideline = se.Square("|", 1, 3, state="float")
 fightmap.p_upperline = se.Text("+----------------", state="float")
 fightmap.p_sideline = se.Square("|", 1, 4, state="float")
 fightmap.outp = se.Text("", state="float")
-fightmap.attack = se.Text("1: Attack")
-fightmap.run = se.Text("2: Run!")
-fightmap.catch = se.Text("3: Catch")
-fightmap.summon = se.Text("4: Deck")
+fightmap.label = se.Text("1: Attack  2: Run!  3: Catch  4: Deck")
 fightmap.shines = [se.Object(Color.thicc+Color.green+"*"+Color.reset) for i in range(4)]
 deadico1 = se.Text("""
     \ /
@@ -1494,10 +1485,7 @@ fightmap.p_upperline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.tex
 fightmap.frame_big.add(fightmap, 0, 0)
 fightmap.p_sideline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-9)
 fightmap.frame_small.add(fightmap, 0, fightmap.height-5)
-fightmap.attack.add(fightmap, 0, fightmap.height-1)
-fightmap.run.add(fightmap, 11, fightmap.height-1)
-fightmap.catch.add(fightmap, 20, fightmap.height-1)
-fightmap.summon.add(fightmap, 30, fightmap.height-1)
+fightmap.label.add(fightmap, 0, fightmap.height-1)
 
 # fightbox
 fightbox = ChooseBox(6, 25, "Attacks", 1)
