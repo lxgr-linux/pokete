@@ -12,6 +12,7 @@ from pathlib import Path
 from pokete_data.poketes import *
 from pokete_data.attacks import *
 from pokete_data.maps import *
+from pokete_data.classes import *
 
 # Class definition
 ##################
@@ -24,7 +25,7 @@ class HightGrass(se.Object):
 
 class Poketeball(se.Object):
     def action(self, ob):
-        figure.inv["poketeballs"] += 1
+        figure.inv["poketeball"] += 1
         self.remove()
 
 # The following two classes (PC and Heal) where initially needed to manage healing
@@ -53,13 +54,6 @@ class Color:
     yellow = "\033[33m"
     lightblue = "\033[1;34m"
     blue = "\033[34m"
-
-
-class InvItem:
-    def __init__(self, name, desc, price):
-        self.name = name
-        self.desc = desc
-        self.price = price
 
 
 class Trainer(se.Object):
@@ -102,13 +96,6 @@ class Trainer(se.Object):
                 self.set(self.x, self.y+(1 if self.y < self.sy else -1))
                 movemap.full_show()
                 time.sleep(0.3)
-
-
-class PokeType():
-    def __init__(self, name, effective, ineffective):
-        self.name = name
-        self.effective = effective
-        self.ineffective = ineffective
 
 
 class CenterInteract(se.Object):
@@ -279,19 +266,6 @@ class Poke():
         fightmap.show()
 
 
-class Attack():
-    def __init__(self, index):
-        for i in attacs[index]:
-            exec("self."+i+"=attacs[index][i]")
-        self.type = eval(attacs[index]["type"])
-        self.max_ap = self.ap
-        self.label_name = se.Text(self.name, esccode=Color.underlined)
-        self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
-        self.label_factor = se.Text("Attack:"+str(self.factor))
-        self.desc = se.Text(self.desc[:int(se.width/2-1)])
-        self.label_type = se.Text("Type:"+self.type.name)
-
-
 class Station(se.Square):
     choosen = None
     def __init__(self, associate, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
@@ -315,18 +289,6 @@ class Station(se.Square):
         if ne != "":
             self.unchoose()
             exec(ne+".choose()")
-
-
-class PlayMap(se.Map):
-    def __init__(self, height=se.height-1, width=se.width, background="#", trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
-        super().__init__(height=height, width=width, background=background, dynfps=dynfps)
-        for i in ["trainers", "name", "pretty_name", "poke_args"]:
-            exec("self."+i+"="+i)
-        self.__extra_actions = extra_actions
-
-    def extra_actions(self):
-        if self.__extra_actions != None:
-            self.__extra_actions()
 
 
 class Figure(se.Object):
@@ -386,33 +348,17 @@ class Figure(se.Object):
             box.set_ob(box.money_label, box.width-2-len(box.money_label.text), 0)
 
 
-class Box(se.Box):
-    def __init__(self, height, width, name=""):
-        super().__init__(height, width)
-        self.frame = se.Frame(width=width, height=height, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
-        self.inner = se.Square(char=" ", width=width-2, height=height-2, state="float")
-        self.name_label = se.Text(name)
-        # adding
-        self.add_ob(self.frame, 0, 0)
-        self.add_ob(self.inner, 1, 1)
-        self.add_ob(self.name_label, 2, 0)
-
-
-class ChooseBox(Box):
-    def __init__(self, height, width, name="", index_x=2):
-        super().__init__(height, width, name)
-        self.index_x = index_x
-        self.index = se.Object("*")
-        self.index.index = 0
-        # adding
-        self.add_ob(self.index, self.index_x, 1)
-
-    def input(self, ev, list):
-        if {"'s'": self.index.index+1 < len(list), "'w'": self.index.index-1 >= 0}[ev]:
-            self.index.index += {"'s'": 1, "'w'": -1}[ev]
-        else:
-            self.index.index = {"'s'": 0, "'w'": len(list)-1}[ev]
-        self.set_ob(self.index, self.index.rx, list[self.index.index].ry)
+class Attack():
+    def __init__(self, index):
+        for i in attacs[index]:
+            exec("self."+i+"=attacs[index][i]")
+        self.type = eval(attacs[index]["type"])
+        self.max_ap = self.ap
+        self.label_name = se.Text(self.name, esccode=Color.underlined)
+        self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
+        self.label_factor = se.Text("Attack:"+str(self.factor))
+        self.desc = se.Text(self.desc[:int(se.width/2-1)])
+        self.label_type = se.Text("Type:"+self.type.name)
 
 
 # General use functions
