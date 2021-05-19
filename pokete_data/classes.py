@@ -9,7 +9,6 @@ class PlayMap(se.Map):
 
     def extra_actions(self):
         if self.__extra_actions != None:
-
             self.__extra_actions()
 
 

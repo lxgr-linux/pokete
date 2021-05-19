@@ -30,6 +30,8 @@ pokes = {
         "lose_xp": 2,
         "rarity": 1,
         "type": "stone",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """ +-------+
  | o   o |
  |  www  |
@@ -46,6 +48,8 @@ pokes = {
         "lose_xp": 3,
         "rarity": 0.7,
         "type": "stone",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """   A-A-A
   < o o >
   < --- >
@@ -62,6 +66,8 @@ pokes = {
        "lose_xp": 2,
        "rarity": 1,
        "type": "stone",
+       "evolve_poke": "",
+       "evolve_lvl": 0,
        "ico": """
    _____
    |'ᵕ'|
@@ -78,6 +84,8 @@ pokes = {
       "lose_xp": 2,
       "rarity": 0.8,
       "type": "plant",
+      "evolve_poke": "",
+      "evolve_lvl": 0,
       "ico": """
     (@)
      |
@@ -94,6 +102,8 @@ pokes = {
       "lose_xp": 2,
       "rarity": 1,
       "type": "normal",
+      "evolve_poke": "",
+      "evolve_lvl": 0,
       "ico": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
@@ -110,6 +120,8 @@ pokes = {
         "lose_xp": 2,
         "rarity": 1,
         "type": "flying",
+        "evolve_poke": "voglo",
+        "evolve_lvl": 30,
         "ico":"""    A
    <')
     www*
@@ -126,6 +138,8 @@ pokes = {
         "lose_xp": 2,
         "rarity": 0.8,
         "type": "flying",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico":"""    ?
    >´)
     www*
@@ -142,6 +156,8 @@ pokes = {
         "rarity": 0.6,
         "lose_xp": 2,
         "type": "flying",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico":"""   !
   >´)
     \www'
@@ -158,6 +174,8 @@ pokes = {
         "lose_xp": 1,
         "rarity": 3,
         "type": "water",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico":"""
 
   <°))))><
@@ -174,6 +192,8 @@ pokes = {
         "lose_xp": 2,
         "rarity": 1,
         "type": "normal",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """  >'({{{
   }}}}}}}
  {{{{{{{{{
@@ -190,6 +210,8 @@ pokes = {
         "lose_xp": 2,
         "rarity": 1,
         "type": "plant",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """    (()
    (()))
      H
@@ -206,6 +228,8 @@ pokes = {
         "lose_xp": 2,
         "rarity": 1.3,
         "type": "flying",
+        "evolve_poke": "bator",
+        "evolve_lvl": 30,
         "ico": """    ___
 WW\/* *\/WW
    \\v-v/
@@ -222,6 +246,8 @@ WW\/* *\/WW
         "lose_xp": 3,
         "rarity": 0.2,
         "type": "flying",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """    ___
 WW\/o o\/WW
    |v-v|
@@ -239,6 +265,8 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 1,
         "type": "water",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """  _____
  / o   \\
  >   v  ><
@@ -255,6 +283,8 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 0.5,
         "type": "flying",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """   ,___,
    {o,o}
    /)_)
@@ -272,6 +302,8 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 1.3,
         "type": "normal",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """   ^---^
    \o o/
    >\./<
@@ -288,6 +320,8 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 1,
         "type": "normal",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """ \\
  =')~
    (¯¯¯¯)~
@@ -304,6 +338,8 @@ WW\/o o\/WW
         "rarity": 1,
         "lose_xp": 2,
         "type": "normal",
+        "evolve_poke": "hornita",
+        "evolve_lvl": 30,
         "ico": """  ,
  =')
    (¯¯¯)~
@@ -320,6 +356,8 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 1,
         "type": "plant",
+        "evolve_poke": "treenator",
+        "evolve_lvl": 30,
         "ico": """
     (()
    (()))"""
@@ -335,6 +373,8 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 1,
         "type": "fire",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """   ^---^
    (* *)
    >(.)<"""
@@ -350,6 +390,8 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 0.5,
         "type": "ground",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """   _____
   / o o \\
   | ___ |

@@ -167,7 +167,7 @@ class Poke():
         self.xp = xp
         self.player = player
         self.identifier = poke
-        for name in ["hp", "attacs", "name", "miss_chance", "lose_xp"]:
+        for name in ["hp", "attacs", "name", "miss_chance", "lose_xp", "evolve_poke", "evolve_lvl"]:
             exec("self."+name+" = pokes[self.identifier][name]")
         self.type = eval(pokes[self.identifier]["type"])
         self.full_hp = self.hp
@@ -264,6 +264,9 @@ class Poke():
         for i in fightmap.shines:
             i.remove()
         fightmap.show()
+
+    def evolve(self):
+        return Poke(self.evolve_poke, self.xp)
 
 
 class Station(se.Square):
@@ -595,9 +598,7 @@ def fight_clean_up(player, enemy):
         fightbox.rem_ob(ob)
 
 
-def fight_add(player, enemy):
-    for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar], [7, 16, 1, 1, 1, fightmap.width-14, 8], [3, 3, 1, 2, 3, 2, 3]):
-        ob.add(fightmap, x, y)
+def fight_add_3(player, enemy):
     if player.identifier != "__fallback__":
         player.text_name.add(fightmap, fightmap.width-17, fightmap.height-9)
         player.text_lvl.add(fightmap, fightmap.width-17, fightmap.height-8)
@@ -606,10 +607,6 @@ def fight_add(player, enemy):
         player.hp_bar.add(fightmap, fightmap.width-10, fightmap.height-7)
         player.text_hp.add(fightmap, fightmap.width-17, fightmap.height-7)
         player.ico.add(fightmap, 3, fightmap.height-10)
-    if enemy.name in [ob.name for ob in figure.pokes]:
-        enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
-    for ob, y in zip(player.atc_labels, range(4)):
-        fightbox.add_ob(ob, 2, 1+y)
     return [player, enemy]
 
 
@@ -899,7 +896,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fight_clean_up(player, enemy)
                         new_player = deck(figure.pokes[:6], "Your deck", True)
                         player = new_player if new_player != None else player
-                        players = fight_add(player, enemy)
+                        fight_add_1(player, enemy)
+                        players = fight_add_3(player, enemy)
                         fightmap.outp.rechar("You have choosen "+player.name)
                         fightmap.show(init=True)
                         attack = ""
@@ -1141,25 +1139,26 @@ else:
             with Listener(on_press=on_press) as listener:
                 listener.join()
 
+__t = time.time()
 # resizing screen
 width, height = os.get_terminal_size()
 tss = se.Map(background=" ")
-warning_label = se.Text("Minimum windowsize is 70x20")
-size_label = se.Text(str(width)+"x"+str(height))
-frame = se.Frame(width=width, height=height-1, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+tss.warning_label = se.Text("Minimum windowsize is 70x20")
+tss.size_label = se.Text(str(width)+"x"+str(height))
+tss.frame = se.Frame(width=width, height=height-1, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
 
-warning_label.add(tss, int(tss.width/2)-13, int(tss.height/2)-1)
-size_label.add(tss, 1, 0)
-frame.add(tss, 0, 0)
+tss.warning_label.add(tss, int(tss.width/2)-13, int(tss.height/2)-1)
+tss.size_label.add(tss, 1, 0)
+tss.frame.add(tss, 0, 0)
 while width < 70 or height < 20:
     width, height = os.get_terminal_size()
-    warning_label.set(1, 1)
-    frame.remove()
+    tss.warning_label.set(1, 1)
+    tss.frame.remove()
     tss.resize(height-1, width, " ")
-    warning_label.set(int(tss.width/2)-13, int(tss.height/2)-1)
-    size_label.rechar(str(width)+"x"+str(height))
-    frame = se.Frame(width=width, height=height-1, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
-    frame.add(tss, 0, 0)
+    tss.warning_label.set(int(tss.width/2)-13, int(tss.height/2)-1)
+    tss.size_label.rechar(str(width)+"x"+str(height))
+    tss.frame = se.Frame(width=width, height=height-1, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+    tss.frame.add(tss, 0, 0)
     tss.show()
 
 # loading screen
@@ -1292,11 +1291,11 @@ for map in map_data:
         exec(map+'.'+ball+'.add('+map+', map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
 
 # playmap_1
-playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
+#playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
 playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 # adding
 playmap_1.dor.add(playmap_1, 25, 4)
-playmap_1.meadow.add(playmap_1, 5, 7)
+#playmap_1.meadow.add(playmap_1, 5, 7)
 
 # cave_1
 cave_1.inner = se.Text("""##########################################
@@ -1342,11 +1341,9 @@ playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
 ~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230}, state="float")
-#playmap_4.ball = Poketeball(Color.thicc+Color.red+"o"+Color.reset, state="float")
 # adding
 playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
 playmap_4.lake_1.add(playmap_4, 0, 0)
-#playmap_4.ball.add(playmap_4, 0, 44)
 
 # playmap_5
 playmap_5.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass, ob_args=playmap_5.poke_args)
@@ -1496,7 +1493,7 @@ invbox.money_label = se.Text(str(figure.get_money())+"$")
 # adding
 invbox.add_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
 # invbox2
-invbox2 = Box(7, 21,)
+invbox2 = Box(7, 21)
 invbox2.desc_label = se.Text(" ")
 # adding
 invbox2.add_ob(invbox2.desc_label, 1, 1)
@@ -1514,6 +1511,8 @@ buybox2 = Box(7, 21,)
 buybox2.desc_label = se.Text(" ")
 # adding
 buybox2.add_ob(buybox2.desc_label, 1, 1)
+
+__t = time.time() - __t
 
 if __name__ == "__main__":
     try:
