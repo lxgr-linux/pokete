@@ -257,16 +257,42 @@ class Poke():
 
     def move_shine(self):
         for i, x, y in zip(fightmap.shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):
-            i.add(fightmap, x, y)
-            fightmap.show()
+            i.add(self.ico.map, x, y)
+            self.ico.map.show()
             time.sleep(0.2)
         time.sleep(0.2)
         for i in fightmap.shines:
             i.remove()
-        fightmap.show()
+        self.ico.map.show()
 
     def evolve(self):
-        return Poke(self.evolve_poke, self.xp)
+        new = Poke(self.evolve_poke, self.xp)
+        self.ico.remove()
+        self.ico.add(evomap, round(evomap.width/2-4), round((evomap.height-8)/2))
+        evomap.show()
+        self.move_shine()
+        evomap.outp.rechar("Look!")
+        evomap.show()
+        time.sleep(0.5)
+        evomap.outp.rechar(evomap.outp.text+"\n"+self.name+" is evolving!")
+        evomap.show()
+        time.sleep(1)
+        for i in range(8):
+            for j, k in zip([self.ico, new.ico], [new.ico, self.ico]):
+                j.remove()
+                k.add(evomap, round(evomap.width/2-4), round((evomap.height-8)/2))
+                time.sleep(0.7-i*0.09999)
+                evomap.show()
+        self.ico.remove()
+        new.ico.add(evomap, round(evomap.width/2-4), round((evomap.height-8)/2))
+        evomap.show()
+        time.sleep(0.01)
+        new.move_shine()
+        evomap.outp.rechar(self.name+" evolved to "+new.name+"!")
+        evomap.show()
+        time.sleep(5)
+        figure.pokes[figure.pokes.index(self)] = new
+        del self
 
 
 class Station(se.Square):
@@ -1483,6 +1509,14 @@ fightmap.frame_big.add(fightmap, 0, 0)
 fightmap.p_sideline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-9)
 fightmap.frame_small.add(fightmap, 0, fightmap.height-5)
 fightmap.label.add(fightmap, 0, fightmap.height-1)
+
+# evomap
+evomap = se.Map(height-1, width, " ")
+evomap.frame_small = se.Frame(height=4, width=evomap.width, state="float")
+evomap.outp = se.Text("", state="float")
+# adding
+evomap.frame_small.add(evomap, 0, evomap.height-5)
+evomap.outp.add(evomap, 1, evomap.height-4)
 
 # fightbox
 fightbox = ChooseBox(6, 25, "Attacks", 1)
