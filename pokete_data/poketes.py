@@ -17,6 +17,8 @@ pokes = {
         "lose_xp": 0,
         "rarity": 0,
         "type": "normal",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
         "ico": """ """,
     },
     "steini": {
@@ -121,7 +123,7 @@ pokes = {
         "rarity": 1,
         "type": "flying",
         "evolve_poke": "voglo",
-        "evolve_lvl": 30,
+        "evolve_lvl": 20,
         "ico":"""    A
    <')
     www*
@@ -229,7 +231,7 @@ pokes = {
         "rarity": 1.3,
         "type": "flying",
         "evolve_poke": "bator",
-        "evolve_lvl": 30,
+        "evolve_lvl": 20,
         "ico": """    ___
 WW\/* *\/WW
    \\v-v/
@@ -339,7 +341,7 @@ WW\/o o\/WW
         "lose_xp": 2,
         "type": "normal",
         "evolve_poke": "hornita",
-        "evolve_lvl": 30,
+        "evolve_lvl": 20,
         "ico": """  ,
  =')
    (¯¯¯)~
@@ -357,7 +359,7 @@ WW\/o o\/WW
         "rarity": 1,
         "type": "plant",
         "evolve_poke": "treenator",
-        "evolve_lvl": 30,
+        "evolve_lvl": 20,
         "ico": """
     (()
    (()))"""

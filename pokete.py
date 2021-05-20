@@ -956,6 +956,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             winner.move_shine()
             time.sleep(0.5)
             winner.set_vars()
+            if winner.lvl() >= winner.evolve_lvl:
+                winner.evolve()
     fightmap.show()
     time.sleep(1)
     ico = [ob for ob in players if ob != winner][0].ico

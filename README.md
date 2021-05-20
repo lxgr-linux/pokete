@@ -55,7 +55,7 @@ flying|plant|stone
 - Add a wizard to set name and choose starter Pokete at the start
 - Add More maps
 - Add types for attacks and Poketes --- Done
-- Add evolving
+- Add evolving --- Done
 - Add more than one Pokete for trainers
 - Coloured Poketes
 - A store to buy Poketeballs --- Done
