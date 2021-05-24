@@ -219,10 +219,11 @@ class Poke():
 
     def attack(self, attac, enem):
         if attac.ap > 0:
-            time.sleep(0.4)
-            exec("self.move_"+attac.move+"()")
+            self.enem = enem
             enem.oldhp = enem.hp
             self.oldhp = self.hp
+            time.sleep(0.4)
+            exec("self.move_"+attac.move+"()")
             effectivity = 1.5 if enem.type.name in attac.type.effective else 0.5 if enem.type.name in attac.type.ineffective else 1
             n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0]*effectivity)
             enem.hp -= n_hp if n_hp >= 0 else 0
@@ -254,6 +255,19 @@ class Poke():
             self.ico.move(0, i)
             fightmap.show()
             time.sleep(0.3)
+
+    def move_throw(self):
+        line = se.Line(" ", self.enem.ico.x-self.ico.x+(-11 if self.player else 11), self.enem.ico.y-self.ico.y, type="crippled")
+        line.add(self.ico.map, self.ico.x+(11 if self.player else -1), self.ico.y+1)
+        self.ico.map.show()
+        for i in range(len(line.obs)):
+            line.obs[i].rechar("#")
+            if i != 0:
+                line.obs[i-1].rechar(line.char)
+            time.sleep(0.05)
+            self.ico.map.show()
+        line.remove()
+        del line
 
     def move_shine(self):
         for i, x, y in zip(fightmap.shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):

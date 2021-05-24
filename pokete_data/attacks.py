@@ -267,7 +267,7 @@ attacs = {
         "name": "Brick throw",
         "factor": 2,
         "action": "",
-        "move": "attack",
+        "move": "throw",
         "miss_chance": 0.3,
         "min_lvl": 15,
         "desc": "Throws an euler brick at the enemy",
