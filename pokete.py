@@ -970,7 +970,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             winner.move_shine()
             time.sleep(0.5)
             winner.set_vars()
-            if winner.lvl() >= winner.evolve_lvl:
+            if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
                 winner.evolve()
     fightmap.show()
     time.sleep(1)
