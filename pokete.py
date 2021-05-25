@@ -222,13 +222,13 @@ class Poke():
             self.enem = enem
             enem.oldhp = enem.hp
             self.oldhp = self.hp
-            time.sleep(0.4)
-            exec("self.move_"+attac.move+"()")
             effectivity = 1.5 if enem.type.name in attac.type.effective else 0.5 if enem.type.name in attac.type.ineffective else 1
             n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0]*effectivity)
             enem.hp -= n_hp if n_hp >= 0 else 0
             if enem.hp < 0:
                 enem.hp = 0
+            time.sleep(0.4)
+            exec("self.move_"+attac.move+"()")
             exec(attac.action)
             attac.ap -= 1
             fightmap.outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else "")+("\nThat was very effective! " if effectivity == 1.5 and n_hp > 0 else "")+("\nThat was not effective! " if effectivity == 0.5 and n_hp > 0 else ""))
