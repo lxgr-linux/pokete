@@ -45,6 +45,8 @@ ground|normal|flying
 electro|stone, flying|ground
 flying|plant|stone
 
+For additonal information you can see [wiki](wiki.md).
+
 ## Tips
 - In conversations you can very easily skip the text printing by pressing any key
 - When you want to see the next text in a conversation, also just press any key
