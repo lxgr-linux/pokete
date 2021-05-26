@@ -1,25 +1,25 @@
 # Pokete
 
 ## What is it?
-Pokete is a small terminal based game in the style of a very popular and old game from gamefreak.
+Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak.
 
 ## Installation
-For linux just do this:
-```Shell
-$ git clone https://github.com/lxgr-linux/scrap_engine.git
+For Linux just do this:
+```shell
+# pip install scrap_engine
 $ git clone https://github.com/lxgr-linux/pokete.git
-$ cp ./scrap_engine/scrap_engine.py ./pokete
 $ ./pokete/pokete.py
 ```
-For windows first install pynput and then do a windows equivalent to the above.
+For windows first install pynput and then do a Windows equivalent to the above.
 
 ## How to play?
 Imagine your a Pokete-Trainer and your goal is it to run aroud in the world and catch/train as many Poketes as possible and to get the best trainer.
 
 First of all you get a starter Pokete (Steini), that you can use to fight battles with other Poketes. (The player name and the starter Pokete will be chosen using a wizard later).
 The controls are w a s d to walk around.
-When entering the high grass (;), you may be attacked by a wild Pokete. You can choose between the attacks (as long their AP is over 0) your Pokete got, by pressing the according number. The wild Pokete will fight back, you can kill it and gain XP to level up your Pokete or you can catch it to let it fight for you. To catch a Pokete you have to first weaken the enemy and then throw a Poketeball. And with a bit luck you can catch it.
-Pressing the "1" key you can take a look at your current deck, see the detailed information of your pokete and your attacks or rearrange them.
+
+When entering the high grass (;), you may be attacked by a wild Pokete. By pressing 1 you can choose between the attacks (as long their AP is over 0) your Pokete got, by pressing the according number, or navigating the "*"-cursor to the attack and pressing enter. The wild Pokete will fight back, you can kill it and gain XP to level up your Pokete or you can catch it to let it fight for you. To catch a Pokete you have to first weaken the enemy and then throw a Poketeball. And with a bit luck you can catch it.
+Pressing the "1" key you can take a look at your current deck, see the detailed information of your Pokete and your attacks or rearrange them.
 Changes will only be saved by quitting the game using the exit function.
 
 Since your a Pokete-Trainer, you can also fight against other trainers, the one other "a", that's staying in the middle of the landscape will start a fight with you, when you go into his way. You can not escape from such a trainer fight, you either have to win, or lose. Those trainer fights give double the XP.
@@ -48,7 +48,7 @@ flying|plant|stone
 ## Tips
 - In conversations you can very easily skip the text printing by pressing any key
 - When you want to see the next text in a conversation, also just press any key
-- Don't play on fullscreen, the game then starts to be overseeable
+- Don't play on full-screen, the game then starts to be overseeable
 - Don't be offended by the other trainers, they may swear at you
 
 ## TODO
@@ -61,7 +61,7 @@ flying|plant|stone
 - [x] A store to buy Poketeballs
 
 ## Dependencies
-Pokete depends on python3 and the python-scrap_engine module.
+Pokete depends on python3 and the scrap_engine module.
 On windows pynput has to be installed too.
 
 ## Contributing
