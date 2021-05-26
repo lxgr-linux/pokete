@@ -52,13 +52,13 @@ flying|plant|stone
 - Don't be offended by the other trainers, they may swear at you
 
 ## TODO
-- Add a wizard to set name and choose starter Pokete at the start
-- Add More maps
-- Add types for attacks and Poketes --- Done
-- Add evolving --- Done
-- Add more than one Pokete for trainers
-- Coloured Poketes
-- A store to buy Poketeballs --- Done
+- [ ] Add a wizard to set name and choose starter Pokete at the start
+- [ ] Add More maps
+- [x] Add types for attacks and Poketes
+- [x] Add evolving
+- [ ] Add more than one Pokete for trainers
+- [ ] Coloured Poketes
+- [x] A store to buy Poketeballs
 
 ## Dependencies
 Pokete depends on python3 and the python-scrap_engine module.
