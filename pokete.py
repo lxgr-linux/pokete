@@ -353,7 +353,7 @@ class Figure(se.Object):
             for i, atc in enumerate(poke.attac_obs):
                 poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
         try:
-            if eval(session_info["map"]) == centermap:  # Looking if figure would be in centermap, so the player may spawn out of the center
+            if eval(session_info["map"]) in [centermap, shopmap]:  # Looking if figure would be in centermap, so the player may spawn out of the center
                 self.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
             else:
                 self.add(eval(session_info["map"]), session_info["x"], session_info["y"])
@@ -786,7 +786,7 @@ def roadmap():
     global ev
     ev = ""
     mapbox.add(movemap, movemap.width-mapbox.width, 0)
-    [i for i in [mapbox.a, mapbox.b, mapbox.c, mapbox.d, mapbox.e, mapbox.f, mapbox.g] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5]][0]][0].choose()
+    [i for i in [mapbox.a, mapbox.b, mapbox.c, mapbox.d, mapbox.e, mapbox.f, mapbox.g, mapbox.h] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5, playmap_9]][0]][0].choose()
     movemap.show()
     while True:
         if ev in ["'w'", "'a'", "'s'", "'d'"]:
@@ -1276,6 +1276,11 @@ playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", prett
                     trainers = [Trainer("Caveman Dieter", "He", Poke("steini", 400, player=False), [" < Oh!", " < I didn't see you comming"], [" < My steini is old but classy"], [" < I see you don't have a living Pokete"], [" < You're a great trainer!"], 18, 7)],
                     extra_actions = playmap_7_extra_action,
                     poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
+playmap_8 = PlayMap(background=" ", height=20, width=80, name="playmap_8", pretty_name="Route 3",
+                    trainers = [Trainer("Wood man Bert", "He", Poke("gobost", 400, player=False), [" < Do you see this abandoned house?", " < I catches this Pokete in there!"], [" < It is stronger than you might have exspected"], [" < It's pretty cool huh?!"], [" < Oh, yours is better than mine!"], 39, 6)],
+                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290})
+playmap_9 = PlayMap(background=" ", height=15, width=30, name="playmap_9", pretty_name="Abandoned house",
+                    poke_args = {"pokes": ["gobost", "rato"], "minlvl": 230, "maxlvl": 290})
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1286,8 +1291,9 @@ mapbox.b = Station(cave_1, 1, 2, s_next="mapbox.a", d_next="mapbox.c")
 mapbox.c = Station(playmap_2, 2, 1, a_next="mapbox.b", d_next="mapbox.d")
 mapbox.d = Station(playmap_3, 2, 1, a_next="mapbox.c", w_next="mapbox.e", s_next="mapbox.f")
 mapbox.e = Station(playmap_4, 1, 3, s_next="mapbox.d")
-mapbox.f = Station(playmap_6, 1, 2, w_next="mapbox.d", a_next="mapbox.g")
+mapbox.f = Station(playmap_6, 1, 2, w_next="mapbox.d", a_next="mapbox.g", d_next="mapbox.h")
 mapbox.g = Station(playmap_7, 1, 1, d_next="mapbox.f")
+mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f")
 mapbox.add_ob(mapbox.a, 5, 7)
 mapbox.add_ob(mapbox.b, 6, 5)
 mapbox.add_ob(mapbox.c, 7, 5)
@@ -1295,6 +1301,7 @@ mapbox.add_ob(mapbox.d, 9, 5)
 mapbox.add_ob(mapbox.e, 10, 2)
 mapbox.add_ob(mapbox.f, 10, 6)
 mapbox.add_ob(mapbox.g, 9, 7)
+mapbox.add_ob(mapbox.h, 11, 7)
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
@@ -1420,6 +1427,20 @@ for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i)
     ob.rechar(" ")
 # adding
 playmap_7.inner.add(playmap_7, 0, 0)
+
+# playmap_9
+playmap_9.inner = se.Text("""
+#########################
+#########################
+###       #  #         ##
+#         ####          #
+#                       #
+##                      #
+#               #########
+############ ############
+#########################""", ignore="#", ob_class=HightGrass, ob_args=playmap_9.poke_args, state="float")
+# adding
+playmap_9.inner.add(playmap_9, 2, 1)
 
 # adding all trainer to map
 for map in map_data:
