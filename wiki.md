@@ -60,6 +60,7 @@ A squared stone that can casually be found on the ground
  |  www  |
  +-------+ 
 ```
+
 - Type: Stone
 - Health points: 25
 - Attack factor: level+2
@@ -70,7 +71,7 @@ A squared stone that can casually be found on the ground
 - Attacks:
    + [Tackle](#tackle)
    + [Politure](#politure)
-   + [Brick throw](#brick_throw)
+   + [Brick throw](#brick-throw)
 
 - Does not evolve
     
@@ -82,6 +83,7 @@ A powerfull and heavy stone Pokete that lives in mountain caves
   < --- >
    VvVvV
 ```
+
 - Type: Stone
 - Health points: 25
 - Attack factor: level+2
@@ -92,7 +94,7 @@ A powerfull and heavy stone Pokete that lives in mountain caves
 - Attacks:
    + [Tackle](#tackle)
    + [Politure](#politure)
-   + [Earch quake](#earch_quake)
+   + [Earch quake](#earch-quake)
 
 - Does not evolve
     
@@ -104,6 +106,7 @@ A small but powerfull stone Pokete that lives in the mountains
    |'ᵕ'|
    ‾‾‾‾‾
 ```
+
 - Type: Stone
 - Health points: 20
 - Attack factor: level+1
@@ -114,7 +117,7 @@ A small but powerfull stone Pokete that lives in the mountains
 - Attacks:
    + [Tackle](#tackle)
    + [Politure](#politure)
-   + [Pepple fire](#pepple_fire)
+   + [Pepple fire](#pepple-fire)
 
 - Does not evolve
     
@@ -126,6 +129,7 @@ A plant Pokete, that's often mistaken for a normal flower
      |
     \|/
 ```
+
 - Type: Plant
 - Health points: 20
 - Attack factor: level
@@ -135,7 +139,7 @@ A plant Pokete, that's often mistaken for a normal flower
 - Loosing experience: 2
 - Attacks:
    + [Sucker](#sucker)
-   + [Super sucker](#super_sucker)
+   + [Super sucker](#super-sucker)
 
 - Does not evolve
     
@@ -147,6 +151,7 @@ A scary ghost Pokete that lives in caves and old houses
  ░░░░░░░░░
  ░ ░ ░ ░ ░
 ```
+
 - Type: Normal
 - Health points: 20
 - Attack factor: level+2
@@ -156,7 +161,7 @@ A scary ghost Pokete that lives in caves and old houses
 - Loosing experience: 3
 - Attacks:
    + [Tackle](#tackle)
-   + [Mind blow](#mind_blow)
+   + [Mind blow](#mind-blow)
 
 - Does not evolve
     
@@ -168,6 +173,7 @@ A very common bird Pokete that lives in town but also in the nature
     www*
     ||     
 ```
+
 - Type: Flying
 - Health points: 20
 - Attack factor: level+6
@@ -177,7 +183,7 @@ A very common bird Pokete that lives in town but also in the nature
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Power pick](#power_pick)
+   + [Power pick](#power-pick)
 
 - Evolves to Voglo at level 20
     
@@ -189,6 +195,7 @@ A very agressive bird Pokete that can only be found in the woods
     www*
     ||     
 ```
+
 - Type: Flying
 - Health points: 20
 - Attack factor: level+7
@@ -198,8 +205,8 @@ A very agressive bird Pokete that can only be found in the woods
 - Loosing experience: 3
 - Attacks:
    + [Tackle](#tackle)
-   + [Power pick](#power_pick)
-   + [Wing hit](#wing_hit)
+   + [Power pick](#power-pick)
+   + [Wing hit](#wing-hit)
    + [Brooding](#brooding)
 
 - Does not evolve
@@ -212,6 +219,7 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
     \www'
      ||
 ```
+
 - Type: Flying
 - Health points: 20
 - Attack factor: level+8
@@ -221,7 +229,7 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
 - Loosing experience: 4
 - Attacks:
    + [Tackle](#tackle)
-   + [Eye pick](#eye_pick)
+   + [Eye pick](#eye-pick)
    + [Brooding](#brooding)
 
 - Does not evolve
@@ -234,6 +242,7 @@ A very harmless water Pokete that can be found everywhere
   <°))))><
            
 ```
+
 - Type: Water
 - Health points: 15
 - Attack factor: level
@@ -254,6 +263,7 @@ A dangerous snake Pokete
  {{{{{{{{{
            
 ```
+
 - Type: Normal
 - Health points: 20
 - Attack factor: level+3
@@ -264,7 +274,7 @@ A dangerous snake Pokete
 - Attacks:
    + [Chocer](#chocer)
    + [Bite](#bite)
-   + [Poison bite](#poison_bite)
+   + [Poison bite](#poison-bite)
 
 - Does not evolve
     
@@ -276,6 +286,7 @@ A scary an dangerous apple tree
      H
      H
 ```
+
 - Type: Plant
 - Health points: 25
 - Attack factor: level+2
@@ -284,8 +295,8 @@ A scary an dangerous apple tree
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Apple drop](#apple_drop)
-   + [Bark hardening](#bark_hardening)
+   + [Apple drop](#apple-drop)
+   + [Bark hardening](#bark-hardening)
 
 - Does not evolve
     
@@ -297,6 +308,7 @@ WW\/* *\/WW
    \v-v/
 
 ```
+
 - Type: Flying
 - Health points: 20
 - Attack factor: level+3
@@ -319,6 +331,7 @@ WW\/o o\/WW
    \___/
 
 ```
+
 - Type: Flying
 - Health points: 25
 - Attack factor: level+4
@@ -329,8 +342,8 @@ WW\/o o\/WW
 - Attacks:
    + [Bite](#bite)
    + [Cry](#cry)
-   + [Poison bite](#poison_bite)
-   + [Wing hit](#wing_hit)
+   + [Poison bite](#poison-bite)
+   + [Wing hit](#wing-hit)
 
 - Does not evolve
     
@@ -342,6 +355,7 @@ Very delicious and low fat water Pokete
  >   v  ><
  \_____/
 ```
+
 - Type: Water
 - Health points: 20
 - Attack factor: level+2
@@ -351,8 +365,8 @@ Very delicious and low fat water Pokete
 - Loosing experience: 5
 - Attacks:
    + [Tackle](#tackle)
-   + [Bubble bomb](#bubble_bomb)
-   + [Bubble shield](#bubble_shield)
+   + [Bubble bomb](#bubble-bomb)
+   + [Bubble shield](#bubble-shield)
 
 - Does not evolve
     
@@ -365,6 +379,7 @@ A night active Pokete, that is looking for lil children as a midnight snack
     ""
 
 ```
+
 - Type: Flying
 - Health points: 20
 - Attack factor: level+7
@@ -374,7 +389,7 @@ A night active Pokete, that is looking for lil children as a midnight snack
 - Loosing experience: 2
 - Attacks:
    + [Pick](#pick)
-   + [Wing hit](#wing_hit)
+   + [Wing hit](#wing-hit)
    + [Cry](#cry)
 
 - Does not evolve
@@ -387,6 +402,7 @@ An annoying rat
    >\./<
 
 ```
+
 - Type: Normal
 - Health points: 20
 - Attack factor: level+4
@@ -396,7 +412,7 @@ An annoying rat
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Tail wipe](#tail_wipe)
+   + [Tail wipe](#tail-wipe)
 
 - Does not evolve
     
@@ -408,6 +424,7 @@ An majestetic horse that is always looking for something to pick with its horn.
    (¯¯¯¯)~
    //¯¯\\
 ```
+
 - Type: Normal
 - Health points: 20
 - Attack factor: level+6
@@ -417,8 +434,8 @@ An majestetic horse that is always looking for something to pick with its horn.
 - Loosing experience: 3
 - Attacks:
    + [Tackle](#tackle)
-   + [Meat skewer](#meat_skewer)
-   + [Tail wipe](#tail_wipe)
+   + [Meat skewer](#meat-skewer)
+   + [Tail wipe](#tail-wipe)
 
 - Does not evolve
     
@@ -430,6 +447,7 @@ A teenaged unicorn in the middle of puberty.
    (¯¯¯)~
    //¯\\
 ```
+
 - Type: Normal
 - Health points: 20
 - Attack factor: level+5
@@ -439,7 +457,7 @@ A teenaged unicorn in the middle of puberty.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Meat skewer](#meat_skewer)
+   + [Meat skewer](#meat-skewer)
 
 - Evolves to Hornita at level 20
     
@@ -450,6 +468,7 @@ A bush, and just a bush. But watch out!
     (()
    (()))
 ```
+
 - Type: Plant
 - Health points: 25
 - Attack factor: level+2
@@ -459,7 +478,7 @@ A bush, and just a bush. But watch out!
 - Loosing experience: 1
 - Attacks:
    + [Tackle](#tackle)
-   + [Bark hardening](#bark_hardening)
+   + [Bark hardening](#bark-hardening)
 
 - Evolves to Treenator at level 20
     
@@ -470,6 +489,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
    (* *)
    >(.)<
 ```
+
 - Type: Fire
 - Health points: 20
 - Attack factor: level+6
@@ -479,7 +499,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Fire bite](#fire_bite)
+   + [Fire bite](#fire-bite)
 
 - Does not evolve
     
@@ -491,6 +511,7 @@ A big chunck of stone and dirt, that roles around.
   | ___ |
   \_____/
 ```
+
 - Type: Ground
 - Health points: 25
 - Attack factor: level+2
@@ -500,7 +521,7 @@ A big chunck of stone and dirt, that roles around.
 - Loosing experience: 3
 - Attacks:
    + [Tackle](#tackle)
-   + [Power roll](#power_roll)
+   + [Power roll](#power-roll)
 
 - Does not evolve
     

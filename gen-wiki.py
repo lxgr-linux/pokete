@@ -23,7 +23,7 @@ for poke in [i for i in pokes][1:]:
     evolve_txt = f"""- Evolves to {pokes[pokes[poke]["evolve_poke"]]["name"]} at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
     md_attacks = ""
     for atc in pokes[poke]["attacs"]:
-        md_attacks += f"""   + [{attacs[atc]["name"]}](#{atc})\n"""
+        md_attacks += f"""   + [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
 
     md_str += f"""
 ### {pokes[poke]["name"]}
@@ -31,6 +31,7 @@ for poke in [i for i in pokes][1:]:
 ```
 {pokes[poke]["ico"]}
 ```
+
 - Type: {pokes[poke]["type"].capitalize()}
 - Health points: {pokes[poke]["hp"]}
 - Attack factor: {pokes[poke]["atc"].replace("self.lvl()", "level")}

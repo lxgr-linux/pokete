@@ -10,6 +10,7 @@ For Linux just do this:
 $ git clone https://github.com/lxgr-linux/pokete.git
 $ ./pokete/pokete.py
 ```
+
 For windows first install pynput and then do a Windows equivalent to the above.
 
 ## How to play?
@@ -69,3 +70,10 @@ On windows pynput has to be installed too.
 ## Contributing
 Feel free to contribute what ever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
+
+After adding new Poketes and/or Attacks you may want to run
+```shell
+$ gen-wiki.py
+```
+
+to regenerate the wiki and adding them to it.
