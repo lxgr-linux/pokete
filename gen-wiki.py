@@ -15,7 +15,7 @@ for j, poke in enumerate([i for i in pokes][1:]):
 md_str += "2. [Attacks](#attacks)\n"
 
 for j, atc in enumerate(attacs):
-    md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc})\n"""
+    md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
 
 md_str += "\n## Poketes"
 
