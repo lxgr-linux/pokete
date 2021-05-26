@@ -937,6 +937,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         new_player = deck(figure.pokes[:6], "Your deck", True)
                         player = new_player if new_player != None else player
                         fight_add_1(player, enemy)
+                        fightbox.set_ob(fightbox.index, fightbox.index.rx, 1)
+                        fightbox.index.index = 0
                         players = fight_add_3(player, enemy)
                         fightmap.outp.rechar("You have choosen "+player.name)
                         fightmap.show(init=True)

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# This script generates the Pokete wiki
 from pokete_data.poketes import *
 from pokete_data.attacks import *
 
@@ -9,6 +10,7 @@ md_str = """
 1. [Poketes](#poketes)
 """
 
+# Table of contents
 for j, poke in enumerate([i for i in pokes][1:]):
     md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
 
@@ -17,6 +19,7 @@ md_str += "2. [Attacks](#attacks)\n"
 for j, atc in enumerate(attacs):
     md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
 
+# Poketes
 md_str += "\n## Poketes"
 
 for poke in [i for i in pokes][1:]:
@@ -44,6 +47,7 @@ for poke in [i for i in pokes][1:]:
 {evolve_txt}
     """
 
+# Attacks
 md_str += """
 ## Attacks
 
