@@ -1,9 +1,57 @@
 
 # Pokete wiki
 
+## Table of contents
+1. [Poketes](#poketes)
+   1. [Steini](#steini)
+   2. [Poundi](#poundi)
+   3. [Lilstone](#lilstone)
+   4. [Rosi](#rosi)
+   5. [Gobost](#gobost)
+   6. [Vogli](#vogli)
+   7. [Voglo](#voglo)
+   8. [Ostri](#ostri)
+   9. [Karpi](#karpi)
+   10. [Würgos](#würgos)
+   11. [Treenator](#treenator)
+   12. [Bato](#bato)
+   13. [Bator](#bator)
+   14. [Blub](#blub)
+   15. [Owol](#owol)
+   16. [Rato](#rato)
+   17. [Hornita](#hornita)
+   18. [Horny](#horny)
+   19. [Bushy](#bushy)
+   20. [Wolfior](#wolfior)
+   21. [Rollator](#rollator)
+2. [Attacks](#attacks)
+   1. [Tackle](#tackle)
+   2. [Pick](#pick)
+   3. [Apple drop](#apple_drop)
+   4. [Eye pick](#eye_pick)
+   5. [Earch quake](#earch_quake)
+   6. [Wing hit](#wing_hit)
+   7. [Super sucker](#super_sucker)
+   8. [Sucker](#sucker)
+   9. [Brooding](#brooding)
+   10. [Pepple fire](#pepple_fire)
+   11. [Cry](#cry)
+   12. [Bite](#bite)
+   13. [Politure](#politure)
+   14. [Bark hardening](#bark_hardening)
+   15. [Chocer](#chocer)
+   16. [Poison bite](#poison_bite)
+   17. [Power pick](#power_pick)
+   18. [Bubble bomb](#bubble_bomb)
+   19. [Bubble shield](#bubble_shield)
+   20. [Mind blow](#mind_blow)
+   21. [Tail wipe](#tail_wipe)
+   22. [Meat skewer](#meat_skewer)
+   23. [Fire bite](#fire_bite)
+   24. [Power roll](#power_roll)
+   25. [Brick throw](#brick_throw)
+
 ## Poketes
-
-
 ### Steini
 A squared stone that can casually be found on the ground
 ```

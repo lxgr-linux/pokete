@@ -2,13 +2,22 @@
 from pokete_data.poketes import *
 from pokete_data.attacks import *
 
-
 md_str = """
 # Pokete wiki
 
-## Poketes
-
+## Table of contents
+1. [Poketes](#poketes)
 """
+
+for j, poke in enumerate([i for i in pokes][1:]):
+    md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
+
+md_str += "2. [Attacks](#attacks)\n"
+
+for j, atc in enumerate(attacs):
+    md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc})\n"""
+
+md_str += "\n## Poketes"
 
 for poke in [i for i in pokes][1:]:
     evolve_txt = f"""- Evolves to {pokes[pokes[poke]["evolve_poke"]]["name"]} at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
