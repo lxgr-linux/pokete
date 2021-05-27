@@ -198,7 +198,7 @@ class Poke():
             ob.ap = old_ob.ap
         self.attac_obs = i
         for ob in self.atc_labels:
-            ob.remove()
+            fightbox.rem_ob(ob)
         self.atc_labels = [se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)) for i, atc in enumerate(self.attac_obs)]
 
     def label_rechar(self):
