@@ -874,9 +874,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                     attack = ob.attac_obs[fightbox.index.index]
                                 else:
                                     attack = ob.attac_obs[int(eval(ev))]
+                                ev = ""
                                 if attack.ap == 0:
                                     continue
-                                ev = ""
                                 fightbox.remove()
                                 fightmap.show()
                                 break
