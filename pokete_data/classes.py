@@ -20,10 +20,11 @@ class PokeType():
 
 
 class InvItem:
-    def __init__(self, name, desc, price):
+    def __init__(self, name, desc, price, fn=None):
         self.name = name
         self.desc = desc
         self.price = price
+        self.fn = fn
 
 
 class Box(se.Box):

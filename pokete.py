@@ -677,6 +677,35 @@ def fight_add_2(player, enemy):
         player.ico.add(fightmap, 3, fightmap.height-10)
 
 
+def fight_throw(ob, enem, info):
+    if ob.identifier == "__fallback__" or info["type"] == "duel":
+        return 1
+    if figure.inv["poketeball"] == 0:
+        fightmap.outp.rechar("You have no poketeballs left!\nWhat do you want to do? ")
+        fightmap.show()
+        return 1
+    fightmap.outp.rechar("You threw a poketeball!")
+    fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
+    time.sleep(random.choice([1,2,3,4]))
+    figure.inv["poketeball"] -= 1
+    if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
+        enem.player = True
+        figure.pokes.append(enem)
+        fightmap.outp.rechar("You catched "+enem.name)
+        fightmap.show()
+        time.sleep(1)
+        pball.remove()
+        fight_clean_up(ob, enem)
+        balls_label_rechar()
+        return 2
+    else:
+        fightmap.outp.rechar("You missed!")
+        fightmap.show()
+        pball.remove()
+        enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
+        fightmap.show()
+
+
 # Functions for buy
 #####################
 
@@ -900,32 +929,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     return enem
                 elif ev == "'3'":
                     ev = ""
-                    if ob.identifier == "__fallback__" or info["type"] == "duel":
+                    a = fight_throw(ob, enem, info)
+                    if a == 1:
                         continue
-                    if figure.inv["poketeballs"] == 0:
-                        fightmap.outp.rechar("You have no poketeballs left!\nWhat do you want to do? ")
-                        fightmap.show()
-                        continue
-                    fightmap.outp.rechar("You threw a poketeball!")
-                    fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
-                    time.sleep(random.choice([1,2,3,4]))
-                    figure.inv["poketeball"] -= 1
-                    if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
-                        enem.player = True
-                        figure.pokes.append(enem)
-                        fightmap.outp.rechar("You catched "+enem.name)
-                        fightmap.show()
-                        time.sleep(1)
-                        pball.remove()
-                        fight_clean_up(player, enemy)
-                        balls_label_rechar()
+                    elif a == 2:
                         return
-                    else:
-                        fightmap.outp.rechar("You missed!")
-                        fightmap.show()
-                        pball.remove()
-                        enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
-                        fightmap.show()
                     attack = ""
                     break
                 elif ev == "'4'":
