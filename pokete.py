@@ -848,116 +848,116 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     fightbox.index.index = 0
     fightmap.show()
     time.sleep(0.5)
-    fight_running = True
-    while fight_running:
-        for ob in players:
-            enem = [i for i in players if i != ob][0]
-            if ob.player:
-                fightmap.outp.rechar(fightmap.outp.text+("\n" if fightmap.outp.text != "" and "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
+    ob = players[0]
+    enem = players[1]
+    while True:
+        if ob.player:
+            fightmap.outp.rechar(fightmap.outp.text+("\n" if fightmap.outp.text != "" and "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
+            fightmap.show()
+            if ob.identifier == "__fallback__":
+                time.sleep(1)
+                fightmap.outp.rechar("You don't have any living poketes left!")
                 fightmap.show()
-                if ob.identifier == "__fallback__":
-                    time.sleep(1)
-                    fightmap.outp.rechar("You don't have any living poketes left!")
+            while True:  # Inputloop for general options
+                if ev == "'1'":
+                    ev = ""
+                    fightbox.add(fightmap, 1, fightmap.height-7)
                     fightmap.show()
-                while True:  # Inputloop for general options
-                    if ev == "'1'":
-                        ev = ""
-                        fightbox.add(fightmap, 1, fightmap.height-7)
-                        fightmap.show()
-                        while True:  # Inputloop for attack options
-                            if ev in ["'s'", "'w'"]:
-                                fightbox.input(ev, ob.atc_labels)
-                                fightmap.show()
-                                ev = ""
-                            elif ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
-                                if ev == "Key.enter":
-                                    attack = ob.attac_obs[fightbox.index.index]
-                                else:
-                                    attack = ob.attac_obs[int(eval(ev))]
-                                ev = ""
-                                if attack.ap == 0:
-                                    continue
-                                fightbox.remove()
-                                fightmap.show()
-                                break
-                            elif ev in ["Key.esc", "'q'"]:
-                                ev = ""
-                                attack = ""
-                                fightbox.remove()
-                                fightmap.show()
-                                break
-                            std_loop()
-                            time.sleep(0.05)
-                        if attack != "":
+                    while True:  # Inputloop for attack options
+                        if ev in ["'s'", "'w'"]:
+                            fightbox.input(ev, ob.atc_labels)
+                            fightmap.show()
+                            ev = ""
+                        elif ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
+                            if ev == "Key.enter":
+                                attack = ob.attac_obs[fightbox.index.index]
+                            else:
+                                attack = ob.attac_obs[int(eval(ev))]
+                            ev = ""
+                            if attack.ap == 0:
+                                continue
+                            fightbox.remove()
+                            fightmap.show()
                             break
-                    elif ev == "'2'":
-                        ev = ""
-                        if info["type"] == "duel" and player.identifier != "__fallback__":
-                            continue
-                        fightmap.outp.rechar("You ran away!")
+                        elif ev in ["Key.esc", "'q'"]:
+                            ev = ""
+                            attack = ""
+                            fightbox.remove()
+                            fightmap.show()
+                            break
+                        std_loop()
+                        time.sleep(0.05)
+                    if attack != "":
+                        break
+                elif ev == "'2'":
+                    ev = ""
+                    if info["type"] == "duel" and player.identifier != "__fallback__":
+                        continue
+                    fightmap.outp.rechar("You ran away!")
+                    fightmap.show()
+                    time.sleep(1)
+                    fight_clean_up(player, enemy)
+                    return enem
+                elif ev == "'3'":
+                    ev = ""
+                    if ob.identifier == "__fallback__" or info["type"] == "duel":
+                        continue
+                    if figure.inv["poketeballs"] == 0:
+                        fightmap.outp.rechar("You have no poketeballs left!\nWhat do you want to do? ")
+                        fightmap.show()
+                        continue
+                    fightmap.outp.rechar("You threw a poketeball!")
+                    fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
+                    time.sleep(random.choice([1,2,3,4]))
+                    figure.inv["poketeball"] -= 1
+                    if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
+                        enem.player = True
+                        figure.pokes.append(enem)
+                        fightmap.outp.rechar("You catched "+enem.name)
                         fightmap.show()
                         time.sleep(1)
+                        pball.remove()
                         fight_clean_up(player, enemy)
-                        return enem
-                    elif ev == "'3'":
-                        ev = ""
-                        if ob.identifier == "__fallback__" or info["type"] == "duel":
-                            continue
-                        if figure.inv["poketeballs"] == 0:
-                            fightmap.outp.rechar("You have no poketeballs left!\nWhat do you want to do? ")
-                            fightmap.show()
-                            continue
-                        fightmap.outp.rechar("You threw a poketeball!")
-                        fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
-                        time.sleep(random.choice([1,2,3,4]))
-                        figure.inv["poketeball"] -= 1
-                        if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
-                            enem.player = True
-                            figure.pokes.append(enem)
-                            fightmap.outp.rechar("You catched "+enem.name)
-                            fightmap.show()
-                            time.sleep(1)
-                            pball.remove()
-                            fight_clean_up(player, enemy)
-                            balls_label_rechar()
-                            return
-                        else:
-                            fightmap.outp.rechar("You missed!")
-                            fightmap.show()
-                            pball.remove()
-                            enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
-                            fightmap.show()
-                        attack = ""
-                        break
-                    elif ev == "'4'":
-                        ev = ""
-                        if ob.identifier == "__fallback__":
-                            continue
-                        fight_clean_up(player, enemy)
-                        new_player = deck(figure.pokes[:6], "Your deck", True)
-                        player = new_player if new_player != None else player
-                        fight_add_1(player, enemy)
-                        fightbox.set_ob(fightbox.index, fightbox.index.rx, 1)
-                        fightbox.index.index = 0
-                        players = fight_add_3(player, enemy)
-                        fightmap.outp.rechar("You have choosen "+player.name)
-                        fightmap.show(init=True)
-                        attack = ""
-                        break
-                    std_loop()
-                    time.sleep(0.1)
-            else:
-                attack = random.choices([ob for ob in ob.attac_obs], weights=[ob.ap for ob in ob.attac_obs])[0]
-            time.sleep(0.3)
-            if attack != "":
-                ob.attack(attack, enem)
-            fightmap.show()
-            time.sleep(0.5)
-            if enem.hp <= 0:
-                winner = ob
-                fight_running = False
-                break
+                        balls_label_rechar()
+                        return
+                    else:
+                        fightmap.outp.rechar("You missed!")
+                        fightmap.show()
+                        pball.remove()
+                        enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
+                        fightmap.show()
+                    attack = ""
+                    break
+                elif ev == "'4'":
+                    ev = ""
+                    if ob.identifier == "__fallback__":
+                        continue
+                    fight_clean_up(player, enemy)
+                    new_player = deck(figure.pokes[:6], "Your deck", True)
+                    player = new_player if new_player != None else player
+                    fight_add_1(player, enemy)
+                    fightbox.set_ob(fightbox.index, fightbox.index.rx, 1)
+                    fightbox.index.index = 0
+                    players = fight_add_3(player, enemy)
+                    fightmap.outp.rechar("You have choosen "+player.name)
+                    fightmap.show(init=True)
+                    attack = ""
+                    break
+                std_loop()
+                time.sleep(0.1)
+        else:
+            attack = random.choices([ob for ob in ob.attac_obs], weights=[ob.ap for ob in ob.attac_obs])[0]
+        time.sleep(0.3)
+        if attack != "":
+            ob.attack(attack, enem)
         fightmap.show()
+        time.sleep(0.5)
+        if enem.hp <= 0:
+            winner = ob
+            break
+        fightmap.show()
+        ob = [i for i in players if i != ob][-1]
+        enem = [i for i in players if i != ob][-1]
     loser = [ob for ob in players if ob != winner][0]
     fightmap.outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp*(2 if info["type"] == "duel" else 1)) if winner.player else ""))
     fightmap.show()
