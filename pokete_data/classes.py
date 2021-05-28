@@ -20,8 +20,9 @@ class PokeType():
 
 
 class InvItem:
-    def __init__(self, name, desc, price, fn=None):
+    def __init__(self, name, pretty_name, desc, price, fn=None):
         self.name = name
+        self.pretty_name = pretty_name
         self.desc = desc
         self.price = price
         self.fn = fn
@@ -32,7 +33,7 @@ class Box(se.Box):
         super().__init__(height, width)
         self.frame = se.Frame(width=width, height=height, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
         self.inner = se.Square(char=" ", width=width-2, height=height-2, state="float")
-        self.name_label = se.Text(name)
+        self.name_label = se.Text(name, state="float")
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
@@ -43,7 +44,7 @@ class ChooseBox(Box):
     def __init__(self, height, width, name="", index_x=2):
         super().__init__(height, width, name)
         self.index_x = index_x
-        self.index = se.Object("*")
+        self.index = se.Object("*", state="float")
         self.index.index = 0
         # adding
         self.add_ob(self.index, self.index_x, 1)

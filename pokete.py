@@ -172,19 +172,19 @@ class Poke():
         self.type = eval(pokes[self.identifier]["type"])
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
-        self.hp_bar = se.Text(8*"#", esccode=Color.green)
+        self.hp_bar = se.Text(8*"#", esccode=Color.green, state="float")
         if _hp != "SKIP":
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
         self.desc = se.Text(liner(pokes[poke]["desc"], se.width-34))
         self.ico = se.Text(pokes[poke]["ico"], state="float")
-        self.text_hp = se.Text("HP:"+str(self.hp))
-        self.text_lvl = se.Text("Lvl:"+str(self.lvl()))
-        self.text_name = se.Text(str(self.name), esccode=Color.underlined)
-        self.text_xp = se.Text("XP:"+str(self.xp-(self.lvl()**2-1))+"/"+str(((self.lvl()+1)**2-1)-(self.lvl()**2-1)))
-        self.text_type = se.Text("Type:"+self.type.name)
-        self.tril = se.Object("<")
-        self.trir = se.Object(">")
+        self.text_hp = se.Text("HP:"+str(self.hp), state="float")
+        self.text_lvl = se.Text("Lvl:"+str(self.lvl()), state="float")
+        self.text_name = se.Text(str(self.name), esccode=Color.underlined, state="float")
+        self.text_xp = se.Text("XP:"+str(self.xp-(self.lvl()**2-1))+"/"+str(((self.lvl()+1)**2-1)-(self.lvl()**2-1)), state="float")
+        self.text_type = se.Text("Type:"+self.type.name, state="float")
+        self.tril = se.Object("<", state="float")
+        self.trir = se.Object(">", state="float")
         self.attac_obs = []
         self.atc_labels = []
         self.pball_small = se.Object("o")
@@ -680,10 +680,6 @@ def fight_add_2(player, enemy):
 def fight_throw(ob, enem, info):
     if ob.identifier == "__fallback__" or info["type"] == "duel":
         return 1
-    if figure.inv["poketeball"] == 0:
-        fightmap.outp.rechar("You have no poketeballs left!\nWhat do you want to do? ")
-        fightmap.show()
-        return 1
     fightmap.outp.rechar("You threw a poketeball!")
     fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
     time.sleep(random.choice([1,2,3,4]))
@@ -706,12 +702,30 @@ def fight_throw(ob, enem, info):
         fightmap.show()
 
 
+def fight_potion(ob, enem, info):
+    figure.inv["heal_potion"] -= 1
+    ob.oldhp = ob.hp
+    if ob.hp + 10 > ob.full_hp:
+        ob.hp = ob.full_hp
+    else:
+        ob.hp += 10
+    while ob.oldhp != ob.hp and ob.oldhp > 0:
+        ob.oldhp += -1 if ob.oldhp > ob.hp else 1
+        ob.text_hp.rechar("HP:"+str(ob.oldhp), esccode=Color.yellow)
+        ob.health_bar_maker(ob.oldhp)
+        time.sleep(0.1)
+        fightmap.show()
+    ob.text_hp.rechar("HP:"+str(ob.oldhp))
+    time.sleep(0.1)
+    return
+
+
 # Functions for buy
 #####################
 
 def buy_rechar(items):
     ob = items[buybox.index.index]
-    buybox2.name_label.rechar(ob.name.capitalize())
+    buybox2.name_label.rechar(ob.pretty_name)
     buybox2.desc_label.rechar(liner(ob.desc, 19))
 
 
@@ -742,7 +756,8 @@ def inv():
     global ev
     ev = ""
     invbox.add(movemap, movemap.width-35, 0)
-    obs = [se.Text(i.capitalize()+"s : "+str(figure.inv[i])) for i in figure.inv]
+    items = [eval("invbox."+i) for i in figure.inv if figure.inv[i] > 0]
+    obs = [se.Text(i.pretty_name+"s : "+str(figure.inv[i.name])) for i in items]
     for i, ob in enumerate(obs):
         invbox.add_ob(ob, 4, 1+i)
     movemap.show()
@@ -756,8 +771,8 @@ def inv():
                 invbox.rem_ob(ob)
             return
         elif ev == "Key.enter":
-            ob = eval("invbox."+[i for i in figure.inv][invbox.index.index])
-            invbox2.name_label.rechar(ob.name.capitalize())
+            ob = items[invbox.index.index]
+            invbox2.name_label.rechar(ob.pretty_name)
             invbox2.desc_label.rechar(liner(ob.desc, 19))
             invbox2.add(movemap, invbox.x-19, 3)
             ev = ""
@@ -780,8 +795,8 @@ def buy():
     ev = ""
     buybox.add(movemap, movemap.width-35, 0)
     buybox2.add(movemap, buybox.x-19, 3)
-    items = [invbox.poketeball, invbox.test]
-    obs = [se.Text(ob.name.capitalize()+" : "+str(ob.price)+"$") for ob in items]
+    items = [invbox.poketeball, invbox.test, invbox.heal_potion]
+    obs = [se.Text(ob.pretty_name+" : "+str(ob.price)+"$") for ob in items]
     for i, ob in enumerate(obs):
         buybox.add_ob(ob, 4, 1+i)
     buy_rechar(items)
@@ -929,7 +944,37 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     return enem
                 elif ev == "'3'":
                     ev = ""
-                    a = fight_throw(ob, enem, info)
+                    invbox.add(fightmap, fightmap.width-35, 0)
+                    items = [eval("invbox."+i) for i in figure.inv if eval("invbox."+i).fn != None and figure.inv[i] > 0]
+                    obs = [se.Text(i.pretty_name+"s : "+str(figure.inv[i.name])) for i in items]
+                    for i, j in enumerate(obs):
+                        invbox.add_ob(j, 4, 1+i)
+                    invbox.index.index = 0
+                    invbox.set_ob(invbox.index, invbox.index_x, 1)
+                    fightmap.show()
+                    while True:
+                        if ev in ["'s'", "'w'"]:
+                            invbox.input(ev, obs)
+                            ev = ""
+                        elif ev in ["Key.esc", "'q'"]:
+                            item = ""
+                            invbox.remove()
+                            for i in obs:
+                                invbox.rem_ob(i)
+                            break
+                        elif ev == "Key.enter":
+                            item = items[invbox.index.index]
+                            invbox.remove()
+                            for i in obs:
+                                invbox.rem_ob(i)
+                            break
+                        std_loop()
+                        time.sleep(0.05)
+                        fightmap.show()
+                    fightmap.show()
+                    if item == "":
+                        continue
+                    a = item.fn(ob, enem, info)  # I hate you python for not having switch statements
                     if a == 1:
                         continue
                     elif a == 2:
@@ -1533,7 +1578,7 @@ fightmap.e_sideline = se.Square("|", 1, 3, state="float")
 fightmap.p_upperline = se.Text("+----------------", state="float")
 fightmap.p_sideline = se.Square("|", 1, 4, state="float")
 fightmap.outp = se.Text("", state="float")
-fightmap.label = se.Text("1: Attack  2: Run!  3: Catch  4: Deck")
+fightmap.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
 fightmap.shines = [se.Object(Color.thicc+Color.green+"*"+Color.reset) for i in range(4)]
 deadico1 = se.Text("""
     \ /
@@ -1579,8 +1624,9 @@ invbox2.desc_label = se.Text(" ")
 # adding
 invbox2.add_ob(invbox2.desc_label, 1, 1)
 # every possible item for the inv has to have such an onbject
-invbox.poketeball = InvItem("poketeball", "A ball you can use to catch Poketes", 2)
-invbox.test = InvItem("test", "A fucking test, a test, a test bla bla bla. test test 123", 10)
+invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_throw)
+invbox.test = InvItem("test", "Test", "A fucking test, a test, a test bla bla bla. test test 123", 10)
+invbox.heal_potion = InvItem("heal_potion", "Healing potion", "Heals a Pokete with 10 HP", 20, fight_potion)
 
 # buybox
 buybox = ChooseBox(height-3, 35, "Shop")
