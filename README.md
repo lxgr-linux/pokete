@@ -14,7 +14,7 @@ $ ./pokete/pokete.py
 For windows first install pynput and then do a Windows equivalent to the above.
 
 ## How to play?
-Imagine your a Pokete-Trainer and your goal is it to run aroud in the world and catch/train as many Poketes as possible and to get the best trainer.
+Imagine your a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
 
 First of all you get a starter Pokete (Steini), that you can use to fight battles with other Poketes. (The player name and the starter Pokete will be chosen using a wizard later).
 The controls are w a s d to walk around.
@@ -28,7 +28,7 @@ Since your a Pokete-Trainer, you can also fight against other trainers, the one 
 In case one of your Poketes dies, or is too weak, you can heal it by going into the house, aka, Pokete-Center, talk the the person there and choose the healing option.
 There you can also take a look at all your Poketes, and not just the first six. The ones marked with an "o" are the ones in your deck.
 
-By pressing "e" you can get into a menu where playername and later other settings, can be changed.
+By pressing "e" you can get into a menu where player name and later other settings, can be changed.
 
 The red balls all over the map, are Poketeballs, you need to catch Poketes. Stepping on such a ball adds it to your inventory. A store to buy them will be added later.
 
@@ -46,7 +46,7 @@ ground|normal|flying
 electro|stone, flying|ground
 flying|plant|stone
 
-For additonal information you can see [wiki](wiki.md).
+For additional information you can see [wiki](wiki.md).
 
 ## Tips
 - In conversations you can very easily skip the text printing by pressing any key
@@ -62,6 +62,7 @@ For additonal information you can see [wiki](wiki.md).
 - [ ] Add more than one Pokete for trainers
 - [ ] Coloured Poketes
 - [x] A store to buy Poketeballs
+- [ ] Add potions
 
 ## Dependencies
 Pokete depends on python3 and the scrap_engine module.
