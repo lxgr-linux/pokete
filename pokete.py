@@ -217,6 +217,16 @@ class Poke():
                 break
         self.hp_bar.rechar(bar_num*"#", esccode)
 
+    def health_bar_updater(self, oldhp):
+        while oldhp != self.hp and oldhp > 0:
+            oldhp += -1 if oldhp > self.hp else 1
+            self.text_hp.rechar("HP:"+str(oldhp), esccode=Color.yellow)
+            self.health_bar_maker(oldhp)
+            time.sleep(0.1)
+            fightmap.show()
+        self.text_hp.rechar("HP:"+str(oldhp))
+        time.sleep(0.1)
+
     def attack(self, attac, enem):
         if attac.ap > 0:
             self.enem = enem
@@ -233,14 +243,7 @@ class Poke():
             attac.ap -= 1
             fightmap.outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else "")+("\nThat was very effective! " if effectivity == 1.5 and n_hp > 0 else "")+("\nThat was not effective! " if effectivity == 0.5 and n_hp > 0 else ""))
             for ob in [enem, self]:
-                while ob.oldhp != ob.hp and ob.oldhp > 0:
-                    ob.oldhp += -1 if ob.oldhp > ob.hp else 1
-                    ob.text_hp.rechar("HP:"+str(ob.oldhp), esccode=Color.yellow)
-                    ob.health_bar_maker(ob.oldhp)
-                    time.sleep(0.1)
-                    fightmap.show()
-                ob.text_hp.rechar("HP:"+str(ob.oldhp))
-                time.sleep(0.1)
+                ob.health_bar_updater(ob.oldhp)
             self.label_rechar()
             fightmap.show()
 
@@ -702,22 +705,21 @@ def fight_throw(ob, enem, info):
         fightmap.show()
 
 
-def fight_potion(ob, enem, info):
+def fight_potion(ob, enem, info, i):
     figure.inv["heal_potion"] -= 1
     ob.oldhp = ob.hp
-    if ob.hp + 10 > ob.full_hp:
+    if ob.hp + i > ob.full_hp:
         ob.hp = ob.full_hp
     else:
-        ob.hp += 10
-    while ob.oldhp != ob.hp and ob.oldhp > 0:
-        ob.oldhp += -1 if ob.oldhp > ob.hp else 1
-        ob.text_hp.rechar("HP:"+str(ob.oldhp), esccode=Color.yellow)
-        ob.health_bar_maker(ob.oldhp)
-        time.sleep(0.1)
-        fightmap.show()
-    ob.text_hp.rechar("HP:"+str(ob.oldhp))
-    time.sleep(0.1)
+        ob.hp += i
+    ob.health_bar_updater(ob.oldhp)
     return
+
+def fight_heal_potion(ob, enem, info):
+    fight_potion(ob, enem, info, 5)
+
+def fight_super_potion(ob, enem, info):
+    fight_potion(ob, enem, info, 15)
 
 
 # Functions for buy
@@ -795,7 +797,7 @@ def buy():
     ev = ""
     buybox.add(movemap, movemap.width-35, 0)
     buybox2.add(movemap, buybox.x-19, 3)
-    items = [invbox.poketeball, invbox.test, invbox.heal_potion]
+    items = [invbox.poketeball, invbox.test, invbox.heal_potion, invbox.super_potion]
     obs = [se.Text(ob.pretty_name+" : "+str(ob.price)+"$") for ob in items]
     for i, ob in enumerate(obs):
         buybox.add_ob(ob, 4, 1+i)
@@ -1626,7 +1628,8 @@ invbox2.add_ob(invbox2.desc_label, 1, 1)
 # every possible item for the inv has to have such an onbject
 invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_throw)
 invbox.test = InvItem("test", "Test", "A fucking test, a test, a test bla bla bla. test test 123", 10)
-invbox.heal_potion = InvItem("heal_potion", "Healing potion", "Heals a Pokete with 10 HP", 20, fight_potion)
+invbox.heal_potion = InvItem("heal_potion", "Healing potion", "Heals a Pokete with 5 HP", 15, fight_heal_potion)
+invbox.super_potion = InvItem("super_potion", "Super potion", "Heals a Pokete with 15 HP", 25, fight_super_potion)
 
 # buybox
 buybox = ChooseBox(height-3, 35, "Shop")
