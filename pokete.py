@@ -946,8 +946,12 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     return enem
                 elif ev == "'3'":
                     ev = ""
-                    invbox.add(fightmap, fightmap.width-35, 0)
                     items = [eval("invbox."+i) for i in figure.inv if eval("invbox."+i).fn != None and figure.inv[i] > 0]
+                    if items == []:
+                        fightmap.outp.rechar("You don't have any items left!\nWhat do you want to do?")
+                        fightmap.show()
+                        continue
+                    invbox.add(fightmap, fightmap.width-35, 0)
                     obs = [se.Text(i.pretty_name+"s : "+str(figure.inv[i.name])) for i in items]
                     for i, j in enumerate(obs):
                         invbox.add_ob(j, 4, 1+i)
