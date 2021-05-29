@@ -1,5 +1,6 @@
-
 # Pokete wiki
+This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
+This wiki can be generated using ```$ gen-wiki.py```.
 
 ## Table of contents
 1. [Poketes](#poketes)
@@ -53,6 +54,8 @@
 3. [Types](#types)
 
 ## Poketes
+In the following all Poketes with their attributes are displayed.
+
 ### Bato
 An annoying flying rat
 ```
@@ -72,7 +75,6 @@ WW\/* *\/WW
 - Attacks:
    + [Bite](#bite)
    + [Cry](#cry)
-
 - Evolves to Bator at level 20
 
 ### Bator
@@ -97,7 +99,6 @@ WW\/o o\/WW
    + [Cry](#cry)
    + [Poison bite](#poison-bite)
    + [Wing hit](#wing-hit)
-
 - Does not evolve
 
 ### Blub
@@ -120,7 +121,6 @@ Very delicious and low fat water Pokete
    + [Tackle](#tackle)
    + [Bubble bomb](#bubble-bomb)
    + [Bubble shield](#bubble-shield)
-
 - Does not evolve
 
 ### Bushy
@@ -141,7 +141,6 @@ A bush, and just a bush. But watch out!
 - Attacks:
    + [Tackle](#tackle)
    + [Bark hardening](#bark-hardening)
-
 - Evolves to Treenator at level 20
 
 ### Gobost
@@ -163,7 +162,6 @@ A scary ghost Pokete that lives in caves and old houses
 - Attacks:
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
-
 - Does not evolve
 
 ### Hornita
@@ -186,7 +184,6 @@ An majestetic horse that is always looking for something to pick with its horn.
    + [Tackle](#tackle)
    + [Meat skewer](#meat-skewer)
    + [Tail wipe](#tail-wipe)
-
 - Does not evolve
 
 ### Horny
@@ -208,7 +205,6 @@ A teenaged unicorn in the middle of puberty.
 - Attacks:
    + [Tackle](#tackle)
    + [Meat skewer](#meat-skewer)
-
 - Evolves to Hornita at level 20
 
 ### Karpi
@@ -229,7 +225,6 @@ A very harmless water Pokete that can be found everywhere
 - Loosing experience: 1
 - Attacks:
    + [Tackle](#tackle)
-
 - Does not evolve
 
 ### Lilstone
@@ -252,7 +247,6 @@ A small but powerfull stone Pokete that lives in the mountains
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Pepple fire](#pepple-fire)
-
 - Does not evolve
 
 ### Ostri
@@ -275,7 +269,6 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
    + [Tackle](#tackle)
    + [Eye pick](#eye-pick)
    + [Brooding](#brooding)
-
 - Does not evolve
 
 ### Owol
@@ -299,7 +292,6 @@ A night active Pokete, that is looking for lil children as a midnight snack
    + [Pick](#pick)
    + [Wing hit](#wing-hit)
    + [Cry](#cry)
-
 - Does not evolve
 
 ### Poundi
@@ -322,7 +314,6 @@ A powerfull and heavy stone Pokete that lives in mountain caves
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Earch quake](#earch-quake)
-
 - Does not evolve
 
 ### Rato
@@ -344,7 +335,6 @@ An annoying rat
 - Attacks:
    + [Tackle](#tackle)
    + [Tail wipe](#tail-wipe)
-
 - Does not evolve
 
 ### Rollator
@@ -366,7 +356,6 @@ A big chunck of stone and dirt, that roles around.
 - Attacks:
    + [Tackle](#tackle)
    + [Power roll](#power-roll)
-
 - Does not evolve
 
 ### Rosi
@@ -388,7 +377,6 @@ A plant Pokete, that's often mistaken for a normal flower
 - Attacks:
    + [Sucker](#sucker)
    + [Super sucker](#super-sucker)
-
 - Does not evolve
 
 ### Steini
@@ -411,7 +399,6 @@ A squared stone that can casually be found on the ground
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
-
 - Does not evolve
 
 ### Treenator
@@ -433,7 +420,6 @@ A scary an dangerous apple tree
 - Attacks:
    + [Apple drop](#apple-drop)
    + [Bark hardening](#bark-hardening)
-
 - Does not evolve
 
 ### Vogli
@@ -455,7 +441,6 @@ A very common bird Pokete that lives in town but also in the nature
 - Attacks:
    + [Tackle](#tackle)
    + [Power pick](#power-pick)
-
 - Evolves to Voglo at level 20
 
 ### Voglo
@@ -479,7 +464,6 @@ A very agressive bird Pokete that can only be found in the woods
    + [Power pick](#power-pick)
    + [Wing hit](#wing-hit)
    + [Brooding](#brooding)
-
 - Does not evolve
 
 ### Wolfior
@@ -500,7 +484,6 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 - Attacks:
    + [Tackle](#tackle)
    + [Fire bite](#fire-bite)
-
 - Does not evolve
 
 ### Würgos
@@ -523,15 +506,15 @@ A dangerous snake Pokete
    + [Chocer](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
-
 - Does not evolve
 
 ## Attacks
-
+Those are all attacks present in the game.
 
 ### Apple drop
 Lets an apple drop on the enemys head
 - Type: [Plant](#types)
+- Minimum Level: 0
 - Attack factor: 1.7
 - Missing chance: 0.3
 - Attack points: 20
@@ -539,6 +522,7 @@ Lets an apple drop on the enemys head
 ### Bark hardening
 Hardens the bark to protect it better
 - Type: [Plant](#types)
+- Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 10
@@ -546,6 +530,7 @@ Hardens the bark to protect it better
 ### Bite
 A hard bite the sharp teeth
 - Type: [Normal](#types)
+- Minimum Level: 0
 - Attack factor: 1.75
 - Missing chance: 0.1
 - Attack points: 20
@@ -553,6 +538,7 @@ A hard bite the sharp teeth
 ### Brick throw
 Throws an euler brick at the enemy
 - Type: [Stone](#types)
+- Minimum Level: 15
 - Attack factor: 2
 - Missing chance: 0.3
 - Attack points: 15
@@ -560,6 +546,7 @@ Throws an euler brick at the enemy
 ### Brooding
 Regenerates 2 HP
 - Type: [Normal](#types)
+- Minimum Level: 15
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 5
@@ -567,6 +554,7 @@ Regenerates 2 HP
 ### Bubble bomb
 A deadly bubble
 - Type: [Water](#types)
+- Minimum Level: 0
 - Attack factor: 6
 - Missing chance: 0
 - Attack points: 5
@@ -574,6 +562,7 @@ A deadly bubble
 ### Bubble shield
 Creates a giant bubble that protects the Pokete
 - Type: [Water](#types)
+- Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 5
@@ -581,6 +570,7 @@ Creates a giant bubble that protects the Pokete
 ### Chocer
 Choces the enemy and makes it weaker
 - Type: [Normal](#types)
+- Minimum Level: 0
 - Attack factor: 1
 - Missing chance: 0.2
 - Attack points: 10
@@ -588,6 +578,7 @@ Choces the enemy and makes it weaker
 ### Cry
 So loud, it confuses the enemy
 - Type: [Normal](#types)
+- Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 5
@@ -595,6 +586,7 @@ So loud, it confuses the enemy
 ### Earch quake
 Brings the earth to shift
 - Type: [Ground](#types)
+- Minimum Level: 0
 - Attack factor: 4
 - Missing chance: 0
 - Attack points: 5
@@ -602,6 +594,7 @@ Brings the earth to shift
 ### Eye pick
 Picks out one of the enemys eyes
 - Type: [Flying](#types)
+- Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.6
 - Attack points: 5
@@ -609,6 +602,7 @@ Picks out one of the enemys eyes
 ### Fire bite
 Burns and bites the enemy at the same time
 - Type: [Fire](#types)
+- Minimum Level: 0
 - Attack factor: 2
 - Missing chance: 0.2
 - Attack points: 10
@@ -616,6 +610,7 @@ Burns and bites the enemy at the same time
 ### Meat skewer
 Drills the horn deep in the enemys flesh
 - Type: [Normal](#types)
+- Minimum Level: 0
 - Attack factor: 3.5
 - Missing chance: 0.7
 - Attack points: 5
@@ -623,6 +618,7 @@ Drills the horn deep in the enemys flesh
 ### Mind blow
 Causes confusion deep in the enemys mind
 - Type: [Normal](#types)
+- Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 10
@@ -630,6 +626,7 @@ Causes confusion deep in the enemys mind
 ### Pepple fire
 Fires pepples at the enemy and makes it blind
 - Type: [Stone](#types)
+- Minimum Level: 0
 - Attack factor: 1
 - Missing chance: 0
 - Attack points: 3
@@ -637,6 +634,7 @@ Fires pepples at the enemy and makes it blind
 ### Pick
 A pick at the enemys weakest spot
 - Type: [Flying](#types)
+- Minimum Level: 0
 - Attack factor: 1.7
 - Missing chance: 0.1
 - Attack points: 20
@@ -644,6 +642,7 @@ A pick at the enemys weakest spot
 ### Poison bite
 Makes the enemy weaker
 - Type: [Normal](#types)
+- Minimum Level: 0
 - Attack factor: 1
 - Missing chance: 0.3
 - Attack points: 5
@@ -651,6 +650,7 @@ Makes the enemy weaker
 ### Politure
 Upgrades defense and attack points
 - Type: [Stone](#types)
+- Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 10
@@ -658,6 +658,7 @@ Upgrades defense and attack points
 ### Power pick
 A harsh picking on the enemys head
 - Type: [Flying](#types)
+- Minimum Level: 0
 - Attack factor: 2
 - Missing chance: 0.4
 - Attack points: 5
@@ -665,6 +666,7 @@ A harsh picking on the enemys head
 ### Power roll
 Rolls over the enemy
 - Type: [Ground](#types)
+- Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.2
 - Attack points: 10
@@ -672,6 +674,7 @@ Rolls over the enemy
 ### Sucker
 Sucks 1 HP from the enemy and adds it to it's own
 - Type: [Plant](#types)
+- Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 20
@@ -679,6 +682,7 @@ Sucks 1 HP from the enemy and adds it to it's own
 ### Super sucker
 Sucks 2 HP from the enemy and adds it to it's own
 - Type: [Plant](#types)
+- Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 5
@@ -686,6 +690,7 @@ Sucks 2 HP from the enemy and adds it to it's own
 ### Tackle
 Tackles the enemy very hard
 - Type: [Normal](#types)
+- Minimum Level: 0
 - Attack factor: 1.5
 - Missing chance: 0.2
 - Attack points: 20
@@ -693,6 +698,7 @@ Tackles the enemy very hard
 ### Tail wipe
 Wipes throught the enemys face
 - Type: [Normal](#types)
+- Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.5
 - Attack points: 5
@@ -700,11 +706,13 @@ Wipes throught the enemys face
 ### Wing hit
 Hits the enemy with a wing
 - Type: [Flying](#types)
+- Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.5
 - Attack points: 5
 
 ## Types
+Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
 
 Type|Effective against|Ineffective against
 ---|---|---

@@ -4,8 +4,9 @@ from pokete_data.poketes import *
 from pokete_data.attacks import *
 from pokete_data.types import *
 
-md_str = """
-# Pokete wiki
+md_str = """# Pokete wiki
+This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
+This wiki can be generated using ```$ gen-wiki.py```.
 
 ## Table of contents
 1. [Poketes](#poketes)
@@ -21,13 +22,17 @@ for j, atc in enumerate(sorted(attacs)):
     md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
 
 # Poketes
-md_str += "3. [Types](#types)\n\n## Poketes"
+md_str += """3. [Types](#types)
+
+## Poketes
+In the following all Poketes with their attributes are displayed.
+"""
 
 for poke in sorted([i for i in pokes][1:]):
     evolve_txt = f"""- Evolves to {pokes[pokes[poke]["evolve_poke"]]["name"]} at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
     md_attacks = ""
     for atc in pokes[poke]["attacs"]:
-        md_attacks += f"""   + [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
+        md_attacks += f"""\n   + [{attacs[atc]["name"]}](#{atc.replace("_", "-")})"""
 
     md_str += f"""
 ### {pokes[poke]["name"]}
@@ -43,15 +48,14 @@ for poke in sorted([i for i in pokes][1:]):
 - Missing chance: {pokes[poke]["miss_chance"]}
 - Rarity: {pokes[poke]["rarity"]}
 - Loosing experience: {pokes[poke]["lose_xp"]}
-- Attacks:
-{md_attacks}
+- Attacks:{md_attacks}
 {evolve_txt}
 """
 
 # Attacks
 md_str += """
 ## Attacks
-
+Those are all attacks present in the game.
 """
 
 for atc in sorted(attacs):
@@ -59,6 +63,7 @@ for atc in sorted(attacs):
 ### {attacs[atc]["name"]}
 {attacs[atc]["desc"]}
 - Type: [{attacs[atc]["type"].capitalize()}](#types)
+- Minimum Level: {attacs[atc]["min_lvl"]}
 - Attack factor: {attacs[atc]["factor"]}
 - Missing chance: {attacs[atc]["miss_chance"]}
 - Attack points: {attacs[atc]["ap"]}
@@ -67,6 +72,7 @@ for atc in sorted(attacs):
 # Types
 md_str += """
 ## Types
+Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
 
 Type|Effective against|Ineffective against
 ---|---|---
