@@ -2,6 +2,7 @@
 # This script generates the Pokete wiki
 from pokete_data.poketes import *
 from pokete_data.attacks import *
+from pokete_data.types import *
 
 md_str = """
 # Pokete wiki
@@ -20,7 +21,7 @@ for j, atc in enumerate(sorted(attacs)):
     md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
 
 # Poketes
-md_str += "\n## Poketes"
+md_str += "3. [Types](#types)\n\n## Poketes"
 
 for poke in sorted([i for i in pokes][1:]):
     evolve_txt = f"""- Evolves to {pokes[pokes[poke]["evolve_poke"]]["name"]} at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
@@ -35,7 +36,7 @@ for poke in sorted([i for i in pokes][1:]):
 {pokes[poke]["ico"]}
 ```
 
-- Type: {pokes[poke]["type"].capitalize()}
+- Type: [{pokes[poke]["type"].capitalize()}](#types)
 - Health points: {pokes[poke]["hp"]}
 - Attack factor: {pokes[poke]["atc"].replace("self.lvl()", "level")}
 - Defense factor: {pokes[poke]["defense"].replace("self.lvl()", "level")}
@@ -45,7 +46,7 @@ for poke in sorted([i for i in pokes][1:]):
 - Attacks:
 {md_attacks}
 {evolve_txt}
-    """
+"""
 
 # Attacks
 md_str += """
@@ -57,11 +58,28 @@ for atc in sorted(attacs):
     md_str += f"""
 ### {attacs[atc]["name"]}
 {attacs[atc]["desc"]}
-- Type: {attacs[atc]["type"].capitalize()}
+- Type: [{attacs[atc]["type"].capitalize()}](#types)
 - Attack factor: {attacs[atc]["factor"]}
 - Missing chance: {attacs[atc]["miss_chance"]}
 - Attack points: {attacs[atc]["ap"]}
 """
+
+# Types
+md_str += """
+## Types
+
+Type|Effective against|Ineffective against
+---|---|---
+"""
+
+for type in types:
+    effective = ""
+    for i in types[type]["effective"]:
+        effective += i.capitalize()+(", " if i != types[type]["effective"][-1] else "")
+    ineffective = ""
+    for i in types[type]["ineffective"]:
+        ineffective += i.capitalize()+(", " if i != types[type]["ineffective"][-1] else "")
+    md_str += f"{type.capitalize()}|{effective}|{ineffective}\n"
 
 
 # writing to file

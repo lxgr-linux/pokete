@@ -37,7 +37,7 @@ Not only are there Poketes that are stronger than others, but also Poketes with 
 
 type|effective against|ineffective against
 ---|---|---
-normal| |
+normal||
 stone|flying, fire|plant
 plant|stone, ground|fire
 water|stone, flying, fire|plant

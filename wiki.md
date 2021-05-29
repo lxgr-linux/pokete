@@ -50,6 +50,7 @@
    23. [Tackle](#tackle)
    24. [Tail wipe](#tail-wipe)
    25. [Wing hit](#wing-hit)
+3. [Types](#types)
 
 ## Poketes
 ### Bato
@@ -61,7 +62,7 @@ WW\/* *\/WW
 
 ```
 
-- Type: Flying
+- Type: [Flying](#types)
 - Health points: 20
 - Attack factor: level+3
 - Defense factor: level+1
@@ -73,7 +74,7 @@ WW\/* *\/WW
    + [Cry](#cry)
 
 - Evolves to Bator at level 20
-    
+
 ### Bator
 A chongus flying rat
 ```
@@ -84,7 +85,7 @@ WW\/o o\/WW
 
 ```
 
-- Type: Flying
+- Type: [Flying](#types)
 - Health points: 25
 - Attack factor: level+4
 - Defense factor: level+2
@@ -98,7 +99,7 @@ WW\/o o\/WW
    + [Wing hit](#wing-hit)
 
 - Does not evolve
-    
+
 ### Blub
 Very delicious and low fat water Pokete
 ```
@@ -108,7 +109,7 @@ Very delicious and low fat water Pokete
  \_____/
 ```
 
-- Type: Water
+- Type: [Water](#types)
 - Health points: 20
 - Attack factor: level+2
 - Defense factor: level+1
@@ -121,7 +122,7 @@ Very delicious and low fat water Pokete
    + [Bubble shield](#bubble-shield)
 
 - Does not evolve
-    
+
 ### Bushy
 A bush, and just a bush. But watch out!
 ```
@@ -130,7 +131,7 @@ A bush, and just a bush. But watch out!
    (()))
 ```
 
-- Type: Plant
+- Type: [Plant](#types)
 - Health points: 25
 - Attack factor: level+2
 - Defense factor: level+1
@@ -142,7 +143,7 @@ A bush, and just a bush. But watch out!
    + [Bark hardening](#bark-hardening)
 
 - Evolves to Treenator at level 20
-    
+
 ### Gobost
 A scary ghost Pokete that lives in caves and old houses
 ```
@@ -152,7 +153,7 @@ A scary ghost Pokete that lives in caves and old houses
  ░ ░ ░ ░ ░
 ```
 
-- Type: Normal
+- Type: [Normal](#types)
 - Health points: 20
 - Attack factor: level+2
 - Defense factor: level+1
@@ -164,7 +165,7 @@ A scary ghost Pokete that lives in caves and old houses
    + [Mind blow](#mind-blow)
 
 - Does not evolve
-    
+
 ### Hornita
 An majestetic horse that is always looking for something to pick with its horn.
 ```
@@ -174,7 +175,7 @@ An majestetic horse that is always looking for something to pick with its horn.
    //¯¯\\
 ```
 
-- Type: Normal
+- Type: [Normal](#types)
 - Health points: 20
 - Attack factor: level+6
 - Defense factor: level+2
@@ -187,7 +188,7 @@ An majestetic horse that is always looking for something to pick with its horn.
    + [Tail wipe](#tail-wipe)
 
 - Does not evolve
-    
+
 ### Horny
 A teenaged unicorn in the middle of puberty.
 ```
@@ -197,7 +198,7 @@ A teenaged unicorn in the middle of puberty.
    //¯\\
 ```
 
-- Type: Normal
+- Type: [Normal](#types)
 - Health points: 20
 - Attack factor: level+5
 - Defense factor: level+1
@@ -209,7 +210,7 @@ A teenaged unicorn in the middle of puberty.
    + [Meat skewer](#meat-skewer)
 
 - Evolves to Hornita at level 20
-    
+
 ### Karpi
 A very harmless water Pokete that can be found everywhere
 ```
@@ -219,7 +220,7 @@ A very harmless water Pokete that can be found everywhere
            
 ```
 
-- Type: Water
+- Type: [Water](#types)
 - Health points: 15
 - Attack factor: level
 - Defense factor: level/2
@@ -230,7 +231,7 @@ A very harmless water Pokete that can be found everywhere
    + [Tackle](#tackle)
 
 - Does not evolve
-    
+
 ### Lilstone
 A small but powerfull stone Pokete that lives in the mountains
 ```
@@ -240,7 +241,7 @@ A small but powerfull stone Pokete that lives in the mountains
    ‾‾‾‾‾
 ```
 
-- Type: Stone
+- Type: [Stone](#types)
 - Health points: 20
 - Attack factor: level+1
 - Defense factor: level+2
@@ -253,7 +254,7 @@ A small but powerfull stone Pokete that lives in the mountains
    + [Pepple fire](#pepple-fire)
 
 - Does not evolve
-    
+
 ### Ostri
 A very agressive bird Pokete that lives near deserts and will try to pick out your eyes
 ```
@@ -263,7 +264,7 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
      ||
 ```
 
-- Type: Flying
+- Type: [Flying](#types)
 - Health points: 20
 - Attack factor: level+8
 - Defense factor: level
@@ -276,7 +277,7 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
    + [Brooding](#brooding)
 
 - Does not evolve
-    
+
 ### Owol
 A night active Pokete, that is looking for lil children as a midnight snack
 ```
@@ -287,7 +288,7 @@ A night active Pokete, that is looking for lil children as a midnight snack
 
 ```
 
-- Type: Flying
+- Type: [Flying](#types)
 - Health points: 20
 - Attack factor: level+7
 - Defense factor: level+2
@@ -300,7 +301,7 @@ A night active Pokete, that is looking for lil children as a midnight snack
    + [Cry](#cry)
 
 - Does not evolve
-    
+
 ### Poundi
 A powerfull and heavy stone Pokete that lives in mountain caves
 ```
@@ -310,7 +311,7 @@ A powerfull and heavy stone Pokete that lives in mountain caves
    VvVvV
 ```
 
-- Type: Stone
+- Type: [Stone](#types)
 - Health points: 25
 - Attack factor: level+2
 - Defense factor: level+3
@@ -323,7 +324,7 @@ A powerfull and heavy stone Pokete that lives in mountain caves
    + [Earch quake](#earch-quake)
 
 - Does not evolve
-    
+
 ### Rato
 An annoying rat
 ```
@@ -333,7 +334,7 @@ An annoying rat
 
 ```
 
-- Type: Normal
+- Type: [Normal](#types)
 - Health points: 20
 - Attack factor: level+4
 - Defense factor: level+2
@@ -345,7 +346,7 @@ An annoying rat
    + [Tail wipe](#tail-wipe)
 
 - Does not evolve
-    
+
 ### Rollator
 A big chunck of stone and dirt, that roles around.
 ```
@@ -355,7 +356,7 @@ A big chunck of stone and dirt, that roles around.
   \_____/
 ```
 
-- Type: Ground
+- Type: [Ground](#types)
 - Health points: 25
 - Attack factor: level+2
 - Defense factor: level+5
@@ -367,7 +368,7 @@ A big chunck of stone and dirt, that roles around.
    + [Power roll](#power-roll)
 
 - Does not evolve
-    
+
 ### Rosi
 A plant Pokete, that's often mistaken for a normal flower
 ```
@@ -377,7 +378,7 @@ A plant Pokete, that's often mistaken for a normal flower
     \|/
 ```
 
-- Type: Plant
+- Type: [Plant](#types)
 - Health points: 20
 - Attack factor: level
 - Defense factor: level+1
@@ -389,7 +390,7 @@ A plant Pokete, that's often mistaken for a normal flower
    + [Super sucker](#super-sucker)
 
 - Does not evolve
-    
+
 ### Steini
 A squared stone that can casually be found on the ground
 ```
@@ -399,7 +400,7 @@ A squared stone that can casually be found on the ground
  +-------+ 
 ```
 
-- Type: Stone
+- Type: [Stone](#types)
 - Health points: 25
 - Attack factor: level+2
 - Defense factor: level+4
@@ -412,7 +413,7 @@ A squared stone that can casually be found on the ground
    + [Brick throw](#brick-throw)
 
 - Does not evolve
-    
+
 ### Treenator
 A scary an dangerous apple tree
 ```
@@ -422,7 +423,7 @@ A scary an dangerous apple tree
      H
 ```
 
-- Type: Plant
+- Type: [Plant](#types)
 - Health points: 25
 - Attack factor: level+2
 - Defense factor: level+2
@@ -434,7 +435,7 @@ A scary an dangerous apple tree
    + [Bark hardening](#bark-hardening)
 
 - Does not evolve
-    
+
 ### Vogli
 A very common bird Pokete that lives in town but also in the nature
 ```
@@ -444,7 +445,7 @@ A very common bird Pokete that lives in town but also in the nature
     ||     
 ```
 
-- Type: Flying
+- Type: [Flying](#types)
 - Health points: 20
 - Attack factor: level+6
 - Defense factor: level+1
@@ -456,7 +457,7 @@ A very common bird Pokete that lives in town but also in the nature
    + [Power pick](#power-pick)
 
 - Evolves to Voglo at level 20
-    
+
 ### Voglo
 A very agressive bird Pokete that can only be found in the woods
 ```
@@ -466,7 +467,7 @@ A very agressive bird Pokete that can only be found in the woods
     ||     
 ```
 
-- Type: Flying
+- Type: [Flying](#types)
 - Health points: 20
 - Attack factor: level+7
 - Defense factor: level+1
@@ -480,7 +481,7 @@ A very agressive bird Pokete that can only be found in the woods
    + [Brooding](#brooding)
 
 - Does not evolve
-    
+
 ### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 ```
@@ -489,7 +490,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
    >(.)<
 ```
 
-- Type: Fire
+- Type: [Fire](#types)
 - Health points: 20
 - Attack factor: level+6
 - Defense factor: level+3
@@ -501,7 +502,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
    + [Fire bite](#fire-bite)
 
 - Does not evolve
-    
+
 ### Würgos
 A dangerous snake Pokete
 ```
@@ -511,7 +512,7 @@ A dangerous snake Pokete
            
 ```
 
-- Type: Normal
+- Type: [Normal](#types)
 - Health points: 20
 - Attack factor: level+3
 - Defense factor: level
@@ -524,181 +525,194 @@ A dangerous snake Pokete
    + [Poison bite](#poison-bite)
 
 - Does not evolve
-    
+
 ## Attacks
 
 
 ### Apple drop
 Lets an apple drop on the enemys head
-- Type: Plant
+- Type: [Plant](#types)
 - Attack factor: 1.7
 - Missing chance: 0.3
 - Attack points: 20
 
 ### Bark hardening
 Hardens the bark to protect it better
-- Type: Plant
+- Type: [Plant](#types)
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 10
 
 ### Bite
 A hard bite the sharp teeth
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 1.75
 - Missing chance: 0.1
 - Attack points: 20
 
 ### Brick throw
 Throws an euler brick at the enemy
-- Type: Stone
+- Type: [Stone](#types)
 - Attack factor: 2
 - Missing chance: 0.3
 - Attack points: 15
 
 ### Brooding
 Regenerates 2 HP
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 5
 
 ### Bubble bomb
 A deadly bubble
-- Type: Water
+- Type: [Water](#types)
 - Attack factor: 6
 - Missing chance: 0
 - Attack points: 5
 
 ### Bubble shield
 Creates a giant bubble that protects the Pokete
-- Type: Water
+- Type: [Water](#types)
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 5
 
 ### Chocer
 Choces the enemy and makes it weaker
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 1
 - Missing chance: 0.2
 - Attack points: 10
 
 ### Cry
 So loud, it confuses the enemy
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 5
 
 ### Earch quake
 Brings the earth to shift
-- Type: Ground
+- Type: [Ground](#types)
 - Attack factor: 4
 - Missing chance: 0
 - Attack points: 5
 
 ### Eye pick
 Picks out one of the enemys eyes
-- Type: Flying
+- Type: [Flying](#types)
 - Attack factor: 2.5
 - Missing chance: 0.6
 - Attack points: 5
 
 ### Fire bite
 Burns and bites the enemy at the same time
-- Type: Fire
+- Type: [Fire](#types)
 - Attack factor: 2
 - Missing chance: 0.2
 - Attack points: 10
 
 ### Meat skewer
 Drills the horn deep in the enemys flesh
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 3.5
 - Missing chance: 0.7
 - Attack points: 5
 
 ### Mind blow
 Causes confusion deep in the enemys mind
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 10
 
 ### Pepple fire
 Fires pepples at the enemy and makes it blind
-- Type: Stone
+- Type: [Stone](#types)
 - Attack factor: 1
 - Missing chance: 0
 - Attack points: 3
 
 ### Pick
 A pick at the enemys weakest spot
-- Type: Flying
+- Type: [Flying](#types)
 - Attack factor: 1.7
 - Missing chance: 0.1
 - Attack points: 20
 
 ### Poison bite
 Makes the enemy weaker
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 1
 - Missing chance: 0.3
 - Attack points: 5
 
 ### Politure
 Upgrades defense and attack points
-- Type: Stone
+- Type: [Stone](#types)
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 10
 
 ### Power pick
 A harsh picking on the enemys head
-- Type: Flying
+- Type: [Flying](#types)
 - Attack factor: 2
 - Missing chance: 0.4
 - Attack points: 5
 
 ### Power roll
 Rolls over the enemy
-- Type: Ground
+- Type: [Ground](#types)
 - Attack factor: 2.5
 - Missing chance: 0.2
 - Attack points: 10
 
 ### Sucker
 Sucks 1 HP from the enemy and adds it to it's own
-- Type: Plant
+- Type: [Plant](#types)
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 20
 
 ### Super sucker
 Sucks 2 HP from the enemy and adds it to it's own
-- Type: Plant
+- Type: [Plant](#types)
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 5
 
 ### Tackle
 Tackles the enemy very hard
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 1.5
 - Missing chance: 0.2
 - Attack points: 20
 
 ### Tail wipe
 Wipes throught the enemys face
-- Type: Normal
+- Type: [Normal](#types)
 - Attack factor: 2.5
 - Missing chance: 0.5
 - Attack points: 5
 
 ### Wing hit
 Hits the enemy with a wing
-- Type: Flying
+- Type: [Flying](#types)
 - Attack factor: 2.5
 - Missing chance: 0.5
 - Attack points: 5
+
+## Types
+
+Type|Effective against|Ineffective against
+---|---|---
+Normal||
+Stone|Flying, Fire|Plant
+Plant|Stone, Ground|Fire
+Water|Stone, Flying, Fire|Plant
+Fire|Flying, Plant|Stone, Water
+Ground|Normal|Flying
+Electro|Stone, Flying|Ground
+Flying|Plant|Stone
