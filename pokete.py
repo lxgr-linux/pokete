@@ -13,6 +13,7 @@ from pokete_data.poketes import *
 from pokete_data.attacks import *
 from pokete_data.maps import *
 from pokete_data.classes import *
+from pokete_data.types import *
 
 # Class definition
 ##################
@@ -1275,15 +1276,8 @@ se.Text("""  _____      _        _
 loading_screen.show()
 
 # types
-for i in [("normal", [], []),
-("stone", ["flying", "fire"], ["plant"]),
-("plant", ["stone", "ground"], ["fire"]),
-("water", ["stone", "flying", "fire"], ["plant"]),
-("fire", ["flying", "plant"], ["stone", "water"]),
-("ground", ["normal"], ["flying"]),
-("electro", ["stone", "flying"], ["ground"]),
-("flying", ["plant"], ["stone"])]:
-    exec(i[0]+" = PokeType(i[0], i[1], i[2])")
+for i in types:
+    exec(i+" = PokeType(i, types[i]['effective'], types[i]['ineffective'])")
 
 # reading config file
 home = str(Path.home())
