@@ -11,18 +11,18 @@ md_str = """
 """
 
 # Table of contents
-for j, poke in enumerate([i for i in pokes][1:]):
+for j, poke in enumerate(sorted([i for i in pokes][1:])):
     md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
 
 md_str += "2. [Attacks](#attacks)\n"
 
-for j, atc in enumerate(attacs):
+for j, atc in enumerate(sorted(attacs)):
     md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
 
 # Poketes
 md_str += "\n## Poketes"
 
-for poke in [i for i in pokes][1:]:
+for poke in sorted([i for i in pokes][1:]):
     evolve_txt = f"""- Evolves to {pokes[pokes[poke]["evolve_poke"]]["name"]} at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
     md_attacks = ""
     for atc in pokes[poke]["attacs"]:
@@ -53,11 +53,10 @@ md_str += """
 
 """
 
-for atc in attacs:
+for atc in sorted(attacs):
     md_str += f"""
 ### {attacs[atc]["name"]}
 {attacs[atc]["desc"]}
-
 - Type: {attacs[atc]["type"].capitalize()}
 - Attack factor: {attacs[atc]["factor"]}
 - Missing chance: {attacs[atc]["miss_chance"]}
