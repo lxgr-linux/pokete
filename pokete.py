@@ -1401,11 +1401,11 @@ for map in map_data:
         exec(map+'.'+ball+'.add('+map+', map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
 
 # playmap_1
-#playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
+playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
 playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 # adding
 playmap_1.dor.add(playmap_1, 25, 4)
-#playmap_1.meadow.add(playmap_1, 5, 7)
+playmap_1.meadow.add(playmap_1, 5, 7)
 
 # cave_1
 cave_1.inner = se.Text("""##########################################
