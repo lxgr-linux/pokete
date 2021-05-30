@@ -9,11 +9,7 @@
 import random, time, os, sys, threading, math
 import scrap_engine as se
 from pathlib import Path
-from pokete_data.poketes import *
-from pokete_data.attacks import *
-from pokete_data.maps import *
-from pokete_data.classes import *
-from pokete_data.types import *
+from pokete_data import *
 
 # Class definition
 ##################
@@ -803,7 +799,7 @@ def buy():
     ev = ""
     buybox.add(movemap, movemap.width-35, 0)
     buybox2.add(movemap, buybox.x-19, 3)
-    items = [invbox.poketeball, invbox.superball, invbox.test, invbox.heal_potion, invbox.super_potion]
+    items = [invbox.poketeball, invbox.superball, invbox.healing_potion, invbox.super_potion]
     obs = [se.Text(ob.pretty_name+" : "+str(ob.price)+"$") for ob in items]
     for i, ob in enumerate(obs):
         buybox.add_ob(ob, 4, 1+i)
@@ -1629,11 +1625,9 @@ invbox2.desc_label = se.Text(" ")
 # adding
 invbox2.add_ob(invbox2.desc_label, 1, 1)
 # every possible item for the inv has to have such an onbject
-invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_poketeball)
-invbox.superball = InvItem("superball", "Superball", "A ball you can use to catch Poketes with an increased chance", 10, fight_superball)
-invbox.test = InvItem("test", "Test", "A fucking test, a test, a test bla bla bla. test test 123", 10)
-invbox.heal_potion = InvItem("heal_potion", "Healing potion", "Heals a Pokete with 5 HP", 15, fight_heal_potion)
-invbox.super_potion = InvItem("super_potion", "Super potion", "Heals a Pokete with 15 HP", 25, fight_super_potion)
+# invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_poketeball)
+for name in items:
+    exec(f'invbox.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
 
 # buybox
 buybox = ChooseBox(height-3, 35, "Shop")

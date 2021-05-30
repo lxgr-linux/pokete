@@ -3,6 +3,7 @@
 from pokete_data.poketes import *
 from pokete_data.attacks import *
 from pokete_data.types import *
+from pokete_data.items import *
 
 md_str = """# Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
@@ -11,6 +12,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
 ## Table of contents
 1. [Poketes](#poketes)
 """
+
 
 # Table of contents
 for j, poke in enumerate(sorted([i for i in pokes][1:])):
@@ -21,9 +23,16 @@ md_str += "2. [Attacks](#attacks)\n"
 for j, atc in enumerate(sorted(attacs)):
     md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
 
-# Poketes
 md_str += """3. [Types](#types)
+4. [Items](#items)
+"""
 
+for j, item in enumerate(sorted(items)):
+    md_str += f"""   {j+1}. [{items[item]["pretty_name"]}](#{item.replace("_", "-")})\n"""
+
+
+# Poketes
+md_str += """
 ## Poketes
 In the following all Poketes with their attributes are displayed.
 """
@@ -52,6 +61,7 @@ for poke in sorted([i for i in pokes][1:]):
 {evolve_txt}
 """
 
+
 # Attacks
 md_str += """
 ## Attacks
@@ -68,6 +78,7 @@ for atc in sorted(attacs):
 - Missing chance: {attacs[atc]["miss_chance"]}
 - Attack points: {attacs[atc]["ap"]}
 """
+
 
 # Types
 md_str += """
@@ -86,6 +97,20 @@ for type in types:
     for i in types[type]["ineffective"]:
         ineffective += i.capitalize()+(", " if i != types[type]["ineffective"][-1] else "")
     md_str += f"{type.capitalize()}|{effective}|{ineffective}\n"
+
+
+# Items
+md_str += """
+## Items
+Those are all items present in the game, that can be traded or found.
+"""
+
+for item in sorted(items):
+    md_str += f"""
+### {items[item]["pretty_name"]}
+{items[item]["desc"]}
+- Price: {items[item]["price"]}
+"""
 
 
 # writing to file

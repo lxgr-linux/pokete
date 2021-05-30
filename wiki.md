@@ -52,6 +52,11 @@ This wiki can be generated using ```$ gen-wiki.py```.
    24. [Tail wipe](#tail-wipe)
    25. [Wing hit](#wing-hit)
 3. [Types](#types)
+4. [Items](#items)
+   1. [Healing potion](#healing-potion)
+   2. [Poketeball](#poketeball)
+   3. [Super potion](#super-potion)
+   4. [Superball](#superball)
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -724,3 +729,22 @@ Fire|Flying, Plant|Stone, Water
 Ground|Normal|Flying
 Electro|Stone, Flying|Ground
 Flying|Plant|Stone
+
+## Items
+Those are all items present in the game, that can be traded or found.
+
+### Healing potion
+Heals a Pokete with 5 HP
+- Price: 15
+
+### Poketeball
+A ball you can use to catch Poketes
+- Price: 2
+
+### Super potion
+Heals a Pokete with 15 HP
+- Price: 25
+
+### Superball
+A ball you can use to catch Poketes with an increased chance
+- Price: 10
