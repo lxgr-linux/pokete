@@ -1624,7 +1624,7 @@ invbox2 = Box(7, 21)
 invbox2.desc_label = se.Text(" ")
 # adding
 invbox2.add_ob(invbox2.desc_label, 1, 1)
-# every possible item for the inv has to have such an onbject
+# every possible item for the inv has to have such an object
 # invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_poketeball)
 for name in items:
     exec(f'invbox.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')

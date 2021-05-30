@@ -11,6 +11,11 @@ $ git clone https://github.com/lxgr-linux/pokete.git
 $ ./pokete/pokete.py
 ```
 
+You can also install it from the AUR:
+```shell
+$ buildaur -S pokete-git
+```
+
 For windows first install pynput and then do a Windows equivalent to the above.
 
 ## How to play?
