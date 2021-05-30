@@ -681,14 +681,14 @@ def fight_add_2(player, enemy):
         player.ico.add(fightmap, 3, fightmap.height-10)
 
 
-def fight_throw(ob, enem, info):
+def fight_throw(ob, enem, info, chance, name):
     if ob.identifier == "__fallback__" or info["type"] == "duel":
         return 1
-    fightmap.outp.rechar("You threw a poketeball!")
+    fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
     fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
     time.sleep(random.choice([1,2,3,4]))
-    figure.inv["poketeball"] -= 1
-    if random.choices([True, False], weights=[enem.full_hp/enem.hp, enem.full_hp], k=1)[0]:
+    figure.inv[name] -= 1
+    if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance, enem.full_hp], k=1)[0]:
         enem.player = True
         figure.pokes.append(enem)
         fightmap.outp.rechar("You catched "+enem.name)
@@ -706,8 +706,8 @@ def fight_throw(ob, enem, info):
         fightmap.show()
 
 
-def fight_potion(ob, enem, info, i):
-    figure.inv["heal_potion"] -= 1
+def fight_potion(ob, enem, info, i, name):
+    figure.inv[name] -= 1
     ob.oldhp = ob.hp
     if ob.hp + i > ob.full_hp:
         ob.hp = ob.full_hp
@@ -717,11 +717,16 @@ def fight_potion(ob, enem, info, i):
     return
 
 def fight_heal_potion(ob, enem, info):
-    fight_potion(ob, enem, info, 5)
+    return fight_potion(ob, enem, info, 5, "heal_potion")
 
 def fight_super_potion(ob, enem, info):
-    fight_potion(ob, enem, info, 15)
+    return fight_potion(ob, enem, info, 15, "super_potion")
 
+def fight_poketeball(ob, enem, info):
+    return fight_throw(ob, enem, info, 1, "poketeball")
+
+def fight_superball(ob, enem, info):
+    return fight_throw(ob, enem, info, 6, "superball")
 
 # Functions for buy
 #####################
@@ -798,7 +803,7 @@ def buy():
     ev = ""
     buybox.add(movemap, movemap.width-35, 0)
     buybox2.add(movemap, buybox.x-19, 3)
-    items = [invbox.poketeball, invbox.test, invbox.heal_potion, invbox.super_potion]
+    items = [invbox.poketeball, invbox.superball, invbox.test, invbox.heal_potion, invbox.super_potion]
     obs = [se.Text(ob.pretty_name+" : "+str(ob.price)+"$") for ob in items]
     for i, ob in enumerate(obs):
         buybox.add_ob(ob, 4, 1+i)
@@ -1624,7 +1629,8 @@ invbox2.desc_label = se.Text(" ")
 # adding
 invbox2.add_ob(invbox2.desc_label, 1, 1)
 # every possible item for the inv has to have such an onbject
-invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_throw)
+invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_poketeball)
+invbox.superball = InvItem("superball", "Superball", "A ball you can use to catch Poketes with an increased chance", 10, fight_superball)
 invbox.test = InvItem("test", "Test", "A fucking test, a test, a test bla bla bla. test test 123", 10)
 invbox.heal_potion = InvItem("heal_potion", "Healing potion", "Heals a Pokete with 5 HP", 15, fight_heal_potion)
 invbox.super_potion = InvItem("super_potion", "Super potion", "Heals a Pokete with 15 HP", 25, fight_super_potion)
