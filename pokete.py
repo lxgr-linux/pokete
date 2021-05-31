@@ -713,7 +713,7 @@ def fight_potion(ob, enem, info, i, name):
     return
 
 def fight_heal_potion(ob, enem, info):
-    return fight_potion(ob, enem, info, 5, "heal_potion")
+    return fight_potion(ob, enem, info, 5, "healing_potion")
 
 def fight_super_potion(ob, enem, info):
     return fight_potion(ob, enem, info, 15, "super_potion")
