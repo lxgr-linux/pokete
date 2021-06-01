@@ -733,6 +733,23 @@ def buy_rechar(items):
     buybox2.desc_label.rechar(liner(ob.desc, 19))
 
 
+# Functions for inv
+#####################
+
+def inv_add():
+    invbox.add(movemap, movemap.width-35, 0)
+    items = [eval("invbox."+i) for i in figure.inv if figure.inv[i] > 0]
+    obs = [se.Text(i.pretty_name+"s : "+str(figure.inv[i.name])) for i in items]
+    for i, ob in enumerate(obs):
+        invbox.add_ob(ob, 4, 1+i)
+    return items, obs
+
+def inv_remove(obs):
+    invbox.remove()
+    for ob in obs:
+        invbox.rem_ob(ob)
+
+
 # Playmap extra action functions
 # Those are adding additional actions to playmaps
 #################################################
@@ -759,20 +776,14 @@ def playmap_7_extra_action():
 def inv():
     global ev
     ev = ""
-    invbox.add(movemap, movemap.width-35, 0)
-    items = [eval("invbox."+i) for i in figure.inv if figure.inv[i] > 0]
-    obs = [se.Text(i.pretty_name+"s : "+str(figure.inv[i.name])) for i in items]
-    for i, ob in enumerate(obs):
-        invbox.add_ob(ob, 4, 1+i)
+    items, obs = inv_add()
     movemap.show()
     while True:
         if ev in ["'s'", "'w'"]:
             invbox.input(ev, obs)
             ev = ""
         elif ev in ["'4'", "Key.esc", "'q'"]:
-            invbox.remove()
-            for ob in obs:
-                invbox.rem_ob(ob)
+            inv_remove(obs)
             return
         elif ev == "Key.enter":
             ob = items[invbox.index.index]
@@ -789,6 +800,11 @@ def inv():
                     break
                 time.sleep(0.05)
                 movemap.show()
+        elif ev == "'r'":
+            figure.inv[items[invbox.index.index].name] -= 1
+            inv_remove(obs)
+            items, obs = inv_add()
+            ev = ""
         std_loop()
         time.sleep(0.05)
         movemap.show()
@@ -1615,7 +1631,7 @@ evomap.outp.add(evomap, 1, evomap.height-4)
 fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
 
 # invbox
-invbox = ChooseBox(height-3, 35, "Inventory")
+invbox = ChooseBox(height-3, 35, "Inventory", "R:remove")
 invbox.money_label = se.Text(str(figure.get_money())+"$")
 # adding
 invbox.add_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
