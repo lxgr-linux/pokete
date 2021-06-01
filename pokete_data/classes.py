@@ -52,6 +52,8 @@ class ChooseBox(Box):
         self.add_ob(self.index, self.index_x, 1)
 
     def input(self, ev, list):
+        if list == []:
+            return
         if {"'s'": self.index.index+1 < len(list), "'w'": self.index.index-1 >= 0}[ev]:
             self.index.index += {"'s'": 1, "'w'": -1}[ev]
         else:

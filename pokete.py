@@ -804,6 +804,12 @@ def inv():
             figure.inv[items[invbox.index.index].name] -= 1
             inv_remove(obs)
             items, obs = inv_add()
+            if obs == []:
+                inv_remove(obs)
+                return
+            if invbox.index.index >= len(obs):
+                invbox.index.index = len(obs)-1
+                invbox.set_ob(invbox.index, invbox.index.rx, obs[-1].ry)
             ev = ""
         std_loop()
         time.sleep(0.05)
