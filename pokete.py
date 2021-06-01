@@ -809,7 +809,7 @@ def inv():
                 return
             if invbox.index.index >= len(obs):
                 invbox.index.index = len(obs)-1
-                invbox.set_ob(invbox.index, invbox.index.rx, obs[-1].ry)
+                invbox.set_index(obs)
             ev = ""
         std_loop()
         time.sleep(0.05)
@@ -914,8 +914,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     if player.identifier != "__fallback__":
         fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
         fightmap.outp.rechar("You used "+player.name)
-    fightbox.set_ob(fightbox.index, 1, 1)
     fightbox.index.index = 0
+    fightbox.set_index(player.atc_labels)
     fightmap.show()
     time.sleep(0.5)
     ob = players[0]
@@ -975,28 +975,28 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fightmap.outp.rechar("You don't have any items left!\nWhat do you want to do?")
                         fightmap.show()
                         continue
-                    invbox.add(fightmap, fightmap.width-35, 0)
+                    fight_invbox.add(fightmap, fightmap.width-35, 0)
                     obs = [se.Text(i.pretty_name+"s : "+str(figure.inv[i.name])) for i in items]
                     for i, j in enumerate(obs):
-                        invbox.add_ob(j, 4, 1+i)
-                    invbox.index.index = 0
-                    invbox.set_ob(invbox.index, invbox.index_x, 1)
+                        fight_invbox.add_ob(j, 4, 1+i)
+                    fight_invbox.index.index = 0
+                    fight_invbox.set_index(obs)
                     fightmap.show()
                     while True:
                         if ev in ["'s'", "'w'"]:
-                            invbox.input(ev, obs)
+                            fight_invbox.input(ev, obs)
                             ev = ""
                         elif ev in ["Key.esc", "'q'"]:
                             item = ""
-                            invbox.remove()
+                            fight_invbox.remove()
                             for i in obs:
-                                invbox.rem_ob(i)
+                                fight_invbox.rem_ob(i)
                             break
                         elif ev == "Key.enter":
-                            item = items[invbox.index.index]
-                            invbox.remove()
+                            item = items[fight_invbox.index.index]
+                            fight_invbox.remove()
                             for i in obs:
-                                invbox.rem_ob(i)
+                                fight_invbox.rem_ob(i)
                             break
                         std_loop()
                         time.sleep(0.05)
@@ -1650,6 +1650,9 @@ invbox2.add_ob(invbox2.desc_label, 1, 1)
 # invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_poketeball)
 for name in items:
     exec(f'invbox.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
+
+# fight_invbox
+fight_invbox = ChooseBox(height-3, 35, "Inventory")
 
 # buybox
 buybox = ChooseBox(height-3, 35, "Shop")

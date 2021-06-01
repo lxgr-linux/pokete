@@ -28,6 +28,12 @@ class InvItem:
         self.fn = fn
 
 
+class BoxIndex(se.Object):
+    def __init__(self):
+        super().__init__("*", state="float")
+        self.index = 0
+
+
 class Box(se.Box):
     def __init__(self, height, width, name="", info=""):
         super().__init__(height, width)
@@ -46,8 +52,7 @@ class ChooseBox(Box):
     def __init__(self, height, width, name="", info="", index_x=2):
         super().__init__(height, width, name, info)
         self.index_x = index_x
-        self.index = se.Object("*", state="float")
-        self.index.index = 0
+        self.index = BoxIndex()
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
@@ -58,6 +63,9 @@ class ChooseBox(Box):
             self.index.index += {"'s'": 1, "'w'": -1}[ev]
         else:
             self.index.index = {"'s'": 0, "'w'": len(list)-1}[ev]
+        self.set_index(list)
+
+    def set_index(self, list):
         self.set_ob(self.index, self.index.rx, list[self.index.index].ry)
 
 
