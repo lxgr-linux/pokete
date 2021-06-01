@@ -1612,7 +1612,7 @@ evomap.frame_small.add(evomap, 0, evomap.height-5)
 evomap.outp.add(evomap, 1, evomap.height-4)
 
 # fightbox
-fightbox = ChooseBox(6, 25, "Attacks", 1)
+fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
 
 # invbox
 invbox = ChooseBox(height-3, 35, "Inventory")

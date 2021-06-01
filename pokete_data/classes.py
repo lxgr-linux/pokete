@@ -29,20 +29,22 @@ class InvItem:
 
 
 class Box(se.Box):
-    def __init__(self, height, width, name=""):
+    def __init__(self, height, width, name="", info=""):
         super().__init__(height, width)
         self.frame = se.Frame(width=width, height=height, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
         self.inner = se.Square(char=" ", width=width-2, height=height-2, state="float")
         self.name_label = se.Text(name, state="float")
+        self.info_label = se.Text(info, state="float")
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
         self.add_ob(self.name_label, 2, 0)
+        self.add_ob(self.info_label, 2, self.height-1)
 
 
 class ChooseBox(Box):
-    def __init__(self, height, width, name="", index_x=2):
-        super().__init__(height, width, name)
+    def __init__(self, height, width, name="", info="", index_x=2):
+        super().__init__(height, width, name, info)
         self.index_x = index_x
         self.index = se.Object("*", state="float")
         self.index.index = 0
