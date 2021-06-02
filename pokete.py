@@ -61,7 +61,7 @@ class NPC(se.Box):
 
     def fn(self):
         if self.__fn != None:
-            self.__fn()
+            self.eval(__fn)()
 
 
 class PC(se.Object):
@@ -1485,11 +1485,11 @@ cave_1.inner.add(cave_1, 0, 0)
 # playmap_3
 playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_3.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
-playmap_3.npc = NPC([" < Hey", " < What up?"])
+# playmap_3.npc = NPC([" < Hey", " < What up?"])
 # adding
 playmap_3.dor.add(playmap_3, 25, 6)
 playmap_3.shopdor.add(playmap_3, 61, 6)
-playmap_3.npc.add(playmap_3, 49, 14)
+# playmap_3.npc.add(playmap_3, 49, 14)
 
 # playmap_4
 playmap_4.dor_playmap_5 = ChanceDor("~", state="float", arg_proto={"chance": 6, "map": playmap_5, "x": 17, "y": 16})
@@ -1684,8 +1684,15 @@ invbox2.desc_label = se.Text(" ")
 invbox2.add_ob(invbox2.desc_label, 1, 1)
 # every possible item for the inv has to have such an object
 # invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_poketeball)
+
+# items
 for name in items:
     exec(f'invbox.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
+
+# NPCs
+for npc in npcs:
+    exec(f'{npcs[npc]["map"]}.{npc} = NPC(npcs[npc]["texts"], npcs[npc]["fn"])')
+    exec(f'{npcs[npc]["map"]}.{npc}.add({npcs[npc]["map"]}, npcs[npc]["x"], npcs[npc]["y"])')
 
 # fight_invbox
 fight_invbox = ChooseBox(height-3, 35, "Inventory")
