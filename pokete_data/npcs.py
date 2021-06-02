@@ -2,9 +2,18 @@ npcs = {
     "test_npc": {
         "texts": [" < Hey", " < I'm Josi"],
         "fn": None,
+        "args": (),
         "map": "playmap_3",
         "x": 49,
         "y": 14
+    },
+    "old_man": {
+        "texts": [" < Hello young trainer", " < When I've been at your age, I also was a trainer", " < And I found this very special Poketeball", " < A Hyperball", " < It's one of the oldest and rarerest of them all", " < You can keep it!"],
+        "fn": "playmap_10_old_man",
+        "args": (),
+        "map": "playmap_10",
+        "x": 4,
+        "y": 3
     },
 }
 

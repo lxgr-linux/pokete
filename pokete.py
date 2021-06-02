@@ -22,7 +22,7 @@ class HightGrass(se.Object):
 
 class Poketeball(se.Object):
     def action(self, ob):
-        figure.inv["poketeball"] += 1
+        figure.give_item("poketeball")
         self.remove()
 
 # The following two classes (PC and Heal) where initially needed to manage healing
@@ -40,11 +40,12 @@ class NPCTrigger(se.Object):
 
 
 class NPC(se.Box):
-    def __init__(self, texts, fn=None):
+    def __init__(self, texts, fn=None, args=()):
         super().__init__(0, 0)
         self.will = True
         self.texts = texts
         self.__fn = fn
+        self.args = args
         for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
             self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(se.Object("a"), 0, 0)
@@ -64,7 +65,7 @@ class NPC(se.Box):
 
     def fn(self):
         if self.__fn != None:
-            self.eval(__fn)()
+            eval(self.__fn)(*self.args)
 
 
 class PC(se.Object):
@@ -822,6 +823,13 @@ def playmap_7_extra_action():
         else:
             ob.rechar(" ")
 
+# NPC functions
+###############
+
+def playmap_10_old_man():
+    playmap_10.old_man.will = False
+    figure.give_item("hyperball")
+
 
 # main functions
 ################
@@ -1408,11 +1416,12 @@ playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", prett
                     trainers = [Trainer("Caveman Dieter", "He", Poke("steini", 400, player=False), [" < Oh!", " < I didn't see you comming"], [" < My steini is old but classy"], [" < I see you don't have a living Pokete"], [" < You're a great trainer!"], 18, 7)],
                     extra_actions = playmap_7_extra_action,
                     poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
-playmap_8 = PlayMap(background=" ", height=20, width=80, name="playmap_8", pretty_name="Route 3",
+playmap_8 = PlayMap(background=" ", height=20, width=80, name="playmap_8", pretty_name="Abandoned village",
                     trainers = [Trainer("Wood man Bert", "He", Poke("gobost", 400, player=False), [" < Do you see this abandoned house?", " < I catches this Pokete in there!"], [" < It is stronger than you might have exspected"], [" < It's pretty cool huh?!"], [" < Oh, yours is better than mine!"], 39, 6)],
                     poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290})
 playmap_9 = PlayMap(background=" ", height=15, width=30, name="playmap_9", pretty_name="Abandoned house",
                     poke_args = {"pokes": ["gobost", "rato"], "minlvl": 230, "maxlvl": 290})
+playmap_10 = PlayMap(background=" ", height=15, width=30, name="playmap_10", pretty_name="Old house")
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1716,7 +1725,7 @@ for name in items:
 
 # NPCs
 for npc in npcs:
-    exec(f'{npcs[npc]["map"]}.{npc} = NPC(npcs[npc]["texts"], npcs[npc]["fn"])')
+    exec(f'{npcs[npc]["map"]}.{npc} = NPC(npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"])')
     exec(f'{npcs[npc]["map"]}.{npc}.add({npcs[npc]["map"]}, npcs[npc]["x"], npcs[npc]["y"])')
 
 # fight_invbox
