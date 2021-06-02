@@ -929,22 +929,28 @@ def menu():
     movemap.show()
     while True:
         if ev == "Key.enter":
-            if menubox.op_list[menubox.index.index] == menubox.playername_label:
+            i = menubox.ob_list[menubox.index.index]  # Fuck python for not having case statements
+            if i == menubox.playername_label:
                 figure.name = text_input(menubox.realname_label, movemap, figure.name, 18, 17)
                 movemap.underline.remove()
                 movemap.balls_label.set(0, 1)
                 movemap.name_label.rechar(figure.name, esccode=Color.thicc)
                 movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
                 movemap.underline.add(movemap, 0, movemap.height-2)
+            elif i == menubox.save_label:  # When will python3.10 come out?
+                save()
+            elif i == menubox.exit_label:
+                exiter()
+            ev = ""
         elif ev in ["'s'", "'w'"]:
-            menubox.input(ev, menubox.op_list)
+            menubox.input(ev, menubox.ob_list)
             ev = ""
         elif ev in ["'e'", "Key.esc", "'q'"]:
             ev = ""
             menubox.remove()
             return
         std_loop()
-        time.sleep(0.1)
+        time.sleep(0.05)
         movemap.show()
 
 
@@ -1440,10 +1446,13 @@ movemap.code_label = se.Text("")
 # menubox
 menubox = ChooseBox(height-3, 35, "Menu")
 menubox.playername_label = se.Text("Playername: ")
+menubox.save_label = se.Text("Save")
+menubox.exit_label = se.Text("Exit")
 menubox.realname_label = se.Text(session_info["user"])
-menubox.op_list = [menubox.playername_label]
+menubox.ob_list = [menubox.playername_label, menubox.save_label, menubox.exit_label]
 # adding
-menubox.add_ob(menubox.playername_label, 4, 1)
+for i, ob in enumerate(menubox.ob_list):
+    menubox.add_ob(ob, 4, i+1)
 menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.playername_label.text), menubox.playername_label.ry)
 
 
