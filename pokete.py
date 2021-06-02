@@ -42,6 +42,7 @@ class NPCTrigger(se.Object):
 class NPC(se.Box):
     def __init__(self, texts, fn=None):
         super().__init__(0, 0)
+        self.will = True
         self.texts = texts
         self.__fn = fn
         for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
@@ -49,6 +50,8 @@ class NPC(se.Box):
         self.add_ob(se.Object("a"), 0, 0)
 
     def action(self):
+        if not self.will:
+            return
         movemap.full_show()
         time.sleep(0.7)
         exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)
@@ -424,6 +427,19 @@ class Figure(se.Object):
             box.money_label.rechar(str(self.__money)+"$")
             box.set_ob(box.money_label, box.width-2-len(box.money_label.text), 0)
 
+    def give_item(self, item, amount=1):
+        assert amount > 0, "Amounts have to be positive"
+        if item not in self.inv:
+            self.inv[item] = amount
+        else:
+            self.inv[item] += amount
+
+    def remove_item(self, item, amount=1):
+        assert amount > 0, "Amounts have to be positive"
+        assert item in self.inv, f"Item {name} is not in the inventory"
+        assert self.inv[item]-amount >= 0, f"There are not enought {name}s in the inventory"
+        self.inv[item] -= amount
+
 
 class Attack():
     def __init__(self, index):
@@ -717,7 +733,7 @@ def fight_throw(ob, enem, info, chance, name):
     fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
     fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
     time.sleep(random.choice([1,2,3,4]))
-    figure.inv[name] -= 1
+    figure.remove_item(name)
     if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance, enem.full_hp], k=1)[0]:
         enem.player = True
         figure.pokes.append(enem)
@@ -737,7 +753,7 @@ def fight_throw(ob, enem, info, chance, name):
 
 
 def fight_potion(ob, enem, info, i, name):
-    figure.inv[name] -= 1
+    figure.remove_item(name)
     ob.oldhp = ob.hp
     if ob.hp + i > ob.full_hp:
         ob.hp = ob.full_hp
@@ -757,6 +773,9 @@ def fight_poketeball(ob, enem, info):
 
 def fight_superball(ob, enem, info):
     return fight_throw(ob, enem, info, 6, "superball")
+
+def fight_hyperball(ob, enem, info):
+    return fight_throw(ob, enem, info, 1000, "hyperball")
 
 # Functions for buy
 #####################
@@ -835,7 +854,7 @@ def inv():
                 time.sleep(0.05)
                 movemap.show()
         elif ev == "'r'":
-            figure.inv[items[invbox.index.index].name] -= 1
+            figure.remove_item(items[invbox.index.index].name)
             inv_remove(obs)
             items, obs = inv_add()
             if obs == []:
@@ -876,10 +895,7 @@ def buy():
             ob = items[buybox.index.index]
             if figure.get_money()-ob.price >= 0:
                 figure.add_money(-ob.price)
-                if ob.name in figure.inv:
-                    figure.inv[ob.name] += 1
-                else:
-                    figure.inv[ob.name] = 1
+                figure.give_item(ob.name)
             ev = ""
         std_loop()
         time.sleep(0.05)
@@ -1439,17 +1455,17 @@ menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.p
 # generating objects from map_data
 for map in map_data:
     for hard_ob in map_data[map]["hard_obs"]:
-        exec(map+'.'+hard_ob+' = se.Text(map_data[map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
-        exec(map+'.'+hard_ob+'.add('+map+', map_data[map]["hard_obs"][hard_ob]["x"], map_data[map]["hard_obs"][hard_ob]["y"])')
+        exec(f'{map}.{hard_ob} = se.Text(map_data[map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
+        exec(f'{map}.{hard_ob}.add({map}, map_data[map]["hard_obs"][hard_ob]["x"], map_data[map]["hard_obs"][hard_ob]["y"])')
     for soft_ob in map_data[map]["soft_obs"]:
-        exec(map+'.'+soft_ob+' = se.Text(map_data[map]["soft_obs"][soft_ob]["txt"], ignore=" ", ob_class=HightGrass, ob_args='+map+'.poke_args, state="float")')
-        exec(map+'.'+soft_ob+'.add('+map+', map_data[map]["soft_obs"][soft_ob]["x"], map_data[map]["soft_obs"][soft_ob]["y"])')
+        exec(f'{map}.{soft_ob} = se.Text(map_data[map]["soft_obs"][soft_ob]["txt"], ignore=" ", ob_class=HightGrass, ob_args='+map+'.poke_args, state="float")')
+        exec(f'{map}.{soft_ob}.add({map}, map_data[map]["soft_obs"][soft_ob]["x"], map_data[map]["soft_obs"][soft_ob]["y"])')
     for dor in map_data[map]["dors"]:
-        exec(map+'.'+dor+' = Dor(" ", state="float", arg_proto='+map_data[map]["dors"][dor]["args"]+')')
-        exec(map+'.'+dor+'.add('+map+', map_data[map]["dors"][dor]["x"], map_data[map]["dors"][dor]["y"])')
+        exec(f'{map}.{dor} = Dor(" ", state="float", arg_proto={map_data[map]["dors"][dor]["args"]})')
+        exec(f'{map}.{dor}.add({map}, map_data[map]["dors"][dor]["x"], map_data[map]["dors"][dor]["y"])')
     for ball in map_data[map]["balls"]:
-        exec(map+'.'+ball+' = Poketeball(Color.thicc+Color.red+"o"+Color.reset, state="float")')
-        exec(map+'.'+ball+'.add('+map+', map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
+        exec(f'{map}.{ball} = Poketeball(Color.thicc+Color.red+"o"+Color.reset, state="float")')
+        exec(f'{map}.{ball}.add({map}, map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
 
 # playmap_1
 playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)

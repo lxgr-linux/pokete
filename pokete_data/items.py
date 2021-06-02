@@ -11,6 +11,12 @@ items = {
         "price": 10,
         "fn": "fight_superball"
     },
+    "hyperball": {
+        "pretty_name": "Hyperball",
+        "desc": "For catching Poketes with a waaay higher chance",
+        "price": 10,
+        "fn": "fight_hyperball"
+    },
     "healing_potion": {
         "pretty_name": "Healing potion",
         "desc": "Heals a Pokete with 5 HP",

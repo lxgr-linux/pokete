@@ -54,9 +54,10 @@ This wiki can be generated using ```$ gen-wiki.py```.
 3. [Types](#types)
 4. [Items](#items)
    1. [Healing potion](#healing-potion)
-   2. [Poketeball](#poketeball)
-   3. [Super potion](#super-potion)
-   4. [Superball](#superball)
+   2. [Hyperball](#hyperball)
+   3. [Poketeball](#poketeball)
+   4. [Super potion](#super-potion)
+   5. [Superball](#superball)
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -736,6 +737,10 @@ Those are all items present in the game, that can be traded or found.
 ### Healing potion
 Heals a Pokete with 5 HP
 - Price: 15
+
+### Hyperball
+For catching Poketes with a waaay higher chance
+- Price: 10
 
 ### Poketeball
 A ball you can use to catch Poketes
