@@ -30,6 +30,40 @@ class Poketeball(se.Object):
 # They are now obsolete (because of the Pokete-Center) and will be removed later,
 # but I will keep them for now for testing purposes
 
+class NPCTrigger(se.Object):
+    def __init__(self, npc):
+        super().__init__(" ", state="float")
+        self.npc = npc
+
+    def action(self, ob):
+        self.npc.action()
+
+
+class NPC(se.Box):
+    def __init__(self, texts, fn=None):
+        super().__init__(0, 0)
+        self.texts = texts
+        self.__fn = fn
+        for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
+            self.add_ob(NPCTrigger(self), i, j)
+        self.add_ob(se.Object("a"), 0, 0)
+
+    def action(self):
+        movemap.full_show()
+        time.sleep(0.7)
+        exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)
+        movemap.show()
+        time.sleep(1)
+        exclamation.remove()
+        movemap_text(self.x, self.y, self.texts)
+        self.fn()
+        multitext.remove()
+
+    def fn(self):
+        if self.__fn != None:
+            self.__fn()
+
+
 class PC(se.Object):
     def action(self, ob):
         deck(figure.pokes)
@@ -1451,9 +1485,11 @@ cave_1.inner.add(cave_1, 0, 0)
 # playmap_3
 playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_3.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+playmap_3.npc = NPC([" < Hey", " < What up?"])
 # adding
 playmap_3.dor.add(playmap_3, 25, 6)
 playmap_3.shopdor.add(playmap_3, 61, 6)
+playmap_3.npc.add(playmap_3, 49, 14)
 
 # playmap_4
 playmap_4.dor_playmap_5 = ChanceDor("~", state="float", arg_proto={"chance": 6, "map": playmap_5, "x": 17, "y": 16})
