@@ -914,7 +914,7 @@ def roadmap():
     global ev
     ev = ""
     mapbox.add(movemap, movemap.width-mapbox.width, 0)
-    [i for i in [mapbox.a, mapbox.b, mapbox.c, mapbox.d, mapbox.e, mapbox.f, mapbox.g, mapbox.h] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5, playmap_9]][0]][0].choose()
+    [i for i in [mapbox.a, mapbox.b, mapbox.c, mapbox.d, mapbox.e, mapbox.f, mapbox.g, mapbox.h] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5, playmap_9, playmap_10]][0]][0].choose()
     movemap.show()
     while True:
         if ev in ["'w'", "'a'", "'s'", "'d'"]:
