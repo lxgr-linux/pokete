@@ -15,6 +15,14 @@ npcs = {
         "x": 4,
         "y": 3
     },
+    "healer": {
+        "texts": [" < Hello fellow trainer", " < You and your Poketes look exhausted", " < I will heal them!"],
+        "fn": "heal",
+        "args": (),
+        "map": "playmap_8",
+        "x": 52,
+        "y": 1
+    },
 }
 
 
