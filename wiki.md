@@ -8,23 +8,24 @@ This wiki can be generated using ```$ gen-wiki.py```.
    2. [Bator](#bator)
    3. [Blub](#blub)
    4. [Bushy](#bushy)
-   5. [Gobost](#gobost)
-   6. [Hornita](#hornita)
-   7. [Horny](#horny)
-   8. [Karpi](#karpi)
-   9. [Lilstone](#lilstone)
-   10. [Ostri](#ostri)
-   11. [Owol](#owol)
-   12. [Poundi](#poundi)
-   13. [Rato](#rato)
-   14. [Rollator](#rollator)
-   15. [Rosi](#rosi)
-   16. [Steini](#steini)
-   17. [Treenator](#treenator)
-   18. [Vogli](#vogli)
-   19. [Voglo](#voglo)
-   20. [Wolfior](#wolfior)
-   21. [Würgos](#würgos)
+   5. [Clampi](#clampi)
+   6. [Gobost](#gobost)
+   7. [Hornita](#hornita)
+   8. [Horny](#horny)
+   9. [Karpi](#karpi)
+   10. [Lilstone](#lilstone)
+   11. [Ostri](#ostri)
+   12. [Owol](#owol)
+   13. [Poundi](#poundi)
+   14. [Rato](#rato)
+   15. [Rollator](#rollator)
+   16. [Rosi](#rosi)
+   17. [Steini](#steini)
+   18. [Treenator](#treenator)
+   19. [Vogli](#vogli)
+   20. [Voglo](#voglo)
+   21. [Wolfior](#wolfior)
+   22. [Würgos](#würgos)
 2. [Attacks](#attacks)
    1. [Apple drop](#apple-drop)
    2. [Bark hardening](#bark-hardening)
@@ -46,11 +47,12 @@ This wiki can be generated using ```$ gen-wiki.py```.
    18. [Politure](#politure)
    19. [Power pick](#power-pick)
    20. [Power roll](#power-roll)
-   21. [Sucker](#sucker)
-   22. [Super sucker](#super-sucker)
-   23. [Tackle](#tackle)
-   24. [Tail wipe](#tail-wipe)
-   25. [Wing hit](#wing-hit)
+   21. [Shell pinch](#shell-pinch)
+   22. [Sucker](#sucker)
+   23. [Super sucker](#super-sucker)
+   24. [Tackle](#tackle)
+   25. [Tail wipe](#tail-wipe)
+   26. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [Healing potion](#healing-potion)
@@ -63,7 +65,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
 In the following all Poketes with their attributes are displayed.
 
 ### Bato
-An annoying flying rat
+An annoying flying rat.
 ```
     ___
 WW\/* *\/WW
@@ -84,7 +86,7 @@ WW\/* *\/WW
 - Evolves to Bator at level 20
 
 ### Bator
-A chongus flying rat
+A chongus flying rat.
 ```
     ___
 WW\/o o\/WW
@@ -108,7 +110,7 @@ WW\/o o\/WW
 - Does not evolve
 
 ### Blub
-Very delicious and low fat water Pokete
+Very delicious and low fat water Pokete.
 ```
   _____
  / o   \
@@ -149,8 +151,30 @@ A bush, and just a bush. But watch out!
    + [Bark hardening](#bark-hardening)
 - Evolves to Treenator at level 20
 
+### Clampi
+A shell that lives deep in the see or near bays, that's pretty hard to crack.
+```
+    ___
+  -/ * \-
+  -\___/-
+
+```
+
+- Type: [Water](#types)
+- Health points: 25
+- Attack factor: level+2
+- Defense factor: level+7
+- Missing chance: 0
+- Rarity: 0.8
+- Loosing experience: 5
+- Attacks:
+   + [Tackle](#tackle)
+   + [Bubble bomb](#bubble-bomb)
+   + [Shell pinch](#shell-pinch)
+- Does not evolve
+
 ### Gobost
-A scary ghost Pokete that lives in caves and old houses
+A scary ghost Pokete that lives in caves and old houses.
 ```
  .░░░░░░░.
  ░░o░░░o░░
@@ -214,7 +238,7 @@ A teenaged unicorn in the middle of puberty.
 - Evolves to Hornita at level 20
 
 ### Karpi
-A very harmless water Pokete that can be found everywhere
+A very harmless water Pokete that can be found everywhere.
 ```
 
 
@@ -234,7 +258,7 @@ A very harmless water Pokete that can be found everywhere
 - Does not evolve
 
 ### Lilstone
-A small but powerfull stone Pokete that lives in the mountains
+A small but powerfull stone Pokete that lives in the mountains.
 ```
 
    _____
@@ -256,7 +280,7 @@ A small but powerfull stone Pokete that lives in the mountains
 - Does not evolve
 
 ### Ostri
-A very agressive bird Pokete that lives near deserts and will try to pick out your eyes
+A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
 ```
    !
   >´)
@@ -278,7 +302,7 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
 - Does not evolve
 
 ### Owol
-A night active Pokete, that is looking for lil children as a midnight snack
+A night active Pokete, that is looking for lil children as a midnight snack.
 ```
    ,___,
    {o,o}
@@ -301,7 +325,7 @@ A night active Pokete, that is looking for lil children as a midnight snack
 - Does not evolve
 
 ### Poundi
-A powerfull and heavy stone Pokete that lives in mountain caves
+A powerfull and heavy stone Pokete that lives in mountain caves.
 ```
    A-A-A
   < o o >
@@ -323,7 +347,7 @@ A powerfull and heavy stone Pokete that lives in mountain caves
 - Does not evolve
 
 ### Rato
-An annoying rat
+An annoying rat.
 ```
    ^---^
    \o o/
@@ -365,7 +389,7 @@ A big chunck of stone and dirt, that roles around.
 - Does not evolve
 
 ### Rosi
-A plant Pokete, that's often mistaken for a normal flower
+A plant Pokete, that's often mistaken for a normal flower.
 ```
 
     (@)
@@ -386,7 +410,7 @@ A plant Pokete, that's often mistaken for a normal flower
 - Does not evolve
 
 ### Steini
-A squared stone that can casually be found on the ground
+A squared stone that can casually be found on the ground.
 ```
  +-------+
  | o   o |
@@ -408,7 +432,7 @@ A squared stone that can casually be found on the ground
 - Does not evolve
 
 ### Treenator
-A scary an dangerous apple tree
+A scary an dangerous apple tree.
 ```
     (()
    (()))
@@ -429,7 +453,7 @@ A scary an dangerous apple tree
 - Does not evolve
 
 ### Vogli
-A very common bird Pokete that lives in town but also in the nature
+A very common bird Pokete that lives in town but also in the nature.
 ```
     A
    <')
@@ -450,7 +474,7 @@ A very common bird Pokete that lives in town but also in the nature
 - Evolves to Voglo at level 20
 
 ### Voglo
-A very agressive bird Pokete that can only be found in the woods
+A very agressive bird Pokete that can only be found in the woods.
 ```
     ?
    >´)
@@ -493,7 +517,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 - Does not evolve
 
 ### Würgos
-A dangerous snake Pokete
+A dangerous snake Poketes.
 ```
   >'({{{
   }}}}}}}
@@ -676,6 +700,14 @@ Rolls over the enemy
 - Attack factor: 2.5
 - Missing chance: 0.2
 - Attack points: 10
+
+### Shell pinch
+Pinches the enemy with it's strong shells
+- Type: [Water](#types)
+- Minimum Level: 15
+- Attack factor: 2.5
+- Missing chance: 0.1
+- Attack points: 15
 
 ### Sucker
 Sucks 1 HP from the enemy and adds it to it's own

@@ -274,6 +274,17 @@ attacs = {
         "type": "stone",
         "ap": 15,
     },
+    "shell_pinch": {
+        "name": "Shell pinch",
+        "factor": 2.5,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.1,
+        "min_lvl": 15,
+        "desc": "Pinches the enemy with it's strong shells",
+        "type": "water",
+        "ap": 15,
+    },
 }
 
 if __name__ == "__main__":
