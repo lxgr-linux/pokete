@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Pokete
+Comment=A terminal based Pokemon clone, based on the scrap engine.
+Exec=/usr/share/pokete/pokete.py
+Icon=/usr/share/pokete/assets/logo.svg
+Terminal=true
+StartupNotify=false
+Categories=Game;
