@@ -349,12 +349,14 @@ class Poke():
 
 class Station(se.Square):
     choosen = None
+    obs = []
     def __init__(self, associate, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
         self.org_char = char
         self.associate = associate
         super().__init__(char, width, height)
         for i in ["w_next", "a_next", "s_next", "d_next"]:
             exec("self."+i+"="+i)
+        Station.obs.append(self)
 
     def choose(self):
         self.rechar(Color.red+Color.thicc+self.org_char+Color.reset)
@@ -808,13 +810,19 @@ def inv_remove(obs):
 # Those are adding additional actions to playmaps
 #################################################
 
-def playmap_4_extra_action():
-    for ob in playmap_4.lake_1.obs:
+def playmap_water_extra_action(obs):
+    for ob in obs:
         if random.randint(0, 7) == 0:
             if " " not in ob.char:
                 ob.rechar([i for i in [Color.lightblue+"~"+Color.reset, Color.blue+"~"+Color.reset] if i != ob.char][0])
                 if ob.x == figure.x and ob.y == figure.y:
                     figure.redraw()
+
+def playmap_4_extra_action():
+    playmap_water_extra_action(playmap_4.lake_1.obs)
+
+def playmap_11_extra_action():
+    playmap_water_extra_action(playmap_11.lake_1.obs)
 
 def playmap_7_extra_action():
     for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"]]:
@@ -914,7 +922,7 @@ def roadmap():
     global ev
     ev = ""
     mapbox.add(movemap, movemap.width-mapbox.width, 0)
-    [i for i in [mapbox.a, mapbox.b, mapbox.c, mapbox.d, mapbox.e, mapbox.f, mapbox.g, mapbox.h] if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5, playmap_9, playmap_10]][0]][0].choose()
+    [i for i in Station.obs if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5, playmap_9, playmap_10]][0]][0].choose()
     movemap.show()
     while True:
         if ev in ["'w'", "'a'", "'s'", "'d'"]:
@@ -948,6 +956,7 @@ def menu():
             elif i == menubox.save_label:  # When will python3.10 come out?
                 save()
             elif i == menubox.exit_label:
+                save()
                 exiter()
             ev = ""
         elif ev in ["'s'", "'w'"]:
@@ -1417,11 +1426,15 @@ playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", prett
                     extra_actions = playmap_7_extra_action,
                     poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
 playmap_8 = PlayMap(background=" ", height=20, width=80, name="playmap_8", pretty_name="Abandoned village",
-                    trainers = [Trainer("Wood man Bert", "He", Poke("gobost", 400, player=False), [" < Do you see this abandoned house?", " < I catches this Pokete in there!"], [" < It is stronger than you might have exspected"], [" < It's pretty cool huh?!"], [" < Oh, yours is better than mine!"], 39, 6)],
+                    trainers = [Trainer("Wood man Bert", "He", Poke("gobost", 400, player=False), [" < Do you see this abandoned house?", " < I catches this Pokete in there!"], [" < It's pretty cool huh?!"], [" < I see you don't have a living Pokete"], [" < Oh, yours is better than mine!"], 39, 6)],
                     poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290})
 playmap_9 = PlayMap(background=" ", height=15, width=30, name="playmap_9", pretty_name="Abandoned house",
                     poke_args = {"pokes": ["gobost", "rato"], "minlvl": 230, "maxlvl": 290})
 playmap_10 = PlayMap(background=" ", height=15, width=30, name="playmap_10", pretty_name="Old house")
+playmap_11 = PlayMap(background=" ", height=20, width=60, name="playmap_11", pretty_name="Route 3",
+                    trainers = [Trainer("Fishermans friend", "He", Poke("clampi", 450, player=False), [" < G'day young trainer", " < I've lived here for years"], [" < Those years of training were worth it"], [" < I see you don't have a living Pokete"], [" < I did't train it in years!"], 42, 7)],
+                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290},
+                    extra_actions = playmap_11_extra_action)
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1434,7 +1447,8 @@ mapbox.d = Station(playmap_3, 2, 1, a_next="mapbox.c", w_next="mapbox.e", s_next
 mapbox.e = Station(playmap_4, 1, 3, s_next="mapbox.d")
 mapbox.f = Station(playmap_6, 1, 2, w_next="mapbox.d", a_next="mapbox.g", d_next="mapbox.h")
 mapbox.g = Station(playmap_7, 1, 1, d_next="mapbox.f")
-mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f")
+mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f", s_next="mapbox.i")
+mapbox.i = Station(playmap_11, 1, 1, w_next="mapbox.h")
 mapbox.add_ob(mapbox.a, 5, 7)
 mapbox.add_ob(mapbox.b, 6, 5)
 mapbox.add_ob(mapbox.c, 7, 5)
@@ -1443,6 +1457,7 @@ mapbox.add_ob(mapbox.e, 10, 2)
 mapbox.add_ob(mapbox.f, 10, 6)
 mapbox.add_ob(mapbox.g, 9, 7)
 mapbox.add_ob(mapbox.h, 11, 7)
+mapbox.add_ob(mapbox.i, 11, 8)
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
@@ -1587,6 +1602,20 @@ playmap_9.inner = se.Text("""
 #########################""", ignore="#", ob_class=HightGrass, ob_args=playmap_9.poke_args, state="float")
 # adding
 playmap_9.inner.add(playmap_9, 2, 1)
+
+# playma_11
+playmap_11.lake_1 =  se.Text("""~~~~~                                                 ~~~~~~
+~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~                       ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~          ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290, "maxlvl": 350}, state="float")
+# adding
+playmap_11.lake_1.add(playmap_11, 0, 12)
+
+
 
 # adding all trainer to map
 for map in map_data:
