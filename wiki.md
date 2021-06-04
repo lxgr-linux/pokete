@@ -772,7 +772,7 @@ Heals a Pokete with 5 HP
 
 ### Hyperball
 For catching Poketes with a waaay higher chance
-- Price: 10
+- Price: None
 
 ### Poketeball
 A ball you can use to catch Poketes
