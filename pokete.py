@@ -1102,7 +1102,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 std_loop()
                 time.sleep(0.1)
         else:
-            attack = random.choices([ob for ob in ob.attac_obs], weights=[ob.ap for ob in ob.attac_obs])[0]
+            attack = random.choices([i for i in ob.attac_obs], weights=[i.ap for i in ob.attac_obs])[0]
         time.sleep(0.3)
         if attack != "":
             ob.attack(attack, enem)
@@ -1110,6 +1110,13 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         time.sleep(0.5)
         if enem.hp <= 0:
             winner = ob
+            break
+        elif all([i.ap == 0 for i in ob.attac_obs]):
+            winner = [i for i in players if i != ob][0]
+            time.sleep(3)
+            fightmap.outp.rechar(f"{ob.name}({'you' if winner.player else 'enemy'}) has used all its' attacks!")
+            fightmap.show()
+            time.sleep(3)
             break
         fightmap.show()
         ob = [i for i in players if i != ob][-1]
@@ -1426,7 +1433,7 @@ playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", prett
                     extra_actions = playmap_7_extra_action,
                     poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
 playmap_8 = PlayMap(background=" ", height=20, width=80, name="playmap_8", pretty_name="Abandoned village",
-                    trainers = [Trainer("Wood man Bert", "He", Poke("gobost", 400, player=False), [" < Do you see this abandoned house?", " < I catches this Pokete in there!"], [" < It's pretty cool huh?!"], [" < I see you don't have a living Pokete"], [" < Oh, yours is better than mine!"], 39, 6)],
+                    trainers = [Trainer("Wood man Bert", "He", Poke("gobost", 400, player=False), [" < Do you see this abandoned house?", " < I catched this Pokete in there!"], [" < It's pretty cool huh?!"], [" < I see you don't have a living Pokete"], [" < Oh, yours is better than mine!"], 39, 6)],
                     poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290})
 playmap_9 = PlayMap(background=" ", height=15, width=30, name="playmap_9", pretty_name="Abandoned house",
                     poke_args = {"pokes": ["gobost", "rato"], "minlvl": 230, "maxlvl": 290})
