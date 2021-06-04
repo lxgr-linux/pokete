@@ -453,7 +453,7 @@ A scary an dangerous apple tree.
 - Does not evolve
 
 ### Vogli
-A very common bird Pokete that lives in town but also in the nature.
+A very common bird Pokete that lives everywhere.
 ```
     A
    <')
@@ -517,7 +517,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 - Does not evolve
 
 ### Würgos
-A dangerous snake Poketes.
+A dangerous snake Pokete.
 ```
   >'({{{
   }}}}}}}
@@ -702,7 +702,7 @@ Rolls over the enemy
 - Attack points: 10
 
 ### Shell pinch
-Pinches the enemy with it's strong shells
+Pinches the enemy with its strong shells
 - Type: [Water](#types)
 - Minimum Level: 15
 - Attack factor: 2.5

@@ -281,7 +281,7 @@ attacs = {
         "move": "attack",
         "miss_chance": 0.1,
         "min_lvl": 15,
-        "desc": "Pinches the enemy with it's strong shells",
+        "desc": "Pinches the enemy with its strong shells",
         "type": "water",
         "ap": 15,
     },
