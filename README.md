@@ -44,7 +44,7 @@ type|effective against|ineffective against
 ---|---|---
 normal||
 stone|flying, fire|plant
-plant|stone, ground|fire
+plant|stone, ground, water|fire
 water|stone, flying, fire|plant
 fire|flying, plant|stone, water
 ground|normal|flying

@@ -101,11 +101,9 @@ class Trainer(se.Object):
 
     def do(self, map):
         if figure.x == self.x and self.poke.hp > 0 and self.will:
-            arr = []
             for i in range(figure.y+1 if figure.y < self.y else self.y+1, self.y if figure.y < self.y else figure.y):
-                arr += map.obmap[i][self.x]
-            if any(ob.state == "solid" for ob in arr):
-                return
+                if any(j.state == "solid" for j in map.obmap[i][self.x]):
+                    return
             movemap.full_show()
             time.sleep(0.7)
             exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)

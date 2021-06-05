@@ -756,7 +756,7 @@ Type|Effective against|Ineffective against
 ---|---|---
 Normal||
 Stone|Flying, Fire|Plant
-Plant|Stone, Ground|Fire
+Plant|Stone, Ground, Water|Fire
 Water|Stone, Flying, Fire|Plant
 Fire|Flying, Plant|Stone, Water
 Ground|Normal|Flying

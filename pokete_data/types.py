@@ -8,7 +8,7 @@ types = {
         "ineffective": ["plant"]
     },
     "plant": {
-        "effective": ["stone", "ground"],
+        "effective": ["stone", "ground", "water"],
         "ineffective": ["fire"]
     },
     "water": {
