@@ -1120,11 +1120,12 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         ob = [i for i in players if i != ob][-1]
         enem = [i for i in players if i != ob][-1]
     loser = [ob for ob in players if ob != winner][0]
-    fightmap.outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(loser.lose_xp*(2 if info["type"] == "duel" else 1)) if winner.player else ""))
+    xp = (loser.lose_xp+(1 if loser.lvl() > winner.lvl() else 0))*(2 if info["type"] == "duel" else 1)
+    fightmap.outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(xp) if winner.player else ""))
     fightmap.show()
     if winner.player:
         old_lvl = winner.lvl()
-        winner.xp += loser.lose_xp*(2 if info["type"] == "duel" else 1)
+        winner.xp += xp
         winner.text_xp.rechar("XP:"+str(winner.xp-(winner.lvl()**2-1))+"/"+str(((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)))
         winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
         if old_lvl < winner.lvl():
