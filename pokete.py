@@ -1441,6 +1441,8 @@ playmap_11 = PlayMap(background=" ", height=20, width=60, name="playmap_11", pre
                     trainers = [Trainer("Fishermans friend", "He", Poke("clampi", 450, player=False), [" < G'day young trainer", " < I've lived here for years"], [" < Those years of training were worth it"], [" < I see you don't have a living Pokete"], [" < I did't train it in years!"], 42, 7)],
                     poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290},
                     extra_actions = playmap_11_extra_action)
+playmap_12 = PlayMap(background=" ", height=15, width=80, name="playmap_12", pretty_name="Route 4",
+                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290})
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
