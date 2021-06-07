@@ -1442,7 +1442,9 @@ playmap_11 = PlayMap(background=" ", height=20, width=60, name="playmap_11", pre
                     poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290},
                     extra_actions = playmap_11_extra_action)
 playmap_12 = PlayMap(background=" ", height=15, width=80, name="playmap_12", pretty_name="Route 4",
-                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290})
+                    trainers = [Trainer("Brother Justin", "He", Poke("blub", 600, player=False), [" < Hey, my brother and me want to fight!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 26, 10),
+                                Trainer("Brother Justus", "He", Poke("poundi", 600, player=False), [" < Now it's my turn!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 27, 10)],
+                    poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
