@@ -1,5 +1,7 @@
 # Pokete
+![Example](assets/ss1.png)
 
+[See more example pics](assets/pics.md)
 ## What is it?
 Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak.
 
