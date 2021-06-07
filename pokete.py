@@ -1457,8 +1457,9 @@ mapbox.d = Station(playmap_3, 2, 1, a_next="mapbox.c", w_next="mapbox.e", s_next
 mapbox.e = Station(playmap_4, 1, 3, s_next="mapbox.d")
 mapbox.f = Station(playmap_6, 1, 2, w_next="mapbox.d", a_next="mapbox.g", d_next="mapbox.h")
 mapbox.g = Station(playmap_7, 1, 1, d_next="mapbox.f")
-mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f", s_next="mapbox.i")
+mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f", s_next="mapbox.i", d_next="mapbox.j")
 mapbox.i = Station(playmap_11, 1, 1, w_next="mapbox.h")
+mapbox.j = Station(playmap_12, 2, 1, a_next="mapbox.h")
 mapbox.add_ob(mapbox.a, 5, 7)
 mapbox.add_ob(mapbox.b, 6, 5)
 mapbox.add_ob(mapbox.c, 7, 5)
@@ -1468,6 +1469,7 @@ mapbox.add_ob(mapbox.f, 10, 6)
 mapbox.add_ob(mapbox.g, 9, 7)
 mapbox.add_ob(mapbox.h, 11, 7)
 mapbox.add_ob(mapbox.i, 11, 8)
+mapbox.add_ob(mapbox.j, 13, 7)
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
@@ -1501,7 +1503,7 @@ for map in map_data:
         exec(f'{map}.{hard_ob} = se.Text(map_data[map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
         exec(f'{map}.{hard_ob}.add({map}, map_data[map]["hard_obs"][hard_ob]["x"], map_data[map]["hard_obs"][hard_ob]["y"])')
     for soft_ob in map_data[map]["soft_obs"]:
-        exec(f'{map}.{soft_ob} = se.Text(map_data[map]["soft_obs"][soft_ob]["txt"], ignore=" ", ob_class=HightGrass, ob_args='+map+'.poke_args, state="float")')
+        exec(f'{map}.{soft_ob} = se.Text(map_data[map]["soft_obs"][soft_ob]["txt"], ignore=Color.green+" "+Color.reset, ob_class=HightGrass, ob_args='+map+'.poke_args, state="float", esccode=Color.green)')
         exec(f'{map}.{soft_ob}.add({map}, map_data[map]["soft_obs"][soft_ob]["x"], map_data[map]["soft_obs"][soft_ob]["y"])')
     for dor in map_data[map]["dors"]:
         exec(f'{map}.{dor} = Dor(" ", state="float", arg_proto={map_data[map]["dors"][dor]["args"]})')
@@ -1511,7 +1513,7 @@ for map in map_data:
         exec(f'{map}.{ball}.add({map}, map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
 
 # playmap_1
-playmap_1.meadow = se.Square(";", 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
+playmap_1.meadow = se.Square(Color.green+";"+Color.reset, 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
 playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 # adding
 playmap_1.dor.add(playmap_1, 25, 4)

@@ -1,4 +1,14 @@
 map_data = {
+#     "playmap_1": {
+#         "hard_obs": {
+#         },
+#         "soft_obs": {
+#         },
+#         "dors": {
+#         },
+#         "balls": {
+#         }
+#     },
     "playmap_1": {
         "hard_obs": {
             "tree_group_1": {
