@@ -23,6 +23,22 @@ npcs = {
         "x": 52,
         "y": 1
     },
+    "npc_1": {
+        "texts": [" < To get to the other side of this building, you have to win some epic fights against Deepens forests' best trainers!", " < This won't be easy!"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_13",
+        "x": 33,
+        "y": 6
+    },
+    "npc_2": {
+        "texts": [" < Welcome to Deepens forest", " < To get through this town you have to win against the best trainers of Deepens forest!", " < I wish you a great time in Deepens forest!"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_13",
+        "x": 38,
+        "y": 31
+    },
 }
 
 

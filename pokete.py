@@ -1445,6 +1445,9 @@ playmap_12 = PlayMap(background=" ", height=15, width=80, name="playmap_12", pre
                     trainers = [Trainer("Brother Justin", "He", Poke("blub", 600, player=False), [" < Hey, my brother and me want to fight!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 26, 10),
                                 Trainer("Brother Justus", "He", Poke("poundi", 600, player=False), [" < Now it's my turn!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 27, 10)],
                     poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
+playmap_13 = PlayMap(background=" ", height=35, width=70, name="playmap_13", pretty_name="Deepens forest",
+                    trainers = [Trainer("Citizen", "He", Poke("vogli", 600, player=False), [" < Hello fellow stranger!", " < This town is known for it's bird Poketes"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 5, 31),],
+                    poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1459,7 +1462,8 @@ mapbox.f = Station(playmap_6, 1, 2, w_next="mapbox.d", a_next="mapbox.g", d_next
 mapbox.g = Station(playmap_7, 1, 1, d_next="mapbox.f")
 mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f", s_next="mapbox.i", d_next="mapbox.j")
 mapbox.i = Station(playmap_11, 1, 1, w_next="mapbox.h")
-mapbox.j = Station(playmap_12, 2, 1, a_next="mapbox.h")
+mapbox.j = Station(playmap_12, 2, 1, a_next="mapbox.h", w_next="mapbox.k")
+mapbox.k = Station(playmap_13, 1, 2, s_next="mapbox.j")
 mapbox.add_ob(mapbox.a, 5, 7)
 mapbox.add_ob(mapbox.b, 6, 5)
 mapbox.add_ob(mapbox.c, 7, 5)
@@ -1470,6 +1474,7 @@ mapbox.add_ob(mapbox.g, 9, 7)
 mapbox.add_ob(mapbox.h, 11, 7)
 mapbox.add_ob(mapbox.i, 11, 8)
 mapbox.add_ob(mapbox.j, 13, 7)
+mapbox.add_ob(mapbox.k, 14, 5)
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
@@ -1626,6 +1631,13 @@ playmap_11.lake_1 =  se.Text("""~~~~~                                           
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290, "maxlvl": 350}, state="float")
 # adding
 playmap_11.lake_1.add(playmap_11, 0, 12)
+
+# playmap_13
+playmap_13.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_13.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+# adding
+playmap_13.dor.add(playmap_13, 14, 29)
+playmap_13.shopdor.add(playmap_13, 52, 29)
 
 
 
