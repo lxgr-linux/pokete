@@ -39,6 +39,8 @@ By pressing "e" you can get into a menu where player name and later other settin
 
 The red balls all over the map, are Poketeballs, you need to catch Poketes. Stepping on such a ball adds it to your inventory. A store to buy them will be added later.
 
+See [How to play](HowToPlay.md).
+
 ## Game depth
 Not only are there Poketes that are stronger than others, but also Poketes with different types, which are effective against some types and ineffective against others.
 

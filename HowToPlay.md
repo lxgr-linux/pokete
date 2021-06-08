@@ -1,0 +1,98 @@
+# Pokete - How to play
+
+## Contents
+1. [Plot](#plot)
+2. [Controls](#controls)
+3. [Fights](#fights)
+4. [Trainers](#trainers)
+5. [Inventory](#inventory)
+6. [Minimap](#minimap)
+7. [Pokete centers](#pokete-centers)
+8. [Pokete shops](#pokete-shops)
+9. [Poketeballs](#poketeballs)
+
+
+## Plot
+The plot of the game is that you, a ten years old boy/girl/what ever, are running around in the world and does what ten years olds do: Catching little creatures (Poketes) and letting them fight against other little creatures.
+
+You are on a journey to explore the world and catch all Poketes. On this way you will meet many different NPCs that may or may not be nice to you.
+
+## Controls
+After first starting the game you can move the character, the one little `a` on the screen using `w`, `a`, `s` and `d`.
+
+![Map](assets/ss8.png)
+
+You can open the settings/menu by pressing `e`.
+
+![Menu](assets/ss7.png)
+
+In this type of menu you can navigate using `w` and `s` to move the cursor and `enter` to select the option. To exit just press `Esc` or `q`.
+
+## Fights
+
+When going onto the green grass patch you may get attacked by a wild Pokete.
+
+![Grass](assets/ss9.png)
+
+![Grass](assets/ss10.png)
+
+Now you have several options to do, you can attack and weaken the Pokete to catch it, run away or choose another Pokete.
+
+To attack just press `1` and a little selection window opens where you can choose from your attacks. You can ether navigate the cursor to the attack you want to choose (using `w` and `s`) and then press `enter`, or you just type in the number before the attack name.
+
+The Number behind the name are the AP (Attack Points) of the attack (The times you can use the attack, you have left).
+
+![Attacking](assets/ss11.png)
+
+When you fight until the enemy Poketes' HP are low (like 1 to 3 HP) you can try to catch it. By pressing `3` you can open your inventory where you can choose from the items you have. By pressing `enter` you can use your chosen item. In case of trying to catch the enemy should select the Poketeball.
+
+![Catching](assets/ss12.png)
+
+Catching a Pokete may not be successful at the first try.
+You can also kill the Pokete and gain XP for your Pokete.
+
+## Trainers
+Trainers are other ten years old Pokete trainers just like you that train Poketes. They are the other `a`s you may encounter on the map. They will talk to you and then start a fight, the only difference between a trainer fight and a normal fight is that you can not run away from a trainer fight and can not catch the enemys' Pokete. They will give you 20$ if you win.
+
+## Inventory
+By Pressing `4` you can open your inventory where you can see all your items, their amounts and how much money you have. By selecting and item with the cursor and pressing `enter` you can see the items description. To exit just press `Esc` or `q`.
+
+![Inv](assets/ss18.png)
+
+By having an item selected and pressing `r` you can remove it from your inventory.
+
+## Minimap
+By pressing `3` you can open a map of the complete Pokete world where you can see and select all Routes/Towns on the map. You can select and navigate by using `w`, `a`, `s` and `d`. To exit just press `Esc` or `q`.
+
+![Map](assets/ss19.png)
+
+## Pokete centers
+On your journey through the Pokete world you may discover the some houses. 
+
+Some of those houses are Pokete centers where you can heal your wounded Poketes and reorganize your deck.
+
+![Center](assets/ss13.png)
+
+By going up to the person behind the counter you can interact with them. 
+
+![Center](assets/ss14.png)
+
+## Pokete shops
+In some towns there are also shops present where you can by items like Potions and Poketeballs.
+
+![Shop](assets/ss15.png)
+
+By going up to the person behind the counter you can interact with them. 
+
+![Shop](assets/ss16.png)
+
+To by an item just navigate the cursor to it and press `enter`, then it will be added to your inventory. To exit just press `Esc` or `q`.
+
+## Poketeballs
+Poketeballs are needed to catch Poketes. You can see how many Poketeballs you have in your Inventory, buy them in the [Pokete shop](#pokete-shops) and find them on the map.
+They are the small red balls hidden all over the map, and can be collected by just walking over them.
+
+![Balls](assets/ss17.png)
+
+
+
