@@ -265,8 +265,8 @@ class Poke():
             self.enem = enem
             enem.oldhp = enem.hp
             self.oldhp = self.hp
-            effectivity = 1.5 if enem.type.name in attac.type.effective else 0.5 if enem.type.name in attac.type.ineffective else 1
-            n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense > 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0]*effectivity)
+            effectivity = 1.3 if enem.type.name in attac.type.effective else 0.5 if enem.type.name in attac.type.ineffective else 1
+            n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense >= 1 else 1))*random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance+self.miss_chance, 1, 1, 1], k=1)[0]*effectivity)
             enem.hp -= n_hp if n_hp >= 0 else 0
             if enem.hp < 0:
                 enem.hp = 0
@@ -920,7 +920,7 @@ def roadmap():
     global ev
     ev = ""
     mapbox.add(movemap, movemap.width-mapbox.width, 0)
-    [i for i in Station.obs if i.associate == [j for j in [figure.map, figure.oldmap] if j not in [centermap, playmap_5, playmap_9, playmap_10]][0]][0].choose()
+    [i for i in Station.obs if i.associate == [j for j in [figure.map, figure.oldmap] if j in [k.associate for k in Station.obs]][0]][0].choose()
     movemap.show()
     while True:
         if ev in ["'w'", "'a'", "'s'", "'d'"]:
@@ -1448,6 +1448,11 @@ playmap_12 = PlayMap(background=" ", height=15, width=80, name="playmap_12", pre
 playmap_13 = PlayMap(background=" ", height=35, width=70, name="playmap_13", pretty_name="Deepens forest",
                     trainers = [Trainer("Citizen", "He", Poke("vogli", 600, player=False), [" < Hello fellow stranger!", " < This town is known for it's bird Poketes"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 5, 31),],
                     poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
+playmap_14 = PlayMap(background=" ", height=15, width=30, name="playmap_14", pretty_name="Arena",
+                    trainers = [Trainer("First trainer", "He", Poke("owol", 650, player=False), [" < Welcome to the Deepest forest Pokete Arena", " < I'm your first enemy!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck!"], 17, 10),
+                                Trainer("Second trainer", "She", Poke("voglo", 700, player=False), [" < Now it's my turn!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the last trainer!"], 22, 10),
+                                Trainer("Third trainer", "She", Poke("treenator", 750, player=False), [" < Let's see what Poketes else you have!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the last trainer!"], 22, 5),
+                                Trainer("Last trainer", "He", Poke("ostri", 780, player=False), [" < I'm your last enemy!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were able to defeat me?", " < You can now leave Deepest forest"], 17, 5)])
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
