@@ -1100,7 +1100,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 std_loop()
                 time.sleep(0.1)
         else:
-            attack = random.choices([i for i in ob.attac_obs], weights=[i.ap for i in ob.attac_obs])[0]
+            attack = random.choices([i for i in ob.attac_obs], weights=[i.ap*((1.5 if enem.type.name in i.type.effective else 0.5 if enem.type.name in i.type.ineffective else 1) if info["type"] == "duel" else 1) for i in ob.attac_obs])[0]
         time.sleep(0.3)
         if attack != "":
             ob.attack(attack, enem)
