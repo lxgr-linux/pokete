@@ -455,6 +455,21 @@ class Attack():
         self.label_type = se.Text("Type:"+self.type.name)
 
 
+class Setting(se.Box):
+    def __init__(self, text, setting, options={}):
+        super().__init__(0, 0)
+        self.options = options
+        self.setting = setting
+        self.text = se.Text(text+": ")
+        self.add_ob(self.text, 0, 0)
+        self.option_text = se.Text(self.options[eval(self.setting)])
+        self.add_ob(self.option_text, len(self.text.text), 0)
+
+    def change(self):
+        exec(f"{self.setting} = [i for i in self.options if i != {self.setting}][0]")
+        self.option_text.rechar(self.options[eval(self.setting)])
+
+
 # General use functions
 #######################
 
@@ -497,7 +512,8 @@ def hard_liner(l_len, name):
 def autosave():
     while True:
         time.sleep(300)
-        save()
+        if settings.autosave:
+            save()
 
 
 def save():
@@ -509,7 +525,8 @@ def save():
         "y": figure.y,
         "pokes": {i: {"name": poke.identifier, "xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,
-        "money": figure.get_money()
+        "money": figure.get_money(),
+        "settings": settings.dict()
     }
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
@@ -962,6 +979,8 @@ def menu():
             elif i == menubox.exit_label:
                 save()
                 exiter()
+            else:
+                i.change()
             ev = ""
         elif ev in ["'s'", "'w'"]:
             menubox.input(ev, menubox.ob_list)
@@ -1404,10 +1423,16 @@ session_info = {
     "pokes": {
         0: {"name": "steini", "xp": 35, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
     },
-    "inv": {"poketeball": 10}
+    "inv": {"poketeball": 10},
+    "settings": {}
 }
 with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
+
+if "settings" in session_info:
+    settings = Settings(**session_info["settings"])
+else:
+    settings = Settings()
 
 
 # Defining and adding of objetcs and maps
@@ -1504,7 +1529,7 @@ menubox.playername_label = se.Text("Playername: ")
 menubox.save_label = se.Text("Save")
 menubox.exit_label = se.Text("Exit")
 menubox.realname_label = se.Text(session_info["user"])
-menubox.ob_list = [menubox.playername_label, menubox.save_label, menubox.exit_label]
+menubox.ob_list = [menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label]
 # adding
 for i, ob in enumerate(menubox.ob_list):
     menubox.add_ob(ob, 4, i+1)

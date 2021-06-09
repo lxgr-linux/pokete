@@ -69,5 +69,15 @@ class ChooseBox(Box):
         self.set_ob(self.index, self.index.rx, list[self.index.index].ry)
 
 
+class Settings():
+    def __init__(self, autosave=True):
+        self.keywords = ["autosave"]
+        for key in self.keywords:
+            exec(f"self.{key} = {key}")
+
+    def dict(self):
+        return {i: eval("self."+i, {"self": self,}) for i in self.keywords}
+
+
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
