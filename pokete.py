@@ -274,7 +274,7 @@ class Poke():
             exec("self.move_"+attac.move+"()")
             exec(attac.action)
             attac.ap -= 1
-            fightmap.outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+" against "+enem.name+"("+("you" if not self.player else "enemy")+") "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else "")+("\nThat was very effective! " if effectivity == 1.5 and n_hp > 0 else "")+("\nThat was not effective! " if effectivity == 0.5 and n_hp > 0 else ""))
+            fightmap.outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+"! "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else "")+("\nThat was very effective! " if effectivity == 1.5 and n_hp > 0 else "")+("\nThat was not effective! " if effectivity == 0.5 and n_hp > 0 else ""))
             for ob in [enem, self]:
                 ob.health_bar_updater(ob.oldhp)
             self.label_rechar()
