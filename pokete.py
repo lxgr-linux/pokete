@@ -494,6 +494,12 @@ def hard_liner(l_len, name):
     return ret
 
 
+def autosave():
+    while True:
+        time.sleep(300)
+        save()
+
+
 def save():
     session_info = {
         "user": figure.name,
@@ -1315,6 +1321,9 @@ def main():
     recognising = threading.Thread(target=recogniser)
     recognising.daemon = True
     recognising.start()
+    autosaveing = threading.Thread(target=autosave)
+    autosaveing.daemon = True
+    autosaveing.start()
     game(figure.map)
 
 
