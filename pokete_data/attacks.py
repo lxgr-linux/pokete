@@ -216,7 +216,7 @@ attacs = {
         "miss_chance": 0,
         "min_lvl": 0,
         "desc": "Causes confusion deep in the enemys mind",
-        "type": "normal",
+        "type": "ghost",
         "ap": 10,
     },
     "tail_wipe": {
@@ -294,6 +294,17 @@ attacs = {
         "min_lvl": 15,
         "desc": "Stabs the enemy with a branch, preferably in the enemys eyes",
         "type": "plant",
+        "ap": 5,
+    },
+    "heard_touch": {
+        "name": "Heard touch",
+        "factor": 4,
+        "action": "enem.defense -= 4",
+        "move": "attack",
+        "miss_chance": 0,
+        "min_lvl": 15,
+        "desc": "Touches the enemys heard with its' cold gost claws",
+        "type": "ghost",
         "ap": 5,
     },
 }

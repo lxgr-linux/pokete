@@ -40,20 +40,21 @@ This wiki can be generated using ```$ gen-wiki.py```.
    11. [Earch quake](#earch-quake)
    12. [Eye pick](#eye-pick)
    13. [Fire bite](#fire-bite)
-   14. [Meat skewer](#meat-skewer)
-   15. [Mind blow](#mind-blow)
-   16. [Pepple fire](#pepple-fire)
-   17. [Pick](#pick)
-   18. [Poison bite](#poison-bite)
-   19. [Politure](#politure)
-   20. [Power pick](#power-pick)
-   21. [Power roll](#power-roll)
-   22. [Shell pinch](#shell-pinch)
-   23. [Sucker](#sucker)
-   24. [Super sucker](#super-sucker)
-   25. [Tackle](#tackle)
-   26. [Tail wipe](#tail-wipe)
-   27. [Wing hit](#wing-hit)
+   14. [Heard touch](#heard-touch)
+   15. [Meat skewer](#meat-skewer)
+   16. [Mind blow](#mind-blow)
+   17. [Pepple fire](#pepple-fire)
+   18. [Pick](#pick)
+   19. [Poison bite](#poison-bite)
+   20. [Politure](#politure)
+   21. [Power pick](#power-pick)
+   22. [Power roll](#power-roll)
+   23. [Shell pinch](#shell-pinch)
+   24. [Sucker](#sucker)
+   25. [Super sucker](#super-sucker)
+   26. [Tackle](#tackle)
+   27. [Tail wipe](#tail-wipe)
+   28. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [Healing potion](#healing-potion)
@@ -183,7 +184,7 @@ A scary ghost Pokete that lives in caves and old houses.
  ░ ░ ░ ░ ░
 ```
 
-- Type: [Normal](#types)
+- Type: [Ghost](#types)
 - Health points: 20
 - Attack factor: level+2
 - Defense factor: level+1
@@ -193,6 +194,7 @@ A scary ghost Pokete that lives in caves and old houses.
 - Attacks:
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
+   + [Heard touch](#heard-touch)
 - Does not evolve
 
 ### Hornita
@@ -647,6 +649,14 @@ Burns and bites the enemy at the same time
 - Missing chance: 0.2
 - Attack points: 10
 
+### Heard touch
+Touches the enemys heard with its' cold gost claws
+- Type: [Ghost](#types)
+- Minimum Level: 15
+- Attack factor: 4
+- Missing chance: 0
+- Attack points: 5
+
 ### Meat skewer
 Drills the horn deep in the enemys flesh
 - Type: [Normal](#types)
@@ -657,7 +667,7 @@ Drills the horn deep in the enemys flesh
 
 ### Mind blow
 Causes confusion deep in the enemys mind
-- Type: [Normal](#types)
+- Type: [Ghost](#types)
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
@@ -768,10 +778,11 @@ Normal||
 Stone|Flying, Fire|Plant
 Plant|Stone, Ground, Water|Fire
 Water|Stone, Flying, Fire|Plant
-Fire|Flying, Plant|Stone, Water
+Fire|Flying, Plant, Ghost|Stone, Water
 Ground|Normal|Flying
 Electro|Stone, Flying|Ground
 Flying|Plant|Stone
+Ghost|Normal, Ground, Plant, Water|Fire
 
 ## Items
 Those are all items present in the game, that can be traded or found.

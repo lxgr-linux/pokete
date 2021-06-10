@@ -44,16 +44,17 @@ See [How to play](HowToPlay.md).
 ## Game depth
 Not only are there Poketes that are stronger than others, but also Poketes with different types, which are effective against some types and ineffective against others.
 
-type|effective against|ineffective against
+Type|Effective against|Ineffective against
 ---|---|---
-normal||
-stone|flying, fire|plant
-plant|stone, ground, water|fire
-water|stone, flying, fire|plant
-fire|flying, plant|stone, water
-ground|normal|flying
-electro|stone, flying|ground
-flying|plant|stone
+Normal||
+Stone|Flying, Fire|Plant
+Plant|Stone, Ground, Water|Fire
+Water|Stone, Flying, Fire|Plant
+Fire|Flying, Plant, Ghost|Stone, Water
+Ground|Normal|Flying
+Electro|Stone, Flying|Ground
+Flying|Plant|Stone
+Ghost|Normal, Ground, Plant, Water|Fire
 
 For additional information you can see [wiki](wiki.md).
 
