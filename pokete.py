@@ -460,13 +460,15 @@ class Setting(se.Box):
         super().__init__(0, 0)
         self.options = options
         self.setting = setting
+        self.index = eval(f"[j for j in self.options].index({self.setting})")
         self.text = se.Text(text+": ")
-        self.add_ob(self.text, 0, 0)
         self.option_text = se.Text(self.options[eval(self.setting)])
+        self.add_ob(self.text, 0, 0)
         self.add_ob(self.option_text, len(self.text.text), 0)
 
     def change(self):
-        exec(f"{self.setting} = [i for i in self.options if i != {self.setting}][0]")
+        self.index = self.index+1 if self.index < len(self.options)-1 else 0
+        exec(f"{self.setting} = [i for i in self.options][self.index]")
         self.option_text.rechar(self.options[eval(self.setting)])
 
 
