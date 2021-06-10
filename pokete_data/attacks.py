@@ -302,7 +302,7 @@ attacs = {
         "action": "enem.defense -= 4",
         "move": "attack",
         "miss_chance": 0,
-        "min_lvl": 15,
+        "min_lvl": 20,
         "desc": "Touches the enemys heard with its' cold gost claws",
         "type": "ghost",
         "ap": 5,

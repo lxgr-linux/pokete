@@ -652,7 +652,7 @@ Burns and bites the enemy at the same time
 ### Heard touch
 Touches the enemys heard with its' cold gost claws
 - Type: [Ghost](#types)
-- Minimum Level: 15
+- Minimum Level: 20
 - Attack factor: 4
 - Missing chance: 0
 - Attack points: 5
