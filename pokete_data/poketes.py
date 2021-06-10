@@ -104,13 +104,31 @@ pokes = {
       "lose_xp": 3,
       "rarity": 1,
       "type": "ghost",
-      "evolve_poke": "",
-      "evolve_lvl": 0,
+      "evolve_poke": "angrilo",
+      "evolve_lvl": 25,
       "ico": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
  ░ ░ ░ ░ ░""",
   },
+   "angrilo": {
+       "name": "Angrilo",
+       "hp": 25,
+       "atc": "self.lvl()+3",
+       "defense": "self.lvl()+2",
+       "attacs": ["tackle", "mind_blow", "heard_touch"],
+       "miss_chance": 0,
+       "desc": "A ghost Pokete that will scare your pants off.",
+       "lose_xp": 4,
+       "rarity": 0.6,
+       "type": "ghost",
+       "evolve_poke": "",
+       "evolve_lvl": 0,
+       "ico": """ .░░░░░░░.
+ ░░\░░░/░░
+ .░░( )░░.
+.         .""",
+   },
   "vogli": {
         "name": "Vogli",
         "hp": 20,

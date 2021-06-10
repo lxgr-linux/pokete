@@ -4,28 +4,29 @@ This wiki can be generated using ```$ gen-wiki.py```.
 
 ## Table of contents
 1. [Poketes](#poketes)
-   1. [Bato](#bato)
-   2. [Bator](#bator)
-   3. [Blub](#blub)
-   4. [Bushy](#bushy)
-   5. [Clampi](#clampi)
-   6. [Gobost](#gobost)
-   7. [Hornita](#hornita)
-   8. [Horny](#horny)
-   9. [Karpi](#karpi)
-   10. [Lilstone](#lilstone)
-   11. [Ostri](#ostri)
-   12. [Owol](#owol)
-   13. [Poundi](#poundi)
-   14. [Rato](#rato)
-   15. [Rollator](#rollator)
-   16. [Rosi](#rosi)
-   17. [Steini](#steini)
-   18. [Treenator](#treenator)
-   19. [Vogli](#vogli)
-   20. [Voglo](#voglo)
-   21. [Wolfior](#wolfior)
-   22. [Würgos](#würgos)
+   1. [Angrilo](#angrilo)
+   2. [Bato](#bato)
+   3. [Bator](#bator)
+   4. [Blub](#blub)
+   5. [Bushy](#bushy)
+   6. [Clampi](#clampi)
+   7. [Gobost](#gobost)
+   8. [Hornita](#hornita)
+   9. [Horny](#horny)
+   10. [Karpi](#karpi)
+   11. [Lilstone](#lilstone)
+   12. [Ostri](#ostri)
+   13. [Owol](#owol)
+   14. [Poundi](#poundi)
+   15. [Rato](#rato)
+   16. [Rollator](#rollator)
+   17. [Rosi](#rosi)
+   18. [Steini](#steini)
+   19. [Treenator](#treenator)
+   20. [Vogli](#vogli)
+   21. [Voglo](#voglo)
+   22. [Wolfior](#wolfior)
+   23. [Würgos](#würgos)
 2. [Attacks](#attacks)
    1. [Apple drop](#apple-drop)
    2. [Bark hardening](#bark-hardening)
@@ -65,6 +66,28 @@ This wiki can be generated using ```$ gen-wiki.py```.
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
+
+### Angrilo
+A ghost Pokete that will scare your pants off.
+```
+ .░░░░░░░.
+ ░░\░░░/░░
+ .░░( )░░.
+.         .
+```
+
+- Type: [Ghost](#types)
+- Health points: 25
+- Attack factor: level+3
+- Defense factor: level+2
+- Missing chance: 0
+- Rarity: 0.6
+- Loosing experience: 4
+- Attacks:
+   + [Tackle](#tackle)
+   + [Mind blow](#mind-blow)
+   + [Heard touch](#heard-touch)
+- Does not evolve
 
 ### Bato
 An annoying flying rat.
@@ -195,7 +218,7 @@ A scary ghost Pokete that lives in caves and old houses.
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
    + [Heard touch](#heard-touch)
-- Does not evolve
+- Evolves to Angrilo at level 25
 
 ### Hornita
 An majestetic horse that is always looking for something to pick with its horn.
