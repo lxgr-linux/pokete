@@ -813,19 +813,24 @@ Those are all items present in the game, that can be traded or found.
 ### Healing potion
 Heals a Pokete with 5 HP
 - Price: 15
+- Can be used in fights: Yes
 
 ### Hyperball
 For catching Poketes with a waaay higher chance
 - Price: None
+- Can be used in fights: Yes
 
 ### Poketeball
 A ball you can use to catch Poketes
 - Price: 2
+- Can be used in fights: Yes
 
 ### Super potion
 Heals a Pokete with 15 HP
 - Price: 25
+- Can be used in fights: Yes
 
 ### Superball
 A ball you can use to catch Poketes with an increased chance
 - Price: 10
+- Can be used in fights: Yes
