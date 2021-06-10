@@ -30,29 +30,30 @@ This wiki can be generated using ```$ gen-wiki.py```.
    1. [Apple drop](#apple-drop)
    2. [Bark hardening](#bark-hardening)
    3. [Bite](#bite)
-   4. [Brick throw](#brick-throw)
-   5. [Brooding](#brooding)
-   6. [Bubble bomb](#bubble-bomb)
-   7. [Bubble shield](#bubble-shield)
-   8. [Chocer](#chocer)
-   9. [Cry](#cry)
-   10. [Earch quake](#earch-quake)
-   11. [Eye pick](#eye-pick)
-   12. [Fire bite](#fire-bite)
-   13. [Meat skewer](#meat-skewer)
-   14. [Mind blow](#mind-blow)
-   15. [Pepple fire](#pepple-fire)
-   16. [Pick](#pick)
-   17. [Poison bite](#poison-bite)
-   18. [Politure](#politure)
-   19. [Power pick](#power-pick)
-   20. [Power roll](#power-roll)
-   21. [Shell pinch](#shell-pinch)
-   22. [Sucker](#sucker)
-   23. [Super sucker](#super-sucker)
-   24. [Tackle](#tackle)
-   25. [Tail wipe](#tail-wipe)
-   26. [Wing hit](#wing-hit)
+   4. [Branch stab](#branch-stab)
+   5. [Brick throw](#brick-throw)
+   6. [Brooding](#brooding)
+   7. [Bubble bomb](#bubble-bomb)
+   8. [Bubble shield](#bubble-shield)
+   9. [Chocer](#chocer)
+   10. [Cry](#cry)
+   11. [Earch quake](#earch-quake)
+   12. [Eye pick](#eye-pick)
+   13. [Fire bite](#fire-bite)
+   14. [Meat skewer](#meat-skewer)
+   15. [Mind blow](#mind-blow)
+   16. [Pepple fire](#pepple-fire)
+   17. [Pick](#pick)
+   18. [Poison bite](#poison-bite)
+   19. [Politure](#politure)
+   20. [Power pick](#power-pick)
+   21. [Power roll](#power-roll)
+   22. [Shell pinch](#shell-pinch)
+   23. [Sucker](#sucker)
+   24. [Super sucker](#super-sucker)
+   25. [Tackle](#tackle)
+   26. [Tail wipe](#tail-wipe)
+   27. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [Healing potion](#healing-potion)
@@ -450,6 +451,7 @@ A scary an dangerous apple tree.
 - Attacks:
    + [Apple drop](#apple-drop)
    + [Bark hardening](#bark-hardening)
+   + [Branch stab](#branch-stab)
 - Does not evolve
 
 ### Vogli
@@ -564,6 +566,14 @@ A hard bite the sharp teeth
 - Attack factor: 1.75
 - Missing chance: 0.1
 - Attack points: 20
+
+### Branch stab
+Stabs the enemy with a branch, preferably in the enemys eyes
+- Type: [Plant](#types)
+- Minimum Level: 15
+- Attack factor: 4
+- Missing chance: 0.2
+- Attack points: 5
 
 ### Brick throw
 Throws an euler brick at the enemy

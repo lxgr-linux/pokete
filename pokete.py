@@ -472,6 +472,12 @@ class Setting(se.Box):
         self.option_text.rechar(self.options[eval(self.setting)])
 
 
+class Debug:
+    @classmethod
+    def pos(cls):
+        print(figure.x, figure.y, figure.map.name)
+
+
 # General use functions
 #######################
 
@@ -1486,7 +1492,7 @@ playmap_13 = PlayMap(background=" ", height=35, width=70, name="playmap_13", pre
                     poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
 playmap_14 = PlayMap(background=" ", height=15, width=30, name="playmap_14", pretty_name="Arena",
                     trainers = [Trainer("First trainer", "He", Poke("owol", 650, player=False), [" < Welcome to the Deepest forest Pokete Arena", " < I'm your first enemy!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck!"], 17, 10),
-                                Trainer("Second trainer", "She", Poke("voglo", 700, player=False), [" < Now it's my turn!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the last trainer!"], 22, 10),
+                                Trainer("Second trainer", "She", Poke("voglo", 700, player=False), [" < Now it's my turn!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the next trainer!"], 22, 10),
                                 Trainer("Third trainer", "She", Poke("treenator", 750, player=False), [" < Let's see what Poketes else you have!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the last trainer!"], 22, 5),
                                 Trainer("Last trainer", "He", Poke("ostri", 780, player=False), [" < I'm your last enemy!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were able to defeat me?", " < You can now leave Deepest forest"], 17, 5)])
 

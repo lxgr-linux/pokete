@@ -285,6 +285,17 @@ attacs = {
         "type": "water",
         "ap": 15,
     },
+    "branch_stab": {
+        "name": "Branch stab",
+        "factor": 4,
+        "action": "enem.miss_chance += 1",
+        "move": "attack",
+        "miss_chance": 0.2,
+        "min_lvl": 15,
+        "desc": "Stabs the enemy with a branch, preferably in the enemys eyes",
+        "type": "plant",
+        "ap": 5,
+    },
 }
 
 if __name__ == "__main__":

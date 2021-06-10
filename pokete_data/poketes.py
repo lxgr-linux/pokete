@@ -206,7 +206,7 @@ pokes = {
         "hp": 25,
         "atc": "self.lvl()+2",
         "defense": "self.lvl()+2",
-        "attacs": ["apple_drop", "bark_hardening"],
+        "attacs": ["apple_drop", "bark_hardening", "branch_stab"],
         "miss_chance": 0,
         "desc": "A scary an dangerous apple tree.",
         "lose_xp": 2,
