@@ -850,12 +850,13 @@ def inv_remove(obs):
 #################################################
 
 def playmap_water_extra_action(obs):
-    for ob in obs:
-        if random.randint(0, 7) == 0:
-            if " " not in ob.char:
-                ob.rechar([i for i in [Color.lightblue+"~"+Color.reset, Color.blue+"~"+Color.reset] if i != ob.char][0])
-                if ob.x == figure.x and ob.y == figure.y:
-                    figure.redraw()
+    if settings.animations:
+        for ob in obs:
+            if random.randint(0, 7) == 0:
+                if " " not in ob.char:
+                    ob.rechar([i for i in [Color.lightblue+"~"+Color.reset, Color.blue+"~"+Color.reset] if i != ob.char][0])
+                    if ob.x == figure.x and ob.y == figure.y:
+                        figure.redraw()
 
 def playmap_4_extra_action():
     playmap_water_extra_action(playmap_4.lake_1.obs)
@@ -1547,7 +1548,7 @@ menubox.playername_label = se.Text("Playername: ")
 menubox.save_label = se.Text("Save")
 menubox.exit_label = se.Text("Exit")
 menubox.realname_label = se.Text(session_info["user"])
-menubox.ob_list = [menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label]
+menubox.ob_list = [menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label]
 # adding
 for i, ob in enumerate(menubox.ob_list):
     menubox.add_ob(ob, 4, i+1)
