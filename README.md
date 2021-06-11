@@ -37,7 +37,7 @@ There you can also take a look at all your Poketes, and not just the first six. 
 
 By pressing "e" you can get into a menu where player name and later other settings, can be changed.
 
-The red balls all over the map, are Poketeballs, you need to catch Poketes. Stepping on such a ball adds it to your inventory. A store to buy them will be added later.
+The red balls all over the map, are Poketeballs, you need to catch Poketes. Stepping on such a ball adds it to your inventory.
 
 See [How to play](HowToPlay.md).
 

@@ -10,6 +10,7 @@
 7. [Pokete centers](#pokete-centers)
 8. [Pokete shops](#pokete-shops)
 9. [Poketeballs](#poketeballs)
+10. [Settings](#settings)
 
 
 ## Plot
@@ -93,6 +94,11 @@ Poketeballs are needed to catch Poketes. You can see how many Poketeballs you ha
 They are the small red balls hidden all over the map, and can be collected by just walking over them.
 
 ![Balls](assets/ss17.png)
+
+## Settings
+I the games menu/settings you can change the players name, save, exit or change other settings. To exit just press `Esc` or `q`.
+
+![Settings](assets/ss20.png)
 
 
 
