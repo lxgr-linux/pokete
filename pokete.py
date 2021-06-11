@@ -100,6 +100,8 @@ class Trainer(se.Object):
             exec("self."+i+" = "+i)
 
     def do(self, map):
+        if figure.has_item("shut_the_fuck_up_stone"):
+            return
         if figure.x == self.x and self.poke.hp > 0 and self.will:
             for i in range(figure.y+1 if figure.y < self.y else self.y+1, self.y if figure.y < self.y else figure.y):
                 if any(j.state == "solid" for j in map.obmap[i][self.x]):
@@ -434,6 +436,14 @@ class Figure(se.Object):
             self.inv[item] = amount
         else:
             self.inv[item] += amount
+
+    def has_item(self, item):
+        if item not in self.inv:
+            return False
+        elif self.inv[item] > 0:
+            return True
+        else:
+            return False
 
     def remove_item(self, item, amount=1):
         assert amount > 0, "Amounts have to be positive"

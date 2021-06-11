@@ -61,8 +61,9 @@ This wiki can be generated using ```$ gen-wiki.py```.
    1. [Healing potion](#healing-potion)
    2. [Hyperball](#hyperball)
    3. [Poketeball](#poketeball)
-   4. [Super potion](#super-potion)
-   5. [Superball](#superball)
+   4. ['Shut the fuck up' stone](#shut-the-fuck-up-stone)
+   5. [Super potion](#super-potion)
+   6. [Superball](#superball)
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -824,6 +825,11 @@ For catching Poketes with a waaay higher chance
 A ball you can use to catch Poketes
 - Price: 2
 - Can be used in fights: Yes
+
+### 'Shut the fuck up' stone
+Makes trainer leaving you alone
+- Price: None
+- Can be used in fights: No
 
 ### Super potion
 Heals a Pokete with 15 HP

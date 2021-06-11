@@ -14,7 +14,7 @@ items = {
     "hyperball": {
         "pretty_name": "Hyperball",
         "desc": "For catching Poketes with a waaay higher chance",
-        "price": "None",
+        "price": None,
         "fn": "fight_hyperball"
     },
     "healing_potion": {
@@ -28,6 +28,12 @@ items = {
         "desc": "Heals a Pokete with 15 HP",
         "price": 25,
         "fn": "fight_super_potion"
+    },
+    "shut_the_fuck_up_stone": {
+        "pretty_name": "'Shut the fuck up' stone",
+        "desc": "Makes trainer leaving you alone",
+        "price": None,
+        "fn": None
     },
 }
 

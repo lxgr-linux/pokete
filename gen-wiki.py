@@ -110,7 +110,7 @@ for item in sorted(items):
 ### {items[item]["pretty_name"]}
 {items[item]["desc"]}
 - Price: {items[item]["price"]}
-- Can be used in fights: {"Yes" if items[item]["price"] != None else "No"}
+- Can be used in fights: {"Yes" if items[item]["fn"] != None else "No"}
 """
 
 
