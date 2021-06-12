@@ -216,7 +216,7 @@ attacs = {
         "miss_chance": 0,
         "min_lvl": 0,
         "desc": "Causes confusion deep in the enemys mind",
-        "type": "ghost",
+        "type": "undead",
         "ap": 10,
     },
     "tail_wipe": {
@@ -304,7 +304,7 @@ attacs = {
         "miss_chance": 0,
         "min_lvl": 20,
         "desc": "Touches the enemys heard with its' cold gost claws",
-        "type": "ghost",
+        "type": "undead",
         "ap": 5,
     },
 }

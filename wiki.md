@@ -77,7 +77,7 @@ A ghost Pokete that will scare your pants off.
 .         .
 ```
 
-- Type: [Ghost](#types)
+- Type: [Undead](#types)
 - Health points: 25
 - Attack factor: level+3
 - Defense factor: level+2
@@ -208,7 +208,7 @@ A scary ghost Pokete that lives in caves and old houses.
  ░ ░ ░ ░ ░
 ```
 
-- Type: [Ghost](#types)
+- Type: [Undead](#types)
 - Health points: 20
 - Attack factor: level+2
 - Defense factor: level+1
@@ -675,7 +675,7 @@ Burns and bites the enemy at the same time
 
 ### Heard touch
 Touches the enemys heard with its' cold gost claws
-- Type: [Ghost](#types)
+- Type: [Undead](#types)
 - Minimum Level: 20
 - Attack factor: 4
 - Missing chance: 0
@@ -691,7 +691,7 @@ Drills the horn deep in the enemys flesh
 
 ### Mind blow
 Causes confusion deep in the enemys mind
-- Type: [Ghost](#types)
+- Type: [Undead](#types)
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
@@ -802,11 +802,11 @@ Normal||
 Stone|Flying, Fire|Plant
 Plant|Stone, Ground, Water|Fire
 Water|Stone, Flying, Fire|Plant
-Fire|Flying, Plant, Ghost|Stone, Water
+Fire|Flying, Plant, Undead|Stone, Water
 Ground|Normal|Flying
 Electro|Stone, Flying|Ground
 Flying|Plant|Stone
-Ghost|Normal, Ground, Plant, Water|Fire
+Undead|Normal, Ground, Plant, Water|Fire
 
 ## Items
 Those are all items present in the game, that can be traded or found.

@@ -16,7 +16,7 @@ types = {
         "ineffective": ["plant"]
     },
     "fire": {
-        "effective": ["flying", "plant", "ghost"],
+        "effective": ["flying", "plant", "undead"],
         "ineffective": ["stone", "water"]
     },
     "ground": {
@@ -31,7 +31,7 @@ types = {
         "effective": ["plant"],
         "ineffective": ["stone"]
     },
-    "ghost": {
+    "undead": {
         "effective": ["normal", "ground", "plant", "water"],
         "ineffective": ["fire"]
     },

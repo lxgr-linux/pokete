@@ -50,11 +50,11 @@ Normal||
 Stone|Flying, Fire|Plant
 Plant|Stone, Ground, Water|Fire
 Water|Stone, Flying, Fire|Plant
-Fire|Flying, Plant, Ghost|Stone, Water
+Fire|Flying, Plant, Undead|Stone, Water
 Ground|Normal|Flying
 Electro|Stone, Flying|Ground
 Flying|Plant|Stone
-Ghost|Normal, Ground, Plant, Water|Fire
+Undead|Normal, Ground, Plant, Water|Fire
 
 For additional information you can see [wiki](wiki.md).
 

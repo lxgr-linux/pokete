@@ -103,7 +103,7 @@ pokes = {
       "desc": "A scary ghost Pokete that lives in caves and old houses.",
       "lose_xp": 3,
       "rarity": 1,
-      "type": "ghost",
+      "type": "undead",
       "evolve_poke": "angrilo",
       "evolve_lvl": 25,
       "ico": """ .░░░░░░░.
@@ -121,7 +121,7 @@ pokes = {
        "desc": "A ghost Pokete that will scare your pants off.",
        "lose_xp": 4,
        "rarity": 0.6,
-       "type": "ghost",
+       "type": "undead",
        "evolve_poke": "",
        "evolve_lvl": 0,
        "ico": """ .░░░░░░░.
