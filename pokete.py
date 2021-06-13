@@ -853,7 +853,7 @@ def inv_remove(obs):
 def playmap_water_extra_action(obs):
     if settings.animations:
         for ob in obs:
-            if random.randint(0, 7) == 0:
+            if random.randint(0, 9) == 0:
                 if " " not in ob.char:
                     ob.rechar([i for i in [Color.lightblue+"~"+Color.reset, Color.blue+"~"+Color.reset] if i != ob.char][0])
                     if ob.x == figure.x and ob.y == figure.y:
