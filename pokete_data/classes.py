@@ -70,8 +70,8 @@ class ChooseBox(Box):
 
 
 class Settings():
-    def __init__(self, autosave=True, animations=True):
-        self.keywords = ["autosave", "animations"]
+    def __init__(self, autosave=True, animations=True, save_trainers=True):
+        self.keywords = ["autosave", "animations", "save_trainers"]
         for key in self.keywords:
             exec(f"self.{key} = {key}")
 

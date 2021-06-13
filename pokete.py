@@ -40,9 +40,10 @@ class NPCTrigger(se.Object):
 
 
 class NPC(se.Box):
-    def __init__(self, texts, fn=None, args=()):
+    def __init__(self, name, texts, fn=None, args=()):
         super().__init__(0, 0)
         self.will = True
+        self.name = name
         self.texts = texts
         self.__fn = fn
         self.args = args
@@ -51,7 +52,7 @@ class NPC(se.Box):
         self.add_ob(se.Object("a"), 0, 0)
 
     def action(self):
-        if not self.will:
+        if not self.will or (self.name in used_npcs and settings.save_trainers):
             return
         movemap.full_show()
         time.sleep(0.7)
@@ -95,14 +96,13 @@ class Trainer(se.Object):
     def __init__(self, name, gender, poke, texts, lose_texts, no_poke_texts, win_texts, sx, sy, state="solid", arg_proto={}):
         self.char = "a"
         self.added = False
-        self.will = True
         for i in ["state", "arg_proto", "name", "gender", "poke", "texts", "lose_texts", "no_poke_texts", "win_texts", "sx", "sy"]:
             exec("self."+i+" = "+i)
 
     def do(self, map):
         if figure.has_item("shut_the_fuck_up_stone"):
             return
-        if figure.x == self.x and self.poke.hp > 0 and self.will:
+        if figure.x == self.x and self.poke.hp > 0 and (self.name not in used_npcs or not settings.save_trainers):
             for i in range(figure.y+1 if figure.y < self.y else self.y+1, self.y if figure.y < self.y else figure.y):
                 if any(j.state == "solid" for j in map.obmap[i][self.x]):
                     return
@@ -122,10 +122,10 @@ class Trainer(se.Object):
                 movemap_text(self.x, self.y, {True : self.lose_texts, False: self.win_texts+[" < Here u go 20$"]}[winner == self.poke])
                 if (winner != self.poke):
                     figure.add_money(20)
-                self.will = (winner == self.poke)
+                    used_npcs.append(self.name)
             else:
                 movemap_text(self.x, self.y, self.no_poke_texts)
-                self.will = False
+                used_npcs.append(self.name)
             multitext.remove()
             while self.y != self.sy:
                 self.set(self.x, self.y+(1 if self.y < self.sy else -1))
@@ -544,7 +544,8 @@ def save():
         "pokes": {i: {"name": poke.identifier, "xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,
         "money": figure.get_money(),
-        "settings": settings.dict()
+        "settings": settings.dict(),
+        "used_npcs": used_npcs
     }
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
         file.write("session_info="+str(session_info))
@@ -876,6 +877,7 @@ def playmap_7_extra_action():
 
 def playmap_10_old_man():
     playmap_10.old_man.will = False
+    used_npcs.append(playmap_10.old_man.name)
     figure.give_item("hyperball")
 
 
@@ -1443,7 +1445,8 @@ session_info = {
         0: {"name": "steini", "xp": 35, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
     },
     "inv": {"poketeball": 10},
-    "settings": {}
+    "settings": {},
+    "used_npcs": []
 }
 with open(home+"/.cache/pokete/pokete.py") as file:
     exec(file.read())
@@ -1452,6 +1455,11 @@ if "settings" in session_info:
     settings = Settings(**session_info["settings"])
 else:
     settings = Settings()
+
+if "used_npcs" in session_info:
+    used_npcs = session_info["used_npcs"]
+else:
+    used_npcs = []
 
 
 # Defining and adding of objetcs and maps
@@ -1548,7 +1556,7 @@ menubox.playername_label = se.Text("Playername: ")
 menubox.save_label = se.Text("Save")
 menubox.exit_label = se.Text("Exit")
 menubox.realname_label = se.Text(session_info["user"])
-menubox.ob_list = [menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label]
+menubox.ob_list = [menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label]
 # adding
 for i, ob in enumerate(menubox.ob_list):
     menubox.add_ob(ob, 4, i+1)
@@ -1836,7 +1844,7 @@ for name in items:
 
 # NPCs
 for npc in npcs:
-    exec(f'{npcs[npc]["map"]}.{npc} = NPC(npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"])')
+    exec(f'{npcs[npc]["map"]}.{npc} = NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"])')
     exec(f'{npcs[npc]["map"]}.{npc}.add({npcs[npc]["map"]}, npcs[npc]["x"], npcs[npc]["y"])')
 
 # fight_invbox
