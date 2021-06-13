@@ -1514,6 +1514,10 @@ playmap_14 = PlayMap(background=" ", height=15, width=30, name="playmap_14", pre
                                 Trainer("Second trainer", "She", Poke("voglo", 700, player=False), [" < Now it's my turn!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the next trainer!"], 22, 10),
                                 Trainer("Third trainer", "She", Poke("treenator", 750, player=False), [" < Let's see what Poketes else you have!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the last trainer!"], 22, 5),
                                 Trainer("Last trainer", "He", Poke("ostri", 780, player=False), [" < I'm your last enemy!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were able to defeat me?", " < You can now leave Deepest forest"], 17, 5)])
+playmap_15 = PlayMap(background=" ", height=25, width=120, name="playmap_15", pretty_name="Route 5",
+                    trainers = [Trainer("Samantha", "She", Poke("clampi", 650, player=False), [" < Hey you!", " < My Pokete is very effective against bird Poketes"], [" < You see, it's effective"], [" < I see you don't have a living Pokete"], [" < Oh no", " < I guess yours is even more effective than mine!"], 43, 17),
+                                Trainer("Jessica", "She", Poke("angrilo", 650, player=False), [" < Hey you!"], [" < Haha, you're a loser!"], [" < I see you don't have a living Pokete"], [" < Oh no"], 31, 6)],
+                                poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 400, "maxlvl": 550})
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1529,7 +1533,8 @@ mapbox.g = Station(playmap_7, 1, 1, d_next="mapbox.f")
 mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f", s_next="mapbox.i", d_next="mapbox.j")
 mapbox.i = Station(playmap_11, 1, 1, w_next="mapbox.h")
 mapbox.j = Station(playmap_12, 2, 1, a_next="mapbox.h", w_next="mapbox.k")
-mapbox.k = Station(playmap_13, 1, 2, s_next="mapbox.j")
+mapbox.k = Station(playmap_13, 1, 2, s_next="mapbox.j", w_next="mapbox.l")
+mapbox.l = Station(playmap_15, 2, 1, s_next="mapbox.k")
 mapbox.add_ob(mapbox.a, 5, 7)
 mapbox.add_ob(mapbox.b, 6, 5)
 mapbox.add_ob(mapbox.c, 7, 5)
@@ -1541,6 +1546,7 @@ mapbox.add_ob(mapbox.h, 11, 7)
 mapbox.add_ob(mapbox.i, 11, 8)
 mapbox.add_ob(mapbox.j, 13, 7)
 mapbox.add_ob(mapbox.k, 14, 5)
+mapbox.add_ob(mapbox.l, 14, 4)
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
