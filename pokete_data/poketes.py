@@ -212,12 +212,30 @@ pokes = {
         "lose_xp": 2,
         "rarity": 1,
         "type": "normal",
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "choka",
+        "evolve_lvl": 25,
         "ico": """  >'({{{
   }}}}}}}
  {{{{{{{{{
            """
+    },
+    "choka": {
+        "name": "Choka",
+        "hp": 25,
+        "atc": "self.lvl()+5",
+        "defense": "self.lvl()+1",
+        "attacs": ["chocer", "bite", "poison_bite"],
+        "miss_chance": 0,
+        "desc": "A dangerous and enormous snake pokete.",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "type": "normal",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "ico": """ _______
+/____ * \\
+ (   \   \\
+\______   \\"""
     },
     "treenator": {
         "name": "Treenator",
