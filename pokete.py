@@ -860,7 +860,8 @@ def playmap_7_extra_action():
 def playmap_10_old_man():
     playmap_10.old_man.will = False
     used_npcs.append(playmap_10.old_man.name)
-    figure.give_item("hyperball")
+    if ask_bool(movemap, "Old man gifted you a Hyperball. Do you want to accept it?"):
+        figure.give_item("hyperball")
 
 
 # main functions
