@@ -81,7 +81,7 @@ class ChooseBox(Box):
 
 
 class InfoBox(Box):
-    def __init__(self, text="Hey du,\nwie geht es dir?"):
+    def __init__(self, text):
         height = len(text.split("\n"))+2
         width = sorted([len(i) for i in text.split("\n")])[-1]+4
         super().__init__(height, width)

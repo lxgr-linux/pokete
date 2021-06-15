@@ -866,6 +866,28 @@ def playmap_10_old_man():
 # main functions
 ################
 
+def ask_bool(map, text):
+    global ev
+    assert len(text) >= 12, "Text has to be longer then 12 characters!"
+    infobox = InfoBox(f"{text}\n{round(len(text)/2-6)*' '}[Y]es   [N]o")
+    infobox.add(map, round((map.width-infobox.width)/2), round((map.height-infobox.height)/2))
+    map.show()
+    while True:
+        if ev == "'y'":
+            ret = True
+            break
+        elif ev == "'n'":
+            ret = False
+            break
+        std_loop()
+        time.sleep(0.05)
+        map.show()
+    ev = ""
+    infobox.remove()
+    del infobox
+    return ret
+
+
 def inv():
     global ev
     ev = ""
@@ -1221,13 +1243,14 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 decksubmap.full_show()
         elif ev == "'3'":
             ev = ""
-            for poke in pokes:
-                deck_remove(poke)
-            figure.pokes[deck_index.index] = Poke("__fallback__", 10, 0)
-            pokes = figure.pokes[:len(pokes)]
-            deck_add_all(pokes)
-            deck_index.set(pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
-            balls_label_rechar()
+            if ask_bool(decksubmap, f"Do you realy want to free {figure.pokes[deck_index.index].name}?"):
+                for poke in pokes:
+                    deck_remove(poke)
+                figure.pokes[deck_index.index] = Poke("__fallback__", 10, 0)
+                pokes = figure.pokes[:len(pokes)]
+                deck_add_all(pokes)
+                deck_index.set(pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
+                balls_label_rechar()
         elif ev in ["'w'", "'a'", "'s'", "'d'"]:
             deck_control(pokes, ev, deck_index)
             ev = ""
