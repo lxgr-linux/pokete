@@ -820,6 +820,11 @@ def fight_superball(ob, enem, info):
 def fight_hyperball(ob, enem, info):
     return fight_throw(ob, enem, info, 1000, "hyperball")
 
+def fight_ap_potion(ob, enem, info):
+    for atc in ob.attac_obs:
+        atc.ap = atc.max_ap
+    ob.label_rechar()
+
 # Functions for buy
 #####################
 
@@ -932,7 +937,7 @@ def buy():
     ev = ""
     buybox.add(movemap, movemap.width-35, 0)
     buybox2.add(movemap, buybox.x-19, 3)
-    items = [invbox.poketeball, invbox.superball, invbox.healing_potion, invbox.super_potion]
+    items = [invbox.poketeball, invbox.superball, invbox.healing_potion, invbox.super_potion, invbox.ap_potion]
     obs = [se.Text(ob.pretty_name+" : "+str(ob.price)+"$") for ob in items]
     for i, ob in enumerate(obs):
         buybox.add_ob(ob, 4, 1+i)

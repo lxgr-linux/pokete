@@ -59,12 +59,13 @@ This wiki can be generated using ```$ gen-wiki.py```.
    28. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
-   1. [Healing potion](#healing-potion)
-   2. [Hyperball](#hyperball)
-   3. [Poketeball](#poketeball)
-   4. ['Shut the fuck up' stone](#shut-the-fuck-up-stone)
-   5. [Super potion](#super-potion)
-   6. [Superball](#superball)
+   1. [AP potion](#ap-potion)
+   2. [Healing potion](#healing-potion)
+   3. [Hyperball](#hyperball)
+   4. [Poketeball](#poketeball)
+   5. ['Shut the fuck up' stone](#shut-the-fuck-up-stone)
+   6. [Super potion](#super-potion)
+   7. [Superball](#superball)
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -833,6 +834,11 @@ Undead|Normal, Ground, Plant, Water|Fire
 
 ## Items
 Those are all items present in the game, that can be traded or found.
+
+### AP potion
+Refills the Poketes attack APs.
+- Price: 100
+- Can be used in fights: Yes
 
 ### Healing potion
 Heals a Pokete with 5 HP

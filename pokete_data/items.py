@@ -29,6 +29,12 @@ items = {
         "price": 25,
         "fn": "fight_super_potion"
     },
+    "ap_potion": {
+        "pretty_name": "AP potion",
+        "desc": "Refills the Poketes attack APs.",
+        "price": 100,
+        "fn": "fight_ap_potion"
+    },
     "shut_the_fuck_up_stone": {
         "pretty_name": "'Shut the fuck up' stone",
         "desc": "Makes trainer leaving you alone",
