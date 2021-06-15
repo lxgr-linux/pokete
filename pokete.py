@@ -876,7 +876,7 @@ def ask_bool(map, text):
         if ev == "'y'":
             ret = True
             break
-        elif ev == "'n'":
+        elif ev in ["'n'", "Key.esc", "'q'"]:
             ret = False
             break
         std_loop()
@@ -916,15 +916,16 @@ def inv():
                 time.sleep(0.05)
                 movemap.show()
         elif ev == "'r'":
-            figure.remove_item(items[invbox.index.index].name)
-            inv_remove(obs)
-            items, obs = inv_add()
-            if obs == []:
+            if ask_bool(movemap, f"Do you really want to throw {items[invbox.index.index].pretty_name} away?"):
+                figure.remove_item(items[invbox.index.index].name)
                 inv_remove(obs)
-                return
-            if invbox.index.index >= len(obs):
-                invbox.index.index = len(obs)-1
-                invbox.set_index(obs)
+                items, obs = inv_add()
+                if obs == []:
+                    inv_remove(obs)
+                    return
+                if invbox.index.index >= len(obs):
+                    invbox.index.index = len(obs)-1
+                    invbox.set_index(obs)
             ev = ""
         std_loop()
         time.sleep(0.05)
@@ -1243,7 +1244,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 decksubmap.full_show()
         elif ev == "'3'":
             ev = ""
-            if ask_bool(decksubmap, f"Do you realy want to free {figure.pokes[deck_index.index].name}?"):
+            if ask_bool(decksubmap, f"Do you really want to free {figure.pokes[deck_index.index].name}?"):
                 for poke in pokes:
                     deck_remove(poke)
                 figure.pokes[deck_index.index] = Poke("__fallback__", 10, 0)
