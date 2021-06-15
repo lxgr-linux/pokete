@@ -131,6 +131,17 @@ attacs = {
         "type": "normal",
         "ap": 20,
     },
+    "power_bite": {
+        "name": "Power bite",
+        "factor": 8,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.1,
+        "min_lvl": 30,
+        "desc": "The hardest bite you can think of",
+        "type": "normal",
+        "ap": 3,
+    },
     "politure": {
         "name": "Politure",
         "factor": 0,

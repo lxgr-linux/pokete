@@ -49,14 +49,15 @@ This wiki can be generated using ```$ gen-wiki.py```.
    18. [Pick](#pick)
    19. [Poison bite](#poison-bite)
    20. [Politure](#politure)
-   21. [Power pick](#power-pick)
-   22. [Power roll](#power-roll)
-   23. [Shell pinch](#shell-pinch)
-   24. [Sucker](#sucker)
-   25. [Super sucker](#super-sucker)
-   26. [Tackle](#tackle)
-   27. [Tail wipe](#tail-wipe)
-   28. [Wing hit](#wing-hit)
+   21. [Power bite](#power-bite)
+   22. [Power pick](#power-pick)
+   23. [Power roll](#power-roll)
+   24. [Shell pinch](#shell-pinch)
+   25. [Sucker](#sucker)
+   26. [Super sucker](#super-sucker)
+   27. [Tackle](#tackle)
+   28. [Tail wipe](#tail-wipe)
+   29. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -180,7 +181,7 @@ A bush, and just a bush. But watch out!
 - Evolves to Treenator at level 20
 
 ### Choka
-A dangerous and enormous snake pokete.
+A fucking dangerous and enormous snake pokete.
 ```
  _______
 /____ * \
@@ -199,6 +200,7 @@ A dangerous and enormous snake pokete.
    + [Chocer](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
+   + [Power bite](#power-bite)
 - Does not evolve
 
 ### Clampi
@@ -752,6 +754,14 @@ Upgrades defense and attack points
 - Attack factor: 0
 - Missing chance: 0
 - Attack points: 10
+
+### Power bite
+The hardest bite you can think of
+- Type: [Normal](#types)
+- Minimum Level: 30
+- Attack factor: 8
+- Missing chance: 0.1
+- Attack points: 3
 
 ### Power pick
 A harsh picking on the enemys head
