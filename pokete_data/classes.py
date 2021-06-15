@@ -80,6 +80,15 @@ class ChooseBox(Box):
         self.set_ob(self.index, self.index.rx, list[self.index.index].ry)
 
 
+class InfoBox(Box):
+    def __init__(self, text="Hey du,\nwie geht es dir?"):
+        height = len(text.split("\n"))+2
+        width = sorted([len(i) for i in text.split("\n")])[-1]+4
+        super().__init__(height, width)
+        self.text = se.Text(text)
+        self.add_ob(self.text, 2, 1)
+
+
 class Settings():
     def __init__(self, autosave=True, animations=True, save_trainers=True):
         self.keywords = ["autosave", "animations", "save_trainers"]
