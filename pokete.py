@@ -69,29 +69,6 @@ class NPC(se.Box):
             eval(self.__fn)(*self.args)
 
 
-class PC(se.Object):
-    def action(self, ob):
-        deck(figure.pokes)
-        movemap.remap()
-        movemap.show(init=True)
-
-
-class Heal(se.Object):
-    def action(self, ob):
-        heal()
-
-
-class Color:
-    reset = "\033[0m"
-    thicc = "\033[1m"
-    underlined = "\033[4m"
-    red = "\033[31m"
-    green = "\033[32m"
-    yellow = "\033[33m"
-    lightblue = "\033[1;34m"
-    blue = "\033[34m"
-
-
 class Trainer(se.Object):
     def __init__(self, name, gender, poke, texts, lose_texts, no_poke_texts, win_texts, sx, sy, state="solid", arg_proto={}):
         self.char = "a"
@@ -276,7 +253,7 @@ class Poke():
             exec("self.move_"+attac.move+"()")
             exec(attac.action)
             attac.ap -= 1
-            fightmap.outp.rechar(self.name+"("+("you" if self.player else "enemy")+") used "+attac.name+"! "+(self.name+" missed!" if n_hp == 0 and attac.factor != 0 else "")+("\nThat was very effective! " if effectivity == 1.3 and n_hp > 0 else "")+("\nThat was not effective! " if effectivity == 0.5 and n_hp > 0 else ""))
+            fightmap.outp.rechar(f'{self.name}({"you" if self.player else "enemy"}) used {attac.name}! {self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
             for ob in [enem, self]:
                 ob.health_bar_updater(ob.oldhp)
             self.label_rechar()
@@ -1024,18 +1001,18 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev
     players = fight_add_1(player, enemy)
     if info["type"] == "wild":
-        fightmap.outp.rechar("A wild "+enemy.name+" appeared!")
+        fightmap.outp.rechar(f"A wild {enemy.name} appeared!")
     elif info["type"] == "duel":
-        fightmap.outp.rechar(info["player"].name+" started a fight!")
+        fightmap.outp.rechar(f"{info['player'].name} started a fight!")
         fightmap.show(init=True)
         time.sleep(1)
-        fightmap.outp.rechar(fightmap.outp.text+"\n"+info["player"].gender+" used "+enemy.name+" against you!")
+        fightmap.outp.rechar(f'{fightmap.outp.text}\n{info["player"].gender} used {enemy.name} against you!')
     fightmap.show(init=True)
     time.sleep(1)
     fight_add_2(player, enemy)
     if player.identifier != "__fallback__":
         fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
-        fightmap.outp.rechar("You used "+player.name)
+        fightmap.outp.rechar(f"You used {player.name}")
     fightbox.index.index = 0
     fightbox.set_index(player.atc_labels)
     fightmap.show()
@@ -1044,7 +1021,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     enem = players[1]
     while True:
         if ob.player:
-            fightmap.outp.rechar(fightmap.outp.text+("\n" if fightmap.outp.text != "" and "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
+            fightmap.outp.rechar(fightmap.outp.text+("\n" if "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
             fightmap.show()
             if ob.identifier == "__fallback__":
                 time.sleep(1)
@@ -1144,7 +1121,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fightbox.set_ob(fightbox.index, fightbox.index.rx, 1)
                     fightbox.index.index = 0
                     players = fight_add_3(player, enemy)
-                    fightmap.outp.rechar("You have choosen "+player.name)
+                    fightmap.outp.rechar(f"You have choosen {player.name}")
                     fightmap.show(init=True)
                     attack = ""
                     break
@@ -1364,10 +1341,10 @@ def game(map):
 def main():
     os.system("")
     recognising = threading.Thread(target=recogniser)
-    recognising.daemon = True
-    recognising.start()
     autosaveing = threading.Thread(target=autosave)
+    recognising.daemon = True
     autosaveing.daemon = True
+    recognising.start()
     autosaveing.start()
     game(figure.map)
 

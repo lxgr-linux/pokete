@@ -1,5 +1,16 @@
 import scrap_engine as se
 
+class Color:
+    reset = "\033[0m"
+    thicc = "\033[1m"
+    underlined = "\033[4m"
+    red = "\033[31m"
+    green = "\033[32m"
+    yellow = "\033[33m"
+    lightblue = "\033[1;34m"
+    blue = "\033[34m"
+
+
 class PlayMap(se.Map):
     def __init__(self, height=se.height-1, width=se.width, background="#", trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
         super().__init__(height=height, width=width, background=background, dynfps=dynfps)
