@@ -9,24 +9,25 @@ This wiki can be generated using ```$ gen-wiki.py```.
    3. [Bator](#bator)
    4. [Blub](#blub)
    5. [Bushy](#bushy)
-   6. [Clampi](#clampi)
-   7. [Gobost](#gobost)
-   8. [Hornita](#hornita)
-   9. [Horny](#horny)
-   10. [Karpi](#karpi)
-   11. [Lilstone](#lilstone)
-   12. [Ostri](#ostri)
-   13. [Owol](#owol)
-   14. [Poundi](#poundi)
-   15. [Rato](#rato)
-   16. [Rollator](#rollator)
-   17. [Rosi](#rosi)
-   18. [Steini](#steini)
-   19. [Treenator](#treenator)
-   20. [Vogli](#vogli)
-   21. [Voglo](#voglo)
-   22. [Wolfior](#wolfior)
-   23. [Würgos](#würgos)
+   6. [Choka](#choka)
+   7. [Clampi](#clampi)
+   8. [Gobost](#gobost)
+   9. [Hornita](#hornita)
+   10. [Horny](#horny)
+   11. [Karpi](#karpi)
+   12. [Lilstone](#lilstone)
+   13. [Ostri](#ostri)
+   14. [Owol](#owol)
+   15. [Poundi](#poundi)
+   16. [Rato](#rato)
+   17. [Rollator](#rollator)
+   18. [Rosi](#rosi)
+   19. [Steini](#steini)
+   20. [Treenator](#treenator)
+   21. [Vogli](#vogli)
+   22. [Voglo](#voglo)
+   23. [Wolfior](#wolfior)
+   24. [Würgos](#würgos)
 2. [Attacks](#attacks)
    1. [Apple drop](#apple-drop)
    2. [Bark hardening](#bark-hardening)
@@ -176,6 +177,28 @@ A bush, and just a bush. But watch out!
    + [Tackle](#tackle)
    + [Bark hardening](#bark-hardening)
 - Evolves to Treenator at level 20
+
+### Choka
+A dangerous and enormous snake pokete.
+```
+ _______
+/____ * \
+ (   \   \
+\______   \
+```
+
+- Type: [Normal](#types)
+- Health points: 25
+- Attack factor: level+5
+- Defense factor: level+1
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 4
+- Attacks:
+   + [Chocer](#chocer)
+   + [Bite](#bite)
+   + [Poison bite](#poison-bite)
+- Does not evolve
 
 ### Clampi
 A shell that lives deep in the see or near bays, that's pretty hard to crack.
@@ -564,7 +587,7 @@ A dangerous snake Pokete.
    + [Chocer](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
-- Does not evolve
+- Evolves to Choka at level 25
 
 ## Attacks
 Those are all attacks present in the game.

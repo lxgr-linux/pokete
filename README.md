@@ -1,5 +1,5 @@
 # Pokete
-![Example](assets/ss1.png)
+![Example](assets/ss/ss01.png)
 
 [See more example pics](assets/pics.md)
 ## What is it?

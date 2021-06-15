@@ -4,6 +4,7 @@ from pokete_data.poketes import *
 from pokete_data.attacks import *
 from pokete_data.types import *
 from pokete_data.items import *
+import os
 
 md_str = """# Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
@@ -113,7 +114,16 @@ for item in sorted(items):
 - Can be used in fights: {"Yes" if items[item]["fn"] != None else "No"}
 """
 
-
 # writing to file
 with open("wiki.md", "w+") as file:
+    file.write(md_str)
+
+
+# pics.md
+md_str = "# Example pictures\n"
+for i in sorted(os.listdir("assets/ss")):
+    md_str += f"![{i}](ss/{i})\n\n"
+
+# writing to file
+with open("assets/pics.md", "w+") as file:
     file.write(md_str)

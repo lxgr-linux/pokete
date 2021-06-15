@@ -1,12 +1,41 @@
-# Example pics
-![pic](ss1.png)
+# Example pictures
+![ss01.png](ss/ss01.png)
 
-![pic](ss2.png)
+![ss02.png](ss/ss02.png)
 
-![pic](ss3.png)
+![ss03.png](ss/ss03.png)
 
-![pic](ss4.png)
+![ss04.png](ss/ss04.png)
 
-![pic](ss5.png)
+![ss05.png](ss/ss05.png)
 
-![pic](ss6.png)
+![ss06.png](ss/ss06.png)
+
+![ss07.png](ss/ss07.png)
+
+![ss08.png](ss/ss08.png)
+
+![ss09.png](ss/ss09.png)
+
+![ss10.png](ss/ss10.png)
+
+![ss11.png](ss/ss11.png)
+
+![ss12.png](ss/ss12.png)
+
+![ss13.png](ss/ss13.png)
+
+![ss14.png](ss/ss14.png)
+
+![ss15.png](ss/ss15.png)
+
+![ss16.png](ss/ss16.png)
+
+![ss17.png](ss/ss17.png)
+
+![ss18.png](ss/ss18.png)
+
+![ss19.png](ss/ss19.png)
+
+![ss20.png](ss/ss20.png)
+
