@@ -213,7 +213,7 @@ pokes = {
         "rarity": 1,
         "type": "normal",
         "evolve_poke": "choka",
-        "evolve_lvl": 25,
+        "evolve_lvl": 30,
         "ico": """  >'({{{
   }}}}}}}
  {{{{{{{{{

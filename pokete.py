@@ -868,7 +868,7 @@ def playmap_17_boy():
         playmap_17.boy_1.will = False
         used_npcs.append(playmap_17.boy_1.name)
     else:
-        movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y, [" < In this region lives the würgos Pokete.", " < At level 25 it evolves to Choka.", " < I have never seen one before!"])
+        movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y, [" < In this region lives the würgos Pokete.", f" < At level {pokes['würgos']['evolve_lvl']} it evolves to Choka.", " < I have never seen one before!"])
 
 
 # main functions
