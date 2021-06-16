@@ -62,7 +62,6 @@ class NPC(se.Box):
         exclamation.remove()
         movemap_text(self.x, self.y, self.texts)
         self.fn()
-        multitext.remove()
 
     def fn(self):
         if self.__fn != None:
@@ -103,7 +102,6 @@ class Trainer(se.Object):
             else:
                 movemap_text(self.x, self.y, self.no_poke_texts)
                 used_npcs.append(self.name)
-            multitext.remove()
             while self.y != self.sy:
                 self.set(self.x, self.y+(1 if self.y < self.sy else -1))
                 movemap.full_show()
@@ -133,7 +131,6 @@ class CenterInteract(se.Object):
                 break
             std_loop()
             time.sleep(0.05)
-        multitext.remove()
         movemap.full_show(init=True)
 
 
@@ -143,11 +140,9 @@ class ShopInteract(se.Object):
         ev = ""
         movemap.full_show()
         movemap_text(int(movemap.width/2), 3, [" < Welcome to the Pokete-Shop", " < Wanna buy something?"])
-        multitext.remove()
         buy()
         movemap.full_show(init=True)
         movemap_text(int(movemap.width/2), 3, [" < Have a great day!"])
-        multitext.remove()
 
 
 class CenterDor(se.Object):
@@ -624,10 +619,10 @@ def codes(string):
 
 def movemap_text(x, y, arr):
     global ev
+    multitext.add(movemap, x-movemap.x+1, y-movemap.y)
     for t in arr:
         ev = ""
         multitext.rechar("")
-        multitext.add(movemap, x-movemap.x+1, y-movemap.y)
         for i in range(len(t)+1):
             multitext.rechar(liner(t[:i], movemap.width-(x-movemap.x+1), "   "))
             movemap.show()
@@ -643,6 +638,7 @@ def movemap_text(x, y, arr):
             if ev != "":
                 break
             time.sleep(0.05)
+    multitext.remove()
 
 
 def movemap_add_obs():
@@ -867,14 +863,12 @@ def playmap_10_old_man():
 def playmap_17_boy():
     if "choka" in [i.identifier for i in figure.pokes[:6]]:
         movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y, [" < Oh, cool!", " < You have a Choka!", " < I've never seen one before!", " < Here you go, 200$"])
-        multitext.remove()
         if ask_bool(movemap, "Young boy gifted you 200$. Do you want to accept it?"):
             figure.add_money(200)
         playmap_17.boy_1.will = False
         used_npcs.append(playmap_17.boy_1.name)
     else:
         movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y, [" < In this region lives the würgos Pokete.", " < At level 25 it evolves to Choka.", " < I have never seen one before!"])
-        multitext.remove()
 
 
 # main functions
