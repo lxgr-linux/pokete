@@ -1525,6 +1525,8 @@ playmap_15 = PlayMap(background=" ", height=25, width=120, name="playmap_15", pr
                     trainers = [Trainer("Samantha", "She", Poke("clampi", 650, player=False), [" < Hey you!", " < My Pokete is very effective against bird Poketes"], [" < You see, it's effective"], [" < I see you don't have a living Pokete"], [" < Oh no", " < I guess yours is even more effective than mine!"], 43, 17),
                                 Trainer("Jessica", "She", Poke("angrilo", 650, player=False), [" < Hey you!"], [" < Haha, you're a loser!"], [" < I see you don't have a living Pokete"], [" < Oh no"], 31, 6)],
                     poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 400, "maxlvl": 550})
+playmap_16 = PlayMap(background=" ", height=17, width=65, name="playmap_16", pretty_name="Route 6",
+                    poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 480, "maxlvl": 600})
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
