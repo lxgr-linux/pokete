@@ -864,6 +864,19 @@ def playmap_10_old_man():
         figure.give_item("hyperball")
 
 
+def playmap_17_boy():
+    if "choka" in [i.identifier for i in figure.pokes[:6]]:
+        movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y, [" < Oh, cool!", " < You have a Choka!", " < I've never seen one before!", " < Here you go, 200$"])
+        multitext.remove()
+        if ask_bool(movemap, "Young boy gifted you 200$. Do you want to accept it?"):
+            figure.add_money(200)
+        playmap_17.boy_1.will = False
+        used_npcs.append(playmap_17.boy_1.name)
+    else:
+        movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y, [" < In this region lives the würgos Pokete.", " < At level 25 it evolves to Choka.", " < I have never seen one before!"])
+        multitext.remove()
+
+
 # main functions
 ################
 
@@ -1527,6 +1540,7 @@ playmap_15 = PlayMap(background=" ", height=25, width=120, name="playmap_15", pr
                     poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 400, "maxlvl": 550})
 playmap_16 = PlayMap(background=" ", height=17, width=65, name="playmap_16", pretty_name="Route 6",
                     poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 480, "maxlvl": 600})
+playmap_17 = PlayMap(background=" ", height=15, width=30, name="playmap_17", pretty_name="House")
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")

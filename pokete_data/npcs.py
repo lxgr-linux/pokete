@@ -39,6 +39,14 @@ npcs = {
         "x": 38,
         "y": 31
     },
+    "boy_1": {
+        "texts": [],
+        "fn": "playmap_17_boy",
+        "args": (),
+        "map": "playmap_17",
+        "x": 4,
+        "y": 3
+    },
 }
 
 
