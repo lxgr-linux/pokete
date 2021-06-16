@@ -39,7 +39,7 @@ In the following all Poketes with their attributes are displayed.
 """
 
 for poke in sorted([i for i in pokes][1:]):
-    evolve_txt = f"""- Evolves to {pokes[pokes[poke]["evolve_poke"]]["name"]} at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
+    evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
     md_attacks = ""
     for atc in pokes[poke]["attacs"]:
         md_attacks += f"""\n   + [{attacs[atc]["name"]}](#{atc.replace("_", "-")})"""

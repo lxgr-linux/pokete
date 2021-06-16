@@ -112,7 +112,7 @@ WW\/* *\/WW
 - Attacks:
    + [Bite](#bite)
    + [Cry](#cry)
-- Evolves to Bator at level 20
+- Evolves to [Bator](#bator) at level 20
 
 ### Bator
 A chongus flying rat.
@@ -178,7 +178,7 @@ A bush, and just a bush. But watch out!
 - Attacks:
    + [Tackle](#tackle)
    + [Bark hardening](#bark-hardening)
-- Evolves to Treenator at level 20
+- Evolves to [Treenator](#treenator) at level 20
 
 ### Choka
 A fucking dangerous and enormous snake pokete.
@@ -245,7 +245,7 @@ A scary ghost Pokete that lives in caves and old houses.
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
    + [Heard touch](#heard-touch)
-- Evolves to Angrilo at level 25
+- Evolves to [Angrilo](#angrilo) at level 25
 
 ### Hornita
 An majestetic horse that is always looking for something to pick with its horn.
@@ -288,7 +288,7 @@ A teenaged unicorn in the middle of puberty.
 - Attacks:
    + [Tackle](#tackle)
    + [Meat skewer](#meat-skewer)
-- Evolves to Hornita at level 20
+- Evolves to [Hornita](#hornita) at level 20
 
 ### Karpi
 A very harmless water Pokete that can be found everywhere.
@@ -525,7 +525,7 @@ A very common bird Pokete that lives everywhere.
 - Attacks:
    + [Tackle](#tackle)
    + [Power pick](#power-pick)
-- Evolves to Voglo at level 20
+- Evolves to [Voglo](#voglo) at level 20
 
 ### Voglo
 A very agressive bird Pokete that can only be found in the woods.
@@ -590,7 +590,7 @@ A dangerous snake Pokete.
    + [Chocer](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
-- Evolves to Choka at level 25
+- Evolves to [Choka](#choka) at level 25
 
 ## Attacks
 Those are all attacks present in the game.
