@@ -1552,7 +1552,8 @@ mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f", s_next="mapbox.i", d_next
 mapbox.i = Station(playmap_11, 1, 1, w_next="mapbox.h")
 mapbox.j = Station(playmap_12, 2, 1, a_next="mapbox.h", w_next="mapbox.k")
 mapbox.k = Station(playmap_13, 1, 2, s_next="mapbox.j", w_next="mapbox.l")
-mapbox.l = Station(playmap_15, 2, 1, s_next="mapbox.k")
+mapbox.l = Station(playmap_15, 2, 1, s_next="mapbox.k", d_next="mapbox.m")
+mapbox.m = Station(playmap_16, 1, 1, a_next="mapbox.l")
 mapbox.add_ob(mapbox.a, 5, 7)
 mapbox.add_ob(mapbox.b, 6, 5)
 mapbox.add_ob(mapbox.c, 7, 5)
@@ -1565,6 +1566,7 @@ mapbox.add_ob(mapbox.i, 11, 8)
 mapbox.add_ob(mapbox.j, 13, 7)
 mapbox.add_ob(mapbox.k, 14, 5)
 mapbox.add_ob(mapbox.l, 14, 4)
+mapbox.add_ob(mapbox.m, 16, 4)
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
