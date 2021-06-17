@@ -619,6 +619,7 @@ def codes(string):
 
 def movemap_text(x, y, arr):
     global ev
+    multitext.rechar("")
     multitext.add(movemap, x-movemap.x+1, y-movemap.y)
     for t in arr:
         ev = ""

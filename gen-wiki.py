@@ -124,7 +124,8 @@ def gen_pics():
         file.write(md_str)
 
 
-print(":: Generating wiki.md...")
-gen_wiki()
-print(":: Generating pics.md...")
-gen_pics()
+if __name__ == "__main__":
+    print(":: Generating wiki.md...")
+    gen_wiki()
+    print(":: Generating pics.md...")
+    gen_pics()
