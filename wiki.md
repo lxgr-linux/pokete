@@ -590,7 +590,7 @@ A dangerous snake Pokete.
    + [Chocer](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
-- Evolves to [Choka](#choka) at level 25
+- Evolves to [Choka](#choka) at level 30
 
 ## Attacks
 Those are all attacks present in the game.
@@ -829,7 +829,6 @@ Hits the enemy with a wing
 
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
-
 Type|Effective against|Ineffective against
 ---|---|---
 Normal||
