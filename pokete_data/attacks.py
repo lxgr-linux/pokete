@@ -307,8 +307,8 @@ attacs = {
         "type": "plant",
         "ap": 5,
     },
-    "heard_touch": {
-        "name": "Heard touch",
+    "heart_touch": {
+        "name": "Heart touch",
         "factor": 4,
         "action": "enem.defense -= 4",
         "move": "attack",

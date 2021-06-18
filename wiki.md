@@ -42,7 +42,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
    11. [Earch quake](#earch-quake)
    12. [Eye pick](#eye-pick)
    13. [Fire bite](#fire-bite)
-   14. [Heard touch](#heard-touch)
+   14. [Heart touch](#heart-touch)
    15. [Meat skewer](#meat-skewer)
    16. [Mind blow](#mind-blow)
    17. [Pepple fire](#pepple-fire)
@@ -90,7 +90,7 @@ A ghost Pokete that will scare your pants off.
 - Attacks:
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
-   + [Heard touch](#heard-touch)
+   + [Heart touch](#heart-touch)
 - Does not evolve
 
 ### Bato
@@ -244,7 +244,7 @@ A scary ghost Pokete that lives in caves and old houses.
 - Attacks:
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
-   + [Heard touch](#heard-touch)
+   + [Heart touch](#heart-touch)
 - Evolves to [Angrilo](#angrilo) at level 25
 
 ### Hornita
@@ -699,7 +699,7 @@ Burns and bites the enemy at the same time
 - Missing chance: 0.2
 - Attack points: 10
 
-### Heard touch
+### Heart touch
 Touches the enemys heard with its' cold gost claws
 - Type: [Undead](#types)
 - Minimum Level: 20
