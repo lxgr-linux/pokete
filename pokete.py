@@ -266,18 +266,21 @@ class Poke():
             fightmap.show()
             time.sleep(0.3)
 
-    def move_throw(self):
+    def move_throw(self, txt="#"):
         line = se.Line(" ", self.enem.ico.x-self.ico.x+(-11 if self.player else 11), self.enem.ico.y-self.ico.y, type="crippled")
         line.add(self.ico.map, self.ico.x+(11 if self.player else -1), self.ico.y+1)
         self.ico.map.show()
         for i in range(len(line.obs)):
-            line.obs[i].rechar("#")
+            line.obs[i].rechar(txt)
             if i != 0:
                 line.obs[i-1].rechar(line.char)
             time.sleep(0.05)
             self.ico.map.show()
         line.remove()
         del line
+
+    def move_fireball(self):
+        self.move_throw(txt=Color.thicc+Color.red+"*"+Color.reset)
 
     def move_shine(self):
         for i, x, y in zip(fightmap.shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):

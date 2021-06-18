@@ -405,17 +405,34 @@ WW\/o o\/WW
         "hp": 20,
         "atc": "self.lvl()+6",
         "defense": "self.lvl()+3",
-        "attacs": ["tackle", "fire_bite"],
+        "attacs": ["tackle", "fire_bite", "ash_throw"],
         "miss_chance": 0,
         "desc": "A fiery wolf straight from hell, that likes to burn 11 years old butts of.",
         "lose_xp": 2,
         "rarity": 1,
         "type": "fire",
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "wolfiro",
+        "evolve_lvl": 25,
         "ico": """   ^---^
    (* *)
    >(.)<"""
+    },
+    "wolfiro": {
+        "name": "Wolfiro",
+        "hp": 25,
+        "atc": "self.lvl()+7",
+        "defense": "self.lvl()+4",
+        "attacs": ["tackle", "fire_bite", "ash_throw", "fire_ball"],
+        "miss_chance": 0,
+        "desc": "A fiery wolf from hell on steroids.",
+        "lose_xp": 4,
+        "rarity": 1,
+        "type": "fire",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "ico": """  \^-^/
+  {* *}
+  >{.}<"""
     },
     "rollator": {
         "name": "Rollator",

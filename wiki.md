@@ -27,38 +27,41 @@ This wiki can be generated using ```$ gen-wiki.py```.
    21. [Vogli](#vogli)
    22. [Voglo](#voglo)
    23. [Wolfior](#wolfior)
-   24. [Würgos](#würgos)
+   24. [Wolfiro](#wolfiro)
+   25. [Würgos](#würgos)
 2. [Attacks](#attacks)
    1. [Apple drop](#apple-drop)
-   2. [Bark hardening](#bark-hardening)
-   3. [Bite](#bite)
-   4. [Branch stab](#branch-stab)
-   5. [Brick throw](#brick-throw)
-   6. [Brooding](#brooding)
-   7. [Bubble bomb](#bubble-bomb)
-   8. [Bubble shield](#bubble-shield)
-   9. [Chocer](#chocer)
-   10. [Cry](#cry)
-   11. [Earch quake](#earch-quake)
-   12. [Eye pick](#eye-pick)
-   13. [Fire bite](#fire-bite)
-   14. [Heart touch](#heart-touch)
-   15. [Meat skewer](#meat-skewer)
-   16. [Mind blow](#mind-blow)
-   17. [Pepple fire](#pepple-fire)
-   18. [Pick](#pick)
-   19. [Poison bite](#poison-bite)
-   20. [Politure](#politure)
-   21. [Power bite](#power-bite)
-   22. [Power pick](#power-pick)
-   23. [Power roll](#power-roll)
-   24. [Shell pinch](#shell-pinch)
-   25. [Sucker](#sucker)
-   26. [Super sucker](#super-sucker)
-   27. [Tackle](#tackle)
-   28. [Tail wipe](#tail-wipe)
-   29. [Wet slap](#wet-slap)
-   30. [Wing hit](#wing-hit)
+   2. [Ash throw](#ash-throw)
+   3. [Bark hardening](#bark-hardening)
+   4. [Bite](#bite)
+   5. [Branch stab](#branch-stab)
+   6. [Brick throw](#brick-throw)
+   7. [Brooding](#brooding)
+   8. [Bubble bomb](#bubble-bomb)
+   9. [Bubble shield](#bubble-shield)
+   10. [Chocer](#chocer)
+   11. [Cry](#cry)
+   12. [Earch quake](#earch-quake)
+   13. [Eye pick](#eye-pick)
+   14. [Fire ball](#fire-ball)
+   15. [Fire bite](#fire-bite)
+   16. [Heart touch](#heart-touch)
+   17. [Meat skewer](#meat-skewer)
+   18. [Mind blow](#mind-blow)
+   19. [Pepple fire](#pepple-fire)
+   20. [Pick](#pick)
+   21. [Poison bite](#poison-bite)
+   22. [Politure](#politure)
+   23. [Power bite](#power-bite)
+   24. [Power pick](#power-pick)
+   25. [Power roll](#power-roll)
+   26. [Shell pinch](#shell-pinch)
+   27. [Sucker](#sucker)
+   28. [Super sucker](#super-sucker)
+   29. [Tackle](#tackle)
+   30. [Tail wipe](#tail-wipe)
+   31. [Wet slap](#wet-slap)
+   32. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -570,6 +573,29 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 - Attacks:
    + [Tackle](#tackle)
    + [Fire bite](#fire-bite)
+   + [Ash throw](#ash-throw)
+- Evolves to [Wolfiro](#wolfiro) at level 25
+
+### Wolfiro
+A fiery wolf from hell on steroids.
+```
+  \^-^/
+  {* *}
+  >{.}<
+```
+
+- Type: [Fire](#types)
+- Health points: 25
+- Attack factor: level+7
+- Defense factor: level+4
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 4
+- Attacks:
+   + [Tackle](#tackle)
+   + [Fire bite](#fire-bite)
+   + [Ash throw](#ash-throw)
+   + [Fire ball](#fire-ball)
 - Does not evolve
 
 ### Würgos
@@ -604,6 +630,14 @@ Lets an apple drop on the enemys head
 - Attack factor: 1.7
 - Missing chance: 0.3
 - Attack points: 20
+
+### Ash throw
+Throws ashes in the enemys eyes
+- Type: [Fire](#types)
+- Minimum Level: 15
+- Attack factor: 0.5
+- Missing chance: 0
+- Attack points: 10
 
 ### Bark hardening
 Hardens the bark to protect it better
@@ -691,6 +725,14 @@ Picks out one of the enemys eyes
 - Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.6
+- Attack points: 5
+
+### Fire ball
+Casts a fireball at the enemy
+- Type: [Fire](#types)
+- Minimum Level: 25
+- Attack factor: 4
+- Missing chance: 0
 - Attack points: 5
 
 ### Fire bite
