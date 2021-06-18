@@ -116,7 +116,7 @@ pokes = {
        "hp": 25,
        "atc": "self.lvl()+3",
        "defense": "self.lvl()+2",
-       "attacs": ["tackle", "mind_blow", "heart_touch"],
+       "attacs": ["tackle", "mind_blow", "wet_slap", "heart_touch"],
        "miss_chance": 0,
        "desc": "A ghost Pokete that will scare your pants off.",
        "lose_xp": 4,

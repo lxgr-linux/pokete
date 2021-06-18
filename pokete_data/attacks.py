@@ -274,6 +274,17 @@ attacs = {
         "type": "ground",
         "ap": 10,
     },
+    "wet_slap": {
+        "name": "Wet slap",
+        "factor": 2.5,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0.1,
+        "min_lvl": 10,
+        "desc": "Gives the enemy a wet and cold slap in the face",
+        "type": "water",
+        "ap": 10,
+    },
     "brick_throw": {
         "name": "Brick throw",
         "factor": 2,

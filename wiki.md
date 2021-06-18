@@ -57,7 +57,8 @@ This wiki can be generated using ```$ gen-wiki.py```.
    26. [Super sucker](#super-sucker)
    27. [Tackle](#tackle)
    28. [Tail wipe](#tail-wipe)
-   29. [Wing hit](#wing-hit)
+   29. [Wet slap](#wet-slap)
+   30. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -90,6 +91,7 @@ A ghost Pokete that will scare your pants off.
 - Attacks:
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
+   + [Wet slap](#wet-slap)
    + [Heart touch](#heart-touch)
 - Does not evolve
 
@@ -818,6 +820,14 @@ Wipes throught the enemys face
 - Attack factor: 2.5
 - Missing chance: 0.5
 - Attack points: 5
+
+### Wet slap
+Gives the enemy a wet and cold slap in the face
+- Type: [Water](#types)
+- Minimum Level: 10
+- Attack factor: 2.5
+- Missing chance: 0.1
+- Attack points: 10
 
 ### Wing hit
 Hits the enemy with a wing
