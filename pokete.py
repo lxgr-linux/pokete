@@ -1542,11 +1542,15 @@ playmap_15 = PlayMap(background=" ", height=25, width=120, name="playmap_15", pr
 playmap_16 = PlayMap(background=" ", height=17, width=65, name="playmap_16", pretty_name="Route 6",
                     poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 480, "maxlvl": 600})
 playmap_17 = PlayMap(background=" ", height=15, width=30, name="playmap_17", pretty_name="House")
-playmap_18 = PlayMap(background=" ", height=25, width=98, name="playmap_18", pretty_name="Route 7",
+playmap_18 = PlayMap(background=" ", height=23, width=98, name="playmap_18", pretty_name="Big mountain see",
                     trainers = [Trainer("Bert", "He", Poke("poundi", 700, player=False), [" < Hey!", " < This region is full of stone and ground Poketes"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Oh, I lost!"], 6, 4),
                                 Trainer("Karen", "She", Poke("clampi", 700, player=False), [" < I don't think you can walk here", " < I demand a fight with you!"], [" < Go home little zoomer."], [" < I see you don't have a living Pokete"], [" < I want to talk to your manager."], 56, 11)],
                     poke_args = {"pokes": ["poundi", "rollator", "würgos", "rato"], "minlvl": 540, "maxlvl": 640},
                     extra_actions = playmap_18_extra_action)
+playmap_19 = PlayMap(background=" ", height=30, width=60, name="playmap_19", pretty_name="Big mountain cave",
+                    trainers = [Trainer("Brian", "He", Poke("choka", 850, player=False), [" < Hello fellow cava man!"], [" < Oooooh!", " < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were lucky!"], 16, 15),
+                                Trainer("Simon", "He", Poke("wolfiro", 850, player=False), [" < Joooo!", " < What up?"], [" < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Duck!"], 15, 7)],
+                    poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"], "minlvl": 540, "maxlvl": 640})
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1564,7 +1568,9 @@ mapbox.i = Station(playmap_11, 1, 1, w_next="mapbox.h")
 mapbox.j = Station(playmap_12, 2, 1, a_next="mapbox.h", w_next="mapbox.k")
 mapbox.k = Station(playmap_13, 1, 2, s_next="mapbox.j", w_next="mapbox.l")
 mapbox.l = Station(playmap_15, 2, 1, s_next="mapbox.k", d_next="mapbox.m")
-mapbox.m = Station(playmap_16, 1, 1, a_next="mapbox.l")
+mapbox.m = Station(playmap_16, 1, 1, a_next="mapbox.l", d_next="mapbox.n")
+mapbox.n = Station(playmap_18, 2, 1, a_next="mapbox.m", w_next="mapbox.o")
+mapbox.o = Station(playmap_19, 1, 1, s_next="mapbox.n")
 mapbox.add_ob(mapbox.a, 5, 7)
 mapbox.add_ob(mapbox.b, 6, 5)
 mapbox.add_ob(mapbox.c, 7, 5)
@@ -1578,6 +1584,9 @@ mapbox.add_ob(mapbox.j, 13, 7)
 mapbox.add_ob(mapbox.k, 14, 5)
 mapbox.add_ob(mapbox.l, 14, 4)
 mapbox.add_ob(mapbox.m, 16, 4)
+mapbox.add_ob(mapbox.n, 17, 4)
+mapbox.add_ob(mapbox.o, 18, 3)
+
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
@@ -1754,6 +1763,41 @@ playmap_18.lake_1 =  se.Text("""  ~~
  ~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub", "clampi"], "minlvl": 540, "maxlvl": 640}, state="float")
 # adding
 playmap_18.lake_1.add(playmap_18, 72, 7)
+
+# playmap_19
+playmap_19.inner = se.Text("""                         ####
+                         #  #   ############
+                         #  #   #          #
+                         #  #   #          #
+        ##############   #  #####          #
+        ##           #   #                 #
+        #            #   #  #####          #
+        #            #####  #   #          #
+        #                   #   #         ##
+        #            #####  #   ############
+        ##############   #  #
+                         #  #
+         #################  ####################
+         #                                    ##
+     #####                                     #
+     #                                         #
+     #                        #######          #
+     #                        #     #          #
+     ######## #################     ######  ####
+            # #                          #  #
+            # #                          #  #
+            # #                          #  #
+            # #                          #  #
+            # #                          #  #
+            # #                   ########  #
+            # #                  ##         #
+            # #                   ###########
+            # #
+            # #
+            ###""", ignore="#", ob_class=HightGrass, ob_args=playmap_19.poke_args, state="float")
+# adding
+playmap_19.inner.add(playmap_19, 0, 0)
+
 
 # adding all trainer to map
 for map in map_data:
