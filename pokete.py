@@ -847,6 +847,9 @@ def playmap_4_extra_action():
 def playmap_11_extra_action():
     playmap_water_extra_action(playmap_11.lake_1.obs)
 
+def playmap_18_extra_action():
+    playmap_water_extra_action(playmap_18.lake_1.obs)
+
 def playmap_7_extra_action():
     for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"]]:
         if ob.added and math.sqrt((ob.y-figure.y)**2+(ob.x-figure.x)**2) <= 3:
@@ -1539,6 +1542,11 @@ playmap_15 = PlayMap(background=" ", height=25, width=120, name="playmap_15", pr
 playmap_16 = PlayMap(background=" ", height=17, width=65, name="playmap_16", pretty_name="Route 6",
                     poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 480, "maxlvl": 600})
 playmap_17 = PlayMap(background=" ", height=15, width=30, name="playmap_17", pretty_name="House")
+playmap_18 = PlayMap(background=" ", height=25, width=98, name="playmap_18", pretty_name="Route 7",
+                    trainers = [Trainer("Bert", "He", Poke("poundi", 700, player=False), [" < Hey!", " < This region is full of stone and ground Poketes"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Oh, I lost!"], 6, 4),
+                                Trainer("Karen", "She", Poke("clampi", 700, player=False), [" < I don't think you can walk here", " < I demand a fight with you!"], [" < Go home little zoomer."], [" < I see you don't have a living Pokete"], [" < I want to talk to your manager."], 56, 11)],
+                    poke_args = {"pokes": ["poundi", "rollator", "würgos", "rato"], "minlvl": 540, "maxlvl": 640},
+                    extra_actions = playmap_18_extra_action)
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1734,7 +1742,18 @@ playmap_13.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int
 playmap_13.dor.add(playmap_13, 14, 29)
 playmap_13.shopdor.add(playmap_13, 52, 29)
 
-
+# playmap_18
+playmap_18.lake_1 =  se.Text("""  ~~
+ ~~~~
+~~~~~~~
+~~~~~~~~
+~~~~~~~~
+~~~~~~~~
+~~~~~~
+ ~~~~
+ ~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub", "clampi"], "minlvl": 540, "maxlvl": 640}, state="float")
+# adding
+playmap_18.lake_1.add(playmap_18, 72, 7)
 
 # adding all trainer to map
 for map in map_data:
