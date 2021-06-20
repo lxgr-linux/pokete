@@ -1042,6 +1042,22 @@ def menu():
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev
+    # fancy stuff
+    # vec_list = [se.Line(" ", -int(movemap.width/2), -int(movemap.height/2)),
+    #             se.Line(" ", int(movemap.width/2), -int(movemap.height/2)),
+    #             se.Line(" ", int(movemap.width/2), int(movemap.height/2)),
+    #             se.Line(" ", -int(movemap.width/2), int(movemap.height/2))]
+    # for i in vec_list:
+    #     i.add(movemap, int(movemap.width/2), int(movemap.height/2))
+    # movemap.show()
+    # for j in list(zip(*[i.obs for i in vec_list])):
+    #     for i in j:
+    #         i.rechar("-")
+    #     movemap.show()
+    #     time.sleep(0.001)
+    # for i in vec_list:
+    #     i.remove()
+    # fancy stuff end
     players = fight_add_1(player, enemy)
     if info["type"] == "wild":
         fightmap.outp.rechar(f"A wild {enemy.name} appeared!")
