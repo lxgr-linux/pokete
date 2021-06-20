@@ -1043,20 +1043,22 @@ def menu():
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev
     # fancy stuff
-    # vec_list = [se.Line(" ", -int(movemap.width/2), -int(movemap.height/2)),
-    #             se.Line(" ", int(movemap.width/2), -int(movemap.height/2)),
-    #             se.Line(" ", int(movemap.width/2), int(movemap.height/2)),
-    #             se.Line(" ", -int(movemap.width/2), int(movemap.height/2))]
-    # for i in vec_list:
-    #     i.add(movemap, int(movemap.width/2), int(movemap.height/2))
-    # movemap.show()
-    # for j in list(zip(*[i.obs for i in vec_list])):
-    #     for i in j:
-    #         i.rechar("-")
-    #     movemap.show()
-    #     time.sleep(0.001)
-    # for i in vec_list:
-    #     i.remove()
+    fancymap = se.Map(background=" ", width=width, height=height)
+    vec_list = [se.Line(" ", i*int(width/2), j*int(height/2)) for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
+    for i in vec_list:
+        i.add(fancymap, int(width/2), int(height/2))
+    fancymap.show()
+    for j, l in zip(list(zip(*[i.obs for i in vec_list])), list(zip(*[list(2*" ")+k for k in [i.obs for i in vec_list]])),):
+        for i in j:
+            i.rechar("-")
+        for k in l:
+            if k != " ":
+                k.rechar(" ")
+        fancymap.show()
+        time.sleep(0.005)
+    for i in vec_list:
+        i.remove()
+    del fancymap
     # fancy stuff end
     players = fight_add_1(player, enemy)
     if info["type"] == "wild":
