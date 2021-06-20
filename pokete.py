@@ -21,8 +21,13 @@ class HightGrass(se.Object):
 
 
 class Poketeball(se.Object):
+    def __init__(self, name):
+        self.name = name
+        super().__init__(Color.thicc+Color.red+"o"+Color.reset, state="float")
+
     def action(self, ob):
         figure.give_item("poketeball")
+        used_npcs.append(self.name)
         self.remove()
 
 # The following two classes (PC and Heal) where initially needed to manage healing
@@ -851,7 +856,7 @@ def playmap_18_extra_action():
     playmap_water_extra_action(playmap_18.lake_1.obs)
 
 def playmap_7_extra_action():
-    for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"]]:
+    for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
         if ob.added and math.sqrt((ob.y-figure.y)**2+(ob.x-figure.x)**2) <= 3:
             ob.rechar(ob.bchar)
         else:
@@ -1476,6 +1481,7 @@ if "settings" in session_info:
     settings = Settings(**session_info["settings"])
 else:
     settings = Settings()
+save_trainers = settings.save_trainers  # This is needed to just apply some changes when restarting the game to avoid running into errors
 
 if "used_npcs" in session_info:
     used_npcs = session_info["used_npcs"]
@@ -1626,8 +1632,9 @@ for map in map_data:
         exec(f'{map}.{dor} = Dor(" ", state="float", arg_proto={map_data[map]["dors"][dor]["args"]})')
         exec(f'{map}.{dor}.add({map}, map_data[map]["dors"][dor]["x"], map_data[map]["dors"][dor]["y"])')
     for ball in map_data[map]["balls"]:
-        exec(f'{map}.{ball} = Poketeball(Color.thicc+Color.red+"o"+Color.reset, state="float")')
-        exec(f'{map}.{ball}.add({map}, map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
+        if f'{map}.{ball}' not in used_npcs or not settings.save_trainers:
+            exec(f'{map}.{ball} = Poketeball("{map}.{ball}")')
+            exec(f'{map}.{ball}.add({map}, map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
 
 # playmap_1
 playmap_1.meadow = se.Square(Color.green+";"+Color.reset, 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
@@ -1712,7 +1719,7 @@ playmap_7.inner = se.Text("""##############################
 ###################   ########
 ####################  ########
 ##############################""", ignore="#", ob_class=HightGrass, ob_args=playmap_7.poke_args, state="float")
-for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"]]:
+for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not settings.save_trainers]:
     ob.bchar = ob.char
     ob.rechar(" ")
 # adding
