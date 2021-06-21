@@ -441,7 +441,7 @@ class Attack():
         self.label_name = se.Text(self.name, esccode=Color.underlined)
         self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
         self.label_factor = se.Text("Attack:"+str(self.factor))
-        self.desc = se.Text(self.desc[:int(se.width/2-1)])
+        self.label_desc = se.Text(self.desc[:int(width/2-1)])
         self.label_type = se.Text("Type:"+self.type.name)
 
 
@@ -1323,13 +1323,17 @@ def deck(pokes, label="Your full deck", in_fight=False):
 
 def detail(poke):
     global ev
+    for atc in poke.attac_obs:
+        atc.temp_i = 0
+        atc.temp_j = -30
+        atc.label_desc.rechar(atc.desc[:int(width/2-1)])
     deck_add(poke, detailmap, 1, 1, False)
     detailmap.attack_defense.rechar("Attack:"+str(poke.atc)+(4-len(str(poke.atc)))*" "+"Defense:"+str(poke.defense))
     poke.desc.add(detailmap, 34, 2)
     poke.text_type.add(detailmap, 36, 5)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.label_ap.rechar("AP:"+str(atc.ap)+"/"+str(atc.max_ap))
-        for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type, atc.label_ap, atc.desc], [0, 0, 11, 0, 0], [0, 1, 1, 2, 3]):
+        for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type, atc.label_ap, atc.label_desc], [0, 0, 11, 0, 0], [0, 1, 1, 2, 3]):
             label.add(detailmap, x+_x, y+_y)
     detailmap.show(init=True)
     while True:
@@ -1339,10 +1343,22 @@ def detail(poke):
             poke.desc.remove()
             poke.text_type.remove()
             for atc in poke.attac_obs:
-                for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.desc, atc.label_type]:
+                for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.label_desc, atc.label_type]:
                     ob.remove()
+                del atc.temp_i, atc.temp_j
             return
         std_loop()
+        for atc in poke.attac_obs:  # This section generates the Text effect for attack labels
+            if len(atc.desc) > int(width/2-1):
+                if atc.temp_j == 5:
+                    atc.temp_i += 1
+                    atc.temp_j = 0
+                    if atc.temp_i == len(atc.desc)-int(width/2-1)+10:
+                        atc.temp_i = 0
+                        atc.temp_j = -30
+                    atc.label_desc.rechar(atc.desc[atc.temp_i:int(width/2-1)+atc.temp_i])
+                else:
+                    atc.temp_j += 1
         time.sleep(0.05)
         detailmap.show()
 
