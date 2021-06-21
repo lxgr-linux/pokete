@@ -78,6 +78,9 @@ For additional information you can see [wiki](wiki.md).
 Pokete depends on python3 and the scrap_engine module.
 On windows pynput has to be installed too.
 
+## Releases
+For release information see [Changelog](Changelog.md).
+
 ## Contributing
 Feel free to contribute what ever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
