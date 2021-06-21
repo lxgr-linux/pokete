@@ -1044,10 +1044,10 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev
     # fancy stuff
     if settings.animations:
-        fancymap = se.Map(background=" ", width=width, height=height)
-        vec_list = [se.Line(" ", i*int(width/2), j*int(height/2)) for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
+        fancymap = se.Map(background=" ", width=width, height=height-1)
+        vec_list = [se.Line(" ", i*int(width/2), j*int((height-1)/2)) for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
         for i in vec_list:
-            i.add(fancymap, int(width/2), int(height/2))
+            i.add(fancymap, int(width/2), int((height-1)/2))
         fancymap.show()
         for j, l in zip(list(zip(*[i.obs for i in vec_list])), list(zip(*[list(2*" ")+k for k in [i.obs for i in vec_list]])),):
             for i in j:
