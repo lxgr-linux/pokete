@@ -1,3 +1,15 @@
+0.3.4
+-------
+What changed until this release?
+- Added Changelog.md
+- Added Route 6, bigmountain see and bigmountain cave
+- Improved wiki.md
+- Added Wolfiro
+- Added saving Poketeballs
+- Added some new attacks
+- Fixed some bugs
+
+
 0.3.3
 -------
 What changed until this release?
