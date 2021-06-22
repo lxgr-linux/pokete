@@ -1431,6 +1431,9 @@ def main():
 # Actual code execution
 #######################
 
+# validating data
+validate()
+
 # deciding on wich input to use
 if sys.platform == "linux":  # Use another (not on xserver relying) way to read keyboard input, to make this shit work in tty or via ssh, where no xserver is available
     def recogniser():
@@ -1600,7 +1603,6 @@ mapbox.add_ob(mapbox.info_label, 1, 1)
 for s in stations:
     exec(f"mapbox.{s} = Station({s}, **stations[s]['gen'])")
     exec(f"mapbox.add_ob(mapbox.{s}, **stations[s]['add'])")
-
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
