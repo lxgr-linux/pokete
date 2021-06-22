@@ -351,7 +351,7 @@ class Station(se.Square):
         ne = eval("self."+ev+"_next")
         if ne != "":
             self.unchoose()
-            exec(ne+".choose()")
+            exec("mapbox."+ne+".choose()")
 
 
 class Figure(se.Object):
@@ -1402,7 +1402,7 @@ def game(map):
             trainer.do(map)
         time.sleep(0.05)
         for statement, x, y in zip(
-        [figure.x+5 > movemap.x+movemap.width, figure.x < movemap.x+5, figure.y+5 > movemap.y+movemap.height, figure.y < movemap.y+5],
+        [figure.x+6 > movemap.x+movemap.width, figure.x < movemap.x+6, figure.y+6 > movemap.y+movemap.height, figure.y < movemap.y+6],
         [1, -1, 0, 0],
         [0, 0, 1, -1]):
             if statement:
@@ -1597,36 +1597,9 @@ playmap_19 = PlayMap(background=" ", height=30, width=60, name="playmap_19", pre
 mapbox = Box(11, 40, "Roadmap")
 mapbox.info_label = se.Text("")
 mapbox.add_ob(mapbox.info_label, 1, 1)
-mapbox.a = Station(playmap_1, 2, 1, w_next="mapbox.b")
-mapbox.b = Station(cave_1, 1, 2, s_next="mapbox.a", d_next="mapbox.c")
-mapbox.c = Station(playmap_2, 2, 1, a_next="mapbox.b", d_next="mapbox.d")
-mapbox.d = Station(playmap_3, 2, 1, a_next="mapbox.c", w_next="mapbox.e", s_next="mapbox.f")
-mapbox.e = Station(playmap_4, 1, 3, s_next="mapbox.d")
-mapbox.f = Station(playmap_6, 1, 2, w_next="mapbox.d", a_next="mapbox.g", d_next="mapbox.h")
-mapbox.g = Station(playmap_7, 1, 1, d_next="mapbox.f")
-mapbox.h = Station(playmap_8, 2, 1, a_next="mapbox.f", s_next="mapbox.i", d_next="mapbox.j")
-mapbox.i = Station(playmap_11, 1, 1, w_next="mapbox.h")
-mapbox.j = Station(playmap_12, 2, 1, a_next="mapbox.h", w_next="mapbox.k")
-mapbox.k = Station(playmap_13, 1, 2, s_next="mapbox.j", w_next="mapbox.l")
-mapbox.l = Station(playmap_15, 2, 1, s_next="mapbox.k", d_next="mapbox.m")
-mapbox.m = Station(playmap_16, 1, 1, a_next="mapbox.l", d_next="mapbox.n")
-mapbox.n = Station(playmap_18, 2, 1, a_next="mapbox.m", w_next="mapbox.o")
-mapbox.o = Station(playmap_19, 1, 1, s_next="mapbox.n")
-mapbox.add_ob(mapbox.a, 5, 7)
-mapbox.add_ob(mapbox.b, 6, 5)
-mapbox.add_ob(mapbox.c, 7, 5)
-mapbox.add_ob(mapbox.d, 9, 5)
-mapbox.add_ob(mapbox.e, 10, 2)
-mapbox.add_ob(mapbox.f, 10, 6)
-mapbox.add_ob(mapbox.g, 9, 7)
-mapbox.add_ob(mapbox.h, 11, 7)
-mapbox.add_ob(mapbox.i, 11, 8)
-mapbox.add_ob(mapbox.j, 13, 7)
-mapbox.add_ob(mapbox.k, 14, 5)
-mapbox.add_ob(mapbox.l, 14, 4)
-mapbox.add_ob(mapbox.m, 16, 4)
-mapbox.add_ob(mapbox.n, 17, 4)
-mapbox.add_ob(mapbox.o, 18, 3)
+for s in stations:
+    exec(f"mapbox.{s} = Station({s}, **stations[s]['gen'])")
+    exec(f"mapbox.add_ob(mapbox.{s}, **stations[s]['add'])")
 
 
 # movemap
