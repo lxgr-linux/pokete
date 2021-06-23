@@ -6,8 +6,8 @@ stations = {
             "w_next": "cave_1"
         },
         "add": {
-            "rx": 5,
-            "ry": 7
+            "x": 5,
+            "y": 7
         }
     },
     "cave_1": {
@@ -18,8 +18,8 @@ stations = {
             "d_next": "playmap_2",
         },
         "add": {
-            "rx": 6,
-            "ry": 5
+            "x": 6,
+            "y": 5
         }
     },
     "playmap_2": {
@@ -30,8 +30,8 @@ stations = {
             "d_next": "playmap_3",
         },
         "add": {
-            "rx": 7,
-            "ry": 5
+            "x": 7,
+            "y": 5
         }
     },
     "playmap_3": {
@@ -43,8 +43,8 @@ stations = {
             "s_next": "playmap_6",
         },
         "add": {
-            "rx": 9,
-            "ry": 5
+            "x": 9,
+            "y": 5
         }
     },
     "playmap_4": {
@@ -54,8 +54,8 @@ stations = {
             "s_next": "playmap_3",
         },
         "add": {
-            "rx": 10,
-            "ry": 2
+            "x": 10,
+            "y": 2
         }
     },
     "playmap_6": {
@@ -67,8 +67,8 @@ stations = {
             "d_next": "playmap_8",
         },
         "add": {
-            "rx": 10,
-            "ry": 6
+            "x": 10,
+            "y": 6
         }
     },
     "playmap_7": {
@@ -78,8 +78,8 @@ stations = {
             "d_next": "playmap_6",
         },
         "add": {
-            "rx": 9,
-            "ry": 7
+            "x": 9,
+            "y": 7
         }
     },
     "playmap_8": {
@@ -91,8 +91,8 @@ stations = {
             "d_next": "playmap_12",
         },
         "add": {
-            "rx": 11,
-            "ry": 7
+            "x": 11,
+            "y": 7
         }
     },
     "playmap_11": {
@@ -102,8 +102,8 @@ stations = {
             "w_next": "playmap_8",
         },
         "add": {
-            "rx": 11,
-            "ry": 8
+            "x": 11,
+            "y": 8
         }
     },
     "playmap_12": {
@@ -114,8 +114,8 @@ stations = {
             "w_next": "playmap_13",
         },
         "add": {
-            "rx": 13,
-            "ry": 7
+            "x": 13,
+            "y": 7
         }
     },
     "playmap_13": {
@@ -126,8 +126,8 @@ stations = {
             "w_next": "playmap_15",
         },
         "add": {
-            "rx": 14,
-            "ry": 5
+            "x": 14,
+            "y": 5
         }
     },
     "playmap_15": {
@@ -138,8 +138,8 @@ stations = {
             "w_next": "playmap_16",
         },
         "add": {
-            "rx": 14,
-            "ry": 4
+            "x": 14,
+            "y": 4
         }
     },
     "playmap_16": {
@@ -150,8 +150,8 @@ stations = {
             "d_next": "playmap_18",
         },
         "add": {
-            "rx": 16,
-            "ry": 4
+            "x": 16,
+            "y": 4
         }
     },
     "playmap_18": {
@@ -162,8 +162,8 @@ stations = {
             "w_next": "playmap_19",
         },
         "add": {
-            "rx": 17,
-            "ry": 4
+            "x": 17,
+            "y": 4
         }
     },
     "playmap_19": {
@@ -173,8 +173,8 @@ stations = {
             "s_next": "playmap_18",
         },
         "add": {
-            "rx": 18,
-            "ry": 3
+            "x": 18,
+            "y": 3
         }
     },
 }

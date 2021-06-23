@@ -44,7 +44,7 @@ validators = {
     "dor": ["x", "y", "args"],
     "ball": ["x", "y"],
     "gen": ["width", "height"],
-    "add": ["rx", "ry"],
+    "add": ["x", "y"],
 }
 
 
