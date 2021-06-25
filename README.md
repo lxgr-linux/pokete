@@ -73,6 +73,7 @@ For additional information you can see [wiki](wiki.md).
 - [ ] Coloured Poketes
 - [x] A store to buy Poketeballs
 - [x] Add potions
+- [x] Add Intro
 
 ## Dependencies
 Pokete depends on python3 and the scrap_engine module.

@@ -378,7 +378,7 @@ class Figure(se.Object):
             else:
                 self.add(eval(session_info["map"]), session_info["x"], session_info["y"])
         except:
-            self.add(playmap_1, 1, 1)
+            self.add(playmap_1, 4, 3)
         try:
             self.oldmap = eval(session_info["oldmap"])
         except:
@@ -1438,7 +1438,12 @@ def intro():
     movemap.name_label.rechar(figure.name, esccode=Color.thicc)
     movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
     movemap.underline.add(movemap, 0, movemap.height-2)
-    movemap_text(4 ,3, [" < Hello my child.", " < You're now ten years old.", " < And I think it's now time for you to travel the world and be a Pokete-trainer.", " < Therefore I give you this powerfull 'Steini', 15 'Poketeballs' to catch Poketes and a 'Healing potion'.", " < You will be the best Pokete-Trainer in in Nice town.", " < Now go out and become the best!"])
+    movemap_text(4, 3, [" < Hello my child.",
+                        " < You're now ten years old.",
+                        " < And I think it's now time for you to travel the world and be a Pokete-trainer.",
+                        " < Therefore I give you this powerfull 'Steini', 15 'Poketeballs' to catch Poketes and a 'Healing potion'.",
+                        " < You will be the best Pokete-Trainer in in Nice town.",
+                        " < Now go out and become the best!"])
     game(intromap)
 
 
@@ -1530,8 +1535,8 @@ session_info = {
     "user": "DEFAULT",
     "map": "intromap",
     "oldmap": "playmap_1",
-    "x": 7,
-    "y": 3,
+    "x": 4,
+    "y": 5,
     "pokes": {
         0: {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
     },
