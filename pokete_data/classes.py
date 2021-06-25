@@ -91,7 +91,7 @@ class InfoBox(Box):
 
 class InputBox(Box):
     def __init__(self, infotext, introtext, text, max_len):
-        height = len(text.split("\n"))+3
+        height = len(infotext.split("\n"))+3
         width = sorted([len(i) for i in infotext.split("\n")]+[len(introtext)+1+max_len])[-1]+4
         super().__init__(height, width)
         self.infotext = se.Text(infotext)

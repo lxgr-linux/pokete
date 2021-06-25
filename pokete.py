@@ -913,6 +913,7 @@ def ask_text(map, infotext, introtext, text, max_len):
     inputbox.add(map, round((map.width-inputbox.width)/2), round((map.height-inputbox.height)/2))
     map.show()
     ret = text_input(inputbox.text, map, text, max_len+1, max_len=max_len)
+    inputbox.remove()
     del inputbox
     return ret
 
@@ -1426,6 +1427,21 @@ def game(map):
         movemap.full_show()
 
 
+def intro():
+    movemap.set(0, 0)
+    movemap.bmap = intromap
+    movemap.full_show()
+    while figure.name in ["DEFAULT", ""]:
+        figure.name = ask_text(movemap, "Welcome to Pokete!\nPlease choose your name!\n", "Name:", "", 17)
+    movemap.underline.remove()
+    movemap.balls_label.set(0, 1)
+    movemap.name_label.rechar(figure.name, esccode=Color.thicc)
+    movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
+    movemap.underline.add(movemap, 0, movemap.height-2)
+    movemap_text(4 ,3, [" < Hello my child.", " < You're now ten years old.", " < And I think it's now time for you to travel the world and be a Pokete-trainer.", " < Therefore I give you this powerfull 'Steini', 15 'Poketeballs' to catch Poketes and a 'Healing potion'.", " < You will be the best Pokete-Trainer in in Nice town.", " < Now go out and become the best!"])
+    game(intromap)
+
+
 def main():
     os.system("")
     recognising = threading.Thread(target=recogniser)
@@ -1434,6 +1450,8 @@ def main():
     autosaveing.daemon = True
     recognising.start()
     autosaveing.start()
+    if figure.name == "DEFAULT":
+        intro()
     game(figure.map)
 
 
@@ -1510,10 +1528,10 @@ Path(home+"/.cache/pokete/pokete.py").touch(exist_ok=True)
 # Default test session_info
 session_info = {
     "user": "DEFAULT",
-    "map": "playmap_1",
+    "map": "intromap",
     "oldmap": "playmap_1",
-    "x": 1,
-    "y": 1,
+    "x": 7,
+    "y": 3,
     "pokes": {
         0: {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
     },
@@ -1542,6 +1560,7 @@ else:
 # maps
 centermap = PlayMap(height-1, width, " ", name = "centermap", pretty_name = "Pokete-Center")
 shopmap = PlayMap(height-1, width, " ", name = "shopmap", pretty_name = "Pokete-Shop")
+intromap = PlayMap(background=" ", height=15, width=30, name="intromap", pretty_name="Your home")
 playmap_1 = PlayMap(background=" ", height=30, width=90, name="playmap_1", pretty_name="Nice Town",
                     trainers=[Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)],
                     poke_args={"pokes": ["rato", "horny", "vogli"], "minlvl": 15, "maxlvl": 40})
