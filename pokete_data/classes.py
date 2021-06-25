@@ -89,6 +89,19 @@ class InfoBox(Box):
         self.add_ob(self.text, 2, 1)
 
 
+class InputBox(Box):
+    def __init__(self, infotext, introtext, text, max_len):
+        height = len(text.split("\n"))+3
+        width = sorted([len(i) for i in infotext.split("\n")]+[len(introtext)+1+max_len])[-1]+4
+        super().__init__(height, width)
+        self.infotext = se.Text(infotext)
+        self.introtext = se.Text(introtext)
+        self.text = se.Text(text)
+        self.add_ob(self.infotext, 2, 1)
+        self.add_ob(self.introtext, 2, len(infotext.split("\n"))+1)
+        self.add_ob(self.text, self.introtext.rx+len(introtext)+1, self.introtext.ry)
+
+
 class Settings():
     def __init__(self, autosave=True, animations=True, save_trainers=True):
         self.keywords = ["autosave", "animations", "save_trainers"]

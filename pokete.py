@@ -908,6 +908,15 @@ def ask_bool(map, text):
     return ret
 
 
+def ask_text(map, infotext, introtext, text, max_len):
+    inputbox = InputBox(infotext, introtext, text, max_len)
+    inputbox.add(map, round((map.width-inputbox.width)/2), round((map.height-inputbox.height)/2))
+    map.show()
+    ret = text_input(inputbox.text, map, text, max_len+1, max_len=max_len)
+    del inputbox
+    return ret
+
+
 def inv():
     global ev
     ev = ""
