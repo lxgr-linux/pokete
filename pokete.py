@@ -1506,9 +1506,9 @@ session_info = {
     "x": 1,
     "y": 1,
     "pokes": {
-        0: {"name": "steini", "xp": 35, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
+        0: {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
     },
-    "inv": {"poketeball": 10},
+    "inv": {"poketeball": 15, "healing_potion": 1},
     "settings": {},
     "used_npcs": []
 }
