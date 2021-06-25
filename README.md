@@ -23,7 +23,7 @@ For windows first install pynput and then do a Windows equivalent to the above.
 ## How to play?
 Imagine your a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
 
-First of all you get a starter Pokete (Steini), that you can use to fight battles with other Poketes. (The player name and the starter Pokete will be chosen using a wizard later).
+First of all you get a starter Pokete (Steini), that you can use to fight battles with other Poketes.
 The controls are w a s d to walk around.
 
 When entering the high grass (;), you may be attacked by a wild Pokete. By pressing 1 you can choose between the attacks (as long their AP is over 0) your Pokete got, by pressing the according number, or navigating the "*"-cursor to the attack and pressing enter. The wild Pokete will fight back, you can kill it and gain XP to level up your Pokete or you can catch it to let it fight for you. To catch a Pokete you have to first weaken the enemy and then throw a Poketeball. And with a bit luck you can catch it.
@@ -65,7 +65,7 @@ For additional information you can see [wiki](wiki.md).
 - Don't be offended by the other trainers, they may swear at you
 
 ## TODO
-- [ ] Add a wizard to set name and choose starter Pokete at the start
+- [x] Add a wizard to set name and choose starter Pokete at the start
 - [ ] Add More maps
 - [x] Add types for attacks and Poketes
 - [x] Add evolving

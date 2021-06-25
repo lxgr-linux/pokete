@@ -1,3 +1,10 @@
+0.3.5
+-------
+What changed until this release?
+- Compatibility with scrap_engine 0.2.0
+- Added validation for pokete_data
+- Added Intro
+
 0.3.4
 -------
 What changed until this release?
@@ -8,7 +15,6 @@ What changed until this release?
 - Added saving Poketeballs
 - Added some new attacks
 - Fixed some bugs
-
 
 0.3.3
 -------
