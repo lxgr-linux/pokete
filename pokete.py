@@ -1031,7 +1031,14 @@ def menu():
                 movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
                 movemap.underline.add(movemap, 0, movemap.height-2)
             elif i == menubox.save_label:  # When will python3.10 come out?
+                # Shows a box displaying "Saving...." while saving
+                savebox = InfoBox("Saving....")
+                savebox.add(movemap, round((width-savebox.width)/2), round((height-savebox.height)/2))
+                movemap.show()
                 save()
+                time.sleep(1.5)
+                savebox.remove()
+                del savebox
             elif i == menubox.exit_label:
                 save()
                 exiter()
