@@ -135,7 +135,7 @@ stations = {
             "width": 2,
             "height": 1,
             "s_next": "playmap_13",
-            "w_next": "playmap_16",
+            "d_next": "playmap_16",
         },
         "add": {
             "x": 14,
