@@ -430,9 +430,9 @@ WW\/o o\/WW
         "type": "fire",
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "ico": """  \^-^/
-  {* *}
-  >{.}<"""
+        "ico": """   \^-^/
+   {* *}
+   >{.}<"""
     },
     "rollator": {
         "name": "Rollator",
