@@ -890,7 +890,7 @@ def ask_bool(map, text):
     global ev
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
     infobox = InfoBox(f"{text}\n{round(len(text)/2-6)*' '}[Y]es   [N]o")
-    infobox.add(map, round((map.width-infobox.width)/2), round((map.height-infobox.height)/2))
+    infobox.center_add(map)
     map.show()
     while True:
         if ev == "'y'":
@@ -910,7 +910,7 @@ def ask_bool(map, text):
 
 def ask_text(map, infotext, introtext, text, max_len):
     inputbox = InputBox(infotext, introtext, text, max_len)
-    inputbox.add(map, round((map.width-inputbox.width)/2), round((map.height-inputbox.height)/2))
+    inputbox.center_add(map)
     map.show()
     ret = text_input(inputbox.text, map, text, max_len+1, max_len=max_len)
     inputbox.remove()
@@ -1033,7 +1033,7 @@ def menu():
             elif i == menubox.save_label:  # When will python3.10 come out?
                 # Shows a box displaying "Saving...." while saving
                 savebox = InfoBox("Saving....")
-                savebox.add(movemap, round((width-savebox.width)/2), round((height-savebox.height)/2))
+                savebox.center_add(movemap)
                 movemap.show()
                 save()
                 time.sleep(1.5)

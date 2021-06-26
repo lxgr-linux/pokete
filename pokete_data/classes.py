@@ -58,6 +58,9 @@ class Box(se.Box):
         self.add_ob(self.name_label, 2, 0)
         self.add_ob(self.info_label, 2, self.height-1)
 
+    def center_add(self, map):
+        self.add(map, round((map.width-self.width)/2), round((map.height-self.height)/2))
+
 
 class ChooseBox(Box):
     def __init__(self, height, width, name="", info="", index_x=2):
