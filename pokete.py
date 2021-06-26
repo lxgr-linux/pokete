@@ -130,6 +130,8 @@ class CenterInteract(se.Object):
             elif ev == "'b'":
                 ev = ""
                 heal()
+                time.sleep(0.5)
+                movemap_text(int(movemap.width/2), 3, [" < ...", " < Your Poketes are now healed!"])
                 break
             elif ev == "'c'":
                 ev = ""
