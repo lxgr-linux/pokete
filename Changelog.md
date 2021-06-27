@@ -1,5 +1,7 @@
 0.3.5
 -------
+released: 2021-06-25
+
 What changed until this release?
 - Compatibility with scrap_engine 0.2.0
 - Added validation for pokete_data
@@ -7,6 +9,8 @@ What changed until this release?
 
 0.3.4
 -------
+released: 2021-06-21
+
 What changed until this release?
 - Added Changelog.md
 - Added Route 6, bigmountain see and bigmountain cave
@@ -18,6 +22,8 @@ What changed until this release?
 
 0.3.3
 -------
+released: 2021-06-15
+
 What changed until this release?
 - Trainers are now more likely to use effective attacks
 - Added autosave
@@ -33,6 +39,8 @@ What changed until this release?
 
 0.3.2
 -------
+released: 2021-06-08
+
 What changed until this release?
 - Added route 3
 - Added route 4
@@ -44,6 +52,8 @@ What changed until this release?
 
 0.3.1
 -------
+released: 2021-06-04
+
 What changed until this release?
 - Added Abandoned village
 - Added clampi
@@ -53,4 +63,6 @@ What changed until this release?
 
 0.3.0
 -------
+released: 2021-05-30
+
 This is the first real release of Pokete, because at this point most of the key game mechanics are implemented and most stuff that's still missing is just game content.
