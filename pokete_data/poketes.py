@@ -39,6 +39,24 @@ pokes = {
  |  www  |
  +-------+ """,
     },
+    "bigstone": {
+        "name": "Bigstone",
+        "hp": 30,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+13",
+        "attacs": ["snooze", "politure", "brick_throw"],
+        "miss_chance": 0,
+        "desc": "A big and heavy stone made from one of the hardest stones.",
+        "lose_xp": 5,
+        "rarity": 0.3,
+        "type": "stone",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "ico": """+---------+
+|  o   o  |
+|   ---   |
++---------+""",
+    },
     "poundi": {
         "name": "Poundi",
         "hp": 25,
@@ -68,8 +86,8 @@ pokes = {
        "lose_xp": 2,
        "rarity": 1,
        "type": "stone",
-       "evolve_poke": "",
-       "evolve_lvl": 0,
+       "evolve_poke": "bigstone",
+       "evolve_lvl": 25,
        "ico": """
    _____
    |'ᵕ'|

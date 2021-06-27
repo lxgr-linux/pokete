@@ -9,28 +9,29 @@ This wiki can be generated using ```$ gen-wiki.py```.
    1. [Angrilo](#angrilo)
    2. [Bato](#bato)
    3. [Bator](#bator)
-   4. [Blub](#blub)
-   5. [Bushy](#bushy)
-   6. [Choka](#choka)
-   7. [Clampi](#clampi)
-   8. [Gobost](#gobost)
-   9. [Hornita](#hornita)
-   10. [Horny](#horny)
-   11. [Karpi](#karpi)
-   12. [Lilstone](#lilstone)
-   13. [Ostri](#ostri)
-   14. [Owol](#owol)
-   15. [Poundi](#poundi)
-   16. [Rato](#rato)
-   17. [Rollator](#rollator)
-   18. [Rosi](#rosi)
-   19. [Steini](#steini)
-   20. [Treenator](#treenator)
-   21. [Vogli](#vogli)
-   22. [Voglo](#voglo)
-   23. [Wolfior](#wolfior)
-   24. [Wolfiro](#wolfiro)
-   25. [Würgos](#würgos)
+   4. [Bigstone](#bigstone)
+   5. [Blub](#blub)
+   6. [Bushy](#bushy)
+   7. [Choka](#choka)
+   8. [Clampi](#clampi)
+   9. [Gobost](#gobost)
+   10. [Hornita](#hornita)
+   11. [Horny](#horny)
+   12. [Karpi](#karpi)
+   13. [Lilstone](#lilstone)
+   14. [Ostri](#ostri)
+   15. [Owol](#owol)
+   16. [Poundi](#poundi)
+   17. [Rato](#rato)
+   18. [Rollator](#rollator)
+   19. [Rosi](#rosi)
+   20. [Steini](#steini)
+   21. [Treenator](#treenator)
+   22. [Vogli](#vogli)
+   23. [Voglo](#voglo)
+   24. [Wolfior](#wolfior)
+   25. [Wolfiro](#wolfiro)
+   26. [Würgos](#würgos)
 2. [Attacks](#attacks)
    1. [Apple drop](#apple-drop)
    2. [Ash throw](#ash-throw)
@@ -58,12 +59,13 @@ This wiki can be generated using ```$ gen-wiki.py```.
    24. [Power pick](#power-pick)
    25. [Power roll](#power-roll)
    26. [Shell pinch](#shell-pinch)
-   27. [Sucker](#sucker)
-   28. [Super sucker](#super-sucker)
-   29. [Tackle](#tackle)
-   30. [Tail wipe](#tail-wipe)
-   31. [Wet slap](#wet-slap)
-   32. [Wing hit](#wing-hit)
+   27. [Snooze](#snooze)
+   28. [Sucker](#sucker)
+   29. [Super sucker](#super-sucker)
+   30. [Tackle](#tackle)
+   31. [Tail wipe](#tail-wipe)
+   32. [Wet slap](#wet-slap)
+   33. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -143,6 +145,28 @@ WW\/o o\/WW
    + [Cry](#cry)
    + [Poison bite](#poison-bite)
    + [Wing hit](#wing-hit)
+- Does not evolve
+
+### Bigstone
+A big and heavy stone made from one of the hardest stones.
+```
++---------+
+|  o   o  |
+|   ---   |
++---------+
+```
+
+- Type: [Stone](#types)
+- Health points: 30
+- Attack factor: level+2
+- Defense factor: level+13
+- Missing chance: 0
+- Rarity: 0.3
+- Loosing experience: 5
+- Attacks:
+   + [Snooze](#snooze)
+   + [Politure](#politure)
+   + [Brick throw](#brick-throw)
 - Does not evolve
 
 ### Blub
@@ -337,7 +361,7 @@ A small but powerfull stone Pokete that lives in the mountains.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Pepple fire](#pepple-fire)
-- Does not evolve
+- Evolves to [Bigstone](#bigstone) at level 25
 
 ### Ostri
 A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
@@ -581,9 +605,9 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 ### Wolfiro
 A fiery wolf from hell on steroids.
 ```
-  \^-^/
-  {* *}
-  >{.}<
+   \^-^/
+   {* *}
+   >{.}<
 ```
 
 - Type: [Fire](#types)
@@ -832,6 +856,14 @@ Pinches the enemy with its strong shells
 - Attack factor: 2.5
 - Missing chance: 0.1
 - Attack points: 15
+
+### Snooze
+Makes the enemy sleepy
+- Type: [Normal](#types)
+- Minimum Level: 15
+- Attack factor: 0
+- Missing chance: 0.2
+- Attack points: 10
 
 ### Sucker
 Sucks 1 HP from the enemy and adds it to it's own

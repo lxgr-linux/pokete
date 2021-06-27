@@ -1368,7 +1368,7 @@ def detail(poke):
             return
         std_loop()
         for atc in poke.attac_obs:  # This section generates the Text effect for attack labels
-            if len(atc.desc) > int(width/2-1):
+            if len(atc.desc) > int((width-3)/2-1):
                 if atc.temp_j == 5:
                     atc.temp_i += 1
                     atc.temp_j = 0

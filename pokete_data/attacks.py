@@ -340,6 +340,17 @@ attacs = {
         "type": "plant",
         "ap": 5,
     },
+    "snooze": {
+        "name": "Snooze",
+        "factor": 0,
+        "action": "enem.miss_chance += 0.5; enem.atc -= 1; enem.defense -= 1",
+        "move": "attack",
+        "miss_chance": 0.2,
+        "min_lvl": 15,
+        "desc": "Makes the enemy sleepy",
+        "type": "normal",
+        "ap": 10,
+    },
     "heart_touch": {
         "name": "Heart touch",
         "factor": 4,
