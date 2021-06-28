@@ -182,7 +182,7 @@ class Poke():
         self.player = player
         self.identifier = poke
         for name in ["hp", "attacs", "name", "miss_chance", "lose_xp", "evolve_poke", "evolve_lvl"]:
-            exec("self."+name+" = pokes[self.identifier][name]")
+            exec(f"self.{name} = pokes[self.identifier][name]")
         self.type = eval(pokes[self.identifier]["type"])
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
@@ -192,11 +192,11 @@ class Poke():
             self.health_bar_maker(self.hp)
         self.desc = se.Text(liner(pokes[poke]["desc"], se.width-34))
         self.ico = se.Text(pokes[poke]["ico"], state="float")
-        self.text_hp = se.Text("HP:"+str(self.hp), state="float")
-        self.text_lvl = se.Text("Lvl:"+str(self.lvl()), state="float")
-        self.text_name = se.Text(str(self.name), esccode=Color.underlined, state="float")
-        self.text_xp = se.Text("XP:"+str(self.xp-(self.lvl()**2-1))+"/"+str(((self.lvl()+1)**2-1)-(self.lvl()**2-1)), state="float")
-        self.text_type = se.Text("Type:"+self.type.name, state="float")
+        self.text_hp = se.Text(f"HP:{self.hp}", state="float")
+        self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
+        self.text_name = se.Text(self.name, esccode=Color.underlined, state="float")
+        self.text_xp = se.Text(f"XP:{self.xp-(self.lvl()**2-1)}/{((self.lvl()+1)**2-1)-(self.lvl()**2-1)}", state="float")
+        self.text_type = se.Text(f"Type:{self.type.name}", state="float")
         self.tril = se.Object("<", state="float")
         self.trir = se.Object(">", state="float")
         self.attac_obs = []
@@ -206,7 +206,7 @@ class Poke():
 
     def set_vars(self):
         for name in ["atc", "defense"]:
-            exec("self."+name+" = int("+pokes[self.identifier][name]+")")
+            exec(f"self.{name} = int({pokes[self.identifier][name]})")
         i = [Attack(atc) for atc in self.attacs if self.lvl() >= attacs[atc]["min_lvl"]]
         for old_ob, ob in zip(self.attac_obs, i):
             ob.ap = old_ob.ap
@@ -227,18 +227,18 @@ class Poke():
         esccode = Color.red
         for size, num in zip([6, 2], [2, 3]):
             if bar_num > size:
-                esccode = "\033[3"+str(num)+"m"
+                esccode = f"\033[3{num}m"
                 break
         self.hp_bar.rechar(bar_num*"#", esccode)
 
     def health_bar_updater(self, oldhp):
         while oldhp != self.hp and oldhp > 0:
             oldhp += -1 if oldhp > self.hp else 1
-            self.text_hp.rechar("HP:"+str(oldhp), esccode=Color.yellow)
+            self.text_hp.rechar(f"HP:{oldhp}", esccode=Color.yellow)
             self.health_bar_maker(oldhp)
             time.sleep(0.1)
             fightmap.show()
-        self.text_hp.rechar("HP:"+str(oldhp))
+        self.text_hp.rechar(f"HP:{oldhp}")
         time.sleep(0.1)
 
     def attack(self, attac, enem):
@@ -252,7 +252,7 @@ class Poke():
             if enem.hp < 0:
                 enem.hp = 0
             time.sleep(0.4)
-            exec("self.move_"+attac.move+"()")
+            exec(f"self.move_{attac.move}()")
             exec(attac.action)
             attac.ap -= 1
             fightmap.outp.rechar(f'{self.name}({"you" if self.player else "enemy"}) used {attac.name}! {self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
@@ -308,7 +308,7 @@ class Poke():
         evomap.outp.rechar("Look!")
         evomap.show()
         time.sleep(0.5)
-        evomap.outp.rechar(evomap.outp.text+"\n"+self.name+" is evolving!")
+        evomap.outp.rechar(f"{evomap.outp.text}\n{self.name} is evolving!")
         evomap.show()
         time.sleep(1)
         for i in range(8):
@@ -322,7 +322,7 @@ class Poke():
         evomap.show()
         time.sleep(0.01)
         new.move_shine()
-        evomap.outp.rechar(self.name+" evolved to "+new.name+"!")
+        evomap.outp.rechar(f"{self.name} evolved to {new.name}!")
         evomap.show()
         time.sleep(5)
         figure.pokes[figure.pokes.index(self)] = new
@@ -337,7 +337,7 @@ class Station(se.Square):
         self.associate = associate
         super().__init__(char, width, height)
         for i in ["w_next", "a_next", "s_next", "d_next"]:
-            exec("self."+i+"="+i)
+            exec(f"self.{i}={i}")
         Station.obs.append(self)
 
     def choose(self):
@@ -350,10 +350,10 @@ class Station(se.Square):
 
     def next(self, ev):
         ev = eval(ev)
-        ne = eval("self."+ev+"_next")
+        ne = eval(f"self.{ev}_next")
         if ne != "":
             self.unchoose()
-            exec("mapbox."+ne+".choose()")
+            exec(f"mapbox.{ne}.choose()")
 
 
 class Figure(se.Object):
@@ -365,30 +365,30 @@ class Figure(se.Object):
         self.pokes = []
         self.oldmap = playmap_1
 
-    def set_args(self, session_info):
+    def set_args(self, si):
         # processing data from save file
-        self.pokes = [Poke((session_info["pokes"][poke]["name"] if type(poke) is int else poke), session_info["pokes"][poke]["xp"], session_info["pokes"][poke]["hp"]) for poke in session_info["pokes"]]
-        self.name = session_info["user"]
+        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"]) for poke in si["pokes"]]
+        self.name = si["user"]
         for j, poke in enumerate(self.pokes):
-            for atc, ap in zip(poke.attac_obs, session_info["pokes"][j]["ap"]):
+            for atc, ap in zip(poke.attac_obs, si["pokes"][j]["ap"]):
                 atc.ap = ap if ap != "SKIP" else atc.ap
             for i, atc in enumerate(poke.attac_obs):
                 poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
         try:
-            if eval(session_info["map"]) in [centermap, shopmap]:  # Looking if figure would be in centermap, so the player may spawn out of the center
+            if eval(si["map"]) in [centermap, shopmap]:  # Looking if figure would be in centermap, so the player may spawn out of the center
                 self.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
             else:
-                if self.add(eval(session_info["map"]), session_info["x"], session_info["y"]) == 1:
-                    raise se.CoordinateError(self, eval(session_info["map"]), session_info["x"], session_info["y"])
+                if self.add(eval(si["map"]), si["x"], si["y"]) == 1:
+                    raise se.CoordinateError(self, eval(si["map"]), si["x"], si["y"])
         except se.CoordinateError:
             self.add(playmap_1, 6, 5)
         # Those if statemnets are important to ensure compatibility with older versions
-        if "oldmap" in session_info:
-            self.oldmap = eval(session_info["oldmap"])
-        if "inv" in session_info:
-            self.inv = session_info["inv"]
-        if "money" in session_info:
-            self.__money = session_info["money"]
+        if "oldmap" in si:
+            self.oldmap = eval(si["oldmap"])
+        if "inv" in si:
+            self.inv = si["inv"]
+        if "money" in si:
+            self.__money = si["money"]
         movemap.name_label = se.Text(self.name, esccode=Color.thicc)
         movemap.balls_label = se.Text("", esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
@@ -433,14 +433,14 @@ class Figure(se.Object):
 class Attack():
     def __init__(self, index):
         for i in attacs[index]:
-            exec("self."+i+"=attacs[index][i]")
+            exec(f"self.{i}=attacs[index][i]")
         self.type = eval(attacs[index]["type"])
         self.max_ap = self.ap
         self.label_name = se.Text(self.name, esccode=Color.underlined)
-        self.label_ap = se.Text("AP:"+str(self.ap)+"/"+str(self.max_ap))
-        self.label_factor = se.Text("Attack:"+str(self.factor))
+        self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}")
+        self.label_factor = se.Text(f"Attack:{self.factor}")
         self.label_desc = se.Text(self.desc[:int(width/2-1)])
-        self.label_type = se.Text("Type:"+self.type.name)
+        self.label_type = se.Text(f"Type:{self.type.name}")
 
 
 class Setting(se.Box):
@@ -473,7 +473,7 @@ def heal():
     for poke in figure.pokes:
         poke.hp = poke.full_hp
         poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar("HP:"+str(poke.hp))
+        poke.text_hp.rechar(f"HP:{poke.hp}")
         poke.set_vars()
         poke.health_bar_maker(poke.hp)
         for atc in poke.attac_obs:
@@ -526,7 +526,7 @@ def save():
         "used_npcs": used_npcs
     }
     with open(home+"/.cache/pokete/pokete.py", "w+") as file:
-        file.write("session_info="+str(session_info))
+        file.write(f"session_info={session_info}")
 
 
 def on_press(key):
@@ -760,7 +760,7 @@ def fight_throw(ob, enem, info, chance, name):
     if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance, enem.full_hp], k=1)[0]:
         enem.player = True
         figure.pokes.append(enem)
-        fightmap.outp.rechar("You catched "+enem.name)
+        fightmap.outp.rechar(f"You catched {enem.name}")
         fightmap.show()
         time.sleep(1)
         pball.remove()
@@ -966,7 +966,7 @@ def buy():
     buybox.add(movemap, movemap.width-35, 0)
     buybox2.add(movemap, buybox.x-19, 3)
     items = [invbox.poketeball, invbox.superball, invbox.healing_potion, invbox.super_potion, invbox.ap_potion]
-    obs = [se.Text(ob.pretty_name+" : "+str(ob.price)+"$") for ob in items]
+    obs = [se.Text(f"{ob.pretty_name} : {ob.price}$") for ob in items]
     for i, ob in enumerate(obs):
         buybox.add_ob(ob, 4, 1+i)
     buy_rechar(items)
@@ -1152,7 +1152,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fightmap.show()
                         continue
                     fight_invbox.add(fightmap, fightmap.width-35, 0)
-                    obs = [se.Text(i.pretty_name+"s : "+str(figure.inv[i.name])) for i in items]
+                    obs = [se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items]
                     for i, j in enumerate(obs):
                         fight_invbox.add_ob(j, 4, 1+i)
                     fight_invbox.index.index = 0
@@ -1226,16 +1226,16 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         enem = [i for i in players if i != ob][-1]
     loser = [ob for ob in players if ob != winner][0]
     xp = (loser.lose_xp+(1 if loser.lvl() > winner.lvl() else 0))*(2 if info["type"] == "duel" else 1)
-    fightmap.outp.rechar(winner.name+"("+("you" if winner.player else "enemy")+") won!"+("\nXP + "+str(xp) if winner.player else ""))
+    fightmap.outp.rechar(f"{winner.name}({'you' if winner.player else 'enemy'}) won!"+(f'\nXP + {xp}' if winner.player else ''))
     fightmap.show()
     if winner.player:
         old_lvl = winner.lvl()
         winner.xp += xp
-        winner.text_xp.rechar("XP:"+str(winner.xp-(winner.lvl()**2-1))+"/"+str(((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)))
-        winner.text_lvl.rechar("Lvl:"+str(winner.lvl()))
+        winner.text_xp.rechar(f"XP:{winner.xp-(winner.lvl()**2-1)}/{((winner.lvl()+1)**2-1)-(winner.lvl()**2-1)}")
+        winner.text_lvl.rechar(f"Lvl:{winner.lvl()}")
         if old_lvl < winner.lvl():
             time.sleep(1)
-            fightmap.outp.rechar(winner.name+" reached lvl "+str(winner.lvl())+"!")
+            fightmap.outp.rechar(f"{winner.name} reached lvl {winner.lvl()}!")
             winner.move_shine()
             time.sleep(0.5)
             winner.set_vars()
@@ -1343,7 +1343,7 @@ def detail(poke):
         atc.temp_j = -30
         atc.label_desc.rechar(atc.desc[:int(width/2-1)])
     deck_add(poke, detailmap, 1, 1, False)
-    detailmap.attack_defense.rechar("Attack:"+str(poke.atc)+(4-len(str(poke.atc)))*" "+"Defense:"+str(poke.defense))
+    detailmap.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
     poke.desc.add(detailmap, 34, 2)
     poke.text_type.add(detailmap, 36, 5)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
