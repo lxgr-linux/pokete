@@ -378,21 +378,17 @@ class Figure(se.Object):
             if eval(session_info["map"]) in [centermap, shopmap]:  # Looking if figure would be in centermap, so the player may spawn out of the center
                 self.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
             else:
-                self.add(eval(session_info["map"]), session_info["x"], session_info["y"])
-        except:
-            self.add(playmap_1, 4, 3)
-        try:
+                if self.add(eval(session_info["map"]), session_info["x"], session_info["y"]) == 1:
+                    raise se.CoordinateError(self, eval(session_info["map"]), session_info["x"], session_info["y"])
+        except se.CoordinateError:
+            self.add(playmap_1, 6, 5)
+        # Those if statemnets are important to ensure compatibility with older versions
+        if "oldmap" in session_info:
             self.oldmap = eval(session_info["oldmap"])
-        except:
-            pass
-        try:
+        if "inv" in session_info:
             self.inv = session_info["inv"]
-        except:
-            pass
-        try:
+        if "money" in session_info:
             self.__money = session_info["money"]
-        except:
-            pass
         movemap.name_label = se.Text(self.name, esccode=Color.thicc)
         movemap.balls_label = se.Text("", esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
@@ -620,8 +616,8 @@ def codes(string):
         elif i == "e":
             try:
                 exec(string[string.index("e")+2:])
-            except:
-                print("Execution failed!")
+            except Exception as exc:
+                print(exc)
             return
         elif i == "q":
             exiter()
