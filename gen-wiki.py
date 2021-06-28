@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # This script generates the Pokete wiki
-from pokete_data.poketes import *
-from pokete_data.attacks import *
-from pokete_data.types import *
-from pokete_data.items import *
+from pokete_data import *
 import os
 
 def gen_wiki():

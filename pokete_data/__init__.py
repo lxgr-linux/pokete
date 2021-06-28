@@ -1,7 +1,6 @@
 from pokete_data.poketes import *
 from pokete_data.attacks import *
 from pokete_data.maps import *
-from pokete_data.classes import *
 from pokete_data.types import *
 from pokete_data.items import *
 from pokete_data.npcs import *

@@ -10,6 +10,7 @@ import random, time, os, sys, threading, math
 import scrap_engine as se
 from pathlib import Path
 from pokete_data import *
+from pokete_classes import *
 
 # Class definition
 ##################
