@@ -1,3 +1,12 @@
+0.3.6
+-------
+released: 2021-06-28
+
+What changed until this release?
+- scrap_engine 0.3.0 in now needed
+- Added initiative attribute for Poketes to determin which Pokete attacks first
+- Several minor fixed and additions
+
 0.3.5
 -------
 released: 2021-06-25
