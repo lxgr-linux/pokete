@@ -1256,7 +1256,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
 
 def deck(pokes, label="Your full deck", in_fight=False):
     global ev
-    deckmap.resize(5*int((len(pokes)+1)/2)+2, deckmap.width, deckmap.background)
+    deckmap.resize(5*int((len(pokes)+1)/2)+2, width, deckmap.background)
+    #decksubmap.resize(height-1, width)
     se.Text(label, esccode=Color.thicc).add(deckmap, 2, 0)
     se.Square("|", 1, deckmap.height-2).add(deckmap, round(deckmap.width/2), 1)
     se.Frame(height=deckmap.height-1, width=deckmap.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"]).add(deckmap, 0, 0)
@@ -1381,7 +1382,7 @@ def detail(poke):
 
 
 def game(map):
-    global ev
+    global ev, width, height
     ev = ""
     print("\033]0;Pokete - "+map.pretty_name+"\a", end="")
     movemap.code_label.rechar(figure.map.pretty_name)
