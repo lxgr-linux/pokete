@@ -1096,8 +1096,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     fightbox.set_index(player.atc_labels)
     fightmap.show()
     time.sleep(0.5)
-    ob = players[0]
-    enem = players[1]
+    enem = sorted(zip([i.initiative for i in players], [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
+    ob = [i for i in players if i != enem][-1]
     while True:
         if ob.player:
             fightmap.outp.rechar(fightmap.outp.text+("\n" if "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
