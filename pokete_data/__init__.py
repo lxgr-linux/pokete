@@ -33,7 +33,7 @@ def validate():
         one_validate(stations[s]["add"], "add", s+"add")
 
 validators = {
-    "poke": ["name" ,"hp" ,"atc", "defense", "attacs", "miss_chance", "desc", "lose_xp", "rarity", "type", "evolve_poke", "evolve_lvl", "ico"],
+    "poke": ["name" ,"hp" ,"atc", "defense", "attacs", "miss_chance", "desc", "lose_xp", "rarity", "type", "evolve_poke", "evolve_lvl", "ico", "initiative"],
     "type": ["effective", "ineffective"],
     "playmap": ["hard_obs", "soft_obs", "dors", "balls"],
     "station": ["gen", "add"],

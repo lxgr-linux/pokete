@@ -19,6 +19,7 @@ pokes = {
         "type": "normal",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()",
         "ico": """ """,
     },
     "steini": {
@@ -34,6 +35,7 @@ pokes = {
         "type": "stone",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+5",
         "ico": """ +-------+
  | o   o |
  |  www  |
@@ -52,6 +54,7 @@ pokes = {
         "type": "stone",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+5",
         "ico": """+---------+
 |  o   o  |
 |   ---   |
@@ -70,6 +73,7 @@ pokes = {
         "type": "stone",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+4",
         "ico": """   A-A-A
   < o o >
   < --- >
@@ -88,6 +92,7 @@ pokes = {
        "type": "stone",
        "evolve_poke": "bigstone",
        "evolve_lvl": 25,
+       "initiative": "self.lvl()+3",
        "ico": """
    _____
    |'ᵕ'|
@@ -106,6 +111,7 @@ pokes = {
       "type": "plant",
       "evolve_poke": "",
       "evolve_lvl": 0,
+      "initiative": "self.lvl()+3",
       "ico": """
     (@)
      |
@@ -124,6 +130,7 @@ pokes = {
       "type": "undead",
       "evolve_poke": "angrilo",
       "evolve_lvl": 25,
+      "initiative": "self.lvl()+6",
       "ico": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
@@ -142,6 +149,7 @@ pokes = {
        "type": "undead",
        "evolve_poke": "",
        "evolve_lvl": 0,
+       "initiative": "self.lvl()+7",
        "ico": """ .░░░░░░░.
  ░░\░░░/░░
  .░░( )░░.
@@ -159,6 +167,7 @@ pokes = {
         "rarity": 1,
         "type": "flying",
         "evolve_poke": "voglo",
+        "initiative": "self.lvl()+6",
         "evolve_lvl": 20,
         "ico":"""    A
    <')
@@ -178,6 +187,7 @@ pokes = {
         "type": "flying",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+7",
         "ico":"""    ?
    >´)
     www*
@@ -196,6 +206,7 @@ pokes = {
         "type": "flying",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+7",
         "ico":"""   !
   >´)
     \www'
@@ -214,6 +225,7 @@ pokes = {
         "type": "water",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()",
         "ico":"""
 
   <°))))><
@@ -232,6 +244,7 @@ pokes = {
         "type": "normal",
         "evolve_poke": "choka",
         "evolve_lvl": 30,
+        "initiative": "self.lvl()+3",
         "ico": """  >'({{{
   }}}}}}}
  {{{{{{{{{
@@ -250,6 +263,7 @@ pokes = {
         "type": "normal",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+4",
         "ico": """ _______
 /____ * \\
  (   \   \\
@@ -268,6 +282,7 @@ pokes = {
         "type": "plant",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+2",
         "ico": """    (()
    (()))
      H
@@ -286,6 +301,7 @@ pokes = {
         "type": "flying",
         "evolve_poke": "bator",
         "evolve_lvl": 20,
+        "initiative": "self.lvl()+6",
         "ico": """    ___
 WW\/* *\/WW
    \\v-v/
@@ -304,6 +320,7 @@ WW\/* *\/WW
         "type": "flying",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+8",
         "ico": """    ___
 WW\/o o\/WW
    |v-v|
@@ -323,6 +340,7 @@ WW\/o o\/WW
         "type": "water",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+1",
         "ico": """  _____
  / o   \\
  >   v  ><
@@ -341,6 +359,7 @@ WW\/o o\/WW
         "type": "flying",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+3",
         "ico": """   ,___,
    {o,o}
    /)_)
@@ -360,6 +379,7 @@ WW\/o o\/WW
         "type": "normal",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+6",
         "ico": """   ^---^
    \o o/
    >\./<
@@ -378,6 +398,7 @@ WW\/o o\/WW
         "type": "normal",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+3",
         "ico": """ \\
  =')~
    (¯¯¯¯)~
@@ -396,6 +417,7 @@ WW\/o o\/WW
         "type": "normal",
         "evolve_poke": "hornita",
         "evolve_lvl": 20,
+        "initiative": "self.lvl()+4",
         "ico": """  ,
  =')
    (¯¯¯)~
@@ -414,6 +436,7 @@ WW\/o o\/WW
         "type": "plant",
         "evolve_poke": "treenator",
         "evolve_lvl": 20,
+        "initiative": "self.lvl()+1",
         "ico": """
     (()
    (()))"""
@@ -431,6 +454,7 @@ WW\/o o\/WW
         "type": "fire",
         "evolve_poke": "wolfiro",
         "evolve_lvl": 25,
+        "initiative": "self.lvl()+4",
         "ico": """   ^---^
    (* *)
    >(.)<"""
@@ -448,6 +472,7 @@ WW\/o o\/WW
         "type": "fire",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+5",
         "ico": """   \^-^/
    {* *}
    >{.}<"""
@@ -465,6 +490,7 @@ WW\/o o\/WW
         "type": "ground",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+3",
         "ico": """   _____
   / o o \\
   | ___ |
@@ -483,6 +509,7 @@ WW\/o o\/WW
         "type": "water",
         "evolve_poke": "",
         "evolve_lvl": 0,
+        "initiative": "self.lvl()+3",
         "ico": """    ___
   -/ * \-
   -\___/-

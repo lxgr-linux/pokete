@@ -203,9 +203,10 @@ class Poke():
         self.atc_labels = []
         self.pball_small = se.Object("o")
         self.set_vars()
+        self.text_initiative = se.Text(f"Initiative:{self.initiative}", state="float")
 
     def set_vars(self):
-        for name in ["atc", "defense"]:
+        for name in ["atc", "defense", "initiative"]:
             exec(f"self.{name} = int({pokes[self.identifier][name]})")
         i = [Attack(atc) for atc in self.attacs if self.lvl() >= attacs[atc]["min_lvl"]]
         for old_ob, ob in zip(self.attac_obs, i):
@@ -825,6 +826,7 @@ def inv_add():
         invbox.add_ob(ob, 4, 1+i)
     return items, obs
 
+
 def inv_remove(obs):
     invbox.remove()
     for ob in obs:
@@ -1338,15 +1340,15 @@ def deck(pokes, label="Your full deck", in_fight=False):
 
 def detail(poke):
     global ev
-    for atc in poke.attac_obs:
+    deck_add(poke, detailmap, 1, 1, False)
+    detailmap.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
+    poke.text_initiative.rechar(f"Initiative:{poke.initiative}")
+    for ob, x, y in zip([poke.desc, poke.text_type, poke.text_initiative], [34, 36, 49], [2, 5, 5]):
+        ob.add(detailmap, x, y)
+    for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.temp_i = 0
         atc.temp_j = -30
         atc.label_desc.rechar(atc.desc[:int(width/2-1)])
-    deck_add(poke, detailmap, 1, 1, False)
-    detailmap.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
-    poke.desc.add(detailmap, 34, 2)
-    poke.text_type.add(detailmap, 36, 5)
-    for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.label_ap.rechar("AP:"+str(atc.ap)+"/"+str(atc.max_ap))
         for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type, atc.label_ap, atc.label_desc], [0, 0, 11, 0, 0], [0, 1, 1, 2, 3]):
             label.add(detailmap, x+_x, y+_y)
@@ -1355,8 +1357,8 @@ def detail(poke):
         if ev in ["'1'", "Key.esc", "'q'"]:
             ev = ""
             deck_remove(poke)
-            poke.desc.remove()
-            poke.text_type.remove()
+            for ob in [poke.desc, poke.text_type, poke.text_initiative]:
+                ob.remove()
             for atc in poke.attac_obs:
                 for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.label_desc, atc.label_type]:
                     ob.remove()
