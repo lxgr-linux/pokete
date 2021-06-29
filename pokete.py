@@ -893,12 +893,15 @@ def playmap_17_boy():
 ################
 
 def swap_poke():
+    if not ask_bool(movemap, "Do you want to trade with another trainer?"):
+        return
     PORT = 65432
     save()
+    do = ask_bool(movemap, "Do you want to be the host?")
     index = deck(figure.pokes[:6], "Your deck", True)
     if index == None:
         return
-    if ask_bool(movemap, "Do you want to be the host?"):
+    if do:
         infobox = InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...")
         infobox.center_add(movemap)
         movemap.show()
@@ -1926,14 +1929,18 @@ centermap.inner = se.Text(""" ________________
  |              |
  |______  ______|
  |_____|  |_____|""", ignore=" ")
+
+
 centermap.interact = CenterInteract("¯", state="float")
 centermap.dor_back1 = CenterDor(" ", state="float")
 centermap.dor_back2 = CenterDor(" ", state="float")
+centermap.trader = NPC("trader", [" < I'm a trader.", " < Here you can trade one of your Poketes against another players' one."], "swap_poke", ())
 # adding
 centermap.dor_back1.add(centermap, int(centermap.width/2), 8)
 centermap.dor_back2.add(centermap, int(centermap.width/2)+1, 8)
 centermap.inner.add(centermap, int(centermap.width/2)-8, 1)
 centermap.interact.add(centermap, int(centermap.width/2), 4)
+centermap.trader.add(centermap, int(centermap.width/2)-6, 3)
 
 # shopmap
 shopmap.trainers = []
