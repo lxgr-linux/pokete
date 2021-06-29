@@ -894,8 +894,11 @@ def playmap_17_boy():
 
 def swap_poke():
     PORT = 65432
+    save()
+    index = deck(figure.pokes[:6], "Your deck", True)
+    if index == None:
+        return
     if ask_bool(movemap, "Do you want to be the host?"):
-        index = deck(figure.pokes[:6], "Your deck", True)
         infobox = InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...")
         infobox.center_add(movemap)
         movemap.show()
@@ -916,15 +919,22 @@ def swap_poke():
         HOST = ""
         while HOST == "":
             HOST = ask_text(movemap, "Please type in the hosts hostname", "Host:", "", 30)
-        index = deck(figure.pokes[:6], "Your deck", True)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((HOST, PORT))
+            try:
+                s.connect((HOST, PORT))
+            except Exception as err:
+                infobox = InfoBox(str(err))
+                infobox.center_add(movemap)
+                movemap.show()
+                time.sleep(5)
+                infobox.remove()
+                return
             s.sendall(str.encode(str(figure.pokes[index].dict())))
             data = s.recv(1024)
             decode_data = eval(data.decode())
     figure.pokes[index] = Poke(decode_data["name"], decode_data["xp"], decode_data["hp"])
     figure.pokes[index].set_ap(decode_data["ap"])
-    infobox = InfoBox(f"You received: {figure.pokes[index].name} and level {figure.pokes[index].lvl()}")
+    infobox = InfoBox(f"You received: {figure.pokes[index].name.capitalize} and level {figure.pokes[index].lvl()}")
     infobox.center_add(movemap)
     movemap.show()
     time.sleep(3)
