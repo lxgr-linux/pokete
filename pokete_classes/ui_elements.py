@@ -45,19 +45,29 @@ class ChooseBox(Box):
 
 
 class InfoBox(Box):
-    def __init__(self, text):
+    def __init__(self, text, map=None):
         height = len(text.split("\n"))+2
         width = sorted([len(i) for i in text.split("\n")])[-1]+4
         super().__init__(height, width)
         self.text = se.Text(text)
         self.add_ob(self.text, 2, 1)
+        self.map = map
+
+    def __enter__(self):  # Contextmanagement is fucking awesome!
+        self.center_add(self.map)
+        self.map.show()
+        return self
+
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        self.remove()
 
 
-class InputBox(Box):
-    def __init__(self, infotext, introtext, text, max_len):
+class InputBox(InfoBox):
+    def __init__(self, infotext, introtext, text, max_len, map=None):
         height = len(infotext.split("\n"))+3
         width = sorted([len(i) for i in infotext.split("\n")]+[len(introtext)+1+max_len])[-1]+4
-        super().__init__(height, width)
+        super(InfoBox, self).__init__(height, width)
+        self.map = map
         self.infotext = se.Text(infotext)
         self.introtext = se.Text(introtext)
         self.text = se.Text(text)

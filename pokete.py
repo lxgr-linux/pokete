@@ -902,22 +902,19 @@ def swap_poke():
     if index == None:
         return
     if do:
-        infobox = InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...")
-        infobox.center_add(movemap)
-        movemap.show()
-        HOST = ''
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind((HOST, PORT))
-            s.listen()
-            conn, addr = s.accept()
-            with conn:
-                while True:
-                    data = conn.recv(1024)
-                    if not data:
-                        break
-                    decode_data = eval(data.decode())
-                    conn.sendall(str.encode(str({"name": figure.name, "poke": figure.pokes[index].dict()})))
-                    infobox.remove()
+        with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", movemap):
+            HOST = ''
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind((HOST, PORT))
+                s.listen()
+                conn, addr = s.accept()
+                with conn:
+                    while True:
+                        data = conn.recv(1024)
+                        if not data:
+                            break
+                        decode_data = eval(data.decode())
+                        conn.sendall(str.encode(str({"name": figure.name, "poke": figure.pokes[index].dict()})))
     else:
         HOST = ""
         while HOST == "":
@@ -926,11 +923,8 @@ def swap_poke():
             try:
                 s.connect((HOST, PORT))
             except Exception as err:
-                infobox = InfoBox(str(err))
-                infobox.center_add(movemap)
-                movemap.show()
-                time.sleep(5)
-                infobox.remove()
+                with InfoBox(str(err), movemap):
+                    time.sleep(5)
                 return
             s.sendall(str.encode(str({"name": figure.name, "poke": figure.pokes[index].dict()})))
             data = s.recv(1024)
@@ -938,42 +932,31 @@ def swap_poke():
     figure.pokes[index] = Poke(decode_data["poke"]["name"], decode_data["poke"]["xp"], decode_data["poke"]["hp"])
     figure.pokes[index].set_ap(decode_data["poke"]["ap"])
     save()  # to avoid duping
-    infobox = InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.")
-    infobox.center_add(movemap)
-    movemap.show()
-    time.sleep(3)
-    infobox.remove()
+    with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.", movemap):
+        time.sleep(3)
 
 
 def ask_bool(map, text):
     global ev
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
-    infobox = InfoBox(f"{text}\n{round(len(text)/2-6)*' '}[Y]es   [N]o")
-    infobox.center_add(map)
-    map.show()
-    while True:
-        if ev == "'y'":
-            ret = True
-            break
-        elif ev in ["'n'", "Key.esc", "'q'"]:
-            ret = False
-            break
-        std_loop()
-        time.sleep(0.05)
-        map.show()
-    ev = ""
-    infobox.remove()
-    del infobox
+    with InfoBox(f"{text}\n{round(len(text)/2-6)*' '}[Y]es   [N]o", map):
+        while True:
+            if ev == "'y'":
+                ret = True
+                break
+            elif ev in ["'n'", "Key.esc", "'q'"]:
+                ret = False
+                break
+            std_loop()
+            time.sleep(0.05)
+            map.show()
+        ev = ""
     return ret
 
 
 def ask_text(map, infotext, introtext, text, max_len):
-    inputbox = InputBox(infotext, introtext, text, max_len)
-    inputbox.center_add(map)
-    map.show()
-    ret = text_input(inputbox.text, map, text, max_len+1, max_len=max_len)
-    inputbox.remove()
-    del inputbox
+    with InputBox(infotext, introtext, text, max_len, map) as inputbox:
+        ret = text_input(inputbox.text, map, text, max_len+1, max_len=max_len)
     return ret
 
 
@@ -1091,13 +1074,9 @@ def menu():
                 movemap.underline.add(movemap, 0, movemap.height-2)
             elif i == menubox.save_label:  # When will python3.10 come out?
                 # Shows a box displaying "Saving...." while saving
-                savebox = InfoBox("Saving....")
-                savebox.center_add(movemap)
-                movemap.show()
-                save()
-                time.sleep(1.5)
-                savebox.remove()
-                del savebox
+                with InfoBox("Saving....", movemap):
+                    save()
+                    time.sleep(1.5)
             elif i == menubox.exit_label:
                 save()
                 exiter()
