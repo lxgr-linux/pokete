@@ -6,7 +6,7 @@
 # For this see the comments in the definations area
 # You can contribute here: https://github.com/lxgr-linux/pokete
 
-import random, time, os, sys, threading, math
+import random, time, os, sys, threading, math, socket
 import scrap_engine as se
 from pathlib import Path
 from pokete_data import *
@@ -217,6 +217,14 @@ class Poke():
             fightbox.rem_ob(ob)
         self.atc_labels = [se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)) for i, atc in enumerate(self.attac_obs)]
 
+    def dict(self):
+        return {"name": self.identifier, "xp": self.xp, "hp": self.hp, "ap": [atc.ap for atc in self.attac_obs]}
+
+    def set_ap(self, dict):
+        for atc, ap in zip(self.attac_obs, dict):
+            atc.ap = ap if ap != "SKIP" else atc.ap
+        self.label_rechar()
+
     def label_rechar(self):
         for i, atc in enumerate(self.attac_obs):
             self.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
@@ -369,13 +377,10 @@ class Figure(se.Object):
 
     def set_args(self, si):
         # processing data from save file
-        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"]) for poke in si["pokes"]]
         self.name = si["user"]
+        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"]) for poke in si["pokes"]]
         for j, poke in enumerate(self.pokes):
-            for atc, ap in zip(poke.attac_obs, si["pokes"][j]["ap"]):
-                atc.ap = ap if ap != "SKIP" else atc.ap
-            for i, atc in enumerate(poke.attac_obs):
-                poke.atc_labels[i].rechar(str(i)+": "+atc.name+"-"+str(atc.ap))
+            poke.set_ap(si["pokes"][j]["ap"])
         try:
             if eval(si["map"]) in [centermap, shopmap]:  # Looking if figure would be in centermap, so the player may spawn out of the center
                 self.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
@@ -521,7 +526,7 @@ def save():
         "oldmap": figure.oldmap.name,
         "x": figure.x,
         "y": figure.y,
-        "pokes": {i: {"name": poke.identifier, "xp": poke.xp, "hp": poke.hp, "ap": [atc.ap for atc in poke.attac_obs]} for i, poke in enumerate(figure.pokes)},
+        "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,
         "money": figure.get_money(),
         "settings": settings.dict(),
@@ -1533,7 +1538,7 @@ loading_screen.show()
 
 # types
 for i in types:
-    exec(i+" = PokeType(i, types[i]['effective'], types[i]['ineffective'])")
+    exec(i+" = PokeType(i, **types[i])")
 
 # reading config file
 home = str(Path.home())
