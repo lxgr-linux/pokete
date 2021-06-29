@@ -11,6 +11,7 @@
 8. [Pokete shops](#pokete-shops)
 9. [Poketeballs](#poketeballs)
 10. [Settings](#settings)
+11. [Trading](#trading)
 
 
 ## Plot
@@ -100,5 +101,17 @@ I the games menu/settings you can change the players name, save, exit or change 
 
 ![Settings](assets/ss/ss20.png)
 
+## Trading
+When your in the same network with another Pokete-player you can trade one of your Poketes with one of their.
+In the Pokete-center stands another NPC, the trader, who you can talk to and start the trade.
 
+![trading](assets/ss/ss21.png)
+
+One of the both players has to be the host and one not, the host has to start the trade first for it to work.
+
+![trading](assets/ss/ss22.png)
+
+When prompted the not host has to type in the hostname of the hosts' computer displayed on the hosts display.  
+
+![trading](assets/ss/ss23.png)
 

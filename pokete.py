@@ -937,6 +937,7 @@ def swap_poke():
             decode_data = eval(data.decode())
     figure.pokes[index] = Poke(decode_data["name"], decode_data["xp"], decode_data["hp"])
     figure.pokes[index].set_ap(decode_data["ap"])
+    save()  # to avoid duping
     infobox = InfoBox(f"You received: {figure.pokes[index].name.capitalize()} and level {figure.pokes[index].lvl()}")
     infobox.center_add(movemap)
     movemap.show()
