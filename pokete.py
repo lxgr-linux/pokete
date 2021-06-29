@@ -896,7 +896,7 @@ def swap_poke():
     PORT = 65432
     if ask_bool(movemap, "Do you want to be the host?"):
         index = deck(figure.pokes[:6], "Your deck", True)
-        infobox = InfoBox("Waiting...")
+        infobox = InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...")
         infobox.center_add(movemap)
         movemap.show()
         HOST = ''
@@ -909,16 +909,9 @@ def swap_poke():
                     data = conn.recv(1024)
                     if not data:
                         break
-                    data = eval(data.decode())
+                    decode_data = eval(data.decode())
                     conn.sendall(str.encode(str(figure.pokes[index].dict())))
                     infobox.remove()
-                    infobox = InfoBox(f"You received: {data['name']}")
-                    infobox.center_add(movemap)
-                    movemap.show()
-                    time.sleep(3)
-                    infomap.remove()
-                    figure.pokes[index] = Poke(data["name"], data["xp"], data["hp"])
-                    figure.pokes[index].set_ap(data["ap"])
     else:
         HOST = ""
         while HOST == "":
@@ -928,14 +921,14 @@ def swap_poke():
             s.connect((HOST, PORT))
             s.sendall(str.encode(str(figure.pokes[index].dict())))
             data = s.recv(1024)
-            data = eval(data.decode())
-            infobox = InfoBox(f"You received: {data['name']}")
-            infobox.center_add(movemap)
-            movemap.show()
-            time.sleep(3)
-            infomap.remove()
-            figure.pokes[index] = Poke(data["name"], data["xp"], data["hp"])
-            figure.pokes[index].set_ap(data["ap"])
+            decode_data = eval(data.decode())
+    figure.pokes[index] = Poke(decode_data["name"], decode_data["xp"], decode_data["hp"])
+    figure.pokes[index].set_ap(decode_data["ap"])
+    infobox = InfoBox(f"You received: {figure.pokes[index].name} and level {figure.pokes[index].lvl()}")
+    infobox.center_add(movemap)
+    movemap.show()
+    time.sleep(3)
+    infobox.remove()
 
 
 def ask_bool(map, text):
