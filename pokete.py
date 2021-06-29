@@ -892,6 +892,35 @@ def playmap_17_boy():
 # main functions
 ################
 
+def swap_poke():
+    PORT = 65432
+    if ask_bool(movemap, "Do you want to be the host?"):
+        index = deck(figure.pokes[:6], "Your deck", True)
+        HOST = ''
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind((HOST, PORT))
+            s.listen()
+            conn, addr = s.accept()
+            with conn:
+                while True:
+                    data = conn.recv(1024)
+                    if not data:
+                        break
+                    conn.sendall(str.encode(str(figure.pokes[index].dict())))
+        print(data)
+    else:
+        HOST = ""
+        while HOST == "":
+            HOST = ask_text(movemap, "Please type in the hosts hostname", "Host:", "", 30)
+        index = deck(figure.pokes[:6], "Your deck", True)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((HOST, PORT))
+            s.sendall(str.encode(str(figure.pokes[index].dict())))
+            data = s.recv(1024)
+        print(data)
+
+
+
 def ask_bool(map, text):
     global ev
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
@@ -1200,7 +1229,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     if ob.identifier == "__fallback__":
                         continue
                     fight_clean_up(player, enemy)
-                    new_player = deck(figure.pokes[:6], "Your deck", True)
+                    new_player = figure.pokes[deck(figure.pokes[:6], "Your deck", True)]
                     player = new_player if new_player != None else player
                     fight_add_1(player, enemy)
                     fightbox.set_ob(fightbox.index, fightbox.index.rx, 1)
@@ -1329,7 +1358,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                     while len(deckmap.obs) > 0:
                         deckmap.obs[0].remove()
                     decksubmap.set(0, 0)
-                    return pokes[deck_index.index]
+                    return deck_index.index
             else:
                 for poke in pokes:
                     deck_remove(poke)
