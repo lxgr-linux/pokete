@@ -896,6 +896,9 @@ def swap_poke():
     PORT = 65432
     if ask_bool(movemap, "Do you want to be the host?"):
         index = deck(figure.pokes[:6], "Your deck", True)
+        infobox = InfoBox("Waiting...")
+        infobox.center_add(movemap)
+        movemap.show()
         HOST = ''
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((HOST, PORT))
@@ -906,8 +909,16 @@ def swap_poke():
                     data = conn.recv(1024)
                     if not data:
                         break
+                    data = eval(data.decode())
                     conn.sendall(str.encode(str(figure.pokes[index].dict())))
-        print(data)
+                    infobox.remove()
+                    infobox = InfoBox(f"You received: {data['name']}")
+                    infobox.center_add(movemap)
+                    movemap.show()
+                    time.sleep(3)
+                    infomap.remove()
+                    figure.pokes[index] = Poke(data["name"], data["xp"], data["hp"])
+                    figure.pokes[index].set_ap(data["ap"])
     else:
         HOST = ""
         while HOST == "":
@@ -917,8 +928,14 @@ def swap_poke():
             s.connect((HOST, PORT))
             s.sendall(str.encode(str(figure.pokes[index].dict())))
             data = s.recv(1024)
-        print(data)
-
+            data = eval(data.decode())
+            infobox = InfoBox(f"You received: {data['name']}")
+            infobox.center_add(movemap)
+            movemap.show()
+            time.sleep(3)
+            infomap.remove()
+            figure.pokes[index] = Poke(data["name"], data["xp"], data["hp"])
+            figure.pokes[index].set_ap(data["ap"])
 
 
 def ask_bool(map, text):
