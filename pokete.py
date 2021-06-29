@@ -970,8 +970,7 @@ def inv():
             invbox.input(ev, obs)
             ev = ""
         elif ev in ["'4'", "Key.esc", "'q'"]:
-            inv_remove(obs)
-            return
+            break
         elif ev == "Key.enter":
             ob = items[invbox.index.index]
             invbox2.name_label.rechar(ob.pretty_name)
@@ -993,8 +992,7 @@ def inv():
                 inv_remove(obs)
                 items, obs = inv_add()
                 if obs == []:
-                    inv_remove(obs)
-                    return
+                    break
                 if invbox.index.index >= len(obs):
                     invbox.index.index = len(obs)-1
                     invbox.set_index(obs)
@@ -1002,6 +1000,7 @@ def inv():
         std_loop()
         time.sleep(0.05)
         movemap.show()
+    inv_remove(obs)
 
 
 def buy():
@@ -1162,17 +1161,15 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                             ev = ""
                             if attack.ap == 0:
                                 continue
-                            fightbox.remove()
-                            fightmap.show()
                             break
                         elif ev in ["Key.esc", "'q'"]:
                             ev = ""
                             attack = ""
-                            fightbox.remove()
-                            fightmap.show()
                             break
                         std_loop()
                         time.sleep(0.05)
+                    fightbox.remove()
+                    fightmap.show()
                     if attack != "":
                         break
                 elif ev == "'2'":
@@ -1204,19 +1201,16 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                             ev = ""
                         elif ev in ["Key.esc", "'q'"]:
                             item = ""
-                            fight_invbox.remove()
-                            for i in obs:
-                                fight_invbox.rem_ob(i)
                             break
                         elif ev == "Key.enter":
                             item = items[fight_invbox.index.index]
-                            fight_invbox.remove()
-                            for i in obs:
-                                fight_invbox.rem_ob(i)
                             break
                         std_loop()
                         time.sleep(0.05)
                         fightmap.show()
+                    fight_invbox.remove()
+                    for i in obs:
+                        fight_invbox.rem_ob(i)
                     fightmap.show()
                     if item == "":
                         continue
