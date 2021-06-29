@@ -916,7 +916,7 @@ def swap_poke():
                     if not data:
                         break
                     decode_data = eval(data.decode())
-                    conn.sendall(str.encode(str(figure.pokes[index].dict())))
+                    conn.sendall(str.encode(str({"name": figure.name, "poke": figure.pokes[index].dict()})))
                     infobox.remove()
     else:
         HOST = ""
@@ -935,10 +935,10 @@ def swap_poke():
             s.sendall(str.encode(str(figure.pokes[index].dict())))
             data = s.recv(1024)
             decode_data = eval(data.decode())
-    figure.pokes[index] = Poke(decode_data["name"], decode_data["xp"], decode_data["hp"])
-    figure.pokes[index].set_ap(decode_data["ap"])
+    figure.pokes[index] = Poke(decode_data["poke"]["name"], decode_data["poke"]["xp"], decode_data["poke"]["hp"])
+    figure.pokes[index].set_ap(decode_data["poke"]["ap"])
     save()  # to avoid duping
-    infobox = InfoBox(f"You received: {figure.pokes[index].name.capitalize()} and level {figure.pokes[index].lvl()}")
+    infobox = InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data["name"]}.")
     infobox.center_add(movemap)
     movemap.show()
     time.sleep(3)
