@@ -932,7 +932,7 @@ def swap_poke():
                 time.sleep(5)
                 infobox.remove()
                 return
-            s.sendall(str.encode(str(figure.pokes[index].dict())))
+            s.sendall(str.encode(str({"name": figure.name, "poke": figure.pokes[index].dict()})))
             data = s.recv(1024)
             decode_data = eval(data.decode())
     figure.pokes[index] = Poke(decode_data["poke"]["name"], decode_data["poke"]["xp"], decode_data["poke"]["hp"])
