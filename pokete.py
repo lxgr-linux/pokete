@@ -824,15 +824,9 @@ def buy_rechar(items):
 #####################
 
 def inv_add():
-    invbox.add(movemap, movemap.width-35, 0)
     items = [eval("invbox."+i) for i in figure.inv if figure.inv[i] > 0]
     invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
     return items
-
-
-def inv_remove():
-    invbox.remove()
-    invbox.remove_c_obs()
 
 
 # Playmap extra action functions
@@ -960,127 +954,123 @@ def inv():
     global ev
     ev = ""
     items = inv_add()
-    movemap.show()
-    while True:
-        if ev in ["'s'", "'w'"]:
-            invbox.input(ev)
-            ev = ""
-        elif ev in ["'4'", "Key.esc", "'q'"]:
-            break
-        elif ev == "Key.enter":
-            ob = items[invbox.index.index]
-            invbox2.name_label.rechar(ob.pretty_name)
-            invbox2.desc_label.rechar(liner(ob.desc, 19))
-            invbox2.add(movemap, invbox.x-19, 3)
-            ev = ""
-            while True:
-                if ev == "exit":
-                    raise KeyboardInterrupt
-                elif ev in ["Key.enter", "Key.esc", "'q'"]:
-                    ev = ""
-                    invbox2.remove()
-                    break
-                time.sleep(0.05)
-                movemap.show()
-        elif ev == "'r'":
-            if ask_bool(movemap, f"Do you really want to throw {items[invbox.index.index].pretty_name} away?"):
-                figure.remove_item(items[invbox.index.index].name)
-                inv_remove()
-                items = inv_add()
-                if items == []:
-                    break
-                if invbox.index.index >= len(items):
-                    invbox.set_index(len(items)-1)
-            ev = ""
-        std_loop()
-        time.sleep(0.05)
-        movemap.show()
-    inv_remove()
+    with invbox.add(movemap, movemap.width-35, 0):
+        while True:
+            if ev in ["'s'", "'w'"]:
+                invbox.input(ev)
+                ev = ""
+            elif ev in ["'4'", "Key.esc", "'q'"]:
+                break
+            elif ev == "Key.enter":
+                ob = items[invbox.index.index]
+                invbox2.name_label.rechar(ob.pretty_name)
+                invbox2.desc_label.rechar(liner(ob.desc, 19))
+                invbox2.add(movemap, invbox.x-19, 3)
+                ev = ""
+                while True:
+                    if ev == "exit":
+                        raise KeyboardInterrupt
+                    elif ev in ["Key.enter", "Key.esc", "'q'"]:
+                        ev = ""
+                        invbox2.remove()
+                        break
+                    time.sleep(0.05)
+                    movemap.show()
+            elif ev == "'r'":
+                if ask_bool(movemap, f"Do you really want to throw {items[invbox.index.index].pretty_name} away?"):
+                    figure.remove_item(items[invbox.index.index].name)
+                    for ob in invbox.c_obs:
+                        ob.remove()
+                    invbox.remove_c_obs()
+                    items = inv_add()
+                    if items == []:
+                        break
+                    if invbox.index.index >= len(items):
+                        invbox.set_index(len(items)-1)
+                ev = ""
+            std_loop()
+            time.sleep(0.05)
+            movemap.show()
+    invbox.remove_c_obs()
 
 
 def buy():
     global ev
     ev = ""
-    buybox.add(movemap, movemap.width-35, 0)
-    buybox2.add(movemap, buybox.x-19, 3)
-    buy_rechar(buybox.items)
-    movemap.show()
-    while True:
-        if ev in ["'s'", "'w'"]:
-            buybox.input(ev)
-            buy_rechar(buybox.items)
-            ev = ""
-        elif ev in ["Key.esc", "'q'"]:
-            break
-        elif ev == "Key.enter":
-            ob = buybox.items[buybox.index.index]
-            if figure.get_money()-ob.price >= 0:
-                figure.add_money(-ob.price)
-                figure.give_item(ob.name)
-            ev = ""
-        std_loop()
-        time.sleep(0.05)
+    with buybox.add(movemap, movemap.width-35, 0):
+        buybox2.add(movemap, buybox.x-19, 3)
+        buy_rechar(buybox.items)
         movemap.show()
-    buybox.remove()
+        while True:
+            if ev in ["'s'", "'w'"]:
+                buybox.input(ev)
+                buy_rechar(buybox.items)
+                ev = ""
+            elif ev in ["Key.esc", "'q'"]:
+                break
+            elif ev == "Key.enter":
+                ob = buybox.items[buybox.index.index]
+                if figure.get_money()-ob.price >= 0:
+                    figure.add_money(-ob.price)
+                    figure.give_item(ob.name)
+                ev = ""
+            std_loop()
+            time.sleep(0.05)
+            movemap.show()
     buybox2.remove()
-    buybox.remove_c_obs()
 
 
 def roadmap():
     global ev
     ev = ""
-    mapbox.add(movemap, movemap.width-mapbox.width, 0)
     [i for i in Station.obs if i.associate == [j for j in [figure.map, figure.oldmap] if j in [k.associate for k in Station.obs]][0]][0].choose()
-    movemap.show()
-    while True:
-        if ev in ["'w'", "'a'", "'s'", "'d'"]:
-            Station.choosen.next(ev)
-            ev = ""
-        elif ev in ["'3'", "Key.esc", "'q'"]:
-            ev = ""
-            break
-        std_loop()
-        time.sleep(0.05)
-        movemap.show()
-    mapbox.remove()
+    with mapbox.add(movemap, movemap.width-mapbox.width, 0):
+        while True:
+            if ev in ["'w'", "'a'", "'s'", "'d'"]:
+                Station.choosen.next(ev)
+                ev = ""
+            elif ev in ["'3'", "Key.esc", "'q'"]:
+                ev = ""
+                break
+            std_loop()
+            time.sleep(0.05)
+            movemap.show()
     Station.choosen.unchoose()
 
 
 def menu():
     global ev
     ev = ""
-    menubox.add(movemap, movemap.width-menubox.width, 0)
-    movemap.show()
-    while True:
-        if ev == "Key.enter":
-            i = menubox.c_obs[menubox.index.index]  # Fuck python for not having case statements
-            if i == menubox.playername_label:
-                figure.name = text_input(menubox.realname_label, movemap, figure.name, 18, 17)
-                movemap.underline.remove()
-                movemap.balls_label.set(0, 1)
-                movemap.name_label.rechar(figure.name, esccode=Color.thicc)
-                movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
-                movemap.underline.add(movemap, 0, movemap.height-2)
-            elif i == menubox.save_label:  # When will python3.10 come out?
-                with InfoBox("Saving....", movemap):  # Shows a box displaying "Saving...." while saving
+    with menubox.add(movemap, movemap.width-menubox.width, 0):
+        while True:
+            if ev == "Key.enter":
+                i = menubox.c_obs[menubox.index.index]  # Fuck python for not having case statements
+                if i == menubox.playername_label:
+                    figure.name = text_input(menubox.realname_label, movemap, figure.name, 18, 17)
+                    movemap.underline.remove()
+                    movemap.balls_label.set(0, 1)
+                    movemap.name_label.rechar(figure.name, esccode=Color.thicc)
+                    movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
+                    movemap.underline.add(movemap, 0, movemap.height-2)
+                elif i == menubox.save_label:  # When will python3.10 come out?
+                    with InfoBox("Saving....", movemap):  # Shows a box displaying "Saving...." while saving
+                        save()
+                        time.sleep(1.5)
+                elif i == menubox.exit_label:
                     save()
-                    time.sleep(1.5)
-            elif i == menubox.exit_label:
-                save()
-                exiter()
-            else:
-                i.change()
-            ev = ""
-        elif ev in ["'s'", "'w'"]:
-            menubox.input(ev)
-            ev = ""
-        elif ev in ["'e'", "Key.esc", "'q'"]:
-            ev = ""
-            break
-        std_loop()
-        time.sleep(0.05)
-        movemap.show()
-    menubox.remove()
+                    exiter()
+                else:
+                    i.change()
+                ev = ""
+            elif ev in ["'s'", "'w'"]:
+                menubox.input(ev)
+                ev = ""
+            elif ev in ["'e'", "Key.esc", "'q'"]:
+                ev = ""
+                break
+            std_loop()
+            time.sleep(0.05)
+            movemap.show()
 
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
@@ -1133,30 +1123,27 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             while True:  # Inputloop for general options
                 if ev == "'1'":
                     ev = ""
-                    fightbox.add(fightmap, 1, fightmap.height-7)
-                    fightmap.show()
-                    while True:  # Inputloop for attack options
-                        if ev in ["'s'", "'w'"]:
-                            fightbox.input(ev)
-                            fightmap.show()
-                            ev = ""
-                        elif ev in [f"'{i}'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
-                            if ev == "Key.enter":
-                                attack = ob.attac_obs[fightbox.index.index]
-                            else:
-                                attack = ob.attac_obs[int(eval(ev))]
-                            ev = ""
-                            if attack.ap == 0:
-                                continue
-                            break
-                        elif ev in ["Key.esc", "'q'"]:
-                            ev = ""
-                            attack = ""
-                            break
-                        std_loop()
-                        time.sleep(0.05)
-                    fightbox.remove()
-                    fightmap.show()
+                    with fightbox.add(fightmap, 1, fightmap.height-7):
+                        while True:  # Inputloop for attack options
+                            if ev in ["'s'", "'w'"]:
+                                fightbox.input(ev)
+                                fightmap.show()
+                                ev = ""
+                            elif ev in [f"'{i}'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
+                                if ev == "Key.enter":
+                                    attack = ob.attac_obs[fightbox.index.index]
+                                else:
+                                    attack = ob.attac_obs[int(eval(ev))]
+                                ev = ""
+                                if attack.ap == 0:
+                                    continue
+                                break
+                            elif ev in ["Key.esc", "'q'"]:
+                                ev = ""
+                                attack = ""
+                                break
+                            std_loop()
+                            time.sleep(0.05)
                     if attack != "":
                         break
                 elif ev == "'2'":
@@ -1175,26 +1162,23 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fightmap.outp.rechar("You don't have any items left!\nWhat do you want to do?")
                         fightmap.show()
                         continue
-                    fight_invbox.add(fightmap, fightmap.width-35, 0)
                     fight_invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
                     fight_invbox.set_index(0)
-                    fightmap.show()
-                    while True:
-                        if ev in ["'s'", "'w'"]:
-                            fight_invbox.input(ev)
-                            ev = ""
-                        elif ev in ["Key.esc", "'q'"]:
-                            item = ""
-                            break
-                        elif ev == "Key.enter":
-                            item = items[fight_invbox.index.index]
-                            break
-                        std_loop()
-                        time.sleep(0.05)
-                        fightmap.show()
-                    fight_invbox.remove()
+                    with fight_invbox.add(fightmap, fightmap.width-35, 0):
+                        while True:
+                            if ev in ["'s'", "'w'"]:
+                                fight_invbox.input(ev)
+                                ev = ""
+                            elif ev in ["Key.esc", "'q'"]:
+                                item = ""
+                                break
+                            elif ev == "Key.enter":
+                                item = items[fight_invbox.index.index]
+                                break
+                            std_loop()
+                            time.sleep(0.05)
+                            fightmap.show()
                     fight_invbox.remove_c_obs()
-                    fightmap.show()
                     if item == "":
                         continue
                     a = item.fn(ob, enem, info)  # I hate you python for not having switch statements

@@ -22,8 +22,17 @@ class Box(se.Box):
     def center_add(self, map):
         self.add(map, round((map.width-self.width)/2), round((map.height-self.height)/2))
 
+    def add(self, map, x, y):
+        super().add(map, x, y)
+        return self
+
+    def __enter__(self):
+        self.map.show()
+        return self
+
     def __exit__(self, exc_type, exc_value, exc_tb):
         self.remove()
+        self.map.show()
 
 
 class ChooseBox(Box):
