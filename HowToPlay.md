@@ -112,6 +112,7 @@ One of the both players has to be the host and one not, the host has to start th
 ![trading](assets/ss/ss22.png)
 
 When prompted the not host has to type in the hostname of the hosts' computer displayed on the hosts display.  
+You may run into problems with firewalls.
 
 ![trading](assets/ss/ss23.png)
 

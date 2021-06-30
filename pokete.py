@@ -714,8 +714,7 @@ def deck_control(pokes, ev, index):
 def fight_clean_up(player, enemy):
     for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]:
         ob.remove()
-    for ob in player.atc_labels:
-        fightbox.rem_ob(ob)
+    fightbox.remove_c_obs()
 
 
 def fight_add_3(player, enemy):
@@ -735,8 +734,8 @@ def fight_add_1(player, enemy):
         ob.add(fightmap, x, y)
     if enemy.name in [ob.name for ob in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
-    for ob, y in zip(player.atc_labels, range(4)):
-        fightbox.add_ob(ob, 2, 1+y)
+    fightbox.add_c_obs(player.atc_labels)
+    fightbox.set_index(0)
     return [player, enemy]
 
 
@@ -827,16 +826,13 @@ def buy_rechar(items):
 def inv_add():
     invbox.add(movemap, movemap.width-35, 0)
     items = [eval("invbox."+i) for i in figure.inv if figure.inv[i] > 0]
-    obs = [se.Text(i.pretty_name+"s : "+str(figure.inv[i.name])) for i in items]
-    for i, ob in enumerate(obs):
-        invbox.add_ob(ob, 4, 1+i)
-    return items, obs
+    invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
+    return items
 
 
-def inv_remove(obs):
+def inv_remove():
     invbox.remove()
-    for ob in obs:
-        invbox.rem_ob(ob)
+    invbox.remove_c_obs()
 
 
 # Playmap extra action functions
@@ -963,11 +959,11 @@ def ask_text(map, infotext, introtext, text, max_len):
 def inv():
     global ev
     ev = ""
-    items, obs = inv_add()
+    items = inv_add()
     movemap.show()
     while True:
         if ev in ["'s'", "'w'"]:
-            invbox.input(ev, obs)
+            invbox.input(ev)
             ev = ""
         elif ev in ["'4'", "Key.esc", "'q'"]:
             break
@@ -989,18 +985,17 @@ def inv():
         elif ev == "'r'":
             if ask_bool(movemap, f"Do you really want to throw {items[invbox.index.index].pretty_name} away?"):
                 figure.remove_item(items[invbox.index.index].name)
-                inv_remove(obs)
-                items, obs = inv_add()
-                if obs == []:
+                inv_remove()
+                items = inv_add()
+                if items == []:
                     break
-                if invbox.index.index >= len(obs):
-                    invbox.index.index = len(obs)-1
-                    invbox.set_index(obs)
+                if invbox.index.index >= len(items):
+                    invbox.set_index(len(items)-1)
             ev = ""
         std_loop()
         time.sleep(0.05)
         movemap.show()
-    inv_remove(obs)
+    inv_remove()
 
 
 def buy():
@@ -1008,25 +1003,17 @@ def buy():
     ev = ""
     buybox.add(movemap, movemap.width-35, 0)
     buybox2.add(movemap, buybox.x-19, 3)
-    items = [invbox.poketeball, invbox.superball, invbox.healing_potion, invbox.super_potion, invbox.ap_potion]
-    obs = [se.Text(f"{ob.pretty_name} : {ob.price}$") for ob in items]
-    for i, ob in enumerate(obs):
-        buybox.add_ob(ob, 4, 1+i)
-    buy_rechar(items)
+    buy_rechar(buybox.items)
     movemap.show()
     while True:
         if ev in ["'s'", "'w'"]:
-            buybox.input(ev, obs)
-            buy_rechar(items)
+            buybox.input(ev)
+            buy_rechar(buybox.items)
             ev = ""
         elif ev in ["Key.esc", "'q'"]:
-            buybox.remove()
-            buybox2.remove()
-            for ob in obs:
-                buybox.rem_ob(ob)
-            return
+            break
         elif ev == "Key.enter":
-            ob = items[buybox.index.index]
+            ob = buybox.items[buybox.index.index]
             if figure.get_money()-ob.price >= 0:
                 figure.add_money(-ob.price)
                 figure.give_item(ob.name)
@@ -1034,6 +1021,9 @@ def buy():
         std_loop()
         time.sleep(0.05)
         movemap.show()
+    buybox.remove()
+    buybox2.remove()
+    buybox.remove_c_obs()
 
 
 def roadmap():
@@ -1048,12 +1038,12 @@ def roadmap():
             ev = ""
         elif ev in ["'3'", "Key.esc", "'q'"]:
             ev = ""
-            mapbox.remove()
-            Station.choosen.unchoose()
-            return
+            break
         std_loop()
         time.sleep(0.05)
         movemap.show()
+    mapbox.remove()
+    Station.choosen.unchoose()
 
 
 def menu():
@@ -1063,7 +1053,7 @@ def menu():
     movemap.show()
     while True:
         if ev == "Key.enter":
-            i = menubox.ob_list[menubox.index.index]  # Fuck python for not having case statements
+            i = menubox.c_obs[menubox.index.index]  # Fuck python for not having case statements
             if i == menubox.playername_label:
                 figure.name = text_input(menubox.realname_label, movemap, figure.name, 18, 17)
                 movemap.underline.remove()
@@ -1072,8 +1062,7 @@ def menu():
                 movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
                 movemap.underline.add(movemap, 0, movemap.height-2)
             elif i == menubox.save_label:  # When will python3.10 come out?
-                # Shows a box displaying "Saving...." while saving
-                with InfoBox("Saving....", movemap):
+                with InfoBox("Saving....", movemap):  # Shows a box displaying "Saving...." while saving
                     save()
                     time.sleep(1.5)
             elif i == menubox.exit_label:
@@ -1083,15 +1072,15 @@ def menu():
                 i.change()
             ev = ""
         elif ev in ["'s'", "'w'"]:
-            menubox.input(ev, menubox.ob_list)
+            menubox.input(ev)
             ev = ""
         elif ev in ["'e'", "Key.esc", "'q'"]:
             ev = ""
-            menubox.remove()
-            return
+            break
         std_loop()
         time.sleep(0.05)
         movemap.show()
+    menubox.remove()
 
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
@@ -1129,8 +1118,6 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     if player.identifier != "__fallback__":
         fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
         fightmap.outp.rechar(f"You used {player.name}")
-    fightbox.index.index = 0
-    fightbox.set_index(player.atc_labels)
     fightmap.show()
     time.sleep(0.5)
     enem = sorted(zip([i.initiative for i in players], [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
@@ -1150,10 +1137,10 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fightmap.show()
                     while True:  # Inputloop for attack options
                         if ev in ["'s'", "'w'"]:
-                            fightbox.input(ev, ob.atc_labels)
+                            fightbox.input(ev)
                             fightmap.show()
                             ev = ""
-                        elif ev in ["'"+str(i)+"'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
+                        elif ev in [f"'{i}'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
                             if ev == "Key.enter":
                                 attack = ob.attac_obs[fightbox.index.index]
                             else:
@@ -1189,15 +1176,12 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         fightmap.show()
                         continue
                     fight_invbox.add(fightmap, fightmap.width-35, 0)
-                    obs = [se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items]
-                    for i, j in enumerate(obs):
-                        fight_invbox.add_ob(j, 4, 1+i)
-                    fight_invbox.index.index = 0
-                    fight_invbox.set_index(obs)
+                    fight_invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
+                    fight_invbox.set_index(0)
                     fightmap.show()
                     while True:
                         if ev in ["'s'", "'w'"]:
-                            fight_invbox.input(ev, obs)
+                            fight_invbox.input(ev)
                             ev = ""
                         elif ev in ["Key.esc", "'q'"]:
                             item = ""
@@ -1209,8 +1193,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         time.sleep(0.05)
                         fightmap.show()
                     fight_invbox.remove()
-                    for i in obs:
-                        fight_invbox.rem_ob(i)
+                    fight_invbox.remove_c_obs()
                     fightmap.show()
                     if item == "":
                         continue
@@ -1226,8 +1209,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     if ob.identifier == "__fallback__":
                         continue
                     fight_clean_up(player, enemy)
-                    new_player = figure.pokes[deck(figure.pokes[:6], "Your deck", True)]
-                    player = new_player if new_player != None else player
+                    index = deck(figure.pokes[:6], "Your deck", True)
+                    player = player if index == None else figure.pokes[index]
                     fight_add_1(player, enemy)
                     fightbox.set_ob(fightbox.index, fightbox.index.rx, 1)
                     fightbox.index.index = 0
@@ -1382,7 +1365,7 @@ def detail(poke):
         atc.temp_i = 0
         atc.temp_j = -30
         atc.label_desc.rechar(atc.desc[:int(width/2-1)])
-        atc.label_ap.rechar("AP:"+str(atc.ap)+"/"+str(atc.max_ap))
+        atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
         for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type, atc.label_ap, atc.label_desc], [0, 0, 11, 0, 0], [0, 1, 1, 2, 3]):
             label.add(detailmap, x+_x, y+_y)
     detailmap.show(init=True)
@@ -1691,10 +1674,8 @@ menubox.playername_label = se.Text("Playername: ")
 menubox.save_label = se.Text("Save")
 menubox.exit_label = se.Text("Exit")
 menubox.realname_label = se.Text(session_info["user"])
-menubox.ob_list = [menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label]
+menubox.add_c_obs([menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label])
 # adding
-for i, ob in enumerate(menubox.ob_list):
-    menubox.add_ob(ob, 4, i+1)
 menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.playername_label.text), menubox.playername_label.ry)
 
 
@@ -1908,7 +1889,7 @@ centermap.inner = se.Text(""" ________________
 centermap.interact = CenterInteract("¯", state="float")
 centermap.dor_back1 = CenterDor(" ", state="float")
 centermap.dor_back2 = CenterDor(" ", state="float")
-centermap.trader = NPC("trader", [" < I'm a trader.", " < Here you can trade one of your Poketes against another players' one."], "swap_poke", ())
+centermap.trader = NPC("trader", [" < I'm a trader.", " < Here you can trade one of your Poketes for another players' one."], "swap_poke", ())
 # adding
 centermap.dor_back1.add(centermap, int(centermap.width/2), 8)
 centermap.dor_back2.add(centermap, int(centermap.width/2)+1, 8)
@@ -2038,10 +2019,12 @@ fight_invbox = ChooseBox(height-3, 35, "Inventory")
 
 # buybox
 buybox = ChooseBox(height-3, 35, "Shop")
+buybox.items = [invbox.poketeball, invbox.superball, invbox.healing_potion, invbox.super_potion, invbox.ap_potion]
+buybox.add_c_obs([se.Text(f"{ob.pretty_name} : {ob.price}$") for ob in buybox.items])
 buybox.money_label = se.Text(str(figure.get_money())+"$")
 # adding
 buybox.add_ob(buybox.money_label, buybox.width-2-len(buybox.money_label.text), 0)
-# shopbox2
+# buybox2
 buybox2 = Box(7, 21,)
 buybox2.desc_label = se.Text(" ")
 # adding

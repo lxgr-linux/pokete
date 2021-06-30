@@ -22,26 +22,43 @@ class Box(se.Box):
     def center_add(self, map):
         self.add(map, round((map.width-self.width)/2), round((map.height-self.height)/2))
 
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        self.remove()
+
 
 class ChooseBox(Box):
-    def __init__(self, height, width, name="", info="", index_x=2):
+    def __init__(self, height, width, name="", info="", index_x=2, c_obs=[]):
         super().__init__(height, width, name, info)
         self.index_x = index_x
         self.index = BoxIndex()
+        if c_obs != []:
+            self.add_c_obs(c_obs)
+        else:
+            self.c_obs = []
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, ev, list):
-        if list == []:
-            return
-        if {"'s'": self.index.index+1 < len(list), "'w'": self.index.index-1 >= 0}[ev]:
+    def input(self, ev):
+        if {"'s'": self.index.index+1 < len(self.c_obs), "'w'": self.index.index-1 >= 0}[ev]:
             self.index.index += {"'s'": 1, "'w'": -1}[ev]
         else:
-            self.index.index = {"'s'": 0, "'w'": len(list)-1}[ev]
-        self.set_index(list)
+            self.index.index = {"'s'": 0, "'w'": len(self.c_obs)-1}[ev]
+        self.set_index()
 
-    def set_index(self, list):
-        self.set_ob(self.index, self.index.rx, list[self.index.index].ry)
+    def set_index(self, index=None):
+        if index != None:
+            self.index.index = index
+        self.set_ob(self.index, self.index.rx, self.c_obs[self.index.index].ry)
+
+    def add_c_obs(self, list):
+        self.c_obs = list
+        for y, ob in enumerate(self.c_obs):
+            self.add_ob(ob, self.index_x*2, 1+y)
+
+    def remove_c_obs(self):
+        for ob in self.c_obs:
+            self.rem_ob(ob)
+        self.c_obs = []
 
 
 class InfoBox(Box):
@@ -57,9 +74,6 @@ class InfoBox(Box):
         self.center_add(self.map)
         self.map.show()
         return self
-
-    def __exit__(self, exc_type, exc_value, exc_tb):
-        self.remove()
 
 
 class InputBox(InfoBox):
