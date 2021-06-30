@@ -265,7 +265,7 @@ class Poke():
             exec(f"self.move_{attac.move}()")
             exec(attac.action)
             attac.ap -= 1
-            fightmap.outp.rechar(f'{self.name}({"you" if self.player else "enemy"}) used {attac.name}! {self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
+            fightmap.outp.outp(f'{self.name}({"you" if self.player else "enemy"}) used {attac.name}! {self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
             for ob in [enem, self]:
                 ob.health_bar_updater(ob.oldhp)
             self.label_rechar()
@@ -313,13 +313,10 @@ class Poke():
         new = Poke(self.evolve_poke, self.xp)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width/2-4), round((evomap.height-8)/2))
-        evomap.show()
         self.move_shine()
-        evomap.outp.rechar("Look!")
-        evomap.show()
+        evomap.outp.outp("Look!")
         time.sleep(0.5)
-        evomap.outp.rechar(f"{evomap.outp.text}\n{self.name} is evolving!")
-        evomap.show()
+        evomap.outp.outp(f"{evomap.outp.text}\n{self.name} is evolving!")
         time.sleep(1)
         for i in range(8):
             for j, k in zip([self.ico, new.ico], [new.ico, self.ico]):
@@ -332,8 +329,7 @@ class Poke():
         evomap.show()
         time.sleep(0.01)
         new.move_shine()
-        evomap.outp.rechar(f"{self.name} evolved to {new.name}!")
-        evomap.show()
+        evomap.outp.outp(f"{self.name} evolved to {new.name}!")
         time.sleep(5)
         figure.pokes[figure.pokes.index(self)] = new
         del self
@@ -1096,30 +1092,26 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     # fancy stuff end
     players = fight_add_1(player, enemy)
     if info["type"] == "wild":
-        fightmap.outp.rechar(f"A wild {enemy.name} appeared!")
+        fightmap.outp.outp(f"A wild {enemy.name} appeared!")
     elif info["type"] == "duel":
-        fightmap.outp.rechar(f"{info['player'].name} started a fight!")
-        fightmap.show(init=True)
+        fightmap.outp.outp(f"{info['player'].name} started a fight!")
         time.sleep(1)
-        fightmap.outp.rechar(f'{fightmap.outp.text}\n{info["player"].gender} used {enemy.name} against you!')
-    fightmap.show(init=True)
+        fightmap.outp.outp(f'{fightmap.outp.text}\n{info["player"].gender} used {enemy.name} against you!')
     time.sleep(1)
     fight_add_2(player, enemy)
     if player.identifier != "__fallback__":
         fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
-        fightmap.outp.rechar(f"You used {player.name}")
+        fightmap.outp.outp(f"You used {player.name}")
     fightmap.show()
     time.sleep(0.5)
     enem = sorted(zip([i.initiative for i in players], [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
     ob = [i for i in players if i != enem][-1]
     while True:
         if ob.player:
-            fightmap.outp.rechar(fightmap.outp.text+("\n" if "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
-            fightmap.show()
+            fightmap.outp.outp(fightmap.outp.text+("\n" if "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
             if ob.identifier == "__fallback__":
                 time.sleep(1)
-                fightmap.outp.rechar("You don't have any living poketes left!")
-                fightmap.show()
+                fightmap.outp.outp("You don't have any living poketes left!")
             while True:  # Inputloop for general options
                 if ev == "'1'":
                     ev = ""
@@ -1150,8 +1142,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     ev = ""
                     if info["type"] == "duel" and player.identifier != "__fallback__":
                         continue
-                    fightmap.outp.rechar("You ran away!")
-                    fightmap.show()
+                    fightmap.outp.outp("You ran away!")
                     time.sleep(1)
                     fight_clean_up(player, enemy)
                     return enem
@@ -1159,8 +1150,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     ev = ""
                     items = [eval("invbox."+i) for i in figure.inv if eval("invbox."+i).fn != None and figure.inv[i] > 0]
                     if items == []:
-                        fightmap.outp.rechar("You don't have any items left!\nWhat do you want to do?")
-                        fightmap.show()
+                        fightmap.outp.outp("You don't have any items left!\nWhat do you want to do?")
                         continue
                     fight_invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
                     fight_invbox.set_index(0)
@@ -1197,10 +1187,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     player = player if index == None else figure.pokes[index]
                     fight_add_1(player, enemy)
                     fightbox.set_ob(fightbox.index, fightbox.index.rx, 1)
-                    fightbox.index.index = 0
+                    fightbox.set_index(0)
                     players = fight_add_3(player, enemy)
-                    fightmap.outp.rechar(f"You have choosen {player.name}")
-                    fightmap.show(init=True)
+                    fightmap.outp.outp(f"You have choosen {player.name}")
                     attack = ""
                     break
                 std_loop()
@@ -1218,8 +1207,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         elif all([i.ap == 0 for i in ob.attac_obs]):
             winner = [i for i in players if i != ob][0]
             time.sleep(2)
-            fightmap.outp.rechar(f"{ob.name}({'you' if winner.player else 'enemy'}) has used all its' attacks!")
-            fightmap.show()
+            fightmap.outp.outp(f"{ob.name}({'you' if winner.player else 'enemy'}) has used all its' attacks!")
             time.sleep(3)
             break
         fightmap.show()
@@ -1227,8 +1215,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         enem = [i for i in players if i != ob][-1]
     loser = [ob for ob in players if ob != winner][0]
     xp = (loser.lose_xp+(1 if loser.lvl() > winner.lvl() else 0))*(2 if info["type"] == "duel" else 1)
-    fightmap.outp.rechar(f"{winner.name}({'you' if winner.player else 'enemy'}) won!"+(f'\nXP + {xp}' if winner.player else ''))
-    fightmap.show()
+    fightmap.outp.outp(f"{winner.name}({'you' if winner.player else 'enemy'}) won!"+(f'\nXP + {xp}' if winner.player else ''))
     if winner.player:
         old_lvl = winner.lvl()
         winner.xp += xp
@@ -1236,7 +1223,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         winner.text_lvl.rechar(f"Lvl:{winner.lvl()}")
         if old_lvl < winner.lvl():
             time.sleep(1)
-            fightmap.outp.rechar(f"{winner.name} reached lvl {winner.lvl()}!")
+            fightmap.outp.outp(f"{winner.name} reached lvl {winner.lvl()}!")
             winner.move_shine()
             time.sleep(0.5)
             winner.set_vars()
@@ -1940,7 +1927,7 @@ fightmap.e_underline = se.Text("----------------+", state="float")
 fightmap.e_sideline = se.Square("|", 1, 3, state="float")
 fightmap.p_upperline = se.Text("+----------------", state="float")
 fightmap.p_sideline = se.Square("|", 1, 4, state="float")
-fightmap.outp = se.Text("", state="float")
+fightmap.outp = OutP("", state="float")
 fightmap.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
 fightmap.shines = [se.Object(Color.thicc+Color.green+"*"+Color.reset) for i in range(4)]
 deadico1 = se.Text("""
@@ -1968,7 +1955,7 @@ fightmap.label.add(fightmap, 0, fightmap.height-1)
 # evomap
 evomap = se.Map(height-1, width, " ")
 evomap.frame_small = se.Frame(height=4, width=evomap.width, state="float")
-evomap.outp = se.Text("", state="float")
+evomap.outp = OutP("", state="float")
 # adding
 evomap.frame_small.add(evomap, 0, evomap.height-5)
 evomap.outp.add(evomap, 1, evomap.height-4)
