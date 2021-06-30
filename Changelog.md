@@ -1,3 +1,12 @@
+0.3.7
+-------
+released: 2021-06-30
+
+What changed until this release?
+- Added trading with other players in the same network
+- Simplified some code
+
+
 0.3.6
 -------
 released: 2021-06-28
