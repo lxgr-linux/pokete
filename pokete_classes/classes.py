@@ -15,7 +15,7 @@ class PlayMap(se.Map):
     def __init__(self, height=se.height-1, width=se.width, background="#", trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
         super().__init__(height=height, width=width, background=background, dynfps=dynfps)
         for i in ["trainers", "name", "pretty_name", "poke_args"]:
-            exec("self."+i+"="+i)
+            exec(f"self.{i}={i}")
         self.__extra_actions = extra_actions
 
     def extra_actions(self):

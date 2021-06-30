@@ -803,6 +803,7 @@ def fight_hyperball(ob, enem, info):
     return fight_throw(ob, enem, info, 1000, "hyperball")
 
 def fight_ap_potion(ob, enem, info):
+    figure.remove_item("ap_potion")
     for atc in ob.attac_obs:
         atc.ap = atc.max_ap
     ob.label_rechar()
@@ -1158,6 +1159,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         while True:
                             if ev in ["'s'", "'w'"]:
                                 fight_invbox.input(ev)
+                                fightmap.show()
                                 ev = ""
                             elif ev in ["Key.esc", "'q'"]:
                                 item = ""
@@ -1167,15 +1169,10 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                 break
                             std_loop()
                             time.sleep(0.05)
-                            fightmap.show()
                     fight_invbox.remove_c_obs()
                     if item == "":
                         continue
-                    a = item.fn(ob, enem, info)  # I hate you python for not having switch statements
-                    if a == 1:
-                        continue
-                    elif a == 2:
-                        return
+                    exec({1: "continue", 2: "return", None: ""}[item.fn(ob, enem, info)])  # I hate you python for not having switch statements
                     attack = ""
                     break
                 elif ev == "'4'":
@@ -1186,7 +1183,6 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     index = deck(figure.pokes[:6], "Your deck", True)
                     player = player if index == None else figure.pokes[index]
                     fight_add_1(player, enemy)
-                    fightbox.set_ob(fightbox.index, fightbox.index.rx, 1)
                     fightbox.set_index(0)
                     players = fight_add_3(player, enemy)
                     fightmap.outp.outp(f"You have choosen {player.name}")
@@ -1210,7 +1206,6 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             fightmap.outp.outp(f"{ob.name}({'you' if winner.player else 'enemy'}) has used all its' attacks!")
             time.sleep(3)
             break
-        fightmap.show()
         ob = [i for i in players if i != ob][-1]
         enem = [i for i in players if i != ob][-1]
     loser = [ob for ob in players if ob != winner][0]
@@ -1242,21 +1237,20 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
 
 def deck(pokes, label="Your full deck", in_fight=False):
     global ev
+    ev = ""
     deckmap.resize(5*int((len(pokes)+1)/2)+2, width, deckmap.background)
     #decksubmap.resize(height-1, width)
     se.Text(label, esccode=Color.thicc).add(deckmap, 2, 0)
     se.Square("|", 1, deckmap.height-2).add(deckmap, round(deckmap.width/2), 1)
     se.Frame(height=deckmap.height-1, width=deckmap.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"]).add(deckmap, 0, 0)
     decksubmap.move_label.rechar("2: Move    ")
-    ev = ""
-    j = 0
     indici = []
     deck_add_all(pokes, True)
     deck_index = se.Object("*")
     deck_index.index = 0
     if len(pokes) > 0:
         deck_index.add(deckmap, pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
-    decksubmap.full_show(init=True)
+    decksubmap.full_show()
     while True:
         if ev in ["'1'", "Key.esc", "'q'"]:
             ev = ""
@@ -1381,8 +1375,8 @@ def game(map):
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in ["'1'", "'3'", "'4'"]:
-            exec({"'1'": 'deck(figure.pokes[:6], "Your deck")', "'3'": 'roadmap()', "'4'": 'inv()'}[ev])
+        if ev in ["'1'", "'3'", "'4'", "'e'"]:
+            exec({"'1'": 'deck(figure.pokes[:6], "Your deck")', "'3'": 'roadmap()', "'4'": 'inv()', "'e'": 'menu()'}[ev])
             ev = ""
             movemap.show(init=True)
         elif ev == "'2'":
@@ -1392,14 +1386,9 @@ def game(map):
         elif ev == "':'":
             ev = ""
             inp = text_input(movemap.code_label, movemap, ":", movemap.width, (movemap.width-2)*movemap.height-1)[1:]
-            movemap.code_label.rechar(figure.map.pretty_name)
-            movemap.show()
+            movemap.code_label.outp(figure.map.pretty_name)
             codes(inp)
             ev = ""
-        elif ev == "'e'":
-            ev = ""
-            menu()
-            movemap.show(init=True)
         std_loop()
         map.extra_actions()
         for trainer in map.trainers:
@@ -1472,7 +1461,7 @@ if sys.platform == "linux":  # Use another (not on xserver relying) way to read 
         tty.setraw(fd)
         while True:
             char = sys.stdin.read(1)
-            ev = {ord(char): "'"+char.rstrip()+"'", 13: "Key.enter", 127: "Key.backspace", 32: "Key.space", 27: "Key.esc"}[ord(char)]
+            ev = {ord(char): f"'{char.rstrip()}'", 13: "Key.enter", 127: "Key.backspace", 32: "Key.space", 27: "Key.esc"}[ord(char)]
             if ord(char) == 3 or do_exit:
                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
                 ev = "exit"
@@ -1489,7 +1478,7 @@ __t = time.time()
 width, height = os.get_terminal_size()
 tss = se.Map(background=" ")
 tss.warning_label = se.Text("Minimum windowsize is 70x20")
-tss.size_label = se.Text(str(width)+"x"+str(height))
+tss.size_label = se.Text(f"{width}x{height}")
 tss.frame = se.Frame(width=width, height=height-1, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
 
 tss.warning_label.add(tss, int(tss.width/2)-13, int(tss.height/2)-1)
@@ -1501,7 +1490,7 @@ while width < 70 or height < 20:
     tss.frame.remove()
     tss.resize(height-1, width, " ")
     tss.warning_label.set(int(tss.width/2)-13, int(tss.height/2)-1)
-    tss.size_label.rechar(str(width)+"x"+str(height))
+    tss.size_label.rechar(f"{width}x{height}")
     tss.frame = se.Frame(width=width, height=height-1, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
     tss.frame.add(tss, 0, 0)
     tss.show()
@@ -1637,7 +1626,7 @@ figure = Figure("a")
 exclamation = se.Object("!")
 multitext = se.Text("", state="float")
 movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.")
-movemap.code_label = se.Text("")
+movemap.code_label = OutP("")
 
 # menubox
 menubox = ChooseBox(height-3, 35, "Menu")
