@@ -903,6 +903,10 @@ def swap_poke():
         HOST = ""
         while HOST == "":
             HOST = ask_text(movemap, "Please type in the hosts hostname", "Host:", "", 30)
+        if HOST in ["localhost", "127.0.0.1", socket.gethostname()]:
+            with InfoBox("You're not allowed trade with your self!\nYou fool!", movemap):
+                time.sleep(5)
+            return
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
                 s.connect((HOST, PORT))
@@ -1246,7 +1250,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
     deck_index.index = 0
     if len(pokes) > 0:
         deck_index.add(deckmap, pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
-    decksubmap.full_show()
+    decksubmap.full_show(init=True)
     while True:
         if ev in ["'1'", "Key.esc", "'q'"]:
             ev = ""
