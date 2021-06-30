@@ -65,8 +65,7 @@ class ChooseBox(Box):
             self.add_ob(ob, self.index_x*2, 1+y)
 
     def remove_c_obs(self):
-        for ob in self.c_obs:
-            self.rem_ob(ob)
+        [self.rem_ob(ob) for ob in self.c_obs]
         self.c_obs = []
 
 

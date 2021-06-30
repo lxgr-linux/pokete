@@ -213,8 +213,7 @@ class Poke():
         for old_ob, ob in zip(self.attac_obs, i):
             ob.ap = old_ob.ap
         self.attac_obs = i
-        for ob in self.atc_labels:
-            fightbox.rem_ob(ob)
+        [fightbox.rem_ob(ob) for ob in self.atc_labels]
         self.atc_labels = [se.Text(str(i)+": "+atc.name+"-"+str(atc.ap)) for i, atc in enumerate(self.attac_obs)]
 
     def dict(self):
@@ -305,8 +304,7 @@ class Poke():
             self.ico.map.show()
             time.sleep(0.2)
         time.sleep(0.2)
-        for i in fightmap.shines:
-            i.remove()
+        [i.remove() for i in fightmap.shines]
         self.ico.map.show()
 
     def evolve(self):
@@ -708,8 +706,7 @@ def deck_control(pokes, ev, index):
 #####################
 
 def fight_clean_up(player, enemy):
-    for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]:
-        ob.remove()
+    [ob.remove() for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]]
     fightbox.remove_c_obs()
 
 
@@ -976,8 +973,7 @@ def inv():
             elif ev == "'r'":
                 if ask_bool(movemap, f"Do you really want to throw {items[invbox.index.index].pretty_name} away?"):
                     figure.remove_item(items[invbox.index.index].name)
-                    for ob in invbox.c_obs:
-                        ob.remove()
+                    [ob.remove() for ob in invbox.c_obs]
                     invbox.remove_c_obs()
                     items = inv_add()
                     if items == []:
@@ -1254,8 +1250,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
     while True:
         if ev in ["'1'", "Key.esc", "'q'"]:
             ev = ""
-            for poke in pokes:
-                deck_remove(poke)
+            [deck_remove(poke) for poke in pokes]
             while len(deckmap.obs) > 0:
                 deckmap.obs[0].remove()
             decksubmap.set(0, 0)
@@ -1272,8 +1267,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 figure.pokes[indici[0]], figure.pokes[indici[1]] = pokes[indici[1]], pokes[indici[0]]
                 pokes = figure.pokes[:len(pokes)]
                 indici = []
-                for poke in pokes:
-                    deck_remove(poke)
+                [deck_remove(poke) for poke in pokes]
                 deck_index.set(0, deckmap.height-1)
                 deck_add_all(pokes)
                 deck_index.set(pokes[deck_index.index].text_name.x+len(pokes[deck_index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
@@ -1282,8 +1276,7 @@ def deck(pokes, label="Your full deck", in_fight=False):
         elif ev == "'3'":
             ev = ""
             if ask_bool(decksubmap, f"Do you really want to free {figure.pokes[deck_index.index].name}?"):
-                for poke in pokes:
-                    deck_remove(poke)
+                [deck_remove(poke) for poke in pokes]
                 figure.pokes[deck_index.index] = Poke("__fallback__", 10, 0)
                 pokes = figure.pokes[:len(pokes)]
                 deck_add_all(pokes)
@@ -1298,15 +1291,13 @@ def deck(pokes, label="Your full deck", in_fight=False):
                 continue
             if in_fight:
                 if pokes[deck_index.index].hp > 0:
-                    for poke in pokes:
-                        deck_remove(poke)
+                    [deck_remove(poke) for poke in pokes]
                     while len(deckmap.obs) > 0:
                         deckmap.obs[0].remove()
                     decksubmap.set(0, 0)
                     return deck_index.index
             else:
-                for poke in pokes:
-                    deck_remove(poke)
+                [deck_remove(poke) for poke in pokes]
                 detail(pokes[deck_index.index])
                 deck_add_all(pokes)
                 decksubmap.full_show(init=True)
@@ -1391,8 +1382,7 @@ def game(map):
             ev = ""
         std_loop()
         map.extra_actions()
-        for trainer in map.trainers:
-            trainer.do(map)
+        [trainer.do(map) for trainer in map.trainers]
         time.sleep(0.05)
         for statement, x, y in zip(
         [figure.x+6 > movemap.x+movemap.width, figure.x < movemap.x+6, figure.y+6 > movemap.y+movemap.height, figure.y < movemap.y+6],
