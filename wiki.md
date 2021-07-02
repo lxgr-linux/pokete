@@ -945,13 +945,14 @@ Type|Effective against|Ineffective against
 ---|---|---
 Normal||
 Stone|Flying, Fire|Plant
-Plant|Stone, Ground, Water|Fire
-Water|Stone, Flying, Fire|Plant
-Fire|Flying, Plant, Undead|Stone, Water
+Plant|Stone, Ground, Water|Fire, Ice
+Water|Stone, Flying, Fire|Plant, Ice
+Fire|Flying, Plant, Undead, Ice|Stone, Water
 Ground|Normal|Flying
 Electro|Stone, Flying|Ground
 Flying|Plant|Stone
 Undead|Normal, Ground, Plant, Water|Fire
+Ice|Water, Plant|Fire
 
 ## Items
 Those are all items present in the game, that can be traded or found.

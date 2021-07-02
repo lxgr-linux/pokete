@@ -9,14 +9,14 @@ types = {
     },
     "plant": {
         "effective": ["stone", "ground", "water"],
-        "ineffective": ["fire"]
+        "ineffective": ["fire", "ice"]
     },
     "water": {
         "effective": ["stone", "flying", "fire"],
-        "ineffective": ["plant"]
+        "ineffective": ["plant", "ice"]
     },
     "fire": {
-        "effective": ["flying", "plant", "undead"],
+        "effective": ["flying", "plant", "undead", "ice"],
         "ineffective": ["stone", "water"]
     },
     "ground": {
@@ -33,6 +33,10 @@ types = {
     },
     "undead": {
         "effective": ["normal", "ground", "plant", "water"],
+        "ineffective": ["fire"]
+    },
+    "ice": {
+        "effective": ["water", "plant"],
         "ineffective": ["fire"]
     },
 }
