@@ -71,7 +71,7 @@ For additional information you can see [wiki](wiki.md).
 - [x] Add types for attacks and Poketes
 - [x] Add evolving
 - [ ] Add more than one Pokete for trainers
-- [ ] Coloured Poketes
+- [x] Coloured Poketes
 - [x] A store to buy Poketeballs
 - [x] Add potions
 - [x] Add Intro

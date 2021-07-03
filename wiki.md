@@ -82,10 +82,11 @@ In the following all Poketes with their attributes are displayed.
 ### Angrilo
 A ghost Pokete that will scare your pants off.
 ```
- .░░░░░░░.
- ░░\░░░/░░
- .░░( )░░.
+ .░░░░░░░. 
+ ░░\░░░/░░ 
+ .░░( )░░. 
 .         .
+
 ```
 
 - Type: [Undead](#types)
@@ -106,9 +107,10 @@ A ghost Pokete that will scare your pants off.
 ### Bato
 An annoying flying rat.
 ```
-    ___
+    ___    
 WW\/* *\/WW
-   \v-v/
+   \v-v/   
+           
 
 ```
 
@@ -128,10 +130,10 @@ WW\/* *\/WW
 ### Bator
 A chongus flying rat.
 ```
-    ___
+    ___    
 WW\/o o\/WW
-   |v-v|
-   \___/
+   |v-v|   
+   \___/   
 
 ```
 
@@ -157,6 +159,7 @@ A big and heavy stone made from one of the hardest stones.
 |  o   o  |
 |   ---   |
 +---------+
+
 ```
 
 - Type: [Stone](#types)
@@ -176,10 +179,11 @@ A big and heavy stone made from one of the hardest stones.
 ### Blub
 Very delicious and low fat water Pokete.
 ```
-  _____
- / o   \
- >   v  ><
- \_____/
+  _____    
+ / o   \   
+ >   v  >< 
+ \_____/   
+
 ```
 
 - Type: [Water](#types)
@@ -199,9 +203,11 @@ Very delicious and low fat water Pokete.
 ### Bushy
 A bush, and just a bush. But watch out!
 ```
+           
+    (()    
+   (()))   
+           
 
-    (()
-   (()))
 ```
 
 - Type: [Plant](#types)
@@ -220,10 +226,11 @@ A bush, and just a bush. But watch out!
 ### Choka
 A fucking dangerous and enormous snake pokete.
 ```
- _______
-/____ * \
- (   \   \
+ _______   
+/____ * \  
+ (   \   \ 
 \______   \
+
 ```
 
 - Type: [Normal](#types)
@@ -244,9 +251,10 @@ A fucking dangerous and enormous snake pokete.
 ### Clampi
 A shell that lives deep in the see or near bays, that's pretty hard to crack.
 ```
-    ___
-  -/ * \-
-  -\___/-
+    ___    
+  -/ * \-  
+  -\___/-  
+           
 
 ```
 
@@ -267,10 +275,11 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
 ### Gobost
 A scary ghost Pokete that lives in caves and old houses.
 ```
- .░░░░░░░.
- ░░o░░░o░░
- ░░░░░░░░░
- ░ ░ ░ ░ ░
+ .░░░░░░░. 
+ ░░o░░░o░░ 
+ ░░░░░░░░░ 
+ ░ ░ ░ ░ ░ 
+
 ```
 
 - Type: [Undead](#types)
@@ -290,10 +299,11 @@ A scary ghost Pokete that lives in caves and old houses.
 ### Hornita
 An majestetic horse that is always looking for something to pick with its horn.
 ```
- \
- =')~
-   (¯¯¯¯)~
-   //¯¯\\
+ \         
+ =')~      
+   (¯¯¯¯)~ 
+   //¯¯\\  
+
 ```
 
 - Type: [Normal](#types)
@@ -313,10 +323,11 @@ An majestetic horse that is always looking for something to pick with its horn.
 ### Horny
 A teenaged unicorn in the middle of puberty.
 ```
-  ,
- =')
-   (¯¯¯)~
-   //¯\\
+  ,        
+ =')       
+   (¯¯¯)~  
+   //¯\\   
+
 ```
 
 - Type: [Normal](#types)
@@ -335,10 +346,11 @@ A teenaged unicorn in the middle of puberty.
 ### Karpi
 A very harmless water Pokete that can be found everywhere.
 ```
-
-
-  <°))))><
            
+           
+  <°))))>< 
+           
+
 ```
 
 - Type: [Water](#types)
@@ -356,10 +368,11 @@ A very harmless water Pokete that can be found everywhere.
 ### Lilstone
 A small but powerfull stone Pokete that lives in the mountains.
 ```
+           
+   _____   
+   |'ᵕ'|   
+   ‾‾‾‾‾   
 
-   _____
-   |'ᵕ'|
-   ‾‾‾‾‾
 ```
 
 - Type: [Stone](#types)
@@ -379,10 +392,11 @@ A small but powerfull stone Pokete that lives in the mountains.
 ### Ostri
 A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
 ```
-   !
-  >´)
-    \www'
-     ||
+   !       
+  >´)      
+    \www'  
+     ||    
+
 ```
 
 - Type: [Flying](#types)
@@ -402,10 +416,10 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
 ### Owol
 A night active Pokete, that is looking for lil children as a midnight snack.
 ```
-   ,___,
-   {o,o}
-   /)_)
-    ""
+   ,___,   
+   {o,o}   
+   /)_)    
+    ""     
 
 ```
 
@@ -426,10 +440,11 @@ A night active Pokete, that is looking for lil children as a midnight snack.
 ### Poundi
 A powerfull and heavy stone Pokete that lives in mountain caves.
 ```
-   A-A-A
-  < o o >
-  < --- >
-   VvVvV
+   A-A-A   
+  < o o >  
+  < --- >  
+   VvVvV   
+
 ```
 
 - Type: [Stone](#types)
@@ -449,9 +464,10 @@ A powerfull and heavy stone Pokete that lives in mountain caves.
 ### Rato
 An annoying rat.
 ```
-   ^---^
-   \o o/
-   >\./<
+   ^---^   
+   \o o/   
+   >\./<   
+           
 
 ```
 
@@ -471,10 +487,11 @@ An annoying rat.
 ### Rollator
 A big chunck of stone and dirt, that roles around.
 ```
-   _____
-  / o o \
-  | ___ |
-  \_____/
+   _____   
+  / o o \  
+  | ___ |  
+  \_____/  
+
 ```
 
 - Type: [Ground](#types)
@@ -493,10 +510,11 @@ A big chunck of stone and dirt, that roles around.
 ### Rosi
 A plant Pokete, that's often mistaken for a normal flower.
 ```
+           
+    (@)    
+     |     
+    \|/    
 
-    (@)
-     |
-    \|/
 ```
 
 - Type: [Plant](#types)
@@ -515,10 +533,11 @@ A plant Pokete, that's often mistaken for a normal flower.
 ### Steini
 A squared stone that can casually be found on the ground.
 ```
- +-------+
- | o   o |
- |  www  |
  +-------+ 
+ | o   o | 
+ |  www  | 
+ +-------+ 
+
 ```
 
 - Type: [Stone](#types)
@@ -538,10 +557,11 @@ A squared stone that can casually be found on the ground.
 ### Treenator
 A scary an dangerous apple tree.
 ```
-    (()
-   (()))
-     H
-     H
+    (()    
+   (()))   
+     H     
+     H     
+
 ```
 
 - Type: [Plant](#types)
@@ -561,10 +581,11 @@ A scary an dangerous apple tree.
 ### Vogli
 A very common bird Pokete that lives everywhere.
 ```
-    A
-   <')
-    www*
+    A      
+   <')     
+    www*   
     ||     
+
 ```
 
 - Type: [Flying](#types)
@@ -583,10 +604,11 @@ A very common bird Pokete that lives everywhere.
 ### Voglo
 A very agressive bird Pokete that can only be found in the woods.
 ```
-    ?
-   >´)
-    www*
+    ?      
+   >´)     
+    www*   
     ||     
+
 ```
 
 - Type: [Flying](#types)
@@ -607,9 +629,11 @@ A very agressive bird Pokete that can only be found in the woods.
 ### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 ```
-   ^---^
-   (* *)
-   >(.)<
+   ^---^   
+   (* *)   
+   >(.)<   
+           
+
 ```
 
 - Type: [Fire](#types)
@@ -629,9 +653,11 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 ### Wolfiro
 A fiery wolf from hell on steroids.
 ```
-   \^-^/
-   {* *}
-   >{.}<
+   \^-^/   
+   {* *}   
+   >{.}<   
+           
+
 ```
 
 - Type: [Fire](#types)
@@ -652,10 +678,11 @@ A fiery wolf from hell on steroids.
 ### Würgos
 A dangerous snake Pokete.
 ```
-  >'({{{
-  }}}}}}}
- {{{{{{{{{
+  >'({{{   
+  }}}}}}}  
+ {{{{{{{{{ 
            
+
 ```
 
 - Type: [Normal](#types)

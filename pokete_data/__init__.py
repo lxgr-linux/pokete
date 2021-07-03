@@ -24,6 +24,9 @@ def single_validate(dict, validator, name = ""):
 def validate():
     for i, j in zip([pokes, types, map_data, stations, items, npcs], validators):
         single_validate(i, j)
+    for p in pokes:
+        for i in pokes[p]["ico"]:
+            one_validate(i, "poke_ico", p+".ico")
     for m in map_data:
         for i in ["hard_ob", "soft_ob", "dor", "ball"]:
             single_validate(map_data[m][i+"s"], i, m)
@@ -32,7 +35,7 @@ def validate():
         one_validate(stations[s]["add"], "add", s+"add")
 
 validators = {
-    "poke": ["name" ,"hp" ,"atc", "defense", "attacs", "miss_chance", "desc", "lose_xp", "rarity", "type", "evolve_poke", "evolve_lvl", "ico", "initiative"],
+    "poke": ["name", "hp", "atc", "defense", "attacs", "miss_chance", "desc", "lose_xp", "rarity", "type", "evolve_poke", "evolve_lvl", "ico", "initiative"],
     "type": ["effective", "ineffective"],
     "playmap": ["hard_obs", "soft_obs", "dors", "balls"],
     "station": ["gen", "add"],
@@ -44,6 +47,7 @@ validators = {
     "ball": ["x", "y"],
     "gen": ["width", "height"],
     "add": ["x", "y"],
+    "poke_ico": ["txt", "esc"],
 }
 
 

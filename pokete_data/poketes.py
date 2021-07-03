@@ -20,7 +20,9 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()",
-        "ico": """ """,
+        "ico": [{
+            "txt": """ """,
+            "esc": None}],
     },
     "steini": {
         "name": "Steini",
@@ -36,10 +38,12 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+5",
-        "ico": """ +-------+
+        "ico": [{
+            "txt": """ +-------+
  | o   o |
  |  www  |
  +-------+ """,
+            "esc": None}],
     },
     "bigstone": {
         "name": "Bigstone",
@@ -55,10 +59,12 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+5",
-        "ico": """+---------+
+        "ico": [{
+            "txt": """+---------+
 |  o   o  |
 |   ---   |
 +---------+""",
+            "esc": None}],
     },
     "poundi": {
         "name": "Poundi",
@@ -74,10 +80,12 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+4",
-        "ico": """   A-A-A
+        "ico": [{
+            "txt": """   A-A-A
   < o o >
   < --- >
    VvVvV""",
+            "esc": None}],
    },
    "lilstone": {
        "name": "Lilstone",
@@ -93,10 +101,12 @@ pokes = {
        "evolve_poke": "bigstone",
        "evolve_lvl": 25,
        "initiative": "self.lvl()+3",
-       "ico": """
+       "ico": [{
+            "txt": """
    _____
    |'ᵕ'|
    ‾‾‾‾‾""",
+            "esc": None}],
   },
   "rosi": {
       "name": "Rosi",
@@ -112,10 +122,12 @@ pokes = {
       "evolve_poke": "",
       "evolve_lvl": 0,
       "initiative": "self.lvl()+3",
-      "ico": """
+      "ico": [{
+            "txt": """
     (@)
      |
     \|/""",
+            "esc": None}],
  },
   "gobost": {
       "name": "Gobost",
@@ -131,10 +143,12 @@ pokes = {
       "evolve_poke": "angrilo",
       "evolve_lvl": 25,
       "initiative": "self.lvl()+6",
-      "ico": """ .░░░░░░░.
+      "ico": [{
+            "txt": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
  ░ ░ ░ ░ ░""",
+            "esc": None}],
   },
    "angrilo": {
        "name": "Angrilo",
@@ -150,10 +164,12 @@ pokes = {
        "evolve_poke": "",
        "evolve_lvl": 0,
        "initiative": "self.lvl()+7",
-       "ico": """ .░░░░░░░.
+       "ico": [{
+            "txt": """ .░░░░░░░.
  ░░\░░░/░░
  .░░( )░░.
 .         .""",
+            "esc": None}],
    },
   "vogli": {
         "name": "Vogli",
@@ -169,10 +185,12 @@ pokes = {
         "evolve_poke": "voglo",
         "initiative": "self.lvl()+6",
         "evolve_lvl": 20,
-        "ico":"""    A
+        "ico": [{
+            "txt": """    A
    <')
     www*
-    ||     """
+    ||     """,
+            "esc": None}]
     },
     "voglo": {
         "name": "Voglo",
@@ -188,10 +206,12 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+7",
-        "ico":"""    ?
+        "ico": [{
+            "txt": """    ?
    >´)
     www*
-    ||     """
+    ||     """,
+            "esc": None}]
     },
     "ostri": {
         "name": "Ostri",
@@ -207,10 +227,12 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+7",
-        "ico":"""   !
+        "ico": [{
+            "txt": """   !
   >´)
     \www'
-     ||"""
+     ||""",
+            "esc": None}]
     },
     "karpi": {
         "name": "Karpi",
@@ -226,10 +248,12 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()",
-        "ico":"""
+        "ico": [{
+            "txt": """
 
   <°))))><
-           """
+           """,
+            "esc": None}]
     },
     "würgos": {
         "name": "Würgos",
@@ -245,10 +269,12 @@ pokes = {
         "evolve_poke": "choka",
         "evolve_lvl": 30,
         "initiative": "self.lvl()+3",
-        "ico": """  >'({{{
+        "ico": [{
+            "txt": """  >'({{{
   }}}}}}}
  {{{{{{{{{
-           """
+           """,
+            "esc": None}]
     },
     "choka": {
         "name": "Choka",
@@ -264,10 +290,12 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+4",
-        "ico": """ _______
+        "ico": [{
+            "txt": """ _______
 /____ * \\
  (   \   \\
-\______   \\"""
+\______   \\""",
+            "esc": None}]
     },
     "treenator": {
         "name": "Treenator",
@@ -283,10 +311,12 @@ pokes = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+2",
-        "ico": """    (()
+        "ico": [{
+            "txt": """    (()
    (()))
      H
-     H"""
+     H""",
+            "esc": None}]
     },
     "bato": {
         "name": "Bato",
@@ -302,10 +332,11 @@ pokes = {
         "evolve_poke": "bator",
         "evolve_lvl": 20,
         "initiative": "self.lvl()+6",
-        "ico": """    ___
+        "ico": [{
+            "txt": """    ___
 WW\/* *\/WW
-   \\v-v/
-"""
+   \\v-v/""",
+            "esc": None}]
     },
     "bator": {
         "name": "Bator",
@@ -321,11 +352,12 @@ WW\/* *\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+8",
-        "ico": """    ___
+        "ico": [{
+            "txt": """    ___
 WW\/o o\/WW
    |v-v|
-   \\___/
-"""
+   \\___/""",
+            "esc": None}]
     },
     "blub": {
         "name": "Blub",
@@ -341,10 +373,12 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+1",
-        "ico": """  _____
+        "ico": [{
+            "txt": """  _____
  / o   \\
  >   v  ><
- \_____/"""
+ \_____/""",
+            "esc": None}]
     },
     "owol": {
         "name": "Owol",
@@ -360,11 +394,13 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+3",
-        "ico": """   ,___,
+        "ico": [{
+            "txt": """   ,___,
    {o,o}
    /)_)
     ""
-"""
+""",
+            "esc": None}]
     },
     "rato": {
         "name": "Rato",
@@ -380,10 +416,11 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+6",
-        "ico": """   ^---^
+        "ico": [{
+            "txt": """   ^---^
    \o o/
-   >\./<
-"""
+   >\./<""",
+            "esc": None}]
     },
     "hornita": {
         "name": "Hornita",
@@ -399,10 +436,12 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+3",
-        "ico": """ \\
+        "ico": [{
+            "txt": """ \\
  =')~
    (¯¯¯¯)~
-   //¯¯\\\\"""
+   //¯¯\\\\""",
+            "esc": None}]
     },
     "horny": {
         "name": "Horny",
@@ -418,10 +457,12 @@ WW\/o o\/WW
         "evolve_poke": "hornita",
         "evolve_lvl": 20,
         "initiative": "self.lvl()+4",
-        "ico": """  ,
+        "ico": [{
+            "txt": """  ,
  =')
    (¯¯¯)~
-   //¯\\\\"""
+   //¯\\\\""",
+            "esc": None}]
     },
     "bushy": {
         "name": "Bushy",
@@ -437,9 +478,11 @@ WW\/o o\/WW
         "evolve_poke": "treenator",
         "evolve_lvl": 20,
         "initiative": "self.lvl()+1",
-        "ico": """
+        "ico": [{
+            "txt": """
     (()
-   (()))"""
+   (()))""",
+            "esc": None}]
     },
     "wolfior": {
         "name": "Wolfior",
@@ -455,9 +498,16 @@ WW\/o o\/WW
         "evolve_poke": "wolfiro",
         "evolve_lvl": 25,
         "initiative": "self.lvl()+4",
-        "ico": """   ^---^
-   (* *)
-   >(.)<"""
+        "ico": [{
+            "txt": """   ^---^
+   (   )
+   >(.)<""",
+            "esc": None},
+        {
+            "txt": """
+    * *
+        """,
+            "esc": "Color.thicc+Color.red"}]
     },
     "wolfiro": {
         "name": "Wolfiro",
@@ -473,9 +523,16 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+5",
-        "ico": """   \^-^/
-   {* *}
-   >{.}<"""
+        "ico": [{
+            "txt": """   \^-^/
+   {   }
+   >{.}<""",
+            "esc": None},
+        {
+            "txt": """
+    * *
+        """,
+            "esc": "Color.thicc+Color.red"}]
     },
     "rollator": {
         "name": "Rollator",
@@ -491,10 +548,12 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+3",
-        "ico": """   _____
+        "ico": [{
+            "txt": """   _____
   / o o \\
   | ___ |
-  \_____/"""
+  \_____/""",
+            "esc": None}]
     },
     "clampi": {
         "name": "Clampi",
@@ -510,10 +569,15 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": "self.lvl()+3",
-        "ico": """    ___
-  -/ * \-
-  -\___/-
-"""
+        "ico": [{
+            "txt": """    ___
+  -/   \-
+  -\___/-""",
+            "esc": None},
+        {
+            "txt": """
+     *""",
+            "esc": "Color.lightblue"}]
     },
 }
 

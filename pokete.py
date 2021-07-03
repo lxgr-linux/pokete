@@ -79,7 +79,7 @@ class Trainer(se.Object):
         self.char = "a"
         self.added = False
         for i in ["state", "arg_proto", "name", "gender", "poke", "texts", "lose_texts", "no_poke_texts", "win_texts", "sx", "sy"]:
-            exec("self."+i+" = "+i)
+            exec(f"self.{i} = {i}")
 
     def do(self, map):
         if figure.has_item("shut_the_fuck_up_stone"):
@@ -192,7 +192,10 @@ class Poke():
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
         self.desc = se.Text(liner(pokes[poke]["desc"], se.width-34))
-        self.ico = se.Text(pokes[poke]["ico"], state="float")
+        self.ico = se.Box(4, 11)
+        for ico in pokes[poke]["ico"]:
+            self.ico.add_ob(se.Text(ico["txt"], state="float", esccode=eval(ico["esc"]) if ico["esc"] != None else "", ignore=f'{eval(ico["esc"]) if ico["esc"] != None else ""} {Color.reset}'), 0, 0)
+        #self.ico = se.Text(pokes[poke]["ico"], state="float")
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
         self.text_name = se.Text(self.name, esccode=Color.underlined, state="float")

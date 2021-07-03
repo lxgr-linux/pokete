@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # This script generates the Pokete wiki
 from pokete_data import *
+import scrap_engine as se
 import os
 
 def gen_wiki():
@@ -43,12 +44,22 @@ In the following all Poketes with their attributes are displayed.
         md_attacks = ""
         for atc in pokes[poke]["attacs"]:
             md_attacks += f"""\n   + [{attacs[atc]["name"]}](#{atc.replace("_", "-")})"""
-
+        # ico
+        map = se.Map(4, 11, background=" ")
+        for ico in pokes[poke]["ico"]:
+            se.Text(ico["txt"], state="float", ignore=" ").add(map, 0, 0)
+        ico = ""
+        for arr in map.map:
+            line = ""
+            for i in arr:
+                line += i
+            ico += line+"\n"
+            
         md_str += f"""
 ### {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
 ```
-{pokes[poke]["ico"]}
+{ico}
 ```
 
 - Type: [{pokes[poke]["type"].capitalize()}](#types)
