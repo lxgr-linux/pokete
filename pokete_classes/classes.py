@@ -11,6 +11,14 @@ class Color:
     blue = "\033[34m"
 
 
+class NoColor(Color):
+    red = ""
+    green = ""
+    yellow = ""
+    lightblue = ""
+    blue = ""
+
+
 class PlayMap(se.Map):
     def __init__(self, height=se.height-1, width=se.width, background="#", trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
         super().__init__(height=height, width=width, background=background, dynfps=dynfps)
@@ -40,8 +48,8 @@ class InvItem:
 
 
 class Settings():
-    def __init__(self, autosave=True, animations=True, save_trainers=True):
-        self.keywords = ["autosave", "animations", "save_trainers"]
+    def __init__(self, autosave=True, animations=True, save_trainers=True, colors=True):
+        self.keywords = ["autosave", "animations", "save_trainers", "colors"]
         for key in self.keywords:
             exec(f"self.{key} = {key}")
 

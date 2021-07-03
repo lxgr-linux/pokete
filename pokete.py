@@ -195,7 +195,6 @@ class Poke():
         self.ico = se.Box(4, 11)
         for ico in pokes[poke]["ico"]:
             self.ico.add_ob(se.Text(ico["txt"], state="float", esccode=eval(ico["esc"]) if ico["esc"] != None else "", ignore=f'{eval(ico["esc"]) if ico["esc"] != None else ""} {Color.reset}'), 0, 0)
-        #self.ico = se.Text(pokes[poke]["ico"], state="float")
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
         self.text_name = se.Text(self.name, esccode=Color.underlined, state="float")
@@ -237,9 +236,9 @@ class Poke():
     def health_bar_maker(self, oldhp):
         bar_num = round(oldhp*8/self.full_hp)
         esccode = Color.red
-        for size, num in zip([6, 2], [2, 3]):
+        for size, color in zip([6, 2], [Color.green, Color.yellow]):
             if bar_num > size:
-                esccode = f"\033[3{num}m"
+                esccode = color
                 break
         self.hp_bar.rechar(bar_num*"#", esccode)
 
@@ -831,7 +830,7 @@ def inv_add():
 #################################################
 
 def playmap_water_extra_action(obs):
-    if settings.animations:
+    if settings.animations and colors:
         for ob in obs:
             if random.randint(0, 9) == 0:
                 if " " not in ob.char:
@@ -1531,12 +1530,17 @@ if "settings" in session_info:
     settings = Settings(**session_info["settings"])
 else:
     settings = Settings()
-save_trainers = settings.save_trainers  # This is needed to just apply some changes when restarting the game to avoid running into errors
 
 if "used_npcs" in session_info:
     used_npcs = session_info["used_npcs"]
 else:
     used_npcs = []
+
+# comprehending settings
+colors = settings.colors
+save_trainers = settings.save_trainers  # This is needed to just apply some changes when restarting the game to avoid running into errors
+if not settings.colors:
+    Color = NoColor
 
 
 # Defining and adding of objetcs and maps
@@ -1631,7 +1635,7 @@ menubox.playername_label = se.Text("Playername: ")
 menubox.save_label = se.Text("Save")
 menubox.exit_label = se.Text("Exit")
 menubox.realname_label = se.Text(session_info["user"])
-menubox.add_c_obs([menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label])
+menubox.add_c_obs([menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}),Setting("Colors", "settings.colors", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label])
 # adding
 menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.playername_label.text), menubox.playername_label.ry)
 
