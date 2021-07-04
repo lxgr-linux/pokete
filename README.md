@@ -76,6 +76,8 @@ For additional information you can see [wiki](wiki.md).
 - [x] Add potions
 - [x] Add Intro
 - [x] Add trading
+- [ ] Add Poketedex
+- [ ] Add color codes for types
 
 ## Dependencies
 Pokete depends on python3 and the scrap_engine module.
