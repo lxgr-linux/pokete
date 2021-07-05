@@ -36,7 +36,7 @@ def validate():
 
 validators = {
     "poke": ["name", "hp", "atc", "defense", "attacs", "miss_chance", "desc", "lose_xp", "rarity", "type", "evolve_poke", "evolve_lvl", "ico", "initiative"],
-    "type": ["effective", "ineffective"],
+    "type": ["effective", "ineffective", "color"],
     "playmap": ["hard_obs", "soft_obs", "dors", "balls"],
     "station": ["gen", "add"],
     "item": ["pretty_name", "desc", "price", "fn"],

@@ -1,43 +1,53 @@
 types = {
     "normal": {
         "effective": [],
-        "ineffective": []
+        "ineffective": [],
+        "color": None,
     },
     "stone": {
         "effective": ["flying", "fire"],
-        "ineffective": ["plant"]
+        "ineffective": ["plant"],
+        "color": "Color.grey"
     },
     "plant": {
         "effective": ["stone", "ground", "water"],
-        "ineffective": ["fire", "ice"]
+        "ineffective": ["fire", "ice"],
+        "color": "Color.green"
     },
     "water": {
         "effective": ["stone", "flying", "fire"],
-        "ineffective": ["plant", "ice"]
+        "ineffective": ["plant", "ice"],
+        "color": "Color.lightblue"
     },
     "fire": {
         "effective": ["flying", "plant", "undead", "ice"],
-        "ineffective": ["stone", "water"]
+        "ineffective": ["stone", "water"],
+        "color": "Color.thicc+Color.red"
     },
     "ground": {
         "effective": ["normal"],
-        "ineffective": ["flying"]
+        "ineffective": ["flying"],
+        "color": "Color.grey"
     },
     "electro": {
         "effective": ["stone", "flying"],
-        "ineffective": ["ground"]
+        "ineffective": ["ground"],
+        "color": "Color.cyan"
     },
     "flying": {
         "effective": ["plant"],
-        "ineffective": ["stone"]
+        "ineffective": ["stone"],
+        "color": "Color.lightgrey"
     },
     "undead": {
         "effective": ["normal", "ground", "plant", "water"],
-        "ineffective": ["fire"]
+        "ineffective": ["fire"],
+        "color": "Color.purple"
     },
     "ice": {
         "effective": ["water", "plant"],
-        "ineffective": ["fire"]
+        "ineffective": ["fire"],
+        "color": "Color.white"
     },
 }
 
