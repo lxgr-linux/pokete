@@ -37,7 +37,7 @@ types = {
     "flying": {
         "effective": ["plant"],
         "ineffective": ["stone"],
-        "color": "Color.lightgrey"
+        "color": "Color.thicc"
     },
     "undead": {
         "effective": ["normal", "ground", "plant", "water"],

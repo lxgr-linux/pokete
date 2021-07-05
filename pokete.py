@@ -199,7 +199,7 @@ class Poke():
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
         self.text_name = se.Text(self.name, esccode=Color.underlined, state="float")
         self.text_xp = se.Text(f"XP:{self.xp-(self.lvl()**2-1)}/{((self.lvl()+1)**2-1)-(self.lvl()**2-1)}", state="float")
-        self.text_type = se.Text(f"Type:{self.type.name}", state="float")
+        self.text_type = se.Text(self.type.name, state="float", esccode=self.type.color)
         self.tril = se.Object("<", state="float")
         self.trir = se.Object(">", state="float")
         self.attac_obs = []
@@ -450,7 +450,8 @@ class Attack():
         self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}")
         self.label_factor = se.Text(f"Attack:{self.factor}")
         self.label_desc = se.Text(self.desc[:int(width/2-1)])
-        self.label_type = se.Text(f"Type:{self.type.name}")
+        self.label_type_1 = se.Text("Type:")
+        self.label_type_2 = se.Text(self.type.name, esccode=self.type.color)
 
 
 class Setting(se.Box):
@@ -1328,14 +1329,14 @@ def detail(poke):
     deck_add(poke, detailmap, 1, 1, False)
     detailmap.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
     poke.text_initiative.rechar(f"Initiative:{poke.initiative}")
-    for ob, x, y in zip([poke.desc, poke.text_type, poke.text_initiative], [34, 36, 49], [2, 5, 5]):
+    for ob, x, y in zip([poke.desc, poke.text_type, poke.text_initiative], [34, 41, 49], [2, 5, 5]):
         ob.add(detailmap, x, y)
     for atc, x, y in zip(poke.attac_obs, [1, round(deckmap.width/2)+1, 1, round(deckmap.width/2)+1], [7, 7, 12, 12]):
         atc.temp_i = 0
         atc.temp_j = -30
         atc.label_desc.rechar(atc.desc[:int(width/2-1)])
         atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
-        for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type, atc.label_ap, atc.label_desc], [0, 0, 11, 0, 0], [0, 1, 1, 2, 3]):
+        for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type_1, atc.label_type_2, atc.label_ap, atc.label_desc], [0, 0, 11, 16, 0, 0], [0, 1, 1, 1, 2, 3]):
             label.add(detailmap, x+_x, y+_y)
     detailmap.show(init=True)
     while True:
@@ -1345,7 +1346,7 @@ def detail(poke):
             for ob in [poke.desc, poke.text_type, poke.text_initiative]:
                 ob.remove()
             for atc in poke.attac_obs:
-                for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.label_desc, atc.label_type]:
+                for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.label_desc, atc.label_type_1, atc.label_type_2]:
                     ob.remove()
                 del atc.temp_i, atc.temp_j
             return
@@ -1891,6 +1892,7 @@ detailmap.name_label = se.Text("Details", esccode=Color.thicc)
 detailmap.name_attacks = se.Text("Attacks", esccode=Color.thicc)
 detailmap.frame = se.Frame(height=17, width=detailmap.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"])
 detailmap.attack_defense = se.Text("Attack:   Defense:")
+detailmap.type_label = se.Text("Type:")
 detailmap.exit_label = se.Text("1: Exit")
 detailmap.line_sep1 = se.Square("-", detailmap.width-2, 1)
 detailmap.line_sep2 = se.Square("-", detailmap.width-2, 1)
@@ -1899,6 +1901,7 @@ detailmap.line_middle = se.Square("|", 1, 10)
 detailmap.name_label.add(detailmap, 2, 0)
 detailmap.name_attacks.add(detailmap, 2, 6)
 detailmap.attack_defense.add(detailmap, 13, 5)
+detailmap.type_label.add(detailmap, 36, 5)
 detailmap.exit_label.add(detailmap, 0, detailmap.height-1)
 detailmap.line_middle.add(detailmap, round(detailmap.width/2), 7)
 detailmap.line_sep1.add(detailmap, 1, 6)
