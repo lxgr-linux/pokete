@@ -32,7 +32,7 @@ types = {
     "electro": {
         "effective": ["stone", "flying"],
         "ineffective": ["ground"],
-        "color": "Color.cyan"
+        "color": "Color.thicc+Color.yellow"
     },
     "flying": {
         "effective": ["plant"],
