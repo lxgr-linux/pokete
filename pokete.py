@@ -12,6 +12,8 @@ from pathlib import Path
 from pokete_data import *
 from pokete_classes import *
 
+__version__ = "0.3.7"
+
 # Class definition
 ##################
 
@@ -460,8 +462,8 @@ class Setting(se.Box):
         self.options = options
         self.setting = setting
         self.index = eval(f"[j for j in self.options].index({self.setting})")
-        self.text = se.Text(text+": ")
-        self.option_text = se.Text(self.options[eval(self.setting)])
+        self.text = se.Text(text+": ", state="float")
+        self.option_text = se.Text(self.options[eval(self.setting)], state="float")
         self.add_ob(self.text, 0, 0)
         self.add_ob(self.option_text, len(self.text.text), 0)
 
@@ -1066,6 +1068,8 @@ def menu():
                 elif i == menubox.exit_label:
                     save()
                     exiter()
+                elif i == menubox.about_label:
+                    about()
                 else:
                     i.change()
                 ev = ""
@@ -1434,6 +1438,17 @@ def intro():
     game(intromap)
 
 
+def about():
+    global ev
+    with aboutbox:
+        while True:
+            if ev in ["Key.esc", "'q'"]:
+                ev = ""
+                break
+            std_loop()
+            time.sleep(0.05)
+
+
 def main():
     os.system("")
     recognising = threading.Thread(target=recogniser)
@@ -1639,13 +1654,17 @@ movemap.code_label = OutP("")
 
 # menubox
 menubox = ChooseBox(height-3, 35, "Menu")
-menubox.playername_label = se.Text("Playername: ")
-menubox.save_label = se.Text("Save")
-menubox.exit_label = se.Text("Exit")
-menubox.realname_label = se.Text(session_info["user"])
-menubox.add_c_obs([menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}),Setting("Colors", "settings.colors", {True: "On", False: "Off"}), menubox.save_label, menubox.exit_label])
+menubox.playername_label = se.Text("Playername: ", state="float")
+menubox.about_label = se.Text("About", state="float")
+menubox.save_label = se.Text("Save", state="float")
+menubox.exit_label = se.Text("Exit", state="float")
+menubox.realname_label = se.Text(session_info["user"], state="float")
+menubox.add_c_obs([menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}),Setting("Colors", "settings.colors", {True: "On", False: "Off"}), menubox.about_label, menubox.save_label, menubox.exit_label])
 # adding
 menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.playername_label.text), menubox.playername_label.ry)
+
+# about
+aboutbox = InfoBox(liner(f"Pokete v{__version__}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license anlonside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
 
 
 # Definiton of objects for the playmaps
