@@ -54,10 +54,11 @@ In the following all Poketes with their attributes are displayed.
             for i in arr:
                 line += i
             ico += line+"\n"
-            
+
         md_str += f"""
 ### {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
+
 ```
 {ico}
 ```
@@ -84,6 +85,7 @@ Those are all attacks present in the game.
         md_str += f"""
 ### {attacs[atc]["name"]}
 {attacs[atc]["desc"]}
+
 - Type: [{attacs[atc]["type"].capitalize()}](#types)
 - Minimum Level: {attacs[atc]["min_lvl"]}
 - Attack factor: {attacs[atc]["factor"]}
@@ -118,6 +120,7 @@ Those are all items present in the game, that can be traded or found.
         md_str += f"""
 ### {items[item]["pretty_name"]}
 {items[item]["desc"]}
+
 - Price: {items[item]["price"]}
 - Can be used in fights: {"Yes" if items[item]["fn"] != None else "No"}
 """

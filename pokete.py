@@ -13,6 +13,7 @@ from pokete_data import *
 from pokete_classes import *
 
 __version__ = "0.3.7"
+__save_path__ = "/.cache/pokete"
 
 # Class definition
 ##################
@@ -538,7 +539,7 @@ def save():
         "settings": settings.dict(),
         "used_npcs": used_npcs
     }
-    with open(home+"/.cache/pokete/pokete.py", "w+") as file:
+    with open(home+__save_path__+"/pokete.py", "w+") as file:
         file.write(f"session_info={session_info}")
 
 
@@ -1530,8 +1531,8 @@ for i in types:
 
 # reading config file
 home = str(Path.home())
-Path(home+"/.cache/pokete").mkdir(parents=True, exist_ok=True)
-Path(home+"/.cache/pokete/pokete.py").touch(exist_ok=True)
+Path(home+__save_path__).mkdir(parents=True, exist_ok=True)
+Path(home+__save_path__+"/pokete.py").touch(exist_ok=True)
 # Default test session_info
 session_info = {
     "user": "DEFAULT",
@@ -1546,7 +1547,7 @@ session_info = {
     "settings": {},
     "used_npcs": []
 }
-with open(home+"/.cache/pokete/pokete.py") as file:
+with open(home+__save_path__+"/pokete.py") as file:
     exec(file.read())
 
 if "settings" in session_info:
@@ -1664,7 +1665,7 @@ menubox.add_c_obs([menubox.playername_label, Setting("Autosave", "settings.autos
 menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.playername_label.text), menubox.playername_label.ry)
 
 # about
-aboutbox = InfoBox(liner(f"Pokete v{__version__}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license anlonside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
+aboutbox = InfoBox(liner(f"Pokete v{__version__}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
 
 
 # Definiton of objects for the playmaps

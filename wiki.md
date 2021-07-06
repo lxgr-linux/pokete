@@ -81,6 +81,7 @@ In the following all Poketes with their attributes are displayed.
 
 ### Angrilo
 A ghost Pokete that will scare your pants off.
+
 ```
  .░░░░░░░. 
  ░░\░░░/░░ 
@@ -106,6 +107,7 @@ A ghost Pokete that will scare your pants off.
 
 ### Bato
 An annoying flying rat.
+
 ```
     ___    
 WW\/* *\/WW
@@ -129,6 +131,7 @@ WW\/* *\/WW
 
 ### Bator
 A chongus flying rat.
+
 ```
     ___    
 WW\/o o\/WW
@@ -154,6 +157,7 @@ WW\/o o\/WW
 
 ### Bigstone
 A big and heavy stone made from one of the hardest stones.
+
 ```
 +---------+
 |  o   o  |
@@ -178,6 +182,7 @@ A big and heavy stone made from one of the hardest stones.
 
 ### Blub
 Very delicious and low fat water Pokete.
+
 ```
   _____    
  / o   \   
@@ -202,6 +207,7 @@ Very delicious and low fat water Pokete.
 
 ### Bushy
 A bush, and just a bush. But watch out!
+
 ```
            
     (()    
@@ -225,6 +231,7 @@ A bush, and just a bush. But watch out!
 
 ### Choka
 A fucking dangerous and enormous snake pokete.
+
 ```
  _______   
 /____ * \  
@@ -250,6 +257,7 @@ A fucking dangerous and enormous snake pokete.
 
 ### Clampi
 A shell that lives deep in the see or near bays, that's pretty hard to crack.
+
 ```
     ___    
   -/ * \-  
@@ -274,6 +282,7 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
 
 ### Gobost
 A scary ghost Pokete that lives in caves and old houses.
+
 ```
  .░░░░░░░. 
  ░░o░░░o░░ 
@@ -298,6 +307,7 @@ A scary ghost Pokete that lives in caves and old houses.
 
 ### Hornita
 An majestetic horse that is always looking for something to pick with its horn.
+
 ```
  \         
  =')~      
@@ -322,6 +332,7 @@ An majestetic horse that is always looking for something to pick with its horn.
 
 ### Horny
 A teenaged unicorn in the middle of puberty.
+
 ```
   ,        
  =')       
@@ -345,6 +356,7 @@ A teenaged unicorn in the middle of puberty.
 
 ### Karpi
 A very harmless water Pokete that can be found everywhere.
+
 ```
            
            
@@ -367,6 +379,7 @@ A very harmless water Pokete that can be found everywhere.
 
 ### Lilstone
 A small but powerfull stone Pokete that lives in the mountains.
+
 ```
            
    _____   
@@ -391,6 +404,7 @@ A small but powerfull stone Pokete that lives in the mountains.
 
 ### Ostri
 A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
+
 ```
    !       
   >´)      
@@ -415,6 +429,7 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
 
 ### Owol
 A night active Pokete, that is looking for lil children as a midnight snack.
+
 ```
    ,___,   
    {o,o}   
@@ -439,6 +454,7 @@ A night active Pokete, that is looking for lil children as a midnight snack.
 
 ### Poundi
 A powerfull and heavy stone Pokete that lives in mountain caves.
+
 ```
    A-A-A   
   < o o >  
@@ -463,6 +479,7 @@ A powerfull and heavy stone Pokete that lives in mountain caves.
 
 ### Rato
 An annoying rat.
+
 ```
    ^---^   
    \o o/   
@@ -486,6 +503,7 @@ An annoying rat.
 
 ### Rollator
 A big chunck of stone and dirt, that roles around.
+
 ```
    _____   
   / o o \  
@@ -509,6 +527,7 @@ A big chunck of stone and dirt, that roles around.
 
 ### Rosi
 A plant Pokete, that's often mistaken for a normal flower.
+
 ```
            
     (@)    
@@ -532,6 +551,7 @@ A plant Pokete, that's often mistaken for a normal flower.
 
 ### Steini
 A squared stone that can casually be found on the ground.
+
 ```
  +-------+ 
  | o   o | 
@@ -556,6 +576,7 @@ A squared stone that can casually be found on the ground.
 
 ### Treenator
 A scary an dangerous apple tree.
+
 ```
     (()    
    (()))   
@@ -580,6 +601,7 @@ A scary an dangerous apple tree.
 
 ### Vogli
 A very common bird Pokete that lives everywhere.
+
 ```
     A      
    <')     
@@ -603,6 +625,7 @@ A very common bird Pokete that lives everywhere.
 
 ### Voglo
 A very agressive bird Pokete that can only be found in the woods.
+
 ```
     ?      
    >´)     
@@ -628,6 +651,7 @@ A very agressive bird Pokete that can only be found in the woods.
 
 ### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
+
 ```
    ^---^   
    (* *)   
@@ -652,6 +676,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
 ### Wolfiro
 A fiery wolf from hell on steroids.
+
 ```
    \^-^/   
    {* *}   
@@ -677,6 +702,7 @@ A fiery wolf from hell on steroids.
 
 ### Würgos
 A dangerous snake Pokete.
+
 ```
   >'({{{   
   }}}}}}}  
@@ -704,6 +730,7 @@ Those are all attacks present in the game.
 
 ### Apple drop
 Lets an apple drop on the enemys head
+
 - Type: [Plant](#types)
 - Minimum Level: 0
 - Attack factor: 1.7
@@ -712,6 +739,7 @@ Lets an apple drop on the enemys head
 
 ### Ash throw
 Throws ashes in the enemys eyes
+
 - Type: [Fire](#types)
 - Minimum Level: 15
 - Attack factor: 0.5
@@ -720,6 +748,7 @@ Throws ashes in the enemys eyes
 
 ### Bark hardening
 Hardens the bark to protect it better
+
 - Type: [Plant](#types)
 - Minimum Level: 0
 - Attack factor: 0
@@ -728,6 +757,7 @@ Hardens the bark to protect it better
 
 ### Bite
 A hard bite the sharp teeth
+
 - Type: [Normal](#types)
 - Minimum Level: 0
 - Attack factor: 1.75
@@ -736,6 +766,7 @@ A hard bite the sharp teeth
 
 ### Branch stab
 Stabs the enemy with a branch, preferably in the enemys eyes
+
 - Type: [Plant](#types)
 - Minimum Level: 15
 - Attack factor: 4
@@ -744,6 +775,7 @@ Stabs the enemy with a branch, preferably in the enemys eyes
 
 ### Brick throw
 Throws an euler brick at the enemy
+
 - Type: [Stone](#types)
 - Minimum Level: 15
 - Attack factor: 2
@@ -752,6 +784,7 @@ Throws an euler brick at the enemy
 
 ### Brooding
 Regenerates 2 HP
+
 - Type: [Normal](#types)
 - Minimum Level: 15
 - Attack factor: 0
@@ -760,6 +793,7 @@ Regenerates 2 HP
 
 ### Bubble bomb
 A deadly bubble
+
 - Type: [Water](#types)
 - Minimum Level: 0
 - Attack factor: 6
@@ -768,6 +802,7 @@ A deadly bubble
 
 ### Bubble shield
 Creates a giant bubble that protects the Pokete
+
 - Type: [Water](#types)
 - Minimum Level: 0
 - Attack factor: 0
@@ -776,6 +811,7 @@ Creates a giant bubble that protects the Pokete
 
 ### Chocer
 Choces the enemy and makes it weaker
+
 - Type: [Normal](#types)
 - Minimum Level: 0
 - Attack factor: 1
@@ -784,6 +820,7 @@ Choces the enemy and makes it weaker
 
 ### Cry
 So loud, it confuses the enemy
+
 - Type: [Normal](#types)
 - Minimum Level: 0
 - Attack factor: 0
@@ -792,6 +829,7 @@ So loud, it confuses the enemy
 
 ### Earch quake
 Brings the earth to shift
+
 - Type: [Ground](#types)
 - Minimum Level: 0
 - Attack factor: 4
@@ -800,6 +838,7 @@ Brings the earth to shift
 
 ### Eye pick
 Picks out one of the enemys eyes
+
 - Type: [Flying](#types)
 - Minimum Level: 0
 - Attack factor: 2.5
@@ -808,6 +847,7 @@ Picks out one of the enemys eyes
 
 ### Fire ball
 Casts a fireball at the enemy
+
 - Type: [Fire](#types)
 - Minimum Level: 25
 - Attack factor: 4
@@ -816,6 +856,7 @@ Casts a fireball at the enemy
 
 ### Fire bite
 Burns and bites the enemy at the same time
+
 - Type: [Fire](#types)
 - Minimum Level: 0
 - Attack factor: 2
@@ -824,6 +865,7 @@ Burns and bites the enemy at the same time
 
 ### Heart touch
 Touches the enemys heard with its' cold gost claws
+
 - Type: [Undead](#types)
 - Minimum Level: 20
 - Attack factor: 4
@@ -832,6 +874,7 @@ Touches the enemys heard with its' cold gost claws
 
 ### Meat skewer
 Drills the horn deep in the enemys flesh
+
 - Type: [Normal](#types)
 - Minimum Level: 0
 - Attack factor: 3.5
@@ -840,6 +883,7 @@ Drills the horn deep in the enemys flesh
 
 ### Mind blow
 Causes confusion deep in the enemys mind
+
 - Type: [Undead](#types)
 - Minimum Level: 0
 - Attack factor: 0
@@ -848,6 +892,7 @@ Causes confusion deep in the enemys mind
 
 ### Pepple fire
 Fires pepples at the enemy and makes it blind
+
 - Type: [Stone](#types)
 - Minimum Level: 0
 - Attack factor: 1
@@ -856,6 +901,7 @@ Fires pepples at the enemy and makes it blind
 
 ### Pick
 A pick at the enemys weakest spot
+
 - Type: [Flying](#types)
 - Minimum Level: 0
 - Attack factor: 1.7
@@ -864,6 +910,7 @@ A pick at the enemys weakest spot
 
 ### Poison bite
 Makes the enemy weaker
+
 - Type: [Normal](#types)
 - Minimum Level: 0
 - Attack factor: 1
@@ -872,6 +919,7 @@ Makes the enemy weaker
 
 ### Politure
 Upgrades defense and attack points
+
 - Type: [Stone](#types)
 - Minimum Level: 0
 - Attack factor: 0
@@ -880,6 +928,7 @@ Upgrades defense and attack points
 
 ### Power bite
 The hardest bite you can think of
+
 - Type: [Normal](#types)
 - Minimum Level: 30
 - Attack factor: 8
@@ -888,6 +937,7 @@ The hardest bite you can think of
 
 ### Power pick
 A harsh picking on the enemys head
+
 - Type: [Flying](#types)
 - Minimum Level: 0
 - Attack factor: 2
@@ -896,6 +946,7 @@ A harsh picking on the enemys head
 
 ### Power roll
 Rolls over the enemy
+
 - Type: [Ground](#types)
 - Minimum Level: 0
 - Attack factor: 2.5
@@ -904,6 +955,7 @@ Rolls over the enemy
 
 ### Shell pinch
 Pinches the enemy with its strong shells
+
 - Type: [Water](#types)
 - Minimum Level: 15
 - Attack factor: 2.5
@@ -912,6 +964,7 @@ Pinches the enemy with its strong shells
 
 ### Snooze
 Makes the enemy sleepy
+
 - Type: [Normal](#types)
 - Minimum Level: 15
 - Attack factor: 0
@@ -920,6 +973,7 @@ Makes the enemy sleepy
 
 ### Sucker
 Sucks 1 HP from the enemy and adds it to it's own
+
 - Type: [Plant](#types)
 - Minimum Level: 0
 - Attack factor: 0
@@ -928,6 +982,7 @@ Sucks 1 HP from the enemy and adds it to it's own
 
 ### Super sucker
 Sucks 2 HP from the enemy and adds it to it's own
+
 - Type: [Plant](#types)
 - Minimum Level: 0
 - Attack factor: 0
@@ -936,6 +991,7 @@ Sucks 2 HP from the enemy and adds it to it's own
 
 ### Tackle
 Tackles the enemy very hard
+
 - Type: [Normal](#types)
 - Minimum Level: 0
 - Attack factor: 1.5
@@ -944,6 +1000,7 @@ Tackles the enemy very hard
 
 ### Tail wipe
 Wipes throught the enemys face
+
 - Type: [Normal](#types)
 - Minimum Level: 0
 - Attack factor: 2.5
@@ -952,6 +1009,7 @@ Wipes throught the enemys face
 
 ### Wet slap
 Gives the enemy a wet and cold slap in the face
+
 - Type: [Water](#types)
 - Minimum Level: 10
 - Attack factor: 2.5
@@ -960,6 +1018,7 @@ Gives the enemy a wet and cold slap in the face
 
 ### Wing hit
 Hits the enemy with a wing
+
 - Type: [Flying](#types)
 - Minimum Level: 0
 - Attack factor: 2.5
@@ -986,35 +1045,42 @@ Those are all items present in the game, that can be traded or found.
 
 ### AP potion
 Refills the Poketes attack APs.
+
 - Price: 100
 - Can be used in fights: Yes
 
 ### Healing potion
 Heals a Pokete with 5 HP
+
 - Price: 15
 - Can be used in fights: Yes
 
 ### Hyperball
 For catching Poketes with a waaay higher chance
+
 - Price: None
 - Can be used in fights: Yes
 
 ### Poketeball
 A ball you can use to catch Poketes
+
 - Price: 2
 - Can be used in fights: Yes
 
 ### 'Shut the fuck up' stone
 Makes trainer leaving you alone
+
 - Price: None
 - Can be used in fights: No
 
 ### Super potion
 Heals a Pokete with 15 HP
+
 - Price: 25
 - Can be used in fights: Yes
 
 ### Superball
 A ball you can use to catch Poketes with an increased chance
+
 - Price: 10
 - Can be used in fights: Yes

@@ -47,7 +47,7 @@ types = {
     "ice": {
         "effective": ["water", "plant"],
         "ineffective": ["fire"],
-        "color": "Color.white"
+        "color": "Color.cyan"
     },
 }
 
