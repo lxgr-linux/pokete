@@ -14,24 +14,25 @@ This wiki can be generated using ```$ gen-wiki.py```.
    6. [Bushy](#bushy)
    7. [Choka](#choka)
    8. [Clampi](#clampi)
-   9. [Gobost](#gobost)
-   10. [Hornita](#hornita)
-   11. [Horny](#horny)
-   12. [Karpi](#karpi)
-   13. [Lilstone](#lilstone)
-   14. [Ostri](#ostri)
-   15. [Owol](#owol)
-   16. [Poundi](#poundi)
-   17. [Rato](#rato)
-   18. [Rollator](#rollator)
-   19. [Rosi](#rosi)
-   20. [Steini](#steini)
-   21. [Treenator](#treenator)
-   22. [Vogli](#vogli)
-   23. [Voglo](#voglo)
-   24. [Wolfior](#wolfior)
-   25. [Wolfiro](#wolfiro)
-   26. [Würgos](#würgos)
+   9. [Electrode](#electrode)
+   10. [Gobost](#gobost)
+   11. [Hornita](#hornita)
+   12. [Horny](#horny)
+   13. [Karpi](#karpi)
+   14. [Lilstone](#lilstone)
+   15. [Ostri](#ostri)
+   16. [Owol](#owol)
+   17. [Poundi](#poundi)
+   18. [Rato](#rato)
+   19. [Rollator](#rollator)
+   20. [Rosi](#rosi)
+   21. [Steini](#steini)
+   22. [Treenator](#treenator)
+   23. [Vogli](#vogli)
+   24. [Voglo](#voglo)
+   25. [Wolfior](#wolfior)
+   26. [Wolfiro](#wolfiro)
+   27. [Würgos](#würgos)
 2. [Attacks](#attacks)
    1. [Apple drop](#apple-drop)
    2. [Ash throw](#ash-throw)
@@ -42,30 +43,33 @@ This wiki can be generated using ```$ gen-wiki.py```.
    7. [Brooding](#brooding)
    8. [Bubble bomb](#bubble-bomb)
    9. [Bubble shield](#bubble-shield)
-   10. [Chocer](#chocer)
-   11. [Cry](#cry)
-   12. [Earch quake](#earch-quake)
-   13. [Eye pick](#eye-pick)
-   14. [Fire ball](#fire-ball)
-   15. [Fire bite](#fire-bite)
-   16. [Heart touch](#heart-touch)
-   17. [Meat skewer](#meat-skewer)
-   18. [Mind blow](#mind-blow)
-   19. [Pepple fire](#pepple-fire)
-   20. [Pick](#pick)
-   21. [Poison bite](#poison-bite)
-   22. [Politure](#politure)
-   23. [Power bite](#power-bite)
-   24. [Power pick](#power-pick)
-   25. [Power roll](#power-roll)
-   26. [Shell pinch](#shell-pinch)
-   27. [Snooze](#snooze)
-   28. [Sucker](#sucker)
-   29. [Super sucker](#super-sucker)
-   30. [Tackle](#tackle)
-   31. [Tail wipe](#tail-wipe)
-   32. [Wet slap](#wet-slap)
-   33. [Wing hit](#wing-hit)
+   10. [Charging](#charging)
+   11. [Chocer](#chocer)
+   12. [Cry](#cry)
+   13. [Earch quake](#earch-quake)
+   14. [Eye pick](#eye-pick)
+   15. [Fire ball](#fire-ball)
+   16. [Fire bite](#fire-bite)
+   17. [Heart touch](#heart-touch)
+   18. [Meat skewer](#meat-skewer)
+   19. [Mega arch](#mega-arch)
+   20. [Mind blow](#mind-blow)
+   21. [Pepple fire](#pepple-fire)
+   22. [Pick](#pick)
+   23. [Poison bite](#poison-bite)
+   24. [Politure](#politure)
+   25. [Power bite](#power-bite)
+   26. [Power pick](#power-pick)
+   27. [Power roll](#power-roll)
+   28. [Shell pinch](#shell-pinch)
+   29. [Shock](#shock)
+   30. [Snooze](#snooze)
+   31. [Sucker](#sucker)
+   32. [Super sucker](#super-sucker)
+   33. [Tackle](#tackle)
+   34. [Tail wipe](#tail-wipe)
+   35. [Wet slap](#wet-slap)
+   36. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -278,6 +282,31 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
    + [Tackle](#tackle)
    + [Bubble bomb](#bubble-bomb)
    + [Shell pinch](#shell-pinch)
+- Does not evolve
+
+### Electrode
+A small floating ball that will give you a shock.
+
+```
+           
+    (+)    
+           
+           
+
+```
+
+- Type: [Electro](#types)
+- Health points: 20
+- Attack factor: level+5
+- Defense factor: level+2
+- Initiative: level+4
+- Missing chance: 0
+- Rarity: 0.8
+- Loosing experience: 3
+- Attacks:
+   + [Shock](#shock)
+   + [Charging](#charging)
+   + [Mega arch](#mega-arch)
 - Does not evolve
 
 ### Gobost
@@ -809,6 +838,15 @@ Creates a giant bubble that protects the Pokete
 - Missing chance: 0
 - Attack points: 5
 
+### Charging
+Charges the Pokete
+
+- Type: [Electro](#types)
+- Minimum Level: 10
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 10
+
 ### Chocer
 Choces the enemy and makes it weaker
 
@@ -879,6 +917,15 @@ Drills the horn deep in the enemys flesh
 - Minimum Level: 0
 - Attack factor: 3.5
 - Missing chance: 0.7
+- Attack points: 5
+
+### Mega arch
+Gives the enemy heavy a shock
+
+- Type: [Electro](#types)
+- Minimum Level: 15
+- Attack factor: 5
+- Missing chance: 0
 - Attack points: 5
 
 ### Mind blow
@@ -961,6 +1008,15 @@ Pinches the enemy with its strong shells
 - Attack factor: 2.5
 - Missing chance: 0.1
 - Attack points: 15
+
+### Shock
+Gives the enemy a shock
+
+- Type: [Electro](#types)
+- Minimum Level: 0
+- Attack factor: 1.5
+- Missing chance: 0.2
+- Attack points: 20
 
 ### Snooze
 Makes the enemy sleepy

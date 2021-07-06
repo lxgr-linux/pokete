@@ -579,6 +579,29 @@ WW\/o o\/WW
      *""",
             "esc": "Color.lightblue"}]
     },
+    "electrode": {
+        "name": "Electrode",
+        "hp": 20,
+        "atc": "self.lvl()+5",
+        "defense": "self.lvl()+2",
+        "attacs": ["shock", "charging", "mega_arch"],
+        "miss_chance": 0,
+        "desc": "A small floating ball that will give you a shock.",
+        "lose_xp": 3,
+        "rarity": 0.8,
+        "type": "electro",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+4",
+        "ico": [{
+            "txt": """
+    ( )""",
+            "esc": None},
+        {
+            "txt": """
+     +""",
+            "esc": "Color.lightblue"}]
+    },
 }
 
 if __name__ == "__main__":
