@@ -888,6 +888,18 @@ def playmap_17_boy():
     else:
         movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y, [" < In this region lives the würgos Pokete.", f" < At level {pokes['würgos']['evolve_lvl']} it evolves to Choka.", " < I have never seen one before!"])
 
+def playmap_20_trader():
+    movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y, [" < I've lived in this town for long time and therefore have found some cool Poketes.", " < Do you want to trade my cool Pokete?"])
+    if ask_bool(movemap, "Do you want to trade a Pokete?"):
+        index = deck(figure.pokes[:6], "Your deck", True)
+        if index == None:
+            return
+        figure.pokes[index] = Poke("ostri", 500)
+        used_npcs.append(playmap_20.trader_2.name)
+        with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.", movemap):
+            time.sleep(3)
+        movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y, [" < Cool, huh?"])
+
 
 # main functions
 ################
@@ -1640,6 +1652,7 @@ playmap_19 = PlayMap(background=" ", height=30, width=60, name="playmap_19", pre
                     trainers = [Trainer("Brian", "He", Poke("choka", 850, player=False), [" < Hello fellow cava man!"], [" < Oooooh!", " < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were lucky!"], 16, 15),
                                 Trainer("Simon", "He", Poke("wolfiro", 850, player=False), [" < Joooo!", " < What up?"], [" < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Duck!"], 15, 7)],
                     poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"], "minlvl": 540, "maxlvl": 640})
+playmap_20 = PlayMap(background=" ", height=15, width=30, name="playmap_20", pretty_name="House")
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")

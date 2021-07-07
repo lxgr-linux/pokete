@@ -47,6 +47,14 @@ npcs = {
         "x": 4,
         "y": 3
     },
+    "trader_2": {
+        "texts": [],
+        "fn": "playmap_20_trader",
+        "args": (),
+        "map": "playmap_20",
+        "x": 4,
+        "y": 3
+    },
 }
 
 
