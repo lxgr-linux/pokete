@@ -1,3 +1,15 @@
+0.3.8
+-------
+released: 2021-07-07
+
+What changed until this release?
+- Added coloured type tags and attack labels
+- Added ice type
+- Added about
+- Added a now Pokete
+- Made some minor fixes and changes
+
+
 0.3.7
 -------
 released: 2021-06-30

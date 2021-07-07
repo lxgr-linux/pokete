@@ -12,7 +12,7 @@ from pathlib import Path
 from pokete_data import *
 from pokete_classes import *
 
-__version__ = "0.3.7"
+__version__ = "0.3.8"
 __save_path__ = "/.cache/pokete"
 
 # Class definition
