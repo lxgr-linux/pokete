@@ -93,7 +93,10 @@ class Trainer(se.Object):
                     return
             movemap.full_show()
             time.sleep(0.7)
-            exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)
+            try:
+                exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)
+            except se.CoordinateError:
+                pass
             movemap.show()
             time.sleep(1)
             exclamation.remove()
