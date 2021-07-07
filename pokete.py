@@ -202,7 +202,7 @@ class Poke():
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
         self.text_name = se.Text(self.name, esccode=Color.underlined, state="float")
         self.text_xp = se.Text(f"XP:{self.xp-(self.lvl()**2-1)}/{((self.lvl()+1)**2-1)-(self.lvl()**2-1)}", state="float")
-        self.text_type = se.Text(self.type.name, state="float", esccode=self.type.color)
+        self.text_type = se.Text(self.type.name.capitalize(), state="float", esccode=self.type.color)
         self.tril = se.Object("<", state="float")
         self.trir = se.Object(">", state="float")
         self.attac_obs = []
@@ -454,7 +454,7 @@ class Attack():
         self.label_factor = se.Text(f"Attack:{self.factor}")
         self.label_desc = se.Text(self.desc[:int(width/2-1)])
         self.label_type_1 = se.Text("Type:")
-        self.label_type_2 = se.Text(self.type.name, esccode=self.type.color)
+        self.label_type_2 = se.Text(self.type.name.capitalize(), esccode=self.type.color)
 
 
 class Setting(se.Box):
@@ -1574,7 +1574,7 @@ if not settings.colors:
 centermap = PlayMap(height-1, width, " ", name = "centermap", pretty_name = "Pokete-Center")
 shopmap = PlayMap(height-1, width, " ", name = "shopmap", pretty_name = "Pokete-Shop")
 intromap = PlayMap(background=" ", height=15, width=30, name="intromap", pretty_name="Your home")
-playmap_1 = PlayMap(background=" ", height=30, width=90, name="playmap_1", pretty_name="Nice Town",
+playmap_1 = PlayMap(background=" ", height=25, width=90, name="playmap_1", pretty_name="Nice Town",
                     trainers=[Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)],
                     poke_args={"pokes": ["rato", "horny", "vogli"], "minlvl": 15, "maxlvl": 40})
 cave_1 = PlayMap(background=" ", height=30, width=90, name="cave_1", pretty_name="Nice Town cave",
@@ -1690,11 +1690,9 @@ for map in map_data:
             exec(f'{map}.{ball}.add({map}, map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
 
 # playmap_1
-playmap_1.meadow = se.Square(Color.green+";"+Color.reset, 10, 5, state="float", ob_class=HightGrass, ob_args=playmap_1.poke_args)
 playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 # adding
 playmap_1.dor.add(playmap_1, 25, 4)
-playmap_1.meadow.add(playmap_1, 5, 7)
 
 # cave_1
 cave_1.inner = se.Text("""##########################################
