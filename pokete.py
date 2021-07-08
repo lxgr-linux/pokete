@@ -1202,7 +1202,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fight_invbox.remove_c_obs()
                     if item == "":
                         continue
-                    exec({1: "continue", 2: "return", None: ""}[item.fn(ob, enem, info)])  # I hate you python for not having switch statements
+                    i = item.fn(ob, enem, info)  # I hate you python for not having switch statements
+                    if i == 1:
+                        continue
+                    elif i == 2:
+                        return
                     attack = ""
                     break
                 elif ev == "'4'":
