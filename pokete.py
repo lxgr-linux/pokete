@@ -1453,7 +1453,7 @@ def intro():
                         " < You're now ten years old.",
                         " < And I think it's now time for you to travel the world and be a Pokete-trainer.",
                         " < Therefore I give you this powerfull 'Steini', 15 'Poketeballs' to catch Poketes and a 'Healing potion'.",
-                        " < You will be the best Pokete-Trainer in in Nice town.",
+                        " < You will be the best Pokete-Trainer in Nice town.",
                         " < Now go out and become the best!"])
     game(intromap)
 

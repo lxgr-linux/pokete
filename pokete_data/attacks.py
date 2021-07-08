@@ -236,7 +236,7 @@ attacs = {
         "action": "",
         "move": "attack",
         "miss_chance": 0.5,
-        "min_lvl": 0,
+        "min_lvl": 10,
         "desc": "Wipes throught the enemys face",
         "type": "normal",
         "ap": 5,
