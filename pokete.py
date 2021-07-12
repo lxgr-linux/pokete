@@ -217,7 +217,7 @@ class Poke():
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
             exec(f"self.{name} = int({pokes[self.identifier][name]})")
-        i = [Attack(atc) for atc in self.attacs if self.lvl() >= attacs[atc]["min_lvl"]]
+        i = [Attack(atc) for atc in self.attacs if self.lvl() >= attacks[atc]["min_lvl"]]
         for old_ob, ob in zip(self.attac_obs, i):
             ob.ap = old_ob.ap
         self.attac_obs = i
@@ -448,9 +448,9 @@ class Figure(se.Object):
 
 class Attack():
     def __init__(self, index):
-        for i in attacs[index]:
-            exec(f"self.{i}=attacs[index][i]")
-        self.type = eval(attacs[index]["type"])
+        for i in attacks[index]:
+            exec(f"self.{i}=attacks[index][i]")
+        self.type = eval(attacks[index]["type"])
         self.max_ap = self.ap
         self.label_name = se.Text(self.name, esccode=Color.underlined)
         self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}")
