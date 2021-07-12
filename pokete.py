@@ -241,7 +241,7 @@ class Poke():
     def label_rechar(self):
         for i, atc in enumerate(self.attac_obs):
             self.atc_labels[i].text_1.rechar(f"{atc.name}", esccode=atc.type.color)
-            self.atc_labels[i].text_2.rechar(f"{i}: {len(atc.name)*' '}-{atc.ap}")
+            self.atc_labels[i].text_2.rechar(f"{i+1}: {len(atc.name)*' '}-{atc.ap}")
 
     def lvl(self):
         return int(math.sqrt(self.xp+1))
@@ -1152,11 +1152,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                 fightbox.input(ev)
                                 fightmap.show()
                                 ev = ""
-                            elif ev in [f"'{i}'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
+                            elif ev in [f"'{i+1}'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
                                 if ev == "Key.enter":
                                     attack = ob.attac_obs[fightbox.index.index]
                                 else:
-                                    attack = ob.attac_obs[int(eval(ev))]
+                                    attack = ob.attac_obs[int(eval(ev))-1]
                                 ev = ""
                                 if attack.ap == 0:
                                     continue
