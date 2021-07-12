@@ -772,7 +772,7 @@ def fight_throw(ob, enem, info, chance, name):
     fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
     time.sleep(random.choice([1,2,3,4]))
     figure.remove_item(name)
-    if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance, enem.full_hp], k=1)[0]:
+    if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance+(20 if figure.map == playmap_1 else 0), enem.full_hp], k=1)[0]:
         enem.player = True
         figure.pokes.append(enem)
         fightmap.outp.rechar(f"You catched {enem.name}")
