@@ -775,9 +775,8 @@ def fight_throw(ob, enem, info, chance, name):
     if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance+(20 if figure.map == playmap_1 else 0), enem.full_hp], k=1)[0]:
         enem.player = True
         figure.pokes.append(enem)
-        fightmap.outp.rechar(f"You catched {enem.name}")
-        fightmap.show()
-        time.sleep(1)
+        fightmap.outp.outp(f"You catched {enem.name}")
+        time.sleep(2)
         pball.remove()
         fight_clean_up(ob, enem)
         balls_label_rechar()
@@ -1171,9 +1170,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         break
                 elif ev == "'2'":
                     ev = ""
-                    if info["type"] == "duel" and player.identifier != "__fallback__":
-                        continue
-                    if not ask_bool(fightmap, "Do you really want to run away?"):
+                    if info["type"] == "duel" or player.identifier == "__fallback__" or not ask_bool(fightmap, "Do you really want to run away?"):
                         continue
                     fightmap.outp.outp("You ran away!")
                     time.sleep(1)
