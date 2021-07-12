@@ -1173,6 +1173,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     ev = ""
                     if info["type"] == "duel" and player.identifier != "__fallback__":
                         continue
+                    if not ask_bool(fightmap, "Do you really want to run away?"):
+                        continue
                     fightmap.outp.outp("You ran away!")
                     time.sleep(1)
                     fight_clean_up(player, enemy)
