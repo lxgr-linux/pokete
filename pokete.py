@@ -930,10 +930,10 @@ def swap_poke():
         HOST = ""
         while HOST == "":
             HOST = ask_text(movemap, "Please type in the hosts hostname", "Host:", "", 30)
-        if HOST in ["localhost", "127.0.0.1", socket.gethostname()]:
-            with InfoBox("You're not allowed trade with your self!\nYou fool!", movemap):
-                time.sleep(5)
-            return
+            if HOST in ["localhost", "127.0.0.1", socket.gethostname()]:
+                with InfoBox("You're not allowed trade with your self!\nYou fool!", movemap):
+                    time.sleep(5)
+                HOST = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
                 s.connect((HOST, PORT))
@@ -1152,10 +1152,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                 fightmap.show()
                                 ev = ""
                             elif ev in [f"'{i+1}'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
-                                if ev == "Key.enter":
-                                    attack = ob.attac_obs[fightbox.index.index]
-                                else:
-                                    attack = ob.attac_obs[int(eval(ev))-1]
+                                attack = ob.attac_obs[fightbox.index.index if ev == "Key.enter" else int(eval(ev))-1]
                                 ev = ""
                                 if attack.ap == 0:
                                     continue
