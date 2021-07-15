@@ -1,4 +1,4 @@
-v0.3.7
+v0.3.8
 
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
@@ -758,7 +758,7 @@ A dangerous snake Pokete.
 Those are all attacks present in the game.
 
 ### Apple drop
-Lets an apple drop on the enemys head
+Lets an apple drop on the enemys head.
 
 - Type: [Plant](#types)
 - Minimum Level: 0
@@ -767,7 +767,7 @@ Lets an apple drop on the enemys head
 - Attack points: 20
 
 ### Ash throw
-Throws ashes in the enemys eyes
+Throws ashes in the enemys eyes.
 
 - Type: [Fire](#types)
 - Minimum Level: 15
@@ -776,7 +776,7 @@ Throws ashes in the enemys eyes
 - Attack points: 10
 
 ### Bark hardening
-Hardens the bark to protect it better
+Hardens the bark to protect it better.
 
 - Type: [Plant](#types)
 - Minimum Level: 0
@@ -785,7 +785,7 @@ Hardens the bark to protect it better
 - Attack points: 10
 
 ### Bite
-A hard bite the sharp teeth
+A hard bite the sharp teeth.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -794,7 +794,7 @@ A hard bite the sharp teeth
 - Attack points: 20
 
 ### Branch stab
-Stabs the enemy with a branch, preferably in the enemys eyes
+Stabs the enemy with a branch, preferably in the enemys eyes.
 
 - Type: [Plant](#types)
 - Minimum Level: 15
@@ -803,7 +803,7 @@ Stabs the enemy with a branch, preferably in the enemys eyes
 - Attack points: 5
 
 ### Brick throw
-Throws an euler brick at the enemy
+Throws an euler brick at the enemy.
 
 - Type: [Stone](#types)
 - Minimum Level: 15
@@ -812,7 +812,7 @@ Throws an euler brick at the enemy
 - Attack points: 15
 
 ### Brooding
-Regenerates 2 HP
+Regenerates 2 HP.
 
 - Type: [Normal](#types)
 - Minimum Level: 15
@@ -821,7 +821,7 @@ Regenerates 2 HP
 - Attack points: 5
 
 ### Bubble bomb
-A deadly bubble
+A deadly bubble.
 
 - Type: [Water](#types)
 - Minimum Level: 0
@@ -830,7 +830,7 @@ A deadly bubble
 - Attack points: 5
 
 ### Bubble shield
-Creates a giant bubble that protects the Pokete
+Creates a giant bubble that protects the Pokete.
 
 - Type: [Water](#types)
 - Minimum Level: 0
@@ -839,7 +839,7 @@ Creates a giant bubble that protects the Pokete
 - Attack points: 5
 
 ### Charging
-Charges the Pokete
+Charges the Pokete.
 
 - Type: [Electro](#types)
 - Minimum Level: 10
@@ -848,7 +848,7 @@ Charges the Pokete
 - Attack points: 10
 
 ### Chocer
-Choces the enemy and makes it weaker
+Choces the enemy and makes it weaker.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -857,7 +857,7 @@ Choces the enemy and makes it weaker
 - Attack points: 10
 
 ### Cry
-So loud, it confuses the enemy
+So loud, it confuses the enemy.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -866,7 +866,7 @@ So loud, it confuses the enemy
 - Attack points: 5
 
 ### Earch quake
-Brings the earth to shift
+Brings the earth to shift.
 
 - Type: [Ground](#types)
 - Minimum Level: 0
@@ -875,7 +875,7 @@ Brings the earth to shift
 - Attack points: 5
 
 ### Eye pick
-Picks out one of the enemys eyes
+Picks out one of the enemys eyes.
 
 - Type: [Flying](#types)
 - Minimum Level: 0
@@ -884,7 +884,7 @@ Picks out one of the enemys eyes
 - Attack points: 5
 
 ### Fire ball
-Casts a fireball at the enemy
+Casts a fireball at the enemy.
 
 - Type: [Fire](#types)
 - Minimum Level: 25
@@ -893,7 +893,7 @@ Casts a fireball at the enemy
 - Attack points: 5
 
 ### Fire bite
-Burns and bites the enemy at the same time
+Burns and bites the enemy at the same time.
 
 - Type: [Fire](#types)
 - Minimum Level: 0
@@ -902,7 +902,7 @@ Burns and bites the enemy at the same time
 - Attack points: 10
 
 ### Heart touch
-Touches the enemys heard with its' cold gost claws
+Touches the enemys heard with its' cold gost claws.
 
 - Type: [Undead](#types)
 - Minimum Level: 20
@@ -911,7 +911,7 @@ Touches the enemys heard with its' cold gost claws
 - Attack points: 5
 
 ### Meat skewer
-Drills the horn deep in the enemys flesh
+Drills the horn deep in the enemys flesh.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -920,7 +920,7 @@ Drills the horn deep in the enemys flesh
 - Attack points: 5
 
 ### Mega arch
-Gives the enemy heavy a shock
+Gives the enemy heavy a shock.
 
 - Type: [Electro](#types)
 - Minimum Level: 15
@@ -929,7 +929,7 @@ Gives the enemy heavy a shock
 - Attack points: 5
 
 ### Mind blow
-Causes confusion deep in the enemys mind
+Causes confusion deep in the enemys mind.
 
 - Type: [Undead](#types)
 - Minimum Level: 0
@@ -938,7 +938,7 @@ Causes confusion deep in the enemys mind
 - Attack points: 10
 
 ### Pepple fire
-Fires pepples at the enemy and makes it blind
+Fires pepples at the enemy and makes it blind.
 
 - Type: [Stone](#types)
 - Minimum Level: 0
@@ -947,7 +947,7 @@ Fires pepples at the enemy and makes it blind
 - Attack points: 3
 
 ### Pick
-A pick at the enemys weakest spot
+A pick at the enemys weakest spot.
 
 - Type: [Flying](#types)
 - Minimum Level: 0
@@ -956,7 +956,7 @@ A pick at the enemys weakest spot
 - Attack points: 20
 
 ### Poison bite
-Makes the enemy weaker
+Makes the enemy weaker.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -965,7 +965,7 @@ Makes the enemy weaker
 - Attack points: 5
 
 ### Politure
-Upgrades defense and attack points
+Upgrades defense and attack points.
 
 - Type: [Stone](#types)
 - Minimum Level: 0
@@ -974,7 +974,7 @@ Upgrades defense and attack points
 - Attack points: 10
 
 ### Power bite
-The hardest bite you can think of
+The hardest bite you can think of.
 
 - Type: [Normal](#types)
 - Minimum Level: 30
@@ -983,7 +983,7 @@ The hardest bite you can think of
 - Attack points: 3
 
 ### Power pick
-A harsh picking on the enemys head
+A harsh picking on the enemys head.
 
 - Type: [Flying](#types)
 - Minimum Level: 0
@@ -992,7 +992,7 @@ A harsh picking on the enemys head
 - Attack points: 5
 
 ### Power roll
-Rolls over the enemy
+Rolls over the enemy.
 
 - Type: [Ground](#types)
 - Minimum Level: 0
@@ -1001,7 +1001,7 @@ Rolls over the enemy
 - Attack points: 10
 
 ### Shell pinch
-Pinches the enemy with its strong shells
+Pinches the enemy with its strong shells.
 
 - Type: [Water](#types)
 - Minimum Level: 15
@@ -1010,7 +1010,7 @@ Pinches the enemy with its strong shells
 - Attack points: 15
 
 ### Shock
-Gives the enemy a shock
+Gives the enemy a shock.
 
 - Type: [Electro](#types)
 - Minimum Level: 0
@@ -1019,7 +1019,7 @@ Gives the enemy a shock
 - Attack points: 20
 
 ### Snooze
-Makes the enemy sleepy
+Makes the enemy sleepy.
 
 - Type: [Normal](#types)
 - Minimum Level: 15
@@ -1028,7 +1028,7 @@ Makes the enemy sleepy
 - Attack points: 10
 
 ### Sucker
-Sucks 1 HP from the enemy and adds it to it's own
+Sucks 1 HP from the enemy and adds it to it's own.
 
 - Type: [Plant](#types)
 - Minimum Level: 0
@@ -1037,7 +1037,7 @@ Sucks 1 HP from the enemy and adds it to it's own
 - Attack points: 20
 
 ### Super sucker
-Sucks 2 HP from the enemy and adds it to it's own
+Sucks 2 HP from the enemy and adds it to it's own.
 
 - Type: [Plant](#types)
 - Minimum Level: 0
@@ -1046,7 +1046,7 @@ Sucks 2 HP from the enemy and adds it to it's own
 - Attack points: 5
 
 ### Tackle
-Tackles the enemy very hard
+Tackles the enemy very hard.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -1055,16 +1055,16 @@ Tackles the enemy very hard
 - Attack points: 20
 
 ### Tail wipe
-Wipes throught the enemys face
+Wipes throught the enemys face.
 
 - Type: [Normal](#types)
-- Minimum Level: 0
+- Minimum Level: 10
 - Attack factor: 2.5
 - Missing chance: 0.5
 - Attack points: 5
 
 ### Wet slap
-Gives the enemy a wet and cold slap in the face
+Gives the enemy a wet and cold slap in the face.
 
 - Type: [Water](#types)
 - Minimum Level: 10
@@ -1073,7 +1073,7 @@ Gives the enemy a wet and cold slap in the face
 - Attack points: 10
 
 ### Wing hit
-Hits the enemy with a wing
+Hits the enemy with a wing.
 
 - Type: [Flying](#types)
 - Minimum Level: 0

@@ -23,8 +23,8 @@ This wiki can be generated using ```$ gen-wiki.py```.
 
     md_str += "2. [Attacks](#attacks)\n"
 
-    for j, atc in enumerate(sorted(attacs)):
-        md_str += f"""   {j+1}. [{attacs[atc]["name"]}](#{atc.replace("_", "-")})\n"""
+    for j, atc in enumerate(sorted(attacks)):
+        md_str += f"""   {j+1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
 
     md_str += """3. [Types](#types)
 4. [Items](#items)
@@ -42,8 +42,8 @@ In the following all Poketes with their attributes are displayed.
     for poke in sorted([i for i in pokes][1:]):
         evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
         md_attacks = ""
-        for atc in pokes[poke]["attacs"]:
-            md_attacks += f"""\n   + [{attacs[atc]["name"]}](#{atc.replace("_", "-")})"""
+        for atc in pokes[poke]["attacks"]:
+            md_attacks += f"""\n   + [{attacks[atc]["name"]}](#{atc.replace("_", "-")})"""
         # ico
         map = se.Map(4, 11, background=" ")
         for ico in pokes[poke]["ico"]:
@@ -81,16 +81,16 @@ In the following all Poketes with their attributes are displayed.
 Those are all attacks present in the game.
 """
 
-    for atc in sorted(attacs):
+    for atc in sorted(attacks):
         md_str += f"""
-### {attacs[atc]["name"]}
-{attacs[atc]["desc"]}
+### {attacks[atc]["name"]}
+{attacks[atc]["desc"]}
 
-- Type: [{attacs[atc]["type"].capitalize()}](#types)
-- Minimum Level: {attacs[atc]["min_lvl"]}
-- Attack factor: {attacs[atc]["factor"]}
-- Missing chance: {attacs[atc]["miss_chance"]}
-- Attack points: {attacs[atc]["ap"]}
+- Type: [{attacks[atc]["type"].capitalize()}](#types)
+- Minimum Level: {attacks[atc]["min_lvl"]}
+- Attack factor: {attacks[atc]["factor"]}
+- Missing chance: {attacks[atc]["miss_chance"]}
+- Attack points: {attacks[atc]["ap"]}
 """
 
     # Types

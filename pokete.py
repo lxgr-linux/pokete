@@ -188,7 +188,7 @@ class Poke():
         self.xp = xp
         self.player = player
         self.identifier = poke
-        for name in ["hp", "attacs", "name", "miss_chance", "lose_xp", "evolve_poke", "evolve_lvl"]:
+        for name in ["hp", "attacks", "name", "miss_chance", "lose_xp", "evolve_poke", "evolve_lvl"]:
             exec(f"self.{name} = pokes[self.identifier][name]")
         self.type = eval(pokes[self.identifier]["type"])
         self.full_hp = self.hp
@@ -217,7 +217,7 @@ class Poke():
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
             exec(f"self.{name} = int({pokes[self.identifier][name]})")
-        i = [Attack(atc) for atc in self.attacs if self.lvl() >= attacks[atc]["min_lvl"]]
+        i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
         for old_ob, ob in zip(self.attac_obs, i):
             ob.ap = old_ob.ap
         self.attac_obs = i
