@@ -395,6 +395,28 @@ attacks = {
         "type": "electro",
         "ap": 5,
     },
+    "root_strangler": {
+        "name": "Root strangler",
+        "factor": 1,
+        "action": "enem.atc -= 1",
+        "move": "attack",
+        "miss_chance": 0.2,
+        "min_lvl": 20,
+        "desc": "Uses old and crusty roots to strangle the enemys.",
+        "type": "plant",
+        "ap": 10,
+    },
+    "leaf_storm": {
+        "name": "Leaf storm",
+        "factor": 5,
+        "action": "",
+        "move": "attack",
+        "miss_chance": 0,
+        "min_lvl": 20,
+        "desc": "Blasts a bunch of spikie leafes at the enemy.",
+        "type": "plant",
+        "ap": 5,
+    },
 }
 
 if __name__ == "__main__":

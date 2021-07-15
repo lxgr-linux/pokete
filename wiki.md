@@ -51,25 +51,27 @@ This wiki can be generated using ```$ gen-wiki.py```.
    15. [Fire ball](#fire-ball)
    16. [Fire bite](#fire-bite)
    17. [Heart touch](#heart-touch)
-   18. [Meat skewer](#meat-skewer)
-   19. [Mega arch](#mega-arch)
-   20. [Mind blow](#mind-blow)
-   21. [Pepple fire](#pepple-fire)
-   22. [Pick](#pick)
-   23. [Poison bite](#poison-bite)
-   24. [Politure](#politure)
-   25. [Power bite](#power-bite)
-   26. [Power pick](#power-pick)
-   27. [Power roll](#power-roll)
-   28. [Shell pinch](#shell-pinch)
-   29. [Shock](#shock)
-   30. [Snooze](#snooze)
-   31. [Sucker](#sucker)
-   32. [Super sucker](#super-sucker)
-   33. [Tackle](#tackle)
-   34. [Tail wipe](#tail-wipe)
-   35. [Wet slap](#wet-slap)
-   36. [Wing hit](#wing-hit)
+   18. [Leaf storm](#leaf-storm)
+   19. [Meat skewer](#meat-skewer)
+   20. [Mega arch](#mega-arch)
+   21. [Mind blow](#mind-blow)
+   22. [Pepple fire](#pepple-fire)
+   23. [Pick](#pick)
+   24. [Poison bite](#poison-bite)
+   25. [Politure](#politure)
+   26. [Power bite](#power-bite)
+   27. [Power pick](#power-pick)
+   28. [Power roll](#power-roll)
+   29. [Root strangler](#root-strangler)
+   30. [Shell pinch](#shell-pinch)
+   31. [Shock](#shock)
+   32. [Snooze](#snooze)
+   33. [Sucker](#sucker)
+   34. [Super sucker](#super-sucker)
+   35. [Tackle](#tackle)
+   36. [Tail wipe](#tail-wipe)
+   37. [Wet slap](#wet-slap)
+   38. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -626,6 +628,7 @@ A scary an dangerous apple tree.
    + [Apple drop](#apple-drop)
    + [Bark hardening](#bark-hardening)
    + [Branch stab](#branch-stab)
+   + [Root strangler](#root-strangler)
 - Does not evolve
 
 ### Vogli
@@ -910,6 +913,15 @@ Touches the enemys heard with its' cold gost claws.
 - Missing chance: 0
 - Attack points: 5
 
+### Leaf storm
+Blasts a bunch of spikie leafes at the enemy.
+
+- Type: [Plant](#types)
+- Minimum Level: 20
+- Attack factor: 5
+- Missing chance: 0
+- Attack points: 5
+
 ### Meat skewer
 Drills the horn deep in the enemys flesh.
 
@@ -997,6 +1009,15 @@ Rolls over the enemy.
 - Type: [Ground](#types)
 - Minimum Level: 0
 - Attack factor: 2.5
+- Missing chance: 0.2
+- Attack points: 10
+
+### Root strangler
+Uses old and crusty roots to strangle the enemys.
+
+- Type: [Plant](#types)
+- Minimum Level: 20
+- Attack factor: 1
 - Missing chance: 0.2
 - Attack points: 10
 
