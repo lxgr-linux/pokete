@@ -297,6 +297,14 @@ class Poke():
             fightmap.show()
             time.sleep(0.3)
 
+    def move_arch(self):
+        line = se.Line(Color.thicc+Color.yellow+"-"+Color.reset, self.enem.ico.x-self.ico.x+(-11 if self.player else 11), self.enem.ico.y-self.ico.y, type="crippled")
+        line.add(self.ico.map, self.ico.x+(11 if self.player else -1), self.ico.y+1)
+        self.ico.map.show()
+        time.sleep(1)
+        line.remove()
+        del line
+
     def move_throw(self, txt="#"):
         line = se.Line(" ", self.enem.ico.x-self.ico.x+(-11 if self.player else 11), self.enem.ico.y-self.ico.y, type="crippled")
         line.add(self.ico.map, self.ico.x+(11 if self.player else -1), self.ico.y+1)
