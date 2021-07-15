@@ -313,14 +313,18 @@ class Poke():
     def move_fireball(self):
         self.move_throw(txt=Color.thicc+Color.red+"*"+Color.reset)
 
-    def move_shine(self):
-        for i, x, y in zip(fightmap.shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):
+    def move_shine(self, ico=Color.thicc+Color.green+"*"+Color.reset):
+        shines = [se.Object(ico) for i in range(4)]
+        for i, x, y in zip(shines, [self.ico.x-1, self.ico.x+11, self.ico.x-1, self.ico.x+11], [self.ico.y, self.ico.y, self.ico.y+3, self.ico.y+3]):
             i.add(self.ico.map, x, y)
             self.ico.map.show()
             time.sleep(0.2)
         time.sleep(0.2)
-        [i.remove() for i in fightmap.shines]
+        [i.remove() for i in shines]
         self.ico.map.show()
+
+    def move_downgrade(self):
+        self.enem.move_shine(ico=Color.thicc+Color.red+"-"+Color.reset)
 
     def evolve(self):
         new = Poke(self.evolve_poke, self.xp)
@@ -1964,7 +1968,6 @@ fightmap.p_upperline = se.Text("+----------------", state="float")
 fightmap.p_sideline = se.Square("|", 1, 4, state="float")
 fightmap.outp = OutP("", state="float")
 fightmap.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
-fightmap.shines = [se.Object(Color.thicc+Color.green+"*"+Color.reset) for i in range(4)]
 deadico1 = se.Text("""
     \ /
      o
