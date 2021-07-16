@@ -1665,6 +1665,7 @@ playmap_19 = PlayMap(background=" ", height=30, width=60, name="playmap_19", pre
                                 Trainer("Simon", "He", Poke("wolfiro", 850, player=False), [" < Joooo!", " < What up?"], [" < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Duck!"], 15, 7)],
                     poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"], "minlvl": 540, "maxlvl": 640})
 playmap_20 = PlayMap(background=" ", height=15, width=30, name="playmap_20", pretty_name="House")
+playmap_21 = PlayMap(background=" ", height=30, width=150, name="playmap_21", pretty_name="Rock-ville")
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1884,6 +1885,15 @@ playmap_19.inner = se.Text("""                         ####
             ###""", ignore="#", ob_class=HightGrass, ob_args=playmap_19.poke_args, state="float")
 # adding
 playmap_19.inner.add(playmap_19, 0, 0)
+
+# playmap_21
+playmap_21.dor_playmap_19 = Dor("_", state="float", arg_proto={"map": playmap_19, "x": 26, "y": 1})
+playmap_21.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_21.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+# adding
+playmap_21.dor_playmap_19.add(playmap_21, 5, 26)
+playmap_21.dor.add(playmap_21, 10, 7)
+playmap_21.shopdor.add(playmap_21, 34, 7)
 
 
 # adding all trainer to map
