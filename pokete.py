@@ -872,6 +872,9 @@ def playmap_11_extra_action():
 def playmap_18_extra_action():
     playmap_water_extra_action(playmap_18.lake_1.obs)
 
+def playmap_21_extra_action():
+    playmap_water_extra_action(playmap_21.lake_1.obs)
+
 def playmap_7_extra_action():
     for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
         if ob.added and math.sqrt((ob.y-figure.y)**2+(ob.x-figure.x)**2) <= 3:
@@ -1665,7 +1668,8 @@ playmap_19 = PlayMap(background=" ", height=30, width=60, name="playmap_19", pre
                                 Trainer("Simon", "He", Poke("wolfiro", 850, player=False), [" < Joooo!", " < What up?"], [" < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Duck!"], 15, 7)],
                     poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"], "minlvl": 540, "maxlvl": 640})
 playmap_20 = PlayMap(background=" ", height=15, width=30, name="playmap_20", pretty_name="House")
-playmap_21 = PlayMap(background=" ", height=30, width=150, name="playmap_21", pretty_name="Rock-ville")
+playmap_21 = PlayMap(background=" ", height=30, width=150, name="playmap_21", pretty_name="Rock-ville",
+                    extra_actions = playmap_21_extra_action)
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
@@ -1890,10 +1894,19 @@ playmap_19.inner.add(playmap_19, 0, 0)
 playmap_21.dor_playmap_19 = Dor("_", state="float", arg_proto={"map": playmap_19, "x": 26, "y": 1})
 playmap_21.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 playmap_21.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
+   ~~~~~~~~~~~~~~~~~~
+ ~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
+ ~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~
+       ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640}, state="float")
 # adding
 playmap_21.dor_playmap_19.add(playmap_21, 5, 26)
 playmap_21.dor.add(playmap_21, 10, 7)
 playmap_21.shopdor.add(playmap_21, 34, 7)
+playmap_21.lake_1.add(playmap_21, 65, 10)
 
 
 # adding all trainer to map
