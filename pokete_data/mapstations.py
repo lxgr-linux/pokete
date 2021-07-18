@@ -171,10 +171,22 @@ stations = {
             "width": 1,
             "height": 1,
             "s_next": "playmap_18",
+            "w_next": "playmap_21",
         },
         "add": {
             "x": 18,
             "y": 3
+        }
+    },
+    "playmap_21": {
+        "gen": {
+            "width": 3,
+            "height": 1,
+            "s_next": "playmap_19",
+        },
+        "add": {
+            "x": 18,
+            "y": 2
         }
     },
 }
