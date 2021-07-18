@@ -1678,7 +1678,7 @@ playmap_19 = PlayMap(background=" ", height=30, width=60, name="playmap_19", pre
                     poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"], "minlvl": 540, "maxlvl": 640})
 playmap_20 = PlayMap(background=" ", height=15, width=30, name="playmap_20", pretty_name="House")
 playmap_21 = PlayMap(background=" ", height=30, width=150, name="playmap_21", pretty_name="Rock-ville",
-                    trainers = [Trainer("Rock hard Rick", "He", Poke("bigstone", 900, player=False), [" < Hello trainer!", " < Welcome to Rock-ville, the highest place in the Pokete world and the home of all stone Poketes.", " < When leaving this town through the 'Cave of doom' you have to fight against the best trainers of this town.", " < But first, you have to fight me!"], [" < If I'm a problem for you, you might not be able to fight the other trainers."], [" < I see you don't have a living Pokete"], [" < Oh", " < I guess you will be a challenge for our trainers!"], 8, 23)],
+                    trainers = [Trainer("Rock hard Rick", "He", Poke("bigstone", 900, player=False), [" < Hello trainer!", " < Welcome to Rock-ville, the highest place in the Pokete world and the home of all stone Poketes.", " < When leaving this town through the 'Cave of doom' you have to fight against the best trainers of this town.", " < But first, you have to fight me!"], [" < If I'm a problem for you, you might not be able to fight the other trainers."], [" < I see you don't have a living Pokete"], [" < Oh", " < I guess you will be a challenge for our trainers!"], 12, 23)],
                     extra_actions = playmap_21_extra_action)
 
 # mapmap

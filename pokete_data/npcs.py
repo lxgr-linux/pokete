@@ -47,6 +47,22 @@ npcs = {
         "x": 136,
         "y": 15
     },
+    "npc_4": {
+        "texts": [" < In this lake live...", " < ...Karpis"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_21",
+        "x": 64,
+        "y": 12
+    },
+    "npc_5": {
+        "texts": [" < This is the townhall of Rock-ville.", " < Here you can meet our major"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_21",
+        "x": 112,
+        "y": 12
+    },
     "boy_1": {
         "texts": [],
         "fn": "playmap_17_boy",
