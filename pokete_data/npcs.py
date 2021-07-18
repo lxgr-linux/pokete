@@ -39,6 +39,14 @@ npcs = {
         "x": 38,
         "y": 31
     },
+    "npc_3": {
+        "texts": [" < In this cave your'll encounter the best Pokete trainers of this town.", " < But watch out, stone is their preference!"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_21",
+        "x": 136,
+        "y": 15
+    },
     "boy_1": {
         "texts": [],
         "fn": "playmap_17_boy",
