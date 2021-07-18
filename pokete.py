@@ -654,21 +654,26 @@ def codes(string):
 
 def movemap_text(x, y, arr):
     global ev
+    # This ensures the game does not crash when big chunks of text are displayed
+    for i, j, k in zip(["x", "y"], [movemap.width, movemap.height], [17, 10]):
+        while eval(f"{i}-movemap.{i}+k") >= j:
+            movemap.set(movemap.x+(1 if i == "x" else 0), movemap.y+(1 if i == "y" else 0))
+            movemap.show()
+            time.sleep(0.045)
+    # End section
     multitext.rechar("")
     multitext.add(movemap, x-movemap.x+1, y-movemap.y)
     for t in arr:
         ev = ""
         multitext.rechar("")
         for i in range(len(t)+1):
-            multitext.rechar(liner(t[:i], movemap.width-(x-movemap.x+1), "   "))
-            movemap.show()
+            multitext.outp(liner(t[:i], movemap.width-(x-movemap.x+1), "   "))
             time.sleep(0.045)
             std_loop()
             if ev != "":
                 ev = ""
                 break
-        multitext.rechar(liner(t, movemap.width-(x-movemap.x+1), "   "))
-        movemap.show()
+        multitext.outp(liner(t, movemap.width-(x-movemap.x+1), "   "))
         while True:
             std_loop()
             if ev != "":
@@ -1684,7 +1689,7 @@ for s in stations:
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = Figure("a")
 exclamation = se.Object("!")
-multitext = se.Text("", state="float")
+multitext = OutP("", state="float")
 movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.")
 movemap.code_label = OutP("")
 
