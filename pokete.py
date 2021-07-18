@@ -65,7 +65,10 @@ class NPC(se.Box):
             return
         movemap.full_show()
         time.sleep(0.7)
-        exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)
+        try:
+            exclamation.add(movemap, self.x-movemap.x, self.y-1-movemap.y)
+        except se.CoordinateError:
+            pass
         movemap.show()
         time.sleep(1)
         exclamation.remove()
@@ -276,7 +279,8 @@ class Poke():
             if enem.hp < 0:
                 enem.hp = 0
             time.sleep(0.4)
-            exec(f"self.move_{attac.move}()")
+            for i in attac.move:
+                exec(f"self.move_{i}()")
             exec(attac.action)
             attac.ap -= 1
             fightmap.outp.outp(f'{self.name}({"you" if self.player else "enemy"}) used {attac.name}! {self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
