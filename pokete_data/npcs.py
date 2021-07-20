@@ -63,6 +63,30 @@ npcs = {
         "x": 112,
         "y": 12
     },
+    "npc_6": {
+        "texts": [" < Welcome to the Rocky Hotel, here you can rent a room to sleep."],
+        "fn": None,
+        "args": (),
+        "map": "playmap_22",
+        "x": 12,
+        "y": 8
+    },
+    "npc_7": {
+        "texts": [" < How did you get into my room?"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_23",
+        "x": 14,
+        "y": 8
+    },
+    "npc_8": {
+        "texts": [" < Isn't this a nice town?", " < 100$ would be very usefull for a young trainer like you, init?"],
+        "fn": "playmap_23_npc_8",
+        "args": (),
+        "map": "playmap_23",
+        "x": 3,
+        "y": 7
+    },
     "boy_1": {
         "texts": [],
         "fn": "playmap_17_boy",

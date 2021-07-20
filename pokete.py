@@ -912,6 +912,7 @@ def playmap_17_boy():
     else:
         movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y, [" < In this region lives the würgos Pokete.", f" < At level {pokes['würgos']['evolve_lvl']} it evolves to Choka.", " < I have never seen one before!"])
 
+
 def playmap_20_trader():
     movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y, [" < I've lived in this town for long time and therefore have found some cool Poketes.", " < Do you want to trade my cool Pokete?"])
     if ask_bool(movemap, "Do you want to trade a Pokete?"):
@@ -923,6 +924,13 @@ def playmap_20_trader():
         with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.", movemap):
             time.sleep(3)
         movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y, [" < Cool, huh?"])
+
+
+def playmap_23_npc_8():
+    if ask_bool(movemap, "The man gifted you 100$. Do you want to accept it?"):
+        playmap_23.npc_8.will = False
+        used_npcs.append(playmap_23.npc_8.name)
+        figure.add_money(100)
 
 
 # main functions
@@ -1687,6 +1695,7 @@ playmap_21 = PlayMap(background=" ", height=30, width=150, name="playmap_21", pr
                     trainers = [Trainer("Rock hard Rick", "He", Poke("bigstone", 900, player=False), [" < Hello trainer!", " < Welcome to Rock-ville, the highest place in the Pokete world and the home of all stone Poketes.", " < When leaving this town through the 'Cave of doom' you have to fight against the best trainers of this town.", " < But first, you have to fight me!"], [" < If I'm a problem for you, you might not be able to fight the other trainers."], [" < I see you don't have a living Pokete"], [" < Oh", " < I guess you will be a challenge for our trainers!"], 12, 23)],
                     extra_actions = playmap_21_extra_action)
 playmap_22 = PlayMap(background=" ", height=15, width=30, name="playmap_22", pretty_name="Rocky Hotel")
+playmap_23 = PlayMap(background=" ", height=15, width=30, name="playmap_23", pretty_name="Rocky Hotel")
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
