@@ -764,8 +764,9 @@ def fight_add_1(player, enemy):
         ob.add(fightmap, x, y)
     if enemy.name in [ob.name for ob in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
-    fightbox.add_c_obs(player.atc_labels)
-    fightbox.set_index(0)
+    if player.identifier != "__fallback__":
+        fightbox.add_c_obs(player.atc_labels)
+        fightbox.set_index(0)
     return [player, enemy]
 
 
@@ -1158,8 +1159,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         fightmap.outp.outp(f"You used {player.name}")
     fightmap.show()
     time.sleep(0.5)
-    enem = sorted(zip([i.initiative for i in players], [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
-    ob = [i for i in players if i != enem][-1]
+    if player.identifier ==  "__fallback__":
+        ob, enem = players
+    else:
+        enem = sorted(zip([i.initiative for i in players], [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
+        ob = [i for i in players if i != enem][-1]
     while True:
         if ob.player:
             fightmap.outp.outp(fightmap.outp.text+("\n" if "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
@@ -1169,6 +1173,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             while True:  # Inputloop for general options
                 if ev == "'1'":
                     ev = ""
+                    if player.identifier == "__fallback__":
+                        continue
                     with fightbox.add(fightmap, 1, fightmap.height-7):
                         while True:  # Inputloop for attack options
                             if ev in ["'s'", "'w'"]:
@@ -1191,7 +1197,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         break
                 elif ev == "'2'":
                     ev = ""
-                    if info["type"] == "duel" or player.identifier == "__fallback__" or not ask_bool(fightmap, "Do you really want to run away?"):
+                    if (info["type"] == "duel" and player.identifier != "__fallback__") or not ask_bool(fightmap, "Do you really want to run away?"):
                         continue
                     fightmap.outp.outp("You ran away!")
                     time.sleep(1)
@@ -1680,6 +1686,7 @@ playmap_20 = PlayMap(background=" ", height=15, width=30, name="playmap_20", pre
 playmap_21 = PlayMap(background=" ", height=30, width=150, name="playmap_21", pretty_name="Rock-ville",
                     trainers = [Trainer("Rock hard Rick", "He", Poke("bigstone", 900, player=False), [" < Hello trainer!", " < Welcome to Rock-ville, the highest place in the Pokete world and the home of all stone Poketes.", " < When leaving this town through the 'Cave of doom' you have to fight against the best trainers of this town.", " < But first, you have to fight me!"], [" < If I'm a problem for you, you might not be able to fight the other trainers."], [" < I see you don't have a living Pokete"], [" < Oh", " < I guess you will be a challenge for our trainers!"], 12, 23)],
                     extra_actions = playmap_21_extra_action)
+playmap_22 = PlayMap(background=" ", height=15, width=30, name="playmap_22", pretty_name="Rocky Hotel")
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")
