@@ -1624,78 +1624,79 @@ if not settings.colors:
 #########################################
 
 # maps
-centermap = PlayMap(height-1, width, " ", name = "centermap", pretty_name = "Pokete-Center")
-shopmap = PlayMap(height-1, width, " ", name = "shopmap", pretty_name = "Pokete-Shop")
-intromap = PlayMap(background=" ", height=15, width=30, name="intromap", pretty_name="Your home")
-playmap_1 = PlayMap(background=" ", height=25, width=90, name="playmap_1", pretty_name="Nice Town",
+centermap = PlayMap(height-1, width, name = "centermap", pretty_name = "Pokete-Center")
+shopmap = PlayMap(height-1, width, name = "shopmap", pretty_name = "Pokete-Shop")
+intromap = PlayMap(height=15, width=30, name="intromap", pretty_name="Your home")
+playmap_1 = PlayMap(height=25, width=90, name="playmap_1", pretty_name="Nice Town",
                     trainers=[Trainer("Franz", "He", Poke("poundi", 60, player=False), [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"], [" < I see you don't have a living Pokete"], [" < Your a very good trainer!"], 30, 10)],
                     poke_args={"pokes": ["rato", "horny", "vogli"], "minlvl": 15, "maxlvl": 40})
-cave_1 = PlayMap(background=" ", height=30, width=90, name="cave_1", pretty_name="Nice Town cave",
+cave_1 = PlayMap(height=30, width=90, name="cave_1", pretty_name="Nice Town cave",
                 trainers=[Trainer("Monica", "She", Poke("hornita", 128, player=False), [" < Hello noble traveler", " < Are you willing to fight with me?"], [" < Hahaha!", " < Looooser!"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < Have a great day!"], 23, 10)])
-playmap_2 = PlayMap(background=" ", height=30, width=180, name="playmap_2", pretty_name="Route 1",
+playmap_2 = PlayMap(height=30, width=180, name="playmap_2", pretty_name="Route 1",
                     trainers = [Trainer("Wanderer Murrad", "He", Poke("ostri", 160, player=False), [" < Isn't that a great day?", " < I traveled here from a far country", " < Do you want to fight against my rare Pokete?"], [" < It is stronger than you might have exspected"], [" < I see you don't have a living Pokete"], [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"], 32, 12)],
                     poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128})
-playmap_3 = PlayMap(background=" ", height=30, width=90, name="playmap_3", pretty_name="Josi Town",
+playmap_3 = PlayMap(height=30, width=90, name="playmap_3", pretty_name="Josi Town",
                     trainers=[Trainer("Josi", "She", Poke("hornita", 200, player=False), [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"], [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"], [" < I see you don't have a living Pokete", " < Loooser!"], [" < Damn, I lost!"], 11, 5)],
                     poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 100, "maxlvl": 200})
-playmap_4 = PlayMap(background=" ", height=60, width=60, name="playmap_4", pretty_name="Josi Lake",
+playmap_4 = PlayMap(height=60, width=60, name="playmap_4", pretty_name="Josi Lake",
                     trainers=[Trainer("Kevin", "He", Poke("karpi", 340, player=False), [" < Jo!", " < What up?", " < Wanna see my sick ass Pokete?"], [" < Yeaaah!", " < My Pokete is sooo sick!"], [" < I see you don't have a living Pokete"], [" < Daaaamn", " < Your Pokete is noot from this planet!"], 32, 31)],
                     poke_args={"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 180, "maxlvl": 230},
                     extra_actions = playmap_4_extra_action)
-playmap_5 = PlayMap(background=" ", height=60, width=60, name="playmap_5", pretty_name="Mysterious cave",
+playmap_5 = PlayMap(height=60, width=60, name="playmap_5", pretty_name="Mysterious cave",
                     trainers = [Trainer("Caveman Marc", "He", Poke("bator", 350, player=False), [" < Oh!", " < I've not seen anyone down here for while", " < Can I show you my rare Pokete, that can only be found in this cave?"], [" < Oh!", " < My Pokete is not just rare", " < It's also strong"], [" < I see you don't have a living Pokete"], [" < Congratulations!", " < I hope you can also catch one!"], 23, 12)],
                     poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180, "maxlvl": 230})
-playmap_6 = PlayMap(background=" ", height=60, width=60, name="playmap_6", pretty_name="Route 2",
+playmap_6 = PlayMap(height=60, width=60, name="playmap_6", pretty_name="Route 2",
                     trainers = [Trainer("Eva", "She", Poke("treenator", 400, player=False), [" < Hi!", " < Fight?"], [" < Loser"], [" < I see you don't have a living Pokete"], [" < I lost!"], 47, 43)],
                     poke_args = {"pokes": ["steini", "voglo", "bushy", "rollator"], "minlvl": 200, "maxlvl": 260})
-playmap_7 = PlayMap(background=" ", height=30, width=60, name="playmap_7", pretty_name="Dark cave",
+playmap_7 = PlayMap(height=30, width=60, name="playmap_7", pretty_name="Dark cave",
                     trainers = [Trainer("Caveman Dieter", "He", Poke("steini", 400, player=False), [" < Oh!", " < I didn't see you comming"], [" < My steini is old but classy"], [" < I see you don't have a living Pokete"], [" < You're a great trainer!"], 18, 7)],
                     extra_actions = playmap_7_extra_action,
                     poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
-playmap_8 = PlayMap(background=" ", height=20, width=80, name="playmap_8", pretty_name="Abandoned village",
+playmap_8 = PlayMap(height=20, width=80, name="playmap_8", pretty_name="Abandoned village",
                     trainers = [Trainer("Wood man Bert", "He", Poke("gobost", 400, player=False), [" < Do you see this abandoned house?", " < I catched this Pokete in there!"], [" < It's pretty cool huh?!"], [" < I see you don't have a living Pokete"], [" < Oh, yours is better than mine!"], 39, 6)],
                     poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290})
-playmap_9 = PlayMap(background=" ", height=15, width=30, name="playmap_9", pretty_name="Abandoned house",
+playmap_9 = PlayMap(height=15, width=30, name="playmap_9", pretty_name="Abandoned house",
                     poke_args = {"pokes": ["gobost", "rato"], "minlvl": 230, "maxlvl": 290})
-playmap_10 = PlayMap(background=" ", height=15, width=30, name="playmap_10", pretty_name="Old house")
-playmap_11 = PlayMap(background=" ", height=20, width=60, name="playmap_11", pretty_name="Route 3",
+playmap_10 = PlayMap(height=15, width=30, name="playmap_10", pretty_name="Old house")
+playmap_11 = PlayMap(height=20, width=60, name="playmap_11", pretty_name="Route 3",
                     trainers = [Trainer("Fishermans friend", "He", Poke("clampi", 450, player=False), [" < G'day young trainer", " < I've lived here for years"], [" < Those years of training were worth it"], [" < I see you don't have a living Pokete"], [" < I did't train it in years!"], 42, 7)],
                     poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290},
                     extra_actions = playmap_11_extra_action)
-playmap_12 = PlayMap(background=" ", height=15, width=80, name="playmap_12", pretty_name="Route 4",
+playmap_12 = PlayMap(height=15, width=80, name="playmap_12", pretty_name="Route 4",
                     trainers = [Trainer("Brother Justin", "He", Poke("blub", 600, player=False), [" < Hey, my brother and me want to fight!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 26, 10),
                                 Trainer("Brother Justus", "He", Poke("poundi", 600, player=False), [" < Now it's my turn!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 27, 10)],
                     poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
-playmap_13 = PlayMap(background=" ", height=35, width=70, name="playmap_13", pretty_name="Deepens forest",
+playmap_13 = PlayMap(height=35, width=70, name="playmap_13", pretty_name="Deepens forest",
                     trainers = [Trainer("Citizen", "He", Poke("vogli", 600, player=False), [" < Hello fellow stranger!", " < This town is known for it's bird Poketes"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Damn!"], 5, 31),],
                     poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
-playmap_14 = PlayMap(background=" ", height=15, width=30, name="playmap_14", pretty_name="Arena",
+playmap_14 = PlayMap(height=15, width=30, name="playmap_14", pretty_name="Arena",
                     trainers = [Trainer("First trainer", "He", Poke("owol", 650, player=False), [" < Welcome to the Deepest forest Pokete Arena", " < I'm your first enemy!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck!"], 17, 10),
                                 Trainer("Second trainer", "She", Poke("voglo", 700, player=False), [" < Now it's my turn!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the next trainer!"], 22, 10),
                                 Trainer("Third trainer", "She", Poke("treenator", 750, player=False), [" < Let's see what Poketes else you have!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Good luck with the last trainer!"], 22, 5),
                                 Trainer("Last trainer", "He", Poke("ostri", 780, player=False), [" < I'm your last enemy!"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were able to defeat me?", " < You can now leave Deepest forest"], 17, 5)])
-playmap_15 = PlayMap(background=" ", height=25, width=120, name="playmap_15", pretty_name="Route 5",
+playmap_15 = PlayMap(height=25, width=120, name="playmap_15", pretty_name="Route 5",
                     trainers = [Trainer("Samantha", "She", Poke("clampi", 650, player=False), [" < Hey you!", " < My Pokete is very effective against bird Poketes"], [" < You see, it's effective"], [" < I see you don't have a living Pokete"], [" < Oh no", " < I guess yours is even more effective than mine!"], 43, 17),
                                 Trainer("Jessica", "She", Poke("angrilo", 650, player=False), [" < Hey you!"], [" < Haha, you're a loser!"], [" < I see you don't have a living Pokete"], [" < Oh no"], 31, 6)],
                     poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 400, "maxlvl": 550})
-playmap_16 = PlayMap(background=" ", height=17, width=65, name="playmap_16", pretty_name="Route 6",
+playmap_16 = PlayMap(height=17, width=65, name="playmap_16", pretty_name="Route 6",
                     poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 480, "maxlvl": 600})
-playmap_17 = PlayMap(background=" ", height=15, width=30, name="playmap_17", pretty_name="House")
-playmap_18 = PlayMap(background=" ", height=23, width=98, name="playmap_18", pretty_name="Big mountain see",
+playmap_17 = PlayMap(height=15, width=30, name="playmap_17", pretty_name="House")
+playmap_18 = PlayMap(height=23, width=98, name="playmap_18", pretty_name="Big mountain see",
                     trainers = [Trainer("Bert", "He", Poke("poundi", 700, player=False), [" < Hey!", " < This region is full of stone and ground Poketes"], [" < Haha, you're bad!"], [" < I see you don't have a living Pokete"], [" < Oh, I lost!"], 6, 4),
                                 Trainer("Karen", "She", Poke("clampi", 700, player=False), [" < I don't think you can walk here", " < I demand a fight with you!"], [" < Go home little zoomer."], [" < I see you don't have a living Pokete"], [" < I want to talk to your manager."], 56, 11)],
                     poke_args = {"pokes": ["poundi", "rollator", "würgos", "rato"], "minlvl": 540, "maxlvl": 640},
                     extra_actions = playmap_18_extra_action)
-playmap_19 = PlayMap(background=" ", height=30, width=60, name="playmap_19", pretty_name="Big mountain cave",
+playmap_19 = PlayMap(height=30, width=60, name="playmap_19", pretty_name="Big mountain cave",
                     trainers = [Trainer("Brian", "He", Poke("choka", 850, player=False), [" < Hello fellow cava man!"], [" < Oooooh!", " < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were lucky!"], 16, 15),
                                 Trainer("Simon", "He", Poke("wolfiro", 850, player=False), [" < Joooo!", " < What up?"], [" < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Duck!"], 15, 7)],
                     poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"], "minlvl": 540, "maxlvl": 640})
-playmap_20 = PlayMap(background=" ", height=15, width=30, name="playmap_20", pretty_name="House")
-playmap_21 = PlayMap(background=" ", height=30, width=150, name="playmap_21", pretty_name="Rock-ville",
+playmap_20 = PlayMap(height=15, width=30, name="playmap_20", pretty_name="House")
+playmap_21 = PlayMap(height=30, width=150, name="playmap_21", pretty_name="Rock-ville",
                     trainers = [Trainer("Rock hard Rick", "He", Poke("bigstone", 900, player=False), [" < Hello trainer!", " < Welcome to Rock-ville, the highest place in the Pokete world and the home of all stone Poketes.", " < When leaving this town through the 'Cave of doom' you have to fight against the best trainers of this town.", " < But first, you have to fight me!"], [" < If I'm a problem for you, you might not be able to fight the other trainers."], [" < I see you don't have a living Pokete"], [" < Oh", " < I guess you will be a challenge for our trainers!"], 12, 23)],
                     extra_actions = playmap_21_extra_action)
-playmap_22 = PlayMap(background=" ", height=15, width=30, name="playmap_22", pretty_name="Rocky Hotel")
-playmap_23 = PlayMap(background=" ", height=15, width=30, name="playmap_23", pretty_name="Rocky Hotel")
+playmap_22 = PlayMap(height=15, width=30, name="playmap_22", pretty_name="Rocky Hotel")
+playmap_23 = PlayMap(height=15, width=30, name="playmap_23", pretty_name="Rocky Hotel")
+playmap_24 = PlayMap(height=15, width=30, name="playmap_23", pretty_name="House")
 
 # mapmap
 mapbox = Box(11, 40, "Roadmap")

@@ -767,7 +767,7 @@ Lets an apple drop on the enemys head.
 - Minimum Level: 0
 - Attack factor: 1.7
 - Missing chance: 0.3
-- Attack points: 20
+- Attack points: 30
 
 ### Ash throw
 Throws ashes in the enemys eyes.
@@ -776,7 +776,7 @@ Throws ashes in the enemys eyes.
 - Minimum Level: 15
 - Attack factor: 0.5
 - Missing chance: 0
-- Attack points: 10
+- Attack points: 15
 
 ### Bark hardening
 Hardens the bark to protect it better.
@@ -785,7 +785,7 @@ Hardens the bark to protect it better.
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
-- Attack points: 10
+- Attack points: 15
 
 ### Bite
 A hard bite the sharp teeth.
@@ -794,7 +794,7 @@ A hard bite the sharp teeth.
 - Minimum Level: 0
 - Attack factor: 1.75
 - Missing chance: 0.1
-- Attack points: 20
+- Attack points: 30
 
 ### Branch stab
 Stabs the enemy with a branch, preferably in the enemys eyes.
@@ -803,7 +803,7 @@ Stabs the enemy with a branch, preferably in the enemys eyes.
 - Minimum Level: 15
 - Attack factor: 4
 - Missing chance: 0.2
-- Attack points: 5
+- Attack points: 10
 
 ### Brick throw
 Throws an euler brick at the enemy.
@@ -812,7 +812,7 @@ Throws an euler brick at the enemy.
 - Minimum Level: 15
 - Attack factor: 2
 - Missing chance: 0.3
-- Attack points: 15
+- Attack points: 20
 
 ### Brooding
 Regenerates 2 HP.
@@ -821,7 +821,7 @@ Regenerates 2 HP.
 - Minimum Level: 15
 - Attack factor: 0
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Bubble bomb
 A deadly bubble.
@@ -830,7 +830,7 @@ A deadly bubble.
 - Minimum Level: 0
 - Attack factor: 6
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Bubble shield
 Creates a giant bubble that protects the Pokete.
@@ -839,7 +839,7 @@ Creates a giant bubble that protects the Pokete.
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Charging
 Charges the Pokete.
@@ -848,7 +848,7 @@ Charges the Pokete.
 - Minimum Level: 10
 - Attack factor: 0
 - Missing chance: 0
-- Attack points: 10
+- Attack points: 15
 
 ### Chocer
 Choces the enemy and makes it weaker.
@@ -857,7 +857,7 @@ Choces the enemy and makes it weaker.
 - Minimum Level: 0
 - Attack factor: 1
 - Missing chance: 0.2
-- Attack points: 10
+- Attack points: 15
 
 ### Cry
 So loud, it confuses the enemy.
@@ -866,7 +866,7 @@ So loud, it confuses the enemy.
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Earch quake
 Brings the earth to shift.
@@ -875,7 +875,7 @@ Brings the earth to shift.
 - Minimum Level: 0
 - Attack factor: 4
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Eye pick
 Picks out one of the enemys eyes.
@@ -884,7 +884,7 @@ Picks out one of the enemys eyes.
 - Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.6
-- Attack points: 5
+- Attack points: 10
 
 ### Fire ball
 Casts a fireball at the enemy.
@@ -893,7 +893,7 @@ Casts a fireball at the enemy.
 - Minimum Level: 25
 - Attack factor: 4
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Fire bite
 Burns and bites the enemy at the same time.
@@ -902,7 +902,7 @@ Burns and bites the enemy at the same time.
 - Minimum Level: 0
 - Attack factor: 2
 - Missing chance: 0.2
-- Attack points: 10
+- Attack points: 15
 
 ### Heart touch
 Touches the enemys heard with its' cold gost claws.
@@ -911,7 +911,7 @@ Touches the enemys heard with its' cold gost claws.
 - Minimum Level: 20
 - Attack factor: 4
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Leaf storm
 Blasts a bunch of spikie leafes at the enemy.
@@ -920,7 +920,7 @@ Blasts a bunch of spikie leafes at the enemy.
 - Minimum Level: 20
 - Attack factor: 5
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Meat skewer
 Drills the horn deep in the enemys flesh.
@@ -929,7 +929,7 @@ Drills the horn deep in the enemys flesh.
 - Minimum Level: 0
 - Attack factor: 3.5
 - Missing chance: 0.7
-- Attack points: 5
+- Attack points: 10
 
 ### Mega arch
 Gives the enemy heavy a shock.
@@ -938,7 +938,7 @@ Gives the enemy heavy a shock.
 - Minimum Level: 15
 - Attack factor: 5
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Mind blow
 Causes confusion deep in the enemys mind.
@@ -947,7 +947,7 @@ Causes confusion deep in the enemys mind.
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
-- Attack points: 10
+- Attack points: 15
 
 ### Pepple fire
 Fires pepples at the enemy and makes it blind.
@@ -956,7 +956,7 @@ Fires pepples at the enemy and makes it blind.
 - Minimum Level: 0
 - Attack factor: 1
 - Missing chance: 0
-- Attack points: 3
+- Attack points: 5
 
 ### Pick
 A pick at the enemys weakest spot.
@@ -965,7 +965,7 @@ A pick at the enemys weakest spot.
 - Minimum Level: 0
 - Attack factor: 1.7
 - Missing chance: 0.1
-- Attack points: 20
+- Attack points: 30
 
 ### Poison bite
 Makes the enemy weaker.
@@ -974,7 +974,7 @@ Makes the enemy weaker.
 - Minimum Level: 0
 - Attack factor: 1
 - Missing chance: 0.3
-- Attack points: 5
+- Attack points: 10
 
 ### Politure
 Upgrades defense and attack points.
@@ -983,7 +983,7 @@ Upgrades defense and attack points.
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
-- Attack points: 10
+- Attack points: 15
 
 ### Power bite
 The hardest bite you can think of.
@@ -992,7 +992,7 @@ The hardest bite you can think of.
 - Minimum Level: 30
 - Attack factor: 8
 - Missing chance: 0.1
-- Attack points: 3
+- Attack points: 5
 
 ### Power pick
 A harsh picking on the enemys head.
@@ -1001,7 +1001,7 @@ A harsh picking on the enemys head.
 - Minimum Level: 0
 - Attack factor: 2
 - Missing chance: 0.4
-- Attack points: 5
+- Attack points: 10
 
 ### Power roll
 Rolls over the enemy.
@@ -1010,7 +1010,7 @@ Rolls over the enemy.
 - Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.2
-- Attack points: 10
+- Attack points: 15
 
 ### Root strangler
 Uses old and crusty roots to strangle the enemys.
@@ -1019,7 +1019,7 @@ Uses old and crusty roots to strangle the enemys.
 - Minimum Level: 20
 - Attack factor: 1
 - Missing chance: 0.2
-- Attack points: 10
+- Attack points: 15
 
 ### Shell pinch
 Pinches the enemy with its strong shells.
@@ -1028,7 +1028,7 @@ Pinches the enemy with its strong shells.
 - Minimum Level: 15
 - Attack factor: 2.5
 - Missing chance: 0.1
-- Attack points: 15
+- Attack points: 20
 
 ### Shock
 Gives the enemy a shock.
@@ -1037,7 +1037,7 @@ Gives the enemy a shock.
 - Minimum Level: 0
 - Attack factor: 1.5
 - Missing chance: 0.2
-- Attack points: 20
+- Attack points: 30
 
 ### Snooze
 Makes the enemy sleepy.
@@ -1046,7 +1046,7 @@ Makes the enemy sleepy.
 - Minimum Level: 15
 - Attack factor: 0
 - Missing chance: 0.2
-- Attack points: 10
+- Attack points: 15
 
 ### Sucker
 Sucks 1 HP from the enemy and adds it to it's own.
@@ -1064,7 +1064,7 @@ Sucks 2 HP from the enemy and adds it to it's own.
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
-- Attack points: 5
+- Attack points: 10
 
 ### Tackle
 Tackles the enemy very hard.
@@ -1073,7 +1073,7 @@ Tackles the enemy very hard.
 - Minimum Level: 0
 - Attack factor: 1.5
 - Missing chance: 0.2
-- Attack points: 20
+- Attack points: 30
 
 ### Tail wipe
 Wipes throught the enemys face.
@@ -1082,7 +1082,7 @@ Wipes throught the enemys face.
 - Minimum Level: 10
 - Attack factor: 2.5
 - Missing chance: 0.5
-- Attack points: 5
+- Attack points: 10
 
 ### Wet slap
 Gives the enemy a wet and cold slap in the face.
@@ -1091,7 +1091,7 @@ Gives the enemy a wet and cold slap in the face.
 - Minimum Level: 10
 - Attack factor: 2.5
 - Missing chance: 0.1
-- Attack points: 10
+- Attack points: 15
 
 ### Wing hit
 Hits the enemy with a wing.
@@ -1100,7 +1100,7 @@ Hits the enemy with a wing.
 - Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.5
-- Attack points: 5
+- Attack points: 10
 
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.

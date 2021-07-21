@@ -30,8 +30,8 @@ class NoColor(Color):
 
 
 class PlayMap(se.Map):
-    def __init__(self, height=se.height-1, width=se.width, background="#", trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
-        super().__init__(height=height, width=width, background=background, dynfps=dynfps)
+    def __init__(self, height=se.height-1, width=se.width, trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
+        super().__init__(height=height, width=width, background=" ", dynfps=dynfps)
         for i in ["trainers", "name", "pretty_name", "poke_args"]:
             exec(f"self.{i}={i}")
         self.__extra_actions = extra_actions
