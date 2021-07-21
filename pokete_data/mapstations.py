@@ -1,6 +1,7 @@
 stations = {
     "playmap_1": {
         "gen": {
+            "additionals": ["intromap"],
             "width": 2,
             "height": 1,
             "w_next": "cave_1"
@@ -12,6 +13,7 @@ stations = {
     },
     "cave_1": {
         "gen": {
+            "additionals": [],
             "width": 1,
             "height": 2,
             "s_next": "playmap_1",
@@ -24,6 +26,7 @@ stations = {
     },
     "playmap_2": {
         "gen": {
+            "additionals": [],
             "width": 2,
             "height": 1,
             "a_next": "cave_1",
@@ -36,6 +39,7 @@ stations = {
     },
     "playmap_3": {
         "gen": {
+            "additionals": [],
             "width": 2,
             "height": 1,
             "a_next": "playmap_2",
@@ -49,6 +53,7 @@ stations = {
     },
     "playmap_4": {
         "gen": {
+            "additionals": ["playmap_5"],
             "width": 1,
             "height": 3,
             "s_next": "playmap_3",
@@ -60,6 +65,7 @@ stations = {
     },
     "playmap_6": {
         "gen": {
+            "additionals": [],
             "width": 1,
             "height": 2,
             "w_next": "playmap_3",
@@ -73,6 +79,7 @@ stations = {
     },
     "playmap_7": {
         "gen": {
+            "additionals": [],
             "width": 1,
             "height": 1,
             "d_next": "playmap_6",
@@ -84,6 +91,7 @@ stations = {
     },
     "playmap_8": {
         "gen": {
+            "additionals": ["playmap_10", "playmap_9"],
             "width": 2,
             "height": 1,
             "a_next": "playmap_6",
@@ -97,6 +105,7 @@ stations = {
     },
     "playmap_11": {
         "gen": {
+            "additionals": [],
             "width": 1,
             "height": 1,
             "w_next": "playmap_8",
@@ -109,6 +118,7 @@ stations = {
     "playmap_12": {
         "gen": {
             "width": 2,
+            "additionals": [],
             "height": 1,
             "a_next": "playmap_8",
             "w_next": "playmap_13",
@@ -120,6 +130,7 @@ stations = {
     },
     "playmap_13": {
         "gen": {
+            "additionals": ["playmap_14", "playmap_20"],
             "width": 1,
             "height": 2,
             "s_next": "playmap_12",
@@ -132,6 +143,7 @@ stations = {
     },
     "playmap_15": {
         "gen": {
+            "additionals": [],
             "width": 2,
             "height": 1,
             "s_next": "playmap_13",
@@ -144,6 +156,7 @@ stations = {
     },
     "playmap_16": {
         "gen": {
+            "additionals": ["playmap_17"],
             "width": 1,
             "height": 1,
             "a_next": "playmap_15",
@@ -156,6 +169,7 @@ stations = {
     },
     "playmap_18": {
         "gen": {
+            "additionals": [],
             "width": 2,
             "height": 1,
             "a_next": "playmap_16",
@@ -168,6 +182,7 @@ stations = {
     },
     "playmap_19": {
         "gen": {
+            "additionals": [],
             "width": 1,
             "height": 1,
             "s_next": "playmap_18",
@@ -180,6 +195,7 @@ stations = {
     },
     "playmap_21": {
         "gen": {
+            "additionals": ["playmap_22", "playmap_23"],
             "width": 3,
             "height": 1,
             "s_next": "playmap_19",

@@ -367,9 +367,9 @@ class Poke():
 class Station(se.Square):
     choosen = None
     obs = []
-    def __init__(self, associate, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
+    def __init__(self, associate, additionals, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
         self.org_char = char
-        self.associate = associate
+        self.associates = [associate]+[eval(i) for i in additionals]
         super().__init__(char, width, height)
         for i in ["w_next", "a_next", "s_next", "d_next"]:
             exec(f"self.{i}={i}")
@@ -378,7 +378,7 @@ class Station(se.Square):
     def choose(self):
         self.rechar(Color.red+Color.thicc+self.org_char+Color.reset)
         Station.choosen = self
-        mapbox.info_label.rechar(self.associate.pretty_name)
+        mapbox.info_label.rechar(self.associates[0].pretty_name)
 
     def unchoose(self):
         self.rechar(self.org_char)
@@ -1080,7 +1080,7 @@ def buy():
 def roadmap():
     global ev
     ev = ""
-    [i for i in Station.obs if i.associate == [j for j in [figure.map, figure.oldmap] if j in [k.associate for k in Station.obs]][0]][0].choose()
+    [i for i in Station.obs if (figure.map if figure.map not in [shopmap, centermap] else figure.oldmap) in i.associates][0].choose()
     with mapbox.add(movemap, movemap.width-mapbox.width, 0):
         while True:
             if ev in ["'w'", "'a'", "'s'", "'d'"]:
