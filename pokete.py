@@ -295,7 +295,6 @@ class Poke():
             attac.ap -= 1
             fightmap.outp.outp(f'{self.name}({"you" if self.player else "enemy"}) used {attac.name}! {self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
             if n_hp != 0 or attac.factor == 0:
-                time.sleep(1.5)
                 attac.give_effect(enem)
             for ob in [enem, self]:
                 ob.health_bar_updater(ob.oldhp)
@@ -490,6 +489,7 @@ class Attack():
 
     def give_effect(self, enem):
         if self.effect != None:
+            time.sleep(1.5)
             exec(f'{self.effect}().add(enem)')
 
 
@@ -762,6 +762,9 @@ def deck_control(pokes, ev, index):
 def fight_clean_up(player, enemy):
     [ob.remove() for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir, player.text_name, player.text_lvl, player.text_hp, player.ico, player.hp_bar, player.tril, player.trir, enemy.pball_small]]
     fightbox.remove_c_obs()
+    for i in [player, enemy]:
+        for j in i.effects:
+            j.cleanup()
 
 
 def fight_add_3(player, enemy):
@@ -1274,6 +1277,10 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fightbox.set_index(0)
                     players = fight_add_3(player, enemy)
                     fightmap.outp.outp(f"You have choosen {player.name}")
+                    for i in players:
+                        for j in i.effects:
+                            time.sleep(1)
+                            j.readd()
                     attack = ""
                     break
                 std_loop()
