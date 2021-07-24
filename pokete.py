@@ -216,6 +216,7 @@ class Poke():
         self.pball_small = se.Object("o")
         self.set_vars()
         self.text_initiative = se.Text(f"Initiative:{self.initiative}", state="float")
+        self.effects = []
 
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
@@ -270,6 +271,15 @@ class Poke():
 
     def attack(self, attac, enem):
         if attac.ap > 0:
+            for e in self.effects:
+                e.remove()
+            for e in self.effects:
+                i = e.effect()
+                if i == 1:
+                    self.label_rechar()
+                    return
+                elif i == 0:
+                    pass
             self.enem = enem
             enem.oldhp = enem.hp
             self.oldhp = self.hp
@@ -284,6 +294,9 @@ class Poke():
             exec(attac.action)
             attac.ap -= 1
             fightmap.outp.outp(f'{self.name}({"you" if self.player else "enemy"}) used {attac.name}! {self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
+            if n_hp != 0 or attac.factor == 0:
+                time.sleep(1.5)
+                attac.give_effect(enem)
             for ob in [enem, self]:
                 ob.health_bar_updater(ob.oldhp)
             self.label_rechar()
@@ -474,6 +487,10 @@ class Attack():
         self.label_desc = se.Text(self.desc[:int(width/2-1)])
         self.label_type_1 = se.Text("Type:")
         self.label_type_2 = se.Text(self.type.name.capitalize(), esccode=self.type.color)
+
+    def give_effect(self, enem):
+        if self.effect != None:
+            exec(f'{self.effect}().add(enem)')
 
 
 class Setting(se.Box):
@@ -1172,6 +1189,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     else:
         enem = sorted(zip([i.initiative for i in players], [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
         ob = [i for i in players if i != enem][-1]
+    for i in players:
+        for j in i.effects:
+            j.readd()
     while True:
         if ob.player:
             fightmap.outp.outp(fightmap.outp.text+("\n" if "\n" not in fightmap.outp.text else "")+ "What do you want to do?")

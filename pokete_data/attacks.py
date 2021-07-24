@@ -8,6 +8,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Tackles the enemy very hard.",
         "type": "normal",
+        "effect": None,
         "ap": 30,
     },
     "pick": {
@@ -19,6 +20,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "A pick at the enemys weakest spot.",
         "type": "flying",
+        "effect": None,
         "ap": 30,
     },
     "apple_drop": {
@@ -30,6 +32,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Lets an apple drop on the enemys head.",
         "type": "plant",
+        "effect": None,
         "ap": 30,
     },
     "eye_pick": {
@@ -41,6 +44,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Picks out one of the enemys eyes.",
         "type": "flying",
+        "effect": None,
         "ap": 10,
     },
     "earch_quake": {
@@ -52,6 +56,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Brings the earth to shift.",
         "type": "ground",
+        "effect": None,
         "ap": 10,
     },
     "wing_hit": {
@@ -63,6 +68,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Hits the enemy with a wing.",
         "type": "flying",
+        "effect": None,
         "ap": 10,
     },
     "super_sucker": {
@@ -74,6 +80,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Sucks 2 HP from the enemy and adds it to it's own.",
         "type": "plant",
+        "effect": None,
         "ap": 10,
     },
     "sucker": {
@@ -85,6 +92,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Sucks 1 HP from the enemy and adds it to it's own.",
         "type": "plant",
+        "effect": None,
         "ap": 20,
     },
     "brooding": {
@@ -96,6 +104,7 @@ attacks = {
         "min_lvl": 15,
         "desc": "Regenerates 2 HP.",
         "type": "normal",
+        "effect": None,
         "ap": 10,
     },
     "pepple_fire": {
@@ -107,6 +116,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Fires pepples at the enemy and makes it blind.",
         "type": "stone",
+        "effect": None,
         "ap": 5,
     },
     "cry": {
@@ -118,6 +128,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "So loud, it confuses the enemy.",
         "type": "normal",
+        "effect": None,
         "ap": 10,
     },
     "bite": {
@@ -129,6 +140,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "A hard bite the sharp teeth.",
         "type": "normal",
+        "effect": None,
         "ap": 30,
     },
     "power_bite": {
@@ -140,6 +152,7 @@ attacks = {
         "min_lvl": 30,
         "desc": "The hardest bite you can think of.",
         "type": "normal",
+        "effect": None,
         "ap": 5,
     },
     "politure": {
@@ -151,6 +164,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Upgrades defense and attack points.",
         "type": "stone",
+        "effect": None,
         "ap": 15,
     },
     "bark_hardening": {
@@ -162,6 +176,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Hardens the bark to protect it better.",
         "type": "plant",
+        "effect": None,
         "ap": 15,
     },
     "chocer": {
@@ -173,6 +188,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Choces the enemy and makes it weaker.",
         "type": "normal",
+        "effect": None,
         "ap": 15,
     },
     "poison_bite": {
@@ -184,6 +200,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Makes the enemy weaker.",
         "type": "normal",
+        "effect": None,
         "ap": 10,
     },
     "power_pick": {
@@ -195,6 +212,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "A harsh picking on the enemys head.",
         "type": "flying",
+        "effect": None,
         "ap": 10,
     },
     "bubble_bomb": {
@@ -206,6 +224,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "A deadly bubble.",
         "type": "water",
+        "effect": None,
         "ap": 10,
     },
     "bubble_shield": {
@@ -217,6 +236,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Creates a giant bubble that protects the Pokete.",
         "type": "water",
+        "effect": None,
         "ap": 10,
     },
     "mind_blow": {
@@ -228,6 +248,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Causes confusion deep in the enemys mind.",
         "type": "undead",
+        "effect": None,
         "ap": 15,
     },
     "tail_wipe": {
@@ -239,6 +260,7 @@ attacks = {
         "min_lvl": 10,
         "desc": "Wipes throught the enemys face.",
         "type": "normal",
+        "effect": None,
         "ap": 10,
     },
     "meat_skewer": {
@@ -250,6 +272,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Drills the horn deep in the enemys flesh.",
         "type": "normal",
+        "effect": None,
         "ap": 10,
     },
     "fire_bite": {
@@ -261,6 +284,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Burns and bites the enemy at the same time.",
         "type": "fire",
+        "effect": None,
         "ap": 15,
     },
     "ash_throw": {
@@ -272,6 +296,7 @@ attacks = {
         "min_lvl": 15,
         "desc": "Throws ashes in the enemys eyes.",
         "type": "fire",
+        "effect": None,
         "ap": 15,
     },
     "fire_ball": {
@@ -283,6 +308,7 @@ attacks = {
         "min_lvl": 25,
         "desc": "Casts a fireball at the enemy.",
         "type": "fire",
+        "effect": None,
         "ap": 10,
     },
     "power_roll": {
@@ -294,6 +320,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Rolls over the enemy.",
         "type": "ground",
+        "effect": None,
         "ap": 15,
     },
     "wet_slap": {
@@ -305,6 +332,7 @@ attacks = {
         "min_lvl": 10,
         "desc": "Gives the enemy a wet and cold slap in the face.",
         "type": "water",
+        "effect": None,
         "ap": 15,
     },
     "brick_throw": {
@@ -316,6 +344,7 @@ attacks = {
         "min_lvl": 15,
         "desc": "Throws an euler brick at the enemy.",
         "type": "stone",
+        "effect": None,
         "ap": 20,
     },
     "shell_pinch": {
@@ -327,6 +356,7 @@ attacks = {
         "min_lvl": 15,
         "desc": "Pinches the enemy with its strong shells.",
         "type": "water",
+        "effect": None,
         "ap": 20,
     },
     "branch_stab": {
@@ -338,6 +368,7 @@ attacks = {
         "min_lvl": 15,
         "desc": "Stabs the enemy with a branch, preferably in the enemys eyes.",
         "type": "plant",
+        "effect": None,
         "ap": 10,
     },
     "snooze": {
@@ -349,6 +380,7 @@ attacks = {
         "min_lvl": 15,
         "desc": "Makes the enemy sleepy.",
         "type": "normal",
+        "effect": None,
         "ap": 15,
     },
     "heart_touch": {
@@ -360,6 +392,7 @@ attacks = {
         "min_lvl": 20,
         "desc": "Touches the enemys heard with its' cold gost claws.",
         "type": "undead",
+        "effect": None,
         "ap": 10,
     },
     "shock": {
@@ -371,6 +404,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Gives the enemy a shock.",
         "type": "electro",
+        "effect": None,
         "ap": 30,
     },
     "charging": {
@@ -382,6 +416,7 @@ attacks = {
         "min_lvl": 10,
         "desc": "Charges the Pokete.",
         "type": "electro",
+        "effect": None,
         "ap": 15,
     },
     "mega_arch": {
@@ -393,6 +428,7 @@ attacks = {
         "min_lvl": 15,
         "desc": "Gives the enemy heavy a shock.",
         "type": "electro",
+        "effect": None,
         "ap": 10,
     },
     "root_strangler": {
@@ -404,6 +440,7 @@ attacks = {
         "min_lvl": 20,
         "desc": "Uses old and crusty roots to strangle the enemys.",
         "type": "plant",
+        "effect": "EffectParalisation",
         "ap": 15,
     },
     "leaf_storm": {
@@ -415,6 +452,7 @@ attacks = {
         "min_lvl": 20,
         "desc": "Blasts a bunch of spikie leafes at the enemy.",
         "type": "plant",
+        "effect": None,
         "ap": 10,
     },
 }

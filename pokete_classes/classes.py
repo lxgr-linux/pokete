@@ -1,4 +1,5 @@
 import scrap_engine as se
+import time, random
 
 class Color:
     reset = "\033[0m"
@@ -66,6 +67,51 @@ class Settings():
 
     def dict(self):
         return {i: eval("self."+i, {"self": self,}) for i in self.keywords}
+
+
+class Effect():
+    def __init__(self, name, rem_chance, str, str_esccode="", ob=None):
+        self.name = name
+        self.rem_chance = rem_chance
+        self.label = se.Text(str, state="float", esccode=str_esccode)
+        self.ob = ob
+
+    def add(self, ob):
+        if all(type(i) is not type(self) for i in ob.effects):
+            self.ob = ob
+            self.ob.effects.append(self)
+            self.label.add(ob.ico.map, ob.text_lvl.obs[-1].x+2, ob.text_lvl.obs[-1].y)
+            self.ob.ico.map.outp.outp(f'{ob.name}({"you" if ob.player else "enemy"}) is now {self.name}')
+        else:
+            ob.ico.map.outp.outp(f'{ob.name}({"you" if ob.player else "enemy"}) is allready {self.name}')
+        time.sleep(2)
+
+    def readd(self):
+        self.label.add(self.ob.ico.map, self.ob.text_lvl.obs[-1].x+2, self.ob.text_lvl.obs[-1].y)
+        self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still {self.name}!')
+
+    def remove(self):
+        if random.randint(0, self.rem_chance) == 0:
+            self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) isn\'t {self.name} anymore!')
+            self.cleanup()
+            del self.ob.effects[self.ob.effects.index(self)]
+            self.ob = None
+            time.sleep(2)
+
+    def cleanup(self):
+        self.label.remove()
+
+    def effect(self):
+        return
+
+
+class EffectParalisation(Effect):
+    def __init__(self, ob=None):
+        super().__init__("paralised", 4,"(Paral.)", Color.yellow, ob)
+
+    def effect(self):
+        self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still {self.name} and can\'t attack!')
+        return 1
 
 
 class OutP(se.Text):

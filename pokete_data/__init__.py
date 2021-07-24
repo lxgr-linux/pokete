@@ -22,7 +22,7 @@ def single_validate(dict, validator, name = ""):
         one_validate(dict[j], validator, f"{name}.{j}")
 
 def validate():
-    for i, j in zip([pokes, types, map_data, stations, items, npcs], validators):
+    for i, j in zip([pokes, types, map_data, stations, items, npcs, attacks], validators):
         single_validate(i, j)
     for p in pokes:
         for i in pokes[p]["ico"]:
@@ -41,6 +41,7 @@ validators = {
     "station": ["gen", "add"],
     "item": ["pretty_name", "desc", "price", "fn"],
     "npc": ["texts", "fn", "args", "map", "x", "y"],
+    "attack": ["name", "factor", "action", "move", "miss_chance", "min_lvl", "desc", "type", "effect", "ap"],
     "hard_ob": ["x", "y", "txt"],
     "soft_ob": ["x", "y", "txt"],
     "dor": ["x", "y", "args"],
