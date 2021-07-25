@@ -380,7 +380,7 @@ attacks = {
         "min_lvl": 15,
         "desc": "Makes the enemy sleepy.",
         "type": "normal",
-        "effect": None,
+        "effect": "EffectSleep",
         "ap": 15,
     },
     "heart_touch": {
@@ -440,7 +440,7 @@ attacks = {
         "min_lvl": 20,
         "desc": "Uses old and crusty roots to strangle the enemys.",
         "type": "plant",
-        "effect": "EffectParalisation",
+        "effect": "EffectParalyzation",
         "ap": 15,
     },
     "leaf_storm": {

@@ -90,7 +90,7 @@ class Effect():
         time.sleep(2)
 
     def add_label(self):
-        self.label.add(self.ob.ico.map, self.ob.text_lvl.obs[-1].x+2, self.ob.text_lvl.obs[-1].y)
+        self.label.add(self.ob.ico.map, (self.ob.text_lvl.obs[-1].x if self.ob.effects.index(self) == 0 else self.ob.effects[self.ob.effects.index(self)-1].label.obs[-1].x)+2, self.ob.text_lvl.obs[-1].y)
 
     def readd(self):
         self.add_label()
@@ -99,25 +99,37 @@ class Effect():
     def remove(self):
         if random.randint(0, self.rem_chance) == 0:
             self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) isn\'t {self.name} anymore!')
-            self.cleanup()
-            del self.ob.effects[self.ob.effects.index(self)]
+            i = self.ob.effects.index(self)
+            del self.ob.effects[i]
+            self.cleanup(i)
             self.ob = None
             time.sleep(2)
 
-    def cleanup(self):
+    def cleanup(self, j=None):
+        if j == None:
+            j = self.ob.effects.index(self)
+        else:
+            j -= 1
         self.label.remove()
-
-    def effect(self):
-        return
-
-
-class EffectParalisation(Effect):
-    def __init__(self, ob=None):
-        super().__init__("paralised", 4,"(Paral.)", Color.yellow, ob)
+        if len(self.ob.effects) > j+1:
+            i = self.ob.effects[j+1]
+            i.cleanup()
+            i.add_label()
 
     def effect(self):
         self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still {self.name} and can\'t attack!')
+        time.sleep(0.5)
         return 1
+
+
+class EffectParalyzation(Effect):
+    def __init__(self, ob=None):
+        super().__init__("paralyzed", 3,"(Par)", Color.yellow, ob)
+
+
+class EffectSleep(Effect):
+    def __init__(self, ob=None):
+        super().__init__("sleeping", 4,"(Sle)", Color.purple, ob)
 
 
 class OutP(se.Text):
