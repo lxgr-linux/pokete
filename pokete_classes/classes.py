@@ -76,6 +76,9 @@ class Effect():
         self.label = se.Text(str, state="float", esccode=str_esccode)
         self.ob = ob
 
+    def __repr__(self):
+        return f"{type(self).__name__}"
+
     def add(self, ob):
         if all(type(i) is not type(self) for i in ob.effects):
             self.ob = ob

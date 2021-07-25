@@ -235,7 +235,7 @@ class Poke():
         self.label_rechar()
 
     def dict(self):
-        return {"name": self.identifier, "xp": self.xp, "hp": self.hp, "ap": [atc.ap for atc in self.attac_obs]}
+        return {"name": self.identifier, "xp": self.xp, "hp": self.hp, "ap": [atc.ap for atc in self.attac_obs], "effects": [repr(e) for e in self.effects]}
 
     def set_ap(self, dict):
         for atc, ap in zip(self.attac_obs, dict):
@@ -418,6 +418,9 @@ class Figure(se.Object):
         self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"]) for poke in si["pokes"]]
         for j, poke in enumerate(self.pokes):
             poke.set_ap(si["pokes"][j]["ap"])
+            if "effects" in si["pokes"][j]:
+                for e in si["pokes"][j]["effects"]:
+                    poke.effects.append(eval(e)(poke))
         try:
             if eval(si["map"]) in [centermap, shopmap]:  # Looking if figure would be in centermap, so the player may spawn out of the center
                 self.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
@@ -573,7 +576,7 @@ def save():
         "inv": figure.inv,
         "money": figure.get_money(),
         "settings": settings.dict(),
-        "used_npcs": used_npcs
+        "used_npcs": used_npcs,
     }
     with open(home+__save_path__+"/pokete.py", "w+") as file:
         file.write(f"session_info={session_info}")
