@@ -80,14 +80,17 @@ class Effect():
         if all(type(i) is not type(self) for i in ob.effects):
             self.ob = ob
             self.ob.effects.append(self)
-            self.label.add(ob.ico.map, ob.text_lvl.obs[-1].x+2, ob.text_lvl.obs[-1].y)
+            self.add_label()
             self.ob.ico.map.outp.outp(f'{ob.name}({"you" if ob.player else "enemy"}) is now {self.name}')
         else:
             ob.ico.map.outp.outp(f'{ob.name}({"you" if ob.player else "enemy"}) is allready {self.name}')
         time.sleep(2)
 
-    def readd(self):
+    def add_label(self):
         self.label.add(self.ob.ico.map, self.ob.text_lvl.obs[-1].x+2, self.ob.text_lvl.obs[-1].y)
+
+    def readd(self):
+        self.add_label()
         self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still {self.name}!')
 
     def remove(self):

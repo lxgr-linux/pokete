@@ -722,12 +722,15 @@ def deck_add(poke, map, x, y, in_deck=True):
             ob.add(map, x+_x, y+_y)
         if figure.pokes.index(poke) < 6 and in_deck:
             poke.pball_small.add(map, round(deckmap.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else deckmap.width-2, y)
+        for e in poke.effects:
+            e.add_label()
 
 
 def deck_remove(poke):
     for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp, poke.tril, poke.trir, poke.hp_bar, poke.text_xp, poke.pball_small]:
         ob.remove()
-
+    for e in poke.effects:
+        e.cleanup()
 
 def deck_add_all(pokes, init=False):
     j = 0
