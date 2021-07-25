@@ -215,7 +215,6 @@ class Poke():
         self.atc_labels = []
         self.pball_small = se.Object("o")
         self.set_vars()
-        self.text_initiative = se.Text(f"Initiative:{self.initiative}", state="float")
         self.effects = []
 
     def set_vars(self):
@@ -523,14 +522,14 @@ class Deck:
     def __init__(self):
         self.map = se.Map(height-1, width, " ")
         self.submap = se.Submap(self.map, 0, 0, height=height-1, width=width)
-        self.submap.exit_label = se.Text("1: Exit  ")
-        self.submap.move_label = se.Text("2: Move    ")
-        self.submap.move_free = se.Text("3: Free")
+        self.exit_label = se.Text("1: Exit  ")
+        self.move_label = se.Text("2: Move    ")
+        self.move_free = se.Text("3: Free")
         self.index = se.Object("*")
         # adding
-        self.submap.exit_label.add(self.submap, 0, self.submap.height-1)
-        self.submap.move_label.add(self.submap, 9, self.submap.height-1)
-        self.submap.move_free.add(self.submap, 20, self.submap.height-1)
+        self.exit_label.add(self.submap, 0, self.submap.height-1)
+        self.move_label.add(self.submap, 9, self.submap.height-1)
+        self.move_free.add(self.submap, 20, self.submap.height-1)
 
 
     def __call__(self, pokes, label="Your full deck", in_fight=False):
@@ -541,7 +540,7 @@ class Deck:
         se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
         se.Square("|", 1, self.map.height-2).add(self.map, round(self.map.width/2), 1)
         se.Frame(height=self.map.height-1, width=self.map.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"]).add(self.map, 0, 0)
-        self.submap.move_label.rechar("2: Move    ")
+        self.move_label.rechar("2: Move    ")
         indici = []
         self.add_all(pokes, True)
         self.index.index = 0
@@ -562,7 +561,7 @@ class Deck:
                     continue
                 if indici == []:
                     indici.append(deck_index.index)
-                    self.submap.move_label.rechar("2: Move to ")
+                    self.move_label.rechar("2: Move to ")
                 else:
                     indici.append(self.index.index)
                     figure.pokes[indici[0]], figure.pokes[indici[1]] = pokes[indici[1]], pokes[indici[0]]
@@ -572,16 +571,16 @@ class Deck:
                     self.index.set(0, self.map.height-1)
                     self.add_all(pokes)
                     self.index.set(pokes[self.index.index].text_name.x+len(pokes[self.index.index].text_name.text)+1, pokes[self.index.index].text_name.y)
-                    self.submap.move_label.rechar("2: Move    ")
+                    self.move_label.rechar("2: Move    ")
                     self.submap.full_show()
             elif ev == "'3'":
                 ev = ""
-                if ask_bool(decksubmap, f"Do you really want to free {figure.pokes[deck_index.index].name}?"):
+                if ask_bool(self.submap, f"Do you really want to free {figure.pokes[self.index.index].name}?"):
                     [self.remove(poke) for poke in pokes]
                     figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
                     pokes = figure.pokes[:len(pokes)]
                     self.add_all(pokes)
-                    self.index.set(pokes[self.index.index].text_name.x+len(pokes[self.index.index].text_name.text)+1, pokes[deck_index.index].text_name.y)
+                    self.index.set(pokes[self.index.index].text_name.x+len(pokes[self.index.index].text_name.text)+1, pokes[self.index.index].text_name.y)
                     balls_label_rechar()
             elif ev in ["'w'", "'a'", "'s'", "'d'"]:
                 self.control(pokes, ev)
@@ -651,6 +650,73 @@ class Deck:
                     self.index.index = second
                 break
         self.index.set(pokes[self.index.index].text_name.x+len(pokes[self.index.index].text_name.text)+1, pokes[self.index.index].text_name.y)
+
+
+class Detail(Deck):
+    def __init__(self):
+        self.map = se.Map(height-1, width, " ")
+        self.name_label = se.Text("Details", esccode=Color.thicc)
+        self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
+        self.frame = se.Frame(height=17, width=self.map.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"])
+        self.attack_defense = se.Text("Attack:   Defense:")
+        self.type_label = se.Text("Type:")
+        self.initiative_label = se.Text("Initiative:")
+        self.exit_label = se.Text("1: Exit")
+        self.line_sep1 = se.Square("-", self.map.width-2, 1)
+        self.line_sep2 = se.Square("-", self.map.width-2, 1)
+        self.line_middle = se.Square("|", 1, 10)
+        # adding
+        self.name_label.add(self.map, 2, 0)
+        self.name_attacks.add(self.map, 2, 6)
+        self.attack_defense.add(self.map, 13, 5)
+        self.type_label.add(self.map, 36, 5)
+        self.initiative_label.add(self.map, 49, 5)
+        self.exit_label.add(self.map, 0, self.map.height-1)
+        self.line_middle.add(self.map, round(self.map.width/2), 7)
+        self.line_sep1.add(self.map, 1, 6)
+        self.line_sep2.add(self.map, 1, 11)
+        self.frame.add(self.map, 0, 0)
+
+    def __call__(self, poke):
+        global ev
+        self.add(poke, self.map, 1, 1, False)
+        self.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
+        self.initiative_label.rechar(f"Initiative:{poke.initiative}")
+        for ob, x, y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
+            ob.add(self.map, x, y)
+        for atc, x, y in zip(poke.attac_obs, [1, round(self.map.width/2)+1, 1, round(self.map.width/2)+1], [7, 7, 12, 12]):
+            atc.temp_i = 0
+            atc.temp_j = -30
+            atc.label_desc.rechar(atc.desc[:int(width/2-1)])
+            atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
+            for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type_1, atc.label_type_2, atc.label_ap, atc.label_desc], [0, 0, 11, 16, 0, 0], [0, 1, 1, 1, 2, 3]):
+                label.add(self.map, x+_x, y+_y)
+        self.map.show(init=True)
+        while True:
+            if ev in ["'1'", "Key.esc", "'q'"]:
+                ev = ""
+                self.remove(poke)
+                for ob in [poke.desc, poke.text_type]:
+                    ob.remove()
+                for atc in poke.attac_obs:
+                    for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.label_desc, atc.label_type_1, atc.label_type_2]:
+                        ob.remove()
+                    del atc.temp_i, atc.temp_j
+                return
+            std_loop()
+            for atc in poke.attac_obs:  # This section generates the Text effect for attack labels
+                if len(atc.desc) > int((width-3)/2-1):
+                    if atc.temp_j == 5:
+                        atc.temp_i += 1
+                        atc.temp_j = 0
+                        if atc.temp_i == len(atc.desc)-int(width/2-1)+10:
+                            atc.temp_i = 0
+                            atc.temp_j = -30
+                        atc.label_desc.rechar(atc.desc[atc.temp_i:int(width/2-1)+atc.temp_i])
+                    else:
+                        atc.temp_j += 1
+            time.sleep(0.05)
+            self.map.show()
 
 
 # General use functions
@@ -1423,48 +1489,6 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     return winner
 
 
-def detail(poke):
-    global ev
-    Deck().add(poke, detailmap, 1, 1, False)
-    detailmap.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
-    poke.text_initiative.rechar(f"Initiative:{poke.initiative}")
-    for ob, x, y in zip([poke.desc, poke.text_type, poke.text_initiative], [34, 41, 49], [2, 5, 5]):
-        ob.add(detailmap, x, y)
-    for atc, x, y in zip(poke.attac_obs, [1, round(detailmap.width/2)+1, 1, round(detailmap.width/2)+1], [7, 7, 12, 12]):
-        atc.temp_i = 0
-        atc.temp_j = -30
-        atc.label_desc.rechar(atc.desc[:int(width/2-1)])
-        atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
-        for label, _x, _y in zip([atc.label_name, atc.label_factor, atc.label_type_1, atc.label_type_2, atc.label_ap, atc.label_desc], [0, 0, 11, 16, 0, 0], [0, 1, 1, 1, 2, 3]):
-            label.add(detailmap, x+_x, y+_y)
-    detailmap.show(init=True)
-    while True:
-        if ev in ["'1'", "Key.esc", "'q'"]:
-            ev = ""
-            Deck().remove(poke)
-            for ob in [poke.desc, poke.text_type, poke.text_initiative]:
-                ob.remove()
-            for atc in poke.attac_obs:
-                for ob in [atc.label_name, atc.label_factor, atc.label_ap, atc.label_desc, atc.label_type_1, atc.label_type_2]:
-                    ob.remove()
-                del atc.temp_i, atc.temp_j
-            return
-        std_loop()
-        for atc in poke.attac_obs:  # This section generates the Text effect for attack labels
-            if len(atc.desc) > int((width-3)/2-1):
-                if atc.temp_j == 5:
-                    atc.temp_i += 1
-                    atc.temp_j = 0
-                    if atc.temp_i == len(atc.desc)-int(width/2-1)+10:
-                        atc.temp_i = 0
-                        atc.temp_j = -30
-                    atc.label_desc.rechar(atc.desc[atc.temp_i:int(width/2-1)+atc.temp_i])
-                else:
-                    atc.temp_j += 1
-        time.sleep(0.05)
-        detailmap.show()
-
-
 def game(map):
     global ev, width, height
     ev = ""
@@ -2025,26 +2049,7 @@ shopmap.interact.add(shopmap, int(shopmap.width/2), 4)
 figure.set_args(session_info)
 
 # objects for detail
-detailmap = se.Map(height-1, width, " ")
-detailmap.name_label = se.Text("Details", esccode=Color.thicc)
-detailmap.name_attacks = se.Text("Attacks", esccode=Color.thicc)
-detailmap.frame = se.Frame(height=17, width=detailmap.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"])
-detailmap.attack_defense = se.Text("Attack:   Defense:")
-detailmap.type_label = se.Text("Type:")
-detailmap.exit_label = se.Text("1: Exit")
-detailmap.line_sep1 = se.Square("-", detailmap.width-2, 1)
-detailmap.line_sep2 = se.Square("-", detailmap.width-2, 1)
-detailmap.line_middle = se.Square("|", 1, 10)
-# adding
-detailmap.name_label.add(detailmap, 2, 0)
-detailmap.name_attacks.add(detailmap, 2, 6)
-detailmap.attack_defense.add(detailmap, 13, 5)
-detailmap.type_label.add(detailmap, 36, 5)
-detailmap.exit_label.add(detailmap, 0, detailmap.height-1)
-detailmap.line_middle.add(detailmap, round(detailmap.width/2), 7)
-detailmap.line_sep1.add(detailmap, 1, 6)
-detailmap.line_sep2.add(detailmap, 1, 11)
-detailmap.frame.add(detailmap, 0, 0)
+detail = Detail()
 
 # Objects for deckmap
 deck = Deck()
