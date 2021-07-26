@@ -139,12 +139,14 @@ class EffectParalyzation(Effect):
 
 class EffectSleep(Effect):
     def __init__(self, ob=None):
-        super().__init__("sleeping", 4, "(Sle)", Color.purple, ob)
+        super().__init__("sleeping", 4, "(Sle)", Color.white, ob)
 
 
 class EffectBurning(Effect):
     def __init__(self, ob=None):
         super().__init__("burning", 3, "(Bur)", Color.thicc+Color.red, ob)
+        self.hurt_text = "burned it self!"
+        self.damage = 2
 
     def effect(self):
         self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still ')
@@ -153,14 +155,21 @@ class EffectBurning(Effect):
         time.sleep(1)
         for i in range(random.randint(1, 4)):
             oldhp = self.ob.hp
-            if self.ob.hp -2 <= 0:
+            if self.ob.hp - self.damage <= 0:
                 self.ob.hp = 0
             else:
-                self.ob.hp -= 2
+                self.ob.hp -= self.damage
             self.ob.health_bar_updater(oldhp)
-            self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) burned it self!')
+            self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) {self.hurt_text}')
             time.sleep(0.5)
         return 0
+
+
+class EffectPoison(EffectBurning):
+    def __init__(self, ob=None):
+        super(EffectBurning, self).__init__("poisoned", 4, "(Poi)", Color.purple, ob)
+        self.hurt_text = "got damaged through poison!"
+        self.damage = 1
 
 
 class OutP(se.Text):

@@ -37,6 +37,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
    1. [Paralyzation](#paralyzation)
    2. [Sleep](#sleep)
    3. [Burning](#burning)
+   4. [Poison](#poison)
 """
 
     # Poketes
@@ -143,6 +144,9 @@ Makes the enemy fall asleep and stops it from attacking. This is reverted random
 
 ### Burning
 Sets the enemy on fire and damages the enemy with 2 HP every round. This is reverted randomly.
+
+### Poison
+Poisons the enemy and damages the enemy with 1 HP every round. This is reverted randomly.
 
 """
     # writing to file
