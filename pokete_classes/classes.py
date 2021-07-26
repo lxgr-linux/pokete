@@ -134,17 +134,17 @@ class Effect():
 
 class EffectParalyzation(Effect):
     def __init__(self, ob=None):
-        super().__init__("paralyzed", 3,"(Par)", Color.yellow, ob)
+        super().__init__("paralyzed", 3, "(Par)", Color.yellow, ob)
 
 
 class EffectSleep(Effect):
     def __init__(self, ob=None):
-        super().__init__("sleeping", 4,"(Sle)", Color.purple, ob)
+        super().__init__("sleeping", 4, "(Sle)", Color.purple, ob)
 
 
 class EffectBurning(Effect):
     def __init__(self, ob=None):
-        super().__init__("burning", 3,"(Bur)", Color.thicc+Color.red, ob)
+        super().__init__("burning", 3, "(Bur)", Color.thicc+Color.red, ob)
 
     def effect(self):
         self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still ')
@@ -153,10 +153,10 @@ class EffectBurning(Effect):
         time.sleep(1)
         for i in range(random.randint(1, 4)):
             oldhp = self.ob.hp
-            if self.ob.hp -3 <= 0:
+            if self.ob.hp -2 <= 0:
                 self.ob.hp = 0
             else:
-                self.ob.hp -= 3
+                self.ob.hp -= 2
             self.ob.health_bar_updater(oldhp)
             self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) burned it self!')
             time.sleep(0.5)

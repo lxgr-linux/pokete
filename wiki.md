@@ -81,6 +81,10 @@ This wiki can be generated using ```$ gen-wiki.py```.
    5. ['Shut the fuck up' stone](#shut-the-fuck-up-stone)
    6. [Super potion](#super-potion)
    7. [Superball](#superball)
+5. [Effects](#effects)
+   1. [Paralyzation](#paralyzation)
+   2. [Sleep](#sleep)
+   3. [Burning](#burning)
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -1161,3 +1165,16 @@ A ball you can use to catch Poketes with an increased chance
 
 - Price: 10
 - Can be used in fights: Yes
+
+## Effects
+Those effects can be given to a Pokete through an attack.
+
+### Paralyzation
+Paralyses the enemy and stops it from attacking. This is reverted randomly.
+
+### Sleep
+Makes the enemy fall asleep and stops it from attacking. This is reverted randomly.
+
+### Burning
+Sets the enemy on fire and damages the enemy with 2 HP every round. This is reverted randomly.
+
