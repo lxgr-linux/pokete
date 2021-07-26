@@ -93,7 +93,10 @@ class Effect():
         time.sleep(2)
 
     def add_label(self):
-        self.label.add(self.ob.ico.map, (self.ob.text_lvl.obs[-1].x if self.ob.effects.index(self) == 0 else self.ob.effects[self.ob.effects.index(self)-1].label.obs[-1].x)+2, self.ob.text_lvl.obs[-1].y)
+        try:
+            self.label.add(self.ob.ico.map, (self.ob.text_lvl.obs[-1].x if self.ob.effects.index(self) == 0 else self.ob.effects[self.ob.effects.index(self)-1].label.obs[-1].x)+2, self.ob.text_lvl.obs[-1].y)
+        except se.CoordinateError:
+            pass
 
     def readd(self):
         self.add_label()
