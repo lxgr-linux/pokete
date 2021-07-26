@@ -284,7 +284,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Burns and bites the enemy at the same time.",
         "type": "fire",
-        "effect": None,
+        "effect": "EffectBurning",
         "ap": 15,
     },
     "ash_throw": {

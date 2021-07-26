@@ -560,7 +560,7 @@ class Deck:
                 if len(pokes) == 0:
                     continue
                 if indici == []:
-                    indici.append(deck_index.index)
+                    indici.append(self.index.index)
                     self.move_label.rechar("2: Move to ")
                 else:
                     indici.append(self.index.index)
@@ -725,6 +725,7 @@ class Detail(Deck):
 def heal():
     for poke in figure.pokes:
         poke.hp = poke.full_hp
+        poke.effects = []
         poke.miss_chance = poke.full_miss_chance
         poke.text_hp.rechar(f"HP:{poke.hp}")
         poke.set_vars()
@@ -1451,8 +1452,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             ob.attack(attack, enem)
         fightmap.show()
         time.sleep(0.5)
-        if enem.hp <= 0:
-            winner = ob
+        if any([i.hp <= 0 for i in players]):
+            winner = [i for i in players if i.hp > 0][0]
             break
         elif all([i.ap == 0 for i in ob.attac_obs]):
             winner = [i for i in players if i != ob][0]

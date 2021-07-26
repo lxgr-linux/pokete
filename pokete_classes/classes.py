@@ -100,7 +100,9 @@ class Effect():
 
     def readd(self):
         self.add_label()
-        self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still {self.name}!')
+        self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still ')
+        self.ob.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode, state="float"), se.Text("!", state="float"))
+        self.ob.ico.map.show()
 
     def remove(self):
         if random.randint(0, self.rem_chance) == 0:
@@ -138,6 +140,27 @@ class EffectParalyzation(Effect):
 class EffectSleep(Effect):
     def __init__(self, ob=None):
         super().__init__("sleeping", 4,"(Sle)", Color.purple, ob)
+
+
+class EffectBurning(Effect):
+    def __init__(self, ob=None):
+        super().__init__("burning", 3,"(Bur)", Color.thicc+Color.red, ob)
+
+    def effect(self):
+        self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still ')
+        self.ob.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode, state="float"), se.Text("!", state="float"))
+        self.ob.ico.map.show()
+        time.sleep(1)
+        for i in range(random.randint(1, 4)):
+            oldhp = self.ob.hp
+            if self.ob.hp -3 <= 0:
+                self.ob.hp = 0
+            else:
+                self.ob.hp -= 3
+            self.ob.health_bar_updater(oldhp)
+            self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) burned it self!')
+            time.sleep(0.5)
+        return 0
 
 
 class OutP(se.Text):
