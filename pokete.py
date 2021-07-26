@@ -1356,7 +1356,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             j.readd()
     while True:
         if ob.player:
-            fightmap.outp.outp(fightmap.outp.text+("\n" if "\n" not in fightmap.outp.text else "")+ "What do you want to do?")
+            fightmap.outp.append(se.Text(("\n" if "\n" not in fightmap.outp.text else "")+"What do you want to do?", state="float"))
             if ob.identifier == "__fallback__":
                 time.sleep(1)
                 fightmap.outp.outp("You don't have any living poketes left!")

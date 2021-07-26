@@ -73,6 +73,7 @@ class Effect():
     def __init__(self, name, rem_chance, str, str_esccode="", ob=None):
         self.name = name
         self.rem_chance = rem_chance
+        self.str_esccode = str_esccode
         self.label = se.Text(str, state="float", esccode=str_esccode)
         self.ob = ob
 
@@ -84,9 +85,11 @@ class Effect():
             self.ob = ob
             self.ob.effects.append(self)
             self.add_label()
-            self.ob.ico.map.outp.outp(f'{ob.name}({"you" if ob.player else "enemy"}) is now {self.name}')
+            self.ob.ico.map.outp.rechar(f'{ob.name}({"you" if ob.player else "enemy"}) is now ')
+            self.ob.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode, state="float"), se.Text("!", state="float"))
         else:
-            ob.ico.map.outp.outp(f'{ob.name}({"you" if ob.player else "enemy"}) is allready {self.name}')
+            ob.ico.map.outp.rechar(f'{ob.name}({"you" if ob.player else "enemy"}) is allready ')
+            ob.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode, state="float"), se.Text("!", state="float"))
         time.sleep(2)
 
     def add_label(self):
@@ -98,7 +101,8 @@ class Effect():
 
     def remove(self):
         if random.randint(0, self.rem_chance) == 0:
-            self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) isn\'t {self.name} anymore!')
+            self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) isn\'t ')
+            self.ob.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode, state="float"), se.Text(" anymore!", state="float"))
             i = self.ob.effects.index(self)
             del self.ob.effects[i]
             self.cleanup(i)
@@ -117,7 +121,8 @@ class Effect():
             i.add_label()
 
     def effect(self):
-        self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still {self.name} and can\'t attack!')
+        self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still ')
+        self.ob.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode, state="float"), se.Text(" and can\'t attack!", state="float"))
         time.sleep(0.5)
         return 1
 
@@ -135,6 +140,11 @@ class EffectSleep(Effect):
 class OutP(se.Text):
     def outp(self, text):
         self.rechar(text)
+        self.map.show()
+
+    def append(self, *args):
+        for i in args:
+            self += i
         self.map.show()
 
 
