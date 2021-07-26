@@ -974,7 +974,7 @@ def fight_throw(ob, enem, info, chance, name):
     fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
     time.sleep(random.choice([1,2,3,4]))
     figure.remove_item(name)
-    if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance+(20 if figure.map == playmap_1 else 0), enem.full_hp], k=1)[0]:
+    if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance+(20 if figure.map == playmap_1 else 0)+(3 if any([type(i) is EffectSleep for i in enem.effects]) else 0)+(2 if any([type(i) is EffectParalyzation for i in enem.effects]) else 0), enem.full_hp], k=1)[0]:
         enem.player = True
         figure.pokes.append(enem)
         fightmap.outp.outp(f"You catched {enem.name}")
