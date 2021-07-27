@@ -423,7 +423,7 @@ class Figure(se.Object):
                     poke.effects.append(eval(e)(poke))
         try:
             if eval(si["map"]) in [centermap, shopmap]:  # Looking if figure would be in centermap, so the player may spawn out of the center
-                self.add(centermap, centermap.dor_back1.x, centermap.dor_back1.y-1)
+                self.add(eval(si["map"]), eval(si["map"]).dor_back1.x, eval(si["map"]).dor_back1.y-1)
             else:
                 if self.add(eval(si["map"]), si["x"], si["y"]) == 1:
                     raise se.CoordinateError(self, eval(si["map"]), si["x"], si["y"])
