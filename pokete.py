@@ -451,9 +451,9 @@ class Figure(se.Object):
     def set_money(self, money):
         assert money >= 0, "money has to be positive"
         self.__money = money
-        for box in [invbox, buybox]:
-            box.money_label.rechar(str(self.__money)+"$")
-            box.set_ob(box.money_label, box.width-2-len(box.money_label.text), 0)
+        for cls in [inv, buy]:
+            cls.money_label.rechar(str(self.__money)+"$")
+            cls.box.set_ob(cls.money_label, cls.box.width-2-len(cls.money_label.text), 0)
 
     def give_item(self, item, amount=1):
         assert amount > 0, "Amounts have to be positive"
@@ -778,6 +778,48 @@ class Inv:
         return items
 
 
+class Buy:
+    def __init__(self):
+        self.box = ChooseBox(height-3, 35, "Shop")
+        self.box2 = Box(7, 21,)
+        self.items = [Inv.poketeball, Inv.superball, Inv.healing_potion, Inv.super_potion, Inv.ap_potion]
+        self.box.add_c_obs([se.Text(f"{ob.pretty_name} : {ob.price}$") for ob in self.items])
+        self.money_label = se.Text(str(figure.get_money())+"$")
+        self.desc_label = se.Text(" ")
+        # adding
+        self.box.add_ob(self.money_label, self.box.width-2-len(self.money_label.text), 0)
+        self.box2.add_ob(self.desc_label, 1, 1)
+
+    def __call__(self):
+        global ev
+        ev = ""
+        with self.box.add(movemap, movemap.width-35, 0):
+            self.box2.add(movemap, self.box.x-19, 3)
+            self.rechar()
+            movemap.show()
+            while True:
+                if ev in ["'s'", "'w'"]:
+                    self.box.input(ev)
+                    self.rechar()
+                    ev = ""
+                elif ev in ["Key.esc", "'q'"]:
+                    break
+                elif ev == "Key.enter":
+                    ob = self.items[self.box.index.index]
+                    if figure.get_money()-ob.price >= 0:
+                        figure.add_money(-ob.price)
+                        figure.give_item(ob.name)
+                    ev = ""
+                std_loop()
+                time.sleep(0.05)
+                movemap.show()
+        self.box2.remove()
+
+    def rechar(self):
+        ob = self.items[self.box.index.index]
+        self.box2.name_label.rechar(ob.pretty_name)
+        self.desc_label.rechar(liner(ob.desc, 19))
+
 # General use functions
 #######################
 
@@ -1081,14 +1123,6 @@ def fight_ap_potion(ob, enem, info):
         atc.ap = atc.max_ap
     ob.label_rechar()
 
-# Functions for buy
-#####################
-
-def buy_rechar(items):
-    ob = items[buybox.index.index]
-    buybox2.name_label.rechar(ob.pretty_name)
-    buybox2.desc_label.rechar(liner(ob.desc, 19))
-
 
 # Playmap extra action functions
 # Those are adding additional actions to playmaps
@@ -1236,32 +1270,6 @@ def ask_text(map, infotext, introtext, text, max_len):
     with InputBox(infotext, introtext, text, max_len, map) as inputbox:
         ret = text_input(inputbox.text, map, text, max_len+1, max_len=max_len)
     return ret
-
-
-def buy():
-    global ev
-    ev = ""
-    with buybox.add(movemap, movemap.width-35, 0):
-        buybox2.add(movemap, buybox.x-19, 3)
-        buy_rechar(buybox.items)
-        movemap.show()
-        while True:
-            if ev in ["'s'", "'w'"]:
-                buybox.input(ev)
-                buy_rechar(buybox.items)
-                ev = ""
-            elif ev in ["Key.esc", "'q'"]:
-                break
-            elif ev == "Key.enter":
-                ob = buybox.items[buybox.index.index]
-                if figure.get_money()-ob.price >= 0:
-                    figure.add_money(-ob.price)
-                    figure.give_item(ob.name)
-                ev = ""
-            std_loop()
-            time.sleep(0.05)
-            movemap.show()
-    buybox2.remove()
 
 
 def roadmap():
@@ -2125,17 +2133,7 @@ for npc in npcs:
 fight_invbox = ChooseBox(height-3, 35, "Inventory")
 
 # buybox
-buybox = ChooseBox(height-3, 35, "Shop")
-buybox.items = [Inv.poketeball, Inv.superball, Inv.healing_potion, Inv.super_potion, Inv.ap_potion]
-buybox.add_c_obs([se.Text(f"{ob.pretty_name} : {ob.price}$") for ob in buybox.items])
-buybox.money_label = se.Text(str(figure.get_money())+"$")
-# adding
-buybox.add_ob(buybox.money_label, buybox.width-2-len(buybox.money_label.text), 0)
-# buybox2
-buybox2 = Box(7, 21,)
-buybox2.desc_label = se.Text(" ")
-# adding
-buybox2.add_ob(buybox2.desc_label, 1, 1)
+buy = Buy()
 
 __t = time.time() - __t
 
