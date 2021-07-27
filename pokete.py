@@ -720,6 +720,64 @@ class Detail(Deck):
             self.map.show()
 
 
+class Inv:
+    def __init__(self):
+        self.box = ChooseBox(height-3, 35, "Inventory", "R:remove")
+        self.box2 = Box(7, 21)
+        self.money_label = se.Text(str(figure.get_money())+"$")
+        self.desc_label = se.Text(" ")
+        # adding
+        self.box.add_ob(self.money_label, self.box.width-2-len(self.money_label.text), 0)
+        self.box2.add_ob(self.desc_label, 1, 1)
+
+    def __call__(self):
+        global ev
+        ev = ""
+        items = self.add()
+        with self.box.add(movemap, movemap.width-35, 0):
+            while True:
+                if ev in ["'s'", "'w'"]:
+                    self.box.input(ev)
+                    ev = ""
+                elif ev in ["'4'", "Key.esc", "'q'"]:
+                    break
+                elif ev == "Key.enter":
+                    ob = items[self.box.index.index]
+                    self.box2.name_label.rechar(ob.pretty_name)
+                    self.desc_label.rechar(liner(ob.desc, 19))
+                    self.box2.add(movemap, self.box.x-19, 3)
+                    ev = ""
+                    while True:
+                        if ev == "exit":
+                            raise KeyboardInterrupt
+                        elif ev in ["Key.enter", "Key.esc", "'q'"]:
+                            ev = ""
+                            self.box2.remove()
+                            break
+                        time.sleep(0.05)
+                        movemap.show()
+                elif ev == "'r'":
+                    if ask_bool(movemap, f"Do you really want to throw {items[self.box.index.index].pretty_name} away?"):
+                        figure.remove_item(items[self.box.index.index].name)
+                        [ob.remove() for ob in self.box.c_obs]
+                        self.box.remove_c_obs()
+                        items = self.add()
+                        if items == []:
+                            break
+                        if self.box.index.index >= len(items):
+                            self.box.set_index(len(items)-1)
+                    ev = ""
+                std_loop()
+                time.sleep(0.05)
+                movemap.show()
+        self.box.remove_c_obs()
+
+    def add(self):
+        items = [eval("self."+i, {"self": self,}) for i in figure.inv if figure.inv[i] > 0]
+        self.box.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
+        return items
+
+
 # General use functions
 #######################
 
@@ -1032,15 +1090,6 @@ def buy_rechar(items):
     buybox2.desc_label.rechar(liner(ob.desc, 19))
 
 
-# Functions for inv
-#####################
-
-def inv_add():
-    items = [eval("invbox."+i) for i in figure.inv if figure.inv[i] > 0]
-    invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
-    return items
-
-
 # Playmap extra action functions
 # Those are adding additional actions to playmaps
 #################################################
@@ -1187,49 +1236,6 @@ def ask_text(map, infotext, introtext, text, max_len):
     with InputBox(infotext, introtext, text, max_len, map) as inputbox:
         ret = text_input(inputbox.text, map, text, max_len+1, max_len=max_len)
     return ret
-
-
-def inv():
-    global ev
-    ev = ""
-    items = inv_add()
-    with invbox.add(movemap, movemap.width-35, 0):
-        while True:
-            if ev in ["'s'", "'w'"]:
-                invbox.input(ev)
-                ev = ""
-            elif ev in ["'4'", "Key.esc", "'q'"]:
-                break
-            elif ev == "Key.enter":
-                ob = items[invbox.index.index]
-                invbox2.name_label.rechar(ob.pretty_name)
-                invbox2.desc_label.rechar(liner(ob.desc, 19))
-                invbox2.add(movemap, invbox.x-19, 3)
-                ev = ""
-                while True:
-                    if ev == "exit":
-                        raise KeyboardInterrupt
-                    elif ev in ["Key.enter", "Key.esc", "'q'"]:
-                        ev = ""
-                        invbox2.remove()
-                        break
-                    time.sleep(0.05)
-                    movemap.show()
-            elif ev == "'r'":
-                if ask_bool(movemap, f"Do you really want to throw {items[invbox.index.index].pretty_name} away?"):
-                    figure.remove_item(items[invbox.index.index].name)
-                    [ob.remove() for ob in invbox.c_obs]
-                    invbox.remove_c_obs()
-                    items = inv_add()
-                    if items == []:
-                        break
-                    if invbox.index.index >= len(items):
-                        invbox.set_index(len(items)-1)
-                ev = ""
-            std_loop()
-            time.sleep(0.05)
-            movemap.show()
-    invbox.remove_c_obs()
 
 
 def buy():
@@ -1397,7 +1403,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     return enem
                 elif ev == "'3'":
                     ev = ""
-                    items = [eval("invbox."+i) for i in figure.inv if eval("invbox."+i).fn != None and figure.inv[i] > 0]
+                    items = [eval("Inv."+i) for i in figure.inv if eval("Inv."+i).fn != None and figure.inv[i] > 0]
                     if items == []:
                         fightmap.outp.outp("You don't have any items left!\nWhat do you want to do?")
                         continue
@@ -2100,22 +2106,15 @@ evomap.outp.add(evomap, 1, evomap.height-4)
 # fightbox
 fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
 
-# invbox
-invbox = ChooseBox(height-3, 35, "Inventory", "R:remove")
-invbox.money_label = se.Text(str(figure.get_money())+"$")
-# adding
-invbox.add_ob(invbox.money_label, invbox.width-2-len(invbox.money_label.text), 0)
-# invbox2
-invbox2 = Box(7, 21)
-invbox2.desc_label = se.Text(" ")
-# adding
-invbox2.add_ob(invbox2.desc_label, 1, 1)
+# inv
+inv = Inv()
+
 # every possible item for the inv has to have such an object
 # invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_poketeball)
 
 # items
 for name in items:
-    exec(f'invbox.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
+    exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
 
 # NPCs
 for npc in npcs:
@@ -2127,7 +2126,7 @@ fight_invbox = ChooseBox(height-3, 35, "Inventory")
 
 # buybox
 buybox = ChooseBox(height-3, 35, "Shop")
-buybox.items = [invbox.poketeball, invbox.superball, invbox.healing_potion, invbox.super_potion, invbox.ap_potion]
+buybox.items = [Inv.poketeball, Inv.superball, Inv.healing_potion, Inv.super_potion, Inv.ap_potion]
 buybox.add_c_obs([se.Text(f"{ob.pretty_name} : {ob.price}$") for ob in buybox.items])
 buybox.money_label = se.Text(str(figure.get_money())+"$")
 # adding
