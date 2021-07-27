@@ -390,7 +390,7 @@ class Station(se.Square):
     def choose(self):
         self.rechar(Color.red+Color.thicc+self.org_char+Color.reset)
         Station.choosen = self
-        mapbox.info_label.rechar(self.associates[0].pretty_name)
+        roadmap.info_label.rechar(self.associates[0].pretty_name)
 
     def unchoose(self):
         self.rechar(self.org_char)
@@ -400,7 +400,7 @@ class Station(se.Square):
         ne = eval(f"self.{ev}_next")
         if ne != "":
             self.unchoose()
-            exec(f"mapbox.{ne}.choose()")
+            exec(f"roadmap.{ne}.choose()")
 
 
 class Figure(se.Object):
@@ -884,6 +884,34 @@ class About:
                 std_loop()
                 time.sleep(0.05)
 
+
+class RoadMap:
+    def __init__(self, stations):
+        self.box = Box(11, 40, "Roadmap")
+        self.info_label = se.Text("")
+        self.box.add_ob(self.info_label, 1, 1)
+        for s in stations:
+            exec(f"self.{s} = Station({s}, **stations[s]['gen'])")
+            exec(f"self.box.add_ob(self.{s}, **stations[s]['add'])")
+
+    def __call__(self):
+        global ev
+        ev = ""
+        [i for i in Station.obs if (figure.map if figure.map not in [shopmap, centermap] else figure.oldmap) in i.associates][0].choose()
+        with self.box.add(movemap, movemap.width-self.box.width, 0):
+            while True:
+                if ev in ["'w'", "'a'", "'s'", "'d'"]:
+                    Station.choosen.next(ev)
+                    ev = ""
+                elif ev in ["'3'", "Key.esc", "'q'"]:
+                    ev = ""
+                    break
+                std_loop()
+                time.sleep(0.05)
+                movemap.show()
+        Station.choosen.unchoose()
+
+
 # General use functions
 #######################
 
@@ -1336,24 +1364,6 @@ def ask_text(map, infotext, introtext, text, max_len):
     return ret
 
 
-def roadmap():
-    global ev
-    ev = ""
-    [i for i in Station.obs if (figure.map if figure.map not in [shopmap, centermap] else figure.oldmap) in i.associates][0].choose()
-    with mapbox.add(movemap, movemap.width-mapbox.width, 0):
-        while True:
-            if ev in ["'w'", "'a'", "'s'", "'d'"]:
-                Station.choosen.next(ev)
-                ev = ""
-            elif ev in ["'3'", "Key.esc", "'q'"]:
-                ev = ""
-                break
-            std_loop()
-            time.sleep(0.05)
-            movemap.show()
-    Station.choosen.unchoose()
-
-
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev
     # fancy stuff
@@ -1796,13 +1806,6 @@ playmap_22 = PlayMap(height=15, width=30, name="playmap_22", pretty_name="Rocky 
 playmap_23 = PlayMap(height=15, width=30, name="playmap_23", pretty_name="Rocky Hotel")
 playmap_24 = PlayMap(height=15, width=30, name="playmap_23", pretty_name="House")
 
-# mapmap
-mapbox = Box(11, 40, "Roadmap")
-mapbox.info_label = se.Text("")
-mapbox.add_ob(mapbox.info_label, 1, 1)
-for s in stations:
-    exec(f"mapbox.{s} = Station({s}, **stations[s]['gen'])")
-    exec(f"mapbox.add_ob(mapbox.{s}, **stations[s]['add'])")
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
@@ -2074,6 +2077,7 @@ figure.set_args(session_info)
 
 # side fn definitions
 detail = Detail()
+roadmap = RoadMap(stations)
 deck = Deck()
 menu = Menu()
 about = About()
