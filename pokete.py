@@ -820,6 +820,70 @@ class Buy:
         self.box2.name_label.rechar(ob.pretty_name)
         self.desc_label.rechar(liner(ob.desc, 19))
 
+
+class Menu:
+    def __init__(self):
+        self.box = ChooseBox(height-3, 35, "Menu")
+        self.playername_label = se.Text("Playername: ", state="float")
+        self.about_label = se.Text("About", state="float")
+        self.save_label = se.Text("Save", state="float")
+        self.exit_label = se.Text("Exit", state="float")
+        self.realname_label = se.Text(session_info["user"], state="float")
+        self.box.add_c_obs([self.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}),Setting("Colors", "settings.colors", {True: "On", False: "Off"}), self.about_label, self.save_label, self.exit_label])
+        # adding
+        self.box.add_ob(self.realname_label, self.playername_label.rx+len(self.playername_label.text), self.playername_label.ry)
+
+    def __call__(self):
+        global ev
+        ev = ""
+        with self.box.add(movemap, movemap.width-self.box.width, 0):
+            while True:
+                if ev == "Key.enter":
+                    i = self.box.c_obs[self.box.index.index]  # Fuck python for not having case statements
+                    if i == self.playername_label:
+                        figure.name = text_input(self.realname_label, movemap, figure.name, 18, 17)
+                        movemap.underline.remove()
+                        movemap.balls_label.set(0, 1)
+                        movemap.name_label.rechar(figure.name, esccode=Color.thicc)
+                        movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
+                        movemap.underline.add(movemap, 0, movemap.height-2)
+                    elif i == self.save_label:  # When will python3.10 come out?
+                        with InfoBox("Saving....", movemap):  # Shows a box displaying "Saving...." while saving
+                            save()
+                            time.sleep(1.5)
+                    elif i == self.exit_label:
+                        save()
+                        exiter()
+                    elif i == self.about_label:
+                        about()
+                    else:
+                        i.change()
+                    ev = ""
+                elif ev in ["'s'", "'w'"]:
+                    self.box.input(ev)
+                    ev = ""
+                elif ev in ["'e'", "Key.esc", "'q'"]:
+                    ev = ""
+                    break
+                std_loop()
+                time.sleep(0.05)
+                movemap.show()
+
+
+class About:
+    def __init__(self):
+        self.box = InfoBox(liner(f"Pokete v{__version__}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
+
+    def __call__(self):
+        global ev
+        with self.box:
+            while True:
+                if ev in ["Key.esc", "'q'"]:
+                    ev = ""
+                    break
+                std_loop()
+                time.sleep(0.05)
+
 # General use functions
 #######################
 
@@ -1290,43 +1354,6 @@ def roadmap():
     Station.choosen.unchoose()
 
 
-def menu():
-    global ev
-    ev = ""
-    with menubox.add(movemap, movemap.width-menubox.width, 0):
-        while True:
-            if ev == "Key.enter":
-                i = menubox.c_obs[menubox.index.index]  # Fuck python for not having case statements
-                if i == menubox.playername_label:
-                    figure.name = text_input(menubox.realname_label, movemap, figure.name, 18, 17)
-                    movemap.underline.remove()
-                    movemap.balls_label.set(0, 1)
-                    movemap.name_label.rechar(figure.name, esccode=Color.thicc)
-                    movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
-                    movemap.underline.add(movemap, 0, movemap.height-2)
-                elif i == menubox.save_label:  # When will python3.10 come out?
-                    with InfoBox("Saving....", movemap):  # Shows a box displaying "Saving...." while saving
-                        save()
-                        time.sleep(1.5)
-                elif i == menubox.exit_label:
-                    save()
-                    exiter()
-                elif i == menubox.about_label:
-                    about()
-                else:
-                    i.change()
-                ev = ""
-            elif ev in ["'s'", "'w'"]:
-                menubox.input(ev)
-                ev = ""
-            elif ev in ["'e'", "Key.esc", "'q'"]:
-                ev = ""
-                break
-            std_loop()
-            time.sleep(0.05)
-            movemap.show()
-
-
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     global ev
     # fancy stuff
@@ -1573,17 +1600,6 @@ def intro():
     game(intromap)
 
 
-def about():
-    global ev
-    with aboutbox:
-        while True:
-            if ev in ["Key.esc", "'q'"]:
-                ev = ""
-                break
-            std_loop()
-            time.sleep(0.05)
-
-
 def main():
     os.system("")
     recognising = threading.Thread(target=recogniser)
@@ -1795,20 +1811,6 @@ exclamation = se.Object("!")
 multitext = OutP("", state="float")
 movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.")
 movemap.code_label = OutP("")
-
-# menubox
-menubox = ChooseBox(height-3, 35, "Menu")
-menubox.playername_label = se.Text("Playername: ", state="float")
-menubox.about_label = se.Text("About", state="float")
-menubox.save_label = se.Text("Save", state="float")
-menubox.exit_label = se.Text("Exit", state="float")
-menubox.realname_label = se.Text(session_info["user"], state="float")
-menubox.add_c_obs([menubox.playername_label, Setting("Autosave", "settings.autosave", {True: "On", False: "Off"}), Setting("Animations", "settings.animations", {True: "On", False: "Off"}), Setting("Save trainers", "settings.save_trainers", {True: "On", False: "Off"}),Setting("Colors", "settings.colors", {True: "On", False: "Off"}), menubox.about_label, menubox.save_label, menubox.exit_label])
-# adding
-menubox.add_ob(menubox.realname_label, menubox.playername_label.rx+len(menubox.playername_label.text), menubox.playername_label.ry)
-
-# about
-aboutbox = InfoBox(liner(f"Pokete v{__version__}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
 
 
 # Definiton of objects for the playmaps
@@ -2073,6 +2075,8 @@ figure.set_args(session_info)
 # side fn definitions
 detail = Detail()
 deck = Deck()
+menu = Menu()
+about = About()
 inv = Inv()
 # items
 for name in items:
