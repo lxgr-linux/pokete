@@ -38,6 +38,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
    2. [Sleep](#sleep)
    3. [Burning](#burning)
    4. [Poison](#poison)
+   5. [Confusion](#confusion)
 """
 
     # Poketes
@@ -148,6 +149,8 @@ Sets the enemy on fire and damages the enemy with 2 HP every round. This is reve
 ### Poison
 Poisons the enemy and damages the enemy with 1 HP every round. This is reverted randomly.
 
+### Confusion
+Makes the enemy hurt it self. This is reverted randomly.
 """
     # writing to file
     with open("wiki.md", "w+") as file:

@@ -242,13 +242,13 @@ attacks = {
     "mind_blow": {
         "name": "Mind blow",
         "factor": 0,
-        "action": "enem.miss_chance += 2",
+        "action": "",
         "move": ["downgrade"],
         "miss_chance": 0,
         "min_lvl": 0,
         "desc": "Causes confusion deep in the enemys mind.",
         "type": "undead",
-        "effect": None,
+        "effect": "EffectConfusion",
         "ap": 15,
     },
     "tail_wipe": {

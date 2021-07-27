@@ -279,7 +279,10 @@ class Poke():
                     return
                 elif i == 0:
                     pass
-            self.enem = enem
+            if any([type(i) is EffectConfusion for i in self.effects]):
+                self.enem = enem = self
+            else:
+                self.enem = enem
             enem.oldhp = enem.hp
             self.oldhp = self.hp
             effectivity = 1.3 if enem.type.name in attac.type.effective else 0.5 if enem.type.name in attac.type.ineffective else 1
@@ -293,9 +296,12 @@ class Poke():
             exec(attac.action)
             attac.ap -= 1
             fightmap.outp.outp(f'{self.name}({"you" if self.player else "enemy"}) used {attac.name}! {self.name+" missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
+            if enem == self:
+                time.sleep(1)
+                fightmap.outp.outp(f'{self.name}({"you" if self.player else "enemy"}) hurt it self!')
             if n_hp != 0 or attac.factor == 0:
                 attac.give_effect(enem)
-            for ob in [enem, self]:
+            for ob in [enem, self] if enem != self else [enem]:
                 ob.health_bar_updater(ob.oldhp)
             self.label_rechar()
             fightmap.show()
@@ -974,7 +980,7 @@ def fight_throw(ob, enem, info, chance, name):
     fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
     time.sleep(random.choice([1,2,3,4]))
     figure.remove_item(name)
-    if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance+(20 if figure.map == playmap_1 else 0)+(3 if any([type(i) is EffectSleep for i in enem.effects]) else 0)+(2 if any([type(i) is EffectParalyzation for i in enem.effects]) else 0), enem.full_hp], k=1)[0]:
+    if random.choices([True, False], weights=[(enem.full_hp/enem.hp)*chance+(20 if figure.map == playmap_1 else 0)+(3 if any([type(i) is EffectSleep for i in enem.effects]) else 0)+(2 if any([type(i) is EffectConfusion for i in enem.effects]) else 0)+(2 if any([type(i) is EffectParalyzation for i in enem.effects]) else 0), enem.full_hp], k=1)[0]:
         enem.player = True
         figure.pokes.append(enem)
         fightmap.outp.outp(f"You catched {enem.name}")

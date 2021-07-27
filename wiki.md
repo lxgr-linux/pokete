@@ -86,6 +86,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
    2. [Sleep](#sleep)
    3. [Burning](#burning)
    4. [Poison](#poison)
+   5. [Confusion](#confusion)
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -1182,3 +1183,5 @@ Sets the enemy on fire and damages the enemy with 2 HP every round. This is reve
 ### Poison
 Poisons the enemy and damages the enemy with 1 HP every round. This is reverted randomly.
 
+### Confusion
+Makes the enemy hurt it self. This is reverted randomly.

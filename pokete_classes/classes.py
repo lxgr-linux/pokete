@@ -172,6 +172,17 @@ class EffectPoison(EffectBurning):
         self.damage = 1
 
 
+class EffectConfusion(Effect):
+    def __init__(self, ob=None):
+        super().__init__("confused", 3, "(Con)", Color.lightblue, ob)
+
+    def effect(self):
+        self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still ')
+        self.ob.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode, state="float"), se.Text("!", state="float"))
+        time.sleep(0.5)
+        return 0
+
+
 class OutP(se.Text):
     def outp(self, text):
         self.rechar(text)
