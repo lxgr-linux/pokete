@@ -1636,12 +1636,13 @@ while width < 70 or height < 20:
 
 # loading screen
 loading_screen = se.Map(background=" ", width=width, height=height-1)
-se.Text("""  _____      _        _
- |  __ \    | |      | |
- | |__) |__ | | _____| |_ ___
- |  ___/ _ \| |/ / _ \ __/ _ \\
- | |  | (_) |   <  __/ ||  __/
- |_|   \___/|_|\_\___|\__\___|""").add(loading_screen, int(loading_screen.width/2)-15, int(loading_screen.height/2)-4)
+se.Text(""" _____      _        _
+|  __ \    | |      | |
+| |__) |__ | | _____| |_ ___
+|  ___/ _ \| |/ / _ \ __/ _ \\
+| |  | (_) |   <  __/ ||  __/
+|_|   \___/|_|\_\___|\__\___|""").add(loading_screen, int(loading_screen.width/2)-15, int(loading_screen.height/2)-4)
+se.Text(f"v{__version__}").add(loading_screen, int(loading_screen.width/2)-15, int(loading_screen.height/2)+2)
 loading_screen.show()
 
 # types
