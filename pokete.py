@@ -1832,6 +1832,11 @@ for map in map_data:
             exec(f'{map}.{ball} = Poketeball("{map}.{ball}")')
             exec(f'{map}.{ball}.add({map}, map_data[map]["balls"][ball]["x"], map_data[map]["balls"][ball]["y"])')
 
+# NPCs
+for npc in npcs:
+    exec(f'{npcs[npc]["map"]}.{npc} = NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"])')
+    exec(f'{npcs[npc]["map"]}.{npc}.add({npcs[npc]["map"]}, npcs[npc]["x"], npcs[npc]["y"])')
+
 # playmap_1
 playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 # adding
@@ -2065,14 +2070,19 @@ shopmap.interact.add(shopmap, int(shopmap.width/2), 4)
 
 figure.set_args(session_info)
 
-# objects for detail
+# side fn definitions
 detail = Detail()
-
-# Objects for deckmap
 deck = Deck()
+inv = Inv()
+# items
+for name in items:
+    exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
+buy = Buy()
 
 # objects relevant for fight()
 fightmap = se.Map(height-1, width, " ")
+fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
+fight_invbox = ChooseBox(height-3, 35, "Inventory")
 fightmap.frame_big = se.Frame(height=fightmap.height-5, width=fightmap.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"], state="float")
 fightmap.frame_small = se.Frame(height=4, width=fightmap.width, state="float")
 fightmap.e_underline = se.Text("----------------+", state="float")
@@ -2110,30 +2120,6 @@ evomap.outp = OutP("", state="float")
 # adding
 evomap.frame_small.add(evomap, 0, evomap.height-5)
 evomap.outp.add(evomap, 1, evomap.height-4)
-
-# fightbox
-fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
-
-# inv
-inv = Inv()
-
-# every possible item for the inv has to have such an object
-# invbox.poketeball = InvItem("poketeball", "Poketeball", "A ball you can use to catch Poketes", 2, fight_poketeball)
-
-# items
-for name in items:
-    exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
-
-# NPCs
-for npc in npcs:
-    exec(f'{npcs[npc]["map"]}.{npc} = NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"])')
-    exec(f'{npcs[npc]["map"]}.{npc}.add({npcs[npc]["map"]}, npcs[npc]["x"], npcs[npc]["y"])')
-
-# fight_invbox
-fight_invbox = ChooseBox(height-3, 35, "Inventory")
-
-# buybox
-buy = Buy()
 
 __t = time.time() - __t
 
