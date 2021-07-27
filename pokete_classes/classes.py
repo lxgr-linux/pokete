@@ -134,7 +134,7 @@ class Effect():
 
 class EffectParalyzation(Effect):
     def __init__(self, ob=None):
-        super().__init__("paralyzed", 3, "(Par)", Color.yellow, ob)
+        super().__init__("paralyzed", 3, "(Par)", Color.thicc+Color.yellow, ob)
 
 
 class EffectSleep(Effect):

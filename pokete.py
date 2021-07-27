@@ -225,12 +225,7 @@ class Poke():
             ob.ap = old_ob.ap
         self.attac_obs = i
         [fightbox.rem_ob(ob) for ob in self.atc_labels]
-        self.atc_labels = [se.Box(0, 0) for i in self.attac_obs]
-        for i in self.atc_labels:
-            i.text_1 = se.Text("")
-            i.text_2 = se.Text("")
-            i.add_ob(i.text_1, 3, 0)
-            i.add_ob(i.text_2, 0, 0)
+        self.atc_labels = [se.Text("") for i in self.attac_obs]
         self.label_rechar()
 
     def dict(self):
@@ -243,8 +238,8 @@ class Poke():
 
     def label_rechar(self):
         for i, atc in enumerate(self.attac_obs):
-            self.atc_labels[i].text_1.rechar(f"{atc.name}", esccode=atc.type.color)
-            self.atc_labels[i].text_2.rechar(f"{i+1}: {len(atc.name)*' '}-{atc.ap}")
+            self.atc_labels[i].rechar(f"{i+1}: ")
+            self.atc_labels[i] += se.Text(atc.name, esccode=atc.type.color) + se.Text(f"-{atc.ap}")
 
     def lvl(self):
         return int(math.sqrt(self.xp+1))
