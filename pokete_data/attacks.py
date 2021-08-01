@@ -489,7 +489,7 @@ attacks = {
         "desc": "Stabs a giant ice spike into the enemy.",
         "type": "ice",
         "effect": None,
-        "ap": 20,
+        "ap": 10,
     },
 }
 

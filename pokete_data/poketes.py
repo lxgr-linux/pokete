@@ -602,6 +602,37 @@ WW\/o o\/WW
      +""",
             "esc": "Color.lightblue"}]
     },
+    "spikl": {
+        "name": "Spikl",
+        "hp": 20,
+        "atc": "self.lvl()+4",
+        "defense": "self.lvl()+4",
+        "attacks": ["tackle", "freeze", "snow_storm", "sword_of_ice"],
+        "miss_chance": 0,
+        "desc": "A small floating ball that will give you a shock.",
+        "lose_xp": 3,
+        "rarity": 0.8,
+        "type": "ice",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+4",
+        "ico": [{
+            "txt": """  -------
+  |     |
+  -------""",
+            "esc": None},
+            {
+            "txt": """
+    * *""",
+            "esc": "Color.lightblue"},
+            {
+            "txt": """ /       \\
+
+ \       /""",
+            "esc": "Color.cyan"
+            }
+                ]
+    },
 }
 
 if __name__ == "__main__":
