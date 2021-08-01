@@ -11,6 +11,7 @@ import scrap_engine as se
 from pathlib import Path
 from pokete_data import *
 from pokete_classes import *
+from pokete_general_use_fns import *
 
 __version__ = "0.3.8"
 __save_path__ = "/.cache/pokete"
@@ -927,29 +928,6 @@ def heal():
             atc.ap = atc.max_ap
         poke.label_rechar()
         balls_label_rechar()
-
-
-def liner(text, width, pre=""):
-    lens = 0
-    out = ""
-    for name in text.split(" "):
-        if "\n" in name:
-            lens = len(pre)
-            out += name+pre
-        elif lens+len(name)+1 <= width:
-            out += name+" "
-            lens += len(name)+1
-        else:
-            lens = len(name)+1+len(pre)
-            out += "\n"+pre+name+" "
-    return out
-
-
-def hard_liner(l_len, name):
-    ret = ""
-    for i in range(int(len(name)/l_len)+1):
-        ret += name[i*l_len:(i+1)*l_len]+("\n" if i != int(len(name)/l_len) else "")
-    return ret
 
 
 def autosave():
