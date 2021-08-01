@@ -608,14 +608,14 @@ WW\/o o\/WW
         "atc": "self.lvl()+4",
         "defense": "self.lvl()+4",
         "attacks": ["tackle", "freeze", "snow_storm", "sword_of_ice"],
-        "miss_chance": 0,
+        "miss_chance": 0.1,
         "desc": "A small floating ball that will give you a shock.",
         "lose_xp": 3,
-        "rarity": 0.8,
+        "rarity": 0.9,
         "type": "ice",
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+4",
+        "initiative": "self.lvl()+2",
         "ico": [{
             "txt": """  -------
   |     |
