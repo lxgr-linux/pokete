@@ -455,6 +455,18 @@ attacks = {
         "effect": None,
         "ap": 10,
     },
+    "freeze": {
+        "name": "Freeze",
+        "factor": 0,
+        "action": "",
+        "move": ["attack"],
+        "miss_chance": 0.1,
+        "min_lvl": 10,
+        "desc": "Freezes the enemy.",
+        "type": "ice",
+        "effect": "EffectFreezing",
+        "ap": 10,
+    },
 }
 
 if __name__ == "__main__":

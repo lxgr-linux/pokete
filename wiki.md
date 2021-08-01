@@ -50,28 +50,29 @@ This wiki can be generated using ```$ gen-wiki.py```.
    14. [Eye pick](#eye-pick)
    15. [Fire ball](#fire-ball)
    16. [Fire bite](#fire-bite)
-   17. [Heart touch](#heart-touch)
-   18. [Leaf storm](#leaf-storm)
-   19. [Meat skewer](#meat-skewer)
-   20. [Mega arch](#mega-arch)
-   21. [Mind blow](#mind-blow)
-   22. [Pepple fire](#pepple-fire)
-   23. [Pick](#pick)
-   24. [Poison bite](#poison-bite)
-   25. [Politure](#politure)
-   26. [Power bite](#power-bite)
-   27. [Power pick](#power-pick)
-   28. [Power roll](#power-roll)
-   29. [Root strangler](#root-strangler)
-   30. [Shell pinch](#shell-pinch)
-   31. [Shock](#shock)
-   32. [Snooze](#snooze)
-   33. [Sucker](#sucker)
-   34. [Super sucker](#super-sucker)
-   35. [Tackle](#tackle)
-   36. [Tail wipe](#tail-wipe)
-   37. [Wet slap](#wet-slap)
-   38. [Wing hit](#wing-hit)
+   17. [Freeze](#freeze)
+   18. [Heart touch](#heart-touch)
+   19. [Leaf storm](#leaf-storm)
+   20. [Meat skewer](#meat-skewer)
+   21. [Mega arch](#mega-arch)
+   22. [Mind blow](#mind-blow)
+   23. [Pepple fire](#pepple-fire)
+   24. [Pick](#pick)
+   25. [Poison bite](#poison-bite)
+   26. [Politure](#politure)
+   27. [Power bite](#power-bite)
+   28. [Power pick](#power-pick)
+   29. [Power roll](#power-roll)
+   30. [Root strangler](#root-strangler)
+   31. [Shell pinch](#shell-pinch)
+   32. [Shock](#shock)
+   33. [Snooze](#snooze)
+   34. [Sucker](#sucker)
+   35. [Super sucker](#super-sucker)
+   36. [Tackle](#tackle)
+   37. [Tail wipe](#tail-wipe)
+   38. [Wet slap](#wet-slap)
+   39. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -87,6 +88,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
    3. [Burning](#burning)
    4. [Poison](#poison)
    5. [Confusion](#confusion)
+   6. [Freezing](#freezing)
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -926,6 +928,16 @@ Burns and bites the enemy at the same time.
 - Attack points: 15
 - Effect: [Burning](#burning)
 
+### Freeze
+Freezes the enemy.
+
+- Type: [Ice](#types)
+- Minimum Level: 10
+- Attack factor: 0
+- Missing chance: 0.1
+- Attack points: 10
+- Effect: [Freezing](#freezing)
+
 ### Heart touch
 Touches the enemys heard with its' cold gost claws.
 
@@ -1159,7 +1171,7 @@ Ground|Normal|Flying
 Electro|Stone, Flying|Ground
 Flying|Plant|Stone
 Undead|Normal, Ground, Plant, Water|Fire
-Ice|Water, Plant|Fire
+Ice|Water, Plant, Ground|Fire
 
 ## Items
 Those are all items present in the game, that can be traded or found.
@@ -1223,3 +1235,6 @@ Poisons the enemy and damages the enemy with 1 HP every round. This is reverted 
 
 ### Confusion
 Makes the enemy hurt it self. This is reverted randomly.
+
+### Freezing
+Freezes the enemy and stops it from attacking. This is reverted randomly.
