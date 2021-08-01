@@ -315,6 +315,8 @@ class Poke():
             time.sleep(0.3)
 
     def move_arch(self):
+        if self.enem == self:
+            return
         line = se.Line(Color.thicc+Color.yellow+"-"+Color.reset, self.enem.ico.x-self.ico.x+(-11 if self.player else 11), self.enem.ico.y-self.ico.y, type="crippled")
         line.add(self.ico.map, self.ico.x+(11 if self.player else -1), self.ico.y+1)
         self.ico.map.show()
@@ -323,6 +325,8 @@ class Poke():
         del line
 
     def move_throw(self, txt="#"):
+        if self.enem == self:
+            return
         line = se.Line(" ", self.enem.ico.x-self.ico.x+(-11 if self.player else 11), self.enem.ico.y-self.ico.y, type="crippled")
         line.add(self.ico.map, self.ico.x+(11 if self.player else -1), self.ico.y+1)
         self.ico.map.show()
