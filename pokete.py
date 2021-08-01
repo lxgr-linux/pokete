@@ -13,7 +13,7 @@ from pokete_data import *
 from pokete_classes import *
 from pokete_general_use_fns import *
 
-__version__ = "0.3.8"
+__version__ = "0.4.0"
 __save_path__ = "/.cache/pokete"
 
 # Class definition

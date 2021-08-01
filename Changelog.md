@@ -1,3 +1,29 @@
+0.4.0
+------
+released: 2021-08-01
+
+What changed until this release?
+- Added confirmation for running away
+- Made playmap_1 way easier
+- Changed attack list to start with 1 and not 0
+- Renamed attacs to attacks
+- Added several new attacks
+- Added several new moves (downgrade...)
+- Added Rock-ville
+- Added new mechanic that moves movemap to ensure all text fits on movemap
+- Fixed bug with exclamations out of movemap
+- Added support for more than one move per attack
+- Increased attack AP to avoid running back to the Pokete-center as often
+- Changed roadmap mechanism
+- Added effects
+- Added coloured output for OutP (scrap_engine >= v0.3.1 is now needed)
+- Fixed bug with saving in shops
+- Fixed bug with moves when confused 
+- Outsourced general-use functions
+- Made some functions a class
+- Made some other quality of life changes 
+
+
 0.3.8
 -------
 released: 2021-07-07
