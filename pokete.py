@@ -1773,8 +1773,8 @@ playmap_18 = PlayMap(height=23, width=98, name="playmap_18", pretty_name="Big mo
                     poke_args = {"pokes": ["poundi", "rollator", "würgos", "rato"], "minlvl": 540, "maxlvl": 640},
                     extra_actions = playmap_18_extra_action)
 playmap_19 = PlayMap(height=30, width=60, name="playmap_19", pretty_name="Big mountain cave",
-                    trainers = [Trainer("Brian", "He", Poke("choka", 850, player=False), [" < Hello fellow cava man!"], [" < Oooooh!", " < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were lucky!"], 16, 15),
-                                Trainer("Simon", "He", Poke("wolfiro", 850, player=False), [" < Joooo!", " < What up?"], [" < You're fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Duck!"], 15, 7)],
+                    trainers = [Trainer("Brian", "He", Poke("choka", 850, player=False), [" < Hello fellow cava man!"], [" < Oooooh!", " < You're a fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Oh!", " < You were lucky!"], 16, 15),
+                                Trainer("Simon", "He", Poke("wolfiro", 850, player=False), [" < Joooo!", " < What up?"], [" < You're a fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Duck!"], 15, 7)],
                     poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"], "minlvl": 540, "maxlvl": 640})
 playmap_20 = PlayMap(height=15, width=30, name="playmap_20", pretty_name="House")
 playmap_21 = PlayMap(height=30, width=150, name="playmap_21", pretty_name="Rock-ville",
@@ -1782,7 +1782,14 @@ playmap_21 = PlayMap(height=30, width=150, name="playmap_21", pretty_name="Rock-
                     extra_actions = playmap_21_extra_action)
 playmap_22 = PlayMap(height=15, width=30, name="playmap_22", pretty_name="Rocky Hotel")
 playmap_23 = PlayMap(height=15, width=30, name="playmap_23", pretty_name="Rocky Hotel")
-playmap_24 = PlayMap(height=15, width=30, name="playmap_23", pretty_name="House")
+playmap_24 = PlayMap(height=15, width=30, name="playmap_24", pretty_name="House")
+playmap_25 = PlayMap(height=15, width=30, name="playmap_25", pretty_name="Townhall")
+playmap_26 = PlayMap(height=15, width=30, name="playmap_26", pretty_name="Townhall")
+playmap_27 = PlayMap(height=15, width=40, name="playmap_27", pretty_name="Battle cave",
+                    trainers = [Trainer("Bertold", "He", Poke("bigstone", 900, player=False), [" < We are the elite of Rock-ville!"], [" < You're a fucking loooser!"], [" < I see you don't have a living Pokete"], [" < You were lucky!"], 6, 6),
+                                Trainer("Gerard", "He", Poke("steini", 900, player=False), [" < My Steini will ripp out your Poketes heard!"], [" < You're a fucking loooser!"], [" < I see you don't have a living Pokete"], [" < The other trainers wont be as easy!"], 11, 10),
+                                Trainer("Jessica", "She", Poke("treenator", 950, player=False), [" < You wont be ready for my treenator!"], [" < You're a fucking loooser!"], [" < I see you don't have a living Pokete"], [" < Our best trainer will defeat you though!"], 16, 6),
+                                Trainer("First Trainer", "He", Poke("poundi", 1000, player=False), [" < Let's have a fair fight!"], [" < You're a fucking loooser!"], [" < I see you don't have a living Pokete"], [" < I wish you the best luck on your journey!"], 22, 10),],)
 
 
 # movemap

@@ -87,6 +87,22 @@ npcs = {
         "x": 3,
         "y": 7
     },
+    "npc_9": {
+        "texts": [" < British devs be like:", " < It's a constructor, __init__?"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_24",
+        "x": 14,
+        "y": 3
+    },
+    "major": {
+        "texts": [" < Hello trainer!", " < I'm the major of Rock-ville", " < I think you are interested in fighting our best trainers!?", " < I wish you luck!"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_26",
+        "x": 9,
+        "y": 3
+    },
     "boy_1": {
         "texts": [],
         "fn": "playmap_17_boy",
