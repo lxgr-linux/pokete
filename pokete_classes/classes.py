@@ -201,7 +201,14 @@ class EffectConfusion(Effect):
         time.sleep(0.5)
         return 0
 
-effects = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison, EffectConfusion]
+
+class EffectFreezing(Effect):
+    desc = "Freezes the enemy and stops it from attacking. This is reverted randomly."
+    c_name = "freezing"
+    def __init__(self, ob=None):
+        super().__init__("frozen", 3, "(Fro)", Color.cyan, ob)
+
+effects = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison, EffectConfusion, EffectFreezing]
 
 class OutP(se.Text):
     def outp(self, text):
