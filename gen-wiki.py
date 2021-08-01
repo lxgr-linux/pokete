@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # This script generates the Pokete wiki
 from pokete_data import *
+from pokete_classes.classes import *
 import scrap_engine as se
 import os
 
@@ -34,12 +35,10 @@ This wiki can be generated using ```$ gen-wiki.py```.
         md_str += f"""   {j+1}. [{items[item]["pretty_name"]}](#{item.replace("_", "-")})\n"""
 
     md_str += """5. [Effects](#effects)
-   1. [Paralyzation](#paralyzation)
-   2. [Sleep](#sleep)
-   3. [Burning](#burning)
-   4. [Poison](#poison)
-   5. [Confusion](#confusion)
 """
+
+    for j, effect in enumerate(effects):
+        md_str += f"""   {j+1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace("_", "-")})\n"""
 
     # Poketes
     md_str += """
@@ -99,6 +98,7 @@ Those are all attacks present in the game.
 - Attack factor: {attacks[atc]["factor"]}
 - Missing chance: {attacks[atc]["miss_chance"]}
 - Attack points: {attacks[atc]["ap"]}
+- Effect: {"None" if attacks[atc]["effect"] == None else f'[{eval(attacks[atc]["effect"]).c_name.capitalize()}](#{eval(attacks[atc]["effect"]).c_name.replace("_", "-")})'}
 """
 
     # Types
@@ -133,25 +133,15 @@ Those are all items present in the game, that can be traded or found.
 - Can be used in fights: {"Yes" if items[item]["fn"] != None else "No"}
 """
 
+    # effects
     md_str += """
 ## Effects
 Those effects can be given to a Pokete through an attack.
-
-### Paralyzation
-Paralyses the enemy and stops it from attacking. This is reverted randomly.
-
-### Sleep
-Makes the enemy fall asleep and stops it from attacking. This is reverted randomly.
-
-### Burning
-Sets the enemy on fire and damages the enemy with 2 HP every round. This is reverted randomly.
-
-### Poison
-Poisons the enemy and damages the enemy with 1 HP every round. This is reverted randomly.
-
-### Confusion
-Makes the enemy hurt it self. This is reverted randomly.
 """
+
+    for effect in effects:
+        md_str += effect.ret_md()
+
     # writing to file
     with open("wiki.md", "w+") as file:
         file.write(md_str)

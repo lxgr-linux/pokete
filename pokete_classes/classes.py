@@ -70,6 +70,8 @@ class Settings():
 
 
 class Effect():
+    desc = ""
+    c_name = ""
     def __init__(self, name, rem_chance, str, str_esccode="", ob=None):
         self.name = name
         self.rem_chance = rem_chance
@@ -131,18 +133,31 @@ class Effect():
         time.sleep(0.5)
         return 1
 
+    @classmethod
+    def ret_md(cls):
+        return f"""
+### {cls.c_name.capitalize()}
+{cls.desc}
+"""
+
 
 class EffectParalyzation(Effect):
+    desc = "Paralyses the enemy and stops it from attacking. This is reverted randomly."
+    c_name = "paralyzation"
     def __init__(self, ob=None):
         super().__init__("paralyzed", 3, "(Par)", Color.thicc+Color.yellow, ob)
 
 
 class EffectSleep(Effect):
+    desc = "Makes the enemy fall asleep and stops it from attacking. This is reverted randomly."
+    c_name = "sleep"
     def __init__(self, ob=None):
         super().__init__("sleeping", 4, "(Sle)", Color.white, ob)
 
 
 class EffectBurning(Effect):
+    desc = "Sets the enemy on fire and damages the enemy with 2 HP every round. This is reverted randomly."
+    c_name = "burning"
     def __init__(self, ob=None):
         super().__init__("burning", 3, "(Bur)", Color.thicc+Color.red, ob)
         self.hurt_text = "burned it self!"
@@ -166,6 +181,8 @@ class EffectBurning(Effect):
 
 
 class EffectPoison(EffectBurning):
+    desc = "Poisons the enemy and damages the enemy with 1 HP every round. This is reverted randomly."
+    c_name = "poison"
     def __init__(self, ob=None):
         super(EffectBurning, self).__init__("poisoned", 4, "(Poi)", Color.purple, ob)
         self.hurt_text = "got damaged through poison!"
@@ -173,6 +190,8 @@ class EffectPoison(EffectBurning):
 
 
 class EffectConfusion(Effect):
+    desc = "Makes the enemy hurt it self. This is reverted randomly."
+    c_name = "confusion"
     def __init__(self, ob=None):
         super().__init__("confused", 3, "(Con)", Color.lightblue, ob)
 
@@ -182,6 +201,7 @@ class EffectConfusion(Effect):
         time.sleep(0.5)
         return 0
 
+effects = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison, EffectConfusion]
 
 class OutP(se.Text):
     def outp(self, text):
