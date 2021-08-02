@@ -614,7 +614,7 @@ WW\/o o\/WW
         "rarity": 1.2,
         "type": "ice",
         "evolve_poke": "spikl",
-        "evolve_lvl": 15,
+        "evolve_lvl": 30,
         "initiative": "self.lvl()+1",
         "ico": [{
             "txt": """   -----
