@@ -77,7 +77,7 @@ For additional information you can see [wiki](wiki.md).
 - [x] Add Intro
 - [x] Add trading
 - [ ] Add Poketedex
-- [ ] Effects
+- [x] Effects
 - [x] Add color codes for types
 
 ## Dependencies
