@@ -602,6 +602,68 @@ WW\/o o\/WW
      +""",
             "esc": "Color.lightblue"}]
     },
+    "cubl": {
+        "name": "Cubl",
+        "hp": 20,
+        "atc": "self.lvl()+3",
+        "defense": "self.lvl()+3",
+        "attacks": ["tackle", "freeze", "snow_storm"],
+        "miss_chance": 0.1,
+        "desc": "A small ice cube.",
+        "lose_xp": 2,
+        "rarity": 1.2,
+        "type": "ice",
+        "evolve_poke": "spikl",
+        "evolve_lvl": 30,
+        "initiative": "self.lvl()+1",
+        "ico": [{
+            "txt": """   -----
+   |   |
+   -----""",
+            "esc": None},
+            {
+            "txt": """
+    * *""",
+            "esc": "Color.lightblue"},
+            {
+            "txt": """  /     \\
+
+  \     /""",
+            "esc": "Color.cyan"
+            }
+                ]
+    },
+    "spikl": {
+        "name": "Spikl",
+        "hp": 25,
+        "atc": "self.lvl()+4",
+        "defense": "self.lvl()+4",
+        "attacks": ["tackle", "freeze", "snow_storm", "sword_of_ice"],
+        "miss_chance": 0.1,
+        "desc": "A block of ice.",
+        "lose_xp": 4,
+        "rarity": 0.9,
+        "type": "ice",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+2",
+        "ico": [{
+            "txt": """  -------
+  |     |
+  -------""",
+            "esc": None},
+            {
+            "txt": """
+    * *""",
+            "esc": "Color.lightblue"},
+            {
+            "txt": """ /       \\
+
+ \       /""",
+            "esc": "Color.cyan"
+            }
+                ]
+    },
 }
 
 if __name__ == "__main__":

@@ -26,7 +26,7 @@ types = {
     },
     "ground": {
         "effective": ["normal"],
-        "ineffective": ["flying"],
+        "ineffective": ["flying", "ice"],
         "color": "Color.grey"
     },
     "electro": {
@@ -45,7 +45,7 @@ types = {
         "color": "Color.purple"
     },
     "ice": {
-        "effective": ["water", "plant"],
+        "effective": ["water", "plant", "ground"],
         "ineffective": ["fire"],
         "color": "Color.cyan"
     },
