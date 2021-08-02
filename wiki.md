@@ -14,25 +14,27 @@ This wiki can be generated using ```$ gen-wiki.py```.
    6. [Bushy](#bushy)
    7. [Choka](#choka)
    8. [Clampi](#clampi)
-   9. [Electrode](#electrode)
-   10. [Gobost](#gobost)
-   11. [Hornita](#hornita)
-   12. [Horny](#horny)
-   13. [Karpi](#karpi)
-   14. [Lilstone](#lilstone)
-   15. [Ostri](#ostri)
-   16. [Owol](#owol)
-   17. [Poundi](#poundi)
-   18. [Rato](#rato)
-   19. [Rollator](#rollator)
-   20. [Rosi](#rosi)
-   21. [Steini](#steini)
-   22. [Treenator](#treenator)
-   23. [Vogli](#vogli)
-   24. [Voglo](#voglo)
-   25. [Wolfior](#wolfior)
-   26. [Wolfiro](#wolfiro)
-   27. [Würgos](#würgos)
+   9. [Cubl](#cubl)
+   10. [Electrode](#electrode)
+   11. [Gobost](#gobost)
+   12. [Hornita](#hornita)
+   13. [Horny](#horny)
+   14. [Karpi](#karpi)
+   15. [Lilstone](#lilstone)
+   16. [Ostri](#ostri)
+   17. [Owol](#owol)
+   18. [Poundi](#poundi)
+   19. [Rato](#rato)
+   20. [Rollator](#rollator)
+   21. [Rosi](#rosi)
+   22. [Spikl](#spikl)
+   23. [Steini](#steini)
+   24. [Treenator](#treenator)
+   25. [Vogli](#vogli)
+   26. [Voglo](#voglo)
+   27. [Wolfior](#wolfior)
+   28. [Wolfiro](#wolfiro)
+   29. [Würgos](#würgos)
 2. [Attacks](#attacks)
    1. [Apple drop](#apple-drop)
    2. [Ash throw](#ash-throw)
@@ -67,12 +69,14 @@ This wiki can be generated using ```$ gen-wiki.py```.
    31. [Shell pinch](#shell-pinch)
    32. [Shock](#shock)
    33. [Snooze](#snooze)
-   34. [Sucker](#sucker)
-   35. [Super sucker](#super-sucker)
-   36. [Tackle](#tackle)
-   37. [Tail wipe](#tail-wipe)
-   38. [Wet slap](#wet-slap)
-   39. [Wing hit](#wing-hit)
+   34. [Snow storm](#snow-storm)
+   35. [Sucker](#sucker)
+   36. [Super sucker](#super-sucker)
+   37. [Sword of ice](#sword-of-ice)
+   38. [Tackle](#tackle)
+   39. [Tail wipe](#tail-wipe)
+   40. [Wet slap](#wet-slap)
+   41. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -293,6 +297,31 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
    + [Bubble bomb](#bubble-bomb)
    + [Shell pinch](#shell-pinch)
 - Does not evolve
+
+### Cubl
+A small ice cube.
+
+```
+  /-----\  
+   |* *|   
+  \-----/  
+           
+
+```
+
+- Type: [Ice](#types)
+- Health points: 20
+- Attack factor: level+3
+- Defense factor: level+3
+- Initiative: level+1
+- Missing chance: 0.1
+- Rarity: 1.2
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Freeze](#freeze)
+   + [Snow storm](#snow-storm)
+- Evolves to [Spikl](#spikl) at level 15
 
 ### Electrode
 A small floating ball that will give you a shock.
@@ -586,6 +615,32 @@ A plant Pokete, that's often mistaken for a normal flower.
 - Attacks:
    + [Sucker](#sucker)
    + [Super sucker](#super-sucker)
+- Does not evolve
+
+### Spikl
+A block of ice.
+
+```
+ /-------\ 
+  | * * |  
+ \-------/ 
+           
+
+```
+
+- Type: [Ice](#types)
+- Health points: 25
+- Attack factor: level+4
+- Defense factor: level+4
+- Initiative: level+2
+- Missing chance: 0.1
+- Rarity: 0.9
+- Loosing experience: 4
+- Attacks:
+   + [Tackle](#tackle)
+   + [Freeze](#freeze)
+   + [Snow storm](#snow-storm)
+   + [Sword of ice](#sword-of-ice)
 - Does not evolve
 
 ### Steini
@@ -1098,6 +1153,16 @@ Makes the enemy sleepy.
 - Attack points: 15
 - Effect: [Sleep](#sleep)
 
+### Snow storm
+Summons a snow storm full of ice spikes onto the enemy.
+
+- Type: [Ice](#types)
+- Minimum Level: 0
+- Attack factor: 2.5
+- Missing chance: 0
+- Attack points: 20
+- Effect: None
+
 ### Sucker
 Sucks 1 HP from the enemy and adds it to it's own.
 
@@ -1115,6 +1180,16 @@ Sucks 2 HP from the enemy and adds it to it's own.
 - Minimum Level: 0
 - Attack factor: 0
 - Missing chance: 0
+- Attack points: 10
+- Effect: None
+
+### Sword of ice
+Stabs a giant ice spike into the enemy.
+
+- Type: [Ice](#types)
+- Minimum Level: 20
+- Attack factor: 5
+- Missing chance: 0.3
 - Attack points: 10
 - Effect: None
 
@@ -1167,7 +1242,7 @@ Stone|Flying, Fire|Plant
 Plant|Stone, Ground, Water|Fire, Ice
 Water|Stone, Flying, Fire|Plant, Ice
 Fire|Flying, Plant, Undead, Ice|Stone, Water
-Ground|Normal|Flying
+Ground|Normal|Flying, Ice
 Electro|Stone, Flying|Ground
 Flying|Plant|Stone
 Undead|Normal, Ground, Plant, Water|Fire
