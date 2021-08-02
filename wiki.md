@@ -321,7 +321,7 @@ A small ice cube.
    + [Tackle](#tackle)
    + [Freeze](#freeze)
    + [Snow storm](#snow-storm)
-- Evolves to [Spikl](#spikl) at level 15
+- Evolves to [Spikl](#spikl) at level 30
 
 ### Electrode
 A small floating ball that will give you a shock.
