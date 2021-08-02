@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # This script generates the Pokete wiki
 from pokete_data import *
-from pokete_classes.classes import *
+from pokete_classes.effects import *
 import scrap_engine as se
 import os
 
