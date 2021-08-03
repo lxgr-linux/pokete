@@ -12,6 +12,7 @@
 9. [Poketeballs](#poketeballs)
 10. [Settings](#settings)
 11. [Trading](#trading)
+12. [Shiny Poketes](#shiny-poketes)
 
 
 ## Plot
@@ -116,3 +117,7 @@ You may run into problems with firewalls.
 
 ![trading](assets/ss/ss23.png)
 
+## Shiny Poketes
+Shiny Poketes are rare to find (chance 1/500) and have 2 points more of attac, defense and initiative and 5 HP more than normal. Their names are highlighted yellow. 
+
+![shiny](assets/ss/ss24.png)
