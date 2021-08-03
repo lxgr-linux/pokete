@@ -69,18 +69,19 @@ This wiki can be generated using ```$ gen-wiki.py```.
    29. [Power bite](#power-bite)
    30. [Power pick](#power-pick)
    31. [Power roll](#power-roll)
-   32. [Root strangler](#root-strangler)
-   33. [Shell pinch](#shell-pinch)
-   34. [Shock](#shock)
-   35. [Snooze](#snooze)
-   36. [Snow storm](#snow-storm)
-   37. [Sucker](#sucker)
-   38. [Super sucker](#super-sucker)
-   39. [Sword of ice](#sword-of-ice)
-   40. [Tackle](#tackle)
-   41. [Tail wipe](#tail-wipe)
-   42. [Wet slap](#wet-slap)
-   43. [Wing hit](#wing-hit)
+   32. [Root slap](#root-slap)
+   33. [Root strangler](#root-strangler)
+   34. [Shell pinch](#shell-pinch)
+   35. [Shock](#shock)
+   36. [Snooze](#snooze)
+   37. [Snow storm](#snow-storm)
+   38. [Sucker](#sucker)
+   39. [Super sucker](#super-sucker)
+   40. [Sword of ice](#sword-of-ice)
+   41. [Tackle](#tackle)
+   42. [Tail wipe](#tail-wipe)
+   43. [Wet slap](#wet-slap)
+   44. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -567,6 +568,7 @@ A unsuspicious plant.
 - Rarity: 0.9
 - Loosing experience: 6
 - Attacks:
+   + [Root slap](#root-slap)
    + [Poison spores](#poison-spores)
    + [Leaf storm](#leaf-storm)
 - Does not evolve
@@ -1182,6 +1184,16 @@ Rolls over the enemy.
 - Attack factor: 2.5
 - Missing chance: 0.2
 - Attack points: 15
+- Effect: None
+
+### Root slap
+Uses old and crusty roots to slap the enemy.
+
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 1.5
+- Missing chance: 0.2
+- Attack points: 30
 - Effect: None
 
 ### Root strangler

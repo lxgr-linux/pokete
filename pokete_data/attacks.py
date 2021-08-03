@@ -449,7 +449,7 @@ attacks = {
         "min_lvl": 0,
         "desc": "Uses old and crusty roots to slap the enemy.",
         "type": "plant",
-        "effect": "",
+        "effect": None,
         "ap": 30,
     },
     "leaf_storm": {
