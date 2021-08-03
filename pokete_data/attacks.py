@@ -491,6 +491,18 @@ attacks = {
         "effect": None,
         "ap": 10,
     },
+    "confusion": {
+        "name": "Confusion",
+        "factor": 0,
+        "action": "",
+        "move": ["downgrade"],
+        "miss_chance": 0.2,
+        "min_lvl": 0,
+        "desc": "Confuses the enemy.",
+        "type": "undead",
+        "effect": "EffectConfusion",
+        "ap": 40,
+    },
 }
 
 if __name__ == "__main__":

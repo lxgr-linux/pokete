@@ -664,6 +664,36 @@ WW\/o o\/WW
             }
                 ]
     },
+    "confuso": {
+        "name": "Confuso",
+        "hp": 20,
+        "atc": "self.lvl()+1",
+        "defense": "self.lvl()+1",
+        "attacks": ["confusion"],
+        "miss_chance": 0.1,
+        "desc": "A ball floating around in dark woods and caves, that will confuse the shit out of you.",
+        "lose_xp": 6,
+        "rarity": 0.5,
+        "type": "undead",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+2",
+        "ico": [{
+            "txt": """
+     _
+    (_) """,
+            "esc": None},
+            {
+            "txt": """        }
+      {
+       }""",
+            "esc": "Color.purple"},
+            {
+            "txt": """       }
+       {""",
+            "esc": "Color.lightblue"},
+                ]
+    },
 }
 
 if __name__ == "__main__":
