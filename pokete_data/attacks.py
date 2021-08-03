@@ -503,6 +503,18 @@ attacks = {
         "effect": "EffectConfusion",
         "ap": 40,
     },
+    "poison_spores": {
+        "name": "Poison spores",
+        "factor": 0,
+        "action": "",
+        "move": ["downgrade"],
+        "miss_chance": 0,
+        "min_lvl": 0,
+        "desc": "Ejects some poisonous spores onto the enemy.",
+        "type": "plant",
+        "effect": "EffectPoison",
+        "ap": 40,
+    },
 }
 
 if __name__ == "__main__":
