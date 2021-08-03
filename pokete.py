@@ -195,6 +195,8 @@ class Poke():
         self.shiny = shiny
         for name in ["hp", "attacks", "name", "miss_chance", "lose_xp", "evolve_poke", "evolve_lvl"]:
             exec(f"self.{name} = pokes[self.identifier][name]")
+        if self.shiny:
+            self.hp += 5
         self.type = eval(pokes[self.identifier]["type"])
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
@@ -208,7 +210,7 @@ class Poke():
             self.ico.add_ob(se.Text(ico["txt"], state="float", esccode=eval(ico["esc"]) if ico["esc"] != None else "", ignore=f'{eval(ico["esc"]) if ico["esc"] != None else ""} {Color.reset}'), 0, 0)
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
-        self.text_name = se.Text(self.name, esccode=Color.underlined, state="float")
+        self.text_name = se.Text(self.name, esccode=Color.underlined+(Color.yellow if self.shiny else ""), state="float")
         self.text_xp = se.Text(f"XP:{self.xp-(self.lvl()**2-1)}/{((self.lvl()+1)**2-1)-(self.lvl()**2-1)}", state="float")
         self.text_type = se.Text(self.type.name.capitalize(), state="float", esccode=self.type.color)
         self.tril = se.Object("<", state="float")
@@ -221,7 +223,7 @@ class Poke():
 
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
-            exec(f"self.{name} = int({pokes[self.identifier][name]})")
+            exec(f"self.{name} = int({pokes[self.identifier][name]})+(2 if self.shiny else 0)")
         i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
         for old_ob, ob in zip(self.attac_obs, i):
             ob.ap = old_ob.ap
