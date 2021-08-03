@@ -14,27 +14,29 @@ This wiki can be generated using ```$ gen-wiki.py```.
    6. [Bushy](#bushy)
    7. [Choka](#choka)
    8. [Clampi](#clampi)
-   9. [Cubl](#cubl)
-   10. [Electrode](#electrode)
-   11. [Gobost](#gobost)
-   12. [Hornita](#hornita)
-   13. [Horny](#horny)
-   14. [Karpi](#karpi)
-   15. [Lilstone](#lilstone)
-   16. [Ostri](#ostri)
-   17. [Owol](#owol)
-   18. [Poundi](#poundi)
-   19. [Rato](#rato)
-   20. [Rollator](#rollator)
-   21. [Rosi](#rosi)
-   22. [Spikl](#spikl)
-   23. [Steini](#steini)
-   24. [Treenator](#treenator)
-   25. [Vogli](#vogli)
-   26. [Voglo](#voglo)
-   27. [Wolfior](#wolfior)
-   28. [Wolfiro](#wolfiro)
-   29. [Würgos](#würgos)
+   9. [Confuso](#confuso)
+   10. [Cubl](#cubl)
+   11. [Electrode](#electrode)
+   12. [Gobost](#gobost)
+   13. [Hornita](#hornita)
+   14. [Horny](#horny)
+   15. [Karpi](#karpi)
+   16. [Lilstone](#lilstone)
+   17. [Ostri](#ostri)
+   18. [Owol](#owol)
+   19. [Poisopla](#poisopla)
+   20. [Poundi](#poundi)
+   21. [Rato](#rato)
+   22. [Rollator](#rollator)
+   23. [Rosi](#rosi)
+   24. [Spikl](#spikl)
+   25. [Steini](#steini)
+   26. [Treenator](#treenator)
+   27. [Vogli](#vogli)
+   28. [Voglo](#voglo)
+   29. [Wolfior](#wolfior)
+   30. [Wolfiro](#wolfiro)
+   31. [Würgos](#würgos)
 2. [Attacks](#attacks)
    1. [Apple drop](#apple-drop)
    2. [Ash throw](#ash-throw)
@@ -47,36 +49,38 @@ This wiki can be generated using ```$ gen-wiki.py```.
    9. [Bubble shield](#bubble-shield)
    10. [Charging](#charging)
    11. [Chocer](#chocer)
-   12. [Cry](#cry)
-   13. [Earch quake](#earch-quake)
-   14. [Eye pick](#eye-pick)
-   15. [Fire ball](#fire-ball)
-   16. [Fire bite](#fire-bite)
-   17. [Freeze](#freeze)
-   18. [Heart touch](#heart-touch)
-   19. [Leaf storm](#leaf-storm)
-   20. [Meat skewer](#meat-skewer)
-   21. [Mega arch](#mega-arch)
-   22. [Mind blow](#mind-blow)
-   23. [Pepple fire](#pepple-fire)
-   24. [Pick](#pick)
-   25. [Poison bite](#poison-bite)
-   26. [Politure](#politure)
-   27. [Power bite](#power-bite)
-   28. [Power pick](#power-pick)
-   29. [Power roll](#power-roll)
-   30. [Root strangler](#root-strangler)
-   31. [Shell pinch](#shell-pinch)
-   32. [Shock](#shock)
-   33. [Snooze](#snooze)
-   34. [Snow storm](#snow-storm)
-   35. [Sucker](#sucker)
-   36. [Super sucker](#super-sucker)
-   37. [Sword of ice](#sword-of-ice)
-   38. [Tackle](#tackle)
-   39. [Tail wipe](#tail-wipe)
-   40. [Wet slap](#wet-slap)
-   41. [Wing hit](#wing-hit)
+   12. [Confusion](#confusion)
+   13. [Cry](#cry)
+   14. [Earch quake](#earch-quake)
+   15. [Eye pick](#eye-pick)
+   16. [Fire ball](#fire-ball)
+   17. [Fire bite](#fire-bite)
+   18. [Freeze](#freeze)
+   19. [Heart touch](#heart-touch)
+   20. [Leaf storm](#leaf-storm)
+   21. [Meat skewer](#meat-skewer)
+   22. [Mega arch](#mega-arch)
+   23. [Mind blow](#mind-blow)
+   24. [Pepple fire](#pepple-fire)
+   25. [Pick](#pick)
+   26. [Poison bite](#poison-bite)
+   27. [Poison spores](#poison-spores)
+   28. [Politure](#politure)
+   29. [Power bite](#power-bite)
+   30. [Power pick](#power-pick)
+   31. [Power roll](#power-roll)
+   32. [Root strangler](#root-strangler)
+   33. [Shell pinch](#shell-pinch)
+   34. [Shock](#shock)
+   35. [Snooze](#snooze)
+   36. [Snow storm](#snow-storm)
+   37. [Sucker](#sucker)
+   38. [Super sucker](#super-sucker)
+   39. [Sword of ice](#sword-of-ice)
+   40. [Tackle](#tackle)
+   41. [Tail wipe](#tail-wipe)
+   42. [Wet slap](#wet-slap)
+   43. [Wing hit](#wing-hit)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -296,6 +300,29 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
    + [Tackle](#tackle)
    + [Bubble bomb](#bubble-bomb)
    + [Shell pinch](#shell-pinch)
+- Does not evolve
+
+### Confuso
+A ball floating around in dark woods and caves, that will confuse the shit out of you.
+
+```
+       }}  
+     _{{   
+    (_)}   
+           
+
+```
+
+- Type: [Undead](#types)
+- Health points: 20
+- Attack factor: level+1
+- Defense factor: level+1
+- Initiative: level+2
+- Missing chance: 0.1
+- Rarity: 0.5
+- Loosing experience: 6
+- Attacks:
+   + [Confusion](#confusion)
 - Does not evolve
 
 ### Cubl
@@ -518,6 +545,30 @@ A night active Pokete, that is looking for lil children as a midnight snack.
    + [Pick](#pick)
    + [Wing hit](#wing-hit)
    + [Cry](#cry)
+- Does not evolve
+
+### Poisopla
+A unsuspicious plant.
+
+```
+           
+     w .   
+ .__ |/|   
+  \_\||/   
+
+```
+
+- Type: [Plant](#types)
+- Health points: 20
+- Attack factor: level+3
+- Defense factor: level+3
+- Initiative: level+1
+- Missing chance: 0.1
+- Rarity: 0.9
+- Loosing experience: 6
+- Attacks:
+   + [Poison spores](#poison-spores)
+   + [Leaf storm](#leaf-storm)
 - Does not evolve
 
 ### Poundi
@@ -933,6 +984,16 @@ Choces the enemy and makes it weaker.
 - Attack points: 15
 - Effect: [Paralyzation](#paralyzation)
 
+### Confusion
+Confuses the enemy.
+
+- Type: [Undead](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0.2
+- Attack points: 40
+- Effect: [Confusion](#confusion)
+
 ### Cry
 So loud, it confuses the enemy.
 
@@ -1071,6 +1132,16 @@ Makes the enemy weaker.
 - Attack factor: 1
 - Missing chance: 0.3
 - Attack points: 10
+- Effect: [Poison](#poison)
+
+### Poison spores
+Ejects some poisonous spores onto the enemy.
+
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 15
 - Effect: [Poison](#poison)
 
 ### Politure
