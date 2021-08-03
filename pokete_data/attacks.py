@@ -431,7 +431,7 @@ attacks = {
     "root_strangler": {
         "name": "Root strangler",
         "factor": 1,
-        "action": "enem.atc -= 1",
+        "action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0.2,
         "min_lvl": 20,
@@ -439,6 +439,18 @@ attacks = {
         "type": "plant",
         "effect": "EffectParalyzation",
         "ap": 15,
+    },
+    "root_slap": {
+        "name": "Root slap",
+        "factor": 1.5,
+        "action": "",
+        "move": ["attack"],
+        "miss_chance": 0.2,
+        "min_lvl": 0,
+        "desc": "Uses old and crusty roots to slap the enemy.",
+        "type": "plant",
+        "effect": "",
+        "ap": 30,
     },
     "leaf_storm": {
         "name": "Leaf storm",

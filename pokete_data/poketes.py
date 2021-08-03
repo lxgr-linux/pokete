@@ -699,7 +699,7 @@ WW\/o o\/WW
         "hp": 20,
         "atc": "self.lvl()+3",
         "defense": "self.lvl()+3",
-        "attacks": ["poison_spores", "leaf_storm"],
+        "attacks": ["root_slap", "poison_spores", "leaf_storm"],
         "miss_chance": 0.1,
         "desc": "A unsuspicious plant.",
         "lose_xp": 6,
