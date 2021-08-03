@@ -694,6 +694,32 @@ WW\/o o\/WW
             "esc": "Color.lightblue"},
                 ]
     },
+    "poisopla": {
+        "name": "Poisopla",
+        "hp": 20,
+        "atc": "self.lvl()+3",
+        "defense": "self.lvl()+3",
+        "attacks": ["leaf_storm"],
+        "miss_chance": 0.1,
+        "desc": "A unsuspicious plant.",
+        "lose_xp": 6,
+        "rarity": 0.9,
+        "type": "plant",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+1",
+        "ico": [{
+            "txt": """
+      .
+.__ |/|
+ \_\||/""",
+            "esc": None},
+            {
+            "txt": """
+    w""",
+            "esc": "Color.purple"},
+                ]
+    },
 }
 
 if __name__ == "__main__":
