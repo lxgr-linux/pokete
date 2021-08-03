@@ -4,9 +4,10 @@ from pokete_classes.classes import *
 class Effect():
     desc = ""
     c_name = ""
-    def __init__(self, name, rem_chance, str, str_esccode="", ob=None):
+    def __init__(self, name, rem_chance, catch_chance, str, str_esccode="", ob=None):
         self.name = name
         self.rem_chance = rem_chance
+        self.catch_chance = catch_chance
         self.str_esccode = str_esccode
         self.label = se.Text(str, state="float", esccode=str_esccode)
         self.ob = ob
@@ -77,21 +78,21 @@ class EffectParalyzation(Effect):
     desc = "Paralyses the enemy and stops it from attacking. This is reverted randomly."
     c_name = "paralyzation"
     def __init__(self, ob=None):
-        super().__init__("paralyzed", 3, "(Par)", Color.thicc+Color.yellow, ob)
+        super().__init__("paralyzed", 3, 2, "(Par)", Color.thicc+Color.yellow, ob)
 
 
 class EffectSleep(Effect):
     desc = "Makes the enemy fall asleep and stops it from attacking. This is reverted randomly."
     c_name = "sleep"
     def __init__(self, ob=None):
-        super().__init__("sleeping", 4, "(Sle)", Color.white, ob)
+        super().__init__("sleeping", 4, 3, "(Sle)", Color.white, ob)
 
 
 class EffectBurning(Effect):
     desc = "Sets the enemy on fire and damages the enemy with 2 HP every round. This is reverted randomly."
     c_name = "burning"
     def __init__(self, ob=None):
-        super().__init__("burning", 3, "(Bur)", Color.thicc+Color.red, ob)
+        super().__init__("burning", 3, 0, "(Bur)", Color.thicc+Color.red, ob)
         self.hurt_text = "burned it self!"
         self.damage = 2
 
@@ -116,7 +117,7 @@ class EffectPoison(EffectBurning):
     desc = "Poisons the enemy and damages the enemy with 1 HP every round. This is reverted randomly."
     c_name = "poison"
     def __init__(self, ob=None):
-        super(EffectBurning, self).__init__("poisoned", 4, "(Poi)", Color.purple, ob)
+        super(EffectBurning, self).__init__("poisoned", 4, 2, "(Poi)", Color.purple, ob)
         self.hurt_text = "got damaged through poison!"
         self.damage = 1
 
@@ -125,7 +126,7 @@ class EffectConfusion(Effect):
     desc = "Makes the enemy hurt it self. This is reverted randomly."
     c_name = "confusion"
     def __init__(self, ob=None):
-        super().__init__("confused", 3, "(Con)", Color.lightblue, ob)
+        super().__init__("confused", 3, 2, "(Con)", Color.lightblue, ob)
 
     def effect(self):
         self.ob.ico.map.outp.outp(f'{self.ob.name}({"you" if self.ob.player else "enemy"}) is still ')
@@ -138,7 +139,7 @@ class EffectFreezing(Effect):
     desc = "Freezes the enemy and stops it from attacking. This is reverted randomly."
     c_name = "freezing"
     def __init__(self, ob=None):
-        super().__init__("frozen", 3, "(Fro)", Color.cyan, ob)
+        super().__init__("frozen", 3, 3, "(Fro)", Color.cyan, ob)
 
 
 effects = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison, EffectConfusion, EffectFreezing]
