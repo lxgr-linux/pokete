@@ -513,7 +513,7 @@ attacks = {
         "desc": "Ejects some poisonous spores onto the enemy.",
         "type": "plant",
         "effect": "EffectPoison",
-        "ap": 40,
+        "ap": 15,
     },
 }
 

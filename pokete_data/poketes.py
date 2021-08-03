@@ -710,13 +710,13 @@ WW\/o o\/WW
         "initiative": "self.lvl()+1",
         "ico": [{
             "txt": """
-      .
-.__ |/|
- \_\||/""",
+       .
+ .__ |/|
+  \_\||/""",
             "esc": None},
             {
             "txt": """
-    w""",
+     w""",
             "esc": "Color.purple"},
                 ]
     },
