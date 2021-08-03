@@ -188,10 +188,11 @@ class ChanceDor(Dor):
 
 
 class Poke():
-    def __init__(self, poke, xp, _hp="SKIP", player=True):
+    def __init__(self, poke, xp, _hp="SKIP", player=True, shiny=False):
         self.xp = xp
         self.player = player
         self.identifier = poke
+        self.shiny = shiny
         for name in ["hp", "attacks", "name", "miss_chance", "lose_xp", "evolve_poke", "evolve_lvl"]:
             exec(f"self.{name} = pokes[self.identifier][name]")
         self.type = eval(pokes[self.identifier]["type"])
@@ -230,7 +231,7 @@ class Poke():
         self.label_rechar()
 
     def dict(self):
-        return {"name": self.identifier, "xp": self.xp, "hp": self.hp, "ap": [atc.ap for atc in self.attac_obs], "effects": [repr(e) for e in self.effects]}
+        return {"name": self.identifier, "xp": self.xp, "hp": self.hp, "ap": [atc.ap for atc in self.attac_obs], "effects": [repr(e) for e in self.effects], "shiny": self.shiny}
 
     def set_ap(self, dict):
         for atc, ap in zip(self.attac_obs, dict):
@@ -420,7 +421,7 @@ class Figure(se.Object):
     def set_args(self, si):
         # processing data from save file
         self.name = si["user"]
-        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"]) for poke in si["pokes"]]
+        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"], shiny=(False if "shiny" not in si["pokes"][poke] else si["pokes"][poke]["shiny"])) for poke in si["pokes"]]
         for j, poke in enumerate(self.pokes):
             poke.set_ap(si["pokes"][j]["ap"])
             if "effects" in si["pokes"][j]:
