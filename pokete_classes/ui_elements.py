@@ -9,8 +9,12 @@ class BoxIndex(se.Object):
 class Box(se.Box):
     def __init__(self, height, width, name="", info=""):
         super().__init__(height, width)
-        self.frame = se.Frame(width=width, height=height, corner_chars=["┌", "┐", "└", "┘"], horizontal_chars=["─", "─"], vertical_chars=["│", "│"], state="float")
-        self.inner = se.Square(char=" ", width=width-2, height=height-2, state="float")
+        self.frame = se.Frame(width=width, height=height,
+                            corner_chars=["┌", "┐", "└", "┘"],
+                            horizontal_chars=["─", "─"],
+                            vertical_chars=["│", "│"], state="float")
+        self.inner = se.Square(char=" ", width=width-2, height=height-2,
+                                state="float")
         self.name_label = se.Text(name, state="float")
         self.info_label = se.Text(info, state="float")
         # adding
@@ -20,7 +24,8 @@ class Box(se.Box):
         self.add_ob(self.info_label, 2, self.height-1)
 
     def center_add(self, map):
-        self.add(map, round((map.width-self.width)/2), round((map.height-self.height)/2))
+        self.add(map, round((map.width-self.width)/2),
+                round((map.height-self.height)/2))
 
     def add(self, map, x, y):
         super().add(map, x, y)
@@ -48,14 +53,15 @@ class ChooseBox(Box):
         self.add_ob(self.index, self.index_x, 1)
 
     def input(self, ev):
-        if {"'s'": self.index.index+1 < len(self.c_obs), "'w'": self.index.index-1 >= 0}[ev]:
+        if {"'s'": self.index.index+1 < len(self.c_obs),
+            "'w'": self.index.index-1 >= 0}[ev]:
             self.index.index += {"'s'": 1, "'w'": -1}[ev]
         else:
             self.index.index = {"'s'": 0, "'w'": len(self.c_obs)-1}[ev]
         self.set_index()
 
     def set_index(self, index=None):
-        if index != None:
+        if index is not None:
             self.index.index = index
         self.set_ob(self.index, self.index.rx, self.c_obs[self.index.index].ry)
 
@@ -65,7 +71,8 @@ class ChooseBox(Box):
             self.add_ob(ob, self.index_x*2, 1+y)
 
     def remove_c_obs(self):
-        [self.rem_ob(ob) for ob in self.c_obs]
+        for ob in self.c_obs:
+            self.rem_ob(ob)
         self.c_obs = []
 
 
@@ -95,7 +102,8 @@ class InputBox(InfoBox):
         self.text = se.Text(text)
         self.add_ob(self.infotext, 2, 1)
         self.add_ob(self.introtext, 2, len(infotext.split("\n"))+1)
-        self.add_ob(self.text, self.introtext.rx+len(introtext)+1, self.introtext.ry)
+        self.add_ob(self.text, self.introtext.rx+len(introtext)+1,
+                    self.introtext.ry)
 
 
 if __name__ == "__main__":
