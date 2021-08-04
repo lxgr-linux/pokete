@@ -1851,6 +1851,11 @@ if not settings.colors:
 #########################################
 
 # maps
+# for ob_map in maps:
+#     args = maps[ob_map]
+#     args["extra_actions"] = eval(args["extra_actions"]) if args["extra_actions"] is not None else None
+#     exec(f'{ob_map} = PlayMap(name = ob_map, **args)')
+
 centermap = PlayMap(height-1, width, name = "centermap", pretty_name = "Pokete-Center")
 shopmap = PlayMap(height-1, width, name = "shopmap", pretty_name = "Pokete-Shop")
 intromap = PlayMap(height=15, width=30, name="intromap", pretty_name="Your home")

@@ -6,6 +6,7 @@ from pokete_data.items import *
 from pokete_data.trainers import *
 from pokete_data.npcs import *
 from pokete_data.mapstations import *
+from pokete_data.maps import *
 
 
 class ValidationError(Exception):
