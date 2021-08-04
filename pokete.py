@@ -28,7 +28,7 @@ __save_path__ = "/.cache/pokete"
 class HightGrass(se.Object):
     def action(self, ob):
         if random.randint(0,8) == 0:
-            fight(Poke("__fallback__", 0) if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) == 0 else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choices(self.arg_proto["pokes"], weights=[pokes[i]["rarity"] for i in self.arg_proto["pokes"]])[0], random.choices(list(range(self.arg_proto["minlvl"], self.arg_proto["maxlvl"])))[0], player=False))
+            fight(Poke("__fallback__", 0) if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) == 0 else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choices(self.arg_proto["pokes"], weights=[pokes[i]["rarity"] for i in self.arg_proto["pokes"]])[0], random.choices(list(range(self.arg_proto["minlvl"], self.arg_proto["maxlvl"])))[0], player=False, shiny=(random.randint(0, 500) == 0)))
 
 
 class Poketeball(se.Object):
@@ -195,13 +195,16 @@ class ChanceDor(Dor):
 
 
 class Poke():
-    def __init__(self, poke, xp, _hp="SKIP", player=True):
+    def __init__(self, poke, xp, _hp="SKIP", player=True, shiny=False):
         self.enem = None
         self.oldhp = 0
         self.xp = xp
         self.identifier = poke
+        self.shiny = shiny
         for name in ["hp", "attacks", "name", "miss_chance", "lose_xp", "evolve_poke", "evolve_lvl"]:
             exec(f"self.{name} = pokes[self.identifier][name]")
+        if self.shiny:
+            self.hp += 5
         self.set_player(player)
         self.type = eval(pokes[self.identifier]["type"])
         self.full_hp = self.hp
@@ -216,7 +219,7 @@ class Poke():
             self.ico.add_ob(se.Text(ico["txt"], state="float", esccode=eval(ico["esc"]) if ico["esc"] is not None else "", ignore=f'{eval(ico["esc"]) if ico["esc"] is not None else ""} {Color.reset}'), 0, 0)
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
-        self.text_name = se.Text(self.name, esccode=Color.underlined, state="float")
+        self.text_name = se.Text(self.name, esccode=Color.underlined+(Color.yellow if self.shiny else ""), state="float")
         self.text_xp = se.Text(f"XP:{self.xp-(self.lvl()**2-1)}/{((self.lvl()+1)**2-1)-(self.lvl()**2-1)}", state="float")
         self.text_type = se.Text(self.type.name.capitalize(), state="float", esccode=self.type.color)
         self.tril = se.Object("<", state="float")
@@ -234,7 +237,7 @@ class Poke():
 
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
-            exec(f"self.{name} = int({pokes[self.identifier][name]})")
+            exec(f"self.{name} = int({pokes[self.identifier][name]})+(2 if self.shiny else 0)")
         i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
         for old_ob, ob in zip(self.attac_obs, i):
             ob.ap = old_ob.ap
@@ -245,9 +248,9 @@ class Poke():
         self.label_rechar()
 
     def dict(self):
-        return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
-                "ap": [atc.ap for atc in self.attac_obs],
-                "effects": [repr(e) for e in self.effects]}
+        return {"name": self.identifier, "xp": self.xp, "hp": self.hp, 
+                "ap": [atc.ap for atc in self.attac_obs], 
+                "effects": [repr(e) for e in self.effects], "shiny": self.shiny}
 
     def set_ap(self, dict):
         for atc, ap in zip(self.attac_obs, dict):
@@ -438,7 +441,7 @@ class Figure(se.Object):
     def set_args(self, si):
         # processing data from save file
         self.name = si["user"]
-        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"]) for poke in si["pokes"]]
+        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"], shiny=(False if "shiny" not in si["pokes"][poke] else si["pokes"][poke]["shiny"])) for poke in si["pokes"]]
         for j, poke in enumerate(self.pokes):
             poke.set_ap(si["pokes"][j]["ap"])
             if "effects" in si["pokes"][j]:
