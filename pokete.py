@@ -1716,7 +1716,6 @@ def gen_obs():
     for ob_map in map_data:
         for trainer in eval(ob_map).trainers:
             trainer.add(eval(ob_map), trainer.sx, trainer.sy)
-    figure.set_args(session_info)
 
 
 def main():
@@ -2243,6 +2242,8 @@ evomap.outp = OutP("", state="float")
 # adding
 evomap.frame_small.add(evomap, 0, evomap.height-5)
 evomap.outp.add(evomap, 1, evomap.height-4)
+
+figure.set_args(session_info)
 
 __t = time.time() - __t
 ev = ""
