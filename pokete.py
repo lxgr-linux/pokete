@@ -246,11 +246,11 @@ class Poke():
         for name in ["atc", "defense", "initiative"]:
             exec(f"self.{name} = int({pokes[self.identifier][name]})+(2 if self.shiny else 0)")
         i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
-        for old_ob, ob in zip(self.attac_obs, i):
-            ob.ap = old_ob.ap
+        for old_ob, obj in zip(self.attac_obs, i):
+            obj.ap = old_ob.ap
         self.attac_obs = i
-        for ob in self.atc_labels:
-            fightbox.rem_ob(ob)
+        for obj in self.atc_labels:
+            fightbox.rem_ob(obj)
         self.atc_labels = [se.Text("") for i in self.attac_obs]
         self.label_rechar()
 
@@ -323,8 +323,8 @@ class Poke():
                 fightmap.outp.outp(f'{self.ext_name} hurt it self!')
             if n_hp != 0 or attac.factor == 0:
                 attac.give_effect(enem)
-            for ob in [enem, self] if enem != self else [enem]:
-                ob.health_bar_updater(ob.oldhp)
+            for obj in [enem, self] if enem != self else [enem]:
+                obj.health_bar_updater(obj.oldhp)
             self.label_rechar()
             fightmap.show()
 
@@ -453,7 +453,9 @@ class Figure(se.Object):
     def set_args(self, si):
         # processing data from save file
         self.name = si["user"]
-        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke), si["pokes"][poke]["xp"], si["pokes"][poke]["hp"], shiny=(False if "shiny" not in si["pokes"][poke] else si["pokes"][poke]["shiny"])) for poke in si["pokes"]]
+        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke),
+                            si["pokes"][poke]["xp"], si["pokes"][poke]["hp"],
+                            shiny=(False if "shiny" not in si["pokes"][poke] else si["pokes"][poke]["shiny"])) for poke in si["pokes"]]
         for j, poke in enumerate(self.pokes):
             poke.set_ap(si["pokes"][j]["ap"])
             if "effects" in si["pokes"][j]:
@@ -572,6 +574,9 @@ class Deck:
         self.move_label.add(self.submap, 9, self.submap.height-1)
         self.move_free.add(self.submap, 20, self.submap.height-1)
 
+    def rem_pokes(self, pokes):
+        for poke in pokes:
+            self.remove(poke)
 
     def __call__(self, pokes, label="Your full deck", in_fight=False):
         global ev
@@ -593,7 +598,7 @@ class Deck:
         while True:
             if ev in ["'1'", "Key.esc", "'q'"]:
                 ev = ""
-                [self.remove(poke) for poke in pokes]
+                self.rem_pokes(pokes)
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
@@ -610,7 +615,7 @@ class Deck:
                     figure.pokes[indici[0]], figure.pokes[indici[1]] = pokes[indici[1]], pokes[indici[0]]
                     pokes = figure.pokes[:len(pokes)]
                     indici = []
-                    [self.remove(poke) for poke in pokes]
+                    self.rem_pokes(pokes)
                     self.index.set(0, self.map.height-1)
                     self.add_all(pokes)
                     self.index.set(pokes[self.index.index].text_name.x+len(pokes[self.index.index].text_name.text)+1, pokes[self.index.index].text_name.y)
@@ -619,7 +624,7 @@ class Deck:
             elif ev == "'3'":
                 ev = ""
                 if ask_bool(self.submap, f"Do you really want to free {figure.pokes[self.index.index].name}?"):
-                    [self.remove(poke) for poke in pokes]
+                    self.rem_pokes(pokes)
                     figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
                     pokes = figure.pokes[:len(pokes)]
                     self.add_all(pokes)
@@ -634,13 +639,13 @@ class Deck:
                     continue
                 if in_fight:
                     if pokes[self.index.index].hp > 0:
-                        [self.remove(poke) for poke in pokes]
+                        self.rem_pokes(pokes)
                         while len(self.map.obs) > 0:
                             self.map.obs[0].remove()
                         self.submap.set(0, 0)
                         return self.index.index
                 else:
-                    [self.remove(poke) for poke in pokes]
+                    self.rem_pokes(pokes)
                     detail(pokes[self.index.index])
                     self.add_all(pokes)
                     self.submap.full_show(init=True)
@@ -655,11 +660,11 @@ class Deck:
     def add(self, poke, map, x, y, in_deck=True):
         poke.text_name.add(map, x+12, y+0)
         if poke.identifier != "__fallback__":
-            for ob, _x, _y in zip([poke.ico, poke.text_lvl, poke.text_hp,
+            for obj, _x, _y in zip([poke.ico, poke.text_lvl, poke.text_hp,
                                     poke.tril, poke.trir, poke.hp_bar, poke.text_xp],
                                     [0, 12, 12, 18, 27, 19, 12],
                                     [0, 1, 2, 2, 2, 2, 3]):
-                ob.add(map, x+_x, y+_y)
+                obj.add(map, x+_x, y+_y)
             if figure.pokes.index(poke) < 6 and in_deck:
                 poke.pball_small.add(map, round(map.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else map.width-2, y)
             for e in poke.effects:
@@ -667,10 +672,10 @@ class Deck:
 
 
     def remove(self, poke):
-        for ob in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
+        for obj in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
                     poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
                     poke.pball_small]:
-            ob.remove()
+            obj.remove()
         for e in poke.effects:
             e.cleanup()
 
@@ -731,8 +736,8 @@ class Detail(Deck):
         self.add(poke, self.map, 1, 1, False)
         self.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
-        for ob, x, y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
-            ob.add(self.map, x, y)
+        for obj, x, y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
+            obj.add(self.map, x, y)
         for atc, x, y in zip(poke.attac_obs, [1, round(self.map.width/2)+1, 1,
                             round(self.map.width/2)+1], [7, 7, 12, 12]):
             atc.temp_i = 0
@@ -749,12 +754,12 @@ class Detail(Deck):
             if ev in ["'1'", "Key.esc", "'q'"]:
                 ev = ""
                 self.remove(poke)
-                for ob in [poke.desc, poke.text_type]:
-                    ob.remove()
+                for obj in [poke.desc, poke.text_type]:
+                    obj.remove()
                 for atc in poke.attac_obs:
-                    for ob in [atc.label_name, atc.label_factor, atc.label_ap,
+                    for obj in [atc.label_name, atc.label_factor, atc.label_ap,
                                 atc.label_desc, atc.label_type_1, atc.label_type_2]:
-                        ob.remove()
+                        obj.remove()
                     del atc.temp_i, atc.temp_j
                 return
             std_loop()
@@ -795,9 +800,9 @@ class Inv:
                 elif ev in ["'4'", "Key.esc", "'q'"]:
                     break
                 elif ev == "Key.enter":
-                    ob = items[self.box.index.index]
-                    self.box2.name_label.rechar(ob.pretty_name)
-                    self.desc_label.rechar(liner(ob.desc, 19))
+                    obj = items[self.box.index.index]
+                    self.box2.name_label.rechar(obj.pretty_name)
+                    self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(movemap, self.box.x-19, 3)
                     ev = ""
                     while True:
@@ -812,7 +817,8 @@ class Inv:
                 elif ev == "'r'":
                     if ask_bool(movemap, f"Do you really want to throw {items[self.box.index.index].pretty_name} away?"):
                         figure.remove_item(items[self.box.index.index].name)
-                        [ob.remove() for ob in self.box.c_obs]
+                        for obj in self.box.c_obs:
+                            obj.remove()
                         self.box.remove_c_obs()
                         items = self.add()
                         if items == []:
@@ -837,7 +843,7 @@ class Buy:
         self.box2 = Box(7, 21,)
         self.items = [Inv.poketeball, Inv.superball, Inv.healing_potion,
                     Inv.super_potion, Inv.ap_potion]
-        self.box.add_c_obs([se.Text(f"{ob.pretty_name} : {ob.price}$") for ob in self.items])
+        self.box.add_c_obs([se.Text(f"{obj.pretty_name} : {obj.price}$") for obj in self.items])
         self.money_label = se.Text(str(figure.get_money())+"$")
         self.desc_label = se.Text(" ")
         # adding
@@ -860,10 +866,10 @@ class Buy:
                 elif ev in ["Key.esc", "'q'"]:
                     break
                 elif ev == "Key.enter":
-                    ob = self.items[self.box.index.index]
-                    if figure.get_money()-ob.price >= 0:
-                        figure.add_money(-ob.price)
-                        figure.give_item(ob.name)
+                    obj = self.items[self.box.index.index]
+                    if figure.get_money()-obj.price >= 0:
+                        figure.add_money(-obj.price)
+                        figure.give_item(obj.name)
                     ev = ""
                 std_loop()
                 time.sleep(0.05)
@@ -871,9 +877,9 @@ class Buy:
         self.box2.remove()
 
     def rechar(self):
-        ob = self.items[self.box.index.index]
-        self.box2.name_label.rechar(ob.pretty_name)
-        self.desc_label.rechar(liner(ob.desc, 19))
+        obj = self.items[self.box.index.index]
+        self.box2.name_label.rechar(obj.pretty_name)
+        self.desc_label.rechar(liner(obj.desc, 19))
 
 
 class Menu:
@@ -1032,26 +1038,26 @@ def std_loop():
         raise KeyboardInterrupt
 
 
-def text_input(ob, map, name, wrap_len, max_len=1000000):
+def text_input(obj, map, name, wrap_len, max_len=1000000):
     global ev
     ev = ""
-    ob.rechar(hard_liner(wrap_len, name+"█"))
+    obj.rechar(hard_liner(wrap_len, name+"█"))
     bname = name
     map.show()
     while True:
         if ev in ["Key.enter", "Key.esc"]:
             ev = ""
-            ob.rechar(hard_liner(wrap_len, name))
+            obj.rechar(hard_liner(wrap_len, name))
             map.show()
             return name
         elif ev == "Key.backspace":
             if len(name) <= 0:
                 ev = ""
-                ob.rechar(bname)
+                obj.rechar(bname)
                 map.show()
                 return bname
             name = name[:-1]
-            ob.rechar(hard_liner(wrap_len, name+"█"))
+            obj.rechar(hard_liner(wrap_len, name+"█"))
             map.show()
             ev = ""
         elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift",
@@ -1059,7 +1065,7 @@ def text_input(ob, map, name, wrap_len, max_len=1000000):
             if ev == "Key.space":
                 ev = "' '"
             name += str(eval(ev))
-            ob.rechar(hard_liner(wrap_len, name+"█"))
+            obj.rechar(hard_liner(wrap_len, name+"█"))
             map.show()
             ev = ""
         std_loop()
@@ -1156,11 +1162,11 @@ def movemap_add_obs():
 #####################
 
 def fight_clean_up(player, enemy):
-    [ob.remove() for ob in [enemy.text_name, enemy.text_lvl, enemy.text_hp,
-                            enemy.ico, enemy.hp_bar, enemy.tril, enemy.trir,
-                            player.text_name, player.text_lvl, player.text_hp,
-                            player.ico, player.hp_bar, player.tril, player.trir,
-                            enemy.pball_small]]
+    for obj in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico,
+                enemy.hp_bar, enemy.tril, enemy.trir, player.text_name,
+                player.text_lvl, player.text_hp, player.ico, player.hp_bar,
+                player.tril, player.trir, enemy.pball_small]:
+        obj.remove()
     fightbox.remove_c_obs()
     for i in [player, enemy]:
         for j in i.effects:
@@ -1180,12 +1186,12 @@ def fight_add_3(player, enemy):
 
 
 def fight_add_1(player, enemy):
-    for ob, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl,
+    for obj, x, y in zip([enemy.tril, enemy.trir, enemy.text_name, enemy.text_lvl,
                         enemy.text_hp, enemy.ico, enemy.hp_bar],
                         [7, 16, 1, 1, 1, fightmap.width-14, 8],
                         [3, 3, 1, 2, 3, 2, 3]):
-        ob.add(fightmap, x, y)
-    if enemy.name in [ob.name for ob in figure.pokes]:
+        obj.add(fightmap, x, y)
+    if enemy.name in [obj.name for obj in figure.pokes]:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
     if player.identifier != "__fallback__":
         fightbox.add_c_obs(player.atc_labels)
@@ -1210,8 +1216,8 @@ def fight_add_2(player, enemy):
         player.ico.add(fightmap, 3, fightmap.height-10)
 
 
-def fight_throw(ob, enem, info, chance, name):
-    if ob.identifier == "__fallback__" or info["type"] == "duel":
+def fight_throw(obj, enem, info, chance, name):
+    if obj.identifier == "__fallback__" or info["type"] == "duel":
         return 1
     fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
     fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
@@ -1228,7 +1234,7 @@ def fight_throw(ob, enem, info, chance, name):
         fightmap.outp.outp(f"You catched {enem.name}")
         time.sleep(2)
         pball.remove()
-        fight_clean_up(ob, enem)
+        fight_clean_up(obj, enem)
         balls_label_rechar()
         return 2
     else:
@@ -1239,36 +1245,36 @@ def fight_throw(ob, enem, info, chance, name):
         fightmap.show()
 
 
-def fight_potion(ob, enem, info, i, name):
+def fight_potion(obj, enem, info, hp, name):
     figure.remove_item(name)
-    ob.oldhp = ob.hp
-    if ob.hp + i > ob.full_hp:
-        ob.hp = ob.full_hp
+    obj.oldhp = obj.hp
+    if obj.hp + hp > obj.full_hp:
+        obj.hp = obj.full_hp
     else:
-        ob.hp += i
-    ob.health_bar_updater(ob.oldhp)
+        obj.hp += hp
+    obj.health_bar_updater(obj.oldhp)
     return
 
-def fight_heal_potion(ob, enem, info):
-    return fight_potion(ob, enem, info, 5, "healing_potion")
+def fight_heal_potion(obj, enem, info):
+    return fight_potion(obj, enem, info, 5, "healing_potion")
 
-def fight_super_potion(ob, enem, info):
-    return fight_potion(ob, enem, info, 15, "super_potion")
+def fight_super_potion(obj, enem, info):
+    return fight_potion(obj, enem, info, 15, "super_potion")
 
-def fight_poketeball(ob, enem, info):
+def fight_poketeball(obj, enem, info):
     return fight_throw(ob, enem, info, 1, "poketeball")
 
-def fight_superball(ob, enem, info):
-    return fight_throw(ob, enem, info, 6, "superball")
+def fight_superball(obj, enem, info):
+    return fight_throw(obj, enem, info, 6, "superball")
 
-def fight_hyperball(ob, enem, info):
-    return fight_throw(ob, enem, info, 1000, "hyperball")
+def fight_hyperball(obj, enem, info):
+    return fight_throw(obj, enem, info, 1000, "hyperball")
 
-def fight_ap_potion(ob, enem, info):
+def fight_ap_potion(obj, enem, info):
     figure.remove_item("ap_potion")
-    for atc in ob.attac_obs:
+    for atc in obj.attac_obs:
         atc.ap = atc.max_ap
-    ob.label_rechar()
+    obj.label_rechar()
 
 
 # Playmap extra action functions
@@ -1277,12 +1283,12 @@ def fight_ap_potion(ob, enem, info):
 
 def playmap_water_extra_action(obs):
     if settings.animations and colors:
-        for ob in obs:
+        for obj in obs:
             if random.randint(0, 9) == 0:
-                if " " not in ob.char:
-                    ob.rechar([i for i in [Color.lightblue+"~"+Color.reset,
-                                        Color.blue+"~"+Color.reset] if i != ob.char][0])
-                    if ob.x == figure.x and ob.y == figure.y:
+                if " " not in obj.char:
+                    obj.rechar([i for i in [Color.lightblue+"~"+Color.reset,
+                                        Color.blue+"~"+Color.reset] if i != obj.char][0])
+                    if obj.x == figure.x and obj.y == figure.y:
                         figure.redraw()
 
 def playmap_4_extra_action():
@@ -1298,11 +1304,11 @@ def playmap_21_extra_action():
     playmap_water_extra_action(playmap_21.lake_1.obs)
 
 def playmap_7_extra_action():
-    for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
-        if ob.added and math.sqrt((ob.y-figure.y)**2+(ob.x-figure.x)**2) <= 3:
-            ob.rechar(ob.bchar)
+    for obj in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
+        if obj.added and math.sqrt((obj.y-figure.y)**2+(obj.x-figure.x)**2) <= 3:
+            obj.rechar(obj.bchar)
         else:
-            ob.rechar(" ")
+            obj.rechar(" ")
 
 # NPC functions
 ###############
@@ -1466,17 +1472,17 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     fightmap.show()
     time.sleep(0.5)
     if player.identifier ==  "__fallback__":
-        ob, enem = players
+        obj, enem = players
     else:
         enem = sorted(zip([i.initiative for i in players], [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
-        ob = [i for i in players if i != enem][-1]
+        obj = [i for i in players if i != enem][-1]
     for i in players:
         for j in i.effects:
             j.readd()
     while True:
-        if ob.player:
+        if obj.player:
             fightmap.outp.append(se.Text(("\n" if "\n" not in fightmap.outp.text else "")+"What do you want to do?", state="float"))
-            if ob.identifier == "__fallback__":
+            if obj.identifier == "__fallback__":
                 time.sleep(1)
                 fightmap.outp.outp("You don't have any living poketes left!")
             while True:  # Inputloop for general options
@@ -1490,8 +1496,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                 fightbox.input(ev)
                                 fightmap.show()
                                 ev = ""
-                            elif ev in [f"'{i+1}'" for i in range(len(ob.attac_obs))]+["Key.enter"]:
-                                attack = ob.attac_obs[fightbox.index.index if ev == "Key.enter" else int(eval(ev))-1]
+                            elif ev in [f"'{i+1}'" for i in range(len(obj.attac_obs))]+["Key.enter"]:
+                                attack = obj.attac_obs[fightbox.index.index if ev == "Key.enter" else int(eval(ev))-1]
                                 ev = ""
                                 if attack.ap == 0:
                                     continue
@@ -1537,7 +1543,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fight_invbox.remove_c_obs()
                     if item == "":
                         continue
-                    i = item.fn(ob, enem, info)  # I hate you python for not having switch statements
+                    i = item.fn(obj, enem, info)  # I hate you python for not having switch statements
                     if i == 1:
                         continue
                     elif i == 2:
@@ -1546,7 +1552,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     break
                 elif ev == "'4'":
                     ev = ""
-                    if ob.identifier == "__fallback__":
+                    if obj.identifier == "__fallback__":
                         continue
                     fight_clean_up(player, enemy)
                     index = deck(figure.pokes[:6], "Your deck", True)
@@ -1564,25 +1570,25 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 std_loop()
                 time.sleep(0.1)
         else:
-            attack = random.choices([i for i in ob.attac_obs],
-                                    weights=[i.ap*((1.5 if enem.type.name in i.type.effective else 0.5 if enem.type.name in i.type.ineffective else 1) if info["type"] == "duel" else 1) for i in ob.attac_obs])[0]
+            attack = random.choices([i for i in obj.attac_obs],
+                                    weights=[i.ap*((1.5 if enem.type.name in i.type.effective else 0.5 if enem.type.name in i.type.ineffective else 1) if info["type"] == "duel" else 1) for i in obj.attac_obs])[0]
         time.sleep(0.3)
         if attack != "":
-            ob.attack(attack, enem)
+            obj.attack(attack, enem)
         fightmap.show()
         time.sleep(0.5)
         if any([i.hp <= 0 for i in players]):
             winner = [i for i in players if i.hp > 0][0]
             break
-        elif all([i.ap == 0 for i in ob.attac_obs]):
-            winner = [i for i in players if i != ob][0]
+        elif all([i.ap == 0 for i in obj.attac_obs]):
+            winner = [i for i in players if i != obj][0]
             time.sleep(2)
-            fightmap.outp.outp(f"{ob.ext_name} has used all its' attacks!")
+            fightmap.outp.outp(f"{obj.ext_name} has used all its' attacks!")
             time.sleep(3)
             break
-        ob = [i for i in players if i != ob][-1]
-        enem = [i for i in players if i != ob][-1]
-    loser = [ob for ob in players if ob != winner][0]
+        obj = [i for i in players if i != obj][-1]
+        enem = [i for i in players if i != obj][-1]
+    loser = [obj for obj in players if obj != winner][0]
     xp = (loser.lose_xp+(1 if loser.lvl() > winner.lvl() else 0))*(2 if info["type"] == "duel" else 1)
     fightmap.outp.outp(f"{winner.ext_name} won!"+(f'\nXP + {xp}' if winner.player else ''))
     if winner.player:
@@ -1600,7 +1606,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 winner.evolve()
     fightmap.show()
     time.sleep(1)
-    ico = [ob for ob in players if ob != winner][0].ico
+    ico = [obj for obj in players if obj != winner][0].ico
     fast_change([ico, deadico1, deadico2], ico)
     deadico2.remove()
     fightmap.show()
@@ -1655,9 +1661,9 @@ def game(map):
         # checking for resizing
         width, height = os.get_terminal_size()
         if movemap.width != width or movemap.height != height-1:
-            for ob in [movemap.underline, movemap.label, movemap.code_label,
+            for obj in [movemap.underline, movemap.label, movemap.code_label,
                         movemap.name_label, movemap.balls_label]:
-                ob.remove()
+                obj.remove()
             movemap.resize(height-1, width, " ")
             movemap_add_obs()
         movemap.full_show()
@@ -1681,6 +1687,36 @@ def intro():
                         " < You will be the best Pokete-Trainer in Nice town.",
                         " < Now go out and become the best!"])
     game(intromap)
+
+
+def gen_obs():
+    # generating objects from map_data
+    for ob_map in map_data:
+        for hard_ob in map_data[ob_map]["hard_obs"]:
+            exec(f'{ob_map}.{hard_ob} = se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
+            exec(f'{ob_map}.{hard_ob}.add({ob_map}, map_data[ob_map]["hard_obs"][hard_ob]["x"], map_data[ob_map]["hard_obs"][hard_ob]["y"])')
+        for soft_ob in map_data[ob_map]["soft_obs"]:
+            exec(f'{ob_map}.{soft_ob} = se.Text(map_data[ob_map]["soft_obs"][soft_ob]["txt"], ignore=Color.green+" "+Color.reset, ob_class=HightGrass, ob_args='+ob_map+'.poke_args, state="float", esccode=Color.green)')
+            exec(f'{ob_map}.{soft_ob}.add({ob_map}, map_data[ob_map]["soft_obs"][soft_ob]["x"], map_data[ob_map]["soft_obs"][soft_ob]["y"])')
+        for dor in map_data[ob_map]["dors"]:
+            exec(f'{ob_map}.{dor} = Dor(" ", state="float", arg_proto={map_data[ob_map]["dors"][dor]["args"]})')
+            exec(f'{ob_map}.{dor}.add({ob_map}, map_data[ob_map]["dors"][dor]["x"], map_data[ob_map]["dors"][dor]["y"])')
+        for ball in map_data[ob_map]["balls"]:
+            if f'{ob_map}.{ball}' not in used_npcs or not settings.save_trainers:
+                exec(f'{ob_map}.{ball} = Poketeball("{ob_map}.{ball}")')
+                exec(f'{ob_map}.{ball}.add({ob_map}, map_data[ob_map]["balls"][ball]["x"], map_data[ob_map]["balls"][ball]["y"])')
+    # NPCs
+    for npc in npcs:
+        exec(f'{npcs[npc]["map"]}.{npc} = NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"])')
+        exec(f'{npcs[npc]["map"]}.{npc}.add({npcs[npc]["map"]}, npcs[npc]["x"], npcs[npc]["y"])')
+    # adding all trainer to map
+    for i in trainers:
+        for j in trainers[i]:
+            eval(i).trainers.append(Trainer(Poke(*j["poke"], player=False), *j["args"]))
+    for ob_map in map_data:
+        for trainer in eval(ob_map).trainers:
+            trainer.add(eval(ob_map), trainer.sx, trainer.sy)
+    figure.set_args(session_info)
 
 
 def main():
@@ -1822,42 +1858,56 @@ playmap_1 = PlayMap(height=25, width=90, name="playmap_1", pretty_name="Nice Tow
                     poke_args={"pokes": ["rato", "horny", "vogli"], "minlvl": 15, "maxlvl": 40})
 cave_1 = PlayMap(height=30, width=90, name="cave_1", pretty_name="Nice Town cave")
 playmap_2 = PlayMap(height=30, width=180, name="playmap_2", pretty_name="Route 1",
-                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 60, "maxlvl": 128})
+                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
+                                "minlvl": 60, "maxlvl": 128})
 playmap_3 = PlayMap(height=30, width=90, name="playmap_3", pretty_name="Josi Town",
-                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 100, "maxlvl": 200})
+                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
+                                "minlvl": 100, "maxlvl": 200})
 playmap_4 = PlayMap(height=60, width=60, name="playmap_4", pretty_name="Josi Lake",
-                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"], "minlvl": 180, "maxlvl": 230},
+                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
+                                "minlvl": 180, "maxlvl": 230},
                     extra_actions = playmap_4_extra_action)
 playmap_5 = PlayMap(height=60, width=60, name="playmap_5", pretty_name="Mysterious cave",
-                    poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180, "maxlvl": 230})
+                    poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180,
+                                "maxlvl": 230})
 playmap_6 = PlayMap(height=60, width=60, name="playmap_6", pretty_name="Route 2",
-                    poke_args = {"pokes": ["steini", "voglo", "bushy", "rollator"], "minlvl": 200, "maxlvl": 260})
+                    poke_args = {"pokes": ["steini", "voglo", "bushy", "rollator"],
+                                "minlvl": 200, "maxlvl": 260})
 playmap_7 = PlayMap(height=30, width=60, name="playmap_7", pretty_name="Dark cave",
                     extra_actions = playmap_7_extra_action,
-                    poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"], "minlvl": 200, "maxlvl": 260})
+                    poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"],
+                                "minlvl": 200, "maxlvl": 260})
 playmap_8 = PlayMap(height=20, width=80, name="playmap_8", pretty_name="Abandoned village",
-                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290})
+                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"],
+                                "minlvl": 230, "maxlvl": 290})
 playmap_9 = PlayMap(height=15, width=30, name="playmap_9", pretty_name="Abandoned house",
                     poke_args = {"pokes": ["gobost", "rato"], "minlvl": 230, "maxlvl": 290})
 playmap_10 = PlayMap(height=15, width=30, name="playmap_10", pretty_name="Old house")
 playmap_11 = PlayMap(height=20, width=60, name="playmap_11", pretty_name="Route 3",
-                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"], "minlvl": 230, "maxlvl": 290},
+                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"],
+                                "minlvl": 230, "maxlvl": 290},
                     extra_actions = playmap_11_extra_action)
 playmap_12 = PlayMap(height=15, width=80, name="playmap_12", pretty_name="Route 4",
-                    poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
+                    poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"],
+                                "minlvl": 300, "maxlvl": 480})
 playmap_13 = PlayMap(height=35, width=70, name="playmap_13", pretty_name="Deepens forest",
-                    poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"], "minlvl": 300, "maxlvl": 480})
+                    poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"],
+                                "minlvl": 300, "maxlvl": 480})
 playmap_14 = PlayMap(height=15, width=30, name="playmap_14", pretty_name="Arena")
 playmap_15 = PlayMap(height=25, width=120, name="playmap_15", pretty_name="Route 5",
-                    poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 400, "maxlvl": 550})
+                    poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"],
+                                "minlvl": 400, "maxlvl": 550})
 playmap_16 = PlayMap(height=17, width=65, name="playmap_16", pretty_name="Route 6",
-                    poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"], "minlvl": 480, "maxlvl": 600})
+                    poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"],
+                                "minlvl": 480, "maxlvl": 600})
 playmap_17 = PlayMap(height=15, width=30, name="playmap_17", pretty_name="House")
 playmap_18 = PlayMap(height=23, width=98, name="playmap_18", pretty_name="Big mountain see",
-                    poke_args = {"pokes": ["poundi", "rollator", "würgos", "rato"], "minlvl": 540, "maxlvl": 640},
+                    poke_args = {"pokes": ["poundi", "rollator", "würgos", "rato"],
+                                "minlvl": 540, "maxlvl": 640},
                     extra_actions = playmap_18_extra_action)
 playmap_19 = PlayMap(height=30, width=60, name="playmap_19", pretty_name="Big mountain cave",
-                    poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"], "minlvl": 540, "maxlvl": 640})
+                    poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"],
+                                "minlvl": 540, "maxlvl": 640})
 playmap_20 = PlayMap(height=15, width=30, name="playmap_20", pretty_name="House")
 playmap_21 = PlayMap(height=30, width=150, name="playmap_21", pretty_name="Rock-ville",
                     extra_actions = playmap_21_extra_action)
@@ -1883,29 +1933,22 @@ movemap.code_label = OutP("")
 # .poke_arg is relevant for meadow genration
 ############################################################
 
-# generating objects from map_data
-for ob_map in map_data:
-    for hard_ob in map_data[ob_map]["hard_obs"]:
-        exec(f'{ob_map}.{hard_ob} = se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
-        exec(f'{ob_map}.{hard_ob}.add({ob_map}, map_data[ob_map]["hard_obs"][hard_ob]["x"], map_data[ob_map]["hard_obs"][hard_ob]["y"])')
-    for soft_ob in map_data[ob_map]["soft_obs"]:
-        exec(f'{ob_map}.{soft_ob} = se.Text(map_data[ob_map]["soft_obs"][soft_ob]["txt"], ignore=Color.green+" "+Color.reset, ob_class=HightGrass, ob_args='+ob_map+'.poke_args, state="float", esccode=Color.green)')
-        exec(f'{ob_map}.{soft_ob}.add({ob_map}, map_data[ob_map]["soft_obs"][soft_ob]["x"], map_data[ob_map]["soft_obs"][soft_ob]["y"])')
-    for dor in map_data[ob_map]["dors"]:
-        exec(f'{ob_map}.{dor} = Dor(" ", state="float", arg_proto={map_data[ob_map]["dors"][dor]["args"]})')
-        exec(f'{ob_map}.{dor}.add({ob_map}, map_data[ob_map]["dors"][dor]["x"], map_data[ob_map]["dors"][dor]["y"])')
-    for ball in map_data[ob_map]["balls"]:
-        if f'{ob_map}.{ball}' not in used_npcs or not settings.save_trainers:
-            exec(f'{ob_map}.{ball} = Poketeball("{ob_map}.{ball}")')
-            exec(f'{ob_map}.{ball}.add({ob_map}, map_data[ob_map]["balls"][ball]["x"], map_data[ob_map]["balls"][ball]["y"])')
-
-# NPCs
-for npc in npcs:
-    exec(f'{npcs[npc]["map"]}.{npc} = NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"])')
-    exec(f'{npcs[npc]["map"]}.{npc}.add({npcs[npc]["map"]}, npcs[npc]["x"], npcs[npc]["y"])')
+gen_obs()
+# side fn definitions
+detail = Detail()
+roadmap = RoadMap(stations)
+deck = Deck()
+menu = Menu()
+about = About()
+inv = Inv()
+# items
+for name in items:
+    exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
+buy = Buy()
 
 # playmap_1
-playmap_1.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_1.dor = Dor("#", state="float",
+                    arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
 # adding
 playmap_1.dor.add(playmap_1, 25, 4)
 
@@ -1929,13 +1972,17 @@ cave_1.inner = se.Text("""##########################################
 ##############  ##########################
 ##############  ##########################
 ##############  ##########################
-##############  ##########################""", ignore="#", ob_class=HightGrass, ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40, "maxlvl": 128}, state="float")
+##############  ##########################""", ignore="#", ob_class=HightGrass,
+    ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40, "maxlvl": 128},
+    state="float")
 # adding
 cave_1.inner.add(cave_1, 0, 0)
 
 # playmap_3
-playmap_3.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
-playmap_3.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+playmap_3.dor = Dor("#", state="float",
+                    arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_3.shopdor = Dor("#", state="float",
+                        arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
 # playmap_3.npc = NPC([" < Hey", " < What up?"])
 # adding
 playmap_3.dor.add(playmap_3, 25, 6)
@@ -1943,7 +1990,8 @@ playmap_3.shopdor.add(playmap_3, 61, 6)
 # playmap_3.npc.add(playmap_3, 49, 14)
 
 # playmap_4
-playmap_4.dor_playmap_5 = ChanceDor("~", state="float", arg_proto={"chance": 6, "map": playmap_5, "x": 17, "y": 16})
+playmap_4.dor_playmap_5 = ChanceDor("~", state="float",
+                                    arg_proto={"chance": 6, "map": playmap_5, "x": 17, "y": 16})
 playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1954,13 +2002,16 @@ playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~                    ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
-~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230}, state="float")
+~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset,
+    ob_class=HightGrass,
+    ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230}, state="float")
 # adding
 playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
 playmap_4.lake_1.add(playmap_4, 0, 0)
 
 # playmap_5
-playmap_5.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass, ob_args=playmap_5.poke_args)
+playmap_5.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass,
+                            ob_args=playmap_5.poke_args)
 # adding
 playmap_5.inner.add(playmap_5, 26, 1)
 
@@ -1984,7 +2035,8 @@ playmap_7.inner = se.Text("""##############################
 #########             ########
 ###################   ########
 ####################  ########
-##############################""", ignore="#", ob_class=HightGrass, ob_args=playmap_7.poke_args, state="float")
+##############################""", ignore="#", ob_class=HightGrass,
+    ob_args=playmap_7.poke_args, state="float")
 for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not settings.save_trainers]:
     ob.bchar = ob.char
     ob.rechar(" ")
@@ -2001,7 +2053,8 @@ playmap_9.inner = se.Text("""
 ##                      #
 #               #########
 ############ ############
-#########################""", ignore="#", ob_class=HightGrass, ob_args=playmap_9.poke_args, state="float")
+#########################""", ignore="#", ob_class=HightGrass,
+    ob_args=playmap_9.poke_args, state="float")
 # adding
 playmap_9.inner.add(playmap_9, 2, 1)
 
@@ -2013,13 +2066,18 @@ playmap_11.lake_1 =  se.Text("""~~~~~                                           
 ~~~~~~~~~~~~~~~~~~~~~~~~          ~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290, "maxlvl": 350}, state="float")
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""", esccode=Color.blue,
+    ignore=Color.blue+" "+Color.reset, ob_class=HightGrass,
+    ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290, "maxlvl": 350},
+    state="float")
 # adding
 playmap_11.lake_1.add(playmap_11, 0, 12)
 
 # playmap_13
-playmap_13.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
-playmap_13.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+playmap_13.dor = Dor("#", state="float",
+                    arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_13.shopdor = Dor("#", state="float",
+                        arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
 # adding
 playmap_13.dor.add(playmap_13, 14, 29)
 playmap_13.shopdor.add(playmap_13, 52, 29)
@@ -2033,7 +2091,9 @@ playmap_18.lake_1 =  se.Text("""  ~~
 ~~~~~~~~
 ~~~~~~
  ~~~~
- ~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub", "clampi"], "minlvl": 540, "maxlvl": 640}, state="float")
+ ~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass,
+    ob_args={"pokes": ["karpi", "blub", "clampi"], "minlvl": 540, "maxlvl": 640},
+    state="float")
 # adding
 playmap_18.lake_1.add(playmap_18, 72, 7)
 
@@ -2072,9 +2132,12 @@ playmap_19.inner = se.Text("""                         ####
 playmap_19.inner.add(playmap_19, 0, 0)
 
 # playmap_21
-playmap_21.dor_playmap_19 = Dor("_", state="float", arg_proto={"map": playmap_19, "x": 26, "y": 1})
-playmap_21.dor = Dor("#", state="float", arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
-playmap_21.shopdor = Dor("#", state="float", arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+playmap_21.dor_playmap_19 = Dor("_", state="float",
+                                arg_proto={"map": playmap_19, "x": 26, "y": 1})
+playmap_21.dor = Dor("#", state="float",
+                    arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+playmap_21.shopdor = Dor("#", state="float",
+                        arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
 playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
@@ -2082,21 +2145,15 @@ playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~
-       ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass, ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640}, state="float")
+       ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset,
+       ob_class=HightGrass,
+       ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640}, state="float")
 # adding
 playmap_21.dor_playmap_19.add(playmap_21, 5, 26)
 playmap_21.dor.add(playmap_21, 10, 7)
 playmap_21.shopdor.add(playmap_21, 34, 7)
 playmap_21.lake_1.add(playmap_21, 65, 10)
 
-
-# adding all trainer to map
-for i in trainers:
-    for j in trainers[i]:
-        eval(i).trainers.append(Trainer(Poke(*j["poke"], player=False), *j["args"]))
-for ob_map in map_data:
-    for trainer in eval(ob_map).trainers:
-        trainer.add(eval(ob_map), trainer.sx, trainer.sy)
 
 # centermap
 centermap.trainers = []
@@ -2112,7 +2169,10 @@ centermap.inner = se.Text(""" ________________
 centermap.interact = CenterInteract("¯", state="float")
 centermap.dor_back1 = CenterDor(" ", state="float")
 centermap.dor_back2 = CenterDor(" ", state="float")
-centermap.trader = NPC("trader", [" < I'm a trader.", " < Here you can trade one of your Poketes for another players' one."], "swap_poke", ())
+centermap.trader = NPC("trader",
+                    [" < I'm a trader.",
+                    " < Here you can trade one of your Poketes for another players' one."],
+                     "swap_poke", ())
 # adding
 centermap.dor_back1.add(centermap, int(centermap.width/2), 8)
 centermap.dor_back2.add(centermap, int(centermap.width/2)+1, 8)
@@ -2138,25 +2198,13 @@ shopmap.dor_back2.add(shopmap, int(shopmap.width/2)+1, 8)
 shopmap.inner.add(shopmap, int(shopmap.width/2)-9, 1)
 shopmap.interact.add(shopmap, int(shopmap.width/2), 4)
 
-figure.set_args(session_info)
-
-# side fn definitions
-detail = Detail()
-roadmap = RoadMap(stations)
-deck = Deck()
-menu = Menu()
-about = About()
-inv = Inv()
-# items
-for name in items:
-    exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
-buy = Buy()
-
 # objects relevant for fight()
 fightmap = se.Map(height-1, width, " ")
 fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
 fight_invbox = ChooseBox(height-3, 35, "Inventory")
-fightmap.frame_big = se.Frame(height=fightmap.height-5, width=fightmap.width, corner_chars=["_", "_", "|", "|"], horizontal_chars=["_", "_"], state="float")
+fightmap.frame_big = se.Frame(height=fightmap.height-5, width=fightmap.width,
+                            corner_chars=["_", "_", "|", "|"],
+                            horizontal_chars=["_", "_"], state="float")
 fightmap.frame_small = se.Frame(height=4, width=fightmap.width, state="float")
 fightmap.e_underline = se.Text("----------------+", state="float")
 fightmap.e_sideline = se.Square("|", 1, 3, state="float")
@@ -2180,9 +2228,11 @@ pball = se.Text(r"""   _____
 fightmap.outp.add(fightmap, 1, fightmap.height-4)
 fightmap.e_underline.add(fightmap, 1, 4)
 fightmap.e_sideline.add(fightmap, len(fightmap.e_underline.text), 1)
-fightmap.p_upperline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-10)
+fightmap.p_upperline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text),
+                        fightmap.height-10)
 fightmap.frame_big.add(fightmap, 0, 0)
-fightmap.p_sideline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text), fightmap.height-9)
+fightmap.p_sideline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text),
+                        fightmap.height-9)
 fightmap.frame_small.add(fightmap, 0, fightmap.height-5)
 fightmap.label.add(fightmap, 0, fightmap.height-1)
 
