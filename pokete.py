@@ -1122,6 +1122,7 @@ def movemap_text(x, y, arr):
     # End section
     multitext.rechar("")
     multitext.add(movemap, x-movemap.x+1, y-movemap.y)
+    arr = [arr[i]+(" >" if i != len(arr)-1 else "") for i in range(len(arr))]
     for t in arr:
         ev = ""
         multitext.rechar("")
