@@ -1,5 +1,5 @@
 import scrap_engine as se
-import time, random
+
 
 class Color:
     reset = "\033[0m"
@@ -31,14 +31,21 @@ class NoColor(Color):
 
 
 class PlayMap(se.Map):
-    def __init__(self, height=se.height-1, width=se.width, trainers=[], name="", pretty_name="", poke_args={}, extra_actions=None, dynfps=True):
+    def __init__(self, height=se.height-1, width=se.width, trainers=None, name="",
+                pretty_name="", poke_args=None, extra_actions=None, dynfps=True):
         super().__init__(height=height, width=width, background=" ", dynfps=dynfps)
-        for i in ["trainers", "name", "pretty_name", "poke_args"]:
-            exec(f"self.{i}={i}")
+        self.trainers = trainers
+        self.name = name
+        self.pretty_name = pretty_name
+        self.poke_args = poke_args
+        if self.trainers is None:
+            self.trainers = []
+        if self.poke_args is None:
+            self.poke_args = {}
         self.__extra_actions = extra_actions
 
     def extra_actions(self):
-        if self.__extra_actions != None:
+        if self.__extra_actions is not None:
             self.__extra_actions()
 
 
@@ -47,7 +54,7 @@ class PokeType():
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
-        self.color = "" if color == None else eval(color)
+        self.color = "" if color is None else eval(color)
 
 
 class InvItem:

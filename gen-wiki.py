@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # This script generates the Pokete wiki
+import os
+import scrap_engine as se
 from pokete_data import *
 from pokete_classes.effects import *
-import scrap_engine as se
-import os
 
 def gen_wiki():
     with open("Changelog.md", "r") as file:
@@ -19,26 +19,21 @@ This wiki can be generated using ```$ gen-wiki.py```.
 """
 
     # Table of contents
-    for j, poke in enumerate(sorted([i for i in pokes][1:])):
+    for j, poke in enumerate(sorted(list(pokes)[1:])):
         md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
-
     md_str += "2. [Attacks](#attacks)\n"
-
     for j, atc in enumerate(sorted(attacks)):
         md_str += f"""   {j+1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
-
     md_str += """3. [Types](#types)
 4. [Items](#items)
 """
-
     for j, item in enumerate(sorted(items)):
         md_str += f"""   {j+1}. [{items[item]["pretty_name"]}](#{item.replace("_", "-")})\n"""
-
     md_str += """5. [Effects](#effects)
 """
-
     for j, effect in enumerate(effects):
-        md_str += f"""   {j+1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace("_", "-")})\n"""
+        md_str += f"""   {j+1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace("_", "-")})
+"""
 
     # Poketes
     md_str += """
@@ -46,22 +41,16 @@ This wiki can be generated using ```$ gen-wiki.py```.
 In the following all Poketes with their attributes are displayed.
 """
 
-    for poke in sorted([i for i in pokes][1:]):
+    for poke in sorted(list(pokes)[1:]):
         evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
         md_attacks = ""
         for atc in pokes[poke]["attacks"]:
             md_attacks += f"""\n   + [{attacks[atc]["name"]}](#{atc.replace("_", "-")})"""
         # ico
-        map = se.Map(4, 11, background=" ")
+        ico_map = se.Map(4, 11, background=" ")
         for ico in pokes[poke]["ico"]:
-            se.Text(ico["txt"], state="float", ignore=" ").add(map, 0, 0)
-        ico = ""
-        for arr in map.map:
-            line = ""
-            for i in arr:
-                line += i
-            ico += line+"\n"
-
+            se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
+        ico = "".join("".join(arr)+"\n" for arr in ico_map.map)
         md_str += f"""
 ### {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
@@ -98,7 +87,7 @@ Those are all attacks present in the game.
 - Attack factor: {attacks[atc]["factor"]}
 - Missing chance: {attacks[atc]["miss_chance"]}
 - Attack points: {attacks[atc]["ap"]}
-- Effect: {"None" if attacks[atc]["effect"] == None else f'[{eval(attacks[atc]["effect"]).c_name.capitalize()}](#{eval(attacks[atc]["effect"]).c_name.replace("_", "-")})'}
+- Effect: {"None" if attacks[atc]["effect"] is None else f'[{eval(attacks[atc]["effect"]).c_name.capitalize()}](#{eval(attacks[atc]["effect"]).c_name.replace("_", "-")})'}
 """
 
     # Types
@@ -109,14 +98,14 @@ Type|Effective against|Ineffective against
 ---|---|---
 """
 
-    for type in types:
+    for poke_type in types:
         effective = ""
-        for i in types[type]["effective"]:
-            effective += i.capitalize()+(", " if i != types[type]["effective"][-1] else "")
+        for i in types[poke_type]["effective"]:
+            effective += i.capitalize()+(", " if i != types[poke_type]["effective"][-1] else "")
         ineffective = ""
-        for i in types[type]["ineffective"]:
-            ineffective += i.capitalize()+(", " if i != types[type]["ineffective"][-1] else "")
-        md_str += f"{type.capitalize()}|{effective}|{ineffective}\n"
+        for i in types[poke_type]["ineffective"]:
+            ineffective += i.capitalize()+(", " if i != types[poke_type]["ineffective"][-1] else "")
+        md_str += f"{poke_type.capitalize()}|{effective}|{ineffective}\n"
 
     # Items
     md_str += """
@@ -130,7 +119,7 @@ Those are all items present in the game, that can be traded or found.
 {items[item]["desc"]}
 
 - Price: {items[item]["price"]}
-- Can be used in fights: {"Yes" if items[item]["fn"] != None else "No"}
+- Can be used in fights: {"Yes" if items[item]["fn"] is not None else "No"}
 """
 
     # effects
