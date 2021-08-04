@@ -1855,6 +1855,8 @@ for ob_map in maps:
     args["extra_actions"] = eval(args["extra_actions"]) if args["extra_actions"] is not None else None
     exec(f'{ob_map} = PlayMap(name = ob_map, **args)')
 
+# Those two maps cant to sourced out, because `height` and `width`
+# are global variables exclusive to pokete.py 
 centermap = PlayMap(height-1, width, name = "centermap", pretty_name = "Pokete-Center")
 shopmap = PlayMap(height-1, width, name = "shopmap", pretty_name = "Pokete-Shop")
 
