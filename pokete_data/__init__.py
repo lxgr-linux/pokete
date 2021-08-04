@@ -3,6 +3,7 @@ from pokete_data.attacks import *
 from pokete_data.map_data import *
 from pokete_data.types import *
 from pokete_data.items import *
+from pokete_data.trainers import *
 from pokete_data.npcs import *
 from pokete_data.mapstations import *
 
