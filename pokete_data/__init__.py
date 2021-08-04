@@ -24,7 +24,7 @@ def single_validate(dict, validator, name = ""):
         one_validate(dict[j], validator, f"{name}.{j}")
 
 def validate():
-    for i, j in zip([pokes, types, map_data, stations, items, npcs, attacks], validators):
+    for i, j in zip([pokes, types, map_data, stations, items, npcs, attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
         for i in pokes[p]["ico"]:
@@ -35,6 +35,9 @@ def validate():
     for s in stations:
         one_validate(stations[s]["gen"], "gen", s+".gen")
         one_validate(stations[s]["add"], "add", s+"add")
+    for t in trainers:
+        for i in trainers[t]:
+            one_validate(i, "trainer", t+".trainer")
 
 validators = {
     "poke": ["name", "hp", "atc", "defense", "attacks", "miss_chance", "desc", "lose_xp", "rarity", "type", "evolve_poke", "evolve_lvl", "ico", "initiative"],
@@ -44,6 +47,7 @@ validators = {
     "item": ["pretty_name", "desc", "price", "fn"],
     "npc": ["texts", "fn", "args", "map", "x", "y"],
     "attack": ["name", "factor", "action", "move", "miss_chance", "min_lvl", "desc", "type", "effect", "ap"],
+    "map": ["height", "width", "pretty_name", "extra_actions", "poke_args"],
     "hard_ob": ["x", "y", "txt"],
     "soft_ob": ["x", "y", "txt"],
     "dor": ["x", "y", "args"],
@@ -51,6 +55,7 @@ validators = {
     "gen": ["additionals", "width", "height"],
     "add": ["x", "y"],
     "poke_ico": ["txt", "esc"],
+    "trainer": ["poke", "args"]
 }
 
 
