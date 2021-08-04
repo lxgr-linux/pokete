@@ -1850,78 +1850,13 @@ if not settings.colors:
 #########################################
 
 # maps
-# for ob_map in maps:
-#     args = maps[ob_map]
-#     args["extra_actions"] = eval(args["extra_actions"]) if args["extra_actions"] is not None else None
-#     exec(f'{ob_map} = PlayMap(name = ob_map, **args)')
+for ob_map in maps:
+    args = maps[ob_map]
+    args["extra_actions"] = eval(args["extra_actions"]) if args["extra_actions"] is not None else None
+    exec(f'{ob_map} = PlayMap(name = ob_map, **args)')
 
 centermap = PlayMap(height-1, width, name = "centermap", pretty_name = "Pokete-Center")
 shopmap = PlayMap(height-1, width, name = "shopmap", pretty_name = "Pokete-Shop")
-intromap = PlayMap(height=15, width=30, name="intromap", pretty_name="Your home")
-playmap_1 = PlayMap(height=25, width=90, name="playmap_1", pretty_name="Nice Town",
-                    poke_args={"pokes": ["rato", "horny", "vogli"], "minlvl": 15, "maxlvl": 40})
-cave_1 = PlayMap(height=30, width=90, name="cave_1", pretty_name="Nice Town cave")
-playmap_2 = PlayMap(height=30, width=180, name="playmap_2", pretty_name="Route 1",
-                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
-                                "minlvl": 60, "maxlvl": 128})
-playmap_3 = PlayMap(height=30, width=90, name="playmap_3", pretty_name="Josi Town",
-                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
-                                "minlvl": 100, "maxlvl": 200})
-playmap_4 = PlayMap(height=60, width=60, name="playmap_4", pretty_name="Josi Lake",
-                    poke_args = {"pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
-                                "minlvl": 180, "maxlvl": 230},
-                    extra_actions = playmap_4_extra_action)
-playmap_5 = PlayMap(height=60, width=60, name="playmap_5", pretty_name="Mysterious cave",
-                    poke_args = {"pokes": ["bato", "bator", "steini"], "minlvl": 180,
-                                "maxlvl": 230})
-playmap_6 = PlayMap(height=60, width=60, name="playmap_6", pretty_name="Route 2",
-                    poke_args = {"pokes": ["steini", "voglo", "bushy", "rollator"],
-                                "minlvl": 200, "maxlvl": 260})
-playmap_7 = PlayMap(height=30, width=60, name="playmap_7", pretty_name="Dark cave",
-                    extra_actions = playmap_7_extra_action,
-                    poke_args = {"pokes": ["steini", "bato", "lilstone", "rollator", "gobost"],
-                                "minlvl": 200, "maxlvl": 260})
-playmap_8 = PlayMap(height=20, width=80, name="playmap_8", pretty_name="Abandoned village",
-                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"],
-                                "minlvl": 230, "maxlvl": 290})
-playmap_9 = PlayMap(height=15, width=30, name="playmap_9", pretty_name="Abandoned house",
-                    poke_args = {"pokes": ["gobost", "rato"], "minlvl": 230, "maxlvl": 290})
-playmap_10 = PlayMap(height=15, width=30, name="playmap_10", pretty_name="Old house")
-playmap_11 = PlayMap(height=20, width=60, name="playmap_11", pretty_name="Route 3",
-                    poke_args = {"pokes": ["steini", "voglo", "wolfior", "owol"],
-                                "minlvl": 230, "maxlvl": 290},
-                    extra_actions = playmap_11_extra_action)
-playmap_12 = PlayMap(height=15, width=80, name="playmap_12", pretty_name="Route 4",
-                    poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"],
-                                "minlvl": 300, "maxlvl": 480})
-playmap_13 = PlayMap(height=35, width=70, name="playmap_13", pretty_name="Deepens forest",
-                    poke_args = {"pokes": ["voglo", "vogli", "owol", "rato"],
-                                "minlvl": 300, "maxlvl": 480})
-playmap_14 = PlayMap(height=15, width=30, name="playmap_14", pretty_name="Arena")
-playmap_15 = PlayMap(height=25, width=120, name="playmap_15", pretty_name="Route 5",
-                    poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"],
-                                "minlvl": 400, "maxlvl": 550})
-playmap_16 = PlayMap(height=17, width=65, name="playmap_16", pretty_name="Route 6",
-                    poke_args = {"pokes": ["voglo", "owol", "würgos", "hornita"],
-                                "minlvl": 480, "maxlvl": 600})
-playmap_17 = PlayMap(height=15, width=30, name="playmap_17", pretty_name="House")
-playmap_18 = PlayMap(height=23, width=98, name="playmap_18", pretty_name="Big mountain see",
-                    poke_args = {"pokes": ["poundi", "rollator", "würgos", "rato"],
-                                "minlvl": 540, "maxlvl": 640},
-                    extra_actions = playmap_18_extra_action)
-playmap_19 = PlayMap(height=30, width=60, name="playmap_19", pretty_name="Big mountain cave",
-                    poke_args = {"pokes": ["poundi", "steini", "lilstone", "bato"],
-                                "minlvl": 540, "maxlvl": 640})
-playmap_20 = PlayMap(height=15, width=30, name="playmap_20", pretty_name="House")
-playmap_21 = PlayMap(height=30, width=150, name="playmap_21", pretty_name="Rock-ville",
-                    extra_actions = playmap_21_extra_action)
-playmap_22 = PlayMap(height=15, width=30, name="playmap_22", pretty_name="Rocky Hotel")
-playmap_23 = PlayMap(height=15, width=30, name="playmap_23", pretty_name="Rocky Hotel")
-playmap_24 = PlayMap(height=15, width=30, name="playmap_24", pretty_name="House")
-playmap_25 = PlayMap(height=15, width=30, name="playmap_25", pretty_name="Townhall")
-playmap_26 = PlayMap(height=15, width=30, name="playmap_26", pretty_name="Townhall")
-playmap_27 = PlayMap(height=15, width=40, name="playmap_27", pretty_name="Battle cave")
-
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
