@@ -1416,7 +1416,8 @@ def swap_poke():
 def ask_bool(map, text):
     global ev
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
-    with InfoBox(f"{text}\n{round(len(text)/2-6)*' '}[Y]es   [N]o", map):
+    text_len = sorted([len(i) for i in text.split('\n')])[-1]
+    with InfoBox(f"{text}\n{round(text_len/2-6)*' '}[Y]es   [N]o", map):
         while True:
             if ev == "'y'":
                 ret = True
@@ -1721,14 +1722,14 @@ def gen_obs():
 
 def check_version(sinfo):
     if "ver" not in sinfo:
-        ver = "not given"
+        return
     else:
         ver = sinfo["ver"]
-    if __version__ != ver and (ver == "not given" or sort_vers([__version__, ver])[-1] == ver):
-        if not ask_bool(loading_screen, f"""The save file was created on version '{ver}',
-the current version is '{__version__}'
-and going on may result in data loss!
-Do you want to go on?"""):
+    if __version__ != ver and sort_vers([__version__, ver])[-1] == ver:
+        if not ask_bool(loading_screen, liner(f"The save file was created \
+on version '{ver}', the current version is '{__version__}', \
+such a downgrade may result in data loss! \
+Do you want to continue?", int(movemap.width*2/3))):
             exiter()
 
 
