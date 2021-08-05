@@ -1007,6 +1007,7 @@ def autosave():
 def save():
     session_info = {
         "user": figure.name,
+        "ver": __version__,
         "map": figure.map.name,
         "oldmap": figure.oldmap.name,
         "x": figure.x,
@@ -1718,6 +1719,19 @@ def gen_obs():
             trainer.add(eval(ob_map), trainer.sx, trainer.sy)
 
 
+def check_version(sinfo):
+    if "ver" not in sinfo:
+        ver = "not given"
+    else:
+        ver = sinfo["ver"]
+    if __version__ != ver and (ver == "not given" or sort_vers([__version__, ver])[-1] == ver):
+        if not ask_bool(loading_screen, f"""The save file was created on version '{ver}',
+the current version is '{__version__}'
+and going on may result in data loss!
+Do you want to go on?"""):
+            exiter()
+
+
 def main():
     os.system("")
     recognising = threading.Thread(target=recogniser)
@@ -1726,6 +1740,7 @@ def main():
     autosaveing.daemon = True
     recognising.start()
     autosaveing.start()
+    check_version(session_info)
     if figure.name == "DEFAULT":
         intro()
     game(figure.map)
@@ -1796,10 +1811,10 @@ se.Text(r""" _____      _        _
 | |__) |__ | | _____| |_ ___
 |  ___/ _ \| |/ / _ \ __/ _ \
 | |  | (_) |   <  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|""").add(loading_screen,
+|_|   \___/|_|\_\___|\__\___|""", state="float").add(loading_screen,
                                     int(loading_screen.width/2)-15,
                                     int(loading_screen.height/2)-4)
-se.Text(f"v{__version__}").add(loading_screen,
+se.Text(f"v{__version__}", state="float").add(loading_screen,
                                 int(loading_screen.width/2)-15,
                                 int(loading_screen.height/2)+2)
 loading_screen.show()
@@ -1815,6 +1830,7 @@ Path(home+__save_path__+"/pokete.py").touch(exist_ok=True)
 # Default test session_info
 session_info = {
     "user": "DEFAULT",
+    "ver": __version__,
     "map": "intromap",
     "oldmap": "playmap_1",
     "x": 4,
@@ -1856,7 +1872,7 @@ for ob_map in maps:
     exec(f'{ob_map} = PlayMap(name = ob_map, **args)')
 
 # Those two maps cant to sourced out, because `height` and `width`
-# are global variables exclusive to pokete.py 
+# are global variables exclusive to pokete.py
 centermap = PlayMap(height-1, width, name = "centermap", pretty_name = "Pokete-Center")
 shopmap = PlayMap(height-1, width, name = "shopmap", pretty_name = "Pokete-Shop")
 
