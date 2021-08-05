@@ -21,5 +21,10 @@ def hard_liner(l_len, name):
     return ret
 
 
+def sort_vers(vers):
+    return [k[-1] for k in
+            sorted([([int(j) for j in i.split(".")], i) for i in vers])]
+
+
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
