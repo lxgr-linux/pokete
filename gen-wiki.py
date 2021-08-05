@@ -6,6 +6,11 @@ from pokete_data import *
 from pokete_classes.effects import *
 
 def gen_wiki():
+    global attacks
+    # sorting dicts
+    attacks = {i[1]: i[-1] for i in
+                    sorted([(attacks[atc]["type"], atc, attacks[atc]) for atc in attacks])}
+
     with open("Changelog.md", "r") as file:
         ver = file.readline()
 
@@ -22,7 +27,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
     for j, poke in enumerate(sorted(list(pokes)[1:])):
         md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
     md_str += "2. [Attacks](#attacks)\n"
-    for j, atc in enumerate(sorted(attacks)):
+    for j, atc in enumerate(attacks):
         md_str += f"""   {j+1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
     md_str += """3. [Types](#types)
 4. [Items](#items)
@@ -77,7 +82,7 @@ In the following all Poketes with their attributes are displayed.
 Those are all attacks present in the game.
 """
 
-    for atc in sorted(attacks):
+    for atc in attacks:
         md_str += f"""
 ### {attacks[atc]["name"]}
 {attacks[atc]["desc"]}
