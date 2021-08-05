@@ -6,37 +6,37 @@ This wiki can be generated using ```$ gen-wiki.py```.
 
 ## Table of contents
 1. [Poketes](#poketes)
-   1. [Angrilo](#angrilo)
-   2. [Bato](#bato)
-   3. [Bator](#bator)
-   4. [Bigstone](#bigstone)
-   5. [Blub](#blub)
-   6. [Bushy](#bushy)
-   7. [Choka](#choka)
-   8. [Clampi](#clampi)
-   9. [Confuso](#confuso)
-   10. [Cubl](#cubl)
-   11. [Electrode](#electrode)
-   12. [Gobost](#gobost)
-   13. [Hornita](#hornita)
-   14. [Horny](#horny)
-   15. [Karpi](#karpi)
-   16. [Lilstone](#lilstone)
-   17. [Ostri](#ostri)
-   18. [Owol](#owol)
+   1. [Electrode](#electrode)
+   2. [Wolfior](#wolfior)
+   3. [Wolfiro](#wolfiro)
+   4. [Bato](#bato)
+   5. [Bator](#bator)
+   6. [Ostri](#ostri)
+   7. [Owol](#owol)
+   8. [Vogli](#vogli)
+   9. [Voglo](#voglo)
+   10. [Rollator](#rollator)
+   11. [Cubl](#cubl)
+   12. [Spikl](#spikl)
+   13. [Choka](#choka)
+   14. [Hornita](#hornita)
+   15. [Horny](#horny)
+   16. [Rato](#rato)
+   17. [Würgos](#würgos)
+   18. [Bushy](#bushy)
    19. [Poisopla](#poisopla)
-   20. [Poundi](#poundi)
-   21. [Rato](#rato)
-   22. [Rollator](#rollator)
-   23. [Rosi](#rosi)
-   24. [Spikl](#spikl)
+   20. [Rosi](#rosi)
+   21. [Treenator](#treenator)
+   22. [Bigstone](#bigstone)
+   23. [Lilstone](#lilstone)
+   24. [Poundi](#poundi)
    25. [Steini](#steini)
-   26. [Treenator](#treenator)
-   27. [Vogli](#vogli)
-   28. [Voglo](#voglo)
-   29. [Wolfior](#wolfior)
-   30. [Wolfiro](#wolfiro)
-   31. [Würgos](#würgos)
+   26. [Angrilo](#angrilo)
+   27. [Confuso](#confuso)
+   28. [Gobost](#gobost)
+   29. [Blub](#blub)
+   30. [Clampi](#clampi)
+   31. [Karpi](#karpi)
 2. [Attacks](#attacks)
    1. [Charging](#charging)
    2. [Mega arch](#mega-arch)
@@ -102,255 +102,6 @@ This wiki can be generated using ```$ gen-wiki.py```.
 ## Poketes
 In the following all Poketes with their attributes are displayed.
 
-### Angrilo
-A ghost Pokete that will scare your pants off.
-
-```
- .░░░░░░░. 
- ░░\░░░/░░ 
- .░░( )░░. 
-.         .
-
-```
-
-- Type: [Undead](#types)
-- Health points: 25
-- Attack factor: level+3
-- Defense factor: level+2
-- Initiative: level+7
-- Missing chance: 0
-- Rarity: 0.6
-- Loosing experience: 4
-- Attacks:
-   + [Tackle](#tackle)
-   + [Mind blow](#mind-blow)
-   + [Wet slap](#wet-slap)
-   + [Heart touch](#heart-touch)
-- Does not evolve
-
-### Bato
-An annoying flying rat.
-
-```
-    ___    
-WW\/* *\/WW
-   \v-v/   
-           
-
-```
-
-- Type: [Flying](#types)
-- Health points: 20
-- Attack factor: level+3
-- Defense factor: level+1
-- Initiative: level+6
-- Missing chance: 0
-- Rarity: 1.3
-- Loosing experience: 3
-- Attacks:
-   + [Bite](#bite)
-   + [Cry](#cry)
-- Evolves to [Bator](#bator) at level 20
-
-### Bator
-A chongus flying rat.
-
-```
-    ___    
-WW\/o o\/WW
-   |v-v|   
-   \___/   
-
-```
-
-- Type: [Flying](#types)
-- Health points: 25
-- Attack factor: level+4
-- Defense factor: level+2
-- Initiative: level+8
-- Missing chance: 0
-- Rarity: 0.2
-- Loosing experience: 4
-- Attacks:
-   + [Bite](#bite)
-   + [Cry](#cry)
-   + [Poison bite](#poison-bite)
-   + [Wing hit](#wing-hit)
-- Does not evolve
-
-### Bigstone
-A big and heavy stone made from one of the hardest stones.
-
-```
-+---------+
-|  o   o  |
-|   ---   |
-+---------+
-
-```
-
-- Type: [Stone](#types)
-- Health points: 30
-- Attack factor: level+2
-- Defense factor: level+13
-- Initiative: level+5
-- Missing chance: 0
-- Rarity: 0.3
-- Loosing experience: 5
-- Attacks:
-   + [Snooze](#snooze)
-   + [Politure](#politure)
-   + [Brick throw](#brick-throw)
-- Does not evolve
-
-### Blub
-Very delicious and low fat water Pokete.
-
-```
-  _____    
- / o   \   
- >   v  >< 
- \_____/   
-
-```
-
-- Type: [Water](#types)
-- Health points: 20
-- Attack factor: level+2
-- Defense factor: level+1
-- Initiative: level+1
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 5
-- Attacks:
-   + [Tackle](#tackle)
-   + [Bubble bomb](#bubble-bomb)
-   + [Bubble shield](#bubble-shield)
-- Does not evolve
-
-### Bushy
-A bush, and just a bush. But watch out!
-
-```
-           
-    (()    
-   (()))   
-           
-
-```
-
-- Type: [Plant](#types)
-- Health points: 25
-- Attack factor: level+2
-- Defense factor: level+1
-- Initiative: level+1
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 1
-- Attacks:
-   + [Tackle](#tackle)
-   + [Bark hardening](#bark-hardening)
-- Evolves to [Treenator](#treenator) at level 20
-
-### Choka
-A fucking dangerous and enormous snake pokete.
-
-```
- _______   
-/____ * \  
- (   \   \ 
-\______   \
-
-```
-
-- Type: [Normal](#types)
-- Health points: 25
-- Attack factor: level+5
-- Defense factor: level+1
-- Initiative: level+4
-- Missing chance: 0
-- Rarity: 0.5
-- Loosing experience: 4
-- Attacks:
-   + [Chocer](#chocer)
-   + [Bite](#bite)
-   + [Poison bite](#poison-bite)
-   + [Power bite](#power-bite)
-- Does not evolve
-
-### Clampi
-A shell that lives deep in the see or near bays, that's pretty hard to crack.
-
-```
-    ___    
-  -/ * \-  
-  -\___/-  
-           
-
-```
-
-- Type: [Water](#types)
-- Health points: 25
-- Attack factor: level+2
-- Defense factor: level+7
-- Initiative: level+3
-- Missing chance: 0
-- Rarity: 0.8
-- Loosing experience: 5
-- Attacks:
-   + [Tackle](#tackle)
-   + [Bubble bomb](#bubble-bomb)
-   + [Shell pinch](#shell-pinch)
-- Does not evolve
-
-### Confuso
-A ball floating around in dark woods and caves, that will confuse the shit out of you.
-
-```
-       }}  
-     _{{   
-    (_)}   
-           
-
-```
-
-- Type: [Undead](#types)
-- Health points: 20
-- Attack factor: level+1
-- Defense factor: level+1
-- Initiative: level+2
-- Missing chance: 0.1
-- Rarity: 0.5
-- Loosing experience: 6
-- Attacks:
-   + [Confusion](#confusion)
-- Does not evolve
-
-### Cubl
-A small ice cube.
-
-```
-  /-----\  
-   |* *|   
-  \-----/  
-           
-
-```
-
-- Type: [Ice](#types)
-- Health points: 20
-- Attack factor: level+3
-- Defense factor: level+3
-- Initiative: level+1
-- Missing chance: 0.1
-- Rarity: 1.2
-- Loosing experience: 2
-- Attacks:
-   + [Tackle](#tackle)
-   + [Freeze](#freeze)
-   + [Snow storm](#snow-storm)
-- Evolves to [Spikl](#spikl) at level 30
-
 ### Electrode
 A small floating ball that will give you a shock.
 
@@ -374,427 +125,6 @@ A small floating ball that will give you a shock.
    + [Shock](#shock)
    + [Charging](#charging)
    + [Mega arch](#mega-arch)
-- Does not evolve
-
-### Gobost
-A scary ghost Pokete that lives in caves and old houses.
-
-```
- .░░░░░░░. 
- ░░o░░░o░░ 
- ░░░░░░░░░ 
- ░ ░ ░ ░ ░ 
-
-```
-
-- Type: [Undead](#types)
-- Health points: 20
-- Attack factor: level+2
-- Defense factor: level+1
-- Initiative: level+6
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 3
-- Attacks:
-   + [Tackle](#tackle)
-   + [Mind blow](#mind-blow)
-   + [Heart touch](#heart-touch)
-- Evolves to [Angrilo](#angrilo) at level 25
-
-### Hornita
-An majestetic horse that is always looking for something to pick with its horn.
-
-```
- \         
- =')~      
-   (¯¯¯¯)~ 
-   //¯¯\\  
-
-```
-
-- Type: [Normal](#types)
-- Health points: 20
-- Attack factor: level+6
-- Defense factor: level+2
-- Initiative: level+3
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 3
-- Attacks:
-   + [Tackle](#tackle)
-   + [Meat skewer](#meat-skewer)
-   + [Tail wipe](#tail-wipe)
-- Does not evolve
-
-### Horny
-A teenaged unicorn in the middle of puberty.
-
-```
-  ,        
- =')       
-   (¯¯¯)~  
-   //¯\\   
-
-```
-
-- Type: [Normal](#types)
-- Health points: 20
-- Attack factor: level+5
-- Defense factor: level+1
-- Initiative: level+4
-- Missing chance: 0.2
-- Rarity: 1
-- Loosing experience: 2
-- Attacks:
-   + [Tackle](#tackle)
-   + [Meat skewer](#meat-skewer)
-- Evolves to [Hornita](#hornita) at level 20
-
-### Karpi
-A very harmless water Pokete that can be found everywhere.
-
-```
-           
-           
-  <°))))>< 
-           
-
-```
-
-- Type: [Water](#types)
-- Health points: 15
-- Attack factor: level
-- Defense factor: level/2
-- Initiative: level
-- Missing chance: 0
-- Rarity: 3
-- Loosing experience: 1
-- Attacks:
-   + [Tackle](#tackle)
-- Does not evolve
-
-### Lilstone
-A small but powerfull stone Pokete that lives in the mountains.
-
-```
-           
-   _____   
-   |'ᵕ'|   
-   ‾‾‾‾‾   
-
-```
-
-- Type: [Stone](#types)
-- Health points: 20
-- Attack factor: level+1
-- Defense factor: level+2
-- Initiative: level+3
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 2
-- Attacks:
-   + [Tackle](#tackle)
-   + [Politure](#politure)
-   + [Pepple fire](#pepple-fire)
-- Evolves to [Bigstone](#bigstone) at level 25
-
-### Ostri
-A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
-
-```
-   !       
-  >´)      
-    \www'  
-     ||    
-
-```
-
-- Type: [Flying](#types)
-- Health points: 20
-- Attack factor: level+8
-- Defense factor: level
-- Initiative: level+7
-- Missing chance: 0
-- Rarity: 0.6
-- Loosing experience: 4
-- Attacks:
-   + [Tackle](#tackle)
-   + [Eye pick](#eye-pick)
-   + [Brooding](#brooding)
-- Does not evolve
-
-### Owol
-A night active Pokete, that is looking for lil children as a midnight snack.
-
-```
-   ,___,   
-   {o,o}   
-   /)_)    
-    ""     
-
-```
-
-- Type: [Flying](#types)
-- Health points: 20
-- Attack factor: level+7
-- Defense factor: level+2
-- Initiative: level+3
-- Missing chance: 0
-- Rarity: 0.5
-- Loosing experience: 2
-- Attacks:
-   + [Pick](#pick)
-   + [Wing hit](#wing-hit)
-   + [Cry](#cry)
-- Does not evolve
-
-### Poisopla
-A unsuspicious plant.
-
-```
-           
-     w .   
- .__ |/|   
-  \_\||/   
-
-```
-
-- Type: [Plant](#types)
-- Health points: 20
-- Attack factor: level+3
-- Defense factor: level+3
-- Initiative: level+1
-- Missing chance: 0.1
-- Rarity: 0.9
-- Loosing experience: 6
-- Attacks:
-   + [Root slap](#root-slap)
-   + [Poison spores](#poison-spores)
-   + [Leaf storm](#leaf-storm)
-- Does not evolve
-
-### Poundi
-A powerfull and heavy stone Pokete that lives in mountain caves.
-
-```
-   A-A-A   
-  < o o >  
-  < --- >  
-   VvVvV   
-
-```
-
-- Type: [Stone](#types)
-- Health points: 25
-- Attack factor: level+2
-- Defense factor: level+3
-- Initiative: level+4
-- Missing chance: 0
-- Rarity: 0.7
-- Loosing experience: 4
-- Attacks:
-   + [Tackle](#tackle)
-   + [Politure](#politure)
-   + [Earch quake](#earch-quake)
-- Does not evolve
-
-### Rato
-An annoying rat.
-
-```
-   ^---^   
-   \o o/   
-   >\./<   
-           
-
-```
-
-- Type: [Normal](#types)
-- Health points: 20
-- Attack factor: level+4
-- Defense factor: level+2
-- Initiative: level+6
-- Missing chance: 0
-- Rarity: 1.3
-- Loosing experience: 2
-- Attacks:
-   + [Tackle](#tackle)
-   + [Tail wipe](#tail-wipe)
-- Does not evolve
-
-### Rollator
-A big chunck of stone and dirt, that roles around.
-
-```
-   _____   
-  / o o \  
-  | ___ |  
-  \_____/  
-
-```
-
-- Type: [Ground](#types)
-- Health points: 25
-- Attack factor: level+2
-- Defense factor: level+5
-- Initiative: level+3
-- Missing chance: 0
-- Rarity: 0.5
-- Loosing experience: 3
-- Attacks:
-   + [Tackle](#tackle)
-   + [Power roll](#power-roll)
-- Does not evolve
-
-### Rosi
-A plant Pokete, that's often mistaken for a normal flower.
-
-```
-           
-    (@)    
-     |     
-    \|/    
-
-```
-
-- Type: [Plant](#types)
-- Health points: 20
-- Attack factor: level
-- Defense factor: level+1
-- Initiative: level+3
-- Missing chance: 0
-- Rarity: 0.8
-- Loosing experience: 2
-- Attacks:
-   + [Sucker](#sucker)
-   + [Super sucker](#super-sucker)
-- Does not evolve
-
-### Spikl
-A block of ice.
-
-```
- /-------\ 
-  | * * |  
- \-------/ 
-           
-
-```
-
-- Type: [Ice](#types)
-- Health points: 25
-- Attack factor: level+4
-- Defense factor: level+4
-- Initiative: level+2
-- Missing chance: 0.1
-- Rarity: 0.9
-- Loosing experience: 4
-- Attacks:
-   + [Tackle](#tackle)
-   + [Freeze](#freeze)
-   + [Snow storm](#snow-storm)
-   + [Sword of ice](#sword-of-ice)
-- Does not evolve
-
-### Steini
-A squared stone that can casually be found on the ground.
-
-```
- +-------+ 
- | o   o | 
- |  www  | 
- +-------+ 
-
-```
-
-- Type: [Stone](#types)
-- Health points: 25
-- Attack factor: level+2
-- Defense factor: level+4
-- Initiative: level+5
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 3
-- Attacks:
-   + [Tackle](#tackle)
-   + [Politure](#politure)
-   + [Brick throw](#brick-throw)
-- Does not evolve
-
-### Treenator
-A scary an dangerous apple tree.
-
-```
-    (()    
-   (()))   
-     H     
-     H     
-
-```
-
-- Type: [Plant](#types)
-- Health points: 25
-- Attack factor: level+2
-- Defense factor: level+2
-- Initiative: level+2
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 2
-- Attacks:
-   + [Apple drop](#apple-drop)
-   + [Bark hardening](#bark-hardening)
-   + [Branch stab](#branch-stab)
-   + [Root strangler](#root-strangler)
-- Does not evolve
-
-### Vogli
-A very common bird Pokete that lives everywhere.
-
-```
-    A      
-   <')     
-    www*   
-    ||     
-
-```
-
-- Type: [Flying](#types)
-- Health points: 20
-- Attack factor: level+6
-- Defense factor: level+1
-- Initiative: level+6
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 2
-- Attacks:
-   + [Tackle](#tackle)
-   + [Power pick](#power-pick)
-- Evolves to [Voglo](#voglo) at level 20
-
-### Voglo
-A very agressive bird Pokete that can only be found in the woods.
-
-```
-    ?      
-   >´)     
-    www*   
-    ||     
-
-```
-
-- Type: [Flying](#types)
-- Health points: 20
-- Attack factor: level+7
-- Defense factor: level+1
-- Initiative: level+7
-- Missing chance: 0
-- Rarity: 0.8
-- Loosing experience: 3
-- Attacks:
-   + [Tackle](#tackle)
-   + [Power pick](#power-pick)
-   + [Wing hit](#wing-hit)
-   + [Brooding](#brooding)
 - Does not evolve
 
 ### Wolfior
@@ -848,6 +178,330 @@ A fiery wolf from hell on steroids.
    + [Fire ball](#fire-ball)
 - Does not evolve
 
+### Bato
+An annoying flying rat.
+
+```
+    ___    
+WW\/* *\/WW
+   \v-v/   
+           
+
+```
+
+- Type: [Flying](#types)
+- Health points: 20
+- Attack factor: level+3
+- Defense factor: level+1
+- Initiative: level+6
+- Missing chance: 0
+- Rarity: 1.3
+- Loosing experience: 3
+- Attacks:
+   + [Bite](#bite)
+   + [Cry](#cry)
+- Evolves to [Bator](#bator) at level 20
+
+### Bator
+A chongus flying rat.
+
+```
+    ___    
+WW\/o o\/WW
+   |v-v|   
+   \___/   
+
+```
+
+- Type: [Flying](#types)
+- Health points: 25
+- Attack factor: level+4
+- Defense factor: level+2
+- Initiative: level+8
+- Missing chance: 0
+- Rarity: 0.2
+- Loosing experience: 4
+- Attacks:
+   + [Bite](#bite)
+   + [Cry](#cry)
+   + [Poison bite](#poison-bite)
+   + [Wing hit](#wing-hit)
+- Does not evolve
+
+### Ostri
+A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
+
+```
+   !       
+  >´)      
+    \www'  
+     ||    
+
+```
+
+- Type: [Flying](#types)
+- Health points: 20
+- Attack factor: level+8
+- Defense factor: level
+- Initiative: level+7
+- Missing chance: 0
+- Rarity: 0.6
+- Loosing experience: 4
+- Attacks:
+   + [Tackle](#tackle)
+   + [Eye pick](#eye-pick)
+   + [Brooding](#brooding)
+- Does not evolve
+
+### Owol
+A night active Pokete, that is looking for lil children as a midnight snack.
+
+```
+   ,___,   
+   {o,o}   
+   /)_)    
+    ""     
+
+```
+
+- Type: [Flying](#types)
+- Health points: 20
+- Attack factor: level+7
+- Defense factor: level+2
+- Initiative: level+3
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 2
+- Attacks:
+   + [Pick](#pick)
+   + [Wing hit](#wing-hit)
+   + [Cry](#cry)
+- Does not evolve
+
+### Vogli
+A very common bird Pokete that lives everywhere.
+
+```
+    A      
+   <')     
+    www*   
+    ||     
+
+```
+
+- Type: [Flying](#types)
+- Health points: 20
+- Attack factor: level+6
+- Defense factor: level+1
+- Initiative: level+6
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Power pick](#power-pick)
+- Evolves to [Voglo](#voglo) at level 20
+
+### Voglo
+A very agressive bird Pokete that can only be found in the woods.
+
+```
+    ?      
+   >´)     
+    www*   
+    ||     
+
+```
+
+- Type: [Flying](#types)
+- Health points: 20
+- Attack factor: level+7
+- Defense factor: level+1
+- Initiative: level+7
+- Missing chance: 0
+- Rarity: 0.8
+- Loosing experience: 3
+- Attacks:
+   + [Tackle](#tackle)
+   + [Power pick](#power-pick)
+   + [Wing hit](#wing-hit)
+   + [Brooding](#brooding)
+- Does not evolve
+
+### Rollator
+A big chunck of stone and dirt, that roles around.
+
+```
+   _____   
+  / o o \  
+  | ___ |  
+  \_____/  
+
+```
+
+- Type: [Ground](#types)
+- Health points: 25
+- Attack factor: level+2
+- Defense factor: level+5
+- Initiative: level+3
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 3
+- Attacks:
+   + [Tackle](#tackle)
+   + [Power roll](#power-roll)
+- Does not evolve
+
+### Cubl
+A small ice cube.
+
+```
+  /-----\  
+   |* *|   
+  \-----/  
+           
+
+```
+
+- Type: [Ice](#types)
+- Health points: 20
+- Attack factor: level+3
+- Defense factor: level+3
+- Initiative: level+1
+- Missing chance: 0.1
+- Rarity: 1.2
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Freeze](#freeze)
+   + [Snow storm](#snow-storm)
+- Evolves to [Spikl](#spikl) at level 30
+
+### Spikl
+A block of ice.
+
+```
+ /-------\ 
+  | * * |  
+ \-------/ 
+           
+
+```
+
+- Type: [Ice](#types)
+- Health points: 25
+- Attack factor: level+4
+- Defense factor: level+4
+- Initiative: level+2
+- Missing chance: 0.1
+- Rarity: 0.9
+- Loosing experience: 4
+- Attacks:
+   + [Tackle](#tackle)
+   + [Freeze](#freeze)
+   + [Snow storm](#snow-storm)
+   + [Sword of ice](#sword-of-ice)
+- Does not evolve
+
+### Choka
+A fucking dangerous and enormous snake pokete.
+
+```
+ _______   
+/____ * \  
+ (   \   \ 
+\______   \
+
+```
+
+- Type: [Normal](#types)
+- Health points: 25
+- Attack factor: level+5
+- Defense factor: level+1
+- Initiative: level+4
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 4
+- Attacks:
+   + [Chocer](#chocer)
+   + [Bite](#bite)
+   + [Poison bite](#poison-bite)
+   + [Power bite](#power-bite)
+- Does not evolve
+
+### Hornita
+An majestetic horse that is always looking for something to pick with its horn.
+
+```
+ \         
+ =')~      
+   (¯¯¯¯)~ 
+   //¯¯\\  
+
+```
+
+- Type: [Normal](#types)
+- Health points: 20
+- Attack factor: level+6
+- Defense factor: level+2
+- Initiative: level+3
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 3
+- Attacks:
+   + [Tackle](#tackle)
+   + [Meat skewer](#meat-skewer)
+   + [Tail wipe](#tail-wipe)
+- Does not evolve
+
+### Horny
+A teenaged unicorn in the middle of puberty.
+
+```
+  ,        
+ =')       
+   (¯¯¯)~  
+   //¯\\   
+
+```
+
+- Type: [Normal](#types)
+- Health points: 20
+- Attack factor: level+5
+- Defense factor: level+1
+- Initiative: level+4
+- Missing chance: 0.2
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Meat skewer](#meat-skewer)
+- Evolves to [Hornita](#hornita) at level 20
+
+### Rato
+An annoying rat.
+
+```
+   ^---^   
+   \o o/   
+   >\./<   
+           
+
+```
+
+- Type: [Normal](#types)
+- Health points: 20
+- Attack factor: level+4
+- Defense factor: level+2
+- Initiative: level+6
+- Missing chance: 0
+- Rarity: 1.3
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Tail wipe](#tail-wipe)
+- Does not evolve
+
 ### Würgos
 A dangerous snake Pokete.
 
@@ -872,6 +526,352 @@ A dangerous snake Pokete.
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
 - Evolves to [Choka](#choka) at level 30
+
+### Bushy
+A bush, and just a bush. But watch out!
+
+```
+           
+    (()    
+   (()))   
+           
+
+```
+
+- Type: [Plant](#types)
+- Health points: 25
+- Attack factor: level+2
+- Defense factor: level+1
+- Initiative: level+1
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 1
+- Attacks:
+   + [Tackle](#tackle)
+   + [Bark hardening](#bark-hardening)
+- Evolves to [Treenator](#treenator) at level 20
+
+### Poisopla
+A unsuspicious plant.
+
+```
+           
+     w .   
+ .__ |/|   
+  \_\||/   
+
+```
+
+- Type: [Plant](#types)
+- Health points: 20
+- Attack factor: level+3
+- Defense factor: level+3
+- Initiative: level+1
+- Missing chance: 0.1
+- Rarity: 0.9
+- Loosing experience: 6
+- Attacks:
+   + [Root slap](#root-slap)
+   + [Poison spores](#poison-spores)
+   + [Leaf storm](#leaf-storm)
+- Does not evolve
+
+### Rosi
+A plant Pokete, that's often mistaken for a normal flower.
+
+```
+           
+    (@)    
+     |     
+    \|/    
+
+```
+
+- Type: [Plant](#types)
+- Health points: 20
+- Attack factor: level
+- Defense factor: level+1
+- Initiative: level+3
+- Missing chance: 0
+- Rarity: 0.8
+- Loosing experience: 2
+- Attacks:
+   + [Sucker](#sucker)
+   + [Super sucker](#super-sucker)
+- Does not evolve
+
+### Treenator
+A scary an dangerous apple tree.
+
+```
+    (()    
+   (()))   
+     H     
+     H     
+
+```
+
+- Type: [Plant](#types)
+- Health points: 25
+- Attack factor: level+2
+- Defense factor: level+2
+- Initiative: level+2
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Apple drop](#apple-drop)
+   + [Bark hardening](#bark-hardening)
+   + [Branch stab](#branch-stab)
+   + [Root strangler](#root-strangler)
+- Does not evolve
+
+### Bigstone
+A big and heavy stone made from one of the hardest stones.
+
+```
++---------+
+|  o   o  |
+|   ---   |
++---------+
+
+```
+
+- Type: [Stone](#types)
+- Health points: 30
+- Attack factor: level+2
+- Defense factor: level+13
+- Initiative: level+5
+- Missing chance: 0
+- Rarity: 0.3
+- Loosing experience: 5
+- Attacks:
+   + [Snooze](#snooze)
+   + [Politure](#politure)
+   + [Brick throw](#brick-throw)
+- Does not evolve
+
+### Lilstone
+A small but powerfull stone Pokete that lives in the mountains.
+
+```
+           
+   _____   
+   |'ᵕ'|   
+   ‾‾‾‾‾   
+
+```
+
+- Type: [Stone](#types)
+- Health points: 20
+- Attack factor: level+1
+- Defense factor: level+2
+- Initiative: level+3
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Politure](#politure)
+   + [Pepple fire](#pepple-fire)
+- Evolves to [Bigstone](#bigstone) at level 25
+
+### Poundi
+A powerfull and heavy stone Pokete that lives in mountain caves.
+
+```
+   A-A-A   
+  < o o >  
+  < --- >  
+   VvVvV   
+
+```
+
+- Type: [Stone](#types)
+- Health points: 25
+- Attack factor: level+2
+- Defense factor: level+3
+- Initiative: level+4
+- Missing chance: 0
+- Rarity: 0.7
+- Loosing experience: 4
+- Attacks:
+   + [Tackle](#tackle)
+   + [Politure](#politure)
+   + [Earch quake](#earch-quake)
+- Does not evolve
+
+### Steini
+A squared stone that can casually be found on the ground.
+
+```
+ +-------+ 
+ | o   o | 
+ |  www  | 
+ +-------+ 
+
+```
+
+- Type: [Stone](#types)
+- Health points: 25
+- Attack factor: level+2
+- Defense factor: level+4
+- Initiative: level+5
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 3
+- Attacks:
+   + [Tackle](#tackle)
+   + [Politure](#politure)
+   + [Brick throw](#brick-throw)
+- Does not evolve
+
+### Angrilo
+A ghost Pokete that will scare your pants off.
+
+```
+ .░░░░░░░. 
+ ░░\░░░/░░ 
+ .░░( )░░. 
+.         .
+
+```
+
+- Type: [Undead](#types)
+- Health points: 25
+- Attack factor: level+3
+- Defense factor: level+2
+- Initiative: level+7
+- Missing chance: 0
+- Rarity: 0.6
+- Loosing experience: 4
+- Attacks:
+   + [Tackle](#tackle)
+   + [Mind blow](#mind-blow)
+   + [Wet slap](#wet-slap)
+   + [Heart touch](#heart-touch)
+- Does not evolve
+
+### Confuso
+A ball floating around in dark woods and caves, that will confuse the shit out of you.
+
+```
+       }}  
+     _{{   
+    (_)}   
+           
+
+```
+
+- Type: [Undead](#types)
+- Health points: 20
+- Attack factor: level+1
+- Defense factor: level+1
+- Initiative: level+2
+- Missing chance: 0.1
+- Rarity: 0.5
+- Loosing experience: 6
+- Attacks:
+   + [Confusion](#confusion)
+- Does not evolve
+
+### Gobost
+A scary ghost Pokete that lives in caves and old houses.
+
+```
+ .░░░░░░░. 
+ ░░o░░░o░░ 
+ ░░░░░░░░░ 
+ ░ ░ ░ ░ ░ 
+
+```
+
+- Type: [Undead](#types)
+- Health points: 20
+- Attack factor: level+2
+- Defense factor: level+1
+- Initiative: level+6
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 3
+- Attacks:
+   + [Tackle](#tackle)
+   + [Mind blow](#mind-blow)
+   + [Heart touch](#heart-touch)
+- Evolves to [Angrilo](#angrilo) at level 25
+
+### Blub
+Very delicious and low fat water Pokete.
+
+```
+  _____    
+ / o   \   
+ >   v  >< 
+ \_____/   
+
+```
+
+- Type: [Water](#types)
+- Health points: 20
+- Attack factor: level+2
+- Defense factor: level+1
+- Initiative: level+1
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 5
+- Attacks:
+   + [Tackle](#tackle)
+   + [Bubble bomb](#bubble-bomb)
+   + [Bubble shield](#bubble-shield)
+- Does not evolve
+
+### Clampi
+A shell that lives deep in the see or near bays, that's pretty hard to crack.
+
+```
+    ___    
+  -/ * \-  
+  -\___/-  
+           
+
+```
+
+- Type: [Water](#types)
+- Health points: 25
+- Attack factor: level+2
+- Defense factor: level+7
+- Initiative: level+3
+- Missing chance: 0
+- Rarity: 0.8
+- Loosing experience: 5
+- Attacks:
+   + [Tackle](#tackle)
+   + [Bubble bomb](#bubble-bomb)
+   + [Shell pinch](#shell-pinch)
+- Does not evolve
+
+### Karpi
+A very harmless water Pokete that can be found everywhere.
+
+```
+           
+           
+  <°))))>< 
+           
+
+```
+
+- Type: [Water](#types)
+- Health points: 15
+- Attack factor: level
+- Defense factor: level/2
+- Initiative: level
+- Missing chance: 0
+- Rarity: 3
+- Loosing experience: 1
+- Attacks:
+   + [Tackle](#tackle)
+- Does not evolve
 
 ## Attacks
 Those are all attacks present in the game.

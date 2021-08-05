@@ -6,10 +6,13 @@ from pokete_data import *
 from pokete_classes.effects import *
 
 def gen_wiki():
-    global attacks
+    global attacks, pokes
+    
     # sorting dicts
     attacks = {i[1]: i[-1] for i in
-                    sorted([(attacks[atc]["type"], atc, attacks[atc]) for atc in attacks])}
+                sorted([(attacks[j]["type"], j, attacks[j]) for j in attacks])}
+    pokes = {i[1]: i[-1] for i in
+                sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
 
     with open("Changelog.md", "r") as file:
         ver = file.readline()
@@ -24,7 +27,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
 """
 
     # Table of contents
-    for j, poke in enumerate(sorted(list(pokes)[1:])):
+    for j, poke in enumerate(pokes):
         md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
     md_str += "2. [Attacks](#attacks)\n"
     for j, atc in enumerate(attacks):
@@ -46,7 +49,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
 In the following all Poketes with their attributes are displayed.
 """
 
-    for poke in sorted(list(pokes)[1:]):
+    for poke in pokes:
         evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
         md_attacks = ""
         for atc in pokes[poke]["attacks"]:
