@@ -14,6 +14,7 @@ import threading
 import math
 import socket
 from pathlib import Path
+import pprint as pp
 import scrap_engine as se
 from pokete_data import *
 from pokete_classes import *
@@ -1016,10 +1017,11 @@ def save():
         "inv": figure.inv,
         "money": figure.get_money(),
         "settings": settings.dict(),
-        "used_npcs": used_npcs,
+        "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
     with open(home+__save_path__+"/pokete.py", "w+") as file:
-        file.write(f"session_info={session_info}")
+        # writes the data to the save file in a nice format
+        file.write(f"session_info = {pp.pformat(session_info, sort_dicts=False)}")
 
 
 def on_press(key):
