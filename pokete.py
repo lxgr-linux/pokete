@@ -985,6 +985,55 @@ class RoadMap:
         Station.choosen.unchoose()
 
 
+class Dex:
+    def __init__(self, map):
+        self.box = ChooseBox(map.height-3, 35, "Poketedex")
+        self.map = map
+        self.idx = 0
+        self.obs = []
+
+    def add_c_obs(self):
+        self.box.add_c_obs(self.obs[self.idx*(self.box.height-2):(self.idx+1)*(self.box.height-2)])
+
+    def __call__(self, pokes):
+        global ev
+        ev = ""
+        self.idx = 0
+
+        p_dict = {i[1]: i[-1] for i in
+            sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
+        self.obs = [se.Text(f"{i} {p_dict[poke]['name'] if poke in caught_poketes else '???'}")
+                for i, poke in enumerate(p_dict)]
+
+        self.add_c_obs()
+
+        with self.box.add(self.map, self.map.width-self.box.width, 0):
+            while True:
+                for event, idx, n_idx, add, idx_2 in zip(["'s'", "'w'"],
+                        [len(self.box.c_obs)-1, 0], [0, self.box.height-3],
+                        [1, -1], [-1, 0]):
+                    if ev == event and self.box.index.index == idx:
+                        if self.box.c_obs[self.box.index.index] != self.obs[idx_2]:
+                            for c_ob in self.box.c_obs:
+                                c_ob.remove()
+                            self.box.remove_c_obs()
+                            self.idx += add
+                            self.add_c_obs()
+                            self.box.set_index(n_idx)
+                        ev = ""
+                if ev == "Key.enter":
+                    ev = ""
+                elif ev in ["'s'", "'w'"]:
+                    self.box.input(ev)
+                    ev = ""
+                elif ev in ["'e'", "Key.esc", "'q'"]:
+                    ev = ""
+                    break
+                std_loop()
+                time.sleep(0.05)
+                self.map.show()
+
+
 # General use functions
 #######################
 
