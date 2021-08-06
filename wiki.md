@@ -6,37 +6,47 @@ This wiki can be generated using ```$ gen-wiki.py```.
 
 ## Table of contents
 1. [Poketes](#poketes)
-   1. [Electrode](#electrode)
-   2. [Wolfior](#wolfior)
-   3. [Wolfiro](#wolfiro)
-   4. [Bato](#bato)
-   5. [Bator](#bator)
-   6. [Ostri](#ostri)
-   7. [Owol](#owol)
-   8. [Vogli](#vogli)
-   9. [Voglo](#voglo)
-   10. [Rollator](#rollator)
-   11. [Cubl](#cubl)
-   12. [Spikl](#spikl)
-   13. [Choka](#choka)
-   14. [Hornita](#hornita)
-   15. [Horny](#horny)
-   16. [Rato](#rato)
-   17. [Würgos](#würgos)
-   18. [Bushy](#bushy)
-   19. [Poisopla](#poisopla)
-   20. [Rosi](#rosi)
-   21. [Treenator](#treenator)
-   22. [Bigstone](#bigstone)
-   23. [Lilstone](#lilstone)
-   24. [Poundi](#poundi)
-   25. [Steini](#steini)
-   26. [Angrilo](#angrilo)
-   27. [Confuso](#confuso)
-   28. [Gobost](#gobost)
-   29. [Blub](#blub)
-   30. [Clampi](#clampi)
-   31. [Karpi](#karpi)
+   1. [Electro Poketes](#electro-poketes)
+       1. [Electrode](#electrode)
+   2. [Fire Poketes](#fire-poketes)
+       1. [Wolfior](#wolfior)
+       2. [Wolfiro](#wolfiro)
+   3. [Flying Poketes](#flying-poketes)
+       1. [Bato](#bato)
+       2. [Bator](#bator)
+       3. [Ostri](#ostri)
+       4. [Owol](#owol)
+       5. [Vogli](#vogli)
+       6. [Voglo](#voglo)
+   4. [Ground Poketes](#ground-poketes)
+       1. [Rollator](#rollator)
+   5. [Ice Poketes](#ice-poketes)
+       1. [Cubl](#cubl)
+       2. [Spikl](#spikl)
+   6. [Normal Poketes](#normal-poketes)
+       1. [Choka](#choka)
+       2. [Hornita](#hornita)
+       3. [Horny](#horny)
+       4. [Rato](#rato)
+       5. [Würgos](#würgos)
+   7. [Plant Poketes](#plant-poketes)
+       1. [Bushy](#bushy)
+       2. [Poisopla](#poisopla)
+       3. [Rosi](#rosi)
+       4. [Treenator](#treenator)
+   8. [Stone Poketes](#stone-poketes)
+       1. [Bigstone](#bigstone)
+       2. [Lilstone](#lilstone)
+       3. [Poundi](#poundi)
+       4. [Steini](#steini)
+   9. [Undead Poketes](#undead-poketes)
+       1. [Angrilo](#angrilo)
+       2. [Confuso](#confuso)
+       3. [Gobost](#gobost)
+   10. [Water Poketes](#water-poketes)
+       1. [Blub](#blub)
+       2. [Clampi](#clampi)
+       3. [Karpi](#karpi)
 2. [Attacks](#attacks)
    1. [Electro attacks](#electro-attacks)
        1. [Charging](#charging)
@@ -111,7 +121,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
-
+### Electro attacks
 ### Electrode
 A small floating ball that will give you a shock.
 
@@ -136,7 +146,7 @@ A small floating ball that will give you a shock.
    + [Charging](#charging)
    + [Mega arch](#mega-arch)
 - Does not evolve
-
+### Fire attacks
 ### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
@@ -187,7 +197,7 @@ A fiery wolf from hell on steroids.
    + [Ash throw](#ash-throw)
    + [Fire ball](#fire-ball)
 - Does not evolve
-
+### Flying attacks
 ### Bato
 An annoying flying rat.
 
@@ -337,7 +347,7 @@ A very agressive bird Pokete that can only be found in the woods.
    + [Wing hit](#wing-hit)
    + [Brooding](#brooding)
 - Does not evolve
-
+### Ground attacks
 ### Rollator
 A big chunck of stone and dirt, that roles around.
 
@@ -361,7 +371,7 @@ A big chunck of stone and dirt, that roles around.
    + [Tackle](#tackle)
    + [Power roll](#power-roll)
 - Does not evolve
-
+### Ice attacks
 ### Cubl
 A small ice cube.
 
@@ -412,7 +422,7 @@ A block of ice.
    + [Snow storm](#snow-storm)
    + [Sword of ice](#sword-of-ice)
 - Does not evolve
-
+### Normal attacks
 ### Choka
 A fucking dangerous and enormous snake pokete.
 
@@ -536,7 +546,7 @@ A dangerous snake Pokete.
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
 - Evolves to [Choka](#choka) at level 30
-
+### Plant attacks
 ### Bushy
 A bush, and just a bush. But watch out!
 
@@ -635,7 +645,7 @@ A scary an dangerous apple tree.
    + [Branch stab](#branch-stab)
    + [Root strangler](#root-strangler)
 - Does not evolve
-
+### Stone attacks
 ### Bigstone
 A big and heavy stone made from one of the hardest stones.
 
@@ -735,7 +745,7 @@ A squared stone that can casually be found on the ground.
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
 - Does not evolve
-
+### Undead attacks
 ### Angrilo
 A ghost Pokete that will scare your pants off.
 
@@ -809,7 +819,7 @@ A scary ghost Pokete that lives in caves and old houses.
    + [Mind blow](#mind-blow)
    + [Heart touch](#heart-touch)
 - Evolves to [Angrilo](#angrilo) at level 25
-
+### Water attacks
 ### Blub
 Very delicious and low fat water Pokete.
 

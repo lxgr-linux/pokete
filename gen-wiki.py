@@ -6,12 +6,6 @@ from pokete_data import *
 from pokete_classes.effects import *
 
 def gen_wiki():
-    global attacks, pokes
-
-    # sorting dicts
-    pokes = {i[1]: i[-1] for i in
-                sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
-
     with open("Changelog.md", "r") as file:
         ver = file.readline()
 
@@ -25,8 +19,10 @@ This wiki can be generated using ```$ gen-wiki.py```.
 """
 
     # Table of contents
-    for j, poke in enumerate(pokes):
-        md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
+    for i, typ in enumerate(sorted(types)):
+        md_str += f"""   {i+1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n"""
+        for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["type"] == typ]):
+            md_str += f"""       {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
     md_str += "2. [Attacks](#attacks)\n"
     for i, typ in enumerate(sorted(types)):
         md_str += f"""   {i+1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
@@ -48,18 +44,19 @@ This wiki can be generated using ```$ gen-wiki.py```.
 ## Poketes
 In the following all Poketes with their attributes are displayed.
 """
-
-    for poke in pokes:
-        evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
-        md_attacks = ""
-        for atc in pokes[poke]["attacks"]:
-            md_attacks += f"""\n   + [{attacks[atc]["name"]}](#{atc.replace("_", "-")})"""
-        # ico
-        ico_map = se.Map(4, 11, background=" ")
-        for ico in pokes[poke]["ico"]:
-            se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
-        ico = "".join("".join(arr)+"\n" for arr in ico_map.map)
-        md_str += f"""
+    for typ in sorted(types):
+        md_str += f"### {typ.capitalize()} attacks"
+        for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["type"] == typ]:
+            evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
+            md_attacks = ""
+            for atc in pokes[poke]["attacks"]:
+                md_attacks += f"""\n   + [{attacks[atc]["name"]}](#{atc.replace("_", "-")})"""
+            # ico
+            ico_map = se.Map(4, 11, background=" ")
+            for ico in pokes[poke]["ico"]:
+                se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
+            ico = "".join("".join(arr)+"\n" for arr in ico_map.map)
+            md_str += f"""
 ### {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
 
