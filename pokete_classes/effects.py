@@ -128,7 +128,7 @@ class EffectBurning(Effect):
                                     state="float"), se.Text("!", state="float"))
         self.obj.ico.map.show()
         time.sleep(1)
-        for _ in range(random.randint(1, 4)):
+        for _ in range(random.randint(1, 3)):
             oldhp = self.obj.hp
             self.obj.hp = max(self.obj.hp - self.damage, 0)
             self.obj.health_bar_updater(oldhp)
