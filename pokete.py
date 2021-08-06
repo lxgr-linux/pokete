@@ -1005,14 +1005,17 @@ class Dex:
         ev = ""
 
         poke = Poke(poke, 0)
-        self.detail_box.add_ob(poke.ico, 3, 1)
+        desc_text = liner(poke.desc.text.replace("\n", " "), 29)
+        self.detail_box.resize(9+len(desc_text.split("\n")), 35)
         self.detail_box.name_label.rechar(poke.name)
-        self.detail_desc.rechar(liner(poke.desc.text, 29))
-        self.detail_info.rechar(f"""Attack: {poke.atc}
+        self.detail_box.add_ob(poke.ico, 3, 1)
+        self.detail_desc.rechar(desc_text)
+        self.detail_info.rechar("Type: ")
+        self.detail_info += se.Text(poke.type.name.capitalize(),
+                                    esccode=poke.type.color) + se.Text((f"""
+Attack: {poke.atc}
 Defense: {poke.defense}
-Initiative: {poke.initiative}
-Type: """)
-        self.detail_info += se.Text(poke.type.name.capitalize(), esccode=poke.type.color)
+Initiative: {poke.initiative}"""))
         with self.detail_box.center_add(self.map):
             while True:
                 if ev in ["'e'", "Key.esc", "'q'"]:
