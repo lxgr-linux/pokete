@@ -988,12 +988,41 @@ class RoadMap:
 class Dex:
     def __init__(self, map):
         self.box = ChooseBox(map.height-3, 35, "Poketedex")
+        self.detail_box = Box(16, 35)
         self.map = map
         self.idx = 0
         self.obs = []
+        self.detail_info = se.Text("", state="float")
+        self.detail_desc = se.Text("", state="float")
+        self.detail_box.add_ob(self.detail_info, 16, 1)
+        self.detail_box.add_ob(self.detail_desc, 3, 7)
 
     def add_c_obs(self):
         self.box.add_c_obs(self.obs[self.idx*(self.box.height-2):(self.idx+1)*(self.box.height-2)])
+
+    def detail(self, poke):
+        global ev
+        ev = ""
+
+        poke = Poke(poke, 0)
+        self.detail_box.add_ob(poke.ico, 3, 1)
+        self.detail_box.name_label.rechar(poke.name)
+        self.detail_desc.rechar(liner(poke.desc.text, 29))
+        self.detail_info.rechar(f"""Attack: {poke.atc}
+Defense: {poke.defense}
+Initiative: {poke.initiative}
+Type: """)
+        self.detail_info += se.Text(poke.type.name.capitalize(), esccode=poke.type.color)
+        with self.detail_box.center_add(self.map):
+            while True:
+                if ev in ["'e'", "Key.esc", "'q'"]:
+                    ev = ""
+                    break
+                std_loop()
+                time.sleep(0.05)
+                self.map.show()
+        self.detail_box.rem_ob(poke.ico)
+
 
     def __call__(self, pokes):
         global ev
@@ -1002,11 +1031,9 @@ class Dex:
 
         p_dict = {i[1]: i[-1] for i in
             sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
-        self.obs = [se.Text(f"{i} {p_dict[poke]['name'] if poke in caught_poketes else '???'}")
+        self.obs = [se.Text(f"{i} {p_dict[poke]['name'] if poke in caught_poketes else '???'}", state="float")
                 for i, poke in enumerate(p_dict)]
-
         self.add_c_obs()
-
         with self.box.add(self.map, self.map.width-self.box.width, 0):
             while True:
                 for event, idx, n_idx, add, idx_2 in zip(["'s'", "'w'"],
@@ -1022,6 +1049,8 @@ class Dex:
                             self.box.set_index(n_idx)
                         ev = ""
                 if ev == "Key.enter":
+                    if "???" not in self.box.c_obs[self.box.index.index].text:
+                        self.detail(list(p_dict)[self.idx*(self.box.height-2)+self.box.index.index])
                     ev = ""
                 elif ev in ["'s'", "'w'"]:
                     self.box.input(ev)

@@ -26,6 +26,7 @@ class Box(se.Box):
     def center_add(self, map):
         self.add(map, round((map.width-self.width)/2),
                 round((map.height-self.height)/2))
+        return self
 
     def add(self, map, x, y):
         super().add(map, x, y)
