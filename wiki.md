@@ -38,50 +38,60 @@ This wiki can be generated using ```$ gen-wiki.py```.
    30. [Clampi](#clampi)
    31. [Karpi](#karpi)
 2. [Attacks](#attacks)
-   1. [Charging](#charging)
-   2. [Mega arch](#mega-arch)
-   3. [Shock](#shock)
-   4. [Ash throw](#ash-throw)
-   5. [Fire ball](#fire-ball)
-   6. [Fire bite](#fire-bite)
-   7. [Eye pick](#eye-pick)
-   8. [Pick](#pick)
-   9. [Power pick](#power-pick)
-   10. [Wing hit](#wing-hit)
-   11. [Earch quake](#earch-quake)
-   12. [Power roll](#power-roll)
-   13. [Freeze](#freeze)
-   14. [Snow storm](#snow-storm)
-   15. [Sword of ice](#sword-of-ice)
-   16. [Bite](#bite)
-   17. [Brooding](#brooding)
-   18. [Chocer](#chocer)
-   19. [Cry](#cry)
-   20. [Meat skewer](#meat-skewer)
-   21. [Poison bite](#poison-bite)
-   22. [Power bite](#power-bite)
-   23. [Snooze](#snooze)
-   24. [Tackle](#tackle)
-   25. [Tail wipe](#tail-wipe)
-   26. [Apple drop](#apple-drop)
-   27. [Bark hardening](#bark-hardening)
-   28. [Branch stab](#branch-stab)
-   29. [Leaf storm](#leaf-storm)
-   30. [Poison spores](#poison-spores)
-   31. [Root slap](#root-slap)
-   32. [Root strangler](#root-strangler)
-   33. [Sucker](#sucker)
-   34. [Super sucker](#super-sucker)
-   35. [Brick throw](#brick-throw)
-   36. [Pepple fire](#pepple-fire)
-   37. [Politure](#politure)
-   38. [Confusion](#confusion)
-   39. [Heart touch](#heart-touch)
-   40. [Mind blow](#mind-blow)
-   41. [Bubble bomb](#bubble-bomb)
-   42. [Bubble shield](#bubble-shield)
-   43. [Shell pinch](#shell-pinch)
-   44. [Wet slap](#wet-slap)
+   1. [Electro attacks](#electro-attacks)
+       1. [Charging](#charging)
+       2. [Mega arch](#mega-arch)
+       3. [Shock](#shock)
+   2. [Fire attacks](#fire-attacks)
+       1. [Ash throw](#ash-throw)
+       2. [Fire ball](#fire-ball)
+       3. [Fire bite](#fire-bite)
+   3. [Flying attacks](#flying-attacks)
+       1. [Eye pick](#eye-pick)
+       2. [Pick](#pick)
+       3. [Power pick](#power-pick)
+       4. [Wing hit](#wing-hit)
+   4. [Ground attacks](#ground-attacks)
+       1. [Earch quake](#earch-quake)
+       2. [Power roll](#power-roll)
+   5. [Ice attacks](#ice-attacks)
+       1. [Freeze](#freeze)
+       2. [Snow storm](#snow-storm)
+       3. [Sword of ice](#sword-of-ice)
+   6. [Normal attacks](#normal-attacks)
+       1. [Bite](#bite)
+       2. [Brooding](#brooding)
+       3. [Chocer](#chocer)
+       4. [Cry](#cry)
+       5. [Meat skewer](#meat-skewer)
+       6. [Poison bite](#poison-bite)
+       7. [Power bite](#power-bite)
+       8. [Snooze](#snooze)
+       9. [Tackle](#tackle)
+       10. [Tail wipe](#tail-wipe)
+   7. [Plant attacks](#plant-attacks)
+       1. [Apple drop](#apple-drop)
+       2. [Bark hardening](#bark-hardening)
+       3. [Branch stab](#branch-stab)
+       4. [Leaf storm](#leaf-storm)
+       5. [Poison spores](#poison-spores)
+       6. [Root slap](#root-slap)
+       7. [Root strangler](#root-strangler)
+       8. [Sucker](#sucker)
+       9. [Super sucker](#super-sucker)
+   8. [Stone attacks](#stone-attacks)
+       1. [Brick throw](#brick-throw)
+       2. [Pepple fire](#pepple-fire)
+       3. [Politure](#politure)
+   9. [Undead attacks](#undead-attacks)
+       1. [Confusion](#confusion)
+       2. [Heart touch](#heart-touch)
+       3. [Mind blow](#mind-blow)
+   10. [Water attacks](#water-attacks)
+       1. [Bubble bomb](#bubble-bomb)
+       2. [Bubble shield](#bubble-shield)
+       3. [Shell pinch](#shell-pinch)
+       4. [Wet slap](#wet-slap)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -875,28 +885,8 @@ A very harmless water Pokete that can be found everywhere.
 
 ## Attacks
 Those are all attacks present in the game.
-
-### Charging
-Charges the Pokete.
-
-- Type: [Electro](#types)
-- Minimum Level: 10
-- Attack factor: 0
-- Missing chance: 0
-- Attack points: 15
-- Effect: None
-
-### Mega arch
-Gives the enemy heavy a shock.
-
-- Type: [Electro](#types)
-- Minimum Level: 15
-- Attack factor: 5
-- Missing chance: 0
-- Attack points: 10
-- Effect: [Paralyzation](#paralyzation)
-
-### Shock
+### Electro attacks
+#### Shock
 Gives the enemy a shock.
 
 - Type: [Electro](#types)
@@ -906,27 +896,27 @@ Gives the enemy a shock.
 - Attack points: 30
 - Effect: None
 
-### Ash throw
-Throws ashes in the enemys eyes.
+#### Charging
+Charges the Pokete.
 
-- Type: [Fire](#types)
-- Minimum Level: 15
-- Attack factor: 0.5
+- Type: [Electro](#types)
+- Minimum Level: 10
+- Attack factor: 0
 - Missing chance: 0
 - Attack points: 15
 - Effect: None
 
-### Fire ball
-Casts a fireball at the enemy.
+#### Mega arch
+Gives the enemy heavy a shock.
 
-- Type: [Fire](#types)
-- Minimum Level: 25
-- Attack factor: 4
+- Type: [Electro](#types)
+- Minimum Level: 15
+- Attack factor: 5
 - Missing chance: 0
 - Attack points: 10
-- Effect: None
-
-### Fire bite
+- Effect: [Paralyzation](#paralyzation)
+### Fire attacks
+#### Fire bite
 Burns and bites the enemy at the same time.
 
 - Type: [Fire](#types)
@@ -936,17 +926,27 @@ Burns and bites the enemy at the same time.
 - Attack points: 15
 - Effect: [Burning](#burning)
 
-### Eye pick
-Picks out one of the enemys eyes.
+#### Ash throw
+Throws ashes in the enemys eyes.
 
-- Type: [Flying](#types)
-- Minimum Level: 0
-- Attack factor: 2.5
-- Missing chance: 0.6
-- Attack points: 10
+- Type: [Fire](#types)
+- Minimum Level: 15
+- Attack factor: 0.5
+- Missing chance: 0
+- Attack points: 15
 - Effect: None
 
-### Pick
+#### Fire ball
+Casts a fireball at the enemy.
+
+- Type: [Fire](#types)
+- Minimum Level: 25
+- Attack factor: 4
+- Missing chance: 0
+- Attack points: 10
+- Effect: None
+### Flying attacks
+#### Pick
 A pick at the enemys weakest spot.
 
 - Type: [Flying](#types)
@@ -956,17 +956,17 @@ A pick at the enemys weakest spot.
 - Attack points: 30
 - Effect: None
 
-### Power pick
-A harsh picking on the enemys head.
+#### Eye pick
+Picks out one of the enemys eyes.
 
 - Type: [Flying](#types)
 - Minimum Level: 0
-- Attack factor: 2
-- Missing chance: 0.4
+- Attack factor: 2.5
+- Missing chance: 0.6
 - Attack points: 10
 - Effect: None
 
-### Wing hit
+#### Wing hit
 Hits the enemy with a wing.
 
 - Type: [Flying](#types)
@@ -976,7 +976,17 @@ Hits the enemy with a wing.
 - Attack points: 10
 - Effect: None
 
-### Earch quake
+#### Power pick
+A harsh picking on the enemys head.
+
+- Type: [Flying](#types)
+- Minimum Level: 0
+- Attack factor: 2
+- Missing chance: 0.4
+- Attack points: 10
+- Effect: None
+### Ground attacks
+#### Earch quake
 Brings the earth to shift.
 
 - Type: [Ground](#types)
@@ -986,7 +996,7 @@ Brings the earth to shift.
 - Attack points: 10
 - Effect: None
 
-### Power roll
+#### Power roll
 Rolls over the enemy.
 
 - Type: [Ground](#types)
@@ -995,8 +1005,8 @@ Rolls over the enemy.
 - Missing chance: 0.2
 - Attack points: 15
 - Effect: None
-
-### Freeze
+### Ice attacks
+#### Freeze
 Freezes the enemy.
 
 - Type: [Ice](#types)
@@ -1006,7 +1016,7 @@ Freezes the enemy.
 - Attack points: 10
 - Effect: [Freezing](#freezing)
 
-### Snow storm
+#### Snow storm
 Summons a snow storm full of ice spikes onto the enemy.
 
 - Type: [Ice](#types)
@@ -1016,7 +1026,7 @@ Summons a snow storm full of ice spikes onto the enemy.
 - Attack points: 20
 - Effect: None
 
-### Sword of ice
+#### Sword of ice
 Stabs a giant ice spike into the enemy.
 
 - Type: [Ice](#types)
@@ -1025,88 +1035,8 @@ Stabs a giant ice spike into the enemy.
 - Missing chance: 0.3
 - Attack points: 10
 - Effect: None
-
-### Bite
-A hard bite the sharp teeth.
-
-- Type: [Normal](#types)
-- Minimum Level: 0
-- Attack factor: 1.75
-- Missing chance: 0.1
-- Attack points: 30
-- Effect: None
-
-### Brooding
-Regenerates 2 HP.
-
-- Type: [Normal](#types)
-- Minimum Level: 15
-- Attack factor: 0
-- Missing chance: 0
-- Attack points: 10
-- Effect: None
-
-### Chocer
-Choces the enemy and makes it weaker.
-
-- Type: [Normal](#types)
-- Minimum Level: 0
-- Attack factor: 1
-- Missing chance: 0.2
-- Attack points: 15
-- Effect: [Paralyzation](#paralyzation)
-
-### Cry
-So loud, it confuses the enemy.
-
-- Type: [Normal](#types)
-- Minimum Level: 0
-- Attack factor: 0
-- Missing chance: 0
-- Attack points: 10
-- Effect: None
-
-### Meat skewer
-Drills the horn deep in the enemys flesh.
-
-- Type: [Normal](#types)
-- Minimum Level: 0
-- Attack factor: 3.5
-- Missing chance: 0.7
-- Attack points: 10
-- Effect: None
-
-### Poison bite
-Makes the enemy weaker.
-
-- Type: [Normal](#types)
-- Minimum Level: 0
-- Attack factor: 1
-- Missing chance: 0.3
-- Attack points: 10
-- Effect: [Poison](#poison)
-
-### Power bite
-The hardest bite you can think of.
-
-- Type: [Normal](#types)
-- Minimum Level: 30
-- Attack factor: 8
-- Missing chance: 0.1
-- Attack points: 5
-- Effect: None
-
-### Snooze
-Makes the enemy sleepy.
-
-- Type: [Normal](#types)
-- Minimum Level: 15
-- Attack factor: 0
-- Missing chance: 0.2
-- Attack points: 15
-- Effect: [Sleep](#sleep)
-
-### Tackle
+### Normal attacks
+#### Tackle
 Tackles the enemy very hard.
 
 - Type: [Normal](#types)
@@ -1116,7 +1046,57 @@ Tackles the enemy very hard.
 - Attack points: 30
 - Effect: None
 
-### Tail wipe
+#### Cry
+So loud, it confuses the enemy.
+
+- Type: [Normal](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 10
+- Effect: None
+
+#### Bite
+A hard bite the sharp teeth.
+
+- Type: [Normal](#types)
+- Minimum Level: 0
+- Attack factor: 1.75
+- Missing chance: 0.1
+- Attack points: 30
+- Effect: None
+
+#### Power bite
+The hardest bite you can think of.
+
+- Type: [Normal](#types)
+- Minimum Level: 30
+- Attack factor: 8
+- Missing chance: 0.1
+- Attack points: 5
+- Effect: None
+
+#### Chocer
+Choces the enemy and makes it weaker.
+
+- Type: [Normal](#types)
+- Minimum Level: 0
+- Attack factor: 1
+- Missing chance: 0.2
+- Attack points: 15
+- Effect: [Paralyzation](#paralyzation)
+
+#### Poison bite
+Makes the enemy weaker.
+
+- Type: [Normal](#types)
+- Minimum Level: 0
+- Attack factor: 1
+- Missing chance: 0.3
+- Attack points: 10
+- Effect: [Poison](#poison)
+
+#### Tail wipe
 Wipes throught the enemys face.
 
 - Type: [Normal](#types)
@@ -1126,7 +1106,37 @@ Wipes throught the enemys face.
 - Attack points: 10
 - Effect: None
 
-### Apple drop
+#### Meat skewer
+Drills the horn deep in the enemys flesh.
+
+- Type: [Normal](#types)
+- Minimum Level: 0
+- Attack factor: 3.5
+- Missing chance: 0.7
+- Attack points: 10
+- Effect: None
+
+#### Snooze
+Makes the enemy sleepy.
+
+- Type: [Normal](#types)
+- Minimum Level: 15
+- Attack factor: 0
+- Missing chance: 0.2
+- Attack points: 15
+- Effect: [Sleep](#sleep)
+
+#### Brooding
+Regenerates 2 HP.
+
+- Type: [Normal](#types)
+- Minimum Level: 15
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 10
+- Effect: None
+### Plant attacks
+#### Apple drop
 Lets an apple drop on the enemys head.
 
 - Type: [Plant](#types)
@@ -1136,77 +1146,7 @@ Lets an apple drop on the enemys head.
 - Attack points: 30
 - Effect: None
 
-### Bark hardening
-Hardens the bark to protect it better.
-
-- Type: [Plant](#types)
-- Minimum Level: 0
-- Attack factor: 0
-- Missing chance: 0
-- Attack points: 15
-- Effect: None
-
-### Branch stab
-Stabs the enemy with a branch, preferably in the enemys eyes.
-
-- Type: [Plant](#types)
-- Minimum Level: 15
-- Attack factor: 4
-- Missing chance: 0.2
-- Attack points: 10
-- Effect: None
-
-### Leaf storm
-Blasts a bunch of spikie leafes at the enemy.
-
-- Type: [Plant](#types)
-- Minimum Level: 20
-- Attack factor: 5
-- Missing chance: 0
-- Attack points: 10
-- Effect: None
-
-### Poison spores
-Ejects some poisonous spores onto the enemy.
-
-- Type: [Plant](#types)
-- Minimum Level: 0
-- Attack factor: 0
-- Missing chance: 0
-- Attack points: 15
-- Effect: [Poison](#poison)
-
-### Root slap
-Uses old and crusty roots to slap the enemy.
-
-- Type: [Plant](#types)
-- Minimum Level: 0
-- Attack factor: 1.5
-- Missing chance: 0.2
-- Attack points: 30
-- Effect: None
-
-### Root strangler
-Uses old and crusty roots to strangle the enemys.
-
-- Type: [Plant](#types)
-- Minimum Level: 20
-- Attack factor: 1
-- Missing chance: 0.2
-- Attack points: 15
-- Effect: [Paralyzation](#paralyzation)
-
-### Sucker
-Sucks 1 HP from the enemy and adds it to it's own.
-
-- Type: [Plant](#types)
-- Minimum Level: 0
-- Attack factor: 0
-- Missing chance: 0
-- Attack points: 20
-- Effect: None
-
-### Super sucker
+#### Super sucker
 Sucks 2 HP from the enemy and adds it to it's own.
 
 - Type: [Plant](#types)
@@ -1216,17 +1156,77 @@ Sucks 2 HP from the enemy and adds it to it's own.
 - Attack points: 10
 - Effect: None
 
-### Brick throw
-Throws an euler brick at the enemy.
+#### Sucker
+Sucks 1 HP from the enemy and adds it to it's own.
 
-- Type: [Stone](#types)
-- Minimum Level: 15
-- Attack factor: 2
-- Missing chance: 0.3
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0
 - Attack points: 20
 - Effect: None
 
-### Pepple fire
+#### Root strangler
+Uses old and crusty roots to strangle the enemys.
+
+- Type: [Plant](#types)
+- Minimum Level: 20
+- Attack factor: 1
+- Missing chance: 0.2
+- Attack points: 15
+- Effect: [Paralyzation](#paralyzation)
+
+#### Root slap
+Uses old and crusty roots to slap the enemy.
+
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 1.5
+- Missing chance: 0.2
+- Attack points: 30
+- Effect: None
+
+#### Leaf storm
+Blasts a bunch of spikie leafes at the enemy.
+
+- Type: [Plant](#types)
+- Minimum Level: 20
+- Attack factor: 5
+- Missing chance: 0
+- Attack points: 10
+- Effect: None
+
+#### Bark hardening
+Hardens the bark to protect it better.
+
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 15
+- Effect: None
+
+#### Poison spores
+Ejects some poisonous spores onto the enemy.
+
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 15
+- Effect: [Poison](#poison)
+
+#### Branch stab
+Stabs the enemy with a branch, preferably in the enemys eyes.
+
+- Type: [Plant](#types)
+- Minimum Level: 15
+- Attack factor: 4
+- Missing chance: 0.2
+- Attack points: 10
+- Effect: None
+### Stone attacks
+#### Pepple fire
 Fires pepples at the enemy and makes it blind.
 
 - Type: [Stone](#types)
@@ -1236,7 +1236,7 @@ Fires pepples at the enemy and makes it blind.
 - Attack points: 5
 - Effect: None
 
-### Politure
+#### Politure
 Upgrades defense and attack points.
 
 - Type: [Stone](#types)
@@ -1246,17 +1246,17 @@ Upgrades defense and attack points.
 - Attack points: 15
 - Effect: None
 
-### Confusion
-Confuses the enemy.
+#### Brick throw
+Throws an euler brick at the enemy.
 
-- Type: [Undead](#types)
-- Minimum Level: 0
-- Attack factor: 0
-- Missing chance: 0.2
-- Attack points: 40
-- Effect: [Confusion](#confusion)
-
-### Heart touch
+- Type: [Stone](#types)
+- Minimum Level: 15
+- Attack factor: 2
+- Missing chance: 0.3
+- Attack points: 20
+- Effect: None
+### Undead attacks
+#### Heart touch
 Touches the enemys heard with its' cold gost claws.
 
 - Type: [Undead](#types)
@@ -1266,7 +1266,17 @@ Touches the enemys heard with its' cold gost claws.
 - Attack points: 10
 - Effect: None
 
-### Mind blow
+#### Confusion
+Confuses the enemy.
+
+- Type: [Undead](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0.2
+- Attack points: 40
+- Effect: [Confusion](#confusion)
+
+#### Mind blow
 Causes confusion deep in the enemys mind.
 
 - Type: [Undead](#types)
@@ -1275,8 +1285,8 @@ Causes confusion deep in the enemys mind.
 - Missing chance: 0
 - Attack points: 15
 - Effect: [Confusion](#confusion)
-
-### Bubble bomb
+### Water attacks
+#### Bubble bomb
 A deadly bubble.
 
 - Type: [Water](#types)
@@ -1286,7 +1296,7 @@ A deadly bubble.
 - Attack points: 10
 - Effect: None
 
-### Bubble shield
+#### Bubble shield
 Creates a giant bubble that protects the Pokete.
 
 - Type: [Water](#types)
@@ -1296,17 +1306,7 @@ Creates a giant bubble that protects the Pokete.
 - Attack points: 10
 - Effect: None
 
-### Shell pinch
-Pinches the enemy with its strong shells.
-
-- Type: [Water](#types)
-- Minimum Level: 15
-- Attack factor: 2.5
-- Missing chance: 0.1
-- Attack points: 20
-- Effect: None
-
-### Wet slap
+#### Wet slap
 Gives the enemy a wet and cold slap in the face.
 
 - Type: [Water](#types)
@@ -1314,6 +1314,16 @@ Gives the enemy a wet and cold slap in the face.
 - Attack factor: 2.5
 - Missing chance: 0.1
 - Attack points: 15
+- Effect: None
+
+#### Shell pinch
+Pinches the enemy with its strong shells.
+
+- Type: [Water](#types)
+- Minimum Level: 15
+- Attack factor: 2.5
+- Missing chance: 0.1
+- Attack points: 20
 - Effect: None
 
 ## Types

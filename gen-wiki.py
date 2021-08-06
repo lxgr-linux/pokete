@@ -7,10 +7,8 @@ from pokete_classes.effects import *
 
 def gen_wiki():
     global attacks, pokes
-    
+
     # sorting dicts
-    attacks = {i[1]: i[-1] for i in
-                sorted([(attacks[j]["type"], j, attacks[j]) for j in attacks])}
     pokes = {i[1]: i[-1] for i in
                 sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
 
@@ -30,8 +28,10 @@ This wiki can be generated using ```$ gen-wiki.py```.
     for j, poke in enumerate(pokes):
         md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
     md_str += "2. [Attacks](#attacks)\n"
-    for j, atc in enumerate(attacks):
-        md_str += f"""   {j+1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
+    for i, typ in enumerate(sorted(types)):
+        md_str += f"""   {i+1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
+        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k]["type"] == typ]):
+            md_str += f"""       {j+1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
     md_str += """3. [Types](#types)
 4. [Items](#items)
 """
@@ -84,10 +84,11 @@ In the following all Poketes with their attributes are displayed.
 ## Attacks
 Those are all attacks present in the game.
 """
-
-    for atc in attacks:
-        md_str += f"""
-### {attacks[atc]["name"]}
+    for typ in sorted(types):
+        md_str += f"### {typ.capitalize()} attacks"
+        for atc in [k for k in attacks if attacks[k]["type"] == typ]:
+            md_str += f"""
+#### {attacks[atc]["name"]}
 {attacks[atc]["desc"]}
 
 - Type: [{attacks[atc]["type"].capitalize()}](#types)
