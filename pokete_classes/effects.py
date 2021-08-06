@@ -6,11 +6,15 @@ from pokete_classes.classes import Color
 class Effect():
     desc = ""
     c_name = ""
-    def __init__(self, name, rem_chance, catch_chance, text, str_esccode="", obj=None):
+    def __init__(self, name, rem_chance, catch_chance, text, str_esccode="", obj=None, exclude=None):
         self.name = name
         self.rem_chance = rem_chance
         self.catch_chance = catch_chance
         self.str_esccode = str_esccode
+        if exclude is not None:
+            self.exclude = exclude
+        else:
+            self.exclude = []
         self.label = se.Text(text, state="float", esccode=str_esccode)
         self.obj = obj
 
@@ -18,7 +22,12 @@ class Effect():
         return f"{type(self).__name__}"
 
     def add(self, obj):
-        if all(type(i) is not type(self) for i in obj.effects):
+        if obj.type.name in self.exclude:
+            obj.ico.map.outp.rechar(f'{obj.ext_name} is not affected by ')
+            obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode,
+                                                state="float"),
+                                        se.Text("!", state="float"))
+        elif all(type(i) is not type(self) for i in obj.effects):
             self.obj = obj
             self.obj.effects.append(self)
             self.add_label()
@@ -109,7 +118,7 @@ class EffectBurning(Effect):
  This is reverted randomly."
     c_name = "burning"
     def __init__(self, obj=None):
-        super().__init__("burning", 3, 0, "(Bur)", Color.thicc+Color.red, obj)
+        super().__init__("burning", 3, 0, "(Bur)", Color.thicc+Color.red, obj, exclude=["fire", "water"])
         self.hurt_text = "burned it self!"
         self.damage = 2
 
@@ -119,7 +128,7 @@ class EffectBurning(Effect):
                                     state="float"), se.Text("!", state="float"))
         self.obj.ico.map.show()
         time.sleep(1)
-        for _ in range(random.randint(1, 4)):
+        for _ in range(random.randint(1, 3)):
             oldhp = self.obj.hp
             self.obj.hp = max(self.obj.hp - self.damage, 0)
             self.obj.health_bar_updater(oldhp)
@@ -142,7 +151,7 @@ class EffectConfusion(Effect):
     desc = "Makes the enemy hurt it self. This is reverted randomly."
     c_name = "confusion"
     def __init__(self, obj=None):
-        super().__init__("confused", 3, 2, "(Con)", Color.lightblue, obj)
+        super().__init__("confused", 3, 2, "(Con)", Color.lightblue, obj, exclude=["undead"])
 
     def effect(self):
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
@@ -157,7 +166,7 @@ class EffectFreezing(Effect):
     desc = "Freezes the enemy and stops it from attacking. This is reverted randomly."
     c_name = "freezing"
     def __init__(self, obj=None):
-        super().__init__("frozen", 3, 3, "(Fro)", Color.cyan, obj)
+        super().__init__("frozen", 3, 3, "(Fro)", Color.cyan, obj, exclude=["ice", "fire"])
 
 
 effects = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison,
