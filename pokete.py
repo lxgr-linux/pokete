@@ -1008,11 +1008,12 @@ class Dex:
         desc_text = liner(poke.desc.text.replace("\n", " "), 29)
         self.detail_box.resize(9+len(desc_text.split("\n")), 35)
         self.detail_box.name_label.rechar(poke.name)
-        self.detail_box.add_ob(poke.ico, 3, 1)
+        self.detail_box.add_ob(poke.ico, 3, 2)
         self.detail_desc.rechar(desc_text)
         self.detail_info.rechar("Type: ")
         self.detail_info += se.Text(poke.type.name.capitalize(),
                                     esccode=poke.type.color) + se.Text((f"""
+HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}"""))
@@ -1729,9 +1730,9 @@ def game(map):
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in ["'1'", "'3'", "'4'", "'e'"]:
+        if ev in ["'1'", "'3'", "'4'", "'5'", "'e'"]:
             exec({"'1'": 'deck(figure.pokes[:6], "Your deck")',
-                    "'3'": 'roadmap()', "'4'": 'inv()', "'e'": 'menu()'}[ev])
+                    "'3'": 'roadmap()', "'4'": 'inv()', "'5'": 'pokete_dex(pokes)', "'e'": 'menu()'}[ev])
             ev = ""
             movemap.show(init=True)
         elif ev == "'2'":
@@ -1984,7 +1985,7 @@ movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = Figure("a")
 exclamation = se.Object("!")
 multitext = OutP("", state="float")
-movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.")
+movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex")
 movemap.code_label = OutP("")
 
 
@@ -1996,6 +1997,7 @@ movemap.code_label = OutP("")
 gen_obs()
 # side fn definitions
 detail = Detail()
+pokete_dex = Dex(movemap)
 roadmap = RoadMap(stations)
 deck = Deck()
 menu = Menu()
