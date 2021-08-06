@@ -1035,7 +1035,7 @@ Initiative: {poke.initiative}"""))
 
         p_dict = {i[1]: i[-1] for i in
             sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
-        self.obs = [se.Text(f"{i} {p_dict[poke]['name'] if poke in caught_poketes else '???'}", state="float")
+        self.obs = [se.Text(f"{i+1} {p_dict[poke]['name'] if poke in caught_poketes else '???'}", state="float")
                 for i, poke in enumerate(p_dict)]
         self.add_c_obs()
         with self.box.add(self.map, self.map.width-self.box.width, 0):
