@@ -1000,6 +1000,11 @@ class Dex:
     def add_c_obs(self):
         self.box.add_c_obs(self.obs[self.idx*(self.box.height-2):(self.idx+1)*(self.box.height-2)])
 
+    def rem_c_obs(self):
+        for c_ob in self.box.c_obs:
+            c_ob.remove()
+        self.box.remove_c_obs()
+
     def detail(self, poke):
         global ev
         ev = ""
@@ -1045,9 +1050,7 @@ Initiative: {poke.initiative}"""))
                         [1, -1], [-1, 0]):
                     if ev == event and self.box.index.index == idx:
                         if self.box.c_obs[self.box.index.index] != self.obs[idx_2]:
-                            for c_ob in self.box.c_obs:
-                                c_ob.remove()
-                            self.box.remove_c_obs()
+                            self.rem_c_obs()
                             self.idx += add
                             self.add_c_obs()
                             self.box.set_index(n_idx)
@@ -1065,6 +1068,7 @@ Initiative: {poke.initiative}"""))
                 std_loop()
                 time.sleep(0.05)
                 self.map.show()
+            self.rem_c_obs()
 
 
 # General use functions
