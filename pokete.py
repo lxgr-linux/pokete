@@ -1358,6 +1358,8 @@ def playmap_20_trader():
             return
         figure.pokes[index] = Poke("ostri", 500)
         used_npcs.append(playmap_20.trader_2.name)
+        if "ostri" not in caught_poketes:
+            caught_poketes.append("ostri")
         with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.", movemap):
             time.sleep(3)
         movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y, [" < Cool, huh?"])
@@ -1422,6 +1424,8 @@ def swap_poke():
     save()  # to avoid duping
     with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.", movemap):
         time.sleep(3)
+    if figure.pokes[index].identifier not in caught_poketes:
+        caught_poketes.append(figure.pokes[index].identifier)
 
 
 def ask_bool(map, text):
