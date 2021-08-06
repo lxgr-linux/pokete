@@ -19,11 +19,15 @@ This wiki can be generated using ```$ gen-wiki.py```.
 """
 
     # Table of contents
-    for j, poke in enumerate(sorted(list(pokes)[1:])):
-        md_str += f"""   {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
+    for i, typ in enumerate(sorted(types)):
+        md_str += f"""   {i+1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n"""
+        for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["type"] == typ]):
+            md_str += f"""       {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
     md_str += "2. [Attacks](#attacks)\n"
-    for j, atc in enumerate(sorted(attacks)):
-        md_str += f"""   {j+1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
+    for i, typ in enumerate(sorted(types)):
+        md_str += f"""   {i+1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
+        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k]["type"] == typ]):
+            md_str += f"""       {j+1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
     md_str += """3. [Types](#types)
 4. [Items](#items)
 """
@@ -40,19 +44,20 @@ This wiki can be generated using ```$ gen-wiki.py```.
 ## Poketes
 In the following all Poketes with their attributes are displayed.
 """
-
-    for poke in sorted(list(pokes)[1:]):
-        evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
-        md_attacks = ""
-        for atc in pokes[poke]["attacks"]:
-            md_attacks += f"""\n   + [{attacks[atc]["name"]}](#{atc.replace("_", "-")})"""
-        # ico
-        ico_map = se.Map(4, 11, background=" ")
-        for ico in pokes[poke]["ico"]:
-            se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
-        ico = "".join("".join(arr)+"\n" for arr in ico_map.map)
-        md_str += f"""
-### {pokes[poke]["name"]}
+    for typ in sorted(types):
+        md_str += f"### {typ.capitalize()} Poketes"
+        for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["type"] == typ]:
+            evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
+            md_attacks = ""
+            for atc in pokes[poke]["attacks"]:
+                md_attacks += f"""\n   + [{attacks[atc]["name"]}](#{atc.replace("_", "-")})"""
+            # ico
+            ico_map = se.Map(4, 11, background=" ")
+            for ico in pokes[poke]["ico"]:
+                se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
+            ico = "".join("".join(arr)+"\n" for arr in ico_map.map)
+            md_str += f"""
+#### {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
 
 ```
@@ -76,10 +81,11 @@ In the following all Poketes with their attributes are displayed.
 ## Attacks
 Those are all attacks present in the game.
 """
-
-    for atc in sorted(attacks):
-        md_str += f"""
-### {attacks[atc]["name"]}
+    for typ in sorted(types):
+        md_str += f"### {typ.capitalize()} attacks"
+        for atc in [k for k in attacks if attacks[k]["type"] == typ]:
+            md_str += f"""
+#### {attacks[atc]["name"]}
 {attacks[atc]["desc"]}
 
 - Type: [{attacks[atc]["type"].capitalize()}](#types)
