@@ -389,6 +389,8 @@ class Poke():
         self.enem.move_shine(ico=Color.thicc+Color.red+"-"+Color.reset)
 
     def evolve(self):
+        if not self.player:
+            return
         new = Poke(self.evolve_poke, self.xp)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width/2-4), round((evomap.height-8)/2))
@@ -411,6 +413,8 @@ class Poke():
         evomap.outp.outp(f"{self.name} evolved to {new.name}!")
         time.sleep(5)
         figure.pokes[figure.pokes.index(self)] = new
+        if new.identifier not in caught_poketes:
+            caught_poketes.append(new.identifier)
         del self
 
 
@@ -1017,6 +1021,9 @@ def save():
         "inv": figure.inv,
         "money": figure.get_money(),
         "settings": settings.dict(),
+        "caught_poketes": list(dict.fromkeys(caught_poketes))
+                            if len(caught_poketes) != 0 else
+                            [i.identifier for i in figure.pokes],
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
     with open(home+__save_path__+"/pokete.py", "w+") as file:
@@ -1194,7 +1201,7 @@ def fight_add_1(player, enemy):
                         [7, 16, 1, 1, 1, fightmap.width-14, 8],
                         [3, 3, 1, 2, 3, 2, 3]):
         obj.add(fightmap, x, y)
-    if enemy.name in [obj.name for obj in figure.pokes]:
+    if enemy.identifier in caught_poketes:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text)-1, 1)
     if player.identifier != "__fallback__":
         fightbox.add_c_obs(player.atc_labels)
@@ -1238,6 +1245,8 @@ def fight_throw(obj, enem, info, chance, name):
         time.sleep(2)
         pball.remove()
         fight_clean_up(obj, enem)
+        if enem.identifier not in caught_poketes:
+            caught_poketes.append(enem.identifier)
         balls_label_rechar()
         return 2
     else:
@@ -1265,7 +1274,7 @@ def fight_super_potion(obj, enem, info):
     return fight_potion(obj, enem, info, 15, "super_potion")
 
 def fight_poketeball(obj, enem, info):
-    return fight_throw(ob, enem, info, 1, "poketeball")
+    return fight_throw(obj, enem, info, 1, "poketeball")
 
 def fight_superball(obj, enem, info):
     return fight_throw(obj, enem, info, 6, "superball")
@@ -1843,6 +1852,7 @@ session_info = {
     },
     "inv": {"poketeball": 15, "healing_potion": 1},
     "settings": {},
+    "caught_poketes": ["steini"],
     "used_npcs": []
 }
 with open(home+__save_path__+"/pokete.py") as file:
@@ -1857,6 +1867,11 @@ if "used_npcs" in session_info:
     used_npcs = session_info["used_npcs"]
 else:
     used_npcs = []
+
+if "caught_poketes" in session_info:
+    caught_poketes = session_info["caught_poketes"]
+else:
+    caught_poketes = []
 
 # comprehending settings
 colors = settings.colors
