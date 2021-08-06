@@ -122,7 +122,7 @@ This wiki can be generated using ```$ gen-wiki.py```.
 ## Poketes
 In the following all Poketes with their attributes are displayed.
 ### Electro Poketes
-### Electrode
+#### Electrode
 A small floating ball that will give you a shock.
 
 ```
@@ -147,7 +147,7 @@ A small floating ball that will give you a shock.
    + [Mega arch](#mega-arch)
 - Does not evolve
 ### Fire Poketes
-### Wolfior
+#### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
 ```
@@ -172,7 +172,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
    + [Ash throw](#ash-throw)
 - Evolves to [Wolfiro](#wolfiro) at level 25
 
-### Wolfiro
+#### Wolfiro
 A fiery wolf from hell on steroids.
 
 ```
@@ -198,7 +198,7 @@ A fiery wolf from hell on steroids.
    + [Fire ball](#fire-ball)
 - Does not evolve
 ### Flying Poketes
-### Bato
+#### Bato
 An annoying flying rat.
 
 ```
@@ -222,7 +222,7 @@ WW\/* *\/WW
    + [Cry](#cry)
 - Evolves to [Bator](#bator) at level 20
 
-### Bator
+#### Bator
 A chongus flying rat.
 
 ```
@@ -248,7 +248,7 @@ WW\/o o\/WW
    + [Wing hit](#wing-hit)
 - Does not evolve
 
-### Ostri
+#### Ostri
 A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
 
 ```
@@ -273,7 +273,7 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
    + [Brooding](#brooding)
 - Does not evolve
 
-### Owol
+#### Owol
 A night active Pokete, that is looking for lil children as a midnight snack.
 
 ```
@@ -298,7 +298,7 @@ A night active Pokete, that is looking for lil children as a midnight snack.
    + [Cry](#cry)
 - Does not evolve
 
-### Vogli
+#### Vogli
 A very common bird Pokete that lives everywhere.
 
 ```
@@ -322,7 +322,7 @@ A very common bird Pokete that lives everywhere.
    + [Power pick](#power-pick)
 - Evolves to [Voglo](#voglo) at level 20
 
-### Voglo
+#### Voglo
 A very agressive bird Pokete that can only be found in the woods.
 
 ```
@@ -348,7 +348,7 @@ A very agressive bird Pokete that can only be found in the woods.
    + [Brooding](#brooding)
 - Does not evolve
 ### Ground Poketes
-### Rollator
+#### Rollator
 A big chunck of stone and dirt, that roles around.
 
 ```
@@ -372,7 +372,7 @@ A big chunck of stone and dirt, that roles around.
    + [Power roll](#power-roll)
 - Does not evolve
 ### Ice Poketes
-### Cubl
+#### Cubl
 A small ice cube.
 
 ```
@@ -397,7 +397,7 @@ A small ice cube.
    + [Snow storm](#snow-storm)
 - Evolves to [Spikl](#spikl) at level 30
 
-### Spikl
+#### Spikl
 A block of ice.
 
 ```
@@ -423,7 +423,7 @@ A block of ice.
    + [Sword of ice](#sword-of-ice)
 - Does not evolve
 ### Normal Poketes
-### Choka
+#### Choka
 A fucking dangerous and enormous snake pokete.
 
 ```
@@ -449,7 +449,7 @@ A fucking dangerous and enormous snake pokete.
    + [Power bite](#power-bite)
 - Does not evolve
 
-### Hornita
+#### Hornita
 An majestetic horse that is always looking for something to pick with its horn.
 
 ```
@@ -474,7 +474,7 @@ An majestetic horse that is always looking for something to pick with its horn.
    + [Tail wipe](#tail-wipe)
 - Does not evolve
 
-### Horny
+#### Horny
 A teenaged unicorn in the middle of puberty.
 
 ```
@@ -498,7 +498,7 @@ A teenaged unicorn in the middle of puberty.
    + [Meat skewer](#meat-skewer)
 - Evolves to [Hornita](#hornita) at level 20
 
-### Rato
+#### Rato
 An annoying rat.
 
 ```
@@ -522,7 +522,7 @@ An annoying rat.
    + [Tail wipe](#tail-wipe)
 - Does not evolve
 
-### Würgos
+#### Würgos
 A dangerous snake Pokete.
 
 ```
@@ -547,7 +547,7 @@ A dangerous snake Pokete.
    + [Poison bite](#poison-bite)
 - Evolves to [Choka](#choka) at level 30
 ### Plant Poketes
-### Bushy
+#### Bushy
 A bush, and just a bush. But watch out!
 
 ```
@@ -571,7 +571,7 @@ A bush, and just a bush. But watch out!
    + [Bark hardening](#bark-hardening)
 - Evolves to [Treenator](#treenator) at level 20
 
-### Poisopla
+#### Poisopla
 A unsuspicious plant.
 
 ```
@@ -596,7 +596,7 @@ A unsuspicious plant.
    + [Leaf storm](#leaf-storm)
 - Does not evolve
 
-### Rosi
+#### Rosi
 A plant Pokete, that's often mistaken for a normal flower.
 
 ```
@@ -620,7 +620,7 @@ A plant Pokete, that's often mistaken for a normal flower.
    + [Super sucker](#super-sucker)
 - Does not evolve
 
-### Treenator
+#### Treenator
 A scary an dangerous apple tree.
 
 ```
@@ -646,7 +646,7 @@ A scary an dangerous apple tree.
    + [Root strangler](#root-strangler)
 - Does not evolve
 ### Stone Poketes
-### Bigstone
+#### Bigstone
 A big and heavy stone made from one of the hardest stones.
 
 ```
@@ -671,7 +671,7 @@ A big and heavy stone made from one of the hardest stones.
    + [Brick throw](#brick-throw)
 - Does not evolve
 
-### Lilstone
+#### Lilstone
 A small but powerfull stone Pokete that lives in the mountains.
 
 ```
@@ -696,7 +696,7 @@ A small but powerfull stone Pokete that lives in the mountains.
    + [Pepple fire](#pepple-fire)
 - Evolves to [Bigstone](#bigstone) at level 25
 
-### Poundi
+#### Poundi
 A powerfull and heavy stone Pokete that lives in mountain caves.
 
 ```
@@ -721,7 +721,7 @@ A powerfull and heavy stone Pokete that lives in mountain caves.
    + [Earch quake](#earch-quake)
 - Does not evolve
 
-### Steini
+#### Steini
 A squared stone that can casually be found on the ground.
 
 ```
@@ -746,7 +746,7 @@ A squared stone that can casually be found on the ground.
    + [Brick throw](#brick-throw)
 - Does not evolve
 ### Undead Poketes
-### Angrilo
+#### Angrilo
 A ghost Pokete that will scare your pants off.
 
 ```
@@ -772,7 +772,7 @@ A ghost Pokete that will scare your pants off.
    + [Heart touch](#heart-touch)
 - Does not evolve
 
-### Confuso
+#### Confuso
 A ball floating around in dark woods and caves, that will confuse the shit out of you.
 
 ```
@@ -795,7 +795,7 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
    + [Confusion](#confusion)
 - Does not evolve
 
-### Gobost
+#### Gobost
 A scary ghost Pokete that lives in caves and old houses.
 
 ```
@@ -820,7 +820,7 @@ A scary ghost Pokete that lives in caves and old houses.
    + [Heart touch](#heart-touch)
 - Evolves to [Angrilo](#angrilo) at level 25
 ### Water Poketes
-### Blub
+#### Blub
 Very delicious and low fat water Pokete.
 
 ```
@@ -845,7 +845,7 @@ Very delicious and low fat water Pokete.
    + [Bubble shield](#bubble-shield)
 - Does not evolve
 
-### Clampi
+#### Clampi
 A shell that lives deep in the see or near bays, that's pretty hard to crack.
 
 ```
@@ -870,7 +870,7 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
    + [Shell pinch](#shell-pinch)
 - Does not evolve
 
-### Karpi
+#### Karpi
 A very harmless water Pokete that can be found everywhere.
 
 ```

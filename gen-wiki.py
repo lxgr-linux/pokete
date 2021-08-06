@@ -57,7 +57,7 @@ In the following all Poketes with their attributes are displayed.
                 se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
             ico = "".join("".join(arr)+"\n" for arr in ico_map.map)
             md_str += f"""
-### {pokes[poke]["name"]}
+#### {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
 
 ```
