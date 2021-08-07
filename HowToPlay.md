@@ -13,6 +13,7 @@
 10. [Settings](#settings)
 11. [Trading](#trading)
 12. [Shiny Poketes](#shiny-poketes)
+13. [Poketes-dex](#poketes-dex)
 
 
 ## Plot
@@ -121,3 +122,10 @@ You may run into problems with firewalls.
 Shiny Poketes are rare to find (chance 1/500) and have 2 points more of attac, defense and initiative and 5 HP more than normal. Their names are highlighted yellow. 
 
 ![shiny](assets/ss/ss24.png)
+
+## Pokete-dex
+The Pokete dex is made for the user to keep track of all Poketes they ever caught, with their stats. It does not list individual Poketes but instead the Pokete 'race' itself. Poketes your never caught are shown with a "???".
+
+It can be accessed by pressing 5 in the main game.
+
+![dex](assets/ss/ss25.png)
