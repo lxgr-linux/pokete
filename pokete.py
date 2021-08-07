@@ -909,6 +909,7 @@ class Menu:
     def __call__(self):
         global ev
         ev = ""
+        self.realname_label.rechar(figure.name)
         with self.box.add(movemap, movemap.width-self.box.width, 0):
             while True:
                 if ev == "Key.enter":
