@@ -1108,9 +1108,7 @@ def save():
         "inv": figure.inv,
         "money": figure.get_money(),
         "settings": settings.dict(),
-        "caught_poketes": list(dict.fromkeys(caught_poketes))
-                            if len(caught_poketes) != 0 else
-                            [i.identifier for i in figure.pokes],
+        "caught_poketes": list(dict.fromkeys(caught_poketes + [i.identifier for i in figure.pokes])),
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
     with open(home+__save_path__+"/pokete.py", "w+") as file:
