@@ -26,6 +26,21 @@ class Box(se.Box):
     def center_add(self, map):
         self.add(map, round((map.width-self.width)/2),
                 round((map.height-self.height)/2))
+        return self
+
+    def resize(self, height, width):
+        self.height = height
+        self.width = width
+        self.inner.resize(width-2, height-2)
+        self.rem_ob(self.frame)
+        self.frame = se.Frame(width=width, height=height,
+                            corner_chars=["┌", "┐", "└", "┘"],
+                            horizontal_chars=["─", "─"],
+                            vertical_chars=["│", "│"], state="float")
+        self.add_ob(self.frame, 0, 0)
+        self.set_ob(self.info_label, 2, self.height-1)
+        self.rem_ob(self.name_label)
+        self.add_ob(self.name_label, 2, 0)
 
     def add(self, map, x, y):
         super().add(map, x, y)

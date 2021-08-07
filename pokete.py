@@ -986,6 +986,92 @@ class RoadMap:
         Station.choosen.unchoose()
 
 
+class Dex:
+    def __init__(self, map):
+        self.box = ChooseBox(map.height-3, 35, "Poketedex")
+        self.detail_box = Box(16, 35)
+        self.map = map
+        self.idx = 0
+        self.obs = []
+        self.detail_info = se.Text("", state="float")
+        self.detail_desc = se.Text("", state="float")
+        self.detail_box.add_ob(self.detail_info, 16, 1)
+        self.detail_box.add_ob(self.detail_desc, 3, 7)
+
+    def add_c_obs(self):
+        self.box.add_c_obs(self.obs[self.idx*(self.box.height-2):(self.idx+1)*(self.box.height-2)])
+
+    def rem_c_obs(self):
+        for c_ob in self.box.c_obs:
+            c_ob.remove()
+        self.box.remove_c_obs()
+
+    def detail(self, poke):
+        global ev
+        ev = ""
+
+        poke = Poke(poke, 0)
+        desc_text = liner(poke.desc.text.replace("\n", " "), 29)
+        self.detail_box.resize(9+len(desc_text.split("\n")), 35)
+        self.detail_box.name_label.rechar(poke.name)
+        self.detail_box.add_ob(poke.ico, 3, 2)
+        self.detail_desc.rechar(desc_text)
+        self.detail_info.rechar("Type: ")
+        self.detail_info += se.Text(poke.type.name.capitalize(),
+                                    esccode=poke.type.color) + se.Text((f"""
+HP: {poke.hp}
+Attack: {poke.atc}
+Defense: {poke.defense}
+Initiative: {poke.initiative}"""))
+        with self.detail_box.center_add(self.map):
+            while True:
+                if ev in ["'e'", "Key.esc", "'q'"]:
+                    ev = ""
+                    break
+                std_loop()
+                time.sleep(0.05)
+                self.map.show()
+        self.detail_box.rem_ob(poke.ico)
+
+
+    def __call__(self, pokes):
+        global ev
+        ev = ""
+        self.idx = 0
+
+        p_dict = {i[1]: i[-1] for i in
+            sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
+        self.obs = [se.Text(f"{i+1} {p_dict[poke]['name'] if poke in caught_poketes else '???'}", state="float")
+                for i, poke in enumerate(p_dict)]
+        self.add_c_obs()
+        with self.box.add(self.map, self.map.width-self.box.width, 0):
+            while True:
+                for event, idx, n_idx, add, idx_2 in zip(["'s'", "'w'"],
+                        [len(self.box.c_obs)-1, 0], [0, self.box.height-3],
+                        [1, -1], [-1, 0]):
+                    if ev == event and self.box.index.index == idx:
+                        if self.box.c_obs[self.box.index.index] != self.obs[idx_2]:
+                            self.rem_c_obs()
+                            self.idx += add
+                            self.add_c_obs()
+                            self.box.set_index(n_idx)
+                        ev = ""
+                if ev == "Key.enter":
+                    if "???" not in self.box.c_obs[self.box.index.index].text:
+                        self.detail(list(p_dict)[self.idx*(self.box.height-2)+self.box.index.index])
+                    ev = ""
+                elif ev in ["'s'", "'w'"]:
+                    self.box.input(ev)
+                    ev = ""
+                elif ev in ["'e'", "Key.esc", "'q'"]:
+                    ev = ""
+                    break
+                std_loop()
+                time.sleep(0.05)
+                self.map.show()
+            self.rem_c_obs()
+
+
 # General use functions
 #######################
 
@@ -1649,9 +1735,9 @@ def game(map):
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in ["'1'", "'3'", "'4'", "'e'"]:
+        if ev in ["'1'", "'3'", "'4'", "'5'", "'e'"]:
             exec({"'1'": 'deck(figure.pokes[:6], "Your deck")',
-                    "'3'": 'roadmap()', "'4'": 'inv()', "'e'": 'menu()'}[ev])
+                    "'3'": 'roadmap()', "'4'": 'inv()', "'5'": 'pokete_dex(pokes)', "'e'": 'menu()'}[ev])
             ev = ""
             movemap.show(init=True)
         elif ev == "'2'":
@@ -1904,7 +1990,7 @@ movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = Figure("a")
 exclamation = se.Object("!")
 multitext = OutP("", state="float")
-movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.")
+movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex")
 movemap.code_label = OutP("")
 
 
@@ -1916,6 +2002,7 @@ movemap.code_label = OutP("")
 gen_obs()
 # side fn definitions
 detail = Detail()
+pokete_dex = Dex(movemap)
 roadmap = RoadMap(stations)
 deck = Deck()
 menu = Menu()
