@@ -1087,7 +1087,7 @@ When walking into the hight grass (';') you may get attacked
 by wild Poketes, those can be killed or weakened and caught.
 NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
-HowToPlay.md
+https://git.io/JRRqe
 """
         self.box = InfoBox(self.help_text, self.map)
         self.box.name_label.rechar("Help") 
