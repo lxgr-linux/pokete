@@ -1074,6 +1074,25 @@ Initiative: {poke.initiative}"""))
             self.rem_c_obs()
 
 
+class Help(About):
+    def __init__(self, map):
+        self.map = map
+        self.help_text = """
+Controls:
+'w':up, 'a':left, 
+'s':down, 'd':right
+
+When walking into the hight grass (';') you may get attacked
+by wild Poketes, those can be killed or weakened and caught.
+NPCs will talk to you when walking up to them.
+For more information about how to play this game, check out
+HowToPlay.md
+"""
+        self.box = InfoBox(self.help_text, self.map)
+        self.box.name_label.rechar("Help") 
+        self.box.info_label.rechar("q:close")
+
+
 # General use functions
 #######################
 
