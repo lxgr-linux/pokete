@@ -1,3 +1,22 @@
+0.4.1
+------
+released: 2021-08-08
+
+What changed until this release?
+- Added EffectFreezing
+- Added ice Poketes and attacks
+- Added some more new Poketes and attacks
+- Added shiny Poketes
+- Outsourced all map information to maps.py
+- Added verison checking to warn baout data loss when downgrading
+- Sorted the Poketes and attacks in the wiki by types
+- Fixed the effectivity of EffectBurning
+- Fixed logic bug in most effects, so that some types are not affected by some effects
+- Added Pokete dex for the user to keep track of all pokete 'races' thay have ever caught regardless of wether or not the Poketes are in the deck or not
+- Cleaned up save file to be more readable for humans
+- Changed development flow
+
+
 0.4.0
 ------
 released: 2021-08-01
