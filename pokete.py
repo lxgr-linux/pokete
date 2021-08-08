@@ -1080,7 +1080,8 @@ class Help(About):
         self.help_text = """
 Controls:
 'w':up, 'a':left, 
-'s':down, 'd':right
+'s':down, 'd':right,
+'e':menu
 
 When walking into the hight grass (';') you may get attacked
 by wild Poketes, those can be killed or weakened and caught.
