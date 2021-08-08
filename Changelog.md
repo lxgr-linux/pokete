@@ -4,7 +4,7 @@ released: 2021-08-08
 
 What changed until this release?
 - Added [EffectFreezing](wiki.md#freezing)
-- Added ice Poketes ([Cubl](wiki.md#cubl) [Spikl](wiki.md#spikl)) and attacks ([freeze](wiki.md#freeze), [Snow storm](wiki.md#snow-storm), [Sword of ice](wiki.md#sword-of-ice))
+- Added ice Poketes ([Cubl](wiki.md#cubl), [Spikl](wiki.md#spikl)) and attacks ([freeze](wiki.md#freeze), [Snow storm](wiki.md#snow-storm), [Sword of ice](wiki.md#sword-of-ice))
 - Added some more new Poketes ([Confuso](wiki.md#confuso), [Poisopla](wiki.md#poisopla)) and attacks ([Confusion](wiki.md#confusion), [Posion spores](wiki.md#poison-spores), [Root slap](wiki.md#root-slap))
 - Added shiny Poketes
 - Outsourced all map information to maps.py
