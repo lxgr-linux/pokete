@@ -76,7 +76,7 @@ For additional information you can see [wiki](wiki.md).
 - [x] Add potions
 - [x] Add Intro
 - [x] Add trading
-- [ ] Add Poketedex
+- [x] Add Poketedex
 - [x] Effects
 - [x] Add color codes for types
 
@@ -93,7 +93,7 @@ New Pokete contributions are especially welcome, those are located in /pokete_da
 
 After adding new Poketes and/or Attacks you may want to run
 ```shell
-$ gen-wiki.py
+$ ./gen-wiki.py
 ```
 
 to regenerate the wiki and adding them to it.
