@@ -501,6 +501,14 @@ class Figure(se.Object):
             cls.money_label.rechar(str(self.__money)+"$")
             cls.box.set_ob(cls.money_label, cls.box.width-2-len(cls.money_label.text), 0)
 
+    def add_poke(self, poke, idx=None):
+        poke.set_player(True)
+        caught_poketes.append(poke.identifier)
+        if idx is None:
+            self.pokes.append(poke)
+        else:
+            self.pokes[idx] = poke
+
     def give_item(self, item, amount=1):
         assert amount > 0, "Amounts have to be positive"
         if item not in self.inv:
@@ -1346,14 +1354,11 @@ def fight_throw(obj, enem, info, chance, name):
     if random.choices([True, False],
                     weights=[(enem.full_hp/enem.hp)*chance+catch_chance,
                     enem.full_hp], k=1)[0]:
-        enem.set_player(True)
-        figure.pokes.append(enem)
+        figure.add_poke(enem)
         fightmap.outp.outp(f"You catched {enem.name}")
         time.sleep(2)
         pball.remove()
         fight_clean_up(obj, enem)
-        if enem.identifier not in caught_poketes:
-            caught_poketes.append(enem.identifier)
         balls_label_rechar()
         return 2
     else:
@@ -1463,10 +1468,8 @@ def playmap_20_trader():
         index = deck(figure.pokes[:6], "Your deck", True)
         if index is None:
             return
-        figure.pokes[index] = Poke("ostri", 500)
+        figure.add_poke(Poke("ostri", 500), index)
         used_npcs.append(playmap_20.trader_2.name)
-        if "ostri" not in caught_poketes:
-            caught_poketes.append("ostri")
         with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.", movemap):
             time.sleep(3)
         movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y, [" < Cool, huh?"])
@@ -1524,15 +1527,13 @@ def swap_poke():
             s.sendall(str.encode(str({"name": figure.name, "poke": figure.pokes[index].dict()})))
             data = s.recv(1024)
             decode_data = eval(data.decode())
-    figure.pokes[index] = Poke(decode_data["poke"]["name"],
-                                decode_data["poke"]["xp"],
-                                decode_data["poke"]["hp"])
+    figure.add_poke(Poke(decode_data["poke"]["name"],
+                        decode_data["poke"]["xp"],
+                        decode_data["poke"]["hp"]), index)
     figure.pokes[index].set_ap(decode_data["poke"]["ap"])
     save()  # to avoid duping
     with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.", movemap):
         time.sleep(3)
-    if figure.pokes[index].identifier not in caught_poketes:
-        caught_poketes.append(figure.pokes[index].identifier)
 
 
 def ask_bool(map, text):
