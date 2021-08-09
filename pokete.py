@@ -1747,6 +1747,10 @@ def game(map):
     movemap.set(0, 0)
     movemap.bmap = map
     movemap.full_show()
+    inp_dict = {"'1'": 'deck(figure.pokes[:6], "Your deck")',
+                    "'3'": 'roadmap()', "'4'": 'inv()', 
+                    "'5'": 'pokete_dex(pokes)', "'e'": 'menu()',
+                    "'?'": 'help_page()'} 
     while True:
         for name, dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
                                     ["t", "l", "b", "r"],
@@ -1755,11 +1759,8 @@ def game(map):
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in ["'1'", "'3'", "'4'", "'5'", "'e'", "'?'"]:
-            exec({"'1'": 'deck(figure.pokes[:6], "Your deck")',
-                    "'3'": 'roadmap()', "'4'": 'inv()', 
-                    "'5'": 'pokete_dex(pokes)', "'e'": 'menu()',
-                    "'?'": 'help_page()'}[ev])
+        if ev in inp_dict:
+            exec(inp_dict[ev])
             ev = ""
             movemap.show(init=True)
         elif ev == "'2'":
