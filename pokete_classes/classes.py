@@ -118,5 +118,23 @@ class ResizeScreen():
         return width, height
 
 
+class LoadingScreen():
+    def __init__(self, ver):
+        width, height = os.get_terminal_size()
+        self.map = se.Map(background=" ", width=width, height=height-1)
+        se.Text(r""" _____      _        _
+|  __ \    | |      | |
+| |__) |__ | | _____| |_ ___
+|  ___/ _ \| |/ / _ \ __/ _ \
+| |  | (_) |   <  __/ ||  __/
+|_|   \___/|_|\_\___|\__\___|""", state="float").add(self.map,
+                int(self.map.width/2)-15, int(self.map.height/2)-4)
+        se.Text(f"v{ver}", state="float").add(self.map,
+                int(self.map.width/2)-15, int(self.map.height/2)+2)
+
+    def __call__(self):
+        self.map.show()
+
+
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

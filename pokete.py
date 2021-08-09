@@ -1852,10 +1852,11 @@ def check_version(sinfo):
     else:
         ver = sinfo["ver"]
     if __version__ != ver and sort_vers([__version__, ver])[-1] == ver:
-        if not ask_bool(loading_screen, liner(f"The save file was created \
+        if not ask_bool(loading_screen.map, 
+                        liner(f"The save file was created \
 on version '{ver}', the current version is '{__version__}', \
 such a downgrade may result in data loss! \
-Do you want to continue?", int(movemap.width*2/3))):
+Do you want to continue?", int(width*2/3))):
             exiter()
 
 
@@ -1910,20 +1911,8 @@ __t = time.time()
 tss = ResizeScreen()
 width, height = tss()
 # loading screen
-loading_screen = se.Map(background=" ", width=width, height=height-1)
-se.Text(r""" _____      _        _
-|  __ \    | |      | |
-| |__) |__ | | _____| |_ ___
-|  ___/ _ \| |/ / _ \ __/ _ \
-| |  | (_) |   <  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|""", state="float").add(loading_screen,
-                                    int(loading_screen.width/2)-15,
-                                    int(loading_screen.height/2)-4)
-se.Text(f"v{__version__}", state="float").add(loading_screen,
-                                int(loading_screen.width/2)-15,
-                                int(loading_screen.height/2)+2)
-loading_screen.show()
-
+loading_screen = LoadingScreen(__version__)
+loading_screen()
 # types
 for i in types:
     exec(i+" = PokeType(i, **types[i])")
