@@ -1907,30 +1907,8 @@ else:
 
 __t = time.time()
 # resizing screen
-width, height = os.get_terminal_size()
-tss = se.Map(background=" ")
-tss.warning_label = se.Text("Minimum windowsize is 70x20")
-tss.size_label = se.Text(f"{width}x{height}")
-tss.frame = se.Frame(width=width, height=height-1,
-                    corner_chars=["┌", "┐", "└", "┘"],
-                    horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
-
-tss.warning_label.add(tss, int(tss.width/2)-13, int(tss.height/2)-1)
-tss.size_label.add(tss, 1, 0)
-tss.frame.add(tss, 0, 0)
-while width < 70 or height < 20:
-    width, height = os.get_terminal_size()
-    tss.warning_label.set(1, 1)
-    tss.frame.remove()
-    tss.resize(height-1, width, " ")
-    tss.warning_label.set(int(tss.width/2)-13, int(tss.height/2)-1)
-    tss.size_label.rechar(f"{width}x{height}")
-    tss.frame = se.Frame(width=width, height=height-1,
-                        corner_chars=["┌", "┐", "└", "┘"],
-                        horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
-    tss.frame.add(tss, 0, 0)
-    tss.show()
-
+tss = ResizeScreen()
+width, height = tss()
 # loading screen
 loading_screen = se.Map(background=" ", width=width, height=height-1)
 se.Text(r""" _____      _        _
