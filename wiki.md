@@ -125,7 +125,6 @@ In the following all Poketes with their attributes are displayed.
 #### Electrode
 A small floating ball that will give you a shock.
 
-
 ```
            
     (+)    
@@ -151,7 +150,6 @@ A small floating ball that will give you a shock.
 #### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
-
 ```
    ^---^   
    (* *)   
@@ -176,7 +174,6 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
 #### Wolfiro
 A fiery wolf from hell on steroids.
-
 
 ```
    \^-^/   
@@ -204,7 +201,6 @@ A fiery wolf from hell on steroids.
 #### Bato
 An annoying flying rat.
 
-
 ```
     ___    
 WW\/* *\/WW
@@ -228,7 +224,6 @@ WW\/* *\/WW
 
 #### Bator
 A chongus flying rat.
-
 
 ```
     ___    
@@ -256,7 +251,6 @@ WW\/o o\/WW
 #### Ostri
 A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
 
-
 ```
    !       
   >´)      
@@ -281,7 +275,6 @@ A very agressive bird Pokete that lives near deserts and will try to pick out yo
 
 #### Owol
 A night active Pokete, that is looking for lil children as a midnight snack.
-
 
 ```
    ,___,   
@@ -308,7 +301,6 @@ A night active Pokete, that is looking for lil children as a midnight snack.
 #### Vogli
 A very common bird Pokete that lives everywhere.
 
-
 ```
     A      
    <')     
@@ -332,7 +324,6 @@ A very common bird Pokete that lives everywhere.
 
 #### Voglo
 A very agressive bird Pokete that can only be found in the woods.
-
 
 ```
     ?      
@@ -360,7 +351,6 @@ A very agressive bird Pokete that can only be found in the woods.
 #### Rollator
 A big chunck of stone and dirt, that roles around.
 
-
 ```
    _____   
   / o o \  
@@ -384,7 +374,6 @@ A big chunck of stone and dirt, that roles around.
 ### Ice Poketes
 #### Cubl
 A small ice cube.
-
 
 ```
   /-----\  
@@ -410,7 +399,6 @@ A small ice cube.
 
 #### Spikl
 A block of ice.
-
 
 ```
  /-------\ 
@@ -438,7 +426,6 @@ A block of ice.
 #### Choka
 A fucking dangerous and enormous snake pokete.
 
-
 ```
  _______   
 /____ * \  
@@ -465,7 +452,6 @@ A fucking dangerous and enormous snake pokete.
 #### Hornita
 An majestetic horse that is always looking for something to pick with its horn.
 
-
 ```
  \         
  =')~      
@@ -491,7 +477,6 @@ An majestetic horse that is always looking for something to pick with its horn.
 #### Horny
 A teenaged unicorn in the middle of puberty.
 
-
 ```
   ,        
  =')       
@@ -516,7 +501,6 @@ A teenaged unicorn in the middle of puberty.
 #### Rato
 An annoying rat.
 
-
 ```
    ^---^   
    \o o/   
@@ -540,7 +524,6 @@ An annoying rat.
 
 #### Würgos
 A dangerous snake Pokete.
-
 
 ```
   >'({{{   
@@ -567,7 +550,6 @@ A dangerous snake Pokete.
 #### Bushy
 A bush, and just a bush. But watch out!
 
-
 ```
            
     (()    
@@ -591,7 +573,6 @@ A bush, and just a bush. But watch out!
 
 #### Poisopla
 A unsuspicious plant.
-
 
 ```
            
@@ -618,7 +599,6 @@ A unsuspicious plant.
 #### Rosi
 A plant Pokete, that's often mistaken for a normal flower.
 
-
 ```
            
     (@)    
@@ -642,7 +622,6 @@ A plant Pokete, that's often mistaken for a normal flower.
 
 #### Treenator
 A scary an dangerous apple tree.
-
 
 ```
     (()    
@@ -670,7 +649,6 @@ A scary an dangerous apple tree.
 #### Bigstone
 A big and heavy stone made from one of the hardest stones.
 
-
 ```
 +---------+
 |  o   o  |
@@ -695,7 +673,6 @@ A big and heavy stone made from one of the hardest stones.
 
 #### Lilstone
 A small but powerfull stone Pokete that lives in the mountains.
-
 
 ```
            
@@ -722,7 +699,6 @@ A small but powerfull stone Pokete that lives in the mountains.
 #### Poundi
 A powerfull and heavy stone Pokete that lives in mountain caves.
 
-
 ```
    A-A-A   
   < o o >  
@@ -748,7 +724,6 @@ A powerfull and heavy stone Pokete that lives in mountain caves.
 #### Steini
 A squared stone that can casually be found on the ground.
 
-
 ```
  +-------+ 
  | o   o | 
@@ -773,7 +748,6 @@ A squared stone that can casually be found on the ground.
 ### Undead Poketes
 #### Angrilo
 A ghost Pokete that will scare your pants off.
-
 
 ```
  .░░░░░░░. 
@@ -801,7 +775,6 @@ A ghost Pokete that will scare your pants off.
 #### Confuso
 A ball floating around in dark woods and caves, that will confuse the shit out of you.
 
-
 ```
        }}  
      _{{   
@@ -824,7 +797,6 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 
 #### Gobost
 A scary ghost Pokete that lives in caves and old houses.
-
 
 ```
  .░░░░░░░. 
@@ -851,7 +823,6 @@ A scary ghost Pokete that lives in caves and old houses.
 #### Blub
 Very delicious and low fat water Pokete.
 
-
 ```
   _____    
  / o   \   
@@ -877,7 +848,6 @@ Very delicious and low fat water Pokete.
 #### Clampi
 A shell that lives deep in the see or near bays, that's pretty hard to crack.
 
-
 ```
     ___    
   -/ * \-  
@@ -902,7 +872,6 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
 
 #### Karpi
 A very harmless water Pokete that can be found everywhere.
-
 
 ```
            
