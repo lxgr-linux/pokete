@@ -685,7 +685,7 @@ WW\/o o\/WW
             "esc": None},
             {
             "txt": """        }
-      (
+      {
        }""",
             "esc": "Color.purple"},
             {
