@@ -1074,6 +1074,26 @@ Initiative: {poke.initiative}"""))
             self.rem_c_obs()
 
 
+class Help(About):
+    def __init__(self, map):
+        self.map = map
+        self.help_text = """
+Controls:
+'w':up, 'a':left, 
+'s':down, 'd':right,
+'e':menu
+
+When walking into the high grass (';') you may get attacked
+by wild Poketes, those can be killed or weakened and caught.
+NPCs will talk to you when walking up to them.
+For more information about how to play this game, check out
+https://git.io/JRRqe
+"""
+        self.box = InfoBox(self.help_text, self.map)
+        self.box.name_label.rechar("Help") 
+        self.box.info_label.rechar("q:close")
+
+
 # General use functions
 #######################
 
@@ -1735,9 +1755,11 @@ def game(map):
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in ["'1'", "'3'", "'4'", "'5'", "'e'"]:
+        if ev in ["'1'", "'3'", "'4'", "'5'", "'e'", "'?'"]:
             exec({"'1'": 'deck(figure.pokes[:6], "Your deck")',
-                    "'3'": 'roadmap()', "'4'": 'inv()', "'5'": 'pokete_dex(pokes)', "'e'": 'menu()'}[ev])
+                    "'3'": 'roadmap()', "'4'": 'inv()', 
+                    "'5'": 'pokete_dex(pokes)', "'e'": 'menu()',
+                    "'?'": 'help_page()'}[ev])
             ev = ""
             movemap.show(init=True)
         elif ev == "'2'":
@@ -1990,7 +2012,7 @@ movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
 figure = Figure("a")
 exclamation = se.Object("!")
 multitext = OutP("", state="float")
-movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex")
+movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
 movemap.code_label = OutP("")
 
 
@@ -2003,6 +2025,7 @@ gen_obs()
 # side fn definitions
 detail = Detail()
 pokete_dex = Dex(movemap)
+help_page = Help(movemap)  # It's called help_page and not help, because I want to stop shadowing buildins
 roadmap = RoadMap(stations)
 deck = Deck()
 menu = Menu()
