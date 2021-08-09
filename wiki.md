@@ -804,7 +804,7 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 
 ```ico
        }}  
-     _{{   
+     _({   
     (_)}   
            
 
