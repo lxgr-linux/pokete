@@ -61,7 +61,7 @@ In the following all Poketes with their attributes are displayed.
 {pokes[poke]["desc"]}
 
 
-```ico
+```
 {ico}
 ```
 
