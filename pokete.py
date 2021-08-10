@@ -5,6 +5,7 @@
 # New Pokete contributions are especially welcome
 # For this see the comments in the definations area
 # You can contribute here: https://github.com/lxgr-linux/pokete
+# Thanks to MaFeLP for your code review and your great feedback
 
 import random
 import time
