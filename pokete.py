@@ -19,9 +19,8 @@ import scrap_engine as se
 from pokete_data import *
 from pokete_classes import *
 from pokete_general_use_fns import *
+from release import *
 
-__version__ = "0.4.1"
-__save_path__ = "/.cache/pokete"
 
 # Class definition
 ##################
@@ -954,7 +953,7 @@ class Menu:
 
 class About:
     def __init__(self):
-        self.box = InfoBox(liner(f"Pokete v{__version__}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
+        self.box = InfoBox(liner(f"Pokete v{VERSION}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
 
     def __call__(self):
         global ev
@@ -1129,7 +1128,7 @@ def autosave():
 def save():
     session_info = {
         "user": figure.name,
-        "ver": __version__,
+        "ver": VERSION,
         "map": figure.map.name,
         "oldmap": figure.oldmap.name,
         "x": figure.x,
@@ -1141,7 +1140,7 @@ def save():
         "caught_poketes": list(dict.fromkeys(caught_poketes + [i.identifier for i in figure.pokes])),
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
-    with open(home+__save_path__+"/pokete.py", "w+") as file:
+    with open(home+SAVEPATH+"/pokete.py", "w+") as file:
         # writes the data to the save file in a nice format
         file.write(f"session_info = {pp.pformat(session_info, sort_dicts=False)}")
 
@@ -1851,10 +1850,10 @@ def check_version(sinfo):
         return
     else:
         ver = sinfo["ver"]
-    if __version__ != ver and sort_vers([__version__, ver])[-1] == ver:
+    if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
         if not ask_bool(loading_screen.map, 
                         liner(f"The save file was created \
-on version '{ver}', the current version is '{__version__}', \
+on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
 Do you want to continue?", int(width*2/3))):
             exiter()
@@ -1911,7 +1910,7 @@ __t = time.time()
 tss = ResizeScreen()
 width, height = tss()
 # loading screen
-loading_screen = LoadingScreen(__version__)
+loading_screen = LoadingScreen(VERSION)
 loading_screen()
 # types
 for i in types:
@@ -1919,12 +1918,12 @@ for i in types:
 
 # reading config file
 home = str(Path.home())
-Path(home+__save_path__).mkdir(parents=True, exist_ok=True)
-Path(home+__save_path__+"/pokete.py").touch(exist_ok=True)
+Path(home+SAVEPATH).mkdir(parents=True, exist_ok=True)
+Path(home+SAVEPATH+"/pokete.py").touch(exist_ok=True)
 # Default test session_info
 session_info = {
     "user": "DEFAULT",
-    "ver": __version__,
+    "ver": VERSION,
     "map": "intromap",
     "oldmap": "playmap_1",
     "x": 4,
@@ -1937,7 +1936,7 @@ session_info = {
     "caught_poketes": ["steini"],
     "used_npcs": []
 }
-with open(home+__save_path__+"/pokete.py") as file:
+with open(home+SAVEPATH+"/pokete.py") as file:
     exec(file.read())
 
 if "settings" in session_info:
