@@ -19,9 +19,8 @@ import scrap_engine as se
 from pokete_data import *
 from pokete_classes import *
 from pokete_general_use_fns import *
+from release import *
 
-__version__ = "0.4.1"
-__save_path__ = "/.cache/pokete"
 
 # Class definition
 ##################
@@ -501,6 +500,14 @@ class Figure(se.Object):
             cls.money_label.rechar(str(self.__money)+"$")
             cls.box.set_ob(cls.money_label, cls.box.width-2-len(cls.money_label.text), 0)
 
+    def add_poke(self, poke, idx=None):
+        poke.set_player(True)
+        caught_poketes.append(poke.identifier)
+        if idx is None:
+            self.pokes.append(poke)
+        else:
+            self.pokes[idx] = poke
+
     def give_item(self, item, amount=1):
         assert amount > 0, "Amounts have to be positive"
         if item not in self.inv:
@@ -946,7 +953,7 @@ class Menu:
 
 class About:
     def __init__(self):
-        self.box = InfoBox(liner(f"Pokete v{__version__}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
+        self.box = InfoBox(liner(f"Pokete v{VERSION}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
 
     def __call__(self):
         global ev
@@ -1121,7 +1128,7 @@ def autosave():
 def save():
     session_info = {
         "user": figure.name,
-        "ver": __version__,
+        "ver": VERSION,
         "map": figure.map.name,
         "oldmap": figure.oldmap.name,
         "x": figure.x,
@@ -1133,7 +1140,7 @@ def save():
         "caught_poketes": list(dict.fromkeys(caught_poketes + [i.identifier for i in figure.pokes])),
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
-    with open(home+__save_path__+"/pokete.py", "w+") as file:
+    with open(home+SAVEPATH+"/pokete.py", "w+") as file:
         # writes the data to the save file in a nice format
         file.write(f"session_info = {pp.pformat(session_info, sort_dicts=False)}")
 
@@ -1346,14 +1353,11 @@ def fight_throw(obj, enem, info, chance, name):
     if random.choices([True, False],
                     weights=[(enem.full_hp/enem.hp)*chance+catch_chance,
                     enem.full_hp], k=1)[0]:
-        enem.set_player(True)
-        figure.pokes.append(enem)
+        figure.add_poke(enem)
         fightmap.outp.outp(f"You catched {enem.name}")
         time.sleep(2)
         pball.remove()
         fight_clean_up(obj, enem)
-        if enem.identifier not in caught_poketes:
-            caught_poketes.append(enem.identifier)
         balls_label_rechar()
         return 2
     else:
@@ -1463,10 +1467,8 @@ def playmap_20_trader():
         index = deck(figure.pokes[:6], "Your deck", True)
         if index is None:
             return
-        figure.pokes[index] = Poke("ostri", 500)
+        figure.add_poke(Poke("ostri", 500), index)
         used_npcs.append(playmap_20.trader_2.name)
-        if "ostri" not in caught_poketes:
-            caught_poketes.append("ostri")
         with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.", movemap):
             time.sleep(3)
         movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y, [" < Cool, huh?"])
@@ -1524,15 +1526,13 @@ def swap_poke():
             s.sendall(str.encode(str({"name": figure.name, "poke": figure.pokes[index].dict()})))
             data = s.recv(1024)
             decode_data = eval(data.decode())
-    figure.pokes[index] = Poke(decode_data["poke"]["name"],
-                                decode_data["poke"]["xp"],
-                                decode_data["poke"]["hp"])
+    figure.add_poke(Poke(decode_data["poke"]["name"],
+                        decode_data["poke"]["xp"],
+                        decode_data["poke"]["hp"]), index)
     figure.pokes[index].set_ap(decode_data["poke"]["ap"])
     save()  # to avoid duping
     with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.", movemap):
         time.sleep(3)
-    if figure.pokes[index].identifier not in caught_poketes:
-        caught_poketes.append(figure.pokes[index].identifier)
 
 
 def ask_bool(map, text):
@@ -1747,6 +1747,10 @@ def game(map):
     movemap.set(0, 0)
     movemap.bmap = map
     movemap.full_show()
+    inp_dict = {"'1'": 'deck(figure.pokes[:6], "Your deck")',
+                    "'3'": 'roadmap()', "'4'": 'inv()', 
+                    "'5'": 'pokete_dex(pokes)', "'e'": 'menu()',
+                    "'?'": 'help_page()'} 
     while True:
         for name, dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
                                     ["t", "l", "b", "r"],
@@ -1755,11 +1759,8 @@ def game(map):
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in ["'1'", "'3'", "'4'", "'5'", "'e'", "'?'"]:
-            exec({"'1'": 'deck(figure.pokes[:6], "Your deck")',
-                    "'3'": 'roadmap()', "'4'": 'inv()', 
-                    "'5'": 'pokete_dex(pokes)', "'e'": 'menu()',
-                    "'?'": 'help_page()'}[ev])
+        if ev in inp_dict:
+            exec(inp_dict[ev])
             ev = ""
             movemap.show(init=True)
         elif ev == "'2'":
@@ -1849,11 +1850,12 @@ def check_version(sinfo):
         return
     else:
         ver = sinfo["ver"]
-    if __version__ != ver and sort_vers([__version__, ver])[-1] == ver:
-        if not ask_bool(loading_screen, liner(f"The save file was created \
-on version '{ver}', the current version is '{__version__}', \
+    if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
+        if not ask_bool(loading_screen.map, 
+                        liner(f"The save file was created \
+on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
-Do you want to continue?", int(movemap.width*2/3))):
+Do you want to continue?", int(width*2/3))):
             exiter()
 
 
@@ -1905,57 +1907,23 @@ else:
 
 __t = time.time()
 # resizing screen
-width, height = os.get_terminal_size()
-tss = se.Map(background=" ")
-tss.warning_label = se.Text("Minimum windowsize is 70x20")
-tss.size_label = se.Text(f"{width}x{height}")
-tss.frame = se.Frame(width=width, height=height-1,
-                    corner_chars=["┌", "┐", "└", "┘"],
-                    horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
-
-tss.warning_label.add(tss, int(tss.width/2)-13, int(tss.height/2)-1)
-tss.size_label.add(tss, 1, 0)
-tss.frame.add(tss, 0, 0)
-while width < 70 or height < 20:
-    width, height = os.get_terminal_size()
-    tss.warning_label.set(1, 1)
-    tss.frame.remove()
-    tss.resize(height-1, width, " ")
-    tss.warning_label.set(int(tss.width/2)-13, int(tss.height/2)-1)
-    tss.size_label.rechar(f"{width}x{height}")
-    tss.frame = se.Frame(width=width, height=height-1,
-                        corner_chars=["┌", "┐", "└", "┘"],
-                        horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
-    tss.frame.add(tss, 0, 0)
-    tss.show()
-
+tss = ResizeScreen()
+width, height = tss()
 # loading screen
-loading_screen = se.Map(background=" ", width=width, height=height-1)
-se.Text(r""" _____      _        _
-|  __ \    | |      | |
-| |__) |__ | | _____| |_ ___
-|  ___/ _ \| |/ / _ \ __/ _ \
-| |  | (_) |   <  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|""", state="float").add(loading_screen,
-                                    int(loading_screen.width/2)-15,
-                                    int(loading_screen.height/2)-4)
-se.Text(f"v{__version__}", state="float").add(loading_screen,
-                                int(loading_screen.width/2)-15,
-                                int(loading_screen.height/2)+2)
-loading_screen.show()
-
+loading_screen = LoadingScreen(VERSION)
+loading_screen()
 # types
 for i in types:
     exec(i+" = PokeType(i, **types[i])")
 
 # reading config file
 home = str(Path.home())
-Path(home+__save_path__).mkdir(parents=True, exist_ok=True)
-Path(home+__save_path__+"/pokete.py").touch(exist_ok=True)
+Path(home+SAVEPATH).mkdir(parents=True, exist_ok=True)
+Path(home+SAVEPATH+"/pokete.py").touch(exist_ok=True)
 # Default test session_info
 session_info = {
     "user": "DEFAULT",
-    "ver": __version__,
+    "ver": VERSION,
     "map": "intromap",
     "oldmap": "playmap_1",
     "x": 4,
@@ -1968,7 +1936,7 @@ session_info = {
     "caught_poketes": ["steini"],
     "used_npcs": []
 }
-with open(home+__save_path__+"/pokete.py") as file:
+with open(home+SAVEPATH+"/pokete.py") as file:
     exec(file.read())
 
 if "settings" in session_info:

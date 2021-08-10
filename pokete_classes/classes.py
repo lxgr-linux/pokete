@@ -1,4 +1,5 @@
 import scrap_engine as se
+import os
 
 
 class Color:
@@ -84,6 +85,54 @@ class OutP(se.Text):
     def append(self, *args):
         for i in args:
             self += i
+        self.map.show()
+
+
+class ResizeScreen():
+    def __init__(self):
+        width, height = os.get_terminal_size()
+        self.map = se.Map(background=" ")
+        self.warning_label = se.Text("Minimum windowsize is 70x20")
+        self.size_label = se.Text(f"{width}x{height}")
+        self.frame = se.Frame(width=width, height=height-1,
+                    corner_chars=["┌", "┐", "└", "┘"],
+                    horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+        self.warning_label.add(self.map, int(width/2)-13, int(height/2)-1)
+        self.size_label.add(self.map, 1, 0)
+        self.frame.add(self.map, 0, 0)
+
+    def __call__(self):
+        width, height = os.get_terminal_size()
+        while width < 70 or height < 20:
+            width, height = os.get_terminal_size()
+            self.warning_label.set(1, 1)
+            self.frame.remove()
+            self.map.resize(height-1, width, " ")
+            self.warning_label.set(int(width/2)-13, int((height-1)/2)-1)
+            self.size_label.rechar(f"{width}x{height}")
+            self.frame = se.Frame(width=width, height=height-1,
+                        corner_chars=["┌", "┐", "└", "┘"],
+                        horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+            self.frame.add(self.map, 0, 0)
+            self.map.show()
+        return width, height
+
+
+class LoadingScreen():
+    def __init__(self, ver):
+        width, height = os.get_terminal_size()
+        self.map = se.Map(background=" ", width=width, height=height-1)
+        se.Text(r""" _____      _        _
+|  __ \    | |      | |
+| |__) |__ | | _____| |_ ___
+|  ___/ _ \| |/ / _ \ __/ _ \
+| |  | (_) |   <  __/ ||  __/
+|_|   \___/|_|\_\___|\__\___|""", state="float").add(self.map,
+                int(self.map.width/2)-15, int(self.map.height/2)-4)
+        se.Text(f"v{ver}", state="float").add(self.map,
+                int(self.map.width/2)-15, int(self.map.height/2)+2)
+
+    def __call__(self):
         self.map.show()
 
 
