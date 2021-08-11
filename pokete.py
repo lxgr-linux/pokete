@@ -433,7 +433,9 @@ class Station(se.Square):
     def choose(self):
         self.rechar(Color.red+Color.thicc+self.org_char+Color.reset)
         Station.choosen = self
-        roadmap.info_label.rechar(self.associates[0].pretty_name)
+        roadmap.info_label.rechar(self.associates[0].pretty_name if 
+                                    self.has_been_visited() else
+                                    "???")
 
     def unchoose(self):
         self.rechar(self.color+self.org_char+Color.reset)
@@ -445,8 +447,11 @@ class Station(se.Square):
             self.unchoose()
             exec(f"roadmap.{ne}.choose()")
 
+    def has_been_visited(self):
+        return self.associates[0].name in visited_maps
+
     def set_color(self):
-        if self.associates[0].name in visited_maps: 
+        if self.has_been_visited(): 
             self.color = Color.yellow
             self.unchoose() 
 
