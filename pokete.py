@@ -22,6 +22,7 @@ from pokete_classes import *
 from pokete_general_use_fns import *
 from release import *
 
+__t = time.time()
 
 # Class definition
 ##################
@@ -1139,6 +1140,7 @@ def save():
         "money": figure.get_money(),
         "settings": settings.dict(),
         "caught_poketes": list(dict.fromkeys(caught_poketes + [i.identifier for i in figure.pokes])),
+        "startup_time": __t,
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
     with open(home+SAVEPATH+"/pokete.py", "w+") as file:
@@ -1907,7 +1909,6 @@ else:
             with Listener(on_press=on_press) as listener:
                 listener.join()
 
-__t = time.time()
 # resizing screen
 tss = ResizeScreen()
 width, height = tss()
@@ -1936,6 +1937,7 @@ session_info = {
     "inv": {"poketeball": 15, "healing_potion": 1},
     "settings": {},
     "caught_poketes": ["steini"],
+    "startup_time": 0,
     "used_npcs": []
 }
 with open(home+SAVEPATH+"/pokete.py") as file:
