@@ -1756,31 +1756,35 @@ def game(map):
                     "'?'": 'help_page()'} 
     while True:
         for name, dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
-                                    ["t", "l", "b", "r"],
+                                    ["t", "l", "b", "r"],  # Directions are not beening used yet
                                     [0, -1, 0, 1], [-1, 0, 1, 0]):
             if ev == name:
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in inp_dict:
-            exec(inp_dict[ev])
-            ev = ""
-            movemap.show(init=True)
-        elif ev == "'2'":
-            ev = ""
-            if ask_bool(movemap, "Do you realy want to exit?"):
-                save()
-                exiter()
-        elif ev == "':'":
-            ev = ""
-            inp = text_input(movemap.code_label, movemap, ":", movemap.width,
-                            (movemap.width-2)*movemap.height-1)[1:]
-            movemap.code_label.outp(figure.map.pretty_name)
-            codes(inp)
-            ev = ""
+                break
+        else:
+            if ev in inp_dict:
+                exec(inp_dict[ev])
+                ev = ""
+                movemap.show(init=True)
+            elif ev == "'2'":
+                ev = ""
+                if ask_bool(movemap, "Do you realy want to exit?"):
+                    save()
+                    exiter()
+            elif ev == "':'":
+                ev = ""
+                inp = text_input(movemap.code_label, movemap, ":", 
+                                movemap.width,
+                                (movemap.width-2)*movemap.height-1)[1:]
+                movemap.code_label.outp(figure.map.pretty_name)
+                codes(inp)
+                ev = ""
         std_loop()
         map.extra_actions()
-        [trainer.do(map) for trainer in map.trainers]
+        for trainer in map.trainers:
+            trainer.do(map)
         time.sleep(0.05)
         for statement, x, y in zip([figure.x+6 > movemap.x+movemap.width,
                                     figure.x < movemap.x+6,
@@ -1805,7 +1809,9 @@ def intro():
     movemap.bmap = intromap
     movemap.full_show()
     while figure.name in ["DEFAULT", ""]:
-        figure.name = ask_text(movemap, "Welcome to Pokete!\nPlease choose your name!\n", "Name:", "", 17)
+        figure.name = ask_text(movemap, 
+                            "Welcome to Pokete!\nPlease choose your name!\n",
+                            "Name:", "", 17)
     movemap.underline.remove()
     movemap.balls_label.set(0, 1)
     movemap.name_label.rechar(figure.name, esccode=Color.thicc)
