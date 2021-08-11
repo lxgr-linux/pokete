@@ -1139,6 +1139,7 @@ def save():
         "money": figure.get_money(),
         "settings": settings.dict(),
         "caught_poketes": list(dict.fromkeys(caught_poketes + [i.identifier for i in figure.pokes])),
+        "visited_maps": visited_maps,
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
     with open(home+SAVEPATH+"/pokete.py", "w+") as file:
@@ -1744,6 +1745,8 @@ def game(map):
     global ev, width, height
     ev = ""
     print("\033]0;Pokete - "+map.pretty_name+"\a", end="")
+    if map.name not in visited_maps:
+        visited_maps.append(map.name)
     movemap.code_label.rechar(figure.map.pretty_name)
     movemap.set(0, 0)
     movemap.bmap = map
@@ -1935,6 +1938,7 @@ session_info = {
     "inv": {"poketeball": 15, "healing_potion": 1},
     "settings": {},
     "caught_poketes": ["steini"],
+    "visited_maps": ["playmap_1"],
     "used_npcs": []
 }
 with open(home+SAVEPATH+"/pokete.py") as file:
@@ -1954,6 +1958,11 @@ if "caught_poketes" in session_info:
     caught_poketes = session_info["caught_poketes"]
 else:
     caught_poketes = []
+
+if "visited_maps" in session_info:
+    visited_maps = session_info["visited_maps"]
+else:
+    visited_maps = ["playmap_1"]
 
 # comprehending settings
 colors = settings.colors
