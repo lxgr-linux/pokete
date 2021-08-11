@@ -424,6 +424,7 @@ class Station(se.Square):
     def __init__(self, associate, additionals, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
         self.org_char = char
         self.associates = [associate]+[eval(i) for i in additionals]
+        self.color = ""
         super().__init__(char, width, height)
         for i in ["w_next", "a_next", "s_next", "d_next"]:
             exec(f"self.{i}={i}")
@@ -435,7 +436,7 @@ class Station(se.Square):
         roadmap.info_label.rechar(self.associates[0].pretty_name)
 
     def unchoose(self):
-        self.rechar(self.org_char)
+        self.rechar(self.color+self.org_char+Color.reset)
 
     def next(self, ev):
         ev = eval(ev)
@@ -444,6 +445,10 @@ class Station(se.Square):
             self.unchoose()
             exec(f"roadmap.{ne}.choose()")
 
+    def set_color(self):
+        if self.associates[0].name in visited_maps: 
+            self.color = Color.yellow
+            self.unchoose() 
 
 class Figure(se.Object):
     def __init__(self, char, state="solid", arg_proto={}):
@@ -979,6 +984,8 @@ class RoadMap:
     def __call__(self):
         global ev
         ev = ""
+        for i in Station.obs:
+            i.set_color()
         [i for i in Station.obs if (figure.map if figure.map not in [shopmap, centermap] else figure.oldmap) in i.associates][0].choose()
         with self.box.add(movemap, movemap.width-self.box.width, 0):
             while True:
