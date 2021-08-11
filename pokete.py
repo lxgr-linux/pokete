@@ -1766,8 +1766,9 @@ def game(map):
             movemap.show(init=True)
         elif ev == "'2'":
             ev = ""
-            save()
-            exiter()
+            if ask_bool(movemap, "Do you realy want to exit?"):
+                save()
+                exiter()
         elif ev == "':'":
             ev = ""
             inp = text_input(movemap.code_label, movemap, ":", movemap.width,
