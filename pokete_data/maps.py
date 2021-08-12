@@ -266,6 +266,13 @@ maps = {
         "extra_actions": None,
         "poke_args": None
     },
+    "playmap_28": {
+        "height": 55,
+        "width": 200,
+        "pretty_name": "Route 7",
+        "extra_actions": None,
+        "poke_args": None
+    },
 }
 
 
