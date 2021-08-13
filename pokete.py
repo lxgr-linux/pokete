@@ -425,6 +425,7 @@ class Station(se.Square):
     def __init__(self, associate, additionals, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
         self.org_char = char
         self.associates = [associate]+[eval(i) for i in additionals]
+        self.color = ""
         super().__init__(char, width, height)
         for i in ["w_next", "a_next", "s_next", "d_next"]:
             exec(f"self.{i}={i}")
@@ -433,10 +434,12 @@ class Station(se.Square):
     def choose(self):
         self.rechar(Color.red+Color.thicc+self.org_char+Color.reset)
         Station.choosen = self
-        roadmap.info_label.rechar(self.associates[0].pretty_name)
+        roadmap.info_label.rechar(self.associates[0].pretty_name if 
+                                    self.has_been_visited() else
+                                    "???")
 
     def unchoose(self):
-        self.rechar(self.org_char)
+        self.rechar(self.color+self.org_char+Color.reset)
 
     def next(self, ev):
         ev = eval(ev)
@@ -445,6 +448,13 @@ class Station(se.Square):
             self.unchoose()
             exec(f"roadmap.{ne}.choose()")
 
+    def has_been_visited(self):
+        return self.associates[0].name in visited_maps
+
+    def set_color(self):
+        if self.has_been_visited(): 
+            self.color = Color.yellow
+            self.unchoose() 
 
 class Figure(se.Object):
     def __init__(self, char, state="solid", arg_proto={}):
@@ -980,6 +990,8 @@ class RoadMap:
     def __call__(self):
         global ev
         ev = ""
+        for i in Station.obs:
+            i.set_color()
         [i for i in Station.obs if (figure.map if figure.map not in [shopmap, centermap] else figure.oldmap) in i.associates][0].choose()
         with self.box.add(movemap, movemap.width-self.box.width, 0):
             while True:
@@ -1140,6 +1152,7 @@ def save():
         "money": figure.get_money(),
         "settings": settings.dict(),
         "caught_poketes": list(dict.fromkeys(caught_poketes + [i.identifier for i in figure.pokes])),
+        "visited_maps": visited_maps,
         "startup_time": __t,
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
@@ -1761,6 +1774,8 @@ def game(map):
     global ev, width, height
     ev = ""
     print("\033]0;Pokete - "+map.pretty_name+"\a", end="")
+    if map.name not in visited_maps:
+        visited_maps.append(map.name)
     movemap.code_label.rechar(figure.map.pretty_name)
     movemap.set(0, 0)
     movemap.bmap = map
@@ -1959,6 +1974,7 @@ session_info = {
     "inv": {"poketeball": 15, "healing_potion": 1},
     "settings": {},
     "caught_poketes": ["steini"],
+    "visited_maps": ["playmap_1"],
     "startup_time": 0,
     "used_npcs": []
 }
@@ -1979,6 +1995,11 @@ if "caught_poketes" in session_info:
     caught_poketes = session_info["caught_poketes"]
 else:
     caught_poketes = []
+
+if "visited_maps" in session_info:
+    visited_maps = session_info["visited_maps"]
+else:
+    visited_maps = ["playmap_1"]
 
 # comprehending settings
 colors = settings.colors
