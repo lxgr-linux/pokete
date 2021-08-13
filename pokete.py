@@ -22,6 +22,7 @@ from pokete_classes import *
 from pokete_general_use_fns import *
 from release import *
 
+__t = time.time()
 
 # Class definition
 ##################
@@ -1152,6 +1153,7 @@ def save():
         "settings": settings.dict(),
         "caught_poketes": list(dict.fromkeys(caught_poketes + [i.identifier for i in figure.pokes])),
         "visited_maps": visited_maps,
+        "startup_time": __t,
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
     with open(home+SAVEPATH+"/pokete.py", "w+") as file:
@@ -1537,7 +1539,8 @@ def swap_poke():
                 with InfoBox(str(err), movemap):
                     time.sleep(5)
                 return
-            s.sendall(str.encode(str({"name": figure.name, "poke": figure.pokes[index].dict()})))
+            s.sendall(str.encode(str({"name": figure.name, 
+                                    "poke": figure.pokes[index].dict()})))
             data = s.recv(1024)
             decode_data = eval(data.decode())
     figure.add_poke(Poke(decode_data["poke"]["name"],
@@ -1612,14 +1615,18 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     if player.identifier ==  "__fallback__":
         obj, enem = players
     else:
-        enem = sorted(zip([i.initiative for i in players], [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
+        enem = sorted(zip([i.initiative for i in players], 
+                        [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
         obj = [i for i in players if i != enem][-1]
     for i in players:
         for j in i.effects:
             j.readd()
     while True:
         if obj.player:
-            fightmap.outp.append(se.Text(("\n" if "\n" not in fightmap.outp.text else "")+"What do you want to do?", state="float"))
+            fightmap.outp.append(se.Text(("\n" 
+                                    if "\n" not in fightmap.outp.text 
+                                    else "")+
+                                    "What do you want to do?", state="float"))
             if obj.identifier == "__fallback__":
                 time.sleep(1)
                 fightmap.outp.outp("You don't have any living poketes left!")
@@ -1634,8 +1641,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                 fightbox.input(ev)
                                 fightmap.show()
                                 ev = ""
-                            elif ev in [f"'{i+1}'" for i in range(len(obj.attac_obs))]+["Key.enter"]:
-                                attack = obj.attac_obs[fightbox.index.index if ev == "Key.enter" else int(eval(ev))-1]
+                            elif ev in [f"'{i+1}'" for i in 
+                                    range(len(obj.attac_obs))]+["Key.enter"]:
+                                attack = obj.attac_obs[fightbox.index.index 
+                                                    if ev == "Key.enter" 
+                                                    else int(eval(ev))-1]
                                 ev = ""
                                 if attack.ap == 0:
                                     continue
@@ -1709,7 +1719,14 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 time.sleep(0.1)
         else:
             attack = random.choices([i for i in obj.attac_obs],
-                                    weights=[i.ap*((1.5 if enem.type.name in i.type.effective else 0.5 if enem.type.name in i.type.ineffective else 1) if info["type"] == "duel" else 1) for i in obj.attac_obs])[0]
+                            weights=[i.ap*((1.5 
+                                    if enem.type.name in i.type.effective 
+                                    else 0.5 
+                                    if enem.type.name in i.type.ineffective 
+                                    else 1) 
+                                        if info["type"] == "duel" 
+                                        else 1) 
+                                    for i in obj.attac_obs])[0]
         time.sleep(0.3)
         if attack != "":
             obj.attack(attack, enem)
@@ -1769,30 +1786,35 @@ def game(map):
                     "'?'": 'help_page()'} 
     while True:
         for name, dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
-                                    ["t", "l", "b", "r"],
+                                    ["t", "l", "b", "r"],  # Directions are not beening used yet
                                     [0, -1, 0, 1], [-1, 0, 1, 0]):
             if ev == name:
                 figure.direction = dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
-        if ev in inp_dict:
-            exec(inp_dict[ev])
-            ev = ""
-            movemap.show(init=True)
-        elif ev == "'2'":
-            ev = ""
-            save()
-            exiter()
-        elif ev == "':'":
-            ev = ""
-            inp = text_input(movemap.code_label, movemap, ":", movemap.width,
-                            (movemap.width-2)*movemap.height-1)[1:]
-            movemap.code_label.outp(figure.map.pretty_name)
-            codes(inp)
-            ev = ""
+                break
+        else:
+            if ev in inp_dict:
+                exec(inp_dict[ev])
+                ev = ""
+                movemap.show(init=True)
+            elif ev == "'2'":
+                ev = ""
+                if ask_bool(movemap, "Do you realy want to exit?"):
+                    save()
+                    exiter()
+            elif ev == "':'":
+                ev = ""
+                inp = text_input(movemap.code_label, movemap, ":", 
+                                movemap.width,
+                                (movemap.width-2)*movemap.height-1)[1:]
+                movemap.code_label.outp(figure.map.pretty_name)
+                codes(inp)
+                ev = ""
         std_loop()
         map.extra_actions()
-        [trainer.do(map) for trainer in map.trainers]
+        for trainer in map.trainers:
+            trainer.do(map)
         time.sleep(0.05)
         for statement, x, y in zip([figure.x+6 > movemap.x+movemap.width,
                                     figure.x < movemap.x+6,
@@ -1817,7 +1839,9 @@ def intro():
     movemap.bmap = intromap
     movemap.full_show()
     while figure.name in ["DEFAULT", ""]:
-        figure.name = ask_text(movemap, "Welcome to Pokete!\nPlease choose your name!\n", "Name:", "", 17)
+        figure.name = ask_text(movemap, 
+                            "Welcome to Pokete!\nPlease choose your name!\n",
+                            "Name:", "", 17)
     movemap.underline.remove()
     movemap.balls_label.set(0, 1)
     movemap.name_label.rechar(figure.name, esccode=Color.thicc)
@@ -1855,7 +1879,8 @@ def gen_obs():
     # adding all trainer to map
     for i in trainers:
         for j in trainers[i]:
-            eval(i).trainers.append(Trainer(Poke(*j["poke"], player=False), *j["args"]))
+            eval(i).trainers.append(Trainer(Poke(*j["poke"], player=False), 
+                                    *j["args"]))
     for ob_map in map_data:
         for trainer in eval(ob_map).trainers:
             trainer.add(eval(ob_map), trainer.sx, trainer.sy)
@@ -1921,7 +1946,6 @@ else:
             with Listener(on_press=on_press) as listener:
                 listener.join()
 
-__t = time.time()
 # resizing screen
 tss = ResizeScreen()
 width, height = tss()
@@ -1951,6 +1975,7 @@ session_info = {
     "settings": {},
     "caught_poketes": ["steini"],
     "visited_maps": ["playmap_1"],
+    "startup_time": 0,
     "used_npcs": []
 }
 with open(home+SAVEPATH+"/pokete.py") as file:
@@ -1989,13 +2014,17 @@ if not settings.colors:
 # maps
 for ob_map in maps:
     args = maps[ob_map]
-    args["extra_actions"] = eval(args["extra_actions"]) if args["extra_actions"] is not None else None
+    args["extra_actions"] = (eval(args["extra_actions"]) 
+                            if args["extra_actions"] is not None 
+                            else None)
     exec(f'{ob_map} = PlayMap(name = ob_map, **args)')
 
 # Those two maps cant to sourced out, because `height` and `width`
 # are global variables exclusive to pokete.py
-centermap = PlayMap(height-1, width, name = "centermap", pretty_name = "Pokete-Center")
-shopmap = PlayMap(height-1, width, name = "shopmap", pretty_name = "Pokete-Shop")
+centermap = PlayMap(height-1, width, name = "centermap", 
+                    pretty_name = "Pokete-Center")
+shopmap = PlayMap(height-1, width, name = "shopmap", 
+                    pretty_name = "Pokete-Shop")
 
 # movemap
 movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
@@ -2028,7 +2057,8 @@ buy = Buy()
 
 # playmap_1
 playmap_1.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+                    arg_proto={"map": centermap, 
+                                "x": int(centermap.width/2), "y": 7})
 # adding
 playmap_1.dor.add(playmap_1, 25, 4)
 
@@ -2052,17 +2082,21 @@ cave_1.inner = se.Text("""##########################################
 ##############  ##########################
 ##############  ##########################
 ##############  ##########################
-##############  ##########################""", ignore="#", ob_class=HightGrass,
-    ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40, "maxlvl": 128},
+##############  ##########################""", ignore="#", 
+    ob_class=HightGrass,
+    ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40, 
+            "maxlvl": 128},
     state="float")
 # adding
 cave_1.inner.add(cave_1, 0, 0)
 
 # playmap_3
 playmap_3.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+                    arg_proto={"map": centermap, 
+                                "x": int(centermap.width/2), "y": 7})
 playmap_3.shopdor = Dor("#", state="float",
-                        arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+                        arg_proto={"map": shopmap, 
+                                    "x": int(shopmap.width/2), "y": 7})
 # playmap_3.npc = NPC([" < Hey", " < What up?"])
 # adding
 playmap_3.dor.add(playmap_3, 25, 6)
@@ -2071,7 +2105,9 @@ playmap_3.shopdor.add(playmap_3, 61, 6)
 
 # playmap_4
 playmap_4.dor_playmap_5 = ChanceDor("~", state="float",
-                                    arg_proto={"chance": 6, "map": playmap_5, "x": 17, "y": 16})
+                                    arg_proto={"chance": 6, 
+                                                "map": playmap_5, 
+                                                "x": 17, "y": 16})
 playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2084,7 +2120,8 @@ playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
 ~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset,
     ob_class=HightGrass,
-    ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230}, state="float")
+    ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230}, 
+    state="float")
 # adding
 playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
 playmap_4.lake_1.add(playmap_4, 0, 0)
@@ -2117,7 +2154,10 @@ playmap_7.inner = se.Text("""##############################
 ####################  ########
 ##############################""", ignore="#", ob_class=HightGrass,
     ob_args=playmap_7.poke_args, state="float")
-for ob in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not settings.save_trainers]:
+for ob in (playmap_7.inner_walls.obs + playmap_7.trainers + 
+        [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] 
+                if "playmap_7."+i not in used_npcs 
+                or not settings.save_trainers]):
     ob.bchar = ob.char
     ob.rechar(" ")
 # adding
@@ -2146,18 +2186,22 @@ playmap_11.lake_1 =  se.Text("""~~~~~                                           
 ~~~~~~~~~~~~~~~~~~~~~~~~          ~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""", esccode=Color.blue,
-    ignore=Color.blue+" "+Color.reset, ob_class=HightGrass,
-    ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290, "maxlvl": 350},
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""", 
+    esccode=Color.blue, ignore=Color.blue+" "+Color.reset, 
+    ob_class=HightGrass,
+    ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290, 
+            "maxlvl": 350},
     state="float")
 # adding
 playmap_11.lake_1.add(playmap_11, 0, 12)
 
 # playmap_13
 playmap_13.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+                    arg_proto={"map": centermap, 
+                                "x": int(centermap.width/2), "y": 7})
 playmap_13.shopdor = Dor("#", state="float",
-                        arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+                        arg_proto={"map": shopmap, 
+                                    "x": int(shopmap.width/2), "y": 7})
 # adding
 playmap_13.dor.add(playmap_13, 14, 29)
 playmap_13.shopdor.add(playmap_13, 52, 29)
@@ -2171,8 +2215,10 @@ playmap_18.lake_1 =  se.Text("""  ~~
 ~~~~~~~~
 ~~~~~~
  ~~~~
- ~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, ob_class=HightGrass,
-    ob_args={"pokes": ["karpi", "blub", "clampi"], "minlvl": 540, "maxlvl": 640},
+ ~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset, 
+    ob_class=HightGrass,
+    ob_args={"pokes": ["karpi", "blub", "clampi"], 
+            "minlvl": 540, "maxlvl": 640},
     state="float")
 # adding
 playmap_18.lake_1.add(playmap_18, 72, 7)
@@ -2207,17 +2253,21 @@ playmap_19.inner = se.Text("""                         ####
             # #                   ###########
             # #
             # #
-            ###""", ignore="#", ob_class=HightGrass, ob_args=playmap_19.poke_args, state="float")
+            ###""", ignore="#", ob_class=HightGrass, 
+            ob_args=playmap_19.poke_args, state="float")
 # adding
 playmap_19.inner.add(playmap_19, 0, 0)
 
 # playmap_21
 playmap_21.dor_playmap_19 = Dor("_", state="float",
-                                arg_proto={"map": playmap_19, "x": 26, "y": 1})
+                                arg_proto={"map": playmap_19, 
+                                            "x": 26, "y": 1})
 playmap_21.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap, "x": int(centermap.width/2), "y": 7})
+                    arg_proto={"map": centermap, 
+                                "x": int(centermap.width/2), "y": 7})
 playmap_21.shopdor = Dor("#", state="float",
-                        arg_proto={"map": shopmap, "x": int(shopmap.width/2), "y": 7})
+                        arg_proto={"map": shopmap, 
+                                    "x": int(shopmap.width/2), "y": 7})
 playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
@@ -2227,7 +2277,8 @@ playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
     ~~~~~~~~~~~~~~
        ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset,
        ob_class=HightGrass,
-       ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640}, state="float")
+       ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640}, 
+       state="float")
 # adding
 playmap_21.dor_playmap_19.add(playmap_21, 5, 26)
 playmap_21.dor.add(playmap_21, 10, 7)
@@ -2308,10 +2359,12 @@ pball = se.Text(r"""   _____
 fightmap.outp.add(fightmap, 1, fightmap.height-4)
 fightmap.e_underline.add(fightmap, 1, 4)
 fightmap.e_sideline.add(fightmap, len(fightmap.e_underline.text), 1)
-fightmap.p_upperline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text),
+fightmap.p_upperline.add(fightmap, 
+                        fightmap.width-1-len(fightmap.p_upperline.text),
                         fightmap.height-10)
 fightmap.frame_big.add(fightmap, 0, 0)
-fightmap.p_sideline.add(fightmap, fightmap.width-1-len(fightmap.p_upperline.text),
+fightmap.p_sideline.add(fightmap, 
+                        fightmap.width-1-len(fightmap.p_upperline.text),
                         fightmap.height-9)
 fightmap.frame_small.add(fightmap, 0, fightmap.height-5)
 fightmap.label.add(fightmap, 0, fightmap.height-1)
