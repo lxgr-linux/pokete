@@ -4,12 +4,11 @@ import os
 import scrap_engine as se
 from pokete_data import *
 from pokete_classes.effects import *
+import release
 
 def gen_wiki():
-    with open("Changelog.md", "r") as file:
-        ver = file.readline()
+    md_str = f"""v{release.VERSION}
 
-    md_str = f"""v{ver}
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
 This wiki can be generated using ```$ ./gen-wiki.py```.
