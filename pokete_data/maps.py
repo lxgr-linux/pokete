@@ -271,7 +271,11 @@ maps = {
         "width": 200,
         "pretty_name": "Route 7",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": {
+            "pokes": ["poisopla", "treenator", "bushy", "voglo"],
+            "minlvl": 640,
+            "maxlvl": 740
+        }
     },
 }
 
