@@ -57,6 +57,7 @@ stations = {
             "width": 1,
             "height": 3,
             "s_next": "playmap_3",
+            "d_next": "playmap_28"
         },
         "add": {
             "x": 10,
@@ -203,6 +204,18 @@ stations = {
         "add": {
             "x": 18,
             "y": 2
+        }
+    },
+    "playmap_28": {
+        "gen": {
+            "additionals": [],
+            "width": 2,
+            "height": 1,
+            "a_next": "playmap_4",
+        },
+        "add": {
+            "x": 11,
+            "y": 3
         }
     },
 }
