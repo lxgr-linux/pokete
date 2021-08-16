@@ -492,7 +492,7 @@ class Figure(se.Object):
         if "inv" in si:
             self.inv = si["inv"]
         if "money" in si:
-            self.__money = si["money"]
+            self.set_money(si["money"])
         movemap.name_label = se.Text(self.name, esccode=Color.thicc)
         movemap.balls_label = se.Text("", esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
