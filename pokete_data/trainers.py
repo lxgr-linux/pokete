@@ -231,6 +231,37 @@ trainers = {
                 [" < I wish you the best luck on your journey!"], 22, 10)
         },
     ],
+    "playmap_28": [{
+        "poke": ("electrode", 950),
+        "args": ("Steven the big", "He",
+                [" < I don't think you ever met an Electrode!"],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < hups!", " < It's not as great as I thought!"], 36, 47)
+        }, {
+        "poke": ("steini", 850),
+        "args": ("Laurena", "She",
+                [" < I trained my Steini for years to get to this level", " > I will win!"],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < Ohhh nooo!", " < NOT MY STEINI!!!1!!1"], 114, 37)
+        }, {
+        "poke": ("poisopla", 950),
+        "args": ("Laurin", "They",
+                [" < Poisopla is one of the strongest local Poketes!", " < And it will kill your lame Pokete!"],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < It won't be as easy in 'Flowy Town'!"], 141, 23)
+        },
+         {
+        "poke": ("confuso", 900),
+        "args": ("Fucking badass looking dude in the woods", "He",
+                [" < You have to win against my Pokete to enter 'Flowy Town'", " < I guess it'll confuse you!"],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < I wish you the best luck in 'Flowy Town'!"], 190, 8)
+        },
+    ],
 }
 
 
