@@ -6,7 +6,8 @@ from pokete_classes.classes import Color
 class Effect():
     desc = ""
     c_name = ""
-    def __init__(self, name, rem_chance, catch_chance, text, str_esccode="", obj=None, exclude=None):
+    def __init__(self, name, rem_chance, catch_chance, text, str_esccode="", 
+                obj=None, exclude=None):
         self.name = name
         self.rem_chance = rem_chance
         self.catch_chance = catch_chance
@@ -24,15 +25,17 @@ class Effect():
     def add(self, obj):
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f'{obj.ext_name} is not affected by ')
-            obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode,
-                                                state="float"),
+            obj.ico.map.outp.append(se.Text(self.name, 
+                                            esccode=self.str_esccode,
+                                            state="float"),
                                         se.Text("!", state="float"))
         elif all(type(i) is not type(self) for i in obj.effects):
             self.obj = obj
             self.obj.effects.append(self)
             self.add_label()
             self.obj.ico.map.outp.rechar(f'{obj.ext_name} is now ')
-            self.obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode,
+            self.obj.ico.map.outp.append(se.Text(self.name, 
+                                                esccode=self.str_esccode,
                                                 state="float"),
                                         se.Text("!", state="float"))
         else:
@@ -46,7 +49,9 @@ class Effect():
     def add_label(self):
         try:
             self.label.add(self.obj.ico.map,
-                        (self.obj.text_lvl.obs[-1].x if self.obj.effects.index(self) == 0 else self.obj.effects[self.obj.effects.index(self)-1].label.obs[-1].x)+2,
+                        (self.obj.text_lvl.obs[-1].x 
+                        if self.obj.effects.index(self) == 0 
+                        else self.obj.effects[self.obj.effects.index(self)-1].label.obs[-1].x)+2,
                         self.obj.text_lvl.obs[-1].y)
         except se.CoordinateError:
             pass
@@ -54,7 +59,8 @@ class Effect():
     def readd(self):
         self.add_label()
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
-        self.obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode,
+        self.obj.ico.map.outp.append(se.Text(self.name, 
+                                            esccode=self.str_esccode,
                                             state="float"),
                                     se.Text("!", state="float"))
         self.obj.ico.map.show()
@@ -62,7 +68,8 @@ class Effect():
     def remove(self):
         if random.randint(0, self.rem_chance) == 0:
             self.obj.ico.map.outp.outp(f'{self.obj.ext_name} isn\'t ')
-            self.obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode,
+            self.obj.ico.map.outp.append(se.Text(self.name, 
+                                                esccode=self.str_esccode,
                                                 state="float"),
                                         se.Text(" anymore!", state="float"))
             i = self.obj.effects.index(self)
@@ -84,7 +91,8 @@ class Effect():
 
     def effect(self):
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
-        self.obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode,
+        self.obj.ico.map.outp.append(se.Text(self.name, 
+                                            esccode=self.str_esccode,
                                             state="float"),
                                     se.Text(" and can\'t attack!",
                                             state="float"))
@@ -103,7 +111,8 @@ class EffectParalyzation(Effect):
     desc = "Paralyses the enemy and stops it from attacking. This is reverted randomly."
     c_name = "paralyzation"
     def __init__(self, obj=None):
-        super().__init__("paralyzed", 3, 2, "(Par)", Color.thicc+Color.yellow, obj)
+        super().__init__("paralyzed", 3, 2, "(Par)", Color.thicc+Color.yellow,
+                        obj)
 
 
 class EffectSleep(Effect):
@@ -118,13 +127,15 @@ class EffectBurning(Effect):
  This is reverted randomly."
     c_name = "burning"
     def __init__(self, obj=None):
-        super().__init__("burning", 3, 0, "(Bur)", Color.thicc+Color.red, obj, exclude=["fire", "water"])
+        super().__init__("burning", 3, 0, "(Bur)", Color.thicc+Color.red, obj,
+                        exclude=["fire", "water"])
         self.hurt_text = "burned it self!"
         self.damage = 2
 
     def effect(self):
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
-        self.obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode,
+        self.obj.ico.map.outp.append(se.Text(self.name, 
+                                    esccode=self.str_esccode,
                                     state="float"), se.Text("!", state="float"))
         self.obj.ico.map.show()
         time.sleep(1)
@@ -142,7 +153,8 @@ class EffectPoison(EffectBurning):
  This is reverted randomly."
     c_name = "poison"
     def __init__(self, obj=None):
-        super(EffectBurning, self).__init__("poisoned", 4, 2, "(Poi)", Color.purple, obj)
+        super(EffectBurning, self).__init__("poisoned", 4, 2, "(Poi)", 
+                                            Color.purple, obj)
         self.hurt_text = "got damaged through poison!"
         self.damage = 1
 
@@ -151,11 +163,13 @@ class EffectConfusion(Effect):
     desc = "Makes the enemy hurt it self. This is reverted randomly."
     c_name = "confusion"
     def __init__(self, obj=None):
-        super().__init__("confused", 3, 2, "(Con)", Color.lightblue, obj, exclude=["undead"])
+        super().__init__("confused", 3, 2, "(Con)", Color.lightblue, obj, 
+                        exclude=["undead"])
 
     def effect(self):
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
-        self.obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode,
+        self.obj.ico.map.outp.append(se.Text(self.name, 
+                                            esccode=self.str_esccode,
                                             state="float"),
                                     se.Text("!", state="float"))
         time.sleep(0.5)
@@ -166,7 +180,8 @@ class EffectFreezing(Effect):
     desc = "Freezes the enemy and stops it from attacking. This is reverted randomly."
     c_name = "freezing"
     def __init__(self, obj=None):
-        super().__init__("frozen", 3, 3, "(Fro)", Color.cyan, obj, exclude=["ice", "fire"])
+        super().__init__("frozen", 3, 3, "(Fro)", Color.cyan, obj, 
+                        exclude=["ice", "fire"])
 
 
 effects = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison,
