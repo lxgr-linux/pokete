@@ -54,7 +54,7 @@ In the following all Poketes with their attributes are displayed.
             ico_map = se.Map(4, 11, background=" ")
             for ico in pokes[poke]["ico"]:
                 se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
-            ico = "".join("".join(arr)+"\n" for arr in ico_map.map)
+            ico = "".join(["".join(arr)+"\n" for arr in ico_map.map])
             md_str += f"""
 #### {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
@@ -104,12 +104,11 @@ Type|Effective against|Ineffective against
 """
 
     for poke_type in types:
-        effective = ""
-        for i in types[poke_type]["effective"]:
-            effective += i.capitalize()+(", " if i != types[poke_type]["effective"][-1] else "")
-        ineffective = ""
-        for i in types[poke_type]["ineffective"]:
-            ineffective += i.capitalize()+(", " if i != types[poke_type]["ineffective"][-1] else "")
+        effective, ineffective = ("".join([i.capitalize()+(", " 
+                                                        if i != types[poke_type][j][-1] 
+                                                        else "")
+                                        for i in types[poke_type][j]]) 
+                                for j in ["effective", "ineffective"])
         md_str += f"{poke_type.capitalize()}|{effective}|{ineffective}\n"
 
     # Items
@@ -133,8 +132,7 @@ Those are all items present in the game, that can be traded or found.
 Those effects can be given to a Pokete through an attack.
 """
 
-    for effect in effects:
-        md_str += effect.ret_md()
+    md_str += str.join("", [effect.ret_md() for effect in effects])
 
     # writing to file
     with open("wiki.md", "w+") as file:
@@ -143,8 +141,7 @@ Those effects can be given to a Pokete through an attack.
 
 def gen_pics():
     md_str = "# Example pictures\n"
-    for i in sorted(os.listdir("assets/ss")):
-        md_str += f"![{i}](ss/{i})\n\n"
+    md_str += str.join("\n\n", [f"![{i}](ss/{i})" for i in sorted(os.listdir("assets/ss"))])
 
     # writing to file
     with open("assets/pics.md", "w+") as file:
