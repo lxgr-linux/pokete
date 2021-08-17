@@ -609,9 +609,7 @@ class Deck:
         #decksubmap.resize(height-1, width)
         se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
         se.Square("|", 1, self.map.height-2).add(self.map, round(self.map.width/2), 1)
-        se.Frame(height=self.map.height-1, width=self.map.width,
-                corner_chars=["_", "_", "|", "|"],
-                horizontal_chars=["_", "_"]).add(self.map, 0, 0)
+        StdFrame2(self.map.height-1, self.map.width).add(self.map, 0, 0)
         self.move_label.rechar("2: Move    ")
         indici = []
         self.add_all(pokes, True)
@@ -733,9 +731,7 @@ class Detail(Deck):
         self.map = se.Map(height-1, width, " ")
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
-        self.frame = se.Frame(height=17, width=self.map.width,
-                            corner_chars=["_", "_", "|", "|"],
-                            horizontal_chars=["_", "_"])
+        self.frame = StdFrame2(17, self.map.width)
         self.attack_defense = se.Text("Attack:   Defense:")
         self.type_label = se.Text("Type:")
         self.initiative_label = se.Text("Initiative:")
@@ -2333,9 +2329,7 @@ shopmap.interact.add(shopmap, int(shopmap.width/2), 4)
 fightmap = se.Map(height-1, width, " ")
 fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
 fight_invbox = ChooseBox(height-3, 35, "Inventory")
-fightmap.frame_big = se.Frame(height=fightmap.height-5, width=fightmap.width,
-                            corner_chars=["_", "_", "|", "|"],
-                            horizontal_chars=["_", "_"], state="float")
+fightmap.frame_big = StdFrame2(fightmap.height-5, fightmap.width, state="float")
 fightmap.frame_small = se.Frame(height=4, width=fightmap.width, state="float")
 fightmap.e_underline = se.Text("----------------+", state="float")
 fightmap.e_sideline = se.Square("|", 1, 3, state="float")
