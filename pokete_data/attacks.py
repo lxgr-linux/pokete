@@ -220,6 +220,18 @@ attacks = {
         "effect": None,
         "ap": 30,
     },
+    "schmetter": {
+        "name": "Schmetter",
+        "factor": 1.7,
+        "action": "",
+        "move": ["attack"],
+        "miss_chance": 0.1,
+        "min_lvl": 0,
+        "desc": "Schmetters the enemy away.",
+        "type": "flying",
+        "effect": None,
+        "ap": 30,
+    },
     "eye_pick": {
         "name": "Eye pick",
         "factor": 2.5,
