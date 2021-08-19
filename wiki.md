@@ -16,8 +16,9 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        2. [Bator](#bator)
        3. [Ostri](#ostri)
        4. [Owol](#owol)
-       5. [Vogli](#vogli)
-       6. [Voglo](#voglo)
+       5. [Schmetterling](#schmetterling)
+       6. [Vogli](#vogli)
+       7. [Voglo](#voglo)
    4. [Ground Poketes](#ground-poketes)
        1. [Rollator](#rollator)
    5. [Ice Poketes](#ice-poketes)
@@ -60,7 +61,8 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        1. [Eye pick](#eye-pick)
        2. [Pick](#pick)
        3. [Power pick](#power-pick)
-       4. [Wing hit](#wing-hit)
+       4. [Schmetter](#schmetter)
+       5. [Wing hit](#wing-hit)
    4. [Ground attacks](#ground-attacks)
        1. [Earch quake](#earch-quake)
        2. [Power roll](#power-roll)
@@ -296,6 +298,30 @@ A night active Pokete, that is looking for lil children as a midnight snack.
    + [Pick](#pick)
    + [Wing hit](#wing-hit)
    + [Cry](#cry)
+- Does not evolve
+
+#### Schmetterling
+A butterfly that will schmetter you away.
+
+```
+           
+.__ o __.  
+ \_\|/_/   
+ /_/'\_\   
+
+```
+
+- Type: [Flying](#types)
+- Health points: 20
+- Attack factor: level+4
+- Defense factor: level+2
+- Initiative: level+4
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 3
+- Attacks:
+   + [Schmetter](#schmetter)
+   + [Wing hit](#wing-hit)
 - Does not evolve
 
 #### Vogli
@@ -958,6 +984,16 @@ Casts a fireball at the enemy.
 ### Flying attacks
 #### Pick
 A pick at the enemys weakest spot.
+
+- Type: [Flying](#types)
+- Minimum Level: 0
+- Attack factor: 1.7
+- Missing chance: 0.1
+- Attack points: 30
+- Effect: None
+
+#### Schmetter
+Schmetters the enemy away.
 
 - Type: [Flying](#types)
 - Minimum Level: 0

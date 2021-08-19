@@ -720,6 +720,28 @@ WW\/o o\/WW
             "esc": "Color.purple"},
                 ]
     },
+    "schmetterling": {
+        "name": "Schmetterling",
+        "hp": 20,
+        "atc": "self.lvl()+4",
+        "defense": "self.lvl()+2",
+        "attacks": ["schmetter", "wing_hit"],
+        "miss_chance": 0.1,
+        "desc": "A butterfly that will schmetter you away.",
+        "lose_xp": 3,
+        "rarity": 1,
+        "type": "flying",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+4",
+        "ico": [{
+            "txt": """
+.__ o __.
+ \_\|/_/
+ /_/'\_\\""",
+            "esc": None}
+        ]
+    },
 }
 
 if __name__ == "__main__":
