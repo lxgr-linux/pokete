@@ -6,13 +6,25 @@ class BoxIndex(se.Object):
         self.index = 0
 
 
+class StdFrame(se.Frame):
+    def __init__(self, height, width):
+        super().__init__(width=width, height=height,
+                        corner_chars=["┌", "┐", "└", "┘"],
+                        horizontal_chars=["─", "─"],
+                        vertical_chars=["│", "│"], state="float")
+
+
+class StdFrame2(se.Frame):
+    def __init__(self, height, width, state="solid"):
+        super().__init__(width=width, height=height,
+                        corner_chars=["_", "_", "|", "|"],
+                        horizontal_chars=["_", "_"], state=state)
+ 
+
 class Box(se.Box):
     def __init__(self, height, width, name="", info=""):
         super().__init__(height, width)
-        self.frame = se.Frame(width=width, height=height,
-                            corner_chars=["┌", "┐", "└", "┘"],
-                            horizontal_chars=["─", "─"],
-                            vertical_chars=["│", "│"], state="float")
+        self.frame = StdFrame(height, width)
         self.inner = se.Square(char=" ", width=width-2, height=height-2,
                                 state="float")
         self.name_label = se.Text(name, state="float")
@@ -33,10 +45,7 @@ class Box(se.Box):
         self.width = width
         self.inner.resize(width-2, height-2)
         self.rem_ob(self.frame)
-        self.frame = se.Frame(width=width, height=height,
-                            corner_chars=["┌", "┐", "└", "┘"],
-                            horizontal_chars=["─", "─"],
-                            vertical_chars=["│", "│"], state="float")
+        self.frame = StdFrame(height, width)
         self.add_ob(self.frame, 0, 0)
         self.set_ob(self.info_label, 2, self.height-1)
         self.rem_ob(self.name_label)

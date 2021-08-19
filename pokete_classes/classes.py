@@ -1,5 +1,6 @@
 import scrap_engine as se
 import os
+from pokete_classes.ui_elements import *
 
 
 class Color:
@@ -94,9 +95,7 @@ class ResizeScreen():
         self.map = se.Map(background=" ")
         self.warning_label = se.Text("Minimum windowsize is 70x20")
         self.size_label = se.Text(f"{width}x{height}")
-        self.frame = se.Frame(width=width, height=height-1,
-                    corner_chars=["┌", "┐", "└", "┘"],
-                    horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+        self.frame = StdFrame(height-1, width)
         self.warning_label.add(self.map, int(width/2)-13, int(height/2)-1)
         self.size_label.add(self.map, 1, 0)
         self.frame.add(self.map, 0, 0)
@@ -110,9 +109,7 @@ class ResizeScreen():
             self.map.resize(height-1, width, " ")
             self.warning_label.set(int(width/2)-13, int((height-1)/2)-1)
             self.size_label.rechar(f"{width}x{height}")
-            self.frame = se.Frame(width=width, height=height-1,
-                        corner_chars=["┌", "┐", "└", "┘"],
-                        horizontal_chars=["─", "─"], vertical_chars=["│", "│"])
+            self.frame = StdFrame(height-1, width)
             self.frame.add(self.map, 0, 0)
             self.map.show()
         return width, height
