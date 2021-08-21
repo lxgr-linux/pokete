@@ -180,9 +180,20 @@ attacks = {
         "desc": "Damages the enemy with an unpredictable hit out of the ground.",
         "type": "ground",
         "effect": None,
+        "ap": 10,
+    },
+     "dick_energy": {
+        "name": "Dick energy",
+        "factor": 0,
+        "action": "self.atc += 2",
+        "move": ["shine"],
+        "miss_chance": 0,
+        "min_lvl": 0,
+        "desc": "Collects a great amount of energy in the Poketes tip.",
+        "type": "ground",
+        "effect": None,
         "ap": 15,
     },
-
     # Fire attacks
     "fire_bite": {
         "name": "Fire bite",
