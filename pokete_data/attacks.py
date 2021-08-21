@@ -201,7 +201,7 @@ attacks = {
         "move": ["shine"],
         "miss_chance": 0,
         "min_lvl": 20,
-        "desc": "Makes the Pokete hide onder the ground to minimize damage.",
+        "desc": "Makes the Pokete hide under the ground to minimize damage.",
         "type": "ground",
         "effect": None,
         "ap": 15,
