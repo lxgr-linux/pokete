@@ -194,6 +194,19 @@ attacks = {
         "effect": None,
         "ap": 15,
     },
+     "hiding": {
+        "name": "Hiding",
+        "factor": 0,
+        "action": "self.defense += 2",
+        "move": ["shine"],
+        "miss_chance": 0,
+        "min_lvl": 20,
+        "desc": "Makes the Pokete hide onder the ground to minimize damage.",
+        "type": "ground",
+        "effect": None,
+        "ap": 15,
+    },
+
     # Fire attacks
     "fire_bite": {
         "name": "Fire bite",

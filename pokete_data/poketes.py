@@ -747,7 +747,7 @@ WW\/o o\/WW
         "hp": 20,
         "atc": "self.lvl()+2",
         "defense": "self.lvl()+4",
-        "attacks": ["tackle", "dick_energy", "ground_hit"],
+        "attacks": ["tackle", "dick_energy", "hiding", "ground_hit"],
         "miss_chance": 0.1,
         "desc": "A little what ever, that sticks out of the ground.",
         "lose_xp": 2,
