@@ -742,6 +742,29 @@ WW\/o o\/WW
             "esc": None}
         ]
     },
+    "dicki": {
+        "name": "Dicki",
+        "hp": 20,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+4",
+        "attacks": ["tackle"],
+        "miss_chance": 0.1,
+        "desc": "A little what ever, that sticks out of the ground.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "type": "ground",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+2",
+        "ico": [{
+            "txt": """    
+   __
+  ('')
+  |  |""",
+            "esc": None}
+        ]
+    },
+
 }
 
 if __name__ == "__main__":
