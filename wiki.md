@@ -20,7 +20,8 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        6. [Vogli](#vogli)
        7. [Voglo](#voglo)
    4. [Ground Poketes](#ground-poketes)
-       1. [Rollator](#rollator)
+       1. [Dicki](#dicki)
+       2. [Rollator](#rollator)
    5. [Ice Poketes](#ice-poketes)
        1. [Cubl](#cubl)
        2. [Spikl](#spikl)
@@ -64,8 +65,11 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        4. [Schmetter](#schmetter)
        5. [Wing hit](#wing-hit)
    4. [Ground attacks](#ground-attacks)
-       1. [Earch quake](#earch-quake)
-       2. [Power roll](#power-roll)
+       1. [Dick energy](#dick-energy)
+       2. [Earch quake](#earch-quake)
+       3. [Ground hit](#ground-hit)
+       4. [Hiding](#hiding)
+       5. [Power roll](#power-roll)
    5. [Ice attacks](#ice-attacks)
        1. [Freeze](#freeze)
        2. [Snow storm](#snow-storm)
@@ -305,9 +309,9 @@ A butterfly that will schmetter you away.
 
 ```
            
-.__ o __.  
- \_\|/_/   
- /_/'\_\   
+ .__ o __. 
+  \_\|/_/  
+  /_/'\_\  
 
 ```
 
@@ -374,6 +378,32 @@ A very agressive bird Pokete that can only be found in the woods.
    + [Brooding](#brooding)
 - Does not evolve
 ### Ground Poketes
+#### Dicki
+A little what ever, that sticks out of the ground.
+
+```
+           
+    __     
+   ('')    
+   |  |    
+
+```
+
+- Type: [Ground](#types)
+- Health points: 20
+- Attack factor: level+2
+- Defense factor: level+4
+- Initiative: level+2
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Dick energy](#dick-energy)
+   + [Hiding](#hiding)
+   + [Ground hit](#ground-hit)
+- Does not evolve
+
 #### Rollator
 A big chunck of stone and dirt, that roles around.
 
@@ -1049,6 +1079,36 @@ Rolls over the enemy.
 - Minimum Level: 0
 - Attack factor: 2.5
 - Missing chance: 0.2
+- Attack points: 15
+- Effect: None
+
+#### Ground hit
+Damages the enemy with an unpredictable hit out of the ground.
+
+- Type: [Ground](#types)
+- Minimum Level: 0
+- Attack factor: 3
+- Missing chance: 0.1
+- Attack points: 10
+- Effect: None
+
+#### Dick energy
+Collects a great amount of energy in the Poketes tip.
+
+- Type: [Ground](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 15
+- Effect: None
+
+#### Hiding
+Makes the Pokete hide onder the ground to minimize damage.
+
+- Type: [Ground](#types)
+- Minimum Level: 20
+- Attack factor: 0
+- Missing chance: 0
 - Attack points: 15
 - Effect: None
 ### Ice attacks
