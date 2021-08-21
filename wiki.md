@@ -77,7 +77,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
    6. [Normal attacks](#normal-attacks)
        1. [Bite](#bite)
        2. [Brooding](#brooding)
-       3. [Chocer](#chocer)
+       3. [Choker](#chocer)
        4. [Cry](#cry)
        5. [Meat skewer](#meat-skewer)
        6. [Poison bite](#poison-bite)
@@ -255,7 +255,7 @@ WW\/o o\/WW
 - Does not evolve
 
 #### Ostri
-A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.
+A very aggressive bird Pokete that lives near deserts and will try to pick out your eyes.
 
 ```
    !       
@@ -353,7 +353,7 @@ A very common bird Pokete that lives everywhere.
 - Evolves to [Voglo](#voglo) at level 20
 
 #### Voglo
-A very agressive bird Pokete that can only be found in the woods.
+A very aggressive bird Pokete that can only be found in the woods.
 
 ```
     ?      
@@ -405,7 +405,7 @@ A little what ever, that sticks out of the ground.
 - Does not evolve
 
 #### Rollator
-A big chunck of stone and dirt, that roles around.
+A big chunk of stone and dirt, that roles around.
 
 ```
    _____   
@@ -480,7 +480,7 @@ A block of ice.
 - Does not evolve
 ### Normal Poketes
 #### Choka
-A fucking dangerous and enormous snake pokete.
+A fucking dangerous and enormous snake Pokete.
 
 ```
  _______   
@@ -499,14 +499,14 @@ A fucking dangerous and enormous snake pokete.
 - Rarity: 0.5
 - Loosing experience: 4
 - Attacks:
-   + [Chocer](#chocer)
+   + [Choker](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
    + [Power bite](#power-bite)
 - Does not evolve
 
 #### Hornita
-An majestetic horse that is always looking for something to pick with its horn.
+An majestic horse that is always looking for something to pick with its horn.
 
 ```
  \         
@@ -531,7 +531,7 @@ An majestetic horse that is always looking for something to pick with its horn.
 - Does not evolve
 
 #### Horny
-A teenaged unicorn in the middle of puberty.
+A teenage unicorn in the middle of puberty.
 
 ```
   ,        
@@ -598,7 +598,7 @@ A dangerous snake Pokete.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Chocer](#chocer)
+   + [Choker](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
 - Evolves to [Choka](#choka) at level 30
@@ -728,7 +728,7 @@ A big and heavy stone made from one of the hardest stones.
 - Does not evolve
 
 #### Lilstone
-A small but powerfull stone Pokete that lives in the mountains.
+A small but powerful stone Pokete that lives in the mountains.
 
 ```
            
@@ -753,7 +753,7 @@ A small but powerfull stone Pokete that lives in the mountains.
 - Evolves to [Bigstone](#bigstone) at level 25
 
 #### Poundi
-A powerfull and heavy stone Pokete that lives in mountain caves.
+A powerful and heavy stone Pokete that lives in mountain caves.
 
 ```
    A-A-A   
@@ -993,7 +993,7 @@ Burns and bites the enemy at the same time.
 - Effect: [Burning](#burning)
 
 #### Ash throw
-Throws ashes in the enemys eyes.
+Throws ashes in the enemy's eyes.
 
 - Type: [Fire](#types)
 - Minimum Level: 15
@@ -1013,7 +1013,7 @@ Casts a fireball at the enemy.
 - Effect: None
 ### Flying attacks
 #### Pick
-A pick at the enemys weakest spot.
+A pick at the enemy's weakest spot.
 
 - Type: [Flying](#types)
 - Minimum Level: 0
@@ -1033,7 +1033,7 @@ Schmetters the enemy away.
 - Effect: None
 
 #### Eye pick
-Picks out one of the enemys eyes.
+Picks out one of the enemy's eyes.
 
 - Type: [Flying](#types)
 - Minimum Level: 0
@@ -1053,7 +1053,7 @@ Hits the enemy with a wing.
 - Effect: None
 
 #### Power pick
-A harsh picking on the enemys head.
+A harsh picking on the enemy's head.
 
 - Type: [Flying](#types)
 - Minimum Level: 0
@@ -1103,7 +1103,7 @@ Collects a great amount of energy in the Poketes tip.
 - Effect: None
 
 #### Hiding
-Makes the Pokete hide onder the ground to minimize damage.
+Makes the Pokete hide under the ground to minimize damage.
 
 - Type: [Ground](#types)
 - Minimum Level: 20
@@ -1182,8 +1182,8 @@ The hardest bite you can think of.
 - Attack points: 5
 - Effect: None
 
-#### Chocer
-Choces the enemy and makes it weaker.
+#### Choker
+Chokes the enemy and makes it weaker.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -1203,7 +1203,7 @@ Makes the enemy weaker.
 - Effect: [Poison](#poison)
 
 #### Tail wipe
-Wipes throught the enemys face.
+Wipes through the enemy's face.
 
 - Type: [Normal](#types)
 - Minimum Level: 10
@@ -1213,7 +1213,7 @@ Wipes throught the enemys face.
 - Effect: None
 
 #### Meat skewer
-Drills the horn deep in the enemys flesh.
+Drills the horn deep in the enemy's flesh.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -1243,7 +1243,7 @@ Regenerates 2 HP.
 - Effect: None
 ### Plant attacks
 #### Apple drop
-Lets an apple drop on the enemys head.
+Lets an apple drop on the enemy's head.
 
 - Type: [Plant](#types)
 - Minimum Level: 0
@@ -1273,7 +1273,7 @@ Sucks 1 HP from the enemy and adds it to it's own.
 - Effect: None
 
 #### Root strangler
-Uses old and crusty roots to strangle the enemys.
+Uses old and crusty roots to strangle the enemy.
 
 - Type: [Plant](#types)
 - Minimum Level: 20
@@ -1293,7 +1293,7 @@ Uses old and crusty roots to slap the enemy.
 - Effect: None
 
 #### Leaf storm
-Blasts a bunch of spikie leafes at the enemy.
+Blasts a bunch of spiky leafs at the enemy.
 
 - Type: [Plant](#types)
 - Minimum Level: 20
@@ -1323,7 +1323,7 @@ Ejects some poisonous spores onto the enemy.
 - Effect: [Poison](#poison)
 
 #### Branch stab
-Stabs the enemy with a branch, preferably in the enemys eyes.
+Stabs the enemy with a branch, preferably in the enemy's eyes.
 
 - Type: [Plant](#types)
 - Minimum Level: 15
@@ -1363,7 +1363,7 @@ Throws an euler brick at the enemy.
 - Effect: None
 ### Undead attacks
 #### Heart touch
-Touches the enemys heard with its' cold gost claws.
+Touches the enemy's heard with its' cold ghost claws.
 
 - Type: [Undead](#types)
 - Minimum Level: 20
@@ -1383,7 +1383,7 @@ Confuses the enemy.
 - Effect: [Confusion](#confusion)
 
 #### Mind blow
-Causes confusion deep in the enemys mind.
+Causes confusion deep in the enemy's mind.
 
 - Type: [Undead](#types)
 - Minimum Level: 0
