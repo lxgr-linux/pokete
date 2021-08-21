@@ -170,6 +170,19 @@ attacks = {
         "effect": None,
         "ap": 15,
     },
+     "ground_hit": {
+        "name": "Ground hit",
+        "factor": 3,
+        "action": "",
+        "move": ["attack"],
+        "miss_chance": 0.1,
+        "min_lvl": 0,
+        "desc": "Damages the enemy with an unpredictable hit out of the ground.",
+        "type": "ground",
+        "effect": None,
+        "ap": 15,
+    },
+
     # Fire attacks
     "fire_bite": {
         "name": "Fire bite",
