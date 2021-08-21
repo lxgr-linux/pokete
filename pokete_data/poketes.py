@@ -736,9 +736,9 @@ WW\/o o\/WW
         "initiative": "self.lvl()+4",
         "ico": [{
             "txt": """
-.__ o __.
- \_\|/_/
- /_/'\_\\""",
+ .__ o __.
+  \_\|/_/
+  /_/'\_\\""",
             "esc": None}
         ]
     },
@@ -747,7 +747,7 @@ WW\/o o\/WW
         "hp": 20,
         "atc": "self.lvl()+2",
         "defense": "self.lvl()+4",
-        "attacks": ["tackle"],
+        "attacks": ["tackle", "dick_energy", "ground_hit"],
         "miss_chance": 0.1,
         "desc": "A little what ever, that sticks out of the ground.",
         "lose_xp": 2,
@@ -758,9 +758,9 @@ WW\/o o\/WW
         "initiative": "self.lvl()+2",
         "ico": [{
             "txt": """    
-   __
-  ('')
-  |  |""",
+    __
+   ('')
+   |  |""",
             "esc": None}
         ]
     },
