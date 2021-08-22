@@ -203,13 +203,18 @@ class ChanceDor(Dor):
 
 
 class Poke():
-    def __init__(self, poke, xp, _hp="SKIP", player=True, shiny=False):
+    def __init__(self, poke, xp, _hp="SKIP", attacks=None, player=True, shiny=False):
         self.enem = None
         self.oldhp = 0
         self.xp = xp
         self.identifier = poke
         self.shiny = shiny
-        for name in ["hp", "attacks", "name", "miss_chance", "lose_xp",
+        if attacks is not None:
+            assert len(attacks) <= 4, "A Pokete can't haver more than 4 attacks!"
+            self.attacks = attacks
+        else:
+            self.attacks = pokes[self.identifier]["attacks"][:4]
+        for name in ["hp", "name", "miss_chance", "lose_xp",
                     "evolve_poke", "evolve_lvl"]:
             exec(f"self.{name} = pokes[self.identifier][name]")
         if self.shiny:
@@ -259,7 +264,9 @@ class Poke():
     def dict(self):
         return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
                 "ap": [atc.ap for atc in self.attac_obs],
-                "effects": [repr(e) for e in self.effects], "shiny": self.shiny}
+                "effects": [repr(e) for e in self.effects],
+                "attacks": self.attacks,
+                "shiny": self.shiny}
 
     def set_ap(self, dict):
         for atc, ap in zip(self.attac_obs, dict):
