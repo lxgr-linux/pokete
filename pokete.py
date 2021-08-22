@@ -476,9 +476,17 @@ class Figure(se.Object):
     def set_args(self, si):
         # processing data from save file
         self.name = si["user"]
-        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke),
+        self.pokes = [Poke((si["pokes"][poke]["name"] 
+                                if type(poke) is int else poke),
                             si["pokes"][poke]["xp"], si["pokes"][poke]["hp"],
-                            shiny=(False if "shiny" not in si["pokes"][poke] else si["pokes"][poke]["shiny"])) for poke in si["pokes"]]
+                            shiny = (False 
+                                    if "shiny" not in si["pokes"][poke] 
+                                    else si["pokes"][poke]["shiny"]),
+                            attacks = (si["pokes"][poke]["attacks"]
+                                        if "attacks" in si["pokes"][poke]
+                                        else None)
+                            ) 
+                    for poke in si["pokes"]]
         for j, poke in enumerate(self.pokes):
             poke.set_ap(si["pokes"][j]["ap"])
             if "effects" in si["pokes"][j]:
