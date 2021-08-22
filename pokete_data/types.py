@@ -40,7 +40,7 @@ types = {
         "color": "Color.thicc"
     },
     "undead": {
-        "effective": ["normal", "ground", "plant", "water"],
+        "effective": ["normal", "ground", "plant", "water", "poison"],
         "ineffective": ["fire"],
         "color": "Color.purple"
     },
@@ -48,6 +48,11 @@ types = {
         "effective": ["water", "plant", "ground"],
         "ineffective": ["fire"],
         "color": "Color.cyan"
+    },
+    "poison": {
+        "effective": ["normal"],
+        "ineffective": ["undead"],
+        "color": "Color.thicc+Color.green"
     },
 }
 

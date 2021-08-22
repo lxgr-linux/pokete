@@ -73,7 +73,7 @@ attacks = {
         "miss_chance": 0.3,
         "min_lvl": 0,
         "desc": "Makes the enemy weaker.",
-        "type": "normal",
+        "type": "poison",
         "effect": "EffectPoison",
         "is_generic": False,
         "ap": 10,
