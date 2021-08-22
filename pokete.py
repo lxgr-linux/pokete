@@ -42,11 +42,7 @@ class Poketeball(se.Object):
         figure.give_item("poketeball")
         used_npcs.append(self.name)
         self.remove()
-
-# The following two classes (PC and Heal) where initially needed to manage healing
-# and reviewing off all Poketes in the deck
-# They are now obsolete (because of the Pokete-Center) and will be removed later,
-# but I will keep them for now for testing purposes
+ 
 
 class NPCTrigger(se.Object):
     def __init__(self, npc):
