@@ -73,7 +73,7 @@ pokes = {
         "defense": "self.lvl()+3",
         "attacks": ["tackle", "politure", "earch_quake"],
         "miss_chance": 0,
-        "desc": "A powerfull and heavy stone Pokete that lives in mountain caves.",
+        "desc": "A powerful and heavy stone Pokete that lives in mountain caves.",
         "lose_xp": 4,
         "rarity": 0.7,
         "type": "stone",
@@ -94,7 +94,7 @@ pokes = {
        "defense": "self.lvl()+2",
        "attacks": ["tackle", "politure", "pepple_fire"],
        "miss_chance": 0,
-       "desc": "A small but powerfull stone Pokete that lives in the mountains.",
+       "desc": "A small but powerful stone Pokete that lives in the mountains.",
        "lose_xp": 2,
        "rarity": 1,
        "type": "stone",
@@ -199,7 +199,7 @@ pokes = {
         "defense": "self.lvl()+1",
         "attacks": ["tackle", "power_pick", "wing_hit", "brooding"],
         "miss_chance": 0,
-        "desc": "A very agressive bird Pokete that can only be found in the woods.",
+        "desc": "A very aggressive bird Pokete that can only be found in the woods.",
         "lose_xp": 3,
         "rarity": 0.8,
         "type": "flying",
@@ -220,7 +220,7 @@ pokes = {
         "defense": "self.lvl()",
         "attacks": ["tackle", "eye_pick", "brooding"],
         "miss_chance": 0,
-        "desc": "A very agressive bird Pokete that lives near deserts and will try to pick out your eyes.",
+        "desc": "A very aggressive bird Pokete that lives near deserts and will try to pick out your eyes.",
         "rarity": 0.6,
         "lose_xp": 4,
         "type": "flying",
@@ -283,7 +283,7 @@ pokes = {
         "defense": "self.lvl()+1",
         "attacks": ["chocer", "bite", "poison_bite", "power_bite"],
         "miss_chance": 0,
-        "desc": "A fucking dangerous and enormous snake pokete.",
+        "desc": "A fucking dangerous and enormous snake Pokete.",
         "lose_xp": 4,
         "rarity": 0.5,
         "type": "normal",
@@ -429,7 +429,7 @@ WW\/o o\/WW
         "defense": "self.lvl()+2",
         "attacks": ["tackle", "meat_skewer", "tail_wipe"],
         "miss_chance": 0,
-        "desc": "An majestetic horse that is always looking for something to pick with its horn.",
+        "desc": "An majestic horse that is always looking for something to pick with its horn.",
         "lose_xp": 3,
         "rarity": 1,
         "type": "normal",
@@ -450,7 +450,7 @@ WW\/o o\/WW
         "defense": "self.lvl()+1",
         "attacks": ["tackle", "meat_skewer"],
         "miss_chance": 0.2,
-        "desc": "A teenaged unicorn in the middle of puberty.",
+        "desc": "A teenage unicorn in the middle of puberty.",
         "rarity": 1,
         "lose_xp": 2,
         "type": "normal",
@@ -541,7 +541,7 @@ WW\/o o\/WW
         "defense": "self.lvl()+5",
         "attacks": ["tackle", "power_roll"],
         "miss_chance": 0,
-        "desc": "A big chunck of stone and dirt, that roles around.",
+        "desc": "A big chunk of stone and dirt, that roles around.",
         "lose_xp": 3,
         "rarity": 0.5,
         "type": "ground",
@@ -736,12 +736,35 @@ WW\/o o\/WW
         "initiative": "self.lvl()+4",
         "ico": [{
             "txt": """
-.__ o __.
- \_\|/_/
- /_/'\_\\""",
+ .__ o __.
+  \_\|/_/
+  /_/'\_\\""",
             "esc": None}
         ]
     },
+    "dicki": {
+        "name": "Dicki",
+        "hp": 20,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+4",
+        "attacks": ["tackle", "dick_energy", "hiding", "ground_hit"],
+        "miss_chance": 0.1,
+        "desc": "A little what ever, that sticks out of the ground.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "type": "ground",
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+2",
+        "ico": [{
+            "txt": """    
+    __
+   ('')
+   |  |""",
+            "esc": None}
+        ]
+    },
+
 }
 
 if __name__ == "__main__":
