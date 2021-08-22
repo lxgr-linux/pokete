@@ -1072,7 +1072,7 @@ Initiative: {poke.initiative}"""))
         self.idx = 0
 
         p_dict = {i[1]: i[-1] for i in
-            sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
+            sorted([(pokes[j]["types"][0], j, pokes[j]) for j in list(pokes)[1:]])}
         self.obs = [se.Text(f"{i+1} {p_dict[poke]['name'] if poke in caught_poketes else '???'}", state="float")
                 for i, poke in enumerate(p_dict)]
         self.add_c_obs()
