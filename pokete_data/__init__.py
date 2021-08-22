@@ -40,7 +40,7 @@ def validate():
             one_validate(i, "trainer", t+".trainer")
 
 validators = {
-    "poke": ["name", "hp", "atc", "defense", "attacks", "miss_chance", "desc", "lose_xp", "rarity", "type", "evolve_poke", "evolve_lvl", "ico", "initiative"],
+    "poke": ["name", "hp", "atc", "defense", "attacks", "miss_chance", "desc", "lose_xp", "rarity", "types", "evolve_poke", "evolve_lvl", "ico", "initiative"],
     "type": ["effective", "ineffective", "color"],
     "playmap": ["hard_obs", "soft_obs", "dors", "balls"],
     "station": ["gen", "add"],

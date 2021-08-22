@@ -200,32 +200,34 @@ class ChanceDor(Dor):
 
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", attacks=None, player=True, shiny=False):
+        self.inf = pokes[poke]
         self.enem = None
         self.oldhp = 0
         self.xp = xp
         self.identifier = poke
         self.shiny = shiny
         if attacks is not None:
-            assert len(attacks) <= 4, "A Pokete can't haver more than 4 attacks!"
+            assert (len(attacks) <= 4), f"A Pokete {poke} can't have more than 4 attacks!"
             self.attacks = attacks
         else:
-            self.attacks = pokes[self.identifier]["attacks"][:4]
+            self.attacks = self.inf["attacks"][:4]
         for name in ["hp", "name", "miss_chance", "lose_xp",
                     "evolve_poke", "evolve_lvl"]:
-            exec(f"self.{name} = pokes[self.identifier][name]")
+            exec(f"self.{name} = self.inf[name]")
         if self.shiny:
             self.hp += 5
         self.set_player(player)
-        self.type = eval(pokes[self.identifier]["type"])
+        self.types = [eval(i) for i in self.inf["types"]]
+        self.type = self.types[0]
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
         self.hp_bar = se.Text(8*"#", esccode=Color.green, state="float")
         if _hp != "SKIP":
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
-        self.desc = se.Text(liner(pokes[poke]["desc"], se.width-34))
+        self.desc = se.Text(liner(self.inf["desc"], se.width-34))
         self.ico = se.Box(4, 11)
-        for ico in pokes[poke]["ico"]:
+        for ico in self.inf["ico"]:
             self.ico.add_ob(se.Text(ico["txt"], state="float", esccode=eval(ico["esc"]) if ico["esc"] is not None else "", ignore=f'{eval(ico["esc"]) if ico["esc"] is not None else ""} {Color.reset}'), 0, 0)
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
@@ -247,7 +249,7 @@ class Poke():
 
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
-            exec(f"self.{name} = int({pokes[self.identifier][name]})+(2 if self.shiny else 0)")
+            exec(f"self.{name} = int({self.inf[name]})+(2 if self.shiny else 0)")
         i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
         for old_ob, obj in zip(self.attac_obs, i):
             obj.ap = old_ob.ap
