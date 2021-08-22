@@ -46,7 +46,7 @@ validators = {
     "station": ["gen", "add"],
     "item": ["pretty_name", "desc", "price", "fn"],
     "npc": ["texts", "fn", "args", "map", "x", "y"],
-    "attack": ["name", "factor", "action", "move", "miss_chance", "min_lvl", "desc", "type", "effect", "ap"],
+    "attack": ["name", "factor", "action", "move", "miss_chance", "min_lvl", "desc", "type", "effect", "is_generic", "ap"],
     "map": ["height", "width", "pretty_name", "extra_actions", "poke_args"],
     "hard_ob": ["x", "y", "txt"],
     "soft_ob": ["x", "y", "txt"],
