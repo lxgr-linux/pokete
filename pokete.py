@@ -397,7 +397,7 @@ class Poke():
     def evolve(self):
         if not self.player:
             return
-        new = Poke(self.evolve_poke, self.xp)
+        new = Poke(self.evolve_poke, self.xp, attacks = self.attacks)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width/2-4), round((evomap.height-8)/2))
         self.move_shine()
