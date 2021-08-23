@@ -325,7 +325,7 @@ attacks = {
         "miss_chance": 0,
         "min_lvl": 15,
         "desc": "Regenerates 2 HP.",
-        "type": "normal",
+        "type": "flying",
         "effect": None,
         "is_generic": True,
         "ap": 10,

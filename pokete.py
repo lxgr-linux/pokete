@@ -1124,6 +1124,29 @@ https://git.io/JRRqe
         self.box.info_label.rechar("q:close")
 
 
+class LearnAttack():
+    def __init__(self, poke):
+        self.map = fightmap
+        self.poke = poke
+
+    def __call__(self):
+        pool = [i for i in attacks 
+                    if attacks[i]["type"] in 
+                        [i.name for i in self.poke.types] 
+                        and attacks[i]["is_generic"]]
+        new_attack = random.choice([i for i in self.poke.inf["attacks"]+
+                        self.poke.inf["pool"]+pool
+                            if i not in self.poke.attacks
+                            and attacks[i]["min_lvl"] <= self.poke.lvl()])
+        print(new_attack)
+        if ask_bool(fightmap, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}"):
+            if len(self.poke.attac_obs) != len(self.poke.attacks):
+                self.poke.attacks[-1] = new_attack
+            elif len(self.poke.attacks) < 4:
+                self.poke.attacks.append(new_attack)
+            self.poke.set_vars()
+
+
 # General use functions
 #######################
 
