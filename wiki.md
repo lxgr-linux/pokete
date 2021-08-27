@@ -60,11 +60,12 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        2. [Fire ball](#fire-ball)
        3. [Fire bite](#fire-bite)
    3. [Flying attacks](#flying-attacks)
-       1. [Eye pick](#eye-pick)
-       2. [Pick](#pick)
-       3. [Power pick](#power-pick)
-       4. [Schmetter](#schmetter)
-       5. [Wing hit](#wing-hit)
+       1. [Brooding](#brooding)
+       2. [Eye pick](#eye-pick)
+       3. [Pick](#pick)
+       4. [Power pick](#power-pick)
+       5. [Schmetter](#schmetter)
+       6. [Wing hit](#wing-hit)
    4. [Ground attacks](#ground-attacks)
        1. [Dick energy](#dick-energy)
        2. [Earch quake](#earch-quake)
@@ -77,14 +78,13 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        3. [Sword of ice](#sword-of-ice)
    6. [Normal attacks](#normal-attacks)
        1. [Bite](#bite)
-       2. [Brooding](#brooding)
-       3. [Choker](#chocer)
-       4. [Cry](#cry)
-       5. [Meat skewer](#meat-skewer)
-       6. [Power bite](#power-bite)
-       7. [Snooze](#snooze)
-       8. [Tackle](#tackle)
-       9. [Tail wipe](#tail-wipe)
+       2. [Choker](#chocer)
+       3. [Cry](#cry)
+       4. [Meat skewer](#meat-skewer)
+       5. [Power bite](#power-bite)
+       6. [Snooze](#snooze)
+       7. [Tackle](#tackle)
+       8. [Tail wipe](#tail-wipe)
    7. [Plant attacks](#plant-attacks)
        1. [Apple drop](#apple-drop)
        2. [Bark hardening](#bark-hardening)
@@ -953,6 +953,7 @@ A very harmless water Pokete that can be found everywhere.
 
 ## Attacks
 Those are all attacks present in the game.
+
 ### Electro attacks
 #### Shock
 Gives the enemy a shock.
@@ -983,6 +984,7 @@ Gives the enemy heavy a shock.
 - Missing chance: 0
 - Attack points: 10
 - Effect: [Paralyzation](#paralyzation)
+
 ### Fire attacks
 #### Fire bite
 Burns and bites the enemy at the same time.
@@ -1013,6 +1015,7 @@ Casts a fireball at the enemy.
 - Missing chance: 0
 - Attack points: 10
 - Effect: None
+
 ### Flying attacks
 #### Pick
 A pick at the enemy's weakest spot.
@@ -1054,6 +1057,16 @@ Hits the enemy with a wing.
 - Attack points: 10
 - Effect: None
 
+#### Brooding
+Regenerates 2 HP.
+
+- Type: [Flying](#types)
+- Minimum Level: 15
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 10
+- Effect: None
+
 #### Power pick
 A harsh picking on the enemy's head.
 
@@ -1063,6 +1076,7 @@ A harsh picking on the enemy's head.
 - Missing chance: 0.4
 - Attack points: 10
 - Effect: None
+
 ### Ground attacks
 #### Earch quake
 Brings the earth to shift.
@@ -1113,6 +1127,7 @@ Makes the Pokete hide under the ground to minimize damage.
 - Missing chance: 0
 - Attack points: 15
 - Effect: None
+
 ### Ice attacks
 #### Freeze
 Freezes the enemy.
@@ -1143,6 +1158,7 @@ Stabs a giant ice spike into the enemy.
 - Missing chance: 0.3
 - Attack points: 10
 - Effect: None
+
 ### Normal attacks
 #### Tackle
 Tackles the enemy very hard.
@@ -1224,15 +1240,6 @@ Makes the enemy sleepy.
 - Attack points: 15
 - Effect: [Sleep](#sleep)
 
-#### Brooding
-Regenerates 2 HP.
-
-- Type: [Normal](#types)
-- Minimum Level: 15
-- Attack factor: 0
-- Missing chance: 0
-- Attack points: 10
-- Effect: None
 ### Plant attacks
 #### Apple drop
 Lets an apple drop on the enemy's head.
@@ -1323,6 +1330,7 @@ Stabs the enemy with a branch, preferably in the enemy's eyes.
 - Missing chance: 0.2
 - Attack points: 10
 - Effect: None
+
 ### Poison attacks
 #### Poison bite
 Makes the enemy weaker.
@@ -1333,6 +1341,7 @@ Makes the enemy weaker.
 - Missing chance: 0.3
 - Attack points: 10
 - Effect: [Poison](#poison)
+
 ### Stone attacks
 #### Pepple fire
 Fires pepples at the enemy and makes it blind.
@@ -1363,6 +1372,7 @@ Throws an euler brick at the enemy.
 - Missing chance: 0.3
 - Attack points: 20
 - Effect: None
+
 ### Undead attacks
 #### Heart touch
 Touches the enemy's heard with its' cold ghost claws.
@@ -1393,6 +1403,7 @@ Causes confusion deep in the enemy's mind.
 - Missing chance: 0
 - Attack points: 15
 - Effect: [Confusion](#confusion)
+
 ### Water attacks
 #### Bubble bomb
 A deadly bubble.

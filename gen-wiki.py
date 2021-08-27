@@ -81,7 +81,7 @@ In the following all Poketes with their attributes are displayed.
 Those are all attacks present in the game.
 """
     for typ in sorted(types):
-        md_str += f"### {typ.capitalize()} attacks"
+        md_str += f"\n### {typ.capitalize()} attacks"
         for atc in [k for k in attacks if attacks[k]["type"] == typ]:
             md_str += f"""
 #### {attacks[atc]["name"]}
