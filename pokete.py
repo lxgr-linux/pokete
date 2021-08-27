@@ -199,16 +199,17 @@ class ChanceDor(Dor):
 
 
 class Poke():
-    def __init__(self, poke, xp, _hp="SKIP", attacks=None, player=True, shiny=False):
+    def __init__(self, poke, xp, _hp="SKIP", _attacks=None, player=True, shiny=False):
         self.inf = pokes[poke]
         self.enem = None
         self.oldhp = 0
         self.xp = xp
         self.identifier = poke
         self.shiny = shiny
-        if attacks is not None:
-            assert (len(attacks) <= 4), f"A Pokete {poke} can't have more than 4 attacks!"
-            self.attacks = attacks
+        if _attacks is not None:
+            assert (len(_attacks) <= 4), f"A Pokete {poke} can't have more than 4 attacks!"
+            self.attacks = [atc for atc in _attacks 
+                    if self.lvl() >= attacks[atc]["min_lvl"]]
         else:
             self.attacks = self.inf["attacks"][:4]
         for name in ["hp", "name", "miss_chance", "lose_xp",
@@ -480,7 +481,7 @@ class Figure(se.Object):
                             shiny = (False 
                                     if "shiny" not in si["pokes"][poke] 
                                     else si["pokes"][poke]["shiny"]),
-                            attacks = (si["pokes"][poke]["attacks"]
+                            _attacks = (si["pokes"][poke]["attacks"]
                                         if "attacks" in si["pokes"][poke]
                                         else None)
                             ) 
@@ -1159,6 +1160,7 @@ class LearnAttack():
                             self.poke.attacks[self.box.index.index] = new_attack
                             with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", fightmap):
                                 time.sleep(3)
+                            break
                             ev = ""
                         elif ev == "'1'":
                             ev = ""
