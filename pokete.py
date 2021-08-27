@@ -1128,8 +1128,10 @@ class LearnAttack():
     def __init__(self, poke):
         self.map = fightmap
         self.poke = poke
+        self.box = ChooseBox(6, 25, name="Attacks", info="1: Details")
 
     def __call__(self):
+        global ev
         pool = [i for i in attacks 
                     if attacks[i]["type"] in 
                         [i.name for i in self.poke.types] 
@@ -1138,12 +1140,36 @@ class LearnAttack():
                         self.poke.inf["pool"]+pool
                             if i not in self.poke.attacks
                             and attacks[i]["min_lvl"] <= self.poke.lvl()])
-        print(new_attack)
-        if ask_bool(fightmap, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}"):
+        #print(new_attack)
+        if ask_bool(fightmap, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
             if len(self.poke.attac_obs) != len(self.poke.attacks):
                 self.poke.attacks[-1] = new_attack
             elif len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)
+            else:
+                self.box.add_c_obs([se.Text(f"{i+1}: {j.name}", state=float) 
+                    for i, j in enumerate(self.poke.attac_obs)])
+                with self.box.center_add(fightmap):
+                    while True:
+                        if ev in ["'s'", "'w'"]:
+                            self.box.input(ev)
+                            self.map.show()
+                            ev = ""
+                        elif ev == "Key.enter":
+                            self.poke.attacks[self.box.index.index] = new_attack
+                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", fightmap):
+                                time.sleep(3)
+                            ev = ""
+                        elif ev == "'1'":
+                            ev = ""
+                            detail(self.poke)
+                            self.map.show(init=True)
+                        elif ev in ["Key.esc", "'q'"]:
+                            ev = ""
+                            break
+                        std_loop()
+                        time.sleep(0.05)
+                self.box.remove_c_obs()
             self.poke.set_vars()
 
 
@@ -1789,6 +1815,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             winner.move_shine()
             time.sleep(0.5)
             winner.set_vars()
+            if winner.lvl() % 5 == 0:
+                LearnAttack(winner)()
             if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
                 winner.evolve()
     fightmap.show()
