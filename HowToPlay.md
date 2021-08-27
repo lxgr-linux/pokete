@@ -14,6 +14,7 @@
 11. [Trading](#trading)
 12. [Shiny Poketes](#shiny-poketes)
 13. [Poketes-dex](#poketes-dex)
+14. [Learning Attacks](#learning-attacks)
 
 
 ## Plot
@@ -129,3 +130,10 @@ The Pokete dex is made for the user to keep track of all Poketes they ever caugh
 It can be accessed by pressing 5 in the main game.
 
 ![dex](assets/ss/ss25.png)
+
+## Learning Attacks
+Every fifth level a Poketes tries to learn a new attack. If the number of attacks a Pokete has is already four the player will be prompted to choose which attack will be replaced by the new one, else it will just be added to the existing attacks.
+
+![learning](assets/ss/ss26.png)
+
+![learning](assets/ss/ss27.png)
