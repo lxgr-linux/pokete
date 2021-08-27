@@ -1137,11 +1137,13 @@ class LearnAttack():
                     if attacks[i]["type"] in 
                         [i.name for i in self.poke.types] 
                         and attacks[i]["is_generic"]]
-        new_attack = random.choice([i for i in self.poke.inf["attacks"]+
+        full_pool = [i for i in self.poke.inf["attacks"]+
                         self.poke.inf["pool"]+pool
                             if i not in self.poke.attacks
-                            and attacks[i]["min_lvl"] <= self.poke.lvl()])
-        #print(new_attack)
+                            and attacks[i]["min_lvl"] <= self.poke.lvl()]
+        if len(full_pool) == 0:
+            return
+        new_attack = random.choice(full_pool)
         if ask_bool(fightmap, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
             if len(self.poke.attac_obs) != len(self.poke.attacks):
                 self.poke.attacks[-1] = new_attack
