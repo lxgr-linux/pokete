@@ -251,6 +251,20 @@ attacks = {
         "is_generic": True,
         "ap": 15,
     },
+    "flame_throw": {
+        "name": "Flame throw",
+        "factor": 2.5,
+        "action": "",
+        "move": ["attack"],
+        "miss_chance": 0,
+        "min_lvl": 15,
+        "desc": "Hans get ze Flammenwerfer!",
+        "type": "fire",
+        "effect": "EffectBurning",
+        "is_generic": True,
+        "ap": 10,
+    },
+
     "fire_ball": {
         "name": "Fire ball",
         "factor": 4,
