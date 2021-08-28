@@ -344,6 +344,19 @@ attacks = {
         "ap": 10,
     },
     # water attacks
+    "bubble_gun": {
+        "name": "Bubble gun",
+        "factor": 2,
+        "action": "",
+        "move": ["attack"],
+        "miss_chance": 0.2,
+        "min_lvl": 0,
+        "desc": "Fires some bubbles at the enemy.",
+        "type": "water",
+        "effect": None,
+        "is_generic": True,
+        "ap": 20,
+    },
     "bubble_bomb": {
         "name": "Bubble bomb",
         "factor": 6,
