@@ -634,6 +634,19 @@ attacks = {
         "is_generic": True,
         "ap": 10,
     },
+    "spikes": {
+        "name": "Spikes",
+        "factor": 1.75,
+        "action": "",
+        "move": ["attack"],
+        "miss_chance": 0,
+        "min_lvl": 0,
+        "desc": "Stabs the enemy with an some ice spikes.",
+        "type": "ice",
+        "effect": None,
+        "is_generic": True,
+        "ap": 30,
+    },
 }
 
 if __name__ == "__main__":
