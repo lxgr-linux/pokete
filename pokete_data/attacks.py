@@ -64,20 +64,7 @@ attacks = {
         "effect": "EffectParalyzation",
         "is_generic": False,
         "ap": 15,
-    },
-    "poison_bite": {
-        "name": "Poison bite",
-        "factor": 1,
-        "action": "",
-        "move": ["attack", "downgrade"],
-        "miss_chance": 0.3,
-        "min_lvl": 0,
-        "desc": "Makes the enemy weaker.",
-        "type": "poison",
-        "effect": "EffectPoison",
-        "is_generic": False,
-        "ap": 10,
-    },
+    }, 
     "tail_wipe": {
         "name": "Tail wipe",
         "factor": 2.5,
@@ -116,6 +103,20 @@ attacks = {
         "effect": "EffectSleep",
         "is_generic": False,
         "ap": 15,
+    },
+    # poison attacks
+    "poison_bite": {
+        "name": "Poison bite",
+        "factor": 1,
+        "action": "",
+        "move": ["attack", "downgrade"],
+        "miss_chance": 0.3,
+        "min_lvl": 0,
+        "desc": "Makes the enemy weaker.",
+        "type": "poison",
+        "effect": "EffectPoison",
+        "is_generic": False,
+        "ap": 10,
     },
     # stone attacks
     "pepple_fire": {
