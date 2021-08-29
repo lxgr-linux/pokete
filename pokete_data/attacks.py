@@ -157,6 +157,19 @@ attacks = {
         "is_generic": True,
         "ap": 20,
     },
+    "rock_smash": {
+        "name": "Rock smash",
+        "factor": 5,
+        "action": "",
+        "move": ["pound"],
+        "miss_chance": 0.1,
+        "min_lvl": 15,
+        "desc": "Pounds the enemy with the Poketes full weight.",
+        "type": "stone",
+        "effect": None,
+        "is_generic": True,
+        "ap": 5,
+    },
     # ground attacks
     "earch_quake": {
         "name": "Earch quake",
@@ -329,7 +342,7 @@ attacks = {
         "type": "flying",
         "effect": None,
         "is_generic": True,
-        "ap": 20,
+        "ap": 10,
     },
     "schmetter": {
         "name": "Schmetter",
