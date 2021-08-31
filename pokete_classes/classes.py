@@ -68,6 +68,16 @@ class InvItem:
         self.fn = fn
 
 
+class LearnDisc(InvItem):
+    def __init__(self, attack_name, attacks):
+        self.attack_name = attack_name
+        self.attack_dict = attacks[attack_name]
+        pretty_name = f"LD-{self.attack_dict['name']}"
+        name = f"ld-{attack_name}"
+        desc = f"Teaches a Pokete the attack '{self.attack_dict['name']}'."
+        super().__init__(name, pretty_name, desc, 0)
+
+
 class Settings():
     def __init__(self, autosave=True, animations=True, save_trainers=True, colors=True):
         self.keywords = ["autosave", "animations", "save_trainers", "colors"]
