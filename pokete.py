@@ -42,11 +42,7 @@ class Poketeball(se.Object):
         figure.give_item("poketeball")
         used_npcs.append(self.name)
         self.remove()
-
-# The following two classes (PC and Heal) where initially needed to manage healing
-# and reviewing off all Poketes in the deck
-# They are now obsolete (because of the Pokete-Center) and will be removed later,
-# but I will keep them for now for testing purposes
+ 
 
 class NPCTrigger(se.Object):
     def __init__(self, npc):
@@ -203,28 +199,36 @@ class ChanceDor(Dor):
 
 
 class Poke():
-    def __init__(self, poke, xp, _hp="SKIP", player=True, shiny=False):
+    def __init__(self, poke, xp, _hp="SKIP", _attacks=None, player=True, shiny=False):
+        self.inf = pokes[poke]
         self.enem = None
         self.oldhp = 0
         self.xp = xp
         self.identifier = poke
         self.shiny = shiny
-        for name in ["hp", "attacks", "name", "miss_chance", "lose_xp",
+        if _attacks is not None:
+            assert (len(_attacks) <= 4), f"A Pokete {poke} can't have more than 4 attacks!"
+            self.attacks = [atc for atc in _attacks 
+                    if self.lvl() >= attacks[atc]["min_lvl"]]
+        else:
+            self.attacks = self.inf["attacks"][:4]
+        for name in ["hp", "name", "miss_chance", "lose_xp",
                     "evolve_poke", "evolve_lvl"]:
-            exec(f"self.{name} = pokes[self.identifier][name]")
+            exec(f"self.{name} = self.inf[name]")
         if self.shiny:
             self.hp += 5
         self.set_player(player)
-        self.type = eval(pokes[self.identifier]["type"])
+        self.types = [eval(i) for i in self.inf["types"]]
+        self.type = self.types[0]
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
         self.hp_bar = se.Text(8*"#", esccode=Color.green, state="float")
         if _hp != "SKIP":
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
-        self.desc = se.Text(liner(pokes[poke]["desc"], se.width-34))
+        self.desc = se.Text(liner(self.inf["desc"], se.width-34))
         self.ico = se.Box(4, 11)
-        for ico in pokes[poke]["ico"]:
+        for ico in self.inf["ico"]:
             self.ico.add_ob(se.Text(ico["txt"], state="float", esccode=eval(ico["esc"]) if ico["esc"] is not None else "", ignore=f'{eval(ico["esc"]) if ico["esc"] is not None else ""} {Color.reset}'), 0, 0)
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
@@ -246,7 +250,7 @@ class Poke():
 
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
-            exec(f"self.{name} = int({pokes[self.identifier][name]})+(2 if self.shiny else 0)")
+            exec(f"self.{name} = int({self.inf[name]})+(2 if self.shiny else 0)")
         i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
         for old_ob, obj in zip(self.attac_obs, i):
             obj.ap = old_ob.ap
@@ -259,7 +263,9 @@ class Poke():
     def dict(self):
         return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
                 "ap": [atc.ap for atc in self.attac_obs],
-                "effects": [repr(e) for e in self.effects], "shiny": self.shiny}
+                "effects": [repr(e) for e in self.effects],
+                "attacks": self.attacks,
+                "shiny": self.shiny}
 
     def set_ap(self, dict):
         for atc, ap in zip(self.attac_obs, dict):
@@ -392,7 +398,7 @@ class Poke():
     def evolve(self):
         if not self.player:
             return
-        new = Poke(self.evolve_poke, self.xp)
+        new = Poke(self.evolve_poke, self.xp, attacks = self.attacks)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width/2-4), round((evomap.height-8)/2))
         self.move_shine()
@@ -469,9 +475,17 @@ class Figure(se.Object):
     def set_args(self, si):
         # processing data from save file
         self.name = si["user"]
-        self.pokes = [Poke((si["pokes"][poke]["name"] if type(poke) is int else poke),
+        self.pokes = [Poke((si["pokes"][poke]["name"] 
+                                if type(poke) is int else poke),
                             si["pokes"][poke]["xp"], si["pokes"][poke]["hp"],
-                            shiny=(False if "shiny" not in si["pokes"][poke] else si["pokes"][poke]["shiny"])) for poke in si["pokes"]]
+                            shiny = (False 
+                                    if "shiny" not in si["pokes"][poke] 
+                                    else si["pokes"][poke]["shiny"]),
+                            _attacks = (si["pokes"][poke]["attacks"]
+                                        if "attacks" in si["pokes"][poke]
+                                        else None)
+                            ) 
+                    for poke in si["pokes"]]
         for j, poke in enumerate(self.pokes):
             poke.set_ap(si["pokes"][j]["ap"])
             if "effects" in si["pokes"][j]:
@@ -1059,7 +1073,7 @@ Initiative: {poke.initiative}"""))
         self.idx = 0
 
         p_dict = {i[1]: i[-1] for i in
-            sorted([(pokes[j]["type"], j, pokes[j]) for j in list(pokes)[1:]])}
+            sorted([(pokes[j]["types"][0], j, pokes[j]) for j in list(pokes)[1:]])}
         self.obs = [se.Text(f"{i+1} {p_dict[poke]['name'] if poke in caught_poketes else '???'}", state="float")
                 for i, poke in enumerate(p_dict)]
         self.add_c_obs()
@@ -1109,6 +1123,58 @@ https://git.io/JRRqe
         self.box = InfoBox(self.help_text, self.map)
         self.box.name_label.rechar("Help") 
         self.box.info_label.rechar("q:close")
+
+
+class LearnAttack():
+    def __init__(self, poke):
+        self.map = fightmap
+        self.poke = poke
+        self.box = ChooseBox(6, 25, name="Attacks", info="1: Details")
+
+    def __call__(self):
+        global ev
+        pool = [i for i in attacks 
+                    if attacks[i]["type"] in 
+                        [i.name for i in self.poke.types] 
+                        and attacks[i]["is_generic"]]
+        full_pool = [i for i in self.poke.inf["attacks"]+
+                        self.poke.inf["pool"]+pool
+                            if i not in self.poke.attacks
+                            and attacks[i]["min_lvl"] <= self.poke.lvl()]
+        if len(full_pool) == 0:
+            return
+        new_attack = random.choice(full_pool)
+        if ask_bool(fightmap, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
+            if len(self.poke.attac_obs) != len(self.poke.attacks):
+                self.poke.attacks[-1] = new_attack
+            elif len(self.poke.attacks) < 4:
+                self.poke.attacks.append(new_attack)
+            else:
+                self.box.add_c_obs([se.Text(f"{i+1}: {j.name}", state=float) 
+                    for i, j in enumerate(self.poke.attac_obs)])
+                with self.box.center_add(fightmap):
+                    while True:
+                        if ev in ["'s'", "'w'"]:
+                            self.box.input(ev)
+                            self.map.show()
+                            ev = ""
+                        elif ev == "Key.enter":
+                            self.poke.attacks[self.box.index.index] = new_attack
+                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", fightmap):
+                                time.sleep(3)
+                            break
+                            ev = ""
+                        elif ev == "'1'":
+                            ev = ""
+                            detail(self.poke)
+                            self.map.show(init=True)
+                        elif ev in ["Key.esc", "'q'"]:
+                            ev = ""
+                            break
+                        std_loop()
+                        time.sleep(0.05)
+                self.box.remove_c_obs()
+            self.poke.set_vars()
 
 
 # General use functions
@@ -1753,6 +1819,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             winner.move_shine()
             time.sleep(0.5)
             winner.set_vars()
+            if winner.lvl() % 5 == 0:
+                LearnAttack(winner)()
             if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
                 winner.evolve()
     fightmap.show()

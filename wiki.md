@@ -26,26 +26,27 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        1. [Cubl](#cubl)
        2. [Spikl](#spikl)
    6. [Normal Poketes](#normal-poketes)
-       1. [Choka](#choka)
-       2. [Hornita](#hornita)
-       3. [Horny](#horny)
-       4. [Rato](#rato)
-       5. [Würgos](#würgos)
+       1. [Hornita](#hornita)
+       2. [Horny](#horny)
+       3. [Rato](#rato)
    7. [Plant Poketes](#plant-poketes)
        1. [Bushy](#bushy)
        2. [Poisopla](#poisopla)
        3. [Rosi](#rosi)
        4. [Treenator](#treenator)
-   8. [Stone Poketes](#stone-poketes)
+   8. [Poison Poketes](#poison-poketes)
+       1. [Choka](#choka)
+       2. [Würgos](#würgos)
+   9. [Stone Poketes](#stone-poketes)
        1. [Bigstone](#bigstone)
        2. [Lilstone](#lilstone)
        3. [Poundi](#poundi)
        4. [Steini](#steini)
-   9. [Undead Poketes](#undead-poketes)
+   10. [Undead Poketes](#undead-poketes)
        1. [Angrilo](#angrilo)
        2. [Confuso](#confuso)
        3. [Gobost](#gobost)
-   10. [Water Poketes](#water-poketes)
+   11. [Water Poketes](#water-poketes)
        1. [Blub](#blub)
        2. [Clampi](#clampi)
        3. [Karpi](#karpi)
@@ -59,11 +60,12 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        2. [Fire ball](#fire-ball)
        3. [Fire bite](#fire-bite)
    3. [Flying attacks](#flying-attacks)
-       1. [Eye pick](#eye-pick)
-       2. [Pick](#pick)
-       3. [Power pick](#power-pick)
-       4. [Schmetter](#schmetter)
-       5. [Wing hit](#wing-hit)
+       1. [Brooding](#brooding)
+       2. [Eye pick](#eye-pick)
+       3. [Pick](#pick)
+       4. [Power pick](#power-pick)
+       5. [Schmetter](#schmetter)
+       6. [Wing hit](#wing-hit)
    4. [Ground attacks](#ground-attacks)
        1. [Dick energy](#dick-energy)
        2. [Earch quake](#earch-quake)
@@ -76,15 +78,13 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        3. [Sword of ice](#sword-of-ice)
    6. [Normal attacks](#normal-attacks)
        1. [Bite](#bite)
-       2. [Brooding](#brooding)
-       3. [Choker](#chocer)
-       4. [Cry](#cry)
-       5. [Meat skewer](#meat-skewer)
-       6. [Poison bite](#poison-bite)
-       7. [Power bite](#power-bite)
-       8. [Snooze](#snooze)
-       9. [Tackle](#tackle)
-       10. [Tail wipe](#tail-wipe)
+       2. [Choker](#chocer)
+       3. [Cry](#cry)
+       4. [Meat skewer](#meat-skewer)
+       5. [Power bite](#power-bite)
+       6. [Snooze](#snooze)
+       7. [Tackle](#tackle)
+       8. [Tail wipe](#tail-wipe)
    7. [Plant attacks](#plant-attacks)
        1. [Apple drop](#apple-drop)
        2. [Bark hardening](#bark-hardening)
@@ -95,15 +95,17 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        7. [Root strangler](#root-strangler)
        8. [Sucker](#sucker)
        9. [Super sucker](#super-sucker)
-   8. [Stone attacks](#stone-attacks)
+   8. [Poison attacks](#poison-attacks)
+       1. [Poison bite](#poison-bite)
+   9. [Stone attacks](#stone-attacks)
        1. [Brick throw](#brick-throw)
        2. [Pepple fire](#pepple-fire)
        3. [Politure](#politure)
-   9. [Undead attacks](#undead-attacks)
+   10. [Undead attacks](#undead-attacks)
        1. [Confusion](#confusion)
        2. [Heart touch](#heart-touch)
        3. [Mind blow](#mind-blow)
-   10. [Water attacks](#water-attacks)
+   11. [Water attacks](#water-attacks)
        1. [Bubble bomb](#bubble-bomb)
        2. [Bubble shield](#bubble-shield)
        3. [Shell pinch](#shell-pinch)
@@ -479,32 +481,6 @@ A block of ice.
    + [Sword of ice](#sword-of-ice)
 - Does not evolve
 ### Normal Poketes
-#### Choka
-A fucking dangerous and enormous snake Pokete.
-
-```
- _______   
-/____ * \  
- (   \   \ 
-\______   \
-
-```
-
-- Type: [Normal](#types)
-- Health points: 25
-- Attack factor: level+5
-- Defense factor: level+1
-- Initiative: level+4
-- Missing chance: 0
-- Rarity: 0.5
-- Loosing experience: 4
-- Attacks:
-   + [Choker](#chocer)
-   + [Bite](#bite)
-   + [Poison bite](#poison-bite)
-   + [Power bite](#power-bite)
-- Does not evolve
-
 #### Hornita
 An majestic horse that is always looking for something to pick with its horn.
 
@@ -577,31 +553,6 @@ An annoying rat.
    + [Tackle](#tackle)
    + [Tail wipe](#tail-wipe)
 - Does not evolve
-
-#### Würgos
-A dangerous snake Pokete.
-
-```
-  >'({{{   
-  }}}}}}}  
- {{{{{{{{{ 
-           
-
-```
-
-- Type: [Normal](#types)
-- Health points: 20
-- Attack factor: level+3
-- Defense factor: level
-- Initiative: level+3
-- Missing chance: 0
-- Rarity: 1
-- Loosing experience: 2
-- Attacks:
-   + [Choker](#chocer)
-   + [Bite](#bite)
-   + [Poison bite](#poison-bite)
-- Evolves to [Choka](#choka) at level 30
 ### Plant Poketes
 #### Bushy
 A bush, and just a bush. But watch out!
@@ -701,6 +652,57 @@ A scary an dangerous apple tree.
    + [Branch stab](#branch-stab)
    + [Root strangler](#root-strangler)
 - Does not evolve
+### Poison Poketes
+#### Choka
+A fucking dangerous and enormous snake Pokete.
+
+```
+ _______   
+/____ * \  
+ (   \   \ 
+\______   \
+
+```
+
+- Type: [Poison](#types)
+- Health points: 25
+- Attack factor: level+5
+- Defense factor: level+1
+- Initiative: level+4
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 4
+- Attacks:
+   + [Choker](#chocer)
+   + [Bite](#bite)
+   + [Poison bite](#poison-bite)
+   + [Power bite](#power-bite)
+- Does not evolve
+
+#### Würgos
+A dangerous snake Pokete.
+
+```
+  >'({{{   
+  }}}}}}}  
+ {{{{{{{{{ 
+           
+
+```
+
+- Type: [Poison](#types)
+- Health points: 20
+- Attack factor: level+3
+- Defense factor: level
+- Initiative: level+3
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Choker](#chocer)
+   + [Bite](#bite)
+   + [Poison bite](#poison-bite)
+- Evolves to [Choka](#choka) at level 30
 ### Stone Poketes
 #### Bigstone
 A big and heavy stone made from one of the hardest stones.
@@ -951,6 +953,7 @@ A very harmless water Pokete that can be found everywhere.
 
 ## Attacks
 Those are all attacks present in the game.
+
 ### Electro attacks
 #### Shock
 Gives the enemy a shock.
@@ -981,6 +984,7 @@ Gives the enemy heavy a shock.
 - Missing chance: 0
 - Attack points: 10
 - Effect: [Paralyzation](#paralyzation)
+
 ### Fire attacks
 #### Fire bite
 Burns and bites the enemy at the same time.
@@ -1011,6 +1015,7 @@ Casts a fireball at the enemy.
 - Missing chance: 0
 - Attack points: 10
 - Effect: None
+
 ### Flying attacks
 #### Pick
 A pick at the enemy's weakest spot.
@@ -1052,6 +1057,16 @@ Hits the enemy with a wing.
 - Attack points: 10
 - Effect: None
 
+#### Brooding
+Regenerates 2 HP.
+
+- Type: [Flying](#types)
+- Minimum Level: 15
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 10
+- Effect: None
+
 #### Power pick
 A harsh picking on the enemy's head.
 
@@ -1061,6 +1076,7 @@ A harsh picking on the enemy's head.
 - Missing chance: 0.4
 - Attack points: 10
 - Effect: None
+
 ### Ground attacks
 #### Earch quake
 Brings the earth to shift.
@@ -1111,6 +1127,7 @@ Makes the Pokete hide under the ground to minimize damage.
 - Missing chance: 0
 - Attack points: 15
 - Effect: None
+
 ### Ice attacks
 #### Freeze
 Freezes the enemy.
@@ -1141,6 +1158,7 @@ Stabs a giant ice spike into the enemy.
 - Missing chance: 0.3
 - Attack points: 10
 - Effect: None
+
 ### Normal attacks
 #### Tackle
 Tackles the enemy very hard.
@@ -1192,16 +1210,6 @@ Chokes the enemy and makes it weaker.
 - Attack points: 15
 - Effect: [Paralyzation](#paralyzation)
 
-#### Poison bite
-Makes the enemy weaker.
-
-- Type: [Normal](#types)
-- Minimum Level: 0
-- Attack factor: 1
-- Missing chance: 0.3
-- Attack points: 10
-- Effect: [Poison](#poison)
-
 #### Tail wipe
 Wipes through the enemy's face.
 
@@ -1232,15 +1240,6 @@ Makes the enemy sleepy.
 - Attack points: 15
 - Effect: [Sleep](#sleep)
 
-#### Brooding
-Regenerates 2 HP.
-
-- Type: [Normal](#types)
-- Minimum Level: 15
-- Attack factor: 0
-- Missing chance: 0
-- Attack points: 10
-- Effect: None
 ### Plant attacks
 #### Apple drop
 Lets an apple drop on the enemy's head.
@@ -1331,6 +1330,18 @@ Stabs the enemy with a branch, preferably in the enemy's eyes.
 - Missing chance: 0.2
 - Attack points: 10
 - Effect: None
+
+### Poison attacks
+#### Poison bite
+Makes the enemy weaker.
+
+- Type: [Poison](#types)
+- Minimum Level: 0
+- Attack factor: 1
+- Missing chance: 0.3
+- Attack points: 10
+- Effect: [Poison](#poison)
+
 ### Stone attacks
 #### Pepple fire
 Fires pepples at the enemy and makes it blind.
@@ -1361,6 +1372,7 @@ Throws an euler brick at the enemy.
 - Missing chance: 0.3
 - Attack points: 20
 - Effect: None
+
 ### Undead attacks
 #### Heart touch
 Touches the enemy's heard with its' cold ghost claws.
@@ -1391,6 +1403,7 @@ Causes confusion deep in the enemy's mind.
 - Missing chance: 0
 - Attack points: 15
 - Effect: [Confusion](#confusion)
+
 ### Water attacks
 #### Bubble bomb
 A deadly bubble.
@@ -1444,8 +1457,9 @@ Fire|Flying, Plant, Undead, Ice|Stone, Water
 Ground|Normal|Flying, Ice
 Electro|Stone, Flying|Ground
 Flying|Plant|Stone
-Undead|Normal, Ground, Plant, Water|Fire
+Undead|Normal, Ground, Plant, Water, Poison|Fire
 Ice|Water, Plant, Ground|Fire
+Poison|Normal|Undead
 
 ## Items
 Those are all items present in the game, that can be traded or found.

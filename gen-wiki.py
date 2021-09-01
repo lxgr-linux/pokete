@@ -20,7 +20,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     # Table of contents
     for i, typ in enumerate(sorted(types)):
         md_str += f"""   {i+1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n"""
-        for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["type"] == typ]):
+        for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0]== typ]):
             md_str += f"""       {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
     md_str += "2. [Attacks](#attacks)\n"
     for i, typ in enumerate(sorted(types)):
@@ -45,7 +45,7 @@ In the following all Poketes with their attributes are displayed.
 """
     for typ in sorted(types):
         md_str += f"### {typ.capitalize()} Poketes"
-        for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["type"] == typ]:
+        for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]:
             evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
             md_attacks = ""
             for atc in pokes[poke]["attacks"]:
@@ -63,7 +63,7 @@ In the following all Poketes with their attributes are displayed.
 {ico}
 ```
 
-- Type: [{pokes[poke]["type"].capitalize()}](#types)
+- Type: [{pokes[poke]["types"][0].capitalize()}](#types)
 - Health points: {pokes[poke]["hp"]}
 - Attack factor: {pokes[poke]["atc"].replace("self.lvl()", "level")}
 - Defense factor: {pokes[poke]["defense"].replace("self.lvl()", "level")}
@@ -81,7 +81,7 @@ In the following all Poketes with their attributes are displayed.
 Those are all attacks present in the game.
 """
     for typ in sorted(types):
-        md_str += f"### {typ.capitalize()} attacks"
+        md_str += f"\n### {typ.capitalize()} attacks"
         for atc in [k for k in attacks if attacks[k]["type"] == typ]:
             md_str += f"""
 #### {attacks[atc]["name"]}

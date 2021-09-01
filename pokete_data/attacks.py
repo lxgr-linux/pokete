@@ -10,6 +10,7 @@ attacks = {
         "desc": "Tackles the enemy very hard.",
         "type": "normal",
         "effect": None,
+        "is_generic": True,
         "ap": 30,
     },
     "cry": {
@@ -22,6 +23,7 @@ attacks = {
         "desc": "So loud, it confuses the enemy.",
         "type": "normal",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "bite": {
@@ -34,6 +36,7 @@ attacks = {
         "desc": "A hard bite the sharp teeth.",
         "type": "normal",
         "effect": None,
+        "is_generic": False,
         "ap": 30,
     },
     "power_bite": {
@@ -46,6 +49,7 @@ attacks = {
         "desc": "The hardest bite you can think of.",
         "type": "normal",
         "effect": None,
+        "is_generic": False,
         "ap": 5,
     },
     "chocer": {
@@ -58,6 +62,7 @@ attacks = {
         "desc": "Chokes the enemy and makes it weaker.",
         "type": "normal",
         "effect": "EffectParalyzation",
+        "is_generic": False,
         "ap": 15,
     },
     "poison_bite": {
@@ -68,8 +73,9 @@ attacks = {
         "miss_chance": 0.3,
         "min_lvl": 0,
         "desc": "Makes the enemy weaker.",
-        "type": "normal",
+        "type": "poison",
         "effect": "EffectPoison",
+        "is_generic": False,
         "ap": 10,
     },
     "tail_wipe": {
@@ -82,6 +88,7 @@ attacks = {
         "desc": "Wipes through the enemy's face.",
         "type": "normal",
         "effect": None,
+        "is_generic": False,
         "ap": 10,
     },
     "meat_skewer": {
@@ -94,6 +101,7 @@ attacks = {
         "desc": "Drills the horn deep in the enemy's flesh.",
         "type": "normal",
         "effect": None,
+        "is_generic": False,
         "ap": 10,
     },
     "snooze": {
@@ -106,6 +114,7 @@ attacks = {
         "desc": "Makes the enemy sleepy.",
         "type": "normal",
         "effect": "EffectSleep",
+        "is_generic": False,
         "ap": 15,
     },
     # stone attacks
@@ -119,6 +128,7 @@ attacks = {
         "desc": "Fires pepples at the enemy and makes it blind.",
         "type": "stone",
         "effect": None,
+        "is_generic": True,
         "ap": 5,
     },
     "politure": {
@@ -131,6 +141,7 @@ attacks = {
         "desc": "Upgrades defense and attack points.",
         "type": "stone",
         "effect": None,
+        "is_generic": True,
         "ap": 15,
     },
     "brick_throw": {
@@ -143,6 +154,7 @@ attacks = {
         "desc": "Throws an euler brick at the enemy.",
         "type": "stone",
         "effect": None,
+        "is_generic": True,
         "ap": 20,
     },
     # ground attacks
@@ -156,6 +168,7 @@ attacks = {
         "desc": "Brings the earth to shift.",
         "type": "ground",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "power_roll": {
@@ -168,6 +181,7 @@ attacks = {
         "desc": "Rolls over the enemy.",
         "type": "ground",
         "effect": None,
+        "is_generic": True,
         "ap": 15,
     },
      "ground_hit": {
@@ -180,6 +194,7 @@ attacks = {
         "desc": "Damages the enemy with an unpredictable hit out of the ground.",
         "type": "ground",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
      "dick_energy": {
@@ -192,6 +207,7 @@ attacks = {
         "desc": "Collects a great amount of energy in the Poketes tip.",
         "type": "ground",
         "effect": None,
+        "is_generic": False,
         "ap": 15,
     },
      "hiding": {
@@ -204,6 +220,7 @@ attacks = {
         "desc": "Makes the Pokete hide under the ground to minimize damage.",
         "type": "ground",
         "effect": None,
+        "is_generic": False,
         "ap": 15,
     },
 
@@ -218,6 +235,7 @@ attacks = {
         "desc": "Burns and bites the enemy at the same time.",
         "type": "fire",
         "effect": "EffectBurning",
+        "is_generic": True,
         "ap": 15,
     },
     "ash_throw": {
@@ -230,6 +248,7 @@ attacks = {
         "desc": "Throws ashes in the enemy's eyes.",
         "type": "fire",
         "effect": None,
+        "is_generic": True,
         "ap": 15,
     },
     "fire_ball": {
@@ -242,6 +261,7 @@ attacks = {
         "desc": "Casts a fireball at the enemy.",
         "type": "fire",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     # flying attacks
@@ -255,6 +275,7 @@ attacks = {
         "desc": "A pick at the enemy's weakest spot.",
         "type": "flying",
         "effect": None,
+        "is_generic": True,
         "ap": 30,
     },
     "schmetter": {
@@ -267,6 +288,7 @@ attacks = {
         "desc": "Schmetters the enemy away.",
         "type": "flying",
         "effect": None,
+        "is_generic": False,
         "ap": 30,
     },
     "eye_pick": {
@@ -279,6 +301,7 @@ attacks = {
         "desc": "Picks out one of the enemy's eyes.",
         "type": "flying",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "wing_hit": {
@@ -291,6 +314,7 @@ attacks = {
         "desc": "Hits the enemy with a wing.",
         "type": "flying",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "brooding": {
@@ -301,8 +325,9 @@ attacks = {
         "miss_chance": 0,
         "min_lvl": 15,
         "desc": "Regenerates 2 HP.",
-        "type": "normal",
+        "type": "flying",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "power_pick": {
@@ -315,6 +340,7 @@ attacks = {
         "desc": "A harsh picking on the enemy's head.",
         "type": "flying",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     # water attacks
@@ -328,6 +354,7 @@ attacks = {
         "desc": "A deadly bubble.",
         "type": "water",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "bubble_shield": {
@@ -340,6 +367,7 @@ attacks = {
         "desc": "Creates a giant bubble that protects the Pokete.",
         "type": "water",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "wet_slap": {
@@ -352,6 +380,7 @@ attacks = {
         "desc": "Gives the enemy a wet and cold slap in the face.",
         "type": "water",
         "effect": None,
+        "is_generic": True,
         "ap": 15,
     },
     "shell_pinch": {
@@ -364,6 +393,7 @@ attacks = {
         "desc": "Pinches the enemy with its strong shells.",
         "type": "water",
         "effect": None,
+        "is_generic": False,
         "ap": 20,
     },
     # undead attacks
@@ -377,6 +407,7 @@ attacks = {
         "desc": "Touches the enemy's heard with its' cold ghost claws.",
         "type": "undead",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "confusion": {
@@ -389,6 +420,7 @@ attacks = {
         "desc": "Confuses the enemy.",
         "type": "undead",
         "effect": "EffectConfusion",
+        "is_generic": True,
         "ap": 40,
     },
     "mind_blow": {
@@ -401,6 +433,7 @@ attacks = {
         "desc": "Causes confusion deep in the enemy's mind.",
         "type": "undead",
         "effect": "EffectConfusion",
+        "is_generic": True,
         "ap": 15,
     },
     # electro attacks
@@ -414,6 +447,7 @@ attacks = {
         "desc": "Gives the enemy a shock.",
         "type": "electro",
         "effect": None,
+        "is_generic": True,
         "ap": 30,
     },
     "charging": {
@@ -426,6 +460,7 @@ attacks = {
         "desc": "Charges the Pokete.",
         "type": "electro",
         "effect": None,
+        "is_generic": True,
         "ap": 15,
     },
     "mega_arch": {
@@ -438,6 +473,7 @@ attacks = {
         "desc": "Gives the enemy heavy a shock.",
         "type": "electro",
         "effect": "EffectParalyzation",
+        "is_generic": True,
         "ap": 10,
     },
     # plant attacks
@@ -451,6 +487,7 @@ attacks = {
         "desc": "Lets an apple drop on the enemy's head.",
         "type": "plant",
         "effect": None,
+        "is_generic": False,
         "ap": 30,
     },
     "super_sucker": {
@@ -463,6 +500,7 @@ attacks = {
         "desc": "Sucks 2 HP from the enemy and adds it to it's own.",
         "type": "plant",
         "effect": None,
+        "is_generic": False,
         "ap": 10,
     },
     "sucker": {
@@ -475,6 +513,7 @@ attacks = {
         "desc": "Sucks 1 HP from the enemy and adds it to it's own.",
         "type": "plant",
         "effect": None,
+        "is_generic": False,
         "ap": 20,
     },
     "root_strangler": {
@@ -487,6 +526,7 @@ attacks = {
         "desc": "Uses old and crusty roots to strangle the enemy.",
         "type": "plant",
         "effect": "EffectParalyzation",
+        "is_generic": True,
         "ap": 15,
     },
     "root_slap": {
@@ -499,6 +539,7 @@ attacks = {
         "desc": "Uses old and crusty roots to slap the enemy.",
         "type": "plant",
         "effect": None,
+        "is_generic": True,
         "ap": 30,
     },
     "leaf_storm": {
@@ -511,6 +552,7 @@ attacks = {
         "desc": "Blasts a bunch of spiky leafs at the enemy.",
         "type": "plant",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     "bark_hardening": {
@@ -523,6 +565,7 @@ attacks = {
         "desc": "Hardens the bark to protect it better.",
         "type": "plant",
         "effect": None,
+        "is_generic": True,
         "ap": 15,
     },
     "poison_spores": {
@@ -535,6 +578,7 @@ attacks = {
         "desc": "Ejects some poisonous spores onto the enemy.",
         "type": "plant",
         "effect": "EffectPoison",
+        "is_generic": False,
         "ap": 15,
     },
     "branch_stab": {
@@ -547,6 +591,7 @@ attacks = {
         "desc": "Stabs the enemy with a branch, preferably in the enemy's eyes.",
         "type": "plant",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
     # ice attacks
@@ -560,6 +605,7 @@ attacks = {
         "desc": "Freezes the enemy.",
         "type": "ice",
         "effect": "EffectFreezing",
+        "is_generic": True,
         "ap": 10,
     },
     "snow_storm": {
@@ -572,6 +618,7 @@ attacks = {
         "desc": "Summons a snow storm full of ice spikes onto the enemy.",
         "type": "ice",
         "effect": None,
+        "is_generic": True,
         "ap": 20,
     },
     "sword_of_ice": {
@@ -584,6 +631,7 @@ attacks = {
         "desc": "Stabs a giant ice spike into the enemy.",
         "type": "ice",
         "effect": None,
+        "is_generic": True,
         "ap": 10,
     },
 }
