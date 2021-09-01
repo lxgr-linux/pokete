@@ -845,6 +845,20 @@ class Inv:
                         elif ev in ["Key.enter", "Key.esc", "'q'"]:
                             ev = ""
                             self.box2.remove()
+                            if type(obj) is LearnDisc:
+                                if ask_bool(movemap, f"Do you want to teach '{obj.attack_dict['name']}'?"):
+                                    poke = figure.pokes[deck(figure.pokes[:6], label="Your deck", in_fight=True)]
+                                    LearnAttack(poke, movemap)(obj.attack_name)
+                                    figure.remove_item(obj.name)
+                                    for obj in self.box.c_obs:
+                                        obj.remove()
+                                    self.box.remove_c_obs()
+                                    items = self.add()
+                                    if items == []:
+                                        break
+                                    if self.box.index.index >= len(items):
+                                        self.box.set_index(len(items)-1)
+                                    ev = ""
                             break
                         time.sleep(0.05)
                         movemap.show()
@@ -2123,6 +2137,7 @@ inv = Inv()
 # items
 for name in items:
     exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
+Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", attacks)
 buy = Buy()
 
 # playmap_1

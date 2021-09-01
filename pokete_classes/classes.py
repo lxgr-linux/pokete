@@ -73,7 +73,7 @@ class LearnDisc(InvItem):
         self.attack_name = attack_name
         self.attack_dict = attacks[attack_name]
         pretty_name = f"LD-{self.attack_dict['name']}"
-        name = f"ld-{attack_name}"
+        name = f"ld_{attack_name}"
         desc = f"Teaches a Pokete the attack '{self.attack_dict['name']}'."
         super().__init__(name, pretty_name, desc, 0)
 
