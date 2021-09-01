@@ -1126,25 +1126,31 @@ https://git.io/JRRqe
 
 
 class LearnAttack():
-    def __init__(self, poke):
-        self.map = fightmap
+    def __init__(self, poke, _map=None):
+        if _map is None:
+            self.map = fightmap
+        else:
+            self.map = _map
         self.poke = poke
         self.box = ChooseBox(6, 25, name="Attacks", info="1: Details")
 
-    def __call__(self):
+    def __call__(self, attack=None):
         global ev
-        pool = [i for i in attacks 
+        if attack is None:
+            pool = [i for i in attacks 
                     if attacks[i]["type"] in 
                         [i.name for i in self.poke.types] 
                         and attacks[i]["is_generic"]]
-        full_pool = [i for i in self.poke.inf["attacks"]+
+            full_pool = [i for i in self.poke.inf["attacks"]+
                         self.poke.inf["pool"]+pool
                             if i not in self.poke.attacks
                             and attacks[i]["min_lvl"] <= self.poke.lvl()]
-        if len(full_pool) == 0:
-            return
-        new_attack = random.choice(full_pool)
-        if ask_bool(fightmap, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
+            if len(full_pool) == 0:
+                return
+            new_attack = random.choice(full_pool)
+        else:
+            new_attack = attack
+        if ask_bool(self.map, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
             if len(self.poke.attac_obs) != len(self.poke.attacks):
                 self.poke.attacks[-1] = new_attack
             elif len(self.poke.attacks) < 4:
@@ -1152,7 +1158,7 @@ class LearnAttack():
             else:
                 self.box.add_c_obs([se.Text(f"{i+1}: {j.name}", state=float) 
                     for i, j in enumerate(self.poke.attac_obs)])
-                with self.box.center_add(fightmap):
+                with self.box.center_add(self.map):
                     while True:
                         if ev in ["'s'", "'w'"]:
                             self.box.input(ev)
@@ -1160,7 +1166,7 @@ class LearnAttack():
                             ev = ""
                         elif ev == "Key.enter":
                             self.poke.attacks[self.box.index.index] = new_attack
-                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", fightmap):
+                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", self.map):
                                 time.sleep(3)
                             break
                             ev = ""
