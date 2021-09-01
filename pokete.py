@@ -854,39 +854,39 @@ class Inv:
                                         if eval(obj.attack_dict['type']) in poke.types:
                                             break
                                         else:
-                                            ex_cond = ask_bool(movemap, f"You cant't teach '{obj.attack_dict['name']}' to '{poke.name}'!\n Do you want to continue?")
+                                            ex_cond = ask_bool(movemap, f"You cant't teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                                     if not ex_cond:
                                         break
                                     if  LearnAttack(poke, movemap)(obj.attack_name):
-                                        figure.remove_item(obj.name)
-                                        for obj in self.box.c_obs:
-                                            obj.remove()
-                                        self.box.remove_c_obs()
-                                        items = self.add()
-                                        if items == []:
+                                        items = self.rem_item(obj.name, items)
+                                        if len(items) == 0:
                                             break
-                                        if self.box.index.index >= len(items):
-                                            self.box.set_index(len(items)-1)
                                     ev = ""
                             break
                         time.sleep(0.05)
                         movemap.show()
                 elif ev == "'r'":
-                    if ask_bool(movemap, f"Do you really want to throw {items[self.box.index.index].pretty_name} away?"):
-                        figure.remove_item(items[self.box.index.index].name)
-                        for obj in self.box.c_obs:
-                            obj.remove()
-                        self.box.remove_c_obs()
-                        items = self.add()
-                        if items == []:
+                    if ask_bool(movemap, f"Do you really want to throw {items[self.box.index.index].pretty_name} away?"): 
+                        items = self.rem_item(items[self.box.index.index].name, items)
+                        if len(items) == 0:
                             break
-                        if self.box.index.index >= len(items):
-                            self.box.set_index(len(items)-1)
                     ev = ""
                 std_loop()
                 time.sleep(0.05)
                 movemap.show()
         self.box.remove_c_obs()
+
+    def rem_item(self, name, items):
+        figure.remove_item(name)
+        for obj in self.box.c_obs:
+            obj.remove()
+        self.box.remove_c_obs()
+        items = self.add()
+        if items == []:
+            return items
+        if self.box.index.index >= len(items):
+            self.box.set_index(len(items)-1)
+        return items
 
     def add(self):
         items = [eval("self."+i, {"self": self,}) for i in figure.inv if figure.inv[i] > 0]
