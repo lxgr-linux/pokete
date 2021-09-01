@@ -59,23 +59,28 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        1. [Ash throw](#ash-throw)
        2. [Fire ball](#fire-ball)
        3. [Fire bite](#fire-bite)
+       4. [Flame throw](#flame-throw)
    3. [Flying attacks](#flying-attacks)
        1. [Brooding](#brooding)
        2. [Eye pick](#eye-pick)
        3. [Pick](#pick)
        4. [Power pick](#power-pick)
        5. [Schmetter](#schmetter)
-       6. [Wing hit](#wing-hit)
+       6. [Storm gust](#storm-gust)
+       7. [Wind blow](#wind-blow)
+       8. [Wing hit](#wing-hit)
    4. [Ground attacks](#ground-attacks)
        1. [Dick energy](#dick-energy)
        2. [Earch quake](#earch-quake)
        3. [Ground hit](#ground-hit)
        4. [Hiding](#hiding)
        5. [Power roll](#power-roll)
+       6. [Toe Breaker](#toe-breaker)
    5. [Ice attacks](#ice-attacks)
        1. [Freeze](#freeze)
        2. [Snow storm](#snow-storm)
-       3. [Sword of ice](#sword-of-ice)
+       3. [Spikes](#spikes)
+       4. [Sword of ice](#sword-of-ice)
    6. [Normal attacks](#normal-attacks)
        1. [Bite](#bite)
        2. [Choker](#chocer)
@@ -101,15 +106,17 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        1. [Brick throw](#brick-throw)
        2. [Pepple fire](#pepple-fire)
        3. [Politure](#politure)
+       4. [Rock smash](#rock-smash)
    10. [Undead attacks](#undead-attacks)
        1. [Confusion](#confusion)
        2. [Heart touch](#heart-touch)
        3. [Mind blow](#mind-blow)
    11. [Water attacks](#water-attacks)
        1. [Bubble bomb](#bubble-bomb)
-       2. [Bubble shield](#bubble-shield)
-       3. [Shell pinch](#shell-pinch)
-       4. [Wet slap](#wet-slap)
+       2. [Bubble gun](#bubble-gun)
+       3. [Bubble shield](#bubble-shield)
+       4. [Shell pinch](#shell-pinch)
+       5. [Wet slap](#wet-slap)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -1006,6 +1013,16 @@ Throws ashes in the enemy's eyes.
 - Attack points: 15
 - Effect: None
 
+#### Flame throw
+Hans get ze Flammenwerfer!
+
+- Type: [Fire](#types)
+- Minimum Level: 15
+- Attack factor: 2.5
+- Missing chance: 0
+- Attack points: 10
+- Effect: [Burning](#burning)
+
 #### Fire ball
 Casts a fireball at the enemy.
 
@@ -1025,6 +1042,26 @@ A pick at the enemy's weakest spot.
 - Attack factor: 1.7
 - Missing chance: 0.1
 - Attack points: 30
+- Effect: None
+
+#### Wind blow
+Casts a wind blow at the enemy.
+
+- Type: [Flying](#types)
+- Minimum Level: 0
+- Attack factor: 2
+- Missing chance: 0
+- Attack points: 20
+- Effect: None
+
+#### Storm gust
+Casts a strong and fast storm gust full of rain and hail that hits the enemy at it's weakest spots and makes it wanting to die.
+
+- Type: [Flying](#types)
+- Minimum Level: 0
+- Attack factor: 6
+- Missing chance: 0
+- Attack points: 10
 - Effect: None
 
 #### Schmetter
@@ -1098,6 +1135,16 @@ Rolls over the enemy.
 - Attack points: 15
 - Effect: None
 
+#### Toe Breaker
+Breaks the enemys toes.
+
+- Type: [Ground](#types)
+- Minimum Level: 0
+- Attack factor: 2.5
+- Missing chance: 0.3
+- Attack points: 20
+- Effect: None
+
 #### Ground hit
 Damages the enemy with an unpredictable hit out of the ground.
 
@@ -1157,6 +1204,16 @@ Stabs a giant ice spike into the enemy.
 - Attack factor: 5
 - Missing chance: 0.3
 - Attack points: 10
+- Effect: None
+
+#### Spikes
+Stabs the enemy with an some ice spikes.
+
+- Type: [Ice](#types)
+- Minimum Level: 0
+- Attack factor: 1.75
+- Missing chance: 0
+- Attack points: 30
 - Effect: None
 
 ### Normal attacks
@@ -1373,6 +1430,16 @@ Throws an euler brick at the enemy.
 - Attack points: 20
 - Effect: None
 
+#### Rock smash
+Pounds the enemy with the Poketes full weight.
+
+- Type: [Stone](#types)
+- Minimum Level: 15
+- Attack factor: 5
+- Missing chance: 0.1
+- Attack points: 5
+- Effect: None
+
 ### Undead attacks
 #### Heart touch
 Touches the enemy's heard with its' cold ghost claws.
@@ -1405,6 +1472,16 @@ Causes confusion deep in the enemy's mind.
 - Effect: [Confusion](#confusion)
 
 ### Water attacks
+#### Bubble gun
+Fires some bubbles at the enemy.
+
+- Type: [Water](#types)
+- Minimum Level: 0
+- Attack factor: 2
+- Missing chance: 0.2
+- Attack points: 20
+- Effect: None
+
 #### Bubble bomb
 A deadly bubble.
 
