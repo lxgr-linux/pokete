@@ -849,8 +849,14 @@ class Inv:
                                 if ask_bool(movemap, f"Do you want to teach '{obj.attack_dict['name']}'?"):
                                     ex_cond = True
                                     while ex_cond:
-                                        poke = figure.pokes[deck(figure.pokes[:6], 
-                                                            label="Your deck", in_fight=True)]
+                                        index = deck(figure.pokes[:6], 
+                                                    label="Your deck", 
+                                                    in_fight=True)
+                                        if index is None:
+                                            ex_cond = False
+                                            movemap.show(init=True)
+                                            break
+                                        poke = figure.pokes[index]
                                         if eval(obj.attack_dict['type']) in poke.types:
                                             break
                                         else:
