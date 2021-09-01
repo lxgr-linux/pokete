@@ -857,16 +857,16 @@ class Inv:
                                             ex_cond = ask_bool(movemap, f"You cant't teach '{obj.attack_dict['name']}' to '{poke.name}'!\n Do you want to continue?")
                                     if not ex_cond:
                                         break
-                                    LearnAttack(poke, movemap)(obj.attack_name)
-                                    figure.remove_item(obj.name)
-                                    for obj in self.box.c_obs:
-                                        obj.remove()
-                                    self.box.remove_c_obs()
-                                    items = self.add()
-                                    if items == []:
-                                        break
-                                    if self.box.index.index >= len(items):
-                                        self.box.set_index(len(items)-1)
+                                    if  LearnAttack(poke, movemap)(obj.attack_name):
+                                        figure.remove_item(obj.name)
+                                        for obj in self.box.c_obs:
+                                            obj.remove()
+                                        self.box.remove_c_obs()
+                                        items = self.add()
+                                        if items == []:
+                                            break
+                                        if self.box.index.index >= len(items):
+                                            self.box.set_index(len(items)-1)
                                     ev = ""
                             break
                         time.sleep(0.05)
@@ -1169,7 +1169,7 @@ class LearnAttack():
                             if i not in self.poke.attacks
                             and attacks[i]["min_lvl"] <= self.poke.lvl()]
             if len(full_pool) == 0:
-                return
+                return False
             new_attack = random.choice(full_pool)
         else:
             new_attack = attack
@@ -1204,6 +1204,9 @@ class LearnAttack():
                         time.sleep(0.05)
                 self.box.remove_c_obs()
             self.poke.set_vars()
+            return True
+        else:
+            return False
 
 
 # General use functions
