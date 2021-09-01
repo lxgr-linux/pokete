@@ -847,7 +847,16 @@ class Inv:
                             self.box2.remove()
                             if type(obj) is LearnDisc:
                                 if ask_bool(movemap, f"Do you want to teach '{obj.attack_dict['name']}'?"):
-                                    poke = figure.pokes[deck(figure.pokes[:6], label="Your deck", in_fight=True)]
+                                    ex_cond = True
+                                    while ex_cond:
+                                        poke = figure.pokes[deck(figure.pokes[:6], 
+                                                            label="Your deck", in_fight=True)]
+                                        if eval(obj.attack_dict['type']) in poke.types:
+                                            break
+                                        else:
+                                            ex_cond = ask_bool(movemap, f"You cant't teach '{obj.attack_dict['name']}' to '{poke.name}'!\n Do you want to continue?")
+                                    if not ex_cond:
+                                        break
                                     LearnAttack(poke, movemap)(obj.attack_name)
                                     figure.remove_item(obj.name)
                                     for obj in self.box.c_obs:
