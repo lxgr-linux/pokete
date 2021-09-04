@@ -89,8 +89,8 @@ class Trainer(se.Object):
     def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
                 win_texts, sx, sy, arg_proto={}):
         super().__init__("a", state="solid")
-        for i in ["arg_proto", "name", "gender", "poke", "texts", "lose_texts",
-                "no_poke_texts", "win_texts", "sx", "sy"]:
+        for i in ["arg_proto", "name", "gender", "poke", "texts", 
+                "lose_texts", "no_poke_texts", "win_texts", "sx", "sy"]:
             exec(f"self.{i} = {i}")
 
     def do(self, map):
@@ -304,8 +304,7 @@ class Poke():
             for e in self.effects:
                 e.remove()
             for e in self.effects:
-                i = e.effect()
-                if i == 1:
+                if (i := e.effect()) == 1:
                     self.label_rechar()
                     return
                 elif i == 0:
@@ -449,8 +448,7 @@ class Station(se.Square):
 
     def next(self, ev):
         ev = eval(ev)
-        ne = eval(f"self.{ev}_next")
-        if ne != "":
+        if (ne := eval(f"self.{ev}_next")) != "":
             self.unchoose()
             exec(f"roadmap.{ne}.choose()")
 
@@ -971,12 +969,15 @@ class Menu:
         with self.box.add(movemap, movemap.width-self.box.width, 0):
             while True:
                 if ev == "Key.enter":
-                    i = self.box.c_obs[self.box.index.index]  # Fuck python for not having case statements
-                    if i == self.playername_label:
-                        figure.name = text_input(self.realname_label, movemap, figure.name, 18, 17)
+                    # Fuck python for not having case statements
+                    if ((i := self.box.c_obs[self.box.index.index]) == 
+                            self.playername_label):
+                        figure.name = text_input(self.realname_label, movemap,
+                                figure.name, 18, 17)
                         movemap.underline.remove()
                         movemap.balls_label.set(0, 1)
-                        movemap.name_label.rechar(figure.name, esccode=Color.thicc)
+                        movemap.name_label.rechar(figure.name, 
+                                esccode=Color.thicc)
                         movemap.balls_label.set(4+len(movemap.name_label.text), movemap.height-2)
                         movemap.underline.add(movemap, 0, movemap.height-2)
                     elif i == self.save_label:  # When will python3.10 come out?
@@ -1580,8 +1581,7 @@ def playmap_20_trader():
                 [" < I've lived in this town for long time and therefore have found some cool Poketes.",
                 " < Do you want to trade my cool Pokete?"])
     if ask_bool(movemap, "Do you want to trade a Pokete?"):
-        index = deck(figure.pokes[:6], "Your deck", True)
-        if index is None:
+        if (index := deck(figure.pokes[:6], "Your deck", True)) is None:
             return
         figure.add_poke(Poke("ostri", 500), index)
         used_npcs.append(playmap_20.trader_2.name)
@@ -1606,8 +1606,7 @@ def swap_poke():
     PORT = 65432
     save()
     do = ask_bool(movemap, "Do you want to be the host?")
-    index = deck(figure.pokes[:6], "Your deck", True)
-    if index is None:
+    if (index := deck(figure.pokes[:6], "Your deck", True)) is None:
         return
     if do:
         with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", movemap):
