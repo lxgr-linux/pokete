@@ -845,25 +845,54 @@ class Inv:
                         elif ev in ["Key.enter", "Key.esc", "'q'"]:
                             ev = ""
                             self.box2.remove()
+                            if type(obj) is LearnDisc:
+                                if ask_bool(movemap, f"Do you want to teach '{obj.attack_dict['name']}'?"):
+                                    ex_cond = True
+                                    while ex_cond:
+                                        index = deck(figure.pokes[:6], 
+                                                    label="Your deck", 
+                                                    in_fight=True)
+                                        if index is None:
+                                            ex_cond = False
+                                            movemap.show(init=True)
+                                            break
+                                        poke = figure.pokes[index]
+                                        if eval(obj.attack_dict['type']) in poke.types:
+                                            break
+                                        else:
+                                            ex_cond = ask_bool(movemap, f"You cant't teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
+                                    if not ex_cond:
+                                        break
+                                    if  LearnAttack(poke, movemap)(obj.attack_name):
+                                        items = self.rem_item(obj.name, items)
+                                        if len(items) == 0:
+                                            break
+                                    ev = ""
                             break
                         time.sleep(0.05)
                         movemap.show()
                 elif ev == "'r'":
-                    if ask_bool(movemap, f"Do you really want to throw {items[self.box.index.index].pretty_name} away?"):
-                        figure.remove_item(items[self.box.index.index].name)
-                        for obj in self.box.c_obs:
-                            obj.remove()
-                        self.box.remove_c_obs()
-                        items = self.add()
-                        if items == []:
+                    if ask_bool(movemap, f"Do you really want to throw {items[self.box.index.index].pretty_name} away?"): 
+                        items = self.rem_item(items[self.box.index.index].name, items)
+                        if len(items) == 0:
                             break
-                        if self.box.index.index >= len(items):
-                            self.box.set_index(len(items)-1)
                     ev = ""
                 std_loop()
                 time.sleep(0.05)
                 movemap.show()
         self.box.remove_c_obs()
+
+    def rem_item(self, name, items):
+        figure.remove_item(name)
+        for obj in self.box.c_obs:
+            obj.remove()
+        self.box.remove_c_obs()
+        items = self.add()
+        if items == []:
+            return items
+        if self.box.index.index >= len(items):
+            self.box.set_index(len(items)-1)
+        return items
 
     def add(self):
         items = [eval("self."+i, {"self": self,}) for i in figure.inv if figure.inv[i] > 0]
@@ -1126,25 +1155,31 @@ https://git.io/JRRqe
 
 
 class LearnAttack():
-    def __init__(self, poke):
-        self.map = fightmap
+    def __init__(self, poke, _map=None):
+        if _map is None:
+            self.map = fightmap
+        else:
+            self.map = _map
         self.poke = poke
         self.box = ChooseBox(6, 25, name="Attacks", info="1: Details")
 
-    def __call__(self):
+    def __call__(self, attack=None):
         global ev
-        pool = [i for i in attacks 
+        if attack is None:
+            pool = [i for i in attacks 
                     if attacks[i]["type"] in 
                         [i.name for i in self.poke.types] 
                         and attacks[i]["is_generic"]]
-        full_pool = [i for i in self.poke.inf["attacks"]+
+            full_pool = [i for i in self.poke.inf["attacks"]+
                         self.poke.inf["pool"]+pool
                             if i not in self.poke.attacks
                             and attacks[i]["min_lvl"] <= self.poke.lvl()]
-        if len(full_pool) == 0:
-            return
-        new_attack = random.choice(full_pool)
-        if ask_bool(fightmap, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
+            if len(full_pool) == 0:
+                return False
+            new_attack = random.choice(full_pool)
+        else:
+            new_attack = attack
+        if ask_bool(self.map, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
             if len(self.poke.attac_obs) != len(self.poke.attacks):
                 self.poke.attacks[-1] = new_attack
             elif len(self.poke.attacks) < 4:
@@ -1152,7 +1187,7 @@ class LearnAttack():
             else:
                 self.box.add_c_obs([se.Text(f"{i+1}: {j.name}", state=float) 
                     for i, j in enumerate(self.poke.attac_obs)])
-                with self.box.center_add(fightmap):
+                with self.box.center_add(self.map):
                     while True:
                         if ev in ["'s'", "'w'"]:
                             self.box.input(ev)
@@ -1160,7 +1195,7 @@ class LearnAttack():
                             ev = ""
                         elif ev == "Key.enter":
                             self.poke.attacks[self.box.index.index] = new_attack
-                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", fightmap):
+                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", self.map):
                                 time.sleep(3)
                             break
                             ev = ""
@@ -1175,6 +1210,9 @@ class LearnAttack():
                         time.sleep(0.05)
                 self.box.remove_c_obs()
             self.poke.set_vars()
+            return True
+        else:
+            return False
 
 
 # General use functions
@@ -2117,6 +2155,7 @@ inv = Inv()
 # items
 for name in items:
     exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
+Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", attacks)
 buy = Buy()
 
 # playmap_1

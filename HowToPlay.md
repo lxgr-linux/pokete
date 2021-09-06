@@ -15,6 +15,7 @@
 12. [Shiny Poketes](#shiny-poketes)
 13. [Poketes-dex](#poketes-dex)
 14. [Learning Attacks](#learning-attacks)
+15. [Learning Discs](#learning-discs)
 
 
 ## Plot
@@ -137,3 +138,6 @@ Every fifth level a Poketes tries to learn a new attack. If the number of attack
 ![learning](assets/ss/ss26.png)
 
 ![learning](assets/ss/ss27.png)
+
+## Learning-Discs
+LDs are DVD like items you can find on the map, that can be used to teach a special attack to a Pokete. They can only be used once!
