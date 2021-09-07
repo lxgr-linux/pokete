@@ -31,14 +31,14 @@ class HightGrass(se.Object):
     def action(self, ob):
         if random.randint(0,8) == 0:
             fight(Poke("__fallback__", 0) 
-                    if len([poke for poke in figure.pokes[:6] 
-                          if poke.hp > 0]) == 0 
-                    else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], 
-                Poke(random.choices(self.arg_proto["pokes"], 
-                                    weights=[pokes[i]["rarity"] 
-                                            for i in self.arg_proto["pokes"]])[0], 
-                    random.choices(list(range(self.arg_proto["minlvl"], 
-                                            self.arg_proto["maxlvl"])))[0], 
+                    if len([poke for poke in figure.pokes[:6]
+                          if poke.hp > 0]) == 0
+                    else [poke for poke in figure.pokes[:6] if poke.hp > 0][0],
+                Poke(random.choices(self.arg_proto["pokes"],
+                                    weights=[pokes[i]["rarity"]
+                                            for i in self.arg_proto["pokes"]])[0],
+                    random.choices(list(range(self.arg_proto["minlvl"],
+                                            self.arg_proto["maxlvl"])))[0],
                     player=False, shiny=(random.randint(0, 500) == 0)))
 
 
@@ -436,7 +436,8 @@ class Poke():
 class Station(se.Square):
     choosen = None
     obs = []
-    def __init__(self, associate, additionals, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
+    def __init__(self, associate, additionals, width, height, char="#", w_next="",
+            a_next="", s_next="", d_next="", state="solid", arg_proto={}):
         self.org_char = char
         self.associates = [associate]+[eval(i) for i in additionals]
         self.color = ""
@@ -1036,7 +1037,7 @@ class RoadMap:
             exec(f"self.{s} = Station({s}, **stations[s]['gen'])")
             exec(f"self.box.add_ob(self.{s}, **stations[s]['add'])")
 
-    def __call__(self):
+    def __call__(self, choose=False):
         global ev
         ev = ""
         for i in Station.obs:
@@ -1050,6 +1051,9 @@ class RoadMap:
                 elif ev in ["'3'", "Key.esc", "'q'"]:
                     ev = ""
                     break
+                elif (ev == "Key.enter" and choose
+                        and Station.choosen.has_been_visited()):
+                    return Station.choosen.associates[0]
                 std_loop()
                 time.sleep(0.05)
                 movemap.show()
