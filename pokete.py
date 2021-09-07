@@ -465,8 +465,11 @@ class Station(se.Square):
     def has_been_visited(self):
         return self.associates[0].name in visited_maps
 
-    def set_color(self):
-        if self.has_been_visited():
+    def is_city(self):
+        return "pokecenter" in map_data[self.associates[0].name]["hard_obs"]
+
+    def set_color(self, choose=False):
+        if self.has_been_visited() and (self.is_city() if choose else True):
             self.color = Color.yellow
             self.unchoose()
 
@@ -1041,7 +1044,7 @@ class RoadMap:
         global ev
         ev = ""
         for i in Station.obs:
-            i.set_color()
+            i.set_color(choose)
         [i for i in Station.obs if (figure.map if figure.map not in [shopmap, centermap] else figure.oldmap) in i.associates][0].choose()
         with self.box.add(movemap, movemap.width-self.box.width, 0):
             while True:
@@ -1052,7 +1055,8 @@ class RoadMap:
                     ev = ""
                     break
                 elif (ev == "Key.enter" and choose
-                        and Station.choosen.has_been_visited()):
+                        and Station.choosen.has_been_visited()
+                        and Station.choosen.is_city()):
                     return Station.choosen.associates[0]
                 std_loop()
                 time.sleep(0.05)
