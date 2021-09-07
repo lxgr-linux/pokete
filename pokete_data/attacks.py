@@ -329,6 +329,20 @@ attacks = {
         "ap": 10,
     },
     # flying attacks
+     "flying": {
+        "name": "Flying",
+        "factor": 1.5,
+        "action": "",
+        "world_action": "teleport()",
+        "move": ["attack"],
+        "miss_chance": 0.1,
+        "min_lvl": 0,
+        "desc": "Gives the Pokete the abbility to fly you around.",
+        "type": "flying",
+        "effect": None,
+        "is_generic": False,
+        "ap": 30,
+    },
     "pick": {
         "name": "Pick",
         "factor": 1.7,

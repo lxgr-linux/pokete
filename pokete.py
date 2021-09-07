@@ -630,6 +630,7 @@ class Deck:
     def __call__(self, pokes, label="Your full deck", in_fight=False):
         global ev
         ev = ""
+        ret_action = None
         self.map.resize(5*int((len(pokes)+1)/2)+2, width, self.map.background)
         #decksubmap.resize(height-1, width)
         se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
@@ -649,6 +650,8 @@ class Deck:
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
+                if ret_action != None:
+                    eval(ret_action)
                 return
             elif ev == "'2'":
                 ev = ""
@@ -693,8 +696,11 @@ class Deck:
                         return self.index.index
                 else:
                     self.rem_pokes(pokes)
-                    detail(pokes[self.index.index])
+                    ret_action = detail(pokes[self.index.index])
                     self.add_all(pokes)
+                    if ret_action is not None:
+                        ev = "'q'"
+                        continue
                     self.submap.full_show(init=True)
             std_loop()
             if len(pokes) > 0 and self.index.y-self.submap.y +6 > self.submap.height:
@@ -751,19 +757,6 @@ class Deck:
         self.index.set(pokes[self.index.index].text_name.x+len(pokes[self.index.index].text_name.text)+1, pokes[self.index.index].text_name.y)
 
 
-class WorldAction:
-    def __init__(self, name, fn, args=None):
-        self.name = name
-        self.fn = fn
-        if args is None:
-            self.args = args
-        else:
-            self.args = ()
-
-    def call(self):
-        self.fn(*self.args)
-
-
 class Detail(Deck):
     def __init__(self):
         self.map = se.Map(height-1, width, " ")
@@ -787,17 +780,19 @@ class Detail(Deck):
         self.type_label.add(self.map, 36, 5)
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height-1)
+        self.abbility_label.add(self.map, 9, self.map.height-1)
         self.line_middle.add(self.map, round(self.map.width/2), 7)
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
 
-    def __call__(self, poke):
+    def __call__(self, poke, abb=True):
         global ev
+        ret_action = None
         self.add(poke, self.map, 1, 1, False)
-        abb_obs = [eval(i.world_action) for i in poke.attac_obs 
+        abb_obs = [i for i in poke.attac_obs 
                     if i.world_action != ""]
-        if abb_obs != []:
+        if abb_obs != [] and abb:
             self.world_actions_label.rechar("Abbilities:"+" ".join([i.name 
                                                 for i in abb_obs]))
             self.abbility_label.rechar("2: Use abbility")
@@ -831,7 +826,25 @@ class Detail(Deck):
                                 atc.label_desc, atc.label_type_1, atc.label_type_2]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
-                return
+                return ret_action
+            elif ev == "'2'" and abb_obs != [] and abb:
+                with ChooseBox(len(abb_obs)+2, 25, name="Abbilities", 
+                        c_obs=[se.Text(i.name) 
+                            for i in abb_obs]).center_add(self.map) as box:
+                     while True:
+                        if ev in ["'s'", "'w'"]:
+                            box.input(ev)
+                            self.map.show()
+                            ev = ""
+                        elif ev == "Key.enter":
+                            ret_action = abb_obs[box.index.index].world_action
+                            ev = "'q'"
+                            break
+                        elif ev in ["Key.esc", "'q'"]:
+                            ev = ""
+                            break
+                        std_loop()
+                        time.sleep(0.05)
             std_loop()
             for atc in poke.attac_obs:  # This section generates the Text effect for attack labels
                 if len(atc.desc) > int((width-3)/2-1):
@@ -1240,11 +1253,11 @@ class LearnAttack():
                             self.poke.attacks[self.box.index.index] = new_attack
                             with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", self.map):
                                 time.sleep(3)
-                            break
                             ev = ""
+                            break
                         elif ev == "'1'":
                             ev = ""
-                            detail(self.poke)
+                            detail(self.poke, False)
                             self.map.show(init=True)
                         elif ev in ["Key.esc", "'q'"]:
                             ev = ""
