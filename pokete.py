@@ -1617,6 +1617,16 @@ def playmap_23_npc_8():
 # main functions
 ################
 
+def teleport():
+    if type(obj := roadmap(choose=True)) is None:
+        return
+    else:
+        cen_d = map_data[obj.name]["hard_obs"]["pokecenter"]
+        Dor("#", state="float",
+                    arg_proto={"map": eval(obj.name),
+                                "x": cen_d["x"]+5, "y": cen_d["y"]+6}).action(None)
+
+
 def swap_poke():
     if not ask_bool(movemap, "Do you want to trade with another trainer?"):
         return
