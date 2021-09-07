@@ -751,6 +751,19 @@ class Deck:
         self.index.set(pokes[self.index.index].text_name.x+len(pokes[self.index.index].text_name.text)+1, pokes[self.index.index].text_name.y)
 
 
+class WorldAction:
+    def __init__(self, name, fn, args=None):
+        self.name = name
+        self.fn = fn
+        if args is None:
+            self.args = args
+        else:
+            self.args = ()
+
+    def call(self):
+        self.fn(*self.args)
+
+
 class Detail(Deck):
     def __init__(self):
         self.map = se.Map(height-1, width, " ")
@@ -758,9 +771,11 @@ class Detail(Deck):
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width)
         self.attack_defense = se.Text("Attack:   Defense:")
+        self.world_actions_label = se.Text("Abbilities:")
         self.type_label = se.Text("Type:")
         self.initiative_label = se.Text("Initiative:")
         self.exit_label = se.Text("1: Exit")
+        self.abbility_label = se.Text("2: Use abbility")
         self.line_sep1 = se.Square("-", self.map.width-2, 1)
         self.line_sep2 = se.Square("-", self.map.width-2, 1)
         self.line_middle = se.Square("|", 1, 10)
@@ -768,6 +783,7 @@ class Detail(Deck):
         self.name_label.add(self.map, 2, 0)
         self.name_attacks.add(self.map, 2, 6)
         self.attack_defense.add(self.map, 13, 5)
+        self.world_actions_label.add(self.map, 24, 4)
         self.type_label.add(self.map, 36, 5)
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height-1)
@@ -779,6 +795,15 @@ class Detail(Deck):
     def __call__(self, poke):
         global ev
         self.add(poke, self.map, 1, 1, False)
+        abb_obs = [eval(i.world_action) for i in poke.attac_obs 
+                    if i.world_action != ""]
+        if abb_obs != []:
+            self.world_actions_label.rechar("Abbilities:"+" ".join([i.name 
+                                                for i in abb_obs]))
+            self.abbility_label.rechar("2: Use abbility")
+        else:
+            self.world_actions_label.rechar("")
+            self.abbility_label.rechar("")
         self.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
         for obj, x, y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
