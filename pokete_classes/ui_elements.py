@@ -45,7 +45,7 @@ class Box(se.Box):
         super().resize(height, width)
         self.inner.resize(width-2, height-2)
         self.frame.resize(height, width)
-        self.set_ob(self.info_label, 2, self.height-1))
+        self.set_ob(self.info_label, 2, self.height-1)
 
     def add(self, map, x, y):
         super().add(map, x, y)

@@ -2018,9 +2018,6 @@ def main():
 # Actual code execution
 #######################
 
-# validating data
-validate()
-
 # deciding on wich input to use
 if sys.platform == "linux":  # Use another (not on xserver relying) way to read keyboard input, to make this shit work in tty or via ssh, where no xserver is available
     def recogniser():
@@ -2053,6 +2050,8 @@ width, height = tss()
 # loading screen
 loading_screen = LoadingScreen(VERSION)
 loading_screen()
+# validating data
+validate()
 # types
 for i in types:
     exec(i+" = PokeType(i, **types[i])")
