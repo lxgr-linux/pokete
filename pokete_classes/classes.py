@@ -119,7 +119,7 @@ class ResizeScreen():
             self.map.resize(height-1, width, " ")
             self.warning_label.set(int(width/2)-13, int((height-1)/2)-1)
             self.size_label.rechar(f"{width}x{height}")
-            self.frame = StdFrame(height-1, width)
+            self.frame.resize(height-1, width)
             self.frame.add(self.map, 0, 0)
             self.map.show()
         return width, height
