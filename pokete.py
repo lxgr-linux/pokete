@@ -471,7 +471,9 @@ class Station(se.Square):
     def set_color(self, choose=False):
         if self.has_been_visited() and (self.is_city() if choose else True):
             self.color = Color.yellow
-            self.unchoose()
+        else:
+            self.color = ""
+        self.unchoose()
 
 class Figure(se.Object):
     def __init__(self, char, state="solid", arg_proto={}):
