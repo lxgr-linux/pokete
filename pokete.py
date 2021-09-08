@@ -573,13 +573,14 @@ class Attack():
             exec(f"self.{i}=attacks[index][i]")
         self.type = eval(attacks[index]["type"])
         self.max_ap = self.ap
-        self.label_name = se.Text(self.name, esccode=Color.underlined)
-        self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}")
-        self.label_factor = se.Text(f"Attack:{self.factor}")
-        self.label_desc = se.Text(self.desc[:int(width/2-1)])
-        self.label_type_1 = se.Text("Type:")
+        self.label_name = se.Text(self.name, esccode=Color.underlined,
+                state="float")
+        self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}", state="float")
+        self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
+        self.label_desc = se.Text(self.desc[:int(width/2-1)], state="float")
+        self.label_type_1 = se.Text("Type:", state="float")
         self.label_type_2 = se.Text(self.type.name.capitalize(),
-                                    esccode=self.type.color)
+                                    esccode=self.type.color, state="float")
 
     def give_effect(self, enem):
         if self.effect is not None:
@@ -762,16 +763,16 @@ class Detail(Deck):
         self.map = se.Map(height-1, width, " ")
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
-        self.frame = StdFrame2(17, self.map.width)
+        self.frame = StdFrame2(17, self.map.width, state="float")
         self.attack_defense = se.Text("Attack:   Defense:")
         self.world_actions_label = se.Text("Abbilities:")
         self.type_label = se.Text("Type:")
         self.initiative_label = se.Text("Initiative:")
         self.exit_label = se.Text("1: Exit")
         self.abbility_label = se.Text("2: Use abbility")
-        self.line_sep1 = se.Square("-", self.map.width-2, 1)
-        self.line_sep2 = se.Square("-", self.map.width-2, 1)
-        self.line_middle = se.Square("|", 1, 10)
+        self.line_sep1 = se.Square("-", self.map.width-2, 1, state="float")
+        self.line_sep2 = se.Square("-", self.map.width-2, 1, state="float")
+        self.line_middle = se.Square("|", 1, 10, state="float")
         # adding
         self.name_label.add(self.map, 2, 0)
         self.name_attacks.add(self.map, 2, 6)
@@ -781,10 +782,10 @@ class Detail(Deck):
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height-1)
         self.abbility_label.add(self.map, 9, self.map.height-1)
-        self.line_middle.add(self.map, round(self.map.width/2), 7)
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
+        self.line_middle.add(self.map, round(self.map.width/2), 7)
 
     def __call__(self, poke, abb=True):
         global ev
