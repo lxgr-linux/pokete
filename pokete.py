@@ -2222,6 +2222,8 @@ inv = Inv()
 for name in items:
     exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
 Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", attacks)
+Inv.ld_flying = LearnDisc("flying", attacks)
+
 buy = Buy()
 
 # playmap_1
