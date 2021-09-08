@@ -767,11 +767,11 @@ class Detail(Deck):
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state="float")
         self.attack_defense = se.Text("Attack:   Defense:")
-        self.world_actions_label = se.Text("Abbilities:")
+        self.world_actions_label = se.Text("Abilities:")
         self.type_label = se.Text("Type:")
         self.initiative_label = se.Text("Initiative:")
         self.exit_label = se.Text("1: Exit")
-        self.abbility_label = se.Text("2: Use abbility")
+        self.ability_label = se.Text("2: Use ability")
         self.line_sep1 = se.Square("-", self.map.width-2, 1, state="float")
         self.line_sep2 = se.Square("-", self.map.width-2, 1, state="float")
         self.line_middle = se.Square("|", 1, 10, state="float")
@@ -783,7 +783,7 @@ class Detail(Deck):
         self.type_label.add(self.map, 36, 5)
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height-1)
-        self.abbility_label.add(self.map, 9, self.map.height-1)
+        self.ability_label.add(self.map, 9, self.map.height-1)
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
@@ -796,12 +796,12 @@ class Detail(Deck):
         abb_obs = [i for i in poke.attac_obs 
                     if i.world_action != ""]
         if abb_obs != [] and abb:
-            self.world_actions_label.rechar("Abbilities:"+" ".join([i.name 
+            self.world_actions_label.rechar("Abilities:"+" ".join([i.name 
                                                 for i in abb_obs]))
-            self.abbility_label.rechar("2: Use abbility")
+            self.ability_label.rechar("2: Use ability")
         else:
             self.world_actions_label.rechar("")
-            self.abbility_label.rechar("")
+            self.ability_label.rechar("")
         self.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
         for obj, x, y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
@@ -831,7 +831,7 @@ class Detail(Deck):
                     del atc.temp_i, atc.temp_j
                 return ret_action
             elif ev == "'2'" and abb_obs != [] and abb:
-                with ChooseBox(len(abb_obs)+2, 25, name="Abbilities", 
+                with ChooseBox(len(abb_obs)+2, 25, name="Abilities", 
                         c_obs=[se.Text(i.name) 
                             for i in abb_obs]).center_add(self.map) as box:
                      while True:
