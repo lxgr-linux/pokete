@@ -7,7 +7,8 @@ class BoxIndex(se.Object):
 
 
 class StdFrame(se.Frame):
-    def __init__(self, height, width):
+    def __init__(self, height, width, corner_chars=None, horizontal_chars=None,
+            vertical_chars=None, state=None, ob_class=None, ob_args=None):
         super().__init__(width=width, height=height,
                         corner_chars=["┌", "┐", "└", "┘"],
                         horizontal_chars=["─", "─"],
@@ -41,15 +42,10 @@ class Box(se.Box):
         return self
 
     def resize(self, height, width):
-        self.height = height
-        self.width = width
+        super().resize(height, width)
         self.inner.resize(width-2, height-2)
-        self.rem_ob(self.frame)
-        self.frame = StdFrame(height, width)
-        self.add_ob(self.frame, 0, 0)
+        self.frame.resize(height, width)
         self.set_ob(self.info_label, 2, self.height-1)
-        self.rem_ob(self.name_label)
-        self.add_ob(self.name_label, 2, 0)
 
     def add(self, map, x, y):
         super().add(map, x, y)
