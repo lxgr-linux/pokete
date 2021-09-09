@@ -63,12 +63,13 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
    3. [Flying attacks](#flying-attacks)
        1. [Brooding](#brooding)
        2. [Eye pick](#eye-pick)
-       3. [Pick](#pick)
-       4. [Power pick](#power-pick)
-       5. [Schmetter](#schmetter)
-       6. [Storm gust](#storm-gust)
-       7. [Wind blow](#wind-blow)
-       8. [Wing hit](#wing-hit)
+       3. [Flying](#flying)
+       4. [Pick](#pick)
+       5. [Power pick](#power-pick)
+       6. [Schmetter](#schmetter)
+       7. [Storm gust](#storm-gust)
+       8. [Wind blow](#wind-blow)
+       9. [Wing hit](#wing-hit)
    4. [Ground attacks](#ground-attacks)
        1. [Dick energy](#dick-energy)
        2. [Earch quake](#earch-quake)
@@ -1034,6 +1035,16 @@ Casts a fireball at the enemy.
 - Effect: None
 
 ### Flying attacks
+#### Flying
+Gives the Pokete the abbility to fly you around.
+
+- Type: [Flying](#types)
+- Minimum Level: 0
+- Attack factor: 1.5
+- Missing chance: 0.1
+- Attack points: 30
+- Effect: None
+
 #### Pick
 A pick at the enemy's weakest spot.
 

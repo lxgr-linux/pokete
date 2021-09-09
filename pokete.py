@@ -30,7 +30,16 @@ __t = time.time()
 class HightGrass(se.Object):
     def action(self, ob):
         if random.randint(0,8) == 0:
-            fight(Poke("__fallback__", 0) if len([poke for poke in figure.pokes[:6] if poke.hp > 0]) == 0 else [poke for poke in figure.pokes[:6] if poke.hp > 0][0], Poke(random.choices(self.arg_proto["pokes"], weights=[pokes[i]["rarity"] for i in self.arg_proto["pokes"]])[0], random.choices(list(range(self.arg_proto["minlvl"], self.arg_proto["maxlvl"])))[0], player=False, shiny=(random.randint(0, 500) == 0)))
+            fight(Poke("__fallback__", 0) 
+                    if len([poke for poke in figure.pokes[:6]
+                          if poke.hp > 0]) == 0
+                    else [poke for poke in figure.pokes[:6] if poke.hp > 0][0],
+                Poke(random.choices(self.arg_proto["pokes"],
+                                    weights=[pokes[i]["rarity"]
+                                            for i in self.arg_proto["pokes"]])[0],
+                    random.choices(list(range(self.arg_proto["minlvl"],
+                                            self.arg_proto["maxlvl"])))[0],
+                    player=False, shiny=(random.randint(0, 500) == 0)))
 
 
 class Poketeball(se.Object):
@@ -427,7 +436,8 @@ class Poke():
 class Station(se.Square):
     choosen = None
     obs = []
-    def __init__(self, associate, additionals, width, height, char="#", w_next="", a_next="", s_next="", d_next="", state="solid", arg_proto={}):
+    def __init__(self, associate, additionals, width, height, char="#", w_next="",
+            a_next="", s_next="", d_next="", state="solid", arg_proto={}):
         self.org_char = char
         self.associates = [associate]+[eval(i) for i in additionals]
         self.color = ""
@@ -455,10 +465,15 @@ class Station(se.Square):
     def has_been_visited(self):
         return self.associates[0].name in visited_maps
 
-    def set_color(self):
-        if self.has_been_visited():
+    def is_city(self):
+        return "pokecenter" in map_data[self.associates[0].name]["hard_obs"]
+
+    def set_color(self, choose=False):
+        if self.has_been_visited() and (self.is_city() if choose else True):
             self.color = Color.yellow
-            self.unchoose()
+        else:
+            self.color = ""
+        self.unchoose()
 
 class Figure(se.Object):
     def __init__(self, char, state="solid", arg_proto={}):
@@ -560,13 +575,14 @@ class Attack():
             exec(f"self.{i}=attacks[index][i]")
         self.type = eval(attacks[index]["type"])
         self.max_ap = self.ap
-        self.label_name = se.Text(self.name, esccode=Color.underlined)
-        self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}")
-        self.label_factor = se.Text(f"Attack:{self.factor}")
-        self.label_desc = se.Text(self.desc[:int(width/2-1)])
-        self.label_type_1 = se.Text("Type:")
+        self.label_name = se.Text(self.name, esccode=Color.underlined,
+                state="float")
+        self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}", state="float")
+        self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
+        self.label_desc = se.Text(self.desc[:int(width/2-1)], state="float")
+        self.label_type_1 = se.Text("Type:", state="float")
         self.label_type_2 = se.Text(self.type.name.capitalize(),
-                                    esccode=self.type.color)
+                                    esccode=self.type.color, state="float")
 
     def give_effect(self, enem):
         if self.effect is not None:
@@ -617,6 +633,7 @@ class Deck:
     def __call__(self, pokes, label="Your full deck", in_fight=False):
         global ev
         ev = ""
+        ret_action = None
         self.map.resize(5*int((len(pokes)+1)/2)+2, width, self.map.background)
         #decksubmap.resize(height-1, width)
         se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
@@ -636,6 +653,8 @@ class Deck:
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
+                if ret_action != None:
+                    eval(ret_action)
                 return
             elif ev == "'2'":
                 ev = ""
@@ -680,8 +699,11 @@ class Deck:
                         return self.index.index
                 else:
                     self.rem_pokes(pokes)
-                    detail(pokes[self.index.index])
+                    ret_action = detail(pokes[self.index.index])
                     self.add_all(pokes)
+                    if ret_action is not None:
+                        ev = "'q'"
+                        continue
                     self.submap.full_show(init=True)
             std_loop()
             if len(pokes) > 0 and self.index.y-self.submap.y +6 > self.submap.height:
@@ -743,29 +765,43 @@ class Detail(Deck):
         self.map = se.Map(height-1, width, " ")
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
-        self.frame = StdFrame2(17, self.map.width)
+        self.frame = StdFrame2(17, self.map.width, state="float")
         self.attack_defense = se.Text("Attack:   Defense:")
+        self.world_actions_label = se.Text("Abilities:")
         self.type_label = se.Text("Type:")
         self.initiative_label = se.Text("Initiative:")
         self.exit_label = se.Text("1: Exit")
-        self.line_sep1 = se.Square("-", self.map.width-2, 1)
-        self.line_sep2 = se.Square("-", self.map.width-2, 1)
-        self.line_middle = se.Square("|", 1, 10)
+        self.ability_label = se.Text("2: Use ability")
+        self.line_sep1 = se.Square("-", self.map.width-2, 1, state="float")
+        self.line_sep2 = se.Square("-", self.map.width-2, 1, state="float")
+        self.line_middle = se.Square("|", 1, 10, state="float")
         # adding
         self.name_label.add(self.map, 2, 0)
         self.name_attacks.add(self.map, 2, 6)
         self.attack_defense.add(self.map, 13, 5)
+        self.world_actions_label.add(self.map, 24, 4)
         self.type_label.add(self.map, 36, 5)
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height-1)
-        self.line_middle.add(self.map, round(self.map.width/2), 7)
+        self.ability_label.add(self.map, 9, self.map.height-1)
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
+        self.line_middle.add(self.map, round(self.map.width/2), 7)
 
-    def __call__(self, poke):
+    def __call__(self, poke, abb=True):
         global ev
+        ret_action = None
         self.add(poke, self.map, 1, 1, False)
+        abb_obs = [i for i in poke.attac_obs 
+                    if i.world_action != ""]
+        if abb_obs != [] and abb:
+            self.world_actions_label.rechar("Abilities:"+" ".join([i.name 
+                                                for i in abb_obs]))
+            self.ability_label.rechar("2: Use ability")
+        else:
+            self.world_actions_label.rechar("")
+            self.ability_label.rechar("")
         self.attack_defense.rechar(f"Attack:{poke.atc}{(4-len(str(poke.atc)))*' '}Defense:{poke.defense}")
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
         for obj, x, y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
@@ -793,7 +829,25 @@ class Detail(Deck):
                                 atc.label_desc, atc.label_type_1, atc.label_type_2]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
-                return
+                return ret_action
+            elif ev == "'2'" and abb_obs != [] and abb:
+                with ChooseBox(len(abb_obs)+2, 25, name="Abilities", 
+                        c_obs=[se.Text(i.name) 
+                            for i in abb_obs]).center_add(self.map) as box:
+                     while True:
+                        if ev in ["'s'", "'w'"]:
+                            box.input(ev)
+                            self.map.show()
+                            ev = ""
+                        elif ev == "Key.enter":
+                            ret_action = abb_obs[box.index.index].world_action
+                            ev = "'q'"
+                            break
+                        elif ev in ["Key.esc", "'q'"]:
+                            ev = ""
+                            break
+                        std_loop()
+                        time.sleep(0.05)
             std_loop()
             for atc in poke.attac_obs:  # This section generates the Text effect for attack labels
                 if len(atc.desc) > int((width-3)/2-1):
@@ -1005,7 +1059,7 @@ class Menu:
 
 class About:
     def __init__(self):
-        self.box = InfoBox(liner(f"Pokete v{VERSION}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
+        self.box = InfoBox(liner(f"Pokete v{VERSION} -- {CODENAME}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
 
     def __call__(self):
         global ev
@@ -1027,11 +1081,11 @@ class RoadMap:
             exec(f"self.{s} = Station({s}, **stations[s]['gen'])")
             exec(f"self.box.add_ob(self.{s}, **stations[s]['add'])")
 
-    def __call__(self):
+    def __call__(self, choose=False):
         global ev
         ev = ""
         for i in Station.obs:
-            i.set_color()
+            i.set_color(choose)
         [i for i in Station.obs if (figure.map if figure.map not in [shopmap, centermap] else figure.oldmap) in i.associates][0].choose()
         with self.box.add(movemap, movemap.width-self.box.width, 0):
             while True:
@@ -1041,6 +1095,10 @@ class RoadMap:
                 elif ev in ["'3'", "Key.esc", "'q'"]:
                     ev = ""
                     break
+                elif (ev == "Key.enter" and choose
+                        and Station.choosen.has_been_visited()
+                        and Station.choosen.is_city()):
+                    return Station.choosen.associates[0]
                 std_loop()
                 time.sleep(0.05)
                 movemap.show()
@@ -1198,11 +1256,11 @@ class LearnAttack():
                             self.poke.attacks[self.box.index.index] = new_attack
                             with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", self.map):
                                 time.sleep(3)
-                            break
                             ev = ""
+                            break
                         elif ev == "'1'":
                             ev = ""
-                            detail(self.poke)
+                            detail(self.poke, False)
                             self.map.show(init=True)
                         elif ev in ["Key.esc", "'q'"]:
                             ev = ""
@@ -1599,6 +1657,15 @@ def playmap_23_npc_8():
 
 # main functions
 ################
+
+def teleport():
+    if (obj := roadmap(choose=True)) is None:
+        return
+    else:
+        cen_d = map_data[obj.name]["hard_obs"]["pokecenter"]
+        Dor("", state="float", arg_proto={"map": eval(obj.name),
+                "x": cen_d["x"]+5, "y": cen_d["y"]+6}).action(None)
+
 
 def swap_poke():
     if not ask_bool(movemap, "Do you want to trade with another trainer?"):
@@ -2048,7 +2115,7 @@ else:
 tss = ResizeScreen()
 width, height = tss()
 # loading screen
-loading_screen = LoadingScreen(VERSION)
+loading_screen = LoadingScreen(VERSION, CODENAME)
 loading_screen()
 # validating data
 validate()
@@ -2154,6 +2221,8 @@ inv = Inv()
 for name in items:
     exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
 Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", attacks)
+Inv.ld_flying = LearnDisc("flying", attacks)
+
 buy = Buy()
 
 # playmap_1
