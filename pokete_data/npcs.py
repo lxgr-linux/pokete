@@ -119,6 +119,14 @@ npcs = {
         "x": 4,
         "y": 3
     },
+    "ld_man": {
+        "texts": [" < Hello fellow trainer!", " < You may have noticed that traveling between cities is not so comfortable nowadays.", " < But i can help you.", " < I can give you this lerning disc", " < You can use it to teach the 'flying' attack to one of your flying Poketes to ride on it to the next town.", " < Isn't this great?"],
+        "fn": "playmap_29_ld_man",
+        "args": (),
+        "map": "playmap_29",
+        "x": 13,
+        "y": 4
+    },
 }
 
 
