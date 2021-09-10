@@ -1,4 +1,4 @@
-# Pokete
+# Pokete -- Grey Edition
 ![Example](assets/ss/ss01.png)
 
 [See more example pics](assets/pics.md)
