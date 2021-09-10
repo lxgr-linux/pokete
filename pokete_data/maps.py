@@ -275,7 +275,14 @@ maps = {
             "pokes": ["poisopla", "treenator", "bushy", "confuso", "gobost"],
             "minlvl": 640,
             "maxlvl": 740
-        }
+        },
+    },
+     "playmap_29": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
     },
 }
 

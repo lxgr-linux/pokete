@@ -1655,6 +1655,13 @@ def playmap_23_npc_8():
         figure.add_money(100)
 
 
+def playmap_29_ld_man():
+    playmap_10.old_man.will = False
+    used_npcs.append(playmap_29.ld_man.name)
+    if ask_bool(movemap, "The man gifted you a 'LD-Flying'. Do you want to accept it?"):
+        figure.give_item("ld_flying")
+
+
 # main functions
 ################
 
