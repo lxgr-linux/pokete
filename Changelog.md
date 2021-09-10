@@ -20,6 +20,7 @@ What changed until this release?
 - Added Learn Discs that can be used to teach new attack to Poketes
 - Added abilities
 - Added flying
+- scrap_engine v0.3.3 is now needed
 
 
 0.4.1
