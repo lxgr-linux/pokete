@@ -1,3 +1,28 @@
+0.5.0
+------
+released: 2021-09-10
+
+What changed until this release?
+- Improve Help
+- Added CODENAME: Grey Edition
+- Now unvisited maps names are not displayed in Roadmap anymore
+- Added question when exiting
+- Added startuptime to savefile
+- Added Route 7
+- Added coloured Minimap
+- Added [Spikes](wiki.md#spikes), [Bubble gun](wiki.md#bubble-gun), [Flame throw](wiki.md#flame-throw), [Toe breaker](wiki.md#toe-breaker), [Wind blow](wiki.md#wind-blow), [Storm gust](wiki.md#storm-gust), [Rock smash](wiki.md#rock-smash) 
+- Added [Dicki](wiki.md#dicki), [Dick energy](wiki.md#dick-energy), [Ground hit](wiki.md#ground-hit), [Hiding](wiki.md#hiding)
+- Added [Schmetterling](wiki.md#Schmetterling), [Schmetter](wiki.md#schmetter)
+- Added abbility to learn a new attack very fifth level
+- Added second type
+- Added savable attacks
+- Added [Poison](wiki.md#types) Type
+- Added Learn Discs that can be used to teach new attack to Poketes
+- Added abilities
+- Added flying
+- scrap_engine v0.3.3 is now needed
+
+
 0.4.1
 ------
 released: 2021-08-08
