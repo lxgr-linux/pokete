@@ -235,7 +235,7 @@ class Poke():
         if _hp != "SKIP":
             self.hp = _hp if _hp <= self.full_hp else self.hp
             self.health_bar_maker(self.hp)
-        self.desc = se.Text(liner(self.inf["desc"], se.width-34))
+        self.desc = se.Text(liner(self.inf["desc"], se.screen_width-34))
         self.ico = se.Box(4, 11)
         for ico in self.inf["ico"]:
             self.ico.add_ob(se.Text(ico["txt"], state="float", esccode=eval(ico["esc"]) if ico["esc"] is not None else "", ignore=f'{eval(ico["esc"]) if ico["esc"] is not None else ""} {Color.reset}'), 0, 0)
