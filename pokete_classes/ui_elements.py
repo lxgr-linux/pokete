@@ -7,8 +7,7 @@ class BoxIndex(se.Object):
 
 
 class StdFrame(se.Frame):
-    def __init__(self, height, width, corner_chars=None, horizontal_chars=None,
-            vertical_chars=None, state=None, ob_class=None, ob_args=None):
+    def __init__(self, height, width):
         super().__init__(width=width, height=height,
                         corner_chars=["┌", "┐", "└", "┘"],
                         horizontal_chars=["─", "─"],
