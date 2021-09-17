@@ -406,7 +406,7 @@ class Poke():
     def evolve(self):
         if not self.player:
             return
-        new = Poke(self.evolve_poke, self.xp, attacks = self.attacks)
+        new = Poke(self.evolve_poke, self.xp, _attacks = self.attacks)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width/2-4), round((evomap.height-8)/2))
         self.move_shine()
@@ -1368,6 +1368,7 @@ def text_input(obj, map, name, wrap_len, max_len=1000000):
             map.show()
             ev = ""
         std_loop()
+        time.sleep(0.05)
 
 
 # Functions needed for movemap
