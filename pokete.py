@@ -1368,6 +1368,7 @@ def text_input(obj, map, name, wrap_len, max_len=1000000):
             map.show()
             ev = ""
         std_loop()
+        time.sleep(0.05)
 
 
 # Functions needed for movemap
