@@ -33,8 +33,9 @@ class NoColor(Color):
 
 
 class PlayMap(se.Map):
-    def __init__(self, height=se.height-1, width=se.width, trainers=None, name="",
-                pretty_name="", poke_args=None, extra_actions=None):
+    def __init__(self, height=se.screen_height-1, width=se.screen_width,
+                 trainers=None, name="", pretty_name="", poke_args=None,
+                 extra_actions=None):
         super().__init__(height=height, width=width, background=" ")
         self.trainers = trainers
         self.name = name
