@@ -1,3 +1,11 @@
+0.5.1
+------
+released: 2021-09-19
+
+Some minor changes due to API changes in scrap_engine v1.0.0.
+scrap_engine v1.0.0 is now required.
+
+
 0.5.0
 ------
 released: 2021-09-10
