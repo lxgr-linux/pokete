@@ -798,6 +798,41 @@ WW\/o o\/WW
             "esc": None}
         ]
     },
+    "diamondos": {
+        "name": "Diamondos",
+        "hp": 20,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+15",
+        "attacks": ["tackle", "politure"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A little what ever, that sticks out of the ground.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["stone", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+2",
+        "ico": [{
+            "txt": """
+ 
+    o o 
+     -""",
+            "esc": None},
+            {
+            "txt": """
+    /\ / 
+       >
+   <_""",
+            "esc": "Color.cyan"},
+            {
+            "txt": """
+      ^  
+   <     
+      _>""",
+            "esc": "Color.white"}
+        ]
+    },
 
 }
 
