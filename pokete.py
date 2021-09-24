@@ -372,7 +372,7 @@ class Poke():
         if self.enem == self:
             return
         line = se.Line(" ", self.enem.ico.x-self.ico.x+(-11 if self.player else 11),
-                        self.enem.ico.y-self.ico.y, type="crippled")
+                        self.enem.ico.y-self.ico.y, l_type="crippled")
         line.add(self.ico.map, self.ico.x+(11 if self.player else -1), self.ico.y+1)
         self.ico.map.show()
         for i in range(len(line.obs)):
