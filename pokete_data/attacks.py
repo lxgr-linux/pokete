@@ -220,7 +220,7 @@ attacks = {
         "move": ["attack"],
         "miss_chance": 0,
         "min_lvl": 20,
-        "desc": "Throws a heck lot of diamond psikes at the enemy.",
+        "desc": "Throws a heck lot of diamond spikes at the enemy.",
         "type": "stone",
         "effect": None,
         "is_generic": False,
