@@ -798,6 +798,41 @@ WW\/o o\/WW
             "esc": None}
         ]
     },
+    "diamondos": {
+        "name": "Diamondos",
+        "hp": 20,
+        "atc": "self.lvl()+2",
+        "defense": "self.lvl()+15",
+        "attacks": ["tackle", "politure", "dazzle"],
+        "pool": ["dia_stab", "dia_spikes"],
+        "miss_chance": 0.1,
+        "desc": "A precious diamond, that can only be found in the darkest caves.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["stone"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+2",
+        "ico": [{
+            "txt": """
+ 
+    o o 
+     -""",
+            "esc": None},
+            {
+            "txt": """
+    /\ / 
+       >
+   <_""",
+            "esc": "Color.cyan"},
+            {
+            "txt": """
+      ^  
+   <     
+      _>""",
+            "esc": "Color.white"}
+        ]
+    },
 
 }
 
