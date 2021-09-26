@@ -127,6 +127,30 @@ npcs = {
         "x": 13,
         "y": 4
     },
+   "lxgr": {
+           "texts": [" < Hello fellow traveler, my name is lxgr and I created this game. ", " < You may ask your self: 'Lxgr, what are you doing in this game?', and the answer is 'Standing around'.", " < I added this NPC, because I'm stuck in a train somewere between Hamburg and Rostock, and I'm bored.", " < You can contribute to this game at https://github.com/lxgr-linux/pokete .", " < If you want to hire me and stuff you can write me at lxgr@protonmail.com ."],
+        "fn": None,
+        "args": (),
+        "map": "playmap_30",
+        "x": 4,
+        "y": 2
+    },
+    "npc_10": {
+           "texts": [" < This is the great git tree of Flowy Town.", " < It's our most holy monument!"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_30",
+        "x": 123,
+        "y": 20
+    },
+    "npc_11": {
+           "texts": [" < This is the great Pokete arena of Flowy Town.", " < Here you'll have to fight our best trainers and most rare Poketes!"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_30",
+        "x": 60,
+        "y": 18
+    }, 
 }
 
 

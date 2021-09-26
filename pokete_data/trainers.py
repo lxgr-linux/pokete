@@ -262,6 +262,15 @@ trainers = {
                 [" < I wish you the best luck in 'Flowy Town'!"], 190, 8)
         },
     ],
+    "playmap_30": [{
+        "poke": ("poisopla", 950),
+        "args": ("Guy at the entrance", "He",
+                [" < Welcome to 'Flowy Town' the home of the flowers."],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < I wish you the best luck fighting against our best trainers!"], 5, 18)
+        }, 
+    ],
 }
 
 
