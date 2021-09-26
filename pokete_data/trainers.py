@@ -302,7 +302,6 @@ trainers = {
                 [" < This was unfortunate!"], 31, 4)
         },
     ],
-
 }
 
 

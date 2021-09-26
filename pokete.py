@@ -1662,6 +1662,12 @@ def playmap_29_ld_man():
     if ask_bool(movemap, "The man gifted you a 'LD-Flying'. Do you want to accept it?"):
         figure.give_item("ld_flying")
 
+def playmap_32_npc_12():
+    playmap_32.npc_12.will = False
+    used_npcs.append(playmap_32.npc_12.name)
+    if ask_bool(movemap, "The man gifted you a Hyperball. Do you want to accept it?"):
+        figure.give_item("hyperball")
+
 
 # main functions
 ################

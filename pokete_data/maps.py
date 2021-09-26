@@ -298,6 +298,13 @@ maps = {
         "extra_actions": None,
         "poke_args": None
     },
+    "playmap_32": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
 }
 
 
