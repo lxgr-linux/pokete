@@ -127,6 +127,20 @@ attacks = {
         "is_generic": False,
         "ap": 10,
     },
+    "poison_thorn": {
+        "name": "Poison thorn",
+        "factor": 2.75,
+        "action": "",
+        "world_action": "",
+        "move": ["attack", "downgrade"],
+        "miss_chance": 0.1,
+        "min_lvl": 15,
+        "desc": "Stabs a venomous thorn in the enemys flesh.",
+        "type": "poison",
+        "effect": "EffectPoison",
+        "is_generic": False,
+        "ap": 20,
+    },
     # stone attacks
     "pepple_fire": {
         "name": "Pepple fire",
