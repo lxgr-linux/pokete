@@ -1,4 +1,4 @@
-v0.5.0
+v0.5.1
 
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
@@ -39,9 +39,10 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        2. [Würgos](#würgos)
    9. [Stone Poketes](#stone-poketes)
        1. [Bigstone](#bigstone)
-       2. [Lilstone](#lilstone)
-       3. [Poundi](#poundi)
-       4. [Steini](#steini)
+       2. [Diamondos](#diamondos)
+       3. [Lilstone](#lilstone)
+       4. [Poundi](#poundi)
+       5. [Steini](#steini)
    10. [Undead Poketes](#undead-poketes)
        1. [Angrilo](#angrilo)
        2. [Confuso](#confuso)
@@ -105,9 +106,12 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        1. [Poison bite](#poison-bite)
    9. [Stone attacks](#stone-attacks)
        1. [Brick throw](#brick-throw)
-       2. [Pepple fire](#pepple-fire)
-       3. [Politure](#politure)
-       4. [Rock smash](#rock-smash)
+       2. [Dazzle](#dazzle)
+       3. [Dia spikes](#dia-spikes)
+       4. [Dia stab](#dia-stab)
+       5. [Pepple fire](#pepple-fire)
+       6. [Politure](#politure)
+       7. [Rock smash](#rock-smash)
    10. [Undead attacks](#undead-attacks)
        1. [Confusion](#confusion)
        2. [Heart touch](#heart-touch)
@@ -735,6 +739,31 @@ A big and heavy stone made from one of the hardest stones.
    + [Snooze](#snooze)
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
+- Does not evolve
+
+#### Diamondos
+A precious diamond, that can only be found in the darkest caves.
+
+```
+           
+    /\^/   
+   <o o>   
+   <_-_>   
+
+```
+
+- Type: [Stone](#types)
+- Health points: 20
+- Attack factor: level+2
+- Defense factor: level+15
+- Initiative: level+2
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Politure](#politure)
+   + [Dazzle](#dazzle)
 - Does not evolve
 
 #### Lilstone
@@ -1449,6 +1478,36 @@ Pounds the enemy with the Poketes full weight.
 - Attack factor: 5
 - Missing chance: 0.1
 - Attack points: 5
+- Effect: None
+
+#### Dia stab
+Stabs the enemy with an giant diamond spike.
+
+- Type: [Stone](#types)
+- Minimum Level: 15
+- Attack factor: 5
+- Missing chance: 0.1
+- Attack points: 5
+- Effect: None
+
+#### Dazzle
+Shines a bright light at the enemy and dazzles them.
+
+- Type: [Stone](#types)
+- Minimum Level: 10
+- Attack factor: 1.5
+- Missing chance: 0.2
+- Attack points: 20
+- Effect: [Paralyzation](#paralyzation)
+
+#### Dia spikes
+Throws a heck lot of diamond psikes at the enemy.
+
+- Type: [Stone](#types)
+- Minimum Level: 20
+- Attack factor: 2
+- Missing chance: 0
+- Attack points: 20
 - Effect: None
 
 ### Undead attacks
