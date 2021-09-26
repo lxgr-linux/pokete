@@ -737,8 +737,8 @@ WW\/o o\/WW
         "lose_xp": 6,
         "rarity": 0.9,
         "types": ["plant", "poison"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "megapois",
+        "evolve_lvl": 20,
         "initiative": "self.lvl()+1",
         "ico": [{
             "txt": """
@@ -749,6 +749,33 @@ WW\/o o\/WW
             {
             "txt": """
      w""",
+            "esc": "Color.purple"},
+                ]
+    },
+    "megapois": {
+        "name": "Megapois",
+        "hp": 25,
+        "atc": "self.lvl()+3",
+        "defense": "self.lvl()+5",
+        "attacks": ["root_slap", "poison_spores", "leaf_storm", "root_strangler"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A very unsuspicious plant.",
+        "lose_xp": 6,
+        "rarity": 0.9,
+        "types": ["plant", "poison"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+2",
+        "ico": [{
+            "txt": """
+    |/.
+.__\|/|
+ \_\||/ """,
+            "esc": None},
+            {
+            "txt": """    w w
+  w""",
             "esc": "Color.purple"},
                 ]
     },
