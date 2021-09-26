@@ -291,6 +291,13 @@ maps = {
         "extra_actions": None,
         "poke_args": None
     },
+    "playmap_31": {
+        "height": 14,
+        "width": 40,
+        "pretty_name": "Arena",
+        "extra_actions": None,
+        "poke_args": None
+    },
 }
 
 
