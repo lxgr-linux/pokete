@@ -268,7 +268,7 @@ maps = {
     },
     "playmap_28": {
         "height": 55,
-        "width": 200,
+        "width": 198,
         "pretty_name": "Route 7",
         "extra_actions": None,
         "poke_args": {
@@ -277,7 +277,28 @@ maps = {
             "maxlvl": 740
         },
     },
-     "playmap_29": {
+    "playmap_29": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_30": {
+        "height": 63,
+        "width": 148,
+        "pretty_name": "Flowy Town",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_31": {
+        "height": 14,
+        "width": 40,
+        "pretty_name": "Arena",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_32": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",

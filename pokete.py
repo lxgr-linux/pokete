@@ -1662,6 +1662,12 @@ def playmap_29_ld_man():
     if ask_bool(movemap, "The man gifted you a 'LD-Flying'. Do you want to accept it?"):
         figure.give_item("ld_flying")
 
+def playmap_32_npc_12():
+    playmap_32.npc_12.will = False
+    used_npcs.append(playmap_32.npc_12.name)
+    if ask_bool(movemap, "The man gifted you a Hyperball. Do you want to accept it?"):
+        figure.give_item("hyperball")
+
 
 # main functions
 ################
@@ -2457,11 +2463,23 @@ playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
        ob_class=HightGrass,
        ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640},
        state="float")
+
 # adding
 playmap_21.dor_playmap_19.add(playmap_21, 5, 26)
 playmap_21.dor.add(playmap_21, 10, 7)
 playmap_21.shopdor.add(playmap_21, 34, 7)
 playmap_21.lake_1.add(playmap_21, 65, 10)
+
+# playmap_30
+playmap_30.dor = Dor("#", state="float",
+                    arg_proto={"map": centermap,
+                                "x": int(centermap.width/2), "y": 7})
+playmap_30.shopdor = Dor("#", state="float",
+                        arg_proto={"map": shopmap,
+                                    "x": int(shopmap.width/2), "y": 7})
+# adding
+playmap_30.dor.add(playmap_30, 13, 7)
+playmap_30.shopdor.add(playmap_30, 30, 7)
 
 
 # centermap

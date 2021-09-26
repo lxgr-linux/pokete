@@ -262,6 +262,46 @@ trainers = {
                 [" < I wish you the best luck in 'Flowy Town'!"], 190, 8)
         },
     ],
+    "playmap_30": [{
+        "poke": ("poisopla", 950),
+        "args": ("Guy at the entrance", "He",
+                [" < Welcome to 'Flowy Town' the home of the flowers."],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < I wish you the best luck fighting against our best trainers!"], 5, 18)
+        }, 
+    ],
+    "playmap_31": [{
+        "poke": ("diamondos", 1000),
+        "args": ("Luther", "He",
+                [" < Welcome to the 'Flowy Town' Arena!"],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < You were lucky!"], 22, 10)
+        }, {
+        "poke": ("poisopla", 1000),
+        "args": ("Heavy Hans", "He",
+                [" < I don't think your Pokete is better than mine!"],
+                [" < Your journey got a fast end!"],
+                [" < I see you don't have a living Pokete"],
+                [" < The other trainers wont be as easy!"], 25, 8)
+        }, {
+        "poke": ("treenator", 1000),
+        "args": ("Aurelia", "She",
+                [" < You wont be ready for my treenator!"],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < Our best trainer will defeat you though!"], 28, 6)
+        },
+         {
+        "poke": ("rosi", 1200),
+        "args": ("Master of the flowers", "He",
+                [" < I'm the Master of the plants and I have one of the rarest plant Poketes!"],
+                [" < You're a fucking loooser!"],
+                [" < I see you don't have a living Pokete"],
+                [" < This was unfortunate!"], 31, 4)
+        },
+    ],
 }
 
 
