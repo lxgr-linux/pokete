@@ -2457,11 +2457,23 @@ playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
        ob_class=HightGrass,
        ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640},
        state="float")
+
 # adding
 playmap_21.dor_playmap_19.add(playmap_21, 5, 26)
 playmap_21.dor.add(playmap_21, 10, 7)
 playmap_21.shopdor.add(playmap_21, 34, 7)
 playmap_21.lake_1.add(playmap_21, 65, 10)
+
+# playmap_30
+playmap_30.dor = Dor("#", state="float",
+                    arg_proto={"map": centermap,
+                                "x": int(centermap.width/2), "y": 7})
+playmap_30.shopdor = Dor("#", state="float",
+                        arg_proto={"map": shopmap,
+                                    "x": int(shopmap.width/2), "y": 7})
+# adding
+playmap_30.dor.add(playmap_30, 13, 7)
+playmap_30.shopdor.add(playmap_30, 30, 7)
 
 
 # centermap
