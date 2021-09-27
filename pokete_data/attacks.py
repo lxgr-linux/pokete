@@ -135,7 +135,7 @@ attacks = {
         "move": ["attack", "downgrade"],
         "miss_chance": 0.1,
         "min_lvl": 15,
-        "desc": "Stabs a venomous thorn in the enemys flesh.",
+        "desc": "Stabs a venomous thorn in the enemy's flesh.",
         "type": "poison",
         "effect": "EffectPoison",
         "is_generic": False,
