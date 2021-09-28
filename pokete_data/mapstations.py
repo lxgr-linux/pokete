@@ -196,7 +196,7 @@ stations = {
     },
     "playmap_21": {
         "gen": {
-            "additionals": ["playmap_22", "playmap_23", "playmap_24", "playmap_25", "playmap_26", "playmap_27"],
+            "additionals": ["playmap_22", "playmap_23", "playmap_24", "playmap_25", "playmap_26", "playmap_27", "playmap_29"],
             "width": 3,
             "height": 1,
             "s_next": "playmap_19",
