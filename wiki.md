@@ -31,9 +31,10 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        3. [Rato](#rato)
    7. [Plant Poketes](#plant-poketes)
        1. [Bushy](#bushy)
-       2. [Poisopla](#poisopla)
-       3. [Rosi](#rosi)
-       4. [Treenator](#treenator)
+       2. [Megapois](#megapois)
+       3. [Poisopla](#poisopla)
+       4. [Rosi](#rosi)
+       5. [Treenator](#treenator)
    8. [Poison Poketes](#poison-poketes)
        1. [Choka](#choka)
        2. [Würgos](#würgos)
@@ -104,6 +105,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        9. [Super sucker](#super-sucker)
    8. [Poison attacks](#poison-attacks)
        1. [Poison bite](#poison-bite)
+       2. [Poison thorn](#poison-thorn)
    9. [Stone attacks](#stone-attacks)
        1. [Brick throw](#brick-throw)
        2. [Dazzle](#dazzle)
@@ -590,6 +592,32 @@ A bush, and just a bush. But watch out!
    + [Bark hardening](#bark-hardening)
 - Evolves to [Treenator](#treenator) at level 20
 
+#### Megapois
+A very unsuspicious plant.
+
+```
+    w w    
+  w |/.    
+.__\|/|    
+ \_\||/    
+
+```
+
+- Type: [Plant](#types)
+- Health points: 25
+- Attack factor: level+3
+- Defense factor: level+5
+- Initiative: level+2
+- Missing chance: 0.1
+- Rarity: 0.9
+- Loosing experience: 6
+- Attacks:
+   + [Root slap](#root-slap)
+   + [Poison spores](#poison-spores)
+   + [Leaf storm](#leaf-storm)
+   + [Poison thorn](#poison-thorn)
+- Does not evolve
+
 #### Poisopla
 A unsuspicious plant.
 
@@ -613,7 +641,7 @@ A unsuspicious plant.
    + [Root slap](#root-slap)
    + [Poison spores](#poison-spores)
    + [Leaf storm](#leaf-storm)
-- Does not evolve
+- Evolves to [Megapois](#megapois) at level 20
 
 #### Rosi
 A plant Pokete, that's often mistaken for a normal flower.
@@ -1439,6 +1467,16 @@ Makes the enemy weaker.
 - Attack points: 10
 - Effect: [Poison](#poison)
 
+#### Poison thorn
+Stabs a venomous thorn in the enemys flesh.
+
+- Type: [Poison](#types)
+- Minimum Level: 15
+- Attack factor: 2.75
+- Missing chance: 0.1
+- Attack points: 20
+- Effect: [Poison](#poison)
+
 ### Stone attacks
 #### Pepple fire
 Fires pepples at the enemy and makes it blind.
@@ -1501,7 +1539,7 @@ Shines a bright light at the enemy and dazzles them.
 - Effect: [Paralyzation](#paralyzation)
 
 #### Dia spikes
-Throws a heck lot of diamond psikes at the enemy.
+Throws a heck lot of diamond spikes at the enemy.
 
 - Type: [Stone](#types)
 - Minimum Level: 20
