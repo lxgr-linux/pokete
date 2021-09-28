@@ -17,5 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         
+      - name: install deps
+        run: pip3 install scrap_engine
+
       - name: gen-wiki
-        run: pip3 install scrap_engine && python3 ./gen-wiki.py
+        run: python3 ./gen-wiki.py
