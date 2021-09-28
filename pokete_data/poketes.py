@@ -802,6 +802,29 @@ WW\/o o\/WW
             "esc": None}
         ]
     },
+    "lil_nut": {
+        "name": "Lil nut",
+        "hp": 20,
+        "atc": "self.lvl()+1",
+        "defense": "self.lvl()+3",
+        "attacks": ["tackle", "ground_hit"],
+        "pool": ["dick_energy", "hiding"],
+        "miss_chance": 0.1,
+        "desc": "A very small what ever, that sticks out of the ground.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["ground", "normal"],
+        "evolve_poke": "dicki",
+        "evolve_lvl": 15,
+        "initiative": "self.lvl()+1",
+        "ico": [{
+            "txt": """
+
+    __
+   ('')""",
+            "esc": None}
+        ]
+    },
     "dicki": {
         "name": "Dicki",
         "hp": 20,
@@ -814,13 +837,36 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 1,
         "types": ["ground", "normal"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "dicko",
+        "evolve_lvl": 35,
         "initiative": "self.lvl()+2",
         "ico": [{
             "txt": """    
     __
    ('')
+   |  |""",
+            "esc": None}
+        ]
+    },
+    "dicko": {
+        "name": "Dicko",
+        "hp": 25,
+        "atc": "self.lvl()+3",
+        "defense": "self.lvl()+5",
+        "attacks": ["tackle", "dick_energy", "hiding", "ground_hit"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "An even bigger what ever, that sticks out of the ground.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["ground", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": "self.lvl()+3",
+        "ico": [{
+            "txt": """    __
+   ('')
+   |  |
    |  |""",
             "esc": None}
         ]
