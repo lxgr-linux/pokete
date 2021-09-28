@@ -802,6 +802,29 @@ WW\/o o\/WW
             "esc": None}
         ]
     },
+    "lil_nut": {
+        "name": "Lil nut",
+        "hp": 20,
+        "atc": "self.lvl()+1",
+        "defense": "self.lvl()+3",
+        "attacks": ["tackle", "ground_hit"],
+        "pool": ["dick_energy", "hiding"],
+        "miss_chance": 0.1,
+        "desc": "A very small what ever, that sticks out of the ground.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["ground", "normal"],
+        "evolve_poke": "dicki",
+        "evolve_lvl": 15,
+        "initiative": "self.lvl()+1",
+        "ico": [{
+            "txt": """
+
+    __
+   ('')""",
+            "esc": None}
+        ]
+    },
     "dicki": {
         "name": "Dicki",
         "hp": 20,
