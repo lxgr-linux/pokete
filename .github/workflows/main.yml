@@ -22,3 +22,7 @@ jobs:
 
       - name: gen-wiki
         run: python3 ./gen-wiki.py
+        
+      - name: commit
+        run: git add ./wiki.md && git commit -m "Updated wiki" && git push
+
