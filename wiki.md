@@ -21,7 +21,9 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        7. [Voglo](#voglo)
    4. [Ground Poketes](#ground-poketes)
        1. [Dicki](#dicki)
-       2. [Rollator](#rollator)
+       2. [Dicko](#dicko)
+       3. [Lil nut](#lil_nut)
+       4. [Rollator](#rollator)
    5. [Ice Poketes](#ice-poketes)
        1. [Cubl](#cubl)
        2. [Spikl](#spikl)
@@ -418,7 +420,57 @@ A little what ever, that sticks out of the ground.
    + [Dick energy](#dick-energy)
    + [Hiding](#hiding)
    + [Ground hit](#ground-hit)
+- Evolves to [Dicko](#dicko) at level 35
+
+#### Dicko
+An even bigger what ever, that sticks out of the ground.
+
+```
+    __     
+   ('')    
+   |  |    
+   |  |    
+
+```
+
+- Type: [Ground](#types)
+- Health points: 25
+- Attack factor: level+3
+- Defense factor: level+5
+- Initiative: level+3
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Dick energy](#dick-energy)
+   + [Hiding](#hiding)
+   + [Ground hit](#ground-hit)
 - Does not evolve
+
+#### Lil nut
+A very small what ever, that sticks out of the ground.
+
+```
+           
+           
+    __     
+   ('')    
+
+```
+
+- Type: [Ground](#types)
+- Health points: 20
+- Attack factor: level+1
+- Defense factor: level+3
+- Initiative: level+1
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Ground hit](#ground-hit)
+- Evolves to [Dicki](#dicki) at level 15
 
 #### Rollator
 A big chunk of stone and dirt, that roles around.
@@ -1468,7 +1520,7 @@ Makes the enemy weaker.
 - Effect: [Poison](#poison)
 
 #### Poison thorn
-Stabs a venomous thorn in the enemys flesh.
+Stabs a venomous thorn in the enemy's flesh.
 
 - Type: [Poison](#types)
 - Minimum Level: 15
