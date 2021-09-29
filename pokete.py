@@ -233,7 +233,7 @@ class Poke():
             self.attacks = self.inf["attacks"][:4]
         for name in ["hp", "name", "miss_chance", "lose_xp",
                     "evolve_poke", "evolve_lvl"]:
-            exec(f"self.{name} = self.inf[name]")
+            setattr(self, name, self.inf[name])
         if self.shiny:
             self.hp += 5
         self.set_player(player)
@@ -269,7 +269,7 @@ class Poke():
 
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
-            exec(f"self.{name} = int({self.inf[name]})+(2 if self.shiny else 0)")
+            setattr(self, name, int(eval(self.inf[name]))+(2 if self.shiny else 0))
         i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
         for old_ob, obj in zip(self.attac_obs, i):
             obj.ap = old_ob.ap
@@ -1091,7 +1091,6 @@ class RoadMap:
             obj = Station(ob_maps[s], **stations[s]['gen'])
             self.box.add_ob(obj, **stations[s]['add'])
             setattr(self, s, obj)
-            #exec(f"self.box.add_ob(self.{s}, **stations[s]['add'])")
 
     def __call__(self, choose=False):
         global ev
