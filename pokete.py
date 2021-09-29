@@ -93,6 +93,15 @@ class NPC(se.Box):
         if self.__fn is not None:
             eval(self.__fn)(*self.args)
 
+    @staticmethod
+    def give(npc, name, item):
+        item = eval(f"Inv.{item}")
+        npc = eval(npc)
+        npc.will = False
+        used_npcs.append(npc.name)
+        if ask_bool(movemap, f"{name} gifted you a '{item.pretty_name}'. Do you want to accept it?"):
+            figure.give_item(item.name)
+
 
 class Trainer(se.Object):
     def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
@@ -1612,13 +1621,6 @@ def playmap_7_extra_action():
 # NPC functions
 ###############
 
-def playmap_10_old_man():
-    playmap_10.old_man.will = False
-    used_npcs.append(playmap_10.old_man.name)
-    if ask_bool(movemap, "Old man gifted you a Hyperball. Do you want to accept it?"):
-        figure.give_item("hyperball")
-
-
 def playmap_17_boy():
     if "choka" in [i.identifier for i in figure.pokes[:6]]:
         movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y,
@@ -1654,19 +1656,6 @@ def playmap_23_npc_8():
         playmap_23.npc_8.will = False
         used_npcs.append(playmap_23.npc_8.name)
         figure.add_money(100)
-
-
-def playmap_29_ld_man():
-    playmap_10.old_man.will = False
-    used_npcs.append(playmap_29.ld_man.name)
-    if ask_bool(movemap, "The man gifted you a 'LD-Flying'. Do you want to accept it?"):
-        figure.give_item("ld_flying")
-
-def playmap_32_npc_12():
-    playmap_32.npc_12.will = False
-    used_npcs.append(playmap_32.npc_12.name)
-    if ask_bool(movemap, "The man gifted you a Hyperball. Do you want to accept it?"):
-        figure.give_item("hyperball")
 
 
 # main functions
