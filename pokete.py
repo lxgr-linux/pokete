@@ -1866,7 +1866,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fight_invbox.remove_c_obs()
                     if item == "":
                         continue
-                    i = item.fn(obj, enem, info)  # I hate you python for not having switch statements
+                    i = eval(item.fn)(obj, enem, info)  # I hate you python for not having switch statements
                     if i == 1:
                         continue
                     elif i == 2:
@@ -2249,7 +2249,9 @@ about = About()
 inv = Inv()
 # items
 for name in items:
-    exec(f'Inv.{name} = InvItem(name, items[name]["pretty_name"], items[name]["desc"], items[name]["price"], {items[name]["fn"]})')
+    obj = InvItem(name, items[name]["pretty_name"], items[name]["desc"],
+                  items[name]["price"], items[name]["fn"])
+    setattr(Inv, name, obj)
 Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", attacks)
 Inv.ld_flying = LearnDisc("flying", attacks)
 
