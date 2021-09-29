@@ -439,7 +439,7 @@ class Station(se.Square):
     def __init__(self, associate, additionals, width, height, char="#", w_next="",
             a_next="", s_next="", d_next="", state="solid", arg_proto={}):
         self.org_char = char
-        self.associates = [associate]+[eval(i) for i in additionals]
+        self.associates = [associate]+[ob_maps[i] for i in additionals]
         self.color = ""
         super().__init__(char, width, height)
         for i in ["w_next", "a_next", "s_next", "d_next"]:
@@ -482,7 +482,7 @@ class Figure(se.Object):
         self.inv = {"poketeballs": 10}
         self.name = ""
         self.pokes = []
-        self.oldmap = playmap_1
+        self.oldmap = ob_maps["playmap_1"]
         self.direction = "t"
 
     def set_args(self, si):
@@ -505,17 +505,17 @@ class Figure(se.Object):
                 for e in si["pokes"][j]["effects"]:
                     poke.effects.append(eval(e)(poke))
         try:
-            if eval(si["map"]) in [centermap, shopmap]:  # Looking if figure would be in centermap, so the player may spawn out of the center
+            if si["map"] not in ob_maps:  # Looking if figure would be in centermap, so the player may spawn out of the center
                 self.add(eval(si["map"]), eval(si["map"]).dor_back1.x,
                         eval(si["map"]).dor_back1.y-1)
             else:
-                if self.add(eval(si["map"]), si["x"], si["y"]) == 1:
-                    raise se.CoordinateError(self, eval(si["map"]), si["x"], si["y"])
+                if self.add(ob_maps[si["map"]], si["x"], si["y"]) == 1:
+                    raise se.CoordinateError(self, ob_maps[si["map"]], si["x"], si["y"])
         except se.CoordinateError:
-            self.add(playmap_1, 6, 5)
+            self.add(ob_maps["playmap_1"], 6, 5)
         # Those if statemnets are important to ensure compatibility with older versions
         if "oldmap" in si:
-            self.oldmap = eval(si["oldmap"])
+            self.oldmap = ob_maps[si["oldmap"]]
         if "inv" in si:
             self.inv = si["inv"]
         if "money" in si:
@@ -1078,8 +1078,10 @@ class RoadMap:
         self.info_label = se.Text("")
         self.box.add_ob(self.info_label, 1, 1)
         for s in stations:
-            exec(f"self.{s} = Station({s}, **stations[s]['gen'])")
-            exec(f"self.box.add_ob(self.{s}, **stations[s]['add'])")
+            obj = Station(ob_maps[s], **stations[s]['gen'])
+            self.box.add_ob(obj, **stations[s]['add'])
+            setattr(self, s, obj)
+            #exec(f"self.box.add_ob(self.{s}, **stations[s]['add'])")
 
     def __call__(self, choose=False):
         global ev
@@ -2046,7 +2048,7 @@ def parse_obj(_map, name, obj, _dict):
 def gen_obs():
     # generating objects from map_data
     for ob_map in map_data:
-        _map = eval(ob_map)
+        _map = ob_maps[ob_map]
         for hard_ob in map_data[ob_map]["hard_obs"]:
             parse_obj(_map, hard_ob, 
                       se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"], ignore=" "), 
@@ -2057,7 +2059,7 @@ def gen_obs():
                       map_data[ob_map]["soft_obs"][soft_ob])
         for dor in map_data[ob_map]["dors"]:
             parse_obj(_map, dor, 
-                      Dor(" ", state="float", arg_proto={map_data[ob_map]["dors"][dor]["args"]}), 
+                      Dor(" ", state="float", arg_proto=map_data[ob_map]["dors"][dor]["args"]), 
                       map_data[ob_map]["dors"][dor])
         for ball in map_data[ob_map]["balls"]:
             if f'{ob_map}.{ball}' not in used_npcs or not settings.save_trainers:
@@ -2066,17 +2068,18 @@ def gen_obs():
                           map_data[ob_map]["balls"][ball])
     # NPCs
     for npc in npcs:
-        parse_obj(eval(npcs[npc]["map"]), npc,
+        parse_obj(ob_maps[npcs[npc]["map"]], npc,
                   NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"]),
                   npcs[npc])
 
     # adding all trainer to map
     for i in trainers:
+        _map = ob_maps[i]
         for j in trainers[i]:
-            eval(i).trainers.append(Trainer(Poke(*j["poke"], player=False),
+            _map.trainers.append(Trainer(Poke(*j["poke"], player=False),
                                     *j["args"]))
     for ob_map in map_data:
-        _map = eval(ob_map)
+        _map = ob_maps[ob_map]
         for trainer in _map.trainers:
             trainer.add(_map, trainer.sx, trainer.sy)
 
@@ -2206,12 +2209,13 @@ if not settings.colors:
 #########################################
 
 # maps
+ob_maps = {}
 for ob_map in maps:
     args = maps[ob_map]
     args["extra_actions"] = (eval(args["extra_actions"])
                             if args["extra_actions"] is not None
                             else None)
-    exec(f'{ob_map} = PlayMap(name = ob_map, **args)')
+    ob_maps[ob_map] = PlayMap(name = ob_map, **args)
 
 # Those two maps cant to sourced out, because `height` and `width`
 # are global variables exclusive to pokete.py
@@ -2221,7 +2225,7 @@ shopmap = PlayMap(height-1, width, name = "shopmap",
                     pretty_name = "Pokete-Shop")
 
 # movemap
-movemap = se.Submap(playmap_1, 0, 0, height=height-1, width=width)
+movemap = se.Submap(ob_maps["playmap_1"], 0, 0, height=height-1, width=width)
 figure = Figure("a")
 exclamation = se.Object("!")
 multitext = OutP("", state="float")
@@ -2256,14 +2260,16 @@ Inv.ld_flying = LearnDisc("flying", attacks)
 buy = Buy()
 
 # playmap_1
-playmap_1.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap,
-                                "x": int(centermap.width/2), "y": 7})
+_map = ob_maps["playmap_1"]
+_map.dor = Dor("#", state="float",
+               arg_proto={"map": centermap,
+                          "x": int(centermap.width/2), "y": 7})
 # adding
-playmap_1.dor.add(playmap_1, 25, 4)
+_map.dor.add(_map, 25, 4)
 
 # cave_1
-cave_1.inner = se.Text("""##########################################
+_map = ob_maps["cave_1"]
+_map.inner = se.Text("""##########################################
 ##        ################################
 #         ################################
 #         ######################        ##
@@ -2288,27 +2294,29 @@ cave_1.inner = se.Text("""##########################################
             "maxlvl": 128},
     state="float")
 # adding
-cave_1.inner.add(cave_1, 0, 0)
+_map.inner.add(_map, 0, 0)
 
 # playmap_3
-playmap_3.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap,
-                                "x": int(centermap.width/2), "y": 7})
-playmap_3.shopdor = Dor("#", state="float",
-                        arg_proto={"map": shopmap,
-                                    "x": int(shopmap.width/2), "y": 7})
+_map = ob_maps["playmap_3"]
+_map.dor = Dor("#", state="float",
+               arg_proto={"map": centermap,
+                          "x": int(centermap.width/2), "y": 7})
+_map.shopdor = Dor("#", state="float",
+                   arg_proto={"map": shopmap,
+                              "x": int(shopmap.width/2), "y": 7})
 # playmap_3.npc = NPC([" < Hey", " < What up?"])
 # adding
-playmap_3.dor.add(playmap_3, 25, 6)
-playmap_3.shopdor.add(playmap_3, 61, 6)
+_map.dor.add(_map, 25, 6)
+_map.shopdor.add(_map, 61, 6)
 # playmap_3.npc.add(playmap_3, 49, 14)
 
 # playmap_4
-playmap_4.dor_playmap_5 = ChanceDor("~", state="float",
-                                    arg_proto={"chance": 6,
-                                                "map": playmap_5,
-                                                "x": 17, "y": 16})
-playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+_map = ob_maps["playmap_4"]
+_map.dor_playmap_5 = ChanceDor("~", state="float",
+                               arg_proto={"chance": 6,
+                                          "map": ob_maps["playmap_5"],
+                                          "x": 17, "y": 16})
+_map.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2323,17 +2331,19 @@ playmap_4.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230},
     state="float")
 # adding
-playmap_4.dor_playmap_5.add(playmap_4, 56, 1)
-playmap_4.lake_1.add(playmap_4, 0, 0)
+_map.dor_playmap_5.add(_map, 56, 1)
+_map.lake_1.add(_map, 0, 0)
 
 # playmap_5
-playmap_5.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass,
-                            ob_args=playmap_5.poke_args)
+_map = ob_maps["playmap_5"]
+_map.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass,
+                      ob_args=_map.poke_args)
 # adding
-playmap_5.inner.add(playmap_5, 26, 1)
+_map.inner.add(_map, 26, 1)
 
 # playmap_7
-playmap_7.inner = se.Text("""##############################
+_map = ob_maps["playmap_7"]
+_map.inner = se.Text("""##############################
 #########        #############
 #########        #############
 #########        #############
@@ -2353,18 +2363,19 @@ playmap_7.inner = se.Text("""##############################
 ###################   ########
 ####################  ########
 ##############################""", ignore="#", ob_class=HightGrass,
-    ob_args=playmap_7.poke_args, state="float")
-for ob in (playmap_7.inner_walls.obs + playmap_7.trainers +
-        [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"]
+    ob_args=_map.poke_args, state="float")
+for ob in (_map.inner_walls.obs + _map.trainers +
+        [getattr(_map, i) for i in map_data["playmap_7"]["balls"]
                 if "playmap_7."+i not in used_npcs
                 or not settings.save_trainers]):
     ob.bchar = ob.char
     ob.rechar(" ")
 # adding
-playmap_7.inner.add(playmap_7, 0, 0)
+_map.inner.add(_map, 0, 0)
 
 # playmap_9
-playmap_9.inner = se.Text("""
+_map = ob_maps["playmap_9"]
+_map.inner = se.Text("""
 #########################
 #########################
 ###       #  #         ##
@@ -2374,12 +2385,13 @@ playmap_9.inner = se.Text("""
 #               #########
 ############ ############
 #########################""", ignore="#", ob_class=HightGrass,
-    ob_args=playmap_9.poke_args, state="float")
+    ob_args=_map.poke_args, state="float")
 # adding
-playmap_9.inner.add(playmap_9, 2, 1)
+_map.inner.add(_map, 2, 1)
 
-# playma_11
-playmap_11.lake_1 =  se.Text("""~~~~~                                                 ~~~~~~
+# playmap_11
+_map = ob_maps["playmap_11"]
+_map.lake_1 =  se.Text("""~~~~~                                                 ~~~~~~
 ~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~                       ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~~~
@@ -2390,24 +2402,26 @@ playmap_11.lake_1 =  se.Text("""~~~~~                                           
     esccode=Color.blue, ignore=Color.blue+" "+Color.reset,
     ob_class=HightGrass,
     ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290,
-            "maxlvl": 350},
+             "maxlvl": 350},
     state="float")
 # adding
-playmap_11.lake_1.add(playmap_11, 0, 12)
+_map.lake_1.add(_map, 0, 12)
 
 # playmap_13
-playmap_13.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap,
-                                "x": int(centermap.width/2), "y": 7})
-playmap_13.shopdor = Dor("#", state="float",
-                        arg_proto={"map": shopmap,
-                                    "x": int(shopmap.width/2), "y": 7})
+_map = ob_maps["playmap_13"]
+_map.dor = Dor("#", state="float",
+               arg_proto={"map": centermap,
+                          "x": int(centermap.width/2), "y": 7})
+_map.shopdor = Dor("#", state="float",
+                   arg_proto={"map": shopmap,
+                              "x": int(shopmap.width/2), "y": 7})
 # adding
-playmap_13.dor.add(playmap_13, 14, 29)
-playmap_13.shopdor.add(playmap_13, 52, 29)
+_map.dor.add(_map, 14, 29)
+_map.shopdor.add(_map, 52, 29)
 
 # playmap_18
-playmap_18.lake_1 =  se.Text("""  ~~
+_map = ob_maps["playmap_18"]
+_map.lake_1 =  se.Text("""  ~~
  ~~~~
 ~~~~~~~
 ~~~~~~~~
@@ -2418,13 +2432,14 @@ playmap_18.lake_1 =  se.Text("""  ~~
  ~~""", esccode=Color.blue, ignore=Color.blue+" "+Color.reset,
     ob_class=HightGrass,
     ob_args={"pokes": ["karpi", "blub", "clampi"],
-            "minlvl": 540, "maxlvl": 640},
+             "minlvl": 540, "maxlvl": 640},
     state="float")
 # adding
-playmap_18.lake_1.add(playmap_18, 72, 7)
+_map.lake_1.add(_map, 72, 7)
 
 # playmap_19
-playmap_19.inner = se.Text("""                         ####
+_map = ob_maps["playmap_19"]
+_map.inner = se.Text("""                         ####
                          #  #   ############
                          #  #   #          #
                          #  #   #          #
@@ -2454,21 +2469,22 @@ playmap_19.inner = se.Text("""                         ####
             # #
             # #
             ###""", ignore="#", ob_class=HightGrass,
-            ob_args=playmap_19.poke_args, state="float")
+            ob_args=_map.poke_args, state="float")
 # adding
-playmap_19.inner.add(playmap_19, 0, 0)
+_map.inner.add(_map, 0, 0)
 
 # playmap_21
-playmap_21.dor_playmap_19 = Dor("_", state="float",
-                                arg_proto={"map": playmap_19,
-                                            "x": 26, "y": 1})
-playmap_21.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap,
-                                "x": int(centermap.width/2), "y": 7})
-playmap_21.shopdor = Dor("#", state="float",
-                        arg_proto={"map": shopmap,
-                                    "x": int(shopmap.width/2), "y": 7})
-playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
+_map = ob_maps["playmap_21"]
+_map.dor_playmap_19 = Dor("_", state="float",
+                          arg_proto={"map": ob_maps["playmap_19"],
+                                     "x": 26, "y": 1})
+_map.dor = Dor("#", state="float",
+               arg_proto={"map": centermap,
+                          "x": int(centermap.width/2), "y": 7})
+_map.shopdor = Dor("#", state="float",
+                   arg_proto={"map": shopmap,
+                              "x": int(shopmap.width/2), "y": 7})
+_map.lake_1 = se.Text("""       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2481,21 +2497,22 @@ playmap_21.lake_1 =  se.Text("""       ~~~~~~~~~~~
        state="float")
 
 # adding
-playmap_21.dor_playmap_19.add(playmap_21, 5, 26)
-playmap_21.dor.add(playmap_21, 10, 7)
-playmap_21.shopdor.add(playmap_21, 34, 7)
-playmap_21.lake_1.add(playmap_21, 65, 10)
+_map.dor_playmap_19.add(_map, 5, 26)
+_map.dor.add(_map, 10, 7)
+_map.shopdor.add(_map, 34, 7)
+_map.lake_1.add(_map, 65, 10)
 
 # playmap_30
-playmap_30.dor = Dor("#", state="float",
-                    arg_proto={"map": centermap,
-                                "x": int(centermap.width/2), "y": 7})
-playmap_30.shopdor = Dor("#", state="float",
-                        arg_proto={"map": shopmap,
-                                    "x": int(shopmap.width/2), "y": 7})
+_map = ob_maps["playmap_30"]
+_map.dor = Dor("#", state="float",
+               arg_proto={"map": centermap,
+                          "x": int(centermap.width/2), "y": 7})
+_map.shopdor = Dor("#", state="float",
+                   arg_proto={"map": shopmap,
+                              "x": int(shopmap.width/2), "y": 7})
 # adding
-playmap_30.dor.add(playmap_30, 13, 7)
-playmap_30.shopdor.add(playmap_30, 30, 7)
+_map.dor.add(_map, 13, 7)
+_map.shopdor.add(_map, 30, 7)
 
 
 # centermap
