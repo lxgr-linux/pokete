@@ -1626,38 +1626,41 @@ def playmap_7_extra_action():
 
 def playmap_17_boy():
     if "choka" in [i.identifier for i in figure.pokes[:6]]:
-        movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y,
+        npc = ob_maps["playmap_17"].boy_1
+        movemap_text(npc.x, npc.y,
                     [" < Oh, cool!", " < You have a Choka!",
                     " < I've never seen one before!", " < Here you go, 200$"])
         if ask_bool(movemap, "Young boy gifted you 200$. Do you want to accept it?"):
             figure.add_money(200)
-        playmap_17.boy_1.will = False
-        used_npcs.append(playmap_17.boy_1.name)
+        npc.will = False
+        used_npcs.append(npc.name)
     else:
-        movemap_text(playmap_17.boy_1.x, playmap_17.boy_1.y,
+        movemap_text(npc.x, npc.y,
                     [" < In this region lives the würgos Pokete.",
                     f" < At level {pokes['würgos']['evolve_lvl']} it evolves to Choka.",
                     " < I have never seen one before!"])
 
 
 def playmap_20_trader():
-    movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y,
+    npc = ob_maps["playmap_20"].trader_2
+    movemap_text(npc.x, npc.y,
                 [" < I've lived in this town for long time and therefore have found some cool Poketes.",
                 " < Do you want to trade my cool Pokete?"])
     if ask_bool(movemap, "Do you want to trade a Pokete?"):
         if (index := deck(figure.pokes[:6], "Your deck", True)) is None:
             return
         figure.add_poke(Poke("ostri", 500), index)
-        used_npcs.append(playmap_20.trader_2.name)
+        used_npcs.append(npc.name)
         with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.", movemap):
             time.sleep(3)
-        movemap_text(playmap_20.trader_2.x, playmap_20.trader_2.y, [" < Cool, huh?"])
+        movemap_text(npc.x, npc.y, [" < Cool, huh?"])
 
 
 def playmap_23_npc_8():
+    npc = ob_maps["playmap_23"].npc_8
     if ask_bool(movemap, "The man gifted you 100$. Do you want to accept it?"):
-        playmap_23.npc_8.will = False
-        used_npcs.append(playmap_23.npc_8.name)
+        npc.will = False
+        used_npcs.append(npc.name)
         figure.add_money(100)
 
 
