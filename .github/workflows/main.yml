@@ -26,7 +26,7 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          if [[ $(git diff) == "" ]]
+          if [[ $(git diff) != "" ]]
           then
             git add ./wiki.md
             git commit -m "Updated wiki"
