@@ -94,9 +94,10 @@ class NPC(se.Box):
             eval(self.__fn)(*self.args)
 
     @staticmethod
-    def give(npc, name, item):
-        item = eval(f"Inv.{item}")
-        npc = eval(npc)
+    def give(_map, npc, name, item):
+        item = getattr(Inv, item)
+        _map = ob_maps[_map]
+        npc = getattr(_map, npc)
         npc.will = False
         used_npcs.append(npc.name)
         if ask_bool(movemap, f"{name} gifted you a '{item.pretty_name}'. Do you want to accept it?"):
