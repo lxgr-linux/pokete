@@ -1602,19 +1602,19 @@ def playmap_water_extra_action(obs):
                         figure.redraw()
 
 def playmap_4_extra_action():
-    playmap_water_extra_action(playmap_4.lake_1.obs)
+    playmap_water_extra_action(ob_maps["playmap_4"].lake_1.obs)
 
 def playmap_11_extra_action():
-    playmap_water_extra_action(playmap_11.lake_1.obs)
+    playmap_water_extra_action(ob_maps["playmap_11"].lake_1.obs)
 
 def playmap_18_extra_action():
-    playmap_water_extra_action(playmap_18.lake_1.obs)
+    playmap_water_extra_action(ob_maps["playmap_18"].lake_1.obs)
 
 def playmap_21_extra_action():
-    playmap_water_extra_action(playmap_21.lake_1.obs)
+    playmap_water_extra_action(ob_maps["playmap_21"].lake_1.obs)
 
 def playmap_7_extra_action():
-    for obj in playmap_7.inner_walls.obs + playmap_7.trainers + [eval("playmap_7."+i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
+    for obj in ob_maps["playmap_7"].inner_walls.obs + ob_maps["playmap_7"].trainers + [getattr(ob_maps["playmap_7"], i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
         if obj.added and math.sqrt((obj.y-figure.y)**2+(obj.x-figure.x)**2) <= 3:
             obj.rechar(obj.bchar)
         else:
