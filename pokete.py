@@ -196,9 +196,9 @@ class Dor(se.Object):
     def action(self, ob):
         figure.remove()
         i = figure.map.name
-        figure.add(self.arg_proto["map"], self.arg_proto["x"], self.arg_proto["y"])
-        figure.oldmap = eval(i)
-        game(self.arg_proto["map"])
+        figure.add(ob_maps[self.arg_proto["map"]], self.arg_proto["x"], self.arg_proto["y"])
+        figure.oldmap = ob_maps[i]
+        game(ob_maps[self.arg_proto["map"]])
 
 
 class ChanceDor(Dor):
@@ -505,7 +505,7 @@ class Figure(se.Object):
                 for e in si["pokes"][j]["effects"]:
                     poke.effects.append(eval(e)(poke))
         try:
-            if si["map"] not in ob_maps:  # Looking if figure would be in centermap, so the player may spawn out of the center
+            if si["map"] in ["centermap", "shopmap"]:  # Looking if figure would be in centermap, so the player may spawn out of the center
                 self.add(eval(si["map"]), eval(si["map"]).dor_back1.x,
                         eval(si["map"]).dor_back1.y-1)
             else:
@@ -1679,7 +1679,7 @@ def teleport():
         return
     else:
         cen_d = map_data[obj.name]["hard_obs"]["pokecenter"]
-        Dor("", state="float", arg_proto={"map": eval(obj.name),
+        Dor("", state="float", arg_proto={"map": obj.name,
                 "x": cen_d["x"]+5, "y": cen_d["y"]+6}).action(None)
 
 
@@ -2224,6 +2224,9 @@ centermap = PlayMap(height-1, width, name = "centermap",
 shopmap = PlayMap(height-1, width, name = "shopmap",
                     pretty_name = "Pokete-Shop")
 
+ob_maps["centermap"] = centermap
+ob_maps["shopmap"] = shopmap
+
 # movemap
 movemap = se.Submap(ob_maps["playmap_1"], 0, 0, height=height-1, width=width)
 figure = Figure("a")
@@ -2262,7 +2265,7 @@ buy = Buy()
 # playmap_1
 _map = ob_maps["playmap_1"]
 _map.dor = Dor("#", state="float",
-               arg_proto={"map": centermap,
+               arg_proto={"map": "centermap",
                           "x": int(centermap.width/2), "y": 7})
 # adding
 _map.dor.add(_map, 25, 4)
@@ -2299,10 +2302,10 @@ _map.inner.add(_map, 0, 0)
 # playmap_3
 _map = ob_maps["playmap_3"]
 _map.dor = Dor("#", state="float",
-               arg_proto={"map": centermap,
+               arg_proto={"map": "centermap",
                           "x": int(centermap.width/2), "y": 7})
 _map.shopdor = Dor("#", state="float",
-                   arg_proto={"map": shopmap,
+                   arg_proto={"map": "shopmap",
                               "x": int(shopmap.width/2), "y": 7})
 # playmap_3.npc = NPC([" < Hey", " < What up?"])
 # adding
@@ -2314,7 +2317,7 @@ _map.shopdor.add(_map, 61, 6)
 _map = ob_maps["playmap_4"]
 _map.dor_playmap_5 = ChanceDor("~", state="float",
                                arg_proto={"chance": 6,
-                                          "map": ob_maps["playmap_5"],
+                                          "map": "playmap_5",
                                           "x": 17, "y": 16})
 _map.lake_1 =  se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
@@ -2410,10 +2413,10 @@ _map.lake_1.add(_map, 0, 12)
 # playmap_13
 _map = ob_maps["playmap_13"]
 _map.dor = Dor("#", state="float",
-               arg_proto={"map": centermap,
+               arg_proto={"map": "centermap",
                           "x": int(centermap.width/2), "y": 7})
 _map.shopdor = Dor("#", state="float",
-                   arg_proto={"map": shopmap,
+                   arg_proto={"map": "shopmap",
                               "x": int(shopmap.width/2), "y": 7})
 # adding
 _map.dor.add(_map, 14, 29)
@@ -2479,10 +2482,10 @@ _map.dor_playmap_19 = Dor("_", state="float",
                           arg_proto={"map": ob_maps["playmap_19"],
                                      "x": 26, "y": 1})
 _map.dor = Dor("#", state="float",
-               arg_proto={"map": centermap,
+               arg_proto={"map": "centermap",
                           "x": int(centermap.width/2), "y": 7})
 _map.shopdor = Dor("#", state="float",
-                   arg_proto={"map": shopmap,
+                   arg_proto={"map": "shopmap",
                               "x": int(shopmap.width/2), "y": 7})
 _map.lake_1 = se.Text("""       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
@@ -2505,10 +2508,10 @@ _map.lake_1.add(_map, 65, 10)
 # playmap_30
 _map = ob_maps["playmap_30"]
 _map.dor = Dor("#", state="float",
-               arg_proto={"map": centermap,
+               arg_proto={"map": "centermap",
                           "x": int(centermap.width/2), "y": 7})
 _map.shopdor = Dor("#", state="float",
-                   arg_proto={"map": shopmap,
+                   arg_proto={"map": "shopmap",
                               "x": int(shopmap.width/2), "y": 7})
 # adding
 _map.dor.add(_map, 13, 7)
