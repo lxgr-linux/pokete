@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: gen-wiki
+
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  gen-wiki:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: install deps
+        run: pip3 install scrap_engine
+
+      - name: gen-wiki
+        run: python3 ./gen-wiki.py
+        
+      - name: Commit files
+        run: |
+          git config --local user.name  ${{ github.actor }}
+          if [[ $(git diff) != "" ]]
+          then
+            git add ./wiki.md
+            git commit -m "Updated wiki"
+          fi
+    
+      - name: Push changes  # push the output folder to your repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+

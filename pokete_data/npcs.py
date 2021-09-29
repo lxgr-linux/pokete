@@ -9,8 +9,8 @@ npcs = {
     },
     "old_man": {
         "texts": [" < Hello young trainer", " < When I've been at your age, I also was a trainer", " < And I found this very special Poketeball", " < A Hyperball", " < It's one of the oldest and rarerest of them all", " < You can keep it!"],
-        "fn": "playmap_10_old_man",
-        "args": (),
+        "fn": "NPC.give",
+        "args": ("playmap_10.old_man", "Old man", "hyperball"),
         "map": "playmap_10",
         "x": 4,
         "y": 3
@@ -121,8 +121,8 @@ npcs = {
     },
     "ld_man": {
         "texts": [" < Hello fellow trainer!", " < You may have noticed that traveling between cities is not so comfortable nowadays.", " < But i can help you.", " < I can give you this lerning disc", " < You can use it to teach the 'flying' attack to one of your flying Poketes to ride on it to the next town.", " < Isn't this great?"],
-        "fn": "playmap_29_ld_man",
-        "args": (),
+        "fn": "NPC.give",
+        "args": ("playmap_29.ld_man", "The man", "ld_flying"),
         "map": "playmap_29",
         "x": 13,
         "y": 4
@@ -153,8 +153,8 @@ npcs = {
     },
     "npc_12": {
         "texts": [" < I guess this will be helpfull for you!"],
-        "fn": "playmap_32_npc_12",
-        "args": (),
+        "fn": "NPC.give",
+        "args": ("playmap_32.npc_12", "Old man", "hyperball"),
         "map": "playmap_32",
         "x": 8,
         "y": 4
