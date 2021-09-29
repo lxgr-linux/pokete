@@ -2038,34 +2038,47 @@ def intro():
     game(intromap)
 
 
+def parse_obj(_map, name, obj, _dict):
+    setattr(_map, name, obj)
+    obj.add(_map, _dict["x"], _dict["y"])
+
+
 def gen_obs():
     # generating objects from map_data
     for ob_map in map_data:
+        _map = eval(ob_map)
         for hard_ob in map_data[ob_map]["hard_obs"]:
-            exec(f'{ob_map}.{hard_ob} = se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"], ignore=" ")')
-            exec(f'{ob_map}.{hard_ob}.add({ob_map}, map_data[ob_map]["hard_obs"][hard_ob]["x"], map_data[ob_map]["hard_obs"][hard_ob]["y"])')
+            parse_obj(_map, hard_ob, 
+                      se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"], ignore=" "), 
+                      map_data[ob_map]["hard_obs"][hard_ob])
         for soft_ob in map_data[ob_map]["soft_obs"]:
-            exec(f'{ob_map}.{soft_ob} = se.Text(map_data[ob_map]["soft_obs"][soft_ob]["txt"], ignore=Color.green+" "+Color.reset, ob_class=HightGrass, ob_args='+ob_map+'.poke_args, state="float", esccode=Color.green)')
-            exec(f'{ob_map}.{soft_ob}.add({ob_map}, map_data[ob_map]["soft_obs"][soft_ob]["x"], map_data[ob_map]["soft_obs"][soft_ob]["y"])')
+            parse_obj(_map, soft_ob, 
+                      se.Text(map_data[ob_map]["soft_obs"][soft_ob]["txt"], ignore=Color.green+" "+Color.reset, ob_class=HightGrass, ob_args=_map.poke_args, state="float", esccode=Color.green), 
+                      map_data[ob_map]["soft_obs"][soft_ob])
         for dor in map_data[ob_map]["dors"]:
-            exec(f'{ob_map}.{dor} = Dor(" ", state="float", arg_proto={map_data[ob_map]["dors"][dor]["args"]})')
-            exec(f'{ob_map}.{dor}.add({ob_map}, map_data[ob_map]["dors"][dor]["x"], map_data[ob_map]["dors"][dor]["y"])')
+            parse_obj(_map, dor, 
+                      Dor(" ", state="float", arg_proto={map_data[ob_map]["dors"][dor]["args"]}), 
+                      map_data[ob_map]["dors"][dor])
         for ball in map_data[ob_map]["balls"]:
             if f'{ob_map}.{ball}' not in used_npcs or not settings.save_trainers:
-                exec(f'{ob_map}.{ball} = Poketeball("{ob_map}.{ball}")')
-                exec(f'{ob_map}.{ball}.add({ob_map}, map_data[ob_map]["balls"][ball]["x"], map_data[ob_map]["balls"][ball]["y"])')
+                parse_obj(_map, ball, 
+                          Poketeball(f"{ob_map}.{ball}"), 
+                          map_data[ob_map]["balls"][ball])
     # NPCs
     for npc in npcs:
-        exec(f'{npcs[npc]["map"]}.{npc} = NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"])')
-        exec(f'{npcs[npc]["map"]}.{npc}.add({npcs[npc]["map"]}, npcs[npc]["x"], npcs[npc]["y"])')
+        parse_obj(eval(npcs[npc]["map"]), npc,
+                  NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"], npcs[npc]["args"]),
+                  npcs[npc])
+
     # adding all trainer to map
     for i in trainers:
         for j in trainers[i]:
             eval(i).trainers.append(Trainer(Poke(*j["poke"], player=False),
                                     *j["args"]))
     for ob_map in map_data:
-        for trainer in eval(ob_map).trainers:
-            trainer.add(eval(ob_map), trainer.sx, trainer.sy)
+        _map = eval(ob_map)
+        for trainer in _map.trainers:
+            trainer.add(_map, trainer.sx, trainer.sy)
 
 
 def check_version(sinfo):
@@ -2221,7 +2234,10 @@ movemap.code_label = OutP("")
 # .poke_arg is relevant for meadow genration
 ############################################################
 
+
+__t_1 = time.time()
 gen_obs()
+__t_1 = time.time()-__t_1
 # side fn definitions
 detail = Detail()
 pokete_dex = Dex(movemap)
