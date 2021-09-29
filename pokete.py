@@ -1535,7 +1535,7 @@ def fight_throw(obj, enem, info, chance, name):
     fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
     time.sleep(random.choice([1,2,3,4]))
     figure.remove_item(name)
-    catch_chance = 20 if figure.map == playmap_1 else 0
+    catch_chance = 20 if figure.map == ob_maps["playmap_1"] else 0
     for effect in enem.effects:
         catch_chance += effect.catch_chance
     if random.choices([True, False],
@@ -2013,7 +2013,7 @@ def game(map):
 
 def intro():
     movemap.set(0, 0)
-    movemap.bmap = intromap
+    movemap.bmap = ob_maps["intromap"]
     movemap.full_show()
     while figure.name in ["DEFAULT", ""]:
         figure.name = ask_text(movemap,
@@ -2030,7 +2030,7 @@ def intro():
                         " < Therefore I give you this powerfull 'Steini', 15 'Poketeballs' to catch Poketes and a 'Healing potion'.",
                         " < You will be the best Pokete-Trainer in Nice town.",
                         " < Now go out and become the best!"])
-    game(intromap)
+    game(ob_maps["intromap"])
 
 
 def parse_obj(_map, name, obj, _dict):
