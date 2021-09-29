@@ -30,7 +30,7 @@ __t = time.time()
 class HightGrass(se.Object):
     def action(self, ob):
         if random.randint(0,8) == 0:
-            fight(Poke("__fallback__", 0) 
+            fight(Poke("__fallback__", 0)
                     if len([poke for poke in figure.pokes[:6]
                           if poke.hp > 0]) == 0
                     else [poke for poke in figure.pokes[:6] if poke.hp > 0][0],
@@ -803,10 +803,10 @@ class Detail(Deck):
         global ev
         ret_action = None
         self.add(poke, self.map, 1, 1, False)
-        abb_obs = [i for i in poke.attac_obs 
+        abb_obs = [i for i in poke.attac_obs
                     if i.world_action != ""]
         if abb_obs != [] and abb:
-            self.world_actions_label.rechar("Abilities:"+" ".join([i.name 
+            self.world_actions_label.rechar("Abilities:"+" ".join([i.name
                                                 for i in abb_obs]))
             self.ability_label.rechar("2: Use ability")
         else:
@@ -841,8 +841,8 @@ class Detail(Deck):
                     del atc.temp_i, atc.temp_j
                 return ret_action
             elif ev == "'2'" and abb_obs != [] and abb:
-                with ChooseBox(len(abb_obs)+2, 25, name="Abilities", 
-                        c_obs=[se.Text(i.name) 
+                with ChooseBox(len(abb_obs)+2, 25, name="Abilities",
+                        c_obs=[se.Text(i.name)
                             for i in abb_obs]).center_add(self.map) as box:
                      while True:
                         if ev in ["'s'", "'w'"]:
@@ -2042,21 +2042,21 @@ def gen_obs():
     for ob_map in map_data:
         _map = ob_maps[ob_map]
         for hard_ob in map_data[ob_map]["hard_obs"]:
-            parse_obj(_map, hard_ob, 
-                      se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"], ignore=" "), 
+            parse_obj(_map, hard_ob,
+                      se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"], ignore=" "),
                       map_data[ob_map]["hard_obs"][hard_ob])
         for soft_ob in map_data[ob_map]["soft_obs"]:
-            parse_obj(_map, soft_ob, 
-                      se.Text(map_data[ob_map]["soft_obs"][soft_ob]["txt"], ignore=Color.green+" "+Color.reset, ob_class=HightGrass, ob_args=_map.poke_args, state="float", esccode=Color.green), 
+            parse_obj(_map, soft_ob,
+                      se.Text(map_data[ob_map]["soft_obs"][soft_ob]["txt"], ignore=Color.green+" "+Color.reset, ob_class=HightGrass, ob_args=_map.poke_args, state="float", esccode=Color.green),
                       map_data[ob_map]["soft_obs"][soft_ob])
         for dor in map_data[ob_map]["dors"]:
-            parse_obj(_map, dor, 
-                      Dor(" ", state="float", arg_proto=map_data[ob_map]["dors"][dor]["args"]), 
+            parse_obj(_map, dor,
+                      Dor(" ", state="float", arg_proto=map_data[ob_map]["dors"][dor]["args"]),
                       map_data[ob_map]["dors"][dor])
         for ball in map_data[ob_map]["balls"]:
             if f'{ob_map}.{ball}' not in used_npcs or not settings.save_trainers:
-                parse_obj(_map, ball, 
-                          Poketeball(f"{ob_map}.{ball}"), 
+                parse_obj(_map, ball,
+                          Poketeball(f"{ob_map}.{ball}"),
                           map_data[ob_map]["balls"][ball])
     # NPCs
     for npc in npcs:
