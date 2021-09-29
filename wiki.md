@@ -22,7 +22,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
    4. [Ground Poketes](#ground-poketes)
        1. [Dicki](#dicki)
        2. [Dicko](#dicko)
-       3. [Lil nut](#lil_nut)
+       3. [Lil nut](#lil-nut)
        4. [Rollator](#rollator)
    5. [Ice Poketes](#ice-poketes)
        1. [Cubl](#cubl)

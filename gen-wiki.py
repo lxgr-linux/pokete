@@ -21,7 +21,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     for i, typ in enumerate(sorted(types)):
         md_str += f"""   {i+1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n"""
         for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0]== typ]):
-            md_str += f"""       {j+1}. [{pokes[poke]["name"]}](#{poke})\n"""
+            md_str += f"""       {j+1}. [{pokes[poke]["name"]}](#{poke.replace("_", "-")})\n"""
     md_str += "2. [Attacks](#attacks)\n"
     for i, typ in enumerate(sorted(types)):
         md_str += f"""   {i+1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""

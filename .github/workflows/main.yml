@@ -26,8 +26,11 @@ jobs:
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
-          git add ./wiki.md
-          git commit -m "Updated wiki"
+          if [[ $(git diff) != "" ]]
+          then
+            git add ./wiki.md
+            git commit -m "Updated wiki"
+          fi
     
       - name: Push changes  # push the output folder to your repo
         uses: ad-m/github-push-action@master
