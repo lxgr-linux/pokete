@@ -92,7 +92,7 @@ class Settings():
             exec(f"self.{key} = {key}")
 
     def dict(self):
-        return {i: eval("self."+i, {"self": self,}) for i in self.keywords}
+        return {i: getattr(self, i) for i in self.keywords}
 
 
 class OutP(se.Text):

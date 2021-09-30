@@ -635,17 +635,17 @@ class Setting(se.Box):
         super().__init__(0, 0)
         self.options = options
         self.setting = setting
-        self.index = eval(f"[j for j in self.options].index({self.setting})")
+        self.index = [j for j in self.options].index(getattr(settings, self.setting))
         self.text = se.Text(text+": ", state="float")
-        self.option_text = se.Text(self.options[eval(self.setting)],
+        self.option_text = se.Text(self.options[getattr(settings, self.setting)],
                                    state="float")
         self.add_ob(self.text, 0, 0)
         self.add_ob(self.option_text, len(self.text.text), 0)
 
     def change(self):
         self.index = self.index+1 if self.index < len(self.options)-1 else 0
-        exec(f"{self.setting} = [i for i in self.options][self.index]")
-        self.option_text.rechar(self.options[eval(self.setting)])
+        setattr(settings, self.setting, [i for i in self.options][self.index])
+        self.option_text.rechar(self.options[getattr(settings, self.setting)])
 
 
 class Debug:
@@ -1051,13 +1051,13 @@ class Menu:
         self.exit_label = se.Text("Exit", state="float")
         self.realname_label = se.Text(session_info["user"], state="float")
         self.box.add_c_obs([self.playername_label,
-                            Setting("Autosave", "settings.autosave",
+                            Setting("Autosave", "autosave",
                                     {True: "On", False: "Off"}),
-                            Setting("Animations", "settings.animations",
+                            Setting("Animations", "animations",
                                     {True: "On", False: "Off"}),
-                            Setting("Save trainers", "settings.save_trainers",
+                            Setting("Save trainers", "save_trainers",
                                     {True: "On", False: "Off"}),
-                            Setting("Colors", "settings.colors",
+                            Setting("Colors", "colors",
                                     {True: "On", False: "Off"}),
                             self.about_label, self.save_label,
                             self.exit_label])
