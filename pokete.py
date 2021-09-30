@@ -2014,26 +2014,26 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
     return winner
 
 
-def game(map):
+def game(_map):
     global ev, width, height
     ev = ""
-    print("\033]0;Pokete - "+map.pretty_name+"\a", end="")
-    if map.name not in visited_maps:
-        visited_maps.append(map.name)
+    print("\033]0;Pokete - "+_map.pretty_name+"\a", end="")
+    if _map.name not in visited_maps:
+        visited_maps.append(_map.name)
     movemap.code_label.rechar(figure.map.pretty_name)
     movemap.set(0, 0)
-    movemap.bmap = map
+    movemap.bmap = _map
     movemap.full_show()
     inp_dict = {"'1'": 'deck(figure.pokes[:6], "Your deck")',
                     "'3'": 'roadmap()', "'4'": 'inv()',
                     "'5'": 'pokete_dex(pokes)', "'e'": 'menu()',
                     "'?'": 'help_page()'}
     while True:
-        for name, dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
+        for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
                                     ["t", "l", "b", "r"],  # Directions are not beening used yet
                                     [0, -1, 0, 1], [-1, 0, 1, 0]):
             if ev == name:
-                figure.direction = dir
+                figure.direction = _dir
                 figure.set(figure.x+x, figure.y+y)
                 ev = ""
                 break
@@ -2056,9 +2056,9 @@ def game(map):
                 codes(inp)
                 ev = ""
         std_loop()
-        map.extra_actions()
-        for trainer in map.trainers:
-            trainer.do(map)
+        _map.extra_actions()
+        for trainer in _map.trainers:
+            trainer.do(_map)
         time.sleep(0.05)
         for statement, x, y in zip([figure.x+6 > movemap.x+movemap.width,
                                     figure.x < movemap.x+6,
