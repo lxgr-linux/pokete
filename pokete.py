@@ -289,7 +289,7 @@ class Poke():
 
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
-            setattr(self, name, int(eval(self.inf[name]))+(2 if self.shiny else 0))
+            setattr(self, name, self.lvl()+self.inf[name]+(2 if self.shiny else 0))
         i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
         for old_ob, obj in zip(self.attac_obs, i):
             obj.ap = old_ob.ap
