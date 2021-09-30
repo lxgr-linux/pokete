@@ -953,7 +953,7 @@ class Inv:
                                             movemap.show(init=True)
                                             break
                                         poke = figure.pokes[index]
-                                        if eval(obj.attack_dict['type']) in poke.types:
+                                        if getattr(types, obj.attack_dict['type']) in poke.types:
                                             break
                                         else:
                                             ex_cond = ask_bool(movemap, f"You cant't teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
