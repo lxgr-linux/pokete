@@ -206,7 +206,7 @@ class CenterDor(se.Object):
                    figure.oldmap.dor.y+1
                     if figure.map == centermap
                     else figure.oldmap.shopdor.y+1)
-        figure.oldmap = eval(i)
+        figure.oldmap = ob_maps[i]
         game(figure.map)
 
 
@@ -496,9 +496,9 @@ class Station(se.Square):
 
     def next(self, ev):
         ev = eval(ev)
-        if (ne := eval(f"self.{ev}_next")) != "":
+        if (ne := getattr(self, ev+"_next")) != "":
             self.unchoose()
-            exec(f"roadmap.{ne}.choose()")
+            getattr(roadmap, ne).choose()
 
     def has_been_visited(self):
         return self.associates[0].name in visited_maps
@@ -544,8 +544,8 @@ class Figure(se.Object):
                     poke.effects.append(eval(e)(poke))
         try:
             if si["map"] in ["centermap", "shopmap"]:  # Looking if figure would be in centermap, so the player may spawn out of the center
-                self.add(eval(si["map"]), eval(si["map"]).dor_back1.x,
-                        eval(si["map"]).dor_back1.y-1)
+                _map = ob_maps[si["map"]]
+                self.add(_map, _map.dor_back1.x, _map.dor_back1.y-1)
             else:
                 if self.add(ob_maps[si["map"]], si["x"], si["y"]) == 1:
                     raise se.CoordinateError(self, ob_maps[si["map"]], si["x"], si["y"])
@@ -990,7 +990,7 @@ class Inv:
         return items
 
     def add(self):
-        items = [eval("self."+i, {"self": self,}) for i in figure.inv if figure.inv[i] > 0]
+        items = [getattr(self, i) for i in figure.inv if figure.inv[i] > 0]
         self.box.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
         return items
 
@@ -1475,8 +1475,9 @@ def codes(string):
 def movemap_text(x, y, arr):
     global ev
     # This ensures the game does not crash when big chunks of text are displayed
-    for i, j, k in zip(["x", "y"], [movemap.width, movemap.height], [17, 10]):
-        while eval(f"{i}-movemap.{i}+k") >= j:
+    for c, i, j, k in zip([x, y], ["x", "y"], 
+                          [movemap.width, movemap.height], [17, 10]):
+        while c - getattr(movemap, i) + k >= j:
             movemap.set(movemap.x+(1 if i == "x" else 0),
                         movemap.y+(1 if i == "y" else 0))
             movemap.show()
@@ -1895,9 +1896,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     return enem
                 elif ev == "'3'":
                     ev = ""
-                    items = [eval("Inv."+i)
+                    items = [getattr(Inv, i)
                              for i in figure.inv
-                                if eval("Inv."+i).fn is not None
+                                if getattr(Inv, i).fn is not None
                                 and figure.inv[i] > 0]
                     if items == []:
                         fightmap.outp.outp("You don't have any items left!\nWhat do you want to do?")
