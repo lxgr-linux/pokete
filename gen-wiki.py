@@ -83,6 +83,7 @@ Those are all attacks present in the game.
     for typ in sorted(types):
         md_str += f"\n### {typ.capitalize()} attacks"
         for atc in [k for k in attacks if attacks[k]["type"] == typ]:
+            eff = None if attacks[atc]["effect"] is None else getattr(effects, attacks[atc]["effect"])
             md_str += f"""
 #### {attacks[atc]["name"]}
 {attacks[atc]["desc"]}
@@ -92,7 +93,7 @@ Those are all attacks present in the game.
 - Attack factor: {attacks[atc]["factor"]}
 - Missing chance: {attacks[atc]["miss_chance"]}
 - Attack points: {attacks[atc]["ap"]}
-- Effect: {"None" if attacks[atc]["effect"] is None else f'[{eval(attacks[atc]["effect"]).c_name.capitalize()}](#{eval(attacks[atc]["effect"]).c_name.replace("_", "-")})'}
+- Effect: {"None" if eff is None else f'[{eff.c_name.capitalize()}](#{eff.c_name.replace("_", "-")})'}
 """
 
     # Types
