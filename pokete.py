@@ -28,6 +28,7 @@ __t = time.time()
 ##################
 
 class HightGrass(se.Object):
+    """Object on the map, that triggers a fight"""
     def action(self, ob):
         if random.randint(0,8) == 0:
             fight(Poke("__fallback__", 0)
@@ -43,6 +44,7 @@ class HightGrass(se.Object):
 
 
 class Poketeball(se.Object):
+    """Poketeball that can be picked up on the map"""
     def __init__(self, name):
         self.name = name
         super().__init__(Color.thicc+Color.red+"o"+Color.reset, state="float")
@@ -54,6 +56,7 @@ class Poketeball(se.Object):
 
 
 class NPCTrigger(se.Object):
+    """Object on the map, that triggers a npc"""
     def __init__(self, npc):
         super().__init__(" ", state="float")
         self.npc = npc
@@ -63,6 +66,7 @@ class NPCTrigger(se.Object):
 
 
 class NPC(se.Box):
+    """An NPC ro talk to"""
     def __init__(self, name, texts, fn=None, args=()):
         super().__init__(0, 0)
         self.will = True
@@ -106,6 +110,7 @@ class NPC(se.Box):
 
 
 class Trainer(se.Object):
+    """Trauner class to fight against"""
     def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
                 win_texts, sx, sy, arg_proto={}):
         super().__init__("a", state="solid")
@@ -152,6 +157,7 @@ class Trainer(se.Object):
 
 
 class CenterInteract(se.Object):
+    """Triggers a conversation in the Pokete center"""
     def action(self, ob):
         global ev
         ev = ""
@@ -184,6 +190,7 @@ class CenterInteract(se.Object):
 
 
 class ShopInteract(se.Object):
+    """Triggers an conversation in the shop"""
     def action(self, ob):
         global ev
         ev = ""
@@ -196,6 +203,7 @@ class ShopInteract(se.Object):
 
 
 class CenterDor(se.Object):
+    """Dor class for the map to enter centers and shops"""
     def action(self, ob):
         figure.remove()
         i = figure.map.name
@@ -211,6 +219,7 @@ class CenterDor(se.Object):
 
 
 class Dor(se.Object):
+    """Dor class for the map to enter other maps"""
     def action(self, ob):
         figure.remove()
         i = figure.map.name
@@ -221,12 +230,14 @@ class Dor(se.Object):
 
 
 class ChanceDor(Dor):
+    """Same as dor but with a chance"""
     def action(self, ob):
         if random.randint(0, self.arg_proto["chance"]) == 0:
             super().action(ob)
 
 
 class Poke():
+    """The Pokete class"""
     def __init__(self, poke, xp, _hp="SKIP", _attacks=None,
                  player=True, shiny=False):
         self.inf = p_data.pokes[poke]
@@ -474,6 +485,7 @@ class Poke():
 
 
 class Station(se.Square):
+    """Selectable station for Roadmap"""
     choosen = None
     obs = []
     def __init__(self, associate, additionals, width, height, char="#",
@@ -517,6 +529,7 @@ class Station(se.Square):
         self.unchoose()
 
 class Figure(se.Object):
+    """The figure that moves around on the map and represents the player"""
     def __init__(self, char, state="solid", arg_proto={}):
         super().__init__(char, state="solid", arg_proto={})
         self.__money = 10
@@ -612,6 +625,7 @@ class Figure(se.Object):
 
 
 class Attack():
+    """Attack that can be used by a Pokete"""
     def __init__(self, index):
         for i in p_data.attacks[index]:
             setattr(self, i, p_data.attacks[index][i])
@@ -633,6 +647,7 @@ class Attack():
 
 
 class Setting(se.Box):
+    """The setting label for the menu"""
     def __init__(self, text, setting, options={}):
         super().__init__(0, 0)
         self.options = options
@@ -651,12 +666,14 @@ class Setting(se.Box):
 
 
 class Debug:
+    """Debug class"""
     @classmethod
     def pos(cls):
         print(figure.x, figure.y, figure.map.name)
 
 
 class Deck:
+    """Deck to see Poketes in"""
     def __init__(self):
         self.map = se.Map(height-1, width, " ")
         self.submap = se.Submap(self.map, 0, 0, height=height-1, width=width)
@@ -807,6 +824,7 @@ class Deck:
 
 
 class Detail(Deck):
+    """Shows details about a Pokete"""
     def __init__(self):
         self.map = se.Map(height-1, width, " ")
         self.name_label = se.Text("Details", esccode=Color.thicc)
@@ -911,6 +929,7 @@ class Detail(Deck):
 
 
 class Inv:
+    """Inventory to see and manage items in"""
     def __init__(self):
         self.box = ChooseBox(height-3, 35, "Inventory", "R:remove")
         self.box2 = Box(7, 21)
@@ -999,6 +1018,7 @@ class Inv:
 
 
 class Buy:
+    """Menu to buy items in, is triggered in shop"""
     def __init__(self):
         self.box = ChooseBox(height-3, 35, "Shop")
         self.box2 = Box(7, 21,)
@@ -1045,6 +1065,7 @@ class Buy:
 
 
 class Menu:
+    """Menu to manage settings and other stuff in"""
     def __init__(self):
         self.box = ChooseBox(height-3, 35, "Menu")
         self.playername_label = se.Text("Playername: ", state="float")
@@ -1110,6 +1131,7 @@ class Menu:
 
 
 class About:
+    """The about text, that can be triggered in the menu"""
     def __init__(self):
         self.box = InfoBox(liner(f"Pokete v{VERSION} -- {CODENAME}\n by lxgr-linux <lxgr@protonmail.com>\n \n This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.\n Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.\n For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete", 60, pre=""), map=movemap)
 
@@ -1125,6 +1147,7 @@ class About:
 
 
 class RoadMap:
+    """Map you can see and navigate maps on"""
     def __init__(self, stations):
         self.box = Box(11, 40, "Roadmap")
         self.info_label = se.Text("")
@@ -1163,6 +1186,7 @@ class RoadMap:
 
 
 class Dex:
+    """The Pokete dex that shows stats about all Poketes ever caught"""
     def __init__(self, _map):
         self.box = ChooseBox(_map.height-3, 35, "Poketedex")
         self.detail_box = Box(16, 35)
@@ -1253,6 +1277,7 @@ Initiative: {poke.initiative}"""))
 
 
 class Help(About):
+    """Helptext that can be displayed by pressing '?'"""
     def __init__(self, _map):
         self.map = _map
         self.help_text = """
@@ -1273,6 +1298,7 @@ https://git.io/JRRqe
 
 
 class LearnAttack():
+    """Lets a Pokete learn a new attack"""
     def __init__(self, poke, _map=None):
         if _map is None:
             self.map = fightmap
@@ -1643,7 +1669,7 @@ def fight_ap_potion(obj, enem, info):
 #################################################
 
 class Extra_Actions:
-
+    """Extra actions class to keep track of extra actions"""
     @staticmethod
     def water(obs):
         if settings.animations and colors:
