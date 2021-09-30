@@ -302,7 +302,7 @@ class Poke():
     def dict(self):
         return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
                 "ap": [atc.ap for atc in self.attac_obs],
-                "effects": [repr(e) for e in self.effects],
+                "effects": [e.c_name for e in self.effects],
                 "attacks": self.attacks,
                 "shiny": self.shiny}
 
@@ -627,7 +627,7 @@ class Attack():
     def give_effect(self, enem):
         if self.effect is not None:
             time.sleep(1.5)
-            exec(f'{self.effect}().add(enem)')
+            getattr(effects, self.effect)().add(enem)
 
 
 class Setting(se.Box):

@@ -192,7 +192,7 @@ class Effects:
         for i in effect_list:
             setattr(self, i.c_name, i)
 
-effects = Effects
+effects = Effects()
 
 
 if __name__ == "__main__":
