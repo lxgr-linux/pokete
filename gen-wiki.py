@@ -65,9 +65,9 @@ In the following all Poketes with their attributes are displayed.
 
 - Type: [{pokes[poke]["types"][0].capitalize()}](#types)
 - Health points: {pokes[poke]["hp"]}
-- Attack factor: {pokes[poke]["atc"].replace("self.lvl()", "level")}
-- Defense factor: {pokes[poke]["defense"].replace("self.lvl()", "level")}
-- Initiative: {pokes[poke]["initiative"].replace("self.lvl()", "level")}
+- Attack factor: {pokes[poke]["atc"]}
+- Defense factor: {pokes[poke]["defense"]}
+- Initiative: {pokes[poke]["initiative"]}
 - Missing chance: {pokes[poke]["miss_chance"]}
 - Rarity: {pokes[poke]["rarity"]}
 - Loosing experience: {pokes[poke]["lose_xp"]}
