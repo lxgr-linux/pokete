@@ -247,7 +247,7 @@ class Poke():
         if self.shiny:
             self.hp += 5
         self.set_player(player)
-        self.types = [eval(i) for i in self.inf["types"]]
+        self.types = [getattr(types, i) for i in self.inf["types"]]
         self.type = self.types[0]
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
@@ -612,8 +612,8 @@ class Figure(se.Object):
 class Attack():
     def __init__(self, index):
         for i in attacks[index]:
-            exec(f"self.{i}=attacks[index][i]")
-        self.type = eval(attacks[index]["type"])
+            setattr(self, i, attacks[index][i])
+        self.type = getattr(types, attacks[index]["type"])
         self.max_ap = self.ap
         self.label_name = se.Text(self.name, esccode=Color.underlined,
                 state="float")
@@ -2217,8 +2217,7 @@ loading_screen()
 # validating data
 validate()
 # types
-for i in types:
-    exec(i+" = PokeType(i, **types[i])")
+types = Types(types)
 
 # reading config file
 home = str(Path.home())

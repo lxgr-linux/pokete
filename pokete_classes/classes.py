@@ -52,12 +52,18 @@ class PlayMap(se.Map):
             self.__extra_actions()
 
 
+class Types:
+    def __init__(self, types):
+        for i in types:
+            setattr(self, i, PokeType(i, **types[i]))
+
+
 class PokeType():
     def __init__(self, name, effective, ineffective, color):
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
-        self.color = "" if color is None else eval(color)
+        self.color = "" if color is None else str.join("", [getattr(Color, i) for i in color])
 
 
 class InvItem:
