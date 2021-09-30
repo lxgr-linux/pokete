@@ -348,7 +348,7 @@ class Poke():
                     return
                 elif i == 0:
                     pass
-            if any([type(i) is EffectConfusion for i in self.effects]):
+            if any([type(i) is effects.confusion for i in self.effects]):
                 self.enem = enem = self
             else:
                 self.enem = enem

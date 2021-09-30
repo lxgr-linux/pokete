@@ -1,6 +1,6 @@
 from pokete_classes.classes import *
 from pokete_classes.ui_elements import *
-from pokete_classes.effects import *
+from pokete_classes.effects import effects
 
 
 if __name__ == "__main__":
