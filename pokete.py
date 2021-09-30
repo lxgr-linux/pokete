@@ -1639,35 +1639,44 @@ def fight_ap_potion(obj, enem, info):
 # Those are adding additional actions to playmaps
 #################################################
 
-def playmap_water_extra_action(obs):
-    if settings.animations and colors:
-        for obj in obs:
-            if random.randint(0, 9) == 0:
-                if " " not in obj.char:
-                    obj.rechar([i for i in [Color.lightblue+"~"+Color.reset,
+class Extra_Actions:
+
+    @staticmethod
+    def water(obs):
+        if settings.animations and colors:
+            for obj in obs:
+                if random.randint(0, 9) == 0:
+                    if " " not in obj.char:
+                        obj.rechar([i for i in 
+                                    [Color.lightblue+"~"+Color.reset,
                                         Color.blue+"~"+Color.reset]
                                         if i != obj.char][0])
-                    if obj.x == figure.x and obj.y == figure.y:
-                        figure.redraw()
+                        if obj.x == figure.x and obj.y == figure.y:
+                            figure.redraw()
+    
+    @staticmethod
+    def playmap_4():
+        Extra_Actions.water(ob_maps["playmap_4"].lake_1.obs)
 
-def playmap_4_extra_action():
-    playmap_water_extra_action(ob_maps["playmap_4"].lake_1.obs)
+    @staticmethod
+    def playmap_11():
+        Extra_Actions.water(ob_maps["playmap_11"].lake_1.obs)
 
-def playmap_11_extra_action():
-    playmap_water_extra_action(ob_maps["playmap_11"].lake_1.obs)
+    @staticmethod
+    def playmap_18():
+        Extra_Actions.water(ob_maps["playmap_18"].lake_1.obs)
 
-def playmap_18_extra_action():
-    playmap_water_extra_action(ob_maps["playmap_18"].lake_1.obs)
+    @staticmethod
+    def playmap_21():
+        Extra_Actions.water(ob_maps["playmap_21"].lake_1.obs)
 
-def playmap_21_extra_action():
-    playmap_water_extra_action(ob_maps["playmap_21"].lake_1.obs)
-
-def playmap_7_extra_action():
-    for obj in ob_maps["playmap_7"].inner_walls.obs + ob_maps["playmap_7"].trainers + [getattr(ob_maps["playmap_7"], i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
-        if obj.added and math.sqrt((obj.y-figure.y)**2+(obj.x-figure.x)**2) <= 3:
-            obj.rechar(obj.bchar)
-        else:
-            obj.rechar(" ")
+    @staticmethod
+    def playmap_7():
+        for obj in ob_maps["playmap_7"].inner_walls.obs + ob_maps["playmap_7"].trainers + [getattr(ob_maps["playmap_7"], i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
+            if obj.added and math.sqrt((obj.y-figure.y)**2+(obj.x-figure.x)**2) <= 3:
+                obj.rechar(obj.bchar)
+            else:
+                obj.rechar(" ")
 
 # NPC functions
 ###############
@@ -2270,7 +2279,7 @@ if not settings.colors:
 ob_maps = {}
 for ob_map in maps:
     args = maps[ob_map]
-    args["extra_actions"] = (eval(args["extra_actions"])
+    args["extra_actions"] = (getattr(Extra_Actions, args["extra_actions"], None)
                             if args["extra_actions"] is not None
                             else None)
     ob_maps[ob_map] = PlayMap(name = ob_map, **args)
