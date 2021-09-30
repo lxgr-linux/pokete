@@ -34,7 +34,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
         md_str += f"""   {j+1}. [{items[item]["pretty_name"]}](#{item.replace("_", "-")})\n"""
     md_str += """5. [Effects](#effects)
 """
-    for j, effect in enumerate(effects):
+    for j, effect in enumerate(effect_list):
         md_str += f"""   {j+1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace("_", "-")})
 """
 
@@ -132,7 +132,7 @@ Those are all items present in the game, that can be traded or found.
 Those effects can be given to a Pokete through an attack.
 """
 
-    md_str += str.join("", [effect.ret_md() for effect in effects])
+    md_str += str.join("", [effect.ret_md() for effect in effect_list])
 
     # writing to file
     with open("wiki.md", "w+") as file:

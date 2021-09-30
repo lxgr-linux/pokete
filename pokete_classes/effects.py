@@ -184,8 +184,15 @@ class EffectFreezing(Effect):
                         exclude=["ice", "fire"])
 
 
-effects = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison,
+effect_list = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison,
             EffectConfusion, EffectFreezing]
+
+class Effects:
+    def __init__(self):
+        for i in effect_list:
+            setattr(self, i.c_name, i)
+
+effects = Effects
 
 
 if __name__ == "__main__":

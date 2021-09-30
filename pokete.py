@@ -542,7 +542,7 @@ class Figure(se.Object):
             poke.set_ap(si["pokes"][j]["ap"])
             if "effects" in si["pokes"][j]:
                 for e in si["pokes"][j]["effects"]:
-                    poke.effects.append(eval(e)(poke))
+                    poke.effects.append(getattr(effects, e)(poke))
         try:
             if si["map"] in ["centermap", "shopmap"]:  # Looking if figure would be in centermap, so the player may spawn out of the center
                 _map = ob_maps[si["map"]]
