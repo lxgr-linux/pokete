@@ -531,7 +531,7 @@ WW\/o o\/WW
             "txt": """
     * *
         """,
-            "esc": "Color.thicc+Color.red"}]
+            "esc": ["thicc", "red"]}]
     },
     "wolfiro": {
         "name": "Wolfiro",
@@ -557,7 +557,7 @@ WW\/o o\/WW
             "txt": """
     * *
         """,
-            "esc": "Color.thicc+Color.red"}]
+            "esc": ["thicc", "red"]}]
     },
     "rollator": {
         "name": "Rollator",
@@ -604,7 +604,7 @@ WW\/o o\/WW
         {
             "txt": """
      *""",
-            "esc": "Color.lightblue"}]
+            "esc": ["lightblue"]}]
     },
     "electrode": {
         "name": "Electrode",
@@ -628,7 +628,7 @@ WW\/o o\/WW
         {
             "txt": """
      +""",
-            "esc": "Color.lightblue"}]
+            "esc": ["lightblue"]}]
     },
     "cubl": {
         "name": "Cubl",
@@ -653,12 +653,12 @@ WW\/o o\/WW
             {
             "txt": """
     * *""",
-            "esc": "Color.lightblue"},
+            "esc": ["lightblue"]},
             {
             "txt": """  /     \\
 
   \     /""",
-            "esc": "Color.cyan"
+            "esc": ["cyan"]
             }
                 ]
     },
@@ -685,12 +685,12 @@ WW\/o o\/WW
             {
             "txt": """
     * *""",
-            "esc": "Color.lightblue"},
+            "esc": ["lightblue"]},
             {
             "txt": """ /       \\
 
  \       /""",
-            "esc": "Color.cyan"
+            "esc": ["cyan"]
             }
                 ]
     },
@@ -718,11 +718,11 @@ WW\/o o\/WW
             "txt": """        }
       {
        }""",
-            "esc": "Color.purple"},
+            "esc": ["purple"]},
             {
             "txt": """       }
        {""",
-            "esc": "Color.lightblue"},
+            "esc": ["lightblue"]},
                 ]
     },
     "poisopla": {
@@ -749,7 +749,7 @@ WW\/o o\/WW
             {
             "txt": """
      w""",
-            "esc": "Color.purple"},
+            "esc": ["purple"]},
                 ]
     },
     "megapois": {
@@ -776,7 +776,7 @@ WW\/o o\/WW
             {
             "txt": """    w w
   w""",
-            "esc": "Color.purple"},
+            "esc": ["purple"]},
                 ]
     },
     "schmetterling": {
@@ -897,13 +897,13 @@ WW\/o o\/WW
     /\ / 
        >
    <_""",
-            "esc": "Color.cyan"},
+            "esc": ["cyan"]},
             {
             "txt": """
       ^  
    <     
       _>""",
-            "esc": "Color.white"}
+            "esc": ["white"]}
         ]
     },
 

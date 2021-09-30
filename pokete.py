@@ -258,11 +258,12 @@ class Poke():
         self.desc = se.Text(liner(self.inf["desc"], se.screen_width-34))
         self.ico = se.Box(4, 11)
         for ico in self.inf["ico"]:
-            self.ico.add_ob(se.Text(ico["txt"], state="float",
-                            esccode=eval(ico["esc"])
+            esccode = (str.join("", [getattr(Color, i) for i in ico["esc"]])
                                 if ico["esc"] is not None
-                                else "",
-                            ignore=f'{eval(ico["esc"]) if ico["esc"] is not None else ""} {Color.reset}'), 0, 0)
+                                else "")
+            self.ico.add_ob(se.Text(ico["txt"], state="float",
+                            esccode=esccode,
+                            ignore=f'{esccode} {Color.reset}'), 0, 0)
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
         self.text_name = se.Text(self.name,
