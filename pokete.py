@@ -17,7 +17,7 @@ import socket
 from pathlib import Path
 import pprint as pp
 import scrap_engine as se
-from pokete_data import *
+import pokete_data as p_data
 from pokete_classes import *
 from pokete_general_use_fns import *
 from release import *
@@ -35,7 +35,7 @@ class HightGrass(se.Object):
                           if poke.hp > 0]) == 0
                     else [poke for poke in figure.pokes[:6] if poke.hp > 0][0],
                 Poke(random.choices(self.arg_proto["pokes"],
-                                    weights=[pokes[i]["rarity"]
+                                    weights=[p_data.pokes[i]["rarity"]
                                             for i in self.arg_proto["pokes"]])[0],
                     random.choices(list(range(self.arg_proto["minlvl"],
                                             self.arg_proto["maxlvl"])))[0],
@@ -113,12 +113,12 @@ class Trainer(se.Object):
                 "lose_texts", "no_poke_texts", "win_texts", "sx", "sy"]:
             exec(f"self.{i} = {i}")
 
-    def do(self, map):
+    def do(self, _map):
         if figure.has_item("shut_the_fuck_up_stone"):
             return
         if figure.x == self.x and self.poke.hp > 0 and (self.name not in used_npcs or not settings.save_trainers):
             for i in range(figure.y+1 if figure.y < self.y else self.y+1, self.y if figure.y < self.y else figure.y):
-                if any(j.state == "solid" for j in map.obmap[i][self.x]):
+                if any(j.state == "solid" for j in _map.obmap[i][self.x]):
                     return
             movemap.full_show()
             time.sleep(0.7)
@@ -229,7 +229,7 @@ class ChanceDor(Dor):
 class Poke():
     def __init__(self, poke, xp, _hp="SKIP", _attacks=None,
                  player=True, shiny=False):
-        self.inf = pokes[poke]
+        self.inf = p_data.pokes[poke]
         self.enem = None
         self.oldhp = 0
         self.xp = xp
@@ -238,7 +238,7 @@ class Poke():
         if _attacks is not None:
             assert (len(_attacks) <= 4), f"A Pokete {poke} can't have more than 4 attacks!"
             self.attacks = [atc for atc in _attacks
-                    if self.lvl() >= attacks[atc]["min_lvl"]]
+                    if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         else:
             self.attacks = self.inf["attacks"][:4]
         for name in ["hp", "name", "miss_chance", "lose_xp",
@@ -290,7 +290,9 @@ class Poke():
     def set_vars(self):
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, self.lvl()+self.inf[name]+(2 if self.shiny else 0))
-        i = [Attack(atc) for atc in self.attacks if self.lvl() >= attacks[atc]["min_lvl"]]
+        i = [Attack(atc)
+             for atc in self.attacks
+                if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         for old_ob, obj in zip(self.attac_obs, i):
             obj.ap = old_ob.ap
         self.attac_obs = i
@@ -306,8 +308,8 @@ class Poke():
                 "attacks": self.attacks,
                 "shiny": self.shiny}
 
-    def set_ap(self, dict):
-        for atc, ap in zip(self.attac_obs, dict):
+    def set_ap(self, dic):
+        for atc, ap in zip(self.attac_obs, dic):
             atc.ap = ap if ap != "SKIP" else atc.ap
         self.label_rechar()
 
@@ -505,7 +507,7 @@ class Station(se.Square):
         return self.associates[0].name in visited_maps
 
     def is_city(self):
-        return "pokecenter" in map_data[self.associates[0].name]["hard_obs"]
+        return "pokecenter" in p_data.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
         if self.has_been_visited() and (self.is_city() if choose else True):
@@ -611,9 +613,9 @@ class Figure(se.Object):
 
 class Attack():
     def __init__(self, index):
-        for i in attacks[index]:
-            setattr(self, i, attacks[index][i])
-        self.type = getattr(types, attacks[index]["type"])
+        for i in p_data.attacks[index]:
+            setattr(self, i, p_data.attacks[index][i])
+        self.type = getattr(types, p_data.attacks[index]["type"])
         self.max_ap = self.ap
         self.label_name = se.Text(self.name, esccode=Color.underlined,
                 state="float")
@@ -757,16 +759,16 @@ class Deck:
             time.sleep(0.05)
             self.submap.full_show()
 
-    def add(self, poke, map, x, y, in_deck=True):
-        poke.text_name.add(map, x+12, y+0)
+    def add(self, poke, _map, x, y, in_deck=True):
+        poke.text_name.add(_map, x+12, y+0)
         if poke.identifier != "__fallback__":
             for obj, _x, _y in zip([poke.ico, poke.text_lvl, poke.text_hp,
                                     poke.tril, poke.trir, poke.hp_bar, poke.text_xp],
                                     [0, 12, 12, 18, 27, 19, 12],
                                     [0, 1, 2, 2, 2, 2, 3]):
-                obj.add(map, x+_x, y+_y)
+                obj.add(_map, x+_x, y+_y)
             if figure.pokes.index(poke) < 6 and in_deck:
-                poke.pball_small.add(map, round(map.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else map.width-2, y)
+                poke.pball_small.add(_map, round(_map.width/2)-1 if figure.pokes.index(poke) % 2 == 0 else _map.width-2, y)
             for e in poke.effects:
                 e.add_label()
 
@@ -1161,10 +1163,10 @@ class RoadMap:
 
 
 class Dex:
-    def __init__(self, map):
-        self.box = ChooseBox(map.height-3, 35, "Poketedex")
+    def __init__(self, _map):
+        self.box = ChooseBox(_map.height-3, 35, "Poketedex")
         self.detail_box = Box(16, 35)
-        self.map = map
+        self.map = _map
         self.idx = 0
         self.obs = []
         self.detail_info = se.Text("", state="float")
@@ -1251,8 +1253,8 @@ Initiative: {poke.initiative}"""))
 
 
 class Help(About):
-    def __init__(self, map):
-        self.map = map
+    def __init__(self, _map):
+        self.map = _map
         self.help_text = """
 Controls:
 'w':up, 'a':left,
@@ -1281,6 +1283,7 @@ class LearnAttack():
 
     def __call__(self, attack=None):
         global ev
+        attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
                     if attacks[i]["type"] in
@@ -1394,27 +1397,27 @@ def std_loop():
         raise KeyboardInterrupt
 
 
-def text_input(obj, map, name, wrap_len, max_len=1000000):
+def text_input(obj, _map, name, wrap_len, max_len=1000000):
     global ev
     ev = ""
     obj.rechar(hard_liner(wrap_len, name+"█"))
     bname = name
-    map.show()
+    _map.show()
     while True:
         if ev in ["Key.enter", "Key.esc"]:
             ev = ""
             obj.rechar(hard_liner(wrap_len, name))
-            map.show()
+            _map.show()
             return name
         elif ev == "Key.backspace":
             if len(name) <= 0:
                 ev = ""
                 obj.rechar(bname)
-                map.show()
+                _map.show()
                 return bname
             name = name[:-1]
             obj.rechar(hard_liner(wrap_len, name+"█"))
-            map.show()
+            _map.show()
             ev = ""
         elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift",
                         "Key.shift_r", "Key.esc"] and len(name) < max_len:
@@ -1422,7 +1425,7 @@ def text_input(obj, map, name, wrap_len, max_len=1000000):
                 ev = "' '"
             name += str(ev.strip("'"))
             obj.rechar(hard_liner(wrap_len, name+"█"))
-            map.show()
+            _map.show()
             ev = ""
         std_loop()
         time.sleep(0.05)
@@ -1448,10 +1451,10 @@ def balls_label_rechar():
     movemap.balls_label.rechar(movemap.balls_label.text, esccode=Color.thicc)
 
 
-def mapresize(map):
+def mapresize(_map):
     width, height = os.get_terminal_size()
-    if map.width != width or map.height != height-1:
-        map.resize(height-1, width, " ")
+    if _map.width != width or _map.height != height-1:
+        _map.resize(height-1, width, " ")
         return True
     return False
 
@@ -1476,7 +1479,7 @@ def codes(string):
 def movemap_text(x, y, arr):
     global ev
     # This ensures the game does not crash when big chunks of text are displayed
-    for c, i, j, k in zip([x, y], ["x", "y"], 
+    for c, i, j, k in zip([x, y], ["x", "y"],
                           [movemap.width, movemap.height], [17, 10]):
         while c - getattr(movemap, i) + k >= j:
             movemap.set(movemap.x+(1 if i == "x" else 0),
@@ -1647,13 +1650,13 @@ class Extra_Actions:
             for obj in obs:
                 if random.randint(0, 9) == 0:
                     if " " not in obj.char:
-                        obj.rechar([i for i in 
+                        obj.rechar([i for i in
                                     [Color.lightblue+"~"+Color.reset,
                                         Color.blue+"~"+Color.reset]
                                         if i != obj.char][0])
                         if obj.x == figure.x and obj.y == figure.y:
                             figure.redraw()
-    
+
     @staticmethod
     def playmap_4():
         Extra_Actions.water(ob_maps["playmap_4"].lake_1.obs)
@@ -1672,7 +1675,7 @@ class Extra_Actions:
 
     @staticmethod
     def playmap_7():
-        for obj in ob_maps["playmap_7"].inner_walls.obs + ob_maps["playmap_7"].trainers + [getattr(ob_maps["playmap_7"], i) for i in map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
+        for obj in ob_maps["playmap_7"].inner_walls.obs + ob_maps["playmap_7"].trainers + [getattr(ob_maps["playmap_7"], i) for i in p_data.map_data["playmap_7"]["balls"] if "playmap_7."+i not in used_npcs or not save_trainers]:
             if obj.added and math.sqrt((obj.y-figure.y)**2+(obj.x-figure.x)**2) <= 3:
                 obj.rechar(obj.bchar)
             else:
@@ -1694,7 +1697,7 @@ def playmap_17_boy():
     else:
         movemap_text(npc.x, npc.y,
                     [" < In this region lives the würgos Pokete.",
-                    f" < At level {pokes['würgos']['evolve_lvl']} it evolves to Choka.",
+                    f" < At level {p_data.pokes['würgos']['evolve_lvl']} it evolves to Choka.",
                     " < I have never seen one before!"])
 
 
@@ -1728,7 +1731,7 @@ def teleport():
     if (obj := roadmap(choose=True)) is None:
         return
     else:
-        cen_d = map_data[obj.name]["hard_obs"]["pokecenter"]
+        cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
         Dor("", state="float", arg_proto={"map": obj.name,
                 "x": cen_d["x"]+5, "y": cen_d["y"]+6}).action(None)
 
@@ -1785,11 +1788,11 @@ def swap_poke():
         time.sleep(3)
 
 
-def ask_bool(map, text):
+def ask_bool(_map, text):
     global ev
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len/2-6)*' '}[Y]es   [N]o", map):
+    with InfoBox(f"{text}\n{round(text_len/2-6)*' '}[Y]es   [N]o", _map):
         while True:
             if ev == "'y'":
                 ret = True
@@ -1799,14 +1802,14 @@ def ask_bool(map, text):
                 break
             std_loop()
             time.sleep(0.05)
-            map.show()
+            _map.show()
         ev = ""
     return ret
 
 
-def ask_text(map, infotext, introtext, text, max_len):
-    with InputBox(infotext, introtext, text, max_len, map) as inputbox:
-        ret = text_input(inputbox.text, map, text, max_len+1, max_len=max_len)
+def ask_text(_map, infotext, introtext, text, max_len):
+    with InputBox(infotext, introtext, text, max_len, _map) as inputbox:
+        ret = text_input(inputbox.text, _map, text, max_len+1, max_len=max_len)
     return ret
 
 
@@ -2106,6 +2109,9 @@ def parse_obj(_map, name, obj, _dict):
 
 
 def gen_obs():
+    map_data = p_data.map_data
+    npcs = p_data.npcs
+    trainers = p_data.trainers
     # generating objects from map_data
     for ob_map in map_data:
         _map = ob_maps[ob_map]
@@ -2185,7 +2191,8 @@ def main():
 # deciding on wich input to use
 if sys.platform == "linux":  # Use another (not on xserver relying) way to read keyboard input, to make this shit work in tty or via ssh, where no xserver is available
     def recogniser():
-        import tty, termios
+        import tty
+        import termios
         global ev, old_settings, termios, fd, do_exit
 
         do_exit = False
@@ -2215,9 +2222,9 @@ width, height = tss()
 loading_screen = LoadingScreen(VERSION, CODENAME)
 loading_screen()
 # validating data
-validate()
+p_data.validate()
 # types
-types = Types(types)
+types = Types(p_data.types)
 
 # reading config file
 home = str(Path.home())
@@ -2276,8 +2283,8 @@ if not settings.colors:
 
 # maps
 ob_maps = {}
-for ob_map in maps:
-    args = maps[ob_map]
+for ob_map in p_data.maps:
+    args = p_data.maps[ob_map]
     args["extra_actions"] = (getattr(Extra_Actions, args["extra_actions"], None)
                             if args["extra_actions"] is not None
                             else None)
@@ -2308,25 +2315,24 @@ movemap.code_label = OutP("")
 ############################################################
 
 
-__t_1 = time.time()
 gen_obs()
-__t_1 = time.time()-__t_1
 # side fn definitions
 detail = Detail()
 pokete_dex = Dex(movemap)
 help_page = Help(movemap)  # It's called help_page and not help, because I want to stop shadowing buildins
-roadmap = RoadMap(stations)
+roadmap = RoadMap(p_data.stations)
 deck = Deck()
 menu = Menu()
 about = About()
 inv = Inv()
 # items
-for name in items:
-    obj = InvItem(name, items[name]["pretty_name"], items[name]["desc"],
-                  items[name]["price"], items[name]["fn"])
+for name in p_data.items:
+    obj = InvItem(name, p_data.items[name]["pretty_name"],
+                  p_data.items[name]["desc"],
+                  p_data.items[name]["price"], p_data.items[name]["fn"])
     setattr(Inv, name, obj)
-Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", attacks)
-Inv.ld_flying = LearnDisc("flying", attacks)
+Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", p_data.attacks)
+Inv.ld_flying = LearnDisc("flying", p_data.attacks)
 
 buy = Buy()
 
@@ -2436,7 +2442,7 @@ _map.inner = se.Text("""##############################
 ##############################""", ignore="#", ob_class=HightGrass,
     ob_args=_map.poke_args, state="float")
 for ob in (_map.inner_walls.obs + _map.trainers +
-        [getattr(_map, i) for i in map_data["playmap_7"]["balls"]
+        [getattr(_map, i) for i in p_data.map_data["playmap_7"]["balls"]
                 if "playmap_7."+i not in used_npcs
                 or not settings.save_trainers]):
     ob.bchar = ob.char
