@@ -496,7 +496,7 @@ class Station(se.Square):
         self.rechar(self.color+self.org_char+Color.reset)
 
     def next(self, ev):
-        ev = eval(ev)
+        ev = ev.strip("'")
         if (ne := getattr(self, ev+"_next")) != "":
             self.unchoose()
             getattr(roadmap, ne).choose()
@@ -1420,7 +1420,7 @@ def text_input(obj, map, name, wrap_len, max_len=1000000):
                         "Key.shift_r", "Key.esc"] and len(name) < max_len:
             if ev == "Key.space":
                 ev = "' '"
-            name += str(eval(ev))
+            name += str(ev.strip("'"))
             obj.rechar(hard_liner(wrap_len, name+"█"))
             map.show()
             ev = ""
@@ -1871,8 +1871,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                             elif ev in [f"'{i+1}'" for i in
                                     range(len(obj.attac_obs))]+["Key.enter"]:
                                 attack = obj.attac_obs[fightbox.index.index
-                                                    if ev == "Key.enter"
-                                                    else int(eval(ev))-1]
+                                            if ev == "Key.enter"
+                                            else int(ev.strip("'"))-1]
                                 ev = ""
                                 if attack.ap == 0:
                                     continue
