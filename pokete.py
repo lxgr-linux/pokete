@@ -764,7 +764,7 @@ class Deck:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
                 if ret_action != None:
-                    eval(ret_action)
+                    abb_funcs[ret_action]()
                 return
             elif ev == "'2'":
                 ev = ""
@@ -2472,6 +2472,8 @@ deck = Deck()
 menu = Menu()
 about = About()
 inv = Inv()
+# A dict that contains all world action functions for Attacks
+abb_funcs = {"teleport": teleport}
 # items
 for name in p_data.items:
     obj = InvItem(name, p_data.items[name]["pretty_name"],

@@ -390,7 +390,7 @@ attacks = {
         "name": "Flying",
         "factor": 1.5,
         "action": "",
-        "world_action": "teleport()",
+        "world_action": "teleport",
         "move": ["attack"],
         "miss_chance": 0.1,
         "min_lvl": 0,
