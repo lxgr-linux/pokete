@@ -1711,8 +1711,8 @@ class Extra_Actions:
 ###############
 
 def playmap_17_boy():
+    npc = ob_maps["playmap_17"].boy_1
     if "choka" in [i.identifier for i in figure.pokes[:6]]:
-        npc = ob_maps["playmap_17"].boy_1
         movemap_text(npc.x, npc.y,
                     [" < Oh, cool!", " < You have a Choka!",
                     " < I've never seen one before!", " < Here you go, 200$"])
