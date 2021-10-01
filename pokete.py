@@ -14,6 +14,7 @@ import sys
 import threading
 import math
 import socket
+import json
 from pathlib import Path
 import pprint as pp
 import scrap_engine as se
@@ -1890,8 +1891,8 @@ def swap_poke():
                         data = conn.recv(1024)
                         if not data:
                             break
-                        decode_data = eval(data.decode())
-                        conn.sendall(str.encode(str({"name": figure.name,
+                        decode_data = json.loads(data.decode())
+                        conn.sendall(str.encode(json.dumps({"name": figure.name,
                                                      "poke": figure.pokes[index].dict()})))
     else:
         HOST = ""
@@ -1909,10 +1910,10 @@ def swap_poke():
                 with InfoBox(str(err), movemap):
                     time.sleep(5)
                 return
-            s.sendall(str.encode(str({"name": figure.name,
+            s.sendall(str.encode(json.dumps({"name": figure.name,
                                     "poke": figure.pokes[index].dict()})))
             data = s.recv(1024)
-            decode_data = eval(data.decode())
+            decode_data = json.loads(data.decode())
     figure.add_poke(Poke(decode_data["poke"]["name"],
                         decode_data["poke"]["xp"],
                         decode_data["poke"]["hp"]), index)
