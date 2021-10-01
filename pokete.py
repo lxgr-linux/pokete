@@ -1482,11 +1482,16 @@ def on_press(key):
     ev = str(key)
 
 
+def reset_terminal():
+    """Resets the terminals state"""
+    if sys.platform == "linux":
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
+
 def exiter():
     """Exit function"""
-    global do_exit
-    do_exit = True
-    exit()
+    reset_terminal()
+    sys.exit()
 
 
 def std_loop():
@@ -2334,13 +2339,13 @@ def main():
 
 # deciding on wich input to use
 if sys.platform == "linux":
+    import tty
+    import termios
     def recogniser():
         """Use another (not on xserver relying) way to read keyboard input,
             to make this shit work in tty or via ssh,
             where no xserver is available"""
-        import tty
-        import termios
-        global ev, old_settings, termios, fd, do_exit
+        global ev, fd, old_settings
 
         do_exit = False
         fd = sys.stdin.fileno()
@@ -2351,9 +2356,9 @@ if sys.platform == "linux":
             ev = {ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
                     127: "Key.backspace", 32: "Key.space",
                     27: "Key.esc"}[ord(char)]
-            if ord(char) == 3 or do_exit:
-                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-                ev = "exit"
+            if ord(char) == 3:
+               reset_terminal()
+               ev = "exit"
 else:
     from pynput.keyboard import Key, Listener
     def recogniser():
@@ -2477,10 +2482,10 @@ inv = Inv()
 abb_funcs = {"teleport": teleport}
 # items
 for name in p_data.items:
-    obj = InvItem(name, p_data.items[name]["pretty_name"],
+    _obj = InvItem(name, p_data.items[name]["pretty_name"],
                   p_data.items[name]["desc"],
                   p_data.items[name]["price"], p_data.items[name]["fn"])
-    setattr(Inv, name, obj)
+    setattr(Inv, name, _obj)
 Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", p_data.attacks)
 Inv.ld_flying = LearnDisc("flying", p_data.attacks)
 
