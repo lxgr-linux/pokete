@@ -764,7 +764,7 @@ class Deck:
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
-                if ret_action != None:
+                if ret_action is not  None:
                     abb_funcs[ret_action]()
                 return
             elif ev == "'2'":
