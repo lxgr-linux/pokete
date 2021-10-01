@@ -1879,16 +1879,16 @@ def swap_poke():
     """Trading with other players in the local network"""
     if not ask_bool(movemap, "Do you want to trade with another trainer?"):
         return
-    PORT = 65432
+    port = 65432
     save()
     do = ask_bool(movemap, "Do you want to be the host?")
     if (index := deck(figure.pokes[:6], "Your deck", True)) is None:
         return
     if do:
         with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", movemap):
-            HOST = ''
+            host = ''
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.bind((HOST, PORT))
+                s.bind((host, port))
                 s.listen()
                 conn, addr = s.accept()
                 with conn:
@@ -1900,17 +1900,17 @@ def swap_poke():
                         conn.sendall(str.encode(json.dumps({"name": figure.name,
                                                      "poke": figure.pokes[index].dict()})))
     else:
-        HOST = ""
-        while HOST == "":
-            HOST = ask_text(movemap, "Please type in the hosts hostname",
+        host = ""
+        while host == "":
+            host = ask_text(movemap, "Please type in the hosts hostname",
                             "Host:", "", 30)
-            if HOST in ["localhost", "127.0.0.1", socket.gethostname()]:
+            if host in ["localhost", "127.0.0.1", socket.gethostname()]:
                 with InfoBox("You're not allowed trade with your self!\nYou fool!", movemap):
                     time.sleep(5)
-                HOST = ""
+                host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
-                s.connect((HOST, PORT))
+                s.connect((host, port))
             except Exception as err:
                 with InfoBox(str(err), movemap):
                     time.sleep(5)
