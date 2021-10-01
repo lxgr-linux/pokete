@@ -66,7 +66,7 @@ class NPCTrigger(se.Object):
 
 
 class NPC(se.Box):
-    """An NPC ro talk to"""
+    """An NPC to talk to"""
     def __init__(self, name, texts, fn=None, args=()):
         super().__init__(0, 0)
         self.will = True
