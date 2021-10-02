@@ -253,6 +253,20 @@ class Dor(se.Object):
         game(ob_maps[self.arg_proto["map"]])
 
 
+class DorToCenter(Dor):
+    def __init__(self):
+        super().__init__("#", state="float",
+                         arg_proto={"map": "centermap",
+                                    "x": int(centermap.width/2), "y": 7})
+
+
+class DorToShop(Dor):
+    def __init__(self):
+        super().__init__("#", state="float",
+                         arg_proto={"map": "shopmap",
+                                    "x": int(shopmap.width/2), "y": 7})
+
+
 class ChanceDor(Dor):
     """Same as dor but with a chance"""
     def action(self, ob):
@@ -2345,9 +2359,7 @@ def main():
 def map_additions():
     # playmap_1
     _map = ob_maps["playmap_1"]
-    _map.dor = Dor("#", state="float",
-                   arg_proto={"map": "centermap",
-                              "x": int(centermap.width/2), "y": 7})
+    _map.dor = DorToCenter()
     # adding
     _map.dor.add(_map, 25, 4)
 
@@ -2382,12 +2394,8 @@ def map_additions():
 
     # playmap_3
     _map = ob_maps["playmap_3"]
-    _map.dor = Dor("#", state="float",
-                   arg_proto={"map": "centermap",
-                              "x": int(centermap.width/2), "y": 7})
-    _map.shopdor = Dor("#", state="float",
-                       arg_proto={"map": "shopmap",
-                                  "x": int(shopmap.width/2), "y": 7})
+    _map.dor = DorToCenter()
+    _map.shopdor = DorToShop()
     # adding
     _map.dor.add(_map, 25, 6)
     _map.shopdor.add(_map, 61, 6)
@@ -2491,12 +2499,8 @@ def map_additions():
 
     # playmap_13
     _map = ob_maps["playmap_13"]
-    _map.dor = Dor("#", state="float",
-                   arg_proto={"map": "centermap",
-                              "x": int(centermap.width/2), "y": 7})
-    _map.shopdor = Dor("#", state="float",
-                       arg_proto={"map": "shopmap",
-                                  "x": int(shopmap.width/2), "y": 7})
+    _map.dor = DorToCenter()
+    _map.shopdor = DorToShop()
     # adding
     _map.dor.add(_map, 14, 29)
     _map.shopdor.add(_map, 52, 29)
@@ -2560,12 +2564,8 @@ def map_additions():
     _map.dor_playmap_19 = Dor("_", state="float",
                               arg_proto={"map": ob_maps["playmap_19"],
                                          "x": 26, "y": 1})
-    _map.dor = Dor("#", state="float",
-                   arg_proto={"map": "centermap",
-                              "x": int(centermap.width/2), "y": 7})
-    _map.shopdor = Dor("#", state="float",
-                       arg_proto={"map": "shopmap",
-                                  "x": int(shopmap.width/2), "y": 7})
+    _map.dor = DorToCenter()
+    _map.shopdor = DorToShop()
     _map.lake_1 = se.Text("""       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
@@ -2586,12 +2586,8 @@ def map_additions():
 
     # playmap_30
     _map = ob_maps["playmap_30"]
-    _map.dor = Dor("#", state="float",
-                   arg_proto={"map": "centermap",
-                              "x": int(centermap.width/2), "y": 7})
-    _map.shopdor = Dor("#", state="float",
-                       arg_proto={"map": "shopmap",
-                                  "x": int(shopmap.width/2), "y": 7})
+    _map.dor = DorToCenter()
+    _map.shopdor = DorToShop()
     # adding
     _map.dor.add(_map, 13, 7)
     _map.shopdor.add(_map, 30, 7)
@@ -2740,11 +2736,11 @@ inv = Inv()
 # A dict that contains all world action functions for Attacks
 abb_funcs = {"teleport": teleport}
 # items
-for name in p_data.items:
-    _obj = InvItem(name, p_data.items[name]["pretty_name"],
-                  p_data.items[name]["desc"],
-                  p_data.items[name]["price"], p_data.items[name]["fn"])
-    setattr(Inv, name, _obj)
+for _name in p_data.items:
+    _obj = InvItem(_name, p_data.items[_name]["pretty_name"],
+                  p_data.items[_name]["desc"],
+                  p_data.items[_name]["price"], p_data.items[_name]["fn"])
+    setattr(Inv, _name, _obj)
 Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", p_data.attacks)
 Inv.ld_flying = LearnDisc("flying", p_data.attacks)
 
