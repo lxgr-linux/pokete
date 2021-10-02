@@ -254,6 +254,7 @@ class Dor(se.Object):
 
 
 class DorToCenter(Dor):
+    """Dor that leads to the Pokete center"""
     def __init__(self):
         super().__init__("#", state="float",
                          arg_proto={"map": "centermap",
@@ -261,6 +262,7 @@ class DorToCenter(Dor):
 
 
 class DorToShop(Dor):
+    """Dor that leads to the shop"""
     def __init__(self):
         super().__init__("#", state="float",
                          arg_proto={"map": "shopmap",
@@ -2326,6 +2328,19 @@ def gen_obs():
             trainer.add(_map, trainer.sx, trainer.sy)
 
 
+def gen_maps():
+    """Genrates all maps"""
+    maps = {}
+    for ob_map in p_data.maps:
+        args = p_data.maps[ob_map]
+        args["extra_actions"] = (getattr(Extra_Actions, args["extra_actions"],
+                                 None)
+                                if args["extra_actions"] is not None
+                                else None)
+        maps[ob_map] = PlayMap(name = ob_map, **args)
+    return maps
+
+
 def check_version(sinfo):
     """Checks if version in save file is the same as current version"""
     if "ver" not in sinfo:
@@ -2577,7 +2592,6 @@ def map_additions():
            ob_class=HightGrass,
            ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640},
            state="float")
-
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
     _map.dor.add(_map, 10, 7)
@@ -2690,13 +2704,7 @@ save_trainers = settings.save_trainers  # This is needed to just apply some chan
 #########################################
 
 # maps
-ob_maps = {}
-for ob_map in p_data.maps:
-    args = p_data.maps[ob_map]
-    args["extra_actions"] = (getattr(Extra_Actions, args["extra_actions"], None)
-                            if args["extra_actions"] is not None
-                            else None)
-    ob_maps[ob_map] = PlayMap(name = ob_map, **args)
+ob_maps = gen_maps()
 
 # Those two maps cant to sourced out, because `height` and `width`
 # are global variables exclusive to pokete.py
@@ -2727,7 +2735,7 @@ gen_obs()
 # side fn definitions
 detail = Detail()
 pokete_dex = Dex(movemap)
-help_page = Help(movemap)  # It's called help_page and not help, because I want to stop shadowing buildins
+help_page = Help(movemap)
 roadmap = RoadMap(p_data.stations)
 deck = Deck()
 menu = Menu()
