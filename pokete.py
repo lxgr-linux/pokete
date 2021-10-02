@@ -23,6 +23,7 @@ from pokete_classes.color import Color
 from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame, StdFrame2, Box, ChooseBox, InfoBox, InputBox
 from pokete_classes.classes import PlayMap, Types, PokeType, InvItem, LearnDisc, Settings, OutP, ResizeScreen, LoadingScreen
+from pokete_classes.health_bar import HealthBar
 from pokete_general_use_fns import *
 from release import *
 
@@ -298,8 +299,8 @@ class Poke():
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
         # Labels
-        self.hp_bar = se.Text(8*"#", esccode=Color.green, state="float")
-        self.health_bar_maker(self.hp)
+        self.hp_bar = HealthBar(self)
+        self.hp_bar.make(self.hp)
         self.desc = se.Text(liner(self.inf["desc"], se.screen_width-34))
         self.ico = se.Box(4, 11)
         for ico in self.inf["ico"]:
@@ -369,27 +370,6 @@ class Poke():
         """Returns level"""
         return int(math.sqrt(self.xp+1))
 
-    def health_bar_maker(self, oldhp):
-        """Creates the healthbar"""
-        bar_num = round(oldhp*8/self.full_hp)
-        esccode = Color.red
-        for size, color in zip([6, 2], [Color.green, Color.yellow]):
-            if bar_num > size:
-                esccode = color
-                break
-        self.hp_bar.rechar(bar_num*"#", esccode)
-
-    def health_bar_updater(self, oldhp):
-        """Updates the healthbar in steps"""
-        while oldhp != self.hp and oldhp > 0:
-            oldhp += -1 if oldhp > self.hp else 1
-            self.text_hp.rechar(f"HP:{oldhp}", esccode=Color.yellow)
-            self.health_bar_maker(oldhp)
-            time.sleep(0.1)
-            fightmap.show()
-        self.text_hp.rechar(f"HP:{oldhp}")
-        time.sleep(0.1)
-
     def attack(self, attac, enem):
         """Attack process"""
         if attac.ap > 0:
@@ -426,7 +406,7 @@ class Poke():
             if n_hp != 0 or attac.factor == 0:
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
-                obj.health_bar_updater(obj.oldhp)
+                obj.hp_bar.update(obj.oldhp)
             self.label_rechar()
             fightmap.show()
 
@@ -1466,7 +1446,7 @@ def heal():
         poke.miss_chance = poke.full_miss_chance
         poke.text_hp.rechar(f"HP:{poke.hp}")
         poke.set_vars()
-        poke.health_bar_maker(poke.hp)
+        poke.hp_bar.make(poke.hp)
         for atc in poke.attac_obs:
             atc.ap = atc.max_ap
         poke.label_rechar()
@@ -1758,7 +1738,7 @@ def fight_potion(obj, enem, info, hp, name):
         obj.hp = obj.full_hp
     else:
         obj.hp += hp
-    obj.health_bar_updater(obj.oldhp)
+    obj.hp_bar.update(obj.oldhp)
     return
 
 

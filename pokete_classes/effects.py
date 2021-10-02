@@ -142,7 +142,7 @@ class EffectBurning(Effect):
         for _ in range(random.randint(1, 3)):
             oldhp = self.obj.hp
             self.obj.hp = max(self.obj.hp - self.damage, 0)
-            self.obj.health_bar_updater(oldhp)
+            self.obj.hp_bar.update(oldhp)
             self.obj.ico.map.outp.outp(f'{self.obj.ext_name} {self.hurt_text}')
             time.sleep(0.5)
         return 0
