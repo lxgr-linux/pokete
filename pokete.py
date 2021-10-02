@@ -119,11 +119,19 @@ class NPC(se.Box):
 class Trainer(se.Object):
     """Trauner class to fight against"""
     def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
-                win_texts, sx, sy, arg_proto={}):
+                 win_texts, sx, sy, arg_proto={}):
         super().__init__("a", state="solid")
-        for i in ["arg_proto", "name", "gender", "poke", "texts",
-                  "lose_texts", "no_poke_texts", "win_texts", "sx", "sy"]:
-            exec(f"self.{i} = {i}")
+        # attributes
+        self.arg_proto = arg_proto
+        self.name = name
+        self.gender = gender
+        self.poke = pokes
+        self.texts = texts
+        self.lose_texts = lose_texts
+        self.no_poke_texts = no_poke_texts
+        self.win_texts = win_texts
+        self.sx = sx
+        self.sy = sy
 
     def do(self, _map):
         """Interaction with the trainer"""
