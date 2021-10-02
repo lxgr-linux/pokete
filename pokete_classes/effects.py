@@ -1,7 +1,7 @@
 import time
 import random
 import scrap_engine as se
-from pokete_classes.classes import Color
+from pokete_classes.color import Color
 
 class Effect():
     desc = ""

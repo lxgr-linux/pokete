@@ -19,7 +19,10 @@ from pathlib import Path
 import pprint as pp
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_classes import *
+from pokete_classes.color import Color
+from pokete_classes.effects import effects
+from pokete_classes.ui_elements import StdFrame, StdFrame2, Box, ChooseBox, InfoBox, InputBox
+from pokete_classes.classes import PlayMap, Types, PokeType, InvItem, LearnDisc, Settings, OutP, ResizeScreen, LoadingScreen
 from pokete_general_use_fns import *
 from release import *
 
@@ -125,7 +128,7 @@ class Trainer(se.Object):
         self.arg_proto = arg_proto
         self.name = name
         self.gender = gender
-        self.poke = pokes
+        self.poke = poke
         self.texts = texts
         self.lose_texts = lose_texts
         self.no_poke_texts = no_poke_texts
@@ -1165,8 +1168,6 @@ class Menu:
                                     {True: "On", False: "Off"}),
                             Setting("Save trainers", "save_trainers",
                                     {True: "On", False: "Off"}),
-                            Setting("Colors", "colors",
-                                    {True: "On", False: "Off"}),
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -1803,7 +1804,7 @@ class Extra_Actions:
     @staticmethod
     def water(obs):
         """Water animation"""
-        if settings.animations and colors:
+        if settings.animations:
             for obj in obs:
                 if random.randint(0, 9) == 0:
                     if " " not in obj.char:
@@ -2451,10 +2452,7 @@ else:
     visited_maps = ["playmap_1"]
 
 # comprehending settings
-colors = settings.colors
 save_trainers = settings.save_trainers  # This is needed to just apply some changes when restarting the game to avoid running into errors
-if not settings.colors:
-    Color = NoColor
 
 
 # Defining and adding of objetcs and maps

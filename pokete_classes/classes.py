@@ -1,36 +1,7 @@
 import scrap_engine as se
 import os
-from pokete_classes.ui_elements import *
-
-
-class Color:
-    reset = "\033[0m"
-    thicc = "\033[1m"
-    underlined = "\033[4m"
-    grey = "\033[1;30m"
-    red = "\033[31m"
-    green = "\033[32m"
-    yellow = "\033[33m"
-    lightblue = "\033[1;34m"
-    blue = "\033[34m"
-    purple = "\033[1;35m"
-    cyan = "\033[1;36m"
-    lightgrey = "\033[37m"
-    white = "\033[1;37m"
-
-
-class NoColor(Color):
-    grey = ""
-    red = ""
-    green = ""
-    yellow = ""
-    lightblue = ""
-    blue = ""
-    purple = ""
-    cyan = ""
-    lightgrey = ""
-    white = ""
-
+from pokete_classes.ui_elements import StdFrame, StdFrame2, Box, ChooseBox, InfoBox, InputBox
+from pokete_classes.color import Color
 
 class PlayMap(se.Map):
     def __init__(self, height=se.screen_height-1, width=se.screen_width,
@@ -86,8 +57,8 @@ class LearnDisc(InvItem):
 
 
 class Settings():
-    def __init__(self, autosave=True, animations=True, save_trainers=True, colors=True):
-        self.keywords = ["autosave", "animations", "save_trainers", "colors"]
+    def __init__(self, autosave=True, animations=True, save_trainers=True, colors = True):
+        self.keywords = ["autosave", "animations", "save_trainers"]
         for key in self.keywords:
             exec(f"self.{key} = {key}")
 
