@@ -21,8 +21,8 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
-from pokete_classes.ui_elements import StdFrame, StdFrame2, Box, ChooseBox, InfoBox, InputBox
-from pokete_classes.classes import PlayMap, Types, PokeType, InvItem, LearnDisc, Settings, OutP, ResizeScreen, LoadingScreen
+from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, InputBox
+from pokete_classes.classes import PlayMap, Types, InvItem, LearnDisc, Settings, OutP, ResizeScreen, LoadingScreen
 from pokete_classes.health_bar import HealthBar
 from pokete_general_use_fns import *
 from release import *
