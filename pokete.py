@@ -676,8 +676,8 @@ class Figure(se.Object):
     def remove_item(self, item, amount=1):
         """Removes a certain amount of an item from the inv"""
         assert amount > 0, "Amounts have to be positive"
-        assert item in self.inv, f"Item {name} is not in the inventory"
-        assert self.inv[item] - amount >= 0, f"There are not enought {name}s in the inventory"
+        assert item in self.inv, f"Item {item} is not in the inventory"
+        assert self.inv[item] - amount >= 0, f"There are not enought {item}s in the inventory"
         self.inv[item] -= amount
 
 
