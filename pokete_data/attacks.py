@@ -2,7 +2,7 @@ attacks = {
     # normal attacks
     "tackle": {
         "name": "Tackle",
-        "factor": 3/2,
+        "factor": 3 / 2,
         "action": "",
         "world_action": "",
         "move": ["attack"],
@@ -69,7 +69,7 @@ attacks = {
         "effect": "paralyzation",
         "is_generic": False,
         "ap": 15,
-    }, 
+    },
     "tail_wipe": {
         "name": "Tail wipe",
         "factor": 2.5,
@@ -284,7 +284,7 @@ attacks = {
         "is_generic": True,
         "ap": 20,
     },
-     "ground_hit": {
+    "ground_hit": {
         "name": "Ground hit",
         "factor": 3,
         "action": "",
@@ -298,7 +298,7 @@ attacks = {
         "is_generic": True,
         "ap": 10,
     },
-     "dick_energy": {
+    "dick_energy": {
         "name": "Dick energy",
         "factor": 0,
         "action": "self.atc += 2",
@@ -312,7 +312,7 @@ attacks = {
         "is_generic": False,
         "ap": 15,
     },
-     "hiding": {
+    "hiding": {
         "name": "Hiding",
         "factor": 0,
         "action": "self.defense += 2",
@@ -386,7 +386,7 @@ attacks = {
         "ap": 10,
     },
     # flying attacks
-     "flying": {
+    "flying": {
         "name": "Flying",
         "factor": 1.5,
         "action": "",
@@ -436,7 +436,8 @@ attacks = {
         "move": ["attack"],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Casts a strong and fast storm gust full of rain and hail that hits the enemy at it's weakest spots and makes it wanting to die.",
+        "desc": "Casts a strong and fast storm gust full of rain and hail that hits the enemy at it's weakest spots "
+                "and makes it wanting to die.",
         "type": "flying",
         "effect": None,
         "is_generic": True,
@@ -629,7 +630,7 @@ attacks = {
     # electro attacks
     "shock": {
         "name": "Shock",
-        "factor": 3/2,
+        "factor": 3 / 2,
         "action": "",
         "world_action": "",
         "move": ["arch"],
