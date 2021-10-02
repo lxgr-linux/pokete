@@ -4,6 +4,7 @@ from pokete_classes.color import Color
 
 
 class HealthBar(se.Text):
+    """Healthbar class"""
     def __init__(self, poke):
         self.poke = poke
         super().__init__(8*"#", esccode=Color.green, state="float")
