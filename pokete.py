@@ -254,31 +254,41 @@ class Poke():
     def __init__(self, poke, xp, _hp="SKIP", _attacks=None,
                  player=True, shiny=False):
         self.inf = p_data.pokes[poke]
+        # Attributes
         self.enem = None
         self.oldhp = 0
         self.xp = xp
         self.identifier = poke
         self.shiny = shiny
+        self.atc = 0
+        self.defense = 0
+        self.initiative = 0
+        self.hp = self.inf["hp"]
+        self.name = self.inf["name"]
+        self.miss_chance = self.inf["miss_chance"]
+        self.lose_xp = self.inf["lose_xp"]
+        self.evolve_poke = self.inf["evolve_poke"]
+        self.evolve_lvl = self.inf["evolve_lvl"]
+        self.types = [getattr(types, i) for i in self.inf["types"]]
+        self.type = self.types[0]
+        self.attac_obs = []
+        self.atc_labels = []
+        self.effects = []
         if _attacks is not None:
             assert (len(_attacks) <= 4), f"A Pokete {poke} can't have more than 4 attacks!"
             self.attacks = [atc for atc in _attacks
                     if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         else:
-            self.attacks = self.inf["attacks"][:4]
-        for name in ["hp", "name", "miss_chance", "lose_xp",
-                    "evolve_poke", "evolve_lvl"]:
-            setattr(self, name, self.inf[name])
+            self.attacks = self.inf["attacks"][:4] 
         if self.shiny:
-            self.hp += 5
+            self.hp += 5 
         self.set_player(player)
-        self.types = [getattr(types, i) for i in self.inf["types"]]
-        self.type = self.types[0]
+        # Backup vars
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
+        # Labels
         self.hp_bar = se.Text(8*"#", esccode=Color.green, state="float")
-        if _hp != "SKIP":
-            self.hp = _hp if _hp <= self.full_hp else self.hp
-            self.health_bar_maker(self.hp)
+        self.health_bar_maker(self.hp)
         self.desc = se.Text(liner(self.inf["desc"], se.screen_width-34))
         self.ico = se.Box(4, 11)
         for ico in self.inf["ico"]:
@@ -300,14 +310,11 @@ class Poke():
                                  state="float", esccode=self.type.color)
         self.tril = se.Object("<", state="float")
         self.trir = se.Object(">", state="float")
-        self.attac_obs = []
-        self.atc_labels = []
         self.pball_small = se.Object("o")
         self.set_vars()
-        self.effects = []
 
     def set_player(self, player):
-        """Sets the player attribute when the Pokete chnages the owner"""
+        """Sets the player attribute when the Pokete changes the owner"""
         self.player = player
         self.affil = "you" if self.player else "enemy"
         self.ext_name = f'{self.name}({self.affil})'
@@ -663,19 +670,31 @@ class Figure(se.Object):
         """Removes a certain amount of an item from the inv"""
         assert amount > 0, "Amounts have to be positive"
         assert item in self.inv, f"Item {name} is not in the inventory"
-        assert self.inv[item]-amount >= 0, f"There are not enought {name}s in the inventory"
+        assert self.inv[item] - amount >= 0, f"There are not enought {name}s in the inventory"
         self.inv[item] -= amount
 
 
 class Attack():
     """Attack that can be used by a Pokete"""
     def __init__(self, index):
-        for i in p_data.attacks[index]:
-            setattr(self, i, p_data.attacks[index][i])
-        self.type = getattr(types, p_data.attacks[index]["type"])
+        inf = p_data.attacks[index]
+        # Attributes
+        self.name = inf["name"]
+        self.factor = inf["factor"]
+        self.action = inf["action"]
+        self.world_action = inf["world_action"]
+        self.move = inf["move"]
+        self.miss_chance = inf["miss_chance"]
+        self.min_lvl = inf["min_lvl"]
+        self.desc = inf["desc"]
+        self.effect = inf["effect"]
+        self.is_generic = inf["is_generic"]
+        self.ap = inf["ap"]
+        self.type = getattr(types, inf["type"])
         self.max_ap = self.ap
+        # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
-                state="float")
+                                  state="float")
         self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}", state="float")
         self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
         self.label_desc = se.Text(self.desc[:int(width/2-1)], state="float")
@@ -2347,7 +2366,6 @@ if sys.platform == "linux":
             where no xserver is available"""
         global ev, fd, old_settings
 
-        do_exit = False
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
         tty.setraw(fd)
