@@ -1,4 +1,7 @@
+"""General use functions for Pokete"""
+
 def liner(text, width, pre=""):
+    """Wraps a string after a certain length and respects word endings"""
     lens = 0
     out = ""
     for name in text.split(" "):
@@ -15,6 +18,7 @@ def liner(text, width, pre=""):
 
 
 def hard_liner(l_len, name):
+    """Wraps a string after a certain length"""
     ret = ""
     for i in range(int(len(name)/l_len)+1):
         ret += name[i*l_len:(i+1)*l_len]+("\n" if i != int(len(name)/l_len) else "")
@@ -22,6 +26,7 @@ def hard_liner(l_len, name):
 
 
 def sort_vers(vers):
+    """Sorts versions"""
     return [k[-1] for k in
             sorted([([int(j) for j in i.split(".")], i) for i in vers])]
 
