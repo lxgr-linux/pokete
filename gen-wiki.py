@@ -2,7 +2,8 @@
 # This script generates the Pokete wiki
 import os
 import release
-from pokete_classes.effects import *
+import scrap_engine as se
+from pokete_classes.effects import effect_list 
 from pokete_data import *
 
 
