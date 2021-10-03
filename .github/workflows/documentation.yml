@@ -40,7 +40,7 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
           pip3 install scrap_engine pdoc3
-          apt-get install pandoc
+          sudo apt-get install pandoc
 
       # Build documentation
       - name: Build documentation
