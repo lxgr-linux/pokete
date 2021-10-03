@@ -29,14 +29,18 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
-          path: ~/.cache/pip3
+          path: |
+            ~/.cache/pip3
+            /usr/bin/pandoc
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-dependencies
 
       # Runs a single command using the runners shell
       - name: Install dependecies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: pip3 install scrap_engine pdoc3
+        run: |
+          pip3 install scrap_engine pdoc3
+          apt-get install pandoc
 
       # Build documentation
       - name: Build documentation
@@ -45,24 +49,29 @@ jobs:
           pdoc --html pokete_data
           pdoc --html pokete.py
           pdoc --html gen-wiki.py
+      - name: Prepare GitHub-Pages
+        run: |
+          mv 'wiki.md' 'HowToPlay.md' 'Changelog.md' 'README.md' 'html/' 'assets/' /tmp
+          git switch gh-pages
+          mv '/tmp/html/' ./doc
+          mv '/tmp/assets/' .
+          pandoc --from gfm --to html /tmp/wiki.md > ./wiki.md
+          pandoc --from gfm --to html /tmp/HowToPlay.md > ./HowToPlay.md
+          pandoc --from gfm --to html /tmp/Changelog.md > ./Changelog.md
+          pandoc --from gfm --to html /tmp/README.md > ./index.md
 
       # Push to github_pages
-      # - name: Release documentation
-      #   run: |
-      #     mv html/ /tmp/documentation
-      #     git switch gh-pages
-      #     mv /tmp/documentation .
-      #     git config --local user.name  ${{ github.actor }}
-      #     if [[ $(git diff documentation) != "" ]]
-      #     then
-      #     git add documentation
-      #       git commit -m "Updated wiki"
-      #     fi
+      - name: Release documentation
+        run: |
+          git config --local user.name  ${{ github.actor }}
+          if [[ $(git diff documentation) != "" ]]
+          then
+          git add documentation
+            git commit -m "Updated wiki"
+          fi
     
-      # - name: Push changes  # push the output folder to your repo
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     force: true
-
-
+      - name: Push changes  # push the output folder to your repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
