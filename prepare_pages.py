@@ -49,12 +49,12 @@ def replace_code_blocks(_text: str) -> str:
                 continue
             if in_code:
                 out += r'{% endhighlight %}{% endraw %}'
-                out += '\n'
                 out += '```'
+                out += '\n'
             else:
-                out += '```'
-                out += '\n'
                 out += r'{% highlight %}{% raw %}'
+                out += '\n'
+                out += '```'
             in_code = not in_code
         else:
             out += line
