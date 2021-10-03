@@ -85,7 +85,7 @@ $ ./pokete/pokete.py
 </tr>
 </tbody>
 </table>
-<p>For additional information you can see <a href="wiki.md">wiki</a>.</p>
+<p>For additional information you can see <a href="./wiki.html">wiki</a>.</p>
 <h2 id="tips">Tips</h2>
 <ul>
 <li>In conversations you can very easily skip the text printing by pressing any key</li>
@@ -111,8 +111,10 @@ $ ./pokete/pokete.py
 </ul>
 <h2 id="dependencies">Dependencies</h2>
 <p>Pokete depends on python3 and the scrap_engine module. On windows pynput has to be installed too.</p>
+<h2 id="documentation">Documentation</h2>
+<p><a href="https://lxgr-linux.github.io/pokete/doc/pokete_classes/index.html">Documentation for pokete_classes</a> <a href="https://lxgr-linux.github.io/pokete/doc/pokete_data/index.html">Documentation for pokete_data</a> <a href="https://lxgr-linux.github.io/pokete/doc/gen-wiki.html" title="gen-wiki.py">Documentatio for the gen-wiki file</a> <a href="https://lxgr-linux.github.io/pokete/doc/pokete.html" title="pokete.py">Documentation for the main file "pokete.py"</a></p>
 <h2 id="releases">Releases</h2>
-<p>For release information see <a href="Changelog.md">Changelog</a>.</p>
+<p>For release information see <a href="./Changelog.html">Changelog</a>.</p>
 <h2 id="contributing">Contributing</h2>
 <p>Feel free to contribute what ever you want to this game. New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py</p>
 <p>After adding new Poketes and/or Attacks you may want to run</p>
