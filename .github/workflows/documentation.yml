@@ -51,9 +51,13 @@ jobs:
           pdoc --html gen-wiki.py
       - name: Move files to /tmp
         run: |
-          mv 'wiki.md' 'HowToPlay.md' 'Changelog.md' 'README.md' 'html/' 'assets/' /tmp
-          sed -i "s/wiki\.md/.\/wiki.html/g" /tmp/README.md
-          sed -i "s/Changelog\.md/.\/Changelog.html/g" /tmp/README.md
+          mv 'html/' 'assets/' /tmp
+          mv 'wiki.md' /tmp/wiki-in.md
+          mv 'HowToPlay.md' /tmp/HowToPlay-in.md
+          mv 'Changelog.md' /tmp/Changelog-in.md
+          mv 'README.md' /tmp/README-in.md
+          sed -i "s/wiki\.md/.\/wiki.html/g" /tmp/README-in.md
+          sed -i "s/Changelog\.md/.\/Changelog.html/g" /tmp/README-in.md
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
         with:
@@ -63,10 +67,28 @@ jobs:
           rm -rf ./doc ./assets
           mv '/tmp/html/' ./doc
           mv '/tmp/assets/' .
-          pandoc --from gfm --to html /tmp/wiki.md > ./wiki.md
-          pandoc --from gfm --to html /tmp/HowToPlay.md > ./HowToPlay.md
-          pandoc --from gfm --to html /tmp/Changelog.md > ./Changelog.md
-          pandoc --from gfm --to html /tmp/README.md > ./index.md
+          # Disable liquid variables in jekyll
+          echo "---" > wiki.md
+          echo "render_with_liquid: false" >> wiki.md
+          echo "---" >> wiki.md
+          echo "" >> wiki.md
+          echo "---" > HowToPlay.md
+          echo "render_with_liquid: false" >> HowToPlay.md
+          echo "---" >> HowToPlay.md
+          echo "" >> HowToPlay.md
+          echo "---" > Changelog.md
+          echo "render_with_liquid: false" >> Changelog.md
+          echo "---" >> Changelog.md
+          echo "" >> Changelog.md
+          echo "---" > index.md
+          echo "render_with_liquid: false" >> index.md
+          echo "---" >> index.md
+          echo "" >> index.md
+          # Generate the contents of the files.
+          pandoc --from gfm --to html /tmp/wiki-in.md >> ./wiki.md
+          pandoc --from gfm --to html /tmp/HowToPlay-in.md >> ./HowToPlay.md
+          pandoc --from gfm --to html /tmp/Changelog-in.md >> ./Changelog.md
+          pandoc --from gfm --to html /tmp/README-in.md >> ./index.md
 
       # Push to github_pages
       - name: Release documentation
