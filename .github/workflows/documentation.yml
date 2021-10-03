@@ -52,6 +52,8 @@ jobs:
       - name: Move files to /tmp
         run: |
           mv 'wiki.md' 'HowToPlay.md' 'Changelog.md' 'README.md' 'html/' 'assets/' /tmp
+          sed -i "s/wiki\.md/.\/wiki.html/g" /tmp/README.md
+          sed -i "s/Changelog\.md/.\/Changelog.html/g" /tmp/README.md
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
         with:
