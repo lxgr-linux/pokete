@@ -1,9 +1,9 @@
 theme: jekyll-theme-cayman
 show_downloads: false
 include:
-  - Changelog.md
-  - HowToPlay.md
-  - wiki.md
+  - Changelog.html
+  - HowToPlay.html
+  - wiki.html
 markdown: kramdown
 render_with_liquid: false
 
