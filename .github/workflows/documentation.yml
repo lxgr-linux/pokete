@@ -29,9 +29,7 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
-          path: |
-            ~/.local/lib/python3.9/site_packages
-            ~/.local/bin/pdoc
+          path: ~/.cache/pip3
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-dependencies
 
@@ -43,11 +41,10 @@ jobs:
       # Build documentation
       - name: Build documentation
         run: |
-          pdoc pokete.py
-          pdoc pokete_data.py
-          pdoc pokete_classes.py
-          pdoc pokete_general_use_fns.py
-          pdoc gen-wiki.py
+          pdoc --html pokete_classes
+          pdoc --html pokete_data
+          pdoc --html pokete.py
+          pdoc --html gen-wiki.py
 
       # Push to github_pages
       # - name: Release documentation
