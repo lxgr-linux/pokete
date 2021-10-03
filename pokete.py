@@ -1148,7 +1148,7 @@ class Buy:
 
     def __init__(self):
         self.box = ChooseBox(height - 3, 35, "Shop")
-        self.box2 = Box(7, 21, )
+        self.box2 = Box(7, 21)
         self.items = [Inv.poketeball, Inv.superball, Inv.healing_potion,
                       Inv.super_potion, Inv.ap_potion]
         self.box.add_c_obs([se.Text(f"{obj.pretty_name} : {obj.price}$")
