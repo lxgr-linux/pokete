@@ -62,14 +62,14 @@ def replace_code_blocks(_text: str) -> str:
     return out
 
 
-files = ['wiki.md', 'README.md', 'Changelog.md', 'HowToPlay.md']
-#files = ['README.md']
+#files = ['wiki.md', 'README.md', 'Changelog.md', 'HowToPlay.md']
+files = ['README.md']
 
 for file in files:
     with open(file, 'r') as f:
         text = f.read()
         text = replace_tables(text)
-        text = replace_code_blocks(text)
+        #text = replace_code_blocks(text)
         #file.write(text)
         print(text)
     with open(file, 'w') as f:

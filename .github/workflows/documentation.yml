@@ -70,10 +70,10 @@ jobs:
           rm -rf ./doc ./assets
           mv '/tmp/html/' ./doc
           mv '/tmp/assets/' .
-          mv /tmp/wiki.md 'wiki.md'
-          mv /tmp/HowToPlay.md 'HowToPlay.md'
-          mv /tmp/Changelog.md 'Changelog.md'
-          mv /tmp/README.md 'README.md'
+          pandoc /tmp/wiki.md -o 'wiki.html' --standalone
+          pandoc /tmp/HowToPlay.md -o 'HowToPlay.html' --standalone
+          pandoc /tmp/Changelog.md -o 'Changelog.html' --standalone
+          pandoc /tmp/README.md -o 'README.html' --standalone
       # Push to github_pages
       - name: Release documentation
         run: |
