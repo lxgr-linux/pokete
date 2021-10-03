@@ -49,10 +49,15 @@ jobs:
           pdoc --html pokete_data
           pdoc --html pokete.py
           pdoc --html gen-wiki.py
-      - name: Prepare GitHub-Pages
+      - name: Move files to /tmp
         run: |
           mv 'wiki.md' 'HowToPlay.md' 'Changelog.md' 'README.md' 'html/' 'assets/' /tmp
-          git switch gh-pages
+      - name: Switch branch to gh-pages
+        uses: actions/checkou/@v2
+        with:
+          ref: 'gh-pages'
+      - name: Generate gh-pages page
+        run: |
           mv '/tmp/html/' ./doc
           mv '/tmp/assets/' .
           pandoc --from gfm --to html /tmp/wiki.md > ./wiki.md
