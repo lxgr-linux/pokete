@@ -61,6 +61,7 @@ jobs:
           mv 'README.md' /tmp/README.md
           sed -i "s/wiki\.md/.\/wiki.html/g" /tmp/README.md
           sed -i "s/Changelog\.md/.\/Changelog.html/g" /tmp/README.md
+          sed -i "s/HowToPlay\.md/.\/HowToPlay.html/g" /tmp/README.md
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
         with:
@@ -73,7 +74,7 @@ jobs:
           pandoc /tmp/wiki.md -o 'wiki.html' --standalone
           pandoc /tmp/HowToPlay.md -o 'HowToPlay.html' --standalone
           pandoc /tmp/Changelog.md -o 'Changelog.html' --standalone
-          pandoc /tmp/README.md -o 'README.html' --standalone
+          mv /tmp/README.md ./index.md
       # Push to github_pages
       - name: Release documentation
         run: |
