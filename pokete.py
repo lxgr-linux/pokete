@@ -16,7 +16,6 @@ import math
 import socket
 import json
 from pathlib import Path
-import pprint as pp
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes.color import Color
