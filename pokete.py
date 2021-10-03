@@ -15,6 +15,7 @@ import threading
 import math
 import socket
 import json
+import pickle
 from pathlib import Path
 import pprint as pp
 import scrap_engine as se
@@ -1558,6 +1559,11 @@ def save():
         # writes the data to the save file in a nice format
         file.write(f"session_info = {pp.pformat(session_info, sort_dicts=False)}")
 
+    with open(home + SAVEPATH + "/ob_maps", "wb") as file:
+        figure.remove()
+        pickle.dump(ob_maps, file)
+
+
 
 def on_press(key):
     """Sets the ev variable"""
@@ -2776,18 +2782,38 @@ save_trainers = settings.save_trainers
 # Defining and adding of objetcs and maps
 #########################################
 
-# maps
-ob_maps = gen_maps()
+
+t3 = time.time()
+if False:
+    # maps
+    ob_maps = gen_maps()
+
+    centermap = PlayMap(height - 1, width, name="centermap",
+                        pretty_name="Pokete-Center")
+    shopmap = PlayMap(height - 1, width, name="shopmap",
+                      pretty_name="Pokete-Shop")
+
+    ob_maps["centermap"] = centermap
+    ob_maps["shopmap"] = shopmap
+
+    gen_obs()
+    map_additions()
+else:
+    with open(home + SAVEPATH + "/ob_maps", "rb") as file:
+        ob_maps = pickle.load(file)
+    centermap = ob_maps["centermap"]
+    shopmap = ob_maps["shopmap"]
+t3 = time.time() - t3
 
 # Those two maps cant to sourced out, because `height` and `width`
 # are global variables exclusive to pokete.py
-centermap = PlayMap(height - 1, width, name="centermap",
-                    pretty_name="Pokete-Center")
-shopmap = PlayMap(height - 1, width, name="shopmap",
-                  pretty_name="Pokete-Shop")
-
-ob_maps["centermap"] = centermap
-ob_maps["shopmap"] = shopmap
+#centermap = PlayMap(height - 1, width, name="centermap",
+#                    pretty_name="Pokete-Center")
+#shopmap = PlayMap(height - 1, width, name="shopmap",
+#                  pretty_name="Pokete-Shop")
+#
+#ob_maps["centermap"] = centermap
+#ob_maps["shopmap"] = shopmap
 
 # movemap
 movemap = se.Submap(ob_maps["playmap_1"], 0, 0, height=height - 1, width=width)
@@ -2803,7 +2829,6 @@ movemap.code_label = OutP("")
 ############################################################
 
 
-gen_obs()
 # side fn definitions
 detail = Detail()
 pokete_dex = Dex(movemap)
@@ -2825,7 +2850,6 @@ Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", p_data.attacks)
 Inv.ld_flying = LearnDisc("flying", p_data.attacks)
 
 buy = Buy()
-map_additions()
 
 # centermap
 centermap.inner = se.Text(""" ________________
