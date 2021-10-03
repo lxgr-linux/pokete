@@ -5,4 +5,5 @@ include:
   - HowToPlay.md
   - wiki.md
 markdown: kramdown
+render_with_liquid: false
 
