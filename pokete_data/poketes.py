@@ -9,8 +9,8 @@ pokes = {
     "__fallback__": {
         "name": "",
         "hp": 20,
-        "atc": "0",
-        "defense": "0",
+        "atc": 0,
+        "defense": 0,
         "attacks": [],
         "pool": [],
         "miss_chance": 0,
@@ -20,7 +20,7 @@ pokes = {
         "types": ["normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()",
+        "initiative": 0,
         "ico": [{
             "txt": """ """,
             "esc": None}],
@@ -28,8 +28,8 @@ pokes = {
     "steini": {
         "name": "Steini",
         "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+4",
+        "atc": 2,
+        "defense": 4,
         "attacks": ["tackle", "politure", "brick_throw"],
         "pool": [],
         "miss_chance": 0,
@@ -39,7 +39,7 @@ pokes = {
         "types": ["stone", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+5",
+        "initiative": 5,
         "ico": [{
             "txt": """ +-------+
  | o   o |
@@ -50,8 +50,8 @@ pokes = {
     "bigstone": {
         "name": "Bigstone",
         "hp": 30,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+13",
+        "atc": 2,
+        "defense": 13,
         "attacks": ["snooze", "politure", "brick_throw"],
         "pool": [],
         "miss_chance": 0,
@@ -61,7 +61,7 @@ pokes = {
         "types": ["stone", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+5",
+        "initiative": 5,
         "ico": [{
             "txt": """+---------+
 |  o   o  |
@@ -72,8 +72,8 @@ pokes = {
     "poundi": {
         "name": "Poundi",
         "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+3",
+        "atc": 2,
+        "defense": 3,
         "attacks": ["tackle", "politure", "earch_quake"],
         "pool": [],
         "miss_chance": 0,
@@ -83,107 +83,107 @@ pokes = {
         "types": ["stone", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+4",
+        "initiative": 4,
         "ico": [{
             "txt": """   A-A-A
   < o o >
   < --- >
    VvVvV""",
             "esc": None}],
-   },
-   "lilstone": {
-       "name": "Lilstone",
-       "hp": 20,
-       "atc": "self.lvl()+1",
-       "defense": "self.lvl()+2",
-       "attacks": ["tackle", "politure", "pepple_fire"],
-       "pool": [],
-       "miss_chance": 0,
-       "desc": "A small but powerful stone Pokete that lives in the mountains.",
-       "lose_xp": 2,
-       "rarity": 1,
-       "types": ["stone", "normal"],
-       "evolve_poke": "bigstone",
-       "evolve_lvl": 25,
-       "initiative": "self.lvl()+3",
-       "ico": [{
+    },
+    "lilstone": {
+        "name": "Lilstone",
+        "hp": 20,
+        "atc": 1,
+        "defense": 2,
+        "attacks": ["tackle", "politure", "pepple_fire"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A small but powerful stone Pokete that lives in the mountains.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["stone", "normal"],
+        "evolve_poke": "bigstone",
+        "evolve_lvl": 25,
+        "initiative": 3,
+        "ico": [{
             "txt": """
    _____
    |'ᵕ'|
    ‾‾‾‾‾""",
             "esc": None}],
-  },
-  "rosi": {
-      "name": "Rosi",
-      "hp": 20,
-      "atc": "self.lvl()",
-      "defense": "self.lvl()+1",
-      "attacks": ["sucker", "super_sucker"],
-      "pool": [],
-      "miss_chance": 0,
-      "desc": "A plant Pokete, that's often mistaken for a normal flower.",
-      "lose_xp": 2,
-      "rarity": 0.8,
-      "types": ["plant"],
-      "evolve_poke": "",
-      "evolve_lvl": 0,
-      "initiative": "self.lvl()+3",
-      "ico": [{
+    },
+    "rosi": {
+        "name": "Rosi",
+        "hp": 20,
+        "atc": 0,
+        "defense": 1,
+        "attacks": ["sucker", "super_sucker"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A plant Pokete, that's often mistaken for a normal flower.",
+        "lose_xp": 2,
+        "rarity": 0.8,
+        "types": ["plant"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 3,
+        "ico": [{
             "txt": """
     (@)
      |
     \|/""",
             "esc": None}],
- },
-  "gobost": {
-      "name": "Gobost",
-      "hp": 20,
-      "atc": "self.lvl()+2",
-      "defense": "self.lvl()+1",
-      "attacks": ["tackle", "mind_blow", "heart_touch"],
-      "pool": [],
-      "miss_chance": 0,
-      "desc": "A scary ghost Pokete that lives in caves and old houses.",
-      "lose_xp": 3,
-      "rarity": 1,
-      "types": ["undead", "normal"],
-      "evolve_poke": "angrilo",
-      "evolve_lvl": 25,
-      "initiative": "self.lvl()+6",
-      "ico": [{
+    },
+    "gobost": {
+        "name": "Gobost",
+        "hp": 20,
+        "atc": 2,
+        "defense": 1,
+        "attacks": ["tackle", "mind_blow", "heart_touch"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A scary ghost Pokete that lives in caves and old houses.",
+        "lose_xp": 3,
+        "rarity": 1,
+        "types": ["undead", "normal"],
+        "evolve_poke": "angrilo",
+        "evolve_lvl": 25,
+        "initiative": 6,
+        "ico": [{
             "txt": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
  ░ ░ ░ ░ ░""",
             "esc": None}],
-  },
-   "angrilo": {
-       "name": "Angrilo",
-       "hp": 25,
-       "atc": "self.lvl()+3",
-       "defense": "self.lvl()+2",
-       "attacks": ["tackle", "mind_blow", "wet_slap", "heart_touch"],
-       "pool": [],
-       "miss_chance": 0,
-       "desc": "A ghost Pokete that will scare your pants off.",
-       "lose_xp": 4,
-       "rarity": 0.6,
-       "types": ["undead", "normal", "water"],
-       "evolve_poke": "",
-       "evolve_lvl": 0,
-       "initiative": "self.lvl()+7",
-       "ico": [{
+    },
+    "angrilo": {
+        "name": "Angrilo",
+        "hp": 25,
+        "atc": 3,
+        "defense": 2,
+        "attacks": ["tackle", "mind_blow", "wet_slap", "heart_touch"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A ghost Pokete that will scare your pants off.",
+        "lose_xp": 4,
+        "rarity": 0.6,
+        "types": ["undead", "normal", "water"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 7,
+        "ico": [{
             "txt": """ .░░░░░░░.
  ░░\░░░/░░
  .░░( )░░.
 .         .""",
             "esc": None}],
-   },
-  "vogli": {
+    },
+    "vogli": {
         "name": "Vogli",
         "hp": 20,
-        "atc": "self.lvl()+6",
-        "defense": "self.lvl()+1",
+        "atc": 6,
+        "defense": 1,
         "attacks": ["tackle", "power_pick"],
         "pool": [],
         "miss_chance": 0,
@@ -192,7 +192,7 @@ pokes = {
         "rarity": 1,
         "types": ["flying", "normal"],
         "evolve_poke": "voglo",
-        "initiative": "self.lvl()+6",
+        "initiative": 6,
         "evolve_lvl": 20,
         "ico": [{
             "txt": """    A
@@ -204,8 +204,8 @@ pokes = {
     "voglo": {
         "name": "Voglo",
         "hp": 20,
-        "atc": "self.lvl()+7",
-        "defense": "self.lvl()+1",
+        "atc": 7,
+        "defense": 1,
         "attacks": ["tackle", "power_pick", "wing_hit", "brooding"],
         "pool": [],
         "miss_chance": 0,
@@ -215,7 +215,7 @@ pokes = {
         "types": ["flying", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+7",
+        "initiative": 7,
         "ico": [{
             "txt": """    ?
    >´)
@@ -226,8 +226,8 @@ pokes = {
     "ostri": {
         "name": "Ostri",
         "hp": 20,
-        "atc": "self.lvl()+8",
-        "defense": "self.lvl()",
+        "atc": 8,
+        "defense": 0,
         "attacks": ["tackle", "eye_pick", "brooding"],
         "pool": [],
         "miss_chance": 0,
@@ -237,7 +237,7 @@ pokes = {
         "types": ["flying", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+7",
+        "initiative": 7,
         "ico": [{
             "txt": """   !
   >´)
@@ -248,8 +248,8 @@ pokes = {
     "karpi": {
         "name": "Karpi",
         "hp": 15,
-        "atc": "self.lvl()",
-        "defense": "self.lvl()/2",
+        "atc": 0,
+        "defense": 0,
         "attacks": ["tackle"],
         "pool": [],
         "miss_chance": 0,
@@ -259,7 +259,7 @@ pokes = {
         "types": ["water", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()",
+        "initiative": 0,
         "ico": [{
             "txt": """
 
@@ -270,8 +270,8 @@ pokes = {
     "würgos": {
         "name": "Würgos",
         "hp": 20,
-        "atc": "self.lvl()+3",
-        "defense": "self.lvl()",
+        "atc": 3,
+        "defense": 0,
         "attacks": ["chocer", "bite", "poison_bite"],
         "pool": [],
         "miss_chance": 0,
@@ -281,7 +281,7 @@ pokes = {
         "types": ["poison", "normal"],
         "evolve_poke": "choka",
         "evolve_lvl": 30,
-        "initiative": "self.lvl()+3",
+        "initiative": 3,
         "ico": [{
             "txt": """  >'({{{
   }}}}}}}
@@ -292,8 +292,8 @@ pokes = {
     "choka": {
         "name": "Choka",
         "hp": 25,
-        "atc": "self.lvl()+5",
-        "defense": "self.lvl()+1",
+        "atc": 5,
+        "defense": 1,
         "attacks": ["chocer", "bite", "poison_bite", "power_bite"],
         "pool": [],
         "miss_chance": 0,
@@ -303,7 +303,7 @@ pokes = {
         "types": ["poison", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+4",
+        "initiative": 4,
         "ico": [{
             "txt": """ _______
 /____ * \\
@@ -314,8 +314,8 @@ pokes = {
     "treenator": {
         "name": "Treenator",
         "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+2",
+        "atc": 2,
+        "defense": 2,
         "attacks": ["apple_drop", "bark_hardening", "branch_stab", "root_strangler"],
         "pool": [],
         "miss_chance": 0,
@@ -325,7 +325,7 @@ pokes = {
         "types": ["plant"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+2",
+        "initiative": 2,
         "ico": [{
             "txt": """    (()
    (()))
@@ -336,8 +336,8 @@ pokes = {
     "bato": {
         "name": "Bato",
         "hp": 20,
-        "atc": "self.lvl()+3",
-        "defense": "self.lvl()+1",
+        "atc": 3,
+        "defense": 1,
         "attacks": ["bite", "cry"],
         "pool": [],
         "miss_chance": 0,
@@ -347,7 +347,7 @@ pokes = {
         "types": ["flying", "flying"],
         "evolve_poke": "bator",
         "evolve_lvl": 20,
-        "initiative": "self.lvl()+6",
+        "initiative": 6,
         "ico": [{
             "txt": """    ___
 WW\/* *\/WW
@@ -357,8 +357,8 @@ WW\/* *\/WW
     "bator": {
         "name": "Bator",
         "hp": 25,
-        "atc": "self.lvl()+4",
-        "defense": "self.lvl()+2",
+        "atc": 4,
+        "defense": 2,
         "attacks": ["bite", "cry", "poison_bite", "wing_hit"],
         "pool": [],
         "miss_chance": 0,
@@ -368,7 +368,7 @@ WW\/* *\/WW
         "types": ["flying", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+8",
+        "initiative": 8,
         "ico": [{
             "txt": """    ___
 WW\/o o\/WW
@@ -379,8 +379,8 @@ WW\/o o\/WW
     "blub": {
         "name": "Blub",
         "hp": 20,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+1",
+        "atc": 2,
+        "defense": 1,
         "attacks": ["tackle", "bubble_bomb", "bubble_shield"],
         "pool": [],
         "miss_chance": 0,
@@ -390,7 +390,7 @@ WW\/o o\/WW
         "types": ["water", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+1",
+        "initiative": 1,
         "ico": [{
             "txt": """  _____
  / o   \\
@@ -401,8 +401,8 @@ WW\/o o\/WW
     "owol": {
         "name": "Owol",
         "hp": 20,
-        "atc": "self.lvl()+7",
-        "defense": "self.lvl()+2",
+        "atc": 7,
+        "defense": 2,
         "attacks": ["pick", "wing_hit", "cry"],
         "pool": [],
         "miss_chance": 0,
@@ -412,7 +412,7 @@ WW\/o o\/WW
         "types": ["flying", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+3",
+        "initiative": 3,
         "ico": [{
             "txt": """   ,___,
    {o,o}
@@ -424,8 +424,8 @@ WW\/o o\/WW
     "rato": {
         "name": "Rato",
         "hp": 20,
-        "atc": "self.lvl()+4",
-        "defense": "self.lvl()+2",
+        "atc": 4,
+        "defense": 2,
         "attacks": ["tackle", "tail_wipe"],
         "pool": ["bite", "power_bite"],
         "miss_chance": 0,
@@ -435,7 +435,7 @@ WW\/o o\/WW
         "types": ["normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+6",
+        "initiative": 6,
         "ico": [{
             "txt": """   ^---^
    \o o/
@@ -445,8 +445,8 @@ WW\/o o\/WW
     "hornita": {
         "name": "Hornita",
         "hp": 20,
-        "atc": "self.lvl()+6",
-        "defense": "self.lvl()+2",
+        "atc": 6,
+        "defense": 2,
         "attacks": ["tackle", "meat_skewer", "tail_wipe"],
         "pool": [],
         "miss_chance": 0,
@@ -456,7 +456,7 @@ WW\/o o\/WW
         "types": ["normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+3",
+        "initiative": 3,
         "ico": [{
             "txt": """ \\
  =')~
@@ -467,8 +467,8 @@ WW\/o o\/WW
     "horny": {
         "name": "Horny",
         "hp": 20,
-        "atc": "self.lvl()+5",
-        "defense": "self.lvl()+1",
+        "atc": 5,
+        "defense": 1,
         "attacks": ["tackle", "meat_skewer"],
         "pool": ["tail_wipe"],
         "miss_chance": 0.2,
@@ -478,7 +478,7 @@ WW\/o o\/WW
         "types": ["normal"],
         "evolve_poke": "hornita",
         "evolve_lvl": 20,
-        "initiative": "self.lvl()+4",
+        "initiative": 4,
         "ico": [{
             "txt": """  ,
  =')
@@ -489,8 +489,8 @@ WW\/o o\/WW
     "bushy": {
         "name": "Bushy",
         "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+1",
+        "atc": 2,
+        "defense": 1,
         "attacks": ["tackle", "bark_hardening"],
         "pool": ["apple_drop"],
         "miss_chance": 0,
@@ -500,7 +500,7 @@ WW\/o o\/WW
         "types": ["plant", "normal"],
         "evolve_poke": "treenator",
         "evolve_lvl": 20,
-        "initiative": "self.lvl()+1",
+        "initiative": 1,
         "ico": [{
             "txt": """
     (()
@@ -510,8 +510,8 @@ WW\/o o\/WW
     "wolfior": {
         "name": "Wolfior",
         "hp": 20,
-        "atc": "self.lvl()+6",
-        "defense": "self.lvl()+3",
+        "atc": 6,
+        "defense": 3,
         "attacks": ["tackle", "fire_bite", "ash_throw"],
         "pool": ["bite", "power_bite"],
         "miss_chance": 0,
@@ -521,23 +521,23 @@ WW\/o o\/WW
         "types": ["fire", "normal"],
         "evolve_poke": "wolfiro",
         "evolve_lvl": 25,
-        "initiative": "self.lvl()+4",
+        "initiative": 4,
         "ico": [{
             "txt": """   ^---^
    (   )
    >(.)<""",
             "esc": None},
-        {
-            "txt": """
+            {
+                "txt": """
     * *
         """,
-            "esc": "Color.thicc+Color.red"}]
+                "esc": ["thicc", "red"]}]
     },
     "wolfiro": {
         "name": "Wolfiro",
         "hp": 25,
-        "atc": "self.lvl()+7",
-        "defense": "self.lvl()+4",
+        "atc": 7,
+        "defense": 4,
         "attacks": ["tackle", "fire_bite", "ash_throw", "fire_ball"],
         "pool": ["bite", "power_bite"],
         "miss_chance": 0,
@@ -547,23 +547,23 @@ WW\/o o\/WW
         "types": ["fire", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+5",
+        "initiative": 5,
         "ico": [{
             "txt": """   \^-^/
    {   }
    >{.}<""",
             "esc": None},
-        {
-            "txt": """
+            {
+                "txt": """
     * *
         """,
-            "esc": "Color.thicc+Color.red"}]
+                "esc": ["thicc", "red"]}]
     },
     "rollator": {
         "name": "Rollator",
         "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+5",
+        "atc": 2,
+        "defense": 5,
         "attacks": ["tackle", "power_roll"],
         "pool": ["hiding"],
         "miss_chance": 0,
@@ -573,7 +573,7 @@ WW\/o o\/WW
         "types": ["ground", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+3",
+        "initiative": 3,
         "ico": [{
             "txt": """   _____
   / o o \\
@@ -584,8 +584,8 @@ WW\/o o\/WW
     "clampi": {
         "name": "Clampi",
         "hp": 25,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+7",
+        "atc": 2,
+        "defense": 7,
         "attacks": ["tackle", "bubble_bomb", "shell_pinch"],
         "pool": [],
         "miss_chance": 0,
@@ -595,22 +595,22 @@ WW\/o o\/WW
         "types": ["water", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+3",
+        "initiative": 3,
         "ico": [{
             "txt": """    ___
   -/   \-
   -\___/-""",
             "esc": None},
-        {
-            "txt": """
+            {
+                "txt": """
      *""",
-            "esc": "Color.lightblue"}]
+                "esc": ["lightblue"]}]
     },
     "electrode": {
         "name": "Electrode",
         "hp": 20,
-        "atc": "self.lvl()+5",
-        "defense": "self.lvl()+2",
+        "atc": 5,
+        "defense": 2,
         "attacks": ["shock", "charging", "mega_arch"],
         "pool": [],
         "miss_chance": 0,
@@ -620,21 +620,21 @@ WW\/o o\/WW
         "types": ["electro"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+4",
+        "initiative": 4,
         "ico": [{
             "txt": """
     ( )""",
             "esc": None},
-        {
-            "txt": """
+            {
+                "txt": """
      +""",
-            "esc": "Color.lightblue"}]
+                "esc": ["lightblue"]}]
     },
     "cubl": {
         "name": "Cubl",
         "hp": 20,
-        "atc": "self.lvl()+3",
-        "defense": "self.lvl()+3",
+        "atc": 3,
+        "defense": 3,
         "attacks": ["tackle", "freeze", "snow_storm"],
         "pool": [],
         "miss_chance": 0.1,
@@ -644,29 +644,29 @@ WW\/o o\/WW
         "types": ["ice", "normal"],
         "evolve_poke": "spikl",
         "evolve_lvl": 30,
-        "initiative": "self.lvl()+1",
+        "initiative": 1,
         "ico": [{
             "txt": """   -----
    |   |
    -----""",
             "esc": None},
             {
-            "txt": """
+                "txt": """
     * *""",
-            "esc": "Color.lightblue"},
+                "esc": ["lightblue"]},
             {
-            "txt": """  /     \\
+                "txt": """  /     \\
 
   \     /""",
-            "esc": "Color.cyan"
+                "esc": ["cyan"]
             }
-                ]
+        ]
     },
     "spikl": {
         "name": "Spikl",
         "hp": 25,
-        "atc": "self.lvl()+4",
-        "defense": "self.lvl()+4",
+        "atc": 4,
+        "defense": 4,
         "attacks": ["tackle", "freeze", "snow_storm", "sword_of_ice"],
         "pool": [],
         "miss_chance": 0.1,
@@ -676,29 +676,29 @@ WW\/o o\/WW
         "types": ["ice", "normal", "water"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+2",
+        "initiative": 2,
         "ico": [{
             "txt": """  -------
   |     |
   -------""",
             "esc": None},
             {
-            "txt": """
+                "txt": """
     * *""",
-            "esc": "Color.lightblue"},
+                "esc": ["lightblue"]},
             {
-            "txt": """ /       \\
+                "txt": """ /       \\
 
  \       /""",
-            "esc": "Color.cyan"
+                "esc": ["cyan"]
             }
-                ]
+        ]
     },
     "confuso": {
         "name": "Confuso",
         "hp": 20,
-        "atc": "self.lvl()+1",
-        "defense": "self.lvl()+1",
+        "atc": 1,
+        "defense": 1,
         "attacks": ["confusion"],
         "pool": [],
         "miss_chance": 0.1,
@@ -708,28 +708,28 @@ WW\/o o\/WW
         "types": ["undead"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+2",
+        "initiative": 2,
         "ico": [{
             "txt": """
      _
     (_) """,
             "esc": None},
             {
-            "txt": """        }
+                "txt": """        }
       {
        }""",
-            "esc": "Color.purple"},
+                "esc": ["purple"]},
             {
-            "txt": """       }
+                "txt": """       }
        {""",
-            "esc": "Color.lightblue"},
-                ]
+                "esc": ["lightblue"]},
+        ]
     },
     "poisopla": {
         "name": "Poisopla",
         "hp": 20,
-        "atc": "self.lvl()+3",
-        "defense": "self.lvl()+3",
+        "atc": 3,
+        "defense": 3,
         "attacks": ["root_slap", "poison_spores", "leaf_storm"],
         "pool": ["poison_thorn"],
         "miss_chance": 0.1,
@@ -739,7 +739,7 @@ WW\/o o\/WW
         "types": ["plant", "poison"],
         "evolve_poke": "megapois",
         "evolve_lvl": 20,
-        "initiative": "self.lvl()+1",
+        "initiative": 1,
         "ico": [{
             "txt": """
        .
@@ -747,16 +747,16 @@ WW\/o o\/WW
   \_\||/""",
             "esc": None},
             {
-            "txt": """
+                "txt": """
      w""",
-            "esc": "Color.purple"},
-                ]
+                "esc": ["purple"]},
+        ]
     },
     "megapois": {
         "name": "Megapois",
         "hp": 25,
-        "atc": "self.lvl()+3",
-        "defense": "self.lvl()+5",
+        "atc": 3,
+        "defense": 5,
         "attacks": ["root_slap", "poison_spores", "leaf_storm", "poison_thorn"],
         "pool": [],
         "miss_chance": 0.1,
@@ -766,7 +766,7 @@ WW\/o o\/WW
         "types": ["plant", "poison"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+2",
+        "initiative": 2,
         "ico": [{
             "txt": """
     |/.
@@ -774,16 +774,16 @@ WW\/o o\/WW
  \_\||/ """,
             "esc": None},
             {
-            "txt": """    w w
+                "txt": """    w w
   w""",
-            "esc": "Color.purple"},
-                ]
+                "esc": ["purple"]},
+        ]
     },
     "schmetterling": {
         "name": "Schmetterling",
         "hp": 20,
-        "atc": "self.lvl()+4",
-        "defense": "self.lvl()+2",
+        "atc": 4,
+        "defense": 2,
         "attacks": ["schmetter", "wing_hit"],
         "pool": [],
         "miss_chance": 0.1,
@@ -793,7 +793,7 @@ WW\/o o\/WW
         "types": ["flying"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+4",
+        "initiative": 4,
         "ico": [{
             "txt": """
  .__ o __.
@@ -805,8 +805,8 @@ WW\/o o\/WW
     "lil_nut": {
         "name": "Lil nut",
         "hp": 20,
-        "atc": "self.lvl()+1",
-        "defense": "self.lvl()+3",
+        "atc": 1,
+        "defense": 3,
         "attacks": ["tackle", "ground_hit"],
         "pool": ["dick_energy", "hiding"],
         "miss_chance": 0.1,
@@ -816,7 +816,7 @@ WW\/o o\/WW
         "types": ["ground", "normal"],
         "evolve_poke": "dicki",
         "evolve_lvl": 15,
-        "initiative": "self.lvl()+1",
+        "initiative": 1,
         "ico": [{
             "txt": """
 
@@ -828,8 +828,8 @@ WW\/o o\/WW
     "dicki": {
         "name": "Dicki",
         "hp": 20,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+4",
+        "atc": 2,
+        "defense": 4,
         "attacks": ["tackle", "dick_energy", "hiding", "ground_hit"],
         "pool": [],
         "miss_chance": 0.1,
@@ -839,7 +839,7 @@ WW\/o o\/WW
         "types": ["ground", "normal"],
         "evolve_poke": "dicko",
         "evolve_lvl": 35,
-        "initiative": "self.lvl()+2",
+        "initiative": 2,
         "ico": [{
             "txt": """    
     __
@@ -851,8 +851,8 @@ WW\/o o\/WW
     "dicko": {
         "name": "Dicko",
         "hp": 25,
-        "atc": "self.lvl()+3",
-        "defense": "self.lvl()+5",
+        "atc": 3,
+        "defense": 5,
         "attacks": ["tackle", "dick_energy", "hiding", "ground_hit"],
         "pool": [],
         "miss_chance": 0.1,
@@ -862,7 +862,7 @@ WW\/o o\/WW
         "types": ["ground", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+3",
+        "initiative": 3,
         "ico": [{
             "txt": """    __
    ('')
@@ -874,8 +874,8 @@ WW\/o o\/WW
     "diamondos": {
         "name": "Diamondos",
         "hp": 20,
-        "atc": "self.lvl()+2",
-        "defense": "self.lvl()+15",
+        "atc": 2,
+        "defense": 15,
         "attacks": ["tackle", "politure", "dazzle"],
         "pool": ["dia_stab", "dia_spikes"],
         "miss_chance": 0.1,
@@ -885,7 +885,7 @@ WW\/o o\/WW
         "types": ["stone"],
         "evolve_poke": "",
         "evolve_lvl": 0,
-        "initiative": "self.lvl()+2",
+        "initiative": 2,
         "ico": [{
             "txt": """
  
@@ -893,17 +893,17 @@ WW\/o o\/WW
      -""",
             "esc": None},
             {
-            "txt": """
+                "txt": """
     /\ / 
        >
    <_""",
-            "esc": "Color.cyan"},
+                "esc": ["cyan"]},
             {
-            "txt": """
+                "txt": """
       ^  
    <     
       _>""",
-            "esc": "Color.white"}
+                "esc": ["white"]}
         ]
     },
 

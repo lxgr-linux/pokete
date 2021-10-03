@@ -7,52 +7,52 @@ types = {
     "stone": {
         "effective": ["flying", "fire"],
         "ineffective": ["plant"],
-        "color": "Color.grey"
+        "color": ["grey"]
     },
     "plant": {
         "effective": ["stone", "ground", "water"],
         "ineffective": ["fire", "ice"],
-        "color": "Color.green"
+        "color": ["green"]
     },
     "water": {
         "effective": ["stone", "flying", "fire"],
         "ineffective": ["plant", "ice"],
-        "color": "Color.lightblue"
+        "color": ["lightblue"]
     },
     "fire": {
         "effective": ["flying", "plant", "undead", "ice"],
         "ineffective": ["stone", "water"],
-        "color": "Color.thicc+Color.red"
+        "color": ["thicc", "red"]
     },
     "ground": {
         "effective": ["normal"],
         "ineffective": ["flying", "ice"],
-        "color": "Color.grey"
+        "color": ["grey"]
     },
     "electro": {
         "effective": ["stone", "flying"],
         "ineffective": ["ground"],
-        "color": "Color.thicc+Color.yellow"
+        "color": ["thicc", "yellow"]
     },
     "flying": {
         "effective": ["plant"],
         "ineffective": ["stone"],
-        "color": "Color.thicc"
+        "color": ["thicc"]
     },
     "undead": {
         "effective": ["normal", "ground", "plant", "water", "poison"],
         "ineffective": ["fire"],
-        "color": "Color.purple"
+        "color": ["purple"]
     },
     "ice": {
         "effective": ["water", "plant", "ground"],
         "ineffective": ["fire"],
-        "color": "Color.cyan"
+        "color": ["cyan"]
     },
     "poison": {
         "effective": ["normal"],
         "ineffective": ["undead"],
-        "color": "Color.thicc+Color.green"
+        "color": ["thicc", "green"]
     },
 }
 

@@ -50,7 +50,7 @@ maps = {
         "height": 60,
         "width": 60,
         "pretty_name": "Josi Lake",
-        "extra_actions": "playmap_4_extra_action",
+        "extra_actions": "playmap_4",
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
             "minlvl": 180,
@@ -83,7 +83,7 @@ maps = {
         "height": 30,
         "width": 60,
         "pretty_name": "Dark cave",
-        "extra_actions": "playmap_7_extra_action",
+        "extra_actions": "playmap_7",
         "poke_args": {
             "pokes": ["steini", "bato", "lilstone", "rollator", "gobost"],
             "minlvl": 200,
@@ -123,7 +123,7 @@ maps = {
         "height": 20,
         "width": 60,
         "pretty_name": "Route 3",
-        "extra_actions": "playmap_11_extra_action",
+        "extra_actions": "playmap_11",
         "poke_args": {
             "pokes": ["steini", "voglo", "wolfior", "owol"],
             "minlvl": 230,
@@ -192,7 +192,7 @@ maps = {
         "height": 23,
         "width": 98,
         "pretty_name": "Big mountain see",
-        "extra_actions": "playmap_18_extra_action",
+        "extra_actions": "playmap_18",
         "poke_args": {
             "pokes": ["poundi", "rollator", "würgos", "rato"],
             "minlvl": 540,
@@ -221,7 +221,7 @@ maps = {
         "height": 30,
         "width": 150,
         "pretty_name": "Rock-ville",
-        "extra_actions": "playmap_21_extra_action",
+        "extra_actions": "playmap_21",
         "poke_args": None
     },
     "playmap_22": {

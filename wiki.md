@@ -159,9 +159,9 @@ A small floating ball that will give you a shock.
 
 - Type: [Electro](#types)
 - Health points: 20
-- Attack factor: level+5
-- Defense factor: level+2
-- Initiative: level+4
+- Attack factor: 5
+- Defense factor: 2
+- Initiative: 4
 - Missing chance: 0
 - Rarity: 0.8
 - Loosing experience: 3
@@ -184,9 +184,9 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
 - Type: [Fire](#types)
 - Health points: 20
-- Attack factor: level+6
-- Defense factor: level+3
-- Initiative: level+4
+- Attack factor: 6
+- Defense factor: 3
+- Initiative: 4
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 2
@@ -209,9 +209,9 @@ A fiery wolf from hell on steroids.
 
 - Type: [Fire](#types)
 - Health points: 25
-- Attack factor: level+7
-- Defense factor: level+4
-- Initiative: level+5
+- Attack factor: 7
+- Defense factor: 4
+- Initiative: 5
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 4
@@ -235,9 +235,9 @@ WW\/* *\/WW
 
 - Type: [Flying](#types)
 - Health points: 20
-- Attack factor: level+3
-- Defense factor: level+1
-- Initiative: level+6
+- Attack factor: 3
+- Defense factor: 1
+- Initiative: 6
 - Missing chance: 0
 - Rarity: 1.3
 - Loosing experience: 3
@@ -259,9 +259,9 @@ WW\/o o\/WW
 
 - Type: [Flying](#types)
 - Health points: 25
-- Attack factor: level+4
-- Defense factor: level+2
-- Initiative: level+8
+- Attack factor: 4
+- Defense factor: 2
+- Initiative: 8
 - Missing chance: 0
 - Rarity: 0.2
 - Loosing experience: 4
@@ -285,9 +285,9 @@ A very aggressive bird Pokete that lives near deserts and will try to pick out y
 
 - Type: [Flying](#types)
 - Health points: 20
-- Attack factor: level+8
-- Defense factor: level
-- Initiative: level+7
+- Attack factor: 8
+- Defense factor: 0
+- Initiative: 7
 - Missing chance: 0
 - Rarity: 0.6
 - Loosing experience: 4
@@ -310,9 +310,9 @@ A night active Pokete, that is looking for lil children as a midnight snack.
 
 - Type: [Flying](#types)
 - Health points: 20
-- Attack factor: level+7
-- Defense factor: level+2
-- Initiative: level+3
+- Attack factor: 7
+- Defense factor: 2
+- Initiative: 3
 - Missing chance: 0
 - Rarity: 0.5
 - Loosing experience: 2
@@ -335,9 +335,9 @@ A butterfly that will schmetter you away.
 
 - Type: [Flying](#types)
 - Health points: 20
-- Attack factor: level+4
-- Defense factor: level+2
-- Initiative: level+4
+- Attack factor: 4
+- Defense factor: 2
+- Initiative: 4
 - Missing chance: 0.1
 - Rarity: 1
 - Loosing experience: 3
@@ -359,9 +359,9 @@ A very common bird Pokete that lives everywhere.
 
 - Type: [Flying](#types)
 - Health points: 20
-- Attack factor: level+6
-- Defense factor: level+1
-- Initiative: level+6
+- Attack factor: 6
+- Defense factor: 1
+- Initiative: 6
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 2
@@ -383,9 +383,9 @@ A very aggressive bird Pokete that can only be found in the woods.
 
 - Type: [Flying](#types)
 - Health points: 20
-- Attack factor: level+7
-- Defense factor: level+1
-- Initiative: level+7
+- Attack factor: 7
+- Defense factor: 1
+- Initiative: 7
 - Missing chance: 0
 - Rarity: 0.8
 - Loosing experience: 3
@@ -409,9 +409,9 @@ A little what ever, that sticks out of the ground.
 
 - Type: [Ground](#types)
 - Health points: 20
-- Attack factor: level+2
-- Defense factor: level+4
-- Initiative: level+2
+- Attack factor: 2
+- Defense factor: 4
+- Initiative: 2
 - Missing chance: 0.1
 - Rarity: 1
 - Loosing experience: 2
@@ -435,9 +435,9 @@ An even bigger what ever, that sticks out of the ground.
 
 - Type: [Ground](#types)
 - Health points: 25
-- Attack factor: level+3
-- Defense factor: level+5
-- Initiative: level+3
+- Attack factor: 3
+- Defense factor: 5
+- Initiative: 3
 - Missing chance: 0.1
 - Rarity: 1
 - Loosing experience: 2
@@ -461,9 +461,9 @@ A very small what ever, that sticks out of the ground.
 
 - Type: [Ground](#types)
 - Health points: 20
-- Attack factor: level+1
-- Defense factor: level+3
-- Initiative: level+1
+- Attack factor: 1
+- Defense factor: 3
+- Initiative: 1
 - Missing chance: 0.1
 - Rarity: 1
 - Loosing experience: 2
@@ -485,9 +485,9 @@ A big chunk of stone and dirt, that roles around.
 
 - Type: [Ground](#types)
 - Health points: 25
-- Attack factor: level+2
-- Defense factor: level+5
-- Initiative: level+3
+- Attack factor: 2
+- Defense factor: 5
+- Initiative: 3
 - Missing chance: 0
 - Rarity: 0.5
 - Loosing experience: 3
@@ -509,9 +509,9 @@ A small ice cube.
 
 - Type: [Ice](#types)
 - Health points: 20
-- Attack factor: level+3
-- Defense factor: level+3
-- Initiative: level+1
+- Attack factor: 3
+- Defense factor: 3
+- Initiative: 1
 - Missing chance: 0.1
 - Rarity: 1.2
 - Loosing experience: 2
@@ -534,9 +534,9 @@ A block of ice.
 
 - Type: [Ice](#types)
 - Health points: 25
-- Attack factor: level+4
-- Defense factor: level+4
-- Initiative: level+2
+- Attack factor: 4
+- Defense factor: 4
+- Initiative: 2
 - Missing chance: 0.1
 - Rarity: 0.9
 - Loosing experience: 4
@@ -560,9 +560,9 @@ An majestic horse that is always looking for something to pick with its horn.
 
 - Type: [Normal](#types)
 - Health points: 20
-- Attack factor: level+6
-- Defense factor: level+2
-- Initiative: level+3
+- Attack factor: 6
+- Defense factor: 2
+- Initiative: 3
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 3
@@ -585,9 +585,9 @@ A teenage unicorn in the middle of puberty.
 
 - Type: [Normal](#types)
 - Health points: 20
-- Attack factor: level+5
-- Defense factor: level+1
-- Initiative: level+4
+- Attack factor: 5
+- Defense factor: 1
+- Initiative: 4
 - Missing chance: 0.2
 - Rarity: 1
 - Loosing experience: 2
@@ -609,9 +609,9 @@ An annoying rat.
 
 - Type: [Normal](#types)
 - Health points: 20
-- Attack factor: level+4
-- Defense factor: level+2
-- Initiative: level+6
+- Attack factor: 4
+- Defense factor: 2
+- Initiative: 6
 - Missing chance: 0
 - Rarity: 1.3
 - Loosing experience: 2
@@ -633,9 +633,9 @@ A bush, and just a bush. But watch out!
 
 - Type: [Plant](#types)
 - Health points: 25
-- Attack factor: level+2
-- Defense factor: level+1
-- Initiative: level+1
+- Attack factor: 2
+- Defense factor: 1
+- Initiative: 1
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 1
@@ -657,9 +657,9 @@ A very unsuspicious plant.
 
 - Type: [Plant](#types)
 - Health points: 25
-- Attack factor: level+3
-- Defense factor: level+5
-- Initiative: level+2
+- Attack factor: 3
+- Defense factor: 5
+- Initiative: 2
 - Missing chance: 0.1
 - Rarity: 0.9
 - Loosing experience: 6
@@ -683,9 +683,9 @@ A unsuspicious plant.
 
 - Type: [Plant](#types)
 - Health points: 20
-- Attack factor: level+3
-- Defense factor: level+3
-- Initiative: level+1
+- Attack factor: 3
+- Defense factor: 3
+- Initiative: 1
 - Missing chance: 0.1
 - Rarity: 0.9
 - Loosing experience: 6
@@ -708,9 +708,9 @@ A plant Pokete, that's often mistaken for a normal flower.
 
 - Type: [Plant](#types)
 - Health points: 20
-- Attack factor: level
-- Defense factor: level+1
-- Initiative: level+3
+- Attack factor: 0
+- Defense factor: 1
+- Initiative: 3
 - Missing chance: 0
 - Rarity: 0.8
 - Loosing experience: 2
@@ -732,9 +732,9 @@ A scary an dangerous apple tree.
 
 - Type: [Plant](#types)
 - Health points: 25
-- Attack factor: level+2
-- Defense factor: level+2
-- Initiative: level+2
+- Attack factor: 2
+- Defense factor: 2
+- Initiative: 2
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 2
@@ -758,9 +758,9 @@ A fucking dangerous and enormous snake Pokete.
 
 - Type: [Poison](#types)
 - Health points: 25
-- Attack factor: level+5
-- Defense factor: level+1
-- Initiative: level+4
+- Attack factor: 5
+- Defense factor: 1
+- Initiative: 4
 - Missing chance: 0
 - Rarity: 0.5
 - Loosing experience: 4
@@ -784,9 +784,9 @@ A dangerous snake Pokete.
 
 - Type: [Poison](#types)
 - Health points: 20
-- Attack factor: level+3
-- Defense factor: level
-- Initiative: level+3
+- Attack factor: 3
+- Defense factor: 0
+- Initiative: 3
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 2
@@ -809,9 +809,9 @@ A big and heavy stone made from one of the hardest stones.
 
 - Type: [Stone](#types)
 - Health points: 30
-- Attack factor: level+2
-- Defense factor: level+13
-- Initiative: level+5
+- Attack factor: 2
+- Defense factor: 13
+- Initiative: 5
 - Missing chance: 0
 - Rarity: 0.3
 - Loosing experience: 5
@@ -834,9 +834,9 @@ A precious diamond, that can only be found in the darkest caves.
 
 - Type: [Stone](#types)
 - Health points: 20
-- Attack factor: level+2
-- Defense factor: level+15
-- Initiative: level+2
+- Attack factor: 2
+- Defense factor: 15
+- Initiative: 2
 - Missing chance: 0.1
 - Rarity: 1
 - Loosing experience: 2
@@ -859,9 +859,9 @@ A small but powerful stone Pokete that lives in the mountains.
 
 - Type: [Stone](#types)
 - Health points: 20
-- Attack factor: level+1
-- Defense factor: level+2
-- Initiative: level+3
+- Attack factor: 1
+- Defense factor: 2
+- Initiative: 3
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 2
@@ -884,9 +884,9 @@ A powerful and heavy stone Pokete that lives in mountain caves.
 
 - Type: [Stone](#types)
 - Health points: 25
-- Attack factor: level+2
-- Defense factor: level+3
-- Initiative: level+4
+- Attack factor: 2
+- Defense factor: 3
+- Initiative: 4
 - Missing chance: 0
 - Rarity: 0.7
 - Loosing experience: 4
@@ -909,9 +909,9 @@ A squared stone that can casually be found on the ground.
 
 - Type: [Stone](#types)
 - Health points: 25
-- Attack factor: level+2
-- Defense factor: level+4
-- Initiative: level+5
+- Attack factor: 2
+- Defense factor: 4
+- Initiative: 5
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 3
@@ -934,9 +934,9 @@ A ghost Pokete that will scare your pants off.
 
 - Type: [Undead](#types)
 - Health points: 25
-- Attack factor: level+3
-- Defense factor: level+2
-- Initiative: level+7
+- Attack factor: 3
+- Defense factor: 2
+- Initiative: 7
 - Missing chance: 0
 - Rarity: 0.6
 - Loosing experience: 4
@@ -960,9 +960,9 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 
 - Type: [Undead](#types)
 - Health points: 20
-- Attack factor: level+1
-- Defense factor: level+1
-- Initiative: level+2
+- Attack factor: 1
+- Defense factor: 1
+- Initiative: 2
 - Missing chance: 0.1
 - Rarity: 0.5
 - Loosing experience: 6
@@ -983,9 +983,9 @@ A scary ghost Pokete that lives in caves and old houses.
 
 - Type: [Undead](#types)
 - Health points: 20
-- Attack factor: level+2
-- Defense factor: level+1
-- Initiative: level+6
+- Attack factor: 2
+- Defense factor: 1
+- Initiative: 6
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 3
@@ -1008,9 +1008,9 @@ Very delicious and low fat water Pokete.
 
 - Type: [Water](#types)
 - Health points: 20
-- Attack factor: level+2
-- Defense factor: level+1
-- Initiative: level+1
+- Attack factor: 2
+- Defense factor: 1
+- Initiative: 1
 - Missing chance: 0
 - Rarity: 1
 - Loosing experience: 5
@@ -1033,9 +1033,9 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
 
 - Type: [Water](#types)
 - Health points: 25
-- Attack factor: level+2
-- Defense factor: level+7
-- Initiative: level+3
+- Attack factor: 2
+- Defense factor: 7
+- Initiative: 3
 - Missing chance: 0
 - Rarity: 0.8
 - Loosing experience: 5
@@ -1058,9 +1058,9 @@ A very harmless water Pokete that can be found everywhere.
 
 - Type: [Water](#types)
 - Health points: 15
-- Attack factor: level
-- Defense factor: level/2
-- Initiative: level
+- Attack factor: 0
+- Defense factor: 0
+- Initiative: 0
 - Missing chance: 0
 - Rarity: 3
 - Loosing experience: 1
