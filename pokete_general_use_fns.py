@@ -7,21 +7,23 @@ def liner(text, width, pre=""):
     for name in text.split(" "):
         if "\n" in name:
             lens = len(pre)
-            out += name+pre
-        elif lens+len(name)+1 <= width:
-            out += name+" "
-            lens += len(name)+1
+            out += name + pre
+        elif lens+len(name) + 1 <= width:
+            out += name + " "
+            lens += len(name) + 1
         else:
-            lens = len(name)+1+len(pre)
-            out += "\n"+pre+name+" "
+            lens = len(name) + 1 + len(pre)
+            out += "\n" + pre + name + " "
     return out
 
 
 def hard_liner(l_len, name):
     """Wraps a string after a certain length"""
     ret = ""
-    for i in range(int(len(name)/l_len)+1):
-        ret += name[i*l_len:(i+1)*l_len]+("\n" if i != int(len(name)/l_len) else "")
+    for i in range(int(len(name) / l_len) + 1):
+        ret += name[i * l_len:(i + 1) * l_len] + ("\n"
+                                                  if i != int(len(name) / l_len)
+                                                  else "")
     return ret
 
 
