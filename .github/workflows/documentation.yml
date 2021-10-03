@@ -55,12 +55,12 @@ jobs:
       - name: Move files to /tmp
         run: |
           mv 'html/' 'assets/' /tmp
-          mv 'wiki.md' /tmp/wiki-in.md
-          mv 'HowToPlay.md' /tmp/HowToPlay-in.md
-          mv 'Changelog.md' /tmp/Changelog-in.md
-          mv 'README.md' /tmp/README-in.md
-          sed -i "s/wiki\.md/.\/wiki.html/g" /tmp/README-in.md
-          sed -i "s/Changelog\.md/.\/Changelog.html/g" /tmp/README-in.md
+          mv 'wiki.md' /tmp/wiki.md
+          mv 'HowToPlay.md' /tmp/HowToPlay.md
+          mv 'Changelog.md' /tmp/Changelog.md
+          mv 'README.md' /tmp/README.md
+          sed -i "s/wiki\.md/.\/wiki.html/g" /tmp/README.md
+          sed -i "s/Changelog\.md/.\/Changelog.html/g" /tmp/README.md
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
         with:
@@ -70,6 +70,10 @@ jobs:
           rm -rf ./doc ./assets
           mv '/tmp/html/' ./doc
           mv '/tmp/assets/' .
+          mv /tmp/wiki.md 'wiki.md'
+          mv /tmp/HowToPlay.md 'HowToPlay.md'
+          mv /tmp/Changelog.md 'Changelog.md'
+          mv /tmp/README.md 'README.md'
       # Push to github_pages
       - name: Release documentation
         run: |
