@@ -90,96 +90,96 @@ pokes = {
   < --- >
    VvVvV""",
             "esc": None}],
-   },
-   "lilstone": {
-       "name": "Lilstone",
-       "hp": 20,
-       "atc": 1,
-       "defense": 2,
-       "attacks": ["tackle", "politure", "pepple_fire"],
-       "pool": [],
-       "miss_chance": 0,
-       "desc": "A small but powerful stone Pokete that lives in the mountains.",
-       "lose_xp": 2,
-       "rarity": 1,
-       "types": ["stone", "normal"],
-       "evolve_poke": "bigstone",
-       "evolve_lvl": 25,
-       "initiative": 3,
-       "ico": [{
+    },
+    "lilstone": {
+        "name": "Lilstone",
+        "hp": 20,
+        "atc": 1,
+        "defense": 2,
+        "attacks": ["tackle", "politure", "pepple_fire"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A small but powerful stone Pokete that lives in the mountains.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["stone", "normal"],
+        "evolve_poke": "bigstone",
+        "evolve_lvl": 25,
+        "initiative": 3,
+        "ico": [{
             "txt": """
    _____
    |'ᵕ'|
    ‾‾‾‾‾""",
             "esc": None}],
-  },
-  "rosi": {
-      "name": "Rosi",
-      "hp": 20,
-      "atc": 0,
-      "defense": 1,
-      "attacks": ["sucker", "super_sucker"],
-      "pool": [],
-      "miss_chance": 0,
-      "desc": "A plant Pokete, that's often mistaken for a normal flower.",
-      "lose_xp": 2,
-      "rarity": 0.8,
-      "types": ["plant"],
-      "evolve_poke": "",
-      "evolve_lvl": 0,
-      "initiative": 3,
-      "ico": [{
+    },
+    "rosi": {
+        "name": "Rosi",
+        "hp": 20,
+        "atc": 0,
+        "defense": 1,
+        "attacks": ["sucker", "super_sucker"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A plant Pokete, that's often mistaken for a normal flower.",
+        "lose_xp": 2,
+        "rarity": 0.8,
+        "types": ["plant"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 3,
+        "ico": [{
             "txt": """
     (@)
      |
     \|/""",
             "esc": None}],
- },
-  "gobost": {
-      "name": "Gobost",
-      "hp": 20,
-      "atc": 2,
-      "defense": 1,
-      "attacks": ["tackle", "mind_blow", "heart_touch"],
-      "pool": [],
-      "miss_chance": 0,
-      "desc": "A scary ghost Pokete that lives in caves and old houses.",
-      "lose_xp": 3,
-      "rarity": 1,
-      "types": ["undead", "normal"],
-      "evolve_poke": "angrilo",
-      "evolve_lvl": 25,
-      "initiative": 6,
-      "ico": [{
+    },
+    "gobost": {
+        "name": "Gobost",
+        "hp": 20,
+        "atc": 2,
+        "defense": 1,
+        "attacks": ["tackle", "mind_blow", "heart_touch"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A scary ghost Pokete that lives in caves and old houses.",
+        "lose_xp": 3,
+        "rarity": 1,
+        "types": ["undead", "normal"],
+        "evolve_poke": "angrilo",
+        "evolve_lvl": 25,
+        "initiative": 6,
+        "ico": [{
             "txt": """ .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
  ░ ░ ░ ░ ░""",
             "esc": None}],
-  },
-   "angrilo": {
-       "name": "Angrilo",
-       "hp": 25,
-       "atc": 3,
-       "defense": 2,
-       "attacks": ["tackle", "mind_blow", "wet_slap", "heart_touch"],
-       "pool": [],
-       "miss_chance": 0,
-       "desc": "A ghost Pokete that will scare your pants off.",
-       "lose_xp": 4,
-       "rarity": 0.6,
-       "types": ["undead", "normal", "water"],
-       "evolve_poke": "",
-       "evolve_lvl": 0,
-       "initiative": 7,
-       "ico": [{
+    },
+    "angrilo": {
+        "name": "Angrilo",
+        "hp": 25,
+        "atc": 3,
+        "defense": 2,
+        "attacks": ["tackle", "mind_blow", "wet_slap", "heart_touch"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A ghost Pokete that will scare your pants off.",
+        "lose_xp": 4,
+        "rarity": 0.6,
+        "types": ["undead", "normal", "water"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 7,
+        "ico": [{
             "txt": """ .░░░░░░░.
  ░░\░░░/░░
  .░░( )░░.
 .         .""",
             "esc": None}],
-   },
-  "vogli": {
+    },
+    "vogli": {
         "name": "Vogli",
         "hp": 20,
         "atc": 6,
@@ -527,11 +527,11 @@ WW\/o o\/WW
    (   )
    >(.)<""",
             "esc": None},
-        {
-            "txt": """
+            {
+                "txt": """
     * *
         """,
-            "esc": ["thicc", "red"]}]
+                "esc": ["thicc", "red"]}]
     },
     "wolfiro": {
         "name": "Wolfiro",
@@ -553,11 +553,11 @@ WW\/o o\/WW
    {   }
    >{.}<""",
             "esc": None},
-        {
-            "txt": """
+            {
+                "txt": """
     * *
         """,
-            "esc": ["thicc", "red"]}]
+                "esc": ["thicc", "red"]}]
     },
     "rollator": {
         "name": "Rollator",
@@ -601,10 +601,10 @@ WW\/o o\/WW
   -/   \-
   -\___/-""",
             "esc": None},
-        {
-            "txt": """
+            {
+                "txt": """
      *""",
-            "esc": ["lightblue"]}]
+                "esc": ["lightblue"]}]
     },
     "electrode": {
         "name": "Electrode",
@@ -625,10 +625,10 @@ WW\/o o\/WW
             "txt": """
     ( )""",
             "esc": None},
-        {
-            "txt": """
+            {
+                "txt": """
      +""",
-            "esc": ["lightblue"]}]
+                "esc": ["lightblue"]}]
     },
     "cubl": {
         "name": "Cubl",
@@ -651,16 +651,16 @@ WW\/o o\/WW
    -----""",
             "esc": None},
             {
-            "txt": """
+                "txt": """
     * *""",
-            "esc": ["lightblue"]},
+                "esc": ["lightblue"]},
             {
-            "txt": """  /     \\
+                "txt": """  /     \\
 
   \     /""",
-            "esc": ["cyan"]
+                "esc": ["cyan"]
             }
-                ]
+        ]
     },
     "spikl": {
         "name": "Spikl",
@@ -683,16 +683,16 @@ WW\/o o\/WW
   -------""",
             "esc": None},
             {
-            "txt": """
+                "txt": """
     * *""",
-            "esc": ["lightblue"]},
+                "esc": ["lightblue"]},
             {
-            "txt": """ /       \\
+                "txt": """ /       \\
 
  \       /""",
-            "esc": ["cyan"]
+                "esc": ["cyan"]
             }
-                ]
+        ]
     },
     "confuso": {
         "name": "Confuso",
@@ -715,15 +715,15 @@ WW\/o o\/WW
     (_) """,
             "esc": None},
             {
-            "txt": """        }
+                "txt": """        }
       {
        }""",
-            "esc": ["purple"]},
+                "esc": ["purple"]},
             {
-            "txt": """       }
+                "txt": """       }
        {""",
-            "esc": ["lightblue"]},
-                ]
+                "esc": ["lightblue"]},
+        ]
     },
     "poisopla": {
         "name": "Poisopla",
@@ -747,10 +747,10 @@ WW\/o o\/WW
   \_\||/""",
             "esc": None},
             {
-            "txt": """
+                "txt": """
      w""",
-            "esc": ["purple"]},
-                ]
+                "esc": ["purple"]},
+        ]
     },
     "megapois": {
         "name": "Megapois",
@@ -774,10 +774,10 @@ WW\/o o\/WW
  \_\||/ """,
             "esc": None},
             {
-            "txt": """    w w
+                "txt": """    w w
   w""",
-            "esc": ["purple"]},
-                ]
+                "esc": ["purple"]},
+        ]
     },
     "schmetterling": {
         "name": "Schmetterling",
@@ -893,17 +893,17 @@ WW\/o o\/WW
      -""",
             "esc": None},
             {
-            "txt": """
+                "txt": """
     /\ / 
        >
    <_""",
-            "esc": ["cyan"]},
+                "esc": ["cyan"]},
             {
-            "txt": """
+                "txt": """
       ^  
    <     
       _>""",
-            "esc": ["white"]}
+                "esc": ["white"]}
         ]
     },
 

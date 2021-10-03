@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # This script generates the Pokete wiki
 import os
-import scrap_engine as se
-from pokete_data import *
-from pokete_classes.effects import *
 import release
+import scrap_engine as se
+from pokete_classes.effects import effect_list 
+from pokete_data import *
+
 
 def gen_wiki():
     md_str = f"""v{release.VERSION}
@@ -19,23 +20,23 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 
     # Table of contents
     for i, typ in enumerate(sorted(types)):
-        md_str += f"""   {i+1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n"""
-        for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0]== typ]):
-            md_str += f"""       {j+1}. [{pokes[poke]["name"]}](#{poke.replace("_", "-")})\n"""
+        md_str += f"""   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n"""
+        for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]):
+            md_str += f"""       {j + 1}. [{pokes[poke]["name"]}](#{poke.replace("_", "-")})\n"""
     md_str += "2. [Attacks](#attacks)\n"
     for i, typ in enumerate(sorted(types)):
-        md_str += f"""   {i+1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
+        md_str += f"""   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
         for j, atc in enumerate([k for k in sorted(attacks) if attacks[k]["type"] == typ]):
-            md_str += f"""       {j+1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
+            md_str += f"""       {j + 1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
     md_str += """3. [Types](#types)
 4. [Items](#items)
 """
     for j, item in enumerate(sorted(items)):
-        md_str += f"""   {j+1}. [{items[item]["pretty_name"]}](#{item.replace("_", "-")})\n"""
+        md_str += f"""   {j + 1}. [{items[item]["pretty_name"]}](#{item.replace("_", "-")})\n"""
     md_str += """5. [Effects](#effects)
 """
     for j, effect in enumerate(effect_list):
-        md_str += f"""   {j+1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace("_", "-")})
+        md_str += f"""   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace("_", "-")})
 """
 
     # Poketes
@@ -46,7 +47,8 @@ In the following all Poketes with their attributes are displayed.
     for typ in sorted(types):
         md_str += f"### {typ.capitalize()} Poketes"
         for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]:
-            evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
+            evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if \
+                pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
             md_attacks = ""
             for atc in pokes[poke]["attacks"]:
                 md_attacks += f"""\n   + [{attacks[atc]["name"]}](#{atc.replace("_", "-")})"""
@@ -54,7 +56,7 @@ In the following all Poketes with their attributes are displayed.
             ico_map = se.Map(4, 11, background=" ")
             for ico in pokes[poke]["ico"]:
                 se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
-            ico = "".join(["".join(arr)+"\n" for arr in ico_map.map])
+            ico = "".join(["".join(arr) + "\n" for arr in ico_map.map])
             md_str += f"""
 #### {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
@@ -105,11 +107,11 @@ Type|Effective against|Ineffective against
 """
 
     for poke_type in types:
-        effective, ineffective = ("".join([i.capitalize()+(", " 
-                                                        if i != types[poke_type][j][-1] 
-                                                        else "")
-                                        for i in types[poke_type][j]]) 
-                                for j in ["effective", "ineffective"])
+        effective, ineffective = ("".join([i.capitalize() + (", "
+                                                             if i != types[poke_type][j][-1]
+                                                             else "")
+                                           for i in types[poke_type][j]])
+                                  for j in ["effective", "ineffective"])
         md_str += f"{poke_type.capitalize()}|{effective}|{ineffective}\n"
 
     # Items
