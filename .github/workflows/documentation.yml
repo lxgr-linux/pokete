@@ -53,7 +53,7 @@ jobs:
         run: |
           mv 'wiki.md' 'HowToPlay.md' 'Changelog.md' 'README.md' 'html/' 'assets/' /tmp
       - name: Switch branch to gh-pages
-        uses: actions/checkou/@v2
+        uses: actions/checkout/@v2
         with:
           ref: 'gh-pages'
       - name: Generate gh-pages page
