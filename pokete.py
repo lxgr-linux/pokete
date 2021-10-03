@@ -1264,14 +1264,13 @@ class About:
     """The about text, that can be triggered in the menu"""
 
     def __init__(self):
-        self.box = InfoBox(liner(f"""
-Pokete v{VERSION} -- {CODENAME}
-by lxgr-linux <lxgr@protonmail.com>
+        self.box = InfoBox(liner(f"""Pokete v{VERSION} -- {CODENAME}
+by  lxgr-linux <lxgr@protonmail.com>
 
-This software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.
-Feel free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
-For this see the comments in the definations area.\n You can contribute here: https://github.com/lxgr-linux/pokete
-""",
+This  software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.
+Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
+For  this see the comments in the definations area.
+You  can contribute here: https://github.com/lxgr-linux/pokete""",
                                  60, pre=""), map=movemap)
 
     def __call__(self):
