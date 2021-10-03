@@ -149,15 +149,15 @@ In the following all Poketes with their attributes are displayed.
 #### Electrode
 A small floating ball that will give you a shock.
 
-```
 {% highlight %}{% raw %}
+```
            
     (+)    
            
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Electro](#types)
 - Health points: 20
@@ -176,15 +176,15 @@ A small floating ball that will give you a shock.
 #### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
-```
 {% highlight %}{% raw %}
+```
    ^---^   
    (* *)   
    >(.)<   
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Fire](#types)
 - Health points: 20
@@ -203,15 +203,15 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 #### Wolfiro
 A fiery wolf from hell on steroids.
 
-```
 {% highlight %}{% raw %}
+```
    \^-^/   
    {* *}   
    >{.}<   
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Fire](#types)
 - Health points: 25
@@ -231,15 +231,15 @@ A fiery wolf from hell on steroids.
 #### Bato
 An annoying flying rat.
 
-```
 {% highlight %}{% raw %}
+```
     ___    
 WW\/* *\/WW
    \v-v/   
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Flying](#types)
 - Health points: 20
@@ -257,15 +257,15 @@ WW\/* *\/WW
 #### Bator
 A chongus flying rat.
 
-```
 {% highlight %}{% raw %}
+```
     ___    
 WW\/o o\/WW
 <p>|v-v|</p>
 
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Flying](#types)
 - Health points: 25
@@ -285,15 +285,15 @@ WW\/o o\/WW
 #### Ostri
 A very aggressive bird Pokete that lives near deserts and will try to pick out your eyes.
 
-```
 {% highlight %}{% raw %}
+```
    !       
   >´)      
     \www'  
 <pre><code> ||    </code></pre>
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Flying](#types)
 - Health points: 20
@@ -312,15 +312,15 @@ A very aggressive bird Pokete that lives near deserts and will try to pick out y
 #### Owol
 A night active Pokete, that is looking for lil children as a midnight snack.
 
-```
 {% highlight %}{% raw %}
+```
    ,___,   
    {o,o}   
    /)_)    
     ""     
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Flying](#types)
 - Health points: 20
@@ -339,15 +339,15 @@ A night active Pokete, that is looking for lil children as a midnight snack.
 #### Schmetterling
 A butterfly that will schmetter you away.
 
-```
 {% highlight %}{% raw %}
+```
            
  .__ o __. 
 <p>_|/_/</p>
 
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Flying](#types)
 - Health points: 20
@@ -365,15 +365,15 @@ A butterfly that will schmetter you away.
 #### Vogli
 A very common bird Pokete that lives everywhere.
 
-```
 {% highlight %}{% raw %}
+```
     A      
    <')     
     www*   
 <pre><code>||     </code></pre>
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Flying](#types)
 - Health points: 20
@@ -391,15 +391,15 @@ A very common bird Pokete that lives everywhere.
 #### Voglo
 A very aggressive bird Pokete that can only be found in the woods.
 
-```
 {% highlight %}{% raw %}
+```
     ?      
    >´)     
     www*   
 <pre><code>||     </code></pre>
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Flying](#types)
 - Health points: 20
@@ -419,15 +419,15 @@ A very aggressive bird Pokete that can only be found in the woods.
 #### Dicki
 A little what ever, that sticks out of the ground.
 
-```
 {% highlight %}{% raw %}
+```
            
     __     
    ('')    
 <p>| |</p>
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Ground](#types)
 - Health points: 20
@@ -447,15 +447,15 @@ A little what ever, that sticks out of the ground.
 #### Dicko
 An even bigger what ever, that sticks out of the ground.
 
-```
 {% highlight %}{% raw %}
+```
     __     
    ('')    
 <p>| |<br />
 | |</p>
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Ground](#types)
 - Health points: 25
@@ -475,15 +475,15 @@ An even bigger what ever, that sticks out of the ground.
 #### Lil nut
 A very small what ever, that sticks out of the ground.
 
-```
 {% highlight %}{% raw %}
+```
            
            
     __     
    ('')    
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Ground](#types)
 - Health points: 20
@@ -501,15 +501,15 @@ A very small what ever, that sticks out of the ground.
 #### Rollator
 A big chunk of stone and dirt, that roles around.
 
-```
 {% highlight %}{% raw %}
+```
    _____   
   / o o \  
 <p>| ___ |</p>
 
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Ground](#types)
 - Health points: 25
@@ -527,15 +527,15 @@ A big chunk of stone and dirt, that roles around.
 #### Cubl
 A small ice cube.
 
-```
 {% highlight %}{% raw %}
+```
   /-----\  
 <p>|* *|</p>
 
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Ice](#types)
 - Health points: 20
@@ -554,15 +554,15 @@ A small ice cube.
 #### Spikl
 A block of ice.
 
-```
 {% highlight %}{% raw %}
+```
  /-------\ 
 <p>| * * |</p>
 
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Ice](#types)
 - Health points: 25
@@ -582,15 +582,15 @@ A block of ice.
 #### Hornita
 An majestic horse that is always looking for something to pick with its horn.
 
-```
 {% highlight %}{% raw %}
+```
  \         
  =')~      
    (¯¯¯¯)~ 
    //¯¯\\  
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Normal](#types)
 - Health points: 20
@@ -609,15 +609,15 @@ An majestic horse that is always looking for something to pick with its horn.
 #### Horny
 A teenage unicorn in the middle of puberty.
 
-```
 {% highlight %}{% raw %}
+```
   ,        
  =')       
    (¯¯¯)~  
    //¯\\   
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Normal](#types)
 - Health points: 20
@@ -635,15 +635,15 @@ A teenage unicorn in the middle of puberty.
 #### Rato
 An annoying rat.
 
-```
 {% highlight %}{% raw %}
+```
    ^---^   
    \o o/   
    >\./<   
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Normal](#types)
 - Health points: 20
@@ -661,15 +661,15 @@ An annoying rat.
 #### Bushy
 A bush, and just a bush. But watch out!
 
-```
 {% highlight %}{% raw %}
+```
            
     (()    
    (()))   
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Plant](#types)
 - Health points: 25
@@ -687,15 +687,15 @@ A bush, and just a bush. But watch out!
 #### Megapois
 A very unsuspicious plant.
 
-```
 {% highlight %}{% raw %}
+```
     w w    
 <p>w |/.<br />
 .__|/|<br />
 _||/</p>
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Plant](#types)
 - Health points: 25
@@ -715,15 +715,15 @@ _||/</p>
 #### Poisopla
 A unsuspicious plant.
 
-```
 {% highlight %}{% raw %}
+```
            
      w .   
 <p>.__ |/|<br />
 _||/</p>
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Plant](#types)
 - Health points: 20
@@ -742,15 +742,15 @@ _||/</p>
 #### Rosi
 A plant Pokete, that's often mistaken for a normal flower.
 
-```
 {% highlight %}{% raw %}
+```
            
     (@)    
 <pre><code> |     
 \|/    </code></pre>
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Plant](#types)
 - Health points: 20
@@ -768,15 +768,15 @@ A plant Pokete, that's often mistaken for a normal flower.
 #### Treenator
 A scary an dangerous apple tree.
 
-```
 {% highlight %}{% raw %}
+```
     (()    
    (()))   
      H     
      H     
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Plant](#types)
 - Health points: 25
@@ -796,15 +796,15 @@ A scary an dangerous apple tree.
 #### Choka
 A fucking dangerous and enormous snake Pokete.
 
-```
 {% highlight %}{% raw %}
+```
  _______   
 /____ * \  
  (   \   \ 
 \______   \
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Poison](#types)
 - Health points: 25
@@ -824,15 +824,15 @@ A fucking dangerous and enormous snake Pokete.
 #### Würgos
 A dangerous snake Pokete.
 
-```
 {% highlight %}{% raw %}
+```
   >'({{{   
   }}}}}}}  
  {{{{{{{{{ 
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Poison](#types)
 - Health points: 20
@@ -851,8 +851,8 @@ A dangerous snake Pokete.
 #### Bigstone
 A big and heavy stone made from one of the hardest stones.
 
-```
 {% highlight %}{% raw %}
+```
 +---------+
 <table>
 <thead>
@@ -865,8 +865,8 @@ A big and heavy stone made from one of the hardest stones.
 </table>
 
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Stone](#types)
 - Health points: 30
@@ -885,15 +885,15 @@ A big and heavy stone made from one of the hardest stones.
 #### Diamondos
 A precious diamond, that can only be found in the darkest caves.
 
-```
 {% highlight %}{% raw %}
+```
            
     /\^/   
    <o o>   
    <_-_>   
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Stone](#types)
 - Health points: 20
@@ -912,15 +912,15 @@ A precious diamond, that can only be found in the darkest caves.
 #### Lilstone
 A small but powerful stone Pokete that lives in the mountains.
 
-```
 {% highlight %}{% raw %}
+```
            
    _____   
 <p>|‘ᵕ’|</p>
 
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Stone](#types)
 - Health points: 20
@@ -939,15 +939,15 @@ A small but powerful stone Pokete that lives in the mountains.
 #### Poundi
 A powerful and heavy stone Pokete that lives in mountain caves.
 
-```
 {% highlight %}{% raw %}
+```
    A-A-A   
   < o o >  
   < --- >  
    VvVvV   
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Stone](#types)
 - Health points: 25
@@ -966,14 +966,14 @@ A powerful and heavy stone Pokete that lives in mountain caves.
 #### Steini
 A squared stone that can casually be found on the ground.
 
-```
 {% highlight %}{% raw %}
+```
  +-------+ 
 <p>| o o | | www |</p>
 
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Stone](#types)
 - Health points: 25
@@ -992,15 +992,15 @@ A squared stone that can casually be found on the ground.
 #### Angrilo
 A ghost Pokete that will scare your pants off.
 
-```
 {% highlight %}{% raw %}
+```
  .░░░░░░░. 
  ░░\░░░/░░ 
  .░░( )░░. 
 .         .
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Undead](#types)
 - Health points: 25
@@ -1020,15 +1020,15 @@ A ghost Pokete that will scare your pants off.
 #### Confuso
 A ball floating around in dark woods and caves, that will confuse the shit out of you.
 
-```
 {% highlight %}{% raw %}
+```
        }}  
      _{{   
     (_)}   
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Undead](#types)
 - Health points: 20
@@ -1045,15 +1045,15 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 #### Gobost
 A scary ghost Pokete that lives in caves and old houses.
 
-```
 {% highlight %}{% raw %}
+```
  .░░░░░░░. 
  ░░o░░░o░░ 
  ░░░░░░░░░ 
  ░ ░ ░ ░ ░ 
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Undead](#types)
 - Health points: 20
@@ -1072,15 +1072,15 @@ A scary ghost Pokete that lives in caves and old houses.
 #### Blub
 Very delicious and low fat water Pokete.
 
-```
 {% highlight %}{% raw %}
+```
   _____    
  / o   \   
  >   v  >< 
  \_____/   
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Water](#types)
 - Health points: 20
@@ -1099,15 +1099,15 @@ Very delicious and low fat water Pokete.
 #### Clampi
 A shell that lives deep in the see or near bays, that's pretty hard to crack.
 
-```
 {% highlight %}{% raw %}
+```
     ___    
   -/ * \-  
   -\___/-  
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Water](#types)
 - Health points: 25
@@ -1126,15 +1126,15 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
 #### Karpi
 A very harmless water Pokete that can be found everywhere.
 
-```
 {% highlight %}{% raw %}
+```
            
            
   <°))))>< 
            
 
-{% endhighlight %}{% endraw %}
-```
+{% endhighlight %}{% endraw %}```
+
 
 - Type: [Water](#types)
 - Health points: 15
