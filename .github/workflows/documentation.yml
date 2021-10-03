@@ -70,7 +70,7 @@ jobs:
       - name: Release documentation
         run: |
           git config --local user.name  ${{ github.actor }}
-          if [[ $(git diff documentation) != "" ]]
+          if [[ $(git diff) != "" ]]
           then
           git add documentation
             git commit -m "Updated pages"
