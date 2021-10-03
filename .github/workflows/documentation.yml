@@ -73,11 +73,11 @@ jobs:
           if [[ $(git diff documentation) != "" ]]
           then
           git add documentation
-            git commit -m "Updated wiki"
+            git commit -m "Updated pages"
           fi
     
       - name: Push changes  # push the output folder to your repo
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@gh-pages
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
+          force: false
