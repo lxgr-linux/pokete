@@ -1,6 +1,7 @@
 ---
 render_with_liquid: false
 ---
+
 <p><a href="https://github.com/lxgr-linux/pokete/actions/workflows/main.yml"><img src="https://github.com/lxgr-linux/pokete/actions/workflows/main.yml/badge.svg" alt="Wiki" /></a> <a href="https://github.com/lxgr-linux/pokete/actions/workflows/main_validate.yml"><img src="https://github.com/lxgr-linux/pokete/actions/workflows/main_validate.yml/badge.svg" alt="Code-Validation" /></a> <a href="https://github.com/lxgr-linux/pokete/actions/workflows/documentation.yml"><img src="https://github.com/lxgr-linux/pokete/actions/workflows/documentation.yml/badge.svg" alt="GitHub-Pages Build" /></a></p>
 <h1 id="pokete----grey-edition">Pokete -- Grey Edition</h1>
 <p><img src="assets/ss/ss01.png" alt="Example" /></p>

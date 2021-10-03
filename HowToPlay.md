@@ -1,6 +1,7 @@
 ---
 render_with_liquid: false
 ---
+
 <h1 id="pokete---how-to-play">Pokete - How to play</h1>
 <h2 id="contents">Contents</h2>
 <ol>
