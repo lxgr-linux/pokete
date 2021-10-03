@@ -1153,7 +1153,7 @@ class Buy:
                       Inv.super_potion, Inv.ap_potion]
         self.box.add_c_obs([se.Text(f"{obj.pretty_name} : {obj.price}$")
                             for obj in self.items])
-        self.money_label = se.Text(str(figure.get_money()) + "$")
+        self.money_label = se.Text(f"{figure.get_money()}$")
         self.desc_label = se.Text(" ")
         # adding
         self.box.add_ob(self.money_label,
