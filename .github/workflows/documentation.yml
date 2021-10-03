@@ -72,7 +72,7 @@ jobs:
           git config --local user.name  ${{ github.actor }}
           if [[ $(git diff) != "" ]]
           then
-          git add documentation
+          git add .
             git commit -m "Updated pages"
           fi
     
