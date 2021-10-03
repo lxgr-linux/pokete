@@ -1,4 +1,4 @@
----\nrender_with_liquid: false\n---
+---
 <h2 id="051">0.5.1</h2>
 <p>released: 2021-09-19</p>
 <p>Some minor changes due to API changes in scrap_engine v1.0.0. scrap_engine v1.0.0 is now required.</p>

@@ -1,4 +1,4 @@
----\nrender_with_liquid: false\n---
+---
 <p>v0.5.1</p>
 <h1 id="pokete-wiki">Pokete wiki</h1>
 <p>This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game. This wiki can be generated using <code>$ ./gen-wiki.py</code>.</p>
