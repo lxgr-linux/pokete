@@ -3,7 +3,7 @@
 import os
 import release
 import scrap_engine as se
-from pokete_classes.effects import effect_list 
+from pokete_classes.effects import effects, effect_list 
 from pokete_data import *
 
 
