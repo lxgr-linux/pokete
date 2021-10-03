@@ -58,6 +58,7 @@ jobs:
           ref: 'gh-pages'
       - name: Generate gh-pages page
         run: |
+          rm -rf ./doc ./assets
           mv '/tmp/html/' ./doc
           mv '/tmp/assets/' .
           pandoc --from gfm --to html /tmp/wiki.md > ./wiki.md
