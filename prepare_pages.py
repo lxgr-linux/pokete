@@ -36,9 +36,17 @@ def replace_tables(_text: str) -> str:
 
 def replace_code_blocks(_text: str) -> str:
     out = ''
+    ignore_next = False
     in_code = False
     for line in _text.split('\n'):
+        if line.startswith('```') and line != '```':
+            ignore_next = True
         if line == '```':
+            if ignore_next:
+                ignore_next = False
+                out += '```'
+                out += '\n'
+                continue
             if in_code:
                 out += r'{% endhighlight %}{% endraw %}'
             else:
