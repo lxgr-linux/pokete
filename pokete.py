@@ -1636,8 +1636,8 @@ def balls_label_rechar():
     """Rechars the balls label"""
     movemap.balls_label.text = ""
     for i in range(6):
-        movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[
-            i].identifier == "__fallback__" else "o" if figure.pokes[i].hp > 0 else "x"
+        movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__"\
+                                        else "o" if figure.pokes[i].hp > 0 else "x"
     movemap.balls_label.rechar(movemap.balls_label.text, esccode=Color.thicc)
 
 
