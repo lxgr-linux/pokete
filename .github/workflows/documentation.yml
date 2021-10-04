@@ -72,8 +72,8 @@ jobs:
           mv '/tmp/html/' ./doc
           mv '/tmp/assets/' .
           pandoc /tmp/wiki.md -o 'wiki.html' --standalone
-          pandoc /tmp/HowToPlay.md -o 'HowToPlay.html' --standalone
-          pandoc /tmp/Changelog.md -o 'Changelog.html' --standalone
+          #pandoc /tmp/HowToPlay.md -o 'HowToPlay.html' --standalone
+          #pandoc /tmp/Changelog.md -o 'Changelog.html' --standalone
           mv /tmp/README.md ./index.md
       # Push to github_pages
       - name: Release documentation
