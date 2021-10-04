@@ -2263,7 +2263,7 @@ def game(_map):
     movemap.full_show()
     inp_dict = {"'1'": 'deck(figure.pokes[:6], "Your deck")',
                 "'3'": 'roadmap()', "'4'": 'inv()',
-                "'5'": 'pokete_dex(pokes)', "'e'": 'menu()',
+                "'5'": 'pokete_dex(p_data.pokes)', "'e'": 'menu()',
                 "'?'": 'help_page()'}
     while True:
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
