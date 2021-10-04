@@ -76,7 +76,7 @@ In the following all Poketes with their attributes are displayed.
     for typ in sorted(types):
         md_str += f&#34;### {typ.capitalize()} Poketes&#34;
         for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}\n&#34;&#34;&#34; if \
+            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
                 pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
             md_attacks = &#34;&#34;
             for atc in pokes[poke][&#34;attacks&#34;]:
@@ -263,7 +263,7 @@ In the following all Poketes with their attributes are displayed.
     for typ in sorted(types):
         md_str += f&#34;### {typ.capitalize()} Poketes&#34;
         for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}\n&#34;&#34;&#34; if \
+            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
                 pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
             md_attacks = &#34;&#34;
             for atc in pokes[poke][&#34;attacks&#34;]:
