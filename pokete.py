@@ -2678,250 +2678,248 @@ def map_additions():
 
 # Actual code execution
 #######################
+
+# deciding on wich input to use
+if sys.platform == "linux":
+    import tty
+    import termios
+
+
+    def recogniser():
+        """Use another (not on xserver relying) way to read keyboard input,
+            to make this shit work in tty or via ssh,
+            where no xserver is available"""
+        global ev, fd, old_settings
+
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        tty.setraw(fd)
+        while True:
+            char = sys.stdin.read(1)
+            ev = {ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
+                  127: "Key.backspace", 32: "Key.space",
+                  27: "Key.esc"}[ord(char)]
+            if ord(char) == 3:
+                reset_terminal()
+                ev = "exit"
+else:
+    from pynput.keyboard import Key, Listener
+
+
+    def recogniser():
+        """Gets keyboard input from pynput"""
+        global ev
+        while True:
+            with Listener(on_press=on_press) as listener:
+                listener.join()
+
+# resizing screen
+tss = ResizeScreen()
+width, height = tss()
+# loading screen
+loading_screen = LoadingScreen(VERSION, CODENAME)
+loading_screen()
+# validating data
+p_data.validate()
+# types
+types = Types(p_data.types)
+
+# reading config file
+home = str(Path.home())
+Path(home + SAVEPATH).mkdir(parents=True, exist_ok=True)
+Path(home + SAVEPATH + "/pokete.py").touch(exist_ok=True)
+# Default test session_info
+session_info = {
+    "user": "DEFAULT",
+    "ver": VERSION,
+    "map": "intromap",
+    "oldmap": "playmap_1",
+    "x": 4,
+    "y": 5,
+    "pokes": {
+        0: {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
+    },
+    "inv": {"poketeball": 15, "healing_potion": 1},
+    "settings": {},
+    "caught_poketes": ["steini"],
+    "visited_maps": ["playmap_1"],
+    "startup_time": 0,
+    "used_npcs": []
+}
+with open(home + SAVEPATH + "/pokete.py") as file:
+    exec(file.read())
+
+if "settings" in session_info:
+    settings = Settings(**session_info["settings"])
+else:
+    settings = Settings()
+
+if "used_npcs" in session_info:
+    used_npcs = session_info["used_npcs"]
+else:
+    used_npcs = []
+
+if "caught_poketes" in session_info:
+    caught_poketes = session_info["caught_poketes"]
+else:
+    caught_poketes = []
+
+if "visited_maps" in session_info:
+    visited_maps = session_info["visited_maps"]
+else:
+    visited_maps = ["playmap_1"]
+
+# comprehending settings
+# This is needed to just apply some changes when restarting the game to avoid running into errors
+save_trainers = settings.save_trainers
+
+# Defining and adding of objetcs and maps
+#########################################
+
+# maps
+ob_maps = gen_maps()
+
+# Those two maps cant to sourced out, because `height` and `width`
+# are global variables exclusive to pokete.py
+centermap = PlayMap(height - 1, width, name="centermap",
+                    pretty_name="Pokete-Center")
+shopmap = PlayMap(height - 1, width, name="shopmap",
+                  pretty_name="Pokete-Shop")
+
+ob_maps["centermap"] = centermap
+ob_maps["shopmap"] = shopmap
+
+# movemap
+movemap = se.Submap(ob_maps["playmap_1"], 0, 0, height=height - 1, width=width)
+figure = Figure("a")
+exclamation = se.Object("!")
+multitext = OutP("", state="float")
+movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
+movemap.code_label = OutP("")
+
+# Definiton of objects for the playmaps
+# Most of the objects ar generated from map_data for maps.py
+# .poke_arg is relevant for meadow genration
+############################################################
+
+
+gen_obs()
+# side fn definitions
+detail = Detail()
+pokete_dex = Dex(movemap)
+help_page = Help(movemap)
+roadmap = RoadMap(p_data.stations)
+deck = Deck()
+menu = Menu()
+about = About()
+inv = Inv()
+# A dict that contains all world action functions for Attacks
+abb_funcs = {"teleport": teleport}
+# items
+for _name in p_data.items:
+    _obj = InvItem(_name, p_data.items[_name]["pretty_name"],
+                   p_data.items[_name]["desc"],
+                   p_data.items[_name]["price"], p_data.items[_name]["fn"])
+    setattr(Inv, _name, _obj)
+Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", p_data.attacks)
+Inv.ld_flying = LearnDisc("flying", p_data.attacks)
+
+buy = Buy()
+map_additions()
+
+# centermap
+centermap.inner = se.Text(""" ________________
+ |______________|
+ |     |a |     |
+ |     ¯ ¯¯     |
+ |              |
+ |______  ______|
+ |_____|  |_____|""", ignore=" ")
+
+centermap.interact = CenterInteract("¯", state="float")
+centermap.dor_back1 = CenterDor(" ", state="float")
+centermap.dor_back2 = CenterDor(" ", state="float")
+centermap.trader = NPC("trader",
+                       [" < I'm a trader.",
+                        " < Here you can trade one of your Poketes for another players' one."],
+                       "swap_poke", ())
+# adding
+centermap.dor_back1.add(centermap, int(centermap.width / 2), 8)
+centermap.dor_back2.add(centermap, int(centermap.width / 2) + 1, 8)
+centermap.inner.add(centermap, int(centermap.width / 2) - 8, 1)
+centermap.interact.add(centermap, int(centermap.width / 2), 4)
+centermap.trader.add(centermap, int(centermap.width / 2) - 6, 3)
+
+# shopmap
+shopmap.inner = se.Text(""" __________________
+ |________________|
+ |      |a |      |
+ |      ¯ ¯¯      |
+ |                |
+ |_______  _______|
+ |______|  |______|""", ignore=" ")
+shopmap.interact = ShopInteract("¯", state="float")
+shopmap.dor_back1 = CenterDor(" ", state="float")
+shopmap.dor_back2 = CenterDor(" ", state="float")
+# adding
+shopmap.dor_back1.add(shopmap, int(shopmap.width / 2), 8)
+shopmap.dor_back2.add(shopmap, int(shopmap.width / 2) + 1, 8)
+shopmap.inner.add(shopmap, int(shopmap.width / 2) - 9, 1)
+shopmap.interact.add(shopmap, int(shopmap.width / 2), 4)
+
+# objects relevant for fight()
+fightmap = se.Map(height - 1, width, " ")
+fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
+fight_invbox = ChooseBox(height - 3, 35, "Inventory")
+fightmap.frame_big = StdFrame2(fightmap.height - 5, fightmap.width, state="float")
+fightmap.frame_small = se.Frame(height=4, width=fightmap.width, state="float")
+fightmap.e_underline = se.Text("----------------+", state="float")
+fightmap.e_sideline = se.Square("|", 1, 3, state="float")
+fightmap.p_upperline = se.Text("+----------------", state="float")
+fightmap.p_sideline = se.Square("|", 1, 4, state="float")
+fightmap.outp = OutP("", state="float")
+fightmap.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
+deadico1 = se.Text(r"""
+    \ /
+     o
+    / \ """)
+deadico2 = se.Text("""
+
+     o
+""")
+pball = se.Text(r"""   _____
+  /_____\
+  |__O__|
+  \_____/""")
+# adding
+fightmap.outp.add(fightmap, 1, fightmap.height - 4)
+fightmap.e_underline.add(fightmap, 1, 4)
+fightmap.e_sideline.add(fightmap, len(fightmap.e_underline.text), 1)
+fightmap.p_upperline.add(fightmap,
+                         fightmap.width - 1 - len(fightmap.p_upperline.text),
+                         fightmap.height - 10)
+fightmap.frame_big.add(fightmap, 0, 0)
+fightmap.p_sideline.add(fightmap,
+                        fightmap.width - 1 - len(fightmap.p_upperline.text),
+                        fightmap.height - 9)
+fightmap.frame_small.add(fightmap, 0, fightmap.height - 5)
+fightmap.label.add(fightmap, 0, fightmap.height - 1)
+
+# evomap
+evomap = se.Map(height - 1, width, " ")
+evomap.frame_small = se.Frame(height=4, width=evomap.width, state="float")
+evomap.outp = OutP("", state="float")
+# adding
+evomap.frame_small.add(evomap, 0, evomap.height - 5)
+evomap.outp.add(evomap, 1, evomap.height - 4)
+
+figure.set_args(session_info)
+
+__t = time.time() - __t
+ev = ""
+
 if __name__ == "__main__":
-    # deciding on wich input to use
-    if sys.platform == "linux":
-        import tty
-        import termios
-    
-    
-        def recogniser():
-            """Use another (not on xserver relying) way to read keyboard input,
-                to make this shit work in tty or via ssh,
-                where no xserver is available"""
-            global ev, fd, old_settings
-    
-            fd = sys.stdin.fileno()
-            old_settings = termios.tcgetattr(fd)
-            tty.setraw(fd)
-            while True:
-                char = sys.stdin.read(1)
-                ev = {ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                      127: "Key.backspace", 32: "Key.space",
-                      27: "Key.esc"}[ord(char)]
-                if ord(char) == 3:
-                    reset_terminal()
-                    ev = "exit"
-    else:
-        from pynput.keyboard import Key, Listener
-    
-    
-        def recogniser():
-            """Gets keyboard input from pynput"""
-            global ev
-            while True:
-                with Listener(on_press=on_press) as listener:
-                    listener.join()
-    
-    # resizing screen
-    tss = ResizeScreen()
-    width, height = tss()
-    # loading screen
-    loading_screen = LoadingScreen(VERSION, CODENAME)
-    loading_screen()
-    # validating data
-    p_data.validate()
-    # types
-    types = Types(p_data.types)
-    
-    # reading config file
-    home = str(Path.home())
-    Path(home + SAVEPATH).mkdir(parents=True, exist_ok=True)
-    Path(home + SAVEPATH + "/pokete.py").touch(exist_ok=True)
-    # Default test session_info
-    session_info = {
-        "user": "DEFAULT",
-        "ver": VERSION,
-        "map": "intromap",
-        "oldmap": "playmap_1",
-        "x": 4,
-        "y": 5,
-        "pokes": {
-            0: {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
-        },
-        "inv": {"poketeball": 15, "healing_potion": 1},
-        "settings": {},
-        "caught_poketes": ["steini"],
-        "visited_maps": ["playmap_1"],
-        "startup_time": 0,
-        "used_npcs": []
-    }
-    with open(home + SAVEPATH + "/pokete.py") as file:
-        exec(file.read())
-    
-    if "settings" in session_info:
-        settings = Settings(**session_info["settings"])
-    else:
-        settings = Settings()
-    
-    if "used_npcs" in session_info:
-        used_npcs = session_info["used_npcs"]
-    else:
-        used_npcs = []
-    
-    if "caught_poketes" in session_info:
-        caught_poketes = session_info["caught_poketes"]
-    else:
-        caught_poketes = []
-    
-    if "visited_maps" in session_info:
-        visited_maps = session_info["visited_maps"]
-    else:
-        visited_maps = ["playmap_1"]
-    
-    # comprehending settings
-    # This is needed to just apply some changes when restarting the game to avoid running into errors
-    save_trainers = settings.save_trainers
-    
-    # Defining and adding of objetcs and maps
-    #########################################
-    
-    # maps
-    ob_maps = gen_maps()
-    
-    # Those two maps cant to sourced out, because `height` and `width`
-    # are global variables exclusive to pokete.py
-    centermap = PlayMap(height - 1, width, name="centermap",
-                        pretty_name="Pokete-Center")
-    shopmap = PlayMap(height - 1, width, name="shopmap",
-                      pretty_name="Pokete-Shop")
-    
-    ob_maps["centermap"] = centermap
-    ob_maps["shopmap"] = shopmap
-    
-    # movemap
-    movemap = se.Submap(ob_maps["playmap_1"], 0, 0, height=height - 1, width=width)
-    figure = Figure("a")
-    exclamation = se.Object("!")
-    multitext = OutP("", state="float")
-    movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
-    movemap.code_label = OutP("")
-    
-    # Definiton of objects for the playmaps
-    # Most of the objects ar generated from map_data for maps.py
-    # .poke_arg is relevant for meadow genration
-    ############################################################
-    
-    
-    gen_obs()
-    # side fn definitions
-    detail = Detail()
-    pokete_dex = Dex(movemap)
-    help_page = Help(movemap)
-    roadmap = RoadMap(p_data.stations)
-    deck = Deck()
-    menu = Menu()
-    about = About()
-    inv = Inv()
-    # A dict that contains all world action functions for Attacks
-    abb_funcs = {"teleport": teleport}
-    # items
-    for _name in p_data.items:
-        _obj = InvItem(_name, p_data.items[_name]["pretty_name"],
-                       p_data.items[_name]["desc"],
-                       p_data.items[_name]["price"], p_data.items[_name]["fn"])
-        setattr(Inv, _name, _obj)
-    Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", p_data.attacks)
-    Inv.ld_flying = LearnDisc("flying", p_data.attacks)
-    
-    buy = Buy()
-    map_additions()
-    
-    # centermap
-    centermap.inner = se.Text(""" ________________
-     |______________|
-     |     |a |     |
-     |     ¯ ¯¯     |
-     |              |
-     |______  ______|
-     |_____|  |_____|""", ignore=" ")
-    
-    centermap.interact = CenterInteract("¯", state="float")
-    centermap.dor_back1 = CenterDor(" ", state="float")
-    centermap.dor_back2 = CenterDor(" ", state="float")
-    centermap.trader = NPC("trader",
-                           [" < I'm a trader.",
-                            " < Here you can trade one of your Poketes for another players' one."],
-                           "swap_poke", ())
-    # adding
-    centermap.dor_back1.add(centermap, int(centermap.width / 2), 8)
-    centermap.dor_back2.add(centermap, int(centermap.width / 2) + 1, 8)
-    centermap.inner.add(centermap, int(centermap.width / 2) - 8, 1)
-    centermap.interact.add(centermap, int(centermap.width / 2), 4)
-    centermap.trader.add(centermap, int(centermap.width / 2) - 6, 3)
-    
-    # shopmap
-    shopmap.inner = se.Text(""" __________________
-     |________________|
-     |      |a |      |
-     |      ¯ ¯¯      |
-     |                |
-     |_______  _______|
-     |______|  |______|""", ignore=" ")
-    shopmap.interact = ShopInteract("¯", state="float")
-    shopmap.dor_back1 = CenterDor(" ", state="float")
-    shopmap.dor_back2 = CenterDor(" ", state="float")
-    # adding
-    shopmap.dor_back1.add(shopmap, int(shopmap.width / 2), 8)
-    shopmap.dor_back2.add(shopmap, int(shopmap.width / 2) + 1, 8)
-    shopmap.inner.add(shopmap, int(shopmap.width / 2) - 9, 1)
-    shopmap.interact.add(shopmap, int(shopmap.width / 2), 4)
-    
-    # objects relevant for fight()
-    fightmap = se.Map(height - 1, width, " ")
-    fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
-    fight_invbox = ChooseBox(height - 3, 35, "Inventory")
-    fightmap.frame_big = StdFrame2(fightmap.height - 5, fightmap.width, state="float")
-    fightmap.frame_small = se.Frame(height=4, width=fightmap.width, state="float")
-    fightmap.e_underline = se.Text("----------------+", state="float")
-    fightmap.e_sideline = se.Square("|", 1, 3, state="float")
-    fightmap.p_upperline = se.Text("+----------------", state="float")
-    fightmap.p_sideline = se.Square("|", 1, 4, state="float")
-    fightmap.outp = OutP("", state="float")
-    fightmap.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
-    deadico1 = se.Text(r"""
-        \ /
-         o
-        / \ """)
-    deadico2 = se.Text("""
-    
-         o
-    """)
-    pball = se.Text(r"""   _____
-      /_____\
-      |__O__|
-      \_____/""")
-    # adding
-    fightmap.outp.add(fightmap, 1, fightmap.height - 4)
-    fightmap.e_underline.add(fightmap, 1, 4)
-    fightmap.e_sideline.add(fightmap, len(fightmap.e_underline.text), 1)
-    fightmap.p_upperline.add(fightmap,
-                             fightmap.width - 1 - len(fightmap.p_upperline.text),
-                             fightmap.height - 10)
-    fightmap.frame_big.add(fightmap, 0, 0)
-    fightmap.p_sideline.add(fightmap,
-                            fightmap.width - 1 - len(fightmap.p_upperline.text),
-                            fightmap.height - 9)
-    fightmap.frame_small.add(fightmap, 0, fightmap.height - 5)
-    fightmap.label.add(fightmap, 0, fightmap.height - 1)
-    
-    # evomap
-    evomap = se.Map(height - 1, width, " ")
-    evomap.frame_small = se.Frame(height=4, width=evomap.width, state="float")
-    evomap.outp = OutP("", state="float")
-    # adding
-    evomap.frame_small.add(evomap, 0, evomap.height - 5)
-    evomap.outp.add(evomap, 1, evomap.height - 4)
-    
-    figure.set_args(session_info)
-    
-    __t = time.time() - __t
-    ev = ""
-
-
-    # Actual execution of the program
     try:
         main()
     except KeyboardInterrupt:
         print("KeyboardInterrupt")
-
