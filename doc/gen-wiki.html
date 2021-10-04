@@ -71,12 +71,13 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     md_str += &#34;&#34;&#34;
 ## Poketes
 In the following all Poketes with their attributes are displayed.
+
 &#34;&#34;&#34;
     for typ in sorted(types):
         md_str += f&#34;### {typ.capitalize()} Poketes&#34;
         for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
-                pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve&#34;
+            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}\n&#34;&#34;&#34; if \
+                pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
             md_attacks = &#34;&#34;
             for atc in pokes[poke][&#34;attacks&#34;]:
                 md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
@@ -130,8 +131,9 @@ Those are all attacks present in the game.
     md_str += &#34;&#34;&#34;
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
-Type|Effective against|Ineffective against
----|---|---
+
+|Type|Effective against|Ineffective against|
+|---|---|---|
 &#34;&#34;&#34;
 
     for poke_type in types:
@@ -140,7 +142,7 @@ Type|Effective against|Ineffective against
                                                              else &#34;&#34;)
                                            for i in types[poke_type][j]])
                                   for j in [&#34;effective&#34;, &#34;ineffective&#34;])
-        md_str += f&#34;{poke_type.capitalize()}|{effective}|{ineffective}\n&#34;
+        md_str += f&#34;|{poke_type.capitalize()}|{effective}|{ineffective}|\n&#34;
 
     # Items
     md_str += &#34;&#34;&#34;
@@ -256,12 +258,13 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     md_str += &#34;&#34;&#34;
 ## Poketes
 In the following all Poketes with their attributes are displayed.
+
 &#34;&#34;&#34;
     for typ in sorted(types):
         md_str += f&#34;### {typ.capitalize()} Poketes&#34;
         for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
-                pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve&#34;
+            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}\n&#34;&#34;&#34; if \
+                pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
             md_attacks = &#34;&#34;
             for atc in pokes[poke][&#34;attacks&#34;]:
                 md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
@@ -315,8 +318,9 @@ Those are all attacks present in the game.
     md_str += &#34;&#34;&#34;
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
-Type|Effective against|Ineffective against
----|---|---
+
+|Type|Effective against|Ineffective against|
+|---|---|---|
 &#34;&#34;&#34;
 
     for poke_type in types:
@@ -325,7 +329,7 @@ Type|Effective against|Ineffective against
                                                              else &#34;&#34;)
                                            for i in types[poke_type][j]])
                                   for j in [&#34;effective&#34;, &#34;ineffective&#34;])
-        md_str += f&#34;{poke_type.capitalize()}|{effective}|{ineffective}\n&#34;
+        md_str += f&#34;|{poke_type.capitalize()}|{effective}|{ineffective}|\n&#34;
 
     # Items
     md_str += &#34;&#34;&#34;
