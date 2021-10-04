@@ -43,12 +43,13 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     md_str += """
 ## Poketes
 In the following all Poketes with their attributes are displayed.
+
 """
     for typ in sorted(types):
         md_str += f"### {typ.capitalize()} Poketes"
         for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]:
             evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if \
-                pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
+                pokes[poke]["evolve_poke"] != "" else "- Does not evolve\n"
             md_attacks = ""
             for atc in pokes[poke]["attacks"]:
                 md_attacks += f"""\n   + [{attacks[atc]["name"]}](#{atc.replace("_", "-")})"""
@@ -102,8 +103,9 @@ Those are all attacks present in the game.
     md_str += """
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
-Type|Effective against|Ineffective against
----|---|---
+
+|Type|Effective against|Ineffective against|
+|---|---|---|
 """
 
     for poke_type in types:
@@ -112,7 +114,7 @@ Type|Effective against|Ineffective against
                                                              else "")
                                            for i in types[poke_type][j]])
                                   for j in ["effective", "ineffective"])
-        md_str += f"{poke_type.capitalize()}|{effective}|{ineffective}\n"
+        md_str += f"|{poke_type.capitalize()}|{effective}|{ineffective}|\n"
 
     # Items
     md_str += """
