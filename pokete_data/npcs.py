@@ -28,7 +28,7 @@ npcs = {
         "y": 1
     },
     "npc_1": {
-        "texts": ["< To get to the other side of this building, you have to win some epic fights against Deepens "
+        "texts": [" < To get to the other side of this building, you have to win some epic fights against Deepens "
                   "forests' best trainers!", " < This won't be easy!"],
         "fn": None,
         "args": (),
@@ -132,7 +132,7 @@ npcs = {
         "texts": [" < Hello fellow trainer!",
                   " < You may have noticed that traveling between cities is not so comfortable nowadays.",
                   " < But i can help you.", " < I can give you this lerning disc",
-                  "< You can use it to teach the 'flying' attack to one of your flying Poketes to ride on it to the "
+                  " < You can use it to teach the 'flying' attack to one of your flying Poketes to ride on it to the "
                   "next town.",
                   " < Isn't this great?"],
         "fn": "NPC.give",
@@ -143,9 +143,9 @@ npcs = {
     },
     "lxgr": {
         "texts": [" < Hello fellow traveler, my name is lxgr and I created this game. ",
-                  "< You may ask your self: 'Lxgr, what are you doing in this game?', and the answer is 'Standing "
+                  " < You may ask your self: 'Lxgr, what are you doing in this game?', and the answer is 'Standing "
                   "around'.",
-                  "< I added this NPC, because I'm stuck in a train somewere between Hamburg and Rostock, "
+                  " < I added this NPC, because I'm stuck in a train somewere between Hamburg and Rostock, "
                   "and I'm bored.",
                   " < You can contribute to this game at https://github.com/lxgr-linux/pokete .",
                   " < If you want to hire me and stuff you can write me at lxgr@protonmail.com ."],
