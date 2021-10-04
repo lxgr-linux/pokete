@@ -51,7 +51,8 @@ jobs:
           pdoc --html gen-wiki.py
       - name: Preprocess page files
         run: |
-          python3 ./prepare_pages.py
+          python3 ./prepare_pages.py before
+          cp ./prepare_pages.py /tmp/prepare_pages.py
       - name: Move files to /tmp
         run: |
           mv 'html/' 'assets/' /tmp
@@ -71,10 +72,13 @@ jobs:
           rm -rf ./doc ./assets
           mv '/tmp/html/' ./doc
           mv '/tmp/assets/' .
-          pandoc /tmp/wiki.md -o 'wiki.html' --standalone
+          pandoc /tmp/wiki.md -o 'wiki.html'
+          python3 /tmp/prepare_pages.py after
           #pandoc /tmp/HowToPlay.md -o 'HowToPlay.html' --standalone
           #pandoc /tmp/Changelog.md -o 'Changelog.html' --standalone
           mv /tmp/README.md ./index.md
+          mv /tmp/HowToPlay.md ./HowToPlay.md
+          mv /tmp/Changelog.md ./Changelog.md
       # Push to github_pages
       - name: Release documentation
         run: |
