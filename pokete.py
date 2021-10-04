@@ -724,7 +724,7 @@ class Attack:
         self.effect = inf["effect"]
         self.is_generic = inf["is_generic"]
         self.ap = inf["ap"]
-        self.type = getattr(types, inf["type"])
+        self.type = getattr(types, inf["types"][0])
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
@@ -1460,8 +1460,8 @@ class LearnAttack:
         attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
-                    if attacks[i]["type"] in
-                    [i.name for i in self.poke.types]
+                    if all(j in [i.name for i in self.poke.types] 
+                           for j in attacks[i]["types"])
                     and attacks[i]["is_generic"]]
             full_pool = [i for i in self.poke.inf["attacks"] +
                          self.poke.inf["pool"] + pool
@@ -2644,7 +2644,7 @@ def map_additions():
     # playmap_21
     _map = ob_maps["playmap_21"]
     _map.dor_playmap_19 = Dor("_", state="float",
-                              arg_proto={"map": ob_maps["playmap_19"],
+                              arg_proto={"map": "playmap_19",
                                          "x": 26, "y": 1})
     _map.dor = DorToCenter()
     _map.shopdor = DorToShop()
@@ -2720,7 +2720,7 @@ if __name__ == "__main__":
     # validating data
     p_data.validate()
     # types
-    types = Types(p_data.types)
+    types = Types(p_data.types, p_data.sub_types)
 
     # reading config file
     home = str(Path.home())
