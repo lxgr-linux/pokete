@@ -145,7 +145,9 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
+
 ### Electro Poketes
+
 #### Electrode
 A small floating ball that will give you a shock.
 
@@ -170,7 +172,9 @@ A small floating ball that will give you a shock.
    + [Charging](#charging)
    + [Mega arch](#mega-arch)
 - Does not evolve
+
 ### Fire Poketes
+
 #### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
@@ -221,7 +225,9 @@ A fiery wolf from hell on steroids.
    + [Ash throw](#ash-throw)
    + [Fire ball](#fire-ball)
 - Does not evolve
+
 ### Flying Poketes
+
 #### Bato
 An annoying flying rat.
 
@@ -395,7 +401,9 @@ A very aggressive bird Pokete that can only be found in the woods.
    + [Wing hit](#wing-hit)
    + [Brooding](#brooding)
 - Does not evolve
+
 ### Ground Poketes
+
 #### Dicki
 A little what ever, that sticks out of the ground.
 
@@ -495,7 +503,9 @@ A big chunk of stone and dirt, that roles around.
    + [Tackle](#tackle)
    + [Power roll](#power-roll)
 - Does not evolve
+
 ### Ice Poketes
+
 #### Cubl
 A small ice cube.
 
@@ -546,7 +556,9 @@ A block of ice.
    + [Snow storm](#snow-storm)
    + [Sword of ice](#sword-of-ice)
 - Does not evolve
+
 ### Normal Poketes
+
 #### Hornita
 An majestic horse that is always looking for something to pick with its horn.
 
@@ -619,7 +631,9 @@ An annoying rat.
    + [Tackle](#tackle)
    + [Tail wipe](#tail-wipe)
 - Does not evolve
+
 ### Plant Poketes
+
 #### Bushy
 A bush, and just a bush. But watch out!
 
@@ -744,7 +758,9 @@ A scary an dangerous apple tree.
    + [Branch stab](#branch-stab)
    + [Root strangler](#root-strangler)
 - Does not evolve
+
 ### Poison Poketes
+
 #### Choka
 A fucking dangerous and enormous snake Pokete.
 
@@ -795,7 +811,9 @@ A dangerous snake Pokete.
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
 - Evolves to [Choka](#choka) at level 30
+
 ### Stone Poketes
+
 #### Bigstone
 A big and heavy stone made from one of the hardest stones.
 
@@ -920,7 +938,9 @@ A squared stone that can casually be found on the ground.
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
 - Does not evolve
+
 ### Undead Poketes
+
 #### Angrilo
 A ghost Pokete that will scare your pants off.
 
@@ -994,7 +1014,9 @@ A scary ghost Pokete that lives in caves and old houses.
    + [Mind blow](#mind-blow)
    + [Heart touch](#heart-touch)
 - Evolves to [Angrilo](#angrilo) at level 25
+
 ### Water Poketes
+
 #### Blub
 Very delicious and low fat water Pokete.
 

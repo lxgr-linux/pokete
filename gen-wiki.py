@@ -45,7 +45,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 In the following all Poketes with their attributes are displayed.
 """
     for typ in sorted(types):
-        md_str += f"### {typ.capitalize()} Poketes"
+        md_str += f"\n### {typ.capitalize()} Poketes\n"
         for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]:
             evolve_txt = f"""- Evolves to [{pokes[pokes[poke]["evolve_poke"]]["name"]}](#{pokes[poke]["evolve_poke"]}) at level {pokes[poke]["evolve_lvl"]}""" if \
                 pokes[poke]["evolve_poke"] != "" else "- Does not evolve"
