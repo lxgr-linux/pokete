@@ -25,7 +25,7 @@ attacks = {
         "desc": "So loud, it confuses the enemy.",
         "types": ["normal"],
         "effect": None,
-        "is_generic": True,
+        "is_generic": False,
         "ap": 10,
     },
     "bite": {
