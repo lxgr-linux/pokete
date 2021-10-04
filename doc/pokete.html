@@ -2720,14 +2720,14 @@ if __name__ == &#34;__main__&#34;:
     if sys.platform == &#34;linux&#34;:
         import tty
         import termios
-    
-    
+
+
         def recogniser():
             &#34;&#34;&#34;Use another (not on xserver relying) way to read keyboard input,
                 to make this shit work in tty or via ssh,
                 where no xserver is available&#34;&#34;&#34;
             global ev, fd, old_settings
-    
+
             fd = sys.stdin.fileno()
             old_settings = termios.tcgetattr(fd)
             tty.setraw(fd)
@@ -2741,15 +2741,15 @@ if __name__ == &#34;__main__&#34;:
                     ev = &#34;exit&#34;
     else:
         from pynput.keyboard import Key, Listener
-    
-    
+        
+
         def recogniser():
             &#34;&#34;&#34;Gets keyboard input from pynput&#34;&#34;&#34;
             global ev
             while True:
                 with Listener(on_press=on_press) as listener:
                     listener.join()
-    
+
     # resizing screen
     tss = ResizeScreen()
     width, height = tss()
@@ -2760,7 +2760,7 @@ if __name__ == &#34;__main__&#34;:
     p_data.validate()
     # types
     types = Types(p_data.types)
-    
+
     # reading config file
     home = str(Path.home())
     Path(home + SAVEPATH).mkdir(parents=True, exist_ok=True)
@@ -2785,47 +2785,47 @@ if __name__ == &#34;__main__&#34;:
     }
     with open(home + SAVEPATH + &#34;/pokete.py&#34;) as file:
         exec(file.read())
-    
+
     if &#34;settings&#34; in session_info:
         settings = Settings(**session_info[&#34;settings&#34;])
     else:
         settings = Settings()
-    
+
     if &#34;used_npcs&#34; in session_info:
         used_npcs = session_info[&#34;used_npcs&#34;]
     else:
         used_npcs = []
-    
+
     if &#34;caught_poketes&#34; in session_info:
         caught_poketes = session_info[&#34;caught_poketes&#34;]
     else:
         caught_poketes = []
-    
+
     if &#34;visited_maps&#34; in session_info:
         visited_maps = session_info[&#34;visited_maps&#34;]
     else:
         visited_maps = [&#34;playmap_1&#34;]
-    
+
     # comprehending settings
     # This is needed to just apply some changes when restarting the game to avoid running into errors
     save_trainers = settings.save_trainers
-    
+
     # Defining and adding of objetcs and maps
     #########################################
-    
+
     # maps
     ob_maps = gen_maps()
-    
+
     # Those two maps cant to sourced out, because `height` and `width`
     # are global variables exclusive to pokete.py
     centermap = PlayMap(height - 1, width, name=&#34;centermap&#34;,
                         pretty_name=&#34;Pokete-Center&#34;)
     shopmap = PlayMap(height - 1, width, name=&#34;shopmap&#34;,
                       pretty_name=&#34;Pokete-Shop&#34;)
-    
+
     ob_maps[&#34;centermap&#34;] = centermap
     ob_maps[&#34;shopmap&#34;] = shopmap
-    
+
     # movemap
     movemap = se.Submap(ob_maps[&#34;playmap_1&#34;], 0, 0, height=height - 1, width=width)
     figure = Figure(&#34;a&#34;)
@@ -2833,13 +2833,13 @@ if __name__ == &#34;__main__&#34;:
     multitext = OutP(&#34;&#34;, state=&#34;float&#34;)
     movemap.label = se.Text(&#34;1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help&#34;)
     movemap.code_label = OutP(&#34;&#34;)
-    
+
     # Definiton of objects for the playmaps
     # Most of the objects ar generated from map_data for maps.py
     # .poke_arg is relevant for meadow genration
     ############################################################
-    
-    
+
+
     gen_obs()
     # side fn definitions
     detail = Detail()
@@ -2860,10 +2860,10 @@ if __name__ == &#34;__main__&#34;:
         setattr(Inv, _name, _obj)
     Inv.ld_bubble_bomb = LearnDisc(&#34;bubble_bomb&#34;, p_data.attacks)
     Inv.ld_flying = LearnDisc(&#34;flying&#34;, p_data.attacks)
-    
+
     buy = Buy()
     map_additions()
-    
+
     # centermap
     centermap.inner = se.Text(&#34;&#34;&#34; ________________
      |______________|
@@ -2872,7 +2872,7 @@ if __name__ == &#34;__main__&#34;:
      |              |
      |______  ______|
      |_____|  |_____|&#34;&#34;&#34;, ignore=&#34; &#34;)
-    
+
     centermap.interact = CenterInteract(&#34;¯&#34;, state=&#34;float&#34;)
     centermap.dor_back1 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
     centermap.dor_back2 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
@@ -2886,7 +2886,7 @@ if __name__ == &#34;__main__&#34;:
     centermap.inner.add(centermap, int(centermap.width / 2) - 8, 1)
     centermap.interact.add(centermap, int(centermap.width / 2), 4)
     centermap.trader.add(centermap, int(centermap.width / 2) - 6, 3)
-    
+
     # shopmap
     shopmap.inner = se.Text(&#34;&#34;&#34; __________________
      |________________|
@@ -2903,7 +2903,7 @@ if __name__ == &#34;__main__&#34;:
     shopmap.dor_back2.add(shopmap, int(shopmap.width / 2) + 1, 8)
     shopmap.inner.add(shopmap, int(shopmap.width / 2) - 9, 1)
     shopmap.interact.add(shopmap, int(shopmap.width / 2), 4)
-    
+
     # objects relevant for fight()
     fightmap = se.Map(height - 1, width, &#34; &#34;)
     fightbox = ChooseBox(6, 25, &#34;Attacks&#34;, index_x=1)
@@ -2921,7 +2921,7 @@ if __name__ == &#34;__main__&#34;:
          o
         / \ &#34;&#34;&#34;)
     deadico2 = se.Text(&#34;&#34;&#34;
-    
+
          o
     &#34;&#34;&#34;)
     pball = se.Text(r&#34;&#34;&#34;   _____
@@ -2941,7 +2941,7 @@ if __name__ == &#34;__main__&#34;:
                             fightmap.height - 9)
     fightmap.frame_small.add(fightmap, 0, fightmap.height - 5)
     fightmap.label.add(fightmap, 0, fightmap.height - 1)
-    
+
     # evomap
     evomap = se.Map(height - 1, width, &#34; &#34;)
     evomap.frame_small = se.Frame(height=4, width=evomap.width, state=&#34;float&#34;)
@@ -2949,14 +2949,11 @@ if __name__ == &#34;__main__&#34;:
     # adding
     evomap.frame_small.add(evomap, 0, evomap.height - 5)
     evomap.outp.add(evomap, 1, evomap.height - 4)
-    
+
     figure.set_args(session_info)
-    
+
     __t = time.time() - __t
     ev = &#34;&#34;
-
-
-    # Actual execution of the program
     try:
         main()
     except KeyboardInterrupt:
