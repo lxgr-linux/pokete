@@ -16,7 +16,6 @@ import math
 import socket
 import json
 from pathlib import Path
-import pprint as pp
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes.color import Color
@@ -618,8 +617,7 @@ class Figure(se.Object):
     def set_args(self, si):
         """Processes data from save file"""
         self.name = si["user"]
-        self.pokes = [Poke((si["pokes"][poke]["name"]
-                            if type(poke) is int else poke),
+        self.pokes = [Poke(si["pokes"][poke]["name"],
                            si["pokes"][poke]["xp"], si["pokes"][poke]["hp"],
                            shiny=(False
                                   if "shiny" not in si["pokes"][poke]
@@ -630,9 +628,9 @@ class Figure(se.Object):
                            )
                       for poke in si["pokes"]]
         for j, poke in enumerate(self.pokes):
-            poke.set_ap(si["pokes"][j]["ap"])
-            if "effects" in si["pokes"][j]:
-                for e in si["pokes"][j]["effects"]:
+            poke.set_ap(si["pokes"][str(j)]["ap"])
+            if "effects" in si["pokes"][str(j)]:
+                for e in si["pokes"][str(j)]["effects"]:
                     poke.effects.append(getattr(effects, e)(poke))
         try:
             # Looking if figure would be in centermap, so the player may spawn out of the center
@@ -1554,9 +1552,9 @@ def save():
         "startup_time": __t,
         "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
-    with open(home + SAVEPATH + "/pokete.py", "w+") as file:
+    with open(home + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
-        file.write(f"session_info = {pp.pformat(session_info, sort_dicts=False)}")
+        json.dump(session_info, file, indent=4) 
 
 
 def on_press(key):
@@ -2265,7 +2263,7 @@ def game(_map):
     movemap.full_show()
     inp_dict = {"'1'": 'deck(figure.pokes[:6], "Your deck")',
                 "'3'": 'roadmap()', "'4'": 'inv()',
-                "'5'": 'pokete_dex(pokes)', "'e'": 'menu()',
+                "'5'": 'pokete_dex(p_data.pokes)', "'e'": 'menu()',
                 "'?'": 'help_page()'}
     while True:
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
@@ -2334,7 +2332,7 @@ def intro():
     movemap_text(4, 3, [" < Hello my child.",
                         " < You're now ten years old.",
                         " < And I think it's now time for you to travel the world and be a Pokete-trainer.",
-                        "< Therefore I give you this powerfull 'Steini', 15 'Poketeballs' to catch Poketes and a "
+                        " < Therefore I give you this powerfull 'Steini', 15 'Poketeballs' to catch Poketes and a "
                         "'Healing potion'.",
                         " < You will be the best Pokete-Trainer in Nice town.",
                         " < Now go out and become the best!"])
@@ -2727,7 +2725,6 @@ if __name__ == "__main__":
     # reading config file
     home = str(Path.home())
     Path(home + SAVEPATH).mkdir(parents=True, exist_ok=True)
-    Path(home + SAVEPATH + "/pokete.py").touch(exist_ok=True)
     # Default test session_info
     session_info = {
         "user": "DEFAULT",
@@ -2737,7 +2734,7 @@ if __name__ == "__main__":
         "x": 4,
         "y": 5,
         "pokes": {
-            0: {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
+            "0": {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
         },
         "inv": {"poketeball": 15, "healing_potion": 1},
         "settings": {},
@@ -2746,9 +2743,16 @@ if __name__ == "__main__":
         "startup_time": 0,
         "used_npcs": []
     }
-    with open(home + SAVEPATH + "/pokete.py") as file:
-        exec(file.read())
 
+    if (not os.path.exists(home + SAVEPATH + "/pokete.json")
+        and os.path.exists(home + SAVEPATH + "/pokete.py")):
+        with open(home + SAVEPATH + "/pokete.py") as file:
+            exec(file.read())
+        session_info = json.loads(json.dumps(session_info))
+    elif os.path.exists(home + SAVEPATH + "/pokete.json"):
+        with open(home + SAVEPATH + "/pokete.json") as file:
+            session_info = json.load(file)
+    
     if "settings" in session_info:
         settings = Settings(**session_info["settings"])
     else:
@@ -2829,12 +2833,12 @@ if __name__ == "__main__":
 
     # centermap
     centermap.inner = se.Text(""" ________________
-     |______________|
-     |     |a |     |
-     |     ¯ ¯¯     |
-     |              |
-     |______  ______|
-     |_____|  |_____|""", ignore=" ")
+ |______________|
+ |     |a |     |
+ |     ¯ ¯¯     |
+ |              |
+ |______  ______|
+ |_____|  |_____|""", ignore=" ")
 
     centermap.interact = CenterInteract("¯", state="float")
     centermap.dor_back1 = CenterDor(" ", state="float")
@@ -2852,12 +2856,12 @@ if __name__ == "__main__":
 
     # shopmap
     shopmap.inner = se.Text(""" __________________
-     |________________|
-     |      |a |      |
-     |      ¯ ¯¯      |
-     |                |
-     |_______  _______|
-     |______|  |______|""", ignore=" ")
+ |________________|
+ |      |a |      |
+ |      ¯ ¯¯      |
+ |                |
+ |_______  _______|
+ |______|  |______|""", ignore=" ")
     shopmap.interact = ShopInteract("¯", state="float")
     shopmap.dor_back1 = CenterDor(" ", state="float")
     shopmap.dor_back2 = CenterDor(" ", state="float")

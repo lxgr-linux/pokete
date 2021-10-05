@@ -9,7 +9,7 @@ maps = {
     "playmap_1": {
         "height": 25,
         "width": 90,
-        "pretty_name": "Nice Towm",
+        "pretty_name": "Nice Town",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["rato", "horny", "vogli"],
