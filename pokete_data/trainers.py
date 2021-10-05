@@ -198,7 +198,7 @@ trainers = {
         "args": ("Rock hard Rick", "He",
                  [" < Hello trainer!",
                   " < Welcome to Rock-ville, the highest place in the Pokete world and the home of all stone Poketes.",
-                  "< When leaving this town through the 'Cave of doom' you have to fight against the best trainers of "
+                  " < When leaving this town through the 'Cave of doom' you have to fight against the best trainers of "
                   "this town.",
                   " < But first, you have to fight me!"],
                  [" < If I'm a problem for you, you might not be able to fight the other trainers."],
