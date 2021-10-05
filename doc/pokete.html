@@ -53,7 +53,6 @@ import math
 import socket
 import json
 from pathlib import Path
-import pprint as pp
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes.color import Color
@@ -655,8 +654,7 @@ class Figure(se.Object):
     def set_args(self, si):
         &#34;&#34;&#34;Processes data from save file&#34;&#34;&#34;
         self.name = si[&#34;user&#34;]
-        self.pokes = [Poke((si[&#34;pokes&#34;][poke][&#34;name&#34;]
-                            if type(poke) is int else poke),
+        self.pokes = [Poke(si[&#34;pokes&#34;][poke][&#34;name&#34;],
                            si[&#34;pokes&#34;][poke][&#34;xp&#34;], si[&#34;pokes&#34;][poke][&#34;hp&#34;],
                            shiny=(False
                                   if &#34;shiny&#34; not in si[&#34;pokes&#34;][poke]
@@ -667,9 +665,9 @@ class Figure(se.Object):
                            )
                       for poke in si[&#34;pokes&#34;]]
         for j, poke in enumerate(self.pokes):
-            poke.set_ap(si[&#34;pokes&#34;][j][&#34;ap&#34;])
-            if &#34;effects&#34; in si[&#34;pokes&#34;][j]:
-                for e in si[&#34;pokes&#34;][j][&#34;effects&#34;]:
+            poke.set_ap(si[&#34;pokes&#34;][str(j)][&#34;ap&#34;])
+            if &#34;effects&#34; in si[&#34;pokes&#34;][str(j)]:
+                for e in si[&#34;pokes&#34;][str(j)][&#34;effects&#34;]:
                     poke.effects.append(getattr(effects, e)(poke))
         try:
             # Looking if figure would be in centermap, so the player may spawn out of the center
@@ -1591,9 +1589,9 @@ def save():
         &#34;startup_time&#34;: __t,
         &#34;used_npcs&#34;: list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
-    with open(home + SAVEPATH + &#34;/pokete.py&#34;, &#34;w+&#34;) as file:
+    with open(home + SAVEPATH + &#34;/pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
-        file.write(f&#34;session_info = {pp.pformat(session_info, sort_dicts=False)}&#34;)
+        json.dump(session_info, file, indent=4) 
 
 
 def on_press(key):
@@ -2302,7 +2300,7 @@ def game(_map):
     movemap.full_show()
     inp_dict = {&#34;&#39;1&#39;&#34;: &#39;deck(figure.pokes[:6], &#34;Your deck&#34;)&#39;,
                 &#34;&#39;3&#39;&#34;: &#39;roadmap()&#39;, &#34;&#39;4&#39;&#34;: &#39;inv()&#39;,
-                &#34;&#39;5&#39;&#34;: &#39;pokete_dex(pokes)&#39;, &#34;&#39;e&#39;&#34;: &#39;menu()&#39;,
+                &#34;&#39;5&#39;&#34;: &#39;pokete_dex(p_data.pokes)&#39;, &#34;&#39;e&#39;&#34;: &#39;menu()&#39;,
                 &#34;&#39;?&#39;&#34;: &#39;help_page()&#39;}
     while True:
         for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],
@@ -2371,7 +2369,7 @@ def intro():
     movemap_text(4, 3, [&#34; &lt; Hello my child.&#34;,
                         &#34; &lt; You&#39;re now ten years old.&#34;,
                         &#34; &lt; And I think it&#39;s now time for you to travel the world and be a Pokete-trainer.&#34;,
-                        &#34;&lt; Therefore I give you this powerfull &#39;Steini&#39;, 15 &#39;Poketeballs&#39; to catch Poketes and a &#34;
+                        &#34; &lt; Therefore I give you this powerfull &#39;Steini&#39;, 15 &#39;Poketeballs&#39; to catch Poketes and a &#34;
                         &#34;&#39;Healing potion&#39;.&#34;,
                         &#34; &lt; You will be the best Pokete-Trainer in Nice town.&#34;,
                         &#34; &lt; Now go out and become the best!&#34;])
@@ -2764,7 +2762,6 @@ if __name__ == &#34;__main__&#34;:
     # reading config file
     home = str(Path.home())
     Path(home + SAVEPATH).mkdir(parents=True, exist_ok=True)
-    Path(home + SAVEPATH + &#34;/pokete.py&#34;).touch(exist_ok=True)
     # Default test session_info
     session_info = {
         &#34;user&#34;: &#34;DEFAULT&#34;,
@@ -2774,7 +2771,7 @@ if __name__ == &#34;__main__&#34;:
         &#34;x&#34;: 4,
         &#34;y&#34;: 5,
         &#34;pokes&#34;: {
-            0: {&#34;name&#34;: &#34;steini&#34;, &#34;xp&#34;: 50, &#34;hp&#34;: &#34;SKIP&#34;, &#34;ap&#34;: [&#34;SKIP&#34;, &#34;SKIP&#34;]}
+            &#34;0&#34;: {&#34;name&#34;: &#34;steini&#34;, &#34;xp&#34;: 50, &#34;hp&#34;: &#34;SKIP&#34;, &#34;ap&#34;: [&#34;SKIP&#34;, &#34;SKIP&#34;]}
         },
         &#34;inv&#34;: {&#34;poketeball&#34;: 15, &#34;healing_potion&#34;: 1},
         &#34;settings&#34;: {},
@@ -2783,9 +2780,16 @@ if __name__ == &#34;__main__&#34;:
         &#34;startup_time&#34;: 0,
         &#34;used_npcs&#34;: []
     }
-    with open(home + SAVEPATH + &#34;/pokete.py&#34;) as file:
-        exec(file.read())
 
+    if (not os.path.exists(home + SAVEPATH + &#34;/pokete.json&#34;)
+        and os.path.exists(home + SAVEPATH + &#34;/pokete.py&#34;)):
+        with open(home + SAVEPATH + &#34;/pokete.py&#34;) as file:
+            exec(file.read())
+        session_info = json.loads(json.dumps(session_info))
+    elif os.path.exists(home + SAVEPATH + &#34;/pokete.json&#34;):
+        with open(home + SAVEPATH + &#34;/pokete.json&#34;) as file:
+            session_info = json.load(file)
+    
     if &#34;settings&#34; in session_info:
         settings = Settings(**session_info[&#34;settings&#34;])
     else:
@@ -2866,12 +2870,12 @@ if __name__ == &#34;__main__&#34;:
 
     # centermap
     centermap.inner = se.Text(&#34;&#34;&#34; ________________
-     |______________|
-     |     |a |     |
-     |     ¯ ¯¯     |
-     |              |
-     |______  ______|
-     |_____|  |_____|&#34;&#34;&#34;, ignore=&#34; &#34;)
+ |______________|
+ |     |a |     |
+ |     ¯ ¯¯     |
+ |              |
+ |______  ______|
+ |_____|  |_____|&#34;&#34;&#34;, ignore=&#34; &#34;)
 
     centermap.interact = CenterInteract(&#34;¯&#34;, state=&#34;float&#34;)
     centermap.dor_back1 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
@@ -2889,12 +2893,12 @@ if __name__ == &#34;__main__&#34;:
 
     # shopmap
     shopmap.inner = se.Text(&#34;&#34;&#34; __________________
-     |________________|
-     |      |a |      |
-     |      ¯ ¯¯      |
-     |                |
-     |_______  _______|
-     |______|  |______|&#34;&#34;&#34;, ignore=&#34; &#34;)
+ |________________|
+ |      |a |      |
+ |      ¯ ¯¯      |
+ |                |
+ |_______  _______|
+ |______|  |______|&#34;&#34;&#34;, ignore=&#34; &#34;)
     shopmap.interact = ShopInteract(&#34;¯&#34;, state=&#34;float&#34;)
     shopmap.dor_back1 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
     shopmap.dor_back2 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
@@ -3612,7 +3616,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     movemap.full_show()
     inp_dict = {&#34;&#39;1&#39;&#34;: &#39;deck(figure.pokes[:6], &#34;Your deck&#34;)&#39;,
                 &#34;&#39;3&#39;&#34;: &#39;roadmap()&#39;, &#34;&#39;4&#39;&#34;: &#39;inv()&#39;,
-                &#34;&#39;5&#39;&#34;: &#39;pokete_dex(pokes)&#39;, &#34;&#39;e&#39;&#34;: &#39;menu()&#39;,
+                &#34;&#39;5&#39;&#34;: &#39;pokete_dex(p_data.pokes)&#39;, &#34;&#39;e&#39;&#34;: &#39;menu()&#39;,
                 &#34;&#39;?&#39;&#34;: &#39;help_page()&#39;}
     while True:
         for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],
@@ -3795,7 +3799,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     movemap_text(4, 3, [&#34; &lt; Hello my child.&#34;,
                         &#34; &lt; You&#39;re now ten years old.&#34;,
                         &#34; &lt; And I think it&#39;s now time for you to travel the world and be a Pokete-trainer.&#34;,
-                        &#34;&lt; Therefore I give you this powerfull &#39;Steini&#39;, 15 &#39;Poketeballs&#39; to catch Poketes and a &#34;
+                        &#34; &lt; Therefore I give you this powerfull &#39;Steini&#39;, 15 &#39;Poketeballs&#39; to catch Poketes and a &#34;
                         &#34;&#39;Healing potion&#39;.&#34;,
                         &#34; &lt; You will be the best Pokete-Trainer in Nice town.&#34;,
                         &#34; &lt; Now go out and become the best!&#34;])
@@ -4295,9 +4299,9 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
         &#34;startup_time&#34;: __t,
         &#34;used_npcs&#34;: list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
     }
-    with open(home + SAVEPATH + &#34;/pokete.py&#34;, &#34;w+&#34;) as file:
+    with open(home + SAVEPATH + &#34;/pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
-        file.write(f&#34;session_info = {pp.pformat(session_info, sort_dicts=False)}&#34;)</code></pre>
+        json.dump(session_info, file, indent=4) </code></pre>
 </details>
 </dd>
 <dt id="pokete.std_loop"><code class="name flex">
@@ -5765,8 +5769,7 @@ def water(obs):
     def set_args(self, si):
         &#34;&#34;&#34;Processes data from save file&#34;&#34;&#34;
         self.name = si[&#34;user&#34;]
-        self.pokes = [Poke((si[&#34;pokes&#34;][poke][&#34;name&#34;]
-                            if type(poke) is int else poke),
+        self.pokes = [Poke(si[&#34;pokes&#34;][poke][&#34;name&#34;],
                            si[&#34;pokes&#34;][poke][&#34;xp&#34;], si[&#34;pokes&#34;][poke][&#34;hp&#34;],
                            shiny=(False
                                   if &#34;shiny&#34; not in si[&#34;pokes&#34;][poke]
@@ -5777,9 +5780,9 @@ def water(obs):
                            )
                       for poke in si[&#34;pokes&#34;]]
         for j, poke in enumerate(self.pokes):
-            poke.set_ap(si[&#34;pokes&#34;][j][&#34;ap&#34;])
-            if &#34;effects&#34; in si[&#34;pokes&#34;][j]:
-                for e in si[&#34;pokes&#34;][j][&#34;effects&#34;]:
+            poke.set_ap(si[&#34;pokes&#34;][str(j)][&#34;ap&#34;])
+            if &#34;effects&#34; in si[&#34;pokes&#34;][str(j)]:
+                for e in si[&#34;pokes&#34;][str(j)][&#34;effects&#34;]:
                     poke.effects.append(getattr(effects, e)(poke))
         try:
             # Looking if figure would be in centermap, so the player may spawn out of the center
@@ -5974,8 +5977,7 @@ def water(obs):
 <pre><code class="python">def set_args(self, si):
     &#34;&#34;&#34;Processes data from save file&#34;&#34;&#34;
     self.name = si[&#34;user&#34;]
-    self.pokes = [Poke((si[&#34;pokes&#34;][poke][&#34;name&#34;]
-                        if type(poke) is int else poke),
+    self.pokes = [Poke(si[&#34;pokes&#34;][poke][&#34;name&#34;],
                        si[&#34;pokes&#34;][poke][&#34;xp&#34;], si[&#34;pokes&#34;][poke][&#34;hp&#34;],
                        shiny=(False
                               if &#34;shiny&#34; not in si[&#34;pokes&#34;][poke]
@@ -5986,9 +5988,9 @@ def water(obs):
                        )
                   for poke in si[&#34;pokes&#34;]]
     for j, poke in enumerate(self.pokes):
-        poke.set_ap(si[&#34;pokes&#34;][j][&#34;ap&#34;])
-        if &#34;effects&#34; in si[&#34;pokes&#34;][j]:
-            for e in si[&#34;pokes&#34;][j][&#34;effects&#34;]:
+        poke.set_ap(si[&#34;pokes&#34;][str(j)][&#34;ap&#34;])
+        if &#34;effects&#34; in si[&#34;pokes&#34;][str(j)]:
+            for e in si[&#34;pokes&#34;][str(j)][&#34;effects&#34;]:
                 poke.effects.append(getattr(effects, e)(poke))
     try:
         # Looking if figure would be in centermap, so the player may spawn out of the center
