@@ -2742,7 +2742,8 @@ if __name__ == "__main__":
         "visited_maps": ["playmap_1"],
         "startup_time": 0,
         "used_npcs": []
-    
+    }
+
     if (not os.path.exists(home + SAVEPATH + "/pokete.json")
         and os.path.exists(home + SAVEPATH + "/pokete.py")):
         with open(home + SAVEPATH + "/pokete.py") as file:
