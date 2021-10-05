@@ -35,16 +35,17 @@ def replace_tables(_text: str) -> str:
 
 
 def get_header(url):
-    header_end = r'<p><a href="https://github.com/lxgr-linux/pokete/actions/workflows/main.yml"><img src="https://github.com/lxgr-linux/pokete/actions/workflows/main.yml/badge.svg" alt="Wiki" /></a>'
+    header_end = r'<section>'
     result = request.urlopen(url)
     _text = result.read().decode('UTF-8').split(header_end)[0]
     return _text + header_end + '\n'
 
 
 def get_footer(url):
+    footer_start = '<footer>'
     result = request.urlopen(url)
-    _text = result.read().decode('UTF-8').split("<footer")[1]
-    _text = '<footer>' + _text
+    _text = result.read().decode('UTF-8').split(footer_start)[1]
+    _text = footer_start + _text
     return _text
 
 
