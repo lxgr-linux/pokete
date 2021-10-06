@@ -38,7 +38,7 @@ For more examples on the dictionaries see [`pokete_data/poketes.py`](./pokete_da
 
 ### Types
 Only the first type in the `"types"` list is the Poketes actual displayed type, that determines the Poketes effectivity. The other types in the list are just secondary types that determine what generic attacks a Pokete is able to learn. Those can also be subtypes. The main type can't!
-For a list of all types and subtypes see `pokete_data/types.py`
+For a list of all types and subtypes see [`pokete_data/types.py`](./pokete_data/types.py)
 
 ### Learning attacks
 In addition the attacks in the `"attacks"` and the `"pool"` lists, a Pokete can learn all generic attacks of the Poketes types.
