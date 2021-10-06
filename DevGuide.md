@@ -45,7 +45,7 @@ In addition the attacks in the `"attacks"` and the `"pool"` lists, a Pokete can 
 
 
 ## Adding attacks
-Every attack has an entry the `attacks` dictionary in `pokete_data/attacks.py` every entry needs to have this structure:
+Every attack has an entry the `attacks` dictionary in [`pokete_data/attacks.py `](./pokete_data/attacks.py) every entry needs to have this structure:
 
 ```Python
 "poison_bite": {  # This is the attacks simplified name/identifier without spaces and in lowercase, which is used to refer to the attack in the game
