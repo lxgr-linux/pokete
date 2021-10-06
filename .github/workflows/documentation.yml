@@ -42,44 +42,19 @@ jobs:
           pip3 install scrap_engine pdoc3
           sudo apt-get install pandoc
 
-      # Build documentation
-      - name: Build documentation
-        run: |
-          pdoc --html pokete_classes
-          pdoc --html pokete_data
-          pdoc --html pokete.py
-          pdoc --html gen-wiki.py
-          pdoc --html pokete_general_use_fns.py
       - name: Preprocess page files
         run: |
           python3 ./prepare_pages.py before
           cp ./prepare_pages.py /tmp/prepare_pages.py
-      - name: Move files to /tmp
-        run: |
-          mv 'html/' 'assets/' /tmp
-          mv 'wiki.md' /tmp/wiki.md
-          mv 'HowToPlay.md' /tmp/HowToPlay.md
-          mv 'Changelog.md' /tmp/Changelog.md
-          mv 'README.md' /tmp/README.md
-          sed -i "s/wiki\.md/.\/wiki.html/g" /tmp/README.md
-          sed -i "s/Changelog\.md/.\/Changelog.html/g" /tmp/README.md
-          sed -i "s/HowToPlay\.md/.\/HowToPlay.html/g" /tmp/README.md
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
         with:
           ref: 'gh-pages'
       - name: Generate gh-pages page
         run: |
-          rm -rf ./doc ./assets
-          mv '/tmp/html/' ./doc
+          rm -rf ./assets
           mv '/tmp/assets/' .
-          pandoc /tmp/wiki.md -o 'wiki.html'
           python3 /tmp/prepare_pages.py after
-          #pandoc /tmp/HowToPlay.md -o 'HowToPlay.html' --standalone
-          #pandoc /tmp/Changelog.md -o 'Changelog.html' --standalone
-          mv /tmp/README.md ./index.md
-          mv /tmp/HowToPlay.md ./HowToPlay.md
-          mv /tmp/Changelog.md ./Changelog.md
       # Push to github_pages
       - name: Release documentation
         run: |
