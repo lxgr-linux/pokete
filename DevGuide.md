@@ -64,7 +64,7 @@ Every attack has an entry the `attacks` dictionary in [`pokete_data/attacks.py `
     },
 ```
 
-For more examples on the dictionaries see `pokete_data/attacks.py`.
+For more examples on the dictionaries see [`pokete_data/attacks.py`](./pokete_data/attacks.py).
 
 ### Types and learning
 Only the first type in the `"types"` list is the attacks real type and determines its effectivity. The other type can only be subtypes. A generic attack can only be learned by a Poketes that has all its types. An ungeneric attack can only be learned if the attack is in the Poketes `"pool"` or `"attacks"` list.
