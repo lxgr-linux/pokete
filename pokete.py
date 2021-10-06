@@ -24,6 +24,7 @@ from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, Input
 from pokete_classes.classes import PlayMap, Settings, OutP, ResizeScreen, LoadingScreen
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import InvItem, LearnDisc
+from pokete_classes.moves import Moves
 from pokete_classes.types import Types
 from pokete_general_use_fns import *
 from release import *
@@ -298,6 +299,7 @@ class Poke:
     def __init__(self, poke, xp, _hp="SKIP", _attacks=None,
                  player=True, shiny=False):
         self.inf = p_data.pokes[poke]
+        self.moves = Moves(self)
         # Attributes
         self.enem = None
         self.oldhp = 0
@@ -433,7 +435,7 @@ class Poke:
             enem.hp = max(enem.hp, 0)
             time.sleep(0.4)
             for i in attac.move:
-                getattr(self, f"move_{i}")()
+                getattr(self.moves, i)()
             exec(attac.action)
             attac.ap -= 1
             fightmap.outp.outp(
@@ -448,74 +450,7 @@ class Poke:
             self.label_rechar()
             fightmap.show()
 
-    def move_attack(self):
-        """Attack move"""
-        for i, j, t in zip([3, -3], [2, -2], [0.3, 0]):
-            self.ico.move(i if self.player else -i, -j if self.player else j)
-            fightmap.show()
-            time.sleep(t)
-
-    def move_pound(self):
-        """Pound move"""
-        for i in [-1, 1]:
-            self.ico.move(0, i)
-            fightmap.show()
-            time.sleep(0.3)
-
-    def move_arch(self):
-        """Arch move"""
-        if self.enem == self:
-            return
-        line = se.Line(Color.thicc + Color.yellow + "-" + Color.reset,
-                       self.enem.ico.x - self.ico.x + (-11 if self.player else 11),
-                       self.enem.ico.y - self.ico.y, l_type="crippled")
-        line.add(self.ico.map, self.ico.x + (11 if self.player else -1),
-                 self.ico.y + 1)
-        self.ico.map.show()
-        time.sleep(1)
-        line.remove()
-        del line
-
-    def move_throw(self, txt="#"):
-        """Throw move"""
-        if self.enem == self:
-            return
-        line = se.Line(" ", self.enem.ico.x - self.ico.x + (-11 if self.player else 11),
-                       self.enem.ico.y - self.ico.y, l_type="crippled")
-        line.add(self.ico.map, self.ico.x + (11 if self.player else -1),
-                 self.ico.y + 1)
-        self.ico.map.show()
-        for i in range(len(line.obs)):
-            line.obs[i].rechar(txt)
-            if i != 0:
-                line.obs[i - 1].rechar(line.char)
-            time.sleep(0.05)
-            self.ico.map.show()
-        line.remove()
-        del line
-
-    def move_fireball(self):
-        """Fireball move"""
-        self.move_throw(txt=Color.thicc + Color.red + "*" + Color.reset)
-
-    def move_shine(self, ico=Color.thicc + Color.green + "*" + Color.reset):
-        """Shine Move"""
-        shines = [se.Object(ico) for _ in range(4)]
-        for i, x, y in zip(shines, [self.ico.x - 1, self.ico.x + 11, self.ico.x - 1,
-                                    self.ico.x + 11],
-                           [self.ico.y, self.ico.y, self.ico.y + 3, self.ico.y + 3]):
-            i.add(self.ico.map, x, y)
-            self.ico.map.show()
-            time.sleep(0.2)
-        time.sleep(0.2)
-        for i in shines:
-            i.remove()
-        self.ico.map.show()
-
-    def move_downgrade(self):
-        """Downgrade move"""
-        self.enem.move_shine(ico=Color.thicc + Color.red + "-" + Color.reset)
-
+    
     def evolve(self):
         """Evolves the Pokete to its evolve_poke"""
         if not self.player:
