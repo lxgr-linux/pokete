@@ -42,7 +42,7 @@ def get_header(url):
 
 
 def get_footer(url):
-    footer_start = '<footer>'
+    footer_start = '</section>'
     result = request.urlopen(url)
     _text = result.read().decode('UTF-8').split(footer_start)[1]
     _text = footer_start + _text
