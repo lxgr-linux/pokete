@@ -49,32 +49,40 @@ def get_footer(url):
     return _text
 
 
-if sys.argv[1] == 'before':
-    print(':: Preparing files for gh-pages...')
-    for file in ['README.md', 'Changelog.md', 'HowToPlay.md']:
-        print(f"==> Preparing {file}")
-        with open(file, 'r') as f:
-            text = f.read()
-            text = replace_tables(text)
-        with open(file, 'w') as f:
-            f.write(text)
-    print(':: Done!')
-elif 'after' == sys.argv[1]:
-    print(':: After processing files for gh-pages...')
-    print(':: Acquiring assets...')
-    print('==> header')
-    header = get_header('https://lxgr-linux.github.io/pokete')
-    print(header)
-    print('==> footer')
-    footer = get_footer('https://lxgr-linux.github.io/pokete')
-    print(footer)
-    print('Precessing files...')
-    for file in ['wiki.html']:
-        print(f'==> {file}')
-        with open(file, 'r') as f:
-            text = f.read()
-        with open(file, 'w') as f:
-            f.write(header + text + footer)
-    print(':: Done!')
-else:
-    sys.exit(2)
+if __name__ == '__main':
+    if len(sys.argv) == 1:
+        print('Error! Not enough arguments:')
+        print(f"Usage: '{sys.argv[0]}' <after|before>")
+        sys.exit(2)
+    if sys.argv[1] == 'before':
+        print(':: Preparing files for gh-pages...')
+        for file in ['README.md', 'Changelog.md', 'HowToPlay.md']:
+            print(f"==> Preparing {file}")
+            with open(file, 'r') as f:
+                text = f.read()
+                text = replace_tables(text)
+            with open(file, 'w') as f:
+                f.write(text)
+        print(':: Done!')
+    elif 'after' == sys.argv[1]:
+        print(':: After processing files for gh-pages...')
+        print(':: Acquiring assets...')
+        print('==> header')
+        header = get_header('https://lxgr-linux.github.io/pokete')
+        print(header)
+        print('==> footer')
+        footer = get_footer('https://lxgr-linux.github.io/pokete')
+        print(footer)
+        print('Precessing files...')
+        for file in ['wiki.html']:
+            print(f'==> {file}')
+            with open(file, 'r') as f:
+                text = f.read()
+            with open(file, 'w') as f:
+                f.write(header + text + footer)
+        print(':: Done!')
+    else:
+        print('Error! Unrecognised first argument:')
+        print(f"Usage: '{sys.argv[0]}' <after|before>")
+        sys.exit(2)
+
