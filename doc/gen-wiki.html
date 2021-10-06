@@ -54,7 +54,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     md_str += &#34;2. [Attacks](#attacks)\n&#34;
     for i, typ in enumerate(sorted(types)):
         md_str += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
-        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;type&#34;] == typ]):
+        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
             md_str += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
     md_str += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
@@ -113,13 +113,13 @@ Those are all attacks present in the game.
 &#34;&#34;&#34;
     for typ in sorted(types):
         md_str += f&#34;\n### {typ.capitalize()} attacks&#34;
-        for atc in [k for k in attacks if attacks[k][&#34;type&#34;] == typ]:
+        for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
             eff = None if attacks[atc][&#34;effect&#34;] is None else getattr(effects, attacks[atc][&#34;effect&#34;])
             md_str += f&#34;&#34;&#34;
 #### {attacks[atc][&#34;name&#34;]}
 {attacks[atc][&#34;desc&#34;]}
 
-- Type: [{attacks[atc][&#34;type&#34;].capitalize()}](#types)
+- Type: [{attacks[atc][&#34;types&#34;][0].capitalize()}](#types)
 - Minimum Level: {attacks[atc][&#34;min_lvl&#34;]}
 - Attack factor: {attacks[atc][&#34;factor&#34;]}
 - Missing chance: {attacks[atc][&#34;miss_chance&#34;]}
@@ -241,7 +241,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     md_str += &#34;2. [Attacks](#attacks)\n&#34;
     for i, typ in enumerate(sorted(types)):
         md_str += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
-        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;type&#34;] == typ]):
+        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
             md_str += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
     md_str += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
@@ -300,13 +300,13 @@ Those are all attacks present in the game.
 &#34;&#34;&#34;
     for typ in sorted(types):
         md_str += f&#34;\n### {typ.capitalize()} attacks&#34;
-        for atc in [k for k in attacks if attacks[k][&#34;type&#34;] == typ]:
+        for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
             eff = None if attacks[atc][&#34;effect&#34;] is None else getattr(effects, attacks[atc][&#34;effect&#34;])
             md_str += f&#34;&#34;&#34;
 #### {attacks[atc][&#34;name&#34;]}
 {attacks[atc][&#34;desc&#34;]}
 
-- Type: [{attacks[atc][&#34;type&#34;].capitalize()}](#types)
+- Type: [{attacks[atc][&#34;types&#34;][0].capitalize()}](#types)
 - Minimum Level: {attacks[atc][&#34;min_lvl&#34;]}
 - Attack factor: {attacks[atc][&#34;factor&#34;]}
 - Missing chance: {attacks[atc][&#34;miss_chance&#34;]}

@@ -34,9 +34,11 @@ from pokete_classes.color import Color
 class Types:
     &#34;&#34;&#34;Class to organize PokeTypes&#34;&#34;&#34;
 
-    def __init__(self, types):
+    def __init__(self, types, sub_types):
         for i in types:
             setattr(self, i, PokeType(i, **types[i]))
+        for i in sub_types:
+            setattr(self, i, PokeSubType(i))
 
 
 class PokeType():
@@ -46,7 +48,14 @@ class PokeType():
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
-        self.color = &#34;&#34; if color is None else str.join(&#34;&#34;, [getattr(Color, i) for i in color])</code></pre>
+        self.color = &#34;&#34; if color is None else str.join(&#34;&#34;, [getattr(Color, i) for i in color])
+
+
+class PokeSubType(PokeType):
+    &#34;&#34;&#34;Subtype class to better organize generic attacks&#34;&#34;&#34;
+
+    def __init__(self, name):
+        super().__init__(name, [], [], None)</code></pre>
 </details>
 </section>
 <section>
@@ -58,6 +67,27 @@ class PokeType():
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="pokete_classes.types.PokeSubType"><code class="flex name class">
+<span>class <span class="ident">PokeSubType</span></span>
+<span>(</span><span>name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Subtype class to better organize generic attacks</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PokeSubType(PokeType):
+    &#34;&#34;&#34;Subtype class to better organize generic attacks&#34;&#34;&#34;
+
+    def __init__(self, name):
+        super().__init__(name, [], [], None)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.types.PokeType" href="#pokete_classes.types.PokeType">PokeType</a></li>
+</ul>
+</dd>
 <dt id="pokete_classes.types.PokeType"><code class="flex name class">
 <span>class <span class="ident">PokeType</span></span>
 <span>(</span><span>name, effective, ineffective, color)</span>
@@ -77,10 +107,14 @@ class PokeType():
         self.ineffective = ineffective
         self.color = &#34;&#34; if color is None else str.join(&#34;&#34;, [getattr(Color, i) for i in color])</code></pre>
 </details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.types.PokeSubType" href="#pokete_classes.types.PokeSubType">PokeSubType</a></li>
+</ul>
 </dd>
 <dt id="pokete_classes.types.Types"><code class="flex name class">
 <span>class <span class="ident">Types</span></span>
-<span>(</span><span>types)</span>
+<span>(</span><span>types, sub_types)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to organize PokeTypes</p></div>
@@ -91,9 +125,11 @@ class PokeType():
 <pre><code class="python">class Types:
     &#34;&#34;&#34;Class to organize PokeTypes&#34;&#34;&#34;
 
-    def __init__(self, types):
+    def __init__(self, types, sub_types):
         for i in types:
-            setattr(self, i, PokeType(i, **types[i]))</code></pre>
+            setattr(self, i, PokeType(i, **types[i]))
+        for i in sub_types:
+            setattr(self, i, PokeSubType(i))</code></pre>
 </details>
 </dd>
 </dl>
@@ -112,6 +148,9 @@ class PokeType():
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="pokete_classes.types.PokeSubType" href="#pokete_classes.types.PokeSubType">PokeSubType</a></code></h4>
+</li>
 <li>
 <h4><code><a title="pokete_classes.types.PokeType" href="#pokete_classes.types.PokeType">PokeType</a></code></h4>
 </li>

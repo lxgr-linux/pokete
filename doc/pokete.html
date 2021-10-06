@@ -761,7 +761,7 @@ class Attack:
         self.effect = inf[&#34;effect&#34;]
         self.is_generic = inf[&#34;is_generic&#34;]
         self.ap = inf[&#34;ap&#34;]
-        self.type = getattr(types, inf[&#34;type&#34;])
+        self.type = getattr(types, inf[&#34;types&#34;][0])
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
@@ -1497,8 +1497,8 @@ class LearnAttack:
         attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
-                    if attacks[i][&#34;type&#34;] in
-                    [i.name for i in self.poke.types]
+                    if all(j in [i.name for i in self.poke.types] 
+                           for j in attacks[i][&#34;types&#34;])
                     and attacks[i][&#34;is_generic&#34;]]
             full_pool = [i for i in self.poke.inf[&#34;attacks&#34;] +
                          self.poke.inf[&#34;pool&#34;] + pool
@@ -2681,7 +2681,7 @@ def map_additions():
     # playmap_21
     _map = ob_maps[&#34;playmap_21&#34;]
     _map.dor_playmap_19 = Dor(&#34;_&#34;, state=&#34;float&#34;,
-                              arg_proto={&#34;map&#34;: ob_maps[&#34;playmap_19&#34;],
+                              arg_proto={&#34;map&#34;: &#34;playmap_19&#34;,
                                          &#34;x&#34;: 26, &#34;y&#34;: 1})
     _map.dor = DorToCenter()
     _map.shopdor = DorToShop()
@@ -2757,7 +2757,7 @@ if __name__ == &#34;__main__&#34;:
     # validating data
     p_data.validate()
     # types
-    types = Types(p_data.types)
+    types = Types(p_data.types, p_data.sub_types)
 
     # reading config file
     home = str(Path.home())
@@ -4045,7 +4045,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     # playmap_21
     _map = ob_maps[&#34;playmap_21&#34;]
     _map.dor_playmap_19 = Dor(&#34;_&#34;, state=&#34;float&#34;,
-                              arg_proto={&#34;map&#34;: ob_maps[&#34;playmap_19&#34;],
+                              arg_proto={&#34;map&#34;: &#34;playmap_19&#34;,
                                          &#34;x&#34;: 26, &#34;y&#34;: 1})
     _map.dor = DorToCenter()
     _map.shopdor = DorToShop()
@@ -4517,7 +4517,7 @@ You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
         self.effect = inf[&#34;effect&#34;]
         self.is_generic = inf[&#34;is_generic&#34;]
         self.ap = inf[&#34;ap&#34;]
-        self.type = getattr(types, inf[&#34;type&#34;])
+        self.type = getattr(types, inf[&#34;types&#34;][0])
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
@@ -6306,8 +6306,8 @@ https://git.io/JRRqe
         attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
-                    if attacks[i][&#34;type&#34;] in
-                    [i.name for i in self.poke.types]
+                    if all(j in [i.name for i in self.poke.types] 
+                           for j in attacks[i][&#34;types&#34;])
                     and attacks[i][&#34;is_generic&#34;]]
             full_pool = [i for i in self.poke.inf[&#34;attacks&#34;] +
                          self.poke.inf[&#34;pool&#34;] + pool
