@@ -77,7 +77,7 @@ An attacks `"world_action"` is some kind of extra ability which can be called fr
 
 
 ## Adding types
-Every type has an entry the `types` dictionary in `pokete_data/types.py` every entry needs to have this structure:
+Every type has an entry the `types` dictionary in [`pokete_data/types.py`](./pokete_data/types.py) every entry needs to have this structure:
 
 ```Python
 "stone": {  # The types name
