@@ -70,7 +70,7 @@ For more examples on the dictionaries see [`pokete_data/attacks.py`](./pokete_da
 Only the first type in the `"types"` list is the attacks real type and determines its effectivity. The other type can only be subtypes. A generic attack can only be learned by a Poketes that has all its types. An ungeneric attack can only be learned if the attack is in the Poketes `"pool"` or `"attacks"` list.
 
 ### Effects
-The effect given in the `"effect"` attribute has to be the `c_name` of an effect listed in `pokete_classes/types.py` or `None`.
+The effect given in the `"effect"` attribute has to be the `c_name` of an effect listed in [`pokete_classes/types.py`](./pokete_classes/types.py ) or `None`.
 
 ### World action
 An attacks `"world_action"` is some kind of extra ability which can be called from the Poketes detail view and be used to, for example make the player fly. The string in `"world_action"` has to be a key in the `abb_funcs` list in `pokete.py`.
