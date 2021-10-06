@@ -44,7 +44,7 @@ By pressing "e" you can get into a menu where player name and later other settin
 
 The red balls all over the map, are Poketeballs, you need to catch Poketes. Stepping on such a ball adds it to your inventory.
 
-See [How to play](./HowToPlay.html).
+See [How to play](HowToPlay.md).
 
 ## Game depth
 Not only are there Poketes that are stronger than others, but also Poketes with different types, which are effective against some types and ineffective against others.
@@ -111,7 +111,7 @@ Not only are there Poketes that are stronger than others, but also Poketes with 
 </tbody>
 </table>
 
-For additional information you can see [wiki](./wiki.html).
+For additional information you can see [wiki](wiki.md).
 
 ## Tips
 - In conversations you can very easily skip the text printing by pressing any key
@@ -146,7 +146,7 @@ On windows pynput has to be installed too.
 - [Documentation for the main file "pokete.py"](https://lxgr-linux.github.io/pokete/doc/pokete.html "pokete.py")
 
 ## Releases
-For release information see [Changelog](./Changelog.html).
+For release information see [Changelog](Changelog.md).
 
 ## Contributing
 Feel free to contribute what ever you want to this game.
