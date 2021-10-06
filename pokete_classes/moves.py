@@ -3,6 +3,8 @@ import scrap_engine as se
 from pokete_classes.color import Color
 
 class Moves:
+    """This class contains all attack moves"""
+
     def __init__(self, poke):
         self.poke = poke
 

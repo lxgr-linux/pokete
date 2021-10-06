@@ -459,7 +459,7 @@ class Poke:
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width / 2 - 4),
                      round((evomap.height - 8) / 2))
-        self.move_shine()
+        self.moves.shine()
         evomap.outp.outp("Look!")
         time.sleep(0.5)
         evomap.outp.outp(f"{evomap.outp.text}\n{self.name} is evolving!")
@@ -476,7 +476,7 @@ class Poke:
                     round((evomap.height - 8) / 2))
         evomap.show()
         time.sleep(0.01)
-        new.move_shine()
+        new.moves.shine()
         evomap.outp.outp(f"{self.name} evolved to {new.name}!")
         time.sleep(5)
         figure.pokes[figure.pokes.index(self)] = new
@@ -2167,7 +2167,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         if old_lvl < winner.lvl():
             time.sleep(1)
             fightmap.outp.outp(f"{winner.name} reached lvl {winner.lvl()}!")
-            winner.move_shine()
+            winner.moves.shine()
             time.sleep(0.5)
             winner.set_vars()
             if winner.lvl() % 5 == 0:
