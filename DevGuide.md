@@ -7,7 +7,7 @@ This guide only handles adding new types, attacks and Poketes to Pokete, for fur
 4. [Adding subtypes](#adding-subtypes)
 
 ## Adding Poketes
-Every Pokete has an entry the `pokes` dictionary in `pokete_data/poketes.py` every entry needs to have this structure:
+Every Pokete has an entry the `pokes` dictionary in [`pokete_data/poketes.py`](./pokete_data/poketes.py) every entry needs to have this structure:
 
 ```Python
 "steini": {  # This is the Poketes simplified name/identifier without spaces and in lowercase, which is used to refer to the Pokete in the game
