@@ -2819,17 +2819,17 @@ if __name__ == "__main__":
     fightmap.outp = OutP("", state="float")
     fightmap.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
     deadico1 = se.Text(r"""
-        \ /
-         o
-        / \ """)
+    \ /
+     o
+    / \ """)
     deadico2 = se.Text("""
 
-         o
+     o
     """)
     pball = se.Text(r"""   _____
-      /_____\
-      |__O__|
-      \_____/""")
+  /_____\
+  |__O__|
+  \_____/""")
     # adding
     fightmap.outp.add(fightmap, 1, fightmap.height - 4)
     fightmap.e_underline.add(fightmap, 1, 4)
