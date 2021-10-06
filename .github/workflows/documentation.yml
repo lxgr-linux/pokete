@@ -45,6 +45,7 @@ jobs:
       - name: Preprocess page files
         run: |
           python3 ./prepare_pages.py before
+          cp -r ./assets/ /tmp/assets
           cp ./prepare_pages.py /tmp/prepare_pages.py
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
