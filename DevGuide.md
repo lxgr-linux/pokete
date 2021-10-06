@@ -1,5 +1,5 @@
 # Development guide for Pokete
-This guide only handles adding new types, attacks and Poketes to Pokete, for further information on class and function syntax see the html documentation or `$ pydoc <file>`
+This guide only handles adding new types, attacks and Poketes to Pokete, for further information on class and function syntax see the html documentation or `$ pydoc <file>`.
 
 1. [Adding Poketes](#adding-poketes)
 2. [Adding attacks](#adding-attacks)
