@@ -3,9 +3,6 @@ import os
 import sys
 from urllib import request
 
-if __name__ != '__main__':
-    sys.exit(1)
-
 
 def replace_tables(_text: str) -> str:
     out = ''
@@ -80,7 +77,7 @@ def after() -> None:
     print(':: Done!')
 
 
-if __name__ == '__main':
+if __name__ == '__main__':
     if len(sys.argv) == 1:
         print('Error! Not enough arguments:')
         print(f"Usage: '{sys.argv[0]}' <after|before>")
