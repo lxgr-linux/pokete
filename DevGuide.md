@@ -88,4 +88,4 @@ Every type has an entry the `types` dictionary in [`pokete_data/types.py`](./pok
 ```
 
 ## Adding subtypes
-Every subtype has an entry the `sub_types` list in `pokete_data/types.py`. They have no further attributes. Subtypes are only useful to determine what Poketes can which generic attack in a type. For example to avoid that `bato` learns the generic `flying` attack `pick`.
+Every subtype has an entry the `sub_types` list in [`pokete_data/types.py`](./pokete_data/types.py). They have no further attributes. Subtypes are only useful to determine what Poketes can which generic attack in a type. For example to avoid that `bato` learns the generic `flying` attack `pick`.
