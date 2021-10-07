@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>prepare_pages API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Prepare pages prepares all files in &#34;files&#34; for GitHub Pages …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,16 +22,85 @@
 <h1 class="title">Module <code>prepare_pages</code></h1>
 </header>
 <section id="section-intro">
+<p>Prepare pages prepares all files in "files" for GitHub Pages</p>
+<p>This script takes one argument, which specifies if the actions it should take are before the command
+"git switch gh-pages" or afterwards. "before" means that it will the pre-change actions and "after" the after-change
+actions.</p>
+<p>This script processes files on how they are configured in the "files" dictionary: If the type is documentation
+if will call pdoc3 to create the documentation for it. If the type is "page", the argument "convert_with_pandoc"
+is a boolean which specifies, if the file should be converted into HTML by pandoc (True) or GitHub Pages' Jekyll
+(False). If set to false, it is advised to set "convert_tables" to True, as Jekyll can not handle markdown tables.
+Afterwards this script will replace all the links specified in the list "replace_links". There the first argument of
+the Tuple specifies the old link and the second argument the new link. With "new_name" the file will be renamed on the
+website.</p>
+<h2 id="usage">Usage:</h2>
+<ul>
+<li>python3 prepare_pages.py before</li>
+<li>Invokes actions before the branch switch</li>
+<li>python3 prepare_pages.py after</li>
+<li>Invokes actions after the branch switch</li>
+</ul>
+<h2 id="exit-codes">Exit Codes:</h2>
+<ul>
+<li>0: Everything is OK.</li>
+<li>1: An internal error occurred</li>
+<li>2: The user did not specify the right/enough arguments</li>
+</ul>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">#!/usr/bin/env python
+&#34;&#34;&#34;
+Prepare pages prepares all files in &#34;files&#34; for GitHub Pages
+
+This script takes one argument, which specifies if the actions it should take are before the command
+&#34;git switch gh-pages&#34; or afterwards. &#34;before&#34; means that it will the pre-change actions and &#34;after&#34; the after-change
+actions.
+
+This script processes files on how they are configured in the &#34;files&#34; dictionary: If the type is documentation
+if will call pdoc3 to create the documentation for it. If the type is &#34;page&#34;, the argument &#34;convert_with_pandoc&#34;
+is a boolean which specifies, if the file should be converted into HTML by pandoc (True) or GitHub Pages&#39; Jekyll
+(False). If set to false, it is advised to set &#34;convert_tables&#34; to True, as Jekyll can not handle markdown tables.
+Afterwards this script will replace all the links specified in the list &#34;replace_links&#34;. There the first argument of
+the Tuple specifies the old link and the second argument the new link. With &#34;new_name&#34; the file will be renamed on the
+website.
+
+Usage:
+-----
+- python3 prepare_pages.py before
+  - Invokes actions before the branch switch
+- python3 prepare_pages.py after
+  - Invokes actions after the branch switch
+
+Exit Codes:
+----------
+- 0: Everything is OK.
+- 1: An internal error occurred
+- 2: The user did not specify the right/enough arguments
+&#34;&#34;&#34;
 import os
 from os.path import exists
 import sys
 from urllib import request
 
+&#34;&#34;&#34;
+The files dictionary specifies how and which files should be processed.
+
+Structure:
+---------
+- Filename or directory (directory only with type=documentation)
+  - type:
+    - page: Converts into static webpage
+    - documentation: calls pdoc3 to create a documentation for it
+  - replace_tables: Boolean: If tables should be replaced by HTML-Tables
+  - replace_links: A list of tuples for links th be replaced in this document
+    - element one: The link that should be replaced
+    - element two: The link that element one should be replaced with
+  - convert_with_pandoc: boolean: If the page should be converted with pandoc (True) or Jekyll (False)
+  - new_name: the new filename and the name on the website. If convert_with_pandoc is set to true,
+    make the extension .html. If the name should not be changed, put in None.
+&#34;&#34;&#34;
 files = {
     &#34;README.md&#34;: {
         &#34;type&#34;: &#34;page&#34;,
@@ -39,7 +108,9 @@ files = {
         &#34;replace_links&#34;: [
             (&#34;wiki.md&#34;, &#34;./wiki&#34;),
             (&#34;Changelog.md&#34;, &#34;./Changelog&#34;),
-            (&#34;HowToPlay.md&#34;, &#34;./HowToPlay&#34;)],
+            (&#34;HowToPlay.md&#34;, &#34;./HowToPlay&#34;),
+            (&#34;DevGuide.md&#34;, &#34;./DevGuide&#34;)
+        ],
         &#34;convert_with_pandoc&#34;: False,
         &#34;new_name&#34;: &#34;index.md&#34;
     },
@@ -64,6 +135,18 @@ files = {
         &#34;convert_with_pandoc&#34;: True,
         &#34;new_name&#34;: &#34;wiki.html&#34;
     },
+    &#34;DevGuide.md&#34;: {
+        &#34;type&#34;: &#34;page&#34;,
+        &#34;replace_tables&#34;: False,
+        &#34;replace_links&#34;: [
+            (&#34;pokete_data/poketes.py&#34;, &#34;./doc/pokete_data/poketes.html&#34;),
+            (&#34;pokete_data/types.py&#34;, &#34;./doc/pokete_data/types.html&#34;),
+            (&#34;pokete_data/attacks.py&#34;, &#34;./doc/pokete_data/attacks.html&#34;),
+            (&#34;pokete.py&#34;, &#34;./doc/pokete.html&#34;)
+        ],
+        &#34;convert_with_pandoc&#34;: True,
+        &#34;new_name&#34;: &#34;DevGuide.html&#34;
+    },
     &#34;gen-wiki.py&#34;: {
         &#34;type&#34;: &#34;documentation&#34;
     },
@@ -83,6 +166,19 @@ files = {
 
 
 def replace_tables(_text: str) -&gt; str:
+    &#34;&#34;&#34;Replaces all markdown tables in _text with html tables
+
+    This function writes the mardkwon table to a temporary file in /tmp/, calls pandoc to convert this file to html and
+    reads the text back in.
+
+    Arguments:
+    ---------
+    - _text: The text in which all the tables should be converted.
+
+    Returns:
+    -------
+    The input string, but with repkaced markdown tables.
+    &#34;&#34;&#34;
     out = &#39;&#39;
     table = &#39;&#39;
     in_table = False
@@ -108,22 +204,49 @@ def replace_tables(_text: str) -&gt; str:
     return out
 
 
-def get_header(url):
-    header_end = r&#39;&lt;section&gt;&#39;
+def get_header(url: str = r&#39;https://lxgr-linux.github.io/pokete&#39;,
+               header_end: str = r&#39;&lt;section&gt;&#39;) -&gt; str:
+    &#34;&#34;&#34;Gets the first part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the first part of.
+    - header_end: the end of the &#34;header&#34;.
+
+    Returns:
+    -------
+    The start of this webpage.
+    &#34;&#34;&#34;
     result = request.urlopen(url)
     _text = result.read().decode(&#39;UTF-8&#39;).split(header_end)[0]
     return _text + header_end + &#39;\n&#39;
 
 
-def get_footer(url):
-    footer_start = &#39;&lt;/section&gt;&#39;
+def get_footer(url: str = r&#39;https://lxgr-linux.github.io/pokete&#39;,
+               footer_start: str = r&#39;&lt;/section&gt;&#39;) -&gt; str:
+    &#34;&#34;&#34;Gets the last part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the last part of.
+    - footer_start: Where the &#34;footer&#34;/the end of the webpage begins.
+
+    Returns:
+    -------
+    The end of this webpage.
+    &#34;&#34;&#34;
     result = request.urlopen(url)
     _text = result.read().decode(&#39;UTF-8&#39;).split(footer_start)[1]
     _text = footer_start + _text
     return _text
 
 
-def create_documentation():
+def create_documentation() -&gt; None:
+    &#34;&#34;&#34;Creates documentation for all tagged files
+
+    This function creates python documentation for all files and folders in the files dictionary that have the type
+    &#34;documentation&#34;. This function will call pandoc to create the documentation for it.
+    &#34;&#34;&#34;
     modules = [file for file in files if files[file][&#34;type&#34;] == &#34;documentation&#34;]
     pdoc_path = &#34;/home/runner/.local/bin/pdoc&#34;
 
@@ -133,6 +256,11 @@ def create_documentation():
 
 
 def before() -&gt; None:
+    &#34;&#34;&#34;The actions taht should be executed before the brach switch
+
+    This functions creates documentation for all the files, replaces tables if necessary or converts the files with
+    pandoc. All the files are then moved into the /mp directory.
+    &#34;&#34;&#34;
     print(&#39;:: Preparing files for gh-pages...&#39;)
     print(&#34;:: Generating documentation with pdoc...&#34;)
     create_documentation()
@@ -179,13 +307,19 @@ def before() -&gt; None:
 
 
 def after() -&gt; None:
+    &#34;&#34;&#34;The actions that shall be executed in the gh-pages branch.
+
+    This function copies akk oreviously created files from /tmo/ to the current working directry and adds the start
+    and end of the gh-pages index website to the files which have been converted with pandoc. This achieves a universal
+    look on all gh-pages pages. This function then replaces all the links for each file.
+    &#34;&#34;&#34;
     print(&#39;:: After processing files for gh-pages...&#39;)
     print(&#39;:: Acquiring assets...&#39;)
     print(&#39;==&gt; header&#39;)
-    header = get_header(&#39;https://lxgr-linux.github.io/pokete&#39;)
+    header = get_header(url=&#39;https://lxgr-linux.github.io/pokete&#39;, header_end=&#39;&lt;section&gt;&#39;)
     print(header)
     print(&#39;==&gt; footer&#39;)
-    footer = get_footer(&#39;https://lxgr-linux.github.io/pokete&#39;)
+    footer = get_footer(url=&#39;https://lxgr-linux.github.io/pokete&#39;, footer_start=&#39;&lt;/section&gt;&#39;)
     print(footer)
     # We need to store the configuration to keep the &#34;new_name&#34; attribute from the before run.
     print(&#34;:: Loading configuration...&#34;)
@@ -270,19 +404,28 @@ if __name__ == &#39;__main__&#39;:
 <span>def <span class="ident">after</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The actions that shall be executed in the gh-pages branch.</p>
+<p>This function copies akk oreviously created files from /tmo/ to the current working directry and adds the start
+and end of the gh-pages index website to the files which have been converted with pandoc. This achieves a universal
+look on all gh-pages pages. This function then replaces all the links for each file.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def after() -&gt; None:
+    &#34;&#34;&#34;The actions that shall be executed in the gh-pages branch.
+
+    This function copies akk oreviously created files from /tmo/ to the current working directry and adds the start
+    and end of the gh-pages index website to the files which have been converted with pandoc. This achieves a universal
+    look on all gh-pages pages. This function then replaces all the links for each file.
+    &#34;&#34;&#34;
     print(&#39;:: After processing files for gh-pages...&#39;)
     print(&#39;:: Acquiring assets...&#39;)
     print(&#39;==&gt; header&#39;)
-    header = get_header(&#39;https://lxgr-linux.github.io/pokete&#39;)
+    header = get_header(url=&#39;https://lxgr-linux.github.io/pokete&#39;, header_end=&#39;&lt;section&gt;&#39;)
     print(header)
     print(&#39;==&gt; footer&#39;)
-    footer = get_footer(&#39;https://lxgr-linux.github.io/pokete&#39;)
+    footer = get_footer(url=&#39;https://lxgr-linux.github.io/pokete&#39;, footer_start=&#39;&lt;/section&gt;&#39;)
     print(footer)
     # We need to store the configuration to keep the &#34;new_name&#34; attribute from the before run.
     print(&#34;:: Loading configuration...&#34;)
@@ -345,12 +488,19 @@ if __name__ == &#39;__main__&#39;:
 <span>def <span class="ident">before</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The actions taht should be executed before the brach switch</p>
+<p>This functions creates documentation for all the files, replaces tables if necessary or converts the files with
+pandoc. All the files are then moved into the /mp directory.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def before() -&gt; None:
+    &#34;&#34;&#34;The actions taht should be executed before the brach switch
+
+    This functions creates documentation for all the files, replaces tables if necessary or converts the files with
+    pandoc. All the files are then moved into the /mp directory.
+    &#34;&#34;&#34;
     print(&#39;:: Preparing files for gh-pages...&#39;)
     print(&#34;:: Generating documentation with pdoc...&#34;)
     create_documentation()
@@ -397,15 +547,22 @@ if __name__ == &#39;__main__&#39;:
 </details>
 </dd>
 <dt id="prepare_pages.create_documentation"><code class="name flex">
-<span>def <span class="ident">create_documentation</span></span>(<span>)</span>
+<span>def <span class="ident">create_documentation</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Creates documentation for all tagged files</p>
+<p>This function creates python documentation for all files and folders in the files dictionary that have the type
+"documentation". This function will call pandoc to create the documentation for it.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def create_documentation():
+<pre><code class="python">def create_documentation() -&gt; None:
+    &#34;&#34;&#34;Creates documentation for all tagged files
+
+    This function creates python documentation for all files and folders in the files dictionary that have the type
+    &#34;documentation&#34;. This function will call pandoc to create the documentation for it.
+    &#34;&#34;&#34;
     modules = [file for file in files if files[file][&#34;type&#34;] == &#34;documentation&#34;]
     pdoc_path = &#34;/home/runner/.local/bin/pdoc&#34;
 
@@ -415,16 +572,34 @@ if __name__ == &#39;__main__&#39;:
 </details>
 </dd>
 <dt id="prepare_pages.get_footer"><code class="name flex">
-<span>def <span class="ident">get_footer</span></span>(<span>url)</span>
+<span>def <span class="ident">get_footer</span></span>(<span>url: str = 'https://lxgr-linux.github.io/pokete', footer_start: str = &#x27;&lt;/section&gt;&#x27;) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Gets the last part of a webpage</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>url: The URL to get the last part of.</li>
+<li>footer_start: Where the "footer"/the end of the webpage begins.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The end of this webpage.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_footer(url):
-    footer_start = &#39;&lt;/section&gt;&#39;
+<pre><code class="python">def get_footer(url: str = r&#39;https://lxgr-linux.github.io/pokete&#39;,
+               footer_start: str = r&#39;&lt;/section&gt;&#39;) -&gt; str:
+    &#34;&#34;&#34;Gets the last part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the last part of.
+    - footer_start: Where the &#34;footer&#34;/the end of the webpage begins.
+
+    Returns:
+    -------
+    The end of this webpage.
+    &#34;&#34;&#34;
     result = request.urlopen(url)
     _text = result.read().decode(&#39;UTF-8&#39;).split(footer_start)[1]
     _text = footer_start + _text
@@ -432,16 +607,34 @@ if __name__ == &#39;__main__&#39;:
 </details>
 </dd>
 <dt id="prepare_pages.get_header"><code class="name flex">
-<span>def <span class="ident">get_header</span></span>(<span>url)</span>
+<span>def <span class="ident">get_header</span></span>(<span>url: str = 'https://lxgr-linux.github.io/pokete', header_end: str = &#x27;&lt;section&gt;&#x27;) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Gets the first part of a webpage</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>url: The URL to get the first part of.</li>
+<li>header_end: the end of the "header".</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The start of this webpage.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_header(url):
-    header_end = r&#39;&lt;section&gt;&#39;
+<pre><code class="python">def get_header(url: str = r&#39;https://lxgr-linux.github.io/pokete&#39;,
+               header_end: str = r&#39;&lt;section&gt;&#39;) -&gt; str:
+    &#34;&#34;&#34;Gets the first part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the first part of.
+    - header_end: the end of the &#34;header&#34;.
+
+    Returns:
+    -------
+    The start of this webpage.
+    &#34;&#34;&#34;
     result = request.urlopen(url)
     _text = result.read().decode(&#39;UTF-8&#39;).split(header_end)[0]
     return _text + header_end + &#39;\n&#39;</code></pre>
@@ -451,12 +644,33 @@ if __name__ == &#39;__main__&#39;:
 <span>def <span class="ident">replace_tables</span></span>(<span>_text: str) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Replaces all markdown tables in _text with html tables</p>
+<p>This function writes the mardkwon table to a temporary file in /tmp/, calls pandoc to convert this file to html and
+reads the text back in.</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>_text: The text in which all the tables should be converted.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The input string, but with repkaced markdown tables.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def replace_tables(_text: str) -&gt; str:
+    &#34;&#34;&#34;Replaces all markdown tables in _text with html tables
+
+    This function writes the mardkwon table to a temporary file in /tmp/, calls pandoc to convert this file to html and
+    reads the text back in.
+
+    Arguments:
+    ---------
+    - _text: The text in which all the tables should be converted.
+
+    Returns:
+    -------
+    The input string, but with repkaced markdown tables.
+    &#34;&#34;&#34;
     out = &#39;&#39;
     table = &#39;&#39;
     in_table = False
@@ -490,7 +704,10 @@ if __name__ == &#39;__main__&#39;:
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#usage">Usage:</a></li>
+<li><a href="#exit-codes">Exit Codes:</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
