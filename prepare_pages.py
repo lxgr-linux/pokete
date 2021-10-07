@@ -32,7 +32,6 @@ from os.path import exists
 import sys
 from urllib import request
 
-
 """
 The files dictionary specifies how and which files should be processed.
 
@@ -57,7 +56,9 @@ files = {
         "replace_links": [
             ("wiki.md", "./wiki"),
             ("Changelog.md", "./Changelog"),
-            ("HowToPlay.md", "./HowToPlay")],
+            ("HowToPlay.md", "./HowToPlay"),
+            ("DevGuide.md", "./DevGuide")
+        ],
         "convert_with_pandoc": False,
         "new_name": "index.md"
     },
@@ -81,6 +82,18 @@ files = {
         "replace_links": [],
         "convert_with_pandoc": True,
         "new_name": "wiki.html"
+    },
+    "DevGuide.md": {
+        "type": "page",
+        "replace_tables": False,
+        "replace_links": [
+            ("pokete_data/poketes.py", "./doc/pokete_data/poketes.html"),
+            ("pokete_data/types.py", "./doc/pokete_data/types.html"),
+            ("pokete_data/attacks.py", "./doc/pokete_data/attacks.html"),
+            ("pokete.py", "./doc/pokete.html")
+        ],
+        "convert_with_pandoc": True,
+        "new_name": "DevGuide.html"
     },
     "gen-wiki.py": {
         "type": "documentation"
@@ -140,7 +153,7 @@ def replace_tables(_text: str) -> str:
 
 
 def get_header(url: str = r'https://lxgr-linux.github.io/pokete',
-                header_end: str = r'<section>') -> str:
+               header_end: str = r'<section>') -> str:
     """Gets the first part of a webpage
 
     Arguments:
@@ -158,7 +171,7 @@ def get_header(url: str = r'https://lxgr-linux.github.io/pokete',
 
 
 def get_footer(url: str = r'https://lxgr-linux.github.io/pokete',
-        footer_start: str = r'</section>') -> str:
+               footer_start: str = r'</section>') -> str:
     """Gets the last part of a webpage
 
     Arguments:

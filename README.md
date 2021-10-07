@@ -103,6 +103,8 @@ For release information see [Changelog](Changelog.md).
 Feel free to contribute what ever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
 
+To see how to add more poketes/types/attacks to the game, see [the DevGuide](DevGuide.md)
+
 After adding new Poketes and/or Attacks you may want to run
 ```shell
 $ ./gen-wiki.py
