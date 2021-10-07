@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>gen-wiki API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="This script generates the Pokete wiki" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,12 +22,13 @@
 <h1 class="title">Module <code>gen-wiki</code></h1>
 </header>
 <section id="section-intro">
+<p>This script generates the Pokete wiki</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">#!/usr/bin/env python3
-# This script generates the Pokete wiki
+&#34;&#34;&#34;This script generates the Pokete wiki&#34;&#34;&#34;
 import os
 import release
 import scrap_engine as se
@@ -36,8 +37,15 @@ from pokete_data import *
 
 
 class Wiki:
+    &#34;&#34;&#34;The class in which wiki generation behaviour is defined&#34;&#34;&#34;
     @staticmethod
     def start() -&gt; str:
+        &#34;&#34;&#34;The start and title of the wiki
+
+        Returns:
+        ---
+        The title of the wiki page.
+        &#34;&#34;&#34;
         return f&#34;&#34;&#34;v{release.VERSION}
 
 # Pokete wiki
@@ -48,6 +56,12 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 
     @staticmethod
     def table_of_contents() -&gt; str:
+        &#34;&#34;&#34;The table of contents of the pokete wiki
+
+        Returns:
+        -------
+        A Table of contents for a single page wiki.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;## Table of contents
 1. [Poketes](#poketes)
 &#34;&#34;&#34;
@@ -77,6 +91,12 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 
     @staticmethod
     def poketes() -&gt; str:
+        &#34;&#34;&#34;The function to add all poketes and their attributes to the wiki.
+
+        Returns:
+        -------
+        All poketes and their attributes as a markdown string.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -91,6 +111,16 @@ In the following all Poketes with their attributes are displayed.
 
     @staticmethod
     def poke_info(poke: str) -&gt; str:
+        &#34;&#34;&#34;Generates information about a specific pokete
+
+        Arguments:
+        ---------
+        - poke (string): The pokete to get the information of.
+
+        Returns:
+        -------
+        A markdown string of all the attributes and information of the pokete.
+        &#34;&#34;&#34;
         evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
             pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
         md_attacks = &#34;&#34;
@@ -123,6 +153,12 @@ In the following all Poketes with their attributes are displayed.
 
     @staticmethod
     def attacks() -&gt; str:
+        &#34;&#34;&#34;The function to all attacks to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all attacks with their attributes and informations.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Attacks
 Those are all attacks present in the game.
@@ -137,6 +173,16 @@ Those are all attacks present in the game.
 
     @staticmethod
     def attack_info(attack: str) -&gt; str:
+        &#34;&#34;&#34;The function to collect information and attributes of a specific attack
+
+        Arguments:
+        ---------
+        - attacks (string): The attack to collect the information of.
+
+        Returns:
+        -------
+        A markdown string with the information about the attack.
+        &#34;&#34;&#34;
         eff = None if attacks[attack][&#34;effect&#34;] is None else getattr(effects, attacks[attack][&#34;effect&#34;])
         return f&#34;&#34;&#34;
 #### {attacks[attack][&#34;name&#34;]}
@@ -152,6 +198,12 @@ Those are all attacks present in the game.
 
     @staticmethod
     def types() -&gt; str:
+        &#34;&#34;&#34;The function to add all types to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all available types.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
@@ -172,13 +224,34 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 
     @staticmethod
     def items() -&gt; str:
+        &#34;&#34;&#34;The function to add all items to the wiki.
+
+        Returns:
+        -------
+        A markdown string that contains information about all items.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Items
 Those are all items present in the game, that can be traded or found.
 &#34;&#34;&#34;
 
         for item in sorted(items):
-            out += f&#34;&#34;&#34;
+            out += Wiki.item_info(item)
+        return out
+
+    @staticmethod
+    def item_info(item: str) -&gt; str:
+        &#34;&#34;&#34;The function to collect information and attributes of a specific item
+
+        Arguments:
+        ---------
+        - item (string): The item to collect the information of.
+
+        Returns:
+        -------
+        A markdown string with the information about the item.
+        &#34;&#34;&#34;
+        return f&#34;&#34;&#34;
 ### {items[item][&#34;pretty_name&#34;]}
 {items[item][&#34;desc&#34;]}
 
@@ -186,10 +259,14 @@ Those are all items present in the game, that can be traded or found.
 - Can be used in fights: {&#34;Yes&#34; if items[item][&#34;fn&#34;] is not None else &#34;No&#34;}
 &#34;&#34;&#34;
 
-        return out
-
     @staticmethod
     def effects() -&gt; str:
+        &#34;&#34;&#34;The function to add all effects to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all the effects in the game.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Effects
 Those effects can be given to a Pokete through an attack.
@@ -198,7 +275,22 @@ Those effects can be given to a Pokete through an attack.
         return out
 
     @staticmethod
-    def single():
+    def single(filename: str = &#34;wiki.md&#34;) -&gt; None:
+        &#34;&#34;&#34;The function to generate a single page wiki.
+
+        This function creates the pokete wiki in a single file and adds the following to it:
+        - title
+        - table of contents
+        - all poketes with information on them
+        - all attacks with information on them
+        - all types with information on them
+        - all items with information on them
+        - all effects with information on them
+
+        Arguments:
+        ---------
+        - filename (string): The file to save the wiki to.
+        &#34;&#34;&#34;
         print(&#34;:: Generating wiki.md...&#34;)
         print(&#34;==&gt; Adding page start...&#34;)
         md_str = Wiki.start()
@@ -217,11 +309,12 @@ Those effects can be given to a Pokete through an attack.
 
         # writing to file
         print(&#34;==&gt; Writing to wiki.md...&#34;)
-        with open(&#34;wiki.md&#34;, &#34;w+&#34;) as file:
+        with open(filename, &#34;w+&#34;) as file:
             file.write(md_str)
 
 
 def gen_pics():
+    &#34;&#34;&#34;The function to generate a markdown file with some example pictures.&#34;&#34;&#34;
     md_str = &#34;# Example pictures\n&#34;
     md_str += str.join(&#34;\n\n&#34;, [f&#34;![{i}](ss/{i})&#34; for i in sorted(os.listdir(&#34;assets/ss&#34;))])
 
@@ -247,12 +340,13 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">gen_pics</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The function to generate a markdown file with some example pictures.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def gen_pics():
+    &#34;&#34;&#34;The function to generate a markdown file with some example pictures.&#34;&#34;&#34;
     md_str = &#34;# Example pictures\n&#34;
     md_str += str.join(&#34;\n\n&#34;, [f&#34;![{i}](ss/{i})&#34; for i in sorted(os.listdir(&#34;assets/ss&#34;))])
 
@@ -270,14 +364,21 @@ if __name__ == &#34;__main__&#34;:
 <span>class <span class="ident">Wiki</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The class in which wiki generation behaviour is defined</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Wiki:
+    &#34;&#34;&#34;The class in which wiki generation behaviour is defined&#34;&#34;&#34;
     @staticmethod
     def start() -&gt; str:
+        &#34;&#34;&#34;The start and title of the wiki
+
+        Returns:
+        ---
+        The title of the wiki page.
+        &#34;&#34;&#34;
         return f&#34;&#34;&#34;v{release.VERSION}
 
 # Pokete wiki
@@ -288,6 +389,12 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 
     @staticmethod
     def table_of_contents() -&gt; str:
+        &#34;&#34;&#34;The table of contents of the pokete wiki
+
+        Returns:
+        -------
+        A Table of contents for a single page wiki.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;## Table of contents
 1. [Poketes](#poketes)
 &#34;&#34;&#34;
@@ -317,6 +424,12 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 
     @staticmethod
     def poketes() -&gt; str:
+        &#34;&#34;&#34;The function to add all poketes and their attributes to the wiki.
+
+        Returns:
+        -------
+        All poketes and their attributes as a markdown string.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -331,6 +444,16 @@ In the following all Poketes with their attributes are displayed.
 
     @staticmethod
     def poke_info(poke: str) -&gt; str:
+        &#34;&#34;&#34;Generates information about a specific pokete
+
+        Arguments:
+        ---------
+        - poke (string): The pokete to get the information of.
+
+        Returns:
+        -------
+        A markdown string of all the attributes and information of the pokete.
+        &#34;&#34;&#34;
         evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
             pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
         md_attacks = &#34;&#34;
@@ -363,6 +486,12 @@ In the following all Poketes with their attributes are displayed.
 
     @staticmethod
     def attacks() -&gt; str:
+        &#34;&#34;&#34;The function to all attacks to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all attacks with their attributes and informations.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Attacks
 Those are all attacks present in the game.
@@ -377,6 +506,16 @@ Those are all attacks present in the game.
 
     @staticmethod
     def attack_info(attack: str) -&gt; str:
+        &#34;&#34;&#34;The function to collect information and attributes of a specific attack
+
+        Arguments:
+        ---------
+        - attacks (string): The attack to collect the information of.
+
+        Returns:
+        -------
+        A markdown string with the information about the attack.
+        &#34;&#34;&#34;
         eff = None if attacks[attack][&#34;effect&#34;] is None else getattr(effects, attacks[attack][&#34;effect&#34;])
         return f&#34;&#34;&#34;
 #### {attacks[attack][&#34;name&#34;]}
@@ -392,6 +531,12 @@ Those are all attacks present in the game.
 
     @staticmethod
     def types() -&gt; str:
+        &#34;&#34;&#34;The function to add all types to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all available types.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
@@ -412,13 +557,34 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 
     @staticmethod
     def items() -&gt; str:
+        &#34;&#34;&#34;The function to add all items to the wiki.
+
+        Returns:
+        -------
+        A markdown string that contains information about all items.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Items
 Those are all items present in the game, that can be traded or found.
 &#34;&#34;&#34;
 
         for item in sorted(items):
-            out += f&#34;&#34;&#34;
+            out += Wiki.item_info(item)
+        return out
+
+    @staticmethod
+    def item_info(item: str) -&gt; str:
+        &#34;&#34;&#34;The function to collect information and attributes of a specific item
+
+        Arguments:
+        ---------
+        - item (string): The item to collect the information of.
+
+        Returns:
+        -------
+        A markdown string with the information about the item.
+        &#34;&#34;&#34;
+        return f&#34;&#34;&#34;
 ### {items[item][&#34;pretty_name&#34;]}
 {items[item][&#34;desc&#34;]}
 
@@ -426,10 +592,14 @@ Those are all items present in the game, that can be traded or found.
 - Can be used in fights: {&#34;Yes&#34; if items[item][&#34;fn&#34;] is not None else &#34;No&#34;}
 &#34;&#34;&#34;
 
-        return out
-
     @staticmethod
     def effects() -&gt; str:
+        &#34;&#34;&#34;The function to add all effects to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all the effects in the game.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Effects
 Those effects can be given to a Pokete through an attack.
@@ -438,7 +608,22 @@ Those effects can be given to a Pokete through an attack.
         return out
 
     @staticmethod
-    def single():
+    def single(filename: str = &#34;wiki.md&#34;) -&gt; None:
+        &#34;&#34;&#34;The function to generate a single page wiki.
+
+        This function creates the pokete wiki in a single file and adds the following to it:
+        - title
+        - table of contents
+        - all poketes with information on them
+        - all attacks with information on them
+        - all types with information on them
+        - all items with information on them
+        - all effects with information on them
+
+        Arguments:
+        ---------
+        - filename (string): The file to save the wiki to.
+        &#34;&#34;&#34;
         print(&#34;:: Generating wiki.md...&#34;)
         print(&#34;==&gt; Adding page start...&#34;)
         md_str = Wiki.start()
@@ -457,7 +642,7 @@ Those effects can be given to a Pokete through an attack.
 
         # writing to file
         print(&#34;==&gt; Writing to wiki.md...&#34;)
-        with open(&#34;wiki.md&#34;, &#34;w+&#34;) as file:
+        with open(filename, &#34;w+&#34;) as file:
             file.write(md_str)</code></pre>
 </details>
 <h3>Static methods</h3>
@@ -466,13 +651,29 @@ Those effects can be given to a Pokete through an attack.
 <span>def <span class="ident">attack_info</span></span>(<span>attack: str) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The function to collect information and attributes of a specific attack</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>attacks (string): The attack to collect the information of.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>A markdown string with the information about the attack.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def attack_info(attack: str) -&gt; str:
+        &#34;&#34;&#34;The function to collect information and attributes of a specific attack
+
+        Arguments:
+        ---------
+        - attacks (string): The attack to collect the information of.
+
+        Returns:
+        -------
+        A markdown string with the information about the attack.
+        &#34;&#34;&#34;
         eff = None if attacks[attack][&#34;effect&#34;] is None else getattr(effects, attacks[attack][&#34;effect&#34;])
         return f&#34;&#34;&#34;
 #### {attacks[attack][&#34;name&#34;]}
@@ -491,13 +692,21 @@ Those effects can be given to a Pokete through an attack.
 <span>def <span class="ident">attacks</span></span>(<span>) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The function to all attacks to the wiki.</p>
+<h2 id="returns">Returns:</h2>
+<p>A markdown string of all attacks with their attributes and informations.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def attacks() -&gt; str:
+        &#34;&#34;&#34;The function to all attacks to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all attacks with their attributes and informations.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Attacks
 Those are all attacks present in the game.
@@ -515,13 +724,21 @@ Those are all attacks present in the game.
 <span>def <span class="ident">effects</span></span>(<span>) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The function to add all effects to the wiki.</p>
+<h2 id="returns">Returns:</h2>
+<p>A markdown string of all the effects in the game.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def effects() -&gt; str:
+        &#34;&#34;&#34;The function to add all effects to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all the effects in the game.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Effects
 Those effects can be given to a Pokete through an attack.
@@ -530,31 +747,68 @@ Those effects can be given to a Pokete through an attack.
         return out</code></pre>
 </details>
 </dd>
+<dt id="gen-wiki.Wiki.item_info"><code class="name flex">
+<span>def <span class="ident">item_info</span></span>(<span>item: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The function to collect information and attributes of a specific item</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>item (string): The item to collect the information of.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>A markdown string with the information about the item.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def item_info(item: str) -&gt; str:
+        &#34;&#34;&#34;The function to collect information and attributes of a specific item
+
+        Arguments:
+        ---------
+        - item (string): The item to collect the information of.
+
+        Returns:
+        -------
+        A markdown string with the information about the item.
+        &#34;&#34;&#34;
+        return f&#34;&#34;&#34;
+### {items[item][&#34;pretty_name&#34;]}
+{items[item][&#34;desc&#34;]}
+
+- Price: {items[item][&#34;price&#34;]}
+- Can be used in fights: {&#34;Yes&#34; if items[item][&#34;fn&#34;] is not None else &#34;No&#34;}
+&#34;&#34;&#34;</code></pre>
+</details>
+</dd>
 <dt id="gen-wiki.Wiki.items"><code class="name flex">
 <span>def <span class="ident">items</span></span>(<span>) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The function to add all items to the wiki.</p>
+<h2 id="returns">Returns:</h2>
+<p>A markdown string that contains information about all items.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def items() -&gt; str:
+        &#34;&#34;&#34;The function to add all items to the wiki.
+
+        Returns:
+        -------
+        A markdown string that contains information about all items.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Items
 Those are all items present in the game, that can be traded or found.
 &#34;&#34;&#34;
 
         for item in sorted(items):
-            out += f&#34;&#34;&#34;
-### {items[item][&#34;pretty_name&#34;]}
-{items[item][&#34;desc&#34;]}
-
-- Price: {items[item][&#34;price&#34;]}
-- Can be used in fights: {&#34;Yes&#34; if items[item][&#34;fn&#34;] is not None else &#34;No&#34;}
-&#34;&#34;&#34;
-
+            out += Wiki.item_info(item)
         return out</code></pre>
 </details>
 </dd>
@@ -562,13 +816,29 @@ Those are all items present in the game, that can be traded or found.
 <span>def <span class="ident">poke_info</span></span>(<span>poke: str) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Generates information about a specific pokete</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>poke (string): The pokete to get the information of.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>A markdown string of all the attributes and information of the pokete.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def poke_info(poke: str) -&gt; str:
+        &#34;&#34;&#34;Generates information about a specific pokete
+
+        Arguments:
+        ---------
+        - poke (string): The pokete to get the information of.
+
+        Returns:
+        -------
+        A markdown string of all the attributes and information of the pokete.
+        &#34;&#34;&#34;
         evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
             pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
         md_attacks = &#34;&#34;
@@ -604,13 +874,21 @@ Those are all items present in the game, that can be traded or found.
 <span>def <span class="ident">poketes</span></span>(<span>) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The function to add all poketes and their attributes to the wiki.</p>
+<h2 id="returns">Returns:</h2>
+<p>All poketes and their attributes as a markdown string.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def poketes() -&gt; str:
+        &#34;&#34;&#34;The function to add all poketes and their attributes to the wiki.
+
+        Returns:
+        -------
+        All poketes and their attributes as a markdown string.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Poketes
 In the following all Poketes with their attributes are displayed.
@@ -625,16 +903,43 @@ In the following all Poketes with their attributes are displayed.
 </details>
 </dd>
 <dt id="gen-wiki.Wiki.single"><code class="name flex">
-<span>def <span class="ident">single</span></span>(<span>)</span>
+<span>def <span class="ident">single</span></span>(<span>filename: str = 'wiki.md') ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The function to generate a single page wiki.</p>
+<p>This function creates the pokete wiki in a single file and adds the following to it:
+- title
+- table of contents
+- all poketes with information on them
+- all attacks with information on them
+- all types with information on them
+- all items with information on them
+- all effects with information on them</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>filename (string): The file to save the wiki to.</li>
+</ul></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def single():
+def single(filename: str = &#34;wiki.md&#34;) -&gt; None:
+    &#34;&#34;&#34;The function to generate a single page wiki.
+
+    This function creates the pokete wiki in a single file and adds the following to it:
+    - title
+    - table of contents
+    - all poketes with information on them
+    - all attacks with information on them
+    - all types with information on them
+    - all items with information on them
+    - all effects with information on them
+
+    Arguments:
+    ---------
+    - filename (string): The file to save the wiki to.
+    &#34;&#34;&#34;
     print(&#34;:: Generating wiki.md...&#34;)
     print(&#34;==&gt; Adding page start...&#34;)
     md_str = Wiki.start()
@@ -653,7 +958,7 @@ def single():
 
     # writing to file
     print(&#34;==&gt; Writing to wiki.md...&#34;)
-    with open(&#34;wiki.md&#34;, &#34;w+&#34;) as file:
+    with open(filename, &#34;w+&#34;) as file:
         file.write(md_str)</code></pre>
 </details>
 </dd>
@@ -661,13 +966,21 @@ def single():
 <span>def <span class="ident">start</span></span>(<span>) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The start and title of the wiki</p>
+<h2 id="returns">Returns:</h2>
+<p>The title of the wiki page.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def start() -&gt; str:
+        &#34;&#34;&#34;The start and title of the wiki
+
+        Returns:
+        ---
+        The title of the wiki page.
+        &#34;&#34;&#34;
         return f&#34;&#34;&#34;v{release.VERSION}
 
 # Pokete wiki
@@ -681,13 +994,21 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 <span>def <span class="ident">table_of_contents</span></span>(<span>) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The table of contents of the pokete wiki</p>
+<h2 id="returns">Returns:</h2>
+<p>A Table of contents for a single page wiki.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def table_of_contents() -&gt; str:
+        &#34;&#34;&#34;The table of contents of the pokete wiki
+
+        Returns:
+        -------
+        A Table of contents for a single page wiki.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;## Table of contents
 1. [Poketes](#poketes)
 &#34;&#34;&#34;
@@ -720,13 +1041,21 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 <span>def <span class="ident">types</span></span>(<span>) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The function to add all types to the wiki.</p>
+<h2 id="returns">Returns:</h2>
+<p>A markdown string of all available types.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
     def types() -&gt; str:
+        &#34;&#34;&#34;The function to add all types to the wiki.
+
+        Returns:
+        -------
+        A markdown string of all available types.
+        &#34;&#34;&#34;
         out = &#34;&#34;&#34;
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
@@ -770,6 +1099,7 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 <li><code><a title="gen-wiki.Wiki.attack_info" href="#gen-wiki.Wiki.attack_info">attack_info</a></code></li>
 <li><code><a title="gen-wiki.Wiki.attacks" href="#gen-wiki.Wiki.attacks">attacks</a></code></li>
 <li><code><a title="gen-wiki.Wiki.effects" href="#gen-wiki.Wiki.effects">effects</a></code></li>
+<li><code><a title="gen-wiki.Wiki.item_info" href="#gen-wiki.Wiki.item_info">item_info</a></code></li>
 <li><code><a title="gen-wiki.Wiki.items" href="#gen-wiki.Wiki.items">items</a></code></li>
 <li><code><a title="gen-wiki.Wiki.poke_info" href="#gen-wiki.Wiki.poke_info">poke_info</a></code></li>
 <li><code><a title="gen-wiki.Wiki.poketes" href="#gen-wiki.Wiki.poketes">poketes</a></code></li>
