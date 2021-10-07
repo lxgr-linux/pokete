@@ -207,15 +207,28 @@ Those are all items present in the game, that can be traded or found.
 """
 
         for item in sorted(items):
-            out += f"""
+            out += Wiki.item_info(item)
+        return out
+
+    @staticmethod
+    def item_info(item: str) -> str:
+        """The function to collect information and attributes of a specific item
+
+        Arguments:
+        ---------
+        - item (string): The item to collect the information of.
+
+        Returns:
+        -------
+        A markdown string with the information about the item.
+        """
+        return f"""
 ### {items[item]["pretty_name"]}
 {items[item]["desc"]}
 
 - Price: {items[item]["price"]}
 - Can be used in fights: {"Yes" if items[item]["fn"] is not None else "No"}
 """
-
-        return out
 
     @staticmethod
     def effects() -> str:
