@@ -26,7 +26,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     md_str += "2. [Attacks](#attacks)\n"
     for i, typ in enumerate(sorted(types)):
         md_str += f"""   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
-        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k]["type"] == typ]):
+        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k]["types"][0] == typ]):
             md_str += f"""       {j + 1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
     md_str += """3. [Types](#types)
 4. [Items](#items)
@@ -85,13 +85,13 @@ Those are all attacks present in the game.
 """
     for typ in sorted(types):
         md_str += f"\n### {typ.capitalize()} attacks"
-        for atc in [k for k in attacks if attacks[k]["type"] == typ]:
+        for atc in [k for k in attacks if attacks[k]["types"][0] == typ]:
             eff = None if attacks[atc]["effect"] is None else getattr(effects, attacks[atc]["effect"])
             md_str += f"""
 #### {attacks[atc]["name"]}
 {attacks[atc]["desc"]}
 
-- Type: [{attacks[atc]["type"].capitalize()}](#types)
+- Type: [{attacks[atc]["types"][0].capitalize()}](#types)
 - Minimum Level: {attacks[atc]["min_lvl"]}
 - Attack factor: {attacks[atc]["factor"]}
 - Missing chance: {attacks[atc]["miss_chance"]}
