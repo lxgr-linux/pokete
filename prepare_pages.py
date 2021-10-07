@@ -1,9 +1,55 @@
 #!/usr/bin/env python
+"""
+Prepare pages prepares all files in "files" for GitHub Pages
+
+This script takes one argument, which specifies if the actions it should take are before the command
+"git switch gh-pages" or afterwards. "before" means that it will the pre-change actions and "after" the after-change
+actions.
+
+This script processes files on how they are configured in the "files" dictionary: If the type is documentation
+if will call pdoc3 to create the documentation for it. If the type is "page", the argument "convert_with_pandoc"
+is a boolean which specifies, if the file should be converted into HTML by pandoc (True) or GitHub Pages' Jekyll
+(False). If set to false, it is advised to set "convert_tables" to True, as Jekyll can not handle markdown tables.
+Afterwards this script will replace all the links specified in the list "replace_links". There the first argument of
+the Tuple specifies the old link and the second argument the new link. With "new_name" the file will be renamed on the
+website.
+
+Usage:
+-----
+- python3 prepare_pages.py before
+  - Invokes actions before the branch switch
+- python3 prepare_pages.py after
+  - Invokes actions after the branch switch
+
+Exit Codes:
+----------
+- 0: Everything is OK.
+- 1: An internal error occurred
+- 2: The user did not specify the right/enough arguments
+"""
 import os
 from os.path import exists
 import sys
 from urllib import request
 
+
+"""
+The files dictionary specifies how and which files should be processed.
+
+Structure:
+---------
+- Filename or directory (directory only with type=documentation)
+  - type:
+    - page: Converts into static webpage
+    - documentation: calls pdoc3 to create a documentation for it
+  - replace_tables: Boolean: If tables should be replaced by HTML-Tables
+  - replace_links: A list of tuples for links th be replaced in this document
+    - element one: The link that should be replaced
+    - element two: The link that element one should be replaced with
+  - convert_with_pandoc: boolean: If the page should be converted with pandoc (True) or Jekyll (False)
+  - new_name: the new filename and the name on the website. If convert_with_pandoc is set to true,
+    make the extension .html. If the name should not be changed, put in None.
+"""
 files = {
     "README.md": {
         "type": "page",
@@ -55,6 +101,19 @@ files = {
 
 
 def replace_tables(_text: str) -> str:
+    """Replaces all markdown tables in _text with html tables
+
+    This function writes the mardkwon table to a temporary file in /tmp/, calls pandoc to convert this file to html and
+    reads the text back in.
+
+    Arguments:
+    ---------
+    - _text: The text in which all the tables should be converted.
+
+    Returns:
+    -------
+    The input string, but with repkaced markdown tables.
+    """
     out = ''
     table = ''
     in_table = False
@@ -80,14 +139,34 @@ def replace_tables(_text: str) -> str:
     return out
 
 
-def get_header(url):
+def get_header(url: str) -> str:
+    """Gets the first part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the first part of.
+
+    Returns:
+    -------
+    The start of this webpage.
+    """
     header_end = r'<section>'
     result = request.urlopen(url)
     _text = result.read().decode('UTF-8').split(header_end)[0]
     return _text + header_end + '\n'
 
 
-def get_footer(url):
+def get_footer(url: str) -> str:
+    """Gets the last part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the last part of.
+
+    Returns:
+    -------
+    The end of this webpage.
+    """
     footer_start = '</section>'
     result = request.urlopen(url)
     _text = result.read().decode('UTF-8').split(footer_start)[1]
@@ -95,7 +174,12 @@ def get_footer(url):
     return _text
 
 
-def create_documentation():
+def create_documentation() -> None:
+    """Creates documentation for all tagged files
+
+    This function creates python documentation for all files and folders in the files dictionary that have the type
+    "documentation". This function will call pandoc to create the documentation for it.
+    """
     modules = [file for file in files if files[file]["type"] == "documentation"]
     pdoc_path = "/home/runner/.local/bin/pdoc"
 
@@ -105,6 +189,11 @@ def create_documentation():
 
 
 def before() -> None:
+    """The actions taht should be executed before the brach switch
+
+    This functions creates documentation for all the files, replaces tables if necessary or converts the files with
+    pandoc. All the files are then moved into the /mp directory.
+    """
     print(':: Preparing files for gh-pages...')
     print(":: Generating documentation with pdoc...")
     create_documentation()
@@ -151,6 +240,12 @@ def before() -> None:
 
 
 def after() -> None:
+    """The actions that shall be executed in the gh-pages branch.
+
+    This function copies akk oreviously created files from /tmo/ to the current working directry and adds the start
+    and end of the gh-pages index website to the files which have been converted with pandoc. This achieves a universal
+    look on all gh-pages pages. This function then replaces all the links for each file.
+    """
     print(':: After processing files for gh-pages...')
     print(':: Acquiring assets...')
     print('==> header')
