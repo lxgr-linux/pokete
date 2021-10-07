@@ -11,7 +11,8 @@ class Moves:
     def attack(self):
         """Attack move"""
         for i, j, t in zip([3, -3], [2, -2], [0.3, 0]):
-            self.poke.ico.move(i if self.poke.player else -i, -j if self.poke.player else j)
+            self.poke.ico.move(i if self.poke.player
+                               else -i, -j if self.poke.player else j)
             self.poke.ico.map.show()
             time.sleep(t)
 
@@ -27,9 +28,12 @@ class Moves:
         if self.poke.enem == self:
             return
         line = se.Line(Color.thicc + Color.yellow + "-" + Color.reset,
-                       self.poke.enem.ico.x - self.poke.ico.x + (-11 if self.poke.player else 11),
-                       self.poke.enem.ico.y - self.poke.ico.y, l_type="crippled")
-        line.add(self.poke.ico.map, self.poke.ico.x + (11 if self.poke.player else -1),
+                       (self.poke.enem.ico.x - self.poke.ico.x
+                        + (-11 if self.poke.player else 11)),
+                       self.poke.enem.ico.y - self.poke.ico.y,
+                       l_type="crippled")
+        line.add(self.poke.ico.map,
+                 self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
         time.sleep(1)
@@ -40,9 +44,14 @@ class Moves:
         """Throw move"""
         if self.poke.enem == self.poke:
             return
-        line = se.Line(" ", self.poke.enem.ico.x - self.poke.ico.x + (-11 if self.poke.player else 11),
-                       self.poke.enem.ico.y - self.poke.ico.y, l_type="crippled")
-        line.add(self.poke.ico.map, self.poke.ico.x + (11 if self.poke.player else -1),
+        line = se.Line(" ",
+                       (self.poke.enem.ico.x
+                        - self.poke.ico.x
+                        + (-11 if self.poke.player else 11)),
+                       self.poke.enem.ico.y - self.poke.ico.y,
+                       l_type="crippled")
+        line.add(self.poke.ico.map,
+                 self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
         for i in range(len(line.obs)):
@@ -61,9 +70,10 @@ class Moves:
     def shine(self, ico=Color.thicc + Color.green + "*" + Color.reset):
         """Shine Move"""
         shines = [se.Object(ico) for _ in range(4)]
-        for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11, self.poke.ico.x - 1,
-                                    self.poke.ico.x + 11],
-                           [self.poke.ico.y, self.poke.ico.y, self.poke.ico.y + 3, self.poke.ico.y + 3]):
+        for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11,
+                                    self.poke.ico.x - 1, self.poke.ico.x + 11],
+                           [self.poke.ico.y, self.poke.ico.y, 
+                            self.poke.ico.y + 3, self.poke.ico.y + 3]):
             i.add(self.poke.ico.map, x, y)
             self.poke.ico.map.show()
             time.sleep(0.2)
