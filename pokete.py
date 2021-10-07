@@ -497,8 +497,10 @@ class Station(se.Square):
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = ""
         super().__init__(char, width, height)
-        for i in ["w_next", "a_next", "s_next", "d_next"]:
-            exec(f"self.{i}={i}")
+        self.w_next = w_next
+        self.a_next = a_next
+        self.s_next = s_next
+        self.d_next = d_next
         Station.obs.append(self)
 
     def choose(self):
