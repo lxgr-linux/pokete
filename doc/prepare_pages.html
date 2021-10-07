@@ -251,7 +251,7 @@ def create_documentation() -&gt; None:
     pdoc_path = &#34;/home/runner/.local/bin/pdoc&#34;
 
     for module in modules:
-        print(f&#34;==&gt; {module}&#34;)
+        print(f&#34; -&gt; {module}&#34;)
         os.system(f&#34;{pdoc_path} --html {module} --output-dir \&#34;/tmp/doc/\&#34; --force&#34;)
 
 
@@ -262,7 +262,7 @@ def before() -&gt; None:
     pandoc. All the files are then moved into the /mp directory.
     &#34;&#34;&#34;
     print(&#39;:: Preparing files for gh-pages...&#39;)
-    print(&#34;:: Generating documentation with pdoc...&#34;)
+    print(&#34;==&gt; Generating documentation with pdoc...&#34;)
     create_documentation()
     for file in files.keys():
         print(f&#34;==&gt; Preparing {file}&#34;)
@@ -502,7 +502,7 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
     pandoc. All the files are then moved into the /mp directory.
     &#34;&#34;&#34;
     print(&#39;:: Preparing files for gh-pages...&#39;)
-    print(&#34;:: Generating documentation with pdoc...&#34;)
+    print(&#34;==&gt; Generating documentation with pdoc...&#34;)
     create_documentation()
     for file in files.keys():
         print(f&#34;==&gt; Preparing {file}&#34;)
@@ -567,7 +567,7 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
     pdoc_path = &#34;/home/runner/.local/bin/pdoc&#34;
 
     for module in modules:
-        print(f&#34;==&gt; {module}&#34;)
+        print(f&#34; -&gt; {module}&#34;)
         os.system(f&#34;{pdoc_path} --html {module} --output-dir \&#34;/tmp/doc/\&#34; --force&#34;)</code></pre>
 </details>
 </dd>

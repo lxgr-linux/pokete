@@ -31,62 +31,77 @@
 import os
 import release
 import scrap_engine as se
-from pokete_classes.effects import effects, effect_list 
+from pokete_classes.effects import effects, effect_list
 from pokete_data import *
 
 
-def gen_wiki():
-    md_str = f&#34;&#34;&#34;v{release.VERSION}
+class Wiki:
+    @staticmethod
+    def start() -&gt; str:
+        return f&#34;&#34;&#34;v{release.VERSION}
 
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
 This wiki can be generated using ```$ ./gen-wiki.py```.
 
-## Table of contents
+&#34;&#34;&#34;
+
+    @staticmethod
+    def table_of_contents() -&gt; str:
+        out = &#34;&#34;&#34;## Table of contents
 1. [Poketes](#poketes)
 &#34;&#34;&#34;
 
-    # Table of contents
-    for i, typ in enumerate(sorted(types)):
-        md_str += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
-        for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
-            md_str += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-    md_str += &#34;2. [Attacks](#attacks)\n&#34;
-    for i, typ in enumerate(sorted(types)):
-        md_str += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
-        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
-            md_str += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-    md_str += &#34;&#34;&#34;3. [Types](#types)
+        # Table of contents
+        for i, typ in enumerate(sorted(types)):
+            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
+            for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;2. [Attacks](#attacks)\n&#34;
+        for i, typ in enumerate(sorted(types)):
+            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
+            for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
 &#34;&#34;&#34;
-    for j, item in enumerate(sorted(items)):
-        md_str += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-    md_str += &#34;&#34;&#34;5. [Effects](#effects)
+        for j, item in enumerate(sorted(items)):
+            out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;&#34;&#34;5. [Effects](#effects)
 &#34;&#34;&#34;
-    for j, effect in enumerate(effect_list):
-        md_str += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+        for j, effect in enumerate(effect_list):
+            out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
 &#34;&#34;&#34;
 
-    # Poketes
-    md_str += &#34;&#34;&#34;
+        return out
+
+    @staticmethod
+    def poketes() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Poketes
 In the following all Poketes with their attributes are displayed.
 
 &#34;&#34;&#34;
-    for typ in sorted(types):
-        md_str += f&#34;### {typ.capitalize()} Poketes&#34;
-        for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
-                pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
-            md_attacks = &#34;&#34;
-            for atc in pokes[poke][&#34;attacks&#34;]:
-                md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
-            # ico
-            ico_map = se.Map(4, 11, background=&#34; &#34;)
-            for ico in pokes[poke][&#34;ico&#34;]:
-                se.Text(ico[&#34;txt&#34;], state=&#34;float&#34;, ignore=&#34; &#34;).add(ico_map, 0, 0)
-            ico = &#34;&#34;.join([&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map])
-            md_str += f&#34;&#34;&#34;
+        for typ in sorted(types):
+            out += f&#34;### {typ.capitalize()} Poketes&#34;
+            for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
+                print(f&#39; -&gt; Adding {pokes[poke][&#34;name&#34;]}&#39;)
+                out += Wiki.poke_info(poke)
+        return out
+
+    @staticmethod
+    def poke_info(poke: str) -&gt; str:
+        evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
+            pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
+        md_attacks = &#34;&#34;
+        for atc in pokes[poke][&#34;attacks&#34;]:
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+        # ico
+        ico_map = se.Map(4, 11, background=&#34; &#34;)
+        for ico in pokes[poke][&#34;ico&#34;]:
+            se.Text(ico[&#34;txt&#34;], state=&#34;float&#34;, ignore=&#34; &#34;).add(ico_map, 0, 0)
+        ico = &#34;&#34;.join([&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map])
+        return f&#34;&#34;&#34;
 #### {pokes[poke][&#34;name&#34;]}
 {pokes[poke][&#34;desc&#34;]}
 
@@ -106,29 +121,38 @@ In the following all Poketes with their attributes are displayed.
 {evolve_txt}
 &#34;&#34;&#34;
 
-    # Attacks
-    md_str += &#34;&#34;&#34;
+    @staticmethod
+    def attacks() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Attacks
 Those are all attacks present in the game.
 &#34;&#34;&#34;
-    for typ in sorted(types):
-        md_str += f&#34;\n### {typ.capitalize()} attacks&#34;
-        for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
-            eff = None if attacks[atc][&#34;effect&#34;] is None else getattr(effects, attacks[atc][&#34;effect&#34;])
-            md_str += f&#34;&#34;&#34;
-#### {attacks[atc][&#34;name&#34;]}
-{attacks[atc][&#34;desc&#34;]}
+        for typ in sorted(types):
+            out += f&#34;\n### {typ.capitalize()} attacks&#34;
+            for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
+                print(f&#39; -&gt; Adding {attacks[atc][&#34;name&#34;]}&#39;)
+                out += Wiki.attack_info(atc)
 
-- Type: [{attacks[atc][&#34;types&#34;][0].capitalize()}](#types)
-- Minimum Level: {attacks[atc][&#34;min_lvl&#34;]}
-- Attack factor: {attacks[atc][&#34;factor&#34;]}
-- Missing chance: {attacks[atc][&#34;miss_chance&#34;]}
-- Attack points: {attacks[atc][&#34;ap&#34;]}
+        return out
+
+    @staticmethod
+    def attack_info(attack: str) -&gt; str:
+        eff = None if attacks[attack][&#34;effect&#34;] is None else getattr(effects, attacks[attack][&#34;effect&#34;])
+        return f&#34;&#34;&#34;
+#### {attacks[attack][&#34;name&#34;]}
+{attacks[attack][&#34;desc&#34;]}
+
+- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}](#types)
+- Minimum Level: {attacks[attack][&#34;min_lvl&#34;]}
+- Attack factor: {attacks[attack][&#34;factor&#34;]}
+- Missing chance: {attacks[attack][&#34;miss_chance&#34;]}
+- Attack points: {attacks[attack][&#34;ap&#34;]}
 - Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}](#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
 &#34;&#34;&#34;
 
-    # Types
-    md_str += &#34;&#34;&#34;
+    @staticmethod
+    def types() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
 
@@ -136,22 +160,25 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 |---|---|---|
 &#34;&#34;&#34;
 
-    for poke_type in types:
-        effective, ineffective = (&#34;&#34;.join([i.capitalize() + (&#34;, &#34;
-                                                             if i != types[poke_type][j][-1]
-                                                             else &#34;&#34;)
-                                           for i in types[poke_type][j]])
-                                  for j in [&#34;effective&#34;, &#34;ineffective&#34;])
-        md_str += f&#34;|{poke_type.capitalize()}|{effective}|{ineffective}|\n&#34;
+        for poke_type in types:
+            effective, ineffective = (&#34;&#34;.join([i.capitalize() + (&#34;, &#34;
+                                                                 if i != types[poke_type][j][-1]
+                                                                 else &#34;&#34;)
+                                               for i in types[poke_type][j]])
+                                      for j in [&#34;effective&#34;, &#34;ineffective&#34;])
+            out += f&#34;|{poke_type.capitalize()}|{effective}|{ineffective}|\n&#34;
 
-    # Items
-    md_str += &#34;&#34;&#34;
+        return out
+
+    @staticmethod
+    def items() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Items
 Those are all items present in the game, that can be traded or found.
 &#34;&#34;&#34;
 
-    for item in sorted(items):
-        md_str += f&#34;&#34;&#34;
+        for item in sorted(items):
+            out += f&#34;&#34;&#34;
 ### {items[item][&#34;pretty_name&#34;]}
 {items[item][&#34;desc&#34;]}
 
@@ -159,17 +186,39 @@ Those are all items present in the game, that can be traded or found.
 - Can be used in fights: {&#34;Yes&#34; if items[item][&#34;fn&#34;] is not None else &#34;No&#34;}
 &#34;&#34;&#34;
 
-    # effects
-    md_str += &#34;&#34;&#34;
+        return out
+
+    @staticmethod
+    def effects() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Effects
 Those effects can be given to a Pokete through an attack.
 &#34;&#34;&#34;
+        out += str.join(&#34;&#34;, [effect.ret_md() for effect in effect_list])
+        return out
 
-    md_str += str.join(&#34;&#34;, [effect.ret_md() for effect in effect_list])
+    @staticmethod
+    def single():
+        print(&#34;:: Generating wiki.md...&#34;)
+        print(&#34;==&gt; Adding page start...&#34;)
+        md_str = Wiki.start()
+        print(&#34;==&gt; Adding table of contents...&#34;)
+        md_str += Wiki.table_of_contents()
+        print(&#34;==&gt; Adding poketes...&#34;)
+        md_str += Wiki.poketes()
+        print(&#34;==&gt; Adding attacks...&#34;)
+        md_str += Wiki.attacks()
+        print(&#34;==&gt; Adding types...&#34;)
+        md_str += Wiki.types()
+        print(&#34;==&gt; Adding items...&#34;)
+        md_str += Wiki.items()
+        print(&#34;==&gt; Adding effects...&#34;)
+        md_str += Wiki.effects()
 
-    # writing to file
-    with open(&#34;wiki.md&#34;, &#34;w+&#34;) as file:
-        file.write(md_str)
+        # writing to file
+        print(&#34;==&gt; Writing to wiki.md...&#34;)
+        with open(&#34;wiki.md&#34;, &#34;w+&#34;) as file:
+            file.write(md_str)
 
 
 def gen_pics():
@@ -182,8 +231,7 @@ def gen_pics():
 
 
 if __name__ == &#34;__main__&#34;:
-    print(&#34;:: Generating wiki.md...&#34;)
-    gen_wiki()
+    Wiki.single()
     print(&#34;:: Generating pics.md...&#34;)
     gen_pics()</code></pre>
 </details>
@@ -213,8 +261,13 @@ if __name__ == &#34;__main__&#34;:
         file.write(md_str)</code></pre>
 </details>
 </dd>
-<dt id="gen-wiki.gen_wiki"><code class="name flex">
-<span>def <span class="ident">gen_wiki</span></span>(<span>)</span>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="gen-wiki.Wiki"><code class="flex name class">
+<span>class <span class="ident">Wiki</span></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -222,58 +275,73 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def gen_wiki():
-    md_str = f&#34;&#34;&#34;v{release.VERSION}
+<pre><code class="python">class Wiki:
+    @staticmethod
+    def start() -&gt; str:
+        return f&#34;&#34;&#34;v{release.VERSION}
 
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
 This wiki can be generated using ```$ ./gen-wiki.py```.
 
-## Table of contents
+&#34;&#34;&#34;
+
+    @staticmethod
+    def table_of_contents() -&gt; str:
+        out = &#34;&#34;&#34;## Table of contents
 1. [Poketes](#poketes)
 &#34;&#34;&#34;
 
-    # Table of contents
-    for i, typ in enumerate(sorted(types)):
-        md_str += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
-        for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
-            md_str += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-    md_str += &#34;2. [Attacks](#attacks)\n&#34;
-    for i, typ in enumerate(sorted(types)):
-        md_str += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
-        for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
-            md_str += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-    md_str += &#34;&#34;&#34;3. [Types](#types)
+        # Table of contents
+        for i, typ in enumerate(sorted(types)):
+            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
+            for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;2. [Attacks](#attacks)\n&#34;
+        for i, typ in enumerate(sorted(types)):
+            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
+            for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
 &#34;&#34;&#34;
-    for j, item in enumerate(sorted(items)):
-        md_str += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-    md_str += &#34;&#34;&#34;5. [Effects](#effects)
+        for j, item in enumerate(sorted(items)):
+            out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;&#34;&#34;5. [Effects](#effects)
 &#34;&#34;&#34;
-    for j, effect in enumerate(effect_list):
-        md_str += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+        for j, effect in enumerate(effect_list):
+            out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
 &#34;&#34;&#34;
 
-    # Poketes
-    md_str += &#34;&#34;&#34;
+        return out
+
+    @staticmethod
+    def poketes() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Poketes
 In the following all Poketes with their attributes are displayed.
 
 &#34;&#34;&#34;
-    for typ in sorted(types):
-        md_str += f&#34;### {typ.capitalize()} Poketes&#34;
-        for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
-                pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
-            md_attacks = &#34;&#34;
-            for atc in pokes[poke][&#34;attacks&#34;]:
-                md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
-            # ico
-            ico_map = se.Map(4, 11, background=&#34; &#34;)
-            for ico in pokes[poke][&#34;ico&#34;]:
-                se.Text(ico[&#34;txt&#34;], state=&#34;float&#34;, ignore=&#34; &#34;).add(ico_map, 0, 0)
-            ico = &#34;&#34;.join([&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map])
-            md_str += f&#34;&#34;&#34;
+        for typ in sorted(types):
+            out += f&#34;### {typ.capitalize()} Poketes&#34;
+            for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
+                print(f&#39; -&gt; Adding {pokes[poke][&#34;name&#34;]}&#39;)
+                out += Wiki.poke_info(poke)
+        return out
+
+    @staticmethod
+    def poke_info(poke: str) -&gt; str:
+        evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
+            pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
+        md_attacks = &#34;&#34;
+        for atc in pokes[poke][&#34;attacks&#34;]:
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+        # ico
+        ico_map = se.Map(4, 11, background=&#34; &#34;)
+        for ico in pokes[poke][&#34;ico&#34;]:
+            se.Text(ico[&#34;txt&#34;], state=&#34;float&#34;, ignore=&#34; &#34;).add(ico_map, 0, 0)
+        ico = &#34;&#34;.join([&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map])
+        return f&#34;&#34;&#34;
 #### {pokes[poke][&#34;name&#34;]}
 {pokes[poke][&#34;desc&#34;]}
 
@@ -293,29 +361,38 @@ In the following all Poketes with their attributes are displayed.
 {evolve_txt}
 &#34;&#34;&#34;
 
-    # Attacks
-    md_str += &#34;&#34;&#34;
+    @staticmethod
+    def attacks() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Attacks
 Those are all attacks present in the game.
 &#34;&#34;&#34;
-    for typ in sorted(types):
-        md_str += f&#34;\n### {typ.capitalize()} attacks&#34;
-        for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
-            eff = None if attacks[atc][&#34;effect&#34;] is None else getattr(effects, attacks[atc][&#34;effect&#34;])
-            md_str += f&#34;&#34;&#34;
-#### {attacks[atc][&#34;name&#34;]}
-{attacks[atc][&#34;desc&#34;]}
+        for typ in sorted(types):
+            out += f&#34;\n### {typ.capitalize()} attacks&#34;
+            for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
+                print(f&#39; -&gt; Adding {attacks[atc][&#34;name&#34;]}&#39;)
+                out += Wiki.attack_info(atc)
 
-- Type: [{attacks[atc][&#34;types&#34;][0].capitalize()}](#types)
-- Minimum Level: {attacks[atc][&#34;min_lvl&#34;]}
-- Attack factor: {attacks[atc][&#34;factor&#34;]}
-- Missing chance: {attacks[atc][&#34;miss_chance&#34;]}
-- Attack points: {attacks[atc][&#34;ap&#34;]}
+        return out
+
+    @staticmethod
+    def attack_info(attack: str) -&gt; str:
+        eff = None if attacks[attack][&#34;effect&#34;] is None else getattr(effects, attacks[attack][&#34;effect&#34;])
+        return f&#34;&#34;&#34;
+#### {attacks[attack][&#34;name&#34;]}
+{attacks[attack][&#34;desc&#34;]}
+
+- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}](#types)
+- Minimum Level: {attacks[attack][&#34;min_lvl&#34;]}
+- Attack factor: {attacks[attack][&#34;factor&#34;]}
+- Missing chance: {attacks[attack][&#34;miss_chance&#34;]}
+- Attack points: {attacks[attack][&#34;ap&#34;]}
 - Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}](#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
 &#34;&#34;&#34;
 
-    # Types
-    md_str += &#34;&#34;&#34;
+    @staticmethod
+    def types() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
 
@@ -323,22 +400,25 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 |---|---|---|
 &#34;&#34;&#34;
 
-    for poke_type in types:
-        effective, ineffective = (&#34;&#34;.join([i.capitalize() + (&#34;, &#34;
-                                                             if i != types[poke_type][j][-1]
-                                                             else &#34;&#34;)
-                                           for i in types[poke_type][j]])
-                                  for j in [&#34;effective&#34;, &#34;ineffective&#34;])
-        md_str += f&#34;|{poke_type.capitalize()}|{effective}|{ineffective}|\n&#34;
+        for poke_type in types:
+            effective, ineffective = (&#34;&#34;.join([i.capitalize() + (&#34;, &#34;
+                                                                 if i != types[poke_type][j][-1]
+                                                                 else &#34;&#34;)
+                                               for i in types[poke_type][j]])
+                                      for j in [&#34;effective&#34;, &#34;ineffective&#34;])
+            out += f&#34;|{poke_type.capitalize()}|{effective}|{ineffective}|\n&#34;
 
-    # Items
-    md_str += &#34;&#34;&#34;
+        return out
+
+    @staticmethod
+    def items() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Items
 Those are all items present in the game, that can be traded or found.
 &#34;&#34;&#34;
 
-    for item in sorted(items):
-        md_str += f&#34;&#34;&#34;
+        for item in sorted(items):
+            out += f&#34;&#34;&#34;
 ### {items[item][&#34;pretty_name&#34;]}
 {items[item][&#34;desc&#34;]}
 
@@ -346,22 +426,329 @@ Those are all items present in the game, that can be traded or found.
 - Can be used in fights: {&#34;Yes&#34; if items[item][&#34;fn&#34;] is not None else &#34;No&#34;}
 &#34;&#34;&#34;
 
-    # effects
-    md_str += &#34;&#34;&#34;
+        return out
+
+    @staticmethod
+    def effects() -&gt; str:
+        out = &#34;&#34;&#34;
 ## Effects
 Those effects can be given to a Pokete through an attack.
 &#34;&#34;&#34;
+        out += str.join(&#34;&#34;, [effect.ret_md() for effect in effect_list])
+        return out
 
-    md_str += str.join(&#34;&#34;, [effect.ret_md() for effect in effect_list])
+    @staticmethod
+    def single():
+        print(&#34;:: Generating wiki.md...&#34;)
+        print(&#34;==&gt; Adding page start...&#34;)
+        md_str = Wiki.start()
+        print(&#34;==&gt; Adding table of contents...&#34;)
+        md_str += Wiki.table_of_contents()
+        print(&#34;==&gt; Adding poketes...&#34;)
+        md_str += Wiki.poketes()
+        print(&#34;==&gt; Adding attacks...&#34;)
+        md_str += Wiki.attacks()
+        print(&#34;==&gt; Adding types...&#34;)
+        md_str += Wiki.types()
+        print(&#34;==&gt; Adding items...&#34;)
+        md_str += Wiki.items()
+        print(&#34;==&gt; Adding effects...&#34;)
+        md_str += Wiki.effects()
+
+        # writing to file
+        print(&#34;==&gt; Writing to wiki.md...&#34;)
+        with open(&#34;wiki.md&#34;, &#34;w+&#34;) as file:
+            file.write(md_str)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="gen-wiki.Wiki.attack_info"><code class="name flex">
+<span>def <span class="ident">attack_info</span></span>(<span>attack: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def attack_info(attack: str) -&gt; str:
+        eff = None if attacks[attack][&#34;effect&#34;] is None else getattr(effects, attacks[attack][&#34;effect&#34;])
+        return f&#34;&#34;&#34;
+#### {attacks[attack][&#34;name&#34;]}
+{attacks[attack][&#34;desc&#34;]}
+
+- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}](#types)
+- Minimum Level: {attacks[attack][&#34;min_lvl&#34;]}
+- Attack factor: {attacks[attack][&#34;factor&#34;]}
+- Missing chance: {attacks[attack][&#34;miss_chance&#34;]}
+- Attack points: {attacks[attack][&#34;ap&#34;]}
+- Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}](#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
+&#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<dt id="gen-wiki.Wiki.attacks"><code class="name flex">
+<span>def <span class="ident">attacks</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def attacks() -&gt; str:
+        out = &#34;&#34;&#34;
+## Attacks
+Those are all attacks present in the game.
+&#34;&#34;&#34;
+        for typ in sorted(types):
+            out += f&#34;\n### {typ.capitalize()} attacks&#34;
+            for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
+                print(f&#39; -&gt; Adding {attacks[atc][&#34;name&#34;]}&#39;)
+                out += Wiki.attack_info(atc)
+
+        return out</code></pre>
+</details>
+</dd>
+<dt id="gen-wiki.Wiki.effects"><code class="name flex">
+<span>def <span class="ident">effects</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def effects() -&gt; str:
+        out = &#34;&#34;&#34;
+## Effects
+Those effects can be given to a Pokete through an attack.
+&#34;&#34;&#34;
+        out += str.join(&#34;&#34;, [effect.ret_md() for effect in effect_list])
+        return out</code></pre>
+</details>
+</dd>
+<dt id="gen-wiki.Wiki.items"><code class="name flex">
+<span>def <span class="ident">items</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def items() -&gt; str:
+        out = &#34;&#34;&#34;
+## Items
+Those are all items present in the game, that can be traded or found.
+&#34;&#34;&#34;
+
+        for item in sorted(items):
+            out += f&#34;&#34;&#34;
+### {items[item][&#34;pretty_name&#34;]}
+{items[item][&#34;desc&#34;]}
+
+- Price: {items[item][&#34;price&#34;]}
+- Can be used in fights: {&#34;Yes&#34; if items[item][&#34;fn&#34;] is not None else &#34;No&#34;}
+&#34;&#34;&#34;
+
+        return out</code></pre>
+</details>
+</dd>
+<dt id="gen-wiki.Wiki.poke_info"><code class="name flex">
+<span>def <span class="ident">poke_info</span></span>(<span>poke: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def poke_info(poke: str) -&gt; str:
+        evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[pokes[poke][&#34;evolve_poke&#34;]][&#34;name&#34;]}](#{pokes[poke][&#34;evolve_poke&#34;]}) at level {pokes[poke][&#34;evolve_lvl&#34;]}&#34;&#34;&#34; if \
+            pokes[poke][&#34;evolve_poke&#34;] != &#34;&#34; else &#34;- Does not evolve\n&#34;
+        md_attacks = &#34;&#34;
+        for atc in pokes[poke][&#34;attacks&#34;]:
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+        # ico
+        ico_map = se.Map(4, 11, background=&#34; &#34;)
+        for ico in pokes[poke][&#34;ico&#34;]:
+            se.Text(ico[&#34;txt&#34;], state=&#34;float&#34;, ignore=&#34; &#34;).add(ico_map, 0, 0)
+        ico = &#34;&#34;.join([&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map])
+        return f&#34;&#34;&#34;
+#### {pokes[poke][&#34;name&#34;]}
+{pokes[poke][&#34;desc&#34;]}
+
+```
+{ico}
+```
+
+- Type: [{pokes[poke][&#34;types&#34;][0].capitalize()}](#types)
+- Health points: {pokes[poke][&#34;hp&#34;]}
+- Attack factor: {pokes[poke][&#34;atc&#34;]}
+- Defense factor: {pokes[poke][&#34;defense&#34;]}
+- Initiative: {pokes[poke][&#34;initiative&#34;]}
+- Missing chance: {pokes[poke][&#34;miss_chance&#34;]}
+- Rarity: {pokes[poke][&#34;rarity&#34;]}
+- Loosing experience: {pokes[poke][&#34;lose_xp&#34;]}
+- Attacks:{md_attacks}
+{evolve_txt}
+&#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<dt id="gen-wiki.Wiki.poketes"><code class="name flex">
+<span>def <span class="ident">poketes</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def poketes() -&gt; str:
+        out = &#34;&#34;&#34;
+## Poketes
+In the following all Poketes with their attributes are displayed.
+
+&#34;&#34;&#34;
+        for typ in sorted(types):
+            out += f&#34;### {typ.capitalize()} Poketes&#34;
+            for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
+                print(f&#39; -&gt; Adding {pokes[poke][&#34;name&#34;]}&#39;)
+                out += Wiki.poke_info(poke)
+        return out</code></pre>
+</details>
+</dd>
+<dt id="gen-wiki.Wiki.single"><code class="name flex">
+<span>def <span class="ident">single</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def single():
+    print(&#34;:: Generating wiki.md...&#34;)
+    print(&#34;==&gt; Adding page start...&#34;)
+    md_str = Wiki.start()
+    print(&#34;==&gt; Adding table of contents...&#34;)
+    md_str += Wiki.table_of_contents()
+    print(&#34;==&gt; Adding poketes...&#34;)
+    md_str += Wiki.poketes()
+    print(&#34;==&gt; Adding attacks...&#34;)
+    md_str += Wiki.attacks()
+    print(&#34;==&gt; Adding types...&#34;)
+    md_str += Wiki.types()
+    print(&#34;==&gt; Adding items...&#34;)
+    md_str += Wiki.items()
+    print(&#34;==&gt; Adding effects...&#34;)
+    md_str += Wiki.effects()
 
     # writing to file
+    print(&#34;==&gt; Writing to wiki.md...&#34;)
     with open(&#34;wiki.md&#34;, &#34;w+&#34;) as file:
         file.write(md_str)</code></pre>
 </details>
 </dd>
+<dt id="gen-wiki.Wiki.start"><code class="name flex">
+<span>def <span class="ident">start</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def start() -&gt; str:
+        return f&#34;&#34;&#34;v{release.VERSION}
+
+# Pokete wiki
+This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
+This wiki can be generated using ```$ ./gen-wiki.py```.
+
+&#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<dt id="gen-wiki.Wiki.table_of_contents"><code class="name flex">
+<span>def <span class="ident">table_of_contents</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def table_of_contents() -&gt; str:
+        out = &#34;&#34;&#34;## Table of contents
+1. [Poketes](#poketes)
+&#34;&#34;&#34;
+
+        # Table of contents
+        for i, typ in enumerate(sorted(types)):
+            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
+            for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;2. [Attacks](#attacks)\n&#34;
+        for i, typ in enumerate(sorted(types)):
+            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
+            for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;&#34;&#34;3. [Types](#types)
+4. [Items](#items)
+&#34;&#34;&#34;
+        for j, item in enumerate(sorted(items)):
+            out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+        out += &#34;&#34;&#34;5. [Effects](#effects)
+&#34;&#34;&#34;
+        for j, effect in enumerate(effect_list):
+            out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+&#34;&#34;&#34;
+
+        return out</code></pre>
+</details>
+</dd>
+<dt id="gen-wiki.Wiki.types"><code class="name flex">
+<span>def <span class="ident">types</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def types() -&gt; str:
+        out = &#34;&#34;&#34;
+## Types
+Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
+
+|Type|Effective against|Ineffective against|
+|---|---|---|
+&#34;&#34;&#34;
+
+        for poke_type in types:
+            effective, ineffective = (&#34;&#34;.join([i.capitalize() + (&#34;, &#34;
+                                                                 if i != types[poke_type][j][-1]
+                                                                 else &#34;&#34;)
+                                               for i in types[poke_type][j]])
+                                      for j in [&#34;effective&#34;, &#34;ineffective&#34;])
+            out += f&#34;|{poke_type.capitalize()}|{effective}|{ineffective}|\n&#34;
+
+        return out</code></pre>
+</details>
+</dd>
 </dl>
-</section>
-<section>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -373,7 +760,25 @@ Those effects can be given to a Pokete through an attack.
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="gen-wiki.gen_pics" href="#gen-wiki.gen_pics">gen_pics</a></code></li>
-<li><code><a title="gen-wiki.gen_wiki" href="#gen-wiki.gen_wiki">gen_wiki</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="gen-wiki.Wiki" href="#gen-wiki.Wiki">Wiki</a></code></h4>
+<ul class="two-column">
+<li><code><a title="gen-wiki.Wiki.attack_info" href="#gen-wiki.Wiki.attack_info">attack_info</a></code></li>
+<li><code><a title="gen-wiki.Wiki.attacks" href="#gen-wiki.Wiki.attacks">attacks</a></code></li>
+<li><code><a title="gen-wiki.Wiki.effects" href="#gen-wiki.Wiki.effects">effects</a></code></li>
+<li><code><a title="gen-wiki.Wiki.items" href="#gen-wiki.Wiki.items">items</a></code></li>
+<li><code><a title="gen-wiki.Wiki.poke_info" href="#gen-wiki.Wiki.poke_info">poke_info</a></code></li>
+<li><code><a title="gen-wiki.Wiki.poketes" href="#gen-wiki.Wiki.poketes">poketes</a></code></li>
+<li><code><a title="gen-wiki.Wiki.single" href="#gen-wiki.Wiki.single">single</a></code></li>
+<li><code><a title="gen-wiki.Wiki.start" href="#gen-wiki.Wiki.start">start</a></code></li>
+<li><code><a title="gen-wiki.Wiki.table_of_contents" href="#gen-wiki.Wiki.table_of_contents">table_of_contents</a></code></li>
+<li><code><a title="gen-wiki.Wiki.types" href="#gen-wiki.Wiki.types">types</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
