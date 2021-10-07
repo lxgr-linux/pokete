@@ -199,7 +199,7 @@ def create_documentation() -> None:
     pdoc_path = "/home/runner/.local/bin/pdoc"
 
     for module in modules:
-        print(f"==> {module}")
+        print(f" -> {module}")
         os.system(f"{pdoc_path} --html {module} --output-dir \"/tmp/doc/\" --force")
 
 
@@ -210,7 +210,7 @@ def before() -> None:
     pandoc. All the files are then moved into the /mp directory.
     """
     print(':: Preparing files for gh-pages...')
-    print(":: Generating documentation with pdoc...")
+    print("==> Generating documentation with pdoc...")
     create_documentation()
     for file in files.keys():
         print(f"==> Preparing {file}")
