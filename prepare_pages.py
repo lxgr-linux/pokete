@@ -139,35 +139,37 @@ def replace_tables(_text: str) -> str:
     return out
 
 
-def get_header(url: str) -> str:
+def get_header(url: str = r'https://lxgr-linux.github.io/pokete',
+                header_end: str = r'<section>') -> str:
     """Gets the first part of a webpage
 
     Arguments:
     ---------
     - url: The URL to get the first part of.
+    - header_end: the end of the "header".
 
     Returns:
     -------
     The start of this webpage.
     """
-    header_end = r'<section>'
     result = request.urlopen(url)
     _text = result.read().decode('UTF-8').split(header_end)[0]
     return _text + header_end + '\n'
 
 
-def get_footer(url: str) -> str:
+def get_footer(url: str = r'https://lxgr-linux.github.io/pokete',
+        footer_start: str = r'</section>') -> str:
     """Gets the last part of a webpage
 
     Arguments:
     ---------
     - url: The URL to get the last part of.
+    - footer_start: Where the "footer"/the end of the webpage begins.
 
     Returns:
     -------
     The end of this webpage.
     """
-    footer_start = '</section>'
     result = request.urlopen(url)
     _text = result.read().decode('UTF-8').split(footer_start)[1]
     _text = footer_start + _text
@@ -249,10 +251,10 @@ def after() -> None:
     print(':: After processing files for gh-pages...')
     print(':: Acquiring assets...')
     print('==> header')
-    header = get_header('https://lxgr-linux.github.io/pokete')
+    header = get_header(url='https://lxgr-linux.github.io/pokete', header_end='<section>')
     print(header)
     print('==> footer')
-    footer = get_footer('https://lxgr-linux.github.io/pokete')
+    footer = get_footer(url='https://lxgr-linux.github.io/pokete', footer_start='</section>')
     print(footer)
     # We need to store the configuration to keep the "new_name" attribute from the before run.
     print(":: Loading configuration...")
