@@ -534,8 +534,10 @@ class Station(se.Square):
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = &#34;&#34;
         super().__init__(char, width, height)
-        for i in [&#34;w_next&#34;, &#34;a_next&#34;, &#34;s_next&#34;, &#34;d_next&#34;]:
-            exec(f&#34;self.{i}={i}&#34;)
+        self.w_next = w_next
+        self.a_next = a_next
+        self.s_next = s_next
+        self.d_next = d_next
         Station.obs.append(self)
 
     def choose(self):
@@ -2233,10 +2235,12 @@ def game(_map):
     movemap.set(0, 0)
     movemap.bmap = _map
     movemap.full_show()
-    inp_dict = {&#34;&#39;1&#39;&#34;: &#39;deck(figure.pokes[:6], &#34;Your deck&#34;)&#39;,
-                &#34;&#39;3&#39;&#34;: &#39;roadmap()&#39;, &#34;&#39;4&#39;&#34;: &#39;inv()&#39;,
-                &#34;&#39;5&#39;&#34;: &#39;pokete_dex(p_data.pokes)&#39;, &#34;&#39;e&#39;&#34;: &#39;menu()&#39;,
-                &#34;&#39;?&#39;&#34;: &#39;help_page()&#39;}
+    inp_dict = {&#34;&#39;1&#39;&#34;: [deck, (figure.pokes[:6], &#34;Your deck&#34;)],
+                &#34;&#39;3&#39;&#34;: [roadmap, ()],
+                &#34;&#39;4&#39;&#34;: [inv, ()],
+                &#34;&#39;5&#39;&#34;: [pokete_dex, (p_data.pokes,)],
+                &#34;&#39;e&#39;&#34;: [menu, ()],
+                &#34;&#39;?&#39;&#34;: [help_page, ()]}
     while True:
         for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],
                                     [&#34;t&#34;, &#34;l&#34;, &#34;b&#34;, &#34;r&#34;],  # Directions are not beening used yet
@@ -2248,7 +2252,7 @@ def game(_map):
                 break
         else:
             if ev in inp_dict:
-                exec(inp_dict[ev])
+                inp_dict[ev][0](*inp_dict[ev][1])
                 ev = &#34;&#34;
                 movemap.show(init=True)
             elif ev == &#34;&#39;2&#39;&#34;:
@@ -3549,10 +3553,12 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     movemap.set(0, 0)
     movemap.bmap = _map
     movemap.full_show()
-    inp_dict = {&#34;&#39;1&#39;&#34;: &#39;deck(figure.pokes[:6], &#34;Your deck&#34;)&#39;,
-                &#34;&#39;3&#39;&#34;: &#39;roadmap()&#39;, &#34;&#39;4&#39;&#34;: &#39;inv()&#39;,
-                &#34;&#39;5&#39;&#34;: &#39;pokete_dex(p_data.pokes)&#39;, &#34;&#39;e&#39;&#34;: &#39;menu()&#39;,
-                &#34;&#39;?&#39;&#34;: &#39;help_page()&#39;}
+    inp_dict = {&#34;&#39;1&#39;&#34;: [deck, (figure.pokes[:6], &#34;Your deck&#34;)],
+                &#34;&#39;3&#39;&#34;: [roadmap, ()],
+                &#34;&#39;4&#39;&#34;: [inv, ()],
+                &#34;&#39;5&#39;&#34;: [pokete_dex, (p_data.pokes,)],
+                &#34;&#39;e&#39;&#34;: [menu, ()],
+                &#34;&#39;?&#39;&#34;: [help_page, ()]}
     while True:
         for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],
                                     [&#34;t&#34;, &#34;l&#34;, &#34;b&#34;, &#34;r&#34;],  # Directions are not beening used yet
@@ -3564,7 +3570,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
                 break
         else:
             if ev in inp_dict:
-                exec(inp_dict[ev])
+                inp_dict[ev][0](*inp_dict[ev][1])
                 ev = &#34;&#34;
                 movemap.show(init=True)
             elif ev == &#34;&#39;2&#39;&#34;:
@@ -7175,8 +7181,10 @@ def give(_map, npc, name, item):
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = &#34;&#34;
         super().__init__(char, width, height)
-        for i in [&#34;w_next&#34;, &#34;a_next&#34;, &#34;s_next&#34;, &#34;d_next&#34;]:
-            exec(f&#34;self.{i}={i}&#34;)
+        self.w_next = w_next
+        self.a_next = a_next
+        self.s_next = s_next
+        self.d_next = d_next
         Station.obs.append(self)
 
     def choose(self):
