@@ -38,16 +38,16 @@ __t = time.time()
 class Event:
     """Event clas to enable dependency injection"""
 
-    def __init__(self, ev):
-        self.ev = ev
+    def __init__(self, _ev):
+        self.ev = _ev
 
     def get(self):
         """Getter"""
         return self.ev
 
-    def set(self, ev):
+    def set(self, _ev):
         """setter"""
-        self.ev = ev
+        self.ev = _ev
 
     def clear(self):
         """Clears the event"""
@@ -532,10 +532,10 @@ class Station(se.Square):
         """Unchooses the station"""
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, ev):
+    def next(self, _ev):
         """Chooses the next station in a certain direction"""
-        ev = ev.strip("'")
-        if (ne := getattr(self, ev + "_next")) != "":
+        _ev = _ev.strip("'")
+        if (ne := getattr(self, _ev + "_next")) != "":
             self.unchoose()
             getattr(roadmap, ne).choose()
 
@@ -874,7 +874,7 @@ class Deck:
             if i % 2 == 1:
                 j += 1
 
-    def control(self, pokes, ev):
+    def control(self, pokes, _ev):
         """Processes inputs"""
         if len(pokes) <= 1:
             return
@@ -884,7 +884,7 @@ class Deck:
                                        [-1, 1, 2, -2],
                                        [len(pokes) - 1, 0, self.index.index % 2,
                                         [i for i in range(len(pokes)) if i % 2 == self.index.index % 2][-1]]):
-            if ev == con:
+            if _ev == con:
                 if stat:
                     self.index.index += fir
                 else:
@@ -1501,7 +1501,7 @@ def save():
         json.dump(session_info, file, indent=4) 
 
 
-def on_press(ev, key):
+def on_press(key):
     """Sets the ev variable"""
     ev.set(str(key))
 
@@ -2366,7 +2366,7 @@ Do you want to continue?", int(width * 2 / 3))):
 def main():
     """Main function"""
     os.system("")
-    recognising = threading.Thread(target=recogniser, args=(ev,))
+    recognising = threading.Thread(target=recogniser)
     autosaveing = threading.Thread(target=autosave)
     recognising.daemon = True
     autosaveing.daemon = True
@@ -2623,7 +2623,7 @@ if __name__ == "__main__":
         import termios
 
 
-        def recogniser(ev):
+        def recogniser():
             """Use another (not on xserver relying) way to read keyboard input,
                 to make this shit work in tty or via ssh,
                 where no xserver is available"""
@@ -2644,10 +2644,10 @@ if __name__ == "__main__":
         from pynput.keyboard import Key, Listener
         
 
-        def recogniser(ev):
+        def recogniser():
             """Gets keyboard input from pynput"""
             while True:
-                with Listener(on_press=on_press, _args=(ev,)) as listener:
+                with Listener(on_press=on_press) as listener:
                     listener.join()
 
     # resizing screen
@@ -2859,7 +2859,10 @@ if __name__ == "__main__":
     figure.set_args(session_info)
 
     __t = time.time() - __t
+
     ev = Event("")
+    fd = None
+    old_settings = None
     try:
         main()
     except KeyboardInterrupt:
