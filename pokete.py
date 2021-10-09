@@ -26,6 +26,7 @@ from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import InvItem, LearnDisc
 from pokete_classes.moves import Moves
 from pokete_classes.types import Types
+from pokete_classes.buy import Buy
 from pokete_general_use_fns import *
 from release import *
 
@@ -247,7 +248,7 @@ class ShopInteract(se.Object):
         movemap.full_show()
         movemap_text(int(movemap.width / 2), 3, [" < Welcome to the Pokete-Shop",
                                                  " < Wanna buy something?"])
-        buy()
+        buy(ev)
         movemap.full_show(init=True)
         movemap_text(int(movemap.width / 2), 3, [" < Have a great day!"])
 
@@ -1092,55 +1093,6 @@ class Inv:
         items = [getattr(self, i) for i in figure.inv if figure.inv[i] > 0]
         self.box.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}") for i in items])
         return items
-
-
-class Buy:
-    """Menu to buy items in, is triggered in shop"""
-
-    def __init__(self):
-        self.box = ChooseBox(height - 3, 35, "Shop")
-        self.box2 = Box(7, 21)
-        self.items = [Inv.poketeball, Inv.superball, Inv.healing_potion,
-                      Inv.super_potion, Inv.ap_potion]
-        self.box.add_c_obs([se.Text(f"{obj.pretty_name} : {obj.price}$")
-                            for obj in self.items])
-        self.money_label = se.Text(f"{figure.get_money()}$")
-        self.desc_label = se.Text(" ")
-        # adding
-        self.box.add_ob(self.money_label,
-                        self.box.width - 2 - len(self.money_label.text), 0)
-        self.box2.add_ob(self.desc_label, 1, 1)
-
-    def __call__(self):
-        """Opens the buy menu"""
-        ev.clear()
-        with self.box.add(movemap, movemap.width - 35, 0):
-            self.box2.add(movemap, self.box.x - 19, 3)
-            self.rechar()
-            movemap.show()
-            while True:
-                if ev.get() in ["'s'", "'w'"]:
-                    self.box.input(ev)
-                    self.rechar()
-                    ev.clear()
-                elif ev.get() in ["Key.esc", "'q'"]:
-                    break
-                elif ev.get() == "Key.enter":
-                    obj = self.items[self.box.index.index]
-                    if figure.get_money() - obj.price >= 0:
-                        figure.add_money(-obj.price)
-                        figure.give_item(obj.name)
-                    ev.clear()
-                std_loop(ev)
-                time.sleep(0.05)
-                movemap.show()
-        self.box2.remove()
-
-    def rechar(self):
-        """Rechars the detail text"""
-        obj = self.items[self.box.index.index]
-        self.box2.name_label.rechar(obj.pretty_name)
-        self.desc_label.rechar(liner(obj.desc, 19))
 
 
 class Menu:
@@ -2761,7 +2713,7 @@ if __name__ == "__main__":
     Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", p_data.attacks)
     Inv.ld_flying = LearnDisc("flying", p_data.attacks)
 
-    buy = Buy()
+    buy = Buy(figure, Inv, movemap)
     map_additions()
 
     # centermap
