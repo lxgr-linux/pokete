@@ -35,6 +35,25 @@ __t = time.time()
 # Class definition
 ##################
 
+class Event:
+    """Event clas to enable dependency injection"""
+
+    def __init__(self, ev):
+        self.ev = ev
+
+    def get(self):
+        """Getter"""
+        return self.ev
+
+    def set(self, ev):
+        """setter"""
+        self.ev = ev
+
+    def clear(self):
+        """Clears the event"""
+        self.ev = ""
+
+
 class HightGrass(se.Object):
     """Object on the map, that triggers a fight"""
 
@@ -190,30 +209,29 @@ class CenterInteract(se.Object):
 
     def action(self, ob):
         """Triggers the interaction in the Pokete center"""
-        global ev
-        ev = ""
+        ev.clear()
         movemap.full_show()
         movemap_text(int(movemap.width / 2), 3,
                      [" < Welcome to the Pokete-Center",
                       " < What do you want to do?",
                       " < a: See your full deck\n b: Heal all your Poketes\n c: Go"])
         while True:
-            if ev == "'a'":
-                ev = ""
+            if ev.get() == "'a'":
+                ev.clear()
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in figure.pokes].index("__fallback__"))
                 balls_label_rechar()
                 deck(figure.pokes)
                 break
-            elif ev == "'b'":
-                ev = ""
+            elif ev.get() == "'b'":
+                ev.clear()
                 heal()
                 time.sleep(0.5)
                 movemap_text(int(movemap.width / 2), 3, [" < ...",
                                                          " < Your Poketes are now healed!"])
                 break
-            elif ev == "'c'":
-                ev = ""
+            elif ev.get() == "'c'":
+                ev.clear()
                 break
             std_loop()
             time.sleep(0.05)
@@ -225,8 +243,7 @@ class ShopInteract(se.Object):
 
     def action(self, ob):
         """Triggers an interaction in the shop"""
-        global ev
-        ev = ""
+        ev.clear()
         movemap.full_show()
         movemap_text(int(movemap.width / 2), 3, [" < Welcome to the Pokete-Shop",
                                                  " < Wanna buy something?"])
@@ -732,8 +749,7 @@ class Deck:
 
     def __call__(self, pokes, label="Your full deck", in_fight=False):
         """Opens the deck"""
-        global ev
-        ev = ""
+        ev.clear()
         ret_action = None
         self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, width, self.map.background)
         # decksubmap.resize(height-1, width)
@@ -751,8 +767,8 @@ class Deck:
                            pokes[self.index.index].text_name.y)
         self.submap.full_show(init=True)
         while True:
-            if ev in ["'1'", "Key.esc", "'q'"]:
-                ev = ""
+            if ev.get() in ["'1'", "Key.esc", "'q'"]:
+                ev.clear()
                 self.rem_pokes(pokes)
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()
@@ -760,8 +776,8 @@ class Deck:
                 if ret_action is not None:
                     abb_funcs[ret_action]()
                 return
-            elif ev == "'2'":
-                ev = ""
+            elif ev.get() == "'2'":
+                ev.clear()
                 if len(pokes) == 0:
                     continue
                 if not indici:
@@ -780,8 +796,8 @@ class Deck:
                         pokes[self.index.index].text_name.y)
                     self.move_label.rechar("2: Move    ")
                     self.submap.full_show()
-            elif ev == "'3'":
-                ev = ""
+            elif ev.get() == "'3'":
+                ev.clear()
                 if ask_bool(self.submap, f"Do you really want to free {figure.pokes[self.index.index].name}?"):
                     self.rem_pokes(pokes)
                     figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
@@ -791,11 +807,11 @@ class Deck:
                         pokes[self.index.index].text_name.x + len(pokes[self.index.index].text_name.text) + 1,
                         pokes[self.index.index].text_name.y)
                     balls_label_rechar()
-            elif ev in ["'w'", "'a'", "'s'", "'d'"]:
-                self.control(pokes, ev)
-                ev = ""
-            elif ev == "Key.enter":
-                ev = ""
+            elif ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
+                self.control(pokes, ev.get())
+                ev.clear()
+            elif ev.get() == "Key.enter":
+                ev.clear()
                 if len(pokes) == 0:
                     continue
                 if in_fight:
@@ -810,7 +826,7 @@ class Deck:
                     ret_action = detail(pokes[self.index.index])
                     self.add_all(pokes)
                     if ret_action is not None:
-                        ev = "'q'"
+                        ev.set("'q'")
                         continue
                     self.submap.full_show(init=True)
             std_loop()
@@ -911,7 +927,6 @@ class Detail(Deck):
 
     def __call__(self, poke, abb=True):
         """Shows details"""
-        global ev
         ret_action = None
         self.add(poke, self.map, 1, 1, False)
         abb_obs = [i for i in poke.attac_obs
@@ -940,8 +955,8 @@ class Detail(Deck):
                 label.add(self.map, x + _x, y + _y)
         self.map.show(init=True)
         while True:
-            if ev in ["'1'", "Key.esc", "'q'"]:
-                ev = ""
+            if ev.get() in ["'1'", "Key.esc", "'q'"]:
+                ev.clear()
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
@@ -951,21 +966,21 @@ class Detail(Deck):
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif ev == "'2'" and abb_obs != [] and abb:
+            elif ev.get() == "'2'" and abb_obs != [] and abb:
                 with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
                                c_obs=[se.Text(i.name)
                                       for i in abb_obs]).center_add(self.map) as box:
                     while True:
-                        if ev in ["'s'", "'w'"]:
+                        if ev.get() in ["'s'", "'w'"]:
                             box.input(ev)
                             self.map.show()
-                            ev = ""
-                        elif ev == "Key.enter":
+                            ev.clear()
+                        elif ev.get() == "Key.enter":
                             ret_action = abb_obs[box.index.index].world_action
-                            ev = "'q'"
+                            ev.set("'q'")
                             break
-                        elif ev in ["Key.esc", "'q'"]:
-                            ev = ""
+                        elif ev.get() in ["Key.esc", "'q'"]:
+                            ev.clear()
                             break
                         std_loop()
                         time.sleep(0.05)
@@ -999,27 +1014,26 @@ class Inv:
 
     def __call__(self):
         """Opens the inventory"""
-        global ev
-        ev = ""
+        ev.clear()
         items = self.add()
         with self.box.add(movemap, movemap.width - 35, 0):
             while True:
-                if ev in ["'s'", "'w'"]:
+                if ev.get() in ["'s'", "'w'"]:
                     self.box.input(ev)
-                    ev = ""
-                elif ev in ["'4'", "Key.esc", "'q'"]:
+                    ev.clear()
+                elif ev.get() in ["'4'", "Key.esc", "'q'"]:
                     break
-                elif ev == "Key.enter":
+                elif ev.get() == "Key.enter":
                     obj = items[self.box.index.index]
                     self.box2.name_label.rechar(obj.pretty_name)
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(movemap, self.box.x - 19, 3)
-                    ev = ""
+                    ev.clear()
                     while True:
-                        if ev == "exit":
+                        if ev.get() == "exit":
                             raise KeyboardInterrupt
-                        elif ev in ["Key.enter", "Key.esc", "'q'"]:
-                            ev = ""
+                        elif ev.get() in ["Key.enter", "Key.esc", "'q'"]:
+                            ev.clear()
                             self.box2.remove()
                             if type(obj) is LearnDisc:
                                 if ask_bool(movemap, f"Do you want to teach '{obj.attack_dict['name']}'?"):
@@ -1044,17 +1058,17 @@ class Inv:
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
-                                    ev = ""
+                                    ev.clear()
                             break
                         time.sleep(0.05)
                         movemap.show()
-                elif ev == "'r'":
+                elif ev.get() == "'r'":
                     if ask_bool(movemap,
                                 f"Do you really want to throw {items[self.box.index.index].pretty_name} away?"):
                         items = self.rem_item(items[self.box.index.index].name, items)
                         if len(items) == 0:
                             break
-                    ev = ""
+                    ev.clear()
                 std_loop()
                 time.sleep(0.05)
                 movemap.show()
@@ -1099,25 +1113,24 @@ class Buy:
 
     def __call__(self):
         """Opens the buy menu"""
-        global ev
-        ev = ""
+        ev.clear()
         with self.box.add(movemap, movemap.width - 35, 0):
             self.box2.add(movemap, self.box.x - 19, 3)
             self.rechar()
             movemap.show()
             while True:
-                if ev in ["'s'", "'w'"]:
+                if ev.get() in ["'s'", "'w'"]:
                     self.box.input(ev)
                     self.rechar()
-                    ev = ""
-                elif ev in ["Key.esc", "'q'"]:
+                    ev.clear()
+                elif ev.get() in ["Key.esc", "'q'"]:
                     break
-                elif ev == "Key.enter":
+                elif ev.get() == "Key.enter":
                     obj = self.items[self.box.index.index]
                     if figure.get_money() - obj.price >= 0:
                         figure.add_money(-obj.price)
                         figure.give_item(obj.name)
-                    ev = ""
+                    ev.clear()
                 std_loop()
                 time.sleep(0.05)
                 movemap.show()
@@ -1156,12 +1169,11 @@ class Menu:
 
     def __call__(self):
         """Opens the menu"""
-        global ev
-        ev = ""
+        ev.clear()
         self.realname_label.rechar(figure.name)
         with self.box.add(movemap, movemap.width - self.box.width, 0):
             while True:
-                if ev == "Key.enter":
+                if ev.get() == "Key.enter":
                     # Fuck python for not having case statements
                     if ((i := self.box.c_obs[self.box.index.index]) ==
                             self.playername_label):
@@ -1185,12 +1197,12 @@ class Menu:
                         about()
                     else:
                         i.change()
-                    ev = ""
-                elif ev in ["'s'", "'w'"]:
+                    ev.clear()
+                elif ev.get() in ["'s'", "'w'"]:
                     self.box.input(ev)
-                    ev = ""
-                elif ev in ["'e'", "Key.esc", "'q'"]:
-                    ev = ""
+                    ev.clear()
+                elif ev.get() in ["'e'", "Key.esc", "'q'"]:
+                    ev.clear()
                     break
                 std_loop()
                 time.sleep(0.05)
@@ -1212,11 +1224,10 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
 
     def __call__(self):
         """Shows the about text"""
-        global ev
         with self.box:
             while True:
-                if ev in ["Key.esc", "'q'"]:
-                    ev = ""
+                if ev.get() in ["Key.esc", "'q'"]:
+                    ev.clear()
                     break
                 std_loop()
                 time.sleep(0.05)
@@ -1236,8 +1247,7 @@ class RoadMap:
 
     def __call__(self, choose=False):
         """Shows the roadmap"""
-        global ev
-        ev = ""
+        ev.clear()
         for i in Station.obs:
             i.set_color(choose)
         [i for i in Station.obs
@@ -1247,13 +1257,13 @@ class RoadMap:
          in i.associates][0].choose()
         with self.box.add(movemap, movemap.width - self.box.width, 0):
             while True:
-                if ev in ["'w'", "'a'", "'s'", "'d'"]:
-                    Station.choosen.next(ev)
-                    ev = ""
-                elif ev in ["'3'", "Key.esc", "'q'"]:
-                    ev = ""
+                if ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
+                    Station.choosen.next(ev.get())
+                    ev.clear()
+                elif ev.get() in ["'3'", "Key.esc", "'q'"]:
+                    ev.clear()
                     break
-                elif (ev == "Key.enter" and choose
+                elif (ev.get() == "Key.enter" and choose
                       and Station.choosen.has_been_visited()
                       and Station.choosen.is_city()):
                     return Station.choosen.associates[0]
@@ -1289,8 +1299,7 @@ class Dex:
 
     def detail(self, poke):
         """Shows details about the Pokete"""
-        global ev
-        ev = ""
+        ev.clear()
 
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace("\n", " ") +
@@ -1309,8 +1318,8 @@ Defense: {poke.defense}
 Initiative: {poke.initiative}"""))
         with self.detail_box.center_add(self.map):
             while True:
-                if ev in ["'e'", "Key.esc", "'q'"]:
-                    ev = ""
+                if ev.get() in ["'e'", "Key.esc", "'q'"]:
+                    ev.clear()
                     break
                 std_loop()
                 time.sleep(0.05)
@@ -1319,8 +1328,7 @@ Initiative: {poke.initiative}"""))
 
     def __call__(self, pokes):
         """Opens the dex"""
-        global ev
-        ev = ""
+        ev.clear()
         self.idx = 0
 
         p_dict = {i[1]: i[-1] for i in
@@ -1334,23 +1342,23 @@ Initiative: {poke.initiative}"""))
                 for event, idx, n_idx, add, idx_2 in zip(["'s'", "'w'"],
                                                          [len(self.box.c_obs) - 1, 0], [0, self.box.height - 3],
                                                          [1, -1], [-1, 0]):
-                    if ev == event and self.box.index.index == idx:
+                    if ev.get() == event and self.box.index.index == idx:
                         if self.box.c_obs[self.box.index.index] != self.obs[idx_2]:
                             self.rem_c_obs()
                             self.idx += add
                             self.add_c_obs()
                             self.box.set_index(n_idx)
-                        ev = ""
-                if ev == "Key.enter":
+                        ev.clear()
+                if ev.get() == "Key.enter":
                     if "???" not in self.box.c_obs[self.box.index.index].text:
                         self.detail(list(p_dict)[self.idx * (self.box.height - 2)
                                                  + self.box.index.index])
-                    ev = ""
-                elif ev in ["'s'", "'w'"]:
-                    self.box.input(ev)
-                    ev = ""
-                elif ev in ["'e'", "Key.esc", "'q'"]:
-                    ev = ""
+                    ev.clear()
+                elif ev.get() in ["'s'", "'w'"]:
+                    self.box.input(ev.get())
+                    ev.clear()
+                elif ev.get() in ["'e'", "Key.esc", "'q'"]:
+                    ev.clear()
                     break
                 std_loop()
                 time.sleep(0.05)
@@ -1393,7 +1401,6 @@ class LearnAttack:
 
     def __call__(self, attack=None):
         """Starts the learning process"""
-        global ev
         attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
@@ -1419,22 +1426,22 @@ class LearnAttack:
                                     for i, j in enumerate(self.poke.attac_obs)])
                 with self.box.center_add(self.map):
                     while True:
-                        if ev in ["'s'", "'w'"]:
-                            self.box.input(ev)
+                        if ev.get() in ["'s'", "'w'"]:
+                            self.box.input(ev.get())
                             self.map.show()
-                            ev = ""
-                        elif ev == "Key.enter":
+                            ev.clear()
+                        elif ev.get() == "Key.enter":
                             self.poke.attacks[self.box.index.index] = new_attack
                             with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", self.map):
                                 time.sleep(3)
-                            ev = ""
+                            ev.clear()
                             break
-                        elif ev == "'1'":
-                            ev = ""
+                        elif ev.get() == "'1'":
+                            ev.clear()
                             detail(self.poke, False)
                             self.map.show(init=True)
-                        elif ev in ["Key.esc", "'q'"]:
-                            ev = ""
+                        elif ev.get() in ["Key.esc", "'q'"]:
+                            ev.clear()
                             break
                         std_loop()
                         time.sleep(0.05)
@@ -1494,10 +1501,9 @@ def save():
         json.dump(session_info, file, indent=4) 
 
 
-def on_press(key):
+def on_press(ev, key):
     """Sets the ev variable"""
-    global ev
-    ev = str(key)
+    ev.set(str(key))
 
 
 def reset_terminal():
@@ -1514,42 +1520,40 @@ def exiter():
 
 def std_loop():
     """Standart action executed in most loops"""
-    global ev
-    if ev == "exit":
+    if ev.get() == "exit":
         raise KeyboardInterrupt
 
 
 def text_input(obj, _map, name, wrap_len, max_len=1000000):
     """Processes text input"""
-    global ev
-    ev = ""
+    ev.clear()
     obj.rechar(hard_liner(wrap_len, name + "█"))
     bname = name
     _map.show()
     while True:
-        if ev in ["Key.enter", "Key.esc"]:
-            ev = ""
+        if ev.get() in ["Key.enter", "Key.esc"]:
+            ev.clear()
             obj.rechar(hard_liner(wrap_len, name))
             _map.show()
             return name
-        elif ev == "Key.backspace":
+        elif ev.get() == "Key.backspace":
             if len(name) <= 0:
-                ev = ""
+                ev.clear()
                 obj.rechar(bname)
                 _map.show()
                 return bname
             name = name[:-1]
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
-            ev = ""
-        elif ev not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift",
+            ev.clear()
+        elif ev.get() not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift",
                         "Key.shift_r", "Key.esc"] and len(name) < max_len:
-            if ev == "Key.space":
-                ev = "' '"
-            name += str(ev.strip("'"))
+            if ev.get() == "Key.space":
+                ev.set("' '")
+            name += str(ev.get().strip("'"))
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
-            ev = ""
+            ev.clear()
         std_loop()
         time.sleep(0.05)
 
@@ -1606,7 +1610,6 @@ def codes(string):
 
 def movemap_text(x, y, arr):
     """Shows dialog text on movemap"""
-    global ev
     # This ensures the game does not crash when big chunks of text are displayed
     for c, i, j, k in zip([x, y], ["x", "y"],
                           [movemap.width, movemap.height], [17, 10]):
@@ -1620,19 +1623,19 @@ def movemap_text(x, y, arr):
     multitext.add(movemap, x - movemap.x + 1, y - movemap.y)
     arr = [arr[i] + (" >" if i != len(arr) - 1 else "") for i in range(len(arr))]
     for t in arr:
-        ev = ""
+        ev.clear()
         multitext.rechar("")
         for i in range(len(t) + 1):
             multitext.outp(liner(t[:i], movemap.width - (x - movemap.x + 1), "   "))
             time.sleep(0.045)
             std_loop()
-            if ev != "":
-                ev = ""
+            if ev.get() != "":
+                ev.clear()
                 break
         multitext.outp(liner(t, movemap.width - (x - movemap.x + 1), "   "))
         while True:
             std_loop()
-            if ev != "":
+            if ev.get() != "":
                 break
             time.sleep(0.05)
     multitext.remove()
@@ -1956,21 +1959,20 @@ def swap_poke():
 
 def ask_bool(_map, text):
     """Asks the player to aswer a yes/no question"""
-    global ev
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
     with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o", _map):
         while True:
-            if ev == "'y'":
+            if ev.get() == "'y'":
                 ret = True
                 break
-            elif ev in ["'n'", "Key.esc", "'q'"]:
+            elif ev.get() in ["'n'", "Key.esc", "'q'"]:
                 ret = False
                 break
             std_loop()
             time.sleep(0.05)
             _map.show()
-        ev = ""
+        ev.clear()
     return ret
 
 
@@ -1983,7 +1985,6 @@ def ask_text(_map, infotext, introtext, text, max_len):
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     """Fight"""
-    global ev
     # fancy stuff
     if settings.animations:
         fancymap = se.Map(background=" ", width=width, height=height - 1)
@@ -2039,35 +2040,35 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 time.sleep(1)
                 fightmap.outp.outp("You don't have any living poketes left!")
             while True:  # Inputloop for general options
-                if ev == "'1'":
-                    ev = ""
+                if ev.get() == "'1'":
+                    ev.clear()
                     if player.identifier == "__fallback__":
                         continue
                     with fightbox.add(fightmap, 1, fightmap.height - 7):
                         while True:  # Inputloop for attack options
-                            if ev in ["'s'", "'w'"]:
-                                fightbox.input(ev)
+                            if ev.get() in ["'s'", "'w'"]:
+                                fightbox.input(ev.get())
                                 fightmap.show()
-                                ev = ""
-                            elif ev in [f"'{i + 1}'" for i in
+                                ev.clear()
+                            elif ev.get() in [f"'{i + 1}'" for i in
                                         range(len(obj.attac_obs))] + ["Key.enter"]:
                                 attack = obj.attac_obs[fightbox.index.index
-                                                       if ev == "Key.enter"
-                                                       else int(ev.strip("'")) - 1]
-                                ev = ""
+                                                       if ev.get() == "Key.enter"
+                                                       else int(ev.get().strip("'")) - 1]
+                                ev.clear()
                                 if attack.ap == 0:
                                     continue
                                 break
-                            elif ev in ["Key.esc", "'q'"]:
-                                ev = ""
+                            elif ev.get() in ["Key.esc", "'q'"]:
+                                ev.clear()
                                 attack = ""
                                 break
                             std_loop()
                             time.sleep(0.05)
                     if attack != "":
                         break
-                elif ev == "'2'":
-                    ev = ""
+                elif ev.get() == "'2'":
+                    ev.clear()
                     if ((info["type"] == "duel"
                          and player.identifier != "__fallback__")
                             or not ask_bool(fightmap, "Do you really want to run away?")):
@@ -2076,8 +2077,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     time.sleep(1)
                     fight_clean_up(player, enemy)
                     return enem
-                elif ev == "'3'":
-                    ev = ""
+                elif ev.get() == "'3'":
+                    ev.clear()
                     items = [getattr(Inv, i)
                              for i in figure.inv
                              if getattr(Inv, i).fn is not None
@@ -2089,14 +2090,14 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fight_invbox.set_index(0)
                     with fight_invbox.add(fightmap, fightmap.width - 35, 0):
                         while True:
-                            if ev in ["'s'", "'w'"]:
-                                fight_invbox.input(ev)
+                            if ev.get() in ["'s'", "'w'"]:
+                                fight_invbox.input(ev.get())
                                 fightmap.show()
-                                ev = ""
-                            elif ev in ["Key.esc", "'q'"]:
+                                ev.clear()
+                            elif ev.get() in ["Key.esc", "'q'"]:
                                 item = ""
                                 break
-                            elif ev == "Key.enter":
+                            elif ev.get() == "Key.enter":
                                 item = items[fight_invbox.index.index]
                                 break
                             std_loop()
@@ -2111,8 +2112,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                         return
                     attack = ""
                     break
-                elif ev == "'4'":
-                    ev = ""
+                elif ev.get() == "'4'":
+                    ev.clear()
                     if obj.identifier == "__fallback__":
                         continue
                     fight_clean_up(player, enemy)
@@ -2189,8 +2190,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
 
 def game(_map):
     """Game function"""
-    global ev, width, height
-    ev = ""
+    global width, height
+    ev.clear()
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
     if _map.name not in visited_maps:
         visited_maps.append(_map.name)
@@ -2208,29 +2209,29 @@ def game(_map):
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
                                     ["t", "l", "b", "r"],  # Directions are not beening used yet
                                     [0, -1, 0, 1], [-1, 0, 1, 0]):
-            if ev == name:
+            if ev.get() == name:
                 figure.direction = _dir
                 figure.set(figure.x + x, figure.y + y)
-                ev = ""
+                ev.clear()
                 break
         else:
-            if ev in inp_dict:
-                inp_dict[ev][0](*inp_dict[ev][1])
-                ev = ""
+            if ev.get() in inp_dict:
+                inp_dict[ev.get()][0](*inp_dict[ev.get()][1])
+                ev.clear()
                 movemap.show(init=True)
-            elif ev == "'2'":
-                ev = ""
+            elif ev.get() == "'2'":
+                ev.clear()
                 if ask_bool(movemap, "Do you realy want to exit?"):
                     save()
                     exiter()
-            elif ev == "':'":
-                ev = ""
+            elif ev.get() == "':'":
+                ev.clear()
                 inp = text_input(movemap.code_label, movemap, ":",
                                  movemap.width,
                                  (movemap.width - 2) * movemap.height - 1)[1:]
                 movemap.code_label.outp(figure.map.pretty_name)
                 codes(inp)
-                ev = ""
+                ev.clear()
         std_loop()
         _map.extra_actions()
         for trainer in _map.trainers:
@@ -2365,7 +2366,7 @@ Do you want to continue?", int(width * 2 / 3))):
 def main():
     """Main function"""
     os.system("")
-    recognising = threading.Thread(target=recogniser)
+    recognising = threading.Thread(target=recogniser, args=(ev,))
     autosaveing = threading.Thread(target=autosave)
     recognising.daemon = True
     autosaveing.daemon = True
@@ -2622,32 +2623,31 @@ if __name__ == "__main__":
         import termios
 
 
-        def recogniser():
+        def recogniser(ev):
             """Use another (not on xserver relying) way to read keyboard input,
                 to make this shit work in tty or via ssh,
                 where no xserver is available"""
-            global ev, fd, old_settings
+            global fd, old_settings
 
             fd = sys.stdin.fileno()
             old_settings = termios.tcgetattr(fd)
             tty.setraw(fd)
             while True:
                 char = sys.stdin.read(1)
-                ev = {ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                      127: "Key.backspace", 32: "Key.space",
-                      27: "Key.esc"}[ord(char)]
+                ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
+                        127: "Key.backspace", 32: "Key.space",
+                        27: "Key.esc"}[ord(char)])
                 if ord(char) == 3:
                     reset_terminal()
-                    ev = "exit"
+                    ev.set("exit")
     else:
         from pynput.keyboard import Key, Listener
         
 
-        def recogniser():
+        def recogniser(ev):
             """Gets keyboard input from pynput"""
-            global ev
             while True:
-                with Listener(on_press=on_press) as listener:
+                with Listener(on_press=on_press, _args=(ev,)) as listener:
                     listener.join()
 
     # resizing screen
@@ -2859,7 +2859,7 @@ if __name__ == "__main__":
     figure.set_args(session_info)
 
     __t = time.time() - __t
-    ev = ""
+    ev = Event("")
     try:
         main()
     except KeyboardInterrupt:
