@@ -233,7 +233,7 @@ class CenterInteract(se.Object):
             elif ev.get() == "'c'":
                 ev.clear()
                 break
-            std_loop()
+            std_loop(ev)
             time.sleep(0.05)
         movemap.full_show(init=True)
 
@@ -829,7 +829,7 @@ class Deck:
                         ev.set("'q'")
                         continue
                     self.submap.full_show(init=True)
-            std_loop()
+            std_loop(ev)
             if len(pokes) > 0 and self.index.y - self.submap.y + 6 > self.submap.height:
                 self.submap.set(self.submap.x, self.submap.y + 1)
             elif len(pokes) > 0 and self.index.y - 1 < self.submap.y:
@@ -982,9 +982,9 @@ class Detail(Deck):
                         elif ev.get() in ["Key.esc", "'q'"]:
                             ev.clear()
                             break
-                        std_loop()
+                        std_loop(ev)
                         time.sleep(0.05)
-            std_loop()
+            std_loop(ev)
             for atc in poke.attac_obs:  # This section generates the Text effect for attack labels
                 if len(atc.desc) > int((width - 3) / 2 - 1):
                     if atc.temp_j == 5:
@@ -1069,7 +1069,7 @@ class Inv:
                         if len(items) == 0:
                             break
                     ev.clear()
-                std_loop()
+                std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
         self.box.remove_c_obs()
@@ -1131,7 +1131,7 @@ class Buy:
                         figure.add_money(-obj.price)
                         figure.give_item(obj.name)
                     ev.clear()
-                std_loop()
+                std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
         self.box2.remove()
@@ -1204,7 +1204,7 @@ class Menu:
                 elif ev.get() in ["'e'", "Key.esc", "'q'"]:
                     ev.clear()
                     break
-                std_loop()
+                std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
 
@@ -1229,7 +1229,7 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
                 if ev.get() in ["Key.esc", "'q'"]:
                     ev.clear()
                     break
-                std_loop()
+                std_loop(ev)
                 time.sleep(0.05)
 
 
@@ -1267,7 +1267,7 @@ class RoadMap:
                       and Station.choosen.has_been_visited()
                       and Station.choosen.is_city()):
                     return Station.choosen.associates[0]
-                std_loop()
+                std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
         Station.choosen.unchoose()
@@ -1321,7 +1321,7 @@ Initiative: {poke.initiative}"""))
                 if ev.get() in ["'e'", "Key.esc", "'q'"]:
                     ev.clear()
                     break
-                std_loop()
+                std_loop(ev)
                 time.sleep(0.05)
                 self.map.show()
         self.detail_box.rem_ob(poke.ico)
@@ -1360,7 +1360,7 @@ Initiative: {poke.initiative}"""))
                 elif ev.get() in ["'e'", "Key.esc", "'q'"]:
                     ev.clear()
                     break
-                std_loop()
+                std_loop(ev)
                 time.sleep(0.05)
                 self.map.show()
             self.rem_c_obs()
@@ -1443,7 +1443,7 @@ class LearnAttack:
                         elif ev.get() in ["Key.esc", "'q'"]:
                             ev.clear()
                             break
-                        std_loop()
+                        std_loop(ev)
                         time.sleep(0.05)
                 self.box.remove_c_obs()
             self.poke.set_vars()
@@ -1518,12 +1518,6 @@ def exiter():
     sys.exit()
 
 
-def std_loop():
-    """Standart action executed in most loops"""
-    if ev.get() == "exit":
-        raise KeyboardInterrupt
-
-
 def text_input(obj, _map, name, wrap_len, max_len=1000000):
     """Processes text input"""
     ev.clear()
@@ -1554,7 +1548,7 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
             ev.clear()
-        std_loop()
+        std_loop(ev)
         time.sleep(0.05)
 
 
@@ -1628,13 +1622,13 @@ def movemap_text(x, y, arr):
         for i in range(len(t) + 1):
             multitext.outp(liner(t[:i], movemap.width - (x - movemap.x + 1), "   "))
             time.sleep(0.045)
-            std_loop()
+            std_loop(ev)
             if ev.get() != "":
                 ev.clear()
                 break
         multitext.outp(liner(t, movemap.width - (x - movemap.x + 1), "   "))
         while True:
-            std_loop()
+            std_loop(ev)
             if ev.get() != "":
                 break
             time.sleep(0.05)
@@ -1969,7 +1963,7 @@ def ask_bool(_map, text):
             elif ev.get() in ["'n'", "Key.esc", "'q'"]:
                 ret = False
                 break
-            std_loop()
+            std_loop(ev)
             time.sleep(0.05)
             _map.show()
         ev.clear()
@@ -2063,7 +2057,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                 ev.clear()
                                 attack = ""
                                 break
-                            std_loop()
+                            std_loop(ev)
                             time.sleep(0.05)
                     if attack != "":
                         break
@@ -2100,7 +2094,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                             elif ev.get() == "Key.enter":
                                 item = items[fight_invbox.index.index]
                                 break
-                            std_loop()
+                            std_loop(ev)
                             time.sleep(0.05)
                     fight_invbox.remove_c_obs()
                     if item == "":
@@ -2129,7 +2123,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                             j.readd()
                     attack = ""
                     break
-                std_loop()
+                std_loop(ev)
                 time.sleep(0.1)
         else:
             attack = random.choices([i for i in obj.attac_obs],
@@ -2232,7 +2226,7 @@ def game(_map):
                 movemap.code_label.outp(figure.map.pretty_name)
                 codes(inp)
                 ev.clear()
-        std_loop()
+        std_loop(ev)
         _map.extra_actions()
         for trainer in _map.trainers:
             trainer.do(_map)

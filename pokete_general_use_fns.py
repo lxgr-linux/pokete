@@ -33,5 +33,11 @@ def sort_vers(vers):
             sorted([([int(j) for j in i.split(".")], i) for i in vers])]
 
 
+def std_loop(ev):
+    """Standart action executed in most loops"""
+    if ev.get() == "exit":
+        raise KeyboardInterrupt
+
+
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
