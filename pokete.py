@@ -21,12 +21,13 @@ import pokete_data as p_data
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, InputBox
-from pokete_classes.classes import PlayMap, Settings, OutP, ResizeScreen, LoadingScreen
+from pokete_classes.classes import PlayMap, Settings, OutP
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import InvItem, LearnDisc
 from pokete_classes.moves import Moves
 from pokete_classes.types import Types
 from pokete_classes.buy import Buy
+from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_general_use_fns import *
 from release import *
 
@@ -1146,12 +1147,12 @@ class Menu:
                         save()
                         exiter()
                     elif i == self.about_label:
-                        about()
+                        about(ev)
                     else:
                         i.change()
                     ev.clear()
                 elif ev.get() in ["'s'", "'w'"]:
-                    self.box.input(ev)
+                    self.box.input(ev.get())
                     ev.clear()
                 elif ev.get() in ["'e'", "Key.esc", "'q'"]:
                     ev.clear()
@@ -1159,30 +1160,6 @@ class Menu:
                 std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
-
-
-class About:
-    """The about text, that can be triggered in the menu"""
-
-    def __init__(self):
-        self.box = InfoBox(liner(f"""Pokete v{VERSION} -- {CODENAME}
-by  lxgr-linux <lxgr@protonmail.com>
-
-This  software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.
-Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
-For  this see the comments in the definations area.
-You  can contribute here: https://github.com/lxgr-linux/pokete""",
-                                 60, pre=""), map=movemap)
-
-    def __call__(self):
-        """Shows the about text"""
-        with self.box:
-            while True:
-                if ev.get() in ["Key.esc", "'q'"]:
-                    ev.clear()
-                    break
-                std_loop(ev)
-                time.sleep(0.05)
 
 
 class RoadMap:
@@ -1316,28 +1293,6 @@ Initiative: {poke.initiative}"""))
                 time.sleep(0.05)
                 self.map.show()
             self.rem_c_obs()
-
-
-class Help(About):
-    """Helptext that can be displayed by pressing '?'"""
-
-    def __init__(self, _map):
-        self.map = _map
-        self.help_text = """
-Controls:
-'w':up, 'a':left,
-'s':down, 'd':right,
-'e':menu
-
-When walking into the high grass (';') you may get attacked
-by wild Poketes, those can be killed or weakened and caught.
-NPCs will talk to you when walking up to them.
-For more information about how to play this game, check out
-https://git.io/JRRqe
-"""
-        self.box = InfoBox(self.help_text, self.map)
-        self.box.name_label.rechar("Help")
-        self.box.info_label.rechar("q:close")
 
 
 class LearnAttack:
@@ -2150,7 +2105,7 @@ def game(_map):
                 "'4'": [inv, ()],
                 "'5'": [pokete_dex, (p_data.pokes,)],
                 "'e'": [menu, ()],
-                "'?'": [help_page, ()]}
+                "'?'": [help_page, (ev,)]}
     while True:
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
                                     ["t", "l", "b", "r"],  # Directions are not beening used yet
@@ -2700,7 +2655,7 @@ if __name__ == "__main__":
     roadmap = RoadMap(p_data.stations)
     deck = Deck()
     menu = Menu()
-    about = About()
+    about = About(VERSION, CODENAME, movemap)
     inv = Inv()
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}

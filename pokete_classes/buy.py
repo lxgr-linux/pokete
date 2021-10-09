@@ -54,3 +54,6 @@ class Buy:
         self.box2.name_label.rechar(obj.pretty_name)
         self.desc_label.rechar(liner(obj.desc, 19))
 
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")
