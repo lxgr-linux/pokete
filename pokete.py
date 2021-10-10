@@ -598,7 +598,8 @@ class Figure(se.Object):
                 self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
             else:
                 if self.add(ob_maps[si["map"]], si["x"], si["y"]) == 1:
-                    raise se.CoordinateError(self, ob_maps[si["map"]], si["x"], si["y"])
+                    raise se.CoordinateError(self, ob_maps[si["map"]],
+                                             si["x"], si["y"])
         except se.CoordinateError:
             self.add(ob_maps["playmap_1"], 6, 5)
         # Those if statemnets are important to ensure compatibility
@@ -709,7 +710,8 @@ class Setting(se.Box):
         super().__init__(0, 0)
         self.options = options
         self.setting = setting
-        self.index = [j for j in self.options].index(getattr(settings, self.setting))
+        self.index = [j for j in self.options].index(getattr(settings,
+                                                             self.setting))
         self.text = se.Text(text + ": ", state="float")
         self.option_text = se.Text(self.options[getattr(settings, self.setting)],
                                    state="float")
@@ -814,7 +816,9 @@ class Deck:
                     pokes = figure.pokes[:len(pokes)]
                     self.add_all(pokes)
                     self.index.set(
-                        pokes[self.index.index].text_name.x + len(pokes[self.index.index].text_name.text) + 1,
+                        pokes[self.index.index].text_name.x
+                         + len(pokes[self.index.index].text_name.text)
+                         + 1,
                         pokes[self.index.index].text_name.y)
                     balls_label_rechar()
             elif ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
@@ -889,10 +893,13 @@ class Deck:
         if len(pokes) <= 1:
             return
         for con, stat, fir, sec in zip(["'a'", "'d'", "'s'", "'w'"],
-                                       [self.index.index != 0, self.index.index != len(pokes) - 1,
-                                        self.index.index + 2 < len(pokes), self.index.index - 2 >= 0],
+                                       [self.index.index != 0,
+                                        self.index.index != len(pokes) - 1,
+                                        self.index.index + 2 < len(pokes),
+                                        self.index.index - 2 >= 0],
                                        [-1, 1, 2, -2],
-                                       [len(pokes) - 1, 0, self.index.index % 2,
+                                       [len(pokes) - 1, 0,
+                                        self.index.index % 2,
                                         [i for i in range(len(pokes)) if i % 2 == self.index.index % 2][-1]]):
             if _ev == con:
                 if stat:
@@ -900,7 +907,8 @@ class Deck:
                 else:
                     self.index.index = sec
                 break
-        self.index.set(pokes[self.index.index].text_name.x + len(pokes[self.index.index].text_name.text) + 1,
+        self.index.set(pokes[self.index.index].text_name.x
+                        + len(pokes[self.index.index].text_name.text) + 1,
                        pokes[self.index.index].text_name.y)
 
 
@@ -952,8 +960,11 @@ class Detail(Deck):
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
         for obj, x, y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
             obj.add(self.map, x, y)
-        for atc, x, y in zip(poke.attac_obs, [1, round(self.map.width / 2) + 1, 1,
-                                              round(self.map.width / 2) + 1], [7, 7, 12, 12]):
+        for atc, x, y in zip(poke.attac_obs, [1,
+                                              round(self.map.width / 2) + 1,
+                                              1,
+                                              round(self.map.width / 2) + 1],
+                                             [7, 7, 12, 12]):
             atc.temp_i = 0
             atc.temp_j = -30
             atc.label_desc.rechar(atc.desc[:int(width / 2 - 1)])
@@ -1017,10 +1028,11 @@ class Inv:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Inventory", "R:remove")
         self.box2 = Box(7, 21)
-        self.money_label = se.Text(str(figure.get_money()) + "$")
+        self.money_label = se.Text(f"{figure.get_money()}$")
         self.desc_label = se.Text(" ")
         # adding
-        self.box.add_ob(self.money_label, self.box.width - 2 - len(self.money_label.text), 0)
+        self.box.add_ob(self.money_label,
+                        self.box.width - 2 - len(self.money_label.text), 0)
         self.box2.add_ob(self.desc_label, 1, 1)
 
     def __call__(self):
@@ -1150,8 +1162,10 @@ class Menu:
                                                  self.map.height - 2)
                         self.map.underline.add(self.map, 0,
                                                self.map.height - 2)
-                    elif i == self.save_label:  # When will python3.10 come out?
-                        with InfoBox("Saving....", self.map):  # Shows a box displaying "Saving...." while saving
+                    elif i == self.save_label:
+                        # When will python3.10 come out?
+                        with InfoBox("Saving....", self.map):
+                            # Shows a box displaying "Saving...." while saving
                             save()
                             time.sleep(1.5)
                     elif i == self.exit_label:
@@ -1412,7 +1426,8 @@ def save():
         "caught_poketes": list(dict.fromkeys(caught_poketes + [i.identifier for i in figure.pokes])),
         "visited_maps": visited_maps,
         "startup_time": __t,
-        "used_npcs": list(dict.fromkeys(used_npcs)),  # filters doublicates from used_npcs
+        # filters doublicates from used_npcs
+        "used_npcs": list(dict.fromkeys(used_npcs))
     }
     with open(home + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
@@ -1937,7 +1952,8 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         obj, enem = players
     else:
         enem = sorted(zip([i.initiative for i in players],
-                          [1, 0], players))[0][-1]  # The [1, 0] array is needed to avoid comparing two Poke objects
+                          [1, 0], players))[0][-1]
+        # The [1, 0] array is needed to avoid comparing two Poke objects
         obj = [i for i in players if i != enem][-1]
     for i in players:
         for j in i.effects:
