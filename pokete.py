@@ -193,7 +193,9 @@ class Trainer(se.Object):
                 winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0],
                                self.poke, info={"type": "duel", "player": self})
                 movemap_text(self.x, self.y, {True: self.lose_texts,
-                                              False: self.win_texts + [" < Here u go 20$"]}[winner == self.poke])
+                                              False: self.win_texts
+                                                     + [" < Here u go 20$"]}
+                                              [winner == self.poke])
                 if winner != self.poke:
                     figure.add_money(20)
                     used_npcs.append(self.name)
@@ -445,8 +447,7 @@ class Poke:
             effectivity = (1.3 if enem.type.name in attac.type.effective
                            else 0.5
                            if enem.type.name in attac.type.ineffective
-                           else 1
-                           )
+                           else 1)
             n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense >= 1 else 1)) *
                          random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance + self.miss_chance, 1, 1, 1],
                                         k=1)[0] * effectivity)
@@ -589,7 +590,8 @@ class Figure(se.Object):
                 for e in si["pokes"][str(j)]["effects"]:
                     poke.effects.append(getattr(effects, e)(poke))
         try:
-            # Looking if figure would be in centermap, so the player may spawn out of the center
+            # Looking if figure would be in centermap,
+            # so the player may spawn out of the center
             if si["map"] in ["centermap",
                              "shopmap"]:
                 _map = ob_maps[si["map"]]
@@ -599,7 +601,8 @@ class Figure(se.Object):
                     raise se.CoordinateError(self, ob_maps[si["map"]], si["x"], si["y"])
         except se.CoordinateError:
             self.add(ob_maps["playmap_1"], 6, 5)
-        # Those if statemnets are important to ensure compatibility with older versions
+        # Those if statemnets are important to ensure compatibility
+        # with older versions
         if "oldmap" in si:
             self.oldmap = ob_maps[si["oldmap"]]
         if "inv" in si:
@@ -753,11 +756,13 @@ class Deck:
         """Opens the deck"""
         ev.clear()
         ret_action = None
-        self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, width, self.map.background)
+        self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, width,
+                        self.map.background)
         # decksubmap.resize(height-1, width)
         se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
         se.Square("|", 1, self.map.height - 2).add(self.map,
-                                                   round(self.map.width / 2), 1)
+                                                   round(self.map.width / 2),
+                                                   1)
         StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
         self.move_label.rechar("2: Move    ")
         indici = []
@@ -765,7 +770,9 @@ class Deck:
         self.index.index = 0
         if len(pokes) > 0:
             self.index.add(self.map,
-                           pokes[self.index.index].text_name.x + len(pokes[self.index.index].text_name.text) + 1,
+                           pokes[self.index.index].text_name.x
+                            + len(pokes[self.index.index].text_name.text)
+                            + 1,
                            pokes[self.index.index].text_name.y)
         self.submap.full_show(init=True)
         while True:
