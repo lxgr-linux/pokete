@@ -225,7 +225,7 @@ class CenterInteract(se.Object):
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in figure.pokes].index("__fallback__"))
                 balls_label_rechar()
-                deck(figure.pokes)
+                deck(len(figure.pokes))
                 break
             elif ev.get() == "'b'":
                 ev.clear()
@@ -752,9 +752,10 @@ class Deck:
         for poke in pokes:
             self.remove(poke)
 
-    def __call__(self, pokes, label="Your full deck", in_fight=False):
+    def __call__(self, p_len, label="Your full deck", in_fight=False):
         """Opens the deck"""
         ev.clear()
+        pokes = figure.pokes[:p_len]
         ret_action = None
         self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, width,
                         self.map.background)
@@ -795,7 +796,7 @@ class Deck:
                 else:
                     indici.append(self.index.index)
                     figure.pokes[indici[0]], figure.pokes[indici[1]] = pokes[indici[1]], pokes[indici[0]]
-                    pokes = figure.pokes[:len(pokes)]
+                    pokes = figure.pokes[:p_len]
                     indici = []
                     self.rem_pokes(pokes)
                     self.index.set(0, self.map.height - 1)
@@ -1049,8 +1050,7 @@ class Inv:
                                 if ask_bool(ev, self.map, f"Do you want to teach '{obj.attack_dict['name']}'?"):
                                     ex_cond = True
                                     while ex_cond:
-                                        index = deck(figure.pokes[:6],
-                                                     label="Your deck",
+                                        index = deck(6, label="Your deck",
                                                      in_fight=True)
                                         if index is None:
                                             ex_cond = False
@@ -1782,7 +1782,7 @@ def playmap_20_trader():
                  [" < I've lived in this town for long time and therefore have found some cool Poketes.",
                   " < Do you want to trade my cool Pokete?"])
     if ask_bool(ev, movemap, "Do you want to trade a Pokete?"):
-        if (index := deck(figure.pokes[:6], "Your deck", True)) is None:
+        if (index := deck(6, "Your deck", True)) is None:
             return
         figure.add_poke(Poke("ostri", 500), index)
         used_npcs.append(npc.name)
@@ -1821,7 +1821,7 @@ def swap_poke():
     port = 65432
     save()
     do = ask_bool(ev, movemap, "Do you want to be the host?")
-    if (index := deck(figure.pokes[:6], "Your deck", True)) is None:
+    if (index := deck(6, "Your deck", True)) is None:
         return
     if do:
         with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", movemap):
@@ -2029,7 +2029,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     if obj.identifier == "__fallback__":
                         continue
                     fight_clean_up(player, enemy)
-                    index = deck(figure.pokes[:6], "Your deck", True)
+                    index = deck(6, "Your deck", True)
                     player = player if index is None else figure.pokes[index]
                     fight_add_1(player, enemy)
                     fightbox.set_index(0)
@@ -2111,7 +2111,7 @@ def game(_map):
     movemap.set(0, 0)
     movemap.bmap = _map
     movemap.full_show()
-    inp_dict = {"'1'": [deck, (figure.pokes[:6], "Your deck")],
+    inp_dict = {"'1'": [deck, (6, "Your deck")],
                 "'3'": [roadmap, ()],
                 "'4'": [inv, ()],
                 "'5'": [pokete_dex, (p_data.pokes,)],
