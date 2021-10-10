@@ -143,7 +143,7 @@ class NPC(se.Box):
         npc = getattr(_map, npc)
         npc.will = False
         used_npcs.append(npc.name)
-        if ask_bool(movemap,
+        if ask_bool(ev, movemap,
                     f"{name} gifted you a '{item.pretty_name}'. Do you want to accept it?"):
             figure.give_item(item.name)
 
@@ -800,7 +800,7 @@ class Deck:
                     self.submap.full_show()
             elif ev.get() == "'3'":
                 ev.clear()
-                if ask_bool(self.submap, f"Do you really want to free {figure.pokes[self.index.index].name}?"):
+                if ask_bool(ev, self.submap, f"Do you really want to free {figure.pokes[self.index.index].name}?"):
                     self.rem_pokes(pokes)
                     figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
                     pokes = figure.pokes[:len(pokes)]
@@ -1005,8 +1005,9 @@ class Detail(Deck):
 class Inv:
     """Inventory to see and manage items in"""
 
-    def __init__(self):
-        self.box = ChooseBox(height - 3, 35, "Inventory", "R:remove")
+    def __init__(self, _map):
+        self.map = _map
+        self.box = ChooseBox(_map.height - 3, 35, "Inventory", "R:remove")
         self.box2 = Box(7, 21)
         self.money_label = se.Text(str(figure.get_money()) + "$")
         self.desc_label = se.Text(" ")
@@ -1018,10 +1019,10 @@ class Inv:
         """Opens the inventory"""
         ev.clear()
         items = self.add()
-        with self.box.add(movemap, movemap.width - 35, 0):
+        with self.box.add(self.map, self.map.width - 35, 0):
             while True:
                 if ev.get() in ["'s'", "'w'"]:
-                    self.box.input(ev)
+                    self.box.input(ev.get())
                     ev.clear()
                 elif ev.get() in ["'4'", "Key.esc", "'q'"]:
                     break
@@ -1029,7 +1030,7 @@ class Inv:
                     obj = items[self.box.index.index]
                     self.box2.name_label.rechar(obj.pretty_name)
                     self.desc_label.rechar(liner(obj.desc, 19))
-                    self.box2.add(movemap, self.box.x - 19, 3)
+                    self.box2.add(self.map, self.box.x - 19, 3)
                     ev.clear()
                     while True:
                         if ev.get() == "exit":
@@ -1038,7 +1039,7 @@ class Inv:
                             ev.clear()
                             self.box2.remove()
                             if type(obj) is LearnDisc:
-                                if ask_bool(movemap, f"Do you want to teach '{obj.attack_dict['name']}'?"):
+                                if ask_bool(ev, self.map, f"Do you want to teach '{obj.attack_dict['name']}'?"):
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck(figure.pokes[:6],
@@ -1046,26 +1047,26 @@ class Inv:
                                                      in_fight=True)
                                         if index is None:
                                             ex_cond = False
-                                            movemap.show(init=True)
+                                            self.map.show(init=True)
                                             break
                                         poke = figure.pokes[index]
                                         if getattr(types, obj.attack_dict['type']) in poke.types:
                                             break
                                         else:
-                                            ex_cond = ask_bool(movemap,
+                                            ex_cond = ask_bool(ev, self.map,
                                                                f"You cant't teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                                     if not ex_cond:
                                         break
-                                    if LearnAttack(poke, movemap)(obj.attack_name):
+                                    if LearnAttack(poke, self.map)(obj.attack_name):
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
                                     ev.clear()
                             break
                         time.sleep(0.05)
-                        movemap.show()
+                        self.map.show()
                 elif ev.get() == "'r'":
-                    if ask_bool(movemap,
+                    if ask_bool(ev, self.map,
                                 f"Do you really want to throw {items[self.box.index.index].pretty_name} away?"):
                         items = self.rem_item(items[self.box.index.index].name, items)
                         if len(items) == 0:
@@ -1073,7 +1074,7 @@ class Inv:
                     ev.clear()
                 std_loop(ev)
                 time.sleep(0.05)
-                movemap.show()
+                self.map.show()
         self.box.remove_c_obs()
 
     def rem_item(self, name, items):
@@ -1099,8 +1100,9 @@ class Inv:
 class Menu:
     """Menu to manage settings and other stuff in"""
 
-    def __init__(self):
-        self.box = ChooseBox(height - 3, 35, "Menu")
+    def __init__(self, _map):
+        self.map = _map
+        self.box = ChooseBox(_map.height - 3, 35, "Menu")
         self.playername_label = se.Text("Playername: ", state="float")
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
@@ -1124,23 +1126,25 @@ class Menu:
         """Opens the menu"""
         ev.clear()
         self.realname_label.rechar(figure.name)
-        with self.box.add(movemap, movemap.width - self.box.width, 0):
+        with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
                 if ev.get() == "Key.enter":
                     # Fuck python for not having case statements
                     if ((i := self.box.c_obs[self.box.index.index]) ==
                             self.playername_label):
-                        figure.name = text_input(self.realname_label, movemap,
+                        figure.name = text_input(self.realname_label,
+                                                 self.map,
                                                  figure.name, 18, 17)
-                        movemap.underline.remove()
-                        movemap.balls_label.set(0, 1)
-                        movemap.name_label.rechar(figure.name,
-                                                  esccode=Color.thicc)
-                        movemap.balls_label.set(4 + len(movemap.name_label.text),
-                                                movemap.height - 2)
-                        movemap.underline.add(movemap, 0, movemap.height - 2)
+                        self.map.underline.remove()
+                        self.map.balls_label.set(0, 1)
+                        self.map.name_label.rechar(figure.name,
+                                                   esccode=Color.thicc)
+                        self.map.balls_label.set(4 + len(self.map.name_label.text),
+                                                 self.map.height - 2)
+                        self.map.underline.add(self.map, 0,
+                                               self.map.height - 2)
                     elif i == self.save_label:  # When will python3.10 come out?
-                        with InfoBox("Saving....", movemap):  # Shows a box displaying "Saving...." while saving
+                        with InfoBox("Saving....", self.map):  # Shows a box displaying "Saving...." while saving
                             save()
                             time.sleep(1.5)
                     elif i == self.exit_label:
@@ -1159,7 +1163,7 @@ class Menu:
                     break
                 std_loop(ev)
                 time.sleep(0.05)
-                movemap.show()
+                self.map.show()
 
 
 class RoadMap:
@@ -1323,7 +1327,7 @@ class LearnAttack:
             new_attack = random.choice(full_pool)
         else:
             new_attack = attack
-        if ask_bool(self.map, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
+        if ask_bool(ev, self.map, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
             if len(self.poke.attac_obs) != len(self.poke.attacks):
                 self.poke.attacks[-1] = new_attack
             elif len(self.poke.attacks) < 4:
@@ -1753,7 +1757,7 @@ def playmap_17_boy():
         movemap_text(npc.x, npc.y,
                      [" < Oh, cool!", " < You have a Choka!",
                       " < I've never seen one before!", " < Here you go, 200$"])
-        if ask_bool(movemap, "Young boy gifted you 200$. Do you want to accept it?"):
+        if ask_bool(ev, movemap, "Young boy gifted you 200$. Do you want to accept it?"):
             figure.add_money(200)
         npc.will = False
         used_npcs.append(npc.name)
@@ -1770,7 +1774,7 @@ def playmap_20_trader():
     movemap_text(npc.x, npc.y,
                  [" < I've lived in this town for long time and therefore have found some cool Poketes.",
                   " < Do you want to trade my cool Pokete?"])
-    if ask_bool(movemap, "Do you want to trade a Pokete?"):
+    if ask_bool(ev, movemap, "Do you want to trade a Pokete?"):
         if (index := deck(figure.pokes[:6], "Your deck", True)) is None:
             return
         figure.add_poke(Poke("ostri", 500), index)
@@ -1784,7 +1788,7 @@ def playmap_20_trader():
 def playmap_23_npc_8():
     """Interaction with npc_8"""
     npc = ob_maps["playmap_23"].npc_8
-    if ask_bool(movemap, "The man gifted you 100$. Do you want to accept it?"):
+    if ask_bool(ev, movemap, "The man gifted you 100$. Do you want to accept it?"):
         npc.will = False
         used_npcs.append(npc.name)
         figure.add_money(100)
@@ -1805,11 +1809,11 @@ def teleport():
 
 def swap_poke():
     """Trading with other players in the local network"""
-    if not ask_bool(movemap, "Do you want to trade with another trainer?"):
+    if not ask_bool(ev, movemap, "Do you want to trade with another trainer?"):
         return
     port = 65432
     save()
-    do = ask_bool(movemap, "Do you want to be the host?")
+    do = ask_bool(ev, movemap, "Do you want to be the host?")
     if (index := deck(figure.pokes[:6], "Your deck", True)) is None:
         return
     if do:
@@ -1858,7 +1862,7 @@ def swap_poke():
         time.sleep(3)
 
 
-def ask_bool(_map, text):
+def ask_bool(ev, _map, text):
     """Asks the player to aswer a yes/no question"""
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
@@ -1972,7 +1976,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     ev.clear()
                     if ((info["type"] == "duel"
                          and player.identifier != "__fallback__")
-                            or not ask_bool(fightmap, "Do you really want to run away?")):
+                            or not ask_bool(ev, fightmap, "Do you really want to run away?")):
                         continue
                     fightmap.outp.outp("You ran away!")
                     time.sleep(1)
@@ -2122,7 +2126,7 @@ def game(_map):
                 movemap.show(init=True)
             elif ev.get() == "'2'":
                 ev.clear()
-                if ask_bool(movemap, "Do you realy want to exit?"):
+                if ask_bool(ev, movemap, "Do you realy want to exit?"):
                     save()
                     exiter()
             elif ev.get() == "':'":
@@ -2256,7 +2260,7 @@ def check_version(sinfo):
     else:
         ver = sinfo["ver"]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
-        if not ask_bool(loading_screen.map,
+        if not ask_bool(ev, loading_screen.map,
                         liner(f"The save file was created \
 on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
@@ -2654,9 +2658,9 @@ if __name__ == "__main__":
     help_page = Help(movemap)
     roadmap = RoadMap(p_data.stations)
     deck = Deck()
-    menu = Menu()
+    menu = Menu(movemap)
     about = About(VERSION, CODENAME, movemap)
-    inv = Inv()
+    inv = Inv(movemap)
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
     # items
