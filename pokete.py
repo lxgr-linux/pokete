@@ -152,10 +152,9 @@ class Trainer(se.Object):
     """Trauner class to fight against"""
 
     def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
-                 win_texts, sx, sy, arg_proto={}):
+                 win_texts, sx, sy):
         super().__init__("a", state="solid")
         # attributes
-        self.arg_proto = arg_proto
         self.name = name
         self.gender = gender
         self.poke = poke
@@ -178,17 +177,20 @@ class Trainer(se.Object):
             movemap.full_show()
             time.sleep(0.7)
             try:
-                exclamation.add(movemap, self.x - movemap.x, self.y - 1 - movemap.y)
+                exclamation.add(movemap, self.x - movemap.x,
+                                self.y - 1 - movemap.y)
             except se.CoordinateError:
                 pass
             movemap.show()
             time.sleep(1)
             exclamation.remove()
             while self.y != figure.y + (2 if self.y > figure.y else -2):
-                self.set(self.x, self.y + (-1 if self.y > figure.y + 1 or self.y == figure.y - 1 else 1))
+                self.set(self.x,
+                         self.y + (-1 if self.y > figure.y + 1
+                                   or self.y == figure.y - 1 else 1))
                 movemap.full_show()
                 time.sleep(0.3)
-            if any([poke.hp > 0 for poke in figure.pokes[:6]]):
+            if any(poke.hp > 0 for poke in figure.pokes[:6]):
                 movemap_text(self.x, self.y, self.texts)
                 winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0],
                                self.poke, info={"type": "duel", "player": self})
@@ -438,7 +440,7 @@ class Poke:
                     return
                 elif i == 0:
                     pass
-            if any([type(i) is effects.confusion for i in self.effects]):
+            if any(type(i) is effects.confusion for i in self.effects):
                 self.enem = enem = self
             else:
                 self.enem = enem
@@ -448,9 +450,14 @@ class Poke:
                            else 0.5
                            if enem.type.name in attac.type.ineffective
                            else 1)
-            n_hp = round((self.atc * attac.factor / (enem.defense if enem.defense >= 1 else 1)) *
-                         random.choices([0, 0.75, 1, 1.26], weights=[attac.miss_chance + self.miss_chance, 1, 1, 1],
-                                        k=1)[0] * effectivity)
+            n_hp = round((self.atc
+                           * attac.factor
+                           / (enem.defense if enem.defense >= 1 else 1))
+                          * random.choices([0, 0.75, 1, 1.26],
+                                           weights=[attac.miss_chance
+                                                     + self.miss_chance,
+                                                    1, 1, 1],
+                                           k=1)[0] * effectivity)
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
             time.sleep(0.4)
@@ -511,8 +518,7 @@ class Station(se.Square):
     obs = []
 
     def __init__(self, associate, additionals, width, height, char="#",
-                 w_next="", a_next="", s_next="", d_next="", state="solid",
-                 arg_proto={}):
+                 w_next="", a_next="", s_next="", d_next="", state="solid"):
         self.org_char = char
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = ""
@@ -562,8 +568,8 @@ class Station(se.Square):
 class Figure(se.Object):
     """The figure that moves around on the map and represents the player"""
 
-    def __init__(self, char, state="solid", arg_proto={}):
-        super().__init__(char, state="solid", arg_proto={})
+    def __init__(self, char):
+        super().__init__(char, state="solid")
         self.__money = 10
         self.inv = {"poketeballs": 10}
         self.name = ""
@@ -691,7 +697,8 @@ class Attack:
                                   state="float")
         self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}", state="float")
         self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
-        self.label_desc = se.Text(self.desc[:int(width / 2 - 1)], state="float")
+        self.label_desc = se.Text(self.desc[:int(width / 2 - 1)],
+                                  state="float")
         self.label_type_1 = se.Text("Type:", state="float")
         self.label_type_2 = se.Text(self.type.name.capitalize(),
                                     esccode=self.type.color, state="float")
@@ -706,14 +713,17 @@ class Attack:
 class Setting(se.Box):
     """The setting label for the menu"""
 
-    def __init__(self, text, setting, options={}):
+    def __init__(self, text, setting, options=None):
+        if options is  None:
+            options = {}
         super().__init__(0, 0)
         self.options = options
         self.setting = setting
-        self.index = [j for j in self.options].index(getattr(settings,
+        self.index = list(options).index(getattr(settings,
                                                              self.setting))
         self.text = se.Text(text + ": ", state="float")
-        self.option_text = se.Text(self.options[getattr(settings, self.setting)],
+        self.option_text = se.Text(self.options[getattr(settings,
+                                                        self.setting)],
                                    state="float")
         self.add_ob(self.text, 0, 0)
         self.add_ob(self.option_text, len(self.text.text), 0)
@@ -721,7 +731,7 @@ class Setting(se.Box):
     def change(self):
         """Change the setting"""
         self.index = self.index + 1 if self.index < len(self.options) - 1 else 0
-        setattr(settings, self.setting, [i for i in self.options][self.index])
+        setattr(settings, self.setting, list(self.options)[self.index])
         self.option_text.rechar(self.options[getattr(settings, self.setting)])
 
 
@@ -804,7 +814,8 @@ class Deck:
                     self.index.set(0, self.map.height - 1)
                     self.add_all(pokes)
                     self.index.set(
-                        pokes[self.index.index].text_name.x + len(pokes[self.index.index].text_name.text) + 1,
+                        pokes[self.index.index].text_name.x
+                         + len(pokes[self.index.index].text_name.text) + 1,
                         pokes[self.index.index].text_name.y)
                     self.move_label.rechar("2: Move    ")
                     self.submap.full_show()
@@ -857,7 +868,8 @@ class Deck:
         poke.text_name.add(_map, x + 12, y + 0)
         if poke.identifier != "__fallback__":
             for obj, _x, _y in zip([poke.ico, poke.text_lvl, poke.text_hp,
-                                    poke.tril, poke.trir, poke.hp_bar, poke.text_xp],
+                                    poke.tril, poke.trir, poke.hp_bar,
+                                    poke.text_xp],
                                    [0, 12, 12, 18, 27, 19, 12],
                                    [0, 1, 2, 2, 2, 2, 3]):
                 obj.add(_map, x + _x, y + _y)
@@ -882,7 +894,8 @@ class Deck:
         """Adds all Poketes to the deck"""
         j = 0
         for i, poke in enumerate(pokes):
-            self.add(poke, self.map, 1 if i % 2 == 0 else round(self.map.width / 2) + 1, j * 5 + 1)
+            self.add(poke, self.map,
+                     1 if i % 2 == 0 else round(self.map.width / 2) + 1, j * 5 + 1)
             if i % 2 == 0 and init:
                 se.Square("-", self.map.width - 2, 1).add(self.map, 1, j * 5 + 5)
             if i % 2 == 1:
@@ -1412,7 +1425,7 @@ def autosave():
 
 def save():
     """Saves all relevant data to savefile"""
-    session_info = {
+    _si = {
         "user": figure.name,
         "ver": VERSION,
         "map": figure.map.name,
@@ -1429,9 +1442,9 @@ def save():
         # filters doublicates from used_npcs
         "used_npcs": list(dict.fromkeys(used_npcs))
     }
-    with open(home + SAVEPATH + "/pokete.json", "w+") as file:
+    with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
-        json.dump(session_info, file, indent=4) 
+        json.dump(_si, file, indent=4) 
 
 
 def on_press(key):
@@ -1510,8 +1523,8 @@ def balls_label_rechar():
 
 def mapresize(_map):
     """Resizes a map"""
-    width, height = os.get_terminal_size()
-    if _map.width != width or _map.height != height - 1:
+    _wi, _he = os.get_terminal_size()
+    if _map.width != _wi or _map.height != _he - 1:
         _map.resize(height - 1, width, " ")
         return True
     return False
@@ -1844,7 +1857,7 @@ def swap_poke():
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.bind((host, port))
                 s.listen()
-                conn, addr = s.accept()
+                conn = s.accept()[0]
                 with conn:
                     while True:
                         data = conn.recv(1024)
@@ -1884,22 +1897,22 @@ def swap_poke():
         time.sleep(3)
 
 
-def ask_bool(ev, _map, text):
+def ask_bool(_ev, _map, text):
     """Asks the player to aswer a yes/no question"""
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
     with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o", _map):
         while True:
-            if ev.get() == "'y'":
+            if _ev.get() == "'y'":
                 ret = True
                 break
-            elif ev.get() in ["'n'", "Key.esc", "'q'"]:
+            elif _ev.get() in ["'n'", "Key.esc", "'q'"]:
                 ret = False
                 break
-            std_loop(ev)
+            std_loop(_ev)
             time.sleep(0.05)
             _map.show()
-        ev.clear()
+        _ev.clear()
     return ret
 
 
@@ -2060,7 +2073,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                 std_loop(ev)
                 time.sleep(0.1)
         else:
-            attack = random.choices([i for i in obj.attac_obs],
+            attack = random.choices(obj.attac_obs,
                                     weights=[i.ap * ((1.5
                                                       if enem.type.name in i.type.effective
                                                       else 0.5
@@ -2074,10 +2087,10 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             obj.attack(attack, enem)
         fightmap.show()
         time.sleep(0.5)
-        if any([i.hp <= 0 for i in players]):
+        if any(i.hp <= 0 for i in players):
             winner = [i for i in players if i.hp > 0][0]
             break
-        elif all([i.ap == 0 for i in obj.attac_obs]):
+        elif all(i.ap == 0 for i in obj.attac_obs):
             winner = [i for i in players if i != obj][0]
             time.sleep(2)
             fightmap.outp.outp(f"{obj.ext_name} has used all its' attacks!")
@@ -2569,7 +2582,7 @@ if __name__ == "__main__":
                     reset_terminal()
                     ev.set("exit")
     else:
-        from pynput.keyboard import Key, Listener
+        from pynput.keyboard import Listener
         
 
         def recogniser():
@@ -2590,8 +2603,8 @@ if __name__ == "__main__":
     types = Types(p_data.types, p_data.sub_types)
 
     # reading config file
-    home = str(Path.home())
-    Path(home + SAVEPATH).mkdir(parents=True, exist_ok=True)
+    HOME = str(Path.home())
+    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     session_info = {
         "user": "DEFAULT",
@@ -2611,14 +2624,14 @@ if __name__ == "__main__":
         "used_npcs": []
     }
     
-    if (not os.path.exists(home + SAVEPATH + "/pokete.json")
-        and os.path.exists(home + SAVEPATH + "/pokete.py")):
-        with open(home + SAVEPATH + "/pokete.py") as file:
-            exec(file.read())
+    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
+        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
+        with open(HOME + SAVEPATH + "/pokete.py") as _file:
+            exec(_file.read())
         session_info = json.loads(json.dumps(session_info))
-    elif os.path.exists(home + SAVEPATH + "/pokete.json"):
-        with open(home + SAVEPATH + "/pokete.json") as file:
-            session_info = json.load(file)
+    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
+        with open(HOME + SAVEPATH + "/pokete.json") as _file:
+            session_info = json.load(_file)
     
     if "settings" in session_info:
         settings = Settings(**session_info["settings"])
