@@ -409,7 +409,7 @@ class Poke:
         """Returns a dict with all information about the Pokete"""
         return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
                 "ap": [atc.ap for atc in self.attac_obs],
-                "effects": [e.c_name for e in self.effects],
+                "effects": [eff.c_name for eff in self.effects],
                 "attacks": self.attacks,
                 "shiny": self.shiny}
 
@@ -432,14 +432,12 @@ class Poke:
     def attack(self, attac, enem):
         """Attack process"""
         if attac.ap > 0:
-            for e in self.effects:
-                e.remove()
-            for e in self.effects:
-                if (i := e.effect()) == 1:
+            for eff in self.effects:
+                eff.remove()
+            for eff in self.effects:
+                if (i := eff.effect()) == 1:
                     self.label_rechar()
                     return
-                elif i == 0:
-                    pass
             if any(type(i) is effects.confusion for i in self.effects):
                 self.enem = enem = self
             else:
@@ -593,8 +591,8 @@ class Figure(se.Object):
         for j, poke in enumerate(self.pokes):
             poke.set_ap(si["pokes"][str(j)]["ap"])
             if "effects" in si["pokes"][str(j)]:
-                for e in si["pokes"][str(j)]["effects"]:
-                    poke.effects.append(getattr(effects, e)(poke))
+                for eff in si["pokes"][str(j)]["effects"]:
+                    poke.effects.append(getattr(effects, eff)(poke))
         try:
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
@@ -658,12 +656,7 @@ class Figure(se.Object):
 
     def has_item(self, item):
         """Checks if an item is already present"""
-        if item not in self.inv:
-            return False
-        elif self.inv[item] > 0:
-            return True
-        else:
-            return False
+        return item in self.inv and self.inv[item] > 0
 
     def remove_item(self, item, amount=1):
         """Removes a certain amount of an item from the inv"""
@@ -797,7 +790,7 @@ class Deck:
                 self.submap.set(0, 0)
                 if ret_action is not None:
                     abb_funcs[ret_action]()
-                return
+                return None
             elif ev.get() == "'2'":
                 ev.clear()
                 if len(pokes) == 0:
@@ -877,8 +870,8 @@ class Deck:
                 poke.pball_small.add(_map,
                                      round(_map.width / 2) - 1 if figure.pokes.index(poke) % 2 == 0 else _map.width - 2,
                                      y)
-            for e in poke.effects:
-                e.add_label()
+            for eff in poke.effects:
+                eff.add_label()
 
     @staticmethod
     def remove(poke):
@@ -887,8 +880,8 @@ class Deck:
                     poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
                     poke.pball_small]:
             obj.remove()
-        for e in poke.effects:
-            e.cleanup()
+        for eff in poke.effects:
+            eff.cleanup()
 
     def add_all(self, pokes, init=False):
         """Adds all Poketes to the deck"""
@@ -1207,10 +1200,10 @@ class RoadMap:
         self.box = Box(11, 40, "Roadmap")
         self.info_label = se.Text("")
         self.box.add_ob(self.info_label, 1, 1)
-        for s in stations:
-            obj = Station(ob_maps[s], **stations[s]['gen'])
-            self.box.add_ob(obj, **stations[s]['add'])
-            setattr(self, s, obj)
+        for sta in stations:
+            obj = Station(ob_maps[sta], **stations[sta]['gen'])
+            self.box.add_ob(obj, **stations[sta]['add'])
+            setattr(self, sta, obj)
 
     def __call__(self, choose=False):
         """Shows the roadmap"""
@@ -1562,17 +1555,18 @@ def movemap_text(x, y, arr):
     multitext.rechar("")
     multitext.add(movemap, x - movemap.x + 1, y - movemap.y)
     arr = [arr[i] + (" >" if i != len(arr) - 1 else "") for i in range(len(arr))]
-    for t in arr:
+    for text in arr:
         ev.clear()
         multitext.rechar("")
-        for i in range(len(t) + 1):
-            multitext.outp(liner(t[:i], movemap.width - (x - movemap.x + 1), "   "))
+        for i in range(len(text) + 1):
+            multitext.outp(liner(text[:i],
+                           movemap.width - (x - movemap.x + 1), "   "))
             time.sleep(0.045)
             std_loop(ev)
             if ev.get() != "":
                 ev.clear()
                 break
-        multitext.outp(liner(t, movemap.width - (x - movemap.x + 1), "   "))
+        multitext.outp(liner(text, movemap.width - (x - movemap.x + 1), "   "))
         while True:
             std_loop(ev)
             if ev.get() != "":
@@ -1696,7 +1690,6 @@ class FightItems:
         else:
             obj.hp += hp
         obj.hp_bar.update(obj.oldhp)
-        return None
 
 
     def heal_potion(self, obj, enem, info):
@@ -1730,7 +1723,6 @@ class FightItems:
         for atc in obj.attac_obs:
             atc.ap = atc.max_ap
         obj.label_rechar()
-        return None
 
 
 # Playmap extra action functions
@@ -1858,10 +1850,10 @@ def swap_poke():
     if do:
         with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", movemap):
             host = ''
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.bind((host, port))
-                s.listen()
-                conn = s.accept()[0]
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                sock.bind((host, port))
+                sock.listen()
+                conn = sock.accept()[0]
                 with conn:
                     while True:
                         data = conn.recv(1024)
@@ -1879,9 +1871,9 @@ def swap_poke():
                 with InfoBox("You're not allowed trade with your self!\nYou fool!", movemap):
                     time.sleep(5)
                 host = ""
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
-                s.connect((host, port))
+                sock.connect((host, port))
             except Exception as err:
                 with InfoBox(str(err), movemap):
                     time.sleep(5)
