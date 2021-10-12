@@ -477,7 +477,7 @@ class Poke:
             self.label_rechar()
             fightmap.show()
 
-    
+
     def evolve(self):
         """Evolves the Pokete to its evolve_poke"""
         if not self.player:
@@ -1349,7 +1349,7 @@ class LearnAttack:
         attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
-                    if all(j in [i.name for i in self.poke.types] 
+                    if all(j in [i.name for i in self.poke.types]
                            for j in attacks[i]["types"])
                     and attacks[i]["is_generic"]]
             full_pool = [i for i in self.poke.inf["attacks"] +
@@ -1444,7 +1444,7 @@ def save():
     }
     with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
-        json.dump(_si, file, indent=4) 
+        json.dump(_si, file, indent=4)
 
 
 def on_press(key):
@@ -1654,79 +1654,83 @@ def fight_add_2(player, enemy):
         fightmap.show()
         player.ico.add(fightmap, 3, fightmap.height - 10)
 
+class FightItems:
+    """Contains all fns callable by an item in fight"""
 
-def fight_throw(obj, enem, info, chance, name):
-    """Throws a Poketeball"""
-    if obj.identifier == "__fallback__" or info["type"] == "duel":
-        return 1
-    fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
-    fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
-    time.sleep(random.choice([1, 2, 3, 4]))
-    figure.remove_item(name)
-    catch_chance = 20 if figure.map == ob_maps["playmap_1"] else 0
-    for effect in enem.effects:
-        catch_chance += effect.catch_chance
-    if random.choices([True, False],
-                      weights=[(enem.full_hp / enem.hp) * chance + catch_chance,
-                               enem.full_hp], k=1)[0]:
-        figure.add_poke(enem)
-        fightmap.outp.outp(f"You catched {enem.name}")
-        time.sleep(2)
-        pball.remove()
-        fight_clean_up(obj, enem)
-        balls_label_rechar()
-        return 2
-    else:
-        fightmap.outp.outp("You missed!")
-        fightmap.show()
-        pball.remove()
-        enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
-        fightmap.show()
-
-
-def fight_potion(obj, enem, info, hp, name):
-    """Potion function"""
-    figure.remove_item(name)
-    obj.oldhp = obj.hp
-    if obj.hp + hp > obj.full_hp:
-        obj.hp = obj.full_hp
-    else:
-        obj.hp += hp
-    obj.hp_bar.update(obj.oldhp)
-    return
+    def throw(self, obj, enem, info, chance, name):
+        """Throws a Poketeball"""
+        if obj.identifier == "__fallback__" or info["type"] == "duel":
+            return 1
+        fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
+        fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
+        time.sleep(random.choice([1, 2, 3, 4]))
+        figure.remove_item(name)
+        catch_chance = 20 if figure.map == ob_maps["playmap_1"] else 0
+        for effect in enem.effects:
+            catch_chance += effect.catch_chance
+        if random.choices([True, False],
+                          weights=[(enem.full_hp / enem.hp) * chance + catch_chance,
+                                   enem.full_hp], k=1)[0]:
+            figure.add_poke(enem)
+            fightmap.outp.outp(f"You catched {enem.name}")
+            time.sleep(2)
+            pball.remove()
+            fight_clean_up(obj, enem)
+            balls_label_rechar()
+            return 2
+        else:
+            fightmap.outp.outp("You missed!")
+            fightmap.show()
+            pball.remove()
+            enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
+            fightmap.show()
+            return None
 
 
-def fight_heal_potion(obj, enem, info):
-    """Healing potion function"""
-    return fight_potion(obj, enem, info, 5, "healing_potion")
+    def potion(self, obj, enem, info, hp, name):
+        """Potion function"""
+        figure.remove_item(name)
+        obj.oldhp = obj.hp
+        if obj.hp + hp > obj.full_hp:
+            obj.hp = obj.full_hp
+        else:
+            obj.hp += hp
+        obj.hp_bar.update(obj.oldhp)
+        return None
 
 
-def fight_super_potion(obj, enem, info):
-    """Super potion function"""
-    return fight_potion(obj, enem, info, 15, "super_potion")
+    def heal_potion(self, obj, enem, info):
+        """Healing potion function"""
+        return self.potion(obj, enem, info, 5, "healing_potion")
 
 
-def fight_poketeball(obj, enem, info):
-    """Poketeball function"""
-    return fight_throw(obj, enem, info, 1, "poketeball")
+    def super_potion(self, obj, enem, info):
+        """Super potion function"""
+        return self.potion(obj, enem, info, 15, "super_potion")
 
 
-def fight_superball(obj, enem, info):
-    """Superball function"""
-    return fight_throw(obj, enem, info, 6, "superball")
+    def poketeball(self, obj, enem, info):
+        """Poketeball function"""
+        return self.throw(obj, enem, info, 1, "poketeball")
 
 
-def fight_hyperball(obj, enem, info):
-    """Hyperball function"""
-    return fight_throw(obj, enem, info, 1000, "hyperball")
+    def superball(self, obj, enem, info):
+        """Superball function"""
+        return self.throw(obj, enem, info, 6, "superball")
 
 
-def fight_ap_potion(obj, enem, info):
-    """AP potion function"""
-    figure.remove_item("ap_potion")
-    for atc in obj.attac_obs:
-        atc.ap = atc.max_ap
-    obj.label_rechar()
+    def hyperball(self, obj, enem, info):
+        """Hyperball function"""
+        return self.throw(obj, enem, info, 1000, "hyperball")
+
+
+    def ap_potion(self, obj, enem, info):
+        """AP potion function"""
+        figure.remove_item("ap_potion")
+        for atc in obj.attac_obs:
+            atc.ap = atc.max_ap
+        obj.label_rechar()
+        return None
 
 
 # Playmap extra action functions
@@ -2046,11 +2050,12 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                     fight_invbox.remove_c_obs()
                     if item == "":
                         continue
-                    i = eval(item.fn)(obj, enem, info)  # I hate you python for not having switch statements
+                    i = getattr(FightItems(), item.fn)(obj, enem, info)
+                    # I hate you python for not having switch statements
                     if i == 1:
                         continue
                     elif i == 2:
-                        return
+                        return obj
                     attack = ""
                     break
                 elif ev.get() == "'4'":
@@ -2583,7 +2588,7 @@ if __name__ == "__main__":
                     ev.set("exit")
     else:
         from pynput.keyboard import Listener
-        
+
 
         def recogniser():
             """Gets keyboard input from pynput"""
@@ -2623,7 +2628,7 @@ if __name__ == "__main__":
         "startup_time": 0,
         "used_npcs": []
     }
-    
+
     if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
         and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
         with open(HOME + SAVEPATH + "/pokete.py") as _file:
@@ -2632,7 +2637,7 @@ if __name__ == "__main__":
     elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
         with open(HOME + SAVEPATH + "/pokete.json") as _file:
             session_info = json.load(_file)
-    
+
     if "settings" in session_info:
         settings = Settings(**session_info["settings"])
     else:
