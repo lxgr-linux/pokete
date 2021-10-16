@@ -38,7 +38,7 @@ __t = time.time()
 ##################
 
 class Event:
-    """Event clas to enable dependency injection"""
+    """Event class to enable dependency injection"""
 
     def __init__(self, _ev):
         self.ev = _ev
