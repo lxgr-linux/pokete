@@ -188,6 +188,31 @@ npcs = {
         "x": 13,
         "y": 4
     },
+    "npc_14": {
+        "texts": [" < I guess this will be helpfull for you!"],
+        "fn": "NPC.give",
+        "args": ("playmap_36", "npc_14", "Old woman", "ap_potion"),
+        "map": "playmap_36",
+        "x": 15,
+        "y": 4
+    },
+    "npc_15": {
+        "texts": [" < Hello fellow trainer!",
+                  " < This is a very helpfull potion, that will save your Pokete in riscy fights!"],
+        "fn": "NPC.give",
+        "args": ("playmap_37", "npc_15", "Bert the bird", "super_potion"),
+        "map": "playmap_37",
+        "x": 4,
+        "y": 3
+    },
+    "npc_16": {
+        "texts": [" < WTF r u doing here?", " < Screw of!"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_38",
+        "x": 11,
+        "y": 4
+    },
 }
 
 if __name__ == "__main__":

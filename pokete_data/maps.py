@@ -334,6 +334,27 @@ maps = {
             "maxlvl": 1300
         },
     },
+    "playmap_36": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_37": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_38": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
 }
 
 
