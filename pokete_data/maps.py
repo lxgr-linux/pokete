@@ -310,7 +310,11 @@ maps = {
         "width": 155,
         "pretty_name": "Mowcow meadow",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": {
+            "pokes": ["mowcow", "voglo", "bushy"],
+            "minlvl": 800,
+            "maxlvl": 1000
+        },
     },
 }
 

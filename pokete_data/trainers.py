@@ -308,6 +308,15 @@ trainers = {
                      [" < This was unfortunate!"], 31, 4)
         },
     ],
+    "playmap_33": [{
+        "poke": ("mowcow", 1200),
+        "args": ("Cowsay", "They",
+                 [" < This apt has supercow-powers!"],
+                 [" < You're a fucking loooser!"],
+                 [" < I see you don't have a living Pokete"],
+                 [" < I hope you'll also catch one!!"], 59, 23)
+        },
+    ],
 }
 
 if __name__ == "__main__":
