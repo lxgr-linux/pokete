@@ -305,6 +305,13 @@ maps = {
         "extra_actions": None,
         "poke_args": None
     },
+    "playmap_33": {
+        "height": 45,
+        "width": 155,
+        "pretty_name": "Mowcow meadow",
+        "extra_actions": None,
+        "poke_args": None
+    },
 }
 
 
