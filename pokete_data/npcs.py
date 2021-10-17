@@ -180,6 +180,14 @@ npcs = {
         "x": 8,
         "y": 4
     },
+    "npc_13": {
+        "texts": [" < Muuuuuu!", " < I'm a Mowcow!"],
+        "fn": None,
+        "args": (),
+        "map": "playmap_34",
+        "x": 13,
+        "y": 4
+    },
 }
 
 if __name__ == "__main__":
