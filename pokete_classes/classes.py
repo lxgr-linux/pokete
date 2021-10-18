@@ -56,58 +56,5 @@ class OutP(se.Text):
         self.map.show()
 
 
-class ResizeScreen():
-    """Screen thats shown when the screen is resized"""
-
-    def __init__(self):
-        width, height = os.get_terminal_size()
-        self.map = se.Map(background=" ")
-        self.warning_label = se.Text("Minimum windowsize is 70x20")
-        self.size_label = se.Text(f"{width}x{height}")
-        self.frame = StdFrame(height - 1, width)
-        self.warning_label.add(self.map, int(width / 2) - 13, int(height / 2) - 1)
-        self.size_label.add(self.map, 1, 0)
-        self.frame.add(self.map, 0, 0)
-
-    def __call__(self):
-        """Shows the map"""
-        width, height = os.get_terminal_size()
-        while width < 70 or height < 20:
-            width, height = os.get_terminal_size()
-            self.warning_label.set(1, 1)
-            self.frame.remove()
-            self.map.resize(height - 1, width, " ")
-            self.warning_label.set(int(width / 2) - 13, int((height - 1) / 2) - 1)
-            self.size_label.rechar(f"{width}x{height}")
-            self.frame.resize(height - 1, width)
-            self.frame.add(self.map, 0, 0)
-            self.map.show()
-        return width, height
-
-
-class LoadingScreen():
-    """Loading screen that's shown at game's start"""
-
-    def __init__(self, ver, codename):
-        width, height = os.get_terminal_size()
-        self.map = se.Map(background=" ", width=width, height=height - 1)
-        se.Text(r""" _____      _        _
-|  __ \    | |      | |
-| |__) |__ | | _____| |_ ___
-|  ___/ _ \| |/ / _ \ __/ _ \
-| |  | (_) |   <  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|""", state="float").add(self.map,
-                                                     int(self.map.width / 2) - 15, int(self.map.height / 2) - 4)
-        se.Text(f"v{ver}", state="float").add(self.map,
-                                              int(self.map.width / 2) - 15, int(self.map.height / 2) + 2)
-        se.Text(codename, state="float").add(self.map,
-                                             int(self.map.width / 2) + 14 - len(codename),
-                                             int(self.map.height / 2) + 2)
-
-    def __call__(self):
-        """Shows the loading screen"""
-        self.map.show()
-
-
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

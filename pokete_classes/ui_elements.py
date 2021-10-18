@@ -36,9 +36,9 @@ class Box(se.Box):
         self.add_ob(self.name_label, 2, 0)
         self.add_ob(self.info_label, 2, self.height - 1)
 
-    def center_add(self, map):
-        self.add(map, round((map.width - self.width) / 2),
-                 round((map.height - self.height) / 2))
+    def center_add(self, _map):
+        self.add(_map, round((_map.width - self.width) / 2),
+                 round((_map.height - self.height) / 2))
         return self
 
     def resize(self, height, width):
@@ -47,8 +47,8 @@ class Box(se.Box):
         self.frame.resize(height, width)
         self.set_ob(self.info_label, 2, self.height - 1)
 
-    def add(self, map, x, y):
-        super().add(map, x, y)
+    def add(self, _map, x, y):
+        super().add(_map, x, y)
         return self
 
     def __enter__(self):
@@ -85,8 +85,8 @@ class ChooseBox(Box):
             self.index.index = index
         self.set_ob(self.index, self.index.rx, self.c_obs[self.index.index].ry)
 
-    def add_c_obs(self, list):
-        self.c_obs = list
+    def add_c_obs(self, _list):
+        self.c_obs = _list
         for y, ob in enumerate(self.c_obs):
             self.add_ob(ob, self.index_x * 2, 1 + y)
 
@@ -97,13 +97,13 @@ class ChooseBox(Box):
 
 
 class InfoBox(Box):
-    def __init__(self, text, map=None):
+    def __init__(self, text, _map=None):
         height = len(text.split("\n")) + 2
         width = sorted([len(i) for i in text.split("\n")])[-1] + 4
         super().__init__(height, width)
         self.text = se.Text(text)
         self.add_ob(self.text, 2, 1)
-        self.map = map
+        self.map = _map
 
     def __enter__(self):  # Contextmanagement is fucking awesome!
         self.center_add(self.map)
@@ -112,11 +112,11 @@ class InfoBox(Box):
 
 
 class InputBox(InfoBox):
-    def __init__(self, infotext, introtext, text, max_len, map=None):
+    def __init__(self, infotext, introtext, text, max_len, _map=None):
         height = len(infotext.split("\n")) + 3
         width = sorted([len(i) for i in infotext.split("\n")] + [len(introtext) + 1 + max_len])[-1] + 4
         super(InfoBox, self).__init__(height, width)
-        self.map = map
+        self.map = _map
         self.infotext = se.Text(infotext)
         self.introtext = se.Text(introtext)
         self.text = se.Text(text)
