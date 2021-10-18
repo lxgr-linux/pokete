@@ -462,7 +462,7 @@ class Poke:
             for i in attac.move:
                 getattr(self.moves, i)()
             if attac.action is not None:
-                getattr(attac.action)(self, enem)
+                getattr(AttackActions(), attac.action)(self, enem)
             attac.ap -= 1
             fightmap.outp.outp(
                 f'{self.ext_name} used {attac.name}! {self.name + " missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
