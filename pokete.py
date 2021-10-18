@@ -713,7 +713,7 @@ class Setting(se.Box):
         self.options = options
         self.setting = setting
         self.index = list(options).index(getattr(settings,
-                                                             self.setting))
+                                                 self.setting))
         self.text = se.Text(text + ": ", state="float")
         self.option_text = se.Text(self.options[getattr(settings,
                                                         self.setting)],
