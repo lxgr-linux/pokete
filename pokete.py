@@ -707,7 +707,7 @@ class Setting(se.Box):
     """The setting label for the menu"""
 
     def __init__(self, text, setting, options=None):
-        if options is  None:
+        if options is None:
             options = {}
         super().__init__(0, 0)
         self.options = options
