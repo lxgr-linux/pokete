@@ -28,6 +28,7 @@ from pokete_classes.moves import Moves
 from pokete_classes.types import Types
 from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
+from pokete_classes.attack_actions import AttackActions
 from pokete_general_use_fns import *
 from release import *
 
@@ -509,50 +510,6 @@ class Poke:
         if new.identifier not in caught_poketes:
             caught_poketes.append(new.identifier)
         del self
-
-
-class AttackActions:
-
-    def cry(self, obj, enem):
-        enem.miss_chance += 1
-
-    def eye_pick(self, obj, enem):
-        enem.miss_chance += 2
-
-    def chocer(self, obj, enem):
-        enem.atc -= 1
-
-    def snooze(self, obj, enem):
-        enem.miss_chance += 0.5
-        enem.atc -= 1
-        enem.defense -= 1
-
-    def politure(self, obj, enem):
-        obj.defense += 1
-        obj.atc += 1
-
-    def bark_hardening(self, obj, enem):
-        obj.defense += 1
-
-    def dick_energy(self, obj, enem):
-        obj.atc += 2
-
-    def hiding(self, obj, enem):
-        obj.defense += 2
-
-    def brooding(self, obj, enem):
-        obj.hp += 2 if obj.hp + 2 <= obj.full_hp else 0
-
-    def heart_touch(self, obj, enem):
-        enem.defense -= 4
-
-    def super_sucker(self, obj, enem):
-        enem.hp -=2
-        obj.hp +=2 if obj.hp+2 <= obj.full_hp else 0
-
-    def sucker(self, obj, enem):
-        enem.hp -= 1
-        obj.hp += 1 if obj.hp+1 <= obj.full_hp else 0
 
 
 class Station(se.Square):
