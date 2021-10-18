@@ -461,7 +461,8 @@ class Poke:
             time.sleep(0.4)
             for i in attac.move:
                 getattr(self.moves, i)()
-            exec(attac.action)
+            if attac.action is not None:
+                getattr(attac.action)(self, enem)
             attac.ap -= 1
             fightmap.outp.outp(
                 f'{self.ext_name} used {attac.name}! {self.name + " missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
@@ -508,6 +509,50 @@ class Poke:
         if new.identifier not in caught_poketes:
             caught_poketes.append(new.identifier)
         del self
+
+
+class AttackActions:
+
+    def cry(self, obj, enem):
+        enem.miss_chance += 1
+
+    def eye_pick(self, obj, enem):
+        enem.miss_chance += 2
+
+    def chocer(self, obj, enem):
+        enem.atc -= 1
+
+    def snooze(self, obj, enem):
+        enem.miss_chance += 0.5
+        enem.atc -= 1
+        enem.defense -= 1
+
+    def politure(self, obj, enem):
+        obj.defense += 1
+        obj.atc += 1
+
+    def bark_hardening(self, obj, enem):
+        obj.defense += 1
+
+    def dick_energy(self, obj, enem):
+        obj.atc += 2
+
+    def hiding(self, obj, enem):
+        obj.defense += 2
+
+    def brooding(self, obj, enem):
+        obj.hp += 2 if obj.hp + 2 <= obj.full_hp else 0
+
+    def heart_touch(self, obj, enem):
+        enem.defense -= 4
+
+    def super_sucker(self, obj, enem):
+        enem.hp -=2
+        obj.hp +=2 if obj.hp+2 <= obj.full_hp else 0
+
+    def sucker(self, obj, enem):
+        enem.hp -= 1
+        obj.hp += 1 if obj.hp+1 <= obj.full_hp else 0
 
 
 class Station(se.Square):
