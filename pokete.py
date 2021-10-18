@@ -1961,8 +1961,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         obj, enem = players
     else:
         enem = sorted(zip([i.initiative for i in players],
+                          # The [1, 0] array is needed to avoid comparing
+                          # two Poke objects
                           [1, 0], players))[0][-1]
-        # The [1, 0] array is needed to avoid comparing two Poke objects
         obj = [i for i in players if i != enem][-1]
     for i in players:
         for j in i.effects:
