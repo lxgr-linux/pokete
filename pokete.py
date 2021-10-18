@@ -38,7 +38,7 @@ __t = time.time()
 ##################
 
 class Event:
-    """Event clas to enable dependency injection"""
+    """Event class to enable dependency injection"""
 
     def __init__(self, _ev):
         self.ev = _ev
@@ -707,13 +707,13 @@ class Setting(se.Box):
     """The setting label for the menu"""
 
     def __init__(self, text, setting, options=None):
-        if options is  None:
+        if options is None:
             options = {}
         super().__init__(0, 0)
         self.options = options
         self.setting = setting
         self.index = list(options).index(getattr(settings,
-                                                             self.setting))
+                                                 self.setting))
         self.text = se.Text(text + ": ", state="float")
         self.option_text = se.Text(self.options[getattr(settings,
                                                         self.setting)],
@@ -1961,8 +1961,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         obj, enem = players
     else:
         enem = sorted(zip([i.initiative for i in players],
+                          # The [1, 0] array is needed to avoid comparing
+                          # two Poke objects
                           [1, 0], players))[0][-1]
-        # The [1, 0] array is needed to avoid comparing two Poke objects
         obj = [i for i in players if i != enem][-1]
     for i in players:
         for j in i.effects:
