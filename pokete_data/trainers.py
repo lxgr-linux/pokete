@@ -308,6 +308,40 @@ trainers = {
                      [" < This was unfortunate!"], 31, 4)
         },
     ],
+    "playmap_33": [{
+        "poke": ("mowcow", 1200),
+        "args": ("Cowsay", "They",
+                 [" < This apt has supercow-powers!"],
+                 [" < You're a fucking loooser!"],
+                 [" < I see you don't have a living Pokete"],
+                 [" < I hope you'll also catch one!!"], 59, 23)
+        },
+    ],
+    "playmap_35": [{
+        "poke": ("mowcow", 1200),
+        "args": ("Farmer Gert", "He",
+                 [" < Welcome to the fields of Agrawos!",
+                  " < This is the farming part of the city of Agrawos!",
+                  " < You have to pass my field to reach Agrawos!"],
+                 [" < I don't think you'll ever get there!"],
+                 [" < I see you don't have a living Pokete"],
+                 [" < Have fun in Agrawos!"], 6, 17)
+        }, {
+        "poke": ("dicki", 1250),
+        "args": ("Farmer Dora", "She",
+                 [" < This is a cool Pokete I found on my field!"],
+                 [" < It's cool, init?!"],
+                 [" < I see you don't have a living Pokete"],
+                 [" < I guess have still have to train it. :("], 74, 33)
+        }, {
+        "poke": ("wolfiro", 1300),
+        "args": ("Farmer Ralf", "He",
+                 [" < DIE!"],
+                 [" < HAHAHA, IM BETTER THAN YOU!"],
+                 [" < I see you don't have a living Pokete"],
+                 [" < NOOOOOO; WHYYY ARE YOU BETTER ??!!!1!!!111"], 69, 61)
+        },
+    ],
 }
 
 if __name__ == "__main__":
