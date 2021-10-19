@@ -577,45 +577,45 @@ class Figure(se.Object):
         self.oldmap = ob_maps["playmap_1"]
         self.direction = "t"
 
-    def set_args(self, si):
+    def set_args(self, _si):
         """Processes data from save file"""
-        self.name = si["user"]
-        self.pokes = [Poke(si["pokes"][poke]["name"],
-                           si["pokes"][poke]["xp"], si["pokes"][poke]["hp"],
+        self.name = _si["user"]
+        self.pokes = [Poke(_si["pokes"][poke]["name"],
+                           _si["pokes"][poke]["xp"], _si["pokes"][poke]["hp"],
                            shiny=(False
-                                  if "shiny" not in si["pokes"][poke]
-                                  else si["pokes"][poke]["shiny"]),
-                           _attacks=(si["pokes"][poke]["attacks"]
-                                     if "attacks" in si["pokes"][poke]
+                                  if "shiny" not in _si["pokes"][poke]
+                                  else _si["pokes"][poke]["shiny"]),
+                           _attacks=(_si["pokes"][poke]["attacks"]
+                                     if "attacks" in _si["pokes"][poke]
                                      else None)
                            )
-                      for poke in si["pokes"]]
+                      for poke in _si["pokes"]]
         for j, poke in enumerate(self.pokes):
-            poke.set_ap(si["pokes"][str(j)]["ap"])
-            if "effects" in si["pokes"][str(j)]:
-                for eff in si["pokes"][str(j)]["effects"]:
+            poke.set_ap(_si["pokes"][str(j)]["ap"])
+            if "effects" in _si["pokes"][str(j)]:
+                for eff in _si["pokes"][str(j)]["effects"]:
                     poke.effects.append(getattr(effects, eff)(poke))
         try:
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
-            if si["map"] in ["centermap",
+            if _si["map"] in ["centermap",
                              "shopmap"]:
-                _map = ob_maps[si["map"]]
+                _map = ob_maps[_si["map"]]
                 self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
             else:
-                if self.add(ob_maps[si["map"]], si["x"], si["y"]) == 1:
-                    raise se.CoordinateError(self, ob_maps[si["map"]],
-                                             si["x"], si["y"])
+                if self.add(ob_maps[_si["map"]], _si["x"], _si["y"]) == 1:
+                    raise se.CoordinateError(self, ob_maps[_si["map"]],
+                                             _si["x"], _si["y"])
         except se.CoordinateError:
             self.add(ob_maps["playmap_1"], 6, 5)
         # Those if statemnets are important to ensure compatibility
         # with older versions
-        if "oldmap" in si:
-            self.oldmap = ob_maps[si["oldmap"]]
-        if "inv" in si:
-            self.inv = si["inv"]
-        if "money" in si:
-            self.set_money(si["money"])
+        if "oldmap" in _si:
+            self.oldmap = ob_maps[_si["oldmap"]]
+        if "inv" in _si:
+            self.inv = _si["inv"]
+        if "money" in _si:
+            self.set_money(_si["money"])
         movemap.name_label = se.Text(self.name, esccode=Color.thicc)
         movemap.balls_label = se.Text("", esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
@@ -1880,9 +1880,9 @@ def swap_poke():
                 with InfoBox(str(err), movemap):
                     time.sleep(5)
                 return
-            s.sendall(str.encode(json.dumps({"name": figure.name,
+            sock.sendall(str.encode(json.dumps({"name": figure.name,
                                              "poke": figure.pokes[index].dict()})))
-            data = s.recv(1024)
+            data = sock.recv(1024)
             decode_data = json.loads(data.decode())
     figure.add_poke(Poke(decode_data["poke"]["name"],
                          decode_data["poke"]["xp"],
