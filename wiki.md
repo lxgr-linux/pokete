@@ -422,7 +422,7 @@ A little what ever, that sticks out of the ground.
    + [Dick energy](#dick-energy)
    + [Hiding](#hiding)
    + [Ground hit](#ground-hit)
-- Evolves to [Dicko](#dicko) at level 35
+- Evolves to [Dicko](#dicko) at level 55
 
 #### Dicko
 An even bigger what ever, that sticks out of the ground.
@@ -472,7 +472,7 @@ A very small what ever, that sticks out of the ground.
 - Attacks:
    + [Tackle](#tackle)
    + [Ground hit](#ground-hit)
-- Evolves to [Dicki](#dicki) at level 15
+- Evolves to [Dicki](#dicki) at level 35
 
 #### Rollator
 A big chunk of stone and dirt, that roles around.
