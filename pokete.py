@@ -29,6 +29,7 @@ from pokete_classes.types import Types
 from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
+from pokete_classes.input import text_input, ask_bool, ask_text
 from pokete_general_use_fns import *
 from release import *
 
@@ -1161,7 +1162,7 @@ class Menu:
                             self.playername_label):
                         figure.name = text_input(self.realname_label,
                                                  self.map,
-                                                 figure.name, 18, 17)
+                                                 figure.name, ev, 18, 17)
                         self.map.underline.remove()
                         self.map.balls_label.set(0, 1)
                         self.map.name_label.rechar(figure.name,
@@ -1457,40 +1458,6 @@ def exiter():
     """Exit function"""
     reset_terminal()
     sys.exit()
-
-
-def text_input(obj, _map, name, wrap_len, max_len=1000000):
-    """Processes text input"""
-    ev.clear()
-    obj.rechar(hard_liner(wrap_len, name + "█"))
-    bname = name
-    _map.show()
-    while True:
-        if ev.get() in ["Key.enter", "Key.esc"]:
-            ev.clear()
-            obj.rechar(hard_liner(wrap_len, name))
-            _map.show()
-            return name
-        elif ev.get() == "Key.backspace":
-            if len(name) <= 0:
-                ev.clear()
-                obj.rechar(bname)
-                _map.show()
-                return bname
-            name = name[:-1]
-            obj.rechar(hard_liner(wrap_len, name + "█"))
-            _map.show()
-            ev.clear()
-        elif ev.get() not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift",
-                        "Key.shift_r", "Key.esc"] and len(name) < max_len:
-            if ev.get() == "Key.space":
-                ev.set("' '")
-            name += str(ev.get().strip("'"))
-            obj.rechar(hard_liner(wrap_len, name + "█"))
-            _map.show()
-            ev.clear()
-        std_loop(ev)
-        time.sleep(0.05)
 
 
 # Functions needed for movemap
@@ -1868,7 +1835,7 @@ def swap_poke():
         host = ""
         while host == "":
             host = ask_text(movemap, "Please type in the hosts hostname",
-                            "Host:", "", 30)
+                            "Host:", "", ev, 30)
             if host in ["localhost", "127.0.0.1", socket.gethostname()]:
                 with InfoBox("You're not allowed trade with your self!\nYou fool!", movemap):
                     time.sleep(5)
@@ -1893,32 +1860,6 @@ def swap_poke():
             f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.",
             movemap):
         time.sleep(3)
-
-
-def ask_bool(_ev, _map, text):
-    """Asks the player to aswer a yes/no question"""
-    assert len(text) >= 12, "Text has to be longer then 12 characters!"
-    text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o", _map):
-        while True:
-            if _ev.get() == "'y'":
-                ret = True
-                break
-            elif _ev.get() in ["'n'", "Key.esc", "'q'"]:
-                ret = False
-                break
-            std_loop(_ev)
-            time.sleep(0.05)
-            _map.show()
-        _ev.clear()
-    return ret
-
-
-def ask_text(_map, infotext, introtext, text, max_len):
-    """Asks the player to input a text"""
-    with InputBox(infotext, introtext, text, max_len, _map) as inputbox:
-        ret = text_input(inputbox.text, _map, text, max_len + 1, max_len=max_len)
-    return ret
 
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
@@ -2167,7 +2108,7 @@ def game(_map):
                     exiter()
             elif ev.get() == "':'":
                 ev.clear()
-                inp = text_input(movemap.code_label, movemap, ":",
+                inp = text_input(movemap.code_label, movemap, ":", ev,
                                  movemap.width,
                                  (movemap.width - 2) * movemap.height - 1)[1:]
                 movemap.code_label.outp(figure.map.pretty_name)
@@ -2204,7 +2145,7 @@ def intro():
     while figure.name in ["DEFAULT", ""]:
         figure.name = ask_text(movemap,
                                "Welcome to Pokete!\nPlease choose your name!\n",
-                               "Name:", "", 17)
+                               "Name:", "", ev, 17)
     movemap.underline.remove()
     movemap.balls_label.set(0, 1)
     movemap.name_label.rechar(figure.name, esccode=Color.thicc)
