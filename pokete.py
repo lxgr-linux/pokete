@@ -20,7 +20,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
-from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, InputBox
+from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox
 from pokete_classes.classes import PlayMap, Settings, OutP
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import InvItem, LearnDisc
@@ -30,7 +30,7 @@ from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text
-from pokete_general_use_fns import *
+from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import *
 
 __t = time.time()
