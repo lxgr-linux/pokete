@@ -30,7 +30,8 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
    6. [Normal Poketes](#normal-poketes)
        1. [Hornita](#hornita)
        2. [Horny](#horny)
-       3. [Rato](#rato)
+       3. [Mowcow](#mowcow)
+       4. [Rato](#rato)
    7. [Plant Poketes](#plant-poketes)
        1. [Bushy](#bushy)
        2. [Megapois](#megapois)
@@ -93,8 +94,9 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        4. [Meat skewer](#meat-skewer)
        5. [Power bite](#power-bite)
        6. [Snooze](#snooze)
-       7. [Tackle](#tackle)
-       8. [Tail wipe](#tail-wipe)
+       7. [Supercow power](#supercow-power)
+       8. [Tackle](#tackle)
+       9. [Tail wipe](#tail-wipe)
    7. [Plant attacks](#plant-attacks)
        1. [Apple drop](#apple-drop)
        2. [Bark hardening](#bark-hardening)
@@ -595,6 +597,29 @@ A teenage unicorn in the middle of puberty.
    + [Tackle](#tackle)
    + [Meat skewer](#meat-skewer)
 - Evolves to [Hornita](#hornita) at level 20
+
+#### Mowcow
+A cow-like creature found on meadows.
+
+```
+    ^__^   
+    (oo)   
+    (__)   
+           
+
+```
+
+- Type: [Normal](#types)
+- Health points: 20
+- Attack factor: 2
+- Defense factor: 3
+- Initiative: 2
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+- Does not evolve
 
 #### Rato
 An annoying rat.
@@ -1398,7 +1423,7 @@ Wipes through the enemy's face.
 - Effect: None
 
 #### Meat skewer
-Drills the horn deep in the enemy's flesh.
+Drills a horn deep in the enemy's flesh.
 
 - Type: [Normal](#types)
 - Minimum Level: 0
@@ -1416,6 +1441,16 @@ Makes the enemy sleepy.
 - Missing chance: 0.2
 - Attack points: 15
 - Effect: [Sleep](#sleep)
+
+#### Supercow power
+Makes the Pokete angry and strong.
+
+- Type: [Normal](#types)
+- Minimum Level: 10
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 10
+- Effect: None
 
 ### Plant attacks
 #### Apple drop
