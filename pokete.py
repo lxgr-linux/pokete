@@ -29,7 +29,7 @@ from pokete_classes.types import Types
 from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
-from pokete_classes.input import text_input, ask_bool, ask_text
+from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import *
 

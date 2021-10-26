@@ -62,3 +62,17 @@ def ask_text(_map, infotext, introtext, text, ev, max_len):
         ret = text_input(inputbox.text, _map, text, ev, max_len + 1,
                          max_len=max_len)
     return ret
+
+
+def ask_ok(_ev, _map, text):
+    """Asks the player to an OK question"""
+    assert len(text) >= 4, "Text has to be longer then 4 characters!"
+    text_len = sorted([len(i) for i in text.split('\n')])[-1]
+    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k", _map):
+        while True:
+            if _ev.get() in ["'o'", "'O'", "Key.enter"]:
+                break
+            std_loop(_ev)
+            time.sleep(0.05)
+            _map.show()
+        _ev.clear()
