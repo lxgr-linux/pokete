@@ -81,13 +81,21 @@ class Poketeball(se.Object):
 
     def __init__(self, name):
         self.name = name
-        super().__init__(Color.thicc + Color.red + "o" + Color.reset, state="float")
+        super().__init__(Color.thicc + Color.red + "o" + Color.reset,
+                         state="float")
 
     def action(self, ob):
         """Action triggers the pick up"""
-        figure.give_item("poketeball")
-        used_npcs.append(self.name)
+        amount = random.choices([1, 2, 3],
+                                weights=[10, 2, 1], k=1)[0]
+        item = random.choices(["poketeball", "hyperball", "superball", "healing_potion"],
+                              weights=[10, 1.5, 1, 1],
+                              k=1)[0]
+        figure.give_item(item, amount)
         self.remove()
+        movemap.full_show()
+        ask_ok(ev, movemap, f"You found {amount if amount > 1 else 'a'} {p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
+        used_npcs.append(self.name)
 
 
 class NPCTrigger(se.Object):
