@@ -817,7 +817,8 @@ class Deck:
                     self.submap.full_show()
             elif ev.get() == "'3'":
                 ev.clear()
-                if ask_bool(ev, self.submap, f"Do you really want to free {figure.pokes[self.index.index].name}?"):
+                if ask_bool(ev, self.submap,
+                            f"Do you really want to free {figure.pokes[self.index.index].name}?"):
                     self.rem_pokes(pokes)
                     figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
                     pokes = figure.pokes[:len(pokes)]
@@ -1302,9 +1303,10 @@ Initiative: {poke.initiative}"""))
         self.add_c_obs()
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
-                for event, idx, n_idx, add, idx_2 in zip(["'s'", "'w'"],
-                                                         [len(self.box.c_obs) - 1, 0], [0, self.box.height - 3],
-                                                         [1, -1], [-1, 0]):
+                for event, idx, n_idx, add, idx_2 in zip(
+                                ["'s'", "'w'"],
+                                [len(self.box.c_obs) - 1, 0],
+                                [0, self.box.height - 3], [1, -1], [-1, 0]):
                     if ev.get() == event and self.box.index.index == idx:
                         if self.box.c_obs[self.box.index.index] != self.obs[idx_2]:
                             self.rem_c_obs()
@@ -1357,7 +1359,8 @@ class LearnAttack:
             new_attack = random.choice(full_pool)
         else:
             new_attack = attack
-        if ask_bool(ev, self.map, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
+        if ask_bool(ev, self.map,
+                    f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
             if len(self.poke.attac_obs) != len(self.poke.attacks):
                 self.poke.attacks[-1] = new_attack
             elif len(self.poke.attacks) < 4:
@@ -1757,7 +1760,8 @@ def playmap_17_boy():
         movemap_text(npc.x, npc.y,
                      [" < Oh, cool!", " < You have a Choka!",
                       " < I've never seen one before!", " < Here you go, 200$"])
-        if ask_bool(ev, movemap, "Young boy gifted you 200$. Do you want to accept it?"):
+        if ask_bool(ev, movemap,
+                    "Young boy gifted you 200$. Do you want to accept it?"):
             figure.add_money(200)
         npc.will = False
         used_npcs.append(npc.name)
@@ -1788,7 +1792,8 @@ def playmap_20_trader():
 def playmap_23_npc_8():
     """Interaction with npc_8"""
     npc = ob_maps["playmap_23"].npc_8
-    if ask_bool(ev, movemap, "The man gifted you 100$. Do you want to accept it?"):
+    if ask_bool(ev, movemap,
+                "The man gifted you 100$. Do you want to accept it?"):
         npc.will = False
         used_npcs.append(npc.name)
         figure.add_money(100)
@@ -1837,7 +1842,8 @@ def swap_poke():
             host = ask_text(movemap, "Please type in the hosts hostname",
                             "Host:", "", ev, 30)
             if host in ["localhost", "127.0.0.1", socket.gethostname()]:
-                with InfoBox("You're not allowed trade with your self!\nYou fool!", movemap):
+                with InfoBox("You're not allowed trade with your self!\nYou fool!",
+                        movemap):
                     time.sleep(5)
                 host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -1848,7 +1854,7 @@ def swap_poke():
                     time.sleep(5)
                 return
             sock.sendall(str.encode(json.dumps({"name": figure.name,
-                                             "poke": figure.pokes[index].dict()})))
+                                                "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
     figure.add_poke(Poke(decode_data["poke"]["name"],
@@ -2016,9 +2022,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         else:
             attack = random.choices(obj.attac_obs,
                                     weights=[i.ap * ((1.5
-                                                      if enem.type.name in i.type.effective
+                                                      if enem.type.name in
+                                                            i.type.effective
                                                       else 0.5
-                                                      if enem.type.name in i.type.ineffective
+                                                      if enem.type.name in
+                                                            i.type.ineffective
                                                       else 1)
                                                      if info["type"] == "duel"
                                                      else 1)
@@ -2322,7 +2330,8 @@ def map_additions():
 ~~~~~~~~~                                           ~~~~~~~~
 ~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230},
+                          ob_args={"pokes": ["karpi", "blub"],
+                                   "minlvl": 180, "maxlvl": 230},
                           state="float")
     # adding
     _map.dor_playmap_5.add(_map, 56, 1)
@@ -2395,7 +2404,8 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""",
                           esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290,
+                          ob_args={"pokes": ["karpi", "clampi", "clampi"],
+                                   "minlvl": 290,
                                    "maxlvl": 350},
                           state="float")
     # adding
@@ -2479,7 +2489,8 @@ def map_additions():
     ~~~~~~~~~~~~~~
        ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640},
+                          ob_args={"pokes": ["karpi", "blub"],
+                                   "minlvl": 540, "maxlvl": 640},
                           state="float")
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
@@ -2555,7 +2566,8 @@ if __name__ == "__main__":
         "x": 4,
         "y": 5,
         "pokes": {
-            "0": {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
+            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
+                  "ap": ["SKIP", "SKIP"]}
         },
         "inv": {"poketeball": 15, "healing_potion": 1},
         "settings": {},
