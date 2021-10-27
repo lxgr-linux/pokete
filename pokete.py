@@ -1087,7 +1087,7 @@ class Inv:
                                             self.map.show(init=True)
                                             break
                                         poke = figure.pokes[index]
-                                        if getattr(types, obj.attack_dict['type']) in poke.types:
+                                        if getattr(types, obj.attack_dict['types'][0]) in poke.types:
                                             break
                                         else:
                                             ex_cond = ask_bool(ev, self.map,
@@ -1384,9 +1384,9 @@ class LearnAttack:
                             ev.clear()
                         elif ev.get() == "Key.enter":
                             self.poke.attacks[self.box.index.index] = new_attack
-                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!",
-                                    _map=self.map):
-                                time.sleep(3)
+                            ev.clear()
+                            ask_ok(ev, self.map,
+                                   f"{self.poke.name} learned {attacks[new_attack]['name']}!")
                             ev.clear()
                             break
                         elif ev.get() == "'1'":
@@ -1792,9 +1792,8 @@ def playmap_20_trader():
             return
         figure.add_poke(Poke("ostri", 500), index)
         used_npcs.append(npc.name)
-        with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.",
-                     _map=movemap):
-            time.sleep(3)
+        ask_ok(ev, movemap,
+               f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.")
         movemap_text(npc.x, npc.y, [" < Cool, huh?"])
 
 
@@ -1851,16 +1850,13 @@ def swap_poke():
             host = ask_text(movemap, "Please type in the hosts hostname",
                             "Host:", "", ev, 30)
             if host in ["localhost", "127.0.0.1", socket.gethostname()]:
-                with InfoBox("You're not allowed trade with your self!\nYou fool!",
-                             _map=movemap):
-                    time.sleep(5)
+                ask_ok(ev, movemap, "You're not allowed trade with your self!\nYou fool!")
                 host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 sock.connect((host, port))
             except Exception as err:
-                with InfoBox(str(err), _map=movemap):
-                    time.sleep(5)
+                ask_ok(ev, movemap, str(err))
                 return
             sock.sendall(str.encode(json.dumps({"name": figure.name,
                                                 "poke": figure.pokes[index].dict()})))
