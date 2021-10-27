@@ -1847,8 +1847,8 @@ def swap_poke():
     else:
         host = ""
         while host == "":
-            host = ask_text(movemap, "Please type in the hosts hostname",
-                            "Host:", "", ev, 30)
+            host = ask_text(ev, movemap, "Please type in the hosts hostname",
+                            "Host:", "", "Hostname", 30)
             if host in ["localhost", "127.0.0.1", socket.gethostname()]:
                 ask_ok(ev, movemap, "You're not allowed trade with your self!\nYou fool!")
                 host = ""
@@ -2154,9 +2154,9 @@ def intro():
     movemap.bmap = ob_maps["intromap"]
     movemap.full_show()
     while figure.name in ["DEFAULT", ""]:
-        figure.name = ask_text(movemap,
+        figure.name = ask_text(ev, movemap,
                                "Welcome to Pokete!\nPlease choose your name!\n",
-                               "Name:", "", ev, 17)
+                               "Name:", "", "Name", 17)
     movemap.underline.remove()
     movemap.balls_label.set(0, 1)
     movemap.name_label.rechar(figure.name, esccode=Color.thicc)

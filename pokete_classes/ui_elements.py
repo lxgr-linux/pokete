@@ -139,11 +139,11 @@ class InfoBox(Box):
 class InputBox(InfoBox):
     """Box that promps the user to input a text"""
 
-    def __init__(self, infotext, introtext, text, max_len, _map=None):
+    def __init__(self, infotext, introtext, text, max_len, name="",  _map=None):
         height = len(infotext.split("\n")) + 3
         width = sorted([len(i) for i in infotext.split("\n")]
                         + [len(introtext) + 1 + max_len])[-1] + 4
-        super(self.__class__.__bases__[0], self).__init__(height, width)
+        super(self.__class__.__bases__[0], self).__init__(height, width, name)
         self.map = _map
         self.infotext = se.Text(infotext)
         self.introtext = se.Text(introtext)

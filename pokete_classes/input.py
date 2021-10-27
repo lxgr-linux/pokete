@@ -1,3 +1,5 @@
+"""This file contains input wrappers for ui elements"""
+
 import time
 from pokete_general_use_fns import std_loop, hard_liner
 from pokete_classes.ui_elements import InfoBox, InputBox
@@ -56,10 +58,10 @@ def ask_bool(_ev, _map, text):
     return ret
 
 
-def ask_text(_map, infotext, introtext, text, ev, max_len):
+def ask_text(_ev, _map, infotext, introtext, text, name, max_len):
     """Asks the player to input a text"""
-    with InputBox(infotext, introtext, text, max_len, _map) as inputbox:
-        ret = text_input(inputbox.text, _map, text, ev, max_len + 1,
+    with InputBox(infotext, introtext, text, max_len, name, _map) as inputbox:
+        ret = text_input(inputbox.text, _map, text, _ev, max_len + 1,
                          max_len=max_len)
     return ret
 
