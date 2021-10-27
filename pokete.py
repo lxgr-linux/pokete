@@ -1182,7 +1182,7 @@ class Menu:
                                                self.map.height - 2)
                     elif i == self.save_label:
                         # When will python3.10 come out?
-                        with InfoBox("Saving....", self.map):
+                        with InfoBox("Saving....", _map=self.map):
                             # Shows a box displaying "Saving...." while saving
                             save()
                             time.sleep(1.5)
@@ -1384,7 +1384,8 @@ class LearnAttack:
                             ev.clear()
                         elif ev.get() == "Key.enter":
                             self.poke.attacks[self.box.index.index] = new_attack
-                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", self.map):
+                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!",
+                                    _map=self.map):
                                 time.sleep(3)
                             ev.clear()
                             break
@@ -1792,7 +1793,7 @@ def playmap_20_trader():
         figure.add_poke(Poke("ostri", 500), index)
         used_npcs.append(npc.name)
         with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.",
-                     movemap):
+                     _map=movemap):
             time.sleep(3)
         movemap_text(npc.x, npc.y, [" < Cool, huh?"])
 
@@ -1830,7 +1831,7 @@ def swap_poke():
     if (index := deck(6, "Your deck", True)) is None:
         return
     if do:
-        with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", movemap):
+        with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", _map=movemap):
             host = ''
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.bind((host, port))
@@ -1851,14 +1852,14 @@ def swap_poke():
                             "Host:", "", ev, 30)
             if host in ["localhost", "127.0.0.1", socket.gethostname()]:
                 with InfoBox("You're not allowed trade with your self!\nYou fool!",
-                        movemap):
+                             _map=movemap):
                     time.sleep(5)
                 host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 sock.connect((host, port))
             except Exception as err:
-                with InfoBox(str(err), movemap):
+                with InfoBox(str(err), _map=movemap):
                     time.sleep(5)
                 return
             sock.sendall(str.encode(json.dumps({"name": figure.name,

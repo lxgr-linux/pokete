@@ -46,7 +46,7 @@ NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
 https://git.io/JRRqe
 """
-        self.box = InfoBox(self.help_text, self.map)
+        self.box = InfoBox(self.help_text, _map=self.map)
         self.box.name_label.rechar("Help")
         self.box.info_label.rechar("q:close")
 
