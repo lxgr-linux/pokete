@@ -51,7 +51,6 @@ def ask_bool(_ev, _map, text):
                 break
             std_loop(_ev)
             time.sleep(0.05)
-            _map.show()
         _ev.clear()
     return ret
 
@@ -74,5 +73,4 @@ def ask_ok(_ev, _map, text):
                 break
             std_loop(_ev)
             time.sleep(0.05)
-            _map.show()
         _ev.clear()
