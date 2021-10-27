@@ -2610,7 +2610,8 @@ if __name__ == "__main__":
         visited_maps = ["playmap_1"]
 
     # comprehending settings
-    # This is needed to just apply some changes when restarting the game to avoid running into errors
+    # This is needed to just apply some changes when restarting
+    # the game to avoid running into errors
     save_trainers = settings.save_trainers
 
     # Defining and adding of objetcs and maps
