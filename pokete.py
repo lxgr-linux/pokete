@@ -2761,6 +2761,10 @@ if __name__ == "__main__":
     ev = Event("")
     fd = None
     old_settings = None
+
+    if settings.load_mods:
+        from mods import *
+
     try:
         main()
     except KeyboardInterrupt:

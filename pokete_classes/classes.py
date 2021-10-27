@@ -30,11 +30,13 @@ class Settings():
     """Contains all possible settings"""
 
     def __init__(self, autosave=True, animations=True, save_trainers=True,
-                 colors=True):
-        self.keywords = ["autosave", "animations", "save_trainers"]
+                 colors=True, load_mods=False):
+        self.keywords = ["autosave", "animations",
+                         "save_trainers", "load_mods"]
         self.autosave = autosave
         self.animations = animations
         self.save_trainers = save_trainers
+        self.load_mods = load_mods
 
     def dict(self):
         """Returns a dict of all current settings"""
