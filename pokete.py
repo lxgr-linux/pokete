@@ -1870,10 +1870,8 @@ def swap_poke():
                          decode_data["poke"]["hp"]), index)
     figure.pokes[index].set_ap(decode_data["poke"]["ap"])
     save()  # to avoid duping
-    with InfoBox(
-            f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.",
-            movemap):
-        time.sleep(3)
+    ask_ok(ev, movemap,
+           f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.")
 
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
