@@ -1,6 +1,6 @@
 import time
 import scrap_engine as se
-from pokete_classes.color import Color
+from .color import Color
 
 
 class HealthBar(se.Text):

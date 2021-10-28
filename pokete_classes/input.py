@@ -2,7 +2,7 @@
 
 import time
 from pokete_general_use_fns import std_loop, hard_liner
-from pokete_classes.ui_elements import InfoBox, InputBox
+from .ui_elements import InfoBox, InputBox
 
 
 def text_input(obj, _map, name, ev, wrap_len, max_len=1000000):
