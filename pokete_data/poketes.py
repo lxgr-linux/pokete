@@ -156,6 +156,28 @@ pokes = {
     \|/""",
             "esc": None}],
     },
+    "wheeto": {
+        "name": "Wheeto",
+        "hp": 20,
+        "atc": 3,
+        "defense": 2,
+        "attacks": [],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A plant Pokete found in Agrawos, with special 'Powers'.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["plant"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 2,
+        "ico": [{
+            "txt": """    \ /
+    \|/
+    \|/
+     |""",
+            "esc": None}],
+    },
     "gobost": {
         "name": "Gobost",
         "hp": 20,
@@ -909,25 +931,24 @@ WW\/o o\/WW
         "initiative": 2,
         "ico": [{
             "txt": """
- 
-    o o 
+
+    o o
      -""",
             "esc": None},
             {
                 "txt": """
-    /\ / 
+    /\ /
        >
    <_""",
                 "esc": ["cyan"]},
             {
                 "txt": """
-      ^  
-   <     
+      ^
+   <
       _>""",
                 "esc": ["white"]}
         ]
     },
-
 }
 
 if __name__ == "__main__":
