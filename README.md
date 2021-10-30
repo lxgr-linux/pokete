@@ -1,7 +1,19 @@
 [![Wiki](https://github.com/lxgr-linux/pokete/actions/workflows/main.yml/badge.svg)](https://github.com/lxgr-linux/pokete/actions/workflows/main.yml)
 [![Code-Validation](https://github.com/lxgr-linux/pokete/actions/workflows/main_validate.yml/badge.svg)](https://github.com/lxgr-linux/pokete/actions/workflows/main_validate.yml)
 [![GitHub-Pages Build](https://github.com/lxgr-linux/pokete/actions/workflows/documentation.yml/badge.svg)](https://github.com/lxgr-linux/pokete/actions/workflows/documentation.yml)
+![Python Version](https://img.shields.io/github/pipenv/locked/python-version/lxgr-linux/pokete)
+
 ![AUR version](https://img.shields.io/aur/version/pokete-git)
+![votes](https://img.shields.io/aur/votes/pokete-git)
+![AUR last modified](https://img.shields.io/aur/last-modified/pokete-git)
+
+![Total Lines of Code](https://img.shields.io/tokei/lines/github/lxgr-linux/pokete)
+![Open Issues](https://img.shields.io/github/issues/lxgr-linux/pokete)
+![Open pull requests](https://img.shields.io/github/issues-pr/lxgr-linux/pokete)
+![License](https://img.shields.io/github/license/lxgr-linux/pokete)
+
+![commit activity](https://img.shields.io/github/commit-activity/m/lxgr-linux/pokete)
+![commits since last release](https://img.shields.io/github/commits-since/lxgr-linux/pokete/latest/master?include_prereleases)
 
 # Pokete -- Grey Edition
 
