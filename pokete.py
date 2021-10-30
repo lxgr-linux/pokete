@@ -20,7 +20,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
-from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, InputBox
+from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox
 from pokete_classes.classes import PlayMap, Settings, OutP
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import InvItem, LearnDisc
@@ -28,7 +28,9 @@ from pokete_classes.moves import Moves
 from pokete_classes.types import Types
 from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
-from pokete_general_use_fns import *
+from pokete_classes.attack_actions import AttackActions
+from pokete_classes.input import text_input, ask_bool, ask_text
+from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import *
 
 __t = time.time()
@@ -461,7 +463,8 @@ class Poke:
             time.sleep(0.4)
             for i in attac.move:
                 getattr(self.moves, i)()
-            exec(attac.action)
+            if attac.action is not None:
+                getattr(AttackActions(), attac.action)(self, enem)
             attac.ap -= 1
             fightmap.outp.outp(
                 f'{self.ext_name} used {attac.name}! {self.name + " missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
@@ -575,45 +578,45 @@ class Figure(se.Object):
         self.oldmap = ob_maps["playmap_1"]
         self.direction = "t"
 
-    def set_args(self, si):
+    def set_args(self, _si):
         """Processes data from save file"""
-        self.name = si["user"]
-        self.pokes = [Poke(si["pokes"][poke]["name"],
-                           si["pokes"][poke]["xp"], si["pokes"][poke]["hp"],
+        self.name = _si["user"]
+        self.pokes = [Poke(_si["pokes"][poke]["name"],
+                           _si["pokes"][poke]["xp"], _si["pokes"][poke]["hp"],
                            shiny=(False
-                                  if "shiny" not in si["pokes"][poke]
-                                  else si["pokes"][poke]["shiny"]),
-                           _attacks=(si["pokes"][poke]["attacks"]
-                                     if "attacks" in si["pokes"][poke]
+                                  if "shiny" not in _si["pokes"][poke]
+                                  else _si["pokes"][poke]["shiny"]),
+                           _attacks=(_si["pokes"][poke]["attacks"]
+                                     if "attacks" in _si["pokes"][poke]
                                      else None)
                            )
-                      for poke in si["pokes"]]
+                      for poke in _si["pokes"]]
         for j, poke in enumerate(self.pokes):
-            poke.set_ap(si["pokes"][str(j)]["ap"])
-            if "effects" in si["pokes"][str(j)]:
-                for eff in si["pokes"][str(j)]["effects"]:
+            poke.set_ap(_si["pokes"][str(j)]["ap"])
+            if "effects" in _si["pokes"][str(j)]:
+                for eff in _si["pokes"][str(j)]["effects"]:
                     poke.effects.append(getattr(effects, eff)(poke))
         try:
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
-            if si["map"] in ["centermap",
+            if _si["map"] in ["centermap",
                              "shopmap"]:
-                _map = ob_maps[si["map"]]
+                _map = ob_maps[_si["map"]]
                 self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
             else:
-                if self.add(ob_maps[si["map"]], si["x"], si["y"]) == 1:
-                    raise se.CoordinateError(self, ob_maps[si["map"]],
-                                             si["x"], si["y"])
+                if self.add(ob_maps[_si["map"]], _si["x"], _si["y"]) == 1:
+                    raise se.CoordinateError(self, ob_maps[_si["map"]],
+                                             _si["x"], _si["y"])
         except se.CoordinateError:
             self.add(ob_maps["playmap_1"], 6, 5)
         # Those if statemnets are important to ensure compatibility
         # with older versions
-        if "oldmap" in si:
-            self.oldmap = ob_maps[si["oldmap"]]
-        if "inv" in si:
-            self.inv = si["inv"]
-        if "money" in si:
-            self.set_money(si["money"])
+        if "oldmap" in _si:
+            self.oldmap = ob_maps[_si["oldmap"]]
+        if "inv" in _si:
+            self.inv = _si["inv"]
+        if "money" in _si:
+            self.set_money(_si["money"])
         movemap.name_label = se.Text(self.name, esccode=Color.thicc)
         movemap.balls_label = se.Text("", esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
@@ -814,7 +817,8 @@ class Deck:
                     self.submap.full_show()
             elif ev.get() == "'3'":
                 ev.clear()
-                if ask_bool(ev, self.submap, f"Do you really want to free {figure.pokes[self.index.index].name}?"):
+                if ask_bool(ev, self.submap,
+                            f"Do you really want to free {figure.pokes[self.index.index].name}?"):
                     self.rem_pokes(pokes)
                     figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
                     pokes = figure.pokes[:len(pokes)]
@@ -1159,7 +1163,7 @@ class Menu:
                             self.playername_label):
                         figure.name = text_input(self.realname_label,
                                                  self.map,
-                                                 figure.name, 18, 17)
+                                                 figure.name, ev, 18, 17)
                         self.map.underline.remove()
                         self.map.balls_label.set(0, 1)
                         self.map.name_label.rechar(figure.name,
@@ -1299,9 +1303,10 @@ Initiative: {poke.initiative}"""))
         self.add_c_obs()
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
-                for event, idx, n_idx, add, idx_2 in zip(["'s'", "'w'"],
-                                                         [len(self.box.c_obs) - 1, 0], [0, self.box.height - 3],
-                                                         [1, -1], [-1, 0]):
+                for event, idx, n_idx, add, idx_2 in zip(
+                                ["'s'", "'w'"],
+                                [len(self.box.c_obs) - 1, 0],
+                                [0, self.box.height - 3], [1, -1], [-1, 0]):
                     if ev.get() == event and self.box.index.index == idx:
                         if self.box.c_obs[self.box.index.index] != self.obs[idx_2]:
                             self.rem_c_obs()
@@ -1354,7 +1359,8 @@ class LearnAttack:
             new_attack = random.choice(full_pool)
         else:
             new_attack = attack
-        if ask_bool(ev, self.map, f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
+        if ask_bool(ev, self.map,
+                    f"{self.poke.name} wants to learn {attacks[new_attack]['name']}!"):
             if len(self.poke.attac_obs) != len(self.poke.attacks):
                 self.poke.attacks[-1] = new_attack
             elif len(self.poke.attacks) < 4:
@@ -1455,40 +1461,6 @@ def exiter():
     """Exit function"""
     reset_terminal()
     sys.exit()
-
-
-def text_input(obj, _map, name, wrap_len, max_len=1000000):
-    """Processes text input"""
-    ev.clear()
-    obj.rechar(hard_liner(wrap_len, name + "█"))
-    bname = name
-    _map.show()
-    while True:
-        if ev.get() in ["Key.enter", "Key.esc"]:
-            ev.clear()
-            obj.rechar(hard_liner(wrap_len, name))
-            _map.show()
-            return name
-        elif ev.get() == "Key.backspace":
-            if len(name) <= 0:
-                ev.clear()
-                obj.rechar(bname)
-                _map.show()
-                return bname
-            name = name[:-1]
-            obj.rechar(hard_liner(wrap_len, name + "█"))
-            _map.show()
-            ev.clear()
-        elif ev.get() not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift",
-                        "Key.shift_r", "Key.esc"] and len(name) < max_len:
-            if ev.get() == "Key.space":
-                ev.set("' '")
-            name += str(ev.get().strip("'"))
-            obj.rechar(hard_liner(wrap_len, name + "█"))
-            _map.show()
-            ev.clear()
-        std_loop(ev)
-        time.sleep(0.05)
 
 
 # Functions needed for movemap
@@ -1788,7 +1760,8 @@ def playmap_17_boy():
         movemap_text(npc.x, npc.y,
                      [" < Oh, cool!", " < You have a Choka!",
                       " < I've never seen one before!", " < Here you go, 200$"])
-        if ask_bool(ev, movemap, "Young boy gifted you 200$. Do you want to accept it?"):
+        if ask_bool(ev, movemap,
+                    "Young boy gifted you 200$. Do you want to accept it?"):
             figure.add_money(200)
         npc.will = False
         used_npcs.append(npc.name)
@@ -1819,7 +1792,8 @@ def playmap_20_trader():
 def playmap_23_npc_8():
     """Interaction with npc_8"""
     npc = ob_maps["playmap_23"].npc_8
-    if ask_bool(ev, movemap, "The man gifted you 100$. Do you want to accept it?"):
+    if ask_bool(ev, movemap,
+                "The man gifted you 100$. Do you want to accept it?"):
         npc.will = False
         used_npcs.append(npc.name)
         figure.add_money(100)
@@ -1866,9 +1840,10 @@ def swap_poke():
         host = ""
         while host == "":
             host = ask_text(movemap, "Please type in the hosts hostname",
-                            "Host:", "", 30)
+                            "Host:", "", ev, 30)
             if host in ["localhost", "127.0.0.1", socket.gethostname()]:
-                with InfoBox("You're not allowed trade with your self!\nYou fool!", movemap):
+                with InfoBox("You're not allowed trade with your self!\nYou fool!",
+                        movemap):
                     time.sleep(5)
                 host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -1878,9 +1853,9 @@ def swap_poke():
                 with InfoBox(str(err), movemap):
                     time.sleep(5)
                 return
-            s.sendall(str.encode(json.dumps({"name": figure.name,
-                                             "poke": figure.pokes[index].dict()})))
-            data = s.recv(1024)
+            sock.sendall(str.encode(json.dumps({"name": figure.name,
+                                                "poke": figure.pokes[index].dict()})))
+            data = sock.recv(1024)
             decode_data = json.loads(data.decode())
     figure.add_poke(Poke(decode_data["poke"]["name"],
                          decode_data["poke"]["xp"],
@@ -1891,32 +1866,6 @@ def swap_poke():
             f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.",
             movemap):
         time.sleep(3)
-
-
-def ask_bool(_ev, _map, text):
-    """Asks the player to aswer a yes/no question"""
-    assert len(text) >= 12, "Text has to be longer then 12 characters!"
-    text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o", _map):
-        while True:
-            if _ev.get() == "'y'":
-                ret = True
-                break
-            elif _ev.get() in ["'n'", "Key.esc", "'q'"]:
-                ret = False
-                break
-            std_loop(_ev)
-            time.sleep(0.05)
-            _map.show()
-        _ev.clear()
-    return ret
-
-
-def ask_text(_map, infotext, introtext, text, max_len):
-    """Asks the player to input a text"""
-    with InputBox(infotext, introtext, text, max_len, _map) as inputbox:
-        ret = text_input(inputbox.text, _map, text, max_len + 1, max_len=max_len)
-    return ret
 
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
@@ -2073,9 +2022,11 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         else:
             attack = random.choices(obj.attac_obs,
                                     weights=[i.ap * ((1.5
-                                                      if enem.type.name in i.type.effective
+                                                      if enem.type.name in
+                                                            i.type.effective
                                                       else 0.5
-                                                      if enem.type.name in i.type.ineffective
+                                                      if enem.type.name in
+                                                            i.type.ineffective
                                                       else 1)
                                                      if info["type"] == "duel"
                                                      else 1)
@@ -2165,7 +2116,7 @@ def game(_map):
                     exiter()
             elif ev.get() == "':'":
                 ev.clear()
-                inp = text_input(movemap.code_label, movemap, ":",
+                inp = text_input(movemap.code_label, movemap, ":", ev,
                                  movemap.width,
                                  (movemap.width - 2) * movemap.height - 1)[1:]
                 movemap.code_label.outp(figure.map.pretty_name)
@@ -2202,7 +2153,7 @@ def intro():
     while figure.name in ["DEFAULT", ""]:
         figure.name = ask_text(movemap,
                                "Welcome to Pokete!\nPlease choose your name!\n",
-                               "Name:", "", 17)
+                               "Name:", "", ev, 17)
     movemap.underline.remove()
     movemap.balls_label.set(0, 1)
     movemap.name_label.rechar(figure.name, esccode=Color.thicc)
@@ -2379,7 +2330,8 @@ def map_additions():
 ~~~~~~~~~                                           ~~~~~~~~
 ~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub"], "minlvl": 180, "maxlvl": 230},
+                          ob_args={"pokes": ["karpi", "blub"],
+                                   "minlvl": 180, "maxlvl": 230},
                           state="float")
     # adding
     _map.dor_playmap_5.add(_map, 56, 1)
@@ -2452,7 +2404,8 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""",
                           esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "clampi", "clampi"], "minlvl": 290,
+                          ob_args={"pokes": ["karpi", "clampi", "clampi"],
+                                   "minlvl": 290,
                                    "maxlvl": 350},
                           state="float")
     # adding
@@ -2536,7 +2489,8 @@ def map_additions():
     ~~~~~~~~~~~~~~
        ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub"], "minlvl": 540, "maxlvl": 640},
+                          ob_args={"pokes": ["karpi", "blub"],
+                                   "minlvl": 540, "maxlvl": 640},
                           state="float")
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
@@ -2612,7 +2566,8 @@ if __name__ == "__main__":
         "x": 4,
         "y": 5,
         "pokes": {
-            "0": {"name": "steini", "xp": 50, "hp": "SKIP", "ap": ["SKIP", "SKIP"]}
+            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
+                  "ap": ["SKIP", "SKIP"]}
         },
         "inv": {"poketeball": 15, "healing_potion": 1},
         "settings": {},
