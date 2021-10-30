@@ -1,6 +1,8 @@
+"""This file contains input wrappers for ui elements"""
+
 import time
 from pokete_general_use_fns import std_loop, hard_liner
-from pokete_classes.ui_elements import InfoBox, InputBox
+from .ui_elements import InfoBox, InputBox
 
 
 def text_input(obj, _map, name, ev, wrap_len, max_len=1000000):
@@ -41,7 +43,8 @@ def ask_bool(_ev, _map, text):
     """Asks the player to aswer a yes/no question"""
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o", _map):
+    with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o",
+                 _map=_map):
         while True:
             if _ev.get() == "'y'":
                 ret = True
@@ -51,14 +54,26 @@ def ask_bool(_ev, _map, text):
                 break
             std_loop(_ev)
             time.sleep(0.05)
-            _map.show()
         _ev.clear()
     return ret
 
 
-def ask_text(_map, infotext, introtext, text, ev, max_len):
+def ask_text(_ev, _map, infotext, introtext, text, name, max_len):
     """Asks the player to input a text"""
-    with InputBox(infotext, introtext, text, max_len, _map) as inputbox:
-        ret = text_input(inputbox.text, _map, text, ev, max_len + 1,
+    with InputBox(infotext, introtext, text, max_len, name, _map) as inputbox:
+        ret = text_input(inputbox.text, _map, text, _ev, max_len + 1,
                          max_len=max_len)
     return ret
+
+
+def ask_ok(_ev, _map, text):
+    """Asks the player to an OK question"""
+    assert len(text) >= 4, "Text has to be longer then 4 characters!"
+    text_len = sorted([len(i) for i in text.split('\n')])[-1]
+    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k", name="Info", _map=_map):
+        while True:
+            if _ev.get() in ["'o'", "'O'", "Key.enter"]:
+                break
+            std_loop(_ev)
+            time.sleep(0.05)
+        _ev.clear()

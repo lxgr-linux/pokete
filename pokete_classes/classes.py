@@ -1,6 +1,6 @@
 import os
 import scrap_engine as se
-from pokete_classes.ui_elements import StdFrame
+from .ui_elements import StdFrame
 
 
 class PlayMap(se.Map):

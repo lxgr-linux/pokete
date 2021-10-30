@@ -29,7 +29,7 @@ from pokete_classes.types import Types
 from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
-from pokete_classes.input import text_input, ask_bool, ask_text
+from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import *
 
@@ -81,13 +81,21 @@ class Poketeball(se.Object):
 
     def __init__(self, name):
         self.name = name
-        super().__init__(Color.thicc + Color.red + "o" + Color.reset, state="float")
+        super().__init__(Color.thicc + Color.red + "o" + Color.reset,
+                         state="float")
 
     def action(self, ob):
         """Action triggers the pick up"""
-        figure.give_item("poketeball")
-        used_npcs.append(self.name)
+        amount = random.choices([1, 2, 3],
+                                weights=[10, 2, 1], k=1)[0]
+        item = random.choices(["poketeball", "hyperball", "superball", "healing_potion"],
+                              weights=[10, 1.5, 1, 1],
+                              k=1)[0]
+        figure.give_item(item, amount)
         self.remove()
+        movemap.full_show()
+        ask_ok(ev, movemap, f"You found {amount if amount > 1 else 'a'} {p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
+        used_npcs.append(self.name)
 
 
 class NPCTrigger(se.Object):
@@ -1079,7 +1087,7 @@ class Inv:
                                             self.map.show(init=True)
                                             break
                                         poke = figure.pokes[index]
-                                        if getattr(types, obj.attack_dict['type']) in poke.types:
+                                        if getattr(types, obj.attack_dict['types'][0]) in poke.types:
                                             break
                                         else:
                                             ex_cond = ask_bool(ev, self.map,
@@ -1174,7 +1182,7 @@ class Menu:
                                                self.map.height - 2)
                     elif i == self.save_label:
                         # When will python3.10 come out?
-                        with InfoBox("Saving....", self.map):
+                        with InfoBox("Saving....", _map=self.map):
                             # Shows a box displaying "Saving...." while saving
                             save()
                             time.sleep(1.5)
@@ -1376,8 +1384,9 @@ class LearnAttack:
                             ev.clear()
                         elif ev.get() == "Key.enter":
                             self.poke.attacks[self.box.index.index] = new_attack
-                            with InfoBox(f"{self.poke.name} learned {attacks[new_attack]['name']}!", self.map):
-                                time.sleep(3)
+                            ev.clear()
+                            ask_ok(ev, self.map,
+                                   f"{self.poke.name} learned {attacks[new_attack]['name']}!")
                             ev.clear()
                             break
                         elif ev.get() == "'1'":
@@ -1783,9 +1792,8 @@ def playmap_20_trader():
             return
         figure.add_poke(Poke("ostri", 500), index)
         used_npcs.append(npc.name)
-        with InfoBox(f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.",
-                     movemap):
-            time.sleep(3)
+        ask_ok(ev, movemap,
+               f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.")
         movemap_text(npc.x, npc.y, [" < Cool, huh?"])
 
 
@@ -1822,7 +1830,7 @@ def swap_poke():
     if (index := deck(6, "Your deck", True)) is None:
         return
     if do:
-        with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", movemap):
+        with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...", _map=movemap):
             host = ''
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.bind((host, port))
@@ -1839,19 +1847,16 @@ def swap_poke():
     else:
         host = ""
         while host == "":
-            host = ask_text(movemap, "Please type in the hosts hostname",
-                            "Host:", "", ev, 30)
+            host = ask_text(ev, movemap, "Please type in the hosts hostname",
+                            "Host:", "", "Hostname", 30)
             if host in ["localhost", "127.0.0.1", socket.gethostname()]:
-                with InfoBox("You're not allowed trade with your self!\nYou fool!",
-                        movemap):
-                    time.sleep(5)
+                ask_ok(ev, movemap, "You're not allowed trade with your self!\nYou fool!")
                 host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 sock.connect((host, port))
             except Exception as err:
-                with InfoBox(str(err), movemap):
-                    time.sleep(5)
+                ask_ok(ev, movemap, str(err))
                 return
             sock.sendall(str.encode(json.dumps({"name": figure.name,
                                                 "poke": figure.pokes[index].dict()})))
@@ -1862,10 +1867,8 @@ def swap_poke():
                          decode_data["poke"]["hp"]), index)
     figure.pokes[index].set_ap(decode_data["poke"]["ap"])
     save()  # to avoid duping
-    with InfoBox(
-            f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.",
-            movemap):
-        time.sleep(3)
+    ask_ok(ev, movemap,
+           f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()} from {decode_data['name']}.")
 
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
@@ -2151,9 +2154,9 @@ def intro():
     movemap.bmap = ob_maps["intromap"]
     movemap.full_show()
     while figure.name in ["DEFAULT", ""]:
-        figure.name = ask_text(movemap,
+        figure.name = ask_text(ev, movemap,
                                "Welcome to Pokete!\nPlease choose your name!\n",
-                               "Name:", "", ev, 17)
+                               "Name:", "", "Name", 17)
     movemap.underline.remove()
     movemap.balls_label.set(0, 1)
     movemap.name_label.rechar(figure.name, esccode=Color.thicc)
