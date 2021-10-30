@@ -1847,7 +1847,8 @@ def swap_poke():
                         if not data:
                             break
                         decode_data = json.loads(data.decode())
-                        conn.sendall(str.encode(json.dumps({"name": figure.name,
+                        conn.sendall(str.encode(json.dumps({"mods": mods.mod_info,
+                                                            "name": figure.name,
                                                             "poke": figure.pokes[index].dict()})))
     else:
         host = ""
@@ -1863,10 +1864,14 @@ def swap_poke():
             except Exception as err:
                 ask_ok(ev, movemap, str(err))
                 return
-            sock.sendall(str.encode(json.dumps({"name": figure.name,
+            sock.sendall(str.encode(json.dumps({"mods": mods.mod_info,
+                                                "name": figure.name,
                                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
+    if decode_data["mods"] != mods.mod_info:
+        ask_ok(ev, movemap, "Conflicting mod versions!")
+        return
     figure.add_poke(Poke(decode_data["poke"]["name"],
                          decode_data["poke"]["xp"],
                          decode_data["poke"]["hp"]), index)
