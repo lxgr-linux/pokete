@@ -1,5 +1,5 @@
 class AttackActions:
-    """This class contains all actions cllable by an attack"""
+    """This class contains all actions callable by an attack"""
 
     def cry(self, obj, enem):
         enem.miss_chance += 1

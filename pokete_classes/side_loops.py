@@ -1,7 +1,7 @@
 import os
 import time
 import scrap_engine as se
-from pokete_classes.ui_elements import InfoBox, StdFrame 
+from .ui_elements import InfoBox, StdFrame
 from pokete_general_use_fns import liner, std_loop
 
 
