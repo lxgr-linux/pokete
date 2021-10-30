@@ -35,6 +35,11 @@ from release import *
 
 __t = time.time()
 
+import mods
+
+
+for mod in mods.mod_obs:
+    mod.mod_p_data(p_data)
 
 # Class definition
 ##################
@@ -2761,9 +2766,6 @@ if __name__ == "__main__":
     ev = Event("")
     fd = None
     old_settings = None
-
-    if settings.load_mods:
-        from mods import *
 
     try:
         main()

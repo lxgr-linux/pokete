@@ -1,7 +1,7 @@
-## This is an example mod
+## This is an example mod that renames steini to steino
 
-__mod_version__ = "0.1.0"
-__mod_name__ = "Example"
+version = "0.1.0"
+name = "Example"
 
-def example_main():
-    return
+def mod_p_data(p_data):
+    p_data.pokes["steini"]["name"] = "Steino"
