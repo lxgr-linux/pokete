@@ -324,7 +324,7 @@ maps = {
         "poke_args": None
     },
     "playmap_35": {
-        "height": 70,
+        "height": 69,
         "width": 144,
         "pretty_name": "The fields of Agrawos",
         "extra_actions": None,
@@ -352,6 +352,13 @@ maps = {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_39": {
+        "height": 69,
+        "width": 144,
+        "pretty_name": "Agrawos",
         "extra_actions": None,
         "poke_args": None
     },
