@@ -31,7 +31,7 @@ from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_general_use_fns import liner, sort_vers, std_loop
-from pokete_classes.mods import ModError, ModInfo
+from pokete_classes.mods import ModError, ModInfo, DummyMods
 from release import *
 
 
@@ -57,15 +57,6 @@ class Event:
     def clear(self):
         """Clears the event"""
         self.ev = ""
-
-
-class DummyMods:
-    """Dummy Mods class used when mods are disabled"""
-
-    def __init__(self):
-        self.mod_info = {}
-        self.mod_obs = []
-        self.mod_names = []
 
 
 class HightGrass(se.Object):

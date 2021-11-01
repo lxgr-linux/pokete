@@ -1,6 +1,16 @@
 from .side_loops import About
 from .ui_elements import InfoBox
 
+
+class DummyMods:
+    """Dummy Mods class used when mods are disabled"""
+
+    def __init__(self):
+        self.mod_info = {}
+        self.mod_obs = []
+        self.mod_names = []
+
+
 class ModError(Exception):
     """
     An Error that is thrown, when an inproper module is loaded.
