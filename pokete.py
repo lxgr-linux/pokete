@@ -31,6 +31,7 @@ from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_general_use_fns import liner, sort_vers, std_loop
+from pokete_classes.mods import ModError, ModInfo
 from release import *
 
 
@@ -1150,6 +1151,7 @@ class Menu:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Menu")
         self.playername_label = se.Text("Playername: ", state="float")
+        self.mods_label = se.Text("Mods", state="float")
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
@@ -1159,10 +1161,11 @@ class Menu:
                                     {True: "On", False: "Off"}),
                             Setting("Animations", "animations",
                                     {True: "On", False: "Off"}),
-                            Setting("Load mods", "load_mods",
-                                    {True: "On", False: "Off"}),
                             Setting("Save trainers", "save_trainers",
                                     {True: "On", False: "Off"}),
+                            Setting("Load mods", "load_mods",
+                                    {True: "On", False: "Off"}),
+                            self.mods_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -1191,6 +1194,8 @@ class Menu:
                                                  self.map.height - 2)
                         self.map.underline.add(self.map, 0,
                                                self.map.height - 2)
+                    elif i == self.mods_label:
+                        ModInfo(movemap, settings, mods.mod_info)(ev)
                     elif i == self.save_label:
                         # When will python3.10 come out?
                         with InfoBox("Saving....", _map=self.map):
@@ -2639,7 +2644,7 @@ if __name__ == "__main__":
     if settings.load_mods:
         try:
             import mods
-        except Exception as err:
+        except ModError as err:
             error_box = InfoBox(str(err), "Mod-loading Error")
             error_box.center_add(loading_screen.map)
             loading_screen.map.show()
