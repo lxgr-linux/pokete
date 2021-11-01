@@ -33,13 +33,8 @@ from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import *
 
+
 __t = time.time()
-
-import mods
-
-
-for mod in mods.mod_obs:
-    mod.mod_p_data(p_data)
 
 # Class definition
 ##################
@@ -61,6 +56,15 @@ class Event:
     def clear(self):
         """Clears the event"""
         self.ev = ""
+
+
+class DummyMods:
+    """Dummy Mods class used when mods are disabled"""
+
+    def __init__(self):
+        self.mod_info = {}
+        self.mod_obs = []
+        self.mod_names = []
 
 
 class HightGrass(se.Object):
@@ -1154,6 +1158,8 @@ class Menu:
                             Setting("Autosave", "autosave",
                                     {True: "On", False: "Off"}),
                             Setting("Animations", "animations",
+                                    {True: "On", False: "Off"}),
+                            Setting("Load mods", "load_mods",
                                     {True: "On", False: "Off"}),
                             Setting("Save trainers", "save_trainers",
                                     {True: "On", False: "Off"}),
@@ -2598,18 +2604,15 @@ if __name__ == "__main__":
     # resizing screen
     tss = ResizeScreen()
     width, height = tss()
+
+    # Home global
+    HOME = str(Path.home())
+
     # loading screen
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
-    # validating data
-    p_data.validate()
-    # types
-    types = Types(p_data.types, p_data.sub_types)
 
-    # reading config file
-    HOME = str(Path.home())
-
-    # reading config file
+    # reading save file
     session_info = read_save()
 
     if "settings" in session_info:
@@ -2631,6 +2634,26 @@ if __name__ == "__main__":
         visited_maps = session_info["visited_maps"]
     else:
         visited_maps = ["playmap_1"]
+
+    # Loading mods
+    if settings.load_mods:
+        try:
+            import mods
+        except Exception as err:
+            error_box = InfoBox(str(err), "Mod-loading Error")
+            error_box.center_add(loading_screen.map)
+            loading_screen.map.show()
+            sys.exit(1)
+
+        for mod in mods.mod_obs:
+            mod.mod_p_data(p_data)
+    else:
+        mods = DummyMods()
+
+    # validating data
+    p_data.validate()
+    # types
+    types = Types(p_data.types, p_data.sub_types)
 
     # comprehending settings
     # This is needed to just apply some changes when restarting
