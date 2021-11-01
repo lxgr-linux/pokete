@@ -1460,6 +1460,40 @@ def save():
         json.dump(_si, file, indent=4)
 
 
+def read_save():
+        """Reads form savefile"""
+        Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
+        # Default test session_info
+        _si = {
+            "user": "DEFAULT",
+            "ver": VERSION,
+            "map": "intromap",
+            "oldmap": "playmap_1",
+            "x": 4,
+            "y": 5,
+            "pokes": {
+                "0": {"name": "steini", "xp": 50, "hp": "SKIP",
+                      "ap": ["SKIP", "SKIP"]}
+            },
+            "inv": {"poketeball": 15, "healing_potion": 1},
+            "settings": {},
+            "caught_poketes": ["steini"],
+            "visited_maps": ["playmap_1"],
+            "startup_time": 0,
+            "used_npcs": []
+        }
+
+        if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
+            and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
+            with open(HOME + SAVEPATH + "/pokete.py") as _file:
+                exec(_file.read())
+            _si = json.loads(json.dumps(_si))
+        elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
+            with open(HOME + SAVEPATH + "/pokete.json") as _file:
+                _si = json.load(_file)
+        return _si
+
+
 def on_press(key):
     """Sets the ev variable"""
     ev.set(str(key))
@@ -2574,35 +2608,9 @@ if __name__ == "__main__":
 
     # reading config file
     HOME = str(Path.home())
-    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
-    # Default test session_info
-    session_info = {
-        "user": "DEFAULT",
-        "ver": VERSION,
-        "map": "intromap",
-        "oldmap": "playmap_1",
-        "x": 4,
-        "y": 5,
-        "pokes": {
-            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
-                  "ap": ["SKIP", "SKIP"]}
-        },
-        "inv": {"poketeball": 15, "healing_potion": 1},
-        "settings": {},
-        "caught_poketes": ["steini"],
-        "visited_maps": ["playmap_1"],
-        "startup_time": 0,
-        "used_npcs": []
-    }
 
-    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
-        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
-        with open(HOME + SAVEPATH + "/pokete.py") as _file:
-            exec(_file.read())
-        session_info = json.loads(json.dumps(session_info))
-    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
-        with open(HOME + SAVEPATH + "/pokete.json") as _file:
-            session_info = json.load(_file)
+    # reading config file
+    session_info = read_save()
 
     if "settings" in session_info:
         settings = Settings(**session_info["settings"])
