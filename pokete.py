@@ -1467,37 +1467,37 @@ def save():
 
 
 def read_save():
-        """Reads form savefile"""
-        Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
-        # Default test session_info
-        _si = {
-            "user": "DEFAULT",
-            "ver": VERSION,
-            "map": "intromap",
-            "oldmap": "playmap_1",
-            "x": 4,
-            "y": 5,
-            "pokes": {
-                "0": {"name": "steini", "xp": 50, "hp": "SKIP",
-                      "ap": ["SKIP", "SKIP"]}
-            },
-            "inv": {"poketeball": 15, "healing_potion": 1},
-            "settings": {},
-            "caught_poketes": ["steini"],
-            "visited_maps": ["playmap_1"],
-            "startup_time": 0,
-            "used_npcs": []
-        }
+    """Reads form savefile"""
+    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
+    # Default test session_info
+    _si = {
+        "user": "DEFAULT",
+        "ver": VERSION,
+        "map": "intromap",
+        "oldmap": "playmap_1",
+        "x": 4,
+        "y": 5,
+        "pokes": {
+            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
+                  "ap": ["SKIP", "SKIP"]}
+        },
+        "inv": {"poketeball": 15, "healing_potion": 1},
+        "settings": {},
+        "caught_poketes": ["steini"],
+        "visited_maps": ["playmap_1"],
+        "startup_time": 0,
+        "used_npcs": []
+    }
 
-        if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
-            and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
-            with open(HOME + SAVEPATH + "/pokete.py") as _file:
-                exec(_file.read())
-            _si = json.loads(json.dumps(_si))
-        elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
-            with open(HOME + SAVEPATH + "/pokete.json") as _file:
-                _si = json.load(_file)
-        return _si
+    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
+        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
+        with open(HOME + SAVEPATH + "/pokete.py") as _file:
+            exec(_file.read())
+        _si = json.loads(json.dumps(_si))
+    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
+        with open(HOME + SAVEPATH + "/pokete.json") as _file:
+            _si = json.load(_file)
+    return _si
 
 
 def on_press(key):
