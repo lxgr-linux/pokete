@@ -1869,8 +1869,13 @@ def swap_poke():
                                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
-    if "mods" not in decode_data or decode_data["mods"] != mods.mod_info:
-        ask_ok(ev, movemap, "Conflicting mod versions!")
+    if "mods" not in decode_data and mods.mod_info == {}:
+        pass
+    else:
+        mod_info = {} if "mods" not in decode_data else decode_data["mods"]
+        ask_ok(ev, movemap, f"""Conflicting mod versions!
+Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
+Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
         return
     figure.add_poke(Poke(decode_data["poke"]["name"],
                          decode_data["poke"]["xp"],
