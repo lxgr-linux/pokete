@@ -65,6 +65,10 @@ Ice|Water, Plant|Fire
 
 For additional information you can see [wiki](wiki.md).
 
+## Mods
+Mods can be written to extend Pokete. To load a mod, the mod has  to be placed in `mods` and mods have to be enabled in the menu.
+For an example mod see [example.py](mods/example.py).
+
 ## Tips
 - In conversations you can very easily skip the text printing by pressing any key
 - When you want to see the next text in a conversation, also just press any key

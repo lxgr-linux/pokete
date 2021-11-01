@@ -1,3 +1,5 @@
+"""This file contains all classes related to mods"""
+
 from .side_loops import About
 from .ui_elements import InfoBox
 
