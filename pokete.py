@@ -1604,6 +1604,7 @@ def movemap_add_obs():
     movemap.balls_label.add(movemap, 4 + len(movemap.name_label.text),
                             movemap.height - 2)
     movemap.underline.add(movemap, 0, movemap.height - 2)
+    movemap.label_bg.add(movemap, 0, movemap.height - 1)
     movemap.label.add(movemap, 0, movemap.height - 1)
     movemap.code_label.add(movemap, 0, 0)
 
@@ -2677,6 +2678,7 @@ if __name__ == "__main__":
     figure = Figure("a")
     exclamation = se.Object("!")
     multitext = OutP("", state="float")
+    movemap.label_bg = se.Square(" ", movemap.width, 1, state="float")
     movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
     movemap.code_label = OutP("")
 
