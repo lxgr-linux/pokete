@@ -31,10 +31,11 @@ from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_general_use_fns import liner, sort_vers, std_loop
+from pokete_classes.mods import ModError, ModInfo, DummyMods
 from release import *
 
-__t = time.time()
 
+__t = time.time()
 
 # Class definition
 ##################
@@ -1141,6 +1142,7 @@ class Menu:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Menu")
         self.playername_label = se.Text("Playername: ", state="float")
+        self.mods_label = se.Text("Mods", state="float")
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
@@ -1152,6 +1154,9 @@ class Menu:
                                     {True: "On", False: "Off"}),
                             Setting("Save trainers", "save_trainers",
                                     {True: "On", False: "Off"}),
+                            Setting("Load mods", "load_mods",
+                                    {True: "On", False: "Off"}),
+                            self.mods_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -1180,6 +1185,8 @@ class Menu:
                                                  self.map.height - 2)
                         self.map.underline.add(self.map, 0,
                                                self.map.height - 2)
+                    elif i == self.mods_label:
+                        ModInfo(movemap, settings, mods.mod_info)(ev)
                     elif i == self.save_label:
                         # When will python3.10 come out?
                         with InfoBox("Saving....", _map=self.map):
@@ -1453,6 +1460,40 @@ def save():
     with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
+
+
+def read_save():
+    """Reads form savefile"""
+    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
+    # Default test session_info
+    _si = {
+        "user": "DEFAULT",
+        "ver": VERSION,
+        "map": "intromap",
+        "oldmap": "playmap_1",
+        "x": 4,
+        "y": 5,
+        "pokes": {
+            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
+                  "ap": ["SKIP", "SKIP"]}
+        },
+        "inv": {"poketeball": 15, "healing_potion": 1},
+        "settings": {},
+        "caught_poketes": ["steini"],
+        "visited_maps": ["playmap_1"],
+        "startup_time": 0,
+        "used_npcs": []
+    }
+
+    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
+        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
+        with open(HOME + SAVEPATH + "/pokete.py") as _file:
+            exec(_file.read())
+        _si = json.loads(json.dumps(_si))
+    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
+        with open(HOME + SAVEPATH + "/pokete.json") as _file:
+            _si = json.load(_file)
+    return _si
 
 
 def on_press(key):
@@ -1842,7 +1883,8 @@ def swap_poke():
                         if not data:
                             break
                         decode_data = json.loads(data.decode())
-                        conn.sendall(str.encode(json.dumps({"name": figure.name,
+                        conn.sendall(str.encode(json.dumps({"mods": mods.mod_info,
+                                                            "name": figure.name,
                                                             "poke": figure.pokes[index].dict()})))
     else:
         host = ""
@@ -1858,10 +1900,19 @@ def swap_poke():
             except Exception as err:
                 ask_ok(ev, movemap, str(err))
                 return
-            sock.sendall(str.encode(json.dumps({"name": figure.name,
+            sock.sendall(str.encode(json.dumps({"mods": mods.mod_info,
+                                                "name": figure.name,
                                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
+    if "mods" not in decode_data and mods.mod_info == {}:
+        pass
+    else:
+        mod_info = {} if "mods" not in decode_data else decode_data["mods"]
+        ask_ok(ev, movemap, f"""Conflicting mod versions!
+Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
+Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
+        return
     figure.add_poke(Poke(decode_data["poke"]["name"],
                          decode_data["poke"]["xp"],
                          decode_data["poke"]["hp"]), index)
@@ -2549,45 +2600,16 @@ if __name__ == "__main__":
     # resizing screen
     tss = ResizeScreen()
     width, height = tss()
+
+    # Home global
+    HOME = str(Path.home())
+
     # loading screen
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
-    # validating data
-    p_data.validate()
-    # types
-    types = Types(p_data.types, p_data.sub_types)
 
-    # reading config file
-    HOME = str(Path.home())
-    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
-    # Default test session_info
-    session_info = {
-        "user": "DEFAULT",
-        "ver": VERSION,
-        "map": "intromap",
-        "oldmap": "playmap_1",
-        "x": 4,
-        "y": 5,
-        "pokes": {
-            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
-                  "ap": ["SKIP", "SKIP"]}
-        },
-        "inv": {"poketeball": 15, "healing_potion": 1},
-        "settings": {},
-        "caught_poketes": ["steini"],
-        "visited_maps": ["playmap_1"],
-        "startup_time": 0,
-        "used_npcs": []
-    }
-
-    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
-        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
-        with open(HOME + SAVEPATH + "/pokete.py") as _file:
-            exec(_file.read())
-        session_info = json.loads(json.dumps(session_info))
-    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
-        with open(HOME + SAVEPATH + "/pokete.json") as _file:
-            session_info = json.load(_file)
+    # reading save file
+    session_info = read_save()
 
     if "settings" in session_info:
         settings = Settings(**session_info["settings"])
@@ -2609,8 +2631,29 @@ if __name__ == "__main__":
     else:
         visited_maps = ["playmap_1"]
 
+    # Loading mods
+    if settings.load_mods:
+        try:
+            import mods
+        except ModError as err:
+            error_box = InfoBox(str(err), "Mod-loading Error")
+            error_box.center_add(loading_screen.map)
+            loading_screen.map.show()
+            sys.exit(1)
+
+        for mod in mods.mod_obs:
+            mod.mod_p_data(p_data)
+    else:
+        mods = DummyMods()
+
+    # validating data
+    p_data.validate()
+    # types
+    types = Types(p_data.types, p_data.sub_types)
+
     # comprehending settings
-    # This is needed to just apply some changes when restarting the game to avoid running into errors
+    # This is needed to just apply some changes when restarting
+    # the game to avoid running into errors
     save_trainers = settings.save_trainers
 
     # Defining and adding of objetcs and maps
@@ -2760,6 +2803,7 @@ if __name__ == "__main__":
     ev = Event("")
     fd = None
     old_settings = None
+
     try:
         main()
     except KeyboardInterrupt:
