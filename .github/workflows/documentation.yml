@@ -72,3 +72,56 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           force: false
+
+  wiki:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2.1.6
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore
+          path: |
+            ~/.cache/pip3
+          # An explicit key for restoring and saving the cache
+          key: ${{ runner.os }}-dependencies
+
+      # Runs a single command using the runners shell
+      - name: Install dependecies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: |
+          pip3 install scrap_engine
+
+      - name: Make multipage wiki
+        run: |
+          python3 gen-wiki.py
+          mkdir /tmp/gen-wiki
+          cp -r HowToPlay.md DevGuide.md wiki/ /tmp/gen-wiki
+      - name: Switch to wiki repository
+        uses: actions/checkout/@v2
+        with:
+          repository: 'lxgr-linux/pokete.wiki'
+      - name: Move files back to current work dir
+        run: |
+          rm -rf ./HowToPlay.md DevGuide.md wiki/
+          mv '/tmp/gen-wiki/*' .
+      # Push to github_pages
+      - name: Release documentation
+        run: |
+          git config --local user.name  ${{ github.actor }}
+          if [[ $(git diff) != "" ]]
+          then
+          git add .
+            git commit -m "Updated pokete-wiki"
+          fi
+
+      - name: Push changes  # push the output folder to your repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: false
