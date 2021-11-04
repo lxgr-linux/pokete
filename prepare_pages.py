@@ -267,14 +267,14 @@ def after() -> None:
 
 
 if __name__ == '__main__':
-    with open('.gh-pages.json', 'r') as config_file:
-        config_file_contents = config_file.read()
-    files = json.loads(config_file_contents)
     if len(sys.argv) == 1:
         print('Error! Not enough arguments:')
         print(f"Usage: '{sys.argv[0]}' <after|before>")
         sys.exit(2)
     if sys.argv[1] == 'before':
+        with open('.gh-pages.json', 'r') as config_file:
+            config_file_contents = config_file.read()
+        files = json.loads(config_file_contents)
         before()
     elif 'after' == sys.argv[1]:
         after()
