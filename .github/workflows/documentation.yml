@@ -101,14 +101,14 @@ jobs:
         run: |
           python3 gen-wiki.py
           mkdir /tmp/gen-wiki
-          cp -r HowToPlay.md DevGuide.md wiki/ /tmp/gen-wiki
+          cp -r HowToPlay.md DevGuide.md wiki.md /tmp/gen-wiki
       - name: Switch to wiki repository
         uses: actions/checkout/@v2
         with:
           repository: 'lxgr-linux/pokete.wiki'
       - name: Move files back to current work dir
         run: |
-          rm -rf ./HowToPlay.md DevGuide.md wiki/
+          rm -rf ./HowToPlay.md DevGuide.md wiki.md
           cp -r /tmp/gen-wiki/* .
       # Push to github_pages
       - name: Release documentation
