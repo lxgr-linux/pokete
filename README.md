@@ -1,6 +1,7 @@
 [![Wiki](https://github.com/lxgr-linux/pokete/actions/workflows/main.yml/badge.svg)](https://github.com/lxgr-linux/pokete/actions/workflows/main.yml)
 [![Code-Validation](https://github.com/lxgr-linux/pokete/actions/workflows/main_validate.yml/badge.svg)](https://github.com/lxgr-linux/pokete/actions/workflows/main_validate.yml)
 [![GitHub-Pages Build](https://github.com/lxgr-linux/pokete/actions/workflows/documentation.yml/badge.svg)](https://github.com/lxgr-linux/pokete/actions/workflows/documentation.yml)
+![AUR version](https://img.shields.io/aur/version/pokete-git)
 
 # Pokete -- Grey Edition
 
@@ -63,6 +64,10 @@ Undead|Normal, Ground, Plant, Water|Fire
 Ice|Water, Plant|Fire
 
 For additional information you can see [wiki](wiki.md).
+
+## Mods
+Mods can be written to extend Pokete. To load a mod, the mod has  to be placed in `mods` and mods have to be enabled in the menu.
+For an example mod see [example.py](mods/example.py).
 
 ## Tips
 - In conversations you can very easily skip the text printing by pressing any key

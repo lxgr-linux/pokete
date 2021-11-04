@@ -22,3 +22,7 @@ class LearnDisc(InvItem):
         name = f"ld_{attack_name}"
         desc = f"Teaches a Pokete the attack '{self.attack_dict['name']}'."
         super().__init__(name, pretty_name, desc, 0)
+
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")

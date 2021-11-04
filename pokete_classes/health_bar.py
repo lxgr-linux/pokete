@@ -1,6 +1,6 @@
 import time
 import scrap_engine as se
-from pokete_classes.color import Color
+from .color import Color
 
 
 class HealthBar(se.Text):
@@ -29,4 +29,7 @@ class HealthBar(se.Text):
             self.poke.ico.map.show()
         self.poke.text_hp.rechar(f"HP:{oldhp}")
         time.sleep(0.1)
-  
+ 
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")

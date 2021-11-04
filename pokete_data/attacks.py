@@ -3,7 +3,7 @@ attacks = {
     "tackle": {
         "name": "Tackle",
         "factor": 3 / 2,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.2,
@@ -17,7 +17,7 @@ attacks = {
     "cry": {
         "name": "Cry",
         "factor": 0,
-        "action": "enem.miss_chance += 1",
+        "action": "cry",
         "world_action": "",
         "move": ["downgrade"],
         "miss_chance": 0,
@@ -31,7 +31,7 @@ attacks = {
     "bite": {
         "name": "Bite",
         "factor": 1.75,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -45,7 +45,7 @@ attacks = {
     "power_bite": {
         "name": "Power bite",
         "factor": 8,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -59,7 +59,7 @@ attacks = {
     "chocer": {
         "name": "Choker",
         "factor": 1,
-        "action": "enem.atc -= 1",
+        "action": "chocer",
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0.2,
@@ -73,7 +73,7 @@ attacks = {
     "tail_wipe": {
         "name": "Tail wipe",
         "factor": 2.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.5,
@@ -87,12 +87,12 @@ attacks = {
     "meat_skewer": {
         "name": "Meat skewer",
         "factor": 3.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.7,
         "min_lvl": 0,
-        "desc": "Drills the horn deep in the enemy's flesh.",
+        "desc": "Drills a horn deep in the enemy's flesh.",
         "types": ["normal"],
         "effect": None,
         "is_generic": False,
@@ -101,7 +101,7 @@ attacks = {
     "snooze": {
         "name": "Snooze",
         "factor": 0,
-        "action": "enem.miss_chance += 0.5; enem.atc -= 1; enem.defense -= 1",
+        "action": "snooze",
         "world_action": "",
         "move": ["downgrade"],
         "miss_chance": 0.2,
@@ -112,11 +112,25 @@ attacks = {
         "is_generic": False,
         "ap": 15,
     },
+    "supercow_power": {
+        "name": "Supercow power",
+        "factor": 0,
+        "action": "self.atc += 1",
+        "world_action": "",
+        "move": ["shine"],
+        "miss_chance": 0,
+        "min_lvl": 10,
+        "desc": "Makes the Pokete angry and strong.",
+        "types": ["normal"],
+        "effect": None,
+        "is_generic": False,
+        "ap": 10,
+    },
     # poison attacks
     "poison_bite": {
         "name": "Poison bite",
         "factor": 1,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0.3,
@@ -130,7 +144,7 @@ attacks = {
     "poison_thorn": {
         "name": "Poison thorn",
         "factor": 2.75,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0.1,
@@ -145,7 +159,7 @@ attacks = {
     "pepple_fire": {
         "name": "Pepple fire",
         "factor": 1,
-        "action": "enem.miss_chance += 1",
+        "action": "cry",
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0,
@@ -159,7 +173,7 @@ attacks = {
     "politure": {
         "name": "Politure",
         "factor": 0,
-        "action": "self.defense += 1; self.atc += 1",
+        "action": "politure",
         "world_action": "",
         "move": ["shine"],
         "miss_chance": 0,
@@ -173,7 +187,7 @@ attacks = {
     "brick_throw": {
         "name": "Brick throw",
         "factor": 2,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["throw"],
         "miss_chance": 0.3,
@@ -187,7 +201,7 @@ attacks = {
     "rock_smash": {
         "name": "Rock smash",
         "factor": 5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["pound"],
         "miss_chance": 0.1,
@@ -201,7 +215,7 @@ attacks = {
     "dia_stab": {
         "name": "Dia stab",
         "factor": 5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -215,7 +229,7 @@ attacks = {
     "dazzle": {
         "name": "Dazzle",
         "factor": 1.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0.2,
@@ -229,7 +243,7 @@ attacks = {
     "dia_spikes": {
         "name": "Dia spikes",
         "factor": 2,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0,
@@ -245,7 +259,7 @@ attacks = {
     "earch_quake": {
         "name": "Earch quake",
         "factor": 4,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["pound"],
         "miss_chance": 0,
@@ -259,7 +273,7 @@ attacks = {
     "power_roll": {
         "name": "Power roll",
         "factor": 2.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.2,
@@ -273,7 +287,7 @@ attacks = {
     "toe_breaker": {
         "name": "Toe Breaker",
         "factor": 2.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.3,
@@ -287,7 +301,7 @@ attacks = {
     "ground_hit": {
         "name": "Ground hit",
         "factor": 3,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -301,7 +315,7 @@ attacks = {
     "dick_energy": {
         "name": "Dick energy",
         "factor": 0,
-        "action": "self.atc += 2",
+        "action": "dick_energy",
         "world_action": "",
         "move": ["shine"],
         "miss_chance": 0,
@@ -315,7 +329,7 @@ attacks = {
     "hiding": {
         "name": "Hiding",
         "factor": 0,
-        "action": "self.defense += 2",
+        "action": "hiding",
         "world_action": "",
         "move": ["shine"],
         "miss_chance": 0,
@@ -331,7 +345,7 @@ attacks = {
     "fire_bite": {
         "name": "Fire bite",
         "factor": 2,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.2,
@@ -345,7 +359,7 @@ attacks = {
     "ash_throw": {
         "name": "Ash throw",
         "factor": 0.5,
-        "action": "enem.miss_chance += 1",
+        "action": "cry",
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0,
@@ -359,7 +373,7 @@ attacks = {
     "flame_throw": {
         "name": "Flame throw",
         "factor": 2.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0,
@@ -374,7 +388,7 @@ attacks = {
     "fire_ball": {
         "name": "Fire ball",
         "factor": 4,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["fireball"],
         "miss_chance": 0,
@@ -389,7 +403,7 @@ attacks = {
     "flying": {
         "name": "Flying",
         "factor": 1.5,
-        "action": "",
+        "action": None,
         "world_action": "teleport",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -403,7 +417,7 @@ attacks = {
     "pick": {
         "name": "Pick",
         "factor": 1.7,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -417,7 +431,7 @@ attacks = {
     "wind_blow": {
         "name": "Wind blow",
         "factor": 2,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0,
@@ -431,7 +445,7 @@ attacks = {
     "storm_gust": {
         "name": "Storm gust",
         "factor": 6,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0,
@@ -446,7 +460,7 @@ attacks = {
     "schmetter": {
         "name": "Schmetter",
         "factor": 1.7,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -460,7 +474,7 @@ attacks = {
     "eye_pick": {
         "name": "Eye pick",
         "factor": 2.5,
-        "action": "enem.miss_chance += 2",
+        "action": "eye_pick",
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0.6,
@@ -474,7 +488,7 @@ attacks = {
     "wing_hit": {
         "name": "Wing hit",
         "factor": 2.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.5,
@@ -488,7 +502,7 @@ attacks = {
     "brooding": {
         "name": "Brooding",
         "factor": 0,
-        "action": "self.hp += 2 if self.hp+2 <= self.full_hp else 0",
+        "action": "brooding",
         "world_action": "",
         "move": ["shine"],
         "miss_chance": 0,
@@ -502,7 +516,7 @@ attacks = {
     "power_pick": {
         "name": "Power pick",
         "factor": 2,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.4,
@@ -517,7 +531,7 @@ attacks = {
     "bubble_gun": {
         "name": "Bubble gun",
         "factor": 2,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.2,
@@ -531,7 +545,7 @@ attacks = {
     "bubble_bomb": {
         "name": "Bubble bomb",
         "factor": 6,
-        "action": "enem.miss_chance += 1",
+        "action": "cry",
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0,
@@ -545,7 +559,7 @@ attacks = {
     "bubble_shield": {
         "name": "Bubble shield",
         "factor": 0,
-        "action": "self.defense += 2",
+        "action": "hiding",
         "world_action": "",
         "move": ["shine"],
         "miss_chance": 0,
@@ -559,7 +573,7 @@ attacks = {
     "wet_slap": {
         "name": "Wet slap",
         "factor": 2.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -573,7 +587,7 @@ attacks = {
     "shell_pinch": {
         "name": "Shell pinch",
         "factor": 2.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.1,
@@ -588,7 +602,7 @@ attacks = {
     "heart_touch": {
         "name": "Heart touch",
         "factor": 4,
-        "action": "enem.defense -= 4",
+        "action": "heart_touch",
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0,
@@ -602,7 +616,7 @@ attacks = {
     "confusion": {
         "name": "Confusion",
         "factor": 0,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["downgrade"],
         "miss_chance": 0.2,
@@ -616,7 +630,7 @@ attacks = {
     "mind_blow": {
         "name": "Mind blow",
         "factor": 0,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["downgrade"],
         "miss_chance": 0,
@@ -631,7 +645,7 @@ attacks = {
     "shock": {
         "name": "Shock",
         "factor": 3 / 2,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["arch"],
         "miss_chance": 0.2,
@@ -645,7 +659,7 @@ attacks = {
     "charging": {
         "name": "Charging",
         "factor": 0,
-        "action": "self.atc += 2",
+        "action": "dick_energy",
         "world_action": "",
         "move": ["shine"],
         "miss_chance": 0,
@@ -659,7 +673,7 @@ attacks = {
     "mega_arch": {
         "name": "Mega arch",
         "factor": 5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["arch"],
         "miss_chance": 0,
@@ -674,7 +688,7 @@ attacks = {
     "apple_drop": {
         "name": "Apple drop",
         "factor": 1.7,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.3,
@@ -688,7 +702,7 @@ attacks = {
     "super_sucker": {
         "name": "Super sucker",
         "factor": 0,
-        "action": "enem.hp -=2; self.hp +=2 if self.hp+2 <= self.full_hp else 0",
+        "action": "super_sucker",
         "world_action": "",
         "move": ["downgrade", "shine"],
         "miss_chance": 0,
@@ -702,7 +716,7 @@ attacks = {
     "sucker": {
         "name": "Sucker",
         "factor": 0,
-        "action": "enem.hp -=1; self.hp +=1 if self.hp+1 <= self.full_hp else 0",
+        "action": "sucker",
         "world_action": "",
         "move": ["downgrade", "shine"],
         "miss_chance": 0,
@@ -716,7 +730,7 @@ attacks = {
     "root_strangler": {
         "name": "Root strangler",
         "factor": 1,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0.2,
@@ -730,7 +744,7 @@ attacks = {
     "root_slap": {
         "name": "Root slap",
         "factor": 1.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.2,
@@ -744,7 +758,7 @@ attacks = {
     "leaf_storm": {
         "name": "Leaf storm",
         "factor": 5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0,
@@ -758,7 +772,7 @@ attacks = {
     "bark_hardening": {
         "name": "Bark hardening",
         "factor": 0,
-        "action": "self.defense += 1",
+        "action": "bark_hardening",
         "world_action": "",
         "move": ["shine"],
         "miss_chance": 0,
@@ -772,7 +786,7 @@ attacks = {
     "poison_spores": {
         "name": "Poison spores",
         "factor": 0,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["downgrade"],
         "miss_chance": 0,
@@ -786,7 +800,7 @@ attacks = {
     "branch_stab": {
         "name": "Branch stab",
         "factor": 4,
-        "action": "enem.miss_chance += 1",
+        "action": "cry",
         "world_action": "",
         "move": ["attack", "downgrade"],
         "miss_chance": 0.2,
@@ -801,7 +815,7 @@ attacks = {
     "freeze": {
         "name": "Freeze",
         "factor": 0,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["downgrade"],
         "miss_chance": 0.1,
@@ -815,7 +829,7 @@ attacks = {
     "snow_storm": {
         "name": "Snow storm",
         "factor": 2.5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0,
@@ -829,7 +843,7 @@ attacks = {
     "sword_of_ice": {
         "name": "Sword of ice",
         "factor": 5,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0.3,
@@ -843,7 +857,7 @@ attacks = {
     "spikes": {
         "name": "Spikes",
         "factor": 1.75,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["attack"],
         "miss_chance": 0,

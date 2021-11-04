@@ -47,6 +47,27 @@ pokes = {
  +-------+ """,
             "esc": None}],
     },
+    "mowcow": {
+        "name": "Mowcow",
+        "hp": 20,
+        "atc": 2,
+        "defense": 3,
+        "attacks": ["tackle"],
+        "pool": ["supercow_power", "meat_skewer"],
+        "miss_chance": 0,
+        "desc": "A cow-like creature found on meadows.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 2,
+        "ico": [{
+            "txt": """    ^__^
+    (oo)
+    (__)""",
+            "esc": None}],
+    },
     "bigstone": {
         "name": "Bigstone",
         "hp": 30,
@@ -815,7 +836,7 @@ WW\/o o\/WW
         "rarity": 1,
         "types": ["ground", "normal"],
         "evolve_poke": "dicki",
-        "evolve_lvl": 15,
+        "evolve_lvl": 35,
         "initiative": 1,
         "ico": [{
             "txt": """
@@ -838,7 +859,7 @@ WW\/o o\/WW
         "rarity": 1,
         "types": ["ground", "normal"],
         "evolve_poke": "dicko",
-        "evolve_lvl": 35,
+        "evolve_lvl": 55,
         "initiative": 2,
         "ico": [{
             "txt": """    

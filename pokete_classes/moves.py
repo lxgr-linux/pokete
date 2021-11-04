@@ -1,6 +1,6 @@
 import time
 import scrap_engine as se
-from pokete_classes.color import Color
+from .color import Color
 
 class Moves:
     """This class contains all attack moves"""
@@ -86,3 +86,6 @@ class Moves:
         """Downgrade move"""
         self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-" + Color.reset)
 
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")

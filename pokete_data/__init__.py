@@ -1,12 +1,12 @@
-from pokete_data.poketes import *
-from pokete_data.attacks import *
-from pokete_data.map_data import *
-from pokete_data.types import *
-from pokete_data.items import *
-from pokete_data.trainers import *
-from pokete_data.npcs import *
-from pokete_data.mapstations import *
-from pokete_data.maps import *
+from .poketes import *
+from .attacks import *
+from .map_data import *
+from .types import *
+from .items import *
+from .trainers import *
+from .npcs import *
+from .mapstations import *
+from .maps import *
 
 
 class ValidationError(Exception):
