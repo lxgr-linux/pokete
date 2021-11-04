@@ -1234,7 +1234,7 @@ class RoadMap:
              if figure.map not in [shopmap, centermap]
              else figure.oldmap)
          in i.associates][0].choose()
-        with self.box.add(movemap, movemap.width - self.box.width, 0):
+        with self.box.center_add(movemap):
             while True:
                 if ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
                     Station.choosen.next(ev.get())
