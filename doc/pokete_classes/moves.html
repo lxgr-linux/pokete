@@ -28,7 +28,7 @@
 </summary>
 <pre><code class="python">import time
 import scrap_engine as se
-from pokete_classes.color import Color
+from .color import Color
 
 class Moves:
     &#34;&#34;&#34;This class contains all attack moves&#34;&#34;&#34;
@@ -112,7 +112,11 @@ class Moves:
 
     def downgrade(self):
         &#34;&#34;&#34;Downgrade move&#34;&#34;&#34;
-        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34; + Color.reset)</code></pre>
+        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34; + Color.reset)
+
+
+if __name__ == &#34;__main__&#34;:
+    print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
 </details>
 </section>
 <section>

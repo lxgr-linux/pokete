@@ -31,7 +31,7 @@
     &#34;tackle&#34;: {
         &#34;name&#34;: &#34;Tackle&#34;,
         &#34;factor&#34;: 3 / 2,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -45,7 +45,7 @@
     &#34;cry&#34;: {
         &#34;name&#34;: &#34;Cry&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;enem.miss_chance += 1&#34;,
+        &#34;action&#34;: &#34;cry&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0,
@@ -59,7 +59,7 @@
     &#34;bite&#34;: {
         &#34;name&#34;: &#34;Bite&#34;,
         &#34;factor&#34;: 1.75,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -73,7 +73,7 @@
     &#34;power_bite&#34;: {
         &#34;name&#34;: &#34;Power bite&#34;,
         &#34;factor&#34;: 8,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -87,7 +87,7 @@
     &#34;chocer&#34;: {
         &#34;name&#34;: &#34;Choker&#34;,
         &#34;factor&#34;: 1,
-        &#34;action&#34;: &#34;enem.atc -= 1&#34;,
+        &#34;action&#34;: &#34;chocer&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -101,7 +101,7 @@
     &#34;tail_wipe&#34;: {
         &#34;name&#34;: &#34;Tail wipe&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.5,
@@ -115,12 +115,12 @@
     &#34;meat_skewer&#34;: {
         &#34;name&#34;: &#34;Meat skewer&#34;,
         &#34;factor&#34;: 3.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.7,
         &#34;min_lvl&#34;: 0,
-        &#34;desc&#34;: &#34;Drills the horn deep in the enemy&#39;s flesh.&#34;,
+        &#34;desc&#34;: &#34;Drills a horn deep in the enemy&#39;s flesh.&#34;,
         &#34;types&#34;: [&#34;normal&#34;],
         &#34;effect&#34;: None,
         &#34;is_generic&#34;: False,
@@ -129,7 +129,7 @@
     &#34;snooze&#34;: {
         &#34;name&#34;: &#34;Snooze&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;enem.miss_chance += 0.5; enem.atc -= 1; enem.defense -= 1&#34;,
+        &#34;action&#34;: &#34;snooze&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -140,11 +140,25 @@
         &#34;is_generic&#34;: False,
         &#34;ap&#34;: 15,
     },
+    &#34;supercow_power&#34;: {
+        &#34;name&#34;: &#34;Supercow power&#34;,
+        &#34;factor&#34;: 0,
+        &#34;action&#34;: &#34;self.atc += 1&#34;,
+        &#34;world_action&#34;: &#34;&#34;,
+        &#34;move&#34;: [&#34;shine&#34;],
+        &#34;miss_chance&#34;: 0,
+        &#34;min_lvl&#34;: 10,
+        &#34;desc&#34;: &#34;Makes the Pokete angry and strong.&#34;,
+        &#34;types&#34;: [&#34;normal&#34;],
+        &#34;effect&#34;: None,
+        &#34;is_generic&#34;: False,
+        &#34;ap&#34;: 10,
+    },
     # poison attacks
     &#34;poison_bite&#34;: {
         &#34;name&#34;: &#34;Poison bite&#34;,
         &#34;factor&#34;: 1,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.3,
@@ -158,7 +172,7 @@
     &#34;poison_thorn&#34;: {
         &#34;name&#34;: &#34;Poison thorn&#34;,
         &#34;factor&#34;: 2.75,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -173,7 +187,7 @@
     &#34;pepple_fire&#34;: {
         &#34;name&#34;: &#34;Pepple fire&#34;,
         &#34;factor&#34;: 1,
-        &#34;action&#34;: &#34;enem.miss_chance += 1&#34;,
+        &#34;action&#34;: &#34;cry&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0,
@@ -187,7 +201,7 @@
     &#34;politure&#34;: {
         &#34;name&#34;: &#34;Politure&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;self.defense += 1; self.atc += 1&#34;,
+        &#34;action&#34;: &#34;politure&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -201,7 +215,7 @@
     &#34;brick_throw&#34;: {
         &#34;name&#34;: &#34;Brick throw&#34;,
         &#34;factor&#34;: 2,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;throw&#34;],
         &#34;miss_chance&#34;: 0.3,
@@ -215,7 +229,7 @@
     &#34;rock_smash&#34;: {
         &#34;name&#34;: &#34;Rock smash&#34;,
         &#34;factor&#34;: 5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;pound&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -229,7 +243,7 @@
     &#34;dia_stab&#34;: {
         &#34;name&#34;: &#34;Dia stab&#34;,
         &#34;factor&#34;: 5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -243,7 +257,7 @@
     &#34;dazzle&#34;: {
         &#34;name&#34;: &#34;Dazzle&#34;,
         &#34;factor&#34;: 1.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -257,7 +271,7 @@
     &#34;dia_spikes&#34;: {
         &#34;name&#34;: &#34;Dia spikes&#34;,
         &#34;factor&#34;: 2,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0,
@@ -273,7 +287,7 @@
     &#34;earch_quake&#34;: {
         &#34;name&#34;: &#34;Earch quake&#34;,
         &#34;factor&#34;: 4,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;pound&#34;],
         &#34;miss_chance&#34;: 0,
@@ -287,7 +301,7 @@
     &#34;power_roll&#34;: {
         &#34;name&#34;: &#34;Power roll&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -301,7 +315,7 @@
     &#34;toe_breaker&#34;: {
         &#34;name&#34;: &#34;Toe Breaker&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.3,
@@ -315,7 +329,7 @@
     &#34;ground_hit&#34;: {
         &#34;name&#34;: &#34;Ground hit&#34;,
         &#34;factor&#34;: 3,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -329,7 +343,7 @@
     &#34;dick_energy&#34;: {
         &#34;name&#34;: &#34;Dick energy&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;self.atc += 2&#34;,
+        &#34;action&#34;: &#34;dick_energy&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -343,7 +357,7 @@
     &#34;hiding&#34;: {
         &#34;name&#34;: &#34;Hiding&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;self.defense += 2&#34;,
+        &#34;action&#34;: &#34;hiding&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -359,7 +373,7 @@
     &#34;fire_bite&#34;: {
         &#34;name&#34;: &#34;Fire bite&#34;,
         &#34;factor&#34;: 2,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -373,7 +387,7 @@
     &#34;ash_throw&#34;: {
         &#34;name&#34;: &#34;Ash throw&#34;,
         &#34;factor&#34;: 0.5,
-        &#34;action&#34;: &#34;enem.miss_chance += 1&#34;,
+        &#34;action&#34;: &#34;cry&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0,
@@ -387,7 +401,7 @@
     &#34;flame_throw&#34;: {
         &#34;name&#34;: &#34;Flame throw&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0,
@@ -402,7 +416,7 @@
     &#34;fire_ball&#34;: {
         &#34;name&#34;: &#34;Fire ball&#34;,
         &#34;factor&#34;: 4,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;fireball&#34;],
         &#34;miss_chance&#34;: 0,
@@ -417,7 +431,7 @@
     &#34;flying&#34;: {
         &#34;name&#34;: &#34;Flying&#34;,
         &#34;factor&#34;: 1.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;teleport&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -431,7 +445,7 @@
     &#34;pick&#34;: {
         &#34;name&#34;: &#34;Pick&#34;,
         &#34;factor&#34;: 1.7,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -445,7 +459,7 @@
     &#34;wind_blow&#34;: {
         &#34;name&#34;: &#34;Wind blow&#34;,
         &#34;factor&#34;: 2,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0,
@@ -459,7 +473,7 @@
     &#34;storm_gust&#34;: {
         &#34;name&#34;: &#34;Storm gust&#34;,
         &#34;factor&#34;: 6,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0,
@@ -474,7 +488,7 @@
     &#34;schmetter&#34;: {
         &#34;name&#34;: &#34;Schmetter&#34;,
         &#34;factor&#34;: 1.7,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -488,7 +502,7 @@
     &#34;eye_pick&#34;: {
         &#34;name&#34;: &#34;Eye pick&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;enem.miss_chance += 2&#34;,
+        &#34;action&#34;: &#34;eye_pick&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.6,
@@ -502,7 +516,7 @@
     &#34;wing_hit&#34;: {
         &#34;name&#34;: &#34;Wing hit&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.5,
@@ -516,7 +530,7 @@
     &#34;brooding&#34;: {
         &#34;name&#34;: &#34;Brooding&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;self.hp += 2 if self.hp+2 &lt;= self.full_hp else 0&#34;,
+        &#34;action&#34;: &#34;brooding&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -530,7 +544,7 @@
     &#34;power_pick&#34;: {
         &#34;name&#34;: &#34;Power pick&#34;,
         &#34;factor&#34;: 2,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.4,
@@ -545,7 +559,7 @@
     &#34;bubble_gun&#34;: {
         &#34;name&#34;: &#34;Bubble gun&#34;,
         &#34;factor&#34;: 2,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -559,7 +573,7 @@
     &#34;bubble_bomb&#34;: {
         &#34;name&#34;: &#34;Bubble bomb&#34;,
         &#34;factor&#34;: 6,
-        &#34;action&#34;: &#34;enem.miss_chance += 1&#34;,
+        &#34;action&#34;: &#34;cry&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0,
@@ -573,7 +587,7 @@
     &#34;bubble_shield&#34;: {
         &#34;name&#34;: &#34;Bubble shield&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;self.defense += 2&#34;,
+        &#34;action&#34;: &#34;hiding&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -587,7 +601,7 @@
     &#34;wet_slap&#34;: {
         &#34;name&#34;: &#34;Wet slap&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -601,7 +615,7 @@
     &#34;shell_pinch&#34;: {
         &#34;name&#34;: &#34;Shell pinch&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -616,7 +630,7 @@
     &#34;heart_touch&#34;: {
         &#34;name&#34;: &#34;Heart touch&#34;,
         &#34;factor&#34;: 4,
-        &#34;action&#34;: &#34;enem.defense -= 4&#34;,
+        &#34;action&#34;: &#34;heart_touch&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0,
@@ -630,7 +644,7 @@
     &#34;confusion&#34;: {
         &#34;name&#34;: &#34;Confusion&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -644,7 +658,7 @@
     &#34;mind_blow&#34;: {
         &#34;name&#34;: &#34;Mind blow&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0,
@@ -659,7 +673,7 @@
     &#34;shock&#34;: {
         &#34;name&#34;: &#34;Shock&#34;,
         &#34;factor&#34;: 3 / 2,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;arch&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -673,7 +687,7 @@
     &#34;charging&#34;: {
         &#34;name&#34;: &#34;Charging&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;self.atc += 2&#34;,
+        &#34;action&#34;: &#34;dick_energy&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -687,7 +701,7 @@
     &#34;mega_arch&#34;: {
         &#34;name&#34;: &#34;Mega arch&#34;,
         &#34;factor&#34;: 5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;arch&#34;],
         &#34;miss_chance&#34;: 0,
@@ -702,7 +716,7 @@
     &#34;apple_drop&#34;: {
         &#34;name&#34;: &#34;Apple drop&#34;,
         &#34;factor&#34;: 1.7,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.3,
@@ -716,7 +730,7 @@
     &#34;super_sucker&#34;: {
         &#34;name&#34;: &#34;Super sucker&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;enem.hp -=2; self.hp +=2 if self.hp+2 &lt;= self.full_hp else 0&#34;,
+        &#34;action&#34;: &#34;super_sucker&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;downgrade&#34;, &#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -730,7 +744,7 @@
     &#34;sucker&#34;: {
         &#34;name&#34;: &#34;Sucker&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;enem.hp -=1; self.hp +=1 if self.hp+1 &lt;= self.full_hp else 0&#34;,
+        &#34;action&#34;: &#34;sucker&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;downgrade&#34;, &#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -744,7 +758,7 @@
     &#34;root_strangler&#34;: {
         &#34;name&#34;: &#34;Root strangler&#34;,
         &#34;factor&#34;: 1,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -758,7 +772,7 @@
     &#34;root_slap&#34;: {
         &#34;name&#34;: &#34;Root slap&#34;,
         &#34;factor&#34;: 1.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -772,7 +786,7 @@
     &#34;leaf_storm&#34;: {
         &#34;name&#34;: &#34;Leaf storm&#34;,
         &#34;factor&#34;: 5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0,
@@ -786,7 +800,7 @@
     &#34;bark_hardening&#34;: {
         &#34;name&#34;: &#34;Bark hardening&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;self.defense += 1&#34;,
+        &#34;action&#34;: &#34;bark_hardening&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;shine&#34;],
         &#34;miss_chance&#34;: 0,
@@ -800,7 +814,7 @@
     &#34;poison_spores&#34;: {
         &#34;name&#34;: &#34;Poison spores&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0,
@@ -814,7 +828,7 @@
     &#34;branch_stab&#34;: {
         &#34;name&#34;: &#34;Branch stab&#34;,
         &#34;factor&#34;: 4,
-        &#34;action&#34;: &#34;enem.miss_chance += 1&#34;,
+        &#34;action&#34;: &#34;cry&#34;,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;, &#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.2,
@@ -829,7 +843,7 @@
     &#34;freeze&#34;: {
         &#34;name&#34;: &#34;Freeze&#34;,
         &#34;factor&#34;: 0,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;downgrade&#34;],
         &#34;miss_chance&#34;: 0.1,
@@ -843,7 +857,7 @@
     &#34;snow_storm&#34;: {
         &#34;name&#34;: &#34;Snow storm&#34;,
         &#34;factor&#34;: 2.5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0,
@@ -857,7 +871,7 @@
     &#34;sword_of_ice&#34;: {
         &#34;name&#34;: &#34;Sword of ice&#34;,
         &#34;factor&#34;: 5,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0.3,
@@ -871,7 +885,7 @@
     &#34;spikes&#34;: {
         &#34;name&#34;: &#34;Spikes&#34;,
         &#34;factor&#34;: 1.75,
-        &#34;action&#34;: &#34;&#34;,
+        &#34;action&#34;: None,
         &#34;world_action&#34;: &#34;&#34;,
         &#34;move&#34;: [&#34;attack&#34;],
         &#34;miss_chance&#34;: 0,

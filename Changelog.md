@@ -174,4 +174,3 @@ What changed until this release?
 released: 2021-05-30
 
 This is the first real release of Pokete, because at this point most of the key game mechanics are implemented and most stuff that's still missing is just game content.
-

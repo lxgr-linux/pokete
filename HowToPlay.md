@@ -141,4 +141,3 @@ Every fifth level a Poketes tries to learn a new attack. If the number of attack
 
 ## Learning-Discs
 LDs are DVD like items you can find on the map, that can be used to teach a special attack to a Pokete. They can only be used once!
-

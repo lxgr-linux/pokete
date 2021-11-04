@@ -82,6 +82,7 @@ Exit Codes:
 import os
 from os.path import exists
 import sys
+import json
 from urllib import request
 
 &#34;&#34;&#34;
@@ -101,68 +102,7 @@ Structure:
   - new_name: the new filename and the name on the website. If convert_with_pandoc is set to true,
     make the extension .html. If the name should not be changed, put in None.
 &#34;&#34;&#34;
-files = {
-    &#34;README.md&#34;: {
-        &#34;type&#34;: &#34;page&#34;,
-        &#34;replace_tables&#34;: True,
-        &#34;replace_links&#34;: [
-            (&#34;wiki.md&#34;, &#34;./wiki&#34;),
-            (&#34;Changelog.md&#34;, &#34;./Changelog&#34;),
-            (&#34;HowToPlay.md&#34;, &#34;./HowToPlay&#34;),
-            (&#34;DevGuide.md&#34;, &#34;./DevGuide&#34;)
-        ],
-        &#34;convert_with_pandoc&#34;: False,
-        &#34;new_name&#34;: &#34;index.md&#34;
-    },
-    &#34;Changelog.md&#34;: {
-        &#34;type&#34;: &#34;page&#34;,
-        &#34;replace_tables&#34;: True,
-        &#34;replace_links&#34;: [],
-        &#34;convert_with_pandoc&#34;: False,
-        &#34;new_name&#34;: None
-    },
-    &#34;HowToPlay.md&#34;: {
-        &#34;type&#34;: &#34;page&#34;,
-        &#34;replace_tables&#34;: True,
-        &#34;replace_links&#34;: [],
-        &#34;convert_with_pandoc&#34;: False,
-        &#34;new_name&#34;: None
-    },
-    &#34;wiki.md&#34;: {
-        &#34;type&#34;: &#34;page&#34;,
-        &#34;replace_tables&#34;: False,
-        &#34;replace_links&#34;: [],
-        &#34;convert_with_pandoc&#34;: True,
-        &#34;new_name&#34;: &#34;wiki.html&#34;
-    },
-    &#34;DevGuide.md&#34;: {
-        &#34;type&#34;: &#34;page&#34;,
-        &#34;replace_tables&#34;: False,
-        &#34;replace_links&#34;: [
-            (&#34;pokete_data/poketes.py&#34;, &#34;./doc/pokete_data/poketes.html&#34;),
-            (&#34;pokete_data/types.py&#34;, &#34;./doc/pokete_data/types.html&#34;),
-            (&#34;pokete_data/attacks.py&#34;, &#34;./doc/pokete_data/attacks.html&#34;),
-            (&#34;pokete.py&#34;, &#34;./doc/pokete.html&#34;)
-        ],
-        &#34;convert_with_pandoc&#34;: True,
-        &#34;new_name&#34;: &#34;DevGuide.html&#34;
-    },
-    &#34;gen-wiki.py&#34;: {
-        &#34;type&#34;: &#34;documentation&#34;
-    },
-    &#34;pokete.py&#34;: {
-        &#34;type&#34;: &#34;documentation&#34;
-    },
-    &#34;prepare_pages.py&#34;: {
-        &#34;type&#34;: &#34;documentation&#34;
-    },
-    &#34;pokete_classes/&#34;: {
-        &#34;type&#34;: &#34;documentation&#34;
-    },
-    &#34;pokete_data/&#34;: {
-        &#34;type&#34;: &#34;documentation&#34;
-    }
-}
+files = {}
 
 
 def replace_tables(_text: str) -&gt; str:
@@ -363,9 +303,9 @@ def after() -&gt; None:
             print(&#34; -&gt; Replacing links...&#34;)
             with open(new_name, &#39;r&#39;) as f:
                 text = f.read()
-            for link in properties[&#34;replace_links&#34;]:
-                old, new = link
-                if link != properties[&#34;replace_links&#34;][-1]:
+            for old in properties[&#34;replace_links&#34;].keys():
+                new = properties[&#34;replace_links&#34;][old]
+                if old != list(properties[&#34;replace_links&#34;].keys())[-1]:
                     print(f&#34; |-&gt; Replacing {old} with {new}...&#34;)
                 else:
                     print(f&#34; `-&gt; Replacing {old} with {new}...&#34;)
@@ -384,6 +324,9 @@ if __name__ == &#39;__main__&#39;:
         print(f&#34;Usage: &#39;{sys.argv[0]}&#39; &lt;after|before&gt;&#34;)
         sys.exit(2)
     if sys.argv[1] == &#39;before&#39;:
+        with open(&#39;.gh-pages.json&#39;, &#39;r&#39;) as config_file:
+            config_file_contents = config_file.read()
+        files = json.loads(config_file_contents)
         before()
     elif &#39;after&#39; == sys.argv[1]:
         after()
@@ -469,9 +412,9 @@ look on all gh-pages pages. This function then replaces all the links for each f
             print(&#34; -&gt; Replacing links...&#34;)
             with open(new_name, &#39;r&#39;) as f:
                 text = f.read()
-            for link in properties[&#34;replace_links&#34;]:
-                old, new = link
-                if link != properties[&#34;replace_links&#34;][-1]:
+            for old in properties[&#34;replace_links&#34;].keys():
+                new = properties[&#34;replace_links&#34;][old]
+                if old != list(properties[&#34;replace_links&#34;].keys())[-1]:
                     print(f&#34; |-&gt; Replacing {old} with {new}...&#34;)
                 else:
                     print(f&#34; `-&gt; Replacing {old} with {new}...&#34;)
