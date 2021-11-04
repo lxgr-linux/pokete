@@ -30,6 +30,7 @@ Exit Codes:
 import os
 from os.path import exists
 import sys
+import json
 from urllib import request
 
 """
@@ -49,68 +50,7 @@ Structure:
   - new_name: the new filename and the name on the website. If convert_with_pandoc is set to true,
     make the extension .html. If the name should not be changed, put in None.
 """
-files = {
-    "README.md": {
-        "type": "page",
-        "replace_tables": True,
-        "replace_links": [
-            ("wiki.md", "./wiki"),
-            ("Changelog.md", "./Changelog"),
-            ("HowToPlay.md", "./HowToPlay"),
-            ("DevGuide.md", "./DevGuide")
-        ],
-        "convert_with_pandoc": False,
-        "new_name": "index.md"
-    },
-    "Changelog.md": {
-        "type": "page",
-        "replace_tables": True,
-        "replace_links": [],
-        "convert_with_pandoc": False,
-        "new_name": None
-    },
-    "HowToPlay.md": {
-        "type": "page",
-        "replace_tables": True,
-        "replace_links": [],
-        "convert_with_pandoc": False,
-        "new_name": None
-    },
-    "wiki.md": {
-        "type": "page",
-        "replace_tables": False,
-        "replace_links": [],
-        "convert_with_pandoc": True,
-        "new_name": "wiki.html"
-    },
-    "DevGuide.md": {
-        "type": "page",
-        "replace_tables": False,
-        "replace_links": [
-            ("pokete_data/poketes.py", "./doc/pokete_data/poketes.html"),
-            ("pokete_data/types.py", "./doc/pokete_data/types.html"),
-            ("pokete_data/attacks.py", "./doc/pokete_data/attacks.html"),
-            ("pokete.py", "./doc/pokete.html")
-        ],
-        "convert_with_pandoc": True,
-        "new_name": "DevGuide.html"
-    },
-    "gen-wiki.py": {
-        "type": "documentation"
-    },
-    "pokete.py": {
-        "type": "documentation"
-    },
-    "prepare_pages.py": {
-        "type": "documentation"
-    },
-    "pokete_classes/": {
-        "type": "documentation"
-    },
-    "pokete_data/": {
-        "type": "documentation"
-    }
-}
+files = {}
 
 
 def replace_tables(_text: str) -> str:
@@ -311,9 +251,9 @@ def after() -> None:
             print(" -> Replacing links...")
             with open(new_name, 'r') as f:
                 text = f.read()
-            for link in properties["replace_links"]:
-                old, new = link
-                if link != properties["replace_links"][-1]:
+            for old in properties["replace_links"].keys():
+                new = properties["replace_links"][old]
+                if old != list(properties["replace_links"].keys())[-1]:
                     print(f" |-> Replacing {old} with {new}...")
                 else:
                     print(f" `-> Replacing {old} with {new}...")
@@ -327,6 +267,9 @@ def after() -> None:
 
 
 if __name__ == '__main__':
+    with open('.gh-pages.json', 'r') as config_file:
+        config_file_contents = config_file.read()
+    files = json.loads(config_file_contents)
     if len(sys.argv) == 1:
         print('Error! Not enough arguments:')
         print(f"Usage: '{sys.argv[0]}' <after|before>")
