@@ -124,5 +124,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           repository: 'lxgr-linux/pokete.wiki'
+          branch: "master"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
