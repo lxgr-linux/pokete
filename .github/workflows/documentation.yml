@@ -123,5 +123,6 @@ jobs:
       - name: Push changes  # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:
+          repository: 'lxgr-linux/pokete.wiki'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
