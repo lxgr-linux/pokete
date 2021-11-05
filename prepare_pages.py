@@ -279,6 +279,8 @@ def after() -> None:
 
     print(':: Processing files...')
     print('==> Making directories...')
+    print(' -> wiki-multi-html')
+    add_folder('wiki-multi-html', False)
     for file in new_files.keys():
         properties = new_files[file]
         if properties["type"] == "folder":
@@ -332,7 +334,8 @@ def after() -> None:
                 text.replace(old, new)
             with open(new_name, 'w') as f:
                 f.write(text)
-
+    print("==> Renaming 'wiki-multi-html' to 'wiki-multi'...")
+    os.system("mv './wiki-multi-html/' './wiki-multi'")
     print(':: Done!')
 
 
