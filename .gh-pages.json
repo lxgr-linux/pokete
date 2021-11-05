@@ -29,7 +29,7 @@
     "type": "page",
     "replace_tables": false,
     "replace_links": {},
-    "convert_with_pandoc": false,
+    "convert_with_pandoc": true,
     "new_name": "wiki.html"
   },
   "DevGuide.md": {
@@ -44,13 +44,16 @@
     "convert_with_pandoc": true,
     "new_name": "DevGuide.html"
   },
-  "gen-wiki.py": {
+  "gen_wiki.py": {
     "type": "documentation"
   },
   "pokete.py": {
     "type": "documentation"
   },
   "prepare_pages.py": {
+    "type": "documentation"
+  },
+  "pokete_general_use_fns.py": {
     "type": "documentation"
   },
   "pokete_classes/": {
