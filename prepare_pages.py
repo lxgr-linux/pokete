@@ -223,7 +223,6 @@ def add_wiki_to_files() -> None:
     wiki_files = add_wiki_folder("./wiki-multi-md/")
     print(wiki_files)
     for wiki_file in wiki_files:
-        # TODO: replace links in the wiki: currently using page references...
         files.update({
                 wiki_file: {
                     "type": "page",
