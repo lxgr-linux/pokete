@@ -112,7 +112,7 @@ To see how to add more poketes/types/attacks to the game, see [the DevGuide](Dev
 
 After adding new Poketes and/or Attacks you may want to run
 ```shell
-$ ./gen-wiki.py
+$ ./gen_wiki.py
 ```
 
 to regenerate the wiki and adding them to it.
