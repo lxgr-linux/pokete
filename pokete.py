@@ -527,9 +527,11 @@ class Station(se.Square):
     choosen = None
     obs = []
 
-    def __init__(self, associate, additionals, width, height, char="#",
-                 w_next="", a_next="", s_next="", d_next="", state="solid"):
+    def __init__(self, associate, additionals, width, height,
+                 char="#", w_next="", a_next="", s_next="", d_next="",
+                 state="solid", label_fn=None):
         self.org_char = char
+        self.label_fn = label_fn
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = ""
         super().__init__(char, width, height)
@@ -543,7 +545,7 @@ class Station(se.Square):
         """Chooses and hightlights the station"""
         self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
         Station.choosen = self
-        roadmap.info_label.rechar(self.associates[0].pretty_name if
+        self.label_fn(self.associates[0].pretty_name if
                                   self.has_been_visited() else
                                   "???")
 
@@ -1216,13 +1218,18 @@ class RoadMap:
     """Map you can see and navigate maps on"""
 
     def __init__(self, stations):
-        self.box = Box(11, 40, "Roadmap")
+        self.box = Box(11, 40, "Roadmap", "q:close")
         self.info_label = se.Text("")
-        self.box.add_ob(self.info_label, 1, 1)
+        self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta in stations:
-            obj = Station(ob_maps[sta], **stations[sta]['gen'])
+            obj = Station(ob_maps[sta], **stations[sta]['gen'],
+                          label_fn=self.rechar_info)
             self.box.add_ob(obj, **stations[sta]['add'])
             setattr(self, sta, obj)
+
+    def rechar_info(self, name):
+        self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.info_label.rechar(name)
 
     def __call__(self, choose=False):
         """Shows the roadmap"""
