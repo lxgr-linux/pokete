@@ -175,12 +175,12 @@ In the following all Poketes with their attributes are displayed.
 
 &#34;&#34;&#34;
             for typ in sorted(types):
-                out += f&#34;- [{typ.capitalize()} Poketes](./{typ}.md)\n&#34;
+                out += f&#34;- [{typ.capitalize()} Poketes](./{typ})\n&#34;
             out += &#34;\n---\n\n## All poketes sorted by their type:\n&#34;
             for typ in sorted(types):
-                out += f&#34;- [{typ.capitalize()} Poketes](./{typ}.md)\n&#34;
+                out += f&#34;- [{typ.capitalize()} Poketes](./{typ})\n&#34;
                 for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-                    out += f&#34;&#34;&#34;  - [{pokes[poke][&#34;name&#34;].capitalize()}](./{typ}.md#{poke})\n&#34;&#34;&#34;
+                    out += f&#34;&#34;&#34;  - [{pokes[poke][&#34;name&#34;].capitalize()}](./{typ}#{poke})\n&#34;&#34;&#34;
             return out
         elif page_mode == &#39;multi&#39;:
             if pokete_type is not None:
@@ -715,12 +715,12 @@ In the following all Poketes with their attributes are displayed.
 
 &#34;&#34;&#34;
             for typ in sorted(types):
-                out += f&#34;- [{typ.capitalize()} Poketes](./{typ}.md)\n&#34;
+                out += f&#34;- [{typ.capitalize()} Poketes](./{typ})\n&#34;
             out += &#34;\n---\n\n## All poketes sorted by their type:\n&#34;
             for typ in sorted(types):
-                out += f&#34;- [{typ.capitalize()} Poketes](./{typ}.md)\n&#34;
+                out += f&#34;- [{typ.capitalize()} Poketes](./{typ})\n&#34;
                 for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-                    out += f&#34;&#34;&#34;  - [{pokes[poke][&#34;name&#34;].capitalize()}](./{typ}.md#{poke})\n&#34;&#34;&#34;
+                    out += f&#34;&#34;&#34;  - [{pokes[poke][&#34;name&#34;].capitalize()}](./{typ}#{poke})\n&#34;&#34;&#34;
             return out
         elif page_mode == &#39;multi&#39;:
             if pokete_type is not None:
@@ -1524,12 +1524,12 @@ In the following all Poketes with their attributes are displayed.
 
 &#34;&#34;&#34;
             for typ in sorted(types):
-                out += f&#34;- [{typ.capitalize()} Poketes](./{typ}.md)\n&#34;
+                out += f&#34;- [{typ.capitalize()} Poketes](./{typ})\n&#34;
             out += &#34;\n---\n\n## All poketes sorted by their type:\n&#34;
             for typ in sorted(types):
-                out += f&#34;- [{typ.capitalize()} Poketes](./{typ}.md)\n&#34;
+                out += f&#34;- [{typ.capitalize()} Poketes](./{typ})\n&#34;
                 for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]:
-                    out += f&#34;&#34;&#34;  - [{pokes[poke][&#34;name&#34;].capitalize()}](./{typ}.md#{poke})\n&#34;&#34;&#34;
+                    out += f&#34;&#34;&#34;  - [{pokes[poke][&#34;name&#34;].capitalize()}](./{typ}#{poke})\n&#34;&#34;&#34;
             return out
         elif page_mode == &#39;multi&#39;:
             if pokete_type is not None:
