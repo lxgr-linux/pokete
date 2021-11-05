@@ -156,7 +156,8 @@ On windows pynput has to be installed too.
 ## Documentation
 - [Documentation for pokete_classes](https://lxgr-linux.github.io/pokete/doc/pokete_classes/index.html)
 - [Documentation for pokete_data](https://lxgr-linux.github.io/pokete/doc/pokete_data/index.html)
-- [Documentation for the gen-wiki file](https://lxgr-linux.github.io/pokete/doc/gen-wiki.html "gen-wiki.py")
+- [Documentation for the gen-wiki file](https://lxgr-linux.github.io/pokete/doc/gen_wiki.html "gen_wiki.py")
+- [Documentation for the prepare_pages file](https://lxgr-linux.github.io/pokete/doc/prepare_pages.html "prepare_pages.py")
 - [Documentation for the general use functions "pokete.py"](https://lxgr-linux.github.io/pokete/doc/pokete_general_use_fns.html "pokete_general_use_fns.py")
 - [Documentation for the main file "pokete.py"](https://lxgr-linux.github.io/pokete/doc/pokete.html "pokete.py")
 

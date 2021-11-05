@@ -275,7 +275,6 @@ def add_wiki_to_files() -&gt; None:
     wiki_files = add_wiki_folder(&#34;./wiki-multi-md/&#34;)
     print(wiki_files)
     for wiki_file in wiki_files:
-        # TODO: replace links in the wiki: currently using page references...
         files.update({
                 wiki_file: {
                     &#34;type&#34;: &#34;page&#34;,
@@ -562,7 +561,6 @@ and its subdirectories into the files dictionary to be processed by the other fu
     wiki_files = add_wiki_folder(&#34;./wiki-multi-md/&#34;)
     print(wiki_files)
     for wiki_file in wiki_files:
-        # TODO: replace links in the wiki: currently using page references...
         files.update({
                 wiki_file: {
                     &#34;type&#34;: &#34;page&#34;,
