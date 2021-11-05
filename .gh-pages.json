@@ -6,7 +6,8 @@
       "wiki.md": "./wiki",
       "Changelog.md": "./Changelog",
       "HowToPlay.md": "./HowToPlay",
-      "DevGuide.md": "./DevGuide"
+      "DevGuide.md": "./DevGuide",
+      "mods/example.py": "https://github.com/lxgr-linux/pokete/blob/master/mods/example.py"
     },
     "convert_with_pandoc": false,
     "new_name": "index.md"
