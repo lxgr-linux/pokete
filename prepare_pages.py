@@ -143,8 +143,66 @@ def create_documentation() -> None:
         os.system(f"{pdoc_path} --html {module} --output-dir \"/tmp/doc/\" --force")
 
 
+def add_folder(folder: str, add_tmp_folder: bool = False) -> None:
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+    tmp_folder = os.path.join("/tmp", folder)
+    if not os.path.isdir(tmp_folder):
+        os.mkdir(tmp_folder)
+    files.update({
+        folder: {
+            "type": "folder"
+        }
+    })
+
+
+def create_wiki() -> None:
+    from gen_wiki import Wiki
+    Wiki.multi("./wiki-multi-md/")
+    Wiki.single("./wiki-single.md")
+
+
+def add_wiki_folder(foldername: str) -> list:
+    items = os.listdir(foldername)
+    out = []
+    for item in items:
+        file = os.path.join(foldername, item)
+        if os.path.isdir(file):
+            add_folder(file.replace("./wiki-multi-md/", "./wiki-multi-html/"), True)
+            for f in add_wiki_folder(file):
+                out.append(f)
+        elif os.path.isfile(file):
+            if item.endswith(".md"):
+                out.append(file)
+            else:
+                print(f"{file} is not a markdown file!")
+        else:
+            print(f"Unrecognized type: {file}")
+    return out
+
+
+def add_wiki_to_files() -> None:
+    if not os.path.isdir("./wiki-multi-html"):
+        os.mkdir("./wiki-multi-html")
+    if not os.path.isdir("/tmp/wiki-multi-html"):
+        os.mkdir("/tmp/wiki-multi-html")
+    wiki_files = add_wiki_folder("./wiki-multi-md/")
+    print(wiki_files)
+    for wiki_file in wiki_files:
+        files.update({
+                wiki_file: {
+                    "type": "page",
+                    "replace_tables": False,
+                    "convert_with_pandoc": True,
+                    "replace_links": [],
+                    "new_name": str(wiki_file.replace(".md", ".html")).replace("./wiki-multi-md/", "./wiki-multi-html/")
+                }
+            })
+    print(files)
+
+
 def before() -> None:
-    """The actions taht should be executed before the brach switch
+    """The actions that should be executed before the brach switch
 
     This functions creates documentation for all the files, replaces tables if necessary or converts the files with
     pandoc. All the files are then moved into the /mp directory.
@@ -152,11 +210,15 @@ def before() -> None:
     print(':: Preparing files for gh-pages...')
     print("==> Generating documentation with pdoc...")
     create_documentation()
+    print("==> Creating Wiki...")
+    create_wiki()
+    print("==> Adding Multi-page Wiki...")
+    add_wiki_to_files()
     for file in files.keys():
         print(f"==> Preparing {file}")
         properties = files[file]
 
-        if properties["type"] == "documentation":
+        if properties["type"] == "documentation" or properties["type"] == "folder":
             continue
 
         new_name = properties["new_name"] if properties["new_name"] is not None else file
@@ -216,6 +278,12 @@ def after() -> None:
         new_files = eval(text)
 
     print(':: Processing files...')
+    print('==> Making directories...')
+    for file in new_files.keys():
+        properties = new_files[file]
+        if properties["type"] == "folder":
+            print(' -> ' + file)
+            add_folder(file, False)
     documentation_copied = False
     for file in new_files.keys():
         properties = new_files[file]
@@ -230,6 +298,8 @@ def after() -> None:
                 print(" -> Copying new documentation files...")
                 os.system("cp -r /tmp/doc/ .")
                 documentation_copied = True  # Only copy the directory once
+            continue
+        if properties["type"] == "folder":
             continue
 
         new_name = properties["new_name"] if properties["new_name"] is not None else file
