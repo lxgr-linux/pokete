@@ -146,12 +146,12 @@ In the following all Poketes with their attributes are displayed.
 
 """
             for typ in sorted(types):
-                out += f"- [{typ.capitalize()} Poketes](./{typ}.md)\n"
+                out += f"- [{typ.capitalize()} Poketes](./{typ})\n"
             out += "\n---\n\n## All poketes sorted by their type:\n"
             for typ in sorted(types):
-                out += f"- [{typ.capitalize()} Poketes](./{typ}.md)\n"
+                out += f"- [{typ.capitalize()} Poketes](./{typ})\n"
                 for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]:
-                    out += f"""  - [{pokes[poke]["name"].capitalize()}](./{typ}.md#{poke})\n"""
+                    out += f"""  - [{pokes[poke]["name"].capitalize()}](./{typ}#{poke})\n"""
             return out
         elif page_mode == 'multi':
             if pokete_type is not None:
