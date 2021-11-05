@@ -40,7 +40,7 @@ jobs:
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
           pip3 install scrap_engine pdoc3
-          sudo apt-get install pandoc
+          sudo apt-get -qq install pandoc
 
       - name: Preprocess page files
         run: |
