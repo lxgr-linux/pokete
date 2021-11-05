@@ -217,7 +217,7 @@ In the following all Poketes with their attributes are displayed.
                             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
         md_attacks = &#34;&#34;
         for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}/&#39;
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
                           if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
@@ -757,7 +757,7 @@ In the following all Poketes with their attributes are displayed.
                             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
         md_attacks = &#34;&#34;
         for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}/&#39;
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
                           if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
@@ -1439,7 +1439,7 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
                             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
         md_attacks = &#34;&#34;
         for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}/&#39;
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
                           if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
