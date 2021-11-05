@@ -14,7 +14,7 @@ class Wiki:
     def start() -> str:
         """The start and title of the wiki
 
-        Returns:
+        Returns
         ---
         The title of the wiki page.
         """
@@ -30,7 +30,11 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     def overview(multi_page: bool = False) -> str:
         """A short overview of what the wiki contains.
 
-        Returns:
+        Arguments
+        ---------
+        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+
+        Returns
         -------
         An overview for a multi-page wiki.
         """
@@ -55,7 +59,11 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
     def table_of_contents(multi_page: bool = False) -> str:
         """The table of contents of the pokete wiki
 
-        Returns:
+        Arguments
+        ---------
+        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+
+        Returns
         -------
         A Table of contents for a single page wiki.
         """
@@ -124,7 +132,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
         - pokete_type: Only necessary if page_mode is set to 'index': Then defines the pokete type to get the
           information and links of.
 
-        Returns:
+        Returns
         -------
         All poketes and their attributes as a markdown string.
         """
@@ -175,8 +183,9 @@ In the following all Poketes with their attributes are displayed.
         Arguments:
         ---------
         - poke (string): The pokete to get the information of.
+        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
 
-        Returns:
+        Returns
         -------
         A markdown string of all the attributes and information of the pokete.
         """
@@ -219,7 +228,11 @@ In the following all Poketes with their attributes are displayed.
     def attacks(multi_page: bool = False) -> str or list:
         """The function to all attacks to the wiki.
 
-        Returns:
+        Arguments
+        ---------
+        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+
+        Returns
         -------
         A markdown string of all attacks with their attributes and informations.
         """
@@ -271,11 +284,12 @@ Those are all attacks present in the game.
     def attack_info(attack: str, multi_page: bool = False) -> str:
         """The function to collect information and attributes of a specific attack
 
-        Arguments:
+        Arguments
         ---------
         - attacks (string): The attack to collect the information of.
+        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
 
-        Returns:
+        Returns
         -------
         A markdown string with the information about the attack.
         """
@@ -299,7 +313,11 @@ Those are all attacks present in the game.
     def types(multi_page: bool = False) -> str:
         """The function to add all types to the wiki.
 
-        Returns:
+        Arguments
+        ---------
+        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+
+        Returns
         -------
         A markdown string of all available types.
         """
@@ -325,11 +343,11 @@ Those are all the Pokete/Attack types that are present in the game with all thei
     def items(multi_page: bool = False) -> str:
         """The function to add all items to the wiki.
 
-        Arguments:
+        Arguments
         ---------
         - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
 
-        Returns:
+        Returns
         -------
         A markdown string that contains information about all items.
         """
@@ -346,12 +364,12 @@ Those are all items present in the game, that can be traded or found.
     def item_info(item: str, multi_page: bool = False) -> str:
         """The function to collect information and attributes of a specific item
 
-        Arguments:
+        Arguments
         ---------
         - item (string): The item to collect the information of.
         - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
 
-        Returns:
+        Returns
         -------
         A markdown string with the information about the item.
         """
@@ -366,7 +384,11 @@ Those are all items present in the game, that can be traded or found.
     def effects(multi_page: bool = False) -> str:
         """The function to add all effects to the wiki.
 
-        Returns:
+        Arguments
+        ---------
+        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+
+        Returns
         -------
         A markdown string of all the effects in the game.
         """
