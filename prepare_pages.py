@@ -356,19 +356,14 @@ def after() -> None:
         # Links need to be replaced from directory and markdown direct links (wiki.md) into website links (./wiki)
         if properties["replace_links"]:
             print(" -> Replacing links...")
-            with open(new_name, 'r') as f:
-                text = f.read()
             for old in properties["replace_links"].keys():
                 new = properties["replace_links"][old]
                 if old != list(properties["replace_links"].keys())[-1]:
                     print(f" |-> Replacing {old} with {new}...")
                 else:
                     print(f" `-> Replacing {old} with {new}...")
-                old = f"]({old}"
-                new = f"]({new}"
-                text.replace(old, new)
-            with open(new_name, 'w') as f:
-                f.write(text)
+                # Need to use sed, as str.replace somehow misses some link changes?
+                os.system(f"sed -i 's#]({old}#]({new}#g' {new_name}")
     print("==> Renaming 'wiki-multi-html' to 'wiki-multi'...")
     os.system("mv './wiki-multi-html/' './wiki-multi'")
     print(':: Done!')
