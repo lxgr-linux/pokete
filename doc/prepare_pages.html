@@ -408,19 +408,14 @@ def after() -&gt; None:
         # Links need to be replaced from directory and markdown direct links (wiki.md) into website links (./wiki)
         if properties[&#34;replace_links&#34;]:
             print(&#34; -&gt; Replacing links...&#34;)
-            with open(new_name, &#39;r&#39;) as f:
-                text = f.read()
             for old in properties[&#34;replace_links&#34;].keys():
                 new = properties[&#34;replace_links&#34;][old]
                 if old != list(properties[&#34;replace_links&#34;].keys())[-1]:
                     print(f&#34; |-&gt; Replacing {old} with {new}...&#34;)
                 else:
                     print(f&#34; `-&gt; Replacing {old} with {new}...&#34;)
-                old = f&#34;]({old}&#34;
-                new = f&#34;]({new}&#34;
-                text.replace(old, new)
-            with open(new_name, &#39;w&#39;) as f:
-                f.write(text)
+                # Need to use sed, as str.replace somehow misses some link changes?
+                os.system(f&#34;sed -i &#39;s#]({old}#]({new}#g&#39; {new_name}&#34;)
     print(&#34;==&gt; Renaming &#39;wiki-multi-html&#39; to &#39;wiki-multi&#39;...&#34;)
     os.system(&#34;mv &#39;./wiki-multi-html/&#39; &#39;./wiki-multi&#39;&#34;)
     print(&#39;:: Done!&#39;)
@@ -657,19 +652,14 @@ look on all gh-pages pages. This function then replaces all the links for each f
         # Links need to be replaced from directory and markdown direct links (wiki.md) into website links (./wiki)
         if properties[&#34;replace_links&#34;]:
             print(&#34; -&gt; Replacing links...&#34;)
-            with open(new_name, &#39;r&#39;) as f:
-                text = f.read()
             for old in properties[&#34;replace_links&#34;].keys():
                 new = properties[&#34;replace_links&#34;][old]
                 if old != list(properties[&#34;replace_links&#34;].keys())[-1]:
                     print(f&#34; |-&gt; Replacing {old} with {new}...&#34;)
                 else:
                     print(f&#34; `-&gt; Replacing {old} with {new}...&#34;)
-                old = f&#34;]({old}&#34;
-                new = f&#34;]({new}&#34;
-                text.replace(old, new)
-            with open(new_name, &#39;w&#39;) as f:
-                f.write(text)
+                # Need to use sed, as str.replace somehow misses some link changes?
+                os.system(f&#34;sed -i &#39;s#]({old}#]({new}#g&#39; {new_name}&#34;)
     print(&#34;==&gt; Renaming &#39;wiki-multi-html&#39; to &#39;wiki-multi&#39;...&#34;)
     os.system(&#34;mv &#39;./wiki-multi-html/&#39; &#39;./wiki-multi&#39;&#34;)
     print(&#39;:: Done!&#39;)</code></pre>

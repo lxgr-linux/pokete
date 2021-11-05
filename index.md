@@ -55,7 +55,7 @@ By pressing "e" you can get into a menu where player name and later other settin
 
 The red balls all over the map, are Poketeballs, you need to catch Poketes. Stepping on such a ball adds it to your inventory.
 
-See [How to play](HowToPlay.md).
+See [How to play](./HowToPlay).
 
 ## Game depth
 Not only are there Poketes that are stronger than others, but also Poketes with different types, which are effective against some types and ineffective against others.
@@ -122,7 +122,7 @@ Not only are there Poketes that are stronger than others, but also Poketes with 
 </tbody>
 </table>
 
-For additional information you can see [wiki](wiki.md).
+For additional information you can see [wiki](./wiki).
 
 ## Mods
 Mods can be written to extend Pokete. To load a mod, the mod has  to be placed in `mods` and mods have to be enabled in the menu.
@@ -161,13 +161,13 @@ On windows pynput has to be installed too.
 - [Documentation for the main file "pokete.py"](https://lxgr-linux.github.io/pokete/doc/pokete.html "pokete.py")
 
 ## Releases
-For release information see [Changelog](Changelog.md).
+For release information see [Changelog](./Changelog).
 
 ## Contributing
 Feel free to contribute what ever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
 
-To see how to add more poketes/types/attacks to the game, see [the DevGuide](DevGuide.md)
+To see how to add more poketes/types/attacks to the game, see [the DevGuide](./DevGuide)
 
 After adding new Poketes and/or Attacks you may want to run
 ```shell
