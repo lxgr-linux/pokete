@@ -144,6 +144,16 @@ def create_documentation() -> None:
 
 
 def add_folder(folder: str, add_tmp_folder: bool = False) -> None:
+    """Creates a folder, if not does not already exist
+
+    This function creates a folder in the current working directory.
+    It also creates a folder with the same name in /tmp, if needed.
+
+    Arguments
+    ---------
+    folder: The name of the folder to create
+    add_tmp_folder If a folder in /tmp should be creates as well.
+    """
     if not os.path.isdir(folder):
         os.mkdir(folder)
     tmp_folder = os.path.join("/tmp", folder)
@@ -157,16 +167,35 @@ def add_folder(folder: str, add_tmp_folder: bool = False) -> None:
 
 
 def create_wiki() -> None:
+    """Creates a multi-page and a single-page wiki.
+
+    This function calls the multi-page and single-page methods from the
+    gen_wiki file to add to the gh-pages.
+    """
     from gen_wiki import Wiki
     Wiki.multi("./wiki-multi-md/")
     Wiki.single("./wiki-single.md")
 
 
-def add_wiki_folder(foldername: str) -> list:
-    items = os.listdir(foldername)
+def add_wiki_folder(folder_name: str) -> list:
+    """Gives out all markdown files in current and subdirectories as a list
+
+    This function adds all markdown files in the current directory to the list
+    is gives back. It also calls itself for each sub-directory and appends the
+    markdown files from itself to the output list as well.
+
+    Arguments
+    ---------
+    folder_name: The folder to add
+
+    Returns:
+    --------
+    A list of all markdown files in the current and all subdirectories.
+    """
+    items = os.listdir(folder_name)
     out = []
     for item in items:
-        file = os.path.join(foldername, item)
+        file = os.path.join(folder_name, item)
         if os.path.isdir(file):
             add_folder(file.replace("./wiki-multi-md/", "./wiki-multi-html/"), True)
             for f in add_wiki_folder(file):
@@ -182,6 +211,11 @@ def add_wiki_folder(foldername: str) -> list:
 
 
 def add_wiki_to_files() -> None:
+    """Add files from multi-page wiki to files dictionary
+
+    This function adds all markdown files from the directory ./wiki-multi-md
+    and its subdirectories into the files dictionary to be processed by the other functions as well.
+    """
     if not os.path.isdir("./wiki-multi-html"):
         os.mkdir("./wiki-multi-html")
     if not os.path.isdir("/tmp/wiki-multi-html"):
@@ -189,6 +223,7 @@ def add_wiki_to_files() -> None:
     wiki_files = add_wiki_folder("./wiki-multi-md/")
     print(wiki_files)
     for wiki_file in wiki_files:
+        # TODO: replace links in the wiki: currently using page references...
         files.update({
                 wiki_file: {
                     "type": "page",
