@@ -108,9 +108,8 @@ jobs:
           repository: 'lxgr-linux/pokete.wiki'
       - name: Move files back to current work dir
         run: |
-          rm -rf ./HowToPlay.md DevGuide.md wiki.md wiki-multi
+          rm -rf ./HowToPlay.md DevGuide.md wiki.md
           cp -r /tmp/gen-wiki/* .
-          mv wiki-multi-html wiki-multi
       # Push to github_pages
       - name: Release documentation
         run: |
