@@ -126,7 +126,7 @@ For additional information you can see [wiki](./wiki).
 
 ## Mods
 Mods can be written to extend Pokete. To load a mod, the mod has  to be placed in `mods` and mods have to be enabled in the menu.
-For an example mod see [example.py](mods/example.py).
+For an example mod see [example.py](https://github.com/lxgr-linux/pokete/blob/master/mods/example.py).
 
 ## Tips
 - In conversations you can very easily skip the text printing by pressing any key

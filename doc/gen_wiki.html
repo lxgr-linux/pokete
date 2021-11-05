@@ -56,14 +56,23 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 &#34;&#34;&#34;
 
     @staticmethod
-    def overview() -&gt; str:
+    def overview(multi_page: bool = False) -&gt; str:
         &#34;&#34;&#34;A short overview of what the wiki contains.
 
         Returns:
         -------
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
-        return &#34;&#34;&#34;Table of contents
+        if multi_page:
+            return &#34;&#34;&#34;Table of contents
+1. [Poketes](poketes)
+2. [Attacks](attacks)
+3. [Types](types)
+4. [Items](items)
+5. [Effects](effects)
+&#34;&#34;&#34;
+        else:
+            return &#34;&#34;&#34;Table of contents
 1. [Poketes](#poketes)
 2. [Attacks](#attacks)
 3. [Types](#types)
@@ -72,38 +81,63 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 &#34;&#34;&#34;
 
     @staticmethod
-    def table_of_contents() -&gt; str:
+    def table_of_contents(multi_page: bool = False) -&gt; str:
         &#34;&#34;&#34;The table of contents of the pokete wiki
 
         Returns:
         -------
         A Table of contents for a single page wiki.
         &#34;&#34;&#34;
-        out = &#34;&#34;&#34;## Table of contents
-1. [Poketes](#poketes)
-&#34;&#34;&#34;
+        out = &#39;&#39;
 
         # Table of contents
-        for i, typ in enumerate(sorted(types)):
-            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
-            for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
-                out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;2. [Attacks](#attacks)\n&#34;
-        for i, typ in enumerate(sorted(types)):
-            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
-            for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
-                out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;&#34;&#34;3. [Types](#types)
+        if not multi_page:
+            out += f&#34;&#34;&#34;## Table of contents
+1. [Poketes](#poketes)
+&#34;&#34;&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
+                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;2. [Attacks](#attacks)\n&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
+                for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
 &#34;&#34;&#34;
-        for j, item in enumerate(sorted(items)):
-            out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;&#34;&#34;5. [Effects](#effects)
+            for j, item in enumerate(sorted(items)):
+                out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;5. [Effects](#effects)
 &#34;&#34;&#34;
-        for j, effect in enumerate(effect_list):
-            out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+            for j, effect in enumerate(effect_list):
+                out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
 &#34;&#34;&#34;
 
+        else:
+            out += f&#34;&#34;&#34;## Table of contents
+1. [Poketes](./poketes)
+&#34;&#34;&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](./poketes/{typ})\n&#34;&#34;&#34;
+                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](./poketes/{typ}#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;2. [Attacks](./attacks)\n&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](./attacks/{typ})\n&#34;&#34;&#34;
+                for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](./attack/{typ}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;3. [Types](./types)
+4. [Items](./items)
+&#34;&#34;&#34;
+            for j, item in enumerate(sorted(items)):
+                out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](./items#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;5. [Effects](./effects)
+&#34;&#34;&#34;
+            for j, effect in enumerate(effect_list):
+                out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](./effects#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+&#34;&#34;&#34;
         return out
 
     @staticmethod
@@ -179,11 +213,11 @@ In the following all Poketes with their attributes are displayed.
         if evolve_pokete == &#34;&#34;:
             evolve_txt = &#34;- Does not evolve\n&#34;
         else:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;../{pokes[evolve_pokete][&#34;types&#34;][0]}.md&#39;
+            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;../{pokes[evolve_pokete][&#34;types&#34;][0]}&#39;
                             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
         md_attacks = &#34;&#34;
         for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../{attacks[atc][&#34;types&#34;][0].capitalize()}.md/&#39;
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../{attacks[atc][&#34;types&#34;][0].capitalize()}/&#39;
                           if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
@@ -198,7 +232,7 @@ In the following all Poketes with their attributes are displayed.
 {ico}
 ```
 
-- Type: [{pokes[poke][&#34;types&#34;][0].capitalize()}]({&#39;../types.md&#39; if multi_page else &#39;#types&#39;})
+- Type: [{pokes[poke][&#34;types&#34;][0].capitalize()}]({&#39;../types&#39; if multi_page else &#39;#types&#39;})
 - Health points: {pokes[poke][&#34;hp&#34;]}
 - Attack factor: {pokes[poke][&#34;atc&#34;]}
 - Defense factor: {pokes[poke][&#34;defense&#34;]}
@@ -225,7 +259,7 @@ Those are all attacks present in the game.
             pages = []
             for typ in sorted(types):
                 print(f&#34; -&gt; Adding {typ}&#34;)
-                index += f&#34;\n- [{typ.capitalize()}](./{typ}.md)&#34;
+                index += f&#34;\n- [{typ.capitalize()}](./{typ})&#34;
                 page = f&#34;# {typ.capitalize()} attacks&#34;
                 for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
                     if multi_page:
@@ -239,9 +273,9 @@ Those are all attacks present in the game.
                 pages.append((f&#34;{typ}.md&#34;, page))
             index += &#34;\n\n---\n\n## All attacks sorted by their type:\n&#34;
             for typ in sorted(types):
-                index += f&#34;- [{typ.capitalize()} Attacks](./{typ}.md)\n&#34;
+                index += f&#34;- [{typ.capitalize()} Attacks](./{typ})\n&#34;
                 for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
-                    index += f&#34;&#34;&#34;  - [{attacks[atc][&#34;name&#34;].capitalize()}](./{typ}.md#{atc.replace(&#39;_&#39;, &#39;-&#39;)})\n&#34;&#34;&#34;
+                    index += f&#34;&#34;&#34;  - [{attacks[atc][&#34;name&#34;].capitalize()}](./{typ}#{atc.replace(&#39;_&#39;, &#39;-&#39;)})\n&#34;&#34;&#34;
 
             index += &#39;\n&#39;
             pages.insert(0, (&#34;index.md&#34;, index))
@@ -282,12 +316,12 @@ Those are all attacks present in the game.
         return out + f&#34;&#34;&#34; {attacks[attack][&#34;name&#34;]}
 {attacks[attack][&#34;desc&#34;]}
 
-- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types.md&#34; if multi_page else &#34;#types&#34;})
+- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types&#34; if multi_page else &#34;#types&#34;})
 - Minimum Level: {attacks[attack][&#34;min_lvl&#34;]}
 - Attack factor: {attacks[attack][&#34;factor&#34;]}
 - Missing chance: {attacks[attack][&#34;miss_chance&#34;]}
 - Attack points: {attacks[attack][&#34;ap&#34;]}
-- Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}]({&#34;../effects.md&#34; if multi_page else &#34;&#34;}#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
+- Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}]({&#34;../effects&#34; if multi_page else &#34;&#34;}#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
 &#34;&#34;&#34;
 
     @staticmethod
@@ -451,10 +485,10 @@ Those effects can be given to a Pokete through an attack.
         print(&#34; -&gt; Adding index...&#34;)
         index: str = Wiki.start()
         print(&#34; -&gt; Adding overview...&#34;)
-        index += Wiki.overview()
+        index += Wiki.overview(multi_page=True)
         index += &#34;\n---\n&#34;
         print(&#34; -&gt; Adding table of contents...&#34;)
-        index += Wiki.table_of_contents()
+        index += Wiki.table_of_contents(multi_page=True)
         print(f&#34; -&gt; Writing to \&#34;{folder_name}/index.md\&#34;...&#34;)
         with open(f&#34;{folder_name}/index.md&#34;, &#39;w&#39;) as file:
             file.write(index)
@@ -562,14 +596,23 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 &#34;&#34;&#34;
 
     @staticmethod
-    def overview() -&gt; str:
+    def overview(multi_page: bool = False) -&gt; str:
         &#34;&#34;&#34;A short overview of what the wiki contains.
 
         Returns:
         -------
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
-        return &#34;&#34;&#34;Table of contents
+        if multi_page:
+            return &#34;&#34;&#34;Table of contents
+1. [Poketes](poketes)
+2. [Attacks](attacks)
+3. [Types](types)
+4. [Items](items)
+5. [Effects](effects)
+&#34;&#34;&#34;
+        else:
+            return &#34;&#34;&#34;Table of contents
 1. [Poketes](#poketes)
 2. [Attacks](#attacks)
 3. [Types](#types)
@@ -578,38 +621,63 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 &#34;&#34;&#34;
 
     @staticmethod
-    def table_of_contents() -&gt; str:
+    def table_of_contents(multi_page: bool = False) -&gt; str:
         &#34;&#34;&#34;The table of contents of the pokete wiki
 
         Returns:
         -------
         A Table of contents for a single page wiki.
         &#34;&#34;&#34;
-        out = &#34;&#34;&#34;## Table of contents
-1. [Poketes](#poketes)
-&#34;&#34;&#34;
+        out = &#39;&#39;
 
         # Table of contents
-        for i, typ in enumerate(sorted(types)):
-            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
-            for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
-                out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;2. [Attacks](#attacks)\n&#34;
-        for i, typ in enumerate(sorted(types)):
-            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
-            for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
-                out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;&#34;&#34;3. [Types](#types)
+        if not multi_page:
+            out += f&#34;&#34;&#34;## Table of contents
+1. [Poketes](#poketes)
+&#34;&#34;&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
+                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;2. [Attacks](#attacks)\n&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
+                for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
 &#34;&#34;&#34;
-        for j, item in enumerate(sorted(items)):
-            out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;&#34;&#34;5. [Effects](#effects)
+            for j, item in enumerate(sorted(items)):
+                out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;5. [Effects](#effects)
 &#34;&#34;&#34;
-        for j, effect in enumerate(effect_list):
-            out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+            for j, effect in enumerate(effect_list):
+                out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
 &#34;&#34;&#34;
 
+        else:
+            out += f&#34;&#34;&#34;## Table of contents
+1. [Poketes](./poketes)
+&#34;&#34;&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](./poketes/{typ})\n&#34;&#34;&#34;
+                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](./poketes/{typ}#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;2. [Attacks](./attacks)\n&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](./attacks/{typ})\n&#34;&#34;&#34;
+                for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](./attack/{typ}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;3. [Types](./types)
+4. [Items](./items)
+&#34;&#34;&#34;
+            for j, item in enumerate(sorted(items)):
+                out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](./items#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;5. [Effects](./effects)
+&#34;&#34;&#34;
+            for j, effect in enumerate(effect_list):
+                out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](./effects#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+&#34;&#34;&#34;
         return out
 
     @staticmethod
@@ -685,11 +753,11 @@ In the following all Poketes with their attributes are displayed.
         if evolve_pokete == &#34;&#34;:
             evolve_txt = &#34;- Does not evolve\n&#34;
         else:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;../{pokes[evolve_pokete][&#34;types&#34;][0]}.md&#39;
+            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;../{pokes[evolve_pokete][&#34;types&#34;][0]}&#39;
                             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
         md_attacks = &#34;&#34;
         for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../{attacks[atc][&#34;types&#34;][0].capitalize()}.md/&#39;
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../{attacks[atc][&#34;types&#34;][0].capitalize()}/&#39;
                           if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
@@ -704,7 +772,7 @@ In the following all Poketes with their attributes are displayed.
 {ico}
 ```
 
-- Type: [{pokes[poke][&#34;types&#34;][0].capitalize()}]({&#39;../types.md&#39; if multi_page else &#39;#types&#39;})
+- Type: [{pokes[poke][&#34;types&#34;][0].capitalize()}]({&#39;../types&#39; if multi_page else &#39;#types&#39;})
 - Health points: {pokes[poke][&#34;hp&#34;]}
 - Attack factor: {pokes[poke][&#34;atc&#34;]}
 - Defense factor: {pokes[poke][&#34;defense&#34;]}
@@ -731,7 +799,7 @@ Those are all attacks present in the game.
             pages = []
             for typ in sorted(types):
                 print(f&#34; -&gt; Adding {typ}&#34;)
-                index += f&#34;\n- [{typ.capitalize()}](./{typ}.md)&#34;
+                index += f&#34;\n- [{typ.capitalize()}](./{typ})&#34;
                 page = f&#34;# {typ.capitalize()} attacks&#34;
                 for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
                     if multi_page:
@@ -745,9 +813,9 @@ Those are all attacks present in the game.
                 pages.append((f&#34;{typ}.md&#34;, page))
             index += &#34;\n\n---\n\n## All attacks sorted by their type:\n&#34;
             for typ in sorted(types):
-                index += f&#34;- [{typ.capitalize()} Attacks](./{typ}.md)\n&#34;
+                index += f&#34;- [{typ.capitalize()} Attacks](./{typ})\n&#34;
                 for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
-                    index += f&#34;&#34;&#34;  - [{attacks[atc][&#34;name&#34;].capitalize()}](./{typ}.md#{atc.replace(&#39;_&#39;, &#39;-&#39;)})\n&#34;&#34;&#34;
+                    index += f&#34;&#34;&#34;  - [{attacks[atc][&#34;name&#34;].capitalize()}](./{typ}#{atc.replace(&#39;_&#39;, &#39;-&#39;)})\n&#34;&#34;&#34;
 
             index += &#39;\n&#39;
             pages.insert(0, (&#34;index.md&#34;, index))
@@ -788,12 +856,12 @@ Those are all attacks present in the game.
         return out + f&#34;&#34;&#34; {attacks[attack][&#34;name&#34;]}
 {attacks[attack][&#34;desc&#34;]}
 
-- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types.md&#34; if multi_page else &#34;#types&#34;})
+- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types&#34; if multi_page else &#34;#types&#34;})
 - Minimum Level: {attacks[attack][&#34;min_lvl&#34;]}
 - Attack factor: {attacks[attack][&#34;factor&#34;]}
 - Missing chance: {attacks[attack][&#34;miss_chance&#34;]}
 - Attack points: {attacks[attack][&#34;ap&#34;]}
-- Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}]({&#34;../effects.md&#34; if multi_page else &#34;&#34;}#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
+- Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}]({&#34;../effects&#34; if multi_page else &#34;&#34;}#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
 &#34;&#34;&#34;
 
     @staticmethod
@@ -957,10 +1025,10 @@ Those effects can be given to a Pokete through an attack.
         print(&#34; -&gt; Adding index...&#34;)
         index: str = Wiki.start()
         print(&#34; -&gt; Adding overview...&#34;)
-        index += Wiki.overview()
+        index += Wiki.overview(multi_page=True)
         index += &#34;\n---\n&#34;
         print(&#34; -&gt; Adding table of contents...&#34;)
-        index += Wiki.table_of_contents()
+        index += Wiki.table_of_contents(multi_page=True)
         print(f&#34; -&gt; Writing to \&#34;{folder_name}/index.md\&#34;...&#34;)
         with open(f&#34;{folder_name}/index.md&#34;, &#39;w&#39;) as file:
             file.write(index)
@@ -1028,12 +1096,12 @@ Those effects can be given to a Pokete through an attack.
         return out + f&#34;&#34;&#34; {attacks[attack][&#34;name&#34;]}
 {attacks[attack][&#34;desc&#34;]}
 
-- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types.md&#34; if multi_page else &#34;#types&#34;})
+- Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types&#34; if multi_page else &#34;#types&#34;})
 - Minimum Level: {attacks[attack][&#34;min_lvl&#34;]}
 - Attack factor: {attacks[attack][&#34;factor&#34;]}
 - Missing chance: {attacks[attack][&#34;miss_chance&#34;]}
 - Attack points: {attacks[attack][&#34;ap&#34;]}
-- Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}]({&#34;../effects.md&#34; if multi_page else &#34;&#34;}#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
+- Effect: {&#34;None&#34; if eff is None else f&#39;[{eff.c_name.capitalize()}]({&#34;../effects&#34; if multi_page else &#34;&#34;}#{eff.c_name.replace(&#34;_&#34;, &#34;-&#34;)})&#39;}
 &#34;&#34;&#34;</code></pre>
 </details>
 </dd>
@@ -1063,7 +1131,7 @@ Those are all attacks present in the game.
             pages = []
             for typ in sorted(types):
                 print(f&#34; -&gt; Adding {typ}&#34;)
-                index += f&#34;\n- [{typ.capitalize()}](./{typ}.md)&#34;
+                index += f&#34;\n- [{typ.capitalize()}](./{typ})&#34;
                 page = f&#34;# {typ.capitalize()} attacks&#34;
                 for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
                     if multi_page:
@@ -1077,9 +1145,9 @@ Those are all attacks present in the game.
                 pages.append((f&#34;{typ}.md&#34;, page))
             index += &#34;\n\n---\n\n## All attacks sorted by their type:\n&#34;
             for typ in sorted(types):
-                index += f&#34;- [{typ.capitalize()} Attacks](./{typ}.md)\n&#34;
+                index += f&#34;- [{typ.capitalize()} Attacks](./{typ})\n&#34;
                 for atc in [k for k in attacks if attacks[k][&#34;types&#34;][0] == typ]:
-                    index += f&#34;&#34;&#34;  - [{attacks[atc][&#34;name&#34;].capitalize()}](./{typ}.md#{atc.replace(&#39;_&#39;, &#39;-&#39;)})\n&#34;&#34;&#34;
+                    index += f&#34;&#34;&#34;  - [{attacks[atc][&#34;name&#34;].capitalize()}](./{typ}#{atc.replace(&#39;_&#39;, &#39;-&#39;)})\n&#34;&#34;&#34;
 
             index += &#39;\n&#39;
             pages.insert(0, (&#34;index.md&#34;, index))
@@ -1264,10 +1332,10 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
     print(&#34; -&gt; Adding index...&#34;)
     index: str = Wiki.start()
     print(&#34; -&gt; Adding overview...&#34;)
-    index += Wiki.overview()
+    index += Wiki.overview(multi_page=True)
     index += &#34;\n---\n&#34;
     print(&#34; -&gt; Adding table of contents...&#34;)
-    index += Wiki.table_of_contents()
+    index += Wiki.table_of_contents(multi_page=True)
     print(f&#34; -&gt; Writing to \&#34;{folder_name}/index.md\&#34;...&#34;)
     with open(f&#34;{folder_name}/index.md&#34;, &#39;w&#39;) as file:
         file.write(index)
@@ -1300,7 +1368,7 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
 </details>
 </dd>
 <dt id="gen_wiki.Wiki.overview"><code class="name flex">
-<span>def <span class="ident">overview</span></span>(<span>) ‑> str</span>
+<span>def <span class="ident">overview</span></span>(<span>multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A short overview of what the wiki contains.</p>
@@ -1311,14 +1379,23 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
-    def overview() -&gt; str:
+    def overview(multi_page: bool = False) -&gt; str:
         &#34;&#34;&#34;A short overview of what the wiki contains.
 
         Returns:
         -------
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
-        return &#34;&#34;&#34;Table of contents
+        if multi_page:
+            return &#34;&#34;&#34;Table of contents
+1. [Poketes](poketes)
+2. [Attacks](attacks)
+3. [Types](types)
+4. [Items](items)
+5. [Effects](effects)
+&#34;&#34;&#34;
+        else:
+            return &#34;&#34;&#34;Table of contents
 1. [Poketes](#poketes)
 2. [Attacks](#attacks)
 3. [Types](#types)
@@ -1358,11 +1435,11 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
         if evolve_pokete == &#34;&#34;:
             evolve_txt = &#34;- Does not evolve\n&#34;
         else:
-            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;../{pokes[evolve_pokete][&#34;types&#34;][0]}.md&#39;
+            evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;../{pokes[evolve_pokete][&#34;types&#34;][0]}&#39;
                             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
         md_attacks = &#34;&#34;
         for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../{attacks[atc][&#34;types&#34;][0].capitalize()}.md/&#39;
+            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../{attacks[atc][&#34;types&#34;][0].capitalize()}/&#39;
                           if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
@@ -1377,7 +1454,7 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
 {ico}
 ```
 
-- Type: [{pokes[poke][&#34;types&#34;][0].capitalize()}]({&#39;../types.md&#39; if multi_page else &#39;#types&#39;})
+- Type: [{pokes[poke][&#34;types&#34;][0].capitalize()}]({&#39;../types&#39; if multi_page else &#39;#types&#39;})
 - Health points: {pokes[poke][&#34;hp&#34;]}
 - Attack factor: {pokes[poke][&#34;atc&#34;]}
 - Defense factor: {pokes[poke][&#34;defense&#34;]}
@@ -1559,7 +1636,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 </details>
 </dd>
 <dt id="gen_wiki.Wiki.table_of_contents"><code class="name flex">
-<span>def <span class="ident">table_of_contents</span></span>(<span>) ‑> str</span>
+<span>def <span class="ident">table_of_contents</span></span>(<span>multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The table of contents of the pokete wiki</p>
@@ -1570,38 +1647,63 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @staticmethod
-    def table_of_contents() -&gt; str:
+    def table_of_contents(multi_page: bool = False) -&gt; str:
         &#34;&#34;&#34;The table of contents of the pokete wiki
 
         Returns:
         -------
         A Table of contents for a single page wiki.
         &#34;&#34;&#34;
-        out = &#34;&#34;&#34;## Table of contents
-1. [Poketes](#poketes)
-&#34;&#34;&#34;
+        out = &#39;&#39;
 
         # Table of contents
-        for i, typ in enumerate(sorted(types)):
-            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
-            for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
-                out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;2. [Attacks](#attacks)\n&#34;
-        for i, typ in enumerate(sorted(types)):
-            out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
-            for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
-                out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;&#34;&#34;3. [Types](#types)
+        if not multi_page:
+            out += f&#34;&#34;&#34;## Table of contents
+1. [Poketes](#poketes)
+&#34;&#34;&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n&#34;&#34;&#34;
+                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;2. [Attacks](#attacks)\n&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
+                for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
 &#34;&#34;&#34;
-        for j, item in enumerate(sorted(items)):
-            out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
-        out += &#34;&#34;&#34;5. [Effects](#effects)
+            for j, item in enumerate(sorted(items)):
+                out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;5. [Effects](#effects)
 &#34;&#34;&#34;
-        for j, effect in enumerate(effect_list):
-            out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+            for j, effect in enumerate(effect_list):
+                out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
 &#34;&#34;&#34;
 
+        else:
+            out += f&#34;&#34;&#34;## Table of contents
+1. [Poketes](./poketes)
+&#34;&#34;&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} Poketes](./poketes/{typ})\n&#34;&#34;&#34;
+                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{pokes[poke][&#34;name&#34;]}](./poketes/{typ}#{poke.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;2. [Attacks](./attacks)\n&#34;
+            for i, typ in enumerate(sorted(types)):
+                out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](./attacks/{typ})\n&#34;&#34;&#34;
+                for j, atc in enumerate([k for k in sorted(attacks) if attacks[k][&#34;types&#34;][0] == typ]):
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](./attack/{typ}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;3. [Types](./types)
+4. [Items](./items)
+&#34;&#34;&#34;
+            for j, item in enumerate(sorted(items)):
+                out += f&#34;&#34;&#34;   {j + 1}. [{items[item][&#34;pretty_name&#34;]}](./items#{item.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+            out += &#34;&#34;&#34;5. [Effects](./effects)
+&#34;&#34;&#34;
+            for j, effect in enumerate(effect_list):
+                out += f&#34;&#34;&#34;   {j + 1}. [{effect.c_name.capitalize()}](./effects#{effect.c_name.replace(&#34;_&#34;, &#34;-&#34;)})
+&#34;&#34;&#34;
         return out</code></pre>
 </details>
 </dd>
