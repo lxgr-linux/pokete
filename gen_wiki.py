@@ -184,11 +184,11 @@ In the following all Poketes with their attributes are displayed.
         if evolve_pokete == "":
             evolve_txt = "- Does not evolve\n"
         else:
-            evolve_txt = f"""- Evolves to [{pokes[evolve_pokete]['name']}]({f'../{pokes[evolve_pokete]["types"][0]}'
+            evolve_txt = f"""- Evolves to [{pokes[evolve_pokete]['name']}]({f'./{pokes[evolve_pokete]["types"][0]}'
                             if multi_page else ""}#{evolve_pokete}) at level {pokes[poke]['evolve_lvl']}"""
         md_attacks = ""
         for atc in pokes[poke]["attacks"]:
-            md_attacks += f"""\n   + [{attacks[atc]["name"]}]({f'../{attacks[atc]["types"][0].capitalize()}/'
+            md_attacks += f"""\n   + [{attacks[atc]["name"]}]({f'../attacks/{attacks[atc]["types"][0].capitalize()}/'
                           if multi_page else ""}#{atc.replace("_", "-")})"""
         # ico
         ico_map = se.Map(4, 11, background=" ")
