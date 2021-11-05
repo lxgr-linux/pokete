@@ -53,9 +53,10 @@ jobs:
           ref: 'gh-pages'
       - name: Generate gh-pages page
         run: |
-          rm -rf ./assets
+          rm -rf ./assets ./wiki-multi
           mv '/tmp/assets/' .
           python3 /tmp/prepare_pages.py after
+          mv ./wiki-multi-html ./wiki-multi
       # Push to github_pages
       - name: Release documentation
         run: |
