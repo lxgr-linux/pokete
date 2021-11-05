@@ -195,8 +195,66 @@ def create_documentation() -&gt; None:
         os.system(f&#34;{pdoc_path} --html {module} --output-dir \&#34;/tmp/doc/\&#34; --force&#34;)
 
 
+def add_folder(folder: str, add_tmp_folder: bool = False) -&gt; None:
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+    tmp_folder = os.path.join(&#34;/tmp&#34;, folder)
+    if not os.path.isdir(tmp_folder):
+        os.mkdir(tmp_folder)
+    files.update({
+        folder: {
+            &#34;type&#34;: &#34;folder&#34;
+        }
+    })
+
+
+def create_wiki() -&gt; None:
+    from gen_wiki import Wiki
+    Wiki.multi(&#34;./wiki-multi-md/&#34;)
+    Wiki.single(&#34;./wiki-single.md&#34;)
+
+
+def add_wiki_folder(foldername: str) -&gt; list:
+    items = os.listdir(foldername)
+    out = []
+    for item in items:
+        file = os.path.join(foldername, item)
+        if os.path.isdir(file):
+            add_folder(file.replace(&#34;./wiki-multi-md/&#34;, &#34;./wiki-multi-html/&#34;), True)
+            for f in add_wiki_folder(file):
+                out.append(f)
+        elif os.path.isfile(file):
+            if item.endswith(&#34;.md&#34;):
+                out.append(file)
+            else:
+                print(f&#34;{file} is not a markdown file!&#34;)
+        else:
+            print(f&#34;Unrecognized type: {file}&#34;)
+    return out
+
+
+def add_wiki_to_files() -&gt; None:
+    if not os.path.isdir(&#34;./wiki-multi-html&#34;):
+        os.mkdir(&#34;./wiki-multi-html&#34;)
+    if not os.path.isdir(&#34;/tmp/wiki-multi-html&#34;):
+        os.mkdir(&#34;/tmp/wiki-multi-html&#34;)
+    wiki_files = add_wiki_folder(&#34;./wiki-multi-md/&#34;)
+    print(wiki_files)
+    for wiki_file in wiki_files:
+        files.update({
+                wiki_file: {
+                    &#34;type&#34;: &#34;page&#34;,
+                    &#34;replace_tables&#34;: False,
+                    &#34;convert_with_pandoc&#34;: True,
+                    &#34;replace_links&#34;: [],
+                    &#34;new_name&#34;: str(wiki_file.replace(&#34;.md&#34;, &#34;.html&#34;)).replace(&#34;./wiki-multi-md/&#34;, &#34;./wiki-multi-html/&#34;)
+                }
+            })
+    print(files)
+
+
 def before() -&gt; None:
-    &#34;&#34;&#34;The actions taht should be executed before the brach switch
+    &#34;&#34;&#34;The actions that should be executed before the brach switch
 
     This functions creates documentation for all the files, replaces tables if necessary or converts the files with
     pandoc. All the files are then moved into the /mp directory.
@@ -204,11 +262,15 @@ def before() -&gt; None:
     print(&#39;:: Preparing files for gh-pages...&#39;)
     print(&#34;==&gt; Generating documentation with pdoc...&#34;)
     create_documentation()
+    print(&#34;==&gt; Creating Wiki...&#34;)
+    create_wiki()
+    print(&#34;==&gt; Adding Multi-page Wiki...&#34;)
+    add_wiki_to_files()
     for file in files.keys():
         print(f&#34;==&gt; Preparing {file}&#34;)
         properties = files[file]
 
-        if properties[&#34;type&#34;] == &#34;documentation&#34;:
+        if properties[&#34;type&#34;] == &#34;documentation&#34; or properties[&#34;type&#34;] == &#34;folder&#34;:
             continue
 
         new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
@@ -268,6 +330,14 @@ def after() -&gt; None:
         new_files = eval(text)
 
     print(&#39;:: Processing files...&#39;)
+    print(&#39;==&gt; Making directories...&#39;)
+    print(&#39; -&gt; wiki-multi-html&#39;)
+    add_folder(&#39;wiki-multi-html&#39;, False)
+    for file in new_files.keys():
+        properties = new_files[file]
+        if properties[&#34;type&#34;] == &#34;folder&#34;:
+            print(&#39; -&gt; &#39; + file)
+            add_folder(file, False)
     documentation_copied = False
     for file in new_files.keys():
         properties = new_files[file]
@@ -282,6 +352,8 @@ def after() -&gt; None:
                 print(&#34; -&gt; Copying new documentation files...&#34;)
                 os.system(&#34;cp -r /tmp/doc/ .&#34;)
                 documentation_copied = True  # Only copy the directory once
+            continue
+        if properties[&#34;type&#34;] == &#34;folder&#34;:
             continue
 
         new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
@@ -314,7 +386,8 @@ def after() -&gt; None:
                 text.replace(old, new)
             with open(new_name, &#39;w&#39;) as f:
                 f.write(text)
-
+    print(&#34;==&gt; Renaming &#39;wiki-multi-html&#39; to &#39;wiki-multi&#39;...&#34;)
+    os.system(&#34;mv &#39;./wiki-multi-html/&#39; &#39;./wiki-multi&#39;&#34;)
     print(&#39;:: Done!&#39;)
 
 
@@ -343,6 +416,85 @@ if __name__ == &#39;__main__&#39;:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="prepare_pages.add_folder"><code class="name flex">
+<span>def <span class="ident">add_folder</span></span>(<span>folder: str, add_tmp_folder: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_folder(folder: str, add_tmp_folder: bool = False) -&gt; None:
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+    tmp_folder = os.path.join(&#34;/tmp&#34;, folder)
+    if not os.path.isdir(tmp_folder):
+        os.mkdir(tmp_folder)
+    files.update({
+        folder: {
+            &#34;type&#34;: &#34;folder&#34;
+        }
+    })</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.add_wiki_folder"><code class="name flex">
+<span>def <span class="ident">add_wiki_folder</span></span>(<span>foldername: str) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_wiki_folder(foldername: str) -&gt; list:
+    items = os.listdir(foldername)
+    out = []
+    for item in items:
+        file = os.path.join(foldername, item)
+        if os.path.isdir(file):
+            add_folder(file.replace(&#34;./wiki-multi-md/&#34;, &#34;./wiki-multi-html/&#34;), True)
+            for f in add_wiki_folder(file):
+                out.append(f)
+        elif os.path.isfile(file):
+            if item.endswith(&#34;.md&#34;):
+                out.append(file)
+            else:
+                print(f&#34;{file} is not a markdown file!&#34;)
+        else:
+            print(f&#34;Unrecognized type: {file}&#34;)
+    return out</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.add_wiki_to_files"><code class="name flex">
+<span>def <span class="ident">add_wiki_to_files</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_wiki_to_files() -&gt; None:
+    if not os.path.isdir(&#34;./wiki-multi-html&#34;):
+        os.mkdir(&#34;./wiki-multi-html&#34;)
+    if not os.path.isdir(&#34;/tmp/wiki-multi-html&#34;):
+        os.mkdir(&#34;/tmp/wiki-multi-html&#34;)
+    wiki_files = add_wiki_folder(&#34;./wiki-multi-md/&#34;)
+    print(wiki_files)
+    for wiki_file in wiki_files:
+        files.update({
+                wiki_file: {
+                    &#34;type&#34;: &#34;page&#34;,
+                    &#34;replace_tables&#34;: False,
+                    &#34;convert_with_pandoc&#34;: True,
+                    &#34;replace_links&#34;: [],
+                    &#34;new_name&#34;: str(wiki_file.replace(&#34;.md&#34;, &#34;.html&#34;)).replace(&#34;./wiki-multi-md/&#34;, &#34;./wiki-multi-html/&#34;)
+                }
+            })
+    print(files)</code></pre>
+</details>
+</dd>
 <dt id="prepare_pages.after"><code class="name flex">
 <span>def <span class="ident">after</span></span>(<span>) ‑> None</span>
 </code></dt>
@@ -377,6 +529,14 @@ look on all gh-pages pages. This function then replaces all the links for each f
         new_files = eval(text)
 
     print(&#39;:: Processing files...&#39;)
+    print(&#39;==&gt; Making directories...&#39;)
+    print(&#39; -&gt; wiki-multi-html&#39;)
+    add_folder(&#39;wiki-multi-html&#39;, False)
+    for file in new_files.keys():
+        properties = new_files[file]
+        if properties[&#34;type&#34;] == &#34;folder&#34;:
+            print(&#39; -&gt; &#39; + file)
+            add_folder(file, False)
     documentation_copied = False
     for file in new_files.keys():
         properties = new_files[file]
@@ -391,6 +551,8 @@ look on all gh-pages pages. This function then replaces all the links for each f
                 print(&#34; -&gt; Copying new documentation files...&#34;)
                 os.system(&#34;cp -r /tmp/doc/ .&#34;)
                 documentation_copied = True  # Only copy the directory once
+            continue
+        if properties[&#34;type&#34;] == &#34;folder&#34;:
             continue
 
         new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
@@ -423,7 +585,8 @@ look on all gh-pages pages. This function then replaces all the links for each f
                 text.replace(old, new)
             with open(new_name, &#39;w&#39;) as f:
                 f.write(text)
-
+    print(&#34;==&gt; Renaming &#39;wiki-multi-html&#39; to &#39;wiki-multi&#39;...&#34;)
+    os.system(&#34;mv &#39;./wiki-multi-html/&#39; &#39;./wiki-multi&#39;&#34;)
     print(&#39;:: Done!&#39;)</code></pre>
 </details>
 </dd>
@@ -431,7 +594,7 @@ look on all gh-pages pages. This function then replaces all the links for each f
 <span>def <span class="ident">before</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The actions taht should be executed before the brach switch</p>
+<div class="desc"><p>The actions that should be executed before the brach switch</p>
 <p>This functions creates documentation for all the files, replaces tables if necessary or converts the files with
 pandoc. All the files are then moved into the /mp directory.</p></div>
 <details class="source">
@@ -439,7 +602,7 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def before() -&gt; None:
-    &#34;&#34;&#34;The actions taht should be executed before the brach switch
+    &#34;&#34;&#34;The actions that should be executed before the brach switch
 
     This functions creates documentation for all the files, replaces tables if necessary or converts the files with
     pandoc. All the files are then moved into the /mp directory.
@@ -447,11 +610,15 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
     print(&#39;:: Preparing files for gh-pages...&#39;)
     print(&#34;==&gt; Generating documentation with pdoc...&#34;)
     create_documentation()
+    print(&#34;==&gt; Creating Wiki...&#34;)
+    create_wiki()
+    print(&#34;==&gt; Adding Multi-page Wiki...&#34;)
+    add_wiki_to_files()
     for file in files.keys():
         print(f&#34;==&gt; Preparing {file}&#34;)
         properties = files[file]
 
-        if properties[&#34;type&#34;] == &#34;documentation&#34;:
+        if properties[&#34;type&#34;] == &#34;documentation&#34; or properties[&#34;type&#34;] == &#34;folder&#34;:
             continue
 
         new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
@@ -512,6 +679,21 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
     for module in modules:
         print(f&#34; -&gt; {module}&#34;)
         os.system(f&#34;{pdoc_path} --html {module} --output-dir \&#34;/tmp/doc/\&#34; --force&#34;)</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.create_wiki"><code class="name flex">
+<span>def <span class="ident">create_wiki</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_wiki() -&gt; None:
+    from gen_wiki import Wiki
+    Wiki.multi(&#34;./wiki-multi-md/&#34;)
+    Wiki.single(&#34;./wiki-single.md&#34;)</code></pre>
 </details>
 </dd>
 <dt id="prepare_pages.get_footer"><code class="name flex">
@@ -655,9 +837,13 @@ reads the text back in.</p>
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="prepare_pages.add_folder" href="#prepare_pages.add_folder">add_folder</a></code></li>
+<li><code><a title="prepare_pages.add_wiki_folder" href="#prepare_pages.add_wiki_folder">add_wiki_folder</a></code></li>
+<li><code><a title="prepare_pages.add_wiki_to_files" href="#prepare_pages.add_wiki_to_files">add_wiki_to_files</a></code></li>
 <li><code><a title="prepare_pages.after" href="#prepare_pages.after">after</a></code></li>
 <li><code><a title="prepare_pages.before" href="#prepare_pages.before">before</a></code></li>
 <li><code><a title="prepare_pages.create_documentation" href="#prepare_pages.create_documentation">create_documentation</a></code></li>
+<li><code><a title="prepare_pages.create_wiki" href="#prepare_pages.create_wiki">create_wiki</a></code></li>
 <li><code><a title="prepare_pages.get_footer" href="#prepare_pages.get_footer">get_footer</a></code></li>
 <li><code><a title="prepare_pages.get_header" href="#prepare_pages.get_header">get_header</a></code></li>
 <li><code><a title="prepare_pages.replace_tables" href="#prepare_pages.replace_tables">replace_tables</a></code></li>
