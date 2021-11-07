@@ -99,7 +99,7 @@ jobs:
 
       - name: Make multipage wiki
         run: |
-          python3 gen_wiki.py
+          python3 gen_wiki.py verbose single multi pics
           mkdir /tmp/gen-wiki
           cp -r HowToPlay.md DevGuide.md wiki.md /tmp/gen-wiki
       - name: Switch to wiki repository
