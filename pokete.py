@@ -1219,7 +1219,7 @@ class RoadMap:
 
     def __init__(self, stations):
         self.box = Box(11, 40, "Roadmap", "q:close")
-        self.info_label = se.Text("")
+        self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta in stations:
             obj = Station(ob_maps[sta], **stations[sta]['gen'],
@@ -1260,9 +1260,14 @@ class RoadMap:
                 elif (ev.get() == "Key.enter" and not choose
                       and self.sta.has_been_visited()):
                     ev.clear()
-                    with InfoBox(liner(self.sta.desc, 30),
-                                 self.sta.name,
-                                 _map=movemap):
+                    p_list = ", ".join(set(p_data.pokes[j]["name"]
+                                        for i in self.sta.associates
+                                            for j in
+                                                i.poke_args.get("pokes", [])))
+                    with InfoBox(liner(self.sta.desc
+                                       + "\n\n Here you can find: " +
+                                       (p_list if p_list != "" else "Nothing"),
+                                       30), self.sta.name, _map=movemap):
                         while True:
                             if ev.get() in ["Key.esc", "'q'"]:
                                 ev.clear()
