@@ -685,6 +685,20 @@ attacks = {
         "ap": 10,
     },
     # plant attacks
+    "special_smell": {
+        "name": "Special smell",
+        "factor": 0,
+        "action": "",
+        "world_action": "",
+        "move": ["downgrade"],
+        "miss_chance": 0,
+        "min_lvl": 0,
+        "desc": "Spreads a special smell that will make the enemy confused and very happy.",
+        "types": ["plant"],
+        "effect": "confusion",
+        "is_generic": False,
+        "ap": 10,
+    },
     "apple_drop": {
         "name": "Apple drop",
         "factor": 1.7,

@@ -161,7 +161,7 @@ pokes = {
         "hp": 20,
         "atc": 3,
         "defense": 2,
-        "attacks": [],
+        "attacks": ["root_slap", "special_smell"],
         "pool": [],
         "miss_chance": 0.1,
         "desc": "A plant Pokete found in Agrawos, with special 'Powers'.",
