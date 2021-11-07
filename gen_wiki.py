@@ -570,9 +570,7 @@ if __name__ == "__main__":
         Wiki.single()
         gen_pics()
     else:
-        for i, arg in enumerate(sys.argv):
-            if i == 0:
-                continue
+        for arg in sys.argv[1:]:
             if arg.lower() in ["silent", "quite", "verbose"]:
                 silent, quiet, verbose = False, False, False
                 if arg.lower() == "silent":
