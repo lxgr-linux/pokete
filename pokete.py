@@ -1260,7 +1260,7 @@ class RoadMap:
                 elif (ev.get() == "Key.enter" and not choose
                       and self.sta.has_been_visited()):
                     ev.clear()
-                    with InfoBox(self.sta.desc,
+                    with InfoBox(liner(self.sta.desc, 30),
                                  self.sta.name,
                                  _map=movemap):
                         while True:

@@ -46,7 +46,7 @@ stations = {
             "width": 2,
             "height": 1,
             "desc": "The great Josi Town, home of the Josis an old race of \
-amazonians",
+amazonians.",
             "a_next": "playmap_2",
             "w_next": "playmap_4",
             "s_next": "playmap_6",
@@ -76,7 +76,7 @@ amazonians",
             "width": 1,
             "height": 2,
             "desc": "The woodland edge at the foot of a great mountain full of \
-caves,",
+caves.",
             "w_next": "playmap_3",
             "a_next": "playmap_7",
             "d_next": "playmap_8",
@@ -249,7 +249,7 @@ hotspot.",
             "additionals": ["playmap_31", "playmap_32"],
             "width": 1,
             "height": 1,
-            "desc": "With its plant Poketes Flowy Town may be the greenest \
+            "desc": "With its plant Poketes, Flowy Town may be the greenest \
 spot in the Pokete world and with the great git-tree it may also be one \
 of the most spectacular.",
             "a_next": "playmap_28",
