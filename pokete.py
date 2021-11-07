@@ -529,7 +529,7 @@ class Station(se.Square):
 
     def __init__(self, associate, additionals, width, height, desc,
                  char="#", w_next="", a_next="", s_next="", d_next="",
-                 state="solid", label_fn=None):
+                 label_fn=None):
         self.desc = desc
         self.org_char = char
         self.label_fn = label_fn
