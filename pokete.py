@@ -535,7 +535,8 @@ class Station(se.Square):
         self.label_fn = label_fn
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = ""
-        super().__init__(char, width, height)
+        self.name = self.associates[0].pretty_name
+        super().__init__(char, width, height, state="float")
         self.w_next = w_next
         self.a_next = a_next
         self.s_next = s_next
@@ -546,9 +547,7 @@ class Station(se.Square):
         """Chooses and hightlights the station"""
         self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
         Station.choosen = self
-        self.label_fn(self.associates[0].pretty_name if
-                                  self.has_been_visited() else
-                                  "???")
+        self.label_fn(self.name if self.has_been_visited() else "???")
 
     def unchoose(self):
         """Unchooses the station"""
@@ -1192,7 +1191,7 @@ class Menu:
                         ModInfo(movemap, settings, mods.mod_info)(ev)
                     elif i == self.save_label:
                         # When will python3.10 come out?
-                        with InfoBox("Saving....", _map=self.map):
+                        with InfoBox("Saving....", info="", _map=self.map):
                             # Shows a box displaying "Saving...." while saving
                             save()
                             time.sleep(1.5)
@@ -1254,6 +1253,18 @@ class RoadMap:
                       and Station.choosen.has_been_visited()
                       and Station.choosen.is_city()):
                     return Station.choosen.associates[0]
+                elif (ev.get() == "Key.enter" and not choose
+                      and Station.choosen.has_been_visited()):
+                    ev.clear()
+                    with InfoBox(Station.choosen.desc,
+                                 Station.choosen.name,
+                                 _map=movemap):
+                        while True:
+                            if ev.get() in ["Key.esc", "'q'"]:
+                                ev.clear()
+                                break
+                            std_loop(ev)
+                            time.sleep(0.05)
                 std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()

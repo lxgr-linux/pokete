@@ -44,7 +44,7 @@ def ask_bool(_ev, _map, text):
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
     with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o",
-                 _map=_map):
+                 info="", _map=_map):
         while True:
             if _ev.get() == "'y'":
                 ret = True
@@ -70,7 +70,8 @@ def ask_ok(_ev, _map, text):
     """Asks the player to an OK question"""
     assert len(text) >= 4, "Text has to be longer then 4 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k", name="Info", _map=_map):
+    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k", name="Info",
+                 info="", _map=_map):
         while True:
             if _ev.get() in ["'o'", "'O'", "Key.enter"]:
                 break

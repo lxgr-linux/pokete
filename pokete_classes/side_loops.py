@@ -48,7 +48,6 @@ https://git.io/JRRqe
 """
         self.box = InfoBox(self.help_text, _map=self.map)
         self.box.name_label.rechar("Help")
-        self.box.info_label.rechar("q:close")
 
 
 class ResizeScreen():
