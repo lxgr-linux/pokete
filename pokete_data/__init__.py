@@ -57,7 +57,7 @@ validators = {
     "soft_ob": ["x", "y", "txt"],
     "dor": ["x", "y", "args"],
     "ball": ["x", "y"],
-    "gen": ["additionals", "width", "height"],
+    "gen": ["additionals", "width", "height", "desc"],
     "add": ["x", "y"],
     "poke_ico": ["txt", "esc"],
     "trainer": ["poke", "args"]
