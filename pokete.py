@@ -1227,6 +1227,10 @@ class RoadMap:
             self.box.add_ob(obj, **stations[sta]['add'])
             setattr(self, sta, obj)
 
+    @property
+    def sta(self):
+        return Station.choosen
+
     def rechar_info(self, name):
         self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
         self.info_label.rechar(name)
@@ -1244,20 +1248,20 @@ class RoadMap:
         with self.box.center_add(movemap):
             while True:
                 if ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
-                    Station.choosen.next(ev.get())
+                    self.sta.next(ev.get())
                     ev.clear()
                 elif ev.get() in ["'3'", "Key.esc", "'q'"]:
                     ev.clear()
                     break
                 elif (ev.get() == "Key.enter" and choose
-                      and Station.choosen.has_been_visited()
-                      and Station.choosen.is_city()):
-                    return Station.choosen.associates[0]
+                      and self.sta.has_been_visited()
+                      and self.sta.is_city()):
+                    return self.sta.associates[0]
                 elif (ev.get() == "Key.enter" and not choose
-                      and Station.choosen.has_been_visited()):
+                      and self.sta.has_been_visited()):
                     ev.clear()
-                    with InfoBox(Station.choosen.desc,
-                                 Station.choosen.name,
+                    with InfoBox(self.sta.desc,
+                                 self.sta.name,
                                  _map=movemap):
                         while True:
                             if ev.get() in ["Key.esc", "'q'"]:
@@ -1268,7 +1272,7 @@ class RoadMap:
                 std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
-        Station.choosen.unchoose()
+        self.sta.unchoose()
 
 
 class Dex:
