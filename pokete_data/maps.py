@@ -305,6 +305,56 @@ maps = {
         "extra_actions": None,
         "poke_args": None
     },
+    "playmap_33": {
+        "height": 44,
+        "width": 154,
+        "pretty_name": "Mowcow meadow",
+        "extra_actions": None,
+        "poke_args": {
+            "pokes": ["mowcow", "voglo", "bushy"],
+            "minlvl": 800,
+            "maxlvl": 1000
+        },
+    },
+    "playmap_34": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_35": {
+        "height": 70,
+        "width": 144,
+        "pretty_name": "The fields of Agrawos",
+        "extra_actions": None,
+        "poke_args": {
+            "pokes": ["mowcow", "voglo", "lil_nut", "megapois"],
+            "minlvl": 900,
+            "maxlvl": 1300
+        },
+    },
+    "playmap_36": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_37": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
+    "playmap_38": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None
+    },
 }
 
 

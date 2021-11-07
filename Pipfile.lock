@@ -1,0 +1,32 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "73985e42478ab5f6b0522f47af505a8b676157aa411dbeb9a71feec575c9c903"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.9"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "pynput": {
+            "sys_platform": "!= 'linux'",
+            "version": ">=2.11"
+        },
+        "scrap-engine": {
+            "hashes": [
+                "sha256:6b86cca8a8aa5ca2d7b9ebd3a17cca99f7c8b52abf673abc2b07c9b8eae2e970"
+            ],
+            "index": "pypi",
+            "version": "==1.0.1"
+        }
+    },
+    "develop": {}
+}

@@ -858,7 +858,7 @@ WW\/o o\/WW
         "rarity": 1,
         "types": ["ground", "normal"],
         "evolve_poke": "dicki",
-        "evolve_lvl": 15,
+        "evolve_lvl": 35,
         "initiative": 1,
         "ico": [{
             "txt": """
@@ -881,7 +881,7 @@ WW\/o o\/WW
         "rarity": 1,
         "types": ["ground", "normal"],
         "evolve_poke": "dicko",
-        "evolve_lvl": 35,
+        "evolve_lvl": 55,
         "initiative": 2,
         "ico": [{
             "txt": """    

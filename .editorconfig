@@ -1,0 +1,25 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.py]
+indent_size = 4
+tab_width = 4
+max_line_length = 80
+
+[pokete_data/{map_data,npcs}.py]
+max_line_length = off
+
+
+[*.md]
+indent_size = 2
+tab_width = 2
+

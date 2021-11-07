@@ -1,5 +1,5 @@
 """Type and PokeType class"""
-from pokete_classes.color import Color
+from .color import Color
 
 
 class Types:
