@@ -38,6 +38,7 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        3. [Poisopla](#poisopla)
        4. [Rosi](#rosi)
        5. [Treenator](#treenator)
+       6. [Wheeto](#wheeto)
    8. [Poison Poketes](#poison-poketes)
        1. [Choka](#choka)
        2. [Würgos](#würgos)
@@ -105,8 +106,9 @@ This wiki can be generated using ```$ ./gen-wiki.py```.
        5. [Poison spores](#poison-spores)
        6. [Root slap](#root-slap)
        7. [Root strangler](#root-strangler)
-       8. [Sucker](#sucker)
-       9. [Super sucker](#super-sucker)
+       8. [Special smell](#special-smell)
+       9. [Sucker](#sucker)
+       10. [Super sucker](#super-sucker)
    8. [Poison attacks](#poison-attacks)
        1. [Poison bite](#poison-bite)
        2. [Poison thorn](#poison-thorn)
@@ -768,6 +770,30 @@ A scary an dangerous apple tree.
    + [Bark hardening](#bark-hardening)
    + [Branch stab](#branch-stab)
    + [Root strangler](#root-strangler)
+- Does not evolve
+
+#### Wheeto
+A plant Pokete found in Agrawos, with special 'Powers'.
+
+```
+    \ /    
+    \|/    
+    \|/    
+     |     
+
+```
+
+- Type: [Plant](#types)
+- Health points: 20
+- Attack factor: 3
+- Defense factor: 2
+- Initiative: 2
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Root slap](#root-slap)
+   + [Special smell](#special-smell)
 - Does not evolve
 ### Poison Poketes
 #### Choka
@@ -1453,6 +1479,16 @@ Makes the Pokete angry and strong.
 - Effect: None
 
 ### Plant attacks
+#### Special smell
+Spreads a special smell that will make the enemy confused and very happy.
+
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 10
+- Effect: [Confusion](#confusion)
+
 #### Apple drop
 Lets an apple drop on the enemy's head.
 
