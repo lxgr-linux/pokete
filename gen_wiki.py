@@ -9,7 +9,7 @@ from pokete_classes.effects import effects, effect_list
 from pokete_data import *
 
 silent = False
-quite = False
+quiet = False
 verbose = True
 
 class Wiki:
@@ -435,32 +435,32 @@ Those effects can be given to a Pokete through an attack.
         ---------
         - filename (string): The file to save the wiki to.
         """
-        if quite or verbose:
+        if quiet or verbose:
             print(":: Generating wiki.md...")
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding page start...")
         md_str = Wiki.start()
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding table of contents...")
         md_str += Wiki.table_of_contents()
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding poketes...")
         md_str += Wiki.poketes()
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding attacks...")
         md_str += Wiki.attacks()
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding types...")
         md_str += Wiki.types()
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding items...")
         md_str += Wiki.items()
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding effects...")
         md_str += Wiki.effects()
 
         # writing to file
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Writing to wiki.md...")
         with open(filename, "w+") as file:
             file.write(md_str)
@@ -482,9 +482,9 @@ Those effects can be given to a Pokete through an attack.
         ---------
         - folder_name (string): The folder to save the wiki to.
         """
-        if quite or verbose:
+        if quiet or verbose:
             print(":: Generating multi-page wiki...")
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Checking if old wiki exists...")
         for folder in ['', '/poketes', '/attacks']:
             if verbose:
@@ -502,7 +502,7 @@ Those effects can be given to a Pokete through an attack.
                 if verbose:
                     print("Does not exist. Making...")
 
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding page start...")
         if verbose:
             print(" -> Adding index...")
@@ -519,7 +519,7 @@ Those effects can be given to a Pokete through an attack.
         with open(f"{folder_name}/index.md", 'w') as file:
             file.write(index)
 
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding poketes...")
         if verbose:
             print(" -> Adding index.md...")
@@ -529,24 +529,24 @@ Those effects can be given to a Pokete through an attack.
             with open(f"{folder_name}/poketes/{typ}.md", 'w') as file:
                 file.write(Wiki.poketes(page_mode='multi', pokete_type=typ))
 
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding attacks...")
         for page in Wiki.attacks(multi_page=True):
             file_name, file_contents = page
             with open(f"{folder_name}/attacks/{file_name}", 'w') as file:
                 file.write(file_contents)
 
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding types...")
         with open(f"{folder_name}/types.md", 'w') as file:
             file.write(Wiki.types(multi_page=True))
 
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding items...")
         with open(f"{folder_name}/items.md", 'w') as file:
             file.write(Wiki.items(multi_page=True))
 
-        if quite or verbose:
+        if quiet or verbose:
             print("==> Adding effects...")
         with open(f"{folder_name}/effects.md", 'w') as file:
             file.write(Wiki.effects(multi_page=True))
@@ -554,7 +554,7 @@ Those effects can be given to a Pokete through an attack.
 
 def gen_pics():
     """The function to generate a markdown file with some example pictures."""
-    if quite or verbose:
+    if quiet or verbose:
         print(":: Generating pics.md...")
     md_str = "# Example pictures\n"
     md_str += str.join("\n\n", [f"![{i}](ss/{i})" for i in sorted(os.listdir("assets/ss"))])
@@ -566,7 +566,7 @@ def gen_pics():
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
-        silent, quite, verbose = False, True, False
+        silent, quiet, verbose = False, True, False
         Wiki.single()
         gen_pics()
     else:
@@ -574,11 +574,11 @@ if __name__ == "__main__":
             if i == 0:
                 continue
             if arg.lower() in ["silent", "quite", "verbose"]:
-                silent, quite, verbose = False, False, False
+                silent, quiet, verbose = False, False, False
                 if arg.lower() == "silent":
                     silent = True
                 elif arg.lower() == "quite":
-                    quite = True
+                    quiet = True
                 else:
                     verbose = True
             elif arg.lower() == "single":
