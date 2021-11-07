@@ -26,7 +26,7 @@ class Wiki:
 
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
-This wiki can be generated using ```$ ./gen-wiki.py```.
+This wiki can be generated using ```$ ./gen_wiki.py```.
 
 """
 
