@@ -688,7 +688,7 @@ attacks = {
     "special_smell": {
         "name": "Special smell",
         "factor": 0,
-        "action": "",
+        "action": None,
         "world_action": "",
         "move": ["downgrade"],
         "miss_chance": 0,
