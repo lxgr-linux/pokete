@@ -633,5 +633,5 @@ Examples:
 \t`-> Creates wiki.md, the multi-page wiki and pics.md quitely
 
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2021""")
-            if arg.lower() not in ["-h", "--help", "help"]:
-                sys.exit(2)
+                if arg.lower() not in ["-h", "--help", "help"]:
+                    sys.exit(2)
