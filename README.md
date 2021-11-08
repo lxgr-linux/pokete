@@ -73,7 +73,8 @@ Flying|Plant|Stone
 Undead|Normal, Ground, Plant, Water|Fire
 Ice|Water, Plant|Fire
 
-For additional information you can see [wiki](wiki.md).
+For additional information you can see [wiki](wiki.md) or
+[the multi-page wiki](https://lxgr-linux.github.io/pokete/wiki-multi).
 
 ## Mods
 Mods can be written to extend Pokete. To load a mod, the mod has  to be placed in `mods` and mods have to be enabled in the menu.
