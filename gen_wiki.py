@@ -6,7 +6,7 @@ from os.path import exists, isdir
 import release
 import scrap_engine as se
 from pokete_classes.effects import effects, effect_list
-from pokete_data import *
+from pokete_data import pokes, attacks, types, items
 
 silent = False
 quiet = False
