@@ -75,7 +75,7 @@ This wiki can be generated using ```$ ./gen_wiki.py```.
 
         # Table of contents
         if not multi_page:
-            out += f"""## Table of contents
+            out += """## Table of contents
 1. [Poketes](#poketes)
 """
             for i, typ in enumerate(sorted(types)):
@@ -99,7 +99,7 @@ This wiki can be generated using ```$ ./gen_wiki.py```.
 """
 
         else:
-            out += f"""## Table of contents
+            out += """## Table of contents
 1. [Poketes](./poketes)
 """
             for i, typ in enumerate(sorted(types)):
@@ -141,7 +141,7 @@ This wiki can be generated using ```$ ./gen_wiki.py```.
         All poketes and their attributes as a markdown string.
         """
         if page_mode == 'single':
-            out = f"""
+            out = """
 ## Poketes
 In the following all Poketes with their attributes are displayed.
 
@@ -154,7 +154,7 @@ In the following all Poketes with their attributes are displayed.
                     out += Wiki.poke_info(poke)
             return out
         elif page_mode == 'index':
-            out = f"""# Poketes
+            out = """# Poketes
 In the following all Poketes with their attributes are displayed.
 
 """
@@ -244,7 +244,7 @@ In the following all Poketes with their attributes are displayed.
         A markdown string of all attacks with their attributes and informations.
         """
         if multi_page:
-            index = f"""# Attacks
+            index = """# Attacks
 Those are all attacks present in the game.
 """
             pages = []
@@ -276,7 +276,7 @@ Those are all attacks present in the game.
             pages.insert(0, ("index.md", index))
             return pages
         else:
-            out = f"""
+            out = """
 ## Attacks
 Those are all attacks present in the game.
 """
