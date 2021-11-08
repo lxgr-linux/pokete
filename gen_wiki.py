@@ -12,8 +12,10 @@ silent = False
 quiet = False
 verbose = True
 
+
 class Wiki:
     """The class in which wiki generation behaviour is defined"""
+
     @staticmethod
     def start() -> str:
         """The start and title of the wiki
@@ -80,12 +82,14 @@ This wiki can be generated using ```$ ./gen_wiki.py```.
 """
             for i, typ in enumerate(sorted(types)):
                 out += f"""   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n"""
-                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]):
+                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if
+                                          pokes[k]["types"][0] == typ]):
                     out += f"""       {j + 1}. [{pokes[poke]["name"]}](#{poke.replace("_", "-")})\n"""
             out += "2. [Attacks](#attacks)\n"
             for i, typ in enumerate(sorted(types)):
                 out += f"""   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
-                for j, atc in enumerate([k for k in sorted(attacks) if attacks[k]["types"][0] == typ]):
+                for j, atc in enumerate([k for k in sorted(attacks) if
+                                         attacks[k]["types"][0] == typ]):
                     out += f"""       {j + 1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
             out += """3. [Types](#types)
 4. [Items](#items)
@@ -104,12 +108,14 @@ This wiki can be generated using ```$ ./gen_wiki.py```.
 """
             for i, typ in enumerate(sorted(types)):
                 out += f"""   {i + 1}. [{typ.capitalize()} Poketes](./poketes/{typ})\n"""
-                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]):
+                for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if
+                                          pokes[k]["types"][0] == typ]):
                     out += f"""       {j + 1}. [{pokes[poke]["name"]}](./poketes/{typ}#{poke.replace("_", "-")})\n"""
             out += "2. [Attacks](./attacks)\n"
             for i, typ in enumerate(sorted(types)):
                 out += f"""   {i + 1}. [{typ.capitalize()} attacks](./attacks/{typ})\n"""
-                for j, atc in enumerate([k for k in sorted(attacks) if attacks[k]["types"][0] == typ]):
+                for j, atc in enumerate([k for k in sorted(attacks) if
+                                         attacks[k]["types"][0] == typ]):
                     out += f"""       {j + 1}. [{attacks[atc]["name"]}](./attack/{typ}#{atc.replace("_", "-")})\n"""
             out += """3. [Types](./types)
 4. [Items](./items)
@@ -132,9 +138,10 @@ This wiki can be generated using ```$ ./gen_wiki.py```.
         - page_mode (string): Defines for what the output will be used. Can be:
             - single: all poketes listed by their types with single-page links
             - index: Just the index of all pokete types with multi-page links
-            - multi: Information about the pokete type definied in pokete_type with multi-page links.
-        - pokete_type: Only necessary if page_mode is set to 'index': Then defines the pokete type to get the
-          information and links of.
+            - multi: Information about the pokete type definied in pokete_type
+              with multi-page links.
+        - pokete_type: Only necessary if page_mode is set to 'index': Then
+          defines the pokete type to get the information and links of.
 
         Returns
         -------
@@ -148,7 +155,8 @@ In the following all Poketes with their attributes are displayed.
 """
             for typ in sorted(types):
                 out += f"### {typ.capitalize()} Poketes"
-                for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]:
+                for poke in [k for k in sorted(list(pokes)[1:]) if
+                             pokes[k]["types"][0] == typ]:
                     if verbose:
                         print(f' -> Adding {pokes[poke]["name"]}')
                     out += Wiki.poke_info(poke)
@@ -163,13 +171,15 @@ In the following all Poketes with their attributes are displayed.
             out += "\n---\n\n## All poketes sorted by their type:\n"
             for typ in sorted(types):
                 out += f"- [{typ.capitalize()} Poketes](./{typ})\n"
-                for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ]:
+                for poke in [k for k in sorted(list(pokes)[1:]) if
+                             pokes[k]["types"][0] == typ]:
                     out += f"""  - [{pokes[poke]["name"].capitalize()}](./{typ}#{poke})\n"""
             return out
         elif page_mode == 'multi':
             if pokete_type is not None:
                 out = f"# {pokete_type.capitalize()} Poketes"
-                for poke in [k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == pokete_type]:
+                for poke in [k for k in sorted(list(pokes)[1:]) if
+                             pokes[k]["types"][0] == pokete_type]:
                     if poke == sorted(list(pokes)[1:])[-1]:
                         if verbose:
                             print(f'  `-> Adding {pokes[poke]["name"]}')
@@ -179,9 +189,12 @@ In the following all Poketes with their attributes are displayed.
                     out += Wiki.poke_info(poke=poke, multi_page=True)
                 return out
             else:
-                raise AttributeError("Pokete_type can not be none, if mode 'multi' is selected.")
+                raise AttributeError(
+                    "Pokete_type can not be none, if mode 'multi' is selected.")
         else:
-            raise AttributeError("Please select a valid page mode of: 'single', 'index' or 'multi'!")
+            raise AttributeError(
+                "Please select a valid page mode of: 'single',"
+                "'index' or 'multi'!")
 
     @staticmethod
     def poke_info(poke: str, multi_page: bool = False) -> str:
@@ -190,7 +203,8 @@ In the following all Poketes with their attributes are displayed.
         Arguments:
         ---------
         - poke (string): The pokete to get the information of.
-        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+        - multi_page (boolean): if the item info should be made for a multi-page
+          wiki or not.
 
         Returns
         -------
@@ -201,11 +215,11 @@ In the following all Poketes with their attributes are displayed.
             evolve_txt = "- Does not evolve\n"
         else:
             evolve_txt = f"""- Evolves to [{pokes[evolve_pokete]['name']}]({f'./{pokes[evolve_pokete]["types"][0]}'
-                            if multi_page else ""}#{evolve_pokete}) at level {pokes[poke]['evolve_lvl']}"""
+            if multi_page else ""}#{evolve_pokete}) at level {pokes[poke]['evolve_lvl']}"""
         md_attacks = ""
         for atc in pokes[poke]["attacks"]:
             md_attacks += f"""\n   + [{attacks[atc]["name"]}]({f'../attacks/{attacks[atc]["types"][0].capitalize()}'
-                          if multi_page else ""}#{atc.replace("_", "-")})"""
+            if multi_page else ""}#{atc.replace("_", "-")})"""
         # ico
         ico_map = se.Map(4, 11, background=" ")
         for ico in pokes[poke]["ico"]:
@@ -219,7 +233,8 @@ In the following all Poketes with their attributes are displayed.
 {ico}
 ```
 
-- Type: [{pokes[poke]["types"][0].capitalize()}]({'../types' if multi_page else '#types'})
+- Type: [{pokes[poke]["types"][0].capitalize()}]({'../types' if multi_page
+        else '#types'})
 - Health points: {pokes[poke]["hp"]}
 - Attack factor: {pokes[poke]["atc"]}
 - Defense factor: {pokes[poke]["defense"]}
@@ -237,7 +252,8 @@ In the following all Poketes with their attributes are displayed.
 
         Arguments
         ---------
-        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+        - multi_page (boolean): if the item info should be made for a multi-page
+          wiki or not.
 
         Returns
         -------
@@ -253,9 +269,11 @@ Those are all attacks present in the game.
                     print(f" -> Adding {typ}")
                 index += f"\n- [{typ.capitalize()}](./{typ})"
                 page = f"# {typ.capitalize()} attacks"
-                for atc in [k for k in attacks if attacks[k]["types"][0] == typ]:
+                for atc in [k for k in attacks if
+                            attacks[k]["types"][0] == typ]:
                     if multi_page:
-                        if atc == [k for k in attacks if attacks[k]["types"][0] == typ][-1]:
+                        if atc == [k for k in attacks if
+                                   attacks[k]["types"][0] == typ][-1]:
                             if verbose:
                                 print(f'  `-> Adding {attacks[atc]["name"]}')
                         else:
@@ -269,7 +287,8 @@ Those are all attacks present in the game.
             index += "\n\n---\n\n## All attacks sorted by their type:\n"
             for typ in sorted(types):
                 index += f"- [{typ.capitalize()} Attacks](./{typ})\n"
-                for atc in [k for k in attacks if attacks[k]["types"][0] == typ]:
+                for atc in [k for k in attacks if
+                            attacks[k]["types"][0] == typ]:
                     index += f"""  - [{attacks[atc]["name"].capitalize()}](./{typ}#{atc.replace('_', '-')})\n"""
 
             index += '\n'
@@ -282,8 +301,11 @@ Those are all attacks present in the game.
 """
             for typ in sorted(types):
                 out += f"\n### {typ.capitalize()} attacks"
-                for atc in [k for k in attacks if attacks[k]["types"][0] == typ]:
-                    if atc == [k for k in attacks if attacks[k]["types"][0] == typ][-1]:
+                for atc in [k for k in attacks if
+                            attacks[k]["types"][0] == typ]:
+                    if atc == \
+                        [k for k in attacks if attacks[k]["types"][0] == typ][
+                            -1]:
                         if verbose:
                             print(f' `-> Adding {attacks[atc]["name"]}')
                     else:
@@ -295,18 +317,21 @@ Those are all attacks present in the game.
 
     @staticmethod
     def attack_info(attack: str, multi_page: bool = False) -> str:
-        """The function to collect information and attributes of a specific attack
+        """The function to collect information and attributes of a specific
+        attack
 
         Arguments
         ---------
         - attacks (string): The attack to collect the information of.
-        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+        - multi_page (boolean): if the item info should be made for a multi-page
+          wiki or not.
 
         Returns
         -------
         A markdown string with the information about the attack.
         """
-        eff = None if attacks[attack]["effect"] is None else getattr(effects, attacks[attack]["effect"])
+        eff = None if attacks[attack]["effect"] is None \
+            else getattr(effects, attacks[attack]["effect"])
         if multi_page:
             out = "\n##"
         else:
@@ -314,7 +339,8 @@ Those are all attacks present in the game.
         return out + f""" {attacks[attack]["name"]}
 {attacks[attack]["desc"]}
 
-- Type: [{attacks[attack]["types"][0].capitalize()}]({"../types" if multi_page else "#types"})
+- Type: [{attacks[attack]["types"][0].capitalize()}]({"../types" if multi_page
+                                                                 else "#types"})
 - Minimum Level: {attacks[attack]["min_lvl"]}
 - Attack factor: {attacks[attack]["factor"]}
 - Missing chance: {attacks[attack]["miss_chance"]}
@@ -328,7 +354,8 @@ Those are all attacks present in the game.
 
         Arguments
         ---------
-        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+        - multi_page (boolean): if the item info should be made for a multi-page
+          wiki or not.
 
         Returns
         -------
@@ -344,7 +371,8 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 
         for poke_type in types:
             effective, ineffective = ("".join([i.capitalize() + (", "
-                                                                 if i != types[poke_type][j][-1]
+                                                                 if i != types[
+                poke_type][j][-1]
                                                                  else "")
                                                for i in types[poke_type][j]])
                                       for j in ["effective", "ineffective"])
@@ -358,7 +386,8 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 
         Arguments
         ---------
-        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+        - multi_page (boolean): if the item info should be made for a multi-page
+          wiki or not.
 
         Returns
         -------
@@ -380,7 +409,8 @@ Those are all items present in the game, that can be traded or found.
         Arguments
         ---------
         - item (string): The item to collect the information of.
-        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+        - multi_page (boolean): if the item info should be made for a multi-page
+          wiki or not.
 
         Returns
         -------
@@ -399,7 +429,8 @@ Those are all items present in the game, that can be traded or found.
 
         Arguments
         ---------
-        - multi_page (boolean): if the item info should be made for a multi-page wiki or not.
+        - multi_page (boolean): if the item info should be made for a multi-page
+          wiki or not.
 
         Returns
         -------
@@ -409,7 +440,8 @@ Those are all items present in the game, that can be traded or found.
             out = """# Effects
 Those effects can be given to a Pokete through an attack.
 """
-            out += str.join("", [effect.ret_md() for effect in effect_list]).replace("###", "##")
+            out += str.join("", [effect.ret_md() for effect in
+                                 effect_list]).replace("###", "##")
         else:
             out = """
 ## Effects
@@ -422,7 +454,8 @@ Those effects can be given to a Pokete through an attack.
     def single(filename: str = "wiki.md") -> None:
         """The function to generate a single page wiki.
 
-        This function creates the pokete wiki in a single file and adds the following to it:
+        This function creates the pokete wiki in a single file and adds the
+        following to it:
         - title
         - table of contents
         - all poketes with information on them
@@ -557,7 +590,8 @@ def gen_pics():
     if quiet or verbose:
         print(":: Generating pics.md...")
     md_str = "# Example pictures\n"
-    md_str += str.join("\n\n", [f"![{i}](ss/{i})" for i in sorted(os.listdir("assets/ss"))])
+    md_str += str.join("\n\n", [f"![{i}](ss/{i})" for i in
+                                sorted(os.listdir("assets/ss"))])
 
     # writing to file
     with open("assets/pics.md", "w+") as file:
