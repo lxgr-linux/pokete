@@ -15,7 +15,9 @@
   "Changelog.md": {
     "type": "page",
     "replace_tables": null,
-    "replace_links": {},
+    "replace_links": {
+      "wiki.md": "./wiki"
+    },
     "convert_with_pandoc": null,
     "new_name": null
   },
