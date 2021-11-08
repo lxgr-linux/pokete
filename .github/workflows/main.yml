@@ -19,7 +19,7 @@ jobs:
         run: pip3 install scrap_engine
 
       - name: gen-wiki
-        run: python3 ./gen-wiki.py
+        run: python3 ./gen_wiki.py
         
       - name: Commit files
         run: |
