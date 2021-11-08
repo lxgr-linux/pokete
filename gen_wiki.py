@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """This script generates the Pokete wiki"""
 import os
-import sys
 from os.path import exists, isdir
-import release
+import sys
 import scrap_engine as se
+import release
 from pokete_classes.effects import effects, effect_list
 from pokete_data import pokes, attacks, types, items
 
-silent = False
-quiet = False
-verbose = True
+SILENT = False
+QUIET = False
+VERBOSE = True
 
 
 class Wiki:
@@ -52,8 +52,7 @@ This wiki can be generated using ```$ ./gen_wiki.py```.
 4. [Items](items)
 5. [Effects](effects)
 """
-        else:
-            return """Table of contents
+        return """Table of contents
 1. [Poketes](#poketes)
 2. [Attacks](#attacks)
 3. [Types](#types)
@@ -157,7 +156,7 @@ In the following all Poketes with their attributes are displayed.
                 out += f"### {typ.capitalize()} Poketes"
                 for poke in [k for k in sorted(list(pokes)[1:]) if
                              pokes[k]["types"][0] == typ]:
-                    if verbose:
+                    if VERBOSE:
                         print(f' -> Adding {pokes[poke]["name"]}')
                     out += Wiki.poke_info(poke)
             return out
@@ -181,20 +180,17 @@ In the following all Poketes with their attributes are displayed.
                 for poke in [k for k in sorted(list(pokes)[1:]) if
                              pokes[k]["types"][0] == pokete_type]:
                     if poke == sorted(list(pokes)[1:])[-1]:
-                        if verbose:
+                        if VERBOSE:
                             print(f'  `-> Adding {pokes[poke]["name"]}')
                     else:
-                        if verbose:
+                        if VERBOSE:
                             print(f'  |-> Adding {pokes[poke]["name"]}')
                     out += Wiki.poke_info(poke=poke, multi_page=True)
                 return out
-            else:
-                raise AttributeError(
-                    "Pokete_type can not be none, if mode 'multi' is selected.")
-        else:
             raise AttributeError(
-                "Please select a valid page mode of: 'single',"
-                "'index' or 'multi'!")
+                "Pokete_type can not be none, if mode 'multi' is selected.")
+        raise AttributeError("Please select a valid page mode of: 'single',"
+                             "'index' or 'multi'!")
 
     @staticmethod
     def poke_info(poke: str, multi_page: bool = False) -> str:
@@ -265,7 +261,7 @@ Those are all attacks present in the game.
 """
             pages = []
             for typ in sorted(types):
-                if verbose:
+                if VERBOSE:
                     print(f" -> Adding {typ}")
                 index += f"\n- [{typ.capitalize()}](./{typ})"
                 page = f"# {typ.capitalize()} attacks"
@@ -274,13 +270,13 @@ Those are all attacks present in the game.
                     if multi_page:
                         if atc == [k for k in attacks if
                                    attacks[k]["types"][0] == typ][-1]:
-                            if verbose:
+                            if VERBOSE:
                                 print(f'  `-> Adding {attacks[atc]["name"]}')
                         else:
-                            if verbose:
+                            if VERBOSE:
                                 print(f'  |-> Adding {attacks[atc]["name"]}')
                     else:
-                        if verbose:
+                        if VERBOSE:
                             print(f' -> Adding {attacks[atc]["name"]}')
                     page += Wiki.attack_info(atc, True)
                 pages.append((f"{typ}.md", page))
@@ -294,26 +290,25 @@ Those are all attacks present in the game.
             index += '\n'
             pages.insert(0, ("index.md", index))
             return pages
-        else:
-            out = """
+        out = """
 ## Attacks
 Those are all attacks present in the game.
 """
-            for typ in sorted(types):
-                out += f"\n### {typ.capitalize()} attacks"
-                for atc in [k for k in attacks if
-                            attacks[k]["types"][0] == typ]:
-                    if atc == \
-                        [k for k in attacks if attacks[k]["types"][0] == typ][
-                            -1]:
-                        if verbose:
-                            print(f' `-> Adding {attacks[atc]["name"]}')
-                    else:
-                        if verbose:
-                            print(f' |-> Adding {attacks[atc]["name"]}')
-                    out += Wiki.attack_info(atc)
+        for typ in sorted(types):
+            out += f"\n### {typ.capitalize()} attacks"
+            for atc in [k for k in attacks if
+                        attacks[k]["types"][0] == typ]:
+                if atc == \
+                    [k for k in attacks if attacks[k]["types"][0] == typ][
+                        -1]:
+                    if VERBOSE:
+                        print(f' `-> Adding {attacks[atc]["name"]}')
+                else:
+                    if VERBOSE:
+                        print(f' |-> Adding {attacks[atc]["name"]}')
+                out += Wiki.attack_info(atc)
 
-            return out
+        return out
 
     @staticmethod
     def attack_info(attack: str, multi_page: bool = False) -> str:
@@ -371,8 +366,7 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 
         for poke_type in types:
             effective, ineffective = ("".join([i.capitalize() + (", "
-                                                                 if i != types[
-                poke_type][j][-1]
+                                                                 if i != types[poke_type][j][-1]
                                                                  else "")
                                                for i in types[poke_type][j]])
                                       for j in ["effective", "ineffective"])
@@ -468,32 +462,32 @@ Those effects can be given to a Pokete through an attack.
         ---------
         - filename (string): The file to save the wiki to.
         """
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print(":: Generating wiki.md...")
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding page start...")
         md_str = Wiki.start()
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding table of contents...")
         md_str += Wiki.table_of_contents()
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding poketes...")
         md_str += Wiki.poketes()
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding attacks...")
         md_str += Wiki.attacks()
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding types...")
         md_str += Wiki.types()
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding items...")
         md_str += Wiki.items()
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding effects...")
         md_str += Wiki.effects()
 
         # writing to file
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Writing to wiki.md...")
         with open(filename, "w+") as file:
             file.write(md_str)
@@ -502,7 +496,8 @@ Those effects can be given to a Pokete through an attack.
     def multi(folder_name: str = "wiki") -> None:
         """The function to generate the wiki in multiple pages in a folder
 
-        This function creates the pokete wiki in a single file and adds the following to it:
+        This function creates the pokete wiki in a single file and adds the
+        following to it:
         - title
         - table of contents
         - all poketes with information on them
@@ -515,46 +510,46 @@ Those effects can be given to a Pokete through an attack.
         ---------
         - folder_name (string): The folder to save the wiki to.
         """
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print(":: Generating multi-page wiki...")
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Checking if old wiki exists...")
         for folder in ['', '/poketes', '/attacks']:
-            if verbose:
+            if VERBOSE:
                 print(f" -> Checking \"{folder_name}{folder}\": ", end='')
             if exists(folder_name + folder):
                 if not isdir(folder_name + folder):
-                    if verbose:
+                    if VERBOSE:
                         print("Does not exist. Making...")
                     os.mkdir(folder_name + folder)
                 else:
-                    if verbose:
+                    if VERBOSE:
                         print("Exists. Deleting and making new...")
             else:
                 os.mkdir(folder_name + folder)
-                if verbose:
+                if VERBOSE:
                     print("Does not exist. Making...")
 
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding page start...")
-        if verbose:
+        if VERBOSE:
             print(" -> Adding index...")
         index: str = Wiki.start()
-        if verbose:
+        if VERBOSE:
             print(" -> Adding overview...")
         index += Wiki.overview(multi_page=True)
         index += "\n---\n"
-        if verbose:
+        if VERBOSE:
             print(" -> Adding table of contents...")
         index += Wiki.table_of_contents(multi_page=True)
-        if verbose:
+        if VERBOSE:
             print(f" -> Writing to \"{folder_name}/index.md\"...")
         with open(f"{folder_name}/index.md", 'w') as file:
             file.write(index)
 
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding poketes...")
-        if verbose:
+        if VERBOSE:
             print(" -> Adding index.md...")
         with open(f"{folder_name}/poketes/index.md", 'w') as file:
             file.write(Wiki.poketes(page_mode='index'))
@@ -562,24 +557,24 @@ Those effects can be given to a Pokete through an attack.
             with open(f"{folder_name}/poketes/{typ}.md", 'w') as file:
                 file.write(Wiki.poketes(page_mode='multi', pokete_type=typ))
 
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding attacks...")
         for page in Wiki.attacks(multi_page=True):
             file_name, file_contents = page
             with open(f"{folder_name}/attacks/{file_name}", 'w') as file:
                 file.write(file_contents)
 
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding types...")
         with open(f"{folder_name}/types.md", 'w') as file:
             file.write(Wiki.types(multi_page=True))
 
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding items...")
         with open(f"{folder_name}/items.md", 'w') as file:
             file.write(Wiki.items(multi_page=True))
 
-        if quiet or verbose:
+        if QUIET or VERBOSE:
             print("==> Adding effects...")
         with open(f"{folder_name}/effects.md", 'w') as file:
             file.write(Wiki.effects(multi_page=True))
@@ -587,7 +582,7 @@ Those effects can be given to a Pokete through an attack.
 
 def gen_pics():
     """The function to generate a markdown file with some example pictures."""
-    if quiet or verbose:
+    if QUIET or VERBOSE:
         print(":: Generating pics.md...")
     md_str = "# Example pictures\n"
     md_str += str.join("\n\n", [f"![{i}](ss/{i})" for i in
@@ -600,19 +595,19 @@ def gen_pics():
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
-        silent, quiet, verbose = False, True, False
+        SILENT, QUIET, VERBOSE = False, True, False
         Wiki.single()
         gen_pics()
     else:
         for arg in sys.argv[1:]:
             if arg.lower() in ["silent", "quite", "verbose"]:
-                silent, quiet, verbose = False, False, False
+                SILENT, QUIET, VERBOSE = False, False, False
                 if arg.lower() == "silent":
-                    silent = True
+                    SILENT = True
                 elif arg.lower() == "quite":
-                    quiet = True
+                    QUIET = True
                 else:
-                    verbose = True
+                    VERBOSE = True
             elif arg.lower() == "single":
                 Wiki.single()
             elif arg.lower() == "multi":
