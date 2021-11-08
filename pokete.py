@@ -1515,9 +1515,10 @@ def read_save():
 
     if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
         and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
-        with open(HOME + SAVEPATH + "/pokete.py") as _file:
-            exec(_file.read())
-        _si = json.loads(json.dumps(session_info))
+        l_dict = {}
+        with open(HOME + SAVEPATH + "/pokete.py", "r") as _file:
+            exec(_file.read(), {"session_info": _si}, l_dict)
+        _si = json.loads(json.dumps(l_dict["session_info"]))
     elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
         with open(HOME + SAVEPATH + "/pokete.json") as _file:
             _si = json.load(_file)
