@@ -1517,7 +1517,7 @@ def read_save():
         and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
         with open(HOME + SAVEPATH + "/pokete.py") as _file:
             exec(_file.read())
-        _si = json.loads(json.dumps(_si))
+        _si = json.loads(json.dumps(session_info))
     elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
         with open(HOME + SAVEPATH + "/pokete.json") as _file:
             _si = json.load(_file)
