@@ -464,27 +464,15 @@ Those effects can be given to a Pokete through an attack.
         """
         if QUIET or VERBOSE:
             print(":: Generating wiki.md...")
-        if QUIET or VERBOSE:
-            print("==> Adding page start...")
-        md_str = Wiki.start()
-        if QUIET or VERBOSE:
-            print("==> Adding table of contents...")
-        md_str += Wiki.table_of_contents()
-        if QUIET or VERBOSE:
-            print("==> Adding poketes...")
-        md_str += Wiki.poketes()
-        if QUIET or VERBOSE:
-            print("==> Adding attacks...")
-        md_str += Wiki.attacks()
-        if QUIET or VERBOSE:
-            print("==> Adding types...")
-        md_str += Wiki.types()
-        if QUIET or VERBOSE:
-            print("==> Adding items...")
-        md_str += Wiki.items()
-        if QUIET or VERBOSE:
-            print("==> Adding effects...")
-        md_str += Wiki.effects()
+        md_str: str = ""
+        for _text, obj in zip(["page start", "table of contents", "poketes",
+                               "attacks", "types", "items", "effects"],
+                              [Wiki.start, Wiki.table_of_contents, Wiki.poketes,
+                               Wiki.attacks, Wiki.types, Wiki.items,
+                               Wiki.effects]):
+            if QUIET or VERBOSE:
+                print(f"==> Adding {_text}...")
+            md_str += obj()
 
         # writing to file
         if QUIET or VERBOSE:
@@ -512,7 +500,6 @@ Those effects can be given to a Pokete through an attack.
         """
         if QUIET or VERBOSE:
             print(":: Generating multi-page wiki...")
-        if QUIET or VERBOSE:
             print("==> Checking if old wiki exists...")
         for folder in ['', '/poketes', '/attacks']:
             if VERBOSE:
