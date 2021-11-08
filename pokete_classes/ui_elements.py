@@ -121,10 +121,10 @@ class ChooseBox(Box):
 class InfoBox(Box):
     """Box to display basic text information in"""
 
-    def __init__(self, text, name="", _map=None):
+    def __init__(self, text, name="", info="q:close", _map=None):
         height = len(text.split("\n")) + 2
         width = sorted([len(i) for i in text.split("\n")])[-1] + 4
-        super().__init__(height, width, name=name)
+        super().__init__(height, width, name=name, info=info)
         self.text = se.Text(text)
         self.add_ob(self.text, 2, 1)
         self.map = _map

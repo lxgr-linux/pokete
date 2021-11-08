@@ -38,4 +38,3 @@ Currently {len(mod_info)} mod{"s are" if len(mod_info) != 1 else " is"} loaded:
    """ + "\n   ".join(f"{i}-{mod_info[i]}" for i in mod_info) + "\n"
         self.box = InfoBox(self.text, _map=self.map)
         self.box.name_label.rechar("Mods")
-        self.box.info_label.rechar("q:close")
