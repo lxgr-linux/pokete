@@ -564,12 +564,16 @@ class Station(se.Square):
     choosen = None
     obs = []
 
-    def __init__(self, associate, additionals, width, height, char=&#34;#&#34;,
-                 w_next=&#34;&#34;, a_next=&#34;&#34;, s_next=&#34;&#34;, d_next=&#34;&#34;, state=&#34;solid&#34;):
+    def __init__(self, associate, additionals, width, height, desc,
+                 char=&#34;#&#34;, w_next=&#34;&#34;, a_next=&#34;&#34;, s_next=&#34;&#34;, d_next=&#34;&#34;,
+                 label_fn=None):
+        self.desc = desc
         self.org_char = char
+        self.label_fn = label_fn
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = &#34;&#34;
-        super().__init__(char, width, height)
+        self.name = self.associates[0].pretty_name
+        super().__init__(char, width, height, state=&#34;float&#34;)
         self.w_next = w_next
         self.a_next = a_next
         self.s_next = s_next
@@ -580,9 +584,7 @@ class Station(se.Square):
         &#34;&#34;&#34;Chooses and hightlights the station&#34;&#34;&#34;
         self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
         Station.choosen = self
-        roadmap.info_label.rechar(self.associates[0].pretty_name if
-                                  self.has_been_visited() else
-                                  &#34;???&#34;)
+        self.label_fn(self.name if self.has_been_visited() else &#34;???&#34;)
 
     def unchoose(self):
         &#34;&#34;&#34;Unchooses the station&#34;&#34;&#34;
@@ -1226,7 +1228,7 @@ class Menu:
                         ModInfo(movemap, settings, mods.mod_info)(ev)
                     elif i == self.save_label:
                         # When will python3.10 come out?
-                        with InfoBox(&#34;Saving....&#34;, _map=self.map):
+                        with InfoBox(&#34;Saving....&#34;, info=&#34;&#34;, _map=self.map):
                             # Shows a box displaying &#34;Saving....&#34; while saving
                             save()
                             time.sleep(1.5)
@@ -1253,13 +1255,22 @@ class RoadMap:
     &#34;&#34;&#34;Map you can see and navigate maps on&#34;&#34;&#34;
 
     def __init__(self, stations):
-        self.box = Box(11, 40, &#34;Roadmap&#34;)
-        self.info_label = se.Text(&#34;&#34;)
-        self.box.add_ob(self.info_label, 1, 1)
+        self.box = Box(11, 40, &#34;Roadmap&#34;, &#34;q:close&#34;)
+        self.info_label = se.Text(&#34;&#34;, state=&#34;float&#34;)
+        self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta in stations:
-            obj = Station(ob_maps[sta], **stations[sta][&#39;gen&#39;])
+            obj = Station(ob_maps[sta], **stations[sta][&#39;gen&#39;],
+                          label_fn=self.rechar_info)
             self.box.add_ob(obj, **stations[sta][&#39;add&#39;])
             setattr(self, sta, obj)
+
+    @property
+    def sta(self):
+        return Station.choosen
+
+    def rechar_info(self, name):
+        self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.info_label.rechar(name)
 
     def __call__(self, choose=False):
         &#34;&#34;&#34;Shows the roadmap&#34;&#34;&#34;
@@ -1271,22 +1282,39 @@ class RoadMap:
              if figure.map not in [shopmap, centermap]
              else figure.oldmap)
          in i.associates][0].choose()
-        with self.box.add(movemap, movemap.width - self.box.width, 0):
+        with self.box.center_add(movemap):
             while True:
                 if ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;]:
-                    Station.choosen.next(ev.get())
+                    self.sta.next(ev.get())
                     ev.clear()
                 elif ev.get() in [&#34;&#39;3&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                     ev.clear()
                     break
                 elif (ev.get() == &#34;Key.enter&#34; and choose
-                      and Station.choosen.has_been_visited()
-                      and Station.choosen.is_city()):
-                    return Station.choosen.associates[0]
+                      and self.sta.has_been_visited()
+                      and self.sta.is_city()):
+                    return self.sta.associates[0]
+                elif (ev.get() == &#34;Key.enter&#34; and not choose
+                      and self.sta.has_been_visited()):
+                    ev.clear()
+                    p_list = &#34;, &#34;.join(set(p_data.pokes[j][&#34;name&#34;]
+                                        for i in self.sta.associates
+                                            for j in
+                                                i.poke_args.get(&#34;pokes&#34;, [])))
+                    with InfoBox(liner(self.sta.desc
+                                       + &#34;\n\n Here you can find: &#34; +
+                                       (p_list if p_list != &#34;&#34; else &#34;Nothing&#34;),
+                                       30), self.sta.name, _map=movemap):
+                        while True:
+                            if ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
+                                ev.clear()
+                                break
+                            std_loop(ev)
+                            time.sleep(0.05)
                 std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
-        Station.choosen.unchoose()
+        self.sta.unchoose()
 
 
 class Dex:
@@ -1641,6 +1669,7 @@ def movemap_add_obs():
     movemap.balls_label.add(movemap, 4 + len(movemap.name_label.text),
                             movemap.height - 2)
     movemap.underline.add(movemap, 0, movemap.height - 2)
+    movemap.label_bg.add(movemap, 0, movemap.height - 1)
     movemap.label.add(movemap, 0, movemap.height - 1)
     movemap.code_label.add(movemap, 0, 0)
 
@@ -2714,6 +2743,7 @@ if __name__ == &#34;__main__&#34;:
     figure = Figure(&#34;a&#34;)
     exclamation = se.Object(&#34;!&#34;)
     multitext = OutP(&#34;&#34;, state=&#34;float&#34;)
+    movemap.label_bg = se.Square(&#34; &#34;, movemap.width, 1, state=&#34;float&#34;)
     movemap.label = se.Text(&#34;1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help&#34;)
     movemap.code_label = OutP(&#34;&#34;)
 
@@ -3810,6 +3840,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     movemap.balls_label.add(movemap, 4 + len(movemap.name_label.text),
                             movemap.height - 2)
     movemap.underline.add(movemap, 0, movemap.height - 2)
+    movemap.label_bg.add(movemap, 0, movemap.height - 1)
     movemap.label.add(movemap, 0, movemap.height - 1)
     movemap.code_label.add(movemap, 0, 0)</code></pre>
 </details>
@@ -6283,7 +6314,7 @@ def water(obs):
                         ModInfo(movemap, settings, mods.mod_info)(ev)
                     elif i == self.save_label:
                         # When will python3.10 come out?
-                        with InfoBox(&#34;Saving....&#34;, _map=self.map):
+                        with InfoBox(&#34;Saving....&#34;, info=&#34;&#34;, _map=self.map):
                             # Shows a box displaying &#34;Saving....&#34; while saving
                             save()
                             time.sleep(1.5)
@@ -6970,13 +7001,22 @@ def give(_map, npc, name, item):
     &#34;&#34;&#34;Map you can see and navigate maps on&#34;&#34;&#34;
 
     def __init__(self, stations):
-        self.box = Box(11, 40, &#34;Roadmap&#34;)
-        self.info_label = se.Text(&#34;&#34;)
-        self.box.add_ob(self.info_label, 1, 1)
+        self.box = Box(11, 40, &#34;Roadmap&#34;, &#34;q:close&#34;)
+        self.info_label = se.Text(&#34;&#34;, state=&#34;float&#34;)
+        self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta in stations:
-            obj = Station(ob_maps[sta], **stations[sta][&#39;gen&#39;])
+            obj = Station(ob_maps[sta], **stations[sta][&#39;gen&#39;],
+                          label_fn=self.rechar_info)
             self.box.add_ob(obj, **stations[sta][&#39;add&#39;])
             setattr(self, sta, obj)
+
+    @property
+    def sta(self):
+        return Station.choosen
+
+    def rechar_info(self, name):
+        self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.info_label.rechar(name)
 
     def __call__(self, choose=False):
         &#34;&#34;&#34;Shows the roadmap&#34;&#34;&#34;
@@ -6988,23 +7028,72 @@ def give(_map, npc, name, item):
              if figure.map not in [shopmap, centermap]
              else figure.oldmap)
          in i.associates][0].choose()
-        with self.box.add(movemap, movemap.width - self.box.width, 0):
+        with self.box.center_add(movemap):
             while True:
                 if ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;]:
-                    Station.choosen.next(ev.get())
+                    self.sta.next(ev.get())
                     ev.clear()
                 elif ev.get() in [&#34;&#39;3&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                     ev.clear()
                     break
                 elif (ev.get() == &#34;Key.enter&#34; and choose
-                      and Station.choosen.has_been_visited()
-                      and Station.choosen.is_city()):
-                    return Station.choosen.associates[0]
+                      and self.sta.has_been_visited()
+                      and self.sta.is_city()):
+                    return self.sta.associates[0]
+                elif (ev.get() == &#34;Key.enter&#34; and not choose
+                      and self.sta.has_been_visited()):
+                    ev.clear()
+                    p_list = &#34;, &#34;.join(set(p_data.pokes[j][&#34;name&#34;]
+                                        for i in self.sta.associates
+                                            for j in
+                                                i.poke_args.get(&#34;pokes&#34;, [])))
+                    with InfoBox(liner(self.sta.desc
+                                       + &#34;\n\n Here you can find: &#34; +
+                                       (p_list if p_list != &#34;&#34; else &#34;Nothing&#34;),
+                                       30), self.sta.name, _map=movemap):
+                        while True:
+                            if ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
+                                ev.clear()
+                                break
+                            std_loop(ev)
+                            time.sleep(0.05)
                 std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
-        Station.choosen.unchoose()</code></pre>
+        self.sta.unchoose()</code></pre>
 </details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pokete.RoadMap.sta"><code class="name">var <span class="ident">sta</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def sta(self):
+    return Station.choosen</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete.RoadMap.rechar_info"><code class="name flex">
+<span>def <span class="ident">rechar_info</span></span>(<span>self, name)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rechar_info(self, name):
+    self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
+    self.info_label.rechar(name)</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 <dt id="pokete.Setting"><code class="flex name class">
 <span>class <span class="ident">Setting</span></span>
@@ -7118,7 +7207,7 @@ def give(_map, npc, name, item):
 </dd>
 <dt id="pokete.Station"><code class="flex name class">
 <span>class <span class="ident">Station</span></span>
-<span>(</span><span>associate, additionals, width, height, char='#', w_next='', a_next='', s_next='', d_next='', state='solid')</span>
+<span>(</span><span>associate, additionals, width, height, desc, char='#', w_next='', a_next='', s_next='', d_next='', label_fn=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Selectable station for Roadmap</p></div>
@@ -7131,12 +7220,16 @@ def give(_map, npc, name, item):
     choosen = None
     obs = []
 
-    def __init__(self, associate, additionals, width, height, char=&#34;#&#34;,
-                 w_next=&#34;&#34;, a_next=&#34;&#34;, s_next=&#34;&#34;, d_next=&#34;&#34;, state=&#34;solid&#34;):
+    def __init__(self, associate, additionals, width, height, desc,
+                 char=&#34;#&#34;, w_next=&#34;&#34;, a_next=&#34;&#34;, s_next=&#34;&#34;, d_next=&#34;&#34;,
+                 label_fn=None):
+        self.desc = desc
         self.org_char = char
+        self.label_fn = label_fn
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = &#34;&#34;
-        super().__init__(char, width, height)
+        self.name = self.associates[0].pretty_name
+        super().__init__(char, width, height, state=&#34;float&#34;)
         self.w_next = w_next
         self.a_next = a_next
         self.s_next = s_next
@@ -7147,9 +7240,7 @@ def give(_map, npc, name, item):
         &#34;&#34;&#34;Chooses and hightlights the station&#34;&#34;&#34;
         self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
         Station.choosen = self
-        roadmap.info_label.rechar(self.associates[0].pretty_name if
-                                  self.has_been_visited() else
-                                  &#34;???&#34;)
+        self.label_fn(self.name if self.has_been_visited() else &#34;???&#34;)
 
     def unchoose(self):
         &#34;&#34;&#34;Unchooses the station&#34;&#34;&#34;
@@ -7209,9 +7300,7 @@ def give(_map, npc, name, item):
     &#34;&#34;&#34;Chooses and hightlights the station&#34;&#34;&#34;
     self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
     Station.choosen = self
-    roadmap.info_label.rechar(self.associates[0].pretty_name if
-                              self.has_been_visited() else
-                              &#34;???&#34;)</code></pre>
+    self.label_fn(self.name if self.has_been_visited() else &#34;???&#34;)</code></pre>
 </details>
 </dd>
 <dt id="pokete.Station.has_been_visited"><code class="name flex">
@@ -7631,6 +7720,10 @@ def give(_map, npc, name, item):
 </li>
 <li>
 <h4><code><a title="pokete.RoadMap" href="#pokete.RoadMap">RoadMap</a></code></h4>
+<ul class="">
+<li><code><a title="pokete.RoadMap.rechar_info" href="#pokete.RoadMap.rechar_info">rechar_info</a></code></li>
+<li><code><a title="pokete.RoadMap.sta" href="#pokete.RoadMap.sta">sta</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="pokete.Setting" href="#pokete.Setting">Setting</a></code></h4>

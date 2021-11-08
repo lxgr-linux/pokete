@@ -73,7 +73,7 @@ def ask_bool(_ev, _map, text):
     assert len(text) &gt;= 12, &#34;Text has to be longer then 12 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
     with InfoBox(f&#34;{text}\n{round(text_len / 2 - 6) * &#39; &#39;}[Y]es   [N]o&#34;,
-                 _map=_map):
+                 info=&#34;&#34;, _map=_map):
         while True:
             if _ev.get() == &#34;&#39;y&#39;&#34;:
                 ret = True
@@ -99,7 +99,8 @@ def ask_ok(_ev, _map, text):
     &#34;&#34;&#34;Asks the player to an OK question&#34;&#34;&#34;
     assert len(text) &gt;= 4, &#34;Text has to be longer then 4 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
-    with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;}[O]k&#34;, name=&#34;Info&#34;, _map=_map):
+    with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;}[O]k&#34;, name=&#34;Info&#34;,
+                 info=&#34;&#34;, _map=_map):
         while True:
             if _ev.get() in [&#34;&#39;o&#39;&#34;, &#34;&#39;O&#39;&#34;, &#34;Key.enter&#34;]:
                 break
@@ -129,7 +130,7 @@ def ask_ok(_ev, _map, text):
     assert len(text) &gt;= 12, &#34;Text has to be longer then 12 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
     with InfoBox(f&#34;{text}\n{round(text_len / 2 - 6) * &#39; &#39;}[Y]es   [N]o&#34;,
-                 _map=_map):
+                 info=&#34;&#34;, _map=_map):
         while True:
             if _ev.get() == &#34;&#39;y&#39;&#34;:
                 ret = True
@@ -156,7 +157,8 @@ def ask_ok(_ev, _map, text):
     &#34;&#34;&#34;Asks the player to an OK question&#34;&#34;&#34;
     assert len(text) &gt;= 4, &#34;Text has to be longer then 4 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
-    with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;}[O]k&#34;, name=&#34;Info&#34;, _map=_map):
+    with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;}[O]k&#34;, name=&#34;Info&#34;,
+                 info=&#34;&#34;, _map=_map):
         while True:
             if _ev.get() in [&#34;&#39;o&#39;&#34;, &#34;&#39;O&#39;&#34;, &#34;Key.enter&#34;]:
                 break

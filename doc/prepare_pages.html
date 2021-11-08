@@ -117,7 +117,7 @@ def replace_tables(_text: str) -&gt; str:
 
     Returns:
     -------
-    The input string, but with repkaced markdown tables.
+    The input string, but with replaced markdown tables.
     &#34;&#34;&#34;
     out = &#39;&#39;
     table = &#39;&#39;
@@ -185,7 +185,7 @@ def create_documentation() -&gt; None:
     &#34;&#34;&#34;Creates documentation for all tagged files
 
     This function creates python documentation for all files and folders in the files dictionary that have the type
-    &#34;documentation&#34;. This function will call pandoc to create the documentation for it.
+    &#34;documentation&#34;. This function will call pdoc to create the documentation for it.
     &#34;&#34;&#34;
     modules = [file for file in files if files[file][&#34;type&#34;] == &#34;documentation&#34;]
     pdoc_path = &#34;/home/runner/.local/bin/pdoc&#34;
@@ -309,15 +309,16 @@ def before() -&gt; None:
 
         new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
 
-        # Jekyll can not handle double open/closing brackets (e.g. {{) , so we need to manually convert these pages.
-        # We do this by using pandoc and adding the start and end of the root page to the start
-        # and the end of the
+        # Jekyll can not handle double open/closing brackets (e.g. {{) , so we
+        # need to manually convert these pages.
+        # We do this by using pandoc and adding the start and end of the
+        # root page to the start and the end of the
         if properties[&#34;convert_with_pandoc&#34;]:
             print(&#34; -&gt; Converting to html...&#34;)
             os.system(f&#34;pandoc --from gfm --to html5 -o \&#34;{new_name}\&#34; \&#34;{file}\&#34;&#34;)
 
-        # Tables only need to be replaced, if the file is not converted with pandoc, as pandoc is converting the tables
-        # automatically.
+        # Tables only need to be replaced, if the file is not converted with
+        # pandoc, as pandoc is converting the tables automatically.
         elif properties[&#34;replace_tables&#34;]:
             print(&#34; -&gt; Replacing Tables...&#34;)
             with open(file, &#39;r&#39;) as f:
@@ -326,7 +327,8 @@ def before() -&gt; None:
             with open(new_name, &#39;w&#39;) as f:
                 f.write(text)
 
-        # If no operation was performed, we need to move the file, in order to not interrupt the workflow.
+        # If no operation was performed, we need to move the file, in order to
+        # not interrupt the workflow.
         else:
             os.system(f&#34;mv \&#34;{file}\&#34; \&#34;{new_name}\&#34;&#34;)
 
@@ -345,19 +347,24 @@ def before() -&gt; None:
 def after() -&gt; None:
     &#34;&#34;&#34;The actions that shall be executed in the gh-pages branch.
 
-    This function copies akk oreviously created files from /tmo/ to the current working directry and adds the start
-    and end of the gh-pages index website to the files which have been converted with pandoc. This achieves a universal
-    look on all gh-pages pages. This function then replaces all the links for each file.
+    This function copies all previously created files from /tmp/ to the current
+    working directory and adds the start and end of the gh-pages index website
+    to the files which have been converted with pandoc. This achieves a universal
+    look on all gh-pages pages. This function then replaces all the links for
+    each file.
     &#34;&#34;&#34;
     print(&#39;:: After processing files for gh-pages...&#39;)
     print(&#39;:: Acquiring assets...&#39;)
     print(&#39;==&gt; header&#39;)
-    header = get_header(url=&#39;https://lxgr-linux.github.io/pokete&#39;, header_end=&#39;&lt;section&gt;&#39;)
+    header = get_header(url=&#39;https://lxgr-linux.github.io/pokete&#39;,
+                        header_end=&#39;&lt;section&gt;&#39;)
     print(header)
     print(&#39;==&gt; footer&#39;)
-    footer = get_footer(url=&#39;https://lxgr-linux.github.io/pokete&#39;, footer_start=&#39;&lt;/section&gt;&#39;)
+    footer = get_footer(url=&#39;https://lxgr-linux.github.io/pokete&#39;,
+                        footer_start=&#39;&lt;/section&gt;&#39;)
     print(footer)
-    # We need to store the configuration to keep the &#34;new_name&#34; attribute from the before run.
+    # We need to store the configuration to keep the &#34;new_name&#34; attribute from
+    # the before run.
     print(&#34;:: Loading configuration...&#34;)
     with open(&#39;/tmp/prepare_pages_saves.py&#39;, &#39;r&#39;) as f:
         text = f.read()
@@ -387,13 +394,14 @@ def after() -&gt; None:
                 os.system(&#34;cp -r /tmp/doc/ .&#34;)
                 documentation_copied = True  # Only copy the directory once
             continue
-        if properties[&#34;type&#34;] == &#34;folder&#34;:
+        elif properties[&#34;type&#34;] == &#34;folder&#34;:
             continue
 
         new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
         print(f&#39;==&gt; After processing {new_name}&#39;)
 
-        # If a file was converted with pandoc, it needs the stylesheet (in the header) and a footer.
+        # If a file was converted with pandoc, it needs the stylesheet
+        # (in the header) and a footer.
         if properties[&#34;convert_with_pandoc&#34;]:
             print(&#34;-&gt; Applying Styles...&#34;)
             with open(f&#34;/tmp/{new_name}&#34;, &#39;r&#39;) as f:
@@ -404,7 +412,8 @@ def after() -&gt; None:
             print(&#34; -&gt; Copying to current directory...&#34;)
             os.system(f&#34;cp \&#34;/tmp/{new_name}\&#34; .&#34;)
 
-        # Links need to be replaced from directory and markdown direct links (wiki.md) into website links (./wiki)
+        # Links need to be replaced from directory and markdown direct links
+        # (wiki.md) into website links (./wiki)
         if properties[&#34;replace_links&#34;]:
             print(&#34; -&gt; Replacing links...&#34;)
             for old in properties[&#34;replace_links&#34;].keys():
@@ -413,7 +422,8 @@ def after() -&gt; None:
                     print(f&#34; |-&gt; Replacing {old} with {new}...&#34;)
                 else:
                     print(f&#34; `-&gt; Replacing {old} with {new}...&#34;)
-                # Need to use sed, as str.replace somehow misses some link changes?
+                # Need to use sed, as str.replace somehow misses some link
+                # changes?
                 os.system(f&#34;sed -i &#39;s#]({old}#]({new}#g&#39; {new_name}&#34;)
     print(&#34;==&gt; Renaming &#39;wiki-multi-html&#39; to &#39;wiki-multi&#39;...&#34;)
     os.system(&#34;mv &#39;./wiki-multi-html/&#39; &#39;./wiki-multi&#39;&#34;)
@@ -427,8 +437,7 @@ if __name__ == &#39;__main__&#39;:
         sys.exit(2)
     if sys.argv[1] == &#39;before&#39;:
         with open(&#39;.gh-pages.json&#39;, &#39;r&#39;) as config_file:
-            config_file_contents = config_file.read()
-        files = json.loads(config_file_contents)
+            files = json.loads(config_file.read())
         before()
     elif &#39;after&#39; == sys.argv[1]:
         after()
@@ -578,9 +587,11 @@ and its subdirectories into the files dictionary to be processed by the other fu
 </code></dt>
 <dd>
 <div class="desc"><p>The actions that shall be executed in the gh-pages branch.</p>
-<p>This function copies akk oreviously created files from /tmo/ to the current working directry and adds the start
-and end of the gh-pages index website to the files which have been converted with pandoc. This achieves a universal
-look on all gh-pages pages. This function then replaces all the links for each file.</p></div>
+<p>This function copies all previously created files from /tmp/ to the current
+working directory and adds the start and end of the gh-pages index website
+to the files which have been converted with pandoc. This achieves a universal
+look on all gh-pages pages. This function then replaces all the links for
+each file.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -588,19 +599,24 @@ look on all gh-pages pages. This function then replaces all the links for each f
 <pre><code class="python">def after() -&gt; None:
     &#34;&#34;&#34;The actions that shall be executed in the gh-pages branch.
 
-    This function copies akk oreviously created files from /tmo/ to the current working directry and adds the start
-    and end of the gh-pages index website to the files which have been converted with pandoc. This achieves a universal
-    look on all gh-pages pages. This function then replaces all the links for each file.
+    This function copies all previously created files from /tmp/ to the current
+    working directory and adds the start and end of the gh-pages index website
+    to the files which have been converted with pandoc. This achieves a universal
+    look on all gh-pages pages. This function then replaces all the links for
+    each file.
     &#34;&#34;&#34;
     print(&#39;:: After processing files for gh-pages...&#39;)
     print(&#39;:: Acquiring assets...&#39;)
     print(&#39;==&gt; header&#39;)
-    header = get_header(url=&#39;https://lxgr-linux.github.io/pokete&#39;, header_end=&#39;&lt;section&gt;&#39;)
+    header = get_header(url=&#39;https://lxgr-linux.github.io/pokete&#39;,
+                        header_end=&#39;&lt;section&gt;&#39;)
     print(header)
     print(&#39;==&gt; footer&#39;)
-    footer = get_footer(url=&#39;https://lxgr-linux.github.io/pokete&#39;, footer_start=&#39;&lt;/section&gt;&#39;)
+    footer = get_footer(url=&#39;https://lxgr-linux.github.io/pokete&#39;,
+                        footer_start=&#39;&lt;/section&gt;&#39;)
     print(footer)
-    # We need to store the configuration to keep the &#34;new_name&#34; attribute from the before run.
+    # We need to store the configuration to keep the &#34;new_name&#34; attribute from
+    # the before run.
     print(&#34;:: Loading configuration...&#34;)
     with open(&#39;/tmp/prepare_pages_saves.py&#39;, &#39;r&#39;) as f:
         text = f.read()
@@ -630,13 +646,14 @@ look on all gh-pages pages. This function then replaces all the links for each f
                 os.system(&#34;cp -r /tmp/doc/ .&#34;)
                 documentation_copied = True  # Only copy the directory once
             continue
-        if properties[&#34;type&#34;] == &#34;folder&#34;:
+        elif properties[&#34;type&#34;] == &#34;folder&#34;:
             continue
 
         new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
         print(f&#39;==&gt; After processing {new_name}&#39;)
 
-        # If a file was converted with pandoc, it needs the stylesheet (in the header) and a footer.
+        # If a file was converted with pandoc, it needs the stylesheet
+        # (in the header) and a footer.
         if properties[&#34;convert_with_pandoc&#34;]:
             print(&#34;-&gt; Applying Styles...&#34;)
             with open(f&#34;/tmp/{new_name}&#34;, &#39;r&#39;) as f:
@@ -647,7 +664,8 @@ look on all gh-pages pages. This function then replaces all the links for each f
             print(&#34; -&gt; Copying to current directory...&#34;)
             os.system(f&#34;cp \&#34;/tmp/{new_name}\&#34; .&#34;)
 
-        # Links need to be replaced from directory and markdown direct links (wiki.md) into website links (./wiki)
+        # Links need to be replaced from directory and markdown direct links
+        # (wiki.md) into website links (./wiki)
         if properties[&#34;replace_links&#34;]:
             print(&#34; -&gt; Replacing links...&#34;)
             for old in properties[&#34;replace_links&#34;].keys():
@@ -656,7 +674,8 @@ look on all gh-pages pages. This function then replaces all the links for each f
                     print(f&#34; |-&gt; Replacing {old} with {new}...&#34;)
                 else:
                     print(f&#34; `-&gt; Replacing {old} with {new}...&#34;)
-                # Need to use sed, as str.replace somehow misses some link changes?
+                # Need to use sed, as str.replace somehow misses some link
+                # changes?
                 os.system(f&#34;sed -i &#39;s#]({old}#]({new}#g&#39; {new_name}&#34;)
     print(&#34;==&gt; Renaming &#39;wiki-multi-html&#39; to &#39;wiki-multi&#39;...&#34;)
     os.system(&#34;mv &#39;./wiki-multi-html/&#39; &#39;./wiki-multi&#39;&#34;)
@@ -696,15 +715,16 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
 
         new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
 
-        # Jekyll can not handle double open/closing brackets (e.g. {{) , so we need to manually convert these pages.
-        # We do this by using pandoc and adding the start and end of the root page to the start
-        # and the end of the
+        # Jekyll can not handle double open/closing brackets (e.g. {{) , so we
+        # need to manually convert these pages.
+        # We do this by using pandoc and adding the start and end of the
+        # root page to the start and the end of the
         if properties[&#34;convert_with_pandoc&#34;]:
             print(&#34; -&gt; Converting to html...&#34;)
             os.system(f&#34;pandoc --from gfm --to html5 -o \&#34;{new_name}\&#34; \&#34;{file}\&#34;&#34;)
 
-        # Tables only need to be replaced, if the file is not converted with pandoc, as pandoc is converting the tables
-        # automatically.
+        # Tables only need to be replaced, if the file is not converted with
+        # pandoc, as pandoc is converting the tables automatically.
         elif properties[&#34;replace_tables&#34;]:
             print(&#34; -&gt; Replacing Tables...&#34;)
             with open(file, &#39;r&#39;) as f:
@@ -713,7 +733,8 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
             with open(new_name, &#39;w&#39;) as f:
                 f.write(text)
 
-        # If no operation was performed, we need to move the file, in order to not interrupt the workflow.
+        # If no operation was performed, we need to move the file, in order to
+        # not interrupt the workflow.
         else:
             os.system(f&#34;mv \&#34;{file}\&#34; \&#34;{new_name}\&#34;&#34;)
 
@@ -735,7 +756,7 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
 <dd>
 <div class="desc"><p>Creates documentation for all tagged files</p>
 <p>This function creates python documentation for all files and folders in the files dictionary that have the type
-"documentation". This function will call pandoc to create the documentation for it.</p></div>
+"documentation". This function will call pdoc to create the documentation for it.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -744,7 +765,7 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
     &#34;&#34;&#34;Creates documentation for all tagged files
 
     This function creates python documentation for all files and folders in the files dictionary that have the type
-    &#34;documentation&#34;. This function will call pandoc to create the documentation for it.
+    &#34;documentation&#34;. This function will call pdoc to create the documentation for it.
     &#34;&#34;&#34;
     modules = [file for file in files if files[file][&#34;type&#34;] == &#34;documentation&#34;]
     pdoc_path = &#34;/home/runner/.local/bin/pdoc&#34;
@@ -857,7 +878,7 @@ reads the text back in.</p>
 <li>_text: The text in which all the tables should be converted.</li>
 </ul>
 <h2 id="returns">Returns:</h2>
-<p>The input string, but with repkaced markdown tables.</p></div>
+<p>The input string, but with replaced markdown tables.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -874,7 +895,7 @@ reads the text back in.</p>
 
     Returns:
     -------
-    The input string, but with repkaced markdown tables.
+    The input string, but with replaced markdown tables.
     &#34;&#34;&#34;
     out = &#39;&#39;
     table = &#39;&#39;
