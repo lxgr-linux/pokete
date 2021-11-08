@@ -65,7 +65,7 @@ def replace_tables(_text: str) -> str:
 
     Returns:
     -------
-    The input string, but with repkaced markdown tables.
+    The input string, but with replaced markdown tables.
     """
     out = ''
     table = ''
@@ -133,7 +133,7 @@ def create_documentation() -> None:
     """Creates documentation for all tagged files
 
     This function creates python documentation for all files and folders in the files dictionary that have the type
-    "documentation". This function will call pandoc to create the documentation for it.
+    "documentation". This function will call pdoc to create the documentation for it.
     """
     modules = [file for file in files if files[file]["type"] == "documentation"]
     pdoc_path = "/home/runner/.local/bin/pdoc"
@@ -293,7 +293,7 @@ def before() -> None:
 def after() -> None:
     """The actions that shall be executed in the gh-pages branch.
 
-    This function copies akk oreviously created files from /tmo/ to the current working directry and adds the start
+    This function copies all previously created files from /tmp/ to the current working directory and adds the start
     and end of the gh-pages index website to the files which have been converted with pandoc. This achieves a universal
     look on all gh-pages pages. This function then replaces all the links for each file.
     """
@@ -335,7 +335,7 @@ def after() -> None:
                 os.system("cp -r /tmp/doc/ .")
                 documentation_copied = True  # Only copy the directory once
             continue
-        if properties["type"] == "folder":
+        elif properties["type"] == "folder":
             continue
 
         new_name = properties["new_name"] if properties["new_name"] is not None else file
