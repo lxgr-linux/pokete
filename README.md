@@ -73,8 +73,7 @@ Flying|Plant|Stone
 Undead|Normal, Ground, Plant, Water|Fire
 Ice|Water, Plant|Fire
 
-For additional information you can see [wiki](wiki.md) or
-[the multi-page wiki](https://lxgr-linux.github.io/pokete/wiki-multi).
+For additional information you can see [wiki](wiki.md).
 
 ## Mods
 Mods can be written to extend Pokete. To load a mod, the mod has  to be placed in `mods` and mods have to be enabled in the menu.
@@ -105,14 +104,6 @@ For an example mod see [example.py](mods/example.py).
 Pokete depends on python3 and the scrap_engine module.
 On windows pynput has to be installed too.
 
-## Documentation
-- [Documentation for pokete_classes](https://lxgr-linux.github.io/pokete/doc/pokete_classes/index.html)
-- [Documentation for pokete_data](https://lxgr-linux.github.io/pokete/doc/pokete_data/index.html)
-- [Documentation for the gen-wiki file](https://lxgr-linux.github.io/pokete/doc/gen_wiki.html "gen_wiki.py")
-- [Documentation for the prepare_pages file](https://lxgr-linux.github.io/pokete/doc/prepare_pages.html "prepare_pages.py")
-- [Documentation for the pokete_general_use_fns](https://lxgr-linux.github.io/pokete/doc/pokete_general_use_fns.html "pokete_general_use_fns.py")
-- [Documentation for the main file "pokete.py"](https://lxgr-linux.github.io/pokete/doc/pokete.html "pokete.py")
-
 ## Releases
 For release information see [Changelog](Changelog.md).
 
@@ -120,11 +111,9 @@ For release information see [Changelog](Changelog.md).
 Feel free to contribute what ever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
 
-To see how to add more poketes/types/attacks to the game, see [the DevGuide](DevGuide.md)
-
 After adding new Poketes and/or Attacks you may want to run
 ```shell
-$ ./gen_wiki.py
+$ ./gen-wiki.py
 ```
 
 to regenerate the wiki and adding them to it.

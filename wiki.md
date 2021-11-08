@@ -156,7 +156,6 @@ You can find different versions of this wiki:
 
 ## Poketes
 In the following all Poketes with their attributes are displayed.
-
 ### Electro Poketes
 #### Electrode
 A small floating ball that will give you a shock.
@@ -182,7 +181,6 @@ A small floating ball that will give you a shock.
    + [Charging](#charging)
    + [Mega arch](#mega-arch)
 - Does not evolve
-
 ### Fire Poketes
 #### Wolfior
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
@@ -234,7 +232,6 @@ A fiery wolf from hell on steroids.
    + [Ash throw](#ash-throw)
    + [Fire ball](#fire-ball)
 - Does not evolve
-
 ### Flying Poketes
 #### Bato
 An annoying flying rat.
@@ -286,7 +283,6 @@ WW\/o o\/WW
    + [Wing hit](#wing-hit)
 - Does not evolve
 
-
 #### Ostri
 A very aggressive bird Pokete that lives near deserts and will try to pick out your eyes.
 
@@ -311,7 +307,6 @@ A very aggressive bird Pokete that lives near deserts and will try to pick out y
    + [Eye pick](#eye-pick)
    + [Brooding](#brooding)
 - Does not evolve
-
 
 #### Owol
 A night active Pokete, that is looking for lil children as a midnight snack.
@@ -338,7 +333,6 @@ A night active Pokete, that is looking for lil children as a midnight snack.
    + [Cry](#cry)
 - Does not evolve
 
-
 #### Schmetterling
 A butterfly that will schmetter you away.
 
@@ -362,7 +356,6 @@ A butterfly that will schmetter you away.
    + [Schmetter](#schmetter)
    + [Wing hit](#wing-hit)
 - Does not evolve
-
 
 #### Vogli
 A very common bird Pokete that lives everywhere.
@@ -413,7 +406,6 @@ A very aggressive bird Pokete that can only be found in the woods.
    + [Wing hit](#wing-hit)
    + [Brooding](#brooding)
 - Does not evolve
-
 ### Ground Poketes
 #### Dicki
 A little what ever, that sticks out of the ground.
@@ -467,7 +459,6 @@ An even bigger what ever, that sticks out of the ground.
    + [Ground hit](#ground-hit)
 - Does not evolve
 
-
 #### Lil nut
 A very small what ever, that sticks out of the ground.
 
@@ -515,7 +506,6 @@ A big chunk of stone and dirt, that roles around.
    + [Tackle](#tackle)
    + [Power roll](#power-roll)
 - Does not evolve
-
 ### Ice Poketes
 #### Cubl
 A small ice cube.
@@ -567,7 +557,6 @@ A block of ice.
    + [Snow storm](#snow-storm)
    + [Sword of ice](#sword-of-ice)
 - Does not evolve
-
 ### Normal Poketes
 #### Hornita
 An majestic horse that is always looking for something to pick with its horn.
@@ -593,7 +582,6 @@ An majestic horse that is always looking for something to pick with its horn.
    + [Meat skewer](#meat-skewer)
    + [Tail wipe](#tail-wipe)
 - Does not evolve
-
 
 #### Horny
 A teenage unicorn in the middle of puberty.
@@ -666,7 +654,6 @@ An annoying rat.
    + [Tackle](#tackle)
    + [Tail wipe](#tail-wipe)
 - Does not evolve
-
 ### Plant Poketes
 #### Bushy
 A bush, and just a bush. But watch out!
@@ -718,7 +705,6 @@ A very unsuspicious plant.
    + [Poison thorn](#poison-thorn)
 - Does not evolve
 
-
 #### Poisopla
 A unsuspicious plant.
 
@@ -767,7 +753,6 @@ A plant Pokete, that's often mistaken for a normal flower.
    + [Sucker](#sucker)
    + [Super sucker](#super-sucker)
 - Does not evolve
-
 
 #### Treenator
 A scary an dangerous apple tree.
@@ -819,7 +804,6 @@ A plant Pokete found in Agrawos, with special 'Powers'.
    + [Root slap](#root-slap)
    + [Special smell](#special-smell)
 - Does not evolve
-
 ### Poison Poketes
 #### Choka
 A fucking dangerous and enormous snake Pokete.
@@ -846,7 +830,6 @@ A fucking dangerous and enormous snake Pokete.
    + [Poison bite](#poison-bite)
    + [Power bite](#power-bite)
 - Does not evolve
-
 
 #### Würgos
 A dangerous snake Pokete.
@@ -898,7 +881,6 @@ A big and heavy stone made from one of the hardest stones.
    + [Brick throw](#brick-throw)
 - Does not evolve
 
-
 #### Diamondos
 A precious diamond, that can only be found in the darkest caves.
 
@@ -923,7 +905,6 @@ A precious diamond, that can only be found in the darkest caves.
    + [Politure](#politure)
    + [Dazzle](#dazzle)
 - Does not evolve
-
 
 #### Lilstone
 A small but powerful stone Pokete that lives in the mountains.
@@ -975,7 +956,6 @@ A powerful and heavy stone Pokete that lives in mountain caves.
    + [Earch quake](#earch-quake)
 - Does not evolve
 
-
 #### Steini
 A squared stone that can casually be found on the ground.
 
@@ -1000,7 +980,6 @@ A squared stone that can casually be found on the ground.
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
 - Does not evolve
-
 ### Undead Poketes
 #### Angrilo
 A ghost Pokete that will scare your pants off.
@@ -1028,7 +1007,6 @@ A ghost Pokete that will scare your pants off.
    + [Heart touch](#heart-touch)
 - Does not evolve
 
-
 #### Confuso
 A ball floating around in dark woods and caves, that will confuse the shit out of you.
 
@@ -1051,7 +1029,6 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 - Attacks:
    + [Confusion](#confusion)
 - Does not evolve
-
 
 #### Gobost
 A scary ghost Pokete that lives in caves and old houses.
@@ -1103,7 +1080,6 @@ Very delicious and low fat water Pokete.
    + [Bubble shield](#bubble-shield)
 - Does not evolve
 
-
 #### Clampi
 A shell that lives deep in the see or near bays, that's pretty hard to crack.
 
@@ -1129,7 +1105,6 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
    + [Shell pinch](#shell-pinch)
 - Does not evolve
 
-
 #### Karpi
 A very harmless water Pokete that can be found everywhere.
 
@@ -1152,7 +1127,6 @@ A very harmless water Pokete that can be found everywhere.
 - Attacks:
    + [Tackle](#tackle)
 - Does not evolve
-
 
 ## Attacks
 Those are all attacks present in the game.
@@ -1790,20 +1764,19 @@ Pinches the enemy with its strong shells.
 
 ## Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
-
-|Type|Effective against|Ineffective against|
-|---|---|---|
-|Normal|||
-|Stone|Flying, Fire|Plant|
-|Plant|Stone, Ground, Water|Fire, Ice|
-|Water|Stone, Flying, Fire|Plant, Ice|
-|Fire|Flying, Plant, Undead, Ice|Stone, Water|
-|Ground|Normal|Flying, Ice|
-|Electro|Stone, Flying|Ground|
-|Flying|Plant|Stone|
-|Undead|Normal, Ground, Plant, Water, Poison|Fire|
-|Ice|Water, Plant, Ground|Fire|
-|Poison|Normal|Undead|
+Type|Effective against|Ineffective against
+---|---|---
+Normal||
+Stone|Flying, Fire|Plant
+Plant|Stone, Ground, Water|Fire, Ice
+Water|Stone, Flying, Fire|Plant, Ice
+Fire|Flying, Plant, Undead, Ice|Stone, Water
+Ground|Normal|Flying, Ice
+Electro|Stone, Flying|Ground
+Flying|Plant|Stone
+Undead|Normal, Ground, Plant, Water, Poison|Fire
+Ice|Water, Plant, Ground|Fire
+Poison|Normal|Undead
 
 ## Items
 Those are all items present in the game, that can be traded or found.

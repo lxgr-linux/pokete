@@ -8,7 +8,6 @@ scrap-engine = ">=1.0.1"
 pynput = {version = ">=2.11", sys_platform = "!= 'linux'"}
 
 [dev-packages]
-pylint = "*"
 
 [requires]
 python_version = "3.9"
