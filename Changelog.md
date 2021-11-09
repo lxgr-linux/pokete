@@ -3,10 +3,10 @@
 release:
 
 What changed until this release?
-- Added [Diamondos](wiki.md#diamondos), [Dia stab](wiki.md#dia_stab), [Dazzle](wiki.md#dazzle), [Dia spikes](wiki.md#dia_spikes)
-- Added [Megapois](wiki.md#megapois), [Poison thorn](wiki.md#poison_thorn)
-- Added [Dicko](wiki.md#dicko), [Lil nut](wiki.md#lil_nut)
-- Added [Mowcow](wiki.md#mowcow), [Supercow power](wiki.md#supercow_power)
+- Added [Diamondos](wiki.md#diamondos), [Dia stab](wiki.md#dia-stab), [Dazzle](wiki.md#dazzle), [Dia spikes](wiki.md#dia-spikes)
+- Added [Megapois](wiki.md#megapois), [Poison thorn](wiki.md#poison-thorn)
+- Added [Dicko](wiki.md#dicko), [Lil nut](wiki.md#lil-nut)
+- Added [Mowcow](wiki.md#mowcow), [Supercow power](wiki.md#supercow-power)
 - Added Flowy Town, Mowcow Meadow, The Fields of Agrawos
 - Reformated files
 - Added Github pages, special thanks to MaFeLP
