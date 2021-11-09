@@ -1,3 +1,27 @@
+0.6.0
+------
+release:
+
+What changed until this release?
+- Added [Diamondos](wiki.md#diamondos), [Dia stab](wiki.md#dia_stab), [Dazzle](wiki.md#dazzle), [Dia spikes](wiki.md#dia_spikes)
+- Added [Megapois](wiki.md#megapois), [Poison thorn](wiki.md#poison_thorn)
+- Added [Dicko](wiki.md#dicko), [Lil nut](wiki.md#lil_nut)
+- Added [Mowcow](wiki.md#mowcow), [Supercow power](wiki.md#supercow_power)
+- Added Flowy Town, Mowcow Meadow, The Fields of Agrawos
+- Reformated files
+- Added Github pages, special thanks to MaFeLP
+- Added validation action
+- Made the savefile json
+- Added subtypes to better organise generic attacks
+- Added Devguide
+- Added modloader
+- Added .editorconfig
+- Added Pipfile and Pipfile.lock
+- Overhauled Roadmap
+- Added multipage wiki
+- Reformated, moved, outsourced, chnages a lot of code
+
+
 0.5.1
 ------
 released: 2021-09-19
@@ -18,7 +42,7 @@ What changed until this release?
 - Added startuptime to savefile
 - Added Route 7
 - Added coloured Minimap
-- Added [Spikes](wiki.md#spikes), [Bubble gun](wiki.md#bubble-gun), [Flame throw](wiki.md#flame-throw), [Toe breaker](wiki.md#toe-breaker), [Wind blow](wiki.md#wind-blow), [Storm gust](wiki.md#storm-gust), [Rock smash](wiki.md#rock-smash) 
+- Added [Spikes](wiki.md#spikes), [Bubble gun](wiki.md#bubble-gun), [Flame throw](wiki.md#flame-throw), [Toe breaker](wiki.md#toe-breaker), [Wind blow](wiki.md#wind-blow), [Storm gust](wiki.md#storm-gust), [Rock smash](wiki.md#rock-smash)
 - Added [Dicki](wiki.md#dicki), [Dick energy](wiki.md#dick-energy), [Ground hit](wiki.md#ground-hit), [Hiding](wiki.md#hiding)
 - Added [Schmetterling](wiki.md#Schmetterling), [Schmetter](wiki.md#schmetter)
 - Added abbility to learn a new attack very fifth level
@@ -70,10 +94,10 @@ What changed until this release?
 - Added effects
 - Added coloured output for OutP (scrap_engine >= v0.3.1 is now needed)
 - Fixed bug with saving in shops
-- Fixed bug with moves when confused 
+- Fixed bug with moves when confused
 - Outsourced general-use functions
 - Made some functions a class
-- Made some other quality of life changes 
+- Made some other quality of life changes
 
 
 0.3.8
