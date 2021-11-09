@@ -11,4 +11,4 @@ pynput = {version = ">=2.11", sys_platform = "!= 'linux'"}
 pylint = "*"
 
 [requires]
-python_version = "3.9"
+python_version = ">=3.8"
