@@ -7,6 +7,7 @@ What changed until this release?
 - Added [Megapois](wiki.md#megapois), [Poison thorn](wiki.md#poison-thorn)
 - Added [Dicko](wiki.md#dicko), [Lil nut](wiki.md#lil-nut)
 - Added [Mowcow](wiki.md#mowcow), [Supercow power](wiki.md#supercow-power)
+- Added [Wheeto](wiki.md#wheeto), [Special smell](wiki.md#special-smell)
 - Added Flowy Town, Mowcow Meadow, The Fields of Agrawos
 - Reformated files
 - Added Github pages, special thanks to MaFeLP
