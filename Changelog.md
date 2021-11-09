@@ -19,7 +19,9 @@ What changed until this release?
 - Added Pipfile and Pipfile.lock
 - Overhauled Roadmap
 - Added multipage wiki
+- Completely rewrote gen_wiki.py
 - Reformated, moved, outsourced, chnages a lot of code
+Again special thanks to MaFeLP
 
 
 0.5.1
