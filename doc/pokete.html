@@ -1552,9 +1552,10 @@ def read_save():
 
     if (not os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;)
         and os.path.exists(HOME + SAVEPATH + &#34;/pokete.py&#34;)):
-        with open(HOME + SAVEPATH + &#34;/pokete.py&#34;) as _file:
-            exec(_file.read())
-        _si = json.loads(json.dumps(session_info))
+        l_dict = {}
+        with open(HOME + SAVEPATH + &#34;/pokete.py&#34;, &#34;r&#34;) as _file:
+            exec(_file.read(), {&#34;session_info&#34;: _si}, l_dict)
+        _si = json.loads(json.dumps(l_dict[&#34;session_info&#34;]))
     elif os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;):
         with open(HOME + SAVEPATH + &#34;/pokete.json&#34;) as _file:
             _si = json.load(_file)
@@ -4023,9 +4024,10 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 
     if (not os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;)
         and os.path.exists(HOME + SAVEPATH + &#34;/pokete.py&#34;)):
-        with open(HOME + SAVEPATH + &#34;/pokete.py&#34;) as _file:
-            exec(_file.read())
-        _si = json.loads(json.dumps(session_info))
+        l_dict = {}
+        with open(HOME + SAVEPATH + &#34;/pokete.py&#34;, &#34;r&#34;) as _file:
+            exec(_file.read(), {&#34;session_info&#34;: _si}, l_dict)
+        _si = json.loads(json.dumps(l_dict[&#34;session_info&#34;]))
     elif os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;):
         with open(HOME + SAVEPATH + &#34;/pokete.json&#34;) as _file:
             _si = json.load(_file)
