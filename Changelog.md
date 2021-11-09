@@ -1,3 +1,30 @@
+0.6.0
+------
+released: 2021-11-09
+
+What changed until this release?
+- Added [Diamondos](./wiki#diamondos), [Dia stab](./wiki#dia-stab), [Dazzle](./wiki#dazzle), [Dia spikes](./wiki#dia-spikes)
+- Added [Megapois](./wiki#megapois), [Poison thorn](./wiki#poison-thorn)
+- Added [Dicko](./wiki#dicko), [Lil nut](./wiki#lil-nut)
+- Added [Mowcow](./wiki#mowcow), [Supercow power](./wiki#supercow-power)
+- Added [Wheeto](./wiki#wheeto), [Special smell](./wiki#special-smell)
+- Added Flowy Town, Mowcow Meadow, The Fields of Agrawos
+- Reformated files
+- Added Github pages, special thanks to MaFeLP
+- Added validation action
+- Made the savefile json
+- Added subtypes to better organise generic attacks
+- Added Devguide
+- Added modloader
+- Added .editorconfig
+- Added Pipfile and Pipfile.lock
+- Overhauled Roadmap
+- Added multipage wiki
+- Completely rewrote gen_wiki.py
+- Reformated, moved, outsourced, chnages a lot of code
+Again special thanks to MaFeLP
+
+
 0.5.1
 ------
 released: 2021-09-19
@@ -18,7 +45,7 @@ What changed until this release?
 - Added startuptime to savefile
 - Added Route 7
 - Added coloured Minimap
-- Added [Spikes](./wiki#spikes), [Bubble gun](./wiki#bubble-gun), [Flame throw](./wiki#flame-throw), [Toe breaker](./wiki#toe-breaker), [Wind blow](./wiki#wind-blow), [Storm gust](./wiki#storm-gust), [Rock smash](./wiki#rock-smash) 
+- Added [Spikes](./wiki#spikes), [Bubble gun](./wiki#bubble-gun), [Flame throw](./wiki#flame-throw), [Toe breaker](./wiki#toe-breaker), [Wind blow](./wiki#wind-blow), [Storm gust](./wiki#storm-gust), [Rock smash](./wiki#rock-smash)
 - Added [Dicki](./wiki#dicki), [Dick energy](./wiki#dick-energy), [Ground hit](./wiki#ground-hit), [Hiding](./wiki#hiding)
 - Added [Schmetterling](./wiki#Schmetterling), [Schmetter](./wiki#schmetter)
 - Added abbility to learn a new attack very fifth level
@@ -70,10 +97,10 @@ What changed until this release?
 - Added effects
 - Added coloured output for OutP (scrap_engine >= v0.3.1 is now needed)
 - Fixed bug with saving in shops
-- Fixed bug with moves when confused 
+- Fixed bug with moves when confused
 - Outsourced general-use functions
 - Made some functions a class
-- Made some other quality of life changes 
+- Made some other quality of life changes
 
 
 0.3.8
