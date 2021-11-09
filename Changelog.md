@@ -1,6 +1,6 @@
 0.6.0
 ------
-release:
+released: 2021-11-09
 
 What changed until this release?
 - Added [Diamondos](wiki.md#diamondos), [Dia stab](wiki.md#dia-stab), [Dazzle](wiki.md#dazzle), [Dia spikes](wiki.md#dia-spikes)
