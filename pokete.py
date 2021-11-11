@@ -1263,7 +1263,8 @@ class RoadMap:
                     p_list = ", ".join(set(p_data.pokes[j]["name"]
                                         for i in self.sta.associates
                                             for j in
-                                                i.poke_args.get("pokes", [])))
+                                                i.poke_args.get("pokes", [])
+                                              + i.w_poke_args.get("pokes", [])))
                     with InfoBox(liner(self.sta.desc
                                        + "\n\n Here you can find: " +
                                        (p_list if p_list != "" else "Nothing"),
@@ -2382,8 +2383,7 @@ def map_additions():
 ##############  ##########################
 ##############  ##########################""", ignore="#",
                          ob_class=HightGrass,
-                         ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40,
-                                  "maxlvl": 128},
+                         ob_args=_map.poke_args,
                          state="float")
     # adding
     _map.inner.add(_map, 0, 0)
@@ -2414,8 +2414,7 @@ def map_additions():
 ~~~~~~~~~                                           ~~~~~~~~
 ~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub"],
-                                   "minlvl": 180, "maxlvl": 230},
+                          ob_args=_map.w_poke_args,
                           state="float")
     # adding
     _map.dor_playmap_5.add(_map, 56, 1)
@@ -2488,9 +2487,7 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""",
                           esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "clampi", "clampi"],
-                                   "minlvl": 290,
-                                   "maxlvl": 350},
+                          ob_args=_map.w_poke_args,
                           state="float")
     # adding
     _map.lake_1.add(_map, 0, 12)
@@ -2515,8 +2512,7 @@ def map_additions():
  ~~~~
  ~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub", "clampi"],
-                                   "minlvl": 540, "maxlvl": 640},
+                          ob_args=_map.w_poke_args,
                           state="float")
     # adding
     _map.lake_1.add(_map, 72, 7)
@@ -2573,8 +2569,7 @@ def map_additions():
     ~~~~~~~~~~~~~~
        ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
                           ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub"],
-                                   "minlvl": 540, "maxlvl": 640},
+                          ob_args=_map.w_poke_args,
                           state="float")
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
