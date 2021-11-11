@@ -51,21 +51,10 @@ You can find different versions of this wiki:
         -------
         An overview for a multi-page wiki.
         """
-        if multi_page:
-            return """Table of contents
-1. [Poketes](poketes)
-2. [Attacks](attacks)
-3. [Types](types)
-4. [Items](items)
-5. [Effects](effects)
-"""
-        return """Table of contents
-1. [Poketes](#poketes)
-2. [Attacks](#attacks)
-3. [Types](#types)
-4. [Items](#items)
-5. [Effects](#effects)
-"""
+        return "Table of contents\n" + \
+"\n".join(f"{i+1}. [{name.capitalize()}]({'#' if multi_page else ''}{name})"
+          for i, name in enumerate(["poketes", "attacks", "types", "item",
+                                    "effects"])) + "\n"
 
     @staticmethod
     def table_of_contents(multi_page: bool = False) -> str:
