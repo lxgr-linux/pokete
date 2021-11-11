@@ -6,7 +6,7 @@ import sys
 import scrap_engine as se
 import release
 from pokete_classes.effects import effects, effect_list
-from pokete_data import pokes, attacks, types, items
+from pokete_data import pokes, attacks, types, items, maps
 
 SILENT = False
 QUIET = False
@@ -228,6 +228,11 @@ In the following all Poketes with their attributes are displayed.
         for ico in pokes[poke]["ico"]:
             se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
         ico = "".join(["".join(arr) + "\n" for arr in ico_map.map])
+
+        locations = "\n   + ".join(maps[i]["pretty_name"] for i in maps
+                              if maps[i]["poke_args"] is not None
+                              and poke in maps[i]["poke_args"]["pokes"])
+
         return f"""
 ##{'' if multi_page else '##'} {pokes[poke]["name"]}
 {pokes[poke]["desc"]}
@@ -246,6 +251,8 @@ In the following all Poketes with their attributes are displayed.
 - Rarity: {pokes[poke]["rarity"]}
 - Loosing experience: {pokes[poke]["lose_xp"]}
 - Attacks:{md_attacks}
+- Can be found in:
+   + {locations if locations != "" else "Nowhere"}
 {evolve_txt}
 """
 
