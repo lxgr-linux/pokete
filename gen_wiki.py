@@ -219,19 +219,21 @@ In the following all Poketes with their attributes are displayed.
         else:
             evolve_txt = f"""- Evolves to [{pokes[evolve_pokete]['name']}]({f'./{pokes[evolve_pokete]["types"][0]}'
             if multi_page else ""}#{evolve_pokete}) at level {pokes[poke]['evolve_lvl']}"""
-        md_attacks = ""
-        for atc in pokes[poke]["attacks"]:
-            md_attacks += f"""\n   + [{attacks[atc]["name"]}]({f'../attacks/{attacks[atc]["types"][0].capitalize()}'
-            if multi_page else ""}#{atc.replace("_", "-")})"""
+
+        md_attacks = "\n   + " + "\n   + ".join(f"""[{attacks[atc]["name"]}]({
+                            f'../attacks/{attacks[atc]["types"][0].capitalize()}'
+                                if multi_page else ""
+                            }#{atc.replace("_", "-")})"""
+                        for atc in pokes[poke]["attacks"])
         # ico
         ico_map = se.Map(4, 11, background=" ")
         for ico in pokes[poke]["ico"]:
             se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
-        ico = "".join(["".join(arr) + "\n" for arr in ico_map.map])
+        ico = "".join("".join(arr) + "\n" for arr in ico_map.map)
 
-        locations = "\n   + ".join(maps[i]["pretty_name"] for i in maps
-                              if maps[i]["poke_args"] is not None
-                              and poke in maps[i]["poke_args"]["pokes"])
+        md_locations = "\n   + ".join(maps[i]["pretty_name"] for i in maps
+                                if maps[i]["poke_args"] is not None
+                                and poke in maps[i]["poke_args"]["pokes"])
 
         return f"""
 ##{'' if multi_page else '##'} {pokes[poke]["name"]}
@@ -252,7 +254,7 @@ In the following all Poketes with their attributes are displayed.
 - Loosing experience: {pokes[poke]["lose_xp"]}
 - Attacks:{md_attacks}
 - Can be found in:
-   + {locations if locations != "" else "Nowhere"}
+   + {md_locations if md_locations != "" else "Nowhere"}
 {evolve_txt}
 """
 
