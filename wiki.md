@@ -269,6 +269,7 @@ WW\/* *\/WW
    + [Bite](#bite)
    + [Cry](#cry)
 - Can be found in:
+   + Nice Town cave
    + Mysterious cave
    + Dark cave
    + Big mountain cave
@@ -736,6 +737,7 @@ An annoying rat.
    + [Tail wipe](#tail-wipe)
 - Can be found in:
    + Nice Town
+   + Nice Town cave
    + Route 1
    + Josi Town
    + Josi Lake
@@ -1051,6 +1053,7 @@ A small but powerful stone Pokete that lives in the mountains.
    + [Politure](#politure)
    + [Pepple fire](#pepple-fire)
 - Can be found in:
+   + Nice Town cave
    + Dark cave
    + Big mountain cave
 - Evolves to [Bigstone](#bigstone) at level 25
@@ -1108,6 +1111,7 @@ A squared stone that can casually be found on the ground.
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
 - Can be found in:
+   + Nice Town cave
    + Route 1
    + Josi Town
    + Josi Lake
@@ -1228,7 +1232,9 @@ Very delicious and low fat water Pokete.
    + [Bubble bomb](#bubble-bomb)
    + [Bubble shield](#bubble-shield)
 - Can be found in:
-   + Nowhere
+   + Josi Lake
+   + Big mountain see
+   + Rock-ville
 - Does not evolve
 
 
@@ -1256,7 +1262,8 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
    + [Bubble bomb](#bubble-bomb)
    + [Shell pinch](#shell-pinch)
 - Can be found in:
-   + Nowhere
+   + Route 3
+   + Big mountain see
 - Does not evolve
 
 
@@ -1282,7 +1289,10 @@ A very harmless water Pokete that can be found everywhere.
 - Attacks:
    + [Tackle](#tackle)
 - Can be found in:
-   + Nowhere
+   + Josi Lake
+   + Route 3
+   + Big mountain see
+   + Rock-ville
 - Does not evolve
 
 

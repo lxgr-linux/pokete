@@ -221,7 +221,9 @@ In the following all Poketes with their attributes are displayed.
 
         md_locations = "\n   + ".join(maps[i]["pretty_name"] for i in maps
                                 if maps[i]["poke_args"] is not None
-                                and poke in maps[i]["poke_args"]["pokes"])
+                                and poke in maps[i]["poke_args"]["pokes"]
+                                or "w_poke_args" in maps[i]
+                                and poke in maps[i]["w_poke_args"]["pokes"])
 
         return f"""
 ##{'' if multi_page else '##'} {pokes[poke]["name"]}
