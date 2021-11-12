@@ -455,32 +455,41 @@ class Poke:
                 self.enem = enem
             enem.oldhp = enem.hp
             self.oldhp = self.hp
-            effectivity = (1.3 if enem.type.name in attac.type.effective
-                           else 0.5
-                           if enem.type.name in attac.type.ineffective
-                           else 1)
-            n_hp = round((self.atc
-                           * attac.factor
-                           / (enem.defense if enem.defense >= 1 else 1))
-                          * random.choices([0, 0.75, 1, 1.26],
-                                           weights=[attac.miss_chance
-                                                     + self.miss_chance,
-                                                    1, 1, 1],
-                                           k=1)[0] * effectivity)
-            enem.hp -= max(n_hp, 0)
-            enem.hp = max(enem.hp, 0)
+            attac.ap -= 1
+
+            # calculation
+            rand_eff = random.choices([0, 0.75, 1, 1.26],
+                                      weights=[attac.miss_chance
+                                               + self.miss_chance, 1, 1, 1],
+                                      k=1)[0]
+
+            miss = rand_eff == 0
+
+            eff = {enem.type.name in attac.type.effective: 1.3,
+                   enem.type.name in attac.type.ineffective: 0.5
+                   }.get(True, 1)
+
+            eff_text = {1.3: "That was very effective! ",
+                        0.5: "That was not effective! "}.get(eff, "")
+
+            n_hp = round((self.atc * attac.factor / max(enem.defense, 1))
+                         * rand_eff * eff)
+            enem.hp = max(enem.hp - max(n_hp, 0), 0)
+
+            if attac.action is not None and not miss:
+                getattr(AttackActions(), attac.action)(self, enem)
+
+            # visualisation
             time.sleep(0.4)
             for i in attac.move:
                 getattr(self.moves, i)()
-            if attac.action is not None:
-                getattr(AttackActions(), attac.action)(self, enem)
-            attac.ap -= 1
             fightmap.outp.outp(
-                f'{self.ext_name} used {attac.name}! {self.name + " missed!" if n_hp == 0 and attac.factor != 0 else ""}\n{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
+                f'{self.ext_name} used {attac.name}! \
+{self.name + " missed!" if miss else ""}\n{eff_text if not miss else ""}')
             if enem == self:
                 time.sleep(1)
                 fightmap.outp.outp(f'{self.ext_name} hurt it self!')
-            if n_hp != 0 or attac.factor == 0:
+            if not miss:
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
