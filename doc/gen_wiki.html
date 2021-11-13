@@ -81,7 +81,7 @@ You can find different versions of this wiki:
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
         return &#34;Table of contents\n&#34; + \
-&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;#&#39; if multi_page else &#39;&#39;}{name})&#34;
+&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;&#39; if multi_page else &#39;#&#39;}{name})&#34;
           for i, name in enumerate([&#34;poketes&#34;, &#34;attacks&#34;, &#34;types&#34;, &#34;item&#34;,
                                     &#34;effects&#34;])) + &#34;\n&#34;
 
@@ -728,7 +728,7 @@ You can find different versions of this wiki:
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
         return &#34;Table of contents\n&#34; + \
-&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;#&#39; if multi_page else &#39;&#39;}{name})&#34;
+&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;&#39; if multi_page else &#39;#&#39;}{name})&#34;
           for i, name in enumerate([&#34;poketes&#34;, &#34;attacks&#34;, &#34;types&#34;, &#34;item&#34;,
                                     &#34;effects&#34;])) + &#34;\n&#34;
 
@@ -1612,7 +1612,7 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
         return &#34;Table of contents\n&#34; + \
-&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;#&#39; if multi_page else &#39;&#39;}{name})&#34;
+&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;&#39; if multi_page else &#39;#&#39;}{name})&#34;
           for i, name in enumerate([&#34;poketes&#34;, &#34;attacks&#34;, &#34;types&#34;, &#34;item&#34;,
                                     &#34;effects&#34;])) + &#34;\n&#34;</code></pre>
 </details>
