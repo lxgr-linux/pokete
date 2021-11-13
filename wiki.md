@@ -181,6 +181,8 @@ A small floating ball that will give you a shock.
    + [Shock](#shock)
    + [Charging](#charging)
    + [Mega arch](#mega-arch)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 ### Fire Poketes
@@ -207,6 +209,12 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
    + [Tackle](#tackle)
    + [Fire bite](#fire-bite)
    + [Ash throw](#ash-throw)
+- Can be found in:
+   + Route 1
+   + Josi Town
+   + Josi Lake
+   + Abandoned village
+   + Route 3
 - Evolves to [Wolfiro](#wolfiro) at level 25
 
 #### Wolfiro
@@ -233,6 +241,8 @@ A fiery wolf from hell on steroids.
    + [Fire bite](#fire-bite)
    + [Ash throw](#ash-throw)
    + [Fire ball](#fire-ball)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 ### Flying Poketes
@@ -258,6 +268,11 @@ WW\/* *\/WW
 - Attacks:
    + [Bite](#bite)
    + [Cry](#cry)
+- Can be found in:
+   + Nice Town cave
+   + Mysterious cave
+   + Dark cave
+   + Big mountain cave
 - Evolves to [Bator](#bator) at level 20
 
 #### Bator
@@ -284,6 +299,8 @@ WW\/o o\/WW
    + [Cry](#cry)
    + [Poison bite](#poison-bite)
    + [Wing hit](#wing-hit)
+- Can be found in:
+   + Mysterious cave
 - Does not evolve
 
 
@@ -310,6 +327,8 @@ A very aggressive bird Pokete that lives near deserts and will try to pick out y
    + [Tackle](#tackle)
    + [Eye pick](#eye-pick)
    + [Brooding](#brooding)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -336,6 +355,13 @@ A night active Pokete, that is looking for lil children as a midnight snack.
    + [Pick](#pick)
    + [Wing hit](#wing-hit)
    + [Cry](#cry)
+- Can be found in:
+   + Abandoned village
+   + Route 3
+   + Route 4
+   + Deepens forest
+   + Route 5
+   + Route 6
 - Does not evolve
 
 
@@ -361,6 +387,8 @@ A butterfly that will schmetter you away.
 - Attacks:
    + [Schmetter](#schmetter)
    + [Wing hit](#wing-hit)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -386,6 +414,10 @@ A very common bird Pokete that lives everywhere.
 - Attacks:
    + [Tackle](#tackle)
    + [Power pick](#power-pick)
+- Can be found in:
+   + Nice Town
+   + Route 4
+   + Deepens forest
 - Evolves to [Voglo](#voglo) at level 20
 
 #### Voglo
@@ -412,6 +444,19 @@ A very aggressive bird Pokete that can only be found in the woods.
    + [Power pick](#power-pick)
    + [Wing hit](#wing-hit)
    + [Brooding](#brooding)
+- Can be found in:
+   + Route 1
+   + Josi Town
+   + Josi Lake
+   + Route 2
+   + Abandoned village
+   + Route 3
+   + Route 4
+   + Deepens forest
+   + Route 5
+   + Route 6
+   + Mowcow meadow
+   + The fields of Agrawos
 - Does not evolve
 
 ### Ground Poketes
@@ -439,6 +484,8 @@ A little what ever, that sticks out of the ground.
    + [Dick energy](#dick-energy)
    + [Hiding](#hiding)
    + [Ground hit](#ground-hit)
+- Can be found in:
+   + Nowhere
 - Evolves to [Dicko](#dicko) at level 55
 
 #### Dicko
@@ -465,6 +512,8 @@ An even bigger what ever, that sticks out of the ground.
    + [Dick energy](#dick-energy)
    + [Hiding](#hiding)
    + [Ground hit](#ground-hit)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -490,6 +539,8 @@ A very small what ever, that sticks out of the ground.
 - Attacks:
    + [Tackle](#tackle)
    + [Ground hit](#ground-hit)
+- Can be found in:
+   + The fields of Agrawos
 - Evolves to [Dicki](#dicki) at level 35
 
 #### Rollator
@@ -514,6 +565,10 @@ A big chunk of stone and dirt, that roles around.
 - Attacks:
    + [Tackle](#tackle)
    + [Power roll](#power-roll)
+- Can be found in:
+   + Route 2
+   + Dark cave
+   + Big mountain see
 - Does not evolve
 
 ### Ice Poketes
@@ -540,6 +595,8 @@ A small ice cube.
    + [Tackle](#tackle)
    + [Freeze](#freeze)
    + [Snow storm](#snow-storm)
+- Can be found in:
+   + Nowhere
 - Evolves to [Spikl](#spikl) at level 30
 
 #### Spikl
@@ -566,6 +623,8 @@ A block of ice.
    + [Freeze](#freeze)
    + [Snow storm](#snow-storm)
    + [Sword of ice](#sword-of-ice)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 ### Normal Poketes
@@ -592,6 +651,12 @@ An majestic horse that is always looking for something to pick with its horn.
    + [Tackle](#tackle)
    + [Meat skewer](#meat-skewer)
    + [Tail wipe](#tail-wipe)
+- Can be found in:
+   + Route 1
+   + Josi Town
+   + Josi Lake
+   + Route 5
+   + Route 6
 - Does not evolve
 
 
@@ -617,6 +682,8 @@ A teenage unicorn in the middle of puberty.
 - Attacks:
    + [Tackle](#tackle)
    + [Meat skewer](#meat-skewer)
+- Can be found in:
+   + Nice Town
 - Evolves to [Hornita](#hornita) at level 20
 
 #### Mowcow
@@ -640,6 +707,9 @@ A cow-like creature found on meadows.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
+- Can be found in:
+   + Mowcow meadow
+   + The fields of Agrawos
 - Does not evolve
 
 
@@ -665,6 +735,16 @@ An annoying rat.
 - Attacks:
    + [Tackle](#tackle)
    + [Tail wipe](#tail-wipe)
+- Can be found in:
+   + Nice Town
+   + Nice Town cave
+   + Route 1
+   + Josi Town
+   + Josi Lake
+   + Abandoned house
+   + Route 4
+   + Deepens forest
+   + Big mountain see
 - Does not evolve
 
 ### Plant Poketes
@@ -690,6 +770,10 @@ A bush, and just a bush. But watch out!
 - Attacks:
    + [Tackle](#tackle)
    + [Bark hardening](#bark-hardening)
+- Can be found in:
+   + Route 2
+   + Route 7
+   + Mowcow meadow
 - Evolves to [Treenator](#treenator) at level 20
 
 #### Megapois
@@ -716,6 +800,8 @@ A very unsuspicious plant.
    + [Poison spores](#poison-spores)
    + [Leaf storm](#leaf-storm)
    + [Poison thorn](#poison-thorn)
+- Can be found in:
+   + The fields of Agrawos
 - Does not evolve
 
 
@@ -742,6 +828,8 @@ A unsuspicious plant.
    + [Root slap](#root-slap)
    + [Poison spores](#poison-spores)
    + [Leaf storm](#leaf-storm)
+- Can be found in:
+   + Route 7
 - Evolves to [Megapois](#megapois) at level 20
 
 #### Rosi
@@ -766,6 +854,8 @@ A plant Pokete, that's often mistaken for a normal flower.
 - Attacks:
    + [Sucker](#sucker)
    + [Super sucker](#super-sucker)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -793,6 +883,8 @@ A scary an dangerous apple tree.
    + [Bark hardening](#bark-hardening)
    + [Branch stab](#branch-stab)
    + [Root strangler](#root-strangler)
+- Can be found in:
+   + Route 7
 - Does not evolve
 
 
@@ -818,6 +910,8 @@ A plant Pokete found in Agrawos, with special 'Powers'.
 - Attacks:
    + [Root slap](#root-slap)
    + [Special smell](#special-smell)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 ### Poison Poketes
@@ -845,6 +939,8 @@ A fucking dangerous and enormous snake Pokete.
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
    + [Power bite](#power-bite)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -871,6 +967,10 @@ A dangerous snake Pokete.
    + [Choker](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
+- Can be found in:
+   + Route 5
+   + Route 6
+   + Big mountain see
 - Evolves to [Choka](#choka) at level 30
 ### Stone Poketes
 #### Bigstone
@@ -896,6 +996,8 @@ A big and heavy stone made from one of the hardest stones.
    + [Snooze](#snooze)
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -922,6 +1024,8 @@ A precious diamond, that can only be found in the darkest caves.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Dazzle](#dazzle)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -948,6 +1052,10 @@ A small but powerful stone Pokete that lives in the mountains.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Pepple fire](#pepple-fire)
+- Can be found in:
+   + Nice Town cave
+   + Dark cave
+   + Big mountain cave
 - Evolves to [Bigstone](#bigstone) at level 25
 
 #### Poundi
@@ -973,6 +1081,9 @@ A powerful and heavy stone Pokete that lives in mountain caves.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Earch quake](#earch-quake)
+- Can be found in:
+   + Big mountain see
+   + Big mountain cave
 - Does not evolve
 
 
@@ -999,6 +1110,17 @@ A squared stone that can casually be found on the ground.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
+- Can be found in:
+   + Nice Town cave
+   + Route 1
+   + Josi Town
+   + Josi Lake
+   + Mysterious cave
+   + Route 2
+   + Dark cave
+   + Abandoned village
+   + Route 3
+   + Big mountain cave
 - Does not evolve
 
 ### Undead Poketes
@@ -1026,6 +1148,8 @@ A ghost Pokete that will scare your pants off.
    + [Mind blow](#mind-blow)
    + [Wet slap](#wet-slap)
    + [Heart touch](#heart-touch)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -1050,6 +1174,8 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 - Loosing experience: 6
 - Attacks:
    + [Confusion](#confusion)
+- Can be found in:
+   + Route 7
 - Does not evolve
 
 
@@ -1076,6 +1202,10 @@ A scary ghost Pokete that lives in caves and old houses.
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
    + [Heart touch](#heart-touch)
+- Can be found in:
+   + Dark cave
+   + Abandoned house
+   + Route 7
 - Evolves to [Angrilo](#angrilo) at level 25
 ### Water Poketes
 #### Blub
@@ -1101,6 +1231,10 @@ Very delicious and low fat water Pokete.
    + [Tackle](#tackle)
    + [Bubble bomb](#bubble-bomb)
    + [Bubble shield](#bubble-shield)
+- Can be found in:
+   + Josi Lake
+   + Big mountain see
+   + Rock-ville
 - Does not evolve
 
 
@@ -1127,6 +1261,9 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
    + [Tackle](#tackle)
    + [Bubble bomb](#bubble-bomb)
    + [Shell pinch](#shell-pinch)
+- Can be found in:
+   + Route 3
+   + Big mountain see
 - Does not evolve
 
 
@@ -1151,6 +1288,11 @@ A very harmless water Pokete that can be found everywhere.
 - Loosing experience: 1
 - Attacks:
    + [Tackle](#tackle)
+- Can be found in:
+   + Josi Lake
+   + Route 3
+   + Big mountain see
+   + Rock-ville
 - Does not evolve
 
 
