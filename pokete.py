@@ -77,6 +77,20 @@ class HightGrass(se.Object):
                        player=False, shiny=(random.randint(0, 500) == 0)))
 
 
+class Meadow(se.Text):
+    """Daughter of se.Text to better organize Highgrass"""
+    esccode = Color.green
+    def __init__(self, string, poke_args):
+        super().__init__(string, ignore=self.esccode + " " + Color.reset,
+                         ob_class=HightGrass, ob_args=poke_args,
+                         state="float", esccode=self.esccode)
+
+
+class Water(Meadow):
+    """Same as Meadow, but for Water"""
+    esccode = Color.blue
+
+
 class Poketeball(se.Object):
     """Poketeball that can be picked up on the map"""
 
@@ -2275,11 +2289,8 @@ def gen_obs():
                       map_data[ob_map]["hard_obs"][hard_ob])
         for soft_ob in map_data[ob_map]["soft_obs"]:
             parse_obj(_map, soft_ob,
-                      se.Text(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
-                              ignore=Color.green + " " + Color.reset,
-                              ob_class=HightGrass,
-                              ob_args=_map.poke_args,
-                              state="float", esccode=Color.green),
+                      Meadow(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
+                             _map.poke_args),
                       map_data[ob_map]["soft_obs"][soft_ob])
         for dor in map_data[ob_map]["dors"]:
             parse_obj(_map, dor,
@@ -2402,7 +2413,7 @@ def map_additions():
                                    arg_proto={"chance": 6,
                                               "map": "playmap_5",
                                               "x": 17, "y": 16})
-    _map.lake_1 = se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    _map.lake_1 = Water("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2412,10 +2423,7 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~                    ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
-~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state="float")
+~~~""", _map.w_poke_args)
     # adding
     _map.dor_playmap_5.add(_map, 56, 1)
     _map.lake_1.add(_map, 0, 0)
@@ -2477,7 +2485,7 @@ def map_additions():
 
     # playmap_11
     _map = ob_maps["playmap_11"]
-    _map.lake_1 = se.Text("""~~~~~                                                 ~~~~~~
+    _map.lake_1 = Water("""~~~~~                                                 ~~~~~~
 ~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~                       ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~~~
@@ -2485,10 +2493,7 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""",
-                          esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state="float")
+_map.w_poke_args)
     # adding
     _map.lake_1.add(_map, 0, 12)
 
@@ -2502,7 +2507,7 @@ def map_additions():
 
     # playmap_18
     _map = ob_maps["playmap_18"]
-    _map.lake_1 = se.Text("""  ~~
+    _map.lake_1 = Water("""  ~~
  ~~~~
 ~~~~~~~
 ~~~~~~~~
@@ -2510,10 +2515,7 @@ def map_additions():
 ~~~~~~~~
 ~~~~~~
  ~~~~
- ~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state="float")
+ ~~""", _map.w_poke_args)
     # adding
     _map.lake_1.add(_map, 72, 7)
 
@@ -2560,17 +2562,14 @@ def map_additions():
                                          "x": 26, "y": 1})
     _map.dor = DorToCenter()
     _map.shopdor = DorToShop()
-    _map.lake_1 = se.Text("""       ~~~~~~~~~~~
+    _map.lake_1 = Water("""       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~
-       ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state="float")
+       ~~~~~~~~""", _map.w_poke_args)
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
     _map.dor.add(_map, 10, 7)
