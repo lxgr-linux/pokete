@@ -52,7 +52,7 @@ You can find different versions of this wiki:
         An overview for a multi-page wiki.
         """
         return "Table of contents\n" + \
-"\n".join(f"{i+1}. [{name.capitalize()}]({'#' if multi_page else ''}{name})"
+"\n".join(f"{i+1}. [{name.capitalize()}]({'' if multi_page else '#'}{name})"
           for i, name in enumerate(["poketes", "attacks", "types", "item",
                                     "effects"])) + "\n"
 
