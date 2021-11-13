@@ -114,6 +114,20 @@ class HightGrass(se.Object):
                        player=False, shiny=(random.randint(0, 500) == 0)))
 
 
+class Meadow(se.Text):
+    &#34;&#34;&#34;Daughter of se.Text to better organize Highgrass&#34;&#34;&#34;
+    esccode = Color.green
+    def __init__(self, string, poke_args):
+        super().__init__(string, ignore=self.esccode + &#34; &#34; + Color.reset,
+                         ob_class=HightGrass, ob_args=poke_args,
+                         state=&#34;float&#34;, esccode=self.esccode)
+
+
+class Water(Meadow):
+    &#34;&#34;&#34;Same as Meadow, but for Water&#34;&#34;&#34;
+    esccode = Color.blue
+
+
 class Poketeball(se.Object):
     &#34;&#34;&#34;Poketeball that can be picked up on the map&#34;&#34;&#34;
 
@@ -2312,11 +2326,8 @@ def gen_obs():
                       map_data[ob_map][&#34;hard_obs&#34;][hard_ob])
         for soft_ob in map_data[ob_map][&#34;soft_obs&#34;]:
             parse_obj(_map, soft_ob,
-                      se.Text(map_data[ob_map][&#34;soft_obs&#34;][soft_ob][&#34;txt&#34;],
-                              ignore=Color.green + &#34; &#34; + Color.reset,
-                              ob_class=HightGrass,
-                              ob_args=_map.poke_args,
-                              state=&#34;float&#34;, esccode=Color.green),
+                      Meadow(map_data[ob_map][&#34;soft_obs&#34;][soft_ob][&#34;txt&#34;],
+                             _map.poke_args),
                       map_data[ob_map][&#34;soft_obs&#34;][soft_ob])
         for dor in map_data[ob_map][&#34;dors&#34;]:
             parse_obj(_map, dor,
@@ -2439,7 +2450,7 @@ def map_additions():
                                    arg_proto={&#34;chance&#34;: 6,
                                               &#34;map&#34;: &#34;playmap_5&#34;,
                                               &#34;x&#34;: 17, &#34;y&#34;: 16})
-    _map.lake_1 = se.Text(&#34;&#34;&#34;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    _map.lake_1 = Water(&#34;&#34;&#34;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2449,10 +2460,7 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~                    ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
-~~~&#34;&#34;&#34;, esccode=Color.blue, ignore=Color.blue + &#34; &#34; + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state=&#34;float&#34;)
+~~~&#34;&#34;&#34;, _map.w_poke_args)
     # adding
     _map.dor_playmap_5.add(_map, 56, 1)
     _map.lake_1.add(_map, 0, 0)
@@ -2514,7 +2522,7 @@ def map_additions():
 
     # playmap_11
     _map = ob_maps[&#34;playmap_11&#34;]
-    _map.lake_1 = se.Text(&#34;&#34;&#34;~~~~~                                                 ~~~~~~
+    _map.lake_1 = Water(&#34;&#34;&#34;~~~~~                                                 ~~~~~~
 ~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~                       ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~~~
@@ -2522,10 +2530,7 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&#34;&#34;&#34;,
-                          esccode=Color.blue, ignore=Color.blue + &#34; &#34; + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state=&#34;float&#34;)
+_map.w_poke_args)
     # adding
     _map.lake_1.add(_map, 0, 12)
 
@@ -2539,7 +2544,7 @@ def map_additions():
 
     # playmap_18
     _map = ob_maps[&#34;playmap_18&#34;]
-    _map.lake_1 = se.Text(&#34;&#34;&#34;  ~~
+    _map.lake_1 = Water(&#34;&#34;&#34;  ~~
  ~~~~
 ~~~~~~~
 ~~~~~~~~
@@ -2547,10 +2552,7 @@ def map_additions():
 ~~~~~~~~
 ~~~~~~
  ~~~~
- ~~&#34;&#34;&#34;, esccode=Color.blue, ignore=Color.blue + &#34; &#34; + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state=&#34;float&#34;)
+ ~~&#34;&#34;&#34;, _map.w_poke_args)
     # adding
     _map.lake_1.add(_map, 72, 7)
 
@@ -2597,17 +2599,14 @@ def map_additions():
                                          &#34;x&#34;: 26, &#34;y&#34;: 1})
     _map.dor = DorToCenter()
     _map.shopdor = DorToShop()
-    _map.lake_1 = se.Text(&#34;&#34;&#34;       ~~~~~~~~~~~
+    _map.lake_1 = Water(&#34;&#34;&#34;       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~
-       ~~~~~~~~&#34;&#34;&#34;, esccode=Color.blue, ignore=Color.blue + &#34; &#34; + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state=&#34;float&#34;)
+       ~~~~~~~~&#34;&#34;&#34;, _map.w_poke_args)
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
     _map.dor.add(_map, 10, 7)
@@ -3438,11 +3437,8 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
                       map_data[ob_map][&#34;hard_obs&#34;][hard_ob])
         for soft_ob in map_data[ob_map][&#34;soft_obs&#34;]:
             parse_obj(_map, soft_ob,
-                      se.Text(map_data[ob_map][&#34;soft_obs&#34;][soft_ob][&#34;txt&#34;],
-                              ignore=Color.green + &#34; &#34; + Color.reset,
-                              ob_class=HightGrass,
-                              ob_args=_map.poke_args,
-                              state=&#34;float&#34;, esccode=Color.green),
+                      Meadow(map_data[ob_map][&#34;soft_obs&#34;][soft_ob][&#34;txt&#34;],
+                             _map.poke_args),
                       map_data[ob_map][&#34;soft_obs&#34;][soft_ob])
         for dor in map_data[ob_map][&#34;dors&#34;]:
             parse_obj(_map, dor,
@@ -3612,7 +3608,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
                                    arg_proto={&#34;chance&#34;: 6,
                                               &#34;map&#34;: &#34;playmap_5&#34;,
                                               &#34;x&#34;: 17, &#34;y&#34;: 16})
-    _map.lake_1 = se.Text(&#34;&#34;&#34;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    _map.lake_1 = Water(&#34;&#34;&#34;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3622,10 +3618,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 ~~~~~~~~~~~~~~~~~~~~                    ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
-~~~&#34;&#34;&#34;, esccode=Color.blue, ignore=Color.blue + &#34; &#34; + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state=&#34;float&#34;)
+~~~&#34;&#34;&#34;, _map.w_poke_args)
     # adding
     _map.dor_playmap_5.add(_map, 56, 1)
     _map.lake_1.add(_map, 0, 0)
@@ -3687,7 +3680,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 
     # playmap_11
     _map = ob_maps[&#34;playmap_11&#34;]
-    _map.lake_1 = se.Text(&#34;&#34;&#34;~~~~~                                                 ~~~~~~
+    _map.lake_1 = Water(&#34;&#34;&#34;~~~~~                                                 ~~~~~~
 ~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~                       ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~~~
@@ -3695,10 +3688,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&#34;&#34;&#34;,
-                          esccode=Color.blue, ignore=Color.blue + &#34; &#34; + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state=&#34;float&#34;)
+_map.w_poke_args)
     # adding
     _map.lake_1.add(_map, 0, 12)
 
@@ -3712,7 +3702,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 
     # playmap_18
     _map = ob_maps[&#34;playmap_18&#34;]
-    _map.lake_1 = se.Text(&#34;&#34;&#34;  ~~
+    _map.lake_1 = Water(&#34;&#34;&#34;  ~~
  ~~~~
 ~~~~~~~
 ~~~~~~~~
@@ -3720,10 +3710,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 ~~~~~~~~
 ~~~~~~
  ~~~~
- ~~&#34;&#34;&#34;, esccode=Color.blue, ignore=Color.blue + &#34; &#34; + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state=&#34;float&#34;)
+ ~~&#34;&#34;&#34;, _map.w_poke_args)
     # adding
     _map.lake_1.add(_map, 72, 7)
 
@@ -3770,17 +3757,14 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
                                          &#34;x&#34;: 26, &#34;y&#34;: 1})
     _map.dor = DorToCenter()
     _map.shopdor = DorToShop()
-    _map.lake_1 = se.Text(&#34;&#34;&#34;       ~~~~~~~~~~~
+    _map.lake_1 = Water(&#34;&#34;&#34;       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~
-       ~~~~~~~~&#34;&#34;&#34;, esccode=Color.blue, ignore=Color.blue + &#34; &#34; + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args=_map.w_poke_args,
-                          state=&#34;float&#34;)
+       ~~~~~~~~&#34;&#34;&#34;, _map.w_poke_args)
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
     _map.dor.add(_map, 10, 7)
@@ -6241,6 +6225,41 @@ def water(obs):
             return False</code></pre>
 </details>
 </dd>
+<dt id="pokete.Meadow"><code class="flex name class">
+<span>class <span class="ident">Meadow</span></span>
+<span>(</span><span>string, poke_args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Daughter of se.Text to better organize Highgrass</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Meadow(se.Text):
+    &#34;&#34;&#34;Daughter of se.Text to better organize Highgrass&#34;&#34;&#34;
+    esccode = Color.green
+    def __init__(self, string, poke_args):
+        super().__init__(string, ignore=self.esccode + &#34; &#34; + Color.reset,
+                         ob_class=HightGrass, ob_args=poke_args,
+                         state=&#34;float&#34;, esccode=self.esccode)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>scrap_engine.Text</li>
+<li>scrap_engine.ObjectGroup</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pokete.Water" href="#pokete.Water">Water</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pokete.Meadow.esccode"><code class="name">var <span class="ident">esccode</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="pokete.Menu"><code class="flex name class">
 <span>class <span class="ident">Menu</span></span>
 <span>(</span><span>_map)</span>
@@ -7507,6 +7526,34 @@ def sta(self):
 </dd>
 </dl>
 </dd>
+<dt id="pokete.Water"><code class="flex name class">
+<span>class <span class="ident">Water</span></span>
+<span>(</span><span>string, poke_args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Same as Meadow, but for Water</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Water(Meadow):
+    &#34;&#34;&#34;Same as Meadow, but for Water&#34;&#34;&#34;
+    esccode = Color.blue</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pokete.Meadow" href="#pokete.Meadow">Meadow</a></li>
+<li>scrap_engine.Text</li>
+<li>scrap_engine.ObjectGroup</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pokete.Water.esccode"><code class="name">var <span class="ident">esccode</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 </dl>
 </section>
 </article>
@@ -7675,6 +7722,12 @@ def sta(self):
 <h4><code><a title="pokete.LearnAttack" href="#pokete.LearnAttack">LearnAttack</a></code></h4>
 </li>
 <li>
+<h4><code><a title="pokete.Meadow" href="#pokete.Meadow">Meadow</a></code></h4>
+<ul class="">
+<li><code><a title="pokete.Meadow.esccode" href="#pokete.Meadow.esccode">esccode</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pokete.Menu" href="#pokete.Menu">Menu</a></code></h4>
 </li>
 <li>
@@ -7746,6 +7799,12 @@ def sta(self):
 <h4><code><a title="pokete.Trainer" href="#pokete.Trainer">Trainer</a></code></h4>
 <ul class="">
 <li><code><a title="pokete.Trainer.do" href="#pokete.Trainer.do">do</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pokete.Water" href="#pokete.Water">Water</a></code></h4>
+<ul class="">
+<li><code><a title="pokete.Water.esccode" href="#pokete.Water.esccode">esccode</a></code></li>
 </ul>
 </li>
 </ul>
