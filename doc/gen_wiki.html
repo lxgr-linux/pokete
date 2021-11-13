@@ -35,7 +35,7 @@ import sys
 import scrap_engine as se
 import release
 from pokete_classes.effects import effects, effect_list
-from pokete_data import pokes, attacks, types, items
+from pokete_data import pokes, attacks, types, items, maps
 
 SILENT = False
 QUIET = False
@@ -80,21 +80,10 @@ You can find different versions of this wiki:
         -------
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
-        if multi_page:
-            return &#34;&#34;&#34;Table of contents
-1. [Poketes](poketes)
-2. [Attacks](attacks)
-3. [Types](types)
-4. [Items](items)
-5. [Effects](effects)
-&#34;&#34;&#34;
-        return &#34;&#34;&#34;Table of contents
-1. [Poketes](#poketes)
-2. [Attacks](#attacks)
-3. [Types](#types)
-4. [Items](#items)
-5. [Effects](#effects)
-&#34;&#34;&#34;
+        return &#34;Table of contents\n&#34; + \
+&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;#&#39; if multi_page else &#39;&#39;}{name})&#34;
+          for i, name in enumerate([&#34;poketes&#34;, &#34;attacks&#34;, &#34;types&#34;, &#34;item&#34;,
+                                    &#34;effects&#34;])) + &#34;\n&#34;
 
     @staticmethod
     def table_of_contents(multi_page: bool = False) -&gt; str:
@@ -242,21 +231,29 @@ In the following all Poketes with their attributes are displayed.
         -------
         A markdown string of all the attributes and information of the pokete.
         &#34;&#34;&#34;
-        evolve_pokete = pokes[poke][&#34;evolve_poke&#34;]
-        if evolve_pokete == &#34;&#34;:
+        if (evolve_pokete := pokes[poke][&#34;evolve_poke&#34;]) == &#34;&#34;:
             evolve_txt = &#34;- Does not evolve\n&#34;
         else:
             evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;./{pokes[evolve_pokete][&#34;types&#34;][0]}&#39;
             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
-        md_attacks = &#34;&#34;
-        for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
-            if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+
+        md_attacks = &#34;\n   + &#34; + &#34;\n   + &#34;.join(f&#34;&#34;&#34;[{attacks[atc][&#34;name&#34;]}]({
+                            f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
+                                if multi_page else &#34;&#34;
+                            }#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+                        for atc in pokes[poke][&#34;attacks&#34;])
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
         for ico in pokes[poke][&#34;ico&#34;]:
             se.Text(ico[&#34;txt&#34;], state=&#34;float&#34;, ignore=&#34; &#34;).add(ico_map, 0, 0)
-        ico = &#34;&#34;.join([&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map])
+        ico = &#34;&#34;.join(&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map)
+
+        md_locations = &#34;\n   + &#34;.join(maps[i][&#34;pretty_name&#34;] for i in maps
+                                if maps[i][&#34;poke_args&#34;] is not None
+                                and poke in maps[i][&#34;poke_args&#34;][&#34;pokes&#34;]
+                                or &#34;w_poke_args&#34; in maps[i]
+                                and poke in maps[i][&#34;w_poke_args&#34;][&#34;pokes&#34;])
+
         return f&#34;&#34;&#34;
 ##{&#39;&#39; if multi_page else &#39;##&#39;} {pokes[poke][&#34;name&#34;]}
 {pokes[poke][&#34;desc&#34;]}
@@ -275,6 +272,8 @@ In the following all Poketes with their attributes are displayed.
 - Rarity: {pokes[poke][&#34;rarity&#34;]}
 - Loosing experience: {pokes[poke][&#34;lose_xp&#34;]}
 - Attacks:{md_attacks}
+- Can be found in:
+   + {md_locations if md_locations != &#34;&#34; else &#34;Nowhere&#34;}
 {evolve_txt}
 &#34;&#34;&#34;
 
@@ -363,11 +362,7 @@ Those are all attacks present in the game.
         &#34;&#34;&#34;
         eff = None if attacks[attack][&#34;effect&#34;] is None \
             else getattr(effects, attacks[attack][&#34;effect&#34;])
-        if multi_page:
-            out = &#34;\n##&#34;
-        else:
-            out = &#34;\n####&#34;
-        return out + f&#34;&#34;&#34; {attacks[attack][&#34;name&#34;]}
+        return f&#34;&#34;&#34;\n##{&#34;&#34; if multi_page else &#34;##&#34;} {attacks[attack][&#34;name&#34;]}
 {attacks[attack][&#34;desc&#34;]}
 
 - Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types&#34; if multi_page
@@ -423,14 +418,11 @@ Those are all the Pokete/Attack types that are present in the game with all thei
         -------
         A markdown string that contains information about all items.
         &#34;&#34;&#34;
-        out = f&#34;&#34;&#34;#{&#39;&#39; if multi_page else &#39;#&#39;} Items
+        return f&#34;&#34;&#34;#{&#39;&#39; if multi_page else &#39;#&#39;} Items
 Those are all items present in the game, that can be traded or found.
-&#34;&#34;&#34;
 
-        for item in sorted(items):
-            out += &#39;\n&#39;
-            out += Wiki.item_info(item=item, multi_page=multi_page)
-        return out
+&#34;&#34;&#34; + &#39;\n&#39;.join(Wiki.item_info(item=item, multi_page=multi_page)
+                for item in sorted(items))
 
     @staticmethod
     def item_info(item: str, multi_page: bool = False) -&gt; str:
@@ -539,7 +531,7 @@ Those effects can be given to a Pokete through an attack.
             print(&#34;==&gt; Checking if old wiki exists...&#34;)
         for folder in [&#39;&#39;, &#39;/poketes&#39;, &#39;/attacks&#39;]:
             if VERBOSE:
-                print(f&#34; -&gt; Checking \&#34;{folder_name}{folder}\&#34;: &#34;, end=&#39;&#39;)
+                print(f&#39; -&gt; Checking &#34;{folder_name}{folder}&#34;: &#39;, end=&#39;&#39;)
             if exists(folder_name + folder):
                 if not isdir(folder_name + folder):
                     if VERBOSE:
@@ -560,13 +552,12 @@ Those effects can be given to a Pokete through an attack.
         index: str = Wiki.start()
         if VERBOSE:
             print(&#34; -&gt; Adding overview...&#34;)
-        index += Wiki.overview(multi_page=True)
-        index += &#34;\n---\n&#34;
+        index += Wiki.overview(multi_page=True) + &#34;\n---\n&#34;
         if VERBOSE:
             print(&#34; -&gt; Adding table of contents...&#34;)
         index += Wiki.table_of_contents(multi_page=True)
         if VERBOSE:
-            print(f&#34; -&gt; Writing to \&#34;{folder_name}/index.md\&#34;...&#34;)
+            print(f&#39; -&gt; Writing to &#34;{folder_name}/index.md&#34;...&#39;)
         with open(f&#34;{folder_name}/index.md&#34;, &#39;w&#39;) as file:
             file.write(index)
 
@@ -587,29 +578,19 @@ Those effects can be given to a Pokete through an attack.
             with open(f&#34;{folder_name}/attacks/{file_name}&#34;, &#39;w&#39;) as file:
                 file.write(file_contents)
 
-        if QUIET or VERBOSE:
-            print(&#34;==&gt; Adding types...&#34;)
-        with open(f&#34;{folder_name}/types.md&#34;, &#39;w&#39;) as file:
-            file.write(Wiki.types(multi_page=True))
-
-        if QUIET or VERBOSE:
-            print(&#34;==&gt; Adding items...&#34;)
-        with open(f&#34;{folder_name}/items.md&#34;, &#39;w&#39;) as file:
-            file.write(Wiki.items(multi_page=True))
-
-        if QUIET or VERBOSE:
-            print(&#34;==&gt; Adding effects...&#34;)
-        with open(f&#34;{folder_name}/effects.md&#34;, &#39;w&#39;) as file:
-            file.write(Wiki.effects(multi_page=True))
+        for name in [&#34;types&#34;, &#34;items&#34;, &#34;effects&#34;]:
+            if QUIET or VERBOSE:
+                print(f&#34;==&gt; Adding {name}...&#34;)
+            with open(f&#34;{folder_name}/{name}.md&#34;, &#39;w&#39;) as file:
+                file.write(getattr(Wiki, name)(multi_page=True))
 
 
 def gen_pics():
     &#34;&#34;&#34;The function to generate a markdown file with some example pictures.&#34;&#34;&#34;
     if QUIET or VERBOSE:
         print(&#34;:: Generating pics.md...&#34;)
-    md_str = &#34;# Example pictures\n&#34;
-    md_str += str.join(&#34;\n\n&#34;, [f&#34;![{i}](ss/{i})&#34; for i in
-                                sorted(os.listdir(&#34;assets/ss&#34;))])
+    md_str = &#34;&#34;&#34;# Example pictures
+&#34;&#34;&#34; + &#34;\n\n&#34;.join(f&#34;![{i}](ss/{i})&#34; for i in sorted(os.listdir(&#34;assets/ss&#34;)))
 
     # writing to file
     with open(&#34;assets/pics.md&#34;, &#34;w+&#34;) as file:
@@ -686,9 +667,8 @@ Copyright (c) lxgr-linux &lt;lxgr-linux@protonmail.com&gt; 2021&#34;&#34;&#34;)
     &#34;&#34;&#34;The function to generate a markdown file with some example pictures.&#34;&#34;&#34;
     if QUIET or VERBOSE:
         print(&#34;:: Generating pics.md...&#34;)
-    md_str = &#34;# Example pictures\n&#34;
-    md_str += str.join(&#34;\n\n&#34;, [f&#34;![{i}](ss/{i})&#34; for i in
-                                sorted(os.listdir(&#34;assets/ss&#34;))])
+    md_str = &#34;&#34;&#34;# Example pictures
+&#34;&#34;&#34; + &#34;\n\n&#34;.join(f&#34;![{i}](ss/{i})&#34; for i in sorted(os.listdir(&#34;assets/ss&#34;)))
 
     # writing to file
     with open(&#34;assets/pics.md&#34;, &#34;w+&#34;) as file:
@@ -747,21 +727,10 @@ You can find different versions of this wiki:
         -------
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
-        if multi_page:
-            return &#34;&#34;&#34;Table of contents
-1. [Poketes](poketes)
-2. [Attacks](attacks)
-3. [Types](types)
-4. [Items](items)
-5. [Effects](effects)
-&#34;&#34;&#34;
-        return &#34;&#34;&#34;Table of contents
-1. [Poketes](#poketes)
-2. [Attacks](#attacks)
-3. [Types](#types)
-4. [Items](#items)
-5. [Effects](#effects)
-&#34;&#34;&#34;
+        return &#34;Table of contents\n&#34; + \
+&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;#&#39; if multi_page else &#39;&#39;}{name})&#34;
+          for i, name in enumerate([&#34;poketes&#34;, &#34;attacks&#34;, &#34;types&#34;, &#34;item&#34;,
+                                    &#34;effects&#34;])) + &#34;\n&#34;
 
     @staticmethod
     def table_of_contents(multi_page: bool = False) -&gt; str:
@@ -909,21 +878,29 @@ In the following all Poketes with their attributes are displayed.
         -------
         A markdown string of all the attributes and information of the pokete.
         &#34;&#34;&#34;
-        evolve_pokete = pokes[poke][&#34;evolve_poke&#34;]
-        if evolve_pokete == &#34;&#34;:
+        if (evolve_pokete := pokes[poke][&#34;evolve_poke&#34;]) == &#34;&#34;:
             evolve_txt = &#34;- Does not evolve\n&#34;
         else:
             evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;./{pokes[evolve_pokete][&#34;types&#34;][0]}&#39;
             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
-        md_attacks = &#34;&#34;
-        for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
-            if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+
+        md_attacks = &#34;\n   + &#34; + &#34;\n   + &#34;.join(f&#34;&#34;&#34;[{attacks[atc][&#34;name&#34;]}]({
+                            f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
+                                if multi_page else &#34;&#34;
+                            }#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+                        for atc in pokes[poke][&#34;attacks&#34;])
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
         for ico in pokes[poke][&#34;ico&#34;]:
             se.Text(ico[&#34;txt&#34;], state=&#34;float&#34;, ignore=&#34; &#34;).add(ico_map, 0, 0)
-        ico = &#34;&#34;.join([&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map])
+        ico = &#34;&#34;.join(&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map)
+
+        md_locations = &#34;\n   + &#34;.join(maps[i][&#34;pretty_name&#34;] for i in maps
+                                if maps[i][&#34;poke_args&#34;] is not None
+                                and poke in maps[i][&#34;poke_args&#34;][&#34;pokes&#34;]
+                                or &#34;w_poke_args&#34; in maps[i]
+                                and poke in maps[i][&#34;w_poke_args&#34;][&#34;pokes&#34;])
+
         return f&#34;&#34;&#34;
 ##{&#39;&#39; if multi_page else &#39;##&#39;} {pokes[poke][&#34;name&#34;]}
 {pokes[poke][&#34;desc&#34;]}
@@ -942,6 +919,8 @@ In the following all Poketes with their attributes are displayed.
 - Rarity: {pokes[poke][&#34;rarity&#34;]}
 - Loosing experience: {pokes[poke][&#34;lose_xp&#34;]}
 - Attacks:{md_attacks}
+- Can be found in:
+   + {md_locations if md_locations != &#34;&#34; else &#34;Nowhere&#34;}
 {evolve_txt}
 &#34;&#34;&#34;
 
@@ -1030,11 +1009,7 @@ Those are all attacks present in the game.
         &#34;&#34;&#34;
         eff = None if attacks[attack][&#34;effect&#34;] is None \
             else getattr(effects, attacks[attack][&#34;effect&#34;])
-        if multi_page:
-            out = &#34;\n##&#34;
-        else:
-            out = &#34;\n####&#34;
-        return out + f&#34;&#34;&#34; {attacks[attack][&#34;name&#34;]}
+        return f&#34;&#34;&#34;\n##{&#34;&#34; if multi_page else &#34;##&#34;} {attacks[attack][&#34;name&#34;]}
 {attacks[attack][&#34;desc&#34;]}
 
 - Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types&#34; if multi_page
@@ -1090,14 +1065,11 @@ Those are all the Pokete/Attack types that are present in the game with all thei
         -------
         A markdown string that contains information about all items.
         &#34;&#34;&#34;
-        out = f&#34;&#34;&#34;#{&#39;&#39; if multi_page else &#39;#&#39;} Items
+        return f&#34;&#34;&#34;#{&#39;&#39; if multi_page else &#39;#&#39;} Items
 Those are all items present in the game, that can be traded or found.
-&#34;&#34;&#34;
 
-        for item in sorted(items):
-            out += &#39;\n&#39;
-            out += Wiki.item_info(item=item, multi_page=multi_page)
-        return out
+&#34;&#34;&#34; + &#39;\n&#39;.join(Wiki.item_info(item=item, multi_page=multi_page)
+                for item in sorted(items))
 
     @staticmethod
     def item_info(item: str, multi_page: bool = False) -&gt; str:
@@ -1206,7 +1178,7 @@ Those effects can be given to a Pokete through an attack.
             print(&#34;==&gt; Checking if old wiki exists...&#34;)
         for folder in [&#39;&#39;, &#39;/poketes&#39;, &#39;/attacks&#39;]:
             if VERBOSE:
-                print(f&#34; -&gt; Checking \&#34;{folder_name}{folder}\&#34;: &#34;, end=&#39;&#39;)
+                print(f&#39; -&gt; Checking &#34;{folder_name}{folder}&#34;: &#39;, end=&#39;&#39;)
             if exists(folder_name + folder):
                 if not isdir(folder_name + folder):
                     if VERBOSE:
@@ -1227,13 +1199,12 @@ Those effects can be given to a Pokete through an attack.
         index: str = Wiki.start()
         if VERBOSE:
             print(&#34; -&gt; Adding overview...&#34;)
-        index += Wiki.overview(multi_page=True)
-        index += &#34;\n---\n&#34;
+        index += Wiki.overview(multi_page=True) + &#34;\n---\n&#34;
         if VERBOSE:
             print(&#34; -&gt; Adding table of contents...&#34;)
         index += Wiki.table_of_contents(multi_page=True)
         if VERBOSE:
-            print(f&#34; -&gt; Writing to \&#34;{folder_name}/index.md\&#34;...&#34;)
+            print(f&#39; -&gt; Writing to &#34;{folder_name}/index.md&#34;...&#39;)
         with open(f&#34;{folder_name}/index.md&#34;, &#39;w&#39;) as file:
             file.write(index)
 
@@ -1254,20 +1225,11 @@ Those effects can be given to a Pokete through an attack.
             with open(f&#34;{folder_name}/attacks/{file_name}&#34;, &#39;w&#39;) as file:
                 file.write(file_contents)
 
-        if QUIET or VERBOSE:
-            print(&#34;==&gt; Adding types...&#34;)
-        with open(f&#34;{folder_name}/types.md&#34;, &#39;w&#39;) as file:
-            file.write(Wiki.types(multi_page=True))
-
-        if QUIET or VERBOSE:
-            print(&#34;==&gt; Adding items...&#34;)
-        with open(f&#34;{folder_name}/items.md&#34;, &#39;w&#39;) as file:
-            file.write(Wiki.items(multi_page=True))
-
-        if QUIET or VERBOSE:
-            print(&#34;==&gt; Adding effects...&#34;)
-        with open(f&#34;{folder_name}/effects.md&#34;, &#39;w&#39;) as file:
-            file.write(Wiki.effects(multi_page=True))</code></pre>
+        for name in [&#34;types&#34;, &#34;items&#34;, &#34;effects&#34;]:
+            if QUIET or VERBOSE:
+                print(f&#34;==&gt; Adding {name}...&#34;)
+            with open(f&#34;{folder_name}/{name}.md&#34;, &#39;w&#39;) as file:
+                file.write(getattr(Wiki, name)(multi_page=True))</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
@@ -1306,11 +1268,7 @@ wiki or not.</li>
         &#34;&#34;&#34;
         eff = None if attacks[attack][&#34;effect&#34;] is None \
             else getattr(effects, attacks[attack][&#34;effect&#34;])
-        if multi_page:
-            out = &#34;\n##&#34;
-        else:
-            out = &#34;\n####&#34;
-        return out + f&#34;&#34;&#34; {attacks[attack][&#34;name&#34;]}
+        return f&#34;&#34;&#34;\n##{&#34;&#34; if multi_page else &#34;##&#34;} {attacks[attack][&#34;name&#34;]}
 {attacks[attack][&#34;desc&#34;]}
 
 - Type: [{attacks[attack][&#34;types&#34;][0].capitalize()}]({&#34;../types&#34; if multi_page
@@ -1520,14 +1478,11 @@ wiki or not.</li>
         -------
         A markdown string that contains information about all items.
         &#34;&#34;&#34;
-        out = f&#34;&#34;&#34;#{&#39;&#39; if multi_page else &#39;#&#39;} Items
+        return f&#34;&#34;&#34;#{&#39;&#39; if multi_page else &#39;#&#39;} Items
 Those are all items present in the game, that can be traded or found.
-&#34;&#34;&#34;
 
-        for item in sorted(items):
-            out += &#39;\n&#39;
-            out += Wiki.item_info(item=item, multi_page=multi_page)
-        return out</code></pre>
+&#34;&#34;&#34; + &#39;\n&#39;.join(Wiki.item_info(item=item, multi_page=multi_page)
+                for item in sorted(items))</code></pre>
 </details>
 </dd>
 <dt id="gen_wiki.Wiki.multi"><code class="name flex">
@@ -1575,7 +1530,7 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
         print(&#34;==&gt; Checking if old wiki exists...&#34;)
     for folder in [&#39;&#39;, &#39;/poketes&#39;, &#39;/attacks&#39;]:
         if VERBOSE:
-            print(f&#34; -&gt; Checking \&#34;{folder_name}{folder}\&#34;: &#34;, end=&#39;&#39;)
+            print(f&#39; -&gt; Checking &#34;{folder_name}{folder}&#34;: &#39;, end=&#39;&#39;)
         if exists(folder_name + folder):
             if not isdir(folder_name + folder):
                 if VERBOSE:
@@ -1596,13 +1551,12 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
     index: str = Wiki.start()
     if VERBOSE:
         print(&#34; -&gt; Adding overview...&#34;)
-    index += Wiki.overview(multi_page=True)
-    index += &#34;\n---\n&#34;
+    index += Wiki.overview(multi_page=True) + &#34;\n---\n&#34;
     if VERBOSE:
         print(&#34; -&gt; Adding table of contents...&#34;)
     index += Wiki.table_of_contents(multi_page=True)
     if VERBOSE:
-        print(f&#34; -&gt; Writing to \&#34;{folder_name}/index.md\&#34;...&#34;)
+        print(f&#39; -&gt; Writing to &#34;{folder_name}/index.md&#34;...&#39;)
     with open(f&#34;{folder_name}/index.md&#34;, &#39;w&#39;) as file:
         file.write(index)
 
@@ -1623,20 +1577,11 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
         with open(f&#34;{folder_name}/attacks/{file_name}&#34;, &#39;w&#39;) as file:
             file.write(file_contents)
 
-    if QUIET or VERBOSE:
-        print(&#34;==&gt; Adding types...&#34;)
-    with open(f&#34;{folder_name}/types.md&#34;, &#39;w&#39;) as file:
-        file.write(Wiki.types(multi_page=True))
-
-    if QUIET or VERBOSE:
-        print(&#34;==&gt; Adding items...&#34;)
-    with open(f&#34;{folder_name}/items.md&#34;, &#39;w&#39;) as file:
-        file.write(Wiki.items(multi_page=True))
-
-    if QUIET or VERBOSE:
-        print(&#34;==&gt; Adding effects...&#34;)
-    with open(f&#34;{folder_name}/effects.md&#34;, &#39;w&#39;) as file:
-        file.write(Wiki.effects(multi_page=True))</code></pre>
+    for name in [&#34;types&#34;, &#34;items&#34;, &#34;effects&#34;]:
+        if QUIET or VERBOSE:
+            print(f&#34;==&gt; Adding {name}...&#34;)
+        with open(f&#34;{folder_name}/{name}.md&#34;, &#39;w&#39;) as file:
+            file.write(getattr(Wiki, name)(multi_page=True))</code></pre>
 </details>
 </dd>
 <dt id="gen_wiki.Wiki.overview"><code class="name flex">
@@ -1666,21 +1611,10 @@ def multi(folder_name: str = &#34;wiki&#34;) -&gt; None:
         -------
         An overview for a multi-page wiki.
         &#34;&#34;&#34;
-        if multi_page:
-            return &#34;&#34;&#34;Table of contents
-1. [Poketes](poketes)
-2. [Attacks](attacks)
-3. [Types](types)
-4. [Items](items)
-5. [Effects](effects)
-&#34;&#34;&#34;
-        return &#34;&#34;&#34;Table of contents
-1. [Poketes](#poketes)
-2. [Attacks](#attacks)
-3. [Types](#types)
-4. [Items](#items)
-5. [Effects](#effects)
-&#34;&#34;&#34;</code></pre>
+        return &#34;Table of contents\n&#34; + \
+&#34;\n&#34;.join(f&#34;{i+1}. [{name.capitalize()}]({&#39;#&#39; if multi_page else &#39;&#39;}{name})&#34;
+          for i, name in enumerate([&#34;poketes&#34;, &#34;attacks&#34;, &#34;types&#34;, &#34;item&#34;,
+                                    &#34;effects&#34;])) + &#34;\n&#34;</code></pre>
 </details>
 </dd>
 <dt id="gen_wiki.Wiki.poke_info"><code class="name flex">
@@ -1714,21 +1648,29 @@ wiki or not.</li>
         -------
         A markdown string of all the attributes and information of the pokete.
         &#34;&#34;&#34;
-        evolve_pokete = pokes[poke][&#34;evolve_poke&#34;]
-        if evolve_pokete == &#34;&#34;:
+        if (evolve_pokete := pokes[poke][&#34;evolve_poke&#34;]) == &#34;&#34;:
             evolve_txt = &#34;- Does not evolve\n&#34;
         else:
             evolve_txt = f&#34;&#34;&#34;- Evolves to [{pokes[evolve_pokete][&#39;name&#39;]}]({f&#39;./{pokes[evolve_pokete][&#34;types&#34;][0]}&#39;
             if multi_page else &#34;&#34;}#{evolve_pokete}) at level {pokes[poke][&#39;evolve_lvl&#39;]}&#34;&#34;&#34;
-        md_attacks = &#34;&#34;
-        for atc in pokes[poke][&#34;attacks&#34;]:
-            md_attacks += f&#34;&#34;&#34;\n   + [{attacks[atc][&#34;name&#34;]}]({f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
-            if multi_page else &#34;&#34;}#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+
+        md_attacks = &#34;\n   + &#34; + &#34;\n   + &#34;.join(f&#34;&#34;&#34;[{attacks[atc][&#34;name&#34;]}]({
+                            f&#39;../attacks/{attacks[atc][&#34;types&#34;][0].capitalize()}&#39;
+                                if multi_page else &#34;&#34;
+                            }#{atc.replace(&#34;_&#34;, &#34;-&#34;)})&#34;&#34;&#34;
+                        for atc in pokes[poke][&#34;attacks&#34;])
         # ico
         ico_map = se.Map(4, 11, background=&#34; &#34;)
         for ico in pokes[poke][&#34;ico&#34;]:
             se.Text(ico[&#34;txt&#34;], state=&#34;float&#34;, ignore=&#34; &#34;).add(ico_map, 0, 0)
-        ico = &#34;&#34;.join([&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map])
+        ico = &#34;&#34;.join(&#34;&#34;.join(arr) + &#34;\n&#34; for arr in ico_map.map)
+
+        md_locations = &#34;\n   + &#34;.join(maps[i][&#34;pretty_name&#34;] for i in maps
+                                if maps[i][&#34;poke_args&#34;] is not None
+                                and poke in maps[i][&#34;poke_args&#34;][&#34;pokes&#34;]
+                                or &#34;w_poke_args&#34; in maps[i]
+                                and poke in maps[i][&#34;w_poke_args&#34;][&#34;pokes&#34;])
+
         return f&#34;&#34;&#34;
 ##{&#39;&#39; if multi_page else &#39;##&#39;} {pokes[poke][&#34;name&#34;]}
 {pokes[poke][&#34;desc&#34;]}
@@ -1747,6 +1689,8 @@ wiki or not.</li>
 - Rarity: {pokes[poke][&#34;rarity&#34;]}
 - Loosing experience: {pokes[poke][&#34;lose_xp&#34;]}
 - Attacks:{md_attacks}
+- Can be found in:
+   + {md_locations if md_locations != &#34;&#34; else &#34;Nowhere&#34;}
 {evolve_txt}
 &#34;&#34;&#34;</code></pre>
 </details>

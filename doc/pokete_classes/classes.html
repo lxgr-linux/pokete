@@ -36,16 +36,19 @@ class PlayMap(se.Map):
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
-                 extra_actions=None):
+                 w_poke_args=None, extra_actions=None):
         super().__init__(height=height, width=width, background=&#34; &#34;)
         self.trainers = trainers
         self.name = name
         self.pretty_name = pretty_name
         self.poke_args = poke_args
+        self.w_poke_args = w_poke_args
         if self.trainers is None:
             self.trainers = []
         if self.poke_args is None:
             self.poke_args = {}
+        if self.w_poke_args is None:
+            self.w_poke_args = {}
         self.__extra_actions = extra_actions
 
     def extra_actions(self):
@@ -165,7 +168,7 @@ if __name__ == &#34;__main__&#34;:
 </dd>
 <dt id="pokete_classes.classes.PlayMap"><code class="flex name class">
 <span>class <span class="ident">PlayMap</span></span>
-<span>(</span><span>height=99, width=100, trainers=None, name='', pretty_name='', poke_args=None, extra_actions=None)</span>
+<span>(</span><span>height=99, width=100, trainers=None, name='', pretty_name='', poke_args=None, w_poke_args=None, extra_actions=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map the actual player moves on and contains buildings etc</p></div>
@@ -178,16 +181,19 @@ if __name__ == &#34;__main__&#34;:
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
-                 extra_actions=None):
+                 w_poke_args=None, extra_actions=None):
         super().__init__(height=height, width=width, background=&#34; &#34;)
         self.trainers = trainers
         self.name = name
         self.pretty_name = pretty_name
         self.poke_args = poke_args
+        self.w_poke_args = w_poke_args
         if self.trainers is None:
             self.trainers = []
         if self.poke_args is None:
             self.poke_args = {}
+        if self.w_poke_args is None:
+            self.w_poke_args = {}
         self.__extra_actions = extra_actions
 
     def extra_actions(self):
