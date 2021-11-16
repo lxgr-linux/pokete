@@ -3,6 +3,7 @@ import scrap_engine as se
 
 
 def transition(_map, poke):
+    """Transition animation for world actions"""
     vec_1 = se.Line(" ", _map.width, 0)
     vec_2 = se.Line(" ", _map.width, 0)
 
