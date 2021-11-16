@@ -1902,7 +1902,8 @@ def teleport(poke):
     if (obj := roadmap(choose=True)) is None:
         return
     else:
-        animations.transition(movemap, poke)
+        if settings.animations:
+            animations.transition(movemap, poke)
         cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
         Dor("", state="float", arg_proto={"map": obj.name,
                                           "x": cen_d["x"] + 5, "y": cen_d["y"] + 6}).action(None)
