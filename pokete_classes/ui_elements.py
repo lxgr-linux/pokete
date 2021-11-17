@@ -2,7 +2,7 @@
 elements used in Pokete"""
 
 import scrap_engine as se
-
+from .color import Color
 
 class BoxIndex(se.Object):
     """Index that can be used in ChooseBox"""
@@ -20,6 +20,26 @@ class StdFrame(se.Frame):
                          corner_chars=["┌", "┐", "└", "┘"],
                          horizontal_chars=["─", "─"],
                          vertical_chars=["│", "│"], state="float")
+
+
+    def rechar(self, corner_chars=None, horizontal_chars=None,
+               vertical_chars=None):
+        """
+        Better implementation of rechar.
+        """
+        if corner_chars is not None:
+            self.corner_chars = corner_chars
+        if horizontal_chars is not None:
+            self.horizontal_chars = horizontal_chars
+        if vertical_chars is not None:
+            self.vertical_chars = vertical_chars
+
+        for obj, c in zip(self.corners, self.corner_chars):
+            obj.rechar(c)
+        for obj, c in zip(self.horizontals, self.horizontal_chars):
+            obj.rechar(c)
+        for obj, c in zip(self.verticals, self.vertical_chars):
+            obj.rechar(c)
 
 
 class StdFrame2(se.Frame):
@@ -116,6 +136,65 @@ class ChooseBox(Box):
         for obj in self.c_obs:
             self.rem_ob(obj)
         self.c_obs = []
+
+
+class BetterChooserItem(Box):
+    def __init__(self, height, width, text):
+        super().__init__(height, width)
+        self.label = text
+        self.add_ob(self.label, 2, 1)
+
+    def choose(self):
+        self.frame.rechar(corner_chars=["┏", "┓", "┗", "┛"],
+                         horizontal_chars=["━", "━"],
+                         vertical_chars=["┃", "┃"])
+
+    def unchoose(self):
+        self.frame.rechar(corner_chars=["┌", "┐", "└", "┘"],
+                         horizontal_chars=["─", "─"],
+                         vertical_chars=["│", "│"])
+
+
+class BetterChooseBox(Box):
+    def __init__(self, columns, labels:[se.Text], name=""):
+        box_width = sorted(len(i.text) for i in labels)[-1]
+        label_obs = [BetterChooserItem(3, box_width+4, label)
+                                       for label in labels]
+
+        self.nest_label_obs = [label_obs[i*columns:(i+1)*(columns)] for i in
+                          range(int(len(labels)/columns)+1)]
+
+        super().__init__(3*len(self.nest_label_obs)+2,
+                         sum(i.width for i in self.nest_label_obs[0])+2, name, "q:close")
+
+        for i, arr in enumerate(self.nest_label_obs):
+            for j, obj in enumerate(arr):
+                self.add_ob(obj, 1+j*obj.width, 1+i*obj.height)
+
+        self.index = (0, 0)
+        self.choose(*self.index)
+
+    def set_index(self, x, y):
+        self.unchoose(*self.index)
+        self.index = (x, y)
+        self.choose(*self.index)
+
+    def input(self, _ev):
+        c = {"'w'": (-1, 0),
+             "'s'": (1, 0),
+             "'a'": (0, -1),
+             "'d'": (0, 1)}[_ev]
+        self.set_index((self.index[0]+c[0])
+                            %len(self.nest_label_obs[self.index[1]]),
+                (self.index[1]+c[1])
+                            %len([i for i in self.nest_label_obs if len(i) >
+                                self.index[0]]))
+
+    def choose(self, x, y):
+        self.nest_label_obs[x][y].choose()
+
+    def unchoose(self, x, y):
+        self.nest_label_obs[x][y].unchoose()
 
 
 class InfoBox(Box):

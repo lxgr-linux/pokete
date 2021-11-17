@@ -20,7 +20,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
-from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox
+from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap, Settings, OutP
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import InvItem, LearnDisc
@@ -36,6 +36,20 @@ from release import *
 
 
 __t = time.time()
+
+
+def test():
+    a = BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo", "Welt",
+        "Wie", "Gehts", "Dir", "So", "Du", "Sack"]], "test")
+    a.center_add(movemap)
+    while True:
+        if ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
+            a.input(ev.get())
+            ev.clear()
+        std_loop(ev)
+        time.sleep(0.05)
+        a.map.show()
+
 
 # Class definition
 ##################
