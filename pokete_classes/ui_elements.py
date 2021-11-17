@@ -139,61 +139,72 @@ class ChooseBox(Box):
 
 
 class BetterChooserItem(Box):
+    """Item for Better Choosebox"""
+
     def __init__(self, height, width, text):
         super().__init__(height, width)
         self.label = text
         self.add_ob(self.label, 2, 1)
 
     def choose(self):
+        """Rechars the frame to be highlighted"""
         self.frame.rechar(corner_chars=["┏", "┓", "┗", "┛"],
                          horizontal_chars=["━", "━"],
                          vertical_chars=["┃", "┃"])
 
     def unchoose(self):
+        """Rechars the frame to be not highlighted"""
         self.frame.rechar(corner_chars=["┌", "┐", "└", "┘"],
                          horizontal_chars=["─", "─"],
                          vertical_chars=["│", "│"])
 
 
 class BetterChooseBox(Box):
+    """Better Choosebox using a tile layout"""
+
     def __init__(self, columns, labels:[se.Text], name=""):
         box_width = sorted(len(i.text) for i in labels)[-1]
-        label_obs = [BetterChooserItem(3, box_width+4, label)
+        label_obs = [BetterChooserItem(3, box_width + 4, label)
                                        for label in labels]
 
-        self.nest_label_obs = [label_obs[i*columns:(i+1)*(columns)] for i in
-                          range(int(len(labels)/columns)+1)]
+        self.nest_label_obs = [label_obs[i * columns:(i + 1) * (columns)]
+                               for i in range(int(len(labels) / columns) + 1)]
 
         super().__init__(3*len(self.nest_label_obs)+2,
-                         sum(i.width for i in self.nest_label_obs[0])+2, name, "q:close")
+                         sum(i.width for i in self.nest_label_obs[0]) + 2,
+                         name, "q:close")
 
         for i, arr in enumerate(self.nest_label_obs):
             for j, obj in enumerate(arr):
-                self.add_ob(obj, 1+j*obj.width, 1+i*obj.height)
+                self.add_ob(obj, 1 + j * obj.width, 1 + i * obj.height)
 
         self.index = (0, 0)
         self.choose(*self.index)
 
     def set_index(self, x, y):
+        """Sets index and """
         self.unchoose(*self.index)
         self.index = (x, y)
         self.choose(*self.index)
 
     def input(self, _ev):
+        """Evaluates input input"""
         c = {"'w'": (-1, 0),
              "'s'": (1, 0),
              "'a'": (0, -1),
              "'d'": (0, 1)}[_ev]
-        self.set_index((self.index[0]+c[0])
-                            %len(self.nest_label_obs[self.index[1]]),
-                (self.index[1]+c[1])
-                            %len([i for i in self.nest_label_obs if len(i) >
+        self.set_index((self.index[0] + c[0])
+                            % len(self.nest_label_obs[self.index[1]]),
+                       (self.index[1] + c[1])
+                            % len([i for i in self.nest_label_obs if len(i) >
                                 self.index[0]]))
 
     def choose(self, x, y):
+        """Wrapper for choose"""
         self.nest_label_obs[x][y].choose()
 
     def unchoose(self, x, y):
+        """Wrapper for unchoose"""
         self.nest_label_obs[x][y].unchoose()
 
 
