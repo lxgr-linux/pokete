@@ -39,16 +39,19 @@ __t = time.time()
 
 
 def test():
-    a = BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo", "Welt",
-        "Wie", "Gehts", "Dir", "So", "Du", "Sack"]], "test")
-    a.center_add(movemap)
-    while True:
-        if ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
-            a.input(ev.get())
-            ev.clear()
-        std_loop(ev)
-        time.sleep(0.05)
-        a.map.show()
+    with BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo", "Welt",
+        "Wie", "Gehts", "Dir", "So", "Du", "Sack"]],
+        "Test", _map=movemap) as a:
+        while True:
+            if ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
+                a.input(ev.get())
+                ev.clear()
+            elif ev.get() in ["'q'", "Key.esc"]:
+                ev.clear()
+                break
+            std_loop(ev)
+            time.sleep(0.05)
+            a.map.show()
 
 
 # Class definition

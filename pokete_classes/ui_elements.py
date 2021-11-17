@@ -162,22 +162,19 @@ class BetterChooserItem(Box):
 class BetterChooseBox(Box):
     """Better Choosebox using a tile layout"""
 
-    def __init__(self, columns, labels:[se.Text], name=""):
+    def __init__(self, columns, labels:[se.Text], name="", _map=None):
         box_width = sorted(len(i.text) for i in labels)[-1]
         label_obs = [BetterChooserItem(3, box_width + 4, label)
                                        for label in labels]
-
         self.nest_label_obs = [label_obs[i * columns:(i + 1) * (columns)]
                                for i in range(int(len(labels) / columns) + 1)]
-
         super().__init__(3*len(self.nest_label_obs)+2,
                          sum(i.width for i in self.nest_label_obs[0]) + 2,
                          name, "q:close")
-
+        self.map = _map
         for i, arr in enumerate(self.nest_label_obs):
             for j, obj in enumerate(arr):
                 self.add_ob(obj, 1 + j * obj.width, 1 + i * obj.height)
-
         self.index = (0, 0)
         self.choose(*self.index)
 
@@ -206,6 +203,12 @@ class BetterChooseBox(Box):
     def unchoose(self, x, y):
         """Wrapper for unchoose"""
         self.nest_label_obs[x][y].unchoose()
+
+    def __enter__(self):
+        """Enter dunder for contextmanagement"""
+        self.center_add(self.map)
+        self.map.show()
+        return self
 
 
 class InfoBox(Box):
