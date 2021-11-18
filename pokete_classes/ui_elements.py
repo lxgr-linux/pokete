@@ -176,13 +176,13 @@ class BetterChooseBox(Box):
             for j, obj in enumerate(arr):
                 self.add_ob(obj, 1 + j * obj.width, 1 + i * obj.height)
         self.index = (0, 0)
-        self.choose(*self.index)
+        self.get_item(*self.index).choose()
 
     def set_index(self, x, y):
         """Sets index and """
-        self.unchoose(*self.index)
+        self.get_item(*self.index).unchoose()
         self.index = (x, y)
-        self.choose(*self.index)
+        self.get_item(*self.index).choose()
 
     def input(self, _ev):
         """Evaluates input input"""
@@ -196,13 +196,9 @@ class BetterChooseBox(Box):
                             % len([i for i in self.nest_label_obs if len(i) >
                                 self.index[0]]))
 
-    def choose(self, x, y):
-        """Wrapper for choose"""
-        self.nest_label_obs[x][y].choose()
-
-    def unchoose(self, x, y):
-        """Wrapper for unchoose"""
-        self.nest_label_obs[x][y].unchoose()
+    def get_item(self, x, y):
+        """Gives a choosen element"""
+        return self.nest_label_obs[x][y]
 
     def __enter__(self):
         """Enter dunder for contextmanagement"""
