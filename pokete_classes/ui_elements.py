@@ -140,8 +140,9 @@ class ChooseBox(Box):
 class BetterChooserItem(Box):
     """Item for Better Choosebox"""
 
-    def __init__(self, height, width, text):
+    def __init__(self, height, width, text, ind):
         super().__init__(height, width)
+        self.ind = ind
         self.label = text
         self.add_ob(self.label, 2, 1)
 
@@ -200,8 +201,8 @@ class BetterChooseBox(Box):
             for obj in i:
                 self.rem_ob(obj)
         box_width = sorted(len(i.text) for i in labels)[-1]
-        label_obs = [BetterChooserItem(3, box_width + 4, label)
-                                       for label in labels]
+        label_obs = [BetterChooserItem(3, box_width + 4, label, i)
+                                       for i, label in enumerate(labels)]
         self.nest_label_obs = [label_obs[i * columns:(i + 1) * (columns)]
                                for i in range(int(len(labels) / columns) + 1)]
         if not init:

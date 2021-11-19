@@ -38,28 +38,6 @@ from release import *
 __t = time.time()
 
 
-def test():
-    with BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo", "Welt",
-        "Wie", "Gehts", "Dir", "So", "Du"]],
-        "Test", _map=movemap) as a:
-        while True:
-            if ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
-                a.input(ev.get())
-                ev.clear()
-            elif ev.get() in ["'q'", "Key.esc"]:
-                ev.clear()
-                break
-            elif ev.get() == "'t'":
-                ev.clear()
-                a.remove()
-                a.set_items(3, [se.Text(i, state="float") for i in ["test",
-                    "test", "123", "fuckthesystem"]])
-                a.center_add(a.map)
-            std_loop(ev)
-            time.sleep(0.05)
-            a.map.show()
-
-
 # Class definition
 ##################
 
@@ -1918,6 +1896,30 @@ def playmap_23_npc_8():
 
 # main functions
 ################
+
+def test():
+    """test/demo for BetterCHoosebox, until BetterChooseBox is actively used
+       this will remain"""
+    with BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo", "Welt",
+        "Wie", "Gehts", "Dir", "So", "Du"]],
+        "Test", _map=movemap) as a:
+        while True:
+            if ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
+                a.input(ev.get())
+                ev.clear()
+            elif ev.get() in ["'q'", "Key.esc"]:
+                ev.clear()
+                break
+            elif ev.get() == "'t'":
+                ev.clear()
+                a.remove()
+                a.set_items(3, [se.Text(i, state="float") for i in ["test",
+                    "test", "123", "fuckthesystem"]])
+                a.center_add(a.map)
+            std_loop(ev)
+            time.sleep(0.05)
+            a.map.show()
+
 
 def teleport():
     """Teleports the player to another towns pokecenter"""
