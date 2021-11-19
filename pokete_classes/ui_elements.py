@@ -21,7 +21,6 @@ class StdFrame(se.Frame):
                          horizontal_chars=["─", "─"],
                          vertical_chars=["│", "│"], state="float")
 
-
     def rechar(self, corner_chars=None, horizontal_chars=None,
                vertical_chars=None):
         """
