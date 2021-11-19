@@ -149,20 +149,20 @@ class BetterChooserItem(Box):
     def choose(self):
         """Rechars the frame to be highlighted"""
         self.frame.rechar(corner_chars=["┏", "┓", "┗", "┛"],
-                         horizontal_chars=["━", "━"],
-                         vertical_chars=["┃", "┃"])
+                          horizontal_chars=["━", "━"],
+                          vertical_chars=["┃", "┃"])
 
     def unchoose(self):
         """Rechars the frame to be not highlighted"""
         self.frame.rechar(corner_chars=["┌", "┐", "└", "┘"],
-                         horizontal_chars=["─", "─"],
-                         vertical_chars=["│", "│"])
+                          horizontal_chars=["─", "─"],
+                          vertical_chars=["│", "│"])
 
 
 class BetterChooseBox(Box):
     """Better Choosebox using a tile layout"""
 
-    def __init__(self, columns, labels:[se.Text], name="", _map=None):
+    def __init__(self, columns, labels: [se.Text], name="", _map=None):
         self.nest_label_obs = []
         self.set_items(columns, labels, init=True)
         super().__init__(3*len(self.nest_label_obs)+2,
@@ -180,34 +180,34 @@ class BetterChooseBox(Box):
         self.get_item(*self.index).choose()
 
     def get_item(self, _y, _x):
-        """Gives a choosen element"""
+        """Gives a chosen element"""
         return self.nest_label_obs[_y][_x]
 
     def input(self, _ev):
-        """Evaluates input input"""
+        """Evaluates user input"""
         _c = {"'w'": (-1, 0),
-             "'s'": (1, 0),
-             "'a'": (0, -1),
-             "'d'": (0, 1)}[_ev]
+              "'s'": (1, 0),
+              "'a'": (0, -1),
+              "'d'": (0, 1)}[_ev]
         self.set_index((self.index[0] + _c[0])
                             % len([i for i in self.nest_label_obs if len(i) >
                                 self.index[1]]),
                        (self.index[1] + _c[1])
                             % len(self.nest_label_obs[self.index[0]]))
 
-    def set_items(self, columns, labels:[se.Text], init=False):
+    def set_items(self, columns, labels: [se.Text], init=False):
         """Sets the items shown in the box"""
         for i in self.nest_label_obs:
             for obj in i:
                 self.rem_ob(obj)
         box_width = sorted(len(i.text) for i in labels)[-1]
         label_obs = [BetterChooserItem(3, box_width + 4, label, i)
-                                       for i, label in enumerate(labels)]
-        self.nest_label_obs = [label_obs[i * columns:(i + 1) * (columns)]
+                     for i, label in enumerate(labels)]
+        self.nest_label_obs = [label_obs[i * columns:(i + 1) * columns]
                                for i in range(int(len(labels) / columns) + 1)]
         if not init:
             self.resize(3*len(self.nest_label_obs)+2,
-                         sum(i.width for i in self.nest_label_obs[0]) + 2)
+                        sum(i.width for i in self.nest_label_obs[0]) + 2)
             self.__add_obs()
             try:
                 self.set_index(*self.index)
@@ -222,7 +222,7 @@ class BetterChooseBox(Box):
                 self.add_ob(obj, 1 + j * obj.width, 1 + i * obj.height)
 
     def __enter__(self):
-        """Enter dunder for contextmanagement"""
+        """Enter dunder for context management"""
         self.center_add(self.map)
         self.map.show()
         return self

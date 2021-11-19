@@ -1898,7 +1898,7 @@ def playmap_23_npc_8():
 ################
 
 def test():
-    """test/demo for BetterCHoosebox, until BetterChooseBox is actively used
+    """test/demo for BetterChooseBox, until BetterChooseBox is actively used
        this will remain"""
     with BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo", "Welt",
         "Wie", "Gehts", "Dir", "So", "Du"]],
