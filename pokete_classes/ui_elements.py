@@ -3,6 +3,7 @@ elements used in Pokete"""
 
 import scrap_engine as se
 
+
 class BoxIndex(se.Object):
     """Index that can be used in ChooseBox"""
 
@@ -174,7 +175,7 @@ class BetterChooseBox(Box):
         self.get_item(*self.index).choose()
 
     def set_index(self, _y, _x):
-        """Sets index and """
+        """Sets index and chooses item"""
         self.get_item(*self.index).unchoose()
         self.index = (_y, _x)
         self.get_item(*self.index).choose()
