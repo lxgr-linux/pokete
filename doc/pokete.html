@@ -55,6 +55,7 @@ import json
 from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
+import pokete_classes.animations as animations
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox
@@ -854,7 +855,7 @@ class Deck:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
                 if ret_action is not None:
-                    abb_funcs[ret_action]()
+                    abb_funcs[ret_action](pokes[self.index.index])
                 return None
             elif ev.get() == &#34;&#39;2&#39;&#34;:
                 ev.clear()
@@ -1933,11 +1934,13 @@ def playmap_23_npc_8():
 # main functions
 ################
 
-def teleport():
+def teleport(poke):
     &#34;&#34;&#34;Teleports the player to another towns pokecenter&#34;&#34;&#34;
     if (obj := roadmap(choose=True)) is None:
         return
     else:
+        if settings.animations:
+            animations.transition(movemap, poke)
         cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
         Dor(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
                                           &#34;x&#34;: cen_d[&#34;x&#34;] + 5, &#34;y&#34;: cen_d[&#34;y&#34;] + 6}).action(None)
@@ -4126,7 +4129,7 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
 </details>
 </dd>
 <dt id="pokete.teleport"><code class="name flex">
-<span>def <span class="ident">teleport</span></span>(<span>)</span>
+<span>def <span class="ident">teleport</span></span>(<span>poke)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Teleports the player to another towns pokecenter</p></div>
@@ -4134,11 +4137,13 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def teleport():
+<pre><code class="python">def teleport(poke):
     &#34;&#34;&#34;Teleports the player to another towns pokecenter&#34;&#34;&#34;
     if (obj := roadmap(choose=True)) is None:
         return
     else:
+        if settings.animations:
+            animations.transition(movemap, poke)
         cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
         Dor(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
                                           &#34;x&#34;: cen_d[&#34;x&#34;] + 5, &#34;y&#34;: cen_d[&#34;y&#34;] + 6}).action(None)</code></pre>
@@ -4494,7 +4499,7 @@ def pos(cls):
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
                 if ret_action is not None:
-                    abb_funcs[ret_action]()
+                    abb_funcs[ret_action](pokes[self.index.index])
                 return None
             elif ev.get() == &#34;&#39;2&#39;&#34;:
                 ev.clear()
