@@ -2,8 +2,6 @@
 elements used in Pokete"""
 
 import scrap_engine as se
-from .color import Color
-import time
 
 class BoxIndex(se.Object):
     """Index that can be used in ChooseBox"""
@@ -35,12 +33,12 @@ class StdFrame(se.Frame):
         if vertical_chars is not None:
             self.vertical_chars = vertical_chars
 
-        for obj, c in zip(self.corners, self.corner_chars):
-            obj.rechar(c)
-        for obj, c in zip(self.horizontals, self.horizontal_chars):
-            obj.rechar(c)
-        for obj, c in zip(self.verticals, self.vertical_chars):
-            obj.rechar(c)
+        for obj, _c in zip(self.corners, self.corner_chars):
+            obj.rechar(_c)
+        for obj, _c in zip(self.horizontals, self.horizontal_chars):
+            obj.rechar(_c)
+        for obj, _c in zip(self.verticals, self.vertical_chars):
+            obj.rechar(_c)
 
 
 class StdFrame2(se.Frame):
@@ -129,8 +127,8 @@ class ChooseBox(Box):
     def add_c_obs(self, _list):
         """Adds the c_obs (the objects that can be chosen from) to the box"""
         self.c_obs = _list
-        for y, obj in enumerate(self.c_obs):
-            self.add_ob(obj, self.index_x * 2, 1 + y)
+        for _y, obj in enumerate(self.c_obs):
+            self.add_ob(obj, self.index_x * 2, 1 + _y)
 
     def remove_c_obs(self):
         """Removes the c_obs"""
@@ -174,25 +172,30 @@ class BetterChooseBox(Box):
         self.index = (0, 0)
         self.get_item(*self.index).choose()
 
-    def set_index(self, y, x):
+    def set_index(self, _y, _x):
         """Sets index and """
         self.get_item(*self.index).unchoose()
-        self.index = (y, x)
+        self.index = (_y, _x)
         self.get_item(*self.index).choose()
+
+    def get_item(self, _y, _x):
+        """Gives a choosen element"""
+        return self.nest_label_obs[_y][_x]
 
     def input(self, _ev):
         """Evaluates input input"""
-        c = {"'w'": (-1, 0),
+        _c = {"'w'": (-1, 0),
              "'s'": (1, 0),
              "'a'": (0, -1),
              "'d'": (0, 1)}[_ev]
-        self.set_index((self.index[0] + c[0])
+        self.set_index((self.index[0] + _c[0])
                             % len([i for i in self.nest_label_obs if len(i) >
                                 self.index[1]]),
-                       (self.index[1] + c[1])
+                       (self.index[1] + _c[1])
                             % len(self.nest_label_obs[self.index[0]]))
 
     def set_items(self, columns, labels:[se.Text], init=False):
+        """Sets the items shown in the box"""
         for i in self.nest_label_obs:
             for obj in i:
                 self.rem_ob(obj)
@@ -212,13 +215,10 @@ class BetterChooseBox(Box):
                 self.get_item(*self.index).choose()
 
     def __add_obs(self):
+        """Adds items to the box"""
         for i, arr in enumerate(self.nest_label_obs):
             for j, obj in enumerate(arr):
                 self.add_ob(obj, 1 + j * obj.width, 1 + i * obj.height)
-
-    def get_item(self, y, x):
-        """Gives a choosen element"""
-        return self.nest_label_obs[y][x]
 
     def __enter__(self):
         """Enter dunder for contextmanagement"""
