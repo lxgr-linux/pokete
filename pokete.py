@@ -18,6 +18,7 @@ import json
 from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
+import pokete_classes.animations as animations
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox
@@ -817,7 +818,7 @@ class Deck:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
                 if ret_action is not None:
-                    abb_funcs[ret_action]()
+                    abb_funcs[ret_action](pokes[self.index.index])
                 return None
             elif ev.get() == "'2'":
                 ev.clear()
@@ -1896,11 +1897,13 @@ def playmap_23_npc_8():
 # main functions
 ################
 
-def teleport():
+def teleport(poke):
     """Teleports the player to another towns pokecenter"""
     if (obj := roadmap(choose=True)) is None:
         return
     else:
+        if settings.animations:
+            animations.transition(movemap, poke)
         cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
         Dor("", state="float", arg_proto={"map": obj.name,
                                           "x": cen_d["x"] + 5, "y": cen_d["y"] + 6}).action(None)
