@@ -33,6 +33,7 @@ from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from pokete_classes.mods import ModError, ModInfo, DummyMods
+from pokete_classes.movemap import Movemap
 from release import *
 
 
@@ -153,7 +154,7 @@ class NPC(se.Box):
         movemap.show()
         time.sleep(1)
         exclamation.remove()
-        movemap_text(self.x, self.y, self.texts)
+        movemap.text(self.x, self.y, self.texts, ev)
         self.fn()
 
     def fn(self):
@@ -217,18 +218,18 @@ class Trainer(se.Object):
                 movemap.full_show()
                 time.sleep(0.3)
             if any(poke.hp > 0 for poke in figure.pokes[:6]):
-                movemap_text(self.x, self.y, self.texts)
+                movemap.text(self.x, self.y, self.texts, ev)
                 winner = fight([poke for poke in figure.pokes[:6] if poke.hp > 0][0],
                                self.poke, info={"type": "duel", "player": self})
-                movemap_text(self.x, self.y, {True: self.lose_texts,
+                movemap.text(self.x, self.y, {True: self.lose_texts,
                                               False: self.win_texts
                                                      + [" < Here u go 20$"]}
-                                              [winner == self.poke])
+                                              [winner == self.poke], ev)
                 if winner != self.poke:
                     figure.add_money(20)
                     used_npcs.append(self.name)
             else:
-                movemap_text(self.x, self.y, self.no_poke_texts)
+                movemap.text(self.x, self.y, self.no_poke_texts, ev)
                 used_npcs.append(self.name)
             while self.y != self.sy:
                 self.set(self.x, self.y + (1 if self.y < self.sy else -1))
@@ -243,10 +244,11 @@ class CenterInteract(se.Object):
         """Triggers the interaction in the Pokete center"""
         ev.clear()
         movemap.full_show()
-        movemap_text(int(movemap.width / 2), 3,
+        movemap.text(int(movemap.width / 2), 3,
                      [" < Welcome to the Pokete-Center",
                       " < What do you want to do?",
-                      " < a: See your full deck\n b: Heal all your Poketes\n c: Go"])
+                      " < a: See your full deck\n b: Heal all your Poketes\
+\n c: Go"], ev)
         while True:
             if ev.get() == "'a'":
                 ev.clear()
@@ -259,8 +261,9 @@ class CenterInteract(se.Object):
                 ev.clear()
                 heal()
                 time.sleep(0.5)
-                movemap_text(int(movemap.width / 2), 3, [" < ...",
-                                                         " < Your Poketes are now healed!"])
+                movemap.text(int(movemap.width / 2), 3, [" < ...",
+                                                         " < Your Poketes are \
+now healed!"], ev)
                 break
             elif ev.get() == "'c'":
                 ev.clear()
@@ -277,11 +280,11 @@ class ShopInteract(se.Object):
         """Triggers an interaction in the shop"""
         ev.clear()
         movemap.full_show()
-        movemap_text(int(movemap.width / 2), 3, [" < Welcome to the Pokete-Shop",
-                                                 " < Wanna buy something?"])
+        movemap.text(int(movemap.width / 2), 3, [" < Welcome to the Pokete-Shop",
+                                                 " < Wanna buy something?"], ev)
         buy(ev)
         movemap.full_show(init=True)
-        movemap_text(int(movemap.width / 2), 3, [" < Have a great day!"])
+        movemap.text(int(movemap.width / 2), 3, [" < Have a great day!"], ev)
 
 
 class CenterDor(se.Object):
@@ -643,11 +646,9 @@ class Figure(se.Object):
             self.inv = _si["inv"]
         if "money" in _si:
             self.set_money(_si["money"])
-        movemap.name_label = se.Text(self.name, esccode=Color.thicc)
-        movemap.balls_label = se.Text("", esccode=Color.thicc)
+        movemap.name_label.rechar(self.name, esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
         balls_label_rechar()
-        movemap_add_obs()
 
     def add_money(self, money):
         """Adds money"""
@@ -1608,52 +1609,6 @@ def codes(string):
             exiter()
 
 
-def movemap_text(x, y, arr):
-    """Shows dialog text on movemap"""
-    # This ensures the game does not crash when big chunks of text are displayed
-    for c, i, j, k in zip([x, y], ["x", "y"],
-                          [movemap.width, movemap.height], [17, 10]):
-        while c - getattr(movemap, i) + k >= j:
-            movemap.set(movemap.x + (1 if i == "x" else 0),
-                        movemap.y + (1 if i == "y" else 0))
-            movemap.show()
-            time.sleep(0.045)
-    # End section
-    multitext.rechar("")
-    multitext.add(movemap, x - movemap.x + 1, y - movemap.y)
-    arr = [arr[i] + (" >" if i != len(arr) - 1 else "") for i in range(len(arr))]
-    for text in arr:
-        ev.clear()
-        multitext.rechar("")
-        for i in range(len(text) + 1):
-            multitext.outp(liner(text[:i],
-                           movemap.width - (x - movemap.x + 1), "   "))
-            time.sleep(0.045)
-            std_loop(ev)
-            if ev.get() != "":
-                ev.clear()
-                break
-        multitext.outp(liner(text, movemap.width - (x - movemap.x + 1), "   "))
-        while True:
-            std_loop(ev)
-            if ev.get() != "":
-                break
-            time.sleep(0.05)
-    multitext.remove()
-
-
-def movemap_add_obs():
-    """Adds needed labels to movemap"""
-    movemap.underline = se.Square("-", movemap.width, 1)
-    movemap.name_label.add(movemap, 2, movemap.height - 2)
-    movemap.balls_label.add(movemap, 4 + len(movemap.name_label.text),
-                            movemap.height - 2)
-    movemap.underline.add(movemap, 0, movemap.height - 2)
-    movemap.label_bg.add(movemap, 0, movemap.height - 1)
-    movemap.label.add(movemap, 0, movemap.height - 1)
-    movemap.code_label.add(movemap, 0, 0)
-
-
 # Functions for fight
 #####################
 
@@ -1853,27 +1808,28 @@ def playmap_17_boy():
     """Interaction with boy"""
     npc = ob_maps["playmap_17"].boy_1
     if "choka" in [i.identifier for i in figure.pokes[:6]]:
-        movemap_text(npc.x, npc.y,
+        movemap.text(npc.x, npc.y,
                      [" < Oh, cool!", " < You have a Choka!",
-                      " < I've never seen one before!", " < Here you go, 200$"])
+                      " < I've never seen one before!",
+                      " < Here you go, 200$"], ev)
         if ask_bool(ev, movemap,
                     "Young boy gifted you 200$. Do you want to accept it?"):
             figure.add_money(200)
         npc.will = False
         used_npcs.append(npc.name)
     else:
-        movemap_text(npc.x, npc.y,
+        movemap.text(npc.x, npc.y,
                      [" < In this region lives the würgos Pokete.",
                       f" < At level {p_data.pokes['würgos']['evolve_lvl']} it evolves to Choka.",
-                      " < I have never seen one before!"])
+                      " < I have never seen one before!"], ev)
 
 
 def playmap_20_trader():
     """Interaction with trader"""
     npc = ob_maps["playmap_20"].trader_2
-    movemap_text(npc.x, npc.y,
+    movemap.text(npc.x, npc.y,
                  [" < I've lived in this town for long time and therefore have found some cool Poketes.",
-                  " < Do you want to trade my cool Pokete?"])
+                  " < Do you want to trade my cool Pokete?"], ev)
     if ask_bool(ev, movemap, "Do you want to trade a Pokete?"):
         if (index := deck(6, "Your deck", True)) is None:
             return
@@ -1881,7 +1837,7 @@ def playmap_20_trader():
         used_npcs.append(npc.name)
         ask_ok(ev, movemap,
                f"You received: {figure.pokes[index].name.capitalize()} at level {figure.pokes[index].lvl()}.")
-        movemap_text(npc.x, npc.y, [" < Cool, huh?"])
+        movemap.text(npc.x, npc.y, [" < Cool, huh?"], ev)
 
 
 def playmap_23_npc_8():
@@ -2243,7 +2199,7 @@ def game(_map):
                         movemap.name_label, movemap.balls_label]:
                 obj.remove()
             movemap.resize(height - 1, width, " ")
-            movemap_add_obs()
+            movemap.add_obs()
         movemap.full_show()
 
 
@@ -2261,13 +2217,13 @@ def intro():
     movemap.name_label.rechar(figure.name, esccode=Color.thicc)
     movemap.balls_label.set(4 + len(movemap.name_label.text), movemap.height - 2)
     movemap.underline.add(movemap, 0, movemap.height - 2)
-    movemap_text(4, 3, [" < Hello my child.",
+    movemap.text(4, 3, [" < Hello my child.",
                         " < You're now ten years old.",
                         " < And I think it's now time for you to travel the world and be a Pokete-trainer.",
                         " < Therefore I give you this powerfull 'Steini', 15 'Poketeballs' to catch Poketes and a "
                         "'Healing potion'.",
                         " < You will be the best Pokete-Trainer in Nice town.",
-                        " < Now go out and become the best!"])
+                        " < Now go out and become the best!"], ev)
     game(ob_maps["intromap"])
 
 
@@ -2700,13 +2656,9 @@ if __name__ == "__main__":
     ob_maps["shopmap"] = shopmap
 
     # movemap
-    movemap = se.Submap(ob_maps["playmap_1"], 0, 0, height=height - 1, width=width)
+    movemap = Movemap(ob_maps, height - 1, width)
     figure = Figure("a")
     exclamation = se.Object("!")
-    multitext = OutP("", state="float")
-    movemap.label_bg = se.Square(" ", movemap.width, 1, state="float")
-    movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
-    movemap.code_label = OutP("")
 
     # Definiton of objects for the playmaps
     # Most of the objects ar generated from map_data for maps.py
