@@ -40,7 +40,7 @@ __t = time.time()
 
 def test():
     with BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo", "Welt",
-        "Wie", "Gehts", "Dir", "So", "Du", "Sack"]],
+        "Wie", "Gehts", "Dir", "So", "Du"]],
         "Test", _map=movemap) as a:
         while True:
             if ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
@@ -49,6 +49,12 @@ def test():
             elif ev.get() in ["'q'", "Key.esc"]:
                 ev.clear()
                 break
+            elif ev.get() == "'t'":
+                ev.clear()
+                a.remove()
+                a.set_items(3, [se.Text(i, state="float") for i in ["test",
+                    "test", "123", "fuckthesystem"]])
+                a.center_add(a.map)
             std_loop(ev)
             time.sleep(0.05)
             a.map.show()
