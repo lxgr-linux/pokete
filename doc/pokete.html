@@ -58,7 +58,7 @@ import pokete_data as p_data
 import pokete_classes.animations as animations
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
-from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox
+from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap, Settings, OutP
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import InvItem, LearnDisc
@@ -74,6 +74,7 @@ from release import *
 
 
 __t = time.time()
+
 
 # Class definition
 ##################
@@ -1933,6 +1934,30 @@ def playmap_23_npc_8():
 
 # main functions
 ################
+
+def test():
+    &#34;&#34;&#34;test/demo for BetterChooseBox, until BetterChooseBox is actively used
+       this will remain&#34;&#34;&#34;
+    with BetterChooseBox(3, [se.Text(i, state=&#34;float&#34;) for i in [&#34;Hallo&#34;, &#34;Welt&#34;,
+        &#34;Wie&#34;, &#34;Gehts&#34;, &#34;Dir&#34;, &#34;So&#34;, &#34;Du&#34;]],
+        &#34;Test&#34;, _map=movemap) as a:
+        while True:
+            if ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;]:
+                a.input(ev.get())
+                ev.clear()
+            elif ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
+                ev.clear()
+                break
+            elif ev.get() == &#34;&#39;t&#39;&#34;:
+                ev.clear()
+                a.remove()
+                a.set_items(3, [se.Text(i, state=&#34;float&#34;) for i in [&#34;test&#34;,
+                    &#34;test&#34;, &#34;123&#34;, &#34;fuckthesystem&#34;]])
+                a.center_add(a.map)
+            std_loop(ev)
+            time.sleep(0.05)
+            a.map.show()
+
 
 def teleport(poke):
     &#34;&#34;&#34;Teleports the player to another towns pokecenter&#34;&#34;&#34;
@@ -4147,6 +4172,40 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
         cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
         Dor(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
                                           &#34;x&#34;: cen_d[&#34;x&#34;] + 5, &#34;y&#34;: cen_d[&#34;y&#34;] + 6}).action(None)</code></pre>
+</details>
+</dd>
+<dt id="pokete.test"><code class="name flex">
+<span>def <span class="ident">test</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>test/demo for BetterChooseBox, until BetterChooseBox is actively used
+this will remain</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test():
+    &#34;&#34;&#34;test/demo for BetterChooseBox, until BetterChooseBox is actively used
+       this will remain&#34;&#34;&#34;
+    with BetterChooseBox(3, [se.Text(i, state=&#34;float&#34;) for i in [&#34;Hallo&#34;, &#34;Welt&#34;,
+        &#34;Wie&#34;, &#34;Gehts&#34;, &#34;Dir&#34;, &#34;So&#34;, &#34;Du&#34;]],
+        &#34;Test&#34;, _map=movemap) as a:
+        while True:
+            if ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;]:
+                a.input(ev.get())
+                ev.clear()
+            elif ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
+                ev.clear()
+                break
+            elif ev.get() == &#34;&#39;t&#39;&#34;:
+                ev.clear()
+                a.remove()
+                a.set_items(3, [se.Text(i, state=&#34;float&#34;) for i in [&#34;test&#34;,
+                    &#34;test&#34;, &#34;123&#34;, &#34;fuckthesystem&#34;]])
+                a.center_add(a.map)
+            std_loop(ev)
+            time.sleep(0.05)
+            a.map.show()</code></pre>
 </details>
 </dd>
 </dl>
@@ -7601,6 +7660,7 @@ def sta(self):
 <li><code><a title="pokete.save" href="#pokete.save">save</a></code></li>
 <li><code><a title="pokete.swap_poke" href="#pokete.swap_poke">swap_poke</a></code></li>
 <li><code><a title="pokete.teleport" href="#pokete.teleport">teleport</a></code></li>
+<li><code><a title="pokete.test" href="#pokete.test">test</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
