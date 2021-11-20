@@ -18,17 +18,17 @@ class Movemap(se.Submap):
         self.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
         self.code_label = OutP("")
         self.multitext = OutP("", state="float")
+        self.underline = se.Square("-", self.width, 1, state="float")
+        self.code_label.add(self, 0, 0)
 
     def add_obs(self):
         """Adds needed labels to movemap"""
-        self.underline = se.Square("-", self.width, 1, state="float")
         self.underline.add(self, 0, self.height - 2)
         self.name_label.add(self, 2, self.height - 2)
         self.balls_label.add(self, 4 + len(self.name_label.text),
                             self.height - 2)
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
-        self.code_label.add(self, 0, 0)
 
     def text(self, x, y, arr, _ev):
         """Shows dialog text on movemap"""
@@ -63,3 +63,13 @@ class Movemap(se.Submap):
                 std_loop(_ev)
                 time.sleep(0.05)
         self.multitext.remove()
+
+    def resize(self, height, width, background=" "):
+        for obj in [self.underline, self.label, self.label_bg,
+                    self.name_label, self.balls_label]:
+                obj.remove()
+        super().resize(height, width, background)
+        self.underline.resize(self.width, 1)
+        self.label_bg.resize(self.width, 1)
+        self.add_obs()
+

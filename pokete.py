@@ -1584,15 +1584,6 @@ def balls_label_rechar():
                                     for i in range(6)), esccode=Color.thicc)
 
 
-def mapresize(_map):
-    """Resizes a map"""
-    _wi, _he = os.get_terminal_size()
-    if _map.width != _wi or _map.height != _he - 1:
-        _map.resize(height - 1, width, " ")
-        return True
-    return False
-
-
 def codes(string):
     """Cheats"""
     for i in string:
@@ -2221,11 +2212,7 @@ def game(_map):
         # checking for resizing
         width, height = os.get_terminal_size()
         if movemap.width != width or movemap.height != height - 1:
-            for obj in [movemap.underline, movemap.label, movemap.code_label,
-                        movemap.name_label, movemap.balls_label]:
-                obj.remove()
             movemap.resize(height - 1, width, " ")
-            movemap.add_obs()
         movemap.full_show()
 
 
