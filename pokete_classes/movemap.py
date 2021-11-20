@@ -67,9 +67,8 @@ class Movemap(se.Submap):
     def resize(self, height, width, background=" "):
         for obj in [self.underline, self.label, self.label_bg,
                     self.name_label, self.balls_label]:
-                obj.remove()
+            obj.remove()
         super().resize(height, width, background)
         self.underline.resize(self.width, 1)
         self.label_bg.resize(self.width, 1)
         self.add_obs()
-
