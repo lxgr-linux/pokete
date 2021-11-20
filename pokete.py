@@ -2656,7 +2656,7 @@ if __name__ == "__main__":
     ob_maps["shopmap"] = shopmap
 
     # movemap
-    movemap = Movemap(ob_maps, height - 1, width)
+    movemap = Movemap(ob_maps, height, width)
     figure = Figure("a")
     exclamation = se.Object("!")
 

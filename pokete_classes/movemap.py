@@ -1,10 +1,13 @@
+"""This file caontains the Movemap class with all related mothods"""
+
 import time
 import scrap_engine as se
-from .classes import OutP
 from pokete_general_use_fns import std_loop, liner
+from .classes import OutP
 
 
 class Movemap(se.Submap):
+    """Movemap class to remove bad code"""
 
     def __init__(self, ob_maps, height, width):
         super().__init__(ob_maps["playmap_1"], 0, 0,
@@ -28,37 +31,36 @@ class Movemap(se.Submap):
         self.label.add(self, 0, self.height - 1)
         self.code_label.add(self, 0, 0)
 
-    def text(self, x, y, arr, ev):
+    def text(self, x, y, arr, _ev):
         """Shows dialog text on movemap"""
-        # This ensures the game does not crash when big chunks of text are displayed
-        for c, i, j, k in zip([x, y], ["x", "y"],
+        # This ensures the game does not crash when big
+        # chunks of text are displayed
+        for _c, i, j, _k in zip([x, y], ["x", "y"],
                               [self.width, self.height], [17, 10]):
-            while c - getattr(self, i) + k >= j:
+            while _c - getattr(self, i) + _k >= j:
                 self.set(self.x + (1 if i == "x" else 0),
-                            self.y + (1 if i == "y" else 0))
+                         self.y + (1 if i == "y" else 0))
                 self.show()
                 time.sleep(0.045)
         # End section
         self.multitext.rechar("")
         self.multitext.add(self, x - self.x + 1, y - self.y)
-        arr = [arr[i] + (" >" if i != len(arr) - 1 else "") for i in range(len(arr))]
+        for i in range(len(arr) - 1):
+            arr[i] += " >"
         for text in arr:
-            ev.clear()
+            _ev.clear()
             self.multitext.rechar("")
             for i in range(len(text) + 1):
                 self.multitext.outp(liner(text[:i],
-                               self.width - (x - self.x + 1), "   "))
+                                          self.width - (x - self.x + 1), "   "))
                 time.sleep(0.045)
-                std_loop(ev)
-                if ev.get() != "":
-                    ev.clear()
+                std_loop(_ev)
+                if _ev.get() != "":
+                    _ev.clear()
                     break
-            self.multitext.outp(liner(text, self.width - (x - self.x + 1), "   "))
-            while True:
-                std_loop(ev)
-                if ev.get() != "":
-                    break
+            self.multitext.outp(liner(text,
+                                      self.width - (x - self.x + 1), "   "))
+            while _ev.get() == "":
+                std_loop(_ev)
                 time.sleep(0.05)
         self.multitext.remove()
-
-
