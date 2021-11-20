@@ -384,6 +384,9 @@ class Poke:
         # Backup vars
         self.full_hp = self.hp
         self.full_miss_chance = self.miss_chance
+        # re-set hp
+        if _hp != "SKIP":
+            self.hp = _hp
         # Labels
         self.hp_bar = HealthBar(self)
         self.hp_bar.make(self.hp)
@@ -649,6 +652,7 @@ class Figure(se.Object):
         movemap.name_label.rechar(self.name, esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
         balls_label_rechar()
+        movemap.add_obs()
 
     def add_money(self, money):
         """Adds money"""
@@ -1195,14 +1199,11 @@ class Menu:
                         figure.name = text_input(self.realname_label,
                                                  self.map,
                                                  figure.name, ev, 18, 17)
-                        self.map.underline.remove()
                         self.map.balls_label.set(0, 1)
                         self.map.name_label.rechar(figure.name,
                                                    esccode=Color.thicc)
                         self.map.balls_label.set(4 + len(self.map.name_label.text),
                                                  self.map.height - 2)
-                        self.map.underline.add(self.map, 0,
-                                               self.map.height - 2)
                     elif i == self.mods_label:
                         ModInfo(movemap, settings, mods.mod_info)(ev)
                     elif i == self.save_label:
@@ -1575,11 +1576,11 @@ def fast_change(arr, setob):
 
 def balls_label_rechar():
     """Rechars the balls label"""
-    movemap.balls_label.text = ""
-    for i in range(6):
-        movemap.balls_label.text += "-" if i >= len(figure.pokes) or figure.pokes[i].identifier == "__fallback__"\
-                                        else "o" if figure.pokes[i].hp > 0 else "x"
-    movemap.balls_label.rechar(movemap.balls_label.text, esccode=Color.thicc)
+    movemap.balls_label.rechar("".join("-" if i >= len(figure.pokes)
+                                or figure.pokes[i].identifier == "__fallback__"\
+                                        else "o" if figure.pokes[i].hp > 0
+                                        else "x"
+                                    for i in range(6)), esccode=Color.thicc)
 
 
 def mapresize(_map):
@@ -2656,7 +2657,7 @@ if __name__ == "__main__":
     ob_maps["shopmap"] = shopmap
 
     # movemap
-    movemap = Movemap(ob_maps, height, width)
+    movemap = Movemap(ob_maps, height - 1, width)
     figure = Figure("a")
     exclamation = se.Object("!")
 
