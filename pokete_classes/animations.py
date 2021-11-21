@@ -32,3 +32,7 @@ def transition(_map, poke):
 
     vec_1.remove()
     vec_2.remove()
+
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")

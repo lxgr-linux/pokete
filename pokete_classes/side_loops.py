@@ -59,7 +59,8 @@ class ResizeScreen():
         self.warning_label = se.Text("Minimum windowsize is 70x20")
         self.size_label = se.Text(f"{width}x{height}")
         self.frame = StdFrame(height - 1, width)
-        self.warning_label.add(self.map, int(width / 2) - 13, int(height / 2) - 1)
+        self.warning_label.add(self.map, int(width / 2) - 13,
+                               int(height / 2) - 1)
         self.size_label.add(self.map, 1, 0)
         self.frame.add(self.map, 0, 0)
 
@@ -71,7 +72,8 @@ class ResizeScreen():
             self.warning_label.set(1, 1)
             self.frame.remove()
             self.map.resize(height - 1, width, " ")
-            self.warning_label.set(int(width / 2) - 13, int((height - 1) / 2) - 1)
+            self.warning_label.set(int(width / 2) - 13,
+                                   int((height - 1) / 2) - 1)
             self.size_label.rechar(f"{width}x{height}")
             self.frame.resize(height - 1, width)
             self.frame.add(self.map, 0, 0)
@@ -90,12 +92,15 @@ class LoadingScreen():
 | |__) |__ | | _____| |_ ___
 |  ___/ _ \| |/ / _ \ __/ _ \
 | |  | (_) |   <  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|""", state="float").add(self.map,
-                                                     int(self.map.width / 2) - 15, int(self.map.height / 2) - 4)
+|_|   \___/|_|\_\___|\__\___|""", state="float")\
+            .add(self.map, int(self.map.width / 2) - 15,
+                 int(self.map.height / 2) - 4)
         se.Text(f"v{ver}", state="float").add(self.map,
-                                              int(self.map.width / 2) - 15, int(self.map.height / 2) + 2)
+                                              int(self.map.width / 2) - 15,
+                                              int(self.map.height / 2) + 2)
         se.Text(codename, state="float").add(self.map,
-                                             int(self.map.width / 2) + 14 - len(codename),
+                                             int(self.map.width / 2) + 14
+                                                - len(codename),
                                              int(self.map.height / 2) + 2)
 
     def __call__(self):

@@ -15,7 +15,8 @@ class Movemap(se.Submap):
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
-        self.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
+        self.label = se.Text(
+                        "1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
         self.code_label = OutP("")
         self.multitext = OutP("", state="float")
         self.underline = se.Square("-", self.width, 1, state="float")
@@ -72,3 +73,7 @@ class Movemap(se.Submap):
         self.underline.resize(self.width, 1)
         self.label_bg.resize(self.width, 1)
         self.add_obs()
+
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")

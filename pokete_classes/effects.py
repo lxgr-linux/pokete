@@ -53,7 +53,9 @@ class Effect():
             self.label.add(self.obj.ico.map,
                            (self.obj.text_lvl.obs[-1].x
                             if self.obj.effects.index(self) == 0
-                            else self.obj.effects[self.obj.effects.index(self) - 1].label.obs[-1].x) + 2,
+                            else self.obj.effects[self.obj.effects\
+                                                    .index(self) - 1]\
+                                                        .label.obs[-1].x) + 2,
                            self.obj.text_lvl.obs[-1].y)
         except se.CoordinateError:
             pass
@@ -110,7 +112,8 @@ class Effect():
 
 
 class EffectParalyzation(Effect):
-    desc = "Paralyses the enemy and stops it from attacking. This is reverted randomly."
+    desc = "Paralyses the enemy and stops it from attacking. \
+This is reverted randomly."
     c_name = "paralyzation"
 
     def __init__(self, obj=None):
@@ -119,7 +122,8 @@ class EffectParalyzation(Effect):
 
 
 class EffectSleep(Effect):
-    desc = "Makes the enemy fall asleep and stops it from attacking. This is reverted randomly."
+    desc = "Makes the enemy fall asleep and stops it from attacking. \
+This is reverted randomly."
     c_name = "sleep"
 
     def __init__(self, obj=None):
@@ -127,8 +131,8 @@ class EffectSleep(Effect):
 
 
 class EffectBurning(Effect):
-    desc = "Sets the enemy on fire and damages the enemy with 2 HP every round.\
- This is reverted randomly."
+    desc = "Sets the enemy on fire and damages them with 2 HP every round. \
+This is reverted randomly."
     c_name = "burning"
 
     def __init__(self, obj=None):
@@ -141,7 +145,8 @@ class EffectBurning(Effect):
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
         self.obj.ico.map.outp.append(se.Text(self.name,
                                              esccode=self.str_esccode,
-                                             state="float"), se.Text("!", state="float"))
+                                             state="float"),
+                                     se.Text("!", state="float"))
         self.obj.ico.map.show()
         time.sleep(1)
         for _ in range(random.randint(1, 3)):
@@ -184,7 +189,8 @@ class EffectConfusion(Effect):
 
 
 class EffectFreezing(Effect):
-    desc = "Freezes the enemy and stops it from attacking. This is reverted randomly."
+    desc = "Freezes the enemy and stops it from attacking. \
+This is reverted randomly."
     c_name = "freezing"
 
     def __init__(self, obj=None):

@@ -72,7 +72,7 @@ class Moves:
         shines = [se.Object(ico) for _ in range(4)]
         for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11,
                                     self.poke.ico.x - 1, self.poke.ico.x + 11],
-                           [self.poke.ico.y, self.poke.ico.y, 
+                           [self.poke.ico.y, self.poke.ico.y,
                             self.poke.ico.y + 3, self.poke.ico.y + 3]):
             i.add(self.poke.ico.map, x, y)
             self.poke.ico.map.show()
@@ -84,7 +84,8 @@ class Moves:
 
     def downgrade(self):
         """Downgrade move"""
-        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-" + Color.reset)
+        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-"
+                                       + Color.reset)
 
 
 if __name__ == "__main__":

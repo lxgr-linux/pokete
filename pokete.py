@@ -371,11 +371,11 @@ class Dor(se.Object):
 
     def action(self, ob):
         """Trigger"""
-        figure.remove()
-        i = figure.map.name
-        figure.add(ob_maps[self.arg_proto["map"]], self.arg_proto["x"],
-                   self.arg_proto["y"])
-        figure.oldmap = ob_maps[i]
+        ob.remove()
+        i = ob.map.name
+        ob.add(ob_maps[self.arg_proto["map"]], self.arg_proto["x"],
+               self.arg_proto["y"])
+        ob.oldmap = ob_maps[i]
         game(ob_maps[self.arg_proto["map"]])
 
 
@@ -655,7 +655,8 @@ class Station(se.Square):
 
     def is_city(self):
         """Returns if the station is a city"""
-        return "pokecenter" in p_data.map_data[self.associates[0].name]["hard_obs"]
+        return "pokecenter"\
+                in p_data.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
         """Marks a station as visited"""
@@ -1986,7 +1987,7 @@ def teleport(poke):
         cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
         Dor("", state="float", arg_proto={"map": obj.name,
                                           "x": cen_d["x"] + 5,
-                                          "y": cen_d["y"] + 6}).action(None)
+                                          "y": cen_d["y"] + 6}).action(figure)
 
 
 def swap_poke():
@@ -2012,9 +2013,12 @@ def swap_poke():
                         if not data:
                             break
                         decode_data = json.loads(data.decode())
-                        conn.sendall(str.encode(json.dumps({"mods": mods.mod_info,
-                                                            "name": figure.name,
-                                                            "poke": figure.pokes[index].dict()})))
+                        conn.sendall(
+                                str.encode(
+                                    json.dumps(
+                                        {"mods": mods.mod_info,
+                                         "name": figure.name,
+                                         "poke": figure.pokes[index].dict()})))
     else:
         host = ""
         while host == "":
@@ -2030,9 +2034,11 @@ def swap_poke():
             except Exception as err:
                 ask_ok(ev, movemap, str(err))
                 return
-            sock.sendall(str.encode(json.dumps({"mods": mods.mod_info,
-                                                "name": figure.name,
-                                                "poke": figure.pokes[index].dict()})))
+            sock.sendall(
+                    str.encode(
+                        json.dumps({"mods": mods.mod_info,
+                                    "name": figure.name,
+                                    "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
     if "mods" not in decode_data and mods.mod_info == {}:
