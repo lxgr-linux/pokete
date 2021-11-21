@@ -295,6 +295,55 @@ class ShopInteract(se.Object):
         movemap.text(int(movemap.width / 2), 3, [" < Have a great day!"], ev)
 
 
+class CenterMap(PlayMap):
+    def __init__(self, height, width):
+        super().__init__(height, width, name="centermap",
+                         pretty_name="Pokete-Center")
+        self.inner = se.Text(""" ________________
+ |______________|
+ |     |a |     |
+ |     ¯ ¯¯     |
+ |              |
+ |______  ______|
+ |_____|  |_____|""", ignore=" ")
+
+        self.interact = CenterInteract("¯", state="float")
+        self.dor_back1 = CenterDor(" ", state="float")
+        self.dor_back2 = CenterDor(" ", state="float")
+        self.trader = NPC("trader",
+                          [" < I'm a trader.",
+                           " < Here you can trade one of your Poketes for \
+another players' one."],
+                          "swap_poke", ())
+        # adding
+        self.dor_back1.add(self, int(self.width / 2), 8)
+        self.dor_back2.add(self, int(self.width / 2) + 1, 8)
+        self.inner.add(self, int(self.width / 2) - 8, 1)
+        self.interact.add(self, int(self.width / 2), 4)
+        self.trader.add(self, int(self.width / 2) - 6, 3)
+
+
+class ShopMap(PlayMap):
+    def __init__(self, height, width):
+        super().__init__(height, width, name="shopmap",
+                         pretty_name="Pokete-Shop")
+        self.inner = se.Text(""" __________________
+ |________________|
+ |      |a |      |
+ |      ¯ ¯¯      |
+ |                |
+ |_______  _______|
+ |______|  |______|""", ignore=" ")
+        self.interact = ShopInteract("¯", state="float")
+        self.dor_back1 = CenterDor(" ", state="float")
+        self.dor_back2 = CenterDor(" ", state="float")
+        # adding
+        self.dor_back1.add(self, int(self.width / 2), 8)
+        self.dor_back2.add(self, int(self.width / 2) + 1, 8)
+        self.inner.add(self, int(self.width / 2) - 9, 1)
+        self.interact.add(self, int(self.width / 2), 4)
+
+
 class CenterDor(se.Object):
     """Dor class for the map to enter centers and shops"""
 
@@ -2731,10 +2780,8 @@ if __name__ == "__main__":
 
     # Those two maps cant to sourced out, because `height` and `width`
     # are global variables exclusive to pokete.py
-    centermap = PlayMap(height - 1, width, name="centermap",
-                        pretty_name="Pokete-Center")
-    shopmap = PlayMap(height - 1, width, name="shopmap",
-                      pretty_name="Pokete-Shop")
+    centermap = CenterMap(height - 1, width)
+    shopmap = ShopMap(height - 1, width)
 
     ob_maps["centermap"] = centermap
     ob_maps["shopmap"] = shopmap
@@ -2773,46 +2820,6 @@ if __name__ == "__main__":
 
     buy = Buy(figure, Inv, movemap)
     map_additions()
-
-    # centermap
-    centermap.inner = se.Text(""" ________________
- |______________|
- |     |a |     |
- |     ¯ ¯¯     |
- |              |
- |______  ______|
- |_____|  |_____|""", ignore=" ")
-
-    centermap.interact = CenterInteract("¯", state="float")
-    centermap.dor_back1 = CenterDor(" ", state="float")
-    centermap.dor_back2 = CenterDor(" ", state="float")
-    centermap.trader = NPC("trader",
-                           [" < I'm a trader.",
-                            " < Here you can trade one of your Poketes for another players' one."],
-                           "swap_poke", ())
-    # adding
-    centermap.dor_back1.add(centermap, int(centermap.width / 2), 8)
-    centermap.dor_back2.add(centermap, int(centermap.width / 2) + 1, 8)
-    centermap.inner.add(centermap, int(centermap.width / 2) - 8, 1)
-    centermap.interact.add(centermap, int(centermap.width / 2), 4)
-    centermap.trader.add(centermap, int(centermap.width / 2) - 6, 3)
-
-    # shopmap
-    shopmap.inner = se.Text(""" __________________
- |________________|
- |      |a |      |
- |      ¯ ¯¯      |
- |                |
- |_______  _______|
- |______|  |______|""", ignore=" ")
-    shopmap.interact = ShopInteract("¯", state="float")
-    shopmap.dor_back1 = CenterDor(" ", state="float")
-    shopmap.dor_back2 = CenterDor(" ", state="float")
-    # adding
-    shopmap.dor_back1.add(shopmap, int(shopmap.width / 2), 8)
-    shopmap.dor_back2.add(shopmap, int(shopmap.width / 2) + 1, 8)
-    shopmap.inner.add(shopmap, int(shopmap.width / 2) - 9, 1)
-    shopmap.interact.add(shopmap, int(shopmap.width / 2), 4)
 
     # objects relevant for fight()
     fightmap = se.Map(height - 1, width, " ")
