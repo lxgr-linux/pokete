@@ -18,7 +18,7 @@ import json
 from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.animations as animations
+from pokete_classes import animations
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
