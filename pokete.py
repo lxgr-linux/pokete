@@ -296,8 +296,10 @@ class ShopInteract(se.Object):
 
 
 class CenterMap(PlayMap):
-    def __init__(self, height, width):
-        super().__init__(height, width, name="centermap",
+    """Contains all relevant objects for centermap"""
+
+    def __init__(self, _he, _wi):
+        super().__init__(_he, _wi, name="centermap",
                          pretty_name="Pokete-Center")
         self.inner = se.Text(""" ________________
  |______________|
@@ -324,8 +326,10 @@ another players' one."],
 
 
 class ShopMap(PlayMap):
-    def __init__(self, height, width):
-        super().__init__(height, width, name="shopmap",
+    """Contains all relevant objects for shopmap"""
+
+    def __init__(self, _he, _wi):
+        super().__init__(_he, _wi, name="shopmap",
                          pretty_name="Pokete-Shop")
         self.inner = se.Text(""" __________________
  |________________|
