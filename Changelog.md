@@ -1,3 +1,30 @@
+0.6.0
+------
+released: 2021-11-09
+
+What changed until this release?
+- Added [Diamondos](./wiki#diamondos), [Dia stab](./wiki#dia-stab), [Dazzle](./wiki#dazzle), [Dia spikes](./wiki#dia-spikes)
+- Added [Megapois](./wiki#megapois), [Poison thorn](./wiki#poison-thorn)
+- Added [Dicko](./wiki#dicko), [Lil nut](./wiki#lil-nut)
+- Added [Mowcow](./wiki#mowcow), [Supercow power](./wiki#supercow-power)
+- Added [Wheeto](./wiki#wheeto), [Special smell](./wiki#special-smell)
+- Added Flowy Town, Mowcow Meadow, The Fields of Agrawos
+- Reformated files
+- Added Github pages, special thanks to MaFeLP
+- Added validation action
+- Made the savefile json
+- Added subtypes to better organise generic attacks
+- Added Devguide
+- Added modloader
+- Added .editorconfig
+- Added Pipfile and Pipfile.lock
+- Overhauled Roadmap
+- Added multipage wiki
+- Completely rewrote gen_wiki.py
+- Reformated, moved, outsourced, chnages a lot of code
+Again special thanks to MaFeLP
+
+
 0.5.1
 ------
 released: 2021-09-19
@@ -18,13 +45,13 @@ What changed until this release?
 - Added startuptime to savefile
 - Added Route 7
 - Added coloured Minimap
-- Added [Spikes](wiki.md#spikes), [Bubble gun](wiki.md#bubble-gun), [Flame throw](wiki.md#flame-throw), [Toe breaker](wiki.md#toe-breaker), [Wind blow](wiki.md#wind-blow), [Storm gust](wiki.md#storm-gust), [Rock smash](wiki.md#rock-smash) 
-- Added [Dicki](wiki.md#dicki), [Dick energy](wiki.md#dick-energy), [Ground hit](wiki.md#ground-hit), [Hiding](wiki.md#hiding)
-- Added [Schmetterling](wiki.md#Schmetterling), [Schmetter](wiki.md#schmetter)
+- Added [Spikes](./wiki#spikes), [Bubble gun](./wiki#bubble-gun), [Flame throw](./wiki#flame-throw), [Toe breaker](./wiki#toe-breaker), [Wind blow](./wiki#wind-blow), [Storm gust](./wiki#storm-gust), [Rock smash](./wiki#rock-smash)
+- Added [Dicki](./wiki#dicki), [Dick energy](./wiki#dick-energy), [Ground hit](./wiki#ground-hit), [Hiding](./wiki#hiding)
+- Added [Schmetterling](./wiki#Schmetterling), [Schmetter](./wiki#schmetter)
 - Added abbility to learn a new attack very fifth level
 - Added second type
 - Added savable attacks
-- Added [Poison](wiki.md#types) Type
+- Added [Poison](./wiki#types) Type
 - Added Learn Discs that can be used to teach new attack to Poketes
 - Added abilities
 - Added flying
@@ -36,14 +63,14 @@ What changed until this release?
 released: 2021-08-08
 
 What changed until this release?
-- Added [EffectFreezing](wiki.md#freezing)
-- Added ice Poketes ([Cubl](wiki.md#cubl), [Spikl](wiki.md#spikl)) and attacks ([freeze](wiki.md#freeze), [Snow storm](wiki.md#snow-storm), [Sword of ice](wiki.md#sword-of-ice))
-- Added some more new Poketes ([Confuso](wiki.md#confuso), [Poisopla](wiki.md#poisopla)) and attacks ([Confusion](wiki.md#confusion), [Posion spores](wiki.md#poison-spores), [Root slap](wiki.md#root-slap))
+- Added [EffectFreezing](./wiki#freezing)
+- Added ice Poketes ([Cubl](./wiki#cubl), [Spikl](./wiki#spikl)) and attacks ([freeze](./wiki#freeze), [Snow storm](./wiki#snow-storm), [Sword of ice](./wiki#sword-of-ice))
+- Added some more new Poketes ([Confuso](./wiki#confuso), [Poisopla](./wiki#poisopla)) and attacks ([Confusion](./wiki#confusion), [Posion spores](./wiki#poison-spores), [Root slap](./wiki#root-slap))
 - Added shiny Poketes
 - Outsourced all map information to maps.py
 - Added version checking to warn about data loss when downgrading
 - Sorted the Poketes and attacks in the wiki by types
-- Fixed the effectivity of [EffectBurning](wiki.md#burning)
+- Fixed the effectivity of [EffectBurning](./wiki#burning)
 - Fixed logic bug in most effects, so that some types are not affected by some effects
 - Added Pokete dex for the user to keep track of all Pokete 'races' they have ever caught regardless of wether or not the Poketes are in the deck or not
 - Cleaned up save file to be more readable for humans
@@ -70,10 +97,10 @@ What changed until this release?
 - Added effects
 - Added coloured output for OutP (scrap_engine >= v0.3.1 is now needed)
 - Fixed bug with saving in shops
-- Fixed bug with moves when confused 
+- Fixed bug with moves when confused
 - Outsourced general-use functions
 - Made some functions a class
-- Made some other quality of life changes 
+- Made some other quality of life changes
 
 
 0.3.8

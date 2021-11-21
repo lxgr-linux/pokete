@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>prepare_pages API documentation</title>
+<meta name="description" content="Prepare pages prepares all files in &#34;files&#34; for GitHub Pages …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>prepare_pages</code></h1>
+</header>
+<section id="section-intro">
+<p>Prepare pages prepares all files in "files" for GitHub Pages</p>
+<p>This script takes one argument, which specifies if the actions it should take are before the command
+"git switch gh-pages" or afterwards. "before" means that it will the pre-change actions and "after" the after-change
+actions.</p>
+<p>This script processes files on how they are configured in the "files" dictionary: If the type is documentation
+if will call pdoc3 to create the documentation for it. If the type is "page", the argument "convert_with_pandoc"
+is a boolean which specifies, if the file should be converted into HTML by pandoc (True) or GitHub Pages' Jekyll
+(False). If set to false, it is advised to set "convert_tables" to True, as Jekyll can not handle markdown tables.
+Afterwards this script will replace all the links specified in the list "replace_links". There the first argument of
+the Tuple specifies the old link and the second argument the new link. With "new_name" the file will be renamed on the
+website.</p>
+<h2 id="usage">Usage:</h2>
+<ul>
+<li>python3 prepare_pages.py before</li>
+<li>Invokes actions before the branch switch</li>
+<li>python3 prepare_pages.py after</li>
+<li>Invokes actions after the branch switch</li>
+</ul>
+<h2 id="exit-codes">Exit Codes:</h2>
+<ul>
+<li>0: Everything is OK.</li>
+<li>1: An internal error occurred</li>
+<li>2: The user did not specify the right/enough arguments</li>
+</ul>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python
+&#34;&#34;&#34;
+Prepare pages prepares all files in &#34;files&#34; for GitHub Pages
+
+This script takes one argument, which specifies if the actions it should take are before the command
+&#34;git switch gh-pages&#34; or afterwards. &#34;before&#34; means that it will the pre-change actions and &#34;after&#34; the after-change
+actions.
+
+This script processes files on how they are configured in the &#34;files&#34; dictionary: If the type is documentation
+if will call pdoc3 to create the documentation for it. If the type is &#34;page&#34;, the argument &#34;convert_with_pandoc&#34;
+is a boolean which specifies, if the file should be converted into HTML by pandoc (True) or GitHub Pages&#39; Jekyll
+(False). If set to false, it is advised to set &#34;convert_tables&#34; to True, as Jekyll can not handle markdown tables.
+Afterwards this script will replace all the links specified in the list &#34;replace_links&#34;. There the first argument of
+the Tuple specifies the old link and the second argument the new link. With &#34;new_name&#34; the file will be renamed on the
+website.
+
+Usage:
+-----
+- python3 prepare_pages.py before
+  - Invokes actions before the branch switch
+- python3 prepare_pages.py after
+  - Invokes actions after the branch switch
+
+Exit Codes:
+----------
+- 0: Everything is OK.
+- 1: An internal error occurred
+- 2: The user did not specify the right/enough arguments
+&#34;&#34;&#34;
+import os
+from os.path import exists
+import sys
+import json
+from urllib import request
+
+&#34;&#34;&#34;
+The files dictionary specifies how and which files should be processed.
+
+Structure:
+---------
+- Filename or directory (directory only with type=documentation)
+  - type:
+    - page: Converts into static webpage
+    - documentation: calls pdoc3 to create a documentation for it
+  - replace_tables: Boolean: If tables should be replaced by HTML-Tables
+  - replace_links: A list of tuples for links th be replaced in this document
+    - element one: The link that should be replaced
+    - element two: The link that element one should be replaced with
+  - convert_with_pandoc: boolean: If the page should be converted with pandoc (True) or Jekyll (False)
+  - new_name: the new filename and the name on the website. If convert_with_pandoc is set to true,
+    make the extension .html. If the name should not be changed, put in None.
+&#34;&#34;&#34;
+files = {}
+
+
+def replace_tables(_text: str) -&gt; str:
+    &#34;&#34;&#34;Replaces all markdown tables in _text with html tables
+
+    This function writes the mardkwon table to a temporary file in /tmp/, calls pandoc to convert this file to html and
+    reads the text back in.
+
+    Arguments:
+    ---------
+    - _text: The text in which all the tables should be converted.
+
+    Returns:
+    -------
+    The input string, but with replaced markdown tables.
+    &#34;&#34;&#34;
+    out = &#39;&#39;
+    table = &#39;&#39;
+    in_table = False
+    for line in _text.split(&#39;\n&#39;):
+        if &#39;|&#39; in line:
+            in_table = True
+            table += line
+            table += &#39;\n&#39;
+        else:
+            if in_table:
+                in_table = False
+                with open(&#39;/tmp/pandoc_convert.md&#39;, &#39;w&#39;) as _f:
+                    _f.write(table)
+                os.system(&#39;pandoc /tmp/pandoc_convert.md -o /tmp/pandoc_convert.html&#39;)
+                with open(&#39;/tmp/pandoc_convert.html&#39;, &#39;r&#39;) as _f:
+                    md_text = _f.read()
+                table = &#39;&#39;
+                out += md_text
+                out += &#39;\n&#39;
+            else:
+                out += line
+                out += &#39;\n&#39;
+    return out
+
+
+def get_header(url: str = r&#39;https://lxgr-linux.github.io/pokete&#39;,
+               header_end: str = r&#39;&lt;section&gt;&#39;) -&gt; str:
+    &#34;&#34;&#34;Gets the first part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the first part of.
+    - header_end: the end of the &#34;header&#34;.
+
+    Returns:
+    -------
+    The start of this webpage.
+    &#34;&#34;&#34;
+    result = request.urlopen(url)
+    _text = result.read().decode(&#39;UTF-8&#39;).split(header_end)[0]
+    return _text + header_end + &#39;\n&#39;
+
+
+def get_footer(url: str = r&#39;https://lxgr-linux.github.io/pokete&#39;,
+               footer_start: str = r&#39;&lt;/section&gt;&#39;) -&gt; str:
+    &#34;&#34;&#34;Gets the last part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the last part of.
+    - footer_start: Where the &#34;footer&#34;/the end of the webpage begins.
+
+    Returns:
+    -------
+    The end of this webpage.
+    &#34;&#34;&#34;
+    result = request.urlopen(url)
+    _text = result.read().decode(&#39;UTF-8&#39;).split(footer_start)[1]
+    _text = footer_start + _text
+    return _text
+
+
+def create_documentation() -&gt; None:
+    &#34;&#34;&#34;Creates documentation for all tagged files
+
+    This function creates python documentation for all files and folders in the files dictionary that have the type
+    &#34;documentation&#34;. This function will call pdoc to create the documentation for it.
+    &#34;&#34;&#34;
+    modules = [file for file in files if files[file][&#34;type&#34;] == &#34;documentation&#34;]
+    pdoc_path = &#34;/home/runner/.local/bin/pdoc&#34;
+
+    for module in modules:
+        print(f&#34; -&gt; {module}&#34;)
+        os.system(f&#34;{pdoc_path} --html {module} --output-dir \&#34;/tmp/doc/\&#34; --force&#34;)
+
+
+def add_folder(folder: str, add_tmp_folder: bool = False) -&gt; None:
+    &#34;&#34;&#34;Creates a folder, if not does not already exist
+
+    This function creates a folder in the current working directory.
+    It also creates a folder with the same name in /tmp, if needed.
+
+    Arguments
+    ---------
+    folder: The name of the folder to create
+    add_tmp_folder If a folder in /tmp should be creates as well.
+    &#34;&#34;&#34;
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+    tmp_folder = os.path.join(&#34;/tmp&#34;, folder)
+    if not os.path.isdir(tmp_folder):
+        os.mkdir(tmp_folder)
+    files.update({
+        folder: {
+            &#34;type&#34;: &#34;folder&#34;
+        }
+    })
+
+
+def create_wiki() -&gt; None:
+    &#34;&#34;&#34;Creates a multi-page and a single-page wiki.
+
+    This function calls the multi-page and single-page methods from the
+    gen_wiki file to add to the gh-pages.
+    &#34;&#34;&#34;
+    from gen_wiki import Wiki
+    Wiki.multi(&#34;./wiki-multi-md/&#34;)
+    Wiki.single(&#34;./wiki-single.md&#34;)
+
+
+def add_wiki_folder(folder_name: str) -&gt; list:
+    &#34;&#34;&#34;Gives out all markdown files in current and subdirectories as a list
+
+    This function adds all markdown files in the current directory to the list
+    is gives back. It also calls itself for each sub-directory and appends the
+    markdown files from itself to the output list as well.
+
+    Arguments
+    ---------
+    folder_name: The folder to add
+
+    Returns:
+    --------
+    A list of all markdown files in the current and all subdirectories.
+    &#34;&#34;&#34;
+    items = os.listdir(folder_name)
+    out = []
+    for item in items:
+        file = os.path.join(folder_name, item)
+        if os.path.isdir(file):
+            add_folder(file.replace(&#34;./wiki-multi-md/&#34;, &#34;./wiki-multi-html/&#34;), True)
+            for f in add_wiki_folder(file):
+                out.append(f)
+        elif os.path.isfile(file):
+            if item.endswith(&#34;.md&#34;):
+                out.append(file)
+            else:
+                print(f&#34;{file} is not a markdown file!&#34;)
+        else:
+            print(f&#34;Unrecognized type: {file}&#34;)
+    return out
+
+
+def add_wiki_to_files() -&gt; None:
+    &#34;&#34;&#34;Add files from multi-page wiki to files dictionary
+
+    This function adds all markdown files from the directory ./wiki-multi-md
+    and its subdirectories into the files dictionary to be processed by the other functions as well.
+    &#34;&#34;&#34;
+    if not os.path.isdir(&#34;./wiki-multi-html&#34;):
+        os.mkdir(&#34;./wiki-multi-html&#34;)
+    if not os.path.isdir(&#34;/tmp/wiki-multi-html&#34;):
+        os.mkdir(&#34;/tmp/wiki-multi-html&#34;)
+    wiki_files = add_wiki_folder(&#34;./wiki-multi-md/&#34;)
+    print(wiki_files)
+    for wiki_file in wiki_files:
+        files.update({
+                wiki_file: {
+                    &#34;type&#34;: &#34;page&#34;,
+                    &#34;replace_tables&#34;: False,
+                    &#34;convert_with_pandoc&#34;: True,
+                    &#34;replace_links&#34;: [],
+                    &#34;new_name&#34;: str(wiki_file.replace(&#34;.md&#34;, &#34;.html&#34;)).replace(&#34;./wiki-multi-md/&#34;, &#34;./wiki-multi-html/&#34;)
+                }
+            })
+    print(files)
+
+
+def before() -&gt; None:
+    &#34;&#34;&#34;The actions that should be executed before the brach switch
+
+    This functions creates documentation for all the files, replaces tables if necessary or converts the files with
+    pandoc. All the files are then moved into the /mp directory.
+    &#34;&#34;&#34;
+    print(&#39;:: Preparing files for gh-pages...&#39;)
+    print(&#34;==&gt; Generating documentation with pdoc...&#34;)
+    create_documentation()
+    print(&#34;==&gt; Creating Wiki...&#34;)
+    create_wiki()
+    print(&#34;==&gt; Adding Multi-page Wiki...&#34;)
+    add_wiki_to_files()
+    for file in files.keys():
+        print(f&#34;==&gt; Preparing {file}&#34;)
+        properties = files[file]
+
+        if properties[&#34;type&#34;] == &#34;documentation&#34; or properties[&#34;type&#34;] == &#34;folder&#34;:
+            continue
+
+        new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
+
+        # Jekyll can not handle double open/closing brackets (e.g. {{) , so we
+        # need to manually convert these pages.
+        # We do this by using pandoc and adding the start and end of the
+        # root page to the start and the end of the
+        if properties[&#34;convert_with_pandoc&#34;]:
+            print(&#34; -&gt; Converting to html...&#34;)
+            os.system(f&#34;pandoc --from gfm --to html5 -o \&#34;{new_name}\&#34; \&#34;{file}\&#34;&#34;)
+
+        # Tables only need to be replaced, if the file is not converted with
+        # pandoc, as pandoc is converting the tables automatically.
+        elif properties[&#34;replace_tables&#34;]:
+            print(&#34; -&gt; Replacing Tables...&#34;)
+            with open(file, &#39;r&#39;) as f:
+                text = f.read()
+                text = replace_tables(text)
+            with open(new_name, &#39;w&#39;) as f:
+                f.write(text)
+
+        # If no operation was performed, we need to move the file, in order to
+        # not interrupt the workflow.
+        else:
+            os.system(f&#34;mv \&#34;{file}\&#34; \&#34;{new_name}\&#34;&#34;)
+
+        print(&#34; -&gt; Copying to /tmp...&#34;)
+        os.system(f&#34;cp \&#34;{new_name}\&#34; \&#34;/tmp/{new_name}\&#34;&#34;)
+
+        files[file][&#34;new_name&#34;] = new_name
+
+    print(&#34;Saving configuration...&#34;)
+    with open(&#39;/tmp/prepare_pages_saves.py&#39;, &#39;w&#39;) as f:
+        f.write(str(files))
+
+    print(&#39;:: Done!&#39;)
+
+
+def after() -&gt; None:
+    &#34;&#34;&#34;The actions that shall be executed in the gh-pages branch.
+
+    This function copies all previously created files from /tmp/ to the current
+    working directory and adds the start and end of the gh-pages index website
+    to the files which have been converted with pandoc. This achieves a universal
+    look on all gh-pages pages. This function then replaces all the links for
+    each file.
+    &#34;&#34;&#34;
+    print(&#39;:: After processing files for gh-pages...&#39;)
+    print(&#39;:: Acquiring assets...&#39;)
+    print(&#39;==&gt; header&#39;)
+    header = get_header(url=&#39;https://lxgr-linux.github.io/pokete&#39;,
+                        header_end=&#39;&lt;section&gt;&#39;)
+    print(header)
+    print(&#39;==&gt; footer&#39;)
+    footer = get_footer(url=&#39;https://lxgr-linux.github.io/pokete&#39;,
+                        footer_start=&#39;&lt;/section&gt;&#39;)
+    print(footer)
+    # We need to store the configuration to keep the &#34;new_name&#34; attribute from
+    # the before run.
+    print(&#34;:: Loading configuration...&#34;)
+    with open(&#39;/tmp/prepare_pages_saves.py&#39;, &#39;r&#39;) as f:
+        text = f.read()
+        new_files = eval(text)
+
+    print(&#39;:: Processing files...&#39;)
+    print(&#39;==&gt; Making directories...&#39;)
+    print(&#39; -&gt; wiki-multi-html&#39;)
+    add_folder(&#39;wiki-multi-html&#39;, False)
+    for file in new_files.keys():
+        properties = new_files[file]
+        if properties[&#34;type&#34;] == &#34;folder&#34;:
+            print(&#39; -&gt; &#39; + file)
+            add_folder(file, False)
+    documentation_copied = False
+    for file in new_files.keys():
+        properties = new_files[file]
+
+        # Copy documentation folder from /tmp/doc/ to current directory
+        if properties[&#34;type&#34;] == &#34;documentation&#34;:
+            if not documentation_copied:
+                print(&#34;==&gt; Copying Documentation folder...&#34;)
+                if exists(&#34;./doc/&#34;):
+                    print(&#34; -&gt; Removing old documentation folder...&#34;)
+                    os.system(f&#34;rm -rf doc&#34;)
+                print(&#34; -&gt; Copying new documentation files...&#34;)
+                os.system(&#34;cp -r /tmp/doc/ .&#34;)
+                documentation_copied = True  # Only copy the directory once
+            continue
+        elif properties[&#34;type&#34;] == &#34;folder&#34;:
+            continue
+
+        new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
+        print(f&#39;==&gt; After processing {new_name}&#39;)
+
+        # If a file was converted with pandoc, it needs the stylesheet
+        # (in the header) and a footer.
+        if properties[&#34;convert_with_pandoc&#34;]:
+            print(&#34;-&gt; Applying Styles...&#34;)
+            with open(f&#34;/tmp/{new_name}&#34;, &#39;r&#39;) as f:
+                text = f.read()
+            with open(new_name, &#39;w&#39;) as f:
+                f.write(header + text + footer)
+        else:
+            print(&#34; -&gt; Copying to current directory...&#34;)
+            os.system(f&#34;cp \&#34;/tmp/{new_name}\&#34; .&#34;)
+
+        # Links need to be replaced from directory and markdown direct links
+        # (wiki.md) into website links (./wiki)
+        if properties[&#34;replace_links&#34;]:
+            print(&#34; -&gt; Replacing links...&#34;)
+            for old in properties[&#34;replace_links&#34;].keys():
+                new = properties[&#34;replace_links&#34;][old]
+                if old != list(properties[&#34;replace_links&#34;].keys())[-1]:
+                    print(f&#34; |-&gt; Replacing {old} with {new}...&#34;)
+                else:
+                    print(f&#34; `-&gt; Replacing {old} with {new}...&#34;)
+                # Need to use sed, as str.replace somehow misses some link
+                # changes?
+                os.system(f&#34;sed -i &#39;s#]({old}#]({new}#g&#39; {new_name}&#34;)
+    print(&#34;==&gt; Renaming &#39;wiki-multi-html&#39; to &#39;wiki-multi&#39;...&#34;)
+    os.system(&#34;mv &#39;./wiki-multi-html/&#39; &#39;./wiki-multi&#39;&#34;)
+    print(&#39;:: Done!&#39;)
+
+
+if __name__ == &#39;__main__&#39;:
+    if len(sys.argv) == 1:
+        print(&#39;Error! Not enough arguments:&#39;)
+        print(f&#34;Usage: &#39;{sys.argv[0]}&#39; &lt;after|before&gt;&#34;)
+        sys.exit(2)
+    if sys.argv[1] == &#39;before&#39;:
+        with open(&#39;.gh-pages.json&#39;, &#39;r&#39;) as config_file:
+            files = json.loads(config_file.read())
+        before()
+    elif &#39;after&#39; == sys.argv[1]:
+        after()
+    else:
+        print(&#39;Error! Unrecognised first argument:&#39;)
+        print(f&#34;Usage: &#39;{sys.argv[0]}&#39; &lt;after|before&gt;&#34;)
+        sys.exit(2)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="prepare_pages.add_folder"><code class="name flex">
+<span>def <span class="ident">add_folder</span></span>(<span>folder: str, add_tmp_folder: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a folder, if not does not already exist</p>
+<p>This function creates a folder in the current working directory.
+It also creates a folder with the same name in /tmp, if needed.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>The name</code> of <code>the folder to create</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>add_tmp_folder If a folder in /tmp should be creates as well.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_folder(folder: str, add_tmp_folder: bool = False) -&gt; None:
+    &#34;&#34;&#34;Creates a folder, if not does not already exist
+
+    This function creates a folder in the current working directory.
+    It also creates a folder with the same name in /tmp, if needed.
+
+    Arguments
+    ---------
+    folder: The name of the folder to create
+    add_tmp_folder If a folder in /tmp should be creates as well.
+    &#34;&#34;&#34;
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+    tmp_folder = os.path.join(&#34;/tmp&#34;, folder)
+    if not os.path.isdir(tmp_folder):
+        os.mkdir(tmp_folder)
+    files.update({
+        folder: {
+            &#34;type&#34;: &#34;folder&#34;
+        }
+    })</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.add_wiki_folder"><code class="name flex">
+<span>def <span class="ident">add_wiki_folder</span></span>(<span>folder_name: str) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gives out all markdown files in current and subdirectories as a list</p>
+<p>This function adds all markdown files in the current directory to the list
+is gives back. It also calls itself for each sub-directory and appends the
+markdown files from itself to the output list as well.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>folder_name</code></strong> :&ensp;<code>The folder to add</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns:</h2>
+<p>A list of all markdown files in the current and all subdirectories.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_wiki_folder(folder_name: str) -&gt; list:
+    &#34;&#34;&#34;Gives out all markdown files in current and subdirectories as a list
+
+    This function adds all markdown files in the current directory to the list
+    is gives back. It also calls itself for each sub-directory and appends the
+    markdown files from itself to the output list as well.
+
+    Arguments
+    ---------
+    folder_name: The folder to add
+
+    Returns:
+    --------
+    A list of all markdown files in the current and all subdirectories.
+    &#34;&#34;&#34;
+    items = os.listdir(folder_name)
+    out = []
+    for item in items:
+        file = os.path.join(folder_name, item)
+        if os.path.isdir(file):
+            add_folder(file.replace(&#34;./wiki-multi-md/&#34;, &#34;./wiki-multi-html/&#34;), True)
+            for f in add_wiki_folder(file):
+                out.append(f)
+        elif os.path.isfile(file):
+            if item.endswith(&#34;.md&#34;):
+                out.append(file)
+            else:
+                print(f&#34;{file} is not a markdown file!&#34;)
+        else:
+            print(f&#34;Unrecognized type: {file}&#34;)
+    return out</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.add_wiki_to_files"><code class="name flex">
+<span>def <span class="ident">add_wiki_to_files</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add files from multi-page wiki to files dictionary</p>
+<p>This function adds all markdown files from the directory ./wiki-multi-md
+and its subdirectories into the files dictionary to be processed by the other functions as well.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_wiki_to_files() -&gt; None:
+    &#34;&#34;&#34;Add files from multi-page wiki to files dictionary
+
+    This function adds all markdown files from the directory ./wiki-multi-md
+    and its subdirectories into the files dictionary to be processed by the other functions as well.
+    &#34;&#34;&#34;
+    if not os.path.isdir(&#34;./wiki-multi-html&#34;):
+        os.mkdir(&#34;./wiki-multi-html&#34;)
+    if not os.path.isdir(&#34;/tmp/wiki-multi-html&#34;):
+        os.mkdir(&#34;/tmp/wiki-multi-html&#34;)
+    wiki_files = add_wiki_folder(&#34;./wiki-multi-md/&#34;)
+    print(wiki_files)
+    for wiki_file in wiki_files:
+        files.update({
+                wiki_file: {
+                    &#34;type&#34;: &#34;page&#34;,
+                    &#34;replace_tables&#34;: False,
+                    &#34;convert_with_pandoc&#34;: True,
+                    &#34;replace_links&#34;: [],
+                    &#34;new_name&#34;: str(wiki_file.replace(&#34;.md&#34;, &#34;.html&#34;)).replace(&#34;./wiki-multi-md/&#34;, &#34;./wiki-multi-html/&#34;)
+                }
+            })
+    print(files)</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.after"><code class="name flex">
+<span>def <span class="ident">after</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The actions that shall be executed in the gh-pages branch.</p>
+<p>This function copies all previously created files from /tmp/ to the current
+working directory and adds the start and end of the gh-pages index website
+to the files which have been converted with pandoc. This achieves a universal
+look on all gh-pages pages. This function then replaces all the links for
+each file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def after() -&gt; None:
+    &#34;&#34;&#34;The actions that shall be executed in the gh-pages branch.
+
+    This function copies all previously created files from /tmp/ to the current
+    working directory and adds the start and end of the gh-pages index website
+    to the files which have been converted with pandoc. This achieves a universal
+    look on all gh-pages pages. This function then replaces all the links for
+    each file.
+    &#34;&#34;&#34;
+    print(&#39;:: After processing files for gh-pages...&#39;)
+    print(&#39;:: Acquiring assets...&#39;)
+    print(&#39;==&gt; header&#39;)
+    header = get_header(url=&#39;https://lxgr-linux.github.io/pokete&#39;,
+                        header_end=&#39;&lt;section&gt;&#39;)
+    print(header)
+    print(&#39;==&gt; footer&#39;)
+    footer = get_footer(url=&#39;https://lxgr-linux.github.io/pokete&#39;,
+                        footer_start=&#39;&lt;/section&gt;&#39;)
+    print(footer)
+    # We need to store the configuration to keep the &#34;new_name&#34; attribute from
+    # the before run.
+    print(&#34;:: Loading configuration...&#34;)
+    with open(&#39;/tmp/prepare_pages_saves.py&#39;, &#39;r&#39;) as f:
+        text = f.read()
+        new_files = eval(text)
+
+    print(&#39;:: Processing files...&#39;)
+    print(&#39;==&gt; Making directories...&#39;)
+    print(&#39; -&gt; wiki-multi-html&#39;)
+    add_folder(&#39;wiki-multi-html&#39;, False)
+    for file in new_files.keys():
+        properties = new_files[file]
+        if properties[&#34;type&#34;] == &#34;folder&#34;:
+            print(&#39; -&gt; &#39; + file)
+            add_folder(file, False)
+    documentation_copied = False
+    for file in new_files.keys():
+        properties = new_files[file]
+
+        # Copy documentation folder from /tmp/doc/ to current directory
+        if properties[&#34;type&#34;] == &#34;documentation&#34;:
+            if not documentation_copied:
+                print(&#34;==&gt; Copying Documentation folder...&#34;)
+                if exists(&#34;./doc/&#34;):
+                    print(&#34; -&gt; Removing old documentation folder...&#34;)
+                    os.system(f&#34;rm -rf doc&#34;)
+                print(&#34; -&gt; Copying new documentation files...&#34;)
+                os.system(&#34;cp -r /tmp/doc/ .&#34;)
+                documentation_copied = True  # Only copy the directory once
+            continue
+        elif properties[&#34;type&#34;] == &#34;folder&#34;:
+            continue
+
+        new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
+        print(f&#39;==&gt; After processing {new_name}&#39;)
+
+        # If a file was converted with pandoc, it needs the stylesheet
+        # (in the header) and a footer.
+        if properties[&#34;convert_with_pandoc&#34;]:
+            print(&#34;-&gt; Applying Styles...&#34;)
+            with open(f&#34;/tmp/{new_name}&#34;, &#39;r&#39;) as f:
+                text = f.read()
+            with open(new_name, &#39;w&#39;) as f:
+                f.write(header + text + footer)
+        else:
+            print(&#34; -&gt; Copying to current directory...&#34;)
+            os.system(f&#34;cp \&#34;/tmp/{new_name}\&#34; .&#34;)
+
+        # Links need to be replaced from directory and markdown direct links
+        # (wiki.md) into website links (./wiki)
+        if properties[&#34;replace_links&#34;]:
+            print(&#34; -&gt; Replacing links...&#34;)
+            for old in properties[&#34;replace_links&#34;].keys():
+                new = properties[&#34;replace_links&#34;][old]
+                if old != list(properties[&#34;replace_links&#34;].keys())[-1]:
+                    print(f&#34; |-&gt; Replacing {old} with {new}...&#34;)
+                else:
+                    print(f&#34; `-&gt; Replacing {old} with {new}...&#34;)
+                # Need to use sed, as str.replace somehow misses some link
+                # changes?
+                os.system(f&#34;sed -i &#39;s#]({old}#]({new}#g&#39; {new_name}&#34;)
+    print(&#34;==&gt; Renaming &#39;wiki-multi-html&#39; to &#39;wiki-multi&#39;...&#34;)
+    os.system(&#34;mv &#39;./wiki-multi-html/&#39; &#39;./wiki-multi&#39;&#34;)
+    print(&#39;:: Done!&#39;)</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.before"><code class="name flex">
+<span>def <span class="ident">before</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The actions that should be executed before the brach switch</p>
+<p>This functions creates documentation for all the files, replaces tables if necessary or converts the files with
+pandoc. All the files are then moved into the /mp directory.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def before() -&gt; None:
+    &#34;&#34;&#34;The actions that should be executed before the brach switch
+
+    This functions creates documentation for all the files, replaces tables if necessary or converts the files with
+    pandoc. All the files are then moved into the /mp directory.
+    &#34;&#34;&#34;
+    print(&#39;:: Preparing files for gh-pages...&#39;)
+    print(&#34;==&gt; Generating documentation with pdoc...&#34;)
+    create_documentation()
+    print(&#34;==&gt; Creating Wiki...&#34;)
+    create_wiki()
+    print(&#34;==&gt; Adding Multi-page Wiki...&#34;)
+    add_wiki_to_files()
+    for file in files.keys():
+        print(f&#34;==&gt; Preparing {file}&#34;)
+        properties = files[file]
+
+        if properties[&#34;type&#34;] == &#34;documentation&#34; or properties[&#34;type&#34;] == &#34;folder&#34;:
+            continue
+
+        new_name = properties[&#34;new_name&#34;] if properties[&#34;new_name&#34;] is not None else file
+
+        # Jekyll can not handle double open/closing brackets (e.g. {{) , so we
+        # need to manually convert these pages.
+        # We do this by using pandoc and adding the start and end of the
+        # root page to the start and the end of the
+        if properties[&#34;convert_with_pandoc&#34;]:
+            print(&#34; -&gt; Converting to html...&#34;)
+            os.system(f&#34;pandoc --from gfm --to html5 -o \&#34;{new_name}\&#34; \&#34;{file}\&#34;&#34;)
+
+        # Tables only need to be replaced, if the file is not converted with
+        # pandoc, as pandoc is converting the tables automatically.
+        elif properties[&#34;replace_tables&#34;]:
+            print(&#34; -&gt; Replacing Tables...&#34;)
+            with open(file, &#39;r&#39;) as f:
+                text = f.read()
+                text = replace_tables(text)
+            with open(new_name, &#39;w&#39;) as f:
+                f.write(text)
+
+        # If no operation was performed, we need to move the file, in order to
+        # not interrupt the workflow.
+        else:
+            os.system(f&#34;mv \&#34;{file}\&#34; \&#34;{new_name}\&#34;&#34;)
+
+        print(&#34; -&gt; Copying to /tmp...&#34;)
+        os.system(f&#34;cp \&#34;{new_name}\&#34; \&#34;/tmp/{new_name}\&#34;&#34;)
+
+        files[file][&#34;new_name&#34;] = new_name
+
+    print(&#34;Saving configuration...&#34;)
+    with open(&#39;/tmp/prepare_pages_saves.py&#39;, &#39;w&#39;) as f:
+        f.write(str(files))
+
+    print(&#39;:: Done!&#39;)</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.create_documentation"><code class="name flex">
+<span>def <span class="ident">create_documentation</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates documentation for all tagged files</p>
+<p>This function creates python documentation for all files and folders in the files dictionary that have the type
+"documentation". This function will call pdoc to create the documentation for it.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_documentation() -&gt; None:
+    &#34;&#34;&#34;Creates documentation for all tagged files
+
+    This function creates python documentation for all files and folders in the files dictionary that have the type
+    &#34;documentation&#34;. This function will call pdoc to create the documentation for it.
+    &#34;&#34;&#34;
+    modules = [file for file in files if files[file][&#34;type&#34;] == &#34;documentation&#34;]
+    pdoc_path = &#34;/home/runner/.local/bin/pdoc&#34;
+
+    for module in modules:
+        print(f&#34; -&gt; {module}&#34;)
+        os.system(f&#34;{pdoc_path} --html {module} --output-dir \&#34;/tmp/doc/\&#34; --force&#34;)</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.create_wiki"><code class="name flex">
+<span>def <span class="ident">create_wiki</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a multi-page and a single-page wiki.</p>
+<p>This function calls the multi-page and single-page methods from the
+gen_wiki file to add to the gh-pages.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_wiki() -&gt; None:
+    &#34;&#34;&#34;Creates a multi-page and a single-page wiki.
+
+    This function calls the multi-page and single-page methods from the
+    gen_wiki file to add to the gh-pages.
+    &#34;&#34;&#34;
+    from gen_wiki import Wiki
+    Wiki.multi(&#34;./wiki-multi-md/&#34;)
+    Wiki.single(&#34;./wiki-single.md&#34;)</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.get_footer"><code class="name flex">
+<span>def <span class="ident">get_footer</span></span>(<span>url: str = 'https://lxgr-linux.github.io/pokete', footer_start: str = &#x27;&lt;/section&gt;&#x27;) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the last part of a webpage</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>url: The URL to get the last part of.</li>
+<li>footer_start: Where the "footer"/the end of the webpage begins.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The end of this webpage.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_footer(url: str = r&#39;https://lxgr-linux.github.io/pokete&#39;,
+               footer_start: str = r&#39;&lt;/section&gt;&#39;) -&gt; str:
+    &#34;&#34;&#34;Gets the last part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the last part of.
+    - footer_start: Where the &#34;footer&#34;/the end of the webpage begins.
+
+    Returns:
+    -------
+    The end of this webpage.
+    &#34;&#34;&#34;
+    result = request.urlopen(url)
+    _text = result.read().decode(&#39;UTF-8&#39;).split(footer_start)[1]
+    _text = footer_start + _text
+    return _text</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.get_header"><code class="name flex">
+<span>def <span class="ident">get_header</span></span>(<span>url: str = 'https://lxgr-linux.github.io/pokete', header_end: str = &#x27;&lt;section&gt;&#x27;) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the first part of a webpage</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>url: The URL to get the first part of.</li>
+<li>header_end: the end of the "header".</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The start of this webpage.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_header(url: str = r&#39;https://lxgr-linux.github.io/pokete&#39;,
+               header_end: str = r&#39;&lt;section&gt;&#39;) -&gt; str:
+    &#34;&#34;&#34;Gets the first part of a webpage
+
+    Arguments:
+    ---------
+    - url: The URL to get the first part of.
+    - header_end: the end of the &#34;header&#34;.
+
+    Returns:
+    -------
+    The start of this webpage.
+    &#34;&#34;&#34;
+    result = request.urlopen(url)
+    _text = result.read().decode(&#39;UTF-8&#39;).split(header_end)[0]
+    return _text + header_end + &#39;\n&#39;</code></pre>
+</details>
+</dd>
+<dt id="prepare_pages.replace_tables"><code class="name flex">
+<span>def <span class="ident">replace_tables</span></span>(<span>_text: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Replaces all markdown tables in _text with html tables</p>
+<p>This function writes the mardkwon table to a temporary file in /tmp/, calls pandoc to convert this file to html and
+reads the text back in.</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>_text: The text in which all the tables should be converted.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The input string, but with replaced markdown tables.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def replace_tables(_text: str) -&gt; str:
+    &#34;&#34;&#34;Replaces all markdown tables in _text with html tables
+
+    This function writes the mardkwon table to a temporary file in /tmp/, calls pandoc to convert this file to html and
+    reads the text back in.
+
+    Arguments:
+    ---------
+    - _text: The text in which all the tables should be converted.
+
+    Returns:
+    -------
+    The input string, but with replaced markdown tables.
+    &#34;&#34;&#34;
+    out = &#39;&#39;
+    table = &#39;&#39;
+    in_table = False
+    for line in _text.split(&#39;\n&#39;):
+        if &#39;|&#39; in line:
+            in_table = True
+            table += line
+            table += &#39;\n&#39;
+        else:
+            if in_table:
+                in_table = False
+                with open(&#39;/tmp/pandoc_convert.md&#39;, &#39;w&#39;) as _f:
+                    _f.write(table)
+                os.system(&#39;pandoc /tmp/pandoc_convert.md -o /tmp/pandoc_convert.html&#39;)
+                with open(&#39;/tmp/pandoc_convert.html&#39;, &#39;r&#39;) as _f:
+                    md_text = _f.read()
+                table = &#39;&#39;
+                out += md_text
+                out += &#39;\n&#39;
+            else:
+                out += line
+                out += &#39;\n&#39;
+    return out</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#usage">Usage:</a></li>
+<li><a href="#exit-codes">Exit Codes:</a></li>
+</ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="prepare_pages.add_folder" href="#prepare_pages.add_folder">add_folder</a></code></li>
+<li><code><a title="prepare_pages.add_wiki_folder" href="#prepare_pages.add_wiki_folder">add_wiki_folder</a></code></li>
+<li><code><a title="prepare_pages.add_wiki_to_files" href="#prepare_pages.add_wiki_to_files">add_wiki_to_files</a></code></li>
+<li><code><a title="prepare_pages.after" href="#prepare_pages.after">after</a></code></li>
+<li><code><a title="prepare_pages.before" href="#prepare_pages.before">before</a></code></li>
+<li><code><a title="prepare_pages.create_documentation" href="#prepare_pages.create_documentation">create_documentation</a></code></li>
+<li><code><a title="prepare_pages.create_wiki" href="#prepare_pages.create_wiki">create_wiki</a></code></li>
+<li><code><a title="prepare_pages.get_footer" href="#prepare_pages.get_footer">get_footer</a></code></li>
+<li><code><a title="prepare_pages.get_header" href="#prepare_pages.get_header">get_header</a></code></li>
+<li><code><a title="prepare_pages.replace_tables" href="#prepare_pages.replace_tables">replace_tables</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

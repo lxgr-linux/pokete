@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pokete_data.npcs API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pokete_data.npcs</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">npcs = {
+    &#34;test_npc&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Hey&#34;, &#34; &lt; I&#39;m Josi&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_3&#34;,
+        &#34;x&#34;: 49,
+        &#34;y&#34;: 14
+    },
+    &#34;old_man&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Hello young trainer&#34;,
+                  &#34; &lt; When I&#39;ve been at your age, I also was a trainer&#34;,
+                  &#34; &lt; And I found this very special Poketeball&#34;,
+                  &#34; &lt; A Hyperball&#34;, &#34; &lt; It&#39;s one of the oldest and rarerest of them all&#34;,
+                  &#34; &lt; You can keep it!&#34;],
+        &#34;fn&#34;: &#34;NPC.give&#34;,
+        &#34;args&#34;: (&#34;playmap_10&#34;, &#34;old_man&#34;, &#34;Old man&#34;, &#34;hyperball&#34;),
+        &#34;map&#34;: &#34;playmap_10&#34;,
+        &#34;x&#34;: 4,
+        &#34;y&#34;: 3
+    },
+    &#34;healer&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Hello fellow trainer&#34;, &#34; &lt; You and your Poketes look exhausted&#34;, &#34; &lt; I will heal them!&#34;],
+        &#34;fn&#34;: &#34;heal&#34;,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_8&#34;,
+        &#34;x&#34;: 52,
+        &#34;y&#34;: 1
+    },
+    &#34;npc_1&#34;: {
+        &#34;texts&#34;: [&#34; &lt; To get to the other side of this building, you have to win some epic fights against Deepens &#34;
+                  &#34;forests&#39; best trainers!&#34;, &#34; &lt; This won&#39;t be easy!&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_13&#34;,
+        &#34;x&#34;: 33,
+        &#34;y&#34;: 6
+    },
+    &#34;npc_2&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Welcome to Deepens forest&#34;,
+                  &#34; &lt; To get through this town you have to win against the best trainers of Deepens forest!&#34;,
+                  &#34; &lt; I wish you a great time in Deepens forest!&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_13&#34;,
+        &#34;x&#34;: 38,
+        &#34;y&#34;: 31
+    },
+    &#34;npc_3&#34;: {
+        &#34;texts&#34;: [&#34; &lt; In this cave your&#39;ll encounter the best Pokete trainers of this town.&#34;,
+                  &#34; &lt; But watch out, stone is their preference!&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_21&#34;,
+        &#34;x&#34;: 136,
+        &#34;y&#34;: 15
+    },
+    &#34;npc_4&#34;: {
+        &#34;texts&#34;: [&#34; &lt; In this lake live...&#34;, &#34; &lt; ...Karpis&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_21&#34;,
+        &#34;x&#34;: 64,
+        &#34;y&#34;: 12
+    },
+    &#34;npc_5&#34;: {
+        &#34;texts&#34;: [&#34; &lt; This is the townhall of Rock-ville.&#34;, &#34; &lt; Here you can meet our major&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_21&#34;,
+        &#34;x&#34;: 112,
+        &#34;y&#34;: 12
+    },
+    &#34;npc_6&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Welcome to the Rocky Hotel, here you can rent a room to sleep.&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_22&#34;,
+        &#34;x&#34;: 12,
+        &#34;y&#34;: 8
+    },
+    &#34;npc_7&#34;: {
+        &#34;texts&#34;: [&#34; &lt; How did you get into my room?&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_23&#34;,
+        &#34;x&#34;: 14,
+        &#34;y&#34;: 8
+    },
+    &#34;npc_8&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Isn&#39;t this a nice town?&#34;, &#34; &lt; 100$ would be very usefull for a young trainer like you, init?&#34;],
+        &#34;fn&#34;: &#34;playmap_23_npc_8&#34;,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_23&#34;,
+        &#34;x&#34;: 3,
+        &#34;y&#34;: 7
+    },
+    &#34;npc_9&#34;: {
+        &#34;texts&#34;: [&#34; &lt; British devs be like:&#34;, &#34; &lt; It&#39;s a constructor, __init__?&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_24&#34;,
+        &#34;x&#34;: 14,
+        &#34;y&#34;: 3
+    },
+    &#34;major&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Hello trainer!&#34;, &#34; &lt; I&#39;m the major of Rock-ville&#34;,
+                  &#34; &lt; I think you are interested in fighting our best trainers!?&#34;, &#34; &lt; I wish you luck!&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_26&#34;,
+        &#34;x&#34;: 9,
+        &#34;y&#34;: 3
+    },
+    &#34;boy_1&#34;: {
+        &#34;texts&#34;: [],
+        &#34;fn&#34;: &#34;playmap_17_boy&#34;,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_17&#34;,
+        &#34;x&#34;: 4,
+        &#34;y&#34;: 3
+    },
+    &#34;trader_2&#34;: {
+        &#34;texts&#34;: [],
+        &#34;fn&#34;: &#34;playmap_20_trader&#34;,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_20&#34;,
+        &#34;x&#34;: 4,
+        &#34;y&#34;: 3
+    },
+    &#34;ld_man&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Hello fellow trainer!&#34;,
+                  &#34; &lt; You may have noticed that traveling between cities is not so comfortable nowadays.&#34;,
+                  &#34; &lt; But i can help you.&#34;, &#34; &lt; I can give you this lerning disc&#34;,
+                  &#34; &lt; You can use it to teach the &#39;flying&#39; attack to one of your flying Poketes to ride on it to the &#34;
+                  &#34;next town.&#34;,
+                  &#34; &lt; Isn&#39;t this great?&#34;],
+        &#34;fn&#34;: &#34;NPC.give&#34;,
+        &#34;args&#34;: (&#34;playmap_29&#34;, &#34;ld_man&#34;, &#34;The man&#34;, &#34;ld_flying&#34;),
+        &#34;map&#34;: &#34;playmap_29&#34;,
+        &#34;x&#34;: 13,
+        &#34;y&#34;: 4
+    },
+    &#34;lxgr&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Hello fellow traveler, my name is lxgr and I created this game. &#34;,
+                  &#34; &lt; You may ask your self: &#39;Lxgr, what are you doing in this game?&#39;, and the answer is &#39;Standing &#34;
+                  &#34;around&#39;.&#34;,
+                  &#34; &lt; I added this NPC, because I&#39;m stuck in a train somewere between Hamburg and Rostock, &#34;
+                  &#34;and I&#39;m bored.&#34;,
+                  &#34; &lt; You can contribute to this game at https://github.com/lxgr-linux/pokete .&#34;,
+                  &#34; &lt; If you want to hire me and stuff you can write me at lxgr@protonmail.com .&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_30&#34;,
+        &#34;x&#34;: 4,
+        &#34;y&#34;: 2
+    },
+    &#34;npc_10&#34;: {
+        &#34;texts&#34;: [&#34; &lt; This is the great git tree of Flowy Town.&#34;, &#34; &lt; It&#39;s our most holy monument!&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_30&#34;,
+        &#34;x&#34;: 123,
+        &#34;y&#34;: 20
+    },
+    &#34;npc_11&#34;: {
+        &#34;texts&#34;: [&#34; &lt; This is the great Pokete arena of Flowy Town.&#34;,
+                  &#34; &lt; Here you&#39;ll have to fight our best trainers and most rare Poketes!&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_30&#34;,
+        &#34;x&#34;: 60,
+        &#34;y&#34;: 18
+    },
+    &#34;npc_12&#34;: {
+        &#34;texts&#34;: [&#34; &lt; I guess this will be helpfull for you!&#34;],
+        &#34;fn&#34;: &#34;NPC.give&#34;,
+        &#34;args&#34;: (&#34;playmap_32&#34;, &#34;npc_12&#34;, &#34;Old man&#34;, &#34;hyperball&#34;),
+        &#34;map&#34;: &#34;playmap_32&#34;,
+        &#34;x&#34;: 8,
+        &#34;y&#34;: 4
+    },
+    &#34;npc_13&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Muuuuuu!&#34;, &#34; &lt; I&#39;m a Mowcow!&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_34&#34;,
+        &#34;x&#34;: 13,
+        &#34;y&#34;: 4
+    },
+    &#34;npc_14&#34;: {
+        &#34;texts&#34;: [&#34; &lt; I guess this will be helpfull for you!&#34;],
+        &#34;fn&#34;: &#34;NPC.give&#34;,
+        &#34;args&#34;: (&#34;playmap_36&#34;, &#34;npc_14&#34;, &#34;Old woman&#34;, &#34;ap_potion&#34;),
+        &#34;map&#34;: &#34;playmap_36&#34;,
+        &#34;x&#34;: 15,
+        &#34;y&#34;: 4
+    },
+    &#34;npc_15&#34;: {
+        &#34;texts&#34;: [&#34; &lt; Hello fellow trainer!&#34;,
+                  &#34; &lt; This is a very helpfull potion, that will save your Pokete in riscy fights!&#34;],
+        &#34;fn&#34;: &#34;NPC.give&#34;,
+        &#34;args&#34;: (&#34;playmap_37&#34;, &#34;npc_15&#34;, &#34;Bert the bird&#34;, &#34;super_potion&#34;),
+        &#34;map&#34;: &#34;playmap_37&#34;,
+        &#34;x&#34;: 4,
+        &#34;y&#34;: 3
+    },
+    &#34;npc_16&#34;: {
+        &#34;texts&#34;: [&#34; &lt; WTF r u doing here?&#34;, &#34; &lt; Screw of!&#34;],
+        &#34;fn&#34;: None,
+        &#34;args&#34;: (),
+        &#34;map&#34;: &#34;playmap_38&#34;,
+        &#34;x&#34;: 11,
+        &#34;y&#34;: 4
+    },
+}
+
+if __name__ == &#34;__main__&#34;:
+    print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pokete_data" href="index.html">pokete_data</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pokete_data.trainers API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pokete_data.trainers</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">trainers = {
+    &#34;playmap_1&#34;: [{
+        &#34;poke&#34;: (&#34;poundi&#34;, 60),
+        &#34;args&#34;: (&#34;Franz&#34;, &#34;He&#34;,
+                 [&#34; &lt; Wanna fight?&#34;], [&#34; &lt; Hahaha!&#34;, &#34; &lt; You&#39;re a loser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Your a very good trainer!&#34;], 30, 10)
+    },
+    ],
+    &#34;cave_1&#34;: [{
+        &#34;poke&#34;: (&#34;hornita&#34;, 128),
+        &#34;args&#34;: (&#34;Monica&#34;, &#34;She&#34;,
+                 [&#34; &lt; Hello noble traveler&#34;, &#34; &lt; Are you willing to fight with me?&#34;],
+                 [&#34; &lt; Hahaha!&#34;, &#34; &lt; Looooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Congratulations!&#34;, &#34; &lt; Have a great day!&#34;], 23, 10)
+    },
+    ],
+    &#34;playmap_2&#34;: [{
+        &#34;poke&#34;: (&#34;ostri&#34;, 160),
+        &#34;args&#34;: (&#34;Wanderer Murrad&#34;, &#34;He&#34;,
+                 [&#34; &lt; Isn&#39;t that a great day?&#34;, &#34; &lt; I traveled here from a far country&#34;,
+                  &#34; &lt; Do you want to fight against my rare Pokete?&#34;],
+                 [&#34; &lt; It is stronger than you might have exspected&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Oh, i didn&#39;t think you can defeat my Pokete!&#34;, &#34; &lt; You are a very good trainer!&#34;], 32, 12)
+    },
+    ],
+    &#34;playmap_3&#34;: [{
+        &#34;poke&#34;: (&#34;hornita&#34;, 200),
+        &#34;args&#34;: (&#34;Josi&#34;, &#34;She&#34;,
+                 [&#34; &lt; Hey!&#34;, &#34; &lt; I&#39;m Josi&#34;, &#34; &lt; Welcome to Josi Town&#34;, &#34; &lt; But first we have to fight!&#34;],
+                 [&#34; &lt; Hahaha!&#34;, &#34; &lt; Hahaha!&#34;, &#34; &lt; You&#39;re a fucking loser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;, &#34; &lt; Loooser!&#34;],
+                 [&#34; &lt; Damn, I lost!&#34;], 11, 5)
+    },
+    ],
+    &#34;playmap_4&#34;: [{
+        &#34;poke&#34;: (&#34;karpi&#34;, 340),
+        &#34;args&#34;: (&#34;Kevin&#34;, &#34;He&#34;,
+                 [&#34; &lt; Jo!&#34;, &#34; &lt; What up?&#34;, &#34; &lt; Wanna see my sick ass Pokete?&#34;],
+                 [&#34; &lt; Yeaaah!&#34;, &#34; &lt; My Pokete is sooo sick!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Daaaamn&#34;, &#34; &lt; Your Pokete is noot from this planet!&#34;], 32, 31)
+    },
+    ],
+    &#34;playmap_5&#34;: [{
+        &#34;poke&#34;: (&#34;bator&#34;, 350),
+        &#34;args&#34;: (&#34;Caveman Marc&#34;, &#34;He&#34;,
+                 [&#34; &lt; Oh!&#34;, &#34; &lt; I&#39;ve not seen anyone down here for while&#34;,
+                  &#34; &lt; Can I show you my rare Pokete, that can only be found in this cave?&#34;],
+                 [&#34; &lt; Oh!&#34;, &#34; &lt; My Pokete is not just rare&#34;, &#34; &lt; It&#39;s also strong&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Congratulations!&#34;, &#34; &lt; I hope you can also catch one!&#34;], 23, 12)
+    },
+    ],
+    &#34;playmap_6&#34;: [{
+        &#34;poke&#34;: (&#34;treenator&#34;, 400),
+        &#34;args&#34;: (&#34;Eva&#34;, &#34;She&#34;,
+                 [&#34; &lt; Hi!&#34;, &#34; &lt; Fight?&#34;], [&#34; &lt; Loser&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; I lost!&#34;], 47, 43)
+    },
+    ],
+    &#34;playmap_7&#34;: [{
+        &#34;poke&#34;: (&#34;steini&#34;, 400),
+        &#34;args&#34;: (&#34;Caveman Dieter&#34;, &#34;He&#34;,
+                 [&#34; &lt; Oh!&#34;, &#34; &lt; I didn&#39;t see you comming&#34;],
+                 [&#34; &lt; My steini is old but classy&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; You&#39;re a great trainer!&#34;], 18, 7)
+    },
+    ],
+    &#34;playmap_8&#34;: [{
+        &#34;poke&#34;: (&#34;gobost&#34;, 400),
+        &#34;args&#34;: (&#34;Wood man Bert&#34;, &#34;He&#34;,
+                 [&#34; &lt; Do you see this abandoned house?&#34;, &#34; &lt; I catched this Pokete in there!&#34;],
+                 [&#34; &lt; It&#39;s pretty cool huh?!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Oh, yours is better than mine!&#34;], 39, 6)
+    },
+    ],
+    &#34;playmap_11&#34;: [{
+        &#34;poke&#34;: (&#34;clampi&#34;, 450),
+        &#34;args&#34;: (&#34;Fishermans friend&#34;, &#34;He&#34;,
+                 [&#34; &lt; G&#39;day young trainer&#34;, &#34; &lt; I&#39;ve lived here for years&#34;],
+                 [&#34; &lt; Those years of training were worth it&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; I did&#39;t train it in years!&#34;], 42, 7)
+    },
+    ],
+    &#34;playmap_12&#34;: [{
+        &#34;poke&#34;: (&#34;blub&#34;, 600),
+        &#34;args&#34;: (&#34;Brother Justin&#34;, &#34;He&#34;,
+                 [&#34; &lt; Hey, my brother and me want to fight!&#34;],
+                 [&#34; &lt; Haha, you&#39;re bad!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Damn!&#34;], 26, 10)
+    }, {
+        &#34;poke&#34;: (&#34;poundi&#34;, 600),
+        &#34;args&#34;: (&#34;Brother Justus&#34;, &#34;He&#34;,
+                 [&#34; &lt; Now it&#39;s my turn!&#34;],
+                 [&#34; &lt; Haha, you&#39;re bad!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Damn!&#34;], 27, 10)
+    },
+    ],
+    &#34;playmap_13&#34;: [{
+        &#34;poke&#34;: (&#34;vogli&#34;, 600),
+        &#34;args&#34;: (&#34;Citizen&#34;, &#34;He&#34;,
+                 [&#34; &lt; Hello fellow stranger!&#34;, &#34; &lt; This town is known for it&#39;s bird Poketes&#34;],
+                 [&#34; &lt; Haha, you&#39;re bad!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Damn!&#34;], 5, 31)
+    },
+    ],
+    &#34;playmap_14&#34;: [{
+        &#34;poke&#34;: (&#34;owol&#34;, 650),
+        &#34;args&#34;: (&#34;First trainer&#34;, &#34;He&#34;,
+                 [&#34; &lt; Welcome to the Deepest forest Pokete Arena&#34;, &#34; &lt; I&#39;m your first enemy!&#34;],
+                 [&#34; &lt; Haha, you&#39;re bad!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Good luck!&#34;], 17, 10)
+    }, {
+        &#34;poke&#34;: (&#34;voglo&#34;, 700),
+        &#34;args&#34;: (&#34;Second trainer&#34;, &#34;She&#34;,
+                 [&#34; &lt; Now it&#39;s my turn!&#34;],
+                 [&#34; &lt; Haha, you&#39;re bad!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Good luck with the next trainer!&#34;], 22, 10)
+    }, {
+        &#34;poke&#34;: (&#34;treenator&#34;, 750),
+        &#34;args&#34;: (&#34;Third trainer&#34;, &#34;She&#34;,
+                 [&#34; &lt; Let&#39;s see what Poketes else you have!&#34;],
+                 [&#34; &lt; Haha, you&#39;re bad!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Good luck with the last trainer!&#34;], 22, 5)
+    },
+        {
+            &#34;poke&#34;: (&#34;ostri&#34;, 780),
+            &#34;args&#34;: (&#34;Last trainer&#34;, &#34;He&#34;,
+                     [&#34; &lt; I&#39;m your last enemy!&#34;],
+                     [&#34; &lt; Haha, you&#39;re bad!&#34;],
+                     [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                     [&#34; &lt; Oh!&#34;, &#34; &lt; You were able to defeat me?&#34;, &#34; &lt; You can now leave Deepest forest&#34;], 17, 5)
+        },
+    ],
+    &#34;playmap_15&#34;: [{
+        &#34;poke&#34;: (&#34;clampi&#34;, 650),
+        &#34;args&#34;: (&#34;Samantha&#34;, &#34;She&#34;,
+                 [&#34; &lt; Hey you!&#34;, &#34; &lt; My Pokete is very effective against bird Poketes&#34;],
+                 [&#34; &lt; You see, it&#39;s effective&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Oh no&#34;, &#34; &lt; I guess yours is even more effective than mine!&#34;], 43, 17)
+    }, {
+        &#34;poke&#34;: (&#34;angrilo&#34;, 650),
+        &#34;args&#34;: (&#34;Jessica&#34;, &#34;She&#34;,
+                 [&#34; &lt; Hey you!&#34;],
+                 [&#34; &lt; Haha, you&#39;re a loser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Oh no&#34;], 31, 6)
+    },
+    ],
+    &#34;playmap_18&#34;: [{
+        &#34;poke&#34;: (&#34;poundi&#34;, 700),
+        &#34;args&#34;: (&#34;Bert&#34;, &#34;He&#34;,
+                 [&#34; &lt; Hey!&#34;, &#34; &lt; This region is full of stone and ground Poketes&#34;],
+                 [&#34; &lt; Haha, you&#39;re bad!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Oh, I lost!&#34;], 6, 4)
+    }, {
+        &#34;poke&#34;: (&#34;clampi&#34;, 700),
+        &#34;args&#34;: (&#34;Karen&#34;, &#34;She&#34;,
+                 [&#34; &lt; I don&#39;t think you can walk here&#34;, &#34; &lt; I demand a fight with you!&#34;],
+                 [&#34; &lt; Go home little zoomer.&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; I want to talk to your manager.&#34;], 56, 11)
+    },
+    ],
+    &#34;playmap_19&#34;: [{
+        &#34;poke&#34;: (&#34;choka&#34;, 850),
+        &#34;args&#34;: (&#34;Brian&#34;, &#34;He&#34;,
+                 [&#34; &lt; Hello fellow cava man!&#34;],
+                 [&#34; &lt; Oooooh!&#34;, &#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Oh!&#34;, &#34; &lt; You were lucky!&#34;], 16, 15)
+    }, {
+        &#34;poke&#34;: (&#34;wolfiro&#34;, 850),
+        &#34;args&#34;: (&#34;Simon&#34;, &#34;He&#34;,
+                 [&#34; &lt; Joooo!&#34;, &#34; &lt; What up?&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Duck!&#34;], 15, 7)
+    },
+    ],
+    &#34;playmap_21&#34;: [{
+        &#34;poke&#34;: (&#34;bigstone&#34;, 900),
+        &#34;args&#34;: (&#34;Rock hard Rick&#34;, &#34;He&#34;,
+                 [&#34; &lt; Hello trainer!&#34;,
+                  &#34; &lt; Welcome to Rock-ville, the highest place in the Pokete world and the home of all stone Poketes.&#34;,
+                  &#34; &lt; When leaving this town through the &#39;Cave of doom&#39; you have to fight against the best trainers of &#34;
+                  &#34;this town.&#34;,
+                  &#34; &lt; But first, you have to fight me!&#34;],
+                 [&#34; &lt; If I&#39;m a problem for you, you might not be able to fight the other trainers.&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Oh&#34;, &#34; &lt; I guess you will be a challenge for our trainers!&#34;], 12, 23)
+    },
+    ],
+    &#34;playmap_27&#34;: [{
+        &#34;poke&#34;: (&#34;bigstone&#34;, 900),
+        &#34;args&#34;: (&#34;Bertold&#34;, &#34;He&#34;,
+                 [&#34; &lt; We are the elite of Rock-ville!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; You were lucky!&#34;], 6, 6)
+    }, {
+        &#34;poke&#34;: (&#34;steini&#34;, 900),
+        &#34;args&#34;: (&#34;Gerard&#34;, &#34;He&#34;,
+                 [&#34; &lt; My Steini will ripp out your Poketes heard!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; The other trainers wont be as easy!&#34;], 11, 10)
+    }, {
+        &#34;poke&#34;: (&#34;treenator&#34;, 950),
+        &#34;args&#34;: (&#34;Jessica&#34;, &#34;She&#34;,
+                 [&#34; &lt; You wont be ready for my treenator!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Our best trainer will defeat you though!&#34;], 16, 6)
+    },
+        {
+            &#34;poke&#34;: (&#34;poundi&#34;, 1000),
+            &#34;args&#34;: (&#34;First Trainer&#34;, &#34;He&#34;,
+                     [&#34; &lt; Let&#39;s have a fair fight!&#34;],
+                     [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                     [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                     [&#34; &lt; I wish you the best luck on your journey!&#34;], 22, 10)
+        },
+    ],
+    &#34;playmap_28&#34;: [{
+        &#34;poke&#34;: (&#34;electrode&#34;, 950),
+        &#34;args&#34;: (&#34;Steven the big&#34;, &#34;He&#34;,
+                 [&#34; &lt; I don&#39;t think you ever met an Electrode!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; hups!&#34;, &#34; &lt; It&#39;s not as great as I thought!&#34;], 36, 47)
+    }, {
+        &#34;poke&#34;: (&#34;steini&#34;, 850),
+        &#34;args&#34;: (&#34;Laurena&#34;, &#34;She&#34;,
+                 [&#34; &lt; I trained my Steini for years to get to this level&#34;, &#34; &gt; I will win!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Ohhh nooo!&#34;, &#34; &lt; NOT MY STEINI!!!1!!1&#34;], 114, 37)
+    }, {
+        &#34;poke&#34;: (&#34;poisopla&#34;, 950),
+        &#34;args&#34;: (&#34;Laurin&#34;, &#34;They&#34;,
+                 [&#34; &lt; Poisopla is one of the strongest local Poketes!&#34;, &#34; &lt; And it will kill your lame Pokete!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; It won&#39;t be as easy in &#39;Flowy Town&#39;!&#34;], 141, 23)
+    },
+        {
+            &#34;poke&#34;: (&#34;confuso&#34;, 900),
+            &#34;args&#34;: (&#34;Fucking badass looking dude in the woods&#34;, &#34;He&#34;,
+                     [&#34; &lt; You have to win against my Pokete to enter &#39;Flowy Town&#39;&#34;, &#34; &lt; I guess it&#39;ll confuse you!&#34;],
+                     [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                     [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                     [&#34; &lt; I wish you the best luck in &#39;Flowy Town&#39;!&#34;], 190, 8)
+        },
+    ],
+    &#34;playmap_30&#34;: [{
+        &#34;poke&#34;: (&#34;poisopla&#34;, 950),
+        &#34;args&#34;: (&#34;Guy at the entrance&#34;, &#34;He&#34;,
+                 [&#34; &lt; Welcome to &#39;Flowy Town&#39; the home of the flowers.&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; I wish you the best luck fighting against our best trainers!&#34;], 5, 18)
+    },
+    ],
+    &#34;playmap_31&#34;: [{
+        &#34;poke&#34;: (&#34;diamondos&#34;, 1000),
+        &#34;args&#34;: (&#34;Luther&#34;, &#34;He&#34;,
+                 [&#34; &lt; Welcome to the &#39;Flowy Town&#39; Arena!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; You were lucky!&#34;], 22, 10)
+    }, {
+        &#34;poke&#34;: (&#34;poisopla&#34;, 1000),
+        &#34;args&#34;: (&#34;Heavy Hans&#34;, &#34;He&#34;,
+                 [&#34; &lt; I don&#39;t think your Pokete is better than mine!&#34;],
+                 [&#34; &lt; Your journey got a fast end!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; The other trainers wont be as easy!&#34;], 25, 8)
+    }, {
+        &#34;poke&#34;: (&#34;treenator&#34;, 1000),
+        &#34;args&#34;: (&#34;Aurelia&#34;, &#34;She&#34;,
+                 [&#34; &lt; You wont be ready for my treenator!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Our best trainer will defeat you though!&#34;], 28, 6)
+    },
+        {
+            &#34;poke&#34;: (&#34;rosi&#34;, 1200),
+            &#34;args&#34;: (&#34;Master of the flowers&#34;, &#34;He&#34;,
+                     [&#34; &lt; I&#39;m the Master of the plants and I have one of the rarest plant Poketes!&#34;],
+                     [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                     [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                     [&#34; &lt; This was unfortunate!&#34;], 31, 4)
+        },
+    ],
+    &#34;playmap_33&#34;: [{
+        &#34;poke&#34;: (&#34;mowcow&#34;, 1200),
+        &#34;args&#34;: (&#34;Cowsay&#34;, &#34;They&#34;,
+                 [&#34; &lt; This apt has supercow-powers!&#34;],
+                 [&#34; &lt; You&#39;re a fucking loooser!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; I hope you&#39;ll also catch one!!&#34;], 59, 23)
+        },
+    ],
+    &#34;playmap_35&#34;: [{
+        &#34;poke&#34;: (&#34;mowcow&#34;, 1200),
+        &#34;args&#34;: (&#34;Farmer Gert&#34;, &#34;He&#34;,
+                 [&#34; &lt; Welcome to the fields of Agrawos!&#34;,
+                  &#34; &lt; This is the farming part of the city of Agrawos!&#34;,
+                  &#34; &lt; You have to pass my field to reach Agrawos!&#34;],
+                 [&#34; &lt; I don&#39;t think you&#39;ll ever get there!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; Have fun in Agrawos!&#34;], 6, 17)
+        }, {
+        &#34;poke&#34;: (&#34;dicki&#34;, 1250),
+        &#34;args&#34;: (&#34;Farmer Dora&#34;, &#34;She&#34;,
+                 [&#34; &lt; This is a cool Pokete I found on my field!&#34;],
+                 [&#34; &lt; It&#39;s cool, init?!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; I guess have still have to train it. :(&#34;], 74, 33)
+        }, {
+        &#34;poke&#34;: (&#34;wolfiro&#34;, 1300),
+        &#34;args&#34;: (&#34;Farmer Ralf&#34;, &#34;He&#34;,
+                 [&#34; &lt; DIE!&#34;],
+                 [&#34; &lt; HAHAHA, IM BETTER THAN YOU!&#34;],
+                 [&#34; &lt; I see you don&#39;t have a living Pokete&#34;],
+                 [&#34; &lt; NOOOOOO; WHYYY ARE YOU BETTER ??!!!1!!!111&#34;], 69, 61)
+        },
+    ],
+}
+
+if __name__ == &#34;__main__&#34;:
+    print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pokete_data" href="index.html">pokete_data</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
