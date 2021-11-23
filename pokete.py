@@ -74,7 +74,8 @@ class HightGrass(se.Object):
                   else [poke for poke in figure.pokes[:6] if poke.hp > 0][0],
                   Poke(random.choices(self.arg_proto["pokes"],
                                       weights=[p_data.pokes[i]["rarity"]
-                                               for i in self.arg_proto["pokes"]])[0],
+                                               for i in
+                                                self.arg_proto["pokes"]])[0],
                        random.choices(list(range(self.arg_proto["minlvl"],
                                                  self.arg_proto["maxlvl"])))[0],
                        player=False, shiny=(random.randint(0, 500) == 0)))
@@ -2188,9 +2189,8 @@ What do you want to do?")
                     fight_invbox.remove_c_obs()
                     if item == "":
                         continue
-                    i = getattr(FightItems(), item.fn)(obj, enem, info)
                     # I hate you python for not having switch statements
-                    if i == 1:
+                    if i:=getattr(FightItems(), item.fn)(obj, enem, info) == 1:
                         continue
                     elif i == 2:
                         return obj
@@ -2835,8 +2835,10 @@ if __name__ == "__main__":
     fightmap = se.Map(height - 1, width, " ")
     fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
     fight_invbox = ChooseBox(height - 3, 35, "Inventory")
-    fightmap.frame_big = StdFrame2(fightmap.height - 5, fightmap.width, state="float")
-    fightmap.frame_small = se.Frame(height=4, width=fightmap.width, state="float")
+    fightmap.frame_big = StdFrame2(fightmap.height - 5, fightmap.width,
+                                   state="float")
+    fightmap.frame_small = se.Frame(height=4, width=fightmap.width,
+                                              state="float")
     fightmap.e_underline = se.Text("----------------+", state="float")
     fightmap.e_sideline = se.Square("|", 1, 3, state="float")
     fightmap.p_upperline = se.Text("+----------------", state="float")
