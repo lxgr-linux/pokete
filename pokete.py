@@ -1671,17 +1671,6 @@ def exiter():
 # Functions needed for movemap
 ##############################
 
-def fast_change(arr, setob):
-    """Changes fast between a list of texts"""
-    _i = 1
-    while _i < len(arr):
-        arr[_i - 1].remove()
-        arr[_i].add(fightmap, setob.x, setob.y)
-        fightmap.show()
-        time.sleep(0.1)
-        _i += 1
-
-
 def balls_label_rechar():
     """Rechars the balls label"""
     movemap.balls_label.rechar("".join("-" if i >= len(figure.pokes)
@@ -1721,7 +1710,7 @@ class FightItems:
         if obj.identifier == "__fallback__" or info["type"] == "duel":
             return 1
         fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
-        fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
+        fightmap.fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
         time.sleep(random.choice([1, 2, 3, 4]))
         figure.remove_item(name)
         catch_chance = 20 if figure.map == ob_maps["playmap_1"] else 0
@@ -2037,7 +2026,7 @@ used {enemy.name} against you!')
     time.sleep(1)
     fightmap.add_2(player, enemy)
     if player.identifier != "__fallback__":
-        fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
+        fightmap.fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
         fightmap.outp.outp(f"You used {player.name}")
     fightmap.show()
     time.sleep(0.5)
@@ -2210,7 +2199,7 @@ What do you want to do?")
     fightmap.show()
     time.sleep(1)
     ico = [obj for obj in players if obj != winner][0].ico
-    fast_change([ico, deadico1, deadico2], ico)
+    fightmap.fast_change([ico, deadico1, deadico2], ico)
     deadico2.remove()
     fightmap.show()
     fightmap.clean_up(player, enemy)

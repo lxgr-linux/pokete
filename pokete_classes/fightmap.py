@@ -93,3 +93,13 @@ class FightMap(se.Map):
             time.sleep(0.05)
             self.show()
             player.ico.add(self, 3, self.height - 10)
+
+    def fast_change(self, arr, setob):
+        """Changes fast between a list of texts"""
+        _i = 1
+        while _i < len(arr):
+            arr[_i - 1].remove()
+            arr[_i].add(self, setob.x, setob.y)
+            self.show()
+            time.sleep(0.1)
+            _i += 1
