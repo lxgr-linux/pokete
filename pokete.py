@@ -33,6 +33,7 @@ from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.movemap import Movemap
+from pokete_classes.fightmap import FightMap
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import *
 
@@ -498,7 +499,7 @@ can't have more than 4 attacks!"
             obj.ap = old_ob.ap
         self.attac_obs = i
         for obj in self.atc_labels:
-            fightbox.rem_ob(obj)
+            fightmap.box.rem_ob(obj)
         self.atc_labels = [se.Text("") for _ in self.attac_obs]
         self.label_rechar()
 
@@ -1718,7 +1719,7 @@ def fight_clean_up(player, enemy):
                 player.text_lvl, player.text_hp, player.ico, player.hp_bar,
                 player.tril, player.trir, enemy.pball_small]:
         obj.remove()
-    fightbox.remove_c_obs()
+    fightmap.box.remove_c_obs()
     for i in [player, enemy]:
         for j in i.effects:
             j.cleanup()
@@ -1748,8 +1749,8 @@ def fight_add_1(player, enemy):
     if enemy.identifier in caught_poketes:
         enemy.pball_small.add(fightmap, len(fightmap.e_underline.text) - 1, 1)
     if player.identifier != "__fallback__":
-        fightbox.add_c_obs(player.atc_labels)
-        fightbox.set_index(0)
+        fightmap.box.add_c_obs(player.atc_labels)
+        fightmap.box.set_index(0)
     return [player, enemy]
 
 
@@ -2125,15 +2126,15 @@ used {enemy.name} against you!')
                     ev.clear()
                     if player.identifier == "__fallback__":
                         continue
-                    with fightbox.add(fightmap, 1, fightmap.height - 7):
+                    with fightmap.box.add(fightmap, 1, fightmap.height - 7):
                         while True:  # Inputloop for attack options
                             if ev.get() in ["'s'", "'w'"]:
-                                fightbox.input(ev.get())
+                                fightmap.box.input(ev.get())
                                 fightmap.show()
                                 ev.clear()
                             elif ev.get() in [f"'{i + 1}'" for i in
                                         range(len(obj.attac_obs))] + ["Key.enter"]:
-                                attack = obj.attac_obs[fightbox.index.index
+                                attack = obj.attac_obs[fightmap.box.index.index
                                                        if ev.get() == "Key.enter"
                                                        else int(ev.get().strip("'")) - 1]
                                 ev.clear()
@@ -2169,24 +2170,24 @@ used {enemy.name} against you!')
                         fightmap.outp.outp("You don't have any items left!\n\
 What do you want to do?")
                         continue
-                    fight_invbox.add_c_obs([se.Text(f"{i.pretty_name}s : \
+                    fightmap.invbox.add_c_obs([se.Text(f"{i.pretty_name}s : \
 {figure.inv[i.name]}") for i in items])
-                    fight_invbox.set_index(0)
-                    with fight_invbox.add(fightmap, fightmap.width - 35, 0):
+                    fightmap.invbox.set_index(0)
+                    with fightmap.invbox.add(fightmap, fightmap.width - 35, 0):
                         while True:
                             if ev.get() in ["'s'", "'w'"]:
-                                fight_invbox.input(ev.get())
+                                fightmap.invbox.input(ev.get())
                                 fightmap.show()
                                 ev.clear()
                             elif ev.get() in ["Key.esc", "'q'"]:
                                 item = ""
                                 break
                             elif ev.get() == "Key.enter":
-                                item = items[fight_invbox.index.index]
+                                item = items[fightmap.invbox.index.index]
                                 break
                             std_loop(ev)
                             time.sleep(0.05)
-                    fight_invbox.remove_c_obs()
+                    fightmap.invbox.remove_c_obs()
                     if item == "":
                         continue
                     # I hate you python for not having switch statements
@@ -2204,7 +2205,7 @@ What do you want to do?")
                     index = deck(6, "Your deck", True)
                     player = player if index is None else figure.pokes[index]
                     fight_add_1(player, enemy)
-                    fightbox.set_index(0)
+                    fightmap.box.set_index(0)
                     players = fight_add_3(player, enemy)
                     fightmap.outp.outp(f"You have choosen {player.name}")
                     for i in players:
@@ -2832,19 +2833,7 @@ if __name__ == "__main__":
     map_additions()
 
     # objects relevant for fight()
-    fightmap = se.Map(height - 1, width, " ")
-    fightbox = ChooseBox(6, 25, "Attacks", index_x=1)
-    fight_invbox = ChooseBox(height - 3, 35, "Inventory")
-    fightmap.frame_big = StdFrame2(fightmap.height - 5, fightmap.width,
-                                   state="float")
-    fightmap.frame_small = se.Frame(height=4, width=fightmap.width,
-                                              state="float")
-    fightmap.e_underline = se.Text("----------------+", state="float")
-    fightmap.e_sideline = se.Square("|", 1, 3, state="float")
-    fightmap.p_upperline = se.Text("+----------------", state="float")
-    fightmap.p_sideline = se.Square("|", 1, 4, state="float")
-    fightmap.outp = OutP("", state="float")
-    fightmap.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
+    fightmap = FightMap(height - 1, width)
     deadico1 = se.Text(r"""
     \ /
      o
@@ -2857,19 +2846,6 @@ if __name__ == "__main__":
   /_____\
   |__O__|
   \_____/""")
-    # adding
-    fightmap.outp.add(fightmap, 1, fightmap.height - 4)
-    fightmap.e_underline.add(fightmap, 1, 4)
-    fightmap.e_sideline.add(fightmap, len(fightmap.e_underline.text), 1)
-    fightmap.p_upperline.add(fightmap,
-                             fightmap.width - 1 - len(fightmap.p_upperline.text),
-                             fightmap.height - 10)
-    fightmap.frame_big.add(fightmap, 0, 0)
-    fightmap.p_sideline.add(fightmap,
-                            fightmap.width - 1 - len(fightmap.p_upperline.text),
-                            fightmap.height - 9)
-    fightmap.frame_small.add(fightmap, 0, fightmap.height - 5)
-    fightmap.label.add(fightmap, 0, fightmap.height - 1)
 
     # evomap
     evomap = se.Map(height - 1, width, " ")
