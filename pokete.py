@@ -1709,67 +1709,8 @@ def codes(string):
             exiter()
 
 
-# Functions for fight
+# Functions for classes
 #####################
-
-def fight_clean_up(player, enemy):
-    """Removes all labels from fightmap"""
-    for obj in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico,
-                enemy.hp_bar, enemy.tril, enemy.trir, player.text_name,
-                player.text_lvl, player.text_hp, player.ico, player.hp_bar,
-                player.tril, player.trir, enemy.pball_small]:
-        obj.remove()
-    fightmap.box.remove_c_obs()
-    for i in [player, enemy]:
-        for j in i.effects:
-            j.cleanup()
-
-
-def fight_add_3(player, enemy):
-    """Adds player labels"""
-    if player.identifier != "__fallback__":
-        player.text_name.add(fightmap, fightmap.width - 17, fightmap.height - 9)
-        player.text_lvl.add(fightmap, fightmap.width - 17, fightmap.height - 8)
-        player.tril.add(fightmap, fightmap.width - 11, fightmap.height - 7)
-        player.trir.add(fightmap, fightmap.width - 2, fightmap.height - 7)
-        player.hp_bar.add(fightmap, fightmap.width - 10, fightmap.height - 7)
-        player.text_hp.add(fightmap, fightmap.width - 17, fightmap.height - 7)
-        player.ico.add(fightmap, 3, fightmap.height - 10)
-    return [player, enemy]
-
-
-def fight_add_1(player, enemy):
-    """Adds enemy and general labels to fightmap"""
-    for obj, x, y in zip([enemy.tril, enemy.trir,
-                          enemy.text_name, enemy.text_lvl,
-                          enemy.text_hp, enemy.ico, enemy.hp_bar],
-                         [7, 16, 1, 1, 1, fightmap.width - 14, 8],
-                         [3, 3, 1, 2, 3, 2, 3]):
-        obj.add(fightmap, x, y)
-    if enemy.identifier in caught_poketes:
-        enemy.pball_small.add(fightmap, len(fightmap.e_underline.text) - 1, 1)
-    if player.identifier != "__fallback__":
-        fightmap.box.add_c_obs(player.atc_labels)
-        fightmap.box.set_index(0)
-    return [player, enemy]
-
-
-def fight_add_2(player, enemy):
-    """Adds player labels with sleeps"""
-    if player.identifier != "__fallback__":
-        player.text_name.add(fightmap, fightmap.width - 17, fightmap.height - 9)
-        time.sleep(0.05)
-        fightmap.show()
-        player.text_lvl.add(fightmap, fightmap.width - 17, fightmap.height - 8)
-        time.sleep(0.05)
-        fightmap.show()
-        player.tril.add(fightmap, fightmap.width - 11, fightmap.height - 7)
-        player.trir.add(fightmap, fightmap.width - 2, fightmap.height - 7)
-        player.hp_bar.add(fightmap, fightmap.width - 10, fightmap.height - 7)
-        player.text_hp.add(fightmap, fightmap.width - 17, fightmap.height - 7)
-        time.sleep(0.05)
-        fightmap.show()
-        player.ico.add(fightmap, 3, fightmap.height - 10)
 
 class FightItems:
     """Contains all fns callable by an item in fight"""
@@ -1793,7 +1734,7 @@ class FightItems:
             fightmap.outp.outp(f"You catched {enem.name}")
             time.sleep(2)
             pball.remove()
-            fight_clean_up(obj, enem)
+            fightmap.clean_up(obj, enem)
             balls_label_rechar()
             return 2
         else:
@@ -2085,7 +2026,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
             i.remove()
         del fancymap
     # fancy stuff end
-    players = fight_add_1(player, enemy)
+    players = fightmap.add_1(player, enemy, caught_poketes)
     if info["type"] == "wild":
         fightmap.outp.outp(f"A wild {enemy.name} appeared!")
     elif info["type"] == "duel":
@@ -2094,7 +2035,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         fightmap.outp.outp(f'{fightmap.outp.text}\n{info["player"].gender} \
 used {enemy.name} against you!')
     time.sleep(1)
-    fight_add_2(player, enemy)
+    fightmap.add_2(player, enemy)
     if player.identifier != "__fallback__":
         fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
         fightmap.outp.outp(f"You used {player.name}")
@@ -2158,7 +2099,7 @@ used {enemy.name} against you!')
                         continue
                     fightmap.outp.outp("You ran away!")
                     time.sleep(1)
-                    fight_clean_up(player, enemy)
+                    fightmap.clean_up(player, enemy)
                     return enem
                 elif ev.get() == "'3'":
                     ev.clear()
@@ -2201,12 +2142,12 @@ What do you want to do?")
                     ev.clear()
                     if obj.identifier == "__fallback__":
                         continue
-                    fight_clean_up(player, enemy)
+                    fightmap.clean_up(player, enemy)
                     index = deck(6, "Your deck", True)
                     player = player if index is None else figure.pokes[index]
-                    fight_add_1(player, enemy)
+                    fightmap.add_1(player, enemy, caught_poketes)
                     fightmap.box.set_index(0)
-                    players = fight_add_3(player, enemy)
+                    players = fightmap.add_3(player, enemy)
                     fightmap.outp.outp(f"You have choosen {player.name}")
                     for i in players:
                         for j in i.effects:
@@ -2272,7 +2213,7 @@ What do you want to do?")
     fast_change([ico, deadico1, deadico2], ico)
     deadico2.remove()
     fightmap.show()
-    fight_clean_up(player, enemy)
+    fightmap.clean_up(player, enemy)
     balls_label_rechar()
     return winner
 

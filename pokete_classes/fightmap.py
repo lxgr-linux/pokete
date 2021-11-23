@@ -1,3 +1,6 @@
+"""This file contains all relevant classes for fight"""
+
+import time
 import scrap_engine as se
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
@@ -35,3 +38,58 @@ class FightMap(se.Map):
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
 
+    def clean_up(self, player, enemy):
+        """Removes all labels from self"""
+        for obj in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico,
+                    enemy.hp_bar, enemy.tril, enemy.trir, player.text_name,
+                    player.text_lvl, player.text_hp, player.ico, player.hp_bar,
+                    player.tril, player.trir, enemy.pball_small]:
+            obj.remove()
+        self.box.remove_c_obs()
+        for i in [player, enemy]:
+            for j in i.effects:
+                j.cleanup()
+
+    def add_3(self, player, enemy):
+        """Adds player labels"""
+        if player.identifier != "__fallback__":
+            player.text_name.add(self, self.width - 17, self.height - 9)
+            player.text_lvl.add(self, self.width - 17, self.height - 8)
+            player.tril.add(self, self.width - 11, self.height - 7)
+            player.trir.add(self, self.width - 2, self.height - 7)
+            player.hp_bar.add(self, self.width - 10, self.height - 7)
+            player.text_hp.add(self, self.width - 17, self.height - 7)
+            player.ico.add(self, 3, self.height - 10)
+        return [player, enemy]
+
+    def add_1(self, player, enemy, caught_poketes):
+        """Adds enemy and general labels to self"""
+        for obj, x, y in zip([enemy.tril, enemy.trir,
+                              enemy.text_name, enemy.text_lvl,
+                              enemy.text_hp, enemy.ico, enemy.hp_bar],
+                             [7, 16, 1, 1, 1, self.width - 14, 8],
+                             [3, 3, 1, 2, 3, 2, 3]):
+            obj.add(self, x, y)
+        if enemy.identifier in caught_poketes:
+            enemy.pball_small.add(self, len(self.e_underline.text) - 1, 1)
+        if player.identifier != "__fallback__":
+            self.box.add_c_obs(player.atc_labels)
+            self.box.set_index(0)
+        return [player, enemy]
+
+    def add_2(self, player, enemy):
+        """Adds player labels with sleeps"""
+        if player.identifier != "__fallback__":
+            player.text_name.add(self, self.width - 17, self.height - 9)
+            time.sleep(0.05)
+            self.show()
+            player.text_lvl.add(self, self.width - 17, self.height - 8)
+            time.sleep(0.05)
+            self.show()
+            player.tril.add(self, self.width - 11, self.height - 7)
+            player.trir.add(self, self.width - 2, self.height - 7)
+            player.hp_bar.add(self, self.width - 10, self.height - 7)
+            player.text_hp.add(self, self.width - 17, self.height - 7)
+            time.sleep(0.05)
+            self.show()
+            player.ico.add(self, 3, self.height - 10)
