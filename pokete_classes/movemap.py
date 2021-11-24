@@ -4,6 +4,7 @@ import time
 import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
 from .classes import OutP
+from .color import Color
 
 
 class Movemap(se.Submap):
@@ -66,6 +67,7 @@ class Movemap(se.Submap):
         self.multitext.remove()
 
     def resize(self, height, width, background=" "):
+        """Resizes the map and its attributes"""
         for obj in [self.underline, self.label, self.label_bg,
                     self.name_label, self.balls_label]:
             obj.remove()
@@ -73,6 +75,20 @@ class Movemap(se.Submap):
         self.underline.resize(self.width, 1)
         self.label_bg.resize(self.width, 1)
         self.add_obs()
+
+    def balls_label_rechar(self, pokes):
+        """Rechars the balls label"""
+        self.balls_label.rechar("".join("-" if i >= len(pokes)
+                                or pokes[i].identifier == "__fallback__"\
+                                        else "o" if pokes[i].hp > 0
+                                        else "x"
+                                    for i in range(6)), esccode=Color.thicc)
+
+    def name_label_rechar(self, name):
+        """Rechars name_label and sets balls_label correctly"""
+        self.balls_label.set(0, 1)
+        self.name_label.rechar(name, esccode=Color.thicc)
+        self.balls_label.set(4 + len(self.name_label.text), self.height - 2)
 
 
 if __name__ == "__main__":

@@ -264,7 +264,7 @@ class CenterInteract(se.Object):
                     figure.pokes.pop([p.identifier
                                         for p in
                                             figure.pokes].index("__fallback__"))
-                balls_label_rechar()
+                movemap.balls_label_rechar(figure.pokes)
                 deck(len(figure.pokes))
                 break
             elif ev.get() == "'b'":
@@ -722,7 +722,7 @@ class Figure(se.Object):
             self.set_money(_si["money"])
         movemap.name_label.rechar(self.name, esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
-        balls_label_rechar()
+        movemap.balls_label_rechar(figure.pokes)
         movemap.add_obs()
 
     def add_money(self, money):
@@ -933,7 +933,7 @@ class Deck:
                          + len(pokes[self.index.index].text_name.text)
                          + 1,
                         pokes[self.index.index].text_name.y)
-                    balls_label_rechar()
+                    movemap.balls_label_rechar(figure.pokes)
             elif ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
                 self.control(pokes, ev.get())
                 ev.clear()
@@ -1296,11 +1296,7 @@ class Menu:
                         figure.name = text_input(self.realname_label,
                                                  self.map,
                                                  figure.name, ev, 18, 17)
-                        self.map.balls_label.set(0, 1)
-                        self.map.name_label.rechar(figure.name,
-                                                   esccode=Color.thicc)
-                        self.map.balls_label.set(4 + len(self.map.name_label.text),
-                                                 self.map.height - 2)
+                        self.map.name_label_rechar(figure.name)
                     elif i == self.mods_label:
                         ModInfo(movemap, settings, mods.mod_info)(ev)
                     elif i == self.save_label:
@@ -1579,7 +1575,7 @@ def heal():
         for atc in poke.attac_obs:
             atc.ap = atc.max_ap
         poke.label_rechar()
-        balls_label_rechar()
+        movemap.balls_label_rechar(figure.pokes)
 
 
 def autosave():
@@ -1671,15 +1667,6 @@ def exiter():
 # Functions needed for movemap
 ##############################
 
-def balls_label_rechar():
-    """Rechars the balls label"""
-    movemap.balls_label.rechar("".join("-" if i >= len(figure.pokes)
-                                or figure.pokes[i].identifier == "__fallback__"\
-                                        else "o" if figure.pokes[i].hp > 0
-                                        else "x"
-                                    for i in range(6)), esccode=Color.thicc)
-
-
 def codes(string):
     """Cheats"""
     for i in string:
@@ -1724,7 +1711,7 @@ class FightItems:
             time.sleep(2)
             pball.remove()
             fightmap.clean_up(obj, enem)
-            balls_label_rechar()
+            movemap.balls_label_rechar(figure.pokes)
             return 2
         else:
             fightmap.outp.outp("You missed!")
@@ -2121,7 +2108,8 @@ What do you want to do?")
                     if item == "":
                         continue
                     # I hate you python for not having switch statements
-                    if i:=getattr(FightItems(), item.fn)(obj, enem, info) == 1:
+                    if (i := getattr(FightItems(), item.fn)(obj, enem, info))\
+                            == 1:
                         continue
                     elif i == 2:
                         return obj
@@ -2203,7 +2191,7 @@ What do you want to do?")
     deadico2.remove()
     fightmap.show()
     fightmap.clean_up(player, enemy)
-    balls_label_rechar()
+    movemap.balls_label_rechar(figure.pokes)
     return winner
 
 
@@ -2280,12 +2268,7 @@ def intro():
         figure.name = ask_text(ev, movemap,
                                "Welcome to Pokete!\nPlease choose your name!\n",
                                "Name:", "", "Name", 17)
-    movemap.underline.remove()
-    movemap.balls_label.set(0, 1)
-    movemap.name_label.rechar(figure.name, esccode=Color.thicc)
-    movemap.balls_label.set(4 + len(movemap.name_label.text),
-                            movemap.height - 2)
-    movemap.underline.add(movemap, 0, movemap.height - 2)
+    movemap.name_label_rechar(figure.name)
     movemap.text(4, 3, [" < Hello my child.",
                         " < You're now ten years old.",
                         " < And I think it's now time for you to travel the \

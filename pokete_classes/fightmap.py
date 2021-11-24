@@ -96,10 +96,8 @@ class FightMap(se.Map):
 
     def fast_change(self, arr, setob):
         """Changes fast between a list of texts"""
-        _i = 1
-        while _i < len(arr):
+        for _i in range(1, len(arr)):
             arr[_i - 1].remove()
             arr[_i].add(self, setob.x, setob.y)
             self.show()
             time.sleep(0.1)
-            _i += 1
