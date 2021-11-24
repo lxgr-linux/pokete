@@ -7,13 +7,13 @@ from pokete_general_use_fns import std_loop, liner
 class Buy:
     """Menu to buy items in, is triggered in shop"""
 
-    def __init__(self, figure, Inv, _map):
+    def __init__(self, figure, items, _map):
         self.box = ChooseBox(_map.height - 3, 35, "Shop")
         self.box2 = Box(7, 21)
         self.fig = figure
         self.map = _map
-        self.items = [Inv.poketeball, Inv.superball, Inv.healing_potion,
-                      Inv.super_potion, Inv.ap_potion]
+        self.items = [items.poketeball, items.superball, items.healing_potion,
+                      items.super_potion, items.ap_potion]
         self.box.add_c_obs([se.Text(f"{obj.pretty_name} : {obj.price}$")
                             for obj in self.items])
         self.money_label = se.Text(f"{figure.get_money()}$")

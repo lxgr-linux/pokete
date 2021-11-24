@@ -1,3 +1,5 @@
+"""This file contains most of the animations used in Pokete"""
+
 import time
 import scrap_engine as se
 

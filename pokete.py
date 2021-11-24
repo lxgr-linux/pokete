@@ -22,9 +22,9 @@ from pokete_classes import animations
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
-from pokete_classes.classes import PlayMap, Settings, OutP
+from pokete_classes.classes import PlayMap, Settings
 from pokete_classes.health_bar import HealthBar
-from pokete_classes.inv_items import InvItem, LearnDisc
+from pokete_classes.inv_items import Items, LearnDisc
 from pokete_classes.moves import Moves
 from pokete_classes.types import Types
 from pokete_classes.buy import Buy
@@ -170,7 +170,7 @@ class NPC(se.Box):
     @staticmethod
     def give(_map, npc, name, item):
         """Method thats gifts an item to the player"""
-        item = getattr(Inv, item)
+        item = getattr(invitems, item)
         _map = ob_maps[_map]
         npc = getattr(_map, npc)
         npc.will = False
@@ -1247,7 +1247,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
 
     def add(self):
         """Adds all items to the box"""
-        items = [getattr(self, i) for i in figure.inv if figure.inv[i] > 0]
+        items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] > 0]
         self.box.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}")
                                 for i in items])
         return items
@@ -1964,9 +1964,9 @@ used {enemy.name} against you!')
                     return enem
                 elif ev.get() == "'3'":
                     ev.clear()
-                    items = [getattr(Inv, i)
+                    items = [getattr(invitems, i)
                              for i in figure.inv
-                             if getattr(Inv, i).fn is not None
+                             if getattr(invitems, i).fn is not None
                              and figure.inv[i] > 0]
                     if not items:
                         fightmap.outp.outp("You don't have any items left!\n\
@@ -2369,7 +2369,8 @@ def map_additions():
 
     # playmap_11
     _map = ob_maps["playmap_11"]
-    _map.lake_1 = Water("""~~~~~                                                 ~~~~~~
+    _map.lake_1 = Water(
+"""~~~~~                                                 ~~~~~~
 ~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~                       ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~~~
@@ -2539,6 +2540,8 @@ if __name__ == "__main__":
     else:
         visited_maps = ["playmap_1"]
 
+    save_trainers = settings.save_trainers
+
     # Loading mods
     if settings.load_mods:
         try:
@@ -2559,37 +2562,28 @@ if __name__ == "__main__":
     # types
     types = Types(p_data.types, p_data.sub_types)
 
-    # comprehending settings
-    # This is needed to just apply some changes when restarting
-    # the game to avoid running into errors
-    save_trainers = settings.save_trainers
 
-    # Defining and adding of objetcs and maps
-    #########################################
+    # Definiton of the playmaps
+    # Most of the objects are generated from map_data,
+    # but can be extended via map_additions()
+    ############################################################
 
-    # maps
     ob_maps = gen_maps()
-
     # Those two maps cant to sourced out, because `height` and `width`
     # are global variables exclusive to pokete.py
     centermap = CenterMap(height - 1, width)
     shopmap = ShopMap(height - 1, width)
-
     ob_maps["centermap"] = centermap
     ob_maps["shopmap"] = shopmap
+    gen_obs()
+    map_additions()
 
-    # movemap
+    # Definiton of all additionaly needed obs and maps
+    #############################################################
     movemap = Movemap(ob_maps, height - 1, width)
     figure = Figure("a")
     exclamation = se.Object("!")
 
-    # Definiton of objects for the playmaps
-    # Most of the objects ar generated from map_data for maps.py
-    # .poke_arg is relevant for meadow genration
-    ############################################################
-
-
-    gen_obs()
     # side fn definitions
     detail = Detail()
     pokete_dex = Dex(movemap)
@@ -2599,19 +2593,11 @@ if __name__ == "__main__":
     menu = Menu(movemap)
     about = About(VERSION, CODENAME, movemap)
     inv = Inv(movemap)
+    invitems = Items(p_data)
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
-    # items
-    for _name in p_data.items:
-        _obj = InvItem(_name, p_data.items[_name]["pretty_name"],
-                       p_data.items[_name]["desc"],
-                       p_data.items[_name]["price"], p_data.items[_name]["fn"])
-        setattr(Inv, _name, _obj)
-    Inv.ld_bubble_bomb = LearnDisc("bubble_bomb", p_data.attacks)
-    Inv.ld_flying = LearnDisc("flying", p_data.attacks)
 
-    buy = Buy(figure, Inv, movemap)
-    map_additions()
+    buy = Buy(figure, invitems, movemap)
 
     # objects relevant for fight()
     fightmap = FightMap(height - 1, width)
