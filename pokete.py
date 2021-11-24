@@ -35,7 +35,7 @@ from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.movemap import Movemap
 from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_general_use_fns import liner, sort_vers, std_loop
-from release import *
+from release import VERSION, CODENAME, SAVEPATH
 
 
 __t = time.time()
@@ -1904,28 +1904,8 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
 
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     """Fight"""
-    # fancy stuff
-    if settings.animations:
-        fancymap = se.Map(background=" ", width=width, height=height - 1)
-        vec_list = [se.Line(" ", i * int(width / 2), j * int((height - 1) / 2))
-                    for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
-        for i in vec_list:
-            i.add(fancymap, int(width / 2), int((height - 1) / 2))
-        fancymap.show()
-        for j, l in zip(list(zip(*[i.obs for i in vec_list])),
-                        list(zip(*[list(2 * " ") + k
-                                   for k in [i.obs for i in vec_list]])), ):
-            for i in j:
-                i.rechar("-")
-            for i in l:
-                if i != " ":
-                    i.rechar(" ")
-            fancymap.show()
-            time.sleep(0.005)
-        for i in vec_list:
-            i.remove()
-        del fancymap
-    # fancy stuff end
+    if settings.animations:  # Intro animation
+        animations.fight_intro(height, width)
     players = fightmap.add_1(player, enemy, caught_poketes)
     if info["type"] == "wild":
         fightmap.outp.outp(f"A wild {enemy.name} appeared!")
