@@ -4,6 +4,7 @@ import time
 import scrap_engine as se
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
+from pokete_general_use_fns import std_loop
 
 
 class FightMap(se.Map):
@@ -77,7 +78,7 @@ class FightMap(se.Map):
             self.box.set_index(0)
         return [player, enemy]
 
-    def add_2(self, player, enemy):
+    def add_2(self, player):
         """Adds player labels with sleeps"""
         if player.identifier != "__fallback__":
             player.text_name.add(self, self.width - 17, self.height - 9)
@@ -101,3 +102,50 @@ class FightMap(se.Map):
             arr[_i].add(self, setob.x, setob.y)
             self.show()
             time.sleep(0.1)
+
+    def get_attack(self, _ev, attack_obs):
+        """Inputloop for attack options"""
+        with self.box.add(self, 1, self.height - 7):
+            while True:
+                if _ev.get() in ["'s'", "'w'"]:
+                    self.box.input(_ev.get())
+                    self.show()
+                    _ev.clear()
+                elif _ev.get() in [f"'{i + 1}'" for i in
+                                   range(len(attack_obs))] + ["Key.enter"]:
+                    attack = attack_obs[self.box.index.index
+                                        if _ev.get() == "Key.enter"
+                                        else int(_ev.get().strip("'")) - 1]
+                    _ev.clear()
+                    if attack.ap == 0:
+                        continue
+                    break
+                elif _ev.get() in ["Key.esc", "'q'"]:
+                    _ev.clear()
+                    attack = ""
+                    break
+                std_loop(_ev)
+                time.sleep(0.05)
+        return attack
+
+    def get_item(self, _ev, items, inv):
+        """Inputloop for inv"""
+        self.invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {inv[i.name]}")
+                               for i in items])
+        self.invbox.set_index(0)
+        with self.invbox.add(self, self.width - 35, 0):
+            while True:
+                if _ev.get() in ["'s'", "'w'"]:
+                    self.invbox.input(_ev.get())
+                    self.show()
+                    _ev.clear()
+                elif _ev.get() in ["Key.esc", "'q'"]:
+                    item = ""
+                    break
+                elif _ev.get() == "Key.enter":
+                    item = items[self.invbox.index.index]
+                    break
+                std_loop(_ev)
+                time.sleep(0.05)
+        self.invbox.remove_c_obs()
+        return item

@@ -1993,9 +1993,9 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
                                    for k in [i.obs for i in vec_list]])), ):
             for i in j:
                 i.rechar("-")
-            for k in l:
-                if k != " ":
-                    k.rechar(" ")
+            for i in l:
+                if i != " ":
+                    i.rechar(" ")
             fancymap.show()
             time.sleep(0.005)
         for i in vec_list:
@@ -2011,7 +2011,7 @@ def fight(player, enemy, info={"type": "wild", "player": " "}):
         fightmap.outp.outp(f'{fightmap.outp.text}\n{info["player"].gender} \
 used {enemy.name} against you!')
     time.sleep(1)
-    fightmap.add_2(player, enemy)
+    fightmap.add_2(player)
     if player.identifier != "__fallback__":
         fightmap.fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
         fightmap.outp.outp(f"You used {player.name}")
@@ -2043,27 +2043,7 @@ used {enemy.name} against you!')
                     ev.clear()
                     if player.identifier == "__fallback__":
                         continue
-                    with fightmap.box.add(fightmap, 1, fightmap.height - 7):
-                        while True:  # Inputloop for attack options
-                            if ev.get() in ["'s'", "'w'"]:
-                                fightmap.box.input(ev.get())
-                                fightmap.show()
-                                ev.clear()
-                            elif ev.get() in [f"'{i + 1}'" for i in
-                                        range(len(obj.attac_obs))] + ["Key.enter"]:
-                                attack = obj.attac_obs[fightmap.box.index.index
-                                                       if ev.get() == "Key.enter"
-                                                       else int(ev.get().strip("'")) - 1]
-                                ev.clear()
-                                if attack.ap == 0:
-                                    continue
-                                break
-                            elif ev.get() in ["Key.esc", "'q'"]:
-                                ev.clear()
-                                attack = ""
-                                break
-                            std_loop(ev)
-                            time.sleep(0.05)
+                    attack = fightmap.get_attack(ev, obj.attac_obs)
                     if attack != "":
                         break
                 elif ev.get() == "'2'":
@@ -2087,24 +2067,7 @@ used {enemy.name} against you!')
                         fightmap.outp.outp("You don't have any items left!\n\
 What do you want to do?")
                         continue
-                    fightmap.invbox.add_c_obs([se.Text(f"{i.pretty_name}s : \
-{figure.inv[i.name]}") for i in items])
-                    fightmap.invbox.set_index(0)
-                    with fightmap.invbox.add(fightmap, fightmap.width - 35, 0):
-                        while True:
-                            if ev.get() in ["'s'", "'w'"]:
-                                fightmap.invbox.input(ev.get())
-                                fightmap.show()
-                                ev.clear()
-                            elif ev.get() in ["Key.esc", "'q'"]:
-                                item = ""
-                                break
-                            elif ev.get() == "Key.enter":
-                                item = items[fightmap.invbox.index.index]
-                                break
-                            std_loop(ev)
-                            time.sleep(0.05)
-                    fightmap.invbox.remove_c_obs()
+                    item = fightmap.get_item(ev, items, figure.inv)
                     if item == "":
                         continue
                     # I hate you python for not having switch statements
