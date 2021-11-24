@@ -3,9 +3,21 @@
 import time
 import random
 import scrap_engine as se
+from pokete_general_use_fns import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
-from pokete_general_use_fns import std_loop
+
+
+class EvoMap(se.Map):
+    """Map for evolvations to take place on"""
+
+    def __init__(self, height, width):
+        super().__init__(height - 1, width, " ")
+        self.frame_small = se.Frame(height=4, width=width, state="float")
+        self.outp = OutP("", state="float")
+        # adding
+        self.frame_small.add(self, 0, self.height - 5)
+        self.outp.add(self, 1, self.height - 4)
 
 
 class FightMap(se.Map):
@@ -15,7 +27,7 @@ class FightMap(se.Map):
         super().__init__(height, width, " ")
         self.box = ChooseBox(6, 25, "Attacks", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
-        # visual obs
+        # icos
         self.deadico1 = se.Text(r"""
     \ /
      o
@@ -186,7 +198,8 @@ class FightItems:
         for effect in enem.effects:
             catch_chance += effect.catch_chance
         if random.choices([True, False],
-                          weights=[(enem.full_hp / enem.hp) * chance + catch_chance,
+                          weights=[(enem.full_hp / enem.hp)
+                                    * chance + catch_chance,
                                    enem.full_hp], k=1)[0]:
             self.fig.add_poke(enem)
             self.map.outp.outp(f"You catched {enem.name}")
@@ -195,13 +208,12 @@ class FightItems:
             self.map.clean_up(obj, enem)
             self.mvmap.balls_label_rechar(self.fig.pokes)
             return 2
-        else:
-            self.map.outp.outp("You missed!")
-            self.map.show()
-            self.map.pball.remove()
-            enem.ico.add(self.map, enem.ico.x, enem.ico.y)
-            self.map.show()
-            return None
+        self.map.outp.outp("You missed!")
+        self.map.show()
+        self.map.pball.remove()
+        enem.ico.add(self.map, enem.ico.x, enem.ico.y)
+        self.map.show()
+        return None
 
     def potion(self, obj, enem, info, hp, name):
         """Potion function"""

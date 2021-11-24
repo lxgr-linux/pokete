@@ -33,7 +33,7 @@ from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.movemap import Movemap
-from pokete_classes.fightmap import FightMap, FightItems
+from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import *
 
@@ -1937,7 +1937,8 @@ used {enemy.name} against you!')
     time.sleep(1)
     fightmap.add_2(player)
     if player.identifier != "__fallback__":
-        fightmap.fast_change([player.ico, fightmap.deadico2, fightmap.deadico1, player.ico], player.ico)
+        fightmap.fast_change([player.ico, fightmap.deadico2, fightmap.deadico1,
+                              player.ico], player.ico)
         fightmap.outp.outp(f"You used {player.name}")
     fightmap.show()
     time.sleep(0.5)
@@ -2635,14 +2636,7 @@ if __name__ == "__main__":
     # objects relevant for fight()
     fightmap = FightMap(height - 1, width)
     fightitems = FightItems(fightmap, movemap, figure, ob_maps)
-
-    # evomap
-    evomap = se.Map(height - 1, width, " ")
-    evomap.frame_small = se.Frame(height=4, width=evomap.width, state="float")
-    evomap.outp = OutP("", state="float")
-    # adding
-    evomap.frame_small.add(evomap, 0, evomap.height - 5)
-    evomap.outp.add(evomap, 1, evomap.height - 4)
+    evomap = EvoMap(height - 1, width)
 
     figure.set_args(session_info)
 
