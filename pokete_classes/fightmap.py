@@ -1,6 +1,7 @@
 """This file contains all relevant classes for fight"""
 
 import time
+import random
 import scrap_engine as se
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
@@ -14,6 +15,18 @@ class FightMap(se.Map):
         super().__init__(height, width, " ")
         self.box = ChooseBox(6, 25, "Attacks", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
+        # visual obs
+        self.deadico1 = se.Text(r"""
+    \ /
+     o
+    / \ """)
+        self.deadico2 = se.Text("""
+
+     o""")
+        self.pball = se.Text(r"""   _____
+  /_____\
+  |__O__|
+  \_____/""")
         # visual objects
         self.frame_big = StdFrame2(self.height - 5, self.width,
                                        state="float")
@@ -149,3 +162,80 @@ class FightMap(se.Map):
                 time.sleep(0.05)
         self.invbox.remove_c_obs()
         return item
+
+
+class FightItems:
+    """Contains all fns callable by an item in fight"""
+
+    def __init__(self, _map, movemap, figure, ob_maps):
+        self.map = _map
+        self.mvmap = movemap
+        self.fig = figure
+        self.ob_maps = ob_maps
+
+    def throw(self, obj, enem, info, chance, name):
+        """Throws a Poketeball"""
+        if obj.identifier == "__fallback__" or info["type"] == "duel":
+            return 1
+        self.map.outp.rechar(f"You threw a {name.capitalize()}!")
+        self.map.fast_change([enem.ico, self.map.deadico1, self.map.deadico2,
+            self.map.pball], enem.ico)
+        time.sleep(random.choice([1, 2, 3, 4]))
+        self.fig.remove_item(name)
+        catch_chance = 20 if self.fig.map == self.ob_maps["playmap_1"] else 0
+        for effect in enem.effects:
+            catch_chance += effect.catch_chance
+        if random.choices([True, False],
+                          weights=[(enem.full_hp / enem.hp) * chance + catch_chance,
+                                   enem.full_hp], k=1)[0]:
+            self.fig.add_poke(enem)
+            self.map.outp.outp(f"You catched {enem.name}")
+            time.sleep(2)
+            self.map.pball.remove()
+            self.map.clean_up(obj, enem)
+            self.mvmap.balls_label_rechar(self.fig.pokes)
+            return 2
+        else:
+            self.map.outp.outp("You missed!")
+            self.map.show()
+            self.map.pball.remove()
+            enem.ico.add(self.map, enem.ico.x, enem.ico.y)
+            self.map.show()
+            return None
+
+    def potion(self, obj, enem, info, hp, name):
+        """Potion function"""
+        self.fig.remove_item(name)
+        obj.oldhp = obj.hp
+        if obj.hp + hp > obj.full_hp:
+            obj.hp = obj.full_hp
+        else:
+            obj.hp += hp
+        obj.hp_bar.update(obj.oldhp)
+
+    def heal_potion(self, obj, enem, info):
+        """Healing potion function"""
+        return self.potion(obj, enem, info, 5, "healing_potion")
+
+    def super_potion(self, obj, enem, info):
+        """Super potion function"""
+        return self.potion(obj, enem, info, 15, "super_potion")
+
+    def poketeball(self, obj, enem, info):
+        """Poketeball function"""
+        return self.throw(obj, enem, info, 1, "poketeball")
+
+    def superball(self, obj, enem, info):
+        """Superball function"""
+        return self.throw(obj, enem, info, 6, "superball")
+
+    def hyperball(self, obj, enem, info):
+        """Hyperball function"""
+        return self.throw(obj, enem, info, 1000, "hyperball")
+
+    def ap_potion(self, obj, enem, info):
+        """AP potion function"""
+        self.fig.remove_item("ap_potion")
+        for atc in obj.attac_obs:
+            atc.ap = atc.max_ap
+        obj.label_rechar()

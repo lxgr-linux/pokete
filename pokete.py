@@ -33,7 +33,7 @@ from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.movemap import Movemap
-from pokete_classes.fightmap import FightMap
+from pokete_classes.fightmap import FightMap, FightItems
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import *
 
@@ -1685,82 +1685,6 @@ def codes(string):
             exiter()
 
 
-# Functions for classes
-#####################
-
-class FightItems:
-    """Contains all fns callable by an item in fight"""
-
-    @staticmethod
-    def throw(obj, enem, info, chance, name):
-        """Throws a Poketeball"""
-        if obj.identifier == "__fallback__" or info["type"] == "duel":
-            return 1
-        fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
-        fightmap.fast_change([enem.ico, deadico1, deadico2, pball], enem.ico)
-        time.sleep(random.choice([1, 2, 3, 4]))
-        figure.remove_item(name)
-        catch_chance = 20 if figure.map == ob_maps["playmap_1"] else 0
-        for effect in enem.effects:
-            catch_chance += effect.catch_chance
-        if random.choices([True, False],
-                          weights=[(enem.full_hp / enem.hp) * chance + catch_chance,
-                                   enem.full_hp], k=1)[0]:
-            figure.add_poke(enem)
-            fightmap.outp.outp(f"You catched {enem.name}")
-            time.sleep(2)
-            pball.remove()
-            fightmap.clean_up(obj, enem)
-            movemap.balls_label_rechar(figure.pokes)
-            return 2
-        else:
-            fightmap.outp.outp("You missed!")
-            fightmap.show()
-            pball.remove()
-            enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
-            fightmap.show()
-            return None
-
-    @staticmethod
-    def potion(obj, enem, info, hp, name):
-        """Potion function"""
-        figure.remove_item(name)
-        obj.oldhp = obj.hp
-        if obj.hp + hp > obj.full_hp:
-            obj.hp = obj.full_hp
-        else:
-            obj.hp += hp
-        obj.hp_bar.update(obj.oldhp)
-
-    def heal_potion(self, obj, enem, info):
-        """Healing potion function"""
-        return self.potion(obj, enem, info, 5, "healing_potion")
-
-    def super_potion(self, obj, enem, info):
-        """Super potion function"""
-        return self.potion(obj, enem, info, 15, "super_potion")
-
-    def poketeball(self, obj, enem, info):
-        """Poketeball function"""
-        return self.throw(obj, enem, info, 1, "poketeball")
-
-    def superball(self, obj, enem, info):
-        """Superball function"""
-        return self.throw(obj, enem, info, 6, "superball")
-
-    def hyperball(self, obj, enem, info):
-        """Hyperball function"""
-        return self.throw(obj, enem, info, 1000, "hyperball")
-
-    @staticmethod
-    def ap_potion(obj, enem, info):
-        """AP potion function"""
-        figure.remove_item("ap_potion")
-        for atc in obj.attac_obs:
-            atc.ap = atc.max_ap
-        obj.label_rechar()
-
-
 # Playmap extra action functions
 # Those are adding additional actions to playmaps
 #################################################
@@ -2013,7 +1937,7 @@ used {enemy.name} against you!')
     time.sleep(1)
     fightmap.add_2(player)
     if player.identifier != "__fallback__":
-        fightmap.fast_change([player.ico, deadico2, deadico1, player.ico], player.ico)
+        fightmap.fast_change([player.ico, fightmap.deadico2, fightmap.deadico1, player.ico], player.ico)
         fightmap.outp.outp(f"You used {player.name}")
     fightmap.show()
     time.sleep(0.5)
@@ -2071,7 +1995,7 @@ What do you want to do?")
                     if item == "":
                         continue
                     # I hate you python for not having switch statements
-                    if (i := getattr(FightItems(), item.fn)(obj, enem, info))\
+                    if (i := getattr(fightitems, item.fn)(obj, enem, info))\
                             == 1:
                         continue
                     elif i == 2:
@@ -2150,8 +2074,8 @@ What do you want to do?")
     fightmap.show()
     time.sleep(1)
     ico = [obj for obj in players if obj != winner][0].ico
-    fightmap.fast_change([ico, deadico1, deadico2], ico)
-    deadico2.remove()
+    fightmap.fast_change([ico, fightmap.deadico1, fightmap.deadico2], ico)
+    fightmap.deadico2.remove()
     fightmap.show()
     fightmap.clean_up(player, enemy)
     movemap.balls_label_rechar(figure.pokes)
@@ -2710,18 +2634,7 @@ if __name__ == "__main__":
 
     # objects relevant for fight()
     fightmap = FightMap(height - 1, width)
-    deadico1 = se.Text(r"""
-    \ /
-     o
-    / \ """)
-    deadico2 = se.Text("""
-
-     o
-    """)
-    pball = se.Text(r"""   _____
-  /_____\
-  |__O__|
-  \_____/""")
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps)
 
     # evomap
     evomap = se.Map(height - 1, width, " ")
