@@ -179,7 +179,7 @@ class FightMap(se.Map):
 
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
-              deck, _ev, info={"type": "wild", "player": " "}):
+              LearnAttack, deck, _ev, info):
         """Fight"""
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
@@ -308,13 +308,13 @@ used {enemy.name} against you!')
             obj = [i for i in players if i != obj][-1]
             enem = [i for i in players if i != obj][-1]
         loser = [obj for obj in players if obj != winner][0]
-        xp = (loser.lose_xp + (1 if loser.lvl() > winner.lvl() else 0))\
-                            * (2 if info["type"] == "duel" else 1)
-        self.outp.outp(f"{winner.ext_name} won!" + (f'\nXP + {xp}'
+        _xp = (loser.lose_xp + (1 if loser.lvl() > winner.lvl() else 0))\
+                             * (2 if info["type"] == "duel" else 1)
+        self.outp.outp(f"{winner.ext_name} won!" + (f'\nXP + {_xp}'
                                                     if winner.player else ''))
         if winner.player:
             old_lvl = winner.lvl()
-            winner.xp += xp
+            winner.xp += _xp
             winner.text_xp.rechar(
                 f"XP:{winner.xp - (winner.lvl() ** 2 - 1)}/\
 {((winner.lvl() + 1) ** 2 - 1) - (winner.lvl() ** 2 - 1)}")
@@ -336,7 +336,7 @@ used {enemy.name} against you!')
         self.deadico2.remove()
         self.show()
         self.clean_up(player, enemy)
-        movemap.balls_label_rechar(figure.pokes)
+        fightitems.mvmap.balls_label_rechar(figure.pokes)
         return winner
 
 

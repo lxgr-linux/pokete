@@ -1906,7 +1906,7 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
 def fight(player, enemy, info={"type": "wild", "player": " "}):
     """Wrapper for fightmap.fight"""
     fightmap.fight(player, enemy, figure, settings, invitems, fightitems,
-              deck, ev, info)
+                   LearnAttack, deck, ev, info)
 
 def game(_map):
     """Game function"""
