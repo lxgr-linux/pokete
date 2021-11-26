@@ -38,7 +38,7 @@ def transition(_map, poke):
 
 def fight_intro(height, width):
     """Intro animation for fight"""
-    fancymap = se.Map(height - 1, width, " ")
+    fancymap = se.Map(height, width, " ")
     vec_list = [se.Line(" ", i * int(width / 2), j * int((height - 1) / 2))
                 for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
     for i in vec_list:

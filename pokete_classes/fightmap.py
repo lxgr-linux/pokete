@@ -3,9 +3,11 @@
 import time
 import random
 import scrap_engine as se
+from pokete_classes import animations
 from pokete_general_use_fns import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
+from .input import ask_bool
 
 
 class EvoMap(se.Map):
@@ -174,6 +176,168 @@ class FightMap(se.Map):
                 time.sleep(0.05)
         self.invbox.remove_c_obs()
         return item
+
+
+    def fight(self, player, enemy, figure, settings, invitems, fightitems,
+              deck, _ev, info={"type": "wild", "player": " "}):
+        """Fight"""
+        if settings.animations:  # Intro animation
+            animations.fight_intro(self.height, self.width)
+        players = self.add_1(player, enemy, figure.caught_pokes)
+        if info["type"] == "wild":
+            self.outp.outp(f"A wild {enemy.name} appeared!")
+        elif info["type"] == "duel":
+            self.outp.outp(f"{info['player'].name} started a fight!")
+            time.sleep(1)
+            self.outp.outp(f'{self.outp.text}\n{info["player"].gender} \
+used {enemy.name} against you!')
+        time.sleep(1)
+        self.add_2(player)
+        if player.identifier != "__fallback__":
+            self.fast_change([player.ico, self.deadico2, self.deadico1,
+                                  player.ico], player.ico)
+            self.outp.outp(f"You used {player.name}")
+        self.show()
+        time.sleep(0.5)
+        if player.identifier == "__fallback__":
+            obj, enem = players
+        else:
+            enem = sorted(zip([i.initiative for i in players],
+                              # The [1, 0] array is needed to avoid comparing
+                              # two Poke objects
+                              [1, 0], players))[0][-1]
+            obj = [i for i in players if i != enem][-1]
+        for i in players:
+            for j in i.effects:
+                j.readd()
+        while True:
+            if obj.player:
+                self.outp.append(se.Text(("\n"
+                                              if "\n" not in self.outp.text
+                                              else "") +
+                                             "What do you want to do?",
+                                             state="float"))
+                if obj.identifier == "__fallback__":
+                    time.sleep(1)
+                    self.outp.outp("You don't have any living poketes left!")
+                while True:  # Inputloop for general options
+                    if _ev.get() == "'1'":
+                        _ev.clear()
+                        if player.identifier == "__fallback__":
+                            continue
+                        attack = self.get_attack(_ev, obj.attac_obs)
+                        if attack != "":
+                            break
+                    elif _ev.get() == "'2'":
+                        _ev.clear()
+                        if ((info["type"] == "duel"
+                             and player.identifier != "__fallback__")
+                             or not ask_bool(_ev, self,
+                                             "Do you really want to run away?")):
+                            continue
+                        self.outp.outp("You ran away!")
+                        time.sleep(1)
+                        self.clean_up(player, enemy)
+                        return enem
+                    elif _ev.get() == "'3'":
+                        _ev.clear()
+                        items = [getattr(invitems, i)
+                                 for i in figure.inv
+                                 if getattr(invitems, i).fn is not None
+                                 and figure.inv[i] > 0]
+                        if not items:
+                            self.outp.outp("You don't have any items left!\n\
+ What do you want to do?")
+                            continue
+                        item = self.get_item(_ev, items, figure.inv)
+                        if item == "":
+                            continue
+                        # I hate you python for not having switch statements
+                        if (i := getattr(fightitems, item.fn)(obj, enem, info))\
+                                == 1:
+                            continue
+                        elif i == 2:
+                            return obj
+                        attack = ""
+                        break
+                    elif _ev.get() == "'4'":
+                        _ev.clear()
+                        if obj.identifier == "__fallback__":
+                            continue
+                        self.clean_up(player, enemy)
+                        index = deck(6, "Your deck", True)
+                        player = player if index is None else figure.pokes[index]
+                        self.add_1(player, enemy, figure.caught_pokes)
+                        self.box.set_index(0)
+                        players = self.add_3(player, enemy)
+                        self.outp.outp(f"You have choosen {player.name}")
+                        for i in players:
+                            for j in i.effects:
+                                time.sleep(1)
+                                j.readd()
+                        attack = ""
+                        break
+                    std_loop(_ev)
+                    time.sleep(0.1)
+            else:
+                attack = random.choices(obj.attac_obs,
+                                        weights=[i.ap * ((1.5
+                                                          if enem.type.name in
+                                                                i.type.effective
+                                                          else 0.5
+                                                          if enem.type.name in
+                                                                i.type.ineffective
+                                                          else 1)
+                                                         if info["type"] == "duel"
+                                                         else 1)
+                                                 for i in obj.attac_obs])[0]
+            time.sleep(0.3)
+            if attack != "":
+                obj.attack(attack, enem)
+            self.show()
+            time.sleep(0.5)
+            if any(i.hp <= 0 for i in players):
+                winner = [i for i in players if i.hp > 0][0]
+                break
+            elif all(i.ap == 0 for i in obj.attac_obs):
+                winner = [i for i in players if i != obj][0]
+                time.sleep(2)
+                self.outp.outp(f"{obj.ext_name} has used all its' attacks!")
+                time.sleep(3)
+                break
+            obj = [i for i in players if i != obj][-1]
+            enem = [i for i in players if i != obj][-1]
+        loser = [obj for obj in players if obj != winner][0]
+        xp = (loser.lose_xp + (1 if loser.lvl() > winner.lvl() else 0))\
+                            * (2 if info["type"] == "duel" else 1)
+        self.outp.outp(f"{winner.ext_name} won!" + (f'\nXP + {xp}'
+                                                    if winner.player else ''))
+        if winner.player:
+            old_lvl = winner.lvl()
+            winner.xp += xp
+            winner.text_xp.rechar(
+                f"XP:{winner.xp - (winner.lvl() ** 2 - 1)}/\
+{((winner.lvl() + 1) ** 2 - 1) - (winner.lvl() ** 2 - 1)}")
+            winner.text_lvl.rechar(f"Lvl:{winner.lvl()}")
+            if old_lvl < winner.lvl():
+                time.sleep(1)
+                self.outp.outp(f"{winner.name} reached lvl {winner.lvl()}!")
+                winner.moves.shine()
+                time.sleep(0.5)
+                winner.set_vars()
+                if winner.lvl() % 5 == 0:
+                    LearnAttack(winner)()
+                if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
+                    winner.evolve()
+        self.show()
+        time.sleep(1)
+        ico = [obj for obj in players if obj != winner][0].ico
+        self.fast_change([ico, self.deadico1, self.deadico2], ico)
+        self.deadico2.remove()
+        self.show()
+        self.clean_up(player, enemy)
+        movemap.balls_label_rechar(figure.pokes)
+        return winner
 
 
 class FightItems:
