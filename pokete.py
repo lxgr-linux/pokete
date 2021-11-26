@@ -1903,8 +1903,10 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
 {figure.pokes[index].lvl()} from {decode_data['name']}.")
 
 
-def fight(player, enemy, info={"type": "wild", "player": " "}):
+def fight(player, enemy, info=None):
     """Wrapper for fightmap.fight"""
+    if info is None:
+        info = {"type": "wild", "player": " "}
     fightmap.fight(player, enemy, figure, settings, invitems, fightitems,
                    LearnAttack, deck, ev, info)
 
@@ -2365,25 +2367,10 @@ if __name__ == "__main__":
     # reading save file
     session_info = read_save()
 
-    if "settings" in session_info:
-        settings = Settings(**session_info["settings"])
-    else:
-        settings = Settings()
-
-    if "used_npcs" in session_info:
-        used_npcs = session_info["used_npcs"]
-    else:
-        used_npcs = []
-
-    if "caught_poketes" in session_info:
-        caught_pokes = session_info["caught_poketes"]
-    else:
-        caught_pokes = []
-
-    if "visited_maps" in session_info:
-        visited_maps = session_info["visited_maps"]
-    else:
-        visited_maps = ["playmap_1"]
+    settings = Settings(**session_info.get("settings", {}))
+    used_npcs = session_info.get("used_npcs", [])
+    caught_pokes = session_info.get("caught_poketes", [])
+    visited_maps = session_info.get("visited_maps", ["playmap_1"])
 
     save_trainers = settings.save_trainers
 
