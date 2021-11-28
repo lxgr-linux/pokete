@@ -256,8 +256,8 @@ pokes = {
         "lose_xp": 3,
         "rarity": 0.8,
         "types": ["flying", "normal", "bird"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "voglus",
+        "evolve_lvl": 35,
         "initiative": 7,
         "ico": [{
             "txt": """    ?
@@ -265,6 +265,31 @@ pokes = {
     www*
     ||     """,
             "esc": None}]
+    },
+    "voglus": {
+        "name": "Voglus",
+        "hp": 25,
+        "atc": 9,
+        "defense": 3,
+        "attacks": ["tackle", "power_pick", "storm_gust", "brooding"],
+        "pool": ["cry"],
+        "miss_chance": 0,
+        "desc": "A very aggressive and hard to find bird Pokete.",
+        "lose_xp": 5,
+        "rarity": 0.2,
+        "types": ["flying", "normal", "bird"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 8,
+        "ico": [{
+            "txt": """    /
+   > }
+    WWW'
+    ||""",
+            "esc": None}, {
+            "txt": """
+    ´""",
+            "esc": ["thicc", "red"]}]
     },
     "ostri": {
         "name": "Ostri",
@@ -884,7 +909,7 @@ WW\/o o\/WW
         "evolve_lvl": 55,
         "initiative": 2,
         "ico": [{
-            "txt": """    
+            "txt": """
     __
    ('')
    |  |""",
