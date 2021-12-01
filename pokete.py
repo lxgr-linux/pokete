@@ -1211,7 +1211,8 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                                     if not ex_cond:
                                         break
                                     if LearnAttack(poke, self.map)\
-                                            (obj.attack_name):
+                                            (ev, p_data, detail,
+                                             obj.attack_name):
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
@@ -1491,74 +1492,6 @@ Initiative: {poke.initiative}"""))
                 time.sleep(0.05)
                 self.map.show()
             self.rem_c_obs()
-
-
-class LearnAttack:
-    """Lets a Pokete learn a new attack"""
-
-    def __init__(self, poke, _map=None):
-        if _map is None:
-            self.map = fightmap
-        else:
-            self.map = _map
-        self.poke = poke
-        self.box = ChooseBox(6, 25, name="Attacks", info="1: Details")
-
-    def __call__(self, attack=None):
-        """Starts the learning process"""
-        attacks = p_data.attacks
-        if attack is None:
-            pool = [i for i in attacks
-                    if all(j in [i.name for i in self.poke.types]
-                           for j in attacks[i]["types"])
-                    and attacks[i]["is_generic"]]
-            full_pool = [i for i in self.poke.inf["attacks"] +
-                         self.poke.inf["pool"] + pool
-                         if i not in self.poke.attacks
-                         and attacks[i]["min_lvl"] <= self.poke.lvl()]
-            if len(full_pool) == 0:
-                return False
-            new_attack = random.choice(full_pool)
-        else:
-            new_attack = attack
-        if ask_bool(ev, self.map,
-                    f"{self.poke.name} wants to learn \
-{attacks[new_attack]['name']}!"):
-            if len(self.poke.attac_obs) != len(self.poke.attacks):
-                self.poke.attacks[-1] = new_attack
-            elif len(self.poke.attacks) < 4:
-                self.poke.attacks.append(new_attack)
-            else:
-                self.box.add_c_obs([se.Text(f"{i + 1}: {j.name}", state=float)
-                                    for i, j in enumerate(self.poke.attac_obs)])
-                with self.box.center_add(self.map):
-                    while True:
-                        if ev.get() in ["'s'", "'w'"]:
-                            self.box.input(ev.get())
-                            self.map.show()
-                            ev.clear()
-                        elif ev.get() == "Key.enter":
-                            self.poke.attacks[self.box.index.index] = new_attack
-                            ev.clear()
-                            ask_ok(ev, self.map,
-                                   f"{self.poke.name} learned \
-{attacks[new_attack]['name']}!")
-                            ev.clear()
-                            break
-                        elif ev.get() == "'1'":
-                            ev.clear()
-                            detail(self.poke, False)
-                            self.map.show(init=True)
-                        elif ev.get() in ["Key.esc", "'q'"]:
-                            ev.clear()
-                            break
-                        std_loop(ev)
-                        time.sleep(0.05)
-                self.box.remove_c_obs()
-            self.poke.set_vars()
-            return True
-        else:
-            return False
 
 
 # General use functions
@@ -1908,7 +1841,7 @@ def fight(player, enemy, info=None):
     if info is None:
         info = {"type": "wild", "player": " "}
     fightmap.fight(player, enemy, figure, settings, invitems, fightitems,
-                   LearnAttack, deck, ev, info)
+                   detail, deck, p_data, ev, info)
 
 def game(_map):
     """Game function"""

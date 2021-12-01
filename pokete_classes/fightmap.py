@@ -8,6 +8,7 @@ from pokete_general_use_fns import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
 from .input import ask_bool
+from .learnattack import LearnAttack
 
 
 class EvoMap(se.Map):
@@ -179,7 +180,7 @@ class FightMap(se.Map):
 
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
-              LearnAttack, deck, _ev, info):
+              detail, deck, p_data, _ev, info):
         """Fight"""
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
@@ -212,11 +213,10 @@ used {enemy.name} against you!')
                 j.readd()
         while True:
             if obj.player:
-                self.outp.append(se.Text(("\n"
-                                              if "\n" not in self.outp.text
-                                              else "") +
-                                             "What do you want to do?",
-                                             state="float"))
+                self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
+                                          else "") +
+                                           "What do you want to do?",
+                                         state="float"))
                 if obj.identifier == "__fallback__":
                     time.sleep(1)
                     self.outp.outp("You don't have any living poketes left!")
@@ -326,7 +326,7 @@ used {enemy.name} against you!')
                 time.sleep(0.5)
                 winner.set_vars()
                 if winner.lvl() % 5 == 0:
-                    LearnAttack(winner)()
+                    LearnAttack(winner, self)(_ev, p_data, detail)
                 if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
                     winner.evolve()
         self.show()
