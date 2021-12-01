@@ -1,3 +1,5 @@
+"""Contains classes needed for the detail-view of a Pokete"""
+
 import time
 import scrap_engine as se
 from pokete_general_use_fns import std_loop
@@ -9,22 +11,22 @@ class Informer:
     """Supplies methods for Deck and Detail"""
 
     @staticmethod
-    def add(poke, figure, _map, x, y, in_deck=True):
+    def add(poke, figure, _map, _x, _y, in_deck=True):
         """Adds a Pokete to the deck"""
-        poke.text_name.add(_map, x + 12, y + 0)
+        poke.text_name.add(_map, _x + 12, _y + 0)
         if poke.identifier != "__fallback__":
-            for obj, _x, _y in zip([poke.ico, poke.text_lvl, poke.text_hp,
-                                    poke.tril, poke.trir, poke.hp_bar,
-                                    poke.text_xp],
-                                   [0, 12, 12, 18, 27, 19, 12],
-                                   [0, 1, 2, 2, 2, 2, 3]):
-                obj.add(_map, x + _x, y + _y)
+            for obj, __x, __y in zip([poke.ico, poke.text_lvl, poke.text_hp,
+                                      poke.tril, poke.trir, poke.hp_bar,
+                                      poke.text_xp],
+                                     [0, 12, 12, 18, 27, 19, 12],
+                                     [0, 1, 2, 2, 2, 2, 3]):
+                obj.add(_map, _x + __x, _y + __y)
             if in_deck and figure.pokes.index(poke) < 6:
                 poke.pball_small.add(_map,
                                      round(_map.width / 2) - 1
                                         if figure.pokes.index(poke) % 2 == 0
                                         else _map.width - 2,
-                                     y)
+                                     _y)
             for eff in poke.effects:
                 eff.add_label()
 
@@ -87,22 +89,22 @@ class Detail(Informer):
         self.attack_defense.rechar(f"Attack:{poke.atc}\
 {(4 - len(str(poke.atc))) * ' '}Defense:{poke.defense}")
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
-        for obj, x, y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
-            obj.add(self.map, x, y)
-        for atc, x, y in zip(poke.attac_obs, [1,
-                                              round(self.map.width / 2) + 1,
-                                              1,
-                                              round(self.map.width / 2) + 1],
-                                             [7, 7, 12, 12]):
+        for obj, _x, _y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
+            obj.add(self.map, _x, _y)
+        for atc, _x, _y in zip(poke.attac_obs, [1,
+                                                round(self.map.width / 2) + 1,
+                                                1,
+                                                round(self.map.width / 2) + 1],
+                                               [7, 7, 12, 12]):
             atc.temp_i = 0
             atc.temp_j = -30
             atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
             atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
-            for label, _x, _y in zip([atc.label_name, atc.label_factor,
+            for label, __x, __y in zip([atc.label_name, atc.label_factor,
                                       atc.label_type_1, atc.label_type_2,
                                       atc.label_ap, atc.label_desc],
                                      [0, 0, 11, 16, 0, 0], [0, 1, 1, 1, 2, 3]):
-                label.add(self.map, x + _x, y + _y)
+                label.add(self.map, _x + __x, _y + __y)
         self.map.show(init=True)
         while True:
             if _ev.get() in ["'1'", "Key.esc", "'q'"]:

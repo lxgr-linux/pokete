@@ -1,3 +1,5 @@
+"""Contains the LearnAttack class"""
+
 import time
 import random
 import scrap_engine as se
