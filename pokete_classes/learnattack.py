@@ -4,6 +4,7 @@ import scrap_engine as se
 from pokete_general_use_fns import std_loop
 from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox
+from .detail import Detail
 
 
 class LearnAttack:
@@ -14,7 +15,7 @@ class LearnAttack:
         self.poke = poke
         self.box = ChooseBox(6, 25, name="Attacks", info="1: Details")
 
-    def __call__(self, _ev, p_d, detail, attack=None):
+    def __call__(self, _ev, p_d, attack=None):
         """Starts the learning process"""
         attacks = p_d.attacks
         if attack is None:
@@ -57,7 +58,8 @@ class LearnAttack:
                             break
                         elif _ev.get() == "'1'":
                             _ev.clear()
-                            detail(self.poke, False)
+                            Detail(self.map.height, self.map.width)\
+                                    (_ev, self.poke, False)
                             self.map.show(init=True)
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()

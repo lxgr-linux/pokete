@@ -1,13 +1,49 @@
+import time
 import scrap_engine as se
 from pokete_general_use_fns import std_loop
-from .ui_elements import StdFrame2
+from .ui_elements import StdFrame2, ChooseBox
+from .color import Color
 
 
-class Detail(Deck):
+class Informer:
+    """Supplies methods for Deck and Detail"""
+
+    @staticmethod
+    def add(poke, figure, _map, x, y, in_deck=True):
+        """Adds a Pokete to the deck"""
+        poke.text_name.add(_map, x + 12, y + 0)
+        if poke.identifier != "__fallback__":
+            for obj, _x, _y in zip([poke.ico, poke.text_lvl, poke.text_hp,
+                                    poke.tril, poke.trir, poke.hp_bar,
+                                    poke.text_xp],
+                                   [0, 12, 12, 18, 27, 19, 12],
+                                   [0, 1, 2, 2, 2, 2, 3]):
+                obj.add(_map, x + _x, y + _y)
+            if in_deck and figure.pokes.index(poke) < 6:
+                poke.pball_small.add(_map,
+                                     round(_map.width / 2) - 1
+                                        if figure.pokes.index(poke) % 2 == 0
+                                        else _map.width - 2,
+                                     y)
+            for eff in poke.effects:
+                eff.add_label()
+
+    @staticmethod
+    def remove(poke):
+        """Removes a Pokete from the deck"""
+        for obj in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
+                    poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
+                    poke.pball_small]:
+            obj.remove()
+        for eff in poke.effects:
+            eff.cleanup()
+
+
+class Detail(Informer):
     """Shows details about a Pokete"""
 
-    def __init__(self):
-        self.map = se.Map(height - 1, width, " ")
+    def __init__(self, height, width):
+        self.map = se.Map(height, width, " ")
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state="float")
@@ -34,10 +70,10 @@ class Detail(Deck):
         self.frame.add(self.map, 0, 0)
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
 
-    def __call__(self, poke, abb=True):
+    def __call__(self, _ev, poke, abb=True):
         """Shows details"""
         ret_action = None
-        self.add(poke, self.map, 1, 1, False)
+        self.add(poke, None, self.map, 1, 1, False)
         abb_obs = [i for i in poke.attac_obs
                    if i.world_action != ""]
         if abb_obs != [] and abb:
@@ -60,7 +96,7 @@ class Detail(Deck):
                                              [7, 7, 12, 12]):
             atc.temp_i = 0
             atc.temp_j = -30
-            atc.label_desc.rechar(atc.desc[:int(width / 2 - 1)])
+            atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
             atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
             for label, _x, _y in zip([atc.label_name, atc.label_factor,
                                       atc.label_type_1, atc.label_type_2,
@@ -69,8 +105,8 @@ class Detail(Deck):
                 label.add(self.map, x + _x, y + _y)
         self.map.show(init=True)
         while True:
-            if ev.get() in ["'1'", "Key.esc", "'q'"]:
-                ev.clear()
+            if _ev.get() in ["'1'", "Key.esc", "'q'"]:
+                _ev.clear()
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
@@ -81,38 +117,39 @@ class Detail(Deck):
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif ev.get() == "'2'" and abb_obs != [] and abb:
+            elif _ev.get() == "'2'" and abb_obs != [] and abb:
                 with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
                                c_obs=[se.Text(i.name)
                                       for i in abb_obs]).center_add(self.map)\
                         as box:
                     while True:
-                        if ev.get() in ["'s'", "'w'"]:
-                            box.input(ev)
+                        if _ev.get() in ["'s'", "'w'"]:
+                            box.input(_ev)
                             self.map.show()
-                            ev.clear()
-                        elif ev.get() == "Key.enter":
+                            _ev.clear()
+                        elif _ev.get() == "Key.enter":
                             ret_action = abb_obs[box.index.index].world_action
-                            ev.set("'q'")
+                            _ev.set("'q'")
                             break
-                        elif ev.get() in ["Key.esc", "'q'"]:
-                            ev.clear()
+                        elif _ev.get() in ["Key.esc", "'q'"]:
+                            _ev.clear()
                             break
-                        std_loop(ev)
+                        std_loop(_ev)
                         time.sleep(0.05)
-            std_loop(ev)
+            std_loop(_ev)
             # This section generates the Text effect for attack labels
             for atc in poke.attac_obs:
-                if len(atc.desc) > int((width - 3) / 2 - 1):
+                if len(atc.desc) > int((self.map.width - 3) / 2 - 1):
                     if atc.temp_j == 5:
                         atc.temp_i += 1
                         atc.temp_j = 0
-                        if atc.temp_i == len(atc.desc) - int(width / 2 - 1)\
-                                                       + 10:
+                        if atc.temp_i == len(atc.desc)\
+                                          - int(self.map.width / 2 - 1)\
+                                          + 10:
                             atc.temp_i = 0
                             atc.temp_j = -30
                         atc.label_desc.rechar(atc.desc[atc.temp_i:
-                            int(width / 2 - 1) + atc.temp_i])
+                            int(self.map.width / 2 - 1) + atc.temp_i])
                     else:
                         atc.temp_j += 1
             time.sleep(0.05)

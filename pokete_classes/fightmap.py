@@ -180,7 +180,7 @@ class FightMap(se.Map):
 
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
-              detail, deck, p_data, _ev, info):
+              deck, p_data, _ev, info):
         """Fight"""
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
@@ -326,7 +326,7 @@ used {enemy.name} against you!')
                 time.sleep(0.5)
                 winner.set_vars()
                 if winner.lvl() % 5 == 0:
-                    LearnAttack(winner, self)(_ev, p_data, detail)
+                    LearnAttack(winner, self)(_ev, p_data)
                 if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
                     winner.evolve()
         self.show()
