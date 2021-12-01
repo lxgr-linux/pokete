@@ -31,7 +31,6 @@ class LearnAttack:
             new_attack = random.choice(full_pool)
         else:
             new_attack = attack
-        print(self.map)
         if ask_bool(_ev, self.map,
                     f"{self.poke.name} wants to learn \
 {attacks[new_attack]['name']}!"):
