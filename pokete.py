@@ -35,6 +35,7 @@ from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.movemap import Movemap
 from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_classes.detail import Informer, Detail
+from pokete_classes.learnattack import LearnAttack
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -1695,8 +1696,8 @@ def fight(player, enemy, info=None):
     """Wrapper for fightmap.fight"""
     if info is None:
         info = {"type": "wild", "player": " "}
-    fightmap.fight(player, enemy, figure, settings, invitems, fightitems,
-                   deck, p_data, ev, info)
+    return fightmap.fight(player, enemy, figure, settings, invitems,
+                          fightitems, deck, p_data, ev, info)
 
 def game(_map):
     """Game function"""
