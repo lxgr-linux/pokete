@@ -42,7 +42,7 @@ maps = {
     "playmap_3": {
         "height": 30,
         "width": 90,
-        "pretty_name": "Josi Town",
+        "pretty_name": "Sunnydale",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
@@ -53,7 +53,7 @@ maps = {
     "playmap_4": {
         "height": 60,
         "width": 60,
-        "pretty_name": "Josi Lake",
+        "pretty_name": "Sunnydale Lake",
         "extra_actions": "playmap_4",
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],

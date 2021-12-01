@@ -45,8 +45,7 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
-            "desc": "The great Josi Town, home of the Josis an old race of \
-amazonians.",
+            "desc": "A small sunny village.",
             "a_next": "playmap_2",
             "w_next": "playmap_4",
             "s_next": "playmap_6",
@@ -61,7 +60,7 @@ amazonians.",
             "additionals": ["playmap_5"],
             "width": 1,
             "height": 3,
-            "desc": "The shores of the great Josi lake.",
+            "desc": "The shores of the great Sunnydale lake.",
             "s_next": "playmap_3",
             "d_next": "playmap_28"
         },
