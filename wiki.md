@@ -26,6 +26,7 @@ You can find different versions of this wiki:
        5. [Schmetterling](#schmetterling)
        6. [Vogli](#vogli)
        7. [Voglo](#voglo)
+       8. [Voglus](#voglus)
    4. [Ground Poketes](#ground-poketes)
        1. [Dicki](#dicki)
        2. [Dicko](#dicko)
@@ -457,6 +458,34 @@ A very aggressive bird Pokete that can only be found in the woods.
    + Route 6
    + Mowcow meadow
    + The fields of Agrawos
+- Evolves to [Voglus](#voglus) at level 35
+
+#### Voglus
+A very aggressive and hard to find bird Pokete.
+
+```
+    /      
+   >´}     
+    WWW'   
+    ||     
+
+```
+
+- Type: [Flying](#types)
+- Health points: 25
+- Attack factor: 9
+- Defense factor: 3
+- Initiative: 8
+- Missing chance: 0
+- Rarity: 0.2
+- Loosing experience: 5
+- Attacks:
+   + [Tackle](#tackle)
+   + [Power pick](#power-pick)
+   + [Storm gust](#storm-gust)
+   + [Brooding](#brooding)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 ### Ground Poketes
