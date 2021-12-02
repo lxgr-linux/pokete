@@ -212,8 +212,8 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
    + [Ash throw](#ash-throw)
 - Can be found in:
    + Route 1
-   + Josi Town
-   + Josi Lake
+   + Sunnydale
+   + Sunnydale Lake
    + Abandoned village
    + Route 3
 - Evolves to [Wolfiro](#wolfiro) at level 25
@@ -447,8 +447,8 @@ A very aggressive bird Pokete that can only be found in the woods.
    + [Brooding](#brooding)
 - Can be found in:
    + Route 1
-   + Josi Town
-   + Josi Lake
+   + Sunnydale
+   + Sunnydale Lake
    + Route 2
    + Abandoned village
    + Route 3
@@ -682,8 +682,8 @@ An majestic horse that is always looking for something to pick with its horn.
    + [Tail wipe](#tail-wipe)
 - Can be found in:
    + Route 1
-   + Josi Town
-   + Josi Lake
+   + Sunnydale
+   + Sunnydale Lake
    + Route 5
    + Route 6
 - Does not evolve
@@ -768,8 +768,8 @@ An annoying rat.
    + Nice Town
    + Nice Town cave
    + Route 1
-   + Josi Town
-   + Josi Lake
+   + Sunnydale
+   + Sunnydale Lake
    + Abandoned house
    + Route 4
    + Deepens forest
@@ -1142,8 +1142,8 @@ A squared stone that can casually be found on the ground.
 - Can be found in:
    + Nice Town cave
    + Route 1
-   + Josi Town
-   + Josi Lake
+   + Sunnydale
+   + Sunnydale Lake
    + Mysterious cave
    + Route 2
    + Dark cave
@@ -1261,7 +1261,7 @@ Very delicious and low fat water Pokete.
    + [Bubble bomb](#bubble-bomb)
    + [Bubble shield](#bubble-shield)
 - Can be found in:
-   + Josi Lake
+   + Sunnydale Lake
    + Big mountain see
    + Rock-ville
 - Does not evolve
@@ -1318,7 +1318,7 @@ A very harmless water Pokete that can be found everywhere.
 - Attacks:
    + [Tackle](#tackle)
 - Can be found in:
-   + Josi Lake
+   + Sunnydale Lake
    + Route 3
    + Big mountain see
    + Rock-ville
