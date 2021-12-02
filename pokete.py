@@ -646,7 +646,7 @@ class Station(se.Square):
         """Unchooses the station"""
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, _ev):
+    def next(self, roadmap, _ev):
         """Chooses the next station in a certain direction"""
         _ev = _ev.strip("'")
         if (ne := getattr(self, _ev + "_next")) != "":
@@ -1218,7 +1218,7 @@ class RoadMap:
         with self.box.center_add(movemap):
             while True:
                 if ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
-                    self.sta.next(ev.get())
+                    self.sta.next(self, ev.get())
                     ev.clear()
                 elif ev.get() in ["'3'", "Key.esc", "'q'"]:
                     ev.clear()
