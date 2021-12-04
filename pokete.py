@@ -36,6 +36,7 @@ from pokete_classes.movemap import Movemap
 from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_classes.detail import Informer, Detail
 from pokete_classes.learnattack import LearnAttack
+from pokete_classes.roadmap import RoadMap
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -615,62 +616,6 @@ can't have more than 4 attacks!"
         del self
 
 
-class Station(se.Square):
-    """Selectable station for Roadmap"""
-    choosen = None
-    obs = []
-
-    def __init__(self, associate, additionals, width, height, desc,
-                 char="#", w_next="", a_next="", s_next="", d_next="",
-                 label_fn=None):
-        self.desc = desc
-        self.org_char = char
-        self.label_fn = label_fn
-        self.associates = [associate] + [ob_maps[i] for i in additionals]
-        self.color = ""
-        self.name = self.associates[0].pretty_name
-        super().__init__(char, width, height, state="float")
-        self.w_next = w_next
-        self.a_next = a_next
-        self.s_next = s_next
-        self.d_next = d_next
-        Station.obs.append(self)
-
-    def choose(self):
-        """Chooses and hightlights the station"""
-        self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
-        Station.choosen = self
-        self.label_fn(self.name if self.has_been_visited() else "???")
-
-    def unchoose(self):
-        """Unchooses the station"""
-        self.rechar(self.color + self.org_char + Color.reset)
-
-    def next(self, roadmap, _ev):
-        """Chooses the next station in a certain direction"""
-        _ev = _ev.strip("'")
-        if (ne := getattr(self, _ev + "_next")) != "":
-            self.unchoose()
-            getattr(roadmap, ne).choose()
-
-    def has_been_visited(self):
-        """Returns if the stations map has been visited before"""
-        return self.associates[0].name in visited_maps
-
-    def is_city(self):
-        """Returns if the station is a city"""
-        return "pokecenter"\
-                in p_data.map_data[self.associates[0].name]["hard_obs"]
-
-    def set_color(self, choose=False):
-        """Marks a station as visited"""
-        if self.has_been_visited() and (self.is_city() if choose else True):
-            self.color = Color.yellow
-        else:
-            self.color = ""
-        self.unchoose()
-
-
 class Figure(se.Object):
     """The figure that moves around on the map and represents the player"""
 
@@ -681,6 +626,7 @@ class Figure(se.Object):
         self.name = ""
         self.pokes = []
         self.caught_pokes = []
+        self.visited_maps = []
         self.oldmap = ob_maps["playmap_1"]
         self.direction = "t"
 
@@ -1182,75 +1128,6 @@ class Menu:
                 self.map.show()
 
 
-class RoadMap:
-    """Map you can see and navigate maps on"""
-
-    def __init__(self, stations):
-        self.box = Box(11, 40, "Roadmap", "q:close")
-        self.info_label = se.Text("", state="float")
-        self.box.add_ob(self.info_label, self.box.width-2, 0)
-        for sta in stations:
-            obj = Station(ob_maps[sta], **stations[sta]['gen'],
-                          label_fn=self.rechar_info)
-            self.box.add_ob(obj, **stations[sta]['add'])
-            setattr(self, sta, obj)
-
-    @property
-    def sta(self):
-        """Gives choosen station"""
-        return Station.choosen
-
-    def rechar_info(self, name):
-        """Changes info label"""
-        self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
-        self.info_label.rechar(name)
-
-    def __call__(self, choose=False):
-        """Shows the roadmap"""
-        ev.clear()
-        for i in Station.obs:
-            i.set_color(choose)
-        [i for i in Station.obs
-         if (figure.map
-             if figure.map not in [shopmap, centermap]
-             else figure.oldmap)
-         in i.associates][0].choose()
-        with self.box.center_add(movemap):
-            while True:
-                if ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
-                    self.sta.next(self, ev.get())
-                    ev.clear()
-                elif ev.get() in ["'3'", "Key.esc", "'q'"]:
-                    ev.clear()
-                    break
-                elif (ev.get() == "Key.enter" and choose
-                      and self.sta.has_been_visited()
-                      and self.sta.is_city()):
-                    return self.sta.associates[0]
-                elif (ev.get() == "Key.enter" and not choose
-                      and self.sta.has_been_visited()):
-                    ev.clear()
-                    p_list = ", ".join(set(p_data.pokes[j]["name"]
-                                        for i in self.sta.associates
-                                            for j in
-                                                i.poke_args.get("pokes", [])
-                                              + i.w_poke_args.get("pokes", [])))
-                    with InfoBox(liner(self.sta.desc
-                                       + "\n\n Here you can find: " +
-                                       (p_list if p_list != "" else "Nothing"),
-                                       30), self.sta.name, _map=movemap):
-                        while True:
-                            if ev.get() in ["Key.esc", "'q'"]:
-                                ev.clear()
-                                break
-                            std_loop(ev)
-                            time.sleep(0.05)
-                std_loop(ev)
-                time.sleep(0.05)
-                movemap.show()
-        self.sta.unchoose()
-
-
 class Dex:
     """The Pokete dex that shows stats about all Poketes ever caught"""
 
@@ -1612,7 +1489,7 @@ def test():
 
 def teleport(poke):
     """Teleports the player to another towns pokecenter"""
-    if (obj := roadmap(choose=True)) is None:
+    if (obj := roadmap(ev, movemap, choose=True)) is None:
         return
     else:
         if settings.animations:
@@ -1711,7 +1588,7 @@ def game(_map):
     movemap.bmap = _map
     movemap.full_show()
     inp_dict = {"'1'": [deck, (6, "Your deck")],
-                "'3'": [roadmap, ()],
+                "'3'": [roadmap, (ev, movemap)],
                 "'4'": [inv, ()],
                 "'5'": [pokete_dex, (p_data.pokes,)],
                 "'e'": [menu, ()],
@@ -2204,13 +2081,14 @@ if __name__ == "__main__":
     movemap = Movemap(ob_maps, height - 1, width)
     figure = Figure()
     figure.caught_pokes = caught_pokes
+    figure.visited_maps = visited_maps
     exclamation = se.Object("!")
 
     # side fn definitions
     detail = Detail(height - 1, width)
     pokete_dex = Dex(movemap)
     help_page = Help(movemap)
-    roadmap = RoadMap(p_data.stations)
+    roadmap = RoadMap(p_data, ob_maps, figure)
     deck = Deck()
     menu = Menu(movemap)
     about = About(VERSION, CODENAME, movemap)
