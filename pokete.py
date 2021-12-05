@@ -1274,7 +1274,7 @@ def save():
         "caught_poketes": list(dict.fromkeys(figure.caught_pokes
                                              + [i.identifier
                                                     for i in figure.pokes])),
-        "visited_maps": visited_maps,
+        "visited_maps": figure.visited_maps,
         "startup_time": __t,
         # filters doublicates from used_npcs
         "used_npcs": list(dict.fromkeys(used_npcs))
@@ -1586,8 +1586,8 @@ def game(_map):
     global width, height
     ev.clear()
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
-    if _map.name not in visited_maps:
-        visited_maps.append(_map.name)
+    if _map.name not in figure.visited_maps:
+        figure.visited_maps.append(_map.name)
     movemap.code_label.rechar(figure.map.pretty_name)
     movemap.set(0, 0)
     movemap.bmap = _map
@@ -2040,8 +2040,6 @@ if __name__ == "__main__":
 
     settings = Settings(**session_info.get("settings", {}))
     used_npcs = session_info.get("used_npcs", [])
-    caught_pokes = session_info.get("caught_poketes", [])
-    visited_maps = session_info.get("visited_maps", ["playmap_1"])
 
     save_trainers = settings.save_trainers
 
@@ -2085,8 +2083,8 @@ if __name__ == "__main__":
     #############################################################
     movemap = Movemap(ob_maps, height - 1, width)
     figure = Figure()
-    figure.caught_pokes = caught_pokes
-    figure.visited_maps = visited_maps
+    figure.caught_pokes = session_info.get("caught_poketes", [])
+    figure.visited_maps = session_info.get("visited_maps", ["playmap_1"])
     exclamation = se.Object("!")
 
     # side fn definitions
