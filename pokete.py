@@ -293,8 +293,9 @@ class ShopInteract(se.Object):
         """Triggers an interaction in the shop"""
         ev.clear()
         movemap.full_show()
-        movemap.text(int(movemap.width / 2), 3, [" < Welcome to the Pokete-Shop",
-                                                 " < Wanna buy something?"], ev)
+        movemap.text(int(movemap.width / 2), 3,
+                     [" < Welcome to the Pokete-Shop",
+                      " < Wanna buy something?"], ev)
         buy(ev)
         movemap.full_show(init=True)
         movemap.text(int(movemap.width / 2), 3, [" < Have a great day!"], ev)
@@ -358,17 +359,17 @@ class CenterDor(se.Object):
 
     def action(self, ob):
         """Trigger"""
-        figure.remove()
-        i = figure.map.name
-        figure.add(figure.oldmap,
-                   figure.oldmap.dor.x
-                   if figure.map == centermap
-                   else figure.oldmap.shopdor.x,
-                   figure.oldmap.dor.y + 1
-                   if figure.map == centermap
-                   else figure.oldmap.shopdor.y + 1)
-        figure.oldmap = ob_maps[i]
-        game(figure.map)
+        ob.remove()
+        i = ob.map.name
+        ob.add(ob.oldmap,
+               ob.oldmap.dor.x
+               if ob.map == centermap
+               else ob.oldmap.shopdor.x,
+               ob.oldmap.dor.y + 1
+               if ob.map == centermap
+               else ob.oldmap.shopdor.y + 1)
+        ob.oldmap = ob_maps[i]
+        game(ob.map)
 
 
 class Dor(se.Object):
@@ -906,7 +907,8 @@ class Deck(Informer):
                         continue
                     self.submap.full_show(init=True)
             std_loop(ev)
-            if len(pokes) > 0 and self.index.y - self.submap.y + 6 > self.submap.height:
+            if len(pokes) > 0 and\
+                    self.index.y - self.submap.y + 6 > self.submap.height:
                 self.submap.set(self.submap.x, self.submap.y + 1)
             elif len(pokes) > 0 and self.index.y - 1 < self.submap.y:
                 self.submap.set(self.submap.x, self.submap.y - 1)
@@ -1194,7 +1196,8 @@ Initiative: {poke.initiative}"""))
                   sorted([(pokes[j]["types"][0], j, pokes[j])
                           for j in list(pokes)[1:]])}
         self.obs = [se.Text(f"{i + 1} \
-{p_dict[poke]['name'] if poke in figure.caught_pokes else '???'}", state="float")
+{p_dict[poke]['name'] if poke in figure.caught_pokes else '???'}",
+                        state="float")
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()
         with self.box.add(self.map, self.map.width - self.box.width, 0):
@@ -1204,7 +1207,8 @@ Initiative: {poke.initiative}"""))
                                 [len(self.box.c_obs) - 1, 0],
                                 [0, self.box.height - 3], [1, -1], [-1, 0]):
                     if ev.get() == event and self.box.index.index == idx:
-                        if self.box.c_obs[self.box.index.index] != self.obs[idx_2]:
+                        if self.box.c_obs[self.box.index.index]\
+                                    != self.obs[idx_2]:
                             self.rem_c_obs()
                             self.idx += add
                             self.add_c_obs()
@@ -1212,7 +1216,8 @@ Initiative: {poke.initiative}"""))
                         ev.clear()
                 if ev.get() == "Key.enter":
                     if "???" not in self.box.c_obs[self.box.index.index].text:
-                        self.detail(list(p_dict)[self.idx * (self.box.height - 2)
+                        self.detail(list(p_dict)[self.idx
+                                                 * (self.box.height - 2)
                                                  + self.box.index.index])
                     ev.clear()
                 elif ev.get() in ["'s'", "'w'"]:

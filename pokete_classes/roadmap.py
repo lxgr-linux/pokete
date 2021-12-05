@@ -50,7 +50,7 @@ class Station(se.Square):
     def is_city(self):
         """Returns if the station is a city"""
         return "pokecenter"\
-                in self.roadmap.p_d.map_data[self.associates[0].name]["hard_obs"]
+            in self.roadmap.p_d.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
         """Marks a station as visited"""
