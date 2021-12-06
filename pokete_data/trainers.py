@@ -28,8 +28,8 @@ trainers = {
     ],
     "playmap_3": [{
         "poke": ("hornita", 200),
-        "args": ("Josi", "She",
-                 [" < Hey!", " < I'm Josi", " < Welcome to Josi Town", " < But first we have to fight!"],
+        "args": ("Markus", "He",
+                 [" < Hey!", " < Welcome to Sunnydale", " < But first we have to fight!"],
                  [" < Hahaha!", " < Hahaha!", " < You're a fucking loser!"],
                  [" < I see you don't have a living Pokete", " < Loooser!"],
                  [" < Damn, I lost!"], 11, 5)

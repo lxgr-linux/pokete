@@ -1,6 +1,6 @@
 npcs = {
     "test_npc": {
-        "texts": [" < Hey", " < I'm Josi"],
+        "texts": [" < Hey"],
         "fn": None,
         "args": (),
         "map": "playmap_3",
