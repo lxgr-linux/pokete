@@ -503,14 +503,39 @@ WW\/o o\/WW
         "lose_xp": 2,
         "rarity": 1.3,
         "types": ["normal"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "ratatat",
+        "evolve_lvl": 25,
         "initiative": 6,
         "ico": [{
             "txt": r"""   ^---^
    \o o/
    >\./<""",
             "esc": None}]
+    },
+    "ratatat": {
+        "name": "Ratatat",
+        "hp": 25,
+        "atc": 7,
+        "defense": 3,
+        "attacks": ["tackle", "tail_wipe", "power_bite"],
+        "pool": ["bite"],
+        "miss_chance": 0,
+        "desc": "A damn dangerous and enourmous rat, that will bite of your leg.",
+        "lose_xp": 2,
+        "rarity": 0.7,
+        "types": ["normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 7,
+        "ico": [{
+            "txt": r"""   ^---^
+   \   /
+   >VvV<
+    ^^^""",
+            "esc": None}, {
+            "txt": r"""
+    * *""",
+            "esc": ["thicc", "green"]}]
     },
     "hornita": {
         "name": "Hornita",
