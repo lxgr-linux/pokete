@@ -1,6 +1,8 @@
 """This file contains a dict with all Strings that will be
    added to the maps"""
 
+
+# Those are some vars used in map_data
 center = r"""  __________
  /         /\
 /_Center!_/  \
@@ -20,6 +22,7 @@ house1 = r"""  ________
 |__| |__|__|"""
 
 
+# This is the the actuall map_data dict 
 map_data = {
     #     "playmap_1": {
     #         "hard_obs": {
