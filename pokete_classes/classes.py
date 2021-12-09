@@ -8,16 +8,19 @@ class PlayMap(se.Map):
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name="", pretty_name="", poke_args=None,
-                 extra_actions=None):
+                 w_poke_args=None, extra_actions=None):
         super().__init__(height=height, width=width, background=" ")
         self.trainers = trainers
         self.name = name
         self.pretty_name = pretty_name
         self.poke_args = poke_args
+        self.w_poke_args = w_poke_args
         if self.trainers is None:
             self.trainers = []
         if self.poke_args is None:
             self.poke_args = {}
+        if self.w_poke_args is None:
+            self.w_poke_args = {}
         self.__extra_actions = extra_actions
 
     def extra_actions(self):
@@ -30,11 +33,13 @@ class Settings():
     """Contains all possible settings"""
 
     def __init__(self, autosave=True, animations=True, save_trainers=True,
-                 colors=True):
-        self.keywords = ["autosave", "animations", "save_trainers"]
+                 colors=True, load_mods=False):
+        self.keywords = ["autosave", "animations",
+                         "save_trainers", "load_mods"]
         self.autosave = autosave
         self.animations = animations
         self.save_trainers = save_trainers
+        self.load_mods = load_mods
 
     def dict(self):
         """Returns a dict of all current settings"""

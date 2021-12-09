@@ -4,6 +4,7 @@ stations = {
             "additionals": ["intromap"],
             "width": 2,
             "height": 1,
+            "desc": "A small town.",
             "w_next": "cave_1"
         },
         "add": {
@@ -16,6 +17,7 @@ stations = {
             "additionals": [],
             "width": 1,
             "height": 2,
+            "desc": "A dark cave full of batos.",
             "s_next": "playmap_1",
             "d_next": "playmap_2",
         },
@@ -29,6 +31,7 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
+            "desc": "Part of light areas near Josi Town.",
             "a_next": "cave_1",
             "d_next": "playmap_3",
         },
@@ -42,6 +45,7 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
+            "desc": "A small sunny village.",
             "a_next": "playmap_2",
             "w_next": "playmap_4",
             "s_next": "playmap_6",
@@ -56,6 +60,7 @@ stations = {
             "additionals": ["playmap_5"],
             "width": 1,
             "height": 3,
+            "desc": "The shores of the great Sunnydale lake.",
             "s_next": "playmap_3",
             "d_next": "playmap_28"
         },
@@ -69,6 +74,8 @@ stations = {
             "additionals": [],
             "width": 1,
             "height": 2,
+            "desc": "The woodland edge at the foot of a great mountain full of \
+caves.",
             "w_next": "playmap_3",
             "a_next": "playmap_7",
             "d_next": "playmap_8",
@@ -83,6 +90,7 @@ stations = {
             "additionals": [],
             "width": 1,
             "height": 1,
+            "desc": "A dark and mysterious cave.",
             "d_next": "playmap_6",
         },
         "add": {
@@ -95,6 +103,7 @@ stations = {
             "additionals": ["playmap_10", "playmap_9"],
             "width": 2,
             "height": 1,
+            "desc": "An abandoned fisher village.",
             "a_next": "playmap_6",
             "s_next": "playmap_11",
             "d_next": "playmap_12",
@@ -109,6 +118,7 @@ stations = {
             "additionals": [],
             "width": 1,
             "height": 1,
+            "desc": "The shore of a lake near an olf fisher village.",
             "w_next": "playmap_8",
         },
         "add": {
@@ -121,6 +131,7 @@ stations = {
             "width": 2,
             "additionals": [],
             "height": 1,
+            "desc": "A dense forest near Deepens forest.",
             "a_next": "playmap_8",
             "w_next": "playmap_13",
         },
@@ -134,6 +145,8 @@ stations = {
             "additionals": ["playmap_14", "playmap_20"],
             "width": 1,
             "height": 2,
+            "desc": "Deepens forest, a big town in the middle of the deepest \
+forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_12",
             "w_next": "playmap_15",
         },
@@ -147,6 +160,7 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
+            "desc": "A small clearing near Deepens forest.",
             "s_next": "playmap_13",
             "d_next": "playmap_16",
         },
@@ -160,6 +174,7 @@ stations = {
             "additionals": ["playmap_17"],
             "width": 1,
             "height": 1,
+            "desc": "A small 'village', that's not even worth talking about.",
             "a_next": "playmap_15",
             "d_next": "playmap_18",
         },
@@ -173,6 +188,7 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
+            "desc": "A small see at the foot of the Big mountain.",
             "a_next": "playmap_16",
             "w_next": "playmap_19",
         },
@@ -186,6 +202,7 @@ stations = {
             "additionals": [],
             "width": 1,
             "height": 1,
+            "desc": "A dark and big cave in the Big mountain.",
             "s_next": "playmap_18",
             "w_next": "playmap_21",
         },
@@ -196,9 +213,14 @@ stations = {
     },
     "playmap_21": {
         "gen": {
-            "additionals": ["playmap_22", "playmap_23", "playmap_24", "playmap_25", "playmap_26", "playmap_27", "playmap_29"],
+            "additionals": ["playmap_22", "playmap_23", "playmap_24",
+                            "playmap_25", "playmap_26", "playmap_27",
+                            "playmap_29"],
             "width": 3,
             "height": 1,
+            "desc": "The great Rock-ville is the biggest city in the region \
+around the Big mountain. With the Rocky hotel it's also a tourist \
+hotspot.",
             "s_next": "playmap_19",
             "d_next": "playmap_33"
         },
@@ -212,6 +234,7 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
+            "desc": "A foggy place full of ghosts and plants.",
             "a_next": "playmap_4",
             "d_next": "playmap_30",
         },
@@ -225,6 +248,9 @@ stations = {
             "additionals": ["playmap_31", "playmap_32"],
             "width": 1,
             "height": 1,
+            "desc": "With its plant Poketes, Flowy Town may be the greenest \
+spot in the Pokete world and with the great git-tree it may also be one \
+of the most spectacular.",
             "a_next": "playmap_28",
         },
         "add": {
@@ -237,6 +263,7 @@ stations = {
             "additionals": ["playmap_34"],
             "width": 1,
             "height": 1,
+            "desc": "Part of the great agracultural landscape near Agrawos.",
             "a_next": "playmap_21",
             "d_next": "playmap_35",
         },
@@ -250,6 +277,7 @@ stations = {
             "additionals": ["playmap_36", "playmap_37", "playmap_38"],
             "width": 1,
             "height": 2,
+            "desc": "Part of the great agracultural landscape near Agrawos.",
             "a_next": "playmap_33",
         },
         "add": {

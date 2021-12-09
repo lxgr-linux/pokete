@@ -156,6 +156,28 @@ pokes = {
     \|/""",
             "esc": None}],
     },
+    "wheeto": {
+        "name": "Wheeto",
+        "hp": 20,
+        "atc": 3,
+        "defense": 2,
+        "attacks": ["root_slap", "special_smell"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A plant Pokete found in Agrawos, with special 'Powers'.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "types": ["plant"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 2,
+        "ico": [{
+            "txt": """    \ /
+    \|/
+    \|/
+     |""",
+            "esc": None}],
+    },
     "gobost": {
         "name": "Gobost",
         "hp": 20,
@@ -234,8 +256,8 @@ pokes = {
         "lose_xp": 3,
         "rarity": 0.8,
         "types": ["flying", "normal", "bird"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "voglus",
+        "evolve_lvl": 35,
         "initiative": 7,
         "ico": [{
             "txt": """    ?
@@ -243,6 +265,31 @@ pokes = {
     www*
     ||     """,
             "esc": None}]
+    },
+    "voglus": {
+        "name": "Voglus",
+        "hp": 25,
+        "atc": 9,
+        "defense": 3,
+        "attacks": ["tackle", "power_pick", "storm_gust", "brooding"],
+        "pool": ["cry"],
+        "miss_chance": 0,
+        "desc": "A very aggressive and hard to find bird Pokete.",
+        "lose_xp": 5,
+        "rarity": 0.2,
+        "types": ["flying", "normal", "bird"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 8,
+        "ico": [{
+            "txt": """    /
+   > }
+    WWW'
+    ||""",
+            "esc": None}, {
+            "txt": """
+    ´""",
+            "esc": ["thicc", "red"]}]
     },
     "ostri": {
         "name": "Ostri",
@@ -862,7 +909,7 @@ WW\/o o\/WW
         "evolve_lvl": 55,
         "initiative": 2,
         "ico": [{
-            "txt": """    
+            "txt": """
     __
    ('')
    |  |""",
@@ -909,25 +956,24 @@ WW\/o o\/WW
         "initiative": 2,
         "ico": [{
             "txt": """
- 
-    o o 
+
+    o o
      -""",
             "esc": None},
             {
                 "txt": """
-    /\ / 
+    /\ /
        >
    <_""",
                 "esc": ["cyan"]},
             {
                 "txt": """
-      ^  
-   <     
+      ^
+   <
       _>""",
                 "esc": ["white"]}
         ]
     },
-
 }
 
 if __name__ == "__main__":

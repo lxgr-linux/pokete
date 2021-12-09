@@ -18,9 +18,10 @@ import json
 from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
+from pokete_classes import animations
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
-from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox
+from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap, Settings, OutP
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import InvItem, LearnDisc
@@ -31,7 +32,9 @@ from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_general_use_fns import liner, sort_vers, std_loop
+from pokete_classes.mods import ModError, ModInfo, DummyMods
 from release import *
+
 
 __t = time.time()
 
@@ -74,6 +77,20 @@ class HightGrass(se.Object):
                        random.choices(list(range(self.arg_proto["minlvl"],
                                                  self.arg_proto["maxlvl"])))[0],
                        player=False, shiny=(random.randint(0, 500) == 0)))
+
+
+class Meadow(se.Text):
+    """Daughter of se.Text to better organize Highgrass"""
+    esccode = Color.green
+    def __init__(self, string, poke_args):
+        super().__init__(string, ignore=self.esccode + " " + Color.reset,
+                         ob_class=HightGrass, ob_args=poke_args,
+                         state="float", esccode=self.esccode)
+
+
+class Water(Meadow):
+    """Same as Meadow, but for Water"""
+    esccode = Color.blue
 
 
 class Poketeball(se.Object):
@@ -526,12 +543,16 @@ class Station(se.Square):
     choosen = None
     obs = []
 
-    def __init__(self, associate, additionals, width, height, char="#",
-                 w_next="", a_next="", s_next="", d_next="", state="solid"):
+    def __init__(self, associate, additionals, width, height, desc,
+                 char="#", w_next="", a_next="", s_next="", d_next="",
+                 label_fn=None):
+        self.desc = desc
         self.org_char = char
+        self.label_fn = label_fn
         self.associates = [associate] + [ob_maps[i] for i in additionals]
         self.color = ""
-        super().__init__(char, width, height)
+        self.name = self.associates[0].pretty_name
+        super().__init__(char, width, height, state="float")
         self.w_next = w_next
         self.a_next = a_next
         self.s_next = s_next
@@ -542,9 +563,7 @@ class Station(se.Square):
         """Chooses and hightlights the station"""
         self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
         Station.choosen = self
-        roadmap.info_label.rechar(self.associates[0].pretty_name if
-                                  self.has_been_visited() else
-                                  "???")
+        self.label_fn(self.name if self.has_been_visited() else "???")
 
     def unchoose(self):
         """Unchooses the station"""
@@ -800,7 +819,7 @@ class Deck:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
                 if ret_action is not None:
-                    abb_funcs[ret_action]()
+                    abb_funcs[ret_action](pokes[self.index.index])
                 return None
             elif ev.get() == "'2'":
                 ev.clear()
@@ -1141,6 +1160,7 @@ class Menu:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Menu")
         self.playername_label = se.Text("Playername: ", state="float")
+        self.mods_label = se.Text("Mods", state="float")
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
@@ -1152,6 +1172,9 @@ class Menu:
                                     {True: "On", False: "Off"}),
                             Setting("Save trainers", "save_trainers",
                                     {True: "On", False: "Off"}),
+                            Setting("Load mods", "load_mods",
+                                    {True: "On", False: "Off"}),
+                            self.mods_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -1180,9 +1203,11 @@ class Menu:
                                                  self.map.height - 2)
                         self.map.underline.add(self.map, 0,
                                                self.map.height - 2)
+                    elif i == self.mods_label:
+                        ModInfo(movemap, settings, mods.mod_info)(ev)
                     elif i == self.save_label:
                         # When will python3.10 come out?
-                        with InfoBox("Saving....", _map=self.map):
+                        with InfoBox("Saving....", info="", _map=self.map):
                             # Shows a box displaying "Saving...." while saving
                             save()
                             time.sleep(1.5)
@@ -1209,13 +1234,22 @@ class RoadMap:
     """Map you can see and navigate maps on"""
 
     def __init__(self, stations):
-        self.box = Box(11, 40, "Roadmap")
-        self.info_label = se.Text("")
-        self.box.add_ob(self.info_label, 1, 1)
+        self.box = Box(11, 40, "Roadmap", "q:close")
+        self.info_label = se.Text("", state="float")
+        self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta in stations:
-            obj = Station(ob_maps[sta], **stations[sta]['gen'])
+            obj = Station(ob_maps[sta], **stations[sta]['gen'],
+                          label_fn=self.rechar_info)
             self.box.add_ob(obj, **stations[sta]['add'])
             setattr(self, sta, obj)
+
+    @property
+    def sta(self):
+        return Station.choosen
+
+    def rechar_info(self, name):
+        self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.info_label.rechar(name)
 
     def __call__(self, choose=False):
         """Shows the roadmap"""
@@ -1227,22 +1261,40 @@ class RoadMap:
              if figure.map not in [shopmap, centermap]
              else figure.oldmap)
          in i.associates][0].choose()
-        with self.box.add(movemap, movemap.width - self.box.width, 0):
+        with self.box.center_add(movemap):
             while True:
                 if ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
-                    Station.choosen.next(ev.get())
+                    self.sta.next(ev.get())
                     ev.clear()
                 elif ev.get() in ["'3'", "Key.esc", "'q'"]:
                     ev.clear()
                     break
                 elif (ev.get() == "Key.enter" and choose
-                      and Station.choosen.has_been_visited()
-                      and Station.choosen.is_city()):
-                    return Station.choosen.associates[0]
+                      and self.sta.has_been_visited()
+                      and self.sta.is_city()):
+                    return self.sta.associates[0]
+                elif (ev.get() == "Key.enter" and not choose
+                      and self.sta.has_been_visited()):
+                    ev.clear()
+                    p_list = ", ".join(set(p_data.pokes[j]["name"]
+                                        for i in self.sta.associates
+                                            for j in
+                                                i.poke_args.get("pokes", [])
+                                              + i.w_poke_args.get("pokes", [])))
+                    with InfoBox(liner(self.sta.desc
+                                       + "\n\n Here you can find: " +
+                                       (p_list if p_list != "" else "Nothing"),
+                                       30), self.sta.name, _map=movemap):
+                        while True:
+                            if ev.get() in ["Key.esc", "'q'"]:
+                                ev.clear()
+                                break
+                            std_loop(ev)
+                            time.sleep(0.05)
                 std_loop(ev)
                 time.sleep(0.05)
                 movemap.show()
-        Station.choosen.unchoose()
+        self.sta.unchoose()
 
 
 class Dex:
@@ -1455,6 +1507,41 @@ def save():
         json.dump(_si, file, indent=4)
 
 
+def read_save():
+    """Reads form savefile"""
+    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
+    # Default test session_info
+    _si = {
+        "user": "DEFAULT",
+        "ver": VERSION,
+        "map": "intromap",
+        "oldmap": "playmap_1",
+        "x": 4,
+        "y": 5,
+        "pokes": {
+            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
+                  "ap": ["SKIP", "SKIP"]}
+        },
+        "inv": {"poketeball": 15, "healing_potion": 1},
+        "settings": {},
+        "caught_poketes": ["steini"],
+        "visited_maps": ["playmap_1"],
+        "startup_time": 0,
+        "used_npcs": []
+    }
+
+    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
+        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
+        l_dict = {}
+        with open(HOME + SAVEPATH + "/pokete.py", "r") as _file:
+            exec(_file.read(), {"session_info": _si}, l_dict)
+        _si = json.loads(json.dumps(l_dict["session_info"]))
+    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
+        with open(HOME + SAVEPATH + "/pokete.json") as _file:
+            _si = json.load(_file)
+    return _si
+
+
 def on_press(key):
     """Sets the ev variable"""
     ev.set(str(key))
@@ -1563,6 +1650,7 @@ def movemap_add_obs():
     movemap.balls_label.add(movemap, 4 + len(movemap.name_label.text),
                             movemap.height - 2)
     movemap.underline.add(movemap, 0, movemap.height - 2)
+    movemap.label_bg.add(movemap, 0, movemap.height - 1)
     movemap.label.add(movemap, 0, movemap.height - 1)
     movemap.code_label.add(movemap, 0, 0)
 
@@ -1810,11 +1898,37 @@ def playmap_23_npc_8():
 # main functions
 ################
 
-def teleport():
+def test():
+    """test/demo for BetterChooseBox, until BetterChooseBox is actively used
+       this will remain"""
+    with BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo", "Welt",
+        "Wie", "Gehts", "Dir", "So", "Du"]],
+        "Test", _map=movemap) as a:
+        while True:
+            if ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
+                a.input(ev.get())
+                ev.clear()
+            elif ev.get() in ["'q'", "Key.esc"]:
+                ev.clear()
+                break
+            elif ev.get() == "'t'":
+                ev.clear()
+                a.remove()
+                a.set_items(3, [se.Text(i, state="float") for i in ["test",
+                    "test", "123", "fuckthesystem"]])
+                a.center_add(a.map)
+            std_loop(ev)
+            time.sleep(0.05)
+            a.map.show()
+
+
+def teleport(poke):
     """Teleports the player to another towns pokecenter"""
     if (obj := roadmap(choose=True)) is None:
         return
     else:
+        if settings.animations:
+            animations.transition(movemap, poke)
         cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
         Dor("", state="float", arg_proto={"map": obj.name,
                                           "x": cen_d["x"] + 5, "y": cen_d["y"] + 6}).action(None)
@@ -1842,7 +1956,8 @@ def swap_poke():
                         if not data:
                             break
                         decode_data = json.loads(data.decode())
-                        conn.sendall(str.encode(json.dumps({"name": figure.name,
+                        conn.sendall(str.encode(json.dumps({"mods": mods.mod_info,
+                                                            "name": figure.name,
                                                             "poke": figure.pokes[index].dict()})))
     else:
         host = ""
@@ -1858,10 +1973,19 @@ def swap_poke():
             except Exception as err:
                 ask_ok(ev, movemap, str(err))
                 return
-            sock.sendall(str.encode(json.dumps({"name": figure.name,
+            sock.sendall(str.encode(json.dumps({"mods": mods.mod_info,
+                                                "name": figure.name,
                                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
+    if "mods" not in decode_data and mods.mod_info == {}:
+        pass
+    else:
+        mod_info = {} if "mods" not in decode_data else decode_data["mods"]
+        ask_ok(ev, movemap, f"""Conflicting mod versions!
+Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
+Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
+        return
     figure.add_poke(Poke(decode_data["poke"]["name"],
                          decode_data["poke"]["xp"],
                          decode_data["poke"]["hp"]), index)
@@ -2193,11 +2317,8 @@ def gen_obs():
                       map_data[ob_map]["hard_obs"][hard_ob])
         for soft_ob in map_data[ob_map]["soft_obs"]:
             parse_obj(_map, soft_ob,
-                      se.Text(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
-                              ignore=Color.green + " " + Color.reset,
-                              ob_class=HightGrass,
-                              ob_args=_map.poke_args,
-                              state="float", esccode=Color.green),
+                      Meadow(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
+                             _map.poke_args),
                       map_data[ob_map]["soft_obs"][soft_ob])
         for dor in map_data[ob_map]["dors"]:
             parse_obj(_map, dor,
@@ -2301,8 +2422,7 @@ def map_additions():
 ##############  ##########################
 ##############  ##########################""", ignore="#",
                          ob_class=HightGrass,
-                         ob_args={"pokes": ["steini", "bato", "lilstone", "rato"], "minlvl": 40,
-                                  "maxlvl": 128},
+                         ob_args=_map.poke_args,
                          state="float")
     # adding
     _map.inner.add(_map, 0, 0)
@@ -2321,7 +2441,7 @@ def map_additions():
                                    arg_proto={"chance": 6,
                                               "map": "playmap_5",
                                               "x": 17, "y": 16})
-    _map.lake_1 = se.Text("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    _map.lake_1 = Water("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2331,11 +2451,7 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~                    ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
 ~~~~~~~~~                                           ~~~~~~~~
-~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub"],
-                                   "minlvl": 180, "maxlvl": 230},
-                          state="float")
+~~~""", _map.w_poke_args)
     # adding
     _map.dor_playmap_5.add(_map, 56, 1)
     _map.lake_1.add(_map, 0, 0)
@@ -2397,7 +2513,7 @@ def map_additions():
 
     # playmap_11
     _map = ob_maps["playmap_11"]
-    _map.lake_1 = se.Text("""~~~~~                                                 ~~~~~~
+    _map.lake_1 = Water("""~~~~~                                                 ~~~~~~
 ~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~                       ~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~~~
@@ -2405,12 +2521,7 @@ def map_additions():
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""",
-                          esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "clampi", "clampi"],
-                                   "minlvl": 290,
-                                   "maxlvl": 350},
-                          state="float")
+_map.w_poke_args)
     # adding
     _map.lake_1.add(_map, 0, 12)
 
@@ -2424,7 +2535,7 @@ def map_additions():
 
     # playmap_18
     _map = ob_maps["playmap_18"]
-    _map.lake_1 = se.Text("""  ~~
+    _map.lake_1 = Water("""  ~~
  ~~~~
 ~~~~~~~
 ~~~~~~~~
@@ -2432,11 +2543,7 @@ def map_additions():
 ~~~~~~~~
 ~~~~~~
  ~~~~
- ~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub", "clampi"],
-                                   "minlvl": 540, "maxlvl": 640},
-                          state="float")
+ ~~""", _map.w_poke_args)
     # adding
     _map.lake_1.add(_map, 72, 7)
 
@@ -2483,18 +2590,14 @@ def map_additions():
                                          "x": 26, "y": 1})
     _map.dor = DorToCenter()
     _map.shopdor = DorToShop()
-    _map.lake_1 = se.Text("""       ~~~~~~~~~~~
+    _map.lake_1 = Water("""       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~
     ~~~~~~~~~~~~~~
-       ~~~~~~~~""", esccode=Color.blue, ignore=Color.blue + " " + Color.reset,
-                          ob_class=HightGrass,
-                          ob_args={"pokes": ["karpi", "blub"],
-                                   "minlvl": 540, "maxlvl": 640},
-                          state="float")
+       ~~~~~~~~""", _map.w_poke_args)
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
     _map.dor.add(_map, 10, 7)
@@ -2549,45 +2652,16 @@ if __name__ == "__main__":
     # resizing screen
     tss = ResizeScreen()
     width, height = tss()
+
+    # Home global
+    HOME = str(Path.home())
+
     # loading screen
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
-    # validating data
-    p_data.validate()
-    # types
-    types = Types(p_data.types, p_data.sub_types)
 
-    # reading config file
-    HOME = str(Path.home())
-    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
-    # Default test session_info
-    session_info = {
-        "user": "DEFAULT",
-        "ver": VERSION,
-        "map": "intromap",
-        "oldmap": "playmap_1",
-        "x": 4,
-        "y": 5,
-        "pokes": {
-            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
-                  "ap": ["SKIP", "SKIP"]}
-        },
-        "inv": {"poketeball": 15, "healing_potion": 1},
-        "settings": {},
-        "caught_poketes": ["steini"],
-        "visited_maps": ["playmap_1"],
-        "startup_time": 0,
-        "used_npcs": []
-    }
-
-    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
-        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
-        with open(HOME + SAVEPATH + "/pokete.py") as _file:
-            exec(_file.read())
-        session_info = json.loads(json.dumps(session_info))
-    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
-        with open(HOME + SAVEPATH + "/pokete.json") as _file:
-            session_info = json.load(_file)
+    # reading save file
+    session_info = read_save()
 
     if "settings" in session_info:
         settings = Settings(**session_info["settings"])
@@ -2609,8 +2683,29 @@ if __name__ == "__main__":
     else:
         visited_maps = ["playmap_1"]
 
+    # Loading mods
+    if settings.load_mods:
+        try:
+            import mods
+        except ModError as err:
+            error_box = InfoBox(str(err), "Mod-loading Error")
+            error_box.center_add(loading_screen.map)
+            loading_screen.map.show()
+            sys.exit(1)
+
+        for mod in mods.mod_obs:
+            mod.mod_p_data(p_data)
+    else:
+        mods = DummyMods()
+
+    # validating data
+    p_data.validate()
+    # types
+    types = Types(p_data.types, p_data.sub_types)
+
     # comprehending settings
-    # This is needed to just apply some changes when restarting the game to avoid running into errors
+    # This is needed to just apply some changes when restarting
+    # the game to avoid running into errors
     save_trainers = settings.save_trainers
 
     # Defining and adding of objetcs and maps
@@ -2634,6 +2729,7 @@ if __name__ == "__main__":
     figure = Figure("a")
     exclamation = se.Object("!")
     multitext = OutP("", state="float")
+    movemap.label_bg = se.Square(" ", movemap.width, 1, state="float")
     movemap.label = se.Text("1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  ?: Help")
     movemap.code_label = OutP("")
 
@@ -2760,6 +2856,7 @@ if __name__ == "__main__":
     ev = Event("")
     fd = None
     old_settings = None
+
     try:
         main()
     except KeyboardInterrupt:

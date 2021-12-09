@@ -1,0 +1,70 @@
+{
+  "README.md": {
+    "type": "page",
+    "replace_tables": true,
+    "replace_links": {
+      "wiki.md": "./wiki",
+      "Changelog.md": "./Changelog",
+      "HowToPlay.md": "./HowToPlay",
+      "DevGuide.md": "./DevGuide",
+      "mods/example.py": "https://github.com/lxgr-linux/pokete/blob/master/mods/example.py"
+    },
+    "convert_with_pandoc": false,
+    "new_name": "index.md"
+  },
+  "Changelog.md": {
+    "type": "page",
+    "replace_tables": null,
+    "replace_links": {
+      "wiki.md": "./wiki"
+    },
+    "convert_with_pandoc": null,
+    "new_name": null
+  },
+  "HowToPlay.md": {
+    "type": "page",
+    "replace_tables": null,
+    "replace_links": {},
+    "convert_with_pandoc": null,
+    "new_name": null
+  },
+  "wiki.md": {
+    "type": "page",
+    "replace_tables": false,
+    "replace_links": {
+      "wiki.md": "./wiki"
+    },
+    "convert_with_pandoc": true,
+    "new_name": "wiki.html"
+  },
+  "DevGuide.md": {
+    "type": "page",
+    "replace_tables": false,
+    "replace_links": {
+      "pokete_data/poketes.py": "./doc/pokete_data/poketes.html",
+      "pokete_data/types.py": "./doc/pokete_data/types.html",
+      "pokete_data/attacks.py": "./doc/pokete_data/attacks.html",
+      "pokete.py": "./doc/pokete.html"
+    },
+    "convert_with_pandoc": true,
+    "new_name": "DevGuide.html"
+  },
+  "gen_wiki.py": {
+    "type": "documentation"
+  },
+  "pokete.py": {
+    "type": "documentation"
+  },
+  "prepare_pages.py": {
+    "type": "documentation"
+  },
+  "pokete_general_use_fns.py": {
+    "type": "documentation"
+  },
+  "pokete_classes/": {
+    "type": "documentation"
+  },
+  "pokete_data/": {
+    "type": "documentation"
+  }
+}

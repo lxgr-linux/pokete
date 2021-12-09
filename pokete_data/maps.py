@@ -22,7 +22,11 @@ maps = {
         "width": 90,
         "pretty_name": "Nice Town cave",
         "extra_actions": None,
-        "poke_args": None,
+        "poke_args": {
+            "pokes": ["steini", "bato", "lilstone", "rato"],
+            "minlvl": 40,
+            "maxlvl": 128
+        }
     },
     "playmap_2": {
         "height": 30,
@@ -38,7 +42,7 @@ maps = {
     "playmap_3": {
         "height": 30,
         "width": 90,
-        "pretty_name": "Josi Town",
+        "pretty_name": "Sunnydale",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
@@ -49,10 +53,15 @@ maps = {
     "playmap_4": {
         "height": 60,
         "width": 60,
-        "pretty_name": "Josi Lake",
+        "pretty_name": "Sunnydale Lake",
         "extra_actions": "playmap_4",
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
+            "minlvl": 180,
+            "maxlvl": 230
+        },
+        "w_poke_args": {
+            "pokes": ["karpi", "blub"],
             "minlvl": 180,
             "maxlvl": 230
         }
@@ -128,6 +137,11 @@ maps = {
             "pokes": ["steini", "voglo", "wolfior", "owol"],
             "minlvl": 230,
             "maxlvl": 290
+        },
+        "w_poke_args": {
+            "pokes": ["karpi", "clampi", "clampi"],
+            "minlvl": 290,
+            "maxlvl": 350
         }
     },
     "playmap_12": {
@@ -197,6 +211,11 @@ maps = {
             "pokes": ["poundi", "rollator", "würgos", "rato"],
             "minlvl": 540,
             "maxlvl": 640
+        },
+        "w_poke_args": {
+            "pokes": ["karpi", "blub", "clampi"],
+            "minlvl": 540,
+            "maxlvl": 640
         }
     },
     "playmap_19": {
@@ -222,7 +241,12 @@ maps = {
         "width": 150,
         "pretty_name": "Rock-ville",
         "extra_actions": "playmap_21",
-        "poke_args": None
+        "poke_args": None,
+        "w_poke_args": {
+            "pokes": ["karpi", "blub"],
+            "minlvl": 540,
+            "maxlvl": 640
+        }
     },
     "playmap_22": {
         "height": 15,
