@@ -21,25 +21,6 @@ class StdFrame(se.Frame):
                          horizontal_chars=["─", "─"],
                          vertical_chars=["│", "│"], state="float")
 
-    def rechar(self, corner_chars=None, horizontal_chars=None,
-               vertical_chars=None):
-        """
-        Better implementation of rechar.
-        """
-        if corner_chars is not None:
-            self.corner_chars = corner_chars
-        if horizontal_chars is not None:
-            self.horizontal_chars = horizontal_chars
-        if vertical_chars is not None:
-            self.vertical_chars = vertical_chars
-
-        for obj, _c in zip(self.corners, self.corner_chars):
-            obj.rechar(_c)
-        for obj, _c in zip(self.horizontals, self.horizontal_chars):
-            obj.rechar(_c)
-        for obj, _c in zip(self.verticals, self.vertical_chars):
-            obj.rechar(_c)
-
 
 class StdFrame2(se.Frame):
     """Standardized frame"""
