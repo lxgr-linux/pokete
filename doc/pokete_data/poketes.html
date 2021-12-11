@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_data.poketes API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Here starts to definition of all the Poketes
+If you want to contribute Poketes, you have to keep in mind, that &#34;ico&#34;
+can be max 11x4 chars big
+and …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,16 +25,24 @@
 <h1 class="title">Module <code>pokete_data.poketes</code></h1>
 </header>
 <section id="section-intro">
+<p>Here starts to definition of all the Poketes
+If you want to contribute Poketes, you have to keep in mind, that "ico"
+can be max 11x4 chars big
+and that the max for attacks is (until now) 4
+All attributes have to be present make a Pokete work
+A type has to be present
+Hornita was inspired and partly designed by Pia <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#112;&#105;&#97;&#108;&#97;&#110;&#100;&#114;&#97;&#116;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#112;&#105;&#97;&#108;&#97;&#110;&#100;&#114;&#97;&#116;&#104;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a></p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python"># Here starts to definition of all the Poketes
-# If you want to contribute Poketes, you have to keep in mind, that &#34;ico&#34; can be max 11x4 chars big
-# and that the max for attacks is (until now) 4
-# All attributes have to be present make a Pokete work
-# A type has to be present
-# Hornita was inspired and partly designed by Pia &lt;pialandrath@gmail.com&gt;
+<pre><code class="python">&#34;&#34;&#34;Here starts to definition of all the Poketes
+  If you want to contribute Poketes, you have to keep in mind, that &#34;ico&#34;
+  can be max 11x4 chars big
+  and that the max for attacks is (until now) 4
+  All attributes have to be present make a Pokete work
+  A type has to be present
+  Hornita was inspired and partly designed by Pia &lt;pialandrath@gmail.com&gt;&#34;&#34;&#34;
 
 pokes = {
     &#34;__fallback__&#34;: {
@@ -69,7 +80,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 5,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34; +-------+
+            &#34;txt&#34;: r&#34;&#34;&#34; +-------+
  | o   o |
  |  www  |
  +-------+ &#34;&#34;&#34;,
@@ -91,7 +102,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 2,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    ^__^
+            &#34;txt&#34;: r&#34;&#34;&#34;    ^__^
     (oo)
     (__)&#34;&#34;&#34;,
             &#34;esc&#34;: None}],
@@ -112,7 +123,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 5,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;+---------+
+            &#34;txt&#34;: r&#34;&#34;&#34;+---------+
 |  o   o  |
 |   ---   |
 +---------+&#34;&#34;&#34;,
@@ -134,7 +145,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 4,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;   A-A-A
+            &#34;txt&#34;: r&#34;&#34;&#34;   A-A-A
   &lt; o o &gt;
   &lt; --- &gt;
    VvVvV&#34;&#34;&#34;,
@@ -156,7 +167,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 25,
         &#34;initiative&#34;: 3,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
    _____
    |&#39;ᵕ&#39;|
    ‾‾‾‾‾&#34;&#34;&#34;,
@@ -178,7 +189,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 3,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
     (@)
      |
     \|/&#34;&#34;&#34;,
@@ -200,7 +211,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 2,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    \ /
+            &#34;txt&#34;: r&#34;&#34;&#34;    \ /
     \|/
     \|/
      |&#34;&#34;&#34;,
@@ -222,7 +233,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 25,
         &#34;initiative&#34;: 6,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34; .░░░░░░░.
+            &#34;txt&#34;: r&#34;&#34;&#34; .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
  ░ ░ ░ ░ ░&#34;&#34;&#34;,
@@ -244,7 +255,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 7,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34; .░░░░░░░.
+            &#34;txt&#34;: r&#34;&#34;&#34; .░░░░░░░.
  ░░\░░░/░░
  .░░( )░░.
 .         .&#34;&#34;&#34;,
@@ -266,7 +277,7 @@ pokes = {
         &#34;initiative&#34;: 6,
         &#34;evolve_lvl&#34;: 20,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    A
+            &#34;txt&#34;: r&#34;&#34;&#34;    A
    &lt;&#39;)
     www*
     ||     &#34;&#34;&#34;,
@@ -288,7 +299,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 35,
         &#34;initiative&#34;: 7,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    ?
+            &#34;txt&#34;: r&#34;&#34;&#34;    ?
    &gt;´)
     www*
     ||     &#34;&#34;&#34;,
@@ -310,7 +321,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 8,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    /
+            &#34;txt&#34;: r&#34;&#34;&#34;    /
    &gt; }
     WWW&#39;
     ||&#34;&#34;&#34;,
@@ -327,7 +338,8 @@ pokes = {
         &#34;attacks&#34;: [&#34;tackle&#34;, &#34;eye_pick&#34;, &#34;brooding&#34;],
         &#34;pool&#34;: [&#34;cry&#34;],
         &#34;miss_chance&#34;: 0,
-        &#34;desc&#34;: &#34;A very aggressive bird Pokete that lives near deserts and will try to pick out your eyes.&#34;,
+        &#34;desc&#34;: &#34;A very aggressive bird Pokete that lives near deserts and \
+will try to pick out your eyes.&#34;,
         &#34;rarity&#34;: 0.6,
         &#34;lose_xp&#34;: 4,
         &#34;types&#34;: [&#34;flying&#34;, &#34;normal&#34;, &#34;bird&#34;],
@@ -335,7 +347,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 7,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;   !
+            &#34;txt&#34;: r&#34;&#34;&#34;   !
   &gt;´)
     \www&#39;
      ||&#34;&#34;&#34;,
@@ -357,7 +369,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 0,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
 
   &lt;°))))&gt;&lt;
            &#34;&#34;&#34;,
@@ -379,7 +391,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 30,
         &#34;initiative&#34;: 3,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;  &gt;&#39;({{{
+            &#34;txt&#34;: r&#34;&#34;&#34;  &gt;&#39;({{{
   }}}}}}}
  {{{{{{{{{
            &#34;&#34;&#34;,
@@ -401,10 +413,10 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 4,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34; _______
-/____ * \\
- (   \   \\
-\______   \\&#34;&#34;&#34;,
+            &#34;txt&#34;: r&#34;&#34;&#34; _______
+/____ * \
+ (   \   \
+\______   \ &#34;&#34;&#34;,
             &#34;esc&#34;: None}]
     },
     &#34;treenator&#34;: {
@@ -423,7 +435,7 @@ pokes = {
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 2,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    (()
+            &#34;txt&#34;: r&#34;&#34;&#34;    (()
    (()))
      H
      H&#34;&#34;&#34;,
@@ -445,9 +457,9 @@ pokes = {
         &#34;evolve_lvl&#34;: 20,
         &#34;initiative&#34;: 6,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    ___
+            &#34;txt&#34;: r&#34;&#34;&#34;    ___
 WW\/* *\/WW
-   \\v-v/&#34;&#34;&#34;,
+   \v-v/&#34;&#34;&#34;,
             &#34;esc&#34;: None}]
     },
     &#34;bator&#34;: {
@@ -466,10 +478,10 @@ WW\/* *\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 8,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    ___
+            &#34;txt&#34;: r&#34;&#34;&#34;    ___
 WW\/o o\/WW
    |v-v|
-   \\___/&#34;&#34;&#34;,
+   \___/&#34;&#34;&#34;,
             &#34;esc&#34;: None}]
     },
     &#34;blub&#34;: {
@@ -488,8 +500,8 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 1,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;  _____
- / o   \\
+            &#34;txt&#34;: r&#34;&#34;&#34;  _____
+ / o   \
  &gt;   v  &gt;&lt;
  \_____/&#34;&#34;&#34;,
             &#34;esc&#34;: None}]
@@ -510,7 +522,7 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 3,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;   ,___,
+            &#34;txt&#34;: r&#34;&#34;&#34;   ,___,
    {o,o}
    /)_)
     &#34;&#34;
@@ -529,14 +541,39 @@ WW\/o o\/WW
         &#34;lose_xp&#34;: 2,
         &#34;rarity&#34;: 1.3,
         &#34;types&#34;: [&#34;normal&#34;],
-        &#34;evolve_poke&#34;: &#34;&#34;,
-        &#34;evolve_lvl&#34;: 0,
+        &#34;evolve_poke&#34;: &#34;ratatat&#34;,
+        &#34;evolve_lvl&#34;: 25,
         &#34;initiative&#34;: 6,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;   ^---^
+            &#34;txt&#34;: r&#34;&#34;&#34;   ^---^
    \o o/
    &gt;\./&lt;&#34;&#34;&#34;,
             &#34;esc&#34;: None}]
+    },
+    &#34;ratatat&#34;: {
+        &#34;name&#34;: &#34;Ratatat&#34;,
+        &#34;hp&#34;: 25,
+        &#34;atc&#34;: 7,
+        &#34;defense&#34;: 3,
+        &#34;attacks&#34;: [&#34;tackle&#34;, &#34;tail_wipe&#34;, &#34;power_bite&#34;],
+        &#34;pool&#34;: [&#34;bite&#34;],
+        &#34;miss_chance&#34;: 0,
+        &#34;desc&#34;: &#34;A damn dangerous and enourmous rat, that will bite of your leg.&#34;,
+        &#34;lose_xp&#34;: 2,
+        &#34;rarity&#34;: 0.7,
+        &#34;types&#34;: [&#34;normal&#34;],
+        &#34;evolve_poke&#34;: &#34;&#34;,
+        &#34;evolve_lvl&#34;: 0,
+        &#34;initiative&#34;: 7,
+        &#34;ico&#34;: [{
+            &#34;txt&#34;: r&#34;&#34;&#34;   ^---^
+   \   /
+   &gt;VvV&lt;
+    ^^^&#34;&#34;&#34;,
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;
+    * *&#34;&#34;&#34;,
+            &#34;esc&#34;: [&#34;thicc&#34;, &#34;green&#34;]}]
     },
     &#34;hornita&#34;: {
         &#34;name&#34;: &#34;Hornita&#34;,
@@ -554,10 +591,10 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 3,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34; \\
+            &#34;txt&#34;: r&#34;&#34;&#34; \
  =&#39;)~
    (¯¯¯¯)~
-   //¯¯\\\\&#34;&#34;&#34;,
+   //¯¯\\ &#34;&#34;&#34;,
             &#34;esc&#34;: None}]
     },
     &#34;horny&#34;: {
@@ -576,10 +613,10 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 20,
         &#34;initiative&#34;: 4,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;  ,
+            &#34;txt&#34;: r&#34;&#34;&#34;  ,
  =&#39;)
    (¯¯¯)~
-   //¯\\\\&#34;&#34;&#34;,
+   //¯\\ &#34;&#34;&#34;,
             &#34;esc&#34;: None}]
     },
     &#34;bushy&#34;: {
@@ -598,7 +635,7 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 20,
         &#34;initiative&#34;: 1,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
     (()
    (()))&#34;&#34;&#34;,
             &#34;esc&#34;: None}]
@@ -619,15 +656,14 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 25,
         &#34;initiative&#34;: 4,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;   ^---^
+            &#34;txt&#34;: r&#34;&#34;&#34;   ^---^
    (   )
    &gt;(.)&lt;&#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;
     * *
         &#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;thicc&#34;, &#34;red&#34;]}]
+            &#34;esc&#34;: [&#34;thicc&#34;, &#34;red&#34;]}]
     },
     &#34;wolfiro&#34;: {
         &#34;name&#34;: &#34;Wolfiro&#34;,
@@ -645,15 +681,14 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 5,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;   \^-^/
+            &#34;txt&#34;: r&#34;&#34;&#34;   \^-^/
    {   }
    &gt;{.}&lt;&#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;
     * *
         &#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;thicc&#34;, &#34;red&#34;]}]
+            &#34;esc&#34;: [&#34;thicc&#34;, &#34;red&#34;]}]
     },
     &#34;rollator&#34;: {
         &#34;name&#34;: &#34;Rollator&#34;,
@@ -671,8 +706,8 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 3,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;   _____
-  / o o \\
+            &#34;txt&#34;: r&#34;&#34;&#34;   _____
+  / o o \
   | ___ |
   \_____/&#34;&#34;&#34;,
             &#34;esc&#34;: None}]
@@ -693,14 +728,13 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 3,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    ___
+            &#34;txt&#34;: r&#34;&#34;&#34;    ___
   -/   \-
   -\___/-&#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;
      *&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;lightblue&#34;]}]
+            &#34;esc&#34;: [&#34;lightblue&#34;]}]
     },
     &#34;electrode&#34;: {
         &#34;name&#34;: &#34;Electrode&#34;,
@@ -718,13 +752,12 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 4,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
     ( )&#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: &#34;&#34;&#34;
      +&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;lightblue&#34;]}]
+            &#34;esc&#34;: [&#34;lightblue&#34;]}]
     },
     &#34;cubl&#34;: {
         &#34;name&#34;: &#34;Cubl&#34;,
@@ -742,19 +775,17 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 30,
         &#34;initiative&#34;: 1,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;   -----
+            &#34;txt&#34;: r&#34;&#34;&#34;   -----
    |   |
    -----&#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;
     * *&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;lightblue&#34;]},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;  /     \\
+            &#34;esc&#34;: [&#34;lightblue&#34;]}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;  /     \
 
   \     /&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;cyan&#34;]
+            &#34;esc&#34;: [&#34;cyan&#34;]
             }
         ]
     },
@@ -774,19 +805,19 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 2,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;  -------
+            &#34;txt&#34;: r&#34;&#34;&#34;  -------
   |     |
   -------&#34;&#34;&#34;,
             &#34;esc&#34;: None},
             {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
     * *&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;lightblue&#34;]},
+            &#34;esc&#34;: [&#34;lightblue&#34;]},
             {
-                &#34;txt&#34;: &#34;&#34;&#34; /       \\
+            &#34;txt&#34;: r&#34;&#34;&#34; /       \
 
  \       /&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;cyan&#34;]
+            &#34;esc&#34;: [&#34;cyan&#34;]
             }
         ]
     },
@@ -798,7 +829,8 @@ WW\/o o\/WW
         &#34;attacks&#34;: [&#34;confusion&#34;],
         &#34;pool&#34;: [],
         &#34;miss_chance&#34;: 0.1,
-        &#34;desc&#34;: &#34;A ball floating around in dark woods and caves, that will confuse the shit out of you.&#34;,
+        &#34;desc&#34;: &#34;A ball floating around in dark woods and caves, \
+that will confuse the shit out of you.&#34;,
         &#34;lose_xp&#34;: 6,
         &#34;rarity&#34;: 0.5,
         &#34;types&#34;: [&#34;undead&#34;],
@@ -806,19 +838,17 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 2,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
      _
     (_) &#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;        }
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;        }
       {
        }&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;purple&#34;]},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;       }
+            &#34;esc&#34;: [&#34;purple&#34;]}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;       }
        {&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;lightblue&#34;]},
+            &#34;esc&#34;: [&#34;lightblue&#34;]},
         ]
     },
     &#34;poisopla&#34;: {
@@ -837,15 +867,14 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 20,
         &#34;initiative&#34;: 1,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
        .
  .__ |/|
   \_\||/&#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;
      w&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;purple&#34;]},
+            &#34;esc&#34;: [&#34;purple&#34;]},
         ]
     },
     &#34;megapois&#34;: {
@@ -864,15 +893,14 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 2,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
     |/.
 .__\|/|
  \_\||/ &#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;    w w
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;    w w
   w&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;purple&#34;]},
+            &#34;esc&#34;: [&#34;purple&#34;]},
         ]
     },
     &#34;schmetterling&#34;: {
@@ -891,10 +919,10 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 4,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
  .__ o __.
   \_\|/_/
-  /_/&#39;\_\\&#34;&#34;&#34;,
+  /_/&#39;\_\ &#34;&#34;&#34;,
             &#34;esc&#34;: None}
         ]
     },
@@ -914,7 +942,7 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 35,
         &#34;initiative&#34;: 1,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
 
     __
    (&#39;&#39;)&#34;&#34;&#34;,
@@ -937,7 +965,7 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 55,
         &#34;initiative&#34;: 2,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
     __
    (&#39;&#39;)
    |  |&#34;&#34;&#34;,
@@ -960,7 +988,7 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 3,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;    __
+            &#34;txt&#34;: r&#34;&#34;&#34;    __
    (&#39;&#39;)
    |  |
    |  |&#34;&#34;&#34;,
@@ -983,23 +1011,21 @@ WW\/o o\/WW
         &#34;evolve_lvl&#34;: 0,
         &#34;initiative&#34;: 2,
         &#34;ico&#34;: [{
-            &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;txt&#34;: r&#34;&#34;&#34;
 
     o o
      -&#34;&#34;&#34;,
-            &#34;esc&#34;: None},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;esc&#34;: None}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;
     /\ /
        &gt;
    &lt;_&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;cyan&#34;]},
-            {
-                &#34;txt&#34;: &#34;&#34;&#34;
+            &#34;esc&#34;: [&#34;cyan&#34;]}, {
+            &#34;txt&#34;: r&#34;&#34;&#34;
       ^
    &lt;
       _&gt;&#34;&#34;&#34;,
-                &#34;esc&#34;: [&#34;white&#34;]}
+            &#34;esc&#34;: [&#34;white&#34;]}
         ]
     },
 }

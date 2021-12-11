@@ -1364,7 +1364,10 @@ class Dex:
 
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
-                          (f&#34;\n\n Evolves to {poke.evolve_poke if poke.evolve_poke in caught_poketes else &#39;???&#39;}.&#34;
+                          (f&#34;&#34;&#34;\n\n Evolves to {
+                              p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
+                              poke.evolve_poke in caught_poketes else &#39;???&#39;
+                                                }.&#34;&#34;&#34;
                            if poke.evolve_lvl != 0 else &#34;&#34;), 29)
         self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
         self.detail_box.name_label.rechar(poke.name)
@@ -4989,7 +4992,10 @@ def remove(poke):
 
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
-                          (f&#34;\n\n Evolves to {poke.evolve_poke if poke.evolve_poke in caught_poketes else &#39;???&#39;}.&#34;
+                          (f&#34;&#34;&#34;\n\n Evolves to {
+                              p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
+                              poke.evolve_poke in caught_poketes else &#39;???&#39;
+                                                }.&#34;&#34;&#34;
                            if poke.evolve_lvl != 0 else &#34;&#34;), 29)
         self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
         self.detail_box.name_label.rechar(poke.name)
@@ -5083,7 +5089,10 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
-                          (f&#34;\n\n Evolves to {poke.evolve_poke if poke.evolve_poke in caught_poketes else &#39;???&#39;}.&#34;
+                          (f&#34;&#34;&#34;\n\n Evolves to {
+                              p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
+                              poke.evolve_poke in caught_poketes else &#39;???&#39;
+                                                }.&#34;&#34;&#34;
                            if poke.evolve_lvl != 0 else &#34;&#34;), 29)
         self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
         self.detail_box.name_label.rechar(poke.name)
