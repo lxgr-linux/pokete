@@ -39,7 +39,8 @@ You can find different versions of this wiki:
        1. [Hornita](#hornita)
        2. [Horny](#horny)
        3. [Mowcow](#mowcow)
-       4. [Rato](#rato)
+       4. [Ratatat](#ratatat)
+       5. [Rato](#rato)
    7. [Plant Poketes](#plant-poketes)
        1. [Bushy](#bushy)
        2. [Megapois](#megapois)
@@ -742,6 +743,34 @@ A cow-like creature found on meadows.
 - Does not evolve
 
 
+#### Ratatat
+A damn dangerous and enourmous rat, that will bite of your leg.
+
+```
+   ^---^   
+   \* */   
+   >VvV<   
+    ^^^    
+
+```
+
+- Type: [Normal](#types)
+- Health points: 25
+- Attack factor: 7
+- Defense factor: 3
+- Initiative: 7
+- Missing chance: 0
+- Rarity: 0.7
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Tail wipe](#tail-wipe)
+   + [Power bite](#power-bite)
+- Can be found in:
+   + Nowhere
+- Does not evolve
+
+
 #### Rato
 An annoying rat.
 
@@ -774,8 +803,7 @@ An annoying rat.
    + Route 4
    + Deepens forest
    + Big mountain see
-- Does not evolve
-
+- Evolves to [Ratatat](#ratatat) at level 25
 ### Plant Poketes
 #### Bushy
 A bush, and just a bush. But watch out!
