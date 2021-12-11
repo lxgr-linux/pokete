@@ -1327,7 +1327,10 @@ class Dex:
 
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace("\n", " ") +
-                          (f"\n\n Evolves to {poke.evolve_poke if poke.evolve_poke in caught_poketes else '???'}."
+                          (f"""\n\n Evolves to {
+                              p_data.pokes[poke.evolve_poke]['name'] if
+                              poke.evolve_poke in caught_poketes else '???'
+                                                }."""
                            if poke.evolve_lvl != 0 else ""), 29)
         self.detail_box.resize(9 + len(desc_text.split("\n")), 35)
         self.detail_box.name_label.rechar(poke.name)
