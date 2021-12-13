@@ -686,8 +686,8 @@ WW\/o o\/WW
         "lose_xp": 5,
         "rarity": 0.8,
         "types": ["water", "normal"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "crabbat",
+        "evolve_lvl": 20,
         "initiative": 3,
         "ico": [{
             "txt": r"""    ___
@@ -696,6 +696,30 @@ WW\/o o\/WW
             "esc": None}, {
             "txt": r"""
      *""",
+            "esc": ["lightblue"]}]
+    },
+    "crabbat": {
+        "name": "Crabbat",
+        "hp": 30,
+        "atc": 3,
+        "defense": 8,
+        "attacks": ["tackle", "bubble_gun", "earch_quake", "shell_pinch"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A crusty Pokete that loves to pinch big toes.",
+        "lose_xp": 5,
+        "rarity": 0.8,
+        "types": ["water", "ground", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 4,
+        "ico": [{
+            "txt": r""" (  ___  )
+  \-   -/
+   ^   ^""",
+            "esc": None}, {
+            "txt": r"""
+    * *""",
             "esc": ["lightblue"]}]
     },
     "electrode": {
