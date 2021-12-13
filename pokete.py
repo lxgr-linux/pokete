@@ -170,15 +170,20 @@ class NPC(se.Box):
         if self.__fn is not None:
             eval(self.__fn)(*self.args)
 
-
     def walk_point(self, x, y):
+        """Walks the NPC tp a certain point"""
         o_x = self.x
         o_y = self.y
         vec = se.Line(" ", x - o_x, y - o_y)
+        if any([any(j.state == "solid"
+                for j in self.map.obmap[i.ry + o_y][i.rx + o_x])
+                    for i in vec.obs][1:]):
+            return False
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
             time.sleep(0.2)
             movemap.full_show()
+        return True
 
 
     @staticmethod
