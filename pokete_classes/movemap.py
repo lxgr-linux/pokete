@@ -32,7 +32,7 @@ class Movemap(se.Submap):
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
-    def text(self, x, y, arr, _ev):
+    def text(self, x, y, inp_arr, _ev):
         """Shows dialog text on movemap"""
         # This ensures the game does not crash when big
         # chunks of text are displayed
@@ -46,8 +46,8 @@ class Movemap(se.Submap):
         # End section
         self.multitext.rechar("")
         self.multitext.add(self, x - self.x + 1, y - self.y)
-        for i in range(len(arr) - 1):
-            arr[i] += " >"
+        arr = [i + (" >" if j != len(inp_arr) - 1 else "")
+                    for j, i in enumerate(inp_arr)]
         for text in arr:
             _ev.clear()
             self.multitext.rechar("")
