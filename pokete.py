@@ -170,6 +170,17 @@ class NPC(se.Box):
         if self.__fn is not None:
             eval(self.__fn)(*self.args)
 
+
+    def walk_point(self, x, y):
+        o_x = self.x
+        o_y = self.y
+        vec = se.Line(" ", x - o_x, y - o_y)
+        for i in vec.obs:
+            self.set(i.rx + o_x, i.ry + o_y)
+            time.sleep(0.2)
+            movemap.full_show()
+
+
     @staticmethod
     def give(_map, npc, name, item):
         """Method thats gifts an item to the player"""
@@ -182,6 +193,10 @@ class NPC(se.Box):
                     f"{name} gifted you a '{item.pretty_name}'. \
 Do you want to accept it?"):
             figure.give_item(item.name)
+
+
+def test1():
+    ob_maps["playmap_13"].npc_2.walk_point(figure.x, figure.y)
 
 
 class Trainer(se.Object):
