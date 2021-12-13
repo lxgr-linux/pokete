@@ -148,12 +148,7 @@ class NPC(se.Box):
             self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(se.Object("a"), 0, 0)
 
-    def action(self):
-        """Interaction with the NPC triggered by NPCTrigger.action"""
-        if not self.will or (self.name in used_npcs and settings.save_trainers):
-            return
-        movemap.full_show()
-        time.sleep(0.7)
+    def exclamate(self):
         try:
             exclamation.add(movemap, self.x - movemap.x, self.y - 1 - movemap.y)
         except se.CoordinateError:
@@ -161,6 +156,14 @@ class NPC(se.Box):
         movemap.show()
         time.sleep(1)
         exclamation.remove()
+
+    def action(self):
+        """Interaction with the NPC triggered by NPCTrigger.action"""
+        if not self.will or (self.name in used_npcs and settings.save_trainers):
+            return
+        movemap.full_show()
+        time.sleep(0.7)
+        self.exclamate()
         movemap.text(self.x, self.y, self.texts, ev)
         self.fn()
 

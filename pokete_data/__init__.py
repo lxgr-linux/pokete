@@ -26,7 +26,8 @@ def single_validate(dict, validator, name=""):
 
 
 def validate():
-    for i, j in zip([pokes, types, map_data, stations, items, npcs, attacks, maps], validators):
+    for i, j in zip([pokes, types, map_data, stations, items, npcs,
+                     attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
         for i in pokes[p]["ico"]:
