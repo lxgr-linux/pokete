@@ -64,7 +64,9 @@ You can find different versions of this wiki:
    11. [Water Poketes](#water-poketes)
        1. [Blub](#blub)
        2. [Clampi](#clampi)
-       3. [Karpi](#karpi)
+       3. [Crabbat](#crabbat)
+       4. [Karpi](#karpi)
+       5. [Rustacean](#rustacean)
 2. [Attacks](#attacks)
    1. [Electro attacks](#electro-attacks)
        1. [Charging](#charging)
@@ -1321,8 +1323,35 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
 - Can be found in:
    + Route 3
    + Big mountain see
-- Does not evolve
+- Evolves to [Crabbat](#crabbat) at level 20
 
+#### Crabbat
+A crusty Pokete that loves to pinch big toes.
+
+```
+ (  ___  ) 
+  \-* *-/  
+   ^   ^   
+           
+
+```
+
+- Type: [Water](#types)
+- Health points: 30
+- Attack factor: 3
+- Defense factor: 8
+- Initiative: 4
+- Missing chance: 0
+- Rarity: 0.8
+- Loosing experience: 5
+- Attacks:
+   + [Tackle](#tackle)
+   + [Bubble gun](#bubble-gun)
+   + [Earch quake](#earch-quake)
+   + [Shell pinch](#shell-pinch)
+- Can be found in:
+   + Nowhere
+- Evolves to [Rustacean](#rustacean) at level 40
 
 #### Karpi
 A very harmless water Pokete that can be found everywhere.
@@ -1350,6 +1379,35 @@ A very harmless water Pokete that can be found everywhere.
    + Route 3
    + Big mountain see
    + Rock-ville
+- Does not evolve
+
+
+#### Rustacean
+A crusty Pokete that will pinch your toe, and check whether or not you borrowed something.
+
+```
+ {  ^^^  } 
+  \-* *-/  
+   ^   ^   
+           
+
+```
+
+- Type: [Water](#types)
+- Health points: 35
+- Attack factor: 4
+- Defense factor: 9
+- Initiative: 5
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 5
+- Attacks:
+   + [Toe Breaker](#toe-breaker)
+   + [Bubble gun](#bubble-gun)
+   + [Earch quake](#earch-quake)
+   + [Shell pinch](#shell-pinch)
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
