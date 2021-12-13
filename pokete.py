@@ -138,13 +138,12 @@ class NPCTrigger(se.Object):
 class NPC(se.Box):
     """An NPC to talk to"""
 
-    def __init__(self, name, texts, fn=None, args=()):
+    def __init__(self, name, texts, fn=None):
         super().__init__(0, 0)
         self.will = True
         self.name = name
         self.texts = texts
         self.__fn = fn
-        self.args = args
         for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
             self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(se.Object("a"), 0, 0)
@@ -168,7 +167,7 @@ class NPC(se.Box):
     def fn(self):
         """The function that's executed after the interaction"""
         if self.__fn is not None:
-            eval(self.__fn)(*self.args)
+            getattr(NPCActions, self.__fn)(self)
 
     def walk_point(self, x, y):
         """Walks the NPC tp a certain point"""
@@ -185,19 +184,96 @@ class NPC(se.Box):
             movemap.full_show()
         return True
 
-
-    @staticmethod
-    def give(_map, npc, name, item):
+    def give(self, name, item):
         """Method thats gifts an item to the player"""
         item = getattr(invitems, item)
-        _map = ob_maps[_map]
-        npc = getattr(_map, npc)
-        npc.will = False
-        used_npcs.append(npc.name)
+        self.will = False
+        used_npcs.append(self.name)
         if ask_bool(ev, movemap,
                     f"{name} gifted you a '{item.pretty_name}'. \
 Do you want to accept it?"):
             figure.give_item(item.name)
+
+
+class NPCActions:
+    """This class contains all functions callable by NPCs"""
+
+    @staticmethod
+    def swap_poke(npc):
+        """Swap_poke wrapper"""
+        swap_poke()
+
+    @staticmethod
+    def heal(npc):
+        """Heal wrapper"""
+        heal()
+
+    @staticmethod
+    def playmap_17_boy(npc):
+        """Interaction with boy"""
+        if "choka" in [i.identifier for i in figure.pokes[:6]]:
+            movemap.text(npc.x, npc.y,
+                         [" < Oh, cool!", " < You have a Choka!",
+                          " < I've never seen one before!",
+                          " < Here you go, 200$"], ev)
+            if ask_bool(ev, movemap,
+                        "Young boy gifted you 200$. Do you want to accept it?"):
+                figure.add_money(200)
+            npc.will = False
+            used_npcs.append(npc.name)
+        else:
+            movemap.text(npc.x, npc.y,
+                         [" < In this region lives the würgos Pokete.",
+                      f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
+it evolves to Choka.",
+                      " < I have never seen one before!"], ev)
+
+    @staticmethod
+    def playmap_20_trader(npc):
+        """Interaction with trader"""
+        if ask_bool(ev, movemap, "Do you want to trade a Pokete?"):
+            if (index := deck(6, "Your deck", True)) is None:
+                return
+            figure.add_poke(Poke("ostri", 500), index)
+            used_npcs.append(npc.name)
+            ask_ok(ev, movemap,
+                   f"You received: {figure.pokes[index].name.capitalize()} \
+at level {figure.pokes[index].lvl()}.")
+            movemap.text(npc.x, npc.y, [" < Cool, huh?"], ev)
+
+    @staticmethod
+    def playmap_23_npc_8(npc):
+        """Interaction with npc_8"""
+        if ask_bool(ev, movemap,
+                    "The man gifted you 100$. Do you want to accept it?"):
+            npc.will = False
+            used_npcs.append(npc.name)
+            figure.add_money(100)
+
+    @staticmethod
+    def playmap_10_old_man(npc):
+        """Interaction with ld_man"""
+        npc.give("Old man", "hyperball")
+
+    @staticmethod
+    def playmap_29_ld_man(npc):
+        """Interaction with ld_man"""
+        npc.give("The man", "ld_flying")
+
+    @staticmethod
+    def playmap_32_npc_12(npc):
+        """Interaction with npc_12"""
+        npc.give("Old man", "hyperball")
+
+    @staticmethod
+    def playmap_36_npc_14(npc):
+        """Interaction with npc_14"""
+        npc.give("Old woman", "ap_potion")
+
+    @staticmethod
+    def playmap_37_npc_15(npc):
+        """Interaction with npc_14"""
+        npc.give("Bert the bird", "super_potion")
 
 
 def test1():
@@ -342,7 +418,7 @@ class CenterMap(PlayMap):
                           [" < I'm a trader.",
                            " < Here you can trade one of your Poketes for \
 another players' one."],
-                          "swap_poke", ())
+                          "swap_poke")
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
         self.dor_back2.add(self, int(self.width / 2) + 1, 8)
@@ -1434,58 +1510,6 @@ class ExtraActions:
                 obj.rechar(" ")
 
 
-# NPC functions
-###############
-
-def playmap_17_boy():
-    """Interaction with boy"""
-    npc = ob_maps["playmap_17"].boy_1
-    if "choka" in [i.identifier for i in figure.pokes[:6]]:
-        movemap.text(npc.x, npc.y,
-                     [" < Oh, cool!", " < You have a Choka!",
-                      " < I've never seen one before!",
-                      " < Here you go, 200$"], ev)
-        if ask_bool(ev, movemap,
-                    "Young boy gifted you 200$. Do you want to accept it?"):
-            figure.add_money(200)
-        npc.will = False
-        used_npcs.append(npc.name)
-    else:
-        movemap.text(npc.x, npc.y,
-                     [" < In this region lives the würgos Pokete.",
-                      f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
-it evolves to Choka.",
-                      " < I have never seen one before!"], ev)
-
-
-def playmap_20_trader():
-    """Interaction with trader"""
-    npc = ob_maps["playmap_20"].trader_2
-    movemap.text(npc.x, npc.y,
-                 [" < I've lived in this town for long time and therefore have \
-found some cool Poketes.",
-                  " < Do you want to trade my cool Pokete?"], ev)
-    if ask_bool(ev, movemap, "Do you want to trade a Pokete?"):
-        if (index := deck(6, "Your deck", True)) is None:
-            return
-        figure.add_poke(Poke("ostri", 500), index)
-        used_npcs.append(npc.name)
-        ask_ok(ev, movemap,
-               f"You received: {figure.pokes[index].name.capitalize()} \
-at level {figure.pokes[index].lvl()}.")
-        movemap.text(npc.x, npc.y, [" < Cool, huh?"], ev)
-
-
-def playmap_23_npc_8():
-    """Interaction with npc_8"""
-    npc = ob_maps["playmap_23"].npc_8
-    if ask_bool(ev, movemap,
-                "The man gifted you 100$. Do you want to accept it?"):
-        npc.will = False
-        used_npcs.append(npc.name)
-        figure.add_money(100)
-
-
 # main functions
 ################
 
@@ -1725,8 +1749,7 @@ def gen_obs():
     # NPCs
     for npc in npcs:
         parse_obj(ob_maps[npcs[npc]["map"]], npc,
-                  NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"],
-                      npcs[npc]["args"]),
+                  NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"]),
                   npcs[npc])
 
     # adding all trainer to map
