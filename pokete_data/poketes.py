@@ -710,11 +710,36 @@ WW\/o o\/WW
         "lose_xp": 5,
         "rarity": 0.8,
         "types": ["water", "ground", "normal"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "rustacean",
+        "evolve_lvl": 40,
         "initiative": 4,
         "ico": [{
             "txt": r""" (  ___  )
+  \-   -/
+   ^   ^""",
+            "esc": None}, {
+            "txt": r"""
+    * *""",
+            "esc": ["lightblue"]}]
+    },
+    "rustacean": {
+        "name": "Rustacean",
+        "hp": 35,
+        "atc": 4,
+        "defense": 9,
+        "attacks": ["toe_breaker", "bubble_gun", "earch_quake", "shell_pinch"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A crusty Pokete that will pinch your toe, and check whether \
+or not you borrowed something.",
+        "lose_xp": 5,
+        "rarity": 0.5,
+        "types": ["water", "ground", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r""" {  ^^^  }
   \-   -/
    ^   ^""",
             "esc": None}, {
