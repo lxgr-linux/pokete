@@ -37,6 +37,7 @@ from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_classes.detail import Informer, Detail
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
+from pokete_classes.npcs import NPC
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -121,85 +122,6 @@ class Poketeball(se.Object):
         ask_ok(ev, movemap, f"You found {amount if amount > 1 else 'a'} \
 {p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
         used_npcs.append(self.name)
-
-
-class NPCTrigger(se.Object):
-    """Object on the map, that triggers a npc"""
-
-    def __init__(self, npc):
-        super().__init__(" ", state="float")
-        self.npc = npc
-
-    def action(self, ob):
-        """Action triggers the NPCs action"""
-        self.npc.action()
-
-
-class NPC(se.Box):
-    """An NPC to talk to"""
-
-    def __init__(self, name, texts, fn=None):
-        super().__init__(0, 0)
-        self.will = True
-        self.name = name
-        self.texts = texts
-        self.__fn = fn
-        for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
-            self.add_ob(NPCTrigger(self), i, j)
-        self.add_ob(se.Object("a"), 0, 0)
-
-    def text(self, text):
-        movemap.text(self.x, self.y, text, ev)
-
-    def exclamate(self):
-        exclamation = se.Object("!")
-        try:
-            exclamation.add(movemap, self.x - movemap.x, self.y - 1 - movemap.y)
-        except se.CoordinateError:
-            pass
-        movemap.show()
-        time.sleep(1)
-        exclamation.remove()
-
-    def action(self):
-        """Interaction with the NPC triggered by NPCTrigger.action"""
-        if not self.will or (self.name in used_npcs and settings.save_trainers):
-            return
-        movemap.full_show()
-        time.sleep(0.7)
-        self.exclamate()
-        self.text(self.texts)
-        self.fn()
-
-    def fn(self):
-        """The function that's executed after the interaction"""
-        if self.__fn is not None:
-            getattr(NPCActions, self.__fn)(self)
-
-    def walk_point(self, x, y):
-        """Walks the NPC tp a certain point"""
-        o_x = self.x
-        o_y = self.y
-        vec = se.Line(" ", x - o_x, y - o_y)
-        if any([any(j.state == "solid"
-                for j in self.map.obmap[i.ry + o_y][i.rx + o_x])
-                    for i in vec.obs][1:]):
-            return False
-        for i in vec.obs:
-            self.set(i.rx + o_x, i.ry + o_y)
-            time.sleep(0.2)
-            movemap.full_show()
-        return True
-
-    def give(self, name, item):
-        """Method thats gifts an item to the player"""
-        item = getattr(invitems, item)
-        self.will = False
-        used_npcs.append(self.name)
-        if ask_bool(ev, movemap,
-                    f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?"):
-            figure.give_item(item.name)
 
 
 class NPCActions:
@@ -2123,6 +2045,7 @@ if __name__ == "__main__":
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
+    ev = Event("")
     movemap = Movemap(ob_maps, height - 1, width)
     figure = Figure()
     figure.caught_pokes = session_info.get("caught_poketes", [])
@@ -2147,11 +2070,11 @@ if __name__ == "__main__":
     fightitems = FightItems(fightmap, movemap, figure, ob_maps)
     evomap = EvoMap(height - 1, width)
 
+    NPC.set_vars(movemap, figure, ev, invitems, used_npcs, settings, NPCActions)
     figure.set_args(session_info)
 
     __t = time.time() - __t
 
-    ev = Event("")
     fd = None
     old_settings = None
 
