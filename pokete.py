@@ -148,6 +148,9 @@ class NPC(se.Box):
             self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(se.Object("a"), 0, 0)
 
+    def text(self, text):
+        movemap.text(self.x, self.y, text, ev)
+
     def exclamate(self):
         exclamation = se.Object("!")
         try:
@@ -165,7 +168,7 @@ class NPC(se.Box):
         movemap.full_show()
         time.sleep(0.7)
         self.exclamate()
-        movemap.text(self.x, self.y, self.texts, ev)
+        self.text(self.texts)
         self.fn()
 
     def fn(self):
@@ -216,21 +219,19 @@ class NPCActions:
     def playmap_17_boy(npc):
         """Interaction with boy"""
         if "choka" in [i.identifier for i in figure.pokes[:6]]:
-            movemap.text(npc.x, npc.y,
-                         [" < Oh, cool!", " < You have a Choka!",
-                          " < I've never seen one before!",
-                          " < Here you go, 200$"], ev)
+            npc.text([" < Oh, cool!", " < You have a Choka!",
+                      " < I've never seen one before!",
+                      " < Here you go, 200$"])
             if ask_bool(ev, movemap,
                         "Young boy gifted you 200$. Do you want to accept it?"):
                 figure.add_money(200)
             npc.will = False
             used_npcs.append(npc.name)
         else:
-            movemap.text(npc.x, npc.y,
-                         [" < In this region lives the würgos Pokete.",
+            npc.text([" < In this region lives the würgos Pokete.",
                       f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
 it evolves to Choka.",
-                      " < I have never seen one before!"], ev)
+                      " < I have never seen one before!"])
 
     @staticmethod
     def playmap_20_trader(npc):
