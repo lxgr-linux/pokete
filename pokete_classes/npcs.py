@@ -81,6 +81,7 @@ class NPC(se.Box):
             getattr(self.npcactions, self.__fn)(self)
 
     def check_walk(self, x, y):
+        """Checks whether or not the NPC can walk to a point"""
         vec = se.Line(" ", x - self.x, y - self.y)
         return not any([any(j.state == "solid"
                     for j in self.map.obmap[i.ry + self.y][i.rx + self.x])
@@ -95,8 +96,8 @@ class NPC(se.Box):
             return False
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
-            time.sleep(0.2)
             self.mvmp.full_show()
+            time.sleep(0.2)
         return True
 
     def give(self, name, item):
@@ -164,4 +165,4 @@ class Trainer(NPC):
             else:
                 self.mvmp.text(self.x, self.y, self.no_poke_texts, ev)
                 self.used_npcs.append(self.name)
-            self.walk_point(o_x, o_y)
+            self.walk_point(o_x, o_y + 1)

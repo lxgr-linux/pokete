@@ -1362,7 +1362,7 @@ class ExtraActions:
     def playmap_7():
         """Cave animation"""
         for obj in ob_maps["playmap_7"].inner_walls.obs\
-                   + ob_maps["playmap_7"].trainers\
+                   + [i.main_ob for i in ob_maps["playmap_7"].trainers]\
                    + [getattr(ob_maps["playmap_7"], i)
                     for i in p_data.map_data["playmap_7"]["balls"] if
                         "playmap_7." + i not in used_npcs or not save_trainers]:
