@@ -129,11 +129,9 @@ class Trainer(NPC):
         """Add wrapper"""
         line = se.Line(" ", 0, _map.height, state="float")
         for i, obj in enumerate(line.obs):
-            rx = obj.rx
-            ry = obj.ry
             line.obs[i] = NPCTrigger(self)
-            line.obs[i].rx = rx
-            line.obs[i].ry = ry
+            line.obs[i].rx = obj.rx
+            line.obs[i].ry = obj.ry
         line.add(_map, x, 0)
         super().add(_map, x, y)
 
