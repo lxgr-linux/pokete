@@ -45,9 +45,10 @@ class NPC(se.Box):
         self.name = name
         self.texts = texts
         self.__fn = fn
+        self.main_ob = se.Object("a")
         for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
             self.add_ob(NPCTrigger(self), i, j)
-        self.add_ob(se.Object("a"), 0, 0)
+        self.add_ob(self.main_ob, 0, 0)
 
     def text(self, text):
         """Movemap.text wrapper"""
@@ -79,14 +80,18 @@ class NPC(se.Box):
         if self.__fn is not None:
             getattr(self.npcactions, self.__fn)(self)
 
+    def check_walk(self, x, y):
+        vec = se.Line(" ", x - self.x, y - self.y)
+        return not any([any(j.state == "solid"
+                    for j in self.map.obmap[i.ry + self.y][i.rx + self.x])
+                        for i in vec.obs][1:])
+
     def walk_point(self, x, y):
         """Walks the NPC tp a certain point"""
         o_x = self.x
         o_y = self.y
         vec = se.Line(" ", x - o_x, y - o_y)
-        if any([any(j.state == "solid"
-                for j in self.map.obmap[i.ry + o_y][i.rx + o_x])
-                    for i in vec.obs][1:]):
+        if not self.check_walk(x, y):
             return False
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
@@ -104,3 +109,59 @@ class NPC(se.Box):
 Do you want to accept it?"):
             self.fig.give_item(item.name)
 
+
+class Trainer(NPC):
+    """Trauner class to fight against"""
+
+    def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
+                 win_texts, fight):
+        super().__init__(name, texts)
+        # attributes
+        self.gender = gender
+        self.poke = poke
+        self.lose_texts = lose_texts
+        self.no_poke_texts = no_poke_texts
+        self.win_texts = win_texts
+        self.fight = fight
+
+    def add(self, _map, x, y):
+        """Add wrapper"""
+        line = se.Line(" ", 0, _map.height, state="float")
+        for i, obj in enumerate(line.obs):
+            rx = obj.rx
+            ry = obj.ry
+            line.obs[i] = NPCTrigger(self)
+            line.obs[i].rx = rx
+            line.obs[i].ry = ry
+        line.add(_map, x, 0)
+        super().add(_map, x, y)
+
+    def action(self):
+        """Interaction with the trainer"""
+        o_x = self.x
+        o_y = self.y
+        if self.fig.has_item("shut_the_fuck_up_stone"):
+            return
+        if self.fig.x == self.x and self.poke.hp > 0 \
+                and (self.name not in self.used_npcs
+                    or not self.settings.save_trainers) \
+                and self.check_walk(self.fig.x, self.fig.y):
+            self.mvmp.full_show()
+            time.sleep(0.7)
+            self.exclamate()
+            self.walk_point(self.fig.x, self.fig.y)
+            if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
+                self.text(self.texts)
+                winner = self.fight([poke for poke in self.fig.pokes[:6]
+                                    if poke.hp > 0][0],
+                               self.poke, info={"type": "duel", "player": self})
+                self.text({True: self.lose_texts,
+                           False: self.win_texts + [" < Here u go 20$"]}
+                                [winner == self.poke])
+                if winner != self.poke:
+                    self.fig.add_money(20)
+                    self.used_npcs.append(self.name)
+            else:
+                self.mvmp.text(self.x, self.y, self.no_poke_texts, ev)
+                self.used_npcs.append(self.name)
+            self.walk_point(o_x, o_y)

@@ -37,7 +37,7 @@ from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_classes.detail import Informer, Detail
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
-from pokete_classes.npcs import NPC
+from pokete_classes.npcs import NPC, Trainer
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -205,63 +205,6 @@ at level {figure.pokes[index].lvl()}.")
 
 def test1():
     ob_maps["playmap_13"].npc_2.walk_point(figure.x, figure.y)
-
-
-class Trainer(se.Object):
-    """Trauner class to fight against"""
-
-    def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
-                 win_texts, sx, sy):
-        super().__init__("a", state="solid")
-        # attributes
-        self.name = name
-        self.gender = gender
-        self.poke = poke
-        self.texts = texts
-        self.lose_texts = lose_texts
-        self.no_poke_texts = no_poke_texts
-        self.win_texts = win_texts
-        self.sx = sx
-        self.sy = sy
-
-    def do(self, _map):
-        """Interaction with the trainer"""
-        if figure.has_item("shut_the_fuck_up_stone"):
-            return
-        if figure.x == self.x and self.poke.hp > 0 and (self.name
-                            not in used_npcs or not settings.save_trainers):
-            for i in range(figure.y + 1 if figure.y < self.y else self.y + 1,
-                           self.y if figure.y < self.y else figure.y):
-                if any(j.state == "solid" for j in _map.obmap[i][self.x]):
-                    return
-            movemap.full_show()
-            time.sleep(0.7)
-            NPC.exclamate(self)
-            while self.y != figure.y + (2 if self.y > figure.y else -2):
-                self.set(self.x,
-                         self.y + (-1 if self.y > figure.y + 1
-                                   or self.y == figure.y - 1 else 1))
-                movemap.full_show()
-                time.sleep(0.3)
-            if any(poke.hp > 0 for poke in figure.pokes[:6]):
-                movemap.text(self.x, self.y, self.texts, ev)
-                winner = fight([poke for poke in figure.pokes[:6]
-                                    if poke.hp > 0][0],
-                               self.poke, info={"type": "duel", "player": self})
-                movemap.text(self.x, self.y, {True: self.lose_texts,
-                                              False: self.win_texts
-                                                     + [" < Here u go 20$"]}
-                                              [winner == self.poke], ev)
-                if winner != self.poke:
-                    figure.add_money(20)
-                    used_npcs.append(self.name)
-            else:
-                movemap.text(self.x, self.y, self.no_poke_texts, ev)
-                used_npcs.append(self.name)
-            while self.y != self.sy:
-                self.set(self.x, self.y + (1 if self.y < self.sy else -1))
-                movemap.full_show()
-                time.sleep(0.3)
 
 
 class CenterInteract(se.Object):
@@ -1593,8 +1536,6 @@ def game(_map):
                 ev.clear()
         std_loop(ev)
         _map.extra_actions()
-        for trainer in _map.trainers:
-            trainer.do(_map)
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 > movemap.x + movemap.width,
                                     figure.x < movemap.x + 6,
@@ -1643,6 +1584,17 @@ def gen_obs():
     map_data = p_data.map_data
     npcs = p_data.npcs
     trainers = p_data.trainers
+
+    # adding all trainer to map
+    for i in trainers:
+        _map = ob_maps[i]
+        for j in trainers[i]:
+            args = j["args"]
+            trainer = Trainer(Poke(*j["poke"], player=False),
+                              *args[:-2], fight)
+            trainer.add(_map, args[-2], args[-1])
+            _map.trainers.append(trainer)
+
     # generating objects from map_data
     for ob_map in map_data:
         _map = ob_maps[ob_map]
@@ -1671,17 +1623,6 @@ def gen_obs():
         parse_obj(ob_maps[npcs[npc]["map"]], npc,
                   NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"]),
                   npcs[npc])
-
-    # adding all trainer to map
-    for i in trainers:
-        _map = ob_maps[i]
-        for j in trainers[i]:
-            _map.trainers.append(Trainer(Poke(*j["poke"], player=False),
-                                         *j["args"]))
-    for ob_map in map_data:
-        _map = ob_maps[ob_map]
-        for trainer in _map.trainers:
-            trainer.add(_map, trainer.sx, trainer.sy)
 
 
 def gen_maps():
@@ -1824,7 +1765,7 @@ def map_additions():
 ####################  ########
 ##############################""", ignore="#", ob_class=HightGrass,
                          ob_args=_map.poke_args, state="float")
-    for ob in (_map.inner_walls.obs + _map.trainers +
+    for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
                [getattr(_map, i) for i in p_data.map_data["playmap_7"]["balls"]
                 if "playmap_7." + i not in used_npcs
                    or not settings.save_trainers]):
@@ -2070,7 +2011,8 @@ if __name__ == "__main__":
     fightitems = FightItems(fightmap, movemap, figure, ob_maps)
     evomap = EvoMap(height - 1, width)
 
-    NPC.set_vars(movemap, figure, ev, invitems, used_npcs, settings, NPCActions)
+    for i in [NPC, Trainer]:
+        i.set_vars(movemap, figure, ev, invitems, used_npcs, settings, NPCActions)
     figure.set_args(session_info)
 
     __t = time.time() - __t
