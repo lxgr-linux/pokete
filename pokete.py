@@ -149,6 +149,7 @@ class NPC(se.Box):
         self.add_ob(se.Object("a"), 0, 0)
 
     def exclamate(self):
+        exclamation = se.Object("!")
         try:
             exclamation.add(movemap, self.x - movemap.x, self.y - 1 - movemap.y)
         except se.CoordinateError:
@@ -312,14 +313,7 @@ class Trainer(se.Object):
                     return
             movemap.full_show()
             time.sleep(0.7)
-            try:
-                exclamation.add(movemap, self.x - movemap.x,
-                                self.y - 1 - movemap.y)
-            except se.CoordinateError:
-                pass
-            movemap.show()
-            time.sleep(1)
-            exclamation.remove()
+            NPC.exclamate(self)
             while self.y != figure.y + (2 if self.y > figure.y else -2):
                 self.set(self.x,
                          self.y + (-1 if self.y > figure.y + 1
@@ -2132,7 +2126,6 @@ if __name__ == "__main__":
     figure = Figure()
     figure.caught_pokes = session_info.get("caught_poketes", [])
     figure.visited_maps = session_info.get("visited_maps", ["playmap_1"])
-    exclamation = se.Object("!")
 
     # side fn definitions
     detail = Detail(height - 1, width)
