@@ -166,10 +166,10 @@ In the following all Poketes with their attributes are displayed.
 A small floating ball that will give you a shock.
 
 ```
-           
-    (+)    
-           
-           
+
+    (+)
+
+
 
 ```
 
@@ -194,10 +194,10 @@ A small floating ball that will give you a shock.
 A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 
 ```
-   ^---^   
-   (* *)   
-   >(.)<   
-           
+   ^---^
+   (* *)
+   >(.)<
+
 
 ```
 
@@ -225,10 +225,10 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
 A fiery wolf from hell on steroids.
 
 ```
-   \^-^/   
-   {* *}   
-   >{.}<   
-           
+   \^-^/
+   {* *}
+   >{.}<
+
 
 ```
 
@@ -254,10 +254,10 @@ A fiery wolf from hell on steroids.
 An annoying flying rat.
 
 ```
-    ___    
+    ___
 WW\/* *\/WW
-   \v-v/   
-           
+   \v-v/
+
 
 ```
 
@@ -283,10 +283,10 @@ WW\/* *\/WW
 A chongus flying rat.
 
 ```
-    ___    
+    ___
 WW\/o o\/WW
-   |v-v|   
-   \___/   
+   |v-v|
+   \___/
 
 ```
 
@@ -312,10 +312,10 @@ WW\/o o\/WW
 A very aggressive bird Pokete that lives near deserts and will try to pick out your eyes.
 
 ```
-   !       
-  >´)      
-    \www'  
-     ||    
+   !
+  >´)
+    \www'
+     ||
 
 ```
 
@@ -340,10 +340,10 @@ A very aggressive bird Pokete that lives near deserts and will try to pick out y
 A night active Pokete, that is looking for lil children as a midnight snack.
 
 ```
-   ,___,   
-   {o,o}   
-   /)_)    
-    ""     
+   ,___,
+   {o,o}
+   /)_)
+    ""
 
 ```
 
@@ -373,10 +373,10 @@ A night active Pokete, that is looking for lil children as a midnight snack.
 A butterfly that will schmetter you away.
 
 ```
-           
- .__ o __. 
-  \_\|/_/  
-  /_/'\_\  
+
+ .__ o __.
+  \_\|/_/
+  /_/'\_\
 
 ```
 
@@ -400,10 +400,10 @@ A butterfly that will schmetter you away.
 A very common bird Pokete that lives everywhere.
 
 ```
-    A      
-   <')     
-    www*   
-    ||     
+    A
+   <')
+    www*
+    ||
 
 ```
 
@@ -428,10 +428,10 @@ A very common bird Pokete that lives everywhere.
 A very aggressive bird Pokete that can only be found in the woods.
 
 ```
-    ?      
-   >´)     
-    www*   
-    ||     
+    ?
+   >´)
+    www*
+    ||
 
 ```
 
@@ -496,10 +496,10 @@ A very aggressive and hard to find bird Pokete.
 A little what ever, that sticks out of the ground.
 
 ```
-           
-    __     
-   ('')    
-   |  |    
+
+    __
+   ('')
+   |  |
 
 ```
 
@@ -524,10 +524,10 @@ A little what ever, that sticks out of the ground.
 An even bigger what ever, that sticks out of the ground.
 
 ```
-    __     
-   ('')    
-   |  |    
-   |  |    
+    __
+   ('')
+   |  |
+   |  |
 
 ```
 
@@ -553,10 +553,10 @@ An even bigger what ever, that sticks out of the ground.
 A very small what ever, that sticks out of the ground.
 
 ```
-           
-           
-    __     
-   ('')    
+
+
+    __
+   ('')
 
 ```
 
@@ -579,10 +579,10 @@ A very small what ever, that sticks out of the ground.
 A big chunk of stone and dirt, that roles around.
 
 ```
-   _____   
-  / o o \  
-  | ___ |  
-  \_____/  
+   _____
+  / o o \
+  | ___ |
+  \_____/
 
 ```
 
@@ -608,10 +608,10 @@ A big chunk of stone and dirt, that roles around.
 A small ice cube.
 
 ```
-  /-----\  
-   |* *|   
-  \-----/  
-           
+  /-----\
+   |* *|
+  \-----/
+
 
 ```
 
@@ -635,10 +635,10 @@ A small ice cube.
 A block of ice.
 
 ```
- /-------\ 
-  | * * |  
- \-------/ 
-           
+ /-------\
+  | * * |
+ \-------/
+
 
 ```
 
@@ -664,10 +664,10 @@ A block of ice.
 An majestic horse that is always looking for something to pick with its horn.
 
 ```
- \         
- =')~      
-   (¯¯¯¯)~ 
-   //¯¯\\  
+ \
+ =')~
+   (¯¯¯¯)~
+   //¯¯\\
 
 ```
 
@@ -696,10 +696,10 @@ An majestic horse that is always looking for something to pick with its horn.
 A teenage unicorn in the middle of puberty.
 
 ```
-  ,        
- =')       
-   (¯¯¯)~  
-   //¯\\   
+  ,
+ =')
+   (¯¯¯)~
+   //¯\\
 
 ```
 
@@ -722,10 +722,10 @@ A teenage unicorn in the middle of puberty.
 A cow-like creature found on meadows.
 
 ```
-    ^__^   
-    (oo)   
-    (__)   
-           
+    ^__^
+    (oo)
+    (__)
+
 
 ```
 
@@ -777,10 +777,10 @@ A damn dangerous and enourmous rat, that will bite of your leg.
 An annoying rat.
 
 ```
-   ^---^   
-   \o o/   
-   >\./<   
-           
+   ^---^
+   \o o/
+   >\./<
+
 
 ```
 
@@ -811,10 +811,10 @@ An annoying rat.
 A bush, and just a bush. But watch out!
 
 ```
-           
-    (()    
-   (()))   
-           
+
+    (()
+   (()))
+
 
 ```
 
@@ -839,10 +839,10 @@ A bush, and just a bush. But watch out!
 A very unsuspicious plant.
 
 ```
-    w w    
-  w |/.    
-.__\|/|    
- \_\||/    
+    w w
+  w |/.
+.__\|/|
+ \_\||/
 
 ```
 
@@ -868,10 +868,10 @@ A very unsuspicious plant.
 A unsuspicious plant.
 
 ```
-           
-     w .   
- .__ |/|   
-  \_\||/   
+
+     w .
+ .__ |/|
+  \_\||/
 
 ```
 
@@ -895,10 +895,10 @@ A unsuspicious plant.
 A plant Pokete, that's often mistaken for a normal flower.
 
 ```
-           
-    (@)    
-     |     
-    \|/    
+
+    (@)
+     |
+    \|/
 
 ```
 
@@ -922,10 +922,10 @@ A plant Pokete, that's often mistaken for a normal flower.
 A scary an dangerous apple tree.
 
 ```
-    (()    
-   (()))   
-     H     
-     H     
+    (()
+   (()))
+     H
+     H
 
 ```
 
@@ -951,10 +951,10 @@ A scary an dangerous apple tree.
 A plant Pokete found in Agrawos, with special 'Powers'.
 
 ```
-    \ /    
-    \|/    
-    \|/    
-     |     
+    \ /
+    \|/
+    \|/
+     |
 
 ```
 
@@ -978,9 +978,9 @@ A plant Pokete found in Agrawos, with special 'Powers'.
 A fucking dangerous and enormous snake Pokete.
 
 ```
- _______   
-/____ * \  
- (   \   \ 
+ _______
+/____ * \
+ (   \   \
 \______   \
 
 ```
@@ -1007,10 +1007,10 @@ A fucking dangerous and enormous snake Pokete.
 A dangerous snake Pokete.
 
 ```
-  >'({{{   
-  }}}}}}}  
- {{{{{{{{{ 
-           
+  >'({{{
+  }}}}}}}
+ {{{{{{{{{
+
 
 ```
 
@@ -1064,10 +1064,10 @@ A big and heavy stone made from one of the hardest stones.
 A precious diamond, that can only be found in the darkest caves.
 
 ```
-           
-    /\^/   
-   <o o>   
-   <_-_>   
+
+    /\^/
+   <o o>
+   <_-_>
 
 ```
 
@@ -1092,10 +1092,10 @@ A precious diamond, that can only be found in the darkest caves.
 A small but powerful stone Pokete that lives in the mountains.
 
 ```
-           
-   _____   
-   |'ᵕ'|   
-   ‾‾‾‾‾   
+
+   _____
+   |'ᵕ'|
+   ‾‾‾‾‾
 
 ```
 
@@ -1121,10 +1121,10 @@ A small but powerful stone Pokete that lives in the mountains.
 A powerful and heavy stone Pokete that lives in mountain caves.
 
 ```
-   A-A-A   
-  < o o >  
-  < --- >  
-   VvVvV   
+   A-A-A
+  < o o >
+  < --- >
+   VvVvV
 
 ```
 
@@ -1150,10 +1150,10 @@ A powerful and heavy stone Pokete that lives in mountain caves.
 A squared stone that can casually be found on the ground.
 
 ```
- +-------+ 
- | o   o | 
- |  www  | 
- +-------+ 
+ +-------+
+ | o   o |
+ |  www  |
+ +-------+
 
 ```
 
@@ -1187,9 +1187,9 @@ A squared stone that can casually be found on the ground.
 A ghost Pokete that will scare your pants off.
 
 ```
- .░░░░░░░. 
- ░░\░░░/░░ 
- .░░( )░░. 
+ .░░░░░░░.
+ ░░\░░░/░░
+ .░░( )░░.
 .         .
 
 ```
@@ -1216,10 +1216,10 @@ A ghost Pokete that will scare your pants off.
 A ball floating around in dark woods and caves, that will confuse the shit out of you.
 
 ```
-       }}  
-     _{{   
-    (_)}   
-           
+       }}
+     _{{
+    (_)}
+
 
 ```
 
@@ -1242,10 +1242,10 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 A scary ghost Pokete that lives in caves and old houses.
 
 ```
- .░░░░░░░. 
- ░░o░░░o░░ 
- ░░░░░░░░░ 
- ░ ░ ░ ░ ░ 
+ .░░░░░░░.
+ ░░o░░░o░░
+ ░░░░░░░░░
+ ░ ░ ░ ░ ░
 
 ```
 
@@ -1271,10 +1271,10 @@ A scary ghost Pokete that lives in caves and old houses.
 Very delicious and low fat water Pokete.
 
 ```
-  _____    
- / o   \   
- >   v  >< 
- \_____/   
+  _____
+ / o   \
+ >   v  ><
+ \_____/
 
 ```
 
@@ -1301,10 +1301,10 @@ Very delicious and low fat water Pokete.
 A shell that lives deep in the see or near bays, that's pretty hard to crack.
 
 ```
-    ___    
-  -/ * \-  
-  -\___/-  
-           
+    ___
+  -/ * \-
+  -\___/-
+
 
 ```
 
@@ -1357,10 +1357,10 @@ A crusty Pokete that loves to pinch big toes.
 A very harmless water Pokete that can be found everywhere.
 
 ```
-           
-           
-  <°))))>< 
-           
+
+
+  <°))))><
+
 
 ```
 
