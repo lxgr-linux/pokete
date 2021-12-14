@@ -58,7 +58,8 @@ class NPC(se.Box):
         """Shows the exclamation on top of a NPC"""
         exclamation = se.Object("!")
         try:
-            exclamation.add(self.mvmp, self.x - self.mvmp.x, self.y - 1 - self.mvmp.y)
+            exclamation.add(self.mvmp, self.x - self.mvmp.x,
+                            self.y - 1 - self.mvmp.y)
         except se.CoordinateError:
             pass
         self.mvmp.show()
@@ -67,7 +68,8 @@ class NPC(se.Box):
 
     def action(self):
         """Interaction with the NPC triggered by NPCTrigger.action"""
-        if not self.will or (self.name in self.used_npcs and self.settings.save_trainers):
+        if not self.will or \
+                (self.name in self.used_npcs and self.settings.save_trainers):
             return
         self.mvmp.full_show()
         time.sleep(0.7)
