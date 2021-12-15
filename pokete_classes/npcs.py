@@ -168,6 +168,6 @@ class Trainer(NPC):
                     self.fig.add_money(20)
                     self.used_npcs.append(self.name)
             else:
-                self.mvmp.text(self.x, self.y, self.no_poke_texts, ev)
+                self.text(self.no_poke_texts)
                 self.used_npcs.append(self.name)
             self.walk_point(o_x, o_y + 1)
