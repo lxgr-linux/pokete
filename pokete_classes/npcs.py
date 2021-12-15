@@ -90,7 +90,7 @@ class NPC(se.Box):
         ret = not any([any(j.state == "solid"
                     for j in self.map.obmap[i.ry + self.y][i.rx + self.x])
                         for i in vec.obs][1:])
-        self.logging.info(f"NPC '{self.name}' {'succeded' if ret else 'failed'}\
+        self.logging.info(f"NPC '{self.name}' {'succeeded' if ret else 'failed'}\
  walk check to ({x}|{y})")
         return ret
 
@@ -167,6 +167,8 @@ class Trainer(NPC):
                 if winner != self.poke:
                     self.fig.add_money(20)
                     self.used_npcs.append(self.name)
+                self.logging.info(f"Trainer '{self.name}' \
+{'lost' if  winner != self.poke else 'won'} against player")
             else:
                 self.text(self.no_poke_texts)
                 self.used_npcs.append(self.name)
