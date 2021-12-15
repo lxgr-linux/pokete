@@ -15,6 +15,7 @@ import threading
 import math
 import socket
 import json
+import logging
 from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
@@ -1940,6 +1941,13 @@ if __name__ == "__main__":
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
 
+    # logging config
+    log_file = f"{HOME}{SAVEPATH}/pokete.log" if "--log" in sys.argv else None
+    logging.basicConfig(filename=log_file,
+                        encoding='utf-8',
+                        format='[%(asctime)s][%(levelname)s]: %(message)s',
+                        level=logging.DEBUG)
+
     # reading save file
     session_info = read_save()
 
@@ -2012,10 +2020,12 @@ if __name__ == "__main__":
     evomap = EvoMap(height - 1, width)
 
     for i in [NPC, Trainer]:
-        i.set_vars(movemap, figure, ev, invitems, used_npcs, settings, NPCActions)
+        i.set_vars(movemap, figure, ev, invitems, used_npcs, settings,
+                   NPCActions, logging)
     figure.set_args(session_info)
 
     __t = time.time() - __t
+    logging.info(f"Startup took {__t}s")
 
     fd = None
     old_settings = None
