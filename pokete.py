@@ -646,6 +646,7 @@ class Figure(se.Object):
     def set_money(self, money):
         """Sets the money to a certain value"""
         assert money >= 0, "money has to be positive"
+        logging.info(f"Figures money set to {money}$ from {self.__money}$")
         self.__money = money
         for cls in [inv, buy]:
             cls.money_label.rechar(str(self.__money) + "$")
@@ -668,6 +669,7 @@ class Figure(se.Object):
             self.inv[item] = amount
         else:
             self.inv[item] += amount
+        logging.info(f"Figure was given {amount} {item}(s)")
 
     def has_item(self, item):
         """Checks if an item is already present"""
@@ -680,6 +682,7 @@ class Figure(se.Object):
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
 in the inventory"
         self.inv[item] -= amount
+        logging.info(f"Figure got {amount} {item}(s) removed")
 
 
 class Attack:
