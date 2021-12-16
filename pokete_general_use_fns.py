@@ -1,4 +1,7 @@
 """General use functions for Pokete"""
+import sys
+import release
+
 
 def liner(text, width, pre=""):
     """Wraps a string after a certain length and respects word endings"""
@@ -37,6 +40,42 @@ def std_loop(ev):
     """Standart action executed in most loops"""
     if ev.get() == "exit":
         raise KeyboardInterrupt
+
+
+def print_help(path):
+    """Shows help message"""
+    print(f"""Pokete {release.CODENAME} v{release.VERSION}
+Usage: {path} <option>
+Options:
+    --log     : Enables logging
+    --help    : Shows this help
+    --no_mods : Disables mods
+
+Homepage: https://github.com/lxgr-linux/pokete
+
+All save and logfiles are located in ~{release.SAVEPATH}/
+Feel free to contribute.
+See README.md for more information.
+Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2021""")
+
+
+def parse_args(args):
+    """Parses command line args"""
+    do_logging = False
+    load_mods = True
+    for arg in args[1:]:
+        if arg == "--log":
+            do_logging = True
+        elif arg == "--no_mods":
+            load_mods = False
+        elif arg == "--help":
+            print_help(args[0])
+            sys.exit(0)
+        else:
+            print(f":: Error: '{arg}' is not a valid option! See '--help' for \
+options.")
+            sys.exit(1)
+    return do_logging, load_mods
 
 
 if __name__ == "__main__":
