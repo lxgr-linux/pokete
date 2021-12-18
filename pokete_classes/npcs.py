@@ -172,4 +172,4 @@ class Trainer(NPC):
             else:
                 self.text(self.no_poke_texts)
                 self.used_npcs.append(self.name)
-            self.walk_point(o_x, o_y + 1)
+            self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
