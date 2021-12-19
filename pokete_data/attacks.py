@@ -254,7 +254,6 @@ attacks = {
         "is_generic": False,
         "ap": 20,
     },
-
     # ground attacks
     "earch_quake": {
         "name": "Earch quake",
