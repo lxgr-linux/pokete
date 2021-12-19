@@ -3,26 +3,26 @@
 
 
 # Those are some vars used in map_data
-center = r"""  __________
+CENTER = r"""  __________
  /         /\
 /_Center!_/  \
 | # ___ # |  |
 |___| |___|__|"""
 
-shop = r"""  __________
+SHOP = r"""  __________
  /         /\
 /__Shop!__/  \
 | # ___ # |  |
 |___| |___|__|"""
 
-house1 = r"""  ________
+HOUSE1 = r"""  ________
  /       /\
 /_______/  \
 |# ___ #|  |
 |__| |__|__|"""
 
 
-# This is the the actuall map_data dict 
+# This is the the actuall map_data dict
 map_data = {
     #     "playmap_1": {
     #         "hard_obs": {
@@ -61,22 +61,22 @@ map_data = {
             "pokecenter": {
                 "x": 20,
                 "y": 0,
-                "txt": center
+                "txt": CENTER
             },
             "house1": {
                 "x": 2,
                 "y": 0,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house2": {
                 "x": 5,
                 "y": 17,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house3": {
                 "x": 53,
                 "y": 17,
-                "txt": house1
+                "txt": HOUSE1
             },
             "fence": {
                 "x": 0,
@@ -426,27 +426,27 @@ map_data = {
             "pokecenter": {
                 "x": 20,
                 "y": 2,
-                "txt": center
+                "txt": CENTER
             },
             "shop": {
                 "x": 56,
                 "y": 2,
-                "txt": shop
+                "txt": SHOP
             },
             "house2": {
                 "x": 18,
                 "y": 11,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house3": {
                 "x": 18,
                 "y": 17,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house4": {
                 "x": 58,
                 "y": 9,
-                "txt": house1
+                "txt": HOUSE1
             },
             "fence1": {
                 "x": 3,
@@ -1073,12 +1073,12 @@ map_data = {
             "house1": {
                 "x": 40,
                 "y": 0,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house2": {
                 "x": 46,
                 "y": 10,
-                "txt": house1
+                "txt": HOUSE1
             },
         },
         "soft_obs": {
@@ -1250,7 +1250,7 @@ _________________________
             "house1": {
                 "x": 7,
                 "y": 4,
-                "txt": house1
+                "txt": HOUSE1
             },
         },
         "soft_obs": {
@@ -1450,42 +1450,42 @@ _________________________
             "pokecenter": {
                 "x": 9,
                 "y": 25,
-                "txt": center
+                "txt": CENTER
             },
             "shop": {
                 "x": 47,
                 "y": 25,
-                "txt": shop
+                "txt": SHOP
             },
             "house1": {
                 "x": 47,
                 "y": 4,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house2": {
                 "x": 47,
                 "y": 10,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house3": {
                 "x": 47,
                 "y": 16,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house4": {
                 "x": 10,
                 "y": 4,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house5": {
                 "x": 10,
                 "y": 10,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house6": {
                 "x": 10,
                 "y": 16,
-                "txt": house1
+                "txt": HOUSE1
             },
         },
         "soft_obs": {
@@ -1760,7 +1760,7 @@ ___________________________
             "house1": {
                 "x": 46,
                 "y": 2,
-                "txt": house1
+                "txt": HOUSE1
             },
             "tree_group_2": {
                 "x": 37,
@@ -2221,12 +2221,12 @@ ___________________________
             "pokecenter": {
                 "x": 5,
                 "y": 3,
-                "txt": center
+                "txt": CENTER
             },
             "shop": {
                 "x": 29,
                 "y": 3,
-                "txt": shop
+                "txt": SHOP
             },
             "hotel": {
                 "x": 43,
@@ -2255,32 +2255,32 @@ ___________________________
             "house1": {
                 "x": 21,
                 "y": 20,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house2": {
                 "x": 69,
                 "y": 20,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house3": {
                 "x": 46,
                 "y": 3,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house4": {
                 "x": 84,
                 "y": 20,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house5": {
                 "x": 130,
                 "y": 6,
-                "txt": house1
+                "txt": HOUSE1
             },
             "house6": {
                 "x": 72,
                 "y": 2,
-                "txt": house1
+                "txt": HOUSE1
             },
         },
         "soft_obs": {
@@ -2776,12 +2776,12 @@ ___________________________
             "pokecenter": {
                 "x": 8,
                 "y": 3,
-                "txt": center
+                "txt": CENTER
             },
             "shop": {
                 "x": 25,
                 "y": 3,
-                "txt": shop
+                "txt": SHOP
             },
         },
         "soft_obs": {
