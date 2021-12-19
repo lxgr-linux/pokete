@@ -22,7 +22,7 @@ house1 = r"""  ________
 |__| |__|__|"""
 
 
-# This is the the actuall map_data dict 
+# This is the actual map_data dict
 map_data = {
     #     "playmap_1": {
     #         "hard_obs": {
