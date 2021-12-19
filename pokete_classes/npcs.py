@@ -85,11 +85,12 @@ class NPC(se.Box):
             getattr(self.npcactions, self.__fn)(self)
 
     def check_walk(self, x, y):
-        """Checks whether or not the NPC can walk to a point"""
+        """Checks whether the NPC can walk to a point or not"""
         vec = se.Line(" ", x - self.x, y - self.y)
         ret = not any([any(j.state == "solid"
-                    for j in self.map.obmap[i.ry + self.y][i.rx + self.x])
-                        for i in vec.obs][1:])
+                           for j in
+                            self.map.obmap[i.ry + self.y][i.rx + self.x])
+                                for i in vec.obs][1:])
         self.logging.info(f"[NPC] '{self.name}' {'succeeded' if ret else 'failed'}\
  walk check to ({x}|{y})")
         return ret
@@ -108,7 +109,7 @@ class NPC(se.Box):
         return True
 
     def give(self, name, item):
-        """Method thats gifts an item to the player"""
+        """Method that gifts an item to the player"""
         item = getattr(self.invitems, item)
         self.will = False
         self.used_npcs.append(self.name)
@@ -119,7 +120,7 @@ Do you want to accept it?"):
 
 
 class Trainer(NPC):
-    """Trauner class to fight against"""
+    """Trainer class to fight against"""
 
     def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
                  win_texts, fight):
@@ -150,7 +151,7 @@ class Trainer(NPC):
             return
         if self.fig.x == self.x and self.poke.hp > 0 \
                 and (self.name not in self.used_npcs
-                    or not self.settings.save_trainers) \
+                     or not self.settings.save_trainers) \
                 and self.check_walk(self.fig.x, self.fig.y):
             self.mvmp.full_show()
             time.sleep(0.7)
@@ -160,7 +161,8 @@ class Trainer(NPC):
                 self.text(self.texts)
                 winner = self.fight([poke for poke in self.fig.pokes[:6]
                                     if poke.hp > 0][0],
-                               self.poke, info={"type": "duel", "player": self})
+                                    self.poke,
+                                    info={"type": "duel", "player": self})
                 self.text({True: self.lose_texts,
                            False: self.win_texts + [" < Here u go 20$"]}
                                 [winner == self.poke])
@@ -172,4 +174,4 @@ class Trainer(NPC):
             else:
                 self.text(self.no_poke_texts)
                 self.used_npcs.append(self.name)
-            self.walk_point(o_x, o_y + 1)
+            self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
