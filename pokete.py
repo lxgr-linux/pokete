@@ -1069,8 +1069,8 @@ class Menu:
             while True:
                 if ev.get() == "Key.enter":
                     # Fuck python for not having case statements
-                    if ((i := self.box.c_obs[self.box.index.index]) ==
-                            self.playername_label):
+                    if (i := self.box.c_obs[self.box.index.index]) ==\
+                            self.playername_label:
                         figure.name = text_input(self.realname_label,
                                                  self.map,
                                                  figure.name, ev, 18, 17)
@@ -2052,9 +2052,9 @@ if __name__ == "__main__":
     fightitems = FightItems(fightmap, movemap, figure, ob_maps)
     evomap = EvoMap(height - 1, width)
 
-    for i in [NPC, Trainer]:
-        i.set_vars(movemap, figure, ev, invitems, used_npcs, settings,
-                   NPCActions, logging, check_walk_back)
+    for _i in [NPC, Trainer]:
+        _i.set_vars(movemap, figure, ev, invitems, used_npcs, settings,
+                    NPCActions, logging, check_walk_back)
     figure.set_args(session_info)
 
     __t = time.time() - __t
