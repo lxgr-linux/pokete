@@ -670,7 +670,7 @@ class Figure(se.Object):
             self.inv[item] = amount
         else:
             self.inv[item] += amount
-        logging.info("[Figure] %s %d(s) given", amount, item)
+        logging.info("[Figure] %d %s(s) given", amount, item)
 
     def has_item(self, item):
         """Checks if an item is already present"""
@@ -683,7 +683,7 @@ class Figure(se.Object):
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
 in the inventory"
         self.inv[item] -= amount
-        logging.info("[Figure] %s %d(s) removod", amount, item)
+        logging.info("[Figure] %d %s(s) removod", amount, item)
 
 
 class Attack:
