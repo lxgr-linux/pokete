@@ -600,7 +600,7 @@ class Figure(se.Object):
     def set_args(self, _si):
         """Processes data from save file"""
         self.name = _si["user"]
-        self.last_center_map = ob_maps[_si["last_center_map"]]
+        self.last_center_map = ob_maps[_si.get("last_center_map", "playmap_1")]
         self.pokes = [Poke(_si["pokes"][poke]["name"],
                            _si["pokes"][poke]["xp"], _si["pokes"][poke]["hp"],
                            shiny=(False
