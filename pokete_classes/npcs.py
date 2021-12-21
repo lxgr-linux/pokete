@@ -91,8 +91,8 @@ class NPC(se.Box):
                            for j in
                             self.map.obmap[i.ry + self.y][i.rx + self.x])
                                 for i in vec.obs][1:])
-        self.logging.info(f"[NPC] '{self.name}' {'succeeded' if ret else 'failed'}\
- walk check to ({x}|{y})")
+        self.logging.info("[NPC] '%s' %s walk check to (%d|%d)",
+                          self.name, 'succeeded' if ret else 'failed', x, y)
         return ret
 
     def walk_point(self, x, y):
@@ -169,8 +169,8 @@ class Trainer(NPC):
                 if winner != self.poke:
                     self.fig.add_money(20)
                     self.used_npcs.append(self.name)
-                self.logging.info(f"[NPC] '{self.name}' \
-{'lost' if  winner != self.poke else 'won'} against player")
+                self.logging.info("[NPC] '%s' %s against player", self.name,
+                                  'lost' if  winner != self.poke else 'won')
             else:
                 self.text(self.no_poke_texts)
                 self.used_npcs.append(self.name)

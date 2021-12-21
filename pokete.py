@@ -646,7 +646,8 @@ class Figure(se.Object):
     def set_money(self, money):
         """Sets the money to a certain value"""
         assert money >= 0, "money has to be positive"
-        logging.info(f"[Figure] Money set to {money}$ from {self.__money}$")
+        logging.info("[Figure] Money set to %d$ from %d$",
+                     money, self.__money)
         self.__money = money
         for cls in [inv, buy]:
             cls.money_label.rechar(str(self.__money) + "$")
@@ -669,7 +670,7 @@ class Figure(se.Object):
             self.inv[item] = amount
         else:
             self.inv[item] += amount
-        logging.info(f"[Figure] {amount} {item}(s) given")
+        logging.info("[Figure] %s %d(s) given", amount, item)
 
     def has_item(self, item):
         """Checks if an item is already present"""
@@ -682,7 +683,7 @@ class Figure(se.Object):
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
 in the inventory"
         self.inv[item] -= amount
-        logging.info(f"[Figure] {amount} {item}(s) removed")
+        logging.info("[Figure] %s %d(s) removod", amount, item)
 
 
 class Attack:
@@ -745,8 +746,8 @@ class Setting(se.Box):
         self.index = self.index + 1 if self.index < len(self.options) - 1 else 0
         setattr(settings, self.setting, list(self.options)[self.index])
         self.option_text.rechar(self.options[getattr(settings, self.setting)])
-        logging.info(f"""[Setting] '{self.setting}' set to {
-                        getattr(settings, self.setting)}""")
+        logging.info("[Setting] '%s' set to %s",
+                     self.setting, getattr(settings, self.setting))
 
 
 class Debug:
@@ -1952,7 +1953,8 @@ if __name__ == "__main__":
                         encoding='utf-8',
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG)
-    logging.info(f"=== Startup Pokete {CODENAME} v{VERSION} ===")
+    logging.info("=== Startup Pokete %s v%s ===",
+                 CODENAME, VERSION)
 
     # reading save file
     session_info = read_save()
@@ -1976,8 +1978,8 @@ if __name__ == "__main__":
             mod.mod_p_data(p_data)
     else:
         mods = DummyMods()
-    logging.info(f"""[General] {len(mods.mod_obs)} mods are loaded: ({
-        ', '.join(mods.mod_names)})""")
+    logging.info("[General] %d mods are loaded: (%s)",
+                 len(mods.mod_obs), ', '.join(mods.mod_names))
 
     # validating data
     p_data.validate()
@@ -2033,7 +2035,7 @@ if __name__ == "__main__":
     figure.set_args(session_info)
 
     __t = time.time() - __t
-    logging.info(f"[General] Startup took {__t}s")
+    logging.info("[General] Startup took %ds", __t)
 
     fd = None
     old_settings = None
