@@ -1212,12 +1212,12 @@ def check_walk_back(self=None):
     """Check whether the figure has to be walked back to the last Poketecenter
        or not"""
     if all(i.hp <= 0 for i in figure.pokes[:6]):
-            heal()
-            ask_ok(ev, movemap, """All your Poketes have died, and you ran
+        heal()
+        ask_ok(ev, movemap, """All your Poketes have died, and you ran
 back to the last Pokecenter to heal them!""")
-            figure.remove()
-            figure.map = figure.last_center_map
-            DorToCenter().action(figure)
+        figure.remove()
+        figure.map = figure.last_center_map
+        DorToCenter().action(figure)
 
 def heal():
     """Heals all poketes"""
@@ -1985,7 +1985,7 @@ if __name__ == "__main__":
     save_trainers = settings.save_trainers
 
     if not load_mods:
-       settings.load_mods = False
+        settings.load_mods = False
 
     # Loading mods
     if settings.load_mods:
