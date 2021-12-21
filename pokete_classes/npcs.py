@@ -27,10 +27,11 @@ class NPC(se.Box):
     settings = None
     npcactions = None
     logging = None
+    check_walk_back = None
 
     @classmethod
     def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
-                 settings, npcactions, logging):
+                 settings, npcactions, logging, check_walk_back):
         """Sets all variables needed by NPCs"""
         cls.mvmp = mvmp
         cls.fig = fig
@@ -40,6 +41,7 @@ class NPC(se.Box):
         cls.settings = settings
         cls.npcactions = npcactions
         cls.logging = logging
+        cls.check_walk_back = check_walk_back
 
     def __init__(self, name, texts, fn=None):
         super().__init__(0, 0)
@@ -175,3 +177,4 @@ class Trainer(NPC):
                 self.text(self.no_poke_texts)
                 self.used_npcs.append(self.name)
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
+            self.check_walk_back()
