@@ -15,6 +15,7 @@ import threading
 import math
 import socket
 import json
+import logging
 from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
@@ -645,6 +646,8 @@ class Figure(se.Object):
     def set_money(self, money):
         """Sets the money to a certain value"""
         assert money >= 0, "money has to be positive"
+        logging.info("[Figure] Money set to %d$ from %d$",
+                     money, self.__money)
         self.__money = money
         for cls in [inv, buy]:
             cls.money_label.rechar(str(self.__money) + "$")
@@ -667,6 +670,7 @@ class Figure(se.Object):
             self.inv[item] = amount
         else:
             self.inv[item] += amount
+        logging.info("[Figure] %d %s(s) given", amount, item)
 
     def has_item(self, item):
         """Checks if an item is already present"""
@@ -679,6 +683,7 @@ class Figure(se.Object):
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
 in the inventory"
         self.inv[item] -= amount
+        logging.info("[Figure] %d %s(s) removed", amount, item)
 
 
 class Attack:
@@ -741,6 +746,8 @@ class Setting(se.Box):
         self.index = self.index + 1 if self.index < len(self.options) - 1 else 0
         setattr(settings, self.setting, list(self.options)[self.index])
         self.option_text.rechar(self.options[getattr(settings, self.setting)])
+        logging.info("[Setting] '%s' set to %s",
+                     self.setting, getattr(settings, self.setting))
 
 
 class Debug:
@@ -1940,6 +1947,15 @@ if __name__ == "__main__":
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
 
+    # logging config
+    log_file = f"{HOME}{SAVEPATH}/pokete.log" if "--log" in sys.argv else None
+    logging.basicConfig(filename=log_file,
+                        encoding='utf-8',
+                        format='[%(asctime)s][%(levelname)s]: %(message)s',
+                        level=logging.DEBUG)
+    logging.info("=== Startup Pokete %s v%s ===",
+                 CODENAME, VERSION)
+
     # reading save file
     session_info = read_save()
 
@@ -1962,6 +1978,8 @@ if __name__ == "__main__":
             mod.mod_p_data(p_data)
     else:
         mods = DummyMods()
+    logging.info("[General] %d mods are loaded: (%s)",
+                 len(mods.mod_obs), ', '.join(mods.mod_names))
 
     # validating data
     p_data.validate()
@@ -2012,10 +2030,12 @@ if __name__ == "__main__":
     evomap = EvoMap(height - 1, width)
 
     for i in [NPC, Trainer]:
-        i.set_vars(movemap, figure, ev, invitems, used_npcs, settings, NPCActions)
+        i.set_vars(movemap, figure, ev, invitems, used_npcs, settings,
+                   NPCActions, logging)
     figure.set_args(session_info)
 
     __t = time.time() - __t
+    logging.info("[General] Startup took %fs", __t)
 
     fd = None
     old_settings = None

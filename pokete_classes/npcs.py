@@ -26,10 +26,11 @@ class NPC(se.Box):
     used_ncps = None
     settings = None
     npcactions = None
+    logging = None
 
     @classmethod
     def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
-                 settings, npcactions):
+                 settings, npcactions, logging):
         """Sets all variables needed by NPCs"""
         cls.mvmp = mvmp
         cls.fig = fig
@@ -38,6 +39,7 @@ class NPC(se.Box):
         cls.used_npcs = used_npcs
         cls.settings = settings
         cls.npcactions = npcactions
+        cls.logging = logging
 
     def __init__(self, name, texts, fn=None):
         super().__init__(0, 0)
@@ -85,10 +87,13 @@ class NPC(se.Box):
     def check_walk(self, x, y):
         """Checks whether the NPC can walk to a point or not"""
         vec = se.Line(" ", x - self.x, y - self.y)
-        return not any([any(j.state == "solid"
-                            for j in
+        ret = not any([any(j.state == "solid"
+                           for j in
                             self.map.obmap[i.ry + self.y][i.rx + self.x])
-                        for i in vec.obs][1:])
+                                for i in vec.obs][1:])
+        self.logging.info("[NPC] '%s' %s walk check to (%d|%d)",
+                          self.name, 'succeeded' if ret else 'failed', x, y)
+        return ret
 
     def walk_point(self, x, y):
         """Walks the NPC tp a certain point"""
@@ -164,6 +169,8 @@ class Trainer(NPC):
                 if winner != self.poke:
                     self.fig.add_money(20)
                     self.used_npcs.append(self.name)
+                self.logging.info("[NPC] '%s' %s against player", self.name,
+                                  'lost' if  winner != self.poke else 'won')
             else:
                 self.text(self.no_poke_texts)
                 self.used_npcs.append(self.name)
