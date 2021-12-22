@@ -1015,8 +1015,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                                     if not ex_cond:
                                         break
                                     if LearnAttack(poke, self.map)\
-                                            (ev, p_data, detail,
-                                             obj.attack_name):
+                                            (ev, p_data, obj.attack_name):
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
