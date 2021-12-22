@@ -37,6 +37,7 @@ from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_classes.detail import Informer, Detail
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
+from pokete_classes.npcs import NPC, Trainer
 from pokete_general_use_fns import liner, sort_vers, std_loop
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -123,129 +124,87 @@ class Poketeball(se.Object):
         used_npcs.append(self.name)
 
 
-class NPCTrigger(se.Object):
-    """Object on the map, that triggers a npc"""
-
-    def __init__(self, npc):
-        super().__init__(" ", state="float")
-        self.npc = npc
-
-    def action(self, ob):
-        """Action triggers the NPCs action"""
-        self.npc.action()
-
-
-class NPC(se.Box):
-    """An NPC to talk to"""
-
-    def __init__(self, name, texts, fn=None, args=()):
-        super().__init__(0, 0)
-        self.will = True
-        self.name = name
-        self.texts = texts
-        self.__fn = fn
-        self.args = args
-        for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
-            self.add_ob(NPCTrigger(self), i, j)
-        self.add_ob(se.Object("a"), 0, 0)
-
-    def action(self):
-        """Interaction with the NPC triggered by NPCTrigger.action"""
-        if not self.will or (self.name in used_npcs and settings.save_trainers):
-            return
-        movemap.full_show()
-        time.sleep(0.7)
-        try:
-            exclamation.add(movemap, self.x - movemap.x, self.y - 1 - movemap.y)
-        except se.CoordinateError:
-            pass
-        movemap.show()
-        time.sleep(1)
-        exclamation.remove()
-        movemap.text(self.x, self.y, self.texts, ev)
-        self.fn()
-
-    def fn(self):
-        """The function that's executed after the interaction"""
-        if self.__fn is not None:
-            eval(self.__fn)(*self.args)
+class NPCActions:
+    """This class contains all functions callable by NPCs"""
 
     @staticmethod
-    def give(_map, npc, name, item):
-        """Method thats gifts an item to the player"""
-        item = getattr(invitems, item)
-        _map = ob_maps[_map]
-        npc = getattr(_map, npc)
-        npc.will = False
-        used_npcs.append(npc.name)
+    def swap_poke(npc):
+        """Swap_poke wrapper"""
+        swap_poke()
+
+    @staticmethod
+    def heal(npc):
+        """Heal wrapper"""
+        heal()
+
+    @staticmethod
+    def playmap_17_boy(npc):
+        """Interaction with boy"""
+        if "choka" in [i.identifier for i in figure.pokes[:6]]:
+            npc.text([" < Oh, cool!", " < You have a Choka!",
+                      " < I've never seen one before!",
+                      " < Here you go, 200$"])
+            if ask_bool(ev, movemap,
+                        "Young boy gifted you 200$. Do you want to accept it?"):
+                figure.add_money(200)
+            npc.will = False
+            used_npcs.append(npc.name)
+        else:
+            npc.text([" < In this region lives the würgos Pokete.",
+                      f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
+it evolves to Choka.",
+                      " < I have never seen one before!"])
+
+    @staticmethod
+    def playmap_20_trader(npc):
+        """Interaction with trader"""
+        if ask_bool(ev, movemap, "Do you want to trade a Pokete?"):
+            if (index := deck(6, "Your deck", True)) is None:
+                return
+            figure.add_poke(Poke("ostri", 500), index)
+            used_npcs.append(npc.name)
+            ask_ok(ev, movemap,
+                   f"You received: {figure.pokes[index].name.capitalize()} \
+at level {figure.pokes[index].lvl()}.")
+            movemap.text(npc.x, npc.y, [" < Cool, huh?"], ev)
+
+    @staticmethod
+    def playmap_23_npc_8(npc):
+        """Interaction with npc_8"""
         if ask_bool(ev, movemap,
-                    f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?"):
-            figure.give_item(item.name)
+                    "The man gifted you 100$. Do you want to accept it?"):
+            npc.will = False
+            used_npcs.append(npc.name)
+            figure.add_money(100)
+
+    @staticmethod
+    def playmap_10_old_man(npc):
+        """Interaction with ld_man"""
+        npc.give("Old man", "hyperball")
+
+    @staticmethod
+    def playmap_29_ld_man(npc):
+        """Interaction with ld_man"""
+        npc.give("The man", "ld_flying")
+
+    @staticmethod
+    def playmap_32_npc_12(npc):
+        """Interaction with npc_12"""
+        npc.give("Old man", "hyperball")
+
+    @staticmethod
+    def playmap_36_npc_14(npc):
+        """Interaction with npc_14"""
+        npc.give("Old woman", "ap_potion")
+
+    @staticmethod
+    def playmap_37_npc_15(npc):
+        """Interaction with npc_14"""
+        npc.give("Bert the bird", "super_potion")
 
 
-class Trainer(se.Object):
-    """Trauner class to fight against"""
-
-    def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
-                 win_texts, sx, sy):
-        super().__init__("a", state="solid")
-        # attributes
-        self.name = name
-        self.gender = gender
-        self.poke = poke
-        self.texts = texts
-        self.lose_texts = lose_texts
-        self.no_poke_texts = no_poke_texts
-        self.win_texts = win_texts
-        self.sx = sx
-        self.sy = sy
-
-    def do(self, _map):
-        """Interaction with the trainer"""
-        if figure.has_item("shut_the_fuck_up_stone"):
-            return
-        if figure.x == self.x and self.poke.hp > 0 and (self.name
-                            not in used_npcs or not settings.save_trainers):
-            for i in range(figure.y + 1 if figure.y < self.y else self.y + 1,
-                           self.y if figure.y < self.y else figure.y):
-                if any(j.state == "solid" for j in _map.obmap[i][self.x]):
-                    return
-            movemap.full_show()
-            time.sleep(0.7)
-            try:
-                exclamation.add(movemap, self.x - movemap.x,
-                                self.y - 1 - movemap.y)
-            except se.CoordinateError:
-                pass
-            movemap.show()
-            time.sleep(1)
-            exclamation.remove()
-            while self.y != figure.y + (2 if self.y > figure.y else -2):
-                self.set(self.x,
-                         self.y + (-1 if self.y > figure.y + 1
-                                   or self.y == figure.y - 1 else 1))
-                movemap.full_show()
-                time.sleep(0.3)
-            if any(poke.hp > 0 for poke in figure.pokes[:6]):
-                movemap.text(self.x, self.y, self.texts, ev)
-                winner = fight([poke for poke in figure.pokes[:6]
-                                    if poke.hp > 0][0],
-                               self.poke, info={"type": "duel", "player": self})
-                movemap.text(self.x, self.y, {True: self.lose_texts,
-                                              False: self.win_texts
-                                                     + [" < Here u go 20$"]}
-                                              [winner == self.poke], ev)
-                if winner != self.poke:
-                    figure.add_money(20)
-                    used_npcs.append(self.name)
-            else:
-                movemap.text(self.x, self.y, self.no_poke_texts, ev)
-                used_npcs.append(self.name)
-            while self.y != self.sy:
-                self.set(self.x, self.y + (1 if self.y < self.sy else -1))
-                movemap.full_show()
-                time.sleep(0.3)
+def test1():
+    ob_maps["playmap_13"].npc_2.walk_point(figure.x, figure.y)
 
 
 class CenterInteract(se.Object):
@@ -322,7 +281,7 @@ class CenterMap(PlayMap):
                           [" < I'm a trader.",
                            " < Here you can trade one of your Poketes for \
 another players' one."],
-                          "swap_poke", ())
+                          "swap_poke")
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
         self.dor_back2.add(self, int(self.width / 2) + 1, 8)
@@ -1403,7 +1362,7 @@ class ExtraActions:
     def playmap_7():
         """Cave animation"""
         for obj in ob_maps["playmap_7"].inner_walls.obs\
-                   + ob_maps["playmap_7"].trainers\
+                   + [i.main_ob for i in ob_maps["playmap_7"].trainers]\
                    + [getattr(ob_maps["playmap_7"], i)
                     for i in p_data.map_data["playmap_7"]["balls"] if
                         "playmap_7." + i not in used_npcs or not save_trainers]:
@@ -1412,58 +1371,6 @@ class ExtraActions:
                 obj.rechar(obj.bchar)
             else:
                 obj.rechar(" ")
-
-
-# NPC functions
-###############
-
-def playmap_17_boy():
-    """Interaction with boy"""
-    npc = ob_maps["playmap_17"].boy_1
-    if "choka" in [i.identifier for i in figure.pokes[:6]]:
-        movemap.text(npc.x, npc.y,
-                     [" < Oh, cool!", " < You have a Choka!",
-                      " < I've never seen one before!",
-                      " < Here you go, 200$"], ev)
-        if ask_bool(ev, movemap,
-                    "Young boy gifted you 200$. Do you want to accept it?"):
-            figure.add_money(200)
-        npc.will = False
-        used_npcs.append(npc.name)
-    else:
-        movemap.text(npc.x, npc.y,
-                     [" < In this region lives the würgos Pokete.",
-                      f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
-it evolves to Choka.",
-                      " < I have never seen one before!"], ev)
-
-
-def playmap_20_trader():
-    """Interaction with trader"""
-    npc = ob_maps["playmap_20"].trader_2
-    movemap.text(npc.x, npc.y,
-                 [" < I've lived in this town for long time and therefore have \
-found some cool Poketes.",
-                  " < Do you want to trade my cool Pokete?"], ev)
-    if ask_bool(ev, movemap, "Do you want to trade a Pokete?"):
-        if (index := deck(6, "Your deck", True)) is None:
-            return
-        figure.add_poke(Poke("ostri", 500), index)
-        used_npcs.append(npc.name)
-        ask_ok(ev, movemap,
-               f"You received: {figure.pokes[index].name.capitalize()} \
-at level {figure.pokes[index].lvl()}.")
-        movemap.text(npc.x, npc.y, [" < Cool, huh?"], ev)
-
-
-def playmap_23_npc_8():
-    """Interaction with npc_8"""
-    npc = ob_maps["playmap_23"].npc_8
-    if ask_bool(ev, movemap,
-                "The man gifted you 100$. Do you want to accept it?"):
-        npc.will = False
-        used_npcs.append(npc.name)
-        figure.add_money(100)
 
 
 # main functions
@@ -1629,8 +1536,6 @@ def game(_map):
                 ev.clear()
         std_loop(ev)
         _map.extra_actions()
-        for trainer in _map.trainers:
-            trainer.do(_map)
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 > movemap.x + movemap.width,
                                     figure.x < movemap.x + 6,
@@ -1679,6 +1584,17 @@ def gen_obs():
     map_data = p_data.map_data
     npcs = p_data.npcs
     trainers = p_data.trainers
+
+    # adding all trainer to map
+    for i in trainers:
+        _map = ob_maps[i]
+        for j in trainers[i]:
+            args = j["args"]
+            trainer = Trainer(Poke(*j["poke"], player=False),
+                              *args[:-2], fight)
+            trainer.add(_map, args[-2], args[-1])
+            _map.trainers.append(trainer)
+
     # generating objects from map_data
     for ob_map in map_data:
         _map = ob_maps[ob_map]
@@ -1705,20 +1621,8 @@ def gen_obs():
     # NPCs
     for npc in npcs:
         parse_obj(ob_maps[npcs[npc]["map"]], npc,
-                  NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"],
-                      npcs[npc]["args"]),
+                  NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"]),
                   npcs[npc])
-
-    # adding all trainer to map
-    for i in trainers:
-        _map = ob_maps[i]
-        for j in trainers[i]:
-            _map.trainers.append(Trainer(Poke(*j["poke"], player=False),
-                                         *j["args"]))
-    for ob_map in map_data:
-        _map = ob_maps[ob_map]
-        for trainer in _map.trainers:
-            trainer.add(_map, trainer.sx, trainer.sy)
 
 
 def gen_maps():
@@ -1861,7 +1765,7 @@ def map_additions():
 ####################  ########
 ##############################""", ignore="#", ob_class=HightGrass,
                          ob_args=_map.poke_args, state="float")
-    for ob in (_map.inner_walls.obs + _map.trainers +
+    for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
                [getattr(_map, i) for i in p_data.map_data["playmap_7"]["balls"]
                 if "playmap_7." + i not in used_npcs
                    or not settings.save_trainers]):
@@ -2082,11 +1986,11 @@ if __name__ == "__main__":
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
+    ev = Event("")
     movemap = Movemap(ob_maps, height - 1, width)
     figure = Figure()
     figure.caught_pokes = session_info.get("caught_poketes", [])
     figure.visited_maps = session_info.get("visited_maps", ["playmap_1"])
-    exclamation = se.Object("!")
 
     # side fn definitions
     detail = Detail(height - 1, width)
@@ -2107,11 +2011,12 @@ if __name__ == "__main__":
     fightitems = FightItems(fightmap, movemap, figure, ob_maps)
     evomap = EvoMap(height - 1, width)
 
+    for i in [NPC, Trainer]:
+        i.set_vars(movemap, figure, ev, invitems, used_npcs, settings, NPCActions)
     figure.set_args(session_info)
 
     __t = time.time() - __t
 
-    ev = Event("")
     fd = None
     old_settings = None
 
