@@ -683,7 +683,7 @@ class Figure(se.Object):
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
 in the inventory"
         self.inv[item] -= amount
-        logging.info("[Figure] %d %s(s) removod", amount, item)
+        logging.info("[Figure] %d %s(s) removed", amount, item)
 
 
 class Attack:
