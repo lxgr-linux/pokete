@@ -57,13 +57,11 @@ class FightMap(se.Map):
         self.outp.add(self, 1, self.height - 4)
         self.e_underline.add(self, 1, 4)
         self.e_sideline.add(self, len(self.e_underline.text), 1)
-        self.p_upperline.add(self,
-                             self.width - 1 - len(self.p_upperline.text),
+        self.p_upperline.add(self, self.width - 1 - len(self.p_upperline.text),
                              self.height - 10)
         self.frame_big.add(self, 0, 0)
-        self.p_sideline.add(self,
-                                self.width - 1 - len(self.p_upperline.text),
-                                self.height - 9)
+        self.p_sideline.add(self, self.width - 1 - len(self.p_upperline.text),
+                            self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
 
