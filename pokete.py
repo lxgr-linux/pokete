@@ -683,7 +683,7 @@ class Figure(se.Object):
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
 in the inventory"
         self.inv[item] -= amount
-        logging.info("[Figure] %d %s(s) removod", amount, item)
+        logging.info("[Figure] %d %s(s) removed", amount, item)
 
 
 class Attack:
@@ -2039,7 +2039,7 @@ if __name__ == "__main__":
     figure.set_args(session_info)
 
     __t = time.time() - __t
-    logging.info("[General] Startup took %ds", __t)
+    logging.info("[General] Startup took %fs", __t)
 
     fd = None
     old_settings = None
