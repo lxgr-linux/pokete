@@ -2035,7 +2035,7 @@ if __name__ == "__main__":
     figure.set_args(session_info)
 
     __t = time.time() - __t
-    logging.info("[General] Startup took %ds", __t)
+    logging.info("[General] Startup took %fs", __t)
 
     fd = None
     old_settings = None
