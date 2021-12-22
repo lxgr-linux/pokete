@@ -100,7 +100,7 @@ class LoadingScreen():
                                               int(self.map.height / 2) + 2)
         se.Text(codename, state="float").add(self.map,
                                              int(self.map.width / 2) + 14
-                                                - len(codename),
+                                             - len(codename),
                                              int(self.map.height / 2) + 2)
 
     def __call__(self):

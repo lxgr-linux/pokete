@@ -28,7 +28,7 @@ class Movemap(se.Submap):
         self.underline.add(self, 0, self.height - 2)
         self.name_label.add(self, 2, self.height - 2)
         self.balls_label.add(self, 4 + len(self.name_label.text),
-                            self.height - 2)
+                             self.height - 2)
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
@@ -37,7 +37,7 @@ class Movemap(se.Submap):
         # This ensures the game does not crash when big
         # chunks of text are displayed
         for _c, i, j, _k in zip([x, y], ["x", "y"],
-                              [self.width, self.height], [17, 10]):
+                                [self.width, self.height], [17, 10]):
             while _c - getattr(self, i) + _k >= j:
                 self.set(self.x + (1 if i == "x" else 0),
                          self.y + (1 if i == "y" else 0))
@@ -82,7 +82,7 @@ class Movemap(se.Submap):
                                 or pokes[i].identifier == "__fallback__"\
                                         else "o" if pokes[i].hp > 0
                                         else "x"
-                                    for i in range(6)), esccode=Color.thicc)
+                                        for i in range(6)), esccode=Color.thicc)
 
     def name_label_rechar(self, name):
         """Rechars name_label and sets balls_label correctly"""

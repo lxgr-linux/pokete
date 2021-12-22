@@ -79,7 +79,7 @@ class HightGrass(se.Object):
                   Poke(random.choices(self.arg_proto["pokes"],
                                       weights=[p_data.pokes[i]["rarity"]
                                                for i in
-                                                self.arg_proto["pokes"]])[0],
+                                               self.arg_proto["pokes"]])[0],
                        random.choices(list(range(self.arg_proto["minlvl"],
                                                  self.arg_proto["maxlvl"])))[0],
                        player=False, shiny=(random.randint(0, 500) == 0)))
@@ -206,7 +206,8 @@ class Trainer(se.Object):
         if figure.has_item("shut_the_fuck_up_stone"):
             return
         if figure.x == self.x and self.poke.hp > 0 and (self.name
-                            not in used_npcs or not settings.save_trainers):
+                                                        not in used_npcs or not
+                                                        settings.save_trainers):
             for i in range(figure.y + 1 if figure.y < self.y else self.y + 1,
                            self.y if figure.y < self.y else figure.y):
                 if any(j.state == "solid" for j in _map.obmap[i][self.x]):
@@ -230,12 +231,12 @@ class Trainer(se.Object):
             if any(poke.hp > 0 for poke in figure.pokes[:6]):
                 movemap.text(self.x, self.y, self.texts, ev)
                 winner = fight([poke for poke in figure.pokes[:6]
-                                    if poke.hp > 0][0],
+                                if poke.hp > 0][0],
                                self.poke, info={"type": "duel", "player": self})
                 movemap.text(self.x, self.y, {True: self.lose_texts,
                                               False: self.win_texts
                                                      + [" < Here u go 20$"]}
-                                              [winner == self.poke], ev)
+                             [winner == self.poke], ev)
                 if winner != self.poke:
                     figure.add_money(20)
                     used_npcs.append(self.name)
@@ -264,9 +265,8 @@ class CenterInteract(se.Object):
             if ev.get() == "'a'":
                 ev.clear()
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
-                    figure.pokes.pop([p.identifier
-                                        for p in
-                                            figure.pokes].index("__fallback__"))
+                    figure.pokes.pop([p.identifier for p in
+                                      figure.pokes].index("__fallback__"))
                 movemap.balls_label_rechar(figure.pokes)
                 deck(len(figure.pokes))
                 break
@@ -495,7 +495,7 @@ can't have more than 4 attacks!"
         """Updates/sets some vars"""
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, self.lvl() + self.inf[name]
-                                + (2 if self.shiny else 0))
+                    + (2 if self.shiny else 0))
         i = [Attack(atc)
              for atc in self.attacks
              if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
@@ -526,7 +526,7 @@ can't have more than 4 attacks!"
         for i, atc in enumerate(self.attac_obs):
             self.atc_labels[i].rechar(f"{i + 1}: ")
             self.atc_labels[i] += se.Text(atc.name, esccode=atc.type.color)\
-                                + se.Text(f"-{atc.ap}")
+                + se.Text(f"-{atc.ap}")
 
     def lvl(self):
         """Returns level"""
@@ -921,7 +921,7 @@ class Deck(Informer):
         for i, poke in enumerate(pokes):
             self.add(poke, figure, self.map,
                      1 if i % 2 == 0
-                        else round(self.map.width / 2) + 1, j * 5 + 1)
+                     else round(self.map.width / 2) + 1, j * 5 + 1)
             if i % 2 == 0 and init:
                 se.Square("-", self.map.width - 2, 1).add(self.map, 1,
                                                           j * 5 + 5)
@@ -942,7 +942,7 @@ class Deck(Informer):
                                         self.index.index % 2,
                                         [i for i in range(len(pokes))
                                             if i % 2 ==
-                                                self.index.index % 2][-1]]):
+                                            self.index.index % 2][-1]]):
             if _ev == con:
                 if stat:
                     self.index.index += fir
@@ -1006,7 +1006,7 @@ class Inv:
                                         poke = figure.pokes[index]
                                         if getattr(types,
                                                    obj.attack_dict['types'][0])\
-                                                        in poke.types:
+                                                in poke.types:
                                             break
                                         else:
                                             ex_cond = ask_bool(ev, self.map,
@@ -1055,7 +1055,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
         """Adds all items to the box"""
         items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] > 0]
         self.box.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}")
-                                for i in items])
+                            for i in items])
         return items
 
 
@@ -1198,7 +1198,7 @@ Initiative: {poke.initiative}"""))
                           for j in list(pokes)[1:]])}
         self.obs = [se.Text(f"{i + 1} \
 {p_dict[poke]['name'] if poke in figure.caught_pokes else '???'}",
-                        state="float")
+                    state="float")
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()
         with self.box.add(self.map, self.map.width - self.box.width, 0):
@@ -1274,7 +1274,7 @@ def save():
         "settings": settings.dict(),
         "caught_poketes": list(dict.fromkeys(figure.caught_pokes
                                              + [i.identifier
-                                                    for i in figure.pokes])),
+                                                for i in figure.pokes])),
         "visited_maps": figure.visited_maps,
         "startup_time": __t,
         # filters doublicates from used_npcs
@@ -1403,10 +1403,10 @@ class ExtraActions:
     def playmap_7():
         """Cave animation"""
         for obj in ob_maps["playmap_7"].inner_walls.obs\
-                   + ob_maps["playmap_7"].trainers\
-                   + [getattr(ob_maps["playmap_7"], i)
-                    for i in p_data.map_data["playmap_7"]["balls"] if
-                        "playmap_7." + i not in used_npcs or not save_trainers]:
+            + ob_maps["playmap_7"].trainers\
+            + [getattr(ob_maps["playmap_7"], i)
+               for i in p_data.map_data["playmap_7"]["balls"] if
+               "playmap_7." + i not in used_npcs or not save_trainers]:
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) <= 3:
                 obj.rechar(obj.bchar)
@@ -1517,7 +1517,7 @@ def swap_poke():
         return
     if do:
         with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...",
-                _map=movemap):
+                     _map=movemap):
             host = ''
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.bind((host, port))
