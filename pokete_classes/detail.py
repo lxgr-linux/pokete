@@ -24,8 +24,8 @@ class Informer:
             if in_deck and figure.pokes.index(poke) < 6:
                 poke.pball_small.add(_map,
                                      round(_map.width / 2) - 1
-                                        if figure.pokes.index(poke) % 2 == 0
-                                        else _map.width - 2,
+                                     if figure.pokes.index(poke) % 2 == 0
+                                     else _map.width - 2,
                                      _y)
             for eff in poke.effects:
                 eff.add_label()
@@ -95,15 +95,16 @@ class Detail(Informer):
                                                 round(self.map.width / 2) + 1,
                                                 1,
                                                 round(self.map.width / 2) + 1],
-                                               [7, 7, 12, 12]):
+                               [7, 7, 12, 12]):
             atc.temp_i = 0
             atc.temp_j = -30
             atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
             atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
             for label, __x, __y in zip([atc.label_name, atc.label_factor,
-                                      atc.label_type_1, atc.label_type_2,
-                                      atc.label_ap, atc.label_desc],
-                                     [0, 0, 11, 16, 0, 0], [0, 1, 1, 1, 2, 3]):
+                                       atc.label_type_1, atc.label_type_2,
+                                       atc.label_ap, atc.label_desc],
+                                       [0, 0, 11, 16, 0, 0],
+                                       [0, 1, 1, 1, 2, 3]):
                 label.add(self.map, _x + __x, _y + __y)
         self.map.show(init=True)
         while True:
@@ -151,8 +152,15 @@ class Detail(Informer):
                             atc.temp_i = 0
                             atc.temp_j = -30
                         atc.label_desc.rechar(atc.desc[atc.temp_i:
-                            int(self.map.width / 2 - 1) + atc.temp_i])
+                                                       int(self.map.width
+                                                           / 2 - 1)
+                                                       + atc.temp_i])
+
                     else:
                         atc.temp_j += 1
             time.sleep(0.05)
             self.map.show()
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")
+    

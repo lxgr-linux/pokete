@@ -12,7 +12,7 @@ from .learnattack import LearnAttack
 
 
 class EvoMap(se.Map):
-    """Map for evolvations to take place on"""
+    """Map for evolutions to take place on"""
 
     def __init__(self, height, width):
         super().__init__(height - 1, width, " ")
@@ -44,9 +44,9 @@ class FightMap(se.Map):
   \_____/""")
         # visual objects
         self.frame_big = StdFrame2(self.height - 5, self.width,
-                                       state="float")
+                                   state="float")
         self.frame_small = se.Frame(height=4, width=self.width,
-                                                  state="float")
+                                    state="float")
         self.e_underline = se.Text("----------------+", state="float")
         self.e_sideline = se.Square("|", 1, 3, state="float")
         self.p_upperline = se.Text("+----------------", state="float")
@@ -57,13 +57,11 @@ class FightMap(se.Map):
         self.outp.add(self, 1, self.height - 4)
         self.e_underline.add(self, 1, 4)
         self.e_sideline.add(self, len(self.e_underline.text), 1)
-        self.p_upperline.add(self,
-                                 self.width - 1 - len(self.p_upperline.text),
-                                 self.height - 10)
+        self.p_upperline.add(self, self.width - 1 - len(self.p_upperline.text),
+                             self.height - 10)
         self.frame_big.add(self, 0, 0)
-        self.p_sideline.add(self,
-                                self.width - 1 - len(self.p_upperline.text),
-                                self.height - 9)
+        self.p_sideline.add(self, self.width - 1 - len(self.p_upperline.text),
+                            self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
 
@@ -177,8 +175,6 @@ class FightMap(se.Map):
                 time.sleep(0.05)
         self.invbox.remove_c_obs()
         return item
-
-
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
         """Fight"""
@@ -196,7 +192,7 @@ used {enemy.name} against you!')
         self.add_2(player)
         if player.identifier != "__fallback__":
             self.fast_change([player.ico, self.deadico2, self.deadico1,
-                                  player.ico], player.ico)
+                              player.ico], player.ico)
             self.outp.outp(f"You used {player.name}")
         self.show()
         time.sleep(0.5)
@@ -215,7 +211,7 @@ used {enemy.name} against you!')
             if obj.player:
                 self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
                                           else "") +
-                                           "What do you want to do?",
+                                         "What do you want to do?",
                                          state="float"))
                 if obj.identifier == "__fallback__":
                     time.sleep(1)
@@ -232,8 +228,8 @@ used {enemy.name} against you!')
                         _ev.clear()
                         if ((info["type"] == "duel"
                              and player.identifier != "__fallback__")
-                             or not ask_bool(_ev, self,
-                                             "Do you really want to run away?")):
+                            or not ask_bool(_ev, self,
+                                            "Do you really want to run away?")):
                             continue
                         self.outp.outp("You ran away!")
                         time.sleep(1)
@@ -355,7 +351,7 @@ class FightItems:
             return 1
         self.map.outp.rechar(f"You threw a {name.capitalize()}!")
         self.map.fast_change([enem.ico, self.map.deadico1, self.map.deadico2,
-            self.map.pball], enem.ico)
+                             self.map.pball], enem.ico)
         time.sleep(random.choice([1, 2, 3, 4]))
         self.fig.remove_item(name)
         catch_chance = 20 if self.fig.map == self.ob_maps["playmap_1"] else 0
@@ -363,7 +359,7 @@ class FightItems:
             catch_chance += effect.catch_chance
         if random.choices([True, False],
                           weights=[(enem.full_hp / enem.hp)
-                                    * chance + catch_chance,
+                                   * chance + catch_chance,
                                    enem.full_hp], k=1)[0]:
             self.fig.add_poke(enem)
             self.map.outp.outp(f"You catched {enem.name}")

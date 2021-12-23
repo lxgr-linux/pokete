@@ -85,7 +85,7 @@ class Moves:
     def downgrade(self):
         """Downgrade move"""
         self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-"
-                                       + Color.reset)
+                                   + Color.reset)
 
 
 if __name__ == "__main__":

@@ -53,9 +53,9 @@ class Effect():
             self.label.add(self.obj.ico.map,
                            (self.obj.text_lvl.obs[-1].x
                             if self.obj.effects.index(self) == 0
-                            else self.obj.effects[self.obj.effects\
-                                                    .index(self) - 1]\
-                                                        .label.obs[-1].x) + 2,
+                            else self.obj.effects[self.obj.effects
+                                                  .index(self) - 1]
+                                .label.obs[-1].x) + 2,
                            self.obj.text_lvl.obs[-1].y)
         except se.CoordinateError:
             pass

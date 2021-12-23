@@ -20,7 +20,7 @@ class PokeType():
         self.effective = effective
         self.ineffective = ineffective
         self.color = "" if color is None else "".join(getattr(Color, i)
-                                                        for i in color)
+                                                      for i in color)
 
 
 class PokeSubType(PokeType):
