@@ -27,10 +27,11 @@ class NPC(se.Box):
     settings = None
     npcactions = None
     logging = None
+    check_walk_back = None
 
     @classmethod
     def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
-                 settings, npcactions, logging):
+                 settings, npcactions, logging, check_walk_back):
         """Sets all variables needed by NPCs"""
         cls.mvmp = mvmp
         cls.fig = fig
@@ -40,6 +41,7 @@ class NPC(se.Box):
         cls.settings = settings
         cls.npcactions = npcactions
         cls.logging = logging
+        cls.check_walk_back = check_walk_back
 
     def __init__(self, name, texts, fn=None):
         super().__init__(0, 0)
@@ -122,14 +124,13 @@ Do you want to accept it?"):
 class Trainer(NPC):
     """Trainer class to fight against"""
 
-    def __init__(self, poke, name, gender, texts, lose_texts, no_poke_texts,
+    def __init__(self, poke, name, gender, texts, lose_texts,
                  win_texts, fight):
         super().__init__(name, texts)
         # attributes
         self.gender = gender
         self.poke = poke
         self.lose_texts = lose_texts
-        self.no_poke_texts = no_poke_texts
         self.win_texts = win_texts
         self.fight = fight
 
@@ -149,9 +150,8 @@ class Trainer(NPC):
         o_y = self.y
         if self.fig.has_item("shut_the_fuck_up_stone"):
             return
-        if self.fig.x == self.x and self.poke.hp > 0 \
-                and (self.name not in self.used_npcs
-                     or not self.settings.save_trainers) \
+        if self.poke.hp > 0 and (self.name not in self.used_npcs \
+                                    or not self.settings.save_trainers) \
                 and self.check_walk(self.fig.x, self.fig.y):
             self.mvmp.full_show()
             time.sleep(0.7)
@@ -171,7 +171,5 @@ class Trainer(NPC):
                     self.used_npcs.append(self.name)
                 self.logging.info("[NPC] '%s' %s against player", self.name,
                                   'lost' if  winner != self.poke else 'won')
-            else:
-                self.text(self.no_poke_texts)
-                self.used_npcs.append(self.name)
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
+            self.check_walk_back()

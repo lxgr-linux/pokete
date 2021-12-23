@@ -85,6 +85,7 @@ class HightGrass(se.Object):
                        random.choices(list(range(self.arg_proto["minlvl"],
                                                  self.arg_proto["maxlvl"])))[0],
                        player=False, shiny=(random.randint(0, 500) == 0)))
+            check_walk_back()
 
 
 class Meadow(se.Text):
@@ -352,6 +353,10 @@ class DorToCenter(Dor):
                          arg_proto={"map": "centermap",
                                     "x": int(centermap.width / 2), "y": 7})
 
+    def action(self, ob):
+        ob.last_center_map = ob.map
+        super().action(ob)
+
 
 class DorToShop(Dor):
     """Dor that leads to the shop"""
@@ -587,12 +592,14 @@ class Figure(se.Object):
         self.pokes = []
         self.caught_pokes = []
         self.visited_maps = []
+        self.last_center_map = ob_maps["playmap_1"]
         self.oldmap = ob_maps["playmap_1"]
         self.direction = "t"
 
     def set_args(self, _si):
         """Processes data from save file"""
         self.name = _si["user"]
+        self.last_center_map = ob_maps[_si.get("last_center_map", "playmap_1")]
         self.pokes = [Poke(_si["pokes"][poke]["name"],
                            _si["pokes"][poke]["xp"], _si["pokes"][poke]["hp"],
                            shiny=(False
@@ -1061,8 +1068,8 @@ class Menu:
             while True:
                 if ev.get() == "Key.enter":
                     # Fuck python for not having case statements
-                    if ((i := self.box.c_obs[self.box.index.index]) ==
-                            self.playername_label):
+                    if (i := self.box.c_obs[self.box.index.index]) ==\
+                            self.playername_label:
                         figure.name = text_input(self.realname_label,
                                                  self.map,
                                                  figure.name, ev, 18, 17)
@@ -1200,6 +1207,20 @@ Initiative: {poke.initiative}"""))
 # General use functions
 #######################
 
+def check_walk_back(self=None):
+    """Check whether the figure has to be walked back to the last Poketecenter
+       or not"""
+    if all(i.hp <= 0 for i in figure.pokes[:6]):
+        amount = round(figure.get_money() / 3)
+        figure.add_money(-amount)
+        heal()
+        ask_ok(ev, movemap, f"""All your Poketes have died and you ran
+back to the last Pokecenter you visited, to heal them!
+On the way there {amount}$ fell out of your pocket!""")
+        figure.remove()
+        figure.map = figure.last_center_map
+        DorToCenter().action(figure)
+
 def heal():
     """Heals all poketes"""
     for poke in figure.pokes:
@@ -1230,6 +1251,7 @@ def save():
         "ver": VERSION,
         "map": figure.map.name,
         "oldmap": figure.oldmap.name,
+        "last_center_map": figure.last_center_map.name,
         "x": figure.x,
         "y": figure.y,
         "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
@@ -1258,6 +1280,7 @@ def read_save():
         "ver": VERSION,
         "map": "intromap",
         "oldmap": "playmap_1",
+        "last_center_map": "playmap_1",
         "x": 4,
         "y": 5,
         "pokes": {
@@ -1964,7 +1987,7 @@ if __name__ == "__main__":
     save_trainers = settings.save_trainers
 
     if not load_mods:
-       settings.load_mods = False
+        settings.load_mods = False
 
     # Loading mods
     if settings.load_mods:
@@ -2031,9 +2054,9 @@ if __name__ == "__main__":
     fightitems = FightItems(fightmap, movemap, figure, ob_maps)
     evomap = EvoMap(height - 1, width)
 
-    for i in [NPC, Trainer]:
-        i.set_vars(movemap, figure, ev, invitems, used_npcs, settings,
-                   NPCActions, logging)
+    for _i in [NPC, Trainer]:
+        _i.set_vars(movemap, figure, ev, invitems, used_npcs, settings,
+                    NPCActions, logging, check_walk_back)
     figure.set_args(session_info)
 
     __t = time.time() - __t
