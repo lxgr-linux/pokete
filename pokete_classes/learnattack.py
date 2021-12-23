@@ -65,7 +65,7 @@ class LearnAttack:
                             self.map.show(init=True)
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()
-                            break
+                            return False
                         std_loop(_ev)
                         time.sleep(0.05)
                 self.box.remove_c_obs()
