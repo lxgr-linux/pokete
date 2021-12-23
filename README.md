@@ -36,6 +36,10 @@ $ buildaur -S pokete-git
 
 For windows first install pynput and then do a Windows equivalent to the above.
 
+## Usage
+The game can be run normaly by not supplying any options.
+For non gameplay related usage see `--help`.
+
 ## How to play?
 Imagine your a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
 

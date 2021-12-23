@@ -39,7 +39,7 @@ from pokete_classes.detail import Informer, Detail
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.npcs import NPC, Trainer
-from pokete_general_use_fns import liner, sort_vers, std_loop
+from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
 
@@ -1936,6 +1936,8 @@ if __name__ == "__main__":
                 with Listener(on_press=on_press) as listener:
                     listener.join()
 
+    do_logging, load_mods = parse_args(sys.argv)
+
     # resizing screen
     tss = ResizeScreen()
     width, height = tss()
@@ -1948,13 +1950,12 @@ if __name__ == "__main__":
     loading_screen()
 
     # logging config
-    log_file = f"{HOME}{SAVEPATH}/pokete.log" if "--log" in sys.argv else None
+    log_file = f"{HOME}{SAVEPATH}/pokete.log" if do_logging else None
     logging.basicConfig(filename=log_file,
                         encoding='utf-8',
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
-                        level=logging.DEBUG)
-    logging.info("=== Startup Pokete %s v%s ===",
-                 CODENAME, VERSION)
+                        level=logging.DEBUG if do_logging else logging.ERROR)
+    logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
 
     # reading save file
     session_info = read_save()
@@ -1963,6 +1964,9 @@ if __name__ == "__main__":
     used_npcs = session_info.get("used_npcs", [])
 
     save_trainers = settings.save_trainers
+
+    if not load_mods:
+       settings.load_mods = False
 
     # Loading mods
     if settings.load_mods:
