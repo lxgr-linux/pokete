@@ -113,10 +113,10 @@ class RoadMap:
                       and self.sta.has_been_visited()):
                     _ev.clear()
                     p_list = ", ".join(set(self.p_d.pokes[j]["name"]
-                                        for i in self.sta.associates
-                                            for j in
-                                                i.poke_args.get("pokes", [])
-                                              + i.w_poke_args.get("pokes", [])))
+                                       for i in self.sta.associates
+                                           for j in
+                                           i.poke_args.get("pokes", [])
+                                           + i.w_poke_args.get("pokes", [])))
                     with InfoBox(liner(self.sta.desc
                                        + "\n\n Here you can find: " +
                                        (p_list if p_list != "" else "Nothing"),
@@ -131,3 +131,7 @@ class RoadMap:
                 time.sleep(0.05)
                 _map.show()
         self.sta.unchoose()
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")
+

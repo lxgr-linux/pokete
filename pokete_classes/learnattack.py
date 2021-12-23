@@ -61,7 +61,7 @@ class LearnAttack:
                         elif _ev.get() == "'1'":
                             _ev.clear()
                             Detail(self.map.height, self.map.width)\
-                                    (_ev, self.poke, False)
+                                  (_ev, self.poke, False)
                             self.map.show(init=True)
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()
@@ -72,3 +72,7 @@ class LearnAttack:
             self.poke.set_vars()
             return True
         return False
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")
+
