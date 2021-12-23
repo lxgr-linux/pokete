@@ -45,7 +45,7 @@ def std_loop(ev):
 def print_help(path):
     """Shows help message"""
     print(f"""Pokete {release.CODENAME} v{release.VERSION}
-Usage: {path} <option>
+Usage: {path} (<options>)
 Options:
     --log     : Enables logging
     --help    : Shows this help
