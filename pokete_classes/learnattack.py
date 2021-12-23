@@ -26,7 +26,7 @@ class AttackInfo(Box):
         self.add_ob(obj.label_factor, 2, 2)
         self.add_ob(desc_label, 2, 3)
 
-    def __enter__(self):  # Contextmanagement is fucking awesome!
+    def __enter__(self):
         """Enter dunder for contextmanagement"""
         self.center_add(self.map)
         self.map.show()
@@ -39,7 +39,7 @@ class LearnAttack:
     def __init__(self, poke, _map):
         self.map = _map
         self.poke = poke
-        self.box = ChooseBox(6, 25, name="Attacks", info="1: Details")
+        self.box = ChooseBox(6, 25, name="Attacks", info="1:Details, 2:Info")
 
     def __call__(self, _ev, p_d, attack=None):
         """Starts the learning process"""
@@ -87,6 +87,14 @@ class LearnAttack:
                             Detail(self.map.height, self.map.width)\
                                   (_ev, self.poke, False)
                             self.map.show(init=True)
+                        elif _ev.get() == "'2'":
+                            with AttackInfo(attack, p_d, self.map):
+                                while True:
+                                    if _ev.get() in ["'q'", "Key.esc"]:
+                                        _ev.clear()
+                                        break
+                                    std_loop(_ev)
+                                    time.sleep(0.05)
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()
                             return False

@@ -35,7 +35,7 @@ from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.movemap import Movemap
 from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_classes.detail import Informer, Detail
-from pokete_classes.learnattack import LearnAttack, AttackInfo
+from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.attack import Attack
 from pokete_general_use_fns import liner, sort_vers, std_loop
@@ -1454,17 +1454,6 @@ def test():
             std_loop(ev)
             time.sleep(0.05)
             a.map.show()
-
-
-def test2():
-    with AttackInfo("flying", p_data, movemap):
-        while True:
-            if ev.get() in ["'q'", "Key.esc"]:
-                ev.clear()
-                break
-            std_loop(ev)
-            time.sleep(0.05)
-
 
 
 def teleport(poke):
