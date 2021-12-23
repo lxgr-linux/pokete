@@ -37,6 +37,7 @@ $ buildaur -S pokete-git
 For windows first install pynput and then do a Windows equivalent to the above.
 
 ## Usage
+The game can be run normaly by not supplying any options.
 For non gameplay related usage see `--help`.
 
 ## How to play?
