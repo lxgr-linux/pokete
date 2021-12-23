@@ -3,10 +3,34 @@
 import time
 import random
 import scrap_engine as se
-from pokete_general_use_fns import std_loop
+from pokete_general_use_fns import std_loop, liner
 from .input import ask_bool, ask_ok
-from .ui_elements import ChooseBox
+from .ui_elements import ChooseBox, Box
 from .detail import Detail
+from .color import Color
+from .attack import Attack
+
+
+class AttackInfo(Box):
+    def __init__(self, attack, p_d, _map):
+        obj = Attack(attack, p_d)
+        desc_label = se.Text(liner(obj.desc, 40))
+        super().__init__(4 + len(desc_label.text.split("\n")),
+                         sorted(len(i) for i in
+                            desc_label.text.split("\n")
+                            + [obj.label_type.text,
+                               obj.label_factor.text])[-1] + 4, obj.name,
+                         "q:close")
+        self.map = _map
+        self.add_ob(obj.label_type, 2, 1)
+        self.add_ob(obj.label_factor, 2, 2)
+        self.add_ob(desc_label, 2, 3)
+
+    def __enter__(self):  # Contextmanagement is fucking awesome!
+        """Enter dunder for contextmanagement"""
+        self.center_add(self.map)
+        self.map.show()
+        return self
 
 
 class LearnAttack:
@@ -75,4 +99,3 @@ class LearnAttack:
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
-
