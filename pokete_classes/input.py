@@ -27,8 +27,9 @@ def text_input(obj, _map, name, ev, wrap_len, max_len=1000000):
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
             ev.clear()
-        elif ev.get() not in ["", "Key.enter", "exit", "Key.backspace", "Key.shift",
-                        "Key.shift_r", "Key.esc"] and len(name) < max_len:
+        elif ev.get() not in ["", "Key.enter", "exit", "Key.backspace",
+                              "Key.shift", "Key.shift_r",
+                              "Key.esc"] and len(name) < max_len:
             if ev.get() == "Key.space":
                 ev.set("' '")
             name += str(ev.get().strip("'"))
@@ -78,3 +79,7 @@ def ask_ok(_ev, _map, text):
             std_loop(_ev)
             time.sleep(0.05)
         _ev.clear()
+
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")

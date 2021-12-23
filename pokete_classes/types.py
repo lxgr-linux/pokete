@@ -19,7 +19,8 @@ class PokeType():
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
-        self.color = "" if color is None else str.join("", [getattr(Color, i) for i in color])
+        self.color = "" if color is None else "".join(getattr(Color, i)
+                                                      for i in color)
 
 
 class PokeSubType(PokeType):
@@ -27,3 +28,7 @@ class PokeSubType(PokeType):
 
     def __init__(self, name):
         super().__init__(name, [], [], None)
+
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")

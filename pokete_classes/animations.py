@@ -1,3 +1,5 @@
+"""This file contains most of the animations used in Pokete"""
+
 import time
 import scrap_engine as se
 
@@ -32,3 +34,30 @@ def transition(_map, poke):
 
     vec_1.remove()
     vec_2.remove()
+
+
+def fight_intro(height, width):
+    """Intro animation for fight"""
+    fancymap = se.Map(height, width, " ")
+    vec_list = [se.Line(" ", i * int(width / 2), j * int((height - 1) / 2))
+                for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
+    for i in vec_list:
+        i.add(fancymap, int(width / 2), int((height - 1) / 2))
+    fancymap.show()
+    for i, l in zip(list(zip(*[j.obs for j in vec_list])),
+                    list(zip(*[list(2 * " ") + k
+                             for k in [j.obs for j in vec_list]])), ):
+        for j in i:
+            j.rechar("-")
+        for j in l:
+            if j != " ":
+                j.rechar(" ")
+        fancymap.show()
+        time.sleep(0.005)
+    for i in vec_list:
+        i.remove()
+    del fancymap
+
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")
