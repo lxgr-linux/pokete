@@ -12,6 +12,8 @@ from .attack import Attack
 
 
 class AttackInfo(Box):
+    """Gives information about a certain attack"""
+
     def __init__(self, attack, p_d, _map):
         obj = Attack(attack, p_d)
         desc_label = se.Text(liner(obj.desc, 40))
