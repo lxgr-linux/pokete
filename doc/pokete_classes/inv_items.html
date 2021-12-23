@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.inv_items API documentation</title>
-<meta name="description" content="InvItem class and it&#39;s daughters" />
+<meta name="description" content="All classes needed for Item management" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,12 +22,25 @@
 <h1 class="title">Module <code>pokete_classes.inv_items</code></h1>
 </header>
 <section id="section-intro">
-<p>InvItem class and it's daughters</p>
+<p>All classes needed for Item management</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;InvItem class and it&#39;s daughters&#34;&#34;&#34;
+<pre><code class="python">&#34;&#34;&#34;All classes needed for Item management&#34;&#34;&#34;
+
+
+class Items:
+    &#34;&#34;&#34;Has all items as attributes&#34;&#34;&#34;
+
+    def __init__(self, p_d):
+        for item in p_d.items.items():
+            _obj = InvItem(item[0], item[1][&#34;pretty_name&#34;],
+                           item[1][&#34;desc&#34;],
+                           item[1][&#34;price&#34;], item[1][&#34;fn&#34;])
+            setattr(self, item[0], _obj)
+        self.ld_bubble_bomb = LearnDisc(&#34;bubble_bomb&#34;, p_d.attacks)
+        self.ld_flying = LearnDisc(&#34;flying&#34;, p_d.attacks)
 
 
 class InvItem:
@@ -91,6 +104,29 @@ if __name__ == &#34;__main__&#34;:
 <li><a title="pokete_classes.inv_items.LearnDisc" href="#pokete_classes.inv_items.LearnDisc">LearnDisc</a></li>
 </ul>
 </dd>
+<dt id="pokete_classes.inv_items.Items"><code class="flex name class">
+<span>class <span class="ident">Items</span></span>
+<span>(</span><span>p_d)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Has all items as attributes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Items:
+    &#34;&#34;&#34;Has all items as attributes&#34;&#34;&#34;
+
+    def __init__(self, p_d):
+        for item in p_d.items.items():
+            _obj = InvItem(item[0], item[1][&#34;pretty_name&#34;],
+                           item[1][&#34;desc&#34;],
+                           item[1][&#34;price&#34;], item[1][&#34;fn&#34;])
+            setattr(self, item[0], _obj)
+        self.ld_bubble_bomb = LearnDisc(&#34;bubble_bomb&#34;, p_d.attacks)
+        self.ld_flying = LearnDisc(&#34;flying&#34;, p_d.attacks)</code></pre>
+</details>
+</dd>
 <dt id="pokete_classes.inv_items.LearnDisc"><code class="flex name class">
 <span>class <span class="ident">LearnDisc</span></span>
 <span>(</span><span>attack_name, attacks)</span>
@@ -135,6 +171,9 @@ if __name__ == &#34;__main__&#34;:
 <ul>
 <li>
 <h4><code><a title="pokete_classes.inv_items.InvItem" href="#pokete_classes.inv_items.InvItem">InvItem</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pokete_classes.inv_items.Items" href="#pokete_classes.inv_items.Items">Items</a></code></h4>
 </li>
 <li>
 <h4><code><a title="pokete_classes.inv_items.LearnDisc" href="#pokete_classes.inv_items.LearnDisc">LearnDisc</a></code></h4>

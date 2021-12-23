@@ -48,14 +48,19 @@ class PokeType():
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
-        self.color = &#34;&#34; if color is None else str.join(&#34;&#34;, [getattr(Color, i) for i in color])
+        self.color = &#34;&#34; if color is None else &#34;&#34;.join(getattr(Color, i)
+                                                      for i in color)
 
 
 class PokeSubType(PokeType):
     &#34;&#34;&#34;Subtype class to better organize generic attacks&#34;&#34;&#34;
 
     def __init__(self, name):
-        super().__init__(name, [], [], None)</code></pre>
+        super().__init__(name, [], [], None)
+
+
+if __name__ == &#34;__main__&#34;:
+    print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -105,7 +110,8 @@ class PokeSubType(PokeType):
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
-        self.color = &#34;&#34; if color is None else str.join(&#34;&#34;, [getattr(Color, i) for i in color])</code></pre>
+        self.color = &#34;&#34; if color is None else &#34;&#34;.join(getattr(Color, i)
+                                                      for i in color)</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">

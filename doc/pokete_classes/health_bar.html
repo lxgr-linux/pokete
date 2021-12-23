@@ -35,17 +35,17 @@ class HealthBar(se.Text):
     &#34;&#34;&#34;Healthbar class&#34;&#34;&#34;
     def __init__(self, poke):
         self.poke = poke
-        super().__init__(8*&#34;#&#34;, esccode=Color.green, state=&#34;float&#34;)
+        super().__init__(8 * &#34;#&#34;, esccode=Color.green, state=&#34;float&#34;)
 
     def make(self, oldhp):
         &#34;&#34;&#34;Creates the healthbar&#34;&#34;&#34;
-        bar_num = round(oldhp*8 / self.poke.full_hp)
+        bar_num = round(oldhp * 8 / self.poke.full_hp)
         esccode = Color.red
         for size, color in zip([6, 2], [Color.green, Color.yellow]):
             if bar_num &gt; size:
                 esccode = color
                 break
-        self.rechar(bar_num*&#34;#&#34;, esccode)
+        self.rechar(bar_num * &#34;#&#34;, esccode)
 
     def update(self, oldhp):
         &#34;&#34;&#34;Updates the healthbar in steps&#34;&#34;&#34;
@@ -57,7 +57,7 @@ class HealthBar(se.Text):
             self.poke.ico.map.show()
         self.poke.text_hp.rechar(f&#34;HP:{oldhp}&#34;)
         time.sleep(0.1)
- 
+
 
 if __name__ == &#34;__main__&#34;:
     print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
@@ -86,17 +86,17 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;Healthbar class&#34;&#34;&#34;
     def __init__(self, poke):
         self.poke = poke
-        super().__init__(8*&#34;#&#34;, esccode=Color.green, state=&#34;float&#34;)
+        super().__init__(8 * &#34;#&#34;, esccode=Color.green, state=&#34;float&#34;)
 
     def make(self, oldhp):
         &#34;&#34;&#34;Creates the healthbar&#34;&#34;&#34;
-        bar_num = round(oldhp*8 / self.poke.full_hp)
+        bar_num = round(oldhp * 8 / self.poke.full_hp)
         esccode = Color.red
         for size, color in zip([6, 2], [Color.green, Color.yellow]):
             if bar_num &gt; size:
                 esccode = color
                 break
-        self.rechar(bar_num*&#34;#&#34;, esccode)
+        self.rechar(bar_num * &#34;#&#34;, esccode)
 
     def update(self, oldhp):
         &#34;&#34;&#34;Updates the healthbar in steps&#34;&#34;&#34;
@@ -128,13 +128,13 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">def make(self, oldhp):
     &#34;&#34;&#34;Creates the healthbar&#34;&#34;&#34;
-    bar_num = round(oldhp*8 / self.poke.full_hp)
+    bar_num = round(oldhp * 8 / self.poke.full_hp)
     esccode = Color.red
     for size, color in zip([6, 2], [Color.green, Color.yellow]):
         if bar_num &gt; size:
             esccode = color
             break
-    self.rechar(bar_num*&#34;#&#34;, esccode)</code></pre>
+    self.rechar(bar_num * &#34;#&#34;, esccode)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.health_bar.HealthBar.update"><code class="name flex">

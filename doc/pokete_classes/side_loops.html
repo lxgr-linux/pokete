@@ -87,7 +87,8 @@ class ResizeScreen():
         self.warning_label = se.Text(&#34;Minimum windowsize is 70x20&#34;)
         self.size_label = se.Text(f&#34;{width}x{height}&#34;)
         self.frame = StdFrame(height - 1, width)
-        self.warning_label.add(self.map, int(width / 2) - 13, int(height / 2) - 1)
+        self.warning_label.add(self.map, int(width / 2) - 13,
+                               int(height / 2) - 1)
         self.size_label.add(self.map, 1, 0)
         self.frame.add(self.map, 0, 0)
 
@@ -99,7 +100,8 @@ class ResizeScreen():
             self.warning_label.set(1, 1)
             self.frame.remove()
             self.map.resize(height - 1, width, &#34; &#34;)
-            self.warning_label.set(int(width / 2) - 13, int((height - 1) / 2) - 1)
+            self.warning_label.set(int(width / 2) - 13,
+                                   int((height - 1) / 2) - 1)
             self.size_label.rechar(f&#34;{width}x{height}&#34;)
             self.frame.resize(height - 1, width)
             self.frame.add(self.map, 0, 0)
@@ -118,12 +120,15 @@ class LoadingScreen():
 | |__) |__ | | _____| |_ ___
 |  ___/ _ \| |/ / _ \ __/ _ \
 | |  | (_) |   &lt;  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|&#34;&#34;&#34;, state=&#34;float&#34;).add(self.map,
-                                                     int(self.map.width / 2) - 15, int(self.map.height / 2) - 4)
+|_|   \___/|_|\_\___|\__\___|&#34;&#34;&#34;, state=&#34;float&#34;)\
+            .add(self.map, int(self.map.width / 2) - 15,
+                 int(self.map.height / 2) - 4)
         se.Text(f&#34;v{ver}&#34;, state=&#34;float&#34;).add(self.map,
-                                              int(self.map.width / 2) - 15, int(self.map.height / 2) + 2)
+                                              int(self.map.width / 2) - 15,
+                                              int(self.map.height / 2) + 2)
         se.Text(codename, state=&#34;float&#34;).add(self.map,
-                                             int(self.map.width / 2) + 14 - len(codename),
+                                             int(self.map.width / 2) + 14
+                                             - len(codename),
                                              int(self.map.height / 2) + 2)
 
     def __call__(self):
@@ -239,12 +244,15 @@ https://git.io/JRRqe
 | |__) |__ | | _____| |_ ___
 |  ___/ _ \| |/ / _ \ __/ _ \
 | |  | (_) |   &lt;  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|&#34;&#34;&#34;, state=&#34;float&#34;).add(self.map,
-                                                     int(self.map.width / 2) - 15, int(self.map.height / 2) - 4)
+|_|   \___/|_|\_\___|\__\___|&#34;&#34;&#34;, state=&#34;float&#34;)\
+            .add(self.map, int(self.map.width / 2) - 15,
+                 int(self.map.height / 2) - 4)
         se.Text(f&#34;v{ver}&#34;, state=&#34;float&#34;).add(self.map,
-                                              int(self.map.width / 2) - 15, int(self.map.height / 2) + 2)
+                                              int(self.map.width / 2) - 15,
+                                              int(self.map.height / 2) + 2)
         se.Text(codename, state=&#34;float&#34;).add(self.map,
-                                             int(self.map.width / 2) + 14 - len(codename),
+                                             int(self.map.width / 2) + 14
+                                             - len(codename),
                                              int(self.map.height / 2) + 2)
 
     def __call__(self):
@@ -270,7 +278,8 @@ https://git.io/JRRqe
         self.warning_label = se.Text(&#34;Minimum windowsize is 70x20&#34;)
         self.size_label = se.Text(f&#34;{width}x{height}&#34;)
         self.frame = StdFrame(height - 1, width)
-        self.warning_label.add(self.map, int(width / 2) - 13, int(height / 2) - 1)
+        self.warning_label.add(self.map, int(width / 2) - 13,
+                               int(height / 2) - 1)
         self.size_label.add(self.map, 1, 0)
         self.frame.add(self.map, 0, 0)
 
@@ -282,7 +291,8 @@ https://git.io/JRRqe
             self.warning_label.set(1, 1)
             self.frame.remove()
             self.map.resize(height - 1, width, &#34; &#34;)
-            self.warning_label.set(int(width / 2) - 13, int((height - 1) / 2) - 1)
+            self.warning_label.set(int(width / 2) - 13,
+                                   int((height - 1) / 2) - 1)
             self.size_label.rechar(f&#34;{width}x{height}&#34;)
             self.frame.resize(height - 1, width)
             self.frame.add(self.map, 0, 0)

@@ -35,13 +35,13 @@ from pokete_general_use_fns import std_loop, liner
 class Buy:
     &#34;&#34;&#34;Menu to buy items in, is triggered in shop&#34;&#34;&#34;
 
-    def __init__(self, figure, Inv, _map):
+    def __init__(self, figure, items, _map):
         self.box = ChooseBox(_map.height - 3, 35, &#34;Shop&#34;)
         self.box2 = Box(7, 21)
         self.fig = figure
         self.map = _map
-        self.items = [Inv.poketeball, Inv.superball, Inv.healing_potion,
-                      Inv.super_potion, Inv.ap_potion]
+        self.items = [items.poketeball, items.superball, items.healing_potion,
+                      items.super_potion, items.ap_potion]
         self.box.add_c_obs([se.Text(f&#34;{obj.pretty_name} : {obj.price}$&#34;)
                             for obj in self.items])
         self.money_label = se.Text(f&#34;{figure.get_money()}$&#34;)
@@ -98,7 +98,7 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="pokete_classes.buy.Buy"><code class="flex name class">
 <span>class <span class="ident">Buy</span></span>
-<span>(</span><span>figure, Inv, _map)</span>
+<span>(</span><span>figure, items, _map)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Menu to buy items in, is triggered in shop</p></div>
@@ -109,13 +109,13 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class Buy:
     &#34;&#34;&#34;Menu to buy items in, is triggered in shop&#34;&#34;&#34;
 
-    def __init__(self, figure, Inv, _map):
+    def __init__(self, figure, items, _map):
         self.box = ChooseBox(_map.height - 3, 35, &#34;Shop&#34;)
         self.box2 = Box(7, 21)
         self.fig = figure
         self.map = _map
-        self.items = [Inv.poketeball, Inv.superball, Inv.healing_potion,
-                      Inv.super_potion, Inv.ap_potion]
+        self.items = [items.poketeball, items.superball, items.healing_potion,
+                      items.super_potion, items.ap_potion]
         self.box.add_c_obs([se.Text(f&#34;{obj.pretty_name} : {obj.price}$&#34;)
                             for obj in self.items])
         self.money_label = se.Text(f&#34;{figure.get_money()}$&#34;)

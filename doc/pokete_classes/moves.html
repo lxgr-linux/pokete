@@ -100,7 +100,7 @@ class Moves:
         shines = [se.Object(ico) for _ in range(4)]
         for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11,
                                     self.poke.ico.x - 1, self.poke.ico.x + 11],
-                           [self.poke.ico.y, self.poke.ico.y, 
+                           [self.poke.ico.y, self.poke.ico.y,
                             self.poke.ico.y + 3, self.poke.ico.y + 3]):
             i.add(self.poke.ico.map, x, y)
             self.poke.ico.map.show()
@@ -112,7 +112,8 @@ class Moves:
 
     def downgrade(self):
         &#34;&#34;&#34;Downgrade move&#34;&#34;&#34;
-        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34; + Color.reset)
+        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34;
+                                   + Color.reset)
 
 
 if __name__ == &#34;__main__&#34;:
@@ -208,7 +209,7 @@ if __name__ == &#34;__main__&#34;:
         shines = [se.Object(ico) for _ in range(4)]
         for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11,
                                     self.poke.ico.x - 1, self.poke.ico.x + 11],
-                           [self.poke.ico.y, self.poke.ico.y, 
+                           [self.poke.ico.y, self.poke.ico.y,
                             self.poke.ico.y + 3, self.poke.ico.y + 3]):
             i.add(self.poke.ico.map, x, y)
             self.poke.ico.map.show()
@@ -220,7 +221,8 @@ if __name__ == &#34;__main__&#34;:
 
     def downgrade(self):
         &#34;&#34;&#34;Downgrade move&#34;&#34;&#34;
-        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34; + Color.reset)</code></pre>
+        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34;
+                                   + Color.reset)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -280,7 +282,8 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">def downgrade(self):
     &#34;&#34;&#34;Downgrade move&#34;&#34;&#34;
-    self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34; + Color.reset)</code></pre>
+    self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34;
+                               + Color.reset)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.moves.Moves.fireball"><code class="name flex">
@@ -328,7 +331,7 @@ if __name__ == &#34;__main__&#34;:
     shines = [se.Object(ico) for _ in range(4)]
     for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11,
                                 self.poke.ico.x - 1, self.poke.ico.x + 11],
-                       [self.poke.ico.y, self.poke.ico.y, 
+                       [self.poke.ico.y, self.poke.ico.y,
                         self.poke.ico.y + 3, self.poke.ico.y + 3]):
         i.add(self.poke.ico.map, x, y)
         self.poke.ico.map.show()
