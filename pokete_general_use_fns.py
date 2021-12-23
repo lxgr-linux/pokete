@@ -56,6 +56,8 @@ Homepage: https://github.com/lxgr-linux/pokete
 All save and logfiles are located in ~{release.SAVEPATH}/
 Feel free to contribute.
 See README.md for more information.
+This software is licensed under the GPLv3, you should have gotten a
+copy of it alongside this software.
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2021""")
 
 
