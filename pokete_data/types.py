@@ -2,7 +2,7 @@ types = {
     "normal": {
         "effective": [],
         "ineffective": [],
-        "color": None,
+        "color": [],
     },
     "stone": {
         "effective": ["flying", "fire"],

@@ -175,6 +175,7 @@ class FightMap(se.Map):
                 time.sleep(0.05)
         self.invbox.remove_c_obs()
         return item
+
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
         """Fight"""
