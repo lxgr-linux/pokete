@@ -578,6 +578,7 @@ can't have more than 4 attacks!"
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
+        logging.info("[Poke] %s evolved to %s", self.name, new.name)
         del self
 
 

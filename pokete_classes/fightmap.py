@@ -15,7 +15,7 @@ class EvoMap(se.Map):
     """Map for evolutions to take place on"""
 
     def __init__(self, height, width):
-        super().__init__(height - 1, width, " ")
+        super().__init__(height, width, " ")
         self.frame_small = se.Frame(height=4, width=width, state="float")
         self.outp = OutP("", state="float")
         # adding
