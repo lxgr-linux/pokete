@@ -2015,8 +2015,8 @@ if __name__ == "__main__":
     abb_funcs = {"teleport": teleport}
 
     # objects relevant for fight()
-    fightmap = FightMap(height - 1, width)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps)
+    fightmap = FightMap(height - 1, width, logging)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps, logging)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:

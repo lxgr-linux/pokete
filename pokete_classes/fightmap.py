@@ -26,10 +26,11 @@ class EvoMap(se.Map):
 class FightMap(se.Map):
     """Wrapper for se.Map"""
 
-    def __init__(self, height, width):
+    def __init__(self, height, width, logging):
         super().__init__(height, width, " ")
         self.box = ChooseBox(6, 25, "Attacks", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
+        self.logging = logging
         # icos
         self.deadico1 = se.Text(r"""
     \ /
@@ -178,6 +179,8 @@ class FightMap(se.Map):
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
+        self.logging.info("[Fight][%s] Started between %s(p) lvl.%d and %s(e) \
+lvl.%d", info["type"], player.name, player.lvl(), enemy.name, enemy.lvl())
         """Fight"""
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
@@ -235,6 +238,8 @@ used {enemy.name} against you!')
                         self.outp.outp("You ran away!")
                         time.sleep(1)
                         self.clean_up(player, enemy)
+                        self.logging.info("[Fight][%s] Ended, ran away",
+                                          info["type"])
                         return enem
                     elif _ev.get() == "'3'":
                         _ev.clear()
@@ -254,6 +259,8 @@ used {enemy.name} against you!')
                                 == 1:
                             continue
                         elif i == 2:
+                            self.logging.info("[Fight][%s] Ended, fightitem",
+                                              info["type"])
                             return obj
                         attack = ""
                         break
@@ -334,17 +341,20 @@ used {enemy.name} against you!')
         self.show()
         self.clean_up(player, enemy)
         fightitems.mvmap.balls_label_rechar(figure.pokes)
+        self.logging.info("[Fight][%s] Ended, %s(%s) won", info["type"],
+                          winner.name, "p" if winner.player else "e")
         return winner
 
 
 class FightItems:
     """Contains all fns callable by an item in fight"""
 
-    def __init__(self, _map, movemap, figure, ob_maps):
+    def __init__(self, _map, movemap, figure, ob_maps, logging):
         self.map = _map
         self.mvmap = movemap
         self.fig = figure
         self.ob_maps = ob_maps
+        self.logging = logging
 
     def throw(self, obj, enem, info, chance, name):
         """Throws a Poketeball"""
@@ -368,12 +378,14 @@ class FightItems:
             self.map.pball.remove()
             self.map.clean_up(obj, enem)
             self.mvmap.balls_label_rechar(self.fig.pokes)
+            self.logging.info("[Fighitem][%s] Caught %s", name, enem.name)
             return 2
         self.map.outp.outp("You missed!")
         self.map.show()
         self.map.pball.remove()
         enem.ico.add(self.map, enem.ico.x, enem.ico.y)
         self.map.show()
+        self.logging.info("[Fighitem][%s] Missed", name)
         return None
 
     def potion(self, obj, enem, info, hp, name):
@@ -385,6 +397,7 @@ class FightItems:
         else:
             obj.hp += hp
         obj.hp_bar.update(obj.oldhp)
+        self.logging.info("[Fighitem][%s] Used", name)
 
     def heal_potion(self, obj, enem, info):
         """Healing potion function"""
@@ -412,6 +425,8 @@ class FightItems:
         for atc in obj.attac_obs:
             atc.ap = atc.max_ap
         obj.label_rechar()
+        self.logging.info("[Fighitem][%s] Used", name)
+
 
 
 if __name__ == "__main__":
