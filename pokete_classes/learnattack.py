@@ -14,8 +14,8 @@ from .attack import Attack
 class AttackInfo(Box):
     """Gives information about a certain attack"""
 
-    def __init__(self, attack, p_d, _map):
-        atc = Attack(attack)
+    def __init__(self, attack, p_data, _map):
+        atc = Attack(attack, p_data)
         desc_label = se.Text(liner(atc.desc, 40))
         super().__init__(4 + len(desc_label.text.split("\n")),
                          sorted(len(i) for i in
@@ -43,9 +43,9 @@ class LearnAttack:
         self.poke = poke
         self.box = ChooseBox(6, 25, name="Attacks", info="1:Details, 2:Info")
 
-    def __call__(self, _ev, p_d, attack=None):
+    def __call__(self, _ev, p_data, attack=None):
         """Starts the learning process"""
-        attacks = p_d.attacks
+        attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
                     if all(j in [i.name for i in self.poke.types]
@@ -90,7 +90,7 @@ class LearnAttack:
                                   (_ev, self.poke, False)
                             self.map.show(init=True)
                         elif _ev.get() == "'2'":
-                            with AttackInfo(attack, p_d, self.map):
+                            with AttackInfo(attack, p_data, self.map):
                                 while True:
                                     if _ev.get() in ["'q'", "Key.esc"]:
                                         _ev.clear()

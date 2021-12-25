@@ -10,8 +10,8 @@ from .color import Color
 class Attack:
     """Attack that can be used by a Pokete"""
 
-    def __init__(self, index, p_d):
-        inf = p_d.attacks[index]
+    def __init__(self, index, p_data):
+        inf = p_data.attacks[index]
         # Attributes
         self.name = inf["name"]
         self.factor = inf["factor"]
@@ -24,7 +24,7 @@ class Attack:
         self.effect = inf["effect"]
         self.is_generic = inf["is_generic"]
         self.ap = inf["ap"]
-        self.type = getattr(Types(p_d), inf["types"][0])
+        self.type = getattr(Types(p_data), inf["types"][0])
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
