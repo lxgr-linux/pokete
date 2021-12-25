@@ -15,21 +15,21 @@ class AttackInfo(Box):
     """Gives information about a certain attack"""
 
     def __init__(self, attack, p_d, _map):
-        obj = Attack(attack, p_d)
-        desc_label = se.Text(liner(obj.desc, 40))
+        atc = Attack(attack)
+        desc_label = se.Text(liner(atc.desc, 40))
         super().__init__(4 + len(desc_label.text.split("\n")),
                          sorted(len(i) for i in
                             desc_label.text.split("\n")
-                            + [obj.label_type.text,
-                               obj.label_factor.text])[-1] + 4, obj.name,
+                            + [atc.label_type.text,
+                               atc.label_factor.text])[-1] + 4, atc.name,
                          "q:close")
         self.map = _map
-        self.add_ob(obj.label_type, 2, 1)
-        self.add_ob(obj.label_factor, 2, 2)
+        self.add_ob(atc.label_type, 2, 1)
+        self.add_ob(atc.label_factor, 2, 2)
         self.add_ob(desc_label, 2, 3)
 
     def __enter__(self):
-        """Enter dunder for contextmanagement"""
+        """Enter dunder for context management"""
         self.center_add(self.map)
         self.map.show()
         return self

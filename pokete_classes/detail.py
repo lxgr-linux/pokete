@@ -101,8 +101,8 @@ class Detail(Informer):
             atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
             atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
             for label, __x, __y in zip([atc.label_name, atc.label_factor,
-                                       atc.label_type,
-                                       atc.label_ap, atc.label_desc],
+                                        atc.label_type,
+                                        atc.label_ap, atc.label_desc],
                                        [0, 0, 11, 0, 0],
                                        [0, 1, 1, 2, 3]):
                 label.add(self.map, _x + __x, _y + __y)
