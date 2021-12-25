@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pokete_classes.npcs API documentation</title>
+<meta name="description" content="Contains all classes needed to generate NPCs" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pokete_classes.npcs</code></h1>
+</header>
+<section id="section-intro">
+<p>Contains all classes needed to generate NPCs</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Contains all classes needed to generate NPCs&#34;&#34;&#34;
+
+import time
+import scrap_engine as se
+from .input import ask_bool
+
+
+class NPCTrigger(se.Object):
+    &#34;&#34;&#34;Object on the map, that triggers a npc&#34;&#34;&#34;
+
+    def __init__(self, npc):
+        super().__init__(&#34; &#34;, state=&#34;float&#34;)
+        self.npc = npc
+
+    def action(self, ob):
+        &#34;&#34;&#34;Action triggers the NPCs action&#34;&#34;&#34;
+        self.npc.action()
+
+
+class NPC(se.Box):
+    &#34;&#34;&#34;An NPC to talk to&#34;&#34;&#34;
+    mvmp = None
+    fig = None
+    _ev = None
+    invitems = None
+    used_ncps = None
+    settings = None
+    npcactions = None
+    logging = None
+    check_walk_back = None
+
+    @classmethod
+    def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
+                 settings, npcactions, logging, check_walk_back):
+        &#34;&#34;&#34;Sets all variables needed by NPCs&#34;&#34;&#34;
+        cls.mvmp = mvmp
+        cls.fig = fig
+        cls._ev = _ev
+        cls.invitems = invitems
+        cls.used_npcs = used_npcs
+        cls.settings = settings
+        cls.npcactions = npcactions
+        cls.logging = logging
+        cls.check_walk_back = check_walk_back
+
+    def __init__(self, name, texts, fn=None):
+        super().__init__(0, 0)
+        self.will = True
+        self.name = name
+        self.texts = texts
+        self.__fn = fn
+        self.main_ob = se.Object(&#34;a&#34;)
+        for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
+            self.add_ob(NPCTrigger(self), i, j)
+        self.add_ob(self.main_ob, 0, 0)
+
+    def text(self, text):
+        &#34;&#34;&#34;Movemap.text wrapper&#34;&#34;&#34;
+        self.mvmp.text(self.x, self.y, text, self._ev)
+
+    def exclamate(self):
+        &#34;&#34;&#34;Shows the exclamation on top of a NPC&#34;&#34;&#34;
+        exclamation = se.Object(&#34;!&#34;)
+        try:
+            exclamation.add(self.mvmp, self.x - self.mvmp.x,
+                            self.y - 1 - self.mvmp.y)
+        except se.CoordinateError:
+            pass
+        self.mvmp.show()
+        time.sleep(1)
+        exclamation.remove()
+
+    def action(self):
+        &#34;&#34;&#34;Interaction with the NPC triggered by NPCTrigger.action&#34;&#34;&#34;
+        if not self.will or \
+                (self.name in self.used_npcs and self.settings.save_trainers):
+            return
+        self.mvmp.full_show()
+        time.sleep(0.7)
+        self.exclamate()
+        self.text(self.texts)
+        self.fn()
+
+    def fn(self):
+        &#34;&#34;&#34;The function that&#39;s executed after the interaction&#34;&#34;&#34;
+        if self.__fn is not None:
+            getattr(self.npcactions, self.__fn)(self)
+
+    def check_walk(self, x, y):
+        &#34;&#34;&#34;Checks whether the NPC can walk to a point or not&#34;&#34;&#34;
+        vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
+        ret = not any([any(j.state == &#34;solid&#34;
+                           for j in
+                            self.map.obmap[i.ry + self.y][i.rx + self.x])
+                                for i in vec.obs][1:])
+        self.logging.info(&#34;[NPC] &#39;%s&#39; %s walk check to (%d|%d)&#34;,
+                          self.name, &#39;succeeded&#39; if ret else &#39;failed&#39;, x, y)
+        return ret
+
+    def walk_point(self, x, y):
+        &#34;&#34;&#34;Walks the NPC tp a certain point&#34;&#34;&#34;
+        o_x = self.x
+        o_y = self.y
+        vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
+        if not self.check_walk(x, y):
+            return False
+        for i in vec.obs:
+            self.set(i.rx + o_x, i.ry + o_y)
+            self.mvmp.full_show()
+            time.sleep(0.2)
+        return True
+
+    def give(self, name, item):
+        &#34;&#34;&#34;Method that gifts an item to the player&#34;&#34;&#34;
+        item = getattr(self.invitems, item)
+        self.will = False
+        self.used_npcs.append(self.name)
+        if ask_bool(self._ev, self.mvmp,
+                    f&#34;{name} gifted you a &#39;{item.pretty_name}&#39;. \
+Do you want to accept it?&#34;):
+            self.fig.give_item(item.name)
+
+
+class Trainer(NPC):
+    &#34;&#34;&#34;Trainer class to fight against&#34;&#34;&#34;
+
+    def __init__(self, poke, name, gender, texts, lose_texts,
+                 win_texts, fight):
+        super().__init__(name, texts)
+        # attributes
+        self.gender = gender
+        self.poke = poke
+        self.lose_texts = lose_texts
+        self.win_texts = win_texts
+        self.fight = fight
+
+    def add(self, _map, x, y):
+        &#34;&#34;&#34;Add wrapper&#34;&#34;&#34;
+        line = se.Line(&#34; &#34;, 0, _map.height, state=&#34;float&#34;)
+        for i, obj in enumerate(line.obs):
+            line.obs[i] = NPCTrigger(self)
+            line.obs[i].rx = obj.rx
+            line.obs[i].ry = obj.ry
+        line.add(_map, x, 0)
+        super().add(_map, x, y)
+
+    def action(self):
+        &#34;&#34;&#34;Interaction with the trainer&#34;&#34;&#34;
+        o_x = self.x
+        o_y = self.y
+        if self.fig.has_item(&#34;shut_the_fuck_up_stone&#34;):
+            return
+        if self.poke.hp &gt; 0 and (self.name not in self.used_npcs \
+                                    or not self.settings.save_trainers) \
+                and self.check_walk(self.fig.x, self.fig.y):
+            self.mvmp.full_show()
+            time.sleep(0.7)
+            self.exclamate()
+            self.walk_point(self.fig.x, self.fig.y)
+            if any(poke.hp &gt; 0 for poke in self.fig.pokes[:6]):
+                self.text(self.texts)
+                winner = self.fight([poke for poke in self.fig.pokes[:6]
+                                    if poke.hp &gt; 0][0],
+                                    self.poke,
+                                    info={&#34;type&#34;: &#34;duel&#34;, &#34;player&#34;: self})
+                self.text({True: self.lose_texts,
+                           False: self.win_texts + [&#34; &lt; Here u go 20$&#34;]}
+                                [winner == self.poke])
+                if winner != self.poke:
+                    self.fig.add_money(20)
+                    self.used_npcs.append(self.name)
+                self.logging.info(&#34;[NPC] &#39;%s&#39; %s against player&#34;, self.name,
+                                  &#39;lost&#39; if  winner != self.poke else &#39;won&#39;)
+            self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
+            self.check_walk_back()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pokete_classes.npcs.NPC"><code class="flex name class">
+<span>class <span class="ident">NPC</span></span>
+<span>(</span><span>name, texts, fn=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An NPC to talk to</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NPC(se.Box):
+    &#34;&#34;&#34;An NPC to talk to&#34;&#34;&#34;
+    mvmp = None
+    fig = None
+    _ev = None
+    invitems = None
+    used_ncps = None
+    settings = None
+    npcactions = None
+    logging = None
+    check_walk_back = None
+
+    @classmethod
+    def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
+                 settings, npcactions, logging, check_walk_back):
+        &#34;&#34;&#34;Sets all variables needed by NPCs&#34;&#34;&#34;
+        cls.mvmp = mvmp
+        cls.fig = fig
+        cls._ev = _ev
+        cls.invitems = invitems
+        cls.used_npcs = used_npcs
+        cls.settings = settings
+        cls.npcactions = npcactions
+        cls.logging = logging
+        cls.check_walk_back = check_walk_back
+
+    def __init__(self, name, texts, fn=None):
+        super().__init__(0, 0)
+        self.will = True
+        self.name = name
+        self.texts = texts
+        self.__fn = fn
+        self.main_ob = se.Object(&#34;a&#34;)
+        for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
+            self.add_ob(NPCTrigger(self), i, j)
+        self.add_ob(self.main_ob, 0, 0)
+
+    def text(self, text):
+        &#34;&#34;&#34;Movemap.text wrapper&#34;&#34;&#34;
+        self.mvmp.text(self.x, self.y, text, self._ev)
+
+    def exclamate(self):
+        &#34;&#34;&#34;Shows the exclamation on top of a NPC&#34;&#34;&#34;
+        exclamation = se.Object(&#34;!&#34;)
+        try:
+            exclamation.add(self.mvmp, self.x - self.mvmp.x,
+                            self.y - 1 - self.mvmp.y)
+        except se.CoordinateError:
+            pass
+        self.mvmp.show()
+        time.sleep(1)
+        exclamation.remove()
+
+    def action(self):
+        &#34;&#34;&#34;Interaction with the NPC triggered by NPCTrigger.action&#34;&#34;&#34;
+        if not self.will or \
+                (self.name in self.used_npcs and self.settings.save_trainers):
+            return
+        self.mvmp.full_show()
+        time.sleep(0.7)
+        self.exclamate()
+        self.text(self.texts)
+        self.fn()
+
+    def fn(self):
+        &#34;&#34;&#34;The function that&#39;s executed after the interaction&#34;&#34;&#34;
+        if self.__fn is not None:
+            getattr(self.npcactions, self.__fn)(self)
+
+    def check_walk(self, x, y):
+        &#34;&#34;&#34;Checks whether the NPC can walk to a point or not&#34;&#34;&#34;
+        vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
+        ret = not any([any(j.state == &#34;solid&#34;
+                           for j in
+                            self.map.obmap[i.ry + self.y][i.rx + self.x])
+                                for i in vec.obs][1:])
+        self.logging.info(&#34;[NPC] &#39;%s&#39; %s walk check to (%d|%d)&#34;,
+                          self.name, &#39;succeeded&#39; if ret else &#39;failed&#39;, x, y)
+        return ret
+
+    def walk_point(self, x, y):
+        &#34;&#34;&#34;Walks the NPC tp a certain point&#34;&#34;&#34;
+        o_x = self.x
+        o_y = self.y
+        vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
+        if not self.check_walk(x, y):
+            return False
+        for i in vec.obs:
+            self.set(i.rx + o_x, i.ry + o_y)
+            self.mvmp.full_show()
+            time.sleep(0.2)
+        return True
+
+    def give(self, name, item):
+        &#34;&#34;&#34;Method that gifts an item to the player&#34;&#34;&#34;
+        item = getattr(self.invitems, item)
+        self.will = False
+        self.used_npcs.append(self.name)
+        if ask_bool(self._ev, self.mvmp,
+                    f&#34;{name} gifted you a &#39;{item.pretty_name}&#39;. \
+Do you want to accept it?&#34;):
+            self.fig.give_item(item.name)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>scrap_engine.Box</li>
+<li>scrap_engine.ObjectGroup</li>
+<li>scrap_engine.AddableObject</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.npcs.Trainer" href="#pokete_classes.npcs.Trainer">Trainer</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pokete_classes.npcs.NPC.check_walk_back"><code class="name">var <span class="ident">check_walk_back</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.npcs.NPC.fig"><code class="name">var <span class="ident">fig</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.npcs.NPC.invitems"><code class="name">var <span class="ident">invitems</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.npcs.NPC.logging"><code class="name">var <span class="ident">logging</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.npcs.NPC.mvmp"><code class="name">var <span class="ident">mvmp</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.npcs.NPC.npcactions"><code class="name">var <span class="ident">npcactions</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.npcs.NPC.settings"><code class="name">var <span class="ident">settings</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.npcs.NPC.used_ncps"><code class="name">var <span class="ident">used_ncps</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="pokete_classes.npcs.NPC.set_vars"><code class="name flex">
+<span>def <span class="ident">set_vars</span></span>(<span>mvmp, fig, _ev, invitems, used_npcs, settings, npcactions, logging, check_walk_back)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets all variables needed by NPCs</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
+             settings, npcactions, logging, check_walk_back):
+    &#34;&#34;&#34;Sets all variables needed by NPCs&#34;&#34;&#34;
+    cls.mvmp = mvmp
+    cls.fig = fig
+    cls._ev = _ev
+    cls.invitems = invitems
+    cls.used_npcs = used_npcs
+    cls.settings = settings
+    cls.npcactions = npcactions
+    cls.logging = logging
+    cls.check_walk_back = check_walk_back</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.npcs.NPC.action"><code class="name flex">
+<span>def <span class="ident">action</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with the NPC triggered by NPCTrigger.action</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def action(self):
+    &#34;&#34;&#34;Interaction with the NPC triggered by NPCTrigger.action&#34;&#34;&#34;
+    if not self.will or \
+            (self.name in self.used_npcs and self.settings.save_trainers):
+        return
+    self.mvmp.full_show()
+    time.sleep(0.7)
+    self.exclamate()
+    self.text(self.texts)
+    self.fn()</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.NPC.check_walk"><code class="name flex">
+<span>def <span class="ident">check_walk</span></span>(<span>self, x, y)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Checks whether the NPC can walk to a point or not</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def check_walk(self, x, y):
+    &#34;&#34;&#34;Checks whether the NPC can walk to a point or not&#34;&#34;&#34;
+    vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
+    ret = not any([any(j.state == &#34;solid&#34;
+                       for j in
+                        self.map.obmap[i.ry + self.y][i.rx + self.x])
+                            for i in vec.obs][1:])
+    self.logging.info(&#34;[NPC] &#39;%s&#39; %s walk check to (%d|%d)&#34;,
+                      self.name, &#39;succeeded&#39; if ret else &#39;failed&#39;, x, y)
+    return ret</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.NPC.exclamate"><code class="name flex">
+<span>def <span class="ident">exclamate</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows the exclamation on top of a NPC</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exclamate(self):
+    &#34;&#34;&#34;Shows the exclamation on top of a NPC&#34;&#34;&#34;
+    exclamation = se.Object(&#34;!&#34;)
+    try:
+        exclamation.add(self.mvmp, self.x - self.mvmp.x,
+                        self.y - 1 - self.mvmp.y)
+    except se.CoordinateError:
+        pass
+    self.mvmp.show()
+    time.sleep(1)
+    exclamation.remove()</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.NPC.fn"><code class="name flex">
+<span>def <span class="ident">fn</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The function that's executed after the interaction</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fn(self):
+    &#34;&#34;&#34;The function that&#39;s executed after the interaction&#34;&#34;&#34;
+    if self.__fn is not None:
+        getattr(self.npcactions, self.__fn)(self)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.NPC.give"><code class="name flex">
+<span>def <span class="ident">give</span></span>(<span>self, name, item)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method that gifts an item to the player</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    def give(self, name, item):
+        &#34;&#34;&#34;Method that gifts an item to the player&#34;&#34;&#34;
+        item = getattr(self.invitems, item)
+        self.will = False
+        self.used_npcs.append(self.name)
+        if ask_bool(self._ev, self.mvmp,
+                    f&#34;{name} gifted you a &#39;{item.pretty_name}&#39;. \
+Do you want to accept it?&#34;):
+            self.fig.give_item(item.name)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.NPC.text"><code class="name flex">
+<span>def <span class="ident">text</span></span>(<span>self, text)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Movemap.text wrapper</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def text(self, text):
+    &#34;&#34;&#34;Movemap.text wrapper&#34;&#34;&#34;
+    self.mvmp.text(self.x, self.y, text, self._ev)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.NPC.walk_point"><code class="name flex">
+<span>def <span class="ident">walk_point</span></span>(<span>self, x, y)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Walks the NPC tp a certain point</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def walk_point(self, x, y):
+    &#34;&#34;&#34;Walks the NPC tp a certain point&#34;&#34;&#34;
+    o_x = self.x
+    o_y = self.y
+    vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
+    if not self.check_walk(x, y):
+        return False
+    for i in vec.obs:
+        self.set(i.rx + o_x, i.ry + o_y)
+        self.mvmp.full_show()
+        time.sleep(0.2)
+    return True</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pokete_classes.npcs.NPCTrigger"><code class="flex name class">
+<span>class <span class="ident">NPCTrigger</span></span>
+<span>(</span><span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Object on the map, that triggers a npc</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NPCTrigger(se.Object):
+    &#34;&#34;&#34;Object on the map, that triggers a npc&#34;&#34;&#34;
+
+    def __init__(self, npc):
+        super().__init__(&#34; &#34;, state=&#34;float&#34;)
+        self.npc = npc
+
+    def action(self, ob):
+        &#34;&#34;&#34;Action triggers the NPCs action&#34;&#34;&#34;
+        self.npc.action()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>scrap_engine.Object</li>
+<li>scrap_engine.AddableObject</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.npcs.NPCTrigger.action"><code class="name flex">
+<span>def <span class="ident">action</span></span>(<span>self, ob)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Action triggers the NPCs action</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def action(self, ob):
+    &#34;&#34;&#34;Action triggers the NPCs action&#34;&#34;&#34;
+    self.npc.action()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pokete_classes.npcs.Trainer"><code class="flex name class">
+<span>class <span class="ident">Trainer</span></span>
+<span>(</span><span>poke, name, gender, texts, lose_texts, win_texts, fight)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Trainer class to fight against</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Trainer(NPC):
+    &#34;&#34;&#34;Trainer class to fight against&#34;&#34;&#34;
+
+    def __init__(self, poke, name, gender, texts, lose_texts,
+                 win_texts, fight):
+        super().__init__(name, texts)
+        # attributes
+        self.gender = gender
+        self.poke = poke
+        self.lose_texts = lose_texts
+        self.win_texts = win_texts
+        self.fight = fight
+
+    def add(self, _map, x, y):
+        &#34;&#34;&#34;Add wrapper&#34;&#34;&#34;
+        line = se.Line(&#34; &#34;, 0, _map.height, state=&#34;float&#34;)
+        for i, obj in enumerate(line.obs):
+            line.obs[i] = NPCTrigger(self)
+            line.obs[i].rx = obj.rx
+            line.obs[i].ry = obj.ry
+        line.add(_map, x, 0)
+        super().add(_map, x, y)
+
+    def action(self):
+        &#34;&#34;&#34;Interaction with the trainer&#34;&#34;&#34;
+        o_x = self.x
+        o_y = self.y
+        if self.fig.has_item(&#34;shut_the_fuck_up_stone&#34;):
+            return
+        if self.poke.hp &gt; 0 and (self.name not in self.used_npcs \
+                                    or not self.settings.save_trainers) \
+                and self.check_walk(self.fig.x, self.fig.y):
+            self.mvmp.full_show()
+            time.sleep(0.7)
+            self.exclamate()
+            self.walk_point(self.fig.x, self.fig.y)
+            if any(poke.hp &gt; 0 for poke in self.fig.pokes[:6]):
+                self.text(self.texts)
+                winner = self.fight([poke for poke in self.fig.pokes[:6]
+                                    if poke.hp &gt; 0][0],
+                                    self.poke,
+                                    info={&#34;type&#34;: &#34;duel&#34;, &#34;player&#34;: self})
+                self.text({True: self.lose_texts,
+                           False: self.win_texts + [&#34; &lt; Here u go 20$&#34;]}
+                                [winner == self.poke])
+                if winner != self.poke:
+                    self.fig.add_money(20)
+                    self.used_npcs.append(self.name)
+                self.logging.info(&#34;[NPC] &#39;%s&#39; %s against player&#34;, self.name,
+                                  &#39;lost&#39; if  winner != self.poke else &#39;won&#39;)
+            self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
+            self.check_walk_back()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.npcs.NPC" href="#pokete_classes.npcs.NPC">NPC</a></li>
+<li>scrap_engine.Box</li>
+<li>scrap_engine.ObjectGroup</li>
+<li>scrap_engine.AddableObject</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.npcs.Trainer.action"><code class="name flex">
+<span>def <span class="ident">action</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with the trainer</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def action(self):
+    &#34;&#34;&#34;Interaction with the trainer&#34;&#34;&#34;
+    o_x = self.x
+    o_y = self.y
+    if self.fig.has_item(&#34;shut_the_fuck_up_stone&#34;):
+        return
+    if self.poke.hp &gt; 0 and (self.name not in self.used_npcs \
+                                or not self.settings.save_trainers) \
+            and self.check_walk(self.fig.x, self.fig.y):
+        self.mvmp.full_show()
+        time.sleep(0.7)
+        self.exclamate()
+        self.walk_point(self.fig.x, self.fig.y)
+        if any(poke.hp &gt; 0 for poke in self.fig.pokes[:6]):
+            self.text(self.texts)
+            winner = self.fight([poke for poke in self.fig.pokes[:6]
+                                if poke.hp &gt; 0][0],
+                                self.poke,
+                                info={&#34;type&#34;: &#34;duel&#34;, &#34;player&#34;: self})
+            self.text({True: self.lose_texts,
+                       False: self.win_texts + [&#34; &lt; Here u go 20$&#34;]}
+                            [winner == self.poke])
+            if winner != self.poke:
+                self.fig.add_money(20)
+                self.used_npcs.append(self.name)
+            self.logging.info(&#34;[NPC] &#39;%s&#39; %s against player&#34;, self.name,
+                              &#39;lost&#39; if  winner != self.poke else &#39;won&#39;)
+        self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
+        self.check_walk_back()</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.Trainer.add"><code class="name flex">
+<span>def <span class="ident">add</span></span>(<span>self, _map, x, y)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add wrapper</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add(self, _map, x, y):
+    &#34;&#34;&#34;Add wrapper&#34;&#34;&#34;
+    line = se.Line(&#34; &#34;, 0, _map.height, state=&#34;float&#34;)
+    for i, obj in enumerate(line.obs):
+        line.obs[i] = NPCTrigger(self)
+        line.obs[i].rx = obj.rx
+        line.obs[i].ry = obj.ry
+    line.add(_map, x, 0)
+    super().add(_map, x, y)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pokete_classes.npcs.NPC" href="#pokete_classes.npcs.NPC">NPC</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pokete_classes.npcs.NPC.check_walk" href="#pokete_classes.npcs.NPC.check_walk">check_walk</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.exclamate" href="#pokete_classes.npcs.NPC.exclamate">exclamate</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.fn" href="#pokete_classes.npcs.NPC.fn">fn</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.give" href="#pokete_classes.npcs.NPC.give">give</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.set_vars" href="#pokete_classes.npcs.NPC.set_vars">set_vars</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.text" href="#pokete_classes.npcs.NPC.text">text</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.walk_point" href="#pokete_classes.npcs.NPC.walk_point">walk_point</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pokete_classes" href="index.html">pokete_classes</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pokete_classes.npcs.NPC" href="#pokete_classes.npcs.NPC">NPC</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pokete_classes.npcs.NPC.action" href="#pokete_classes.npcs.NPC.action">action</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.check_walk" href="#pokete_classes.npcs.NPC.check_walk">check_walk</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.check_walk_back" href="#pokete_classes.npcs.NPC.check_walk_back">check_walk_back</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.exclamate" href="#pokete_classes.npcs.NPC.exclamate">exclamate</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.fig" href="#pokete_classes.npcs.NPC.fig">fig</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.fn" href="#pokete_classes.npcs.NPC.fn">fn</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.give" href="#pokete_classes.npcs.NPC.give">give</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.invitems" href="#pokete_classes.npcs.NPC.invitems">invitems</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.logging" href="#pokete_classes.npcs.NPC.logging">logging</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.mvmp" href="#pokete_classes.npcs.NPC.mvmp">mvmp</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.npcactions" href="#pokete_classes.npcs.NPC.npcactions">npcactions</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.set_vars" href="#pokete_classes.npcs.NPC.set_vars">set_vars</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.settings" href="#pokete_classes.npcs.NPC.settings">settings</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.text" href="#pokete_classes.npcs.NPC.text">text</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.used_ncps" href="#pokete_classes.npcs.NPC.used_ncps">used_ncps</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.walk_point" href="#pokete_classes.npcs.NPC.walk_point">walk_point</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pokete_classes.npcs.NPCTrigger" href="#pokete_classes.npcs.NPCTrigger">NPCTrigger</a></code></h4>
+<ul class="">
+<li><code><a title="pokete_classes.npcs.NPCTrigger.action" href="#pokete_classes.npcs.NPCTrigger.action">action</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pokete_classes.npcs.Trainer" href="#pokete_classes.npcs.Trainer">Trainer</a></code></h4>
+<ul class="">
+<li><code><a title="pokete_classes.npcs.Trainer.action" href="#pokete_classes.npcs.Trainer.action">action</a></code></li>
+<li><code><a title="pokete_classes.npcs.Trainer.add" href="#pokete_classes.npcs.Trainer.add">add</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
