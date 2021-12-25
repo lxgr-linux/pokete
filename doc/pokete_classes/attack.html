@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pokete_data.types API documentation</title>
-<meta name="description" content="" />
+<title>pokete_classes.attack API documentation</title>
+<meta name="description" content="Contains the Attack class" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,73 +19,57 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pokete_data.types</code></h1>
+<h1 class="title">Module <code>pokete_classes.attack</code></h1>
 </header>
 <section id="section-intro">
+<p>Contains the Attack class</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">types = {
-    &#34;normal&#34;: {
-        &#34;effective&#34;: [],
-        &#34;ineffective&#34;: [],
-        &#34;color&#34;: [],
-    },
-    &#34;stone&#34;: {
-        &#34;effective&#34;: [&#34;flying&#34;, &#34;fire&#34;],
-        &#34;ineffective&#34;: [&#34;plant&#34;],
-        &#34;color&#34;: [&#34;grey&#34;]
-    },
-    &#34;plant&#34;: {
-        &#34;effective&#34;: [&#34;stone&#34;, &#34;ground&#34;, &#34;water&#34;],
-        &#34;ineffective&#34;: [&#34;fire&#34;, &#34;ice&#34;],
-        &#34;color&#34;: [&#34;green&#34;]
-    },
-    &#34;water&#34;: {
-        &#34;effective&#34;: [&#34;stone&#34;, &#34;flying&#34;, &#34;fire&#34;],
-        &#34;ineffective&#34;: [&#34;plant&#34;, &#34;ice&#34;],
-        &#34;color&#34;: [&#34;lightblue&#34;]
-    },
-    &#34;fire&#34;: {
-        &#34;effective&#34;: [&#34;flying&#34;, &#34;plant&#34;, &#34;undead&#34;, &#34;ice&#34;],
-        &#34;ineffective&#34;: [&#34;stone&#34;, &#34;water&#34;],
-        &#34;color&#34;: [&#34;thicc&#34;, &#34;red&#34;]
-    },
-    &#34;ground&#34;: {
-        &#34;effective&#34;: [&#34;normal&#34;],
-        &#34;ineffective&#34;: [&#34;flying&#34;, &#34;ice&#34;],
-        &#34;color&#34;: [&#34;grey&#34;]
-    },
-    &#34;electro&#34;: {
-        &#34;effective&#34;: [&#34;stone&#34;, &#34;flying&#34;],
-        &#34;ineffective&#34;: [&#34;ground&#34;],
-        &#34;color&#34;: [&#34;thicc&#34;, &#34;yellow&#34;]
-    },
-    &#34;flying&#34;: {
-        &#34;effective&#34;: [&#34;plant&#34;],
-        &#34;ineffective&#34;: [&#34;stone&#34;],
-        &#34;color&#34;: [&#34;thicc&#34;]
-    },
-    &#34;undead&#34;: {
-        &#34;effective&#34;: [&#34;normal&#34;, &#34;ground&#34;, &#34;plant&#34;, &#34;water&#34;, &#34;poison&#34;],
-        &#34;ineffective&#34;: [&#34;fire&#34;],
-        &#34;color&#34;: [&#34;purple&#34;]
-    },
-    &#34;ice&#34;: {
-        &#34;effective&#34;: [&#34;water&#34;, &#34;plant&#34;, &#34;ground&#34;],
-        &#34;ineffective&#34;: [&#34;fire&#34;],
-        &#34;color&#34;: [&#34;cyan&#34;]
-    },
-    &#34;poison&#34;: {
-        &#34;effective&#34;: [&#34;normal&#34;],
-        &#34;ineffective&#34;: [&#34;undead&#34;],
-        &#34;color&#34;: [&#34;thicc&#34;, &#34;green&#34;]
-    },
-}
+<pre><code class="python">&#34;&#34;&#34;Contains the Attack class&#34;&#34;&#34;
+
+import time
+import scrap_engine as se
+from .effects import effects
+from .types import Types
+from .color import Color
 
 
-sub_types = [&#34;bird&#34;, &#34;snake&#34;]
+class Attack:
+    &#34;&#34;&#34;Attack that can be used by a Pokete&#34;&#34;&#34;
+
+    def __init__(self, index, p_data):
+        inf = p_data.attacks[index]
+        # Attributes
+        self.name = inf[&#34;name&#34;]
+        self.factor = inf[&#34;factor&#34;]
+        self.action = inf[&#34;action&#34;]
+        self.world_action = inf[&#34;world_action&#34;]
+        self.move = inf[&#34;move&#34;]
+        self.miss_chance = inf[&#34;miss_chance&#34;]
+        self.min_lvl = inf[&#34;min_lvl&#34;]
+        self.desc = inf[&#34;desc&#34;]
+        self.effect = inf[&#34;effect&#34;]
+        self.is_generic = inf[&#34;is_generic&#34;]
+        self.ap = inf[&#34;ap&#34;]
+        self.type = getattr(Types(p_data), inf[&#34;types&#34;][0])
+        self.max_ap = self.ap
+        # labels
+        self.label_name = se.Text(self.name, esccode=Color.underlined,
+                                  state=&#34;float&#34;)
+        self.label_ap = se.Text(f&#34;AP:{self.ap}/{self.max_ap}&#34;, state=&#34;float&#34;)
+        self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;, state=&#34;float&#34;)
+        self.label_desc = se.Text(self.desc[:10], state=&#34;float&#34;)
+        self.label_type = se.Text(&#34;Type:&#34;, state=&#34;float&#34;) \
+                        + se.Text(self.type.name.capitalize(),
+                                  esccode=self.type.color, state=&#34;float&#34;)
+
+    def give_effect(self, enem):
+        &#34;&#34;&#34;Gives the associated effect to a Pokete&#34;&#34;&#34;
+        if self.effect is not None:
+            time.sleep(1.5)
+            getattr(effects, self.effect)().add(enem)
 
 
 if __name__ == &#34;__main__&#34;:
@@ -99,6 +83,74 @@ if __name__ == &#34;__main__&#34;:
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pokete_classes.attack.Attack"><code class="flex name class">
+<span>class <span class="ident">Attack</span></span>
+<span>(</span><span>index, p_data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Attack that can be used by a Pokete</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Attack:
+    &#34;&#34;&#34;Attack that can be used by a Pokete&#34;&#34;&#34;
+
+    def __init__(self, index, p_data):
+        inf = p_data.attacks[index]
+        # Attributes
+        self.name = inf[&#34;name&#34;]
+        self.factor = inf[&#34;factor&#34;]
+        self.action = inf[&#34;action&#34;]
+        self.world_action = inf[&#34;world_action&#34;]
+        self.move = inf[&#34;move&#34;]
+        self.miss_chance = inf[&#34;miss_chance&#34;]
+        self.min_lvl = inf[&#34;min_lvl&#34;]
+        self.desc = inf[&#34;desc&#34;]
+        self.effect = inf[&#34;effect&#34;]
+        self.is_generic = inf[&#34;is_generic&#34;]
+        self.ap = inf[&#34;ap&#34;]
+        self.type = getattr(Types(p_data), inf[&#34;types&#34;][0])
+        self.max_ap = self.ap
+        # labels
+        self.label_name = se.Text(self.name, esccode=Color.underlined,
+                                  state=&#34;float&#34;)
+        self.label_ap = se.Text(f&#34;AP:{self.ap}/{self.max_ap}&#34;, state=&#34;float&#34;)
+        self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;, state=&#34;float&#34;)
+        self.label_desc = se.Text(self.desc[:10], state=&#34;float&#34;)
+        self.label_type = se.Text(&#34;Type:&#34;, state=&#34;float&#34;) \
+                        + se.Text(self.type.name.capitalize(),
+                                  esccode=self.type.color, state=&#34;float&#34;)
+
+    def give_effect(self, enem):
+        &#34;&#34;&#34;Gives the associated effect to a Pokete&#34;&#34;&#34;
+        if self.effect is not None:
+            time.sleep(1.5)
+            getattr(effects, self.effect)().add(enem)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.attack.Attack.give_effect"><code class="name flex">
+<span>def <span class="ident">give_effect</span></span>(<span>self, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gives the associated effect to a Pokete</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def give_effect(self, enem):
+    &#34;&#34;&#34;Gives the associated effect to a Pokete&#34;&#34;&#34;
+    if self.effect is not None:
+        time.sleep(1.5)
+        getattr(effects, self.effect)().add(enem)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -109,7 +161,17 @@ if __name__ == &#34;__main__&#34;:
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="pokete_data" href="index.html">pokete_data</a></code></li>
+<li><code><a title="pokete_classes" href="index.html">pokete_classes</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pokete_classes.attack.Attack" href="#pokete_classes.attack.Attack">Attack</a></code></h4>
+<ul class="">
+<li><code><a title="pokete_classes.attack.Attack.give_effect" href="#pokete_classes.attack.Attack.give_effect">give_effect</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
