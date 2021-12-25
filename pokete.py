@@ -38,6 +38,7 @@ from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_classes.detail import Informer, Detail
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
+from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
@@ -460,7 +461,7 @@ can't have more than 4 attacks!"
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, self.lvl() + self.inf[name]
                     + (2 if self.shiny else 0))
-        i = [Attack(atc)
+        i = [Attack(atc, p_data)
              for atc in self.attacks
              if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         for old_ob, obj in zip(self.attac_obs, i):
@@ -690,43 +691,6 @@ class Figure(se.Object):
 in the inventory"
         self.inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)
-
-
-class Attack:
-    """Attack that can be used by a Pokete"""
-
-    def __init__(self, index):
-        inf = p_data.attacks[index]
-        # Attributes
-        self.name = inf["name"]
-        self.factor = inf["factor"]
-        self.action = inf["action"]
-        self.world_action = inf["world_action"]
-        self.move = inf["move"]
-        self.miss_chance = inf["miss_chance"]
-        self.min_lvl = inf["min_lvl"]
-        self.desc = inf["desc"]
-        self.effect = inf["effect"]
-        self.is_generic = inf["is_generic"]
-        self.ap = inf["ap"]
-        self.type = getattr(types, inf["types"][0])
-        self.max_ap = self.ap
-        # labels
-        self.label_name = se.Text(self.name, esccode=Color.underlined,
-                                  state="float")
-        self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}", state="float")
-        self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
-        self.label_desc = se.Text(self.desc[:int(width / 2 - 1)],
-                                  state="float")
-        self.label_type_1 = se.Text("Type:", state="float")
-        self.label_type_2 = se.Text(self.type.name.capitalize(),
-                                    esccode=self.type.color, state="float")
-
-    def give_effect(self, enem):
-        """Gives the associated effect to a Pokete"""
-        if self.effect is not None:
-            time.sleep(1.5)
-            getattr(effects, self.effect)().add(enem)
 
 
 class Setting(se.Box):
@@ -2009,7 +1973,7 @@ if __name__ == "__main__":
     # validating data
     p_data.validate()
     # types
-    types = Types(p_data.types, p_data.sub_types)
+    types = Types(p_data)
 
 
     # Definiton of the playmaps
