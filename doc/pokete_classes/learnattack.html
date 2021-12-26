@@ -32,36 +32,10 @@
 import time
 import random
 import scrap_engine as se
-from pokete_general_use_fns import std_loop, liner
+from pokete_general_use_fns import std_loop
 from .input import ask_bool, ask_ok
-from .ui_elements import ChooseBox, Box
+from .ui_elements import ChooseBox
 from .detail import Detail
-from .color import Color
-from .attack import Attack
-
-
-class AttackInfo(Box):
-    &#34;&#34;&#34;Gives information about a certain attack&#34;&#34;&#34;
-
-    def __init__(self, attack, p_data, _map):
-        atc = Attack(attack, p_data)
-        desc_label = se.Text(liner(atc.desc, 40))
-        super().__init__(4 + len(desc_label.text.split(&#34;\n&#34;)),
-                         sorted(len(i) for i in
-                            desc_label.text.split(&#34;\n&#34;)
-                            + [atc.label_type.text,
-                               atc.label_factor.text])[-1] + 4, atc.name,
-                         &#34;q:close&#34;)
-        self.map = _map
-        self.add_ob(atc.label_type, 2, 1)
-        self.add_ob(atc.label_factor, 2, 2)
-        self.add_ob(desc_label, 2, 3)
-
-    def __enter__(self):
-        &#34;&#34;&#34;Enter dunder for context management&#34;&#34;&#34;
-        self.center_add(self.map)
-        self.map.show()
-        return self
 
 
 class LearnAttack:
@@ -70,11 +44,11 @@ class LearnAttack:
     def __init__(self, poke, _map):
         self.map = _map
         self.poke = poke
-        self.box = ChooseBox(6, 25, name=&#34;Attacks&#34;, info=&#34;1:Details, 2:Info&#34;)
+        self.box = ChooseBox(6, 25, name=&#34;Attacks&#34;, info=&#34;1: Details&#34;)
 
-    def __call__(self, _ev, p_data, attack=None):
+    def __call__(self, _ev, p_d, attack=None):
         &#34;&#34;&#34;Starts the learning process&#34;&#34;&#34;
-        attacks = p_data.attacks
+        attacks = p_d.attacks
         if attack is None:
             pool = [i for i in attacks
                     if all(j in [i.name for i in self.poke.types]
@@ -118,17 +92,9 @@ class LearnAttack:
                             Detail(self.map.height, self.map.width)\
                                   (_ev, self.poke, False)
                             self.map.show(init=True)
-                        elif _ev.get() == &#34;&#39;2&#39;&#34;:
-                            with AttackInfo(attack, p_data, self.map):
-                                while True:
-                                    if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-                                        _ev.clear()
-                                        break
-                                    std_loop(_ev)
-                                    time.sleep(0.05)
                         elif _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                             _ev.clear()
-                            return False
+                            break
                         std_loop(_ev)
                         time.sleep(0.05)
                 self.box.remove_c_obs()
@@ -149,57 +115,6 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pokete_classes.learnattack.AttackInfo"><code class="flex name class">
-<span>class <span class="ident">AttackInfo</span></span>
-<span>(</span><span>attack, p_data, _map)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gives information about a certain attack</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class AttackInfo(Box):
-    &#34;&#34;&#34;Gives information about a certain attack&#34;&#34;&#34;
-
-    def __init__(self, attack, p_data, _map):
-        atc = Attack(attack, p_data)
-        desc_label = se.Text(liner(atc.desc, 40))
-        super().__init__(4 + len(desc_label.text.split(&#34;\n&#34;)),
-                         sorted(len(i) for i in
-                            desc_label.text.split(&#34;\n&#34;)
-                            + [atc.label_type.text,
-                               atc.label_factor.text])[-1] + 4, atc.name,
-                         &#34;q:close&#34;)
-        self.map = _map
-        self.add_ob(atc.label_type, 2, 1)
-        self.add_ob(atc.label_factor, 2, 2)
-        self.add_ob(desc_label, 2, 3)
-
-    def __enter__(self):
-        &#34;&#34;&#34;Enter dunder for context management&#34;&#34;&#34;
-        self.center_add(self.map)
-        self.map.show()
-        return self</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pokete_classes.ui_elements.Box" href="ui_elements.html#pokete_classes.ui_elements.Box">Box</a></li>
-<li>scrap_engine.Box</li>
-<li>scrap_engine.ObjectGroup</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete_classes.ui_elements.Box" href="ui_elements.html#pokete_classes.ui_elements.Box">Box</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete_classes.ui_elements.Box.add" href="ui_elements.html#pokete_classes.ui_elements.Box.add">add</a></code></li>
-<li><code><a title="pokete_classes.ui_elements.Box.center_add" href="ui_elements.html#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
-<li><code><a title="pokete_classes.ui_elements.Box.resize" href="ui_elements.html#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
 <dt id="pokete_classes.learnattack.LearnAttack"><code class="flex name class">
 <span>class <span class="ident">LearnAttack</span></span>
 <span>(</span><span>poke, _map)</span>
@@ -216,11 +131,11 @@ if __name__ == &#34;__main__&#34;:
     def __init__(self, poke, _map):
         self.map = _map
         self.poke = poke
-        self.box = ChooseBox(6, 25, name=&#34;Attacks&#34;, info=&#34;1:Details, 2:Info&#34;)
+        self.box = ChooseBox(6, 25, name=&#34;Attacks&#34;, info=&#34;1: Details&#34;)
 
-    def __call__(self, _ev, p_data, attack=None):
+    def __call__(self, _ev, p_d, attack=None):
         &#34;&#34;&#34;Starts the learning process&#34;&#34;&#34;
-        attacks = p_data.attacks
+        attacks = p_d.attacks
         if attack is None:
             pool = [i for i in attacks
                     if all(j in [i.name for i in self.poke.types]
@@ -264,17 +179,9 @@ if __name__ == &#34;__main__&#34;:
                             Detail(self.map.height, self.map.width)\
                                   (_ev, self.poke, False)
                             self.map.show(init=True)
-                        elif _ev.get() == &#34;&#39;2&#39;&#34;:
-                            with AttackInfo(attack, p_data, self.map):
-                                while True:
-                                    if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-                                        _ev.clear()
-                                        break
-                                    std_loop(_ev)
-                                    time.sleep(0.05)
                         elif _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                             _ev.clear()
-                            return False
+                            break
                         std_loop(_ev)
                         time.sleep(0.05)
                 self.box.remove_c_obs()
@@ -299,9 +206,6 @@ if __name__ == &#34;__main__&#34;:
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li>
-<h4><code><a title="pokete_classes.learnattack.AttackInfo" href="#pokete_classes.learnattack.AttackInfo">AttackInfo</a></code></h4>
-</li>
 <li>
 <h4><code><a title="pokete_classes.learnattack.LearnAttack" href="#pokete_classes.learnattack.LearnAttack">LearnAttack</a></code></h4>
 </li>
