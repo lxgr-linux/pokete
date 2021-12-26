@@ -101,10 +101,10 @@ class Detail(Informer):
             atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
             atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
             for label, __x, __y in zip([atc.label_name, atc.label_factor,
-                                       atc.label_type_1, atc.label_type_2,
-                                       atc.label_ap, atc.label_desc],
-                                       [0, 0, 11, 16, 0, 0],
-                                       [0, 1, 1, 1, 2, 3]):
+                                        atc.label_type,
+                                        atc.label_ap, atc.label_desc],
+                                       [0, 0, 11, 0, 0],
+                                       [0, 1, 1, 2, 3]):
                 label.add(self.map, _x + __x, _y + __y)
         self.map.show(init=True)
         while True:
@@ -115,8 +115,7 @@ class Detail(Informer):
                     obj.remove()
                 for atc in poke.attac_obs:
                     for obj in [atc.label_name, atc.label_factor, atc.label_ap,
-                                atc.label_desc, atc.label_type_1,
-                                atc.label_type_2]:
+                                atc.label_desc, atc.label_type]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
@@ -163,4 +162,3 @@ class Detail(Informer):
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
-    
