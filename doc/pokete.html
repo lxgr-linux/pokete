@@ -581,6 +581,8 @@ can&#39;t have more than 4 attacks!&#34;
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
+            logging.info(&#34;[Poke][%s] Used %s: %s&#34;, self.name, attac.name,
+                         str({&#34;eff&#34;: effectivity, &#34;n_hp&#34;: n_hp}))
             self.label_rechar()
             fightmap.show()
 
@@ -616,6 +618,7 @@ can&#39;t have more than 4 attacks!&#34;
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
+        logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
         del self
 
 
@@ -1978,6 +1981,7 @@ if __name__ == &#34;__main__&#34;:
                         format=&#39;[%(asctime)s][%(levelname)s]: %(message)s&#39;,
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info(&#34;=== Startup Pokete %s v%s ===&#34;, CODENAME, VERSION)
+    effects.set_vars(logging)
 
     # reading save file
     session_info = read_save()
@@ -2051,8 +2055,8 @@ if __name__ == &#34;__main__&#34;:
     abb_funcs = {&#34;teleport&#34;: teleport}
 
     # objects relevant for fight()
-    fightmap = FightMap(height - 1, width)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps)
+    fightmap = FightMap(height - 1, width, logging)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps, logging)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
@@ -5108,6 +5112,8 @@ can&#39;t have more than 4 attacks!&#34;
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
+            logging.info(&#34;[Poke][%s] Used %s: %s&#34;, self.name, attac.name,
+                         str({&#34;eff&#34;: effectivity, &#34;n_hp&#34;: n_hp}))
             self.label_rechar()
             fightmap.show()
 
@@ -5143,6 +5149,7 @@ can&#39;t have more than 4 attacks!&#34;
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
+        logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
         del self</code></pre>
 </details>
 <h3>Methods</h3>
@@ -5203,6 +5210,8 @@ can&#39;t have more than 4 attacks!&#34;
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
+            logging.info(&#34;[Poke][%s] Used %s: %s&#34;, self.name, attac.name,
+                         str({&#34;eff&#34;: effectivity, &#34;n_hp&#34;: n_hp}))
             self.label_rechar()
             fightmap.show()</code></pre>
 </details>
@@ -5265,6 +5274,7 @@ can&#39;t have more than 4 attacks!&#34;
     figure.pokes[figure.pokes.index(self)] = new
     if new.identifier not in figure.caught_pokes:
         figure.caught_pokes.append(new.identifier)
+    logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
     del self</code></pre>
 </details>
 </dd>
