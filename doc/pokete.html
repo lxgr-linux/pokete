@@ -75,6 +75,7 @@ from pokete_classes.fightmap import FightMap, FightItems, EvoMap
 from pokete_classes.detail import Informer, Detail
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
+from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
@@ -497,7 +498,7 @@ can&#39;t have more than 4 attacks!&#34;
         for name in [&#34;atc&#34;, &#34;defense&#34;, &#34;initiative&#34;]:
             setattr(self, name, self.lvl() + self.inf[name]
                     + (2 if self.shiny else 0))
-        i = [Attack(atc)
+        i = [Attack(atc, p_data)
              for atc in self.attacks
              if self.lvl() &gt;= p_data.attacks[atc][&#34;min_lvl&#34;]]
         for old_ob, obj in zip(self.attac_obs, i):
@@ -728,43 +729,6 @@ class Figure(se.Object):
 in the inventory&#34;
         self.inv[item] -= amount
         logging.info(&#34;[Figure] %d %s(s) removed&#34;, amount, item)
-
-
-class Attack:
-    &#34;&#34;&#34;Attack that can be used by a Pokete&#34;&#34;&#34;
-
-    def __init__(self, index):
-        inf = p_data.attacks[index]
-        # Attributes
-        self.name = inf[&#34;name&#34;]
-        self.factor = inf[&#34;factor&#34;]
-        self.action = inf[&#34;action&#34;]
-        self.world_action = inf[&#34;world_action&#34;]
-        self.move = inf[&#34;move&#34;]
-        self.miss_chance = inf[&#34;miss_chance&#34;]
-        self.min_lvl = inf[&#34;min_lvl&#34;]
-        self.desc = inf[&#34;desc&#34;]
-        self.effect = inf[&#34;effect&#34;]
-        self.is_generic = inf[&#34;is_generic&#34;]
-        self.ap = inf[&#34;ap&#34;]
-        self.type = getattr(types, inf[&#34;types&#34;][0])
-        self.max_ap = self.ap
-        # labels
-        self.label_name = se.Text(self.name, esccode=Color.underlined,
-                                  state=&#34;float&#34;)
-        self.label_ap = se.Text(f&#34;AP:{self.ap}/{self.max_ap}&#34;, state=&#34;float&#34;)
-        self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;, state=&#34;float&#34;)
-        self.label_desc = se.Text(self.desc[:int(width / 2 - 1)],
-                                  state=&#34;float&#34;)
-        self.label_type_1 = se.Text(&#34;Type:&#34;, state=&#34;float&#34;)
-        self.label_type_2 = se.Text(self.type.name.capitalize(),
-                                    esccode=self.type.color, state=&#34;float&#34;)
-
-    def give_effect(self, enem):
-        &#34;&#34;&#34;Gives the associated effect to a Pokete&#34;&#34;&#34;
-        if self.effect is not None:
-            time.sleep(1.5)
-            getattr(effects, self.effect)().add(enem)
 
 
 class Setting(se.Box):
@@ -2047,7 +2011,7 @@ if __name__ == &#34;__main__&#34;:
     # validating data
     p_data.validate()
     # types
-    types = Types(p_data.types, p_data.sub_types)
+    types = Types(p_data)
 
 
     # Definiton of the playmaps
@@ -2979,72 +2943,6 @@ this will remain</p></div>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pokete.Attack"><code class="flex name class">
-<span>class <span class="ident">Attack</span></span>
-<span>(</span><span>index)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Attack that can be used by a Pokete</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Attack:
-    &#34;&#34;&#34;Attack that can be used by a Pokete&#34;&#34;&#34;
-
-    def __init__(self, index):
-        inf = p_data.attacks[index]
-        # Attributes
-        self.name = inf[&#34;name&#34;]
-        self.factor = inf[&#34;factor&#34;]
-        self.action = inf[&#34;action&#34;]
-        self.world_action = inf[&#34;world_action&#34;]
-        self.move = inf[&#34;move&#34;]
-        self.miss_chance = inf[&#34;miss_chance&#34;]
-        self.min_lvl = inf[&#34;min_lvl&#34;]
-        self.desc = inf[&#34;desc&#34;]
-        self.effect = inf[&#34;effect&#34;]
-        self.is_generic = inf[&#34;is_generic&#34;]
-        self.ap = inf[&#34;ap&#34;]
-        self.type = getattr(types, inf[&#34;types&#34;][0])
-        self.max_ap = self.ap
-        # labels
-        self.label_name = se.Text(self.name, esccode=Color.underlined,
-                                  state=&#34;float&#34;)
-        self.label_ap = se.Text(f&#34;AP:{self.ap}/{self.max_ap}&#34;, state=&#34;float&#34;)
-        self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;, state=&#34;float&#34;)
-        self.label_desc = se.Text(self.desc[:int(width / 2 - 1)],
-                                  state=&#34;float&#34;)
-        self.label_type_1 = se.Text(&#34;Type:&#34;, state=&#34;float&#34;)
-        self.label_type_2 = se.Text(self.type.name.capitalize(),
-                                    esccode=self.type.color, state=&#34;float&#34;)
-
-    def give_effect(self, enem):
-        &#34;&#34;&#34;Gives the associated effect to a Pokete&#34;&#34;&#34;
-        if self.effect is not None:
-            time.sleep(1.5)
-            getattr(effects, self.effect)().add(enem)</code></pre>
-</details>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete.Attack.give_effect"><code class="name flex">
-<span>def <span class="ident">give_effect</span></span>(<span>self, enem)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Gives the associated effect to a Pokete</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def give_effect(self, enem):
-    &#34;&#34;&#34;Gives the associated effect to a Pokete&#34;&#34;&#34;
-    if self.effect is not None:
-        time.sleep(1.5)
-        getattr(effects, self.effect)().add(enem)</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
 <dt id="pokete.CenterDor"><code class="flex name class">
 <span>class <span class="ident">CenterDor</span></span>
 <span>(</span><span>char, state='solid', arg_proto=None)</span>
@@ -5128,7 +5026,7 @@ can&#39;t have more than 4 attacks!&#34;
         for name in [&#34;atc&#34;, &#34;defense&#34;, &#34;initiative&#34;]:
             setattr(self, name, self.lvl() + self.inf[name]
                     + (2 if self.shiny else 0))
-        i = [Attack(atc)
+        i = [Attack(atc, p_data)
              for atc in self.attacks
              if self.lvl() &gt;= p_data.attacks[atc][&#34;min_lvl&#34;]]
         for old_ob, obj in zip(self.attac_obs, i):
@@ -5450,7 +5348,7 @@ can&#39;t have more than 4 attacks!&#34;
     for name in [&#34;atc&#34;, &#34;defense&#34;, &#34;initiative&#34;]:
         setattr(self, name, self.lvl() + self.inf[name]
                 + (2 if self.shiny else 0))
-    i = [Attack(atc)
+    i = [Attack(atc, p_data)
          for atc in self.attacks
          if self.lvl() &gt;= p_data.attacks[atc][&#34;min_lvl&#34;]]
     for old_ob, obj in zip(self.attac_obs, i):
@@ -5753,12 +5651,6 @@ can&#39;t have more than 4 attacks!&#34;
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li>
-<h4><code><a title="pokete.Attack" href="#pokete.Attack">Attack</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.Attack.give_effect" href="#pokete.Attack.give_effect">give_effect</a></code></li>
-</ul>
-</li>
 <li>
 <h4><code><a title="pokete.CenterDor" href="#pokete.CenterDor">CenterDor</a></code></h4>
 <ul class="">
