@@ -544,6 +544,8 @@ can't have more than 4 attacks!"
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
+            logging.info("[Poke][%s] Used %s: %s", self.name, attac.name,
+                         str({"eff": effectivity, "n_hp": n_hp}))
             self.label_rechar()
             fightmap.show()
 
