@@ -1944,6 +1944,7 @@ if __name__ == "__main__":
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
+    effects.set_vars(logging)
 
     # reading save file
     session_info = read_save()
