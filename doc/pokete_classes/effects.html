@@ -35,7 +35,6 @@ from .color import Color
 class Effect():
     desc = &#34;&#34;
     c_name = &#34;&#34;
-    logging = None
 
     def __init__(self, name, rem_chance, catch_chance, text, str_esccode=&#34;&#34;,
                  obj=None, exclude=None):
@@ -54,7 +53,6 @@ class Effect():
         return f&#34;{type(self).__name__}&#34;
 
     def add(self, obj):
-        &#34;&#34;&#34;Adds the effect to a Pokete&#34;&#34;&#34;
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is not affected by &#39;)
             obj.ico.map.outp.append(se.Text(self.name,
@@ -70,7 +68,6 @@ class Effect():
                                                  esccode=self.str_esccode,
                                                  state=&#34;float&#34;),
                                          se.Text(&#34;!&#34;, state=&#34;float&#34;))
-            self.logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
         else:
             obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is allready &#39;)
             obj.ico.map.outp.append(se.Text(self.name,
@@ -101,7 +98,6 @@ class Effect():
         self.obj.ico.map.show()
 
     def remove(self):
-        &#34;&#34;&#34;Removes it self from the obj, with a certain chance&#34;&#34;&#34;
         if random.randint(0, self.rem_chance) == 0:
             self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} isn\&#39;t &#39;)
             self.obj.ico.map.outp.append(se.Text(self.name,
@@ -111,8 +107,6 @@ class Effect():
             i = self.obj.effects.index(self)
             del self.obj.effects[i]
             self.cleanup(i)
-            self.logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
-                              self.obj.name)
             self.obj = None
             time.sleep(2)
 
@@ -128,7 +122,6 @@ class Effect():
             i.add_label()
 
     def effect(self):
-        &#34;&#34;&#34;The action that&#39;s executed every attack round&#34;&#34;&#34;
         self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} is still &#39;)
         self.obj.ico.map.outp.append(se.Text(self.name,
                                              esccode=self.str_esccode,
@@ -239,13 +232,8 @@ effect_list = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison,
 
 class Effects:
     def __init__(self):
-        self.effect_list = effect_list
-        for i in self.effect_list:
+        for i in effect_list:
             setattr(self, i.c_name, i)
-
-    def set_vars(self, logging):
-        for i in self.effect_list:
-            i.logging = logging
 
 
 effects = Effects()
@@ -276,7 +264,6 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class Effect():
     desc = &#34;&#34;
     c_name = &#34;&#34;
-    logging = None
 
     def __init__(self, name, rem_chance, catch_chance, text, str_esccode=&#34;&#34;,
                  obj=None, exclude=None):
@@ -295,7 +282,6 @@ if __name__ == &#34;__main__&#34;:
         return f&#34;{type(self).__name__}&#34;
 
     def add(self, obj):
-        &#34;&#34;&#34;Adds the effect to a Pokete&#34;&#34;&#34;
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is not affected by &#39;)
             obj.ico.map.outp.append(se.Text(self.name,
@@ -311,7 +297,6 @@ if __name__ == &#34;__main__&#34;:
                                                  esccode=self.str_esccode,
                                                  state=&#34;float&#34;),
                                          se.Text(&#34;!&#34;, state=&#34;float&#34;))
-            self.logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
         else:
             obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is allready &#39;)
             obj.ico.map.outp.append(se.Text(self.name,
@@ -342,7 +327,6 @@ if __name__ == &#34;__main__&#34;:
         self.obj.ico.map.show()
 
     def remove(self):
-        &#34;&#34;&#34;Removes it self from the obj, with a certain chance&#34;&#34;&#34;
         if random.randint(0, self.rem_chance) == 0:
             self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} isn\&#39;t &#39;)
             self.obj.ico.map.outp.append(se.Text(self.name,
@@ -352,8 +336,6 @@ if __name__ == &#34;__main__&#34;:
             i = self.obj.effects.index(self)
             del self.obj.effects[i]
             self.cleanup(i)
-            self.logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
-                              self.obj.name)
             self.obj = None
             time.sleep(2)
 
@@ -369,7 +351,6 @@ if __name__ == &#34;__main__&#34;:
             i.add_label()
 
     def effect(self):
-        &#34;&#34;&#34;The action that&#39;s executed every attack round&#34;&#34;&#34;
         self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} is still &#39;)
         self.obj.ico.map.outp.append(se.Text(self.name,
                                              esccode=self.str_esccode,
@@ -404,10 +385,6 @@ if __name__ == &#34;__main__&#34;:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pokete_classes.effects.Effect.logging"><code class="name">var <span class="ident">logging</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 </dl>
 <h3>Static methods</h3>
 <dl>
@@ -435,13 +412,12 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">add</span></span>(<span>self, obj)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds the effect to a Pokete</p></div>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add(self, obj):
-    &#34;&#34;&#34;Adds the effect to a Pokete&#34;&#34;&#34;
     if obj.type.name in self.exclude:
         obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is not affected by &#39;)
         obj.ico.map.outp.append(se.Text(self.name,
@@ -457,7 +433,6 @@ if __name__ == &#34;__main__&#34;:
                                              esccode=self.str_esccode,
                                              state=&#34;float&#34;),
                                      se.Text(&#34;!&#34;, state=&#34;float&#34;))
-        self.logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
     else:
         obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is allready &#39;)
         obj.ico.map.outp.append(se.Text(self.name,
@@ -514,13 +489,12 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">effect</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The action that's executed every attack round</p></div>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def effect(self):
-    &#34;&#34;&#34;The action that&#39;s executed every attack round&#34;&#34;&#34;
     self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} is still &#39;)
     self.obj.ico.map.outp.append(se.Text(self.name,
                                          esccode=self.str_esccode,
@@ -554,13 +528,12 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">remove</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Removes it self from the obj, with a certain chance</p></div>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def remove(self):
-    &#34;&#34;&#34;Removes it self from the obj, with a certain chance&#34;&#34;&#34;
     if random.randint(0, self.rem_chance) == 0:
         self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} isn\&#39;t &#39;)
         self.obj.ico.map.outp.append(se.Text(self.name,
@@ -570,8 +543,6 @@ if __name__ == &#34;__main__&#34;:
         i = self.obj.effects.index(self)
         del self.obj.effects[i]
         self.cleanup(i)
-        self.logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
-                          self.obj.name)
         self.obj = None
         time.sleep(2)</code></pre>
 </details>
@@ -634,16 +605,35 @@ This is reverted randomly.&#34;
 <div class="desc"></div>
 </dd>
 </dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
-</ul>
-</li>
-</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.effects.EffectBurning.effect"><code class="name flex">
+<span>def <span class="ident">effect</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def effect(self):
+    self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} is still &#39;)
+    self.obj.ico.map.outp.append(se.Text(self.name,
+                                         esccode=self.str_esccode,
+                                         state=&#34;float&#34;),
+                                 se.Text(&#34;!&#34;, state=&#34;float&#34;))
+    self.obj.ico.map.show()
+    time.sleep(1)
+    for _ in range(random.randint(1, 3)):
+        oldhp = self.obj.hp
+        self.obj.hp = max(self.obj.hp - self.damage, 0)
+        self.obj.hp_bar.update(oldhp)
+        self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} {self.hurt_text}&#39;)
+        time.sleep(0.5)
+    return 0</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 <dt id="pokete_classes.effects.EffectConfusion"><code class="flex name class">
 <span>class <span class="ident">EffectConfusion</span></span>
@@ -687,16 +677,28 @@ This is reverted randomly.&#34;
 <div class="desc"></div>
 </dd>
 </dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
-</ul>
-</li>
-</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.effects.EffectConfusion.effect"><code class="name flex">
+<span>def <span class="ident">effect</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def effect(self):
+    self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} is still &#39;)
+    self.obj.ico.map.outp.append(se.Text(self.name,
+                                         esccode=self.str_esccode,
+                                         state=&#34;float&#34;),
+                                 se.Text(&#34;!&#34;, state=&#34;float&#34;))
+    time.sleep(0.5)
+    return 0</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 <dt id="pokete_classes.effects.EffectFreezing"><code class="flex name class">
 <span>class <span class="ident">EffectFreezing</span></span>
@@ -732,16 +734,6 @@ This is reverted randomly.&#34;
 <div class="desc"></div>
 </dd>
 </dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
-</ul>
-</li>
-</ul>
 </dd>
 <dt id="pokete_classes.effects.EffectParalyzation"><code class="flex name class">
 <span>class <span class="ident">EffectParalyzation</span></span>
@@ -777,16 +769,6 @@ This is reverted randomly.&#34;
 <div class="desc"></div>
 </dd>
 </dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
-</ul>
-</li>
-</ul>
 </dd>
 <dt id="pokete_classes.effects.EffectPoison"><code class="flex name class">
 <span>class <span class="ident">EffectPoison</span></span>
@@ -825,16 +807,6 @@ This is reverted randomly.&#34;
 <div class="desc"></div>
 </dd>
 </dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete_classes.effects.EffectBurning" href="#pokete_classes.effects.EffectBurning">EffectBurning</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete_classes.effects.EffectBurning.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
-<li><code><a title="pokete_classes.effects.EffectBurning.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
-<li><code><a title="pokete_classes.effects.EffectBurning.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
-</ul>
-</li>
-</ul>
 </dd>
 <dt id="pokete_classes.effects.EffectSleep"><code class="flex name class">
 <span>class <span class="ident">EffectSleep</span></span>
@@ -869,16 +841,6 @@ This is reverted randomly.&#34;
 <div class="desc"></div>
 </dd>
 </dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
-</ul>
-</li>
-</ul>
 </dd>
 <dt id="pokete_classes.effects.Effects"><code class="flex name class">
 <span>class <span class="ident">Effects</span></span>
@@ -891,31 +853,9 @@ This is reverted randomly.&#34;
 </summary>
 <pre><code class="python">class Effects:
     def __init__(self):
-        self.effect_list = effect_list
-        for i in self.effect_list:
-            setattr(self, i.c_name, i)
-
-    def set_vars(self, logging):
-        for i in self.effect_list:
-            i.logging = logging</code></pre>
+        for i in effect_list:
+            setattr(self, i.c_name, i)</code></pre>
 </details>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete_classes.effects.Effects.set_vars"><code class="name flex">
-<span>def <span class="ident">set_vars</span></span>(<span>self, logging)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def set_vars(self, logging):
-    for i in self.effect_list:
-        i.logging = logging</code></pre>
-</details>
-</dd>
-</dl>
 </dd>
 </dl>
 </section>
@@ -942,7 +882,6 @@ This is reverted randomly.&#34;
 <li><code><a title="pokete_classes.effects.Effect.cleanup" href="#pokete_classes.effects.Effect.cleanup">cleanup</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.desc" href="#pokete_classes.effects.Effect.desc">desc</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.logging" href="#pokete_classes.effects.Effect.logging">logging</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.readd" href="#pokete_classes.effects.Effect.readd">readd</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.ret_md" href="#pokete_classes.effects.Effect.ret_md">ret_md</a></code></li>
@@ -953,6 +892,7 @@ This is reverted randomly.&#34;
 <ul class="">
 <li><code><a title="pokete_classes.effects.EffectBurning.c_name" href="#pokete_classes.effects.EffectBurning.c_name">c_name</a></code></li>
 <li><code><a title="pokete_classes.effects.EffectBurning.desc" href="#pokete_classes.effects.EffectBurning.desc">desc</a></code></li>
+<li><code><a title="pokete_classes.effects.EffectBurning.effect" href="#pokete_classes.effects.EffectBurning.effect">effect</a></code></li>
 </ul>
 </li>
 <li>
@@ -960,6 +900,7 @@ This is reverted randomly.&#34;
 <ul class="">
 <li><code><a title="pokete_classes.effects.EffectConfusion.c_name" href="#pokete_classes.effects.EffectConfusion.c_name">c_name</a></code></li>
 <li><code><a title="pokete_classes.effects.EffectConfusion.desc" href="#pokete_classes.effects.EffectConfusion.desc">desc</a></code></li>
+<li><code><a title="pokete_classes.effects.EffectConfusion.effect" href="#pokete_classes.effects.EffectConfusion.effect">effect</a></code></li>
 </ul>
 </li>
 <li>
@@ -992,9 +933,6 @@ This is reverted randomly.&#34;
 </li>
 <li>
 <h4><code><a title="pokete_classes.effects.Effects" href="#pokete_classes.effects.Effects">Effects</a></code></h4>
-<ul class="">
-<li><code><a title="pokete_classes.effects.Effects.set_vars" href="#pokete_classes.effects.Effects.set_vars">set_vars</a></code></li>
-</ul>
 </li>
 </ul>
 </li>
