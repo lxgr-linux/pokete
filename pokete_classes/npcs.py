@@ -89,6 +89,7 @@ class NPC(se.Box):
         if not self.will or \
                 (self.name in self.used_npcs and self.settings.save_trainers):
             return
+        self.logging.info("[NPC][%s] Interaction", self.name)
         self.mvmp.full_show()
         time.sleep(0.7)
         self.exclamate()
@@ -112,8 +113,8 @@ class NPC(se.Box):
                            for j in
                             self.map.obmap[i.ry + self.y][i.rx + self.x])
                                 for i in vec.obs][1:])
-        self.logging.info("[NPC] '%s' %s walk check to (%d|%d)",
-                          self.name, 'succeeded' if ret else 'failed', x, y)
+        self.logging.info("[NPC][%s] %s walk check to (%d|%d)",
+                          self.name, 'Succeeded' if ret else 'Failed', x, y)
         return ret
 
     def walk_point(self, x, y):
@@ -197,7 +198,7 @@ class Trainer(NPC):
                 if winner != self.poke:
                     self.fig.add_money(20)
                     self.used_npcs.append(self.name)
-                self.logging.info("[NPC] '%s' %s against player", self.name,
-                                  'lost' if  winner != self.poke else 'won')
+                self.logging.info("[NPC][%s] %s against player", self.name,
+                                  'Lost' if  winner != self.poke else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             self.check_walk_back()
