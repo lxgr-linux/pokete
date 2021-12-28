@@ -5,7 +5,10 @@ import scrap_engine as se
 
 
 def transition(_map, poke):
-    """Transition animation for world actions"""
+    """Transition animation for world actions
+    ARGS:
+        _map: se.Map object the transition happens on
+        poke: Poke object shown in the transition"""
     vec_1 = se.Line(" ", _map.width, 0)
     vec_2 = se.Line(" ", _map.width, 0)
 
@@ -37,7 +40,10 @@ def transition(_map, poke):
 
 
 def fight_intro(height, width):
-    """Intro animation for fight"""
+    """Intro animation for fight
+    ARGS:
+        height: Height of the animation
+        width: Width of the animation"""
     fancymap = se.Map(height, width, " ")
     vec_list = [se.Line(" ", i * int(width / 2), j * int((height - 1) / 2))
                 for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
