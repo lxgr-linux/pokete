@@ -688,6 +688,7 @@ class Figure(se.Object):
             self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
+        logging.info("[Figure] Added Poke %s", poke.name)
 
     def give_item(self, item, amount=1):
         """Gives an item to the player"""
@@ -735,7 +736,7 @@ class Setting(se.Box):
         self.index = self.index + 1 if self.index < len(self.options) - 1 else 0
         setattr(settings, self.setting, list(self.options)[self.index])
         self.option_text.rechar(self.options[getattr(settings, self.setting)])
-        logging.info("[Setting] '%s' set to %s",
+        logging.info("[Setting][%s] set to %s",
                      self.setting, getattr(settings, self.setting))
 
 
@@ -1202,6 +1203,7 @@ back to the last Pokecenter you visited, to heal them!
 On the way there {amount}$ fell out of your pocket!""")
         figure.remove()
         figure.map = figure.last_center_map
+        logging.info("[Figure] Lost all Poketes and ran away")
         DorToCenter().action(figure)
 
 def heal():
@@ -1252,6 +1254,7 @@ def save():
     with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
+    logging.info("[General] Saved")
 
 
 def read_save():
@@ -1304,6 +1307,7 @@ def reset_terminal():
 def exiter():
     """Exit function"""
     reset_terminal()
+    logging.info("[General] Exiting...")
     sys.exit()
 
 
