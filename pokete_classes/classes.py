@@ -4,7 +4,16 @@ from .ui_elements import StdFrame
 
 
 class PlayMap(se.Map):
-    """Map the actual player moves on and contains buildings etc"""
+    """Map the actual player moves on and contains buildings etc
+    ARGS:
+        height: The maps height
+        width: The maps width
+        trainers: List of Trainers on the map
+        name: Name of the map ("playmap1" etc)
+        pretty_name: Pretty name of the map ("Route 1" etc)
+        poke_args: Dict containing information for Poketes found in meadows
+        w_poke_args: Same as above but with water
+        extra_actions: Function executed every frame"""
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name="", pretty_name="", poke_args=None,
@@ -30,7 +39,9 @@ class PlayMap(se.Map):
 
 
 class Settings():
-    """Contains all possible settings"""
+    """Contains all possible settings
+    ARGS:
+        The available settings"""
 
     def __init__(self, autosave=True, animations=True, save_trainers=True,
                  colors=True, load_mods=False):
@@ -50,12 +61,16 @@ class OutP(se.Text):
     """Output label to better organize output"""
 
     def outp(self, text):
-        """Rechar and show wrapper"""
+        """Rechar and show wrapper
+        ARGS:
+            text: String thats printed out"""
         self.rechar(text)
         self.map.show()
 
     def append(self, *args):
-        """Appends another se.Text to the outp"""
+        """Appends another se.Text to the outp
+        ARGS:
+            args: se.Texts that will be appended"""
         for i in args:
             self += i
         self.map.show()
