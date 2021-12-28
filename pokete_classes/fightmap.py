@@ -316,23 +316,16 @@ used {enemy.name} against you!')
                              * (2 if info["type"] == "duel" else 1)
         self.outp.outp(f"{winner.ext_name} won!" + (f'\nXP + {_xp}'
                                                     if winner.player else ''))
-        if winner.player:
-            old_lvl = winner.lvl()
-            winner.xp += _xp
-            winner.text_xp.rechar(
-                f"XP:{winner.xp - (winner.lvl() ** 2 - 1)}/\
-{((winner.lvl() + 1) ** 2 - 1) - (winner.lvl() ** 2 - 1)}")
-            winner.text_lvl.rechar(f"Lvl:{winner.lvl()}")
-            if old_lvl < winner.lvl():
-                time.sleep(1)
-                self.outp.outp(f"{winner.name} reached lvl {winner.lvl()}!")
-                winner.moves.shine()
-                time.sleep(0.5)
-                winner.set_vars()
-                if winner.lvl() % 5 == 0:
-                    LearnAttack(winner, self)(_ev, p_data)
-                if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
-                    winner.evolve()
+        if winner.player and winner.add_xp(_xp):
+            time.sleep(1)
+            self.outp.outp(f"{winner.name} reached lvl {winner.lvl()}!")
+            winner.moves.shine()
+            time.sleep(0.5)
+            winner.set_vars()
+            if winner.lvl() % 5 == 0:
+                LearnAttack(winner, self)(_ev, p_data)
+            if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
+                winner.evolve()
         self.show()
         time.sleep(1)
         ico = [obj for obj in players if obj != winner][0].ico

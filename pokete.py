@@ -486,6 +486,23 @@ can't have more than 4 attacks!"
             atc.ap = ap if ap != "SKIP" else atc.ap
         self.label_rechar()
 
+    def add_xp(self, _xp):
+        """Adds xp
+        ARGS:
+            _xp: Amount of xp added to the current xp
+        RETURNS:
+            bool: whether or not the next level is reached"""
+        old_lvl = self.lvl()
+        self.xp += _xp
+        self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
+        self.text_lvl.rechar(f"Lvl:{self.lvl()}")
+        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        if old_lvl < self.lvl():
+            logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
+            return True
+        return False
+
     def label_rechar(self):
         """Rechars the attack labels"""
         for i, atc in enumerate(self.attac_obs):
@@ -548,7 +565,6 @@ can't have more than 4 attacks!"
                          str({"eff": effectivity, "n_hp": n_hp}))
             self.label_rechar()
             fightmap.show()
-
 
     def evolve(self):
         """Evolves the Pokete to its evolve_poke"""
