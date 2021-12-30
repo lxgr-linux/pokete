@@ -12,7 +12,10 @@ from .learnattack import LearnAttack
 
 
 class EvoMap(se.Map):
-    """Map for evolutions to take place on"""
+    """Map for evolutions to take place on
+    ARGS:
+        height: The height of the map
+        width: The width of the map"""
 
     def __init__(self, height, width):
         super().__init__(height, width, " ")
@@ -24,7 +27,11 @@ class EvoMap(se.Map):
 
 
 class FightMap(se.Map):
-    """Wrapper for se.Map"""
+    """Wrapper for se.Map
+    ARGS:
+        height: The height of the map
+        width: The width of the map
+        logging: The logging module"""
 
     def __init__(self, height, width, logging):
         super().__init__(height, width, " ")
@@ -67,7 +74,11 @@ class FightMap(se.Map):
         self.label.add(self, 0, self.height - 1)
 
     def clean_up(self, player, enemy):
-        """Removes all labels from self"""
+        """Removes all labels from self
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to"""
         for obj in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico,
                     enemy.hp_bar, enemy.tril, enemy.trir, player.text_name,
                     player.text_lvl, player.text_hp, player.ico, player.hp_bar,
@@ -79,7 +90,11 @@ class FightMap(se.Map):
                 j.cleanup()
 
     def add_3(self, player, enemy):
-        """Adds player labels"""
+        """Adds player labels
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to"""
         if player.identifier != "__fallback__":
             player.text_name.add(self, self.width - 17, self.height - 9)
             player.text_lvl.add(self, self.width - 17, self.height - 8)
@@ -91,7 +106,13 @@ class FightMap(se.Map):
         return [player, enemy]
 
     def add_1(self, player, enemy, caught_poketes):
-        """Adds enemy and general labels to self"""
+        """Adds enemy and general labels to self
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to
+            caught_poketes: List of Poke.identifiers of Pokes that have already
+                            been caught"""
         for obj, x, y in zip([enemy.tril, enemy.trir,
                               enemy.text_name, enemy.text_lvl,
                               enemy.text_hp, enemy.ico, enemy.hp_bar],
@@ -106,7 +127,9 @@ class FightMap(se.Map):
         return [player, enemy]
 
     def add_2(self, player):
-        """Adds player labels with sleeps"""
+        """Adds player labels with sleeps
+        ARGS:
+            player: The player Poke object that the labels belong to"""
         if player.identifier != "__fallback__":
             player.text_name.add(self, self.width - 17, self.height - 9)
             time.sleep(0.05)
@@ -123,7 +146,11 @@ class FightMap(se.Map):
             player.ico.add(self, 3, self.height - 10)
 
     def fast_change(self, arr, setob):
-        """Changes fast between a list of texts"""
+        """Changes fast between a list of texts
+        ARGS:
+            arr: List of se.Texts that will be changed through
+            setob: A reference se.Text with the coordinates the objs in arr
+                   will be set to."""
         for _i in range(1, len(arr)):
             arr[_i - 1].remove()
             arr[_i].add(self, setob.x, setob.y)
@@ -131,7 +158,10 @@ class FightMap(se.Map):
             time.sleep(0.1)
 
     def get_attack(self, _ev, attack_obs):
-        """Inputloop for attack options"""
+        """Inputloop for attack options
+        ARGS:
+            _ev: Event object
+            attack_obs: A list of Attack objects taht belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
             while True:
                 if _ev.get() in ["'s'", "'w'"]:
@@ -156,7 +186,11 @@ class FightMap(se.Map):
         return attack
 
     def get_item(self, _ev, items, inv):
-        """Inputloop for inv"""
+        """Inputloop for inv
+        ARGS:
+            _ev: Event object
+            items: List of InvItems that can be choosen from
+            inv: The Figures inv"""
         self.invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {inv[i.name]}")
                                for i in items])
         self.invbox.set_index(0)
@@ -179,10 +213,24 @@ class FightMap(se.Map):
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
+        """Fight between two Pokes
+        ARGS:
+            player: The players used Poke
+            enemy: The enemys used Poke
+            figure: Figure object
+            settings: Settings object
+            invitems: InvItems object
+            fightitems: FightItems object
+            deck: deck function
+            p_data: p_data module
+            _ev: Event object
+            info: Dict with information about the fight
+                  ({"type": "wild", "player": " "})
+        RETURNS:
+            Poke object that won the fight"""
         self.logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d", info["type"], player.name, player.lvl(), enemy.name,
                           enemy.lvl())
-        """Fight"""
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
         players = self.add_1(player, enemy, figure.caught_pokes)
@@ -341,7 +389,23 @@ used {enemy.name} against you!')
 
 
 class FightItems:
-    """Contains all fns callable by an item in fight"""
+    """Contains all fns callable by an item in fight
+    ARGS:
+        _map: FightMap object
+        movemap: MoveMap object
+        figure: Figure object
+        ob_maps: Dict of all PlayMaps
+        logging: logging module
+
+    The methods that can actually be called in fight follow the follwing patern:
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+        RETURNS:
+            1: The continue the attack round
+            2: The win the game
+            None: To let the enemy attack"""
 
     def __init__(self, _map, movemap, figure, ob_maps, logging):
         self.map = _map
@@ -351,7 +415,18 @@ class FightItems:
         self.logging = logging
 
     def throw(self, obj, enem, info, chance, name):
-        """Throws a Poketeball"""
+        """Throws a *ball
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+            chance: The balls catch chance
+            name: The balls name
+        RETURNS:
+            1: The continue the attack round
+            2: The win the game
+            None: To let the enemy attack"""
+
         if obj.identifier == "__fallback__" or info["type"] == "duel":
             return 1
         self.map.outp.rechar(f"You threw a {name.capitalize()}!")
@@ -383,7 +458,14 @@ class FightItems:
         return None
 
     def potion(self, obj, enem, info, hp, name):
-        """Potion function"""
+        """Potion function
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+            hp: The hp that will be given to the Poke
+            name: The potions name"""
+
         self.fig.remove_item(name)
         obj.oldhp = obj.hp
         if obj.hp + hp > obj.full_hp:
