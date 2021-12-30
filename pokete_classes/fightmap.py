@@ -179,8 +179,9 @@ class FightMap(se.Map):
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
-        self.logging.info("[Fight][%s] Started between %s(p) lvl.%d and %s(e) \
-lvl.%d", info["type"], player.name, player.lvl(), enemy.name, enemy.lvl())
+        self.logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
+%s(enemy) lvl.%d", info["type"], player.name, player.lvl(), enemy.name,
+                          enemy.lvl())
         """Fight"""
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
@@ -335,7 +336,7 @@ used {enemy.name} against you!')
         self.clean_up(player, enemy)
         fightitems.mvmap.balls_label_rechar(figure.pokes)
         self.logging.info("[Fight][%s] Ended, %s(%s) won", info["type"],
-                          winner.name, "p" if winner.player else "e")
+                          winner.name, "player" if winner.player else "enemy")
         return winner
 
 
@@ -419,7 +420,6 @@ class FightItems:
             atc.ap = atc.max_ap
         obj.label_rechar()
         self.logging.info("[Fighitem][%s] Used", name)
-
 
 
 if __name__ == "__main__":
