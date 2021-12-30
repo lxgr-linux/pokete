@@ -179,8 +179,9 @@ class FightMap(se.Map):
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
-        self.logging.info("[Fight][%s] Started between %s(p) lvl.%d and %s(e) \
-lvl.%d", info["type"], player.name, player.lvl(), enemy.name, enemy.lvl())
+        self.logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
+%s(enemy) lvl.%d", info["type"], player.name, player.lvl(), enemy.name,
+                          enemy.lvl())
         """Fight"""
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
