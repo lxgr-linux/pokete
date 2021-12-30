@@ -3,7 +3,9 @@ from .color import Color
 
 
 class Types:
-    """Class to organize PokeTypes"""
+    """Class to organize PokeTypes
+    ARGS:
+        p_data: p_data module"""
 
     def __init__(self, p_data):
         for i in p_data.types:
@@ -13,7 +15,12 @@ class Types:
 
 
 class PokeType():
-    """Type for Poketes and attacks"""
+    """Type for Poketes and attacks
+    ARGS:
+        name: The types name
+        effective: List of type names the type is effective against
+        ineffective: List of type names the type is ineffectice against
+        color: Color string"""
 
     def __init__(self, name, effective, ineffective, color):
         self.name = name
@@ -24,7 +31,9 @@ class PokeType():
 
 
 class PokeSubType(PokeType):
-    """Subtype class to better organize generic attacks"""
+    """Subtype class to better organize generic attacks
+    ARGS:
+        name: The types name"""
 
     def __init__(self, name):
         super().__init__(name, [], [], None)
