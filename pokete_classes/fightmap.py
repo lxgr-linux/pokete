@@ -335,7 +335,7 @@ used {enemy.name} against you!')
         self.clean_up(player, enemy)
         fightitems.mvmap.balls_label_rechar(figure.pokes)
         self.logging.info("[Fight][%s] Ended, %s(%s) won", info["type"],
-                          winner.name, "p" if winner.player else "e")
+                          winner.name, "player" if winner.player else "enemy")
         return winner
 
 
@@ -419,7 +419,6 @@ class FightItems:
             atc.ap = atc.max_ap
         obj.label_rechar()
         self.logging.info("[Fighitem][%s] Used", name)
-
 
 
 if __name__ == "__main__":

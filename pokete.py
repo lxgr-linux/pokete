@@ -487,7 +487,7 @@ can't have more than 4 attacks!"
         self.label_rechar()
 
     def add_xp(self, _xp):
-        """Adds xp
+        """Adds xp to the current pokete
         ARGS:
             _xp: Amount of xp added to the current xp
         RETURNS:

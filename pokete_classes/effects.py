@@ -73,7 +73,7 @@ class Effect():
         self.obj.ico.map.show()
 
     def remove(self):
-        """Removes it self from the obj, with a certain chance"""
+        """Removes itself from the current pokete with a certain chance"""
         if random.randint(0, self.rem_chance) == 0:
             self.obj.ico.map.outp.outp(f'{self.obj.ext_name} isn\'t ')
             self.obj.ico.map.outp.append(se.Text(self.name,
