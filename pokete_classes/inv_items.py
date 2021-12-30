@@ -2,7 +2,9 @@
 
 
 class Items:
-    """Has all items as attributes"""
+    """Has all items as attributes
+    ARGS:
+        p_d: p_data module"""
 
     def __init__(self, p_d):
         for item in p_d.items.items():
@@ -15,7 +17,13 @@ class Items:
 
 
 class InvItem:
-    """Item for the inventory"""
+    """Item for the inventory
+    ARGS:
+        name: The items generic name (healing_potion)
+        pretty_name: The items pretty name (Healing potion)
+        desc: The items description
+        price: The items price in the shop
+        fn: The associated method name in FightItems"""
 
     def __init__(self, name, pretty_name, desc, price, fn=None):
         self.name = name
@@ -26,7 +34,10 @@ class InvItem:
 
 
 class LearnDisc(InvItem):
-    """Learning disc item to teach attacks to Poketes"""
+    """Learning disc item to teach attacks to Poketes
+    ARGS:
+        attack_name: The nama of the attack beeing taught
+        attacks: p_data.attacks dict"""
 
     def __init__(self, attack_name, attacks):
         self.attack_name = attack_name
