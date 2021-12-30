@@ -1,4 +1,5 @@
 """Contains all classes relevant to show the roadmap"""
+
 import time
 import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
@@ -7,7 +8,16 @@ from .ui_elements import Box, InfoBox
 
 
 class Station(se.Square):
-    """Selectable station for Roadmap"""
+    """Selectable station for Roadmap
+    ARGS:
+        roadmap: RoadMap object
+        associate: Main PlayMap name the station belongs to
+        additionals: List of PlayMap names the station also belongs to
+        width: The Stations width
+        height: The Stations height
+        desc: The associates description
+        char: Displayed char
+        {w,a,s,d}_next: The next Stations name in a certain direction"""
     choosen = None
     obs = []
 
@@ -37,7 +47,9 @@ class Station(se.Square):
         self.rechar(self.color + self.org_char + Color.reset)
 
     def next(self, _ev):
-        """Chooses the next station in a certain direction"""
+        """Chooses the next station in a certain direction
+        ARGS:
+            _ev: Event object"""
         _ev = _ev.strip("'")
         if (n_e := getattr(self, _ev + "_next")) != "":
             self.unchoose()
@@ -53,7 +65,9 @@ class Station(se.Square):
             in self.roadmap.p_d.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
-        """Marks a station as visited"""
+        """Marks a station as visited
+        ARGS:
+            choose: Bool whether or not this done when choosing a city"""
         if self.has_been_visited() and (self.is_city() if choose else True):
             self.color = Color.yellow
         else:
@@ -62,7 +76,11 @@ class Station(se.Square):
 
 
 class RoadMap:
-    """Map you can see and navigate maps on"""
+    """Map you can see and navigate maps on
+    ARGS:
+        p_d: p_data module
+        ob_maps: Dict with all PlayMaps
+        fig: Figure object"""
 
     def __init__(self, p_d, ob_maps, fig):
         self.ob_maps = ob_maps
@@ -82,12 +100,18 @@ class RoadMap:
         return Station.choosen
 
     def rechar_info(self, name):
-        """Changes info label"""
+        """Changes info label
+        ARGS:
+            name: String displayed"""
         self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
         self.info_label.rechar(name)
 
     def __call__(self, _ev, _map, choose=False):
-        """Shows the roadmap"""
+        """Shows the roadmap
+        ARGS:
+            _ev: Event object
+            _map: se.Map this is shown on
+            choose: Bool whether or not this is done to choose a city"""
         _ev.clear()
         for i in Station.obs:
             i.set_color(choose)
@@ -132,6 +156,6 @@ class RoadMap:
                 _map.show()
         self.sta.unchoose()
 
+
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
-

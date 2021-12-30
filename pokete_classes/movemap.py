@@ -8,7 +8,11 @@ from .color import Color
 
 
 class Movemap(se.Submap):
-    """Movemap class to remove bad code"""
+    """Movemap class to remove bad code
+    ARGS:
+        ob_maps: Dict that contains all PlayMaps
+        height: Height of the map
+        width: Width of the map"""
 
     def __init__(self, ob_maps, height, width):
         super().__init__(ob_maps["playmap_1"], 0, 0,
@@ -33,7 +37,12 @@ class Movemap(se.Submap):
         self.label.add(self, 0, self.height - 1)
 
     def text(self, x, y, inp_arr, _ev):
-        """Shows dialog text on movemap"""
+        """Shows dialog text on movemap
+        ARGS:
+            x: The messages X
+            y: And y-coordinate
+            inp_arr: List of messages that will be displayed
+            _ev: Event object"""
         # This ensures the game does not crash when big
         # chunks of text are displayed
         for _c, i, j, _k in zip([x, y], ["x", "y"],
@@ -67,7 +76,8 @@ class Movemap(se.Submap):
         self.multitext.remove()
 
     def resize(self, height, width, background=" "):
-        """Resizes the map and its attributes"""
+        """Resizes the map and its attributes
+        See se.Map.resize"""
         for obj in [self.underline, self.label, self.label_bg,
                     self.name_label, self.balls_label]:
             obj.remove()
@@ -77,7 +87,9 @@ class Movemap(se.Submap):
         self.add_obs()
 
     def balls_label_rechar(self, pokes):
-        """Rechars the balls label"""
+        """Rechars the balls label
+        ARGS:
+            pokes: The players Pokes"""
         self.balls_label.rechar("".join("-" if i >= len(pokes)
                                 or pokes[i].identifier == "__fallback__"\
                                         else "o" if pokes[i].hp > 0
@@ -85,7 +97,9 @@ class Movemap(se.Submap):
                                         for i in range(6)), esccode=Color.thicc)
 
     def name_label_rechar(self, name):
-        """Rechars name_label and sets balls_label correctly"""
+        """Rechars name_label and sets balls_label correctly
+        ARGS:
+            name: The players new name"""
         self.balls_label.set(0, 1)
         self.name_label.rechar(name, esccode=Color.thicc)
         self.balls_label.set(4 + len(self.name_label.text), self.height - 2)
