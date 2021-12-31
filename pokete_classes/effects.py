@@ -7,6 +7,7 @@ from .color import Color
 class Effect():
     desc = ""
     c_name = ""
+    logging = None
 
     def __init__(self, name, rem_chance, catch_chance, text, str_esccode="",
                  obj=None, exclude=None):
@@ -25,6 +26,7 @@ class Effect():
         return f"{type(self).__name__}"
 
     def add(self, obj):
+        """Adds the effect to a Pokete"""
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f'{obj.ext_name} is not affected by ')
             obj.ico.map.outp.append(se.Text(self.name,
@@ -40,6 +42,7 @@ class Effect():
                                                  esccode=self.str_esccode,
                                                  state="float"),
                                          se.Text("!", state="float"))
+            self.logging.info("[Effect][%s] Added to %s", self.name, obj.name)
         else:
             obj.ico.map.outp.rechar(f'{obj.ext_name} is allready ')
             obj.ico.map.outp.append(se.Text(self.name,
@@ -70,6 +73,7 @@ class Effect():
         self.obj.ico.map.show()
 
     def remove(self):
+        """Removes itself from the current pokete with a certain chance"""
         if random.randint(0, self.rem_chance) == 0:
             self.obj.ico.map.outp.outp(f'{self.obj.ext_name} isn\'t ')
             self.obj.ico.map.outp.append(se.Text(self.name,
@@ -79,6 +83,8 @@ class Effect():
             i = self.obj.effects.index(self)
             del self.obj.effects[i]
             self.cleanup(i)
+            self.logging.info("[Effect][%s] Removed from  %s", self.name,
+                              self.obj.name)
             self.obj = None
             time.sleep(2)
 
@@ -94,6 +100,7 @@ class Effect():
             i.add_label()
 
     def effect(self):
+        """The action that's executed every attack round"""
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
         self.obj.ico.map.outp.append(se.Text(self.name,
                                              esccode=self.str_esccode,
@@ -204,8 +211,13 @@ effect_list = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison,
 
 class Effects:
     def __init__(self):
-        for i in effect_list:
+        self.effect_list = effect_list
+        for i in self.effect_list:
             setattr(self, i.c_name, i)
+
+    def set_vars(self, logging):
+        for i in self.effect_list:
+            i.logging = logging
 
 
 effects = Effects()

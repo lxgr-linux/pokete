@@ -486,6 +486,23 @@ can't have more than 4 attacks!"
             atc.ap = ap if ap != "SKIP" else atc.ap
         self.label_rechar()
 
+    def add_xp(self, _xp):
+        """Adds xp to the current pokete
+        ARGS:
+            _xp: Amount of xp added to the current xp
+        RETURNS:
+            bool: whether or not the next level is reached"""
+        old_lvl = self.lvl()
+        self.xp += _xp
+        self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
+        self.text_lvl.rechar(f"Lvl:{self.lvl()}")
+        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        if old_lvl < self.lvl():
+            logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
+            return True
+        return False
+
     def label_rechar(self):
         """Rechars the attack labels"""
         for i, atc in enumerate(self.attac_obs):
@@ -544,9 +561,10 @@ can't have more than 4 attacks!"
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
+            logging.info("[Poke][%s] Used %s: %s", self.name, attac.name,
+                         str({"eff": effectivity, "n_hp": n_hp}))
             self.label_rechar()
             fightmap.show()
-
 
     def evolve(self):
         """Evolves the Pokete to its evolve_poke"""
@@ -670,6 +688,7 @@ class Figure(se.Object):
             self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
+        logging.info("[Figure] Added Poke %s", poke.name)
 
     def give_item(self, item, amount=1):
         """Gives an item to the player"""
@@ -717,7 +736,7 @@ class Setting(se.Box):
         self.index = self.index + 1 if self.index < len(self.options) - 1 else 0
         setattr(settings, self.setting, list(self.options)[self.index])
         self.option_text.rechar(self.options[getattr(settings, self.setting)])
-        logging.info("[Setting] '%s' set to %s",
+        logging.info("[Setting][%s] set to %s",
                      self.setting, getattr(settings, self.setting))
 
 
@@ -1184,6 +1203,7 @@ back to the last Pokecenter you visited, to heal them!
 On the way there {amount}$ fell out of your pocket!""")
         figure.remove()
         figure.map = figure.last_center_map
+        logging.info("[Figure] Lost all Poketes and ran away")
         DorToCenter().action(figure)
 
 def heal():
@@ -1234,6 +1254,7 @@ def save():
     with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
+    logging.info("[General] Saved")
 
 
 def read_save():
@@ -1286,6 +1307,7 @@ def reset_terminal():
 def exiter():
     """Exit function"""
     reset_terminal()
+    logging.info("[General] Exiting...")
     sys.exit()
 
 
@@ -1942,6 +1964,7 @@ if __name__ == "__main__":
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
+    effects.set_vars(logging)
 
     # reading save file
     session_info = read_save()
@@ -2015,8 +2038,8 @@ if __name__ == "__main__":
     abb_funcs = {"teleport": teleport}
 
     # objects relevant for fight()
-    fightmap = FightMap(height - 1, width)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps)
+    fightmap = FightMap(height - 1, width, logging)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps, logging)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
