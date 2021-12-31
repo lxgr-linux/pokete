@@ -17,7 +17,7 @@ class AttackInfo(Box):
     def __init__(self, attack, p_data, _map):
         atc = Attack(attack, p_data)
         desc_label = se.Text(liner(atc.desc, 40))
-        super().__init__(4 + len(desc_label.text.split("\n")),
+        super().__init__(5 + len(desc_label.text.split("\n")),
                          sorted(len(i) for i in
                             desc_label.text.split("\n")
                             + [atc.label_type.text,
@@ -26,7 +26,8 @@ class AttackInfo(Box):
         self.map = _map
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)
-        self.add_ob(desc_label, 2, 3)
+        self.add_ob(se.Text(f"AP:{atc.max_ap}"), 2, 3)
+        self.add_ob(desc_label, 2, 4)
 
     def __enter__(self):
         """Enter dunder for context management"""
