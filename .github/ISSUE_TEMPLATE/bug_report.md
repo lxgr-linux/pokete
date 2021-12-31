@@ -25,7 +25,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Environment**
  - OS: [e.g. Linux]
- - Version [e.g. 1.1.0]
+ - Pokete Version [e.g. 1.1.0]
+ - Python Version [e.g. 3.10.1]
 
 **Additional context**
 Add any other context about the problem here.
