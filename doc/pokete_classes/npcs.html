@@ -104,6 +104,7 @@ class NPC(se.Box):
         if not self.will or \
                 (self.name in self.used_npcs and self.settings.save_trainers):
             return
+        self.logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
         self.mvmp.full_show()
         time.sleep(0.7)
         self.exclamate()
@@ -122,8 +123,8 @@ class NPC(se.Box):
                            for j in
                             self.map.obmap[i.ry + self.y][i.rx + self.x])
                                 for i in vec.obs][1:])
-        self.logging.info(&#34;[NPC] &#39;%s&#39; %s walk check to (%d|%d)&#34;,
-                          self.name, &#39;succeeded&#39; if ret else &#39;failed&#39;, x, y)
+        self.logging.info(&#34;[NPC][%s] %s walk check to (%d|%d)&#34;,
+                          self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, x, y)
         return ret
 
     def walk_point(self, x, y):
@@ -198,8 +199,8 @@ class Trainer(NPC):
                 if winner != self.poke:
                     self.fig.add_money(20)
                     self.used_npcs.append(self.name)
-                self.logging.info(&#34;[NPC] &#39;%s&#39; %s against player&#34;, self.name,
-                                  &#39;lost&#39; if  winner != self.poke else &#39;won&#39;)
+                self.logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
+                                  &#39;Lost&#39; if  winner != self.poke else &#39;Won&#39;)
             self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
             self.check_walk_back()</code></pre>
 </details>
@@ -281,6 +282,7 @@ class Trainer(NPC):
         if not self.will or \
                 (self.name in self.used_npcs and self.settings.save_trainers):
             return
+        self.logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
         self.mvmp.full_show()
         time.sleep(0.7)
         self.exclamate()
@@ -299,8 +301,8 @@ class Trainer(NPC):
                            for j in
                             self.map.obmap[i.ry + self.y][i.rx + self.x])
                                 for i in vec.obs][1:])
-        self.logging.info(&#34;[NPC] &#39;%s&#39; %s walk check to (%d|%d)&#34;,
-                          self.name, &#39;succeeded&#39; if ret else &#39;failed&#39;, x, y)
+        self.logging.info(&#34;[NPC][%s] %s walk check to (%d|%d)&#34;,
+                          self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, x, y)
         return ret
 
     def walk_point(self, x, y):
@@ -414,6 +416,7 @@ def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
     if not self.will or \
             (self.name in self.used_npcs and self.settings.save_trainers):
         return
+    self.logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
     self.mvmp.full_show()
     time.sleep(0.7)
     self.exclamate()
@@ -437,8 +440,8 @@ def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
                        for j in
                         self.map.obmap[i.ry + self.y][i.rx + self.x])
                             for i in vec.obs][1:])
-    self.logging.info(&#34;[NPC] &#39;%s&#39; %s walk check to (%d|%d)&#34;,
-                      self.name, &#39;succeeded&#39; if ret else &#39;failed&#39;, x, y)
+    self.logging.info(&#34;[NPC][%s] %s walk check to (%d|%d)&#34;,
+                      self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, x, y)
     return ret</code></pre>
 </details>
 </dd>
@@ -640,8 +643,8 @@ Do you want to accept it?&#34;):
                 if winner != self.poke:
                     self.fig.add_money(20)
                     self.used_npcs.append(self.name)
-                self.logging.info(&#34;[NPC] &#39;%s&#39; %s against player&#34;, self.name,
-                                  &#39;lost&#39; if  winner != self.poke else &#39;won&#39;)
+                self.logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
+                                  &#39;Lost&#39; if  winner != self.poke else &#39;Won&#39;)
             self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
             self.check_walk_back()</code></pre>
 </details>
@@ -688,8 +691,8 @@ Do you want to accept it?&#34;):
             if winner != self.poke:
                 self.fig.add_money(20)
                 self.used_npcs.append(self.name)
-            self.logging.info(&#34;[NPC] &#39;%s&#39; %s against player&#34;, self.name,
-                              &#39;lost&#39; if  winner != self.poke else &#39;won&#39;)
+            self.logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
+                              &#39;Lost&#39; if  winner != self.poke else &#39;Won&#39;)
         self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
         self.check_walk_back()</code></pre>
 </details>

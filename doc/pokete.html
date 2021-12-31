@@ -523,6 +523,23 @@ can&#39;t have more than 4 attacks!&#34;
             atc.ap = ap if ap != &#34;SKIP&#34; else atc.ap
         self.label_rechar()
 
+    def add_xp(self, _xp):
+        &#34;&#34;&#34;Adds xp to the current pokete
+        ARGS:
+            _xp: Amount of xp added to the current xp
+        RETURNS:
+            bool: whether or not the next level is reached&#34;&#34;&#34;
+        old_lvl = self.lvl()
+        self.xp += _xp
+        self.text_xp.rechar(f&#34;XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}&#34;)
+        self.text_lvl.rechar(f&#34;Lvl:{self.lvl()}&#34;)
+        logging.info(&#34;[Poke][%s] Gained %dxp (curr:%d)&#34;, self.name, _xp, self.xp)
+        if old_lvl &lt; self.lvl():
+            logging.info(&#34;[Poke][%s] Reached lvl. %d&#34;, self.name, self.lvl())
+            return True
+        return False
+
     def label_rechar(self):
         &#34;&#34;&#34;Rechars the attack labels&#34;&#34;&#34;
         for i, atc in enumerate(self.attac_obs):
@@ -581,9 +598,10 @@ can&#39;t have more than 4 attacks!&#34;
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
+            logging.info(&#34;[Poke][%s] Used %s: %s&#34;, self.name, attac.name,
+                         str({&#34;eff&#34;: effectivity, &#34;n_hp&#34;: n_hp}))
             self.label_rechar()
             fightmap.show()
-
 
     def evolve(self):
         &#34;&#34;&#34;Evolves the Pokete to its evolve_poke&#34;&#34;&#34;
@@ -707,6 +725,7 @@ class Figure(se.Object):
             self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
+        logging.info(&#34;[Figure] Added Poke %s&#34;, poke.name)
 
     def give_item(self, item, amount=1):
         &#34;&#34;&#34;Gives an item to the player&#34;&#34;&#34;
@@ -754,7 +773,7 @@ class Setting(se.Box):
         self.index = self.index + 1 if self.index &lt; len(self.options) - 1 else 0
         setattr(settings, self.setting, list(self.options)[self.index])
         self.option_text.rechar(self.options[getattr(settings, self.setting)])
-        logging.info(&#34;[Setting] &#39;%s&#39; set to %s&#34;,
+        logging.info(&#34;[Setting][%s] set to %s&#34;,
                      self.setting, getattr(settings, self.setting))
 
 
@@ -1221,6 +1240,7 @@ back to the last Pokecenter you visited, to heal them!
 On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
         figure.remove()
         figure.map = figure.last_center_map
+        logging.info(&#34;[Figure] Lost all Poketes and ran away&#34;)
         DorToCenter().action(figure)
 
 def heal():
@@ -1271,6 +1291,7 @@ def save():
     with open(HOME + SAVEPATH + &#34;/pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
+    logging.info(&#34;[General] Saved&#34;)
 
 
 def read_save():
@@ -1323,6 +1344,7 @@ def reset_terminal():
 def exiter():
     &#34;&#34;&#34;Exit function&#34;&#34;&#34;
     reset_terminal()
+    logging.info(&#34;[General] Exiting...&#34;)
     sys.exit()
 
 
@@ -1979,6 +2001,7 @@ if __name__ == &#34;__main__&#34;:
                         format=&#39;[%(asctime)s][%(levelname)s]: %(message)s&#39;,
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info(&#34;=== Startup Pokete %s v%s ===&#34;, CODENAME, VERSION)
+    effects.set_vars(logging)
 
     # reading save file
     session_info = read_save()
@@ -2052,8 +2075,8 @@ if __name__ == &#34;__main__&#34;:
     abb_funcs = {&#34;teleport&#34;: teleport}
 
     # objects relevant for fight()
-    fightmap = FightMap(height - 1, width)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps)
+    fightmap = FightMap(height - 1, width, logging)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps, logging)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
@@ -2143,6 +2166,7 @@ back to the last Pokecenter you visited, to heal them!
 On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
         figure.remove()
         figure.map = figure.last_center_map
+        logging.info(&#34;[Figure] Lost all Poketes and ran away&#34;)
         DorToCenter().action(figure)</code></pre>
 </details>
 </dd>
@@ -2185,6 +2209,7 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
 <pre><code class="python">def exiter():
     &#34;&#34;&#34;Exit function&#34;&#34;&#34;
     reset_terminal()
+    logging.info(&#34;[General] Exiting...&#34;)
     sys.exit()</code></pre>
 </details>
 </dd>
@@ -2788,7 +2813,8 @@ _map.w_poke_args)
     }
     with open(HOME + SAVEPATH + &#34;/pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
-        json.dump(_si, file, indent=4)</code></pre>
+        json.dump(_si, file, indent=4)
+    logging.info(&#34;[General] Saved&#34;)</code></pre>
 </details>
 </dd>
 <dt id="pokete.swap_poke"><code class="name flex">
@@ -4121,6 +4147,7 @@ def water(obs):
             self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
+        logging.info(&#34;[Figure] Added Poke %s&#34;, poke.name)
 
     def give_item(self, item, amount=1):
         &#34;&#34;&#34;Gives an item to the player&#34;&#34;&#34;
@@ -4181,7 +4208,8 @@ in the inventory&#34;
     if idx is None:
         self.pokes.append(poke)
     else:
-        self.pokes[idx] = poke</code></pre>
+        self.pokes[idx] = poke
+    logging.info(&#34;[Figure] Added Poke %s&#34;, poke.name)</code></pre>
 </details>
 </dd>
 <dt id="pokete.Figure.get_money"><code class="name flex">
@@ -5051,6 +5079,23 @@ can&#39;t have more than 4 attacks!&#34;
             atc.ap = ap if ap != &#34;SKIP&#34; else atc.ap
         self.label_rechar()
 
+    def add_xp(self, _xp):
+        &#34;&#34;&#34;Adds xp to the current pokete
+        ARGS:
+            _xp: Amount of xp added to the current xp
+        RETURNS:
+            bool: whether or not the next level is reached&#34;&#34;&#34;
+        old_lvl = self.lvl()
+        self.xp += _xp
+        self.text_xp.rechar(f&#34;XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}&#34;)
+        self.text_lvl.rechar(f&#34;Lvl:{self.lvl()}&#34;)
+        logging.info(&#34;[Poke][%s] Gained %dxp (curr:%d)&#34;, self.name, _xp, self.xp)
+        if old_lvl &lt; self.lvl():
+            logging.info(&#34;[Poke][%s] Reached lvl. %d&#34;, self.name, self.lvl())
+            return True
+        return False
+
     def label_rechar(self):
         &#34;&#34;&#34;Rechars the attack labels&#34;&#34;&#34;
         for i, atc in enumerate(self.attac_obs):
@@ -5109,9 +5154,10 @@ can&#39;t have more than 4 attacks!&#34;
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
+            logging.info(&#34;[Poke][%s] Used %s: %s&#34;, self.name, attac.name,
+                         str({&#34;eff&#34;: effectivity, &#34;n_hp&#34;: n_hp}))
             self.label_rechar()
             fightmap.show()
-
 
     def evolve(self):
         &#34;&#34;&#34;Evolves the Pokete to its evolve_poke&#34;&#34;&#34;
@@ -5149,6 +5195,43 @@ can&#39;t have more than 4 attacks!&#34;
 </details>
 <h3>Methods</h3>
 <dl>
+<dt id="pokete.Poke.add_xp"><code class="name flex">
+<span>def <span class="ident">add_xp</span></span>(<span>self, _xp)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds xp to the current pokete</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_xp</code></strong></dt>
+<dd>Amount of xp added to the current xp</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>whether or not the next level is reached</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    def add_xp(self, _xp):
+        &#34;&#34;&#34;Adds xp to the current pokete
+        ARGS:
+            _xp: Amount of xp added to the current xp
+        RETURNS:
+            bool: whether or not the next level is reached&#34;&#34;&#34;
+        old_lvl = self.lvl()
+        self.xp += _xp
+        self.text_xp.rechar(f&#34;XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}&#34;)
+        self.text_lvl.rechar(f&#34;Lvl:{self.lvl()}&#34;)
+        logging.info(&#34;[Poke][%s] Gained %dxp (curr:%d)&#34;, self.name, _xp, self.xp)
+        if old_lvl &lt; self.lvl():
+            logging.info(&#34;[Poke][%s] Reached lvl. %d&#34;, self.name, self.lvl())
+            return True
+        return False</code></pre>
+</details>
+</dd>
 <dt id="pokete.Poke.attack"><code class="name flex">
 <span>def <span class="ident">attack</span></span>(<span>self, attac, enem)</span>
 </code></dt>
@@ -5205,6 +5288,8 @@ can&#39;t have more than 4 attacks!&#34;
                 attac.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
+            logging.info(&#34;[Poke][%s] Used %s: %s&#34;, self.name, attac.name,
+                         str({&#34;eff&#34;: effectivity, &#34;n_hp&#34;: n_hp}))
             self.label_rechar()
             fightmap.show()</code></pre>
 </details>
@@ -5462,7 +5547,7 @@ can&#39;t have more than 4 attacks!&#34;
         self.index = self.index + 1 if self.index &lt; len(self.options) - 1 else 0
         setattr(settings, self.setting, list(self.options)[self.index])
         self.option_text.rechar(self.options[getattr(settings, self.setting)])
-        logging.info(&#34;[Setting] &#39;%s&#39; set to %s&#34;,
+        logging.info(&#34;[Setting][%s] set to %s&#34;,
                      self.setting, getattr(settings, self.setting))</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -5487,7 +5572,7 @@ can&#39;t have more than 4 attacks!&#34;
     self.index = self.index + 1 if self.index &lt; len(self.options) - 1 else 0
     setattr(settings, self.setting, list(self.options)[self.index])
     self.option_text.rechar(self.options[getattr(settings, self.setting)])
-    logging.info(&#34;[Setting] &#39;%s&#39; set to %s&#34;,
+    logging.info(&#34;[Setting][%s] set to %s&#34;,
                  self.setting, getattr(settings, self.setting))</code></pre>
 </details>
 </dd>
@@ -5775,6 +5860,7 @@ can&#39;t have more than 4 attacks!&#34;
 <li>
 <h4><code><a title="pokete.Poke" href="#pokete.Poke">Poke</a></code></h4>
 <ul class="two-column">
+<li><code><a title="pokete.Poke.add_xp" href="#pokete.Poke.add_xp">add_xp</a></code></li>
 <li><code><a title="pokete.Poke.attack" href="#pokete.Poke.attack">attack</a></code></li>
 <li><code><a title="pokete.Poke.dict" href="#pokete.Poke.dict">dict</a></code></li>
 <li><code><a title="pokete.Poke.evolve" href="#pokete.Poke.evolve">evolve</a></code></li>
