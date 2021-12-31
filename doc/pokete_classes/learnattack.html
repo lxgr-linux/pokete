@@ -46,7 +46,7 @@ class AttackInfo(Box):
     def __init__(self, attack, p_data, _map):
         atc = Attack(attack, p_data)
         desc_label = se.Text(liner(atc.desc, 40))
-        super().__init__(4 + len(desc_label.text.split(&#34;\n&#34;)),
+        super().__init__(5 + len(desc_label.text.split(&#34;\n&#34;)),
                          sorted(len(i) for i in
                             desc_label.text.split(&#34;\n&#34;)
                             + [atc.label_type.text,
@@ -55,7 +55,8 @@ class AttackInfo(Box):
         self.map = _map
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)
-        self.add_ob(desc_label, 2, 3)
+        self.add_ob(se.Text(f&#34;AP:{atc.max_ap}&#34;), 2, 3)
+        self.add_ob(desc_label, 2, 4)
 
     def __enter__(self):
         &#34;&#34;&#34;Enter dunder for context management&#34;&#34;&#34;
@@ -165,7 +166,7 @@ if __name__ == &#34;__main__&#34;:
     def __init__(self, attack, p_data, _map):
         atc = Attack(attack, p_data)
         desc_label = se.Text(liner(atc.desc, 40))
-        super().__init__(4 + len(desc_label.text.split(&#34;\n&#34;)),
+        super().__init__(5 + len(desc_label.text.split(&#34;\n&#34;)),
                          sorted(len(i) for i in
                             desc_label.text.split(&#34;\n&#34;)
                             + [atc.label_type.text,
@@ -174,7 +175,8 @@ if __name__ == &#34;__main__&#34;:
         self.map = _map
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)
-        self.add_ob(desc_label, 2, 3)
+        self.add_ob(se.Text(f&#34;AP:{atc.max_ap}&#34;), 2, 3)
+        self.add_ob(desc_label, 2, 4)
 
     def __enter__(self):
         &#34;&#34;&#34;Enter dunder for context management&#34;&#34;&#34;
