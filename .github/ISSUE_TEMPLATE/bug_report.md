@@ -7,6 +7,11 @@ assignees: ''
 
 ---
 
+**Checklist**
+I have:
+- [ ] Searched the Issues page for my problem/feature request
+- [ ] Updated all related software and Pokete it self
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
@@ -25,8 +30,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Environment**
  - OS: [e.g. Linux]
- - Pokete Version [e.g. 1.1.0]
- - Python Version [e.g. 3.10.1]
+ - Pokete version [e.g. 1.1.0]
+ - Python version [e.g. 3.10.1]
+ - Scrap engine version [e.g. 1.1.0]
 
 **Additional context**
 Add any other context about the problem here.
