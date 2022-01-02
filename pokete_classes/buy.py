@@ -5,7 +5,11 @@ from pokete_general_use_fns import std_loop, liner
 
 
 class Buy:
-    """Menu to buy items in, is triggered in shop"""
+    """Menu to buy items in, is triggered in shop
+    Args:
+        figure: Figure object
+        items: Items object
+        _map: The se.Map the menu is shown on"""
 
     def __init__(self, figure, items, _map):
         self.box = ChooseBox(_map.height - 3, 35, "Shop")
@@ -23,27 +27,29 @@ class Buy:
                         self.box.width - 2 - len(self.money_label.text), 0)
         self.box2.add_ob(self.desc_label, 1, 1)
 
-    def __call__(self, ev):
-        """Opens the buy menu"""
-        ev.clear()
+    def __call__(self, _ev):
+        """Opens the buy menu
+        ARGS:
+            _ev: Event object"""
+        _ev.clear()
         with self.box.add(self.map, self.map.width - 35, 0):
             self.box2.add(self.map, self.box.x - 19, 3)
             self.rechar()
             self.map.show()
             while True:
-                if ev.get() in ["'s'", "'w'"]:
-                    self.box.input(ev.get())
+                if _ev.get() in ["'s'", "'w'"]:
+                    self.box.input(_ev.get())
                     self.rechar()
-                    ev.clear()
-                elif ev.get() in ["Key.esc", "'q'"]:
+                    _ev.clear()
+                elif _ev.get() in ["Key.esc", "'q'"]:
                     break
-                elif ev.get() == "Key.enter":
+                elif _ev.get() == "Key.enter":
                     obj = self.items[self.box.index.index]
                     if self.fig.get_money() - obj.price >= 0:
                         self.fig.add_money(-obj.price)
                         self.fig.give_item(obj.name)
-                    ev.clear()
-                std_loop(ev)
+                    _ev.clear()
+                std_loop(_ev)
                 time.sleep(0.05)
                 self.map.show()
         self.box2.remove()

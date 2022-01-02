@@ -8,7 +8,10 @@ from .color import Color
 
 
 class Attack:
-    """Attack that can be used by a Pokete"""
+    """Attack that can be used by a Pokete
+    ARGS:
+        index: The attacks basic name
+        p_data: p_data module"""
 
     def __init__(self, index, p_data):
         inf = p_data.attacks[index]
@@ -37,7 +40,9 @@ class Attack:
                                   esccode=self.type.color, state="float")
 
     def give_effect(self, enem):
-        """Gives the associated effect to a Pokete"""
+        """Gives the associated effect to a Pokete
+        ARGS:
+            enem: Enemy object"""
         if self.effect is not None:
             time.sleep(1.5)
             getattr(effects, self.effect)().add(enem)

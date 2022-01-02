@@ -5,6 +5,21 @@ from .color import Color
 
 
 class Effect():
+    """An effect that can be given to a Pokete and that effects the Pokete
+    during fights
+    ARGS:
+        name: The effects displayed name (paralysed etc)
+        rem_chance: The chance the effect gets removed
+        catch_chance: The number with which the catch chance of the Poke is
+            increased
+        text: The text shown near the Pokes name ("(Bur)")
+        str_esccode: The color of said label,
+        obj: The Poke the effect is added to
+        exclude: A list of type names that the effect can't be added to
+    CLASS VARS:
+        desc: The effects description
+        c_name: The class' simplified name
+        logging: The logging module"""
     desc = ""
     c_name = ""
     logging = None
@@ -26,7 +41,9 @@ class Effect():
         return f"{type(self).__name__}"
 
     def add(self, obj):
-        """Adds the effect to a Pokete"""
+        """Adds the effect to a Pokete
+        ARGS:
+            obj: The Poke the effect is added to"""
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f'{obj.ext_name} is not affected by ')
             obj.ico.map.outp.append(se.Text(self.name,
@@ -52,6 +69,7 @@ class Effect():
         time.sleep(2)
 
     def add_label(self):
+        """Adds the label to the fightmap"""
         try:
             self.label.add(self.obj.ico.map,
                            (self.obj.text_lvl.obs[-1].x
@@ -64,6 +82,7 @@ class Effect():
             pass
 
     def readd(self):
+        """Readds label and shows text"""
         self.add_label()
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
         self.obj.ico.map.outp.append(se.Text(self.name,
@@ -89,6 +108,9 @@ class Effect():
             time.sleep(2)
 
     def cleanup(self, j=None):
+        """Does a cleanup
+        ARGS:
+            j: The former index in self.obs.effects"""
         if j is None:
             j = self.obj.effects.index(self)
         else:
@@ -112,6 +134,7 @@ class Effect():
 
     @classmethod
     def ret_md(cls):
+        """Returns a descriptive markdown string"""
         return f"""
 ### {cls.c_name.capitalize()}
 {cls.desc}
@@ -210,12 +233,17 @@ effect_list = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison,
 
 
 class Effects:
+    """Contains all effects"""
+
     def __init__(self):
         self.effect_list = effect_list
         for i in self.effect_list:
             setattr(self, i.c_name, i)
 
     def set_vars(self, logging):
+        """Injects vars into Effect classes
+        ARGS:
+            logging: logging module"""
         for i in self.effect_list:
             i.logging = logging
 

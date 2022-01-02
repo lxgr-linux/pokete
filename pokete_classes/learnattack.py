@@ -12,7 +12,11 @@ from .attack import Attack
 
 
 class AttackInfo(Box):
-    """Gives information about a certain attack"""
+    """Gives information about a certain attack
+    ARGS:
+        attack: The attack's name
+        p_data: p_data module
+        _map: se.Map this should be shown on"""
 
     def __init__(self, attack, p_data, _map):
         atc = Attack(attack, p_data)
@@ -37,7 +41,10 @@ class AttackInfo(Box):
 
 
 class LearnAttack:
-    """Lets a Pokete learn a new attack"""
+    """Lets a Pokete learn a new attack
+    ARGS:
+        poke: The Poke that should learn an attack
+        _map: The se.Map this should happen on"""
 
     def __init__(self, poke, _map):
         self.map = _map
@@ -45,7 +52,15 @@ class LearnAttack:
         self.box = ChooseBox(6, 25, name="Attacks", info="1:Details, 2:Info")
 
     def __call__(self, _ev, p_data, attack=None):
-        """Starts the learning process"""
+        """Starts the learning process
+        ARGS:
+            _ev: Event object
+            p_data: p_data module
+            attack: The attack's name that should be learned, if None a fitting
+                    attack will be chosen randomly
+        RETURNS:
+            bool: Whether or not the attack was learned"""
+
         attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
@@ -107,6 +122,7 @@ class LearnAttack:
             self.poke.set_vars()
             return True
         return False
+
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

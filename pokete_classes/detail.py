@@ -12,7 +12,14 @@ class Informer:
 
     @staticmethod
     def add(poke, figure, _map, _x, _y, in_deck=True):
-        """Adds a Pokete to the deck"""
+        """Adds a Pokete's info to the deck
+        ARGS:
+            poke: Poke object
+            figure: Figure object
+            _map: se.Map object the information is added to
+            _x: X-coordinate the info is added to
+            _y: Y-coordinate
+            in_deck: bool whether or not the info is added to the deck"""
         poke.text_name.add(_map, _x + 12, _y + 0)
         if poke.identifier != "__fallback__":
             for obj, __x, __y in zip([poke.ico, poke.text_lvl, poke.text_hp,
@@ -32,7 +39,9 @@ class Informer:
 
     @staticmethod
     def remove(poke):
-        """Removes a Pokete from the deck"""
+        """Removes a Pokete from the deck
+        ARGS:
+            poke: Poke object that should be removed"""
         for obj in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
                     poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
                     poke.pball_small]:
@@ -42,7 +51,10 @@ class Informer:
 
 
 class Detail(Informer):
-    """Shows details about a Pokete"""
+    """Shows details about a Pokete
+    ARGS:
+        height: Height of the map
+        width: Width of the map"""
 
     def __init__(self, height, width):
         self.map = se.Map(height, width, " ")
@@ -73,7 +85,11 @@ class Detail(Informer):
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
 
     def __call__(self, _ev, poke, abb=True):
-        """Shows details"""
+        """Shows details
+        ARGS:
+            _ev: Event object
+            poke: Poke object whose details are given
+            abb: Bool whether or not the ability option is shown"""
         ret_action = None
         self.add(poke, None, self.map, 1, 1, False)
         abb_obs = [i for i in poke.attac_obs
@@ -154,7 +170,6 @@ class Detail(Informer):
                                                        int(self.map.width
                                                            / 2 - 1)
                                                        + atc.temp_i])
-
                     else:
                         atc.temp_j += 1
             time.sleep(0.05)

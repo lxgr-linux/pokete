@@ -6,7 +6,9 @@ from .input import ask_bool
 
 
 class NPCTrigger(se.Object):
-    """Object on the map, that triggers a npc"""
+    """Object on the map, that triggers a npc
+    ARGS:
+        npc: The NPC it belongs to"""
 
     def __init__(self, npc):
         super().__init__(" ", state="float")
@@ -32,7 +34,17 @@ class NPC(se.Box):
     @classmethod
     def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
                  settings, npcactions, logging, check_walk_back):
-        """Sets all variables needed by NPCs"""
+        """Sets all variables needed by NPCs
+        ARGS:
+            mvmp: MoveMap object
+            fig: Figure object
+            _ev: Event object
+            invitems: InvItems object
+            used_npcs: used_npcs list
+            settings: Settings object
+            npcactions: NPCActions class
+            logging: logging module
+            check_walk_back: check_walk_back function"""
         cls.mvmp = mvmp
         cls.fig = fig
         cls._ev = _ev
@@ -55,7 +67,9 @@ class NPC(se.Box):
         self.add_ob(self.main_ob, 0, 0)
 
     def text(self, text):
-        """Movemap.text wrapper"""
+        """Movemap.text wrapper
+        ARGS:
+            text: Text that should be printed"""
         self.mvmp.text(self.x, self.y, text, self._ev)
 
     def exclamate(self):
@@ -88,7 +102,12 @@ class NPC(se.Box):
             getattr(self.npcactions, self.__fn)(self)
 
     def check_walk(self, x, y):
-        """Checks whether the NPC can walk to a point or not"""
+        """Checks whether the NPC can walk to a point or not
+        ARGS:
+            x: X-coordinate
+            y: Y-coordinate
+        RETURNS:
+            bool: Whether or not the walk is possible"""
         vec = se.Line(" ", x - self.x, y - self.y)
         ret = not any([any(j.state == "solid"
                            for j in
@@ -99,7 +118,12 @@ class NPC(se.Box):
         return ret
 
     def walk_point(self, x, y):
-        """Walks the NPC tp a certain point"""
+        """Walks the NPC tp a certain point
+        ARGS:
+            x: X-coordinate
+            y: Y-coordinate
+        RETURNS:
+            bool: Whether or not the walk succeeded"""
         o_x = self.x
         o_y = self.y
         vec = se.Line(" ", x - o_x, y - o_y)
@@ -112,7 +136,10 @@ class NPC(se.Box):
         return True
 
     def give(self, name, item):
-        """Method that gifts an item to the player"""
+        """Method that gifts an item to the player
+        ARGS:
+            name: The displayed name of the npc
+            item: Item name"""
         item = getattr(self.invitems, item)
         self.will = False
         self.used_npcs.append(self.name)
@@ -136,7 +163,8 @@ class Trainer(NPC):
         self.fight = fight
 
     def add(self, _map, x, y):
-        """Add wrapper"""
+        """Add wrapper
+        See se.Box.add"""
         line = se.Line(" ", 0, _map.height, state="float")
         for i, obj in enumerate(line.obs):
             line.obs[i] = NPCTrigger(self)
