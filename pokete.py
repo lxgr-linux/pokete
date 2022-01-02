@@ -40,11 +40,17 @@ from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
+from pokete_classes.notify import Notifier, Notification
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
 
 __t = time.time()
+
+
+def test2():
+    notifier.notify("Test", "Hallo",
+            "asasasasa aaaaaa a aaaaaaaaaa a aaaaaaaaa aaaaaaaaaaa a aaaaaaaaaaaa")
 
 
 # Class definition
@@ -1550,6 +1556,7 @@ def game(_map):
                 codes(inp)
                 ev.clear()
         std_loop(ev)
+        notifier.next()
         _map.extra_actions()
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 > movemap.x + movemap.width,
@@ -2034,6 +2041,7 @@ if __name__ == "__main__":
     inv = Inv(movemap)
     invitems = Items(p_data)
     buy = Buy(figure, invitems, movemap)
+    notifier = Notifier(movemap, logging)
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
 
