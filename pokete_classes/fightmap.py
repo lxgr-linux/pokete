@@ -403,8 +403,8 @@ class FightItems:
             enem: The enemys Poke object
             info: The info dict
         RETURNS:
-            1: The continue the attack round
-            2: The win the game
+            1: To continue the attack round
+            2: To win the game
             None: To let the enemy attack"""
 
     def __init__(self, _map, movemap, figure, ob_maps, logging):
