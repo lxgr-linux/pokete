@@ -11,7 +11,7 @@ class Attack:
     """Attack that can be used by a Pokete
     ARGS:
         index: The attacks basic name
-        p_data: P_data module"""
+        p_data: p_data module"""
 
     def __init__(self, index, p_data):
         inf = p_data.attacks[index]

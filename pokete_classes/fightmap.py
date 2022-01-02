@@ -161,7 +161,7 @@ class FightMap(se.Map):
         """Inputloop for attack options
         ARGS:
             _ev: Event object
-            attack_obs: A list of Attack objects taht belong to a Poke"""
+            attack_obs: A list of Attack objects that belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
             while True:
                 if _ev.get() in ["'s'", "'w'"]:
@@ -215,8 +215,8 @@ class FightMap(se.Map):
               deck, p_data, _ev, info):
         """Fight between two Pokes
         ARGS:
-            player: The players used Poke
-            enemy: The enemys used Poke
+            player: The players' used Poke
+            enemy: The enemy's used Poke
             figure: Figure object
             settings: Settings object
             invitems: InvItems object

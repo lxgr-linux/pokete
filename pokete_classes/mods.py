@@ -17,7 +17,7 @@ class ModError(Exception):
     """
     An Error that is thrown, when an inproper module is loaded
     ARGS:
-        name: The mods name
+        name: The mod's name
         err: The error that was thrown"""
 
     def __init__(self, name, err):

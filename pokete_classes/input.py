@@ -78,7 +78,7 @@ def ask_text(_ev, _map, infotext, introtext, text, name, max_len):
         infotext: The information text about the input
         introtext: The text that introduces the text field
         text: The default text in the text field
-        name: The boxes desplayed name
+        name: The boxes displayed name
         max_len: Max length of the text"""
     with InputBox(infotext, introtext, text, max_len, name, _map) as inputbox:
         ret = text_input(inputbox.text, _map, text, _ev, max_len + 1,

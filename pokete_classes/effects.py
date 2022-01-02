@@ -10,15 +10,15 @@ class Effect():
     ARGS:
         name: The effects displayed name (paralysed etc)
         rem_chance: The chance the effect gets removed
-        catch_chance: The number with which the catch chnace of the Poke is
+        catch_chance: The number with which the catch chance of the Poke is
             increased
         text: The text shown near the Pokes name ("(Bur)")
-        str_esccode: The color of sayed label,
+        str_esccode: The color of said label,
         obj: The Poke the effect is added to
         exclude: A list of type names that the effect can't be added to
     CLASS VARS:
-        desc: The effects discription
-        c_name: The classes simplified name
+        desc: The effects description
+        c_name: The class' simplified name
         logging: The logging module"""
     desc = ""
     c_name = ""
@@ -43,7 +43,7 @@ class Effect():
     def add(self, obj):
         """Adds the effect to a Pokete
         ARGS:
-            obj: The Poke the effect is adde to"""
+            obj: The Poke the effect is added to"""
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f'{obj.ext_name} is not affected by ')
             obj.ico.map.outp.append(se.Text(self.name,

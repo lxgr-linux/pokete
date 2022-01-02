@@ -63,7 +63,7 @@ class OutP(se.Text):
     def outp(self, text):
         """Rechar and show wrapper
         ARGS:
-            text: String thats printed out"""
+            text: String that's printed out"""
         self.rechar(text)
         self.map.show()
 

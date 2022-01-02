@@ -19,10 +19,10 @@ class Items:
 class InvItem:
     """Item for the inventory
     ARGS:
-        name: The items generic name (healing_potion)
-        pretty_name: The items pretty name (Healing potion)
-        desc: The items description
-        price: The items price in the shop
+        name: The item's generic name (healing_potion)
+        pretty_name: The item's pretty name (Healing potion)
+        desc: The item's description
+        price: The item's price in the shop
         fn: The associated method name in FightItems"""
 
     def __init__(self, name, pretty_name, desc, price, fn=None):
@@ -36,7 +36,7 @@ class InvItem:
 class LearnDisc(InvItem):
     """Learning disc item to teach attacks to Poketes
     ARGS:
-        attack_name: The nama of the attack beeing taught
+        attack_name: The name of the attack being taught
         attacks: p_data.attacks dict"""
 
     def __init__(self, attack_name, attacks):

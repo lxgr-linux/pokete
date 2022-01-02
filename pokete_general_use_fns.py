@@ -62,7 +62,7 @@ def std_loop(_ev):
 def print_help(path):
     """Shows help message
     ARGS:
-        path: The games path"""
+        path: The game's path"""
     print(f"""Pokete {release.CODENAME} v{release.VERSION}
 Usage: {path} (<options>)
 Options:

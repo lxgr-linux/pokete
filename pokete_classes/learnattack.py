@@ -14,7 +14,7 @@ from .attack import Attack
 class AttackInfo(Box):
     """Gives information about a certain attack
     ARGS:
-        attack: The attacks name
+        attack: The attack's name
         p_data: p_data module
         _map: se.Map this should be shown on"""
 
@@ -55,8 +55,8 @@ class LearnAttack:
         ARGS:
             _ev: Event object
             p_data: p_data module
-            attack: The attacks' name that should be leared, if None a fitting
-                    attack will be choosen randomly
+            attack: The attack's name that should be learned, if None a fitting
+                    attack will be chosen randomly
         RETURNS:
             bool: Whether or not the attack was learned"""
 

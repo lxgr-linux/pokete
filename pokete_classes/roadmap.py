@@ -13,11 +13,11 @@ class Station(se.Square):
         roadmap: RoadMap object
         associate: Main PlayMap name the station belongs to
         additionals: List of PlayMap names the station also belongs to
-        width: The Stations width
-        height: The Stations height
-        desc: The associates description
+        width: The Station's width
+        height: The Station's height
+        desc: The associated description
         char: Displayed char
-        {w,a,s,d}_next: The next Stations name in a certain direction"""
+        {w,a,s,d}_next: The next Station's name in a certain direction"""
     choosen = None
     obs = []
 

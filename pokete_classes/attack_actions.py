@@ -1,7 +1,7 @@
 class AttackActions:
     """This class contains all actions callable by an attack
-    All this methods belong to one or more attacks and follow the following
-    patern:
+    All these methods belong to one or more attacks and follow the following
+    pattern:
         ARGS:
             obj: The Poke object that attacks
             enem: The Poke object that is attacked"""

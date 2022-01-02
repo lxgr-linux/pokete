@@ -1,6 +1,7 @@
 """This provides p_data. Never ever import this except for in pokete.py since
    p_data can be manipulated by mods and therefore should be injected and not
    imported
+
    I know all this is very awfull..."""
 
 from .poketes import *

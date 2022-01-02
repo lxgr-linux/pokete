@@ -12,7 +12,7 @@ class Informer:
 
     @staticmethod
     def add(poke, figure, _map, _x, _y, in_deck=True):
-        """Adds a Poketes info to the deck
+        """Adds a Pokete's info to the deck
         ARGS:
             poke: Poke object
             figure: Figure object
@@ -88,8 +88,8 @@ class Detail(Informer):
         """Shows details
         ARGS:
             _ev: Event object
-            poke: Poke object thats details are given
-            abb: Bool whether or not the abbility option is shown"""
+            poke: Poke object whose details are given
+            abb: Bool whether or not the ability option is shown"""
         ret_action = None
         self.add(poke, None, self.map, 1, 1, False)
         abb_obs = [i for i in poke.attac_obs

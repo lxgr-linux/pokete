@@ -725,7 +725,8 @@ class Figure(se.Object):
         self.set_money(self.__money + money)
 
     def get_money(self):
-        """RETURNS:
+        """Getter for __money
+        RETURNS:
             The current money"""
         return self.__money
 
@@ -769,7 +770,7 @@ class Figure(se.Object):
         ARGS:
             item: Generic item name
         RETURNS:
-            bool"""
+            If the player has this item"""
         return item in self.inv and self.inv[item] > 0
 
     def remove_item(self, item, amount=1):
@@ -821,7 +822,7 @@ class Debug:
 
     @classmethod
     def pos(cls):
-        """Prints the figures position"""
+        """Prints the figures' position"""
         print(figure.x, figure.y, figure.map.name)
 
 
@@ -1084,7 +1085,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
         self.box.remove_c_obs()
 
     def rem_item(self, name, items):
-        """Removes an item to the inv
+        """Removes an item from the inv
         ARGS:
             name: Items name
             items: List of Items

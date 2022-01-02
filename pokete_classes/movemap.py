@@ -39,7 +39,7 @@ class Movemap(se.Submap):
     def text(self, x, y, inp_arr, _ev):
         """Shows dialog text on movemap
         ARGS:
-            x: The messages X
+            x: The message's X
             y: And y-coordinate
             inp_arr: List of messages that will be displayed
             _ev: Event object"""
@@ -87,9 +87,9 @@ class Movemap(se.Submap):
         self.add_obs()
 
     def balls_label_rechar(self, pokes):
-        """Rechars the balls label
+        """Rechars the ball's label
         ARGS:
-            pokes: The players Pokes"""
+            pokes: The player's Pokes"""
         self.balls_label.rechar("".join("-" if i >= len(pokes)
                                 or pokes[i].identifier == "__fallback__"\
                                         else "o" if pokes[i].hp > 0
@@ -99,7 +99,7 @@ class Movemap(se.Submap):
     def name_label_rechar(self, name):
         """Rechars name_label and sets balls_label correctly
         ARGS:
-            name: The players new name"""
+            name: The player's new name"""
         self.balls_label.set(0, 1)
         self.name_label.rechar(name, esccode=Color.thicc)
         self.balls_label.set(4 + len(self.name_label.text), self.height - 2)
