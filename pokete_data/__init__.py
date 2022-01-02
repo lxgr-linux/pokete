@@ -16,7 +16,12 @@ from .maps import *
 
 
 class ValidationError(Exception):
-    """Error thrown when validation fails"""
+    """Error thrown when validation fails
+    ARGS:
+        value: The missing values name
+        name: The dicts name
+        validator: The dicts type"""
+
     def __init__(self, value, name, validator):
         super().__init__(f"Value '{value}' is not in '{name}' ({validator})")
 
