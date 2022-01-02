@@ -31,7 +31,9 @@ import scrap_engine as se
 from .color import Color
 
 class Moves:
-    &#34;&#34;&#34;This class contains all attack moves&#34;&#34;&#34;
+    &#34;&#34;&#34;This class contains all attack moves
+    ARGS:
+        poke: The Poke that does the moves&#34;&#34;&#34;
 
     def __init__(self, poke):
         self.poke = poke
@@ -69,7 +71,9 @@ class Moves:
         del line
 
     def throw(self, txt=&#34;#&#34;):
-        &#34;&#34;&#34;Throw move&#34;&#34;&#34;
+        &#34;&#34;&#34;Throw move
+        ARGS:
+            txt: The char that moves across the screen&#34;&#34;&#34;
         if self.poke.enem == self.poke:
             return
         line = se.Line(&#34; &#34;,
@@ -134,13 +138,20 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>poke)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>This class contains all attack moves</p></div>
+<div class="desc"><p>This class contains all attack moves</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>The Poke that does the moves</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Moves:
-    &#34;&#34;&#34;This class contains all attack moves&#34;&#34;&#34;
+    &#34;&#34;&#34;This class contains all attack moves
+    ARGS:
+        poke: The Poke that does the moves&#34;&#34;&#34;
 
     def __init__(self, poke):
         self.poke = poke
@@ -178,7 +189,9 @@ if __name__ == &#34;__main__&#34;:
         del line
 
     def throw(self, txt=&#34;#&#34;):
-        &#34;&#34;&#34;Throw move&#34;&#34;&#34;
+        &#34;&#34;&#34;Throw move
+        ARGS:
+            txt: The char that moves across the screen&#34;&#34;&#34;
         if self.poke.enem == self.poke:
             return
         line = se.Line(&#34; &#34;,
@@ -346,13 +359,20 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">throw</span></span>(<span>self, txt='#')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Throw move</p></div>
+<div class="desc"><p>Throw move</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>txt</code></strong></dt>
+<dd>The char that moves across the screen</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def throw(self, txt=&#34;#&#34;):
-    &#34;&#34;&#34;Throw move&#34;&#34;&#34;
+    &#34;&#34;&#34;Throw move
+    ARGS:
+        txt: The char that moves across the screen&#34;&#34;&#34;
     if self.poke.enem == self.poke:
         return
     line = se.Line(&#34; &#34;,

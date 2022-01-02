@@ -31,7 +31,9 @@
 
 
 class Items:
-    &#34;&#34;&#34;Has all items as attributes&#34;&#34;&#34;
+    &#34;&#34;&#34;Has all items as attributes
+    ARGS:
+        p_d: p_data module&#34;&#34;&#34;
 
     def __init__(self, p_d):
         for item in p_d.items.items():
@@ -44,7 +46,13 @@ class Items:
 
 
 class InvItem:
-    &#34;&#34;&#34;Item for the inventory&#34;&#34;&#34;
+    &#34;&#34;&#34;Item for the inventory
+    ARGS:
+        name: The item&#39;s generic name (healing_potion)
+        pretty_name: The item&#39;s pretty name (Healing potion)
+        desc: The item&#39;s description
+        price: The item&#39;s price in the shop
+        fn: The associated method name in FightItems&#34;&#34;&#34;
 
     def __init__(self, name, pretty_name, desc, price, fn=None):
         self.name = name
@@ -55,7 +63,10 @@ class InvItem:
 
 
 class LearnDisc(InvItem):
-    &#34;&#34;&#34;Learning disc item to teach attacks to Poketes&#34;&#34;&#34;
+    &#34;&#34;&#34;Learning disc item to teach attacks to Poketes
+    ARGS:
+        attack_name: The name of the attack being taught
+        attacks: p_data.attacks dict&#34;&#34;&#34;
 
     def __init__(self, attack_name, attacks):
         self.attack_name = attack_name
@@ -84,13 +95,32 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>name, pretty_name, desc, price, fn=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Item for the inventory</p></div>
+<div class="desc"><p>Item for the inventory</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The item's generic name (healing_potion)</dd>
+<dt><strong><code>pretty_name</code></strong></dt>
+<dd>The item's pretty name (Healing potion)</dd>
+<dt><strong><code>desc</code></strong></dt>
+<dd>The item's description</dd>
+<dt><strong><code>price</code></strong></dt>
+<dd>The item's price in the shop</dd>
+<dt><strong><code>fn</code></strong></dt>
+<dd>The associated method name in FightItems</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class InvItem:
-    &#34;&#34;&#34;Item for the inventory&#34;&#34;&#34;
+    &#34;&#34;&#34;Item for the inventory
+    ARGS:
+        name: The item&#39;s generic name (healing_potion)
+        pretty_name: The item&#39;s pretty name (Healing potion)
+        desc: The item&#39;s description
+        price: The item&#39;s price in the shop
+        fn: The associated method name in FightItems&#34;&#34;&#34;
 
     def __init__(self, name, pretty_name, desc, price, fn=None):
         self.name = name
@@ -109,13 +139,20 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>p_d)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Has all items as attributes</p></div>
+<div class="desc"><p>Has all items as attributes</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>p_d</code></strong></dt>
+<dd>p_data module</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Items:
-    &#34;&#34;&#34;Has all items as attributes&#34;&#34;&#34;
+    &#34;&#34;&#34;Has all items as attributes
+    ARGS:
+        p_d: p_data module&#34;&#34;&#34;
 
     def __init__(self, p_d):
         for item in p_d.items.items():
@@ -132,13 +169,23 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>attack_name, attacks)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Learning disc item to teach attacks to Poketes</p></div>
+<div class="desc"><p>Learning disc item to teach attacks to Poketes</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>attack_name</code></strong></dt>
+<dd>The name of the attack being taught</dd>
+<dt><strong><code>attacks</code></strong></dt>
+<dd>p_data.attacks dict</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LearnDisc(InvItem):
-    &#34;&#34;&#34;Learning disc item to teach attacks to Poketes&#34;&#34;&#34;
+    &#34;&#34;&#34;Learning disc item to teach attacks to Poketes
+    ARGS:
+        attack_name: The name of the attack being taught
+        attacks: p_data.attacks dict&#34;&#34;&#34;
 
     def __init__(self, attack_name, attacks):
         self.attack_name = attack_name

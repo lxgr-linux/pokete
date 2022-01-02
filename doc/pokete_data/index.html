@@ -27,13 +27,16 @@ p_data can be manipulated by mods and therefore should be injected and not
 <p>This provides p_data. Never ever import this except for in pokete.py since
 p_data can be manipulated by mods and therefore should be injected and not
 imported</p>
+<p>I know all this is very awfull&hellip;</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;This provides p_data. Never ever import this except for in pokete.py since
    p_data can be manipulated by mods and therefore should be injected and not
-   imported&#34;&#34;&#34;
+   imported
+
+   I know all this is very awfull...&#34;&#34;&#34;
 
 from .poketes import *
 from .attacks import *
@@ -47,22 +50,39 @@ from .maps import *
 
 
 class ValidationError(Exception):
+    &#34;&#34;&#34;Error thrown when validation fails
+    ARGS:
+        value: The missing values name
+        name: The dicts name
+        validator: The dicts type&#34;&#34;&#34;
+
     def __init__(self, value, name, validator):
         super().__init__(f&#34;Value &#39;{value}&#39; is not in &#39;{name}&#39; ({validator})&#34;)
 
 
 def one_validate(ob, validator, name):
+    &#34;&#34;&#34;Validates one dict entry
+    ARGS:
+        ob: Dict entry
+        validator: key for validators
+        name: Name for error&#34;&#34;&#34;
     for value in validators[validator]:
         if value not in ob:
             raise ValidationError(value, name, validator)
 
 
 def single_validate(dict, validator, name=&#34;&#34;):
+    &#34;&#34;&#34;Validates a single dict
+    ARGS:
+        dict: Dict to validate
+        validator: key for validators
+        name: Optional name&#34;&#34;&#34;
     for j in dict:
         one_validate(dict[j], validator, f&#34;{name}.{j}&#34;)
 
 
 def validate():
+    &#34;&#34;&#34;Validates all modules&#34;&#34;&#34;
     for i, j in zip([pokes, types, map_data, stations, items, npcs,
                      attacks, maps], validators):
         single_validate(i, j)
@@ -101,6 +121,7 @@ validators = {
     &#34;poke_ico&#34;: [&#34;txt&#34;, &#34;esc&#34;],
     &#34;trainer&#34;: [&#34;poke&#34;, &#34;args&#34;]
 }
+
 
 if __name__ == &#34;__main__&#34;:
     print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
@@ -160,12 +181,26 @@ and …</p></div>
 <span>def <span class="ident">one_validate</span></span>(<span>ob, validator, name)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Validates one dict entry</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ob</code></strong></dt>
+<dd>Dict entry</dd>
+<dt><strong><code>validator</code></strong></dt>
+<dd>key for validators</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>Name for error</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def one_validate(ob, validator, name):
+    &#34;&#34;&#34;Validates one dict entry
+    ARGS:
+        ob: Dict entry
+        validator: key for validators
+        name: Name for error&#34;&#34;&#34;
     for value in validators[validator]:
         if value not in ob:
             raise ValidationError(value, name, validator)</code></pre>
@@ -175,12 +210,26 @@ and …</p></div>
 <span>def <span class="ident">single_validate</span></span>(<span>dict, validator, name='')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Validates a single dict</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dict</code></strong></dt>
+<dd>Dict to validate</dd>
+<dt><strong><code>validator</code></strong></dt>
+<dd>key for validators</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>Optional name</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def single_validate(dict, validator, name=&#34;&#34;):
+    &#34;&#34;&#34;Validates a single dict
+    ARGS:
+        dict: Dict to validate
+        validator: key for validators
+        name: Optional name&#34;&#34;&#34;
     for j in dict:
         one_validate(dict[j], validator, f&#34;{name}.{j}&#34;)</code></pre>
 </details>
@@ -189,12 +238,13 @@ and …</p></div>
 <span>def <span class="ident">validate</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Validates all modules</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def validate():
+    &#34;&#34;&#34;Validates all modules&#34;&#34;&#34;
     for i, j in zip([pokes, types, map_data, stations, items, npcs,
                      attacks, maps], validators):
         single_validate(i, j)
@@ -222,12 +272,27 @@ and …</p></div>
 <span>(</span><span>value, name, validator)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Error thrown when validation fails</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>value</code></strong></dt>
+<dd>The missing values name</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The dicts name</dd>
+<dt><strong><code>validator</code></strong></dt>
+<dd>The dicts type</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ValidationError(Exception):
+    &#34;&#34;&#34;Error thrown when validation fails
+    ARGS:
+        value: The missing values name
+        name: The dicts name
+        validator: The dicts type&#34;&#34;&#34;
+
     def __init__(self, value, name, validator):
         super().__init__(f&#34;Value &#39;{value}&#39; is not in &#39;{name}&#39; ({validator})&#34;)</code></pre>
 </details>

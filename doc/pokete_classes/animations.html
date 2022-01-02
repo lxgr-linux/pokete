@@ -34,7 +34,10 @@ import scrap_engine as se
 
 
 def transition(_map, poke):
-    &#34;&#34;&#34;Transition animation for world actions&#34;&#34;&#34;
+    &#34;&#34;&#34;Transition animation for world actions
+    ARGS:
+        _map: se.Map object the transition happens on
+        poke: Poke object shown in the transition&#34;&#34;&#34;
     vec_1 = se.Line(&#34; &#34;, _map.width, 0)
     vec_2 = se.Line(&#34; &#34;, _map.width, 0)
 
@@ -66,7 +69,10 @@ def transition(_map, poke):
 
 
 def fight_intro(height, width):
-    &#34;&#34;&#34;Intro animation for fight&#34;&#34;&#34;
+    &#34;&#34;&#34;Intro animation for fight
+    ARGS:
+        height: Height of the animation
+        width: Width of the animation&#34;&#34;&#34;
     fancymap = se.Map(height, width, &#34; &#34;)
     vec_list = [se.Line(&#34; &#34;, i * int(width / 2), j * int((height - 1) / 2))
                 for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
@@ -103,13 +109,23 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">fight_intro</span></span>(<span>height, width)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Intro animation for fight</p></div>
+<div class="desc"><p>Intro animation for fight</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>height</code></strong></dt>
+<dd>Height of the animation</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>Width of the animation</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def fight_intro(height, width):
-    &#34;&#34;&#34;Intro animation for fight&#34;&#34;&#34;
+    &#34;&#34;&#34;Intro animation for fight
+    ARGS:
+        height: Height of the animation
+        width: Width of the animation&#34;&#34;&#34;
     fancymap = se.Map(height, width, &#34; &#34;)
     vec_list = [se.Line(&#34; &#34;, i * int(width / 2), j * int((height - 1) / 2))
                 for i, j in zip([1, 1, -1, -1], [1, -1, -1, 1])]
@@ -135,13 +151,23 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">transition</span></span>(<span>_map, poke)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Transition animation for world actions</p></div>
+<div class="desc"><p>Transition animation for world actions</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map object the transition happens on</dd>
+<dt><strong><code>poke</code></strong></dt>
+<dd>Poke object shown in the transition</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def transition(_map, poke):
-    &#34;&#34;&#34;Transition animation for world actions&#34;&#34;&#34;
+    &#34;&#34;&#34;Transition animation for world actions
+    ARGS:
+        _map: se.Map object the transition happens on
+        poke: Poke object shown in the transition&#34;&#34;&#34;
     vec_1 = se.Line(&#34; &#34;, _map.width, 0)
     vec_2 = se.Line(&#34; &#34;, _map.width, 0)
 

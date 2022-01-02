@@ -32,7 +32,16 @@ from .ui_elements import StdFrame
 
 
 class PlayMap(se.Map):
-    &#34;&#34;&#34;Map the actual player moves on and contains buildings etc&#34;&#34;&#34;
+    &#34;&#34;&#34;Map the actual player moves on and contains buildings etc
+    ARGS:
+        height: The maps height
+        width: The maps width
+        trainers: List of Trainers on the map
+        name: Name of the map (&#34;playmap1&#34; etc)
+        pretty_name: Pretty name of the map (&#34;Route 1&#34; etc)
+        poke_args: Dict containing information for Poketes found in meadows
+        w_poke_args: Same as above but with water
+        extra_actions: Function executed every frame&#34;&#34;&#34;
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
@@ -58,7 +67,9 @@ class PlayMap(se.Map):
 
 
 class Settings():
-    &#34;&#34;&#34;Contains all possible settings&#34;&#34;&#34;
+    &#34;&#34;&#34;Contains all possible settings
+    ARGS:
+        The available settings&#34;&#34;&#34;
 
     def __init__(self, autosave=True, animations=True, save_trainers=True,
                  colors=True, load_mods=False):
@@ -78,12 +89,16 @@ class OutP(se.Text):
     &#34;&#34;&#34;Output label to better organize output&#34;&#34;&#34;
 
     def outp(self, text):
-        &#34;&#34;&#34;Rechar and show wrapper&#34;&#34;&#34;
+        &#34;&#34;&#34;Rechar and show wrapper
+        ARGS:
+            text: String that&#39;s printed out&#34;&#34;&#34;
         self.rechar(text)
         self.map.show()
 
     def append(self, *args):
-        &#34;&#34;&#34;Appends another se.Text to the outp&#34;&#34;&#34;
+        &#34;&#34;&#34;Appends another se.Text to the outp
+        ARGS:
+            args: se.Texts that will be appended&#34;&#34;&#34;
         for i in args:
             self += i
         self.map.show()
@@ -116,12 +131,16 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;Output label to better organize output&#34;&#34;&#34;
 
     def outp(self, text):
-        &#34;&#34;&#34;Rechar and show wrapper&#34;&#34;&#34;
+        &#34;&#34;&#34;Rechar and show wrapper
+        ARGS:
+            text: String that&#39;s printed out&#34;&#34;&#34;
         self.rechar(text)
         self.map.show()
 
     def append(self, *args):
-        &#34;&#34;&#34;Appends another se.Text to the outp&#34;&#34;&#34;
+        &#34;&#34;&#34;Appends another se.Text to the outp
+        ARGS:
+            args: se.Texts that will be appended&#34;&#34;&#34;
         for i in args:
             self += i
         self.map.show()</code></pre>
@@ -138,13 +157,20 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">append</span></span>(<span>self, *args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Appends another se.Text to the outp</p></div>
+<div class="desc"><p>Appends another se.Text to the outp</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>args</code></strong></dt>
+<dd>se.Texts that will be appended</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def append(self, *args):
-    &#34;&#34;&#34;Appends another se.Text to the outp&#34;&#34;&#34;
+    &#34;&#34;&#34;Appends another se.Text to the outp
+    ARGS:
+        args: se.Texts that will be appended&#34;&#34;&#34;
     for i in args:
         self += i
     self.map.show()</code></pre>
@@ -154,13 +180,20 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">outp</span></span>(<span>self, text)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Rechar and show wrapper</p></div>
+<div class="desc"><p>Rechar and show wrapper</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>text</code></strong></dt>
+<dd>String that's printed out</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def outp(self, text):
-    &#34;&#34;&#34;Rechar and show wrapper&#34;&#34;&#34;
+    &#34;&#34;&#34;Rechar and show wrapper
+    ARGS:
+        text: String that&#39;s printed out&#34;&#34;&#34;
     self.rechar(text)
     self.map.show()</code></pre>
 </details>
@@ -172,13 +205,41 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>height=99, width=100, trainers=None, name='', pretty_name='', poke_args=None, w_poke_args=None, extra_actions=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Map the actual player moves on and contains buildings etc</p></div>
+<div class="desc"><p>Map the actual player moves on and contains buildings etc</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>height</code></strong></dt>
+<dd>The maps height</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>The maps width</dd>
+<dt><strong><code>trainers</code></strong></dt>
+<dd>List of Trainers on the map</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>Name of the map ("playmap1" etc)</dd>
+<dt><strong><code>pretty_name</code></strong></dt>
+<dd>Pretty name of the map ("Route 1" etc)</dd>
+<dt><strong><code>poke_args</code></strong></dt>
+<dd>Dict containing information for Poketes found in meadows</dd>
+<dt><strong><code>w_poke_args</code></strong></dt>
+<dd>Same as above but with water</dd>
+<dt><strong><code>extra_actions</code></strong></dt>
+<dd>Function executed every frame</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class PlayMap(se.Map):
-    &#34;&#34;&#34;Map the actual player moves on and contains buildings etc&#34;&#34;&#34;
+    &#34;&#34;&#34;Map the actual player moves on and contains buildings etc
+    ARGS:
+        height: The maps height
+        width: The maps width
+        trainers: List of Trainers on the map
+        name: Name of the map (&#34;playmap1&#34; etc)
+        pretty_name: Pretty name of the map (&#34;Route 1&#34; etc)
+        poke_args: Dict containing information for Poketes found in meadows
+        w_poke_args: Same as above but with water
+        extra_actions: Function executed every frame&#34;&#34;&#34;
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
@@ -230,13 +291,17 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>autosave=True, animations=True, save_trainers=True, colors=True, load_mods=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Contains all possible settings</p></div>
+<div class="desc"><p>Contains all possible settings</p>
+<h2 id="args">Args</h2>
+<p>The available settings</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Settings():
-    &#34;&#34;&#34;Contains all possible settings&#34;&#34;&#34;
+    &#34;&#34;&#34;Contains all possible settings
+    ARGS:
+        The available settings&#34;&#34;&#34;
 
     def __init__(self, autosave=True, animations=True, save_trainers=True,
                  colors=True, load_mods=False):

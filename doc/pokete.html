@@ -88,17 +88,23 @@ __t = time.time()
 ##################
 
 class Event:
-    &#34;&#34;&#34;Event class to enable dependency injection&#34;&#34;&#34;
+    &#34;&#34;&#34;Event class to enable dependency injection
+    ARGS:
+        _ev: Initial char&#34;&#34;&#34;
 
     def __init__(self, _ev):
         self.ev = _ev
 
     def get(self):
-        &#34;&#34;&#34;Getter&#34;&#34;&#34;
+        &#34;&#34;&#34;Getter
+        RETURNS:
+            Current char&#34;&#34;&#34;
         return self.ev
 
     def set(self, _ev):
-        &#34;&#34;&#34;setter&#34;&#34;&#34;
+        &#34;&#34;&#34;Setter
+        ARGS:
+            _ev: New char&#34;&#34;&#34;
         self.ev = _ev
 
     def clear(self):
@@ -110,7 +116,9 @@ class HightGrass(se.Object):
     &#34;&#34;&#34;Object on the map, that triggers a fight&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Action triggers the fight&#34;&#34;&#34;
+        &#34;&#34;&#34;Action triggers the fight
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         if random.randint(0, 8) == 0:
             fight(Poke(&#34;__fallback__&#34;, 0)
                   if len([poke for poke in figure.pokes[:6]
@@ -127,8 +135,12 @@ class HightGrass(se.Object):
 
 
 class Meadow(se.Text):
-    &#34;&#34;&#34;Daughter of se.Text to better organize Highgrass&#34;&#34;&#34;
+    &#34;&#34;&#34;Daughter of se.Text to better organize Highgrass
+    ARGS:
+        string: The character representing the meadow
+        poke_args: Dict containing relevant information about Pokes&#34;&#34;&#34;
     esccode = Color.green
+
     def __init__(self, string, poke_args):
         super().__init__(string, ignore=self.esccode + &#34; &#34; + Color.reset,
                          ob_class=HightGrass, ob_args=poke_args,
@@ -141,7 +153,9 @@ class Water(Meadow):
 
 
 class Poketeball(se.Object):
-    &#34;&#34;&#34;Poketeball that can be picked up on the map&#34;&#34;&#34;
+    &#34;&#34;&#34;Poketeball that can be picked up on the map
+    ARGS:
+        name: Generic name of the ball&#34;&#34;&#34;
 
     def __init__(self, name):
         self.name = name
@@ -149,7 +163,9 @@ class Poketeball(se.Object):
                          state=&#34;float&#34;)
 
     def action(self, ob):
-        &#34;&#34;&#34;Action triggers the pick up&#34;&#34;&#34;
+        &#34;&#34;&#34;Action triggers the pick up
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         amount = random.choices([1, 2, 3],
                                 weights=[10, 2, 1], k=1)[0]
         item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
@@ -165,7 +181,10 @@ class Poketeball(se.Object):
 
 
 class NPCActions:
-    &#34;&#34;&#34;This class contains all functions callable by NPCs&#34;&#34;&#34;
+    &#34;&#34;&#34;This class contains all functions callable by NPCs
+    All this methods follow the same pattern:
+        ARGS:
+            npc: The NPC the method belongs to&#34;&#34;&#34;
 
     @staticmethod
     def swap_poke(npc):
@@ -244,6 +263,7 @@ at level {figure.pokes[index].lvl()}.&#34;)
 
 
 def test1():
+    &#34;&#34;&#34;Tests walkpoint method, will be removed later&#34;&#34;&#34;
     ob_maps[&#34;playmap_13&#34;].npc_2.walk_point(figure.x, figure.y)
 
 
@@ -251,7 +271,9 @@ class CenterInteract(se.Object):
     &#34;&#34;&#34;Triggers a conversation in the Pokete center&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Triggers the interaction in the Pokete center&#34;&#34;&#34;
+        &#34;&#34;&#34;Triggers the interaction in the Pokete center
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
@@ -288,7 +310,9 @@ class ShopInteract(se.Object):
     &#34;&#34;&#34;Triggers an conversation in the shop&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Triggers an interaction in the shop&#34;&#34;&#34;
+        &#34;&#34;&#34;Triggers an interaction in the shop
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
@@ -300,7 +324,10 @@ class ShopInteract(se.Object):
 
 
 class CenterMap(PlayMap):
-    &#34;&#34;&#34;Contains all relevant objects for centermap&#34;&#34;&#34;
+    &#34;&#34;&#34;Contains all relevant objects for centermap
+    ARGS:
+        _he: The maps height
+        _wi: The maps width&#34;&#34;&#34;
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name=&#34;centermap&#34;,
@@ -330,7 +357,10 @@ another players&#39; one.&#34;],
 
 
 class ShopMap(PlayMap):
-    &#34;&#34;&#34;Contains all relevant objects for shopmap&#34;&#34;&#34;
+    &#34;&#34;&#34;Contains all relevant objects for shopmap
+    ARGS:
+        _he: The maps height
+        _wi: The maps width &#34;&#34;&#34;
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name=&#34;shopmap&#34;,
@@ -356,7 +386,9 @@ class CenterDor(se.Object):
     &#34;&#34;&#34;Dor class for the map to enter centers and shops&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Trigger&#34;&#34;&#34;
+        &#34;&#34;&#34;Trigger
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ob.remove()
         i = ob.map.name
         ob.add(ob.oldmap,
@@ -374,7 +406,9 @@ class Dor(se.Object):
     &#34;&#34;&#34;Dor class for the map to enter other maps&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Trigger&#34;&#34;&#34;
+        &#34;&#34;&#34;Trigger
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ob.remove()
         i = ob.map.name
         ob.add(ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
@@ -392,6 +426,9 @@ class DorToCenter(Dor):
                                     &#34;x&#34;: int(centermap.width / 2), &#34;y&#34;: 7})
 
     def action(self, ob):
+        &#34;&#34;&#34;Triggers the dor
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ob.last_center_map = ob.map
         super().action(ob)
 
@@ -409,13 +446,22 @@ class ChanceDor(Dor):
     &#34;&#34;&#34;Same as dor but with a chance&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Trigger&#34;&#34;&#34;
+        &#34;&#34;&#34;Trigger
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         if random.randint(0, self.arg_proto[&#34;chance&#34;]) == 0:
             super().action(ob)
 
 
 class Poke:
-    &#34;&#34;&#34;The Pokete class&#34;&#34;&#34;
+    &#34;&#34;&#34;The Pokete class
+    ARGS:
+        poke: The Pokes generic name
+        xp: Initial xp
+        _hp: Initial hp (&#39;SKIP&#39; sets to max hp)
+        _attacks: List of attack names learned
+        player: Bool whether or not the Poke belongs to the player
+        shiny: Bool whether or not the Poke is shiny (is extra strong)&#34;&#34;&#34;
 
     def __init__(self, poke, xp, _hp=&#34;SKIP&#34;, _attacks=None,
                  player=True, shiny=False):
@@ -488,7 +534,9 @@ can&#39;t have more than 4 attacks!&#34;
         self.set_vars()
 
     def set_player(self, player):
-        &#34;&#34;&#34;Sets the player attribute when the Pokete changes the owner&#34;&#34;&#34;
+        &#34;&#34;&#34;Sets the player attribute when the Pokete changes the owner
+        ARGS:
+            player: Bool whether or not the Poke new belongs to the player&#34;&#34;&#34;
         self.player = player
         self.affil = &#34;you&#34; if self.player else &#34;enemy&#34;
         self.ext_name = f&#39;{self.name}({self.affil})&#39;
@@ -510,7 +558,8 @@ can&#39;t have more than 4 attacks!&#34;
         self.label_rechar()
 
     def dict(self):
-        &#34;&#34;&#34;Returns a dict with all information about the Pokete&#34;&#34;&#34;
+        &#34;&#34;&#34;RETURNS:
+            A dict with all information about the Pokete&#34;&#34;&#34;
         return {&#34;name&#34;: self.identifier, &#34;xp&#34;: self.xp, &#34;hp&#34;: self.hp,
                 &#34;ap&#34;: [atc.ap for atc in self.attac_obs],
                 &#34;effects&#34;: [eff.c_name for eff in self.effects],
@@ -518,7 +567,9 @@ can&#39;t have more than 4 attacks!&#34;
                 &#34;shiny&#34;: self.shiny}
 
     def set_ap(self, dic):
-        &#34;&#34;&#34;Sets attack aps form a list&#34;&#34;&#34;
+        &#34;&#34;&#34;Sets attack aps from a list
+        ARGS:
+            dic: List of attack ap&#34;&#34;&#34;
         for atc, ap in zip(self.attac_obs, dic):
             atc.ap = ap if ap != &#34;SKIP&#34; else atc.ap
         self.label_rechar()
@@ -548,11 +599,15 @@ can&#39;t have more than 4 attacks!&#34;
                 + se.Text(f&#34;-{atc.ap}&#34;)
 
     def lvl(self):
-        &#34;&#34;&#34;Returns level&#34;&#34;&#34;
+        &#34;&#34;&#34;RETURNS:
+            Current level&#34;&#34;&#34;
         return int(math.sqrt(self.xp + 1))
 
     def attack(self, attac, enem):
-        &#34;&#34;&#34;Attack process&#34;&#34;&#34;
+        &#34;&#34;&#34;Attack process
+        ARGS:
+            attac: Attack object
+            enem: Enemy Poke&#34;&#34;&#34;
         if attac.ap &gt; 0:
             for eff in self.effects:
                 eff.remove()
@@ -654,7 +709,9 @@ class Figure(se.Object):
         self.direction = &#34;t&#34;
 
     def set_args(self, _si):
-        &#34;&#34;&#34;Processes data from save file&#34;&#34;&#34;
+        &#34;&#34;&#34;Processes data from save file
+        ARGS:
+            _si: session_info dict&#34;&#34;&#34;
         self.name = _si[&#34;user&#34;]
         self.last_center_map = ob_maps[_si.get(&#34;last_center_map&#34;, &#34;playmap_1&#34;)]
         self.pokes = [Poke(_si[&#34;pokes&#34;][poke][&#34;name&#34;],
@@ -699,15 +756,21 @@ class Figure(se.Object):
         movemap.add_obs()
 
     def add_money(self, money):
-        &#34;&#34;&#34;Adds money&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds money
+        ARGS:
+            money: Amount of money beeing added&#34;&#34;&#34;
         self.set_money(self.__money + money)
 
     def get_money(self):
-        &#34;&#34;&#34;Returns the current money&#34;&#34;&#34;
+        &#34;&#34;&#34;Getter for __money
+        RETURNS:
+            The current money&#34;&#34;&#34;
         return self.__money
 
     def set_money(self, money):
-        &#34;&#34;&#34;Sets the money to a certain value&#34;&#34;&#34;
+        &#34;&#34;&#34;Sets the money to a certain value
+        ARGS:
+            money: New value&#34;&#34;&#34;
         assert money &gt;= 0, &#34;money has to be positive&#34;
         logging.info(&#34;[Figure] Money set to %d$ from %d$&#34;,
                      money, self.__money)
@@ -718,7 +781,10 @@ class Figure(se.Object):
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
     def add_poke(self, poke, idx=None):
-        &#34;&#34;&#34;Adds a Pokete to the players Poketes&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds a Pokete to the players Poketes
+        ARGS:
+            poke: Poke object beeing added
+            idx: Index of the Poke&#34;&#34;&#34;
         poke.set_player(True)
         figure.caught_pokes.append(poke.identifier)
         if idx is None:
@@ -737,11 +803,18 @@ class Figure(se.Object):
         logging.info(&#34;[Figure] %d %s(s) given&#34;, amount, item)
 
     def has_item(self, item):
-        &#34;&#34;&#34;Checks if an item is already present&#34;&#34;&#34;
+        &#34;&#34;&#34;Checks if an item is already present
+        ARGS:
+            item: Generic item name
+        RETURNS:
+            If the player has this item&#34;&#34;&#34;
         return item in self.inv and self.inv[item] &gt; 0
 
     def remove_item(self, item, amount=1):
-        &#34;&#34;&#34;Removes a certain amount of an item from the inv&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes a certain amount of an item from the inv
+        ARGS:
+            item: Generic item name
+            amount: Amount of items beeing removed&#34;&#34;&#34;
         assert amount &gt; 0, &#34;Amounts have to be positive&#34;
         assert item in self.inv, f&#34;Item {item} is not in the inventory&#34;
         assert self.inv[item] - amount &gt;= 0, f&#34;There are not enought {item}s \
@@ -751,7 +824,11 @@ in the inventory&#34;
 
 
 class Setting(se.Box):
-    &#34;&#34;&#34;The setting label for the menu&#34;&#34;&#34;
+    &#34;&#34;&#34;The setting label for the menu
+    ARGS:
+        text: The text displayed / the settings name
+        setting: The settings name the setting belongs to (load_mods)
+        options: Dict containing all options ({True: &#34;On&#34;, False: &#34;Off&#34;})&#34;&#34;&#34;
 
     def __init__(self, text, setting, options=None):
         if options is None:
@@ -782,7 +859,7 @@ class Debug:
 
     @classmethod
     def pos(cls):
-        &#34;&#34;&#34;Prints the position&#34;&#34;&#34;
+        &#34;&#34;&#34;Prints the figures&#39; position&#34;&#34;&#34;
         print(figure.x, figure.y, figure.map.name)
 
 
@@ -802,12 +879,18 @@ class Deck(Informer):
         self.move_free.add(self.submap, 20, self.submap.height - 1)
 
     def rem_pokes(self, pokes):
-        &#34;&#34;&#34;Removes all Poketes from the Deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes all Poketes from the Deck
+        ARGS:
+            pokes: List of Pokes beeing removed&#34;&#34;&#34;
         for poke in pokes:
             self.remove(poke)
 
     def __call__(self, p_len, label=&#34;Your full deck&#34;, in_fight=False):
-        &#34;&#34;&#34;Opens the deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Opens the deck
+        ARGS:
+            p_len: Number of Pokes beeing included
+            label: The displayed label
+            in_fight: Whether or not this is called in a fight&#34;&#34;&#34;
         ev.clear()
         pokes = figure.pokes[:p_len]
         ret_action = None
@@ -909,7 +992,10 @@ class Deck(Informer):
             self.submap.full_show()
 
     def add_all(self, pokes, init=False):
-        &#34;&#34;&#34;Adds all Poketes to the deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds all Poketes to the deck
+        ARGS:
+            pokes: List of all Pokes beeing added
+            init: Whether or not this happens for the first time&#34;&#34;&#34;
         j = 0
         for i, poke in enumerate(pokes):
             self.add(poke, figure, self.map,
@@ -922,7 +1008,10 @@ class Deck(Informer):
                 j += 1
 
     def control(self, pokes, _ev):
-        &#34;&#34;&#34;Processes inputs&#34;&#34;&#34;
+        &#34;&#34;&#34;Processes inputs
+        ARGS:
+            pokes: List of all Pokes in deck
+            _ev: Inputted string&#34;&#34;&#34;
         if len(pokes) &lt;= 1:
             return
         for con, stat, fir, sec in zip([&#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
@@ -948,7 +1037,9 @@ class Deck(Informer):
 
 
 class Inv:
-    &#34;&#34;&#34;Inventory to see and manage items in&#34;&#34;&#34;
+    &#34;&#34;&#34;Inventory to see and manage items in
+    ARGS:
+        _map: se.Map this will be shown on&#34;&#34;&#34;
 
     def __init__(self, _map):
         self.map = _map
@@ -1031,7 +1122,12 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
         self.box.remove_c_obs()
 
     def rem_item(self, name, items):
-        &#34;&#34;&#34;Removes an item to the inv&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes an item from the inv
+        ARGS:
+            name: Items name
+            items: List of Items
+        RETURNS:
+            List of Items&#34;&#34;&#34;
         figure.remove_item(name)
         for obj in self.box.c_obs:
             obj.remove()
@@ -1044,7 +1140,9 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
         return items
 
     def add(self):
-        &#34;&#34;&#34;Adds all items to the box&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds all items to the box
+        RETURNS:
+            List of Items&#34;&#34;&#34;
         items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] &gt; 0]
         self.box.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {figure.inv[i.name]}&#34;)
                             for i in items])
@@ -1052,7 +1150,9 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
 
 
 class Menu:
-    &#34;&#34;&#34;Menu to manage settings and other stuff in&#34;&#34;&#34;
+    &#34;&#34;&#34;Menu to manage settings and other stuff in
+    ARGS:
+        _map: se.Map this will be shown on&#34;&#34;&#34;
 
     def __init__(self, _map):
         self.map = _map
@@ -1123,7 +1223,9 @@ class Menu:
 
 
 class Dex:
-    &#34;&#34;&#34;The Pokete dex that shows stats about all Poketes ever caught&#34;&#34;&#34;
+    &#34;&#34;&#34;The Pokete dex that shows stats about all Poketes ever caught
+    ARGS:
+        _map: se.Map this will be shown on&#34;&#34;&#34;
 
     def __init__(self, _map):
         self.box = ChooseBox(_map.height - 3, 35, &#34;Poketedex&#34;)
@@ -1148,9 +1250,10 @@ class Dex:
         self.box.remove_c_obs()
 
     def detail(self, poke):
-        &#34;&#34;&#34;Shows details about the Pokete&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows details about the Pokete
+        ARGS:
+            poke: Pokes identifier&#34;&#34;&#34;
         ev.clear()
-
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
                           (f&#34;&#34;&#34;\n\n Evolves to {
@@ -1181,10 +1284,11 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
         self.detail_box.rem_ob(poke.ico)
 
     def __call__(self, pokes):
-        &#34;&#34;&#34;Opens the dex&#34;&#34;&#34;
+        &#34;&#34;&#34;Opens the dex
+        ARGS:
+            pokes: p_data.pokes&#34;&#34;&#34;
         ev.clear()
         self.idx = 0
-
         p_dict = {i[1]: i[-1] for i in
                   sorted([(pokes[j][&#34;types&#34;][0], j, pokes[j])
                           for j in list(pokes)[1:]])}
@@ -1295,7 +1399,9 @@ def save():
 
 
 def read_save():
-    &#34;&#34;&#34;Reads form savefile&#34;&#34;&#34;
+    &#34;&#34;&#34;Reads form savefile
+    RETURNS:
+        session_info dict&#34;&#34;&#34;
     Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     _si = {
@@ -1331,7 +1437,9 @@ def read_save():
 
 
 def on_press(key):
-    &#34;&#34;&#34;Sets the ev variable&#34;&#34;&#34;
+    &#34;&#34;&#34;Sets the ev variable
+    ARGS:
+        key: Key object ev is set from&#34;&#34;&#34;
     ev.set(str(key))
 
 
@@ -1378,7 +1486,9 @@ class ExtraActions:
 
     @staticmethod
     def water(obs):
-        &#34;&#34;&#34;Water animation&#34;&#34;&#34;
+        &#34;&#34;&#34;Water animation
+        ARGS:
+            obs: List of se.Objects that represent the water&#34;&#34;&#34;
         if settings.animations:
             for obj in obs:
                 if random.randint(0, 9) == 0:
@@ -1453,7 +1563,9 @@ def test():
 
 
 def teleport(poke):
-    &#34;&#34;&#34;Teleports the player to another towns pokecenter&#34;&#34;&#34;
+    &#34;&#34;&#34;Teleports the player to another towns pokecenter
+    ARGS:
+        poke: The Poke shown in the animation&#34;&#34;&#34;
     if (obj := roadmap(ev, movemap, choose=True)) is None:
         return
     else:
@@ -1535,14 +1647,20 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
 
 
 def fight(player, enemy, info=None):
-    &#34;&#34;&#34;Wrapper for fightmap.fight&#34;&#34;&#34;
+    &#34;&#34;&#34;Wrapper for fightmap.fight
+    ARGS:
+        player: The players Poke
+        enemy: The enemys Poke
+        info: Dict containing info about the fight&#34;&#34;&#34;
     if info is None:
         info = {&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;}
     return fightmap.fight(player, enemy, figure, settings, invitems,
                           fightitems, deck, p_data, ev, info)
 
 def game(_map):
-    &#34;&#34;&#34;Game function&#34;&#34;&#34;
+    &#34;&#34;&#34;Game function
+    ARGS:
+        _map: The map that will be shown&#34;&#34;&#34;
     global width, height
     ev.clear()
     print(&#34;\033]0;Pokete - &#34; + _map.pretty_name + &#34;\a&#34;, end=&#34;&#34;)
@@ -1626,7 +1744,12 @@ world and be a Pokete-trainer.&#34;,
 
 
 def parse_obj(_map, name, obj, _dict):
-    &#34;&#34;&#34;Parses an object to an maps attribute and adds it&#34;&#34;&#34;
+    &#34;&#34;&#34;Parses an object to a maps attribute and adds it
+    ARGS:
+        _map: The given PlayMap
+        name: Name of the attribute
+        obj: Object beeing set
+        _dict: Dict containing info&#34;&#34;&#34;
     setattr(_map, name, obj)
     obj.add(_map, _dict[&#34;x&#34;], _dict[&#34;y&#34;])
 
@@ -1678,7 +1801,9 @@ def gen_obs():
 
 
 def gen_maps():
-    &#34;&#34;&#34;Genrates all maps&#34;&#34;&#34;
+    &#34;&#34;&#34;Generates all maps
+    RETURNS:
+        Dict of all PlayMaps&#34;&#34;&#34;
     maps = {}
     for ob_map in p_data.maps:
         args = p_data.maps[ob_map]
@@ -1691,7 +1816,9 @@ def gen_maps():
 
 
 def check_version(sinfo):
-    &#34;&#34;&#34;Checks if version in save file is the same as current version&#34;&#34;&#34;
+    &#34;&#34;&#34;Checks if version in save file is the same as current version
+    ARGS:
+        sinfo: session_info dict&#34;&#34;&#34;
     if &#34;ver&#34; not in sinfo:
         return
     else:
@@ -2124,13 +2251,20 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">check_version</span></span>(<span>sinfo)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if version in save file is the same as current version</p></div>
+<div class="desc"><p>Checks if version in save file is the same as current version</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sinfo</code></strong></dt>
+<dd>session_info dict</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def check_version(sinfo):
-    &#34;&#34;&#34;Checks if version in save file is the same as current version&#34;&#34;&#34;
+    &#34;&#34;&#34;Checks if version in save file is the same as current version
+    ARGS:
+        sinfo: session_info dict&#34;&#34;&#34;
     if &#34;ver&#34; not in sinfo:
         return
     else:
@@ -2217,13 +2351,26 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
 <span>def <span class="ident">fight</span></span>(<span>player, enemy, info=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wrapper for fightmap.fight</p></div>
+<div class="desc"><p>Wrapper for fightmap.fight</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The players Poke</dd>
+<dt><strong><code>enemy</code></strong></dt>
+<dd>The enemys Poke</dd>
+<dt><strong><code>info</code></strong></dt>
+<dd>Dict containing info about the fight</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def fight(player, enemy, info=None):
-    &#34;&#34;&#34;Wrapper for fightmap.fight&#34;&#34;&#34;
+    &#34;&#34;&#34;Wrapper for fightmap.fight
+    ARGS:
+        player: The players Poke
+        enemy: The enemys Poke
+        info: Dict containing info about the fight&#34;&#34;&#34;
     if info is None:
         info = {&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;}
     return fightmap.fight(player, enemy, figure, settings, invitems,
@@ -2234,13 +2381,20 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
 <span>def <span class="ident">game</span></span>(<span>_map)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Game function</p></div>
+<div class="desc"><p>Game function</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The map that will be shown</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def game(_map):
-    &#34;&#34;&#34;Game function&#34;&#34;&#34;
+    &#34;&#34;&#34;Game function
+    ARGS:
+        _map: The map that will be shown&#34;&#34;&#34;
     global width, height
     ev.clear()
     print(&#34;\033]0;Pokete - &#34; + _map.pretty_name + &#34;\a&#34;, end=&#34;&#34;)
@@ -2305,13 +2459,17 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
 <span>def <span class="ident">gen_maps</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Genrates all maps</p></div>
+<div class="desc"><p>Generates all maps</p>
+<h2 id="returns">Returns</h2>
+<p>Dict of all PlayMaps</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def gen_maps():
-    &#34;&#34;&#34;Genrates all maps&#34;&#34;&#34;
+    &#34;&#34;&#34;Generates all maps
+    RETURNS:
+        Dict of all PlayMaps&#34;&#34;&#34;
     maps = {}
     for ob_map in p_data.maps:
         args = p_data.maps[ob_map]
@@ -2695,13 +2853,20 @@ _map.w_poke_args)
 <span>def <span class="ident">on_press</span></span>(<span>key)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets the ev variable</p></div>
+<div class="desc"><p>Sets the ev variable</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong></dt>
+<dd>Key object ev is set from</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def on_press(key):
-    &#34;&#34;&#34;Sets the ev variable&#34;&#34;&#34;
+    &#34;&#34;&#34;Sets the ev variable
+    ARGS:
+        key: Key object ev is set from&#34;&#34;&#34;
     ev.set(str(key))</code></pre>
 </details>
 </dd>
@@ -2709,13 +2874,29 @@ _map.w_poke_args)
 <span>def <span class="ident">parse_obj</span></span>(<span>_map, name, obj, _dict)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Parses an object to an maps attribute and adds it</p></div>
+<div class="desc"><p>Parses an object to a maps attribute and adds it</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The given PlayMap</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>Name of the attribute</dd>
+<dt><strong><code>obj</code></strong></dt>
+<dd>Object beeing set</dd>
+<dt><strong><code>_dict</code></strong></dt>
+<dd>Dict containing info</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parse_obj(_map, name, obj, _dict):
-    &#34;&#34;&#34;Parses an object to an maps attribute and adds it&#34;&#34;&#34;
+    &#34;&#34;&#34;Parses an object to a maps attribute and adds it
+    ARGS:
+        _map: The given PlayMap
+        name: Name of the attribute
+        obj: Object beeing set
+        _dict: Dict containing info&#34;&#34;&#34;
     setattr(_map, name, obj)
     obj.add(_map, _dict[&#34;x&#34;], _dict[&#34;y&#34;])</code></pre>
 </details>
@@ -2724,13 +2905,17 @@ _map.w_poke_args)
 <span>def <span class="ident">read_save</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Reads form savefile</p></div>
+<div class="desc"><p>Reads form savefile</p>
+<h2 id="returns">Returns</h2>
+<p>session_info dict</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def read_save():
-    &#34;&#34;&#34;Reads form savefile&#34;&#34;&#34;
+    &#34;&#34;&#34;Reads form savefile
+    RETURNS:
+        session_info dict&#34;&#34;&#34;
     Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     _si = {
@@ -2899,13 +3084,20 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
 <span>def <span class="ident">teleport</span></span>(<span>poke)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Teleports the player to another towns pokecenter</p></div>
+<div class="desc"><p>Teleports the player to another towns pokecenter</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>The Poke shown in the animation</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def teleport(poke):
-    &#34;&#34;&#34;Teleports the player to another towns pokecenter&#34;&#34;&#34;
+    &#34;&#34;&#34;Teleports the player to another towns pokecenter
+    ARGS:
+        poke: The Poke shown in the animation&#34;&#34;&#34;
     if (obj := roadmap(ev, movemap, choose=True)) is None:
         return
     else:
@@ -2955,12 +3147,13 @@ this will remain</p></div>
 <span>def <span class="ident">test1</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Tests walkpoint method, will be removed later</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def test1():
+    &#34;&#34;&#34;Tests walkpoint method, will be removed later&#34;&#34;&#34;
     ob_maps[&#34;playmap_13&#34;].npc_2.walk_point(figure.x, figure.y)</code></pre>
 </details>
 </dd>
@@ -2983,7 +3176,9 @@ this will remain</p></div>
     &#34;&#34;&#34;Dor class for the map to enter centers and shops&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Trigger&#34;&#34;&#34;
+        &#34;&#34;&#34;Trigger
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ob.remove()
         i = ob.map.name
         ob.add(ob.oldmap,
@@ -3007,13 +3202,20 @@ this will remain</p></div>
 <span>def <span class="ident">action</span></span>(<span>self, ob)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Trigger</p></div>
+<div class="desc"><p>Trigger</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ob</code></strong></dt>
+<dd>The object triggering this action</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def action(self, ob):
-    &#34;&#34;&#34;Trigger&#34;&#34;&#34;
+    &#34;&#34;&#34;Trigger
+    ARGS:
+        ob: The object triggering this action&#34;&#34;&#34;
     ob.remove()
     i = ob.map.name
     ob.add(ob.oldmap,
@@ -3043,7 +3245,9 @@ this will remain</p></div>
     &#34;&#34;&#34;Triggers a conversation in the Pokete center&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Triggers the interaction in the Pokete center&#34;&#34;&#34;
+        &#34;&#34;&#34;Triggers the interaction in the Pokete center
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
@@ -3086,13 +3290,20 @@ now healed!&#34;], ev)
 <span>def <span class="ident">action</span></span>(<span>self, ob)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Triggers the interaction in the Pokete center</p></div>
+<div class="desc"><p>Triggers the interaction in the Pokete center</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ob</code></strong></dt>
+<dd>The object triggering this action</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    def action(self, ob):
-        &#34;&#34;&#34;Triggers the interaction in the Pokete center&#34;&#34;&#34;
+        &#34;&#34;&#34;Triggers the interaction in the Pokete center
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
@@ -3132,13 +3343,23 @@ now healed!&#34;], ev)
 <span>(</span><span>_he, _wi)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Contains all relevant objects for centermap</p></div>
+<div class="desc"><p>Contains all relevant objects for centermap</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_he</code></strong></dt>
+<dd>The maps height</dd>
+<dt><strong><code>_wi</code></strong></dt>
+<dd>The maps width</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class CenterMap(PlayMap):
-    &#34;&#34;&#34;Contains all relevant objects for centermap&#34;&#34;&#34;
+    &#34;&#34;&#34;Contains all relevant objects for centermap
+    ARGS:
+        _he: The maps height
+        _wi: The maps width&#34;&#34;&#34;
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name=&#34;centermap&#34;,
@@ -3186,7 +3407,9 @@ another players&#39; one.&#34;],
     &#34;&#34;&#34;Same as dor but with a chance&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Trigger&#34;&#34;&#34;
+        &#34;&#34;&#34;Trigger
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         if random.randint(0, self.arg_proto[&#34;chance&#34;]) == 0:
             super().action(ob)</code></pre>
 </details>
@@ -3219,7 +3442,7 @@ another players&#39; one.&#34;],
 
     @classmethod
     def pos(cls):
-        &#34;&#34;&#34;Prints the position&#34;&#34;&#34;
+        &#34;&#34;&#34;Prints the figures&#39; position&#34;&#34;&#34;
         print(figure.x, figure.y, figure.map.name)</code></pre>
 </details>
 <h3>Static methods</h3>
@@ -3228,14 +3451,14 @@ another players&#39; one.&#34;],
 <span>def <span class="ident">pos</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Prints the position</p></div>
+<div class="desc"><p>Prints the figures' position</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
 def pos(cls):
-    &#34;&#34;&#34;Prints the position&#34;&#34;&#34;
+    &#34;&#34;&#34;Prints the figures&#39; position&#34;&#34;&#34;
     print(figure.x, figure.y, figure.map.name)</code></pre>
 </details>
 </dd>
@@ -3266,12 +3489,18 @@ def pos(cls):
         self.move_free.add(self.submap, 20, self.submap.height - 1)
 
     def rem_pokes(self, pokes):
-        &#34;&#34;&#34;Removes all Poketes from the Deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes all Poketes from the Deck
+        ARGS:
+            pokes: List of Pokes beeing removed&#34;&#34;&#34;
         for poke in pokes:
             self.remove(poke)
 
     def __call__(self, p_len, label=&#34;Your full deck&#34;, in_fight=False):
-        &#34;&#34;&#34;Opens the deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Opens the deck
+        ARGS:
+            p_len: Number of Pokes beeing included
+            label: The displayed label
+            in_fight: Whether or not this is called in a fight&#34;&#34;&#34;
         ev.clear()
         pokes = figure.pokes[:p_len]
         ret_action = None
@@ -3373,7 +3602,10 @@ def pos(cls):
             self.submap.full_show()
 
     def add_all(self, pokes, init=False):
-        &#34;&#34;&#34;Adds all Poketes to the deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds all Poketes to the deck
+        ARGS:
+            pokes: List of all Pokes beeing added
+            init: Whether or not this happens for the first time&#34;&#34;&#34;
         j = 0
         for i, poke in enumerate(pokes):
             self.add(poke, figure, self.map,
@@ -3386,7 +3618,10 @@ def pos(cls):
                 j += 1
 
     def control(self, pokes, _ev):
-        &#34;&#34;&#34;Processes inputs&#34;&#34;&#34;
+        &#34;&#34;&#34;Processes inputs
+        ARGS:
+            pokes: List of all Pokes in deck
+            _ev: Inputted string&#34;&#34;&#34;
         if len(pokes) &lt;= 1:
             return
         for con, stat, fir, sec in zip([&#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
@@ -3420,13 +3655,23 @@ def pos(cls):
 <span>def <span class="ident">add_all</span></span>(<span>self, pokes, init=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds all Poketes to the deck</p></div>
+<div class="desc"><p>Adds all Poketes to the deck</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pokes</code></strong></dt>
+<dd>List of all Pokes beeing added</dd>
+<dt><strong><code>init</code></strong></dt>
+<dd>Whether or not this happens for the first time</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_all(self, pokes, init=False):
-    &#34;&#34;&#34;Adds all Poketes to the deck&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds all Poketes to the deck
+    ARGS:
+        pokes: List of all Pokes beeing added
+        init: Whether or not this happens for the first time&#34;&#34;&#34;
     j = 0
     for i, poke in enumerate(pokes):
         self.add(poke, figure, self.map,
@@ -3443,13 +3688,23 @@ def pos(cls):
 <span>def <span class="ident">control</span></span>(<span>self, pokes, _ev)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Processes inputs</p></div>
+<div class="desc"><p>Processes inputs</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pokes</code></strong></dt>
+<dd>List of all Pokes in deck</dd>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Inputted string</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def control(self, pokes, _ev):
-    &#34;&#34;&#34;Processes inputs&#34;&#34;&#34;
+    &#34;&#34;&#34;Processes inputs
+    ARGS:
+        pokes: List of all Pokes in deck
+        _ev: Inputted string&#34;&#34;&#34;
     if len(pokes) &lt;= 1:
         return
     for con, stat, fir, sec in zip([&#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
@@ -3478,13 +3733,20 @@ def pos(cls):
 <span>def <span class="ident">rem_pokes</span></span>(<span>self, pokes)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Removes all Poketes from the Deck</p></div>
+<div class="desc"><p>Removes all Poketes from the Deck</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pokes</code></strong></dt>
+<dd>List of Pokes beeing removed</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def rem_pokes(self, pokes):
-    &#34;&#34;&#34;Removes all Poketes from the Deck&#34;&#34;&#34;
+    &#34;&#34;&#34;Removes all Poketes from the Deck
+    ARGS:
+        pokes: List of Pokes beeing removed&#34;&#34;&#34;
     for poke in pokes:
         self.remove(poke)</code></pre>
 </details>
@@ -3496,13 +3758,20 @@ def pos(cls):
 <span>(</span><span>_map)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The Pokete dex that shows stats about all Poketes ever caught</p></div>
+<div class="desc"><p>The Pokete dex that shows stats about all Poketes ever caught</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map this will be shown on</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Dex:
-    &#34;&#34;&#34;The Pokete dex that shows stats about all Poketes ever caught&#34;&#34;&#34;
+    &#34;&#34;&#34;The Pokete dex that shows stats about all Poketes ever caught
+    ARGS:
+        _map: se.Map this will be shown on&#34;&#34;&#34;
 
     def __init__(self, _map):
         self.box = ChooseBox(_map.height - 3, 35, &#34;Poketedex&#34;)
@@ -3527,9 +3796,10 @@ def pos(cls):
         self.box.remove_c_obs()
 
     def detail(self, poke):
-        &#34;&#34;&#34;Shows details about the Pokete&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows details about the Pokete
+        ARGS:
+            poke: Pokes identifier&#34;&#34;&#34;
         ev.clear()
-
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
                           (f&#34;&#34;&#34;\n\n Evolves to {
@@ -3560,10 +3830,11 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
         self.detail_box.rem_ob(poke.ico)
 
     def __call__(self, pokes):
-        &#34;&#34;&#34;Opens the dex&#34;&#34;&#34;
+        &#34;&#34;&#34;Opens the dex
+        ARGS:
+            pokes: p_data.pokes&#34;&#34;&#34;
         ev.clear()
         self.idx = 0
-
         p_dict = {i[1]: i[-1] for i in
                   sorted([(pokes[j][&#34;types&#34;][0], j, pokes[j])
                           for j in list(pokes)[1:]])}
@@ -3624,15 +3895,21 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 <span>def <span class="ident">detail</span></span>(<span>self, poke)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Shows details about the Pokete</p></div>
+<div class="desc"><p>Shows details about the Pokete</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>Pokes identifier</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    def detail(self, poke):
-        &#34;&#34;&#34;Shows details about the Pokete&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows details about the Pokete
+        ARGS:
+            poke: Pokes identifier&#34;&#34;&#34;
         ev.clear()
-
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
                           (f&#34;&#34;&#34;\n\n Evolves to {
@@ -3695,7 +3972,9 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
     &#34;&#34;&#34;Dor class for the map to enter other maps&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Trigger&#34;&#34;&#34;
+        &#34;&#34;&#34;Trigger
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ob.remove()
         i = ob.map.name
         ob.add(ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
@@ -3720,13 +3999,20 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 <span>def <span class="ident">action</span></span>(<span>self, ob)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Trigger</p></div>
+<div class="desc"><p>Trigger</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ob</code></strong></dt>
+<dd>The object triggering this action</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def action(self, ob):
-    &#34;&#34;&#34;Trigger&#34;&#34;&#34;
+    &#34;&#34;&#34;Trigger
+    ARGS:
+        ob: The object triggering this action&#34;&#34;&#34;
     ob.remove()
     i = ob.map.name
     ob.add(ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
@@ -3755,6 +4041,9 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
                                     &#34;x&#34;: int(centermap.width / 2), &#34;y&#34;: 7})
 
     def action(self, ob):
+        &#34;&#34;&#34;Triggers the dor
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ob.last_center_map = ob.map
         super().action(ob)</code></pre>
 </details>
@@ -3764,14 +4053,31 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 <li>scrap_engine.Object</li>
 <li>scrap_engine.AddableObject</li>
 </ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete.Dor" href="#pokete.Dor">Dor</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete.Dor.action" href="#pokete.Dor.action">action</a></code></li>
-</ul>
-</li>
-</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete.DorToCenter.action"><code class="name flex">
+<span>def <span class="ident">action</span></span>(<span>self, ob)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Triggers the dor</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ob</code></strong></dt>
+<dd>The object triggering this action</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def action(self, ob):
+    &#34;&#34;&#34;Triggers the dor
+    ARGS:
+        ob: The object triggering this action&#34;&#34;&#34;
+    ob.last_center_map = ob.map
+    super().action(ob)</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 <dt id="pokete.DorToShop"><code class="flex name class">
 <span>class <span class="ident">DorToShop</span></span>
@@ -3810,23 +4116,34 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 <span>(</span><span>_ev)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Event class to enable dependency injection</p></div>
+<div class="desc"><p>Event class to enable dependency injection</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Initial char</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Event:
-    &#34;&#34;&#34;Event class to enable dependency injection&#34;&#34;&#34;
+    &#34;&#34;&#34;Event class to enable dependency injection
+    ARGS:
+        _ev: Initial char&#34;&#34;&#34;
 
     def __init__(self, _ev):
         self.ev = _ev
 
     def get(self):
-        &#34;&#34;&#34;Getter&#34;&#34;&#34;
+        &#34;&#34;&#34;Getter
+        RETURNS:
+            Current char&#34;&#34;&#34;
         return self.ev
 
     def set(self, _ev):
-        &#34;&#34;&#34;setter&#34;&#34;&#34;
+        &#34;&#34;&#34;Setter
+        ARGS:
+            _ev: New char&#34;&#34;&#34;
         self.ev = _ev
 
     def clear(self):
@@ -3853,13 +4170,17 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 <span>def <span class="ident">get</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Getter</p></div>
+<div class="desc"><p>Getter</p>
+<h2 id="returns">Returns</h2>
+<p>Current char</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get(self):
-    &#34;&#34;&#34;Getter&#34;&#34;&#34;
+    &#34;&#34;&#34;Getter
+    RETURNS:
+        Current char&#34;&#34;&#34;
     return self.ev</code></pre>
 </details>
 </dd>
@@ -3867,13 +4188,20 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 <span>def <span class="ident">set</span></span>(<span>self, _ev)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>setter</p></div>
+<div class="desc"><p>Setter</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>New char</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set(self, _ev):
-    &#34;&#34;&#34;setter&#34;&#34;&#34;
+    &#34;&#34;&#34;Setter
+    ARGS:
+        _ev: New char&#34;&#34;&#34;
     self.ev = _ev</code></pre>
 </details>
 </dd>
@@ -3893,7 +4221,9 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 
     @staticmethod
     def water(obs):
-        &#34;&#34;&#34;Water animation&#34;&#34;&#34;
+        &#34;&#34;&#34;Water animation
+        ARGS:
+            obs: List of se.Objects that represent the water&#34;&#34;&#34;
         if settings.animations:
             for obj in obs:
                 if random.randint(0, 9) == 0:
@@ -4029,14 +4359,21 @@ def playmap_7():
 <span>def <span class="ident">water</span></span>(<span>obs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Water animation</p></div>
+<div class="desc"><p>Water animation</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obs</code></strong></dt>
+<dd>List of se.Objects that represent the water</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def water(obs):
-    &#34;&#34;&#34;Water animation&#34;&#34;&#34;
+    &#34;&#34;&#34;Water animation
+    ARGS:
+        obs: List of se.Objects that represent the water&#34;&#34;&#34;
     if settings.animations:
         for obj in obs:
             if random.randint(0, 9) == 0:
@@ -4076,7 +4413,9 @@ def water(obs):
         self.direction = &#34;t&#34;
 
     def set_args(self, _si):
-        &#34;&#34;&#34;Processes data from save file&#34;&#34;&#34;
+        &#34;&#34;&#34;Processes data from save file
+        ARGS:
+            _si: session_info dict&#34;&#34;&#34;
         self.name = _si[&#34;user&#34;]
         self.last_center_map = ob_maps[_si.get(&#34;last_center_map&#34;, &#34;playmap_1&#34;)]
         self.pokes = [Poke(_si[&#34;pokes&#34;][poke][&#34;name&#34;],
@@ -4121,15 +4460,21 @@ def water(obs):
         movemap.add_obs()
 
     def add_money(self, money):
-        &#34;&#34;&#34;Adds money&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds money
+        ARGS:
+            money: Amount of money beeing added&#34;&#34;&#34;
         self.set_money(self.__money + money)
 
     def get_money(self):
-        &#34;&#34;&#34;Returns the current money&#34;&#34;&#34;
+        &#34;&#34;&#34;Getter for __money
+        RETURNS:
+            The current money&#34;&#34;&#34;
         return self.__money
 
     def set_money(self, money):
-        &#34;&#34;&#34;Sets the money to a certain value&#34;&#34;&#34;
+        &#34;&#34;&#34;Sets the money to a certain value
+        ARGS:
+            money: New value&#34;&#34;&#34;
         assert money &gt;= 0, &#34;money has to be positive&#34;
         logging.info(&#34;[Figure] Money set to %d$ from %d$&#34;,
                      money, self.__money)
@@ -4140,7 +4485,10 @@ def water(obs):
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
     def add_poke(self, poke, idx=None):
-        &#34;&#34;&#34;Adds a Pokete to the players Poketes&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds a Pokete to the players Poketes
+        ARGS:
+            poke: Poke object beeing added
+            idx: Index of the Poke&#34;&#34;&#34;
         poke.set_player(True)
         figure.caught_pokes.append(poke.identifier)
         if idx is None:
@@ -4159,11 +4507,18 @@ def water(obs):
         logging.info(&#34;[Figure] %d %s(s) given&#34;, amount, item)
 
     def has_item(self, item):
-        &#34;&#34;&#34;Checks if an item is already present&#34;&#34;&#34;
+        &#34;&#34;&#34;Checks if an item is already present
+        ARGS:
+            item: Generic item name
+        RETURNS:
+            If the player has this item&#34;&#34;&#34;
         return item in self.inv and self.inv[item] &gt; 0
 
     def remove_item(self, item, amount=1):
-        &#34;&#34;&#34;Removes a certain amount of an item from the inv&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes a certain amount of an item from the inv
+        ARGS:
+            item: Generic item name
+            amount: Amount of items beeing removed&#34;&#34;&#34;
         assert amount &gt; 0, &#34;Amounts have to be positive&#34;
         assert item in self.inv, f&#34;Item {item} is not in the inventory&#34;
         assert self.inv[item] - amount &gt;= 0, f&#34;There are not enought {item}s \
@@ -4182,13 +4537,20 @@ in the inventory&#34;
 <span>def <span class="ident">add_money</span></span>(<span>self, money)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds money</p></div>
+<div class="desc"><p>Adds money</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>money</code></strong></dt>
+<dd>Amount of money beeing added</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_money(self, money):
-    &#34;&#34;&#34;Adds money&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds money
+    ARGS:
+        money: Amount of money beeing added&#34;&#34;&#34;
     self.set_money(self.__money + money)</code></pre>
 </details>
 </dd>
@@ -4196,13 +4558,23 @@ in the inventory&#34;
 <span>def <span class="ident">add_poke</span></span>(<span>self, poke, idx=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a Pokete to the players Poketes</p></div>
+<div class="desc"><p>Adds a Pokete to the players Poketes</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>Poke object beeing added</dd>
+<dt><strong><code>idx</code></strong></dt>
+<dd>Index of the Poke</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_poke(self, poke, idx=None):
-    &#34;&#34;&#34;Adds a Pokete to the players Poketes&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds a Pokete to the players Poketes
+    ARGS:
+        poke: Poke object beeing added
+        idx: Index of the Poke&#34;&#34;&#34;
     poke.set_player(True)
     figure.caught_pokes.append(poke.identifier)
     if idx is None:
@@ -4216,13 +4588,17 @@ in the inventory&#34;
 <span>def <span class="ident">get_money</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the current money</p></div>
+<div class="desc"><p>Getter for __money</p>
+<h2 id="returns">Returns</h2>
+<p>The current money</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_money(self):
-    &#34;&#34;&#34;Returns the current money&#34;&#34;&#34;
+    &#34;&#34;&#34;Getter for __money
+    RETURNS:
+        The current money&#34;&#34;&#34;
     return self.__money</code></pre>
 </details>
 </dd>
@@ -4249,13 +4625,24 @@ in the inventory&#34;
 <span>def <span class="ident">has_item</span></span>(<span>self, item)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if an item is already present</p></div>
+<div class="desc"><p>Checks if an item is already present</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item</code></strong></dt>
+<dd>Generic item name</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>If the player has this item</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def has_item(self, item):
-    &#34;&#34;&#34;Checks if an item is already present&#34;&#34;&#34;
+    &#34;&#34;&#34;Checks if an item is already present
+    ARGS:
+        item: Generic item name
+    RETURNS:
+        If the player has this item&#34;&#34;&#34;
     return item in self.inv and self.inv[item] &gt; 0</code></pre>
 </details>
 </dd>
@@ -4263,13 +4650,23 @@ in the inventory&#34;
 <span>def <span class="ident">remove_item</span></span>(<span>self, item, amount=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Removes a certain amount of an item from the inv</p></div>
+<div class="desc"><p>Removes a certain amount of an item from the inv</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>item</code></strong></dt>
+<dd>Generic item name</dd>
+<dt><strong><code>amount</code></strong></dt>
+<dd>Amount of items beeing removed</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    def remove_item(self, item, amount=1):
-        &#34;&#34;&#34;Removes a certain amount of an item from the inv&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes a certain amount of an item from the inv
+        ARGS:
+            item: Generic item name
+            amount: Amount of items beeing removed&#34;&#34;&#34;
         assert amount &gt; 0, &#34;Amounts have to be positive&#34;
         assert item in self.inv, f&#34;Item {item} is not in the inventory&#34;
         assert self.inv[item] - amount &gt;= 0, f&#34;There are not enought {item}s \
@@ -4282,13 +4679,20 @@ in the inventory&#34;
 <span>def <span class="ident">set_args</span></span>(<span>self, _si)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Processes data from save file</p></div>
+<div class="desc"><p>Processes data from save file</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_si</code></strong></dt>
+<dd>session_info dict</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_args(self, _si):
-    &#34;&#34;&#34;Processes data from save file&#34;&#34;&#34;
+    &#34;&#34;&#34;Processes data from save file
+    ARGS:
+        _si: session_info dict&#34;&#34;&#34;
     self.name = _si[&#34;user&#34;]
     self.last_center_map = ob_maps[_si.get(&#34;last_center_map&#34;, &#34;playmap_1&#34;)]
     self.pokes = [Poke(_si[&#34;pokes&#34;][poke][&#34;name&#34;],
@@ -4337,13 +4741,20 @@ in the inventory&#34;
 <span>def <span class="ident">set_money</span></span>(<span>self, money)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets the money to a certain value</p></div>
+<div class="desc"><p>Sets the money to a certain value</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>money</code></strong></dt>
+<dd>New value</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_money(self, money):
-    &#34;&#34;&#34;Sets the money to a certain value&#34;&#34;&#34;
+    &#34;&#34;&#34;Sets the money to a certain value
+    ARGS:
+        money: New value&#34;&#34;&#34;
     assert money &gt;= 0, &#34;money has to be positive&#34;
     logging.info(&#34;[Figure] Money set to %d$ from %d$&#34;,
                  money, self.__money)
@@ -4370,7 +4781,9 @@ in the inventory&#34;
     &#34;&#34;&#34;Object on the map, that triggers a fight&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Action triggers the fight&#34;&#34;&#34;
+        &#34;&#34;&#34;Action triggers the fight
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         if random.randint(0, 8) == 0:
             fight(Poke(&#34;__fallback__&#34;, 0)
                   if len([poke for poke in figure.pokes[:6]
@@ -4396,13 +4809,20 @@ in the inventory&#34;
 <span>def <span class="ident">action</span></span>(<span>self, ob)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Action triggers the fight</p></div>
+<div class="desc"><p>Action triggers the fight</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ob</code></strong></dt>
+<dd>The object triggering this action</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def action(self, ob):
-    &#34;&#34;&#34;Action triggers the fight&#34;&#34;&#34;
+    &#34;&#34;&#34;Action triggers the fight
+    ARGS:
+        ob: The object triggering this action&#34;&#34;&#34;
     if random.randint(0, 8) == 0:
         fight(Poke(&#34;__fallback__&#34;, 0)
               if len([poke for poke in figure.pokes[:6]
@@ -4425,13 +4845,20 @@ in the inventory&#34;
 <span>(</span><span>_map)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Inventory to see and manage items in</p></div>
+<div class="desc"><p>Inventory to see and manage items in</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map this will be shown on</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Inv:
-    &#34;&#34;&#34;Inventory to see and manage items in&#34;&#34;&#34;
+    &#34;&#34;&#34;Inventory to see and manage items in
+    ARGS:
+        _map: se.Map this will be shown on&#34;&#34;&#34;
 
     def __init__(self, _map):
         self.map = _map
@@ -4514,7 +4941,12 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
         self.box.remove_c_obs()
 
     def rem_item(self, name, items):
-        &#34;&#34;&#34;Removes an item to the inv&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes an item from the inv
+        ARGS:
+            name: Items name
+            items: List of Items
+        RETURNS:
+            List of Items&#34;&#34;&#34;
         figure.remove_item(name)
         for obj in self.box.c_obs:
             obj.remove()
@@ -4527,7 +4959,9 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
         return items
 
     def add(self):
-        &#34;&#34;&#34;Adds all items to the box&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds all items to the box
+        RETURNS:
+            List of Items&#34;&#34;&#34;
         items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] &gt; 0]
         self.box.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {figure.inv[i.name]}&#34;)
                             for i in items])
@@ -4539,13 +4973,17 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
 <span>def <span class="ident">add</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds all items to the box</p></div>
+<div class="desc"><p>Adds all items to the box</p>
+<h2 id="returns">Returns</h2>
+<p>List of Items</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add(self):
-    &#34;&#34;&#34;Adds all items to the box&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds all items to the box
+    RETURNS:
+        List of Items&#34;&#34;&#34;
     items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] &gt; 0]
     self.box.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {figure.inv[i.name]}&#34;)
                         for i in items])
@@ -4556,13 +4994,27 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
 <span>def <span class="ident">rem_item</span></span>(<span>self, name, items)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Removes an item to the inv</p></div>
+<div class="desc"><p>Removes an item from the inv</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>Items name</dd>
+<dt><strong><code>items</code></strong></dt>
+<dd>List of Items</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>List of Items</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def rem_item(self, name, items):
-    &#34;&#34;&#34;Removes an item to the inv&#34;&#34;&#34;
+    &#34;&#34;&#34;Removes an item from the inv
+    ARGS:
+        name: Items name
+        items: List of Items
+    RETURNS:
+        List of Items&#34;&#34;&#34;
     figure.remove_item(name)
     for obj in self.box.c_obs:
         obj.remove()
@@ -4582,14 +5034,25 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
 <span>(</span><span>string, poke_args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Daughter of se.Text to better organize Highgrass</p></div>
+<div class="desc"><p>Daughter of se.Text to better organize Highgrass</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>string</code></strong></dt>
+<dd>The character representing the meadow</dd>
+<dt><strong><code>poke_args</code></strong></dt>
+<dd>Dict containing relevant information about Pokes</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Meadow(se.Text):
-    &#34;&#34;&#34;Daughter of se.Text to better organize Highgrass&#34;&#34;&#34;
+    &#34;&#34;&#34;Daughter of se.Text to better organize Highgrass
+    ARGS:
+        string: The character representing the meadow
+        poke_args: Dict containing relevant information about Pokes&#34;&#34;&#34;
     esccode = Color.green
+
     def __init__(self, string, poke_args):
         super().__init__(string, ignore=self.esccode + &#34; &#34; + Color.reset,
                          ob_class=HightGrass, ob_args=poke_args,
@@ -4618,13 +5081,20 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
 <span>(</span><span>_map)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Menu to manage settings and other stuff in</p></div>
+<div class="desc"><p>Menu to manage settings and other stuff in</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map this will be shown on</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Menu:
-    &#34;&#34;&#34;Menu to manage settings and other stuff in&#34;&#34;&#34;
+    &#34;&#34;&#34;Menu to manage settings and other stuff in
+    ARGS:
+        _map: se.Map this will be shown on&#34;&#34;&#34;
 
     def __init__(self, _map):
         self.map = _map
@@ -4698,13 +5168,19 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
 <span>class <span class="ident">NPCActions</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>This class contains all functions callable by NPCs</p></div>
+<div class="desc"><p>This class contains all functions callable by NPCs
+All this methods follow the same pattern:
+ARGS:
+npc: The NPC the method belongs to</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class NPCActions:
-    &#34;&#34;&#34;This class contains all functions callable by NPCs&#34;&#34;&#34;
+    &#34;&#34;&#34;This class contains all functions callable by NPCs
+    All this methods follow the same pattern:
+        ARGS:
+            npc: The NPC the method belongs to&#34;&#34;&#34;
 
     @staticmethod
     def swap_poke(npc):
@@ -4965,13 +5441,35 @@ def swap_poke(npc):
 <span>(</span><span>poke, xp, player=True, shiny=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The Pokete class</p></div>
+<div class="desc"><p>The Pokete class</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>The Pokes generic name</dd>
+<dt><strong><code>xp</code></strong></dt>
+<dd>Initial xp</dd>
+<dt><strong><code>_hp</code></strong></dt>
+<dd>Initial hp ('SKIP' sets to max hp)</dd>
+<dt><strong><code>_attacks</code></strong></dt>
+<dd>List of attack names learned</dd>
+<dt><strong><code>player</code></strong></dt>
+<dd>Bool whether or not the Poke belongs to the player</dd>
+<dt><strong><code>shiny</code></strong></dt>
+<dd>Bool whether or not the Poke is shiny (is extra strong)</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Poke:
-    &#34;&#34;&#34;The Pokete class&#34;&#34;&#34;
+    &#34;&#34;&#34;The Pokete class
+    ARGS:
+        poke: The Pokes generic name
+        xp: Initial xp
+        _hp: Initial hp (&#39;SKIP&#39; sets to max hp)
+        _attacks: List of attack names learned
+        player: Bool whether or not the Poke belongs to the player
+        shiny: Bool whether or not the Poke is shiny (is extra strong)&#34;&#34;&#34;
 
     def __init__(self, poke, xp, _hp=&#34;SKIP&#34;, _attacks=None,
                  player=True, shiny=False):
@@ -5044,7 +5542,9 @@ can&#39;t have more than 4 attacks!&#34;
         self.set_vars()
 
     def set_player(self, player):
-        &#34;&#34;&#34;Sets the player attribute when the Pokete changes the owner&#34;&#34;&#34;
+        &#34;&#34;&#34;Sets the player attribute when the Pokete changes the owner
+        ARGS:
+            player: Bool whether or not the Poke new belongs to the player&#34;&#34;&#34;
         self.player = player
         self.affil = &#34;you&#34; if self.player else &#34;enemy&#34;
         self.ext_name = f&#39;{self.name}({self.affil})&#39;
@@ -5066,7 +5566,8 @@ can&#39;t have more than 4 attacks!&#34;
         self.label_rechar()
 
     def dict(self):
-        &#34;&#34;&#34;Returns a dict with all information about the Pokete&#34;&#34;&#34;
+        &#34;&#34;&#34;RETURNS:
+            A dict with all information about the Pokete&#34;&#34;&#34;
         return {&#34;name&#34;: self.identifier, &#34;xp&#34;: self.xp, &#34;hp&#34;: self.hp,
                 &#34;ap&#34;: [atc.ap for atc in self.attac_obs],
                 &#34;effects&#34;: [eff.c_name for eff in self.effects],
@@ -5074,7 +5575,9 @@ can&#39;t have more than 4 attacks!&#34;
                 &#34;shiny&#34;: self.shiny}
 
     def set_ap(self, dic):
-        &#34;&#34;&#34;Sets attack aps form a list&#34;&#34;&#34;
+        &#34;&#34;&#34;Sets attack aps from a list
+        ARGS:
+            dic: List of attack ap&#34;&#34;&#34;
         for atc, ap in zip(self.attac_obs, dic):
             atc.ap = ap if ap != &#34;SKIP&#34; else atc.ap
         self.label_rechar()
@@ -5104,11 +5607,15 @@ can&#39;t have more than 4 attacks!&#34;
                 + se.Text(f&#34;-{atc.ap}&#34;)
 
     def lvl(self):
-        &#34;&#34;&#34;Returns level&#34;&#34;&#34;
+        &#34;&#34;&#34;RETURNS:
+            Current level&#34;&#34;&#34;
         return int(math.sqrt(self.xp + 1))
 
     def attack(self, attac, enem):
-        &#34;&#34;&#34;Attack process&#34;&#34;&#34;
+        &#34;&#34;&#34;Attack process
+        ARGS:
+            attac: Attack object
+            enem: Enemy Poke&#34;&#34;&#34;
         if attac.ap &gt; 0:
             for eff in self.effects:
                 eff.remove()
@@ -5236,13 +5743,23 @@ can&#39;t have more than 4 attacks!&#34;
 <span>def <span class="ident">attack</span></span>(<span>self, attac, enem)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Attack process</p></div>
+<div class="desc"><p>Attack process</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>attac</code></strong></dt>
+<dd>Attack object</dd>
+<dt><strong><code>enem</code></strong></dt>
+<dd>Enemy Poke</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    def attack(self, attac, enem):
-        &#34;&#34;&#34;Attack process&#34;&#34;&#34;
+        &#34;&#34;&#34;Attack process
+        ARGS:
+            attac: Attack object
+            enem: Enemy Poke&#34;&#34;&#34;
         if attac.ap &gt; 0:
             for eff in self.effects:
                 eff.remove()
@@ -5298,13 +5815,15 @@ can&#39;t have more than 4 attacks!&#34;
 <span>def <span class="ident">dict</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns a dict with all information about the Pokete</p></div>
+<div class="desc"><p>RETURNS:
+A dict with all information about the Pokete</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def dict(self):
-    &#34;&#34;&#34;Returns a dict with all information about the Pokete&#34;&#34;&#34;
+    &#34;&#34;&#34;RETURNS:
+        A dict with all information about the Pokete&#34;&#34;&#34;
     return {&#34;name&#34;: self.identifier, &#34;xp&#34;: self.xp, &#34;hp&#34;: self.hp,
             &#34;ap&#34;: [atc.ap for atc in self.attac_obs],
             &#34;effects&#34;: [eff.c_name for eff in self.effects],
@@ -5377,13 +5896,15 @@ can&#39;t have more than 4 attacks!&#34;
 <span>def <span class="ident">lvl</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns level</p></div>
+<div class="desc"><p>RETURNS:
+Current level</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def lvl(self):
-    &#34;&#34;&#34;Returns level&#34;&#34;&#34;
+    &#34;&#34;&#34;RETURNS:
+        Current level&#34;&#34;&#34;
     return int(math.sqrt(self.xp + 1))</code></pre>
 </details>
 </dd>
@@ -5391,13 +5912,20 @@ can&#39;t have more than 4 attacks!&#34;
 <span>def <span class="ident">set_ap</span></span>(<span>self, dic)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets attack aps form a list</p></div>
+<div class="desc"><p>Sets attack aps from a list</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dic</code></strong></dt>
+<dd>List of attack ap</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_ap(self, dic):
-    &#34;&#34;&#34;Sets attack aps form a list&#34;&#34;&#34;
+    &#34;&#34;&#34;Sets attack aps from a list
+    ARGS:
+        dic: List of attack ap&#34;&#34;&#34;
     for atc, ap in zip(self.attac_obs, dic):
         atc.ap = ap if ap != &#34;SKIP&#34; else atc.ap
     self.label_rechar()</code></pre>
@@ -5407,13 +5935,20 @@ can&#39;t have more than 4 attacks!&#34;
 <span>def <span class="ident">set_player</span></span>(<span>self, player)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets the player attribute when the Pokete changes the owner</p></div>
+<div class="desc"><p>Sets the player attribute when the Pokete changes the owner</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>Bool whether or not the Poke new belongs to the player</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_player(self, player):
-    &#34;&#34;&#34;Sets the player attribute when the Pokete changes the owner&#34;&#34;&#34;
+    &#34;&#34;&#34;Sets the player attribute when the Pokete changes the owner
+    ARGS:
+        player: Bool whether or not the Poke new belongs to the player&#34;&#34;&#34;
     self.player = player
     self.affil = &#34;you&#34; if self.player else &#34;enemy&#34;
     self.ext_name = f&#39;{self.name}({self.affil})&#39;</code></pre>
@@ -5452,13 +5987,20 @@ can&#39;t have more than 4 attacks!&#34;
 <span>(</span><span>name)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Poketeball that can be picked up on the map</p></div>
+<div class="desc"><p>Poketeball that can be picked up on the map</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>Generic name of the ball</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Poketeball(se.Object):
-    &#34;&#34;&#34;Poketeball that can be picked up on the map&#34;&#34;&#34;
+    &#34;&#34;&#34;Poketeball that can be picked up on the map
+    ARGS:
+        name: Generic name of the ball&#34;&#34;&#34;
 
     def __init__(self, name):
         self.name = name
@@ -5466,7 +6008,9 @@ can&#39;t have more than 4 attacks!&#34;
                          state=&#34;float&#34;)
 
     def action(self, ob):
-        &#34;&#34;&#34;Action triggers the pick up&#34;&#34;&#34;
+        &#34;&#34;&#34;Action triggers the pick up
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         amount = random.choices([1, 2, 3],
                                 weights=[10, 2, 1], k=1)[0]
         item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
@@ -5491,13 +6035,20 @@ can&#39;t have more than 4 attacks!&#34;
 <span>def <span class="ident">action</span></span>(<span>self, ob)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Action triggers the pick up</p></div>
+<div class="desc"><p>Action triggers the pick up</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ob</code></strong></dt>
+<dd>The object triggering this action</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    def action(self, ob):
-        &#34;&#34;&#34;Action triggers the pick up&#34;&#34;&#34;
+        &#34;&#34;&#34;Action triggers the pick up
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         amount = random.choices([1, 2, 3],
                                 weights=[10, 2, 1], k=1)[0]
         item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
@@ -5519,13 +6070,26 @@ can&#39;t have more than 4 attacks!&#34;
 <span>(</span><span>text, setting, options=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The setting label for the menu</p></div>
+<div class="desc"><p>The setting label for the menu</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text displayed / the settings name</dd>
+<dt><strong><code>setting</code></strong></dt>
+<dd>The settings name the setting belongs to (load_mods)</dd>
+<dt><strong><code>options</code></strong></dt>
+<dd>Dict containing all options ({True: "On", False: "Off"})</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Setting(se.Box):
-    &#34;&#34;&#34;The setting label for the menu&#34;&#34;&#34;
+    &#34;&#34;&#34;The setting label for the menu
+    ARGS:
+        text: The text displayed / the settings name
+        setting: The settings name the setting belongs to (load_mods)
+        options: Dict containing all options ({True: &#34;On&#34;, False: &#34;Off&#34;})&#34;&#34;&#34;
 
     def __init__(self, text, setting, options=None):
         if options is None:
@@ -5592,7 +6156,9 @@ can&#39;t have more than 4 attacks!&#34;
     &#34;&#34;&#34;Triggers an conversation in the shop&#34;&#34;&#34;
 
     def action(self, ob):
-        &#34;&#34;&#34;Triggers an interaction in the shop&#34;&#34;&#34;
+        &#34;&#34;&#34;Triggers an interaction in the shop
+        ARGS:
+            ob: The object triggering this action&#34;&#34;&#34;
         ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
@@ -5613,13 +6179,20 @@ can&#39;t have more than 4 attacks!&#34;
 <span>def <span class="ident">action</span></span>(<span>self, ob)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Triggers an interaction in the shop</p></div>
+<div class="desc"><p>Triggers an interaction in the shop</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ob</code></strong></dt>
+<dd>The object triggering this action</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def action(self, ob):
-    &#34;&#34;&#34;Triggers an interaction in the shop&#34;&#34;&#34;
+    &#34;&#34;&#34;Triggers an interaction in the shop
+    ARGS:
+        ob: The object triggering this action&#34;&#34;&#34;
     ev.clear()
     movemap.full_show()
     movemap.text(int(movemap.width / 2), 3,
@@ -5637,13 +6210,23 @@ can&#39;t have more than 4 attacks!&#34;
 <span>(</span><span>_he, _wi)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Contains all relevant objects for shopmap</p></div>
+<div class="desc"><p>Contains all relevant objects for shopmap</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_he</code></strong></dt>
+<dd>The maps height</dd>
+<dt><strong><code>_wi</code></strong></dt>
+<dd>The maps width</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ShopMap(PlayMap):
-    &#34;&#34;&#34;Contains all relevant objects for shopmap&#34;&#34;&#34;
+    &#34;&#34;&#34;Contains all relevant objects for shopmap
+    ARGS:
+        _he: The maps height
+        _wi: The maps width &#34;&#34;&#34;
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name=&#34;shopmap&#34;,
@@ -5784,6 +6367,9 @@ can&#39;t have more than 4 attacks!&#34;
 </li>
 <li>
 <h4><code><a title="pokete.DorToCenter" href="#pokete.DorToCenter">DorToCenter</a></code></h4>
+<ul class="">
+<li><code><a title="pokete.DorToCenter.action" href="#pokete.DorToCenter.action">action</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="pokete.DorToShop" href="#pokete.DorToShop">DorToShop</a></code></h4>

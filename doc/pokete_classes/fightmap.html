@@ -41,7 +41,10 @@ from .learnattack import LearnAttack
 
 
 class EvoMap(se.Map):
-    &#34;&#34;&#34;Map for evolutions to take place on&#34;&#34;&#34;
+    &#34;&#34;&#34;Map for evolutions to take place on
+    ARGS:
+        height: The height of the map
+        width: The width of the map&#34;&#34;&#34;
 
     def __init__(self, height, width):
         super().__init__(height, width, &#34; &#34;)
@@ -53,7 +56,11 @@ class EvoMap(se.Map):
 
 
 class FightMap(se.Map):
-    &#34;&#34;&#34;Wrapper for se.Map&#34;&#34;&#34;
+    &#34;&#34;&#34;Wrapper for se.Map
+    ARGS:
+        height: The height of the map
+        width: The width of the map
+        logging: The logging module&#34;&#34;&#34;
 
     def __init__(self, height, width, logging):
         super().__init__(height, width, &#34; &#34;)
@@ -96,7 +103,11 @@ class FightMap(se.Map):
         self.label.add(self, 0, self.height - 1)
 
     def clean_up(self, player, enemy):
-        &#34;&#34;&#34;Removes all labels from self&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes all labels from self
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to&#34;&#34;&#34;
         for obj in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico,
                     enemy.hp_bar, enemy.tril, enemy.trir, player.text_name,
                     player.text_lvl, player.text_hp, player.ico, player.hp_bar,
@@ -108,7 +119,11 @@ class FightMap(se.Map):
                 j.cleanup()
 
     def add_3(self, player, enemy):
-        &#34;&#34;&#34;Adds player labels&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds player labels
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to&#34;&#34;&#34;
         if player.identifier != &#34;__fallback__&#34;:
             player.text_name.add(self, self.width - 17, self.height - 9)
             player.text_lvl.add(self, self.width - 17, self.height - 8)
@@ -120,7 +135,13 @@ class FightMap(se.Map):
         return [player, enemy]
 
     def add_1(self, player, enemy, caught_poketes):
-        &#34;&#34;&#34;Adds enemy and general labels to self&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds enemy and general labels to self
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to
+            caught_poketes: List of Poke.identifiers of Pokes that have already
+                            been caught&#34;&#34;&#34;
         for obj, x, y in zip([enemy.tril, enemy.trir,
                               enemy.text_name, enemy.text_lvl,
                               enemy.text_hp, enemy.ico, enemy.hp_bar],
@@ -135,7 +156,9 @@ class FightMap(se.Map):
         return [player, enemy]
 
     def add_2(self, player):
-        &#34;&#34;&#34;Adds player labels with sleeps&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds player labels with sleeps
+        ARGS:
+            player: The player Poke object that the labels belong to&#34;&#34;&#34;
         if player.identifier != &#34;__fallback__&#34;:
             player.text_name.add(self, self.width - 17, self.height - 9)
             time.sleep(0.05)
@@ -152,7 +175,11 @@ class FightMap(se.Map):
             player.ico.add(self, 3, self.height - 10)
 
     def fast_change(self, arr, setob):
-        &#34;&#34;&#34;Changes fast between a list of texts&#34;&#34;&#34;
+        &#34;&#34;&#34;Changes fast between a list of texts
+        ARGS:
+            arr: List of se.Texts that will be changed through
+            setob: A reference se.Text with the coordinates the objs in arr
+                   will be set to.&#34;&#34;&#34;
         for _i in range(1, len(arr)):
             arr[_i - 1].remove()
             arr[_i].add(self, setob.x, setob.y)
@@ -160,7 +187,10 @@ class FightMap(se.Map):
             time.sleep(0.1)
 
     def get_attack(self, _ev, attack_obs):
-        &#34;&#34;&#34;Inputloop for attack options&#34;&#34;&#34;
+        &#34;&#34;&#34;Inputloop for attack options
+        ARGS:
+            _ev: Event object
+            attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
         with self.box.add(self, 1, self.height - 7):
             while True:
                 if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
@@ -185,7 +215,11 @@ class FightMap(se.Map):
         return attack
 
     def get_item(self, _ev, items, inv):
-        &#34;&#34;&#34;Inputloop for inv&#34;&#34;&#34;
+        &#34;&#34;&#34;Inputloop for inv
+        ARGS:
+            _ev: Event object
+            items: List of InvItems that can be choosen from
+            inv: The Figures inv&#34;&#34;&#34;
         self.invbox.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {inv[i.name]}&#34;)
                                for i in items])
         self.invbox.set_index(0)
@@ -208,10 +242,24 @@ class FightMap(se.Map):
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
+        &#34;&#34;&#34;Fight between two Pokes
+        ARGS:
+            player: The players&#39; used Poke
+            enemy: The enemy&#39;s used Poke
+            figure: Figure object
+            settings: Settings object
+            invitems: InvItems object
+            fightitems: FightItems object
+            deck: deck function
+            p_data: p_data module
+            _ev: Event object
+            info: Dict with information about the fight
+                  ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
+        RETURNS:
+            Poke object that won the fight&#34;&#34;&#34;
         self.logging.info(&#34;[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d&#34;, info[&#34;type&#34;], player.name, player.lvl(), enemy.name,
                           enemy.lvl())
-        &#34;&#34;&#34;Fight&#34;&#34;&#34;
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
         players = self.add_1(player, enemy, figure.caught_pokes)
@@ -370,7 +418,23 @@ used {enemy.name} against you!&#39;)
 
 
 class FightItems:
-    &#34;&#34;&#34;Contains all fns callable by an item in fight&#34;&#34;&#34;
+    &#34;&#34;&#34;Contains all fns callable by an item in fight
+    ARGS:
+        _map: FightMap object
+        movemap: MoveMap object
+        figure: Figure object
+        ob_maps: Dict of all PlayMaps
+        logging: logging module
+
+    The methods that can actually be called in fight follow the follwing patern:
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+        RETURNS:
+            1: To continue the attack round
+            2: To win the game
+            None: To let the enemy attack&#34;&#34;&#34;
 
     def __init__(self, _map, movemap, figure, ob_maps, logging):
         self.map = _map
@@ -380,7 +444,18 @@ class FightItems:
         self.logging = logging
 
     def throw(self, obj, enem, info, chance, name):
-        &#34;&#34;&#34;Throws a Poketeball&#34;&#34;&#34;
+        &#34;&#34;&#34;Throws a *ball
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+            chance: The balls catch chance
+            name: The balls name
+        RETURNS:
+            1: The continue the attack round
+            2: The win the game
+            None: To let the enemy attack&#34;&#34;&#34;
+
         if obj.identifier == &#34;__fallback__&#34; or info[&#34;type&#34;] == &#34;duel&#34;:
             return 1
         self.map.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
@@ -412,7 +487,14 @@ class FightItems:
         return None
 
     def potion(self, obj, enem, info, hp, name):
-        &#34;&#34;&#34;Potion function&#34;&#34;&#34;
+        &#34;&#34;&#34;Potion function
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+            hp: The hp that will be given to the Poke
+            name: The potions name&#34;&#34;&#34;
+
         self.fig.remove_item(name)
         obj.oldhp = obj.hp
         if obj.hp + hp &gt; obj.full_hp:
@@ -469,13 +551,23 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>height, width)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Map for evolutions to take place on</p></div>
+<div class="desc"><p>Map for evolutions to take place on</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>height</code></strong></dt>
+<dd>The height of the map</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>The width of the map</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EvoMap(se.Map):
-    &#34;&#34;&#34;Map for evolutions to take place on&#34;&#34;&#34;
+    &#34;&#34;&#34;Map for evolutions to take place on
+    ARGS:
+        height: The height of the map
+        width: The width of the map&#34;&#34;&#34;
 
     def __init__(self, height, width):
         super().__init__(height, width, &#34; &#34;)
@@ -495,13 +587,51 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>_map, movemap, figure, ob_maps, logging)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Contains all fns callable by an item in fight</p></div>
+<div class="desc"><p>Contains all fns callable by an item in fight</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>FightMap object</dd>
+<dt><strong><code>movemap</code></strong></dt>
+<dd>MoveMap object</dd>
+<dt><strong><code>figure</code></strong></dt>
+<dd>Figure object</dd>
+<dt><strong><code>ob_maps</code></strong></dt>
+<dd>Dict of all PlayMaps</dd>
+<dt><strong><code>logging</code></strong></dt>
+<dd>logging module</dd>
+</dl>
+<p>The methods that can actually be called in fight follow the follwing patern:
+ARGS:
+obj: The players Poke object
+enem: The enemys Poke object
+info: The info dict
+RETURNS:
+1: To continue the attack round
+2: To win the game
+None: To let the enemy attack</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class FightItems:
-    &#34;&#34;&#34;Contains all fns callable by an item in fight&#34;&#34;&#34;
+    &#34;&#34;&#34;Contains all fns callable by an item in fight
+    ARGS:
+        _map: FightMap object
+        movemap: MoveMap object
+        figure: Figure object
+        ob_maps: Dict of all PlayMaps
+        logging: logging module
+
+    The methods that can actually be called in fight follow the follwing patern:
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+        RETURNS:
+            1: To continue the attack round
+            2: To win the game
+            None: To let the enemy attack&#34;&#34;&#34;
 
     def __init__(self, _map, movemap, figure, ob_maps, logging):
         self.map = _map
@@ -511,7 +641,18 @@ if __name__ == &#34;__main__&#34;:
         self.logging = logging
 
     def throw(self, obj, enem, info, chance, name):
-        &#34;&#34;&#34;Throws a Poketeball&#34;&#34;&#34;
+        &#34;&#34;&#34;Throws a *ball
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+            chance: The balls catch chance
+            name: The balls name
+        RETURNS:
+            1: The continue the attack round
+            2: The win the game
+            None: To let the enemy attack&#34;&#34;&#34;
+
         if obj.identifier == &#34;__fallback__&#34; or info[&#34;type&#34;] == &#34;duel&#34;:
             return 1
         self.map.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
@@ -543,7 +684,14 @@ if __name__ == &#34;__main__&#34;:
         return None
 
     def potion(self, obj, enem, info, hp, name):
-        &#34;&#34;&#34;Potion function&#34;&#34;&#34;
+        &#34;&#34;&#34;Potion function
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+            hp: The hp that will be given to the Poke
+            name: The potions name&#34;&#34;&#34;
+
         self.fig.remove_item(name)
         obj.oldhp = obj.hp
         if obj.hp + hp &gt; obj.full_hp:
@@ -647,13 +795,33 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">potion</span></span>(<span>self, obj, enem, info, hp, name)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Potion function</p></div>
+<div class="desc"><p>Potion function</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The players Poke object</dd>
+<dt><strong><code>enem</code></strong></dt>
+<dd>The enemys Poke object</dd>
+<dt><strong><code>info</code></strong></dt>
+<dd>The info dict</dd>
+<dt><strong><code>hp</code></strong></dt>
+<dd>The hp that will be given to the Poke</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The potions name</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def potion(self, obj, enem, info, hp, name):
-    &#34;&#34;&#34;Potion function&#34;&#34;&#34;
+    &#34;&#34;&#34;Potion function
+    ARGS:
+        obj: The players Poke object
+        enem: The enemys Poke object
+        info: The info dict
+        hp: The hp that will be given to the Poke
+        name: The potions name&#34;&#34;&#34;
+
     self.fig.remove_item(name)
     obj.oldhp = obj.hp
     if obj.hp + hp &gt; obj.full_hp:
@@ -696,13 +864,46 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">throw</span></span>(<span>self, obj, enem, info, chance, name)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Throws a Poketeball</p></div>
+<div class="desc"><p>Throws a *ball</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The players Poke object</dd>
+<dt><strong><code>enem</code></strong></dt>
+<dd>The enemys Poke object</dd>
+<dt><strong><code>info</code></strong></dt>
+<dd>The info dict</dd>
+<dt><strong><code>chance</code></strong></dt>
+<dd>The balls catch chance</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The balls name</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>1</code></dt>
+<dd>The continue the attack round</dd>
+<dt><code>2</code></dt>
+<dd>The win the game</dd>
+<dt><code>None</code></dt>
+<dd>To let the enemy attack</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def throw(self, obj, enem, info, chance, name):
-    &#34;&#34;&#34;Throws a Poketeball&#34;&#34;&#34;
+    &#34;&#34;&#34;Throws a *ball
+    ARGS:
+        obj: The players Poke object
+        enem: The enemys Poke object
+        info: The info dict
+        chance: The balls catch chance
+        name: The balls name
+    RETURNS:
+        1: The continue the attack round
+        2: The win the game
+        None: To let the enemy attack&#34;&#34;&#34;
+
     if obj.identifier == &#34;__fallback__&#34; or info[&#34;type&#34;] == &#34;duel&#34;:
         return 1
     self.map.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
@@ -741,13 +942,26 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>height, width, logging)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wrapper for se.Map</p></div>
+<div class="desc"><p>Wrapper for se.Map</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>height</code></strong></dt>
+<dd>The height of the map</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>The width of the map</dd>
+<dt><strong><code>logging</code></strong></dt>
+<dd>The logging module</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class FightMap(se.Map):
-    &#34;&#34;&#34;Wrapper for se.Map&#34;&#34;&#34;
+    &#34;&#34;&#34;Wrapper for se.Map
+    ARGS:
+        height: The height of the map
+        width: The width of the map
+        logging: The logging module&#34;&#34;&#34;
 
     def __init__(self, height, width, logging):
         super().__init__(height, width, &#34; &#34;)
@@ -790,7 +1004,11 @@ if __name__ == &#34;__main__&#34;:
         self.label.add(self, 0, self.height - 1)
 
     def clean_up(self, player, enemy):
-        &#34;&#34;&#34;Removes all labels from self&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes all labels from self
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to&#34;&#34;&#34;
         for obj in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico,
                     enemy.hp_bar, enemy.tril, enemy.trir, player.text_name,
                     player.text_lvl, player.text_hp, player.ico, player.hp_bar,
@@ -802,7 +1020,11 @@ if __name__ == &#34;__main__&#34;:
                 j.cleanup()
 
     def add_3(self, player, enemy):
-        &#34;&#34;&#34;Adds player labels&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds player labels
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to&#34;&#34;&#34;
         if player.identifier != &#34;__fallback__&#34;:
             player.text_name.add(self, self.width - 17, self.height - 9)
             player.text_lvl.add(self, self.width - 17, self.height - 8)
@@ -814,7 +1036,13 @@ if __name__ == &#34;__main__&#34;:
         return [player, enemy]
 
     def add_1(self, player, enemy, caught_poketes):
-        &#34;&#34;&#34;Adds enemy and general labels to self&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds enemy and general labels to self
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object
+        that the labels belong to
+            caught_poketes: List of Poke.identifiers of Pokes that have already
+                            been caught&#34;&#34;&#34;
         for obj, x, y in zip([enemy.tril, enemy.trir,
                               enemy.text_name, enemy.text_lvl,
                               enemy.text_hp, enemy.ico, enemy.hp_bar],
@@ -829,7 +1057,9 @@ if __name__ == &#34;__main__&#34;:
         return [player, enemy]
 
     def add_2(self, player):
-        &#34;&#34;&#34;Adds player labels with sleeps&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds player labels with sleeps
+        ARGS:
+            player: The player Poke object that the labels belong to&#34;&#34;&#34;
         if player.identifier != &#34;__fallback__&#34;:
             player.text_name.add(self, self.width - 17, self.height - 9)
             time.sleep(0.05)
@@ -846,7 +1076,11 @@ if __name__ == &#34;__main__&#34;:
             player.ico.add(self, 3, self.height - 10)
 
     def fast_change(self, arr, setob):
-        &#34;&#34;&#34;Changes fast between a list of texts&#34;&#34;&#34;
+        &#34;&#34;&#34;Changes fast between a list of texts
+        ARGS:
+            arr: List of se.Texts that will be changed through
+            setob: A reference se.Text with the coordinates the objs in arr
+                   will be set to.&#34;&#34;&#34;
         for _i in range(1, len(arr)):
             arr[_i - 1].remove()
             arr[_i].add(self, setob.x, setob.y)
@@ -854,7 +1088,10 @@ if __name__ == &#34;__main__&#34;:
             time.sleep(0.1)
 
     def get_attack(self, _ev, attack_obs):
-        &#34;&#34;&#34;Inputloop for attack options&#34;&#34;&#34;
+        &#34;&#34;&#34;Inputloop for attack options
+        ARGS:
+            _ev: Event object
+            attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
         with self.box.add(self, 1, self.height - 7):
             while True:
                 if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
@@ -879,7 +1116,11 @@ if __name__ == &#34;__main__&#34;:
         return attack
 
     def get_item(self, _ev, items, inv):
-        &#34;&#34;&#34;Inputloop for inv&#34;&#34;&#34;
+        &#34;&#34;&#34;Inputloop for inv
+        ARGS:
+            _ev: Event object
+            items: List of InvItems that can be choosen from
+            inv: The Figures inv&#34;&#34;&#34;
         self.invbox.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {inv[i.name]}&#34;)
                                for i in items])
         self.invbox.set_index(0)
@@ -902,10 +1143,24 @@ if __name__ == &#34;__main__&#34;:
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
+        &#34;&#34;&#34;Fight between two Pokes
+        ARGS:
+            player: The players&#39; used Poke
+            enemy: The enemy&#39;s used Poke
+            figure: Figure object
+            settings: Settings object
+            invitems: InvItems object
+            fightitems: FightItems object
+            deck: deck function
+            p_data: p_data module
+            _ev: Event object
+            info: Dict with information about the fight
+                  ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
+        RETURNS:
+            Poke object that won the fight&#34;&#34;&#34;
         self.logging.info(&#34;[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d&#34;, info[&#34;type&#34;], player.name, player.lvl(), enemy.name,
                           enemy.lvl())
-        &#34;&#34;&#34;Fight&#34;&#34;&#34;
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
         players = self.add_1(player, enemy, figure.caught_pokes)
@@ -1072,13 +1327,29 @@ used {enemy.name} against you!&#39;)
 <span>def <span class="ident">add_1</span></span>(<span>self, player, enemy, caught_poketes)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds enemy and general labels to self</p></div>
+<div class="desc"><p>Adds enemy and general labels to self</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The player Poke object</dd>
+<dt><strong><code>enemy</code></strong></dt>
+<dd>The enemy Poke object</dd>
+</dl>
+<p>that the labels belong to
+caught_poketes: List of Poke.identifiers of Pokes that have already
+been caught</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_1(self, player, enemy, caught_poketes):
-    &#34;&#34;&#34;Adds enemy and general labels to self&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds enemy and general labels to self
+    ARGS:
+        player: The player Poke object
+        enemy: The enemy Poke object
+    that the labels belong to
+        caught_poketes: List of Poke.identifiers of Pokes that have already
+                        been caught&#34;&#34;&#34;
     for obj, x, y in zip([enemy.tril, enemy.trir,
                           enemy.text_name, enemy.text_lvl,
                           enemy.text_hp, enemy.ico, enemy.hp_bar],
@@ -1097,13 +1368,20 @@ used {enemy.name} against you!&#39;)
 <span>def <span class="ident">add_2</span></span>(<span>self, player)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds player labels with sleeps</p></div>
+<div class="desc"><p>Adds player labels with sleeps</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The player Poke object that the labels belong to</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_2(self, player):
-    &#34;&#34;&#34;Adds player labels with sleeps&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds player labels with sleeps
+    ARGS:
+        player: The player Poke object that the labels belong to&#34;&#34;&#34;
     if player.identifier != &#34;__fallback__&#34;:
         player.text_name.add(self, self.width - 17, self.height - 9)
         time.sleep(0.05)
@@ -1124,13 +1402,25 @@ used {enemy.name} against you!&#39;)
 <span>def <span class="ident">add_3</span></span>(<span>self, player, enemy)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds player labels</p></div>
+<div class="desc"><p>Adds player labels</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The player Poke object</dd>
+<dt><strong><code>enemy</code></strong></dt>
+<dd>The enemy Poke object</dd>
+</dl>
+<p>that the labels belong to</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_3(self, player, enemy):
-    &#34;&#34;&#34;Adds player labels&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds player labels
+    ARGS:
+        player: The player Poke object
+        enemy: The enemy Poke object
+    that the labels belong to&#34;&#34;&#34;
     if player.identifier != &#34;__fallback__&#34;:
         player.text_name.add(self, self.width - 17, self.height - 9)
         player.text_lvl.add(self, self.width - 17, self.height - 8)
@@ -1146,13 +1436,25 @@ used {enemy.name} against you!&#39;)
 <span>def <span class="ident">clean_up</span></span>(<span>self, player, enemy)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Removes all labels from self</p></div>
+<div class="desc"><p>Removes all labels from self</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The player Poke object</dd>
+<dt><strong><code>enemy</code></strong></dt>
+<dd>The enemy Poke object</dd>
+</dl>
+<p>that the labels belong to</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def clean_up(self, player, enemy):
-    &#34;&#34;&#34;Removes all labels from self&#34;&#34;&#34;
+    &#34;&#34;&#34;Removes all labels from self
+    ARGS:
+        player: The player Poke object
+        enemy: The enemy Poke object
+    that the labels belong to&#34;&#34;&#34;
     for obj in [enemy.text_name, enemy.text_lvl, enemy.text_hp, enemy.ico,
                 enemy.hp_bar, enemy.tril, enemy.trir, player.text_name,
                 player.text_lvl, player.text_hp, player.ico, player.hp_bar,
@@ -1168,13 +1470,25 @@ used {enemy.name} against you!&#39;)
 <span>def <span class="ident">fast_change</span></span>(<span>self, arr, setob)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Changes fast between a list of texts</p></div>
+<div class="desc"><p>Changes fast between a list of texts</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>arr</code></strong></dt>
+<dd>List of se.Texts that will be changed through</dd>
+<dt><strong><code>setob</code></strong></dt>
+<dd>A reference se.Text with the coordinates the objs in arr
+will be set to.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def fast_change(self, arr, setob):
-    &#34;&#34;&#34;Changes fast between a list of texts&#34;&#34;&#34;
+    &#34;&#34;&#34;Changes fast between a list of texts
+    ARGS:
+        arr: List of se.Texts that will be changed through
+        setob: A reference se.Text with the coordinates the objs in arr
+               will be set to.&#34;&#34;&#34;
     for _i in range(1, len(arr)):
         arr[_i - 1].remove()
         arr[_i].add(self, setob.x, setob.y)
@@ -1186,17 +1500,57 @@ used {enemy.name} against you!&#39;)
 <span>def <span class="ident">fight</span></span>(<span>self, player, enemy, figure, settings, invitems, fightitems, deck, p_data, _ev, info)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Fight between two Pokes</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The players' used Poke</dd>
+<dt><strong><code>enemy</code></strong></dt>
+<dd>The enemy's used Poke</dd>
+<dt><strong><code>figure</code></strong></dt>
+<dd>Figure object</dd>
+<dt><strong><code>settings</code></strong></dt>
+<dd>Settings object</dd>
+<dt><strong><code>invitems</code></strong></dt>
+<dd>InvItems object</dd>
+<dt><strong><code>fightitems</code></strong></dt>
+<dd>FightItems object</dd>
+<dt><strong><code>deck</code></strong></dt>
+<dd>deck function</dd>
+<dt><strong><code>p_data</code></strong></dt>
+<dd>p_data module</dd>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+<dt><strong><code>info</code></strong></dt>
+<dd>Dict with information about the fight
+({"type": "wild", "player": " "})</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Poke object that won the fight</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    def fight(self, player, enemy, figure, settings, invitems, fightitems,
               deck, p_data, _ev, info):
+        &#34;&#34;&#34;Fight between two Pokes
+        ARGS:
+            player: The players&#39; used Poke
+            enemy: The enemy&#39;s used Poke
+            figure: Figure object
+            settings: Settings object
+            invitems: InvItems object
+            fightitems: FightItems object
+            deck: deck function
+            p_data: p_data module
+            _ev: Event object
+            info: Dict with information about the fight
+                  ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
+        RETURNS:
+            Poke object that won the fight&#34;&#34;&#34;
         self.logging.info(&#34;[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d&#34;, info[&#34;type&#34;], player.name, player.lvl(), enemy.name,
                           enemy.lvl())
-        &#34;&#34;&#34;Fight&#34;&#34;&#34;
         if settings.animations:  # Intro animation
             animations.fight_intro(self.height, self.width)
         players = self.add_1(player, enemy, figure.caught_pokes)
@@ -1358,13 +1712,23 @@ used {enemy.name} against you!&#39;)
 <span>def <span class="ident">get_attack</span></span>(<span>self, _ev, attack_obs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Inputloop for attack options</p></div>
+<div class="desc"><p>Inputloop for attack options</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+<dt><strong><code>attack_obs</code></strong></dt>
+<dd>A list of Attack objects that belong to a Poke</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_attack(self, _ev, attack_obs):
-    &#34;&#34;&#34;Inputloop for attack options&#34;&#34;&#34;
+    &#34;&#34;&#34;Inputloop for attack options
+    ARGS:
+        _ev: Event object
+        attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
     with self.box.add(self, 1, self.height - 7):
         while True:
             if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
@@ -1393,13 +1757,26 @@ used {enemy.name} against you!&#39;)
 <span>def <span class="ident">get_item</span></span>(<span>self, _ev, items, inv)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Inputloop for inv</p></div>
+<div class="desc"><p>Inputloop for inv</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+<dt><strong><code>items</code></strong></dt>
+<dd>List of InvItems that can be choosen from</dd>
+<dt><strong><code>inv</code></strong></dt>
+<dd>The Figures inv</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_item(self, _ev, items, inv):
-    &#34;&#34;&#34;Inputloop for inv&#34;&#34;&#34;
+    &#34;&#34;&#34;Inputloop for inv
+    ARGS:
+        _ev: Event object
+        items: List of InvItems that can be choosen from
+        inv: The Figures inv&#34;&#34;&#34;
     self.invbox.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {inv[i.name]}&#34;)
                            for i in items])
     self.invbox.set_index(0)

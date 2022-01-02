@@ -41,7 +41,14 @@ class Informer:
 
     @staticmethod
     def add(poke, figure, _map, _x, _y, in_deck=True):
-        &#34;&#34;&#34;Adds a Pokete to the deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds a Pokete&#39;s info to the deck
+        ARGS:
+            poke: Poke object
+            figure: Figure object
+            _map: se.Map object the information is added to
+            _x: X-coordinate the info is added to
+            _y: Y-coordinate
+            in_deck: bool whether or not the info is added to the deck&#34;&#34;&#34;
         poke.text_name.add(_map, _x + 12, _y + 0)
         if poke.identifier != &#34;__fallback__&#34;:
             for obj, __x, __y in zip([poke.ico, poke.text_lvl, poke.text_hp,
@@ -61,7 +68,9 @@ class Informer:
 
     @staticmethod
     def remove(poke):
-        &#34;&#34;&#34;Removes a Pokete from the deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes a Pokete from the deck
+        ARGS:
+            poke: Poke object that should be removed&#34;&#34;&#34;
         for obj in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
                     poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
                     poke.pball_small]:
@@ -71,7 +80,10 @@ class Informer:
 
 
 class Detail(Informer):
-    &#34;&#34;&#34;Shows details about a Pokete&#34;&#34;&#34;
+    &#34;&#34;&#34;Shows details about a Pokete
+    ARGS:
+        height: Height of the map
+        width: Width of the map&#34;&#34;&#34;
 
     def __init__(self, height, width):
         self.map = se.Map(height, width, &#34; &#34;)
@@ -102,7 +114,11 @@ class Detail(Informer):
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
 
     def __call__(self, _ev, poke, abb=True):
-        &#34;&#34;&#34;Shows details&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows details
+        ARGS:
+            _ev: Event object
+            poke: Poke object whose details are given
+            abb: Bool whether or not the ability option is shown&#34;&#34;&#34;
         ret_action = None
         self.add(poke, None, self.map, 1, 1, False)
         abb_obs = [i for i in poke.attac_obs
@@ -183,7 +199,6 @@ class Detail(Informer):
                                                        int(self.map.width
                                                            / 2 - 1)
                                                        + atc.temp_i])
-
                     else:
                         atc.temp_j += 1
             time.sleep(0.05)
@@ -207,13 +222,23 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>height, width)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Shows details about a Pokete</p></div>
+<div class="desc"><p>Shows details about a Pokete</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>height</code></strong></dt>
+<dd>Height of the map</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>Width of the map</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Detail(Informer):
-    &#34;&#34;&#34;Shows details about a Pokete&#34;&#34;&#34;
+    &#34;&#34;&#34;Shows details about a Pokete
+    ARGS:
+        height: Height of the map
+        width: Width of the map&#34;&#34;&#34;
 
     def __init__(self, height, width):
         self.map = se.Map(height, width, &#34; &#34;)
@@ -244,7 +269,11 @@ if __name__ == &#34;__main__&#34;:
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
 
     def __call__(self, _ev, poke, abb=True):
-        &#34;&#34;&#34;Shows details&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows details
+        ARGS:
+            _ev: Event object
+            poke: Poke object whose details are given
+            abb: Bool whether or not the ability option is shown&#34;&#34;&#34;
         ret_action = None
         self.add(poke, None, self.map, 1, 1, False)
         abb_obs = [i for i in poke.attac_obs
@@ -325,7 +354,6 @@ if __name__ == &#34;__main__&#34;:
                                                        int(self.map.width
                                                            / 2 - 1)
                                                        + atc.temp_i])
-
                     else:
                         atc.temp_j += 1
             time.sleep(0.05)
@@ -359,7 +387,14 @@ if __name__ == &#34;__main__&#34;:
 
     @staticmethod
     def add(poke, figure, _map, _x, _y, in_deck=True):
-        &#34;&#34;&#34;Adds a Pokete to the deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds a Pokete&#39;s info to the deck
+        ARGS:
+            poke: Poke object
+            figure: Figure object
+            _map: se.Map object the information is added to
+            _x: X-coordinate the info is added to
+            _y: Y-coordinate
+            in_deck: bool whether or not the info is added to the deck&#34;&#34;&#34;
         poke.text_name.add(_map, _x + 12, _y + 0)
         if poke.identifier != &#34;__fallback__&#34;:
             for obj, __x, __y in zip([poke.ico, poke.text_lvl, poke.text_hp,
@@ -379,7 +414,9 @@ if __name__ == &#34;__main__&#34;:
 
     @staticmethod
     def remove(poke):
-        &#34;&#34;&#34;Removes a Pokete from the deck&#34;&#34;&#34;
+        &#34;&#34;&#34;Removes a Pokete from the deck
+        ARGS:
+            poke: Poke object that should be removed&#34;&#34;&#34;
         for obj in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
                     poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
                     poke.pball_small]:
@@ -397,14 +434,36 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">add</span></span>(<span>poke, figure, _map, _x, _y, in_deck=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a Pokete to the deck</p></div>
+<div class="desc"><p>Adds a Pokete's info to the deck</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>Poke object</dd>
+<dt><strong><code>figure</code></strong></dt>
+<dd>Figure object</dd>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map object the information is added to</dd>
+<dt><strong><code>_x</code></strong></dt>
+<dd>X-coordinate the info is added to</dd>
+<dt><strong><code>_y</code></strong></dt>
+<dd>Y-coordinate</dd>
+<dt><strong><code>in_deck</code></strong></dt>
+<dd>bool whether or not the info is added to the deck</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def add(poke, figure, _map, _x, _y, in_deck=True):
-    &#34;&#34;&#34;Adds a Pokete to the deck&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds a Pokete&#39;s info to the deck
+    ARGS:
+        poke: Poke object
+        figure: Figure object
+        _map: se.Map object the information is added to
+        _x: X-coordinate the info is added to
+        _y: Y-coordinate
+        in_deck: bool whether or not the info is added to the deck&#34;&#34;&#34;
     poke.text_name.add(_map, _x + 12, _y + 0)
     if poke.identifier != &#34;__fallback__&#34;:
         for obj, __x, __y in zip([poke.ico, poke.text_lvl, poke.text_hp,
@@ -427,14 +486,21 @@ def add(poke, figure, _map, _x, _y, in_deck=True):
 <span>def <span class="ident">remove</span></span>(<span>poke)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Removes a Pokete from the deck</p></div>
+<div class="desc"><p>Removes a Pokete from the deck</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>Poke object that should be removed</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
 def remove(poke):
-    &#34;&#34;&#34;Removes a Pokete from the deck&#34;&#34;&#34;
+    &#34;&#34;&#34;Removes a Pokete from the deck
+    ARGS:
+        poke: Poke object that should be removed&#34;&#34;&#34;
     for obj in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
                 poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
                 poke.pball_small]:

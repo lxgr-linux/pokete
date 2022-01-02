@@ -35,7 +35,9 @@ from .input import ask_bool
 
 
 class NPCTrigger(se.Object):
-    &#34;&#34;&#34;Object on the map, that triggers a npc&#34;&#34;&#34;
+    &#34;&#34;&#34;Object on the map, that triggers a npc
+    ARGS:
+        npc: The NPC it belongs to&#34;&#34;&#34;
 
     def __init__(self, npc):
         super().__init__(&#34; &#34;, state=&#34;float&#34;)
@@ -61,7 +63,17 @@ class NPC(se.Box):
     @classmethod
     def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
                  settings, npcactions, logging, check_walk_back):
-        &#34;&#34;&#34;Sets all variables needed by NPCs&#34;&#34;&#34;
+        &#34;&#34;&#34;Sets all variables needed by NPCs
+        ARGS:
+            mvmp: MoveMap object
+            fig: Figure object
+            _ev: Event object
+            invitems: InvItems object
+            used_npcs: used_npcs list
+            settings: Settings object
+            npcactions: NPCActions class
+            logging: logging module
+            check_walk_back: check_walk_back function&#34;&#34;&#34;
         cls.mvmp = mvmp
         cls.fig = fig
         cls._ev = _ev
@@ -84,7 +96,9 @@ class NPC(se.Box):
         self.add_ob(self.main_ob, 0, 0)
 
     def text(self, text):
-        &#34;&#34;&#34;Movemap.text wrapper&#34;&#34;&#34;
+        &#34;&#34;&#34;Movemap.text wrapper
+        ARGS:
+            text: Text that should be printed&#34;&#34;&#34;
         self.mvmp.text(self.x, self.y, text, self._ev)
 
     def exclamate(self):
@@ -117,7 +131,12 @@ class NPC(se.Box):
             getattr(self.npcactions, self.__fn)(self)
 
     def check_walk(self, x, y):
-        &#34;&#34;&#34;Checks whether the NPC can walk to a point or not&#34;&#34;&#34;
+        &#34;&#34;&#34;Checks whether the NPC can walk to a point or not
+        ARGS:
+            x: X-coordinate
+            y: Y-coordinate
+        RETURNS:
+            bool: Whether or not the walk is possible&#34;&#34;&#34;
         vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
         ret = not any([any(j.state == &#34;solid&#34;
                            for j in
@@ -128,7 +147,12 @@ class NPC(se.Box):
         return ret
 
     def walk_point(self, x, y):
-        &#34;&#34;&#34;Walks the NPC tp a certain point&#34;&#34;&#34;
+        &#34;&#34;&#34;Walks the NPC tp a certain point
+        ARGS:
+            x: X-coordinate
+            y: Y-coordinate
+        RETURNS:
+            bool: Whether or not the walk succeeded&#34;&#34;&#34;
         o_x = self.x
         o_y = self.y
         vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
@@ -141,7 +165,10 @@ class NPC(se.Box):
         return True
 
     def give(self, name, item):
-        &#34;&#34;&#34;Method that gifts an item to the player&#34;&#34;&#34;
+        &#34;&#34;&#34;Method that gifts an item to the player
+        ARGS:
+            name: The displayed name of the npc
+            item: Item name&#34;&#34;&#34;
         item = getattr(self.invitems, item)
         self.will = False
         self.used_npcs.append(self.name)
@@ -165,7 +192,8 @@ class Trainer(NPC):
         self.fight = fight
 
     def add(self, _map, x, y):
-        &#34;&#34;&#34;Add wrapper&#34;&#34;&#34;
+        &#34;&#34;&#34;Add wrapper
+        See se.Box.add&#34;&#34;&#34;
         line = se.Line(&#34; &#34;, 0, _map.height, state=&#34;float&#34;)
         for i, obj in enumerate(line.obs):
             line.obs[i] = NPCTrigger(self)
@@ -239,7 +267,17 @@ class Trainer(NPC):
     @classmethod
     def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
                  settings, npcactions, logging, check_walk_back):
-        &#34;&#34;&#34;Sets all variables needed by NPCs&#34;&#34;&#34;
+        &#34;&#34;&#34;Sets all variables needed by NPCs
+        ARGS:
+            mvmp: MoveMap object
+            fig: Figure object
+            _ev: Event object
+            invitems: InvItems object
+            used_npcs: used_npcs list
+            settings: Settings object
+            npcactions: NPCActions class
+            logging: logging module
+            check_walk_back: check_walk_back function&#34;&#34;&#34;
         cls.mvmp = mvmp
         cls.fig = fig
         cls._ev = _ev
@@ -262,7 +300,9 @@ class Trainer(NPC):
         self.add_ob(self.main_ob, 0, 0)
 
     def text(self, text):
-        &#34;&#34;&#34;Movemap.text wrapper&#34;&#34;&#34;
+        &#34;&#34;&#34;Movemap.text wrapper
+        ARGS:
+            text: Text that should be printed&#34;&#34;&#34;
         self.mvmp.text(self.x, self.y, text, self._ev)
 
     def exclamate(self):
@@ -295,7 +335,12 @@ class Trainer(NPC):
             getattr(self.npcactions, self.__fn)(self)
 
     def check_walk(self, x, y):
-        &#34;&#34;&#34;Checks whether the NPC can walk to a point or not&#34;&#34;&#34;
+        &#34;&#34;&#34;Checks whether the NPC can walk to a point or not
+        ARGS:
+            x: X-coordinate
+            y: Y-coordinate
+        RETURNS:
+            bool: Whether or not the walk is possible&#34;&#34;&#34;
         vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
         ret = not any([any(j.state == &#34;solid&#34;
                            for j in
@@ -306,7 +351,12 @@ class Trainer(NPC):
         return ret
 
     def walk_point(self, x, y):
-        &#34;&#34;&#34;Walks the NPC tp a certain point&#34;&#34;&#34;
+        &#34;&#34;&#34;Walks the NPC tp a certain point
+        ARGS:
+            x: X-coordinate
+            y: Y-coordinate
+        RETURNS:
+            bool: Whether or not the walk succeeded&#34;&#34;&#34;
         o_x = self.x
         o_y = self.y
         vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
@@ -319,7 +369,10 @@ class Trainer(NPC):
         return True
 
     def give(self, name, item):
-        &#34;&#34;&#34;Method that gifts an item to the player&#34;&#34;&#34;
+        &#34;&#34;&#34;Method that gifts an item to the player
+        ARGS:
+            name: The displayed name of the npc
+            item: Item name&#34;&#34;&#34;
         item = getattr(self.invitems, item)
         self.will = False
         self.used_npcs.append(self.name)
@@ -379,7 +432,28 @@ Do you want to accept it?&#34;):
 <span>def <span class="ident">set_vars</span></span>(<span>mvmp, fig, _ev, invitems, used_npcs, settings, npcactions, logging, check_walk_back)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets all variables needed by NPCs</p></div>
+<div class="desc"><p>Sets all variables needed by NPCs</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>mvmp</code></strong></dt>
+<dd>MoveMap object</dd>
+<dt><strong><code>fig</code></strong></dt>
+<dd>Figure object</dd>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+<dt><strong><code>invitems</code></strong></dt>
+<dd>InvItems object</dd>
+<dt><strong><code>used_npcs</code></strong></dt>
+<dd>used_npcs list</dd>
+<dt><strong><code>settings</code></strong></dt>
+<dd>Settings object</dd>
+<dt><strong><code>npcactions</code></strong></dt>
+<dd>NPCActions class</dd>
+<dt><strong><code>logging</code></strong></dt>
+<dd>logging module</dd>
+<dt><strong><code>check_walk_back</code></strong></dt>
+<dd>check_walk_back function</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -387,7 +461,17 @@ Do you want to accept it?&#34;):
 <pre><code class="python">@classmethod
 def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
              settings, npcactions, logging, check_walk_back):
-    &#34;&#34;&#34;Sets all variables needed by NPCs&#34;&#34;&#34;
+    &#34;&#34;&#34;Sets all variables needed by NPCs
+    ARGS:
+        mvmp: MoveMap object
+        fig: Figure object
+        _ev: Event object
+        invitems: InvItems object
+        used_npcs: used_npcs list
+        settings: Settings object
+        npcactions: NPCActions class
+        logging: logging module
+        check_walk_back: check_walk_back function&#34;&#34;&#34;
     cls.mvmp = mvmp
     cls.fig = fig
     cls._ev = _ev
@@ -428,13 +512,30 @@ def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
 <span>def <span class="ident">check_walk</span></span>(<span>self, x, y)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks whether the NPC can walk to a point or not</p></div>
+<div class="desc"><p>Checks whether the NPC can walk to a point or not</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>x</code></strong></dt>
+<dd>X-coordinate</dd>
+<dt><strong><code>y</code></strong></dt>
+<dd>Y-coordinate</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>Whether or not the walk is possible</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def check_walk(self, x, y):
-    &#34;&#34;&#34;Checks whether the NPC can walk to a point or not&#34;&#34;&#34;
+    &#34;&#34;&#34;Checks whether the NPC can walk to a point or not
+    ARGS:
+        x: X-coordinate
+        y: Y-coordinate
+    RETURNS:
+        bool: Whether or not the walk is possible&#34;&#34;&#34;
     vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
     ret = not any([any(j.state == &#34;solid&#34;
                        for j in
@@ -486,13 +587,23 @@ def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
 <span>def <span class="ident">give</span></span>(<span>self, name, item)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Method that gifts an item to the player</p></div>
+<div class="desc"><p>Method that gifts an item to the player</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The displayed name of the npc</dd>
+<dt><strong><code>item</code></strong></dt>
+<dd>Item name</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    def give(self, name, item):
-        &#34;&#34;&#34;Method that gifts an item to the player&#34;&#34;&#34;
+        &#34;&#34;&#34;Method that gifts an item to the player
+        ARGS:
+            name: The displayed name of the npc
+            item: Item name&#34;&#34;&#34;
         item = getattr(self.invitems, item)
         self.will = False
         self.used_npcs.append(self.name)
@@ -506,13 +617,20 @@ Do you want to accept it?&#34;):
 <span>def <span class="ident">text</span></span>(<span>self, text)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Movemap.text wrapper</p></div>
+<div class="desc"><p>Movemap.text wrapper</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>text</code></strong></dt>
+<dd>Text that should be printed</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def text(self, text):
-    &#34;&#34;&#34;Movemap.text wrapper&#34;&#34;&#34;
+    &#34;&#34;&#34;Movemap.text wrapper
+    ARGS:
+        text: Text that should be printed&#34;&#34;&#34;
     self.mvmp.text(self.x, self.y, text, self._ev)</code></pre>
 </details>
 </dd>
@@ -520,13 +638,30 @@ Do you want to accept it?&#34;):
 <span>def <span class="ident">walk_point</span></span>(<span>self, x, y)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Walks the NPC tp a certain point</p></div>
+<div class="desc"><p>Walks the NPC tp a certain point</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>x</code></strong></dt>
+<dd>X-coordinate</dd>
+<dt><strong><code>y</code></strong></dt>
+<dd>Y-coordinate</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>Whether or not the walk succeeded</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def walk_point(self, x, y):
-    &#34;&#34;&#34;Walks the NPC tp a certain point&#34;&#34;&#34;
+    &#34;&#34;&#34;Walks the NPC tp a certain point
+    ARGS:
+        x: X-coordinate
+        y: Y-coordinate
+    RETURNS:
+        bool: Whether or not the walk succeeded&#34;&#34;&#34;
     o_x = self.x
     o_y = self.y
     vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
@@ -546,13 +681,20 @@ Do you want to accept it?&#34;):
 <span>(</span><span>npc)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Object on the map, that triggers a npc</p></div>
+<div class="desc"><p>Object on the map, that triggers a npc</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>npc</code></strong></dt>
+<dd>The NPC it belongs to</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class NPCTrigger(se.Object):
-    &#34;&#34;&#34;Object on the map, that triggers a npc&#34;&#34;&#34;
+    &#34;&#34;&#34;Object on the map, that triggers a npc
+    ARGS:
+        npc: The NPC it belongs to&#34;&#34;&#34;
 
     def __init__(self, npc):
         super().__init__(&#34; &#34;, state=&#34;float&#34;)
@@ -609,7 +751,8 @@ Do you want to accept it?&#34;):
         self.fight = fight
 
     def add(self, _map, x, y):
-        &#34;&#34;&#34;Add wrapper&#34;&#34;&#34;
+        &#34;&#34;&#34;Add wrapper
+        See se.Box.add&#34;&#34;&#34;
         line = se.Line(&#34; &#34;, 0, _map.height, state=&#34;float&#34;)
         for i, obj in enumerate(line.obs):
             line.obs[i] = NPCTrigger(self)
@@ -701,13 +844,15 @@ Do you want to accept it?&#34;):
 <span>def <span class="ident">add</span></span>(<span>self, _map, x, y)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Add wrapper</p></div>
+<div class="desc"><p>Add wrapper
+See se.Box.add</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add(self, _map, x, y):
-    &#34;&#34;&#34;Add wrapper&#34;&#34;&#34;
+    &#34;&#34;&#34;Add wrapper
+    See se.Box.add&#34;&#34;&#34;
     line = se.Line(&#34; &#34;, 0, _map.height, state=&#34;float&#34;)
     for i, obj in enumerate(line.obs):
         line.obs[i] = NPCTrigger(self)

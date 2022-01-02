@@ -35,7 +35,14 @@ from .ui_elements import InfoBox, InputBox
 
 
 def text_input(obj, _map, name, ev, wrap_len, max_len=1000000):
-    &#34;&#34;&#34;Processes text input&#34;&#34;&#34;
+    &#34;&#34;&#34;Processes text input
+    ARGS:
+        obj: The text label that will be rechared
+        _map: The map this happens on
+        name: The default value of the label
+        ev: Event object
+        wrap_len: The len at which the text wraps
+        max_len: The len at which the text shall end&#34;&#34;&#34;
     ev.clear()
     obj.rechar(hard_liner(wrap_len, name + &#34;█&#34;))
     bname = name
@@ -70,7 +77,11 @@ def text_input(obj, _map, name, ev, wrap_len, max_len=1000000):
 
 
 def ask_bool(_ev, _map, text):
-    &#34;&#34;&#34;Asks the player to aswer a yes/no question&#34;&#34;&#34;
+    &#34;&#34;&#34;Asks the player to aswer a yes/no question
+    ARGS:
+        _ev: Event object
+        _map: The map the question should be asked on
+        text: The actual question&#34;&#34;&#34;
     assert len(text) &gt;= 12, &#34;Text has to be longer then 12 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
     with InfoBox(f&#34;{text}\n{round(text_len / 2 - 6) * &#39; &#39;}[Y]es   [N]o&#34;,
@@ -89,7 +100,15 @@ def ask_bool(_ev, _map, text):
 
 
 def ask_text(_ev, _map, infotext, introtext, text, name, max_len):
-    &#34;&#34;&#34;Asks the player to input a text&#34;&#34;&#34;
+    &#34;&#34;&#34;Asks the player to input a text
+    ARGS:
+        _ev: Event object
+        _map: The map the input box should be shown on
+        infotext: The information text about the input
+        introtext: The text that introduces the text field
+        text: The default text in the text field
+        name: The boxes displayed name
+        max_len: Max length of the text&#34;&#34;&#34;
     with InputBox(infotext, introtext, text, max_len, name, _map) as inputbox:
         ret = text_input(inputbox.text, _map, text, _ev, max_len + 1,
                          max_len=max_len)
@@ -97,7 +116,11 @@ def ask_text(_ev, _map, infotext, introtext, text, name, max_len):
 
 
 def ask_ok(_ev, _map, text):
-    &#34;&#34;&#34;Asks the player to an OK question&#34;&#34;&#34;
+    &#34;&#34;&#34;Asks the player to an OK question
+    ARGS:
+        _ev: Event object
+        _map: The map the question is asked on
+        text: The question it self&#34;&#34;&#34;
     assert len(text) &gt;= 4, &#34;Text has to be longer then 4 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
     with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;}[O]k&#34;, name=&#34;Info&#34;,
@@ -125,13 +148,26 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">ask_bool</span></span>(<span>_ev, _map, text)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Asks the player to aswer a yes/no question</p></div>
+<div class="desc"><p>Asks the player to aswer a yes/no question</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The map the question should be asked on</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The actual question</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ask_bool(_ev, _map, text):
-    &#34;&#34;&#34;Asks the player to aswer a yes/no question&#34;&#34;&#34;
+    &#34;&#34;&#34;Asks the player to aswer a yes/no question
+    ARGS:
+        _ev: Event object
+        _map: The map the question should be asked on
+        text: The actual question&#34;&#34;&#34;
     assert len(text) &gt;= 12, &#34;Text has to be longer then 12 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
     with InfoBox(f&#34;{text}\n{round(text_len / 2 - 6) * &#39; &#39;}[Y]es   [N]o&#34;,
@@ -153,13 +189,26 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">ask_ok</span></span>(<span>_ev, _map, text)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Asks the player to an OK question</p></div>
+<div class="desc"><p>Asks the player to an OK question</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The map the question is asked on</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The question it self</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ask_ok(_ev, _map, text):
-    &#34;&#34;&#34;Asks the player to an OK question&#34;&#34;&#34;
+    &#34;&#34;&#34;Asks the player to an OK question
+    ARGS:
+        _ev: Event object
+        _map: The map the question is asked on
+        text: The question it self&#34;&#34;&#34;
     assert len(text) &gt;= 4, &#34;Text has to be longer then 4 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
     with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;}[O]k&#34;, name=&#34;Info&#34;,
@@ -176,13 +225,38 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">ask_text</span></span>(<span>_ev, _map, infotext, introtext, text, name, max_len)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Asks the player to input a text</p></div>
+<div class="desc"><p>Asks the player to input a text</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The map the input box should be shown on</dd>
+<dt><strong><code>infotext</code></strong></dt>
+<dd>The information text about the input</dd>
+<dt><strong><code>introtext</code></strong></dt>
+<dd>The text that introduces the text field</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The default text in the text field</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The boxes displayed name</dd>
+<dt><strong><code>max_len</code></strong></dt>
+<dd>Max length of the text</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ask_text(_ev, _map, infotext, introtext, text, name, max_len):
-    &#34;&#34;&#34;Asks the player to input a text&#34;&#34;&#34;
+    &#34;&#34;&#34;Asks the player to input a text
+    ARGS:
+        _ev: Event object
+        _map: The map the input box should be shown on
+        infotext: The information text about the input
+        introtext: The text that introduces the text field
+        text: The default text in the text field
+        name: The boxes displayed name
+        max_len: Max length of the text&#34;&#34;&#34;
     with InputBox(infotext, introtext, text, max_len, name, _map) as inputbox:
         ret = text_input(inputbox.text, _map, text, _ev, max_len + 1,
                          max_len=max_len)
@@ -193,13 +267,35 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">text_input</span></span>(<span>obj, _map, name, ev, wrap_len, max_len=1000000)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Processes text input</p></div>
+<div class="desc"><p>Processes text input</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The text label that will be rechared</dd>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The map this happens on</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The default value of the label</dd>
+<dt><strong><code>ev</code></strong></dt>
+<dd>Event object</dd>
+<dt><strong><code>wrap_len</code></strong></dt>
+<dd>The len at which the text wraps</dd>
+<dt><strong><code>max_len</code></strong></dt>
+<dd>The len at which the text shall end</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def text_input(obj, _map, name, ev, wrap_len, max_len=1000000):
-    &#34;&#34;&#34;Processes text input&#34;&#34;&#34;
+    &#34;&#34;&#34;Processes text input
+    ARGS:
+        obj: The text label that will be rechared
+        _map: The map this happens on
+        name: The default value of the label
+        ev: Event object
+        wrap_len: The len at which the text wraps
+        max_len: The len at which the text shall end&#34;&#34;&#34;
     ev.clear()
     obj.rechar(hard_liner(wrap_len, name + &#34;█&#34;))
     bname = name

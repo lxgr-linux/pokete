@@ -33,6 +33,21 @@ from .color import Color
 
 
 class Effect():
+    &#34;&#34;&#34;An effect that can be given to a Pokete and that effects the Pokete
+    during fights
+    ARGS:
+        name: The effects displayed name (paralysed etc)
+        rem_chance: The chance the effect gets removed
+        catch_chance: The number with which the catch chance of the Poke is
+            increased
+        text: The text shown near the Pokes name (&#34;(Bur)&#34;)
+        str_esccode: The color of said label,
+        obj: The Poke the effect is added to
+        exclude: A list of type names that the effect can&#39;t be added to
+    CLASS VARS:
+        desc: The effects description
+        c_name: The class&#39; simplified name
+        logging: The logging module&#34;&#34;&#34;
     desc = &#34;&#34;
     c_name = &#34;&#34;
     logging = None
@@ -54,7 +69,9 @@ class Effect():
         return f&#34;{type(self).__name__}&#34;
 
     def add(self, obj):
-        &#34;&#34;&#34;Adds the effect to a Pokete&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds the effect to a Pokete
+        ARGS:
+            obj: The Poke the effect is added to&#34;&#34;&#34;
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is not affected by &#39;)
             obj.ico.map.outp.append(se.Text(self.name,
@@ -80,6 +97,7 @@ class Effect():
         time.sleep(2)
 
     def add_label(self):
+        &#34;&#34;&#34;Adds the label to the fightmap&#34;&#34;&#34;
         try:
             self.label.add(self.obj.ico.map,
                            (self.obj.text_lvl.obs[-1].x
@@ -92,6 +110,7 @@ class Effect():
             pass
 
     def readd(self):
+        &#34;&#34;&#34;Readds label and shows text&#34;&#34;&#34;
         self.add_label()
         self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} is still &#39;)
         self.obj.ico.map.outp.append(se.Text(self.name,
@@ -117,6 +136,9 @@ class Effect():
             time.sleep(2)
 
     def cleanup(self, j=None):
+        &#34;&#34;&#34;Does a cleanup
+        ARGS:
+            j: The former index in self.obs.effects&#34;&#34;&#34;
         if j is None:
             j = self.obj.effects.index(self)
         else:
@@ -140,6 +162,7 @@ class Effect():
 
     @classmethod
     def ret_md(cls):
+        &#34;&#34;&#34;Returns a descriptive markdown string&#34;&#34;&#34;
         return f&#34;&#34;&#34;
 ### {cls.c_name.capitalize()}
 {cls.desc}
@@ -238,12 +261,17 @@ effect_list = [EffectParalyzation, EffectSleep, EffectBurning, EffectPoison,
 
 
 class Effects:
+    &#34;&#34;&#34;Contains all effects&#34;&#34;&#34;
+
     def __init__(self):
         self.effect_list = effect_list
         for i in self.effect_list:
             setattr(self, i.c_name, i)
 
     def set_vars(self, logging):
+        &#34;&#34;&#34;Injects vars into Effect classes
+        ARGS:
+            logging: logging module&#34;&#34;&#34;
         for i in self.effect_list:
             i.logging = logging
 
@@ -268,12 +296,50 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>name, rem_chance, catch_chance, text, str_esccode='', obj=None, exclude=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
+during fights</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The effects displayed name (paralysed etc)</dd>
+<dt><strong><code>rem_chance</code></strong></dt>
+<dd>The chance the effect gets removed</dd>
+<dt><strong><code>catch_chance</code></strong></dt>
+<dd>The number with which the catch chance of the Poke is
+increased</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text shown near the Pokes name ("(Bur)")</dd>
+<dt><strong><code>str_esccode</code></strong></dt>
+<dd>The color of said label,</dd>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The Poke the effect is added to</dd>
+<dt><strong><code>exclude</code></strong></dt>
+<dd>A list of type names that the effect can't be added to</dd>
+</dl>
+<p>CLASS VARS:
+desc: The effects description
+c_name: The class' simplified name
+logging: The logging module</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Effect():
+    &#34;&#34;&#34;An effect that can be given to a Pokete and that effects the Pokete
+    during fights
+    ARGS:
+        name: The effects displayed name (paralysed etc)
+        rem_chance: The chance the effect gets removed
+        catch_chance: The number with which the catch chance of the Poke is
+            increased
+        text: The text shown near the Pokes name (&#34;(Bur)&#34;)
+        str_esccode: The color of said label,
+        obj: The Poke the effect is added to
+        exclude: A list of type names that the effect can&#39;t be added to
+    CLASS VARS:
+        desc: The effects description
+        c_name: The class&#39; simplified name
+        logging: The logging module&#34;&#34;&#34;
     desc = &#34;&#34;
     c_name = &#34;&#34;
     logging = None
@@ -295,7 +361,9 @@ if __name__ == &#34;__main__&#34;:
         return f&#34;{type(self).__name__}&#34;
 
     def add(self, obj):
-        &#34;&#34;&#34;Adds the effect to a Pokete&#34;&#34;&#34;
+        &#34;&#34;&#34;Adds the effect to a Pokete
+        ARGS:
+            obj: The Poke the effect is added to&#34;&#34;&#34;
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is not affected by &#39;)
             obj.ico.map.outp.append(se.Text(self.name,
@@ -321,6 +389,7 @@ if __name__ == &#34;__main__&#34;:
         time.sleep(2)
 
     def add_label(self):
+        &#34;&#34;&#34;Adds the label to the fightmap&#34;&#34;&#34;
         try:
             self.label.add(self.obj.ico.map,
                            (self.obj.text_lvl.obs[-1].x
@@ -333,6 +402,7 @@ if __name__ == &#34;__main__&#34;:
             pass
 
     def readd(self):
+        &#34;&#34;&#34;Readds label and shows text&#34;&#34;&#34;
         self.add_label()
         self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} is still &#39;)
         self.obj.ico.map.outp.append(se.Text(self.name,
@@ -358,6 +428,9 @@ if __name__ == &#34;__main__&#34;:
             time.sleep(2)
 
     def cleanup(self, j=None):
+        &#34;&#34;&#34;Does a cleanup
+        ARGS:
+            j: The former index in self.obs.effects&#34;&#34;&#34;
         if j is None:
             j = self.obj.effects.index(self)
         else:
@@ -381,6 +454,7 @@ if __name__ == &#34;__main__&#34;:
 
     @classmethod
     def ret_md(cls):
+        &#34;&#34;&#34;Returns a descriptive markdown string&#34;&#34;&#34;
         return f&#34;&#34;&#34;
 ### {cls.c_name.capitalize()}
 {cls.desc}
@@ -415,13 +489,14 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">ret_md</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a descriptive markdown string</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">    @classmethod
     def ret_md(cls):
+        &#34;&#34;&#34;Returns a descriptive markdown string&#34;&#34;&#34;
         return f&#34;&#34;&#34;
 ### {cls.c_name.capitalize()}
 {cls.desc}
@@ -435,13 +510,20 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">add</span></span>(<span>self, obj)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds the effect to a Pokete</p></div>
+<div class="desc"><p>Adds the effect to a Pokete</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The Poke the effect is added to</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add(self, obj):
-    &#34;&#34;&#34;Adds the effect to a Pokete&#34;&#34;&#34;
+    &#34;&#34;&#34;Adds the effect to a Pokete
+    ARGS:
+        obj: The Poke the effect is added to&#34;&#34;&#34;
     if obj.type.name in self.exclude:
         obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is not affected by &#39;)
         obj.ico.map.outp.append(se.Text(self.name,
@@ -471,12 +553,13 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">add_label</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Adds the label to the fightmap</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def add_label(self):
+    &#34;&#34;&#34;Adds the label to the fightmap&#34;&#34;&#34;
     try:
         self.label.add(self.obj.ico.map,
                        (self.obj.text_lvl.obs[-1].x
@@ -493,12 +576,20 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">cleanup</span></span>(<span>self, j=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Does a cleanup</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>j</code></strong></dt>
+<dd>The former index in self.obs.effects</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def cleanup(self, j=None):
+    &#34;&#34;&#34;Does a cleanup
+    ARGS:
+        j: The former index in self.obs.effects&#34;&#34;&#34;
     if j is None:
         j = self.obj.effects.index(self)
     else:
@@ -535,12 +626,13 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">readd</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Readds label and shows text</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def readd(self):
+    &#34;&#34;&#34;Readds label and shows text&#34;&#34;&#34;
     self.add_label()
     self.obj.ico.map.outp.outp(f&#39;{self.obj.ext_name} is still &#39;)
     self.obj.ico.map.outp.append(se.Text(self.name,
@@ -583,7 +675,30 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
+during fights</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The effects displayed name (paralysed etc)</dd>
+<dt><strong><code>rem_chance</code></strong></dt>
+<dd>The chance the effect gets removed</dd>
+<dt><strong><code>catch_chance</code></strong></dt>
+<dd>The number with which the catch chance of the Poke is
+increased</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text shown near the Pokes name ("(Bur)")</dd>
+<dt><strong><code>str_esccode</code></strong></dt>
+<dd>The color of said label,</dd>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The Poke the effect is added to</dd>
+<dt><strong><code>exclude</code></strong></dt>
+<dd>A list of type names that the effect can't be added to</dd>
+</dl>
+<p>CLASS VARS:
+desc: The effects description
+c_name: The class' simplified name
+logging: The logging module</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -639,8 +754,12 @@ This is reverted randomly.&#34;
 <li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
 <ul class="hlist">
 <li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.add_label" href="#pokete_classes.effects.Effect.add_label">add_label</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.cleanup" href="#pokete_classes.effects.Effect.cleanup">cleanup</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.readd" href="#pokete_classes.effects.Effect.readd">readd</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.ret_md" href="#pokete_classes.effects.Effect.ret_md">ret_md</a></code></li>
 </ul>
 </li>
 </ul>
@@ -650,7 +769,30 @@ This is reverted randomly.&#34;
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
+during fights</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The effects displayed name (paralysed etc)</dd>
+<dt><strong><code>rem_chance</code></strong></dt>
+<dd>The chance the effect gets removed</dd>
+<dt><strong><code>catch_chance</code></strong></dt>
+<dd>The number with which the catch chance of the Poke is
+increased</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text shown near the Pokes name ("(Bur)")</dd>
+<dt><strong><code>str_esccode</code></strong></dt>
+<dd>The color of said label,</dd>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The Poke the effect is added to</dd>
+<dt><strong><code>exclude</code></strong></dt>
+<dd>A list of type names that the effect can't be added to</dd>
+</dl>
+<p>CLASS VARS:
+desc: The effects description
+c_name: The class' simplified name
+logging: The logging module</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -692,8 +834,12 @@ This is reverted randomly.&#34;
 <li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
 <ul class="hlist">
 <li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.add_label" href="#pokete_classes.effects.Effect.add_label">add_label</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.cleanup" href="#pokete_classes.effects.Effect.cleanup">cleanup</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.readd" href="#pokete_classes.effects.Effect.readd">readd</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.ret_md" href="#pokete_classes.effects.Effect.ret_md">ret_md</a></code></li>
 </ul>
 </li>
 </ul>
@@ -703,7 +849,30 @@ This is reverted randomly.&#34;
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
+during fights</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The effects displayed name (paralysed etc)</dd>
+<dt><strong><code>rem_chance</code></strong></dt>
+<dd>The chance the effect gets removed</dd>
+<dt><strong><code>catch_chance</code></strong></dt>
+<dd>The number with which the catch chance of the Poke is
+increased</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text shown near the Pokes name ("(Bur)")</dd>
+<dt><strong><code>str_esccode</code></strong></dt>
+<dd>The color of said label,</dd>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The Poke the effect is added to</dd>
+<dt><strong><code>exclude</code></strong></dt>
+<dd>A list of type names that the effect can't be added to</dd>
+</dl>
+<p>CLASS VARS:
+desc: The effects description
+c_name: The class' simplified name
+logging: The logging module</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -737,8 +906,12 @@ This is reverted randomly.&#34;
 <li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
 <ul class="hlist">
 <li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.add_label" href="#pokete_classes.effects.Effect.add_label">add_label</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.cleanup" href="#pokete_classes.effects.Effect.cleanup">cleanup</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.readd" href="#pokete_classes.effects.Effect.readd">readd</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.ret_md" href="#pokete_classes.effects.Effect.ret_md">ret_md</a></code></li>
 </ul>
 </li>
 </ul>
@@ -748,7 +921,30 @@ This is reverted randomly.&#34;
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
+during fights</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The effects displayed name (paralysed etc)</dd>
+<dt><strong><code>rem_chance</code></strong></dt>
+<dd>The chance the effect gets removed</dd>
+<dt><strong><code>catch_chance</code></strong></dt>
+<dd>The number with which the catch chance of the Poke is
+increased</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text shown near the Pokes name ("(Bur)")</dd>
+<dt><strong><code>str_esccode</code></strong></dt>
+<dd>The color of said label,</dd>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The Poke the effect is added to</dd>
+<dt><strong><code>exclude</code></strong></dt>
+<dd>A list of type names that the effect can't be added to</dd>
+</dl>
+<p>CLASS VARS:
+desc: The effects description
+c_name: The class' simplified name
+logging: The logging module</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -782,8 +978,12 @@ This is reverted randomly.&#34;
 <li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
 <ul class="hlist">
 <li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.add_label" href="#pokete_classes.effects.Effect.add_label">add_label</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.cleanup" href="#pokete_classes.effects.Effect.cleanup">cleanup</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.readd" href="#pokete_classes.effects.Effect.readd">readd</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.ret_md" href="#pokete_classes.effects.Effect.ret_md">ret_md</a></code></li>
 </ul>
 </li>
 </ul>
@@ -793,7 +993,30 @@ This is reverted randomly.&#34;
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
+during fights</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The effects displayed name (paralysed etc)</dd>
+<dt><strong><code>rem_chance</code></strong></dt>
+<dd>The chance the effect gets removed</dd>
+<dt><strong><code>catch_chance</code></strong></dt>
+<dd>The number with which the catch chance of the Poke is
+increased</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text shown near the Pokes name ("(Bur)")</dd>
+<dt><strong><code>str_esccode</code></strong></dt>
+<dd>The color of said label,</dd>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The Poke the effect is added to</dd>
+<dt><strong><code>exclude</code></strong></dt>
+<dd>A list of type names that the effect can't be added to</dd>
+</dl>
+<p>CLASS VARS:
+desc: The effects description
+c_name: The class' simplified name
+logging: The logging module</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -830,8 +1053,12 @@ This is reverted randomly.&#34;
 <li><code><b><a title="pokete_classes.effects.EffectBurning" href="#pokete_classes.effects.EffectBurning">EffectBurning</a></b></code>:
 <ul class="hlist">
 <li><code><a title="pokete_classes.effects.EffectBurning.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
+<li><code><a title="pokete_classes.effects.EffectBurning.add_label" href="#pokete_classes.effects.Effect.add_label">add_label</a></code></li>
+<li><code><a title="pokete_classes.effects.EffectBurning.cleanup" href="#pokete_classes.effects.Effect.cleanup">cleanup</a></code></li>
 <li><code><a title="pokete_classes.effects.EffectBurning.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
+<li><code><a title="pokete_classes.effects.EffectBurning.readd" href="#pokete_classes.effects.Effect.readd">readd</a></code></li>
 <li><code><a title="pokete_classes.effects.EffectBurning.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
+<li><code><a title="pokete_classes.effects.EffectBurning.ret_md" href="#pokete_classes.effects.Effect.ret_md">ret_md</a></code></li>
 </ul>
 </li>
 </ul>
@@ -841,7 +1068,30 @@ This is reverted randomly.&#34;
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
+during fights</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The effects displayed name (paralysed etc)</dd>
+<dt><strong><code>rem_chance</code></strong></dt>
+<dd>The chance the effect gets removed</dd>
+<dt><strong><code>catch_chance</code></strong></dt>
+<dd>The number with which the catch chance of the Poke is
+increased</dd>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text shown near the Pokes name ("(Bur)")</dd>
+<dt><strong><code>str_esccode</code></strong></dt>
+<dd>The color of said label,</dd>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The Poke the effect is added to</dd>
+<dt><strong><code>exclude</code></strong></dt>
+<dd>A list of type names that the effect can't be added to</dd>
+</dl>
+<p>CLASS VARS:
+desc: The effects description
+c_name: The class' simplified name
+logging: The logging module</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -874,8 +1124,12 @@ This is reverted randomly.&#34;
 <li><code><b><a title="pokete_classes.effects.Effect" href="#pokete_classes.effects.Effect">Effect</a></b></code>:
 <ul class="hlist">
 <li><code><a title="pokete_classes.effects.Effect.add" href="#pokete_classes.effects.Effect.add">add</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.add_label" href="#pokete_classes.effects.Effect.add_label">add_label</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.cleanup" href="#pokete_classes.effects.Effect.cleanup">cleanup</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.readd" href="#pokete_classes.effects.Effect.readd">readd</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
+<li><code><a title="pokete_classes.effects.Effect.ret_md" href="#pokete_classes.effects.Effect.ret_md">ret_md</a></code></li>
 </ul>
 </li>
 </ul>
@@ -884,18 +1138,23 @@ This is reverted randomly.&#34;
 <span>class <span class="ident">Effects</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Contains all effects</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Effects:
+    &#34;&#34;&#34;Contains all effects&#34;&#34;&#34;
+
     def __init__(self):
         self.effect_list = effect_list
         for i in self.effect_list:
             setattr(self, i.c_name, i)
 
     def set_vars(self, logging):
+        &#34;&#34;&#34;Injects vars into Effect classes
+        ARGS:
+            logging: logging module&#34;&#34;&#34;
         for i in self.effect_list:
             i.logging = logging</code></pre>
 </details>
@@ -905,12 +1164,20 @@ This is reverted randomly.&#34;
 <span>def <span class="ident">set_vars</span></span>(<span>self, logging)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Injects vars into Effect classes</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>logging</code></strong></dt>
+<dd>logging module</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_vars(self, logging):
+    &#34;&#34;&#34;Injects vars into Effect classes
+    ARGS:
+        logging: logging module&#34;&#34;&#34;
     for i in self.effect_list:
         i.logging = logging</code></pre>
 </details>

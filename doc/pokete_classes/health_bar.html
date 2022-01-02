@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.health_bar API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Contains the Healthbar class" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,23 +22,30 @@
 <h1 class="title">Module <code>pokete_classes.health_bar</code></h1>
 </header>
 <section id="section-intro">
+<p>Contains the Healthbar class</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import time
+<pre><code class="python">&#34;&#34;&#34;Contains the Healthbar class&#34;&#34;&#34;
+
+import time
 import scrap_engine as se
 from .color import Color
 
 
 class HealthBar(se.Text):
-    &#34;&#34;&#34;Healthbar class&#34;&#34;&#34;
+    &#34;&#34;&#34;Healthbar class
+    ARGS:
+        poke: The Poke the healthbar belongs to&#34;&#34;&#34;
     def __init__(self, poke):
         self.poke = poke
         super().__init__(8 * &#34;#&#34;, esccode=Color.green, state=&#34;float&#34;)
 
     def make(self, oldhp):
-        &#34;&#34;&#34;Creates the healthbar&#34;&#34;&#34;
+        &#34;&#34;&#34;Creates the healthbar
+        ARGS:
+            oldhp: The hp the bar should be made for&#34;&#34;&#34;
         bar_num = round(oldhp * 8 / self.poke.full_hp)
         esccode = Color.red
         for size, color in zip([6, 2], [Color.green, Color.yellow]):
@@ -48,7 +55,9 @@ class HealthBar(se.Text):
         self.rechar(bar_num * &#34;#&#34;, esccode)
 
     def update(self, oldhp):
-        &#34;&#34;&#34;Updates the healthbar in steps&#34;&#34;&#34;
+        &#34;&#34;&#34;Updates the healthbar in steps
+        ARGS:
+            oldhp: The pokes former hp&#34;&#34;&#34;
         while oldhp != self.poke.hp and oldhp &gt; 0:
             oldhp += -1 if oldhp &gt; self.poke.hp else 1
             self.poke.text_hp.rechar(f&#34;HP:{oldhp}&#34;, esccode=Color.yellow)
@@ -77,19 +86,28 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>poke)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Healthbar class</p></div>
+<div class="desc"><p>Healthbar class</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>The Poke the healthbar belongs to</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class HealthBar(se.Text):
-    &#34;&#34;&#34;Healthbar class&#34;&#34;&#34;
+    &#34;&#34;&#34;Healthbar class
+    ARGS:
+        poke: The Poke the healthbar belongs to&#34;&#34;&#34;
     def __init__(self, poke):
         self.poke = poke
         super().__init__(8 * &#34;#&#34;, esccode=Color.green, state=&#34;float&#34;)
 
     def make(self, oldhp):
-        &#34;&#34;&#34;Creates the healthbar&#34;&#34;&#34;
+        &#34;&#34;&#34;Creates the healthbar
+        ARGS:
+            oldhp: The hp the bar should be made for&#34;&#34;&#34;
         bar_num = round(oldhp * 8 / self.poke.full_hp)
         esccode = Color.red
         for size, color in zip([6, 2], [Color.green, Color.yellow]):
@@ -99,7 +117,9 @@ if __name__ == &#34;__main__&#34;:
         self.rechar(bar_num * &#34;#&#34;, esccode)
 
     def update(self, oldhp):
-        &#34;&#34;&#34;Updates the healthbar in steps&#34;&#34;&#34;
+        &#34;&#34;&#34;Updates the healthbar in steps
+        ARGS:
+            oldhp: The pokes former hp&#34;&#34;&#34;
         while oldhp != self.poke.hp and oldhp &gt; 0:
             oldhp += -1 if oldhp &gt; self.poke.hp else 1
             self.poke.text_hp.rechar(f&#34;HP:{oldhp}&#34;, esccode=Color.yellow)
@@ -121,13 +141,20 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">make</span></span>(<span>self, oldhp)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Creates the healthbar</p></div>
+<div class="desc"><p>Creates the healthbar</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>oldhp</code></strong></dt>
+<dd>The hp the bar should be made for</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def make(self, oldhp):
-    &#34;&#34;&#34;Creates the healthbar&#34;&#34;&#34;
+    &#34;&#34;&#34;Creates the healthbar
+    ARGS:
+        oldhp: The hp the bar should be made for&#34;&#34;&#34;
     bar_num = round(oldhp * 8 / self.poke.full_hp)
     esccode = Color.red
     for size, color in zip([6, 2], [Color.green, Color.yellow]):
@@ -141,13 +168,20 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">update</span></span>(<span>self, oldhp)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Updates the healthbar in steps</p></div>
+<div class="desc"><p>Updates the healthbar in steps</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>oldhp</code></strong></dt>
+<dd>The pokes former hp</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def update(self, oldhp):
-    &#34;&#34;&#34;Updates the healthbar in steps&#34;&#34;&#34;
+    &#34;&#34;&#34;Updates the healthbar in steps
+    ARGS:
+        oldhp: The pokes former hp&#34;&#34;&#34;
     while oldhp != self.poke.hp and oldhp &gt; 0:
         oldhp += -1 if oldhp &gt; self.poke.hp else 1
         self.poke.text_hp.rechar(f&#34;HP:{oldhp}&#34;, esccode=Color.yellow)

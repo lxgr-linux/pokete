@@ -28,6 +28,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Contains all classes relevant to show the roadmap&#34;&#34;&#34;
+
 import time
 import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
@@ -36,7 +37,16 @@ from .ui_elements import Box, InfoBox
 
 
 class Station(se.Square):
-    &#34;&#34;&#34;Selectable station for Roadmap&#34;&#34;&#34;
+    &#34;&#34;&#34;Selectable station for Roadmap
+    ARGS:
+        roadmap: RoadMap object
+        associate: Main PlayMap name the station belongs to
+        additionals: List of PlayMap names the station also belongs to
+        width: The Station&#39;s width
+        height: The Station&#39;s height
+        desc: The associated description
+        char: Displayed char
+        {w,a,s,d}_next: The next Station&#39;s name in a certain direction&#34;&#34;&#34;
     choosen = None
     obs = []
 
@@ -66,7 +76,9 @@ class Station(se.Square):
         self.rechar(self.color + self.org_char + Color.reset)
 
     def next(self, _ev):
-        &#34;&#34;&#34;Chooses the next station in a certain direction&#34;&#34;&#34;
+        &#34;&#34;&#34;Chooses the next station in a certain direction
+        ARGS:
+            _ev: Event object&#34;&#34;&#34;
         _ev = _ev.strip(&#34;&#39;&#34;)
         if (n_e := getattr(self, _ev + &#34;_next&#34;)) != &#34;&#34;:
             self.unchoose()
@@ -82,7 +94,9 @@ class Station(se.Square):
             in self.roadmap.p_d.map_data[self.associates[0].name][&#34;hard_obs&#34;]
 
     def set_color(self, choose=False):
-        &#34;&#34;&#34;Marks a station as visited&#34;&#34;&#34;
+        &#34;&#34;&#34;Marks a station as visited
+        ARGS:
+            choose: Bool whether or not this done when choosing a city&#34;&#34;&#34;
         if self.has_been_visited() and (self.is_city() if choose else True):
             self.color = Color.yellow
         else:
@@ -91,7 +105,11 @@ class Station(se.Square):
 
 
 class RoadMap:
-    &#34;&#34;&#34;Map you can see and navigate maps on&#34;&#34;&#34;
+    &#34;&#34;&#34;Map you can see and navigate maps on
+    ARGS:
+        p_d: p_data module
+        ob_maps: Dict with all PlayMaps
+        fig: Figure object&#34;&#34;&#34;
 
     def __init__(self, p_d, ob_maps, fig):
         self.ob_maps = ob_maps
@@ -111,12 +129,18 @@ class RoadMap:
         return Station.choosen
 
     def rechar_info(self, name):
-        &#34;&#34;&#34;Changes info label&#34;&#34;&#34;
+        &#34;&#34;&#34;Changes info label
+        ARGS:
+            name: String displayed&#34;&#34;&#34;
         self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
         self.info_label.rechar(name)
 
     def __call__(self, _ev, _map, choose=False):
-        &#34;&#34;&#34;Shows the roadmap&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows the roadmap
+        ARGS:
+            _ev: Event object
+            _map: se.Map this is shown on
+            choose: Bool whether or not this is done to choose a city&#34;&#34;&#34;
         _ev.clear()
         for i in Station.obs:
             i.set_color(choose)
@@ -161,6 +185,7 @@ class RoadMap:
                 _map.show()
         self.sta.unchoose()
 
+
 if __name__ == &#34;__main__&#34;:
     print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
 </details>
@@ -179,13 +204,26 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>p_d, ob_maps, fig)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Map you can see and navigate maps on</p></div>
+<div class="desc"><p>Map you can see and navigate maps on</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>p_d</code></strong></dt>
+<dd>p_data module</dd>
+<dt><strong><code>ob_maps</code></strong></dt>
+<dd>Dict with all PlayMaps</dd>
+<dt><strong><code>fig</code></strong></dt>
+<dd>Figure object</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class RoadMap:
-    &#34;&#34;&#34;Map you can see and navigate maps on&#34;&#34;&#34;
+    &#34;&#34;&#34;Map you can see and navigate maps on
+    ARGS:
+        p_d: p_data module
+        ob_maps: Dict with all PlayMaps
+        fig: Figure object&#34;&#34;&#34;
 
     def __init__(self, p_d, ob_maps, fig):
         self.ob_maps = ob_maps
@@ -205,12 +243,18 @@ if __name__ == &#34;__main__&#34;:
         return Station.choosen
 
     def rechar_info(self, name):
-        &#34;&#34;&#34;Changes info label&#34;&#34;&#34;
+        &#34;&#34;&#34;Changes info label
+        ARGS:
+            name: String displayed&#34;&#34;&#34;
         self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
         self.info_label.rechar(name)
 
     def __call__(self, _ev, _map, choose=False):
-        &#34;&#34;&#34;Shows the roadmap&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows the roadmap
+        ARGS:
+            _ev: Event object
+            _map: se.Map this is shown on
+            choose: Bool whether or not this is done to choose a city&#34;&#34;&#34;
         _ev.clear()
         for i in Station.obs:
             i.set_color(choose)
@@ -277,13 +321,20 @@ def sta(self):
 <span>def <span class="ident">rechar_info</span></span>(<span>self, name)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Changes info label</p></div>
+<div class="desc"><p>Changes info label</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>String displayed</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def rechar_info(self, name):
-    &#34;&#34;&#34;Changes info label&#34;&#34;&#34;
+    &#34;&#34;&#34;Changes info label
+    ARGS:
+        name: String displayed&#34;&#34;&#34;
     self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
     self.info_label.rechar(name)</code></pre>
 </details>
@@ -295,13 +346,40 @@ def sta(self):
 <span>(</span><span>roadmap, associate, additionals, width, height, desc, char='#', w_next='', a_next='', s_next='', d_next='')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Selectable station for Roadmap</p></div>
+<div class="desc"><p>Selectable station for Roadmap</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>roadmap</code></strong></dt>
+<dd>RoadMap object</dd>
+<dt><strong><code>associate</code></strong></dt>
+<dd>Main PlayMap name the station belongs to</dd>
+<dt><strong><code>additionals</code></strong></dt>
+<dd>List of PlayMap names the station also belongs to</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>The Station's width</dd>
+<dt><strong><code>height</code></strong></dt>
+<dd>The Station's height</dd>
+<dt><strong><code>desc</code></strong></dt>
+<dd>The associated description</dd>
+<dt><strong><code>char</code></strong></dt>
+<dd>Displayed char</dd>
+</dl>
+<p>{w,a,s,d}_next: The next Station's name in a certain direction</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Station(se.Square):
-    &#34;&#34;&#34;Selectable station for Roadmap&#34;&#34;&#34;
+    &#34;&#34;&#34;Selectable station for Roadmap
+    ARGS:
+        roadmap: RoadMap object
+        associate: Main PlayMap name the station belongs to
+        additionals: List of PlayMap names the station also belongs to
+        width: The Station&#39;s width
+        height: The Station&#39;s height
+        desc: The associated description
+        char: Displayed char
+        {w,a,s,d}_next: The next Station&#39;s name in a certain direction&#34;&#34;&#34;
     choosen = None
     obs = []
 
@@ -331,7 +409,9 @@ def sta(self):
         self.rechar(self.color + self.org_char + Color.reset)
 
     def next(self, _ev):
-        &#34;&#34;&#34;Chooses the next station in a certain direction&#34;&#34;&#34;
+        &#34;&#34;&#34;Chooses the next station in a certain direction
+        ARGS:
+            _ev: Event object&#34;&#34;&#34;
         _ev = _ev.strip(&#34;&#39;&#34;)
         if (n_e := getattr(self, _ev + &#34;_next&#34;)) != &#34;&#34;:
             self.unchoose()
@@ -347,7 +427,9 @@ def sta(self):
             in self.roadmap.p_d.map_data[self.associates[0].name][&#34;hard_obs&#34;]
 
     def set_color(self, choose=False):
-        &#34;&#34;&#34;Marks a station as visited&#34;&#34;&#34;
+        &#34;&#34;&#34;Marks a station as visited
+        ARGS:
+            choose: Bool whether or not this done when choosing a city&#34;&#34;&#34;
         if self.has_been_visited() and (self.is_city() if choose else True):
             self.color = Color.yellow
         else:
@@ -422,13 +504,20 @@ def sta(self):
 <span>def <span class="ident">next</span></span>(<span>self, _ev)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Chooses the next station in a certain direction</p></div>
+<div class="desc"><p>Chooses the next station in a certain direction</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def next(self, _ev):
-    &#34;&#34;&#34;Chooses the next station in a certain direction&#34;&#34;&#34;
+    &#34;&#34;&#34;Chooses the next station in a certain direction
+    ARGS:
+        _ev: Event object&#34;&#34;&#34;
     _ev = _ev.strip(&#34;&#39;&#34;)
     if (n_e := getattr(self, _ev + &#34;_next&#34;)) != &#34;&#34;:
         self.unchoose()
@@ -439,13 +528,20 @@ def sta(self):
 <span>def <span class="ident">set_color</span></span>(<span>self, choose=False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Marks a station as visited</p></div>
+<div class="desc"><p>Marks a station as visited</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>choose</code></strong></dt>
+<dd>Bool whether or not this done when choosing a city</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def set_color(self, choose=False):
-    &#34;&#34;&#34;Marks a station as visited&#34;&#34;&#34;
+    &#34;&#34;&#34;Marks a station as visited
+    ARGS:
+        choose: Bool whether or not this done when choosing a city&#34;&#34;&#34;
     if self.has_been_visited() and (self.is_city() if choose else True):
         self.color = Color.yellow
     else:

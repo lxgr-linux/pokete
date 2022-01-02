@@ -32,7 +32,9 @@ from .color import Color
 
 
 class Types:
-    &#34;&#34;&#34;Class to organize PokeTypes&#34;&#34;&#34;
+    &#34;&#34;&#34;Class to organize PokeTypes
+    ARGS:
+        p_data: p_data module&#34;&#34;&#34;
 
     def __init__(self, p_data):
         for i in p_data.types:
@@ -42,7 +44,12 @@ class Types:
 
 
 class PokeType():
-    &#34;&#34;&#34;Type for Poketes and attacks&#34;&#34;&#34;
+    &#34;&#34;&#34;Type for Poketes and attacks
+    ARGS:
+        name: The types name
+        effective: List of type names the type is effective against
+        ineffective: List of type names the type is ineffectice against
+        color: Color string&#34;&#34;&#34;
 
     def __init__(self, name, effective, ineffective, color):
         self.name = name
@@ -53,7 +60,9 @@ class PokeType():
 
 
 class PokeSubType(PokeType):
-    &#34;&#34;&#34;Subtype class to better organize generic attacks&#34;&#34;&#34;
+    &#34;&#34;&#34;Subtype class to better organize generic attacks
+    ARGS:
+        name: The types name&#34;&#34;&#34;
 
     def __init__(self, name):
         super().__init__(name, [], [], None)
@@ -77,13 +86,20 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>name)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Subtype class to better organize generic attacks</p></div>
+<div class="desc"><p>Subtype class to better organize generic attacks</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The types name</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class PokeSubType(PokeType):
-    &#34;&#34;&#34;Subtype class to better organize generic attacks&#34;&#34;&#34;
+    &#34;&#34;&#34;Subtype class to better organize generic attacks
+    ARGS:
+        name: The types name&#34;&#34;&#34;
 
     def __init__(self, name):
         super().__init__(name, [], [], None)</code></pre>
@@ -98,13 +114,29 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>name, effective, ineffective, color)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Type for Poketes and attacks</p></div>
+<div class="desc"><p>Type for Poketes and attacks</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The types name</dd>
+<dt><strong><code>effective</code></strong></dt>
+<dd>List of type names the type is effective against</dd>
+<dt><strong><code>ineffective</code></strong></dt>
+<dd>List of type names the type is ineffectice against</dd>
+<dt><strong><code>color</code></strong></dt>
+<dd>Color string</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class PokeType():
-    &#34;&#34;&#34;Type for Poketes and attacks&#34;&#34;&#34;
+    &#34;&#34;&#34;Type for Poketes and attacks
+    ARGS:
+        name: The types name
+        effective: List of type names the type is effective against
+        ineffective: List of type names the type is ineffectice against
+        color: Color string&#34;&#34;&#34;
 
     def __init__(self, name, effective, ineffective, color):
         self.name = name
@@ -123,13 +155,20 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>p_data)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Class to organize PokeTypes</p></div>
+<div class="desc"><p>Class to organize PokeTypes</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>p_data</code></strong></dt>
+<dd>p_data module</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Types:
-    &#34;&#34;&#34;Class to organize PokeTypes&#34;&#34;&#34;
+    &#34;&#34;&#34;Class to organize PokeTypes
+    ARGS:
+        p_data: p_data module&#34;&#34;&#34;
 
     def __init__(self, p_data):
         for i in p_data.types:

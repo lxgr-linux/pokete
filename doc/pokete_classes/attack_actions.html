@@ -27,7 +27,12 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AttackActions:
-    &#34;&#34;&#34;This class contains all actions callable by an attack&#34;&#34;&#34;
+    &#34;&#34;&#34;This class contains all actions callable by an attack
+    All these methods belong to one or more attacks and follow the following
+    pattern:
+        ARGS:
+            obj: The Poke object that attacks
+            enem: The Poke object that is attacked&#34;&#34;&#34;
 
     def cry(self, obj, enem):
         enem.miss_chance += 1
@@ -88,13 +93,23 @@ if __name__ == &#34;__main__&#34;:
 <span>class <span class="ident">AttackActions</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>This class contains all actions callable by an attack</p></div>
+<div class="desc"><p>This class contains all actions callable by an attack
+All these methods belong to one or more attacks and follow the following
+pattern:
+ARGS:
+obj: The Poke object that attacks
+enem: The Poke object that is attacked</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AttackActions:
-    &#34;&#34;&#34;This class contains all actions callable by an attack&#34;&#34;&#34;
+    &#34;&#34;&#34;This class contains all actions callable by an attack
+    All these methods belong to one or more attacks and follow the following
+    pattern:
+        ARGS:
+            obj: The Poke object that attacks
+            enem: The Poke object that is attacked&#34;&#34;&#34;
 
     def cry(self, obj, enem):
         enem.miss_chance += 1

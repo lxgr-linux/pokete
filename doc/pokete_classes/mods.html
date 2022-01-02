@@ -44,8 +44,10 @@ class DummyMods:
 
 class ModError(Exception):
     &#34;&#34;&#34;
-    An Error that is thrown, when an inproper module is loaded.
-    &#34;&#34;&#34;
+    An Error that is thrown, when an inproper module is loaded
+    ARGS:
+        name: The mod&#39;s name
+        err: The error that was thrown&#34;&#34;&#34;
 
     def __init__(self, name, err):
         self.name = name
@@ -54,7 +56,11 @@ class ModError(Exception):
 
 
 class ModInfo(About):
-    &#34;&#34;&#34;Gives information about mods&#34;&#34;&#34;
+    &#34;&#34;&#34;Gives information about mods
+    ARGS:
+        _map: The se.Map the info is shown on
+        settings: Settings object
+        mod_info: mod_info dict&#34;&#34;&#34;
 
     def __init__(self, _map, settings, mod_info):
         self.map = _map
@@ -105,15 +111,24 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>name, err)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An Error that is thrown, when an inproper module is loaded.</p></div>
+<div class="desc"><p>An Error that is thrown, when an inproper module is loaded</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The mod's name</dd>
+<dt><strong><code>err</code></strong></dt>
+<dd>The error that was thrown</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ModError(Exception):
     &#34;&#34;&#34;
-    An Error that is thrown, when an inproper module is loaded.
-    &#34;&#34;&#34;
+    An Error that is thrown, when an inproper module is loaded
+    ARGS:
+        name: The mod&#39;s name
+        err: The error that was thrown&#34;&#34;&#34;
 
     def __init__(self, name, err):
         self.name = name
@@ -131,13 +146,26 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>_map, settings, mod_info)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gives information about mods</p></div>
+<div class="desc"><p>Gives information about mods</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The se.Map the info is shown on</dd>
+<dt><strong><code>settings</code></strong></dt>
+<dd>Settings object</dd>
+<dt><strong><code>mod_info</code></strong></dt>
+<dd>mod_info dict</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ModInfo(About):
-    &#34;&#34;&#34;Gives information about mods&#34;&#34;&#34;
+    &#34;&#34;&#34;Gives information about mods
+    ARGS:
+        _map: The se.Map the info is shown on
+        settings: Settings object
+        mod_info: mod_info dict&#34;&#34;&#34;
 
     def __init__(self, _map, settings, mod_info):
         self.map = _map

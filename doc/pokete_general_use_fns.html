@@ -33,7 +33,13 @@ import release
 
 
 def liner(text, width, pre=&#34;&#34;):
-    &#34;&#34;&#34;Wraps a string after a certain length and respects word endings&#34;&#34;&#34;
+    &#34;&#34;&#34;Wraps a string after a certain length and respects word endings
+    ARGS:
+        text: The text that should be lined
+        width: The max width
+        pre: Prefix that will be added in the next line
+    RETURNS:
+        The lined string&#34;&#34;&#34;
     lens = 0
     out = &#34;&#34;
     for name in text.split(&#34; &#34;):
@@ -50,7 +56,12 @@ def liner(text, width, pre=&#34;&#34;):
 
 
 def hard_liner(l_len, name):
-    &#34;&#34;&#34;Wraps a string after a certain length&#34;&#34;&#34;
+    &#34;&#34;&#34;Wraps a string after a certain length
+    ARGS:
+        name: The String
+        l_len: The max length
+    RETURNS:
+        The lined string&#34;&#34;&#34;
     ret = &#34;&#34;
     for i in range(int(len(name) / l_len) + 1):
         ret += name[i * l_len:(i + 1) * l_len] + (&#34;\n&#34;
@@ -60,19 +71,27 @@ def hard_liner(l_len, name):
 
 
 def sort_vers(vers):
-    &#34;&#34;&#34;Sorts versions&#34;&#34;&#34;
+    &#34;&#34;&#34;Sorts versions
+    ARGS:
+        vers: List of versions
+    RETURNS:
+        Sorted list&#34;&#34;&#34;
     return [k[-1] for k in
             sorted([([int(j) for j in i.split(&#34;.&#34;)], i) for i in vers])]
 
 
-def std_loop(ev):
-    &#34;&#34;&#34;Standart action executed in most loops&#34;&#34;&#34;
-    if ev.get() == &#34;exit&#34;:
+def std_loop(_ev):
+    &#34;&#34;&#34;Standart action executed in most loops
+    ARGS:
+        _ev: Event object&#34;&#34;&#34;
+    if _ev.get() == &#34;exit&#34;:
         raise KeyboardInterrupt
 
 
 def print_help(path):
-    &#34;&#34;&#34;Shows help message&#34;&#34;&#34;
+    &#34;&#34;&#34;Shows help message
+    ARGS:
+        path: The game&#39;s path&#34;&#34;&#34;
     print(f&#34;&#34;&#34;Pokete {release.CODENAME} v{release.VERSION}
 Usage: {path} (&lt;options&gt;)
 Options:
@@ -91,7 +110,11 @@ Copyright (c) lxgr-linux &lt;lxgr-linux@protonmail.com&gt; 2021&#34;&#34;&#34;)
 
 
 def parse_args(args):
-    &#34;&#34;&#34;Parses command line args&#34;&#34;&#34;
+    &#34;&#34;&#34;Parses command line args
+    ARGS:
+        args: Arguments given to the game
+    RETURNS:
+        Tuple of do_logging and load_mods&#34;&#34;&#34;
     do_logging = False
     load_mods = True
     for arg in args[1:]:
@@ -124,13 +147,27 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">hard_liner</span></span>(<span>l_len, name)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wraps a string after a certain length</p></div>
+<div class="desc"><p>Wraps a string after a certain length</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The String</dd>
+<dt><strong><code>l_len</code></strong></dt>
+<dd>The max length</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The lined string</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def hard_liner(l_len, name):
-    &#34;&#34;&#34;Wraps a string after a certain length&#34;&#34;&#34;
+    &#34;&#34;&#34;Wraps a string after a certain length
+    ARGS:
+        name: The String
+        l_len: The max length
+    RETURNS:
+        The lined string&#34;&#34;&#34;
     ret = &#34;&#34;
     for i in range(int(len(name) / l_len) + 1):
         ret += name[i * l_len:(i + 1) * l_len] + (&#34;\n&#34;
@@ -143,13 +180,30 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">liner</span></span>(<span>text, width, pre='')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wraps a string after a certain length and respects word endings</p></div>
+<div class="desc"><p>Wraps a string after a certain length and respects word endings</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text that should be lined</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>The max width</dd>
+<dt><strong><code>pre</code></strong></dt>
+<dd>Prefix that will be added in the next line</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The lined string</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def liner(text, width, pre=&#34;&#34;):
-    &#34;&#34;&#34;Wraps a string after a certain length and respects word endings&#34;&#34;&#34;
+    &#34;&#34;&#34;Wraps a string after a certain length and respects word endings
+    ARGS:
+        text: The text that should be lined
+        width: The max width
+        pre: Prefix that will be added in the next line
+    RETURNS:
+        The lined string&#34;&#34;&#34;
     lens = 0
     out = &#34;&#34;
     for name in text.split(&#34; &#34;):
@@ -169,13 +223,24 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">parse_args</span></span>(<span>args)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Parses command line args</p></div>
+<div class="desc"><p>Parses command line args</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>args</code></strong></dt>
+<dd>Arguments given to the game</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Tuple of do_logging and load_mods</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def parse_args(args):
-    &#34;&#34;&#34;Parses command line args&#34;&#34;&#34;
+    &#34;&#34;&#34;Parses command line args
+    ARGS:
+        args: Arguments given to the game
+    RETURNS:
+        Tuple of do_logging and load_mods&#34;&#34;&#34;
     do_logging = False
     load_mods = True
     for arg in args[1:]:
@@ -197,13 +262,20 @@ options.&#34;)
 <span>def <span class="ident">print_help</span></span>(<span>path)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Shows help message</p></div>
+<div class="desc"><p>Shows help message</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong></dt>
+<dd>The game's path</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def print_help(path):
-    &#34;&#34;&#34;Shows help message&#34;&#34;&#34;
+    &#34;&#34;&#34;Shows help message
+    ARGS:
+        path: The game&#39;s path&#34;&#34;&#34;
     print(f&#34;&#34;&#34;Pokete {release.CODENAME} v{release.VERSION}
 Usage: {path} (&lt;options&gt;)
 Options:
@@ -225,29 +297,47 @@ Copyright (c) lxgr-linux &lt;lxgr-linux@protonmail.com&gt; 2021&#34;&#34;&#34;)<
 <span>def <span class="ident">sort_vers</span></span>(<span>vers)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sorts versions</p></div>
+<div class="desc"><p>Sorts versions</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>vers</code></strong></dt>
+<dd>List of versions</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Sorted list</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def sort_vers(vers):
-    &#34;&#34;&#34;Sorts versions&#34;&#34;&#34;
+    &#34;&#34;&#34;Sorts versions
+    ARGS:
+        vers: List of versions
+    RETURNS:
+        Sorted list&#34;&#34;&#34;
     return [k[-1] for k in
             sorted([([int(j) for j in i.split(&#34;.&#34;)], i) for i in vers])]</code></pre>
 </details>
 </dd>
 <dt id="pokete_general_use_fns.std_loop"><code class="name flex">
-<span>def <span class="ident">std_loop</span></span>(<span>ev)</span>
+<span>def <span class="ident">std_loop</span></span>(<span>_ev)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Standart action executed in most loops</p></div>
+<div class="desc"><p>Standart action executed in most loops</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_ev</code></strong></dt>
+<dd>Event object</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def std_loop(ev):
-    &#34;&#34;&#34;Standart action executed in most loops&#34;&#34;&#34;
-    if ev.get() == &#34;exit&#34;:
+<pre><code class="python">def std_loop(_ev):
+    &#34;&#34;&#34;Standart action executed in most loops
+    ARGS:
+        _ev: Event object&#34;&#34;&#34;
+    if _ev.get() == &#34;exit&#34;:
         raise KeyboardInterrupt</code></pre>
 </details>
 </dd>

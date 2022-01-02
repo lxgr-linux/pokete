@@ -34,7 +34,11 @@ from pokete_general_use_fns import liner, std_loop
 
 
 class About:
-    &#34;&#34;&#34;The about text, that can be triggered in the menu&#34;&#34;&#34;
+    &#34;&#34;&#34;The about text, that can be triggered in the menu
+    ARGS:
+        ver: Version
+        cname: Codename
+        _map: se.Map this will be displayed on&#34;&#34;&#34;
 
     def __init__(self, ver, cname, _map):
         self.box = InfoBox(liner(f&#34;&#34;&#34;Pokete v{ver} -- {cname}
@@ -47,7 +51,9 @@ You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
                                  60, pre=&#34;&#34;), _map=_map)
 
     def __call__(self, ev):
-        &#34;&#34;&#34;Shows the about text&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows the about text
+        ARGS:
+            _ev: Event object&#34;&#34;&#34;
         with self.box:
             while True:
                 if ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
@@ -58,7 +64,9 @@ You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
 
 
 class Help(About):
-    &#34;&#34;&#34;Helptext that can be displayed by pressing &#39;?&#39;&#34;&#34;&#34;
+    &#34;&#34;&#34;Helptext that can be displayed by pressing &#39;?&#39;
+    ARGS:
+        _map: se.Map this will be displayed on&#34;&#34;&#34;
 
     def __init__(self, _map):
         self.map = _map
@@ -110,7 +118,10 @@ class ResizeScreen():
 
 
 class LoadingScreen():
-    &#34;&#34;&#34;Loading screen that&#39;s shown at game&#39;s start&#34;&#34;&#34;
+    &#34;&#34;&#34;Loading screen that&#39;s shown at game&#39;s start
+    ARGS:
+        ver: Version
+        codename: Codename&#34;&#34;&#34;
 
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()
@@ -154,13 +165,26 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>ver, cname, _map)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The about text, that can be triggered in the menu</p></div>
+<div class="desc"><p>The about text, that can be triggered in the menu</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ver</code></strong></dt>
+<dd>Version</dd>
+<dt><strong><code>cname</code></strong></dt>
+<dd>Codename</dd>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map this will be displayed on</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class About:
-    &#34;&#34;&#34;The about text, that can be triggered in the menu&#34;&#34;&#34;
+    &#34;&#34;&#34;The about text, that can be triggered in the menu
+    ARGS:
+        ver: Version
+        cname: Codename
+        _map: se.Map this will be displayed on&#34;&#34;&#34;
 
     def __init__(self, ver, cname, _map):
         self.box = InfoBox(liner(f&#34;&#34;&#34;Pokete v{ver} -- {cname}
@@ -173,7 +197,9 @@ You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
                                  60, pre=&#34;&#34;), _map=_map)
 
     def __call__(self, ev):
-        &#34;&#34;&#34;Shows the about text&#34;&#34;&#34;
+        &#34;&#34;&#34;Shows the about text
+        ARGS:
+            _ev: Event object&#34;&#34;&#34;
         with self.box:
             while True:
                 if ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
@@ -193,13 +219,20 @@ You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
 <span>(</span><span>_map)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Helptext that can be displayed by pressing '?'</p></div>
+<div class="desc"><p>Helptext that can be displayed by pressing '?'</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map this will be displayed on</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Help(About):
-    &#34;&#34;&#34;Helptext that can be displayed by pressing &#39;?&#39;&#34;&#34;&#34;
+    &#34;&#34;&#34;Helptext that can be displayed by pressing &#39;?&#39;
+    ARGS:
+        _map: se.Map this will be displayed on&#34;&#34;&#34;
 
     def __init__(self, _map):
         self.map = _map
@@ -228,13 +261,23 @@ https://git.io/JRRqe
 <span>(</span><span>ver, codename)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Loading screen that's shown at game's start</p></div>
+<div class="desc"><p>Loading screen that's shown at game's start</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ver</code></strong></dt>
+<dd>Version</dd>
+<dt><strong><code>codename</code></strong></dt>
+<dd>Codename</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LoadingScreen():
-    &#34;&#34;&#34;Loading screen that&#39;s shown at game&#39;s start&#34;&#34;&#34;
+    &#34;&#34;&#34;Loading screen that&#39;s shown at game&#39;s start
+    ARGS:
+        ver: Version
+        codename: Codename&#34;&#34;&#34;
 
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()

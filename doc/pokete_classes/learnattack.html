@@ -41,7 +41,11 @@ from .attack import Attack
 
 
 class AttackInfo(Box):
-    &#34;&#34;&#34;Gives information about a certain attack&#34;&#34;&#34;
+    &#34;&#34;&#34;Gives information about a certain attack
+    ARGS:
+        attack: The attack&#39;s name
+        p_data: p_data module
+        _map: se.Map this should be shown on&#34;&#34;&#34;
 
     def __init__(self, attack, p_data, _map):
         atc = Attack(attack, p_data)
@@ -66,7 +70,10 @@ class AttackInfo(Box):
 
 
 class LearnAttack:
-    &#34;&#34;&#34;Lets a Pokete learn a new attack&#34;&#34;&#34;
+    &#34;&#34;&#34;Lets a Pokete learn a new attack
+    ARGS:
+        poke: The Poke that should learn an attack
+        _map: The se.Map this should happen on&#34;&#34;&#34;
 
     def __init__(self, poke, _map):
         self.map = _map
@@ -74,7 +81,15 @@ class LearnAttack:
         self.box = ChooseBox(6, 25, name=&#34;Attacks&#34;, info=&#34;1:Details, 2:Info&#34;)
 
     def __call__(self, _ev, p_data, attack=None):
-        &#34;&#34;&#34;Starts the learning process&#34;&#34;&#34;
+        &#34;&#34;&#34;Starts the learning process
+        ARGS:
+            _ev: Event object
+            p_data: p_data module
+            attack: The attack&#39;s name that should be learned, if None a fitting
+                    attack will be chosen randomly
+        RETURNS:
+            bool: Whether or not the attack was learned&#34;&#34;&#34;
+
         attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
@@ -137,6 +152,7 @@ class LearnAttack:
             return True
         return False
 
+
 if __name__ == &#34;__main__&#34;:
     print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
 </details>
@@ -155,13 +171,26 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>attack, p_data, _map)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gives information about a certain attack</p></div>
+<div class="desc"><p>Gives information about a certain attack</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>attack</code></strong></dt>
+<dd>The attack's name</dd>
+<dt><strong><code>p_data</code></strong></dt>
+<dd>p_data module</dd>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map this should be shown on</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AttackInfo(Box):
-    &#34;&#34;&#34;Gives information about a certain attack&#34;&#34;&#34;
+    &#34;&#34;&#34;Gives information about a certain attack
+    ARGS:
+        attack: The attack&#39;s name
+        p_data: p_data module
+        _map: se.Map this should be shown on&#34;&#34;&#34;
 
     def __init__(self, attack, p_data, _map):
         atc = Attack(attack, p_data)
@@ -207,13 +236,23 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>poke, _map)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Lets a Pokete learn a new attack</p></div>
+<div class="desc"><p>Lets a Pokete learn a new attack</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>The Poke that should learn an attack</dd>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The se.Map this should happen on</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LearnAttack:
-    &#34;&#34;&#34;Lets a Pokete learn a new attack&#34;&#34;&#34;
+    &#34;&#34;&#34;Lets a Pokete learn a new attack
+    ARGS:
+        poke: The Poke that should learn an attack
+        _map: The se.Map this should happen on&#34;&#34;&#34;
 
     def __init__(self, poke, _map):
         self.map = _map
@@ -221,7 +260,15 @@ if __name__ == &#34;__main__&#34;:
         self.box = ChooseBox(6, 25, name=&#34;Attacks&#34;, info=&#34;1:Details, 2:Info&#34;)
 
     def __call__(self, _ev, p_data, attack=None):
-        &#34;&#34;&#34;Starts the learning process&#34;&#34;&#34;
+        &#34;&#34;&#34;Starts the learning process
+        ARGS:
+            _ev: Event object
+            p_data: p_data module
+            attack: The attack&#39;s name that should be learned, if None a fitting
+                    attack will be chosen randomly
+        RETURNS:
+            bool: Whether or not the attack was learned&#34;&#34;&#34;
+
         attacks = p_data.attacks
         if attack is None:
             pool = [i for i in attacks
