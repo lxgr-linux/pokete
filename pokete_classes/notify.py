@@ -34,12 +34,20 @@ class Notifier:
     def __init__(self, _map, logging):
         self.map = _map
         self.logging = logging
+        self.wait = []
         self.notified = False
         self.notification = None
         self.counter = -1
 
     def notify(self, title, name, desc):
-        self.notification = Notification(title, name, desc)
+        noti = Notification(title, name, desc)
+        if self.notified:
+            self.wait.append(noti)
+        else:
+            self.__notify(noti)
+
+    def __notify(self, noti):
+        self.notification = noti
         self.notification.corner_add(self.map)
         self.counter = 100
         self.notified = True
@@ -57,4 +65,6 @@ class Notifier:
             if self.notification.x == self.map.width - 1:
                 self.notification.remove()
                 self.notified = False
+                if len(self.wait) != 0:
+                    self.__notify(self.wait.pop(0))
 
