@@ -40,7 +40,8 @@ from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
-from pokete_classes.notify import Notifier, Notification
+from pokete_classes.notify import Notifier
+from pokete_classes.achievements import Achievements
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -1245,6 +1246,7 @@ def save():
         "last_center_map": figure.last_center_map.name,
         "x": figure.x,
         "y": figure.y,
+        "achievements": achievements.achieved,
         "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,
         "money": figure.get_money(),
@@ -1275,6 +1277,7 @@ def read_save():
         "last_center_map": "playmap_1",
         "x": 4,
         "y": 5,
+        "achievements": [],
         "pokes": {
             "0": {"name": "steini", "xp": 50, "hp": "SKIP",
                   "ap": ["SKIP", "SKIP"]}
@@ -2042,6 +2045,13 @@ if __name__ == "__main__":
     invitems = Items(p_data)
     buy = Buy(figure, invitems, movemap)
     notifier = Notifier(movemap, logging)
+
+    # Achievements
+    achievements = Achievements(logging, notifier)
+    achievements.set_achieved(session_info.get("achievements", []))
+    for identifier, args in p_data.achievements.items():
+        achievements.add(identifier, **args)
+
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
 

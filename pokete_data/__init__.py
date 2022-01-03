@@ -11,6 +11,7 @@ from .trainers import *
 from .npcs import *
 from .mapstations import *
 from .maps import *
+from .achievements import *
 
 
 class ValidationError(Exception):
