@@ -15,8 +15,10 @@ class DummyMods:
 
 class ModError(Exception):
     """
-    An Error that is thrown, when an inproper module is loaded.
-    """
+    An Error that is thrown, when an inproper module is loaded
+    ARGS:
+        name: The mod's name
+        err: The error that was thrown"""
 
     def __init__(self, name, err):
         self.name = name
@@ -25,7 +27,11 @@ class ModError(Exception):
 
 
 class ModInfo(About):
-    """Gives information about mods"""
+    """Gives information about mods
+    ARGS:
+        _map: The se.Map the info is shown on
+        settings: Settings object
+        mod_info: mod_info dict"""
 
     def __init__(self, _map, settings, mod_info):
         self.map = _map

@@ -6,7 +6,11 @@ from pokete_general_use_fns import liner, std_loop
 
 
 class About:
-    """The about text, that can be triggered in the menu"""
+    """The about text, that can be triggered in the menu
+    ARGS:
+        ver: Version
+        cname: Codename
+        _map: se.Map this will be displayed on"""
 
     def __init__(self, ver, cname, _map):
         self.box = InfoBox(liner(f"""Pokete v{ver} -- {cname}
@@ -19,7 +23,9 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
                                  60, pre=""), _map=_map)
 
     def __call__(self, ev):
-        """Shows the about text"""
+        """Shows the about text
+        ARGS:
+            _ev: Event object"""
         with self.box:
             while True:
                 if ev.get() in ["Key.esc", "'q'"]:
@@ -30,7 +36,9 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
 
 
 class Help(About):
-    """Helptext that can be displayed by pressing '?'"""
+    """Helptext that can be displayed by pressing '?'
+    ARGS:
+        _map: se.Map this will be displayed on"""
 
     def __init__(self, _map):
         self.map = _map
@@ -82,7 +90,10 @@ class ResizeScreen():
 
 
 class LoadingScreen():
-    """Loading screen that's shown at game's start"""
+    """Loading screen that's shown at game's start
+    ARGS:
+        ver: Version
+        codename: Codename"""
 
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()

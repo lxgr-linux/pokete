@@ -58,17 +58,23 @@ def test2():
 ##################
 
 class Event:
-    """Event class to enable dependency injection"""
+    """Event class to enable dependency injection
+    ARGS:
+        _ev: Initial char"""
 
     def __init__(self, _ev):
         self.ev = _ev
 
     def get(self):
-        """Getter"""
+        """Getter
+        RETURNS:
+            Current char"""
         return self.ev
 
     def set(self, _ev):
-        """setter"""
+        """Setter
+        ARGS:
+            _ev: New char"""
         self.ev = _ev
 
     def clear(self):
@@ -80,7 +86,9 @@ class HightGrass(se.Object):
     """Object on the map, that triggers a fight"""
 
     def action(self, ob):
-        """Action triggers the fight"""
+        """Action triggers the fight
+        ARGS:
+            ob: The object triggering this action"""
         if random.randint(0, 8) == 0:
             fight(Poke("__fallback__", 0)
                   if len([poke for poke in figure.pokes[:6]
@@ -97,8 +105,12 @@ class HightGrass(se.Object):
 
 
 class Meadow(se.Text):
-    """Daughter of se.Text to better organize Highgrass"""
+    """Daughter of se.Text to better organize Highgrass
+    ARGS:
+        string: The character representing the meadow
+        poke_args: Dict containing relevant information about Pokes"""
     esccode = Color.green
+
     def __init__(self, string, poke_args):
         super().__init__(string, ignore=self.esccode + " " + Color.reset,
                          ob_class=HightGrass, ob_args=poke_args,
@@ -111,7 +123,9 @@ class Water(Meadow):
 
 
 class Poketeball(se.Object):
-    """Poketeball that can be picked up on the map"""
+    """Poketeball that can be picked up on the map
+    ARGS:
+        name: Generic name of the ball"""
 
     def __init__(self, name):
         self.name = name
@@ -119,7 +133,9 @@ class Poketeball(se.Object):
                          state="float")
 
     def action(self, ob):
-        """Action triggers the pick up"""
+        """Action triggers the pick up
+        ARGS:
+            ob: The object triggering this action"""
         amount = random.choices([1, 2, 3],
                                 weights=[10, 2, 1], k=1)[0]
         item = random.choices(["poketeball", "hyperball", "superball",
@@ -135,7 +151,10 @@ class Poketeball(se.Object):
 
 
 class NPCActions:
-    """This class contains all functions callable by NPCs"""
+    """This class contains all functions callable by NPCs
+    All this methods follow the same pattern:
+        ARGS:
+            npc: The NPC the method belongs to"""
 
     @staticmethod
     def swap_poke(npc):
@@ -214,6 +233,7 @@ at level {figure.pokes[index].lvl()}.")
 
 
 def test1():
+    """Tests walkpoint method, will be removed later"""
     ob_maps["playmap_13"].npc_2.walk_point(figure.x, figure.y)
 
 
@@ -221,7 +241,9 @@ class CenterInteract(se.Object):
     """Triggers a conversation in the Pokete center"""
 
     def action(self, ob):
-        """Triggers the interaction in the Pokete center"""
+        """Triggers the interaction in the Pokete center
+        ARGS:
+            ob: The object triggering this action"""
         ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
@@ -258,7 +280,9 @@ class ShopInteract(se.Object):
     """Triggers an conversation in the shop"""
 
     def action(self, ob):
-        """Triggers an interaction in the shop"""
+        """Triggers an interaction in the shop
+        ARGS:
+            ob: The object triggering this action"""
         ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
@@ -270,7 +294,10 @@ class ShopInteract(se.Object):
 
 
 class CenterMap(PlayMap):
-    """Contains all relevant objects for centermap"""
+    """Contains all relevant objects for centermap
+    ARGS:
+        _he: The maps height
+        _wi: The maps width"""
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="centermap",
@@ -300,7 +327,10 @@ another players' one."],
 
 
 class ShopMap(PlayMap):
-    """Contains all relevant objects for shopmap"""
+    """Contains all relevant objects for shopmap
+    ARGS:
+        _he: The maps height
+        _wi: The maps width """
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="shopmap",
@@ -326,7 +356,9 @@ class CenterDor(se.Object):
     """Dor class for the map to enter centers and shops"""
 
     def action(self, ob):
-        """Trigger"""
+        """Trigger
+        ARGS:
+            ob: The object triggering this action"""
         ob.remove()
         i = ob.map.name
         ob.add(ob.oldmap,
@@ -344,7 +376,9 @@ class Dor(se.Object):
     """Dor class for the map to enter other maps"""
 
     def action(self, ob):
-        """Trigger"""
+        """Trigger
+        ARGS:
+            ob: The object triggering this action"""
         ob.remove()
         i = ob.map.name
         ob.add(ob_maps[self.arg_proto["map"]], self.arg_proto["x"],
@@ -362,6 +396,9 @@ class DorToCenter(Dor):
                                     "x": int(centermap.width / 2), "y": 7})
 
     def action(self, ob):
+        """Triggers the dor
+        ARGS:
+            ob: The object triggering this action"""
         ob.last_center_map = ob.map
         super().action(ob)
 
@@ -379,13 +416,22 @@ class ChanceDor(Dor):
     """Same as dor but with a chance"""
 
     def action(self, ob):
-        """Trigger"""
+        """Trigger
+        ARGS:
+            ob: The object triggering this action"""
         if random.randint(0, self.arg_proto["chance"]) == 0:
             super().action(ob)
 
 
 class Poke:
-    """The Pokete class"""
+    """The Pokete class
+    ARGS:
+        poke: The Pokes generic name
+        xp: Initial xp
+        _hp: Initial hp ('SKIP' sets to max hp)
+        _attacks: List of attack names learned
+        player: Bool whether or not the Poke belongs to the player
+        shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
     def __init__(self, poke, xp, _hp="SKIP", _attacks=None,
                  player=True, shiny=False):
@@ -458,7 +504,9 @@ can't have more than 4 attacks!"
         self.set_vars()
 
     def set_player(self, player):
-        """Sets the player attribute when the Pokete changes the owner"""
+        """Sets the player attribute when the Pokete changes the owner
+        ARGS:
+            player: Bool whether or not the Poke new belongs to the player"""
         self.player = player
         self.affil = "you" if self.player else "enemy"
         self.ext_name = f'{self.name}({self.affil})'
@@ -480,7 +528,8 @@ can't have more than 4 attacks!"
         self.label_rechar()
 
     def dict(self):
-        """Returns a dict with all information about the Pokete"""
+        """RETURNS:
+            A dict with all information about the Pokete"""
         return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
                 "ap": [atc.ap for atc in self.attac_obs],
                 "effects": [eff.c_name for eff in self.effects],
@@ -488,7 +537,9 @@ can't have more than 4 attacks!"
                 "shiny": self.shiny}
 
     def set_ap(self, dic):
-        """Sets attack aps form a list"""
+        """Sets attack aps from a list
+        ARGS:
+            dic: List of attack ap"""
         for atc, ap in zip(self.attac_obs, dic):
             atc.ap = ap if ap != "SKIP" else atc.ap
         self.label_rechar()
@@ -518,11 +569,15 @@ can't have more than 4 attacks!"
                 + se.Text(f"-{atc.ap}")
 
     def lvl(self):
-        """Returns level"""
+        """RETURNS:
+            Current level"""
         return int(math.sqrt(self.xp + 1))
 
     def attack(self, attac, enem):
-        """Attack process"""
+        """Attack process
+        ARGS:
+            attac: Attack object
+            enem: Enemy Poke"""
         if attac.ap > 0:
             for eff in self.effects:
                 eff.remove()
@@ -624,7 +679,9 @@ class Figure(se.Object):
         self.direction = "t"
 
     def set_args(self, _si):
-        """Processes data from save file"""
+        """Processes data from save file
+        ARGS:
+            _si: session_info dict"""
         self.name = _si["user"]
         self.last_center_map = ob_maps[_si.get("last_center_map", "playmap_1")]
         self.pokes = [Poke(_si["pokes"][poke]["name"],
@@ -669,15 +726,21 @@ class Figure(se.Object):
         movemap.add_obs()
 
     def add_money(self, money):
-        """Adds money"""
+        """Adds money
+        ARGS:
+            money: Amount of money beeing added"""
         self.set_money(self.__money + money)
 
     def get_money(self):
-        """Returns the current money"""
+        """Getter for __money
+        RETURNS:
+            The current money"""
         return self.__money
 
     def set_money(self, money):
-        """Sets the money to a certain value"""
+        """Sets the money to a certain value
+        ARGS:
+            money: New value"""
         assert money >= 0, "money has to be positive"
         logging.info("[Figure] Money set to %d$ from %d$",
                      money, self.__money)
@@ -688,7 +751,10 @@ class Figure(se.Object):
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
     def add_poke(self, poke, idx=None):
-        """Adds a Pokete to the players Poketes"""
+        """Adds a Pokete to the players Poketes
+        ARGS:
+            poke: Poke object beeing added
+            idx: Index of the Poke"""
         poke.set_player(True)
         figure.caught_pokes.append(poke.identifier)
         if idx is None:
@@ -707,11 +773,18 @@ class Figure(se.Object):
         logging.info("[Figure] %d %s(s) given", amount, item)
 
     def has_item(self, item):
-        """Checks if an item is already present"""
+        """Checks if an item is already present
+        ARGS:
+            item: Generic item name
+        RETURNS:
+            If the player has this item"""
         return item in self.inv and self.inv[item] > 0
 
     def remove_item(self, item, amount=1):
-        """Removes a certain amount of an item from the inv"""
+        """Removes a certain amount of an item from the inv
+        ARGS:
+            item: Generic item name
+            amount: Amount of items beeing removed"""
         assert amount > 0, "Amounts have to be positive"
         assert item in self.inv, f"Item {item} is not in the inventory"
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
@@ -721,7 +794,11 @@ in the inventory"
 
 
 class Setting(se.Box):
-    """The setting label for the menu"""
+    """The setting label for the menu
+    ARGS:
+        text: The text displayed / the settings name
+        setting: The settings name the setting belongs to (load_mods)
+        options: Dict containing all options ({True: "On", False: "Off"})"""
 
     def __init__(self, text, setting, options=None):
         if options is None:
@@ -752,7 +829,7 @@ class Debug:
 
     @classmethod
     def pos(cls):
-        """Prints the position"""
+        """Prints the figures' position"""
         print(figure.x, figure.y, figure.map.name)
 
 
@@ -772,12 +849,18 @@ class Deck(Informer):
         self.move_free.add(self.submap, 20, self.submap.height - 1)
 
     def rem_pokes(self, pokes):
-        """Removes all Poketes from the Deck"""
+        """Removes all Poketes from the Deck
+        ARGS:
+            pokes: List of Pokes beeing removed"""
         for poke in pokes:
             self.remove(poke)
 
     def __call__(self, p_len, label="Your full deck", in_fight=False):
-        """Opens the deck"""
+        """Opens the deck
+        ARGS:
+            p_len: Number of Pokes beeing included
+            label: The displayed label
+            in_fight: Whether or not this is called in a fight"""
         ev.clear()
         pokes = figure.pokes[:p_len]
         ret_action = None
@@ -879,7 +962,10 @@ class Deck(Informer):
             self.submap.full_show()
 
     def add_all(self, pokes, init=False):
-        """Adds all Poketes to the deck"""
+        """Adds all Poketes to the deck
+        ARGS:
+            pokes: List of all Pokes beeing added
+            init: Whether or not this happens for the first time"""
         j = 0
         for i, poke in enumerate(pokes):
             self.add(poke, figure, self.map,
@@ -892,7 +978,10 @@ class Deck(Informer):
                 j += 1
 
     def control(self, pokes, _ev):
-        """Processes inputs"""
+        """Processes inputs
+        ARGS:
+            pokes: List of all Pokes in deck
+            _ev: Inputted string"""
         if len(pokes) <= 1:
             return
         for con, stat, fir, sec in zip(["'a'", "'d'", "'s'", "'w'"],
@@ -918,7 +1007,9 @@ class Deck(Informer):
 
 
 class Inv:
-    """Inventory to see and manage items in"""
+    """Inventory to see and manage items in
+    ARGS:
+        _map: se.Map this will be shown on"""
 
     def __init__(self, _map):
         self.map = _map
@@ -1001,7 +1092,12 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
         self.box.remove_c_obs()
 
     def rem_item(self, name, items):
-        """Removes an item to the inv"""
+        """Removes an item from the inv
+        ARGS:
+            name: Items name
+            items: List of Items
+        RETURNS:
+            List of Items"""
         figure.remove_item(name)
         for obj in self.box.c_obs:
             obj.remove()
@@ -1014,7 +1110,9 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
         return items
 
     def add(self):
-        """Adds all items to the box"""
+        """Adds all items to the box
+        RETURNS:
+            List of Items"""
         items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] > 0]
         self.box.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}")
                             for i in items])
@@ -1022,7 +1120,9 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
 
 
 class Menu:
-    """Menu to manage settings and other stuff in"""
+    """Menu to manage settings and other stuff in
+    ARGS:
+        _map: se.Map this will be shown on"""
 
     def __init__(self, _map):
         self.map = _map
@@ -1093,7 +1193,9 @@ class Menu:
 
 
 class Dex:
-    """The Pokete dex that shows stats about all Poketes ever caught"""
+    """The Pokete dex that shows stats about all Poketes ever caught
+    ARGS:
+        _map: se.Map this will be shown on"""
 
     def __init__(self, _map):
         self.box = ChooseBox(_map.height - 3, 35, "Poketedex")
@@ -1118,9 +1220,10 @@ class Dex:
         self.box.remove_c_obs()
 
     def detail(self, poke):
-        """Shows details about the Pokete"""
+        """Shows details about the Pokete
+        ARGS:
+            poke: Pokes identifier"""
         ev.clear()
-
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace("\n", " ") +
                           (f"""\n\n Evolves to {
@@ -1151,10 +1254,11 @@ Initiative: {poke.initiative}"""))
         self.detail_box.rem_ob(poke.ico)
 
     def __call__(self, pokes):
-        """Opens the dex"""
+        """Opens the dex
+        ARGS:
+            pokes: p_data.pokes"""
         ev.clear()
         self.idx = 0
-
         p_dict = {i[1]: i[-1] for i in
                   sorted([(pokes[j]["types"][0], j, pokes[j])
                           for j in list(pokes)[1:]])}
@@ -1266,7 +1370,9 @@ def save():
 
 
 def read_save():
-    """Reads form savefile"""
+    """Reads form savefile
+    RETURNS:
+        session_info dict"""
     Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     _si = {
@@ -1303,7 +1409,9 @@ def read_save():
 
 
 def on_press(key):
-    """Sets the ev variable"""
+    """Sets the ev variable
+    ARGS:
+        key: Key object ev is set from"""
     ev.set(str(key))
 
 
@@ -1350,7 +1458,9 @@ class ExtraActions:
 
     @staticmethod
     def water(obs):
-        """Water animation"""
+        """Water animation
+        ARGS:
+            obs: List of se.Objects that represent the water"""
         if settings.animations:
             for obj in obs:
                 if random.randint(0, 9) == 0:
@@ -1425,7 +1535,9 @@ def test():
 
 
 def teleport(poke):
-    """Teleports the player to another towns pokecenter"""
+    """Teleports the player to another towns pokecenter
+    ARGS:
+        poke: The Poke shown in the animation"""
     if (obj := roadmap(ev, movemap, choose=True)) is None:
         return
     else:
@@ -1507,14 +1619,20 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
 
 
 def fight(player, enemy, info=None):
-    """Wrapper for fightmap.fight"""
+    """Wrapper for fightmap.fight
+    ARGS:
+        player: The players Poke
+        enemy: The enemys Poke
+        info: Dict containing info about the fight"""
     if info is None:
         info = {"type": "wild", "player": " "}
     return fightmap.fight(player, enemy, figure, settings, invitems,
                           fightitems, deck, p_data, ev, info)
 
 def game(_map):
-    """Game function"""
+    """Game function
+    ARGS:
+        _map: The map that will be shown"""
     global width, height
     ev.clear()
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
@@ -1599,7 +1717,12 @@ world and be a Pokete-trainer.",
 
 
 def parse_obj(_map, name, obj, _dict):
-    """Parses an object to an maps attribute and adds it"""
+    """Parses an object to a maps attribute and adds it
+    ARGS:
+        _map: The given PlayMap
+        name: Name of the attribute
+        obj: Object beeing set
+        _dict: Dict containing info"""
     setattr(_map, name, obj)
     obj.add(_map, _dict["x"], _dict["y"])
 
@@ -1651,7 +1774,9 @@ def gen_obs():
 
 
 def gen_maps():
-    """Genrates all maps"""
+    """Generates all maps
+    RETURNS:
+        Dict of all PlayMaps"""
     maps = {}
     for ob_map in p_data.maps:
         args = p_data.maps[ob_map]
@@ -1664,7 +1789,9 @@ def gen_maps():
 
 
 def check_version(sinfo):
-    """Checks if version in save file is the same as current version"""
+    """Checks if version in save file is the same as current version
+    ARGS:
+        sinfo: session_info dict"""
     if "ver" not in sinfo:
         return
     else:

@@ -1,16 +1,22 @@
+"""Contains the Healthbar class"""
+
 import time
 import scrap_engine as se
 from .color import Color
 
 
 class HealthBar(se.Text):
-    """Healthbar class"""
+    """Healthbar class
+    ARGS:
+        poke: The Poke the healthbar belongs to"""
     def __init__(self, poke):
         self.poke = poke
         super().__init__(8 * "#", esccode=Color.green, state="float")
 
     def make(self, oldhp):
-        """Creates the healthbar"""
+        """Creates the healthbar
+        ARGS:
+            oldhp: The hp the bar should be made for"""
         bar_num = round(oldhp * 8 / self.poke.full_hp)
         esccode = Color.red
         for size, color in zip([6, 2], [Color.green, Color.yellow]):
@@ -20,7 +26,9 @@ class HealthBar(se.Text):
         self.rechar(bar_num * "#", esccode)
 
     def update(self, oldhp):
-        """Updates the healthbar in steps"""
+        """Updates the healthbar in steps
+        ARGS:
+            oldhp: The pokes former hp"""
         while oldhp != self.poke.hp and oldhp > 0:
             oldhp += -1 if oldhp > self.poke.hp else 1
             self.poke.text_hp.rechar(f"HP:{oldhp}", esccode=Color.yellow)

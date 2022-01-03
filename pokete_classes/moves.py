@@ -3,7 +3,9 @@ import scrap_engine as se
 from .color import Color
 
 class Moves:
-    """This class contains all attack moves"""
+    """This class contains all attack moves
+    ARGS:
+        poke: The Poke that does the moves"""
 
     def __init__(self, poke):
         self.poke = poke
@@ -41,7 +43,9 @@ class Moves:
         del line
 
     def throw(self, txt="#"):
-        """Throw move"""
+        """Throw move
+        ARGS:
+            txt: The char that moves across the screen"""
         if self.poke.enem == self.poke:
             return
         line = se.Line(" ",
