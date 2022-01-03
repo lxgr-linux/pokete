@@ -343,12 +343,13 @@ used {enemy.name} against you!')
 class FightItems:
     """Contains all fns callable by an item in fight"""
 
-    def __init__(self, _map, movemap, figure, ob_maps, logging):
+    def __init__(self, _map, movemap, figure, ob_maps, logging, achievements):
         self.map = _map
         self.mvmap = movemap
         self.fig = figure
         self.ob_maps = ob_maps
         self.logging = logging
+        self.achievements = achievements
 
     def throw(self, obj, enem, info, chance, name):
         """Throws a Poketeball"""
@@ -373,6 +374,7 @@ class FightItems:
             self.map.clean_up(obj, enem)
             self.mvmap.balls_label_rechar(self.fig.pokes)
             self.logging.info("[Fighitem][%s] Caught %s", name, enem.name)
+            self.achievements.achieve("first_poke")
             return 2
         self.map.outp.outp("You missed!")
         self.map.show()

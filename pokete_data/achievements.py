@@ -1,3 +1,4 @@
+"""Contains raw achievement data"""
 
 achievements = {
     "first_poke": {

@@ -2057,7 +2057,8 @@ if __name__ == "__main__":
 
     # objects relevant for fight()
     fightmap = FightMap(height - 1, width, logging)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps, logging)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps,
+                            logging, achievements)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
