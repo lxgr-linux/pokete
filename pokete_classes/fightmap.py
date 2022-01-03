@@ -396,6 +396,7 @@ class FightItems:
         figure: Figure object
         ob_maps: Dict of all PlayMaps
         logging: logging module
+        achievements: Achievements object
 
     The methods that can actually be called in fight follow the follwing patern:
         ARGS:

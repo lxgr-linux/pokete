@@ -47,3 +47,4 @@ class Achievements:
                     if i.identifier == identifier][0]
             self.notifier.notify(ach.title, "Achiement unlocked!", ach.desc)
             self.achieved.append(identifier)
+            self.logging.info("[Achiements] Unlocked %s", identifier)
