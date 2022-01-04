@@ -1,4 +1,4 @@
-"""Classes relate to achievements"""
+"""Classes related to achievements"""
 
 import time
 import scrap_engine as se
