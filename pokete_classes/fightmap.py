@@ -365,6 +365,8 @@ used {enemy.name} against you!')
                              * (2 if info["type"] == "duel" else 1)
         self.outp.outp(f"{winner.ext_name} won!" + (f'\nXP + {_xp}'
                                                     if winner.player else ''))
+        if winner.player and info["type"] == "duel":
+            fightitems.achievements.achieve("first_duel")
         if winner.player and winner.add_xp(_xp):
             time.sleep(1)
             self.outp.outp(f"{winner.name} reached lvl {winner.lvl()}!")
