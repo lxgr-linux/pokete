@@ -49,11 +49,6 @@ from release import VERSION, CODENAME, SAVEPATH
 __t = time.time()
 
 
-def test2():
-    notifier.notify("Test", "Hallo",
-            "asasasasa aaaaaa a aaaaaaaaaa a aaaaaaaaa aaaaaaaaaaa a aaaaaaaaaaaa")
-
-
 # Class definition
 ##################
 
@@ -230,11 +225,6 @@ at level {figure.pokes[index].lvl()}.")
     def playmap_37_npc_15(npc):
         """Interaction with npc_14"""
         npc.give("Bert the bird", "super_potion")
-
-
-def test1():
-    """Tests walkpoint method, will be removed later"""
-    ob_maps["playmap_13"].npc_2.walk_point(figure.x, figure.y)
 
 
 class CenterInteract(se.Object):
@@ -1535,10 +1525,6 @@ def test():
             std_loop(ev)
             time.sleep(0.05)
             a.map.show()
-
-
-def test3():
-    AchievementOverview(achievements)(ev, movemap)
 
 
 def teleport(poke):
