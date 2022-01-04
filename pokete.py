@@ -41,7 +41,7 @@ from pokete_classes.roadmap import RoadMap
 from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import Notifier
-from pokete_classes.achievements import Achievements
+from pokete_classes.achievements import Achievements, AchievementOverview
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -1532,6 +1532,10 @@ def test():
             std_loop(ev)
             time.sleep(0.05)
             a.map.show()
+
+
+def test3():
+    AchievementOverview(achievements)(ev, movemap)
 
 
 def teleport(poke):
