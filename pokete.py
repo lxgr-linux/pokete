@@ -1129,6 +1129,7 @@ class Menu:
         self.box = ChooseBox(_map.height - 3, 35, "Menu")
         self.playername_label = se.Text("Playername: ", state="float")
         self.mods_label = se.Text("Mods", state="float")
+        self.ach_label = se.Text("Achievements", state="float")
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
@@ -1142,7 +1143,7 @@ class Menu:
                                     {True: "On", False: "Off"}),
                             Setting("Load mods", "load_mods",
                                     {True: "On", False: "Off"}),
-                            self.mods_label,
+                            self.mods_label, self.ach_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -1158,6 +1159,7 @@ class Menu:
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
                 if ev.get() == "Key.enter":
+                    ev.clear()
                     # Fuck python for not having case statements
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
@@ -1178,9 +1180,10 @@ class Menu:
                         exiter()
                     elif i == self.about_label:
                         about(ev)
+                    elif i == self.ach_label:
+                        AchievementOverview(achievements)(ev, movemap)
                     else:
                         i.change()
-                    ev.clear()
                 elif ev.get() in ["'s'", "'w'"]:
                     self.box.input(ev.get())
                     ev.clear()
