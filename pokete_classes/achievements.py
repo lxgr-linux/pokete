@@ -57,6 +57,11 @@ class Achievements:
             self.logging.info("[Achiements] Unlocked %s", identifier)
 
     def is_achieved(self, identifier):
+        """Whether or not a identifier is achieved
+        ARGS:
+            identifier: The Achievements identifier
+        RETURNS:
+            bool"""
         return identifier in [i[0] for i in self.achieved]
 
 
