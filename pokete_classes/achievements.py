@@ -1,6 +1,7 @@
 """Classes related to achievements"""
 
 import time
+import datetime
 import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
 from .ui_elements import BetterChooseBox, Box
@@ -48,12 +49,15 @@ class Achievements:
         """Checks and achives an Achievement
         ARGS:
             identifier: The Achievements identifier"""
-        if identifier not in self.achieved:
+        if not self.is_achieved(identifier):
             ach = [i for i in self.achievements
                     if i.identifier == identifier][0]
             self.notifier.notify(ach.title, "Achiement unlocked!", ach.desc)
-            self.achieved.append(identifier)
+            self.achieved.append((identifier, str(datetime.date.today())))
             self.logging.info("[Achiements] Unlocked %s", identifier)
+
+    def is_achieved(self, identifier):
+        return identifier in [i[0] for i in self.achieved]
 
 
 class AchBox(Box):
@@ -63,15 +67,16 @@ class AchBox(Box):
         achiements: Achievements object"""
 
     def __init__(self, ach, achievements):
+        is_ach = achievements.is_achieved(ach.identifier)
+        date = [i[-1] for i in achievements.achieved if i[0] ==
+                ach.identifier][0] if is_ach else ""
         self.label = se.Text("Achieved: ", state="float")\
-                   + se.Text("Yes" if ach.identifier
-                                in achievements.achieved
-                             else "No",
+                   + se.Text("Yes" if is_ach else "No",
                              esccode=Color.thicc
-                             + (Color.green
-                                    if ach.identifier
-                                        in achievements.achieved
+                             + (Color.green if is_ach
                                 else Color.grey), state="float")\
+                   + (se.Text("\nAt: " + date, state="float") if is_ach else
+                           se.Text(""))\
                    + se.Text("\n" + liner(ach.desc, 30), state="float")
         super().__init__(len(self.label.text.split("\n")) + 2,
                          sorted(len(i)
@@ -96,8 +101,7 @@ class AchievementOverview(BetterChooseBox):
             _map: se.Map to show this on"""
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
-                                    if i.identifier
-                                        in self.achievements.achieved
+                                    if self.achievements.is_achieved(i.identifier)
                                     else "", state="float")
                            for i in self.achievements.achievements])
         self.map = _map
