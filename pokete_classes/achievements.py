@@ -10,7 +10,7 @@ from .color import Color
 
 class Achievement:
     """The Achievement class that groups identifier, title and description
-    of an possible Achiement
+    of an possible Achievement
     ARGS:
         identifier: Identifier ("first_poke")
         title: Title ("First Pokete")
@@ -23,7 +23,7 @@ class Achievement:
 
 
 class Achievements:
-    """Manages Achiements
+    """Manages Achievements
     ARGS:
         logging: logging module
         notifier: Notifier object"""
@@ -37,16 +37,16 @@ class Achievements:
     def set_achieved(self, achieved):
         """Sets the achieved Achievements
         ARGS:
-            achieved: List of identifiers of the achived Achievements"""
+            achieved: List of identifiers of the achieved Achievements"""
         self.achieved = achieved
 
     def add(self, identifier, title, desc):
-        """Generates an Achiement
+        """Generates an Achievement
         See Achievement"""
         self.achievements.append(Achievement(identifier, title, desc))
 
     def achieve(self, identifier):
-        """Checks and achives an Achievement
+        """Checks and achieves an Achievement
         ARGS:
             identifier: The Achievements identifier"""
         if not self.is_achieved(identifier):
@@ -57,7 +57,7 @@ class Achievements:
             self.logging.info("[Achiements] Unlocked %s", identifier)
 
     def is_achieved(self, identifier):
-        """Whether or not a identifier is achieved
+        """Whether or not an identifier is achieved
         ARGS:
             identifier: The Achievements identifier
         RETURNS:
