@@ -8,6 +8,9 @@ from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 
 
+se.DEFAULT_STATE = "float"
+
+
 class Achievement:
     """The Achievement class that groups identifier, title and description
     of an possible Achievement
@@ -75,13 +78,13 @@ class AchBox(LabelBox):
         is_ach = achievements.is_achieved(ach.identifier)
         date = [i[-1] for i in achievements.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
-        label = se.Text("Achieved: ", state="float")\
+        label = se.Text("Achieved: ")\
               + se.Text("Yes" if is_ach else "No",
                              esccode=Color.thicc
                              + (Color.green if is_ach
-                                else Color.grey), state="float")\
-              + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
-              + se.Text("\n" + liner(ach.desc, 30), state="float")
+                                else Color.grey))\
+              + (se.Text("\nAt: " + date) if is_ach else se.Text(""))\
+              + se.Text("\n" + liner(ach.desc, 30))
         super().__init__(label, name=ach.title, info="q:close")
 
 
@@ -102,7 +105,7 @@ class AchievementOverview(BetterChooseBox):
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
                                     if self.achievements.is_achieved(i.identifier)
-                                    else "", state="float")
+                                    else "")
                            for i in self.achievements.achievements])
         self.map = _map
         with self:

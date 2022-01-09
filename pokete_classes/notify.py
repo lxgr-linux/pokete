@@ -6,6 +6,9 @@ from .ui_elements import LabelBox
 from .color import Color
 
 
+se.DEFAULT_STATE = "float"
+
+
 class Notification(LabelBox):
     """Notification box
     ARGS:
@@ -16,8 +19,8 @@ class Notification(LabelBox):
     def __init__(self, title, name, desc):
         self.title = title
         self.desc = desc
-        label = se.Text(title + "\n", esccode=Color.thicc, state="float")\
-              + se.Text(liner(desc, 30), state="float")
+        label = se.Text(title + "\n", esccode=Color.thicc)\
+              + se.Text(liner(desc, 30))
         super().__init__(label, name)
 
     def corner_add(self, _map):
