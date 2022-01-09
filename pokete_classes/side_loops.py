@@ -20,7 +20,7 @@ This  software is licensed under the GPL3, you should have gotten a copy of the 
 Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
 For  this see the comments in the definations area.
 You  can contribute here: https://github.com/lxgr-linux/pokete""",
-                                 60, pre=""), _map=_map)
+                                 60, pre=""), name="About", _map=_map)
 
     def __call__(self, ev):
         """Shows the about text
@@ -42,8 +42,7 @@ class Help(About):
 
     def __init__(self, _map):
         self.map = _map
-        self.help_text = """
-Controls:
+        self.box = InfoBox("""Controls:
 'w':up, 'a':left,
 's':down, 'd':right,
 'e':menu
@@ -52,10 +51,7 @@ When walking into the high grass (';') you may get attacked
 by wild Poketes, those can be killed or weakened and caught.
 NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
-https://git.io/JRRqe
-"""
-        self.box = InfoBox(self.help_text, _map=self.map)
-        self.box.name_label.rechar("Help")
+https://git.io/JRRqe""", name="Help", _map=self.map)
 
 
 class ResizeScreen():

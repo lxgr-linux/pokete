@@ -4,7 +4,7 @@ import time
 import datetime
 import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
-from .ui_elements import BetterChooseBox, Box
+from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 
 
@@ -65,7 +65,7 @@ class Achievements:
         return identifier in [i[0] for i in self.achieved]
 
 
-class AchBox(Box):
+class AchBox(LabelBox):
     """Box with info about an Achievement
     ARGS:
         ach: The Achievement
@@ -75,19 +75,14 @@ class AchBox(Box):
         is_ach = achievements.is_achieved(ach.identifier)
         date = [i[-1] for i in achievements.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
-        self.label = se.Text("Achieved: ", state="float")\
-                   + se.Text("Yes" if is_ach else "No",
+        label = se.Text("Achieved: ", state="float")\
+              + se.Text("Yes" if is_ach else "No",
                              esccode=Color.thicc
                              + (Color.green if is_ach
                                 else Color.grey), state="float")\
-                   + (se.Text("\nAt: " + date, state="float") if is_ach else
-                           se.Text(""))\
-                   + se.Text("\n" + liner(ach.desc, 30), state="float")
-        super().__init__(len(self.label.text.split("\n")) + 2,
-                         sorted(len(i)
-                             for i in self.label.text.split("\n"))[-1] + 4,
-                         name=ach.title, info="q:close")
-        self.add_ob(self.label, 2, 1)
+              + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
+              + se.Text("\n" + liner(ach.desc, 30), state="float")
+        super().__init__(label, name=ach.title, info="q:close")
 
 
 class AchievementOverview(BetterChooseBox):

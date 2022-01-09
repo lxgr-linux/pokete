@@ -2,11 +2,11 @@
 
 import scrap_engine as se
 from pokete_general_use_fns import liner
-from .ui_elements import Box
+from .ui_elements import LabelBox
 from .color import Color
 
 
-class Notification(Box):
+class Notification(LabelBox):
     """Notification box
     ARGS:
         title: The bold title shown in the box
@@ -16,13 +16,9 @@ class Notification(Box):
     def __init__(self, title, name, desc):
         self.title = title
         self.desc = desc
-        self.label = se.Text(title + "\n", esccode=Color.thicc, state="float")\
-                   + se.Text(liner(desc, 30), state="float")
-        super().__init__(len(self.label.text.split("\n")) + 2,
-                         sorted(len(i)
-                             for i in self.label.text.split("\n"))[-1] + 4,
-                         name)
-        self.add_ob(self.label, 2, 1)
+        label = se.Text(title + "\n", esccode=Color.thicc, state="float")\
+              + se.Text(liner(desc, 30), state="float")
+        super().__init__(label, name)
 
     def corner_add(self, _map):
         """Adds the Notification to a map
