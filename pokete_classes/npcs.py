@@ -55,15 +55,16 @@ class NPC(se.Box):
         cls.logging = logging
         cls.check_walk_back = check_walk_back
 
-    def __init__(self, name, texts, fn=None):
+    def __init__(self, name, texts, fn=None, side_trigger=True):
         super().__init__(0, 0)
         self.will = True
         self.name = name
         self.texts = texts
         self.__fn = fn
         self.main_ob = se.Object("a")
-        for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
-            self.add_ob(NPCTrigger(self), i, j)
+        if side_trigger:
+            for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
+                self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(self.main_ob, 0, 0)
 
     def text(self, text):
@@ -154,7 +155,7 @@ class Trainer(NPC):
 
     def __init__(self, poke, name, gender, texts, lose_texts,
                  win_texts, fight):
-        super().__init__(name, texts)
+        super().__init__(name, texts, side_trigger=False)
         # attributes
         self.gender = gender
         self.poke = poke
