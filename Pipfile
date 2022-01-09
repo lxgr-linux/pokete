@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-scrap-engine = ">=1.1.0"
+scrap-engine = ">=1.2.0"
 pynput = {version = ">=2.11", sys_platform = "!= 'linux'"}
 
 [dev-packages]
