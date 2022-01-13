@@ -20,7 +20,7 @@ class Notification(Box):
                    + se.Text(liner(desc, 30), state="float")
         super().__init__(len(self.label.text.split("\n")) + 2,
                          sorted(len(i)
-                             for i in self.label.text.split("\n"))[-1] + 4,
+                                for i in self.label.text.split("\n"))[-1] + 4,
                          name)
         self.add_ob(self.label, 2, 1)
 
@@ -34,8 +34,10 @@ class Notification(Box):
         """Shifts the box to the right"""
         self.x += 1
         for i in self.frame.corners + [k for j in self.frame.horizontals
-                 + self.frame.verticals + [self.inner, self.name_label,
-                     self.info_label, self.label] for k in j.obs]:
+                                       + self.frame.verticals + [
+                                           self.inner, self.name_label,
+                                           self.info_label,
+                                           self.label] for k in j.obs]:
             if i.x == self.map.width - 1:
                 i.remove()
             else:
@@ -78,15 +80,13 @@ class Notifier:
         self.notified = True
 
     def denotify(self):
-        """Initilizes the removal of the current Notification"""
+        """Initializes the removal of the current Notification"""
         self.counter = -1
 
     def next(self):
         """Manages counter, removes current and adds next notification"""
-        if self.counter > 0:
+        if self.counter >= 0:
             self.counter -= 1
-        elif self.counter == 0:
-            self.denotify()
         elif self.counter == -1 and self.notified:
             self.notification.shift()
             if self.notification.x == self.map.width - 1:
