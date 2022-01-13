@@ -42,7 +42,8 @@ class Achievements:
 
     def add(self, identifier, title, desc):
         """Generates an Achievement
-        See Achievement"""
+
+        See ``Achievement`` for argument info"""
         self.achievements.append(Achievement(identifier, title, desc))
 
     def achieve(self, identifier):

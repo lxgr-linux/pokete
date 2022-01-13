@@ -79,10 +79,6 @@ class Notifier:
         self.counter = 100
         self.notified = True
 
-    def denotify(self):
-        """Initializes the removal of the current Notification"""
-        self.counter = -1
-
     def next(self):
         """Manages counter, removes current and adds next notification"""
         if self.counter >= 0:
