@@ -20,7 +20,7 @@ class Notification(LabelBox):
         self.title = title
         self.desc = desc
         label = se.Text(title + "\n", esccode=Color.thicc)\
-              + se.Text(liner(desc, 30))
+                + se.Text(liner(desc, 30))
         super().__init__(label, name)
 
     def corner_add(self, _map):
@@ -33,8 +33,10 @@ class Notification(LabelBox):
         """Shifts the box to the right"""
         self.x += 1
         for i in self.frame.corners + [k for j in self.frame.horizontals
-                 + self.frame.verticals + [self.inner, self.name_label,
-                     self.info_label, self.label] for k in j.obs]:
+                                       + self.frame.verticals + [
+                                           self.inner, self.name_label,
+                                           self.info_label,
+                                           self.label] for k in j.obs]:
             if i.x == self.map.width - 1:
                 i.remove()
             else:
@@ -76,16 +78,10 @@ class Notifier:
         self.counter = 100
         self.notified = True
 
-    def denotify(self):
-        """Initilizes the removal of the current Notification"""
-        self.counter = -1
-
     def next(self):
         """Manages counter, removes current and adds next notification"""
-        if self.counter > 0:
+        if self.counter >= 0:
             self.counter -= 1
-        elif self.counter == 0:
-            self.denotify()
         elif self.counter == -1 and self.notified:
             self.notification.shift()
             if self.notification.x == self.map.width - 1:

@@ -13,7 +13,7 @@ se.DEFAULT_STATE = "float"
 
 class Achievement:
     """The Achievement class that groups identifier, title and description
-    of an possible Achievement
+    of a possible Achievement
     ARGS:
         identifier: Identifier ("first_poke")
         title: Title ("First Pokete")
@@ -45,7 +45,8 @@ class Achievements:
 
     def add(self, identifier, title, desc):
         """Generates an Achievement
-        See Achievement"""
+
+        See ``Achievement`` for argument info"""
         self.achievements.append(Achievement(identifier, title, desc))
 
     def achieve(self, identifier):
@@ -54,10 +55,10 @@ class Achievements:
             identifier: The Achievements identifier"""
         if not self.is_achieved(identifier):
             ach = [i for i in self.achievements
-                    if i.identifier == identifier][0]
-            self.notifier.notify(ach.title, "Achiement unlocked!", ach.desc)
+                   if i.identifier == identifier][0]
+            self.notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
-            self.logging.info("[Achiements] Unlocked %s", identifier)
+            self.logging.info("[Achievements] Unlocked %s", identifier)
 
     def is_achieved(self, identifier):
         """Whether or not an identifier is achieved
@@ -72,19 +73,19 @@ class AchBox(LabelBox):
     """Box with info about an Achievement
     ARGS:
         ach: The Achievement
-        achiements: Achievements object"""
+        achievements: Achievement's object"""
 
     def __init__(self, ach, achievements):
         is_ach = achievements.is_achieved(ach.identifier)
         date = [i[-1] for i in achievements.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
         label = se.Text("Achieved: ")\
-              + se.Text("Yes" if is_ach else "No",
-                             esccode=Color.thicc
-                             + (Color.green if is_ach
-                                else Color.grey))\
-              + (se.Text("\nAt: " + date) if is_ach else se.Text(""))\
-              + se.Text("\n" + liner(ach.desc, 30))
+                + se.Text("Yes" if is_ach else "No",
+                          esccode=Color.thicc
+                          + (Color.green if is_ach
+                             else Color.grey))\
+                + (se.Text("\nAt: " + date) if is_ach else se.Text(""))\
+                + se.Text("\n" + liner(ach.desc, 30))
         super().__init__(label, name=ach.title, info="q:close")
 
 
@@ -104,8 +105,8 @@ class AchievementOverview(BetterChooseBox):
             _map: se.Map to show this on"""
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
-                                    if self.achievements.is_achieved(i.identifier)
-                                    else "")
+                                   if self.achievements.is_achieved(i.identifier)
+                                   else "")
                            for i in self.achievements.achievements])
         self.map = _map
         with self:
