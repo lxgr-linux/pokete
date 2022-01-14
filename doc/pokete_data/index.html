@@ -47,6 +47,7 @@ from .trainers import *
 from .npcs import *
 from .mapstations import *
 from .maps import *
+from .achievements import *
 
 
 class ValidationError(Exception):
@@ -83,7 +84,7 @@ def single_validate(dict, validator, name=&#34;&#34;):
 
 def validate():
     &#34;&#34;&#34;Validates all modules&#34;&#34;&#34;
-    for i, j in zip([pokes, types, map_data, stations, items, npcs,
+    for i, j in zip([achievements, pokes, types, map_data, stations, items, npcs,
                      attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
@@ -101,6 +102,7 @@ def validate():
 
 
 validators = {
+    &#34;achievements&#34;: [&#34;title&#34;, &#34;desc&#34;],
     &#34;poke&#34;: [&#34;name&#34;, &#34;hp&#34;, &#34;atc&#34;, &#34;defense&#34;, &#34;attacks&#34;, &#34;miss_chance&#34;, &#34;desc&#34;,
              &#34;lose_xp&#34;, &#34;rarity&#34;, &#34;types&#34;, &#34;evolve_poke&#34;, &#34;evolve_lvl&#34;, &#34;ico&#34;,
              &#34;initiative&#34;],
@@ -130,6 +132,10 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
+<dt><code class="name"><a title="pokete_data.achievements" href="achievements.html">pokete_data.achievements</a></code></dt>
+<dd>
+<div class="desc"><p>Contains raw achievement data</p></div>
+</dd>
 <dt><code class="name"><a title="pokete_data.attacks" href="attacks.html">pokete_data.attacks</a></code></dt>
 <dd>
 <div class="desc"></div>
@@ -245,7 +251,7 @@ and …</p></div>
 </summary>
 <pre><code class="python">def validate():
     &#34;&#34;&#34;Validates all modules&#34;&#34;&#34;
-    for i, j in zip([pokes, types, map_data, stations, items, npcs,
+    for i, j in zip([achievements, pokes, types, map_data, stations, items, npcs,
                      attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
@@ -313,6 +319,7 @@ and …</p></div>
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
+<li><code><a title="pokete_data.achievements" href="achievements.html">pokete_data.achievements</a></code></li>
 <li><code><a title="pokete_data.attacks" href="attacks.html">pokete_data.attacks</a></code></li>
 <li><code><a title="pokete_data.items" href="items.html">pokete_data.items</a></code></li>
 <li><code><a title="pokete_data.map_data" href="map_data.html">pokete_data.map_data</a></code></li>

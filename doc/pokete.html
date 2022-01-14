@@ -77,6 +77,8 @@ from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
+from pokete_classes.notify import Notifier
+from pokete_classes.achievements import Achievements, AchievementOverview
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -260,11 +262,6 @@ at level {figure.pokes[index].lvl()}.&#34;)
     def playmap_37_npc_15(npc):
         &#34;&#34;&#34;Interaction with npc_14&#34;&#34;&#34;
         npc.give(&#34;Bert the bird&#34;, &#34;super_potion&#34;)
-
-
-def test1():
-    &#34;&#34;&#34;Tests walkpoint method, will be removed later&#34;&#34;&#34;
-    ob_maps[&#34;playmap_13&#34;].npc_2.walk_point(figure.x, figure.y)
 
 
 class CenterInteract(se.Object):
@@ -1159,6 +1156,7 @@ class Menu:
         self.box = ChooseBox(_map.height - 3, 35, &#34;Menu&#34;)
         self.playername_label = se.Text(&#34;Playername: &#34;, state=&#34;float&#34;)
         self.mods_label = se.Text(&#34;Mods&#34;, state=&#34;float&#34;)
+        self.ach_label = se.Text(&#34;Achievements&#34;, state=&#34;float&#34;)
         self.about_label = se.Text(&#34;About&#34;, state=&#34;float&#34;)
         self.save_label = se.Text(&#34;Save&#34;, state=&#34;float&#34;)
         self.exit_label = se.Text(&#34;Exit&#34;, state=&#34;float&#34;)
@@ -1172,7 +1170,7 @@ class Menu:
                                     {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             Setting(&#34;Load mods&#34;, &#34;load_mods&#34;,
                                     {True: &#34;On&#34;, False: &#34;Off&#34;}),
-                            self.mods_label,
+                            self.mods_label, self.ach_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -1188,6 +1186,7 @@ class Menu:
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
                 if ev.get() == &#34;Key.enter&#34;:
+                    ev.clear()
                     # Fuck python for not having case statements
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
@@ -1208,9 +1207,10 @@ class Menu:
                         exiter()
                     elif i == self.about_label:
                         about(ev)
+                    elif i == self.ach_label:
+                        AchievementOverview(achievements)(ev, movemap)
                     else:
                         i.change()
-                    ev.clear()
                 elif ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
                     self.box.input(ev.get())
                     ev.clear()
@@ -1380,6 +1380,7 @@ def save():
         &#34;last_center_map&#34;: figure.last_center_map.name,
         &#34;x&#34;: figure.x,
         &#34;y&#34;: figure.y,
+        &#34;achievements&#34;: achievements.achieved,
         &#34;pokes&#34;: {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         &#34;inv&#34;: figure.inv,
         &#34;money&#34;: figure.get_money(),
@@ -1412,6 +1413,7 @@ def read_save():
         &#34;last_center_map&#34;: &#34;playmap_1&#34;,
         &#34;x&#34;: 4,
         &#34;y&#34;: 5,
+        &#34;achievements&#34;: [],
         &#34;pokes&#34;: {
             &#34;0&#34;: {&#34;name&#34;: &#34;steini&#34;, &#34;xp&#34;: 50, &#34;hp&#34;: &#34;SKIP&#34;,
                   &#34;ap&#34;: [&#34;SKIP&#34;, &#34;SKIP&#34;]}
@@ -1705,6 +1707,7 @@ def game(_map):
                 codes(inp)
                 ev.clear()
         std_loop(ev)
+        notifier.next()
         _map.extra_actions()
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 &gt; movemap.x + movemap.width,
@@ -2198,12 +2201,21 @@ if __name__ == &#34;__main__&#34;:
     inv = Inv(movemap)
     invitems = Items(p_data)
     buy = Buy(figure, invitems, movemap)
+    notifier = Notifier(movemap, logging)
+
+    # Achievements
+    achievements = Achievements(logging, notifier)
+    achievements.set_achieved(session_info.get(&#34;achievements&#34;, []))
+    for identifier, args in p_data.achievements.items():
+        achievements.add(identifier, **args)
+
     # A dict that contains all world action functions for Attacks
     abb_funcs = {&#34;teleport&#34;: teleport}
 
     # objects relevant for fight()
     fightmap = FightMap(height - 1, width, logging)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps, logging)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps,
+                            logging, achievements)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
@@ -2439,6 +2451,7 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
                 codes(inp)
                 ev.clear()
         std_loop(ev)
+        notifier.next()
         _map.extra_actions()
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 &gt; movemap.x + movemap.width,
@@ -2926,6 +2939,7 @@ _map.w_poke_args)
         &#34;last_center_map&#34;: &#34;playmap_1&#34;,
         &#34;x&#34;: 4,
         &#34;y&#34;: 5,
+        &#34;achievements&#34;: [],
         &#34;pokes&#34;: {
             &#34;0&#34;: {&#34;name&#34;: &#34;steini&#34;, &#34;xp&#34;: 50, &#34;hp&#34;: &#34;SKIP&#34;,
                   &#34;ap&#34;: [&#34;SKIP&#34;, &#34;SKIP&#34;]}
@@ -2984,6 +2998,7 @@ _map.w_poke_args)
         &#34;last_center_map&#34;: figure.last_center_map.name,
         &#34;x&#34;: figure.x,
         &#34;y&#34;: figure.y,
+        &#34;achievements&#34;: achievements.achieved,
         &#34;pokes&#34;: {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         &#34;inv&#34;: figure.inv,
         &#34;money&#34;: figure.get_money(),
@@ -3143,20 +3158,6 @@ this will remain</p></div>
             a.map.show()</code></pre>
 </details>
 </dd>
-<dt id="pokete.test1"><code class="name flex">
-<span>def <span class="ident">test1</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Tests walkpoint method, will be removed later</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def test1():
-    &#34;&#34;&#34;Tests walkpoint method, will be removed later&#34;&#34;&#34;
-    ob_maps[&#34;playmap_13&#34;].npc_2.walk_point(figure.x, figure.y)</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 <section>
@@ -3164,7 +3165,7 @@ this will remain</p></div>
 <dl>
 <dt id="pokete.CenterDor"><code class="flex name class">
 <span>class <span class="ident">CenterDor</span></span>
-<span>(</span><span>char, state='solid', arg_proto=None)</span>
+<span>(</span><span>char, state=None, arg_proto=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Dor class for the map to enter centers and shops</p></div>
@@ -3233,7 +3234,7 @@ this will remain</p></div>
 </dd>
 <dt id="pokete.CenterInteract"><code class="flex name class">
 <span>class <span class="ident">CenterInteract</span></span>
-<span>(</span><span>char, state='solid', arg_proto=None)</span>
+<span>(</span><span>char, state=None, arg_proto=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Triggers a conversation in the Pokete center</p></div>
@@ -3395,7 +3396,7 @@ another players&#39; one.&#34;],
 </dd>
 <dt id="pokete.ChanceDor"><code class="flex name class">
 <span>class <span class="ident">ChanceDor</span></span>
-<span>(</span><span>char, state='solid', arg_proto=None)</span>
+<span>(</span><span>char, state=None, arg_proto=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Same as dor but with a chance</p></div>
@@ -3960,7 +3961,7 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 </dd>
 <dt id="pokete.Dor"><code class="flex name class">
 <span>class <span class="ident">Dor</span></span>
-<span>(</span><span>char, state='solid', arg_proto=None)</span>
+<span>(</span><span>char, state=None, arg_proto=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Dor class for the map to enter other maps</p></div>
@@ -4769,7 +4770,7 @@ in the inventory&#34;
 </dd>
 <dt id="pokete.HightGrass"><code class="flex name class">
 <span>class <span class="ident">HightGrass</span></span>
-<span>(</span><span>char, state='solid', arg_proto=None)</span>
+<span>(</span><span>char, state=None, arg_proto=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Object on the map, that triggers a fight</p></div>
@@ -5101,6 +5102,7 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
         self.box = ChooseBox(_map.height - 3, 35, &#34;Menu&#34;)
         self.playername_label = se.Text(&#34;Playername: &#34;, state=&#34;float&#34;)
         self.mods_label = se.Text(&#34;Mods&#34;, state=&#34;float&#34;)
+        self.ach_label = se.Text(&#34;Achievements&#34;, state=&#34;float&#34;)
         self.about_label = se.Text(&#34;About&#34;, state=&#34;float&#34;)
         self.save_label = se.Text(&#34;Save&#34;, state=&#34;float&#34;)
         self.exit_label = se.Text(&#34;Exit&#34;, state=&#34;float&#34;)
@@ -5114,7 +5116,7 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                                     {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             Setting(&#34;Load mods&#34;, &#34;load_mods&#34;,
                                     {True: &#34;On&#34;, False: &#34;Off&#34;}),
-                            self.mods_label,
+                            self.mods_label, self.ach_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -5130,6 +5132,7 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
                 if ev.get() == &#34;Key.enter&#34;:
+                    ev.clear()
                     # Fuck python for not having case statements
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
@@ -5150,9 +5153,10 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                         exiter()
                     elif i == self.about_label:
                         about(ev)
+                    elif i == self.ach_label:
+                        AchievementOverview(achievements)(ev, movemap)
                     else:
                         i.change()
-                    ev.clear()
                 elif ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
                     self.box.input(ev.get())
                     ev.clear()
@@ -6144,7 +6148,7 @@ Current level</p></div>
 </dd>
 <dt id="pokete.ShopInteract"><code class="flex name class">
 <span>class <span class="ident">ShopInteract</span></span>
-<span>(</span><span>char, state='solid', arg_proto=None)</span>
+<span>(</span><span>char, state=None, arg_proto=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Triggers an conversation in the shop</p></div>
@@ -6314,7 +6318,6 @@ Current level</p></div>
 <li><code><a title="pokete.swap_poke" href="#pokete.swap_poke">swap_poke</a></code></li>
 <li><code><a title="pokete.teleport" href="#pokete.teleport">teleport</a></code></li>
 <li><code><a title="pokete.test" href="#pokete.test">test</a></code></li>
-<li><code><a title="pokete.test1" href="#pokete.test1">test1</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

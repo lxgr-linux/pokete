@@ -394,6 +394,8 @@ used {enemy.name} against you!&#39;)
                              * (2 if info[&#34;type&#34;] == &#34;duel&#34; else 1)
         self.outp.outp(f&#34;{winner.ext_name} won!&#34; + (f&#39;\nXP + {_xp}&#39;
                                                     if winner.player else &#39;&#39;))
+        if winner.player and info[&#34;type&#34;] == &#34;duel&#34;:
+            fightitems.achievements.achieve(&#34;first_duel&#34;)
         if winner.player and winner.add_xp(_xp):
             time.sleep(1)
             self.outp.outp(f&#34;{winner.name} reached lvl {winner.lvl()}!&#34;)
@@ -425,6 +427,7 @@ class FightItems:
         figure: Figure object
         ob_maps: Dict of all PlayMaps
         logging: logging module
+        achievements: Achievements object
 
     The methods that can actually be called in fight follow the follwing patern:
         ARGS:
@@ -436,12 +439,13 @@ class FightItems:
             2: To win the game
             None: To let the enemy attack&#34;&#34;&#34;
 
-    def __init__(self, _map, movemap, figure, ob_maps, logging):
+    def __init__(self, _map, movemap, figure, ob_maps, logging, achievements):
         self.map = _map
         self.mvmap = movemap
         self.fig = figure
         self.ob_maps = ob_maps
         self.logging = logging
+        self.achievements = achievements
 
     def throw(self, obj, enem, info, chance, name):
         &#34;&#34;&#34;Throws a *ball
@@ -477,6 +481,7 @@ class FightItems:
             self.map.clean_up(obj, enem)
             self.mvmap.balls_label_rechar(self.fig.pokes)
             self.logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
+            self.achievements.achieve(&#34;first_poke&#34;)
             return 2
         self.map.outp.outp(&#34;You missed!&#34;)
         self.map.show()
@@ -584,7 +589,7 @@ if __name__ == &#34;__main__&#34;:
 </dd>
 <dt id="pokete_classes.fightmap.FightItems"><code class="flex name class">
 <span>class <span class="ident">FightItems</span></span>
-<span>(</span><span>_map, movemap, figure, ob_maps, logging)</span>
+<span>(</span><span>_map, movemap, figure, ob_maps, logging, achievements)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Contains all fns callable by an item in fight</p>
@@ -600,6 +605,8 @@ if __name__ == &#34;__main__&#34;:
 <dd>Dict of all PlayMaps</dd>
 <dt><strong><code>logging</code></strong></dt>
 <dd>logging module</dd>
+<dt><strong><code>achievements</code></strong></dt>
+<dd>Achievements object</dd>
 </dl>
 <p>The methods that can actually be called in fight follow the follwing patern:
 ARGS:
@@ -622,6 +629,7 @@ None: To let the enemy attack</p></div>
         figure: Figure object
         ob_maps: Dict of all PlayMaps
         logging: logging module
+        achievements: Achievements object
 
     The methods that can actually be called in fight follow the follwing patern:
         ARGS:
@@ -633,12 +641,13 @@ None: To let the enemy attack</p></div>
             2: To win the game
             None: To let the enemy attack&#34;&#34;&#34;
 
-    def __init__(self, _map, movemap, figure, ob_maps, logging):
+    def __init__(self, _map, movemap, figure, ob_maps, logging, achievements):
         self.map = _map
         self.mvmap = movemap
         self.fig = figure
         self.ob_maps = ob_maps
         self.logging = logging
+        self.achievements = achievements
 
     def throw(self, obj, enem, info, chance, name):
         &#34;&#34;&#34;Throws a *ball
@@ -674,6 +683,7 @@ None: To let the enemy attack</p></div>
             self.map.clean_up(obj, enem)
             self.mvmap.balls_label_rechar(self.fig.pokes)
             self.logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
+            self.achievements.achieve(&#34;first_poke&#34;)
             return 2
         self.map.outp.outp(&#34;You missed!&#34;)
         self.map.show()
@@ -925,6 +935,7 @@ None: To let the enemy attack</p></div>
         self.map.clean_up(obj, enem)
         self.mvmap.balls_label_rechar(self.fig.pokes)
         self.logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
+        self.achievements.achieve(&#34;first_poke&#34;)
         return 2
     self.map.outp.outp(&#34;You missed!&#34;)
     self.map.show()
@@ -1295,6 +1306,8 @@ used {enemy.name} against you!&#39;)
                              * (2 if info[&#34;type&#34;] == &#34;duel&#34; else 1)
         self.outp.outp(f&#34;{winner.ext_name} won!&#34; + (f&#39;\nXP + {_xp}&#39;
                                                     if winner.player else &#39;&#39;))
+        if winner.player and info[&#34;type&#34;] == &#34;duel&#34;:
+            fightitems.achievements.achieve(&#34;first_duel&#34;)
         if winner.player and winner.add_xp(_xp):
             time.sleep(1)
             self.outp.outp(f&#34;{winner.name} reached lvl {winner.lvl()}!&#34;)
@@ -1685,6 +1698,8 @@ used {enemy.name} against you!&#39;)
                              * (2 if info[&#34;type&#34;] == &#34;duel&#34; else 1)
         self.outp.outp(f&#34;{winner.ext_name} won!&#34; + (f&#39;\nXP + {_xp}&#39;
                                                     if winner.player else &#39;&#39;))
+        if winner.player and info[&#34;type&#34;] == &#34;duel&#34;:
+            fightitems.achievements.achieve(&#34;first_duel&#34;)
         if winner.player and winner.add_xp(_xp):
             time.sleep(1)
             self.outp.outp(f&#34;{winner.name} reached lvl {winner.lvl()}!&#34;)
