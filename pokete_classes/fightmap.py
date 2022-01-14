@@ -365,6 +365,8 @@ used {enemy.name} against you!')
                              * (2 if info["type"] == "duel" else 1)
         self.outp.outp(f"{winner.ext_name} won!" + (f'\nXP + {_xp}'
                                                     if winner.player else ''))
+        if winner.player and info["type"] == "duel":
+            fightitems.achievements.achieve("first_duel")
         if winner.player and winner.add_xp(_xp):
             time.sleep(1)
             self.outp.outp(f"{winner.name} reached lvl {winner.lvl()}!")
@@ -396,6 +398,7 @@ class FightItems:
         figure: Figure object
         ob_maps: Dict of all PlayMaps
         logging: logging module
+        achievements: Achievements object
 
     The methods that can actually be called in fight follow the follwing patern:
         ARGS:
@@ -407,12 +410,13 @@ class FightItems:
             2: To win the game
             None: To let the enemy attack"""
 
-    def __init__(self, _map, movemap, figure, ob_maps, logging):
+    def __init__(self, _map, movemap, figure, ob_maps, logging, achievements):
         self.map = _map
         self.mvmap = movemap
         self.fig = figure
         self.ob_maps = ob_maps
         self.logging = logging
+        self.achievements = achievements
 
     def throw(self, obj, enem, info, chance, name):
         """Throws a *ball
@@ -448,6 +452,7 @@ class FightItems:
             self.map.clean_up(obj, enem)
             self.mvmap.balls_label_rechar(self.fig.pokes)
             self.logging.info("[Fighitem][%s] Caught %s", name, enem.name)
+            self.achievements.achieve("first_poke")
             return 2
         self.map.outp.outp("You missed!")
         self.map.show()

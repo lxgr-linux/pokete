@@ -40,6 +40,8 @@ from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
+from pokete_classes.notify import Notifier
+from pokete_classes.achievements import Achievements, AchievementOverview
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -223,11 +225,6 @@ at level {figure.pokes[index].lvl()}.")
     def playmap_37_npc_15(npc):
         """Interaction with npc_14"""
         npc.give("Bert the bird", "super_potion")
-
-
-def test1():
-    """Tests walkpoint method, will be removed later"""
-    ob_maps["playmap_13"].npc_2.walk_point(figure.x, figure.y)
 
 
 class CenterInteract(se.Object):
@@ -1122,6 +1119,7 @@ class Menu:
         self.box = ChooseBox(_map.height - 3, 35, "Menu")
         self.playername_label = se.Text("Playername: ", state="float")
         self.mods_label = se.Text("Mods", state="float")
+        self.ach_label = se.Text("Achievements", state="float")
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
@@ -1135,7 +1133,7 @@ class Menu:
                                     {True: "On", False: "Off"}),
                             Setting("Load mods", "load_mods",
                                     {True: "On", False: "Off"}),
-                            self.mods_label,
+                            self.mods_label, self.ach_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -1151,6 +1149,7 @@ class Menu:
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
                 if ev.get() == "Key.enter":
+                    ev.clear()
                     # Fuck python for not having case statements
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
@@ -1171,9 +1170,10 @@ class Menu:
                         exiter()
                     elif i == self.about_label:
                         about(ev)
+                    elif i == self.ach_label:
+                        AchievementOverview(achievements)(ev, movemap)
                     else:
                         i.change()
-                    ev.clear()
                 elif ev.get() in ["'s'", "'w'"]:
                     self.box.input(ev.get())
                     ev.clear()
@@ -1343,6 +1343,7 @@ def save():
         "last_center_map": figure.last_center_map.name,
         "x": figure.x,
         "y": figure.y,
+        "achievements": achievements.achieved,
         "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,
         "money": figure.get_money(),
@@ -1375,6 +1376,7 @@ def read_save():
         "last_center_map": "playmap_1",
         "x": 4,
         "y": 5,
+        "achievements": [],
         "pokes": {
             "0": {"name": "steini", "xp": 50, "hp": "SKIP",
                   "ap": ["SKIP", "SKIP"]}
@@ -1668,6 +1670,7 @@ def game(_map):
                 codes(inp)
                 ev.clear()
         std_loop(ev)
+        notifier.next()
         _map.extra_actions()
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 > movemap.x + movemap.width,
@@ -2161,12 +2164,21 @@ if __name__ == "__main__":
     inv = Inv(movemap)
     invitems = Items(p_data)
     buy = Buy(figure, invitems, movemap)
+    notifier = Notifier(movemap, logging)
+
+    # Achievements
+    achievements = Achievements(logging, notifier)
+    achievements.set_achieved(session_info.get("achievements", []))
+    for identifier, args in p_data.achievements.items():
+        achievements.add(identifier, **args)
+
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
 
     # objects relevant for fight()
     fightmap = FightMap(height - 1, width, logging)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps, logging)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps,
+                            logging, achievements)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
