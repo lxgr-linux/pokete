@@ -4,11 +4,14 @@ elements used in Pokete"""
 import scrap_engine as se
 
 
+se.DEFAULT_STATE = "float"
+
+
 class BoxIndex(se.Object):
     """Index that can be used in ChooseBox"""
 
     def __init__(self):
-        super().__init__("*", state="float")
+        super().__init__("*")
         self.index = 0
 
 
@@ -22,7 +25,7 @@ class StdFrame(se.Frame):
         super().__init__(width=width, height=height,
                          corner_chars=["┌", "┐", "└", "┘"],
                          horizontal_chars=["─", "─"],
-                         vertical_chars=["│", "│"], state="float")
+                         vertical_chars=["│", "│"])
 
 
 class StdFrame2(se.Frame):
@@ -48,10 +51,9 @@ class Box(se.Box):
     def __init__(self, height, width, name="", info=""):
         super().__init__(height, width)
         self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=" ", width=width - 2, height=height - 2,
-                               state="float")
-        self.name_label = se.Text(name, state="float")
-        self.info_label = se.Text(info, state="float")
+        self.inner = se.Square(char=" ", width=width - 2, height=height - 2)
+        self.name_label = se.Text(name)
+        self.info_label = se.Text(info)
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
@@ -261,7 +263,20 @@ class BetterChooseBox(Box):
         return self
 
 
-class InfoBox(Box):
+class LabelBox(Box):
+    """A Box just containing one label
+    ARGS:
+        label: The se.Text label
+        name: The boxes displayed name
+        info: Info that will be displayed in the bottom left corner of the box"""
+
+    def __init__(self, label, name="", info=""):
+        self.label = label
+        super().__init__(label.height + 2, label.width + 4, name, info)
+        self.add_ob(label, 2, 1)
+
+
+class InfoBox(LabelBox):
     """Box to display basic text information in
     ARGS:
         text: String displayed
@@ -270,11 +285,7 @@ class InfoBox(Box):
         _map: The se.Map this will be shown on"""
 
     def __init__(self, text, name="", info="q:close", _map=None):
-        height = len(text.split("\n")) + 2
-        width = sorted([len(i) for i in text.split("\n")])[-1] + 4
-        super().__init__(height, width, name=name, info=info)
-        self.text = se.Text(text)
-        self.add_ob(self.text, 2, 1)
+        super().__init__(se.Text(text), name=name, info=info)
         self.map = _map
 
     def __enter__(self):  # Contextmanagement is fucking awesome!

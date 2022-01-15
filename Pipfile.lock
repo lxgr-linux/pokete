@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3ae76f1ae53e0ee1cd6644f3fff5583906ace09a4f5ab2559f3092f7f93459d9"
+            "sha256": "970052abd6ddc91656b2235adfedac250c268e4152e1000ffbf6d65f5fa0244c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -22,20 +22,20 @@
         },
         "scrap-engine": {
             "hashes": [
-                "sha256:0add80a6e9b9170f243d919d29709b07f5420a711798713c62c255c0a4d9f598"
+                "sha256:767ffdc312b550777771cdc9a350a9f6dca73855259dd1fe7197c8736e38cac1"
             ],
             "index": "pypi",
-            "version": "==1.1.0"
+            "version": "==1.2.0"
         }
     },
     "develop": {
         "astroid": {
             "hashes": [
-                "sha256:5939cf55de24b92bda00345d4d0659d01b3c7dafb5055165c330bc7c568ba273",
-                "sha256:776ca0b748b4ad69c00bfe0fff38fa2d21c338e12c84aa9715ee0d473c422778"
+                "sha256:1efdf4e867d4d8ba4a9f6cf9ce07cd182c4c41de77f23814feb27ca93ca9d877",
+                "sha256:506daabe5edffb7e696ad82483ad0228245a9742ed7d2d8c9cdb31537decf9f6"
             ],
-            "markers": "python_version ~= '3.6'",
-            "version": "==2.9.0"
+            "markers": "python_full_version >= '3.6.2'",
+            "version": "==2.9.3"
         },
         "isort": {
             "hashes": [
@@ -113,11 +113,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:5c89b1a14a67ac5f0956f1cb0aeb7d1d3f4c8ba4e4e1ab7bf1af4933f9a2f0fe",
-                "sha256:675fcebecb43c32eb930481abf907619137547f4336206e4d673180242e1a278"
+                "sha256:2404879cda71495fc4d5cbc445ed52fdaddf352b36e40be8dcc63147cb4edabe",
+                "sha256:68eb94073fc486091447fcb0501efd6560a0e5a1839ba249e5ff3c4c93f05f90"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==60.2.0"
+            "version": "==60.5.0"
         },
         "toml": {
             "hashes": [

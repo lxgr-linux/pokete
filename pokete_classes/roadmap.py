@@ -88,7 +88,7 @@ class RoadMap:
         self.fig = fig
         self.box = Box(11, 40, "Roadmap", "q:close")
         self.info_label = se.Text("", state="float")
-        self.box.add_ob(self.info_label, self.box.width-2, 0)
+        self.box.add_ob(self.info_label, self.box.width - 2, 0)
         for sta in p_d.stations:
             obj = Station(self, ob_maps[sta], **p_d.stations[sta]['gen'])
             self.box.add_ob(obj, **p_d.stations[sta]['add'])
