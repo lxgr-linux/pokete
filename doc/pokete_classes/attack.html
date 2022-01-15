@@ -36,6 +36,9 @@ from .types import Types
 from .color import Color
 
 
+se.DEFAULT_STATE = &#34;float&#34;
+
+
 class Attack:
     &#34;&#34;&#34;Attack that can be used by a Pokete
     ARGS:
@@ -59,14 +62,13 @@ class Attack:
         self.type = getattr(Types(p_data), inf[&#34;types&#34;][0])
         self.max_ap = self.ap
         # labels
-        self.label_name = se.Text(self.name, esccode=Color.underlined,
-                                  state=&#34;float&#34;)
-        self.label_ap = se.Text(f&#34;AP:{self.ap}/{self.max_ap}&#34;, state=&#34;float&#34;)
-        self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;, state=&#34;float&#34;)
-        self.label_desc = se.Text(self.desc[:10], state=&#34;float&#34;)
-        self.label_type = se.Text(&#34;Type:&#34;, state=&#34;float&#34;) \
+        self.label_name = se.Text(self.name, esccode=Color.underlined)
+        self.label_ap = se.Text(f&#34;AP:{self.ap}/{self.max_ap}&#34;)
+        self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;)
+        self.label_desc = se.Text(self.desc[:10])
+        self.label_type = se.Text(&#34;Type:&#34;) \
                         + se.Text(self.type.name.capitalize(),
-                                  esccode=self.type.color, state=&#34;float&#34;)
+                                  esccode=self.type.color)
 
     def give_effect(self, enem):
         &#34;&#34;&#34;Gives the associated effect to a Pokete
@@ -130,14 +132,13 @@ if __name__ == &#34;__main__&#34;:
         self.type = getattr(Types(p_data), inf[&#34;types&#34;][0])
         self.max_ap = self.ap
         # labels
-        self.label_name = se.Text(self.name, esccode=Color.underlined,
-                                  state=&#34;float&#34;)
-        self.label_ap = se.Text(f&#34;AP:{self.ap}/{self.max_ap}&#34;, state=&#34;float&#34;)
-        self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;, state=&#34;float&#34;)
-        self.label_desc = se.Text(self.desc[:10], state=&#34;float&#34;)
-        self.label_type = se.Text(&#34;Type:&#34;, state=&#34;float&#34;) \
+        self.label_name = se.Text(self.name, esccode=Color.underlined)
+        self.label_ap = se.Text(f&#34;AP:{self.ap}/{self.max_ap}&#34;)
+        self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;)
+        self.label_desc = se.Text(self.desc[:10])
+        self.label_type = se.Text(&#34;Type:&#34;) \
                         + se.Text(self.type.name.capitalize(),
-                                  esccode=self.type.color, state=&#34;float&#34;)
+                                  esccode=self.type.color)
 
     def give_effect(self, enem):
         &#34;&#34;&#34;Gives the associated effect to a Pokete

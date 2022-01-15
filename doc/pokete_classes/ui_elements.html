@@ -35,11 +35,14 @@ elements used in Pokete&#34;&#34;&#34;
 import scrap_engine as se
 
 
+se.DEFAULT_STATE = &#34;float&#34;
+
+
 class BoxIndex(se.Object):
     &#34;&#34;&#34;Index that can be used in ChooseBox&#34;&#34;&#34;
 
     def __init__(self):
-        super().__init__(&#34;*&#34;, state=&#34;float&#34;)
+        super().__init__(&#34;*&#34;)
         self.index = 0
 
 
@@ -53,7 +56,7 @@ class StdFrame(se.Frame):
         super().__init__(width=width, height=height,
                          corner_chars=[&#34;┌&#34;, &#34;┐&#34;, &#34;└&#34;, &#34;┘&#34;],
                          horizontal_chars=[&#34;─&#34;, &#34;─&#34;],
-                         vertical_chars=[&#34;│&#34;, &#34;│&#34;], state=&#34;float&#34;)
+                         vertical_chars=[&#34;│&#34;, &#34;│&#34;])
 
 
 class StdFrame2(se.Frame):
@@ -79,10 +82,9 @@ class Box(se.Box):
     def __init__(self, height, width, name=&#34;&#34;, info=&#34;&#34;):
         super().__init__(height, width)
         self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=&#34; &#34;, width=width - 2, height=height - 2,
-                               state=&#34;float&#34;)
-        self.name_label = se.Text(name, state=&#34;float&#34;)
-        self.info_label = se.Text(info, state=&#34;float&#34;)
+        self.inner = se.Square(char=&#34; &#34;, width=width - 2, height=height - 2)
+        self.name_label = se.Text(name)
+        self.info_label = se.Text(info)
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
@@ -292,7 +294,20 @@ class BetterChooseBox(Box):
         return self
 
 
-class InfoBox(Box):
+class LabelBox(Box):
+    &#34;&#34;&#34;A Box just containing one label
+    ARGS:
+        label: The se.Text label
+        name: The boxes displayed name
+        info: Info that will be displayed in the bottom left corner of the box&#34;&#34;&#34;
+
+    def __init__(self, label, name=&#34;&#34;, info=&#34;&#34;):
+        self.label = label
+        super().__init__(label.height + 2, label.width + 4, name, info)
+        self.add_ob(label, 2, 1)
+
+
+class InfoBox(LabelBox):
     &#34;&#34;&#34;Box to display basic text information in
     ARGS:
         text: String displayed
@@ -301,11 +316,7 @@ class InfoBox(Box):
         _map: The se.Map this will be shown on&#34;&#34;&#34;
 
     def __init__(self, text, name=&#34;&#34;, info=&#34;q:close&#34;, _map=None):
-        height = len(text.split(&#34;\n&#34;)) + 2
-        width = sorted([len(i) for i in text.split(&#34;\n&#34;)])[-1] + 4
-        super().__init__(height, width, name=name, info=info)
-        self.text = se.Text(text)
-        self.add_ob(self.text, 2, 1)
+        super().__init__(se.Text(text), name=name, info=info)
         self.map = _map
 
     def __enter__(self):  # Contextmanagement is fucking awesome!
@@ -744,10 +755,9 @@ if __name__ == &#34;__main__&#34;:
     def __init__(self, height, width, name=&#34;&#34;, info=&#34;&#34;):
         super().__init__(height, width)
         self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=&#34; &#34;, width=width - 2, height=height - 2,
-                               state=&#34;float&#34;)
-        self.name_label = se.Text(name, state=&#34;float&#34;)
-        self.info_label = se.Text(info, state=&#34;float&#34;)
+        self.inner = se.Square(char=&#34; &#34;, width=width - 2, height=height - 2)
+        self.name_label = se.Text(name)
+        self.info_label = se.Text(info)
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
@@ -794,13 +804,11 @@ if __name__ == &#34;__main__&#34;:
 </ul>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="pokete_classes.achievements.AchBox" href="achievements.html#pokete_classes.achievements.AchBox">AchBox</a></li>
 <li><a title="pokete_classes.learnattack.AttackInfo" href="learnattack.html#pokete_classes.learnattack.AttackInfo">AttackInfo</a></li>
-<li><a title="pokete_classes.notify.Notification" href="notify.html#pokete_classes.notify.Notification">Notification</a></li>
 <li><a title="pokete_classes.ui_elements.BetterChooseBox" href="#pokete_classes.ui_elements.BetterChooseBox">BetterChooseBox</a></li>
 <li><a title="pokete_classes.ui_elements.BetterChooserItem" href="#pokete_classes.ui_elements.BetterChooserItem">BetterChooserItem</a></li>
 <li><a title="pokete_classes.ui_elements.ChooseBox" href="#pokete_classes.ui_elements.ChooseBox">ChooseBox</a></li>
-<li><a title="pokete_classes.ui_elements.InfoBox" href="#pokete_classes.ui_elements.InfoBox">InfoBox</a></li>
+<li><a title="pokete_classes.ui_elements.LabelBox" href="#pokete_classes.ui_elements.LabelBox">LabelBox</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
@@ -878,7 +886,7 @@ See se.Box.resize</p></div>
     &#34;&#34;&#34;Index that can be used in ChooseBox&#34;&#34;&#34;
 
     def __init__(self):
-        super().__init__(&#34;*&#34;, state=&#34;float&#34;)
+        super().__init__(&#34;*&#34;)
         self.index = 0</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -1096,7 +1104,7 @@ See se.Box.resize</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class InfoBox(Box):
+<pre><code class="python">class InfoBox(LabelBox):
     &#34;&#34;&#34;Box to display basic text information in
     ARGS:
         text: String displayed
@@ -1105,11 +1113,7 @@ See se.Box.resize</p></div>
         _map: The se.Map this will be shown on&#34;&#34;&#34;
 
     def __init__(self, text, name=&#34;&#34;, info=&#34;q:close&#34;, _map=None):
-        height = len(text.split(&#34;\n&#34;)) + 2
-        width = sorted([len(i) for i in text.split(&#34;\n&#34;)])[-1] + 4
-        super().__init__(height, width, name=name, info=info)
-        self.text = se.Text(text)
-        self.add_ob(self.text, 2, 1)
+        super().__init__(se.Text(text), name=name, info=info)
         self.map = _map
 
     def __enter__(self):  # Contextmanagement is fucking awesome!
@@ -1120,6 +1124,7 @@ See se.Box.resize</p></div>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="pokete_classes.ui_elements.LabelBox" href="#pokete_classes.ui_elements.LabelBox">LabelBox</a></li>
 <li><a title="pokete_classes.ui_elements.Box" href="#pokete_classes.ui_elements.Box">Box</a></li>
 <li>scrap_engine.Box</li>
 <li>scrap_engine.ObjectGroup</li>
@@ -1131,11 +1136,11 @@ See se.Box.resize</p></div>
 </ul>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="pokete_classes.ui_elements.Box" href="#pokete_classes.ui_elements.Box">Box</a></b></code>:
+<li><code><b><a title="pokete_classes.ui_elements.LabelBox" href="#pokete_classes.ui_elements.LabelBox">LabelBox</a></b></code>:
 <ul class="hlist">
-<li><code><a title="pokete_classes.ui_elements.Box.add" href="#pokete_classes.ui_elements.Box.add">add</a></code></li>
-<li><code><a title="pokete_classes.ui_elements.Box.center_add" href="#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
-<li><code><a title="pokete_classes.ui_elements.Box.resize" href="#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.add" href="#pokete_classes.ui_elements.Box.add">add</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.center_add" href="#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.resize" href="#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
 </ul>
 </li>
 </ul>
@@ -1192,6 +1197,7 @@ See se.Box.resize</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="pokete_classes.ui_elements.InfoBox" href="#pokete_classes.ui_elements.InfoBox">InfoBox</a></li>
+<li><a title="pokete_classes.ui_elements.LabelBox" href="#pokete_classes.ui_elements.LabelBox">LabelBox</a></li>
 <li><a title="pokete_classes.ui_elements.Box" href="#pokete_classes.ui_elements.Box">Box</a></li>
 <li>scrap_engine.Box</li>
 <li>scrap_engine.ObjectGroup</li>
@@ -1204,6 +1210,61 @@ See se.Box.resize</p></div>
 <li><code><a title="pokete_classes.ui_elements.InfoBox.add" href="#pokete_classes.ui_elements.Box.add">add</a></code></li>
 <li><code><a title="pokete_classes.ui_elements.InfoBox.center_add" href="#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
 <li><code><a title="pokete_classes.ui_elements.InfoBox.resize" href="#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="pokete_classes.ui_elements.LabelBox"><code class="flex name class">
+<span>class <span class="ident">LabelBox</span></span>
+<span>(</span><span>label, name='', info='')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A Box just containing one label</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>label</code></strong></dt>
+<dd>The se.Text label</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The boxes displayed name</dd>
+<dt><strong><code>info</code></strong></dt>
+<dd>Info that will be displayed in the bottom left corner of the box</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LabelBox(Box):
+    &#34;&#34;&#34;A Box just containing one label
+    ARGS:
+        label: The se.Text label
+        name: The boxes displayed name
+        info: Info that will be displayed in the bottom left corner of the box&#34;&#34;&#34;
+
+    def __init__(self, label, name=&#34;&#34;, info=&#34;&#34;):
+        self.label = label
+        super().__init__(label.height + 2, label.width + 4, name, info)
+        self.add_ob(label, 2, 1)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.ui_elements.Box" href="#pokete_classes.ui_elements.Box">Box</a></li>
+<li>scrap_engine.Box</li>
+<li>scrap_engine.ObjectGroup</li>
+<li>scrap_engine.AddableObject</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.achievements.AchBox" href="achievements.html#pokete_classes.achievements.AchBox">AchBox</a></li>
+<li><a title="pokete_classes.notify.Notification" href="notify.html#pokete_classes.notify.Notification">Notification</a></li>
+<li><a title="pokete_classes.ui_elements.InfoBox" href="#pokete_classes.ui_elements.InfoBox">InfoBox</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pokete_classes.ui_elements.Box" href="#pokete_classes.ui_elements.Box">Box</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pokete_classes.ui_elements.Box.add" href="#pokete_classes.ui_elements.Box.add">add</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.Box.center_add" href="#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.Box.resize" href="#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
 </ul>
 </li>
 </ul>
@@ -1235,7 +1296,7 @@ See se.Box.resize</p></div>
         super().__init__(width=width, height=height,
                          corner_chars=[&#34;┌&#34;, &#34;┐&#34;, &#34;└&#34;, &#34;┘&#34;],
                          horizontal_chars=[&#34;─&#34;, &#34;─&#34;],
-                         vertical_chars=[&#34;│&#34;, &#34;│&#34;], state=&#34;float&#34;)</code></pre>
+                         vertical_chars=[&#34;│&#34;, &#34;│&#34;])</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -1336,6 +1397,9 @@ See se.Box.resize</p></div>
 </li>
 <li>
 <h4><code><a title="pokete_classes.ui_elements.InputBox" href="#pokete_classes.ui_elements.InputBox">InputBox</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pokete_classes.ui_elements.LabelBox" href="#pokete_classes.ui_elements.LabelBox">LabelBox</a></code></h4>
 </li>
 <li>
 <h4><code><a title="pokete_classes.ui_elements.StdFrame" href="#pokete_classes.ui_elements.StdFrame">StdFrame</a></code></h4>

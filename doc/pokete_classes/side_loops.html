@@ -48,7 +48,7 @@ This  software is licensed under the GPL3, you should have gotten a copy of the 
 Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
 For  this see the comments in the definations area.
 You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
-                                 60, pre=&#34;&#34;), _map=_map)
+                                 60, pre=&#34;&#34;), name=&#34;About&#34;, _map=_map)
 
     def __call__(self, ev):
         &#34;&#34;&#34;Shows the about text
@@ -70,8 +70,7 @@ class Help(About):
 
     def __init__(self, _map):
         self.map = _map
-        self.help_text = &#34;&#34;&#34;
-Controls:
+        self.box = InfoBox(&#34;&#34;&#34;Controls:
 &#39;w&#39;:up, &#39;a&#39;:left,
 &#39;s&#39;:down, &#39;d&#39;:right,
 &#39;e&#39;:menu
@@ -80,10 +79,7 @@ When walking into the high grass (&#39;;&#39;) you may get attacked
 by wild Poketes, those can be killed or weakened and caught.
 NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
-https://git.io/JRRqe
-&#34;&#34;&#34;
-        self.box = InfoBox(self.help_text, _map=self.map)
-        self.box.name_label.rechar(&#34;Help&#34;)
+https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)
 
 
 class ResizeScreen():
@@ -194,7 +190,7 @@ This  software is licensed under the GPL3, you should have gotten a copy of the 
 Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
 For  this see the comments in the definations area.
 You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
-                                 60, pre=&#34;&#34;), _map=_map)
+                                 60, pre=&#34;&#34;), name=&#34;About&#34;, _map=_map)
 
     def __call__(self, ev):
         &#34;&#34;&#34;Shows the about text
@@ -236,8 +232,7 @@ You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
 
     def __init__(self, _map):
         self.map = _map
-        self.help_text = &#34;&#34;&#34;
-Controls:
+        self.box = InfoBox(&#34;&#34;&#34;Controls:
 &#39;w&#39;:up, &#39;a&#39;:left,
 &#39;s&#39;:down, &#39;d&#39;:right,
 &#39;e&#39;:menu
@@ -246,10 +241,7 @@ When walking into the high grass (&#39;;&#39;) you may get attacked
 by wild Poketes, those can be killed or weakened and caught.
 NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
-https://git.io/JRRqe
-&#34;&#34;&#34;
-        self.box = InfoBox(self.help_text, _map=self.map)
-        self.box.name_label.rechar(&#34;Help&#34;)</code></pre>
+https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">

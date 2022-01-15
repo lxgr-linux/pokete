@@ -33,8 +33,11 @@ import time
 import datetime
 import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
-from .ui_elements import BetterChooseBox, Box
+from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
+
+
+se.DEFAULT_STATE = &#34;float&#34;
 
 
 class Achievement:
@@ -95,7 +98,7 @@ class Achievements:
         return identifier in [i[0] for i in self.achieved]
 
 
-class AchBox(Box):
+class AchBox(LabelBox):
     &#34;&#34;&#34;Box with info about an Achievement
     ARGS:
         ach: The Achievement
@@ -105,19 +108,14 @@ class AchBox(Box):
         is_ach = achievements.is_achieved(ach.identifier)
         date = [i[-1] for i in achievements.achieved if i[0] ==
                 ach.identifier][0] if is_ach else &#34;&#34;
-        self.label = se.Text(&#34;Achieved: &#34;, state=&#34;float&#34;) \
-                     + se.Text(&#34;Yes&#34; if is_ach else &#34;No&#34;,
-                               esccode=Color.thicc
-                               + (Color.green if is_ach
-                                   else Color.grey), state=&#34;float&#34;) \
-                     + (se.Text(&#34;\nAt: &#34; + date, state=&#34;float&#34;) if is_ach else
-                        se.Text(&#34;&#34;)) \
-                     + se.Text(&#34;\n&#34; + liner(ach.desc, 30), state=&#34;float&#34;)
-        super().__init__(len(self.label.text.split(&#34;\n&#34;)) + 2,
-                         sorted(len(i)
-                                for i in self.label.text.split(&#34;\n&#34;))[-1] + 4,
-                         name=ach.title, info=&#34;q:close&#34;)
-        self.add_ob(self.label, 2, 1)
+        label = se.Text(&#34;Achieved: &#34;)\
+                + se.Text(&#34;Yes&#34; if is_ach else &#34;No&#34;,
+                          esccode=Color.thicc
+                          + (Color.green if is_ach
+                             else Color.grey))\
+                + (se.Text(&#34;\nAt: &#34; + date) if is_ach else se.Text(&#34;&#34;))\
+                + se.Text(&#34;\n&#34; + liner(ach.desc, 30))
+        super().__init__(label, name=ach.title, info=&#34;q:close&#34;)
 
 
 class AchievementOverview(BetterChooseBox):
@@ -137,7 +135,7 @@ class AchievementOverview(BetterChooseBox):
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
                                    if self.achievements.is_achieved(i.identifier)
-                                   else &#34;&#34;, state=&#34;float&#34;)
+                                   else &#34;&#34;)
                            for i in self.achievements.achievements])
         self.map = _map
         with self:
@@ -190,7 +188,7 @@ class AchievementOverview(BetterChooseBox):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class AchBox(Box):
+<pre><code class="python">class AchBox(LabelBox):
     &#34;&#34;&#34;Box with info about an Achievement
     ARGS:
         ach: The Achievement
@@ -200,22 +198,18 @@ class AchievementOverview(BetterChooseBox):
         is_ach = achievements.is_achieved(ach.identifier)
         date = [i[-1] for i in achievements.achieved if i[0] ==
                 ach.identifier][0] if is_ach else &#34;&#34;
-        self.label = se.Text(&#34;Achieved: &#34;, state=&#34;float&#34;) \
-                     + se.Text(&#34;Yes&#34; if is_ach else &#34;No&#34;,
-                               esccode=Color.thicc
-                               + (Color.green if is_ach
-                                   else Color.grey), state=&#34;float&#34;) \
-                     + (se.Text(&#34;\nAt: &#34; + date, state=&#34;float&#34;) if is_ach else
-                        se.Text(&#34;&#34;)) \
-                     + se.Text(&#34;\n&#34; + liner(ach.desc, 30), state=&#34;float&#34;)
-        super().__init__(len(self.label.text.split(&#34;\n&#34;)) + 2,
-                         sorted(len(i)
-                                for i in self.label.text.split(&#34;\n&#34;))[-1] + 4,
-                         name=ach.title, info=&#34;q:close&#34;)
-        self.add_ob(self.label, 2, 1)</code></pre>
+        label = se.Text(&#34;Achieved: &#34;)\
+                + se.Text(&#34;Yes&#34; if is_ach else &#34;No&#34;,
+                          esccode=Color.thicc
+                          + (Color.green if is_ach
+                             else Color.grey))\
+                + (se.Text(&#34;\nAt: &#34; + date) if is_ach else se.Text(&#34;&#34;))\
+                + se.Text(&#34;\n&#34; + liner(ach.desc, 30))
+        super().__init__(label, name=ach.title, info=&#34;q:close&#34;)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="pokete_classes.ui_elements.LabelBox" href="ui_elements.html#pokete_classes.ui_elements.LabelBox">LabelBox</a></li>
 <li><a title="pokete_classes.ui_elements.Box" href="ui_elements.html#pokete_classes.ui_elements.Box">Box</a></li>
 <li>scrap_engine.Box</li>
 <li>scrap_engine.ObjectGroup</li>
@@ -223,11 +217,11 @@ class AchievementOverview(BetterChooseBox):
 </ul>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="pokete_classes.ui_elements.Box" href="ui_elements.html#pokete_classes.ui_elements.Box">Box</a></b></code>:
+<li><code><b><a title="pokete_classes.ui_elements.LabelBox" href="ui_elements.html#pokete_classes.ui_elements.LabelBox">LabelBox</a></b></code>:
 <ul class="hlist">
-<li><code><a title="pokete_classes.ui_elements.Box.add" href="ui_elements.html#pokete_classes.ui_elements.Box.add">add</a></code></li>
-<li><code><a title="pokete_classes.ui_elements.Box.center_add" href="ui_elements.html#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
-<li><code><a title="pokete_classes.ui_elements.Box.resize" href="ui_elements.html#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.add" href="ui_elements.html#pokete_classes.ui_elements.Box.add">add</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.center_add" href="ui_elements.html#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.resize" href="ui_elements.html#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
 </ul>
 </li>
 </ul>
@@ -298,7 +292,7 @@ of a possible Achievement</p>
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
                                    if self.achievements.is_achieved(i.identifier)
-                                   else &#34;&#34;, state=&#34;float&#34;)
+                                   else &#34;&#34;)
                            for i in self.achievements.achievements])
         self.map = _map
         with self:

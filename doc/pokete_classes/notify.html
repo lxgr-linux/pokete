@@ -31,11 +31,14 @@
 
 import scrap_engine as se
 from pokete_general_use_fns import liner
-from .ui_elements import Box
+from .ui_elements import LabelBox
 from .color import Color
 
 
-class Notification(Box):
+se.DEFAULT_STATE = &#34;float&#34;
+
+
+class Notification(LabelBox):
     &#34;&#34;&#34;Notification box
     ARGS:
         title: The bold title shown in the box
@@ -45,13 +48,9 @@ class Notification(Box):
     def __init__(self, title, name, desc):
         self.title = title
         self.desc = desc
-        self.label = se.Text(title + &#34;\n&#34;, esccode=Color.thicc, state=&#34;float&#34;)\
-                   + se.Text(liner(desc, 30), state=&#34;float&#34;)
-        super().__init__(len(self.label.text.split(&#34;\n&#34;)) + 2,
-                         sorted(len(i)
-                                for i in self.label.text.split(&#34;\n&#34;))[-1] + 4,
-                         name)
-        self.add_ob(self.label, 2, 1)
+        label = se.Text(title + &#34;\n&#34;, esccode=Color.thicc)\
+                + se.Text(liner(desc, 30))
+        super().__init__(label, name)
 
     def corner_add(self, _map):
         &#34;&#34;&#34;Adds the Notification to a map
@@ -149,7 +148,7 @@ class Notifier:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Notification(Box):
+<pre><code class="python">class Notification(LabelBox):
     &#34;&#34;&#34;Notification box
     ARGS:
         title: The bold title shown in the box
@@ -159,13 +158,9 @@ class Notifier:
     def __init__(self, title, name, desc):
         self.title = title
         self.desc = desc
-        self.label = se.Text(title + &#34;\n&#34;, esccode=Color.thicc, state=&#34;float&#34;)\
-                   + se.Text(liner(desc, 30), state=&#34;float&#34;)
-        super().__init__(len(self.label.text.split(&#34;\n&#34;)) + 2,
-                         sorted(len(i)
-                                for i in self.label.text.split(&#34;\n&#34;))[-1] + 4,
-                         name)
-        self.add_ob(self.label, 2, 1)
+        label = se.Text(title + &#34;\n&#34;, esccode=Color.thicc)\
+                + se.Text(liner(desc, 30))
+        super().__init__(label, name)
 
     def corner_add(self, _map):
         &#34;&#34;&#34;Adds the Notification to a map
@@ -188,6 +183,7 @@ class Notifier:
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="pokete_classes.ui_elements.LabelBox" href="ui_elements.html#pokete_classes.ui_elements.LabelBox">LabelBox</a></li>
 <li><a title="pokete_classes.ui_elements.Box" href="ui_elements.html#pokete_classes.ui_elements.Box">Box</a></li>
 <li>scrap_engine.Box</li>
 <li>scrap_engine.ObjectGroup</li>
@@ -242,11 +238,11 @@ class Notifier:
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="pokete_classes.ui_elements.Box" href="ui_elements.html#pokete_classes.ui_elements.Box">Box</a></b></code>:
+<li><code><b><a title="pokete_classes.ui_elements.LabelBox" href="ui_elements.html#pokete_classes.ui_elements.LabelBox">LabelBox</a></b></code>:
 <ul class="hlist">
-<li><code><a title="pokete_classes.ui_elements.Box.add" href="ui_elements.html#pokete_classes.ui_elements.Box.add">add</a></code></li>
-<li><code><a title="pokete_classes.ui_elements.Box.center_add" href="ui_elements.html#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
-<li><code><a title="pokete_classes.ui_elements.Box.resize" href="ui_elements.html#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.add" href="ui_elements.html#pokete_classes.ui_elements.Box.add">add</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.center_add" href="ui_elements.html#pokete_classes.ui_elements.Box.center_add">center_add</a></code></li>
+<li><code><a title="pokete_classes.ui_elements.LabelBox.resize" href="ui_elements.html#pokete_classes.ui_elements.Box.resize">resize</a></code></li>
 </ul>
 </li>
 </ul>
