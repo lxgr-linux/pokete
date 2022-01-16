@@ -23,7 +23,8 @@ from pokete_classes import animations
 from pokete_classes.color import Color
 from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
-from pokete_classes.classes import PlayMap, Settings
+from pokete_classes.classes import PlayMap
+from pokete_classes.settings import settings
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.moves import Moves
@@ -796,12 +797,10 @@ class Setting(se.Box):
             options = {}
         super().__init__(0, 0)
         self.options = options
-        self.setting = setting
-        self.index = list(options).index(getattr(settings,
-                                                 self.setting))
+        self.setting = settings(setting)
+        self.index = list(options).index(self.setting.val)
         self.text = se.Text(text + ": ", state="float")
-        self.option_text = se.Text(self.options[getattr(settings,
-                                                        self.setting)],
+        self.option_text = se.Text(self.options[self.setting.val],
                                    state="float")
         self.add_ob(self.text, 0, 0)
         self.add_ob(self.option_text, len(self.text.text), 0)
@@ -809,10 +808,10 @@ class Setting(se.Box):
     def change(self):
         """Change the setting"""
         self.index = self.index + 1 if self.index < len(self.options) - 1 else 0
-        setattr(settings, self.setting, list(self.options)[self.index])
-        self.option_text.rechar(self.options[getattr(settings, self.setting)])
+        self.setting.val = list(self.options)[self.index]
+        self.option_text.rechar(self.options[self.setting.val])
         logging.info("[Setting][%s] set to %s",
-                     self.setting, getattr(settings, self.setting))
+                     self.setting, self.setting.val)
 
 
 class Debug:
@@ -1159,7 +1158,7 @@ class Menu:
                                                  figure.name, ev, 18, 17)
                         self.map.name_label_rechar(figure.name)
                     elif i == self.mods_label:
-                        ModInfo(movemap, settings, mods.mod_info)(ev)
+                        ModInfo(movemap, mods.mod_info)(ev)
                     elif i == self.save_label:
                         # When will python3.10 come out?
                         with InfoBox("Saving....", info="", _map=self.map):
@@ -1330,7 +1329,7 @@ def autosave():
     """Autosaves the game every 5 mins"""
     while True:
         time.sleep(300)
-        if settings.autosave:
+        if settings("autosave").val:
             save()
 
 
@@ -1455,7 +1454,7 @@ class ExtraActions:
         """Water animation
         ARGS:
             obs: List of se.Objects that represent the water"""
-        if settings.animations:
+        if settings("animations").val:
             for obj in obs:
                 if random.randint(0, 9) == 0:
                     if " " not in obj.char:
@@ -1535,7 +1534,7 @@ def teleport(poke):
     if (obj := roadmap(ev, movemap, choose=True)) is None:
         return
     else:
-        if settings.animations:
+        if settings("animations").val:
             animations.transition(movemap, poke)
         cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
         Dor("", state="float", arg_proto={"map": obj.name,
@@ -1620,7 +1619,7 @@ def fight(player, enemy, info=None):
         info: Dict containing info about the fight"""
     if info is None:
         info = {"type": "wild", "player": " "}
-    return fightmap.fight(player, enemy, figure, settings,
+    return fightmap.fight(player, enemy, figure,
                           fightitems, deck, ev, info)
 
 def game(_map):
@@ -1756,7 +1755,8 @@ def gen_obs():
                           arg_proto=map_data[ob_map]["dors"][dor]["args"]),
                       map_data[ob_map]["dors"][dor])
         for ball in map_data[ob_map]["balls"]:
-            if f'{ob_map}.{ball}' not in figure.used_npcs or not settings.save_trainers:
+            if f'{ob_map}.{ball}' not in figure.used_npcs or not \
+            settings("save_trainers").val:
                 parse_obj(_map, ball,
                           Poketeball(f"{ob_map}.{ball}"),
                           map_data[ob_map]["balls"][ball])
@@ -1914,7 +1914,7 @@ def map_additions():
     for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
                [getattr(_map, i) for i in p_data.map_data["playmap_7"]["balls"]
                 if "playmap_7." + i not in figure.used_npcs
-                   or not settings.save_trainers]):
+                   or not settings("save_trainers").val]):
         ob.bchar = ob.char
         ob.rechar(" ")
     # adding
@@ -2099,15 +2099,15 @@ if __name__ == "__main__":
     # reading save file
     session_info = read_save()
 
-    settings = Settings(**session_info.get("settings", {}))
+    settings.from_dict(session_info.get("settings", {}))
 
-    save_trainers = settings.save_trainers
+    save_trainers = settings("save_trainers").val
 
     if not load_mods:
-        settings.load_mods = False
+        settings("load_mods").val = False
 
     # Loading mods
-    if settings.load_mods:
+    if settings("load_mods").val:
         try:
             import mods
         except ModError as err:
@@ -2181,8 +2181,7 @@ if __name__ == "__main__":
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
-        _i.set_vars(movemap, figure, ev, settings,
-                    NPCActions, check_walk_back)
+        _i.set_vars(movemap, figure, ev, NPCActions, check_walk_back)
     figure.set_args(session_info)
 
     __t = time.time() - __t

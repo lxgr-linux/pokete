@@ -5,6 +5,7 @@ import logging
 import scrap_engine as se
 from .input import ask_bool
 from .inv_items import invitems
+from .settings import settings
 
 
 class NPCTrigger(se.Object):
@@ -26,25 +27,22 @@ class NPC(se.Box):
     mvmp = None
     fig = None
     _ev = None
-    settings = None
     npcactions = None
     check_walk_back = None
 
     @classmethod
     def set_vars(cls, mvmp, fig, _ev,
-                 settings, npcactions, check_walk_back):
+                 npcactions, check_walk_back):
         """Sets all variables needed by NPCs
         ARGS:
             mvmp: MoveMap object
             fig: Figure object
             _ev: Event object
-            settings: Settings object
             npcactions: NPCActions class
             check_walk_back: check_walk_back function"""
         cls.mvmp = mvmp
         cls.fig = fig
         cls._ev = _ev
-        cls.settings = settings
         cls.npcactions = npcactions
         cls.check_walk_back = check_walk_back
 
@@ -81,7 +79,8 @@ class NPC(se.Box):
     def action(self):
         """Interaction with the NPC triggered by NPCTrigger.action"""
         if not self.will or \
-                (self.name in self.fig.used_npcs and self.settings.save_trainers):
+                (self.name in self.fig.used_npcs and
+                        settings("save_trainers").val):
             return
         logging.info("[NPC][%s] Interaction", self.name)
         self.mvmp.full_show()
@@ -174,7 +173,7 @@ class Trainer(NPC):
         if self.fig.has_item("shut_the_fuck_up_stone"):
             return
         if self.poke.hp > 0 and (self.name not in self.fig.used_npcs \
-                                    or not self.settings.save_trainers) \
+                                    or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             self.mvmp.full_show()
             time.sleep(0.7)

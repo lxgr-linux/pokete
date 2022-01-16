@@ -12,6 +12,7 @@ from .input import ask_bool
 from .learnattack import LearnAttack
 from .achievements import achievements
 from .inv_items import invitems
+from .settings import settings
 
 
 class EvoMap(se.Map):
@@ -212,14 +213,13 @@ class FightMap(se.Map):
         self.invbox.remove_c_obs()
         return item
 
-    def fight(self, player, enemy, figure, settings, fightitems,
+    def fight(self, player, enemy, figure, fightitems,
               deck, _ev, info):
         """Fight between two Pokes
         ARGS:
             player: The players' used Poke
             enemy: The enemy's used Poke
             figure: Figure object
-            settings: Settings object
             fightitems: FightItems object
             deck: deck function
             _ev: Event object
@@ -230,7 +230,7 @@ class FightMap(se.Map):
         logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d", info["type"], player.name, player.lvl(), enemy.name,
                           enemy.lvl())
-        if settings.animations:  # Intro animation
+        if settings("animations").val:  # Intro animation
             animations.fight_intro(self.height, self.width)
         players = self.add_1(player, enemy, figure.caught_pokes)
         if info["type"] == "wild":
