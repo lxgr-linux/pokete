@@ -506,7 +506,7 @@ can't have more than 4 attacks!"
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, self.lvl() + self.inf[name]
                     + (2 if self.shiny else 0))
-        i = [Attack(atc, p_data)
+        i = [Attack(atc)
              for atc in self.attacks
              if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         for old_ob, obj in zip(self.attac_obs, i):
@@ -1060,7 +1060,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                                     if not ex_cond:
                                         break
                                     if LearnAttack(poke, self.map)\
-                                            (ev, p_data, obj.attack_name):
+                                            (ev, obj.attack_name):
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
@@ -1247,10 +1247,9 @@ Initiative: {poke.initiative}"""))
                 self.map.show()
         self.detail_box.rem_ob(poke.ico)
 
-    def __call__(self, pokes):
-        """Opens the dex
-        ARGS:
-            pokes: p_data.pokes"""
+    def __call__(self):
+        """Opens the dex"""
+        pokes = p_data.pokes
         ev.clear()
         self.idx = 0
         p_dict = {i[1]: i[-1] for i in
@@ -1310,6 +1309,7 @@ On the way there {amount}$ fell out of your pocket!""")
         figure.map = figure.last_center_map
         logging.info("[Figure] Lost all Poketes and ran away")
         DorToCenter().action(figure)
+
 
 def heal():
     """Heals all poketes"""
@@ -1621,7 +1621,7 @@ def fight(player, enemy, info=None):
     if info is None:
         info = {"type": "wild", "player": " "}
     return fightmap.fight(player, enemy, figure, settings, invitems,
-                          fightitems, deck, p_data, ev, info)
+                          fightitems, deck, ev, info)
 
 def game(_map):
     """Game function
@@ -1639,7 +1639,7 @@ def game(_map):
     inp_dict = {"'1'": [deck, (6, "Your deck")],
                 "'3'": [roadmap, (ev, movemap)],
                 "'4'": [inv, ()],
-                "'5'": [pokete_dex, (p_data.pokes,)],
+                "'5'": [pokete_dex, ()],
                 "'e'": [menu, ()],
                 "'?'": [help_page, (ev,)]}
     while True:
@@ -2126,7 +2126,7 @@ if __name__ == "__main__":
     # validating data
     p_data.validate()
     # types
-    types = Types(p_data)
+    types = Types()
 
     # Definiton of the playmaps
     # Most of the objects are generated from map_data,
@@ -2159,7 +2159,7 @@ if __name__ == "__main__":
     detail = Detail(height - 1, width)
     pokete_dex = Dex(movemap)
     help_page = Help(movemap)
-    roadmap = RoadMap(p_data, ob_maps, figure)
+    roadmap = RoadMap(ob_maps, figure)
     deck = Deck()
     menu = Menu(movemap)
     about = About(VERSION, CODENAME, movemap)

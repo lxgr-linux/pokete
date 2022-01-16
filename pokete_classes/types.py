@@ -1,4 +1,6 @@
 """Type and PokeType class"""
+
+import pokete_data as p_data
 from .color import Color
 
 
@@ -7,7 +9,7 @@ class Types:
     ARGS:
         p_data: p_data module"""
 
-    def __init__(self, p_data):
+    def __init__(self):
         for i in p_data.types:
             setattr(self, i, PokeType(i, **p_data.types[i]))
         for i in p_data.sub_types:

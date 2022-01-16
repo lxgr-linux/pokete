@@ -3,6 +3,7 @@
 import time
 import random
 import scrap_engine as se
+import pokete_data as p_data
 from pokete_general_use_fns import std_loop, liner
 from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
@@ -15,11 +16,10 @@ class AttackInfo(Box):
     """Gives information about a certain attack
     ARGS:
         attack: The attack's name
-        p_data: p_data module
         _map: se.Map this should be shown on"""
 
-    def __init__(self, attack, p_data, _map):
-        atc = Attack(attack, p_data)
+    def __init__(self, attack, _map):
+        atc = Attack(attack)
         desc_label = se.Text(liner(atc.desc, 40))
         super().__init__(5 + len(desc_label.text.split("\n")),
                          sorted(len(i) for i in
@@ -51,11 +51,10 @@ class LearnAttack:
         self.poke = poke
         self.box = ChooseBox(6, 25, name="Attacks", info="1:Details, 2:Info")
 
-    def __call__(self, _ev, p_data, attack=None):
+    def __call__(self, _ev, attack=None):
         """Starts the learning process
         ARGS:
             _ev: Event object
-            p_data: p_data module
             attack: The attack's name that should be learned, if None a fitting
                     attack will be chosen randomly
         RETURNS:
@@ -106,7 +105,7 @@ class LearnAttack:
                                   (_ev, self.poke, False)
                             self.map.show(init=True)
                         elif _ev.get() == "'2'":
-                            with AttackInfo(attack, p_data, self.map):
+                            with AttackInfo(attack, self.map):
                                 while True:
                                     if _ev.get() in ["'q'", "Key.esc"]:
                                         _ev.clear()

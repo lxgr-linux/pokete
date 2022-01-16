@@ -211,7 +211,7 @@ class FightMap(se.Map):
         return item
 
     def fight(self, player, enemy, figure, settings, invitems, fightitems,
-              deck, p_data, _ev, info):
+              deck, _ev, info):
         """Fight between two Pokes
         ARGS:
             player: The players' used Poke
@@ -221,7 +221,6 @@ class FightMap(se.Map):
             invitems: InvItems object
             fightitems: FightItems object
             deck: deck function
-            p_data: p_data module
             _ev: Event object
             info: Dict with information about the fight
                   ({"type": "wild", "player": " "})
