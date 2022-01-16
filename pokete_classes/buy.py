@@ -1,6 +1,7 @@
 import time
 import scrap_engine as se
 from .ui_elements import Box, ChooseBox
+from .inv_items import invitems
 from pokete_general_use_fns import std_loop, liner
 
 
@@ -11,13 +12,14 @@ class Buy:
         items: Items object
         _map: The se.Map the menu is shown on"""
 
-    def __init__(self, figure, items, _map):
+    def __init__(self, figure, _map):
         self.box = ChooseBox(_map.height - 3, 35, "Shop")
         self.box2 = Box(7, 21)
         self.fig = figure
         self.map = _map
-        self.items = [items.poketeball, items.superball, items.healing_potion,
-                      items.super_potion, items.ap_potion]
+        self.items = [invitems.poketeball, invitems.superball,
+                      invitems.healing_potion,
+                      invitems.super_potion, invitems.ap_potion]
         self.box.add_c_obs([se.Text(f"{obj.pretty_name} : {obj.price}$")
                             for obj in self.items])
         self.money_label = se.Text(f"{figure.get_money()}$")

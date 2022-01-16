@@ -4,6 +4,7 @@ import time
 import logging
 import scrap_engine as se
 from .input import ask_bool
+from .inv_items import invitems
 
 
 class NPCTrigger(se.Object):
@@ -25,30 +26,24 @@ class NPC(se.Box):
     mvmp = None
     fig = None
     _ev = None
-    invitems = None
-    used_ncps = None
     settings = None
     npcactions = None
     check_walk_back = None
 
     @classmethod
-    def set_vars(cls, mvmp, fig, _ev, invitems, used_npcs,
+    def set_vars(cls, mvmp, fig, _ev,
                  settings, npcactions, check_walk_back):
         """Sets all variables needed by NPCs
         ARGS:
             mvmp: MoveMap object
             fig: Figure object
             _ev: Event object
-            invitems: InvItems object
-            used_npcs: used_npcs list
             settings: Settings object
             npcactions: NPCActions class
             check_walk_back: check_walk_back function"""
         cls.mvmp = mvmp
         cls.fig = fig
         cls._ev = _ev
-        cls.invitems = invitems
-        cls.used_npcs = used_npcs
         cls.settings = settings
         cls.npcactions = npcactions
         cls.check_walk_back = check_walk_back
@@ -86,7 +81,7 @@ class NPC(se.Box):
     def action(self):
         """Interaction with the NPC triggered by NPCTrigger.action"""
         if not self.will or \
-                (self.name in self.used_npcs and self.settings.save_trainers):
+                (self.name in self.fig.used_npcs and self.settings.save_trainers):
             return
         logging.info("[NPC][%s] Interaction", self.name)
         self.mvmp.full_show()
@@ -139,9 +134,9 @@ class NPC(se.Box):
         ARGS:
             name: The displayed name of the npc
             item: Item name"""
-        item = getattr(self.invitems, item)
+        item = getattr(invitems, item)
         self.will = False
-        self.used_npcs.append(self.name)
+        self.fig.used_npcs.append(self.name)
         if ask_bool(self._ev, self.mvmp,
                     f"{name} gifted you a '{item.pretty_name}'. \
 Do you want to accept it?"):
@@ -178,7 +173,7 @@ class Trainer(NPC):
         o_y = self.y
         if self.fig.has_item("shut_the_fuck_up_stone"):
             return
-        if self.poke.hp > 0 and (self.name not in self.used_npcs \
+        if self.poke.hp > 0 and (self.name not in self.fig.used_npcs \
                                     or not self.settings.save_trainers) \
                 and self.check_walk(self.fig.x, self.fig.y):
             self.mvmp.full_show()
@@ -196,7 +191,7 @@ class Trainer(NPC):
                                 [winner == self.poke])
                 if winner != self.poke:
                     self.fig.add_money(20)
-                    self.used_npcs.append(self.name)
+                    self.fig.used_npcs.append(self.name)
                 logging.info("[NPC][%s] %s against player", self.name,
                                   'Lost' if  winner != self.poke else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))

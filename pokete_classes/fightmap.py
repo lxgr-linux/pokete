@@ -11,6 +11,7 @@ from .classes import OutP
 from .input import ask_bool
 from .learnattack import LearnAttack
 from .achievements import achievements
+from .inv_items import invitems
 
 
 class EvoMap(se.Map):
@@ -211,7 +212,7 @@ class FightMap(se.Map):
         self.invbox.remove_c_obs()
         return item
 
-    def fight(self, player, enemy, figure, settings, invitems, fightitems,
+    def fight(self, player, enemy, figure, settings, fightitems,
               deck, _ev, info):
         """Fight between two Pokes
         ARGS:
@@ -219,7 +220,6 @@ class FightMap(se.Map):
             enemy: The enemy's used Poke
             figure: Figure object
             settings: Settings object
-            invitems: InvItems object
             fightitems: FightItems object
             deck: deck function
             _ev: Event object

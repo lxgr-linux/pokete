@@ -25,7 +25,7 @@ from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap, Settings
 from pokete_classes.health_bar import HealthBar
-from pokete_classes.inv_items import Items, LearnDisc
+from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.moves import Moves
 from pokete_classes.types import Types
 from pokete_classes.buy import Buy
@@ -1620,7 +1620,7 @@ def fight(player, enemy, info=None):
         info: Dict containing info about the fight"""
     if info is None:
         info = {"type": "wild", "player": " "}
-    return fightmap.fight(player, enemy, figure, settings, invitems,
+    return fightmap.fight(player, enemy, figure, settings,
                           fightitems, deck, ev, info)
 
 def game(_map):
@@ -2164,8 +2164,7 @@ if __name__ == "__main__":
     menu = Menu(movemap)
     about = About(VERSION, CODENAME, movemap)
     inv = Inv(movemap)
-    invitems = Items(p_data)
-    buy = Buy(figure, invitems, movemap)
+    buy = Buy(figure, movemap)
     notifier.set_vars(movemap)
 
     # Achievements
@@ -2182,7 +2181,7 @@ if __name__ == "__main__":
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
-        _i.set_vars(movemap, figure, ev, invitems, figure.used_npcs, settings,
+        _i.set_vars(movemap, figure, ev, settings,
                     NPCActions, check_walk_back)
     figure.set_args(session_info)
 

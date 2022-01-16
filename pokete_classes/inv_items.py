@@ -1,19 +1,19 @@
 """All classes needed for Item management"""
 
+import pokete_data as p_data
+
 
 class Items:
-    """Has all items as attributes
-    ARGS:
-        p_d: p_data module"""
+    """Has all items as attributes"""
 
-    def __init__(self, p_d):
-        for item in p_d.items.items():
+    def __init__(self):
+        for item in p_data.items.items():
             _obj = InvItem(item[0], item[1]["pretty_name"],
                            item[1]["desc"],
                            item[1]["price"], item[1]["fn"])
             setattr(self, item[0], _obj)
-        self.ld_bubble_bomb = LearnDisc("bubble_bomb", p_d.attacks)
-        self.ld_flying = LearnDisc("flying", p_d.attacks)
+        self.ld_bubble_bomb = LearnDisc("bubble_bomb")
+        self.ld_flying = LearnDisc("flying")
 
 
 class InvItem:
@@ -36,17 +36,18 @@ class InvItem:
 class LearnDisc(InvItem):
     """Learning disc item to teach attacks to Poketes
     ARGS:
-        attack_name: The name of the attack being taught
-        attacks: p_data.attacks dict"""
+        attack_name: The name of the attack being taught"""
 
-    def __init__(self, attack_name, attacks):
+    def __init__(self, attack_name):
         self.attack_name = attack_name
-        self.attack_dict = attacks[attack_name]
+        self.attack_dict = p_data.attacks[attack_name]
         pretty_name = f"LD-{self.attack_dict['name']}"
         name = f"ld_{attack_name}"
         desc = f"Teaches a Pokete the attack '{self.attack_dict['name']}'."
         super().__init__(name, pretty_name, desc, 0)
 
+
+invitems = Items()
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
