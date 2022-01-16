@@ -4,7 +4,7 @@ import time
 import datetime
 import logging
 import scrap_engine as se
-from pokete_general_use_fns import std_loop, liner
+from pokete_general_use_fns import std_loop, liner, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 from .notify import notifier
@@ -116,12 +116,7 @@ class AchievementOverview(BetterChooseBox):
                     ach = achievements.achievements[
                             self.get_item(*self.index).ind]
                     with AchBox(ach, achievements).center_add(_map):
-                        while True:
-                            if _ev.get() in ["'q'", "Key.esc"]:
-                                _ev.clear()
-                                break
-                            std_loop()
-                            time.sleep(0.05)
+                        easy_exit_loop()
                 std_loop()
                 time.sleep(0.05)
                 self.map.show()

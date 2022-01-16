@@ -30,11 +30,9 @@ class Informer:
                                      [0, 1, 2, 2, 2, 2, 3]):
                 obj.add(_map, _x + __x, _y + __y)
             if in_deck and figure.pokes.index(poke) < 6:
-                poke.pball_small.add(_map,
-                                     round(_map.width / 2) - 1
-                                     if figure.pokes.index(poke) % 2 == 0
-                                     else _map.width - 2,
-                                     _y)
+                poke.pball_small.add(_map, round(_map.width / 2) - 1
+                                           if figure.pokes.index(poke) % 2 == 0
+                                           else _map.width - 2, _y)
             for eff in poke.effects:
                 eff.add_label()
 
@@ -174,6 +172,7 @@ class Detail(Informer):
                         atc.temp_j += 1
             time.sleep(0.05)
             self.map.show()
+
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

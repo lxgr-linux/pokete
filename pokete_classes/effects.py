@@ -102,7 +102,7 @@ class Effect():
             del self.obj.effects[i]
             self.cleanup(i)
             logging.info("[Effect][%s] Removed from  %s", self.name,
-                              self.obj.name)
+                         self.obj.name)
             self.obj = None
             time.sleep(2)
 

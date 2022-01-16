@@ -1,3 +1,5 @@
+"""Classes related to buyin stuff"""
+
 import time
 import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner

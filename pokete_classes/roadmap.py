@@ -3,7 +3,7 @@
 import time
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_general_use_fns import std_loop, liner
+from pokete_general_use_fns import std_loop, liner, easy_exit_loop
 from .color import Color
 from .ui_elements import Box, InfoBox
 from .event import _ev
@@ -144,12 +144,7 @@ class RoadMap:
                                        + "\n\n Here you can find: " +
                                        (p_list if p_list != "" else "Nothing"),
                                        30), self.sta.name, _map=_map):
-                        while True:
-                            if _ev.get() in ["Key.esc", "'q'"]:
-                                _ev.clear()
-                                break
-                            std_loop()
-                            time.sleep(0.05)
+                        easy_exit_loop()
                 std_loop()
                 time.sleep(0.05)
                 _map.show()

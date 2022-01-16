@@ -1,9 +1,7 @@
 import os
-import time
 import scrap_engine as se
-from pokete_general_use_fns import liner, std_loop
+from pokete_general_use_fns import liner, easy_exit_loop
 from .ui_elements import InfoBox, StdFrame
-from .event import _ev
 
 
 class About:
@@ -24,16 +22,8 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
                                  60, pre=""), name="About", _map=_map)
 
     def __call__(self):
-        """Shows the about text
-        ARGS:
-            _ev: Event object"""
-        with self.box:
-            while True:
-                if _ev.get() in ["Key.esc", "'q'"]:
-                    _ev.clear()
-                    break
-                std_loop()
-                time.sleep(0.05)
+        """Shows the about text"""
+        easy_exit_loop()
 
 
 class Help(About):

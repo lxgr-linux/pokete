@@ -212,8 +212,7 @@ class FightMap(se.Map):
         self.invbox.remove_c_obs()
         return item
 
-    def fight(self, player, enemy, figure, fightitems,
-              deck, info):
+    def fight(self, player, enemy, figure, fightitems, deck, info):
         """Fight between two Pokes
         ARGS:
             player: The players' used Poke

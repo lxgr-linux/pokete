@@ -4,11 +4,10 @@ import time
 import random
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_general_use_fns import std_loop, liner
+from pokete_general_use_fns import std_loop, liner, easy_exit_loop
 from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
 from .detail import Detail
-from .color import Color
 from .attack import Attack
 from .event import _ev
 
@@ -105,12 +104,7 @@ class LearnAttack:
                             self.map.show(init=True)
                         elif _ev.get() == "'2'":
                             with AttackInfo(attack, self.map):
-                                while True:
-                                    if _ev.get() in ["'q'", "Key.esc"]:
-                                        _ev.clear()
-                                        break
-                                    std_loop()
-                                    time.sleep(0.05)
+                                easy_exit_loop()
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()
                             return False
