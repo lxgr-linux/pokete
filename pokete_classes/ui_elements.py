@@ -4,14 +4,11 @@ elements used in Pokete"""
 import scrap_engine as se
 
 
-se.DEFAULT_STATE = "float"
-
-
 class BoxIndex(se.Object):
     """Index that can be used in ChooseBox"""
 
     def __init__(self):
-        super().__init__("*")
+        super().__init__("*", state="float")
         self.index = 0
 
 
@@ -25,7 +22,7 @@ class StdFrame(se.Frame):
         super().__init__(width=width, height=height,
                          corner_chars=["┌", "┐", "└", "┘"],
                          horizontal_chars=["─", "─"],
-                         vertical_chars=["│", "│"])
+                         vertical_chars=["│", "│"], state="float")
 
 
 class StdFrame2(se.Frame):
@@ -51,9 +48,10 @@ class Box(se.Box):
     def __init__(self, height, width, name="", info=""):
         super().__init__(height, width)
         self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=" ", width=width - 2, height=height - 2)
-        self.name_label = se.Text(name)
-        self.info_label = se.Text(info)
+        self.inner = se.Square(char=" ", width=width - 2, height=height - 2,
+                               state="float")
+        self.name_label = se.Text(name, state="float")
+        self.info_label = se.Text(info, state="float")
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
