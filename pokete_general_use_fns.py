@@ -1,6 +1,8 @@
 """General use functions for Pokete"""
+
 import sys
 import release
+from pokete_classes.event import _ev
 
 
 def liner(text, width, pre=""):
@@ -51,7 +53,7 @@ def sort_vers(vers):
             sorted([([int(j) for j in i.split(".")], i) for i in vers])]
 
 
-def std_loop(_ev):
+def std_loop():
     """Standart action executed in most loops
     ARGS:
         _ev: Event object"""

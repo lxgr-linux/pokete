@@ -10,6 +10,7 @@ from .ui_elements import ChooseBox, Box
 from .detail import Detail
 from .color import Color
 from .attack import Attack
+from .event import _ev
 
 
 class AttackInfo(Box):
@@ -51,10 +52,9 @@ class LearnAttack:
         self.poke = poke
         self.box = ChooseBox(6, 25, name="Attacks", info="1:Details, 2:Info")
 
-    def __call__(self, _ev, attack=None):
+    def __call__(self, attack=None):
         """Starts the learning process
         ARGS:
-            _ev: Event object
             attack: The attack's name that should be learned, if None a fitting
                     attack will be chosen randomly
         RETURNS:
@@ -75,7 +75,7 @@ class LearnAttack:
             new_attack = random.choice(full_pool)
         else:
             new_attack = attack
-        if ask_bool(_ev, self.map,
+        if ask_bool(self.map,
                     f"{self.poke.name} wants to learn \
 {attacks[new_attack]['name']}!"):
             if len(self.poke.attac_obs) != len(self.poke.attacks):
@@ -94,15 +94,14 @@ class LearnAttack:
                         elif _ev.get() == "Key.enter":
                             self.poke.attacks[self.box.index.index] = new_attack
                             _ev.clear()
-                            ask_ok(_ev, self.map,
-                                   f"{self.poke.name} learned \
+                            ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")
                             _ev.clear()
                             break
                         elif _ev.get() == "'1'":
                             _ev.clear()
                             Detail(self.map.height, self.map.width)\
-                                  (_ev, self.poke, False)
+                                  (self.poke, False)
                             self.map.show(init=True)
                         elif _ev.get() == "'2'":
                             with AttackInfo(attack, self.map):
@@ -110,12 +109,12 @@ class LearnAttack:
                                     if _ev.get() in ["'q'", "Key.esc"]:
                                         _ev.clear()
                                         break
-                                    std_loop(_ev)
+                                    std_loop()
                                     time.sleep(0.05)
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()
                             return False
-                        std_loop(_ev)
+                        std_loop()
                         time.sleep(0.05)
                 self.box.remove_c_obs()
             self.poke.set_vars()

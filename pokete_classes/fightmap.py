@@ -13,6 +13,7 @@ from .learnattack import LearnAttack
 from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
+from .event import _ev
 
 
 class EvoMap(se.Map):
@@ -159,10 +160,9 @@ class FightMap(se.Map):
             self.show()
             time.sleep(0.1)
 
-    def get_attack(self, _ev, attack_obs):
+    def get_attack(self, attack_obs):
         """Inputloop for attack options
         ARGS:
-            _ev: Event object
             attack_obs: A list of Attack objects that belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
             while True:
@@ -183,14 +183,13 @@ class FightMap(se.Map):
                     _ev.clear()
                     attack = ""
                     break
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
         return attack
 
-    def get_item(self, _ev, items, inv):
+    def get_item(self, items, inv):
         """Inputloop for inv
         ARGS:
-            _ev: Event object
             items: List of InvItems that can be choosen from
             inv: The Figures inv"""
         self.invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {inv[i.name]}")
@@ -208,13 +207,13 @@ class FightMap(se.Map):
                 elif _ev.get() == "Key.enter":
                     item = items[self.invbox.index.index]
                     break
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
         self.invbox.remove_c_obs()
         return item
 
     def fight(self, player, enemy, figure, fightitems,
-              deck, _ev, info):
+              deck, info):
         """Fight between two Pokes
         ARGS:
             player: The players' used Poke
@@ -222,7 +221,6 @@ class FightMap(se.Map):
             figure: Figure object
             fightitems: FightItems object
             deck: deck function
-            _ev: Event object
             info: Dict with information about the fight
                   ({"type": "wild", "player": " "})
         RETURNS:
@@ -273,14 +271,14 @@ used {enemy.name} against you!')
                         _ev.clear()
                         if player.identifier == "__fallback__":
                             continue
-                        attack = self.get_attack(_ev, obj.attac_obs)
+                        attack = self.get_attack(obj.attac_obs)
                         if attack != "":
                             break
                     elif _ev.get() == "'2'":
                         _ev.clear()
                         if ((info["type"] == "duel"
                              and player.identifier != "__fallback__")
-                            or not ask_bool(_ev, self,
+                            or not ask_bool(self,
                                             "Do you really want to run away?")):
                             continue
                         self.outp.outp("You ran away!")
@@ -299,7 +297,7 @@ used {enemy.name} against you!')
                             self.outp.outp("You don't have any items left!\n\
  What do you want to do?")
                             continue
-                        item = self.get_item(_ev, items, figure.inv)
+                        item = self.get_item(items, figure.inv)
                         if item == "":
                             continue
                         # I hate you python for not having switch statements
@@ -329,7 +327,7 @@ used {enemy.name} against you!')
                                 j.readd()
                         attack = ""
                         break
-                    std_loop(_ev)
+                    std_loop()
                     time.sleep(0.1)
             else:
                 attack = random.choices(obj.attac_obs,
@@ -373,7 +371,7 @@ used {enemy.name} against you!')
             time.sleep(0.5)
             winner.set_vars()
             if winner.lvl() % 5 == 0:
-                LearnAttack(winner, self)(_ev, p_data)
+                LearnAttack(winner, self)()
             if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
                 winner.evolve()
         self.show()

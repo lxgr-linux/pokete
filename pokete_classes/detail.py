@@ -5,6 +5,7 @@ import scrap_engine as se
 from pokete_general_use_fns import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
+from .event import _ev
 
 
 class Informer:
@@ -84,10 +85,9 @@ class Detail(Informer):
         self.frame.add(self.map, 0, 0)
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
 
-    def __call__(self, _ev, poke, abb=True):
+    def __call__(self, poke, abb=True):
         """Shows details
         ARGS:
-            _ev: Event object
             poke: Poke object whose details are given
             abb: Bool whether or not the ability option is shown"""
         ret_action = None
@@ -142,7 +142,7 @@ class Detail(Informer):
                         as box:
                     while True:
                         if _ev.get() in ["'s'", "'w'"]:
-                            box.input(_ev)
+                            box.input(_ev.get())
                             self.map.show()
                             _ev.clear()
                         elif _ev.get() == "Key.enter":
@@ -152,9 +152,9 @@ class Detail(Informer):
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()
                             break
-                        std_loop(_ev)
+                        std_loop()
                         time.sleep(0.05)
-            std_loop(_ev)
+            std_loop()
             # This section generates the Text effect for attack labels
             for atc in poke.attac_obs:
                 if len(atc.desc) > int((self.map.width - 3) / 2 - 1):

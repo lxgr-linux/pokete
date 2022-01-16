@@ -3,6 +3,7 @@ import scrap_engine as se
 from .ui_elements import Box, ChooseBox
 from .inv_items import invitems
 from pokete_general_use_fns import std_loop, liner
+from .event import _ev
 
 
 class Buy:
@@ -29,10 +30,8 @@ class Buy:
                         self.box.width - 2 - len(self.money_label.text), 0)
         self.box2.add_ob(self.desc_label, 1, 1)
 
-    def __call__(self, _ev):
-        """Opens the buy menu
-        ARGS:
-            _ev: Event object"""
+    def __call__(self):
+        """Opens the buy menu"""
         _ev.clear()
         with self.box.add(self.map, self.map.width - 35, 0):
             self.box2.add(self.map, self.box.x - 19, 3)
@@ -51,7 +50,7 @@ class Buy:
                         self.fig.add_money(-obj.price)
                         self.fig.give_item(obj.name)
                     _ev.clear()
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()
         self.box2.remove()

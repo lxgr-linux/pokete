@@ -26,23 +26,19 @@ class NPC(se.Box):
     """An NPC to talk to"""
     mvmp = None
     fig = None
-    _ev = None
     npcactions = None
     check_walk_back = None
 
     @classmethod
-    def set_vars(cls, mvmp, fig, _ev,
-                 npcactions, check_walk_back):
+    def set_vars(cls, mvmp, fig, npcactions, check_walk_back):
         """Sets all variables needed by NPCs
         ARGS:
             mvmp: MoveMap object
             fig: Figure object
-            _ev: Event object
             npcactions: NPCActions class
             check_walk_back: check_walk_back function"""
         cls.mvmp = mvmp
         cls.fig = fig
-        cls._ev = _ev
         cls.npcactions = npcactions
         cls.check_walk_back = check_walk_back
 
@@ -62,7 +58,7 @@ class NPC(se.Box):
         """Movemap.text wrapper
         ARGS:
             text: Text that should be printed"""
-        self.mvmp.text(self.x, self.y, text, self._ev)
+        self.mvmp.text(self.x, self.y, text)
 
     def exclamate(self):
         """Shows the exclamation on top of a NPC"""
@@ -136,8 +132,7 @@ class NPC(se.Box):
         item = getattr(invitems, item)
         self.will = False
         self.fig.used_npcs.append(self.name)
-        if ask_bool(self._ev, self.mvmp,
-                    f"{name} gifted you a '{item.pretty_name}'. \
+        if ask_bool(self.mvmp, f"{name} gifted you a '{item.pretty_name}'. \
 Do you want to accept it?"):
             self.fig.give_item(item.name)
 

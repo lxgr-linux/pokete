@@ -43,6 +43,7 @@ from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
+from pokete_classes.event import _ev
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -52,31 +53,6 @@ __t = time.time()
 
 # Class definition
 ##################
-
-class Event:
-    """Event class to enable dependency injection
-    ARGS:
-        _ev: Initial char"""
-
-    def __init__(self, _ev):
-        self.ev = _ev
-
-    def get(self):
-        """Getter
-        RETURNS:
-            Current char"""
-        return self.ev
-
-    def set(self, _ev):
-        """Setter
-        ARGS:
-            _ev: New char"""
-        self.ev = _ev
-
-    def clear(self):
-        """Clears the event"""
-        self.ev = ""
-
 
 class HightGrass(se.Object):
     """Object on the map, that triggers a fight"""
@@ -141,7 +117,7 @@ class Poketeball(se.Object):
         figure.give_item(item, amount)
         self.remove()
         movemap.full_show()
-        ask_ok(ev, movemap, f"You found {amount if amount > 1 else 'a'} \
+        ask_ok(movemap, f"You found {amount if amount > 1 else 'a'} \
 {p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
         figure.used_npcs.append(self.name)
 
@@ -169,7 +145,7 @@ class NPCActions:
             npc.text([" < Oh, cool!", " < You have a Choka!",
                       " < I've never seen one before!",
                       " < Here you go, 200$"])
-            if ask_bool(ev, movemap,
+            if ask_bool(movemap,
                         "Young boy gifted you 200$. Do you want to accept it?"):
                 figure.add_money(200)
             npc.will = False
@@ -183,20 +159,20 @@ it evolves to Choka.",
     @staticmethod
     def playmap_20_trader(npc):
         """Interaction with trader"""
-        if ask_bool(ev, movemap, "Do you want to trade a Pokete?"):
+        if ask_bool(movemap, "Do you want to trade a Pokete?"):
             if (index := deck(6, "Your deck", True)) is None:
                 return
             figure.add_poke(Poke("ostri", 500), index)
             figure.used_npcs.append(npc.name)
-            ask_ok(ev, movemap,
+            ask_ok(movemap,
                    f"You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.")
-            movemap.text(npc.x, npc.y, [" < Cool, huh?"], ev)
+            movemap.text(npc.x, npc.y, [" < Cool, huh?"])
 
     @staticmethod
     def playmap_23_npc_8(npc):
         """Interaction with npc_8"""
-        if ask_bool(ev, movemap,
+        if ask_bool(movemap,
                     "The man gifted you 100$. Do you want to accept it?"):
             npc.will = False
             figure.used_npcs.append(npc.name)
@@ -235,34 +211,34 @@ class CenterInteract(se.Object):
         """Triggers the interaction in the Pokete center
         ARGS:
             ob: The object triggering this action"""
-        ev.clear()
+        _ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
                      [" < Welcome to the Pokete-Center",
                       " < What do you want to do?",
                       " < a: See your full deck\n b: Heal all your Poketes\
-\n c: Go"], ev)
+\n c: Go"])
         while True:
-            if ev.get() == "'a'":
-                ev.clear()
+            if _ev.get() == "'a'":
+                _ev.clear()
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index("__fallback__"))
                 movemap.balls_label_rechar(figure.pokes)
                 deck(len(figure.pokes))
                 break
-            elif ev.get() == "'b'":
-                ev.clear()
+            elif _ev.get() == "'b'":
+                _ev.clear()
                 heal()
                 time.sleep(0.5)
                 movemap.text(int(movemap.width / 2), 3, [" < ...",
                                                          " < Your Poketes are \
-now healed!"], ev)
+now healed!"])
                 break
-            elif ev.get() == "'c'":
-                ev.clear()
+            elif _ev.get() == "'c'":
+                _ev.clear()
                 break
-            std_loop(ev)
+            std_loop()
             time.sleep(0.05)
         movemap.full_show(init=True)
 
@@ -274,14 +250,14 @@ class ShopInteract(se.Object):
         """Triggers an interaction in the shop
         ARGS:
             ob: The object triggering this action"""
-        ev.clear()
+        _ev.clear()
         movemap.full_show()
         movemap.text(int(movemap.width / 2), 3,
                      [" < Welcome to the Pokete-Shop",
-                      " < Wanna buy something?"], ev)
-        buy(ev)
+                      " < Wanna buy something?"])
+        buy()
         movemap.full_show(init=True)
-        movemap.text(int(movemap.width / 2), 3, [" < Have a great day!"], ev)
+        movemap.text(int(movemap.width / 2), 3, [" < Have a great day!"])
 
 
 class CenterMap(PlayMap):
@@ -851,7 +827,7 @@ class Deck(Informer):
             p_len: Number of Pokes beeing included
             label: The displayed label
             in_fight: Whether or not this is called in a fight"""
-        ev.clear()
+        _ev.clear()
         pokes = figure.pokes[:p_len]
         ret_action = None
         self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, width,
@@ -874,8 +850,8 @@ class Deck(Informer):
                            pokes[self.index.index].text_name.y)
         self.submap.full_show(init=True)
         while True:
-            if ev.get() in ["'1'", "Key.esc", "'q'"]:
-                ev.clear()
+            if _ev.get() in ["'1'", "Key.esc", "'q'"]:
+                _ev.clear()
                 self.rem_pokes(pokes)
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()
@@ -883,8 +859,8 @@ class Deck(Informer):
                 if ret_action is not None:
                     abb_funcs[ret_action](pokes[self.index.index])
                 return None
-            elif ev.get() == "'2'":
-                ev.clear()
+            elif _ev.get() == "'2'":
+                _ev.clear()
                 if len(pokes) == 0:
                     continue
                 if not indici:
@@ -905,10 +881,9 @@ class Deck(Informer):
                         pokes[self.index.index].text_name.y)
                     self.move_label.rechar("2: Move    ")
                     self.submap.full_show()
-            elif ev.get() == "'3'":
-                ev.clear()
-                if ask_bool(ev, self.submap,
-                            f"Do you really want to free \
+            elif _ev.get() == "'3'":
+                _ev.clear()
+                if ask_bool(self.submap, f"Do you really want to free \
 {figure.pokes[self.index.index].name}?"):
                     self.rem_pokes(pokes)
                     figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
@@ -920,11 +895,11 @@ class Deck(Informer):
                          + 1,
                         pokes[self.index.index].text_name.y)
                     movemap.balls_label_rechar(figure.pokes)
-            elif ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
-                self.control(pokes, ev.get())
-                ev.clear()
-            elif ev.get() == "Key.enter":
-                ev.clear()
+            elif _ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
+                self.control(pokes, _ev.get())
+                _ev.clear()
+            elif _ev.get() == "Key.enter":
+                _ev.clear()
                 if len(pokes) == 0:
                     continue
                 if in_fight:
@@ -936,13 +911,13 @@ class Deck(Informer):
                         return self.index.index
                 else:
                     self.rem_pokes(pokes)
-                    ret_action = detail(ev, pokes[self.index.index])
+                    ret_action = detail(pokes[self.index.index])
                     self.add_all(pokes)
                     if ret_action is not None:
-                        ev.set("'q'")
+                        _ev.set("'q'")
                         continue
                     self.submap.full_show(init=True)
-            std_loop(ev)
+            std_loop()
             if len(pokes) > 0 and\
                     self.index.y - self.submap.y + 6 > self.submap.height:
                 self.submap.set(self.submap.x, self.submap.y + 1)
@@ -967,11 +942,11 @@ class Deck(Informer):
             if i % 2 == 1:
                 j += 1
 
-    def control(self, pokes, _ev):
+    def control(self, pokes, inp):
         """Processes inputs
         ARGS:
             pokes: List of all Pokes in deck
-            _ev: Inputted string"""
+            inp: Inputted string"""
         if len(pokes) <= 1:
             return
         for con, stat, fir, sec in zip(["'a'", "'d'", "'s'", "'w'"],
@@ -985,7 +960,7 @@ class Deck(Informer):
                                         [i for i in range(len(pokes))
                                             if i % 2 ==
                                             self.index.index % 2][-1]]):
-            if _ev == con:
+            if inp == con:
                 if stat:
                     self.index.index += fir
                 else:
@@ -1014,30 +989,29 @@ class Inv:
 
     def __call__(self):
         """Opens the inventory"""
-        ev.clear()
+        _ev.clear()
         items = self.add()
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:
-                if ev.get() in ["'s'", "'w'"]:
-                    self.box.input(ev.get())
-                    ev.clear()
-                elif ev.get() in ["'4'", "Key.esc", "'q'"]:
+                if _ev.get() in ["'s'", "'w'"]:
+                    self.box.input(_ev.get())
+                    _ev.clear()
+                elif _ev.get() in ["'4'", "Key.esc", "'q'"]:
                     break
-                elif ev.get() == "Key.enter":
+                elif _ev.get() == "Key.enter":
                     obj = items[self.box.index.index]
                     self.box2.name_label.rechar(obj.pretty_name)
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
-                    ev.clear()
+                    _ev.clear()
                     while True:
-                        if ev.get() == "exit":
+                        if _ev.get() == "exit":
                             raise KeyboardInterrupt
-                        elif ev.get() in ["Key.enter", "Key.esc", "'q'"]:
-                            ev.clear()
+                        elif _ev.get() in ["Key.enter", "Key.esc", "'q'"]:
+                            _ev.clear()
                             self.box2.remove()
                             if type(obj) is LearnDisc:
-                                if ask_bool(ev, self.map,
-                                            f"Do you want to teach '\
+                                if ask_bool(self.map, f"Do you want to teach '\
 {obj.attack_dict['name']}'?"):
                                     ex_cond = True
                                     while ex_cond:
@@ -1053,30 +1027,30 @@ class Inv:
                                                 in poke.types:
                                             break
                                         else:
-                                            ex_cond = ask_bool(ev, self.map,
+                                            ex_cond = ask_bool(self.map,
                                                                f"You cant't \
 teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                                     if not ex_cond:
                                         break
                                     if LearnAttack(poke, self.map)\
-                                            (ev, obj.attack_name):
+                                            (obj.attack_name):
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
-                                    ev.clear()
+                                    _ev.clear()
                             break
                         time.sleep(0.05)
                         self.map.show()
-                elif ev.get() == "'r'":
-                    if ask_bool(ev, self.map,
+                elif _ev.get() == "'r'":
+                    if ask_bool(self.map,
                                 f"Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?"):
                         items = self.rem_item(items[self.box.index.index].name,
                                               items)
                         if len(items) == 0:
                             break
-                    ev.clear()
-                std_loop(ev)
+                    _ev.clear()
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()
         self.box.remove_c_obs()
@@ -1144,21 +1118,21 @@ class Menu:
 
     def __call__(self):
         """Opens the menu"""
-        ev.clear()
+        _ev.clear()
         self.realname_label.rechar(figure.name)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
-                if ev.get() == "Key.enter":
-                    ev.clear()
+                if _ev.get() == "Key.enter":
+                    _ev.clear()
                     # Fuck python for not having case statements
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
                         figure.name = text_input(self.realname_label,
                                                  self.map,
-                                                 figure.name, ev, 18, 17)
+                                                 figure.name, 18, 17)
                         self.map.name_label_rechar(figure.name)
                     elif i == self.mods_label:
-                        ModInfo(movemap, mods.mod_info)(ev)
+                        ModInfo(movemap, mods.mod_info)()
                     elif i == self.save_label:
                         # When will python3.10 come out?
                         with InfoBox("Saving....", info="", _map=self.map):
@@ -1169,18 +1143,18 @@ class Menu:
                         save()
                         exiter()
                     elif i == self.about_label:
-                        about(ev)
+                        about()
                     elif i == self.ach_label:
-                        AchievementOverview()(ev, movemap)
+                        AchievementOverview()(movemap)
                     else:
                         i.change()
-                elif ev.get() in ["'s'", "'w'"]:
-                    self.box.input(ev.get())
-                    ev.clear()
-                elif ev.get() in ["'e'", "Key.esc", "'q'"]:
-                    ev.clear()
+                elif _ev.get() in ["'s'", "'w'"]:
+                    self.box.input(_ev.get())
+                    _ev.clear()
+                elif _ev.get() in ["'e'", "Key.esc", "'q'"]:
+                    _ev.clear()
                     break
-                std_loop(ev)
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()
 
@@ -1216,7 +1190,7 @@ class Dex:
         """Shows details about the Pokete
         ARGS:
             poke: Pokes identifier"""
-        ev.clear()
+        _ev.clear()
         poke = Poke(poke, 0)
         desc_text = liner(poke.desc.text.replace("\n", " ") +
                           (f"""\n\n Evolves to {
@@ -1238,10 +1212,10 @@ Defense: {poke.defense}
 Initiative: {poke.initiative}"""))
         with self.detail_box.center_add(self.map):
             while True:
-                if ev.get() in ["'e'", "Key.esc", "'q'"]:
-                    ev.clear()
+                if _ev.get() in ["'e'", "Key.esc", "'q'"]:
+                    _ev.clear()
                     break
-                std_loop(ev)
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()
         self.detail_box.rem_ob(poke.ico)
@@ -1249,7 +1223,7 @@ Initiative: {poke.initiative}"""))
     def __call__(self):
         """Opens the dex"""
         pokes = p_data.pokes
-        ev.clear()
+        _ev.clear()
         self.idx = 0
         p_dict = {i[1]: i[-1] for i in
                   sorted([(pokes[j]["types"][0], j, pokes[j])
@@ -1265,27 +1239,27 @@ Initiative: {poke.initiative}"""))
                                 ["'s'", "'w'"],
                                 [len(self.box.c_obs) - 1, 0],
                                 [0, self.box.height - 3], [1, -1], [-1, 0]):
-                    if ev.get() == event and self.box.index.index == idx:
+                    if _ev.get() == event and self.box.index.index == idx:
                         if self.box.c_obs[self.box.index.index]\
                                     != self.obs[idx_2]:
                             self.rem_c_obs()
                             self.idx += add
                             self.add_c_obs()
                             self.box.set_index(n_idx)
-                        ev.clear()
-                if ev.get() == "Key.enter":
+                        _ev.clear()
+                if _ev.get() == "Key.enter":
                     if "???" not in self.box.c_obs[self.box.index.index].text:
                         self.detail(list(p_dict)[self.idx
                                                  * (self.box.height - 2)
                                                  + self.box.index.index])
-                    ev.clear()
-                elif ev.get() in ["'s'", "'w'"]:
-                    self.box.input(ev.get())
-                    ev.clear()
-                elif ev.get() in ["'e'", "Key.esc", "'q'"]:
-                    ev.clear()
+                    _ev.clear()
+                elif _ev.get() in ["'s'", "'w'"]:
+                    self.box.input(_ev.get())
+                    _ev.clear()
+                elif _ev.get() in ["'e'", "Key.esc", "'q'"]:
+                    _ev.clear()
                     break
-                std_loop(ev)
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()
             self.rem_c_obs()
@@ -1301,7 +1275,7 @@ def check_walk_back(self=None):
         amount = round(figure.get_money() / 3)
         figure.add_money(-amount)
         heal()
-        ask_ok(ev, movemap, f"""All your Poketes have died and you ran
+        ask_ok(movemap, f"""All your Poketes have died and you ran
 back to the last Pokecenter you visited, to heal them!
 On the way there {amount}$ fell out of your pocket!""")
         figure.remove()
@@ -1347,7 +1321,7 @@ def save():
         "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,
         "money": figure.get_money(),
-        "settings": settings.dict(),
+        "settings": settings.to_dict(),
         "caught_poketes": list(dict.fromkeys(figure.caught_pokes
                                              + [i.identifier
                                                 for i in figure.pokes])),
@@ -1402,10 +1376,10 @@ def read_save():
 
 
 def on_press(key):
-    """Sets the ev variable
+    """Sets the _ev variable
     ARGS:
-        key: Key object ev is set from"""
-    ev.set(str(key))
+        key: Key object _ev is set from"""
+    _ev.set(str(key))
 
 
 def reset_terminal():
@@ -1510,19 +1484,19 @@ def test():
         "Welt", "Wie", "Gehts", "Dir", "So", "Du"]],
         "Test", _map=movemap) as a:
         while True:
-            if ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
-                a.input(ev.get())
-                ev.clear()
-            elif ev.get() in ["'q'", "Key.esc"]:
-                ev.clear()
+            if _ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
+                a.input(_ev.get())
+                _ev.clear()
+            elif _ev.get() in ["'q'", "Key.esc"]:
+                _ev.clear()
                 break
-            elif ev.get() == "'t'":
-                ev.clear()
+            elif _ev.get() == "'t'":
+                _ev.clear()
                 a.remove()
                 a.set_items(3, [se.Text(i, state="float") for i in ["test",
                     "test", "123", "fuckthesystem"]])
                 a.center_add(a.map)
-            std_loop(ev)
+            std_loop()
             time.sleep(0.05)
             a.map.show()
 
@@ -1531,7 +1505,7 @@ def teleport(poke):
     """Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation"""
-    if (obj := roadmap(ev, movemap, choose=True)) is None:
+    if (obj := roadmap(movemap, choose=True)) is None:
         return
     else:
         if settings("animations").val:
@@ -1544,11 +1518,11 @@ def teleport(poke):
 
 def swap_poke():
     """Trading with other players in the local network"""
-    if not ask_bool(ev, movemap, "Do you want to trade with another trainer?"):
+    if not ask_bool(movemap, "Do you want to trade with another trainer?"):
         return
     port = 65432
     save()
-    do = ask_bool(ev, movemap, "Do you want to be the host?")
+    do = ask_bool(movemap, "Do you want to be the host?")
     if (index := deck(6, "Your deck", True)) is None:
         return
     if do:
@@ -1574,17 +1548,17 @@ def swap_poke():
     else:
         host = ""
         while host == "":
-            host = ask_text(ev, movemap, "Please type in the hosts hostname",
+            host = ask_text(movemap, "Please type in the hosts hostname",
                             "Host:", "", "Hostname", 30)
             if host in ["localhost", "127.0.0.1", socket.gethostname()]:
-                ask_ok(ev, movemap,
+                ask_ok(movemap,
                        "You're not allowed trade with your self!\nYou fool!")
                 host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 sock.connect((host, port))
             except Exception as err:
-                ask_ok(ev, movemap, str(err))
+                ask_ok(movemap, str(err))
                 return
             sock.sendall(
                     str.encode(
@@ -1597,7 +1571,7 @@ def swap_poke():
         pass
     else:
         mod_info = {} if "mods" not in decode_data else decode_data["mods"]
-        ask_ok(ev, movemap, f"""Conflicting mod versions!
+        ask_ok(movemap, f"""Conflicting mod versions!
 Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
 Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
         return
@@ -1606,7 +1580,7 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
                          decode_data["poke"]["hp"]), index)
     figure.pokes[index].set_ap(decode_data["poke"]["ap"])
     save()  # to avoid duping
-    ask_ok(ev, movemap,
+    ask_ok(movemap,
            f"You received: {figure.pokes[index].name.capitalize()} at level \
 {figure.pokes[index].lvl()} from {decode_data['name']}.")
 
@@ -1619,15 +1593,14 @@ def fight(player, enemy, info=None):
         info: Dict containing info about the fight"""
     if info is None:
         info = {"type": "wild", "player": " "}
-    return fightmap.fight(player, enemy, figure,
-                          fightitems, deck, ev, info)
+    return fightmap.fight(player, enemy, figure, fightitems, deck, info)
 
 def game(_map):
     """Game function
     ARGS:
         _map: The map that will be shown"""
     global width, height
-    ev.clear()
+    _ev.clear()
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
     if _map.name not in figure.visited_maps:
         figure.visited_maps.append(_map.name)
@@ -1636,40 +1609,40 @@ def game(_map):
     movemap.bmap = _map
     movemap.full_show()
     inp_dict = {"'1'": [deck, (6, "Your deck")],
-                "'3'": [roadmap, (ev, movemap)],
+                "'3'": [roadmap, (movemap,)],
                 "'4'": [inv, ()],
                 "'5'": [pokete_dex, ()],
                 "'e'": [menu, ()],
-                "'?'": [help_page, (ev,)]}
+                "'?'": [help_page, ()]}
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
                                     ["t", "l", "b", "r"],
                                     [0, -1, 0, 1], [-1, 0, 1, 0]):
-            if ev.get() == name:
+            if _ev.get() == name:
                 figure.direction = _dir
                 figure.set(figure.x + x, figure.y + y)
-                ev.clear()
+                _ev.clear()
                 break
         else:
-            if ev.get() in inp_dict:
-                inp_dict[ev.get()][0](*inp_dict[ev.get()][1])
-                ev.clear()
+            if _ev.get() in inp_dict:
+                inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
+                _ev.clear()
                 movemap.show(init=True)
-            elif ev.get() == "'2'":
-                ev.clear()
-                if ask_bool(ev, movemap, "Do you realy want to exit?"):
+            elif _ev.get() == "'2'":
+                _ev.clear()
+                if ask_bool(movemap, "Do you realy want to exit?"):
                     save()
                     exiter()
-            elif ev.get() == "':'":
-                ev.clear()
-                inp = text_input(movemap.code_label, movemap, ":", ev,
+            elif _ev.get() == "':'":
+                _ev.clear()
+                inp = text_input(movemap.code_label, movemap, ":",
                                  movemap.width,
                                  (movemap.width - 2) * movemap.height - 1)[1:]
                 movemap.code_label.outp(figure.map.pretty_name)
                 codes(inp)
-                ev.clear()
-        std_loop(ev)
+                _ev.clear()
+        std_loop()
         notifier.next()
         _map.extra_actions()
         time.sleep(0.05)
@@ -1693,7 +1666,7 @@ def intro():
     movemap.bmap = ob_maps["intromap"]
     movemap.full_show()
     while figure.name in ["DEFAULT", ""]:
-        figure.name = ask_text(ev, movemap,
+        figure.name = ask_text(movemap,
                                "Welcome to Pokete!\nPlease choose your name!\n",
                                "Name:", "", "Name", 17)
     movemap.name_label_rechar(figure.name)
@@ -1705,7 +1678,7 @@ world and be a Pokete-trainer.",
 15 'Poketeballs' to catch Poketes and a "
                         "'Healing potion'.",
                         " < You will be the best Pokete-Trainer in Nice town.",
-                        " < Now go out and become the best!"], ev)
+                        " < Now go out and become the best!"])
     game(ob_maps["intromap"])
 
 
@@ -1791,7 +1764,7 @@ def check_version(sinfo):
     else:
         ver = sinfo["ver"]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
-        if not ask_bool(ev, loading_screen.map,
+        if not ask_bool(loading_screen.map,
                         liner(f"The save file was created \
 on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
@@ -2059,12 +2032,12 @@ if __name__ == "__main__":
             tty.setraw(fd)
             while True:
                 char = sys.stdin.read(1)
-                ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
+                _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
                         127: "Key.backspace", 32: "Key.space",
                         27: "Key.esc"}[ord(char)])
                 if ord(char) == 3:
                     reset_terminal()
-                    ev.set("exit")
+                    _ev.set("exit")
     else:
         from pynput.keyboard import Listener
 
@@ -2152,7 +2125,6 @@ if __name__ == "__main__":
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
-    ev = Event("")
     movemap = Movemap(ob_maps, height - 1, width)
 
     # side fn definitions
@@ -2181,7 +2153,7 @@ if __name__ == "__main__":
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
-        _i.set_vars(movemap, figure, ev, NPCActions, check_walk_back)
+        _i.set_vars(movemap, figure, NPCActions, check_walk_back)
     figure.set_args(session_info)
 
     __t = time.time() - __t

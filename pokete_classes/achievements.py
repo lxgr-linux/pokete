@@ -8,6 +8,7 @@ from pokete_general_use_fns import std_loop, liner
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 from .notify import notifier
+from .event import _ev
 
 
 class Achievement:
@@ -91,7 +92,7 @@ class AchievementOverview(BetterChooseBox):
     def __init__(self):
         super().__init__(4, [se.Text(" ")], name="Achievements")
 
-    def __call__(self, _ev, _map):
+    def __call__(self, _map):
         """Input loop
         ARGS:
             _ev: Event object
@@ -119,9 +120,9 @@ class AchievementOverview(BetterChooseBox):
                             if _ev.get() in ["'q'", "Key.esc"]:
                                 _ev.clear()
                                 break
-                            std_loop(_ev)
+                            std_loop()
                             time.sleep(0.05)
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()
 

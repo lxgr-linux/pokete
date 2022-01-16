@@ -6,6 +6,7 @@ import pokete_data as p_data
 from pokete_general_use_fns import std_loop, liner
 from .color import Color
 from .ui_elements import Box, InfoBox
+from .event import _ev
 
 
 class Station(se.Square):
@@ -47,12 +48,12 @@ class Station(se.Square):
         """Unchooses the station"""
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, _ev):
+    def next(self, inp):
         """Chooses the next station in a certain direction
         ARGS:
             _ev: Event object"""
-        _ev = _ev.strip("'")
-        if (n_e := getattr(self, _ev + "_next")) != "":
+        inp = inp.strip("'")
+        if (n_e := getattr(self, inp + "_next")) != "":
             self.unchoose()
             getattr(self.roadmap, n_e).choose()
 
@@ -63,7 +64,7 @@ class Station(se.Square):
     def is_city(self):
         """Returns if the station is a city"""
         return "pokecenter"\
-            in p_data.map_dataata[self.associates[0].name]["hard_obs"]
+            in p_data.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
         """Marks a station as visited
@@ -105,10 +106,9 @@ class RoadMap:
         self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
         self.info_label.rechar(name)
 
-    def __call__(self, _ev, _map, choose=False):
+    def __call__(self, _map, choose=False):
         """Shows the roadmap
         ARGS:
-            _ev: Event object
             _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city"""
         _ev.clear()
@@ -148,9 +148,9 @@ class RoadMap:
                             if _ev.get() in ["Key.esc", "'q'"]:
                                 _ev.clear()
                                 break
-                            std_loop(_ev)
+                            std_loop()
                             time.sleep(0.05)
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
                 _map.show()
         self.sta.unchoose()
