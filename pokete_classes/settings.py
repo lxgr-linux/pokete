@@ -1,7 +1,7 @@
 """Contains classes and objects related to settings"""
 
-import scrap_engine as se
 import logging
+import scrap_engine as se
 
 
 class Setting:

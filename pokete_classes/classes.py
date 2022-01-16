@@ -1,6 +1,6 @@
-import os
+"""Contains just some small classes"""
+
 import scrap_engine as se
-from .ui_elements import StdFrame
 
 
 class PlayMap(se.Map):

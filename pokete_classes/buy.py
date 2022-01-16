@@ -1,8 +1,8 @@
 import time
 import scrap_engine as se
+from pokete_general_use_fns import std_loop, liner
 from .ui_elements import Box, ChooseBox
 from .inv_items import invitems
-from pokete_general_use_fns import std_loop, liner
 from .event import _ev
 
 
