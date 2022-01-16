@@ -142,7 +142,7 @@ class Poketeball(se.Object):
         movemap.full_show()
         ask_ok(ev, movemap, f"You found {amount if amount > 1 else 'a'} \
 {p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
-        used_npcs.append(self.name)
+        figure.used_npcs.append(self.name)
 
 
 class NPCActions:
@@ -172,7 +172,7 @@ class NPCActions:
                         "Young boy gifted you 200$. Do you want to accept it?"):
                 figure.add_money(200)
             npc.will = False
-            used_npcs.append(npc.name)
+            figure.used_npcs.append(npc.name)
         else:
             npc.text([" < In this region lives the würgos Pokete.",
                       f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
@@ -186,7 +186,7 @@ it evolves to Choka.",
             if (index := deck(6, "Your deck", True)) is None:
                 return
             figure.add_poke(Poke("ostri", 500), index)
-            used_npcs.append(npc.name)
+            figure.used_npcs.append(npc.name)
             ask_ok(ev, movemap,
                    f"You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.")
@@ -198,7 +198,7 @@ at level {figure.pokes[index].lvl()}.")
         if ask_bool(ev, movemap,
                     "The man gifted you 100$. Do you want to accept it?"):
             npc.will = False
-            used_npcs.append(npc.name)
+            figure.used_npcs.append(npc.name)
             figure.add_money(100)
 
     @staticmethod
@@ -664,6 +664,7 @@ class Figure(se.Object):
         self.pokes = []
         self.caught_pokes = []
         self.visited_maps = []
+        self.used_npcs = []
         self.last_center_map = ob_maps["playmap_1"]
         self.oldmap = ob_maps["playmap_1"]
         self.direction = "t"
@@ -1353,8 +1354,8 @@ def save():
                                                 for i in figure.pokes])),
         "visited_maps": figure.visited_maps,
         "startup_time": __t,
-        # filters doublicates from used_npcs
-        "used_npcs": list(dict.fromkeys(used_npcs))
+        # filters doublicates from figure.used_npcs
+        "used_npcs": list(dict.fromkeys(figure.used_npcs))
     }
     with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
@@ -1492,7 +1493,7 @@ class ExtraActions:
                    + [i.main_ob for i in ob_maps["playmap_7"].trainers]\
                    + [getattr(ob_maps["playmap_7"], i)
                     for i in p_data.map_data["playmap_7"]["balls"] if
-                        "playmap_7." + i not in used_npcs or not save_trainers]:
+                        "playmap_7." + i not in figure.used_npcs or not save_trainers]:
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) <= 3:
                 obj.rechar(obj.bchar)
@@ -1755,7 +1756,7 @@ def gen_obs():
                           arg_proto=map_data[ob_map]["dors"][dor]["args"]),
                       map_data[ob_map]["dors"][dor])
         for ball in map_data[ob_map]["balls"]:
-            if f'{ob_map}.{ball}' not in used_npcs or not settings.save_trainers:
+            if f'{ob_map}.{ball}' not in figure.used_npcs or not settings.save_trainers:
                 parse_obj(_map, ball,
                           Poketeball(f"{ob_map}.{ball}"),
                           map_data[ob_map]["balls"][ball])
@@ -1912,7 +1913,7 @@ def map_additions():
                          ob_args=_map.poke_args, state="float")
     for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
                [getattr(_map, i) for i in p_data.map_data["playmap_7"]["balls"]
-                if "playmap_7." + i not in used_npcs
+                if "playmap_7." + i not in figure.used_npcs
                    or not settings.save_trainers]):
         ob.bchar = ob.char
         ob.rechar(" ")
@@ -2100,7 +2101,6 @@ if __name__ == "__main__":
     session_info = read_save()
 
     settings = Settings(**session_info.get("settings", {}))
-    used_npcs = session_info.get("used_npcs", [])
 
     save_trainers = settings.save_trainers
 
@@ -2129,7 +2129,6 @@ if __name__ == "__main__":
     # types
     types = Types(p_data)
 
-
     # Definiton of the playmaps
     # Most of the objects are generated from map_data,
     # but can be extended via map_additions()
@@ -2142,6 +2141,13 @@ if __name__ == "__main__":
     shopmap = ShopMap(height - 1, width)
     ob_maps["centermap"] = centermap
     ob_maps["shopmap"] = shopmap
+
+    # Figure
+    figure = Figure()
+    figure.caught_pokes = session_info.get("caught_poketes", [])
+    figure.visited_maps = session_info.get("visited_maps", ["playmap_1"])
+    figure.used_npcs = session_info.get("used_npcs", [])
+
     gen_obs()
     map_additions()
 
@@ -2149,9 +2155,6 @@ if __name__ == "__main__":
     #############################################################
     ev = Event("")
     movemap = Movemap(ob_maps, height - 1, width)
-    figure = Figure()
-    figure.caught_pokes = session_info.get("caught_poketes", [])
-    figure.visited_maps = session_info.get("visited_maps", ["playmap_1"])
 
     # side fn definitions
     detail = Detail(height - 1, width)
@@ -2182,7 +2185,7 @@ if __name__ == "__main__":
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
-        _i.set_vars(movemap, figure, ev, invitems, used_npcs, settings,
+        _i.set_vars(movemap, figure, ev, invitems, figure.used_npcs, settings,
                     NPCActions, logging, check_walk_back)
     figure.set_args(session_info)
 
