@@ -24,7 +24,7 @@ from pokete_classes.color import Color
 from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
-from pokete_classes.settings import settings
+from pokete_classes.settings import settings, VisSetting
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.moves import Moves
@@ -761,35 +761,6 @@ in the inventory"
         logging.info("[Figure] %d %s(s) removed", amount, item)
 
 
-class Setting(se.Box):
-    """The setting label for the menu
-    ARGS:
-        text: The text displayed / the settings name
-        setting: The settings name the setting belongs to (load_mods)
-        options: Dict containing all options ({True: "On", False: "Off"})"""
-
-    def __init__(self, text, setting, options=None):
-        if options is None:
-            options = {}
-        super().__init__(0, 0)
-        self.options = options
-        self.setting = settings(setting)
-        self.index = list(options).index(self.setting.val)
-        self.text = se.Text(text + ": ", state="float")
-        self.option_text = se.Text(self.options[self.setting.val],
-                                   state="float")
-        self.add_ob(self.text, 0, 0)
-        self.add_ob(self.option_text, len(self.text.text), 0)
-
-    def change(self):
-        """Change the setting"""
-        self.index = self.index + 1 if self.index < len(self.options) - 1 else 0
-        self.setting.val = list(self.options)[self.index]
-        self.option_text.rechar(self.options[self.setting.val])
-        logging.info("[Setting][%s] set to %s",
-                     self.setting, self.setting.val)
-
-
 class Debug:
     """Debug class"""
 
@@ -1099,13 +1070,13 @@ class Menu:
         self.exit_label = se.Text("Exit", state="float")
         self.realname_label = se.Text(session_info["user"], state="float")
         self.box.add_c_obs([self.playername_label,
-                            Setting("Autosave", "autosave",
+                            VisSetting("Autosave", "autosave",
                                     {True: "On", False: "Off"}),
-                            Setting("Animations", "animations",
+                            VisSetting("Animations", "animations",
                                     {True: "On", False: "Off"}),
-                            Setting("Save trainers", "save_trainers",
+                            VisSetting("Save trainers", "save_trainers",
                                     {True: "On", False: "Off"}),
-                            Setting("Load mods", "load_mods",
+                            VisSetting("Load mods", "load_mods",
                                     {True: "On", False: "Off"}),
                             self.mods_label, self.ach_label,
                             self.about_label, self.save_label,

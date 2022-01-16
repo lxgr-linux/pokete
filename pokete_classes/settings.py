@@ -1,5 +1,9 @@
 """Contains classes and objects related to settings"""
 
+import scrap_engine as se
+import logging
+
+
 class Setting:
     """Setting class grouping a name and a value
     ARGS:
@@ -9,6 +13,32 @@ class Setting:
     def __init__(self, name, val):
         self.val = val
         self.name = name
+
+
+class VisSetting(se.Text):
+    """The setting label for the menu
+    ARGS:
+        text: The text displayed / the settings name
+        setting: The settings name the setting belongs to (load_mods)
+        options: Dict containing all options ({True: "On", False: "Off"})"""
+
+    def __init__(self, text, setting, options=None):
+        if options is None:
+            options = {}
+        self.options = options
+        self.name = text
+        self.setting = settings(setting)
+        self.index = list(options).index(self.setting.val)
+        super().__init__(text + ": " + self.options[self.setting.val],
+                         state="float")
+
+    def change(self):
+        """Change the setting"""
+        self.index = (self.index + 1) % len(self.options)
+        self.setting.val = list(self.options)[self.index]
+        self.rechar(self.name + ": " + self.options[self.setting.val])
+        logging.info("[Setting][%s] set to %s", self.setting.name,
+                     self.setting.val)
 
 
 class Settings:
