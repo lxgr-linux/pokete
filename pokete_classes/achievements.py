@@ -7,6 +7,7 @@ import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
+from .notify import notifier
 
 
 class Achievement:
@@ -24,12 +25,9 @@ class Achievement:
 
 
 class Achievements:
-    """Manages Achievements
-    ARGS:
-        notifier: Notifier object"""
+    """Manages Achievements"""
 
-    def __init__(self, notifier):
-        self.notifier = notifier
+    def __init__(self):
         self.achievements = []
         self.achieved = []
 
@@ -52,7 +50,7 @@ class Achievements:
         if not self.is_achieved(identifier):
             ach = [i for i in self.achievements
                    if i.identifier == identifier][0]
-            self.notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
+            notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
             logging.info("[Achievements] Unlocked %s", identifier)
 

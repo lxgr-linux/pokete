@@ -40,7 +40,7 @@ from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
-from pokete_classes.notify import Notifier
+from pokete_classes.notify import notifier
 from pokete_classes.achievements import Achievements, AchievementOverview
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
@@ -2166,10 +2166,10 @@ if __name__ == "__main__":
     inv = Inv(movemap)
     invitems = Items(p_data)
     buy = Buy(figure, invitems, movemap)
-    notifier = Notifier(movemap)
+    notifier.set_vars(movemap)
 
     # Achievements
-    achievements = Achievements(notifier)
+    achievements = Achievements()
     achievements.set_achieved(session_info.get("achievements", []))
     for identifier, args in p_data.achievements.items():
         achievements.add(identifier, **args)
