@@ -2,6 +2,7 @@
 
 import time
 import random
+import logging
 import scrap_engine as se
 from pokete_classes import animations
 from pokete_general_use_fns import std_loop
@@ -30,14 +31,12 @@ class FightMap(se.Map):
     """Wrapper for se.Map
     ARGS:
         height: The height of the map
-        width: The width of the map
-        logging: The logging module"""
+        width: The width of the map"""
 
-    def __init__(self, height, width, logging):
+    def __init__(self, height, width):
         super().__init__(height, width, " ")
         self.box = ChooseBox(6, 25, "Attacks", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
-        self.logging = logging
         # icos
         self.deadico1 = se.Text(r"""
     \ /
@@ -228,7 +227,7 @@ class FightMap(se.Map):
                   ({"type": "wild", "player": " "})
         RETURNS:
             Poke object that won the fight"""
-        self.logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
+        logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d", info["type"], player.name, player.lvl(), enemy.name,
                           enemy.lvl())
         if settings.animations:  # Intro animation
@@ -287,7 +286,7 @@ used {enemy.name} against you!')
                         self.outp.outp("You ran away!")
                         time.sleep(1)
                         self.clean_up(player, enemy)
-                        self.logging.info("[Fight][%s] Ended, ran away",
+                        logging.info("[Fight][%s] Ended, ran away",
                                           info["type"])
                         return enem
                     elif _ev.get() == "'3'":
@@ -308,7 +307,7 @@ used {enemy.name} against you!')
                                 == 1:
                             continue
                         elif i == 2:
-                            self.logging.info("[Fight][%s] Ended, fightitem",
+                            logging.info("[Fight][%s] Ended, fightitem",
                                               info["type"])
                             return obj
                         attack = ""
@@ -385,7 +384,7 @@ used {enemy.name} against you!')
         self.show()
         self.clean_up(player, enemy)
         fightitems.mvmap.balls_label_rechar(figure.pokes)
-        self.logging.info("[Fight][%s] Ended, %s(%s) won", info["type"],
+        logging.info("[Fight][%s] Ended, %s(%s) won", info["type"],
                           winner.name, "player" if winner.player else "enemy")
         return winner
 
@@ -397,7 +396,6 @@ class FightItems:
         movemap: MoveMap object
         figure: Figure object
         ob_maps: Dict of all PlayMaps
-        logging: logging module
         achievements: Achievements object
 
     The methods that can actually be called in fight follow the follwing patern:
@@ -410,12 +408,11 @@ class FightItems:
             2: To win the game
             None: To let the enemy attack"""
 
-    def __init__(self, _map, movemap, figure, ob_maps, logging, achievements):
+    def __init__(self, _map, movemap, figure, ob_maps, achievements):
         self.map = _map
         self.mvmap = movemap
         self.fig = figure
         self.ob_maps = ob_maps
-        self.logging = logging
         self.achievements = achievements
 
     def throw(self, obj, enem, info, chance, name):
@@ -451,7 +448,7 @@ class FightItems:
             self.map.pball.remove()
             self.map.clean_up(obj, enem)
             self.mvmap.balls_label_rechar(self.fig.pokes)
-            self.logging.info("[Fighitem][%s] Caught %s", name, enem.name)
+            logging.info("[Fighitem][%s] Caught %s", name, enem.name)
             self.achievements.achieve("first_poke")
             return 2
         self.map.outp.outp("You missed!")
@@ -459,7 +456,7 @@ class FightItems:
         self.map.pball.remove()
         enem.ico.add(self.map, enem.ico.x, enem.ico.y)
         self.map.show()
-        self.logging.info("[Fighitem][%s] Missed", name)
+        logging.info("[Fighitem][%s] Missed", name)
         return None
 
     def potion(self, obj, enem, info, hp, name):
@@ -478,7 +475,7 @@ class FightItems:
         else:
             obj.hp += hp
         obj.hp_bar.update(obj.oldhp)
-        self.logging.info("[Fighitem][%s] Used", name)
+        logging.info("[Fighitem][%s] Used", name)
 
     def heal_potion(self, obj, enem, info):
         """Healing potion function"""
@@ -506,7 +503,7 @@ class FightItems:
         for atc in obj.attac_obs:
             atc.ap = atc.max_ap
         obj.label_rechar()
-        self.logging.info("[Fighitem][%s] Used", name)
+        logging.info("[Fighitem][%s] Used", name)
 
 
 if __name__ == "__main__":

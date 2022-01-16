@@ -1,5 +1,6 @@
 import time
 import random
+import logging
 import scrap_engine as se
 from .color import Color
 
@@ -18,11 +19,9 @@ class Effect():
         exclude: A list of type names that the effect can't be added to
     CLASS VARS:
         desc: The effects description
-        c_name: The class' simplified name
-        logging: The logging module"""
+        c_name: The class' simplified name"""
     desc = ""
     c_name = ""
-    logging = None
 
     def __init__(self, name, rem_chance, catch_chance, text, str_esccode="",
                  obj=None, exclude=None):
@@ -59,7 +58,7 @@ class Effect():
                                                  esccode=self.str_esccode,
                                                  state="float"),
                                          se.Text("!", state="float"))
-            self.logging.info("[Effect][%s] Added to %s", self.name, obj.name)
+            logging.info("[Effect][%s] Added to %s", self.name, obj.name)
         else:
             obj.ico.map.outp.rechar(f'{obj.ext_name} is allready ')
             obj.ico.map.outp.append(se.Text(self.name,
@@ -102,7 +101,7 @@ class Effect():
             i = self.obj.effects.index(self)
             del self.obj.effects[i]
             self.cleanup(i)
-            self.logging.info("[Effect][%s] Removed from  %s", self.name,
+            logging.info("[Effect][%s] Removed from  %s", self.name,
                               self.obj.name)
             self.obj = None
             time.sleep(2)
@@ -239,13 +238,6 @@ class Effects:
         self.effect_list = effect_list
         for i in self.effect_list:
             setattr(self, i.c_name, i)
-
-    def set_vars(self, logging):
-        """Injects vars into Effect classes
-        ARGS:
-            logging: logging module"""
-        for i in self.effect_list:
-            i.logging = logging
 
 
 effects = Effects()

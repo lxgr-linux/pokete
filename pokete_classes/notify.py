@@ -43,12 +43,10 @@ class Notification(LabelBox):
 class Notifier:
     """Class managing notifications
     ARGS:
-        _map: The se.Map the notifications will be shown on
-        logging: The logging module"""
+        _map: The se.Map the notifications will be shown on"""
 
-    def __init__(self, _map, logging):
+    def __init__(self, _map):
         self.map = _map
-        self.logging = logging
         self.wait = []
         self.notified = False
         self.notification = None

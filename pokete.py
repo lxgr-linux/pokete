@@ -2095,7 +2095,6 @@ if __name__ == "__main__":
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
-    effects.set_vars(logging)
 
     # reading save file
     session_info = read_save()
@@ -2167,10 +2166,10 @@ if __name__ == "__main__":
     inv = Inv(movemap)
     invitems = Items(p_data)
     buy = Buy(figure, invitems, movemap)
-    notifier = Notifier(movemap, logging)
+    notifier = Notifier(movemap)
 
     # Achievements
-    achievements = Achievements(logging, notifier)
+    achievements = Achievements(notifier)
     achievements.set_achieved(session_info.get("achievements", []))
     for identifier, args in p_data.achievements.items():
         achievements.add(identifier, **args)
@@ -2179,14 +2178,13 @@ if __name__ == "__main__":
     abb_funcs = {"teleport": teleport}
 
     # objects relevant for fight()
-    fightmap = FightMap(height - 1, width, logging)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps,
-                            logging, achievements)
+    fightmap = FightMap(height - 1, width)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps, achievements)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:
         _i.set_vars(movemap, figure, ev, invitems, figure.used_npcs, settings,
-                    NPCActions, logging, check_walk_back)
+                    NPCActions, check_walk_back)
     figure.set_args(session_info)
 
     __t = time.time() - __t
