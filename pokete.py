@@ -41,7 +41,7 @@ from pokete_classes.roadmap import RoadMap
 from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
-from pokete_classes.achievements import Achievements, AchievementOverview
+from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -1172,7 +1172,7 @@ class Menu:
                     elif i == self.about_label:
                         about(ev)
                     elif i == self.ach_label:
-                        AchievementOverview(achievements)(ev, movemap)
+                        AchievementOverview()(ev, movemap)
                     else:
                         i.change()
                 elif ev.get() in ["'s'", "'w'"]:
@@ -2169,7 +2169,6 @@ if __name__ == "__main__":
     notifier.set_vars(movemap)
 
     # Achievements
-    achievements = Achievements()
     achievements.set_achieved(session_info.get("achievements", []))
     for identifier, args in p_data.achievements.items():
         achievements.add(identifier, **args)
@@ -2179,7 +2178,7 @@ if __name__ == "__main__":
 
     # objects relevant for fight()
     fightmap = FightMap(height - 1, width)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps, achievements)
+    fightitems = FightItems(fightmap, movemap, figure, ob_maps)
     evomap = EvoMap(height - 1, width)
 
     for _i in [NPC, Trainer]:

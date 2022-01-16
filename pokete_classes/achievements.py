@@ -88,8 +88,7 @@ class AchievementOverview(BetterChooseBox):
     ARGS:
         achievements: Achievements object"""
 
-    def __init__(self, achievements):
-        self.achievements = achievements
+    def __init__(self):
         super().__init__(4, [se.Text(" ")], name="Achievements")
 
     def __call__(self, _ev, _map):
@@ -99,9 +98,9 @@ class AchievementOverview(BetterChooseBox):
             _map: se.Map to show this on"""
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
-                                   if self.achievements.is_achieved(i.identifier)
+                                   if achievements.is_achieved(i.identifier)
                                    else "", state="float")
-                           for i in self.achievements.achievements])
+                           for i in achievements.achievements])
         self.map = _map
         with self:
             while True:
@@ -113,9 +112,9 @@ class AchievementOverview(BetterChooseBox):
                     break
                 elif _ev.get() == "Key.enter":
                     _ev.clear()
-                    ach = self.achievements.achievements[
+                    ach = achievements.achievements[
                             self.get_item(*self.index).ind]
-                    with AchBox(ach, self.achievements).center_add(_map):
+                    with AchBox(ach, achievements).center_add(_map):
                         while True:
                             if _ev.get() in ["'q'", "Key.esc"]:
                                 _ev.clear()
@@ -125,3 +124,6 @@ class AchievementOverview(BetterChooseBox):
                 std_loop(_ev)
                 time.sleep(0.05)
                 self.map.show()
+
+
+achievements = Achievements()

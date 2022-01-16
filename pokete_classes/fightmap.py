@@ -10,6 +10,7 @@ from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
 from .input import ask_bool
 from .learnattack import LearnAttack
+from .achievements import achievements
 
 
 class EvoMap(se.Map):
@@ -364,7 +365,7 @@ used {enemy.name} against you!')
         self.outp.outp(f"{winner.ext_name} won!" + (f'\nXP + {_xp}'
                                                     if winner.player else ''))
         if winner.player and info["type"] == "duel":
-            fightitems.achievements.achieve("first_duel")
+            achievements.achieve("first_duel")
         if winner.player and winner.add_xp(_xp):
             time.sleep(1)
             self.outp.outp(f"{winner.name} reached lvl {winner.lvl()}!")
@@ -395,7 +396,6 @@ class FightItems:
         movemap: MoveMap object
         figure: Figure object
         ob_maps: Dict of all PlayMaps
-        achievements: Achievements object
 
     The methods that can actually be called in fight follow the follwing patern:
         ARGS:
@@ -407,12 +407,11 @@ class FightItems:
             2: To win the game
             None: To let the enemy attack"""
 
-    def __init__(self, _map, movemap, figure, ob_maps, achievements):
+    def __init__(self, _map, movemap, figure, ob_maps):
         self.map = _map
         self.mvmap = movemap
         self.fig = figure
         self.ob_maps = ob_maps
-        self.achievements = achievements
 
     def throw(self, obj, enem, info, chance, name):
         """Throws a *ball
@@ -448,7 +447,7 @@ class FightItems:
             self.map.clean_up(obj, enem)
             self.mvmap.balls_label_rechar(self.fig.pokes)
             logging.info("[Fighitem][%s] Caught %s", name, enem.name)
-            self.achievements.achieve("first_poke")
+            achievements.achieve("first_poke")
             return 2
         self.map.outp.outp("You missed!")
         self.map.show()
@@ -502,7 +501,7 @@ class FightItems:
         for atc in obj.attac_obs:
             atc.ap = atc.max_ap
         obj.label_rechar()
-        logging.info("[Fighitem][%s] Used", name)
+        logging.info("[Fighitem][ap_potion] Used")
 
 
 if __name__ == "__main__":
