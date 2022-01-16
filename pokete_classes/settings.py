@@ -29,6 +29,11 @@ class Settings:
                 self.settings.append(Setting(i, True))
 
     def __call__(self, name):
+        """Gets a Setting object
+        ARGS:
+            name: The Settings name
+        RETURNS:
+            Setting object"""
         return [i for i in self.settings if i.name == name][0]
 
     def to_dict(self):
