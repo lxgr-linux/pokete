@@ -28,7 +28,7 @@ from pokete_classes.settings import settings, VisSetting
 from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.moves import Moves
-from pokete_classes.types import Types
+from pokete_classes.types import types
 from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.attack_actions import AttackActions
@@ -2069,8 +2069,6 @@ if __name__ == "__main__":
 
     # validating data
     p_data.validate()
-    # types
-    types = Types()
 
     # Definiton of the playmaps
     # Most of the objects are generated from map_data,
@@ -2108,7 +2106,6 @@ if __name__ == "__main__":
     about = About(VERSION, CODENAME, movemap)
     inv = Inv(movemap)
     buy = Buy(figure, movemap)
-    notifier.set_vars(movemap)
 
     # Achievements
     achievements.set_achieved(session_info.get("achievements", []))
@@ -2125,6 +2122,7 @@ if __name__ == "__main__":
 
     for _i in [NPC, Trainer]:
         _i.set_vars(movemap, figure, NPCActions, check_walk_back)
+    notifier.set_vars(movemap)
     figure.set_args(session_info)
 
     __t = time.time() - __t

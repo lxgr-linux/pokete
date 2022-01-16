@@ -4,7 +4,7 @@ import time
 import scrap_engine as se
 import pokete_data as p_data
 from .effects import effects
-from .types import Types
+from .types import types
 from .color import Color
 
 
@@ -28,7 +28,7 @@ class Attack:
         self.effect = inf["effect"]
         self.is_generic = inf["is_generic"]
         self.ap = inf["ap"]
-        self.type = getattr(Types(), inf["types"][0])
+        self.type = getattr(types, inf["types"][0])
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
