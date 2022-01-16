@@ -113,7 +113,7 @@ class LearnAttack:
             elif len(self.poke.attacks) &lt; 4:
                 self.poke.attacks.append(new_attack)
             else:
-                self.box.add_c_obs([se.Text(f&#34;{i + 1}: {j.name}&#34;, state=&#34;float&#34;)
+                self.box.add_c_obs([se.Text(f&#34;{i + 1}: {j.name}&#34;, state=float)
                                     for i, j in enumerate(self.poke.attac_obs)])
                 with self.box.center_add(self.map):
                     while True:
@@ -292,7 +292,7 @@ if __name__ == &#34;__main__&#34;:
             elif len(self.poke.attacks) &lt; 4:
                 self.poke.attacks.append(new_attack)
             else:
-                self.box.add_c_obs([se.Text(f&#34;{i + 1}: {j.name}&#34;, state=&#34;float&#34;)
+                self.box.add_c_obs([se.Text(f&#34;{i + 1}: {j.name}&#34;, state=float)
                                     for i, j in enumerate(self.poke.attac_obs)])
                 with self.box.center_add(self.map):
                     while True:

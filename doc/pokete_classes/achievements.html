@@ -37,9 +37,6 @@ from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 
 
-se.DEFAULT_STATE = &#34;float&#34;
-
-
 class Achievement:
     &#34;&#34;&#34;The Achievement class that groups identifier, title and description
     of a possible Achievement
@@ -108,13 +105,13 @@ class AchBox(LabelBox):
         is_ach = achievements.is_achieved(ach.identifier)
         date = [i[-1] for i in achievements.achieved if i[0] ==
                 ach.identifier][0] if is_ach else &#34;&#34;
-        label = se.Text(&#34;Achieved: &#34;)\
+        label = se.Text(&#34;Achieved: &#34;, state=&#34;float&#34;)\
                 + se.Text(&#34;Yes&#34; if is_ach else &#34;No&#34;,
                           esccode=Color.thicc
                           + (Color.green if is_ach
-                             else Color.grey))\
-                + (se.Text(&#34;\nAt: &#34; + date) if is_ach else se.Text(&#34;&#34;))\
-                + se.Text(&#34;\n&#34; + liner(ach.desc, 30))
+                             else Color.grey), state=&#34;float&#34;)\
+                + (se.Text(&#34;\nAt: &#34; + date, state=&#34;float&#34;) if is_ach else se.Text(&#34;&#34;))\
+                + se.Text(&#34;\n&#34; + liner(ach.desc, 30), state=&#34;float&#34;)
         super().__init__(label, name=ach.title, info=&#34;q:close&#34;)
 
 
@@ -135,7 +132,7 @@ class AchievementOverview(BetterChooseBox):
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
                                    if self.achievements.is_achieved(i.identifier)
-                                   else &#34;&#34;)
+                                   else &#34;&#34;, state=&#34;float&#34;)
                            for i in self.achievements.achievements])
         self.map = _map
         with self:
@@ -198,13 +195,13 @@ class AchievementOverview(BetterChooseBox):
         is_ach = achievements.is_achieved(ach.identifier)
         date = [i[-1] for i in achievements.achieved if i[0] ==
                 ach.identifier][0] if is_ach else &#34;&#34;
-        label = se.Text(&#34;Achieved: &#34;)\
+        label = se.Text(&#34;Achieved: &#34;, state=&#34;float&#34;)\
                 + se.Text(&#34;Yes&#34; if is_ach else &#34;No&#34;,
                           esccode=Color.thicc
                           + (Color.green if is_ach
-                             else Color.grey))\
-                + (se.Text(&#34;\nAt: &#34; + date) if is_ach else se.Text(&#34;&#34;))\
-                + se.Text(&#34;\n&#34; + liner(ach.desc, 30))
+                             else Color.grey), state=&#34;float&#34;)\
+                + (se.Text(&#34;\nAt: &#34; + date, state=&#34;float&#34;) if is_ach else se.Text(&#34;&#34;))\
+                + se.Text(&#34;\n&#34; + liner(ach.desc, 30), state=&#34;float&#34;)
         super().__init__(label, name=ach.title, info=&#34;q:close&#34;)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -292,7 +289,7 @@ of a possible Achievement</p>
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
                                    if self.achievements.is_achieved(i.identifier)
-                                   else &#34;&#34;)
+                                   else &#34;&#34;, state=&#34;float&#34;)
                            for i in self.achievements.achievements])
         self.map = _map
         with self:

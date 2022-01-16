@@ -35,14 +35,11 @@ elements used in Pokete&#34;&#34;&#34;
 import scrap_engine as se
 
 
-se.DEFAULT_STATE = &#34;float&#34;
-
-
 class BoxIndex(se.Object):
     &#34;&#34;&#34;Index that can be used in ChooseBox&#34;&#34;&#34;
 
     def __init__(self):
-        super().__init__(&#34;*&#34;)
+        super().__init__(&#34;*&#34;, state=&#34;float&#34;)
         self.index = 0
 
 
@@ -56,7 +53,7 @@ class StdFrame(se.Frame):
         super().__init__(width=width, height=height,
                          corner_chars=[&#34;┌&#34;, &#34;┐&#34;, &#34;└&#34;, &#34;┘&#34;],
                          horizontal_chars=[&#34;─&#34;, &#34;─&#34;],
-                         vertical_chars=[&#34;│&#34;, &#34;│&#34;])
+                         vertical_chars=[&#34;│&#34;, &#34;│&#34;], state=&#34;float&#34;)
 
 
 class StdFrame2(se.Frame):
@@ -82,9 +79,10 @@ class Box(se.Box):
     def __init__(self, height, width, name=&#34;&#34;, info=&#34;&#34;):
         super().__init__(height, width)
         self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=&#34; &#34;, width=width - 2, height=height - 2)
-        self.name_label = se.Text(name)
-        self.info_label = se.Text(info)
+        self.inner = se.Square(char=&#34; &#34;, width=width - 2, height=height - 2,
+                               state=&#34;float&#34;)
+        self.name_label = se.Text(name, state=&#34;float&#34;)
+        self.info_label = se.Text(info, state=&#34;float&#34;)
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
@@ -755,9 +753,10 @@ if __name__ == &#34;__main__&#34;:
     def __init__(self, height, width, name=&#34;&#34;, info=&#34;&#34;):
         super().__init__(height, width)
         self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=&#34; &#34;, width=width - 2, height=height - 2)
-        self.name_label = se.Text(name)
-        self.info_label = se.Text(info)
+        self.inner = se.Square(char=&#34; &#34;, width=width - 2, height=height - 2,
+                               state=&#34;float&#34;)
+        self.name_label = se.Text(name, state=&#34;float&#34;)
+        self.info_label = se.Text(info, state=&#34;float&#34;)
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
@@ -886,7 +885,7 @@ See se.Box.resize</p></div>
     &#34;&#34;&#34;Index that can be used in ChooseBox&#34;&#34;&#34;
 
     def __init__(self):
-        super().__init__(&#34;*&#34;)
+        super().__init__(&#34;*&#34;, state=&#34;float&#34;)
         self.index = 0</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -1296,7 +1295,7 @@ See se.Box.resize</p></div>
         super().__init__(width=width, height=height,
                          corner_chars=[&#34;┌&#34;, &#34;┐&#34;, &#34;└&#34;, &#34;┘&#34;],
                          horizontal_chars=[&#34;─&#34;, &#34;─&#34;],
-                         vertical_chars=[&#34;│&#34;, &#34;│&#34;])</code></pre>
+                         vertical_chars=[&#34;│&#34;, &#34;│&#34;], state=&#34;float&#34;)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
