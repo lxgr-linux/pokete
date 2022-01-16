@@ -4,9 +4,6 @@ import scrap_engine as se
 from .color import Color
 
 
-se.DEFAULT_STATE = "float"
-
-
 class Effect():
     """An effect that can be given to a Pokete and that effects the Pokete
     during fights
@@ -37,7 +34,7 @@ class Effect():
             self.exclude = exclude
         else:
             self.exclude = []
-        self.label = se.Text(text, esccode=str_esccode)
+        self.label = se.Text(text, state="float", esccode=str_esccode)
         self.obj = obj
 
     def __repr__(self):
@@ -49,16 +46,26 @@ class Effect():
             obj: The Poke the effect is added to"""
         if obj.type.name in self.exclude:
             obj.ico.map.outp.rechar(f'{obj.ext_name} is not affected by ')
+            obj.ico.map.outp.append(se.Text(self.name,
+                                            esccode=self.str_esccode,
+                                            state="float"),
+                                    se.Text("!", state="float"))
         elif all(type(i) is not type(self) for i in obj.effects):
             self.obj = obj
             self.obj.effects.append(self)
             self.add_label()
             self.obj.ico.map.outp.rechar(f'{obj.ext_name} is now ')
+            self.obj.ico.map.outp.append(se.Text(self.name,
+                                                 esccode=self.str_esccode,
+                                                 state="float"),
+                                         se.Text("!", state="float"))
             self.logging.info("[Effect][%s] Added to %s", self.name, obj.name)
         else:
             obj.ico.map.outp.rechar(f'{obj.ext_name} is allready ')
-        obj.ico.map.outp.append(se.Text(self.name, esccode=self.str_esccode),
-                                se.Text("!"))
+            obj.ico.map.outp.append(se.Text(self.name,
+                                            esccode=self.str_esccode,
+                                            state="float"),
+                                    se.Text("!", state="float"))
         time.sleep(2)
 
     def add_label(self):
@@ -79,8 +86,9 @@ class Effect():
         self.add_label()
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
         self.obj.ico.map.outp.append(se.Text(self.name,
-                                             esccode=self.str_esccode),
-                                     se.Text("!"))
+                                             esccode=self.str_esccode,
+                                             state="float"),
+                                     se.Text("!", state="float"))
         self.obj.ico.map.show()
 
     def remove(self):
@@ -88,8 +96,9 @@ class Effect():
         if random.randint(0, self.rem_chance) == 0:
             self.obj.ico.map.outp.outp(f'{self.obj.ext_name} isn\'t ')
             self.obj.ico.map.outp.append(se.Text(self.name,
-                                                 esccode=self.str_esccode),
-                                         se.Text(" anymore!"))
+                                                 esccode=self.str_esccode,
+                                                 state="float"),
+                                         se.Text(" anymore!", state="float"))
             i = self.obj.effects.index(self)
             del self.obj.effects[i]
             self.cleanup(i)
@@ -116,8 +125,10 @@ class Effect():
         """The action that's executed every attack round"""
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
         self.obj.ico.map.outp.append(se.Text(self.name,
-                                             esccode=self.str_esccode,),
-                                     se.Text(" and can\'t attack!"))
+                                             esccode=self.str_esccode,
+                                             state="float"),
+                                     se.Text(" and can\'t attack!",
+                                             state="float"))
         time.sleep(0.5)
         return 1
 
@@ -163,8 +174,9 @@ This is reverted randomly."
     def effect(self):
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
         self.obj.ico.map.outp.append(se.Text(self.name,
-                                             esccode=self.str_esccode),
-                                     se.Text("!"))
+                                             esccode=self.str_esccode,
+                                             state="float"),
+                                     se.Text("!", state="float"))
         self.obj.ico.map.show()
         time.sleep(1)
         for _ in range(random.randint(1, 3)):
@@ -199,8 +211,9 @@ class EffectConfusion(Effect):
     def effect(self):
         self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
         self.obj.ico.map.outp.append(se.Text(self.name,
-                                             esccode=self.str_esccode),
-                                     se.Text("!"))
+                                             esccode=self.str_esccode,
+                                             state="float"),
+                                     se.Text("!", state="float"))
         time.sleep(0.5)
         return 0
 
