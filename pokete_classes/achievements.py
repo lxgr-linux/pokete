@@ -85,9 +85,7 @@ class AchBox(LabelBox):
 
 
 class AchievementOverview(BetterChooseBox):
-    """Overview for Achievements
-    ARGS:
-        achievements: Achievements object"""
+    """Overview for Achievements"""
 
     def __init__(self):
         super().__init__(4, [se.Text(" ")], name="Achievements")
@@ -95,7 +93,6 @@ class AchievementOverview(BetterChooseBox):
     def __call__(self, _map):
         """Input loop
         ARGS:
-            _ev: Event object
             _map: se.Map to show this on"""
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green

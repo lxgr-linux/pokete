@@ -2,7 +2,7 @@
 
 import time
 import scrap_engine as se
-import pokete_data as p_data
+import pokete_data.attacks as attacks
 from .effects import effects
 from .types import types
 from .color import Color
@@ -11,11 +11,10 @@ from .color import Color
 class Attack:
     """Attack that can be used by a Pokete
     ARGS:
-        index: The attacks basic name
-        p_data: p_data module"""
+        index: The attacks basic name"""
 
     def __init__(self, index):
-        inf = p_data.attacks[index]
+        inf = attacks[index]
         # Attributes
         self.name = inf["name"]
         self.factor = inf["factor"]
@@ -37,8 +36,8 @@ class Attack:
         self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
         self.label_desc = se.Text(self.desc[:10], state="float")
         self.label_type = se.Text("Type:", state="float") \
-                        + se.Text(self.type.name.capitalize(),
-                                  esccode=self.type.color, state="float")
+                          + se.Text(self.type.name.capitalize(),
+                                    esccode=self.type.color, state="float")
 
     def give_effect(self, enem):
         """Gives the associated effect to a Pokete

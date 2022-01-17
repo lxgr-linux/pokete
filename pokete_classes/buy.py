@@ -12,7 +12,6 @@ class Buy:
     """Menu to buy items in, is triggered in shop
     Args:
         figure: Figure object
-        items: Items object
         _map: The se.Map the menu is shown on"""
 
     def __init__(self, figure, _map):
