@@ -44,7 +44,7 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
-from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
+from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args, easy_exit_loop
 from release import VERSION, CODENAME, SAVEPATH
 
 
@@ -1182,13 +1182,7 @@ Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}"""))
         with self.detail_box.center_add(self.map):
-            while True:
-                if _ev.get() in ["'e'", "Key.esc", "'q'"]:
-                    _ev.clear()
-                    break
-                std_loop()
-                time.sleep(0.05)
-                self.map.show()
+            easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)
 
     def __call__(self):
