@@ -400,8 +400,8 @@ class Poke:
         player: Bool whether or not the Poke belongs to the player
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
-    def __init__(self, poke, xp, _hp="SKIP", _attacks=None,
-                 player=True, shiny=False):
+    def __init__(self, poke, xp, _hp="SKIP", _ap=None, _attacks=None,
+                 _effects=None, player=True, shiny=False):
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
@@ -469,6 +469,11 @@ can't have more than 4 attacks!"
         self.trir = se.Object(">", state="float")
         self.pball_small = se.Object("o")
         self.set_vars()
+        if _ap is not None:
+            self.set_ap(_ap)
+        if _effects is not None:
+            for eff in _effects:
+                self.effects.append(getattr(effects, eff)(self))
 
     def set_player(self, player):
         """Sets the player attribute when the Pokete changes the owner
@@ -631,47 +636,35 @@ can't have more than 4 attacks!"
 
 
 class Figure(se.Object):
-    """The figure that moves around on the map and represents the player"""
+    """The figure that moves around on the map and represents the player
+    ARGS:
+        _si: session_info dict"""
 
-    def __init__(self):
+    def __init__(self, _si):
         super().__init__("a", state="solid")
-        self.__money = 10
-        self.inv = {"poketeballs": 10}
-        self.name = ""
-        self.pokes = []
-        self.caught_pokes = []
-        self.visited_maps = []
-        self.used_npcs = []
-        self.last_center_map = ob_maps["playmap_1"]
-        self.oldmap = ob_maps["playmap_1"]
+        self.__money = _si.get("money", 10)
+        self.inv = _si.get("inv", {"poketeballs": 10})
+        self.name = _si.get("user", "DEFAULT")
+        self.pokes = [Poke((_p:=_si["pokes"][poke])["name"], _p["xp"],
+                           _p["hp"], _p["ap"], _p.get("attacks", None),
+                           _p.get("effects", []),
+                           shiny=_p.get("shiny", False))
+                      for poke in _si["pokes"]]
+        self.caught_pokes = _si.get("caught_poketes", [])
+        self.visited_maps = _si.get("visited_maps", ["playmap_1"])
+        self.used_npcs = _si.get("used_npcs", [])
+        self.last_center_map = ob_maps[_si.get("last_center_map", "playmap_1")]
+        self.oldmap = ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
 
     def set_args(self, _si):
         """Processes data from save file
         ARGS:
             _si: session_info dict"""
-        self.name = _si["user"]
-        self.last_center_map = ob_maps[_si.get("last_center_map", "playmap_1")]
-        self.pokes = [Poke(_si["pokes"][poke]["name"],
-                           _si["pokes"][poke]["xp"], _si["pokes"][poke]["hp"],
-                           shiny=(False
-                                  if "shiny" not in _si["pokes"][poke]
-                                  else _si["pokes"][poke]["shiny"]),
-                           _attacks=(_si["pokes"][poke]["attacks"]
-                                     if "attacks" in _si["pokes"][poke]
-                                     else None)
-                           )
-                      for poke in _si["pokes"]]
-        for j, poke in enumerate(self.pokes):
-            poke.set_ap(_si["pokes"][str(j)]["ap"])
-            if "effects" in _si["pokes"][str(j)]:
-                for eff in _si["pokes"][str(j)]["effects"]:
-                    poke.effects.append(getattr(effects, eff)(poke))
         try:
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
-            if _si["map"] in ["centermap",
-                             "shopmap"]:
+            if _si["map"] in ["centermap", "shopmap"]:
                 _map = ob_maps[_si["map"]]
                 self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
             else:
@@ -680,14 +673,6 @@ class Figure(se.Object):
                                              _si["x"], _si["y"])
         except se.CoordinateError:
             self.add(ob_maps["playmap_1"], 6, 5)
-        # Those if statemnets are important to ensure compatibility
-        # with older versions
-        if "oldmap" in _si:
-            self.oldmap = ob_maps[_si["oldmap"]]
-        if "inv" in _si:
-            self.inv = _si["inv"]
-        if "money" in _si:
-            self.set_money(_si["money"])
         movemap.name_label.rechar(self.name, esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
         movemap.balls_label_rechar(figure.pokes)
@@ -2078,10 +2063,7 @@ if __name__ == "__main__":
     ob_maps["shopmap"] = shopmap
 
     # Figure
-    figure = Figure()
-    figure.caught_pokes = session_info.get("caught_poketes", [])
-    figure.visited_maps = session_info.get("visited_maps", ["playmap_1"])
-    figure.used_npcs = session_info.get("used_npcs", [])
+    figure = Figure(session_info)
 
     gen_obs()
     map_additions()
