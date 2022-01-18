@@ -675,7 +675,7 @@ class Figure(se.Object):
             self.add(ob_maps["playmap_1"], 6, 5)
         movemap.name_label.rechar(self.name, esccode=Color.thicc)
         movemap.code_label.rechar(self.map.pretty_name)
-        movemap.balls_label_rechar(figure.pokes)
+        movemap.balls_label_rechar(self.pokes)
         movemap.add_obs()
 
     def add_money(self, money):
@@ -1500,7 +1500,8 @@ def swap_poke():
         while host == "":
             host = ask_text(movemap, "Please type in the hosts hostname",
                             "Host:", "", "Hostname", 30)
-            if host in ["localhost", "127.0.0.1", socket.gethostname()]:
+            if host in ["localhost", "127.0.0.1", "0.0.0.0",
+                        socket.gethostname()]:
                 ask_ok(movemap,
                        "You're not allowed trade with your self!\nYou fool!")
                 host = ""
@@ -1517,10 +1518,8 @@ def swap_poke():
                                     "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
-    if "mods" not in decode_data and mods.mod_info == {}:
-        pass
-    else:
-        mod_info = {} if "mods" not in decode_data else decode_data["mods"]
+    mod_info = decode_data.get("mods", {})
+    if mods.mod_info != mod_info:
         ask_ok(movemap, f"""Conflicting mod versions!
 Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
 Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
