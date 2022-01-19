@@ -23,7 +23,8 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
 
     def __call__(self):
         """Shows the about text"""
-        easy_exit_loop()
+        with self.box:
+            easy_exit_loop()
 
 
 class Help(About):
