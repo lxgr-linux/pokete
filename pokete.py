@@ -1306,7 +1306,8 @@ def read_save():
                   "ap": ["SKIP", "SKIP"]}
         },
         "inv": {"poketeball": 15, "healing_potion": 1},
-        "settings": {},
+        "settings": {
+            "load_mods": False},
         "figure.caught_pokes": ["steini"],
         "visited_maps": ["playmap_1"],
         "startup_time": 0,
