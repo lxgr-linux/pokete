@@ -1518,6 +1518,7 @@ def swap_poke():
                                     "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
+    logging.info("[Swap_poke] Recieved %s", decode_data)
     mod_info = decode_data.get("mods", {})
     if mods.mod_info != mod_info:
         ask_ok(movemap, f"""Conflicting mod versions!
