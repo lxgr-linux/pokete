@@ -11,7 +11,8 @@ from .color import Color
 class Attack:
     """Attack that can be used by a Pokete
     ARGS:
-        index: The attacks basic name"""
+        index: The attacks basic name
+        pref: Prefix used for the attack label"""
 
     def __init__(self, index, pref=""):
         inf = attacks[index]
@@ -42,6 +43,9 @@ class Attack:
         self.label = self.make_label()
 
     def make_label(self):
+        """Creates label
+        RETURNS:
+            New label"""
         return se.Text(f"{self.pref}: ", state="float")\
                 + se.Text(self.name, esccode=self.type.color)\
                 + se.Text(f"-{self.ap}")
