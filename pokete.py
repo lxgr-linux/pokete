@@ -431,7 +431,7 @@ can't have more than 4 attacks!"
                         if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         if self.shiny:
             self.hp += 5
-        self.attac_obs = [Attack(atc, str(i + 1))
+        self.attack_obs = [Attack(atc, str(i + 1))
                           for i, atc in enumerate(self.attacks)
                             if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         self.set_player(player)
@@ -489,14 +489,14 @@ can't have more than 4 attacks!"
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, self.lvl() + self.inf[name]
                     + (2 if self.shiny else 0))
-        for atc in self.attac_obs:
+        for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
     def dict(self):
         """RETURNS:
             A dict with all information about the Pokete"""
         return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
-                "ap": [atc.ap for atc in self.attac_obs],
+                "ap": [atc.ap for atc in self.attack_obs],
                 "effects": [eff.c_name for eff in self.effects],
                 "attacks": self.attacks,
                 "shiny": self.shiny}
@@ -505,7 +505,7 @@ can't have more than 4 attacks!"
         """Sets attack aps from a list
         ARGS:
             aps: List of attack ap"""
-        for atc, ap in zip(self.attac_obs, aps):
+        for atc, ap in zip(self.attack_obs, aps):
             atc.set_ap(ap)
 
     def add_xp(self, _xp):
@@ -530,16 +530,16 @@ can't have more than 4 attacks!"
             Current level"""
         return int(math.sqrt(self.xp + 1))
 
-    def attack(self, attac, enem):
+    def attack(self, attack, enem):
         """Attack process
         ARGS:
-            attac: Attack object
+            attack: Attack object
             enem: Enemy Poke"""
-        if attac.ap > 0:
+        if attack.ap > 0:
             for eff in self.effects:
                 eff.remove()
             for eff in self.effects:
-                if (i := eff.effect()) == 1:
+                if eff.effect() == 1:
                     return
             if any(type(i) is effects.confusion for i in self.effects):
                 self.enem = enem = self
@@ -547,39 +547,39 @@ can't have more than 4 attacks!"
                 self.enem = enem
             enem.oldhp = enem.hp
             self.oldhp = self.hp
-            effectivity = (1.3 if enem.type.name in attac.type.effective
+            effectivity = (1.3 if enem.type.name in attack.type.effective
                            else 0.5
-                           if enem.type.name in attac.type.ineffective
+                           if enem.type.name in attack.type.ineffective
                            else 1)
             n_hp = round((self.atc
-                           * attac.factor
+                           * attack.factor
                            / (enem.defense if enem.defense >= 1 else 1))
                           * random.choices([0, 0.75, 1, 1.26],
-                                           weights=[attac.miss_chance
+                                           weights=[attack.miss_chance
                                                      + self.miss_chance,
                                                     1, 1, 1],
                                            k=1)[0] * effectivity)
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
             time.sleep(0.4)
-            for i in attac.move:
+            for i in attack.move:
                 getattr(self.moves, i)()
-            if attac.action is not None:
-                getattr(AttackActions(), attac.action)(self, enem)
-            attac.set_ap(attac.ap - 1)
+            if attack.action is not None:
+                getattr(AttackActions(), attack.action)(self, enem)
+            attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
-                f'{self.ext_name} used {attac.name}! \
-{self.name + " missed!" if n_hp == 0 and attac.factor != 0 else ""}\n\
+                f'{self.ext_name} used {attack.name}! \
+{self.name + " missed!" if n_hp == 0 and attack.factor != 0 else ""}\n\
 {"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}\
 {"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
             if enem == self:
                 time.sleep(1)
                 fightmap.outp.outp(f'{self.ext_name} hurt it self!')
-            if n_hp != 0 or attac.factor == 0:
-                attac.give_effect(enem)
+            if n_hp != 0 or attack.factor == 0:
+                attack.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
-            logging.info("[Poke][%s] Used %s: %s", self.name, attac.name,
+            logging.info("[Poke][%s] Used %s: %s", self.name, attack.name,
                          str({"eff": effectivity, "n_hp": n_hp}))
             fightmap.show()
 

@@ -79,11 +79,11 @@ class LearnAttack:
 {attacks[new_attack]['name']}!"):
             if len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)
-                self.poke.attac_obs.append(Attack(new_attack,
+                self.poke.attack_obs.append(Attack(new_attack,
                                                   len(self.poke.attacks)))
             else:
                 self.box.add_c_obs([se.Text(f"{i + 1}: {j.name}", state="float")
-                                    for i, j in enumerate(self.poke.attac_obs)])
+                                    for i, j in enumerate(self.poke.attack_obs)])
                 with self.box.center_add(self.map):
                     while True:
                         if _ev.get() in ["'s'", "'w'"]:
@@ -93,7 +93,7 @@ class LearnAttack:
                         elif _ev.get() == "Key.enter":
                             i = self.box.index.index
                             self.poke.attacks[i] = new_attack
-                            self.poke.attac_obs[i] = Attack(new_attack, i + 1)
+                            self.poke.attack_obs[i] = Attack(new_attack, i + 1)
                             _ev.clear()
                             ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")

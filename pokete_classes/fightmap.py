@@ -125,7 +125,7 @@ class FightMap(se.Map):
         if enemy.identifier in caught_poketes:
             enemy.pball_small.add(self, len(self.e_underline.text) - 1, 1)
         if player.identifier != "__fallback__":
-            self.box.add_c_obs([atc.label for atc in player.attac_obs])
+            self.box.add_c_obs([atc.label for atc in player.attack_obs])
             self.box.set_index(0)
         return [player, enemy]
 
@@ -270,7 +270,7 @@ used {enemy.name} against you!')
                         _ev.clear()
                         if player.identifier == "__fallback__":
                             continue
-                        attack = self.get_attack(obj.attac_obs)
+                        attack = self.get_attack(obj.attack_obs)
                         if attack != "":
                             break
                     elif _ev.get() == "'2'":
@@ -329,7 +329,7 @@ used {enemy.name} against you!')
                     std_loop()
                     time.sleep(0.1)
             else:
-                attack = random.choices(obj.attac_obs,
+                attack = random.choices(obj.attack_obs,
                                         weights=[i.ap * ((1.5
                                                           if enem.type.name in
                                                                 i.type.effective
@@ -339,7 +339,7 @@ used {enemy.name} against you!')
                                                           else 1)
                                                          if info["type"] == "duel"
                                                          else 1)
-                                                 for i in obj.attac_obs])[0]
+                                                 for i in obj.attack_obs])[0]
             time.sleep(0.3)
             if attack != "":
                 obj.attack(attack, enem)
@@ -348,7 +348,7 @@ used {enemy.name} against you!')
             if any(i.hp <= 0 for i in players):
                 winner = [i for i in players if i.hp > 0][0]
                 break
-            elif all(i.ap == 0 for i in obj.attac_obs):
+            elif all(i.ap == 0 for i in obj.attack_obs):
                 winner = [i for i in players if i != obj][0]
                 time.sleep(2)
                 self.outp.outp(f"{obj.ext_name} has used all its' attacks!")
@@ -495,7 +495,7 @@ class FightItems:
     def ap_potion(self, obj, enem, info):
         """AP potion function"""
         self.fig.remove_item("ap_potion")
-        for atc in obj.attac_obs:
+        for atc in obj.attack_obs:
             atc.ap = atc.max_ap
         obj.label_rechar()
         logging.info("[Fighitem][ap_potion] Used")

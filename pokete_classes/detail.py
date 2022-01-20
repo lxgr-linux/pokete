@@ -90,7 +90,7 @@ class Detail(Informer):
             abb: Bool whether or not the ability option is shown"""
         ret_action = None
         self.add(poke, None, self.map, 1, 1, False)
-        abb_obs = [i for i in poke.attac_obs
+        abb_obs = [i for i in poke.attack_obs
                    if i.world_action != ""]
         if abb_obs != [] and abb:
             self.world_actions_label.rechar("Abilities:"
@@ -105,7 +105,7 @@ class Detail(Informer):
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
         for obj, _x, _y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
             obj.add(self.map, _x, _y)
-        for atc, _x, _y in zip(poke.attac_obs, [1,
+        for atc, _x, _y in zip(poke.attack_obs, [1,
                                                 round(self.map.width / 2) + 1,
                                                 1,
                                                 round(self.map.width / 2) + 1],
@@ -127,7 +127,7 @@ class Detail(Informer):
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
-                for atc in poke.attac_obs:
+                for atc in poke.attack_obs:
                     for obj in [atc.label_name, atc.label_factor, atc.label_ap,
                                 atc.label_desc, atc.label_type]:
                         obj.remove()
@@ -154,7 +154,7 @@ class Detail(Informer):
                         time.sleep(0.05)
             std_loop()
             # This section generates the Text effect for attack labels
-            for atc in poke.attac_obs:
+            for atc in poke.attack_obs:
                 if len(atc.desc) > int((self.map.width - 3) / 2 - 1):
                     if atc.temp_j == 5:
                         atc.temp_i += 1
