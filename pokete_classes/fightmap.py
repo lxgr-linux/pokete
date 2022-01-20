@@ -125,7 +125,7 @@ class FightMap(se.Map):
         if enemy.identifier in caught_poketes:
             enemy.pball_small.add(self, len(self.e_underline.text) - 1, 1)
         if player.identifier != "__fallback__":
-            self.box.add_c_obs(player.atc_labels)
+            self.box.add_c_obs([atc.label for atc in player.attac_obs])
             self.box.set_index(0)
         return [player, enemy]
 

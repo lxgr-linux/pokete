@@ -13,7 +13,7 @@ class Attack:
     ARGS:
         index: The attacks basic name"""
 
-    def __init__(self, index):
+    def __init__(self, index, pref=""):
         inf = attacks[index]
         # Attributes
         self.name = inf["name"]
@@ -38,6 +38,13 @@ class Attack:
         self.label_type = se.Text("Type:", state="float") \
                           + se.Text(self.type.name.capitalize(),
                                     esccode=self.type.color, state="float")
+        self.pref = pref
+        self.label = self.make_label()
+
+    def make_label(self):
+        return se.Text(f"{self.pref}: ", state="float")\
+                + se.Text(self.name, esccode=self.type.color)\
+                + se.Text(f"-{self.ap}")
 
     def give_effect(self, enem):
         """Gives the associated effect to a Pokete
@@ -46,6 +53,15 @@ class Attack:
         if self.effect is not None:
             time.sleep(1.5)
             getattr(effects, self.effect)().add(enem)
+
+    def set_ap(self, ap):
+        """Sets attack points
+        ARGS:
+            ap: Attack points"""
+        if ap != "SKIP":
+            self.ap = min(ap, self.max_ap)
+            self.label.rechar("")
+            self.label += self.make_label()
 
 
 if __name__ == "__main__":

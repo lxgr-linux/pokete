@@ -77,12 +77,12 @@ class LearnAttack:
         if ask_bool(self.map,
                     f"{self.poke.name} wants to learn \
 {attacks[new_attack]['name']}!"):
-            if len(self.poke.attac_obs) != len(self.poke.attacks):
-                self.poke.attacks[-1] = new_attack
-            elif len(self.poke.attacks) < 4:
+            if len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)
+                self.poke.attac_obs.append(Attack(new_attack,
+                                                  len(self.poke.attacks)))
             else:
-                self.box.add_c_obs([se.Text(f"{i + 1}: {j.name}", state=float)
+                self.box.add_c_obs([se.Text(f"{i + 1}: {j.name}", state="float")
                                     for i, j in enumerate(self.poke.attac_obs)])
                 with self.box.center_add(self.map):
                     while True:
@@ -91,7 +91,9 @@ class LearnAttack:
                             self.map.show()
                             _ev.clear()
                         elif _ev.get() == "Key.enter":
-                            self.poke.attacks[self.box.index.index] = new_attack
+                            i = self.box.index.index
+                            self.poke.attacks[i] = new_attack
+                            self.poke.attac_obs[i] = Attack(new_attack, i + 1)
                             _ev.clear()
                             ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")
@@ -111,7 +113,6 @@ class LearnAttack:
                         std_loop()
                         time.sleep(0.05)
                 self.box.remove_c_obs()
-            self.poke.set_vars()
             return True
         return False
 

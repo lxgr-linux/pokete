@@ -421,18 +421,19 @@ class Poke:
         self.evolve_lvl = self.inf["evolve_lvl"]
         self.types = [getattr(types, i) for i in self.inf["types"]]
         self.type = self.types[0]
-        self.attac_obs = []
-        self.atc_labels = []
         self.effects = []
         if _attacks is not None:
             assert (len(_attacks) <= 4), f"A Pokete {poke} \
 can't have more than 4 attacks!"
-            self.attacks = [atc for atc in _attacks
-                            if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         else:
-            self.attacks = self.inf["attacks"][:4]
+            _attacks = self.inf["attacks"][:4]
+        self.attacks = [atc for atc in _attacks
+                        if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         if self.shiny:
             self.hp += 5
+        self.attac_obs = [Attack(atc, str(i + 1))
+                          for i, atc in enumerate(self.attacks)
+                            if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         self.set_player(player)
         # Backup vars
         self.full_hp = self.hp
@@ -488,16 +489,8 @@ can't have more than 4 attacks!"
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, self.lvl() + self.inf[name]
                     + (2 if self.shiny else 0))
-        i = [Attack(atc)
-             for atc in self.attacks
-             if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
-        for old_ob, obj in zip(self.attac_obs, i):
-            obj.ap = old_ob.ap
-        self.attac_obs = i
-        for obj in self.atc_labels:
-            fightmap.box.rem_ob(obj)
-        self.atc_labels = [se.Text("") for _ in self.attac_obs]
-        self.label_rechar()
+        for atc in self.attac_obs:
+            atc.set_ap(atc.max_ap)
 
     def dict(self):
         """RETURNS:
@@ -508,13 +501,12 @@ can't have more than 4 attacks!"
                 "attacks": self.attacks,
                 "shiny": self.shiny}
 
-    def set_ap(self, dic):
+    def set_ap(self, aps):
         """Sets attack aps from a list
         ARGS:
-            dic: List of attack ap"""
-        for atc, ap in zip(self.attac_obs, dic):
-            atc.ap = ap if ap != "SKIP" else atc.ap
-        self.label_rechar()
+            aps: List of attack ap"""
+        for atc, ap in zip(self.attac_obs, aps):
+            atc.set_ap(ap)
 
     def add_xp(self, _xp):
         """Adds xp to the current pokete
@@ -533,13 +525,6 @@ can't have more than 4 attacks!"
             return True
         return False
 
-    def label_rechar(self):
-        """Rechars the attack labels"""
-        for i, atc in enumerate(self.attac_obs):
-            self.atc_labels[i].rechar(f"{i + 1}: ")
-            self.atc_labels[i] += se.Text(atc.name, esccode=atc.type.color)\
-                + se.Text(f"-{atc.ap}")
-
     def lvl(self):
         """RETURNS:
             Current level"""
@@ -555,7 +540,6 @@ can't have more than 4 attacks!"
                 eff.remove()
             for eff in self.effects:
                 if (i := eff.effect()) == 1:
-                    self.label_rechar()
                     return
             if any(type(i) is effects.confusion for i in self.effects):
                 self.enem = enem = self
@@ -582,7 +566,7 @@ can't have more than 4 attacks!"
                 getattr(self.moves, i)()
             if attac.action is not None:
                 getattr(AttackActions(), attac.action)(self, enem)
-            attac.ap -= 1
+            attac.set_ap(attac.ap - 1)
             fightmap.outp.outp(
                 f'{self.ext_name} used {attac.name}! \
 {self.name + " missed!" if n_hp == 0 and attac.factor != 0 else ""}\n\
@@ -597,7 +581,6 @@ can't have more than 4 attacks!"
                 obj.hp_bar.update(obj.oldhp)
             logging.info("[Poke][%s] Used %s: %s", self.name, attac.name,
                          str({"eff": effectivity, "n_hp": n_hp}))
-            self.label_rechar()
             fightmap.show()
 
     def evolve(self):
@@ -1243,9 +1226,6 @@ def heal():
         poke.text_hp.rechar(f"HP:{poke.hp}")
         poke.set_vars()
         poke.hp_bar.make(poke.hp)
-        for atc in poke.attac_obs:
-            atc.ap = atc.max_ap
-        poke.label_rechar()
         movemap.balls_label_rechar(figure.pokes)
 
 
