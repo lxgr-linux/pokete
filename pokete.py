@@ -22,11 +22,9 @@ import pokete_data as p_data
 from pokete_classes import animations
 from pokete_classes.poke import Poke
 from pokete_classes.color import Color
-from pokete_classes.effects import effects
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
-from pokete_classes.health_bar import HealthBar
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
 from pokete_classes.buy import Buy
@@ -38,7 +36,6 @@ from pokete_classes.fightmap import FightMap, FightItems
 from pokete_classes.detail import Informer, Detail
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
-from pokete_classes.attack import Attack
 from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
