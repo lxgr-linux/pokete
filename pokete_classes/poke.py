@@ -1,3 +1,5 @@
+"""Contains the Poke class"""
+
 import math
 import time
 import logging
@@ -12,6 +14,7 @@ from .fightmap import EvoMap
 from .color import Color
 from .moves import Moves
 from .types import types
+from .effects import effects
 
 
 class Poke:
