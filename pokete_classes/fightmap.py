@@ -342,7 +342,7 @@ used {enemy.name} against you!')
                                                  for i in obj.attack_obs])[0]
             time.sleep(0.3)
             if attack != "":
-                obj.attack(attack, enem)
+                obj.attack(attack, enem, self)
             self.show()
             time.sleep(0.5)
             if any(i.hp <= 0 for i in players):
@@ -372,7 +372,7 @@ used {enemy.name} against you!')
             if winner.lvl() % 5 == 0:
                 LearnAttack(winner, self)()
             if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
-                winner.evolve()
+                winner.evolve(figure)
         self.show()
         time.sleep(1)
         ico = [obj for obj in players if obj != winner][0].ico

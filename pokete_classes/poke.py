@@ -1,0 +1,243 @@
+import math
+import time
+import logging
+import random
+import scrap_engine as se
+import pokete_data as p_data
+from pokete_general_use_fns import liner
+from .attack_actions import AttackActions
+from .attack import Attack
+from .health_bar import HealthBar
+from .fightmap import EvoMap
+from .color import Color
+from .moves import Moves
+from .types import types
+
+
+class Poke:
+    """The Pokete class
+    ARGS:
+        poke: The Pokes generic name
+        xp: Initial xp
+        _hp: Initial hp ('SKIP' sets to max hp)
+        _attacks: List of attack names learned
+        player: Bool whether or not the Poke belongs to the player
+        shiny: Bool whether or not the Poke is shiny (is extra strong)"""
+
+    def __init__(self, poke, xp, _hp="SKIP", _ap=None, _attacks=None,
+                 _effects=None, player=True, shiny=False):
+        self.inf = p_data.pokes[poke]
+        self.moves = Moves(self)
+        # Attributes
+        self.enem = None
+        self.oldhp = 0
+        self.xp = xp
+        self.identifier = poke
+        self.shiny = shiny
+        self.atc = 0
+        self.defense = 0
+        self.initiative = 0
+        self.hp = self.inf["hp"]
+        self.name = self.inf["name"]
+        self.miss_chance = self.inf["miss_chance"]
+        self.lose_xp = self.inf["lose_xp"]
+        self.evolve_poke = self.inf["evolve_poke"]
+        self.evolve_lvl = self.inf["evolve_lvl"]
+        self.types = [getattr(types, i) for i in self.inf["types"]]
+        self.type = self.types[0]
+        self.effects = []
+        if _attacks is not None:
+            assert (len(_attacks) <= 4), f"A Pokete {poke} \
+can't have more than 4 attacks!"
+        else:
+            _attacks = self.inf["attacks"][:4]
+        self.attacks = [atc for atc in _attacks
+                        if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
+        if self.shiny:
+            self.hp += 5
+        self.attack_obs = [Attack(atc, str(i + 1))
+                          for i, atc in enumerate(self.attacks)
+                            if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
+        self.set_player(player)
+        # Backup vars
+        self.full_hp = self.hp
+        self.full_miss_chance = self.miss_chance
+        # re-set hp
+        if _hp != "SKIP":
+            self.hp = _hp
+        # Labels
+        self.hp_bar = HealthBar(self)
+        self.hp_bar.make(self.hp)
+        self.desc = se.Text(liner(self.inf["desc"], se.screen_width - 34))
+        self.ico = se.Box(4, 11)
+        for ico in self.inf["ico"]:
+            esccode = (str.join("", [getattr(Color, i) for i in ico["esc"]])
+                       if ico["esc"] is not None
+                       else "")
+            self.ico.add_ob(se.Text(ico["txt"], state="float",
+                                    esccode=esccode,
+                                    ignore=f'{esccode} {Color.reset}'), 0, 0)
+        self.text_hp = se.Text(f"HP:{self.hp}", state="float")
+        self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
+        self.text_name = se.Text(self.name,
+                                 esccode=Color.underlined + (Color.yellow
+                                                             if self.shiny
+                                                             else ""),
+                                 state="float")
+        self.text_xp = se.Text(
+            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}",
+            state="float")
+        self.text_type = se.Text(self.type.name.capitalize(),
+                                 state="float", esccode=self.type.color)
+        self.tril = se.Object("<", state="float")
+        self.trir = se.Object(">", state="float")
+        self.pball_small = se.Object("o")
+        self.set_vars()
+        if _ap is not None:
+            self.set_ap(_ap)
+        if _effects is not None:
+            for eff in _effects:
+                self.effects.append(getattr(effects, eff)(self))
+
+    def set_player(self, player):
+        """Sets the player attribute when the Pokete changes the owner
+        ARGS:
+            player: Bool whether or not the Poke new belongs to the player"""
+        self.player = player
+        self.affil = "you" if self.player else "enemy"
+        self.ext_name = f'{self.name}({self.affil})'
+
+    def set_vars(self):
+        """Updates/sets some vars"""
+        for name in ["atc", "defense", "initiative"]:
+            setattr(self, name, self.lvl() + self.inf[name]
+                    + (2 if self.shiny else 0))
+        for atc in self.attack_obs:
+            atc.set_ap(atc.max_ap)
+
+    def dict(self):
+        """RETURNS:
+            A dict with all information about the Pokete"""
+        return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
+                "ap": [atc.ap for atc in self.attack_obs],
+                "effects": [eff.c_name for eff in self.effects],
+                "attacks": self.attacks,
+                "shiny": self.shiny}
+
+    def set_ap(self, aps):
+        """Sets attack aps from a list
+        ARGS:
+            aps: List of attack ap"""
+        for atc, ap in zip(self.attack_obs, aps):
+            atc.set_ap(ap)
+
+    def add_xp(self, _xp):
+        """Adds xp to the current pokete
+        ARGS:
+            _xp: Amount of xp added to the current xp
+        RETURNS:
+            bool: whether or not the next level is reached"""
+        old_lvl = self.lvl()
+        self.xp += _xp
+        self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
+        self.text_lvl.rechar(f"Lvl:{self.lvl()}")
+        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        if old_lvl < self.lvl():
+            logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
+            return True
+        return False
+
+    def lvl(self):
+        """RETURNS:
+            Current level"""
+        return int(math.sqrt(self.xp + 1))
+
+    def attack(self, attack, enem, fightmap):
+        """Attack process
+        ARGS:
+            attack: Attack object
+            enem: Enemy Poke"""
+        if attack.ap > 0:
+            for eff in self.effects:
+                eff.remove()
+            for eff in self.effects:
+                if eff.effect() == 1:
+                    return
+            if any(type(i) is effects.confusion for i in self.effects):
+                self.enem = enem = self
+            else:
+                self.enem = enem
+            enem.oldhp = enem.hp
+            self.oldhp = self.hp
+            effectivity = (1.3 if enem.type.name in attack.type.effective
+                           else 0.5
+                           if enem.type.name in attack.type.ineffective
+                           else 1)
+            n_hp = round((self.atc
+                           * attack.factor
+                           / (enem.defense if enem.defense >= 1 else 1))
+                          * random.choices([0, 0.75, 1, 1.26],
+                                           weights=[attack.miss_chance
+                                                     + self.miss_chance,
+                                                    1, 1, 1],
+                                           k=1)[0] * effectivity)
+            enem.hp -= max(n_hp, 0)
+            enem.hp = max(enem.hp, 0)
+            time.sleep(0.4)
+            for i in attack.move:
+                getattr(self.moves, i)()
+            if attack.action is not None:
+                getattr(AttackActions(), attack.action)(self, enem)
+            attack.set_ap(attack.ap - 1)
+            fightmap.outp.outp(
+                f'{self.ext_name} used {attack.name}! \
+{self.name + " missed!" if n_hp == 0 and attack.factor != 0 else ""}\n\
+{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}\
+{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
+            if enem == self:
+                time.sleep(1)
+                fightmap.outp.outp(f'{self.ext_name} hurt it self!')
+            if n_hp != 0 or attack.factor == 0:
+                attack.give_effect(enem)
+            for obj in [enem, self] if enem != self else [enem]:
+                obj.hp_bar.update(obj.oldhp)
+            logging.info("[Poke][%s] Used %s: %s", self.name, attack.name,
+                         str({"eff": effectivity, "n_hp": n_hp}))
+            fightmap.show()
+
+    def evolve(self, figure):
+        """Evolves the Pokete to its evolve_poke"""
+        if not self.player:
+            return
+        evomap = EvoMap(self.ico.map.height, self.ico.map.width)
+        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
+        self.ico.remove()
+        self.ico.add(evomap, round(evomap.width / 2 - 4),
+                     round((evomap.height - 8) / 2))
+        self.moves.shine()
+        evomap.outp.outp("Look!")
+        time.sleep(0.5)
+        evomap.outp.outp(f"{evomap.outp.text}\n{self.name} is evolving!")
+        time.sleep(1)
+        for i in range(8):
+            for j, k in zip([self.ico, new.ico], [new.ico, self.ico]):
+                j.remove()
+                k.add(evomap, round(evomap.width / 2 - 4),
+                      round((evomap.height - 8) / 2))
+                time.sleep(0.7 - i * 0.09999)
+                evomap.show()
+        self.ico.remove()
+        new.ico.add(evomap, round(evomap.width / 2 - 4),
+                    round((evomap.height - 8) / 2))
+        evomap.show()
+        time.sleep(0.01)
+        new.moves.shine()
+        evomap.outp.outp(f"{self.name} evolved to {new.name}!")
+        time.sleep(5)
+        figure.pokes[figure.pokes.index(self)] = new
+        if new.identifier not in figure.caught_pokes:
+            figure.caught_pokes.append(new.identifier)
+        logging.info("[Poke] %s evolved to %s", self.name, new.name)
+        del self
