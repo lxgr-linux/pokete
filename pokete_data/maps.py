@@ -114,11 +114,11 @@ maps = {
         "pretty_name": "Abandoned village",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["steini", "voglo", "wolfior", "owol"],
+            "pokes": ["gobost", "owol"],
             "minlvl": 230,
             "maxlvl": 290
         },
-        "weather": None
+        "weather": "foggy"
     },
     "playmap_9": {
         "height": 15,
