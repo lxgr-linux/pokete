@@ -1214,6 +1214,8 @@ def game(_map):
                 "'5'": [pokete_dex, ()],
                 "'e'": [menu, ()],
                 "'?'": [help_page, ()]}
+    if _map.weather is not None:
+        notifier.notify("Weather", "Info", _map.weather.info)
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
