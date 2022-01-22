@@ -194,7 +194,7 @@ can't have more than 4 attacks!"
             eff_text = {
                 eff < 1: "\nThat was not effective! ",
                 eff > 1: "\nThat was very effective! ",
-                eff == 1: "",
+                eff == 1 or n_hp == 0: "",
                 eff == 0 or n_hp == 0 and attack.factor != 0: \
                         f"{self.name} missed!"
             }[True]
