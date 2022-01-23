@@ -19,7 +19,8 @@ weathers = {
     "foggy": {
         "info": "It's foggy!",
         "effected": {
-            "undead": 1.5
+            "undead": 1.5,
+            "normal": 0.75,
         }
     }
 }
