@@ -6,8 +6,8 @@ class Event:
     ARGS:
         _ev: Initial char"""
 
-    def __init__(self, _ev=""):
-        self._ev = _ev
+    def __init__(self, event=""):
+        self._ev = event
 
     def get(self):
         """Getter
@@ -15,11 +15,11 @@ class Event:
             Current char"""
         return self._ev
 
-    def set(self, _ev):
+    def set(self, event):
         """Setter
         ARGS:
             _ev: New char"""
-        self._ev = _ev
+        self._ev = event
 
     def clear(self):
         """Clears the event"""

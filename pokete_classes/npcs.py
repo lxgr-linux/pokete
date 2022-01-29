@@ -187,6 +187,6 @@ class Trainer(NPC):
                     self.fig.add_money(20)
                     self.fig.used_npcs.append(self.name)
                 logging.info("[NPC][%s] %s against player", self.name,
-                                  'Lost' if  winner != self.poke else 'Won')
+                             'Lost' if  winner != self.poke else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             self.check_walk_back()

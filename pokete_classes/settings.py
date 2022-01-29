@@ -55,7 +55,7 @@ class Settings:
         for i in src:
             self.settings.append(Setting(i, src[i]))
         for i in self.keywords:
-            if i not in [i.name for i in self.settings]:
+            if i not in [j.name for j in self.settings]:
                 self.settings.append(Setting(i, True))
 
     def __call__(self, name):

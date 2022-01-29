@@ -70,9 +70,9 @@ class AchBox(LabelBox):
         ach: The Achievement
         achievements: Achievement's object"""
 
-    def __init__(self, ach, achievements):
-        is_ach = achievements.is_achieved(ach.identifier)
-        date = [i[-1] for i in achievements.achieved if i[0] ==
+    def __init__(self, ach, ach_ob):
+        is_ach = ach_ob.is_achieved(ach.identifier)
+        date = [i[-1] for i in ach_ob.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
         label = se.Text("Achieved: ", state="float")\
                 + se.Text("Yes" if is_ach else "No",

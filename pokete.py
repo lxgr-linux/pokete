@@ -397,7 +397,7 @@ class Figure(se.Object):
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
         self.name = _si.get("user", "DEFAULT")
-        self.pokes = [Poke((_p:=_si["pokes"][poke])["name"], _p["xp"],
+        self.pokes = [Poke((_p := _si["pokes"][poke])["name"], _p["xp"],
                            _p["hp"], _p["ap"], _p.get("attacks", None),
                            _p.get("effects", []),
                            shiny=_p.get("shiny", False))
@@ -808,13 +808,13 @@ class Menu:
         self.realname_label = se.Text(session_info["user"], state="float")
         self.box.add_c_obs([self.playername_label,
                             VisSetting("Autosave", "autosave",
-                                    {True: "On", False: "Off"}),
+                                       {True: "On", False: "Off"}),
                             VisSetting("Animations", "animations",
-                                    {True: "On", False: "Off"}),
+                                       {True: "On", False: "Off"}),
                             VisSetting("Save trainers", "save_trainers",
-                                    {True: "On", False: "Off"}),
+                                       {True: "On", False: "Off"}),
                             VisSetting("Load mods", "load_mods",
-                                    {True: "On", False: "Off"}),
+                                       {True: "On", False: "Off"}),
                             self.mods_label, self.ach_label,
                             self.about_label, self.save_label,
                             self.exit_label])
