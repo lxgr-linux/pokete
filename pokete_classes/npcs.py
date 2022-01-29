@@ -76,7 +76,7 @@ class NPC(se.Box):
         """Interaction with the NPC triggered by NPCTrigger.action"""
         if not self.will or \
                 (self.name in self.fig.used_npcs and
-                        settings("save_trainers").val):
+                 settings("save_trainers").val):
             return
         logging.info("[NPC][%s] Interaction", self.name)
         self.mvmp.full_show()
@@ -100,10 +100,10 @@ class NPC(se.Box):
         vec = se.Line(" ", x - self.x, y - self.y)
         ret = not any([any(j.state == "solid"
                            for j in
-                            self.map.obmap[i.ry + self.y][i.rx + self.x])
-                                for i in vec.obs][1:])
+                           self.map.obmap[i.ry + self.y][i.rx + self.x])
+                       for i in vec.obs][1:])
         logging.info("[NPC][%s] %s walk check to (%d|%d)",
-                          self.name, 'Succeeded' if ret else 'Failed', x, y)
+                     self.name, 'Succeeded' if ret else 'Failed', x, y)
         return ret
 
     def walk_point(self, x, y):
@@ -167,8 +167,8 @@ class Trainer(NPC):
         o_y = self.y
         if self.fig.has_item("shut_the_fuck_up_stone"):
             return
-        if self.poke.hp > 0 and (self.name not in self.fig.used_npcs \
-                                    or not settings("save_trainers").val) \
+        if self.poke.hp > 0 and (self.name not in self.fig.used_npcs
+                                 or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             self.mvmp.full_show()
             time.sleep(0.7)
@@ -182,7 +182,7 @@ class Trainer(NPC):
                                     info={"type": "duel", "player": self})
                 self.text({True: self.lose_texts,
                            False: self.win_texts + [" < Here u go 20$"]}
-                                [winner == self.poke])
+                          [winner == self.poke])
                 if winner != self.poke:
                     self.fig.add_money(20)
                     self.fig.used_npcs.append(self.name)

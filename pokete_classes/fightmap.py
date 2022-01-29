@@ -226,7 +226,7 @@ class FightMap(se.Map):
             Poke object that won the fight"""
         logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d", info["type"], player.name, player.lvl(), enemy.name,
-                          enemy.lvl())
+                     enemy.lvl())
         if settings("animations").val:  # Intro animation
             animations.fight_intro(self.height, self.width)
         players = self.add_1(player, enemy, figure.caught_pokes)
@@ -305,7 +305,7 @@ used {enemy.name} against you!')
                             continue
                         elif i == 2:
                             logging.info("[Fight][%s] Ended, fightitem",
-                                              info["type"])
+                                         info["type"])
                             return obj
                         attack = ""
                         break
@@ -382,7 +382,7 @@ used {enemy.name} against you!')
         self.clean_up(player, enemy)
         fightitems.mvmap.balls_label_rechar(figure.pokes)
         logging.info("[Fight][%s] Ended, %s(%s) won", info["type"],
-                          winner.name, "player" if winner.player else "enemy")
+                     winner.name, "player" if winner.player else "enemy")
         return winner
 
 

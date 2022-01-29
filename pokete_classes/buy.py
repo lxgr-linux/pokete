@@ -1,4 +1,4 @@
-"""Classes related to buyin stuff"""
+"""Classes related to buing stuff"""
 
 import time
 import scrap_engine as se

@@ -59,8 +59,8 @@ can't have more than 4 attacks!"
         if self.shiny:
             self.hp += 5
         self.attack_obs = [Attack(atc, str(i + 1))
-                          for i, atc in enumerate(self.attacks)
-                            if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
+                           for i, atc in enumerate(self.attacks)
+                           if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
         self.set_player(player)
         # Backup vars
         self.full_hp = self.hp
@@ -161,7 +161,8 @@ can't have more than 4 attacks!"
         """Attack process
         ARGS:
             attack: Attack object
-            enem: Enemy Poke"""
+            enem: Enemy Poke
+            fightmap: The map object where the fight is carried out on."""
         if attack.ap > 0:
             for eff in self.effects:
                 eff.remove()
@@ -179,13 +180,13 @@ can't have more than 4 attacks!"
                            if enem.type.name in attack.type.ineffective
                            else 1)
             n_hp = round((self.atc
-                           * attack.factor
-                           / (enem.defense if enem.defense >= 1 else 1))
-                          * random.choices([0, 0.75, 1, 1.26],
-                                           weights=[attack.miss_chance
-                                                     + self.miss_chance,
-                                                    1, 1, 1],
-                                           k=1)[0] * effectivity)
+                          * attack.factor
+                          / (enem.defense if enem.defense >= 1 else 1))
+                         * random.choices([0, 0.75, 1, 1.26],
+                                          weights=[attack.miss_chance
+                                                   + self.miss_chance,
+                                                   1, 1, 1],
+                                          k=1)[0] * effectivity)
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
             time.sleep(0.4)

@@ -51,7 +51,7 @@ class Station(se.Square):
     def next(self, inp):
         """Chooses the next station in a certain direction
         ARGS:
-            _ev: Event object"""
+            inp: Event object"""
         inp = inp.strip("'")
         if (n_e := getattr(self, inp + "_next")) != "":
             self.unchoose()

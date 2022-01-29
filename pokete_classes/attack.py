@@ -2,7 +2,7 @@
 
 import time
 import scrap_engine as se
-import pokete_data.attacks as attacks
+from pokete_data.attacks import attacks
 from .effects import effects
 from .types import types
 from .color import Color

@@ -35,8 +35,8 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             _map.show()
             _ev.clear()
         elif _ev.get() not in ["", "Key.enter", "exit", "Key.backspace",
-                              "Key.shift", "Key.shift_r",
-                              "Key.esc"] and len(name) < max_len:
+                               "Key.shift", "Key.shift_r",
+                               "Key.esc"] and len(name) < max_len:
             if _ev.get() == "Key.space":
                 _ev.set("' '")
             name += str(_ev.get().strip("'"))

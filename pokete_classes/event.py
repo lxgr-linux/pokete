@@ -1,5 +1,6 @@
 """Contains event var"""
 
+
 class Event:
     """Event class to enable dependency injection
     ARGS:

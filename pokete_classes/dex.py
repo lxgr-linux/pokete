@@ -8,6 +8,7 @@ from .poke import Poke
 from .event import _ev
 from .ui_elements import ChooseBox, Box
 
+
 class Dex:
     """The Pokete dex that shows stats about all Poketes ever caught
     ARGS:
