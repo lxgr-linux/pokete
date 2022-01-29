@@ -14,6 +14,7 @@ from .npcs import *
 from .mapstations import *
 from .maps import *
 from .achievements import *
+from .weather import *
 
 
 class ValidationError(Exception):

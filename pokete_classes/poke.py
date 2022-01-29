@@ -173,12 +173,16 @@ can't have more than 4 attacks!"
                 self.enem = enem = self
             else:
                 self.enem = enem
+            weather = fightmap.figure.map.weather
+            w_eff = 1
+            if weather != None:
+                w_eff = weather.effect(attack.type)
+                fightmap.outp.outp(weather.info)
+                time.sleep(1.5)
             enem.oldhp = enem.hp
             self.oldhp = self.hp
-            effectivity = (1.3 if enem.type.name in attack.type.effective
-                           else 0.5
-                           if enem.type.name in attack.type.ineffective
-                           else 1)
+            eff = (1.3 if enem.type.name in attack.type.effective else 0.5
+                   if enem.type.name in attack.type.ineffective else 1) * w_eff
             n_hp = round((self.atc
                           * attack.factor
                           / (enem.defense if enem.defense >= 1 else 1))
@@ -186,7 +190,14 @@ can't have more than 4 attacks!"
                                           weights=[attack.miss_chance
                                                    + self.miss_chance,
                                                    1, 1, 1],
-                                          k=1)[0] * effectivity)
+                                          k=1)[0] * eff)
+            eff_text = {
+                eff < 1: "\nThat was not effective! ",
+                eff > 1: "\nThat was very effective! ",
+                eff == 1: "",
+                eff == 0 or n_hp == 0 and attack.factor != 0: \
+                        f"{self.name} missed!"
+            }[True]
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
             time.sleep(0.4)
@@ -196,10 +207,7 @@ can't have more than 4 attacks!"
                 getattr(AttackActions(), attack.action)(self, enem)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
-                f'{self.ext_name} used {attack.name}! \
-{self.name + " missed!" if n_hp == 0 and attack.factor != 0 else ""}\n\
-{"That was very effective! " if effectivity == 1.3 and n_hp > 0 else ""}\
-{"That was not effective! " if effectivity == 0.5 and n_hp > 0 else ""}')
+                f'{self.ext_name} used {attack.name}! {eff_text}')
             if enem == self:
                 time.sleep(1)
                 fightmap.outp.outp(f'{self.ext_name} hurt it self!')
@@ -208,7 +216,7 @@ can't have more than 4 attacks!"
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
             logging.info("[Poke][%s] Used %s: %s", self.name, attack.name,
-                         str({"eff": effectivity, "n_hp": n_hp}))
+                         str({"eff": eff, "n_hp": n_hp}))
             fightmap.show()
 
     def evolve(self, figure):

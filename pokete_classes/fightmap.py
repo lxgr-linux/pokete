@@ -75,6 +75,7 @@ class FightMap(se.Map):
                             self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
+        self.figure = None
 
     def clean_up(self, player, enemy):
         """Removes all labels from self
@@ -224,6 +225,7 @@ class FightMap(se.Map):
                   ({"type": "wild", "player": " "})
         RETURNS:
             Poke object that won the fight"""
+        self.figure = figure
         logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d", info["type"], player.name, player.lvl(), enemy.name,
                      enemy.lvl())
