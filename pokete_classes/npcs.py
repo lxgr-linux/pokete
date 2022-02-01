@@ -3,7 +3,7 @@
 import time
 import logging
 import scrap_engine as se
-from pokete_general_use_fns import easy_exit_loop, std_loop
+from .loops import std_loop, easy_exit_loop
 from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings

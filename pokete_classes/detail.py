@@ -2,7 +2,7 @@
 
 import time
 import scrap_engine as se
-from pokete_general_use_fns import std_loop
+from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
 from .event import _ev

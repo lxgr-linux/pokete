@@ -4,7 +4,8 @@ import time
 import random
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_general_use_fns import std_loop, liner, easy_exit_loop
+from pokete_general_use_fns import liner
+from .loops import std_loop, easy_exit_loop
 from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
 from .detail import Detail

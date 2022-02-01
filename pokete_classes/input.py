@@ -1,7 +1,8 @@
 """This file contains input wrappers for ui elements"""
 
 import time
-from pokete_general_use_fns import std_loop, hard_liner
+from pokete_general_use_fns import hard_liner
+from .loops import std_loop
 from .ui_elements import InfoBox, InputBox
 from .event import _ev
 

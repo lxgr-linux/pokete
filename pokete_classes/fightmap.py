@@ -4,8 +4,8 @@ import time
 import random
 import logging
 import scrap_engine as se
-from pokete_general_use_fns import std_loop
 from pokete_classes import animations
+from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
 from .input import ask_bool

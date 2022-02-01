@@ -38,6 +38,7 @@ class Notification(LabelBox):
                 i.remove()
             else:
                 i.set(i.x + 1, i.y)
+        self.map.show()
 
 
 class Notifier:

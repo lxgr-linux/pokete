@@ -4,7 +4,8 @@ import time
 import datetime
 import logging
 import scrap_engine as se
-from pokete_general_use_fns import std_loop, liner, easy_exit_loop
+from pokete_general_use_fns import liner
+from .loops import std_loop, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 from .notify import notifier
