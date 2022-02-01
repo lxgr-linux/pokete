@@ -184,7 +184,7 @@ class FightMap(se.Map):
                     _ev.clear()
                     attack = ""
                     break
-                std_loop()
+                std_loop(False)
                 time.sleep(0.05)
         return attack
 
@@ -208,7 +208,7 @@ class FightMap(se.Map):
                 elif _ev.get() == "Key.enter":
                     item = items[self.invbox.index.index]
                     break
-                std_loop()
+                std_loop(False)
                 time.sleep(0.05)
         self.invbox.remove_c_obs()
         return item
@@ -328,7 +328,7 @@ used {enemy.name} against you!')
                                 j.readd()
                         attack = ""
                         break
-                    std_loop()
+                    std_loop(False)
                     time.sleep(0.1)
             else:
                 attack = random.choices(obj.attack_obs,

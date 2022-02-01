@@ -13,8 +13,11 @@ def easy_exit_loop():
         time.sleep(0.05)
 
 
-def std_loop():
-    """Standart action executed in most loops"""
+def std_loop(on_mvmp=True):
+    """Standart action executed in most loops
+    ARGS:
+        on_mvmp: Indicates if the loop is executed on movemap"""
     if _ev.get() == "exit":
         raise KeyboardInterrupt
-    notifier.next()
+    if on_mvmp:
+        notifier.next()

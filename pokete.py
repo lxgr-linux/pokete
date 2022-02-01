@@ -631,7 +631,7 @@ class Deck(Informer):
                         _ev.set("'q'")
                         continue
                     self.submap.full_show(init=True)
-            std_loop()
+            std_loop(False)
             if len(pokes) > 0 and\
                     self.index.y - self.submap.y + 6 > self.submap.height:
                 self.submap.set(self.submap.x, self.submap.y + 1)
