@@ -202,26 +202,8 @@ at level {figure.pokes[index].lvl()}.")
 
     @staticmethod
     def chat(npc):
-        """Interaction with npc_14"""
-        q_a = {
-            "q": [" < Hello there"],
-            "a": {
-                "Hello": {
-                    "q": [" < Hi"],
-                    "a": {}
-                    },
-                "How are you?": {
-                    "q": [" < I'm fine, thanks", " < Where are you from?"],
-                    "a": {
-                        "Home": {
-                            "q": [" < Wow"],
-                            "a": {}
-                            }
-                        }
-                    }
-                }
-            }
-        npc.chat(q_a)
+        """Starts a chat"""
+        npc.chat()
 
 
 class CenterInteract(se.Object):
@@ -1361,7 +1343,8 @@ def gen_obs():
     # NPCs
     for npc in npcs:
         parse_obj(ob_maps[npcs[npc]["map"]], npc,
-                  NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"]),
+                  NPC(npc, npcs[npc]["texts"], fn=npcs[npc]["fn"],
+                      chat=npcs[npc].get("chat", None)),
                   npcs[npc])
 
 

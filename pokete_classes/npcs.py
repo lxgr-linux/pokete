@@ -45,12 +45,16 @@ class NPC(se.Box):
         cls.npcactions = npcactions
         cls.check_walk_back = check_walk_back
 
-    def __init__(self, name, texts, fn=None, side_trigger=True):
+    def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
         self.will = True
         self.name = name
         self.texts = texts
         self.__fn = fn
+        if chat is None:
+            self.q_a = {}
+        else:
+            self.q_a = chat
         self.main_ob = se.Object("a")
         if side_trigger:
             for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
@@ -139,24 +143,30 @@ class NPC(se.Box):
 Do you want to accept it?"):
             self.fig.give_item(item.name)
 
-    def chat(self, inp):
-        q_a = inp
+    def chat(self):
+        """Starts a question-answer chat"""
+        q_a = self.q_a
+        if q_a == {}:
+            return
         while True:
             self.text(q_a["q"])
-            while True:
-                if _ev.get() != "":
-                    break
+            while _ev.get() == "":
+                _ev.clear()
                 std_loop()
                 time.sleep(0.05)
             if q_a["a"] == {}:
                 break
             keys = list(q_a["a"].keys())
-            with ChooseBox(len(keys) + 2,
-                           sorted(len(i) for i in keys)[-1] + 6,
-                           name="Answer",
-                           c_obs=[se.Text(i, state="float")
-                                    for i in keys]).center_add(self.mvmp) as\
-                           c_b:
+            c_b = ChooseBox(len(keys) + 2,
+                            sorted(len(i) for i in keys)[-1] + 6,
+                            name="Answer",
+                            c_obs=[se.Text(i, state="float")
+                                     for i in keys])
+            c_b.frame.corners[0].rechar("^")
+            self.mvmp.assure_distance(self.fig.x, self.fig.y,
+                                      c_b.width + 2, c_b.height + 2)
+            with c_b.add(self.mvmp, self.fig.x - self.mvmp.x,
+                         self.fig.y - self.mvmp.y + 1):
                 while True:
                     if _ev.get() in ["'w'", "'s'"]:
                         c_b.input(_ev.get())

@@ -194,6 +194,24 @@ found some cool Poketes.",
     "chat_npc": {
         "texts": [],
         "fn": "chat",
+        "chat": {
+            "q": [" < Hello there"],
+            "a": {
+                "Hello": {
+                    "q": [" < Hi"],
+                    "a": {}
+                    },
+                "How are you?": {
+                    "q": [" < I'm fine, thanks", " < Where are you from?"],
+                    "a": {
+                        "Home": {
+                            "q": [" < Wow"],
+                            "a": {}
+                            }
+                        }
+                    }
+                }
+            },
         "map": "playmap_8",
         "x": 74,
         "y": 15

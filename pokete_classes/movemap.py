@@ -37,22 +37,29 @@ class Movemap(se.Submap):
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
+    def assure_distance(self, x, y, width, height):
+        """This ensures the game does not crash when big
+        chunks of text are displayed
+        ARGS:
+            x: The x coordinate the distance should be assured from
+            y: The y coordinate the distance should be assured from
+            width: The distances width
+            height: The distances height"""
+        for _c, i, j, _k in zip([x, y], ["x", "y"],
+                                [self.width, self.height], [width, height]):
+            while _c - getattr(self, i) + _k >= j:
+                self.set(self.x + (1 if i == "x" else 0),
+                         self.y + (1 if i == "y" else 0))
+                self.show()
+                time.sleep(0.045)
+
     def text(self, x, y, inp_arr):
         """Shows dialog text on movemap
         ARGS:
             x: The message's X
             y: And y-coordinate
             inp_arr: List of messages that will be displayed"""
-        # This ensures the game does not crash when big
-        # chunks of text are displayed
-        for _c, i, j, _k in zip([x, y], ["x", "y"],
-                                [self.width, self.height], [17, 10]):
-            while _c - getattr(self, i) + _k >= j:
-                self.set(self.x + (1 if i == "x" else 0),
-                         self.y + (1 if i == "y" else 0))
-                self.show()
-                time.sleep(0.045)
-        # End section
+        self.assure_distance(x, y, 17, 10)
         self.multitext.rechar("")
         self.multitext.add(self, x - self.x + 1, y - self.y)
         arr = [i + (" >" if j != len(inp_arr) - 1 else "")
