@@ -200,6 +200,29 @@ at level {figure.pokes[index].lvl()}.")
         """Interaction with npc_14"""
         npc.give("Bert the bird", "super_potion")
 
+    @staticmethod
+    def chat(npc):
+        """Interaction with npc_14"""
+        q_a = {
+            "q": [" < Hello there"],
+            "a": {
+                "Hello": {
+                    "q": [" < Hi"],
+                    "a": {}
+                    },
+                "How are you?": {
+                    "q": [" < I'm fine, thanks", " < Where are you from?"],
+                    "a": {
+                        "Home": {
+                            "q": [" < Wow"],
+                            "a": {}
+                            }
+                        }
+                    }
+                }
+            }
+        npc.chat(q_a)
+
 
 class CenterInteract(se.Object):
     """Triggers a conversation in the Pokete center"""

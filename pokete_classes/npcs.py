@@ -3,9 +3,12 @@
 import time
 import logging
 import scrap_engine as se
+from pokete_general_use_fns import easy_exit_loop, std_loop
 from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings
+from .ui_elements import ChooseBox
+from .event import _ev
 
 
 class NPCTrigger(se.Object):
@@ -135,6 +138,36 @@ class NPC(se.Box):
         if ask_bool(self.mvmp, f"{name} gifted you a '{item.pretty_name}'. \
 Do you want to accept it?"):
             self.fig.give_item(item.name)
+
+    def chat(self, inp):
+        q_a = inp
+        while True:
+            self.text(q_a["q"])
+            while True:
+                if _ev.get() != "":
+                    break
+                std_loop()
+                time.sleep(0.05)
+            if q_a["a"] == {}:
+                break
+            keys = list(q_a["a"].keys())
+            with ChooseBox(len(keys) + 2,
+                           sorted(len(i) for i in keys)[-1] + 6,
+                           name="Answer",
+                           c_obs=[se.Text(i, state="float")
+                                    for i in keys]).center_add(self.mvmp) as\
+                           c_b:
+                while True:
+                    if _ev.get() in ["'w'", "'s'"]:
+                        c_b.input(_ev.get())
+                        self.mvmp.show()
+                        _ev.clear()
+                    elif _ev.get() == "Key.enter":
+                        key = keys[c_b.index.index]
+                        break
+                    std_loop()
+                    time.sleep(0.05)
+            q_a = q_a["a"][key]
 
 
 class Trainer(NPC):

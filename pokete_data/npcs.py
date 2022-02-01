@@ -191,6 +191,13 @@ found some cool Poketes.",
         "x": 11,
         "y": 4
     },
+    "chat_npc": {
+        "texts": [],
+        "fn": "chat",
+        "map": "playmap_8",
+        "x": 74,
+        "y": 15
+    },
 }
 
 if __name__ == "__main__":
