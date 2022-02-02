@@ -87,6 +87,7 @@ class Notifier:
             if self.notification.x == self.map.width - 1:
                 self.notification.remove()
                 self.notified = False
+                self.map.show()
                 if len(self.wait) != 0:
                     self.__notify(self.wait.pop(0))
 

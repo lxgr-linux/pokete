@@ -24,6 +24,7 @@ class EvoMap(se.Map):
 
     def __init__(self, height, width):
         super().__init__(height, width, " ")
+        self.name = "evomap"
         self.frame_small = se.Frame(height=4, width=width, state="float")
         self.outp = OutP("", state="float")
         # adding
@@ -39,6 +40,7 @@ class FightMap(se.Map):
 
     def __init__(self, height, width):
         super().__init__(height, width, " ")
+        self.name = "fightmap"
         self.box = ChooseBox(6, 25, "Attacks", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
