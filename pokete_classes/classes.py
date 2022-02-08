@@ -1,6 +1,6 @@
-import os
+"""Contains just some small classes"""
+
 import scrap_engine as se
-from .ui_elements import StdFrame
 
 
 class PlayMap(se.Map):
@@ -36,25 +36,6 @@ class PlayMap(se.Map):
         """Executes the extra action"""
         if self.__extra_actions is not None:
             self.__extra_actions()
-
-
-class Settings():
-    """Contains all possible settings
-    ARGS:
-        The available settings"""
-
-    def __init__(self, autosave=True, animations=True, save_trainers=True,
-                 colors=True, load_mods=False):
-        self.keywords = ["autosave", "animations",
-                         "save_trainers", "load_mods"]
-        self.autosave = autosave
-        self.animations = animations
-        self.save_trainers = save_trainers
-        self.load_mods = load_mods
-
-    def dict(self):
-        """Returns a dict of all current settings"""
-        return {i: getattr(self, i) for i in self.keywords}
 
 
 class OutP(se.Text):

@@ -2,8 +2,9 @@
 
 import time
 import scrap_engine as se
+from pokete_data.attacks import attacks
 from .effects import effects
-from .types import Types
+from .types import types
 from .color import Color
 
 
@@ -11,10 +12,10 @@ class Attack:
     """Attack that can be used by a Pokete
     ARGS:
         index: The attacks basic name
-        p_data: p_data module"""
+        pref: Prefix used for the attack label"""
 
-    def __init__(self, index, p_data):
-        inf = p_data.attacks[index]
+    def __init__(self, index, pref=""):
+        inf = attacks[index]
         # Attributes
         self.name = inf["name"]
         self.factor = inf["factor"]
@@ -27,7 +28,7 @@ class Attack:
         self.effect = inf["effect"]
         self.is_generic = inf["is_generic"]
         self.ap = inf["ap"]
-        self.type = getattr(Types(p_data), inf["types"][0])
+        self.type = getattr(types, inf["types"][0])
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
@@ -36,8 +37,18 @@ class Attack:
         self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
         self.label_desc = se.Text(self.desc[:10], state="float")
         self.label_type = se.Text("Type:", state="float") \
-                        + se.Text(self.type.name.capitalize(),
-                                  esccode=self.type.color, state="float")
+                          + se.Text(self.type.name.capitalize(),
+                                    esccode=self.type.color, state="float")
+        self.pref = pref
+        self.label = self.make_label()
+
+    def make_label(self):
+        """Creates label
+        RETURNS:
+            New label"""
+        return se.Text(f"{self.pref}: ", state="float")\
+                + se.Text(self.name, esccode=self.type.color)\
+                + se.Text(f"-{self.ap}")
 
     def give_effect(self, enem):
         """Gives the associated effect to a Pokete
@@ -46,6 +57,15 @@ class Attack:
         if self.effect is not None:
             time.sleep(1.5)
             getattr(effects, self.effect)().add(enem)
+
+    def set_ap(self, ap):
+        """Sets attack points
+        ARGS:
+            ap: Attack points"""
+        if ap != "SKIP":
+            self.ap = min(ap, self.max_ap)
+            self.label.rechar("")
+            self.label += self.make_label()
 
 
 if __name__ == "__main__":

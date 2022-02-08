@@ -112,15 +112,15 @@ class ChooseBox(Box):
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, _ev):
+    def input(self, inp):
         """Moves the cursor in the box
         ARGS:
-            _ev: Event object"""
+             inp: Inputted char"""
         if {"'s'": self.index.index + 1 < len(self.c_obs),
-                "'w'": self.index.index - 1 >= 0}[_ev]:
-            self.index.index += {"'s'": 1, "'w'": -1}[_ev]
+                "'w'": self.index.index - 1 >= 0}[inp]:
+            self.index.index += {"'s'": 1, "'w'": -1}[inp]
         else:
-            self.index.index = {"'s'": 0, "'w'": len(self.c_obs) - 1}[_ev]
+            self.index.index = {"'s'": 0, "'w'": len(self.c_obs) - 1}[inp]
         self.set_index()
 
     def set_index(self, index=None):
@@ -210,14 +210,14 @@ class BetterChooseBox(Box):
             The BetterChooseBoxItem at the coordinate"""
         return self.nest_label_obs[_y][_x]
 
-    def input(self, _ev):
+    def input(self, inp):
         """Evaluates user input
         ARGS:
-            _ev: Event object"""
+            inp: Inputted string"""
         _c = {"'w'": (-1, 0),
               "'s'": (1, 0),
               "'a'": (0, -1),
-              "'d'": (0, 1)}[_ev]
+              "'d'": (0, 1)}[inp]
         self.set_index((self.index[0] + _c[0])
                             % len([i for i in self.nest_label_obs if len(i) >
                                 self.index[1]]),
@@ -307,7 +307,7 @@ class InputBox(InfoBox):
         height = len(infotext.split("\n")) + 3
         width = sorted([len(i) for i in infotext.split("\n")]
                         + [len(introtext) + 1 + max_len])[-1] + 4
-        super(self.__class__.__bases__[0], self).__init__(height, width, name)
+        super(LabelBox, self).__init__(height, width, name)
         self.map = _map
         self.infotext = se.Text(infotext)
         self.introtext = se.Text(introtext)

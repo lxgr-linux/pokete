@@ -2,9 +2,11 @@
 
 import time
 import scrap_engine as se
-from pokete_general_use_fns import std_loop, liner
+import pokete_data as p_data
+from pokete_general_use_fns import std_loop, liner, easy_exit_loop
 from .color import Color
 from .ui_elements import Box, InfoBox
+from .event import _ev
 
 
 class Station(se.Square):
@@ -46,12 +48,12 @@ class Station(se.Square):
         """Unchooses the station"""
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, _ev):
+    def next(self, inp):
         """Chooses the next station in a certain direction
         ARGS:
-            _ev: Event object"""
-        _ev = _ev.strip("'")
-        if (n_e := getattr(self, _ev + "_next")) != "":
+            inp: Event object"""
+        inp = inp.strip("'")
+        if (n_e := getattr(self, inp + "_next")) != "":
             self.unchoose()
             getattr(self.roadmap, n_e).choose()
 
@@ -62,7 +64,7 @@ class Station(se.Square):
     def is_city(self):
         """Returns if the station is a city"""
         return "pokecenter"\
-            in self.roadmap.p_d.map_data[self.associates[0].name]["hard_obs"]
+            in p_data.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
         """Marks a station as visited
@@ -78,20 +80,18 @@ class Station(se.Square):
 class RoadMap:
     """Map you can see and navigate maps on
     ARGS:
-        p_d: p_data module
         ob_maps: Dict with all PlayMaps
         fig: Figure object"""
 
-    def __init__(self, p_d, ob_maps, fig):
+    def __init__(self, ob_maps, fig):
         self.ob_maps = ob_maps
-        self.p_d = p_d
         self.fig = fig
         self.box = Box(11, 40, "Roadmap", "q:close")
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width-2, 0)
-        for sta in p_d.stations:
-            obj = Station(self, ob_maps[sta], **p_d.stations[sta]['gen'])
-            self.box.add_ob(obj, **p_d.stations[sta]['add'])
+        for sta in p_data.stations:
+            obj = Station(self, ob_maps[sta], **p_data.stations[sta]['gen'])
+            self.box.add_ob(obj, **p_data.stations[sta]['add'])
             setattr(self, sta, obj)
 
     @property
@@ -106,10 +106,9 @@ class RoadMap:
         self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
         self.info_label.rechar(name)
 
-    def __call__(self, _ev, _map, choose=False):
+    def __call__(self, _map, choose=False):
         """Shows the roadmap
         ARGS:
-            _ev: Event object
             _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city"""
         _ev.clear()
@@ -136,7 +135,7 @@ class RoadMap:
                 elif (_ev.get() == "Key.enter" and not choose
                       and self.sta.has_been_visited()):
                     _ev.clear()
-                    p_list = ", ".join(set(self.p_d.pokes[j]["name"]
+                    p_list = ", ".join(set(p_data.pokes[j]["name"]
                                        for i in self.sta.associates
                                            for j in
                                            i.poke_args.get("pokes", [])
@@ -145,13 +144,8 @@ class RoadMap:
                                        + "\n\n Here you can find: " +
                                        (p_list if p_list != "" else "Nothing"),
                                        30), self.sta.name, _map=_map):
-                        while True:
-                            if _ev.get() in ["Key.esc", "'q'"]:
-                                _ev.clear()
-                                break
-                            std_loop(_ev)
-                            time.sleep(0.05)
-                std_loop(_ev)
+                        easy_exit_loop()
+                std_loop()
                 time.sleep(0.05)
                 _map.show()
         self.sta.unchoose()

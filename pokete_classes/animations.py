@@ -50,12 +50,12 @@ def fight_intro(height, width):
     for i in vec_list:
         i.add(fancymap, int(width / 2), int((height - 1) / 2))
     fancymap.show()
-    for i, l in zip(list(zip(*[j.obs for j in vec_list])),
-                    list(zip(*[list(2 * " ") + k
-                             for k in [j.obs for j in vec_list]])), ):
+    for i, _l in zip(list(zip(*[j.obs for j in vec_list])),
+                     list(zip(*[list(2 * " ") + k
+                              for k in [j.obs for j in vec_list]])), ):
         for j in i:
             j.rechar("-")
-        for j in l:
+        for j in _l:
             if j != " ":
                 j.rechar(" ")
         fancymap.show()

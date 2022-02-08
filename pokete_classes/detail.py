@@ -5,6 +5,7 @@ import scrap_engine as se
 from pokete_general_use_fns import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
+from .event import _ev
 
 
 class Informer:
@@ -29,11 +30,9 @@ class Informer:
                                      [0, 1, 2, 2, 2, 2, 3]):
                 obj.add(_map, _x + __x, _y + __y)
             if in_deck and figure.pokes.index(poke) < 6:
-                poke.pball_small.add(_map,
-                                     round(_map.width / 2) - 1
-                                     if figure.pokes.index(poke) % 2 == 0
-                                     else _map.width - 2,
-                                     _y)
+                poke.pball_small.add(_map, round(_map.width / 2) - 1
+                                           if figure.pokes.index(poke) % 2 == 0
+                                           else _map.width - 2, _y)
             for eff in poke.effects:
                 eff.add_label()
 
@@ -84,15 +83,14 @@ class Detail(Informer):
         self.frame.add(self.map, 0, 0)
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
 
-    def __call__(self, _ev, poke, abb=True):
+    def __call__(self, poke, abb=True):
         """Shows details
         ARGS:
-            _ev: Event object
             poke: Poke object whose details are given
             abb: Bool whether or not the ability option is shown"""
         ret_action = None
         self.add(poke, None, self.map, 1, 1, False)
-        abb_obs = [i for i in poke.attac_obs
+        abb_obs = [i for i in poke.attack_obs
                    if i.world_action != ""]
         if abb_obs != [] and abb:
             self.world_actions_label.rechar("Abilities:"
@@ -107,7 +105,7 @@ class Detail(Informer):
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
         for obj, _x, _y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
             obj.add(self.map, _x, _y)
-        for atc, _x, _y in zip(poke.attac_obs, [1,
+        for atc, _x, _y in zip(poke.attack_obs, [1,
                                                 round(self.map.width / 2) + 1,
                                                 1,
                                                 round(self.map.width / 2) + 1],
@@ -129,7 +127,7 @@ class Detail(Informer):
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
-                for atc in poke.attac_obs:
+                for atc in poke.attack_obs:
                     for obj in [atc.label_name, atc.label_factor, atc.label_ap,
                                 atc.label_desc, atc.label_type]:
                         obj.remove()
@@ -142,7 +140,7 @@ class Detail(Informer):
                         as box:
                     while True:
                         if _ev.get() in ["'s'", "'w'"]:
-                            box.input(_ev)
+                            box.input(_ev.get())
                             self.map.show()
                             _ev.clear()
                         elif _ev.get() == "Key.enter":
@@ -152,11 +150,11 @@ class Detail(Informer):
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()
                             break
-                        std_loop(_ev)
+                        std_loop()
                         time.sleep(0.05)
-            std_loop(_ev)
+            std_loop()
             # This section generates the Text effect for attack labels
-            for atc in poke.attac_obs:
+            for atc in poke.attack_obs:
                 if len(atc.desc) > int((self.map.width - 3) / 2 - 1):
                     if atc.temp_j == 5:
                         atc.temp_i += 1
@@ -174,6 +172,7 @@ class Detail(Informer):
                         atc.temp_j += 1
             time.sleep(0.05)
             self.map.show()
+
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

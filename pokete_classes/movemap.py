@@ -5,6 +5,7 @@ import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
 from .classes import OutP
 from .color import Color
+from .event import _ev
 
 
 class Movemap(se.Submap):
@@ -36,13 +37,12 @@ class Movemap(se.Submap):
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
-    def text(self, x, y, inp_arr, _ev):
+    def text(self, x, y, inp_arr):
         """Shows dialog text on movemap
         ARGS:
             x: The message's X
             y: And y-coordinate
-            inp_arr: List of messages that will be displayed
-            _ev: Event object"""
+            inp_arr: List of messages that will be displayed"""
         # This ensures the game does not crash when big
         # chunks of text are displayed
         for _c, i, j, _k in zip([x, y], ["x", "y"],
@@ -64,14 +64,14 @@ class Movemap(se.Submap):
                 self.multitext.outp(liner(text[:i],
                                           self.width - (x - self.x + 1), "   "))
                 time.sleep(0.045)
-                std_loop(_ev)
+                std_loop()
                 if _ev.get() != "":
                     _ev.clear()
                     break
             self.multitext.outp(liner(text,
                                       self.width - (x - self.x + 1), "   "))
             while _ev.get() == "":
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
         self.multitext.remove()
 

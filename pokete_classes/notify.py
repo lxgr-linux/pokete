@@ -41,18 +41,20 @@ class Notification(LabelBox):
 
 
 class Notifier:
-    """Class managing notifications
-    ARGS:
-        _map: The se.Map the notifications will be shown on
-        logging: The logging module"""
+    """Class managing notifications"""
 
-    def __init__(self, _map, logging):
-        self.map = _map
-        self.logging = logging
+    def __init__(self):
+        self.map = None
         self.wait = []
         self.notified = False
         self.notification = None
         self.counter = -1
+
+    def set_vars(self, _map):
+        """Sets map variable
+        ARGS:
+            _map: The se.Map the notifications will be shown on"""
+        self.map = _map
 
     def notify(self, title, name, desc):
         """Initilizes a Notification and manages it
@@ -86,3 +88,6 @@ class Notifier:
                 self.notified = False
                 if len(self.wait) != 0:
                     self.__notify(self.wait.pop(0))
+
+
+notifier = Notifier()
