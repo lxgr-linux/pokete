@@ -143,15 +143,15 @@ class ChooseBox(Box):
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, _ev):
+    def input(self, inp):
         &#34;&#34;&#34;Moves the cursor in the box
         ARGS:
-            _ev: Event object&#34;&#34;&#34;
+             inp: Inputted char&#34;&#34;&#34;
         if {&#34;&#39;s&#39;&#34;: self.index.index + 1 &lt; len(self.c_obs),
-                &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[_ev]:
-            self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[_ev]
+                &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[inp]:
+            self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[inp]
         else:
-            self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[_ev]
+            self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[inp]
         self.set_index()
 
     def set_index(self, index=None):
@@ -241,14 +241,14 @@ class BetterChooseBox(Box):
             The BetterChooseBoxItem at the coordinate&#34;&#34;&#34;
         return self.nest_label_obs[_y][_x]
 
-    def input(self, _ev):
+    def input(self, inp):
         &#34;&#34;&#34;Evaluates user input
         ARGS:
-            _ev: Event object&#34;&#34;&#34;
+            inp: Inputted string&#34;&#34;&#34;
         _c = {&#34;&#39;w&#39;&#34;: (-1, 0),
               &#34;&#39;s&#39;&#34;: (1, 0),
               &#34;&#39;a&#39;&#34;: (0, -1),
-              &#34;&#39;d&#39;&#34;: (0, 1)}[_ev]
+              &#34;&#39;d&#39;&#34;: (0, 1)}[inp]
         self.set_index((self.index[0] + _c[0])
                             % len([i for i in self.nest_label_obs if len(i) &gt;
                                 self.index[1]]),
@@ -338,7 +338,7 @@ class InputBox(InfoBox):
         height = len(infotext.split(&#34;\n&#34;)) + 3
         width = sorted([len(i) for i in infotext.split(&#34;\n&#34;)]
                         + [len(introtext) + 1 + max_len])[-1] + 4
-        super(self.__class__.__bases__[0], self).__init__(height, width, name)
+        super(LabelBox, self).__init__(height, width, name)
         self.map = _map
         self.infotext = se.Text(infotext)
         self.introtext = se.Text(introtext)
@@ -420,14 +420,14 @@ if __name__ == &#34;__main__&#34;:
             The BetterChooseBoxItem at the coordinate&#34;&#34;&#34;
         return self.nest_label_obs[_y][_x]
 
-    def input(self, _ev):
+    def input(self, inp):
         &#34;&#34;&#34;Evaluates user input
         ARGS:
-            _ev: Event object&#34;&#34;&#34;
+            inp: Inputted string&#34;&#34;&#34;
         _c = {&#34;&#39;w&#39;&#34;: (-1, 0),
               &#34;&#39;s&#39;&#34;: (1, 0),
               &#34;&#39;a&#39;&#34;: (0, -1),
-              &#34;&#39;d&#39;&#34;: (0, 1)}[_ev]
+              &#34;&#39;d&#39;&#34;: (0, 1)}[inp]
         self.set_index((self.index[0] + _c[0])
                             % len([i for i in self.nest_label_obs if len(i) &gt;
                                 self.index[1]]),
@@ -512,27 +512,27 @@ if __name__ == &#34;__main__&#34;:
 </details>
 </dd>
 <dt id="pokete_classes.ui_elements.BetterChooseBox.input"><code class="name flex">
-<span>def <span class="ident">input</span></span>(<span>self, _ev)</span>
+<span>def <span class="ident">input</span></span>(<span>self, inp)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Evaluates user input</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>_ev</code></strong></dt>
-<dd>Event object</dd>
+<dt><strong><code>inp</code></strong></dt>
+<dd>Inputted string</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def input(self, _ev):
+<pre><code class="python">def input(self, inp):
     &#34;&#34;&#34;Evaluates user input
     ARGS:
-        _ev: Event object&#34;&#34;&#34;
+        inp: Inputted string&#34;&#34;&#34;
     _c = {&#34;&#39;w&#39;&#34;: (-1, 0),
           &#34;&#39;s&#39;&#34;: (1, 0),
           &#34;&#39;a&#39;&#34;: (0, -1),
-          &#34;&#39;d&#39;&#34;: (0, 1)}[_ev]
+          &#34;&#39;d&#39;&#34;: (0, 1)}[inp]
     self.set_index((self.index[0] + _c[0])
                         % len([i for i in self.nest_label_obs if len(i) &gt;
                             self.index[1]]),
@@ -940,15 +940,15 @@ See se.Box.resize</p></div>
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, _ev):
+    def input(self, inp):
         &#34;&#34;&#34;Moves the cursor in the box
         ARGS:
-            _ev: Event object&#34;&#34;&#34;
+             inp: Inputted char&#34;&#34;&#34;
         if {&#34;&#39;s&#39;&#34;: self.index.index + 1 &lt; len(self.c_obs),
-                &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[_ev]:
-            self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[_ev]
+                &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[inp]:
+            self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[inp]
         else:
-            self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[_ev]
+            self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[inp]
         self.set_index()
 
     def set_index(self, index=None):
@@ -1006,28 +1006,28 @@ See se.Box.resize</p></div>
 </details>
 </dd>
 <dt id="pokete_classes.ui_elements.ChooseBox.input"><code class="name flex">
-<span>def <span class="ident">input</span></span>(<span>self, _ev)</span>
+<span>def <span class="ident">input</span></span>(<span>self, inp)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Moves the cursor in the box</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>_ev</code></strong></dt>
-<dd>Event object</dd>
+<dt><strong><code>inp</code></strong></dt>
+<dd>Inputted char</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def input(self, _ev):
+<pre><code class="python">def input(self, inp):
     &#34;&#34;&#34;Moves the cursor in the box
     ARGS:
-        _ev: Event object&#34;&#34;&#34;
+         inp: Inputted char&#34;&#34;&#34;
     if {&#34;&#39;s&#39;&#34;: self.index.index + 1 &lt; len(self.c_obs),
-            &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[_ev]:
-        self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[_ev]
+            &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[inp]:
+        self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[inp]
     else:
-        self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[_ev]
+        self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[inp]
     self.set_index()</code></pre>
 </details>
 </dd>
@@ -1183,7 +1183,7 @@ See se.Box.resize</p></div>
         height = len(infotext.split(&#34;\n&#34;)) + 3
         width = sorted([len(i) for i in infotext.split(&#34;\n&#34;)]
                         + [len(introtext) + 1 + max_len])[-1] + 4
-        super(self.__class__.__bases__[0], self).__init__(height, width, name)
+        super(LabelBox, self).__init__(height, width, name)
         self.map = _map
         self.infotext = se.Text(infotext)
         self.introtext = se.Text(introtext)

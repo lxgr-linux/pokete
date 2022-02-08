@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.classes API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Contains just some small classes" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,13 +22,14 @@
 <h1 class="title">Module <code>pokete_classes.classes</code></h1>
 </header>
 <section id="section-intro">
+<p>Contains just some small classes</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import os
+<pre><code class="python">&#34;&#34;&#34;Contains just some small classes&#34;&#34;&#34;
+
 import scrap_engine as se
-from .ui_elements import StdFrame
 
 
 class PlayMap(se.Map):
@@ -64,25 +65,6 @@ class PlayMap(se.Map):
         &#34;&#34;&#34;Executes the extra action&#34;&#34;&#34;
         if self.__extra_actions is not None:
             self.__extra_actions()
-
-
-class Settings():
-    &#34;&#34;&#34;Contains all possible settings
-    ARGS:
-        The available settings&#34;&#34;&#34;
-
-    def __init__(self, autosave=True, animations=True, save_trainers=True,
-                 colors=True, load_mods=False):
-        self.keywords = [&#34;autosave&#34;, &#34;animations&#34;,
-                         &#34;save_trainers&#34;, &#34;load_mods&#34;]
-        self.autosave = autosave
-        self.animations = animations
-        self.save_trainers = save_trainers
-        self.load_mods = load_mods
-
-    def dict(self):
-        &#34;&#34;&#34;Returns a dict of all current settings&#34;&#34;&#34;
-        return {i: getattr(self, i) for i in self.keywords}
 
 
 class OutP(se.Text):
@@ -286,54 +268,6 @@ if __name__ == &#34;__main__&#34;:
 </dd>
 </dl>
 </dd>
-<dt id="pokete_classes.classes.Settings"><code class="flex name class">
-<span>class <span class="ident">Settings</span></span>
-<span>(</span><span>autosave=True, animations=True, save_trainers=True, colors=True, load_mods=False)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Contains all possible settings</p>
-<h2 id="args">Args</h2>
-<p>The available settings</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Settings():
-    &#34;&#34;&#34;Contains all possible settings
-    ARGS:
-        The available settings&#34;&#34;&#34;
-
-    def __init__(self, autosave=True, animations=True, save_trainers=True,
-                 colors=True, load_mods=False):
-        self.keywords = [&#34;autosave&#34;, &#34;animations&#34;,
-                         &#34;save_trainers&#34;, &#34;load_mods&#34;]
-        self.autosave = autosave
-        self.animations = animations
-        self.save_trainers = save_trainers
-        self.load_mods = load_mods
-
-    def dict(self):
-        &#34;&#34;&#34;Returns a dict of all current settings&#34;&#34;&#34;
-        return {i: getattr(self, i) for i in self.keywords}</code></pre>
-</details>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete_classes.classes.Settings.dict"><code class="name flex">
-<span>def <span class="ident">dict</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns a dict of all current settings</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def dict(self):
-    &#34;&#34;&#34;Returns a dict of all current settings&#34;&#34;&#34;
-    return {i: getattr(self, i) for i in self.keywords}</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
 </dl>
 </section>
 </article>
@@ -361,12 +295,6 @@ if __name__ == &#34;__main__&#34;:
 <h4><code><a title="pokete_classes.classes.PlayMap" href="#pokete_classes.classes.PlayMap">PlayMap</a></code></h4>
 <ul class="">
 <li><code><a title="pokete_classes.classes.PlayMap.extra_actions" href="#pokete_classes.classes.PlayMap.extra_actions">extra_actions</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="pokete_classes.classes.Settings" href="#pokete_classes.classes.Settings">Settings</a></code></h4>
-<ul class="">
-<li><code><a title="pokete_classes.classes.Settings.dict" href="#pokete_classes.classes.Settings.dict">dict</a></code></li>
 </ul>
 </li>
 </ul>

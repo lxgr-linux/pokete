@@ -31,10 +31,13 @@
 
 import time
 import datetime
+import logging
 import scrap_engine as se
-from pokete_general_use_fns import std_loop, liner
+from pokete_general_use_fns import std_loop, liner, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
+from .notify import notifier
+from .event import _ev
 
 
 class Achievement:
@@ -52,14 +55,9 @@ class Achievement:
 
 
 class Achievements:
-    &#34;&#34;&#34;Manages Achievements
-    ARGS:
-        logging: logging module
-        notifier: Notifier object&#34;&#34;&#34;
+    &#34;&#34;&#34;Manages Achievements&#34;&#34;&#34;
 
-    def __init__(self, logging, notifier):
-        self.logging = logging
-        self.notifier = notifier
+    def __init__(self):
         self.achievements = []
         self.achieved = []
 
@@ -82,9 +80,9 @@ class Achievements:
         if not self.is_achieved(identifier):
             ach = [i for i in self.achievements
                    if i.identifier == identifier][0]
-            self.notifier.notify(ach.title, &#34;Achievement unlocked!&#34;, ach.desc)
+            notifier.notify(ach.title, &#34;Achievement unlocked!&#34;, ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
-            self.logging.info(&#34;[Achievements] Unlocked %s&#34;, identifier)
+            logging.info(&#34;[Achievements] Unlocked %s&#34;, identifier)
 
     def is_achieved(self, identifier):
         &#34;&#34;&#34;Whether or not an identifier is achieved
@@ -101,9 +99,9 @@ class AchBox(LabelBox):
         ach: The Achievement
         achievements: Achievement&#39;s object&#34;&#34;&#34;
 
-    def __init__(self, ach, achievements):
-        is_ach = achievements.is_achieved(ach.identifier)
-        date = [i[-1] for i in achievements.achieved if i[0] ==
+    def __init__(self, ach, ach_ob):
+        is_ach = ach_ob.is_achieved(ach.identifier)
+        date = [i[-1] for i in ach_ob.achieved if i[0] ==
                 ach.identifier][0] if is_ach else &#34;&#34;
         label = se.Text(&#34;Achieved: &#34;, state=&#34;float&#34;)\
                 + se.Text(&#34;Yes&#34; if is_ach else &#34;No&#34;,
@@ -116,24 +114,20 @@ class AchBox(LabelBox):
 
 
 class AchievementOverview(BetterChooseBox):
-    &#34;&#34;&#34;Overview for Achievements
-    ARGS:
-        achievements: Achievements object&#34;&#34;&#34;
+    &#34;&#34;&#34;Overview for Achievements&#34;&#34;&#34;
 
-    def __init__(self, achievements):
-        self.achievements = achievements
+    def __init__(self):
         super().__init__(4, [se.Text(&#34; &#34;)], name=&#34;Achievements&#34;)
 
-    def __call__(self, _ev, _map):
+    def __call__(self, _map):
         &#34;&#34;&#34;Input loop
         ARGS:
-            _ev: Event object
             _map: se.Map to show this on&#34;&#34;&#34;
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
-                                   if self.achievements.is_achieved(i.identifier)
+                                   if achievements.is_achieved(i.identifier)
                                    else &#34;&#34;, state=&#34;float&#34;)
-                           for i in self.achievements.achievements])
+                           for i in achievements.achievements])
         self.map = _map
         with self:
             while True:
@@ -145,18 +139,16 @@ class AchievementOverview(BetterChooseBox):
                     break
                 elif _ev.get() == &#34;Key.enter&#34;:
                     _ev.clear()
-                    ach = self.achievements.achievements[
+                    ach = achievements.achievements[
                             self.get_item(*self.index).ind]
-                    with AchBox(ach, self.achievements).center_add(_map):
-                        while True:
-                            if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-                                _ev.clear()
-                                break
-                            std_loop(_ev)
-                            time.sleep(0.05)
-                std_loop(_ev)
+                    with AchBox(ach, achievements).center_add(_map):
+                        easy_exit_loop()
+                std_loop()
                 time.sleep(0.05)
-                self.map.show()</code></pre>
+                self.map.show()
+
+
+achievements = Achievements()</code></pre>
 </details>
 </section>
 <section>
@@ -170,7 +162,7 @@ class AchievementOverview(BetterChooseBox):
 <dl>
 <dt id="pokete_classes.achievements.AchBox"><code class="flex name class">
 <span>class <span class="ident">AchBox</span></span>
-<span>(</span><span>ach, achievements)</span>
+<span>(</span><span>ach, ach_ob)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Box with info about an Achievement</p>
@@ -191,9 +183,9 @@ class AchievementOverview(BetterChooseBox):
         ach: The Achievement
         achievements: Achievement&#39;s object&#34;&#34;&#34;
 
-    def __init__(self, ach, achievements):
-        is_ach = achievements.is_achieved(ach.identifier)
-        date = [i[-1] for i in achievements.achieved if i[0] ==
+    def __init__(self, ach, ach_ob):
+        is_ach = ach_ob.is_achieved(ach.identifier)
+        date = [i[-1] for i in ach_ob.achieved if i[0] ==
                 ach.identifier][0] if is_ach else &#34;&#34;
         label = se.Text(&#34;Achieved: &#34;, state=&#34;float&#34;)\
                 + se.Text(&#34;Yes&#34; if is_ach else &#34;No&#34;,
@@ -259,38 +251,28 @@ of a possible Achievement</p>
 </dd>
 <dt id="pokete_classes.achievements.AchievementOverview"><code class="flex name class">
 <span>class <span class="ident">AchievementOverview</span></span>
-<span>(</span><span>achievements)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Overview for Achievements</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>achievements</code></strong></dt>
-<dd>Achievements object</dd>
-</dl></div>
+<div class="desc"><p>Overview for Achievements</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AchievementOverview(BetterChooseBox):
-    &#34;&#34;&#34;Overview for Achievements
-    ARGS:
-        achievements: Achievements object&#34;&#34;&#34;
+    &#34;&#34;&#34;Overview for Achievements&#34;&#34;&#34;
 
-    def __init__(self, achievements):
-        self.achievements = achievements
+    def __init__(self):
         super().__init__(4, [se.Text(&#34; &#34;)], name=&#34;Achievements&#34;)
 
-    def __call__(self, _ev, _map):
+    def __call__(self, _map):
         &#34;&#34;&#34;Input loop
         ARGS:
-            _ev: Event object
             _map: se.Map to show this on&#34;&#34;&#34;
         self.set_items(4, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
-                                   if self.achievements.is_achieved(i.identifier)
+                                   if achievements.is_achieved(i.identifier)
                                    else &#34;&#34;, state=&#34;float&#34;)
-                           for i in self.achievements.achievements])
+                           for i in achievements.achievements])
         self.map = _map
         with self:
             while True:
@@ -302,16 +284,11 @@ of a possible Achievement</p>
                     break
                 elif _ev.get() == &#34;Key.enter&#34;:
                     _ev.clear()
-                    ach = self.achievements.achievements[
+                    ach = achievements.achievements[
                             self.get_item(*self.index).ind]
-                    with AchBox(ach, self.achievements).center_add(_map):
-                        while True:
-                            if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-                                _ev.clear()
-                                break
-                            std_loop(_ev)
-                            time.sleep(0.05)
-                std_loop(_ev)
+                    with AchBox(ach, achievements).center_add(_map):
+                        easy_exit_loop()
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()</code></pre>
 </details>
@@ -340,30 +317,17 @@ of a possible Achievement</p>
 </dd>
 <dt id="pokete_classes.achievements.Achievements"><code class="flex name class">
 <span>class <span class="ident">Achievements</span></span>
-<span>(</span><span>logging, notifier)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Manages Achievements</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>logging</code></strong></dt>
-<dd>logging module</dd>
-<dt><strong><code>notifier</code></strong></dt>
-<dd>Notifier object</dd>
-</dl></div>
+<div class="desc"><p>Manages Achievements</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Achievements:
-    &#34;&#34;&#34;Manages Achievements
-    ARGS:
-        logging: logging module
-        notifier: Notifier object&#34;&#34;&#34;
+    &#34;&#34;&#34;Manages Achievements&#34;&#34;&#34;
 
-    def __init__(self, logging, notifier):
-        self.logging = logging
-        self.notifier = notifier
+    def __init__(self):
         self.achievements = []
         self.achieved = []
 
@@ -386,9 +350,9 @@ of a possible Achievement</p>
         if not self.is_achieved(identifier):
             ach = [i for i in self.achievements
                    if i.identifier == identifier][0]
-            self.notifier.notify(ach.title, &#34;Achievement unlocked!&#34;, ach.desc)
+            notifier.notify(ach.title, &#34;Achievement unlocked!&#34;, ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
-            self.logging.info(&#34;[Achievements] Unlocked %s&#34;, identifier)
+            logging.info(&#34;[Achievements] Unlocked %s&#34;, identifier)
 
     def is_achieved(self, identifier):
         &#34;&#34;&#34;Whether or not an identifier is achieved
@@ -421,9 +385,9 @@ of a possible Achievement</p>
     if not self.is_achieved(identifier):
         ach = [i for i in self.achievements
                if i.identifier == identifier][0]
-        self.notifier.notify(ach.title, &#34;Achievement unlocked!&#34;, ach.desc)
+        notifier.notify(ach.title, &#34;Achievement unlocked!&#34;, ach.desc)
         self.achieved.append((identifier, str(datetime.date.today())))
-        self.logging.info(&#34;[Achievements] Unlocked %s&#34;, identifier)</code></pre>
+        logging.info(&#34;[Achievements] Unlocked %s&#34;, identifier)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.achievements.Achievements.add"><code class="name flex">

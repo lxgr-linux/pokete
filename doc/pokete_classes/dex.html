@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pokete_classes.dex API documentation</title>
+<meta name="description" content="Contains the Pokete dex that gives information about all Poketes" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pokete_classes.dex</code></h1>
+</header>
+<section id="section-intro">
+<p>Contains the Pokete dex that gives information about all Poketes</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Contains the Pokete dex that gives information about all Poketes&#34;&#34;&#34;
+
+import time
+import scrap_engine as se
+import pokete_data as p_data
+from pokete_general_use_fns import liner, easy_exit_loop, std_loop
+from .poke import Poke
+from .event import _ev
+from .ui_elements import ChooseBox, Box
+
+
+class Dex:
+    &#34;&#34;&#34;The Pokete dex that shows stats about all Poketes ever caught
+    ARGS:
+        _map: se.Map this will be shown on&#34;&#34;&#34;
+
+    def __init__(self, _map, figure):
+        self.box = ChooseBox(_map.height - 3, 35, &#34;Poketedex&#34;)
+        self.detail_box = Box(16, 35)
+        self.figure = figure
+        self.map = _map
+        self.idx = 0
+        self.obs = []
+        self.detail_info = se.Text(&#34;&#34;, state=&#34;float&#34;)
+        self.detail_desc = se.Text(&#34;&#34;, state=&#34;float&#34;)
+        self.detail_box.add_ob(self.detail_info, 16, 1)
+        self.detail_box.add_ob(self.detail_desc, 3, 7)
+
+    def add_c_obs(self):
+        &#34;&#34;&#34;Adds c_obs to box&#34;&#34;&#34;
+        self.box.add_c_obs(self.obs[self.idx * (self.box.height - 2):
+                                    (self.idx + 1) * (self.box.height - 2)])
+
+    def rem_c_obs(self):
+        &#34;&#34;&#34;Removes c_obs to box&#34;&#34;&#34;
+        for c_ob in self.box.c_obs:
+            c_ob.remove()
+        self.box.remove_c_obs()
+
+    def detail(self, poke):
+        &#34;&#34;&#34;Shows details about the Pokete
+        ARGS:
+            poke: Pokes identifier&#34;&#34;&#34;
+        _ev.clear()
+        poke = Poke(poke, 0)
+        desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
+                          (f&#34;&#34;&#34;\n\n Evolves to {
+                              p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
+                              poke.evolve_poke in
+                              self.figure.caught_pokes else &#39;???&#39;
+                                                }.&#34;&#34;&#34;
+                           if poke.evolve_lvl != 0 else &#34;&#34;), 29)
+        self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
+        self.detail_box.name_label.rechar(poke.name)
+        self.detail_box.add_ob(poke.ico, 3, 2)
+        self.detail_desc.rechar(desc_text)
+        self.detail_info.rechar(&#34;Type: &#34;)
+        self.detail_info += se.Text(poke.type.name.capitalize(),
+                                    esccode=poke.type.color) + se.Text((f&#34;&#34;&#34;
+HP: {poke.hp}
+Attack: {poke.atc}
+Defense: {poke.defense}
+Initiative: {poke.initiative}&#34;&#34;&#34;))
+        with self.detail_box.center_add(self.map):
+            easy_exit_loop()
+        self.detail_box.rem_ob(poke.ico)
+
+    def __call__(self):
+        &#34;&#34;&#34;Opens the dex&#34;&#34;&#34;
+        pokes = p_data.pokes
+        _ev.clear()
+        self.idx = 0
+        p_dict = {i[1]: i[-1] for i in
+                  sorted([(pokes[j][&#34;types&#34;][0], j, pokes[j])
+                          for j in list(pokes)[1:]])}
+        self.obs = [se.Text(f&#34;{i + 1} \
+{p_dict[poke][&#39;name&#39;] if poke in self.figure.caught_pokes else &#39;???&#39;}&#34;,
+                    state=&#34;float&#34;)
+                    for i, poke in enumerate(p_dict)]
+        self.add_c_obs()
+        with self.box.add(self.map, self.map.width - self.box.width, 0):
+            while True:
+                for event, idx, n_idx, add, idx_2 in zip(
+                                [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
+                                [len(self.box.c_obs) - 1, 0],
+                                [0, self.box.height - 3], [1, -1], [-1, 0]):
+                    if _ev.get() == event and self.box.index.index == idx:
+                        if self.box.c_obs[self.box.index.index]\
+                                    != self.obs[idx_2]:
+                            self.rem_c_obs()
+                            self.idx += add
+                            self.add_c_obs()
+                            self.box.set_index(n_idx)
+                        _ev.clear()
+                if _ev.get() == &#34;Key.enter&#34;:
+                    if &#34;???&#34; not in self.box.c_obs[self.box.index.index].text:
+                        self.detail(list(p_dict)[self.idx
+                                                 * (self.box.height - 2)
+                                                 + self.box.index.index])
+                    _ev.clear()
+                elif _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
+                    self.box.input(_ev.get())
+                    _ev.clear()
+                elif _ev.get() in [&#34;&#39;e&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
+                    _ev.clear()
+                    break
+                std_loop()
+                time.sleep(0.05)
+                self.map.show()
+            self.rem_c_obs()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pokete_classes.dex.Dex"><code class="flex name class">
+<span>class <span class="ident">Dex</span></span>
+<span>(</span><span>_map, figure)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The Pokete dex that shows stats about all Poketes ever caught</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>se.Map this will be shown on</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Dex:
+    &#34;&#34;&#34;The Pokete dex that shows stats about all Poketes ever caught
+    ARGS:
+        _map: se.Map this will be shown on&#34;&#34;&#34;
+
+    def __init__(self, _map, figure):
+        self.box = ChooseBox(_map.height - 3, 35, &#34;Poketedex&#34;)
+        self.detail_box = Box(16, 35)
+        self.figure = figure
+        self.map = _map
+        self.idx = 0
+        self.obs = []
+        self.detail_info = se.Text(&#34;&#34;, state=&#34;float&#34;)
+        self.detail_desc = se.Text(&#34;&#34;, state=&#34;float&#34;)
+        self.detail_box.add_ob(self.detail_info, 16, 1)
+        self.detail_box.add_ob(self.detail_desc, 3, 7)
+
+    def add_c_obs(self):
+        &#34;&#34;&#34;Adds c_obs to box&#34;&#34;&#34;
+        self.box.add_c_obs(self.obs[self.idx * (self.box.height - 2):
+                                    (self.idx + 1) * (self.box.height - 2)])
+
+    def rem_c_obs(self):
+        &#34;&#34;&#34;Removes c_obs to box&#34;&#34;&#34;
+        for c_ob in self.box.c_obs:
+            c_ob.remove()
+        self.box.remove_c_obs()
+
+    def detail(self, poke):
+        &#34;&#34;&#34;Shows details about the Pokete
+        ARGS:
+            poke: Pokes identifier&#34;&#34;&#34;
+        _ev.clear()
+        poke = Poke(poke, 0)
+        desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
+                          (f&#34;&#34;&#34;\n\n Evolves to {
+                              p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
+                              poke.evolve_poke in
+                              self.figure.caught_pokes else &#39;???&#39;
+                                                }.&#34;&#34;&#34;
+                           if poke.evolve_lvl != 0 else &#34;&#34;), 29)
+        self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
+        self.detail_box.name_label.rechar(poke.name)
+        self.detail_box.add_ob(poke.ico, 3, 2)
+        self.detail_desc.rechar(desc_text)
+        self.detail_info.rechar(&#34;Type: &#34;)
+        self.detail_info += se.Text(poke.type.name.capitalize(),
+                                    esccode=poke.type.color) + se.Text((f&#34;&#34;&#34;
+HP: {poke.hp}
+Attack: {poke.atc}
+Defense: {poke.defense}
+Initiative: {poke.initiative}&#34;&#34;&#34;))
+        with self.detail_box.center_add(self.map):
+            easy_exit_loop()
+        self.detail_box.rem_ob(poke.ico)
+
+    def __call__(self):
+        &#34;&#34;&#34;Opens the dex&#34;&#34;&#34;
+        pokes = p_data.pokes
+        _ev.clear()
+        self.idx = 0
+        p_dict = {i[1]: i[-1] for i in
+                  sorted([(pokes[j][&#34;types&#34;][0], j, pokes[j])
+                          for j in list(pokes)[1:]])}
+        self.obs = [se.Text(f&#34;{i + 1} \
+{p_dict[poke][&#39;name&#39;] if poke in self.figure.caught_pokes else &#39;???&#39;}&#34;,
+                    state=&#34;float&#34;)
+                    for i, poke in enumerate(p_dict)]
+        self.add_c_obs()
+        with self.box.add(self.map, self.map.width - self.box.width, 0):
+            while True:
+                for event, idx, n_idx, add, idx_2 in zip(
+                                [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
+                                [len(self.box.c_obs) - 1, 0],
+                                [0, self.box.height - 3], [1, -1], [-1, 0]):
+                    if _ev.get() == event and self.box.index.index == idx:
+                        if self.box.c_obs[self.box.index.index]\
+                                    != self.obs[idx_2]:
+                            self.rem_c_obs()
+                            self.idx += add
+                            self.add_c_obs()
+                            self.box.set_index(n_idx)
+                        _ev.clear()
+                if _ev.get() == &#34;Key.enter&#34;:
+                    if &#34;???&#34; not in self.box.c_obs[self.box.index.index].text:
+                        self.detail(list(p_dict)[self.idx
+                                                 * (self.box.height - 2)
+                                                 + self.box.index.index])
+                    _ev.clear()
+                elif _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
+                    self.box.input(_ev.get())
+                    _ev.clear()
+                elif _ev.get() in [&#34;&#39;e&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
+                    _ev.clear()
+                    break
+                std_loop()
+                time.sleep(0.05)
+                self.map.show()
+            self.rem_c_obs()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.dex.Dex.add_c_obs"><code class="name flex">
+<span>def <span class="ident">add_c_obs</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds c_obs to box</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_c_obs(self):
+    &#34;&#34;&#34;Adds c_obs to box&#34;&#34;&#34;
+    self.box.add_c_obs(self.obs[self.idx * (self.box.height - 2):
+                                (self.idx + 1) * (self.box.height - 2)])</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.dex.Dex.detail"><code class="name flex">
+<span>def <span class="ident">detail</span></span>(<span>self, poke)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Shows details about the Pokete</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>Pokes identifier</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    def detail(self, poke):
+        &#34;&#34;&#34;Shows details about the Pokete
+        ARGS:
+            poke: Pokes identifier&#34;&#34;&#34;
+        _ev.clear()
+        poke = Poke(poke, 0)
+        desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
+                          (f&#34;&#34;&#34;\n\n Evolves to {
+                              p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
+                              poke.evolve_poke in
+                              self.figure.caught_pokes else &#39;???&#39;
+                                                }.&#34;&#34;&#34;
+                           if poke.evolve_lvl != 0 else &#34;&#34;), 29)
+        self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
+        self.detail_box.name_label.rechar(poke.name)
+        self.detail_box.add_ob(poke.ico, 3, 2)
+        self.detail_desc.rechar(desc_text)
+        self.detail_info.rechar(&#34;Type: &#34;)
+        self.detail_info += se.Text(poke.type.name.capitalize(),
+                                    esccode=poke.type.color) + se.Text((f&#34;&#34;&#34;
+HP: {poke.hp}
+Attack: {poke.atc}
+Defense: {poke.defense}
+Initiative: {poke.initiative}&#34;&#34;&#34;))
+        with self.detail_box.center_add(self.map):
+            easy_exit_loop()
+        self.detail_box.rem_ob(poke.ico)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.dex.Dex.rem_c_obs"><code class="name flex">
+<span>def <span class="ident">rem_c_obs</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes c_obs to box</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rem_c_obs(self):
+    &#34;&#34;&#34;Removes c_obs to box&#34;&#34;&#34;
+    for c_ob in self.box.c_obs:
+        c_ob.remove()
+    self.box.remove_c_obs()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pokete_classes" href="index.html">pokete_classes</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pokete_classes.dex.Dex" href="#pokete_classes.dex.Dex">Dex</a></code></h4>
+<ul class="">
+<li><code><a title="pokete_classes.dex.Dex.add_c_obs" href="#pokete_classes.dex.Dex.add_c_obs">add_c_obs</a></code></li>
+<li><code><a title="pokete_classes.dex.Dex.detail" href="#pokete_classes.dex.Dex.detail">detail</a></code></li>
+<li><code><a title="pokete_classes.dex.Dex.rem_c_obs" href="#pokete_classes.dex.Dex.rem_c_obs">rem_c_obs</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

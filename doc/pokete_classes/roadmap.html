@@ -31,9 +31,11 @@
 
 import time
 import scrap_engine as se
-from pokete_general_use_fns import std_loop, liner
+import pokete_data as p_data
+from pokete_general_use_fns import std_loop, liner, easy_exit_loop
 from .color import Color
 from .ui_elements import Box, InfoBox
+from .event import _ev
 
 
 class Station(se.Square):
@@ -75,12 +77,12 @@ class Station(se.Square):
         &#34;&#34;&#34;Unchooses the station&#34;&#34;&#34;
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, _ev):
+    def next(self, inp):
         &#34;&#34;&#34;Chooses the next station in a certain direction
         ARGS:
-            _ev: Event object&#34;&#34;&#34;
-        _ev = _ev.strip(&#34;&#39;&#34;)
-        if (n_e := getattr(self, _ev + &#34;_next&#34;)) != &#34;&#34;:
+            inp: Event object&#34;&#34;&#34;
+        inp = inp.strip(&#34;&#39;&#34;)
+        if (n_e := getattr(self, inp + &#34;_next&#34;)) != &#34;&#34;:
             self.unchoose()
             getattr(self.roadmap, n_e).choose()
 
@@ -91,7 +93,7 @@ class Station(se.Square):
     def is_city(self):
         &#34;&#34;&#34;Returns if the station is a city&#34;&#34;&#34;
         return &#34;pokecenter&#34;\
-            in self.roadmap.p_d.map_data[self.associates[0].name][&#34;hard_obs&#34;]
+            in p_data.map_data[self.associates[0].name][&#34;hard_obs&#34;]
 
     def set_color(self, choose=False):
         &#34;&#34;&#34;Marks a station as visited
@@ -107,20 +109,18 @@ class Station(se.Square):
 class RoadMap:
     &#34;&#34;&#34;Map you can see and navigate maps on
     ARGS:
-        p_d: p_data module
         ob_maps: Dict with all PlayMaps
         fig: Figure object&#34;&#34;&#34;
 
-    def __init__(self, p_d, ob_maps, fig):
+    def __init__(self, ob_maps, fig):
         self.ob_maps = ob_maps
-        self.p_d = p_d
         self.fig = fig
         self.box = Box(11, 40, &#34;Roadmap&#34;, &#34;q:close&#34;)
         self.info_label = se.Text(&#34;&#34;, state=&#34;float&#34;)
         self.box.add_ob(self.info_label, self.box.width-2, 0)
-        for sta in p_d.stations:
-            obj = Station(self, ob_maps[sta], **p_d.stations[sta][&#39;gen&#39;])
-            self.box.add_ob(obj, **p_d.stations[sta][&#39;add&#39;])
+        for sta in p_data.stations:
+            obj = Station(self, ob_maps[sta], **p_data.stations[sta][&#39;gen&#39;])
+            self.box.add_ob(obj, **p_data.stations[sta][&#39;add&#39;])
             setattr(self, sta, obj)
 
     @property
@@ -135,10 +135,9 @@ class RoadMap:
         self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
         self.info_label.rechar(name)
 
-    def __call__(self, _ev, _map, choose=False):
+    def __call__(self, _map, choose=False):
         &#34;&#34;&#34;Shows the roadmap
         ARGS:
-            _ev: Event object
             _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city&#34;&#34;&#34;
         _ev.clear()
@@ -165,7 +164,7 @@ class RoadMap:
                 elif (_ev.get() == &#34;Key.enter&#34; and not choose
                       and self.sta.has_been_visited()):
                     _ev.clear()
-                    p_list = &#34;, &#34;.join(set(self.p_d.pokes[j][&#34;name&#34;]
+                    p_list = &#34;, &#34;.join(set(p_data.pokes[j][&#34;name&#34;]
                                        for i in self.sta.associates
                                            for j in
                                            i.poke_args.get(&#34;pokes&#34;, [])
@@ -174,13 +173,8 @@ class RoadMap:
                                        + &#34;\n\n Here you can find: &#34; +
                                        (p_list if p_list != &#34;&#34; else &#34;Nothing&#34;),
                                        30), self.sta.name, _map=_map):
-                        while True:
-                            if _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                                _ev.clear()
-                                break
-                            std_loop(_ev)
-                            time.sleep(0.05)
-                std_loop(_ev)
+                        easy_exit_loop()
+                std_loop()
                 time.sleep(0.05)
                 _map.show()
         self.sta.unchoose()
@@ -201,14 +195,12 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="pokete_classes.roadmap.RoadMap"><code class="flex name class">
 <span>class <span class="ident">RoadMap</span></span>
-<span>(</span><span>p_d, ob_maps, fig)</span>
+<span>(</span><span>ob_maps, fig)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map you can see and navigate maps on</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>p_d</code></strong></dt>
-<dd>p_data module</dd>
 <dt><strong><code>ob_maps</code></strong></dt>
 <dd>Dict with all PlayMaps</dd>
 <dt><strong><code>fig</code></strong></dt>
@@ -221,20 +213,18 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class RoadMap:
     &#34;&#34;&#34;Map you can see and navigate maps on
     ARGS:
-        p_d: p_data module
         ob_maps: Dict with all PlayMaps
         fig: Figure object&#34;&#34;&#34;
 
-    def __init__(self, p_d, ob_maps, fig):
+    def __init__(self, ob_maps, fig):
         self.ob_maps = ob_maps
-        self.p_d = p_d
         self.fig = fig
         self.box = Box(11, 40, &#34;Roadmap&#34;, &#34;q:close&#34;)
         self.info_label = se.Text(&#34;&#34;, state=&#34;float&#34;)
         self.box.add_ob(self.info_label, self.box.width-2, 0)
-        for sta in p_d.stations:
-            obj = Station(self, ob_maps[sta], **p_d.stations[sta][&#39;gen&#39;])
-            self.box.add_ob(obj, **p_d.stations[sta][&#39;add&#39;])
+        for sta in p_data.stations:
+            obj = Station(self, ob_maps[sta], **p_data.stations[sta][&#39;gen&#39;])
+            self.box.add_ob(obj, **p_data.stations[sta][&#39;add&#39;])
             setattr(self, sta, obj)
 
     @property
@@ -249,10 +239,9 @@ if __name__ == &#34;__main__&#34;:
         self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
         self.info_label.rechar(name)
 
-    def __call__(self, _ev, _map, choose=False):
+    def __call__(self, _map, choose=False):
         &#34;&#34;&#34;Shows the roadmap
         ARGS:
-            _ev: Event object
             _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city&#34;&#34;&#34;
         _ev.clear()
@@ -279,7 +268,7 @@ if __name__ == &#34;__main__&#34;:
                 elif (_ev.get() == &#34;Key.enter&#34; and not choose
                       and self.sta.has_been_visited()):
                     _ev.clear()
-                    p_list = &#34;, &#34;.join(set(self.p_d.pokes[j][&#34;name&#34;]
+                    p_list = &#34;, &#34;.join(set(p_data.pokes[j][&#34;name&#34;]
                                        for i in self.sta.associates
                                            for j in
                                            i.poke_args.get(&#34;pokes&#34;, [])
@@ -288,13 +277,8 @@ if __name__ == &#34;__main__&#34;:
                                        + &#34;\n\n Here you can find: &#34; +
                                        (p_list if p_list != &#34;&#34; else &#34;Nothing&#34;),
                                        30), self.sta.name, _map=_map):
-                        while True:
-                            if _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                                _ev.clear()
-                                break
-                            std_loop(_ev)
-                            time.sleep(0.05)
-                std_loop(_ev)
+                        easy_exit_loop()
+                std_loop()
                 time.sleep(0.05)
                 _map.show()
         self.sta.unchoose()</code></pre>
@@ -408,12 +392,12 @@ def sta(self):
         &#34;&#34;&#34;Unchooses the station&#34;&#34;&#34;
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, _ev):
+    def next(self, inp):
         &#34;&#34;&#34;Chooses the next station in a certain direction
         ARGS:
-            _ev: Event object&#34;&#34;&#34;
-        _ev = _ev.strip(&#34;&#39;&#34;)
-        if (n_e := getattr(self, _ev + &#34;_next&#34;)) != &#34;&#34;:
+            inp: Event object&#34;&#34;&#34;
+        inp = inp.strip(&#34;&#39;&#34;)
+        if (n_e := getattr(self, inp + &#34;_next&#34;)) != &#34;&#34;:
             self.unchoose()
             getattr(self.roadmap, n_e).choose()
 
@@ -424,7 +408,7 @@ def sta(self):
     def is_city(self):
         &#34;&#34;&#34;Returns if the station is a city&#34;&#34;&#34;
         return &#34;pokecenter&#34;\
-            in self.roadmap.p_d.map_data[self.associates[0].name][&#34;hard_obs&#34;]
+            in p_data.map_data[self.associates[0].name][&#34;hard_obs&#34;]
 
     def set_color(self, choose=False):
         &#34;&#34;&#34;Marks a station as visited
@@ -497,29 +481,29 @@ def sta(self):
 <pre><code class="python">def is_city(self):
     &#34;&#34;&#34;Returns if the station is a city&#34;&#34;&#34;
     return &#34;pokecenter&#34;\
-        in self.roadmap.p_d.map_data[self.associates[0].name][&#34;hard_obs&#34;]</code></pre>
+        in p_data.map_data[self.associates[0].name][&#34;hard_obs&#34;]</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.roadmap.Station.next"><code class="name flex">
-<span>def <span class="ident">next</span></span>(<span>self, _ev)</span>
+<span>def <span class="ident">next</span></span>(<span>self, inp)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Chooses the next station in a certain direction</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>_ev</code></strong></dt>
+<dt><strong><code>inp</code></strong></dt>
 <dd>Event object</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def next(self, _ev):
+<pre><code class="python">def next(self, inp):
     &#34;&#34;&#34;Chooses the next station in a certain direction
     ARGS:
-        _ev: Event object&#34;&#34;&#34;
-    _ev = _ev.strip(&#34;&#39;&#34;)
-    if (n_e := getattr(self, _ev + &#34;_next&#34;)) != &#34;&#34;:
+        inp: Event object&#34;&#34;&#34;
+    inp = inp.strip(&#34;&#39;&#34;)
+    if (n_e := getattr(self, inp + &#34;_next&#34;)) != &#34;&#34;:
         self.unchoose()
         getattr(self.roadmap, n_e).choose()</code></pre>
 </details>

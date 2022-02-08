@@ -34,6 +34,7 @@ import scrap_engine as se
 from pokete_general_use_fns import std_loop, liner
 from .classes import OutP
 from .color import Color
+from .event import _ev
 
 
 class Movemap(se.Submap):
@@ -65,13 +66,12 @@ class Movemap(se.Submap):
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
-    def text(self, x, y, inp_arr, _ev):
+    def text(self, x, y, inp_arr):
         &#34;&#34;&#34;Shows dialog text on movemap
         ARGS:
             x: The message&#39;s X
             y: And y-coordinate
-            inp_arr: List of messages that will be displayed
-            _ev: Event object&#34;&#34;&#34;
+            inp_arr: List of messages that will be displayed&#34;&#34;&#34;
         # This ensures the game does not crash when big
         # chunks of text are displayed
         for _c, i, j, _k in zip([x, y], [&#34;x&#34;, &#34;y&#34;],
@@ -93,14 +93,14 @@ class Movemap(se.Submap):
                 self.multitext.outp(liner(text[:i],
                                           self.width - (x - self.x + 1), &#34;   &#34;))
                 time.sleep(0.045)
-                std_loop(_ev)
+                std_loop()
                 if _ev.get() != &#34;&#34;:
                     _ev.clear()
                     break
             self.multitext.outp(liner(text,
                                       self.width - (x - self.x + 1), &#34;   &#34;))
             while _ev.get() == &#34;&#34;:
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
         self.multitext.remove()
 
@@ -195,13 +195,12 @@ if __name__ == &#34;__main__&#34;:
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
-    def text(self, x, y, inp_arr, _ev):
+    def text(self, x, y, inp_arr):
         &#34;&#34;&#34;Shows dialog text on movemap
         ARGS:
             x: The message&#39;s X
             y: And y-coordinate
-            inp_arr: List of messages that will be displayed
-            _ev: Event object&#34;&#34;&#34;
+            inp_arr: List of messages that will be displayed&#34;&#34;&#34;
         # This ensures the game does not crash when big
         # chunks of text are displayed
         for _c, i, j, _k in zip([x, y], [&#34;x&#34;, &#34;y&#34;],
@@ -223,14 +222,14 @@ if __name__ == &#34;__main__&#34;:
                 self.multitext.outp(liner(text[:i],
                                           self.width - (x - self.x + 1), &#34;   &#34;))
                 time.sleep(0.045)
-                std_loop(_ev)
+                std_loop()
                 if _ev.get() != &#34;&#34;:
                     _ev.clear()
                     break
             self.multitext.outp(liner(text,
                                       self.width - (x - self.x + 1), &#34;   &#34;))
             while _ev.get() == &#34;&#34;:
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
         self.multitext.remove()
 
@@ -360,7 +359,7 @@ See se.Map.resize</p></div>
 </details>
 </dd>
 <dt id="pokete_classes.movemap.Movemap.text"><code class="name flex">
-<span>def <span class="ident">text</span></span>(<span>self, x, y, inp_arr, _ev)</span>
+<span>def <span class="ident">text</span></span>(<span>self, x, y, inp_arr)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Shows dialog text on movemap</p>
@@ -372,20 +371,17 @@ See se.Map.resize</p></div>
 <dd>And y-coordinate</dd>
 <dt><strong><code>inp_arr</code></strong></dt>
 <dd>List of messages that will be displayed</dd>
-<dt><strong><code>_ev</code></strong></dt>
-<dd>Event object</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def text(self, x, y, inp_arr, _ev):
+<pre><code class="python">def text(self, x, y, inp_arr):
     &#34;&#34;&#34;Shows dialog text on movemap
     ARGS:
         x: The message&#39;s X
         y: And y-coordinate
-        inp_arr: List of messages that will be displayed
-        _ev: Event object&#34;&#34;&#34;
+        inp_arr: List of messages that will be displayed&#34;&#34;&#34;
     # This ensures the game does not crash when big
     # chunks of text are displayed
     for _c, i, j, _k in zip([x, y], [&#34;x&#34;, &#34;y&#34;],
@@ -407,14 +403,14 @@ See se.Map.resize</p></div>
             self.multitext.outp(liner(text[:i],
                                       self.width - (x - self.x + 1), &#34;   &#34;))
             time.sleep(0.045)
-            std_loop(_ev)
+            std_loop()
             if _ev.get() != &#34;&#34;:
                 _ev.clear()
                 break
         self.multitext.outp(liner(text,
                                   self.width - (x - self.x + 1), &#34;   &#34;))
         while _ev.get() == &#34;&#34;:
-            std_loop(_ev)
+            std_loop()
             time.sleep(0.05)
     self.multitext.remove()</code></pre>
 </details>

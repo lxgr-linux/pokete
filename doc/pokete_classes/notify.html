@@ -70,18 +70,20 @@ class Notification(LabelBox):
 
 
 class Notifier:
-    &#34;&#34;&#34;Class managing notifications
-    ARGS:
-        _map: The se.Map the notifications will be shown on
-        logging: The logging module&#34;&#34;&#34;
+    &#34;&#34;&#34;Class managing notifications&#34;&#34;&#34;
 
-    def __init__(self, _map, logging):
-        self.map = _map
-        self.logging = logging
+    def __init__(self):
+        self.map = None
         self.wait = []
         self.notified = False
         self.notification = None
         self.counter = -1
+
+    def set_vars(self, _map):
+        &#34;&#34;&#34;Sets map variable
+        ARGS:
+            _map: The se.Map the notifications will be shown on&#34;&#34;&#34;
+        self.map = _map
 
     def notify(self, title, name, desc):
         &#34;&#34;&#34;Initilizes a Notification and manages it
@@ -114,7 +116,10 @@ class Notifier:
                 self.notification.remove()
                 self.notified = False
                 if len(self.wait) != 0:
-                    self.__notify(self.wait.pop(0))</code></pre>
+                    self.__notify(self.wait.pop(0))
+
+
+notifier = Notifier()</code></pre>
 </details>
 </section>
 <section>
@@ -246,34 +251,28 @@ class Notifier:
 </dd>
 <dt id="pokete_classes.notify.Notifier"><code class="flex name class">
 <span>class <span class="ident">Notifier</span></span>
-<span>(</span><span>_map, logging)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Class managing notifications</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>_map</code></strong></dt>
-<dd>The se.Map the notifications will be shown on</dd>
-<dt><strong><code>logging</code></strong></dt>
-<dd>The logging module</dd>
-</dl></div>
+<div class="desc"><p>Class managing notifications</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Notifier:
-    &#34;&#34;&#34;Class managing notifications
-    ARGS:
-        _map: The se.Map the notifications will be shown on
-        logging: The logging module&#34;&#34;&#34;
+    &#34;&#34;&#34;Class managing notifications&#34;&#34;&#34;
 
-    def __init__(self, _map, logging):
-        self.map = _map
-        self.logging = logging
+    def __init__(self):
+        self.map = None
         self.wait = []
         self.notified = False
         self.notification = None
         self.counter = -1
+
+    def set_vars(self, _map):
+        &#34;&#34;&#34;Sets map variable
+        ARGS:
+            _map: The se.Map the notifications will be shown on&#34;&#34;&#34;
+        self.map = _map
 
     def notify(self, title, name, desc):
         &#34;&#34;&#34;Initilizes a Notification and manages it
@@ -363,6 +362,27 @@ class Notifier:
         self.__notify(noti)</code></pre>
 </details>
 </dd>
+<dt id="pokete_classes.notify.Notifier.set_vars"><code class="name flex">
+<span>def <span class="ident">set_vars</span></span>(<span>self, _map)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets map variable</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The se.Map the notifications will be shown on</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_vars(self, _map):
+    &#34;&#34;&#34;Sets map variable
+    ARGS:
+        _map: The se.Map the notifications will be shown on&#34;&#34;&#34;
+    self.map = _map</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -393,6 +413,7 @@ class Notifier:
 <ul class="">
 <li><code><a title="pokete_classes.notify.Notifier.next" href="#pokete_classes.notify.Notifier.next">next</a></code></li>
 <li><code><a title="pokete_classes.notify.Notifier.notify" href="#pokete_classes.notify.Notifier.notify">notify</a></code></li>
+<li><code><a title="pokete_classes.notify.Notifier.set_vars" href="#pokete_classes.notify.Notifier.set_vars">set_vars</a></code></li>
 </ul>
 </li>
 </ul>

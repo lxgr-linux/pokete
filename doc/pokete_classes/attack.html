@@ -31,8 +31,9 @@
 
 import time
 import scrap_engine as se
+from pokete_data.attacks import attacks
 from .effects import effects
-from .types import Types
+from .types import types
 from .color import Color
 
 
@@ -40,10 +41,10 @@ class Attack:
     &#34;&#34;&#34;Attack that can be used by a Pokete
     ARGS:
         index: The attacks basic name
-        p_data: p_data module&#34;&#34;&#34;
+        pref: Prefix used for the attack label&#34;&#34;&#34;
 
-    def __init__(self, index, p_data):
-        inf = p_data.attacks[index]
+    def __init__(self, index, pref=&#34;&#34;):
+        inf = attacks[index]
         # Attributes
         self.name = inf[&#34;name&#34;]
         self.factor = inf[&#34;factor&#34;]
@@ -56,7 +57,7 @@ class Attack:
         self.effect = inf[&#34;effect&#34;]
         self.is_generic = inf[&#34;is_generic&#34;]
         self.ap = inf[&#34;ap&#34;]
-        self.type = getattr(Types(p_data), inf[&#34;types&#34;][0])
+        self.type = getattr(types, inf[&#34;types&#34;][0])
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
@@ -65,8 +66,18 @@ class Attack:
         self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;, state=&#34;float&#34;)
         self.label_desc = se.Text(self.desc[:10], state=&#34;float&#34;)
         self.label_type = se.Text(&#34;Type:&#34;, state=&#34;float&#34;) \
-                        + se.Text(self.type.name.capitalize(),
-                                  esccode=self.type.color, state=&#34;float&#34;)
+                          + se.Text(self.type.name.capitalize(),
+                                    esccode=self.type.color, state=&#34;float&#34;)
+        self.pref = pref
+        self.label = self.make_label()
+
+    def make_label(self):
+        &#34;&#34;&#34;Creates label
+        RETURNS:
+            New label&#34;&#34;&#34;
+        return se.Text(f&#34;{self.pref}: &#34;, state=&#34;float&#34;)\
+                + se.Text(self.name, esccode=self.type.color)\
+                + se.Text(f&#34;-{self.ap}&#34;)
 
     def give_effect(self, enem):
         &#34;&#34;&#34;Gives the associated effect to a Pokete
@@ -75,6 +86,15 @@ class Attack:
         if self.effect is not None:
             time.sleep(1.5)
             getattr(effects, self.effect)().add(enem)
+
+    def set_ap(self, ap):
+        &#34;&#34;&#34;Sets attack points
+        ARGS:
+            ap: Attack points&#34;&#34;&#34;
+        if ap != &#34;SKIP&#34;:
+            self.ap = min(ap, self.max_ap)
+            self.label.rechar(&#34;&#34;)
+            self.label += self.make_label()
 
 
 if __name__ == &#34;__main__&#34;:
@@ -92,7 +112,7 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="pokete_classes.attack.Attack"><code class="flex name class">
 <span>class <span class="ident">Attack</span></span>
-<span>(</span><span>index, p_data)</span>
+<span>(</span><span>index, pref='')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Attack that can be used by a Pokete</p>
@@ -100,8 +120,8 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt><strong><code>index</code></strong></dt>
 <dd>The attacks basic name</dd>
-<dt><strong><code>p_data</code></strong></dt>
-<dd>p_data module</dd>
+<dt><strong><code>pref</code></strong></dt>
+<dd>Prefix used for the attack label</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -111,10 +131,10 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;Attack that can be used by a Pokete
     ARGS:
         index: The attacks basic name
-        p_data: p_data module&#34;&#34;&#34;
+        pref: Prefix used for the attack label&#34;&#34;&#34;
 
-    def __init__(self, index, p_data):
-        inf = p_data.attacks[index]
+    def __init__(self, index, pref=&#34;&#34;):
+        inf = attacks[index]
         # Attributes
         self.name = inf[&#34;name&#34;]
         self.factor = inf[&#34;factor&#34;]
@@ -127,7 +147,7 @@ if __name__ == &#34;__main__&#34;:
         self.effect = inf[&#34;effect&#34;]
         self.is_generic = inf[&#34;is_generic&#34;]
         self.ap = inf[&#34;ap&#34;]
-        self.type = getattr(Types(p_data), inf[&#34;types&#34;][0])
+        self.type = getattr(types, inf[&#34;types&#34;][0])
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
@@ -136,8 +156,18 @@ if __name__ == &#34;__main__&#34;:
         self.label_factor = se.Text(f&#34;Attack:{self.factor}&#34;, state=&#34;float&#34;)
         self.label_desc = se.Text(self.desc[:10], state=&#34;float&#34;)
         self.label_type = se.Text(&#34;Type:&#34;, state=&#34;float&#34;) \
-                        + se.Text(self.type.name.capitalize(),
-                                  esccode=self.type.color, state=&#34;float&#34;)
+                          + se.Text(self.type.name.capitalize(),
+                                    esccode=self.type.color, state=&#34;float&#34;)
+        self.pref = pref
+        self.label = self.make_label()
+
+    def make_label(self):
+        &#34;&#34;&#34;Creates label
+        RETURNS:
+            New label&#34;&#34;&#34;
+        return se.Text(f&#34;{self.pref}: &#34;, state=&#34;float&#34;)\
+                + se.Text(self.name, esccode=self.type.color)\
+                + se.Text(f&#34;-{self.ap}&#34;)
 
     def give_effect(self, enem):
         &#34;&#34;&#34;Gives the associated effect to a Pokete
@@ -145,7 +175,16 @@ if __name__ == &#34;__main__&#34;:
             enem: Enemy object&#34;&#34;&#34;
         if self.effect is not None:
             time.sleep(1.5)
-            getattr(effects, self.effect)().add(enem)</code></pre>
+            getattr(effects, self.effect)().add(enem)
+
+    def set_ap(self, ap):
+        &#34;&#34;&#34;Sets attack points
+        ARGS:
+            ap: Attack points&#34;&#34;&#34;
+        if ap != &#34;SKIP&#34;:
+            self.ap = min(ap, self.max_ap)
+            self.label.rechar(&#34;&#34;)
+            self.label += self.make_label()</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -172,6 +211,50 @@ if __name__ == &#34;__main__&#34;:
         getattr(effects, self.effect)().add(enem)</code></pre>
 </details>
 </dd>
+<dt id="pokete_classes.attack.Attack.make_label"><code class="name flex">
+<span>def <span class="ident">make_label</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates label</p>
+<h2 id="returns">Returns</h2>
+<p>New label</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def make_label(self):
+    &#34;&#34;&#34;Creates label
+    RETURNS:
+        New label&#34;&#34;&#34;
+    return se.Text(f&#34;{self.pref}: &#34;, state=&#34;float&#34;)\
+            + se.Text(self.name, esccode=self.type.color)\
+            + se.Text(f&#34;-{self.ap}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.attack.Attack.set_ap"><code class="name flex">
+<span>def <span class="ident">set_ap</span></span>(<span>self, ap)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets attack points</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ap</code></strong></dt>
+<dd>Attack points</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_ap(self, ap):
+    &#34;&#34;&#34;Sets attack points
+    ARGS:
+        ap: Attack points&#34;&#34;&#34;
+    if ap != &#34;SKIP&#34;:
+        self.ap = min(ap, self.max_ap)
+        self.label.rechar(&#34;&#34;)
+        self.label += self.make_label()</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -194,6 +277,8 @@ if __name__ == &#34;__main__&#34;:
 <h4><code><a title="pokete_classes.attack.Attack" href="#pokete_classes.attack.Attack">Attack</a></code></h4>
 <ul class="">
 <li><code><a title="pokete_classes.attack.Attack.give_effect" href="#pokete_classes.attack.Attack.give_effect">give_effect</a></code></li>
+<li><code><a title="pokete_classes.attack.Attack.make_label" href="#pokete_classes.attack.Attack.make_label">make_label</a></code></li>
+<li><code><a title="pokete_classes.attack.Attack.set_ap" href="#pokete_classes.attack.Attack.set_ap">set_ap</a></code></li>
 </ul>
 </li>
 </ul>

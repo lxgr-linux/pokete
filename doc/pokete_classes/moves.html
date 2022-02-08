@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.moves API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Contains all moves a Pokete can fullfill" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,11 +22,14 @@
 <h1 class="title">Module <code>pokete_classes.moves</code></h1>
 </header>
 <section id="section-intro">
+<p>Contains all moves a Pokete can fullfill</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import time
+<pre><code class="python">&#34;&#34;&#34;Contains all moves a Pokete can fullfill&#34;&#34;&#34;
+
+import time
 import scrap_engine as se
 from .color import Color
 
@@ -40,11 +43,11 @@ class Moves:
 
     def attack(self):
         &#34;&#34;&#34;Attack move&#34;&#34;&#34;
-        for i, j, t in zip([3, -3], [2, -2], [0.3, 0]):
+        for i, j, _t in zip([3, -3], [2, -2], [0.3, 0]):
             self.poke.ico.move(i if self.poke.player
                                else -i, -j if self.poke.player else j)
             self.poke.ico.map.show()
-            time.sleep(t)
+            time.sleep(_t)
 
     def pound(self):
         &#34;&#34;&#34;Pound move&#34;&#34;&#34;
@@ -86,8 +89,8 @@ class Moves:
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
-        for i in range(len(line.obs)):
-            line.obs[i].rechar(txt)
+        for i, obj in enumerate(line.obs):
+            obj.rechar(txt)
             if i != 0:
                 line.obs[i - 1].rechar(line.char)
             time.sleep(0.05)
@@ -102,11 +105,12 @@ class Moves:
     def shine(self, ico=Color.thicc + Color.green + &#34;*&#34; + Color.reset):
         &#34;&#34;&#34;Shine Move&#34;&#34;&#34;
         shines = [se.Object(ico) for _ in range(4)]
-        for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11,
-                                    self.poke.ico.x - 1, self.poke.ico.x + 11],
-                           [self.poke.ico.y, self.poke.ico.y,
-                            self.poke.ico.y + 3, self.poke.ico.y + 3]):
-            i.add(self.poke.ico.map, x, y)
+        for i, _x, _y in zip(shines,
+                             [self.poke.ico.x - 1, self.poke.ico.x + 11,
+                              self.poke.ico.x - 1, self.poke.ico.x + 11],
+                             [self.poke.ico.y, self.poke.ico.y,
+                              self.poke.ico.y + 3, self.poke.ico.y + 3]):
+            i.add(self.poke.ico.map, _x, _y)
             self.poke.ico.map.show()
             time.sleep(0.2)
         time.sleep(0.2)
@@ -158,11 +162,11 @@ if __name__ == &#34;__main__&#34;:
 
     def attack(self):
         &#34;&#34;&#34;Attack move&#34;&#34;&#34;
-        for i, j, t in zip([3, -3], [2, -2], [0.3, 0]):
+        for i, j, _t in zip([3, -3], [2, -2], [0.3, 0]):
             self.poke.ico.move(i if self.poke.player
                                else -i, -j if self.poke.player else j)
             self.poke.ico.map.show()
-            time.sleep(t)
+            time.sleep(_t)
 
     def pound(self):
         &#34;&#34;&#34;Pound move&#34;&#34;&#34;
@@ -204,8 +208,8 @@ if __name__ == &#34;__main__&#34;:
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
-        for i in range(len(line.obs)):
-            line.obs[i].rechar(txt)
+        for i, obj in enumerate(line.obs):
+            obj.rechar(txt)
             if i != 0:
                 line.obs[i - 1].rechar(line.char)
             time.sleep(0.05)
@@ -220,11 +224,12 @@ if __name__ == &#34;__main__&#34;:
     def shine(self, ico=Color.thicc + Color.green + &#34;*&#34; + Color.reset):
         &#34;&#34;&#34;Shine Move&#34;&#34;&#34;
         shines = [se.Object(ico) for _ in range(4)]
-        for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11,
-                                    self.poke.ico.x - 1, self.poke.ico.x + 11],
-                           [self.poke.ico.y, self.poke.ico.y,
-                            self.poke.ico.y + 3, self.poke.ico.y + 3]):
-            i.add(self.poke.ico.map, x, y)
+        for i, _x, _y in zip(shines,
+                             [self.poke.ico.x - 1, self.poke.ico.x + 11,
+                              self.poke.ico.x - 1, self.poke.ico.x + 11],
+                             [self.poke.ico.y, self.poke.ico.y,
+                              self.poke.ico.y + 3, self.poke.ico.y + 3]):
+            i.add(self.poke.ico.map, _x, _y)
             self.poke.ico.map.show()
             time.sleep(0.2)
         time.sleep(0.2)
@@ -277,11 +282,11 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">def attack(self):
     &#34;&#34;&#34;Attack move&#34;&#34;&#34;
-    for i, j, t in zip([3, -3], [2, -2], [0.3, 0]):
+    for i, j, _t in zip([3, -3], [2, -2], [0.3, 0]):
         self.poke.ico.move(i if self.poke.player
                            else -i, -j if self.poke.player else j)
         self.poke.ico.map.show()
-        time.sleep(t)</code></pre>
+        time.sleep(_t)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.moves.Moves.downgrade"><code class="name flex">
@@ -342,11 +347,12 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">def shine(self, ico=Color.thicc + Color.green + &#34;*&#34; + Color.reset):
     &#34;&#34;&#34;Shine Move&#34;&#34;&#34;
     shines = [se.Object(ico) for _ in range(4)]
-    for i, x, y in zip(shines, [self.poke.ico.x - 1, self.poke.ico.x + 11,
-                                self.poke.ico.x - 1, self.poke.ico.x + 11],
-                       [self.poke.ico.y, self.poke.ico.y,
-                        self.poke.ico.y + 3, self.poke.ico.y + 3]):
-        i.add(self.poke.ico.map, x, y)
+    for i, _x, _y in zip(shines,
+                         [self.poke.ico.x - 1, self.poke.ico.x + 11,
+                          self.poke.ico.x - 1, self.poke.ico.x + 11],
+                         [self.poke.ico.y, self.poke.ico.y,
+                          self.poke.ico.y + 3, self.poke.ico.y + 3]):
+        i.add(self.poke.ico.map, _x, _y)
         self.poke.ico.map.show()
         time.sleep(0.2)
     time.sleep(0.2)
@@ -385,8 +391,8 @@ if __name__ == &#34;__main__&#34;:
              self.poke.ico.x + (11 if self.poke.player else -1),
              self.poke.ico.y + 1)
     self.poke.ico.map.show()
-    for i in range(len(line.obs)):
-        line.obs[i].rechar(txt)
+    for i, obj in enumerate(line.obs):
+        obj.rechar(txt)
         if i != 0:
             line.obs[i - 1].rechar(line.char)
         time.sleep(0.05)

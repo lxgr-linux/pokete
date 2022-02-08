@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.buy API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Classes related to buing stuff" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,30 +22,35 @@
 <h1 class="title">Module <code>pokete_classes.buy</code></h1>
 </header>
 <section id="section-intro">
+<p>Classes related to buing stuff</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import time
+<pre><code class="python">&#34;&#34;&#34;Classes related to buing stuff&#34;&#34;&#34;
+
+import time
 import scrap_engine as se
-from .ui_elements import Box, ChooseBox
 from pokete_general_use_fns import std_loop, liner
+from .ui_elements import Box, ChooseBox
+from .inv_items import invitems
+from .event import _ev
 
 
 class Buy:
     &#34;&#34;&#34;Menu to buy items in, is triggered in shop
     Args:
         figure: Figure object
-        items: Items object
         _map: The se.Map the menu is shown on&#34;&#34;&#34;
 
-    def __init__(self, figure, items, _map):
+    def __init__(self, figure, _map):
         self.box = ChooseBox(_map.height - 3, 35, &#34;Shop&#34;)
         self.box2 = Box(7, 21)
         self.fig = figure
         self.map = _map
-        self.items = [items.poketeball, items.superball, items.healing_potion,
-                      items.super_potion, items.ap_potion]
+        self.items = [invitems.poketeball, invitems.superball,
+                      invitems.healing_potion,
+                      invitems.super_potion, invitems.ap_potion]
         self.box.add_c_obs([se.Text(f&#34;{obj.pretty_name} : {obj.price}$&#34;)
                             for obj in self.items])
         self.money_label = se.Text(f&#34;{figure.get_money()}$&#34;)
@@ -55,10 +60,8 @@ class Buy:
                         self.box.width - 2 - len(self.money_label.text), 0)
         self.box2.add_ob(self.desc_label, 1, 1)
 
-    def __call__(self, _ev):
-        &#34;&#34;&#34;Opens the buy menu
-        ARGS:
-            _ev: Event object&#34;&#34;&#34;
+    def __call__(self):
+        &#34;&#34;&#34;Opens the buy menu&#34;&#34;&#34;
         _ev.clear()
         with self.box.add(self.map, self.map.width - 35, 0):
             self.box2.add(self.map, self.box.x - 19, 3)
@@ -77,7 +80,7 @@ class Buy:
                         self.fig.add_money(-obj.price)
                         self.fig.give_item(obj.name)
                     _ev.clear()
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()
         self.box2.remove()
@@ -104,7 +107,7 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="pokete_classes.buy.Buy"><code class="flex name class">
 <span>class <span class="ident">Buy</span></span>
-<span>(</span><span>figure, items, _map)</span>
+<span>(</span><span>figure, _map)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Menu to buy items in, is triggered in shop</p>
@@ -112,8 +115,6 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt><strong><code>figure</code></strong></dt>
 <dd>Figure object</dd>
-<dt><strong><code>items</code></strong></dt>
-<dd>Items object</dd>
 <dt><strong><code>_map</code></strong></dt>
 <dd>The se.Map the menu is shown on</dd>
 </dl></div>
@@ -125,16 +126,16 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;Menu to buy items in, is triggered in shop
     Args:
         figure: Figure object
-        items: Items object
         _map: The se.Map the menu is shown on&#34;&#34;&#34;
 
-    def __init__(self, figure, items, _map):
+    def __init__(self, figure, _map):
         self.box = ChooseBox(_map.height - 3, 35, &#34;Shop&#34;)
         self.box2 = Box(7, 21)
         self.fig = figure
         self.map = _map
-        self.items = [items.poketeball, items.superball, items.healing_potion,
-                      items.super_potion, items.ap_potion]
+        self.items = [invitems.poketeball, invitems.superball,
+                      invitems.healing_potion,
+                      invitems.super_potion, invitems.ap_potion]
         self.box.add_c_obs([se.Text(f&#34;{obj.pretty_name} : {obj.price}$&#34;)
                             for obj in self.items])
         self.money_label = se.Text(f&#34;{figure.get_money()}$&#34;)
@@ -144,10 +145,8 @@ if __name__ == &#34;__main__&#34;:
                         self.box.width - 2 - len(self.money_label.text), 0)
         self.box2.add_ob(self.desc_label, 1, 1)
 
-    def __call__(self, _ev):
-        &#34;&#34;&#34;Opens the buy menu
-        ARGS:
-            _ev: Event object&#34;&#34;&#34;
+    def __call__(self):
+        &#34;&#34;&#34;Opens the buy menu&#34;&#34;&#34;
         _ev.clear()
         with self.box.add(self.map, self.map.width - 35, 0):
             self.box2.add(self.map, self.box.x - 19, 3)
@@ -166,7 +165,7 @@ if __name__ == &#34;__main__&#34;:
                         self.fig.add_money(-obj.price)
                         self.fig.give_item(obj.name)
                     _ev.clear()
-                std_loop(_ev)
+                std_loop()
                 time.sleep(0.05)
                 self.map.show()
         self.box2.remove()

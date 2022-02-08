@@ -28,6 +28,7 @@
 </summary>
 <pre><code class="python">import time
 import random
+import logging
 import scrap_engine as se
 from .color import Color
 
@@ -46,11 +47,9 @@ class Effect():
         exclude: A list of type names that the effect can&#39;t be added to
     CLASS VARS:
         desc: The effects description
-        c_name: The class&#39; simplified name
-        logging: The logging module&#34;&#34;&#34;
+        c_name: The class&#39; simplified name&#34;&#34;&#34;
     desc = &#34;&#34;
     c_name = &#34;&#34;
-    logging = None
 
     def __init__(self, name, rem_chance, catch_chance, text, str_esccode=&#34;&#34;,
                  obj=None, exclude=None):
@@ -87,7 +86,7 @@ class Effect():
                                                  esccode=self.str_esccode,
                                                  state=&#34;float&#34;),
                                          se.Text(&#34;!&#34;, state=&#34;float&#34;))
-            self.logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
+            logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
         else:
             obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is allready &#39;)
             obj.ico.map.outp.append(se.Text(self.name,
@@ -130,8 +129,8 @@ class Effect():
             i = self.obj.effects.index(self)
             del self.obj.effects[i]
             self.cleanup(i)
-            self.logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
-                              self.obj.name)
+            logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
+                         self.obj.name)
             self.obj = None
             time.sleep(2)
 
@@ -268,13 +267,6 @@ class Effects:
         for i in self.effect_list:
             setattr(self, i.c_name, i)
 
-    def set_vars(self, logging):
-        &#34;&#34;&#34;Injects vars into Effect classes
-        ARGS:
-            logging: logging module&#34;&#34;&#34;
-        for i in self.effect_list:
-            i.logging = logging
-
 
 effects = Effects()
 
@@ -318,8 +310,7 @@ increased</dd>
 </dl>
 <p>CLASS VARS:
 desc: The effects description
-c_name: The class' simplified name
-logging: The logging module</p></div>
+c_name: The class' simplified name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -338,11 +329,9 @@ logging: The logging module</p></div>
         exclude: A list of type names that the effect can&#39;t be added to
     CLASS VARS:
         desc: The effects description
-        c_name: The class&#39; simplified name
-        logging: The logging module&#34;&#34;&#34;
+        c_name: The class&#39; simplified name&#34;&#34;&#34;
     desc = &#34;&#34;
     c_name = &#34;&#34;
-    logging = None
 
     def __init__(self, name, rem_chance, catch_chance, text, str_esccode=&#34;&#34;,
                  obj=None, exclude=None):
@@ -379,7 +368,7 @@ logging: The logging module</p></div>
                                                  esccode=self.str_esccode,
                                                  state=&#34;float&#34;),
                                          se.Text(&#34;!&#34;, state=&#34;float&#34;))
-            self.logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
+            logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
         else:
             obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is allready &#39;)
             obj.ico.map.outp.append(se.Text(self.name,
@@ -422,8 +411,8 @@ logging: The logging module</p></div>
             i = self.obj.effects.index(self)
             del self.obj.effects[i]
             self.cleanup(i)
-            self.logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
-                              self.obj.name)
+            logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
+                         self.obj.name)
             self.obj = None
             time.sleep(2)
 
@@ -475,10 +464,6 @@ logging: The logging module</p></div>
 <div class="desc"></div>
 </dd>
 <dt id="pokete_classes.effects.Effect.desc"><code class="name">var <span class="ident">desc</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pokete_classes.effects.Effect.logging"><code class="name">var <span class="ident">logging</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -539,7 +524,7 @@ logging: The logging module</p></div>
                                              esccode=self.str_esccode,
                                              state=&#34;float&#34;),
                                      se.Text(&#34;!&#34;, state=&#34;float&#34;))
-        self.logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
+        logging.info(&#34;[Effect][%s] Added to %s&#34;, self.name, obj.name)
     else:
         obj.ico.map.outp.rechar(f&#39;{obj.ext_name} is allready &#39;)
         obj.ico.map.outp.append(se.Text(self.name,
@@ -662,8 +647,8 @@ logging: The logging module</p></div>
         i = self.obj.effects.index(self)
         del self.obj.effects[i]
         self.cleanup(i)
-        self.logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
-                          self.obj.name)
+        logging.info(&#34;[Effect][%s] Removed from  %s&#34;, self.name,
+                     self.obj.name)
         self.obj = None
         time.sleep(2)</code></pre>
 </details>
@@ -697,8 +682,7 @@ increased</dd>
 </dl>
 <p>CLASS VARS:
 desc: The effects description
-c_name: The class' simplified name
-logging: The logging module</p></div>
+c_name: The class' simplified name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -791,8 +775,7 @@ increased</dd>
 </dl>
 <p>CLASS VARS:
 desc: The effects description
-c_name: The class' simplified name
-logging: The logging module</p></div>
+c_name: The class' simplified name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -871,8 +854,7 @@ increased</dd>
 </dl>
 <p>CLASS VARS:
 desc: The effects description
-c_name: The class' simplified name
-logging: The logging module</p></div>
+c_name: The class' simplified name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -943,8 +925,7 @@ increased</dd>
 </dl>
 <p>CLASS VARS:
 desc: The effects description
-c_name: The class' simplified name
-logging: The logging module</p></div>
+c_name: The class' simplified name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1015,8 +996,7 @@ increased</dd>
 </dl>
 <p>CLASS VARS:
 desc: The effects description
-c_name: The class' simplified name
-logging: The logging module</p></div>
+c_name: The class' simplified name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1090,8 +1070,7 @@ increased</dd>
 </dl>
 <p>CLASS VARS:
 desc: The effects description
-c_name: The class' simplified name
-logging: The logging module</p></div>
+c_name: The class' simplified name</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1149,40 +1128,8 @@ This is reverted randomly.&#34;
     def __init__(self):
         self.effect_list = effect_list
         for i in self.effect_list:
-            setattr(self, i.c_name, i)
-
-    def set_vars(self, logging):
-        &#34;&#34;&#34;Injects vars into Effect classes
-        ARGS:
-            logging: logging module&#34;&#34;&#34;
-        for i in self.effect_list:
-            i.logging = logging</code></pre>
+            setattr(self, i.c_name, i)</code></pre>
 </details>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete_classes.effects.Effects.set_vars"><code class="name flex">
-<span>def <span class="ident">set_vars</span></span>(<span>self, logging)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Injects vars into Effect classes</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>logging</code></strong></dt>
-<dd>logging module</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def set_vars(self, logging):
-    &#34;&#34;&#34;Injects vars into Effect classes
-    ARGS:
-        logging: logging module&#34;&#34;&#34;
-    for i in self.effect_list:
-        i.logging = logging</code></pre>
-</details>
-</dd>
-</dl>
 </dd>
 </dl>
 </section>
@@ -1209,7 +1156,6 @@ This is reverted randomly.&#34;
 <li><code><a title="pokete_classes.effects.Effect.cleanup" href="#pokete_classes.effects.Effect.cleanup">cleanup</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.desc" href="#pokete_classes.effects.Effect.desc">desc</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.effect" href="#pokete_classes.effects.Effect.effect">effect</a></code></li>
-<li><code><a title="pokete_classes.effects.Effect.logging" href="#pokete_classes.effects.Effect.logging">logging</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.readd" href="#pokete_classes.effects.Effect.readd">readd</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.remove" href="#pokete_classes.effects.Effect.remove">remove</a></code></li>
 <li><code><a title="pokete_classes.effects.Effect.ret_md" href="#pokete_classes.effects.Effect.ret_md">ret_md</a></code></li>
@@ -1259,9 +1205,6 @@ This is reverted randomly.&#34;
 </li>
 <li>
 <h4><code><a title="pokete_classes.effects.Effects" href="#pokete_classes.effects.Effects">Effects</a></code></h4>
-<ul class="">
-<li><code><a title="pokete_classes.effects.Effects.set_vars" href="#pokete_classes.effects.Effects.set_vars">set_vars</a></code></li>
-</ul>
 </li>
 </ul>
 </li>

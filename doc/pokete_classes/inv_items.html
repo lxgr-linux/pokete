@@ -29,20 +29,20 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34;All classes needed for Item management&#34;&#34;&#34;
 
+import pokete_data as p_data
+
 
 class Items:
-    &#34;&#34;&#34;Has all items as attributes
-    ARGS:
-        p_d: p_data module&#34;&#34;&#34;
+    &#34;&#34;&#34;Has all items as attributes&#34;&#34;&#34;
 
-    def __init__(self, p_d):
-        for item in p_d.items.items():
+    def __init__(self):
+        for item in p_data.items.items():
             _obj = InvItem(item[0], item[1][&#34;pretty_name&#34;],
                            item[1][&#34;desc&#34;],
                            item[1][&#34;price&#34;], item[1][&#34;fn&#34;])
             setattr(self, item[0], _obj)
-        self.ld_bubble_bomb = LearnDisc(&#34;bubble_bomb&#34;, p_d.attacks)
-        self.ld_flying = LearnDisc(&#34;flying&#34;, p_d.attacks)
+        self.ld_bubble_bomb = LearnDisc(&#34;bubble_bomb&#34;)
+        self.ld_flying = LearnDisc(&#34;flying&#34;)
 
 
 class InvItem:
@@ -65,17 +65,18 @@ class InvItem:
 class LearnDisc(InvItem):
     &#34;&#34;&#34;Learning disc item to teach attacks to Poketes
     ARGS:
-        attack_name: The name of the attack being taught
-        attacks: p_data.attacks dict&#34;&#34;&#34;
+        attack_name: The name of the attack being taught&#34;&#34;&#34;
 
-    def __init__(self, attack_name, attacks):
+    def __init__(self, attack_name):
         self.attack_name = attack_name
-        self.attack_dict = attacks[attack_name]
+        self.attack_dict = p_data.attacks[attack_name]
         pretty_name = f&#34;LD-{self.attack_dict[&#39;name&#39;]}&#34;
         name = f&#34;ld_{attack_name}&#34;
         desc = f&#34;Teaches a Pokete the attack &#39;{self.attack_dict[&#39;name&#39;]}&#39;.&#34;
         super().__init__(name, pretty_name, desc, 0)
 
+
+invitems = Items()
 
 if __name__ == &#34;__main__&#34;:
     print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
@@ -136,37 +137,29 @@ if __name__ == &#34;__main__&#34;:
 </dd>
 <dt id="pokete_classes.inv_items.Items"><code class="flex name class">
 <span>class <span class="ident">Items</span></span>
-<span>(</span><span>p_d)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Has all items as attributes</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>p_d</code></strong></dt>
-<dd>p_data module</dd>
-</dl></div>
+<div class="desc"><p>Has all items as attributes</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Items:
-    &#34;&#34;&#34;Has all items as attributes
-    ARGS:
-        p_d: p_data module&#34;&#34;&#34;
+    &#34;&#34;&#34;Has all items as attributes&#34;&#34;&#34;
 
-    def __init__(self, p_d):
-        for item in p_d.items.items():
+    def __init__(self):
+        for item in p_data.items.items():
             _obj = InvItem(item[0], item[1][&#34;pretty_name&#34;],
                            item[1][&#34;desc&#34;],
                            item[1][&#34;price&#34;], item[1][&#34;fn&#34;])
             setattr(self, item[0], _obj)
-        self.ld_bubble_bomb = LearnDisc(&#34;bubble_bomb&#34;, p_d.attacks)
-        self.ld_flying = LearnDisc(&#34;flying&#34;, p_d.attacks)</code></pre>
+        self.ld_bubble_bomb = LearnDisc(&#34;bubble_bomb&#34;)
+        self.ld_flying = LearnDisc(&#34;flying&#34;)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.inv_items.LearnDisc"><code class="flex name class">
 <span>class <span class="ident">LearnDisc</span></span>
-<span>(</span><span>attack_name, attacks)</span>
+<span>(</span><span>attack_name)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Learning disc item to teach attacks to Poketes</p>
@@ -174,8 +167,6 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt><strong><code>attack_name</code></strong></dt>
 <dd>The name of the attack being taught</dd>
-<dt><strong><code>attacks</code></strong></dt>
-<dd>p_data.attacks dict</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -184,12 +175,11 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class LearnDisc(InvItem):
     &#34;&#34;&#34;Learning disc item to teach attacks to Poketes
     ARGS:
-        attack_name: The name of the attack being taught
-        attacks: p_data.attacks dict&#34;&#34;&#34;
+        attack_name: The name of the attack being taught&#34;&#34;&#34;
 
-    def __init__(self, attack_name, attacks):
+    def __init__(self, attack_name):
         self.attack_name = attack_name
-        self.attack_dict = attacks[attack_name]
+        self.attack_dict = p_data.attacks[attack_name]
         pretty_name = f&#34;LD-{self.attack_dict[&#39;name&#39;]}&#34;
         name = f&#34;ld_{attack_name}&#34;
         desc = f&#34;Teaches a Pokete the attack &#39;{self.attack_dict[&#39;name&#39;]}&#39;.&#34;
