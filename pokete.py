@@ -467,7 +467,7 @@ class Figure(se.Object):
             poke: Poke object beeing added
             idx: Index of the Poke"""
         poke.set_player(True)
-        figure.caught_pokes.append(poke.identifier)
+        self.caught_pokes.append(poke.identifier)
         if idx is None:
             self.pokes.append(poke)
         else:

@@ -4,6 +4,8 @@ import time
 import random
 import logging
 import scrap_engine as se
+import pokete_data as p_data
+from pokete_general_use_fns import std_loop
 from pokete_classes import animations
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
@@ -449,6 +451,8 @@ class FightItems:
             self.mvmap.balls_label_rechar(self.fig.pokes)
             logging.info("[Fighitem][%s] Caught %s", name, enem.name)
             achievements.achieve("first_poke")
+            if all(poke in self.fig.caught_pokes for poke in p_data.pokes):
+                achievements.achieve("catch_em_all")
             return 2
         self.map.outp.outp("You missed!")
         self.map.show()
