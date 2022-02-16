@@ -41,7 +41,8 @@ from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
 from pokete_classes.dex import Dex
-from pokete_general_use_fns import liner, sort_vers, std_loop, parse_args
+from pokete_classes.loops import std_loop
+from pokete_general_use_fns import liner, sort_vers, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
 
@@ -199,6 +200,11 @@ at level {figure.pokes[index].lvl()}.")
     def playmap_37_npc_15(npc):
         """Interaction with npc_14"""
         npc.give("Bert the bird", "super_potion")
+
+    @staticmethod
+    def chat(npc):
+        """Starts a chat"""
+        npc.chat()
 
 
 class CenterInteract(se.Object):
@@ -625,7 +631,7 @@ class Deck(Informer):
                         _ev.set("'q'")
                         continue
                     self.submap.full_show(init=True)
-            std_loop()
+            std_loop(False)
             if len(pokes) > 0 and\
                     self.index.y - self.submap.y + 6 > self.submap.height:
                 self.submap.set(self.submap.x, self.submap.y + 1)
@@ -1245,7 +1251,6 @@ def game(_map):
                 codes(inp)
                 _ev.clear()
         std_loop()
-        notifier.next()
         _map.extra_actions()
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 > movemap.x + movemap.width,
@@ -1338,7 +1343,8 @@ def gen_obs():
     # NPCs
     for npc in npcs:
         parse_obj(ob_maps[npcs[npc]["map"]], npc,
-                  NPC(npc, npcs[npc]["texts"], npcs[npc]["fn"]),
+                  NPC(npc, npcs[npc]["texts"], fn=npcs[npc]["fn"],
+                      chat=npcs[npc].get("chat", None)),
                   npcs[npc])
 
 

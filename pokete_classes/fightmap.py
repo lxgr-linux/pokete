@@ -7,6 +7,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import std_loop
 from pokete_classes import animations
+from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
 from .input import ask_bool
@@ -25,6 +26,7 @@ class EvoMap(se.Map):
 
     def __init__(self, height, width):
         super().__init__(height, width, " ")
+        self.name = "evomap"
         self.frame_small = se.Frame(height=4, width=width, state="float")
         self.outp = OutP("", state="float")
         # adding
@@ -40,6 +42,7 @@ class FightMap(se.Map):
 
     def __init__(self, height, width):
         super().__init__(height, width, " ")
+        self.name = "fightmap"
         self.box = ChooseBox(6, 25, "Attacks", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
@@ -185,7 +188,7 @@ class FightMap(se.Map):
                     _ev.clear()
                     attack = ""
                     break
-                std_loop()
+                std_loop(False)
                 time.sleep(0.05)
         return attack
 
@@ -209,7 +212,7 @@ class FightMap(se.Map):
                 elif _ev.get() == "Key.enter":
                     item = items[self.invbox.index.index]
                     break
-                std_loop()
+                std_loop(False)
                 time.sleep(0.05)
         self.invbox.remove_c_obs()
         return item
@@ -329,7 +332,7 @@ used {enemy.name} against you!')
                                 j.readd()
                         attack = ""
                         break
-                    std_loop()
+                    std_loop(False)
                     time.sleep(0.1)
             else:
                 attack = random.choices(obj.attack_obs,

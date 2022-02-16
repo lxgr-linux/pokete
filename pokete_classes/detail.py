@@ -2,7 +2,7 @@
 
 import time
 import scrap_engine as se
-from pokete_general_use_fns import std_loop
+from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
 from .event import _ev
@@ -150,9 +150,9 @@ class Detail(Informer):
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()
                             break
-                        std_loop()
+                        std_loop(False)
                         time.sleep(0.05)
-            std_loop()
+            std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:
                 if len(atc.desc) > int((self.map.width - 3) / 2 - 1):

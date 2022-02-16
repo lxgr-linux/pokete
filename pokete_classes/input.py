@@ -1,7 +1,8 @@
 """This file contains input wrappers for ui elements"""
 
 import time
-from pokete_general_use_fns import std_loop, hard_liner
+from pokete_general_use_fns import hard_liner
+from .loops import std_loop
 from .ui_elements import InfoBox, InputBox
 from .event import _ev
 
@@ -43,7 +44,7 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
             _ev.clear()
-        std_loop()
+        std_loop(_map.name == "movemap")
         time.sleep(0.05)
 
 
@@ -63,7 +64,7 @@ def ask_bool(_map, text):
             elif _ev.get() in ["'n'", "Key.esc", "'q'"]:
                 ret = False
                 break
-            std_loop()
+            std_loop(_map.name == "movemap")
             time.sleep(0.05)
         _ev.clear()
     return ret
@@ -96,7 +97,7 @@ def ask_ok(_map, text):
         while True:
             if _ev.get() in ["'o'", "'O'", "Key.enter"]:
                 break
-            std_loop()
+            std_loop(_map.name == "movemap")
             time.sleep(0.05)
         _ev.clear()
 
