@@ -1,6 +1,7 @@
 """Contains just some small classes"""
 
 import scrap_engine as se
+from .weather import Weather
 
 
 class PlayMap(se.Map):
@@ -17,7 +18,7 @@ class PlayMap(se.Map):
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name="", pretty_name="", poke_args=None,
-                 w_poke_args=None, extra_actions=None):
+                 w_poke_args=None, extra_actions=None, weather=None):
         super().__init__(height=height, width=width, background=" ")
         self.trainers = trainers
         self.name = name
@@ -31,6 +32,9 @@ class PlayMap(se.Map):
         if self.w_poke_args is None:
             self.w_poke_args = {}
         self.__extra_actions = extra_actions
+        self.weather = None
+        if weather is not None:
+            self.weather = Weather(weather)
 
     def extra_actions(self):
         """Executes the extra action"""

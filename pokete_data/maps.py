@@ -5,6 +5,7 @@ maps = {
         "pretty_name": "Your home",
         "extra_actions": None,
         "poke_args": None,
+        "weather": None
     },
     "playmap_1": {
         "height": 25,
@@ -15,7 +16,8 @@ maps = {
             "pokes": ["rato", "horny", "vogli"],
             "minlvl": 15,
             "maxlvl": 40
-        }
+        },
+        "weather": None
     },
     "cave_1": {
         "height": 30,
@@ -26,7 +28,8 @@ maps = {
             "pokes": ["steini", "bato", "lilstone", "rato"],
             "minlvl": 40,
             "maxlvl": 128
-        }
+        },
+        "weather": None
     },
     "playmap_2": {
         "height": 30,
@@ -37,7 +40,8 @@ maps = {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
             "minlvl": 60,
             "maxlvl": 128
-        }
+        },
+        "weather": None
     },
     "playmap_3": {
         "height": 30,
@@ -48,7 +52,8 @@ maps = {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
             "minlvl": 100,
             "maxlvl": 200
-        }
+        },
+        "weather": None
     },
     "playmap_4": {
         "height": 60,
@@ -64,7 +69,8 @@ maps = {
             "pokes": ["karpi", "blub"],
             "minlvl": 180,
             "maxlvl": 230
-        }
+        },
+        "weather": None
     },
     "playmap_5": {
         "height": 60,
@@ -75,7 +81,8 @@ maps = {
             "pokes": ["bato", "bator", "steini"],
             "minlvl": 180,
             "maxlvl": 230
-        }
+        },
+        "weather": None
     },
     "playmap_6": {
         "height": 60,
@@ -86,7 +93,8 @@ maps = {
             "pokes": ["steini", "voglo", "bushy", "rollator"],
             "minlvl": 200,
             "maxlvl": 260
-        }
+        },
+        "weather": None
     },
     "playmap_7": {
         "height": 30,
@@ -97,7 +105,8 @@ maps = {
             "pokes": ["steini", "bato", "lilstone", "rollator", "gobost"],
             "minlvl": 200,
             "maxlvl": 260
-        }
+        },
+        "weather": None
     },
     "playmap_8": {
         "height": 20,
@@ -105,10 +114,11 @@ maps = {
         "pretty_name": "Abandoned village",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["steini", "voglo", "wolfior", "owol"],
+            "pokes": ["gobost", "owol"],
             "minlvl": 230,
             "maxlvl": 290
-        }
+        },
+        "weather": "foggy"
     },
     "playmap_9": {
         "height": 15,
@@ -119,14 +129,16 @@ maps = {
             "pokes": ["gobost", "rato"],
             "minlvl": 230,
             "maxlvl": 290
-        }
+        },
+        "weather": None
     },
     "playmap_10": {
         "height": 15,
         "width": 30,
         "pretty_name": "Old house",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_11": {
         "height": 20,
@@ -142,7 +154,8 @@ maps = {
             "pokes": ["karpi", "clampi", "clampi"],
             "minlvl": 290,
             "maxlvl": 350
-        }
+        },
+        "weather": None
     },
     "playmap_12": {
         "height": 15,
@@ -153,7 +166,8 @@ maps = {
             "pokes": ["voglo", "vogli", "owol", "rato"],
             "minlvl": 300,
             "maxlvl": 480
-        }
+        },
+        "weather": None
     },
     "playmap_13": {
         "height": 35,
@@ -164,14 +178,16 @@ maps = {
             "pokes": ["voglo", "vogli", "owol", "rato"],
             "minlvl": 300,
             "maxlvl": 480
-        }
+        },
+        "weather": None
     },
     "playmap_14": {
         "height": 15,
         "width": 30,
         "pretty_name": "Arena",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_15": {
         "height": 25,
@@ -182,7 +198,8 @@ maps = {
             "pokes": ["voglo", "owol", "würgos", "hornita"],
             "minlvl": 400,
             "maxlvl": 550
-        }
+        },
+        "weather": None
     },
     "playmap_16": {
         "height": 17,
@@ -193,14 +210,16 @@ maps = {
             "pokes": ["voglo", "owol", "würgos", "hornita"],
             "minlvl": 480,
             "maxlvl": 600
-        }
+        },
+        "weather": None
     },
     "playmap_17": {
         "height": 15,
         "width": 30,
         "pretty_name": "Old house",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_18": {
         "height": 23,
@@ -216,7 +235,8 @@ maps = {
             "pokes": ["karpi", "blub", "clampi"],
             "minlvl": 540,
             "maxlvl": 640
-        }
+        },
+        "weather": None
     },
     "playmap_19": {
         "height": 30,
@@ -227,14 +247,16 @@ maps = {
             "pokes": ["poundi", "steini", "lilstone", "bato"],
             "minlvl": 540,
             "maxlvl": 640
-        }
+        },
+        "weather": None
     },
     "playmap_20": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_21": {
         "height": 30,
@@ -246,49 +268,56 @@ maps = {
             "pokes": ["karpi", "blub"],
             "minlvl": 540,
             "maxlvl": 640
-        }
+        },
+        "weather": None
     },
     "playmap_22": {
         "height": 15,
         "width": 30,
         "pretty_name": "Rocky Hotel",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_23": {
         "height": 15,
         "width": 30,
         "pretty_name": "Rocky Hotel",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_24": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_25": {
         "height": 15,
         "width": 30,
         "pretty_name": "Townhall",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_26": {
         "height": 15,
         "width": 30,
         "pretty_name": "Townhall",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_27": {
         "height": 15,
         "width": 40,
         "pretty_name": "Battle cave",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_28": {
         "height": 55,
@@ -300,34 +329,39 @@ maps = {
             "minlvl": 640,
             "maxlvl": 740
         },
+        "weather": "rain"
     },
     "playmap_29": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_30": {
         "height": 63,
         "width": 148,
         "pretty_name": "Flowy Town",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_31": {
         "height": 14,
         "width": 40,
         "pretty_name": "Arena",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_32": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_33": {
         "height": 44,
@@ -339,13 +373,15 @@ maps = {
             "minlvl": 800,
             "maxlvl": 1000
         },
+        "weather": None
     },
     "playmap_34": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_35": {
         "height": 69,
@@ -357,34 +393,39 @@ maps = {
             "minlvl": 900,
             "maxlvl": 1300
         },
+        "weather": None
     },
     "playmap_36": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_37": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_38": {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
     "playmap_39": {
         "height": 69,
         "width": 144,
         "pretty_name": "Agrawos",
         "extra_actions": None,
-        "poke_args": None
+        "poke_args": None,
+        "weather": None
     },
 }
 

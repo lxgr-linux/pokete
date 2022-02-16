@@ -14,6 +14,7 @@ from .npcs import *
 from .mapstations import *
 from .maps import *
 from .achievements import *
+from .weather import *
 
 
 class ValidationError(Exception):
@@ -50,7 +51,7 @@ def single_validate(dict, validator, name=""):
 
 def validate():
     """Validates all modules"""
-    for i, j in zip([achievements, pokes, types, map_data, stations, items, npcs,
+    for i, j in zip([weathers, achievements, pokes, types, map_data, stations, items, npcs,
                      attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
@@ -68,6 +69,7 @@ def validate():
 
 
 validators = {
+    "weathers": ["info", "effected"],
     "achievements": ["title", "desc"],
     "poke": ["name", "hp", "atc", "defense", "attacks", "miss_chance", "desc",
              "lose_xp", "rarity", "types", "evolve_poke", "evolve_lvl", "ico",
