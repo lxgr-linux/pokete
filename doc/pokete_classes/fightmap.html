@@ -105,6 +105,7 @@ class FightMap(se.Map):
                             self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
+        self.figure = None
 
     def clean_up(self, player, enemy):
         &#34;&#34;&#34;Removes all labels from self
@@ -254,6 +255,7 @@ class FightMap(se.Map):
                   ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
         RETURNS:
             Poke object that won the fight&#34;&#34;&#34;
+        self.figure = figure
         logging.info(&#34;[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d&#34;, info[&#34;type&#34;], player.name, player.lvl(), enemy.name,
                      enemy.lvl())
@@ -1000,6 +1002,7 @@ None: To let the enemy attack</p></div>
                             self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
+        self.figure = None
 
     def clean_up(self, player, enemy):
         &#34;&#34;&#34;Removes all labels from self
@@ -1149,6 +1152,7 @@ None: To let the enemy attack</p></div>
                   ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
         RETURNS:
             Poke object that won the fight&#34;&#34;&#34;
+        self.figure = figure
         logging.info(&#34;[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d&#34;, info[&#34;type&#34;], player.name, player.lvl(), enemy.name,
                      enemy.lvl())
@@ -1528,6 +1532,7 @@ will be set to.</dd>
                   ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
         RETURNS:
             Poke object that won the fight&#34;&#34;&#34;
+        self.figure = figure
         logging.info(&#34;[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d&#34;, info[&#34;type&#34;], player.name, player.lvl(), enemy.name,
                      enemy.lvl())

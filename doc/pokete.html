@@ -1251,6 +1251,8 @@ def game(_map):
                 &#34;&#39;5&#39;&#34;: [pokete_dex, ()],
                 &#34;&#39;e&#39;&#34;: [menu, ()],
                 &#34;&#39;?&#39;&#34;: [help_page, ()]}
+    if _map.weather is not None:
+        notifier.notify(&#34;Weather&#34;, &#34;Info&#34;, _map.weather.info)
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],
@@ -1985,6 +1987,8 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
                 &#34;&#39;5&#39;&#34;: [pokete_dex, ()],
                 &#34;&#39;e&#39;&#34;: [menu, ()],
                 &#34;&#39;?&#39;&#34;: [help_page, ()]}
+    if _map.weather is not None:
+        notifier.notify(&#34;Weather&#34;, &#34;Info&#34;, _map.weather.info)
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],

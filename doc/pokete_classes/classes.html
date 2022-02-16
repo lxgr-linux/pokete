@@ -30,6 +30,7 @@
 <pre><code class="python">&#34;&#34;&#34;Contains just some small classes&#34;&#34;&#34;
 
 import scrap_engine as se
+from .weather import Weather
 
 
 class PlayMap(se.Map):
@@ -46,7 +47,7 @@ class PlayMap(se.Map):
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
-                 w_poke_args=None, extra_actions=None):
+                 w_poke_args=None, extra_actions=None, weather=None):
         super().__init__(height=height, width=width, background=&#34; &#34;)
         self.trainers = trainers
         self.name = name
@@ -60,6 +61,9 @@ class PlayMap(se.Map):
         if self.w_poke_args is None:
             self.w_poke_args = {}
         self.__extra_actions = extra_actions
+        self.weather = None
+        if weather is not None:
+            self.weather = Weather(weather)
 
     def extra_actions(self):
         &#34;&#34;&#34;Executes the extra action&#34;&#34;&#34;
@@ -184,7 +188,7 @@ if __name__ == &#34;__main__&#34;:
 </dd>
 <dt id="pokete_classes.classes.PlayMap"><code class="flex name class">
 <span>class <span class="ident">PlayMap</span></span>
-<span>(</span><span>height=99, width=100, trainers=None, name='', pretty_name='', poke_args=None, w_poke_args=None, extra_actions=None)</span>
+<span>(</span><span>height=99, width=100, trainers=None, name='', pretty_name='', poke_args=None, w_poke_args=None, extra_actions=None, weather=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map the actual player moves on and contains buildings etc</p>
@@ -225,7 +229,7 @@ if __name__ == &#34;__main__&#34;:
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
-                 w_poke_args=None, extra_actions=None):
+                 w_poke_args=None, extra_actions=None, weather=None):
         super().__init__(height=height, width=width, background=&#34; &#34;)
         self.trainers = trainers
         self.name = name
@@ -239,6 +243,9 @@ if __name__ == &#34;__main__&#34;:
         if self.w_poke_args is None:
             self.w_poke_args = {}
         self.__extra_actions = extra_actions
+        self.weather = None
+        if weather is not None:
+            self.weather = Weather(weather)
 
     def extra_actions(self):
         &#34;&#34;&#34;Executes the extra action&#34;&#34;&#34;

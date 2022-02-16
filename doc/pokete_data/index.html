@@ -48,6 +48,7 @@ from .npcs import *
 from .mapstations import *
 from .maps import *
 from .achievements import *
+from .weather import *
 
 
 class ValidationError(Exception):
@@ -84,7 +85,7 @@ def single_validate(dict, validator, name=&#34;&#34;):
 
 def validate():
     &#34;&#34;&#34;Validates all modules&#34;&#34;&#34;
-    for i, j in zip([achievements, pokes, types, map_data, stations, items, npcs,
+    for i, j in zip([weathers, achievements, pokes, types, map_data, stations, items, npcs,
                      attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
@@ -102,6 +103,7 @@ def validate():
 
 
 validators = {
+    &#34;weathers&#34;: [&#34;info&#34;, &#34;effected&#34;],
     &#34;achievements&#34;: [&#34;title&#34;, &#34;desc&#34;],
     &#34;poke&#34;: [&#34;name&#34;, &#34;hp&#34;, &#34;atc&#34;, &#34;defense&#34;, &#34;attacks&#34;, &#34;miss_chance&#34;, &#34;desc&#34;,
              &#34;lose_xp&#34;, &#34;rarity&#34;, &#34;types&#34;, &#34;evolve_poke&#34;, &#34;evolve_lvl&#34;, &#34;ico&#34;,
@@ -173,6 +175,10 @@ and …</p></div>
 <div class="desc"></div>
 </dd>
 <dt><code class="name"><a title="pokete_data.types" href="types.html">pokete_data.types</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="pokete_data.weather" href="weather.html">pokete_data.weather</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -251,7 +257,7 @@ and …</p></div>
 </summary>
 <pre><code class="python">def validate():
     &#34;&#34;&#34;Validates all modules&#34;&#34;&#34;
-    for i, j in zip([achievements, pokes, types, map_data, stations, items, npcs,
+    for i, j in zip([weathers, achievements, pokes, types, map_data, stations, items, npcs,
                      attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
@@ -329,6 +335,7 @@ and …</p></div>
 <li><code><a title="pokete_data.poketes" href="poketes.html">pokete_data.poketes</a></code></li>
 <li><code><a title="pokete_data.trainers" href="trainers.html">pokete_data.trainers</a></code></li>
 <li><code><a title="pokete_data.types" href="types.html">pokete_data.types</a></code></li>
+<li><code><a title="pokete_data.weather" href="weather.html">pokete_data.weather</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
