@@ -30,9 +30,7 @@
 <pre><code class="python">&#34;&#34;&#34;General use functions for Pokete&#34;&#34;&#34;
 
 import sys
-import time
 import release
-from pokete_classes.event import _ev
 
 
 def liner(text, width, pre=&#34;&#34;):
@@ -81,22 +79,6 @@ def sort_vers(vers):
         Sorted list&#34;&#34;&#34;
     return [k[-1] for k in
             sorted([([int(j) for j in i.split(&#34;.&#34;)], i) for i in vers])]
-
-
-def easy_exit_loop():
-    &#34;&#34;&#34;Loops until q or Esc are pressed&#34;&#34;&#34;
-    while True:
-        if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-            _ev.clear()
-            return
-        std_loop()
-        time.sleep(0.05)
-
-
-def std_loop():
-    &#34;&#34;&#34;Standart action executed in most loops&#34;&#34;&#34;
-    if _ev.get() == &#34;exit&#34;:
-        raise KeyboardInterrupt
 
 
 def print_help(path):
@@ -154,25 +136,6 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="pokete_general_use_fns.easy_exit_loop"><code class="name flex">
-<span>def <span class="ident">easy_exit_loop</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Loops until q or Esc are pressed</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def easy_exit_loop():
-    &#34;&#34;&#34;Loops until q or Esc are pressed&#34;&#34;&#34;
-    while True:
-        if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-            _ev.clear()
-            return
-        std_loop()
-        time.sleep(0.05)</code></pre>
-</details>
-</dd>
 <dt id="pokete_general_use_fns.hard_liner"><code class="name flex">
 <span>def <span class="ident">hard_liner</span></span>(<span>l_len, name)</span>
 </code></dt>
@@ -349,21 +312,6 @@ Copyright (c) lxgr-linux &lt;lxgr-linux@protonmail.com&gt; 2021&#34;&#34;&#34;)<
             sorted([([int(j) for j in i.split(&#34;.&#34;)], i) for i in vers])]</code></pre>
 </details>
 </dd>
-<dt id="pokete_general_use_fns.std_loop"><code class="name flex">
-<span>def <span class="ident">std_loop</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Standart action executed in most loops</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def std_loop():
-    &#34;&#34;&#34;Standart action executed in most loops&#34;&#34;&#34;
-    if _ev.get() == &#34;exit&#34;:
-        raise KeyboardInterrupt</code></pre>
-</details>
-</dd>
 </dl>
 </section>
 <section>
@@ -376,14 +324,12 @@ Copyright (c) lxgr-linux &lt;lxgr-linux@protonmail.com&gt; 2021&#34;&#34;&#34;)<
 </div>
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="two-column">
-<li><code><a title="pokete_general_use_fns.easy_exit_loop" href="#pokete_general_use_fns.easy_exit_loop">easy_exit_loop</a></code></li>
+<ul class="">
 <li><code><a title="pokete_general_use_fns.hard_liner" href="#pokete_general_use_fns.hard_liner">hard_liner</a></code></li>
 <li><code><a title="pokete_general_use_fns.liner" href="#pokete_general_use_fns.liner">liner</a></code></li>
 <li><code><a title="pokete_general_use_fns.parse_args" href="#pokete_general_use_fns.parse_args">parse_args</a></code></li>
 <li><code><a title="pokete_general_use_fns.print_help" href="#pokete_general_use_fns.print_help">print_help</a></code></li>
 <li><code><a title="pokete_general_use_fns.sort_vers" href="#pokete_general_use_fns.sort_vers">sort_vers</a></code></li>
-<li><code><a title="pokete_general_use_fns.std_loop" href="#pokete_general_use_fns.std_loop">std_loop</a></code></li>
 </ul>
 </li>
 </ul>
