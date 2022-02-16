@@ -15,6 +15,7 @@ from .color import Color
 from .moves import Moves
 from .types import types
 from .effects import effects
+from .learnattack import LearnAttack
 
 
 class Poke:
@@ -248,6 +249,9 @@ can't have more than 4 attacks!"
         new.moves.shine()
         evomap.outp.outp(f"{self.name} evolved to {new.name}!")
         time.sleep(5)
+        for i in range(max(len(p_data.pokes[new.identifier]["attacks"])
+                           - len(self.attack_obs), 0)):
+            LearnAttack(new, evomap)()
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
