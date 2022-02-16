@@ -498,7 +498,7 @@ class Figure(se.Object):
             poke: Poke object beeing added
             idx: Index of the Poke&#34;&#34;&#34;
         poke.set_player(True)
-        figure.caught_pokes.append(poke.identifier)
+        self.caught_pokes.append(poke.identifier)
         if idx is None:
             self.pokes.append(poke)
         else:
@@ -3738,7 +3738,7 @@ def water(obs):
             poke: Poke object beeing added
             idx: Index of the Poke&#34;&#34;&#34;
         poke.set_player(True)
-        figure.caught_pokes.append(poke.identifier)
+        self.caught_pokes.append(poke.identifier)
         if idx is None:
             self.pokes.append(poke)
         else:
@@ -3824,7 +3824,7 @@ in the inventory&#34;
         poke: Poke object beeing added
         idx: Index of the Poke&#34;&#34;&#34;
     poke.set_player(True)
-    figure.caught_pokes.append(poke.identifier)
+    self.caught_pokes.append(poke.identifier)
     if idx is None:
         self.pokes.append(poke)
     else:

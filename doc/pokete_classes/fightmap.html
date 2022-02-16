@@ -33,6 +33,7 @@ import time
 import random
 import logging
 import scrap_engine as se
+import pokete_data as p_data
 from pokete_general_use_fns import std_loop
 from pokete_classes import animations
 from .ui_elements import StdFrame2, ChooseBox
@@ -474,6 +475,8 @@ class FightItems:
             self.mvmap.balls_label_rechar(self.fig.pokes)
             logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
             achievements.achieve(&#34;first_poke&#34;)
+            if all(poke in self.fig.caught_pokes for poke in p_data.pokes):
+                achievements.achieve(&#34;catch_em_all&#34;)
             return 2
         self.map.outp.outp(&#34;You missed!&#34;)
         self.map.show()
@@ -668,6 +671,8 @@ None: To let the enemy attack</p></div>
             self.mvmap.balls_label_rechar(self.fig.pokes)
             logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
             achievements.achieve(&#34;first_poke&#34;)
+            if all(poke in self.fig.caught_pokes for poke in p_data.pokes):
+                achievements.achieve(&#34;catch_em_all&#34;)
             return 2
         self.map.outp.outp(&#34;You missed!&#34;)
         self.map.show()
@@ -920,6 +925,8 @@ None: To let the enemy attack</p></div>
         self.mvmap.balls_label_rechar(self.fig.pokes)
         logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
         achievements.achieve(&#34;first_poke&#34;)
+        if all(poke in self.fig.caught_pokes for poke in p_data.pokes):
+            achievements.achieve(&#34;catch_em_all&#34;)
         return 2
     self.map.outp.outp(&#34;You missed!&#34;)
     self.map.show()
