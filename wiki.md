@@ -217,7 +217,6 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
    + Route 1
    + Sunnydale
    + Sunnydale Lake
-   + Abandoned village
    + Route 3
 - Evolves to [Wolfiro](#wolfiro) at level 25
 
@@ -453,7 +452,6 @@ A very aggressive bird Pokete that can only be found in the woods.
    + Sunnydale
    + Sunnydale Lake
    + Route 2
-   + Abandoned village
    + Route 3
    + Route 4
    + Deepens forest
@@ -1177,7 +1175,6 @@ A squared stone that can casually be found on the ground.
    + Mysterious cave
    + Route 2
    + Dark cave
-   + Abandoned village
    + Route 3
    + Big mountain cave
 - Does not evolve
@@ -1263,6 +1260,7 @@ A scary ghost Pokete that lives in caves and old houses.
    + [Heart touch](#heart-touch)
 - Can be found in:
    + Dark cave
+   + Abandoned village
    + Abandoned house
    + Route 7
 - Evolves to [Angrilo](#angrilo) at level 25
