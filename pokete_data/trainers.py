@@ -301,6 +301,14 @@ trainers = {
                  [" < NOOOOOO; WHYYY ARE YOU BETTER ??!!!1!!!111"], 69, 61)
         },
     ],
+    "playmap_40": [{
+        "poke": ("rustacean", 1800),
+        "args": ("Gustav the angler", "He",
+                 [" < My Pokete will blow you away!"],
+                 [" < You're a fucking loooser!"],
+                 [" < Cool, huh?"], 58, 12)
+        },
+    ]
 }
 
 if __name__ == "__main__":
