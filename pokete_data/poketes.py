@@ -179,6 +179,34 @@ pokes = {
      |""",
             "esc": None}],
     },
+    "saugh": {
+        "name": "Saugh",
+        "hp": 20,
+        "atc": 4,
+        "defense": 2,
+        "attacks": ["mind_blow", "fire_ball", "sand_throw"],
+        "pool": ["hiding"],
+        "miss_chance": 1,
+        "desc": "The dark firy souls of those who got burned to death by the hot sun!",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "types": ["undead", "fire"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r"""
+    .,
+  , .. .
+ ...,..,.""",
+            "esc": ["yellow"]
+                }, {
+            "txt": r"""
+
+   *  *""",
+            "esc": ["thicc", "red"]
+                }],
+    },
     "gobost": {
         "name": "Gobost",
         "hp": 20,

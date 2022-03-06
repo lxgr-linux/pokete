@@ -433,7 +433,7 @@ maps = {
         "extra_actions": "playmap_40",
         "pretty_name": "Sunny Beach",
         "poke_args": {
-            "pokes": ["crabbat", "würgos"],
+            "pokes": ["crabbat", "saugh", "würgos"],
             "minlvl": 1400,
             "maxlvl": 1700
         },

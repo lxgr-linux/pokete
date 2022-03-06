@@ -236,7 +236,7 @@ found some cool Poketes.",
                                     "q": [" < That's pretty cool!", "But have you also met a Saugh?"],
                                     "a": {
                                         "Yes": {
-                                            "q": [" < Those a fucking beasts!"],
+                                            "q": [" < Those are fucking beasts!"],
                                             "a": {}
                                             },
                                         "Hell, what are those?": {
