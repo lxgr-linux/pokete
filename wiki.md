@@ -61,6 +61,7 @@ You can find different versions of this wiki:
        1. [Angrilo](#angrilo)
        2. [Confuso](#confuso)
        3. [Gobost](#gobost)
+       4. [Saugh](#saugh)
    11. [Water Poketes](#water-poketes)
        1. [Blub](#blub)
        2. [Clampi](#clampi)
@@ -131,6 +132,7 @@ You can find different versions of this wiki:
        5. [Pepple fire](#pepple-fire)
        6. [Politure](#politure)
        7. [Rock smash](#rock-smash)
+       8. [Sand throw](#sand-throw)
    10. [Undead attacks](#undead-attacks)
        1. [Confusion](#confusion)
        2. [Heart touch](#heart-touch)
@@ -1028,6 +1030,7 @@ A dangerous snake Pokete.
    + Route 5
    + Route 6
    + Big mountain see
+   + Sunny Beach
 - Evolves to [Choka](#choka) at level 30
 ### Stone Poketes
 #### Bigstone
@@ -1264,6 +1267,34 @@ A scary ghost Pokete that lives in caves and old houses.
    + Abandoned house
    + Route 7
 - Evolves to [Angrilo](#angrilo) at level 25
+
+#### Saugh
+The dark firy souls of those who got burned to death by the hot sun!
+
+```
+           
+    .,     
+  ,*..*.   
+ ...,..,.  
+
+```
+
+- Type: [Undead](#types)
+- Health points: 20
+- Attack factor: 4
+- Defense factor: 2
+- Initiative: 5
+- Missing chance: 1
+- Rarity: 0.5
+- Loosing experience: 4
+- Attacks:
+   + [Mind blow](#mind-blow)
+   + [Fire ball](#fire-ball)
+   + [Sand throw](#sand-throw)
+- Can be found in:
+   + Sunny Beach
+- Does not evolve
+
 ### Water Poketes
 #### Blub
 Very delicious and low fat water Pokete.
@@ -1292,6 +1323,7 @@ Very delicious and low fat water Pokete.
    + Sunnydale Lake
    + Big mountain see
    + Rock-ville
+   + Sunny Beach
 - Does not evolve
 
 
@@ -1321,6 +1353,7 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
 - Can be found in:
    + Route 3
    + Big mountain see
+   + Sunny Beach
 - Evolves to [Crabbat](#crabbat) at level 20
 
 #### Crabbat
@@ -1348,7 +1381,7 @@ A crusty Pokete that loves to pinch big toes.
    + [Earch quake](#earch-quake)
    + [Shell pinch](#shell-pinch)
 - Can be found in:
-   + Nowhere
+   + Sunny Beach
 - Evolves to [Rustacean](#rustacean) at level 40
 
 #### Karpi
@@ -1377,6 +1410,7 @@ A very harmless water Pokete that can be found everywhere.
    + Route 3
    + Big mountain see
    + Rock-ville
+   + Sunny Beach
 - Does not evolve
 
 
@@ -1893,6 +1927,16 @@ Stabs a venomous thorn in the enemy's flesh.
 ### Stone attacks
 #### Pepple fire
 Fires pepples at the enemy and makes it blind.
+
+- Type: [Stone](#types)
+- Minimum Level: 0
+- Attack factor: 1
+- Missing chance: 0
+- Attack points: 5
+- Effect: None
+
+#### Sand throw
+Throws sand at the enemy and makes it blind.
 
 - Type: [Stone](#types)
 - Minimum Level: 0
