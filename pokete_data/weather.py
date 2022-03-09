@@ -22,5 +22,14 @@ weathers = {
             "undead": 1.5,
             "normal": 0.75,
         }
+    },
+    "sunny": {
+        "info": "It's a hot sunny day!",
+        "effected": {
+            "fire": 1.5,
+            "water": 0.75,
+            "ice": 0.5,
+            "plant": 0.75,
+        }
     }
 }

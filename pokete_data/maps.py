@@ -427,6 +427,23 @@ maps = {
         "poke_args": None,
         "weather": None
     },
+    "playmap_40": {
+        "height": 30,
+        "width": 140,
+        "extra_actions": "playmap_40",
+        "pretty_name": "Sunny Beach",
+        "poke_args": {
+            "pokes": ["crabbat", "saugh", "würgos"],
+            "minlvl": 1400,
+            "maxlvl": 1700
+        },
+        "w_poke_args": {
+            "pokes": ["karpi", "blub", "clampi"],
+            "minlvl": 1400,
+            "maxlvl": 1700
+        },
+        "weather": "sunny"
+    },
 }
 
 

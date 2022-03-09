@@ -216,6 +216,66 @@ found some cool Poketes.",
         "x": 74,
         "y": 15
     },
+    "beach_girl": {
+        "texts": [],
+        "fn": "chat",
+        "chat": {
+            "q": [" < Hey there", " < What are you doing here at the beach?"],
+            "a": {
+                "Just chilling": {
+                    "q": [" < Nice", " < This beach is the most beautiful in the region!", " < Isn't the weather great today?"],
+                    "a": {}
+                    },
+                "Searching for Poketes": {
+                    "q": [" < Oh cool, your a Pokete trainer!", " < Did already find some?"],
+                    "a": {
+                        "Yes": {
+                            "q": [" < Cool!", " < Have you already caught a Crabbat?"],
+                            "a": {
+                                "Yes": {
+                                    "q": [" < That's pretty cool!", "But have you also met a Saugh?"],
+                                    "a": {
+                                        "Yes": {
+                                            "q": [" < Those are fucking beasts!"],
+                                            "a": {}
+                                            },
+                                        "Hell, what are those?": {
+                                            "q": [" < Their the dark firy souls of those who got burned to death by the hot sun!"],
+                                            "a": {}
+                                            }
+                                        }
+                                    },
+                                "Yes, of course" : {
+                                    "q": [" < You're a good trainer, huh?", " < I wan't to see you fight a Rustcean", " < They're very tough!"],
+                                    "a": {}
+                                    },
+                                "No": {
+                                    "q": [" < That's too bad", " < But they're very tought!"],
+                                    "a": {}
+                                    }
+                                }
+                            },
+                        "No": {
+                            "q": [" < That's too bad", " < You can find some in the sand fields"],
+                            "a": {
+                                "Thank's a lot": {
+                                    "q": [" < No problem!"],
+                                    "a": {}
+                                    },
+                                "Are you a trainer your self?": {
+                                    "q": [" < No, but the guy overthere"],
+                                    "a": {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        "map": "playmap_40",
+        "x": 107,
+        "y": 25
+    },
 }
 
 if __name__ == "__main__":
