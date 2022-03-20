@@ -532,8 +532,7 @@ class FightItems:
         &#34;&#34;&#34;AP potion function&#34;&#34;&#34;
         self.fig.remove_item(&#34;ap_potion&#34;)
         for atc in obj.attack_obs:
-            atc.ap = atc.max_ap
-        obj.label_rechar()
+            atc.set_ap(atc.max_ap)
         logging.info(&#34;[Fighitem][ap_potion] Used&#34;)
 
 
@@ -729,8 +728,7 @@ None: To let the enemy attack</p></div>
         &#34;&#34;&#34;AP potion function&#34;&#34;&#34;
         self.fig.remove_item(&#34;ap_potion&#34;)
         for atc in obj.attack_obs:
-            atc.ap = atc.max_ap
-        obj.label_rechar()
+            atc.set_ap(atc.max_ap)
         logging.info(&#34;[Fighitem][ap_potion] Used&#34;)</code></pre>
 </details>
 <h3>Methods</h3>
@@ -748,8 +746,7 @@ None: To let the enemy attack</p></div>
     &#34;&#34;&#34;AP potion function&#34;&#34;&#34;
     self.fig.remove_item(&#34;ap_potion&#34;)
     for atc in obj.attack_obs:
-        atc.ap = atc.max_ap
-    obj.label_rechar()
+        atc.set_ap(atc.max_ap)
     logging.info(&#34;[Fighitem][ap_potion] Used&#34;)</code></pre>
 </details>
 </dd>
