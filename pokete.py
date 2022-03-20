@@ -884,6 +884,12 @@ def _game(_map):
                 "'?'": [help_page, ()]}
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
+    # get all gras objs
+    all_gras_objs = []
+    if settings("animations").val:
+        for meadow in Meadow.all_obs:
+            if meadow.map == _map:
+                all_gras_objs += meadow.obs
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
@@ -914,6 +920,7 @@ def _game(_map):
                 _ev.clear()
         std_loop()
         _map.extra_actions()
+        Meadow.moving_grass(all_gras_objs)
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
                                     figure.x < mvp.movemap.x + 6,

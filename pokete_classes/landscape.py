@@ -3,6 +3,7 @@ import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.game as game
 import pokete_classes.fightmap as fm
+import pokete_classes.movemap as mvp
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
@@ -10,8 +11,8 @@ from .input import ask_ok
 
 
 class HighGrass(se.Object):
-    figure = None
     """Object on the map, that triggers a fight"""
+    figure = None
 
     def action(self, ob):
         """Action triggers the fight
@@ -38,11 +39,30 @@ class Meadow(se.Text):
         string: The character representing the meadow
         poke_args: Dict containing relevant information about Pokes"""
     esccode = Color.green
+    all_obs = []
+    max_tick = 100
+    curr_tick = max_tick
 
     def __init__(self, string, poke_args):
         super().__init__(string, ignore=self.esccode + " " + Color.reset,
                          ob_class=HighGrass, ob_args=poke_args,
                          state="float", esccode=self.esccode)
+        Meadow.all_obs.append(self)
+
+    @classmethod
+    def moving_grass(cls, objs):
+        if cls.curr_tick < cls.max_tick:
+            cls.curr_tick += 1
+            return
+        else:
+            cls.curr_tick = 0
+
+        for obj in objs:
+            if obj.char == cls.esccode + ";" + Color.reset:
+                if random.randint(0, 600) == 0:
+                    obj.rechar(Color.thicc + cls.esccode + ";" + Color.reset)
+            else:
+                obj.rechar(cls.esccode + ";" + Color.reset)
 
 
 class Water(Meadow):
