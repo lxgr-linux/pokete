@@ -3,6 +3,7 @@
 import time
 import scrap_engine as se
 import pokete_data as p_data
+import pokete_classes.ob_maps as obmp
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .color import Color
@@ -29,7 +30,7 @@ class Station(se.Square):
         self.desc = desc
         self.roadmap = roadmap
         self.org_char = char
-        self.associates = [associate] + [roadmap.ob_maps[i] for i in additionals]
+        self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
         self.color = ""
         self.name = self.associates[0].pretty_name
         super().__init__(char, width, height, state="float")
@@ -81,17 +82,15 @@ class Station(se.Square):
 class RoadMap:
     """Map you can see and navigate maps on
     ARGS:
-        ob_maps: Dict with all PlayMaps
         fig: Figure object"""
 
-    def __init__(self, ob_maps, fig):
-        self.ob_maps = ob_maps
+    def __init__(self, fig):
         self.fig = fig
         self.box = Box(11, 40, "Roadmap", "q:close")
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta in p_data.stations:
-            obj = Station(self, ob_maps[sta], **p_data.stations[sta]['gen'])
+            obj = Station(self, obmp.ob_maps[sta], **p_data.stations[sta]['gen'])
             self.box.add_ob(obj, **p_data.stations[sta]['add'])
             setattr(self, sta, obj)
 
@@ -117,7 +116,7 @@ class RoadMap:
             i.set_color(choose)
         [i for i in Station.obs
          if (self.fig.map
-             if self.fig.map not in [self.ob_maps[i] for i in
+             if self.fig.map not in [obmp.ob_maps[i] for i in
                                             ["shopmap", "centermap"]]
              else self.fig.oldmap)
          in i.associates][0].choose()
