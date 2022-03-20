@@ -6,6 +6,7 @@ import pokete_classes.fightmap as fm
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
+from .input import ask_ok
 
 
 class HighGrass(se.Object):
@@ -52,3 +53,32 @@ class Water(Meadow):
 class Sand(Meadow):
     """Same as Meadow, but for Sand"""
     esccode = Color.yellow
+
+
+class Poketeball(se.Object):
+    """Poketeball that can be picked up on the map
+    ARGS:
+        name: Generic name of the ball"""
+    figure = None
+
+    def __init__(self, name):
+        self.name = name
+        super().__init__(Color.thicc + Color.red + "o" + Color.reset,
+                         state="float")
+
+    def action(self, ob):
+        """Action triggers the pick up
+        ARGS:
+            ob: The object triggering this action"""
+        amount = random.choices([1, 2, 3],
+                                weights=[10, 2, 1], k=1)[0]
+        item = random.choices(["poketeball", "hyperball", "superball",
+                               "healing_potion"],
+                              weights=[10, 1.5, 1, 1],
+                              k=1)[0]
+        self.figure.give_item(item, amount)
+        self.remove()
+        mvp.movemap.full_show()
+        ask_ok(mvp.movemap, f"You found {amount if amount > 1 else 'a'} \
+{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
+        self.figure.used_npcs.append(self.name)

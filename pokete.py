@@ -38,7 +38,7 @@ import pokete_classes.fightmap as fm
 import pokete_classes.deck as deck
 import pokete_classes.detail as detail
 import pokete_classes.game as game
-from pokete_classes.landscape import Meadow, Water, Sand, HighGrass
+from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
 from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
@@ -57,34 +57,6 @@ __t = time.time()
 
 # Class definition
 ##################
-
-class Poketeball(se.Object):
-    """Poketeball that can be picked up on the map
-    ARGS:
-        name: Generic name of the ball"""
-
-    def __init__(self, name):
-        self.name = name
-        super().__init__(Color.thicc + Color.red + "o" + Color.reset,
-                         state="float")
-
-    def action(self, ob):
-        """Action triggers the pick up
-        ARGS:
-            ob: The object triggering this action"""
-        amount = random.choices([1, 2, 3],
-                                weights=[10, 2, 1], k=1)[0]
-        item = random.choices(["poketeball", "hyperball", "superball",
-                               "healing_potion"],
-                              weights=[10, 1.5, 1, 1],
-                              k=1)[0]
-        figure.give_item(item, amount)
-        self.remove()
-        mvp.movemap.full_show()
-        ask_ok(mvp.movemap, f"You found {amount if amount > 1 else 'a'} \
-{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
-        figure.used_npcs.append(self.name)
-
 
 class NPCActions:
     """This class contains all functions callable by NPCs
@@ -1482,6 +1454,7 @@ if __name__ == "__main__":
     buy = Buy(figure, mvp.movemap)
     game.game = _game
     HighGrass.figure = figure
+    Poketeball.figure = figure
 
     # Achievements
     achievements.set_achieved(session_info.get("achievements", []))
