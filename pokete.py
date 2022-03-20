@@ -20,7 +20,8 @@ from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
-from pokete_classes.poke import Poke, heal
+from pokete_classes.general import heal, check_walk_back
+from pokete_classes.poke import Poke
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
@@ -36,6 +37,9 @@ import pokete_classes.movemap as mvp
 import pokete_classes.fightmap as fm
 import pokete_classes.deck as deck
 import pokete_classes.detail as detail
+import pokete_classes.game as game
+from pokete_classes.landscape import Meadow, Water, Sand, HighGrass
+from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.npcs import NPC, Trainer
@@ -53,51 +57,6 @@ __t = time.time()
 
 # Class definition
 ##################
-
-class HightGrass(se.Object):
-    """Object on the map, that triggers a fight"""
-
-    def action(self, ob):
-        """Action triggers the fight
-        ARGS:
-            ob: The object triggering this action"""
-        if random.randint(0, 8) == 0:
-            fm.fight(Poke("__fallback__", 0)
-                  if len([poke for poke in figure.pokes[:6]
-                          if poke.hp > 0]) == 0
-                  else [poke for poke in figure.pokes[:6] if poke.hp > 0][0],
-                  Poke(random.choices(self.arg_proto["pokes"],
-                                      weights=[p_data.pokes[i]["rarity"]
-                                               for i in
-                                               self.arg_proto["pokes"]])[0],
-                       random.choices(list(range(self.arg_proto["minlvl"],
-                                                 self.arg_proto["maxlvl"])))[0],
-                       player=False, shiny=(random.randint(0, 500) == 0)))
-            check_walk_back(figure)
-
-
-class Meadow(se.Text):
-    """Daughter of se.Text to better organize Highgrass
-    ARGS:
-        string: The character representing the meadow
-        poke_args: Dict containing relevant information about Pokes"""
-    esccode = Color.green
-
-    def __init__(self, string, poke_args):
-        super().__init__(string, ignore=self.esccode + " " + Color.reset,
-                         ob_class=HightGrass, ob_args=poke_args,
-                         state="float", esccode=self.esccode)
-
-
-class Water(Meadow):
-    """Same as Meadow, but for Water"""
-    esccode = Color.blue
-
-
-class Sand(Meadow):
-    """Same as Meadow, but for Sand"""
-    esccode = Color.yellow
-
 
 class Poketeball(se.Object):
     """Poketeball that can be picked up on the map
@@ -288,8 +247,8 @@ class CenterMap(PlayMap):
  |_____|  |_____|""", ignore=" ")
 
         self.interact = CenterInteract("¯", state="float")
-        self.dor_back1 = CenterDor(" ", state="float")
-        self.dor_back2 = CenterDor(" ", state="float")
+        self.dor_back1 = CenterDoor(" ", state="float")
+        self.dor_back2 = CenterDoor(" ", state="float")
         self.trader = NPC("trader",
                           [" < I'm a trader.",
                            " < Here you can trade one of your Poketes for \
@@ -320,84 +279,13 @@ class ShopMap(PlayMap):
  |_______  _______|
  |______|  |______|""", ignore=" ")
         self.interact = ShopInteract("¯", state="float")
-        self.dor_back1 = CenterDor(" ", state="float")
-        self.dor_back2 = CenterDor(" ", state="float")
+        self.dor_back1 = CenterDoor(" ", state="float")
+        self.dor_back2 = CenterDoor(" ", state="float")
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
         self.dor_back2.add(self, int(self.width / 2) + 1, 8)
         self.inner.add(self, int(self.width / 2) - 9, 1)
         self.interact.add(self, int(self.width / 2), 4)
-
-
-class CenterDor(se.Object):
-    """Dor class for the map to enter centers and shops"""
-
-    def action(self, ob):
-        """Trigger
-        ARGS:
-            ob: The object triggering this action"""
-        ob.remove()
-        i = ob.map.name
-        ob.add(ob.oldmap,
-               ob.oldmap.dor.x
-               if ob.map == centermap
-               else ob.oldmap.shopdor.x,
-               ob.oldmap.dor.y + 1
-               if ob.map == centermap
-               else ob.oldmap.shopdor.y + 1)
-        ob.oldmap = obmp.ob_maps[i]
-        game(ob.map)
-
-
-class Dor(se.Object):
-    """Dor class for the map to enter other maps"""
-
-    def action(self, ob):
-        """Trigger
-        ARGS:
-            ob: The object triggering this action"""
-        ob.remove()
-        i = ob.map.name
-        ob.add(obmp.ob_maps[self.arg_proto["map"]], self.arg_proto["x"],
-               self.arg_proto["y"])
-        ob.oldmap = obmp.ob_maps[i]
-        game(obmp.ob_maps[self.arg_proto["map"]])
-
-
-class DorToCenter(Dor):
-    """Dor that leads to the Pokete center"""
-
-    def __init__(self):
-        super().__init__("#", state="float",
-                         arg_proto={"map": "centermap",
-                                    "x": int(centermap.width / 2), "y": 7})
-
-    def action(self, ob):
-        """Triggers the dor
-        ARGS:
-            ob: The object triggering this action"""
-        ob.last_center_map = ob.map
-        super().action(ob)
-
-
-class DorToShop(Dor):
-    """Dor that leads to the shop"""
-
-    def __init__(self):
-        super().__init__("#", state="float",
-                         arg_proto={"map": "shopmap",
-                                    "x": int(shopmap.width / 2), "y": 7})
-
-
-class ChanceDor(Dor):
-    """Same as dor but with a chance"""
-
-    def action(self, ob):
-        """Trigger
-        ARGS:
-            ob: The object triggering this action"""
-        if random.randint(0, self.arg_proto["chance"]) == 0:
-            super().action(ob)
 
 
 class Figure(se.Object):
@@ -711,22 +599,6 @@ class Menu:
 # General use functions
 #######################
 
-def check_walk_back(figure, self=None):
-    """Check whether the figure has to be walked back to the last Poketecenter
-       or not"""
-    if all(i.hp <= 0 for i in figure.pokes[:6]):
-        amount = round(figure.get_money() / 3)
-        figure.add_money(-amount)
-        heal(figure)
-        ask_ok(mvp.movemap, f"""All your Poketes have died and you ran
-back to the last Pokecenter you visited, to heal them!
-On the way there {amount}$ fell out of your pocket!""")
-        figure.remove()
-        figure.map = figure.last_center_map
-        logging.info("[Figure] Lost all Poketes and ran away")
-        DorToCenter().action(figure)
-
-
 def autosave():
     """Autosaves the game every 5 mins"""
     while True:
@@ -945,7 +817,7 @@ def teleport(poke):
         if settings("animations").val:
             animations.transition(mvp.movemap, poke)
         cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
-        Dor("", state="float", arg_proto={"map": obj.name,
+        Door("", state="float", arg_proto={"map": obj.name,
                                           "x": cen_d["x"] + 5,
                                           "y": cen_d["y"] + 6}).action(figure)
 
@@ -1019,7 +891,7 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
 {figure.pokes[index].lvl()} from {decode_data['name']}.")
 
 
-def game(_map):
+def _game(_map):
     """Game function
     ARGS:
         _map: The map that will be shown"""
@@ -1104,7 +976,7 @@ world and be a Pokete-trainer.",
                         "'Healing potion'.",
                         " < You will be the best Pokete-Trainer in Nice town.",
                         " < Now go out and become the best!"])
-    game(obmp.ob_maps["intromap"])
+    game.game(obmp.ob_maps["intromap"])
 
 
 def parse_obj(_map, name, obj, _dict):
@@ -1148,7 +1020,7 @@ def gen_obs():
                       map_data[ob_map]["soft_obs"][soft_ob])
         for dor in map_data[ob_map]["dors"]:
             parse_obj(_map, dor,
-                      Dor(" ", state="float",
+                      Door(" ", state="float",
                           arg_proto=map_data[ob_map]["dors"][dor]["args"]),
                       map_data[ob_map]["dors"][dor])
         for ball in map_data[ob_map]["balls"]:
@@ -1209,7 +1081,7 @@ def main():
     check_version(session_info)
     if figure.name == "DEFAULT":
         intro()
-    game(figure.map)
+    game.game(figure.map)
 
 
 def map_additions():
@@ -1217,7 +1089,7 @@ def map_additions():
 
     # playmap_1
     _map = obmp.ob_maps["playmap_1"]
-    _map.dor = DorToCenter()
+    _map.dor = DoorToCenter()
     # adding
     _map.dor.add(_map, 25, 4)
 
@@ -1243,7 +1115,7 @@ def map_additions():
 ##############  ##########################
 ##############  ##########################
 ##############  ##########################""", ignore="#",
-                         ob_class=HightGrass,
+                         ob_class=HighGrass,
                          ob_args=_map.poke_args,
                          state="float")
     # adding
@@ -1251,15 +1123,15 @@ def map_additions():
 
     # playmap_3
     _map = obmp.ob_maps["playmap_3"]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 25, 6)
     _map.shopdor.add(_map, 61, 6)
 
     # playmap_4
     _map = obmp.ob_maps["playmap_4"]
-    _map.dor_playmap_5 = ChanceDor("~", state="float",
+    _map.dor_playmap_5 = ChanceDoor("~", state="float",
                                    arg_proto={"chance": 6,
                                               "map": "playmap_5",
                                               "x": 17, "y": 16})
@@ -1281,7 +1153,7 @@ def map_additions():
 
     # playmap_5
     _map = obmp.ob_maps["playmap_5"]
-    _map.inner = se.Square(" ", 11, 11, state="float", ob_class=HightGrass,
+    _map.inner = se.Square(" ", 11, 11, state="float", ob_class=HighGrass,
                            ob_args=_map.poke_args)
     # adding
     _map.inner.add(_map, 26, 1)
@@ -1307,7 +1179,7 @@ def map_additions():
 #########             ########
 ###################   ########
 ####################  ########
-##############################""", ignore="#", ob_class=HightGrass,
+##############################""", ignore="#", ob_class=HighGrass,
                          ob_args=_map.poke_args, state="float")
     for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
                [getattr(_map, i) for i in p_data.map_data["playmap_7"]["balls"]
@@ -1329,7 +1201,7 @@ def map_additions():
 ##                      #
 #               #########
 ############ ############
-#########################""", ignore="#", ob_class=HightGrass,
+#########################""", ignore="#", ob_class=HighGrass,
                          ob_args=_map.poke_args, state="float")
     # adding
     _map.inner.add(_map, 2, 1)
@@ -1351,8 +1223,8 @@ _map.w_poke_args)
 
     # playmap_13
     _map = obmp.ob_maps["playmap_13"]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 14, 29)
     _map.shopdor.add(_map, 52, 29)
@@ -1402,18 +1274,18 @@ _map.w_poke_args)
             # #                   ###########
             # #
             # #
-            ###""", ignore="#", ob_class=HightGrass,
+            ###""", ignore="#", ob_class=HighGrass,
                          ob_args=_map.poke_args, state="float")
     # adding
     _map.inner.add(_map, 0, 0)
 
     # playmap_21
     _map = obmp.ob_maps["playmap_21"]
-    _map.dor_playmap_19 = Dor("_", state="float",
+    _map.dor_playmap_19 = Door("_", state="float",
                               arg_proto={"map": "playmap_19",
                                          "x": 26, "y": 1})
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     _map.lake_1 = Water("""       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1430,8 +1302,8 @@ _map.w_poke_args)
 
     # playmap_30
     _map = obmp.ob_maps["playmap_30"]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 13, 7)
     _map.shopdor.add(_map, 30, 7)
@@ -1608,6 +1480,8 @@ if __name__ == "__main__":
     about = About(VERSION, CODENAME, mvp.movemap)
     inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)
+    game.game = _game
+    HighGrass.figure = figure
 
     # Achievements
     achievements.set_achieved(session_info.get("achievements", []))
@@ -1620,10 +1494,10 @@ if __name__ == "__main__":
     # objects relevant for fm.fight()
     fm.fight = fm.Fight(figure)
     fm.fightmap = fm.FightMap(height - 1, width)
-    fm.fightitems = fm.FightItems(figure, obmp.ob_maps)
+    fm.fightitems = fm.FightItems(figure)
 
     for _i in [NPC, Trainer]:
-        _i.set_vars(figure, NPCActions, check_walk_back)
+        _i.set_vars(figure, NPCActions)
     notifier.set_vars(mvp.movemap)
     figure.set_args(session_info)
 

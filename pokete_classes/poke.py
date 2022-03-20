@@ -6,7 +6,6 @@ import logging
 import random
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.movemap as mvp
 from pokete_general_use_fns import liner
 from .attack_actions import AttackActions
 from .attack import Attack
@@ -258,17 +257,3 @@ can't have more than 4 attacks!"
             figure.caught_pokes.append(new.identifier)
         logging.info("[Poke] %s evolved to %s", self.name, new.name)
         del self
-
-
-def heal(figure):
-    """Heals all poketes
-    ARGS:
-        figure: Figure object"""
-    for poke in figure.pokes:
-        poke.hp = poke.full_hp
-        poke.effects = []
-        poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar(f"HP:{poke.hp}")
-        poke.set_vars()
-        poke.hp_bar.make(poke.hp)
-        mvp.movemap.balls_label_rechar(figure.pokes)

@@ -11,6 +11,7 @@ from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
 from .event import _ev
+from .general import check_walk_back
 
 
 class NPCTrigger(se.Object):
@@ -31,18 +32,15 @@ class NPC(se.Box):
     """An NPC to talk to"""
     fig = None
     npcactions = None
-    check_walk_back = None
 
     @classmethod
-    def set_vars(cls, fig, npcactions, check_walk_back):
+    def set_vars(cls, fig, npcactions):
         """Sets all variables needed by NPCs
         ARGS:
             fig: Figure object
-            npcactions: NPCActions class
-            check_walk_back: check_walk_back function"""
+            npcactions: NPCActions class"""
         cls.fig = fig
         cls.npcactions = npcactions
-        cls.check_walk_back = check_walk_back
 
     def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
@@ -230,4 +228,4 @@ class Trainer(NPC):
                 logging.info("[NPC][%s] %s against player", self.name,
                              'Lost' if  winner != self.poke else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
-            self.check_walk_back(self.fig)
+            check_walk_back(self.fig)

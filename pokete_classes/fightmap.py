@@ -7,6 +7,7 @@ import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.deck as deck
 import pokete_classes.movemap as mvp
+import pokete_classes.ob_maps as obmp
 from pokete_classes import animations
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
@@ -394,10 +395,7 @@ used {enemy.name} against you!')
 class FightItems:
     """Contains all fns callable by an item in fight
     ARGS:
-        _map: FightMap object
-        movemap: MoveMap object
         figure: Figure object
-        ob_maps: Dict of all PlayMaps
 
     The methods that can actually be called in fight follow the follwing patern:
         ARGS:
@@ -409,9 +407,8 @@ class FightItems:
             2: To win the game
             None: To let the enemy attack"""
 
-    def __init__(self, figure, ob_maps):
+    def __init__(self, figure):
         self.fig = figure
-        self.ob_maps = ob_maps
 
     def throw(self, obj, enem, info, chance, name):
         """Throws a *ball
@@ -433,7 +430,7 @@ class FightItems:
                              fightmap.pball], enem.ico)
         time.sleep(random.choice([1, 2, 3, 4]))
         self.fig.remove_item(name)
-        catch_chance = 20 if self.fig.map == self.ob_maps["playmap_1"] else 0
+        catch_chance = 20 if self.fig.map == obmp.ob_maps["playmap_1"] else 0
         for effect in enem.effects:
             catch_chance += effect.catch_chance
         if random.choices([True, False],
