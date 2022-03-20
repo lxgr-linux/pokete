@@ -501,8 +501,7 @@ class FightItems:
         """AP potion function"""
         self.fig.remove_item("ap_potion")
         for atc in obj.attack_obs:
-            atc.ap = atc.max_ap
-        obj.label_rechar()
+            atc.set_ap(atc.max_ap)
         logging.info("[Fighitem][ap_potion] Used")
 
 
