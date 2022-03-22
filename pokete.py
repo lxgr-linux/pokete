@@ -20,10 +20,10 @@ from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
-from pokete_classes.general import heal, check_walk_back
+from pokete_classes.general import heal
 from pokete_classes.poke import Poke
 from pokete_classes.color import Color
-from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
+from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
@@ -38,7 +38,7 @@ import pokete_classes.fightmap as fm
 import pokete_classes.deck as deck
 import pokete_classes.detail as detail
 import pokete_classes.game as game
-import pokete_classes.generic_map_handler as gmh
+# import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
 from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
 from pokete_classes.learnattack import LearnAttack
@@ -97,7 +97,7 @@ it evolves to Choka.",
     def playmap_20_trader(npc):
         """Interaction with trader"""
         if ask_bool(mvp.movemap, "Do you want to trade a Pokete?"):
-            if (index := deck(6, "Your deck", True)) is None:
+            if (index := deck.deck(6, "Your deck", True)) is None:
                 return
             figure.add_poke(Poke("ostri", 500), index)
             figure.used_npcs.append(npc.name)
@@ -167,7 +167,7 @@ class CenterInteract(se.Object):
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index("__fallback__"))
                 mvp.movemap.balls_label_rechar(figure.pokes)
-                deck(len(figure.pokes))
+                deck.deck(len(figure.pokes))
                 break
             elif _ev.get() == "'b'":
                 _ev.clear()
@@ -425,7 +425,7 @@ class Inv:
 {obj.attack_dict['name']}'?"):
                                     ex_cond = True
                                     while ex_cond:
-                                        index = deck(6, label="Your deck",
+                                        index = deck.deck(6, label="Your deck",
                                                      in_fight=True)
                                         if index is None:
                                             ex_cond = False
@@ -802,7 +802,7 @@ def swap_poke():
     port = 65432
     save()
     do = ask_bool(mvp.movemap, "Do you want to be the host?")
-    if (index := deck(6, "Your deck", True)) is None:
+    if (index := deck.deck(6, "Your deck", True)) is None:
         return
     if do:
         with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...",
