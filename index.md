@@ -41,6 +41,7 @@ git clone https://github.com/lxgr-linux/pokete.git
 pip install scrap_engine
 pip install pynput
 ```
+To run just execute `pokete.py`.
 
 ## Usage
 The game can be run normaly by not supplying any options.
