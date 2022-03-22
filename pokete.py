@@ -658,7 +658,7 @@ def on_press(key):
 
 def reset_terminal():
     """Resets the terminals state"""
-    if sys.platform == "linux":
+    if sys.platform == "linux" and not force_pynput:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
@@ -1343,8 +1343,9 @@ _map.w_poke_args)
 # Actual code execution
 #######################
 if __name__ == "__main__":
+    do_logging, load_mods, force_pynput = parse_args(sys.argv)
     # deciding on wich input to use
-    if sys.platform == "linux":
+    if sys.platform == "linux" and not force_pynput:
         import tty
         import termios
 
@@ -1375,8 +1376,6 @@ if __name__ == "__main__":
             while True:
                 with Listener(on_press=on_press) as listener:
                     listener.join()
-
-    do_logging, load_mods = parse_args(sys.argv)
 
     # resizing screen
     tss = ResizeScreen()

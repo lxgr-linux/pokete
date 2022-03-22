@@ -81,11 +81,14 @@ def parse_args(args):
         Tuple of do_logging and load_mods"""
     do_logging = False
     load_mods = True
+    force_pynput = False
     for arg in args[1:]:
         if arg == "--log":
             do_logging = True
         elif arg == "--no_mods":
             load_mods = False
+        elif arg == "--force_pynput":
+            force_pynput = True
         elif arg == "--help":
             print_help(args[0])
             sys.exit(0)
@@ -93,7 +96,7 @@ def parse_args(args):
             print(f":: Error: '{arg}' is not a valid option! See '--help' for \
 options.")
             sys.exit(1)
-    return do_logging, load_mods
+    return do_logging, load_mods, force_pynput
 
 
 if __name__ == "__main__":
