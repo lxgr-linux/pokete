@@ -267,7 +267,7 @@ class Figure(se.Object):
         _si: session_info dict"""
 
     def __init__(self, _si):
-        super().__init__("a", state="solid")
+        super().__init__(_si.get("represent_char", "a"), state="solid")
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
         self.name = _si.get("user", "DEFAULT")
@@ -584,6 +584,7 @@ def save():
     """Saves all relevant data to savefile"""
     _si = {
         "user": figure.name,
+        "represent_char": figure.char,
         "ver": VERSION,
         "map": figure.map.name,
         "oldmap": figure.oldmap.name,
@@ -617,6 +618,7 @@ def read_save():
     # Default test session_info
     _si = {
         "user": "DEFAULT",
+        "represent_char": "a",
         "ver": VERSION,
         "map": "intromap",
         "oldmap": "playmap_1",
