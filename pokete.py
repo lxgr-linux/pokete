@@ -38,6 +38,7 @@ import pokete_classes.fightmap as fm
 import pokete_classes.deck as deck
 import pokete_classes.detail as detail
 import pokete_classes.game as game
+import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
 from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
 from pokete_classes.learnattack import LearnAttack
