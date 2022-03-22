@@ -1449,12 +1449,15 @@ if __name__ == "__main__":
     #############################################################
     mvp.movemap = mvp.Movemap(height - 1, width)
 
+    # A dict that contains all world action functions for Attacks
+    abb_funcs = {"teleport": teleport}
+
     # side fn definitions
     detail.detail = detail.Detail(height - 1, width)
     pokete_dex = Dex(figure)
     help_page = Help(mvp.movemap)
     roadmap = RoadMap(figure)
-    deck.deck = deck.Deck(height - 1, width, figure)
+    deck.deck = deck.Deck(height - 1, width, figure, abb_funcs)
     menu = Menu(mvp.movemap)
     about = About(VERSION, CODENAME, mvp.movemap)
     inv = Inv(mvp.movemap)
@@ -1467,9 +1470,6 @@ if __name__ == "__main__":
     achievements.set_achieved(session_info.get("achievements", []))
     for identifier, args in p_data.achievements.items():
         achievements.add(identifier, **args)
-
-    # A dict that contains all world action functions for Attacks
-    abb_funcs = {"teleport": teleport}
 
     # objects relevant for fm.fight()
     fm.fight = fm.Fight(figure)

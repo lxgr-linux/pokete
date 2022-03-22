@@ -9,7 +9,7 @@ from .ui_elements import StdFrame2
 class Deck(detail.Informer):
     """Deck to see Poketes in"""
 
-    def __init__(self, height, width, figure):
+    def __init__(self, height, width, figure, abb_funcs):
         self.map = se.Map(height, width, " ")
         self.submap = se.Submap(self.map, 0, 0, height=height, width=width)
         self.exit_label = se.Text("1: Exit  ")
@@ -17,6 +17,7 @@ class Deck(detail.Informer):
         self.move_free = se.Text("3: Free")
         self.index = se.Object("*")
         self.figure = figure
+        self.abb_funcs = abb_funcs
         # adding
         self.exit_label.add(self.submap, 0, self.submap.height - 1)
         self.move_label.add(self.submap, 9, self.submap.height - 1)
@@ -65,7 +66,7 @@ class Deck(detail.Informer):
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
                 if ret_action is not None:
-                    abb_funcs[ret_action](pokes[self.index.index])
+                    self.abb_funcs[ret_action](pokes[self.index.index])
                 return None
             elif _ev.get() == "'2'":
                 _ev.clear()
