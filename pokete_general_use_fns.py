@@ -59,9 +59,10 @@ def print_help(path):
     print(f"""Pokete {release.CODENAME} v{release.VERSION}
 Usage: {path} (<options>)
 Options:
-    --log     : Enables logging
-    --help    : Shows this help
-    --no_mods : Disables mods
+    --log          : Enables logging
+    --help         : Shows this help
+    --no_mods      : Disables mods
+    --force-pynput : Forces the usage of pynput as a keyboard input backend
 
 Homepage: https://github.com/lxgr-linux/pokete
 
@@ -70,7 +71,7 @@ Feel free to contribute.
 See README.md for more information.
 This software is licensed under the GPLv3, you should have gotten a
 copy of it alongside this software.
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2021""")
+Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2022""")
 
 
 def parse_args(args):
