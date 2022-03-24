@@ -889,7 +889,7 @@ def _game(_map):
     all_gras_objs = []
     if settings("animations").val:
         for meadow in Meadow.all_obs:
-            if meadow.map == _map:
+            if meadow.map == _map and meadow.esccode == Color.green:
                 all_gras_objs += meadow.obs
     while True:
         # Directions are not beening used yet
