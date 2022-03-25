@@ -267,7 +267,11 @@ class Figure(se.Object):
         _si: session_info dict"""
 
     def __init__(self, _si):
-        super().__init__(_si.get("represent_char", "a"), state="solid")
+        r_char = _si.get("represent_char", "a")
+        if len(r_char) != 1:
+            logging.info("[Figure] '%s' is no valid 'represent_char', resetting", r_char)
+            r_char = "a"
+        super().__init__(r_char, state="solid")
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
         self.name = _si.get("user", "DEFAULT")
