@@ -506,13 +506,16 @@ class Menu:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Menu")
         self.playername_label = se.Text("Playername: ", state="float")
+        self.represent_char_label = se.Text("Char: ", state="float")
         self.mods_label = se.Text("Mods", state="float")
         self.ach_label = se.Text("Achievements", state="float")
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
         self.realname_label = se.Text(session_info["user"], state="float")
+        self.char_label = se.Text(figure.char, state="float")
         self.box.add_c_obs([self.playername_label,
+                            self.represent_char_label,
                             VisSetting("Autosave", "autosave",
                                        {True: "On", False: "Off"}),
                             VisSetting("Animations", "animations",
@@ -526,14 +529,18 @@ class Menu:
                             self.exit_label])
         # adding
         self.box.add_ob(self.realname_label,
-                        self.playername_label.rx
-                        + len(self.playername_label.text),
+                        self.playername_label.rx + self.playername_label.width,
                         self.playername_label.ry)
+        self.box.add_ob(self.char_label,
+                        self.represent_char_label.rx
+                         + self.represent_char_label.width,
+                        self.represent_char_label.ry)
 
     def __call__(self):
         """Opens the menu"""
         _ev.clear()
         self.realname_label.rechar(figure.name)
+        self.char_label.rechar(figure.char)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
                 if _ev.get() == "Key.enter":
@@ -545,6 +552,10 @@ class Menu:
                                                  self.map,
                                                  figure.name, 18, 17)
                         self.map.name_label_rechar(figure.name)
+                    elif i == self.represent_char_label:
+                        figure.rechar(text_input(self.char_label,
+                                                 self.map,
+                                                 figure.char, 18, 1))
                     elif i == self.mods_label:
                         ModInfo(mvp.movemap, mods.mod_info)()
                     elif i == self.save_label:
