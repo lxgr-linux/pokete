@@ -548,14 +548,15 @@ class Menu:
                     # Fuck python for not having case statements
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
-                        figure.name = text_input(self.realname_label,
-                                                 self.map,
+                        figure.name = text_input(self.realname_label, self.map,
                                                  figure.name, 18, 17)
                         self.map.name_label_rechar(figure.name)
                     elif i == self.represent_char_label:
-                        figure.rechar(text_input(self.char_label,
-                                                 self.map,
-                                                 figure.char, 18, 1))
+                        inp = text_input(self.char_label, self.map,
+                                         figure.char, 18, 1)
+                        if len(inp.encode("utf-8")) != 1:  # exludes bade unicode
+                            inp = "a"
+                        figure.rechar(inp)
                     elif i == self.mods_label:
                         ModInfo(mvp.movemap, mods.mod_info)()
                     elif i == self.save_label:
