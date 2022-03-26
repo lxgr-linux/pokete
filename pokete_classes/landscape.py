@@ -61,8 +61,15 @@ class Meadow(se.Text):
             if obj.char == cls.esccode + ";" + Color.reset:
                 if random.randint(0, 600) == 0:
                     obj.rechar(Color.thicc + cls.esccode + ";" + Color.reset)
+                    cls.check_figure_redraw(obj)
             else:
                 obj.rechar(cls.esccode + ";" + Color.reset)
+                cls.check_figure_redraw(obj)
+
+    @staticmethod
+    def check_figure_redraw(obj):
+        if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
+            HighGrass.figure.redraw()
 
 
 class Water(Meadow):
