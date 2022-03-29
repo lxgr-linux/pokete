@@ -666,6 +666,7 @@ def exiter():
     """Exit function"""
     reset_terminal()
     logging.info("[General] Exiting...")
+    print("\033[?1049l")
     sys.exit()
 
 
@@ -1343,6 +1344,8 @@ _map.w_poke_args)
 # Actual code execution
 #######################
 if __name__ == "__main__":
+    print("\033[?1049h")
+
     # deciding on wich input to use
     if sys.platform == "linux":
         import tty
@@ -1491,4 +1494,4 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("KeyboardInterrupt")
+        print("\033[?1049l\nKeyboardInterrupt")
