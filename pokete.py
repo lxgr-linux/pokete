@@ -666,7 +666,7 @@ def exiter():
     """Exit function"""
     reset_terminal()
     logging.info("[General] Exiting...")
-    print("\033[?1049l")
+    print("\033[?1049l\033[1A")
     sys.exit()
 
 
@@ -1494,4 +1494,4 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\033[?1049l\nKeyboardInterrupt")
+        print("\033[?1049l\033[1A\nKeyboardInterrupt")
