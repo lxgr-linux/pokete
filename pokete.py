@@ -1344,8 +1344,6 @@ _map.w_poke_args)
 # Actual code execution
 #######################
 if __name__ == "__main__":
-    print("\033[?1049h")
-
     # deciding on wich input to use
     if sys.platform == "linux":
         import tty
@@ -1380,6 +1378,7 @@ if __name__ == "__main__":
                     listener.join()
 
     do_logging, load_mods = parse_args(sys.argv)
+    print("\033[?1049h")
 
     # resizing screen
     tss = ResizeScreen()
