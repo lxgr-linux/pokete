@@ -49,6 +49,7 @@ from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
+from pokete_classes.periodic_event_manager import PeriodicEventManager
 from pokete_general_use_fns import liner, sort_vers, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -844,15 +845,7 @@ def _game(_map):
                 "'?'": [help_page, ()]}
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
-    # get all gras objs
-    all_grass_objs = []
-    all_water_objs = []
-    for meadow in Meadow.all_grass:
-        if meadow.map == _map:
-            all_grass_objs += meadow.obs
-    for water in Meadow.all_water:
-        if water.map == _map:
-            all_water_objs += water.obs
+    pevm = PeriodicEventManager(_map)
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
@@ -882,10 +875,7 @@ def _game(_map):
                 codes(inp)
                 _ev.clear()
         std_loop()
-        _map.extra_actions()
-        if settings("animations").val:
-            Meadow.moving_grass(all_grass_objs)
-            Meadow.moving_water(all_water_objs)
+        pevm.event()
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
                                     figure.x < mvp.movemap.x + 6,
