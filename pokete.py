@@ -699,42 +699,6 @@ class ExtraActions:
     """Extra actions class to keep track of extra actions"""
 
     @staticmethod
-    def water(obs):
-        """Water animation
-        ARGS:
-            obs: List of se.Objects that represent the water"""
-        if settings("animations").val:
-            for obj in obs:
-                if random.randint(0, 9) == 0:
-                    if " " not in obj.char:
-                        obj.rechar([i for i in
-                                    [Color.lightblue + "~" + Color.reset,
-                                     Color.blue + "~" + Color.reset]
-                                    if i != obj.char][0])
-                        if obj.x == figure.x and obj.y == figure.y:
-                            figure.redraw()
-
-    @staticmethod
-    def playmap_4():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_4"].lake_1.obs)
-
-    @staticmethod
-    def playmap_11():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_11"].lake_1.obs)
-
-    @staticmethod
-    def playmap_18():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_18"].lake_1.obs)
-
-    @staticmethod
-    def playmap_21():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_21"].lake_1.obs)
-
-    @staticmethod
     def playmap_7():
         """Cave animation"""
         for obj in obmp.ob_maps["playmap_7"].inner_walls.obs\
@@ -747,12 +711,6 @@ class ExtraActions:
                 obj.rechar(obj.bchar)
             else:
                 obj.rechar(" ")
-
-    @staticmethod
-    def playmap_40():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_40"].lake_1.obs)
-
 
 # main functions
 ################
@@ -887,11 +845,14 @@ def _game(_map):
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
     # get all gras objs
-    all_gras_objs = []
-    if settings("animations").val:
-        for meadow in Meadow.all_obs:
-            if meadow.map == _map and meadow.esccode == Color.green:
-                all_gras_objs += meadow.obs
+    all_grass_objs = []
+    all_water_objs = []
+    for meadow in Meadow.all_grass:
+        if meadow.map == _map:
+            all_grass_objs += meadow.obs
+    for water in Meadow.all_water:
+        if water.map == _map:
+            all_water_objs += water.obs
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
@@ -922,7 +883,9 @@ def _game(_map):
                 _ev.clear()
         std_loop()
         _map.extra_actions()
-        Meadow.moving_grass(all_gras_objs)
+        if settings("animations").val:
+            Meadow.moving_grass(all_grass_objs)
+            Meadow.moving_water(all_water_objs)
         time.sleep(0.05)
         for statement, x, y in zip([figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
                                     figure.x < mvp.movemap.x + 6,

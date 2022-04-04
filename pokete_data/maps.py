@@ -59,7 +59,7 @@ maps = {
         "height": 60,
         "width": 60,
         "pretty_name": "Sunnydale Lake",
-        "extra_actions": "playmap_4",
+        "extra_actions": None,
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
             "minlvl": 180,
@@ -144,7 +144,7 @@ maps = {
         "height": 20,
         "width": 60,
         "pretty_name": "Route 3",
-        "extra_actions": "playmap_11",
+        "extra_actions": None,
         "poke_args": {
             "pokes": ["steini", "voglo", "wolfior", "owol"],
             "minlvl": 230,
@@ -225,7 +225,7 @@ maps = {
         "height": 23,
         "width": 98,
         "pretty_name": "Big mountain see",
-        "extra_actions": "playmap_18",
+        "extra_actions": None,
         "poke_args": {
             "pokes": ["poundi", "rollator", "würgos", "rato"],
             "minlvl": 540,
@@ -262,7 +262,7 @@ maps = {
         "height": 30,
         "width": 150,
         "pretty_name": "Rock-ville",
-        "extra_actions": "playmap_21",
+        "extra_actions": None,
         "poke_args": None,
         "w_poke_args": {
             "pokes": ["karpi", "blub"],
@@ -430,7 +430,7 @@ maps = {
     "playmap_40": {
         "height": 30,
         "width": 140,
-        "extra_actions": "playmap_40",
+        "extra_actions": None,
         "pretty_name": "Sunny Beach",
         "poke_args": {
             "pokes": ["crabbat", "saugh", "würgos"],
