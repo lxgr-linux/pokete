@@ -352,7 +352,7 @@ used {enemy.name} against you!')
                 time.sleep(3)
                 do_break = True
             if do_break:
-                if obj.identifier != "__fallback__" and any(p.hp > 0 for p in figure.pokes[:6]) and ask_bool(self, "Do you want to choose anothoer Pokete?"):
+                if obj.identifier != "__fallback__" and not obj.player and any(p.hp > 0 for p in figure.pokes[:6]) and ask_bool(self, "Do you want to choose anothoer Pokete?"):
                     players, player = self.choose_poke(figure, players, player, enemy)
                 else:
                     break
