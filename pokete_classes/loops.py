@@ -1,6 +1,7 @@
 import time
 from pokete_classes.event import _ev
 from pokete_classes.notify import notifier
+import release
 
 
 def easy_exit_loop():
@@ -10,10 +11,9 @@ def easy_exit_loop():
             _ev.clear()
             return
         std_loop()
-        time.sleep(0.05)
 
 
-def std_loop(on_mvmp=True):
+def std_loop(on_mvmp=True, pevm=None):
     """Standart action executed in most loops
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap"""
@@ -21,3 +21,6 @@ def std_loop(on_mvmp=True):
         raise KeyboardInterrupt
     if on_mvmp:
         notifier.next()
+    if pevm != None:
+        pevm.event()
+    time.sleep(release.FRAMETIME)

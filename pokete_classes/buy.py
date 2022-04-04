@@ -53,7 +53,6 @@ class Buy:
                         self.fig.give_item(obj.name)
                     _ev.clear()
                 std_loop()
-                time.sleep(0.05)
                 self.map.show()
         self.box2.remove()
 

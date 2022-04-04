@@ -191,7 +191,6 @@ class FightMap(se.Map):
                     attack = ""
                     break
                 std_loop(False)
-                time.sleep(0.05)
         return attack
 
     def get_item(self, items, inv):
@@ -215,7 +214,6 @@ class FightMap(se.Map):
                     item = items[self.invbox.index.index]
                     break
                 std_loop(False)
-                time.sleep(0.05)
         self.invbox.remove_c_obs()
         return item
 
@@ -323,7 +321,6 @@ used {enemy.name} against you!')
                         attack = ""
                         break
                     std_loop(False)
-                    time.sleep(0.1)
             else:
                 attack = random.choices(obj.attack_obs,
                                         weights=[i.ap * ((1.5

@@ -151,7 +151,6 @@ class Detail(Informer):
                             _ev.clear()
                             break
                         std_loop(False)
-                        time.sleep(0.05)
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:
@@ -170,7 +169,6 @@ class Detail(Informer):
                                                        + atc.temp_i])
                     else:
                         atc.temp_j += 1
-            time.sleep(0.05)
             self.map.show()
 
 

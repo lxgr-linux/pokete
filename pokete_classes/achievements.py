@@ -116,7 +116,6 @@ class AchievementOverview(BetterChooseBox):
                     with AchBox(ach, achievements).center_add(_map):
                         easy_exit_loop()
                 std_loop()
-                time.sleep(0.05)
                 self.map.show()
 
 

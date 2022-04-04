@@ -182,7 +182,6 @@ now healed!"])
                 _ev.clear()
                 break
             std_loop()
-            time.sleep(0.05)
         mvp.movemap.full_show(init=True)
 
 
@@ -462,7 +461,6 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                             break
                     _ev.clear()
                 std_loop()
-                time.sleep(0.05)
                 self.map.show()
         self.box.remove_c_obs()
 
@@ -527,7 +525,7 @@ class Menu:
                         + len(self.playername_label.text),
                         self.playername_label.ry)
 
-    def __call__(self):
+    def __call__(self, pevm):
         """Opens the menu"""
         _ev.clear()
         self.realname_label.rechar(figure.name)
@@ -565,9 +563,8 @@ class Menu:
                 elif _ev.get() in ["'e'", "Key.esc", "'q'"]:
                     _ev.clear()
                     break
-                std_loop()
-                time.sleep(0.05)
-                self.map.show()
+                std_loop(pevm=pevm)
+                self.map.full_show()
 
 
 # General use functions
@@ -736,7 +733,6 @@ def test():
                     "test", "123", "fuckthesystem"]])
                 a.center_add(a.map)
             std_loop()
-            time.sleep(0.05)
             a.map.show()
 
 
@@ -837,15 +833,15 @@ def _game(_map):
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
+    pevm = PeriodicEventManager(_map)
     inp_dict = {"'1'": [deck.deck, (6, "Your deck")],
                 "'3'": [roadmap, (mvp.movemap,)],
                 "'4'": [inv, ()],
                 "'5'": [pokete_dex, ()],
-                "'e'": [menu, ()],
+                "'e'": [menu, (pevm,)],
                 "'?'": [help_page, ()]}
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
-    pevm = PeriodicEventManager(_map)
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
@@ -874,9 +870,8 @@ def _game(_map):
                 mvp.movemap.code_label.outp(figure.map.pretty_name)
                 codes(inp)
                 _ev.clear()
-        std_loop()
-        pevm.event()
-        time.sleep(0.05)
+        std_loop(pevm=pevm)
+        # pevm.event()
         for statement, x, y in zip([figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
                                     figure.x < mvp.movemap.x + 6,
                                     figure.y + 6 > mvp.movemap.y + mvp.movemap.height,

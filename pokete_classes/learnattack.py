@@ -112,7 +112,6 @@ class LearnAttack:
                             _ev.clear()
                             return False
                         std_loop()
-                        time.sleep(0.05)
                 self.box.remove_c_obs()
             return True
         return False
