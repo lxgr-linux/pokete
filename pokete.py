@@ -931,6 +931,7 @@ def _game(_map):
                                     figure.y + 6 > mvp.movemap.y
                                     + mvp.movemap.height,
                                     figure.y < mvp.movemap.y + 6],
+                                    [1, -1, 0, 0], [0, 0, 1, -1]):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
         # checking for resizing
