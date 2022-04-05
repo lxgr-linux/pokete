@@ -1005,8 +1005,8 @@ def gen_obs():
         for door in map_data[ob_map]["dors"]:
             parse_obj(_map, door,
                       Door(" ", state="float",
-                          arg_proto=map_data[ob_map]["dors"][dor]["args"]),
-                      map_data[ob_map]["dors"][dor])
+                          arg_proto=map_data[ob_map]["dors"][door]["args"]),
+                      map_data[ob_map]["dors"][door])
         for ball in map_data[ob_map]["balls"]:
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
             settings("save_trainers").val:
@@ -1266,8 +1266,8 @@ _map.w_poke_args)
     # playmap_21
     _map = obmp.ob_maps["playmap_21"]
     _map.dor_playmap_19 = Door("_", state="float",
-                              arg_proto={"map": "playmap_19",
-                                         "x": 26, "y": 1})
+                               arg_proto={"map": "playmap_19",
+                                          "x": 26, "y": 1})
     _map.dor = DoorToCenter()
     _map.shopdor = DoorToShop()
     _map.lake_1 = Water("""       ~~~~~~~~~~~
