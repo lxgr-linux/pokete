@@ -156,9 +156,9 @@ class CenterInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                     [" < Welcome to the Pokete-Center",
-                      " < What do you want to do?",
-                      " < a: See your full deck\n b: Heal all your Poketes\
+                         [" < Welcome to the Pokete-Center",
+                          " < What do you want to do?",
+                          " < a: See your full deck\n b: Heal all your Poketes\
 \n c: Go"])
         while True:
             if _ev.get() == "'a'":
@@ -195,8 +195,8 @@ class ShopInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                     [" < Welcome to the Pokete-Shop",
-                      " < Wanna buy something?"])
+                         [" < Welcome to the Pokete-Shop",
+                          " < Wanna buy something?"])
         buy()
         mvp.movemap.full_show(init=True)
         mvp.movemap.text(int(mvp.movemap.width / 2), 3, [" < Have a great day!"])
@@ -279,7 +279,8 @@ class Figure(se.Object):
         self.caught_pokes = _si.get("caught_poketes", [])
         self.visited_maps = _si.get("visited_maps", ["playmap_1"])
         self.used_npcs = _si.get("used_npcs", [])
-        self.last_center_map = obmp.ob_maps[_si.get("last_center_map", "playmap_1")]
+        self.last_center_map = obmp.ob_maps[_si.get("last_center_map",
+                                                    "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
 
@@ -426,7 +427,7 @@ class Inv:
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(6, label="Your deck",
-                                                     in_fight=True)
+                                                          in_fight=True)
                                         if index is None:
                                             ex_cond = False
                                             self.map.show(init=True)
@@ -885,7 +886,7 @@ def _game(_map):
                 "'?'": [help_page, ()]}
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
-    # get all gras objs
+    # get all grass objs
     all_gras_objs = []
     if settings("animations").val:
         for meadow in Meadow.all_obs:
@@ -915,7 +916,8 @@ def _game(_map):
                 _ev.clear()
                 inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
                                  mvp.movemap.width,
-                                 (mvp.movemap.width - 2) * mvp.movemap.height - 1)[1:]
+                                 (mvp.movemap.width - 2)
+                                 * mvp.movemap.height - 1)[1:]
                 mvp.movemap.code_label.outp(figure.map.pretty_name)
                 codes(inp)
                 _ev.clear()
@@ -923,11 +925,12 @@ def _game(_map):
         _map.extra_actions()
         Meadow.moving_grass(all_gras_objs)
         time.sleep(0.05)
-        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
+        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x
+                                    + mvp.movemap.width,
                                     figure.x < mvp.movemap.x + 6,
-                                    figure.y + 6 > mvp.movemap.y + mvp.movemap.height,
+                                    figure.y + 6 > mvp.movemap.y
+                                    + mvp.movemap.height,
                                     figure.y < mvp.movemap.y + 6],
-                                   [1, -1, 0, 0], [0, 0, 1, -1]):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
         # checking for resizing
@@ -948,9 +951,9 @@ def intro():
                                "Name:", "", "Name", 17)
     mvp.movemap.name_label_rechar(figure.name)
     mvp.movemap.text(4, 3, [" < Hello my child.",
-                        " < You're now ten years old.",
-                        " < And I think it's now time for you to travel the \
-world and be a Pokete-trainer.",
+                            " < You're now ten years old.",
+                            " < And I think it's now time for you to travel \
+the world and be a Pokete-trainer.",
                         " < Therefore I give you this powerfull 'Steini', \
 15 'Poketeballs' to catch Poketes and a "
                         "'Healing potion'.",
@@ -1112,9 +1115,9 @@ def map_additions():
     # playmap_4
     _map = obmp.ob_maps["playmap_4"]
     _map.dor_playmap_5 = ChanceDoor("~", state="float",
-                                   arg_proto={"chance": 6,
-                                              "map": "playmap_5",
-                                              "x": 17, "y": 16})
+                                    arg_proto={"chance": 6,
+                                               "map": "playmap_5",
+                                               "x": 17, "y": 16})
     _map.lake_1 = Water(
 """~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
