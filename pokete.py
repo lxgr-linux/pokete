@@ -1002,8 +1002,8 @@ def gen_obs():
                       Meadow(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
                              _map.poke_args),
                       map_data[ob_map]["soft_obs"][soft_ob])
-        for dor in map_data[ob_map]["dors"]:
-            parse_obj(_map, dor,
+        for door in map_data[ob_map]["dors"]:
+            parse_obj(_map, door,
                       Door(" ", state="float",
                           arg_proto=map_data[ob_map]["dors"][dor]["args"]),
                       map_data[ob_map]["dors"][dor])
