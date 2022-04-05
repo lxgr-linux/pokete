@@ -280,6 +280,7 @@ of the most spectacular.",
             "height": 2,
             "desc": "Part of the great agracultural landscape near Agrawos.",
             "a_next": "playmap_33",
+            "s_next": "playmap_39",
         },
         "add": {
             "x": 22,
@@ -297,6 +298,19 @@ of the most spectacular.",
         "add": {
             "x": 18,
             "y": 1
+        }
+    },
+    "playmap_39": {
+        "gen": {
+            "additionals": [],
+            "width": 2,
+            "height": 2,
+            "desc": "A Great city of Agrawos, agracultural and cultural center of the whole region. It's famous for its' great Pokete-Arena and its' master trainer. Check out the MowCow-Burger restaurant, which offers the best, juiciest and most delicious Mowcow-burgers, cut from the happiest and most delicious Mowcows anywhere to find!",
+            "w_next": "playmap_35",
+        },
+        "add": {
+            "x": 21,
+            "y": 4
         }
     },
 }

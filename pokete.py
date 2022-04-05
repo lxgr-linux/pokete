@@ -1195,6 +1195,14 @@ def map_additions():
     _map.dor.add(_map, 13, 7)
     _map.shopdor.add(_map, 30, 7)
 
+    # playmap_39
+    _map = obmp.ob_maps["playmap_39"]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
+    # adding
+    _map.dor.add(_map, 44, 52)
+    _map.shopdor.add(_map, 122, 64)
+
 # Actual code execution
 #######################
 if __name__ == "__main__":

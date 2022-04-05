@@ -424,7 +424,11 @@ maps = {
         "width": 200,
         "pretty_name": "Agrawos",
         "extra_actions": None,
-        "poke_args": None,
+        "poke_args": {
+            "pokes": ["mowcow", "voglo", "wheeto", "megapois"],
+            "minlvl": 1000,
+            "maxlvl": 1500
+        },
         "weather": None
     },
     "playmap_40": {
