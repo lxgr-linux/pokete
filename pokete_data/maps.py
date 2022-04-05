@@ -420,8 +420,8 @@ maps = {
         "weather": None
     },
     "playmap_39": {
-        "height": 69,
-        "width": 144,
+        "height": 70,
+        "width": 200,
         "pretty_name": "Agrawos",
         "extra_actions": None,
         "poke_args": None,

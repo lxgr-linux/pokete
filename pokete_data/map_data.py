@@ -3541,6 +3541,16 @@ ___________________________
         "balls": {
         },
     },
+    "playmap_39": {
+        "hard_obs": {
+        },
+        "soft_obs": {
+        },
+        "dors": {
+        },
+        "balls": {
+        },
+    },
     "playmap_40": {
         "hard_obs": {
             "trees": {
