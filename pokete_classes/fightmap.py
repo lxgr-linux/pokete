@@ -397,7 +397,7 @@ class FightItems:
     ARGS:
         figure: Figure object
 
-    The methods that can actually be called in fight follow the follwing patern:
+    The methods that can actually be called in fight follow the following pattern:
         ARGS:
             obj: The players Poke object
             enem: The enemys Poke object
