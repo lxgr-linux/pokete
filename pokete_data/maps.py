@@ -448,6 +448,14 @@ maps = {
         },
         "weather": "sunny"
     },
+    "playmap_41": {
+        "height": 15,
+        "width": 60,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
 }
 
 
