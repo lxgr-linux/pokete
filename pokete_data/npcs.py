@@ -276,6 +276,34 @@ found some cool Poketes.",
         "x": 107,
         "y": 25
     },
+    "npc_17": {
+        "texts": [" < Welcome to Agrawos!", " < Check out the MowCow-Burger restaurant, they have the best beaf!", " < If you wan't a challange check out the Pokete-Arena, they have some quite heavy Poketes there!"],
+        "fn": None,
+        "map": "playmap_39",
+        "x": 102,
+        "y": 5
+    },
+    "npc_18": {
+        "texts": [" < This is the Pokete Arena of Agrawos, only go there if you're sure you can beat the challange.", " < They got some very heavy Poketes in there!"],
+        "fn": None,
+        "map": "playmap_39",
+        "x": 126,
+        "y": 36
+    },
+    "npc_19": {
+        "texts": [" < This is the temple of the Wheeto, they have the goood stuff in there."],
+        "fn": None,
+        "map": "playmap_39",
+        "x": 20,
+        "y": 65
+    },
+    "npc_20": {
+        "texts": [" < Hello yall, this town is soo famous for its' creaaazy plants.", " < Especially Wheeto, from which healing potions can be made.", " < Want one?"],
+        "fn": "playmap_39_npc_20",
+        "map": "playmap_39",
+        "x": 176,
+        "y": 56
+    },
 }
 
 if __name__ == "__main__":

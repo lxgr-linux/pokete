@@ -301,6 +301,14 @@ trainers = {
                  [" < NOOOOOO; WHYYY ARE YOU BETTER ??!!!1!!!111"], 69, 61)
         },
     ],
+    "playmap_39": [{
+        "poke": ("megapois", 2000),
+        "args": ("Angela the gardener", "She",
+                 [" < Have you allready fought our lead trainer?", " < If so, look at cool Pokete!"],
+                 [" < You're a loooser!"],
+                 [" < Cool, huh?"], 8, 37)
+        },
+    ],
     "playmap_40": [{
         "poke": ("rustacean", 1800),
         "args": ("Gustav the angler", "He",

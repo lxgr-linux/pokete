@@ -142,6 +142,11 @@ at level {figure.pokes[index].lvl()}.")
         npc.give("Bert the bird", "super_potion")
 
     @staticmethod
+    def playmap_39_npc_20(npc):
+        """Interaction with npc_20"""
+        npc.give("Gerald the farmer", "super_potion")
+
+    @staticmethod
     def chat(npc):
         """Starts a chat"""
         npc.chat()
