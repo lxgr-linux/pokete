@@ -175,6 +175,15 @@ at level {figure.pokes[index].lvl()}.")
                       " < I will pay a good price!"])
 
     @staticmethod
+    def playmap_43_npc_23(npc):
+        """Interaction with npc_23"""
+        if ask_bool(mvp.movemap,
+                    "Do you also want to have on?"):
+            figure.pokes.append(Poke("mowcow", 2000))
+            npc.will = False
+            figure.used_npcs.append(npc.name)
+
+    @staticmethod
     def chat(npc):
         """Starts a chat"""
         npc.chat()

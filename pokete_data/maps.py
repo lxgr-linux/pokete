@@ -464,6 +464,14 @@ maps = {
         "poke_args": None,
         "weather": None
     },
+    "playmap_43": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "The Temple of the Wheeto",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
 }
 
 

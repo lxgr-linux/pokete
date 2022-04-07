@@ -318,6 +318,13 @@ found some cool Poketes.",
         "x": 22,
         "y": 4
     },
+    "npc_23": {
+        "texts": [" < I'm priest of the Wheeto.", " < Those Poketes make you craaaaaazy!", " < They have some speeezial abilities!"],
+        "fn": "playmap_43_npc_23",
+        "map": "playmap_43",
+        "x": 7,
+        "y": 4
+    },
 }
 
 if __name__ == "__main__":
