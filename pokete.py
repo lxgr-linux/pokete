@@ -147,6 +147,34 @@ at level {figure.pokes[index].lvl()}.")
         npc.give("Gerald the farmer", "super_potion")
 
     @staticmethod
+    def playmap_42_npc_21(npc):
+        """Interaction with npc_21"""
+        poke_list = [i for i in figure.pokes[:6]
+                     if i.lvl() >= 50 and i.identifier == "mowcow"]
+        if len(poke_list) > 0 :
+            poke = poke_list[0]
+            npc.text([" < Oh great!", " < You're my saviour!",
+                      f" < You brought me a level {poke.lvl()} Mowcow!",
+                      " < I'm thanking you!",
+                      " < Now I can still serve the best MowCow-Burgers!",
+                      " < Can I have it?"])
+            if ask_bool(mvp.movemap,
+                        "Do you want to give your Mowcow to the cook?"):
+                figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
+                npc.text([" < Here you go, 1000$"])
+                if ask_bool(mvp.movemap,
+                            "The cook gifted you 1000$. Do you want to accept it?"):
+                    figure.add_money(1000)
+                npc.will = False
+                figure.used_npcs.append(npc.name)
+        else:
+            npc.text([" < Ohhh man...", " < All of our beef is empty...",
+                      " < How are we going to serve the beste MowCow-Burgers without beaf?",
+                      " < If only someone here could bring me a fitting Mowcow!?",
+                      " < But it has to be atleast on level 50, to fit our high quality standarts.",
+                      " < I will pay a good price!"])
+
+    @staticmethod
     def chat(npc):
         """Starts a chat"""
         npc.chat()

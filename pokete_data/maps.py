@@ -456,6 +456,14 @@ maps = {
         "poke_args": None,
         "weather": None
     },
+    "playmap_42": {
+        "height": 15,
+        "width": 60,
+        "pretty_name": "MowCow-Burger restaurant",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
 }
 
 
