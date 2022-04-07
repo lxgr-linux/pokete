@@ -488,6 +488,14 @@ maps = {
         "poke_args": None,
         "weather": None
     },
+    "playmap_46": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "Arena of Agrawos",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
 }
 
 

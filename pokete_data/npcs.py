@@ -332,6 +332,13 @@ found some cool Poketes.",
         "x": 9,
         "y": 3
     },
+    "npc_25": {
+        "texts": [],
+        "fn": "playmap_39_npc_25",
+        "map": "playmap_39",
+        "x": 4,
+        "y": 33
+    },
 }
 
 if __name__ == "__main__":

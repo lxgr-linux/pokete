@@ -2,6 +2,7 @@
 
 import time
 import random
+import logging
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
@@ -106,7 +107,7 @@ class LearnAttack:
                                   (self.poke, False)
                             self.map.show(init=True)
                         elif _ev.get() == "'2'":
-                            with AttackInfo(attack, self.map):
+                            with AttackInfo(new_attack, self.map):
                                 easy_exit_loop()
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()

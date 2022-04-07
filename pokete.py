@@ -175,6 +175,17 @@ at level {figure.pokes[index].lvl()}.")
                       " < I will pay a good price!"])
 
     @staticmethod
+    def playmap_39_npc_25(npc):
+        """Interaction with npc_25"""
+        if "Sebastian the leader" not in figure.used_npcs:
+            npc.text([" < I can't let you go.",
+                      " < You first have to defeat our arena leader!"])
+            figure.set(figure.x + 1, figure.y)
+        else:
+            npc.text([" < Have a pleasent day."])
+
+
+    @staticmethod
     def playmap_43_npc_23(npc):
         """Interaction with npc_23"""
         if ask_bool(mvp.movemap,
