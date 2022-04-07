@@ -472,6 +472,22 @@ maps = {
         "poke_args": None,
         "weather": None
     },
+    "playmap_44": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "Townhall",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_45": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "Townhall",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
 }
 
 

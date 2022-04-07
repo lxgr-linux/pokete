@@ -325,6 +325,13 @@ found some cool Poketes.",
         "x": 7,
         "y": 4
     },
+    "npc_24": {
+        "texts": [" < I'm the mayor of Agrawos, the greatest city around.", " < Check out the MowCow-Burger restaurant, which offers the best MowCow-Burgers and take a look at the Pokete-Arena.", " < And as a special tip, take a look at the temple of the Wheeto."],
+        "fn": None,
+        "map": "playmap_45",
+        "x": 9,
+        "y": 3
+    },
 }
 
 if __name__ == "__main__":
