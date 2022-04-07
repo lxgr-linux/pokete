@@ -311,6 +311,13 @@ found some cool Poketes.",
         "x": 7,
         "y": 3
     },
+    "npc_22": {
+        "texts": [" < Oh man, if only I had a big and tasty MowCow-Burger...!"],
+        "fn": None,
+        "map": "playmap_42",
+        "x": 22,
+        "y": 4
+    },
 }
 
 if __name__ == "__main__":
