@@ -147,6 +147,16 @@ at level {figure.pokes[index].lvl()}.")
         npc.give("Gerald the farmer", "super_potion")
 
     @staticmethod
+    def playmap_47_npc_26(npc):
+        """Interaction with npc_26"""
+        npc.give("Poor man", "healing_potion")
+
+    @staticmethod
+    def playmap_48_npc_27(npc):
+        """Interaction with npc_27"""
+        npc.give("Old geezer", "ld_the_old_roots_hit")
+
+    @staticmethod
     def playmap_42_npc_21(npc):
         """Interaction with npc_21"""
         poke_list = [i for i in figure.pokes[:6]
@@ -1374,6 +1384,7 @@ if __name__ == "__main__":
     detail.detail = detail.Detail(height - 1, width)
     pokete_dex = Dex(figure)
     help_page = Help(mvp.movemap)
+    RoadMap.check_maps()
     roadmap = RoadMap(figure)
     deck.deck = deck.Deck(height - 1, width, figure, abb_funcs)
     menu = Menu(mvp.movemap)

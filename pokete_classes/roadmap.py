@@ -10,6 +10,14 @@ from .color import Color
 from .ui_elements import Box, InfoBox
 from .event import _ev
 
+class RoadMapException(Exception):
+    """Exception thrown when a PlayMap has no corresponding MapStation"""
+
+    def __init__(self, _map):
+        self.map = _map
+        text = f"{_map} {_map.name} has no mapstation"
+        super().__init__(text)
+
 
 class Station(se.Square):
     """Selectable station for Roadmap
@@ -148,6 +156,18 @@ class RoadMap:
                 std_loop()
                 _map.show()
         self.sta.unchoose()
+
+    @staticmethod
+    def check_maps():
+        """Checks for PlayMaps not having a corresponding MapStation"""
+        all_road_maps = ["centermap", "shopmap"]
+        for i, _dict in p_data.stations.items():
+            all_road_maps.append(i)
+            all_road_maps += _dict['gen']['additionals']
+
+        for _, _map in obmp.ob_maps.items():
+            if _map.name not in all_road_maps:
+                raise RoadMapException(_map)
 
 
 if __name__ == "__main__":

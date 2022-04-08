@@ -339,6 +339,20 @@ found some cool Poketes.",
         "x": 4,
         "y": 33
     },
+    "npc_26": {
+        "texts": [" < Hhhello young trainer", " < I've lived a loong live, bbut now it's time to go.", " < And I'm trying to scatter all my belongings all over the world.", " < Since you're a Pokete trainer, you may have use fpor this healing potion!"],
+        "fn": "playmap_47_npc_26",
+        "map": "playmap_47",
+        "x": 15,
+        "y": 4
+    },
+    "npc_27": {
+        "texts": [" < Hello young pall", " < This city has been the center for plant Poketes for generations.", " < I posses one of the oldest and most powerfull attack aver known to Poketes.", " < 'The old roots hit', the most powerfull of the powerfull.", " < Sadly all Poketes having this attack have been extinct for years.", " < The only thing that remained from them is this Learning Disc.", " < Do you want to have it?"],
+        "fn": "playmap_48_npc_27",
+        "map": "playmap_48",
+        "x": 7,
+        "y": 4
+    },
 }
 
 if __name__ == "__main__":

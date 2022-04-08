@@ -14,6 +14,7 @@ class Items:
             setattr(self, item[0], _obj)
         self.ld_bubble_bomb = LearnDisc("bubble_bomb")
         self.ld_flying = LearnDisc("flying")
+        self.ld_the_old_roots_hit = LearnDisc("the_old_roots_hit")
 
 
 class InvItem:
