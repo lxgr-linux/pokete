@@ -21,7 +21,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
 from pokete_classes.general import heal
-from pokete_classes.poke import Poke
+from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
@@ -484,7 +484,24 @@ class Inv:
                         elif _ev.get() in ["Key.enter", "Key.esc", "'q'"]:
                             _ev.clear()
                             self.box2.remove()
-                            if type(obj) is LearnDisc:
+                            if obj.name == "treat":
+                                if ask_bool(self.map, f"Do you want to upgrade one of your Poketes by a level?"):
+                                    ex_cond = True
+                                    while ex_cond:
+                                        index = deck.deck(6, label="Your deck",
+                                                          in_fight=True)
+                                        if index is None:
+                                            ex_cond = False
+                                            self.map.show(init=True)
+                                            break
+                                        poke = figure.pokes[index]
+                                        break
+                                    if not ex_cond:
+                                        break
+                                    upgrade_by_one_lvl(poke, figure, self.map)
+                                    items = self.rem_item(obj.name, items)
+                                    ask_ok(self.map, f"{poke.name} reached level {poke.lvl()}!")
+                            elif type(obj) is LearnDisc:
                                 if ask_bool(self.map, f"Do you want to teach '\
 {obj.attack_dict['name']}'?"):
                                     ex_cond = True

@@ -220,11 +220,16 @@ can't have more than 4 attacks!"
                          str({"eff": eff, "n_hp": n_hp}))
             fightmap.show()
 
-    def evolve(self, figure):
+    def learn_attack(self, _map):
+        if self.lvl() % 5 == 0:
+            LearnAttack(self, _map)()
+
+    def evolve(self, figure, _map):
         """Evolves the Pokete to its evolve_poke"""
-        if not self.player:
+        if not self.player or self.evolve_poke == "" \
+                or self.lvl() < self.evolve_lvl:
             return
-        evomap = EvoMap(self.ico.map.height, self.ico.map.width)
+        evomap = EvoMap(_map.height, _map.width)
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width / 2 - 4),
@@ -257,3 +262,10 @@ can't have more than 4 attacks!"
             figure.caught_pokes.append(new.identifier)
         logging.info("[Poke] %s evolved to %s", self.name, new.name)
         del self
+
+
+def upgrade_by_one_lvl(poke, figure, _map):
+    poke.add_xp((poke.lvl()+1)**2-1 - ((poke.lvl())**2-1))
+    poke.set_vars()
+    poke.learn_attack(_map)
+    poke.evolve(figure, _map)
