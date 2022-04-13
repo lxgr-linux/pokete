@@ -38,6 +38,7 @@ import pokete_classes.fightmap as fm
 import pokete_classes.deck as deck
 import pokete_classes.detail as detail
 import pokete_classes.game as game
+import pokete_classes.timer as timer
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
 from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
@@ -680,7 +681,8 @@ def save():
         "visited_maps": figure.visited_maps,
         "startup_time": __t,
         # filters doublicates from figure.used_npcs
-        "used_npcs": list(dict.fromkeys(figure.used_npcs))
+        "used_npcs": list(dict.fromkeys(figure.used_npcs)),
+        "time": timer.time.time
     }
     with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
@@ -713,7 +715,8 @@ def read_save():
         "figure.caught_pokes": ["steini"],
         "visited_maps": ["playmap_1"],
         "startup_time": 0,
-        "used_npcs": []
+        "used_npcs": [],
+        "time": 0
     }
 
     if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
@@ -1087,13 +1090,21 @@ Do you want to continue?", int(width * 2 / 3))):
             exiter()
 
 
+def time_threat():
+    while True:
+        time.sleep(1)
+        timer.time.time += 1
+
 def main():
     """Main function"""
     os.system("")
+    timeing = threading.Thread(target=time_threat)
     recognising = threading.Thread(target=recogniser)
     autosaveing = threading.Thread(target=autosave)
+    timeing.daemon = True
     recognising.daemon = True
     autosaveing.daemon = True
+    timeing.start()
     recognising.start()
     autosaveing.start()
     check_version(session_info)
@@ -1408,6 +1419,7 @@ if __name__ == "__main__":
     about = About(VERSION, CODENAME, mvp.movemap)
     inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)
+    timer.time = timer.Time(session_info.get("time", 0))
     game.game = _game
     HighGrass.figure = figure
     Poketeball.figure = figure
