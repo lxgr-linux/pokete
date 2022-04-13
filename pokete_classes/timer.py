@@ -93,10 +93,14 @@ class Clock(Box):
                     raw_time = self.time.time
                 self.map.show()
                 std_loop()
+            for obj in letter_obs:
+                obj.remove()
+                self.rem_ob(obj)
 
     def draw_letters(self, dp=True, letter_obs=[]):
         for obj in letter_obs:
             obj.remove()
+            self.rem_ob(obj)
         ftime = self.time.formated().replace(":", "")
         logging.info(ftime)
         letter_obs = [se.Text(letters[int(letter)]) for letter in ftime]
