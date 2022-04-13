@@ -1094,7 +1094,8 @@ Do you want to continue?", int(width * 2 / 3))):
 def time_threat():
     while True:
         time.sleep(1)
-        timer.time.time += 1
+        if timer.time.time < timer.time.last_input + 120:
+            timer.time.time += 1
 
 def main():
     """Main function"""
@@ -1425,6 +1426,7 @@ if __name__ == "__main__":
     game.game = _game
     HighGrass.figure = figure
     Poketeball.figure = figure
+    _ev.set_emit_fn(timer.time.emit_input)
 
     # Achievements
     achievements.set_achieved(session_info.get("achievements", []))

@@ -65,12 +65,16 @@ double_point = """
 class Time:
     def __init__(self, init_time=0):
         self.time = init_time  # time in ingame minutes
+        self.last_input = init_time
 
     def formated(self):
         time = self.time % (24*60)
         hours = int(time / 60)
         minutes = time % 60
         return f"{hours:02}:{minutes:02}"
+
+    def emit_input(self):
+        self.last_input = self.time
 
 
 class Clock(Box):
