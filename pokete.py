@@ -922,6 +922,7 @@ def _game(_map):
                 "'3'": [roadmap, (mvp.movemap,)],
                 "'4'": [inv, ()],
                 "'5'": [pokete_dex, ()],
+                "'6'": [timer.clock, (mvp.movemap,)],
                 "'e'": [menu, (pevm,)],
                 "'?'": [help_page, ()]}
     if _map.weather is not None:
@@ -1420,6 +1421,7 @@ if __name__ == "__main__":
     inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)
     timer.time = timer.Time(session_info.get("time", 0))
+    timer.clock = timer.Clock(timer.time)
     game.game = _game
     HighGrass.figure = figure
     Poketeball.figure = figure
