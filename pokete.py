@@ -1090,17 +1090,10 @@ such a downgrade may result in data loss! \
 Do you want to continue?", int(width * 2 / 3))):
             exiter()
 
-
-def time_threat():
-    while True:
-        time.sleep(1)
-        if timer.time.time < timer.time.last_input + 120:
-            timer.time.time += 1
-
 def main():
     """Main function"""
     os.system("")
-    timeing = threading.Thread(target=time_threat)
+    timeing = threading.Thread(target=timer.time_threat)
     recognising = threading.Thread(target=recogniser)
     autosaveing = threading.Thread(target=autosave)
     timeing.daemon = True

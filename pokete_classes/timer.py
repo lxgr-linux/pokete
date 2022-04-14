@@ -1,8 +1,12 @@
 import logging
+import time as time_mod
 import scrap_engine as se
 from .ui_elements import Box
 from .loops import std_loop
 from pokete_classes.event import _ev
+
+time = None
+clock = None
 
 letters = [
 """ ##
@@ -110,18 +114,22 @@ class Clock(Box):
                     raw_time = self.time.time
                 self.map.show()
                 std_loop()
-            for obj in letter_obs:
-                obj.remove()
-                self.rem_ob(obj)
+            self.__rem_obs(letter_obs)
+
+    def __rem_obs(self, letter_obs):
+        """Removed all letters from the clock
+        ARGS:
+            letter_obs: The list of letters"""
+        for obj in letter_obs:
+            obj.remove()
+            self.rem_ob(obj)
 
     def draw_letters(self, dp=True, letter_obs=[]):
         """Method to draw the letters on the clock
         ARGS:
             dp: Whether or not the double_point should be shown
             letter_obs: The letter objects of the former intervall"""
-        for obj in letter_obs:
-            obj.remove()
-            self.rem_ob(obj)
+        self.__rem_obs(letter_obs)
         ftime = self.time.formated().replace(":", "")
         logging.info(ftime)
         letter_obs = [se.Text(letters[int(letter)]) for letter in ftime]
@@ -133,5 +141,9 @@ class Clock(Box):
         return letter_obs
 
 
-time = None
-clock = None
+def time_threat():
+    """Manages the time counting"""
+    while True:
+        time_mod.sleep(1)
+        if time.time < time.last_input + 120:
+            time.time += 1
