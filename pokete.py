@@ -918,7 +918,7 @@ def _game(_map):
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
-    pevm = PeriodicEventManager(_map, figure)
+    pevm = PeriodicEventManager(_map)
     inp_dict = {"'1'": [deck.deck, (6, "Your deck")],
                 "'3'": [roadmap, (mvp.movemap,)],
                 "'4'": [inv, ()],

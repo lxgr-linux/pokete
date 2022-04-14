@@ -8,9 +8,8 @@ class PeriodicEventManager:
     ARGS:
         _map: The PlayMap the game is currently taking place on"""
 
-    def __init__(self, _map, figure):
+    def __init__(self, _map):
         self.map = _map
-        self.fig = figure
         self.all_grass_objs = []
         self.all_water_objs = []
 
