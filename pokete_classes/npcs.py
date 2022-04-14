@@ -144,12 +144,15 @@ Do you want to accept it?"):
 
     @property
     def used(self):
+        """Indicated whether or not the NPC hase been used"""
         return self.name in self.fig.used_npcs
 
     def set_used(self):
+        """Sets the NPC as used"""
         self.fig.used_npcs.append(self.name)
 
     def unset_used(self):
+        """Sets the NPC as unused"""
         if self.used:
             self.fig.used_npcs.pop(self.fig.used_npcs.index(self.name))
 

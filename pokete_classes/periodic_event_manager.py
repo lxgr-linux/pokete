@@ -1,4 +1,3 @@
-import logging
 from .settings import settings
 from .landscape import Meadow
 from .npcs import NPC
