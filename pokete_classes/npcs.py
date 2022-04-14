@@ -32,6 +32,7 @@ class NPC(se.Box):
     """An NPC to talk to"""
     fig = None
     npcactions = None
+    registry = {}
 
     @classmethod
     def set_vars(cls, fig, npcactions):
@@ -42,9 +43,12 @@ class NPC(se.Box):
         cls.fig = fig
         cls.npcactions = npcactions
 
+    @classmethod
+    def get(cls, name):
+        return cls.registry[name]
+
     def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
-        self.will = True
         self.name = name
         self.texts = texts
         self.__fn = fn
@@ -57,6 +61,7 @@ class NPC(se.Box):
             for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
                 self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(self.main_ob, 0, 0)
+        NPC.registry[self.name] = self
 
     def text(self, text):
         """Movemap.text wrapper
@@ -78,9 +83,7 @@ class NPC(se.Box):
 
     def action(self):
         """Interaction with the NPC triggered by NPCTrigger.action"""
-        if not self.will or \
-                (self.name in self.fig.used_npcs and
-                 settings("save_trainers").val):
+        if self.used and settings("save_trainers").val:
             return
         logging.info("[NPC][%s] Interaction", self.name)
         mvp.movemap.full_show()
@@ -134,11 +137,21 @@ class NPC(se.Box):
             name: The displayed name of the npc
             item: Item name"""
         item = getattr(invitems, item)
-        self.will = False
-        self.fig.used_npcs.append(self.name)
+        self.set_used()
         if ask_bool(mvp.movemap, f"{name} gifted you a '{item.pretty_name}'. \
 Do you want to accept it?"):
             self.fig.give_item(item.name)
+
+    @property
+    def used(self):
+        return self.name in self.fig.used_npcs
+
+    def set_used(self):
+        self.fig.used_npcs.append(self.name)
+
+    def unset_used(self):
+        if self.used:
+            self.fig.used_npcs.pop(self.fig.used_npcs.index(self.name))
 
     def chat(self):
         """Starts a question-answer chat"""
@@ -204,7 +217,7 @@ class Trainer(NPC):
         o_y = self.y
         if self.fig.has_item("shut_the_fuck_up_stone"):
             return
-        if self.poke.hp > 0 and (self.name not in self.fig.used_npcs
+        if self.poke.hp > 0 and (not self.used
                                  or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
@@ -222,7 +235,7 @@ class Trainer(NPC):
                           [winner == self.poke])
                 if winner != self.poke:
                     self.fig.add_money(20)
-                    self.fig.used_npcs.append(self.name)
+                    self.set_used()
                 logging.info("[NPC][%s] %s against player", self.name,
                              'Lost' if  winner != self.poke else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))

@@ -87,8 +87,7 @@ class NPCActions:
             if ask_bool(mvp.movemap,
                         "Young boy gifted you 200$. Do you want to accept it?"):
                 figure.add_money(200)
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
         else:
             npc.text([" < In this region lives the würgos Pokete.",
                       f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
@@ -102,7 +101,7 @@ it evolves to Choka.",
             if (index := deck.deck(6, "Your deck", True)) is None:
                 return
             figure.add_poke(Poke("ostri", 500), index)
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
             ask_ok(mvp.movemap,
                    f"You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.")
@@ -113,8 +112,7 @@ at level {figure.pokes[index].lvl()}.")
         """Interaction with npc_8"""
         if ask_bool(mvp.movemap,
                     "The man gifted you 100$. Do you want to accept it?"):
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
             figure.add_money(100)
 
     @staticmethod
@@ -158,6 +156,11 @@ at level {figure.pokes[index].lvl()}.")
         npc.give("Old geezer", "ld_the_old_roots_hit")
 
     @staticmethod
+    def playmap_49_npc_28(npc):
+        """Interaction with npc_28"""
+        npc.give("Candy man", "treat")
+
+    @staticmethod
     def playmap_42_npc_21(npc):
         """Interaction with npc_21"""
         poke_list = [i for i in figure.pokes[:6]
@@ -176,8 +179,7 @@ at level {figure.pokes[index].lvl()}.")
                 if ask_bool(mvp.movemap,
                             "The cook gifted you 1000$. Do you want to accept it?"):
                     figure.add_money(1000)
-                npc.will = False
-                figure.used_npcs.append(npc.name)
+                npc.set_used()
         else:
             npc.text([" < Ohhh man...", " < All of our beef is empty...",
                       " < How are we going to serve the beste MowCow-Burgers without beaf?",
@@ -188,7 +190,7 @@ at level {figure.pokes[index].lvl()}.")
     @staticmethod
     def playmap_39_npc_25(npc):
         """Interaction with npc_25"""
-        if "Sebastian the leader" not in figure.used_npcs:
+        if not NPC.get("Sebastian the leader").used:
             npc.text([" < I can't let you go.",
                       " < You first have to defeat our arena leader!"])
             figure.set(figure.x + 1, figure.y)
@@ -202,8 +204,7 @@ at level {figure.pokes[index].lvl()}.")
         if ask_bool(mvp.movemap,
                     "Do you also want to have on?"):
             figure.pokes.append(Poke("mowcow", 2000))
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
 
     @staticmethod
     def chat(npc):
@@ -917,7 +918,7 @@ def _game(_map):
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
-    pevm = PeriodicEventManager(_map)
+    pevm = PeriodicEventManager(_map, figure)
     inp_dict = {"'1'": [deck.deck, (6, "Your deck")],
                 "'3'": [roadmap, (mvp.movemap,)],
                 "'4'": [inv, ()],
@@ -1053,10 +1054,7 @@ def gen_obs():
                           map_data[ob_map]["balls"][ball])
     # NPCs
     for npc in npcs:
-        parse_obj(obmp.ob_maps[npcs[npc]["map"]], npc,
-                  NPC(npc, npcs[npc]["texts"], fn=npcs[npc]["fn"],
-                      chat=npcs[npc].get("chat", None)),
-                  npcs[npc])
+        NPC(npc, npcs[npc]["texts"], fn=npcs[npc]["fn"], chat=npcs[npc].get("chat", None)).add(obmp.ob_maps[npcs[npc]["map"]], npcs[npc]["x"], npcs[npc]["y"])
 
 
 def gen_maps():

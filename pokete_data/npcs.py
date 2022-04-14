@@ -353,6 +353,13 @@ found some cool Poketes.",
         "x": 7,
         "y": 4
     },
+    "npc_28": {
+        "texts": [" < Want a treat?", " < With those treats you can level up one of your Poketes by a level!"],
+        "fn": "playmap_49_npc_28",
+        "map": "playmap_49",
+        "x": 15,
+        "y": 4
+    },
 }
 
 if __name__ == "__main__":

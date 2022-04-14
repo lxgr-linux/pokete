@@ -42,7 +42,7 @@ stations = {
     },
     "playmap_3": {
         "gen": {
-            "additionals": [],
+            "additionals": ["playmap_49"],
             "width": 2,
             "height": 1,
             "desc": "A small sunny village.",
