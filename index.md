@@ -189,3 +189,7 @@ $ ./gen_wiki.py
 
 to regenerate the wiki and adding them to it.
 
+## Trouble shooting
+If you're experiencing problems on Japanese systems take a look at [this](https://gist.github.com/z80oolong/c7523367b798bdda094f859342f4c8be).
+
+
