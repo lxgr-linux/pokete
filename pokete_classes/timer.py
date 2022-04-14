@@ -63,26 +63,39 @@ double_point = """
  ##"""
 
 class Time:
+    """Timer class to keep track of ingame time
+    ARGS:
+        init_time: The initial time used for the timer"""
+
     def __init__(self, init_time=0):
         self.time = init_time  # time in ingame minutes
         self.last_input = init_time
 
     def formated(self):
+        """Returns the ingame time in a formated manner"""
         time = self.time % (24*60)
         hours = int(time / 60)
         minutes = time % 60
         return f"{hours:02}:{minutes:02}"
 
     def emit_input(self):
+        """Sets the las tinput time to the current time"""
         self.last_input = self.time
 
 
 class Clock(Box):
+    """Clock class to display the current time
+    ARGS:
+        time: Time object"""
+
     def __init__(self, time):
         self.time = time
         super().__init__(9, 28, "Clock", "q:close")
 
     def __call__(self, _map):
+        """Shows the clock
+        ARGS:
+            _map: The map to show on"""
         dp = True
         letter_obs = self.draw_letters(dp)
         raw_time = self.time.time
@@ -102,6 +115,10 @@ class Clock(Box):
                 self.rem_ob(obj)
 
     def draw_letters(self, dp=True, letter_obs=[]):
+        """Method to draw the letters on the clock
+        ARGS:
+            dp: Whether or not the double_point should be shown
+            letter_obs: The letter objects of the former intervall"""
         for obj in letter_obs:
             obj.remove()
             self.rem_ob(obj)
