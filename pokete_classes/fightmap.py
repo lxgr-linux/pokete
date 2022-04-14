@@ -13,7 +13,6 @@ from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
 from .input import ask_bool
-from .learnattack import LearnAttack
 from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings

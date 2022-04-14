@@ -1,4 +1,3 @@
-import time
 import scrap_engine as se
 import pokete_classes.detail as detail
 from .event import _ev

@@ -5,7 +5,7 @@ import logging
 import scrap_engine as se
 import pokete_classes.fightmap as fm
 import pokete_classes.movemap as mvp
-from .loops import std_loop, easy_exit_loop
+from .loops import std_loop
 from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings

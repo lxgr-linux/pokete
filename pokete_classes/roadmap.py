@@ -1,6 +1,5 @@
 """Contains all classes relevant to show the roadmap"""
 
-import time
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp

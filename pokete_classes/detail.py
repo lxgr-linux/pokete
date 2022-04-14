@@ -1,6 +1,5 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
-import time
 import scrap_engine as se
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox

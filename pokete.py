@@ -487,7 +487,7 @@ class Inv:
                             _ev.clear()
                             self.box2.remove()
                             if obj.name == "treat":
-                                if ask_bool(self.map, f"Do you want to upgrade one of your Poketes by a level?"):
+                                if ask_bool(self.map, "Do you want to upgrade one of your Poketes by a level?"):
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(6, label="Your deck",

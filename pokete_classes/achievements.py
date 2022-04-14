@@ -1,6 +1,5 @@
 """Classes related to achievements"""
 
-import time
 import datetime
 import logging
 import scrap_engine as se

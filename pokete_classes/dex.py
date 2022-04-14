@@ -1,6 +1,5 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
-import time
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.movemap as mvp

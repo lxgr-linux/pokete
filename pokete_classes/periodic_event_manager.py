@@ -1,7 +1,7 @@
+import pokete_classes.timer as timer
 from .settings import settings
 from .landscape import Meadow
 from .npcs import NPC
-import pokete_classes.timer as timer
 
 class PeriodicEventManager:
     """As the name states: It manages periodic events in the game loop
