@@ -966,6 +966,34 @@ that will confuse the shit out of you.",
             "esc": None}
         ]
     },
+    "mothor": {
+        "name": "Mothor",
+        "hp": 20,
+        "atc": 5,
+        "defense": 2,
+        "attacks": ["schmetter", "wing_hit"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A dark butterfly that will schmetter you away.",
+        "lose_xp": 4,
+        "rarity": 1,
+        "night_active": True,
+        "types": ["flying", "undead"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 4,
+        "ico": [{
+            "txt": r"""  __`o´__
+  \_\|/_/
+  /_/'\_\ """,
+            "esc": None}, {
+            "txt": r""" .       .
+
+
+ ´       `""",
+    "esc": ["blue"]}
+        ]
+    },
     "lil_nut": {
         "name": "Lil nut",
         "hp": 20,
