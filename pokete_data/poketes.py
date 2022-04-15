@@ -957,7 +957,7 @@ that will confuse the shit out of you.",
         "night_active": False,
         "types": ["ground"],
         "evolve_poke": "raupathor_day",
-        "evolve_lvl": 10,
+        "evolve_lvl": 20,
         "initiative": 1,
         "ico": [{
             "txt": r"""
@@ -981,7 +981,7 @@ that will confuse the shit out of you.",
         "night_active": True,
         "types": ["ground"],
         "evolve_poke": "raupathor_night",
-        "evolve_lvl": 10,
+        "evolve_lvl": 20,
         "initiative": 1,
         "ico": [{
             "txt": r"""
@@ -1005,7 +1005,7 @@ that will confuse the shit out of you.",
         "night_active": False,
         "types": ["ground", "plant"],
         "evolve_poke": "schmetterling",
-        "evolve_lvl": 20,
+        "evolve_lvl": 30,
         "initiative": 3,
         "ico": [{
             "txt": r"""
@@ -1030,7 +1030,7 @@ that will confuse the shit out of you.",
         "night_active": True,
         "types": ["ground", "undead"],
         "evolve_poke": "mothor",
-        "evolve_lvl": 20,
+        "evolve_lvl": 30,
         "initiative": 3,
         "ico": [{
             "txt": r"""
