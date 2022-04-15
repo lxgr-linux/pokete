@@ -784,9 +784,10 @@ class ExtraActions:
     @staticmethod
     def playmap_7():
         """Cave animation"""
-        for obj in obmp.ob_maps["playmap_7"].inner_walls.obs\
-                   + [i.main_ob for i in obmp.ob_maps["playmap_7"].trainers]\
-                   + [getattr(obmp.ob_maps["playmap_7"], i)
+        _map = obmp.ob_maps["playmap_7"]
+        for obj in _map.get_obj("inner_walls").obs\
+                   + [i.main_ob for i in _map.trainers]\
+                   + [obmp.ob_maps["playmap_7"].get_obj(i)
                     for i in p_data.map_data["playmap_7"]["balls"] if
                         "playmap_7." + i not in figure.used_npcs or not save_trainers]:
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
@@ -1003,7 +1004,7 @@ def parse_obj(_map, name, obj, _dict):
         name: Name of the attribute
         obj: Object beeing set
         _dict: Dict containing info"""
-    setattr(_map, name, obj)
+    _map.register_obj(name, obj)
     obj.add(_map, _dict["x"], _dict["y"])
 
 
@@ -1190,8 +1191,8 @@ def map_additions():
 ####################  ########
 ##############################""", ignore="#", ob_class=HighGrass,
                          ob_args=_map.poke_args, state="float")
-    for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
-               [getattr(_map, i) for i in p_data.map_data["playmap_7"]["balls"]
+    for ob in (_map.get_obj("inner_walls").obs + [i.main_ob for i in _map.trainers] +
+               [_map.get_obj(i) for i in p_data.map_data["playmap_7"]["balls"]
                 if "playmap_7." + i not in figure.used_npcs
                    or not settings("save_trainers").val]):
         ob.bchar = ob.char
