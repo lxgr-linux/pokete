@@ -1348,9 +1348,7 @@ if __name__ == "__main__":
 
     # reading save file
     session_info = read_save()
-
     settings.from_dict(session_info.get("settings", {}))
-
     save_trainers = settings("save_trainers").val
 
     if not load_mods:
