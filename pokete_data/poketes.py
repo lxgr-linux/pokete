@@ -943,11 +943,59 @@ that will confuse the shit out of you.",
             "esc": ["purple"]},
         ]
     },
+    "corcos_day": {
+        "name": "Corcos",
+        "hp": 15,
+        "atc": 2,
+        "defense": 5,
+        "attacks": ["tackle", "hiding"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A small heavy thing, that can be found on the ground, but that may reveal something wonderfull later.",
+        "lose_xp": 1,
+        "rarity": 1,
+        "night_active": False,
+        "types": ["ground"],
+        "evolve_poke": "raupathor_day",
+        "evolve_lvl": 10,
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""
+    |\
+    |'\
+    \_|""",
+            "esc": None}
+        ]
+    },
+    "corcos_night": {
+        "name": "Corcos",
+        "hp": 15,
+        "atc": 2,
+        "defense": 5,
+        "attacks": ["tackle", "hiding"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A small heavy thing, that can be found on the ground, but that may reveal something wonderfull later.",
+        "lose_xp": 1,
+        "rarity": 1,
+        "night_active": True,
+        "types": ["ground"],
+        "evolve_poke": "raupathor_night",
+        "evolve_lvl": 10,
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""
+    |\
+    |'\
+    \_|""",
+            "esc": None}
+        ]
+    },
     "raupathor_day": {
         "name": "Raupathor",
         "hp": 20,
         "atc": 3,
-        "defense": 1,
+        "defense": 4,
         "attacks": ["tackle", "hiding"],
         "pool": [],
         "miss_chance": 0.1,
@@ -957,8 +1005,8 @@ that will confuse the shit out of you.",
         "night_active": False,
         "types": ["ground", "plant"],
         "evolve_poke": "schmetterling",
-        "evolve_lvl": 15,
-        "initiative": 4,
+        "evolve_lvl": 20,
+        "initiative": 3,
         "ico": [{
             "txt": r"""
   .__.__.
@@ -972,18 +1020,18 @@ that will confuse the shit out of you.",
         "name": "Raupathor",
         "hp": 20,
         "atc": 3,
-        "defense": 1,
+        "defense": 4,
         "attacks": ["tackle", "hiding"],
         "pool": [],
         "miss_chance": 0.1,
         "desc": "A small caterpillar found on leafs.",
         "lose_xp": 2,
         "rarity": 1,
-        "night_active": False,
+        "night_active": True,
         "types": ["ground", "undead"],
         "evolve_poke": "mothor",
-        "evolve_lvl": 15,
-        "initiative": 4,
+        "evolve_lvl": 20,
+        "initiative": 3,
         "ico": [{
             "txt": r"""
    __ __
@@ -999,7 +1047,7 @@ that will confuse the shit out of you.",
     "schmetterling": {
         "name": "Schmetterling",
         "hp": 20,
-        "atc": 4,
+        "atc": 5,
         "defense": 2,
         "attacks": ["schmetter", "wing_hit"],
         "pool": [],
@@ -1023,7 +1071,7 @@ that will confuse the shit out of you.",
     "mothor": {
         "name": "Mothor",
         "hp": 20,
-        "atc": 5,
+        "atc": 6,
         "defense": 2,
         "attacks": ["schmetter", "wing_hit"],
         "pool": [],
