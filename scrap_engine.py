@@ -1,1 +1,0 @@
-/home/arch/projects/scrap_engine/scrap_engine.py
