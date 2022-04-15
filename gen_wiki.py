@@ -58,6 +58,7 @@ You can find different versions of this wiki:
 
     @staticmethod
     def get_name(poke):
+        """Returns the name of a Pokete to display in headings"""
         additional = ""
         if "_night" in poke:
             additional = " night"
