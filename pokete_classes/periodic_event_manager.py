@@ -26,5 +26,5 @@ class PeriodicEventManager:
         if settings("animations").val:
             Meadow.moving_grass(self.all_grass_objs)
             Meadow.moving_water(self.all_water_objs)
-        if timer.time.time % (24*60) == 6*60:
+        if timer.time.normalized == 6*60:
             NPC.get("npc_28").unset_used()

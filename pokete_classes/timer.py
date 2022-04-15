@@ -77,7 +77,7 @@ class Time:
 
     def formated(self):
         """Returns the ingame time in a formated manner"""
-        time = self.time % (24*60)
+        time = self.normalized
         hours = int(time / 60)
         minutes = time % 60
         return f"{hours:02}:{minutes:02}"
@@ -85,6 +85,11 @@ class Time:
     def emit_input(self):
         """Sets the las tinput time to the current time"""
         self.last_input = self.time
+
+    @property
+    def normalized(self):
+        """Returns normalized time"""
+        return self.time % (24*60)
 
 
 class Clock(Box):

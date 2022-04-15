@@ -33,6 +33,7 @@ class Poke:
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
+        self.night_active = self.inf.get("night_active", False)
         self.enem = None
         self.oldhp = 0
         self.xp = xp

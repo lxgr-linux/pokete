@@ -511,6 +511,7 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 3,
+        "night_active": True,
         "ico": [{
             "txt": r"""   ,___,
    {o,o}

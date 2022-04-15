@@ -3,6 +3,7 @@ import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.fightmap as fm
 import pokete_classes.movemap as mvp
+import pokete_classes.timer as timer
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
@@ -17,18 +18,23 @@ class HighGrass(se.Object):
         """Action triggers the fight
         ARGS:
             ob: The object triggering this action"""
+        pokes = {i: p_data.pokes[i]
+                 for i in self.arg_proto["pokes"]
+                    if (p_data.pokes[i].get("night_active", False)
+                        and (360 > timer.time.normalized
+                             or timer.time.normalized > 1320))
+                        or not p_data.pokes[i].get("night_active", False)}
         if random.randint(0, 8) == 0:
             fm.fight(Poke("__fallback__", 0)
                      if len([poke for poke in self.figure.pokes[:6]
                              if poke.hp > 0]) == 0
                      else
                      [poke for poke in self.figure.pokes[:6] if poke.hp > 0][0],
-                     Poke(random.choices(self.arg_proto["pokes"],
-                                         weights=[p_data.pokes[i]["rarity"]
-                                                  for i in
-                                                  self.arg_proto["pokes"]])[0],
-                          random.choices(list(range(self.arg_proto["minlvl"],
-                                                    self.arg_proto["maxlvl"])))[
+                      Poke(random.choices(list(pokes),
+                                          weights=[i["rarity"] for _, i in
+                                                   pokes.items()])[0],
+                           random.choices(list(range(self.arg_proto["minlvl"],
+                                                     self.arg_proto["maxlvl"])))[
                               0],
                           player=False, shiny=(random.randint(0, 500) == 0)))
             check_walk_back(self.figure)
