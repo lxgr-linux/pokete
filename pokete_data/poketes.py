@@ -943,6 +943,59 @@ that will confuse the shit out of you.",
             "esc": ["purple"]},
         ]
     },
+    "raupathor_day": {
+        "name": "Raupathor",
+        "hp": 20,
+        "atc": 3,
+        "defense": 1,
+        "attacks": ["tackle", "hiding"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A small caterpillar found on leafs.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "night_active": False,
+        "types": ["ground", "plant"],
+        "evolve_poke": "schmetterling",
+        "evolve_lvl": 15,
+        "initiative": 4,
+        "ico": [{
+            "txt": r"""
+  .__.__.
+ ()__)__)}´
+  '  '  '
+ """,
+            "esc": None}
+        ]
+    },
+    "raupathor_night": {
+        "name": "Raupathor",
+        "hp": 20,
+        "atc": 3,
+        "defense": 1,
+        "attacks": ["tackle", "hiding"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A small caterpillar found on leafs.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "night_active": False,
+        "types": ["ground", "undead"],
+        "evolve_poke": "mothor",
+        "evolve_lvl": 15,
+        "initiative": 4,
+        "ico": [{
+            "txt": r"""
+   __ __
+ ()__)__)}´""",
+            "esc": None}, {
+            "txt": r"""
+  .  .  .
+
+  '  '  '""",
+    "esc": ["blue"]}
+        ]
+    },
     "schmetterling": {
         "name": "Schmetterling",
         "hp": 20,
@@ -954,6 +1007,7 @@ that will confuse the shit out of you.",
         "desc": "A butterfly that will schmetter you away.",
         "lose_xp": 3,
         "rarity": 1,
+        "night_active": False,
         "types": ["flying"],
         "evolve_poke": "",
         "evolve_lvl": 0,

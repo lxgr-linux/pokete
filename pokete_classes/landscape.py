@@ -18,12 +18,13 @@ class HighGrass(se.Object):
         """Action triggers the fight
         ARGS:
             ob: The object triggering this action"""
+        is_night = (360 > timer.time.normalized
+                    or timer.time.normalized > 1320)
         pokes = {i: p_data.pokes[i]
                  for i in self.arg_proto["pokes"]
-                    if (p_data.pokes[i].get("night_active", False)
-                        and (360 > timer.time.normalized
-                             or timer.time.normalized > 1320))
-                        or not p_data.pokes[i].get("night_active", False)}
+                    if (n_a := p_data.pokes[i].get("night_active", None)) is None
+                       or (not n_a and not is_night)
+                       or (n_a and is_night)}
         if random.randint(0, 8) == 0:
             fm.fight(Poke("__fallback__", 0)
                      if len([poke for poke in self.figure.pokes[:6]

@@ -114,7 +114,7 @@ maps = {
         "pretty_name": "Abandoned village",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["gobost", "owol"],
+            "pokes": ["gobost", "owol", "schmetterling", "mothor"],
             "minlvl": 230,
             "maxlvl": 290
         },
