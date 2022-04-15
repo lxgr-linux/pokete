@@ -1041,7 +1041,7 @@ that will confuse the shit out of you.",
   .  .  .
 
   '  '  '""",
-    "esc": ["blue"]}
+    "esc": ["thicc", "blue"]}
         ]
     },
     "schmetterling": {
@@ -1093,7 +1093,7 @@ that will confuse the shit out of you.",
 
 
  ´       `""",
-    "esc": ["blue"]}
+    "esc": ["thicc", "blue"]}
         ]
     },
     "lil_nut": {
