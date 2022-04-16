@@ -546,7 +546,7 @@ attacks = {
         "factor": 2,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": ["gun"],
         "miss_chance": 0.2,
         "min_lvl": 0,
         "desc": "Fires some bubbles at the enemy.",

@@ -64,14 +64,14 @@ class Moves:
 .         .
 """
         ]
-        self.throw("o", 0.5)
         _map = self.poke.ico.map
         text = se.Text("")
         text.add(_map, round((_map.width - 11)/2), round((_map.height - 9)/2))
+        self.throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
         for i in arr:
             text.rechar(i)
             self.poke.ico.map.show()
-            time.sleep(0.04)
+            time.sleep(0.03)
         text.remove()
 
     def arch(self):
@@ -91,7 +91,7 @@ class Moves:
         line.remove()
         del line
 
-    def throw(self, txt="#", factor=1):
+    def throw(self, txt="#", factor=1, num=1):
         """Throw move
         ARGS:
             txt: The char that moves across the screen
@@ -109,14 +109,20 @@ class Moves:
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
-        for i, obj in enumerate(line.obs):
-            obj.rechar(txt)
-            if i != 0:
-                line.obs[i - 1].rechar(line.char)
+        for i in range(len(line.obs) + num*5 - 1):
+            for j in range(0, num*5, 5):
+                if len(line.obs) > i - j >= 0:
+                    line.obs[i - j].rechar(txt)
+                if len(line.obs) >= i - j > 0:
+                    line.obs[i - j - 1].rechar(line.char)
             time.sleep(0.05)
             self.poke.ico.map.show()
         line.remove()
         del line
+
+    def gun(self):
+        """Gun move"""
+        self.throw(txt=Color.thicc + Color.blue + "o" + Color.reset, num=4)
 
     def fireball(self):
         """Fireball move"""
