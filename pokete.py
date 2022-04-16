@@ -32,6 +32,7 @@ from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
+from pokete_classes.pokete_care import PoketeCare, DummyFigure
 import pokete_classes.ob_maps as obmp
 import pokete_classes.movemap as mvp
 import pokete_classes.fightmap as fm
@@ -106,6 +107,35 @@ it evolves to Choka.",
                    f"You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.")
             mvp.movemap.text(npc.x, npc.y, [" < Cool, huh?"])
+
+    @staticmethod
+    def playmap_50_npc_29(npc):
+        """Interaction with npc_28"""
+        if pokete_care.poke is None:
+            npc.text([" < Here you can leave one of your Poketes for some time \
+and we will train it."])
+            if ask_bool(mvp.movemap, "Do you want to put a Pokete into the \
+Pokete-Care"):
+                if (index := deck.deck(6, "Your deck", True)) is not None:
+                    pokete_care.poke = figure.pokes[index]
+                    pokete_care.entry = timer.time.time
+                    figure.add_poke(Poke("__fallback__", 0), index)
+                    npc.text([" < We will take care of it."])
+        else:
+            add_xp = int((timer.time.time - pokete_care.entry) / 30)
+            pokete_care.entry = timer.time.time
+            pokete_care.poke.add_xp(add_xp)
+            npc.text([" < Oh, you're back.", f" < Your {pokete_care.poke.name} \
+gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
+            if ask_bool(mvp.movemap, "Do you want it back?"):
+                dummy = DummyFigure(pokete_care.poke)
+                while dummy.pokes[0].evolve(dummy, mvp.movemap):
+                    continue
+                figure.add_poke(dummy.pokes[0])
+                figure.caught_pokes += dummy.caught_pokes
+                npc.text([" < Here you go!", " < Until next time!"])
+                pokete_care.poke = None
+        npc.text([" < See you!"])
 
     @staticmethod
     def playmap_23_npc_8(npc):
@@ -336,10 +366,7 @@ class Figure(se.Object):
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
         self.name = _si.get("user", "DEFAULT")
-        self.pokes = [Poke((_p := _si["pokes"][poke])["name"], _p["xp"],
-                           _p["hp"], _p["ap"], _p.get("attacks", None),
-                           _p.get("effects", []),
-                           shiny=_p.get("shiny", False))
+        self.pokes = [Poke.from_dict(_si["pokes"][poke])
                       for poke in _si["pokes"]]
         self.caught_pokes = _si.get("caught_poketes", [])
         self.visited_maps = _si.get("visited_maps", ["playmap_1"])
@@ -683,6 +710,7 @@ def save():
         "startup_time": __t,
         # filters doublicates from figure.used_npcs
         "used_npcs": list(dict.fromkeys(figure.used_npcs)),
+        "pokete_care": pokete_care.dict(),
         "time": timer.time.time
     }
     with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
@@ -717,6 +745,10 @@ def read_save():
         "visited_maps": ["playmap_1"],
         "startup_time": 0,
         "used_npcs": [],
+        "pokete_care": {
+            "entry": 0,
+            "poke": None,
+        },
         "time": 0
     }
 
@@ -1411,6 +1443,10 @@ if __name__ == "__main__":
     about = About(VERSION, CODENAME, mvp.movemap)
     inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)
+    pokete_care = PoketeCare.from_dict(session_info.get("pokete_care", {
+        "entry": 0,
+        "poke": None,
+    }))
     timer.time = timer.Time(session_info.get("time", 0))
     timer.clock = timer.Clock(timer.time)
     game.game = _game

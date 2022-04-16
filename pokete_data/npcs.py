@@ -360,6 +360,13 @@ found some cool Poketes.",
         "x": 15,
         "y": 4
     },
+    "npc_29": {
+        "texts": [" < Welcome to Pokete-Care!"],
+        "fn": "playmap_50_npc_29",
+        "map": "playmap_50",
+        "x": 6,
+        "y": 3
+    },
 }
 
 if __name__ == "__main__":

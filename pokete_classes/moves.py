@@ -72,6 +72,7 @@ class Moves:
             text.rechar(i)
             self.poke.ico.map.show()
             time.sleep(0.03)
+        time.sleep(0.03)
         text.remove()
 
     def arch(self):

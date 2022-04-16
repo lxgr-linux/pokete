@@ -520,6 +520,14 @@ maps = {
         "poke_args": None,
         "weather": None
     },
+    "playmap_50": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "Pokete-Care",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
 }
 
 

@@ -1061,8 +1061,7 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 4,
         "ico": [{
-            "txt": r"""
- .__ o __.
+            "txt": r""" .__ o __.
   \_\|/_/
   /_/'\_\ """,
             "esc": None}
