@@ -560,7 +560,7 @@ attacks = {
         "factor": 6,
         "action": "cry",
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": ["bomb", "downgrade"],
         "miss_chance": 0,
         "min_lvl": 0,
         "desc": "A deadly bubble.",

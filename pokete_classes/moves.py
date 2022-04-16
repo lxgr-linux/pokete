@@ -27,6 +27,53 @@ class Moves:
             self.poke.ico.map.show()
             time.sleep(0.3)
 
+    def bomb(self):
+        """Bomb move"""
+        arr = [
+            """
+
+     o
+
+""", """
+
+    (o)
+
+""", """
+
+    ( )
+
+""", r"""
+   \   /
+    ( )
+   /   \
+""", r"""
+   \   /
+
+   /   \
+""", r"""
+   \ - /
+ (       )
+   / - \
+""", """
+     -
+ (       )
+     -
+""", """
+'         '
+
+.         .
+"""
+        ]
+        self.throw("o", 0.5)
+        _map = self.poke.ico.map
+        text = se.Text("")
+        text.add(_map, round((_map.width - 11)/2), round((_map.height - 9)/2))
+        for i in arr:
+            text.rechar(i)
+            self.poke.ico.map.show()
+            time.sleep(0.05)
+        text.remove()
+
     def arch(self):
         """Arch move"""
         if self.poke.enem == self:
@@ -44,10 +91,11 @@ class Moves:
         line.remove()
         del line
 
-    def throw(self, txt="#"):
+    def throw(self, txt="#", factor=1):
         """Throw move
         ARGS:
-            txt: The char that moves across the screen"""
+            txt: The char that moves across the screen
+            factor: Scalar to stretch the vector"""
         if self.poke.enem == self.poke:
             return
         line = se.Line(" ",
@@ -56,6 +104,7 @@ class Moves:
                         + (-11 if self.poke.player else 11)),
                        self.poke.enem.ico.y - self.poke.ico.y,
                        l_type="crippled")
+        line.resize(line.cx*factor, line.cy*factor)
         line.add(self.poke.ico.map,
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
