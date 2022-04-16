@@ -71,7 +71,7 @@ class Moves:
         for i in arr:
             text.rechar(i)
             self.poke.ico.map.show()
-            time.sleep(0.05)
+            time.sleep(0.04)
         text.remove()
 
     def arch(self):
