@@ -424,6 +424,10 @@ class Figure(se.Object):
         poke.set_player(True)
         self.caught_pokes.append(poke.identifier)
         if idx is None:
+            id_list = [i.identifier for i in self.pokes]
+            if "__fallback__" in id_list:
+                idx = id_list.index("__fallback__")
+                self.pokes[idx] = poke
             self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
