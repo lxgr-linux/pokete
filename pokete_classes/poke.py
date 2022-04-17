@@ -177,7 +177,7 @@ can't have more than 4 attacks!"
                 self.enem = enem
             weather = fightmap.figure.map.weather
             w_eff = 1
-            if weather != None:
+            if weather is not None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
                 time.sleep(1.5)

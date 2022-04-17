@@ -1,6 +1,8 @@
+"""Standardized loops components"""
+
 import time
-from pokete_classes.event import _ev
-from pokete_classes.notify import notifier
+from .event import _ev
+from .notify import notifier
 import release
 
 

@@ -1,4 +1,6 @@
-import pokete_classes.timer as timer
+"""Contains the pevm"""
+
+from pokete_classes import timer
 from .settings import settings
 from .landscape import Meadow
 from .npcs import NPC

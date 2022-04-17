@@ -5,10 +5,8 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.deck as deck
-import pokete_classes.movemap as mvp
-import pokete_classes.ob_maps as obmp
-from pokete_classes import animations
+from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
+                           deck as deck
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
@@ -331,8 +329,12 @@ used {enemy.name} against you!')
                 time.sleep(3)
                 do_break = True
             if do_break:
-                if obj.identifier != "__fallback__" and not winner.player and any(p.hp > 0 for p in figure.pokes[:6]) and ask_bool(self, "Do you want to choose anothoer Pokete?"):
-                    players, player = self.choose_poke(figure, players, player, enemy)
+                if obj.identifier != "__fallback__" and not winner.player \
+                        and any(p.hp > 0 for p in figure.pokes[:6]) \
+                        and ask_bool(self, "Do you want to choose anothoer \
+Pokete?"):
+                    players, player = self.choose_poke(figure, players,
+                                                       player, enemy)
                 else:
                     break
             obj = [i for i in players if i != obj][-1]
@@ -365,6 +367,15 @@ used {enemy.name} against you!')
         return winner
 
     def choose_poke(self, figure, players, player, enemy):
+        """Lets the player choose another Pokete from their deck
+        ARGS:
+            figure: Figure object
+            players: The list of both player end enemy
+            player: The players' used Poke
+            enemy: The enemy's used Poke
+        RETURNS:
+            players: The list of both player end enemy
+            player: The players' used Poke"""
         self.clean_up(player, enemy)
         index = deck.deck(6, "Your deck", True)
         player = player if index is None else figure.pokes[index]
@@ -490,7 +501,9 @@ class FightItems:
 
 
 class Fight:
-    """"""
+    """Wrapper for fightmap.fight
+    ARGS:
+        figure: The Figure object"""
     def __init__(self, figure):
         self.figure = figure
 

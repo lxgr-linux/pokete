@@ -7,7 +7,6 @@ For this see the comments in the definations area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
-import random
 import time
 import os
 import sys
@@ -33,13 +32,8 @@ from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
-import pokete_classes.ob_maps as obmp
-import pokete_classes.movemap as mvp
-import pokete_classes.fightmap as fm
-import pokete_classes.deck as deck
-import pokete_classes.detail as detail
-import pokete_classes.game as game
-import pokete_classes.timer as timer
+from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
+                           movemap as mvp, fightmap as fm
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
 from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
@@ -514,7 +508,8 @@ class Inv:
                             _ev.clear()
                             self.box2.remove()
                             if obj.name == "treat":
-                                if ask_bool(self.map, "Do you want to upgrade one of your Poketes by a level?"):
+                                if ask_bool(self.map, "Do you want to upgrade \
+one of your Poketes by a level?"):
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(6, label="Your deck",
@@ -1087,7 +1082,10 @@ def gen_obs():
                           map_data[ob_map]["balls"][ball])
     # NPCs
     for npc in npcs:
-        NPC(npc, npcs[npc]["texts"], fn=npcs[npc]["fn"], chat=npcs[npc].get("chat", None)).add(obmp.ob_maps[npcs[npc]["map"]], npcs[npc]["x"], npcs[npc]["y"])
+        _npc = npcs[npc]
+        NPC(npc, _npc["texts"], fn=_npc["fn"],
+            chat=_npc.get("chat", None)).add(obmp.ob_maps[_npc["map"]],
+            _npc["x"], _npc["y"])
 
 
 def gen_maps():

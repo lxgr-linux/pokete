@@ -1,3 +1,5 @@
+"""Contains the AttackActions class"""
+
 class AttackActions:
     """This class contains all actions callable by an attack
     All these methods belong to one or more attacks and follow the following

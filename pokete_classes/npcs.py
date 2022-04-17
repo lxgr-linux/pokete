@@ -45,6 +45,9 @@ class NPC(se.Box):
 
     @classmethod
     def get(cls, name):
+        """Gets a NPC from the registry
+        ARGS:
+            name: The NPCs name"""
         return cls.registry[name]
 
     def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):

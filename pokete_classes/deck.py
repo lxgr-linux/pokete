@@ -1,5 +1,7 @@
+"""The Deck shows all Poketes a player owns"""
+
 import scrap_engine as se
-import pokete_classes.detail as detail
+from pokete_classes import detail
 from .event import _ev
 from .input import ask_bool
 from .loops import std_loop

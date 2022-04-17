@@ -1,9 +1,9 @@
+"""Contains classes that can be placed on playmaps"""
+
 import random
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.fightmap as fm
-import pokete_classes.movemap as mvp
-import pokete_classes.timer as timer
+from pokete_classes import timer, movemap as mvp, fightmap as fm
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
@@ -65,11 +65,13 @@ class Meadow(se.Text):
 
     @classmethod
     def moving_grass(cls, objs):
+        """Grass animation
+        ARGS:
+            objs: The grass objects this will happen for"""
         if cls.curr_tick < cls.max_tick:
             cls.curr_tick += 1
             return
-        else:
-            cls.curr_tick = 0
+        cls.curr_tick = 0
 
         for obj in objs:
             if obj.char == cls.esccode + ";" + Color.reset:
@@ -82,6 +84,9 @@ class Meadow(se.Text):
 
     @classmethod
     def moving_water(cls, objs):
+        """Water animation
+        ARGS:
+            objs: The water objects this will happen for"""
         for obj in objs:
             if random.randint(0, 9) == 0:
                 if " " not in obj.char:
@@ -93,6 +98,9 @@ class Meadow(se.Text):
 
     @staticmethod
     def check_figure_redraw(obj):
+        """Checks whether or not the figure has to be redrawn
+        ARGS:
+            obj: The obj that this is checked for"""
         if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
             HighGrass.figure.redraw()
 

@@ -1,7 +1,9 @@
+"""Contains Classes to manage ingame time"""
+
 import logging
 import time as time_mod
 import scrap_engine as se
-from pokete_classes.event import _ev
+from .event import _ev
 from .ui_elements import Box
 from .loops import std_loop
 
@@ -61,7 +63,7 @@ letters = [
  #""",
 ]
 
-double_point = """
+DOUBLE_POINT = """
  ##
 
  ##"""
@@ -77,9 +79,9 @@ class Time:
 
     def formated(self):
         """Returns the ingame time in a formated manner"""
-        time = self.normalized
-        hours = int(time / 60)
-        minutes = time % 60
+        _t = self.normalized
+        hours = int(_t / 60)
+        minutes = _t % 60
         return f"{hours:02}:{minutes:02}"
 
     def emit_input(self):
@@ -105,8 +107,8 @@ class Clock(Box):
         """Shows the clock
         ARGS:
             _map: The map to show on"""
-        dp = True
-        letter_obs = self.draw_letters(dp)
+        d_p = True
+        letter_obs = self.draw_letters(d_p)
         raw_time = self.time.time
         with self.center_add(_map):
             while True:
@@ -114,8 +116,8 @@ class Clock(Box):
                     _ev.clear()
                     break
                 if self.time.time == raw_time + 1:
-                    dp = not dp
-                    letter_obs = self.draw_letters(dp, letter_obs)
+                    d_p = not d_p
+                    letter_obs = self.draw_letters(d_p, letter_obs)
                     raw_time = self.time.time
                 self.map.show()
                 std_loop()
@@ -129,16 +131,18 @@ class Clock(Box):
             obj.remove()
             self.rem_ob(obj)
 
-    def draw_letters(self, dp=True, letter_obs=[]):
+    def draw_letters(self, d_p=True, letter_obs=None):
         """Method to draw the letters on the clock
         ARGS:
-            dp: Whether or not the double_point should be shown
+            d_p: Whether or not the DOUBLE_POINT should be shown
             letter_obs: The letter objects of the former intervall"""
+        if letter_obs is None:
+            letter_obs = []
         self.__rem_obs(letter_obs)
         ftime = self.time.formated().replace(":", "")
         logging.info(ftime)
         letter_obs = [se.Text(letters[int(letter)]) for letter in ftime]
-        letter_obs.insert(2, se.Text(double_point if dp else ""))
+        letter_obs.insert(2, se.Text(DOUBLE_POINT if d_p else ""))
         _x = 2
         for obj in letter_obs:
             self.add_ob(obj, _x, 2)

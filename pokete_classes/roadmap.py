@@ -96,9 +96,9 @@ class RoadMap:
         self.box = Box(11, 40, "Roadmap", "q:close")
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width-2, 0)
-        for sta in p_data.stations:
-            obj = Station(self, obmp.ob_maps[sta], **p_data.stations[sta]['gen'])
-            self.box.add_ob(obj, **p_data.stations[sta]['add'])
+        for sta, _dict in p_data.stations.items():
+            obj = Station(self, obmp.ob_maps[sta], **_dict['gen'])
+            self.box.add_ob(obj, **_dict['add'])
             setattr(self, sta, obj)
 
     @property

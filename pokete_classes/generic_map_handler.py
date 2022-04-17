@@ -1,3 +1,7 @@
+"""Contains the generic map handler that creates a full blown map object
+from a string
+This is not in use yet!"""
+
 import scrap_engine as se
 from .classes import PlayMap
 from .landscape import Meadow

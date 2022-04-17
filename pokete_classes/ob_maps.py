@@ -1,3 +1,5 @@
+"""Contains the ob_maps dict"""
+
 ob_maps = None
 
 if __name__ == "__main__":

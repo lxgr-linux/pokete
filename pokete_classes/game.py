@@ -1,3 +1,5 @@
+"""This is here to be able to globalize the game function"""
+
 game = None
 
 

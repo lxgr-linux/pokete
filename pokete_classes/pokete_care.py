@@ -1,3 +1,6 @@
+"""The Pokete care is a place a Pokete can be brought to, to let it gain xp
+without the player using it"""
+
 from .poke import Poke
 
 class DummyFigure:
@@ -10,7 +13,7 @@ class DummyFigure:
 
 class PoketeCare:
     """The Pokete care is a place a Pokete can be brought to, to let it gain xp
-    without the player using it,
+    without the player using its
     ARGS:
         entry: The ingame timestamp the poke was given in at
         poke: The Pokete that's in care"""
