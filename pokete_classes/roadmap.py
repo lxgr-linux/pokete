@@ -111,8 +111,10 @@ class RoadMap:
         """Changes info label
         ARGS:
             name: String displayed"""
-        self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.info_label.remove()
+        self.box.rem_ob(self.info_label)
         self.info_label.rechar(name)
+        self.box.add_ob(self.info_label, self.box.width-2-len(name), 0)
 
     def __call__(self, _map, choose=False):
         """Shows the roadmap
