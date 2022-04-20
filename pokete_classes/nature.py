@@ -1,5 +1,8 @@
 import random
 import logging
+from pokete_general_use_fns import liner
+from .ui_elements import InfoBox
+from .loops import easy_exit_loop
 
 class Nature:
     def __init__(self, name, atc=1, _def=1, init=1):
@@ -27,6 +30,7 @@ class PokeNature:
     def __init__(self, nature, grade):
         self.nature = nature
         self.grade = grade
+        self.info = NatureInfo(self)
 
     def get_value(self, name):
         return getattr(self.nature, name)
@@ -46,8 +50,25 @@ class PokeNature:
         grade = random.randint(1, 2)
         return cls(nature, grade)
 
-    @classmethod
-    def dummy(cls):
-        nature = Nature("dummy")
-        grade = 1
-        return cls(nature, grade)
+
+class NatureInfo(InfoBox):
+    def __init__(self, p_n):
+        atc = self.get_amount(p_n.nature.atc)
+        defense = self.get_amount(p_n.nature.defense)
+        init = self.get_amount(p_n.nature.initiative)
+        text = f"""This pokete has a {"very " if p_n == 2 else ""}{p_n.nature.name} nature,
+that  means it has {atc} attack, {defense} defense and {init} initiative then normal Poketes of its' kind."""
+        super().__init__(liner(text, 40, pre=""), "Nature")
+
+    @staticmethod
+    def get_amount(val):
+        if val == 1:
+            return "the same"
+        elif val < 1:
+            return "less"
+        return "more"
+
+    def __call__(self, _map):
+        self.map = _map
+        with self:
+            easy_exit_loop()
