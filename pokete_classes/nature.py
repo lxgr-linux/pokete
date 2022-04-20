@@ -45,3 +45,9 @@ class PokeNature:
         nature = random.choice([i for _, i in cls.natures.items()])
         grade = random.randint(1, 2)
         return cls(nature, grade)
+
+    @classmethod
+    def dummy(cls):
+        nature = Nature("dummy")
+        grade = 1
+        return cls(nature, grade)
