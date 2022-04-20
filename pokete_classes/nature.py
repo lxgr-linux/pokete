@@ -41,7 +41,8 @@ class PokeNature:
         "hasty": {
             "_def": 0.9,
             "init": 1.1
-        }
+        },
+        "normal": {}
     }.items()}
 
     def __init__(self, nature, grade):
