@@ -74,7 +74,7 @@ class Meadow(se.Text):
     def check_figure_redraw(obj):
         """Checks if the figure has to be redrawn
         ARGS:
-            obj: """
+            obj: The object for which this is checked"""
         if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
             HighGrass.figure.redraw()
 
