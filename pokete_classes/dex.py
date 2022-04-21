@@ -3,6 +3,7 @@
 import time
 import scrap_engine as se
 import pokete_data as p_data
+import pokete_classes.movemap as mvp
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .poke import Poke
@@ -13,13 +14,12 @@ from .ui_elements import ChooseBox, Box
 class Dex:
     """The Pokete dex that shows stats about all Poketes ever caught
     ARGS:
-        _map: se.Map this will be shown on"""
+        figure: Figure object"""
 
-    def __init__(self, _map, figure):
-        self.box = ChooseBox(_map.height - 3, 35, "Poketedex")
+    def __init__(self, figure):
+        self.box = ChooseBox(mvp.movemap.height - 3, 35, "Poketedex")
         self.detail_box = Box(16, 35)
         self.figure = figure
-        self.map = _map
         self.idx = 0
         self.obs = []
         self.detail_info = se.Text("", state="float")
@@ -62,7 +62,7 @@ HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}"""))
-        with self.detail_box.center_add(self.map):
+        with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)
 
@@ -79,7 +79,7 @@ Initiative: {poke.initiative}"""))
                     state="float")
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()
-        with self.box.add(self.map, self.map.width - self.box.width, 0):
+        with self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0):
             while True:
                 for event, idx, n_idx, add, idx_2 in zip(
                                 ["'s'", "'w'"],
@@ -107,5 +107,5 @@ Initiative: {poke.initiative}"""))
                     break
                 std_loop()
                 time.sleep(0.05)
-                self.map.show()
+                mvp.movemap.show()
             self.rem_c_obs()

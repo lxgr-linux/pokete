@@ -3,12 +3,15 @@
 import time
 import logging
 import scrap_engine as se
+import pokete_classes.fightmap as fm
+import pokete_classes.movemap as mvp
 from .loops import std_loop, easy_exit_loop
 from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
 from .event import _ev
+from .general import check_walk_back
 
 
 class NPCTrigger(se.Object):
@@ -27,23 +30,17 @@ class NPCTrigger(se.Object):
 
 class NPC(se.Box):
     """An NPC to talk to"""
-    mvmp = None
     fig = None
     npcactions = None
-    check_walk_back = None
 
     @classmethod
-    def set_vars(cls, mvmp, fig, npcactions, check_walk_back):
+    def set_vars(cls, fig, npcactions):
         """Sets all variables needed by NPCs
         ARGS:
-            mvmp: MoveMap object
             fig: Figure object
-            npcactions: NPCActions class
-            check_walk_back: check_walk_back function"""
-        cls.mvmp = mvmp
+            npcactions: NPCActions class"""
         cls.fig = fig
         cls.npcactions = npcactions
-        cls.check_walk_back = check_walk_back
 
     def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
@@ -65,17 +62,17 @@ class NPC(se.Box):
         """Movemap.text wrapper
         ARGS:
             text: Text that should be printed"""
-        self.mvmp.text(self.x, self.y, text)
+        mvp.movemap.text(self.x, self.y, text)
 
     def exclamate(self):
         """Shows the exclamation on top of a NPC"""
         exclamation = se.Object("!")
         try:
-            exclamation.add(self.mvmp, self.x - self.mvmp.x,
-                            self.y - 1 - self.mvmp.y)
+            exclamation.add(mvp.movemap, self.x - mvp.movemap.x,
+                            self.y - 1 - mvp.movemap.y)
         except se.CoordinateError:
             pass
-        self.mvmp.show()
+        mvp.movemap.show()
         time.sleep(1)
         exclamation.remove()
 
@@ -86,7 +83,7 @@ class NPC(se.Box):
                  settings("save_trainers").val):
             return
         logging.info("[NPC][%s] Interaction", self.name)
-        self.mvmp.full_show()
+        mvp.movemap.full_show()
         time.sleep(0.7)
         self.exclamate()
         self.text(self.texts)
@@ -127,7 +124,7 @@ class NPC(se.Box):
             return False
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
-            self.mvmp.full_show()
+            mvp.movemap.full_show()
             time.sleep(0.2)
         return True
 
@@ -139,7 +136,7 @@ class NPC(se.Box):
         item = getattr(invitems, item)
         self.will = False
         self.fig.used_npcs.append(self.name)
-        if ask_bool(self.mvmp, f"{name} gifted you a '{item.pretty_name}'. \
+        if ask_bool(mvp.movemap, f"{name} gifted you a '{item.pretty_name}'. \
 Do you want to accept it?"):
             self.fig.give_item(item.name)
 
@@ -163,14 +160,14 @@ Do you want to accept it?"):
                             c_obs=[se.Text(i, state="float")
                                      for i in keys])
             c_b.frame.corners[0].rechar("^")
-            self.mvmp.assure_distance(self.fig.x, self.fig.y,
-                                      c_b.width + 2, c_b.height + 2)
-            with c_b.add(self.mvmp, self.fig.x - self.mvmp.x,
-                         self.fig.y - self.mvmp.y + 1):
+            mvp.movemap.assure_distance(self.fig.x, self.fig.y,
+                                        c_b.width + 2, c_b.height + 2)
+            with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
+                         self.fig.y - mvp.movemap.y + 1):
                 while True:
                     if _ev.get() in ["'w'", "'s'"]:
                         c_b.input(_ev.get())
-                        self.mvmp.show()
+                        mvp.movemap.show()
                         _ev.clear()
                     elif _ev.get() == "Key.enter":
                         key = keys[c_b.index.index]
@@ -184,14 +181,13 @@ class Trainer(NPC):
     """Trainer class to fight against"""
 
     def __init__(self, poke, name, gender, texts, lose_texts,
-                 win_texts, fight):
+                 win_texts):
         super().__init__(name, texts, side_trigger=False)
         # attributes
         self.gender = gender
         self.poke = poke
         self.lose_texts = lose_texts
         self.win_texts = win_texts
-        self.fight = fight
 
     def add(self, _map, x, y):
         """Add wrapper
@@ -213,16 +209,16 @@ class Trainer(NPC):
         if self.poke.hp > 0 and (self.name not in self.fig.used_npcs
                                  or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
-            self.mvmp.full_show()
+            mvp.movemap.full_show()
             time.sleep(0.7)
             self.exclamate()
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
                 self.text(self.texts)
-                winner = self.fight([poke for poke in self.fig.pokes[:6]
-                                    if poke.hp > 0][0],
-                                    self.poke,
-                                    info={"type": "duel", "player": self})
+                winner = fm.fight([poke for poke in self.fig.pokes[:6]
+                                   if poke.hp > 0][0],
+                                  self.poke,
+                                  info={"type": "duel", "player": self})
                 self.text({True: self.lose_texts,
                            False: self.win_texts + [" < Here u go 20$"]}
                           [winner == self.poke])
@@ -232,4 +228,4 @@ class Trainer(NPC):
                 logging.info("[NPC][%s] %s against player", self.name,
                              'Lost' if  winner != self.poke else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
-            self.check_walk_back()
+            check_walk_back(self.fig)

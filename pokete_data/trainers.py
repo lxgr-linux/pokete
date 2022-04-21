@@ -289,7 +289,7 @@ trainers = {
                  [" < Have fun in Agrawos!"], 6, 17)
         }, {
         "poke": ("dicki", 1250),
-        "args": ("Farmer Dora", "She",
+        "args": ("Farmer Doora", "She",
                  [" < This is a cool Pokete I found on my field!"],
                  [" < It's cool, init?!"],
                  [" < I guess have still have to train it. :("], 74, 33)

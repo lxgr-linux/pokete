@@ -3,6 +3,7 @@
 import time
 import scrap_engine as se
 from pokete_general_use_fns import liner
+import pokete_classes.ob_maps as obmp
 from .loops import std_loop
 from .classes import OutP
 from .color import Color
@@ -16,8 +17,8 @@ class Movemap(se.Submap):
         height: Height of the map
         width: Width of the map"""
 
-    def __init__(self, ob_maps, height, width):
-        super().__init__(ob_maps["playmap_1"], 0, 0,
+    def __init__(self, height, width):
+        super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
                          height=height, width=width)
         self.name = "movemap"
         self.name_label = se.Text("")
@@ -113,6 +114,8 @@ class Movemap(se.Submap):
         self.name_label.rechar(name, esccode=Color.thicc)
         self.balls_label.set(4 + len(self.name_label.text), self.height - 2)
 
+
+movemap = None
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
