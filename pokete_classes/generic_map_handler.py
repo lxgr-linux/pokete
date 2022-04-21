@@ -2,6 +2,7 @@ import scrap_engine as se
 from .classes import PlayMap
 from .landscape import Meadow
 
+
 class GenericMapHandler:
     """Generates a full blown map object from a string
     ARGS:
@@ -11,15 +12,16 @@ class GenericMapHandler:
 
     def __init__(self, name: str, pretty_name: str, raw_map: str):
         self.string_map = raw_map.split("\n")
-        self.map = PlayMap(*self.get_dimentions, name=name, pretty_name=pretty_name)
+        self.map = PlayMap(*self.get_dimensions(), name=name,
+                           pretty_name=pretty_name)
         self.add_grass()
         self.add_solid()
 
-    def get_dimentions(self):
-        """Return the maps diemntsion"""
+    def get_dimensions(self):
+        """Return the maps dimensions"""
 
         height = len(self.string_map)
-        width = len(string_map[0])
+        width = len(self.string_map[0])
         return height, width
 
     def add_grass(self):
@@ -49,3 +51,7 @@ class GenericMapHandler:
             self.solid_raw += "\n"
         self.solid = se.Text(self.solid_raw, ignore=" ")
         self.solid.add(self.map, 0, 0)
+        
+        
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")
