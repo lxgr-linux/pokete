@@ -3,8 +3,10 @@ of their stats"""
 
 import random
 import logging
+import scrap_engine as se
 from pokete_general_use_fns import liner
-from .ui_elements import InfoBox
+from .ui_elements import LabelBox
+from .color import Color
 from .loops import easy_exit_loop
 
 class Nature:
@@ -16,8 +18,9 @@ class Nature:
         _def: The defense change
         init: The initiative change"""
 
-    def __init__(self, name, atc=1, _def=1, init=1):
+    def __init__(self, name, esc="", atc=1, _def=1, init=1):
         self.name = name
+        self.esccode = esc
         self.atc = atc
         self.defense = _def
         self.initiative = init
@@ -31,14 +34,17 @@ class PokeNature:
 
     natures = {name: Nature(name, **_dict) for name, _dict in {
         "brave": {
+            "esc": Color.blue,
             "atc": 1.1,
             "_def": 0.9
         },
         "relaxed": {
+            "esc": Color.green,
             "atc": 0.9,
             "_def": 1.1,
         },
         "hasty": {
+            "esc": Color.red,
             "_def": 0.9,
             "init": 1.1
         },
@@ -78,7 +84,7 @@ class PokeNature:
         return cls(nature, grade)
 
 
-class NatureInfo(InfoBox):
+class NatureInfo(LabelBox):
     """Box to show information in Detail
     ARGS:
         p_n: PoketeNature object"""
@@ -87,9 +93,13 @@ class NatureInfo(InfoBox):
         atc = self.get_amount(p_n.nature.atc)
         defense = self.get_amount(p_n.nature.defense)
         init = self.get_amount(p_n.nature.initiative)
-        text = f"""This pokete has a {"very " if p_n == 2 else ""}{p_n.nature.name} nature,
-that  means it has {atc} attack, {defense} defense and {init} initiative then normal Poketes of its' kind."""
-        super().__init__(liner(text, 40, pre=""), "Nature")
+        text = se.Text(f"Nature: {'very ' if p_n.grade == 2 else ''}") \
+               + se.Text(p_n.nature.name, esccode=Color.thicc
+                                                  + p_n.nature.esccode) \
+               + se.Text(liner(f"\n\nThat  means it has {atc} attack, \
+{defense} defense and {init} initiative then normal Poketes \
+of its' kind.", 40, pre=""))
+        super().__init__(text, name="Nature", info="q:close")
 
     @staticmethod
     def get_amount(val):
@@ -104,6 +114,5 @@ that  means it has {atc} attack, {defense} defense and {init} initiative then no
         """Shows the box
         ARGS:
             _map: Map to show on"""
-        self.map = _map
-        with self:
+        with self.center_add(_map):
             easy_exit_loop()
