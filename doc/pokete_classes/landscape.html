@@ -102,7 +102,7 @@ class Meadow(se.Text):
     def check_figure_redraw(obj):
         &#34;&#34;&#34;Checks if the figure has to be redrawn
         ARGS:
-            obj: &#34;&#34;&#34;
+            obj: The object for which this is checked&#34;&#34;&#34;
         if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
             HighGrass.figure.redraw()
 
@@ -297,7 +297,7 @@ class Poketeball(se.Object):
     def check_figure_redraw(obj):
         &#34;&#34;&#34;Checks if the figure has to be redrawn
         ARGS:
-            obj: &#34;&#34;&#34;
+            obj: The object for which this is checked&#34;&#34;&#34;
         if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
             HighGrass.figure.redraw()</code></pre>
 </details>
@@ -339,7 +339,10 @@ class Poketeball(se.Object):
 <dd>
 <div class="desc"><p>Checks if the figure has to be redrawn</p>
 <h2 id="args">Args</h2>
-<p>obj:</p></div>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The object for which this is checked</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -348,7 +351,7 @@ class Poketeball(se.Object):
 def check_figure_redraw(obj):
     &#34;&#34;&#34;Checks if the figure has to be redrawn
     ARGS:
-        obj: &#34;&#34;&#34;
+        obj: The object for which this is checked&#34;&#34;&#34;
     if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
         HighGrass.figure.redraw()</code></pre>
 </details>
