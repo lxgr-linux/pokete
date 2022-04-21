@@ -34,7 +34,14 @@ You can also install it from the AUR:
 $ buildaur -S pokete-git
 ```
 
-For windows first install pynput and then do a Windows equivalent to the above.
+For Windows and OSX:
+
+```shell
+git clone https://github.com/lxgr-linux/pokete.git
+pip install scrap_engine
+pip install pynput
+```
+To run just execute `pokete.py`.
 
 ## Usage
 The game can be run normaly by not supplying any options.
@@ -132,3 +139,7 @@ $ ./gen_wiki.py
 ```
 
 to regenerate the wiki and adding them to it.
+
+## Trouble shooting
+If you're experiencing problems on Japanese systems take a look at [this](https://gist.github.com/z80oolong/c7523367b798bdda094f859342f4c8be).
+
