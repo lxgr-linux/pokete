@@ -1,9 +1,9 @@
 """Standardized loops components"""
 
 import time
+import release
 from .event import _ev
 from .notify import notifier
-import release
 
 
 def easy_exit_loop():
@@ -23,6 +23,6 @@ def std_loop(on_mvmp=True, pevm=None):
         raise KeyboardInterrupt
     if on_mvmp:
         notifier.next()
-    if pevm != None:
+    if pevm is not None:
         pevm.event()
     time.sleep(release.FRAMETIME)
