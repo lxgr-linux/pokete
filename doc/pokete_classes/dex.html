@@ -32,6 +32,7 @@
 import time
 import scrap_engine as se
 import pokete_data as p_data
+import pokete_classes.movemap as mvp
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .poke import Poke
@@ -42,13 +43,12 @@ from .ui_elements import ChooseBox, Box
 class Dex:
     &#34;&#34;&#34;The Pokete dex that shows stats about all Poketes ever caught
     ARGS:
-        _map: se.Map this will be shown on&#34;&#34;&#34;
+        figure: Figure object&#34;&#34;&#34;
 
-    def __init__(self, _map, figure):
-        self.box = ChooseBox(_map.height - 3, 35, &#34;Poketedex&#34;)
+    def __init__(self, figure):
+        self.box = ChooseBox(mvp.movemap.height - 3, 35, &#34;Poketedex&#34;)
         self.detail_box = Box(16, 35)
         self.figure = figure
-        self.map = _map
         self.idx = 0
         self.obs = []
         self.detail_info = se.Text(&#34;&#34;, state=&#34;float&#34;)
@@ -91,7 +91,7 @@ HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}&#34;&#34;&#34;))
-        with self.detail_box.center_add(self.map):
+        with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)
 
@@ -108,7 +108,7 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
                     state=&#34;float&#34;)
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()
-        with self.box.add(self.map, self.map.width - self.box.width, 0):
+        with self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0):
             while True:
                 for event, idx, n_idx, add, idx_2 in zip(
                                 [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
@@ -136,7 +136,7 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
                     break
                 std_loop()
                 time.sleep(0.05)
-                self.map.show()
+                mvp.movemap.show()
             self.rem_c_obs()</code></pre>
 </details>
 </section>
@@ -151,14 +151,14 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 <dl>
 <dt id="pokete_classes.dex.Dex"><code class="flex name class">
 <span>class <span class="ident">Dex</span></span>
-<span>(</span><span>_map, figure)</span>
+<span>(</span><span>figure)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The Pokete dex that shows stats about all Poketes ever caught</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>_map</code></strong></dt>
-<dd>se.Map this will be shown on</dd>
+<dt><strong><code>figure</code></strong></dt>
+<dd>Figure object</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -167,13 +167,12 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
 <pre><code class="python">class Dex:
     &#34;&#34;&#34;The Pokete dex that shows stats about all Poketes ever caught
     ARGS:
-        _map: se.Map this will be shown on&#34;&#34;&#34;
+        figure: Figure object&#34;&#34;&#34;
 
-    def __init__(self, _map, figure):
-        self.box = ChooseBox(_map.height - 3, 35, &#34;Poketedex&#34;)
+    def __init__(self, figure):
+        self.box = ChooseBox(mvp.movemap.height - 3, 35, &#34;Poketedex&#34;)
         self.detail_box = Box(16, 35)
         self.figure = figure
-        self.map = _map
         self.idx = 0
         self.obs = []
         self.detail_info = se.Text(&#34;&#34;, state=&#34;float&#34;)
@@ -216,7 +215,7 @@ HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}&#34;&#34;&#34;))
-        with self.detail_box.center_add(self.map):
+        with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)
 
@@ -233,7 +232,7 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
                     state=&#34;float&#34;)
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()
-        with self.box.add(self.map, self.map.width - self.box.width, 0):
+        with self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0):
             while True:
                 for event, idx, n_idx, add, idx_2 in zip(
                                 [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
@@ -261,7 +260,7 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
                     break
                 std_loop()
                 time.sleep(0.05)
-                self.map.show()
+                mvp.movemap.show()
             self.rem_c_obs()</code></pre>
 </details>
 <h3>Methods</h3>
@@ -319,7 +318,7 @@ HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}&#34;&#34;&#34;))
-        with self.detail_box.center_add(self.map):
+        with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)</code></pre>
 </details>

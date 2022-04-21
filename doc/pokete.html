@@ -57,9 +57,10 @@ from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
+from pokete_classes.general import heal
 from pokete_classes.poke import Poke
 from pokete_classes.color import Color
-from pokete_classes.ui_elements import StdFrame2, Box, ChooseBox, InfoBox, BetterChooseBox
+from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
@@ -68,9 +69,15 @@ from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
-from pokete_classes.movemap import Movemap
-from pokete_classes.fightmap import FightMap, FightItems
-from pokete_classes.detail import Informer, Detail
+import pokete_classes.ob_maps as obmp
+import pokete_classes.movemap as mvp
+import pokete_classes.fightmap as fm
+import pokete_classes.deck as deck
+import pokete_classes.detail as detail
+import pokete_classes.game as game
+# import pokete_classes.generic_map_handler as gmh
+from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
+from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.npcs import NPC, Trainer
@@ -89,79 +96,6 @@ __t = time.time()
 # Class definition
 ##################
 
-class HightGrass(se.Object):
-    &#34;&#34;&#34;Object on the map, that triggers a fight&#34;&#34;&#34;
-
-    def action(self, ob):
-        &#34;&#34;&#34;Action triggers the fight
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        if random.randint(0, 8) == 0:
-            fight(Poke(&#34;__fallback__&#34;, 0)
-                  if len([poke for poke in figure.pokes[:6]
-                          if poke.hp &gt; 0]) == 0
-                  else [poke for poke in figure.pokes[:6] if poke.hp &gt; 0][0],
-                  Poke(random.choices(self.arg_proto[&#34;pokes&#34;],
-                                      weights=[p_data.pokes[i][&#34;rarity&#34;]
-                                               for i in
-                                               self.arg_proto[&#34;pokes&#34;]])[0],
-                       random.choices(list(range(self.arg_proto[&#34;minlvl&#34;],
-                                                 self.arg_proto[&#34;maxlvl&#34;])))[0],
-                       player=False, shiny=(random.randint(0, 500) == 0)))
-            check_walk_back()
-
-
-class Meadow(se.Text):
-    &#34;&#34;&#34;Daughter of se.Text to better organize Highgrass
-    ARGS:
-        string: The character representing the meadow
-        poke_args: Dict containing relevant information about Pokes&#34;&#34;&#34;
-    esccode = Color.green
-
-    def __init__(self, string, poke_args):
-        super().__init__(string, ignore=self.esccode + &#34; &#34; + Color.reset,
-                         ob_class=HightGrass, ob_args=poke_args,
-                         state=&#34;float&#34;, esccode=self.esccode)
-
-
-class Water(Meadow):
-    &#34;&#34;&#34;Same as Meadow, but for Water&#34;&#34;&#34;
-    esccode = Color.blue
-
-
-class Sand(Meadow):
-    &#34;&#34;&#34;Same as Meadow, but for Sand&#34;&#34;&#34;
-    esccode = Color.yellow
-
-
-class Poketeball(se.Object):
-    &#34;&#34;&#34;Poketeball that can be picked up on the map
-    ARGS:
-        name: Generic name of the ball&#34;&#34;&#34;
-
-    def __init__(self, name):
-        self.name = name
-        super().__init__(Color.thicc + Color.red + &#34;o&#34; + Color.reset,
-                         state=&#34;float&#34;)
-
-    def action(self, ob):
-        &#34;&#34;&#34;Action triggers the pick up
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        amount = random.choices([1, 2, 3],
-                                weights=[10, 2, 1], k=1)[0]
-        item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
-                               &#34;healing_potion&#34;],
-                              weights=[10, 1.5, 1, 1],
-                              k=1)[0]
-        figure.give_item(item, amount)
-        self.remove()
-        movemap.full_show()
-        ask_ok(movemap, f&#34;You found {amount if amount &gt; 1 else &#39;a&#39;} \
-{p_data.items[item][&#39;pretty_name&#39;]}{&#39;s&#39; if amount &gt; 1 else &#39;&#39;}!&#34;)
-        figure.used_npcs.append(self.name)
-
-
 class NPCActions:
     &#34;&#34;&#34;This class contains all functions callable by NPCs
     All this methods follow the same pattern:
@@ -176,7 +110,7 @@ class NPCActions:
     @staticmethod
     def heal(npc):
         &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
-        heal()
+        heal(figure)
 
     @staticmethod
     def playmap_17_boy(npc):
@@ -185,7 +119,7 @@ class NPCActions:
             npc.text([&#34; &lt; Oh, cool!&#34;, &#34; &lt; You have a Choka!&#34;,
                       &#34; &lt; I&#39;ve never seen one before!&#34;,
                       &#34; &lt; Here you go, 200$&#34;])
-            if ask_bool(movemap,
+            if ask_bool(mvp.movemap,
                         &#34;Young boy gifted you 200$. Do you want to accept it?&#34;):
                 figure.add_money(200)
             npc.will = False
@@ -199,20 +133,20 @@ it evolves to Choka.&#34;,
     @staticmethod
     def playmap_20_trader(npc):
         &#34;&#34;&#34;Interaction with trader&#34;&#34;&#34;
-        if ask_bool(movemap, &#34;Do you want to trade a Pokete?&#34;):
-            if (index := deck(6, &#34;Your deck&#34;, True)) is None:
+        if ask_bool(mvp.movemap, &#34;Do you want to trade a Pokete?&#34;):
+            if (index := deck.deck(6, &#34;Your deck&#34;, True)) is None:
                 return
             figure.add_poke(Poke(&#34;ostri&#34;, 500), index)
             figure.used_npcs.append(npc.name)
-            ask_ok(movemap,
+            ask_ok(mvp.movemap,
                    f&#34;You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.&#34;)
-            movemap.text(npc.x, npc.y, [&#34; &lt; Cool, huh?&#34;])
+            mvp.movemap.text(npc.x, npc.y, [&#34; &lt; Cool, huh?&#34;])
 
     @staticmethod
     def playmap_23_npc_8(npc):
         &#34;&#34;&#34;Interaction with npc_8&#34;&#34;&#34;
-        if ask_bool(movemap,
+        if ask_bool(mvp.movemap,
                     &#34;The man gifted you 100$. Do you want to accept it?&#34;):
             npc.will = False
             figure.used_npcs.append(npc.name)
@@ -257,11 +191,11 @@ class CenterInteract(se.Object):
         ARGS:
             ob: The object triggering this action&#34;&#34;&#34;
         _ev.clear()
-        movemap.full_show()
-        movemap.text(int(movemap.width / 2), 3,
-                     [&#34; &lt; Welcome to the Pokete-Center&#34;,
-                      &#34; &lt; What do you want to do?&#34;,
-                      &#34; &lt; a: See your full deck\n b: Heal all your Poketes\
+        mvp.movemap.full_show()
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [&#34; &lt; Welcome to the Pokete-Center&#34;,
+                          &#34; &lt; What do you want to do?&#34;,
+                          &#34; &lt; a: See your full deck\n b: Heal all your Poketes\
 \n c: Go&#34;])
         while True:
             if _ev.get() == &#34;&#39;a&#39;&#34;:
@@ -269,23 +203,22 @@ class CenterInteract(se.Object):
                 while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index(&#34;__fallback__&#34;))
-                movemap.balls_label_rechar(figure.pokes)
-                deck(len(figure.pokes))
+                mvp.movemap.balls_label_rechar(figure.pokes)
+                deck.deck(len(figure.pokes))
                 break
             elif _ev.get() == &#34;&#39;b&#39;&#34;:
                 _ev.clear()
-                heal()
+                heal(figure)
                 time.sleep(0.5)
-                movemap.text(int(movemap.width / 2), 3, [&#34; &lt; ...&#34;,
-                                                         &#34; &lt; Your Poketes are \
-now healed!&#34;])
+                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                                 [&#34; &lt; ...&#34;, &#34; &lt; Your Poketes are now healed!&#34;])
                 break
             elif _ev.get() == &#34;&#39;c&#39;&#34;:
                 _ev.clear()
                 break
             std_loop()
             time.sleep(0.05)
-        movemap.full_show(init=True)
+        mvp.movemap.full_show(init=True)
 
 
 class ShopInteract(se.Object):
@@ -296,13 +229,14 @@ class ShopInteract(se.Object):
         ARGS:
             ob: The object triggering this action&#34;&#34;&#34;
         _ev.clear()
-        movemap.full_show()
-        movemap.text(int(movemap.width / 2), 3,
-                     [&#34; &lt; Welcome to the Pokete-Shop&#34;,
-                      &#34; &lt; Wanna buy something?&#34;])
+        mvp.movemap.full_show()
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [&#34; &lt; Welcome to the Pokete-Shop&#34;,
+                          &#34; &lt; Wanna buy something?&#34;])
         buy()
-        movemap.full_show(init=True)
-        movemap.text(int(movemap.width / 2), 3, [&#34; &lt; Have a great day!&#34;])
+        mvp.movemap.full_show(init=True)
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [&#34; &lt; Have a great day!&#34;])
 
 
 class CenterMap(PlayMap):
@@ -323,8 +257,8 @@ class CenterMap(PlayMap):
  |_____|  |_____|&#34;&#34;&#34;, ignore=&#34; &#34;)
 
         self.interact = CenterInteract(&#34;¯&#34;, state=&#34;float&#34;)
-        self.dor_back1 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
-        self.dor_back2 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
+        self.dor_back1 = CenterDoor(&#34; &#34;, state=&#34;float&#34;)
+        self.dor_back2 = CenterDoor(&#34; &#34;, state=&#34;float&#34;)
         self.trader = NPC(&#34;trader&#34;,
                           [&#34; &lt; I&#39;m a trader.&#34;,
                            &#34; &lt; Here you can trade one of your Poketes for \
@@ -355,84 +289,13 @@ class ShopMap(PlayMap):
  |_______  _______|
  |______|  |______|&#34;&#34;&#34;, ignore=&#34; &#34;)
         self.interact = ShopInteract(&#34;¯&#34;, state=&#34;float&#34;)
-        self.dor_back1 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
-        self.dor_back2 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
+        self.dor_back1 = CenterDoor(&#34; &#34;, state=&#34;float&#34;)
+        self.dor_back2 = CenterDoor(&#34; &#34;, state=&#34;float&#34;)
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
         self.dor_back2.add(self, int(self.width / 2) + 1, 8)
         self.inner.add(self, int(self.width / 2) - 9, 1)
         self.interact.add(self, int(self.width / 2), 4)
-
-
-class CenterDor(se.Object):
-    &#34;&#34;&#34;Dor class for the map to enter centers and shops&#34;&#34;&#34;
-
-    def action(self, ob):
-        &#34;&#34;&#34;Trigger
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        ob.remove()
-        i = ob.map.name
-        ob.add(ob.oldmap,
-               ob.oldmap.dor.x
-               if ob.map == centermap
-               else ob.oldmap.shopdor.x,
-               ob.oldmap.dor.y + 1
-               if ob.map == centermap
-               else ob.oldmap.shopdor.y + 1)
-        ob.oldmap = ob_maps[i]
-        game(ob.map)
-
-
-class Dor(se.Object):
-    &#34;&#34;&#34;Dor class for the map to enter other maps&#34;&#34;&#34;
-
-    def action(self, ob):
-        &#34;&#34;&#34;Trigger
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        ob.remove()
-        i = ob.map.name
-        ob.add(ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
-               self.arg_proto[&#34;y&#34;])
-        ob.oldmap = ob_maps[i]
-        game(ob_maps[self.arg_proto[&#34;map&#34;]])
-
-
-class DorToCenter(Dor):
-    &#34;&#34;&#34;Dor that leads to the Pokete center&#34;&#34;&#34;
-
-    def __init__(self):
-        super().__init__(&#34;#&#34;, state=&#34;float&#34;,
-                         arg_proto={&#34;map&#34;: &#34;centermap&#34;,
-                                    &#34;x&#34;: int(centermap.width / 2), &#34;y&#34;: 7})
-
-    def action(self, ob):
-        &#34;&#34;&#34;Triggers the dor
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        ob.last_center_map = ob.map
-        super().action(ob)
-
-
-class DorToShop(Dor):
-    &#34;&#34;&#34;Dor that leads to the shop&#34;&#34;&#34;
-
-    def __init__(self):
-        super().__init__(&#34;#&#34;, state=&#34;float&#34;,
-                         arg_proto={&#34;map&#34;: &#34;shopmap&#34;,
-                                    &#34;x&#34;: int(shopmap.width / 2), &#34;y&#34;: 7})
-
-
-class ChanceDor(Dor):
-    &#34;&#34;&#34;Same as dor but with a chance&#34;&#34;&#34;
-
-    def action(self, ob):
-        &#34;&#34;&#34;Trigger
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        if random.randint(0, self.arg_proto[&#34;chance&#34;]) == 0:
-            super().action(ob)
 
 
 class Figure(se.Object):
@@ -453,8 +316,9 @@ class Figure(se.Object):
         self.caught_pokes = _si.get(&#34;caught_poketes&#34;, [])
         self.visited_maps = _si.get(&#34;visited_maps&#34;, [&#34;playmap_1&#34;])
         self.used_npcs = _si.get(&#34;used_npcs&#34;, [])
-        self.last_center_map = ob_maps[_si.get(&#34;last_center_map&#34;, &#34;playmap_1&#34;)]
-        self.oldmap = ob_maps[_si.get(&#34;oldmap&#34;, &#34;playmap_1&#34;)]
+        self.last_center_map = obmp.ob_maps[_si.get(&#34;last_center_map&#34;,
+                                                    &#34;playmap_1&#34;)]
+        self.oldmap = obmp.ob_maps[_si.get(&#34;oldmap&#34;, &#34;playmap_1&#34;)]
         self.direction = &#34;t&#34;
 
     def set_args(self, _si):
@@ -465,18 +329,18 @@ class Figure(se.Object):
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
             if _si[&#34;map&#34;] in [&#34;centermap&#34;, &#34;shopmap&#34;]:
-                _map = ob_maps[_si[&#34;map&#34;]]
+                _map = obmp.ob_maps[_si[&#34;map&#34;]]
                 self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
             else:
-                if self.add(ob_maps[_si[&#34;map&#34;]], _si[&#34;x&#34;], _si[&#34;y&#34;]) == 1:
-                    raise se.CoordinateError(self, ob_maps[_si[&#34;map&#34;]],
+                if self.add(obmp.ob_maps[_si[&#34;map&#34;]], _si[&#34;x&#34;], _si[&#34;y&#34;]) == 1:
+                    raise se.CoordinateError(self, obmp.ob_maps[_si[&#34;map&#34;]],
                                              _si[&#34;x&#34;], _si[&#34;y&#34;])
         except se.CoordinateError:
-            self.add(ob_maps[&#34;playmap_1&#34;], 6, 5)
-        movemap.name_label.rechar(self.name, esccode=Color.thicc)
-        movemap.code_label.rechar(self.map.pretty_name)
-        movemap.balls_label_rechar(self.pokes)
-        movemap.add_obs()
+            self.add(obmp.ob_maps[&#34;playmap_1&#34;], 6, 5)
+        mvp.movemap.name_label.rechar(self.name, esccode=Color.thicc)
+        mvp.movemap.code_label.rechar(self.map.pretty_name)
+        mvp.movemap.balls_label_rechar(self.pokes)
+        mvp.movemap.add_obs()
 
     def add_money(self, money):
         &#34;&#34;&#34;Adds money
@@ -555,178 +419,6 @@ class Debug:
         print(figure.x, figure.y, figure.map.name)
 
 
-class Deck(Informer):
-    &#34;&#34;&#34;Deck to see Poketes in&#34;&#34;&#34;
-
-    def __init__(self):
-        self.map = se.Map(height - 1, width, &#34; &#34;)
-        self.submap = se.Submap(self.map, 0, 0, height=height - 1, width=width)
-        self.exit_label = se.Text(&#34;1: Exit  &#34;)
-        self.move_label = se.Text(&#34;2: Move    &#34;)
-        self.move_free = se.Text(&#34;3: Free&#34;)
-        self.index = se.Object(&#34;*&#34;)
-        # adding
-        self.exit_label.add(self.submap, 0, self.submap.height - 1)
-        self.move_label.add(self.submap, 9, self.submap.height - 1)
-        self.move_free.add(self.submap, 20, self.submap.height - 1)
-
-    def rem_pokes(self, pokes):
-        &#34;&#34;&#34;Removes all Poketes from the Deck
-        ARGS:
-            pokes: List of Pokes beeing removed&#34;&#34;&#34;
-        for poke in pokes:
-            self.remove(poke)
-
-    def __call__(self, p_len, label=&#34;Your full deck&#34;, in_fight=False):
-        &#34;&#34;&#34;Opens the deck
-        ARGS:
-            p_len: Number of Pokes beeing included
-            label: The displayed label
-            in_fight: Whether or not this is called in a fight&#34;&#34;&#34;
-        _ev.clear()
-        pokes = figure.pokes[:p_len]
-        ret_action = None
-        self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, width,
-                        self.map.background)
-        # decksubmap.resize(height-1, width)
-        se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
-        se.Square(&#34;|&#34;, 1, self.map.height - 2).add(self.map,
-                                                   round(self.map.width / 2),
-                                                   1)
-        StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
-        self.move_label.rechar(&#34;2: Move    &#34;)
-        indici = []
-        self.add_all(pokes, True)
-        self.index.index = 0
-        if len(pokes) &gt; 0:
-            self.index.add(self.map,
-                           pokes[self.index.index].text_name.x
-                            + len(pokes[self.index.index].text_name.text)
-                            + 1,
-                           pokes[self.index.index].text_name.y)
-        self.submap.full_show(init=True)
-        while True:
-            if _ev.get() in [&#34;&#39;1&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                _ev.clear()
-                self.rem_pokes(pokes)
-                while len(self.map.obs) &gt; 0:
-                    self.map.obs[0].remove()
-                self.submap.set(0, 0)
-                if ret_action is not None:
-                    abb_funcs[ret_action](pokes[self.index.index])
-                return None
-            elif _ev.get() == &#34;&#39;2&#39;&#34;:
-                _ev.clear()
-                if len(pokes) == 0:
-                    continue
-                if not indici:
-                    indici.append(self.index.index)
-                    self.move_label.rechar(&#34;2: Move to &#34;)
-                else:
-                    indici.append(self.index.index)
-                    figure.pokes[indici[0]], figure.pokes[indici[1]] = \
-                        pokes[indici[1]], pokes[indici[0]]
-                    pokes = figure.pokes[:p_len]
-                    indici = []
-                    self.rem_pokes(pokes)
-                    self.index.set(0, self.map.height - 1)
-                    self.add_all(pokes)
-                    self.index.set(
-                        pokes[self.index.index].text_name.x
-                         + len(pokes[self.index.index].text_name.text) + 1,
-                        pokes[self.index.index].text_name.y)
-                    self.move_label.rechar(&#34;2: Move    &#34;)
-                    self.submap.full_show()
-            elif _ev.get() == &#34;&#39;3&#39;&#34;:
-                _ev.clear()
-                if ask_bool(self.submap, f&#34;Do you really want to free \
-{figure.pokes[self.index.index].name}?&#34;):
-                    self.rem_pokes(pokes)
-                    figure.pokes[self.index.index] = Poke(&#34;__fallback__&#34;, 10, 0)
-                    pokes = figure.pokes[:len(pokes)]
-                    self.add_all(pokes)
-                    self.index.set(
-                        pokes[self.index.index].text_name.x
-                         + len(pokes[self.index.index].text_name.text)
-                         + 1,
-                        pokes[self.index.index].text_name.y)
-                    movemap.balls_label_rechar(figure.pokes)
-            elif _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;]:
-                self.control(pokes, _ev.get())
-                _ev.clear()
-            elif _ev.get() == &#34;Key.enter&#34;:
-                _ev.clear()
-                if len(pokes) == 0:
-                    continue
-                if in_fight:
-                    if pokes[self.index.index].hp &gt; 0:
-                        self.rem_pokes(pokes)
-                        while len(self.map.obs) &gt; 0:
-                            self.map.obs[0].remove()
-                        self.submap.set(0, 0)
-                        return self.index.index
-                else:
-                    self.rem_pokes(pokes)
-                    ret_action = detail(pokes[self.index.index])
-                    self.add_all(pokes)
-                    if ret_action is not None:
-                        _ev.set(&#34;&#39;q&#39;&#34;)
-                        continue
-                    self.submap.full_show(init=True)
-            std_loop(False)
-            if len(pokes) &gt; 0 and\
-                    self.index.y - self.submap.y + 6 &gt; self.submap.height:
-                self.submap.set(self.submap.x, self.submap.y + 1)
-            elif len(pokes) &gt; 0 and self.index.y - 1 &lt; self.submap.y:
-                self.submap.set(self.submap.x, self.submap.y - 1)
-            time.sleep(0.05)
-            self.submap.full_show()
-
-    def add_all(self, pokes, init=False):
-        &#34;&#34;&#34;Adds all Poketes to the deck
-        ARGS:
-            pokes: List of all Pokes beeing added
-            init: Whether or not this happens for the first time&#34;&#34;&#34;
-        j = 0
-        for i, poke in enumerate(pokes):
-            self.add(poke, figure, self.map,
-                     1 if i % 2 == 0
-                     else round(self.map.width / 2) + 1, j * 5 + 1)
-            if i % 2 == 0 and init:
-                se.Square(&#34;-&#34;, self.map.width - 2, 1).add(self.map, 1,
-                                                          j * 5 + 5)
-            if i % 2 == 1:
-                j += 1
-
-    def control(self, pokes, inp):
-        &#34;&#34;&#34;Processes inputs
-        ARGS:
-            pokes: List of all Pokes in deck
-            inp: Inputted string&#34;&#34;&#34;
-        if len(pokes) &lt;= 1:
-            return
-        for con, stat, fir, sec in zip([&#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
-                                       [self.index.index != 0,
-                                        self.index.index != len(pokes) - 1,
-                                        self.index.index + 2 &lt; len(pokes),
-                                        self.index.index - 2 &gt;= 0],
-                                       [-1, 1, 2, -2],
-                                       [len(pokes) - 1, 0,
-                                        self.index.index % 2,
-                                        [i for i in range(len(pokes))
-                                            if i % 2 ==
-                                            self.index.index % 2][-1]]):
-            if inp == con:
-                if stat:
-                    self.index.index += fir
-                else:
-                    self.index.index = sec
-                break
-        self.index.set(pokes[self.index.index].text_name.x
-                        + len(pokes[self.index.index].text_name.text) + 1,
-                       pokes[self.index.index].text_name.y)
-
-
 class Inv:
     &#34;&#34;&#34;Inventory to see and manage items in
     ARGS:
@@ -771,8 +463,8 @@ class Inv:
 {obj.attack_dict[&#39;name&#39;]}&#39;?&#34;):
                                     ex_cond = True
                                     while ex_cond:
-                                        index = deck(6, label=&#34;Your deck&#34;,
-                                                     in_fight=True)
+                                        index = deck.deck(6, label=&#34;Your deck&#34;,
+                                                          in_fight=True)
                                         if index is None:
                                             ex_cond = False
                                             self.map.show(init=True)
@@ -888,7 +580,7 @@ class Menu:
                                                  figure.name, 18, 17)
                         self.map.name_label_rechar(figure.name)
                     elif i == self.mods_label:
-                        ModInfo(movemap, mods.mod_info)()
+                        ModInfo(mvp.movemap, mods.mod_info)()
                     elif i == self.save_label:
                         # When will python3.10 come out?
                         with InfoBox(&#34;Saving....&#34;, info=&#34;&#34;, _map=self.map):
@@ -901,7 +593,7 @@ class Menu:
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
-                        AchievementOverview()(movemap)
+                        AchievementOverview()(mvp.movemap)
                     else:
                         i.change()
                 elif _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
@@ -917,34 +609,6 @@ class Menu:
 
 # General use functions
 #######################
-
-def check_walk_back(self=None):
-    &#34;&#34;&#34;Check whether the figure has to be walked back to the last Poketecenter
-       or not&#34;&#34;&#34;
-    if all(i.hp &lt;= 0 for i in figure.pokes[:6]):
-        amount = round(figure.get_money() / 3)
-        figure.add_money(-amount)
-        heal()
-        ask_ok(movemap, f&#34;&#34;&#34;All your Poketes have died and you ran
-back to the last Pokecenter you visited, to heal them!
-On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
-        figure.remove()
-        figure.map = figure.last_center_map
-        logging.info(&#34;[Figure] Lost all Poketes and ran away&#34;)
-        DorToCenter().action(figure)
-
-
-def heal():
-    &#34;&#34;&#34;Heals all poketes&#34;&#34;&#34;
-    for poke in figure.pokes:
-        poke.hp = poke.full_hp
-        poke.effects = []
-        poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
-        poke.set_vars()
-        poke.hp_bar.make(poke.hp)
-        movemap.balls_label_rechar(figure.pokes)
-
 
 def autosave():
     &#34;&#34;&#34;Autosaves the game every 5 mins&#34;&#34;&#34;
@@ -1043,7 +707,7 @@ def exiter():
     sys.exit()
 
 
-# Functions needed for movemap
+# Functions needed for mvp.movemap
 ##############################
 
 def codes(string):
@@ -1090,31 +754,32 @@ class ExtraActions:
     @staticmethod
     def playmap_4():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_4&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_4&#34;].lake_1.obs)
 
     @staticmethod
     def playmap_11():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_11&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_11&#34;].lake_1.obs)
 
     @staticmethod
     def playmap_18():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_18&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_18&#34;].lake_1.obs)
 
     @staticmethod
     def playmap_21():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_21&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_21&#34;].lake_1.obs)
 
     @staticmethod
     def playmap_7():
         &#34;&#34;&#34;Cave animation&#34;&#34;&#34;
-        for obj in ob_maps[&#34;playmap_7&#34;].inner_walls.obs\
-                   + [i.main_ob for i in ob_maps[&#34;playmap_7&#34;].trainers]\
-                   + [getattr(ob_maps[&#34;playmap_7&#34;], i)
-                    for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
-                        &#34;playmap_7.&#34; + i not in figure.used_npcs or not save_trainers]:
+        for obj in (obmp.ob_maps[&#34;playmap_7&#34;].inner_walls.obs
+                    + [i.main_ob for i in obmp.ob_maps[&#34;playmap_7&#34;].trainers]
+                    + [getattr(obmp.ob_maps[&#34;playmap_7&#34;], i)
+                       for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
+                       &#34;playmap_7.&#34; + i not in figure.used_npcs or
+                       not save_trainers]):
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) &lt;= 3:
                 obj.rechar(obj.bchar)
@@ -1124,7 +789,7 @@ class ExtraActions:
     @staticmethod
     def playmap_40():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_40&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_40&#34;].lake_1.obs)
 
 
 # main functions
@@ -1135,7 +800,7 @@ def test():
        this will remain&#34;&#34;&#34;
     with BetterChooseBox(3, [se.Text(i, state=&#34;float&#34;) for i in [&#34;Hallo&#34;,
         &#34;Welt&#34;, &#34;Wie&#34;, &#34;Gehts&#34;, &#34;Dir&#34;, &#34;So&#34;, &#34;Du&#34;]],
-        &#34;Test&#34;, _map=movemap) as a:
+        &#34;Test&#34;, _map=mvp.movemap) as a:
         while True:
             if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;]:
                 a.input(_ev.get())
@@ -1158,29 +823,29 @@ def teleport(poke):
     &#34;&#34;&#34;Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation&#34;&#34;&#34;
-    if (obj := roadmap(movemap, choose=True)) is None:
+    if (obj := roadmap(mvp.movemap, choose=True)) is None:
         return
     else:
         if settings(&#34;animations&#34;).val:
-            animations.transition(movemap, poke)
+            animations.transition(mvp.movemap, poke)
         cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
-        Dor(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
+        Door(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
                                           &#34;x&#34;: cen_d[&#34;x&#34;] + 5,
                                           &#34;y&#34;: cen_d[&#34;y&#34;] + 6}).action(figure)
 
 
 def swap_poke():
     &#34;&#34;&#34;Trading with other players in the local network&#34;&#34;&#34;
-    if not ask_bool(movemap, &#34;Do you want to trade with another trainer?&#34;):
+    if not ask_bool(mvp.movemap, &#34;Do you want to trade with another trainer?&#34;):
         return
     port = 65432
     save()
-    do = ask_bool(movemap, &#34;Do you want to be the host?&#34;)
-    if (index := deck(6, &#34;Your deck&#34;, True)) is None:
+    do = ask_bool(mvp.movemap, &#34;Do you want to be the host?&#34;)
+    if (index := deck.deck(6, &#34;Your deck&#34;, True)) is None:
         return
     if do:
         with InfoBox(f&#34;Hostname: {socket.gethostname()}\nWaiting...&#34;,
-                     _map=movemap):
+                     _map=mvp.movemap):
             host = &#39;&#39;
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.bind((host, port))
@@ -1201,18 +866,18 @@ def swap_poke():
     else:
         host = &#34;&#34;
         while host == &#34;&#34;:
-            host = ask_text(movemap, &#34;Please type in the hosts hostname&#34;,
+            host = ask_text(mvp.movemap, &#34;Please type in the hosts hostname&#34;,
                             &#34;Host:&#34;, &#34;&#34;, &#34;Hostname&#34;, 30)
             if host in [&#34;localhost&#34;, &#34;127.0.0.1&#34;, &#34;0.0.0.0&#34;,
                         socket.gethostname()]:
-                ask_ok(movemap,
+                ask_ok(mvp.movemap,
                        &#34;You&#39;re not allowed trade with your self!\nYou fool!&#34;)
                 host = &#34;&#34;
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 sock.connect((host, port))
             except Exception as err:
-                ask_ok(movemap, str(err))
+                ask_ok(mvp.movemap, str(err))
                 return
             sock.sendall(
                     str.encode(
@@ -1224,7 +889,7 @@ def swap_poke():
     logging.info(&#34;[Swap_poke] Recieved %s&#34;, decode_data)
     mod_info = decode_data.get(&#34;mods&#34;, {})
     if mods.mod_info != mod_info:
-        ask_ok(movemap, f&#34;&#34;&#34;Conflicting mod versions!
+        ask_ok(mvp.movemap, f&#34;&#34;&#34;Conflicting mod versions!
 Your mods: {&#39;, &#39;.join(i + &#39;-&#39; + mods.mod_info[i] for i in mods.mod_info)}
 Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mod_info)}&#34;&#34;&#34;)
         return
@@ -1233,22 +898,12 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
                          decode_data[&#34;poke&#34;][&#34;hp&#34;]), index)
     figure.pokes[index].set_ap(decode_data[&#34;poke&#34;][&#34;ap&#34;])
     save()  # to avoid duping
-    ask_ok(movemap,
+    ask_ok(mvp.movemap,
            f&#34;You received: {figure.pokes[index].name.capitalize()} at level \
 {figure.pokes[index].lvl()} from {decode_data[&#39;name&#39;]}.&#34;)
 
 
-def fight(player, enemy, info=None):
-    &#34;&#34;&#34;Wrapper for fightmap.fight
-    ARGS:
-        player: The players Poke
-        enemy: The enemys Poke
-        info: Dict containing info about the fight&#34;&#34;&#34;
-    if info is None:
-        info = {&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;}
-    return fightmap.fight(player, enemy, figure, fightitems, deck, info)
-
-def game(_map):
+def _game(_map):
     &#34;&#34;&#34;Game function
     ARGS:
         _map: The map that will be shown&#34;&#34;&#34;
@@ -1257,18 +912,24 @@ def game(_map):
     print(&#34;\033]0;Pokete - &#34; + _map.pretty_name + &#34;\a&#34;, end=&#34;&#34;)
     if _map.name not in figure.visited_maps:
         figure.visited_maps.append(_map.name)
-    movemap.code_label.rechar(figure.map.pretty_name)
-    movemap.set(0, 0)
-    movemap.bmap = _map
-    movemap.full_show()
-    inp_dict = {&#34;&#39;1&#39;&#34;: [deck, (6, &#34;Your deck&#34;)],
-                &#34;&#39;3&#39;&#34;: [roadmap, (movemap,)],
+    mvp.movemap.code_label.rechar(figure.map.pretty_name)
+    mvp.movemap.set(0, 0)
+    mvp.movemap.bmap = _map
+    mvp.movemap.full_show()
+    inp_dict = {&#34;&#39;1&#39;&#34;: [deck.deck, (6, &#34;Your deck&#34;)],
+                &#34;&#39;3&#39;&#34;: [roadmap, (mvp.movemap,)],
                 &#34;&#39;4&#39;&#34;: [inv, ()],
                 &#34;&#39;5&#39;&#34;: [pokete_dex, ()],
                 &#34;&#39;e&#39;&#34;: [menu, ()],
                 &#34;&#39;?&#39;&#34;: [help_page, ()]}
     if _map.weather is not None:
         notifier.notify(&#34;Weather&#34;, &#34;Info&#34;, _map.weather.info)
+    # get all grass objs
+    all_gras_objs = []
+    if settings(&#34;animations&#34;).val:
+        for meadow in Meadow.all_obs:
+            if meadow.map == _map and meadow.esccode == Color.green:
+                all_gras_objs += meadow.obs
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],
@@ -1283,57 +944,62 @@ def game(_map):
             if _ev.get() in inp_dict:
                 inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
                 _ev.clear()
-                movemap.show(init=True)
+                mvp.movemap.show(init=True)
             elif _ev.get() == &#34;&#39;2&#39;&#34;:
                 _ev.clear()
-                if ask_bool(movemap, &#34;Do you realy want to exit?&#34;):
+                if ask_bool(mvp.movemap, &#34;Do you realy want to exit?&#34;):
                     save()
                     exiter()
             elif _ev.get() == &#34;&#39;:&#39;&#34;:
                 _ev.clear()
-                inp = text_input(movemap.code_label, movemap, &#34;:&#34;,
-                                 movemap.width,
-                                 (movemap.width - 2) * movemap.height - 1)[1:]
-                movemap.code_label.outp(figure.map.pretty_name)
+                inp = text_input(mvp.movemap.code_label, mvp.movemap, &#34;:&#34;,
+                                 mvp.movemap.width,
+                                 (mvp.movemap.width - 2)
+                                 * mvp.movemap.height - 1)[1:]
+                mvp.movemap.code_label.outp(figure.map.pretty_name)
                 codes(inp)
                 _ev.clear()
         std_loop()
         _map.extra_actions()
+        Meadow.moving_grass(all_gras_objs)
         time.sleep(0.05)
-        for statement, x, y in zip([figure.x + 6 &gt; movemap.x + movemap.width,
-                                    figure.x &lt; movemap.x + 6,
-                                    figure.y + 6 &gt; movemap.y + movemap.height,
-                                    figure.y &lt; movemap.y + 6],
+        for statement, x, y in zip([figure.x + 6 &gt; mvp.movemap.x
+                                    + mvp.movemap.width,
+                                    figure.x &lt; mvp.movemap.x + 6,
+                                    figure.y + 6 &gt; mvp.movemap.y
+                                    + mvp.movemap.height,
+                                    figure.y &lt; mvp.movemap.y + 6],
                                    [1, -1, 0, 0], [0, 0, 1, -1]):
             if statement:
-                movemap.set(movemap.x + x, movemap.y + y)
+                mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
         # checking for resizing
         width, height = os.get_terminal_size()
-        if movemap.width != width or movemap.height != height - 1:
-            movemap.resize(height - 1, width, &#34; &#34;)
-        movemap.full_show()
+        if mvp.movemap.width != width or mvp.movemap.height != height - 1:
+            mvp.movemap.resize(height - 1, width, &#34; &#34;)
+        mvp.movemap.full_show()
 
 
 def intro():
     &#34;&#34;&#34;Intro to Pokete&#34;&#34;&#34;
-    movemap.set(0, 0)
-    movemap.bmap = ob_maps[&#34;intromap&#34;]
-    movemap.full_show()
+    mvp.movemap.set(0, 0)
+    mvp.movemap.bmap = obmp.ob_maps[&#34;intromap&#34;]
+    mvp.movemap.full_show()
     while figure.name in [&#34;DEFAULT&#34;, &#34;&#34;]:
-        figure.name = ask_text(movemap,
+        figure.name = ask_text(mvp.movemap,
                                &#34;Welcome to Pokete!\nPlease choose your name!\n&#34;,
                                &#34;Name:&#34;, &#34;&#34;, &#34;Name&#34;, 17)
-    movemap.name_label_rechar(figure.name)
-    movemap.text(4, 3, [&#34; &lt; Hello my child.&#34;,
-                        &#34; &lt; You&#39;re now ten years old.&#34;,
-                        &#34; &lt; And I think it&#39;s now time for you to travel the \
-world and be a Pokete-trainer.&#34;,
-                        &#34; &lt; Therefore I give you this powerfull &#39;Steini&#39;, \
+    mvp.movemap.name_label_rechar(figure.name)
+    mvp.movemap.text(4, 3, [&#34; &lt; Hello my child.&#34;,
+                            &#34; &lt; You&#39;re now ten years old.&#34;,
+                            &#34; &lt; And I think it&#39;s now time for you to travel \
+the world and be a Pokete-trainer.&#34;,
+                            &#34; &lt; Therefore I give you this powerfull &#39;Steini&#39;, \
 15 &#39;Poketeballs&#39; to catch Poketes and a &#34;
-                        &#34;&#39;Healing potion&#39;.&#34;,
-                        &#34; &lt; You will be the best Pokete-Trainer in Nice town.&#34;,
-                        &#34; &lt; Now go out and become the best!&#34;])
-    game(ob_maps[&#34;intromap&#34;])
+                            &#34;&#39;Healing potion&#39;.&#34;,
+                            &#34; &lt; You will be the best Pokete-Trainer in Nice \
+town.&#34;,
+                            &#34; &lt; Now go out and become the best!&#34;])
+    game.game(obmp.ob_maps[&#34;intromap&#34;])
 
 
 def parse_obj(_map, name, obj, _dict):
@@ -1355,17 +1021,16 @@ def gen_obs():
 
     # adding all trainer to map
     for i in trainers:
-        _map = ob_maps[i]
+        _map = obmp.ob_maps[i]
         for j in trainers[i]:
             args = j[&#34;args&#34;]
-            trainer = Trainer(Poke(*j[&#34;poke&#34;], player=False),
-                              *args[:-2], fight)
+            trainer = Trainer(Poke(*j[&#34;poke&#34;], player=False), *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
     # generating objects from map_data
     for ob_map in map_data:
-        _map = ob_maps[ob_map]
+        _map = obmp.ob_maps[ob_map]
         for hard_ob in map_data[ob_map][&#34;hard_obs&#34;]:
             parse_obj(_map, hard_ob,
                       se.Text(map_data[ob_map][&#34;hard_obs&#34;][hard_ob][&#34;txt&#34;],
@@ -1376,11 +1041,11 @@ def gen_obs():
                       Meadow(map_data[ob_map][&#34;soft_obs&#34;][soft_ob][&#34;txt&#34;],
                              _map.poke_args),
                       map_data[ob_map][&#34;soft_obs&#34;][soft_ob])
-        for dor in map_data[ob_map][&#34;dors&#34;]:
-            parse_obj(_map, dor,
-                      Dor(&#34; &#34;, state=&#34;float&#34;,
-                          arg_proto=map_data[ob_map][&#34;dors&#34;][dor][&#34;args&#34;]),
-                      map_data[ob_map][&#34;dors&#34;][dor])
+        for door in map_data[ob_map][&#34;dors&#34;]:
+            parse_obj(_map, door,
+                      Door(&#34; &#34;, state=&#34;float&#34;,
+                           arg_proto=map_data[ob_map][&#34;dors&#34;][door][&#34;args&#34;]),
+                      map_data[ob_map][&#34;dors&#34;][door])
         for ball in map_data[ob_map][&#34;balls&#34;]:
             if f&#39;{ob_map}.{ball}&#39; not in figure.used_npcs or not \
             settings(&#34;save_trainers&#34;).val:
@@ -1389,7 +1054,7 @@ def gen_obs():
                           map_data[ob_map][&#34;balls&#34;][ball])
     # NPCs
     for npc in npcs:
-        parse_obj(ob_maps[npcs[npc][&#34;map&#34;]], npc,
+        parse_obj(obmp.ob_maps[npcs[npc][&#34;map&#34;]], npc,
                   NPC(npc, npcs[npc][&#34;texts&#34;], fn=npcs[npc][&#34;fn&#34;],
                       chat=npcs[npc].get(&#34;chat&#34;, None)),
                   npcs[npc])
@@ -1439,20 +1104,20 @@ def main():
     check_version(session_info)
     if figure.name == &#34;DEFAULT&#34;:
         intro()
-    game(figure.map)
+    game.game(figure.map)
 
 
 def map_additions():
     &#34;&#34;&#34;Applies additions to the maps&#34;&#34;&#34;
 
     # playmap_1
-    _map = ob_maps[&#34;playmap_1&#34;]
-    _map.dor = DorToCenter()
+    _map = obmp.ob_maps[&#34;playmap_1&#34;]
+    _map.dor = DoorToCenter()
     # adding
     _map.dor.add(_map, 25, 4)
 
     # cave_1
-    _map = ob_maps[&#34;cave_1&#34;]
+    _map = obmp.ob_maps[&#34;cave_1&#34;]
     _map.inner = se.Text(&#34;&#34;&#34;##########################################
 ##        ################################
 #         ################################
@@ -1473,26 +1138,26 @@ def map_additions():
 ##############  ##########################
 ##############  ##########################
 ##############  ##########################&#34;&#34;&#34;, ignore=&#34;#&#34;,
-                         ob_class=HightGrass,
+                         ob_class=HighGrass,
                          ob_args=_map.poke_args,
                          state=&#34;float&#34;)
     # adding
     _map.inner.add(_map, 0, 0)
 
     # playmap_3
-    _map = ob_maps[&#34;playmap_3&#34;]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map = obmp.ob_maps[&#34;playmap_3&#34;]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 25, 6)
     _map.shopdor.add(_map, 61, 6)
 
     # playmap_4
-    _map = ob_maps[&#34;playmap_4&#34;]
-    _map.dor_playmap_5 = ChanceDor(&#34;~&#34;, state=&#34;float&#34;,
-                                   arg_proto={&#34;chance&#34;: 6,
-                                              &#34;map&#34;: &#34;playmap_5&#34;,
-                                              &#34;x&#34;: 17, &#34;y&#34;: 16})
+    _map = obmp.ob_maps[&#34;playmap_4&#34;]
+    _map.dor_playmap_5 = ChanceDoor(&#34;~&#34;, state=&#34;float&#34;,
+                                    arg_proto={&#34;chance&#34;: 6,
+                                               &#34;map&#34;: &#34;playmap_5&#34;,
+                                               &#34;x&#34;: 17, &#34;y&#34;: 16})
     _map.lake_1 = Water(
 &#34;&#34;&#34;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
@@ -1510,14 +1175,14 @@ def map_additions():
     _map.lake_1.add(_map, 0, 0)
 
     # playmap_5
-    _map = ob_maps[&#34;playmap_5&#34;]
-    _map.inner = se.Square(&#34; &#34;, 11, 11, state=&#34;float&#34;, ob_class=HightGrass,
+    _map = obmp.ob_maps[&#34;playmap_5&#34;]
+    _map.inner = se.Square(&#34; &#34;, 11, 11, state=&#34;float&#34;, ob_class=HighGrass,
                            ob_args=_map.poke_args)
     # adding
     _map.inner.add(_map, 26, 1)
 
     # playmap_7
-    _map = ob_maps[&#34;playmap_7&#34;]
+    _map = obmp.ob_maps[&#34;playmap_7&#34;]
     _map.inner = se.Text(&#34;&#34;&#34;##############################
 #########        #############
 #########        #############
@@ -1537,7 +1202,7 @@ def map_additions():
 #########             ########
 ###################   ########
 ####################  ########
-##############################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HightGrass,
+##############################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HighGrass,
                          ob_args=_map.poke_args, state=&#34;float&#34;)
     for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
                [getattr(_map, i) for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;]
@@ -1549,7 +1214,7 @@ def map_additions():
     _map.inner.add(_map, 0, 0)
 
     # playmap_9
-    _map = ob_maps[&#34;playmap_9&#34;]
+    _map = obmp.ob_maps[&#34;playmap_9&#34;]
     _map.inner = se.Text(&#34;&#34;&#34;
 #########################
 #########################
@@ -1559,13 +1224,13 @@ def map_additions():
 ##                      #
 #               #########
 ############ ############
-#########################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HightGrass,
+#########################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HighGrass,
                          ob_args=_map.poke_args, state=&#34;float&#34;)
     # adding
     _map.inner.add(_map, 2, 1)
 
     # playmap_11
-    _map = ob_maps[&#34;playmap_11&#34;]
+    _map = obmp.ob_maps[&#34;playmap_11&#34;]
     _map.lake_1 = Water(
 &#34;&#34;&#34;~~~~~                                                 ~~~~~~
 ~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
@@ -1580,15 +1245,15 @@ _map.w_poke_args)
     _map.lake_1.add(_map, 0, 12)
 
     # playmap_13
-    _map = ob_maps[&#34;playmap_13&#34;]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map = obmp.ob_maps[&#34;playmap_13&#34;]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 14, 29)
     _map.shopdor.add(_map, 52, 29)
 
     # playmap_18
-    _map = ob_maps[&#34;playmap_18&#34;]
+    _map = obmp.ob_maps[&#34;playmap_18&#34;]
     _map.lake_1 = Water(&#34;&#34;&#34;  ~~
  ~~~~
 ~~~~~~~
@@ -1602,7 +1267,7 @@ _map.w_poke_args)
     _map.lake_1.add(_map, 72, 7)
 
     # playmap_19
-    _map = ob_maps[&#34;playmap_19&#34;]
+    _map = obmp.ob_maps[&#34;playmap_19&#34;]
     _map.inner = se.Text(&#34;&#34;&#34;                         ####
                          #  #   ############
                          #  #   #          #
@@ -1632,18 +1297,18 @@ _map.w_poke_args)
             # #                   ###########
             # #
             # #
-            ###&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HightGrass,
+            ###&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HighGrass,
                          ob_args=_map.poke_args, state=&#34;float&#34;)
     # adding
     _map.inner.add(_map, 0, 0)
 
     # playmap_21
-    _map = ob_maps[&#34;playmap_21&#34;]
-    _map.dor_playmap_19 = Dor(&#34;_&#34;, state=&#34;float&#34;,
-                              arg_proto={&#34;map&#34;: &#34;playmap_19&#34;,
-                                         &#34;x&#34;: 26, &#34;y&#34;: 1})
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map = obmp.ob_maps[&#34;playmap_21&#34;]
+    _map.dor_playmap_19 = Door(&#34;_&#34;, state=&#34;float&#34;,
+                               arg_proto={&#34;map&#34;: &#34;playmap_19&#34;,
+                                          &#34;x&#34;: 26, &#34;y&#34;: 1})
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     _map.lake_1 = Water(&#34;&#34;&#34;       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1659,15 +1324,15 @@ _map.w_poke_args)
     _map.lake_1.add(_map, 65, 10)
 
     # playmap_30
-    _map = ob_maps[&#34;playmap_30&#34;]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map = obmp.ob_maps[&#34;playmap_30&#34;]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 13, 7)
     _map.shopdor.add(_map, 30, 7)
 
     # playmap_40
-    _map = ob_maps[&#34;playmap_40&#34;]
+    _map = obmp.ob_maps[&#34;playmap_40&#34;]
     _map.lake_1 = Water(&#34;&#34;&#34;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1810,13 +1475,13 @@ if __name__ == &#34;__main__&#34;:
     # but can be extended via map_additions()
     ############################################################
 
-    ob_maps = gen_maps()
+    obmp.ob_maps = gen_maps()
     # Those two maps cant to sourced out, because `height` and `width`
     # are global variables exclusive to pokete.py
     centermap = CenterMap(height - 1, width)
     shopmap = ShopMap(height - 1, width)
-    ob_maps[&#34;centermap&#34;] = centermap
-    ob_maps[&#34;shopmap&#34;] = shopmap
+    obmp.ob_maps[&#34;centermap&#34;] = centermap
+    obmp.ob_maps[&#34;shopmap&#34;] = shopmap
 
     # Figure
     figure = Figure(session_info)
@@ -1826,34 +1491,38 @@ if __name__ == &#34;__main__&#34;:
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
-    movemap = Movemap(ob_maps, height - 1, width)
+    mvp.movemap = mvp.Movemap(height - 1, width)
+
+    # A dict that contains all world action functions for Attacks
+    abb_funcs = {&#34;teleport&#34;: teleport}
 
     # side fn definitions
-    detail = Detail(height - 1, width)
-    pokete_dex = Dex(movemap, figure)
-    help_page = Help(movemap)
-    roadmap = RoadMap(ob_maps, figure)
-    deck = Deck()
-    menu = Menu(movemap)
-    about = About(VERSION, CODENAME, movemap)
-    inv = Inv(movemap)
-    buy = Buy(figure, movemap)
+    detail.detail = detail.Detail(height - 1, width)
+    pokete_dex = Dex(figure)
+    help_page = Help(mvp.movemap)
+    roadmap = RoadMap(figure)
+    deck.deck = deck.Deck(height - 1, width, figure, abb_funcs)
+    menu = Menu(mvp.movemap)
+    about = About(VERSION, CODENAME, mvp.movemap)
+    inv = Inv(mvp.movemap)
+    buy = Buy(figure, mvp.movemap)
+    game.game = _game
+    HighGrass.figure = figure
+    Poketeball.figure = figure
 
     # Achievements
     achievements.set_achieved(session_info.get(&#34;achievements&#34;, []))
     for identifier, args in p_data.achievements.items():
         achievements.add(identifier, **args)
 
-    # A dict that contains all world action functions for Attacks
-    abb_funcs = {&#34;teleport&#34;: teleport}
-
-    # objects relevant for fight()
-    fightmap = FightMap(height - 1, width)
-    fightitems = FightItems(fightmap, movemap, figure, ob_maps)
+    # objects relevant for fm.fight()
+    fm.fight = fm.Fight(figure)
+    fm.fightmap = fm.FightMap(height - 1, width)
+    fm.fightitems = fm.FightItems(figure)
 
     for _i in [NPC, Trainer]:
-        _i.set_vars(movemap, figure, NPCActions, check_walk_back)
-    notifier.set_vars(movemap)
+        _i.set_vars(figure, NPCActions)
+    notifier.set_vars(mvp.movemap)
     figure.set_args(session_info)
 
     __t = time.time() - __t
@@ -1923,32 +1592,6 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
             exiter()</code></pre>
 </details>
 </dd>
-<dt id="pokete.check_walk_back"><code class="name flex">
-<span>def <span class="ident">check_walk_back</span></span>(<span>self=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Check whether the figure has to be walked back to the last Poketecenter
-or not</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def check_walk_back(self=None):
-    &#34;&#34;&#34;Check whether the figure has to be walked back to the last Poketecenter
-       or not&#34;&#34;&#34;
-    if all(i.hp &lt;= 0 for i in figure.pokes[:6]):
-        amount = round(figure.get_money() / 3)
-        figure.add_money(-amount)
-        heal()
-        ask_ok(movemap, f&#34;&#34;&#34;All your Poketes have died and you ran
-back to the last Pokecenter you visited, to heal them!
-On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
-        figure.remove()
-        figure.map = figure.last_center_map
-        logging.info(&#34;[Figure] Lost all Poketes and ran away&#34;)
-        DorToCenter().action(figure)</code></pre>
-</details>
-</dd>
 <dt id="pokete.codes"><code class="name flex">
 <span>def <span class="ident">codes</span></span>(<span>string)</span>
 </code></dt>
@@ -1990,115 +1633,6 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
     sys.exit()</code></pre>
-</details>
-</dd>
-<dt id="pokete.fight"><code class="name flex">
-<span>def <span class="ident">fight</span></span>(<span>player, enemy, info=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Wrapper for fightmap.fight</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>player</code></strong></dt>
-<dd>The players Poke</dd>
-<dt><strong><code>enemy</code></strong></dt>
-<dd>The enemys Poke</dd>
-<dt><strong><code>info</code></strong></dt>
-<dd>Dict containing info about the fight</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def fight(player, enemy, info=None):
-    &#34;&#34;&#34;Wrapper for fightmap.fight
-    ARGS:
-        player: The players Poke
-        enemy: The enemys Poke
-        info: Dict containing info about the fight&#34;&#34;&#34;
-    if info is None:
-        info = {&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;}
-    return fightmap.fight(player, enemy, figure, fightitems, deck, info)</code></pre>
-</details>
-</dd>
-<dt id="pokete.game"><code class="name flex">
-<span>def <span class="ident">game</span></span>(<span>_map)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Game function</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>_map</code></strong></dt>
-<dd>The map that will be shown</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def game(_map):
-    &#34;&#34;&#34;Game function
-    ARGS:
-        _map: The map that will be shown&#34;&#34;&#34;
-    global width, height
-    _ev.clear()
-    print(&#34;\033]0;Pokete - &#34; + _map.pretty_name + &#34;\a&#34;, end=&#34;&#34;)
-    if _map.name not in figure.visited_maps:
-        figure.visited_maps.append(_map.name)
-    movemap.code_label.rechar(figure.map.pretty_name)
-    movemap.set(0, 0)
-    movemap.bmap = _map
-    movemap.full_show()
-    inp_dict = {&#34;&#39;1&#39;&#34;: [deck, (6, &#34;Your deck&#34;)],
-                &#34;&#39;3&#39;&#34;: [roadmap, (movemap,)],
-                &#34;&#39;4&#39;&#34;: [inv, ()],
-                &#34;&#39;5&#39;&#34;: [pokete_dex, ()],
-                &#34;&#39;e&#39;&#34;: [menu, ()],
-                &#34;&#39;?&#39;&#34;: [help_page, ()]}
-    if _map.weather is not None:
-        notifier.notify(&#34;Weather&#34;, &#34;Info&#34;, _map.weather.info)
-    while True:
-        # Directions are not beening used yet
-        for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],
-                                    [&#34;t&#34;, &#34;l&#34;, &#34;b&#34;, &#34;r&#34;],
-                                    [0, -1, 0, 1], [-1, 0, 1, 0]):
-            if _ev.get() == name:
-                figure.direction = _dir
-                figure.set(figure.x + x, figure.y + y)
-                _ev.clear()
-                break
-        else:
-            if _ev.get() in inp_dict:
-                inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
-                _ev.clear()
-                movemap.show(init=True)
-            elif _ev.get() == &#34;&#39;2&#39;&#34;:
-                _ev.clear()
-                if ask_bool(movemap, &#34;Do you realy want to exit?&#34;):
-                    save()
-                    exiter()
-            elif _ev.get() == &#34;&#39;:&#39;&#34;:
-                _ev.clear()
-                inp = text_input(movemap.code_label, movemap, &#34;:&#34;,
-                                 movemap.width,
-                                 (movemap.width - 2) * movemap.height - 1)[1:]
-                movemap.code_label.outp(figure.map.pretty_name)
-                codes(inp)
-                _ev.clear()
-        std_loop()
-        _map.extra_actions()
-        time.sleep(0.05)
-        for statement, x, y in zip([figure.x + 6 &gt; movemap.x + movemap.width,
-                                    figure.x &lt; movemap.x + 6,
-                                    figure.y + 6 &gt; movemap.y + movemap.height,
-                                    figure.y &lt; movemap.y + 6],
-                                   [1, -1, 0, 0], [0, 0, 1, -1]):
-            if statement:
-                movemap.set(movemap.x + x, movemap.y + y)
-        # checking for resizing
-        width, height = os.get_terminal_size()
-        if movemap.width != width or movemap.height != height - 1:
-            movemap.resize(height - 1, width, &#34; &#34;)
-        movemap.full_show()</code></pre>
 </details>
 </dd>
 <dt id="pokete.gen_maps"><code class="name flex">
@@ -2144,17 +1678,16 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
 
     # adding all trainer to map
     for i in trainers:
-        _map = ob_maps[i]
+        _map = obmp.ob_maps[i]
         for j in trainers[i]:
             args = j[&#34;args&#34;]
-            trainer = Trainer(Poke(*j[&#34;poke&#34;], player=False),
-                              *args[:-2], fight)
+            trainer = Trainer(Poke(*j[&#34;poke&#34;], player=False), *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
     # generating objects from map_data
     for ob_map in map_data:
-        _map = ob_maps[ob_map]
+        _map = obmp.ob_maps[ob_map]
         for hard_ob in map_data[ob_map][&#34;hard_obs&#34;]:
             parse_obj(_map, hard_ob,
                       se.Text(map_data[ob_map][&#34;hard_obs&#34;][hard_ob][&#34;txt&#34;],
@@ -2165,11 +1698,11 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
                       Meadow(map_data[ob_map][&#34;soft_obs&#34;][soft_ob][&#34;txt&#34;],
                              _map.poke_args),
                       map_data[ob_map][&#34;soft_obs&#34;][soft_ob])
-        for dor in map_data[ob_map][&#34;dors&#34;]:
-            parse_obj(_map, dor,
-                      Dor(&#34; &#34;, state=&#34;float&#34;,
-                          arg_proto=map_data[ob_map][&#34;dors&#34;][dor][&#34;args&#34;]),
-                      map_data[ob_map][&#34;dors&#34;][dor])
+        for door in map_data[ob_map][&#34;dors&#34;]:
+            parse_obj(_map, door,
+                      Door(&#34; &#34;, state=&#34;float&#34;,
+                           arg_proto=map_data[ob_map][&#34;dors&#34;][door][&#34;args&#34;]),
+                      map_data[ob_map][&#34;dors&#34;][door])
         for ball in map_data[ob_map][&#34;balls&#34;]:
             if f&#39;{ob_map}.{ball}&#39; not in figure.used_npcs or not \
             settings(&#34;save_trainers&#34;).val:
@@ -2178,31 +1711,10 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
                           map_data[ob_map][&#34;balls&#34;][ball])
     # NPCs
     for npc in npcs:
-        parse_obj(ob_maps[npcs[npc][&#34;map&#34;]], npc,
+        parse_obj(obmp.ob_maps[npcs[npc][&#34;map&#34;]], npc,
                   NPC(npc, npcs[npc][&#34;texts&#34;], fn=npcs[npc][&#34;fn&#34;],
                       chat=npcs[npc].get(&#34;chat&#34;, None)),
                   npcs[npc])</code></pre>
-</details>
-</dd>
-<dt id="pokete.heal"><code class="name flex">
-<span>def <span class="ident">heal</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Heals all poketes</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def heal():
-    &#34;&#34;&#34;Heals all poketes&#34;&#34;&#34;
-    for poke in figure.pokes:
-        poke.hp = poke.full_hp
-        poke.effects = []
-        poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
-        poke.set_vars()
-        poke.hp_bar.make(poke.hp)
-        movemap.balls_label_rechar(figure.pokes)</code></pre>
 </details>
 </dd>
 <dt id="pokete.intro"><code class="name flex">
@@ -2216,24 +1728,25 @@ On the way there {amount}$ fell out of your pocket!&#34;&#34;&#34;)
 </summary>
 <pre><code class="python">def intro():
     &#34;&#34;&#34;Intro to Pokete&#34;&#34;&#34;
-    movemap.set(0, 0)
-    movemap.bmap = ob_maps[&#34;intromap&#34;]
-    movemap.full_show()
+    mvp.movemap.set(0, 0)
+    mvp.movemap.bmap = obmp.ob_maps[&#34;intromap&#34;]
+    mvp.movemap.full_show()
     while figure.name in [&#34;DEFAULT&#34;, &#34;&#34;]:
-        figure.name = ask_text(movemap,
+        figure.name = ask_text(mvp.movemap,
                                &#34;Welcome to Pokete!\nPlease choose your name!\n&#34;,
                                &#34;Name:&#34;, &#34;&#34;, &#34;Name&#34;, 17)
-    movemap.name_label_rechar(figure.name)
-    movemap.text(4, 3, [&#34; &lt; Hello my child.&#34;,
-                        &#34; &lt; You&#39;re now ten years old.&#34;,
-                        &#34; &lt; And I think it&#39;s now time for you to travel the \
-world and be a Pokete-trainer.&#34;,
-                        &#34; &lt; Therefore I give you this powerfull &#39;Steini&#39;, \
+    mvp.movemap.name_label_rechar(figure.name)
+    mvp.movemap.text(4, 3, [&#34; &lt; Hello my child.&#34;,
+                            &#34; &lt; You&#39;re now ten years old.&#34;,
+                            &#34; &lt; And I think it&#39;s now time for you to travel \
+the world and be a Pokete-trainer.&#34;,
+                            &#34; &lt; Therefore I give you this powerfull &#39;Steini&#39;, \
 15 &#39;Poketeballs&#39; to catch Poketes and a &#34;
-                        &#34;&#39;Healing potion&#39;.&#34;,
-                        &#34; &lt; You will be the best Pokete-Trainer in Nice town.&#34;,
-                        &#34; &lt; Now go out and become the best!&#34;])
-    game(ob_maps[&#34;intromap&#34;])</code></pre>
+                            &#34;&#39;Healing potion&#39;.&#34;,
+                            &#34; &lt; You will be the best Pokete-Trainer in Nice \
+town.&#34;,
+                            &#34; &lt; Now go out and become the best!&#34;])
+    game.game(obmp.ob_maps[&#34;intromap&#34;])</code></pre>
 </details>
 </dd>
 <dt id="pokete.main"><code class="name flex">
@@ -2257,7 +1770,7 @@ world and be a Pokete-trainer.&#34;,
     check_version(session_info)
     if figure.name == &#34;DEFAULT&#34;:
         intro()
-    game(figure.map)</code></pre>
+    game.game(figure.map)</code></pre>
 </details>
 </dd>
 <dt id="pokete.map_additions"><code class="name flex">
@@ -2273,13 +1786,13 @@ world and be a Pokete-trainer.&#34;,
     &#34;&#34;&#34;Applies additions to the maps&#34;&#34;&#34;
 
     # playmap_1
-    _map = ob_maps[&#34;playmap_1&#34;]
-    _map.dor = DorToCenter()
+    _map = obmp.ob_maps[&#34;playmap_1&#34;]
+    _map.dor = DoorToCenter()
     # adding
     _map.dor.add(_map, 25, 4)
 
     # cave_1
-    _map = ob_maps[&#34;cave_1&#34;]
+    _map = obmp.ob_maps[&#34;cave_1&#34;]
     _map.inner = se.Text(&#34;&#34;&#34;##########################################
 ##        ################################
 #         ################################
@@ -2300,26 +1813,26 @@ world and be a Pokete-trainer.&#34;,
 ##############  ##########################
 ##############  ##########################
 ##############  ##########################&#34;&#34;&#34;, ignore=&#34;#&#34;,
-                         ob_class=HightGrass,
+                         ob_class=HighGrass,
                          ob_args=_map.poke_args,
                          state=&#34;float&#34;)
     # adding
     _map.inner.add(_map, 0, 0)
 
     # playmap_3
-    _map = ob_maps[&#34;playmap_3&#34;]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map = obmp.ob_maps[&#34;playmap_3&#34;]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 25, 6)
     _map.shopdor.add(_map, 61, 6)
 
     # playmap_4
-    _map = ob_maps[&#34;playmap_4&#34;]
-    _map.dor_playmap_5 = ChanceDor(&#34;~&#34;, state=&#34;float&#34;,
-                                   arg_proto={&#34;chance&#34;: 6,
-                                              &#34;map&#34;: &#34;playmap_5&#34;,
-                                              &#34;x&#34;: 17, &#34;y&#34;: 16})
+    _map = obmp.ob_maps[&#34;playmap_4&#34;]
+    _map.dor_playmap_5 = ChanceDoor(&#34;~&#34;, state=&#34;float&#34;,
+                                    arg_proto={&#34;chance&#34;: 6,
+                                               &#34;map&#34;: &#34;playmap_5&#34;,
+                                               &#34;x&#34;: 17, &#34;y&#34;: 16})
     _map.lake_1 = Water(
 &#34;&#34;&#34;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
@@ -2337,14 +1850,14 @@ world and be a Pokete-trainer.&#34;,
     _map.lake_1.add(_map, 0, 0)
 
     # playmap_5
-    _map = ob_maps[&#34;playmap_5&#34;]
-    _map.inner = se.Square(&#34; &#34;, 11, 11, state=&#34;float&#34;, ob_class=HightGrass,
+    _map = obmp.ob_maps[&#34;playmap_5&#34;]
+    _map.inner = se.Square(&#34; &#34;, 11, 11, state=&#34;float&#34;, ob_class=HighGrass,
                            ob_args=_map.poke_args)
     # adding
     _map.inner.add(_map, 26, 1)
 
     # playmap_7
-    _map = ob_maps[&#34;playmap_7&#34;]
+    _map = obmp.ob_maps[&#34;playmap_7&#34;]
     _map.inner = se.Text(&#34;&#34;&#34;##############################
 #########        #############
 #########        #############
@@ -2364,7 +1877,7 @@ world and be a Pokete-trainer.&#34;,
 #########             ########
 ###################   ########
 ####################  ########
-##############################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HightGrass,
+##############################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HighGrass,
                          ob_args=_map.poke_args, state=&#34;float&#34;)
     for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
                [getattr(_map, i) for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;]
@@ -2376,7 +1889,7 @@ world and be a Pokete-trainer.&#34;,
     _map.inner.add(_map, 0, 0)
 
     # playmap_9
-    _map = ob_maps[&#34;playmap_9&#34;]
+    _map = obmp.ob_maps[&#34;playmap_9&#34;]
     _map.inner = se.Text(&#34;&#34;&#34;
 #########################
 #########################
@@ -2386,13 +1899,13 @@ world and be a Pokete-trainer.&#34;,
 ##                      #
 #               #########
 ############ ############
-#########################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HightGrass,
+#########################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HighGrass,
                          ob_args=_map.poke_args, state=&#34;float&#34;)
     # adding
     _map.inner.add(_map, 2, 1)
 
     # playmap_11
-    _map = ob_maps[&#34;playmap_11&#34;]
+    _map = obmp.ob_maps[&#34;playmap_11&#34;]
     _map.lake_1 = Water(
 &#34;&#34;&#34;~~~~~                                                 ~~~~~~
 ~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
@@ -2407,15 +1920,15 @@ _map.w_poke_args)
     _map.lake_1.add(_map, 0, 12)
 
     # playmap_13
-    _map = ob_maps[&#34;playmap_13&#34;]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map = obmp.ob_maps[&#34;playmap_13&#34;]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 14, 29)
     _map.shopdor.add(_map, 52, 29)
 
     # playmap_18
-    _map = ob_maps[&#34;playmap_18&#34;]
+    _map = obmp.ob_maps[&#34;playmap_18&#34;]
     _map.lake_1 = Water(&#34;&#34;&#34;  ~~
  ~~~~
 ~~~~~~~
@@ -2429,7 +1942,7 @@ _map.w_poke_args)
     _map.lake_1.add(_map, 72, 7)
 
     # playmap_19
-    _map = ob_maps[&#34;playmap_19&#34;]
+    _map = obmp.ob_maps[&#34;playmap_19&#34;]
     _map.inner = se.Text(&#34;&#34;&#34;                         ####
                          #  #   ############
                          #  #   #          #
@@ -2459,18 +1972,18 @@ _map.w_poke_args)
             # #                   ###########
             # #
             # #
-            ###&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HightGrass,
+            ###&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HighGrass,
                          ob_args=_map.poke_args, state=&#34;float&#34;)
     # adding
     _map.inner.add(_map, 0, 0)
 
     # playmap_21
-    _map = ob_maps[&#34;playmap_21&#34;]
-    _map.dor_playmap_19 = Dor(&#34;_&#34;, state=&#34;float&#34;,
-                              arg_proto={&#34;map&#34;: &#34;playmap_19&#34;,
-                                         &#34;x&#34;: 26, &#34;y&#34;: 1})
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map = obmp.ob_maps[&#34;playmap_21&#34;]
+    _map.dor_playmap_19 = Door(&#34;_&#34;, state=&#34;float&#34;,
+                               arg_proto={&#34;map&#34;: &#34;playmap_19&#34;,
+                                          &#34;x&#34;: 26, &#34;y&#34;: 1})
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     _map.lake_1 = Water(&#34;&#34;&#34;       ~~~~~~~~~~~
    ~~~~~~~~~~~~~~~~~~
  ~~~~~~~~~~~~~~~~~~~~~~~
@@ -2486,15 +1999,15 @@ _map.w_poke_args)
     _map.lake_1.add(_map, 65, 10)
 
     # playmap_30
-    _map = ob_maps[&#34;playmap_30&#34;]
-    _map.dor = DorToCenter()
-    _map.shopdor = DorToShop()
+    _map = obmp.ob_maps[&#34;playmap_30&#34;]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 13, 7)
     _map.shopdor.add(_map, 30, 7)
 
     # playmap_40
-    _map = ob_maps[&#34;playmap_40&#34;]
+    _map = obmp.ob_maps[&#34;playmap_40&#34;]
     _map.lake_1 = Water(&#34;&#34;&#34;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2712,16 +2225,16 @@ _map.w_poke_args)
 </summary>
 <pre><code class="python">def swap_poke():
     &#34;&#34;&#34;Trading with other players in the local network&#34;&#34;&#34;
-    if not ask_bool(movemap, &#34;Do you want to trade with another trainer?&#34;):
+    if not ask_bool(mvp.movemap, &#34;Do you want to trade with another trainer?&#34;):
         return
     port = 65432
     save()
-    do = ask_bool(movemap, &#34;Do you want to be the host?&#34;)
-    if (index := deck(6, &#34;Your deck&#34;, True)) is None:
+    do = ask_bool(mvp.movemap, &#34;Do you want to be the host?&#34;)
+    if (index := deck.deck(6, &#34;Your deck&#34;, True)) is None:
         return
     if do:
         with InfoBox(f&#34;Hostname: {socket.gethostname()}\nWaiting...&#34;,
-                     _map=movemap):
+                     _map=mvp.movemap):
             host = &#39;&#39;
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.bind((host, port))
@@ -2742,18 +2255,18 @@ _map.w_poke_args)
     else:
         host = &#34;&#34;
         while host == &#34;&#34;:
-            host = ask_text(movemap, &#34;Please type in the hosts hostname&#34;,
+            host = ask_text(mvp.movemap, &#34;Please type in the hosts hostname&#34;,
                             &#34;Host:&#34;, &#34;&#34;, &#34;Hostname&#34;, 30)
             if host in [&#34;localhost&#34;, &#34;127.0.0.1&#34;, &#34;0.0.0.0&#34;,
                         socket.gethostname()]:
-                ask_ok(movemap,
+                ask_ok(mvp.movemap,
                        &#34;You&#39;re not allowed trade with your self!\nYou fool!&#34;)
                 host = &#34;&#34;
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 sock.connect((host, port))
             except Exception as err:
-                ask_ok(movemap, str(err))
+                ask_ok(mvp.movemap, str(err))
                 return
             sock.sendall(
                     str.encode(
@@ -2765,7 +2278,7 @@ _map.w_poke_args)
     logging.info(&#34;[Swap_poke] Recieved %s&#34;, decode_data)
     mod_info = decode_data.get(&#34;mods&#34;, {})
     if mods.mod_info != mod_info:
-        ask_ok(movemap, f&#34;&#34;&#34;Conflicting mod versions!
+        ask_ok(mvp.movemap, f&#34;&#34;&#34;Conflicting mod versions!
 Your mods: {&#39;, &#39;.join(i + &#39;-&#39; + mods.mod_info[i] for i in mods.mod_info)}
 Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mod_info)}&#34;&#34;&#34;)
         return
@@ -2774,7 +2287,7 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
                          decode_data[&#34;poke&#34;][&#34;hp&#34;]), index)
     figure.pokes[index].set_ap(decode_data[&#34;poke&#34;][&#34;ap&#34;])
     save()  # to avoid duping
-    ask_ok(movemap,
+    ask_ok(mvp.movemap,
            f&#34;You received: {figure.pokes[index].name.capitalize()} at level \
 {figure.pokes[index].lvl()} from {decode_data[&#39;name&#39;]}.&#34;)</code></pre>
 </details>
@@ -2797,13 +2310,13 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
     &#34;&#34;&#34;Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation&#34;&#34;&#34;
-    if (obj := roadmap(movemap, choose=True)) is None:
+    if (obj := roadmap(mvp.movemap, choose=True)) is None:
         return
     else:
         if settings(&#34;animations&#34;).val:
-            animations.transition(movemap, poke)
+            animations.transition(mvp.movemap, poke)
         cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
-        Dor(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
+        Door(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
                                           &#34;x&#34;: cen_d[&#34;x&#34;] + 5,
                                           &#34;y&#34;: cen_d[&#34;y&#34;] + 6}).action(figure)</code></pre>
 </details>
@@ -2823,7 +2336,7 @@ this will remain</p></div>
        this will remain&#34;&#34;&#34;
     with BetterChooseBox(3, [se.Text(i, state=&#34;float&#34;) for i in [&#34;Hallo&#34;,
         &#34;Welt&#34;, &#34;Wie&#34;, &#34;Gehts&#34;, &#34;Dir&#34;, &#34;So&#34;, &#34;Du&#34;]],
-        &#34;Test&#34;, _map=movemap) as a:
+        &#34;Test&#34;, _map=mvp.movemap) as a:
         while True:
             if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;]:
                 a.input(_ev.get())
@@ -2847,75 +2360,6 @@ this will remain</p></div>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pokete.CenterDor"><code class="flex name class">
-<span>class <span class="ident">CenterDor</span></span>
-<span>(</span><span>char, state=None, arg_proto=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Dor class for the map to enter centers and shops</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class CenterDor(se.Object):
-    &#34;&#34;&#34;Dor class for the map to enter centers and shops&#34;&#34;&#34;
-
-    def action(self, ob):
-        &#34;&#34;&#34;Trigger
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        ob.remove()
-        i = ob.map.name
-        ob.add(ob.oldmap,
-               ob.oldmap.dor.x
-               if ob.map == centermap
-               else ob.oldmap.shopdor.x,
-               ob.oldmap.dor.y + 1
-               if ob.map == centermap
-               else ob.oldmap.shopdor.y + 1)
-        ob.oldmap = ob_maps[i]
-        game(ob.map)</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>scrap_engine.Object</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete.CenterDor.action"><code class="name flex">
-<span>def <span class="ident">action</span></span>(<span>self, ob)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Trigger</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>ob</code></strong></dt>
-<dd>The object triggering this action</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def action(self, ob):
-    &#34;&#34;&#34;Trigger
-    ARGS:
-        ob: The object triggering this action&#34;&#34;&#34;
-    ob.remove()
-    i = ob.map.name
-    ob.add(ob.oldmap,
-           ob.oldmap.dor.x
-           if ob.map == centermap
-           else ob.oldmap.shopdor.x,
-           ob.oldmap.dor.y + 1
-           if ob.map == centermap
-           else ob.oldmap.shopdor.y + 1)
-    ob.oldmap = ob_maps[i]
-    game(ob.map)</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
 <dt id="pokete.CenterInteract"><code class="flex name class">
 <span>class <span class="ident">CenterInteract</span></span>
 <span>(</span><span>char, state=None, arg_proto=None)</span>
@@ -2934,11 +2378,11 @@ this will remain</p></div>
         ARGS:
             ob: The object triggering this action&#34;&#34;&#34;
         _ev.clear()
-        movemap.full_show()
-        movemap.text(int(movemap.width / 2), 3,
-                     [&#34; &lt; Welcome to the Pokete-Center&#34;,
-                      &#34; &lt; What do you want to do?&#34;,
-                      &#34; &lt; a: See your full deck\n b: Heal all your Poketes\
+        mvp.movemap.full_show()
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [&#34; &lt; Welcome to the Pokete-Center&#34;,
+                          &#34; &lt; What do you want to do?&#34;,
+                          &#34; &lt; a: See your full deck\n b: Heal all your Poketes\
 \n c: Go&#34;])
         while True:
             if _ev.get() == &#34;&#39;a&#39;&#34;:
@@ -2946,23 +2390,22 @@ this will remain</p></div>
                 while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index(&#34;__fallback__&#34;))
-                movemap.balls_label_rechar(figure.pokes)
-                deck(len(figure.pokes))
+                mvp.movemap.balls_label_rechar(figure.pokes)
+                deck.deck(len(figure.pokes))
                 break
             elif _ev.get() == &#34;&#39;b&#39;&#34;:
                 _ev.clear()
-                heal()
+                heal(figure)
                 time.sleep(0.5)
-                movemap.text(int(movemap.width / 2), 3, [&#34; &lt; ...&#34;,
-                                                         &#34; &lt; Your Poketes are \
-now healed!&#34;])
+                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                                 [&#34; &lt; ...&#34;, &#34; &lt; Your Poketes are now healed!&#34;])
                 break
             elif _ev.get() == &#34;&#39;c&#39;&#34;:
                 _ev.clear()
                 break
             std_loop()
             time.sleep(0.05)
-        movemap.full_show(init=True)</code></pre>
+        mvp.movemap.full_show(init=True)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -2990,11 +2433,11 @@ now healed!&#34;])
         ARGS:
             ob: The object triggering this action&#34;&#34;&#34;
         _ev.clear()
-        movemap.full_show()
-        movemap.text(int(movemap.width / 2), 3,
-                     [&#34; &lt; Welcome to the Pokete-Center&#34;,
-                      &#34; &lt; What do you want to do?&#34;,
-                      &#34; &lt; a: See your full deck\n b: Heal all your Poketes\
+        mvp.movemap.full_show()
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [&#34; &lt; Welcome to the Pokete-Center&#34;,
+                          &#34; &lt; What do you want to do?&#34;,
+                          &#34; &lt; a: See your full deck\n b: Heal all your Poketes\
 \n c: Go&#34;])
         while True:
             if _ev.get() == &#34;&#39;a&#39;&#34;:
@@ -3002,23 +2445,22 @@ now healed!&#34;])
                 while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index(&#34;__fallback__&#34;))
-                movemap.balls_label_rechar(figure.pokes)
-                deck(len(figure.pokes))
+                mvp.movemap.balls_label_rechar(figure.pokes)
+                deck.deck(len(figure.pokes))
                 break
             elif _ev.get() == &#34;&#39;b&#39;&#34;:
                 _ev.clear()
-                heal()
+                heal(figure)
                 time.sleep(0.5)
-                movemap.text(int(movemap.width / 2), 3, [&#34; &lt; ...&#34;,
-                                                         &#34; &lt; Your Poketes are \
-now healed!&#34;])
+                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                                 [&#34; &lt; ...&#34;, &#34; &lt; Your Poketes are now healed!&#34;])
                 break
             elif _ev.get() == &#34;&#39;c&#39;&#34;:
                 _ev.clear()
                 break
             std_loop()
             time.sleep(0.05)
-        movemap.full_show(init=True)</code></pre>
+        mvp.movemap.full_show(init=True)</code></pre>
 </details>
 </dd>
 </dl>
@@ -3058,8 +2500,8 @@ now healed!&#34;])
  |_____|  |_____|&#34;&#34;&#34;, ignore=&#34; &#34;)
 
         self.interact = CenterInteract(&#34;¯&#34;, state=&#34;float&#34;)
-        self.dor_back1 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
-        self.dor_back2 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
+        self.dor_back1 = CenterDoor(&#34; &#34;, state=&#34;float&#34;)
+        self.dor_back2 = CenterDoor(&#34; &#34;, state=&#34;float&#34;)
         self.trader = NPC(&#34;trader&#34;,
                           [&#34; &lt; I&#39;m a trader.&#34;,
                            &#34; &lt; Here you can trade one of your Poketes for \
@@ -3076,41 +2518,6 @@ another players&#39; one.&#34;],
 <ul class="hlist">
 <li>pokete_classes.classes.PlayMap</li>
 <li>scrap_engine.Map</li>
-</ul>
-</dd>
-<dt id="pokete.ChanceDor"><code class="flex name class">
-<span>class <span class="ident">ChanceDor</span></span>
-<span>(</span><span>char, state=None, arg_proto=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Same as dor but with a chance</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ChanceDor(Dor):
-    &#34;&#34;&#34;Same as dor but with a chance&#34;&#34;&#34;
-
-    def action(self, ob):
-        &#34;&#34;&#34;Trigger
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        if random.randint(0, self.arg_proto[&#34;chance&#34;]) == 0:
-            super().action(ob)</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pokete.Dor" href="#pokete.Dor">Dor</a></li>
-<li>scrap_engine.Object</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete.Dor" href="#pokete.Dor">Dor</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete.Dor.action" href="#pokete.Dor.action">action</a></code></li>
-</ul>
-</li>
 </ul>
 </dd>
 <dt id="pokete.Debug"><code class="flex name class">
@@ -3149,447 +2556,6 @@ def pos(cls):
 </dd>
 </dl>
 </dd>
-<dt id="pokete.Deck"><code class="flex name class">
-<span>class <span class="ident">Deck</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Deck to see Poketes in</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Deck(Informer):
-    &#34;&#34;&#34;Deck to see Poketes in&#34;&#34;&#34;
-
-    def __init__(self):
-        self.map = se.Map(height - 1, width, &#34; &#34;)
-        self.submap = se.Submap(self.map, 0, 0, height=height - 1, width=width)
-        self.exit_label = se.Text(&#34;1: Exit  &#34;)
-        self.move_label = se.Text(&#34;2: Move    &#34;)
-        self.move_free = se.Text(&#34;3: Free&#34;)
-        self.index = se.Object(&#34;*&#34;)
-        # adding
-        self.exit_label.add(self.submap, 0, self.submap.height - 1)
-        self.move_label.add(self.submap, 9, self.submap.height - 1)
-        self.move_free.add(self.submap, 20, self.submap.height - 1)
-
-    def rem_pokes(self, pokes):
-        &#34;&#34;&#34;Removes all Poketes from the Deck
-        ARGS:
-            pokes: List of Pokes beeing removed&#34;&#34;&#34;
-        for poke in pokes:
-            self.remove(poke)
-
-    def __call__(self, p_len, label=&#34;Your full deck&#34;, in_fight=False):
-        &#34;&#34;&#34;Opens the deck
-        ARGS:
-            p_len: Number of Pokes beeing included
-            label: The displayed label
-            in_fight: Whether or not this is called in a fight&#34;&#34;&#34;
-        _ev.clear()
-        pokes = figure.pokes[:p_len]
-        ret_action = None
-        self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, width,
-                        self.map.background)
-        # decksubmap.resize(height-1, width)
-        se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
-        se.Square(&#34;|&#34;, 1, self.map.height - 2).add(self.map,
-                                                   round(self.map.width / 2),
-                                                   1)
-        StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
-        self.move_label.rechar(&#34;2: Move    &#34;)
-        indici = []
-        self.add_all(pokes, True)
-        self.index.index = 0
-        if len(pokes) &gt; 0:
-            self.index.add(self.map,
-                           pokes[self.index.index].text_name.x
-                            + len(pokes[self.index.index].text_name.text)
-                            + 1,
-                           pokes[self.index.index].text_name.y)
-        self.submap.full_show(init=True)
-        while True:
-            if _ev.get() in [&#34;&#39;1&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                _ev.clear()
-                self.rem_pokes(pokes)
-                while len(self.map.obs) &gt; 0:
-                    self.map.obs[0].remove()
-                self.submap.set(0, 0)
-                if ret_action is not None:
-                    abb_funcs[ret_action](pokes[self.index.index])
-                return None
-            elif _ev.get() == &#34;&#39;2&#39;&#34;:
-                _ev.clear()
-                if len(pokes) == 0:
-                    continue
-                if not indici:
-                    indici.append(self.index.index)
-                    self.move_label.rechar(&#34;2: Move to &#34;)
-                else:
-                    indici.append(self.index.index)
-                    figure.pokes[indici[0]], figure.pokes[indici[1]] = \
-                        pokes[indici[1]], pokes[indici[0]]
-                    pokes = figure.pokes[:p_len]
-                    indici = []
-                    self.rem_pokes(pokes)
-                    self.index.set(0, self.map.height - 1)
-                    self.add_all(pokes)
-                    self.index.set(
-                        pokes[self.index.index].text_name.x
-                         + len(pokes[self.index.index].text_name.text) + 1,
-                        pokes[self.index.index].text_name.y)
-                    self.move_label.rechar(&#34;2: Move    &#34;)
-                    self.submap.full_show()
-            elif _ev.get() == &#34;&#39;3&#39;&#34;:
-                _ev.clear()
-                if ask_bool(self.submap, f&#34;Do you really want to free \
-{figure.pokes[self.index.index].name}?&#34;):
-                    self.rem_pokes(pokes)
-                    figure.pokes[self.index.index] = Poke(&#34;__fallback__&#34;, 10, 0)
-                    pokes = figure.pokes[:len(pokes)]
-                    self.add_all(pokes)
-                    self.index.set(
-                        pokes[self.index.index].text_name.x
-                         + len(pokes[self.index.index].text_name.text)
-                         + 1,
-                        pokes[self.index.index].text_name.y)
-                    movemap.balls_label_rechar(figure.pokes)
-            elif _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;]:
-                self.control(pokes, _ev.get())
-                _ev.clear()
-            elif _ev.get() == &#34;Key.enter&#34;:
-                _ev.clear()
-                if len(pokes) == 0:
-                    continue
-                if in_fight:
-                    if pokes[self.index.index].hp &gt; 0:
-                        self.rem_pokes(pokes)
-                        while len(self.map.obs) &gt; 0:
-                            self.map.obs[0].remove()
-                        self.submap.set(0, 0)
-                        return self.index.index
-                else:
-                    self.rem_pokes(pokes)
-                    ret_action = detail(pokes[self.index.index])
-                    self.add_all(pokes)
-                    if ret_action is not None:
-                        _ev.set(&#34;&#39;q&#39;&#34;)
-                        continue
-                    self.submap.full_show(init=True)
-            std_loop(False)
-            if len(pokes) &gt; 0 and\
-                    self.index.y - self.submap.y + 6 &gt; self.submap.height:
-                self.submap.set(self.submap.x, self.submap.y + 1)
-            elif len(pokes) &gt; 0 and self.index.y - 1 &lt; self.submap.y:
-                self.submap.set(self.submap.x, self.submap.y - 1)
-            time.sleep(0.05)
-            self.submap.full_show()
-
-    def add_all(self, pokes, init=False):
-        &#34;&#34;&#34;Adds all Poketes to the deck
-        ARGS:
-            pokes: List of all Pokes beeing added
-            init: Whether or not this happens for the first time&#34;&#34;&#34;
-        j = 0
-        for i, poke in enumerate(pokes):
-            self.add(poke, figure, self.map,
-                     1 if i % 2 == 0
-                     else round(self.map.width / 2) + 1, j * 5 + 1)
-            if i % 2 == 0 and init:
-                se.Square(&#34;-&#34;, self.map.width - 2, 1).add(self.map, 1,
-                                                          j * 5 + 5)
-            if i % 2 == 1:
-                j += 1
-
-    def control(self, pokes, inp):
-        &#34;&#34;&#34;Processes inputs
-        ARGS:
-            pokes: List of all Pokes in deck
-            inp: Inputted string&#34;&#34;&#34;
-        if len(pokes) &lt;= 1:
-            return
-        for con, stat, fir, sec in zip([&#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
-                                       [self.index.index != 0,
-                                        self.index.index != len(pokes) - 1,
-                                        self.index.index + 2 &lt; len(pokes),
-                                        self.index.index - 2 &gt;= 0],
-                                       [-1, 1, 2, -2],
-                                       [len(pokes) - 1, 0,
-                                        self.index.index % 2,
-                                        [i for i in range(len(pokes))
-                                            if i % 2 ==
-                                            self.index.index % 2][-1]]):
-            if inp == con:
-                if stat:
-                    self.index.index += fir
-                else:
-                    self.index.index = sec
-                break
-        self.index.set(pokes[self.index.index].text_name.x
-                        + len(pokes[self.index.index].text_name.text) + 1,
-                       pokes[self.index.index].text_name.y)</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>pokete_classes.detail.Informer</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete.Deck.add_all"><code class="name flex">
-<span>def <span class="ident">add_all</span></span>(<span>self, pokes, init=False)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Adds all Poketes to the deck</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>pokes</code></strong></dt>
-<dd>List of all Pokes beeing added</dd>
-<dt><strong><code>init</code></strong></dt>
-<dd>Whether or not this happens for the first time</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def add_all(self, pokes, init=False):
-    &#34;&#34;&#34;Adds all Poketes to the deck
-    ARGS:
-        pokes: List of all Pokes beeing added
-        init: Whether or not this happens for the first time&#34;&#34;&#34;
-    j = 0
-    for i, poke in enumerate(pokes):
-        self.add(poke, figure, self.map,
-                 1 if i % 2 == 0
-                 else round(self.map.width / 2) + 1, j * 5 + 1)
-        if i % 2 == 0 and init:
-            se.Square(&#34;-&#34;, self.map.width - 2, 1).add(self.map, 1,
-                                                      j * 5 + 5)
-        if i % 2 == 1:
-            j += 1</code></pre>
-</details>
-</dd>
-<dt id="pokete.Deck.control"><code class="name flex">
-<span>def <span class="ident">control</span></span>(<span>self, pokes, inp)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Processes inputs</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>pokes</code></strong></dt>
-<dd>List of all Pokes in deck</dd>
-<dt><strong><code>inp</code></strong></dt>
-<dd>Inputted string</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def control(self, pokes, inp):
-    &#34;&#34;&#34;Processes inputs
-    ARGS:
-        pokes: List of all Pokes in deck
-        inp: Inputted string&#34;&#34;&#34;
-    if len(pokes) &lt;= 1:
-        return
-    for con, stat, fir, sec in zip([&#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;],
-                                   [self.index.index != 0,
-                                    self.index.index != len(pokes) - 1,
-                                    self.index.index + 2 &lt; len(pokes),
-                                    self.index.index - 2 &gt;= 0],
-                                   [-1, 1, 2, -2],
-                                   [len(pokes) - 1, 0,
-                                    self.index.index % 2,
-                                    [i for i in range(len(pokes))
-                                        if i % 2 ==
-                                        self.index.index % 2][-1]]):
-        if inp == con:
-            if stat:
-                self.index.index += fir
-            else:
-                self.index.index = sec
-            break
-    self.index.set(pokes[self.index.index].text_name.x
-                    + len(pokes[self.index.index].text_name.text) + 1,
-                   pokes[self.index.index].text_name.y)</code></pre>
-</details>
-</dd>
-<dt id="pokete.Deck.rem_pokes"><code class="name flex">
-<span>def <span class="ident">rem_pokes</span></span>(<span>self, pokes)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Removes all Poketes from the Deck</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>pokes</code></strong></dt>
-<dd>List of Pokes beeing removed</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def rem_pokes(self, pokes):
-    &#34;&#34;&#34;Removes all Poketes from the Deck
-    ARGS:
-        pokes: List of Pokes beeing removed&#34;&#34;&#34;
-    for poke in pokes:
-        self.remove(poke)</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
-<dt id="pokete.Dor"><code class="flex name class">
-<span>class <span class="ident">Dor</span></span>
-<span>(</span><span>char, state=None, arg_proto=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Dor class for the map to enter other maps</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Dor(se.Object):
-    &#34;&#34;&#34;Dor class for the map to enter other maps&#34;&#34;&#34;
-
-    def action(self, ob):
-        &#34;&#34;&#34;Trigger
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        ob.remove()
-        i = ob.map.name
-        ob.add(ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
-               self.arg_proto[&#34;y&#34;])
-        ob.oldmap = ob_maps[i]
-        game(ob_maps[self.arg_proto[&#34;map&#34;]])</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>scrap_engine.Object</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="pokete.ChanceDor" href="#pokete.ChanceDor">ChanceDor</a></li>
-<li><a title="pokete.DorToCenter" href="#pokete.DorToCenter">DorToCenter</a></li>
-<li><a title="pokete.DorToShop" href="#pokete.DorToShop">DorToShop</a></li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete.Dor.action"><code class="name flex">
-<span>def <span class="ident">action</span></span>(<span>self, ob)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Trigger</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>ob</code></strong></dt>
-<dd>The object triggering this action</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def action(self, ob):
-    &#34;&#34;&#34;Trigger
-    ARGS:
-        ob: The object triggering this action&#34;&#34;&#34;
-    ob.remove()
-    i = ob.map.name
-    ob.add(ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
-           self.arg_proto[&#34;y&#34;])
-    ob.oldmap = ob_maps[i]
-    game(ob_maps[self.arg_proto[&#34;map&#34;]])</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
-<dt id="pokete.DorToCenter"><code class="flex name class">
-<span>class <span class="ident">DorToCenter</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Dor that leads to the Pokete center</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class DorToCenter(Dor):
-    &#34;&#34;&#34;Dor that leads to the Pokete center&#34;&#34;&#34;
-
-    def __init__(self):
-        super().__init__(&#34;#&#34;, state=&#34;float&#34;,
-                         arg_proto={&#34;map&#34;: &#34;centermap&#34;,
-                                    &#34;x&#34;: int(centermap.width / 2), &#34;y&#34;: 7})
-
-    def action(self, ob):
-        &#34;&#34;&#34;Triggers the dor
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        ob.last_center_map = ob.map
-        super().action(ob)</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pokete.Dor" href="#pokete.Dor">Dor</a></li>
-<li>scrap_engine.Object</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete.DorToCenter.action"><code class="name flex">
-<span>def <span class="ident">action</span></span>(<span>self, ob)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Triggers the dor</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>ob</code></strong></dt>
-<dd>The object triggering this action</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def action(self, ob):
-    &#34;&#34;&#34;Triggers the dor
-    ARGS:
-        ob: The object triggering this action&#34;&#34;&#34;
-    ob.last_center_map = ob.map
-    super().action(ob)</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
-<dt id="pokete.DorToShop"><code class="flex name class">
-<span>class <span class="ident">DorToShop</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Dor that leads to the shop</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class DorToShop(Dor):
-    &#34;&#34;&#34;Dor that leads to the shop&#34;&#34;&#34;
-
-    def __init__(self):
-        super().__init__(&#34;#&#34;, state=&#34;float&#34;,
-                         arg_proto={&#34;map&#34;: &#34;shopmap&#34;,
-                                    &#34;x&#34;: int(shopmap.width / 2), &#34;y&#34;: 7})</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pokete.Dor" href="#pokete.Dor">Dor</a></li>
-<li>scrap_engine.Object</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pokete.Dor" href="#pokete.Dor">Dor</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pokete.Dor.action" href="#pokete.Dor.action">action</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
 <dt id="pokete.ExtraActions"><code class="flex name class">
 <span>class <span class="ident">ExtraActions</span></span>
 </code></dt>
@@ -3621,31 +2587,32 @@ def pos(cls):
     @staticmethod
     def playmap_4():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_4&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_4&#34;].lake_1.obs)
 
     @staticmethod
     def playmap_11():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_11&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_11&#34;].lake_1.obs)
 
     @staticmethod
     def playmap_18():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_18&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_18&#34;].lake_1.obs)
 
     @staticmethod
     def playmap_21():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_21&#34;].lake_1.obs)
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_21&#34;].lake_1.obs)
 
     @staticmethod
     def playmap_7():
         &#34;&#34;&#34;Cave animation&#34;&#34;&#34;
-        for obj in ob_maps[&#34;playmap_7&#34;].inner_walls.obs\
-                   + [i.main_ob for i in ob_maps[&#34;playmap_7&#34;].trainers]\
-                   + [getattr(ob_maps[&#34;playmap_7&#34;], i)
-                    for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
-                        &#34;playmap_7.&#34; + i not in figure.used_npcs or not save_trainers]:
+        for obj in (obmp.ob_maps[&#34;playmap_7&#34;].inner_walls.obs
+                    + [i.main_ob for i in obmp.ob_maps[&#34;playmap_7&#34;].trainers]
+                    + [getattr(obmp.ob_maps[&#34;playmap_7&#34;], i)
+                       for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
+                       &#34;playmap_7.&#34; + i not in figure.used_npcs or
+                       not save_trainers]):
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) &lt;= 3:
                 obj.rechar(obj.bchar)
@@ -3655,7 +2622,7 @@ def pos(cls):
     @staticmethod
     def playmap_40():
         &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-        ExtraActions.water(ob_maps[&#34;playmap_40&#34;].lake_1.obs)</code></pre>
+        ExtraActions.water(obmp.ob_maps[&#34;playmap_40&#34;].lake_1.obs)</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
@@ -3671,7 +2638,7 @@ def pos(cls):
 <pre><code class="python">@staticmethod
 def playmap_11():
     &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-    ExtraActions.water(ob_maps[&#34;playmap_11&#34;].lake_1.obs)</code></pre>
+    ExtraActions.water(obmp.ob_maps[&#34;playmap_11&#34;].lake_1.obs)</code></pre>
 </details>
 </dd>
 <dt id="pokete.ExtraActions.playmap_18"><code class="name flex">
@@ -3686,7 +2653,7 @@ def playmap_11():
 <pre><code class="python">@staticmethod
 def playmap_18():
     &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-    ExtraActions.water(ob_maps[&#34;playmap_18&#34;].lake_1.obs)</code></pre>
+    ExtraActions.water(obmp.ob_maps[&#34;playmap_18&#34;].lake_1.obs)</code></pre>
 </details>
 </dd>
 <dt id="pokete.ExtraActions.playmap_21"><code class="name flex">
@@ -3701,7 +2668,7 @@ def playmap_18():
 <pre><code class="python">@staticmethod
 def playmap_21():
     &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-    ExtraActions.water(ob_maps[&#34;playmap_21&#34;].lake_1.obs)</code></pre>
+    ExtraActions.water(obmp.ob_maps[&#34;playmap_21&#34;].lake_1.obs)</code></pre>
 </details>
 </dd>
 <dt id="pokete.ExtraActions.playmap_4"><code class="name flex">
@@ -3716,7 +2683,7 @@ def playmap_21():
 <pre><code class="python">@staticmethod
 def playmap_4():
     &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-    ExtraActions.water(ob_maps[&#34;playmap_4&#34;].lake_1.obs)</code></pre>
+    ExtraActions.water(obmp.ob_maps[&#34;playmap_4&#34;].lake_1.obs)</code></pre>
 </details>
 </dd>
 <dt id="pokete.ExtraActions.playmap_40"><code class="name flex">
@@ -3731,7 +2698,7 @@ def playmap_4():
 <pre><code class="python">@staticmethod
 def playmap_40():
     &#34;&#34;&#34;Water animation&#34;&#34;&#34;
-    ExtraActions.water(ob_maps[&#34;playmap_40&#34;].lake_1.obs)</code></pre>
+    ExtraActions.water(obmp.ob_maps[&#34;playmap_40&#34;].lake_1.obs)</code></pre>
 </details>
 </dd>
 <dt id="pokete.ExtraActions.playmap_7"><code class="name flex">
@@ -3746,11 +2713,12 @@ def playmap_40():
 <pre><code class="python">@staticmethod
 def playmap_7():
     &#34;&#34;&#34;Cave animation&#34;&#34;&#34;
-    for obj in ob_maps[&#34;playmap_7&#34;].inner_walls.obs\
-               + [i.main_ob for i in ob_maps[&#34;playmap_7&#34;].trainers]\
-               + [getattr(ob_maps[&#34;playmap_7&#34;], i)
-                for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
-                    &#34;playmap_7.&#34; + i not in figure.used_npcs or not save_trainers]:
+    for obj in (obmp.ob_maps[&#34;playmap_7&#34;].inner_walls.obs
+                + [i.main_ob for i in obmp.ob_maps[&#34;playmap_7&#34;].trainers]
+                + [getattr(obmp.ob_maps[&#34;playmap_7&#34;], i)
+                   for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
+                   &#34;playmap_7.&#34; + i not in figure.used_npcs or
+                   not save_trainers]):
         if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                    + (obj.x - figure.x) ** 2) &lt;= 3:
             obj.rechar(obj.bchar)
@@ -3824,8 +2792,9 @@ def water(obs):
         self.caught_pokes = _si.get(&#34;caught_poketes&#34;, [])
         self.visited_maps = _si.get(&#34;visited_maps&#34;, [&#34;playmap_1&#34;])
         self.used_npcs = _si.get(&#34;used_npcs&#34;, [])
-        self.last_center_map = ob_maps[_si.get(&#34;last_center_map&#34;, &#34;playmap_1&#34;)]
-        self.oldmap = ob_maps[_si.get(&#34;oldmap&#34;, &#34;playmap_1&#34;)]
+        self.last_center_map = obmp.ob_maps[_si.get(&#34;last_center_map&#34;,
+                                                    &#34;playmap_1&#34;)]
+        self.oldmap = obmp.ob_maps[_si.get(&#34;oldmap&#34;, &#34;playmap_1&#34;)]
         self.direction = &#34;t&#34;
 
     def set_args(self, _si):
@@ -3836,18 +2805,18 @@ def water(obs):
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
             if _si[&#34;map&#34;] in [&#34;centermap&#34;, &#34;shopmap&#34;]:
-                _map = ob_maps[_si[&#34;map&#34;]]
+                _map = obmp.ob_maps[_si[&#34;map&#34;]]
                 self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
             else:
-                if self.add(ob_maps[_si[&#34;map&#34;]], _si[&#34;x&#34;], _si[&#34;y&#34;]) == 1:
-                    raise se.CoordinateError(self, ob_maps[_si[&#34;map&#34;]],
+                if self.add(obmp.ob_maps[_si[&#34;map&#34;]], _si[&#34;x&#34;], _si[&#34;y&#34;]) == 1:
+                    raise se.CoordinateError(self, obmp.ob_maps[_si[&#34;map&#34;]],
                                              _si[&#34;x&#34;], _si[&#34;y&#34;])
         except se.CoordinateError:
-            self.add(ob_maps[&#34;playmap_1&#34;], 6, 5)
-        movemap.name_label.rechar(self.name, esccode=Color.thicc)
-        movemap.code_label.rechar(self.map.pretty_name)
-        movemap.balls_label_rechar(self.pokes)
-        movemap.add_obs()
+            self.add(obmp.ob_maps[&#34;playmap_1&#34;], 6, 5)
+        mvp.movemap.name_label.rechar(self.name, esccode=Color.thicc)
+        mvp.movemap.code_label.rechar(self.map.pretty_name)
+        mvp.movemap.balls_label_rechar(self.pokes)
+        mvp.movemap.add_obs()
 
     def add_money(self, money):
         &#34;&#34;&#34;Adds money
@@ -4087,18 +3056,18 @@ in the inventory&#34;
         # Looking if figure would be in centermap,
         # so the player may spawn out of the center
         if _si[&#34;map&#34;] in [&#34;centermap&#34;, &#34;shopmap&#34;]:
-            _map = ob_maps[_si[&#34;map&#34;]]
+            _map = obmp.ob_maps[_si[&#34;map&#34;]]
             self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
         else:
-            if self.add(ob_maps[_si[&#34;map&#34;]], _si[&#34;x&#34;], _si[&#34;y&#34;]) == 1:
-                raise se.CoordinateError(self, ob_maps[_si[&#34;map&#34;]],
+            if self.add(obmp.ob_maps[_si[&#34;map&#34;]], _si[&#34;x&#34;], _si[&#34;y&#34;]) == 1:
+                raise se.CoordinateError(self, obmp.ob_maps[_si[&#34;map&#34;]],
                                          _si[&#34;x&#34;], _si[&#34;y&#34;])
     except se.CoordinateError:
-        self.add(ob_maps[&#34;playmap_1&#34;], 6, 5)
-    movemap.name_label.rechar(self.name, esccode=Color.thicc)
-    movemap.code_label.rechar(self.map.pretty_name)
-    movemap.balls_label_rechar(self.pokes)
-    movemap.add_obs()</code></pre>
+        self.add(obmp.ob_maps[&#34;playmap_1&#34;], 6, 5)
+    mvp.movemap.name_label.rechar(self.name, esccode=Color.thicc)
+    mvp.movemap.code_label.rechar(self.map.pretty_name)
+    mvp.movemap.balls_label_rechar(self.pokes)
+    mvp.movemap.add_obs()</code></pre>
 </details>
 </dd>
 <dt id="pokete.Figure.set_money"><code class="name flex">
@@ -4127,79 +3096,6 @@ in the inventory&#34;
         cls.money_label.rechar(str(self.__money) + &#34;$&#34;)
         cls.box.set_ob(cls.money_label,
                        cls.box.width - 2 - len(cls.money_label.text), 0)</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
-<dt id="pokete.HightGrass"><code class="flex name class">
-<span>class <span class="ident">HightGrass</span></span>
-<span>(</span><span>char, state=None, arg_proto=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Object on the map, that triggers a fight</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class HightGrass(se.Object):
-    &#34;&#34;&#34;Object on the map, that triggers a fight&#34;&#34;&#34;
-
-    def action(self, ob):
-        &#34;&#34;&#34;Action triggers the fight
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        if random.randint(0, 8) == 0:
-            fight(Poke(&#34;__fallback__&#34;, 0)
-                  if len([poke for poke in figure.pokes[:6]
-                          if poke.hp &gt; 0]) == 0
-                  else [poke for poke in figure.pokes[:6] if poke.hp &gt; 0][0],
-                  Poke(random.choices(self.arg_proto[&#34;pokes&#34;],
-                                      weights=[p_data.pokes[i][&#34;rarity&#34;]
-                                               for i in
-                                               self.arg_proto[&#34;pokes&#34;]])[0],
-                       random.choices(list(range(self.arg_proto[&#34;minlvl&#34;],
-                                                 self.arg_proto[&#34;maxlvl&#34;])))[0],
-                       player=False, shiny=(random.randint(0, 500) == 0)))
-            check_walk_back()</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>scrap_engine.Object</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete.HightGrass.action"><code class="name flex">
-<span>def <span class="ident">action</span></span>(<span>self, ob)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Action triggers the fight</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>ob</code></strong></dt>
-<dd>The object triggering this action</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def action(self, ob):
-    &#34;&#34;&#34;Action triggers the fight
-    ARGS:
-        ob: The object triggering this action&#34;&#34;&#34;
-    if random.randint(0, 8) == 0:
-        fight(Poke(&#34;__fallback__&#34;, 0)
-              if len([poke for poke in figure.pokes[:6]
-                      if poke.hp &gt; 0]) == 0
-              else [poke for poke in figure.pokes[:6] if poke.hp &gt; 0][0],
-              Poke(random.choices(self.arg_proto[&#34;pokes&#34;],
-                                  weights=[p_data.pokes[i][&#34;rarity&#34;]
-                                           for i in
-                                           self.arg_proto[&#34;pokes&#34;]])[0],
-                   random.choices(list(range(self.arg_proto[&#34;minlvl&#34;],
-                                             self.arg_proto[&#34;maxlvl&#34;])))[0],
-                   player=False, shiny=(random.randint(0, 500) == 0)))
-        check_walk_back()</code></pre>
 </details>
 </dd>
 </dl>
@@ -4263,8 +3159,8 @@ in the inventory&#34;
 {obj.attack_dict[&#39;name&#39;]}&#39;?&#34;):
                                     ex_cond = True
                                     while ex_cond:
-                                        index = deck(6, label=&#34;Your deck&#34;,
-                                                     in_fight=True)
+                                        index = deck.deck(6, label=&#34;Your deck&#34;,
+                                                          in_fight=True)
                                         if index is None:
                                             ex_cond = False
                                             self.map.show(init=True)
@@ -4392,54 +3288,6 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
 </dd>
 </dl>
 </dd>
-<dt id="pokete.Meadow"><code class="flex name class">
-<span>class <span class="ident">Meadow</span></span>
-<span>(</span><span>string, poke_args)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Daughter of se.Text to better organize Highgrass</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>string</code></strong></dt>
-<dd>The character representing the meadow</dd>
-<dt><strong><code>poke_args</code></strong></dt>
-<dd>Dict containing relevant information about Pokes</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Meadow(se.Text):
-    &#34;&#34;&#34;Daughter of se.Text to better organize Highgrass
-    ARGS:
-        string: The character representing the meadow
-        poke_args: Dict containing relevant information about Pokes&#34;&#34;&#34;
-    esccode = Color.green
-
-    def __init__(self, string, poke_args):
-        super().__init__(string, ignore=self.esccode + &#34; &#34; + Color.reset,
-                         ob_class=HightGrass, ob_args=poke_args,
-                         state=&#34;float&#34;, esccode=self.esccode)</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>scrap_engine.Text</li>
-<li>scrap_engine.ObjectGroup</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="pokete.Sand" href="#pokete.Sand">Sand</a></li>
-<li><a title="pokete.Water" href="#pokete.Water">Water</a></li>
-</ul>
-<h3>Class variables</h3>
-<dl>
-<dt id="pokete.Meadow.esccode"><code class="name">var <span class="ident">esccode</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-</dd>
 <dt id="pokete.Menu"><code class="flex name class">
 <span>class <span class="ident">Menu</span></span>
 <span>(</span><span>_map)</span>
@@ -4504,7 +3352,7 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                                                  figure.name, 18, 17)
                         self.map.name_label_rechar(figure.name)
                     elif i == self.mods_label:
-                        ModInfo(movemap, mods.mod_info)()
+                        ModInfo(mvp.movemap, mods.mod_info)()
                     elif i == self.save_label:
                         # When will python3.10 come out?
                         with InfoBox(&#34;Saving....&#34;, info=&#34;&#34;, _map=self.map):
@@ -4517,7 +3365,7 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
-                        AchievementOverview()(movemap)
+                        AchievementOverview()(mvp.movemap)
                     else:
                         i.change()
                 elif _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
@@ -4557,7 +3405,7 @@ npc: The NPC the method belongs to</p></div>
     @staticmethod
     def heal(npc):
         &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
-        heal()
+        heal(figure)
 
     @staticmethod
     def playmap_17_boy(npc):
@@ -4566,7 +3414,7 @@ npc: The NPC the method belongs to</p></div>
             npc.text([&#34; &lt; Oh, cool!&#34;, &#34; &lt; You have a Choka!&#34;,
                       &#34; &lt; I&#39;ve never seen one before!&#34;,
                       &#34; &lt; Here you go, 200$&#34;])
-            if ask_bool(movemap,
+            if ask_bool(mvp.movemap,
                         &#34;Young boy gifted you 200$. Do you want to accept it?&#34;):
                 figure.add_money(200)
             npc.will = False
@@ -4580,20 +3428,20 @@ it evolves to Choka.&#34;,
     @staticmethod
     def playmap_20_trader(npc):
         &#34;&#34;&#34;Interaction with trader&#34;&#34;&#34;
-        if ask_bool(movemap, &#34;Do you want to trade a Pokete?&#34;):
-            if (index := deck(6, &#34;Your deck&#34;, True)) is None:
+        if ask_bool(mvp.movemap, &#34;Do you want to trade a Pokete?&#34;):
+            if (index := deck.deck(6, &#34;Your deck&#34;, True)) is None:
                 return
             figure.add_poke(Poke(&#34;ostri&#34;, 500), index)
             figure.used_npcs.append(npc.name)
-            ask_ok(movemap,
+            ask_ok(mvp.movemap,
                    f&#34;You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.&#34;)
-            movemap.text(npc.x, npc.y, [&#34; &lt; Cool, huh?&#34;])
+            mvp.movemap.text(npc.x, npc.y, [&#34; &lt; Cool, huh?&#34;])
 
     @staticmethod
     def playmap_23_npc_8(npc):
         &#34;&#34;&#34;Interaction with npc_8&#34;&#34;&#34;
-        if ask_bool(movemap,
+        if ask_bool(mvp.movemap,
                     &#34;The man gifted you 100$. Do you want to accept it?&#34;):
             npc.will = False
             figure.used_npcs.append(npc.name)
@@ -4658,7 +3506,7 @@ def chat(npc):
 <pre><code class="python">@staticmethod
 def heal(npc):
     &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
-    heal()</code></pre>
+    heal(figure)</code></pre>
 </details>
 </dd>
 <dt id="pokete.NPCActions.playmap_10_old_man"><code class="name flex">
@@ -4692,7 +3540,7 @@ def playmap_10_old_man(npc):
             npc.text([&#34; &lt; Oh, cool!&#34;, &#34; &lt; You have a Choka!&#34;,
                       &#34; &lt; I&#39;ve never seen one before!&#34;,
                       &#34; &lt; Here you go, 200$&#34;])
-            if ask_bool(movemap,
+            if ask_bool(mvp.movemap,
                         &#34;Young boy gifted you 200$. Do you want to accept it?&#34;):
                 figure.add_money(200)
             npc.will = False
@@ -4716,15 +3564,15 @@ it evolves to Choka.&#34;,
 <pre><code class="python">    @staticmethod
     def playmap_20_trader(npc):
         &#34;&#34;&#34;Interaction with trader&#34;&#34;&#34;
-        if ask_bool(movemap, &#34;Do you want to trade a Pokete?&#34;):
-            if (index := deck(6, &#34;Your deck&#34;, True)) is None:
+        if ask_bool(mvp.movemap, &#34;Do you want to trade a Pokete?&#34;):
+            if (index := deck.deck(6, &#34;Your deck&#34;, True)) is None:
                 return
             figure.add_poke(Poke(&#34;ostri&#34;, 500), index)
             figure.used_npcs.append(npc.name)
-            ask_ok(movemap,
+            ask_ok(mvp.movemap,
                    f&#34;You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.&#34;)
-            movemap.text(npc.x, npc.y, [&#34; &lt; Cool, huh?&#34;])</code></pre>
+            mvp.movemap.text(npc.x, npc.y, [&#34; &lt; Cool, huh?&#34;])</code></pre>
 </details>
 </dd>
 <dt id="pokete.NPCActions.playmap_23_npc_8"><code class="name flex">
@@ -4739,7 +3587,7 @@ at level {figure.pokes[index].lvl()}.&#34;)
 <pre><code class="python">@staticmethod
 def playmap_23_npc_8(npc):
     &#34;&#34;&#34;Interaction with npc_8&#34;&#34;&#34;
-    if ask_bool(movemap,
+    if ask_bool(mvp.movemap,
                 &#34;The man gifted you 100$. Do you want to accept it?&#34;):
         npc.will = False
         figure.used_npcs.append(npc.name)
@@ -4823,118 +3671,6 @@ def swap_poke(npc):
 </dd>
 </dl>
 </dd>
-<dt id="pokete.Poketeball"><code class="flex name class">
-<span>class <span class="ident">Poketeball</span></span>
-<span>(</span><span>name)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Poketeball that can be picked up on the map</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong></dt>
-<dd>Generic name of the ball</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Poketeball(se.Object):
-    &#34;&#34;&#34;Poketeball that can be picked up on the map
-    ARGS:
-        name: Generic name of the ball&#34;&#34;&#34;
-
-    def __init__(self, name):
-        self.name = name
-        super().__init__(Color.thicc + Color.red + &#34;o&#34; + Color.reset,
-                         state=&#34;float&#34;)
-
-    def action(self, ob):
-        &#34;&#34;&#34;Action triggers the pick up
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        amount = random.choices([1, 2, 3],
-                                weights=[10, 2, 1], k=1)[0]
-        item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
-                               &#34;healing_potion&#34;],
-                              weights=[10, 1.5, 1, 1],
-                              k=1)[0]
-        figure.give_item(item, amount)
-        self.remove()
-        movemap.full_show()
-        ask_ok(movemap, f&#34;You found {amount if amount &gt; 1 else &#39;a&#39;} \
-{p_data.items[item][&#39;pretty_name&#39;]}{&#39;s&#39; if amount &gt; 1 else &#39;&#39;}!&#34;)
-        figure.used_npcs.append(self.name)</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>scrap_engine.Object</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="pokete.Poketeball.action"><code class="name flex">
-<span>def <span class="ident">action</span></span>(<span>self, ob)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Action triggers the pick up</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>ob</code></strong></dt>
-<dd>The object triggering this action</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">    def action(self, ob):
-        &#34;&#34;&#34;Action triggers the pick up
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        amount = random.choices([1, 2, 3],
-                                weights=[10, 2, 1], k=1)[0]
-        item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
-                               &#34;healing_potion&#34;],
-                              weights=[10, 1.5, 1, 1],
-                              k=1)[0]
-        figure.give_item(item, amount)
-        self.remove()
-        movemap.full_show()
-        ask_ok(movemap, f&#34;You found {amount if amount &gt; 1 else &#39;a&#39;} \
-{p_data.items[item][&#39;pretty_name&#39;]}{&#39;s&#39; if amount &gt; 1 else &#39;&#39;}!&#34;)
-        figure.used_npcs.append(self.name)</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
-<dt id="pokete.Sand"><code class="flex name class">
-<span>class <span class="ident">Sand</span></span>
-<span>(</span><span>string, poke_args)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Same as Meadow, but for Sand</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Sand(Meadow):
-    &#34;&#34;&#34;Same as Meadow, but for Sand&#34;&#34;&#34;
-    esccode = Color.yellow</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pokete.Meadow" href="#pokete.Meadow">Meadow</a></li>
-<li>scrap_engine.Text</li>
-<li>scrap_engine.ObjectGroup</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Class variables</h3>
-<dl>
-<dt id="pokete.Sand.esccode"><code class="name">var <span class="ident">esccode</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-</dd>
 <dt id="pokete.ShopInteract"><code class="flex name class">
 <span>class <span class="ident">ShopInteract</span></span>
 <span>(</span><span>char, state=None, arg_proto=None)</span>
@@ -4953,13 +3689,14 @@ def swap_poke(npc):
         ARGS:
             ob: The object triggering this action&#34;&#34;&#34;
         _ev.clear()
-        movemap.full_show()
-        movemap.text(int(movemap.width / 2), 3,
-                     [&#34; &lt; Welcome to the Pokete-Shop&#34;,
-                      &#34; &lt; Wanna buy something?&#34;])
+        mvp.movemap.full_show()
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [&#34; &lt; Welcome to the Pokete-Shop&#34;,
+                          &#34; &lt; Wanna buy something?&#34;])
         buy()
-        movemap.full_show(init=True)
-        movemap.text(int(movemap.width / 2), 3, [&#34; &lt; Have a great day!&#34;])</code></pre>
+        mvp.movemap.full_show(init=True)
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [&#34; &lt; Have a great day!&#34;])</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -4987,13 +3724,14 @@ def swap_poke(npc):
     ARGS:
         ob: The object triggering this action&#34;&#34;&#34;
     _ev.clear()
-    movemap.full_show()
-    movemap.text(int(movemap.width / 2), 3,
-                 [&#34; &lt; Welcome to the Pokete-Shop&#34;,
-                  &#34; &lt; Wanna buy something?&#34;])
+    mvp.movemap.full_show()
+    mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                     [&#34; &lt; Welcome to the Pokete-Shop&#34;,
+                      &#34; &lt; Wanna buy something?&#34;])
     buy()
-    movemap.full_show(init=True)
-    movemap.text(int(movemap.width / 2), 3, [&#34; &lt; Have a great day!&#34;])</code></pre>
+    mvp.movemap.full_show(init=True)
+    mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                     [&#34; &lt; Have a great day!&#34;])</code></pre>
 </details>
 </dd>
 </dl>
@@ -5032,8 +3770,8 @@ def swap_poke(npc):
  |_______  _______|
  |______|  |______|&#34;&#34;&#34;, ignore=&#34; &#34;)
         self.interact = ShopInteract(&#34;¯&#34;, state=&#34;float&#34;)
-        self.dor_back1 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
-        self.dor_back2 = CenterDor(&#34; &#34;, state=&#34;float&#34;)
+        self.dor_back1 = CenterDoor(&#34; &#34;, state=&#34;float&#34;)
+        self.dor_back2 = CenterDoor(&#34; &#34;, state=&#34;float&#34;)
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
         self.dor_back2.add(self, int(self.width / 2) + 1, 8)
@@ -5045,35 +3783,6 @@ def swap_poke(npc):
 <li>pokete_classes.classes.PlayMap</li>
 <li>scrap_engine.Map</li>
 </ul>
-</dd>
-<dt id="pokete.Water"><code class="flex name class">
-<span>class <span class="ident">Water</span></span>
-<span>(</span><span>string, poke_args)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Same as Meadow, but for Water</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Water(Meadow):
-    &#34;&#34;&#34;Same as Meadow, but for Water&#34;&#34;&#34;
-    esccode = Color.blue</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="pokete.Meadow" href="#pokete.Meadow">Meadow</a></li>
-<li>scrap_engine.Text</li>
-<li>scrap_engine.ObjectGroup</li>
-<li>scrap_engine.AddableObject</li>
-</ul>
-<h3>Class variables</h3>
-<dl>
-<dt id="pokete.Water.esccode"><code class="name">var <span class="ident">esccode</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
 </dd>
 </dl>
 </section>
@@ -5088,14 +3797,10 @@ def swap_poke(npc):
 <ul class="two-column">
 <li><code><a title="pokete.autosave" href="#pokete.autosave">autosave</a></code></li>
 <li><code><a title="pokete.check_version" href="#pokete.check_version">check_version</a></code></li>
-<li><code><a title="pokete.check_walk_back" href="#pokete.check_walk_back">check_walk_back</a></code></li>
 <li><code><a title="pokete.codes" href="#pokete.codes">codes</a></code></li>
 <li><code><a title="pokete.exiter" href="#pokete.exiter">exiter</a></code></li>
-<li><code><a title="pokete.fight" href="#pokete.fight">fight</a></code></li>
-<li><code><a title="pokete.game" href="#pokete.game">game</a></code></li>
 <li><code><a title="pokete.gen_maps" href="#pokete.gen_maps">gen_maps</a></code></li>
 <li><code><a title="pokete.gen_obs" href="#pokete.gen_obs">gen_obs</a></code></li>
-<li><code><a title="pokete.heal" href="#pokete.heal">heal</a></code></li>
 <li><code><a title="pokete.intro" href="#pokete.intro">intro</a></code></li>
 <li><code><a title="pokete.main" href="#pokete.main">main</a></code></li>
 <li><code><a title="pokete.map_additions" href="#pokete.map_additions">map_additions</a></code></li>
@@ -5112,12 +3817,6 @@ def swap_poke(npc):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pokete.CenterDor" href="#pokete.CenterDor">CenterDor</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.CenterDor.action" href="#pokete.CenterDor.action">action</a></code></li>
-</ul>
-</li>
-<li>
 <h4><code><a title="pokete.CenterInteract" href="#pokete.CenterInteract">CenterInteract</a></code></h4>
 <ul class="">
 <li><code><a title="pokete.CenterInteract.action" href="#pokete.CenterInteract.action">action</a></code></li>
@@ -5127,36 +3826,10 @@ def swap_poke(npc):
 <h4><code><a title="pokete.CenterMap" href="#pokete.CenterMap">CenterMap</a></code></h4>
 </li>
 <li>
-<h4><code><a title="pokete.ChanceDor" href="#pokete.ChanceDor">ChanceDor</a></code></h4>
-</li>
-<li>
 <h4><code><a title="pokete.Debug" href="#pokete.Debug">Debug</a></code></h4>
 <ul class="">
 <li><code><a title="pokete.Debug.pos" href="#pokete.Debug.pos">pos</a></code></li>
 </ul>
-</li>
-<li>
-<h4><code><a title="pokete.Deck" href="#pokete.Deck">Deck</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.Deck.add_all" href="#pokete.Deck.add_all">add_all</a></code></li>
-<li><code><a title="pokete.Deck.control" href="#pokete.Deck.control">control</a></code></li>
-<li><code><a title="pokete.Deck.rem_pokes" href="#pokete.Deck.rem_pokes">rem_pokes</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="pokete.Dor" href="#pokete.Dor">Dor</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.Dor.action" href="#pokete.Dor.action">action</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="pokete.DorToCenter" href="#pokete.DorToCenter">DorToCenter</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.DorToCenter.action" href="#pokete.DorToCenter.action">action</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="pokete.DorToShop" href="#pokete.DorToShop">DorToShop</a></code></h4>
 </li>
 <li>
 <h4><code><a title="pokete.ExtraActions" href="#pokete.ExtraActions">ExtraActions</a></code></h4>
@@ -5184,22 +3857,10 @@ def swap_poke(npc):
 </ul>
 </li>
 <li>
-<h4><code><a title="pokete.HightGrass" href="#pokete.HightGrass">HightGrass</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.HightGrass.action" href="#pokete.HightGrass.action">action</a></code></li>
-</ul>
-</li>
-<li>
 <h4><code><a title="pokete.Inv" href="#pokete.Inv">Inv</a></code></h4>
 <ul class="">
 <li><code><a title="pokete.Inv.add" href="#pokete.Inv.add">add</a></code></li>
 <li><code><a title="pokete.Inv.rem_item" href="#pokete.Inv.rem_item">rem_item</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="pokete.Meadow" href="#pokete.Meadow">Meadow</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.Meadow.esccode" href="#pokete.Meadow.esccode">esccode</a></code></li>
 </ul>
 </li>
 <li>
@@ -5222,18 +3883,6 @@ def swap_poke(npc):
 </ul>
 </li>
 <li>
-<h4><code><a title="pokete.Poketeball" href="#pokete.Poketeball">Poketeball</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.Poketeball.action" href="#pokete.Poketeball.action">action</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="pokete.Sand" href="#pokete.Sand">Sand</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.Sand.esccode" href="#pokete.Sand.esccode">esccode</a></code></li>
-</ul>
-</li>
-<li>
 <h4><code><a title="pokete.ShopInteract" href="#pokete.ShopInteract">ShopInteract</a></code></h4>
 <ul class="">
 <li><code><a title="pokete.ShopInteract.action" href="#pokete.ShopInteract.action">action</a></code></li>
@@ -5241,12 +3890,6 @@ def swap_poke(npc):
 </li>
 <li>
 <h4><code><a title="pokete.ShopMap" href="#pokete.ShopMap">ShopMap</a></code></h4>
-</li>
-<li>
-<h4><code><a title="pokete.Water" href="#pokete.Water">Water</a></code></h4>
-<ul class="">
-<li><code><a title="pokete.Water.esccode" href="#pokete.Water.esccode">esccode</a></code></li>
-</ul>
 </li>
 </ul>
 </li>

@@ -34,6 +34,9 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
+import pokete_classes.deck as deck
+import pokete_classes.movemap as mvp
+import pokete_classes.ob_maps as obmp
 from pokete_classes import animations
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
@@ -44,22 +47,6 @@ from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
 from .event import _ev
-
-
-class EvoMap(se.Map):
-    &#34;&#34;&#34;Map for evolutions to take place on
-    ARGS:
-        height: The height of the map
-        width: The width of the map&#34;&#34;&#34;
-
-    def __init__(self, height, width):
-        super().__init__(height, width, &#34; &#34;)
-        self.name = &#34;evomap&#34;
-        self.frame_small = se.Frame(height=4, width=width, state=&#34;float&#34;)
-        self.outp = OutP(&#34;&#34;, state=&#34;float&#34;)
-        # adding
-        self.frame_small.add(self, 0, self.height - 5)
-        self.outp.add(self, 1, self.height - 4)
 
 
 class FightMap(se.Map):
@@ -245,14 +232,12 @@ class FightMap(se.Map):
         self.invbox.remove_c_obs()
         return item
 
-    def fight(self, player, enemy, figure, fightitems, deck, info):
+    def fight(self, player, enemy, figure, info):
         &#34;&#34;&#34;Fight between two Pokes
         ARGS:
             player: The players&#39; used Poke
             enemy: The enemy&#39;s used Poke
             figure: Figure object
-            fightitems: FightItems object
-            deck: deck function
             info: Dict with information about the fight
                   ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
         RETURNS:
@@ -348,7 +333,7 @@ used {enemy.name} against you!&#39;)
                         if obj.identifier == &#34;__fallback__&#34;:
                             continue
                         self.clean_up(player, enemy)
-                        index = deck(6, &#34;Your deck&#34;, True)
+                        index = deck.deck(6, &#34;Your deck&#34;, True)
                         player = player if index is None else figure.pokes[index]
                         self.add_1(player, enemy, figure.caught_pokes)
                         self.box.set_index(0)
@@ -414,7 +399,7 @@ used {enemy.name} against you!&#39;)
         self.deadico2.remove()
         self.show()
         self.clean_up(player, enemy)
-        fightitems.mvmap.balls_label_rechar(figure.pokes)
+        mvp.movemap.balls_label_rechar(figure.pokes)
         logging.info(&#34;[Fight][%s] Ended, %s(%s) won&#34;, info[&#34;type&#34;],
                      winner.name, &#34;player&#34; if winner.player else &#34;enemy&#34;)
         return winner
@@ -423,12 +408,9 @@ used {enemy.name} against you!&#39;)
 class FightItems:
     &#34;&#34;&#34;Contains all fns callable by an item in fight
     ARGS:
-        _map: FightMap object
-        movemap: MoveMap object
         figure: Figure object
-        ob_maps: Dict of all PlayMaps
 
-    The methods that can actually be called in fight follow the follwing patern:
+    The methods that can actually be called in fight follow the following pattern:
         ARGS:
             obj: The players Poke object
             enem: The enemys Poke object
@@ -438,11 +420,8 @@ class FightItems:
             2: To win the game
             None: To let the enemy attack&#34;&#34;&#34;
 
-    def __init__(self, _map, movemap, figure, ob_maps):
-        self.map = _map
-        self.mvmap = movemap
+    def __init__(self, figure):
         self.fig = figure
-        self.ob_maps = ob_maps
 
     def throw(self, obj, enem, info, chance, name):
         &#34;&#34;&#34;Throws a *ball
@@ -459,12 +438,12 @@ class FightItems:
 
         if obj.identifier == &#34;__fallback__&#34; or info[&#34;type&#34;] == &#34;duel&#34;:
             return 1
-        self.map.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
-        self.map.fast_change([enem.ico, self.map.deadico1, self.map.deadico2,
-                             self.map.pball], enem.ico)
+        fightmap.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
+        fightmap.fast_change([enem.ico, fightmap.deadico1, fightmap.deadico2,
+                             fightmap.pball], enem.ico)
         time.sleep(random.choice([1, 2, 3, 4]))
         self.fig.remove_item(name)
-        catch_chance = 20 if self.fig.map == self.ob_maps[&#34;playmap_1&#34;] else 0
+        catch_chance = 20 if self.fig.map == obmp.ob_maps[&#34;playmap_1&#34;] else 0
         for effect in enem.effects:
             catch_chance += effect.catch_chance
         if random.choices([True, False],
@@ -472,21 +451,21 @@ class FightItems:
                                    * chance + catch_chance,
                                    enem.full_hp], k=1)[0]:
             self.fig.add_poke(enem)
-            self.map.outp.outp(f&#34;You catched {enem.name}&#34;)
+            fightmap.outp.outp(f&#34;You catched {enem.name}&#34;)
             time.sleep(2)
-            self.map.pball.remove()
-            self.map.clean_up(obj, enem)
-            self.mvmap.balls_label_rechar(self.fig.pokes)
+            fightmap.pball.remove()
+            fightmap.clean_up(obj, enem)
+            mvp.movemap.balls_label_rechar(self.fig.pokes)
             logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
             achievements.achieve(&#34;first_poke&#34;)
             if all(poke in self.fig.caught_pokes for poke in p_data.pokes):
                 achievements.achieve(&#34;catch_em_all&#34;)
             return 2
-        self.map.outp.outp(&#34;You missed!&#34;)
-        self.map.show()
-        self.map.pball.remove()
-        enem.ico.add(self.map, enem.ico.x, enem.ico.y)
-        self.map.show()
+        fightmap.outp.outp(&#34;You missed!&#34;)
+        fightmap.show()
+        fightmap.pball.remove()
+        enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
+        fightmap.show()
         logging.info(&#34;[Fighitem][%s] Missed&#34;, name)
         return None
 
@@ -536,6 +515,27 @@ class FightItems:
         logging.info(&#34;[Fighitem][ap_potion] Used&#34;)
 
 
+class Fight:
+    &#34;&#34;&#34;&#34;&#34;&#34;
+    def __init__(self, figure):
+        self.figure = figure
+
+    def __call__(self, player, enemy, info=None):
+        &#34;&#34;&#34;Wrapper for fightmap.fight
+        ARGS:
+            player: The players Poke
+            enemy: The enemys Poke
+            info: Dict containing info about the fight&#34;&#34;&#34;
+        if info is None:
+            info = {&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;}
+        return fightmap.fight(player, enemy, self.figure, info)
+
+
+fight = None
+fightitems = None
+fightmap = None
+
+
 if __name__ == &#34;__main__&#34;:
     print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
 </details>
@@ -549,61 +549,44 @@ if __name__ == &#34;__main__&#34;:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pokete_classes.fightmap.EvoMap"><code class="flex name class">
-<span>class <span class="ident">EvoMap</span></span>
-<span>(</span><span>height, width)</span>
+<dt id="pokete_classes.fightmap.Fight"><code class="flex name class">
+<span>class <span class="ident">Fight</span></span>
+<span>(</span><span>figure)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Map for evolutions to take place on</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>height</code></strong></dt>
-<dd>The height of the map</dd>
-<dt><strong><code>width</code></strong></dt>
-<dd>The width of the map</dd>
-</dl></div>
+<div class="desc"></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class EvoMap(se.Map):
-    &#34;&#34;&#34;Map for evolutions to take place on
-    ARGS:
-        height: The height of the map
-        width: The width of the map&#34;&#34;&#34;
+<pre><code class="python">class Fight:
+    &#34;&#34;&#34;&#34;&#34;&#34;
+    def __init__(self, figure):
+        self.figure = figure
 
-    def __init__(self, height, width):
-        super().__init__(height, width, &#34; &#34;)
-        self.name = &#34;evomap&#34;
-        self.frame_small = se.Frame(height=4, width=width, state=&#34;float&#34;)
-        self.outp = OutP(&#34;&#34;, state=&#34;float&#34;)
-        # adding
-        self.frame_small.add(self, 0, self.height - 5)
-        self.outp.add(self, 1, self.height - 4)</code></pre>
+    def __call__(self, player, enemy, info=None):
+        &#34;&#34;&#34;Wrapper for fightmap.fight
+        ARGS:
+            player: The players Poke
+            enemy: The enemys Poke
+            info: Dict containing info about the fight&#34;&#34;&#34;
+        if info is None:
+            info = {&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;}
+        return fightmap.fight(player, enemy, self.figure, info)</code></pre>
 </details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>scrap_engine.Map</li>
-</ul>
 </dd>
 <dt id="pokete_classes.fightmap.FightItems"><code class="flex name class">
 <span>class <span class="ident">FightItems</span></span>
-<span>(</span><span>_map, movemap, figure, ob_maps)</span>
+<span>(</span><span>figure)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Contains all fns callable by an item in fight</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>_map</code></strong></dt>
-<dd>FightMap object</dd>
-<dt><strong><code>movemap</code></strong></dt>
-<dd>MoveMap object</dd>
 <dt><strong><code>figure</code></strong></dt>
 <dd>Figure object</dd>
-<dt><strong><code>ob_maps</code></strong></dt>
-<dd>Dict of all PlayMaps</dd>
 </dl>
-<p>The methods that can actually be called in fight follow the follwing patern:
+<p>The methods that can actually be called in fight follow the following pattern:
 ARGS:
 obj: The players Poke object
 enem: The enemys Poke object
@@ -619,12 +602,9 @@ None: To let the enemy attack</p></div>
 <pre><code class="python">class FightItems:
     &#34;&#34;&#34;Contains all fns callable by an item in fight
     ARGS:
-        _map: FightMap object
-        movemap: MoveMap object
         figure: Figure object
-        ob_maps: Dict of all PlayMaps
 
-    The methods that can actually be called in fight follow the follwing patern:
+    The methods that can actually be called in fight follow the following pattern:
         ARGS:
             obj: The players Poke object
             enem: The enemys Poke object
@@ -634,11 +614,8 @@ None: To let the enemy attack</p></div>
             2: To win the game
             None: To let the enemy attack&#34;&#34;&#34;
 
-    def __init__(self, _map, movemap, figure, ob_maps):
-        self.map = _map
-        self.mvmap = movemap
+    def __init__(self, figure):
         self.fig = figure
-        self.ob_maps = ob_maps
 
     def throw(self, obj, enem, info, chance, name):
         &#34;&#34;&#34;Throws a *ball
@@ -655,12 +632,12 @@ None: To let the enemy attack</p></div>
 
         if obj.identifier == &#34;__fallback__&#34; or info[&#34;type&#34;] == &#34;duel&#34;:
             return 1
-        self.map.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
-        self.map.fast_change([enem.ico, self.map.deadico1, self.map.deadico2,
-                             self.map.pball], enem.ico)
+        fightmap.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
+        fightmap.fast_change([enem.ico, fightmap.deadico1, fightmap.deadico2,
+                             fightmap.pball], enem.ico)
         time.sleep(random.choice([1, 2, 3, 4]))
         self.fig.remove_item(name)
-        catch_chance = 20 if self.fig.map == self.ob_maps[&#34;playmap_1&#34;] else 0
+        catch_chance = 20 if self.fig.map == obmp.ob_maps[&#34;playmap_1&#34;] else 0
         for effect in enem.effects:
             catch_chance += effect.catch_chance
         if random.choices([True, False],
@@ -668,21 +645,21 @@ None: To let the enemy attack</p></div>
                                    * chance + catch_chance,
                                    enem.full_hp], k=1)[0]:
             self.fig.add_poke(enem)
-            self.map.outp.outp(f&#34;You catched {enem.name}&#34;)
+            fightmap.outp.outp(f&#34;You catched {enem.name}&#34;)
             time.sleep(2)
-            self.map.pball.remove()
-            self.map.clean_up(obj, enem)
-            self.mvmap.balls_label_rechar(self.fig.pokes)
+            fightmap.pball.remove()
+            fightmap.clean_up(obj, enem)
+            mvp.movemap.balls_label_rechar(self.fig.pokes)
             logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
             achievements.achieve(&#34;first_poke&#34;)
             if all(poke in self.fig.caught_pokes for poke in p_data.pokes):
                 achievements.achieve(&#34;catch_em_all&#34;)
             return 2
-        self.map.outp.outp(&#34;You missed!&#34;)
-        self.map.show()
-        self.map.pball.remove()
-        enem.ico.add(self.map, enem.ico.x, enem.ico.y)
-        self.map.show()
+        fightmap.outp.outp(&#34;You missed!&#34;)
+        fightmap.show()
+        fightmap.pball.remove()
+        enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
+        fightmap.show()
         logging.info(&#34;[Fighitem][%s] Missed&#34;, name)
         return None
 
@@ -907,12 +884,12 @@ None: To let the enemy attack</p></div>
 
     if obj.identifier == &#34;__fallback__&#34; or info[&#34;type&#34;] == &#34;duel&#34;:
         return 1
-    self.map.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
-    self.map.fast_change([enem.ico, self.map.deadico1, self.map.deadico2,
-                         self.map.pball], enem.ico)
+    fightmap.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
+    fightmap.fast_change([enem.ico, fightmap.deadico1, fightmap.deadico2,
+                         fightmap.pball], enem.ico)
     time.sleep(random.choice([1, 2, 3, 4]))
     self.fig.remove_item(name)
-    catch_chance = 20 if self.fig.map == self.ob_maps[&#34;playmap_1&#34;] else 0
+    catch_chance = 20 if self.fig.map == obmp.ob_maps[&#34;playmap_1&#34;] else 0
     for effect in enem.effects:
         catch_chance += effect.catch_chance
     if random.choices([True, False],
@@ -920,21 +897,21 @@ None: To let the enemy attack</p></div>
                                * chance + catch_chance,
                                enem.full_hp], k=1)[0]:
         self.fig.add_poke(enem)
-        self.map.outp.outp(f&#34;You catched {enem.name}&#34;)
+        fightmap.outp.outp(f&#34;You catched {enem.name}&#34;)
         time.sleep(2)
-        self.map.pball.remove()
-        self.map.clean_up(obj, enem)
-        self.mvmap.balls_label_rechar(self.fig.pokes)
+        fightmap.pball.remove()
+        fightmap.clean_up(obj, enem)
+        mvp.movemap.balls_label_rechar(self.fig.pokes)
         logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.name)
         achievements.achieve(&#34;first_poke&#34;)
         if all(poke in self.fig.caught_pokes for poke in p_data.pokes):
             achievements.achieve(&#34;catch_em_all&#34;)
         return 2
-    self.map.outp.outp(&#34;You missed!&#34;)
-    self.map.show()
-    self.map.pball.remove()
-    enem.ico.add(self.map, enem.ico.x, enem.ico.y)
-    self.map.show()
+    fightmap.outp.outp(&#34;You missed!&#34;)
+    fightmap.show()
+    fightmap.pball.remove()
+    enem.ico.add(fightmap, enem.ico.x, enem.ico.y)
+    fightmap.show()
     logging.info(&#34;[Fighitem][%s] Missed&#34;, name)
     return None</code></pre>
 </details>
@@ -1141,14 +1118,12 @@ None: To let the enemy attack</p></div>
         self.invbox.remove_c_obs()
         return item
 
-    def fight(self, player, enemy, figure, fightitems, deck, info):
+    def fight(self, player, enemy, figure, info):
         &#34;&#34;&#34;Fight between two Pokes
         ARGS:
             player: The players&#39; used Poke
             enemy: The enemy&#39;s used Poke
             figure: Figure object
-            fightitems: FightItems object
-            deck: deck function
             info: Dict with information about the fight
                   ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
         RETURNS:
@@ -1244,7 +1219,7 @@ used {enemy.name} against you!&#39;)
                         if obj.identifier == &#34;__fallback__&#34;:
                             continue
                         self.clean_up(player, enemy)
-                        index = deck(6, &#34;Your deck&#34;, True)
+                        index = deck.deck(6, &#34;Your deck&#34;, True)
                         player = player if index is None else figure.pokes[index]
                         self.add_1(player, enemy, figure.caught_pokes)
                         self.box.set_index(0)
@@ -1310,7 +1285,7 @@ used {enemy.name} against you!&#39;)
         self.deadico2.remove()
         self.show()
         self.clean_up(player, enemy)
-        fightitems.mvmap.balls_label_rechar(figure.pokes)
+        mvp.movemap.balls_label_rechar(figure.pokes)
         logging.info(&#34;[Fight][%s] Ended, %s(%s) won&#34;, info[&#34;type&#34;],
                      winner.name, &#34;player&#34; if winner.player else &#34;enemy&#34;)
         return winner</code></pre>
@@ -1495,7 +1470,7 @@ will be set to.</dd>
 </details>
 </dd>
 <dt id="pokete_classes.fightmap.FightMap.fight"><code class="name flex">
-<span>def <span class="ident">fight</span></span>(<span>self, player, enemy, figure, fightitems, deck, info)</span>
+<span>def <span class="ident">fight</span></span>(<span>self, player, enemy, figure, info)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Fight between two Pokes</p>
@@ -1507,10 +1482,6 @@ will be set to.</dd>
 <dd>The enemy's used Poke</dd>
 <dt><strong><code>figure</code></strong></dt>
 <dd>Figure object</dd>
-<dt><strong><code>fightitems</code></strong></dt>
-<dd>FightItems object</dd>
-<dt><strong><code>deck</code></strong></dt>
-<dd>deck function</dd>
 <dt><strong><code>info</code></strong></dt>
 <dd>Dict with information about the fight
 ({"type": "wild", "player": " "})</dd>
@@ -1521,14 +1492,12 @@ will be set to.</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">    def fight(self, player, enemy, figure, fightitems, deck, info):
+<pre><code class="python">    def fight(self, player, enemy, figure, info):
         &#34;&#34;&#34;Fight between two Pokes
         ARGS:
             player: The players&#39; used Poke
             enemy: The enemy&#39;s used Poke
             figure: Figure object
-            fightitems: FightItems object
-            deck: deck function
             info: Dict with information about the fight
                   ({&#34;type&#34;: &#34;wild&#34;, &#34;player&#34;: &#34; &#34;})
         RETURNS:
@@ -1624,7 +1593,7 @@ used {enemy.name} against you!&#39;)
                         if obj.identifier == &#34;__fallback__&#34;:
                             continue
                         self.clean_up(player, enemy)
-                        index = deck(6, &#34;Your deck&#34;, True)
+                        index = deck.deck(6, &#34;Your deck&#34;, True)
                         player = player if index is None else figure.pokes[index]
                         self.add_1(player, enemy, figure.caught_pokes)
                         self.box.set_index(0)
@@ -1690,7 +1659,7 @@ used {enemy.name} against you!&#39;)
         self.deadico2.remove()
         self.show()
         self.clean_up(player, enemy)
-        fightitems.mvmap.balls_label_rechar(figure.pokes)
+        mvp.movemap.balls_label_rechar(figure.pokes)
         logging.info(&#34;[Fight][%s] Ended, %s(%s) won&#34;, info[&#34;type&#34;],
                      winner.name, &#34;player&#34; if winner.player else &#34;enemy&#34;)
         return winner</code></pre>
@@ -1799,7 +1768,7 @@ used {enemy.name} against you!&#39;)
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pokete_classes.fightmap.EvoMap" href="#pokete_classes.fightmap.EvoMap">EvoMap</a></code></h4>
+<h4><code><a title="pokete_classes.fightmap.Fight" href="#pokete_classes.fightmap.Fight">Fight</a></code></h4>
 </li>
 <li>
 <h4><code><a title="pokete_classes.fightmap.FightItems" href="#pokete_classes.fightmap.FightItems">FightItems</a></code></h4>

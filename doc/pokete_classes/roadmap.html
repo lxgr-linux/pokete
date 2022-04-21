@@ -32,6 +32,7 @@
 import time
 import scrap_engine as se
 import pokete_data as p_data
+import pokete_classes.ob_maps as obmp
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .color import Color
@@ -58,7 +59,7 @@ class Station(se.Square):
         self.desc = desc
         self.roadmap = roadmap
         self.org_char = char
-        self.associates = [associate] + [roadmap.ob_maps[i] for i in additionals]
+        self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
         self.color = &#34;&#34;
         self.name = self.associates[0].pretty_name
         super().__init__(char, width, height, state=&#34;float&#34;)
@@ -110,17 +111,15 @@ class Station(se.Square):
 class RoadMap:
     &#34;&#34;&#34;Map you can see and navigate maps on
     ARGS:
-        ob_maps: Dict with all PlayMaps
         fig: Figure object&#34;&#34;&#34;
 
-    def __init__(self, ob_maps, fig):
-        self.ob_maps = ob_maps
+    def __init__(self, fig):
         self.fig = fig
         self.box = Box(11, 40, &#34;Roadmap&#34;, &#34;q:close&#34;)
         self.info_label = se.Text(&#34;&#34;, state=&#34;float&#34;)
         self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta in p_data.stations:
-            obj = Station(self, ob_maps[sta], **p_data.stations[sta][&#39;gen&#39;])
+            obj = Station(self, obmp.ob_maps[sta], **p_data.stations[sta][&#39;gen&#39;])
             self.box.add_ob(obj, **p_data.stations[sta][&#39;add&#39;])
             setattr(self, sta, obj)
 
@@ -146,7 +145,7 @@ class RoadMap:
             i.set_color(choose)
         [i for i in Station.obs
          if (self.fig.map
-             if self.fig.map not in [self.ob_maps[i] for i in
+             if self.fig.map not in [obmp.ob_maps[i] for i in
                                             [&#34;shopmap&#34;, &#34;centermap&#34;]]
              else self.fig.oldmap)
          in i.associates][0].choose()
@@ -196,14 +195,12 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="pokete_classes.roadmap.RoadMap"><code class="flex name class">
 <span>class <span class="ident">RoadMap</span></span>
-<span>(</span><span>ob_maps, fig)</span>
+<span>(</span><span>fig)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map you can see and navigate maps on</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>ob_maps</code></strong></dt>
-<dd>Dict with all PlayMaps</dd>
 <dt><strong><code>fig</code></strong></dt>
 <dd>Figure object</dd>
 </dl></div>
@@ -214,17 +211,15 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class RoadMap:
     &#34;&#34;&#34;Map you can see and navigate maps on
     ARGS:
-        ob_maps: Dict with all PlayMaps
         fig: Figure object&#34;&#34;&#34;
 
-    def __init__(self, ob_maps, fig):
-        self.ob_maps = ob_maps
+    def __init__(self, fig):
         self.fig = fig
         self.box = Box(11, 40, &#34;Roadmap&#34;, &#34;q:close&#34;)
         self.info_label = se.Text(&#34;&#34;, state=&#34;float&#34;)
         self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta in p_data.stations:
-            obj = Station(self, ob_maps[sta], **p_data.stations[sta][&#39;gen&#39;])
+            obj = Station(self, obmp.ob_maps[sta], **p_data.stations[sta][&#39;gen&#39;])
             self.box.add_ob(obj, **p_data.stations[sta][&#39;add&#39;])
             setattr(self, sta, obj)
 
@@ -250,7 +245,7 @@ if __name__ == &#34;__main__&#34;:
             i.set_color(choose)
         [i for i in Station.obs
          if (self.fig.map
-             if self.fig.map not in [self.ob_maps[i] for i in
+             if self.fig.map not in [obmp.ob_maps[i] for i in
                                             [&#34;shopmap&#34;, &#34;centermap&#34;]]
              else self.fig.oldmap)
          in i.associates][0].choose()
@@ -373,7 +368,7 @@ def sta(self):
         self.desc = desc
         self.roadmap = roadmap
         self.org_char = char
-        self.associates = [associate] + [roadmap.ob_maps[i] for i in additionals]
+        self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
         self.color = &#34;&#34;
         self.name = self.associates[0].pretty_name
         super().__init__(char, width, height, state=&#34;float&#34;)
