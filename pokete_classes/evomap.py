@@ -1,6 +1,7 @@
 import scrap_engine as se
 from .classes import OutP
 
+
 class EvoMap(se.Map):
     """Map for evolutions to take place on
     ARGS:
