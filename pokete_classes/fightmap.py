@@ -19,6 +19,7 @@ from .inv_items import invitems
 from .settings import settings
 from .event import _ev
 
+
 class FightMap(se.Map):
     """Wrapper for se.Map
     ARGS:

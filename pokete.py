@@ -237,9 +237,8 @@ class CenterInteract(se.Object):
                 _ev.clear()
                 heal(figure)
                 time.sleep(0.5)
-                mvp.movemap.text(int(mvp.movemap.width / 2), 3, [" < ...",
-                                                         " < Your Poketes are \
-now healed!"])
+                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                                 [" < ...", " < Your Poketes are now healed!"])
                 break
             elif _ev.get() == "'c'":
                 _ev.clear()
@@ -262,7 +261,8 @@ class ShopInteract(se.Object):
                           " < Wanna buy something?"])
         buy()
         mvp.movemap.full_show(init=True)
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3, [" < Have a great day!"])
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [" < Have a great day!"])
 
 
 class CenterMap(PlayMap):
@@ -763,11 +763,12 @@ class ExtraActions:
     @staticmethod
     def playmap_7():
         """Cave animation"""
-        for obj in obmp.ob_maps["playmap_7"].inner_walls.obs\
-                   + [i.main_ob for i in obmp.ob_maps["playmap_7"].trainers]\
-                   + [getattr(obmp.ob_maps["playmap_7"], i)
-                    for i in p_data.map_data["playmap_7"]["balls"] if
-                        "playmap_7." + i not in figure.used_npcs or not save_trainers]:
+        for obj in (obmp.ob_maps["playmap_7"].inner_walls.obs
+                    + [i.main_ob for i in obmp.ob_maps["playmap_7"].trainers]
+                    + [getattr(obmp.ob_maps["playmap_7"], i)
+                       for i in p_data.map_data["playmap_7"]["balls"] if
+                       "playmap_7." + i not in figure.used_npcs or
+                       not save_trainers]):
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) <= 3:
                 obj.rechar(obj.bchar)
@@ -942,7 +943,7 @@ def _game(_map):
                                     figure.y + 6 > mvp.movemap.y
                                     + mvp.movemap.height,
                                     figure.y < mvp.movemap.y + 6],
-                                    [1, -1, 0, 0], [0, 0, 1, -1]):
+                                   [1, -1, 0, 0], [0, 0, 1, -1]):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
         # checking for resizing
@@ -966,11 +967,12 @@ def intro():
                             " < You're now ten years old.",
                             " < And I think it's now time for you to travel \
 the world and be a Pokete-trainer.",
-                        " < Therefore I give you this powerfull 'Steini', \
+                            " < Therefore I give you this powerfull 'Steini', \
 15 'Poketeballs' to catch Poketes and a "
-                        "'Healing potion'.",
-                        " < You will be the best Pokete-Trainer in Nice town.",
-                        " < Now go out and become the best!"])
+                            "'Healing potion'.",
+                            " < You will be the best Pokete-Trainer in Nice \
+town.",
+                            " < Now go out and become the best!"])
     game.game(obmp.ob_maps["intromap"])
 
 
@@ -1022,7 +1024,7 @@ def gen_obs():
         for door in map_data[ob_map]["dors"]:
             parse_obj(_map, door,
                       Door(" ", state="float",
-                          arg_proto=map_data[ob_map]["dors"][door]["args"]),
+                           arg_proto=map_data[ob_map]["dors"][door]["args"]),
                       map_data[ob_map]["dors"][door])
         for ball in map_data[ob_map]["balls"]:
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
