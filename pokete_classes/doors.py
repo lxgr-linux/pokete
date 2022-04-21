@@ -1,6 +1,9 @@
+import random
+
 import scrap_engine as se
 import pokete_classes.game as game
 import pokete_classes.ob_maps as obmp
+
 
 class CenterDoor(se.Object):
     """Door class for the map to enter centers and shops"""
@@ -43,10 +46,12 @@ class DoorToCenter(Door):
     def __init__(self):
         super().__init__("#", state="float",
                          arg_proto={"map": "centermap",
-                                    "x": int(obmp.ob_maps["centermap"].width / 2), "y": 7})
+                                    "x": int(
+                                        obmp.ob_maps["centermap"].width / 2),
+                                    "y": 7})
 
     def action(self, ob):
-        """Triggers the dor
+        """Triggers the door
         ARGS:
             ob: The object triggering this action"""
         ob.last_center_map = ob.map
@@ -59,11 +64,12 @@ class DoorToShop(Door):
     def __init__(self):
         super().__init__("#", state="float",
                          arg_proto={"map": "shopmap",
-                                    "x": int(obmp.ob_maps["shopmap"].width / 2), "y": 7})
+                                    "x": int(obmp.ob_maps["shopmap"].width / 2),
+                                    "y": 7})
 
 
 class ChanceDoor(Door):
-    """Same as dor but with a chance"""
+    """Same as door but with a chance"""
 
     def action(self, ob):
         """Trigger
@@ -71,3 +77,7 @@ class ChanceDoor(Door):
             ob: The object triggering this action"""
         if random.randint(0, self.arg_proto["chance"]) == 0:
             super().action(ob)
+
+
+if __name__ == "__main__":
+    print("\033[31;1mDo not execute this!\033[0m")

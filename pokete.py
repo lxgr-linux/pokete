@@ -156,9 +156,9 @@ class CenterInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                     [" < Welcome to the Pokete-Center",
-                      " < What do you want to do?",
-                      " < a: See your full deck\n b: Heal all your Poketes\
+                         [" < Welcome to the Pokete-Center",
+                          " < What do you want to do?",
+                          " < a: See your full deck\n b: Heal all your Poketes\
 \n c: Go"])
         while True:
             if _ev.get() == "'a'":
@@ -173,9 +173,8 @@ class CenterInteract(se.Object):
                 _ev.clear()
                 heal(figure)
                 time.sleep(0.5)
-                mvp.movemap.text(int(mvp.movemap.width / 2), 3, [" < ...",
-                                                         " < Your Poketes are \
-now healed!"])
+                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                                 [" < ...", " < Your Poketes are now healed!"])
                 break
             elif _ev.get() == "'c'":
                 _ev.clear()
@@ -195,11 +194,12 @@ class ShopInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                     [" < Welcome to the Pokete-Shop",
-                      " < Wanna buy something?"])
+                         [" < Welcome to the Pokete-Shop",
+                          " < Wanna buy something?"])
         buy()
         mvp.movemap.full_show(init=True)
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3, [" < Have a great day!"])
+        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                         [" < Have a great day!"])
 
 
 class CenterMap(PlayMap):
@@ -283,7 +283,8 @@ class Figure(se.Object):
         self.caught_pokes = _si.get("caught_poketes", [])
         self.visited_maps = _si.get("visited_maps", ["playmap_1"])
         self.used_npcs = _si.get("used_npcs", [])
-        self.last_center_map = obmp.ob_maps[_si.get("last_center_map", "playmap_1")]
+        self.last_center_map = obmp.ob_maps[_si.get("last_center_map",
+                                                    "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
 
@@ -430,7 +431,7 @@ class Inv:
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(6, label="Your deck",
-                                                     in_fight=True)
+                                                          in_fight=True)
                                         if index is None:
                                             ex_cond = False
                                             self.map.show(init=True)
@@ -754,11 +755,12 @@ class ExtraActions:
     @staticmethod
     def playmap_7():
         """Cave animation"""
-        for obj in obmp.ob_maps["playmap_7"].inner_walls.obs\
-                   + [i.main_ob for i in obmp.ob_maps["playmap_7"].trainers]\
-                   + [getattr(obmp.ob_maps["playmap_7"], i)
-                    for i in p_data.map_data["playmap_7"]["balls"] if
-                        "playmap_7." + i not in figure.used_npcs or not save_trainers]:
+        for obj in (obmp.ob_maps["playmap_7"].inner_walls.obs
+                    + [i.main_ob for i in obmp.ob_maps["playmap_7"].trainers]
+                    + [getattr(obmp.ob_maps["playmap_7"], i)
+                       for i in p_data.map_data["playmap_7"]["balls"] if
+                       "playmap_7." + i not in figure.used_npcs or
+                       not save_trainers]):
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) <= 3:
                 obj.rechar(obj.bchar)
@@ -903,7 +905,7 @@ def _game(_map):
                 "'?'": [help_page, ()]}
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
-    # get all gras objs
+    # get all grass objs
     all_gras_objs = []
     if settings("animations").val:
         for meadow in Meadow.all_obs:
@@ -933,7 +935,8 @@ def _game(_map):
                 _ev.clear()
                 inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
                                  mvp.movemap.width,
-                                 (mvp.movemap.width - 2) * mvp.movemap.height - 1)[1:]
+                                 (mvp.movemap.width - 2)
+                                 * mvp.movemap.height - 1)[1:]
                 mvp.movemap.code_label.outp(figure.map.pretty_name)
                 codes(inp)
                 _ev.clear()
@@ -941,9 +944,11 @@ def _game(_map):
         _map.extra_actions()
         Meadow.moving_grass(all_gras_objs)
         time.sleep(0.05)
-        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
+        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x
+                                    + mvp.movemap.width,
                                     figure.x < mvp.movemap.x + 6,
-                                    figure.y + 6 > mvp.movemap.y + mvp.movemap.height,
+                                    figure.y + 6 > mvp.movemap.y
+                                    + mvp.movemap.height,
                                     figure.y < mvp.movemap.y + 6],
                                    [1, -1, 0, 0], [0, 0, 1, -1]):
             if statement:
@@ -966,14 +971,15 @@ def intro():
                                "Name:", "", "Name", 17)
     mvp.movemap.name_label_rechar(figure.name)
     mvp.movemap.text(4, 3, [" < Hello my child.",
-                        " < You're now ten years old.",
-                        " < And I think it's now time for you to travel the \
-world and be a Pokete-trainer.",
-                        " < Therefore I give you this powerfull 'Steini', \
+                            " < You're now ten years old.",
+                            " < And I think it's now time for you to travel \
+the world and be a Pokete-trainer.",
+                            " < Therefore I give you this powerfull 'Steini', \
 15 'Poketeballs' to catch Poketes and a "
-                        "'Healing potion'.",
-                        " < You will be the best Pokete-Trainer in Nice town.",
-                        " < Now go out and become the best!"])
+                            "'Healing potion'.",
+                            " < You will be the best Pokete-Trainer in Nice \
+town.",
+                            " < Now go out and become the best!"])
     game.game(obmp.ob_maps["intromap"])
 
 
@@ -1016,11 +1022,11 @@ def gen_obs():
                       Meadow(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
                              _map.poke_args),
                       map_data[ob_map]["soft_obs"][soft_ob])
-        for dor in map_data[ob_map]["dors"]:
-            parse_obj(_map, dor,
+        for door in map_data[ob_map]["dors"]:
+            parse_obj(_map, door,
                       Door(" ", state="float",
-                          arg_proto=map_data[ob_map]["dors"][dor]["args"]),
-                      map_data[ob_map]["dors"][dor])
+                           arg_proto=map_data[ob_map]["dors"][door]["args"]),
+                      map_data[ob_map]["dors"][door])
         for ball in map_data[ob_map]["balls"]:
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
             settings("save_trainers").val:
@@ -1130,9 +1136,9 @@ def map_additions():
     # playmap_4
     _map = obmp.ob_maps["playmap_4"]
     _map.dor_playmap_5 = ChanceDoor("~", state="float",
-                                   arg_proto={"chance": 6,
-                                              "map": "playmap_5",
-                                              "x": 17, "y": 16})
+                                    arg_proto={"chance": 6,
+                                               "map": "playmap_5",
+                                               "x": 17, "y": 16})
     _map.lake_1 = Water(
 """~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
@@ -1280,8 +1286,8 @@ _map.w_poke_args)
     # playmap_21
     _map = obmp.ob_maps["playmap_21"]
     _map.dor_playmap_19 = Door("_", state="float",
-                              arg_proto={"map": "playmap_19",
-                                         "x": 26, "y": 1})
+                               arg_proto={"map": "playmap_19",
+                                          "x": 26, "y": 1})
     _map.dor = DoorToCenter()
     _map.shopdor = DoorToShop()
     _map.lake_1 = Water("""       ~~~~~~~~~~~
