@@ -160,7 +160,7 @@ Do you want to accept it?"):
                                      for i in keys])
             c_b.frame.corners[0].rechar("^")
             mvp.movemap.assure_distance(self.fig.x, self.fig.y,
-                                      c_b.width + 2, c_b.height + 2)
+                                        c_b.width + 2, c_b.height + 2)
             with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
@@ -214,9 +214,9 @@ class Trainer(NPC):
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
                 self.text(self.texts)
                 winner = fm.fight([poke for poke in self.fig.pokes[:6]
-                                    if poke.hp > 0][0],
-                                    self.poke,
-                                    info={"type": "duel", "player": self})
+                                   if poke.hp > 0][0],
+                                  self.poke,
+                                  info={"type": "duel", "player": self})
                 self.text({True: self.lose_texts,
                            False: self.win_texts + [" < Here u go 20$"]}
                           [winner == self.poke])

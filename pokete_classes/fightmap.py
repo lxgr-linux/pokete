@@ -20,22 +20,6 @@ from .settings import settings
 from .event import _ev
 
 
-class EvoMap(se.Map):
-    """Map for evolutions to take place on
-    ARGS:
-        height: The height of the map
-        width: The width of the map"""
-
-    def __init__(self, height, width):
-        super().__init__(height, width, " ")
-        self.name = "evomap"
-        self.frame_small = se.Frame(height=4, width=width, state="float")
-        self.outp = OutP("", state="float")
-        # adding
-        self.frame_small.add(self, 0, self.height - 5)
-        self.outp.add(self, 1, self.height - 4)
-
-
 class FightMap(se.Map):
     """Wrapper for se.Map
     ARGS:
@@ -404,7 +388,7 @@ class FightItems:
     ARGS:
         figure: Figure object
 
-    The methods that can actually be called in fight follow the follwing patern:
+    The methods that can actually be called in fight follow the following pattern:
         ARGS:
             obj: The players Poke object
             enem: The enemys Poke object

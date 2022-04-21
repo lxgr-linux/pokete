@@ -2,9 +2,13 @@ import time
 import scrap_engine as se
 import pokete_classes.detail as detail
 from .event import _ev
+from .input import ask_bool
 from .loops import std_loop
 from .color import Color
+from .movemap import movemap
+from .poke import Poke
 from .ui_elements import StdFrame2
+
 
 class Deck(detail.Informer):
     """Deck to see Poketes in"""
@@ -26,14 +30,14 @@ class Deck(detail.Informer):
     def rem_pokes(self, pokes):
         """Removes all Poketes from the Deck
         ARGS:
-            pokes: List of Pokes beeing removed"""
+            pokes: List of Pokes being removed"""
         for poke in pokes:
             self.remove(poke)
 
     def __call__(self, p_len, label="Your full deck", in_fight=False):
         """Opens the deck
         ARGS:
-            p_len: Number of Pokes beeing included
+            p_len: Number of Pokes being included
             label: The displayed label
             in_fight: Whether or not this is called in a fight"""
         _ev.clear()
@@ -54,8 +58,8 @@ class Deck(detail.Informer):
         if len(pokes) > 0:
             self.index.add(self.map,
                            pokes[self.index.index].text_name.x
-                            + len(pokes[self.index.index].text_name.text)
-                            + 1,
+                           + len(pokes[self.index.index].text_name.text)
+                           + 1,
                            pokes[self.index.index].text_name.y)
         self.submap.full_show(init=True)
         while True:
@@ -86,7 +90,7 @@ class Deck(detail.Informer):
                     self.add_all(pokes)
                     self.index.set(
                         pokes[self.index.index].text_name.x
-                         + len(pokes[self.index.index].text_name.text) + 1,
+                        + len(pokes[self.index.index].text_name.text) + 1,
                         pokes[self.index.index].text_name.y)
                     self.move_label.rechar("2: Move    ")
                     self.submap.full_show()
@@ -95,13 +99,14 @@ class Deck(detail.Informer):
                 if ask_bool(self.submap, f"Do you really want to free \
 {self.figure.pokes[self.index.index].name}?"):
                     self.rem_pokes(pokes)
-                    self.figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
+                    self.figure.pokes[self.index.index] = Poke("__fallback__",
+                                                               10, 0)
                     pokes = self.figure.pokes[:len(pokes)]
                     self.add_all(pokes)
                     self.index.set(
                         pokes[self.index.index].text_name.x
-                         + len(pokes[self.index.index].text_name.text)
-                         + 1,
+                        + len(pokes[self.index.index].text_name.text)
+                        + 1,
                         pokes[self.index.index].text_name.y)
                     movemap.balls_label_rechar(self.figure.pokes)
             elif _ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
@@ -137,7 +142,7 @@ class Deck(detail.Informer):
     def add_all(self, pokes, init=False):
         """Adds all Poketes to the deck
         ARGS:
-            pokes: List of all Pokes beeing added
+            pokes: List of all Pokes being added
             init: Whether or not this happens for the first time"""
         j = 0
         for i, poke in enumerate(pokes):
@@ -166,7 +171,7 @@ class Deck(detail.Informer):
                                        [len(pokes) - 1, 0,
                                         self.index.index % 2,
                                         [i for i in range(len(pokes))
-                                            if i % 2 ==
+                                         if i % 2 ==
                                             self.index.index % 2][-1]]):
             if inp == con:
                 if stat:
@@ -175,7 +180,8 @@ class Deck(detail.Informer):
                     self.index.index = sec
                 break
         self.index.set(pokes[self.index.index].text_name.x
-                        + len(pokes[self.index.index].text_name.text) + 1,
+                       + len(pokes[self.index.index].text_name.text) + 1,
                        pokes[self.index.index].text_name.y)
+
 
 deck = None
