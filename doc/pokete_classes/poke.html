@@ -205,6 +205,10 @@ can&#39;t have more than 4 attacks!&#34;
                 self.enem = enem
             weather = fightmap.figure.map.weather
             w_eff = 1
+            random_factor = random.choices([0, 0.75, 1, 1.26],
+                                           weights=[attack.miss_chance
+                                                    + self.miss_chance,
+                                                    1, 1, 1], k=1)[0]
             if weather != None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
@@ -216,18 +220,12 @@ can&#39;t have more than 4 attacks!&#34;
             n_hp = round((self.atc
                           * attack.factor
                           / (enem.defense if enem.defense &gt;= 1 else 1))
-                         * random.choices([0, 0.75, 1, 1.26],
-                                          weights=[attack.miss_chance
-                                                   + self.miss_chance,
-                                                   1, 1, 1],
-                                          k=1)[0] * eff)
+                         * random_factor * eff)
             eff_text = {
                 eff &lt; 1: &#34;\nThat was not effective! &#34;,
                 eff &gt; 1: &#34;\nThat was very effective! &#34;,
                 eff == 1 or n_hp == 0: &#34;&#34;,
-                eff == 0 or n_hp == 0 and attack.factor != 0: \
-                        f&#34;{self.name} missed!&#34;
-            }[True]
+                random_factor == 0: f&#34;{self.name} missed!&#34;}[True]
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
             time.sleep(0.4)
@@ -480,6 +478,10 @@ can&#39;t have more than 4 attacks!&#34;
                 self.enem = enem
             weather = fightmap.figure.map.weather
             w_eff = 1
+            random_factor = random.choices([0, 0.75, 1, 1.26],
+                                           weights=[attack.miss_chance
+                                                    + self.miss_chance,
+                                                    1, 1, 1], k=1)[0]
             if weather != None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
@@ -491,18 +493,12 @@ can&#39;t have more than 4 attacks!&#34;
             n_hp = round((self.atc
                           * attack.factor
                           / (enem.defense if enem.defense &gt;= 1 else 1))
-                         * random.choices([0, 0.75, 1, 1.26],
-                                          weights=[attack.miss_chance
-                                                   + self.miss_chance,
-                                                   1, 1, 1],
-                                          k=1)[0] * eff)
+                         * random_factor * eff)
             eff_text = {
                 eff &lt; 1: &#34;\nThat was not effective! &#34;,
                 eff &gt; 1: &#34;\nThat was very effective! &#34;,
                 eff == 1 or n_hp == 0: &#34;&#34;,
-                eff == 0 or n_hp == 0 and attack.factor != 0: \
-                        f&#34;{self.name} missed!&#34;
-            }[True]
+                random_factor == 0: f&#34;{self.name} missed!&#34;}[True]
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
             time.sleep(0.4)
@@ -637,6 +633,10 @@ can&#39;t have more than 4 attacks!&#34;
             self.enem = enem
         weather = fightmap.figure.map.weather
         w_eff = 1
+        random_factor = random.choices([0, 0.75, 1, 1.26],
+                                       weights=[attack.miss_chance
+                                                + self.miss_chance,
+                                                1, 1, 1], k=1)[0]
         if weather != None:
             w_eff = weather.effect(attack.type)
             fightmap.outp.outp(weather.info)
@@ -648,18 +648,12 @@ can&#39;t have more than 4 attacks!&#34;
         n_hp = round((self.atc
                       * attack.factor
                       / (enem.defense if enem.defense &gt;= 1 else 1))
-                     * random.choices([0, 0.75, 1, 1.26],
-                                      weights=[attack.miss_chance
-                                               + self.miss_chance,
-                                               1, 1, 1],
-                                      k=1)[0] * eff)
+                     * random_factor * eff)
         eff_text = {
             eff &lt; 1: &#34;\nThat was not effective! &#34;,
             eff &gt; 1: &#34;\nThat was very effective! &#34;,
             eff == 1 or n_hp == 0: &#34;&#34;,
-            eff == 0 or n_hp == 0 and attack.factor != 0: \
-                    f&#34;{self.name} missed!&#34;
-        }[True]
+            random_factor == 0: f&#34;{self.name} missed!&#34;}[True]
         enem.hp -= max(n_hp, 0)
         enem.hp = max(enem.hp, 0)
         time.sleep(0.4)
