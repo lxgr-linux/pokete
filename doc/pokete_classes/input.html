@@ -64,9 +64,8 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             obj.rechar(hard_liner(wrap_len, name + &#34;█&#34;))
             _map.show()
             _ev.clear()
-        elif _ev.get() not in [&#34;&#34;, &#34;Key.enter&#34;, &#34;exit&#34;, &#34;Key.backspace&#34;,
-                               &#34;Key.shift&#34;, &#34;Key.shift_r&#34;,
-                               &#34;Key.esc&#34;] and len(name) &lt; max_len:
+        elif ((i := _ev.get()) not in [&#34;&#34;, &#34;exit&#34;] and &#34;Key.&#34; not in i) \
+             and len(name) &lt; max_len or i == &#34;Key.space&#34;:
             if _ev.get() == &#34;Key.space&#34;:
                 _ev.set(&#34;&#39; &#39;&#34;)
             name += str(_ev.get().strip(&#34;&#39;&#34;))
@@ -302,9 +301,8 @@ if __name__ == &#34;__main__&#34;:
             obj.rechar(hard_liner(wrap_len, name + &#34;█&#34;))
             _map.show()
             _ev.clear()
-        elif _ev.get() not in [&#34;&#34;, &#34;Key.enter&#34;, &#34;exit&#34;, &#34;Key.backspace&#34;,
-                               &#34;Key.shift&#34;, &#34;Key.shift_r&#34;,
-                               &#34;Key.esc&#34;] and len(name) &lt; max_len:
+        elif ((i := _ev.get()) not in [&#34;&#34;, &#34;exit&#34;] and &#34;Key.&#34; not in i) \
+             and len(name) &lt; max_len or i == &#34;Key.space&#34;:
             if _ev.get() == &#34;Key.space&#34;:
                 _ev.set(&#34;&#39; &#39;&#34;)
             name += str(_ev.get().strip(&#34;&#39;&#34;))
