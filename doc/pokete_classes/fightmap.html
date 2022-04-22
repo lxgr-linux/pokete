@@ -332,17 +332,7 @@ used {enemy.name} against you!&#39;)
                         _ev.clear()
                         if obj.identifier == &#34;__fallback__&#34;:
                             continue
-                        self.clean_up(player, enemy)
-                        index = deck.deck(6, &#34;Your deck&#34;, True)
-                        player = player if index is None else figure.pokes[index]
-                        self.add_1(player, enemy, figure.caught_pokes)
-                        self.box.set_index(0)
-                        players = self.add_3(player, enemy)
-                        self.outp.outp(f&#34;You have choosen {player.name}&#34;)
-                        for i in players:
-                            for j in i.effects:
-                                time.sleep(1)
-                                j.readd()
+                        players, player = self.choose_poke(figure, players, player, enemy)
                         attack = &#34;&#34;
                         break
                     std_loop(False)
@@ -364,15 +354,26 @@ used {enemy.name} against you!&#39;)
                 obj.attack(attack, enem, self)
             self.show()
             time.sleep(0.5)
+            do_break = False
             if any(i.hp &lt;= 0 for i in players):
                 winner = [i for i in players if i.hp &gt; 0][0]
-                break
+                do_break = True
             elif all(i.ap == 0 for i in obj.attack_obs):
                 winner = [i for i in players if i != obj][0]
                 time.sleep(2)
                 self.outp.outp(f&#34;{obj.ext_name} has used all its&#39; attacks!&#34;)
                 time.sleep(3)
-                break
+                do_break = True
+            if do_break:
+                if (obj.identifier != &#34;__fallback__&#34;
+                    and not obj.player
+                    and any(p.hp &gt; 0 for p in figure.pokes[:6])
+                    and ask_bool(self,
+                                 &#34;Do you want to choose another Pokete?&#34;)):
+                    players, player = self.choose_poke(figure, players, player,
+                                                       enemy)
+                else:
+                    break
             obj = [i for i in players if i != obj][-1]
             enem = [i for i in players if i != obj][-1]
         loser = [obj for obj in players if obj != winner][0]
@@ -403,6 +404,20 @@ used {enemy.name} against you!&#39;)
         logging.info(&#34;[Fight][%s] Ended, %s(%s) won&#34;, info[&#34;type&#34;],
                      winner.name, &#34;player&#34; if winner.player else &#34;enemy&#34;)
         return winner
+
+    def choose_poke(self, figure, players, player, enemy):
+        self.clean_up(player, enemy)
+        index = deck.deck(6, &#34;Your deck&#34;, True)
+        player = player if index is None else figure.pokes[index]
+        self.add_1(player, enemy, figure.caught_pokes)
+        self.box.set_index(0)
+        players = self.add_3(player, enemy)
+        self.outp.outp(f&#34;You have choosen {player.name}&#34;)
+        for i in players:
+            for j in i.effects:
+                time.sleep(1)
+                j.readd()
+        return players, player
 
 
 class FightItems:
@@ -1218,17 +1233,7 @@ used {enemy.name} against you!&#39;)
                         _ev.clear()
                         if obj.identifier == &#34;__fallback__&#34;:
                             continue
-                        self.clean_up(player, enemy)
-                        index = deck.deck(6, &#34;Your deck&#34;, True)
-                        player = player if index is None else figure.pokes[index]
-                        self.add_1(player, enemy, figure.caught_pokes)
-                        self.box.set_index(0)
-                        players = self.add_3(player, enemy)
-                        self.outp.outp(f&#34;You have choosen {player.name}&#34;)
-                        for i in players:
-                            for j in i.effects:
-                                time.sleep(1)
-                                j.readd()
+                        players, player = self.choose_poke(figure, players, player, enemy)
                         attack = &#34;&#34;
                         break
                     std_loop(False)
@@ -1250,15 +1255,26 @@ used {enemy.name} against you!&#39;)
                 obj.attack(attack, enem, self)
             self.show()
             time.sleep(0.5)
+            do_break = False
             if any(i.hp &lt;= 0 for i in players):
                 winner = [i for i in players if i.hp &gt; 0][0]
-                break
+                do_break = True
             elif all(i.ap == 0 for i in obj.attack_obs):
                 winner = [i for i in players if i != obj][0]
                 time.sleep(2)
                 self.outp.outp(f&#34;{obj.ext_name} has used all its&#39; attacks!&#34;)
                 time.sleep(3)
-                break
+                do_break = True
+            if do_break:
+                if (obj.identifier != &#34;__fallback__&#34;
+                    and not obj.player
+                    and any(p.hp &gt; 0 for p in figure.pokes[:6])
+                    and ask_bool(self,
+                                 &#34;Do you want to choose another Pokete?&#34;)):
+                    players, player = self.choose_poke(figure, players, player,
+                                                       enemy)
+                else:
+                    break
             obj = [i for i in players if i != obj][-1]
             enem = [i for i in players if i != obj][-1]
         loser = [obj for obj in players if obj != winner][0]
@@ -1288,7 +1304,21 @@ used {enemy.name} against you!&#39;)
         mvp.movemap.balls_label_rechar(figure.pokes)
         logging.info(&#34;[Fight][%s] Ended, %s(%s) won&#34;, info[&#34;type&#34;],
                      winner.name, &#34;player&#34; if winner.player else &#34;enemy&#34;)
-        return winner</code></pre>
+        return winner
+
+    def choose_poke(self, figure, players, player, enemy):
+        self.clean_up(player, enemy)
+        index = deck.deck(6, &#34;Your deck&#34;, True)
+        player = player if index is None else figure.pokes[index]
+        self.add_1(player, enemy, figure.caught_pokes)
+        self.box.set_index(0)
+        players = self.add_3(player, enemy)
+        self.outp.outp(f&#34;You have choosen {player.name}&#34;)
+        for i in players:
+            for j in i.effects:
+                time.sleep(1)
+                j.readd()
+        return players, player</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -1403,6 +1433,30 @@ been caught</p></div>
         player.text_hp.add(self, self.width - 17, self.height - 7)
         player.ico.add(self, 3, self.height - 10)
     return [player, enemy]</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.choose_poke"><code class="name flex">
+<span>def <span class="ident">choose_poke</span></span>(<span>self, figure, players, player, enemy)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def choose_poke(self, figure, players, player, enemy):
+    self.clean_up(player, enemy)
+    index = deck.deck(6, &#34;Your deck&#34;, True)
+    player = player if index is None else figure.pokes[index]
+    self.add_1(player, enemy, figure.caught_pokes)
+    self.box.set_index(0)
+    players = self.add_3(player, enemy)
+    self.outp.outp(f&#34;You have choosen {player.name}&#34;)
+    for i in players:
+        for j in i.effects:
+            time.sleep(1)
+            j.readd()
+    return players, player</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.fightmap.FightMap.clean_up"><code class="name flex">
@@ -1592,17 +1646,7 @@ used {enemy.name} against you!&#39;)
                         _ev.clear()
                         if obj.identifier == &#34;__fallback__&#34;:
                             continue
-                        self.clean_up(player, enemy)
-                        index = deck.deck(6, &#34;Your deck&#34;, True)
-                        player = player if index is None else figure.pokes[index]
-                        self.add_1(player, enemy, figure.caught_pokes)
-                        self.box.set_index(0)
-                        players = self.add_3(player, enemy)
-                        self.outp.outp(f&#34;You have choosen {player.name}&#34;)
-                        for i in players:
-                            for j in i.effects:
-                                time.sleep(1)
-                                j.readd()
+                        players, player = self.choose_poke(figure, players, player, enemy)
                         attack = &#34;&#34;
                         break
                     std_loop(False)
@@ -1624,15 +1668,26 @@ used {enemy.name} against you!&#39;)
                 obj.attack(attack, enem, self)
             self.show()
             time.sleep(0.5)
+            do_break = False
             if any(i.hp &lt;= 0 for i in players):
                 winner = [i for i in players if i.hp &gt; 0][0]
-                break
+                do_break = True
             elif all(i.ap == 0 for i in obj.attack_obs):
                 winner = [i for i in players if i != obj][0]
                 time.sleep(2)
                 self.outp.outp(f&#34;{obj.ext_name} has used all its&#39; attacks!&#34;)
                 time.sleep(3)
-                break
+                do_break = True
+            if do_break:
+                if (obj.identifier != &#34;__fallback__&#34;
+                    and not obj.player
+                    and any(p.hp &gt; 0 for p in figure.pokes[:6])
+                    and ask_bool(self,
+                                 &#34;Do you want to choose another Pokete?&#34;)):
+                    players, player = self.choose_poke(figure, players, player,
+                                                       enemy)
+                else:
+                    break
             obj = [i for i in players if i != obj][-1]
             enem = [i for i in players if i != obj][-1]
         loser = [obj for obj in players if obj != winner][0]
@@ -1789,6 +1844,7 @@ used {enemy.name} against you!&#39;)
 <li><code><a title="pokete_classes.fightmap.FightMap.add_1" href="#pokete_classes.fightmap.FightMap.add_1">add_1</a></code></li>
 <li><code><a title="pokete_classes.fightmap.FightMap.add_2" href="#pokete_classes.fightmap.FightMap.add_2">add_2</a></code></li>
 <li><code><a title="pokete_classes.fightmap.FightMap.add_3" href="#pokete_classes.fightmap.FightMap.add_3">add_3</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.choose_poke" href="#pokete_classes.fightmap.FightMap.choose_poke">choose_poke</a></code></li>
 <li><code><a title="pokete_classes.fightmap.FightMap.clean_up" href="#pokete_classes.fightmap.FightMap.clean_up">clean_up</a></code></li>
 <li><code><a title="pokete_classes.fightmap.FightMap.fast_change" href="#pokete_classes.fightmap.FightMap.fast_change">fast_change</a></code></li>
 <li><code><a title="pokete_classes.fightmap.FightMap.fight" href="#pokete_classes.fightmap.FightMap.fight">fight</a></code></li>
