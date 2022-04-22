@@ -177,9 +177,9 @@ can't have more than 4 attacks!"
             weather = fightmap.figure.map.weather
             w_eff = 1
             random_factor = random.choices([0, 0.75, 1, 1.26],
-                                            weights=[attack.miss_chance
-                                                     + self.miss_chance,
-                                                     1, 1, 1], k=1)[0]
+                                           weights=[attack.miss_chance
+                                                    + self.miss_chance,
+                                                    1, 1, 1], k=1)[0]
             if weather != None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
