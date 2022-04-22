@@ -704,6 +704,7 @@ def exiter():
     &#34;&#34;&#34;Exit function&#34;&#34;&#34;
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
+    print(&#34;\033[?1049l\033[1A&#34;)
     sys.exit()
 
 
@@ -1420,6 +1421,10 @@ if __name__ == &#34;__main__&#34;:
                 with Listener(on_press=on_press) as listener:
                     listener.join()
 
+
+    do_logging, load_mods = parse_args(sys.argv)
+    print(&#34;\033[?1049h&#34;)
+
     # resizing screen
     tss = ResizeScreen()
     width, height = tss()
@@ -1533,7 +1538,7 @@ if __name__ == &#34;__main__&#34;:
     try:
         main()
     except KeyboardInterrupt:
-        print(&#34;KeyboardInterrupt&#34;)</code></pre>
+        print(&#34;\033[?1049l\033[1A\nKeyboardInterrupt&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -1631,6 +1636,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     &#34;&#34;&#34;Exit function&#34;&#34;&#34;
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
+    print(&#34;\033[?1049l\033[1A&#34;)
     sys.exit()</code></pre>
 </details>
 </dd>
