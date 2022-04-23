@@ -1385,7 +1385,6 @@ if __name__ == "__main__":
                     listener.join()
 
 
-    do_logging, load_mods = parse_args(sys.argv)
     print("\033[?1049h")
 
     # resizing screen
