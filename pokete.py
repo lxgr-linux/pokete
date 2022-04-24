@@ -269,7 +269,8 @@ class Figure(se.Object):
     def __init__(self, _si):
         r_char = _si.get("represent_char", "a")
         if len(r_char) != 1:
-            logging.info("[Figure] '%s' is no valid 'represent_char', resetting", r_char)
+            logging.info(
+                "[Figure] '%s' is no valid 'represent_char', resetting", r_char)
             r_char = "a"
         super().__init__(r_char, state="solid")
         self.__money = _si.get("money", 10)
@@ -534,7 +535,7 @@ class Menu:
                         self.playername_label.ry)
         self.box.add_ob(self.char_label,
                         self.represent_char_label.rx
-                         + self.represent_char_label.width,
+                        + self.represent_char_label.width,
                         self.represent_char_label.ry)
 
     def __call__(self):
@@ -555,7 +556,8 @@ class Menu:
                     elif i == self.represent_char_label:
                         inp = text_input(self.char_label, self.map,
                                          figure.char, 18, 1)
-                        if len(inp.encode("utf-8")) != 1:  # exludes bade unicode
+                        # excludes bad unicode:
+                        if len(inp.encode("utf-8")) != 1: 
                             inp = "a"
                         figure.rechar(inp)
                     elif i == self.mods_label:
