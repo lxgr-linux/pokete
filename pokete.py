@@ -557,8 +557,11 @@ class Menu:
                         inp = text_input(self.char_label, self.map,
                                          figure.char, 18, 1)
                         # excludes bad unicode:
-                        if len(inp.encode("utf-8")) != 1: 
+                        if len(inp.encode("utf-8")) != 1:
                             inp = "a"
+                            notifier.notify("Error", "Bad character",
+                                            "The choosen chracater has to be a \
+valid single-space character!")
                         figure.rechar(inp)
                     elif i == self.mods_label:
                         ModInfo(mvp.movemap, mods.mod_info)()
