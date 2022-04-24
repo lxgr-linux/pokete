@@ -36,7 +36,7 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             _map.show()
             _ev.clear()
         elif ((i := _ev.get()) not in ["", "exit"] and "Key." not in i) \
-                and len(name) < max_len:
+             and len(name) < max_len or i == "Key.space":
             if _ev.get() == "Key.space":
                 _ev.set("' '")
             name += str(_ev.get().strip("'"))
