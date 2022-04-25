@@ -1,0 +1,58 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+version: 1
+script:
+  - rm -rf AppDir | true
+  - mkdir -p AppDir/usr/share/icons
+  - git clone https://github.com/lxgr-linux/pokete AppDir/usr/share/pokete
+  - git clone https://github.com/lxgr-linux/scrap_engine AppDir/usr/share/scrap_engine
+  - cp AppDir/usr/share/scrap_engine/scrap_engine.py AppDir/usr/share/pokete/
+  - cp AppDir/usr/share/pokete/assets/pokete.png AppDir/usr/share/icons/pokete.png
+
+AppDir:
+  path: /home/arch/AppDir
+  app_info:
+    id: com.github.lxgr-linux.pokete
+    name: Pokete
+    icon: pokete
+    version: 0.6.0
+    exec: usr/bin/python3
+    exec_args: $APPDIR/usr/share/pokete/pokete.py --log $@
+  # pacman:
+  #   include:
+  #     - python
+  #   exclude: []
+  apt:
+    arch: amd64
+    sources:
+      - sourceline: 'deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ bionic main restricted universe multiverse'
+        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x3b4fe6acc0b21f32'
+    include:
+      - python3
+    exclude: []
+  files:
+    include: []
+    exclude:
+    - usr/share/man
+    - usr/share/doc/*/README.*
+    - usr/share/doc/*/changelog.*
+    - usr/share/doc/*/NEWS.*
+    - usr/share/doc/*/TODO.*
+  test:
+    fedora-30:
+      image: appimagecrafters/tests-env:fedora-30
+      command: ./AppRun
+    debian-stable:
+      image: appimagecrafters/tests-env:debian-stable
+      command: ./AppRun
+    archlinux-latest:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: ./AppRun
+    centos-7:
+      image: appimagecrafters/tests-env:centos-7
+      command: ./AppRun
+    ubuntu-xenial:
+      image: appimagecrafters/tests-env:ubuntu-xenial
+      command: ./AppRun
+AppImage:
+  arch: x86_64
+  update-information: guess
