@@ -9,7 +9,7 @@ script:
   - cp AppDir/usr/share/pokete/assets/pokete.png AppDir/usr/share/icons/pokete.png
 
 AppDir:
-  path: /home/arch/AppDir
+  path: AppDir
   app_info:
     id: com.github.lxgr-linux.pokete
     name: Pokete
