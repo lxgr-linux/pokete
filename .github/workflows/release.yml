@@ -35,6 +35,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Prepare
         run: |
+          echo ${{ steps.version.outputs.version }}
+          echo ${{ steps.path.outputs.path }}
           sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
           sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
           sudo chmod +x /usr/local/bin/appimagetool
