@@ -14,7 +14,7 @@ AppDir:
     id: com.github.lxgr-linux.pokete
     name: Pokete
     icon: pokete
-    version: 0.6.1
+    version: 0.6.2
     exec: usr/bin/python3.10
     exec_args: $APPDIR/usr/share/pokete/pokete.py --log $@
   # pacman:

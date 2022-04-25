@@ -1,3 +1,7 @@
+0.6.2
+------
+Test release
+
 0.6.1
 ------
 Test release
