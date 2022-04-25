@@ -23,18 +23,21 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: version
-        run: echo "::set-output name=version::${GITHUB_REF#refs/tags/}"
-        id: version
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+        with:
+          # Optionally strip `v` prefix
+          strip_v: true
         
       - name: path
-        run: echo "::set-output name=path::Pokete-${{ steps.version.outputs.version }}-x86_64.AppImage"
+        run: echo "::set-output name=path::Pokete-${{ steps.tag.outputs.tag }}-x86_64.AppImage"
         id: path
       
       # Runs a set of commands using the runners shell
       - name: Prepare
         run: |
-          echo ${{ steps.version.outputs.version }}
+          echo ${{ steps.tag.outputs.tag }}
           echo ${{ steps.path.outputs.path }}
           sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
           sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
@@ -50,7 +53,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
+          release_name: ${{ steps.tag.outputs.tag }}
           tag_name: ${{ github.ref }}
           body_path: Changelog.md
         env:
