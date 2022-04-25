@@ -1,18 +1,8 @@
-0.6.3
-------
+## [0.6.3] - 2022-04-26
+
 Yet another test release
 
-0.6.2
-------
-Test release
-
-0.6.1
-------
-Test release
-
-0.6.0
-------
-released: 2021-11-09
+## [0.6.0] - 2021-11-09
 
 What changed until this release?
 - Added [Diamondos](wiki.md#diamondos), [Dia stab](wiki.md#dia-stab), [Dazzle](wiki.md#dazzle), [Dia spikes](wiki.md#dia-spikes)
@@ -37,17 +27,13 @@ What changed until this release?
 Again special thanks to MaFeLP
 
 
-0.5.1
-------
-released: 2021-09-19
+## [0.5.1] - 2021-09-19
 
 Some minor changes due to API changes in scrap_engine v1.0.0.
 scrap_engine v1.0.0 is now required.
 
 
-0.5.0
-------
-released: 2021-09-10
+## [0.5.0] - 2021-09-10
 
 What changed until this release?
 - Improve Help
@@ -70,9 +56,7 @@ What changed until this release?
 - scrap_engine v0.3.3 is now needed
 
 
-0.4.1
-------
-released: 2021-08-08
+## [0.4.1] - 2021-08-08
 
 What changed until this release?
 - Added [EffectFreezing](wiki.md#freezing)
@@ -89,9 +73,7 @@ What changed until this release?
 - Changed development flow
 
 
-0.4.0
-------
-released: 2021-08-01
+## [0.4.0] - 2021-08-01
 
 What changed until this release?
 - Added confirmation for running away
@@ -115,9 +97,7 @@ What changed until this release?
 - Made some other quality of life changes
 
 
-0.3.8
--------
-released: 2021-07-07
+## [0.3.8] - 2021-07-07
 
 What changed until this release?
 - Added coloured type tags and attack labels
@@ -127,36 +107,28 @@ What changed until this release?
 - Made some minor fixes and changes
 
 
-0.3.7
--------
-released: 2021-06-30
+## [0.3.7] - 2021-06-30
 
 What changed until this release?
 - Added trading with other players in the same network
 - Simplified some code
 
 
-0.3.6
--------
-released: 2021-06-28
+## [0.3.6] - 2021-06-28
 
 What changed until this release?
 - scrap_engine 0.3.0 in now needed
 - Added initiative attribute for Poketes to determine which Pokete attacks first
 - Several minor fixed and additions
 
-0.3.5
--------
-released: 2021-06-25
+## [0.3.5] - 2021-06-25
 
 What changed until this release?
 - Compatibility with scrap_engine 0.2.0
 - Added validation for pokete_data
 - Added Intro
 
-0.3.4
--------
-released: 2021-06-21
+## [0.3.4] - 2021-06-21
 
 What changed until this release?
 - Added Changelog.md
@@ -167,9 +139,7 @@ What changed until this release?
 - Added some new attacks
 - Fixed some bugs
 
-0.3.3
--------
-released: 2021-06-15
+## [0.3.3] - 2021-06-15
 
 What changed until this release?
 - Trainers are now more likely to use effective attacks
@@ -184,9 +154,7 @@ What changed until this release?
 - Moved some stuff around
 - Fixed some bugs
 
-0.3.2
--------
-released: 2021-06-08
+## [0.3.2] - 2021-06-08
 
 What changed until this release?
 - Added route 3
@@ -197,9 +165,7 @@ What changed until this release?
 - Fixed some values
 - Fixed some bugs with trainers
 
-0.3.1
--------
-released: 2021-06-04
+## [0.3.1] - 2021-06-04
 
 What changed until this release?
 - Added Abandoned village
@@ -208,8 +174,6 @@ What changed until this release?
 - Added .desktop (MaFeLP) and logo
 - Made additions to the item system
 
-0.3.0
--------
-released: 2021-05-30
+## [0.3.0] - 2021-05-30
 
 This is the first real release of Pokete, because at this point most of the key game mechanics are implemented and most stuff that's still missing is just game content.
