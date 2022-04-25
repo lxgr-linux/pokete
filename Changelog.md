@@ -1,3 +1,7 @@
+## [0.6.4] - 2022-04-26
+
+Yet aaanother test release
+
 ## [0.6.3] - 2022-04-26
 
 Yet another test release
