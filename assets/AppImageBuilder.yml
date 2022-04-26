@@ -3,8 +3,8 @@ version: 1
 script:
   - rm -rf AppDir | true
   - mkdir -p AppDir/usr/share/icons
-  - git clone https://github.com/lxgr-linux/pokete AppDir/usr/share/pokete
-  - git clone https://github.com/lxgr-linux/scrap_engine AppDir/usr/share/scrap_engine
+  - git clone --depth=1 https://github.com/lxgr-linux/pokete AppDir/usr/share/pokete
+  - git clone --depth=1 https://github.com/lxgr-linux/scrap_engine AppDir/usr/share/scrap_engine
   - cp AppDir/usr/share/scrap_engine/scrap_engine.py AppDir/usr/share/pokete/
   - cp AppDir/usr/share/pokete/assets/pokete.png AppDir/usr/share/icons/pokete.png
 
@@ -28,15 +28,20 @@ AppDir:
         key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920d1991bc93c'
     include:
       - python3.10
-    exclude: []
+    exclude:
+      - perl
   files:
     include: []
     exclude:
     - usr/share/man
-    - usr/share/doc/*/README.*
-    - usr/share/doc/*/changelog.*
-    - usr/share/doc/*/NEWS.*
-    - usr/share/doc/*/TODO.*
+    - usr/share/pokete/assets
+    - usr/share/pokete/bash
+    - usr/share/pokete/.git
+    - usr/share/pokete/prepare_pages.py
+    - usr/share/pokete/gen_wiki.py./
+    - usr/share/pokete/*.md
+    - usr/share/scrap_engine
+    - usr/share/doc
   test:
     fedora-30:
       image: appimagecrafters/tests-env:fedora-30
