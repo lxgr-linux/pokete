@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.6.4] - 2022-04-26
+
+Test release
+
 ## [0.6.0] - 2021-11-09
 
 What changed until this release?
