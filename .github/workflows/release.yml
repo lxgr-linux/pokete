@@ -43,6 +43,7 @@ jobs:
           sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
           sudo chmod +x /usr/local/bin/appimagetool
           sudo pip3 install git+https://github.com/AppImageCrafters/appimage-builder.git
+          sed -i '/app_info:/{n;n;n;n;s/\(version\).*/\1: '"${{ steps.tag.outputs.tag }}"'/}' assets/AppImageBuilder.yml
           
       - name: Build Appimage
         run: appimage-builder --skip-test --recipe assets/AppImageBuilder.yml
