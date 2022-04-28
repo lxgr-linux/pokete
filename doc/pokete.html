@@ -304,7 +304,12 @@ class Figure(se.Object):
         _si: session_info dict&#34;&#34;&#34;
 
     def __init__(self, _si):
-        super().__init__(&#34;a&#34;, state=&#34;solid&#34;)
+        r_char = _si.get(&#34;represent_char&#34;, &#34;a&#34;)
+        if len(r_char) != 1:
+            logging.info(
+                &#34;[Figure] &#39;%s&#39; is no valid &#39;represent_char&#39;, resetting&#34;, r_char)
+            r_char = &#34;a&#34;
+        super().__init__(r_char, state=&#34;solid&#34;)
         self.__money = _si.get(&#34;money&#34;, 10)
         self.inv = _si.get(&#34;inv&#34;, {&#34;poketeballs&#34;: 10})
         self.name = _si.get(&#34;user&#34;, &#34;DEFAULT&#34;)
@@ -540,13 +545,16 @@ class Menu:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, &#34;Menu&#34;)
         self.playername_label = se.Text(&#34;Playername: &#34;, state=&#34;float&#34;)
+        self.represent_char_label = se.Text(&#34;Char: &#34;, state=&#34;float&#34;)
         self.mods_label = se.Text(&#34;Mods&#34;, state=&#34;float&#34;)
         self.ach_label = se.Text(&#34;Achievements&#34;, state=&#34;float&#34;)
         self.about_label = se.Text(&#34;About&#34;, state=&#34;float&#34;)
         self.save_label = se.Text(&#34;Save&#34;, state=&#34;float&#34;)
         self.exit_label = se.Text(&#34;Exit&#34;, state=&#34;float&#34;)
         self.realname_label = se.Text(session_info[&#34;user&#34;], state=&#34;float&#34;)
+        self.char_label = se.Text(figure.char, state=&#34;float&#34;)
         self.box.add_c_obs([self.playername_label,
+                            self.represent_char_label,
                             VisSetting(&#34;Autosave&#34;, &#34;autosave&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             VisSetting(&#34;Animations&#34;, &#34;animations&#34;,
@@ -560,14 +568,18 @@ class Menu:
                             self.exit_label])
         # adding
         self.box.add_ob(self.realname_label,
-                        self.playername_label.rx
-                        + len(self.playername_label.text),
+                        self.playername_label.rx + self.playername_label.width,
                         self.playername_label.ry)
+        self.box.add_ob(self.char_label,
+                        self.represent_char_label.rx
+                        + self.represent_char_label.width,
+                        self.represent_char_label.ry)
 
     def __call__(self):
         &#34;&#34;&#34;Opens the menu&#34;&#34;&#34;
         _ev.clear()
         self.realname_label.rechar(figure.name)
+        self.char_label.rechar(figure.char)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
                 if _ev.get() == &#34;Key.enter&#34;:
@@ -575,10 +587,19 @@ class Menu:
                     # Fuck python for not having case statements
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
-                        figure.name = text_input(self.realname_label,
-                                                 self.map,
+                        figure.name = text_input(self.realname_label, self.map,
                                                  figure.name, 18, 17)
                         self.map.name_label_rechar(figure.name)
+                    elif i == self.represent_char_label:
+                        inp = text_input(self.char_label, self.map,
+                                         figure.char, 18, 1)
+                        # excludes bad unicode:
+                        if len(inp.encode(&#34;utf-8&#34;)) != 1:
+                            inp = &#34;a&#34;
+                            notifier.notify(&#34;Error&#34;, &#34;Bad character&#34;,
+                                            &#34;The chosen character has to be a \
+valid single-space character!&#34;)
+                        figure.rechar(inp)
                     elif i == self.mods_label:
                         ModInfo(mvp.movemap, mods.mod_info)()
                     elif i == self.save_label:
@@ -622,6 +643,7 @@ def save():
     &#34;&#34;&#34;Saves all relevant data to savefile&#34;&#34;&#34;
     _si = {
         &#34;user&#34;: figure.name,
+        &#34;represent_char&#34;: figure.char,
         &#34;ver&#34;: VERSION,
         &#34;map&#34;: figure.map.name,
         &#34;oldmap&#34;: figure.oldmap.name,
@@ -655,6 +677,7 @@ def read_save():
     # Default test session_info
     _si = {
         &#34;user&#34;: &#34;DEFAULT&#34;,
+        &#34;represent_char&#34;: &#34;a&#34;,
         &#34;ver&#34;: VERSION,
         &#34;map&#34;: &#34;intromap&#34;,
         &#34;oldmap&#34;: &#34;playmap_1&#34;,
@@ -2133,6 +2156,7 @@ _map.w_poke_args)
     # Default test session_info
     _si = {
         &#34;user&#34;: &#34;DEFAULT&#34;,
+        &#34;represent_char&#34;: &#34;a&#34;,
         &#34;ver&#34;: VERSION,
         &#34;map&#34;: &#34;intromap&#34;,
         &#34;oldmap&#34;: &#34;playmap_1&#34;,
@@ -2193,6 +2217,7 @@ _map.w_poke_args)
     &#34;&#34;&#34;Saves all relevant data to savefile&#34;&#34;&#34;
     _si = {
         &#34;user&#34;: figure.name,
+        &#34;represent_char&#34;: figure.char,
         &#34;ver&#34;: VERSION,
         &#34;map&#34;: figure.map.name,
         &#34;oldmap&#34;: figure.oldmap.name,
@@ -2784,7 +2809,12 @@ def water(obs):
         _si: session_info dict&#34;&#34;&#34;
 
     def __init__(self, _si):
-        super().__init__(&#34;a&#34;, state=&#34;solid&#34;)
+        r_char = _si.get(&#34;represent_char&#34;, &#34;a&#34;)
+        if len(r_char) != 1:
+            logging.info(
+                &#34;[Figure] &#39;%s&#39; is no valid &#39;represent_char&#39;, resetting&#34;, r_char)
+            r_char = &#34;a&#34;
+        super().__init__(r_char, state=&#34;solid&#34;)
         self.__money = _si.get(&#34;money&#34;, 10)
         self.inv = _si.get(&#34;inv&#34;, {&#34;poketeballs&#34;: 10})
         self.name = _si.get(&#34;user&#34;, &#34;DEFAULT&#34;)
@@ -3316,13 +3346,16 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, &#34;Menu&#34;)
         self.playername_label = se.Text(&#34;Playername: &#34;, state=&#34;float&#34;)
+        self.represent_char_label = se.Text(&#34;Char: &#34;, state=&#34;float&#34;)
         self.mods_label = se.Text(&#34;Mods&#34;, state=&#34;float&#34;)
         self.ach_label = se.Text(&#34;Achievements&#34;, state=&#34;float&#34;)
         self.about_label = se.Text(&#34;About&#34;, state=&#34;float&#34;)
         self.save_label = se.Text(&#34;Save&#34;, state=&#34;float&#34;)
         self.exit_label = se.Text(&#34;Exit&#34;, state=&#34;float&#34;)
         self.realname_label = se.Text(session_info[&#34;user&#34;], state=&#34;float&#34;)
+        self.char_label = se.Text(figure.char, state=&#34;float&#34;)
         self.box.add_c_obs([self.playername_label,
+                            self.represent_char_label,
                             VisSetting(&#34;Autosave&#34;, &#34;autosave&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             VisSetting(&#34;Animations&#34;, &#34;animations&#34;,
@@ -3336,14 +3369,18 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                             self.exit_label])
         # adding
         self.box.add_ob(self.realname_label,
-                        self.playername_label.rx
-                        + len(self.playername_label.text),
+                        self.playername_label.rx + self.playername_label.width,
                         self.playername_label.ry)
+        self.box.add_ob(self.char_label,
+                        self.represent_char_label.rx
+                        + self.represent_char_label.width,
+                        self.represent_char_label.ry)
 
     def __call__(self):
         &#34;&#34;&#34;Opens the menu&#34;&#34;&#34;
         _ev.clear()
         self.realname_label.rechar(figure.name)
+        self.char_label.rechar(figure.char)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             while True:
                 if _ev.get() == &#34;Key.enter&#34;:
@@ -3351,10 +3388,19 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                     # Fuck python for not having case statements
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
-                        figure.name = text_input(self.realname_label,
-                                                 self.map,
+                        figure.name = text_input(self.realname_label, self.map,
                                                  figure.name, 18, 17)
                         self.map.name_label_rechar(figure.name)
+                    elif i == self.represent_char_label:
+                        inp = text_input(self.char_label, self.map,
+                                         figure.char, 18, 1)
+                        # excludes bad unicode:
+                        if len(inp.encode(&#34;utf-8&#34;)) != 1:
+                            inp = &#34;a&#34;
+                            notifier.notify(&#34;Error&#34;, &#34;Bad character&#34;,
+                                            &#34;The chosen character has to be a \
+valid single-space character!&#34;)
+                        figure.rechar(inp)
                     elif i == self.mods_label:
                         ModInfo(mvp.movemap, mods.mod_info)()
                     elif i == self.save_label:
