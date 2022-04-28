@@ -21,6 +21,6 @@ def std_loop(on_mvmp=True, pevm=None):
         raise KeyboardInterrupt
     if on_mvmp:
         notifier.next()
-    if pevm != None:
+    if pevm is not None:
         pevm.event()
     time.sleep(release.FRAMETIME)

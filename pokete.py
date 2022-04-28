@@ -954,8 +954,8 @@ def gen_obs():
             }[map_data[ob_map]["soft_obs"][soft_ob].get("cls", "meadow")]
             parse_obj(_map, soft_ob,
                       cls(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
-                             _map.poke_args
-                                if cls != Water else _map.w_poke_args),
+                          _map.poke_args
+                          if cls != Water else _map.w_poke_args),
                       map_data[ob_map]["soft_obs"][soft_ob])
         for door in map_data[ob_map]["dors"]:
             parse_obj(_map, door,
