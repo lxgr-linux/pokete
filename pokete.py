@@ -560,7 +560,7 @@ class Menu:
                         if len(inp.encode("utf-8")) != 1:
                             inp = "a"
                             notifier.notify("Error", "Bad character",
-                                            "The choosen chracater has to be a \
+                                            "The chosen character has to be a \
 valid single-space character!")
                         figure.rechar(inp)
                     elif i == self.mods_label:
