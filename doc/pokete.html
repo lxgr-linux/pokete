@@ -179,6 +179,72 @@ at level {figure.pokes[index].lvl()}.&#34;)
         npc.give(&#34;Bert the bird&#34;, &#34;super_potion&#34;)
 
     @staticmethod
+    def playmap_39_npc_20(npc):
+        &#34;&#34;&#34;Interaction with npc_20&#34;&#34;&#34;
+        npc.give(&#34;Gerald the farmer&#34;, &#34;super_potion&#34;)
+
+    @staticmethod
+    def playmap_47_npc_26(npc):
+        &#34;&#34;&#34;Interaction with npc_26&#34;&#34;&#34;
+        npc.give(&#34;Poor man&#34;, &#34;healing_potion&#34;)
+
+    @staticmethod
+    def playmap_48_npc_27(npc):
+        &#34;&#34;&#34;Interaction with npc_27&#34;&#34;&#34;
+        npc.give(&#34;Old geezer&#34;, &#34;ld_the_old_roots_hit&#34;)
+
+    @staticmethod
+    def playmap_42_npc_21(npc):
+        &#34;&#34;&#34;Interaction with npc_21&#34;&#34;&#34;
+        poke_list = [i for i in figure.pokes[:6]
+                     if i.lvl() &gt;= 50 and i.identifier == &#34;mowcow&#34;]
+        if len(poke_list) &gt; 0:
+            poke = poke_list[0]
+            npc.text([&#34; &lt; Oh great!&#34;, &#34; &lt; You&#39;re my saviour!&#34;,
+                      f&#34; &lt; You brought me a level {poke.lvl()} Mowcow!&#34;,
+                      &#34; &lt; I&#39;m thanking you!&#34;,
+                      &#34; &lt; Now I can still serve the best MowCow-Burgers!&#34;,
+                      &#34; &lt; Can I have it?&#34;])
+            if ask_bool(mvp.movemap,
+                        &#34;Do you want to give your Mowcow to the cook?&#34;):
+                figure.pokes[figure.pokes.index(poke)] = Poke(&#34;__fallback__&#34;, 0)
+                npc.text([&#34; &lt; Here you go, 1000$&#34;])
+                if ask_bool(mvp.movemap,
+                            &#34;The cook gifted you 1000$. &#34;
+                            &#34;Do you want to accept it?&#34;):
+                    figure.add_money(1000)
+                npc.will = False
+                figure.used_npcs.append(npc.name)
+        else:
+            npc.text([&#34; &lt; Ohhh man...&#34;, &#34; &lt; All of our beef is empty...&#34;,
+                      &#34; &lt; How are we going to serve the best MowCow-Burgers &#34;
+                      &#34;without beef?&#34;, 
+                      &#34; &lt; If only someone here could bring me a fitting &#34;
+                      &#34;Mowcow!?&#34;, 
+                      &#34; &lt; But it has to be at least on level 50, to fit our &#34;
+                      &#34;high quality standards.&#34;, 
+                      &#34; &lt; I will pay a good price!&#34;])
+
+    @staticmethod
+    def playmap_39_npc_25(npc):
+        &#34;&#34;&#34;Interaction with npc_25&#34;&#34;&#34;
+        if &#34;Sebastian the leader&#34; not in figure.used_npcs:
+            npc.text([&#34; &lt; I can&#39;t let you go.&#34;,
+                      &#34; &lt; You first have to defeat our arena leader!&#34;])
+            figure.set(figure.x + 1, figure.y)
+        else:
+            npc.text([&#34; &lt; Have a pleasant day.&#34;])
+
+    @staticmethod
+    def playmap_43_npc_23(npc):
+        &#34;&#34;&#34;Interaction with npc_23&#34;&#34;&#34;
+        if ask_bool(mvp.movemap,
+                    &#34;Do you also want to have one?&#34;):
+            figure.pokes.append(Poke(&#34;mowcow&#34;, 2000))
+            npc.will = False
+            figure.used_npcs.append(npc.name)
+
+    @staticmethod
     def chat(npc):
         &#34;&#34;&#34;Starts a chat&#34;&#34;&#34;
         npc.chat()
@@ -934,7 +1000,8 @@ def _game(_map):
                 codes(inp)
                 _ev.clear()
         std_loop(pevm=pevm)
-        for statement, x, y in zip([figure.x + 6 &gt; mvp.movemap.x + mvp.movemap.width,
+        for statement, x, y in zip([figure.x + 6 &gt; mvp.movemap.x
+                                    + mvp.movemap.width,
                                     figure.x &lt; mvp.movemap.x + 6,
                                     figure.y + 6 &gt; mvp.movemap.y
                                     + mvp.movemap.height,
@@ -1256,6 +1323,14 @@ def map_additions():
     _map.dor.add(_map, 13, 7)
     _map.shopdor.add(_map, 30, 7)
 
+    # playmap_39
+    _map = obmp.ob_maps[&#34;playmap_39&#34;]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
+    # adding
+    _map.dor.add(_map, 44, 52)
+    _map.shopdor.add(_map, 122, 64)
+
 # Actual code execution
 #######################
 if __name__ == &#34;__main__&#34;:
@@ -1375,6 +1450,7 @@ if __name__ == &#34;__main__&#34;:
     detail.detail = detail.Detail(height - 1, width)
     pokete_dex = Dex(figure)
     help_page = Help(mvp.movemap)
+    RoadMap.check_maps()
     roadmap = RoadMap(figure)
     deck.deck = deck.Deck(height - 1, width, figure, abb_funcs)
     menu = Menu(mvp.movemap)
@@ -1835,7 +1911,15 @@ town.&#34;,
     _map.shopdor = DoorToShop()
     # adding
     _map.dor.add(_map, 13, 7)
-    _map.shopdor.add(_map, 30, 7)</code></pre>
+    _map.shopdor.add(_map, 30, 7)
+
+    # playmap_39
+    _map = obmp.ob_maps[&#34;playmap_39&#34;]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
+    # adding
+    _map.dor.add(_map, 44, 52)
+    _map.shopdor.add(_map, 122, 64)</code></pre>
 </details>
 </dd>
 <dt id="pokete.on_press"><code class="name flex">
@@ -3124,6 +3208,72 @@ at level {figure.pokes[index].lvl()}.&#34;)
         npc.give(&#34;Bert the bird&#34;, &#34;super_potion&#34;)
 
     @staticmethod
+    def playmap_39_npc_20(npc):
+        &#34;&#34;&#34;Interaction with npc_20&#34;&#34;&#34;
+        npc.give(&#34;Gerald the farmer&#34;, &#34;super_potion&#34;)
+
+    @staticmethod
+    def playmap_47_npc_26(npc):
+        &#34;&#34;&#34;Interaction with npc_26&#34;&#34;&#34;
+        npc.give(&#34;Poor man&#34;, &#34;healing_potion&#34;)
+
+    @staticmethod
+    def playmap_48_npc_27(npc):
+        &#34;&#34;&#34;Interaction with npc_27&#34;&#34;&#34;
+        npc.give(&#34;Old geezer&#34;, &#34;ld_the_old_roots_hit&#34;)
+
+    @staticmethod
+    def playmap_42_npc_21(npc):
+        &#34;&#34;&#34;Interaction with npc_21&#34;&#34;&#34;
+        poke_list = [i for i in figure.pokes[:6]
+                     if i.lvl() &gt;= 50 and i.identifier == &#34;mowcow&#34;]
+        if len(poke_list) &gt; 0:
+            poke = poke_list[0]
+            npc.text([&#34; &lt; Oh great!&#34;, &#34; &lt; You&#39;re my saviour!&#34;,
+                      f&#34; &lt; You brought me a level {poke.lvl()} Mowcow!&#34;,
+                      &#34; &lt; I&#39;m thanking you!&#34;,
+                      &#34; &lt; Now I can still serve the best MowCow-Burgers!&#34;,
+                      &#34; &lt; Can I have it?&#34;])
+            if ask_bool(mvp.movemap,
+                        &#34;Do you want to give your Mowcow to the cook?&#34;):
+                figure.pokes[figure.pokes.index(poke)] = Poke(&#34;__fallback__&#34;, 0)
+                npc.text([&#34; &lt; Here you go, 1000$&#34;])
+                if ask_bool(mvp.movemap,
+                            &#34;The cook gifted you 1000$. &#34;
+                            &#34;Do you want to accept it?&#34;):
+                    figure.add_money(1000)
+                npc.will = False
+                figure.used_npcs.append(npc.name)
+        else:
+            npc.text([&#34; &lt; Ohhh man...&#34;, &#34; &lt; All of our beef is empty...&#34;,
+                      &#34; &lt; How are we going to serve the best MowCow-Burgers &#34;
+                      &#34;without beef?&#34;, 
+                      &#34; &lt; If only someone here could bring me a fitting &#34;
+                      &#34;Mowcow!?&#34;, 
+                      &#34; &lt; But it has to be at least on level 50, to fit our &#34;
+                      &#34;high quality standards.&#34;, 
+                      &#34; &lt; I will pay a good price!&#34;])
+
+    @staticmethod
+    def playmap_39_npc_25(npc):
+        &#34;&#34;&#34;Interaction with npc_25&#34;&#34;&#34;
+        if &#34;Sebastian the leader&#34; not in figure.used_npcs:
+            npc.text([&#34; &lt; I can&#39;t let you go.&#34;,
+                      &#34; &lt; You first have to defeat our arena leader!&#34;])
+            figure.set(figure.x + 1, figure.y)
+        else:
+            npc.text([&#34; &lt; Have a pleasant day.&#34;])
+
+    @staticmethod
+    def playmap_43_npc_23(npc):
+        &#34;&#34;&#34;Interaction with npc_23&#34;&#34;&#34;
+        if ask_bool(mvp.movemap,
+                    &#34;Do you also want to have one?&#34;):
+            figure.pokes.append(Poke(&#34;mowcow&#34;, 2000))
+            npc.will = False
+            figure.used_npcs.append(npc.name)
+
+    @staticmethod
     def chat(npc):
         &#34;&#34;&#34;Starts a chat&#34;&#34;&#34;
         npc.chat()</code></pre>
@@ -3303,6 +3453,132 @@ def playmap_36_npc_14(npc):
 def playmap_37_npc_15(npc):
     &#34;&#34;&#34;Interaction with npc_14&#34;&#34;&#34;
     npc.give(&#34;Bert the bird&#34;, &#34;super_potion&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_39_npc_20"><code class="name flex">
+<span>def <span class="ident">playmap_39_npc_20</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with npc_20</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def playmap_39_npc_20(npc):
+    &#34;&#34;&#34;Interaction with npc_20&#34;&#34;&#34;
+    npc.give(&#34;Gerald the farmer&#34;, &#34;super_potion&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_39_npc_25"><code class="name flex">
+<span>def <span class="ident">playmap_39_npc_25</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with npc_25</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def playmap_39_npc_25(npc):
+    &#34;&#34;&#34;Interaction with npc_25&#34;&#34;&#34;
+    if &#34;Sebastian the leader&#34; not in figure.used_npcs:
+        npc.text([&#34; &lt; I can&#39;t let you go.&#34;,
+                  &#34; &lt; You first have to defeat our arena leader!&#34;])
+        figure.set(figure.x + 1, figure.y)
+    else:
+        npc.text([&#34; &lt; Have a pleasant day.&#34;])</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_42_npc_21"><code class="name flex">
+<span>def <span class="ident">playmap_42_npc_21</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with npc_21</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def playmap_42_npc_21(npc):
+    &#34;&#34;&#34;Interaction with npc_21&#34;&#34;&#34;
+    poke_list = [i for i in figure.pokes[:6]
+                 if i.lvl() &gt;= 50 and i.identifier == &#34;mowcow&#34;]
+    if len(poke_list) &gt; 0:
+        poke = poke_list[0]
+        npc.text([&#34; &lt; Oh great!&#34;, &#34; &lt; You&#39;re my saviour!&#34;,
+                  f&#34; &lt; You brought me a level {poke.lvl()} Mowcow!&#34;,
+                  &#34; &lt; I&#39;m thanking you!&#34;,
+                  &#34; &lt; Now I can still serve the best MowCow-Burgers!&#34;,
+                  &#34; &lt; Can I have it?&#34;])
+        if ask_bool(mvp.movemap,
+                    &#34;Do you want to give your Mowcow to the cook?&#34;):
+            figure.pokes[figure.pokes.index(poke)] = Poke(&#34;__fallback__&#34;, 0)
+            npc.text([&#34; &lt; Here you go, 1000$&#34;])
+            if ask_bool(mvp.movemap,
+                        &#34;The cook gifted you 1000$. &#34;
+                        &#34;Do you want to accept it?&#34;):
+                figure.add_money(1000)
+            npc.will = False
+            figure.used_npcs.append(npc.name)
+    else:
+        npc.text([&#34; &lt; Ohhh man...&#34;, &#34; &lt; All of our beef is empty...&#34;,
+                  &#34; &lt; How are we going to serve the best MowCow-Burgers &#34;
+                  &#34;without beef?&#34;, 
+                  &#34; &lt; If only someone here could bring me a fitting &#34;
+                  &#34;Mowcow!?&#34;, 
+                  &#34; &lt; But it has to be at least on level 50, to fit our &#34;
+                  &#34;high quality standards.&#34;, 
+                  &#34; &lt; I will pay a good price!&#34;])</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_43_npc_23"><code class="name flex">
+<span>def <span class="ident">playmap_43_npc_23</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with npc_23</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def playmap_43_npc_23(npc):
+    &#34;&#34;&#34;Interaction with npc_23&#34;&#34;&#34;
+    if ask_bool(mvp.movemap,
+                &#34;Do you also want to have one?&#34;):
+        figure.pokes.append(Poke(&#34;mowcow&#34;, 2000))
+        npc.will = False
+        figure.used_npcs.append(npc.name)</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_47_npc_26"><code class="name flex">
+<span>def <span class="ident">playmap_47_npc_26</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with npc_26</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def playmap_47_npc_26(npc):
+    &#34;&#34;&#34;Interaction with npc_26&#34;&#34;&#34;
+    npc.give(&#34;Poor man&#34;, &#34;healing_potion&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_48_npc_27"><code class="name flex">
+<span>def <span class="ident">playmap_48_npc_27</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with npc_27</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def playmap_48_npc_27(npc):
+    &#34;&#34;&#34;Interaction with npc_27&#34;&#34;&#34;
+    npc.give(&#34;Old geezer&#34;, &#34;ld_the_old_roots_hit&#34;)</code></pre>
 </details>
 </dd>
 <dt id="pokete.NPCActions.swap_poke"><code class="name flex">
@@ -3524,6 +3800,12 @@ def swap_poke(npc):
 <li><code><a title="pokete.NPCActions.playmap_32_npc_12" href="#pokete.NPCActions.playmap_32_npc_12">playmap_32_npc_12</a></code></li>
 <li><code><a title="pokete.NPCActions.playmap_36_npc_14" href="#pokete.NPCActions.playmap_36_npc_14">playmap_36_npc_14</a></code></li>
 <li><code><a title="pokete.NPCActions.playmap_37_npc_15" href="#pokete.NPCActions.playmap_37_npc_15">playmap_37_npc_15</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_39_npc_20" href="#pokete.NPCActions.playmap_39_npc_20">playmap_39_npc_20</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_39_npc_25" href="#pokete.NPCActions.playmap_39_npc_25">playmap_39_npc_25</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_42_npc_21" href="#pokete.NPCActions.playmap_42_npc_21">playmap_42_npc_21</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_43_npc_23" href="#pokete.NPCActions.playmap_43_npc_23">playmap_43_npc_23</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_47_npc_26" href="#pokete.NPCActions.playmap_47_npc_26">playmap_47_npc_26</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_48_npc_27" href="#pokete.NPCActions.playmap_48_npc_27">playmap_48_npc_27</a></code></li>
 <li><code><a title="pokete.NPCActions.swap_poke" href="#pokete.NPCActions.swap_poke">swap_poke</a></code></li>
 </ul>
 </li>

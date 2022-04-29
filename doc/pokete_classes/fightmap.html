@@ -351,24 +351,25 @@ used {enemy.name} against you!&#39;)
                 obj.attack(attack, enem, self)
             self.show()
             time.sleep(0.5)
-            do_break = False
+            winner = None
             if any(i.hp &lt;= 0 for i in players):
                 winner = [i for i in players if i.hp &gt; 0][0]
-                do_break = True
             elif all(i.ap == 0 for i in obj.attack_obs):
                 winner = [i for i in players if i != obj][0]
                 time.sleep(2)
                 self.outp.outp(f&#34;{obj.ext_name} has used all its&#39; attacks!&#34;)
                 time.sleep(3)
-                do_break = True
-            if do_break:
+            if winner is not None:
                 if (obj.identifier != &#34;__fallback__&#34;
-                    and not obj.player
-                    and any(p.hp &gt; 0 for p in figure.pokes[:6])
-                    and ask_bool(self,
-                                 &#34;Do you want to choose another Pokete?&#34;)):
-                    players, player = self.choose_poke(figure, players, player,
-                                                       enemy)
+                        and not winner.player
+                        and any(p.hp &gt; 0 for p in figure.pokes[:6])
+                        and ask_bool(self,
+                                     &#34;Do you want to choose another Pokete?&#34;)):
+                    old_player = player
+                    players, player = self.choose_poke(figure, players,
+                                                       player, enemy)
+                    if old_player == player:
+                        break
                 else:
                     break
             obj = [i for i in players if i != obj][-1]
@@ -1249,24 +1250,25 @@ used {enemy.name} against you!&#39;)
                 obj.attack(attack, enem, self)
             self.show()
             time.sleep(0.5)
-            do_break = False
+            winner = None
             if any(i.hp &lt;= 0 for i in players):
                 winner = [i for i in players if i.hp &gt; 0][0]
-                do_break = True
             elif all(i.ap == 0 for i in obj.attack_obs):
                 winner = [i for i in players if i != obj][0]
                 time.sleep(2)
                 self.outp.outp(f&#34;{obj.ext_name} has used all its&#39; attacks!&#34;)
                 time.sleep(3)
-                do_break = True
-            if do_break:
+            if winner is not None:
                 if (obj.identifier != &#34;__fallback__&#34;
-                    and not obj.player
-                    and any(p.hp &gt; 0 for p in figure.pokes[:6])
-                    and ask_bool(self,
-                                 &#34;Do you want to choose another Pokete?&#34;)):
-                    players, player = self.choose_poke(figure, players, player,
-                                                       enemy)
+                        and not winner.player
+                        and any(p.hp &gt; 0 for p in figure.pokes[:6])
+                        and ask_bool(self,
+                                     &#34;Do you want to choose another Pokete?&#34;)):
+                    old_player = player
+                    players, player = self.choose_poke(figure, players,
+                                                       player, enemy)
+                    if old_player == player:
+                        break
                 else:
                     break
             obj = [i for i in players if i != obj][-1]
@@ -1661,24 +1663,25 @@ used {enemy.name} against you!&#39;)
                 obj.attack(attack, enem, self)
             self.show()
             time.sleep(0.5)
-            do_break = False
+            winner = None
             if any(i.hp &lt;= 0 for i in players):
                 winner = [i for i in players if i.hp &gt; 0][0]
-                do_break = True
             elif all(i.ap == 0 for i in obj.attack_obs):
                 winner = [i for i in players if i != obj][0]
                 time.sleep(2)
                 self.outp.outp(f&#34;{obj.ext_name} has used all its&#39; attacks!&#34;)
                 time.sleep(3)
-                do_break = True
-            if do_break:
+            if winner is not None:
                 if (obj.identifier != &#34;__fallback__&#34;
-                    and not obj.player
-                    and any(p.hp &gt; 0 for p in figure.pokes[:6])
-                    and ask_bool(self,
-                                 &#34;Do you want to choose another Pokete?&#34;)):
-                    players, player = self.choose_poke(figure, players, player,
-                                                       enemy)
+                        and not winner.player
+                        and any(p.hp &gt; 0 for p in figure.pokes[:6])
+                        and ask_bool(self,
+                                     &#34;Do you want to choose another Pokete?&#34;)):
+                    old_player = player
+                    players, player = self.choose_poke(figure, players,
+                                                       player, enemy)
+                    if old_player == player:
+                        break
                 else:
                     break
             obj = [i for i in players if i != obj][-1]

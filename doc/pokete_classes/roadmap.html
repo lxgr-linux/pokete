@@ -40,6 +40,15 @@ from .ui_elements import Box, InfoBox
 from .event import _ev
 
 
+class RoadMapException(Exception):
+    &#34;&#34;&#34;Exception thrown when a PlayMap has no corresponding MapStation&#34;&#34;&#34;
+
+    def __init__(self, _map):
+        self.map = _map
+        text = f&#34;{_map} {_map.name} has no mapstation&#34;
+        super().__init__(text)
+
+
 class Station(se.Square):
     &#34;&#34;&#34;Selectable station for Roadmap
     ARGS:
@@ -132,8 +141,10 @@ class RoadMap:
         &#34;&#34;&#34;Changes info label
         ARGS:
             name: String displayed&#34;&#34;&#34;
-        self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.info_label.remove()
+        self.box.rem_ob(self.info_label)
         self.info_label.rechar(name)
+        self.box.add_ob(self.info_label, self.box.width-2-len(name), 0)
 
     def __call__(self, _map, choose=False):
         &#34;&#34;&#34;Shows the roadmap
@@ -177,6 +188,18 @@ class RoadMap:
                 std_loop()
                 _map.show()
         self.sta.unchoose()
+
+    @staticmethod
+    def check_maps():
+        &#34;&#34;&#34;Checks for PlayMaps not having a corresponding MapStation&#34;&#34;&#34;
+        all_road_maps = [&#34;centermap&#34;, &#34;shopmap&#34;]
+        for i, _dict in p_data.stations.items():
+            all_road_maps.append(i)
+            all_road_maps += _dict[&#39;gen&#39;][&#39;additionals&#39;]
+
+        for _, _map in obmp.ob_maps.items():
+            if _map.name not in all_road_maps:
+                raise RoadMapException(_map)
 
 
 if __name__ == &#34;__main__&#34;:
@@ -231,8 +254,10 @@ if __name__ == &#34;__main__&#34;:
         &#34;&#34;&#34;Changes info label
         ARGS:
             name: String displayed&#34;&#34;&#34;
-        self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.info_label.remove()
+        self.box.rem_ob(self.info_label)
         self.info_label.rechar(name)
+        self.box.add_ob(self.info_label, self.box.width-2-len(name), 0)
 
     def __call__(self, _map, choose=False):
         &#34;&#34;&#34;Shows the roadmap
@@ -275,8 +300,45 @@ if __name__ == &#34;__main__&#34;:
                         easy_exit_loop()
                 std_loop()
                 _map.show()
-        self.sta.unchoose()</code></pre>
+        self.sta.unchoose()
+
+    @staticmethod
+    def check_maps():
+        &#34;&#34;&#34;Checks for PlayMaps not having a corresponding MapStation&#34;&#34;&#34;
+        all_road_maps = [&#34;centermap&#34;, &#34;shopmap&#34;]
+        for i, _dict in p_data.stations.items():
+            all_road_maps.append(i)
+            all_road_maps += _dict[&#39;gen&#39;][&#39;additionals&#39;]
+
+        for _, _map in obmp.ob_maps.items():
+            if _map.name not in all_road_maps:
+                raise RoadMapException(_map)</code></pre>
 </details>
+<h3>Static methods</h3>
+<dl>
+<dt id="pokete_classes.roadmap.RoadMap.check_maps"><code class="name flex">
+<span>def <span class="ident">check_maps</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Checks for PlayMaps not having a corresponding MapStation</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def check_maps():
+    &#34;&#34;&#34;Checks for PlayMaps not having a corresponding MapStation&#34;&#34;&#34;
+    all_road_maps = [&#34;centermap&#34;, &#34;shopmap&#34;]
+    for i, _dict in p_data.stations.items():
+        all_road_maps.append(i)
+        all_road_maps += _dict[&#39;gen&#39;][&#39;additionals&#39;]
+
+    for _, _map in obmp.ob_maps.items():
+        if _map.name not in all_road_maps:
+            raise RoadMapException(_map)</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Instance variables</h3>
 <dl>
 <dt id="pokete_classes.roadmap.RoadMap.sta"><code class="name">var <span class="ident">sta</span></code></dt>
@@ -313,11 +375,37 @@ def sta(self):
     &#34;&#34;&#34;Changes info label
     ARGS:
         name: String displayed&#34;&#34;&#34;
-    self.box.set_ob(self.info_label, self.box.width-2-len(name), 0)
-    self.info_label.rechar(name)</code></pre>
+    self.info_label.remove()
+    self.box.rem_ob(self.info_label)
+    self.info_label.rechar(name)
+    self.box.add_ob(self.info_label, self.box.width-2-len(name), 0)</code></pre>
 </details>
 </dd>
 </dl>
+</dd>
+<dt id="pokete_classes.roadmap.RoadMapException"><code class="flex name class">
+<span>class <span class="ident">RoadMapException</span></span>
+<span>(</span><span>_map)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception thrown when a PlayMap has no corresponding MapStation</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RoadMapException(Exception):
+    &#34;&#34;&#34;Exception thrown when a PlayMap has no corresponding MapStation&#34;&#34;&#34;
+
+    def __init__(self, _map):
+        self.map = _map
+        text = f&#34;{_map} {_map.name} has no mapstation&#34;
+        super().__init__(text)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
 </dd>
 <dt id="pokete_classes.roadmap.Station"><code class="flex name class">
 <span>class <span class="ident">Station</span></span>
@@ -562,9 +650,13 @@ def sta(self):
 <li>
 <h4><code><a title="pokete_classes.roadmap.RoadMap" href="#pokete_classes.roadmap.RoadMap">RoadMap</a></code></h4>
 <ul class="">
+<li><code><a title="pokete_classes.roadmap.RoadMap.check_maps" href="#pokete_classes.roadmap.RoadMap.check_maps">check_maps</a></code></li>
 <li><code><a title="pokete_classes.roadmap.RoadMap.rechar_info" href="#pokete_classes.roadmap.RoadMap.rechar_info">rechar_info</a></code></li>
 <li><code><a title="pokete_classes.roadmap.RoadMap.sta" href="#pokete_classes.roadmap.RoadMap.sta">sta</a></code></li>
 </ul>
+</li>
+<li>
+<h4><code><a title="pokete_classes.roadmap.RoadMapException" href="#pokete_classes.roadmap.RoadMapException">RoadMapException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="pokete_classes.roadmap.Station" href="#pokete_classes.roadmap.Station">Station</a></code></h4>
