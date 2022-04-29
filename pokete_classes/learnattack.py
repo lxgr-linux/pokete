@@ -1,6 +1,5 @@
 """Contains the LearnAttack class"""
 
-import time
 import random
 import scrap_engine as se
 import pokete_data as p_data
@@ -106,7 +105,7 @@ class LearnAttack:
                                   (self.poke, False)
                             self.map.show(init=True)
                         elif _ev.get() == "'2'":
-                            with AttackInfo(attack, self.map):
+                            with AttackInfo(new_attack, self.map):
                                 easy_exit_loop()
                         elif _ev.get() in ["Key.esc", "'q'"]:
                             _ev.clear()

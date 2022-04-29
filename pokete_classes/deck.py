@@ -114,7 +114,8 @@ class Deck(detail.Informer):
                 _ev.clear()
             elif _ev.get() == "Key.enter":
                 _ev.clear()
-                if len(pokes) == 0:
+                if len(pokes) == 0 or \
+                        pokes[self.index.index].identifier == "__fallback__":
                     continue
                 if in_fight:
                     if pokes[self.index.index].hp > 0:

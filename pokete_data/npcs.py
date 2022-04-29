@@ -276,6 +276,102 @@ found some cool Poketes.",
         "x": 107,
         "y": 25
     },
+    "npc_17": {
+        "texts": [" < Welcome to Agrawos!",
+                  " < Check out the MowCow-Burger restaurant, they have the best beef!",
+                  " < If you want a challenge check out the Pokete-Arena, they have some quite heavy Poketes there!"],
+        "fn": None,
+        "map": "playmap_39",
+        "x": 102,
+        "y": 5
+    },
+    "npc_18": {
+        "texts": [" < This is the Pokete Arena of Agrawos, only go there if you're sure you can beat the challenge.",
+                  " < They got some very heavy Poketes in there!"],
+        "fn": None,
+        "map": "playmap_39",
+        "x": 126,
+        "y": 36
+    },
+    "npc_19": {
+        "texts": [" < This is the temple of the Wheeto, they have the goood stuff in there."],
+        "fn": None,
+        "map": "playmap_39",
+        "x": 20,
+        "y": 65
+    },
+    "npc_20": {
+        "texts": [" < Hello yall, this town is soo famous for its' craaazy plants.",
+                  " < Especially Wheeto, from which healing potions can be made.",
+                  " < Want one?"],
+        "fn": "playmap_39_npc_20",
+        "map": "playmap_39",
+        "x": 176,
+        "y": 56
+    },
+    "npc_21": {
+        "texts": [],
+        "fn": "playmap_42_npc_21",
+        "map": "playmap_42",
+        "x": 7,
+        "y": 3
+    },
+    "npc_22": {
+        "texts": [" < Oh man, if only I had a big and tasty MowCow-Burger...!"],
+        "fn": None,
+        "map": "playmap_42",
+        "x": 22,
+        "y": 4
+    },
+    "npc_23": {
+        "texts": [" < I'm priest of the Wheeto.",
+                  " < Those Poketes make you craaaaaazy!",
+                  " < They have some speeecial abilities!"],
+        "fn": "playmap_43_npc_23",
+        "map": "playmap_43",
+        "x": 7,
+        "y": 4
+    },
+    "npc_24": {
+        "texts": [" < I'm the mayor of Agrawos, the greatest city around.",
+                  " < Check out the MowCow-Burger restaurant, which offers the best MowCow-Burgers and take a look at "
+                  "the Pokete-Arena.", 
+                  " < And as a special tip, take a look at the temple of the Wheeto."],
+        "fn": None,
+        "map": "playmap_45",
+        "x": 9,
+        "y": 3
+    },
+    "npc_25": {
+        "texts": [],
+        "fn": "playmap_39_npc_25",
+        "map": "playmap_39",
+        "x": 4,
+        "y": 33
+    },
+    "npc_26": {
+        "texts": [" < H-h-hello young trainer",
+                  " < I've lived a loong live, b-but now it's time to go.",
+                  " < And I'm trying to scatter all my belongings all over the world.",
+                  " < Since you're a Pokete trainer, you may have use for this healing potion!"],
+        "fn": "playmap_47_npc_26",
+        "map": "playmap_47",
+        "x": 15,
+        "y": 4
+    },
+    "npc_27": {
+        "texts": [" < Hello young pall",
+                  " < This city has been the center for plant Poketes for generations.",
+                  " < I posses one of the oldest and most powerful attack aver known to Poketes.",
+                  " < 'The old roots hit', the most powerful of the powerful.",
+                  " < Sadly all Poketes having this attack have been extinct for years.",
+                  " < The only thing that remained from them is this Learning Disc.",
+                  " < Do you want to have it?"],
+        "fn": "playmap_48_npc_27",
+        "map": "playmap_48",
+        "x": 7,
+        "y": 4
+    },
 }
 
 if __name__ == "__main__":

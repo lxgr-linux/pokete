@@ -142,6 +142,72 @@ at level {figure.pokes[index].lvl()}.")
         npc.give("Bert the bird", "super_potion")
 
     @staticmethod
+    def playmap_39_npc_20(npc):
+        """Interaction with npc_20"""
+        npc.give("Gerald the farmer", "super_potion")
+
+    @staticmethod
+    def playmap_47_npc_26(npc):
+        """Interaction with npc_26"""
+        npc.give("Poor man", "healing_potion")
+
+    @staticmethod
+    def playmap_48_npc_27(npc):
+        """Interaction with npc_27"""
+        npc.give("Old geezer", "ld_the_old_roots_hit")
+
+    @staticmethod
+    def playmap_42_npc_21(npc):
+        """Interaction with npc_21"""
+        poke_list = [i for i in figure.pokes[:6]
+                     if i.lvl() >= 50 and i.identifier == "mowcow"]
+        if len(poke_list) > 0:
+            poke = poke_list[0]
+            npc.text([" < Oh great!", " < You're my saviour!",
+                      f" < You brought me a level {poke.lvl()} Mowcow!",
+                      " < I'm thanking you!",
+                      " < Now I can still serve the best MowCow-Burgers!",
+                      " < Can I have it?"])
+            if ask_bool(mvp.movemap,
+                        "Do you want to give your Mowcow to the cook?"):
+                figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
+                npc.text([" < Here you go, 1000$"])
+                if ask_bool(mvp.movemap,
+                            "The cook gifted you 1000$. "
+                            "Do you want to accept it?"):
+                    figure.add_money(1000)
+                npc.will = False
+                figure.used_npcs.append(npc.name)
+        else:
+            npc.text([" < Ohhh man...", " < All of our beef is empty...",
+                      " < How are we going to serve the best MowCow-Burgers "
+                      "without beef?", 
+                      " < If only someone here could bring me a fitting "
+                      "Mowcow!?", 
+                      " < But it has to be at least on level 50, to fit our "
+                      "high quality standards.", 
+                      " < I will pay a good price!"])
+
+    @staticmethod
+    def playmap_39_npc_25(npc):
+        """Interaction with npc_25"""
+        if "Sebastian the leader" not in figure.used_npcs:
+            npc.text([" < I can't let you go.",
+                      " < You first have to defeat our arena leader!"])
+            figure.set(figure.x + 1, figure.y)
+        else:
+            npc.text([" < Have a pleasant day."])
+
+    @staticmethod
+    def playmap_43_npc_23(npc):
+        """Interaction with npc_23"""
+        if ask_bool(mvp.movemap,
+                    "Do you also want to have one?"):
+            figure.pokes.append(Poke("mowcow", 2000))
+            npc.will = False
+            figure.used_npcs.append(npc.name)
+
+    @staticmethod
     def chat(npc):
         """Starts a chat"""
         npc.chat()
@@ -897,7 +963,8 @@ def _game(_map):
                 codes(inp)
                 _ev.clear()
         std_loop(pevm=pevm)
-        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
+        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x
+                                    + mvp.movemap.width,
                                     figure.x < mvp.movemap.x + 6,
                                     figure.y + 6 > mvp.movemap.y
                                     + mvp.movemap.height,
@@ -1219,6 +1286,14 @@ def map_additions():
     _map.dor.add(_map, 13, 7)
     _map.shopdor.add(_map, 30, 7)
 
+    # playmap_39
+    _map = obmp.ob_maps["playmap_39"]
+    _map.dor = DoorToCenter()
+    _map.shopdor = DoorToShop()
+    # adding
+    _map.dor.add(_map, 44, 52)
+    _map.shopdor.add(_map, 122, 64)
+
 # Actual code execution
 #######################
 if __name__ == "__main__":
@@ -1338,6 +1413,7 @@ if __name__ == "__main__":
     detail.detail = detail.Detail(height - 1, width)
     pokete_dex = Dex(figure)
     help_page = Help(mvp.movemap)
+    RoadMap.check_maps()
     roadmap = RoadMap(figure)
     deck.deck = deck.Deck(height - 1, width, figure, abb_funcs)
     menu = Menu(mvp.movemap)

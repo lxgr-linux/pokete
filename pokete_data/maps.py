@@ -420,11 +420,15 @@ maps = {
         "weather": None
     },
     "playmap_39": {
-        "height": 69,
-        "width": 144,
+        "height": 70,
+        "width": 200,
         "pretty_name": "Agrawos",
         "extra_actions": None,
-        "poke_args": None,
+        "poke_args": {
+            "pokes": ["mowcow", "voglo", "wheeto", "megapois"],
+            "minlvl": 1000,
+            "maxlvl": 1500
+        },
         "weather": None
     },
     "playmap_40": {
@@ -443,6 +447,70 @@ maps = {
             "maxlvl": 1700
         },
         "weather": "sunny"
+    },
+    "playmap_41": {
+        "height": 15,
+        "width": 60,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_42": {
+        "height": 15,
+        "width": 60,
+        "pretty_name": "MowCow-Burger restaurant",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_43": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "The Temple of the Wheeto",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_44": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "Townhall",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_45": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "Townhall",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_46": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "Arena of Agrawos",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_47": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_48": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
     },
 }
 
