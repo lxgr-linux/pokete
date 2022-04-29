@@ -173,15 +173,19 @@ at level {figure.pokes[index].lvl()}.")
                 figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
                 npc.text([" < Here you go, 1000$"])
                 if ask_bool(mvp.movemap,
-                            "The cook gifted you 1000$. Do you want to accept it?"):
+                            "The cook gifted you 1000$. "
+                            "Do you want to accept it?"):
                     figure.add_money(1000)
                 npc.will = False
                 figure.used_npcs.append(npc.name)
         else:
             npc.text([" < Ohhh man...", " < All of our beef is empty...",
-                      " < How are we going to serve the beste MowCow-Burgers without beaf?",
-                      " < If only someone here could bring me a fitting Mowcow!?",
-                      " < But it has to be atleast on level 50, to fit our high quality standarts.",
+                      " < How are we going to serve the best MowCow-Burgers "
+                      "without beef?", 
+                      " < If only someone here could bring me a fitting "
+                      "Mowcow!?", 
+                      " < But it has to be at least on level 50, to fit our "
+                      "high quality standards.", 
                       " < I will pay a good price!"])
 
     @staticmethod
