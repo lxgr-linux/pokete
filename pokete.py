@@ -192,7 +192,7 @@ at level {figure.pokes[index].lvl()}.")
                       " < You first have to defeat our arena leader!"])
             figure.set(figure.x + 1, figure.y)
         else:
-            npc.text([" < Have a pleasent day."])
+            npc.text([" < Have a pleasant day."])
 
 
     @staticmethod
