@@ -1,5 +1,4 @@
 import random
-import logging
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.fightmap as fm
