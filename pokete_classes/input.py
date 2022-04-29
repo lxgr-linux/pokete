@@ -44,7 +44,6 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             _map.show()
             _ev.clear()
         std_loop(_map.name == "movemap")
-        time.sleep(0.05)
 
 
 def ask_bool(_map, text):
@@ -64,7 +63,6 @@ def ask_bool(_map, text):
                 ret = False
                 break
             std_loop(_map.name == "movemap")
-            time.sleep(0.05)
         _ev.clear()
     return ret
 
@@ -97,7 +95,6 @@ def ask_ok(_map, text):
             if _ev.get() in ["'o'", "'O'", "Key.enter"]:
                 break
             std_loop(_map.name == "movemap")
-            time.sleep(0.05)
         _ev.clear()
 
 

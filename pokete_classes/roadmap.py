@@ -146,7 +146,6 @@ class RoadMap:
                                        30), self.sta.name, _map=_map):
                         easy_exit_loop()
                 std_loop()
-                time.sleep(0.05)
                 _map.show()
         self.sta.unchoose()
 

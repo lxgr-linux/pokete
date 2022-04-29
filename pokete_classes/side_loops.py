@@ -87,6 +87,8 @@ class LoadingScreen():
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()
         self.map = se.Map(background=" ", width=width, height=height - 1)
+        self.map.name = "loading_screen"  # Needed for compatibility with
+                                          # ask_bool
         se.Text(r""" _____      _        _
 |  __ \    | |      | |
 | |__) |__ | | _____| |_ ___

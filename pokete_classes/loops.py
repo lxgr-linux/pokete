@@ -1,6 +1,7 @@
 import time
 from pokete_classes.event import _ev
 from pokete_classes.notify import notifier
+import release
 
 
 def easy_exit_loop():
@@ -10,14 +11,18 @@ def easy_exit_loop():
             _ev.clear()
             return
         std_loop()
-        time.sleep(0.05)
 
 
-def std_loop(on_mvmp=True):
+def std_loop(on_mvmp=True, pevm=None):
     """Standart action executed in most loops
     ARGS:
-        on_mvmp: Indicates if the loop is executed on movemap"""
+        on_mvmp: Indicates if the loop is executed on movemap
+        pevm: The PeriodicEventManager object, that may be needed to trigger
+              periodic events in the overlaing loop"""
     if _ev.get() == "exit":
         raise KeyboardInterrupt
     if on_mvmp:
         notifier.next()
+    if pevm is not None:
+        pevm.event()
+    time.sleep(release.FRAMETIME)

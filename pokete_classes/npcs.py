@@ -150,7 +150,6 @@ Do you want to accept it?"):
             while _ev.get() == "":
                 _ev.clear()
                 std_loop()
-                time.sleep(0.05)
             if q_a["a"] == {}:
                 break
             keys = list(q_a["a"].keys())
@@ -173,7 +172,6 @@ Do you want to accept it?"):
                         key = keys[c_b.index.index]
                         break
                     std_loop()
-                    time.sleep(0.05)
             q_a = q_a["a"][key]
 
 

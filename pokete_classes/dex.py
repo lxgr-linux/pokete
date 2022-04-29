@@ -106,6 +106,5 @@ Initiative: {poke.initiative}"""))
                     _ev.clear()
                     break
                 std_loop()
-                time.sleep(0.05)
                 mvp.movemap.show()
             self.rem_c_obs()

@@ -40,7 +40,9 @@ class Meadow(se.Text):
         string: The character representing the meadow
         poke_args: Dict containing relevant information about Pokes"""
     esccode = Color.green
-    all_obs = []
+    all_grass = []
+    all_water = []
+    all_sand = []
     max_tick = 100
     curr_tick = max_tick
 
@@ -48,7 +50,11 @@ class Meadow(se.Text):
         super().__init__(string, ignore=self.esccode + " " + Color.reset,
                          ob_class=HighGrass, ob_args=poke_args,
                          state="float", esccode=self.esccode)
-        Meadow.all_obs.append(self)
+        {
+            Color.green: Meadow.all_grass,
+            Color.blue: Meadow.all_water,
+            Color.yellow: Meadow.all_sand,
+        }[self.esccode].append(self)
 
     @classmethod
     def moving_grass(cls, objs):
@@ -69,6 +75,17 @@ class Meadow(se.Text):
             else:
                 obj.rechar(cls.esccode + ";" + Color.reset)
                 cls.check_figure_redraw(obj)
+
+    @classmethod
+    def moving_water(cls, objs):
+        for obj in objs:
+            if random.randint(0, 9) == 0:
+                if " " not in obj.char:
+                    obj.rechar([i for i in
+                                [Color.lightblue + "~" + Color.reset,
+                                 Color.blue + "~" + Color.reset]
+                                if i != obj.char][0])
+                    cls.check_figure_redraw(obj)
 
     @staticmethod
     def check_figure_redraw(obj):

@@ -137,7 +137,6 @@ class Deck(detail.Informer):
                 self.submap.set(self.submap.x, self.submap.y + 1)
             elif len(pokes) > 0 and self.index.y - 1 < self.submap.y:
                 self.submap.set(self.submap.x, self.submap.y - 1)
-            time.sleep(0.05)
             self.submap.full_show()
 
     def add_all(self, pokes, init=False):

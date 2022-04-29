@@ -49,6 +49,7 @@ from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
+from pokete_classes.periodic_event_manager import PeriodicEventManager
 from pokete_general_use_fns import liner, sort_vers, parse_args
 from release import VERSION, CODENAME, SAVEPATH
 
@@ -180,7 +181,6 @@ class CenterInteract(se.Object):
                 _ev.clear()
                 break
             std_loop()
-            time.sleep(0.05)
         mvp.movemap.full_show(init=True)
 
 
@@ -467,7 +467,6 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                             break
                     _ev.clear()
                 std_loop()
-                time.sleep(0.05)
                 self.map.show()
         self.box.remove_c_obs()
 
@@ -538,7 +537,7 @@ class Menu:
                         + self.represent_char_label.width,
                         self.represent_char_label.ry)
 
-    def __call__(self):
+    def __call__(self, pevm):
         """Opens the menu"""
         _ev.clear()
         self.realname_label.rechar(figure.name)
@@ -586,9 +585,8 @@ valid single-space character!")
                 elif _ev.get() in ["'e'", "Key.esc", "'q'"]:
                     _ev.clear()
                     break
-                std_loop()
-                time.sleep(0.05)
-                self.map.show()
+                std_loop(pevm=pevm)
+                self.map.full_show()
 
 
 # General use functions
@@ -723,42 +721,6 @@ class ExtraActions:
     """Extra actions class to keep track of extra actions"""
 
     @staticmethod
-    def water(obs):
-        """Water animation
-        ARGS:
-            obs: List of se.Objects that represent the water"""
-        if settings("animations").val:
-            for obj in obs:
-                if random.randint(0, 9) == 0:
-                    if " " not in obj.char:
-                        obj.rechar([i for i in
-                                    [Color.lightblue + "~" + Color.reset,
-                                     Color.blue + "~" + Color.reset]
-                                    if i != obj.char][0])
-                        if obj.x == figure.x and obj.y == figure.y:
-                            figure.redraw()
-
-    @staticmethod
-    def playmap_4():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_4"].lake_1.obs)
-
-    @staticmethod
-    def playmap_11():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_11"].lake_1.obs)
-
-    @staticmethod
-    def playmap_18():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_18"].lake_1.obs)
-
-    @staticmethod
-    def playmap_21():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_21"].lake_1.obs)
-
-    @staticmethod
     def playmap_7():
         """Cave animation"""
         for obj in (obmp.ob_maps["playmap_7"].inner_walls.obs
@@ -772,12 +734,6 @@ class ExtraActions:
                 obj.rechar(obj.bchar)
             else:
                 obj.rechar(" ")
-
-    @staticmethod
-    def playmap_40():
-        """Water animation"""
-        ExtraActions.water(obmp.ob_maps["playmap_40"].lake_1.obs)
-
 
 # main functions
 ################
@@ -802,7 +758,6 @@ def test():
                     "test", "123", "fuckthesystem"]])
                 a.center_add(a.map)
             std_loop()
-            time.sleep(0.05)
             a.map.show()
 
 
@@ -903,20 +858,15 @@ def _game(_map):
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
+    pevm = PeriodicEventManager(_map)
     inp_dict = {"'1'": [deck.deck, (6, "Your deck")],
                 "'3'": [roadmap, (mvp.movemap,)],
                 "'4'": [inv, ()],
                 "'5'": [pokete_dex, ()],
-                "'e'": [menu, ()],
+                "'e'": [menu, (pevm,)],
                 "'?'": [help_page, ()]}
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
-    # get all grass objs
-    all_gras_objs = []
-    if settings("animations").val:
-        for meadow in Meadow.all_obs:
-            if meadow.map == _map and meadow.esccode == Color.green:
-                all_gras_objs += meadow.obs
     while True:
         # Directions are not beening used yet
         for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
@@ -946,12 +896,8 @@ def _game(_map):
                 mvp.movemap.code_label.outp(figure.map.pretty_name)
                 codes(inp)
                 _ev.clear()
-        std_loop()
-        _map.extra_actions()
-        Meadow.moving_grass(all_gras_objs)
-        time.sleep(0.05)
-        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x
-                                    + mvp.movemap.width,
+        std_loop(pevm=pevm)
+        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
                                     figure.x < mvp.movemap.x + 6,
                                     figure.y + 6 > mvp.movemap.y
                                     + mvp.movemap.height,
@@ -1024,9 +970,15 @@ def gen_obs():
                               ignore=" "),
                       map_data[ob_map]["hard_obs"][hard_ob])
         for soft_ob in map_data[ob_map]["soft_obs"]:
+            cls = {
+                "sand": Sand,
+                "meadow": Meadow,
+                "water": Water,
+            }[map_data[ob_map]["soft_obs"][soft_ob].get("cls", "meadow")]
             parse_obj(_map, soft_ob,
-                      Meadow(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
-                             _map.poke_args),
+                      cls(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
+                          _map.poke_args
+                          if cls != Water else _map.w_poke_args),
                       map_data[ob_map]["soft_obs"][soft_ob])
         for door in map_data[ob_map]["dors"]:
             parse_obj(_map, door,
@@ -1145,21 +1097,8 @@ def map_additions():
                                     arg_proto={"chance": 6,
                                                "map": "playmap_5",
                                                "x": 17, "y": 16})
-    _map.lake_1 = Water(
-"""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~                 ~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~                    ~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~                                ~~~~~~~~~~~~~~
-~~~~~~~~~                                           ~~~~~~~~
-~~~""", _map.w_poke_args)
     # adding
     _map.dor_playmap_5.add(_map, 56, 1)
-    _map.lake_1.add(_map, 0, 0)
 
     # playmap_5
     _map = obmp.ob_maps["playmap_5"]
@@ -1216,21 +1155,6 @@ def map_additions():
     # adding
     _map.inner.add(_map, 2, 1)
 
-    # playmap_11
-    _map = obmp.ob_maps["playmap_11"]
-    _map.lake_1 = Water(
-"""~~~~~                                                 ~~~~~~
-~~~~~~~~~~~~                                 ~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~                       ~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~                   ~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~          ~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~""",
-_map.w_poke_args)
-    # adding
-    _map.lake_1.add(_map, 0, 12)
-
     # playmap_13
     _map = obmp.ob_maps["playmap_13"]
     _map.dor = DoorToCenter()
@@ -1238,20 +1162,6 @@ _map.w_poke_args)
     # adding
     _map.dor.add(_map, 14, 29)
     _map.shopdor.add(_map, 52, 29)
-
-    # playmap_18
-    _map = obmp.ob_maps["playmap_18"]
-    _map.lake_1 = Water("""  ~~
- ~~~~
-~~~~~~~
-~~~~~~~~
-~~~~~~~~
-~~~~~~~~
-~~~~~~
- ~~~~
- ~~""", _map.w_poke_args)
-    # adding
-    _map.lake_1.add(_map, 72, 7)
 
     # playmap_19
     _map = obmp.ob_maps["playmap_19"]
@@ -1296,19 +1206,10 @@ _map.w_poke_args)
                                           "x": 26, "y": 1})
     _map.dor = DoorToCenter()
     _map.shopdor = DoorToShop()
-    _map.lake_1 = Water("""       ~~~~~~~~~~~
-   ~~~~~~~~~~~~~~~~~~
- ~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~
- ~~~~~~~~~~~~~~~~~~~~~
-    ~~~~~~~~~~~~~~
-       ~~~~~~~~""", _map.w_poke_args)
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
     _map.dor.add(_map, 10, 7)
     _map.shopdor.add(_map, 34, 7)
-    _map.lake_1.add(_map, 65, 10)
 
     # playmap_30
     _map = obmp.ob_maps["playmap_30"]
@@ -1317,58 +1218,6 @@ _map.w_poke_args)
     # adding
     _map.dor.add(_map, 13, 7)
     _map.shopdor.add(_map, 30, 7)
-
-    # playmap_40
-    _map = obmp.ob_maps["playmap_40"]
-    _map.lake_1 = Water("""~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~~~~~~~                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~~~~~                                       ~~~~~~~~~~~~~~~~~~~~~~~                                        ~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~~~                                                   ~~~                                                              ~~~~~~~~~~
-~~~~~~~~~~                                                                                                                                ~~
-~~~""", _map.w_poke_args)
-    _map.sand_1 = Sand("""    ............
- ....................
-.......................
- ...................
-    ..............
-          ...""", _map.poke_args)
-    _map.sand_2 = Sand("""             .....
-        ..............
-    .....................
- ..........................
-.............................
- ...........................
-    ......................
-       .................
-          ..........
-             ...""", _map.poke_args)
-    _map.sand_3 = Sand("""    ............
- ..................
-.....................
- ..................
-  ................
-     .......""", _map.poke_args)
-    _map.sand_4 = Sand("""    .........
- ..............
-................
- ...............
-  .............
-     .......""", _map.poke_args)
-    # adding
-    _map.lake_1.add(_map, 0, 0)
-    _map.sand_1.add(_map, 10, 15)
-    _map.sand_2.add(_map, 86, 12)
-    _map.sand_3.add(_map, 39, 19)
-    _map.sand_4.add(_map, 115, 20)
-
 
 # Actual code execution
 #######################

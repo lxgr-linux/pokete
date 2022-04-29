@@ -73,7 +73,6 @@ class Movemap(se.Submap):
             for i in range(len(text) + 1):
                 self.multitext.outp(liner(text[:i],
                                           self.width - (x - self.x + 1), "   "))
-                time.sleep(0.045)
                 std_loop()
                 if _ev.get() != "":
                     _ev.clear()
@@ -82,7 +81,6 @@ class Movemap(se.Submap):
                                       self.width - (x - self.x + 1), "   "))
             while _ev.get() == "":
                 std_loop()
-                time.sleep(0.05)
         self.multitext.remove()
 
     def resize(self, height, width, background=" "):
