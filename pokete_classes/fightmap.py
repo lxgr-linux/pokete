@@ -337,7 +337,7 @@ used {enemy.name} against you!')
                     and not winner.player
                     and any(p.hp > 0 for p in figure.pokes[:6])
                     and ask_bool(self,
-                                 "Do you want to choose anothoer Pokete?")):
+                                 "Do you want to choose another Pokete?")):
                     players, player = self.choose_poke(figure, players,
                                                        player, enemy)
                 else:

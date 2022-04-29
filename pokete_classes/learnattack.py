@@ -1,8 +1,6 @@
 """Contains the LearnAttack class"""
 
-import time
 import random
-import logging
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner

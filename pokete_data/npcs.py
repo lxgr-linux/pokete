@@ -277,14 +277,17 @@ found some cool Poketes.",
         "y": 25
     },
     "npc_17": {
-        "texts": [" < Welcome to Agrawos!", " < Check out the MowCow-Burger restaurant, they have the best beaf!", " < If you wan't a challange check out the Pokete-Arena, they have some quite heavy Poketes there!"],
+        "texts": [" < Welcome to Agrawos!",
+                  " < Check out the MowCow-Burger restaurant, they have the best beef!",
+                  " < If you want a challenge check out the Pokete-Arena, they have some quite heavy Poketes there!"],
         "fn": None,
         "map": "playmap_39",
         "x": 102,
         "y": 5
     },
     "npc_18": {
-        "texts": [" < This is the Pokete Arena of Agrawos, only go there if you're sure you can beat the challange.", " < They got some very heavy Poketes in there!"],
+        "texts": [" < This is the Pokete Arena of Agrawos, only go there if you're sure you can beat the challenge.",
+                  " < They got some very heavy Poketes in there!"],
         "fn": None,
         "map": "playmap_39",
         "x": 126,
@@ -298,7 +301,9 @@ found some cool Poketes.",
         "y": 65
     },
     "npc_20": {
-        "texts": [" < Hello yall, this town is soo famous for its' creaaazy plants.", " < Especially Wheeto, from which healing potions can be made.", " < Want one?"],
+        "texts": [" < Hello yall, this town is soo famous for its' craaazy plants.",
+                  " < Especially Wheeto, from which healing potions can be made.",
+                  " < Want one?"],
         "fn": "playmap_39_npc_20",
         "map": "playmap_39",
         "x": 176,
@@ -326,7 +331,10 @@ found some cool Poketes.",
         "y": 4
     },
     "npc_24": {
-        "texts": [" < I'm the mayor of Agrawos, the greatest city around.", " < Check out the MowCow-Burger restaurant, which offers the best MowCow-Burgers and take a look at the Pokete-Arena.", " < And as a special tip, take a look at the temple of the Wheeto."],
+        "texts": [" < I'm the mayor of Agrawos, the greatest city around.",
+                  " < Check out the MowCow-Burger restaurant, which offers the best MowCow-Burgers and take a look at "
+                  "the Pokete-Arena.", 
+                  " < And as a special tip, take a look at the temple of the Wheeto."],
         "fn": None,
         "map": "playmap_45",
         "x": 9,
@@ -340,14 +348,23 @@ found some cool Poketes.",
         "y": 33
     },
     "npc_26": {
-        "texts": [" < Hhhello young trainer", " < I've lived a loong live, bbut now it's time to go.", " < And I'm trying to scatter all my belongings all over the world.", " < Since you're a Pokete trainer, you may have use fpor this healing potion!"],
+        "texts": [" < H-h-hello young trainer",
+                  " < I've lived a loong live, b-but now it's time to go.",
+                  " < And I'm trying to scatter all my belongings all over the world.",
+                  " < Since you're a Pokete trainer, you may have use for this healing potion!"],
         "fn": "playmap_47_npc_26",
         "map": "playmap_47",
         "x": 15,
         "y": 4
     },
     "npc_27": {
-        "texts": [" < Hello young pall", " < This city has been the center for plant Poketes for generations.", " < I posses one of the oldest and most powerfull attack aver known to Poketes.", " < 'The old roots hit', the most powerfull of the powerfull.", " < Sadly all Poketes having this attack have been extinct for years.", " < The only thing that remained from them is this Learning Disc.", " < Do you want to have it?"],
+        "texts": [" < Hello young pall",
+                  " < This city has been the center for plant Poketes for generations.",
+                  " < I posses one of the oldest and most powerful attack aver known to Poketes.",
+                  " < 'The old roots hit', the most powerful of the powerful.",
+                  " < Sadly all Poketes having this attack have been extinct for years.",
+                  " < The only thing that remained from them is this Learning Disc.",
+                  " < Do you want to have it?"],
         "fn": "playmap_48_npc_27",
         "map": "playmap_48",
         "x": 7,

@@ -161,7 +161,7 @@ at level {figure.pokes[index].lvl()}.")
         """Interaction with npc_21"""
         poke_list = [i for i in figure.pokes[:6]
                      if i.lvl() >= 50 and i.identifier == "mowcow"]
-        if len(poke_list) > 0 :
+        if len(poke_list) > 0:
             poke = poke_list[0]
             npc.text([" < Oh great!", " < You're my saviour!",
                       f" < You brought me a level {poke.lvl()} Mowcow!",
@@ -194,12 +194,11 @@ at level {figure.pokes[index].lvl()}.")
         else:
             npc.text([" < Have a pleasant day."])
 
-
     @staticmethod
     def playmap_43_npc_23(npc):
         """Interaction with npc_23"""
         if ask_bool(mvp.movemap,
-                    "Do you also want to have on?"):
+                    "Do you also want to have one?"):
             figure.pokes.append(Poke("mowcow", 2000))
             npc.will = False
             figure.used_npcs.append(npc.name)

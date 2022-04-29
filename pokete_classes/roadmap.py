@@ -10,6 +10,7 @@ from .color import Color
 from .ui_elements import Box, InfoBox
 from .event import _ev
 
+
 class RoadMapException(Exception):
     """Exception thrown when a PlayMap has no corresponding MapStation"""
 
