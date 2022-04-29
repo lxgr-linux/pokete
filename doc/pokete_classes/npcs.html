@@ -179,7 +179,6 @@ Do you want to accept it?&#34;):
             while _ev.get() == &#34;&#34;:
                 _ev.clear()
                 std_loop()
-                time.sleep(0.05)
             if q_a[&#34;a&#34;] == {}:
                 break
             keys = list(q_a[&#34;a&#34;].keys())
@@ -202,7 +201,6 @@ Do you want to accept it?&#34;):
                         key = keys[c_b.index.index]
                         break
                     std_loop()
-                    time.sleep(0.05)
             q_a = q_a[&#34;a&#34;][key]
 
 
@@ -401,7 +399,6 @@ Do you want to accept it?&#34;):
             while _ev.get() == &#34;&#34;:
                 _ev.clear()
                 std_loop()
-                time.sleep(0.05)
             if q_a[&#34;a&#34;] == {}:
                 break
             keys = list(q_a[&#34;a&#34;].keys())
@@ -424,7 +421,6 @@ Do you want to accept it?&#34;):
                         key = keys[c_b.index.index]
                         break
                     std_loop()
-                    time.sleep(0.05)
             q_a = q_a[&#34;a&#34;][key]</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -521,7 +517,6 @@ def set_vars(cls, fig, npcactions):
         while _ev.get() == &#34;&#34;:
             _ev.clear()
             std_loop()
-            time.sleep(0.05)
         if q_a[&#34;a&#34;] == {}:
             break
         keys = list(q_a[&#34;a&#34;].keys())
@@ -544,7 +539,6 @@ def set_vars(cls, fig, npcactions):
                     key = keys[c_b.index.index]
                     break
                 std_loop()
-                time.sleep(0.05)
         q_a = q_a[&#34;a&#34;][key]</code></pre>
 </details>
 </dd>

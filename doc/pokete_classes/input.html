@@ -73,7 +73,6 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             _map.show()
             _ev.clear()
         std_loop(_map.name == &#34;movemap&#34;)
-        time.sleep(0.05)
 
 
 def ask_bool(_map, text):
@@ -93,7 +92,6 @@ def ask_bool(_map, text):
                 ret = False
                 break
             std_loop(_map.name == &#34;movemap&#34;)
-            time.sleep(0.05)
         _ev.clear()
     return ret
 
@@ -126,7 +124,6 @@ def ask_ok(_map, text):
             if _ev.get() in [&#34;&#39;o&#39;&#34;, &#34;&#39;O&#39;&#34;, &#34;Key.enter&#34;]:
                 break
             std_loop(_map.name == &#34;movemap&#34;)
-            time.sleep(0.05)
         _ev.clear()
 
 
@@ -174,7 +171,6 @@ if __name__ == &#34;__main__&#34;:
                 ret = False
                 break
             std_loop(_map.name == &#34;movemap&#34;)
-            time.sleep(0.05)
         _ev.clear()
     return ret</code></pre>
 </details>
@@ -208,7 +204,6 @@ if __name__ == &#34;__main__&#34;:
             if _ev.get() in [&#34;&#39;o&#39;&#34;, &#34;&#39;O&#39;&#34;, &#34;Key.enter&#34;]:
                 break
             std_loop(_map.name == &#34;movemap&#34;)
-            time.sleep(0.05)
         _ev.clear()</code></pre>
 </details>
 </dd>
@@ -309,8 +304,7 @@ if __name__ == &#34;__main__&#34;:
             obj.rechar(hard_liner(wrap_len, name + &#34;█&#34;))
             _map.show()
             _ev.clear()
-        std_loop(_map.name == &#34;movemap&#34;)
-        time.sleep(0.05)</code></pre>
+        std_loop(_map.name == &#34;movemap&#34;)</code></pre>
 </details>
 </dd>
 </dl>

@@ -68,7 +68,9 @@ class Meadow(se.Text):
         string: The character representing the meadow
         poke_args: Dict containing relevant information about Pokes&#34;&#34;&#34;
     esccode = Color.green
-    all_obs = []
+    all_grass = []
+    all_water = []
+    all_sand = []
     max_tick = 100
     curr_tick = max_tick
 
@@ -76,7 +78,11 @@ class Meadow(se.Text):
         super().__init__(string, ignore=self.esccode + &#34; &#34; + Color.reset,
                          ob_class=HighGrass, ob_args=poke_args,
                          state=&#34;float&#34;, esccode=self.esccode)
-        Meadow.all_obs.append(self)
+        {
+            Color.green: Meadow.all_grass,
+            Color.blue: Meadow.all_water,
+            Color.yellow: Meadow.all_sand,
+        }[self.esccode].append(self)
 
     @classmethod
     def moving_grass(cls, objs):
@@ -97,6 +103,17 @@ class Meadow(se.Text):
             else:
                 obj.rechar(cls.esccode + &#34;;&#34; + Color.reset)
                 cls.check_figure_redraw(obj)
+
+    @classmethod
+    def moving_water(cls, objs):
+        for obj in objs:
+            if random.randint(0, 9) == 0:
+                if &#34; &#34; not in obj.char:
+                    obj.rechar([i for i in
+                                [Color.lightblue + &#34;~&#34; + Color.reset,
+                                 Color.blue + &#34;~&#34; + Color.reset]
+                                if i != obj.char][0])
+                    cls.check_figure_redraw(obj)
 
     @staticmethod
     def check_figure_redraw(obj):
@@ -263,7 +280,9 @@ class Poketeball(se.Object):
         string: The character representing the meadow
         poke_args: Dict containing relevant information about Pokes&#34;&#34;&#34;
     esccode = Color.green
-    all_obs = []
+    all_grass = []
+    all_water = []
+    all_sand = []
     max_tick = 100
     curr_tick = max_tick
 
@@ -271,7 +290,11 @@ class Poketeball(se.Object):
         super().__init__(string, ignore=self.esccode + &#34; &#34; + Color.reset,
                          ob_class=HighGrass, ob_args=poke_args,
                          state=&#34;float&#34;, esccode=self.esccode)
-        Meadow.all_obs.append(self)
+        {
+            Color.green: Meadow.all_grass,
+            Color.blue: Meadow.all_water,
+            Color.yellow: Meadow.all_sand,
+        }[self.esccode].append(self)
 
     @classmethod
     def moving_grass(cls, objs):
@@ -292,6 +315,17 @@ class Poketeball(se.Object):
             else:
                 obj.rechar(cls.esccode + &#34;;&#34; + Color.reset)
                 cls.check_figure_redraw(obj)
+
+    @classmethod
+    def moving_water(cls, objs):
+        for obj in objs:
+            if random.randint(0, 9) == 0:
+                if &#34; &#34; not in obj.char:
+                    obj.rechar([i for i in
+                                [Color.lightblue + &#34;~&#34; + Color.reset,
+                                 Color.blue + &#34;~&#34; + Color.reset]
+                                if i != obj.char][0])
+                    cls.check_figure_redraw(obj)
 
     @staticmethod
     def check_figure_redraw(obj):
@@ -314,7 +348,15 @@ class Poketeball(se.Object):
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pokete_classes.landscape.Meadow.all_obs"><code class="name">var <span class="ident">all_obs</span></code></dt>
+<dt id="pokete_classes.landscape.Meadow.all_grass"><code class="name">var <span class="ident">all_grass</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.landscape.Meadow.all_sand"><code class="name">var <span class="ident">all_sand</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pokete_classes.landscape.Meadow.all_water"><code class="name">var <span class="ident">all_water</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -389,6 +431,27 @@ def moving_grass(cls, objs):
         else:
             obj.rechar(cls.esccode + &#34;;&#34; + Color.reset)
             cls.check_figure_redraw(obj)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.landscape.Meadow.moving_water"><code class="name flex">
+<span>def <span class="ident">moving_water</span></span>(<span>objs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def moving_water(cls, objs):
+    for obj in objs:
+        if random.randint(0, 9) == 0:
+            if &#34; &#34; not in obj.char:
+                obj.rechar([i for i in
+                            [Color.lightblue + &#34;~&#34; + Color.reset,
+                             Color.blue + &#34;~&#34; + Color.reset]
+                            if i != obj.char][0])
+                cls.check_figure_redraw(obj)</code></pre>
 </details>
 </dd>
 </dl>
@@ -586,12 +649,15 @@ def moving_grass(cls, objs):
 <li>
 <h4><code><a title="pokete_classes.landscape.Meadow" href="#pokete_classes.landscape.Meadow">Meadow</a></code></h4>
 <ul class="two-column">
-<li><code><a title="pokete_classes.landscape.Meadow.all_obs" href="#pokete_classes.landscape.Meadow.all_obs">all_obs</a></code></li>
+<li><code><a title="pokete_classes.landscape.Meadow.all_grass" href="#pokete_classes.landscape.Meadow.all_grass">all_grass</a></code></li>
+<li><code><a title="pokete_classes.landscape.Meadow.all_sand" href="#pokete_classes.landscape.Meadow.all_sand">all_sand</a></code></li>
+<li><code><a title="pokete_classes.landscape.Meadow.all_water" href="#pokete_classes.landscape.Meadow.all_water">all_water</a></code></li>
 <li><code><a title="pokete_classes.landscape.Meadow.check_figure_redraw" href="#pokete_classes.landscape.Meadow.check_figure_redraw">check_figure_redraw</a></code></li>
 <li><code><a title="pokete_classes.landscape.Meadow.curr_tick" href="#pokete_classes.landscape.Meadow.curr_tick">curr_tick</a></code></li>
 <li><code><a title="pokete_classes.landscape.Meadow.esccode" href="#pokete_classes.landscape.Meadow.esccode">esccode</a></code></li>
 <li><code><a title="pokete_classes.landscape.Meadow.max_tick" href="#pokete_classes.landscape.Meadow.max_tick">max_tick</a></code></li>
 <li><code><a title="pokete_classes.landscape.Meadow.moving_grass" href="#pokete_classes.landscape.Meadow.moving_grass">moving_grass</a></code></li>
+<li><code><a title="pokete_classes.landscape.Meadow.moving_water" href="#pokete_classes.landscape.Meadow.moving_water">moving_water</a></code></li>
 </ul>
 </li>
 <li>

@@ -180,7 +180,6 @@ class Detail(Informer):
                             _ev.clear()
                             break
                         std_loop(False)
-                        time.sleep(0.05)
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:
@@ -199,7 +198,6 @@ class Detail(Informer):
                                                        + atc.temp_i])
                     else:
                         atc.temp_j += 1
-            time.sleep(0.05)
             self.map.show()
 
 
@@ -337,7 +335,6 @@ if __name__ == &#34;__main__&#34;:
                             _ev.clear()
                             break
                         std_loop(False)
-                        time.sleep(0.05)
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:
@@ -356,7 +353,6 @@ if __name__ == &#34;__main__&#34;:
                                                        + atc.temp_i])
                     else:
                         atc.temp_j += 1
-            time.sleep(0.05)
             self.map.show()</code></pre>
 </details>
 <h3>Ancestors</h3>

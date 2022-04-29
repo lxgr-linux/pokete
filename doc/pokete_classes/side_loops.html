@@ -115,6 +115,8 @@ class LoadingScreen():
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()
         self.map = se.Map(background=&#34; &#34;, width=width, height=height - 1)
+        self.map.name = &#34;loading_screen&#34;  # Needed for compatibility with
+                                          # ask_bool
         se.Text(r&#34;&#34;&#34; _____      _        _
 |  __ \    | |      | |
 | |__) |__ | | _____| |_ ___
@@ -260,6 +262,8 @@ https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)</code><
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()
         self.map = se.Map(background=&#34; &#34;, width=width, height=height - 1)
+        self.map.name = &#34;loading_screen&#34;  # Needed for compatibility with
+                                          # ask_bool
         se.Text(r&#34;&#34;&#34; _____      _        _
 |  __ \    | |      | |
 | |__) |__ | | _____| |_ ___

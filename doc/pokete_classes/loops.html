@@ -29,6 +29,7 @@
 <pre><code class="python">import time
 from pokete_classes.event import _ev
 from pokete_classes.notify import notifier
+import release
 
 
 def easy_exit_loop():
@@ -38,17 +39,21 @@ def easy_exit_loop():
             _ev.clear()
             return
         std_loop()
-        time.sleep(0.05)
 
 
-def std_loop(on_mvmp=True):
+def std_loop(on_mvmp=True, pevm=None):
     &#34;&#34;&#34;Standart action executed in most loops
     ARGS:
-        on_mvmp: Indicates if the loop is executed on movemap&#34;&#34;&#34;
+        on_mvmp: Indicates if the loop is executed on movemap
+        pevm: The PeriodicEventManager object, that may be needed to trigger
+              periodic events in the overlaing loop&#34;&#34;&#34;
     if _ev.get() == &#34;exit&#34;:
         raise KeyboardInterrupt
     if on_mvmp:
-        notifier.next()</code></pre>
+        notifier.next()
+    if pevm is not None:
+        pevm.event()
+    time.sleep(release.FRAMETIME)</code></pre>
 </details>
 </section>
 <section>
@@ -73,12 +78,11 @@ def std_loop(on_mvmp=True):
         if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
             _ev.clear()
             return
-        std_loop()
-        time.sleep(0.05)</code></pre>
+        std_loop()</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.loops.std_loop"><code class="name flex">
-<span>def <span class="ident">std_loop</span></span>(<span>on_mvmp=True)</span>
+<span>def <span class="ident">std_loop</span></span>(<span>on_mvmp=True, pevm=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Standart action executed in most loops</p>
@@ -86,19 +90,27 @@ def std_loop(on_mvmp=True):
 <dl>
 <dt><strong><code>on_mvmp</code></strong></dt>
 <dd>Indicates if the loop is executed on movemap</dd>
+<dt><strong><code>pevm</code></strong></dt>
+<dd>The PeriodicEventManager object, that may be needed to trigger
+periodic events in the overlaing loop</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def std_loop(on_mvmp=True):
+<pre><code class="python">def std_loop(on_mvmp=True, pevm=None):
     &#34;&#34;&#34;Standart action executed in most loops
     ARGS:
-        on_mvmp: Indicates if the loop is executed on movemap&#34;&#34;&#34;
+        on_mvmp: Indicates if the loop is executed on movemap
+        pevm: The PeriodicEventManager object, that may be needed to trigger
+              periodic events in the overlaing loop&#34;&#34;&#34;
     if _ev.get() == &#34;exit&#34;:
         raise KeyboardInterrupt
     if on_mvmp:
-        notifier.next()</code></pre>
+        notifier.next()
+    if pevm is not None:
+        pevm.event()
+    time.sleep(release.FRAMETIME)</code></pre>
 </details>
 </dd>
 </dl>
