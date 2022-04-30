@@ -218,11 +218,22 @@ can't have more than 4 attacks!"
                          str({"eff": eff, "n_hp": n_hp}))
             fightmap.show()
 
-    def evolve(self, figure):
-        """Evolves the Pokete to its evolve_poke"""
-        if not self.player:
+    def learn_attack(self, _map):
+        """Checks if a new attack can be learned and then teaches it the poke
+        ARGS:
+            _map: The map this happens on"""
+        if self.lvl() % 5 == 0:
+            LearnAttack(self, _map)()
+
+    def evolve(self, figure, _map):
+        """Evolves the Pokete to its evolve_poke
+        ARGS:
+            figure: The figure object the poke belongs to
+            _map: The map the evolving happens on"""
+        if not self.player or self.evolve_poke == "" \
+                or self.lvl() < self.evolve_lvl:
             return
-        evomap = EvoMap(self.ico.map.height, self.ico.map.width)
+        evomap = EvoMap(_map.height, _map.width)
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width / 2 - 4),
@@ -255,3 +266,15 @@ can't have more than 4 attacks!"
             figure.caught_pokes.append(new.identifier)
         logging.info("[Poke] %s evolved to %s", self.name, new.name)
         del self
+
+
+def upgrade_by_one_lvl(poke, figure, _map):
+    """Upgrades a Pokete by exactly one level, this will only be used by treats
+    ARGS:
+        poke: The pokete, that will be upgraded
+        figure: The figure object the Pokete belongs to
+        _map: The map the upgrade happens on"""
+    poke.add_xp((poke.lvl()+1)**2-1 - ((poke.lvl())**2-1))
+    poke.set_vars()
+    poke.learn_attack(_map)
+    poke.evolve(figure, _map)

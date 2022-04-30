@@ -35,6 +35,12 @@ items = {
         "price": 100,
         "fn": "ap_potion"
     },
+    "treat": {
+        "pretty_name": "Treat",
+        "desc": "Upgrades a Pokete by a whole level.",
+        "price": None,
+        "fn": None
+    },
     "shut_the_fuck_up_stone": {
         "pretty_name": "'Shut the fuck up' stone",
         "desc": "Makes trainer leaving you alone",

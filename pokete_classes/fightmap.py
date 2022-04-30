@@ -358,10 +358,8 @@ used {enemy.name} against you!')
             winner.moves.shine()
             time.sleep(0.5)
             winner.set_vars()
-            if winner.lvl() % 5 == 0:
-                LearnAttack(winner, self)()
-            if winner.evolve_poke != "" and winner.lvl() >= winner.evolve_lvl:
-                winner.evolve(figure)
+            winner.learn_attack(self)
+            winner.evolve(figure, self)
         self.show()
         time.sleep(1)
         ico = [obj for obj in players if obj != winner][0].ico
