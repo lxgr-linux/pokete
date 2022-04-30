@@ -493,7 +493,9 @@ class Inv:
                             _ev.clear()
                             self.box2.remove()
                             if obj.name == "treat":
-                                if ask_bool(self.map, f"Do you want to upgrade one of your Poketes by a level?"):
+                                if ask_bool(self.map,
+                                            "Do you want to upgrade one of "
+                                            "your Poketes by a level?"):
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(6, label="Your deck",
@@ -508,7 +510,9 @@ class Inv:
                                         break
                                     upgrade_by_one_lvl(poke, figure, self.map)
                                     items = self.rem_item(obj.name, items)
-                                    ask_ok(self.map, f"{poke.name} reached level {poke.lvl()}!")
+                                    ask_ok(self.map,
+                                           f"{poke.name} reached level "
+                                           f"{poke.lvl()}!")
                             elif type(obj) is LearnDisc:
                                 if ask_bool(self.map, f"Do you want to teach '\
 {obj.attack_dict['name']}'?"):

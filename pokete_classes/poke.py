@@ -271,7 +271,7 @@ can't have more than 4 attacks!"
 def upgrade_by_one_lvl(poke, figure, _map):
     """Upgrades a Pokete by exactly one level, this will only be used by treats
     ARGS:
-        poke: The pokete, taht will be upgraded
+        poke: The pokete, that will be upgraded
         figure: The figure object the Pokete belongs to
         _map: The map the upgrade happens on"""
     poke.add_xp((poke.lvl()+1)**2-1 - ((poke.lvl())**2-1))
