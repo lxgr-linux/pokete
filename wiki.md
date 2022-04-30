@@ -1,4 +1,4 @@
-v0.6.0
+v0.6.4
 
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
@@ -121,6 +121,7 @@ You can find different versions of this wiki:
        8. [Special smell](#special-smell)
        9. [Sucker](#sucker)
        10. [Super sucker](#super-sucker)
+       11. [The old roots hit](#the-old-roots-hit)
    8. [Poison attacks](#poison-attacks)
        1. [Poison bite](#poison-bite)
        2. [Poison thorn](#poison-thorn)
@@ -461,6 +462,7 @@ A very aggressive bird Pokete that can only be found in the woods.
    + Route 6
    + Mowcow meadow
    + The fields of Agrawos
+   + Agrawos
 - Evolves to [Voglus](#voglus) at level 35
 
 #### Voglus
@@ -742,6 +744,7 @@ A cow-like creature found on meadows.
 - Can be found in:
    + Mowcow meadow
    + The fields of Agrawos
+   + Agrawos
 - Does not evolve
 
 
@@ -861,6 +864,7 @@ A very unsuspicious plant.
    + [Poison thorn](#poison-thorn)
 - Can be found in:
    + The fields of Agrawos
+   + Agrawos
 - Does not evolve
 
 
@@ -970,7 +974,7 @@ A plant Pokete found in Agrawos, with special 'Powers'.
    + [Root slap](#root-slap)
    + [Special smell](#special-smell)
 - Can be found in:
-   + Nowhere
+   + Agrawos
 - Does not evolve
 
 ### Poison Poketes
@@ -1861,6 +1865,16 @@ Uses old and crusty roots to slap the enemy.
 - Attack factor: 1.5
 - Missing chance: 0.2
 - Attack points: 30
+- Effect: None
+
+#### The old roots hit
+An ancient attack that summons the deepest and oldest roots from old times, laying deep in the grounds, to defeat the enemy.
+
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 50
+- Missing chance: 0
+- Attack points: 1
 - Effect: None
 
 #### Leaf storm

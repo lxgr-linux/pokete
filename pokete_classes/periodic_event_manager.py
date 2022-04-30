@@ -1,6 +1,7 @@
 from .settings import settings
 from .landscape import Meadow
 
+
 class PeriodicEventManager:
     """As the name states: It manages periodic events in the game loop
     ARGS:

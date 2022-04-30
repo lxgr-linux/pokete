@@ -1,5 +1,4 @@
 import random
-import logging
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.fightmap as fm
@@ -59,6 +58,9 @@ class Meadow(se.Text):
 
     @classmethod
     def moving_grass(cls, objs):
+        """Animation for moving grass
+        ARGS:
+            objs: List of Highgrass objects this is done for"""
         if cls.curr_tick < cls.max_tick:
             cls.curr_tick += 1
             return
@@ -87,6 +89,9 @@ class Meadow(se.Text):
 
     @staticmethod
     def check_figure_redraw(obj):
+        """Checks if the figure has to be redrawn
+        ARGS:
+            obj: The object for which this is checked"""
         if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
             HighGrass.figure.redraw()
 
