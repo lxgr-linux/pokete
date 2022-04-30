@@ -153,6 +153,7 @@ You can find different versions of this wiki:
    5. ['Shut the fuck up' stone](#shut-the-fuck-up-stone)
    6. [Super potion](#super-potion)
    7. [Superball](#superball)
+   8. [Treat](#treat)
 5. [Effects](#effects)
    1. [Paralyzation](#paralyzation)
    2. [Sleep](#sleep)
@@ -2162,6 +2163,12 @@ A ball you can use to catch Poketes with an increased chance
 
 - Price: 10
 - Can be used in fights: Yes
+
+### Treat
+Upgrades a Pokete by a whole level.
+
+- Price: None
+- Can be used in fights: No
 
 ## Effects
 Those effects can be given to a Pokete through an attack.
