@@ -152,8 +152,8 @@ class Poketeball(se.Object):
         amount = random.choices([1, 2, 3],
                                 weights=[10, 2, 1], k=1)[0]
         item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
-                               &#34;healing_potion&#34;],
-                              weights=[10, 1.5, 1, 1],
+                               &#34;healing_potion&#34;, &#34;treat&#34;],
+                              weights=[10, 1.5, 1, 1, 1],
                               k=1)[0]
         self.figure.give_item(item, amount)
         self.remove()
@@ -489,8 +489,8 @@ def moving_water(cls, objs):
         amount = random.choices([1, 2, 3],
                                 weights=[10, 2, 1], k=1)[0]
         item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
-                               &#34;healing_potion&#34;],
-                              weights=[10, 1.5, 1, 1],
+                               &#34;healing_potion&#34;, &#34;treat&#34;],
+                              weights=[10, 1.5, 1, 1, 1],
                               k=1)[0]
         self.figure.give_item(item, amount)
         self.remove()
@@ -534,8 +534,8 @@ def moving_water(cls, objs):
         amount = random.choices([1, 2, 3],
                                 weights=[10, 2, 1], k=1)[0]
         item = random.choices([&#34;poketeball&#34;, &#34;hyperball&#34;, &#34;superball&#34;,
-                               &#34;healing_potion&#34;],
-                              weights=[10, 1.5, 1, 1],
+                               &#34;healing_potion&#34;, &#34;treat&#34;],
+                              weights=[10, 1.5, 1, 1, 1],
                               k=1)[0]
         self.figure.give_item(item, amount)
         self.remove()

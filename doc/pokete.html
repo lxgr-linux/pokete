@@ -58,7 +58,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
 from pokete_classes.general import heal
-from pokete_classes.poke import Poke
+from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
@@ -529,7 +529,28 @@ class Inv:
                         elif _ev.get() in [&#34;Key.enter&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                             _ev.clear()
                             self.box2.remove()
-                            if type(obj) is LearnDisc:
+                            if obj.name == &#34;treat&#34;:
+                                if ask_bool(self.map,
+                                            &#34;Do you want to upgrade one of &#34;
+                                            &#34;your Poketes by a level?&#34;):
+                                    ex_cond = True
+                                    while ex_cond:
+                                        index = deck.deck(6, label=&#34;Your deck&#34;,
+                                                          in_fight=True)
+                                        if index is None:
+                                            ex_cond = False
+                                            self.map.show(init=True)
+                                            break
+                                        poke = figure.pokes[index]
+                                        break
+                                    if not ex_cond:
+                                        break
+                                    upgrade_by_one_lvl(poke, figure, self.map)
+                                    items = self.rem_item(obj.name, items)
+                                    ask_ok(self.map,
+                                           f&#34;{poke.name} reached level &#34;
+                                           f&#34;{poke.lvl()}!&#34;)
+                            elif type(obj) is LearnDisc:
                                 if ask_bool(self.map, f&#34;Do you want to teach &#39;\
 {obj.attack_dict[&#39;name&#39;]}&#39;?&#34;):
                                     ex_cond = True
@@ -2875,7 +2896,28 @@ in the inventory&#34;
                         elif _ev.get() in [&#34;Key.enter&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                             _ev.clear()
                             self.box2.remove()
-                            if type(obj) is LearnDisc:
+                            if obj.name == &#34;treat&#34;:
+                                if ask_bool(self.map,
+                                            &#34;Do you want to upgrade one of &#34;
+                                            &#34;your Poketes by a level?&#34;):
+                                    ex_cond = True
+                                    while ex_cond:
+                                        index = deck.deck(6, label=&#34;Your deck&#34;,
+                                                          in_fight=True)
+                                        if index is None:
+                                            ex_cond = False
+                                            self.map.show(init=True)
+                                            break
+                                        poke = figure.pokes[index]
+                                        break
+                                    if not ex_cond:
+                                        break
+                                    upgrade_by_one_lvl(poke, figure, self.map)
+                                    items = self.rem_item(obj.name, items)
+                                    ask_ok(self.map,
+                                           f&#34;{poke.name} reached level &#34;
+                                           f&#34;{poke.lvl()}!&#34;)
+                            elif type(obj) is LearnDisc:
                                 if ask_bool(self.map, f&#34;Do you want to teach &#39;\
 {obj.attack_dict[&#39;name&#39;]}&#39;?&#34;):
                                     ex_cond = True
