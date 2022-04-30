@@ -65,9 +65,9 @@ class Meadow(se.Text):
 
     @classmethod
     def moving_grass(cls, objs):
-        """Grass animation
+        """Animation for moving grass
         ARGS:
-            objs: The grass objects this will happen for"""
+            objs: List of Highgrass objects this is done for"""
         if cls.curr_tick < cls.max_tick:
             cls.curr_tick += 1
             return

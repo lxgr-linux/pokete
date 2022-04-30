@@ -31,14 +31,14 @@ class Deck(detail.Informer):
     def rem_pokes(self, pokes):
         """Removes all Poketes from the Deck
         ARGS:
-            pokes: List of Pokes beeing removed"""
+            pokes: List of Pokes being removed"""
         for poke in pokes:
             self.remove(poke)
 
     def __call__(self, p_len, label="Your full deck", in_fight=False):
         """Opens the deck
         ARGS:
-            p_len: Number of Pokes beeing included
+            p_len: Number of Pokes being included
             label: The displayed label
             in_fight: Whether or not this is called in a fight"""
         _ev.clear()
@@ -115,7 +115,8 @@ class Deck(detail.Informer):
                 _ev.clear()
             elif _ev.get() == "Key.enter":
                 _ev.clear()
-                if len(pokes) == 0 or pokes[self.index.index].identifier == "__fallback__":
+                if len(pokes) == 0 or \
+                        pokes[self.index.index].identifier == "__fallback__":
                     continue
                 if in_fight:
                     if pokes[self.index.index].hp > 0:
@@ -143,7 +144,7 @@ class Deck(detail.Informer):
     def add_all(self, pokes, init=False):
         """Adds all Poketes to the deck
         ARGS:
-            pokes: List of all Pokes beeing added
+            pokes: List of all Pokes being added
             init: Whether or not this happens for the first time"""
         j = 0
         for i, poke in enumerate(pokes):

@@ -5,6 +5,7 @@ from .settings import settings
 from .landscape import Meadow
 from .npcs import NPC
 
+
 class PeriodicEventManager:
     """As the name states: It manages periodic events in the game loop
     ARGS:
