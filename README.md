@@ -46,6 +46,7 @@ To run just execute `pokete.py`.
 ## Usage
 The game can be run normaly by not supplying any options.
 For non gameplay related usage see `--help`.
+Try it out [online](https://replit.com/@lxgr-linux/pokete).
 
 ## How to play?
 Imagine your a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
