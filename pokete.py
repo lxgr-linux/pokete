@@ -436,7 +436,8 @@ class Figure(se.Object):
             if "__fallback__" in id_list:
                 idx = id_list.index("__fallback__")
                 self.pokes[idx] = poke
-            self.pokes.append(poke)
+            else:
+                self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
         logging.info("[Figure] Added Poke %s", poke.name)
