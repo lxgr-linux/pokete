@@ -181,11 +181,11 @@ at level {figure.pokes[index].lvl()}.")
         else:
             npc.text([" < Ohhh man...", " < All of our beef is empty...",
                       " < How are we going to serve the best MowCow-Burgers "
-                      "without beef?", 
+                      "without beef?",
                       " < If only someone here could bring me a fitting "
-                      "Mowcow!?", 
+                      "Mowcow!?",
                       " < But it has to be at least on level 50, to fit our "
-                      "high quality standards.", 
+                      "high quality standards.",
                       " < I will pay a good price!"])
 
     @staticmethod
@@ -1369,7 +1369,6 @@ if __name__ == "__main__":
     # logging config
     log_file = f"{HOME}{SAVEPATH}/pokete.log" if do_logging else None
     logging.basicConfig(filename=log_file,
-                        encoding='utf-8',
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
