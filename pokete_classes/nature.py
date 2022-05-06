@@ -60,7 +60,7 @@ class PokeNature:
         """Gets one attribute value by
         ARGS:
             name"""
-        return getattr(self.nature, name)
+        return getattr(self.nature, name)**self.grade
 
     def dict(self):
         """RETURNS:
