@@ -2,6 +2,7 @@
 
 import os
 import scrap_engine as se
+import pokete_classes.game_map as gm
 from pokete_general_use_fns import liner
 from .loops import easy_exit_loop
 from .ui_elements import InfoBox, StdFrame
@@ -54,7 +55,7 @@ class ResizeScreen():
 
     def __init__(self):
         width, height = os.get_terminal_size()
-        self.map = se.Map(background=" ")
+        self.map = gm.GameMap(height, width)
         self.warning_label = se.Text("Minimum windowsize is 70x20")
         self.size_label = se.Text(f"{width}x{height}")
         self.frame = StdFrame(height - 1, width)
@@ -88,7 +89,7 @@ class LoadingScreen():
 
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()
-        self.map = se.Map(background=" ", width=width, height=height - 1)
+        self.map = gm.GameMap(width=width, height=height - 1)
         se.Text(r""" _____      _        _
 |  __ \    | |      | |
 | |__) |__ | | _____| |_ ___

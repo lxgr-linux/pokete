@@ -4,13 +4,14 @@ import time
 import scrap_engine as se
 from pokete_general_use_fns import liner
 import pokete_classes.ob_maps as obmp
+import pokete_classes.game_map as gm
 from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
 
 
-class Movemap(se.Submap):
+class Movemap(gm.GameSubmap):
     """Movemap class to remove bad code
     ARGS:
         ob_maps: Dict that contains all PlayMaps
@@ -19,8 +20,7 @@ class Movemap(se.Submap):
 
     def __init__(self, height, width):
         super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
-                         height=height, width=width)
-        self.name = "movemap"
+                         height=height, width=width, name="movemap")
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
