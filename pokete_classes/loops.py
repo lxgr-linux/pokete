@@ -1,7 +1,9 @@
+"""Standardized loops components"""
+
 import time
-from pokete_classes.event import _ev
-from pokete_classes.notify import notifier
 import release
+from .event import _ev
+from .notify import notifier
 
 
 def easy_exit_loop():

@@ -5,15 +5,11 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.deck as deck
-import pokete_classes.movemap as mvp
-import pokete_classes.ob_maps as obmp
-from pokete_classes import animations
+from pokete_classes import animations, ob_maps as obmp, movemap as mvp, deck
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
 from .input import ask_bool
-from .learnattack import LearnAttack
 from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
@@ -373,6 +369,15 @@ used {enemy.name} against you!')
         return winner
 
     def choose_poke(self, figure, players, player, enemy):
+        """Lets the player choose another Pokete from their deck
+        ARGS:
+            figure: Figure object
+            players: The list of both player end enemy
+            player: The players' used Poke
+            enemy: The enemy's used Poke
+        RETURNS:
+            players: The list of both player end enemy
+            player: The players' used Poke"""
         self.clean_up(player, enemy)
         index = deck.deck(6, "Your deck", True)
         player = player if index is None else figure.pokes[index]
@@ -498,7 +503,9 @@ class FightItems:
 
 
 class Fight:
-    """"""
+    """Wrapper for fightmap.fight
+    ARGS:
+        figure: The Figure object"""
     def __init__(self, figure):
         self.figure = figure
 

@@ -10,8 +10,8 @@ class Types:
         p_data: p_data module"""
 
     def __init__(self):
-        for i in p_data.types:
-            setattr(self, i, PokeType(i, **p_data.types[i]))
+        for i, typ in p_data.types.items():
+            setattr(self, i, PokeType(i, **typ))
         for i in p_data.sub_types:
             setattr(self, i, PokeSubType(i))
 

@@ -1,3 +1,5 @@
+"""Contains the map used for evolving"""
+
 import scrap_engine as se
 from .classes import OutP
 

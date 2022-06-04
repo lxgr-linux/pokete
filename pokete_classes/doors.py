@@ -1,8 +1,8 @@
-import random
+"""Contains doors"""
 
+import random
 import scrap_engine as se
-import pokete_classes.game as game
-import pokete_classes.ob_maps as obmp
+from pokete_classes import game, ob_maps as obmp
 
 
 class CenterDoor(se.Object):

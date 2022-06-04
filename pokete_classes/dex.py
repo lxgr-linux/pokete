@@ -1,6 +1,5 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
-import time
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.movemap as mvp
@@ -8,6 +7,7 @@ from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .poke import Poke
 from .event import _ev
+from .color import Color
 from .ui_elements import ChooseBox, Box
 
 
@@ -25,7 +25,7 @@ class Dex:
         self.detail_info = se.Text("", state="float")
         self.detail_desc = se.Text("", state="float")
         self.detail_box.add_ob(self.detail_info, 16, 1)
-        self.detail_box.add_ob(self.detail_desc, 3, 7)
+        self.detail_box.add_ob(self.detail_desc, 3, 8)
 
     def add_c_obs(self):
         """Adds c_obs to box"""
@@ -44,6 +44,11 @@ class Dex:
             poke: Pokes identifier"""
         _ev.clear()
         poke = Poke(poke, 0)
+        active = {
+            True: ("Night", Color.thicc + Color.blue),
+            False: ("Day", Color.thicc + Color.yellow),
+            None: ("Always", "")
+        }[poke.night_active]
         desc_text = liner(poke.desc.text.replace("\n", " ") +
                           (f"""\n\n Evolves to {
                               p_data.pokes[poke.evolve_poke]['name'] if
@@ -51,17 +56,19 @@ class Dex:
                               self.figure.caught_pokes else '???'
                                                 }."""
                            if poke.evolve_lvl != 0 else ""), 29)
-        self.detail_box.resize(9 + len(desc_text.split("\n")), 35)
+        self.detail_box.resize(10 + len(desc_text.split("\n")), 35)
         self.detail_box.name_label.rechar(poke.name)
         self.detail_box.add_ob(poke.ico, 3, 2)
         self.detail_desc.rechar(desc_text)
         self.detail_info.rechar("Type: ")
         self.detail_info += se.Text(poke.type.name.capitalize(),
-                                    esccode=poke.type.color) + se.Text((f"""
+                                    esccode=poke.type.color) + se.Text(f"""
 HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
-Initiative: {poke.initiative}"""))
+Initiative: {poke.initiative}
+Active: """) + se.Text(active[0], esccode=active[1])
+
         with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)

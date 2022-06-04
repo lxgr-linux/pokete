@@ -114,7 +114,7 @@ maps = {
         "pretty_name": "Abandoned village",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["gobost", "owol"],
+            "pokes": ["gobost", "owol", "corcos_day", "corcos_night"],
             "minlvl": 230,
             "maxlvl": 290
         },
@@ -325,7 +325,7 @@ maps = {
         "pretty_name": "Route 7",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["poisopla", "treenator", "bushy", "confuso", "gobost"],
+            "pokes": ["poisopla", "treenator", "bushy", "confuso", "gobost", "raupathor_day", "raupathor_night"],
             "minlvl": 640,
             "maxlvl": 740
         },
@@ -508,6 +508,22 @@ maps = {
         "height": 15,
         "width": 30,
         "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_49": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "House",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+    "playmap_50": {
+        "height": 15,
+        "width": 30,
+        "pretty_name": "Pokete-Care",
         "extra_actions": None,
         "poke_args": None,
         "weather": None

@@ -57,6 +57,16 @@ You can find different versions of this wiki:
                                     "effects"])) + "\n"
 
     @staticmethod
+    def get_name(poke):
+        """Returns the name of a Pokete to display in headings"""
+        additional = ""
+        if "_night" in poke:
+            additional = " night"
+        elif "_day" in poke:
+            additional = " day"
+        return pokes[poke]['name'] + additional
+
+    @staticmethod
     def table_of_contents(multi_page: bool = False) -> str:
         """The table of contents of the pokete wiki
 
@@ -79,7 +89,7 @@ You can find different versions of this wiki:
                 out += f"""   {i + 1}. [{typ.capitalize()} Poketes](#{typ}-poketes)\n"""
                 for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if
                                           pokes[k]["types"][0] == typ]):
-                    out += f"""       {j + 1}. [{pokes[poke]["name"]}](#{poke.replace("_", "-")})\n"""
+                    out += f"""       {j + 1}. [{Wiki.get_name(poke)}](#{poke.replace("_", "-")})\n"""
             out += "2. [Attacks](#attacks)\n"
             for i, typ in enumerate(sorted(types)):
                 out += f"""   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
@@ -105,7 +115,7 @@ You can find different versions of this wiki:
                 out += f"""   {i + 1}. [{typ.capitalize()} Poketes](./poketes/{typ})\n"""
                 for j, poke in enumerate([k for k in sorted(list(pokes)[1:]) if
                                           pokes[k]["types"][0] == typ]):
-                    out += f"""       {j + 1}. [{pokes[poke]["name"]}](./poketes/{typ}#{poke.replace("_", "-")})\n"""
+                    out += f"""       {j + 1}. [{Wiki.get_name(poke)}](./poketes/{typ}#{poke.replace("_", "-")})\n"""
             out += "2. [Attacks](./attacks)\n"
             for i, typ in enumerate(sorted(types)):
                 out += f"""   {i + 1}. [{typ.capitalize()} attacks](./attacks/{typ})\n"""
@@ -205,7 +215,7 @@ In the following all Poketes with their attributes are displayed.
         if (evolve_pokete := pokes[poke]["evolve_poke"]) == "":
             evolve_txt = "- Does not evolve\n"
         else:
-            evolve_txt = f"""- Evolves to [{pokes[evolve_pokete]['name']}]({f'./{pokes[evolve_pokete]["types"][0]}'
+            evolve_txt = f"""- Evolves to [{Wiki.get_name(evolve_pokete)}]({f'./{pokes[evolve_pokete]["types"][0]}'
             if multi_page else ""}#{evolve_pokete}) at level {pokes[poke]['evolve_lvl']}"""
 
         md_attacks = "\n   + " + "\n   + ".join(f"""[{attacks[atc]["name"]}]({
@@ -219,6 +229,12 @@ In the following all Poketes with their attributes are displayed.
             se.Text(ico["txt"], state="float", ignore=" ").add(ico_map, 0, 0)
         ico = "".join("".join(arr) + "\n" for arr in ico_map.map)
 
+        active = {
+            True: "Night",
+            False: "Day",
+            None: "Always",
+        }[pokes[poke].get("night_active")]
+
         md_locations = "\n   + ".join(maps[i]["pretty_name"] for i in maps
                                 if maps[i]["poke_args"] is not None
                                 and poke in maps[i]["poke_args"]["pokes"]
@@ -226,7 +242,7 @@ In the following all Poketes with their attributes are displayed.
                                 and poke in maps[i]["w_poke_args"]["pokes"])
 
         return f"""
-##{'' if multi_page else '##'} {pokes[poke]["name"]}
+##{'' if multi_page else '##'} {Wiki.get_name(poke)}
 {pokes[poke]["desc"]}
 
 ```
@@ -243,6 +259,7 @@ In the following all Poketes with their attributes are displayed.
 - Rarity: {pokes[poke]["rarity"]}
 - Loosing experience: {pokes[poke]["lose_xp"]}
 - Attacks:{md_attacks}
+- Active: {active}
 - Can be found in:
    + {md_locations if md_locations != "" else "Nowhere"}
 {evolve_txt}

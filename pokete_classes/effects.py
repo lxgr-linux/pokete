@@ -1,3 +1,5 @@
+"""Contains everything related to Effects"""
+
 import time
 import random
 import logging
@@ -141,6 +143,7 @@ class Effect():
 
 
 class EffectParalyzation(Effect):
+    """Effect see desc"""
     desc = "Paralyses the enemy and stops it from attacking. \
 This is reverted randomly."
     c_name = "paralyzation"
@@ -151,6 +154,7 @@ This is reverted randomly."
 
 
 class EffectSleep(Effect):
+    """Effect see desc"""
     desc = "Makes the enemy fall asleep and stops it from attacking. \
 This is reverted randomly."
     c_name = "sleep"
@@ -160,6 +164,7 @@ This is reverted randomly."
 
 
 class EffectBurning(Effect):
+    """Effect see desc"""
     desc = "Sets the enemy on fire and damages them with 2 HP every round. \
 This is reverted randomly."
     c_name = "burning"
@@ -188,6 +193,7 @@ This is reverted randomly."
 
 
 class EffectPoison(EffectBurning):
+    """Effect see desc"""
     desc = "Poisons the enemy and damages the enemy with 1 HP every round.\
  This is reverted randomly."
     c_name = "poison"
@@ -200,6 +206,7 @@ class EffectPoison(EffectBurning):
 
 
 class EffectConfusion(Effect):
+    """Effect see desc"""
     desc = "Makes the enemy hurt it self. This is reverted randomly."
     c_name = "confusion"
 
@@ -218,6 +225,7 @@ class EffectConfusion(Effect):
 
 
 class EffectFreezing(Effect):
+    """Effect see desc"""
     desc = "Freezes the enemy and stops it from attacking. \
 This is reverted randomly."
     c_name = "freezing"

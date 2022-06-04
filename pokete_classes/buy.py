@@ -1,6 +1,5 @@
 """Classes related to buing stuff"""
 
-import time
 import scrap_engine as se
 from pokete_general_use_fns import liner
 from .loops import std_loop

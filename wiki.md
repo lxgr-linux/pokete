@@ -21,17 +21,22 @@ You can find different versions of this wiki:
    3. [Flying Poketes](#flying-poketes)
        1. [Bato](#bato)
        2. [Bator](#bator)
-       3. [Ostri](#ostri)
-       4. [Owol](#owol)
-       5. [Schmetterling](#schmetterling)
-       6. [Vogli](#vogli)
-       7. [Voglo](#voglo)
-       8. [Voglus](#voglus)
+       3. [Mothor](#mothor)
+       4. [Ostri](#ostri)
+       5. [Owol](#owol)
+       6. [Schmetterling](#schmetterling)
+       7. [Vogli](#vogli)
+       8. [Voglo](#voglo)
+       9. [Voglus](#voglus)
    4. [Ground Poketes](#ground-poketes)
-       1. [Dicki](#dicki)
-       2. [Dicko](#dicko)
-       3. [Lil nut](#lil-nut)
-       4. [Rollator](#rollator)
+       1. [Corcos day](#corcos-day)
+       2. [Corcos night](#corcos-night)
+       3. [Dicki](#dicki)
+       4. [Dicko](#dicko)
+       5. [Lil nut](#lil-nut)
+       6. [Raupathor day](#raupathor-day)
+       7. [Raupathor night](#raupathor-night)
+       8. [Rollator](#rollator)
    5. [Ice Poketes](#ice-poketes)
        1. [Cubl](#cubl)
        2. [Spikl](#spikl)
@@ -189,6 +194,7 @@ A small floating ball that will give you a shock.
    + [Shock](#shock)
    + [Charging](#charging)
    + [Mega arch](#mega-arch)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -217,6 +223,7 @@ A fiery wolf straight from hell, that likes to burn 11 years old butts of.
    + [Tackle](#tackle)
    + [Fire bite](#fire-bite)
    + [Ash throw](#ash-throw)
+- Active: Always
 - Can be found in:
    + Route 1
    + Sunnydale
@@ -248,6 +255,7 @@ A fiery wolf from hell on steroids.
    + [Fire bite](#fire-bite)
    + [Ash throw](#ash-throw)
    + [Fire ball](#fire-ball)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -275,6 +283,7 @@ WW\/* *\/WW
 - Attacks:
    + [Bite](#bite)
    + [Cry](#cry)
+- Active: Always
 - Can be found in:
    + Nice Town cave
    + Mysterious cave
@@ -306,8 +315,37 @@ WW\/o o\/WW
    + [Cry](#cry)
    + [Poison bite](#poison-bite)
    + [Wing hit](#wing-hit)
+- Active: Always
 - Can be found in:
    + Mysterious cave
+- Does not evolve
+
+
+#### Mothor
+A dark butterfly that will schmetter you away.
+
+```
+ .__`o´__. 
+  \_\|/_/  
+  /_/'\_\  
+ ´       ` 
+
+```
+
+- Type: [Flying](#types)
+- Health points: 20
+- Attack factor: 6
+- Defense factor: 2
+- Initiative: 4
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 4
+- Attacks:
+   + [Schmetter](#schmetter)
+   + [Wing hit](#wing-hit)
+- Active: Night
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -334,6 +372,7 @@ A very aggressive bird Pokete that lives near deserts and will try to pick out y
    + [Tackle](#tackle)
    + [Eye pick](#eye-pick)
    + [Brooding](#brooding)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -362,6 +401,7 @@ A night active Pokete, that is looking for lil children as a midnight snack.
    + [Pick](#pick)
    + [Wing hit](#wing-hit)
    + [Cry](#cry)
+- Active: Night
 - Can be found in:
    + Abandoned village
    + Route 3
@@ -376,16 +416,16 @@ A night active Pokete, that is looking for lil children as a midnight snack.
 A butterfly that will schmetter you away.
 
 ```
-           
  .__ o __. 
   \_\|/_/  
   /_/'\_\  
+           
 
 ```
 
 - Type: [Flying](#types)
 - Health points: 20
-- Attack factor: 4
+- Attack factor: 5
 - Defense factor: 2
 - Initiative: 4
 - Missing chance: 0.1
@@ -394,6 +434,7 @@ A butterfly that will schmetter you away.
 - Attacks:
    + [Schmetter](#schmetter)
    + [Wing hit](#wing-hit)
+- Active: Day
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -421,6 +462,7 @@ A very common bird Pokete that lives everywhere.
 - Attacks:
    + [Tackle](#tackle)
    + [Power pick](#power-pick)
+- Active: Always
 - Can be found in:
    + Nice Town
    + Route 4
@@ -451,6 +493,7 @@ A very aggressive bird Pokete that can only be found in the woods.
    + [Power pick](#power-pick)
    + [Wing hit](#wing-hit)
    + [Brooding](#brooding)
+- Active: Always
 - Can be found in:
    + Route 1
    + Sunnydale
@@ -490,11 +533,66 @@ A very aggressive and hard to find bird Pokete.
    + [Power pick](#power-pick)
    + [Storm gust](#storm-gust)
    + [Brooding](#brooding)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
 
 ### Ground Poketes
+#### Corcos day
+A small heavy thing, that can be found on the ground, but that may reveal something wonderful later.
+
+```
+           
+    |\     
+    |'\    
+    \_|    
+
+```
+
+- Type: [Ground](#types)
+- Health points: 15
+- Attack factor: 2
+- Defense factor: 5
+- Initiative: 1
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 1
+- Attacks:
+   + [Tackle](#tackle)
+   + [Hiding](#hiding)
+- Active: Day
+- Can be found in:
+   + Abandoned village
+- Evolves to [Raupathor day](#raupathor_day) at level 20
+
+#### Corcos night
+A small heavy thing, that can be found on the ground, but that may reveal something wonderful later.
+
+```
+           
+    |\     
+    |'\    
+    \_|    
+
+```
+
+- Type: [Ground](#types)
+- Health points: 15
+- Attack factor: 2
+- Defense factor: 5
+- Initiative: 1
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 1
+- Attacks:
+   + [Tackle](#tackle)
+   + [Hiding](#hiding)
+- Active: Night
+- Can be found in:
+   + Abandoned village
+- Evolves to [Raupathor night](#raupathor_night) at level 20
+
 #### Dicki
 A little what ever, that sticks out of the ground.
 
@@ -519,6 +617,7 @@ A little what ever, that sticks out of the ground.
    + [Dick energy](#dick-energy)
    + [Hiding](#hiding)
    + [Ground hit](#ground-hit)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Evolves to [Dicko](#dicko) at level 55
@@ -547,6 +646,7 @@ An even bigger what ever, that sticks out of the ground.
    + [Dick energy](#dick-energy)
    + [Hiding](#hiding)
    + [Ground hit](#ground-hit)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -574,9 +674,64 @@ A very small what ever, that sticks out of the ground.
 - Attacks:
    + [Tackle](#tackle)
    + [Ground hit](#ground-hit)
+- Active: Always
 - Can be found in:
    + The fields of Agrawos
 - Evolves to [Dicki](#dicki) at level 35
+
+#### Raupathor day
+A small caterpillar found on leafs.
+
+```
+           
+  .__.__.  
+ ()__)__)}´
+  '  '  '  
+
+```
+
+- Type: [Ground](#types)
+- Health points: 20
+- Attack factor: 3
+- Defense factor: 4
+- Initiative: 3
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Hiding](#hiding)
+- Active: Day
+- Can be found in:
+   + Route 7
+- Evolves to [Schmetterling](#schmetterling) at level 30
+
+#### Raupathor night
+A small caterpillar found on leafs.
+
+```
+           
+  .__.__.  
+ ()__)__)}´
+  '  '  '  
+
+```
+
+- Type: [Ground](#types)
+- Health points: 20
+- Attack factor: 3
+- Defense factor: 4
+- Initiative: 3
+- Missing chance: 0.1
+- Rarity: 1
+- Loosing experience: 2
+- Attacks:
+   + [Tackle](#tackle)
+   + [Hiding](#hiding)
+- Active: Night
+- Can be found in:
+   + Route 7
+- Evolves to [Mothor](#mothor) at level 30
 
 #### Rollator
 A big chunk of stone and dirt, that roles around.
@@ -600,6 +755,7 @@ A big chunk of stone and dirt, that roles around.
 - Attacks:
    + [Tackle](#tackle)
    + [Power roll](#power-roll)
+- Active: Always
 - Can be found in:
    + Route 2
    + Dark cave
@@ -630,6 +786,7 @@ A small ice cube.
    + [Tackle](#tackle)
    + [Freeze](#freeze)
    + [Snow storm](#snow-storm)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Evolves to [Spikl](#spikl) at level 30
@@ -658,6 +815,7 @@ A block of ice.
    + [Freeze](#freeze)
    + [Snow storm](#snow-storm)
    + [Sword of ice](#sword-of-ice)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -686,6 +844,7 @@ An majestic horse that is always looking for something to pick with its horn.
    + [Tackle](#tackle)
    + [Meat skewer](#meat-skewer)
    + [Tail wipe](#tail-wipe)
+- Active: Always
 - Can be found in:
    + Route 1
    + Sunnydale
@@ -717,6 +876,7 @@ A teenage unicorn in the middle of puberty.
 - Attacks:
    + [Tackle](#tackle)
    + [Meat skewer](#meat-skewer)
+- Active: Always
 - Can be found in:
    + Nice Town
 - Evolves to [Hornita](#hornita) at level 20
@@ -742,6 +902,7 @@ A cow-like creature found on meadows.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
+- Active: Always
 - Can be found in:
    + Mowcow meadow
    + The fields of Agrawos
@@ -772,6 +933,7 @@ A damn dangerous and enourmous rat, that will bite of your leg.
    + [Tackle](#tackle)
    + [Tail wipe](#tail-wipe)
    + [Power bite](#power-bite)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -799,6 +961,7 @@ An annoying rat.
 - Attacks:
    + [Tackle](#tackle)
    + [Tail wipe](#tail-wipe)
+- Active: Always
 - Can be found in:
    + Nice Town
    + Nice Town cave
@@ -833,6 +996,7 @@ A bush, and just a bush. But watch out!
 - Attacks:
    + [Tackle](#tackle)
    + [Bark hardening](#bark-hardening)
+- Active: Always
 - Can be found in:
    + Route 2
    + Route 7
@@ -863,6 +1027,7 @@ A very unsuspicious plant.
    + [Poison spores](#poison-spores)
    + [Leaf storm](#leaf-storm)
    + [Poison thorn](#poison-thorn)
+- Active: Always
 - Can be found in:
    + The fields of Agrawos
    + Agrawos
@@ -892,6 +1057,7 @@ A unsuspicious plant.
    + [Root slap](#root-slap)
    + [Poison spores](#poison-spores)
    + [Leaf storm](#leaf-storm)
+- Active: Always
 - Can be found in:
    + Route 7
 - Evolves to [Megapois](#megapois) at level 20
@@ -918,6 +1084,7 @@ A plant Pokete, that's often mistaken for a normal flower.
 - Attacks:
    + [Sucker](#sucker)
    + [Super sucker](#super-sucker)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -947,6 +1114,7 @@ A scary an dangerous apple tree.
    + [Bark hardening](#bark-hardening)
    + [Branch stab](#branch-stab)
    + [Root strangler](#root-strangler)
+- Active: Always
 - Can be found in:
    + Route 7
 - Does not evolve
@@ -974,6 +1142,7 @@ A plant Pokete found in Agrawos, with special 'Powers'.
 - Attacks:
    + [Root slap](#root-slap)
    + [Special smell](#special-smell)
+- Active: Always
 - Can be found in:
    + Agrawos
 - Does not evolve
@@ -1003,6 +1172,7 @@ A fucking dangerous and enormous snake Pokete.
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
    + [Power bite](#power-bite)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -1031,6 +1201,7 @@ A dangerous snake Pokete.
    + [Choker](#chocer)
    + [Bite](#bite)
    + [Poison bite](#poison-bite)
+- Active: Always
 - Can be found in:
    + Route 5
    + Route 6
@@ -1061,6 +1232,7 @@ A big and heavy stone made from one of the hardest stones.
    + [Snooze](#snooze)
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -1089,6 +1261,7 @@ A precious diamond, that can only be found in the darkest caves.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Dazzle](#dazzle)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -1117,6 +1290,7 @@ A small but powerful stone Pokete that lives in the mountains.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Pepple fire](#pepple-fire)
+- Active: Always
 - Can be found in:
    + Nice Town cave
    + Dark cave
@@ -1146,6 +1320,7 @@ A powerful and heavy stone Pokete that lives in mountain caves.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Earch quake](#earch-quake)
+- Active: Always
 - Can be found in:
    + Big mountain see
    + Big mountain cave
@@ -1175,6 +1350,7 @@ A squared stone that can casually be found on the ground.
    + [Tackle](#tackle)
    + [Politure](#politure)
    + [Brick throw](#brick-throw)
+- Active: Always
 - Can be found in:
    + Nice Town cave
    + Route 1
@@ -1212,6 +1388,7 @@ A ghost Pokete that will scare your pants off.
    + [Mind blow](#mind-blow)
    + [Wet slap](#wet-slap)
    + [Heart touch](#heart-touch)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve
@@ -1238,6 +1415,7 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 - Loosing experience: 6
 - Attacks:
    + [Confusion](#confusion)
+- Active: Always
 - Can be found in:
    + Route 7
 - Does not evolve
@@ -1266,6 +1444,7 @@ A scary ghost Pokete that lives in caves and old houses.
    + [Tackle](#tackle)
    + [Mind blow](#mind-blow)
    + [Heart touch](#heart-touch)
+- Active: Always
 - Can be found in:
    + Dark cave
    + Abandoned village
@@ -1296,6 +1475,7 @@ The dark firy souls of those who got burned to death by the hot sun!
    + [Mind blow](#mind-blow)
    + [Fire ball](#fire-ball)
    + [Sand throw](#sand-throw)
+- Active: Always
 - Can be found in:
    + Sunny Beach
 - Does not evolve
@@ -1324,6 +1504,7 @@ Very delicious and low fat water Pokete.
    + [Tackle](#tackle)
    + [Bubble bomb](#bubble-bomb)
    + [Bubble shield](#bubble-shield)
+- Active: Always
 - Can be found in:
    + Sunnydale Lake
    + Big mountain see
@@ -1355,6 +1536,7 @@ A shell that lives deep in the see or near bays, that's pretty hard to crack.
    + [Tackle](#tackle)
    + [Bubble bomb](#bubble-bomb)
    + [Shell pinch](#shell-pinch)
+- Active: Always
 - Can be found in:
    + Route 3
    + Big mountain see
@@ -1385,6 +1567,7 @@ A crusty Pokete that loves to pinch big toes.
    + [Bubble gun](#bubble-gun)
    + [Earch quake](#earch-quake)
    + [Shell pinch](#shell-pinch)
+- Active: Always
 - Can be found in:
    + Sunny Beach
 - Evolves to [Rustacean](#rustacean) at level 40
@@ -1410,6 +1593,7 @@ A very harmless water Pokete that can be found everywhere.
 - Loosing experience: 1
 - Attacks:
    + [Tackle](#tackle)
+- Active: Always
 - Can be found in:
    + Sunnydale Lake
    + Route 3
@@ -1443,6 +1627,7 @@ A crusty Pokete that will pinch your toe, and check whether or not you borrowed 
    + [Bubble gun](#bubble-gun)
    + [Earch quake](#earch-quake)
    + [Shell pinch](#shell-pinch)
+- Active: Always
 - Can be found in:
    + Nowhere
 - Does not evolve

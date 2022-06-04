@@ -42,7 +42,7 @@ stations = {
     },
     "playmap_3": {
         "gen": {
-            "additionals": [],
+            "additionals": ["playmap_49"],
             "width": 2,
             "height": 1,
             "desc": "A small sunny village.",
@@ -215,7 +215,7 @@ forest, populated by thousands of people and cultural center of the region.",
         "gen": {
             "additionals": ["playmap_22", "playmap_23", "playmap_24",
                             "playmap_25", "playmap_26", "playmap_27",
-                            "playmap_29"],
+                            "playmap_29", "playmap_50"],
             "width": 3,
             "height": 1,
             "desc": "The great Rock-ville is the biggest city in the region \

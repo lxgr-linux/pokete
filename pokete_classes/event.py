@@ -8,6 +8,7 @@ class Event:
 
     def __init__(self, event=""):
         self._ev = event
+        self.emit_fn = None
 
     def get(self):
         """Getter
@@ -20,10 +21,15 @@ class Event:
         ARGS:
             _ev: New char"""
         self._ev = event
+        self.emit_fn()
 
     def clear(self):
         """Clears the event"""
         self._ev = ""
+
+    def set_emit_fn(self, emit_fn):
+        """Sets the method used to emit events to the timer"""
+        self.emit_fn = emit_fn
 
 
 _ev = Event()

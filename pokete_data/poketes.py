@@ -511,6 +511,7 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 3,
+        "night_active": True,
         "ico": [{
             "txt": r"""   ,___,
    {o,o}
@@ -942,10 +943,111 @@ that will confuse the shit out of you.",
             "esc": ["purple"]},
         ]
     },
+    "corcos_day": {
+        "name": "Corcos",
+        "hp": 15,
+        "atc": 2,
+        "defense": 5,
+        "attacks": ["tackle", "hiding"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A small heavy thing, that can be found on the ground, but that may reveal something wonderful later.",
+        "lose_xp": 1,
+        "rarity": 1,
+        "night_active": False,
+        "types": ["ground"],
+        "evolve_poke": "raupathor_day",
+        "evolve_lvl": 20,
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""
+    |\
+    |'\
+    \_|""",
+            "esc": None}
+        ]
+    },
+    "corcos_night": {
+        "name": "Corcos",
+        "hp": 15,
+        "atc": 2,
+        "defense": 5,
+        "attacks": ["tackle", "hiding"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A small heavy thing, that can be found on the ground, but that may reveal something wonderful later.",
+        "lose_xp": 1,
+        "rarity": 1,
+        "night_active": True,
+        "types": ["ground"],
+        "evolve_poke": "raupathor_night",
+        "evolve_lvl": 20,
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""
+    |\
+    |'\
+    \_|""",
+            "esc": None}
+        ]
+    },
+    "raupathor_day": {
+        "name": "Raupathor",
+        "hp": 20,
+        "atc": 3,
+        "defense": 4,
+        "attacks": ["tackle", "hiding"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A small caterpillar found on leafs.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "night_active": False,
+        "types": ["ground", "plant"],
+        "evolve_poke": "schmetterling",
+        "evolve_lvl": 30,
+        "initiative": 3,
+        "ico": [{
+            "txt": r"""
+  .__.__.
+ ()__)__)}´
+  '  '  '
+ """,
+            "esc": None}
+        ]
+    },
+    "raupathor_night": {
+        "name": "Raupathor",
+        "hp": 20,
+        "atc": 3,
+        "defense": 4,
+        "attacks": ["tackle", "hiding"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A small caterpillar found on leafs.",
+        "lose_xp": 2,
+        "rarity": 1,
+        "night_active": True,
+        "types": ["ground", "undead"],
+        "evolve_poke": "mothor",
+        "evolve_lvl": 30,
+        "initiative": 3,
+        "ico": [{
+            "txt": r"""
+   __ __
+ ()__)__)}´""",
+            "esc": None}, {
+            "txt": r"""
+  .  .  .
+
+  '  '  '""",
+    "esc": ["thicc", "blue"]}
+        ]
+    },
     "schmetterling": {
         "name": "Schmetterling",
         "hp": 20,
-        "atc": 4,
+        "atc": 5,
         "defense": 2,
         "attacks": ["schmetter", "wing_hit"],
         "pool": [],
@@ -953,16 +1055,44 @@ that will confuse the shit out of you.",
         "desc": "A butterfly that will schmetter you away.",
         "lose_xp": 3,
         "rarity": 1,
+        "night_active": False,
         "types": ["flying"],
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 4,
         "ico": [{
-            "txt": r"""
- .__ o __.
+            "txt": r""" .__ o __.
   \_\|/_/
   /_/'\_\ """,
             "esc": None}
+        ]
+    },
+    "mothor": {
+        "name": "Mothor",
+        "hp": 20,
+        "atc": 6,
+        "defense": 2,
+        "attacks": ["schmetter", "wing_hit"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A dark butterfly that will schmetter you away.",
+        "lose_xp": 4,
+        "rarity": 1,
+        "night_active": True,
+        "types": ["flying", "undead"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 4,
+        "ico": [{
+            "txt": r"""  __`o´__
+  \_\|/_/
+  /_/'\_\ """,
+            "esc": None}, {
+            "txt": r""" .       .
+
+
+ ´       `""",
+    "esc": ["thicc", "blue"]}
         ]
     },
     "lil_nut": {

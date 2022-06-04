@@ -25,6 +25,7 @@ class PlayMap(se.Map):
         self.pretty_name = pretty_name
         self.poke_args = poke_args
         self.w_poke_args = w_poke_args
+        self.registry = {}
         if self.trainers is None:
             self.trainers = []
         if self.poke_args is None:
@@ -35,6 +36,19 @@ class PlayMap(se.Map):
         self.weather = None
         if weather is not None:
             self.weather = Weather(weather)
+
+    def register_obj(self, name, obj):
+        """Adds an object to the registry
+        ARGS:
+            name: Name in registry
+            obj: Object"""
+        self.registry[name] = obj
+
+    def get_obj(self, name):
+        """Gets and object from the registry
+        ARGS:
+            name: Name in registry"""
+        return self.registry.get(name, None)
 
     def extra_actions(self):
         """Executes the extra action"""

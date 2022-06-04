@@ -61,10 +61,10 @@ class LearnAttack:
 
         attacks = p_data.attacks
         if attack is None:
-            pool = [i for i in attacks
+            pool = [i for i, atc in attacks.items()
                     if all(j in [i.name for i in self.poke.types]
-                           for j in attacks[i]["types"])
-                    and attacks[i]["is_generic"]]
+                           for j in atc["types"])
+                    and atc["is_generic"]]
             full_pool = [i for i in self.poke.inf["attacks"] +
                          self.poke.inf["pool"] + pool
                          if i not in self.poke.attacks

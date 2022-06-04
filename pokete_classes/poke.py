@@ -33,6 +33,7 @@ class Poke:
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
+        self.night_active = self.inf.get("night_active", None)
         self.enem = None
         self.oldhp = 0
         self.xp = xp
@@ -180,7 +181,7 @@ can't have more than 4 attacks!"
                                            weights=[attack.miss_chance
                                                     + self.miss_chance,
                                                     1, 1, 1], k=1)[0]
-            if weather != None:
+            if weather is not None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
                 time.sleep(1.5)
@@ -232,7 +233,7 @@ can't have more than 4 attacks!"
             _map: The map the evolving happens on"""
         if not self.player or self.evolve_poke == "" \
                 or self.lvl() < self.evolve_lvl:
-            return
+            return False
         evomap = EvoMap(_map.height, _map.width)
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
         self.ico.remove()
@@ -266,6 +267,14 @@ can't have more than 4 attacks!"
             figure.caught_pokes.append(new.identifier)
         logging.info("[Poke] %s evolved to %s", self.name, new.name)
         del self
+        return True
+
+    @classmethod
+    def from_dict(cls, _dict):
+        """Assembles a Pokete from _dict"""
+        return cls(_dict["name"], _dict["xp"],  _dict["hp"], _dict["ap"],
+                   _dict.get("attacks", None), _dict.get("effects", []),
+                   shiny=_dict.get("shiny", False))
 
 
 def upgrade_by_one_lvl(poke, figure, _map):

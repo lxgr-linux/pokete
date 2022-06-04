@@ -1,8 +1,9 @@
+"""Contains classes that can be placed on playmaps"""
+
 import random
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.fightmap as fm
-import pokete_classes.movemap as mvp
+from pokete_classes import timer, movemap as mvp, fightmap as fm
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
@@ -17,16 +18,22 @@ class HighGrass(se.Object):
         """Action triggers the fight
         ARGS:
             ob: The object triggering this action"""
+        is_night = (360 > timer.time.normalized
+                    or timer.time.normalized > 1320)
+        pokes = {i: p_data.pokes[i]
+                 for i in self.arg_proto["pokes"]
+                 if (n_a := p_data.pokes[i].get("night_active", None)) is None
+                 or (not n_a and not is_night)
+                 or (n_a and is_night)}
         if random.randint(0, 8) == 0:
             fm.fight(Poke("__fallback__", 0)
                      if len([poke for poke in self.figure.pokes[:6]
                              if poke.hp > 0]) == 0
                      else
                      [poke for poke in self.figure.pokes[:6] if poke.hp > 0][0],
-                     Poke(random.choices(self.arg_proto["pokes"],
-                                         weights=[p_data.pokes[i]["rarity"]
-                                                  for i in
-                                                  self.arg_proto["pokes"]])[0],
+                     Poke(random.choices(list(pokes),
+                                         weights=[i["rarity"] for _, i in
+                                                  pokes.items()])[0],
                           random.choices(list(range(self.arg_proto["minlvl"],
                                                     self.arg_proto["maxlvl"])))[
                               0],
@@ -64,8 +71,7 @@ class Meadow(se.Text):
         if cls.curr_tick < cls.max_tick:
             cls.curr_tick += 1
             return
-        else:
-            cls.curr_tick = 0
+        cls.curr_tick = 0
 
         for obj in objs:
             if obj.char == cls.esccode + ";" + Color.reset:
@@ -78,6 +84,9 @@ class Meadow(se.Text):
 
     @classmethod
     def moving_water(cls, objs):
+        """Water animation
+        ARGS:
+            objs: The water objects this will happen for"""
         for obj in objs:
             if random.randint(0, 9) == 0:
                 if " " not in obj.char:
@@ -89,9 +98,9 @@ class Meadow(se.Text):
 
     @staticmethod
     def check_figure_redraw(obj):
-        """Checks if the figure has to be redrawn
+        """Checks whether or not the figure has to be redrawn
         ARGS:
-            obj: The object for which this is checked"""
+            obj: The obj that this is checked for"""
         if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
             HighGrass.figure.redraw()
 
