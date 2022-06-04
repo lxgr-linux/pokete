@@ -847,10 +847,11 @@ class ExtraActions:
         """Cave animation"""
         _map = obmp.ob_maps["playmap_7"]
         for obj in _map.get_obj("inner_walls").obs\
-                   + [i.main_ob for i in _map.trainers]\
-                   + [obmp.ob_maps["playmap_7"].get_obj(i)
+                + [i.main_ob for i in _map.trainers]\
+                + [obmp.ob_maps["playmap_7"].get_obj(i)
                     for i in p_data.map_data["playmap_7"]["balls"] if
-                        "playmap_7." + i not in figure.used_npcs or not save_trainers]:
+                    "playmap_7." + i not in figure.used_npcs
+                    or not save_trainers]:
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) <= 3:
                 obj.rechar(obj.bchar)
@@ -1120,7 +1121,7 @@ def gen_obs():
         _npc = npcs[npc]
         NPC(npc, _npc["texts"], fn=_npc["fn"],
             chat=_npc.get("chat", None)).add(obmp.ob_maps[_npc["map"]],
-            _npc["x"], _npc["y"])
+                                             _npc["x"], _npc["y"])
 
 
 def gen_maps():

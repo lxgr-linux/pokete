@@ -147,7 +147,7 @@ Do you want to accept it?"):
 
     @property
     def used(self):
-        """Indicated whether or not the NPC hase been used"""
+        """Indicates whether or not the NPC has been used"""
         return self.name in self.fig.used_npcs
 
     def set_used(self):

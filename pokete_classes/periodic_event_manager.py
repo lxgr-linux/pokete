@@ -29,5 +29,6 @@ class PeriodicEventManager:
         if settings("animations").val:
             Meadow.moving_grass(self.all_grass_objs)
             Meadow.moving_water(self.all_water_objs)
+        # Reset treat NPC after 6 minutes
         if timer.time.normalized == 6*60:
             NPC.get("npc_28").unset_used()

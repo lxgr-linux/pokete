@@ -22,20 +22,20 @@ class HighGrass(se.Object):
                     or timer.time.normalized > 1320)
         pokes = {i: p_data.pokes[i]
                  for i in self.arg_proto["pokes"]
-                    if (n_a := p_data.pokes[i].get("night_active", None)) is None
-                       or (not n_a and not is_night)
-                       or (n_a and is_night)}
+                 if (n_a := p_data.pokes[i].get("night_active", None)) is None
+                 or (not n_a and not is_night)
+                 or (n_a and is_night)}
         if random.randint(0, 8) == 0:
             fm.fight(Poke("__fallback__", 0)
                      if len([poke for poke in self.figure.pokes[:6]
                              if poke.hp > 0]) == 0
                      else
                      [poke for poke in self.figure.pokes[:6] if poke.hp > 0][0],
-                      Poke(random.choices(list(pokes),
-                                          weights=[i["rarity"] for _, i in
-                                                   pokes.items()])[0],
-                           random.choices(list(range(self.arg_proto["minlvl"],
-                                                     self.arg_proto["maxlvl"])))[
+                     Poke(random.choices(list(pokes),
+                                         weights=[i["rarity"] for _, i in
+                                                  pokes.items()])[0],
+                          random.choices(list(range(self.arg_proto["minlvl"],
+                                                    self.arg_proto["maxlvl"])))[
                               0],
                           player=False, shiny=(random.randint(0, 500) == 0)))
             check_walk_back(self.figure)

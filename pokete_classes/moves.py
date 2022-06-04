@@ -92,7 +92,7 @@ class Moves:
         line.remove()
         del line
 
-    def throw(self, txt="#", factor=1, num=1):
+    def throw(self, txt="#", factor=1., num=1):
         """Throw move
         ARGS:
             txt: The char that moves across the screen
@@ -105,7 +105,7 @@ class Moves:
                         + (-11 if self.poke.player else 11)),
                        self.poke.enem.ico.y - self.poke.ico.y,
                        l_type="crippled")
-        line.resize(line.cx*factor, line.cy*factor)
+        line.resize(line.cx * factor, line.cy * factor)
         line.add(self.poke.ico.map,
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
