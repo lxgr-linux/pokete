@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.periodic_event_manager API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Contains the pevm" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,12 +22,17 @@
 <h1 class="title">Module <code>pokete_classes.periodic_event_manager</code></h1>
 </header>
 <section id="section-intro">
+<p>Contains the pevm</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from .settings import settings
+<pre><code class="python">&#34;&#34;&#34;Contains the pevm&#34;&#34;&#34;
+
+from pokete_classes import timer
+from .settings import settings
 from .landscape import Meadow
+from .npcs import NPC
 
 
 class PeriodicEventManager:
@@ -52,7 +57,10 @@ class PeriodicEventManager:
         self.map.extra_actions()
         if settings(&#34;animations&#34;).val:
             Meadow.moving_grass(self.all_grass_objs)
-            Meadow.moving_water(self.all_water_objs)</code></pre>
+            Meadow.moving_water(self.all_water_objs)
+        # Reset treat NPC after 6 minutes
+        if timer.time.normalized == 6*60:
+            NPC.get(&#34;npc_28&#34;).unset_used()</code></pre>
 </details>
 </section>
 <section>
@@ -101,7 +109,10 @@ class PeriodicEventManager:
         self.map.extra_actions()
         if settings(&#34;animations&#34;).val:
             Meadow.moving_grass(self.all_grass_objs)
-            Meadow.moving_water(self.all_water_objs)</code></pre>
+            Meadow.moving_water(self.all_water_objs)
+        # Reset treat NPC after 6 minutes
+        if timer.time.normalized == 6*60:
+            NPC.get(&#34;npc_28&#34;).unset_used()</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -119,7 +130,10 @@ class PeriodicEventManager:
     self.map.extra_actions()
     if settings(&#34;animations&#34;).val:
         Meadow.moving_grass(self.all_grass_objs)
-        Meadow.moving_water(self.all_water_objs)</code></pre>
+        Meadow.moving_water(self.all_water_objs)
+    # Reset treat NPC after 6 minutes
+    if timer.time.normalized == 6*60:
+        NPC.get(&#34;npc_28&#34;).unset_used()</code></pre>
 </details>
 </dd>
 </dl>

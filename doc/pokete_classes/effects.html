@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.effects API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Contains everything related to Effects" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,11 +22,14 @@
 <h1 class="title">Module <code>pokete_classes.effects</code></h1>
 </header>
 <section id="section-intro">
+<p>Contains everything related to Effects</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import time
+<pre><code class="python">&#34;&#34;&#34;Contains everything related to Effects&#34;&#34;&#34;
+
+import time
 import random
 import logging
 import scrap_engine as se
@@ -169,6 +172,7 @@ class Effect():
 
 
 class EffectParalyzation(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Paralyses the enemy and stops it from attacking. \
 This is reverted randomly.&#34;
     c_name = &#34;paralyzation&#34;
@@ -179,6 +183,7 @@ This is reverted randomly.&#34;
 
 
 class EffectSleep(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Makes the enemy fall asleep and stops it from attacking. \
 This is reverted randomly.&#34;
     c_name = &#34;sleep&#34;
@@ -188,6 +193,7 @@ This is reverted randomly.&#34;
 
 
 class EffectBurning(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Sets the enemy on fire and damages them with 2 HP every round. \
 This is reverted randomly.&#34;
     c_name = &#34;burning&#34;
@@ -216,6 +222,7 @@ This is reverted randomly.&#34;
 
 
 class EffectPoison(EffectBurning):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Poisons the enemy and damages the enemy with 1 HP every round.\
  This is reverted randomly.&#34;
     c_name = &#34;poison&#34;
@@ -228,6 +235,7 @@ class EffectPoison(EffectBurning):
 
 
 class EffectConfusion(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Makes the enemy hurt it self. This is reverted randomly.&#34;
     c_name = &#34;confusion&#34;
 
@@ -246,6 +254,7 @@ class EffectConfusion(Effect):
 
 
 class EffectFreezing(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Freezes the enemy and stops it from attacking. \
 This is reverted randomly.&#34;
     c_name = &#34;freezing&#34;
@@ -660,34 +669,13 @@ c_name: The class' simplified name</p></div>
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
-during fights</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong></dt>
-<dd>The effects displayed name (paralysed etc)</dd>
-<dt><strong><code>rem_chance</code></strong></dt>
-<dd>The chance the effect gets removed</dd>
-<dt><strong><code>catch_chance</code></strong></dt>
-<dd>The number with which the catch chance of the Poke is
-increased</dd>
-<dt><strong><code>text</code></strong></dt>
-<dd>The text shown near the Pokes name ("(Bur)")</dd>
-<dt><strong><code>str_esccode</code></strong></dt>
-<dd>The color of said label,</dd>
-<dt><strong><code>obj</code></strong></dt>
-<dd>The Poke the effect is added to</dd>
-<dt><strong><code>exclude</code></strong></dt>
-<dd>A list of type names that the effect can't be added to</dd>
-</dl>
-<p>CLASS VARS:
-desc: The effects description
-c_name: The class' simplified name</p></div>
+<div class="desc"><p>Effect see desc</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EffectBurning(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Sets the enemy on fire and damages them with 2 HP every round. \
 This is reverted randomly.&#34;
     c_name = &#34;burning&#34;
@@ -753,34 +741,13 @@ This is reverted randomly.&#34;
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
-during fights</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong></dt>
-<dd>The effects displayed name (paralysed etc)</dd>
-<dt><strong><code>rem_chance</code></strong></dt>
-<dd>The chance the effect gets removed</dd>
-<dt><strong><code>catch_chance</code></strong></dt>
-<dd>The number with which the catch chance of the Poke is
-increased</dd>
-<dt><strong><code>text</code></strong></dt>
-<dd>The text shown near the Pokes name ("(Bur)")</dd>
-<dt><strong><code>str_esccode</code></strong></dt>
-<dd>The color of said label,</dd>
-<dt><strong><code>obj</code></strong></dt>
-<dd>The Poke the effect is added to</dd>
-<dt><strong><code>exclude</code></strong></dt>
-<dd>A list of type names that the effect can't be added to</dd>
-</dl>
-<p>CLASS VARS:
-desc: The effects description
-c_name: The class' simplified name</p></div>
+<div class="desc"><p>Effect see desc</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EffectConfusion(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Makes the enemy hurt it self. This is reverted randomly.&#34;
     c_name = &#34;confusion&#34;
 
@@ -832,34 +799,13 @@ c_name: The class' simplified name</p></div>
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
-during fights</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong></dt>
-<dd>The effects displayed name (paralysed etc)</dd>
-<dt><strong><code>rem_chance</code></strong></dt>
-<dd>The chance the effect gets removed</dd>
-<dt><strong><code>catch_chance</code></strong></dt>
-<dd>The number with which the catch chance of the Poke is
-increased</dd>
-<dt><strong><code>text</code></strong></dt>
-<dd>The text shown near the Pokes name ("(Bur)")</dd>
-<dt><strong><code>str_esccode</code></strong></dt>
-<dd>The color of said label,</dd>
-<dt><strong><code>obj</code></strong></dt>
-<dd>The Poke the effect is added to</dd>
-<dt><strong><code>exclude</code></strong></dt>
-<dd>A list of type names that the effect can't be added to</dd>
-</dl>
-<p>CLASS VARS:
-desc: The effects description
-c_name: The class' simplified name</p></div>
+<div class="desc"><p>Effect see desc</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EffectFreezing(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Freezes the enemy and stops it from attacking. \
 This is reverted randomly.&#34;
     c_name = &#34;freezing&#34;
@@ -903,34 +849,13 @@ This is reverted randomly.&#34;
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
-during fights</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong></dt>
-<dd>The effects displayed name (paralysed etc)</dd>
-<dt><strong><code>rem_chance</code></strong></dt>
-<dd>The chance the effect gets removed</dd>
-<dt><strong><code>catch_chance</code></strong></dt>
-<dd>The number with which the catch chance of the Poke is
-increased</dd>
-<dt><strong><code>text</code></strong></dt>
-<dd>The text shown near the Pokes name ("(Bur)")</dd>
-<dt><strong><code>str_esccode</code></strong></dt>
-<dd>The color of said label,</dd>
-<dt><strong><code>obj</code></strong></dt>
-<dd>The Poke the effect is added to</dd>
-<dt><strong><code>exclude</code></strong></dt>
-<dd>A list of type names that the effect can't be added to</dd>
-</dl>
-<p>CLASS VARS:
-desc: The effects description
-c_name: The class' simplified name</p></div>
+<div class="desc"><p>Effect see desc</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EffectParalyzation(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Paralyses the enemy and stops it from attacking. \
 This is reverted randomly.&#34;
     c_name = &#34;paralyzation&#34;
@@ -974,34 +899,13 @@ This is reverted randomly.&#34;
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
-during fights</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong></dt>
-<dd>The effects displayed name (paralysed etc)</dd>
-<dt><strong><code>rem_chance</code></strong></dt>
-<dd>The chance the effect gets removed</dd>
-<dt><strong><code>catch_chance</code></strong></dt>
-<dd>The number with which the catch chance of the Poke is
-increased</dd>
-<dt><strong><code>text</code></strong></dt>
-<dd>The text shown near the Pokes name ("(Bur)")</dd>
-<dt><strong><code>str_esccode</code></strong></dt>
-<dd>The color of said label,</dd>
-<dt><strong><code>obj</code></strong></dt>
-<dd>The Poke the effect is added to</dd>
-<dt><strong><code>exclude</code></strong></dt>
-<dd>A list of type names that the effect can't be added to</dd>
-</dl>
-<p>CLASS VARS:
-desc: The effects description
-c_name: The class' simplified name</p></div>
+<div class="desc"><p>Effect see desc</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EffectPoison(EffectBurning):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Poisons the enemy and damages the enemy with 1 HP every round.\
  This is reverted randomly.&#34;
     c_name = &#34;poison&#34;
@@ -1048,34 +952,13 @@ c_name: The class' simplified name</p></div>
 <span>(</span><span>obj=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An effect that can be given to a Pokete and that effects the Pokete
-during fights</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>name</code></strong></dt>
-<dd>The effects displayed name (paralysed etc)</dd>
-<dt><strong><code>rem_chance</code></strong></dt>
-<dd>The chance the effect gets removed</dd>
-<dt><strong><code>catch_chance</code></strong></dt>
-<dd>The number with which the catch chance of the Poke is
-increased</dd>
-<dt><strong><code>text</code></strong></dt>
-<dd>The text shown near the Pokes name ("(Bur)")</dd>
-<dt><strong><code>str_esccode</code></strong></dt>
-<dd>The color of said label,</dd>
-<dt><strong><code>obj</code></strong></dt>
-<dd>The Poke the effect is added to</dd>
-<dt><strong><code>exclude</code></strong></dt>
-<dd>A list of type names that the effect can't be added to</dd>
-</dl>
-<p>CLASS VARS:
-desc: The effects description
-c_name: The class' simplified name</p></div>
+<div class="desc"><p>Effect see desc</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EffectSleep(Effect):
+    &#34;&#34;&#34;Effect see desc&#34;&#34;&#34;
     desc = &#34;Makes the enemy fall asleep and stops it from attacking. \
 This is reverted randomly.&#34;
     c_name = &#34;sleep&#34;

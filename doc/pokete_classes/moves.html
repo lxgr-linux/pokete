@@ -56,6 +56,54 @@ class Moves:
             self.poke.ico.map.show()
             time.sleep(0.3)
 
+    def bomb(self):
+        &#34;&#34;&#34;Bomb move&#34;&#34;&#34;
+        frames = [
+            &#34;&#34;&#34;
+
+     o
+
+&#34;&#34;&#34;, &#34;&#34;&#34;
+
+    (o)
+
+&#34;&#34;&#34;, &#34;&#34;&#34;
+
+    ( )
+
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \   /
+    ( )
+   /   \
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \   /
+
+   /   \
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \ - /
+ (       )
+   / - \
+&#34;&#34;&#34;, &#34;&#34;&#34;
+     -
+ (       )
+     -
+&#34;&#34;&#34;, &#34;&#34;&#34;
+&#39;         &#39;
+
+.         .
+&#34;&#34;&#34;
+        ]
+        _map = self.poke.ico.map
+        text = se.Text(&#34;&#34;)
+        text.add(_map, round((_map.width - 11)/2), round((_map.height - 9)/2))
+        self.throw(Color.thicc + Color.blue + &#34;o&#34; + Color.reset, 0.5)
+        for i in frames:
+            text.rechar(i)
+            self.poke.ico.map.show()
+            time.sleep(0.03)
+        time.sleep(0.03)
+        text.remove()
+
     def arch(self):
         &#34;&#34;&#34;Arch move&#34;&#34;&#34;
         if self.poke.enem == self:
@@ -73,10 +121,12 @@ class Moves:
         line.remove()
         del line
 
-    def throw(self, txt=&#34;#&#34;):
+    def throw(self, txt=&#34;#&#34;, factor=1., num=1):
         &#34;&#34;&#34;Throw move
         ARGS:
-            txt: The char that moves across the screen&#34;&#34;&#34;
+            txt: The char that moves across the screen
+            factor: Scalar to stretch the vector
+            num: The number of chars thrown&#34;&#34;&#34;
         if self.poke.enem == self.poke:
             return
         line = se.Line(&#34; &#34;,
@@ -85,18 +135,25 @@ class Moves:
                         + (-11 if self.poke.player else 11)),
                        self.poke.enem.ico.y - self.poke.ico.y,
                        l_type=&#34;crippled&#34;)
+        line.resize(line.cx * factor, line.cy * factor)
         line.add(self.poke.ico.map,
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
-        for i, obj in enumerate(line.obs):
-            obj.rechar(txt)
-            if i != 0:
-                line.obs[i - 1].rechar(line.char)
+        for i in range(len(line.obs) + num*5 - 1):
+            for j in range(0, num*5, 5):
+                if len(line.obs) &gt; i - j &gt;= 0:
+                    line.obs[i - j].rechar(txt)
+                if len(line.obs) &gt;= i - j &gt; 0:
+                    line.obs[i - j - 1].rechar(line.char)
             time.sleep(0.05)
             self.poke.ico.map.show()
         line.remove()
         del line
+
+    def gun(self):
+        &#34;&#34;&#34;Gun move&#34;&#34;&#34;
+        self.throw(txt=Color.thicc + Color.blue + &#34;o&#34; + Color.reset, num=4)
 
     def fireball(self):
         &#34;&#34;&#34;Fireball move&#34;&#34;&#34;
@@ -175,6 +232,54 @@ if __name__ == &#34;__main__&#34;:
             self.poke.ico.map.show()
             time.sleep(0.3)
 
+    def bomb(self):
+        &#34;&#34;&#34;Bomb move&#34;&#34;&#34;
+        frames = [
+            &#34;&#34;&#34;
+
+     o
+
+&#34;&#34;&#34;, &#34;&#34;&#34;
+
+    (o)
+
+&#34;&#34;&#34;, &#34;&#34;&#34;
+
+    ( )
+
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \   /
+    ( )
+   /   \
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \   /
+
+   /   \
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \ - /
+ (       )
+   / - \
+&#34;&#34;&#34;, &#34;&#34;&#34;
+     -
+ (       )
+     -
+&#34;&#34;&#34;, &#34;&#34;&#34;
+&#39;         &#39;
+
+.         .
+&#34;&#34;&#34;
+        ]
+        _map = self.poke.ico.map
+        text = se.Text(&#34;&#34;)
+        text.add(_map, round((_map.width - 11)/2), round((_map.height - 9)/2))
+        self.throw(Color.thicc + Color.blue + &#34;o&#34; + Color.reset, 0.5)
+        for i in frames:
+            text.rechar(i)
+            self.poke.ico.map.show()
+            time.sleep(0.03)
+        time.sleep(0.03)
+        text.remove()
+
     def arch(self):
         &#34;&#34;&#34;Arch move&#34;&#34;&#34;
         if self.poke.enem == self:
@@ -192,10 +297,12 @@ if __name__ == &#34;__main__&#34;:
         line.remove()
         del line
 
-    def throw(self, txt=&#34;#&#34;):
+    def throw(self, txt=&#34;#&#34;, factor=1., num=1):
         &#34;&#34;&#34;Throw move
         ARGS:
-            txt: The char that moves across the screen&#34;&#34;&#34;
+            txt: The char that moves across the screen
+            factor: Scalar to stretch the vector
+            num: The number of chars thrown&#34;&#34;&#34;
         if self.poke.enem == self.poke:
             return
         line = se.Line(&#34; &#34;,
@@ -204,18 +311,25 @@ if __name__ == &#34;__main__&#34;:
                         + (-11 if self.poke.player else 11)),
                        self.poke.enem.ico.y - self.poke.ico.y,
                        l_type=&#34;crippled&#34;)
+        line.resize(line.cx * factor, line.cy * factor)
         line.add(self.poke.ico.map,
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
-        for i, obj in enumerate(line.obs):
-            obj.rechar(txt)
-            if i != 0:
-                line.obs[i - 1].rechar(line.char)
+        for i in range(len(line.obs) + num*5 - 1):
+            for j in range(0, num*5, 5):
+                if len(line.obs) &gt; i - j &gt;= 0:
+                    line.obs[i - j].rechar(txt)
+                if len(line.obs) &gt;= i - j &gt; 0:
+                    line.obs[i - j - 1].rechar(line.char)
             time.sleep(0.05)
             self.poke.ico.map.show()
         line.remove()
         del line
+
+    def gun(self):
+        &#34;&#34;&#34;Gun move&#34;&#34;&#34;
+        self.throw(txt=Color.thicc + Color.blue + &#34;o&#34; + Color.reset, num=4)
 
     def fireball(self):
         &#34;&#34;&#34;Fireball move&#34;&#34;&#34;
@@ -289,6 +403,64 @@ if __name__ == &#34;__main__&#34;:
         time.sleep(_t)</code></pre>
 </details>
 </dd>
+<dt id="pokete_classes.moves.Moves.bomb"><code class="name flex">
+<span>def <span class="ident">bomb</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Bomb move</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    def bomb(self):
+        &#34;&#34;&#34;Bomb move&#34;&#34;&#34;
+        frames = [
+            &#34;&#34;&#34;
+
+     o
+
+&#34;&#34;&#34;, &#34;&#34;&#34;
+
+    (o)
+
+&#34;&#34;&#34;, &#34;&#34;&#34;
+
+    ( )
+
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \   /
+    ( )
+   /   \
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \   /
+
+   /   \
+&#34;&#34;&#34;, r&#34;&#34;&#34;
+   \ - /
+ (       )
+   / - \
+&#34;&#34;&#34;, &#34;&#34;&#34;
+     -
+ (       )
+     -
+&#34;&#34;&#34;, &#34;&#34;&#34;
+&#39;         &#39;
+
+.         .
+&#34;&#34;&#34;
+        ]
+        _map = self.poke.ico.map
+        text = se.Text(&#34;&#34;)
+        text.add(_map, round((_map.width - 11)/2), round((_map.height - 9)/2))
+        self.throw(Color.thicc + Color.blue + &#34;o&#34; + Color.reset, 0.5)
+        for i in frames:
+            text.rechar(i)
+            self.poke.ico.map.show()
+            time.sleep(0.03)
+        time.sleep(0.03)
+        text.remove()</code></pre>
+</details>
+</dd>
 <dt id="pokete_classes.moves.Moves.downgrade"><code class="name flex">
 <span>def <span class="ident">downgrade</span></span>(<span>self)</span>
 </code></dt>
@@ -316,6 +488,20 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">def fireball(self):
     &#34;&#34;&#34;Fireball move&#34;&#34;&#34;
     self.throw(txt=Color.thicc + Color.red + &#34;*&#34; + Color.reset)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.moves.Moves.gun"><code class="name flex">
+<span>def <span class="ident">gun</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gun move</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def gun(self):
+    &#34;&#34;&#34;Gun move&#34;&#34;&#34;
+    self.throw(txt=Color.thicc + Color.blue + &#34;o&#34; + Color.reset, num=4)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.moves.Moves.pound"><code class="name flex">
@@ -362,7 +548,7 @@ if __name__ == &#34;__main__&#34;:
 </details>
 </dd>
 <dt id="pokete_classes.moves.Moves.throw"><code class="name flex">
-<span>def <span class="ident">throw</span></span>(<span>self, txt='#')</span>
+<span>def <span class="ident">throw</span></span>(<span>self, txt='#', factor=1.0, num=1)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Throw move</p>
@@ -370,15 +556,21 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt><strong><code>txt</code></strong></dt>
 <dd>The char that moves across the screen</dd>
+<dt><strong><code>factor</code></strong></dt>
+<dd>Scalar to stretch the vector</dd>
+<dt><strong><code>num</code></strong></dt>
+<dd>The number of chars thrown</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def throw(self, txt=&#34;#&#34;):
+<pre><code class="python">def throw(self, txt=&#34;#&#34;, factor=1., num=1):
     &#34;&#34;&#34;Throw move
     ARGS:
-        txt: The char that moves across the screen&#34;&#34;&#34;
+        txt: The char that moves across the screen
+        factor: Scalar to stretch the vector
+        num: The number of chars thrown&#34;&#34;&#34;
     if self.poke.enem == self.poke:
         return
     line = se.Line(&#34; &#34;,
@@ -387,14 +579,17 @@ if __name__ == &#34;__main__&#34;:
                     + (-11 if self.poke.player else 11)),
                    self.poke.enem.ico.y - self.poke.ico.y,
                    l_type=&#34;crippled&#34;)
+    line.resize(line.cx * factor, line.cy * factor)
     line.add(self.poke.ico.map,
              self.poke.ico.x + (11 if self.poke.player else -1),
              self.poke.ico.y + 1)
     self.poke.ico.map.show()
-    for i, obj in enumerate(line.obs):
-        obj.rechar(txt)
-        if i != 0:
-            line.obs[i - 1].rechar(line.char)
+    for i in range(len(line.obs) + num*5 - 1):
+        for j in range(0, num*5, 5):
+            if len(line.obs) &gt; i - j &gt;= 0:
+                line.obs[i - j].rechar(txt)
+            if len(line.obs) &gt;= i - j &gt; 0:
+                line.obs[i - j - 1].rechar(line.char)
         time.sleep(0.05)
         self.poke.ico.map.show()
     line.remove()
@@ -424,8 +619,10 @@ if __name__ == &#34;__main__&#34;:
 <ul class="two-column">
 <li><code><a title="pokete_classes.moves.Moves.arch" href="#pokete_classes.moves.Moves.arch">arch</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.attack" href="#pokete_classes.moves.Moves.attack">attack</a></code></li>
+<li><code><a title="pokete_classes.moves.Moves.bomb" href="#pokete_classes.moves.Moves.bomb">bomb</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.downgrade" href="#pokete_classes.moves.Moves.downgrade">downgrade</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.fireball" href="#pokete_classes.moves.Moves.fireball">fireball</a></code></li>
+<li><code><a title="pokete_classes.moves.Moves.gun" href="#pokete_classes.moves.Moves.gun">gun</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.pound" href="#pokete_classes.moves.Moves.pound">pound</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.shine" href="#pokete_classes.moves.Moves.shine">shine</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.throw" href="#pokete_classes.moves.Moves.throw">throw</a></code></li>

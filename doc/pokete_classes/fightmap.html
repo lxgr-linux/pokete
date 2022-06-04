@@ -34,15 +34,11 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.deck as deck
-import pokete_classes.movemap as mvp
-import pokete_classes.ob_maps as obmp
-from pokete_classes import animations
+from pokete_classes import animations, ob_maps as obmp, movemap as mvp, deck
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
 from .input import ask_bool
-from .learnattack import LearnAttack
 from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
@@ -402,6 +398,15 @@ used {enemy.name} against you!&#39;)
         return winner
 
     def choose_poke(self, figure, players, player, enemy):
+        &#34;&#34;&#34;Lets the player choose another Pokete from their deck
+        ARGS:
+            figure: Figure object
+            players: The list of both player end enemy
+            player: The players&#39; used Poke
+            enemy: The enemy&#39;s used Poke
+        RETURNS:
+            players: The list of both player end enemy
+            player: The players&#39; used Poke&#34;&#34;&#34;
         self.clean_up(player, enemy)
         index = deck.deck(6, &#34;Your deck&#34;, True)
         player = player if index is None else figure.pokes[index]
@@ -527,7 +532,9 @@ class FightItems:
 
 
 class Fight:
-    &#34;&#34;&#34;&#34;&#34;&#34;
+    &#34;&#34;&#34;Wrapper for fightmap.fight
+    ARGS:
+        figure: The Figure object&#34;&#34;&#34;
     def __init__(self, figure):
         self.figure = figure
 
@@ -565,13 +572,20 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>figure)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Wrapper for fightmap.fight</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>figure</code></strong></dt>
+<dd>The Figure object</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Fight:
-    &#34;&#34;&#34;&#34;&#34;&#34;
+    &#34;&#34;&#34;Wrapper for fightmap.fight
+    ARGS:
+        figure: The Figure object&#34;&#34;&#34;
     def __init__(self, figure):
         self.figure = figure
 
@@ -1299,6 +1313,15 @@ used {enemy.name} against you!&#39;)
         return winner
 
     def choose_poke(self, figure, players, player, enemy):
+        &#34;&#34;&#34;Lets the player choose another Pokete from their deck
+        ARGS:
+            figure: Figure object
+            players: The list of both player end enemy
+            player: The players&#39; used Poke
+            enemy: The enemy&#39;s used Poke
+        RETURNS:
+            players: The list of both player end enemy
+            player: The players&#39; used Poke&#34;&#34;&#34;
         self.clean_up(player, enemy)
         index = deck.deck(6, &#34;Your deck&#34;, True)
         player = player if index is None else figure.pokes[index]
@@ -1431,12 +1454,39 @@ been caught</p></div>
 <span>def <span class="ident">choose_poke</span></span>(<span>self, figure, players, player, enemy)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Lets the player choose another Pokete from their deck</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>figure</code></strong></dt>
+<dd>Figure object</dd>
+<dt><strong><code>players</code></strong></dt>
+<dd>The list of both player end enemy</dd>
+<dt><strong><code>player</code></strong></dt>
+<dd>The players' used Poke</dd>
+<dt><strong><code>enemy</code></strong></dt>
+<dd>The enemy's used Poke</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>players</code></dt>
+<dd>The list of both player end enemy</dd>
+<dt><code>player</code></dt>
+<dd>The players' used Poke</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def choose_poke(self, figure, players, player, enemy):
+    &#34;&#34;&#34;Lets the player choose another Pokete from their deck
+    ARGS:
+        figure: Figure object
+        players: The list of both player end enemy
+        player: The players&#39; used Poke
+        enemy: The enemy&#39;s used Poke
+    RETURNS:
+        players: The list of both player end enemy
+        player: The players&#39; used Poke&#34;&#34;&#34;
     self.clean_up(player, enemy)
     index = deck.deck(6, &#34;Your deck&#34;, True)
     player = player if index is None else figure.pokes[index]

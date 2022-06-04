@@ -29,7 +29,6 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Contains the Pokete dex that gives information about all Poketes&#34;&#34;&#34;
 
-import time
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.movemap as mvp
@@ -37,6 +36,7 @@ from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .poke import Poke
 from .event import _ev
+from .color import Color
 from .ui_elements import ChooseBox, Box
 
 
@@ -54,7 +54,7 @@ class Dex:
         self.detail_info = se.Text(&#34;&#34;, state=&#34;float&#34;)
         self.detail_desc = se.Text(&#34;&#34;, state=&#34;float&#34;)
         self.detail_box.add_ob(self.detail_info, 16, 1)
-        self.detail_box.add_ob(self.detail_desc, 3, 7)
+        self.detail_box.add_ob(self.detail_desc, 3, 8)
 
     def add_c_obs(self):
         &#34;&#34;&#34;Adds c_obs to box&#34;&#34;&#34;
@@ -73,6 +73,11 @@ class Dex:
             poke: Pokes identifier&#34;&#34;&#34;
         _ev.clear()
         poke = Poke(poke, 0)
+        active = {
+            True: (&#34;Night&#34;, Color.thicc + Color.blue),
+            False: (&#34;Day&#34;, Color.thicc + Color.yellow),
+            None: (&#34;Always&#34;, &#34;&#34;)
+        }[poke.night_active]
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
                           (f&#34;&#34;&#34;\n\n Evolves to {
                               p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
@@ -80,17 +85,19 @@ class Dex:
                               self.figure.caught_pokes else &#39;???&#39;
                                                 }.&#34;&#34;&#34;
                            if poke.evolve_lvl != 0 else &#34;&#34;), 29)
-        self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
+        self.detail_box.resize(10 + len(desc_text.split(&#34;\n&#34;)), 35)
         self.detail_box.name_label.rechar(poke.name)
         self.detail_box.add_ob(poke.ico, 3, 2)
         self.detail_desc.rechar(desc_text)
         self.detail_info.rechar(&#34;Type: &#34;)
         self.detail_info += se.Text(poke.type.name.capitalize(),
-                                    esccode=poke.type.color) + se.Text((f&#34;&#34;&#34;
+                                    esccode=poke.type.color) + se.Text(f&#34;&#34;&#34;
 HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
-Initiative: {poke.initiative}&#34;&#34;&#34;))
+Initiative: {poke.initiative}
+Active: &#34;&#34;&#34;) + se.Text(active[0], esccode=active[1])
+
         with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)
@@ -177,7 +184,7 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
         self.detail_info = se.Text(&#34;&#34;, state=&#34;float&#34;)
         self.detail_desc = se.Text(&#34;&#34;, state=&#34;float&#34;)
         self.detail_box.add_ob(self.detail_info, 16, 1)
-        self.detail_box.add_ob(self.detail_desc, 3, 7)
+        self.detail_box.add_ob(self.detail_desc, 3, 8)
 
     def add_c_obs(self):
         &#34;&#34;&#34;Adds c_obs to box&#34;&#34;&#34;
@@ -196,6 +203,11 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
             poke: Pokes identifier&#34;&#34;&#34;
         _ev.clear()
         poke = Poke(poke, 0)
+        active = {
+            True: (&#34;Night&#34;, Color.thicc + Color.blue),
+            False: (&#34;Day&#34;, Color.thicc + Color.yellow),
+            None: (&#34;Always&#34;, &#34;&#34;)
+        }[poke.night_active]
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
                           (f&#34;&#34;&#34;\n\n Evolves to {
                               p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
@@ -203,17 +215,19 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
                               self.figure.caught_pokes else &#39;???&#39;
                                                 }.&#34;&#34;&#34;
                            if poke.evolve_lvl != 0 else &#34;&#34;), 29)
-        self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
+        self.detail_box.resize(10 + len(desc_text.split(&#34;\n&#34;)), 35)
         self.detail_box.name_label.rechar(poke.name)
         self.detail_box.add_ob(poke.ico, 3, 2)
         self.detail_desc.rechar(desc_text)
         self.detail_info.rechar(&#34;Type: &#34;)
         self.detail_info += se.Text(poke.type.name.capitalize(),
-                                    esccode=poke.type.color) + se.Text((f&#34;&#34;&#34;
+                                    esccode=poke.type.color) + se.Text(f&#34;&#34;&#34;
 HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
-Initiative: {poke.initiative}&#34;&#34;&#34;))
+Initiative: {poke.initiative}
+Active: &#34;&#34;&#34;) + se.Text(active[0], esccode=active[1])
+
         with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)
@@ -298,6 +312,11 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
             poke: Pokes identifier&#34;&#34;&#34;
         _ev.clear()
         poke = Poke(poke, 0)
+        active = {
+            True: (&#34;Night&#34;, Color.thicc + Color.blue),
+            False: (&#34;Day&#34;, Color.thicc + Color.yellow),
+            None: (&#34;Always&#34;, &#34;&#34;)
+        }[poke.night_active]
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
                           (f&#34;&#34;&#34;\n\n Evolves to {
                               p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
@@ -305,17 +324,19 @@ Initiative: {poke.initiative}&#34;&#34;&#34;))
                               self.figure.caught_pokes else &#39;???&#39;
                                                 }.&#34;&#34;&#34;
                            if poke.evolve_lvl != 0 else &#34;&#34;), 29)
-        self.detail_box.resize(9 + len(desc_text.split(&#34;\n&#34;)), 35)
+        self.detail_box.resize(10 + len(desc_text.split(&#34;\n&#34;)), 35)
         self.detail_box.name_label.rechar(poke.name)
         self.detail_box.add_ob(poke.ico, 3, 2)
         self.detail_desc.rechar(desc_text)
         self.detail_info.rechar(&#34;Type: &#34;)
         self.detail_info += se.Text(poke.type.name.capitalize(),
-                                    esccode=poke.type.color) + se.Text((f&#34;&#34;&#34;
+                                    esccode=poke.type.color) + se.Text(f&#34;&#34;&#34;
 HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
-Initiative: {poke.initiative}&#34;&#34;&#34;))
+Initiative: {poke.initiative}
+Active: &#34;&#34;&#34;) + se.Text(active[0], esccode=active[1])
+
         with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
         self.detail_box.rem_ob(poke.ico)</code></pre>

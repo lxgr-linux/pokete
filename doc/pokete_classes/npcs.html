@@ -34,7 +34,7 @@ import logging
 import scrap_engine as se
 import pokete_classes.fightmap as fm
 import pokete_classes.movemap as mvp
-from .loops import std_loop, easy_exit_loop
+from .loops import std_loop
 from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings
@@ -61,6 +61,7 @@ class NPC(se.Box):
     &#34;&#34;&#34;An NPC to talk to&#34;&#34;&#34;
     fig = None
     npcactions = None
+    registry = {}
 
     @classmethod
     def set_vars(cls, fig, npcactions):
@@ -71,9 +72,15 @@ class NPC(se.Box):
         cls.fig = fig
         cls.npcactions = npcactions
 
+    @classmethod
+    def get(cls, name):
+        &#34;&#34;&#34;Gets a NPC from the registry
+        ARGS:
+            name: The NPCs name&#34;&#34;&#34;
+        return cls.registry[name]
+
     def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
-        self.will = True
         self.name = name
         self.texts = texts
         self.__fn = fn
@@ -86,6 +93,7 @@ class NPC(se.Box):
             for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
                 self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(self.main_ob, 0, 0)
+        NPC.registry[self.name] = self
 
     def text(self, text):
         &#34;&#34;&#34;Movemap.text wrapper
@@ -107,9 +115,7 @@ class NPC(se.Box):
 
     def action(self):
         &#34;&#34;&#34;Interaction with the NPC triggered by NPCTrigger.action&#34;&#34;&#34;
-        if not self.will or \
-                (self.name in self.fig.used_npcs and
-                 settings(&#34;save_trainers&#34;).val):
+        if self.used and settings(&#34;save_trainers&#34;).val:
             return
         logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
         mvp.movemap.full_show()
@@ -163,11 +169,24 @@ class NPC(se.Box):
             name: The displayed name of the npc
             item: Item name&#34;&#34;&#34;
         item = getattr(invitems, item)
-        self.will = False
-        self.fig.used_npcs.append(self.name)
+        self.set_used()
         if ask_bool(mvp.movemap, f&#34;{name} gifted you a &#39;{item.pretty_name}&#39;. \
 Do you want to accept it?&#34;):
             self.fig.give_item(item.name)
+
+    @property
+    def used(self):
+        &#34;&#34;&#34;Indicates whether or not the NPC has been used&#34;&#34;&#34;
+        return self.name in self.fig.used_npcs
+
+    def set_used(self):
+        &#34;&#34;&#34;Sets the NPC as used&#34;&#34;&#34;
+        self.fig.used_npcs.append(self.name)
+
+    def unset_used(self):
+        &#34;&#34;&#34;Sets the NPC as unused&#34;&#34;&#34;
+        if self.used:
+            self.fig.used_npcs.pop(self.fig.used_npcs.index(self.name))
 
     def chat(self):
         &#34;&#34;&#34;Starts a question-answer chat&#34;&#34;&#34;
@@ -233,7 +252,7 @@ class Trainer(NPC):
         o_y = self.y
         if self.fig.has_item(&#34;shut_the_fuck_up_stone&#34;):
             return
-        if self.poke.hp &gt; 0 and (self.name not in self.fig.used_npcs
+        if self.poke.hp &gt; 0 and (not self.used
                                  or not settings(&#34;save_trainers&#34;).val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
@@ -251,7 +270,7 @@ class Trainer(NPC):
                           [winner == self.poke])
                 if winner != self.poke:
                     self.fig.add_money(20)
-                    self.fig.used_npcs.append(self.name)
+                    self.set_used()
                 logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
                              &#39;Lost&#39; if  winner != self.poke else &#39;Won&#39;)
             self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
@@ -281,6 +300,7 @@ class Trainer(NPC):
     &#34;&#34;&#34;An NPC to talk to&#34;&#34;&#34;
     fig = None
     npcactions = None
+    registry = {}
 
     @classmethod
     def set_vars(cls, fig, npcactions):
@@ -291,9 +311,15 @@ class Trainer(NPC):
         cls.fig = fig
         cls.npcactions = npcactions
 
+    @classmethod
+    def get(cls, name):
+        &#34;&#34;&#34;Gets a NPC from the registry
+        ARGS:
+            name: The NPCs name&#34;&#34;&#34;
+        return cls.registry[name]
+
     def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
-        self.will = True
         self.name = name
         self.texts = texts
         self.__fn = fn
@@ -306,6 +332,7 @@ class Trainer(NPC):
             for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
                 self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(self.main_ob, 0, 0)
+        NPC.registry[self.name] = self
 
     def text(self, text):
         &#34;&#34;&#34;Movemap.text wrapper
@@ -327,9 +354,7 @@ class Trainer(NPC):
 
     def action(self):
         &#34;&#34;&#34;Interaction with the NPC triggered by NPCTrigger.action&#34;&#34;&#34;
-        if not self.will or \
-                (self.name in self.fig.used_npcs and
-                 settings(&#34;save_trainers&#34;).val):
+        if self.used and settings(&#34;save_trainers&#34;).val:
             return
         logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
         mvp.movemap.full_show()
@@ -383,11 +408,24 @@ class Trainer(NPC):
             name: The displayed name of the npc
             item: Item name&#34;&#34;&#34;
         item = getattr(invitems, item)
-        self.will = False
-        self.fig.used_npcs.append(self.name)
+        self.set_used()
         if ask_bool(mvp.movemap, f&#34;{name} gifted you a &#39;{item.pretty_name}&#39;. \
 Do you want to accept it?&#34;):
             self.fig.give_item(item.name)
+
+    @property
+    def used(self):
+        &#34;&#34;&#34;Indicates whether or not the NPC has been used&#34;&#34;&#34;
+        return self.name in self.fig.used_npcs
+
+    def set_used(self):
+        &#34;&#34;&#34;Sets the NPC as used&#34;&#34;&#34;
+        self.fig.used_npcs.append(self.name)
+
+    def unset_used(self):
+        &#34;&#34;&#34;Sets the NPC as unused&#34;&#34;&#34;
+        if self.used:
+            self.fig.used_npcs.pop(self.fig.used_npcs.index(self.name))
 
     def chat(self):
         &#34;&#34;&#34;Starts a question-answer chat&#34;&#34;&#34;
@@ -443,9 +481,35 @@ Do you want to accept it?&#34;):
 <dd>
 <div class="desc"></div>
 </dd>
+<dt id="pokete_classes.npcs.NPC.registry"><code class="name">var <span class="ident">registry</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 </dl>
 <h3>Static methods</h3>
 <dl>
+<dt id="pokete_classes.npcs.NPC.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a NPC from the registry</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The NPCs name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def get(cls, name):
+    &#34;&#34;&#34;Gets a NPC from the registry
+    ARGS:
+        name: The NPCs name&#34;&#34;&#34;
+    return cls.registry[name]</code></pre>
+</details>
+</dd>
 <dt id="pokete_classes.npcs.NPC.set_vars"><code class="name flex">
 <span>def <span class="ident">set_vars</span></span>(<span>fig, npcactions)</span>
 </code></dt>
@@ -473,6 +537,22 @@ def set_vars(cls, fig, npcactions):
 </details>
 </dd>
 </dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pokete_classes.npcs.NPC.used"><code class="name">var <span class="ident">used</span></code></dt>
+<dd>
+<div class="desc"><p>Indicates whether or not the NPC has been used</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def used(self):
+    &#34;&#34;&#34;Indicates whether or not the NPC has been used&#34;&#34;&#34;
+    return self.name in self.fig.used_npcs</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="pokete_classes.npcs.NPC.action"><code class="name flex">
@@ -486,9 +566,7 @@ def set_vars(cls, fig, npcactions):
 </summary>
 <pre><code class="python">def action(self):
     &#34;&#34;&#34;Interaction with the NPC triggered by NPCTrigger.action&#34;&#34;&#34;
-    if not self.will or \
-            (self.name in self.fig.used_npcs and
-             settings(&#34;save_trainers&#34;).val):
+    if self.used and settings(&#34;save_trainers&#34;).val:
         return
     logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
     mvp.movemap.full_show()
@@ -639,11 +717,24 @@ def set_vars(cls, fig, npcactions):
             name: The displayed name of the npc
             item: Item name&#34;&#34;&#34;
         item = getattr(invitems, item)
-        self.will = False
-        self.fig.used_npcs.append(self.name)
+        self.set_used()
         if ask_bool(mvp.movemap, f&#34;{name} gifted you a &#39;{item.pretty_name}&#39;. \
 Do you want to accept it?&#34;):
             self.fig.give_item(item.name)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.NPC.set_used"><code class="name flex">
+<span>def <span class="ident">set_used</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets the NPC as used</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_used(self):
+    &#34;&#34;&#34;Sets the NPC as used&#34;&#34;&#34;
+    self.fig.used_npcs.append(self.name)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.npcs.NPC.text"><code class="name flex">
@@ -665,6 +756,21 @@ Do you want to accept it?&#34;):
     ARGS:
         text: Text that should be printed&#34;&#34;&#34;
     mvp.movemap.text(self.x, self.y, text)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.npcs.NPC.unset_used"><code class="name flex">
+<span>def <span class="ident">unset_used</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets the NPC as unused</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unset_used(self):
+    &#34;&#34;&#34;Sets the NPC as unused&#34;&#34;&#34;
+    if self.used:
+        self.fig.used_npcs.pop(self.fig.used_npcs.index(self.name))</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.npcs.NPC.walk_point"><code class="name flex">
@@ -799,7 +905,7 @@ Do you want to accept it?&#34;):
         o_y = self.y
         if self.fig.has_item(&#34;shut_the_fuck_up_stone&#34;):
             return
-        if self.poke.hp &gt; 0 and (self.name not in self.fig.used_npcs
+        if self.poke.hp &gt; 0 and (not self.used
                                  or not settings(&#34;save_trainers&#34;).val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
@@ -817,7 +923,7 @@ Do you want to accept it?&#34;):
                           [winner == self.poke])
                 if winner != self.poke:
                     self.fig.add_money(20)
-                    self.fig.used_npcs.append(self.name)
+                    self.set_used()
                 logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
                              &#39;Lost&#39; if  winner != self.poke else &#39;Won&#39;)
             self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
@@ -847,7 +953,7 @@ Do you want to accept it?&#34;):
     o_y = self.y
     if self.fig.has_item(&#34;shut_the_fuck_up_stone&#34;):
         return
-    if self.poke.hp &gt; 0 and (self.name not in self.fig.used_npcs
+    if self.poke.hp &gt; 0 and (not self.used
                              or not settings(&#34;save_trainers&#34;).val) \
             and self.check_walk(self.fig.x, self.fig.y):
         mvp.movemap.full_show()
@@ -865,7 +971,7 @@ Do you want to accept it?&#34;):
                       [winner == self.poke])
             if winner != self.poke:
                 self.fig.add_money(20)
-                self.fig.used_npcs.append(self.name)
+                self.set_used()
             logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
                          &#39;Lost&#39; if  winner != self.poke else &#39;Won&#39;)
         self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
@@ -903,9 +1009,13 @@ See se.Box.add</p></div>
 <li><code><a title="pokete_classes.npcs.NPC.check_walk" href="#pokete_classes.npcs.NPC.check_walk">check_walk</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.exclamate" href="#pokete_classes.npcs.NPC.exclamate">exclamate</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.fn" href="#pokete_classes.npcs.NPC.fn">fn</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.get" href="#pokete_classes.npcs.NPC.get">get</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.give" href="#pokete_classes.npcs.NPC.give">give</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.set_used" href="#pokete_classes.npcs.NPC.set_used">set_used</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.set_vars" href="#pokete_classes.npcs.NPC.set_vars">set_vars</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.text" href="#pokete_classes.npcs.NPC.text">text</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.unset_used" href="#pokete_classes.npcs.NPC.unset_used">unset_used</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.used" href="#pokete_classes.npcs.NPC.used">used</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.walk_point" href="#pokete_classes.npcs.NPC.walk_point">walk_point</a></code></li>
 </ul>
 </li>
@@ -936,10 +1046,15 @@ See se.Box.add</p></div>
 <li><code><a title="pokete_classes.npcs.NPC.exclamate" href="#pokete_classes.npcs.NPC.exclamate">exclamate</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.fig" href="#pokete_classes.npcs.NPC.fig">fig</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.fn" href="#pokete_classes.npcs.NPC.fn">fn</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.get" href="#pokete_classes.npcs.NPC.get">get</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.give" href="#pokete_classes.npcs.NPC.give">give</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.npcactions" href="#pokete_classes.npcs.NPC.npcactions">npcactions</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.registry" href="#pokete_classes.npcs.NPC.registry">registry</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.set_used" href="#pokete_classes.npcs.NPC.set_used">set_used</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.set_vars" href="#pokete_classes.npcs.NPC.set_vars">set_vars</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.text" href="#pokete_classes.npcs.NPC.text">text</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.unset_used" href="#pokete_classes.npcs.NPC.unset_used">unset_used</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.used" href="#pokete_classes.npcs.NPC.used">used</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.walk_point" href="#pokete_classes.npcs.NPC.walk_point">walk_point</a></code></li>
 </ul>
 </li>

@@ -39,8 +39,8 @@ class Types:
         p_data: p_data module&#34;&#34;&#34;
 
     def __init__(self):
-        for i in p_data.types:
-            setattr(self, i, PokeType(i, **p_data.types[i]))
+        for i, typ in p_data.types.items():
+            setattr(self, i, PokeType(i, **typ))
         for i in p_data.sub_types:
             setattr(self, i, PokeSubType(i))
 
@@ -174,8 +174,8 @@ if __name__ == &#34;__main__&#34;:
         p_data: p_data module&#34;&#34;&#34;
 
     def __init__(self):
-        for i in p_data.types:
-            setattr(self, i, PokeType(i, **p_data.types[i]))
+        for i, typ in p_data.types.items():
+            setattr(self, i, PokeType(i, **typ))
         for i in p_data.sub_types:
             setattr(self, i, PokeSubType(i))</code></pre>
 </details>

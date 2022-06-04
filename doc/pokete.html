@@ -44,7 +44,6 @@ For this see the comments in the definations area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback&#34;&#34;&#34;
 
-import random
 import time
 import os
 import sys
@@ -69,12 +68,9 @@ from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
-import pokete_classes.ob_maps as obmp
-import pokete_classes.movemap as mvp
-import pokete_classes.fightmap as fm
-import pokete_classes.deck as deck
-import pokete_classes.detail as detail
-import pokete_classes.game as game
+from pokete_classes.pokete_care import PoketeCare, DummyFigure
+from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
+                           movemap as mvp, fightmap as fm
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
 from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
@@ -123,8 +119,7 @@ class NPCActions:
             if ask_bool(mvp.movemap,
                         &#34;Young boy gifted you 200$. Do you want to accept it?&#34;):
                 figure.add_money(200)
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
         else:
             npc.text([&#34; &lt; In this region lives the würgos Pokete.&#34;,
                       f&#34; &lt; At level {p_data.pokes[&#39;würgos&#39;][&#39;evolve_lvl&#39;]} \
@@ -138,19 +133,47 @@ it evolves to Choka.&#34;,
             if (index := deck.deck(6, &#34;Your deck&#34;, True)) is None:
                 return
             figure.add_poke(Poke(&#34;ostri&#34;, 500), index)
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
             ask_ok(mvp.movemap,
                    f&#34;You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.&#34;)
             mvp.movemap.text(npc.x, npc.y, [&#34; &lt; Cool, huh?&#34;])
 
     @staticmethod
+    def playmap_50_npc_29(npc):
+        &#34;&#34;&#34;Interaction with npc_28&#34;&#34;&#34;
+        if pokete_care.poke is None:
+            npc.text([&#34; &lt; Here you can leave one of your Poketes for some time \
+and we will train it.&#34;])
+            if ask_bool(mvp.movemap, &#34;Do you want to put a Pokete into the \
+Pokete-Care&#34;):
+                if (index := deck.deck(6, &#34;Your deck&#34;, True)) is not None:
+                    pokete_care.poke = figure.pokes[index]
+                    pokete_care.entry = timer.time.time
+                    figure.add_poke(Poke(&#34;__fallback__&#34;, 0), index)
+                    npc.text([&#34; &lt; We will take care of it.&#34;])
+        else:
+            add_xp = int((timer.time.time - pokete_care.entry) / 30)
+            pokete_care.entry = timer.time.time
+            pokete_care.poke.add_xp(add_xp)
+            npc.text([&#34; &lt; Oh, you&#39;re back.&#34;, f&#34; &lt; Your {pokete_care.poke.name} \
+gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!&#34;])
+            if ask_bool(mvp.movemap, &#34;Do you want it back?&#34;):
+                dummy = DummyFigure(pokete_care.poke)
+                while dummy.pokes[0].evolve(dummy, mvp.movemap):
+                    continue
+                figure.add_poke(dummy.pokes[0])
+                figure.caught_pokes += dummy.caught_pokes
+                npc.text([&#34; &lt; Here you go!&#34;, &#34; &lt; Until next time!&#34;])
+                pokete_care.poke = None
+        npc.text([&#34; &lt; See you!&#34;])
+
+    @staticmethod
     def playmap_23_npc_8(npc):
         &#34;&#34;&#34;Interaction with npc_8&#34;&#34;&#34;
         if ask_bool(mvp.movemap,
                     &#34;The man gifted you 100$. Do you want to accept it?&#34;):
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
             figure.add_money(100)
 
     @staticmethod
@@ -194,6 +217,11 @@ at level {figure.pokes[index].lvl()}.&#34;)
         npc.give(&#34;Old geezer&#34;, &#34;ld_the_old_roots_hit&#34;)
 
     @staticmethod
+    def playmap_49_npc_28(npc):
+        &#34;&#34;&#34;Interaction with npc_28&#34;&#34;&#34;
+        npc.give(&#34;Candy man&#34;, &#34;treat&#34;)
+
+    @staticmethod
     def playmap_42_npc_21(npc):
         &#34;&#34;&#34;Interaction with npc_21&#34;&#34;&#34;
         poke_list = [i for i in figure.pokes[:6]
@@ -213,8 +241,7 @@ at level {figure.pokes[index].lvl()}.&#34;)
                             &#34;The cook gifted you 1000$. &#34;
                             &#34;Do you want to accept it?&#34;):
                     figure.add_money(1000)
-                npc.will = False
-                figure.used_npcs.append(npc.name)
+                npc.set_used()
         else:
             npc.text([&#34; &lt; Ohhh man...&#34;, &#34; &lt; All of our beef is empty...&#34;,
                       &#34; &lt; How are we going to serve the best MowCow-Burgers &#34;
@@ -228,7 +255,7 @@ at level {figure.pokes[index].lvl()}.&#34;)
     @staticmethod
     def playmap_39_npc_25(npc):
         &#34;&#34;&#34;Interaction with npc_25&#34;&#34;&#34;
-        if &#34;Sebastian the leader&#34; not in figure.used_npcs:
+        if not NPC.get(&#34;Sebastian the leader&#34;).used:
             npc.text([&#34; &lt; I can&#39;t let you go.&#34;,
                       &#34; &lt; You first have to defeat our arena leader!&#34;])
             figure.set(figure.x + 1, figure.y)
@@ -241,8 +268,7 @@ at level {figure.pokes[index].lvl()}.&#34;)
         if ask_bool(mvp.movemap,
                     &#34;Do you also want to have one?&#34;):
             figure.pokes.append(Poke(&#34;mowcow&#34;, 2000))
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
 
     @staticmethod
     def chat(npc):
@@ -379,10 +405,7 @@ class Figure(se.Object):
         self.__money = _si.get(&#34;money&#34;, 10)
         self.inv = _si.get(&#34;inv&#34;, {&#34;poketeballs&#34;: 10})
         self.name = _si.get(&#34;user&#34;, &#34;DEFAULT&#34;)
-        self.pokes = [Poke((_p := _si[&#34;pokes&#34;][poke])[&#34;name&#34;], _p[&#34;xp&#34;],
-                           _p[&#34;hp&#34;], _p[&#34;ap&#34;], _p.get(&#34;attacks&#34;, None),
-                           _p.get(&#34;effects&#34;, []),
-                           shiny=_p.get(&#34;shiny&#34;, False))
+        self.pokes = [Poke.from_dict(_si[&#34;pokes&#34;][poke])
                       for poke in _si[&#34;pokes&#34;]]
         self.caught_pokes = _si.get(&#34;caught_poketes&#34;, [])
         self.visited_maps = _si.get(&#34;visited_maps&#34;, [&#34;playmap_1&#34;])
@@ -446,7 +469,12 @@ class Figure(se.Object):
         poke.set_player(True)
         self.caught_pokes.append(poke.identifier)
         if idx is None:
-            self.pokes.append(poke)
+            id_list = [i.identifier for i in self.pokes]
+            if &#34;__fallback__&#34; in id_list:
+                idx = id_list.index(&#34;__fallback__&#34;)
+                self.pokes[idx] = poke
+            else:
+                self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
         logging.info(&#34;[Figure] Added Poke %s&#34;, poke.name)
@@ -746,7 +774,9 @@ def save():
         &#34;visited_maps&#34;: figure.visited_maps,
         &#34;startup_time&#34;: __t,
         # filters doublicates from figure.used_npcs
-        &#34;used_npcs&#34;: list(dict.fromkeys(figure.used_npcs))
+        &#34;used_npcs&#34;: list(dict.fromkeys(figure.used_npcs)),
+        &#34;pokete_care&#34;: pokete_care.dict(),
+        &#34;time&#34;: timer.time.time
     }
     with open(HOME + SAVEPATH + &#34;/pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
@@ -780,7 +810,12 @@ def read_save():
         &#34;figure.caught_pokes&#34;: [&#34;steini&#34;],
         &#34;visited_maps&#34;: [&#34;playmap_1&#34;],
         &#34;startup_time&#34;: 0,
-        &#34;used_npcs&#34;: []
+        &#34;used_npcs&#34;: [],
+        &#34;pokete_care&#34;: {
+            &#34;entry&#34;: 0,
+            &#34;poke&#34;: None,
+        },
+        &#34;time&#34;: 0
     }
 
     if (not os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;)
@@ -847,12 +882,13 @@ class ExtraActions:
     @staticmethod
     def playmap_7():
         &#34;&#34;&#34;Cave animation&#34;&#34;&#34;
-        for obj in (obmp.ob_maps[&#34;playmap_7&#34;].inner_walls.obs
-                    + [i.main_ob for i in obmp.ob_maps[&#34;playmap_7&#34;].trainers]
-                    + [getattr(obmp.ob_maps[&#34;playmap_7&#34;], i)
-                       for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
-                       &#34;playmap_7.&#34; + i not in figure.used_npcs or
-                       not save_trainers]):
+        _map = obmp.ob_maps[&#34;playmap_7&#34;]
+        for obj in _map.get_obj(&#34;inner_walls&#34;).obs\
+                + [i.main_ob for i in _map.trainers]\
+                + [obmp.ob_maps[&#34;playmap_7&#34;].get_obj(i)
+                    for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
+                    &#34;playmap_7.&#34; + i not in figure.used_npcs
+                    or not save_trainers]:
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) &lt;= 3:
                 obj.rechar(obj.bchar)
@@ -987,6 +1023,7 @@ def _game(_map):
                 &#34;&#39;3&#39;&#34;: [roadmap, (mvp.movemap,)],
                 &#34;&#39;4&#39;&#34;: [inv, ()],
                 &#34;&#39;5&#39;&#34;: [pokete_dex, ()],
+                &#34;&#39;6&#39;&#34;: [timer.clock, (mvp.movemap,)],
                 &#34;&#39;e&#39;&#34;: [menu, (pevm,)],
                 &#34;&#39;?&#39;&#34;: [help_page, ()]}
     if _map.weather is not None:
@@ -1067,7 +1104,7 @@ def parse_obj(_map, name, obj, _dict):
         name: Name of the attribute
         obj: Object beeing set
         _dict: Dict containing info&#34;&#34;&#34;
-    setattr(_map, name, obj)
+    _map.register_obj(name, obj)
     obj.add(_map, _dict[&#34;x&#34;], _dict[&#34;y&#34;])
 
 
@@ -1118,10 +1155,10 @@ def gen_obs():
                           map_data[ob_map][&#34;balls&#34;][ball])
     # NPCs
     for npc in npcs:
-        parse_obj(obmp.ob_maps[npcs[npc][&#34;map&#34;]], npc,
-                  NPC(npc, npcs[npc][&#34;texts&#34;], fn=npcs[npc][&#34;fn&#34;],
-                      chat=npcs[npc].get(&#34;chat&#34;, None)),
-                  npcs[npc])
+        _npc = npcs[npc]
+        NPC(npc, _npc[&#34;texts&#34;], fn=_npc[&#34;fn&#34;],
+            chat=_npc.get(&#34;chat&#34;, None)).add(obmp.ob_maps[_npc[&#34;map&#34;]],
+                                             _npc[&#34;x&#34;], _npc[&#34;y&#34;])
 
 
 def gen_maps():
@@ -1159,10 +1196,13 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 def main():
     &#34;&#34;&#34;Main function&#34;&#34;&#34;
     os.system(&#34;&#34;)
+    timeing = threading.Thread(target=timer.time_threat)
     recognising = threading.Thread(target=recogniser)
     autosaveing = threading.Thread(target=autosave)
+    timeing.daemon = True
     recognising.daemon = True
     autosaveing.daemon = True
+    timeing.start()
     recognising.start()
     autosaveing.start()
     check_version(session_info)
@@ -1255,8 +1295,8 @@ def map_additions():
 ####################  ########
 ##############################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HighGrass,
                          ob_args=_map.poke_args, state=&#34;float&#34;)
-    for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
-               [getattr(_map, i) for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;]
+    for ob in (_map.get_obj(&#34;inner_walls&#34;).obs + [i.main_ob for i in _map.trainers] +
+               [_map.get_obj(i) for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;]
                 if &#34;playmap_7.&#34; + i not in figure.used_npcs
                    or not settings(&#34;save_trainers&#34;).val]):
         ob.bchar = ob.char
@@ -1412,9 +1452,7 @@ if __name__ == &#34;__main__&#34;:
 
     # reading save file
     session_info = read_save()
-
     settings.from_dict(session_info.get(&#34;settings&#34;, {}))
-
     save_trainers = settings(&#34;save_trainers&#34;).val
 
     if not load_mods:
@@ -1477,9 +1515,16 @@ if __name__ == &#34;__main__&#34;:
     about = About(VERSION, CODENAME, mvp.movemap)
     inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)
+    pokete_care = PoketeCare.from_dict(session_info.get(&#34;pokete_care&#34;, {
+        &#34;entry&#34;: 0,
+        &#34;poke&#34;: None,
+    }))
+    timer.time = timer.Time(session_info.get(&#34;time&#34;, 0))
+    timer.clock = timer.Clock(timer.time)
     game.game = _game
     HighGrass.figure = figure
     Poketeball.figure = figure
+    _ev.set_emit_fn(timer.time.emit_input)
 
     # Achievements
     achievements.set_achieved(session_info.get(&#34;achievements&#34;, []))
@@ -1689,10 +1734,10 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
                           map_data[ob_map][&#34;balls&#34;][ball])
     # NPCs
     for npc in npcs:
-        parse_obj(obmp.ob_maps[npcs[npc][&#34;map&#34;]], npc,
-                  NPC(npc, npcs[npc][&#34;texts&#34;], fn=npcs[npc][&#34;fn&#34;],
-                      chat=npcs[npc].get(&#34;chat&#34;, None)),
-                  npcs[npc])</code></pre>
+        _npc = npcs[npc]
+        NPC(npc, _npc[&#34;texts&#34;], fn=_npc[&#34;fn&#34;],
+            chat=_npc.get(&#34;chat&#34;, None)).add(obmp.ob_maps[_npc[&#34;map&#34;]],
+                                             _npc[&#34;x&#34;], _npc[&#34;y&#34;])</code></pre>
 </details>
 </dd>
 <dt id="pokete.intro"><code class="name flex">
@@ -1739,10 +1784,13 @@ town.&#34;,
 <pre><code class="python">def main():
     &#34;&#34;&#34;Main function&#34;&#34;&#34;
     os.system(&#34;&#34;)
+    timeing = threading.Thread(target=timer.time_threat)
     recognising = threading.Thread(target=recogniser)
     autosaveing = threading.Thread(target=autosave)
+    timeing.daemon = True
     recognising.daemon = True
     autosaveing.daemon = True
+    timeing.start()
     recognising.start()
     autosaveing.start()
     check_version(session_info)
@@ -1844,8 +1892,8 @@ town.&#34;,
 ####################  ########
 ##############################&#34;&#34;&#34;, ignore=&#34;#&#34;, ob_class=HighGrass,
                          ob_args=_map.poke_args, state=&#34;float&#34;)
-    for ob in (_map.inner_walls.obs + [i.main_ob for i in _map.trainers] +
-               [getattr(_map, i) for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;]
+    for ob in (_map.get_obj(&#34;inner_walls&#34;).obs + [i.main_ob for i in _map.trainers] +
+               [_map.get_obj(i) for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;]
                 if &#34;playmap_7.&#34; + i not in figure.used_npcs
                    or not settings(&#34;save_trainers&#34;).val]):
         ob.bchar = ob.char
@@ -1990,7 +2038,7 @@ town.&#34;,
         name: Name of the attribute
         obj: Object beeing set
         _dict: Dict containing info&#34;&#34;&#34;
-    setattr(_map, name, obj)
+    _map.register_obj(name, obj)
     obj.add(_map, _dict[&#34;x&#34;], _dict[&#34;y&#34;])</code></pre>
 </details>
 </dd>
@@ -2031,7 +2079,12 @@ town.&#34;,
         &#34;figure.caught_pokes&#34;: [&#34;steini&#34;],
         &#34;visited_maps&#34;: [&#34;playmap_1&#34;],
         &#34;startup_time&#34;: 0,
-        &#34;used_npcs&#34;: []
+        &#34;used_npcs&#34;: [],
+        &#34;pokete_care&#34;: {
+            &#34;entry&#34;: 0,
+            &#34;poke&#34;: None,
+        },
+        &#34;time&#34;: 0
     }
 
     if (not os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;)
@@ -2092,7 +2145,9 @@ town.&#34;,
         &#34;visited_maps&#34;: figure.visited_maps,
         &#34;startup_time&#34;: __t,
         # filters doublicates from figure.used_npcs
-        &#34;used_npcs&#34;: list(dict.fromkeys(figure.used_npcs))
+        &#34;used_npcs&#34;: list(dict.fromkeys(figure.used_npcs)),
+        &#34;pokete_care&#34;: pokete_care.dict(),
+        &#34;time&#34;: timer.time.time
     }
     with open(HOME + SAVEPATH + &#34;/pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
@@ -2454,12 +2509,13 @@ def pos(cls):
     @staticmethod
     def playmap_7():
         &#34;&#34;&#34;Cave animation&#34;&#34;&#34;
-        for obj in (obmp.ob_maps[&#34;playmap_7&#34;].inner_walls.obs
-                    + [i.main_ob for i in obmp.ob_maps[&#34;playmap_7&#34;].trainers]
-                    + [getattr(obmp.ob_maps[&#34;playmap_7&#34;], i)
-                       for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
-                       &#34;playmap_7.&#34; + i not in figure.used_npcs or
-                       not save_trainers]):
+        _map = obmp.ob_maps[&#34;playmap_7&#34;]
+        for obj in _map.get_obj(&#34;inner_walls&#34;).obs\
+                + [i.main_ob for i in _map.trainers]\
+                + [obmp.ob_maps[&#34;playmap_7&#34;].get_obj(i)
+                    for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
+                    &#34;playmap_7.&#34; + i not in figure.used_npcs
+                    or not save_trainers]:
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) &lt;= 3:
                 obj.rechar(obj.bchar)
@@ -2480,12 +2536,13 @@ def pos(cls):
 <pre><code class="python">@staticmethod
 def playmap_7():
     &#34;&#34;&#34;Cave animation&#34;&#34;&#34;
-    for obj in (obmp.ob_maps[&#34;playmap_7&#34;].inner_walls.obs
-                + [i.main_ob for i in obmp.ob_maps[&#34;playmap_7&#34;].trainers]
-                + [getattr(obmp.ob_maps[&#34;playmap_7&#34;], i)
-                   for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
-                   &#34;playmap_7.&#34; + i not in figure.used_npcs or
-                   not save_trainers]):
+    _map = obmp.ob_maps[&#34;playmap_7&#34;]
+    for obj in _map.get_obj(&#34;inner_walls&#34;).obs\
+            + [i.main_ob for i in _map.trainers]\
+            + [obmp.ob_maps[&#34;playmap_7&#34;].get_obj(i)
+                for i in p_data.map_data[&#34;playmap_7&#34;][&#34;balls&#34;] if
+                &#34;playmap_7.&#34; + i not in figure.used_npcs
+                or not save_trainers]:
         if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                    + (obj.x - figure.x) ** 2) &lt;= 3:
             obj.rechar(obj.bchar)
@@ -2525,10 +2582,7 @@ def playmap_7():
         self.__money = _si.get(&#34;money&#34;, 10)
         self.inv = _si.get(&#34;inv&#34;, {&#34;poketeballs&#34;: 10})
         self.name = _si.get(&#34;user&#34;, &#34;DEFAULT&#34;)
-        self.pokes = [Poke((_p := _si[&#34;pokes&#34;][poke])[&#34;name&#34;], _p[&#34;xp&#34;],
-                           _p[&#34;hp&#34;], _p[&#34;ap&#34;], _p.get(&#34;attacks&#34;, None),
-                           _p.get(&#34;effects&#34;, []),
-                           shiny=_p.get(&#34;shiny&#34;, False))
+        self.pokes = [Poke.from_dict(_si[&#34;pokes&#34;][poke])
                       for poke in _si[&#34;pokes&#34;]]
         self.caught_pokes = _si.get(&#34;caught_poketes&#34;, [])
         self.visited_maps = _si.get(&#34;visited_maps&#34;, [&#34;playmap_1&#34;])
@@ -2592,7 +2646,12 @@ def playmap_7():
         poke.set_player(True)
         self.caught_pokes.append(poke.identifier)
         if idx is None:
-            self.pokes.append(poke)
+            id_list = [i.identifier for i in self.pokes]
+            if &#34;__fallback__&#34; in id_list:
+                idx = id_list.index(&#34;__fallback__&#34;)
+                self.pokes[idx] = poke
+            else:
+                self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
         logging.info(&#34;[Figure] Added Poke %s&#34;, poke.name)
@@ -2678,7 +2737,12 @@ in the inventory&#34;
     poke.set_player(True)
     self.caught_pokes.append(poke.identifier)
     if idx is None:
-        self.pokes.append(poke)
+        id_list = [i.identifier for i in self.pokes]
+        if &#34;__fallback__&#34; in id_list:
+            idx = id_list.index(&#34;__fallback__&#34;)
+            self.pokes[idx] = poke
+        else:
+            self.pokes.append(poke)
     else:
         self.pokes[idx] = poke
     logging.info(&#34;[Figure] Added Poke %s&#34;, poke.name)</code></pre>
@@ -3193,8 +3257,7 @@ npc: The NPC the method belongs to</p></div>
             if ask_bool(mvp.movemap,
                         &#34;Young boy gifted you 200$. Do you want to accept it?&#34;):
                 figure.add_money(200)
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
         else:
             npc.text([&#34; &lt; In this region lives the würgos Pokete.&#34;,
                       f&#34; &lt; At level {p_data.pokes[&#39;würgos&#39;][&#39;evolve_lvl&#39;]} \
@@ -3208,19 +3271,47 @@ it evolves to Choka.&#34;,
             if (index := deck.deck(6, &#34;Your deck&#34;, True)) is None:
                 return
             figure.add_poke(Poke(&#34;ostri&#34;, 500), index)
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
             ask_ok(mvp.movemap,
                    f&#34;You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.&#34;)
             mvp.movemap.text(npc.x, npc.y, [&#34; &lt; Cool, huh?&#34;])
 
     @staticmethod
+    def playmap_50_npc_29(npc):
+        &#34;&#34;&#34;Interaction with npc_28&#34;&#34;&#34;
+        if pokete_care.poke is None:
+            npc.text([&#34; &lt; Here you can leave one of your Poketes for some time \
+and we will train it.&#34;])
+            if ask_bool(mvp.movemap, &#34;Do you want to put a Pokete into the \
+Pokete-Care&#34;):
+                if (index := deck.deck(6, &#34;Your deck&#34;, True)) is not None:
+                    pokete_care.poke = figure.pokes[index]
+                    pokete_care.entry = timer.time.time
+                    figure.add_poke(Poke(&#34;__fallback__&#34;, 0), index)
+                    npc.text([&#34; &lt; We will take care of it.&#34;])
+        else:
+            add_xp = int((timer.time.time - pokete_care.entry) / 30)
+            pokete_care.entry = timer.time.time
+            pokete_care.poke.add_xp(add_xp)
+            npc.text([&#34; &lt; Oh, you&#39;re back.&#34;, f&#34; &lt; Your {pokete_care.poke.name} \
+gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!&#34;])
+            if ask_bool(mvp.movemap, &#34;Do you want it back?&#34;):
+                dummy = DummyFigure(pokete_care.poke)
+                while dummy.pokes[0].evolve(dummy, mvp.movemap):
+                    continue
+                figure.add_poke(dummy.pokes[0])
+                figure.caught_pokes += dummy.caught_pokes
+                npc.text([&#34; &lt; Here you go!&#34;, &#34; &lt; Until next time!&#34;])
+                pokete_care.poke = None
+        npc.text([&#34; &lt; See you!&#34;])
+
+    @staticmethod
     def playmap_23_npc_8(npc):
         &#34;&#34;&#34;Interaction with npc_8&#34;&#34;&#34;
         if ask_bool(mvp.movemap,
                     &#34;The man gifted you 100$. Do you want to accept it?&#34;):
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
             figure.add_money(100)
 
     @staticmethod
@@ -3264,6 +3355,11 @@ at level {figure.pokes[index].lvl()}.&#34;)
         npc.give(&#34;Old geezer&#34;, &#34;ld_the_old_roots_hit&#34;)
 
     @staticmethod
+    def playmap_49_npc_28(npc):
+        &#34;&#34;&#34;Interaction with npc_28&#34;&#34;&#34;
+        npc.give(&#34;Candy man&#34;, &#34;treat&#34;)
+
+    @staticmethod
     def playmap_42_npc_21(npc):
         &#34;&#34;&#34;Interaction with npc_21&#34;&#34;&#34;
         poke_list = [i for i in figure.pokes[:6]
@@ -3283,8 +3379,7 @@ at level {figure.pokes[index].lvl()}.&#34;)
                             &#34;The cook gifted you 1000$. &#34;
                             &#34;Do you want to accept it?&#34;):
                     figure.add_money(1000)
-                npc.will = False
-                figure.used_npcs.append(npc.name)
+                npc.set_used()
         else:
             npc.text([&#34; &lt; Ohhh man...&#34;, &#34; &lt; All of our beef is empty...&#34;,
                       &#34; &lt; How are we going to serve the best MowCow-Burgers &#34;
@@ -3298,7 +3393,7 @@ at level {figure.pokes[index].lvl()}.&#34;)
     @staticmethod
     def playmap_39_npc_25(npc):
         &#34;&#34;&#34;Interaction with npc_25&#34;&#34;&#34;
-        if &#34;Sebastian the leader&#34; not in figure.used_npcs:
+        if not NPC.get(&#34;Sebastian the leader&#34;).used:
             npc.text([&#34; &lt; I can&#39;t let you go.&#34;,
                       &#34; &lt; You first have to defeat our arena leader!&#34;])
             figure.set(figure.x + 1, figure.y)
@@ -3311,8 +3406,7 @@ at level {figure.pokes[index].lvl()}.&#34;)
         if ask_bool(mvp.movemap,
                     &#34;Do you also want to have one?&#34;):
             figure.pokes.append(Poke(&#34;mowcow&#34;, 2000))
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
 
     @staticmethod
     def chat(npc):
@@ -3385,8 +3479,7 @@ def playmap_10_old_man(npc):
             if ask_bool(mvp.movemap,
                         &#34;Young boy gifted you 200$. Do you want to accept it?&#34;):
                 figure.add_money(200)
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
         else:
             npc.text([&#34; &lt; In this region lives the würgos Pokete.&#34;,
                       f&#34; &lt; At level {p_data.pokes[&#39;würgos&#39;][&#39;evolve_lvl&#39;]} \
@@ -3410,7 +3503,7 @@ it evolves to Choka.&#34;,
             if (index := deck.deck(6, &#34;Your deck&#34;, True)) is None:
                 return
             figure.add_poke(Poke(&#34;ostri&#34;, 500), index)
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
             ask_ok(mvp.movemap,
                    f&#34;You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.&#34;)
@@ -3431,8 +3524,7 @@ def playmap_23_npc_8(npc):
     &#34;&#34;&#34;Interaction with npc_8&#34;&#34;&#34;
     if ask_bool(mvp.movemap,
                 &#34;The man gifted you 100$. Do you want to accept it?&#34;):
-        npc.will = False
-        figure.used_npcs.append(npc.name)
+        npc.set_used()
         figure.add_money(100)</code></pre>
 </details>
 </dd>
@@ -3523,7 +3615,7 @@ def playmap_39_npc_20(npc):
 <pre><code class="python">@staticmethod
 def playmap_39_npc_25(npc):
     &#34;&#34;&#34;Interaction with npc_25&#34;&#34;&#34;
-    if &#34;Sebastian the leader&#34; not in figure.used_npcs:
+    if not NPC.get(&#34;Sebastian the leader&#34;).used:
         npc.text([&#34; &lt; I can&#39;t let you go.&#34;,
                   &#34; &lt; You first have to defeat our arena leader!&#34;])
         figure.set(figure.x + 1, figure.y)
@@ -3560,8 +3652,7 @@ def playmap_42_npc_21(npc):
                         &#34;The cook gifted you 1000$. &#34;
                         &#34;Do you want to accept it?&#34;):
                 figure.add_money(1000)
-            npc.will = False
-            figure.used_npcs.append(npc.name)
+            npc.set_used()
     else:
         npc.text([&#34; &lt; Ohhh man...&#34;, &#34; &lt; All of our beef is empty...&#34;,
                   &#34; &lt; How are we going to serve the best MowCow-Burgers &#34;
@@ -3588,8 +3679,7 @@ def playmap_43_npc_23(npc):
     if ask_bool(mvp.movemap,
                 &#34;Do you also want to have one?&#34;):
         figure.pokes.append(Poke(&#34;mowcow&#34;, 2000))
-        npc.will = False
-        figure.used_npcs.append(npc.name)</code></pre>
+        npc.set_used()</code></pre>
 </details>
 </dd>
 <dt id="pokete.NPCActions.playmap_47_npc_26"><code class="name flex">
@@ -3620,6 +3710,60 @@ def playmap_47_npc_26(npc):
 def playmap_48_npc_27(npc):
     &#34;&#34;&#34;Interaction with npc_27&#34;&#34;&#34;
     npc.give(&#34;Old geezer&#34;, &#34;ld_the_old_roots_hit&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_49_npc_28"><code class="name flex">
+<span>def <span class="ident">playmap_49_npc_28</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with npc_28</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def playmap_49_npc_28(npc):
+    &#34;&#34;&#34;Interaction with npc_28&#34;&#34;&#34;
+    npc.give(&#34;Candy man&#34;, &#34;treat&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_50_npc_29"><code class="name flex">
+<span>def <span class="ident">playmap_50_npc_29</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with npc_28</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    @staticmethod
+    def playmap_50_npc_29(npc):
+        &#34;&#34;&#34;Interaction with npc_28&#34;&#34;&#34;
+        if pokete_care.poke is None:
+            npc.text([&#34; &lt; Here you can leave one of your Poketes for some time \
+and we will train it.&#34;])
+            if ask_bool(mvp.movemap, &#34;Do you want to put a Pokete into the \
+Pokete-Care&#34;):
+                if (index := deck.deck(6, &#34;Your deck&#34;, True)) is not None:
+                    pokete_care.poke = figure.pokes[index]
+                    pokete_care.entry = timer.time.time
+                    figure.add_poke(Poke(&#34;__fallback__&#34;, 0), index)
+                    npc.text([&#34; &lt; We will take care of it.&#34;])
+        else:
+            add_xp = int((timer.time.time - pokete_care.entry) / 30)
+            pokete_care.entry = timer.time.time
+            pokete_care.poke.add_xp(add_xp)
+            npc.text([&#34; &lt; Oh, you&#39;re back.&#34;, f&#34; &lt; Your {pokete_care.poke.name} \
+gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!&#34;])
+            if ask_bool(mvp.movemap, &#34;Do you want it back?&#34;):
+                dummy = DummyFigure(pokete_care.poke)
+                while dummy.pokes[0].evolve(dummy, mvp.movemap):
+                    continue
+                figure.add_poke(dummy.pokes[0])
+                figure.caught_pokes += dummy.caught_pokes
+                npc.text([&#34; &lt; Here you go!&#34;, &#34; &lt; Until next time!&#34;])
+                pokete_care.poke = None
+        npc.text([&#34; &lt; See you!&#34;])</code></pre>
 </details>
 </dd>
 <dt id="pokete.NPCActions.swap_poke"><code class="name flex">
@@ -3847,6 +3991,8 @@ def swap_poke(npc):
 <li><code><a title="pokete.NPCActions.playmap_43_npc_23" href="#pokete.NPCActions.playmap_43_npc_23">playmap_43_npc_23</a></code></li>
 <li><code><a title="pokete.NPCActions.playmap_47_npc_26" href="#pokete.NPCActions.playmap_47_npc_26">playmap_47_npc_26</a></code></li>
 <li><code><a title="pokete.NPCActions.playmap_48_npc_27" href="#pokete.NPCActions.playmap_48_npc_27">playmap_48_npc_27</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_49_npc_28" href="#pokete.NPCActions.playmap_49_npc_28">playmap_49_npc_28</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_50_npc_29" href="#pokete.NPCActions.playmap_50_npc_29">playmap_50_npc_29</a></code></li>
 <li><code><a title="pokete.NPCActions.swap_poke" href="#pokete.NPCActions.swap_poke">swap_poke</a></code></li>
 </ul>
 </li>

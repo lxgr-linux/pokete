@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.landscape API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Contains classes that can be placed on playmaps" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,15 +22,17 @@
 <h1 class="title">Module <code>pokete_classes.landscape</code></h1>
 </header>
 <section id="section-intro">
+<p>Contains classes that can be placed on playmaps</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import random
+<pre><code class="python">&#34;&#34;&#34;Contains classes that can be placed on playmaps&#34;&#34;&#34;
+
+import random
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.fightmap as fm
-import pokete_classes.movemap as mvp
+from pokete_classes import timer, movemap as mvp, fightmap as fm
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
@@ -45,16 +47,22 @@ class HighGrass(se.Object):
         &#34;&#34;&#34;Action triggers the fight
         ARGS:
             ob: The object triggering this action&#34;&#34;&#34;
+        is_night = (360 &gt; timer.time.normalized
+                    or timer.time.normalized &gt; 1320)
+        pokes = {i: p_data.pokes[i]
+                 for i in self.arg_proto[&#34;pokes&#34;]
+                 if (n_a := p_data.pokes[i].get(&#34;night_active&#34;, None)) is None
+                 or (not n_a and not is_night)
+                 or (n_a and is_night)}
         if random.randint(0, 8) == 0:
             fm.fight(Poke(&#34;__fallback__&#34;, 0)
                      if len([poke for poke in self.figure.pokes[:6]
                              if poke.hp &gt; 0]) == 0
                      else
                      [poke for poke in self.figure.pokes[:6] if poke.hp &gt; 0][0],
-                     Poke(random.choices(self.arg_proto[&#34;pokes&#34;],
-                                         weights=[p_data.pokes[i][&#34;rarity&#34;]
-                                                  for i in
-                                                  self.arg_proto[&#34;pokes&#34;]])[0],
+                     Poke(random.choices(list(pokes),
+                                         weights=[i[&#34;rarity&#34;] for _, i in
+                                                  pokes.items()])[0],
                           random.choices(list(range(self.arg_proto[&#34;minlvl&#34;],
                                                     self.arg_proto[&#34;maxlvl&#34;])))[
                               0],
@@ -92,8 +100,7 @@ class Meadow(se.Text):
         if cls.curr_tick &lt; cls.max_tick:
             cls.curr_tick += 1
             return
-        else:
-            cls.curr_tick = 0
+        cls.curr_tick = 0
 
         for obj in objs:
             if obj.char == cls.esccode + &#34;;&#34; + Color.reset:
@@ -106,6 +113,9 @@ class Meadow(se.Text):
 
     @classmethod
     def moving_water(cls, objs):
+        &#34;&#34;&#34;Water animation
+        ARGS:
+            objs: The water objects this will happen for&#34;&#34;&#34;
         for obj in objs:
             if random.randint(0, 9) == 0:
                 if &#34; &#34; not in obj.char:
@@ -117,9 +127,9 @@ class Meadow(se.Text):
 
     @staticmethod
     def check_figure_redraw(obj):
-        &#34;&#34;&#34;Checks if the figure has to be redrawn
+        &#34;&#34;&#34;Checks whether or not the figure has to be redrawn
         ARGS:
-            obj: The object for which this is checked&#34;&#34;&#34;
+            obj: The obj that this is checked for&#34;&#34;&#34;
         if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
             HighGrass.figure.redraw()
 
@@ -190,16 +200,22 @@ class Poketeball(se.Object):
         &#34;&#34;&#34;Action triggers the fight
         ARGS:
             ob: The object triggering this action&#34;&#34;&#34;
+        is_night = (360 &gt; timer.time.normalized
+                    or timer.time.normalized &gt; 1320)
+        pokes = {i: p_data.pokes[i]
+                 for i in self.arg_proto[&#34;pokes&#34;]
+                 if (n_a := p_data.pokes[i].get(&#34;night_active&#34;, None)) is None
+                 or (not n_a and not is_night)
+                 or (n_a and is_night)}
         if random.randint(0, 8) == 0:
             fm.fight(Poke(&#34;__fallback__&#34;, 0)
                      if len([poke for poke in self.figure.pokes[:6]
                              if poke.hp &gt; 0]) == 0
                      else
                      [poke for poke in self.figure.pokes[:6] if poke.hp &gt; 0][0],
-                     Poke(random.choices(self.arg_proto[&#34;pokes&#34;],
-                                         weights=[p_data.pokes[i][&#34;rarity&#34;]
-                                                  for i in
-                                                  self.arg_proto[&#34;pokes&#34;]])[0],
+                     Poke(random.choices(list(pokes),
+                                         weights=[i[&#34;rarity&#34;] for _, i in
+                                                  pokes.items()])[0],
                           random.choices(list(range(self.arg_proto[&#34;minlvl&#34;],
                                                     self.arg_proto[&#34;maxlvl&#34;])))[
                               0],
@@ -238,16 +254,22 @@ class Poketeball(se.Object):
     &#34;&#34;&#34;Action triggers the fight
     ARGS:
         ob: The object triggering this action&#34;&#34;&#34;
+    is_night = (360 &gt; timer.time.normalized
+                or timer.time.normalized &gt; 1320)
+    pokes = {i: p_data.pokes[i]
+             for i in self.arg_proto[&#34;pokes&#34;]
+             if (n_a := p_data.pokes[i].get(&#34;night_active&#34;, None)) is None
+             or (not n_a and not is_night)
+             or (n_a and is_night)}
     if random.randint(0, 8) == 0:
         fm.fight(Poke(&#34;__fallback__&#34;, 0)
                  if len([poke for poke in self.figure.pokes[:6]
                          if poke.hp &gt; 0]) == 0
                  else
                  [poke for poke in self.figure.pokes[:6] if poke.hp &gt; 0][0],
-                 Poke(random.choices(self.arg_proto[&#34;pokes&#34;],
-                                     weights=[p_data.pokes[i][&#34;rarity&#34;]
-                                              for i in
-                                              self.arg_proto[&#34;pokes&#34;]])[0],
+                 Poke(random.choices(list(pokes),
+                                     weights=[i[&#34;rarity&#34;] for _, i in
+                                              pokes.items()])[0],
                       random.choices(list(range(self.arg_proto[&#34;minlvl&#34;],
                                                 self.arg_proto[&#34;maxlvl&#34;])))[
                           0],
@@ -304,8 +326,7 @@ class Poketeball(se.Object):
         if cls.curr_tick &lt; cls.max_tick:
             cls.curr_tick += 1
             return
-        else:
-            cls.curr_tick = 0
+        cls.curr_tick = 0
 
         for obj in objs:
             if obj.char == cls.esccode + &#34;;&#34; + Color.reset:
@@ -318,6 +339,9 @@ class Poketeball(se.Object):
 
     @classmethod
     def moving_water(cls, objs):
+        &#34;&#34;&#34;Water animation
+        ARGS:
+            objs: The water objects this will happen for&#34;&#34;&#34;
         for obj in objs:
             if random.randint(0, 9) == 0:
                 if &#34; &#34; not in obj.char:
@@ -329,9 +353,9 @@ class Poketeball(se.Object):
 
     @staticmethod
     def check_figure_redraw(obj):
-        &#34;&#34;&#34;Checks if the figure has to be redrawn
+        &#34;&#34;&#34;Checks whether or not the figure has to be redrawn
         ARGS:
-            obj: The object for which this is checked&#34;&#34;&#34;
+            obj: The obj that this is checked for&#34;&#34;&#34;
         if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
             HighGrass.figure.redraw()</code></pre>
 </details>
@@ -379,11 +403,11 @@ class Poketeball(se.Object):
 <span>def <span class="ident">check_figure_redraw</span></span>(<span>obj)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Checks if the figure has to be redrawn</p>
+<div class="desc"><p>Checks whether or not the figure has to be redrawn</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>obj</code></strong></dt>
-<dd>The object for which this is checked</dd>
+<dd>The obj that this is checked for</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -391,9 +415,9 @@ class Poketeball(se.Object):
 </summary>
 <pre><code class="python">@staticmethod
 def check_figure_redraw(obj):
-    &#34;&#34;&#34;Checks if the figure has to be redrawn
+    &#34;&#34;&#34;Checks whether or not the figure has to be redrawn
     ARGS:
-        obj: The object for which this is checked&#34;&#34;&#34;
+        obj: The obj that this is checked for&#34;&#34;&#34;
     if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
         HighGrass.figure.redraw()</code></pre>
 </details>
@@ -420,8 +444,7 @@ def moving_grass(cls, objs):
     if cls.curr_tick &lt; cls.max_tick:
         cls.curr_tick += 1
         return
-    else:
-        cls.curr_tick = 0
+    cls.curr_tick = 0
 
     for obj in objs:
         if obj.char == cls.esccode + &#34;;&#34; + Color.reset:
@@ -437,13 +460,21 @@ def moving_grass(cls, objs):
 <span>def <span class="ident">moving_water</span></span>(<span>objs)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Water animation</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>objs</code></strong></dt>
+<dd>The water objects this will happen for</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
 def moving_water(cls, objs):
+    &#34;&#34;&#34;Water animation
+    ARGS:
+        objs: The water objects this will happen for&#34;&#34;&#34;
     for obj in objs:
         if random.randint(0, 9) == 0:
             if &#34; &#34; not in obj.char:
@@ -581,6 +612,7 @@ def moving_water(cls, objs):
 <ul class="hlist">
 <li><code><a title="pokete_classes.landscape.Meadow.check_figure_redraw" href="#pokete_classes.landscape.Meadow.check_figure_redraw">check_figure_redraw</a></code></li>
 <li><code><a title="pokete_classes.landscape.Meadow.moving_grass" href="#pokete_classes.landscape.Meadow.moving_grass">moving_grass</a></code></li>
+<li><code><a title="pokete_classes.landscape.Meadow.moving_water" href="#pokete_classes.landscape.Meadow.moving_water">moving_water</a></code></li>
 </ul>
 </li>
 </ul>
@@ -619,6 +651,7 @@ def moving_water(cls, objs):
 <ul class="hlist">
 <li><code><a title="pokete_classes.landscape.Meadow.check_figure_redraw" href="#pokete_classes.landscape.Meadow.check_figure_redraw">check_figure_redraw</a></code></li>
 <li><code><a title="pokete_classes.landscape.Meadow.moving_grass" href="#pokete_classes.landscape.Meadow.moving_grass">moving_grass</a></code></li>
+<li><code><a title="pokete_classes.landscape.Meadow.moving_water" href="#pokete_classes.landscape.Meadow.moving_water">moving_water</a></code></li>
 </ul>
 </li>
 </ul>

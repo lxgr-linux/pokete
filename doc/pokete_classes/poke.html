@@ -62,6 +62,7 @@ class Poke:
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
+        self.night_active = self.inf.get(&#34;night_active&#34;, None)
         self.enem = None
         self.oldhp = 0
         self.xp = xp
@@ -209,7 +210,7 @@ can&#39;t have more than 4 attacks!&#34;
                                            weights=[attack.miss_chance
                                                     + self.miss_chance,
                                                     1, 1, 1], k=1)[0]
-            if weather != None:
+            if weather is not None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
                 time.sleep(1.5)
@@ -261,7 +262,7 @@ can&#39;t have more than 4 attacks!&#34;
             _map: The map the evolving happens on&#34;&#34;&#34;
         if not self.player or self.evolve_poke == &#34;&#34; \
                 or self.lvl() &lt; self.evolve_lvl:
-            return
+            return False
         evomap = EvoMap(_map.height, _map.width)
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
         self.ico.remove()
@@ -295,6 +296,14 @@ can&#39;t have more than 4 attacks!&#34;
             figure.caught_pokes.append(new.identifier)
         logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
         del self
+        return True
+
+    @classmethod
+    def from_dict(cls, _dict):
+        &#34;&#34;&#34;Assembles a Pokete from _dict&#34;&#34;&#34;
+        return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;],  _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
+                   _dict.get(&#34;attacks&#34;, None), _dict.get(&#34;effects&#34;, []),
+                   shiny=_dict.get(&#34;shiny&#34;, False))
 
 
 def upgrade_by_one_lvl(poke, figure, _map):
@@ -391,6 +400,7 @@ def upgrade_by_one_lvl(poke, figure, _map):
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
+        self.night_active = self.inf.get(&#34;night_active&#34;, None)
         self.enem = None
         self.oldhp = 0
         self.xp = xp
@@ -538,7 +548,7 @@ can&#39;t have more than 4 attacks!&#34;
                                            weights=[attack.miss_chance
                                                     + self.miss_chance,
                                                     1, 1, 1], k=1)[0]
-            if weather != None:
+            if weather is not None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
                 time.sleep(1.5)
@@ -590,7 +600,7 @@ can&#39;t have more than 4 attacks!&#34;
             _map: The map the evolving happens on&#34;&#34;&#34;
         if not self.player or self.evolve_poke == &#34;&#34; \
                 or self.lvl() &lt; self.evolve_lvl:
-            return
+            return False
         evomap = EvoMap(_map.height, _map.width)
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
         self.ico.remove()
@@ -623,8 +633,36 @@ can&#39;t have more than 4 attacks!&#34;
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
         logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
-        del self</code></pre>
+        del self
+        return True
+
+    @classmethod
+    def from_dict(cls, _dict):
+        &#34;&#34;&#34;Assembles a Pokete from _dict&#34;&#34;&#34;
+        return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;],  _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
+                   _dict.get(&#34;attacks&#34;, None), _dict.get(&#34;effects&#34;, []),
+                   shiny=_dict.get(&#34;shiny&#34;, False))</code></pre>
 </details>
+<h3>Static methods</h3>
+<dl>
+<dt id="pokete_classes.poke.Poke.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>_dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Assembles a Pokete from _dict</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_dict(cls, _dict):
+    &#34;&#34;&#34;Assembles a Pokete from _dict&#34;&#34;&#34;
+    return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;],  _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
+               _dict.get(&#34;attacks&#34;, None), _dict.get(&#34;effects&#34;, []),
+               shiny=_dict.get(&#34;shiny&#34;, False))</code></pre>
+</details>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="pokete_classes.poke.Poke.add_xp"><code class="name flex">
@@ -704,7 +742,7 @@ can&#39;t have more than 4 attacks!&#34;
                                        weights=[attack.miss_chance
                                                 + self.miss_chance,
                                                 1, 1, 1], k=1)[0]
-        if weather != None:
+        if weather is not None:
             w_eff = weather.effect(attack.type)
             fightmap.outp.outp(weather.info)
             time.sleep(1.5)
@@ -786,7 +824,7 @@ A dict with all information about the Pokete</p></div>
         _map: The map the evolving happens on&#34;&#34;&#34;
     if not self.player or self.evolve_poke == &#34;&#34; \
             or self.lvl() &lt; self.evolve_lvl:
-        return
+        return False
     evomap = EvoMap(_map.height, _map.width)
     new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
     self.ico.remove()
@@ -819,7 +857,8 @@ A dict with all information about the Pokete</p></div>
     if new.identifier not in figure.caught_pokes:
         figure.caught_pokes.append(new.identifier)
     logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
-    del self</code></pre>
+    del self
+    return True</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.poke.Poke.learn_attack"><code class="name flex">
@@ -953,6 +992,7 @@ Current level</p></div>
 <li><code><a title="pokete_classes.poke.Poke.attack" href="#pokete_classes.poke.Poke.attack">attack</a></code></li>
 <li><code><a title="pokete_classes.poke.Poke.dict" href="#pokete_classes.poke.Poke.dict">dict</a></code></li>
 <li><code><a title="pokete_classes.poke.Poke.evolve" href="#pokete_classes.poke.Poke.evolve">evolve</a></code></li>
+<li><code><a title="pokete_classes.poke.Poke.from_dict" href="#pokete_classes.poke.Poke.from_dict">from_dict</a></code></li>
 <li><code><a title="pokete_classes.poke.Poke.learn_attack" href="#pokete_classes.poke.Poke.learn_attack">learn_attack</a></code></li>
 <li><code><a title="pokete_classes.poke.Poke.lvl" href="#pokete_classes.poke.Poke.lvl">lvl</a></code></li>
 <li><code><a title="pokete_classes.poke.Poke.set_ap" href="#pokete_classes.poke.Poke.set_ap">set_ap</a></code></li>

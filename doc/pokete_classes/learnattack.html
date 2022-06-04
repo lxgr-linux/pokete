@@ -90,10 +90,10 @@ class LearnAttack:
 
         attacks = p_data.attacks
         if attack is None:
-            pool = [i for i in attacks
+            pool = [i for i, atc in attacks.items()
                     if all(j in [i.name for i in self.poke.types]
-                           for j in attacks[i][&#34;types&#34;])
-                    and attacks[i][&#34;is_generic&#34;]]
+                           for j in atc[&#34;types&#34;])
+                    and atc[&#34;is_generic&#34;]]
             full_pool = [i for i in self.poke.inf[&#34;attacks&#34;] +
                          self.poke.inf[&#34;pool&#34;] + pool
                          if i not in self.poke.attacks
@@ -258,10 +258,10 @@ if __name__ == &#34;__main__&#34;:
 
         attacks = p_data.attacks
         if attack is None:
-            pool = [i for i in attacks
+            pool = [i for i, atc in attacks.items()
                     if all(j in [i.name for i in self.poke.types]
-                           for j in attacks[i][&#34;types&#34;])
-                    and attacks[i][&#34;is_generic&#34;]]
+                           for j in atc[&#34;types&#34;])
+                    and atc[&#34;is_generic&#34;]]
             full_pool = [i for i in self.poke.inf[&#34;attacks&#34;] +
                          self.poke.inf[&#34;pool&#34;] + pool
                          if i not in self.poke.attacks
