@@ -29,7 +29,7 @@ class Moves:
 
     def bomb(self):
         """Bomb move"""
-        arr = [
+        frames = [
             """
 
      o
@@ -68,7 +68,7 @@ class Moves:
         text = se.Text("")
         text.add(_map, round((_map.width - 11)/2), round((_map.height - 9)/2))
         self.throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
-        for i in arr:
+        for i in frames:
             text.rechar(i)
             self.poke.ico.map.show()
             time.sleep(0.03)
@@ -96,7 +96,8 @@ class Moves:
         """Throw move
         ARGS:
             txt: The char that moves across the screen
-            factor: Scalar to stretch the vector"""
+            factor: Scalar to stretch the vector
+            num: The number of chars thrown"""
         if self.poke.enem == self.poke:
             return
         line = se.Line(" ",

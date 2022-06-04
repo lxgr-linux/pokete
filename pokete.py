@@ -1155,6 +1155,7 @@ such a downgrade may result in data loss! \
 Do you want to continue?", int(width * 2 / 3))):
             exiter()
 
+
 def main():
     """Main function"""
     os.system("")
