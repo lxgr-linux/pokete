@@ -1,4 +1,4 @@
-v0.6.0
+v0.6.4
 
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
@@ -416,10 +416,10 @@ A night active Pokete, that is looking for lil children as a midnight snack.
 A butterfly that will schmetter you away.
 
 ```
-           
  .__ o __. 
   \_\|/_/  
   /_/'\_\  
+           
 
 ```
 
@@ -540,7 +540,7 @@ A very aggressive and hard to find bird Pokete.
 
 ### Ground Poketes
 #### Corcos day
-A small heavy thing, that can be found on the ground, but that may reveal something wonderfull later.
+A small heavy thing, that can be found on the ground, but that may reveal something wonderful later.
 
 ```
            
@@ -564,10 +564,10 @@ A small heavy thing, that can be found on the ground, but that may reveal someth
 - Active: Day
 - Can be found in:
    + Abandoned village
-- Evolves to [Raupathor](#raupathor_day) at level 20
+- Evolves to [Raupathor day](#raupathor_day) at level 20
 
 #### Corcos night
-A small heavy thing, that can be found on the ground, but that may reveal something wonderfull later.
+A small heavy thing, that can be found on the ground, but that may reveal something wonderful later.
 
 ```
            
@@ -591,7 +591,7 @@ A small heavy thing, that can be found on the ground, but that may reveal someth
 - Active: Night
 - Can be found in:
    + Abandoned village
-- Evolves to [Raupathor](#raupathor_night) at level 20
+- Evolves to [Raupathor night](#raupathor_night) at level 20
 
 #### Dicki
 A little what ever, that sticks out of the ground.

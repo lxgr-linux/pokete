@@ -4,6 +4,7 @@ import scrap_engine as se
 import pokete_classes.game_map as gm
 from .classes import OutP
 
+
 class EvoMap(gm.GameMap):
     """Map for evolutions to take place on
     ARGS:

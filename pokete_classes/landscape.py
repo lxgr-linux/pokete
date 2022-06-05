@@ -22,20 +22,20 @@ class HighGrass(se.Object):
                     or timer.time.normalized > 1320)
         pokes = {i: p_data.pokes[i]
                  for i in self.arg_proto["pokes"]
-                    if (n_a := p_data.pokes[i].get("night_active", None)) is None
-                       or (not n_a and not is_night)
-                       or (n_a and is_night)}
+                 if (n_a := p_data.pokes[i].get("night_active", None)) is None
+                 or (not n_a and not is_night)
+                 or (n_a and is_night)}
         if random.randint(0, 8) == 0:
             fm.fight(Poke("__fallback__", 0)
                      if len([poke for poke in self.figure.pokes[:6]
                              if poke.hp > 0]) == 0
                      else
                      [poke for poke in self.figure.pokes[:6] if poke.hp > 0][0],
-                      Poke(random.choices(list(pokes),
-                                          weights=[i["rarity"] for _, i in
-                                                   pokes.items()])[0],
-                           random.choices(list(range(self.arg_proto["minlvl"],
-                                                     self.arg_proto["maxlvl"])))[
+                     Poke(random.choices(list(pokes),
+                                         weights=[i["rarity"] for _, i in
+                                                  pokes.items()])[0],
+                          random.choices(list(range(self.arg_proto["minlvl"],
+                                                    self.arg_proto["maxlvl"])))[
                               0],
                           player=False, shiny=(random.randint(0, 500) == 0)))
             check_walk_back(self.figure)
@@ -65,9 +65,9 @@ class Meadow(se.Text):
 
     @classmethod
     def moving_grass(cls, objs):
-        """Grass animation
+        """Animation for moving grass
         ARGS:
-            objs: The grass objects this will happen for"""
+            objs: List of Highgrass objects this is done for"""
         if cls.curr_tick < cls.max_tick:
             cls.curr_tick += 1
             return

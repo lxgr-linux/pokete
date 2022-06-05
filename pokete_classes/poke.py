@@ -181,6 +181,10 @@ can't have more than 4 attacks!"
                 self.enem = enem
             weather = fightmap.figure.map.weather
             w_eff = 1
+            random_factor = random.choices([0, 0.75, 1, 1.26],
+                                           weights=[attack.miss_chance
+                                                    + self.miss_chance,
+                                                    1, 1, 1], k=1)[0]
             if weather is not None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
@@ -192,18 +196,12 @@ can't have more than 4 attacks!"
             n_hp = round((self.atc
                           * attack.factor
                           / (enem.defense if enem.defense >= 1 else 1))
-                         * random.choices([0, 0.75, 1, 1.26],
-                                          weights=[attack.miss_chance
-                                                   + self.miss_chance,
-                                                   1, 1, 1],
-                                          k=1)[0] * eff)
+                         * random_factor * eff)
             eff_text = {
                 eff < 1: "\nThat was not effective! ",
                 eff > 1: "\nThat was very effective! ",
                 eff == 1 or n_hp == 0: "",
-                eff == 0 or n_hp == 0 and attack.factor != 0: \
-                        f"{self.name} missed!"
-            }[True]
+                random_factor == 0: f"{self.name} missed!"}[True]
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
             time.sleep(0.4)
@@ -286,7 +284,7 @@ can't have more than 4 attacks!"
 def upgrade_by_one_lvl(poke, figure, _map):
     """Upgrades a Pokete by exactly one level, this will only be used by treats
     ARGS:
-        poke: The pokete, taht will be upgraded
+        poke: The pokete, that will be upgraded
         figure: The figure object the Pokete belongs to
         _map: The map the upgrade happens on"""
     poke.add_xp((poke.lvl()+1)**2-1 - ((poke.lvl())**2-1))
