@@ -93,7 +93,8 @@ class Detail(Informer):
         self.type_label = se.Text(&#34;Type:&#34;)
         self.initiative_label = se.Text(&#34;Initiative:&#34;)
         self.exit_label = se.Text(&#34;1: Exit&#34;)
-        self.ability_label = se.Text(&#34;2: Use ability&#34;)
+        self.nature_label = se.Text(&#34;2: Nature&#34;)
+        self.ability_label = se.Text(&#34;3: Use ability&#34;)
         self.line_sep1 = se.Square(&#34;-&#34;, self.map.width - 2, 1, state=&#34;float&#34;)
         self.line_sep2 = se.Square(&#34;-&#34;, self.map.width - 2, 1, state=&#34;float&#34;)
         self.line_middle = se.Square(&#34;|&#34;, 1, 10, state=&#34;float&#34;)
@@ -105,7 +106,8 @@ class Detail(Informer):
         self.type_label.add(self.map, 36, 5)
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height - 1)
-        self.ability_label.add(self.map, 9, self.map.height - 1)
+        self.nature_label.add(self.map, 9, self.map.height - 1)
+        self.ability_label.add(self.map, 20, self.map.height - 1)
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
@@ -124,7 +126,7 @@ class Detail(Informer):
             self.world_actions_label.rechar(&#34;Abilities:&#34;
                                             + &#34; &#34;.join([i.name
                                                         for i in abb_obs]))
-            self.ability_label.rechar(&#34;2: Use ability&#34;)
+            self.ability_label.rechar(&#34;3: Use ability&#34;)
         else:
             self.world_actions_label.rechar(&#34;&#34;)
             self.ability_label.rechar(&#34;&#34;)
@@ -161,7 +163,7 @@ class Detail(Informer):
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif _ev.get() == &#34;&#39;2&#39;&#34; and abb_obs != [] and abb:
+            elif _ev.get() == &#34;&#39;3&#39;&#34; and abb_obs != [] and abb:
                 with ChooseBox(len(abb_obs) + 2, 25, name=&#34;Abilities&#34;,
                                c_obs=[se.Text(i.name)
                                       for i in abb_obs]).center_add(self.map)\
@@ -179,6 +181,9 @@ class Detail(Informer):
                             _ev.clear()
                             break
                         std_loop(False)
+            elif _ev.get() == &#34;&#39;2&#39;&#34;:
+                _ev.clear()
+                poke.nature.info(self.map)
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:
@@ -248,7 +253,8 @@ if __name__ == &#34;__main__&#34;:
         self.type_label = se.Text(&#34;Type:&#34;)
         self.initiative_label = se.Text(&#34;Initiative:&#34;)
         self.exit_label = se.Text(&#34;1: Exit&#34;)
-        self.ability_label = se.Text(&#34;2: Use ability&#34;)
+        self.nature_label = se.Text(&#34;2: Nature&#34;)
+        self.ability_label = se.Text(&#34;3: Use ability&#34;)
         self.line_sep1 = se.Square(&#34;-&#34;, self.map.width - 2, 1, state=&#34;float&#34;)
         self.line_sep2 = se.Square(&#34;-&#34;, self.map.width - 2, 1, state=&#34;float&#34;)
         self.line_middle = se.Square(&#34;|&#34;, 1, 10, state=&#34;float&#34;)
@@ -260,7 +266,8 @@ if __name__ == &#34;__main__&#34;:
         self.type_label.add(self.map, 36, 5)
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height - 1)
-        self.ability_label.add(self.map, 9, self.map.height - 1)
+        self.nature_label.add(self.map, 9, self.map.height - 1)
+        self.ability_label.add(self.map, 20, self.map.height - 1)
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
@@ -279,7 +286,7 @@ if __name__ == &#34;__main__&#34;:
             self.world_actions_label.rechar(&#34;Abilities:&#34;
                                             + &#34; &#34;.join([i.name
                                                         for i in abb_obs]))
-            self.ability_label.rechar(&#34;2: Use ability&#34;)
+            self.ability_label.rechar(&#34;3: Use ability&#34;)
         else:
             self.world_actions_label.rechar(&#34;&#34;)
             self.ability_label.rechar(&#34;&#34;)
@@ -316,7 +323,7 @@ if __name__ == &#34;__main__&#34;:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif _ev.get() == &#34;&#39;2&#39;&#34; and abb_obs != [] and abb:
+            elif _ev.get() == &#34;&#39;3&#39;&#34; and abb_obs != [] and abb:
                 with ChooseBox(len(abb_obs) + 2, 25, name=&#34;Abilities&#34;,
                                c_obs=[se.Text(i.name)
                                       for i in abb_obs]).center_add(self.map)\
@@ -334,6 +341,9 @@ if __name__ == &#34;__main__&#34;:
                             _ev.clear()
                             break
                         std_loop(False)
+            elif _ev.get() == &#34;&#39;2&#39;&#34;:
+                _ev.clear()
+                poke.nature.info(self.map)
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:

@@ -45,6 +45,7 @@ from .moves import Moves
 from .types import types
 from .effects import effects
 from .learnattack import LearnAttack
+from .nature import PokeNature
 
 
 class Poke:
@@ -58,7 +59,9 @@ class Poke:
         shiny: Bool whether or not the Poke is shiny (is extra strong)&#34;&#34;&#34;
 
     def __init__(self, poke, xp, _hp=&#34;SKIP&#34;, _ap=None, _attacks=None,
-                 _effects=None, player=True, shiny=False):
+                 _effects=None, player=True, shiny=False, nature=None):
+        self.nature = PokeNature.random() if nature is None \
+                        else PokeNature.from_dict(nature)
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
@@ -145,8 +148,8 @@ can&#39;t have more than 4 attacks!&#34;
     def set_vars(self):
         &#34;&#34;&#34;Updates/sets some vars&#34;&#34;&#34;
         for name in [&#34;atc&#34;, &#34;defense&#34;, &#34;initiative&#34;]:
-            setattr(self, name, self.lvl() + self.inf[name]
-                    + (2 if self.shiny else 0))
+            setattr(self, name, round((self.lvl() + self.inf[name]
+                    + (2 if self.shiny else 0)) * self.nature.get_value(name)))
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
@@ -157,7 +160,8 @@ can&#39;t have more than 4 attacks!&#34;
                 &#34;ap&#34;: [atc.ap for atc in self.attack_obs],
                 &#34;effects&#34;: [eff.c_name for eff in self.effects],
                 &#34;attacks&#34;: self.attacks,
-                &#34;shiny&#34;: self.shiny}
+                &#34;shiny&#34;: self.shiny,
+                &#34;nature&#34;: self.nature.dict()}
 
     def set_ap(self, aps):
         &#34;&#34;&#34;Sets attack aps from a list
@@ -301,9 +305,9 @@ can&#39;t have more than 4 attacks!&#34;
     @classmethod
     def from_dict(cls, _dict):
         &#34;&#34;&#34;Assembles a Pokete from _dict&#34;&#34;&#34;
-        return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;],  _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
+        return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;], _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
                    _dict.get(&#34;attacks&#34;, None), _dict.get(&#34;effects&#34;, []),
-                   shiny=_dict.get(&#34;shiny&#34;, False))
+                   shiny=_dict.get(&#34;shiny&#34;, False), nature=_dict.get(&#34;nature&#34;))
 
 
 def upgrade_by_one_lvl(poke, figure, _map):
@@ -362,7 +366,7 @@ def upgrade_by_one_lvl(poke, figure, _map):
 <dl>
 <dt id="pokete_classes.poke.Poke"><code class="flex name class">
 <span>class <span class="ident">Poke</span></span>
-<span>(</span><span>poke, xp, player=True, shiny=False)</span>
+<span>(</span><span>poke, xp, player=True, shiny=False, nature=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The Pokete class</p>
@@ -396,7 +400,9 @@ def upgrade_by_one_lvl(poke, figure, _map):
         shiny: Bool whether or not the Poke is shiny (is extra strong)&#34;&#34;&#34;
 
     def __init__(self, poke, xp, _hp=&#34;SKIP&#34;, _ap=None, _attacks=None,
-                 _effects=None, player=True, shiny=False):
+                 _effects=None, player=True, shiny=False, nature=None):
+        self.nature = PokeNature.random() if nature is None \
+                        else PokeNature.from_dict(nature)
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
@@ -483,8 +489,8 @@ can&#39;t have more than 4 attacks!&#34;
     def set_vars(self):
         &#34;&#34;&#34;Updates/sets some vars&#34;&#34;&#34;
         for name in [&#34;atc&#34;, &#34;defense&#34;, &#34;initiative&#34;]:
-            setattr(self, name, self.lvl() + self.inf[name]
-                    + (2 if self.shiny else 0))
+            setattr(self, name, round((self.lvl() + self.inf[name]
+                    + (2 if self.shiny else 0)) * self.nature.get_value(name)))
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
@@ -495,7 +501,8 @@ can&#39;t have more than 4 attacks!&#34;
                 &#34;ap&#34;: [atc.ap for atc in self.attack_obs],
                 &#34;effects&#34;: [eff.c_name for eff in self.effects],
                 &#34;attacks&#34;: self.attacks,
-                &#34;shiny&#34;: self.shiny}
+                &#34;shiny&#34;: self.shiny,
+                &#34;nature&#34;: self.nature.dict()}
 
     def set_ap(self, aps):
         &#34;&#34;&#34;Sets attack aps from a list
@@ -639,9 +646,9 @@ can&#39;t have more than 4 attacks!&#34;
     @classmethod
     def from_dict(cls, _dict):
         &#34;&#34;&#34;Assembles a Pokete from _dict&#34;&#34;&#34;
-        return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;],  _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
+        return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;], _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
                    _dict.get(&#34;attacks&#34;, None), _dict.get(&#34;effects&#34;, []),
-                   shiny=_dict.get(&#34;shiny&#34;, False))</code></pre>
+                   shiny=_dict.get(&#34;shiny&#34;, False), nature=_dict.get(&#34;nature&#34;))</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
@@ -657,9 +664,9 @@ can&#39;t have more than 4 attacks!&#34;
 <pre><code class="python">@classmethod
 def from_dict(cls, _dict):
     &#34;&#34;&#34;Assembles a Pokete from _dict&#34;&#34;&#34;
-    return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;],  _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
+    return cls(_dict[&#34;name&#34;], _dict[&#34;xp&#34;], _dict[&#34;hp&#34;], _dict[&#34;ap&#34;],
                _dict.get(&#34;attacks&#34;, None), _dict.get(&#34;effects&#34;, []),
-               shiny=_dict.get(&#34;shiny&#34;, False))</code></pre>
+               shiny=_dict.get(&#34;shiny&#34;, False), nature=_dict.get(&#34;nature&#34;))</code></pre>
 </details>
 </dd>
 </dl>
@@ -798,7 +805,8 @@ A dict with all information about the Pokete</p></div>
             &#34;ap&#34;: [atc.ap for atc in self.attack_obs],
             &#34;effects&#34;: [eff.c_name for eff in self.effects],
             &#34;attacks&#34;: self.attacks,
-            &#34;shiny&#34;: self.shiny}</code></pre>
+            &#34;shiny&#34;: self.shiny,
+            &#34;nature&#34;: self.nature.dict()}</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.poke.Poke.evolve"><code class="name flex">
@@ -956,8 +964,8 @@ Current level</p></div>
 <pre><code class="python">def set_vars(self):
     &#34;&#34;&#34;Updates/sets some vars&#34;&#34;&#34;
     for name in [&#34;atc&#34;, &#34;defense&#34;, &#34;initiative&#34;]:
-        setattr(self, name, self.lvl() + self.inf[name]
-                + (2 if self.shiny else 0))
+        setattr(self, name, round((self.lvl() + self.inf[name]
+                + (2 if self.shiny else 0)) * self.nature.get_value(name)))
     for atc in self.attack_obs:
         atc.set_ap(atc.max_ap)</code></pre>
 </details>

@@ -37,6 +37,7 @@ from .loops import std_loop, easy_exit_loop
 from .poke import Poke
 from .event import _ev
 from .color import Color
+from .nature import PokeNature
 from .ui_elements import ChooseBox, Box
 
 
@@ -73,6 +74,8 @@ class Dex:
             poke: Pokes identifier&#34;&#34;&#34;
         _ev.clear()
         poke = Poke(poke, 0)
+        poke.nature = PokeNature.dummy()
+        poke.set_vars()
         active = {
             True: (&#34;Night&#34;, Color.thicc + Color.blue),
             False: (&#34;Day&#34;, Color.thicc + Color.yellow),
@@ -203,6 +206,8 @@ Active: &#34;&#34;&#34;) + se.Text(active[0], esccode=active[1])
             poke: Pokes identifier&#34;&#34;&#34;
         _ev.clear()
         poke = Poke(poke, 0)
+        poke.nature = PokeNature.dummy()
+        poke.set_vars()
         active = {
             True: (&#34;Night&#34;, Color.thicc + Color.blue),
             False: (&#34;Day&#34;, Color.thicc + Color.yellow),
@@ -312,6 +317,8 @@ Active: &#34;&#34;&#34;) + se.Text(active[0], esccode=active[1])
             poke: Pokes identifier&#34;&#34;&#34;
         _ev.clear()
         poke = Poke(poke, 0)
+        poke.nature = PokeNature.dummy()
+        poke.set_vars()
         active = {
             True: (&#34;Night&#34;, Color.thicc + Color.blue),
             False: (&#34;Day&#34;, Color.thicc + Color.yellow),
