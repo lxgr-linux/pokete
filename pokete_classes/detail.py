@@ -64,7 +64,8 @@ class Detail(Informer):
         self.type_label = se.Text("Type:")
         self.initiative_label = se.Text("Initiative:")
         self.exit_label = se.Text("1: Exit")
-        self.ability_label = se.Text("2: Use ability")
+        self.nature_label = se.Text("2: Nature")
+        self.ability_label = se.Text("3: Use ability")
         self.line_sep1 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_middle = se.Square("|", 1, 10, state="float")
@@ -76,7 +77,8 @@ class Detail(Informer):
         self.type_label.add(self.map, 36, 5)
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height - 1)
-        self.ability_label.add(self.map, 9, self.map.height - 1)
+        self.nature_label.add(self.map, 9, self.map.height - 1)
+        self.ability_label.add(self.map, 20, self.map.height - 1)
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
@@ -95,7 +97,7 @@ class Detail(Informer):
             self.world_actions_label.rechar("Abilities:"
                                             + " ".join([i.name
                                                         for i in abb_obs]))
-            self.ability_label.rechar("2: Use ability")
+            self.ability_label.rechar("3: Use ability")
         else:
             self.world_actions_label.rechar("")
             self.ability_label.rechar("")
@@ -132,7 +134,7 @@ class Detail(Informer):
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif _ev.get() == "'2'" and abb_obs != [] and abb:
+            elif _ev.get() == "'3'" and abb_obs != [] and abb:
                 with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
                                c_obs=[se.Text(i.name)
                                       for i in abb_obs]).center_add(self.map)\
@@ -150,6 +152,9 @@ class Detail(Informer):
                             _ev.clear()
                             break
                         std_loop(False)
+            elif _ev.get() == "'2'":
+                _ev.clear()
+                poke.nature.info(self.map)
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:

@@ -15,6 +15,7 @@ from .mapstations import *
 from .maps import *
 from .achievements import *
 from .weather import *
+from .natures import *
 
 
 class ValidationError(Exception):

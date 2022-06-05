@@ -16,6 +16,7 @@ from .moves import Moves
 from .types import types
 from .effects import effects
 from .learnattack import LearnAttack
+from .nature import PokeNature
 
 
 class Poke:
@@ -29,7 +30,9 @@ class Poke:
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
     def __init__(self, poke, xp, _hp="SKIP", _ap=None, _attacks=None,
-                 _effects=None, player=True, shiny=False):
+                 _effects=None, player=True, shiny=False, nature=None):
+        self.nature = PokeNature.random() if nature is None \
+                        else PokeNature.from_dict(nature)
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
@@ -116,8 +119,8 @@ can't have more than 4 attacks!"
     def set_vars(self):
         """Updates/sets some vars"""
         for name in ["atc", "defense", "initiative"]:
-            setattr(self, name, self.lvl() + self.inf[name]
-                    + (2 if self.shiny else 0))
+            setattr(self, name, round((self.lvl() + self.inf[name]
+                    + (2 if self.shiny else 0)) * self.nature.get_value(name)))
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
@@ -128,7 +131,8 @@ can't have more than 4 attacks!"
                 "ap": [atc.ap for atc in self.attack_obs],
                 "effects": [eff.c_name for eff in self.effects],
                 "attacks": self.attacks,
-                "shiny": self.shiny}
+                "shiny": self.shiny,
+                "nature": self.nature.dict()}
 
     def set_ap(self, aps):
         """Sets attack aps from a list
@@ -272,9 +276,9 @@ can't have more than 4 attacks!"
     @classmethod
     def from_dict(cls, _dict):
         """Assembles a Pokete from _dict"""
-        return cls(_dict["name"], _dict["xp"],  _dict["hp"], _dict["ap"],
+        return cls(_dict["name"], _dict["xp"], _dict["hp"], _dict["ap"],
                    _dict.get("attacks", None), _dict.get("effects", []),
-                   shiny=_dict.get("shiny", False))
+                   shiny=_dict.get("shiny", False), nature=_dict.get("nature"))
 
 
 def upgrade_by_one_lvl(poke, figure, _map):
