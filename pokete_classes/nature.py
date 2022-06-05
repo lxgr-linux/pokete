@@ -2,12 +2,13 @@
 of their stats"""
 
 import random
-import logging
 import scrap_engine as se
+import pokete_data as p_data
 from pokete_general_use_fns import liner
 from .ui_elements import LabelBox
 from .color import Color
 from .loops import easy_exit_loop
+
 
 class Nature:
     """The Nature class itself holds basic information about the Nature,
@@ -18,9 +19,12 @@ class Nature:
         _def: The defense change
         init: The initiative change"""
 
-    def __init__(self, name, esc="", atc=1, _def=1, init=1):
+    def __init__(self, name, esc=None, atc=1, _def=1, init=1):
         self.name = name
-        self.esccode = esc
+        if esc is not None:
+            self.esccode = getattr(Color, esc)
+        else:
+            self.esccode = ""
         self.atc = atc
         self.defense = _def
         self.initiative = init
@@ -30,26 +34,9 @@ class PokeNature:
     """Holds specific information about a Pokete
     ARGS:
         nature: The Nature of the Pokete
-        grade: The Natures grade, 1 or 2"""
+        grade: The Nature's grade, 1 or 2"""
 
-    natures = {name: Nature(name, **_dict) for name, _dict in {
-        "brave": {
-            "esc": Color.blue,
-            "atc": 1.1,
-            "_def": 0.9
-        },
-        "relaxed": {
-            "esc": Color.green,
-            "atc": 0.9,
-            "_def": 1.1,
-        },
-        "hasty": {
-            "esc": Color.red,
-            "_def": 0.9,
-            "init": 1.1
-        },
-        "normal": {}
-    }.items()}
+    natures = {name: Nature(name, **_dict) for name, _dict in p_data.natures.items()}
 
     def __init__(self, nature, grade):
         self.nature = nature
@@ -57,14 +44,14 @@ class PokeNature:
         self.info = NatureInfo(self)
 
     def get_value(self, name):
-        """Gets one attribute value by
+        """Gets one attribute value by its name
         ARGS:
-            name"""
+            name: The name of the attribute"""
         return getattr(self.nature, name)**self.grade
 
     def dict(self):
         """RETURNS:
-            A dict containing inforamtion to reconstruct the object"""
+            A dict containing information to reconstruct the object"""
         return {"nature": self.nature.name, "grade": self.grade}
 
     @classmethod
@@ -94,10 +81,10 @@ class NatureInfo(LabelBox):
         defense = self.get_amount(p_n.nature.defense)
         init = self.get_amount(p_n.nature.initiative)
         text = se.Text(f"Nature: {'very ' if p_n.grade == 2 else ''}") \
-               + se.Text(p_n.nature.name, esccode=Color.thicc
-                                                  + p_n.nature.esccode) \
-               + se.Text(liner(f"\n\nThat  means it has {atc} attack, \
-{defense} defense and {init} initiative then normal Poketes \
+            + se.Text(p_n.nature.name, esccode=Color.thicc
+                      + p_n.nature.esccode) \
+            + se.Text(liner(f"\n\nThat means it has {atc} attack, \
+{defense} defense and {init} initiative points more than normal Poketes \
 of its' kind.", 40, pre=""))
         super().__init__(text, name="Nature", info="q:close")
 
