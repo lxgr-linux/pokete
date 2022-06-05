@@ -5,8 +5,7 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
-                           deck as deck
+from pokete_classes import animations, ob_maps as obmp, movemap as mvp, deck
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
@@ -15,6 +14,7 @@ from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
 from .event import _ev
+
 
 class FightMap(se.Map):
     """Wrapper for se.Map
@@ -318,23 +318,25 @@ used {enemy.name} against you!')
                 obj.attack(attack, enem, self)
             self.show()
             time.sleep(0.5)
-            do_break = False
+            winner = None
             if any(i.hp <= 0 for i in players):
                 winner = [i for i in players if i.hp > 0][0]
-                do_break = True
             elif all(i.ap == 0 for i in obj.attack_obs):
                 winner = [i for i in players if i != obj][0]
                 time.sleep(2)
                 self.outp.outp(f"{obj.ext_name} has used all its' attacks!")
                 time.sleep(3)
-                do_break = True
-            if do_break:
-                if obj.identifier != "__fallback__" and not winner.player \
-                        and any(p.hp > 0 for p in figure.pokes[:6]) \
-                        and ask_bool(self, "Do you want to choose anothoer \
-Pokete?"):
+            if winner is not None:
+                if (obj.identifier != "__fallback__"
+                        and not winner.player
+                        and any(p.hp > 0 for p in figure.pokes[:6])
+                        and ask_bool(self,
+                                     "Do you want to choose another Pokete?")):
+                    old_player = player
                     players, player = self.choose_poke(figure, players,
                                                        player, enemy)
+                    if old_player == player:
+                        break
                 else:
                     break
             obj = [i for i in players if i != obj][-1]

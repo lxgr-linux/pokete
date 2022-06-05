@@ -304,7 +304,8 @@ trainers = {
     "playmap_39": [{
         "poke": ("megapois", 2000),
         "args": ("Angela the gardener", "She",
-                 [" < Have you allready fought our lead trainer?", " < If so, look at cool Pokete!"],
+                 [" < Have you already fought our lead trainer?",
+                  " < If so, look at cool Pokete!"],
                  [" < You're a loooser!"],
                  [" < Cool, huh?"], 8, 37)
         },
@@ -320,38 +321,44 @@ trainers = {
     "playmap_41": [{
         "poke": ("wheeto", 2000),
         "args": ("Daniel the farmer", "He",
-                 [" < Howdi mate!", " < How are ya doin?", " < My Pokete is one of its' kind", " < The good stuff!"],
+                 [" < Howdi mate!", " < How ya doin?",
+                  " < My Pokete is one of its kind",
+                  " < The good stuff!"],
                  [" < Uhhh yeah!", " < The good stuff...!"],
                  [" < I guess, it's not the good stuff"], 17, 4)
         },
     ],
-    "playmap_46": [{
-        "poke": ("wheeto", 2000),
-        "args": ("Martin the farmer", "He",
-                 [" < Howdi mate!", " < i will be your first challenger!"],
-                 [" < You'll do better next time."],
-                 [" < I wish you the beste luck"], 19, 7)
+    "playmap_46": [
+        {
+            "poke": ("wheeto", 2000),
+            "args": ("Martin the farmer", "He",
+                     [" < Howdi mate!", " < i will be your first challenger!"],
+                     [" < You'll do better next time."],
+                     [" < I wish you the beste luck"], 19, 7)
         },
-    {
-        "poke": ("dicko", 2100),
-        "args": ("The undetermined", "They",
-                 [" < I see your not as bad as we thought!"],
-                 [" < You'll do better next time."],
-                 [" < I wish you the beste luck"], 16, 7)
+        {
+            "poke": ("dicko", 2100),
+            "args": ("The undetermined", "They",
+                     [" < I see you're not as bad as we thought!"],
+                     [" < You'll do better next time."],
+                     [" < I wish you the beste luck"], 16, 7)
         },
-    {
-        "poke": ("megapois", 2200),
-        "args": ("Daniela the gardener", "She",
-                 [" < Look at my newest creation!"],
-                 [" < You'll do better next time."],
-                 [" < I wish you the beste luck"], 13, 7)
+        {
+            "poke": ("megapois", 2200),
+            "args": ("Daniela the gardener", "She",
+                     [" < Look at my newest creation!"],
+                     [" < You'll do better next time."],
+                     [" < I wish you the beste luck"], 13, 7)
         },
-    {
-        "poke": ("mowcow", 2300),
-        "args": ("Sebastian the leader", "He",
-                 [" < So, I'll be your last apponent.", " < Let's have a fair fight!"],
-                 [" < You'll do better next time."],
-                 [" < You're quite a good trainer.", " < Hopefully you can beat all other trainers, which may step into your way!"], 10, 7)
+        {
+            "poke": ("mowcow", 2300),
+            "args": ("Sebastian the leader", "He",
+                     [" < So, I'll be your last opponent.",
+                      " < Let's have a fair fight!"],
+                     [" < You'll do better next time."],
+                     [" < You're quite a good trainer.",
+                      " < Hopefully you can beat all other trainers, which may "
+                      "step into your way!"], 10, 7)
         },
     ],
 }

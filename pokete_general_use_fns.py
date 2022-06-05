@@ -59,9 +59,10 @@ def print_help(path):
     print(f"""Pokete {release.CODENAME} v{release.VERSION}
 Usage: {path} (<options>)
 Options:
-    --log     : Enables logging
-    --help    : Shows this help
-    --no_mods : Disables mods
+    --log          : Enables logging
+    --help         : Shows this help
+    --no_mods      : Disables mods
+    --force-pynput : Forces the usage of pynput as a keyboard input backend
 
 Homepage: https://github.com/lxgr-linux/pokete
 
@@ -70,7 +71,7 @@ Feel free to contribute.
 See README.md for more information.
 This software is licensed under the GPLv3, you should have gotten a
 copy of it alongside this software.
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2021""")
+Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2022""")
 
 
 def parse_args(args):
@@ -81,11 +82,14 @@ def parse_args(args):
         Tuple of do_logging and load_mods"""
     do_logging = False
     load_mods = True
+    force_pynput = False
     for arg in args[1:]:
         if arg == "--log":
             do_logging = True
         elif arg == "--no_mods":
             load_mods = False
+        elif arg == "--force_pynput":
+            force_pynput = True
         elif arg == "--help":
             print_help(args[0])
             sys.exit(0)
@@ -93,7 +97,7 @@ def parse_args(args):
             print(f":: Error: '{arg}' is not a valid option! See '--help' for \
 options.")
             sys.exit(1)
-    return do_logging, load_mods
+    return do_logging, load_mods, force_pynput
 
 
 if __name__ == "__main__":

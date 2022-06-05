@@ -1,4 +1,4 @@
-"""Contains Classes to manage ingame time"""
+"""Contains Classes to manage in-game time"""
 
 import logging
 import time as time_mod
@@ -68,24 +68,25 @@ DOUBLE_POINT = """
 
  ##"""
 
+
 class Time:
-    """Timer class to keep track of ingame time
+    """Timer class to keep track of in-game time
     ARGS:
         init_time: The initial time used for the timer"""
 
     def __init__(self, init_time=0):
-        self.time = init_time  # time in ingame minutes
+        self.time = init_time  # time in in-game minutes
         self.last_input = init_time
 
-    def formated(self):
-        """Returns the ingame time in a formated manner"""
+    def formatted(self):
+        """Returns the in-game time in a formatted manner"""
         _t = self.normalized
         hours = int(_t / 60)
         minutes = _t % 60
         return f"{hours:02}:{minutes:02}"
 
     def emit_input(self):
-        """Sets the las tinput time to the current time"""
+        """Sets the last input time to the current time"""
         self.last_input = self.time
 
     @property
@@ -139,7 +140,7 @@ class Clock(Box):
         if letter_obs is None:
             letter_obs = []
         self.__rem_obs(letter_obs)
-        ftime = self.time.formated().replace(":", "")
+        ftime = self.time.formatted().replace(":", "")
         logging.info(ftime)
         letter_obs = [se.Text(letters[int(letter)]) for letter in ftime]
         letter_obs.insert(2, se.Text(DOUBLE_POINT if d_p else ""))

@@ -215,7 +215,7 @@ In the following all Poketes with their attributes are displayed.
         if (evolve_pokete := pokes[poke]["evolve_poke"]) == "":
             evolve_txt = "- Does not evolve\n"
         else:
-            evolve_txt = f"""- Evolves to [{pokes[evolve_pokete]['name']}]({f'./{pokes[evolve_pokete]["types"][0]}'
+            evolve_txt = f"""- Evolves to [{Wiki.get_name(evolve_pokete)}]({f'./{pokes[evolve_pokete]["types"][0]}'
             if multi_page else ""}#{evolve_pokete}) at level {pokes[poke]['evolve_lvl']}"""
 
         md_attacks = "\n   + " + "\n   + ".join(f"""[{attacks[atc]["name"]}]({
