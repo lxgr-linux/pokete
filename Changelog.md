@@ -1,8 +1,43 @@
 # Changelog
 
-## [0.6.4] - 2022-04-26
+## [0.7.0] - 2022-06-06
 
-Test release
+### Under the hood
+- Massive code reorganisation
+- Added `PeriodicEventManager`, introducing a centralized approach to handling periodically occurring events
+- Enabled pipenv support
+
+### Game design and behaviour
+- After all Poketes are dead, players are now transported back to the last visited Pokete center
+- Multiple Poketes in a fight are now automatically possible
+- NPCs are way smarter now and support multi-answer chats
+- Added achievements visible via a submenu
+- Added commandline options
+- Several new Poketes have been added:
+	+ [Voglus](wiki.md#voglus)
+	+ [Ratatat](wiki.md#ratatat)
+	+ [Crabbat](wiki.md#crabbat)
+	+ [Rustacean](wiki.md#rustacean)
+	+ [Saugh](wiki.md#saugh)
+	+ [Corcos day](wiki.md#corcos-day)
+	+ [Corcos night](wiki.md#corcos-night)
+	+ [Raupathor day](wiki.md#raupathor-day)
+	+ [Raupathor night](wiki.md#raupathor-night)
+	+ [Mothor](wiki.md#mothor)
+- Also the maps "Agrawos" and "Sunny Beach" have been added
+- Weather influencing effectivities has been added
+- Added notifications
+- Ingame time was added:
+	+ Day and Night active Poketes
+	+ A clock
+	+ Time stops after a certain period of idling
+- Treats and the Pokete-Care where added to make leveling easier
+- The game is now available as an AppImage
+- The newly added natures now influence a Poketes stats on an individual basis
+
+[This](https://lxgr-linux.github.io/posts/pokete_1/) article summarises the changes further.
+
+Again very special thanks to @MaFeLP for supporting me!
 
 ## [0.6.0] - 2021-11-09
 
