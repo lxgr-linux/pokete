@@ -4,10 +4,10 @@ import scrap_engine as se
 class GameMap(se.Map):
     """Wraps the se.Map class and adds a name attribute
     ARGS:
-        height: The maps height
-        width: The maps width
-        background: The maps background
-        name: The maps name"""
+        height: The map's height
+        width: The map's width
+        background: The map's background
+        name: The map's name"""
 
     def __init__(self, height, width, background=" ", name=""):
         super().__init__(height, width, background)
