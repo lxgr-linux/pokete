@@ -1,6 +1,7 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
 import scrap_engine as se
+import pokete_classes.game_map as gm
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
@@ -55,7 +56,7 @@ class Detail(Informer):
         width: Width of the map"""
 
     def __init__(self, height, width):
-        self.map = se.Map(height, width, " ")
+        self.map = gm.GameMap(height, width)
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state="float")

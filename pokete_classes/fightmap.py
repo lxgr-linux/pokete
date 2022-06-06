@@ -5,7 +5,8 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_classes import animations, ob_maps as obmp, movemap as mvp, deck
+from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
+                           deck, game_map as gm
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
@@ -16,15 +17,14 @@ from .settings import settings
 from .event import _ev
 
 
-class FightMap(se.Map):
-    """Wrapper for se.Map
+class FightMap(gm.GameMap):
+    """Wrapper for gm.GameMap
     ARGS:
         height: The height of the map
         width: The width of the map"""
 
     def __init__(self, height, width):
-        super().__init__(height, width, " ")
-        self.name = "fightmap"
+        super().__init__(height, width, name="fightmap")
         self.box = ChooseBox(6, 25, "Attacks", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
