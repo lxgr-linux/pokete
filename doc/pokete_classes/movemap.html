@@ -33,13 +33,14 @@ import time
 import scrap_engine as se
 from pokete_general_use_fns import liner
 import pokete_classes.ob_maps as obmp
+import pokete_classes.game_map as gm
 from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
 
 
-class Movemap(se.Submap):
+class Movemap(gm.GameSubmap):
     &#34;&#34;&#34;Movemap class to remove bad code
     ARGS:
         ob_maps: Dict that contains all PlayMaps
@@ -48,8 +49,7 @@ class Movemap(se.Submap):
 
     def __init__(self, height, width):
         super().__init__(obmp.ob_maps[&#34;playmap_1&#34;], 0, 0,
-                         height=height, width=width)
-        self.name = &#34;movemap&#34;
+                         height=height, width=width, name=&#34;movemap&#34;)
         self.name_label = se.Text(&#34;&#34;)
         self.balls_label = se.Text(&#34;&#34;)
         self.label_bg = se.Square(&#34; &#34;, self.width, 1, state=&#34;float&#34;)
@@ -177,7 +177,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Movemap(se.Submap):
+<pre><code class="python">class Movemap(gm.GameSubmap):
     &#34;&#34;&#34;Movemap class to remove bad code
     ARGS:
         ob_maps: Dict that contains all PlayMaps
@@ -186,8 +186,7 @@ if __name__ == &#34;__main__&#34;:
 
     def __init__(self, height, width):
         super().__init__(obmp.ob_maps[&#34;playmap_1&#34;], 0, 0,
-                         height=height, width=width)
-        self.name = &#34;movemap&#34;
+                         height=height, width=width, name=&#34;movemap&#34;)
         self.name_label = se.Text(&#34;&#34;)
         self.balls_label = se.Text(&#34;&#34;)
         self.label_bg = se.Square(&#34; &#34;, self.width, 1, state=&#34;float&#34;)
@@ -282,6 +281,7 @@ if __name__ == &#34;__main__&#34;:
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="pokete_classes.game_map.GameSubmap" href="game_map.html#pokete_classes.game_map.GameSubmap">GameSubmap</a></li>
 <li>scrap_engine.Submap</li>
 <li>scrap_engine.Map</li>
 </ul>

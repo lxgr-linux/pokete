@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pokete_classes.evomap API documentation</title>
-<meta name="description" content="Contains the map used for evolving" />
+<title>pokete_classes.game_map API documentation</title>
+<meta name="description" content="Map wrapper for compatibility purposes" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,34 +19,45 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pokete_classes.evomap</code></h1>
+<h1 class="title">Module <code>pokete_classes.game_map</code></h1>
 </header>
 <section id="section-intro">
-<p>Contains the map used for evolving</p>
+<p>Map wrapper for compatibility purposes</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;Contains the map used for evolving&#34;&#34;&#34;
+<pre><code class="python">&#34;&#34;&#34;Map wrapper for compatibility purposes&#34;&#34;&#34;
 
 import scrap_engine as se
-import pokete_classes.game_map as gm
-from .classes import OutP
 
 
-class EvoMap(gm.GameMap):
-    &#34;&#34;&#34;Map for evolutions to take place on
+class GameMap(se.Map):
+    &#34;&#34;&#34;Wraps the se.Map class and adds a name attribute
     ARGS:
-        height: The height of the map
-        width: The width of the map&#34;&#34;&#34;
+        height: The map&#39;s height
+        width: The map&#39;s width
+        background: The map&#39;s background
+        name: The map&#39;s name&#34;&#34;&#34;
 
-    def __init__(self, height, width):
-        super().__init__(height, width, name=&#34;evomap&#34;)
-        self.frame_small = se.Frame(height=4, width=width, state=&#34;float&#34;)
-        self.outp = OutP(&#34;&#34;, state=&#34;float&#34;)
-        # adding
-        self.frame_small.add(self, 0, self.height - 5)
-        self.outp.add(self, 1, self.height - 4)</code></pre>
+    def __init__(self, height, width, background=&#34; &#34;, name=&#34;&#34;):
+        super().__init__(height, width, background)
+        self.name = name
+
+
+class GameSubmap(se.Submap):
+    &#34;&#34;&#34;Wraps the se.Submap class and adds a name attribute
+    ARGS:
+        bmap: The map&#39;s parent map
+        x: The map&#39;s x coordinate on the parent map
+        y: The map&#39;s y coordinate on the parent map
+        height: The map&#39;s height
+        width: The map&#39;s width
+        name: The map&#39;s name&#34;&#34;&#34;
+
+    def __init__(self, bmap, x, y, height, width, name=&#34;&#34;):
+        super().__init__(bmap, x, y, height, width)
+        self.name = name</code></pre>
 </details>
 </section>
 <section>
@@ -58,41 +69,97 @@ class EvoMap(gm.GameMap):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pokete_classes.evomap.EvoMap"><code class="flex name class">
-<span>class <span class="ident">EvoMap</span></span>
-<span>(</span><span>height, width)</span>
+<dt id="pokete_classes.game_map.GameMap"><code class="flex name class">
+<span>class <span class="ident">GameMap</span></span>
+<span>(</span><span>height, width, background=' ', name='')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Map for evolutions to take place on</p>
+<div class="desc"><p>Wraps the se.Map class and adds a name attribute</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>height</code></strong></dt>
-<dd>The height of the map</dd>
+<dd>The map's height</dd>
 <dt><strong><code>width</code></strong></dt>
-<dd>The width of the map</dd>
+<dd>The map's width</dd>
+<dt><strong><code>background</code></strong></dt>
+<dd>The map's background</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The map's name</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class EvoMap(gm.GameMap):
-    &#34;&#34;&#34;Map for evolutions to take place on
+<pre><code class="python">class GameMap(se.Map):
+    &#34;&#34;&#34;Wraps the se.Map class and adds a name attribute
     ARGS:
-        height: The height of the map
-        width: The width of the map&#34;&#34;&#34;
+        height: The map&#39;s height
+        width: The map&#39;s width
+        background: The map&#39;s background
+        name: The map&#39;s name&#34;&#34;&#34;
 
-    def __init__(self, height, width):
-        super().__init__(height, width, name=&#34;evomap&#34;)
-        self.frame_small = se.Frame(height=4, width=width, state=&#34;float&#34;)
-        self.outp = OutP(&#34;&#34;, state=&#34;float&#34;)
-        # adding
-        self.frame_small.add(self, 0, self.height - 5)
-        self.outp.add(self, 1, self.height - 4)</code></pre>
+    def __init__(self, height, width, background=&#34; &#34;, name=&#34;&#34;):
+        super().__init__(height, width, background)
+        self.name = name</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="pokete_classes.game_map.GameMap" href="game_map.html#pokete_classes.game_map.GameMap">GameMap</a></li>
 <li>scrap_engine.Map</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.classes.PlayMap" href="classes.html#pokete_classes.classes.PlayMap">PlayMap</a></li>
+<li><a title="pokete_classes.evomap.EvoMap" href="evomap.html#pokete_classes.evomap.EvoMap">EvoMap</a></li>
+<li><a title="pokete_classes.fightmap.FightMap" href="fightmap.html#pokete_classes.fightmap.FightMap">FightMap</a></li>
+</ul>
+</dd>
+<dt id="pokete_classes.game_map.GameSubmap"><code class="flex name class">
+<span>class <span class="ident">GameSubmap</span></span>
+<span>(</span><span>bmap, x, y, height, width, name='')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Wraps the se.Submap class and adds a name attribute</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>bmap</code></strong></dt>
+<dd>The map's parent map</dd>
+<dt><strong><code>x</code></strong></dt>
+<dd>The map's x coordinate on the parent map</dd>
+<dt><strong><code>y</code></strong></dt>
+<dd>The map's y coordinate on the parent map</dd>
+<dt><strong><code>height</code></strong></dt>
+<dd>The map's height</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>The map's width</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The map's name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GameSubmap(se.Submap):
+    &#34;&#34;&#34;Wraps the se.Submap class and adds a name attribute
+    ARGS:
+        bmap: The map&#39;s parent map
+        x: The map&#39;s x coordinate on the parent map
+        y: The map&#39;s y coordinate on the parent map
+        height: The map&#39;s height
+        width: The map&#39;s width
+        name: The map&#39;s name&#34;&#34;&#34;
+
+    def __init__(self, bmap, x, y, height, width, name=&#34;&#34;):
+        super().__init__(bmap, x, y, height, width)
+        self.name = name</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>scrap_engine.Submap</li>
+<li>scrap_engine.Map</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.movemap.Movemap" href="movemap.html#pokete_classes.movemap.Movemap">Movemap</a></li>
 </ul>
 </dd>
 </dl>
@@ -112,7 +179,10 @@ class EvoMap(gm.GameMap):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pokete_classes.evomap.EvoMap" href="#pokete_classes.evomap.EvoMap">EvoMap</a></code></h4>
+<h4><code><a title="pokete_classes.game_map.GameMap" href="#pokete_classes.game_map.GameMap">GameMap</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pokete_classes.game_map.GameSubmap" href="#pokete_classes.game_map.GameSubmap">GameSubmap</a></code></h4>
 </li>
 </ul>
 </li>

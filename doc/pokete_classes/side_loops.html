@@ -31,6 +31,7 @@
 
 import os
 import scrap_engine as se
+import pokete_classes.game_map as gm
 from pokete_general_use_fns import liner
 from .loops import easy_exit_loop
 from .ui_elements import InfoBox, StdFrame
@@ -83,7 +84,7 @@ class ResizeScreen():
 
     def __init__(self):
         width, height = os.get_terminal_size()
-        self.map = se.Map(background=&#34; &#34;)
+        self.map = gm.GameMap(height, width)
         self.warning_label = se.Text(&#34;Minimum windowsize is 70x20&#34;)
         self.size_label = se.Text(f&#34;{width}x{height}&#34;)
         self.frame = StdFrame(height - 1, width)
@@ -117,9 +118,7 @@ class LoadingScreen():
 
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()
-        self.map = se.Map(background=&#34; &#34;, width=width, height=height - 1)
-        self.map.name = &#34;loading_screen&#34;  # Needed for compatibility with
-                                          # ask_bool
+        self.map = gm.GameMap(width=width, height=height - 1)
         se.Text(r&#34;&#34;&#34; _____      _        _
 |  __ \    | |      | |
 | |__) |__ | | _____| |_ ___
@@ -264,9 +263,7 @@ https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)</code><
 
     def __init__(self, ver, codename):
         width, height = os.get_terminal_size()
-        self.map = se.Map(background=&#34; &#34;, width=width, height=height - 1)
-        self.map.name = &#34;loading_screen&#34;  # Needed for compatibility with
-                                          # ask_bool
+        self.map = gm.GameMap(width=width, height=height - 1)
         se.Text(r&#34;&#34;&#34; _____      _        _
 |  __ \    | |      | |
 | |__) |__ | | _____| |_ ___
@@ -302,7 +299,7 @@ https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)</code><
 
     def __init__(self):
         width, height = os.get_terminal_size()
-        self.map = se.Map(background=&#34; &#34;)
+        self.map = gm.GameMap(height, width)
         self.warning_label = se.Text(&#34;Minimum windowsize is 70x20&#34;)
         self.size_label = se.Text(f&#34;{width}x{height}&#34;)
         self.frame = StdFrame(height - 1, width)

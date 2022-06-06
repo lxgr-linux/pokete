@@ -30,10 +30,11 @@
 <pre><code class="python">&#34;&#34;&#34;Contains just some small classes&#34;&#34;&#34;
 
 import scrap_engine as se
+import pokete_classes.game_map as gm
 from .weather import Weather
 
 
-class PlayMap(se.Map):
+class PlayMap(gm.GameMap):
     &#34;&#34;&#34;Map the actual player moves on and contains buildings etc
     ARGS:
         height: The maps height
@@ -48,9 +49,8 @@ class PlayMap(se.Map):
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
                  w_poke_args=None, extra_actions=None, weather=None):
-        super().__init__(height=height, width=width, background=&#34; &#34;)
+        super().__init__(height, width, name=name)
         self.trainers = trainers
-        self.name = name
         self.pretty_name = pretty_name
         self.poke_args = poke_args
         self.w_poke_args = w_poke_args
@@ -229,7 +229,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class PlayMap(se.Map):
+<pre><code class="python">class PlayMap(gm.GameMap):
     &#34;&#34;&#34;Map the actual player moves on and contains buildings etc
     ARGS:
         height: The maps height
@@ -244,9 +244,8 @@ if __name__ == &#34;__main__&#34;:
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
                  w_poke_args=None, extra_actions=None, weather=None):
-        super().__init__(height=height, width=width, background=&#34; &#34;)
+        super().__init__(height, width, name=name)
         self.trainers = trainers
-        self.name = name
         self.pretty_name = pretty_name
         self.poke_args = poke_args
         self.w_poke_args = w_poke_args
@@ -282,6 +281,7 @@ if __name__ == &#34;__main__&#34;:
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="pokete_classes.game_map.GameMap" href="game_map.html#pokete_classes.game_map.GameMap">GameMap</a></li>
 <li>scrap_engine.Map</li>
 </ul>
 <h3>Methods</h3>

@@ -34,7 +34,8 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_classes import animations, ob_maps as obmp, movemap as mvp, deck
+from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
+                           deck, game_map as gm
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
@@ -45,15 +46,14 @@ from .settings import settings
 from .event import _ev
 
 
-class FightMap(se.Map):
-    &#34;&#34;&#34;Wrapper for se.Map
+class FightMap(gm.GameMap):
+    &#34;&#34;&#34;Wrapper for gm.GameMap
     ARGS:
         height: The height of the map
         width: The width of the map&#34;&#34;&#34;
 
     def __init__(self, height, width):
-        super().__init__(height, width, &#34; &#34;)
-        self.name = &#34;fightmap&#34;
+        super().__init__(height, width, name=&#34;fightmap&#34;)
         self.box = ChooseBox(6, 25, &#34;Attacks&#34;, index_x=1)
         self.invbox = ChooseBox(height - 3, 35, &#34;Inventory&#34;)
         # icos
@@ -948,7 +948,7 @@ None: To let the enemy attack</p></div>
 <span>(</span><span>height, width)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Wrapper for se.Map</p>
+<div class="desc"><p>Wrapper for gm.GameMap</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>height</code></strong></dt>
@@ -960,15 +960,14 @@ None: To let the enemy attack</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class FightMap(se.Map):
-    &#34;&#34;&#34;Wrapper for se.Map
+<pre><code class="python">class FightMap(gm.GameMap):
+    &#34;&#34;&#34;Wrapper for gm.GameMap
     ARGS:
         height: The height of the map
         width: The width of the map&#34;&#34;&#34;
 
     def __init__(self, height, width):
-        super().__init__(height, width, &#34; &#34;)
-        self.name = &#34;fightmap&#34;
+        super().__init__(height, width, name=&#34;fightmap&#34;)
         self.box = ChooseBox(6, 25, &#34;Attacks&#34;, index_x=1)
         self.invbox = ChooseBox(height - 3, 35, &#34;Inventory&#34;)
         # icos
@@ -1337,6 +1336,7 @@ used {enemy.name} against you!&#39;)
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="pokete_classes.game_map.GameMap" href="game_map.html#pokete_classes.game_map.GameMap">GameMap</a></li>
 <li>scrap_engine.Map</li>
 </ul>
 <h3>Methods</h3>

@@ -31,6 +31,7 @@
 
 import scrap_engine as se
 from pokete_classes import detail
+import pokete_classes.game_map as gm
 from .event import _ev
 from .input import ask_bool
 from .loops import std_loop
@@ -44,8 +45,8 @@ class Deck(detail.Informer):
     &#34;&#34;&#34;Deck to see Poketes in&#34;&#34;&#34;
 
     def __init__(self, height, width, figure, abb_funcs):
-        self.map = se.Map(height, width, &#34; &#34;)
-        self.submap = se.Submap(self.map, 0, 0, height=height, width=width)
+        self.map = gm.GameMap(height, width)
+        self.submap = gm.GameSubmap(self.map, 0, 0, height, width, &#34;decksubmap&#34;)
         self.exit_label = se.Text(&#34;1: Exit  &#34;)
         self.move_label = se.Text(&#34;2: Move    &#34;)
         self.move_free = se.Text(&#34;3: Free&#34;)
@@ -241,8 +242,8 @@ deck = None</code></pre>
     &#34;&#34;&#34;Deck to see Poketes in&#34;&#34;&#34;
 
     def __init__(self, height, width, figure, abb_funcs):
-        self.map = se.Map(height, width, &#34; &#34;)
-        self.submap = se.Submap(self.map, 0, 0, height=height, width=width)
+        self.map = gm.GameMap(height, width)
+        self.submap = gm.GameSubmap(self.map, 0, 0, height, width, &#34;decksubmap&#34;)
         self.exit_label = se.Text(&#34;1: Exit  &#34;)
         self.move_label = se.Text(&#34;2: Move    &#34;)
         self.move_free = se.Text(&#34;3: Free&#34;)

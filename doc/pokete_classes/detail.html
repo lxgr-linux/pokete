@@ -30,6 +30,7 @@
 <pre><code class="python">&#34;&#34;&#34;Contains classes needed for the detail-view of a Pokete&#34;&#34;&#34;
 
 import scrap_engine as se
+import pokete_classes.game_map as gm
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
@@ -84,7 +85,7 @@ class Detail(Informer):
         width: Width of the map&#34;&#34;&#34;
 
     def __init__(self, height, width):
-        self.map = se.Map(height, width, &#34; &#34;)
+        self.map = gm.GameMap(height, width)
         self.name_label = se.Text(&#34;Details&#34;, esccode=Color.thicc)
         self.name_attacks = se.Text(&#34;Attacks&#34;, esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state=&#34;float&#34;)
@@ -244,7 +245,7 @@ if __name__ == &#34;__main__&#34;:
         width: Width of the map&#34;&#34;&#34;
 
     def __init__(self, height, width):
-        self.map = se.Map(height, width, &#34; &#34;)
+        self.map = gm.GameMap(height, width)
         self.name_label = se.Text(&#34;Details&#34;, esccode=Color.thicc)
         self.name_attacks = se.Text(&#34;Attacks&#34;, esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state=&#34;float&#34;)
