@@ -17,12 +17,12 @@ class GameMap(se.Map):
 class GameSubmap(se.Submap):
     """Wraps the se.Submap class and adds a name attribute
     ARGS:
-        bmap: The maps parrent map
-        x: The maps x coordinate on the parent map
-        y: The maps y coordinate on the parent map
-        height: The maps height
-        width: The maps width
-        name: The maps name"""
+        bmap: The map's parent map
+        x: The map's x coordinate on the parent map
+        y: The map's y coordinate on the parent map
+        height: The map's height
+        width: The map's width
+        name: The map's name"""
 
     def __init__(self, bmap, x, y, height, width, name=""):
         super().__init__(bmap, x, y, height, width)
