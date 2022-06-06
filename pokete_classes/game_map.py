@@ -1,6 +1,8 @@
 """Map wrapper for compatibility purposes"""
 
 import scrap_engine as se
+
+
 class GameMap(se.Map):
     """Wraps the se.Map class and adds a name attribute
     ARGS:
