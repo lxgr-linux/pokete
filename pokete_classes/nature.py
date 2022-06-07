@@ -102,4 +102,4 @@ of its' kind.", 40, pre=""))
         ARGS:
             _map: Map to show on"""
         with self.center_add(_map):
-            easy_exit_loop()
+            easy_exit_loop(False)
