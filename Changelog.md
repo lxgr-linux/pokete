@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.7.2] - 2022-06-08
+
+Crucial bugfix related to natures and pokete dex.
+
 ## [0.7.1] - 2022-06-08
 
 Just some small bugfixes.
