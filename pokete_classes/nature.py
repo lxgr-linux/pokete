@@ -59,7 +59,7 @@ class PokeNature:
         """Constructs an object from a
         ARGS:
             _dict: dict"""
-        nature = cls.natures.get(_dict.get("nature"), cls.natures["relaxed"])
+        nature = cls.natures.get(_dict.get("nature"), cls.natures["normal"])
         grade = _dict.get("grade", 1)
         return cls(nature, grade)
 
@@ -68,6 +68,13 @@ class PokeNature:
         """Creates an instance with random values"""
         nature = random.choice([i for _, i in cls.natures.items()])
         grade = random.randint(1, 2)
+        return cls(nature, grade)
+
+    @classmethod
+    def dummy(cls):
+        """Returns a dummy nature"""
+        nature = cls.natures["normal"]
+        grade = 1
         return cls(nature, grade)
 
 
