@@ -34,6 +34,10 @@ You can also install it from the AUR:
 $ buildaur -S pokete-git
 ```
 
+Or you can just run the AppImage from tge release page.
+
+NOTE: In that case you first have to create the `~/.cache/pokete/` folder.
+
 For Windows and OSX:
 
 ```shell
@@ -192,5 +196,4 @@ to regenerate the wiki and adding them to it.
 
 ## Trouble shooting
 If you're experiencing problems on Japanese systems take a look at [this](https://gist.github.com/z80oolong/c7523367b798bdda094f859342f4c8be).
-
 
