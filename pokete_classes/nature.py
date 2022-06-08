@@ -83,7 +83,7 @@ class NatureInfo(LabelBox):
         text = se.Text(f"Nature: {'very ' if p_n.grade == 2 else ''}") \
             + se.Text(p_n.nature.name, esccode=Color.thicc
                       + p_n.nature.esccode) \
-            + se.Text(liner(f"\n\nThat means it has {atc} attack, \
+            + se.Text(liner(f"\n\n That means it has {atc} attack, \
 {defense} defense and {init} initiative points more than normal Poketes \
 of its' kind.", 40, pre=""))
         super().__init__(text, name="Nature", info="q:close")
@@ -102,4 +102,4 @@ of its' kind.", 40, pre=""))
         ARGS:
             _map: Map to show on"""
         with self.center_add(_map):
-            easy_exit_loop()
+            easy_exit_loop(False)
