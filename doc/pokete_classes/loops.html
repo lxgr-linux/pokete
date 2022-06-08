@@ -35,13 +35,15 @@ from .event import _ev
 from .notify import notifier
 
 
-def easy_exit_loop():
-    &#34;&#34;&#34;Loops until q or Esc are pressed&#34;&#34;&#34;
+def easy_exit_loop(on_mvmp=True):
+    &#34;&#34;&#34;Loops until q or Esc are pressed
+    ARGS:
+        on_mvmp: Indicates if the loop is executed on movemap&#34;&#34;&#34;
     while True:
         if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
             _ev.clear()
             return
-        std_loop()
+        std_loop(on_mvmp)
 
 
 def std_loop(on_mvmp=True, pevm=None):
@@ -67,21 +69,28 @@ def std_loop(on_mvmp=True, pevm=None):
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pokete_classes.loops.easy_exit_loop"><code class="name flex">
-<span>def <span class="ident">easy_exit_loop</span></span>(<span>)</span>
+<span>def <span class="ident">easy_exit_loop</span></span>(<span>on_mvmp=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Loops until q or Esc are pressed</p></div>
+<div class="desc"><p>Loops until q or Esc are pressed</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>on_mvmp</code></strong></dt>
+<dd>Indicates if the loop is executed on movemap</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def easy_exit_loop():
-    &#34;&#34;&#34;Loops until q or Esc are pressed&#34;&#34;&#34;
+<pre><code class="python">def easy_exit_loop(on_mvmp=True):
+    &#34;&#34;&#34;Loops until q or Esc are pressed
+    ARGS:
+        on_mvmp: Indicates if the loop is executed on movemap&#34;&#34;&#34;
     while True:
         if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
             _ev.clear()
             return
-        std_loop()</code></pre>
+        std_loop(on_mvmp)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.loops.std_loop"><code class="name flex">

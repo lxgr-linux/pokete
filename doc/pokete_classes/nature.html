@@ -114,7 +114,7 @@ class NatureInfo(LabelBox):
         text = se.Text(f&#34;Nature: {&#39;very &#39; if p_n.grade == 2 else &#39;&#39;}&#34;) \
             + se.Text(p_n.nature.name, esccode=Color.thicc
                       + p_n.nature.esccode) \
-            + se.Text(liner(f&#34;\n\nThat means it has {atc} attack, \
+            + se.Text(liner(f&#34;\n\n That means it has {atc} attack, \
 {defense} defense and {init} initiative points more than normal Poketes \
 of its&#39; kind.&#34;, 40, pre=&#34;&#34;))
         super().__init__(text, name=&#34;Nature&#34;, info=&#34;q:close&#34;)
@@ -133,7 +133,7 @@ of its&#39; kind.&#34;, 40, pre=&#34;&#34;))
         ARGS:
             _map: Map to show on&#34;&#34;&#34;
         with self.center_add(_map):
-            easy_exit_loop()</code></pre>
+            easy_exit_loop(False)</code></pre>
 </details>
 </section>
 <section>
@@ -214,7 +214,7 @@ that means:</p>
         text = se.Text(f&#34;Nature: {&#39;very &#39; if p_n.grade == 2 else &#39;&#39;}&#34;) \
             + se.Text(p_n.nature.name, esccode=Color.thicc
                       + p_n.nature.esccode) \
-            + se.Text(liner(f&#34;\n\nThat means it has {atc} attack, \
+            + se.Text(liner(f&#34;\n\n That means it has {atc} attack, \
 {defense} defense and {init} initiative points more than normal Poketes \
 of its&#39; kind.&#34;, 40, pre=&#34;&#34;))
         super().__init__(text, name=&#34;Nature&#34;, info=&#34;q:close&#34;)
@@ -233,7 +233,7 @@ of its&#39; kind.&#34;, 40, pre=&#34;&#34;))
         ARGS:
             _map: Map to show on&#34;&#34;&#34;
         with self.center_add(_map):
-            easy_exit_loop()</code></pre>
+            easy_exit_loop(False)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
