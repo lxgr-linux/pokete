@@ -90,7 +90,7 @@ class PokeNature:
         &#34;&#34;&#34;Constructs an object from a
         ARGS:
             _dict: dict&#34;&#34;&#34;
-        nature = cls.natures.get(_dict.get(&#34;nature&#34;), cls.natures[&#34;relaxed&#34;])
+        nature = cls.natures.get(_dict.get(&#34;nature&#34;), cls.natures[&#34;normal&#34;])
         grade = _dict.get(&#34;grade&#34;, 1)
         return cls(nature, grade)
 
@@ -99,6 +99,13 @@ class PokeNature:
         &#34;&#34;&#34;Creates an instance with random values&#34;&#34;&#34;
         nature = random.choice([i for _, i in cls.natures.items()])
         grade = random.randint(1, 2)
+        return cls(nature, grade)
+
+    @classmethod
+    def dummy(cls):
+        &#34;&#34;&#34;Returns a dummy nature&#34;&#34;&#34;
+        nature = cls.natures[&#34;normal&#34;]
+        grade = 1
         return cls(nature, grade)
 
 
@@ -322,7 +329,7 @@ def get_amount(val):
         &#34;&#34;&#34;Constructs an object from a
         ARGS:
             _dict: dict&#34;&#34;&#34;
-        nature = cls.natures.get(_dict.get(&#34;nature&#34;), cls.natures[&#34;relaxed&#34;])
+        nature = cls.natures.get(_dict.get(&#34;nature&#34;), cls.natures[&#34;normal&#34;])
         grade = _dict.get(&#34;grade&#34;, 1)
         return cls(nature, grade)
 
@@ -331,6 +338,13 @@ def get_amount(val):
         &#34;&#34;&#34;Creates an instance with random values&#34;&#34;&#34;
         nature = random.choice([i for _, i in cls.natures.items()])
         grade = random.randint(1, 2)
+        return cls(nature, grade)
+
+    @classmethod
+    def dummy(cls):
+        &#34;&#34;&#34;Returns a dummy nature&#34;&#34;&#34;
+        nature = cls.natures[&#34;normal&#34;]
+        grade = 1
         return cls(nature, grade)</code></pre>
 </details>
 <h3>Class variables</h3>
@@ -342,6 +356,23 @@ def get_amount(val):
 </dl>
 <h3>Static methods</h3>
 <dl>
+<dt id="pokete_classes.nature.PokeNature.dummy"><code class="name flex">
+<span>def <span class="ident">dummy</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a dummy nature</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def dummy(cls):
+    &#34;&#34;&#34;Returns a dummy nature&#34;&#34;&#34;
+    nature = cls.natures[&#34;normal&#34;]
+    grade = 1
+    return cls(nature, grade)</code></pre>
+</details>
+</dd>
 <dt id="pokete_classes.nature.PokeNature.from_dict"><code class="name flex">
 <span>def <span class="ident">from_dict</span></span>(<span>_dict)</span>
 </code></dt>
@@ -361,7 +392,7 @@ def from_dict(cls, _dict):
     &#34;&#34;&#34;Constructs an object from a
     ARGS:
         _dict: dict&#34;&#34;&#34;
-    nature = cls.natures.get(_dict.get(&#34;nature&#34;), cls.natures[&#34;relaxed&#34;])
+    nature = cls.natures.get(_dict.get(&#34;nature&#34;), cls.natures[&#34;normal&#34;])
     grade = _dict.get(&#34;grade&#34;, 1)
     return cls(nature, grade)</code></pre>
 </details>
@@ -452,8 +483,9 @@ A dict containing information to reconstruct the object</p></div>
 </li>
 <li>
 <h4><code><a title="pokete_classes.nature.PokeNature" href="#pokete_classes.nature.PokeNature">PokeNature</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="pokete_classes.nature.PokeNature.dict" href="#pokete_classes.nature.PokeNature.dict">dict</a></code></li>
+<li><code><a title="pokete_classes.nature.PokeNature.dummy" href="#pokete_classes.nature.PokeNature.dummy">dummy</a></code></li>
 <li><code><a title="pokete_classes.nature.PokeNature.from_dict" href="#pokete_classes.nature.PokeNature.from_dict">from_dict</a></code></li>
 <li><code><a title="pokete_classes.nature.PokeNature.get_value" href="#pokete_classes.nature.PokeNature.get_value">get_value</a></code></li>
 <li><code><a title="pokete_classes.nature.PokeNature.natures" href="#pokete_classes.nature.PokeNature.natures">natures</a></code></li>
