@@ -1,4 +1,4 @@
-v0.7.0
+v0.7.1
 
 # Pokete wiki
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.

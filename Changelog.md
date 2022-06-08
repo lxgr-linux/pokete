@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.7.1] - 2022-06-08
+
+Just some small bugfixes.
+
 ## [0.7.0] - 2022-06-06
 
 ### Under the hood
