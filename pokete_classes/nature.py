@@ -91,8 +91,8 @@ class NatureInfo(LabelBox):
             + se.Text(p_n.nature.name, esccode=Color.thicc
                       + p_n.nature.esccode) \
             + se.Text(liner(f"\n\n That means it has {atc} attack, \
-{defense} defense and {init} initiative points more than normal Poketes \
-of its' kind.", 40, pre=""))
+{defense} defense and {init} initiative points compared to normal Poketes \
+of its kind.", 40, pre=""))
         super().__init__(text, name="Nature", info="q:close")
 
     @staticmethod
