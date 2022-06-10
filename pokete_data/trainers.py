@@ -3,13 +3,13 @@ trainers = {
         "poke": ("poundi", 60),
         "args": ("Franz", "He",
                  [" < Wanna fight?"], [" < Hahaha!", " < You're a loser!"],
-                 [" < Your a very good trainer!"], 30, 10)
+                 [" < You're a very good trainer!"], 30, 10)
     },
     ],
     "cave_1": [{
         "poke": ("hornita", 128),
         "args": ("Monica", "She",
-                 [" < Hello noble traveler", " < Are you willing to fight with me?"],
+                 [" < Hello noble traveler", " < Are you willing to fight me?"],
                  [" < Hahaha!", " < Looooser!"],
                  [" < Congratulations!", " < Have a great day!"], 23, 10)
     },
@@ -17,10 +17,10 @@ trainers = {
     "playmap_2": [{
         "poke": ("ostri", 160),
         "args": ("Wanderer Murrad", "He",
-                 [" < Isn't that a great day?", " < I traveled here from a far country",
+                 [" < Isn't it a great day?", " < I traveled here from a distant country",
                   " < Do you want to fight against my rare Pokete?"],
-                 [" < It is stronger than you might have exspected"],
-                 [" < Oh, i didn't think you can defeat my Pokete!", " < You are a very good trainer!"], 32, 12)
+                 [" < It is stronger than you might have expected"],
+                 [" < Oh, I didn't think you can defeat my Pokete!", " < You are a very good trainer!"], 32, 12)
     },
     ],
     "playmap_3": [{
@@ -36,14 +36,14 @@ trainers = {
         "args": ("Kevin", "He",
                  [" < Jo!", " < What up?", " < Wanna see my sick ass Pokete?"],
                  [" < Yeaaah!", " < My Pokete is sooo sick!"],
-                 [" < Daaaamn", " < Your Pokete is noot from this planet!"], 32, 31)
+                 [" < Daaaamn", " < Your Pokete is nooot from this planet!"], 32, 31)
     },
     ],
     "playmap_5": [{
         "poke": ("bator", 350),
         "args": ("Caveman Marc", "He",
                  [" < Oh!", " < I've not seen anyone down here for while",
-                  " < Can I show you my rare Pokete, that can only be found in this cave?"],
+                  " < Can I show you my rare Pokete, which can only be found in this cave?"],
                  [" < Oh!", " < My Pokete is not just rare", " < It's also strong"],
                  [" < Congratulations!", " < I hope you can also catch one!"], 23, 12)
     },
@@ -58,7 +58,7 @@ trainers = {
     "playmap_7": [{
         "poke": ("steini", 400),
         "args": ("Caveman Dieter", "He",
-                 [" < Oh!", " < I didn't see you comming"],
+                 [" < Oh!", " < I didn't see you coming"],
                  [" < My steini is old but classy"],
                  [" < You're a great trainer!"], 18, 7)
     },
@@ -66,7 +66,7 @@ trainers = {
     "playmap_8": [{
         "poke": ("gobost", 400),
         "args": ("Wood man Bert", "He",
-                 [" < Do you see this abandoned house?", " < I catched this Pokete in there!"],
+                 [" < Do you see this abandoned house?", " < I caught this Pokete in there!"],
                  [" < It's pretty cool huh?!"],
                  [" < Oh, yours is better than mine!"], 39, 6)
     },
@@ -76,7 +76,7 @@ trainers = {
         "args": ("Fishermans friend", "He",
                  [" < G'day young trainer", " < I've lived here for years"],
                  [" < Those years of training were worth it"],
-                 [" < I did't train it in years!"], 42, 7)
+                 [" < I haven't trained it in years!"], 42, 7)
     },
     ],
     "playmap_12": [{
@@ -96,7 +96,7 @@ trainers = {
     "playmap_13": [{
         "poke": ("vogli", 600),
         "args": ("Citizen", "He",
-                 [" < Hello fellow stranger!", " < This town is known for it's bird Poketes"],
+                 [" < Hello fellow stranger!", " < This town is known for its bird Poketes"],
                  [" < Haha, you're bad!"],
                  [" < Damn!"], 5, 31)
     },
@@ -104,7 +104,7 @@ trainers = {
     "playmap_14": [{
         "poke": ("owol", 650),
         "args": ("First trainer", "He",
-                 [" < Welcome to the Deepest forest Pokete Arena", " < I'm your first enemy!"],
+                 [" < Welcome to the Deepest Forest Pokete Arena", " < I'm your first enemy!"],
                  [" < Haha, you're bad!"],
                  [" < Good luck!"], 17, 10)
     }, {
@@ -116,7 +116,7 @@ trainers = {
     }, {
         "poke": ("treenator", 750),
         "args": ("Third trainer", "She",
-                 [" < Let's see what Poketes else you have!"],
+                 [" < Let's see what other Poketes you have!"],
                  [" < Haha, you're bad!"],
                  [" < Good luck with the last trainer!"], 22, 5)
     },
@@ -125,7 +125,7 @@ trainers = {
             "args": ("Last trainer", "He",
                      [" < I'm your last enemy!"],
                      [" < Haha, you're bad!"],
-                     [" < Oh!", " < You were able to defeat me?", " < You can now leave Deepest forest"], 17, 5)
+                     [" < Oh!", " < You were able to defeat me?", " < You can now leave Deepest Forest"], 17, 5)
         },
     ],
     "playmap_15": [{
@@ -159,7 +159,7 @@ trainers = {
     "playmap_19": [{
         "poke": ("choka", 850),
         "args": ("Brian", "He",
-                 [" < Hello fellow cava man!"],
+                 [" < Hello fellow cave man!"],
                  [" < Oooooh!", " < You're a loooser!"],
                  [" < Oh!", " < You were lucky!"], 16, 15)
     }, {
@@ -175,7 +175,7 @@ trainers = {
         "args": ("Rock hard Rick", "He",
                  [" < Hello trainer!",
                   " < Welcome to Rock-ville, the highest place in the Pokete world and the home of all stone Poketes.",
-                  " < When leaving this town through the 'Cave of doom' you have to fight against the best trainers of "
+                  " < When leaving this town through the 'Cave of Doom' you have to fight against the best trainers of "
                   "this town.",
                   " < But first, you have to fight me!"],
                  [" < If I'm a problem for you, you might not be able to fight the other trainers."],
@@ -191,7 +191,7 @@ trainers = {
     }, {
         "poke": ("steini", 900),
         "args": ("Gerard", "He",
-                 [" < My Steini will ripp out your Poketes heard!"],
+                 [" < My Steini will rip out your Poketes heart!"],
                  [" < You're a loooser!"],
                  [" < The other trainers wont be as easy!"], 11, 10)
     }, {
@@ -254,7 +254,7 @@ trainers = {
         "poke": ("poisopla", 1000),
         "args": ("Heavy Hans", "He",
                  [" < I don't think your Pokete is better than mine!"],
-                 [" < Your journey got a fast end!"],
+                 [" < Your journey came to a fast end!"],
                  [" < The other trainers wont be as easy!"], 25, 8)
     }, {
         "poke": ("treenator", 1000),
@@ -321,8 +321,8 @@ trainers = {
     "playmap_41": [{
         "poke": ("wheeto", 2000),
         "args": ("Daniel the farmer", "He",
-                 [" < Howdi mate!", " < How ya doin?",
-                  " < My Pokete is one of its kind",
+                 [" < Howdy partner!", " < How ya doin?",
+                  " < My Pokete is one of a kind",
                   " < The good stuff!"],
                  [" < Uhhh yeah!", " < The good stuff...!"],
                  [" < I guess, it's not the good stuff"], 17, 4)
@@ -332,23 +332,23 @@ trainers = {
         {
             "poke": ("wheeto", 2000),
             "args": ("Martin the farmer", "He",
-                     [" < Howdi mate!", " < i will be your first challenger!"],
+                     [" < Howdy partner!", " < I will be your first challenger!"],
                      [" < You'll do better next time."],
-                     [" < I wish you the beste luck"], 19, 7)
+                     [" < I wish you the best of luck"], 19, 7)
         },
         {
             "poke": ("dicko", 2100),
             "args": ("The undetermined", "They",
                      [" < I see you're not as bad as we thought!"],
                      [" < You'll do better next time."],
-                     [" < I wish you the beste luck"], 16, 7)
+                     [" < I wish you the best of luck"], 16, 7)
         },
         {
             "poke": ("megapois", 2200),
             "args": ("Daniela the gardener", "She",
                      [" < Look at my newest creation!"],
                      [" < You'll do better next time."],
-                     [" < I wish you the beste luck"], 13, 7)
+                     [" < I wish you the best of luck"], 13, 7)
         },
         {
             "poke": ("mowcow", 2300),
@@ -357,8 +357,8 @@ trainers = {
                       " < Let's have a fair fight!"],
                      [" < You'll do better next time."],
                      [" < You're quite a good trainer.",
-                      " < Hopefully you can beat all other trainers, which may "
-                      "step into your way!"], 10, 7)
+                      " < Hopefully you can beat all other trainers, with whom "
+                      "you may cross paths!"], 10, 7)
         },
     ],
 }
