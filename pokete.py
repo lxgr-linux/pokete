@@ -490,7 +490,7 @@ class Inv:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Inventory", "R:remove")
         self.box2 = Box(7, 21)
-        self.money_label = se.Text(f"{figure.get_money()}$")
+        self.money_label = se.Text(f"${figure.get_money()}")
         self.desc_label = se.Text(" ")
         # adding
         self.box.add_ob(self.money_label,
