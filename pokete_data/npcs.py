@@ -85,7 +85,7 @@ npcs = {
         "y": 7
     },
     "npc_9": {
-        "texts": [" < British devs be like:", " < It's a constructor, __innit__?"],
+        "texts": [" < British devs be like:", " < It's a constructor, __init__?"],
         "fn": None,
         "map": "playmap_24",
         "x": 14,
@@ -129,7 +129,7 @@ found some cool Poketes.",
     },
     "lxgr": {
         "texts": [" < Hello fellow traveler, my name is lxgr and I created this game. ",
-                  " < You may be asking yourself: 'Lxgr, what are you doing in this game?', and the answer is: 'Standing "
+                  " < You may be asking yourself: 'Lxgr, what are you doing in this game?', and the answer is: 'standing "
                   "around'.",
                   " < I added this NPC because I'm stuck on a train somewere between Hamburg and Rostock, "
                   "and I'm bored.",
@@ -279,7 +279,7 @@ found some cool Poketes.",
     "npc_17": {
         "texts": [" < Welcome to Agrawos!",
                   " < Check out the Mowcow-Burger restaurant, they have the best beef!",
-                  " < If you want a challenge check out the Pokete-Arena, they have some quite heavy Poketes there!"],
+                  " < If you want a challenge, check out the Pokete-Arena; they have some quite heavy Poketes there!"],
         "fn": None,
         "map": "playmap_39",
         "x": 102,
@@ -335,7 +335,7 @@ found some cool Poketes.",
     "npc_24": {
         "texts": [" < I'm the mayor of Agrawos, the greatest city around.",
                   " < Check out the Mowcow-Burger restaurant; they have the best Mowcow-Burgers! And take a look at "
-                  "the Pokete-Arena.", 
+                  "the Pokete-Arena!", 
                   " < Here's a special tip: take a look at the temple of the Wheeto."],
         "fn": None,
         "map": "playmap_45",
