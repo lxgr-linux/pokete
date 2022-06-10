@@ -154,7 +154,7 @@ trainers = {
         "args": ("Karen", "She",
                  [" < I don't think you can walk here", " < I demand a fight with you!"],
                  [" < Go home, little zoomer."],
-                 [" < I want to talk to your manager."], 56, 11)
+                 [" < I want to talk to your manager!"], 56, 11)
     },
     ],
     "playmap_19": [{
