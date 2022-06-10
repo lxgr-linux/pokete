@@ -121,14 +121,14 @@ found some cool Poketes.",
                   " < But I can help you.", " < I can give you this Learning Disc.",
                   " < You can use it to teach the 'Flying' attack to one of your flying Poketes so you can ride it to "
                   "the next town.",
-                  " < Isn't this great?"],
+                  " < Isn't that great?"],
         "fn": "playmap_29_ld_man",
         "map": "playmap_29",
         "x": 13,
         "y": 4
     },
     "lxgr": {
-        "texts": [" < Hello fellow traveler, my name is lxgr and I created this game. ",
+        "texts": [" < Hello, fellow traveler. My name is lxgr and I created this game. ",
                   " < You may be asking yourself: 'Lxgr, what are you doing in this game?', and the answer is: 'standing "
                   "around'.",
                   " < I added this NPC because I'm stuck on a train somewere between Hamburg and Rostock, "
@@ -278,7 +278,7 @@ found some cool Poketes.",
     },
     "npc_17": {
         "texts": [" < Welcome to Agrawos!",
-                  " < Check out the Mowcow-Burger restaurant, they have the best beef!",
+                  " < Check out the MowCow-Burger restaurant, they have the best beef!",
                   " < If you want a challenge, check out the Pokete-Arena; they have some quite heavy Poketes there!"],
         "fn": None,
         "map": "playmap_39",
@@ -301,7 +301,7 @@ found some cool Poketes.",
         "y": 65
     },
     "npc_20": {
-        "texts": [" < Hello yall, this town is soo famous for its' craaazy plants.",
+        "texts": [" < Hey y'all, this town is soo famous for its' craaazy plants.",
                   " < Especially Wheeto, from which healing potions can be made.",
                   " < Want one?"],
         "fn": "playmap_39_npc_20",
@@ -317,7 +317,7 @@ found some cool Poketes.",
         "y": 3
     },
     "npc_22": {
-        "texts": [" < Oh man, if only I had a big and tasty Mowcow-Burger...!"],
+        "texts": [" < Oh man, if only I had a big and tasty MowCow-Burger...!"],
         "fn": None,
         "map": "playmap_42",
         "x": 22,
@@ -334,7 +334,7 @@ found some cool Poketes.",
     },
     "npc_24": {
         "texts": [" < I'm the mayor of Agrawos, the greatest city around.",
-                  " < Check out the Mowcow-Burger restaurant; they have the best Mowcow-Burgers! And take a look at "
+                  " < Check out the MowCow-Burger restaurant; they have the best MowCow-Burgers! Also take a look at "
                   "the Pokete-Arena!", 
                   " < Here's a special tip: take a look at the temple of the Wheeto."],
         "fn": None,

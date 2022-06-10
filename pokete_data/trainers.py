@@ -74,7 +74,7 @@ trainers = {
     ],
     "playmap_11": [{
         "poke": ("clampi", 450),
-        "args": ("Fishermans Friend", "He",
+        "args": ("Fisherman's Friend", "He",
                  [" < G'day, young trainer", " < I've lived here for years"],
                  [" < Those years of training were worth it"],
                  [" < I haven't trained my Pokete in years!"], 42, 7)

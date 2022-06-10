@@ -80,7 +80,7 @@ class NPCActions:
                       " < I've never seen one before!",
                       " < Here you go, have $200!"])
             if ask_bool(mvp.movemap,
-                        "Young boy gifted you $200. Do you want to accept it?"):
+                        "The young boy gifted you $200. Do you want to accept it?"):
                 figure.add_money(200)
             npc.set_used()
         else:
