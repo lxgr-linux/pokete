@@ -78,7 +78,7 @@ class NPCActions:
         if "choka" in [i.identifier for i in figure.pokes[:6]]:
             npc.text([" < Oh, cool!", " < You have a Choka!",
                       " < I've never seen one before!",
-                      " < Here you go, 200$"])
+                      " < Here you go, have $200!"])
             if ask_bool(mvp.movemap,
                         "Young boy gifted you $200. Do you want to accept it?"):
                 figure.add_money(200)
@@ -191,15 +191,15 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                      if i.lvl() >= 50 and i.identifier == "mowcow"]
         if len(poke_list) > 0:
             poke = poke_list[0]
-            npc.text([" < Oh great!", " < You're my saviour!",
+            npc.text([" < Oh great!", " < You're my hero!",
                       f" < You brought me a level {poke.lvl()} Mowcow!",
                       " < I'm thanking you!",
-                      " < Now I can still serve the best MowCow-Burgers!",
+                      " < Now I can still serve the best Mowcow-Burgers!",
                       " < Can I have it?"])
             if ask_bool(mvp.movemap,
                         "Do you want to give your Mowcow to the cook?"):
                 figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
-                npc.text([" < Here you go, $1000"])
+                npc.text([" < Here you go, have $1000!"])
                 if ask_bool(mvp.movemap,
                             "The cook gifted you $1000. "
                             "Do you want to accept it?"):
@@ -211,15 +211,15 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                       "without beef?",
                       " < If only someone here could bring me a fitting "
                       "Mowcow!?",
-                      " < But it has to be at least on level 50, to fit our "
+                      " < But it has to be at least on level 50 to meet our "
                       "high quality standards.",
                       " < I will pay a good price!"])
 
     @staticmethod
     def playmap_39_npc_25(npc):
         """Interaction with npc_25"""
-        if not NPC.get("Sebastian the leader").used:
-            npc.text([" < I can't let you go.",
+        if not NPC.get("Leader Sebastian").used:
+            npc.text([" < I can't let you go!",
                       " < You first have to defeat our arena leader!"])
             figure.set(figure.x + 1, figure.y)
         else:
@@ -402,7 +402,7 @@ class Figure(se.Object):
     def add_money(self, money):
         """Adds money
         ARGS:
-            money: Amount of money beeing added"""
+            money: Amount of money being added"""
         self.set_money(self.__money + money)
 
     def get_money(self):
@@ -748,7 +748,7 @@ def save():
 
 
 def read_save():
-    """Reads form savefile
+    """Reads from savefile
     RETURNS:
         session_info dict"""
     Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
@@ -1072,7 +1072,7 @@ def parse_obj(_map, name, obj, _dict):
 
 
 def gen_obs():
-    """Genrates all objests on the maps"""
+    """Generates all objects on the maps"""
     map_data = p_data.map_data
     npcs = p_data.npcs
     trainers = p_data.trainers
