@@ -80,13 +80,13 @@ class NPCActions:
                       " < I've never seen one before!",
                       " < Here you go, 200$"])
             if ask_bool(mvp.movemap,
-                        "Young boy gifted you 200$. Do you want to accept it?"):
+                        "Young boy gifted you $200. Do you want to accept it?"):
                 figure.add_money(200)
             npc.set_used()
         else:
-            npc.text([" < In this region lives the würgos Pokete.",
+            npc.text([" < In this region lives the Würgos Pokete.",
                       f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
-it evolves to Choka.",
+It evolves into Choka.",
                       " < I have never seen one before!"])
 
     @staticmethod
@@ -109,7 +109,7 @@ at level {figure.pokes[index].lvl()}.")
             npc.text([" < Here you can leave one of your Poketes for some time \
 and we will train it."])
             if ask_bool(mvp.movemap, "Do you want to put a Pokete into the \
-Pokete-Care"):
+Pokete-Care?"):
                 if (index := deck.deck(6, "Your deck", True)) is not None:
                     pokete_care.poke = figure.pokes[index]
                     pokete_care.entry = timer.time.time
@@ -135,7 +135,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
     def playmap_23_npc_8(npc):
         """Interaction with npc_8"""
         if ask_bool(mvp.movemap,
-                    "The man gifted you 100$. Do you want to accept it?"):
+                    "The man gifted you $100. Do you want to accept it?"):
             npc.set_used()
             figure.add_money(100)
 
@@ -199,15 +199,15 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
             if ask_bool(mvp.movemap,
                         "Do you want to give your Mowcow to the cook?"):
                 figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
-                npc.text([" < Here you go, 1000$"])
+                npc.text([" < Here you go, $1000"])
                 if ask_bool(mvp.movemap,
-                            "The cook gifted you 1000$. "
+                            "The cook gifted you $1000. "
                             "Do you want to accept it?"):
                     figure.add_money(1000)
                 npc.set_used()
         else:
             npc.text([" < Ohhh man...", " < All of our beef is empty...",
-                      " < How are we going to serve the best MowCow-Burgers "
+                      " < How are we going to serve the best Mowcow-Burgers "
                       "without beef?",
                       " < If only someone here could bring me a fitting "
                       "Mowcow!?",
@@ -317,7 +317,7 @@ class CenterMap(PlayMap):
         self.trader = NPC("trader",
                           [" < I'm a trader.",
                            " < Here you can trade one of your Poketes for \
-another players' one."],
+one from another trainer."],
                           "swap_poke")
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
@@ -415,12 +415,12 @@ class Figure(se.Object):
         """Sets the money to a certain value
         ARGS:
             money: New value"""
-        assert money >= 0, "money has to be positive"
-        logging.info("[Figure] Money set to %d$ from %d$",
+        assert money >= 0, "Money has to be positive."
+        logging.info("[Figure] Money set to $%d from $%d",
                      money, self.__money)
         self.__money = money
         for cls in [inv, buy]:
-            cls.money_label.rechar(str(self.__money) + "$")
+            cls.money_label.rechar("$" + str(self.__money))
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
@@ -444,7 +444,7 @@ class Figure(se.Object):
 
     def give_item(self, item, amount=1):
         """Gives an item to the player"""
-        assert amount > 0, "Amounts have to be positive"
+        assert amount > 0, "Amounts have to be positive."
         if item not in self.inv:
             self.inv[item] = amount
         else:
@@ -464,10 +464,10 @@ class Figure(se.Object):
         ARGS:
             item: Generic item name
             amount: Amount of items beeing removed"""
-        assert amount > 0, "Amounts have to be positive"
-        assert item in self.inv, f"Item {item} is not in the inventory"
+        assert amount > 0, "Amounts have to be positive."
+        assert item in self.inv, f"Item {item} is not in the inventory."
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
-in the inventory"
+in the inventory."
         self.inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)
 
@@ -1047,12 +1047,12 @@ def intro():
                                "Welcome to Pokete!\nPlease choose your name!\n",
                                "Name:", "", "Name", 17)
     mvp.movemap.name_label_rechar(figure.name)
-    mvp.movemap.text(4, 3, [" < Hello my child.",
+    mvp.movemap.text(4, 3, [" < Hello, my child.",
                             " < You're now ten years old.",
-                            " < And I think it's now time for you to travel \
+                            " < I think it's now time for you to travel \
 the world and be a Pokete-trainer.",
-                            " < Therefore I give you this powerfull 'Steini', \
-15 'Poketeballs' to catch Poketes and a "
+                            " < Therefore, I give you this powerful 'Steini', \
+15 'Poketeballs' to catch Poketes, and a "
                             "'Healing potion'.",
                             " < You will be the best Pokete-Trainer in Nice \
 town.",
