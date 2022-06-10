@@ -22,7 +22,7 @@ maps = {
     "cave_1": {
         "height": 30,
         "width": 90,
-        "pretty_name": "Nice Town cave",
+        "pretty_name": "Nice Town Cave",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["steini", "bato", "lilstone", "rato"],
@@ -75,7 +75,7 @@ maps = {
     "playmap_5": {
         "height": 60,
         "width": 60,
-        "pretty_name": "Mysterious cave",
+        "pretty_name": "Mysterious Cave",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["bato", "bator", "steini"],
@@ -99,7 +99,7 @@ maps = {
     "playmap_7": {
         "height": 30,
         "width": 60,
-        "pretty_name": "Dark cave",
+        "pretty_name": "Dark Cave",
         "extra_actions": "playmap_7",
         "poke_args": {
             "pokes": ["steini", "bato", "lilstone", "rollator", "gobost"],
@@ -111,7 +111,7 @@ maps = {
     "playmap_8": {
         "height": 20,
         "width": 80,
-        "pretty_name": "Abandoned village",
+        "pretty_name": "Abandoned Village",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["gobost", "owol", "corcos_day", "corcos_night"],
@@ -123,7 +123,7 @@ maps = {
     "playmap_9": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Abandoned house",
+        "pretty_name": "Abandoned House",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["gobost", "rato"],
@@ -135,7 +135,7 @@ maps = {
     "playmap_10": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Old house",
+        "pretty_name": "Old House",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -172,7 +172,7 @@ maps = {
     "playmap_13": {
         "height": 35,
         "width": 70,
-        "pretty_name": "Deepens forest",
+        "pretty_name": "Deepest Forest",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["voglo", "vogli", "owol", "rato"],
@@ -216,7 +216,7 @@ maps = {
     "playmap_17": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Old house",
+        "pretty_name": "Old House",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -224,7 +224,7 @@ maps = {
     "playmap_18": {
         "height": 23,
         "width": 98,
-        "pretty_name": "Big mountain see",
+        "pretty_name": "Big Mountain Sea",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["poundi", "rollator", "würgos", "rato"],
@@ -241,7 +241,7 @@ maps = {
     "playmap_19": {
         "height": 30,
         "width": 60,
-        "pretty_name": "Big mountain cave",
+        "pretty_name": "Big Mountain Cave",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["poundi", "steini", "lilstone", "bato"],
@@ -298,7 +298,7 @@ maps = {
     "playmap_25": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Townhall",
+        "pretty_name": "Town Hall",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -306,7 +306,7 @@ maps = {
     "playmap_26": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Townhall",
+        "pretty_name": "Town Hall",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -314,7 +314,7 @@ maps = {
     "playmap_27": {
         "height": 15,
         "width": 40,
-        "pretty_name": "Battle cave",
+        "pretty_name": "Battle Cave",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -366,7 +366,7 @@ maps = {
     "playmap_33": {
         "height": 44,
         "width": 154,
-        "pretty_name": "Mowcow meadow",
+        "pretty_name": "Mowcow Meadow",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["mowcow", "voglo", "bushy"],
@@ -386,7 +386,7 @@ maps = {
     "playmap_35": {
         "height": 69,
         "width": 144,
-        "pretty_name": "The fields of Agrawos",
+        "pretty_name": "The Fields of Agrawos",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["mowcow", "voglo", "lil_nut", "megapois"],
@@ -459,7 +459,7 @@ maps = {
     "playmap_42": {
         "height": 15,
         "width": 60,
-        "pretty_name": "MowCow-Burger restaurant",
+        "pretty_name": "MowCow-Burger Restaurant",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -475,7 +475,7 @@ maps = {
     "playmap_44": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Townhall",
+        "pretty_name": "Town Hall",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -483,7 +483,7 @@ maps = {
     "playmap_45": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Townhall",
+        "pretty_name": "Town Hall",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
