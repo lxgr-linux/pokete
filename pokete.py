@@ -194,7 +194,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
             npc.text([" < Oh great!", " < You're my hero!",
                       f" < You brought me a level {poke.lvl()} Mowcow!",
                       " < I'm thanking you!",
-                      " < Now I can still serve the best Mowcow-Burgers!",
+                      " < Now I can still serve the best MowCow-Burgers!",
                       " < Can I have it?"])
             if ask_bool(mvp.movemap,
                         "Do you want to give your Mowcow to the cook?"):
@@ -207,7 +207,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                 npc.set_used()
         else:
             npc.text([" < Ohhh man...", " < All of our beef is empty...",
-                      " < How are we going to serve the best Mowcow-Burgers "
+                      " < How are we going to serve the best MowCow-Burgers "
                       "without beef?",
                       " < If only someone here could bring me a fitting "
                       "Mowcow!?",
