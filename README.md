@@ -21,6 +21,14 @@
 ## What is it?
 Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak.
 
+## Docker
+If you use docker, you can run:
+```shell
+git clone https://github.com/lxgr-linux/pokete.git
+docker build -t pokete -f pokete/Dockerfile pokete/
+docker run -ti --rm -v /path/to/savegame:/root/.cache/pokete pokete
+```
+
 ## Installation
 For Linux just do this:
 ```shell
