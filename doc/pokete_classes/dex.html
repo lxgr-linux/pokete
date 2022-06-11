@@ -82,7 +82,7 @@ class Dex:
             None: (&#34;Always&#34;, &#34;&#34;)
         }[poke.night_active]
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
-                          (f&#34;&#34;&#34;\n\n Evolves to {
+                          (f&#34;&#34;&#34;\n\n Evolves into {
                               p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
                               poke.evolve_poke in
                               self.figure.caught_pokes else &#39;???&#39;
@@ -214,7 +214,7 @@ Active: &#34;&#34;&#34;) + se.Text(active[0], esccode=active[1])
             None: (&#34;Always&#34;, &#34;&#34;)
         }[poke.night_active]
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
-                          (f&#34;&#34;&#34;\n\n Evolves to {
+                          (f&#34;&#34;&#34;\n\n Evolves into {
                               p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
                               poke.evolve_poke in
                               self.figure.caught_pokes else &#39;???&#39;
@@ -325,7 +325,7 @@ Active: &#34;&#34;&#34;) + se.Text(active[0], esccode=active[1])
             None: (&#34;Always&#34;, &#34;&#34;)
         }[poke.night_active]
         desc_text = liner(poke.desc.text.replace(&#34;\n&#34;, &#34; &#34;) +
-                          (f&#34;&#34;&#34;\n\n Evolves to {
+                          (f&#34;&#34;&#34;\n\n Evolves into {
                               p_data.pokes[poke.evolve_poke][&#39;name&#39;] if
                               poke.evolve_poke in
                               self.figure.caught_pokes else &#39;???&#39;

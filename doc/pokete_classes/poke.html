@@ -243,7 +243,7 @@ can&#39;t have more than 4 attacks!&#34;
                 f&#39;{self.ext_name} used {attack.name}! {eff_text}&#39;)
             if enem == self:
                 time.sleep(1)
-                fightmap.outp.outp(f&#39;{self.ext_name} hurt it self!&#39;)
+                fightmap.outp.outp(f&#39;{self.ext_name} hurt itself!&#39;)
             if n_hp != 0 or attack.factor == 0:
                 attack.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
@@ -290,7 +290,7 @@ can&#39;t have more than 4 attacks!&#34;
         evomap.show()
         time.sleep(0.01)
         new.moves.shine()
-        evomap.outp.outp(f&#34;{self.name} evolved to {new.name}!&#34;)
+        evomap.outp.outp(f&#34;{self.name} evolved into {new.name}!&#34;)
         time.sleep(5)
         for i in range(max(len(p_data.pokes[new.identifier][&#34;attacks&#34;])
                            - len(self.attack_obs), 0)):
@@ -298,7 +298,7 @@ can&#39;t have more than 4 attacks!&#34;
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
-        logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
+        logging.info(&#34;[Poke] %s evolved into %s&#34;, self.name, new.name)
         del self
         return True
 
@@ -584,7 +584,7 @@ can&#39;t have more than 4 attacks!&#34;
                 f&#39;{self.ext_name} used {attack.name}! {eff_text}&#39;)
             if enem == self:
                 time.sleep(1)
-                fightmap.outp.outp(f&#39;{self.ext_name} hurt it self!&#39;)
+                fightmap.outp.outp(f&#39;{self.ext_name} hurt itself!&#39;)
             if n_hp != 0 or attack.factor == 0:
                 attack.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
@@ -631,7 +631,7 @@ can&#39;t have more than 4 attacks!&#34;
         evomap.show()
         time.sleep(0.01)
         new.moves.shine()
-        evomap.outp.outp(f&#34;{self.name} evolved to {new.name}!&#34;)
+        evomap.outp.outp(f&#34;{self.name} evolved into {new.name}!&#34;)
         time.sleep(5)
         for i in range(max(len(p_data.pokes[new.identifier][&#34;attacks&#34;])
                            - len(self.attack_obs), 0)):
@@ -639,7 +639,7 @@ can&#39;t have more than 4 attacks!&#34;
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
-        logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
+        logging.info(&#34;[Poke] %s evolved into %s&#34;, self.name, new.name)
         del self
         return True
 
@@ -778,7 +778,7 @@ def from_dict(cls, _dict):
             f&#39;{self.ext_name} used {attack.name}! {eff_text}&#39;)
         if enem == self:
             time.sleep(1)
-            fightmap.outp.outp(f&#39;{self.ext_name} hurt it self!&#39;)
+            fightmap.outp.outp(f&#39;{self.ext_name} hurt itself!&#39;)
         if n_hp != 0 or attack.factor == 0:
             attack.give_effect(enem)
         for obj in [enem, self] if enem != self else [enem]:
@@ -856,7 +856,7 @@ A dict with all information about the Pokete</p></div>
     evomap.show()
     time.sleep(0.01)
     new.moves.shine()
-    evomap.outp.outp(f&#34;{self.name} evolved to {new.name}!&#34;)
+    evomap.outp.outp(f&#34;{self.name} evolved into {new.name}!&#34;)
     time.sleep(5)
     for i in range(max(len(p_data.pokes[new.identifier][&#34;attacks&#34;])
                        - len(self.attack_obs), 0)):
@@ -864,7 +864,7 @@ A dict with all information about the Pokete</p></div>
     figure.pokes[figure.pokes.index(self)] = new
     if new.identifier not in figure.caught_pokes:
         figure.caught_pokes.append(new.identifier)
-    logging.info(&#34;[Poke] %s evolved to %s&#34;, self.name, new.name)
+    logging.info(&#34;[Poke] %s evolved into %s&#34;, self.name, new.name)
     del self
     return True</code></pre>
 </details>
