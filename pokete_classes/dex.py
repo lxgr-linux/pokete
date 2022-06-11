@@ -53,7 +53,7 @@ class Dex:
             None: ("Always", "")
         }[poke.night_active]
         desc_text = liner(poke.desc.text.replace("\n", " ") +
-                          (f"""\n\n Evolves to {
+                          (f"""\n\n Evolves into {
                               p_data.pokes[poke.evolve_poke]['name'] if
                               poke.evolve_poke in
                               self.figure.caught_pokes else '???'

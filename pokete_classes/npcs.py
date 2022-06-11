@@ -237,7 +237,7 @@ class Trainer(NPC):
                                   self.poke,
                                   info={"type": "duel", "player": self})
                 self.text({True: self.lose_texts,
-                           False: self.win_texts + [" < Here u go 20$"]}
+                           False: self.win_texts + [" < Here's $20!"]}
                           [winner == self.poke])
                 if winner != self.poke:
                     self.fig.add_money(20)

@@ -1,16 +1,16 @@
 npcs = {
     "test_npc": {
-        "texts": [" < Hey"],
+        "texts": [" < Hey."],
         "fn": None,
         "map": "playmap_3",
         "x": 49,
         "y": 14
     },
     "old_man": {
-        "texts": [" < Hello young trainer",
-                  " < When I've been at your age, I also was a trainer",
-                  " < And I found this very special Poketeball",
-                  " < A Hyperball", " < It's one of the oldest and rarerest of them all",
+        "texts": [" < Hello, young trainer.",
+                  " < When I was your age... I also was a trainer.",
+                  " < One day I found this very special Poketeball...",
+                  " < A Hyperball!", " < It's one of the oldest and rarest of them all.",
                   " < You can keep it!"],
         "fn": "playmap_10_old_man",
         "map": "playmap_10",
@@ -18,24 +18,24 @@ npcs = {
         "y": 3
     },
     "healer": {
-        "texts": [" < Hello fellow trainer", " < You and your Poketes look exhausted", " < I will heal them!"],
+        "texts": [" < Hello, fellow trainer.", " < You and your Poketes look exhausted.", " < I can heal them!"],
         "fn": "heal",
         "map": "playmap_8",
         "x": 52,
         "y": 1
     },
     "npc_1": {
-        "texts": [" < To get to the other side of this building, you have to win some epic fights against Deepens "
-                  "forests' best trainers!", " < This won't be easy!"],
+        "texts": [" < To get to the other side of this building, you have to win some epic fights against Deepest "
+                  "Forests' best trainers!", " < This won't be easy!"],
         "fn": None,
         "map": "playmap_13",
         "x": 33,
         "y": 6
     },
     "npc_2": {
-        "texts": [" < Welcome to Deepens forest",
-                  " < To get through this town you have to win against the best trainers of Deepens forest!",
-                  " < I wish you a great time in Deepens forest!"],
+        "texts": [" < Welcome to Deepest Forest!",
+                  " < To get through this town you have to win against the best trainers of Deepest Forest!",
+                  " < I hope you have a great time!"],
         "fn": None,
         "map": "playmap_13",
         "x": 38,
@@ -50,21 +50,21 @@ npcs = {
         "y": 15
     },
     "npc_4": {
-        "texts": [" < In this lake live...", " < ...Karpis"],
+        "texts": [" < In this lake live...", " < ...Karpis."],
         "fn": None,
         "map": "playmap_21",
         "x": 64,
         "y": 12
     },
     "npc_5": {
-        "texts": [" < This is the townhall of Rock-ville.", " < Here you can meet our major"],
+        "texts": [" < This is the town hall of Rock-ville.", " < Here you can meet our mayor."],
         "fn": None,
         "map": "playmap_21",
         "x": 112,
         "y": 12
     },
     "npc_6": {
-        "texts": [" < Welcome to the Rocky Hotel, here you can rent a room to sleep."],
+        "texts": [" < Welcome to the Rocky Hotel!", " < Here you can rent a room to sleep."],
         "fn": None,
         "map": "playmap_22",
         "x": 12,
@@ -78,7 +78,7 @@ npcs = {
         "y": 8
     },
     "npc_8": {
-        "texts": [" < Isn't this a nice town?", " < 100$ would be very usefull for a young trainer like you, init?"],
+        "texts": [" < Isn't this a nice town?", " < $100 would be very useful for a young trainer like you, wouldn't it?"],
         "fn": "playmap_23_npc_8",
         "map": "playmap_23",
         "x": 3,
@@ -92,8 +92,8 @@ npcs = {
         "y": 3
     },
     "major": {
-        "texts": [" < Hello trainer!", " < I'm the major of Rock-ville",
-                  " < I think you are interested in fighting our best trainers!?", " < I wish you luck!"],
+        "texts": [" < Hello trainer!", " < I'm the mayor of Rock-ville.",
+                  " < Is it true that you are interested in fighting our best trainers!?", " < I wish you luck!"],
         "fn": None,
         "map": "playmap_26",
         "x": 9,
@@ -116,22 +116,22 @@ found some cool Poketes.",
         "y": 3
     },
     "ld_man": {
-        "texts": [" < Hello fellow trainer!",
+        "texts": [" < Hello, fellow trainer!",
                   " < You may have noticed that traveling between cities is not so comfortable nowadays.",
-                  " < But i can help you.", " < I can give you this lerning disc",
-                  " < You can use it to teach the 'flying' attack to one of your flying Poketes to ride on it to the "
-                  "next town.",
-                  " < Isn't this great?"],
+                  " < But I can help you.", " < I can give you this Learning Disc.",
+                  " < You can use it to teach the 'Flying' attack to one of your flying Poketes so you can ride it to "
+                  "the next town.",
+                  " < Isn't that great?"],
         "fn": "playmap_29_ld_man",
         "map": "playmap_29",
         "x": 13,
         "y": 4
     },
     "lxgr": {
-        "texts": [" < Hello fellow traveler, my name is lxgr and I created this game. ",
-                  " < You may ask your self: 'Lxgr, what are you doing in this game?', and the answer is 'Standing "
+        "texts": [" < Hello, fellow traveler. My name is lxgr and I created this game. ",
+                  " < You may be asking yourself: 'Lxgr, what are you doing in this game?', and the answer is: 'standing "
                   "around'.",
-                  " < I added this NPC, because I'm stuck in a train somewere between Hamburg and Rostock, "
+                  " < I added this NPC because I'm stuck on a train somewere between Hamburg and Rostock, "
                   "and I'm bored.",
                   " < You can contribute to this game at https://github.com/lxgr-linux/pokete .",
                   " < If you want to hire me and stuff you can write me at lxgr@protonmail.com ."],
@@ -149,14 +149,14 @@ found some cool Poketes.",
     },
     "npc_11": {
         "texts": [" < This is the great Pokete arena of Flowy Town.",
-                  " < Here you'll have to fight our best trainers and most rare Poketes!"],
+                  " < Here you'll have to fight our best trainers and rarest Poketes!"],
         "fn": None,
         "map": "playmap_30",
         "x": 60,
         "y": 18
     },
     "npc_12": {
-        "texts": [" < I guess this will be helpfull for you!"],
+        "texts": [" < I think this will be helpful for you!"],
         "fn": "playmap_32_npc_12",
         "map": "playmap_32",
         "x": 8,
@@ -170,7 +170,7 @@ found some cool Poketes.",
         "y": 4
     },
     "npc_14": {
-        "texts": [" < I guess this will be helpfull for you!"],
+        "texts": [" < I think this will be helpful for you!"],
         "fn": "playmap_36_npc_14",
         "map": "playmap_36",
         "x": 15,
@@ -178,14 +178,14 @@ found some cool Poketes.",
     },
     "npc_15": {
         "texts": [" < Hello fellow trainer!",
-                  " < This is a very helpfull potion, that will save your Pokete in riscy fights!"],
+                  " < This is a very helpful potion that will save your Pokete in risky fights!"],
         "fn": "playmap_37_npc_15",
         "map": "playmap_37",
         "x": 4,
         "y": 3
     },
     "npc_16": {
-        "texts": [" < WTF r u doing here?", " < Screw of!"],
+        "texts": [" < WTF r u doing here?", " < Screw off!"],
         "fn": None,
         "map": "playmap_38",
         "x": 11,
@@ -195,17 +195,17 @@ found some cool Poketes.",
         "texts": [],
         "fn": "chat",
         "chat": {
-            "q": [" < Hello there"],
+            "q": [" < Hello there!"],
             "a": {
                 "Hello": {
-                    "q": [" < Hi"],
+                    "q": [" < Hi."],
                     "a": {}
                     },
                 "How are you?": {
-                    "q": [" < I'm fine, thanks", " < Where are you from?"],
+                    "q": [" < I'm fine, thanks.", " < Where are you from?"],
                     "a": {
-                        "Home": {
-                            "q": [" < Wow"],
+                        "Home.": {
+                            "q": [" < Wow."],
                             "a": {}
                             }
                         }
@@ -220,50 +220,50 @@ found some cool Poketes.",
         "texts": [],
         "fn": "chat",
         "chat": {
-            "q": [" < Hey there", " < What are you doing here at the beach?"],
+            "q": [" < Hey there!", " < What are you doing here at the beach?"],
             "a": {
-                "Just chilling": {
-                    "q": [" < Nice", " < This beach is the most beautiful in the region!", " < Isn't the weather great today?"],
+                "Just chilling.": {
+                    "q": [" < Nice.", " < This beach is the most beautiful in the region!", " < Isn't the weather great today?"],
                     "a": {}
                     },
                 "Searching for Poketes": {
-                    "q": [" < Oh cool, your a Pokete trainer!", " < Did already find some?"],
+                    "q": [" < Oh cool, you're a Pokete trainer!", " < Did you already find some?"],
                     "a": {
                         "Yes": {
-                            "q": [" < Cool!", " < Have you already caught a Crabbat?"],
+                            "q": [" < Cool!", " < Have you caught a Crabbat yet?"],
                             "a": {
                                 "Yes": {
-                                    "q": [" < That's pretty cool!", "But have you also met a Saugh?"],
+                                    "q": [" < That's pretty cool!", "But have you also seen a Saugh?"],
                                     "a": {
                                         "Yes": {
                                             "q": [" < Those are fucking beasts!"],
                                             "a": {}
                                             },
                                         "Hell, what are those?": {
-                                            "q": [" < Their the dark firy souls of those who got burned to death by the hot sun!"],
+                                            "q": [" < They're the dark and fiery souls of those who got burned to death by the hot sun!"],
                                             "a": {}
                                             }
                                         }
                                     },
                                 "Yes, of course" : {
-                                    "q": [" < You're a good trainer, huh?", " < I wan't to see you fight a Rustcean", " < They're very tough!"],
+                                    "q": [" < You're a good trainer, huh?", " < I want to see you fight a Rustacean.", " < They're very tough!"],
                                     "a": {}
                                     },
                                 "No": {
-                                    "q": [" < That's too bad", " < But they're very tought!"],
+                                    "q": [" < That's too bad.", " < But they're very tough!"],
                                     "a": {}
                                     }
                                 }
                             },
                         "No": {
-                            "q": [" < That's too bad", " < You can find some in the sand fields"],
+                            "q": [" < That's too bad.", " < You can find some in the sand fields."],
                             "a": {
-                                "Thank's a lot": {
+                                "Thanks a lot!": {
                                     "q": [" < No problem!"],
                                     "a": {}
                                     },
-                                "Are you a trainer your self?": {
-                                    "q": [" < No, but the guy overthere"],
+                                "Are you a trainer yourself?": {
+                                    "q": [" < No, but the guy over there is."],
                                     "a": {}
                                     }
                                 }
@@ -279,14 +279,14 @@ found some cool Poketes.",
     "npc_17": {
         "texts": [" < Welcome to Agrawos!",
                   " < Check out the MowCow-Burger restaurant, they have the best beef!",
-                  " < If you want a challenge check out the Pokete-Arena, they have some quite heavy Poketes there!"],
+                  " < If you want a challenge, check out the Pokete-Arena; they have some quite heavy Poketes there!"],
         "fn": None,
         "map": "playmap_39",
         "x": 102,
         "y": 5
     },
     "npc_18": {
-        "texts": [" < This is the Pokete Arena of Agrawos, only go there if you're sure you can beat the challenge.",
+        "texts": [" < This is the Pokete Arena of Agrawos; only go there if you're sure you can beat the challenge.",
                   " < They got some very heavy Poketes in there!"],
         "fn": None,
         "map": "playmap_39",
@@ -301,7 +301,7 @@ found some cool Poketes.",
         "y": 65
     },
     "npc_20": {
-        "texts": [" < Hello yall, this town is soo famous for its' craaazy plants.",
+        "texts": [" < Hey y'all, this town is soo famous for its' craaazy plants.",
                   " < Especially Wheeto, from which healing potions can be made.",
                   " < Want one?"],
         "fn": "playmap_39_npc_20",
@@ -334,9 +334,9 @@ found some cool Poketes.",
     },
     "npc_24": {
         "texts": [" < I'm the mayor of Agrawos, the greatest city around.",
-                  " < Check out the MowCow-Burger restaurant, which offers the best MowCow-Burgers and take a look at "
-                  "the Pokete-Arena.", 
-                  " < And as a special tip, take a look at the temple of the Wheeto."],
+                  " < Check out the MowCow-Burger restaurant; they have the best MowCow-Burgers! Also take a look at "
+                  "the Pokete-Arena!", 
+                  " < Here's a special tip: take a look at the temple of the Wheeto."],
         "fn": None,
         "map": "playmap_45",
         "x": 9,
@@ -350,9 +350,9 @@ found some cool Poketes.",
         "y": 33
     },
     "npc_26": {
-        "texts": [" < H-h-hello young trainer",
-                  " < I've lived a loong live, b-but now it's time to go.",
-                  " < And I'm trying to scatter all my belongings all over the world.",
+        "texts": [" < H-h-hello young trainer.",
+                  " < I've lived a looong life, b-but now it's time to go.",
+                  " < I'm trying to scatter all my belongings all over the world.",
                   " < Since you're a Pokete trainer, you may have use for this healing potion!"],
         "fn": "playmap_47_npc_26",
         "map": "playmap_47",
@@ -360,11 +360,11 @@ found some cool Poketes.",
         "y": 4
     },
     "npc_27": {
-        "texts": [" < Hello young pall",
-                  " < This city has been the center for plant Poketes for generations.",
-                  " < I posses one of the oldest and most powerful attack aver known to Poketes.",
-                  " < 'The old roots hit', the most powerful of the powerful.",
-                  " < Sadly all Poketes having this attack have been extinct for years.",
+        "texts": [" < Hello, young pal!",
+                  " < This city has been the home of plant Poketes for generations.",
+                  " < I posses one of the oldest and most powerful attacks aver known to Poketes.",
+                  " < 'The Old Roots Hit', the most powerful of the powerful.",
+                  " < Sadly, all Poketes with this attack have been extinct for years.",
                   " < The only thing that remained from them is this Learning Disc.",
                   " < Do you want to have it?"],
         "fn": "playmap_48_npc_27",
@@ -373,7 +373,7 @@ found some cool Poketes.",
         "y": 4
     },
     "npc_28": {
-        "texts": [" < Want a treat?", " < With those treats you can level up one of your Poketes by a level!"],
+        "texts": [" < Would you like a treat?", " < With those treats you can level up one of your Poketes by a level!"],
         "fn": "playmap_49_npc_28",
         "map": "playmap_49",
         "x": 15,

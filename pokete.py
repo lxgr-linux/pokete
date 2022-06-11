@@ -78,15 +78,15 @@ class NPCActions:
         if "choka" in [i.identifier for i in figure.pokes[:6]]:
             npc.text([" < Oh, cool!", " < You have a Choka!",
                       " < I've never seen one before!",
-                      " < Here you go, 200$"])
+                      " < Here you go, have $200!"])
             if ask_bool(mvp.movemap,
-                        "Young boy gifted you 200$. Do you want to accept it?"):
+                        "The young boy gifted you $200. Do you want to accept it?"):
                 figure.add_money(200)
             npc.set_used()
         else:
-            npc.text([" < In this region lives the würgos Pokete.",
+            npc.text([" < In this region lives the Würgos Pokete.",
                       f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
-it evolves to Choka.",
+It evolves into Choka.",
                       " < I have never seen one before!"])
 
     @staticmethod
@@ -109,7 +109,7 @@ at level {figure.pokes[index].lvl()}.")
             npc.text([" < Here you can leave one of your Poketes for some time \
 and we will train it."])
             if ask_bool(mvp.movemap, "Do you want to put a Pokete into the \
-Pokete-Care"):
+Pokete-Care?"):
                 if (index := deck.deck(6, "Your deck", True)) is not None:
                     pokete_care.poke = figure.pokes[index]
                     pokete_care.entry = timer.time.time
@@ -135,7 +135,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
     def playmap_23_npc_8(npc):
         """Interaction with npc_8"""
         if ask_bool(mvp.movemap,
-                    "The man gifted you 100$. Do you want to accept it?"):
+                    "The man gifted you $100. Do you want to accept it?"):
             npc.set_used()
             figure.add_money(100)
 
@@ -191,7 +191,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                      if i.lvl() >= 50 and i.identifier == "mowcow"]
         if len(poke_list) > 0:
             poke = poke_list[0]
-            npc.text([" < Oh great!", " < You're my saviour!",
+            npc.text([" < Oh great!", " < You're my hero!",
                       f" < You brought me a level {poke.lvl()} Mowcow!",
                       " < I'm thanking you!",
                       " < Now I can still serve the best MowCow-Burgers!",
@@ -199,9 +199,9 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
             if ask_bool(mvp.movemap,
                         "Do you want to give your Mowcow to the cook?"):
                 figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
-                npc.text([" < Here you go, 1000$"])
+                npc.text([" < Here you go, have $1000!"])
                 if ask_bool(mvp.movemap,
-                            "The cook gifted you 1000$. "
+                            "The cook gifted you $1000. "
                             "Do you want to accept it?"):
                     figure.add_money(1000)
                 npc.set_used()
@@ -211,15 +211,15 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                       "without beef?",
                       " < If only someone here could bring me a fitting "
                       "Mowcow!?",
-                      " < But it has to be at least on level 50, to fit our "
+                      " < But it has to be at least on level 50 to meet our "
                       "high quality standards.",
                       " < I will pay a good price!"])
 
     @staticmethod
     def playmap_39_npc_25(npc):
         """Interaction with npc_25"""
-        if not NPC.get("Sebastian the leader").used:
-            npc.text([" < I can't let you go.",
+        if not NPC.get("Leader Sebastian").used:
+            npc.text([" < I can't let you go!",
                       " < You first have to defeat our arena leader!"])
             figure.set(figure.x + 1, figure.y)
         else:
@@ -317,7 +317,7 @@ class CenterMap(PlayMap):
         self.trader = NPC("trader",
                           [" < I'm a trader.",
                            " < Here you can trade one of your Poketes for \
-another players' one."],
+one from another trainer."],
                           "swap_poke")
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
@@ -402,7 +402,7 @@ class Figure(se.Object):
     def add_money(self, money):
         """Adds money
         ARGS:
-            money: Amount of money beeing added"""
+            money: Amount of money being added"""
         self.set_money(self.__money + money)
 
     def get_money(self):
@@ -415,12 +415,12 @@ class Figure(se.Object):
         """Sets the money to a certain value
         ARGS:
             money: New value"""
-        assert money >= 0, "money has to be positive"
-        logging.info("[Figure] Money set to %d$ from %d$",
+        assert money >= 0, "Money has to be positive."
+        logging.info("[Figure] Money set to $%d from $%d",
                      money, self.__money)
         self.__money = money
         for cls in [inv, buy]:
-            cls.money_label.rechar(str(self.__money) + "$")
+            cls.money_label.rechar("$" + str(self.__money))
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
@@ -444,7 +444,7 @@ class Figure(se.Object):
 
     def give_item(self, item, amount=1):
         """Gives an item to the player"""
-        assert amount > 0, "Amounts have to be positive"
+        assert amount > 0, "Amounts have to be positive!"
         if item not in self.inv:
             self.inv[item] = amount
         else:
@@ -464,10 +464,10 @@ class Figure(se.Object):
         ARGS:
             item: Generic item name
             amount: Amount of items beeing removed"""
-        assert amount > 0, "Amounts have to be positive"
-        assert item in self.inv, f"Item {item} is not in the inventory"
+        assert amount > 0, "Amounts have to be positive!"
+        assert item in self.inv, f"Item {item} is not in the inventory!"
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
-in the inventory"
+in the inventory!"
         self.inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)
 
@@ -490,7 +490,7 @@ class Inv:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Inventory", "R:remove")
         self.box2 = Box(7, 21)
-        self.money_label = se.Text(f"{figure.get_money()}$")
+        self.money_label = se.Text(f"${figure.get_money()}")
         self.desc_label = se.Text(" ")
         # adding
         self.box.add_ob(self.money_label,
@@ -748,7 +748,7 @@ def save():
 
 
 def read_save():
-    """Reads form savefile
+    """Reads from savefile
     RETURNS:
         session_info dict"""
     Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
@@ -1047,12 +1047,12 @@ def intro():
                                "Welcome to Pokete!\nPlease choose your name!\n",
                                "Name:", "", "Name", 17)
     mvp.movemap.name_label_rechar(figure.name)
-    mvp.movemap.text(4, 3, [" < Hello my child.",
+    mvp.movemap.text(4, 3, [" < Hello, my child.",
                             " < You're now ten years old.",
-                            " < And I think it's now time for you to travel \
+                            " < I think it's now time for you to travel \
 the world and be a Pokete-trainer.",
-                            " < Therefore I give you this powerfull 'Steini', \
-15 'Poketeballs' to catch Poketes and a "
+                            " < Therefore, I give you this powerful 'Steini', \
+15 'Poketeballs' to catch Poketes, and a "
                             "'Healing potion'.",
                             " < You will be the best Pokete-Trainer in Nice \
 town.",
@@ -1072,7 +1072,7 @@ def parse_obj(_map, name, obj, _dict):
 
 
 def gen_obs():
-    """Genrates all objests on the maps"""
+    """Generates all objects on the maps"""
     map_data = p_data.map_data
     npcs = p_data.npcs
     trainers = p_data.trainers

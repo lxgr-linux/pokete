@@ -438,7 +438,7 @@ class FightItems:
                                    * chance + catch_chance,
                                    enem.full_hp], k=1)[0]:
             self.fig.add_poke(enem)
-            fightmap.outp.outp(f"You catched {enem.name}")
+            fightmap.outp.outp(f"You caught {enem.name}!")
             time.sleep(2)
             fightmap.pball.remove()
             fightmap.clean_up(obj, enem)
