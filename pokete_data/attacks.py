@@ -485,7 +485,7 @@ attacks = {
         "ap": 30,
     },
     "eye_pick": {
-        "name": "Eye Pick",
+        "name": "Eye Peck",
         "factor": 2.5,
         "action": "eye_pick",
         "world_action": "",

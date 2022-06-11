@@ -444,7 +444,7 @@ class Figure(se.Object):
 
     def give_item(self, item, amount=1):
         """Gives an item to the player"""
-        assert amount > 0, "Amounts have to be positive."
+        assert amount > 0, "Amounts have to be positive!"
         if item not in self.inv:
             self.inv[item] = amount
         else:
@@ -464,10 +464,10 @@ class Figure(se.Object):
         ARGS:
             item: Generic item name
             amount: Amount of items beeing removed"""
-        assert amount > 0, "Amounts have to be positive."
-        assert item in self.inv, f"Item {item} is not in the inventory."
+        assert amount > 0, "Amounts have to be positive!"
+        assert item in self.inv, f"Item {item} is not in the inventory!"
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
-in the inventory."
+in the inventory!"
         self.inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)
 

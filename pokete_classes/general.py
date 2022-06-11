@@ -18,7 +18,7 @@ back to the last Pokecenter you visited to heal them!
 On the way there, ${amount} fell out of your pocket!""")
         figure.remove()
         figure.map = figure.last_center_map
-        logging.info("[Figure] lost all Poketes and ran away!")
+        logging.info("[Figure] You lost all Poketes and ran away!")
         DoorToCenter().action(figure)
 
 

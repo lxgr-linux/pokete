@@ -260,7 +260,7 @@ trainers = {
     }, {
         "poke": ("treenator", 1000),
         "args": ("Aurelia", "She",
-                 [" < You wont be ready for myTtreenator!"],
+                 [" < You wont be ready for my Treenator!"],
                  [" < You're a loooser!"],
                  [" < Our best trainer will defeat you though!"], 28, 6)
     },
