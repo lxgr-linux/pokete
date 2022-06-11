@@ -19,7 +19,7 @@
 
 
 ## Plot
-The plot of the game is that you, a ten years old boy/girl/what ever, are running around in the world and does what ten years olds do: Catching little creatures (Poketes) and letting them fight against other little creatures.
+The plot of the game is that you, a ten years old boy/girl/whatever, are running around in the world and does what ten years olds do: Catching little creatures (Poketes) and letting them fight against other little creatures.
 
 You are on a journey to explore the world and catch all Poketes. On this way you will meet many different NPCs that may or may not be nice to you.
 
@@ -101,7 +101,7 @@ They are the small red balls hidden all over the map, and can be collected by ju
 ![Balls](assets/ss/ss17.png)
 
 ## Settings
-I the games menu/settings you can change the players name, save, exit or change other settings. To exit just press `Esc` or `q`.
+In the games menu/settings you can change the players name, save, exit or change other settings. To exit just press `Esc` or `q`.
 
 ![Settings](assets/ss/ss20.png)
 
