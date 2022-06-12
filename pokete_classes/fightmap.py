@@ -342,7 +342,7 @@ used {enemy.name} against you!')
             obj = [i for i in players if i != obj][-1]
             enem = [i for i in players if i != obj][-1]
         loser = [obj for obj in players if obj != winner][0]
-        _xp = (loser.lose_xp + (1 if loser.lvl() > winner.lvl() else 0))\
+        _xp = (loser.lose_xp + max(0, loser.lvl() - winner.lvl()))\
                              * (2 if info["type"] == "duel" else 1)
         self.outp.outp(f"{winner.ext_name} won!" + (f'\nXP + {_xp}'
                                                     if winner.player else ''))
