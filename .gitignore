@@ -3,3 +3,7 @@ templates
 
 .idea
 scrap_engine.py
+
+# flatpak build directories
+.flatpak-builder
+build
