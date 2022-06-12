@@ -207,7 +207,7 @@ can't have more than 4 attacks!"
             time.sleep(0.4)
             for i in attack.move:
                 getattr(self.moves, i)()
-            if attack.action is not None:
+            if attack.action is not None and random_factor != 0:
                 getattr(AttackActions(), attack.action)(self, enem)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
@@ -215,7 +215,7 @@ can't have more than 4 attacks!"
             if enem == self:
                 time.sleep(1)
                 fightmap.outp.outp(f'{self.ext_name} hurt itself!')
-            if n_hp != 0 or attack.factor == 0:
+            if random_factor != 0:
                 attack.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
