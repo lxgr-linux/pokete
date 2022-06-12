@@ -124,7 +124,8 @@ You can find different versions of this wiki:
                 out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
                 for j, atc in enumerate([k for k in sorted(attacks) if
                                          attacks[k][&#34;types&#34;][0] == typ]):
-                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{attacks[atc][&#34;name&#34;]
+                            .replace(&#34; &#34;, &#34;-&#34;).lower()})\n&#34;&#34;&#34;
             out += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
 &#34;&#34;&#34;
@@ -788,7 +789,8 @@ You can find different versions of this wiki:
                 out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
                 for j, atc in enumerate([k for k in sorted(attacks) if
                                          attacks[k][&#34;types&#34;][0] == typ]):
-                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{attacks[atc][&#34;name&#34;]
+                            .replace(&#34; &#34;, &#34;-&#34;).lower()})\n&#34;&#34;&#34;
             out += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
 &#34;&#34;&#34;
@@ -1982,7 +1984,8 @@ You can find different versions of this wiki:
                 out += f&#34;&#34;&#34;   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n&#34;&#34;&#34;
                 for j, atc in enumerate([k for k in sorted(attacks) if
                                          attacks[k][&#34;types&#34;][0] == typ]):
-                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{atc.replace(&#34;_&#34;, &#34;-&#34;)})\n&#34;&#34;&#34;
+                    out += f&#34;&#34;&#34;       {j + 1}. [{attacks[atc][&#34;name&#34;]}](#{attacks[atc][&#34;name&#34;]
+                            .replace(&#34; &#34;, &#34;-&#34;).lower()})\n&#34;&#34;&#34;
             out += &#34;&#34;&#34;3. [Types](#types)
 4. [Items](#items)
 &#34;&#34;&#34;
