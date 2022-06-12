@@ -95,7 +95,8 @@ You can find different versions of this wiki:
                 out += f"""   {i + 1}. [{typ.capitalize()} attacks](#{typ}-attacks)\n"""
                 for j, atc in enumerate([k for k in sorted(attacks) if
                                          attacks[k]["types"][0] == typ]):
-                    out += f"""       {j + 1}. [{attacks[atc]["name"]}](#{atc.replace("_", "-")})\n"""
+                    out += f"""       {j + 1}. [{attacks[atc]["name"]}](#{attacks[atc]["name"]
+                            .replace(" ", "-").lower()})\n"""
             out += """3. [Types](#types)
 4. [Items](#items)
 """
