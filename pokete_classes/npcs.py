@@ -197,14 +197,14 @@ Do you want to accept it?"):
 class Trainer(NPC):
     """Trainer class to fight against"""
 
-    def __init__(self, poke, name, gender, texts, lose_texts,
+    def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
         super().__init__(name, texts, side_trigger=False)
         # attributes
         self.gender = gender
-        self.poke = poke
         self.lose_texts = lose_texts
         self.win_texts = win_texts
+        self.pokes = pokes
 
     def add(self, _map, x, y):
         """Add wrapper
@@ -223,7 +223,8 @@ class Trainer(NPC):
         o_y = self.y
         if self.fig.has_item("shut_the_fuck_up_stone"):
             return
-        if self.poke.hp > 0 and (not self.used
+        self.pokes = [p for p in self.pokes if p.hp > 0]
+        if self.pokes and (not self.used
                                  or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
@@ -232,17 +233,21 @@ class Trainer(NPC):
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
                 self.text(self.texts)
-                winner = fm.fight([poke for poke in self.fig.pokes[:6]
+                winner = fm.fight(
+                            [poke for poke in self.fig.pokes[:6]
                                    if poke.hp > 0][0],
-                                  self.poke,
-                                  info={"type": "duel", "player": self})
+                            self.pokes[0],
+                            info={"type": "duel", "player": self},
+                            trainer=self
+                )
+                is_winner = winner in self.pokes
                 self.text({True: self.lose_texts,
                            False: self.win_texts + [" < Here's $20!"]}
-                          [winner == self.poke])
-                if winner != self.poke:
+                          [is_winner])
+                if not is_winner:
                     self.fig.add_money(20)
                     self.set_used()
                 logging.info("[NPC][%s] %s against player", self.name,
-                             'Lost' if  winner != self.poke else 'Won')
+                             'Lost' if not is_winner else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.fig)

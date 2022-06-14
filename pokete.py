@@ -1082,7 +1082,7 @@ def gen_obs():
         _map = obmp.ob_maps[i]
         for j in trainers[i]:
             args = j["args"]
-            trainer = Trainer(Poke(*j["poke"], player=False), *args[:-2])
+            trainer = Trainer([Poke(*p, player=False) for p in j["pokes"]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 

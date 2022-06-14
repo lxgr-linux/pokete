@@ -197,7 +197,7 @@ class FightMap(gm.GameMap):
         self.invbox.remove_c_obs()
         return item
 
-    def fight(self, player, enemy, figure, info):
+    def fight(self, player, enemy, figure, info, trainer=None):
         """Fight between two Pokes
         ARGS:
             player: The players' used Poke
@@ -337,6 +337,30 @@ used {enemy.name} against you!')
                                                        player, enemy)
                     if old_player == player:
                         break
+                elif (
+                        trainer
+                        and winner.player
+                        and any(p.hp > 0 for p in trainer.pokes)
+                ):
+                    time.sleep(1)
+                    ico = players[1].ico
+                    self.fast_change([ico, self.deadico1, self.deadico2], ico)
+                    self.deadico2.remove()
+                    self.show()
+                    self.clean_up(*players)
+                    players = [
+                        player,
+                        [p for p in trainer.pokes if p.hp > 0][0]
+                    ]
+                    self.add_1(*players, figure.caught_pokes)
+                    self.add_3(*players)
+                    ico = players[1].ico
+                    self.fast_change(
+                        [ico, self.deadico2, self.deadico1, ico], ico
+                    )
+                    self.outp.outp(f"{trainer.name} used {players[1].name}!")
+                    self.show()
+                    time.sleep(2)
                 else:
                     break
             obj = [i for i in players if i != obj][-1]
@@ -509,7 +533,7 @@ class Fight:
     def __init__(self, figure):
         self.figure = figure
 
-    def __call__(self, player, enemy, info=None):
+    def __call__(self, player, enemy, info=None, trainer=None):
         """Wrapper for fightmap.fight
         ARGS:
             player: The players Poke
@@ -517,7 +541,7 @@ class Fight:
             info: Dict containing info about the fight"""
         if info is None:
             info = {"type": "wild", "player": " "}
-        return fightmap.fight(player, enemy, self.figure, info)
+        return fightmap.fight(player, enemy, self.figure, info, trainer)
 
 
 fight = None
