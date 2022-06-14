@@ -2332,7 +2332,7 @@ A ball you can use to catch Poketes
 - Can be used in fights: Yes
 
 ### 'Shut the fuck up' stone
-Makes trainer leaving you alone
+Makes trainer leave you alone
 
 - Price: None
 - Can be used in fights: No
