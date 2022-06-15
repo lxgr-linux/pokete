@@ -5,6 +5,7 @@ import logging
 import scrap_engine as se
 import pokete_classes.fightmap as fm
 import pokete_classes.movemap as mvp
+from .providers import Provider
 from .loops import std_loop
 from .input import ask_bool
 from .inv_items import invitems
@@ -194,17 +195,30 @@ Do you want to accept it?"):
             q_a = q_a["a"][key]
 
 
-class Trainer(NPC):
+class Trainer(NPC, Provider):
     """Trainer class to fight against"""
 
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
-        super().__init__(name, texts, side_trigger=False)
+        NPC.__init__(self, name, texts, side_trigger=False)
+        Provider.__init__(self, pokes)
         # attributes
         self.gender = gender
         self.lose_texts = lose_texts
         self.win_texts = win_texts
-        self.pokes = pokes
+
+    def get_attack(self, fightmap, enem):
+        return random.choices(
+            self.curr.attack_obs,
+            weights=[
+                i.ap * (
+                    1.5 if enem.curr.type.name in i.type.effective
+                    else 0.5 if enem.curr.type.name in i.type.ineffective
+                    else 1
+                )
+                for i in self.curr.attack_obs
+            ]
+        )[0]
 
     def add(self, _map, x, y):
         """Add wrapper
@@ -233,14 +247,10 @@ class Trainer(NPC):
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
                 self.text(self.texts)
-                winner = fm.fight(
-                            [poke for poke in self.fig.pokes[:6]
-                                   if poke.hp > 0][0],
-                            self.pokes[0],
-                            info={"type": "duel", "player": self},
-                            trainer=self
+                winner = fm.fightmap.fight(
+                    [self, self.fig]
                 )
-                is_winner = winner in self.pokes
+                is_winner = (winner == self)
                 self.text({True: self.lose_texts,
                            False: self.win_texts + [" < Here's $20!"]}
                           [is_winner])
