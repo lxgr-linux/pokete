@@ -272,6 +272,8 @@ class FightMap(gm.GameMap):
             )
         )
         weather = providers[0].map.weather
+        for prov in providers:
+            prov.index_conf()
         if settings("animations").val:  # Intro animation
             animations.fight_intro(self.height, self.width)
         self.add_1(*providers)

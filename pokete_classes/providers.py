@@ -14,6 +14,12 @@ class Provider:
         """Returns the currently used Pokete"""
         return self.pokes[self.play_index]
 
+    def index_conf(self):
+        """Sets index correctly"""
+        self.play_index = self.pokes.index(
+            [poke for poke in self.pokes if poke.hp > 0][0]
+        )
+
     def get_attack(self, fightmap, enem):
         """Returns the choosen attack:
         ARGS:
