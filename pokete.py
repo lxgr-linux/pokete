@@ -382,6 +382,10 @@ class Figure(se.Object, ProtoFigure):
         self.direction = "t"
 
     def get_attack(self, fightmap, enem):
+        """Returns the choosen attack:
+        ARGS:
+            fightmap: fightmap object
+            anem: The enemy Provider"""
         return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
@@ -1365,6 +1369,7 @@ def map_additions():
 
 class Entry:
     """Ensures terminal is reset properly"""
+
     def __enter__(self):
         """Enter dunder for context management"""
         return self

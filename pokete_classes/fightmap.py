@@ -67,8 +67,7 @@ class FightMap(gm.GameMap):
     def clean_up(self, *providers):
         """Removes all labels from self
         ARGS:
-            player: The player Poke object
-            enemy: The enemy Poke object
+            providers: The Providers to clean up
         that the labels belong to"""
         for prov in providers:
             for obj in [
@@ -85,9 +84,7 @@ class FightMap(gm.GameMap):
     def add_player(self, player):
         """Adds player labels
         ARGS:
-            player: The player Poke object
-            enemy: The enemy Poke object
-        that the labels belong to"""
+            player: The player Poke object"""
         player.curr.text_name.add(self, self.width - 17, self.height - 9)
         player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
         player.curr.tril.add(self, self.width - 11, self.height - 7)
@@ -102,10 +99,7 @@ class FightMap(gm.GameMap):
         """Adds enemy and general labels to self
         ARGS:
             player: The player Poke object
-            enemy: The enemy Poke object
-        that the labels belong to
-            caught_poketes: List of Poke.identifiers of Pokes that have already
-                            been caught"""
+            enemy: The enemy Poke object that the labels belong to"""
         for obj, x, y in zip(
             [
                 enem.curr.tril,
@@ -161,7 +155,7 @@ class FightMap(gm.GameMap):
         ARGS:
             attack_obs: A list of Attack objects that belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
-            while True:
+            while True:#158
                 if _ev.get() in ["'s'", "'w'"]:
                     self.box.input(_ev.get())
                     self.show()
@@ -207,6 +201,10 @@ class FightMap(gm.GameMap):
         return item
 
     def get_figure_attack(self, figure, enem):
+        """Chooses the players attack
+        ARGS:
+            figure: The players provider
+            enem: The enemys provider"""
         self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
                                           else "") +
                                          "What do you want to do?",
@@ -264,7 +262,7 @@ class FightMap(gm.GameMap):
         ARGS:
             providers
         RETURNS:
-            Poke object that won the fight"""
+            Provider that won the fight"""
         index = 0
         logging.info(
             "[Fight] Started between %s",
@@ -401,13 +399,9 @@ class FightMap(gm.GameMap):
     def choose_poke(self, player):
         """Lets the player choose another Pokete from their deck
         ARGS:
-            figure: Figure object
-            players: The list of both player end enemy
             player: The players' used Poke
-            enemy: The enemy's used Poke
         RETURNS:
-            players: The list of both player end enemy
-            player: The players' used Poke"""
+            bool whether or not a Pokete was choosen"""
         self.clean_up(player)
         index = deck.deck(6, "Your deck", True)
         if index is not None:
@@ -426,9 +420,8 @@ class FightItems:
     """Contains all fns callable by an item in fight
     The methods that can actually be called in fight follow the following pattern:
         ARGS:
-            obj: The players Poke object
-            enem: The enemys Poke object
-            info: The info dict
+            obj: The players Provider
+            enem: The enemys Provider
         RETURNS:
             1: To continue the attack round
             2: To win the game
