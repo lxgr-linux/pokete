@@ -236,7 +236,7 @@ can&#39;t have more than 4 attacks!&#34;
             time.sleep(0.4)
             for i in attack.move:
                 getattr(self.moves, i)()
-            if attack.action is not None:
+            if attack.action is not None and random_factor != 0:
                 getattr(AttackActions(), attack.action)(self, enem)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
@@ -244,7 +244,7 @@ can&#39;t have more than 4 attacks!&#34;
             if enem == self:
                 time.sleep(1)
                 fightmap.outp.outp(f&#39;{self.ext_name} hurt itself!&#39;)
-            if n_hp != 0 or attack.factor == 0:
+            if random_factor != 0:
                 attack.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
@@ -577,7 +577,7 @@ can&#39;t have more than 4 attacks!&#34;
             time.sleep(0.4)
             for i in attack.move:
                 getattr(self.moves, i)()
-            if attack.action is not None:
+            if attack.action is not None and random_factor != 0:
                 getattr(AttackActions(), attack.action)(self, enem)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
@@ -585,7 +585,7 @@ can&#39;t have more than 4 attacks!&#34;
             if enem == self:
                 time.sleep(1)
                 fightmap.outp.outp(f&#39;{self.ext_name} hurt itself!&#39;)
-            if n_hp != 0 or attack.factor == 0:
+            if random_factor != 0:
                 attack.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
@@ -771,7 +771,7 @@ def from_dict(cls, _dict):
         time.sleep(0.4)
         for i in attack.move:
             getattr(self.moves, i)()
-        if attack.action is not None:
+        if attack.action is not None and random_factor != 0:
             getattr(AttackActions(), attack.action)(self, enem)
         attack.set_ap(attack.ap - 1)
         fightmap.outp.outp(
@@ -779,7 +779,7 @@ def from_dict(cls, _dict):
         if enem == self:
             time.sleep(1)
             fightmap.outp.outp(f&#39;{self.ext_name} hurt itself!&#39;)
-        if n_hp != 0 or attack.factor == 0:
+        if random_factor != 0:
             attack.give_effect(enem)
         for obj in [enem, self] if enem != self else [enem]:
             obj.hp_bar.update(obj.oldhp)
