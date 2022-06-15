@@ -2,5 +2,5 @@
 
 VERSION = "0.7.2"
 CODENAME = "Grey Edition"
-SAVEPATH = "/.cache/pokete"
+SAVEPATH = "/.local/share/pokete"
 FRAMETIME = 0.05
