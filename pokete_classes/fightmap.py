@@ -284,7 +284,7 @@ class FightMap(gm.GameMap):
                 self.outp.outp(f"{prov.name} started a fight!")
                 time.sleep(1)
                 self.outp.outp(
-                    f'{self.outp.text}\n{prov.gender} used {enemy.name} '
+                    f'{self.outp.text}\n{prov.gender} used {prov.curr.name} '
                     'against you!'
                 )
         time.sleep(1)
@@ -351,7 +351,7 @@ class FightMap(gm.GameMap):
                     self.clean_up(loser)
                     loser.play_index += 1
                     self.add_1(*providers)
-                    ico = loser.ico
+                    ico = loser.curr.ico
                     self.fast_change(
                         [ico, self.deadico2, self.deadico1, ico], ico
                     )
@@ -367,7 +367,7 @@ class FightMap(gm.GameMap):
                 poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
                 for poke in loser.pokes
             ]
-        ) * (2 if type(loser) is Trainer else 1)
+        ) * (2 if type(loser) is not NatureProvider else 1)
         self.outp.outp(
             f"{winner.curr.ext_name} won!" +
             (f'\nXP + {_xp}' if winner.curr.player else '')
@@ -443,7 +443,7 @@ class FightItems:
             None: To let the enemy attack"""
 
         if type(enem) is not NatureProvider:
-            fightmap.outp.rechar("You threw a can do that in a duel!")
+            fightmap.outp.outp("You can't do that in a duel!")
             return 1
         fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
         fightmap.fast_change([enem.curr.ico, fightmap.deadico1, fightmap.deadico2,

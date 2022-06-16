@@ -196,14 +196,14 @@ trainers = {
                  [" < You're a loooser!"],
                  [" < The other trainers wont be as easy!"], 11, 10)
     }, {
-        "pokes": [("treenator", 950)],
+        "pokes": [("treenator", 950), ("lilstone", 950)],
         "args": ("Jessica", "She",
                  [" < You wont be ready for my Treenator!"],
                  [" < You're a loooser!"],
                  [" < Our best trainer will defeat you though!"], 16, 6)
     },
         {
-            "pokes": [("poundi", 1000)],
+            "pokes": [("poundi", 1000), ("steini", 1000), ("diamondos", 1000)],
             "args": ("First Trainer", "He",
                      [" < Let's have a fair fight!"],
                      [" < You're a loooser!"],
@@ -345,14 +345,14 @@ trainers = {
                      [" < I wish you the best of luck"], 16, 7)
         },
         {
-            "pokes": [("megapois", 2200)],
+            "pokes": [("megapois", 2200), ("bushy", 2200)],
             "args": ("Gardener Daniela", "She",
                      [" < Look at my newest creation!"],
                      [" < You'll do better next time."],
                      [" < I wish you the best of luck"], 13, 7)
         },
         {
-            "pokes": [("mowcow", 2300)],
+            "pokes": [("mowcow", 2300), ("treenator", 2300), ("wheeto", 2300)],
             "args": ("Leader Sebastian", "He",
                      [" < So, I'll be your last opponent.",
                       " < Let's have a fair fight!"],

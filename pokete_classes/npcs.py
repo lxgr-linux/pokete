@@ -2,6 +2,7 @@
 
 import time
 import logging
+import random
 import scrap_engine as se
 import pokete_classes.fightmap as fm
 import pokete_classes.movemap as mvp
@@ -248,7 +249,7 @@ class Trainer(NPC, Provider):
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
                 self.text(self.texts)
                 winner = fm.fightmap.fight(
-                    [self, self.fig]
+                    [self.fig, self]
                 )
                 is_winner = (winner == self)
                 self.text({True: self.lose_texts,
