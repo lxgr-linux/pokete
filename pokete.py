@@ -28,6 +28,7 @@ from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
 from pokete_classes.buy import Buy
+from pokete_classes.audio import audio
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
@@ -811,6 +812,7 @@ def exiter():
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
+    audio.kill()
     sys.exit()
 
 
@@ -977,6 +979,12 @@ def _game(_map):
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
     if _map.name not in figure.visited_maps:
         figure.visited_maps.append(_map.name)
+
+    if audio.curr is None:
+        audio.start("08 Ascending.mp3")
+    else:
+        audio.switch("03 Chibi Ninja.mp3")
+
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
@@ -1165,9 +1173,11 @@ def main():
     timeing.daemon = True
     recognising.daemon = True
     autosaveing.daemon = True
+
     timeing.start()
     recognising.start()
     autosaveing.start()
+
     check_version(session_info)
     if figure.name == "DEFAULT":
         intro()
@@ -1374,6 +1384,7 @@ if __name__ == "__main__":
             fd = sys.stdin.fileno()
             old_settings = termios.tcgetattr(fd)
             tty.setraw(fd)
+            time.sleep(0.1)
             while True:
                 char = sys.stdin.read(1)
                 _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
@@ -1382,6 +1393,7 @@ if __name__ == "__main__":
                 if ord(char) == 3:
                     reset_terminal()
                     _ev.set("exit")
+                time.sleep(0.05)
     else:
         from pynput.keyboard import Listener
 
