@@ -239,7 +239,7 @@ can't have more than 4 attacks!"
                 or self.lvl() < self.evolve_lvl:
             return False
         evomap = EvoMap(_map.height, _map.width)
-        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
+        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width / 2 - 4),
                      round((evomap.height - 8) / 2))
