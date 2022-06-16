@@ -145,5 +145,8 @@ $ ./gen_wiki.py
 
 to regenerate the wiki and adding them to it.
 
+## Credits
+Music: Eric Skiff - Resistor Anthems - Available at [http://EricSkiff.com/music](http://EricSkiff.com/music)
+
 ## Trouble shooting
 If you're experiencing problems on Japanese systems take a look at [this](https://gist.github.com/z80oolong/c7523367b798bdda094f859342f4c8be).
