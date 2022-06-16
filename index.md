@@ -34,7 +34,7 @@ You can also install it from the AUR:
 $ buildaur -S pokete-git
 ```
 
-Or you can just run the AppImage from tge release page.
+Or you can just run the AppImage from the release page.
 
 NOTE: In that case you first have to create the `~/.cache/pokete/` folder.
 
