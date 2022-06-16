@@ -981,9 +981,9 @@ def _game(_map):
         figure.visited_maps.append(_map.name)
 
     if audio.curr is None:
-        audio.start("08 Ascending.mp3")
+        audio.start(_map.song)
     else:
-        audio.switch("03 Chibi Ninja.mp3")
+        audio.switch(_map.song)
 
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
     mvp.movemap.set(0, 0)

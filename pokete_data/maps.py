@@ -24,6 +24,7 @@ maps = {
         "width": 90,
         "pretty_name": "Nice Town Cave",
         "extra_actions": None,
+        "song": "08 Ascending.mp3",
         "poke_args": {
             "pokes": ["steini", "bato", "lilstone", "rato"],
             "minlvl": 40,
