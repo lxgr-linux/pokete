@@ -34,7 +34,7 @@ Every Pokete has an entry the `pokes` dictionary in [`pokete_data/poketes.py`](.
     },
 ```
 
-For more examples on the dictionaries see [`pokete_data/poketes.py`](./pokete_data/poketes).
+For more examples on the dictionaries see [`pokete_data/poketes.py`](./pokete_data/poketes.py).
 
 ### Types
 Only the first type in the `"types"` list is the Poketes actual displayed type, that determines the Poketes effectivity. The other types in the list are just secondary types that determine what generic attacks a Pokete is able to learn. Those can also be subtypes. The main type can't!
@@ -51,14 +51,14 @@ Every attack has an entry the `attacks` dictionary in [`pokete_data/attacks.py `
 "poison_bite": {  # This is the attacks simplified name/identifier without spaces and in lowercase, which is used to refer to the attack in the game
         "name": "Poison bite",  # The attacks displayed name
         "factor": 1,  # The attack factor, that is used to calculate damage
-        "action": "",  # A String that's executed when the attack is used, to effect the Poketes or the enemies values (don't use this) 
+        "action": "",  # A String that's executed when the attack is used, to effect the Poketes or the enemies values (don't use this)
         "world_action": "",  # An extra ability the attack can be used for
         "move": ["attack", "downgrade"],  # The moves the Pokete does using the attack
         "miss_chance": 0.3,  # The chance to miss the attack
         "min_lvl": 0,  # The minimal level a Poketes has to have to learn the attack
         "desc": "Makes the enemy weaker.",  # The attacks description
         "types": ["poison"],  # The attacks types
-        "effect": "poison",  # The effect the enemy gets when the attack is used, default is None 
+        "effect": "poison",  # The effect the enemy gets when the attack is used, default is None
         "is_generic": False,  # Whether or not the attack can be learned by any Pokete of its types
         "ap": 10,  # The attack points the attack has, so the amount of times the attack can be used by a Pokete until the Pokete has to be healed
     },
@@ -81,7 +81,7 @@ Every type has an entry the `types` dictionary in [`pokete_data/types.py`](./pok
 
 ```Python
 "stone": {  # The types name
-        "effective": ["flying", "fire"],  # The types the type is effective against 
+        "effective": ["flying", "fire"],  # The types the type is effective against
         "ineffective": ["plant"],  # The types the type is ineffective against
         "color": ["grey"]  # The types label color
     },
