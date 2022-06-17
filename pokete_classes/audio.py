@@ -1,7 +1,10 @@
 """This manages audio playback"""
 
 import multiprocessing
-from playsound import playsound
+try:
+    from playsound import playsound
+except ModuleNotFoundError:
+    from .dummy_playsound import playsound
 from .settings import settings
 
 
