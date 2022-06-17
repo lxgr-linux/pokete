@@ -163,7 +163,7 @@ can't have more than 4 attacks!"
             Current level"""
         return int(math.sqrt(self.xp + 1))
 
-    def attack(self, attack, enem, fightmap):
+    def attack(self, attack, enem, fightmap, weather):
         """Attack process
         ARGS:
             attack: Attack object
@@ -179,7 +179,6 @@ can't have more than 4 attacks!"
                 self.enem = enem = self
             else:
                 self.enem = enem
-            weather = fightmap.figure.map.weather
             w_eff = 1
             random_factor = random.choices([0, 0.75, 1, 1.26],
                                            weights=[attack.miss_chance
