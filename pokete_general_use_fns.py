@@ -62,7 +62,7 @@ Options:
     --log          : Enables logging
     --help         : Shows this help
     --no_mods      : Disables mods
-    --force-pynput : Forces the usage of pynput as a keyboard input backend
+    --force_pynput : Forces the usage of pynput as a keyboard input backend
 
 Homepage: https://github.com/lxgr-linux/pokete
 

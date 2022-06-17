@@ -29,6 +29,7 @@ from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
 from pokete_classes.providers import ProtoFigure
 from pokete_classes.buy import Buy
+from pokete_classes.audio import audio
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
@@ -303,7 +304,7 @@ class CenterMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="centermap",
-                         pretty_name="Pokete-Center")
+                         pretty_name="Pokete-Center", song="Map.wav")
         self.inner = se.Text(""" ________________
  |______________|
  |     |a |     |
@@ -336,7 +337,7 @@ class ShopMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="shopmap",
-                         pretty_name="Pokete-Shop")
+                         pretty_name="Pokete-Shop", song="Map.wav")
         self.inner = se.Text(""" __________________
  |________________|
  |      |a |      |
@@ -648,6 +649,8 @@ class Menu:
                                        {True: "On", False: "Off"}),
                             VisSetting("Save trainers", "save_trainers",
                                        {True: "On", False: "Off"}),
+                            VisSetting("Audio", "audio",
+                                       {True: "On", False: "Off"}),
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
                             self.mods_label, self.ach_label,
@@ -821,6 +824,7 @@ def exiter(end=False):
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
+    audio.kill()
     if not end:
         sys.exit()
 
@@ -988,6 +992,12 @@ def _game(_map):
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
     if _map.name not in figure.visited_maps:
         figure.visited_maps.append(_map.name)
+
+    if audio.curr is None:
+        audio.start(_map.song)
+    else:
+        audio.switch(_map.song)
+
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
@@ -1014,8 +1024,11 @@ def _game(_map):
                 break
         else:
             if _ev.get() in inp_dict:
+                audio_before = settings("audio").val
                 inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
                 _ev.clear()
+                if audio_before != settings("audio").val:
+                    audio.switch(_map.song)
                 mvp.movemap.show(init=True)
             elif _ev.get() == "'2'":
                 _ev.clear()
@@ -1176,9 +1189,11 @@ def main():
     timeing.daemon = True
     recognising.daemon = True
     autosaveing.daemon = True
+
     timeing.start()
     recognising.start()
     autosaveing.start()
+
     check_version(session_info)
     if figure.name == "DEFAULT":
         intro()
@@ -1375,6 +1390,7 @@ if __name__ == "__main__":
     if sys.platform == "linux" and not force_pynput:
         import tty
         import termios
+        import select
 
 
         def recogniser():
@@ -1386,14 +1402,17 @@ if __name__ == "__main__":
             fd = sys.stdin.fileno()
             old_settings = termios.tcgetattr(fd)
             tty.setraw(fd)
+            time.sleep(0.1)
             while True:
-                char = sys.stdin.read(1)
-                _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                        127: "Key.backspace", 32: "Key.space",
-                        27: "Key.esc"}[ord(char)])
-                if ord(char) == 3:
-                    reset_terminal()
-                    _ev.set("exit")
+                rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+                if rlist:
+                    char = sys.stdin.read(1)
+                    _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
+                             127: "Key.backspace", 32: "Key.space",
+                             27: "Key.esc"}[ord(char)])
+                    if ord(char) == 3:
+                        reset_terminal()
+                        _ev.set("exit")
     else:
         from pynput.keyboard import Listener
 

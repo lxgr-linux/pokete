@@ -24,7 +24,7 @@ Pokete is a small terminal based game in the style of a very popular and old gam
 ## Installation
 For Linux just do this:
 ```shell
-# pip install scrap_engine
+# pip install scrap_engine playsound pygobject
 $ git clone https://github.com/lxgr-linux/pokete.git
 $ ./pokete/pokete.py
 ```
@@ -42,8 +42,7 @@ For Windows and OSX:
 
 ```shell
 git clone https://github.com/lxgr-linux/pokete.git
-pip install scrap_engine
-pip install pynput
+pip install scrap_engine pynput playsound pygobject
 ```
 To run just execute `pokete.py`.
 
@@ -144,6 +143,12 @@ $ ./gen_wiki.py
 ```
 
 to regenerate the wiki and adding them to it.
+
+## Credits
+Music:
+- Eric Skiff - Resistor Anthems - Available at [http://EricSkiff.com/music](http://EricSkiff.com/music)
+- Marllon Silva (xDeviruchi) - 8-bit-fantasy-adventure-music-pack - Available at [itch.io](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
+- SketchyLogic - Map - Available at [opengameart.org](https://opengameart.org/content/nes-shooter-music-5-tracks-3-jingles)
 
 ## Trouble shooting
 If you're experiencing problems on Japanese systems take a look at [this](https://gist.github.com/z80oolong/c7523367b798bdda094f859342f4c8be).
