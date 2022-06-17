@@ -70,11 +70,11 @@ class FightMap(gm.GameMap):
             providers: The Providers to clean up
         that the labels belong to"""
         for prov in providers:
-            for obj in [
+            for obj in (
                 prov.curr.text_name, prov.curr.text_lvl, prov.curr.text_hp,
                 prov.curr.ico, prov.curr.hp_bar, prov.curr.tril, prov.curr.trir,
                 prov.curr.pball_small
-            ]:
+            ):
                 obj.remove()
             if isinstance(prov, ProtoFigure):
                 self.box.remove_c_obs()
@@ -101,7 +101,7 @@ class FightMap(gm.GameMap):
             player: The player Poke object
             enemy: The enemy Poke object that the labels belong to"""
         for obj, x, y in zip(
-            [
+            (
                 enem.curr.tril,
                 enem.curr.trir,
                 enem.curr.text_name,
@@ -109,9 +109,9 @@ class FightMap(gm.GameMap):
                 enem.curr.text_hp,
                 enem.curr.ico,
                 enem.curr.hp_bar
-            ],
-            [7, 16, 1, 1, 1, self.width - 14, 8],
-            [3, 3, 1, 2, 3, 2, 3]
+            ),
+            (7, 16, 1, 1, 1, self.width - 14, 8),
+            (3, 3, 1, 2, 3, 2, 3)
         ):
             obj.add(self, x, y)
         if enem.curr.identifier in player.caught_pokes:
@@ -299,15 +299,10 @@ class FightMap(gm.GameMap):
         self.show()
         time.sleep(0.5)
         index = providers.index(
-            sorted(
-                zip(
-                    [i.curr.initiative for i in providers],
-                    [1, 0],
-                    providers
-                )
-            )[-1][-1]
+            max(providers, key=lambda i: i.curr.initiative)
         )
-        for i in [prov.curr for prov in providers]:
+        for prov in providers:
+            i = prov.curr
             for j in i.effects:
                 j.readd()
         while True:
@@ -367,10 +362,8 @@ class FightMap(gm.GameMap):
             index += 1
         # loser = [obj for obj in players if obj != winner][0]
         _xp = sum(
-            [
-                poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
-                for poke in loser.pokes
-            ]
+            poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
+            for poke in loser.pokes
         ) * (2 if type(loser) is not NatureProvider else 1)
         self.outp.outp(
             f"{winner.curr.ext_name} won!" +

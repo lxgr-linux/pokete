@@ -16,8 +16,8 @@ class Provider:
 
     def index_conf(self):
         """Sets index correctly"""
-        self.play_index = self.pokes.index(
-            [poke for poke in self.pokes if poke.hp > 0][0]
+        self.play_index = next(
+            i for i, poke in enumerate(self.pokes) if poke.hp > 0
         )
 
     def get_attack(self, fightmap, enem):

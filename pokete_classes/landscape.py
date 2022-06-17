@@ -34,16 +34,14 @@ class HighGrass(se.Object):
                         Poke(
                             random.choices(
                                 list(pokes),
-                                weights=[i["rarity"] for _, i in pokes.items()]
+                                weights=[i["rarity"] for i in pokes.values()]
                             )[0],
-                            random.choices(
-                                list(
-                                    range(
-                                        self.arg_proto["minlvl"],
-                                        self.arg_proto["maxlvl"]
-                                    )
+                            random.choice(
+                                range(
+                                    self.arg_proto["minlvl"],
+                                    self.arg_proto["maxlvl"]
                                 )
-                            )[0],
+                            ),
                             player=False, shiny=(random.randint(0, 500) == 0)
                         )
                     )
