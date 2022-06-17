@@ -2,6 +2,7 @@ maps = {
     "intromap": {
         "height": 15,
         "width": 30,
+        "song": "03 Chibi Ninja.mp3",
         "pretty_name": "Your home",
         "extra_actions": None,
         "poke_args": None,
@@ -10,6 +11,7 @@ maps = {
     "playmap_1": {
         "height": 25,
         "width": 90,
+        "song": "03 Chibi Ninja.mp3",
         "pretty_name": "Nice Town",
         "extra_actions": None,
         "poke_args": {
@@ -35,6 +37,7 @@ maps = {
     "playmap_2": {
         "height": 30,
         "width": 180,
+        "song": "03 Chibi Ninja.mp3",
         "pretty_name": "Route 1",
         "extra_actions": None,
         "poke_args": {
@@ -48,6 +51,7 @@ maps = {
         "height": 30,
         "width": 90,
         "pretty_name": "Sunnydale",
+        "song": "xDeviruchi - Exploring The Unknown.wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
@@ -60,6 +64,7 @@ maps = {
         "height": 60,
         "width": 60,
         "pretty_name": "Sunnydale Lake",
+        "song": "xDeviruchi - Exploring The Unknown.wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
@@ -77,6 +82,7 @@ maps = {
         "height": 60,
         "width": 60,
         "pretty_name": "Mysterious Cave",
+        "song": "02 Underclocked (underunderclocked mix).mp3",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["bato", "bator", "steini"],
@@ -101,6 +107,7 @@ maps = {
         "height": 30,
         "width": 60,
         "pretty_name": "Dark Cave",
+        "song": "02 Underclocked (underunderclocked mix).mp3",
         "extra_actions": "playmap_7",
         "poke_args": {
             "pokes": ["steini", "bato", "lilstone", "rollator", "gobost"],
@@ -114,6 +121,7 @@ maps = {
         "width": 80,
         "pretty_name": "Abandoned Village",
         "extra_actions": None,
+        "song": "xDeviruchi - Mysterious Dungeon.wav",
         "poke_args": {
             "pokes": ["gobost", "owol", "corcos_day", "corcos_night"],
             "minlvl": 230,
@@ -125,6 +133,7 @@ maps = {
         "height": 15,
         "width": 30,
         "pretty_name": "Abandoned House",
+        "song": "xDeviruchi - Mysterious Dungeon.wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["gobost", "rato"],
@@ -325,6 +334,7 @@ maps = {
         "width": 198,
         "pretty_name": "Route 7",
         "extra_actions": None,
+        "song": "xDeviruchi - Take some rest and eat some food!.wav",
         "poke_args": {
             "pokes": ["poisopla", "treenator", "bushy", "confuso", "gobost", "raupathor_day", "raupathor_night"],
             "minlvl": 640,
@@ -343,6 +353,7 @@ maps = {
     "playmap_30": {
         "height": 63,
         "width": 148,
+        "song": "xDeviruchi - Take some rest and eat some food!.wav",
         "pretty_name": "Flowy Town",
         "extra_actions": None,
         "poke_args": None,
@@ -423,6 +434,7 @@ maps = {
     "playmap_39": {
         "height": 70,
         "width": 200,
+        "song": "xDeviruchi - And The Journey Begins .wav",
         "pretty_name": "Agrawos",
         "extra_actions": None,
         "poke_args": {
