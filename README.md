@@ -24,7 +24,7 @@ Pokete is a small terminal based game in the style of a very popular and old gam
 ## Installation
 For Linux just do this:
 ```shell
-# pip install scrap_engine
+# pip install scrap_engine playsound pygobject
 $ git clone https://github.com/lxgr-linux/pokete.git
 $ ./pokete/pokete.py
 ```
@@ -42,8 +42,7 @@ For Windows and OSX:
 
 ```shell
 git clone https://github.com/lxgr-linux/pokete.git
-pip install scrap_engine
-pip install pynput
+pip install scrap_engine pynput playsound pygobject
 ```
 To run just execute `pokete.py`.
 
