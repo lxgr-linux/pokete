@@ -264,6 +264,11 @@ used {enemy.name} against you!')
                             or not ask_bool(self,
                                             "Do you really want to run away?")):
                             continue
+                        if (random.randint(0, 100) < max(5, min(50 - (player.initiative - enemy.initiative), 95))):
+                            self.outp.outp("You failed to run away!")
+                            time.sleep(1)
+                            attack = ""
+                            break
                         self.outp.outp("You ran away!")
                         time.sleep(1)
                         self.clean_up(player, enemy)
