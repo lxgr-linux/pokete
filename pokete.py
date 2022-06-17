@@ -1367,18 +1367,6 @@ def map_additions():
     _map.shopdor.add(_map, 122, 64)
 
 
-class Entry:
-    """Ensures terminal is reset properly"""
-
-    def __enter__(self):
-        """Enter dunder for context management"""
-        return self
-
-    def __exit__(self, exc_type, exc_value, exc_tb):
-        """Exit dunder for context management"""
-        exiter(True)
-
-
 # Actual code execution
 #######################
 if __name__ == "__main__":
@@ -1533,7 +1521,8 @@ if __name__ == "__main__":
     old_settings = None
 
     try:
-        with Entry():
-            main()
+        main()
     except KeyboardInterrupt:
         print("\033[?1049l\033[1A\nKeyboardInterrupt")
+    finally:
+        exiter(True)
