@@ -64,6 +64,7 @@ from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
+from pokete_classes.providers import ProtoFigure
 from pokete_classes.buy import Buy
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
@@ -390,7 +391,7 @@ class ShopMap(PlayMap):
         self.interact.add(self, int(self.width / 2), 4)
 
 
-class Figure(se.Object):
+class Figure(se.Object, ProtoFigure):
     &#34;&#34;&#34;The figure that moves around on the map and represents the player
     ARGS:
         _si: session_info dict&#34;&#34;&#34;
@@ -402,11 +403,13 @@ class Figure(se.Object):
                 &#34;[Figure] &#39;%s&#39; is no valid &#39;represent_char&#39;, resetting&#34;, r_char)
             r_char = &#34;a&#34;
         super().__init__(r_char, state=&#34;solid&#34;)
+        ProtoFigure.__init__(
+            self,
+            [Poke.from_dict(_si[&#34;pokes&#34;][poke]) for poke in _si[&#34;pokes&#34;]]
+        )
         self.__money = _si.get(&#34;money&#34;, 10)
         self.inv = _si.get(&#34;inv&#34;, {&#34;poketeballs&#34;: 10})
         self.name = _si.get(&#34;user&#34;, &#34;DEFAULT&#34;)
-        self.pokes = [Poke.from_dict(_si[&#34;pokes&#34;][poke])
-                      for poke in _si[&#34;pokes&#34;]]
         self.caught_pokes = _si.get(&#34;caught_poketes&#34;, [])
         self.visited_maps = _si.get(&#34;visited_maps&#34;, [&#34;playmap_1&#34;])
         self.used_npcs = _si.get(&#34;used_npcs&#34;, [])
@@ -414,6 +417,13 @@ class Figure(se.Object):
                                                     &#34;playmap_1&#34;)]
         self.oldmap = obmp.ob_maps[_si.get(&#34;oldmap&#34;, &#34;playmap_1&#34;)]
         self.direction = &#34;t&#34;
+
+    def get_attack(self, fightmap, enem):
+        &#34;&#34;&#34;Returns the choosen attack:
+        ARGS:
+            fightmap: fightmap object
+            anem: The enemy Provider&#34;&#34;&#34;
+        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         &#34;&#34;&#34;Processes data from save file
@@ -843,12 +853,13 @@ def reset_terminal():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-def exiter():
+def exiter(end=False):
     &#34;&#34;&#34;Exit function&#34;&#34;&#34;
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
     print(&#34;\033[?1049l\033[1A&#34;)
-    sys.exit()
+    if not end:
+        sys.exit()
 
 
 # Functions needed for mvp.movemap
@@ -1119,7 +1130,7 @@ def gen_obs():
         _map = obmp.ob_maps[i]
         for j in trainers[i]:
             args = j[&#34;args&#34;]
-            trainer = Trainer(Poke(*j[&#34;poke&#34;], player=False), *args[:-2])
+            trainer = Trainer([Poke(*p, player=False) for p in j[&#34;pokes&#34;]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
@@ -1392,6 +1403,7 @@ def map_additions():
     _map.dor.add(_map, 44, 52)
     _map.shopdor.add(_map, 122, 64)
 
+
 # Actual code execution
 #######################
 if __name__ == &#34;__main__&#34;:
@@ -1532,9 +1544,7 @@ if __name__ == &#34;__main__&#34;:
         achievements.add(identifier, **args)
 
     # objects relevant for fm.fight()
-    fm.fight = fm.Fight(figure)
     fm.fightmap = fm.FightMap(height - 1, width)
-    fm.fightitems = fm.FightItems(figure)
 
     for _i in [NPC, Trainer]:
         _i.set_vars(figure, NPCActions)
@@ -1550,7 +1560,9 @@ if __name__ == &#34;__main__&#34;:
     try:
         main()
     except KeyboardInterrupt:
-        print(&#34;\033[?1049l\033[1A\nKeyboardInterrupt&#34;)</code></pre>
+        print(&#34;\033[?1049l\033[1A\nKeyboardInterrupt&#34;)
+    finally:
+        exiter(True)</code></pre>
 </details>
 </section>
 <section>
@@ -1636,7 +1648,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 </details>
 </dd>
 <dt id="pokete.exiter"><code class="name flex">
-<span>def <span class="ident">exiter</span></span>(<span>)</span>
+<span>def <span class="ident">exiter</span></span>(<span>end=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Exit function</p></div>
@@ -1644,12 +1656,13 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def exiter():
+<pre><code class="python">def exiter(end=False):
     &#34;&#34;&#34;Exit function&#34;&#34;&#34;
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
     print(&#34;\033[?1049l\033[1A&#34;)
-    sys.exit()</code></pre>
+    if not end:
+        sys.exit()</code></pre>
 </details>
 </dd>
 <dt id="pokete.gen_maps"><code class="name flex">
@@ -1698,7 +1711,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
         _map = obmp.ob_maps[i]
         for j in trainers[i]:
             args = j[&#34;args&#34;]
-            trainer = Trainer(Poke(*j[&#34;poke&#34;], player=False), *args[:-2])
+            trainer = Trainer([Poke(*p, player=False) for p in j[&#34;pokes&#34;]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
@@ -2568,7 +2581,7 @@ def playmap_7():
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Figure(se.Object):
+<pre><code class="python">class Figure(se.Object, ProtoFigure):
     &#34;&#34;&#34;The figure that moves around on the map and represents the player
     ARGS:
         _si: session_info dict&#34;&#34;&#34;
@@ -2580,11 +2593,13 @@ def playmap_7():
                 &#34;[Figure] &#39;%s&#39; is no valid &#39;represent_char&#39;, resetting&#34;, r_char)
             r_char = &#34;a&#34;
         super().__init__(r_char, state=&#34;solid&#34;)
+        ProtoFigure.__init__(
+            self,
+            [Poke.from_dict(_si[&#34;pokes&#34;][poke]) for poke in _si[&#34;pokes&#34;]]
+        )
         self.__money = _si.get(&#34;money&#34;, 10)
         self.inv = _si.get(&#34;inv&#34;, {&#34;poketeballs&#34;: 10})
         self.name = _si.get(&#34;user&#34;, &#34;DEFAULT&#34;)
-        self.pokes = [Poke.from_dict(_si[&#34;pokes&#34;][poke])
-                      for poke in _si[&#34;pokes&#34;]]
         self.caught_pokes = _si.get(&#34;caught_poketes&#34;, [])
         self.visited_maps = _si.get(&#34;visited_maps&#34;, [&#34;playmap_1&#34;])
         self.used_npcs = _si.get(&#34;used_npcs&#34;, [])
@@ -2592,6 +2607,13 @@ def playmap_7():
                                                     &#34;playmap_1&#34;)]
         self.oldmap = obmp.ob_maps[_si.get(&#34;oldmap&#34;, &#34;playmap_1&#34;)]
         self.direction = &#34;t&#34;
+
+    def get_attack(self, fightmap, enem):
+        &#34;&#34;&#34;Returns the choosen attack:
+        ARGS:
+            fightmap: fightmap object
+            anem: The enemy Provider&#34;&#34;&#34;
+        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         &#34;&#34;&#34;Processes data from save file
@@ -2690,6 +2712,8 @@ in the inventory!&#34;
 <ul class="hlist">
 <li>scrap_engine.Object</li>
 <li>scrap_engine.AddableObject</li>
+<li>pokete_classes.providers.ProtoFigure</li>
+<li>pokete_classes.providers.Provider</li>
 </ul>
 <h3>Methods</h3>
 <dl>
@@ -2747,6 +2771,30 @@ in the inventory!&#34;
     else:
         self.pokes[idx] = poke
     logging.info(&#34;[Figure] Added Poke %s&#34;, poke.name)</code></pre>
+</details>
+</dd>
+<dt id="pokete.Figure.get_attack"><code class="name flex">
+<span>def <span class="ident">get_attack</span></span>(<span>self, fightmap, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the choosen attack:</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>fightmap</code></strong></dt>
+<dd>fightmap object</dd>
+<dt><strong><code>anem</code></strong></dt>
+<dd>The enemy Provider</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_attack(self, fightmap, enem):
+    &#34;&#34;&#34;Returns the choosen attack:
+    ARGS:
+        fightmap: fightmap object
+        anem: The enemy Provider&#34;&#34;&#34;
+    return fightmap.get_figure_attack(self, enem)</code></pre>
 </details>
 </dd>
 <dt id="pokete.Figure.get_money"><code class="name flex">
@@ -3956,6 +4004,7 @@ def swap_poke(npc):
 <ul class="two-column">
 <li><code><a title="pokete.Figure.add_money" href="#pokete.Figure.add_money">add_money</a></code></li>
 <li><code><a title="pokete.Figure.add_poke" href="#pokete.Figure.add_poke">add_poke</a></code></li>
+<li><code><a title="pokete.Figure.get_attack" href="#pokete.Figure.get_attack">get_attack</a></code></li>
 <li><code><a title="pokete.Figure.get_money" href="#pokete.Figure.get_money">get_money</a></code></li>
 <li><code><a title="pokete.Figure.give_item" href="#pokete.Figure.give_item">give_item</a></code></li>
 <li><code><a title="pokete.Figure.has_item" href="#pokete.Figure.has_item">has_item</a></code></li>
