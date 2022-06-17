@@ -294,6 +294,8 @@ used {enemy.name} against you!')
                         elif i == 2:
                             logging.info("[Fight][%s] Ended, fightitem",
                                          info["type"])
+                            time.sleep(2)
+                            audio.switch(self.figure.map.song)
                             return obj
                         attack = ""
                         break
@@ -444,6 +446,7 @@ class FightItems:
                           weights=[(enem.full_hp / enem.hp)
                                    * chance + catch_chance,
                                    enem.full_hp], k=1)[0]:
+            audio.switch("xDeviruchi - Decisive Battle (End).wav")
             self.fig.add_poke(enem)
             fightmap.outp.outp(f"You caught {enem.name}!")
             time.sleep(2)

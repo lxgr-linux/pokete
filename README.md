@@ -146,7 +146,7 @@ $ ./gen_wiki.py
 to regenerate the wiki and adding them to it.
 
 ## Credits
-Music
+Music:
 - Eric Skiff - Resistor Anthems - Available at [http://EricSkiff.com/music](http://EricSkiff.com/music)
 - Marllon Silva (xDeviruchi) - Decisive Battle - Available at [itch.io](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
 
