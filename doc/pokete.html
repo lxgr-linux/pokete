@@ -66,6 +66,7 @@ from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
 from pokete_classes.providers import ProtoFigure
 from pokete_classes.buy import Buy
+from pokete_classes.audio import audio
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
@@ -340,7 +341,7 @@ class CenterMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name=&#34;centermap&#34;,
-                         pretty_name=&#34;Pokete-Center&#34;)
+                         pretty_name=&#34;Pokete-Center&#34;, song=&#34;Map.wav&#34;)
         self.inner = se.Text(&#34;&#34;&#34; ________________
  |______________|
  |     |a |     |
@@ -373,7 +374,7 @@ class ShopMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name=&#34;shopmap&#34;,
-                         pretty_name=&#34;Pokete-Shop&#34;)
+                         pretty_name=&#34;Pokete-Shop&#34;, song=&#34;Map.wav&#34;)
         self.inner = se.Text(&#34;&#34;&#34; __________________
  |________________|
  |      |a |      |
@@ -685,6 +686,8 @@ class Menu:
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             VisSetting(&#34;Save trainers&#34;, &#34;save_trainers&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
+                            VisSetting(&#34;Audio&#34;, &#34;audio&#34;,
+                                       {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             VisSetting(&#34;Load mods&#34;, &#34;load_mods&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             self.mods_label, self.ach_label,
@@ -858,6 +861,7 @@ def exiter(end=False):
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
     print(&#34;\033[?1049l\033[1A&#34;)
+    audio.kill()
     if not end:
         sys.exit()
 
@@ -1025,6 +1029,12 @@ def _game(_map):
     print(&#34;\033]0;Pokete - &#34; + _map.pretty_name + &#34;\a&#34;, end=&#34;&#34;)
     if _map.name not in figure.visited_maps:
         figure.visited_maps.append(_map.name)
+
+    if audio.curr is None:
+        audio.start(_map.song)
+    else:
+        audio.switch(_map.song)
+
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
@@ -1051,8 +1061,11 @@ def _game(_map):
                 break
         else:
             if _ev.get() in inp_dict:
+                audio_before = settings(&#34;audio&#34;).val
                 inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
                 _ev.clear()
+                if audio_before != settings(&#34;audio&#34;).val:
+                    audio.switch(_map.song)
                 mvp.movemap.show(init=True)
             elif _ev.get() == &#34;&#39;2&#39;&#34;:
                 _ev.clear()
@@ -1213,9 +1226,11 @@ def main():
     timeing.daemon = True
     recognising.daemon = True
     autosaveing.daemon = True
+
     timeing.start()
     recognising.start()
     autosaveing.start()
+
     check_version(session_info)
     if figure.name == &#34;DEFAULT&#34;:
         intro()
@@ -1412,6 +1427,7 @@ if __name__ == &#34;__main__&#34;:
     if sys.platform == &#34;linux&#34; and not force_pynput:
         import tty
         import termios
+        import select
 
 
         def recogniser():
@@ -1423,14 +1439,17 @@ if __name__ == &#34;__main__&#34;:
             fd = sys.stdin.fileno()
             old_settings = termios.tcgetattr(fd)
             tty.setraw(fd)
+            time.sleep(0.1)
             while True:
-                char = sys.stdin.read(1)
-                _ev.set({ord(char): f&#34;&#39;{char.rstrip()}&#39;&#34;, 13: &#34;Key.enter&#34;,
-                        127: &#34;Key.backspace&#34;, 32: &#34;Key.space&#34;,
-                        27: &#34;Key.esc&#34;}[ord(char)])
-                if ord(char) == 3:
-                    reset_terminal()
-                    _ev.set(&#34;exit&#34;)
+                rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+                if rlist:
+                    char = sys.stdin.read(1)
+                    _ev.set({ord(char): f&#34;&#39;{char.rstrip()}&#39;&#34;, 13: &#34;Key.enter&#34;,
+                             127: &#34;Key.backspace&#34;, 32: &#34;Key.space&#34;,
+                             27: &#34;Key.esc&#34;}[ord(char)])
+                    if ord(char) == 3:
+                        reset_terminal()
+                        _ev.set(&#34;exit&#34;)
     else:
         from pynput.keyboard import Listener
 
@@ -1661,6 +1680,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
     print(&#34;\033[?1049l\033[1A&#34;)
+    audio.kill()
     if not end:
         sys.exit()</code></pre>
 </details>
@@ -1803,9 +1823,11 @@ town.&#34;,
     timeing.daemon = True
     recognising.daemon = True
     autosaveing.daemon = True
+
     timeing.start()
     recognising.start()
     autosaveing.start()
+
     check_version(session_info)
     if figure.name == &#34;DEFAULT&#34;:
         intro()
@@ -2441,7 +2463,7 @@ this will remain</p></div>
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name=&#34;centermap&#34;,
-                         pretty_name=&#34;Pokete-Center&#34;)
+                         pretty_name=&#34;Pokete-Center&#34;, song=&#34;Map.wav&#34;)
         self.inner = se.Text(&#34;&#34;&#34; ________________
  |______________|
  |     |a |     |
@@ -3202,6 +3224,8 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             VisSetting(&#34;Save trainers&#34;, &#34;save_trainers&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
+                            VisSetting(&#34;Audio&#34;, &#34;audio&#34;,
+                                       {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             VisSetting(&#34;Load mods&#34;, &#34;load_mods&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             self.mods_label, self.ach_label,
@@ -3922,7 +3946,7 @@ def swap_poke(npc):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name=&#34;shopmap&#34;,
-                         pretty_name=&#34;Pokete-Shop&#34;)
+                         pretty_name=&#34;Pokete-Shop&#34;, song=&#34;Map.wav&#34;)
         self.inner = se.Text(&#34;&#34;&#34; __________________
  |________________|
  |      |a |      |

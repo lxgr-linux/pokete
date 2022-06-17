@@ -36,6 +36,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
+from .audio import audio
 from .loops import std_loop
 from .npcs import Trainer
 from .providers import NatureProvider, ProtoFigure
@@ -255,10 +256,12 @@ class FightMap(gm.GameMap):
                     self.outp.outp(&#34;You failed to run away!&#34;)
                     time.sleep(1)
                     return &#34;&#34;
+                audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
                 self.outp.outp(&#34;You ran away!&#34;)
-                time.sleep(1)
+                time.sleep(2)
                 self.clean_up(figure, enem)
                 logging.info(&#34;[Fight] Ended, ran away&#34;)
+                audio.switch(figure.map.song)
                 return &#34;won&#34;
             elif _ev.get() == &#34;&#39;3&#39;&#34;:
                 _ev.clear()
@@ -280,6 +283,8 @@ class FightMap(gm.GameMap):
                     continue
                 elif i == 2:
                     logging.info(&#34;[Fight] Ended, fightitem&#34;)
+                    time.sleep(2)
+                    audio.switch(figure.map.song)
                     return &#34;won&#34;
                 return &#34;&#34;
             elif _ev.get() == &#34;&#39;4&#39;&#34;:
@@ -296,6 +301,7 @@ class FightMap(gm.GameMap):
             providers
         RETURNS:
             Provider that won the fight&#34;&#34;&#34;
+        audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
         index = 0
         logging.info(
             &#34;[Fight] Started between %s&#34;,
@@ -389,7 +395,8 @@ class FightMap(gm.GameMap):
                 else:
                     break
             index += 1
-        # loser = [obj for obj in players if obj != winner][0]
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+        time.sleep(1)
         _xp = sum(
             poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
             for poke in loser.pokes
@@ -422,6 +429,7 @@ class FightMap(gm.GameMap):
             &#34;[Fight] Ended, %s(%s) won&#34;,
             winner.curr.name, &#34;player&#34; if winner.curr.player else &#34;enemy&#34;
         )
+        audio.switch(providers[0].map.song)
         return winner
 
     def choose_poke(self, player):
@@ -483,6 +491,7 @@ class FightItems:
                           weights=[(enem.curr.full_hp / enem.curr.hp)
                                    * chance + catch_chance,
                                    enem.curr.full_hp], k=1)[0]:
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
             obj.add_poke(enem.curr)
             fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
             time.sleep(2)
@@ -617,6 +626,7 @@ None: To let the enemy attack</p></div>
                           weights=[(enem.curr.full_hp / enem.curr.hp)
                                    * chance + catch_chance,
                                    enem.curr.full_hp], k=1)[0]:
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
             obj.add_poke(enem.curr)
             fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
             time.sleep(2)
@@ -860,6 +870,7 @@ None: To let the enemy attack</p></div>
                       weights=[(enem.curr.full_hp / enem.curr.hp)
                                * chance + catch_chance,
                                enem.curr.full_hp], k=1)[0]:
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
         obj.add_poke(enem.curr)
         fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
         time.sleep(2)
@@ -1106,10 +1117,12 @@ None: To let the enemy attack</p></div>
                     self.outp.outp(&#34;You failed to run away!&#34;)
                     time.sleep(1)
                     return &#34;&#34;
+                audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
                 self.outp.outp(&#34;You ran away!&#34;)
-                time.sleep(1)
+                time.sleep(2)
                 self.clean_up(figure, enem)
                 logging.info(&#34;[Fight] Ended, ran away&#34;)
+                audio.switch(figure.map.song)
                 return &#34;won&#34;
             elif _ev.get() == &#34;&#39;3&#39;&#34;:
                 _ev.clear()
@@ -1131,6 +1144,8 @@ None: To let the enemy attack</p></div>
                     continue
                 elif i == 2:
                     logging.info(&#34;[Fight] Ended, fightitem&#34;)
+                    time.sleep(2)
+                    audio.switch(figure.map.song)
                     return &#34;won&#34;
                 return &#34;&#34;
             elif _ev.get() == &#34;&#39;4&#39;&#34;:
@@ -1147,6 +1162,7 @@ None: To let the enemy attack</p></div>
             providers
         RETURNS:
             Provider that won the fight&#34;&#34;&#34;
+        audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
         index = 0
         logging.info(
             &#34;[Fight] Started between %s&#34;,
@@ -1240,7 +1256,8 @@ None: To let the enemy attack</p></div>
                 else:
                     break
             index += 1
-        # loser = [obj for obj in players if obj != winner][0]
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+        time.sleep(1)
         _xp = sum(
             poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
             for poke in loser.pokes
@@ -1273,6 +1290,7 @@ None: To let the enemy attack</p></div>
             &#34;[Fight] Ended, %s(%s) won&#34;,
             winner.curr.name, &#34;player&#34; if winner.curr.player else &#34;enemy&#34;
         )
+        audio.switch(providers[0].map.song)
         return winner
 
     def choose_poke(self, player):
@@ -1522,6 +1540,7 @@ will be set to.</dd>
         providers
     RETURNS:
         Provider that won the fight&#34;&#34;&#34;
+    audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
     index = 0
     logging.info(
         &#34;[Fight] Started between %s&#34;,
@@ -1615,7 +1634,8 @@ will be set to.</dd>
             else:
                 break
         index += 1
-    # loser = [obj for obj in players if obj != winner][0]
+    audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+    time.sleep(1)
     _xp = sum(
         poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
         for poke in loser.pokes
@@ -1648,6 +1668,7 @@ will be set to.</dd>
         &#34;[Fight] Ended, %s(%s) won&#34;,
         winner.curr.name, &#34;player&#34; if winner.curr.player else &#34;enemy&#34;
     )
+    audio.switch(providers[0].map.song)
     return winner</code></pre>
 </details>
 </dd>
@@ -1734,10 +1755,12 @@ will be set to.</dd>
                 self.outp.outp(&#34;You failed to run away!&#34;)
                 time.sleep(1)
                 return &#34;&#34;
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
             self.outp.outp(&#34;You ran away!&#34;)
-            time.sleep(1)
+            time.sleep(2)
             self.clean_up(figure, enem)
             logging.info(&#34;[Fight] Ended, ran away&#34;)
+            audio.switch(figure.map.song)
             return &#34;won&#34;
         elif _ev.get() == &#34;&#39;3&#39;&#34;:
             _ev.clear()
@@ -1759,6 +1782,8 @@ will be set to.</dd>
                 continue
             elif i == 2:
                 logging.info(&#34;[Fight] Ended, fightitem&#34;)
+                time.sleep(2)
+                audio.switch(figure.map.song)
                 return &#34;won&#34;
             return &#34;&#34;
         elif _ev.get() == &#34;&#39;4&#39;&#34;:

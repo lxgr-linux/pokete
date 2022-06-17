@@ -48,8 +48,10 @@ class PlayMap(gm.GameMap):
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
-                 w_poke_args=None, extra_actions=None, weather=None):
+                 w_poke_args=None, extra_actions=None, weather=None,
+                 song=&#34;03 Chibi Ninja.mp3&#34;):
         super().__init__(height, width, name=name)
+        self.song = song
         self.trainers = trainers
         self.pretty_name = pretty_name
         self.poke_args = poke_args
@@ -202,7 +204,7 @@ if __name__ == &#34;__main__&#34;:
 </dd>
 <dt id="pokete_classes.classes.PlayMap"><code class="flex name class">
 <span>class <span class="ident">PlayMap</span></span>
-<span>(</span><span>height=99, width=100, trainers=None, name='', pretty_name='', poke_args=None, w_poke_args=None, extra_actions=None, weather=None)</span>
+<span>(</span><span>height=99, width=100, trainers=None, name='', pretty_name='', poke_args=None, w_poke_args=None, extra_actions=None, weather=None, song='03 Chibi Ninja.mp3')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Map the actual player moves on and contains buildings etc</p>
@@ -243,8 +245,10 @@ if __name__ == &#34;__main__&#34;:
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name=&#34;&#34;, pretty_name=&#34;&#34;, poke_args=None,
-                 w_poke_args=None, extra_actions=None, weather=None):
+                 w_poke_args=None, extra_actions=None, weather=None,
+                 song=&#34;03 Chibi Ninja.mp3&#34;):
         super().__init__(height, width, name=name)
+        self.song = song
         self.trainers = trainers
         self.pretty_name = pretty_name
         self.poke_args = poke_args
