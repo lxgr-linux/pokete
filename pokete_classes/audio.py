@@ -8,10 +8,13 @@ except ModuleNotFoundError:
 from .settings import settings
 
 
+MUSIC_PATH = __file__.replace("pokete_classes/audio.py", 'assets/music/')
+
+
 def audio_fn(song):
     """plays a song in loop"""
     while settings("audio").val:
-        playsound('./assets/music/' + song)
+        playsound(MUSIC_PATH + song)
 
 
 class Audio:
