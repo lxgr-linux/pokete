@@ -319,16 +319,16 @@ class FightMap(gm.GameMap):
             time.sleep(0.5)
             winner = None
             loser = None
-            for prov in providers:
+            for i, prov in enumerate(providers):
                 if prov.curr.hp <= 0:
-                    winner = providers[(providers.index(prov) + 1) % 2]
+                    loser = prov
+                    winner = providers[(i + 1) % 2]
             if all(i.ap == 0 for i in player.curr.attack_obs):
                 winner = providers[(index + 1) % 2]
                 time.sleep(2)
                 self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
                 time.sleep(3)
             if winner is not None:
-                loser = providers[(providers.index(winner) + 1) % 2]
                 if (
                     loser.curr.player
                     and any(p.hp > 0 for p in loser.pokes[:6])
@@ -338,7 +338,7 @@ class FightMap(gm.GameMap):
                     if not success:
                         break
                 elif (
-                    type(loser) is Trainer
+                    isinstance(loser, Trainer)
                     and winner.curr.player
                     and any(p.hp > 0 for p in loser.pokes)
                 ):
@@ -364,12 +364,12 @@ class FightMap(gm.GameMap):
         _xp = sum(
             poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
             for poke in loser.pokes
-        ) * (2 if type(loser) is not NatureProvider else 1)
+        ) * (2 if not isinstance(loser, NatureProvider) else 1)
         self.outp.outp(
             f"{winner.curr.ext_name} won!" +
             (f'\nXP + {_xp}' if winner.curr.player else '')
         )
-        if winner.curr.player and type(loser) is Trainer:
+        if winner.curr.player and isinstance(loser, Trainer):
             achievements.achieve("first_duel")
         if winner.curr.player and winner.curr.add_xp(_xp):
             time.sleep(1)
@@ -439,7 +439,7 @@ class FightItems:
             2: The win the game
             None: To let the enemy attack"""
 
-        if type(enem) is not NatureProvider:
+        if not isinstance(enem, NatureProvider):
             fightmap.outp.outp("You can't do that in a duel!")
             return 1
         fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
