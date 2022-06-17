@@ -7,6 +7,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
+from .audio import audio
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .classes import OutP
@@ -207,6 +208,7 @@ class FightMap(gm.GameMap):
                   ({"type": "wild", "player": " "})
         RETURNS:
             Poke object that won the fight"""
+        audio.switch("xDeviruchi - Decisive Battle (Loop).wav")
         self.figure = figure
         logging.info("[Fight][%s] Started between %s(player) lvl.%d and \
 %s(enemy) lvl.%d", info["type"], player.name, player.lvl(), enemy.name,
@@ -264,11 +266,13 @@ used {enemy.name} against you!')
                             or not ask_bool(self,
                                             "Do you really want to run away?")):
                             continue
+                        audio.switch("xDeviruchi - Decisive Battle (End).wav")
                         self.outp.outp("You ran away!")
-                        time.sleep(1)
+                        time.sleep(2)
                         self.clean_up(player, enemy)
                         logging.info("[Fight][%s] Ended, ran away",
                                           info["type"])
+                        audio.switch(self.figure.map.song)
                         return enem
                     elif _ev.get() == "'3'":
                         _ev.clear()
@@ -341,6 +345,8 @@ used {enemy.name} against you!')
                     break
             obj = [i for i in players if i != obj][-1]
             enem = [i for i in players if i != obj][-1]
+        audio.switch("xDeviruchi - Decisive Battle (End).wav")
+        time.sleep(1)
         loser = [obj for obj in players if obj != winner][0]
         _xp = (loser.lose_xp + (1 if loser.lvl() > winner.lvl() else 0))\
                              * (2 if info["type"] == "duel" else 1)
@@ -366,6 +372,7 @@ used {enemy.name} against you!')
         mvp.movemap.balls_label_rechar(figure.pokes)
         logging.info("[Fight][%s] Ended, %s(%s) won", info["type"],
                      winner.name, "player" if winner.player else "enemy")
+        audio.switch(self.figure.map.song)
         return winner
 
     def choose_poke(self, figure, players, player, enemy):

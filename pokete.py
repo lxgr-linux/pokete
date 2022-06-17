@@ -1373,6 +1373,7 @@ if __name__ == "__main__":
     if sys.platform == "linux" and not force_pynput:
         import tty
         import termios
+        import select
 
 
         def recogniser():
@@ -1386,14 +1387,15 @@ if __name__ == "__main__":
             tty.setraw(fd)
             time.sleep(0.1)
             while True:
-                char = sys.stdin.read(1)
-                _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                        127: "Key.backspace", 32: "Key.space",
-                        27: "Key.esc"}[ord(char)])
-                if ord(char) == 3:
-                    reset_terminal()
-                    _ev.set("exit")
-                time.sleep(0.05)
+                rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+                if rlist:
+                    char = sys.stdin.read(1)
+                    _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
+                             127: "Key.backspace", 32: "Key.space",
+                             27: "Key.esc"}[ord(char)])
+                    if ord(char) == 3:
+                        reset_terminal()
+                        _ev.set("exit")
     else:
         from pynput.keyboard import Listener
 

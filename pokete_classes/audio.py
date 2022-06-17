@@ -1,9 +1,9 @@
 import multiprocessing
-import logging
 from playsound import playsound
 
 
 def audio_fn(song):
+    while True:
         playsound('./assets/music/' + song)
 
 
