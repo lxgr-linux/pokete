@@ -27,6 +27,7 @@ from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
+from pokete_classes.providers import ProtoFigure
 from pokete_classes.buy import Buy
 from pokete_classes.audio import audio
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
@@ -354,7 +355,7 @@ class ShopMap(PlayMap):
         self.interact.add(self, int(self.width / 2), 4)
 
 
-class Figure(se.Object):
+class Figure(se.Object, ProtoFigure):
     """The figure that moves around on the map and represents the player
     ARGS:
         _si: session_info dict"""
@@ -366,11 +367,13 @@ class Figure(se.Object):
                 "[Figure] '%s' is no valid 'represent_char', resetting", r_char)
             r_char = "a"
         super().__init__(r_char, state="solid")
+        ProtoFigure.__init__(
+            self,
+            [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]]
+        )
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
         self.name = _si.get("user", "DEFAULT")
-        self.pokes = [Poke.from_dict(_si["pokes"][poke])
-                      for poke in _si["pokes"]]
         self.caught_pokes = _si.get("caught_poketes", [])
         self.visited_maps = _si.get("visited_maps", ["playmap_1"])
         self.used_npcs = _si.get("used_npcs", [])
@@ -378,6 +381,13 @@ class Figure(se.Object):
                                                     "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
+
+    def get_attack(self, fightmap, enem):
+        """Returns the choosen attack:
+        ARGS:
+            fightmap: fightmap object
+            anem: The enemy Provider"""
+        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         """Processes data from save file
@@ -809,13 +819,14 @@ def reset_terminal():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-def exiter():
+def exiter(end=False):
     """Exit function"""
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
     audio.kill()
-    sys.exit()
+    if not end:
+        sys.exit()
 
 
 # Functions needed for mvp.movemap
@@ -1095,7 +1106,7 @@ def gen_obs():
         _map = obmp.ob_maps[i]
         for j in trainers[i]:
             args = j["args"]
-            trainer = Trainer(Poke(*j["poke"], player=False), *args[:-2])
+            trainer = Trainer([Poke(*p, player=False) for p in j["pokes"]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
@@ -1370,6 +1381,7 @@ def map_additions():
     _map.dor.add(_map, 44, 52)
     _map.shopdor.add(_map, 122, 64)
 
+
 # Actual code execution
 #######################
 if __name__ == "__main__":
@@ -1514,9 +1526,7 @@ if __name__ == "__main__":
         achievements.add(identifier, **args)
 
     # objects relevant for fm.fight()
-    fm.fight = fm.Fight(figure)
     fm.fightmap = fm.FightMap(height - 1, width)
-    fm.fightitems = fm.FightItems(figure)
 
     for _i in [NPC, Trainer]:
         _i.set_vars(figure, NPCActions)
@@ -1533,3 +1543,5 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\033[?1049l\033[1A\nKeyboardInterrupt")
+    finally:
+        exiter(True)

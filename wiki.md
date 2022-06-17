@@ -1663,7 +1663,7 @@ Gives the enemy a massive shock.
 - Type: [Electro](#types)
 - Minimum Level: 15
 - Attack factor: 5
-- Missing chance: 0
+- Missing chance: 0.2
 - Attack points: 10
 - Effect: [Paralyzation](#paralyzation)
 
@@ -1694,7 +1694,7 @@ Hans! Get ze Flammenwerfer!
 - Type: [Fire](#types)
 - Minimum Level: 15
 - Attack factor: 2.5
-- Missing chance: 0
+- Missing chance: 0.3
 - Attack points: 10
 - Effect: [Burning](#burning)
 
@@ -1999,7 +1999,7 @@ Spreads a special smell that will make the enemy confused but very happy.
 - Type: [Plant](#types)
 - Minimum Level: 0
 - Attack factor: 0
-- Missing chance: 0
+- Missing chance: 0.1
 - Attack points: 10
 - Effect: [Confusion](#confusion)
 
@@ -2232,7 +2232,7 @@ Causes confusion deep in the enemy's mind.
 - Type: [Undead](#types)
 - Minimum Level: 0
 - Attack factor: 0
-- Missing chance: 0
+- Missing chance: 0.2
 - Attack points: 15
 - Effect: [Confusion](#confusion)
 

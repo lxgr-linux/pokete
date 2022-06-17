@@ -90,7 +90,7 @@ validators = {
     "gen": ["additionals", "width", "height", "desc"],
     "add": ["x", "y"],
     "poke_ico": ["txt", "esc"],
-    "trainer": ["poke", "args"]
+    "trainer": ["pokes", "args"]
 }
 
 
