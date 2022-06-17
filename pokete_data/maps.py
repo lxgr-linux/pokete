@@ -183,6 +183,7 @@ maps = {
         "height": 35,
         "width": 70,
         "pretty_name": "Deepest Forest",
+        "song": "xDeviruchi - Title Theme .wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["voglo", "vogli", "owol", "rato"],
