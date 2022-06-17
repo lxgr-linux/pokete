@@ -2,11 +2,12 @@
 
 import multiprocessing
 from playsound import playsound
+from .settings import settings
 
 
 def audio_fn(song):
     """plays a song in loop"""
-    while True:
+    while settings("audio").val:
         playsound('./assets/music/' + song)
 
 

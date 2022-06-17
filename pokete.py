@@ -639,6 +639,8 @@ class Menu:
                                        {True: "On", False: "Off"}),
                             VisSetting("Save trainers", "save_trainers",
                                        {True: "On", False: "Off"}),
+                            VisSetting("Audio", "audio",
+                                       {True: "On", False: "Off"}),
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
                             self.mods_label, self.ach_label,
@@ -1011,8 +1013,11 @@ def _game(_map):
                 break
         else:
             if _ev.get() in inp_dict:
+                audio_before = settings("audio").val
                 inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
                 _ev.clear()
+                if audio_before != settings("audio").val:
+                    audio.switch(_map.song)
                 mvp.movemap.show(init=True)
             elif _ev.get() == "'2'":
                 _ev.clear()
