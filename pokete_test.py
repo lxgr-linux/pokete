@@ -53,7 +53,6 @@ from pokete_general_use_fns import liner, sort_vers, parse_args
 from pokete_classes.constants import SPEED_OF_TIME
 from release import VERSION, CODENAME, SAVEPATH
 
-
 __t = time.time()
 
 
@@ -1387,163 +1386,35 @@ def map_additions():
 # Actual code execution
 #######################
 if __name__ == "__main__":
-    do_logging, load_mods, force_pynput = parse_args(sys.argv)
-    # deciding on wich input to use
-    if sys.platform == "linux" and not force_pynput:
-        import tty
-        import termios
-        import select
+    import tty
+    import termios
+    import select
 
+    def recogniser():
+        """Use another (not on xserver relying) way to read keyboard input,
+            to make this shit work in tty or via ssh,
+            where no xserver is available"""
+        global fd, old_settings
 
-        def recogniser():
-            """Use another (not on xserver relying) way to read keyboard input,
-                to make this shit work in tty or via ssh,
-                where no xserver is available"""
-            global fd, old_settings
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        tty.setraw(fd)
+        time.sleep(SPEED_OF_TIME * 0.1)
+        while True:
+            rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+            if rlist:
+                char = sys.stdin.read(1)
+                _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
+                         127: "Key.backspace", 32: "Key.space",
+                         27: "Key.esc"}[ord(char)])
+                if ord(char) == 3:
+                    reset_terminal()
+                    _ev.set("exit")
+    recognising = threading.Thread(target=recogniser, daemon=True)
+    recognising.start()
 
-            fd = sys.stdin.fileno()
-            old_settings = termios.tcgetattr(fd)
-            tty.setraw(fd)
-            time.sleep(SPEED_OF_TIME * 0.1)
-            while True:
-                rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
-                if rlist:
-                    char = sys.stdin.read(1)
-                    _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                             127: "Key.backspace", 32: "Key.space",
-                             27: "Key.esc"}[ord(char)])
-                    if ord(char) == 3:
-                        reset_terminal()
-                        _ev.set("exit")
-    else:
-        from pynput.keyboard import Listener
-
-
-        def recogniser():
-            """Gets keyboard input from pynput"""
-            while True:
-                with Listener(on_press=on_press) as listener:
-                    listener.join()
-
-
-    print("\033[?1049h")
-
-    # resizing screen
-    tss = ResizeScreen()
-    width, height = tss()
-
-    # Home global
-    HOME = str(Path.home())
-
-    # loading screen
-    loading_screen = LoadingScreen(VERSION, CODENAME)
-    loading_screen()
-
-    # logging config
-    log_file = f"{HOME}{SAVEPATH}/pokete.log" if do_logging else None
-    logging.basicConfig(filename=log_file,
-                        format='[%(asctime)s][%(levelname)s]: %(message)s',
-                        level=logging.DEBUG if do_logging else logging.ERROR)
-    logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
-
-    # reading save file
-    session_info = read_save()
-    settings.from_dict(session_info.get("settings", {}))
-    save_trainers = settings("save_trainers").val
-
-    if not load_mods:
-        settings("load_mods").val = False
-
-    # Loading mods
-    if settings("load_mods").val:
-        try:
-            import mods
-        except ModError as err:
-            error_box = InfoBox(str(err), "Mod-loading Error")
-            error_box.center_add(loading_screen.map)
-            loading_screen.map.show()
-            sys.exit(1)
-
-        for mod in mods.mod_obs:
-            mod.mod_p_data(p_data)
-    else:
-        mods = DummyMods()
-    logging.info("[General] %d mods are loaded: (%s)",
-                 len(mods.mod_obs), ', '.join(mods.mod_names))
-
-    # validating data
-    p_data.validate()
-
-    # Definiton of the playmaps
-    # Most of the objects are generated from map_data,
-    # but can be extended via map_additions()
-    ############################################################
-
-    obmp.ob_maps = gen_maps()
-    # Those two maps cant to sourced out, because `height` and `width`
-    # are global variables exclusive to pokete.py
-    centermap = CenterMap(height - 1, width)
-    shopmap = ShopMap(height - 1, width)
-    obmp.ob_maps["centermap"] = centermap
-    obmp.ob_maps["shopmap"] = shopmap
-
-    # Figure
-    figure = Figure(session_info)
-
-    gen_obs()
-    map_additions()
-
-    # Definiton of all additionaly needed obs and maps
-    #############################################################
-    mvp.movemap = mvp.Movemap(height - 1, width)
-
-    # A dict that contains all world action functions for Attacks
-    abb_funcs = {"teleport": teleport}
-
-    # side fn definitions
-    detail.detail = detail.Detail(height - 1, width)
-    pokete_dex = Dex(figure)
-    help_page = Help(mvp.movemap)
-    RoadMap.check_maps()
-    roadmap = RoadMap(figure)
-    deck.deck = deck.Deck(height - 1, width, figure, abb_funcs)
-    menu = Menu(mvp.movemap)
-    about = About(VERSION, CODENAME, mvp.movemap)
-    inv = Inv(mvp.movemap)
-    buy = Buy(figure, mvp.movemap)
-    pokete_care = PoketeCare.from_dict(session_info.get("pokete_care", {
-        "entry": 0,
-        "poke": None,
-    }))
-    timer.time = timer.Time(session_info.get("time", 0))
-    timer.clock = timer.Clock(timer.time)
-    game.game = _game
-    HighGrass.figure = figure
-    Poketeball.figure = figure
-    _ev.set_emit_fn(timer.time.emit_input)
-
-    # Achievements
-    achievements.set_achieved(session_info.get("achievements", []))
-    for identifier, args in p_data.achievements.items():
-        achievements.add(identifier, **args)
-
-    # objects relevant for fm.fight()
-    fm.fightmap = fm.FightMap(height - 1, width)
-
-    for _i in [NPC, Trainer]:
-        _i.set_vars(figure, NPCActions)
-    notifier.set_vars(mvp.movemap)
-    figure.set_args(session_info)
-
-    __t = time.time() - __t
-    logging.info("[General] Startup took %fs", __t)
-
-    fd = None
-    old_settings = None
-
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\033[?1049l\033[1A\nKeyboardInterrupt")
-    finally:
-        exiter(True)
+    while True:
+        ev = _ev.get()
+        print(f"'{ev}'")
+        time.sleep(0.1)
+    std_loop()

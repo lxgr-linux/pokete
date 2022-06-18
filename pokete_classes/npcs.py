@@ -14,6 +14,7 @@ from .settings import settings
 from .ui_elements import ChooseBox
 from .event import _ev
 from .general import check_walk_back
+from pokete_classes.constants import SPEED_OF_TIME
 
 
 class NPCTrigger(se.Object):
@@ -83,7 +84,7 @@ class NPC(se.Box):
         except se.CoordinateError:
             pass
         mvp.movemap.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         exclamation.remove()
 
     def action(self):
@@ -92,7 +93,7 @@ class NPC(se.Box):
             return
         logging.info("[NPC][%s] Interaction", self.name)
         mvp.movemap.full_show()
-        time.sleep(0.7)
+        time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
         self.fn()
@@ -133,7 +134,7 @@ class NPC(se.Box):
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
             mvp.movemap.full_show()
-            time.sleep(0.2)
+            time.sleep(SPEED_OF_TIME * 0.2)
         return True
 
     def give(self, name, item):
@@ -243,7 +244,7 @@ class Trainer(NPC, Provider):
                                  or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
-            time.sleep(0.7)
+            time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):

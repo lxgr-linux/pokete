@@ -6,6 +6,7 @@ import scrap_engine as se
 from .event import _ev
 from .ui_elements import Box
 from .loops import std_loop
+from pokete_classes.constants import SPEED_OF_TIME
 
 time = None
 clock = None
@@ -154,6 +155,6 @@ class Clock(Box):
 def time_threat():
     """Manages the time counting"""
     while True:
-        time_mod.sleep(1)
+        time_mod.sleep(SPEED_OF_TIME * 1)
         if time.time < time.last_input + 120:
             time.time += 1

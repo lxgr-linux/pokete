@@ -4,6 +4,7 @@ import time
 import release
 from .event import _ev
 from .notify import notifier
+from pokete_classes.constants import SPEED_OF_TIME
 
 
 def easy_exit_loop(on_mvmp=True):
@@ -29,4 +30,4 @@ def std_loop(on_mvmp=True, pevm=None):
         notifier.next()
     if pevm is not None:
         pevm.event()
-    time.sleep(release.FRAMETIME)
+    time.sleep(SPEED_OF_TIME * release.FRAMETIME)

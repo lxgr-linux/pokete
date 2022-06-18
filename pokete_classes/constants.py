@@ -1,0 +1,1 @@
+SPEED_OF_TIME = 0.1

@@ -9,6 +9,7 @@ from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
+from pokete_classes.constants import SPEED_OF_TIME
 
 
 class Movemap(gm.GameSubmap):
@@ -55,7 +56,7 @@ class Movemap(gm.GameSubmap):
                 self.set(self.x + (1 if i == "x" else 0),
                          self.y + (1 if i == "y" else 0))
                 self.show()
-                time.sleep(0.045)
+                time.sleep(SPEED_OF_TIME * 0.045)
 
     def text(self, x, y, inp_arr):
         """Shows dialog text on movemap
