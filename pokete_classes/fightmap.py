@@ -383,7 +383,7 @@ class FightMap(gm.GameMap):
             self.outp.outp(
                 f"{winner.curr.name} reached lvl {winner.curr.lvl()}!"
             )
-            winner.moves.shine()
+            winner.curr.moves.shine()
             time.sleep(0.5)
             winner.curr.set_vars()
             winner.curr.learn_attack(self)
