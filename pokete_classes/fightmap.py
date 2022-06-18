@@ -11,7 +11,7 @@ from .audio import audio
 from .loops import std_loop
 from .npcs import Trainer
 from .providers import NatureProvider, ProtoFigure
-from .ui_elements import StdFrame2, ChooseBox
+from .ui_elements import StdFrame2, ChooseBox, Box
 from .classes import OutP
 from .input import ask_bool
 from .achievements import achievements
@@ -156,9 +156,16 @@ class FightMap(gm.GameMap):
         ARGS:
             attack_obs: A list of Attack objects that belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
+            self.atkInfoText = se.Text(attack_obs[self.box.index.index].desc)
+            self.atkInfoBox = Box(3, self.atkInfoText.width + 2, "Attack Info")
+            self.atkInfoBox.add_ob(self.atkInfoText,1,1)
+            self.atkInfoBox.add(self, 27, self.height - 7)
+            self.show()
             while True:#158
                 if _ev.get() in ["'s'", "'w'"]:
                     self.box.input(_ev.get())
+                    self.atkInfoText.rechar(attack_obs[self.box.index.index].desc)
+                    self.atkInfoBox.resize(3, self.atkInfoText.width + 2)
                     self.show()
                     _ev.clear()
                 elif _ev.get() in [f"'{i + 1}'" for i in
@@ -175,6 +182,7 @@ class FightMap(gm.GameMap):
                     attack = ""
                     break
                 std_loop(False)
+            self.atkInfoBox.remove()
         return attack
 
     def get_item(self, items, inv):
