@@ -25,8 +25,9 @@ Pokete is a small terminal based game in the style of a very popular and old gam
 If you use docker, you can run:
 ```shell
 git clone https://github.com/lxgr-linux/pokete.git
-docker build -t pokete -f pokete/Dockerfile pokete/
-docker run -ti --rm -v /path/to/savegame:/root/.cache/pokete pokete
+cd pokete
+docker build -t pokete .
+docker run -ti --rm -v /path/to/savegame:/data pokete
 ```
 
 ## Installation
