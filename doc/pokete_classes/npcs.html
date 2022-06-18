@@ -282,7 +282,7 @@ class Trainer(NPC, Provider):
                 )
                 is_winner = (winner == self)
                 self.text({True: self.lose_texts,
-                           False: self.win_texts + [&#34; &lt; Here&#39;s $20!&#34;]}
+                           False: self.win_texts + [&#34;Here&#39;s $20!&#34;]}
                           [is_winner])
                 if not is_winner:
                     self.fig.add_money(20)
@@ -949,7 +949,7 @@ Do you want to accept it?&#34;):
                 )
                 is_winner = (winner == self)
                 self.text({True: self.lose_texts,
-                           False: self.win_texts + [&#34; &lt; Here&#39;s $20!&#34;]}
+                           False: self.win_texts + [&#34;Here&#39;s $20!&#34;]}
                           [is_winner])
                 if not is_winner:
                     self.fig.add_money(20)
@@ -999,7 +999,7 @@ Do you want to accept it?&#34;):
             )
             is_winner = (winner == self)
             self.text({True: self.lose_texts,
-                       False: self.win_texts + [&#34; &lt; Here&#39;s $20!&#34;]}
+                       False: self.win_texts + [&#34;Here&#39;s $20!&#34;]}
                       [is_winner])
             if not is_winner:
                 self.fig.add_money(20)

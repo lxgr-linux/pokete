@@ -95,8 +95,8 @@ class Movemap(gm.GameSubmap):
         self.assure_distance(x, y, 17, 10)
         self.multitext.rechar(&#34;&#34;)
         self.multitext.add(self, x - self.x + 1, y - self.y)
-        arr = [i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
-                    for j, i in enumerate(inp_arr)]
+        arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
+               for j, i in enumerate(inp_arr)] 
         for text in arr:
             _ev.clear()
             self.multitext.rechar(&#34;&#34;)
@@ -232,8 +232,8 @@ if __name__ == &#34;__main__&#34;:
         self.assure_distance(x, y, 17, 10)
         self.multitext.rechar(&#34;&#34;)
         self.multitext.add(self, x - self.x + 1, y - self.y)
-        arr = [i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
-                    for j, i in enumerate(inp_arr)]
+        arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
+               for j, i in enumerate(inp_arr)] 
         for text in arr:
             _ev.clear()
             self.multitext.rechar(&#34;&#34;)
@@ -441,8 +441,8 @@ See se.Map.resize</p></div>
     self.assure_distance(x, y, 17, 10)
     self.multitext.rechar(&#34;&#34;)
     self.multitext.add(self, x - self.x + 1, y - self.y)
-    arr = [i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
-                for j, i in enumerate(inp_arr)]
+    arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
+           for j, i in enumerate(inp_arr)] 
     for text in arr:
         _ev.clear()
         self.multitext.rechar(&#34;&#34;)
