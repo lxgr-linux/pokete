@@ -1032,7 +1032,7 @@ def _game(_map):
                 mvp.movemap.show(init=True)
             elif _ev.get() == "'2'":
                 _ev.clear()
-                if ask_bool(mvp.movemap, "Do you realy want to exit?"):
+                if ask_bool(mvp.movemap, "Do you really want to exit?"):
                     save()
                     exiter()
             elif _ev.get() == "':'":
