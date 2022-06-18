@@ -219,7 +219,7 @@ trainers = {
     }, {
         "pokes": [("steini", 850)],
         "args": ("Laurena", "She",
-                 ["I trained my Steini for years to get to this level", " > I will win!"],
+                 ["I trained my Steini for years to get to this level", "I will win!"],
                  ["You're a loooser!"],
                  ["Ohhh nooo!", "NOT MY STEINI!!!1!!1"], 114, 37)
     }, {
