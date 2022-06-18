@@ -5,13 +5,14 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
+from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
 from .audio import audio
 from .loops import std_loop
 from .npcs import Trainer
 from .providers import NatureProvider, ProtoFigure
-from .ui_elements import StdFrame2, ChooseBox, Box
+from .ui_elements import StdFrame2, ChooseBox, LabelBox
 from .classes import OutP
 from .input import ask_bool
 from .achievements import achievements
@@ -28,7 +29,7 @@ class FightMap(gm.GameMap):
 
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
-        self.box = ChooseBox(6, 25, "Attacks", index_x=1)
+        self.box = ChooseBox(6, 25, "Attacks", "i:Info", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
         self.deadico1 = se.Text(r"""
@@ -64,6 +65,9 @@ class FightMap(gm.GameMap):
                             self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
+        # Attack info box
+        self.atk_info_box = LabelBox(se.Text(""), "Attack Info")
+        self.show_atk_info_box = False
 
     def clean_up(self, *providers):
         """Removes all labels from self
@@ -151,21 +155,28 @@ class FightMap(gm.GameMap):
             self.show()
             time.sleep(0.1)
 
+    def rechar_atk_info_box(self, attack_obs):
+        self.atk_info_box.label.rechar(
+            liner(attack_obs[self.box.index.index].desc, 37)
+        )
+        self.atk_info_box.resize(
+            self.atk_info_box.label.height + 2,
+            self.atk_info_box.label.width + 4
+        )
+
     def get_attack(self, attack_obs):
         """Inputloop for attack options
         ARGS:
             attack_obs: A list of Attack objects that belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
-            self.atkInfoText = se.Text(attack_obs[self.box.index.index].desc)
-            self.atkInfoBox = Box(3, self.atkInfoText.width + 2, "Attack Info")
-            self.atkInfoBox.add_ob(self.atkInfoText,1,1)
-            self.atkInfoBox.add(self, 27, self.height - 7)
+            self.rechar_atk_info_box(attack_obs)
+            if self.show_atk_info_box:
+                self.atk_info_box.add(self, 27, self.height - 7)
             self.show()
             while True:#158
                 if _ev.get() in ["'s'", "'w'"]:
                     self.box.input(_ev.get())
-                    self.atkInfoText.rechar(attack_obs[self.box.index.index].desc)
-                    self.atkInfoBox.resize(3, self.atkInfoText.width + 2)
+                    self.rechar_atk_info_box(attack_obs)
                     self.show()
                     _ev.clear()
                 elif _ev.get() in [f"'{i + 1}'" for i in
@@ -177,12 +188,21 @@ class FightMap(gm.GameMap):
                     if attack.ap == 0:
                         continue
                     break
+                elif _ev.get() == "'i'":
+                    _ev.clear()
+                    self.show_atk_info_box = not self.show_atk_info_box
+                    if self.show_atk_info_box:
+                        self.atk_info_box.add(self, 27, self.height - 7)
+                    else:
+                        self.atk_info_box.remove()
+                    self.show()
+                    continue
                 elif _ev.get() in ["Key.esc", "'q'"]:
                     _ev.clear()
                     attack = ""
                     break
                 std_loop(False)
-            self.atkInfoBox.remove()
+            self.atk_info_box.remove()
         return attack
 
     def get_item(self, items, inv):
