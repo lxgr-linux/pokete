@@ -27,7 +27,9 @@ from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
+from pokete_classes.providers import ProtoFigure
 from pokete_classes.buy import Buy
+from pokete_classes.audio import audio
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
@@ -76,18 +78,18 @@ class NPCActions:
     def playmap_17_boy(npc):
         """Interaction with boy"""
         if "choka" in [i.identifier for i in figure.pokes[:6]]:
-            npc.text([" < Oh, cool!", " < You have a Choka!",
-                      " < I've never seen one before!",
-                      " < Here you go, 200$"])
+            npc.text(["Oh, cool!", "You have a Choka!",
+                      "I've never seen one before!",
+                      "Here you go, have $200!"])
             if ask_bool(mvp.movemap,
-                        "Young boy gifted you 200$. Do you want to accept it?"):
+                        "The young boy gifted you $200. Do you want to accept it?"):
                 figure.add_money(200)
             npc.set_used()
         else:
-            npc.text([" < In this region lives the würgos Pokete.",
-                      f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
-it evolves to Choka.",
-                      " < I have never seen one before!"])
+            npc.text(["In this region lives the Würgos Pokete.",
+                      f"At level {p_data.pokes['würgos']['evolve_lvl']} \
+It evolves into Choka.",
+                      "I have never seen one before!"])
 
     @staticmethod
     def playmap_20_trader(npc):
@@ -100,26 +102,26 @@ it evolves to Choka.",
             ask_ok(mvp.movemap,
                    f"You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.")
-            mvp.movemap.text(npc.x, npc.y, [" < Cool, huh?"])
+            mvp.movemap.text(npc.x, npc.y, ["Cool, huh?"])
 
     @staticmethod
     def playmap_50_npc_29(npc):
         """Interaction with npc_28"""
         if pokete_care.poke is None:
-            npc.text([" < Here you can leave one of your Poketes for some time \
+            npc.text(["Here you can leave one of your Poketes for some time \
 and we will train it."])
             if ask_bool(mvp.movemap, "Do you want to put a Pokete into the \
-Pokete-Care"):
+Pokete-Care?"):
                 if (index := deck.deck(6, "Your deck", True)) is not None:
                     pokete_care.poke = figure.pokes[index]
                     pokete_care.entry = timer.time.time
                     figure.add_poke(Poke("__fallback__", 0), index)
-                    npc.text([" < We will take care of it."])
+                    npc.text(["We will take care of it."])
         else:
             add_xp = int((timer.time.time - pokete_care.entry) / 30)
             pokete_care.entry = timer.time.time
             pokete_care.poke.add_xp(add_xp)
-            npc.text([" < Oh, you're back.", f" < Your {pokete_care.poke.name} \
+            npc.text(["Oh, you're back.", f"Your {pokete_care.poke.name} \
 gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
             if ask_bool(mvp.movemap, "Do you want it back?"):
                 dummy = DummyFigure(pokete_care.poke)
@@ -127,15 +129,15 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                     continue
                 figure.add_poke(dummy.pokes[0])
                 figure.caught_pokes += dummy.caught_pokes
-                npc.text([" < Here you go!", " < Until next time!"])
+                npc.text(["Here you go!", "Until next time!"])
                 pokete_care.poke = None
-        npc.text([" < See you!"])
+        npc.text(["See you!"])
 
     @staticmethod
     def playmap_23_npc_8(npc):
         """Interaction with npc_8"""
         if ask_bool(mvp.movemap,
-                    "The man gifted you 100$. Do you want to accept it?"):
+                    "The man gifted you $100. Do you want to accept it?"):
             npc.set_used()
             figure.add_money(100)
 
@@ -191,39 +193,39 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                      if i.lvl() >= 50 and i.identifier == "mowcow"]
         if len(poke_list) > 0:
             poke = poke_list[0]
-            npc.text([" < Oh great!", " < You're my saviour!",
-                      f" < You brought me a level {poke.lvl()} Mowcow!",
-                      " < I'm thanking you!",
-                      " < Now I can still serve the best MowCow-Burgers!",
-                      " < Can I have it?"])
+            npc.text(["Oh great!", "You're my hero!",
+                      f"You brought me a level {poke.lvl()} Mowcow!",
+                      "I'm thanking you!",
+                      "Now I can still serve the best MowCow-Burgers!",
+                      "Can I have it?"])
             if ask_bool(mvp.movemap,
                         "Do you want to give your Mowcow to the cook?"):
                 figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
-                npc.text([" < Here you go, 1000$"])
+                npc.text(["Here you go, have $1000!"])
                 if ask_bool(mvp.movemap,
-                            "The cook gifted you 1000$. "
+                            "The cook gifted you $1000. "
                             "Do you want to accept it?"):
                     figure.add_money(1000)
                 npc.set_used()
         else:
-            npc.text([" < Ohhh man...", " < All of our beef is empty...",
-                      " < How are we going to serve the best MowCow-Burgers "
+            npc.text(["Ohhh man...", "All of our beef is empty...",
+                      "How are we going to serve the best MowCow-Burgers "
                       "without beef?",
-                      " < If only someone here could bring me a fitting "
+                      "If only someone here could bring me a fitting "
                       "Mowcow!?",
-                      " < But it has to be at least on level 50, to fit our "
+                      "But it has to be at least on level 50 to meet our "
                       "high quality standards.",
-                      " < I will pay a good price!"])
+                      "I will pay a good price!"])
 
     @staticmethod
     def playmap_39_npc_25(npc):
         """Interaction with npc_25"""
-        if not NPC.get("Sebastian the leader").used:
-            npc.text([" < I can't let you go.",
-                      " < You first have to defeat our arena leader!"])
+        if not NPC.get("Leader Sebastian").used:
+            npc.text(["I can't let you go!",
+                      "You first have to defeat our arena leader!"])
             figure.set(figure.x + 1, figure.y)
         else:
-            npc.text([" < Have a pleasant day."])
+            npc.text(["Have a pleasant day."])
 
     @staticmethod
     def playmap_43_npc_23(npc):
@@ -249,9 +251,9 @@ class CenterInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [" < Welcome to the Pokete-Center",
-                          " < What do you want to do?",
-                          " < a: See your full deck\n b: Heal all your Poketes\
+                         ["Welcome to the Pokete-Center",
+                          "What do you want to do?",
+                          "a: See your full deck\n b: Heal all your Poketes\
 \n c: Go"])
         while True:
             if _ev.get() == "'a'":
@@ -267,7 +269,7 @@ class CenterInteract(se.Object):
                 heal(figure)
                 time.sleep(0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                 [" < ...", " < Your Poketes are now healed!"])
+                                 ["...", "Your Poketes are now healed!"])
                 break
             elif _ev.get() == "'c'":
                 _ev.clear()
@@ -286,12 +288,12 @@ class ShopInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [" < Welcome to the Pokete-Shop",
-                          " < Wanna buy something?"])
+                         ["Welcome to the Pokete-Shop",
+                          "Wanna buy something?"])
         buy()
         mvp.movemap.full_show(init=True)
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [" < Have a great day!"])
+                         ["Have a great day!"])
 
 
 class CenterMap(PlayMap):
@@ -302,7 +304,7 @@ class CenterMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="centermap",
-                         pretty_name="Pokete-Center")
+                         pretty_name="Pokete-Center", song="Map.wav")
         self.inner = se.Text(""" ________________
  |______________|
  |     |a |     |
@@ -315,9 +317,9 @@ class CenterMap(PlayMap):
         self.dor_back1 = CenterDoor(" ", state="float")
         self.dor_back2 = CenterDoor(" ", state="float")
         self.trader = NPC("trader",
-                          [" < I'm a trader.",
-                           " < Here you can trade one of your Poketes for \
-another players' one."],
+                          ["I'm a trader.",
+                           "Here you can trade one of your Poketes for \
+one from another trainer."],
                           "swap_poke")
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
@@ -335,7 +337,7 @@ class ShopMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="shopmap",
-                         pretty_name="Pokete-Shop")
+                         pretty_name="Pokete-Shop", song="Map.wav")
         self.inner = se.Text(""" __________________
  |________________|
  |      |a |      |
@@ -353,7 +355,7 @@ class ShopMap(PlayMap):
         self.interact.add(self, int(self.width / 2), 4)
 
 
-class Figure(se.Object):
+class Figure(se.Object, ProtoFigure):
     """The figure that moves around on the map and represents the player
     ARGS:
         _si: session_info dict"""
@@ -365,11 +367,13 @@ class Figure(se.Object):
                 "[Figure] '%s' is no valid 'represent_char', resetting", r_char)
             r_char = "a"
         super().__init__(r_char, state="solid")
+        ProtoFigure.__init__(
+            self,
+            [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]]
+        )
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
         self.name = _si.get("user", "DEFAULT")
-        self.pokes = [Poke.from_dict(_si["pokes"][poke])
-                      for poke in _si["pokes"]]
         self.caught_pokes = _si.get("caught_poketes", [])
         self.visited_maps = _si.get("visited_maps", ["playmap_1"])
         self.used_npcs = _si.get("used_npcs", [])
@@ -377,6 +381,13 @@ class Figure(se.Object):
                                                     "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
+
+    def get_attack(self, fightmap, enem):
+        """Returns the choosen attack:
+        ARGS:
+            fightmap: fightmap object
+            anem: The enemy Provider"""
+        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         """Processes data from save file
@@ -402,7 +413,7 @@ class Figure(se.Object):
     def add_money(self, money):
         """Adds money
         ARGS:
-            money: Amount of money beeing added"""
+            money: Amount of money being added"""
         self.set_money(self.__money + money)
 
     def get_money(self):
@@ -415,12 +426,12 @@ class Figure(se.Object):
         """Sets the money to a certain value
         ARGS:
             money: New value"""
-        assert money >= 0, "money has to be positive"
-        logging.info("[Figure] Money set to %d$ from %d$",
+        assert money >= 0, "Money has to be positive."
+        logging.info("[Figure] Money set to $%d from $%d",
                      money, self.__money)
         self.__money = money
         for cls in [inv, buy]:
-            cls.money_label.rechar(str(self.__money) + "$")
+            cls.money_label.rechar("$" + str(self.__money))
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
@@ -444,7 +455,7 @@ class Figure(se.Object):
 
     def give_item(self, item, amount=1):
         """Gives an item to the player"""
-        assert amount > 0, "Amounts have to be positive"
+        assert amount > 0, "Amounts have to be positive!"
         if item not in self.inv:
             self.inv[item] = amount
         else:
@@ -464,10 +475,10 @@ class Figure(se.Object):
         ARGS:
             item: Generic item name
             amount: Amount of items beeing removed"""
-        assert amount > 0, "Amounts have to be positive"
-        assert item in self.inv, f"Item {item} is not in the inventory"
+        assert amount > 0, "Amounts have to be positive!"
+        assert item in self.inv, f"Item {item} is not in the inventory!"
         assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
-in the inventory"
+in the inventory!"
         self.inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)
 
@@ -490,7 +501,7 @@ class Inv:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Inventory", "R:remove")
         self.box2 = Box(7, 21)
-        self.money_label = se.Text(f"{figure.get_money()}$")
+        self.money_label = se.Text(f"${figure.get_money()}")
         self.desc_label = se.Text(" ")
         # adding
         self.box.add_ob(self.money_label,
@@ -638,6 +649,8 @@ class Menu:
                                        {True: "On", False: "Off"}),
                             VisSetting("Save trainers", "save_trainers",
                                        {True: "On", False: "Off"}),
+                            VisSetting("Audio", "audio",
+                                       {True: "On", False: "Off"}),
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
                             self.mods_label, self.ach_label,
@@ -748,7 +761,7 @@ def save():
 
 
 def read_save():
-    """Reads form savefile
+    """Reads from savefile
     RETURNS:
         session_info dict"""
     Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
@@ -806,12 +819,14 @@ def reset_terminal():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-def exiter():
+def exiter(end=False):
     """Exit function"""
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
-    sys.exit()
+    audio.kill()
+    if not end:
+        sys.exit()
 
 
 # Functions needed for mvp.movemap
@@ -977,6 +992,12 @@ def _game(_map):
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
     if _map.name not in figure.visited_maps:
         figure.visited_maps.append(_map.name)
+
+    if audio.curr is None:
+        audio.start(_map.song)
+    else:
+        audio.switch(_map.song)
+
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
@@ -1003,12 +1024,15 @@ def _game(_map):
                 break
         else:
             if _ev.get() in inp_dict:
+                audio_before = settings("audio").val
                 inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
                 _ev.clear()
+                if audio_before != settings("audio").val:
+                    audio.switch(_map.song)
                 mvp.movemap.show(init=True)
             elif _ev.get() == "'2'":
                 _ev.clear()
-                if ask_bool(mvp.movemap, "Do you realy want to exit?"):
+                if ask_bool(mvp.movemap, "Do you really want to exit?"):
                     save()
                     exiter()
             elif _ev.get() == "':'":
@@ -1047,16 +1071,16 @@ def intro():
                                "Welcome to Pokete!\nPlease choose your name!\n",
                                "Name:", "", "Name", 17)
     mvp.movemap.name_label_rechar(figure.name)
-    mvp.movemap.text(4, 3, [" < Hello my child.",
-                            " < You're now ten years old.",
-                            " < And I think it's now time for you to travel \
+    mvp.movemap.text(4, 3, ["Hello, my child.",
+                            "You're now ten years old.",
+                            "I think it's now time for you to travel \
 the world and be a Pokete-trainer.",
-                            " < Therefore I give you this powerfull 'Steini', \
-15 'Poketeballs' to catch Poketes and a "
+                            "Therefore, I give you this powerful 'Steini', \
+15 'Poketeballs' to catch Poketes, and a "
                             "'Healing potion'.",
-                            " < You will be the best Pokete-Trainer in Nice \
+                            "You will be the best Pokete-Trainer in Nice \
 town.",
-                            " < Now go out and become the best!"])
+                            "Now go out and become the best!"])
     game.game(obmp.ob_maps["intromap"])
 
 
@@ -1072,7 +1096,7 @@ def parse_obj(_map, name, obj, _dict):
 
 
 def gen_obs():
-    """Genrates all objests on the maps"""
+    """Generates all objects on the maps"""
     map_data = p_data.map_data
     npcs = p_data.npcs
     trainers = p_data.trainers
@@ -1082,7 +1106,7 @@ def gen_obs():
         _map = obmp.ob_maps[i]
         for j in trainers[i]:
             args = j["args"]
-            trainer = Trainer(Poke(*j["poke"], player=False), *args[:-2])
+            trainer = Trainer([Poke(*p, player=False) for p in j["pokes"]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
@@ -1165,9 +1189,11 @@ def main():
     timeing.daemon = True
     recognising.daemon = True
     autosaveing.daemon = True
+
     timeing.start()
     recognising.start()
     autosaveing.start()
+
     check_version(session_info)
     if figure.name == "DEFAULT":
         intro()
@@ -1355,6 +1381,7 @@ def map_additions():
     _map.dor.add(_map, 44, 52)
     _map.shopdor.add(_map, 122, 64)
 
+
 # Actual code execution
 #######################
 if __name__ == "__main__":
@@ -1363,6 +1390,7 @@ if __name__ == "__main__":
     if sys.platform == "linux" and not force_pynput:
         import tty
         import termios
+        import select
 
 
         def recogniser():
@@ -1374,14 +1402,17 @@ if __name__ == "__main__":
             fd = sys.stdin.fileno()
             old_settings = termios.tcgetattr(fd)
             tty.setraw(fd)
+            time.sleep(0.1)
             while True:
-                char = sys.stdin.read(1)
-                _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                        127: "Key.backspace", 32: "Key.space",
-                        27: "Key.esc"}[ord(char)])
-                if ord(char) == 3:
-                    reset_terminal()
-                    _ev.set("exit")
+                rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
+                if rlist:
+                    char = sys.stdin.read(1)
+                    _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
+                             127: "Key.backspace", 32: "Key.space",
+                             27: "Key.esc"}[ord(char)])
+                    if ord(char) == 3:
+                        reset_terminal()
+                        _ev.set("exit")
     else:
         from pynput.keyboard import Listener
 
@@ -1495,9 +1526,7 @@ if __name__ == "__main__":
         achievements.add(identifier, **args)
 
     # objects relevant for fm.fight()
-    fm.fight = fm.Fight(figure)
     fm.fightmap = fm.FightMap(height - 1, width)
-    fm.fightitems = fm.FightItems(figure)
 
     for _i in [NPC, Trainer]:
         _i.set_vars(figure, NPCActions)
@@ -1514,3 +1543,5 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\033[?1049l\033[1A\nKeyboardInterrupt")
+    finally:
+        exiter(True)

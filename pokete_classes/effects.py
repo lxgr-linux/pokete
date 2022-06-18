@@ -62,7 +62,7 @@ class Effect():
                                          se.Text("!", state="float"))
             logging.info("[Effect][%s] Added to %s", self.name, obj.name)
         else:
-            obj.ico.map.outp.rechar(f'{obj.ext_name} is allready ')
+            obj.ico.map.outp.rechar(f'{obj.ext_name} is already ')
             obj.ico.map.outp.append(se.Text(self.name,
                                             esccode=self.str_esccode,
                                             state="float"),

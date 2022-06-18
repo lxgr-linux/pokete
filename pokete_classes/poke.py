@@ -163,7 +163,7 @@ can't have more than 4 attacks!"
             Current level"""
         return int(math.sqrt(self.xp + 1))
 
-    def attack(self, attack, enem, fightmap):
+    def attack(self, attack, enem, fightmap, weather):
         """Attack process
         ARGS:
             attack: Attack object
@@ -179,7 +179,6 @@ can't have more than 4 attacks!"
                 self.enem = enem = self
             else:
                 self.enem = enem
-            weather = fightmap.figure.map.weather
             w_eff = 1
             random_factor = random.choices([0, 0.75, 1, 1.26],
                                            weights=[attack.miss_chance
@@ -207,15 +206,15 @@ can't have more than 4 attacks!"
             time.sleep(0.4)
             for i in attack.move:
                 getattr(self.moves, i)()
-            if attack.action is not None:
+            if attack.action is not None and random_factor != 0:
                 getattr(AttackActions(), attack.action)(self, enem)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
                 f'{self.ext_name} used {attack.name}! {eff_text}')
             if enem == self:
                 time.sleep(1)
-                fightmap.outp.outp(f'{self.ext_name} hurt it self!')
-            if n_hp != 0 or attack.factor == 0:
+                fightmap.outp.outp(f'{self.ext_name} hurt itself!')
+            if random_factor != 0:
                 attack.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
@@ -239,7 +238,7 @@ can't have more than 4 attacks!"
                 or self.lvl() < self.evolve_lvl:
             return False
         evomap = EvoMap(_map.height, _map.width)
-        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks)
+        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny)
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width / 2 - 4),
                      round((evomap.height - 8) / 2))
@@ -261,7 +260,7 @@ can't have more than 4 attacks!"
         evomap.show()
         time.sleep(0.01)
         new.moves.shine()
-        evomap.outp.outp(f"{self.name} evolved to {new.name}!")
+        evomap.outp.outp(f"{self.name} evolved into {new.name}!")
         time.sleep(5)
         for i in range(max(len(p_data.pokes[new.identifier]["attacks"])
                            - len(self.attack_obs), 0)):
@@ -269,7 +268,7 @@ can't have more than 4 attacks!"
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
-        logging.info("[Poke] %s evolved to %s", self.name, new.name)
+        logging.info("[Poke] %s evolved into %s", self.name, new.name)
         del self
         return True
 

@@ -14,11 +14,11 @@ def check_walk_back(figure, self=None):
         figure.add_money(-amount)
         heal(figure)
         ask_ok(mvp.movemap, f"""All your Poketes have died and you ran
-back to the last Pokecenter you visited, to heal them!
-On the way there {amount}$ fell out of your pocket!""")
+back to the last Pokecenter you visited to heal them!
+On the way there, ${amount} fell out of your pocket!""")
         figure.remove()
         figure.map = figure.last_center_map
-        logging.info("[Figure] Lost all Poketes and ran away")
+        logging.info("[Figure] You lost all Poketes and ran away!")
         DoorToCenter().action(figure)
 
 

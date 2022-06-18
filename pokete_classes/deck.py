@@ -3,11 +3,11 @@
 import scrap_engine as se
 from pokete_classes import detail
 import pokete_classes.game_map as gm
+import pokete_classes.movemap as mvp
 from .event import _ev
-from .input import ask_bool
+from .input import ask_bool, ask_ok
 from .loops import std_loop
 from .color import Color
-from .movemap import movemap
 from .poke import Poke
 from .ui_elements import StdFrame2
 
@@ -98,7 +98,16 @@ class Deck(detail.Informer):
                     self.submap.full_show()
             elif _ev.get() == "'3'":
                 _ev.clear()
-                if ask_bool(self.submap, f"Do you really want to free \
+                if pokes[self.index.index].identifier == "__fallback__":
+                    pass
+                elif len(
+                    [
+                        poke for poke in pokes
+                        if poke.identifier != "__fallback__"
+                    ]
+                ) <= 1:
+                    ask_ok(self.submap, "You can't free all your Poketes")
+                elif ask_bool(self.submap, f"Do you really want to free \
 {self.figure.pokes[self.index.index].name}?"):
                     self.rem_pokes(pokes)
                     self.figure.pokes[self.index.index] = Poke("__fallback__",
@@ -110,7 +119,7 @@ class Deck(detail.Informer):
                         + len(pokes[self.index.index].text_name.text)
                         + 1,
                         pokes[self.index.index].text_name.y)
-                    movemap.balls_label_rechar(self.figure.pokes)
+                    mvp.movemap.balls_label_rechar(self.figure.pokes)
             elif _ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
                 self.control(pokes, _ev.get())
                 _ev.clear()

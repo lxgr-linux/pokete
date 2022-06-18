@@ -4,6 +4,7 @@ import random
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import timer, movemap as mvp, fightmap as fm
+from .providers import NatureProvider
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
@@ -26,18 +27,26 @@ class HighGrass(se.Object):
                  or (not n_a and not is_night)
                  or (n_a and is_night)}
         if random.randint(0, 8) == 0:
-            fm.fight(Poke("__fallback__", 0)
-                     if len([poke for poke in self.figure.pokes[:6]
-                             if poke.hp > 0]) == 0
-                     else
-                     [poke for poke in self.figure.pokes[:6] if poke.hp > 0][0],
-                     Poke(random.choices(list(pokes),
-                                         weights=[i["rarity"] for _, i in
-                                                  pokes.items()])[0],
-                          random.choices(list(range(self.arg_proto["minlvl"],
-                                                    self.arg_proto["maxlvl"])))[
-                              0],
-                          player=False, shiny=(random.randint(0, 500) == 0)))
+            fm.fightmap.fight(
+                [
+                    self.figure,
+                    NatureProvider(
+                        Poke(
+                            random.choices(
+                                list(pokes),
+                                weights=[i["rarity"] for i in pokes.values()]
+                            )[0],
+                            random.choice(
+                                range(
+                                    self.arg_proto["minlvl"],
+                                    self.arg_proto["maxlvl"]
+                                )
+                            ),
+                            player=False, shiny=(random.randint(0, 500) == 0)
+                        )
+                    )
+                ]
+            )
             check_walk_back(self.figure)
 
 

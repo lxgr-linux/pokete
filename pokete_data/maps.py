@@ -2,6 +2,7 @@ maps = {
     "intromap": {
         "height": 15,
         "width": 30,
+        "song": "03 Chibi Ninja.mp3",
         "pretty_name": "Your home",
         "extra_actions": None,
         "poke_args": None,
@@ -10,6 +11,7 @@ maps = {
     "playmap_1": {
         "height": 25,
         "width": 90,
+        "song": "03 Chibi Ninja.mp3",
         "pretty_name": "Nice Town",
         "extra_actions": None,
         "poke_args": {
@@ -22,8 +24,9 @@ maps = {
     "cave_1": {
         "height": 30,
         "width": 90,
-        "pretty_name": "Nice Town cave",
+        "pretty_name": "Nice Town Cave",
         "extra_actions": None,
+        "song": "08 Ascending.mp3",
         "poke_args": {
             "pokes": ["steini", "bato", "lilstone", "rato"],
             "minlvl": 40,
@@ -34,6 +37,7 @@ maps = {
     "playmap_2": {
         "height": 30,
         "width": 180,
+        "song": "03 Chibi Ninja.mp3",
         "pretty_name": "Route 1",
         "extra_actions": None,
         "poke_args": {
@@ -47,6 +51,7 @@ maps = {
         "height": 30,
         "width": 90,
         "pretty_name": "Sunnydale",
+        "song": "xDeviruchi - Exploring The Unknown.wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
@@ -59,6 +64,7 @@ maps = {
         "height": 60,
         "width": 60,
         "pretty_name": "Sunnydale Lake",
+        "song": "xDeviruchi - Exploring The Unknown.wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
@@ -75,7 +81,8 @@ maps = {
     "playmap_5": {
         "height": 60,
         "width": 60,
-        "pretty_name": "Mysterious cave",
+        "pretty_name": "Mysterious Cave",
+        "song": "02 Underclocked (underunderclocked mix).mp3",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["bato", "bator", "steini"],
@@ -88,6 +95,7 @@ maps = {
         "height": 60,
         "width": 60,
         "pretty_name": "Route 2",
+        "song": "01 A Night Of Dizzy Spells.mp3",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["steini", "voglo", "bushy", "rollator"],
@@ -99,7 +107,8 @@ maps = {
     "playmap_7": {
         "height": 30,
         "width": 60,
-        "pretty_name": "Dark cave",
+        "pretty_name": "Dark Cave",
+        "song": "02 Underclocked (underunderclocked mix).mp3",
         "extra_actions": "playmap_7",
         "poke_args": {
             "pokes": ["steini", "bato", "lilstone", "rollator", "gobost"],
@@ -111,8 +120,9 @@ maps = {
     "playmap_8": {
         "height": 20,
         "width": 80,
-        "pretty_name": "Abandoned village",
+        "pretty_name": "Abandoned Village",
         "extra_actions": None,
+        "song": "xDeviruchi - Mysterious Dungeon.wav",
         "poke_args": {
             "pokes": ["gobost", "owol", "corcos_day", "corcos_night"],
             "minlvl": 230,
@@ -123,7 +133,8 @@ maps = {
     "playmap_9": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Abandoned house",
+        "pretty_name": "Abandoned House",
+        "song": "xDeviruchi - Mysterious Dungeon.wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["gobost", "rato"],
@@ -135,7 +146,8 @@ maps = {
     "playmap_10": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Old house",
+        "pretty_name": "Old House",
+        "song": "Map.wav",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -144,6 +156,7 @@ maps = {
         "height": 20,
         "width": 60,
         "pretty_name": "Route 3",
+        "song": "xDeviruchi - Take some rest and eat some food!.wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["steini", "voglo", "wolfior", "owol"],
@@ -161,6 +174,7 @@ maps = {
         "height": 15,
         "width": 80,
         "pretty_name": "Route 4",
+        "song": "xDeviruchi - Take some rest and eat some food!.wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["voglo", "vogli", "owol", "rato"],
@@ -172,7 +186,8 @@ maps = {
     "playmap_13": {
         "height": 35,
         "width": 70,
-        "pretty_name": "Deepens forest",
+        "pretty_name": "Deepest Forest",
+        "song": "xDeviruchi - Title Theme .wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["voglo", "vogli", "owol", "rato"],
@@ -185,6 +200,7 @@ maps = {
         "height": 15,
         "width": 30,
         "pretty_name": "Arena",
+        "song": "xDeviruchi - Prepare for Battle! .wav",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -193,6 +209,7 @@ maps = {
         "height": 25,
         "width": 120,
         "pretty_name": "Route 5",
+        "song": "xDeviruchi - Title Theme .wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["voglo", "owol", "würgos", "hornita"],
@@ -205,6 +222,7 @@ maps = {
         "height": 17,
         "width": 65,
         "pretty_name": "Route 6",
+        "song": "xDeviruchi - Title Theme .wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["voglo", "owol", "würgos", "hornita"],
@@ -216,7 +234,8 @@ maps = {
     "playmap_17": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Old house",
+        "song": "Map.wav",
+        "pretty_name": "Old House",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -224,8 +243,9 @@ maps = {
     "playmap_18": {
         "height": 23,
         "width": 98,
-        "pretty_name": "Big mountain see",
+        "pretty_name": "Big Mountain Sea",
         "extra_actions": None,
+        "song": "xDeviruchi - Title Theme .wav",
         "poke_args": {
             "pokes": ["poundi", "rollator", "würgos", "rato"],
             "minlvl": 540,
@@ -241,7 +261,8 @@ maps = {
     "playmap_19": {
         "height": 30,
         "width": 60,
-        "pretty_name": "Big mountain cave",
+        "pretty_name": "Big Mountain Cave",
+        "song": "10 Arpanauts.mp3",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["poundi", "steini", "lilstone", "bato"],
@@ -253,6 +274,7 @@ maps = {
     "playmap_20": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -262,6 +284,7 @@ maps = {
         "height": 30,
         "width": 150,
         "pretty_name": "Rock-ville",
+        "song": "xDeviruchi - The Final of The Fantasy.wav",
         "extra_actions": None,
         "poke_args": None,
         "w_poke_args": {
@@ -274,6 +297,7 @@ maps = {
     "playmap_22": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "Rocky Hotel",
         "extra_actions": None,
         "poke_args": None,
@@ -282,6 +306,7 @@ maps = {
     "playmap_23": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "Rocky Hotel",
         "extra_actions": None,
         "poke_args": None,
@@ -290,6 +315,7 @@ maps = {
     "playmap_24": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -298,7 +324,8 @@ maps = {
     "playmap_25": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Townhall",
+        "song": "Map.wav",
+        "pretty_name": "Town Hall",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -306,7 +333,8 @@ maps = {
     "playmap_26": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Townhall",
+        "song": "Map.wav",
+        "pretty_name": "Town Hall",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -314,7 +342,8 @@ maps = {
     "playmap_27": {
         "height": 15,
         "width": 40,
-        "pretty_name": "Battle cave",
+        "pretty_name": "Battle Cave",
+        "song": "xDeviruchi - The Icy Cave .wav",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -324,6 +353,7 @@ maps = {
         "width": 198,
         "pretty_name": "Route 7",
         "extra_actions": None,
+        "song": "xDeviruchi - Take some rest and eat some food!.wav",
         "poke_args": {
             "pokes": ["poisopla", "treenator", "bushy", "confuso", "gobost", "raupathor_day", "raupathor_night"],
             "minlvl": 640,
@@ -334,6 +364,7 @@ maps = {
     "playmap_29": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -342,6 +373,7 @@ maps = {
     "playmap_30": {
         "height": 63,
         "width": 148,
+        "song": "xDeviruchi - Take some rest and eat some food!.wav",
         "pretty_name": "Flowy Town",
         "extra_actions": None,
         "poke_args": None,
@@ -351,6 +383,7 @@ maps = {
         "height": 14,
         "width": 40,
         "pretty_name": "Arena",
+        "song": "xDeviruchi - Prepare for Battle! .wav",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -358,6 +391,7 @@ maps = {
     "playmap_32": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -366,7 +400,8 @@ maps = {
     "playmap_33": {
         "height": 44,
         "width": 154,
-        "pretty_name": "Mowcow meadow",
+        "pretty_name": "Mowcow Meadow",
+        "song": "xDeviruchi - Minigame .wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["mowcow", "voglo", "bushy"],
@@ -378,6 +413,7 @@ maps = {
     "playmap_34": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -386,7 +422,8 @@ maps = {
     "playmap_35": {
         "height": 69,
         "width": 144,
-        "pretty_name": "The fields of Agrawos",
+        "pretty_name": "The Fields of Agrawos",
+        "song": "xDeviruchi - Minigame .wav",
         "extra_actions": None,
         "poke_args": {
             "pokes": ["mowcow", "voglo", "lil_nut", "megapois"],
@@ -398,6 +435,7 @@ maps = {
     "playmap_36": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -406,6 +444,7 @@ maps = {
     "playmap_37": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -414,6 +453,7 @@ maps = {
     "playmap_38": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -422,6 +462,7 @@ maps = {
     "playmap_39": {
         "height": 70,
         "width": 200,
+        "song": "xDeviruchi - And The Journey Begins .wav",
         "pretty_name": "Agrawos",
         "extra_actions": None,
         "poke_args": {
@@ -435,6 +476,7 @@ maps = {
         "height": 30,
         "width": 140,
         "extra_actions": None,
+        "song": "xDeviruchi - Exploring The Unknown.wav",
         "pretty_name": "Sunny Beach",
         "poke_args": {
             "pokes": ["crabbat", "saugh", "würgos"],
@@ -451,6 +493,7 @@ maps = {
     "playmap_41": {
         "height": 15,
         "width": 60,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -459,7 +502,8 @@ maps = {
     "playmap_42": {
         "height": 15,
         "width": 60,
-        "pretty_name": "MowCow-Burger restaurant",
+        "song": "Map.wav",
+        "pretty_name": "MowCow-Burger Restaurant",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -467,6 +511,7 @@ maps = {
     "playmap_43": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "The Temple of the Wheeto",
         "extra_actions": None,
         "poke_args": None,
@@ -475,7 +520,8 @@ maps = {
     "playmap_44": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Townhall",
+        "song": "Map.wav",
+        "pretty_name": "Town Hall",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -483,7 +529,8 @@ maps = {
     "playmap_45": {
         "height": 15,
         "width": 30,
-        "pretty_name": "Townhall",
+        "song": "Map.wav",
+        "pretty_name": "Town Hall",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -492,6 +539,7 @@ maps = {
         "height": 15,
         "width": 30,
         "pretty_name": "Arena of Agrawos",
+        "song": "xDeviruchi - Prepare for Battle! .wav",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
@@ -499,6 +547,7 @@ maps = {
     "playmap_47": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -507,6 +556,7 @@ maps = {
     "playmap_48": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -515,6 +565,7 @@ maps = {
     "playmap_49": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "House",
         "extra_actions": None,
         "poke_args": None,
@@ -523,6 +574,7 @@ maps = {
     "playmap_50": {
         "height": 15,
         "width": 30,
+        "song": "Map.wav",
         "pretty_name": "Pokete-Care",
         "extra_actions": None,
         "poke_args": None,
