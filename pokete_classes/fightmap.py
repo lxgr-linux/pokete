@@ -53,7 +53,8 @@ class FightMap(gm.GameMap):
         self.p_upperline = se.Text("+----------------", state="float")
         self.p_sideline = se.Square("|", 1, 4, state="float")
         self.outp = OutP("", state="float")
-        self.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
+        
+        self.label = se.Text("1-4: Attack 5: Choose Attack  6: Run!  7: Inv.  8: Deck")
         # adding
         self.outp.add(self, 1, self.height - 4)
         self.e_underline.add(self, 1, 4)
@@ -234,17 +235,27 @@ class FightMap(gm.GameMap):
         ARGS:
             figure: The players provider
             enem: The enemys provider"""
+        attack_choose_string = " "
+        for i, j in enumerate(figure.curr.attack_obs):
+            attack_choose_string += str(i+1) + ": " + j.name + " "
         self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
                                           else "") +
-                                         "What do you want to do?",
+                                         "What do you want to do?" + attack_choose_string,
                                          state="float"))
         while True:  # Inputloop for general options
-            if _ev.get() == "'1'":
+            # curKey = _ev.get()
+            if _ev.get() in [f"'{i + 1}'" for i in range(len(figure.curr.attack_obs))]:
+                attack = figure.curr.attack_obs[int(_ev.get().strip("'")) - 1]
+                _ev.clear()
+                if attack != "":
+                    return attack
+                pass
+            elif _ev.get() == "'5'":
                 _ev.clear()
                 attack = self.get_attack(figure.curr.attack_obs)
                 if attack != "":
                     return attack
-            elif _ev.get() == "'2'":
+            elif _ev.get() == "'6'":
                 _ev.clear()
                 if (
                     type(enem) is Trainer
@@ -262,7 +273,7 @@ class FightMap(gm.GameMap):
                 logging.info("[Fight] Ended, ran away")
                 audio.switch(figure.map.song)
                 return "won"
-            elif _ev.get() == "'3'":
+            elif _ev.get() == "'7'":
                 _ev.clear()
                 items = [getattr(invitems, i)
                             for i in figure.inv
@@ -286,7 +297,7 @@ class FightMap(gm.GameMap):
                     audio.switch(figure.map.song)
                     return "won"
                 return ""
-            elif _ev.get() == "'4'":
+            elif _ev.get() == "'8'":
                 _ev.clear()
                 if not self.choose_poke(figure):
                     self.show(init=True)
