@@ -412,7 +412,7 @@ class FightMap(gm.GameMap):
             self.outp.outp(
                 f&#34;{winner.curr.name} reached lvl {winner.curr.lvl()}!&#34;
             )
-            winner.moves.shine()
+            winner.curr.moves.shine()
             time.sleep(0.5)
             winner.curr.set_vars()
             winner.curr.learn_attack(self)
@@ -1273,7 +1273,7 @@ None: To let the enemy attack</p></div>
             self.outp.outp(
                 f&#34;{winner.curr.name} reached lvl {winner.curr.lvl()}!&#34;
             )
-            winner.moves.shine()
+            winner.curr.moves.shine()
             time.sleep(0.5)
             winner.curr.set_vars()
             winner.curr.learn_attack(self)
@@ -1651,7 +1651,7 @@ will be set to.</dd>
         self.outp.outp(
             f&#34;{winner.curr.name} reached lvl {winner.curr.lvl()}!&#34;
         )
-        winner.moves.shine()
+        winner.curr.moves.shine()
         time.sleep(0.5)
         winner.curr.set_vars()
         winner.curr.learn_attack(self)
