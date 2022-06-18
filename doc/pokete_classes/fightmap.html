@@ -34,13 +34,14 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
+from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
 from .audio import audio
 from .loops import std_loop
 from .npcs import Trainer
 from .providers import NatureProvider, ProtoFigure
-from .ui_elements import StdFrame2, ChooseBox
+from .ui_elements import StdFrame2, ChooseBox, LabelBox
 from .classes import OutP
 from .input import ask_bool
 from .achievements import achievements
@@ -57,7 +58,7 @@ class FightMap(gm.GameMap):
 
     def __init__(self, height, width):
         super().__init__(height, width, name=&#34;fightmap&#34;)
-        self.box = ChooseBox(6, 25, &#34;Attacks&#34;, index_x=1)
+        self.box = ChooseBox(6, 25, &#34;Attacks&#34;, &#34;i:Info&#34;, index_x=1)
         self.invbox = ChooseBox(height - 3, 35, &#34;Inventory&#34;)
         # icos
         self.deadico1 = se.Text(r&#34;&#34;&#34;
@@ -93,6 +94,9 @@ class FightMap(gm.GameMap):
                             self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
+        # Attack info box
+        self.atk_info_box = LabelBox(se.Text(&#34;&#34;), &#34;Attack Info&#34;)
+        self.show_atk_info_box = False
 
     def clean_up(self, *providers):
         &#34;&#34;&#34;Removes all labels from self
@@ -180,14 +184,28 @@ class FightMap(gm.GameMap):
             self.show()
             time.sleep(0.1)
 
+    def rechar_atk_info_box(self, attack_obs):
+        self.atk_info_box.label.rechar(
+            liner(attack_obs[self.box.index.index].desc, 37)
+        )
+        self.atk_info_box.resize(
+            self.atk_info_box.label.height + 2,
+            self.atk_info_box.label.width + 4
+        )
+
     def get_attack(self, attack_obs):
         &#34;&#34;&#34;Inputloop for attack options
         ARGS:
             attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
         with self.box.add(self, 1, self.height - 7):
+            self.rechar_atk_info_box(attack_obs)
+            if self.show_atk_info_box:
+                self.atk_info_box.add(self, 27, self.height - 7)
+            self.show()
             while True:#158
                 if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
                     self.box.input(_ev.get())
+                    self.rechar_atk_info_box(attack_obs)
                     self.show()
                     _ev.clear()
                 elif _ev.get() in [f&#34;&#39;{i + 1}&#39;&#34; for i in
@@ -199,11 +217,21 @@ class FightMap(gm.GameMap):
                     if attack.ap == 0:
                         continue
                     break
+                elif _ev.get() == &#34;&#39;i&#39;&#34;:
+                    _ev.clear()
+                    self.show_atk_info_box = not self.show_atk_info_box
+                    if self.show_atk_info_box:
+                        self.atk_info_box.add(self, 27, self.height - 7)
+                    else:
+                        self.atk_info_box.remove()
+                    self.show()
+                    continue
                 elif _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                     _ev.clear()
                     attack = &#34;&#34;
                     break
                 std_loop(False)
+            self.atk_info_box.remove()
         return attack
 
     def get_item(self, items, inv):
@@ -918,7 +946,7 @@ None: To let the enemy attack</p></div>
 
     def __init__(self, height, width):
         super().__init__(height, width, name=&#34;fightmap&#34;)
-        self.box = ChooseBox(6, 25, &#34;Attacks&#34;, index_x=1)
+        self.box = ChooseBox(6, 25, &#34;Attacks&#34;, &#34;i:Info&#34;, index_x=1)
         self.invbox = ChooseBox(height - 3, 35, &#34;Inventory&#34;)
         # icos
         self.deadico1 = se.Text(r&#34;&#34;&#34;
@@ -954,6 +982,9 @@ None: To let the enemy attack</p></div>
                             self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
+        # Attack info box
+        self.atk_info_box = LabelBox(se.Text(&#34;&#34;), &#34;Attack Info&#34;)
+        self.show_atk_info_box = False
 
     def clean_up(self, *providers):
         &#34;&#34;&#34;Removes all labels from self
@@ -1041,14 +1072,28 @@ None: To let the enemy attack</p></div>
             self.show()
             time.sleep(0.1)
 
+    def rechar_atk_info_box(self, attack_obs):
+        self.atk_info_box.label.rechar(
+            liner(attack_obs[self.box.index.index].desc, 37)
+        )
+        self.atk_info_box.resize(
+            self.atk_info_box.label.height + 2,
+            self.atk_info_box.label.width + 4
+        )
+
     def get_attack(self, attack_obs):
         &#34;&#34;&#34;Inputloop for attack options
         ARGS:
             attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
         with self.box.add(self, 1, self.height - 7):
+            self.rechar_atk_info_box(attack_obs)
+            if self.show_atk_info_box:
+                self.atk_info_box.add(self, 27, self.height - 7)
+            self.show()
             while True:#158
                 if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
                     self.box.input(_ev.get())
+                    self.rechar_atk_info_box(attack_obs)
                     self.show()
                     _ev.clear()
                 elif _ev.get() in [f&#34;&#39;{i + 1}&#39;&#34; for i in
@@ -1060,11 +1105,21 @@ None: To let the enemy attack</p></div>
                     if attack.ap == 0:
                         continue
                     break
+                elif _ev.get() == &#34;&#39;i&#39;&#34;:
+                    _ev.clear()
+                    self.show_atk_info_box = not self.show_atk_info_box
+                    if self.show_atk_info_box:
+                        self.atk_info_box.add(self, 27, self.height - 7)
+                    else:
+                        self.atk_info_box.remove()
+                    self.show()
+                    continue
                 elif _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                     _ev.clear()
                     attack = &#34;&#34;
                     break
                 std_loop(False)
+            self.atk_info_box.remove()
         return attack
 
     def get_item(self, items, inv):
@@ -1691,9 +1746,14 @@ will be set to.</dd>
     ARGS:
         attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
     with self.box.add(self, 1, self.height - 7):
+        self.rechar_atk_info_box(attack_obs)
+        if self.show_atk_info_box:
+            self.atk_info_box.add(self, 27, self.height - 7)
+        self.show()
         while True:#158
             if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
                 self.box.input(_ev.get())
+                self.rechar_atk_info_box(attack_obs)
                 self.show()
                 _ev.clear()
             elif _ev.get() in [f&#34;&#39;{i + 1}&#39;&#34; for i in
@@ -1705,11 +1765,21 @@ will be set to.</dd>
                 if attack.ap == 0:
                     continue
                 break
+            elif _ev.get() == &#34;&#39;i&#39;&#34;:
+                _ev.clear()
+                self.show_atk_info_box = not self.show_atk_info_box
+                if self.show_atk_info_box:
+                    self.atk_info_box.add(self, 27, self.height - 7)
+                else:
+                    self.atk_info_box.remove()
+                self.show()
+                continue
             elif _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
                 _ev.clear()
                 attack = &#34;&#34;
                 break
             std_loop(False)
+        self.atk_info_box.remove()
     return attack</code></pre>
 </details>
 </dd>
@@ -1836,6 +1906,25 @@ will be set to.</dd>
     return item</code></pre>
 </details>
 </dd>
+<dt id="pokete_classes.fightmap.FightMap.rechar_atk_info_box"><code class="name flex">
+<span>def <span class="ident">rechar_atk_info_box</span></span>(<span>self, attack_obs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rechar_atk_info_box(self, attack_obs):
+    self.atk_info_box.label.rechar(
+        liner(attack_obs[self.box.index.index].desc, 37)
+    )
+    self.atk_info_box.resize(
+        self.atk_info_box.label.height + 2,
+        self.atk_info_box.label.width + 4
+    )</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -1880,6 +1969,7 @@ will be set to.</dd>
 <li><code><a title="pokete_classes.fightmap.FightMap.get_attack" href="#pokete_classes.fightmap.FightMap.get_attack">get_attack</a></code></li>
 <li><code><a title="pokete_classes.fightmap.FightMap.get_figure_attack" href="#pokete_classes.fightmap.FightMap.get_figure_attack">get_figure_attack</a></code></li>
 <li><code><a title="pokete_classes.fightmap.FightMap.get_item" href="#pokete_classes.fightmap.FightMap.get_item">get_item</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.rechar_atk_info_box" href="#pokete_classes.fightmap.FightMap.rechar_atk_info_box">rechar_atk_info_box</a></code></li>
 </ul>
 </li>
 </ul>
