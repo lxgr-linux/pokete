@@ -53,7 +53,6 @@ class FightMap(gm.GameMap):
         self.p_upperline = se.Text("+----------------", state="float")
         self.p_sideline = se.Square("|", 1, 4, state="float")
         self.outp = OutP("", state="float")
-        
         self.label = se.Text("1-4: Attack 5: Choose Attack  6: Run!  7: Inv.  8: Deck")
         # adding
         self.outp.add(self, 1, self.height - 4)
