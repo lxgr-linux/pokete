@@ -66,8 +66,7 @@ class Movemap(gm.GameSubmap):
         self.assure_distance(x, y, 17, 10)
         self.multitext.rechar("")
         self.multitext.add(self, x - self.x + 1, y - self.y)
-        arr = [i + (" >" if j != len(inp_arr) - 1 else "")
-                    for j, i in enumerate(inp_arr)]
+        arr = ["< " + str + " >" for str in inp_arr]
         for text in arr:
             _ev.clear()
             self.multitext.rechar("")
