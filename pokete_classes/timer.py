@@ -3,6 +3,8 @@
 import logging
 import time as time_mod
 import scrap_engine as se
+
+from pokete_classes.hotkeys import Action, get_action
 from .event import _ev
 from .ui_elements import Box
 from .loops import std_loop
@@ -114,9 +116,9 @@ class Clock(Box):
         raw_time = self.time.time
         with self.center_add(_map):
             while True:
-                if _ev.get() in ["q", "Key.esc"]:
-                    _ev.clear()
-                    break
+                match get_action():
+                    case Action.CANCEL | Action.CLOCK:
+                        break
                 if self.time.time == raw_time + 1:
                     d_p = not d_p
                     letter_obs = self.draw_letters(d_p, letter_obs)
