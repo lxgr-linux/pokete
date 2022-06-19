@@ -344,7 +344,7 @@ def after() -> None:
                 print("==> Copying Documentation folder...")
                 if exists("./doc/"):
                     print(" -> Removing old documentation folder...")
-                    os.system(f"rm -rf doc")
+                    os.system("rm -rf doc")
                 print(" -> Copying new documentation files...")
                 os.system("cp -r /tmp/doc/ .")
                 documentation_copied = True  # Only copy the directory once

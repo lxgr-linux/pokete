@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1091,2154
 # this is bash, I won't develope this further
 
 clear
@@ -9,10 +10,10 @@ poke1
 # enemy
 . ./enemys
 enemylvl=$((RANDOM % 21 + 20))
-enemylvl=$enemylvl$(python3 -c 'print('$(expr 3 - ${#enemylvl})'*" ")')
+enemylvl=$enemylvl$(python3 -c 'print('$((3 - ${#enemylvl}))'*" ")')
 wpoke$((RANDOM % pokecount + 1))
-enemyap=$enemyap$(python3 -c 'print('$(expr 5 - ${#enemyap})'*" ")')
-enemyhp=$enemyhp$(python3 -c 'print('$(expr 3 - ${#enemyhp})'*" ")')
+enemyap=$enemyap$(python3 -c 'print('$((5 - ${#enemyap}))'*" ")')
+enemyhp=$enemyhp$(python3 -c 'print('$((3 - ${#enemyhp}))'*" ")')
 
 . ./attacks
 
@@ -25,9 +26,9 @@ end=0
 
 while [ $end == 0 ]; do
 
-    enemyap=$enemyap$(python3 -c 'print('$(expr 5 - ${#enemyap})'*" ")')
-    enemyhp=$enemyhp$(python3 -c 'print('$(expr 3 - ${#enemyhp})'*" ")')
-    playerhp=$playerhp$(python3 -c 'print('$(expr 3 - ${#playerhp})'*" ")')
+    enemyap=$enemyap$(python3 -c 'print('$((5 - ${#enemyap}))'*" ")')
+    enemyhp=$enemyhp$(python3 -c 'print('$((3 - ${#enemyhp}))'*" ")')
+    playerhp=$playerhp$(python3 -c 'print('$((3 - ${#playerhp}))'*" ")')
 
     clear
     echo "_________________________________________________"
@@ -52,28 +53,30 @@ while [ $end == 0 ]; do
     echo " 1 $atcname1"
     echo " 2 $atcname2"
     printf "Attack =>> "
-    read inp
+    read -r inp
 
-    if [ $inp == 1 ]; then
+    if [ -z "$inp" ]; then
+        continue
+    elif [ "$inp" -eq 1 ]; then
         $playeratc1
-        enemyhp=$(expr $enemyhp - $playeratk \* $atcfactor / $enemydef)
-        playerdef=$(expr $playerdef + $defbetter)
-        playeratk=$(expr $playeratk + $atcbetter)
-    elif [ $inp == 2 ]; then
+        enemyhp=$((enemyhp - playeratk * atcfactor / enemydef))
+        playerdef=$((playerdef + defbetter))
+        playeratk=$((playeratk + atcbetter))
+    elif [ "$inp" -eq 2 ]; then
         $playeratc2
-        enemyhp=$(expr $enemyhp - $playeratk \* $atcfactor / $enemydef)
-        playerdef=$(expr $playerdef + $defbetter)
-        playeratk=$(expr $playeratk + $atcbetter)
+        enemyhp=$((enemyhp - playeratk * atcfactor / enemydef))
+        playerdef=$((playerdef + defbetter))
+        playeratk=$((playeratk + atcbetter))
     fi
 
     $enemyatc1
-    playerhp=$(expr $playerhp - $enemyatk \* $atcfactor / $playerdef)
+    playerhp=$((playerhp - enemyatk * atcfactor / playerdef))
 
-    if [ $playerhp -lt 0 ] || [ $playerhp == 0 ]; then
-        echo $enemypoke "(wild) won"
+    if [ "$playerhp" -lt 0 ] || [ "$playerhp" -eq 0 ]; then
+        echo "${enemypoke} (wild) won"
         end=1
-    elif [ $enemyhp -lt 0 ] || [ $enemyhp == 0 ]; then
-        echo $playerpoke "(player) won!"
+    elif [ "$enemyhp" -lt 0 ] || [ "$enemyhp" -eq 0 ]; then
+        echo "${playerpoke} (player) won!"
         end=1
     fi
 

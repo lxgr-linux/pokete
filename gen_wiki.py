@@ -26,9 +26,7 @@ class Wiki:
         ---
         The title of the wiki page.
         """
-        return f"""v{release.VERSION}
-
-# Pokete wiki
+        return f"""# Pokete wiki (v{release.VERSION})
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
 This wiki can be generated using ```$ ./gen_wiki.py```.
 
@@ -274,7 +272,7 @@ In the following all Poketes with their attributes are displayed.
 ##{'' if multi_page else '##'} {Wiki.get_name(poke)}
 {pokes[poke]["desc"]}
 
-```
+```text
 {ico}
 ```
 
@@ -389,7 +387,7 @@ Those are all attacks present in the game.
 - Missing chance: {attacks[attack]["miss_chance"]}
 - Attack points: {attacks[attack]["ap"]}
 - Effect: {"None" if eff is None else f'[{eff.c_name.capitalize()}]({"../effects" if multi_page else ""}#{eff.c_name.replace("_", "-")})'}
-"""
+"""  # noqa: E501
 
     @staticmethod
     def types(multi_page: bool = False) -> str:

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
 attackcount=1
 
 atc1(){
