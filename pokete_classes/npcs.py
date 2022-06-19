@@ -186,7 +186,7 @@ Do you want to accept it?"):
             with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
-                    if _ev.get() in ["'w'", "'s'"]:
+                    if _ev.get() in ["w", "s"]:
                         c_b.input(_ev.get())
                         mvp.movemap.show()
                         _ev.clear()

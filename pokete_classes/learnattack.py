@@ -86,7 +86,7 @@ class LearnAttack:
                                     for i, j in enumerate(self.poke.attack_obs)])
                 with self.box.center_add(self.map):
                     while True:
-                        if _ev.get() in ["'s'", "'w'"]:
+                        if _ev.get() in ["s", "w"]:
                             self.box.input(_ev.get())
                             self.map.show()
                             _ev.clear()
@@ -99,15 +99,15 @@ class LearnAttack:
 {attacks[new_attack]['name']}!")
                             _ev.clear()
                             break
-                        elif _ev.get() == "'1'":
+                        elif _ev.get() == "1":
                             _ev.clear()
                             Detail(self.map.height, self.map.width)\
                                   (self.poke, False)
                             self.map.show(init=True)
-                        elif _ev.get() == "'2'":
+                        elif _ev.get() == "2":
                             with AttackInfo(new_attack, self.map):
                                 easy_exit_loop()
-                        elif _ev.get() in ["Key.esc", "'q'"]:
+                        elif _ev.get() in ["Key.esc", "q"]:
                             _ev.clear()
                             return False
                         std_loop()

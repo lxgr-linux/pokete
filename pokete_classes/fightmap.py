@@ -158,7 +158,7 @@ class FightMap(gm.GameMap):
             attack_obs: A list of Attack objects that belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
             while True:#158
-                if _ev.get() in ["'s'", "'w'"]:
+                if _ev.get() in ["s", "w"]:
                     self.box.input(_ev.get())
                     self.show()
                     _ev.clear()
@@ -171,7 +171,7 @@ class FightMap(gm.GameMap):
                     if attack.ap == 0:
                         continue
                     break
-                elif _ev.get() in ["Key.esc", "'q'"]:
+                elif _ev.get() in ["Key.esc", "q"]:
                     _ev.clear()
                     attack = ""
                     break
@@ -188,11 +188,11 @@ class FightMap(gm.GameMap):
         self.invbox.set_index(0)
         with self.invbox.add(self, self.width - 35, 0):
             while True:
-                if _ev.get() in ["'s'", "'w'"]:
+                if _ev.get() in ["s", "w"]:
                     self.invbox.input(_ev.get())
                     self.show()
                     _ev.clear()
-                elif _ev.get() in ["Key.esc", "'q'"]:
+                elif _ev.get() in ["Key.esc", "q"]:
                     item = ""
                     break
                 elif _ev.get() == "Key.enter":
@@ -212,12 +212,12 @@ class FightMap(gm.GameMap):
                                          "What do you want to do?",
                                          state="float"))
         while True:  # Inputloop for general options
-            if _ev.get() == "'1'":
+            if _ev.get() == "1":
                 _ev.clear()
                 attack = self.get_attack(figure.curr.attack_obs)
                 if attack != "":
                     return attack
-            elif _ev.get() == "'2'":
+            elif _ev.get() == "2":
                 _ev.clear()
                 if (
                     type(enem) is Trainer
@@ -235,7 +235,7 @@ class FightMap(gm.GameMap):
                 logging.info("[Fight] Ended, ran away")
                 audio.switch(figure.map.song)
                 return "won"
-            elif _ev.get() == "'3'":
+            elif _ev.get() == "3":
                 _ev.clear()
                 items = [getattr(invitems, i)
                             for i in figure.inv
@@ -259,7 +259,7 @@ class FightMap(gm.GameMap):
                     audio.switch(figure.map.song)
                     return "won"
                 return ""
-            elif _ev.get() == "'4'":
+            elif _ev.get() == "4":
                 _ev.clear()
                 if not self.choose_poke(figure):
                     self.show(init=True)

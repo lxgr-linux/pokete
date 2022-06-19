@@ -132,10 +132,10 @@ class RoadMap:
          in i.associates][0].choose()
         with self.box.center_add(_map):
             while True:
-                if _ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
+                if _ev.get() in ["w", "a", "s", "d"]:
                     self.sta.next(_ev.get())
                     _ev.clear()
-                elif _ev.get() in ["'3'", "Key.esc", "'q'"]:
+                elif _ev.get() in ["3", "Key.esc", "q"]:
                     _ev.clear()
                     break
                 elif (_ev.get() == "Key.enter" and choose

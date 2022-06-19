@@ -114,7 +114,7 @@ class Clock(Box):
         raw_time = self.time.time
         with self.center_add(_map):
             while True:
-                if _ev.get() in ["'q'", "Key.esc"]:
+                if _ev.get() in ["q", "Key.esc"]:
                     _ev.clear()
                     break
                 if self.time.time == raw_time + 1:

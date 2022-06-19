@@ -12,7 +12,7 @@ def easy_exit_loop(on_mvmp=True):
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap"""
     while True:
-        if _ev.get() in ["'q'", "Key.esc"]:
+        if _ev.get() in ["q", "Key.esc"]:
             _ev.clear()
             return
         std_loop(on_mvmp)

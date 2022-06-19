@@ -37,7 +37,7 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
         elif ((i := _ev.get()) not in ["", "exit"] and "Key." not in i) \
              and len(name) < max_len or i == "Key.space":
             if _ev.get() == "Key.space":
-                _ev.set("' '")
+                _ev.set(" ")
             name += str(_ev.get().strip("'"))
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
@@ -55,10 +55,10 @@ def ask_bool(_map, text):
     with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o",
                  info="", _map=_map):
         while True:
-            if _ev.get() == "'y'":
+            if _ev.get() == "y":
                 ret = True
                 break
-            elif _ev.get() in ["'n'", "Key.esc", "'q'"]:
+            elif _ev.get() in ["n", "Key.esc", "q"]:
                 ret = False
                 break
             std_loop(_map.name == "movemap")
@@ -91,7 +91,7 @@ def ask_ok(_map, text):
     with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k", name="Info",
                  info="", _map=_map):
         while True:
-            if _ev.get() in ["'o'", "'O'", "Key.enter"]:
+            if _ev.get() in ["o", "O", "Key.enter"]:
                 break
             std_loop(_map.name == "movemap")
         _ev.clear()

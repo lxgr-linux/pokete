@@ -92,7 +92,7 @@ Active: """) + se.Text(active[0], esccode=active[1])
         with self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0):
             while True:
                 for event, idx, n_idx, add, idx_2 in zip(
-                                ["'s'", "'w'"],
+                                ["s", "w"],
                                 [len(self.box.c_obs) - 1, 0],
                                 [0, self.box.height - 3], [1, -1], [-1, 0]):
                     if _ev.get() == event and self.box.index.index == idx:
@@ -109,10 +109,10 @@ Active: """) + se.Text(active[0], esccode=active[1])
                                                  * (self.box.height - 2)
                                                  + self.box.index.index])
                     _ev.clear()
-                elif _ev.get() in ["'s'", "'w'"]:
+                elif _ev.get() in ["s", "w"]:
                     self.box.input(_ev.get())
                     _ev.clear()
-                elif _ev.get() in ["'e'", "Key.esc", "'q'"]:
+                elif _ev.get() in ["e", "Key.esc", "q"]:
                     _ev.clear()
                     break
                 std_loop()

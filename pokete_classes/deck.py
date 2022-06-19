@@ -65,7 +65,7 @@ class Deck(detail.Informer):
                            pokes[self.index.index].text_name.y)
         self.submap.full_show(init=True)
         while True:
-            if _ev.get() in ["'1'", "Key.esc", "'q'"]:
+            if _ev.get() in ["1", "Key.esc", "q"]:
                 _ev.clear()
                 self.rem_pokes(pokes)
                 while len(self.map.obs) > 0:
@@ -74,7 +74,7 @@ class Deck(detail.Informer):
                 if ret_action is not None:
                     self.abb_funcs[ret_action](pokes[self.index.index])
                 return None
-            elif _ev.get() == "'2'":
+            elif _ev.get() == "2":
                 _ev.clear()
                 if len(pokes) == 0:
                     continue
@@ -96,7 +96,7 @@ class Deck(detail.Informer):
                         pokes[self.index.index].text_name.y)
                     self.move_label.rechar("2: Move    ")
                     self.submap.full_show()
-            elif _ev.get() == "'3'":
+            elif _ev.get() == "3":
                 _ev.clear()
                 if pokes[self.index.index].identifier == "__fallback__":
                     pass
@@ -120,7 +120,7 @@ class Deck(detail.Informer):
                         + 1,
                         pokes[self.index.index].text_name.y)
                     mvp.movemap.balls_label_rechar(self.figure.pokes)
-            elif _ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
+            elif _ev.get() in ["w", "a", "s", "d"]:
                 self.control(pokes, _ev.get())
                 _ev.clear()
             elif _ev.get() == "Key.enter":
@@ -140,7 +140,7 @@ class Deck(detail.Informer):
                     ret_action = detail.detail(pokes[self.index.index])
                     self.add_all(pokes)
                     if ret_action is not None:
-                        _ev.set("'q'")
+                        _ev.set("q")
                         continue
                     self.submap.full_show(init=True)
             std_loop(False)
@@ -174,7 +174,7 @@ class Deck(detail.Informer):
             inp: Inputted string"""
         if len(pokes) <= 1:
             return
-        for con, stat, fir, sec in zip(["'a'", "'d'", "'s'", "'w'"],
+        for con, stat, fir, sec in zip(["a", "d", "s", "w"],
                                        [self.index.index != 0,
                                         self.index.index != len(pokes) - 1,
                                         self.index.index + 2 < len(pokes),

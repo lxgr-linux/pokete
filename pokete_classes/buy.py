@@ -39,11 +39,11 @@ class Buy:
             self.rechar()
             self.map.show()
             while True:
-                if _ev.get() in ["'s'", "'w'"]:
+                if _ev.get() in ["s", "w"]:
                     self.box.input(_ev.get())
                     self.rechar()
                     _ev.clear()
-                elif _ev.get() in ["Key.esc", "'q'"]:
+                elif _ev.get() in ["Key.esc", "q"]:
                     break
                 elif _ev.get() == "Key.enter":
                     obj = self.items[self.box.index.index]

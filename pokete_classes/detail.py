@@ -124,7 +124,7 @@ class Detail(Informer):
                 label.add(self.map, _x + __x, _y + __y)
         self.map.show(init=True)
         while True:
-            if _ev.get() in ["'1'", "Key.esc", "'q'"]:
+            if _ev.get() in ["1", "Key.esc", "q"]:
                 _ev.clear()
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
@@ -135,25 +135,25 @@ class Detail(Informer):
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif _ev.get() == "'3'" and abb_obs != [] and abb:
+            elif _ev.get() == "3" and abb_obs != [] and abb:
                 with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
                                c_obs=[se.Text(i.name)
                                       for i in abb_obs]).center_add(self.map)\
                         as box:
                     while True:
-                        if _ev.get() in ["'s'", "'w'"]:
+                        if _ev.get() in ["s", "w"]:
                             box.input(_ev.get())
                             self.map.show()
                             _ev.clear()
                         elif _ev.get() == "Key.enter":
                             ret_action = abb_obs[box.index.index].world_action
-                            _ev.set("'q'")
+                            _ev.set("q")
                             break
-                        elif _ev.get() in ["Key.esc", "'q'"]:
+                        elif _ev.get() in ["Key.esc", "q"]:
                             _ev.clear()
                             break
                         std_loop(False)
-            elif _ev.get() == "'2'":
+            elif _ev.get() == "2":
                 _ev.clear()
                 poke.nature.info(self.map)
             std_loop(False)

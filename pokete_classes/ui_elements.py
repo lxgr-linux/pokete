@@ -3,6 +3,8 @@ elements used in Pokete"""
 
 import scrap_engine as se
 
+from pokete_classes.hotkeys import Action, get_Y_strength
+
 
 class BoxIndex(se.Object):
     """Index that can be used in ChooseBox"""
@@ -112,15 +114,17 @@ class ChooseBox(Box):
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, inp):
+    def input(self, inp: Action):
         """Moves the cursor in the box
         ARGS:
-             inp: Inputted char"""
-        if {"'s'": self.index.index + 1 < len(self.c_obs),
-                "'w'": self.index.index - 1 >= 0}[inp]:
-            self.index.index += {"'s'": 1, "'w'": -1}[inp]
+             inp: Inputted action"""
+        if {
+            Action.DOWN: self.index.index + 1 < len(self.c_obs),
+            Action.UP: self.index.index - 1 >= 0
+        }[inp]:
+            self.index.index += get_Y_strength(inp)
         else:
-            self.index.index = {"'s'": 0, "'w'": len(self.c_obs) - 1}[inp]
+            self.index.index = {"s": 0, "w": len(self.c_obs) - 1}[inp]
         self.set_index()
 
     def set_index(self, index=None):
@@ -214,10 +218,10 @@ class BetterChooseBox(Box):
         """Evaluates user input
         ARGS:
             inp: Inputted string"""
-        _c = {"'w'": (-1, 0),
-              "'s'": (1, 0),
-              "'a'": (0, -1),
-              "'d'": (0, 1)}[inp]
+        _c = {"w": (-1, 0),
+              "s": (1, 0),
+              "a": (0, -1),
+              "d": (0, 1)}[inp]
         self.set_index((self.index[0] + _c[0])
                             % len([i for i in self.nest_label_obs if len(i) >
                                 self.index[1]]),

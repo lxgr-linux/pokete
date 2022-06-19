@@ -1,3 +1,4 @@
+from tokenize import Number
 from pokete_classes.event import _ev
 from enum import Enum, auto
 
@@ -68,3 +69,19 @@ def get_action() -> Action:
         retval = hotkey_mappings[raw_input]
     _ev.clear()
     return retval
+
+def get_Y_strength(action: Action) -> Number:
+    match action:
+        case Action.UP:
+            return 1
+        case Action.DOWN:
+            return -1
+    return 0
+
+def get_X_strength(action: Action) -> Number:
+    match action:
+        case Action.RIGHT:
+            return 1
+        case Action.LEFT:
+            return -1
+    return 0

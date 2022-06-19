@@ -257,7 +257,7 @@ class CenterInteract(se.Object):
                           " < a: See your full deck\n b: Heal all your Poketes\
 \n c: Go"])
         while True:
-            if _ev.get() == "'a'":
+            if _ev.get() == "a":
                 _ev.clear()
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
@@ -265,14 +265,14 @@ class CenterInteract(se.Object):
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif _ev.get() == "'b'":
+            elif _ev.get() == "b":
                 _ev.clear()
                 heal(figure)
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                  [" < ...", " < Your Poketes are now healed!"])
                 break
-            elif _ev.get() == "'c'":
+            elif _ev.get() == "c":
                 _ev.clear()
                 break
             std_loop()
@@ -515,10 +515,10 @@ class Inv:
         items = self.add()
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:
-                if _ev.get() in ["'s'", "'w'"]:
+                if _ev.get() in ["s", "w"]:
                     self.box.input(_ev.get())
                     _ev.clear()
-                elif _ev.get() in ["'4'", "Key.esc", "'q'"]:
+                elif _ev.get() in ["4", "Key.esc", "q"]:
                     break
                 elif _ev.get() == "Key.enter":
                     obj = items[self.box.index.index]
@@ -529,7 +529,7 @@ class Inv:
                     while True:
                         if _ev.get() == "exit":
                             raise KeyboardInterrupt
-                        elif _ev.get() in ["Key.enter", "Key.esc", "'q'"]:
+                        elif _ev.get() in ["Key.enter", "Key.esc", "q"]:
                             _ev.clear()
                             self.box2.remove()
                             if obj.name == "treat":
@@ -584,7 +584,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                             break
                         time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif _ev.get() == "'r'":
+                elif _ev.get() == "r":
                     if ask_bool(self.map,
                                 f"Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?"):
@@ -708,10 +708,10 @@ valid single-space character!")
                         AchievementOverview()(mvp.movemap)
                     else:
                         i.change()
-                elif _ev.get() in ["'s'", "'w'"]:
+                elif _ev.get() in ["s", "w"]:
                     self.box.input(_ev.get())
                     _ev.clear()
-                elif _ev.get() in ["'e'", "Key.esc", "'q'"]:
+                elif _ev.get() in ["e", "Key.esc", "q"]:
                     _ev.clear()
                     break
                 std_loop(pevm=pevm)
@@ -884,13 +884,13 @@ def test():
         "Welt", "Wie", "Gehts", "Dir", "So", "Du"]],
         "Test", _map=mvp.movemap) as a:
         while True:
-            if _ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
+            if _ev.get() in ["w", "s", "a", "d"]:
                 a.input(_ev.get())
                 _ev.clear()
-            elif _ev.get() in ["'q'", "Key.esc"]:
+            elif _ev.get() in ["q", "Key.esc"]:
                 _ev.clear()
                 break
-            elif _ev.get() == "'t'":
+            elif _ev.get() == "t":
                 _ev.clear()
                 a.remove()
                 a.set_items(3, [se.Text(i, state="float") for i in ["test",
@@ -1004,18 +1004,18 @@ def _game(_map):
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
     pevm = PeriodicEventManager(_map)
-    inp_dict = {"'1'": [deck.deck, (6, "Your deck")],
-                "'3'": [roadmap, (mvp.movemap,)],
-                "'4'": [inv, ()],
-                "'5'": [pokete_dex, ()],
-                "'6'": [timer.clock, (mvp.movemap,)],
-                "'e'": [menu, (pevm,)],
-                "'?'": [help_page, ()]}
+    inp_dict = {"1": [deck.deck, (6, "Your deck")],
+                "3": [roadmap, (mvp.movemap,)],
+                "4": [inv, ()],
+                "5": [pokete_dex, ()],
+                "6": [timer.clock, (mvp.movemap,)],
+                "e": [menu, (pevm,)],
+                "?": [help_page, ()]}
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
     while True:
         # Directions are not beening used yet
-        for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
+        for name, _dir, x, y in zip(["w", "a", "s", "d"],
                                     ["t", "l", "b", "r"],
                                     [0, -1, 0, 1], [-1, 0, 1, 0]):
             if _ev.get() == name:
@@ -1031,12 +1031,12 @@ def _game(_map):
                 if audio_before != settings("audio").val:
                     audio.switch(_map.song)
                 mvp.movemap.show(init=True)
-            elif _ev.get() == "'2'":
+            elif _ev.get() == "2":
                 _ev.clear()
                 if ask_bool(mvp.movemap, "Do you realy want to exit?"):
                     save()
                     exiter()
-            elif _ev.get() == "':'":
+            elif _ev.get() == ":":
                 _ev.clear()
                 inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
                                  mvp.movemap.width,

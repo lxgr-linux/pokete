@@ -102,10 +102,10 @@ class AchievementOverview(BetterChooseBox):
         self.map = _map
         with self:
             while True:
-                if _ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
+                if _ev.get() in ["w", "s", "a", "d"]:
                     self.input(_ev.get())
                     _ev.clear()
-                elif _ev.get() in ["'q'", "Key.esc"]:
+                elif _ev.get() in ["q", "Key.esc"]:
                     _ev.clear()
                     break
                 elif _ev.get() == "Key.enter":
