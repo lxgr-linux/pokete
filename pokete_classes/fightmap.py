@@ -364,6 +364,12 @@ class FightMap(gm.GameMap):
                 time.sleep(3)
             if winner is not None:
                 if (
+                    type(winner) is Trainer
+                ):
+                    success = False
+                    while not success:
+                        success = self.choose_poke(loser)
+                elif (
                     loser.curr.player
                     and any(p.hp > 0 for p in loser.pokes[:6])
                     and ask_bool(self, "Do you want to choose another Pokete?")
