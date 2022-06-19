@@ -27,6 +27,8 @@ class Action(Enum):
     ACT_5 = auto()
     ACT_6 = auto()
     ACT_7 = auto()
+    ACT_8 = auto()
+    ACT_9 = auto()
 
 ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
 
