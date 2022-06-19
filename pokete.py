@@ -259,25 +259,25 @@ class CenterInteract(se.Object):
             [
                 " < Welcome to the Pokete-Center",
                 " < What do you want to do?",
-                " < e: See your full deck\n y: Heal all your Poketes\n q: Cuddle with the Poketes"
+                " < 1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes"
             ]
         )
         while True:
             match(get_action()):
-                case Action.DECK:
+                case Action.DECK | Action.ACT_1:
                     while "__fallback__" in [p.identifier for p in figure.pokes]:
                         figure.pokes.pop([p.identifier for p in
                                           figure.pokes].index("__fallback__"))
                     mvp.movemap.balls_label_rechar(figure.pokes)
                     deck.deck(len(figure.pokes))
                     break
-                case Action.ACCEPT:
+                case Action.ACCEPT | Action.ACT_2:
                     heal(figure)
                     time.sleep(SPEED_OF_TIME * 0.5)
                     mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                      [" < ...", " < Your Poketes are now healed!"])
                     break
-                case Action.CANCEL:
+                case Action.CANCEL | Action.ACT_3:
                     break
             std_loop()
         mvp.movemap.full_show(init=True)
