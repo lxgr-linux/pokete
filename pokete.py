@@ -668,7 +668,8 @@ class Menu:
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             _ev.clear()
             while True:
-                match get_action():
+                action = get_action()
+                match action:
                     case Action.ACCEPT:
                         # Fuck python for not having case statements - lxgr
                         #     but it does lmao - Magnus
@@ -705,7 +706,7 @@ valid single-space character!")
                         else:
                             i.change()
                     case Action.UP | Action.DOWN:
-                        self.box.input(_ev.get())
+                        self.box.input(action)
                     case Action.CANCEL | Action.MENU:
                         break
                 std_loop(pevm=pevm)
