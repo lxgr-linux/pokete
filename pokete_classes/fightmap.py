@@ -341,27 +341,28 @@ class FightMap(gm.GameMap):
                 j.readd()
         while True:
             player = providers[index % 2]
-            enem = providers[(index + 1) % 2]
+            enemy = providers[(index + 1) % 2]
 
-            attack = player.get_attack(self, enem)
+            attack = player.get_attack(self, enemy)
             time.sleep(0.3)
             if attack == "won":
                 return player
             elif attack != "":
-                player.curr.attack(attack, enem.curr, self, weather)
+                player.curr.attack(attack, enemy.curr, self, weather)
             self.show()
             time.sleep(0.5)
             winner = None
             loser = None
+            if all(i.ap == 0 for i in player.curr.attack_obs):
+                winner = enemy
+                loser = player
+                time.sleep(2)
+                self.outp.outp(f"{player.curr.ext_name} has used all its attacks!")
+                time.sleep(3)
             for i, prov in enumerate(providers):
                 if prov.curr.hp <= 0:
                     loser = prov
                     winner = providers[(i + 1) % 2]
-            if all(i.ap == 0 for i in player.curr.attack_obs):
-                winner = providers[(index + 1) % 2]
-                time.sleep(2)
-                self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
-                time.sleep(3)
             if winner is not None:
                 if (
                     loser.curr.player
