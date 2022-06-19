@@ -46,7 +46,15 @@ class Settings:
 
     def __init__(self):
         self.settings = []
-        self.keywords = ["autosave", "animations", "save_trainers", "load_mods"]
+
+        self.settings.append(Setting("autosave", False))
+        self.settings.append(Setting("animations", False))
+        self.settings.append(Setting("save_trainers", False))
+        self.settings.append(Setting("load_mods", False))
+        self.settings.append(Setting("audio", False))
+
+        self.keywords = ["autosave", "animations", "save_trainers",
+                         "load_mods", "audio"]
 
     def from_dict(self, src):
         """Setts the settings from a dict
