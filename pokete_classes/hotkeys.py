@@ -31,6 +31,7 @@ class Action(Enum):
     ACT_9 = auto()
 
 ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
+ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
 hotkey_mappings = {
     'a':        Action.LEFT,
@@ -86,17 +87,15 @@ def get_action() -> Action:
     return retval
 
 def get_Y_strength(action: Action) -> Number:
-    match action:
-        case Action.UP:
+    if action == Action.UP:
             return -1
-        case Action.DOWN:
-            return 1
+    elif action == Action.DOWN:
+        return 1
     return 0
 
 def get_X_strength(action: Action) -> Number:
-    match action:
-        case Action.RIGHT:
-            return 1
-        case Action.LEFT:
-            return -1
+    if action == Action.RIGHT:
+        return 1
+    elif action == Action.LEFT:
+        return -1
     return 0

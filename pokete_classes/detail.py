@@ -125,40 +125,38 @@ class Detail(Informer):
         self.map.show(init=True)
         while True:
             action = get_action()
-            match action:
-                case Action.ACT_1 | Action.CANCEL | Action.ACCEPT:
-                    self.remove(poke)
-                    for obj in [poke.desc, poke.text_type]:
+            if action in (Action.ACT_1, Action.CANCEL, Action.ACCEPT):
+                self.remove(poke)
+                for obj in [poke.desc, poke.text_type]:
+                    obj.remove()
+                for atc in poke.attack_obs:
+                    for obj in [atc.label_name, atc.label_factor, atc.label_ap,
+                                atc.label_desc, atc.label_type]:
                         obj.remove()
-                    for atc in poke.attack_obs:
-                        for obj in [atc.label_name, atc.label_factor, atc.label_ap,
-                                    atc.label_desc, atc.label_type]:
-                            obj.remove()
-                        del atc.temp_i, atc.temp_j
-                    return ret_action
-                case Action.ACT_3:
-                    if abb_obs != [] and abb:
-                        with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
-                                       c_obs=[se.Text(i.name)
-                                              for i in abb_obs]).center_add(self.map)\
-                                as box:
-                            while True:
-                                action = get_action()
-                                match action:
-                                    case Action.UP | Action.DOWN:
-                                        box.input(action)
-                                        self.map.show()
-                                    case Action.ACCEPT:
-                                        ret_action = abb_obs[box.index.index].world_action
-                                        break
-                                    case Action.CANCEL:
-                                        break
-                                std_loop(False)
-                            if action == Action.ACCEPT:
-                                # Exit to the world after performing a world action
+                    del atc.temp_i, atc.temp_j
+                return ret_action
+            elif action == Action.ACT_2:
+                poke.nature.info(self.map)
+            elif action == Action.ACT_3:
+                if abb_obs != [] and abb:
+                    with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
+                                   c_obs=[se.Text(i.name)
+                                          for i in abb_obs]).center_add(self.map)\
+                            as box:
+                        while True:
+                            action = get_action()
+                            if action in (Action.UP, Action.DOWN):
+                                box.input(action)
+                                self.map.show()
+                            elif action == Action.ACCEPT:
+                                ret_action = abb_obs[box.index.index].world_action
                                 break
-                case Action.ACT_2:
-                    poke.nature.info(self.map)
+                            elif action == Action.CANCEL:
+                                break
+                            std_loop(False)
+                        if action == Action.ACCEPT:
+                            # Exit to the world after performing a world action
+                            break
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:

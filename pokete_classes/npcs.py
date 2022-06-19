@@ -5,7 +5,7 @@ import logging
 import random
 import scrap_engine as se
 import pokete_classes.fightmap as fm
-from pokete_classes.hotkeys import Action, get_action
+from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 import pokete_classes.movemap as mvp
 from .providers import Provider
 from .loops import std_loop
@@ -186,13 +186,12 @@ Do you want to accept it?"):
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
                     action = get_action()
-                    match action:
-                        case Action.UP | Action.DOWN:
-                            c_b.input(action)
-                            mvp.movemap.show()
-                        case Action.ACCEPT:
-                            key = keys[c_b.index.index]
-                            break
+                    if action in ACTION_UP_DOWN:
+                        c_b.input(action)
+                        mvp.movemap.show()
+                    elif action == Action.ACCEPT:
+                        key = keys[c_b.index.index]
+                        break
                     std_loop()
             q_a = q_a["a"][key]
 

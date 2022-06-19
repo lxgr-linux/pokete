@@ -57,13 +57,13 @@ def ask_bool(_map, text):
     with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o",
                  info="", _map=_map):
         while True:
-            match get_action():
-                case Action.ACCEPT:
-                    ret = True
-                    break
-                case Action.CANCEL:
-                    ret = False
-                    break
+            action = get_action()
+            if action == Action.ACCEPT:
+                ret = True
+                break
+            elif action == Action.CANCEL:
+                ret = False
+                break
             std_loop(_map.name == "movemap")
         _ev.clear()
     return ret

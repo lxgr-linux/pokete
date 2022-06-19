@@ -106,15 +106,14 @@ class AchievementOverview(BetterChooseBox):
                 if action in ACTION_DIRECTIONS:
                     self.input(action)
                 else:
-                    match action:
-                        case Action.CANCEL:
-                            break
-                        case Action.ACCEPT:
-                            ach = achievements.achievements[
-                                self.get_item(*self.index).ind
-                            ]
-                            with AchBox(ach, achievements).center_add(_map):
-                                easy_exit_loop()
+                    if action == Action.CANCEL:
+                        break
+                    elif action == Action.ACCEPT:
+                        ach = achievements.achievements[
+                            self.get_item(*self.index).ind
+                        ]
+                        with AchBox(ach, achievements).center_add(_map):
+                            easy_exit_loop()
                 std_loop()
                 self.map.show()
 

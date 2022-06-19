@@ -263,22 +263,22 @@ class CenterInteract(se.Object):
             ]
         )
         while True:
-            match(get_action()):
-                case Action.DECK | Action.ACT_1:
-                    while "__fallback__" in [p.identifier for p in figure.pokes]:
-                        figure.pokes.pop([p.identifier for p in
-                                          figure.pokes].index("__fallback__"))
-                    mvp.movemap.balls_label_rechar(figure.pokes)
-                    deck.deck(len(figure.pokes))
-                    break
-                case Action.ACCEPT | Action.ACT_2:
-                    heal(figure)
-                    time.sleep(SPEED_OF_TIME * 0.5)
-                    mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                     ["...", "Your Poketes are now healed!"])
-                    break
-                case Action.CANCEL | Action.ACT_3:
-                    break
+            action = get_action()
+            if action in (Action.DECK, Action.ACT_1):
+                while "__fallback__" in [p.identifier for p in figure.pokes]:
+                    figure.pokes.pop([p.identifier for p in
+                                      figure.pokes].index("__fallback__"))
+                mvp.movemap.balls_label_rechar(figure.pokes)
+                deck.deck(len(figure.pokes))
+                break
+            elif action in (Action.ACCEPT, Action.ACT_2):
+                heal(figure)
+                time.sleep(SPEED_OF_TIME * 0.5)
+                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                                 ["...", "Your Poketes are now healed!"])
+                break
+            elif action in (Action.CANCEL, Action.ACT_3):
+                break
             std_loop()
         mvp.movemap.full_show(init=True)
 
@@ -520,78 +520,77 @@ class Inv:
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:
                 action = get_action()
-                match(action):
-                    case Action.UP | Action.DOWN:
-                        self.box.input(action)
-                    case Action.CANCEL:
-                        break
-                    case Action.ACCEPT:
-                        obj = items[self.box.index.index]
-                        self.box2.name_label.rechar(obj.pretty_name)
-                        self.desc_label.rechar(liner(obj.desc, 19))
-                        self.box2.add(self.map, self.box.x - 19, 3)
-                        while True:
-                            if get_action() == Action.ACCEPT:
-                                self.box2.remove()
-                                if obj.name == "treat":
-                                    if ask_bool(self.map,
-                                                "Do you want to upgrade one of "
-                                                "your Poketes by a level?"):
-                                        ex_cond = True
-                                        while ex_cond:
-                                            index = deck.deck(6, label="Your deck",
-                                                              in_fight=True)
-                                            if index is None:
-                                                ex_cond = False
-                                                self.map.show(init=True)
-                                                break
-                                            poke = figure.pokes[index]
+                if action in (Action.UP, Action.DOWN):
+                    self.box.input(action)
+                elif action == Action.CANCEL:
+                    break
+                elif action == Action.ACCEPT:
+                    obj = items[self.box.index.index]
+                    self.box2.name_label.rechar(obj.pretty_name)
+                    self.desc_label.rechar(liner(obj.desc, 19))
+                    self.box2.add(self.map, self.box.x - 19, 3)
+                    while True:
+                        if get_action() == Action.ACCEPT:
+                            self.box2.remove()
+                            if obj.name == "treat":
+                                if ask_bool(self.map,
+                                            "Do you want to upgrade one of "
+                                            "your Poketes by a level?"):
+                                    ex_cond = True
+                                    while ex_cond:
+                                        index = deck.deck(6, label="Your deck",
+                                                          in_fight=True)
+                                        if index is None:
+                                            ex_cond = False
+                                            self.map.show(init=True)
                                             break
-                                        if not ex_cond:
-                                            break
-                                        upgrade_by_one_lvl(poke, figure, self.map)
-                                        items = self.rem_item(obj.name, items)
-                                        ask_ok(self.map,
-                                               f"{poke.name} reached level "
-                                               f"{poke.lvl()}!")
-                                elif type(obj) is LearnDisc:
-                                    if ask_bool(self.map, f"Do you want to teach '\
+                                        poke = figure.pokes[index]
+                                        break
+                                    if not ex_cond:
+                                        break
+                                    upgrade_by_one_lvl(poke, figure, self.map)
+                                    items = self.rem_item(obj.name, items)
+                                    ask_ok(self.map,
+                                           f"{poke.name} reached level "
+                                           f"{poke.lvl()}!")
+                            elif type(obj) is LearnDisc:
+                                if ask_bool(self.map, f"Do you want to teach '\
 {obj.attack_dict['name']}'?"):
-                                        ex_cond = True
-                                        while ex_cond:
-                                            index = deck.deck(6, label="Your deck",
-                                                              in_fight=True)
-                                            if index is None:
-                                                ex_cond = False
-                                                self.map.show(init=True)
-                                                break
-                                            poke = figure.pokes[index]
-                                            if getattr(types,
-                                                       obj.attack_dict['types'][0])\
-                                                    in poke.types:
-                                                break
-                                            else:
-                                                ex_cond = ask_bool(self.map,
-                                                                   f"You cant't \
-teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
-                                        if not ex_cond:
+                                    ex_cond = True
+                                    while ex_cond:
+                                        index = deck.deck(6, label="Your deck",
+                                                          in_fight=True)
+                                        if index is None:
+                                            ex_cond = False
+                                            self.map.show(init=True)
                                             break
-                                        if LearnAttack(poke, self.map)\
-                                                (obj.attack_name):
-                                            items = self.rem_item(obj.name, items)
-                                            if len(items) == 0:
-                                                break
-                                break
-                            time.sleep(SPEED_OF_TIME * 0.05)
-                            self.map.show()
-                    case Action.RUN:
-                        if ask_bool(self.map,
-                                    f"Do you really want to throw \
+                                        poke = figure.pokes[index]
+                                        if getattr(types,
+                                                   obj.attack_dict['types'][0])\
+                                                in poke.types:
+                                            break
+                                        else:
+                                            ex_cond = ask_bool(self.map,
+                                                               f"You cant't \
+teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
+                                    if not ex_cond:
+                                        break
+                                    if LearnAttack(poke, self.map)\
+                                            (obj.attack_name):
+                                        items = self.rem_item(obj.name, items)
+                                        if len(items) == 0:
+                                            break
+                            break
+                        time.sleep(SPEED_OF_TIME * 0.05)
+                        self.map.show()
+                elif action == Action.RUN:
+                    if ask_bool(self.map,
+                                f"Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?"):
-                            items = self.rem_item(items[self.box.index.index].name,
-                                                  items)
-                            if len(items) == 0:
-                                break
+                        items = self.rem_item(items[self.box.index.index].name,
+                                              items)
+                        if len(items) == 0:
+                            break
                 std_loop()
                 self.map.show()
         self.box.remove_c_obs()
@@ -673,46 +672,45 @@ class Menu:
             _ev.clear()
             while True:
                 action = get_action()
-                match action:
-                    case Action.ACCEPT:
-                        # Fuck python for not having case statements - lxgr
-                        #     but it does lmao - Magnus
-                        if (i := self.box.c_obs[self.box.index.index]) ==\
-                                self.playername_label:
-                            figure.name = text_input(self.realname_label, self.map,
-                                                     figure.name, 18, 17)
-                            self.map.name_label_rechar(figure.name)
-                        elif i == self.represent_char_label:
-                            inp = text_input(self.char_label, self.map,
-                                             figure.char, 18, 1)
-                            # excludes bad unicode:
-                            if len(inp.encode("utf-8")) != 1:
-                                inp = "a"
-                                notifier.notify("Error", "Bad character",
-                                                "The chosen character has to be a \
+                if action == Action.ACCEPT:
+                    # Fuck python for not having case statements - lxgr
+                    #     but it does lmao - Magnus
+                    if (i := self.box.c_obs[self.box.index.index]) ==\
+                            self.playername_label:
+                        figure.name = text_input(self.realname_label, self.map,
+                                                 figure.name, 18, 17)
+                        self.map.name_label_rechar(figure.name)
+                    elif i == self.represent_char_label:
+                        inp = text_input(self.char_label, self.map,
+                                         figure.char, 18, 1)
+                        # excludes bad unicode:
+                        if len(inp.encode("utf-8")) != 1:
+                            inp = "a"
+                            notifier.notify("Error", "Bad character",
+                                            "The chosen character has to be a \
 valid single-space character!")
-                            figure.rechar(inp)
-                        elif i == self.mods_label:
-                            ModInfo(mvp.movemap, mods.mod_info)()
-                        elif i == self.save_label:
-                            # When will python3.10 come out?
-                            with InfoBox("Saving....", info="", _map=self.map):
-                                # Shows a box displaying "Saving...." while saving
-                                save()
-                                time.sleep(SPEED_OF_TIME * 1.5)
-                        elif i == self.exit_label:
+                        figure.rechar(inp)
+                    elif i == self.mods_label:
+                        ModInfo(mvp.movemap, mods.mod_info)()
+                    elif i == self.save_label:
+                        # When will python3.10 come out?
+                        with InfoBox("Saving....", info="", _map=self.map):
+                            # Shows a box displaying "Saving...." while saving
                             save()
-                            exiter()
-                        elif i == self.about_label:
-                            about()
-                        elif i == self.ach_label:
-                            AchievementOverview()(mvp.movemap)
-                        else:
-                            i.change()
-                    case Action.UP | Action.DOWN:
-                        self.box.input(action)
-                    case Action.CANCEL | Action.MENU:
-                        break
+                            time.sleep(SPEED_OF_TIME * 1.5)
+                    elif i == self.exit_label:
+                        save()
+                        exiter()
+                    elif i == self.about_label:
+                        about()
+                    elif i == self.ach_label:
+                        AchievementOverview()(mvp.movemap)
+                    else:
+                        i.change()
+                elif action in (Action.UP, Action.DOWN):
+                    self.box.input(action)
+                elif action in (Action.CANCEL, Action.MENU):
+                    break
                 std_loop(pevm=pevm)
                 self.map.full_show()
 
@@ -884,16 +882,15 @@ def test():
         "Test", _map=mvp.movemap) as a:
         while True:
             action = get_action()
-            match action:
-                case Action.UP | Action.DOWN | Action.LEFT | Action.RGIHT:
-                    a.input(action)
-                case Action.CANCEL:
-                    break
-                case Action.ACCEPT:
-                    a.remove()
-                    a.set_items(3, [se.Text(i, state="float") for i in ["test",
-                        "test", "123", "fuckthesystem"]])
-                    a.center_add(a.map)
+            if action in ACTION_DIRECTIONS:
+                a.input(action)
+            elif action == Action.CANCEL:
+                break
+            elif action == Action.ACCEPT:
+                a.remove()
+                a.set_items(3, [se.Text(i, state="float") for i in ["test",
+                    "test", "123", "fuckthesystem"]])
+                a.center_add(a.map)
             std_loop()
             a.map.show()
 

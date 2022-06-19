@@ -4,7 +4,7 @@ import time
 import random
 import logging
 import scrap_engine as se
-from pokete_classes.hotkeys import Action, get_action
+from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
@@ -213,16 +213,15 @@ class FightMap(gm.GameMap):
         with self.invbox.add(self, self.width - 35, 0):
             while True:
                 action = get_action()
-                match action:
-                    case Action.UP | Action.DOWN:
-                        self.invbox.input(action)
-                        self.show()
-                    case Action.CANCEL:
-                        item = ""
-                        break
-                    case Action.ACCEPT:
-                        item = items[self.invbox.index.index]
-                        break
+                if action in ACTION_UP_DOWN:
+                    self.invbox.input(action)
+                    self.show()
+                elif action == Action.CANCEL:
+                    item = ""
+                    break
+                elif action == Action.ACCEPT:
+                    item = items[self.invbox.index.index]
+                    break
                 std_loop(False)
         self.invbox.remove_c_obs()
         return item
@@ -238,56 +237,55 @@ class FightMap(gm.GameMap):
                                          state="float"))
         while True:  # Inputloop for general options
             action = get_action()
-            match action:
-                case Action.ACT_1:
-                    attack = self.get_attack(figure.curr.attack_obs)
-                    if attack != "":
-                        return attack
-                case Action.ACT_2 | Action.RUN:
-                    if (
-                        type(enem) is Trainer
-                        or not ask_bool(self, "Do you really want to run away?")
-                    ):
-                        continue
-                    if (random.randint(0, 100) < max(5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95))):
-                        self.outp.outp("You failed to run away!")
-                        time.sleep(SPEED_OF_TIME * 1)
-                        return ""
-                    audio.switch("xDeviruchi - Decisive Battle (End).wav")
-                    self.outp.outp("You ran away!")
+            if action == Action.ACT_1:
+                attack = self.get_attack(figure.curr.attack_obs)
+                if attack != "":
+                    return attack
+            elif action in (Action.ACT_2, Action.RUN):
+                if (
+                    type(enem) is Trainer
+                    or not ask_bool(self, "Do you really want to run away?")
+                ):
+                    continue
+                if (random.randint(0, 100) < max(5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95))):
+                    self.outp.outp("You failed to run away!")
+                    time.sleep(SPEED_OF_TIME * 1)
+                    return ""
+                audio.switch("xDeviruchi - Decisive Battle (End).wav")
+                self.outp.outp("You ran away!")
+                time.sleep(SPEED_OF_TIME * 2)
+                self.clean_up(figure, enem)
+                logging.info("[Fight] Ended, ran away")
+                audio.switch(figure.map.song)
+                return "won"
+            elif action in (Action.ACT_3, Action.INVENTORY):
+                items = [getattr(invitems, i)
+                            for i in figure.inv
+                            if getattr(invitems, i).fn is not None
+                            and figure.inv[i] > 0]
+                if not items:
+                    self.outp.outp(
+                        "You don't have any items left!\n"
+                        "What do you want to do?"
+                    )
+                    continue
+                item = self.get_item(items, figure.inv)
+                if item == "":
+                    continue
+                # I hate you python for not having switch statements
+                if (i := getattr(fightitems, item.fn)(figure, enem)) == 1:
+                    continue
+                elif i == 2:
+                    logging.info("[Fight] Ended, fightitem")
                     time.sleep(SPEED_OF_TIME * 2)
-                    self.clean_up(figure, enem)
-                    logging.info("[Fight] Ended, ran away")
                     audio.switch(figure.map.song)
                     return "won"
-                case Action.ACT_3 | Action.INVENTORY:
-                    items = [getattr(invitems, i)
-                                for i in figure.inv
-                                if getattr(invitems, i).fn is not None
-                                and figure.inv[i] > 0]
-                    if not items:
-                        self.outp.outp(
-                            "You don't have any items left!\n"
-                            "What do you want to do?"
-                        )
-                        continue
-                    item = self.get_item(items, figure.inv)
-                    if item == "":
-                        continue
-                    # I hate you python for not having switch statements
-                    if (i := getattr(fightitems, item.fn)(figure, enem)) == 1:
-                        continue
-                    elif i == 2:
-                        logging.info("[Fight] Ended, fightitem")
-                        time.sleep(SPEED_OF_TIME * 2)
-                        audio.switch(figure.map.song)
-                        return "won"
-                    return ""
-                case Action.ACT_4 | Action.DECK:
-                    if not self.choose_poke(figure):
-                        self.show(init=True)
-                        continue
-                    return ""
+                return ""
+            elif action in (Action.ACT_4, Action.DECK):
+                if not self.choose_poke(figure):
+                    self.show(init=True)
+                    continue
+                return ""
             std_loop(False)
 
     def fight(self, providers):

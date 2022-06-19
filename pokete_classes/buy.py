@@ -1,7 +1,7 @@
 """Classes related to buing stuff"""
 
 import scrap_engine as se
-from pokete_classes.hotkeys import Action, get_action
+from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 from pokete_general_use_fns import liner
 from .loops import std_loop
 from .ui_elements import Box, ChooseBox
@@ -39,17 +39,16 @@ class Buy:
             self.map.show()
             while True:
                 action = get_action()
-                match action:
-                    case Action.UP | Action.DOWN:
-                        self.box.input(action)
-                        self.rechar()
-                    case Action.CANCEL:
-                        break
-                    case Action.ACCEPT:
-                        obj = self.items[self.box.index.index]
-                        if self.fig.get_money() - obj.price >= 0:
-                            self.fig.add_money(-obj.price)
-                            self.fig.give_item(obj.name)
+                if action in ACTION_UP_DOWN:
+                    self.box.input(action)
+                    self.rechar()
+                elif action == Action.CANCEL:
+                    break
+                elif action == Action.ACCEPT:
+                    obj = self.items[self.box.index.index]
+                    if self.fig.get_money() - obj.price >= 0:
+                        self.fig.add_money(-obj.price)
+                        self.fig.give_item(obj.name)
                 std_loop()
                 self.map.show()
         self.box2.remove()

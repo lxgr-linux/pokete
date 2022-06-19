@@ -2,7 +2,7 @@
 
 import random
 import scrap_engine as se
-from pokete_classes.hotkeys import Action
+from pokete_classes.hotkeys import Action, get_action
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
@@ -87,26 +87,25 @@ class LearnAttack:
                 with self.box.center_add(self.map):
                     while True:
                         action = get_action()
-                        match action:
-                            case Action.UP, Action.DOWN:
-                                self.box.input(action)
-                                self.map.show()
-                            case Action.ACCEPT:
-                                i = self.box.index.index
-                                self.poke.attacks[i] = new_attack
-                                self.poke.attack_obs[i] = Attack(new_attack, i + 1)
-                                ask_ok(self.map, f"{self.poke.name} learned \
+                        if action in (Action.UP, Action.DOWN):
+                            self.box.input(action)
+                            self.map.show()
+                        elif action == Action.ACCEPT:
+                            i = self.box.index.index
+                            self.poke.attacks[i] = new_attack
+                            self.poke.attack_obs[i] = Attack(new_attack, i + 1)
+                            ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")
-                                break
-                            case Action.ACT_1:
-                                Detail(self.map.height, self.map.width)\
-                                      (self.poke, False)
-                                self.map.show(init=True)
-                            case Action.ACT_2:
-                                with AttackInfo(new_attack, self.map):
-                                    easy_exit_loop()
-                            case Action.CANCEL:
-                                return False
+                            break
+                        elif action == Action.ACT_1:
+                            Detail(self.map.height, self.map.width)\
+                                  (self.poke, False)
+                            self.map.show(init=True)
+                        elif action == Action.ACT_2:
+                            with AttackInfo(new_attack, self.map):
+                                easy_exit_loop()
+                        elif action == Action.CANCEL:
+                            return False
                         std_loop()
                 self.box.remove_c_obs()
             return True
