@@ -12,9 +12,9 @@ from .settings import settings
 MUSIC_PATH = __file__.replace("pokete_classes/audio.py", "assets/music/")
 
 
-def audio_fn(song):
+def audio_fn(song, play_audio):
     """plays a song in loop"""
-    while settings("audio").val:
+    while play_audio:
         playsound(MUSIC_PATH + song)
 
 
@@ -28,7 +28,10 @@ class Audio:
         """Starts playing a song
         ARGS:
             song: The song played"""
-        self.curr = multiprocessing.Process(target=audio_fn, args=(song,))
+        self.curr = multiprocessing.Process(
+            target=audio_fn,
+            args=(song, settings("audio").val)
+        )
         self.curr.start()
 
     def switch(self, song):
