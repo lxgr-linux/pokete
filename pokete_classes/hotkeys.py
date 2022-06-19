@@ -47,6 +47,7 @@ hotkey_mappings = {
     'Key.space': Action.ACCEPT,
     'Key.enter': Action.ACCEPT,
     'y':         Action.ACCEPT,
+    'o':         Action.ACCEPT,
     'n':             Action.CANCEL,
     'q':             Action.CANCEL,
     'Key.esc':       Action.CANCEL,
