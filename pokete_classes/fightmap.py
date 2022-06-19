@@ -357,13 +357,22 @@ class FightMap(gm.GameMap):
                 if prov.curr.hp <= 0:
                     loser = prov
                     winner = providers[(i + 1) % 2]
-            if all(i.ap == 0 for i in player.curr.attack_obs):
+            if winner is not None:
+                self.outp.outp(f"{loser.curr.ext_name} is dead!")
+            elif all(i.ap == 0 for i in player.curr.attack_obs):
                 winner = providers[(index + 1) % 2]
+                loser = player
                 time.sleep(2)
                 self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
                 time.sleep(3)
             if winner is not None:
                 if (
+                    type(winner) is Trainer
+                    and any(p.hp > 0 for p in loser.pokes[:6])
+                ):
+                    time.sleep(2)
+                    self.choose_poke(loser, False)
+                elif (
                     loser.curr.player
                     and any(p.hp > 0 for p in loser.pokes[:6])
                     and ask_bool(self, "Do you want to choose another Pokete?")
@@ -431,14 +440,19 @@ class FightMap(gm.GameMap):
         audio.switch(providers[0].map.song)
         return winner
 
-    def choose_poke(self, player):
+    def choose_poke(self, player, allow_exit=True):
         """Lets the player choose another Pokete from their deck
         ARGS:
             player: The players' used Poke
+            allow_exit: Whether or not it's allowed to exit without choosing
         RETURNS:
             bool whether or not a Pokete was choosen"""
         self.clean_up(player)
-        index = deck.deck(6, "Your deck", True)
+        index = None
+        while index is None:
+            index = deck.deck(6, "Your deck", True)
+            if allow_exit:
+                break
         if index is not None:
             player.play_index = index
         self.add_player(player)
