@@ -365,6 +365,7 @@ class FightMap(gm.GameMap):
             if winner is not None:
                 if (
                     type(winner) is Trainer
+                    and any(p.hp > 0 for p in loser.pokes[:6])
                 ):
                     success = False
                     while not success:
