@@ -7,7 +7,6 @@ import pokete_classes.movemap as mvp
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .poke import Poke
-from .event import _ev
 from .color import Color
 from .nature import PokeNature
 from .ui_elements import ChooseBox, Box
@@ -44,7 +43,6 @@ class Dex:
         """Shows details about the Pokete
         ARGS:
             poke: Pokes identifier"""
-        _ev.clear()
         poke = Poke(poke, 0)
         poke.nature = PokeNature.dummy()
         poke.set_vars()
@@ -106,7 +104,6 @@ Active: """) + se.Text(active[0], esccode=active[1])
                             self.idx += add
                             self.add_c_obs()
                             self.box.set_index(n_idx)
-                        _ev.clear()
                 if action == Action.ACCEPT:
                     if "???" not in self.box.c_obs[self.box.index.index].text:
                         self.detail(list(p_dict)[self.idx
@@ -114,7 +111,7 @@ Active: """) + se.Text(active[0], esccode=active[1])
                                                  + self.box.index.index])
                 elif action == Action.UP or action == Action.DOWN:
                     self.box.input(action)
-                elif action == Action.CANCEL:
+                elif action in (Action.CANCEL, Action.POKEDEX):
                     break
                 std_loop()
                 mvp.movemap.show()

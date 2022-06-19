@@ -43,7 +43,6 @@ class Deck(detail.Informer):
             p_len: Number of Pokes being included
             label: The displayed label
             in_fight: Whether or not this is called in a fight"""
-        _ev.clear()
         pokes = self.figure.pokes[:p_len]
         ret_action = None
         self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, self.map.width,
@@ -135,7 +134,6 @@ class Deck(detail.Informer):
                                 self.submap.set(0, 0)
                                 return self.index.index
                         else:
-                            # TODO what is this doing
                             self.rem_pokes(pokes)
                             ret_action = detail.detail(pokes[self.index.index])
                             self.add_all(pokes)
