@@ -386,13 +386,22 @@ class FightMap(gm.GameMap):
                 if prov.curr.hp &lt;= 0:
                     loser = prov
                     winner = providers[(i + 1) % 2]
-            if all(i.ap == 0 for i in player.curr.attack_obs):
+            if winner is not None:
+                self.outp.outp(f&#34;{loser.curr.ext_name} is dead!&#34;)
+            elif all(i.ap == 0 for i in player.curr.attack_obs):
                 winner = providers[(index + 1) % 2]
+                loser = player
                 time.sleep(2)
                 self.outp.outp(f&#34;{player.curr.ext_name} has used all its&#39; attacks!&#34;)
                 time.sleep(3)
             if winner is not None:
                 if (
+                    type(winner) is Trainer
+                    and any(p.hp &gt; 0 for p in loser.pokes[:6])
+                ):
+                    time.sleep(2)
+                    self.choose_poke(loser, False)
+                elif (
                     loser.curr.player
                     and any(p.hp &gt; 0 for p in loser.pokes[:6])
                     and ask_bool(self, &#34;Do you want to choose another Pokete?&#34;)
@@ -460,14 +469,19 @@ class FightMap(gm.GameMap):
         audio.switch(providers[0].map.song)
         return winner
 
-    def choose_poke(self, player):
+    def choose_poke(self, player, allow_exit=True):
         &#34;&#34;&#34;Lets the player choose another Pokete from their deck
         ARGS:
             player: The players&#39; used Poke
+            allow_exit: Whether or not it&#39;s allowed to exit without choosing
         RETURNS:
             bool whether or not a Pokete was choosen&#34;&#34;&#34;
         self.clean_up(player)
-        index = deck.deck(6, &#34;Your deck&#34;, True)
+        index = None
+        while index is None:
+            index = deck.deck(6, &#34;Your deck&#34;, True)
+            if allow_exit:
+                break
         if index is not None:
             player.play_index = index
         self.add_player(player)
@@ -1274,13 +1288,22 @@ None: To let the enemy attack</p></div>
                 if prov.curr.hp &lt;= 0:
                     loser = prov
                     winner = providers[(i + 1) % 2]
-            if all(i.ap == 0 for i in player.curr.attack_obs):
+            if winner is not None:
+                self.outp.outp(f&#34;{loser.curr.ext_name} is dead!&#34;)
+            elif all(i.ap == 0 for i in player.curr.attack_obs):
                 winner = providers[(index + 1) % 2]
+                loser = player
                 time.sleep(2)
                 self.outp.outp(f&#34;{player.curr.ext_name} has used all its&#39; attacks!&#34;)
                 time.sleep(3)
             if winner is not None:
                 if (
+                    type(winner) is Trainer
+                    and any(p.hp &gt; 0 for p in loser.pokes[:6])
+                ):
+                    time.sleep(2)
+                    self.choose_poke(loser, False)
+                elif (
                     loser.curr.player
                     and any(p.hp &gt; 0 for p in loser.pokes[:6])
                     and ask_bool(self, &#34;Do you want to choose another Pokete?&#34;)
@@ -1348,14 +1371,19 @@ None: To let the enemy attack</p></div>
         audio.switch(providers[0].map.song)
         return winner
 
-    def choose_poke(self, player):
+    def choose_poke(self, player, allow_exit=True):
         &#34;&#34;&#34;Lets the player choose another Pokete from their deck
         ARGS:
             player: The players&#39; used Poke
+            allow_exit: Whether or not it&#39;s allowed to exit without choosing
         RETURNS:
             bool whether or not a Pokete was choosen&#34;&#34;&#34;
         self.clean_up(player)
-        index = deck.deck(6, &#34;Your deck&#34;, True)
+        index = None
+        while index is None:
+            index = deck.deck(6, &#34;Your deck&#34;, True)
+            if allow_exit:
+                break
         if index is not None:
             player.play_index = index
         self.add_player(player)
@@ -1478,7 +1506,7 @@ None: To let the enemy attack</p></div>
 </details>
 </dd>
 <dt id="pokete_classes.fightmap.FightMap.choose_poke"><code class="name flex">
-<span>def <span class="ident">choose_poke</span></span>(<span>self, player)</span>
+<span>def <span class="ident">choose_poke</span></span>(<span>self, player, allow_exit=True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Lets the player choose another Pokete from their deck</p>
@@ -1486,6 +1514,8 @@ None: To let the enemy attack</p></div>
 <dl>
 <dt><strong><code>player</code></strong></dt>
 <dd>The players' used Poke</dd>
+<dt><strong><code>allow_exit</code></strong></dt>
+<dd>Whether or not it's allowed to exit without choosing</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>bool whether or not a Pokete was choosen</p></div>
@@ -1493,14 +1523,19 @@ None: To let the enemy attack</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def choose_poke(self, player):
+<pre><code class="python">def choose_poke(self, player, allow_exit=True):
     &#34;&#34;&#34;Lets the player choose another Pokete from their deck
     ARGS:
         player: The players&#39; used Poke
+        allow_exit: Whether or not it&#39;s allowed to exit without choosing
     RETURNS:
         bool whether or not a Pokete was choosen&#34;&#34;&#34;
     self.clean_up(player)
-    index = deck.deck(6, &#34;Your deck&#34;, True)
+    index = None
+    while index is None:
+        index = deck.deck(6, &#34;Your deck&#34;, True)
+        if allow_exit:
+            break
     if index is not None:
         player.play_index = index
     self.add_player(player)
@@ -1652,13 +1687,22 @@ will be set to.</dd>
             if prov.curr.hp &lt;= 0:
                 loser = prov
                 winner = providers[(i + 1) % 2]
-        if all(i.ap == 0 for i in player.curr.attack_obs):
+        if winner is not None:
+            self.outp.outp(f&#34;{loser.curr.ext_name} is dead!&#34;)
+        elif all(i.ap == 0 for i in player.curr.attack_obs):
             winner = providers[(index + 1) % 2]
+            loser = player
             time.sleep(2)
             self.outp.outp(f&#34;{player.curr.ext_name} has used all its&#39; attacks!&#34;)
             time.sleep(3)
         if winner is not None:
             if (
+                type(winner) is Trainer
+                and any(p.hp &gt; 0 for p in loser.pokes[:6])
+            ):
+                time.sleep(2)
+                self.choose_poke(loser, False)
+            elif (
                 loser.curr.player
                 and any(p.hp &gt; 0 for p in loser.pokes[:6])
                 and ask_bool(self, &#34;Do you want to choose another Pokete?&#34;)
