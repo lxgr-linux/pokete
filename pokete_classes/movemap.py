@@ -26,8 +26,7 @@ class Movemap(gm.GameSubmap):
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
         self.label = se.Text(
-            "1: dEck  2: Quit  3: Map  4: Inv.  5: Pokedex  6: Clock  7: menU"
-            "?: help"
+            "1: dEck  2: Quit  3: Map  4: Inv.  5: Pokedex  6: Clock  7: menU  ?: help"
         )
         self.code_label = OutP("")
         self.multitext = OutP("", state="float")
