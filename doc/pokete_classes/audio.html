@@ -40,9 +40,9 @@ from .settings import settings
 MUSIC_PATH = __file__.replace(&#34;pokete_classes/audio.py&#34;, &#39;assets/music/&#39;)
 
 
-def audio_fn(song):
+def audio_fn(song, play_audio):
     &#34;&#34;&#34;plays a song in loop&#34;&#34;&#34;
-    while settings(&#34;audio&#34;).val:
+    while play_audio:
         playsound(MUSIC_PATH + song)
 
 
@@ -58,7 +58,7 @@ class Audio:
             song: The song played&#34;&#34;&#34;
         self.curr = multiprocessing.Process(
             target=audio_fn,
-            args=(song, )
+            args=(song, settings(&#34;audio&#34;).val)
         )
         self.curr.start()
 
@@ -84,7 +84,7 @@ audio = Audio()</code></pre>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pokete_classes.audio.audio_fn"><code class="name flex">
-<span>def <span class="ident">audio_fn</span></span>(<span>song)</span>
+<span>def <span class="ident">audio_fn</span></span>(<span>song, play_audio)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>plays a song in loop</p></div>
@@ -92,9 +92,9 @@ audio = Audio()</code></pre>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def audio_fn(song):
+<pre><code class="python">def audio_fn(song, play_audio):
     &#34;&#34;&#34;plays a song in loop&#34;&#34;&#34;
-    while settings(&#34;audio&#34;).val:
+    while play_audio:
         playsound(MUSIC_PATH + song)</code></pre>
 </details>
 </dd>
@@ -124,7 +124,7 @@ audio = Audio()</code></pre>
             song: The song played&#34;&#34;&#34;
         self.curr = multiprocessing.Process(
             target=audio_fn,
-            args=(song, )
+            args=(song, settings(&#34;audio&#34;).val)
         )
         self.curr.start()
 
@@ -175,7 +175,7 @@ audio = Audio()</code></pre>
         song: The song played&#34;&#34;&#34;
     self.curr = multiprocessing.Process(
         target=audio_fn,
-        args=(song, )
+        args=(song, settings(&#34;audio&#34;).val)
     )
     self.curr.start()</code></pre>
 </details>
