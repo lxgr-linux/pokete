@@ -253,11 +253,15 @@ class CenterInteract(se.Object):
             ob: The object triggering this action"""
         _ev.clear()
         mvp.movemap.full_show()
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [" < Welcome to the Pokete-Center",
-                          " < What do you want to do?",
-                          " < e: See your full deck\n y: Heal all your Poketes\
-\n q: Cuddle with the Poketes"])
+        mvp.movemap.text(
+            int(mvp.movemap.width / 2),
+            3,
+            [
+                " < Welcome to the Pokete-Center",
+                " < What do you want to do?",
+                " < e: See your full deck\n y: Heal all your Poketes\n q: Cuddle with the Poketes"
+            ]
+        )
         while True:
             match(get_action()):
                 case Action.DECK:
