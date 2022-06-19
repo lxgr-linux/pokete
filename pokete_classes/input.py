@@ -91,10 +91,11 @@ def ask_ok(_map, text):
         text: The question it self"""
     assert len(text) >= 4, "Text has to be longer then 4 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '} OK ", name="Info",
+    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '} Ok ", name="Info",
                  info="", _map=_map):
         while True:
-            if get_action() == Action.ACCEPT:
+            action = get_action()
+            if action == Action.ACCEPT or action == Action.CANCEL:
                 break
             std_loop(_map.name == "movemap")
         _ev.clear()
