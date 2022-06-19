@@ -237,7 +237,7 @@ class FightMap(gm.GameMap):
                                          state="float"))
         while True:  # Inputloop for general options
             action = get_action()
-            if action == Action.ACT_1:
+            if action in (Action.ACT_1, Action.ACCEPT):
                 attack = self.get_attack(figure.curr.attack_obs)
                 if attack != "":
                     return attack
