@@ -5,6 +5,7 @@ import logging
 import random
 import scrap_engine as se
 import pokete_classes.fightmap as fm
+from pokete_classes.hotkeys import Action, get_action
 import pokete_classes.movemap as mvp
 from .providers import Provider
 from .loops import std_loop
@@ -12,7 +13,6 @@ from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
-from .event import _ev
 from .general import check_walk_back
 from pokete_classes.constants import SPEED_OF_TIME
 
@@ -169,8 +169,7 @@ Do you want to accept it?"):
             return
         while True:
             self.text(q_a["q"])
-            while _ev.get() == "":
-                _ev.clear()
+            while get_action() == None:
                 std_loop()
             if q_a["a"] == {}:
                 break
@@ -186,13 +185,14 @@ Do you want to accept it?"):
             with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
-                    if _ev.get() in ["w", "s"]:
-                        c_b.input(_ev.get())
-                        mvp.movemap.show()
-                        _ev.clear()
-                    elif _ev.get() == "Key.enter":
-                        key = keys[c_b.index.index]
-                        break
+                    action = get_action()
+                    match action:
+                        case Action.UP | Action.DOWN:
+                            c_b.input(action)
+                            mvp.movemap.show()
+                        case Action.ACCEPT:
+                            key = keys[c_b.index.index]
+                            break
                     std_loop()
             q_a = q_a["a"][key]
 

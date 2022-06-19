@@ -5,7 +5,6 @@ import time as time_mod
 import scrap_engine as se
 
 from pokete_classes.hotkeys import Action, get_action
-from .event import _ev
 from .ui_elements import Box
 from .loops import std_loop
 from pokete_classes.constants import SPEED_OF_TIME

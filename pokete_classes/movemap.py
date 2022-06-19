@@ -70,6 +70,7 @@ class Movemap(gm.GameSubmap):
         arr = [i + (" >" if j != len(inp_arr) - 1 else "")
                     for j, i in enumerate(inp_arr)]
         for text in arr:
+            # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
             _ev.clear()
             self.multitext.rechar("")
             for i in range(len(text) + 1):

@@ -3,7 +3,6 @@
 import time
 from pokete_classes.hotkeys import Action, get_action
 import release
-from .event import _ev
 from .notify import notifier
 from pokete_classes.constants import SPEED_OF_TIME
 
