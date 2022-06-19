@@ -17,6 +17,7 @@ class Action(Enum):
     MAP = auto()
     CLOCK = auto()
     HELP = auto()
+    MENU = auto()
 
     ACT_1 = auto()
     ACT_2 = auto()
@@ -52,6 +53,7 @@ hotkey_mappings = {
     'm': Action.MAP,
     'c': Action.CLOCK,
     '?': Action.HELP,
+    'e': Action.MENU,
 
     '1': Action.ACT_1,
     '2': Action.ACT_2,
