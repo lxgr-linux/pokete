@@ -4,6 +4,7 @@ import time
 import random
 import logging
 import scrap_engine as se
+from pokete_classes.hotkeys import Action, get_action
 import pokete_data as p_data
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
@@ -158,21 +159,18 @@ class FightMap(gm.GameMap):
             attack_obs: A list of Attack objects that belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
             while True:#158
-                if _ev.get() in ["s", "w"]:
+                action = get_action()
+                if action in [Action.UP, Action.DOWN]:
                     self.box.input(_ev.get())
                     self.show()
-                    _ev.clear()
-                elif _ev.get() in [f"'{i + 1}'" for i in
-                                   range(len(attack_obs))] + ["Key.enter"]:
-                    attack = attack_obs[self.box.index.index
-                                        if _ev.get() == "Key.enter"
-                                        else int(_ev.get().strip("'")) - 1]
-                    _ev.clear()
+                elif action in [i for i in range(Action.ACT_1, Action.ACT_1 + len(attack_obs))] + [Action.ACCEPT]:
+                    attack = attack_obs[
+                        self.box.index.index if action == Action.ACCEPT else int(action - Action.ACT_1)
+                    ]
                     if attack.ap == 0:
                         continue
                     break
-                elif _ev.get() in ["Key.esc", "q"]:
-                    _ev.clear()
+                elif action == Action.CANCEL:
                     attack = ""
                     break
                 std_loop(False)
@@ -188,16 +186,17 @@ class FightMap(gm.GameMap):
         self.invbox.set_index(0)
         with self.invbox.add(self, self.width - 35, 0):
             while True:
-                if _ev.get() in ["s", "w"]:
-                    self.invbox.input(_ev.get())
-                    self.show()
-                    _ev.clear()
-                elif _ev.get() in ["Key.esc", "q"]:
-                    item = ""
-                    break
-                elif _ev.get() == "Key.enter":
-                    item = items[self.invbox.index.index]
-                    break
+                action = get_action()
+                match action:
+                    case Action.UP | Action.DOWN:
+                        self.invbox.input(action)
+                        self.show()
+                    case Action.CANCEL:
+                        item = ""
+                        break
+                    case Action.ACCEPT:
+                        item = items[self.invbox.index.index]
+                        break
                 std_loop(False)
         self.invbox.remove_c_obs()
         return item
