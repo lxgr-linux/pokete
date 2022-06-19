@@ -81,18 +81,18 @@ class NPCActions:
     def playmap_17_boy(npc):
         """Interaction with boy"""
         if "choka" in [i.identifier for i in figure.pokes[:6]]:
-            npc.text([" < Oh, cool!", " < You have a Choka!",
-                      " < I've never seen one before!",
-                      " < Here you go, have $200!"])
+            npc.text(["Oh, cool!", "You have a Choka!",
+                      "I've never seen one before!",
+                      "Here you go, have $200!"])
             if ask_bool(mvp.movemap,
                         "The young boy gifted you $200. Do you want to accept it?"):
                 figure.add_money(200)
             npc.set_used()
         else:
-            npc.text([" < In this region lives the Würgos Pokete.",
-                      f" < At level {p_data.pokes['würgos']['evolve_lvl']} \
+            npc.text(["In this region lives the Würgos Pokete.",
+                      f"At level {p_data.pokes['würgos']['evolve_lvl']} \
 It evolves into Choka.",
-                      " < I have never seen one before!"])
+                      "I have never seen one before!"])
 
     @staticmethod
     def playmap_20_trader(npc):
@@ -105,13 +105,13 @@ It evolves into Choka.",
             ask_ok(mvp.movemap,
                    f"You received: {figure.pokes[index].name.capitalize()} \
 at level {figure.pokes[index].lvl()}.")
-            mvp.movemap.text(npc.x, npc.y, [" < Cool, huh?"])
+            mvp.movemap.text(npc.x, npc.y, ["Cool, huh?"])
 
     @staticmethod
     def playmap_50_npc_29(npc):
         """Interaction with npc_28"""
         if pokete_care.poke is None:
-            npc.text([" < Here you can leave one of your Poketes for some time \
+            npc.text(["Here you can leave one of your Poketes for some time \
 and we will train it."])
             if ask_bool(mvp.movemap, "Do you want to put a Pokete into the \
 Pokete-Care?"):
@@ -119,12 +119,12 @@ Pokete-Care?"):
                     pokete_care.poke = figure.pokes[index]
                     pokete_care.entry = timer.time.time
                     figure.add_poke(Poke("__fallback__", 0), index)
-                    npc.text([" < We will take care of it."])
+                    npc.text(["We will take care of it."])
         else:
             add_xp = int((timer.time.time - pokete_care.entry) / 30)
             pokete_care.entry = timer.time.time
             pokete_care.poke.add_xp(add_xp)
-            npc.text([" < Oh, you're back.", f" < Your {pokete_care.poke.name} \
+            npc.text(["Oh, you're back.", f"Your {pokete_care.poke.name} \
 gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
             if ask_bool(mvp.movemap, "Do you want it back?"):
                 dummy = DummyFigure(pokete_care.poke)
@@ -132,9 +132,9 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                     continue
                 figure.add_poke(dummy.pokes[0])
                 figure.caught_pokes += dummy.caught_pokes
-                npc.text([" < Here you go!", " < Until next time!"])
+                npc.text(["Here you go!", "Until next time!"])
                 pokete_care.poke = None
-        npc.text([" < See you!"])
+        npc.text(["See you!"])
 
     @staticmethod
     def playmap_23_npc_8(npc):
@@ -196,39 +196,39 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                      if i.lvl() >= 50 and i.identifier == "mowcow"]
         if len(poke_list) > 0:
             poke = poke_list[0]
-            npc.text([" < Oh great!", " < You're my hero!",
-                      f" < You brought me a level {poke.lvl()} Mowcow!",
-                      " < I'm thanking you!",
-                      " < Now I can still serve the best MowCow-Burgers!",
-                      " < Can I have it?"])
+            npc.text(["Oh great!", "You're my hero!",
+                      f"You brought me a level {poke.lvl()} Mowcow!",
+                      "I'm thanking you!",
+                      "Now I can still serve the best MowCow-Burgers!",
+                      "Can I have it?"])
             if ask_bool(mvp.movemap,
                         "Do you want to give your Mowcow to the cook?"):
                 figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
-                npc.text([" < Here you go, have $1000!"])
+                npc.text(["Here you go, have $1000!"])
                 if ask_bool(mvp.movemap,
                             "The cook gifted you $1000. "
                             "Do you want to accept it?"):
                     figure.add_money(1000)
                 npc.set_used()
         else:
-            npc.text([" < Ohhh man...", " < All of our beef is empty...",
-                      " < How are we going to serve the best MowCow-Burgers "
+            npc.text(["Ohhh man...", "All of our beef is empty...",
+                      "How are we going to serve the best MowCow-Burgers "
                       "without beef?",
-                      " < If only someone here could bring me a fitting "
+                      "If only someone here could bring me a fitting "
                       "Mowcow!?",
-                      " < But it has to be at least on level 50 to meet our "
+                      "But it has to be at least on level 50 to meet our "
                       "high quality standards.",
-                      " < I will pay a good price!"])
+                      "I will pay a good price!"])
 
     @staticmethod
     def playmap_39_npc_25(npc):
         """Interaction with npc_25"""
         if not NPC.get("Leader Sebastian").used:
-            npc.text([" < I can't let you go!",
-                      " < You first have to defeat our arena leader!"])
+            npc.text(["I can't let you go!",
+                      "You first have to defeat our arena leader!"])
             figure.set(figure.x + 1, figure.y)
         else:
-            npc.text([" < Have a pleasant day."])
+            npc.text(["Have a pleasant day."])
 
     @staticmethod
     def playmap_43_npc_23(npc):
@@ -257,9 +257,9 @@ class CenterInteract(se.Object):
             int(mvp.movemap.width / 2),
             3,
             [
-                " < Welcome to the Pokete-Center",
-                " < What do you want to do?",
-                " < 1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes"
+                "Welcome to the Pokete-Center",
+                "What do you want to do?",
+                "1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes"
             ]
         )
         while True:
@@ -275,7 +275,7 @@ class CenterInteract(se.Object):
                     heal(figure)
                     time.sleep(SPEED_OF_TIME * 0.5)
                     mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                     [" < ...", " < Your Poketes are now healed!"])
+                                     ["...", "Your Poketes are now healed!"])
                     break
                 case Action.CANCEL | Action.ACT_3:
                     break
@@ -293,12 +293,12 @@ class ShopInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [" < Welcome to the Pokete-Shop",
-                          " < Wanna buy something?"])
+                         ["Welcome to the Pokete-Shop",
+                          "Wanna buy something?"])
         buy()
         mvp.movemap.full_show(init=True)
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [" < Have a great day!"])
+                         ["Have a great day!"])
 
 
 class CenterMap(PlayMap):
@@ -322,8 +322,8 @@ class CenterMap(PlayMap):
         self.dor_back1 = CenterDoor(" ", state="float")
         self.dor_back2 = CenterDoor(" ", state="float")
         self.trader = NPC("trader",
-                          [" < I'm a trader.",
-                           " < Here you can trade one of your Poketes for \
+                          ["I'm a trader.",
+                           "Here you can trade one of your Poketes for \
 one from another trainer."],
                           "swap_poke")
         # adding
@@ -1075,16 +1075,16 @@ def intro():
                                "Welcome to Pokete!\nPlease choose your name!\n",
                                "Name:", "", "Name", 17)
     mvp.movemap.name_label_rechar(figure.name)
-    mvp.movemap.text(4, 3, [" < Hello, my child.",
-                            " < You're now ten years old.",
-                            " < I think it's now time for you to travel \
+    mvp.movemap.text(4, 3, ["Hello, my child.",
+                            "You're now ten years old.",
+                            "I think it's now time for you to travel \
 the world and be a Pokete-trainer.",
-                            " < Therefore, I give you this powerful 'Steini', \
+                            "Therefore, I give you this powerful 'Steini', \
 15 'Poketeballs' to catch Poketes, and a "
                             "'Healing potion'.",
-                            " < You will be the best Pokete-Trainer in Nice \
+                            "You will be the best Pokete-Trainer in Nice \
 town.",
-                            " < Now go out and become the best!"])
+                            "Now go out and become the best!"])
     game.game(obmp.ob_maps["intromap"])
 
 
