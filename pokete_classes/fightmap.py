@@ -30,7 +30,7 @@ class FightMap(gm.GameMap):
 
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
-        self.box = ChooseBox(6, 25, "Attacks", "i:Info", index_x=1)
+        self.box = ChooseBox(6, 25, "Attacks", "?:Info", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
         self.deadico1 = se.Text(r"""
