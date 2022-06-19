@@ -1,3 +1,6 @@
+from pokete_classes.event import _ev
+from enum import Enum, auto
+
 class Action(Enum):
     LEFT = auto()
     RIGHT = auto()
@@ -22,23 +25,24 @@ class Action(Enum):
 hotkey_mappings = {
     'a':        Action.LEFT,
     'h':        Action.LEFT,
-    'Key.LEFT': Action.LEFT,
+    'Key.left': Action.LEFT,
     'd':         Action.RIGHT,
     'l':         Action.RIGHT,
-    'Key.RIGHT': Action.RIGHT,
+    'Key.right': Action.RIGHT,
     'w':      Action.UP,
     'k':      Action.UP,
-    'Key.UP': Action.UP,
+    'Key.up': Action.UP,
     's':        Action.DOWN,
     'j':        Action.DOWN,
-    'Key.DOWN': Action.DOWN,
+    'Key.down': Action.DOWN,
 
-    ' ':         Action.ACCEPT,
-    'Key.ENTER': Action.ACCEPT,
+    'Key.space': Action.ACCEPT,
+    'Key.enter': Action.ACCEPT,
     'y':         Action.ACCEPT,
-    'q':       Action.CANCEL,
-    'Key.ESC': Action.CANCEL,
-    'n':       Action.CANCEL,
+    'n':             Action.CANCEL,
+    'q':             Action.CANCEL,
+    'Key.esc':       Action.CANCEL,
+    'Key.backspace': Action.CANCEL,
 
     'r': Action.RUN,
     'e': Action.DECK,
@@ -54,6 +58,13 @@ hotkey_mappings = {
     '4': Action.ACT_4,
 }
 
-def get_input() -> Action:
-    event = _ev()
-    return hotkey_mappings[event]
+# Returns an action, then clears input; all input is valid to read only once
+def get_action() -> Action:
+    retval = None
+    raw_input = _ev.get()
+    if raw_input == "exit":
+        raise KeyboardInterrupt
+    if raw_input in hotkey_mappings:
+        retval = hotkey_mappings[raw_input]
+    _ev.clear()
+    return retval

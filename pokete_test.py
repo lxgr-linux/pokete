@@ -1404,17 +1404,28 @@ if __name__ == "__main__":
             rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
             if rlist:
                 char = sys.stdin.read(1)
-                _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                         127: "Key.backspace", 32: "Key.space",
-                         27: "Key.esc"}[ord(char)])
+                _ev.set(
+                    {
+                        ord(char): f"'{char.rstrip()}'",
+                        13: "Key.enter",
+                        127: "Key.backspace",
+                        32: "Key.space",
+                        27: "Key.esc"
+                    }[ord(char)]
+                )
                 if ord(char) == 3:
                     reset_terminal()
                     _ev.set("exit")
     recognising = threading.Thread(target=recogniser, daemon=True)
+    print(recognising.daemon)
     recognising.start()
 
-    while True:
+    _ev.set_emit_fn(timer.time.emit_input)
+
+    i = 0
+    while i < 20:
         ev = _ev.get()
-        print(f"'{ev}'")
+        print(f"\r'{ev}'")
         time.sleep(0.1)
+        i += 1
     std_loop()

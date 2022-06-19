@@ -30,4 +30,6 @@ class Event:
     def set_emit_fn(self, emit_fn):
         """Sets the method used to emit events to the timer"""
         self.emit_fn = emit_fn
+
+
 _ev = Event()

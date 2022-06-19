@@ -45,6 +45,7 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
+from pokete_classes.hotkeys import get_action
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
@@ -258,24 +259,23 @@ class CenterInteract(se.Object):
                           " < a: See your full deck\n b: Heal all your Poketes\
 \n c: Go"])
         while True:
-            if _ev.get() == "'a'":
-                _ev.clear()
-                while "__fallback__" in [p.identifier for p in figure.pokes]:
-                    figure.pokes.pop([p.identifier for p in
-                                      figure.pokes].index("__fallback__"))
-                mvp.movemap.balls_label_rechar(figure.pokes)
-                deck.deck(len(figure.pokes))
-                break
-            elif _ev.get() == "'b'":
-                _ev.clear()
-                heal(figure)
-                time.sleep(SPEED_OF_TIME * 0.5)
-                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                 [" < ...", " < Your Poketes are now healed!"])
-                break
-            elif _ev.get() == "'c'":
-                _ev.clear()
-                break
+            match(get_action()):
+                case Action.DECK:
+                    while "__fallback__" in [p.identifier for p in figure.pokes]:
+                        figure.pokes.pop([p.identifier for p in
+                                          figure.pokes].index("__fallback__"))
+                    mvp.movemap.balls_label_rechar(figure.pokes)
+                    deck.deck(len(figure.pokes))
+                    break
+                case Action.CANCEL:
+                    _ev.clear()
+                    heal(figure)
+                    time.sleep(SPEED_OF_TIME * 0.5)
+                    mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                                     [" < ...", " < Your Poketes are now healed!"])
+                    break
+                case Action.CANCEL:
+                    break
             std_loop()
         mvp.movemap.full_show(init=True)
 
@@ -809,10 +809,10 @@ def read_save():
 
 
 def on_press(key):
-    """Sets the _ev variable
+    """Sets the input to either a character like 'a' or '1', or Key.enter, Key.backspace, Key.space, Key.esc, exit
     ARGS:
         key: Key object _ev is set from"""
-    _ev.set(str(key))
+    _ev.set(str(key).strip("'"))
 
 
 def reset_terminal():
@@ -1185,16 +1185,13 @@ Do you want to continue?", int(width * 2 / 3))):
 def main():
     """Main function"""
     os.system("")
-    timeing = threading.Thread(target=timer.time_threat)
-    recognising = threading.Thread(target=recogniser)
-    autosaveing = threading.Thread(target=autosave)
-    timeing.daemon = True
-    recognising.daemon = True
-    autosaveing.daemon = True
+    timing = threading.Thread(target=timer.time_threat, daemon=True)
+    recognising = threading.Thread(target=recogniser, daemon=True)
+    autosaving = threading.Thread(target=autosave, daemon=True)
 
-    timeing.start()
+    timing.start()
     recognising.start()
-    autosaveing.start()
+    autosaving.start()
 
     check_version(session_info)
     if figure.name == "DEFAULT":
@@ -1409,12 +1406,18 @@ if __name__ == "__main__":
                 rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
                 if rlist:
                     char = sys.stdin.read(1)
-                    _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                             127: "Key.backspace", 32: "Key.space",
-                             27: "Key.esc"}[ord(char)])
+                    _ev.set(
+                        {
+                            ord(char): char.rstrip(),
+                            13: "Key.enter",
+                            127: "Key.backspace",
+                            32: "Key.space",
+                            27: "Key.esc",
+                            3: "exit",
+                        }[ord(char)]
+                    )
                     if ord(char) == 3:
                         reset_terminal()
-                        _ev.set("exit")
     else:
         from pynput.keyboard import Listener
 
