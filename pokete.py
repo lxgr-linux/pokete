@@ -45,7 +45,7 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
-from pokete_classes.hotkeys import get_action, Action
+from pokete_classes.hotkeys import get_X_strength, get_Y_strength, get_action, Action, ACTION_DIRECTIONS
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
@@ -879,18 +879,17 @@ def test():
         "Welt", "Wie", "Gehts", "Dir", "So", "Du"]],
         "Test", _map=mvp.movemap) as a:
         while True:
-            if _ev.get() in ["w", "s", "a", "d"]:
-                a.input(_ev.get())
-                _ev.clear()
-            elif _ev.get() in ["q", "Key.esc"]:
-                _ev.clear()
-                break
-            elif _ev.get() == "t":
-                _ev.clear()
-                a.remove()
-                a.set_items(3, [se.Text(i, state="float") for i in ["test",
-                    "test", "123", "fuckthesystem"]])
-                a.center_add(a.map)
+            action = get_action()
+            match action:
+                case Action.UP | Action.DOWN | Action.LEFT | Action.RGIHT:
+                    a.input(action)
+                case Action.CANCEL:
+                    break
+                case Action.ACCEPT:
+                    a.remove()
+                    a.set_items(3, [se.Text(i, state="float") for i in ["test",
+                        "test", "123", "fuckthesystem"]])
+                    a.center_add(a.map)
             std_loop()
             a.map.show()
 
@@ -999,40 +998,42 @@ def _game(_map):
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
     pevm = PeriodicEventManager(_map)
-    inp_dict = {"1": [deck.deck, (6, "Your deck")],
-                "3": [roadmap, (mvp.movemap,)],
-                "4": [inv, ()],
-                "5": [pokete_dex, ()],
-                "6": [timer.clock, (mvp.movemap,)],
-                "e": [menu, (pevm,)],
-                "?": [help_page, ()]}
+    inp_dict = {
+        Action.DECK: [deck.deck, (6, "Your deck")],
+        Action.ACT_1: [deck.deck, (6, "Your deck")],
+        Action.MAP: [roadmap, (mvp.movemap,)],
+        Action.ACT_3: [roadmap, (mvp.movemap,)],
+        Action.INVENTORY: [inv, ()],
+        Action.ACT_4: [inv, ()],
+        Action.POKEDEX: [pokete_dex, ()],
+        Action.ACT_5: [pokete_dex, ()],
+        Action.CLOCK: [timer.clock, (mvp.movemap,)],
+        Action.ACT_6: [timer.clock, (mvp.movemap,)],
+        Action.MENU: [menu, (pevm,)],
+        Action.ACT_7: [menu, (pevm,)],
+        Action.HELP: [help_page, ()]
+    }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
     while True:
-        # Directions are not beening used yet
-        for name, _dir, x, y in zip(["w", "a", "s", "d"],
-                                    ["t", "l", "b", "r"],
-                                    [0, -1, 0, 1], [-1, 0, 1, 0]):
-            if _ev.get() == name:
-                figure.direction = _dir
-                figure.set(figure.x + x, figure.y + y)
-                _ev.clear()
-                break
+        # Directions are not being used yet
+        action = get_action()
+        if action in ACTION_DIRECTIONS:
+            figure.direction = '' #TODO
+            figure.set(figure.x + get_X_strength(action), figure.y + get_Y_strength(action))
         else:
-            if _ev.get() in inp_dict:
+            if action in inp_dict:
                 audio_before = settings("audio").val
-                inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
+                inp_dict[action][0](*inp_dict[action][1])
                 _ev.clear()
                 if audio_before != settings("audio").val:
                     audio.switch(_map.song)
                 mvp.movemap.show(init=True)
-            elif _ev.get() == "2":
-                _ev.clear()
-                if ask_bool(mvp.movemap, "Do you realy want to exit?"):
+            elif action == Action.CANCEL or action == Action.ACT_2:
+                if ask_bool(mvp.movemap, "Do you really wish to exit?"):
                     save()
                     exiter()
-            elif _ev.get() == ":":
-                _ev.clear()
+            elif action == Action.COLON:
                 inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
                                  mvp.movemap.width,
                                  (mvp.movemap.width - 2)
@@ -1041,16 +1042,19 @@ def _game(_map):
                 codes(inp)
                 _ev.clear()
         std_loop(pevm=pevm)
-        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x
-                                    + mvp.movemap.width,
-                                    figure.x < mvp.movemap.x + 6,
-                                    figure.y + 6 > mvp.movemap.y
-                                    + mvp.movemap.height,
-                                    figure.y < mvp.movemap.y + 6],
-                                   [1, -1, 0, 0], [0, 0, 1, -1]):
+        for statement, x, y in zip(
+            [
+                figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
+                figure.x < mvp.movemap.x + 6,
+                figure.y + 6 > mvp.movemap.y + mvp.movemap.height,
+                figure.y < mvp.movemap.y + 6
+            ],
+            [1, -1, 0, 0],
+            [0, 0, 1, -1]
+        ):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
-        # checking for resizing
+        # checking for resizing the terminal
         width, height = os.get_terminal_size()
         if mvp.movemap.width != width or mvp.movemap.height != height - 1:
             mvp.movemap.resize(height - 1, width, " ")

@@ -122,7 +122,7 @@ class ChooseBox(Box):
             Action.DOWN: self.index.index + 1 < len(self.c_obs),
             Action.UP: self.index.index - 1 >= 0
         }[inp]:
-            self.index.index -= get_Y_strength(inp)
+            self.index.index += get_Y_strength(inp)
         else:
             self.index.index = {
                 Action.DOWN: 0,
