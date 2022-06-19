@@ -1,24 +1,29 @@
 """This file contains all relevant classes for fight"""
 
-import time
-import random
 import logging
+import random
+import time
+
 import scrap_engine as se
+
 import pokete_data as p_data
+from pokete_classes import animations, deck
+from pokete_classes import game_map as gm
+from pokete_classes import movemap as mvp
+from pokete_classes import ob_maps as obmp
 from pokete_general_use_fns import liner
-from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
-                           deck, game_map as gm
+
+from .achievements import achievements
 from .audio import audio
+from .classes import OutP
+from .event import _ev
+from .input import ask_bool
+from .inv_items import invitems
 from .loops import std_loop
 from .npcs import Trainer
 from .providers import NatureProvider, ProtoFigure
-from .ui_elements import StdFrame2, ChooseBox, LabelBox
-from .classes import OutP
-from .input import ask_bool
-from .achievements import achievements
-from .inv_items import invitems
 from .settings import settings
-from .event import _ev
+from .ui_elements import ChooseBox, LabelBox, StdFrame2
 
 
 class FightMap(gm.GameMap):
@@ -32,22 +37,26 @@ class FightMap(gm.GameMap):
         self.box = ChooseBox(6, 25, "Attacks", "i:Info", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
-        self.deadico1 = se.Text(r"""
+        self.deadico1 = se.Text(
+            r"""
     \ /
      o
-    / \ """)
-        self.deadico2 = se.Text("""
+    / \ """
+        )
+        self.deadico2 = se.Text(
+            """
 
-     o""")
-        self.pball = se.Text(r"""   _____
+     o"""
+        )
+        self.pball = se.Text(
+            r"""   _____
   /_____\
   |__O__|
-  \_____/""")
+  \_____/"""
+        )
         # visual objects
-        self.frame_big = StdFrame2(self.height - 5, self.width,
-                                   state="float")
-        self.frame_small = se.Frame(height=4, width=self.width,
-                                    state="float")
+        self.frame_big = StdFrame2(self.height - 5, self.width, state="float")
+        self.frame_small = se.Frame(height=4, width=self.width, state="float")
         self.e_underline = se.Text("----------------+", state="float")
         self.e_sideline = se.Square("|", 1, 3, state="float")
         self.p_upperline = se.Text("+----------------", state="float")
@@ -58,11 +67,13 @@ class FightMap(gm.GameMap):
         self.outp.add(self, 1, self.height - 4)
         self.e_underline.add(self, 1, 4)
         self.e_sideline.add(self, len(self.e_underline.text), 1)
-        self.p_upperline.add(self, self.width - 1 - len(self.p_upperline.text),
-                             self.height - 10)
+        self.p_upperline.add(
+            self, self.width - 1 - len(self.p_upperline.text), self.height - 10
+        )
         self.frame_big.add(self, 0, 0)
-        self.p_sideline.add(self, self.width - 1 - len(self.p_upperline.text),
-                            self.height - 9)
+        self.p_sideline.add(
+            self, self.width - 1 - len(self.p_upperline.text), self.height - 9
+        )
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
         # Attack info box
@@ -76,9 +87,14 @@ class FightMap(gm.GameMap):
         that the labels belong to"""
         for prov in providers:
             for obj in (
-                prov.curr.text_name, prov.curr.text_lvl, prov.curr.text_hp,
-                prov.curr.ico, prov.curr.hp_bar, prov.curr.tril, prov.curr.trir,
-                prov.curr.pball_small
+                prov.curr.text_name,
+                prov.curr.text_lvl,
+                prov.curr.text_hp,
+                prov.curr.ico,
+                prov.curr.hp_bar,
+                prov.curr.tril,
+                prov.curr.trir,
+                prov.curr.pball_small,
             ):
                 obj.remove()
             if isinstance(prov, ProtoFigure):
@@ -113,15 +129,14 @@ class FightMap(gm.GameMap):
                 enem.curr.text_lvl,
                 enem.curr.text_hp,
                 enem.curr.ico,
-                enem.curr.hp_bar
+                enem.curr.hp_bar,
             ),
             (7, 16, 1, 1, 1, self.width - 14, 8),
-            (3, 3, 1, 2, 3, 2, 3)
+            (3, 3, 1, 2, 3, 2, 3),
         ):
             obj.add(self, x, y)
         if enem.curr.identifier in player.caught_pokes:
             enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)
-
 
     def add_2(self, player):
         """Adds player labels with sleeps
@@ -156,12 +171,9 @@ class FightMap(gm.GameMap):
             time.sleep(0.1)
 
     def rechar_atk_info_box(self, attack_obs):
-        self.atk_info_box.label.rechar(
-            liner(attack_obs[self.box.index.index].desc, 37)
-        )
+        self.atk_info_box.label.rechar(liner(attack_obs[self.box.index.index].desc, 37))
         self.atk_info_box.resize(
-            self.atk_info_box.label.height + 2,
-            self.atk_info_box.label.width + 4
+            self.atk_info_box.label.height + 2, self.atk_info_box.label.width + 4
         )
 
     def get_attack(self, attack_obs):
@@ -173,17 +185,20 @@ class FightMap(gm.GameMap):
             if self.show_atk_info_box:
                 self.atk_info_box.add(self, 27, self.height - 7)
             self.show()
-            while True:#158
+            while True:  # 158
                 if _ev.get() in ["'s'", "'w'"]:
                     self.box.input(_ev.get())
                     self.rechar_atk_info_box(attack_obs)
                     self.show()
                     _ev.clear()
-                elif _ev.get() in [f"'{i + 1}'" for i in
-                                   range(len(attack_obs))] + ["Key.enter"]:
-                    attack = attack_obs[self.box.index.index
-                                        if _ev.get() == "Key.enter"
-                                        else int(_ev.get().strip("'")) - 1]
+                elif _ev.get() in [f"'{i + 1}'" for i in range(len(attack_obs))] + [
+                    "Key.enter"
+                ]:
+                    attack = attack_obs[
+                        self.box.index.index
+                        if _ev.get() == "Key.enter"
+                        else int(_ev.get().strip("'")) - 1
+                    ]
                     _ev.clear()
                     if attack.ap == 0:
                         continue
@@ -210,8 +225,9 @@ class FightMap(gm.GameMap):
         ARGS:
             items: List of InvItems that can be choosen from
             inv: The Figures inv"""
-        self.invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {inv[i.name]}")
-                               for i in items])
+        self.invbox.add_c_obs(
+            [se.Text(f"{i.pretty_name}s : {inv[i.name]}") for i in items]
+        )
         self.invbox.set_index(0)
         with self.invbox.add(self, self.width - 35, 0):
             while True:
@@ -234,10 +250,13 @@ class FightMap(gm.GameMap):
         ARGS:
             figure: The players provider
             enem: The enemys provider"""
-        self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
-                                          else "") +
-                                         "What do you want to do?",
-                                         state="float"))
+        self.outp.append(
+            se.Text(
+                ("\n" if "\n" not in self.outp.text else "")
+                + "What do you want to do?",
+                state="float",
+            )
+        )
         while True:  # Inputloop for general options
             if _ev.get() == "'1'":
                 _ev.clear()
@@ -246,12 +265,13 @@ class FightMap(gm.GameMap):
                     return attack
             elif _ev.get() == "'2'":
                 _ev.clear()
-                if (
-                    type(enem) is Trainer
-                    or not ask_bool(self, "Do you really want to run away?")
+                if type(enem) is Trainer or not ask_bool(
+                    self, "Do you really want to run away?"
                 ):
                     continue
-                if (random.randint(0, 100) < max(5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95))):
+                if random.randint(0, 100) < max(
+                    5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95)
+                ):
                     self.outp.outp("You failed to run away!")
                     time.sleep(1)
                     return ""
@@ -264,14 +284,14 @@ class FightMap(gm.GameMap):
                 return "won"
             elif _ev.get() == "'3'":
                 _ev.clear()
-                items = [getattr(invitems, i)
-                            for i in figure.inv
-                            if getattr(invitems, i).fn is not None
-                            and figure.inv[i] > 0]
+                items = [
+                    getattr(invitems, i)
+                    for i in figure.inv
+                    if getattr(invitems, i).fn is not None and figure.inv[i] > 0
+                ]
                 if not items:
                     self.outp.outp(
-                        "You don't have any items left!\n"
-                        "What do you want to do?"
+                        "You don't have any items left!\n" "What do you want to do?"
                     )
                     continue
                 item = self.get_item(items, figure.inv)
@@ -306,8 +326,8 @@ class FightMap(gm.GameMap):
             "[Fight] Started between %s",
             "and ".join(
                 f"{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}"
-                    for prov in providers
-            )
+                for prov in providers
+            ),
         )
         weather = providers[0].map.weather
         for prov in providers:
@@ -322,19 +342,24 @@ class FightMap(gm.GameMap):
                 self.outp.outp(f"{prov.name} started a fight!")
                 time.sleep(1)
                 self.outp.outp(
-                    f'{self.outp.text}\n{prov.gender} used {prov.curr.name} '
-                    'against you!'
+                    f"{self.outp.text}\n{prov.gender} used {prov.curr.name} "
+                    "against you!"
                 )
         time.sleep(1)
         self.add_2(providers[0])
-        self.fast_change([providers[0].curr.ico, self.deadico2, self.deadico1,
-                          providers[0].curr.ico], providers[0].curr.ico)
+        self.fast_change(
+            [
+                providers[0].curr.ico,
+                self.deadico2,
+                self.deadico1,
+                providers[0].curr.ico,
+            ],
+            providers[0].curr.ico,
+        )
         self.outp.outp(f"You used {providers[0].curr.name}")
         self.show()
         time.sleep(0.5)
-        index = providers.index(
-            max(providers, key=lambda i: i.curr.initiative)
-        )
+        index = providers.index(max(providers, key=lambda i: i.curr.initiative))
         for prov in providers:
             i = prov.curr
             for j in i.effects:
@@ -385,9 +410,7 @@ class FightMap(gm.GameMap):
                     loser.play_index += 1
                     self.add_1(*providers)
                     ico = loser.curr.ico
-                    self.fast_change(
-                        [ico, self.deadico2, self.deadico1, ico], ico
-                    )
+                    self.fast_change([ico, self.deadico2, self.deadico1, ico], ico)
                     self.outp.outp(f"{loser.name} used {loser.curr.name}!")
                     self.show()
                     time.sleep(2)
@@ -401,16 +424,14 @@ class FightMap(gm.GameMap):
             for poke in loser.pokes
         ) * (2 if not isinstance(loser, NatureProvider) else 1)
         self.outp.outp(
-            f"{winner.curr.ext_name} won!" +
-            (f'\nXP + {_xp}' if winner.curr.player else '')
+            f"{winner.curr.ext_name} won!"
+            + (f"\nXP + {_xp}" if winner.curr.player else "")
         )
         if winner.curr.player and isinstance(loser, Trainer):
             achievements.achieve("first_duel")
         if winner.curr.player and winner.curr.add_xp(_xp):
             time.sleep(1)
-            self.outp.outp(
-                f"{winner.curr.name} reached lvl {winner.curr.lvl()}!"
-            )
+            self.outp.outp(f"{winner.curr.name} reached lvl {winner.curr.lvl()}!")
             winner.curr.moves.shine()
             time.sleep(0.5)
             winner.curr.set_vars()
@@ -426,7 +447,8 @@ class FightMap(gm.GameMap):
         mvp.movemap.balls_label_rechar(winner.pokes)
         logging.info(
             "[Fight] Ended, %s(%s) won",
-            winner.curr.name, "player" if winner.curr.player else "enemy"
+            winner.curr.name,
+            "player" if winner.curr.player else "enemy",
         )
         audio.switch(providers[0].map.song)
         return winner
@@ -479,17 +501,23 @@ class FightItems:
             fightmap.outp.outp("You can't do that in a duel!")
             return 1
         fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
-        fightmap.fast_change([enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
-                             fightmap.pball], enem.curr.ico)
+        fightmap.fast_change(
+            [enem.curr.ico, fightmap.deadico1, fightmap.deadico2, fightmap.pball],
+            enem.curr.ico,
+        )
         time.sleep(random.choice([1, 2, 3, 4]))
         obj.remove_item(name)
         catch_chance = 20 if obj.map == obmp.ob_maps["playmap_1"] else 0
         for effect in enem.curr.effects:
             catch_chance += effect.catch_chance
-        if random.choices([True, False],
-                          weights=[(enem.curr.full_hp / enem.curr.hp)
-                                   * chance + catch_chance,
-                                   enem.curr.full_hp], k=1)[0]:
+        if random.choices(
+            [True, False],
+            weights=[
+                (enem.curr.full_hp / enem.curr.hp) * chance + catch_chance,
+                enem.curr.full_hp,
+            ],
+            k=1,
+        )[0]:
             audio.switch("xDeviruchi - Decisive Battle (End).wav")
             obj.add_poke(enem.curr)
             fightmap.outp.outp(f"You caught {enem.curr.name}!")

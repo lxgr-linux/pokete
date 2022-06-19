@@ -2,61 +2,63 @@
 
 import logging
 import time as time_mod
+
 import scrap_engine as se
+
 from .event import _ev
-from .ui_elements import Box
 from .loops import std_loop
+from .ui_elements import Box
 
 time = None
 clock = None
 
 letters = [
-""" ##
+    """ ##
 #  #
 #  #
 #  #
  ##""",
-"""  #
+    """  #
  ##
   #
   #
  ###""",
-""" ##
+    """ ##
 #  #
   #
  #
 ####""",
-""" ##
+    """ ##
 #  #
   #
 #  #
  ##""",
-"""  #
+    """  #
  ##
 ####
   #
   #""",
-"""####
+    """####
 #
 ###
    #
 ###""",
-"""  #
+    """  #
  #
 ###
 #  #
  ##""",
-"""####
+    """####
    #
   #
  #
 #""",
-""" ##
+    """ ##
 #  #
  ##
 #  #
  ##""",
-""" ##
+    """ ##
 #  #
  ###
   #
@@ -92,7 +94,7 @@ class Time:
     @property
     def normalized(self):
         """Returns normalized time"""
-        return self.time % (24*60)
+        return self.time % (24 * 60)
 
 
 class Clock(Box):

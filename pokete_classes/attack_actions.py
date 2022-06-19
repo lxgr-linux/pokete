@@ -1,5 +1,6 @@
 """Contains the AttackActions class"""
 
+
 class AttackActions:
     """This class contains all actions callable by an attack
     All these methods belong to one or more attacks and follow the following
@@ -42,12 +43,12 @@ class AttackActions:
         enem.defense -= 4
 
     def super_sucker(self, obj, enem):
-        enem.hp -=2
-        obj.hp +=2 if obj.hp+2 <= obj.full_hp else 0
+        enem.hp -= 2
+        obj.hp += 2 if obj.hp + 2 <= obj.full_hp else 0
 
     def sucker(self, obj, enem):
         enem.hp -= 1
-        obj.hp += 1 if obj.hp+1 <= obj.full_hp else 0
+        obj.hp += 1 if obj.hp + 1 <= obj.full_hp else 0
 
 
 if __name__ == "__main__":

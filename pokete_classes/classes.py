@@ -1,7 +1,9 @@
 """Contains just some small classes"""
 
 import scrap_engine as se
+
 import pokete_classes.game_map as gm
+
 from .weather import Weather
 
 
@@ -17,10 +19,19 @@ class PlayMap(gm.GameMap):
         w_poke_args: Same as above but with water
         extra_actions: Function executed every frame"""
 
-    def __init__(self, height=se.screen_height - 1, width=se.screen_width,
-                 trainers=None, name="", pretty_name="", poke_args=None,
-                 w_poke_args=None, extra_actions=None, weather=None,
-                 song="03 Chibi Ninja.mp3"):
+    def __init__(
+        self,
+        height=se.screen_height - 1,
+        width=se.screen_width,
+        trainers=None,
+        name="",
+        pretty_name="",
+        poke_args=None,
+        w_poke_args=None,
+        extra_actions=None,
+        weather=None,
+        song="03 Chibi Ninja.mp3",
+    ):
         super().__init__(height, width, name=name)
         self.song = song
         self.trainers = trainers

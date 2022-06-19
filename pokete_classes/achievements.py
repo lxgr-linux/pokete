@@ -2,13 +2,16 @@
 
 import datetime
 import logging
+
 import scrap_engine as se
+
 from pokete_general_use_fns import liner
-from .loops import std_loop, easy_exit_loop
-from .ui_elements import BetterChooseBox, LabelBox
+
 from .color import Color
-from .notify import notifier
 from .event import _ev
+from .loops import easy_exit_loop, std_loop
+from .notify import notifier
+from .ui_elements import BetterChooseBox, LabelBox
 
 
 class Achievement:
@@ -49,8 +52,7 @@ class Achievements:
         ARGS:
             identifier: The Achievements identifier"""
         if not self.is_achieved(identifier):
-            ach = [i for i in self.achievements
-                   if i.identifier == identifier][0]
+            ach = [i for i in self.achievements if i.identifier == identifier][0]
             notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
             logging.info("[Achievements] Unlocked %s", identifier)
@@ -72,15 +74,21 @@ class AchBox(LabelBox):
 
     def __init__(self, ach, ach_ob):
         is_ach = ach_ob.is_achieved(ach.identifier)
-        date = [i[-1] for i in ach_ob.achieved if i[0] ==
-                ach.identifier][0] if is_ach else ""
-        label = se.Text("Achieved: ", state="float")\
-                + se.Text("Yes" if is_ach else "No",
-                          esccode=Color.thicc
-                          + (Color.green if is_ach
-                             else Color.grey), state="float")\
-                + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
-                + se.Text("\n" + liner(ach.desc, 30), state="float")
+        date = (
+            [i[-1] for i in ach_ob.achieved if i[0] == ach.identifier][0]
+            if is_ach
+            else ""
+        )
+        label = (
+            se.Text("Achieved: ", state="float")
+            + se.Text(
+                "Yes" if is_ach else "No",
+                esccode=Color.thicc + (Color.green if is_ach else Color.grey),
+                state="float",
+            )
+            + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))
+            + se.Text("\n" + liner(ach.desc, 30), state="float")
+        )
         super().__init__(label, name=ach.title, info="q:close")
 
 
@@ -94,11 +102,19 @@ class AchievementOverview(BetterChooseBox):
         """Input loop
         ARGS:
             _map: se.Map to show this on"""
-        self.set_items(4, [se.Text(i.title,
-                                   esccode=Color.thicc + Color.green
-                                   if achievements.is_achieved(i.identifier)
-                                   else "", state="float")
-                           for i in achievements.achievements])
+        self.set_items(
+            4,
+            [
+                se.Text(
+                    i.title,
+                    esccode=Color.thicc + Color.green
+                    if achievements.is_achieved(i.identifier)
+                    else "",
+                    state="float",
+                )
+                for i in achievements.achievements
+            ],
+        )
         self.map = _map
         with self:
             while True:
@@ -110,8 +126,7 @@ class AchievementOverview(BetterChooseBox):
                     break
                 elif _ev.get() == "Key.enter":
                     _ev.clear()
-                    ach = achievements.achievements[
-                            self.get_item(*self.index).ind]
+                    ach = achievements.achievements[self.get_item(*self.index).ind]
                     with AchBox(ach, achievements).center_add(_map):
                         easy_exit_loop()
                 std_loop()

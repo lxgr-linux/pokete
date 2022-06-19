@@ -2,12 +2,15 @@
 of their stats"""
 
 import random
+
 import scrap_engine as se
+
 import pokete_data as p_data
 from pokete_general_use_fns import liner
-from .ui_elements import LabelBox
+
 from .color import Color
 from .loops import easy_exit_loop
+from .ui_elements import LabelBox
 
 
 class Nature:
@@ -47,11 +50,11 @@ class PokeNature:
         """Gets one attribute value by its name
         ARGS:
             name: The name of the attribute"""
-        return getattr(self.nature, name)**self.grade
+        return getattr(self.nature, name) ** self.grade
 
     def dict(self):
         """RETURNS:
-            A dict containing information to reconstruct the object"""
+        A dict containing information to reconstruct the object"""
         return {"nature": self.nature.name, "grade": self.grade}
 
     @classmethod
@@ -87,12 +90,19 @@ class NatureInfo(LabelBox):
         atc = self.get_amount(p_n.nature.atc)
         defense = self.get_amount(p_n.nature.defense)
         init = self.get_amount(p_n.nature.initiative)
-        text = se.Text(f"Nature: {'very ' if p_n.grade == 2 else ''}") \
-            + se.Text(p_n.nature.name, esccode=Color.thicc
-                      + p_n.nature.esccode) \
-            + se.Text(liner(f"\n\n That means it has {atc} attack, \
+        text = (
+            se.Text(f"Nature: {'very ' if p_n.grade == 2 else ''}")
+            + se.Text(p_n.nature.name, esccode=Color.thicc + p_n.nature.esccode)
+            + se.Text(
+                liner(
+                    f"\n\n That means it has {atc} attack, \
 {defense} defense and {init} initiative points compared to normal Poketes \
-of its kind.", 40, pre=""))
+of its kind.",
+                    40,
+                    pre="",
+                )
+            )
+        )
         super().__init__(text, name="Nature", info="q:close")
 
     @staticmethod

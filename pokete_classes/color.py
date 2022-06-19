@@ -3,6 +3,7 @@
 
 class Color:
     """Color class that provides all needed escape codes"""
+
     reset = "\033[0m"
     thicc = "\033[1m"
     underlined = "\033[4m"

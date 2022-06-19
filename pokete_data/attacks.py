@@ -353,7 +353,6 @@ attacks = {
         "is_generic": False,
         "ap": 15,
     },
-
     # Fire attacks
     "fire_bite": {
         "name": "Fire Bite",
@@ -397,7 +396,6 @@ attacks = {
         "is_generic": True,
         "ap": 10,
     },
-
     "fire_ball": {
         "name": "Fire Ball",
         "factor": 4,
@@ -464,7 +462,7 @@ attacks = {
         "miss_chance": 0,
         "min_lvl": 0,
         "desc": "Casts a vicious and violent storm full of rain and hail, hitting the enemy in its weakest spots "
-                "and makes it want to die.",
+        "and makes it want to die.",
         "types": ["flying"],
         "effect": None,
         "is_generic": True,

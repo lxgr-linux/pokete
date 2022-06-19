@@ -29,11 +29,11 @@ jobs:
         with:
           # Optionally strip `v` prefix
           strip_v: true
-        
+
       - name: path
         run: echo "::set-output name=path::Pokete-${{ steps.tag.outputs.tag }}-x86_64.AppImage"
         id: path
-      
+
       # Runs a set of commands using the runners shell
       - name: Prepare
         run: |
@@ -44,10 +44,10 @@ jobs:
           sudo chmod +x /usr/local/bin/appimagetool
           sudo pip3 install git+https://github.com/AppImageCrafters/appimage-builder.git
           sed -i '/app_info:/{n;n;n;n;s/\(version\).*/\1: '"${{ steps.tag.outputs.tag }}"'/}' assets/AppImageBuilder.yml
-          
+
       - name: Build Appimage
         run: appimage-builder --skip-test --recipe assets/AppImageBuilder.yml
-        
+
       - name: Get Changelog Entry
         id: changelog_reader
         uses: mindsers/changelog-reader-action@v2
@@ -55,7 +55,7 @@ jobs:
           validation_depth: 10
           version: ${{ steps.tag.outputs.tag }}
           path: ./Changelog.md
-        
+
       - name: release
         uses: actions/create-release@v1
         id: create_release
@@ -67,7 +67,7 @@ jobs:
           body: ${{ steps.changelog_reader.outputs.changes }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        
+
       - name: upload linux artifact
         uses: actions/upload-release-asset@v1
         env:

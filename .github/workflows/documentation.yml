@@ -22,7 +22,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
       - name: Cache
         uses: actions/cache@v2.1.6
         with:
@@ -63,7 +63,7 @@ jobs:
           git add .
             git commit -m "Updated pages"
           fi
-    
+
       - name: Push changes  # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:

@@ -1,15 +1,17 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
 import scrap_engine as se
-import pokete_data as p_data
+
 import pokete_classes.movemap as mvp
+import pokete_data as p_data
 from pokete_general_use_fns import liner
-from .loops import std_loop, easy_exit_loop
-from .poke import Poke
-from .event import _ev
+
 from .color import Color
+from .event import _ev
+from .loops import easy_exit_loop, std_loop
 from .nature import PokeNature
-from .ui_elements import ChooseBox, Box
+from .poke import Poke
+from .ui_elements import Box, ChooseBox
 
 
 class Dex:
@@ -30,8 +32,13 @@ class Dex:
 
     def add_c_obs(self):
         """Adds c_obs to box"""
-        self.box.add_c_obs(self.obs[self.idx * (self.box.height - 2):
-                                    (self.idx + 1) * (self.box.height - 2)])
+        self.box.add_c_obs(
+            self.obs[
+                self.idx
+                * (self.box.height - 2) : (self.idx + 1)
+                * (self.box.height - 2)
+            ]
+        )
 
     def rem_c_obs(self):
         """Removes c_obs to box"""
@@ -50,27 +57,38 @@ class Dex:
         active = {
             True: ("Night", Color.thicc + Color.blue),
             False: ("Day", Color.thicc + Color.yellow),
-            None: ("Always", "")
+            None: ("Always", ""),
         }[poke.night_active]
-        desc_text = liner(poke.desc.text.replace("\n", " ") +
-                          (f"""\n\n Evolves into {
+        desc_text = liner(
+            poke.desc.text.replace("\n", " ")
+            + (
+                f"""\n\n Evolves into {
                               p_data.pokes[poke.evolve_poke]['name'] if
                               poke.evolve_poke in
                               self.figure.caught_pokes else '???'
                                                 }."""
-                           if poke.evolve_lvl != 0 else ""), 29)
+                if poke.evolve_lvl != 0
+                else ""
+            ),
+            29,
+        )
         self.detail_box.resize(10 + len(desc_text.split("\n")), 35)
         self.detail_box.name_label.rechar(poke.name)
         self.detail_box.add_ob(poke.ico, 3, 2)
         self.detail_desc.rechar(desc_text)
         self.detail_info.rechar("Type: ")
-        self.detail_info += se.Text(poke.type.name.capitalize(),
-                                    esccode=poke.type.color) + se.Text(f"""
+        self.detail_info += (
+            se.Text(poke.type.name.capitalize(), esccode=poke.type.color)
+            + se.Text(
+                f"""
 HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}
-Active: """) + se.Text(active[0], esccode=active[1])
+Active: """
+            )
+            + se.Text(active[0], esccode=active[1])
+        )
 
         with self.detail_box.center_add(mvp.movemap):
             easy_exit_loop()
@@ -81,23 +99,32 @@ Active: """) + se.Text(active[0], esccode=active[1])
         pokes = p_data.pokes
         _ev.clear()
         self.idx = 0
-        p_dict = {i[1]: i[-1] for i in
-                  sorted([(pokes[j]["types"][0], j, pokes[j])
-                          for j in list(pokes)[1:]])}
-        self.obs = [se.Text(f"{i + 1} \
+        p_dict = {
+            i[1]: i[-1]
+            for i in sorted(
+                (pokes[j]["types"][0], j, pokes[j]) for j in list(pokes)[1:]
+            )
+        }
+        self.obs = [
+            se.Text(
+                f"{i + 1} \
 {p_dict[poke]['name'] if poke in self.figure.caught_pokes else '???'}",
-                    state="float")
-                    for i, poke in enumerate(p_dict)]
+                state="float",
+            )
+            for i, poke in enumerate(p_dict)
+        ]
         self.add_c_obs()
         with self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0):
             while True:
                 for event, idx, n_idx, add, idx_2 in zip(
-                                ["'s'", "'w'"],
-                                [len(self.box.c_obs) - 1, 0],
-                                [0, self.box.height - 3], [1, -1], [-1, 0]):
+                    ["'s'", "'w'"],
+                    [len(self.box.c_obs) - 1, 0],
+                    [0, self.box.height - 3],
+                    [1, -1],
+                    [-1, 0],
+                ):
                     if _ev.get() == event and self.box.index.index == idx:
-                        if self.box.c_obs[self.box.index.index]\
-                                    != self.obs[idx_2]:
+                        if self.box.c_obs[self.box.index.index] != self.obs[idx_2]:
                             self.rem_c_obs()
                             self.idx += add
                             self.add_c_obs()
@@ -105,9 +132,11 @@ Active: """) + se.Text(active[0], esccode=active[1])
                         _ev.clear()
                 if _ev.get() == "Key.enter":
                     if "???" not in self.box.c_obs[self.box.index.index].text:
-                        self.detail(list(p_dict)[self.idx
-                                                 * (self.box.height - 2)
-                                                 + self.box.index.index])
+                        self.detail(
+                            list(p_dict)[
+                                self.idx * (self.box.height - 2) + self.box.index.index
+                            ]
+                        )
                     _ev.clear()
                 elif _ev.get() in ["'s'", "'w'"]:
                     self.box.input(_ev.get())

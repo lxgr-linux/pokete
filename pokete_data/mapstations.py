@@ -5,12 +5,9 @@ stations = {
             "width": 2,
             "height": 1,
             "desc": "A small town.",
-            "w_next": "cave_1"
+            "w_next": "cave_1",
         },
-        "add": {
-            "x": 5,
-            "y": 7
-        }
+        "add": {"x": 5, "y": 7},
     },
     "cave_1": {
         "gen": {
@@ -21,10 +18,7 @@ stations = {
             "s_next": "playmap_1",
             "d_next": "playmap_2",
         },
-        "add": {
-            "x": 6,
-            "y": 5
-        }
+        "add": {"x": 6, "y": 5},
     },
     "playmap_2": {
         "gen": {
@@ -35,10 +29,7 @@ stations = {
             "a_next": "cave_1",
             "d_next": "playmap_3",
         },
-        "add": {
-            "x": 7,
-            "y": 5
-        }
+        "add": {"x": 7, "y": 5},
     },
     "playmap_3": {
         "gen": {
@@ -50,10 +41,7 @@ stations = {
             "w_next": "playmap_4",
             "s_next": "playmap_6",
         },
-        "add": {
-            "x": 9,
-            "y": 5
-        }
+        "add": {"x": 9, "y": 5},
     },
     "playmap_4": {
         "gen": {
@@ -62,12 +50,9 @@ stations = {
             "height": 3,
             "desc": "The shores of the great Sunnydale lake.",
             "s_next": "playmap_3",
-            "d_next": "playmap_28"
+            "d_next": "playmap_28",
         },
-        "add": {
-            "x": 10,
-            "y": 2
-        }
+        "add": {"x": 10, "y": 2},
     },
     "playmap_6": {
         "gen": {
@@ -80,10 +65,7 @@ caves.",
             "a_next": "playmap_7",
             "d_next": "playmap_8",
         },
-        "add": {
-            "x": 10,
-            "y": 6
-        }
+        "add": {"x": 10, "y": 6},
     },
     "playmap_7": {
         "gen": {
@@ -93,10 +75,7 @@ caves.",
             "desc": "A dark and mysterious cave.",
             "d_next": "playmap_6",
         },
-        "add": {
-            "x": 9,
-            "y": 7
-        }
+        "add": {"x": 9, "y": 7},
     },
     "playmap_8": {
         "gen": {
@@ -108,10 +87,7 @@ caves.",
             "s_next": "playmap_11",
             "d_next": "playmap_12",
         },
-        "add": {
-            "x": 11,
-            "y": 7
-        }
+        "add": {"x": 11, "y": 7},
     },
     "playmap_11": {
         "gen": {
@@ -121,10 +97,7 @@ caves.",
             "desc": "The shore of a lake near an olf fisher village.",
             "w_next": "playmap_8",
         },
-        "add": {
-            "x": 11,
-            "y": 8
-        }
+        "add": {"x": 11, "y": 8},
     },
     "playmap_12": {
         "gen": {
@@ -135,10 +108,7 @@ caves.",
             "a_next": "playmap_8",
             "w_next": "playmap_13",
         },
-        "add": {
-            "x": 13,
-            "y": 7
-        }
+        "add": {"x": 13, "y": 7},
     },
     "playmap_13": {
         "gen": {
@@ -150,10 +120,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_12",
             "w_next": "playmap_15",
         },
-        "add": {
-            "x": 14,
-            "y": 5
-        }
+        "add": {"x": 14, "y": 5},
     },
     "playmap_15": {
         "gen": {
@@ -164,10 +131,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_13",
             "d_next": "playmap_16",
         },
-        "add": {
-            "x": 14,
-            "y": 4
-        }
+        "add": {"x": 14, "y": 4},
     },
     "playmap_16": {
         "gen": {
@@ -178,10 +142,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "a_next": "playmap_15",
             "d_next": "playmap_18",
         },
-        "add": {
-            "x": 16,
-            "y": 4
-        }
+        "add": {"x": 16, "y": 4},
     },
     "playmap_18": {
         "gen": {
@@ -192,10 +153,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "a_next": "playmap_16",
             "w_next": "playmap_19",
         },
-        "add": {
-            "x": 17,
-            "y": 4
-        }
+        "add": {"x": 17, "y": 4},
     },
     "playmap_19": {
         "gen": {
@@ -206,16 +164,20 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_18",
             "w_next": "playmap_21",
         },
-        "add": {
-            "x": 18,
-            "y": 3
-        }
+        "add": {"x": 18, "y": 3},
     },
     "playmap_21": {
         "gen": {
-            "additionals": ["playmap_22", "playmap_23", "playmap_24",
-                            "playmap_25", "playmap_26", "playmap_27",
-                            "playmap_29", "playmap_50"],
+            "additionals": [
+                "playmap_22",
+                "playmap_23",
+                "playmap_24",
+                "playmap_25",
+                "playmap_26",
+                "playmap_27",
+                "playmap_29",
+                "playmap_50",
+            ],
             "width": 3,
             "height": 1,
             "desc": "The great Rock-ville is the biggest city in the region \
@@ -223,12 +185,9 @@ around the Big mountain. With the Rocky hotel it's also a tourist \
 hotspot.",
             "s_next": "playmap_19",
             "d_next": "playmap_33",
-            "w_next": "playmap_40"
+            "w_next": "playmap_40",
         },
-        "add": {
-            "x": 18,
-            "y": 2
-        }
+        "add": {"x": 18, "y": 2},
     },
     "playmap_28": {
         "gen": {
@@ -239,10 +198,7 @@ hotspot.",
             "a_next": "playmap_4",
             "d_next": "playmap_30",
         },
-        "add": {
-            "x": 11,
-            "y": 3
-        }
+        "add": {"x": 11, "y": 3},
     },
     "playmap_30": {
         "gen": {
@@ -254,10 +210,7 @@ spot in the Pokete world and with the great git-tree it may also be one \
 of the most spectacular.",
             "a_next": "playmap_28",
         },
-        "add": {
-            "x": 13,
-            "y": 3
-        }
+        "add": {"x": 13, "y": 3},
     },
     "playmap_33": {
         "gen": {
@@ -268,10 +221,7 @@ of the most spectacular.",
             "a_next": "playmap_21",
             "d_next": "playmap_35",
         },
-        "add": {
-            "x": 21,
-            "y": 2
-        }
+        "add": {"x": 21, "y": 2},
     },
     "playmap_35": {
         "gen": {
@@ -282,10 +232,7 @@ of the most spectacular.",
             "a_next": "playmap_33",
             "s_next": "playmap_39",
         },
-        "add": {
-            "x": 22,
-            "y": 2
-        }
+        "add": {"x": 22, "y": 2},
     },
     "playmap_40": {
         "gen": {
@@ -295,30 +242,31 @@ of the most spectacular.",
             "desc": "A Great beach, with great weather, always.",
             "s_next": "playmap_21",
         },
-        "add": {
-            "x": 18,
-            "y": 1
-        }
+        "add": {"x": 18, "y": 1},
     },
     "playmap_39": {
         "gen": {
-            "additionals": ["playmap_41", "playmap_42", "playmap_43",
-                            "playmap_44", "playmap_45", "playmap_46",
-                            "playmap_47", "playmap_48"],
+            "additionals": [
+                "playmap_41",
+                "playmap_42",
+                "playmap_43",
+                "playmap_44",
+                "playmap_45",
+                "playmap_46",
+                "playmap_47",
+                "playmap_48",
+            ],
             "width": 2,
             "height": 2,
             "desc": "The great city of Agrawos, agricultural and cultural "
-                    "center of the whole region. It's famous for its great "
-                    "Pokete-Arena and its master trainer. Check out the "
-                    "MowCow-Burger restaurant, which offers the best, "
-                    "juiciest and most delicious Mowcow-burgers, cut from the "
-                    "happiest and most delicious Mowcows anywhere to find!", 
+            "center of the whole region. It's famous for its great "
+            "Pokete-Arena and its master trainer. Check out the "
+            "MowCow-Burger restaurant, which offers the best, "
+            "juiciest and most delicious Mowcow-burgers, cut from the "
+            "happiest and most delicious Mowcows anywhere to find!",
             "w_next": "playmap_35",
         },
-        "add": {
-            "x": 21,
-            "y": 4
-        }
+        "add": {"x": 21, "y": 4},
     },
 }
 

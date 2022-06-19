@@ -4,18 +4,18 @@
 
    I know all this is very awfull..."""
 
-from .poketes import *
-from .attacks import *
-from .map_data import *
-from .types import *
-from .items import *
-from .trainers import *
-from .npcs import *
-from .mapstations import *
-from .maps import *
 from .achievements import *
-from .weather import *
+from .attacks import *
+from .items import *
+from .map_data import *
+from .maps import *
+from .mapstations import *
 from .natures import *
+from .npcs import *
+from .poketes import *
+from .trainers import *
+from .types import *
+from .weather import *
 
 
 class ValidationError(Exception):
@@ -52,8 +52,21 @@ def single_validate(dict, validator, name=""):
 
 def validate():
     """Validates all modules"""
-    for i, j in zip([weathers, achievements, pokes, types, map_data, stations, items, npcs,
-                     attacks, maps], validators):
+    for i, j in zip(
+        [
+            weathers,
+            achievements,
+            pokes,
+            types,
+            map_data,
+            stations,
+            items,
+            npcs,
+            attacks,
+            maps,
+        ],
+        validators,
+    ):
         single_validate(i, j)
     for p in pokes:
         for i in pokes[p]["ico"]:
@@ -72,16 +85,40 @@ def validate():
 validators = {
     "weathers": ["info", "effected"],
     "achievements": ["title", "desc"],
-    "poke": ["name", "hp", "atc", "defense", "attacks", "miss_chance", "desc",
-             "lose_xp", "rarity", "types", "evolve_poke", "evolve_lvl", "ico",
-             "initiative"],
+    "poke": [
+        "name",
+        "hp",
+        "atc",
+        "defense",
+        "attacks",
+        "miss_chance",
+        "desc",
+        "lose_xp",
+        "rarity",
+        "types",
+        "evolve_poke",
+        "evolve_lvl",
+        "ico",
+        "initiative",
+    ],
     "type": ["effective", "ineffective", "color"],
     "playmap": ["hard_obs", "soft_obs", "dors", "balls"],
     "station": ["gen", "add"],
     "item": ["pretty_name", "desc", "price", "fn"],
     "npc": ["texts", "fn", "map", "x", "y"],
-    "attack": ["name", "factor", "action", "move", "miss_chance", "min_lvl",
-               "desc", "types", "effect", "is_generic", "ap"],
+    "attack": [
+        "name",
+        "factor",
+        "action",
+        "move",
+        "miss_chance",
+        "min_lvl",
+        "desc",
+        "types",
+        "effect",
+        "is_generic",
+        "ap",
+    ],
     "map": ["height", "width", "pretty_name", "extra_actions", "poke_args"],
     "hard_ob": ["x", "y", "txt"],
     "soft_ob": ["x", "y", "txt"],
@@ -90,7 +127,7 @@ validators = {
     "gen": ["additionals", "width", "height", "desc"],
     "add": ["x", "y"],
     "poke_ico": ["txt", "esc"],
-    "trainer": ["pokes", "args"]
+    "trainer": ["pokes", "args"],
 }
 
 

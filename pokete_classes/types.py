@@ -1,6 +1,7 @@
 """Type and PokeType class"""
 
 import pokete_data as p_data
+
 from .color import Color
 
 
@@ -16,7 +17,7 @@ class Types:
             setattr(self, i, PokeSubType(i))
 
 
-class PokeType():
+class PokeType:
     """Type for Poketes and attacks
     ARGS:
         name: The types name
@@ -28,8 +29,7 @@ class PokeType():
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
-        self.color = "" if color is None else "".join(getattr(Color, i)
-                                                      for i in color)
+        self.color = "" if color is None else "".join(getattr(Color, i) for i in color)
 
 
 class PokeSubType(PokeType):

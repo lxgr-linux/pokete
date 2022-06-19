@@ -1,8 +1,8 @@
 """This file contains all classes related to mods"""
 
+from .settings import settings
 from .side_loops import About
 from .ui_elements import InfoBox
-from .settings import settings
 
 
 class DummyMods:
@@ -34,13 +34,17 @@ class ModInfo(About):
         mod_info: mod_info dict"""
 
     def __init__(self, _map, mod_info):
-        self.text = f"""
+        self.text = (
+            f"""
 Mods are { {True: 'enabled', False: 'disabled'}[settings("load_mods").val] }!
 To load a mod, it has to be placed in '/mods',
 and mods have to be enabled in the menu.
 
 Currently {len(mod_info)} mod{"s are" if len(mod_info) != 1 else " is"} loaded:
-   """ + "\n   ".join(f"{i}-{mod_info[i]}" for i in mod_info) + "\n"
+   """
+            + "\n   ".join(f"{i}-{mod_info[i]}" for i in mod_info)
+            + "\n"
+        )
         self.box = InfoBox(self.text, name="Mods", _map=_map)
 
 

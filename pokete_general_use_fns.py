@@ -1,6 +1,7 @@
 """General use functions for Pokete"""
 
 import sys
+
 import release
 
 
@@ -18,7 +19,7 @@ def liner(text, width, pre=""):
         if "\n" in name:
             lens = len(pre)
             out += name + pre
-        elif lens+len(name) + 1 <= width:
+        elif lens + len(name) + 1 <= width:
             out += name + " "
             lens += len(name) + 1
         else:
@@ -36,9 +37,9 @@ def hard_liner(l_len, name):
         The lined string"""
     ret = ""
     for i in range(int(len(name) / l_len) + 1):
-        ret += name[i * l_len:(i + 1) * l_len] + ("\n"
-                                                  if i != int(len(name) / l_len)
-                                                  else "")
+        ret += name[i * l_len : (i + 1) * l_len] + (
+            "\n" if i != int(len(name) / l_len) else ""
+        )
     return ret
 
 
@@ -48,15 +49,15 @@ def sort_vers(vers):
         vers: List of versions
     RETURNS:
         Sorted list"""
-    return [k[-1] for k in
-            sorted([([int(j) for j in i.split(".")], i) for i in vers])]
+    return [k[-1] for k in sorted(([int(j) for j in i.split(".")], i) for i in vers)]
 
 
 def print_help(path):
     """Shows help message
     ARGS:
         path: The game's path"""
-    print(f"""Pokete {release.CODENAME} v{release.VERSION}
+    print(
+        f"""Pokete {release.CODENAME} v{release.VERSION}
 Usage: {path} (<options>)
 Options:
     --log          : Enables logging
@@ -71,7 +72,8 @@ Feel free to contribute.
 See README.md for more information.
 This software is licensed under the GPLv3, you should have gotten a
 copy of it alongside this software.
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2022""")
+Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2022"""
+    )
 
 
 def parse_args(args):
@@ -94,8 +96,10 @@ def parse_args(args):
             print_help(args[0])
             sys.exit(0)
         else:
-            print(f":: Error: '{arg}' is not a valid option! See '--help' for \
-options.")
+            print(
+                f":: Error: '{arg}' is not a valid option! See '--help' for \
+options."
+            )
             sys.exit(1)
     return do_logging, load_mods, force_pynput
 

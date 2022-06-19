@@ -1,6 +1,7 @@
 """Contains classes and objects related to settings"""
 
 import logging
+
 import scrap_engine as se
 
 
@@ -29,16 +30,14 @@ class VisSetting(se.Text):
         self.name = text
         self.setting = settings(setting)
         self.index = list(options).index(self.setting.val)
-        super().__init__(text + ": " + self.options[self.setting.val],
-                         state="float")
+        super().__init__(text + ": " + self.options[self.setting.val], state="float")
 
     def change(self):
         """Change the setting"""
         self.index = (self.index + 1) % len(self.options)
         self.setting.val = list(self.options)[self.index]
         self.rechar(self.name + ": " + self.options[self.setting.val])
-        logging.info("[Setting][%s] set to %s", self.setting.name,
-                     self.setting.val)
+        logging.info("[Setting][%s] set to %s", self.setting.name, self.setting.val)
 
 
 class Settings:
@@ -46,8 +45,13 @@ class Settings:
 
     def __init__(self):
         self.settings = []
-        self.keywords = ["autosave", "animations", "save_trainers",
-                         "load_mods", "audio"]
+        self.keywords = [
+            "autosave",
+            "animations",
+            "save_trainers",
+            "load_mods",
+            "audio",
+        ]
 
     def from_dict(self, src):
         """Setts the settings from a dict

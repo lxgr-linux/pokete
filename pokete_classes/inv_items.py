@@ -8,9 +8,13 @@ class Items:
 
     def __init__(self):
         for item in p_data.items.items():
-            _obj = InvItem(item[0], item[1]["pretty_name"],
-                           item[1]["desc"],
-                           item[1]["price"], item[1]["fn"])
+            _obj = InvItem(
+                item[0],
+                item[1]["pretty_name"],
+                item[1]["desc"],
+                item[1]["price"],
+                item[1]["fn"],
+            )
             setattr(self, item[0], _obj)
         self.ld_bubble_bomb = LearnDisc("bubble_bomb")
         self.ld_flying = LearnDisc("flying")

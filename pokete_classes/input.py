@@ -1,9 +1,10 @@
 """This file contains input wrappers for ui elements"""
 
 from pokete_general_use_fns import hard_liner
+
+from .event import _ev
 from .loops import std_loop
 from .ui_elements import InfoBox, InputBox
-from .event import _ev
 
 
 def text_input(obj, _map, name, wrap_len, max_len=1000000):
@@ -34,8 +35,11 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
             _ev.clear()
-        elif ((i := _ev.get()) not in ["", "exit"] and "Key." not in i) \
-             and len(name) < max_len or i == "Key.space":
+        elif (
+            ((i := _ev.get()) not in ["", "exit"] and "Key." not in i)
+            and len(name) < max_len
+            or i == "Key.space"
+        ):
             if _ev.get() == "Key.space":
                 _ev.set("' '")
             name += str(_ev.get().strip("'"))
@@ -51,9 +55,10 @@ def ask_bool(_map, text):
         _map: The map the question should be asked on
         text: The actual question"""
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
-    text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o",
-                 info="", _map=_map):
+    text_len = sorted(len(i) for i in text.split("\n"))[-1]
+    with InfoBox(
+        f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o", info="", _map=_map
+    ):
         while True:
             if _ev.get() == "'y'":
                 ret = True
@@ -76,8 +81,7 @@ def ask_text(_map, infotext, introtext, text, name, max_len):
         name: The boxes displayed name
         max_len: Max length of the text"""
     with InputBox(infotext, introtext, text, max_len, name, _map) as inputbox:
-        ret = text_input(inputbox.text, _map, text, max_len + 1,
-                         max_len=max_len)
+        ret = text_input(inputbox.text, _map, text, max_len + 1, max_len=max_len)
     return ret
 
 
@@ -87,9 +91,10 @@ def ask_ok(_map, text):
         _map: The map the question is asked on
         text: The question it self"""
     assert len(text) >= 4, "Text has to be longer then 4 characters!"
-    text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k", name="Info",
-                 info="", _map=_map):
+    text_len = sorted(len(i) for i in text.split("\n"))[-1]
+    with InfoBox(
+        f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k", name="Info", info="", _map=_map
+    ):
         while True:
             if _ev.get() in ["'o'", "'O'", "Key.enter"]:
                 break

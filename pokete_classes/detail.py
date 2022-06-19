@@ -1,11 +1,13 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
 import scrap_engine as se
+
 import pokete_classes.game_map as gm
-from .loops import std_loop
-from .ui_elements import StdFrame2, ChooseBox
+
 from .color import Color
 from .event import _ev
+from .loops import std_loop
+from .ui_elements import ChooseBox, StdFrame2
 
 
 class Informer:
@@ -23,16 +25,28 @@ class Informer:
             in_deck: bool whether or not the info is added to the deck"""
         poke.text_name.add(_map, _x + 12, _y + 0)
         if poke.identifier != "__fallback__":
-            for obj, __x, __y in zip([poke.ico, poke.text_lvl, poke.text_hp,
-                                      poke.tril, poke.trir, poke.hp_bar,
-                                      poke.text_xp],
-                                     [0, 12, 12, 18, 27, 19, 12],
-                                     [0, 1, 2, 2, 2, 2, 3]):
+            for obj, __x, __y in zip(
+                [
+                    poke.ico,
+                    poke.text_lvl,
+                    poke.text_hp,
+                    poke.tril,
+                    poke.trir,
+                    poke.hp_bar,
+                    poke.text_xp,
+                ],
+                [0, 12, 12, 18, 27, 19, 12],
+                [0, 1, 2, 2, 2, 2, 3],
+            ):
                 obj.add(_map, _x + __x, _y + __y)
             if in_deck and figure.pokes.index(poke) < 6:
-                poke.pball_small.add(_map, round(_map.width / 2) - 1
-                                           if figure.pokes.index(poke) % 2 == 0
-                                           else _map.width - 2, _y)
+                poke.pball_small.add(
+                    _map,
+                    round(_map.width / 2) - 1
+                    if figure.pokes.index(poke) % 2 == 0
+                    else _map.width - 2,
+                    _y,
+                )
             for eff in poke.effects:
                 eff.add_label()
 
@@ -41,9 +55,17 @@ class Informer:
         """Removes a Pokete from the deck
         ARGS:
             poke: Poke object that should be removed"""
-        for obj in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
-                    poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
-                    poke.pball_small]:
+        for obj in [
+            poke.ico,
+            poke.text_name,
+            poke.text_lvl,
+            poke.text_hp,
+            poke.tril,
+            poke.trir,
+            poke.hp_bar,
+            poke.text_xp,
+            poke.pball_small,
+        ]:
             obj.remove()
         for eff in poke.effects:
             eff.cleanup()
@@ -92,35 +114,42 @@ class Detail(Informer):
             abb: Bool whether or not the ability option is shown"""
         ret_action = None
         self.add(poke, None, self.map, 1, 1, False)
-        abb_obs = [i for i in poke.attack_obs
-                   if i.world_action != ""]
+        abb_obs = [i for i in poke.attack_obs if i.world_action != ""]
         if abb_obs != [] and abb:
-            self.world_actions_label.rechar("Abilities:"
-                                            + " ".join([i.name
-                                                        for i in abb_obs]))
+            self.world_actions_label.rechar(
+                "Abilities:" + " ".join([i.name for i in abb_obs])
+            )
             self.ability_label.rechar("3: Use ability")
         else:
             self.world_actions_label.rechar("")
             self.ability_label.rechar("")
-        self.attack_defense.rechar(f"Attack:{poke.atc}\
-{(4 - len(str(poke.atc))) * ' '}Defense:{poke.defense}")
+        self.attack_defense.rechar(
+            f"Attack:{poke.atc}\
+{(4 - len(str(poke.atc))) * ' '}Defense:{poke.defense}"
+        )
         self.initiative_label.rechar(f"Initiative:{poke.initiative}")
         for obj, _x, _y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
             obj.add(self.map, _x, _y)
-        for atc, _x, _y in zip(poke.attack_obs, [1,
-                                                round(self.map.width / 2) + 1,
-                                                1,
-                                                round(self.map.width / 2) + 1],
-                               [7, 7, 12, 12]):
+        for atc, _x, _y in zip(
+            poke.attack_obs,
+            [1, round(self.map.width / 2) + 1, 1, round(self.map.width / 2) + 1],
+            [7, 7, 12, 12],
+        ):
             atc.temp_i = 0
             atc.temp_j = -30
-            atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
+            atc.label_desc.rechar(atc.desc[: int(self.map.width / 2 - 1)])
             atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
-            for label, __x, __y in zip([atc.label_name, atc.label_factor,
-                                        atc.label_type,
-                                        atc.label_ap, atc.label_desc],
-                                       [0, 0, 11, 0, 0],
-                                       [0, 1, 1, 2, 3]):
+            for label, __x, __y in zip(
+                [
+                    atc.label_name,
+                    atc.label_factor,
+                    atc.label_type,
+                    atc.label_ap,
+                    atc.label_desc,
+                ],
+                [0, 0, 11, 0, 0],
+                [0, 1, 1, 2, 3],
+            ):
                 label.add(self.map, _x + __x, _y + __y)
         self.map.show(init=True)
         while True:
@@ -130,16 +159,23 @@ class Detail(Informer):
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
                 for atc in poke.attack_obs:
-                    for obj in [atc.label_name, atc.label_factor, atc.label_ap,
-                                atc.label_desc, atc.label_type]:
+                    for obj in [
+                        atc.label_name,
+                        atc.label_factor,
+                        atc.label_ap,
+                        atc.label_desc,
+                        atc.label_type,
+                    ]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
             elif _ev.get() == "'3'" and abb_obs != [] and abb:
-                with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
-                               c_obs=[se.Text(i.name)
-                                      for i in abb_obs]).center_add(self.map)\
-                        as box:
+                with ChooseBox(
+                    len(abb_obs) + 2,
+                    25,
+                    name="Abilities",
+                    c_obs=[se.Text(i.name) for i in abb_obs],
+                ).center_add(self.map) as box:
                     while True:
                         if _ev.get() in ["'s'", "'w'"]:
                             box.input(_ev.get())
@@ -163,15 +199,17 @@ class Detail(Informer):
                     if atc.temp_j == 5:
                         atc.temp_i += 1
                         atc.temp_j = 0
-                        if atc.temp_i == len(atc.desc)\
-                                          - int(self.map.width / 2 - 1)\
-                                          + 10:
+                        if (
+                            atc.temp_i
+                            == len(atc.desc) - int(self.map.width / 2 - 1) + 10
+                        ):
                             atc.temp_i = 0
                             atc.temp_j = -30
-                        atc.label_desc.rechar(atc.desc[atc.temp_i:
-                                                       int(self.map.width
-                                                           / 2 - 1)
-                                                       + atc.temp_i])
+                        atc.label_desc.rechar(
+                            atc.desc[
+                                atc.temp_i : int(self.map.width / 2 - 1) + atc.temp_i
+                            ]
+                        )
                     else:
                         atc.temp_j += 1
             self.map.show()

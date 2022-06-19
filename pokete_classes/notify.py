@@ -1,9 +1,11 @@
 """Contains classes for notifications"""
 
 import scrap_engine as se
+
 from pokete_general_use_fns import liner
-from .ui_elements import LabelBox
+
 from .color import Color
+from .ui_elements import LabelBox
 
 
 class Notification(LabelBox):
@@ -16,8 +18,9 @@ class Notification(LabelBox):
     def __init__(self, title, name, desc):
         self.title = title
         self.desc = desc
-        label = se.Text(title + "\n", esccode=Color.thicc, state="float")\
-                + se.Text(liner(desc, 30), state="float")
+        label = se.Text(title + "\n", esccode=Color.thicc, state="float") + se.Text(
+            liner(desc, 30), state="float"
+        )
         super().__init__(label, name)
 
     def corner_add(self, _map):
@@ -29,11 +32,13 @@ class Notification(LabelBox):
     def shift(self):
         """Shifts the box to the right"""
         self.x += 1
-        for i in self.frame.corners + [k for j in self.frame.horizontals
-                                       + self.frame.verticals + [
-                                           self.inner, self.name_label,
-                                           self.info_label,
-                                           self.label] for k in j.obs]:
+        for i in self.frame.corners + [
+            k
+            for j in self.frame.horizontals
+            + self.frame.verticals
+            + [self.inner, self.name_label, self.info_label, self.label]
+            for k in j.obs
+        ]:
             if i.x == self.map.width - 1:
                 i.remove()
             else:

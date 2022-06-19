@@ -19,10 +19,14 @@ class StdFrame(se.Frame):
         width: The frames width"""
 
     def __init__(self, height, width):
-        super().__init__(width=width, height=height,
-                         corner_chars=["┌", "┐", "└", "┘"],
-                         horizontal_chars=["─", "─"],
-                         vertical_chars=["│", "│"], state="float")
+        super().__init__(
+            width=width,
+            height=height,
+            corner_chars=["┌", "┐", "└", "┘"],
+            horizontal_chars=["─", "─"],
+            vertical_chars=["│", "│"],
+            state="float",
+        )
 
 
 class StdFrame2(se.Frame):
@@ -32,9 +36,13 @@ class StdFrame2(se.Frame):
         width: The frames width"""
 
     def __init__(self, height, width, state="solid"):
-        super().__init__(width=width, height=height,
-                         corner_chars=["_", "_", "|", "|"],
-                         horizontal_chars=["_", "_"], state=state)
+        super().__init__(
+            width=width,
+            height=height,
+            corner_chars=["_", "_", "|", "|"],
+            horizontal_chars=["_", "_"],
+            state=state,
+        )
 
 
 class Box(se.Box):
@@ -48,8 +56,9 @@ class Box(se.Box):
     def __init__(self, height, width, name="", info=""):
         super().__init__(height, width)
         self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=" ", width=width - 2, height=height - 2,
-                               state="float")
+        self.inner = se.Square(
+            char=" ", width=width - 2, height=height - 2, state="float"
+        )
         self.name_label = se.Text(name, state="float")
         self.info_label = se.Text(info, state="float")
         # adding
@@ -62,8 +71,11 @@ class Box(se.Box):
         """Adds the box to the maps center
         ARGS:
             _map: se.Map the box will be added to"""
-        self.add(_map, round((_map.width - self.width) / 2),
-                 round((_map.height - self.height) / 2))
+        self.add(
+            _map,
+            round((_map.width - self.width) / 2),
+            round((_map.height - self.height) / 2),
+        )
         return self
 
     def resize(self, height, width):
@@ -117,8 +129,10 @@ class ChooseBox(Box):
         """Moves the cursor in the box
         ARGS:
              inp: Inputted char"""
-        if {"'s'": self.index.index + 1 < len(self.c_obs),
-                "'w'": self.index.index - 1 >= 0}[inp]:
+        if {
+            "'s'": self.index.index + 1 < len(self.c_obs),
+            "'w'": self.index.index - 1 >= 0,
+        }[inp]:
             self.index.index += {"'s'": 1, "'w'": -1}[inp]
         else:
             self.index.index = {"'s'": 0, "'w'": len(self.c_obs) - 1}[inp]
@@ -163,15 +177,19 @@ class BetterChooserItem(Box):
 
     def choose(self):
         """Rechars the frame to be highlighted"""
-        self.frame.rechar(corner_chars=["┏", "┓", "┗", "┛"],
-                          horizontal_chars=["━", "━"],
-                          vertical_chars=["┃", "┃"])
+        self.frame.rechar(
+            corner_chars=["┏", "┓", "┗", "┛"],
+            horizontal_chars=["━", "━"],
+            vertical_chars=["┃", "┃"],
+        )
 
     def unchoose(self):
         """Rechars the frame to be not highlighted"""
-        self.frame.rechar(corner_chars=["┌", "┐", "└", "┘"],
-                          horizontal_chars=["─", "─"],
-                          vertical_chars=["│", "│"])
+        self.frame.rechar(
+            corner_chars=["┌", "┐", "└", "┘"],
+            horizontal_chars=["─", "─"],
+            vertical_chars=["│", "│"],
+        )
 
 
 class BetterChooseBox(Box):
@@ -185,9 +203,12 @@ class BetterChooseBox(Box):
     def __init__(self, columns, labels: [se.Text], name="", _map=None):
         self.nest_label_obs = []
         self.set_items(columns, labels, init=True)
-        super().__init__(3 * len(self.nest_label_obs) + 2,
-                         sum(i.width for i in self.nest_label_obs[0]) + 2,
-                         name, "q:close")
+        super().__init__(
+            3 * len(self.nest_label_obs) + 2,
+            sum(i.width for i in self.nest_label_obs[0]) + 2,
+            name,
+            "q:close",
+        )
         self.map = _map
         self.__add_obs()
         self.index = (0, 0)
@@ -215,15 +236,12 @@ class BetterChooseBox(Box):
         """Evaluates user input
         ARGS:
             inp: Inputted string"""
-        _c = {"'w'": (-1, 0),
-              "'s'": (1, 0),
-              "'a'": (0, -1),
-              "'d'": (0, 1)}[inp]
-        self.set_index((self.index[0] + _c[0])
-                            % len([i for i in self.nest_label_obs if len(i) >
-                                self.index[1]]),
-                       (self.index[1] + _c[1])
-                            % len(self.nest_label_obs[self.index[0]]))
+        _c = {"'w'": (-1, 0), "'s'": (1, 0), "'a'": (0, -1), "'d'": (0, 1)}[inp]
+        self.set_index(
+            (self.index[0] + _c[0])
+            % len([i for i in self.nest_label_obs if len(i) > self.index[1]]),
+            (self.index[1] + _c[1]) % len(self.nest_label_obs[self.index[0]]),
+        )
 
     def set_items(self, columns, labels: [se.Text], init=False):
         """Sets the items shown in the box
@@ -235,13 +253,19 @@ class BetterChooseBox(Box):
             for obj in i:
                 self.rem_ob(obj)
         box_width = sorted(len(i.text) for i in labels)[-1]
-        label_obs = [BetterChooserItem(3, box_width + 4, label, i)
-                     for i, label in enumerate(labels)]
-        self.nest_label_obs = [label_obs[i * columns:(i + 1) * columns]
-                               for i in range(int(len(labels) / columns) + 1)]
+        label_obs = [
+            BetterChooserItem(3, box_width + 4, label, i)
+            for i, label in enumerate(labels)
+        ]
+        self.nest_label_obs = [
+            label_obs[i * columns : (i + 1) * columns]
+            for i in range(int(len(labels) / columns) + 1)
+        ]
         if not init:
-            self.resize(3 * len(self.nest_label_obs) + 2,
-                        sum(i.width for i in self.nest_label_obs[0]) + 2)
+            self.resize(
+                3 * len(self.nest_label_obs) + 2,
+                sum(i.width for i in self.nest_label_obs[0]) + 2,
+            )
             self.__add_obs()
             try:
                 self.set_index(*self.index)
@@ -306,8 +330,12 @@ class InputBox(InfoBox):
 
     def __init__(self, infotext, introtext, text, max_len, name="", _map=None):
         height = len(infotext.split("\n")) + 3
-        width = sorted([len(i) for i in infotext.split("\n")]
-                        + [len(introtext) + 1 + max_len])[-1] + 4
+        width = (
+            sorted(
+                [len(i) for i in infotext.split("\n")] + [len(introtext) + 1 + max_len]
+            )[-1]
+            + 4
+        )
         super(LabelBox, self).__init__(height, width, name)
         self.map = _map
         self.infotext = se.Text(infotext)
@@ -315,8 +343,9 @@ class InputBox(InfoBox):
         self.text = se.Text(text)
         self.add_ob(self.infotext, 2, 1)
         self.add_ob(self.introtext, 2, len(infotext.split("\n")) + 1)
-        self.add_ob(self.text, self.introtext.rx + len(introtext) + 1,
-                    self.introtext.ry)
+        self.add_ob(
+            self.text, self.introtext.rx + len(introtext) + 1, self.introtext.ry
+        )
 
 
 if __name__ == "__main__":

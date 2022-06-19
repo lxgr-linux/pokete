@@ -27,10 +27,10 @@ Exit Codes:
 - 1: An internal error occurred
 - 2: The user did not specify the right/enough arguments
 """
-import os
-from os.path import exists
-import sys
 import json
+import os
+import sys
+from os.path import exists
 from urllib import request
 
 """
@@ -67,33 +67,34 @@ def replace_tables(_text: str) -> str:
     -------
     The input string, but with replaced markdown tables.
     """
-    out = ''
-    table = ''
+    out = ""
+    table = ""
     in_table = False
-    for line in _text.split('\n'):
-        if '|' in line:
+    for line in _text.split("\n"):
+        if "|" in line:
             in_table = True
             table += line
-            table += '\n'
+            table += "\n"
         else:
             if in_table:
                 in_table = False
-                with open('/tmp/pandoc_convert.md', 'w') as _f:
+                with open("/tmp/pandoc_convert.md", "w") as _f:
                     _f.write(table)
-                os.system('pandoc /tmp/pandoc_convert.md -o /tmp/pandoc_convert.html')
-                with open('/tmp/pandoc_convert.html', 'r') as _f:
+                os.system("pandoc /tmp/pandoc_convert.md -o /tmp/pandoc_convert.html")
+                with open("/tmp/pandoc_convert.html") as _f:
                     md_text = _f.read()
-                table = ''
+                table = ""
                 out += md_text
-                out += '\n'
+                out += "\n"
             else:
                 out += line
-                out += '\n'
+                out += "\n"
     return out
 
 
-def get_header(url: str = r'https://lxgr-linux.github.io/pokete',
-               header_end: str = r'<section>') -> str:
+def get_header(
+    url: str = r"https://lxgr-linux.github.io/pokete", header_end: str = r"<section>"
+) -> str:
     """Gets the first part of a webpage
 
     Arguments:
@@ -106,12 +107,13 @@ def get_header(url: str = r'https://lxgr-linux.github.io/pokete',
     The start of this webpage.
     """
     result = request.urlopen(url)
-    _text = result.read().decode('UTF-8').split(header_end)[0]
-    return _text + header_end + '\n'
+    _text = result.read().decode("UTF-8").split(header_end)[0]
+    return _text + header_end + "\n"
 
 
-def get_footer(url: str = r'https://lxgr-linux.github.io/pokete',
-               footer_start: str = r'</section>') -> str:
+def get_footer(
+    url: str = r"https://lxgr-linux.github.io/pokete", footer_start: str = r"</section>"
+) -> str:
     """Gets the last part of a webpage
 
     Arguments:
@@ -124,7 +126,7 @@ def get_footer(url: str = r'https://lxgr-linux.github.io/pokete',
     The end of this webpage.
     """
     result = request.urlopen(url)
-    _text = result.read().decode('UTF-8').split(footer_start)[1]
+    _text = result.read().decode("UTF-8").split(footer_start)[1]
     _text = footer_start + _text
     return _text
 
@@ -140,7 +142,7 @@ def create_documentation() -> None:
 
     for module in modules:
         print(f" -> {module}")
-        os.system(f"{pdoc_path} --html {module} --output-dir \"/tmp/doc/\" --force")
+        os.system(f'{pdoc_path} --html {module} --output-dir "/tmp/doc/" --force')
 
 
 def add_folder(folder: str, add_tmp_folder: bool = False) -> None:
@@ -159,11 +161,7 @@ def add_folder(folder: str, add_tmp_folder: bool = False) -> None:
     tmp_folder = os.path.join("/tmp", folder)
     if not os.path.isdir(tmp_folder):
         os.mkdir(tmp_folder)
-    files.update({
-        folder: {
-            "type": "folder"
-        }
-    })
+    files.update({folder: {"type": "folder"}})
 
 
 def create_wiki() -> None:
@@ -173,6 +171,7 @@ def create_wiki() -> None:
     gen_wiki file to add to the gh-pages.
     """
     from gen_wiki import Wiki
+
     Wiki.multi("./wiki-multi-md/")
     Wiki.single("./wiki-single.md")
 
@@ -223,15 +222,19 @@ def add_wiki_to_files() -> None:
     wiki_files = add_wiki_folder("./wiki-multi-md/")
     print(wiki_files)
     for wiki_file in wiki_files:
-        files.update({
+        files.update(
+            {
                 wiki_file: {
                     "type": "page",
                     "replace_tables": False,
                     "convert_with_pandoc": True,
                     "replace_links": [],
-                    "new_name": str(wiki_file.replace(".md", ".html")).replace("./wiki-multi-md/", "./wiki-multi-html/")
+                    "new_name": str(wiki_file.replace(".md", ".html")).replace(
+                        "./wiki-multi-md/", "./wiki-multi-html/"
+                    ),
                 }
-            })
+            }
+        )
     print(files)
 
 
@@ -241,7 +244,7 @@ def before() -> None:
     This functions creates documentation for all the files, replaces tables if necessary or converts the files with
     pandoc. All the files are then moved into the /mp directory.
     """
-    print(':: Preparing files for gh-pages...')
+    print(":: Preparing files for gh-pages...")
     print("==> Generating documentation with pdoc...")
     create_documentation()
     print("==> Creating Wiki...")
@@ -255,7 +258,9 @@ def before() -> None:
         if properties["type"] == "documentation" or properties["type"] == "folder":
             continue
 
-        new_name = properties["new_name"] if properties["new_name"] is not None else file
+        new_name = (
+            properties["new_name"] if properties["new_name"] is not None else file
+        )
 
         # Jekyll can not handle double open/closing brackets (e.g. {{) , so we
         # need to manually convert these pages.
@@ -263,33 +268,33 @@ def before() -> None:
         # root page to the start and the end of the
         if properties["convert_with_pandoc"]:
             print(" -> Converting to html...")
-            os.system(f"pandoc --from gfm --to html5 -o \"{new_name}\" \"{file}\"")
+            os.system(f'pandoc --from gfm --to html5 -o "{new_name}" "{file}"')
 
         # Tables only need to be replaced, if the file is not converted with
         # pandoc, as pandoc is converting the tables automatically.
         elif properties["replace_tables"]:
             print(" -> Replacing Tables...")
-            with open(file, 'r') as f:
+            with open(file) as f:
                 text = f.read()
                 text = replace_tables(text)
-            with open(new_name, 'w') as f:
+            with open(new_name, "w") as f:
                 f.write(text)
 
         # If no operation was performed, we need to move the file, in order to
         # not interrupt the workflow.
         else:
-            os.system(f"mv \"{file}\" \"{new_name}\"")
+            os.system(f'mv "{file}" "{new_name}"')
 
         print(" -> Copying to /tmp...")
-        os.system(f"cp \"{new_name}\" \"/tmp/{new_name}\"")
+        os.system(f'cp "{new_name}" "/tmp/{new_name}"')
 
         files[file]["new_name"] = new_name
 
     print("Saving configuration...")
-    with open('/tmp/prepare_pages_saves.py', 'w') as f:
+    with open("/tmp/prepare_pages_saves.py", "w") as f:
         f.write(str(files))
 
-    print(':: Done!')
+    print(":: Done!")
 
 
 def after() -> None:
@@ -301,31 +306,33 @@ def after() -> None:
     look on all gh-pages pages. This function then replaces all the links for
     each file.
     """
-    print(':: After processing files for gh-pages...')
-    print(':: Acquiring assets...')
-    print('==> header')
-    header = get_header(url='https://lxgr-linux.github.io/pokete',
-                        header_end='<section>')
+    print(":: After processing files for gh-pages...")
+    print(":: Acquiring assets...")
+    print("==> header")
+    header = get_header(
+        url="https://lxgr-linux.github.io/pokete", header_end="<section>"
+    )
     print(header)
-    print('==> footer')
-    footer = get_footer(url='https://lxgr-linux.github.io/pokete',
-                        footer_start='</section>')
+    print("==> footer")
+    footer = get_footer(
+        url="https://lxgr-linux.github.io/pokete", footer_start="</section>"
+    )
     print(footer)
     # We need to store the configuration to keep the "new_name" attribute from
     # the before run.
     print(":: Loading configuration...")
-    with open('/tmp/prepare_pages_saves.py', 'r') as f:
+    with open("/tmp/prepare_pages_saves.py") as f:
         text = f.read()
         new_files = eval(text)
 
-    print(':: Processing files...')
-    print('==> Making directories...')
-    print(' -> wiki-multi-html')
-    add_folder('wiki-multi-html', False)
+    print(":: Processing files...")
+    print("==> Making directories...")
+    print(" -> wiki-multi-html")
+    add_folder("wiki-multi-html", False)
     for file in new_files.keys():
         properties = new_files[file]
         if properties["type"] == "folder":
-            print(' -> ' + file)
+            print(" -> " + file)
             add_folder(file, False)
     documentation_copied = False
     for file in new_files.keys():
@@ -345,20 +352,22 @@ def after() -> None:
         elif properties["type"] == "folder":
             continue
 
-        new_name = properties["new_name"] if properties["new_name"] is not None else file
-        print(f'==> After processing {new_name}')
+        new_name = (
+            properties["new_name"] if properties["new_name"] is not None else file
+        )
+        print(f"==> After processing {new_name}")
 
         # If a file was converted with pandoc, it needs the stylesheet
         # (in the header) and a footer.
         if properties["convert_with_pandoc"]:
             print("-> Applying Styles...")
-            with open(f"/tmp/{new_name}", 'r') as f:
+            with open(f"/tmp/{new_name}") as f:
                 text = f.read()
-            with open(new_name, 'w') as f:
+            with open(new_name, "w") as f:
                 f.write(header + text + footer)
         else:
             print(" -> Copying to current directory...")
-            os.system(f"cp \"/tmp/{new_name}\" .")
+            os.system(f'cp "/tmp/{new_name}" .')
 
         # Links need to be replaced from directory and markdown direct links
         # (wiki.md) into website links (./wiki)
@@ -375,21 +384,21 @@ def after() -> None:
                 os.system(f"sed -i 's#]({old}#]({new}#g' {new_name}")
     print("==> Renaming 'wiki-multi-html' to 'wiki-multi'...")
     os.system("mv './wiki-multi-html/' './wiki-multi'")
-    print(':: Done!')
+    print(":: Done!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) == 1:
-        print('Error! Not enough arguments:')
+        print("Error! Not enough arguments:")
         print(f"Usage: '{sys.argv[0]}' <after|before>")
         sys.exit(2)
-    if sys.argv[1] == 'before':
-        with open('.gh-pages.json', 'r') as config_file:
+    if sys.argv[1] == "before":
+        with open(".gh-pages.json") as config_file:
             files = json.loads(config_file.read())
         before()
-    elif 'after' == sys.argv[1]:
+    elif "after" == sys.argv[1]:
         after()
     else:
-        print('Error! Unrecognised first argument:')
+        print("Error! Unrecognised first argument:")
         print(f"Usage: '{sys.argv[0]}' <after|before>")
         sys.exit(2)

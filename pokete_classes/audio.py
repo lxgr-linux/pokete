@@ -1,14 +1,15 @@
 """This manages audio playback"""
 
 import multiprocessing
+
 try:
     from playsound import playsound
 except ModuleNotFoundError:
     from .dummy_playsound import playsound
+
 from .settings import settings
 
-
-MUSIC_PATH = __file__.replace("pokete_classes/audio.py", 'assets/music/')
+MUSIC_PATH = __file__.replace("pokete_classes/audio.py", "assets/music/")
 
 
 def audio_fn(song):
@@ -27,10 +28,7 @@ class Audio:
         """Starts playing a song
         ARGS:
             song: The song played"""
-        self.curr = multiprocessing.Process(
-            target=audio_fn,
-            args=(song, )
-        )
+        self.curr = multiprocessing.Process(target=audio_fn, args=(song,))
         self.curr.start()
 
     def switch(self, song):
@@ -44,5 +42,5 @@ class Audio:
         """Kills the running music"""
         self.curr.terminate()
 
-audio = Audio()
 
+audio = Audio()

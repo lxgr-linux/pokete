@@ -1,13 +1,15 @@
 """Contains all classes relevant to show the roadmap"""
 
 import scrap_engine as se
-import pokete_data as p_data
+
 import pokete_classes.ob_maps as obmp
+import pokete_data as p_data
 from pokete_general_use_fns import liner
-from .loops import std_loop, easy_exit_loop
+
 from .color import Color
-from .ui_elements import Box, InfoBox
 from .event import _ev
+from .loops import easy_exit_loop, std_loop
+from .ui_elements import Box, InfoBox
 
 
 class RoadMapException(Exception):
@@ -30,11 +32,24 @@ class Station(se.Square):
         desc: The associated description
         char: Displayed char
         {w,a,s,d}_next: The next Station's name in a certain direction"""
+
     choosen = None
     obs = []
 
-    def __init__(self, roadmap, associate, additionals, width, height, desc,
-                 char="#", w_next="", a_next="", s_next="", d_next=""):
+    def __init__(
+        self,
+        roadmap,
+        associate,
+        additionals,
+        width,
+        height,
+        desc,
+        char="#",
+        w_next="",
+        a_next="",
+        s_next="",
+        d_next="",
+    ):
         self.desc = desc
         self.roadmap = roadmap
         self.org_char = char
@@ -73,8 +88,7 @@ class Station(se.Square):
 
     def is_city(self):
         """Returns if the station is a city"""
-        return "pokecenter"\
-            in p_data.map_data[self.associates[0].name]["hard_obs"]
+        return "pokecenter" in p_data.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
         """Marks a station as visited
@@ -96,10 +110,10 @@ class RoadMap:
         self.fig = fig
         self.box = Box(11, 40, "Roadmap", "q:close")
         self.info_label = se.Text("", state="float")
-        self.box.add_ob(self.info_label, self.box.width-2, 0)
+        self.box.add_ob(self.info_label, self.box.width - 2, 0)
         for sta, _dict in p_data.stations.items():
-            obj = Station(self, obmp.ob_maps[sta], **_dict['gen'])
-            self.box.add_ob(obj, **_dict['add'])
+            obj = Station(self, obmp.ob_maps[sta], **_dict["gen"])
+            self.box.add_ob(obj, **_dict["add"])
             setattr(self, sta, obj)
 
     @property
@@ -114,7 +128,7 @@ class RoadMap:
         self.info_label.remove()
         self.box.rem_ob(self.info_label)
         self.info_label.rechar(name)
-        self.box.add_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.box.add_ob(self.info_label, self.box.width - 2 - len(name), 0)
 
     def __call__(self, _map, choose=False):
         """Shows the roadmap
@@ -124,12 +138,17 @@ class RoadMap:
         _ev.clear()
         for i in Station.obs:
             i.set_color(choose)
-        [i for i in Station.obs
-         if (self.fig.map
-             if self.fig.map not in [obmp.ob_maps[i] for i in
-                                            ["shopmap", "centermap"]]
-             else self.fig.oldmap)
-         in i.associates][0].choose()
+        [
+            i
+            for i in Station.obs
+            if (
+                self.fig.map
+                if self.fig.map
+                not in [obmp.ob_maps[i] for i in ["shopmap", "centermap"]]
+                else self.fig.oldmap
+            )
+            in i.associates
+        ][0].choose()
         with self.box.center_add(_map):
             while True:
                 if _ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
@@ -138,22 +157,37 @@ class RoadMap:
                 elif _ev.get() in ["'3'", "Key.esc", "'q'"]:
                     _ev.clear()
                     break
-                elif (_ev.get() == "Key.enter" and choose
-                      and self.sta.has_been_visited()
-                      and self.sta.is_city()):
+                elif (
+                    _ev.get() == "Key.enter"
+                    and choose
+                    and self.sta.has_been_visited()
+                    and self.sta.is_city()
+                ):
                     return self.sta.associates[0]
-                elif (_ev.get() == "Key.enter" and not choose
-                      and self.sta.has_been_visited()):
+                elif (
+                    _ev.get() == "Key.enter"
+                    and not choose
+                    and self.sta.has_been_visited()
+                ):
                     _ev.clear()
-                    p_list = ", ".join(set(p_data.pokes[j]["name"]
-                                       for i in self.sta.associates
-                                           for j in
-                                           i.poke_args.get("pokes", [])
-                                           + i.w_poke_args.get("pokes", [])))
-                    with InfoBox(liner(self.sta.desc
-                                       + "\n\n Here you can find: " +
-                                       (p_list if p_list != "" else "Nothing"),
-                                       30), self.sta.name, _map=_map):
+                    p_list = ", ".join(
+                        {
+                            p_data.pokes[j]["name"]
+                            for i in self.sta.associates
+                            for j in i.poke_args.get("pokes", [])
+                            + i.w_poke_args.get("pokes", [])
+                        }
+                    )
+                    with InfoBox(
+                        liner(
+                            self.sta.desc
+                            + "\n\n Here you can find: "
+                            + (p_list if p_list != "" else "Nothing"),
+                            30,
+                        ),
+                        self.sta.name,
+                        _map=_map,
+                    ):
                         easy_exit_loop()
                 std_loop()
                 _map.show()
@@ -165,7 +199,7 @@ class RoadMap:
         all_road_maps = ["centermap", "shopmap"]
         for i, _dict in p_data.stations.items():
             all_road_maps.append(i)
-            all_road_maps += _dict['gen']['additionals']
+            all_road_maps += _dict["gen"]["additionals"]
 
         for _, _map in obmp.ob_maps.items():
             if _map.name not in all_road_maps:

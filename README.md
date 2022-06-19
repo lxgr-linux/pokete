@@ -18,11 +18,15 @@
 ![Example](assets/ss/ss01.png)
 
 [See more example pics](assets/pics.md)
+
 ## What is it?
+
 Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak.
 
 ## Installation
+
 For Linux just do this:
+
 ```shell
 # pip install scrap_engine playsound pygobject
 $ git clone https://github.com/lxgr-linux/pokete.git
@@ -30,6 +34,7 @@ $ ./pokete/pokete.py
 ```
 
 You can also install it from the AUR:
+
 ```shell
 $ buildaur -S pokete-git
 ```
@@ -44,14 +49,17 @@ For Windows and OSX:
 git clone https://github.com/lxgr-linux/pokete.git
 pip install scrap_engine pynput playsound pygobject
 ```
+
 To run just execute `pokete.py`.
 
 ## Usage
+
 The game can be run normaly by not supplying any options.
 For non gameplay related usage see `--help`.
 Try it out [online](https://replit.com/@lxgr-linux/pokete).
 
 ## How to play?
+
 Imagine you're a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
 
 First of all you get a starter Pokete (Steini), that you can use to fight battles with other Poketes.
@@ -73,6 +81,7 @@ The red balls all over the map are Poketeballs. You'll need these to catch Poket
 See [How to play](HowToPlay.md).
 
 ## Game depth
+
 Not only are there Poketes that are stronger than others, but also Poketes with different types, which are effective against some types and ineffective against others.
 
 Type|Effective against|Ineffective against
@@ -92,16 +101,19 @@ For additional information you can see [wiki](wiki.md) or
 [the multi-page wiki](https://lxgr-linux.github.io/pokete/wiki-multi).
 
 ## Mods
+
 Mods can be written to extend Pokete. To load a mod, the mod has to be placed in `mods` and mods have to be enabled in the menu.
 For an example mod see [example.py](mods/example.py).
 
 ## Tips
+
 - In conversations you can very easily skip the text printing by pressing any key
 - When you want to see the next text in a conversation: also just press any key
 - Don't play on full-screen; the game then starts to be overseeable
 - Don't be offended by the other trainers; they may swear at you
 
 ## TODO
+
 - [x] Add a wizard to set name and choose starter Pokete at the start
 - [ ] Add More maps
 - [x] Add types for attacks and Poketes
@@ -117,10 +129,12 @@ For an example mod see [example.py](mods/example.py).
 - [x] Add colour codes for types
 
 ## Dependencies
+
 Pokete depends on python3 and the scrap_engine module.
 On windows pynput has to be installed too.
 
 ## Documentation
+
 - [Documentation for pokete_classes](https://lxgr-linux.github.io/pokete/doc/pokete_classes/index.html)
 - [Documentation for pokete_data](https://lxgr-linux.github.io/pokete/doc/pokete_data/index.html)
 - [Documentation for the gen-wiki file](https://lxgr-linux.github.io/pokete/doc/gen_wiki.html "gen_wiki.py")
@@ -129,15 +143,18 @@ On windows pynput has to be installed too.
 - [Documentation for the main file "pokete.py"](https://lxgr-linux.github.io/pokete/doc/pokete.html "pokete.py")
 
 ## Releases
+
 For release information see [Changelog](Changelog.md).
 
 ## Contributing
+
 Feel free to contribute what ever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
 
 To see how to add more poketes/types/attacks to the game, see [the DevGuide](DevGuide.md)
 
 After adding new Poketes and/or Attacks you may want to run
+
 ```shell
 $ ./gen_wiki.py
 ```
@@ -145,10 +162,13 @@ $ ./gen_wiki.py
 to regenerate the wiki and adding them to it.
 
 ## Credits
+
 Music:
+
 - Eric Skiff - Resistor Anthems - Available at [http://EricSkiff.com/music](http://EricSkiff.com/music)
 - Marllon Silva (xDeviruchi) - 8-bit-fantasy-adventure-music-pack - Available at [itch.io](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
 - SketchyLogic - Map - Available at [opengameart.org](https://opengameart.org/content/nes-shooter-music-5-tracks-3-jingles)
 
 ## Trouble shooting
+
 If you're experiencing problems on Japanese systems take a look at [this](https://gist.github.com/z80oolong/c7523367b798bdda094f859342f4c8be).

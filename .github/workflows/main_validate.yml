@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Validate
         run: |
           python3 -c "import pokete_data; print(':: Validating'); pokete_data.validate(); print(':: Done')"

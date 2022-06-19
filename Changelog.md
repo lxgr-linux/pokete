@@ -11,34 +11,36 @@ Just some small bugfixes.
 ## [0.7.0] - 2022-06-06
 
 ### Under the hood
+
 - Massive code reorganisation
 - Added `PeriodicEventManager`, introducing a centralized approach to handling periodically occurring events
 - Enabled pipenv support
 
 ### Game design and behaviour
+
 - After all Poketes are dead, players are now transported back to the last visited Pokete center
 - Multiple Poketes in a fight are now automatically possible
 - NPCs are way smarter now and support multi-answer chats
 - Added achievements visible via a submenu
 - Added commandline options
 - Several new Poketes have been added:
-	+ [Voglus](wiki.md#voglus)
-	+ [Ratatat](wiki.md#ratatat)
-	+ [Crabbat](wiki.md#crabbat)
-	+ [Rustacean](wiki.md#rustacean)
-	+ [Saugh](wiki.md#saugh)
-	+ [Corcos day](wiki.md#corcos-day)
-	+ [Corcos night](wiki.md#corcos-night)
-	+ [Raupathor day](wiki.md#raupathor-day)
-	+ [Raupathor night](wiki.md#raupathor-night)
-	+ [Mothor](wiki.md#mothor)
+  - [Voglus](wiki.md#voglus)
+  - [Ratatat](wiki.md#ratatat)
+  - [Crabbat](wiki.md#crabbat)
+  - [Rustacean](wiki.md#rustacean)
+  - [Saugh](wiki.md#saugh)
+  - [Corcos day](wiki.md#corcos-day)
+  - [Corcos night](wiki.md#corcos-night)
+  - [Raupathor day](wiki.md#raupathor-day)
+  - [Raupathor night](wiki.md#raupathor-night)
+  - [Mothor](wiki.md#mothor)
 - Also the maps "Agrawos" and "Sunny Beach" have been added
 - Weather influencing effectivities has been added
 - Added notifications
 - Ingame time was added:
-	+ Day and Night active Poketes
-	+ A clock
-	+ Time stops after a certain period of idling
+  - Day and Night active Poketes
+  - A clock
+  - Time stops after a certain period of idling
 - Treats and the Pokete-Care where added to make leveling easier
 - The game is now available as an AppImage
 - The newly added natures now influence a Poketes stats on an individual basis
@@ -50,6 +52,7 @@ Again very special thanks to @MaFeLP for supporting me!
 ## [0.6.0] - 2021-11-09
 
 What changed until this release?
+
 - Added [Diamondos](wiki.md#diamondos), [Dia stab](wiki.md#dia-stab), [Dazzle](wiki.md#dazzle), [Dia spikes](wiki.md#dia-spikes)
 - Added [Megapois](wiki.md#megapois), [Poison thorn](wiki.md#poison-thorn)
 - Added [Dicko](wiki.md#dicko), [Lil nut](wiki.md#lil-nut)
@@ -71,16 +74,15 @@ What changed until this release?
 - Reformated, moved, outsourced, chnages a lot of code
 Again special thanks to MaFeLP
 
-
 ## [0.5.1] - 2021-09-19
 
 Some minor changes due to API changes in scrap_engine v1.0.0.
 scrap_engine v1.0.0 is now required.
 
-
 ## [0.5.0] - 2021-09-10
 
 What changed until this release?
+
 - Improve Help
 - Added CODENAME: Grey Edition
 - Now unvisited maps names are not displayed in Roadmap anymore
@@ -100,10 +102,10 @@ What changed until this release?
 - Added flying
 - scrap_engine v0.3.3 is now needed
 
-
 ## [0.4.1] - 2021-08-08
 
 What changed until this release?
+
 - Added [EffectFreezing](wiki.md#freezing)
 - Added ice Poketes ([Cubl](wiki.md#cubl), [Spikl](wiki.md#spikl)) and attacks ([freeze](wiki.md#freeze), [Snow storm](wiki.md#snow-storm), [Sword of ice](wiki.md#sword-of-ice))
 - Added some more new Poketes ([Confuso](wiki.md#confuso), [Poisopla](wiki.md#poisopla)) and attacks ([Confusion](wiki.md#confusion), [Posion spores](wiki.md#poison-spores), [Root slap](wiki.md#root-slap))
@@ -117,10 +119,10 @@ What changed until this release?
 - Cleaned up save file to be more readable for humans
 - Changed development flow
 
-
 ## [0.4.0] - 2021-08-01
 
 What changed until this release?
+
 - Added confirmation for running away
 - Made playmap_1 way easier
 - Changed attack list to start with 1 and not 0
@@ -141,27 +143,27 @@ What changed until this release?
 - Made some functions a class
 - Made some other quality of life changes
 
-
 ## [0.3.8] - 2021-07-07
 
 What changed until this release?
+
 - Added coloured type tags and attack labels
 - Added ice type
 - Added about
 - Added a now Pokete
 - Made some minor fixes and changes
 
-
 ## [0.3.7] - 2021-06-30
 
 What changed until this release?
+
 - Added trading with other players in the same network
 - Simplified some code
-
 
 ## [0.3.6] - 2021-06-28
 
 What changed until this release?
+
 - scrap_engine 0.3.0 in now needed
 - Added initiative attribute for Poketes to determine which Pokete attacks first
 - Several minor fixed and additions
@@ -169,6 +171,7 @@ What changed until this release?
 ## [0.3.5] - 2021-06-25
 
 What changed until this release?
+
 - Compatibility with scrap_engine 0.2.0
 - Added validation for pokete_data
 - Added Intro
@@ -176,6 +179,7 @@ What changed until this release?
 ## [0.3.4] - 2021-06-21
 
 What changed until this release?
+
 - Added Changelog.md
 - Added Route 6, bigmountain see and bigmountain cave
 - Improved wiki.md
@@ -187,6 +191,7 @@ What changed until this release?
 ## [0.3.3] - 2021-06-15
 
 What changed until this release?
+
 - Trainers are now more likely to use effective attacks
 - Added autosave
 - Added a proper settings system
@@ -202,6 +207,7 @@ What changed until this release?
 ## [0.3.2] - 2021-06-08
 
 What changed until this release?
+
 - Added route 3
 - Added route 4
 - Added Deepest forest
@@ -213,6 +219,7 @@ What changed until this release?
 ## [0.3.1] - 2021-06-04
 
 What changed until this release?
+
 - Added Abandoned village
 - Added clampi
 - Added more NPCs

@@ -1,19 +1,22 @@
 """Contains all classes needed to generate NPCs"""
 
-import time
 import logging
 import random
+import time
+
 import scrap_engine as se
+
 import pokete_classes.fightmap as fm
 import pokete_classes.movemap as mvp
-from .providers import Provider
-from .loops import std_loop
-from .input import ask_bool
-from .inv_items import invitems
-from .settings import settings
-from .ui_elements import ChooseBox
+
 from .event import _ev
 from .general import check_walk_back
+from .input import ask_bool
+from .inv_items import invitems
+from .loops import std_loop
+from .providers import Provider
+from .settings import settings
+from .ui_elements import ChooseBox
 
 
 class NPCTrigger(se.Object):
@@ -32,6 +35,7 @@ class NPCTrigger(se.Object):
 
 class NPC(se.Box):
     """An NPC to talk to"""
+
     fig = None
     npcactions = None
     registry = {}
@@ -78,8 +82,9 @@ class NPC(se.Box):
         """Shows the exclamation on top of a NPC"""
         exclamation = se.Object("!")
         try:
-            exclamation.add(mvp.movemap, self.x - mvp.movemap.x,
-                            self.y - 1 - mvp.movemap.y)
+            exclamation.add(
+                mvp.movemap, self.x - mvp.movemap.x, self.y - 1 - mvp.movemap.y
+            )
         except se.CoordinateError:
             pass
         mvp.movemap.show()
@@ -110,12 +115,22 @@ class NPC(se.Box):
         RETURNS:
             bool: Whether or not the walk is possible"""
         vec = se.Line(" ", x - self.x, y - self.y)
-        ret = not any([any(j.state == "solid"
-                           for j in
-                           self.map.obmap[i.ry + self.y][i.rx + self.x])
-                       for i in vec.obs][1:])
-        logging.info("[NPC][%s] %s walk check to (%d|%d)",
-                     self.name, 'Succeeded' if ret else 'Failed', x, y)
+        ret = not any(
+            [
+                any(
+                    j.state == "solid"
+                    for j in self.map.obmap[i.ry + self.y][i.rx + self.x]
+                )
+                for i in vec.obs
+            ][1:]
+        )
+        logging.info(
+            "[NPC][%s] %s walk check to (%d|%d)",
+            self.name,
+            "Succeeded" if ret else "Failed",
+            x,
+            y,
+        )
         return ret
 
     def walk_point(self, x, y):
@@ -143,8 +158,11 @@ class NPC(se.Box):
             item: Item name"""
         item = getattr(invitems, item)
         self.set_used()
-        if ask_bool(mvp.movemap, f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?"):
+        if ask_bool(
+            mvp.movemap,
+            f"{name} gifted you a '{item.pretty_name}'. \
+Do you want to accept it?",
+        ):
             self.fig.give_item(item.name)
 
     @property
@@ -174,16 +192,19 @@ Do you want to accept it?"):
             if q_a["a"] == {}:
                 break
             keys = list(q_a["a"].keys())
-            c_b = ChooseBox(len(keys) + 2,
-                            sorted(len(i) for i in keys)[-1] + 6,
-                            name="Answer",
-                            c_obs=[se.Text(i, state="float")
-                                     for i in keys])
+            c_b = ChooseBox(
+                len(keys) + 2,
+                sorted(len(i) for i in keys)[-1] + 6,
+                name="Answer",
+                c_obs=[se.Text(i, state="float") for i in keys],
+            )
             c_b.frame.corners[0].rechar("^")
-            mvp.movemap.assure_distance(self.fig.x, self.fig.y,
-                                        c_b.width + 2, c_b.height + 2)
-            with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
-                         self.fig.y - mvp.movemap.y + 1):
+            mvp.movemap.assure_distance(
+                self.fig.x, self.fig.y, c_b.width + 2, c_b.height + 2
+            )
+            with c_b.add(
+                mvp.movemap, self.fig.x - mvp.movemap.x, self.fig.y - mvp.movemap.y + 1
+            ):
                 while True:
                     if _ev.get() in ["'w'", "'s'"]:
                         c_b.input(_ev.get())
@@ -199,8 +220,7 @@ Do you want to accept it?"):
 class Trainer(NPC, Provider):
     """Trainer class to fight against"""
 
-    def __init__(self, pokes, name, gender, texts, lose_texts,
-                 win_texts):
+    def __init__(self, pokes, name, gender, texts, lose_texts, win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
         Provider.__init__(self, pokes)
         # attributes
@@ -212,13 +232,16 @@ class Trainer(NPC, Provider):
         return random.choices(
             self.curr.attack_obs,
             weights=[
-                i.ap * (
-                    1.5 if enem.curr.type.name in i.type.effective
-                    else 0.5 if enem.curr.type.name in i.type.ineffective
+                i.ap
+                * (
+                    1.5
+                    if enem.curr.type.name in i.type.effective
+                    else 0.5
+                    if enem.curr.type.name in i.type.ineffective
                     else 1
                 )
                 for i in self.curr.attack_obs
-            ]
+            ],
         )[0]
 
     def add(self, _map, x, y):
@@ -239,26 +262,31 @@ class Trainer(NPC, Provider):
         if self.fig.has_item("shut_the_fuck_up_stone"):
             return
         self.pokes = [p for p in self.pokes if p.hp > 0]
-        if self.pokes and (not self.used
-                                 or not settings("save_trainers").val) \
-                and self.check_walk(self.fig.x, self.fig.y):
+        if (
+            self.pokes
+            and (not self.used or not settings("save_trainers").val)
+            and self.check_walk(self.fig.x, self.fig.y)
+        ):
             mvp.movemap.full_show()
             time.sleep(0.7)
             self.exclamate()
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
                 self.text(self.texts)
-                winner = fm.fightmap.fight(
-                    [self.fig, self]
+                winner = fm.fightmap.fight([self.fig, self])
+                is_winner = winner == self
+                self.text(
+                    {True: self.lose_texts, False: self.win_texts + ["Here's $20!"]}[
+                        is_winner
+                    ]
                 )
-                is_winner = (winner == self)
-                self.text({True: self.lose_texts,
-                           False: self.win_texts + ["Here's $20!"]}
-                          [is_winner])
                 if not is_winner:
                     self.fig.add_money(20)
                     self.set_used()
-                logging.info("[NPC][%s] %s against player", self.name,
-                             'Lost' if not is_winner else 'Won')
+                logging.info(
+                    "[NPC][%s] %s against player",
+                    self.name,
+                    "Lost" if not is_winner else "Won",
+                )
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.fig)

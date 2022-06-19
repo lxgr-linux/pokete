@@ -1,6 +1,7 @@
 v0.7.2
 
 # Pokete wiki
+
 This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
 This wiki can be generated using ```$ ./gen_wiki.py```.
 
@@ -12,6 +13,7 @@ You can find different versions of this wiki:
 - A multi-page version can be found [here](https://lxgr-linux.github.io/pokete/wiki-multi/)
 
 ## Table of contents
+
 1. [Poketes](#poketes)
    1. [Electro Poketes](#electro-poketes)
        1. [Electrode](#electrode)
@@ -168,10 +170,13 @@ You can find different versions of this wiki:
    6. [Freezing](#freezing)
 
 ## Poketes
+
 In the following all Poketes with their attributes are displayed.
 
 ### Electro Poketes
+
 #### Electrode
+
 A small floating ball that will give you a shock.
 
 ```
@@ -191,16 +196,18 @@ A small floating ball that will give you a shock.
 - Rarity: 0.8
 - Loosing experience: 3
 - Attacks:
-   + [Shock](#shock)
-   + [Charging](#charging)
-   + [Mega Arch](#mega-arch)
+  - [Shock](#shock)
+  - [Charging](#charging)
+  - [Mega Arch](#mega-arch)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
 ### Fire Poketes
+
 #### Wolfior
+
 A fiery wolf straight from hell that likes to burn 11 years old butts off.
 
 ```
@@ -220,18 +227,19 @@ A fiery wolf straight from hell that likes to burn 11 years old butts off.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Fire Bite](#fire-bite)
-   + [Ash Throw](#ash-throw)
+  - [Tackle](#tackle)
+  - [Fire Bite](#fire-bite)
+  - [Ash Throw](#ash-throw)
 - Active: Always
 - Can be found in:
-   + Route 1
-   + Sunnydale
-   + Sunnydale Lake
-   + Route 3
+  - Route 1
+  - Sunnydale
+  - Sunnydale Lake
+  - Route 3
 - Evolves to [Wolfiro](#wolfiro) at level 25
 
 #### Wolfiro
+
 A fiery wolf from hell on steroids.
 
 ```
@@ -251,17 +259,19 @@ A fiery wolf from hell on steroids.
 - Rarity: 1
 - Loosing experience: 4
 - Attacks:
-   + [Tackle](#tackle)
-   + [Fire Bite](#fire-bite)
-   + [Ash Throw](#ash-throw)
-   + [Fire Ball](#fire-ball)
+  - [Tackle](#tackle)
+  - [Fire Bite](#fire-bite)
+  - [Ash Throw](#ash-throw)
+  - [Fire Ball](#fire-ball)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
 ### Flying Poketes
+
 #### Bato
+
 An annoying flying rat.
 
 ```
@@ -281,17 +291,18 @@ WW\/* *\/WW
 - Rarity: 1.3
 - Loosing experience: 3
 - Attacks:
-   + [Bite](#bite)
-   + [Cry](#cry)
+  - [Bite](#bite)
+  - [Cry](#cry)
 - Active: Always
 - Can be found in:
-   + Nice Town Cave
-   + Mysterious Cave
-   + Dark Cave
-   + Big Mountain Cave
+  - Nice Town Cave
+  - Mysterious Cave
+  - Dark Cave
+  - Big Mountain Cave
 - Evolves to [Bator](#bator) at level 20
 
 #### Bator
+
 A chongus flying rat.
 
 ```
@@ -311,17 +322,17 @@ WW\/o o\/WW
 - Rarity: 0.2
 - Loosing experience: 4
 - Attacks:
-   + [Bite](#bite)
-   + [Cry](#cry)
-   + [Poison Bite](#poison-bite)
-   + [Wing Hit](#wing-hit)
+  - [Bite](#bite)
+  - [Cry](#cry)
+  - [Poison Bite](#poison-bite)
+  - [Wing Hit](#wing-hit)
 - Active: Always
 - Can be found in:
-   + Mysterious Cave
+  - Mysterious Cave
 - Does not evolve
 
-
 #### Mothor
+
 A dark butterfly that will schmetter you away.
 
 ```
@@ -341,15 +352,15 @@ A dark butterfly that will schmetter you away.
 - Rarity: 1
 - Loosing experience: 4
 - Attacks:
-   + [Schmetter](#schmetter)
-   + [Wing Hit](#wing-hit)
+  - [Schmetter](#schmetter)
+  - [Wing Hit](#wing-hit)
 - Active: Night
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Ostri
+
 A very aggressive bird Pokete that lives near deserts; it will try to peck out your eyes.
 
 ```
@@ -369,16 +380,16 @@ A very aggressive bird Pokete that lives near deserts; it will try to peck out y
 - Rarity: 0.6
 - Loosing experience: 4
 - Attacks:
-   + [Tackle](#tackle)
-   + [Eye Peck](#eye-pick)
-   + [Brooding](#brooding)
+  - [Tackle](#tackle)
+  - [Eye Peck](#eye-pick)
+  - [Brooding](#brooding)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Owol
+
 A nocturnal Pokete that is looking for small children to eat as a midnight snack.
 
 ```
@@ -398,21 +409,21 @@ A nocturnal Pokete that is looking for small children to eat as a midnight snack
 - Rarity: 0.5
 - Loosing experience: 2
 - Attacks:
-   + [Peck](#pick)
-   + [Wing Hit](#wing-hit)
-   + [Cry](#cry)
+  - [Peck](#pick)
+  - [Wing Hit](#wing-hit)
+  - [Cry](#cry)
 - Active: Night
 - Can be found in:
-   + Abandoned Village
-   + Route 3
-   + Route 4
-   + Deepest Forest
-   + Route 5
-   + Route 6
+  - Abandoned Village
+  - Route 3
+  - Route 4
+  - Deepest Forest
+  - Route 5
+  - Route 6
 - Does not evolve
 
-
 #### Schmetterling
+
 A butterfly that will schmetter you away.
 
 ```
@@ -432,15 +443,15 @@ A butterfly that will schmetter you away.
 - Rarity: 1
 - Loosing experience: 3
 - Attacks:
-   + [Schmetter](#schmetter)
-   + [Wing Hit](#wing-hit)
+  - [Schmetter](#schmetter)
+  - [Wing Hit](#wing-hit)
 - Active: Day
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Vogli
+
 A very common bird Pokete; it lives everywhere.
 
 ```
@@ -460,16 +471,17 @@ A very common bird Pokete; it lives everywhere.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Power Peck](#power-pick)
+  - [Tackle](#tackle)
+  - [Power Peck](#power-pick)
 - Active: Always
 - Can be found in:
-   + Nice Town
-   + Route 4
-   + Deepest Forest
+  - Nice Town
+  - Route 4
+  - Deepest Forest
 - Evolves to [Voglo](#voglo) at level 20
 
 #### Voglo
+
 A very aggressive bird Pokete that can only be found in the woods.
 
 ```
@@ -489,27 +501,28 @@ A very aggressive bird Pokete that can only be found in the woods.
 - Rarity: 0.8
 - Loosing experience: 3
 - Attacks:
-   + [Tackle](#tackle)
-   + [Power Peck](#power-pick)
-   + [Wing Hit](#wing-hit)
-   + [Brooding](#brooding)
+  - [Tackle](#tackle)
+  - [Power Peck](#power-pick)
+  - [Wing Hit](#wing-hit)
+  - [Brooding](#brooding)
 - Active: Always
 - Can be found in:
-   + Route 1
-   + Sunnydale
-   + Sunnydale Lake
-   + Route 2
-   + Route 3
-   + Route 4
-   + Deepest Forest
-   + Route 5
-   + Route 6
-   + Mowcow Meadow
-   + The Fields of Agrawos
-   + Agrawos
+  - Route 1
+  - Sunnydale
+  - Sunnydale Lake
+  - Route 2
+  - Route 3
+  - Route 4
+  - Deepest Forest
+  - Route 5
+  - Route 6
+  - Mowcow Meadow
+  - The Fields of Agrawos
+  - Agrawos
 - Evolves to [Voglus](#voglus) at level 35
 
 #### Voglus
+
 A very aggressive and hard to find bird Pokete.
 
 ```
@@ -529,17 +542,19 @@ A very aggressive and hard to find bird Pokete.
 - Rarity: 0.2
 - Loosing experience: 5
 - Attacks:
-   + [Tackle](#tackle)
-   + [Power Peck](#power-pick)
-   + [Storm Gale](#storm-gust)
-   + [Brooding](#brooding)
+  - [Tackle](#tackle)
+  - [Power Peck](#power-pick)
+  - [Storm Gale](#storm-gust)
+  - [Brooding](#brooding)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
 ### Ground Poketes
+
 #### Corcos day
+
 A small heavy thing that can be found on the ground; it may reveal something wonderful later.
 
 ```
@@ -559,14 +574,15 @@ A small heavy thing that can be found on the ground; it may reveal something won
 - Rarity: 1
 - Loosing experience: 1
 - Attacks:
-   + [Tackle](#tackle)
-   + [Hiding](#hiding)
+  - [Tackle](#tackle)
+  - [Hiding](#hiding)
 - Active: Day
 - Can be found in:
-   + Abandoned Village
+  - Abandoned Village
 - Evolves to [Raupathor day](#raupathor_day) at level 20
 
 #### Corcos night
+
 A small heavy thing that can be found on the ground; it may reveal something wonderful later.
 
 ```
@@ -586,14 +602,15 @@ A small heavy thing that can be found on the ground; it may reveal something won
 - Rarity: 1
 - Loosing experience: 1
 - Attacks:
-   + [Tackle](#tackle)
-   + [Hiding](#hiding)
+  - [Tackle](#tackle)
+  - [Hiding](#hiding)
 - Active: Night
 - Can be found in:
-   + Abandoned Village
+  - Abandoned Village
 - Evolves to [Raupathor night](#raupathor_night) at level 20
 
 #### Dicki
+
 A little whatever that sticks out of the ground.
 
 ```
@@ -613,16 +630,17 @@ A little whatever that sticks out of the ground.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Dick Energy](#dick-energy)
-   + [Hiding](#hiding)
-   + [Ground Hit](#ground-hit)
+  - [Tackle](#tackle)
+  - [Dick Energy](#dick-energy)
+  - [Hiding](#hiding)
+  - [Ground Hit](#ground-hit)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Evolves to [Dicko](#dicko) at level 55
 
 #### Dicko
+
 An even bigger whatever that sticks out of the ground.
 
 ```
@@ -642,17 +660,17 @@ An even bigger whatever that sticks out of the ground.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Dick Energy](#dick-energy)
-   + [Hiding](#hiding)
-   + [Ground Hit](#ground-hit)
+  - [Tackle](#tackle)
+  - [Dick Energy](#dick-energy)
+  - [Hiding](#hiding)
+  - [Ground Hit](#ground-hit)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Lil Nut
+
 A very small whatever that sticks out of the ground.
 
 ```
@@ -672,14 +690,15 @@ A very small whatever that sticks out of the ground.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Ground Hit](#ground-hit)
+  - [Tackle](#tackle)
+  - [Ground Hit](#ground-hit)
 - Active: Always
 - Can be found in:
-   + The Fields of Agrawos
+  - The Fields of Agrawos
 - Evolves to [Dicki](#dicki) at level 35
 
 #### Raupathor day
+
 A small caterpillar found on leaves.
 
 ```
@@ -699,14 +718,15 @@ A small caterpillar found on leaves.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Hiding](#hiding)
+  - [Tackle](#tackle)
+  - [Hiding](#hiding)
 - Active: Day
 - Can be found in:
-   + Route 7
+  - Route 7
 - Evolves to [Schmetterling](#schmetterling) at level 30
 
 #### Raupathor night
+
 A small caterpillar found on leaves.
 
 ```
@@ -726,14 +746,15 @@ A small caterpillar found on leaves.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Hiding](#hiding)
+  - [Tackle](#tackle)
+  - [Hiding](#hiding)
 - Active: Night
 - Can be found in:
-   + Route 7
+  - Route 7
 - Evolves to [Mothor](#mothor) at level 30
 
 #### Rollator
+
 A big chunk of stone and dirt that rolls around.
 
 ```
@@ -753,17 +774,19 @@ A big chunk of stone and dirt that rolls around.
 - Rarity: 0.5
 - Loosing experience: 3
 - Attacks:
-   + [Tackle](#tackle)
-   + [Power Roll](#power-roll)
+  - [Tackle](#tackle)
+  - [Power Roll](#power-roll)
 - Active: Always
 - Can be found in:
-   + Route 2
-   + Dark Cave
-   + Big Mountain Sea
+  - Route 2
+  - Dark Cave
+  - Big Mountain Sea
 - Does not evolve
 
 ### Ice Poketes
+
 #### Cubl
+
 A small ice cube.
 
 ```
@@ -783,15 +806,16 @@ A small ice cube.
 - Rarity: 1.2
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Freeze](#freeze)
-   + [Snow Storm](#snow-storm)
+  - [Tackle](#tackle)
+  - [Freeze](#freeze)
+  - [Snow Storm](#snow-storm)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Evolves to [Spikl](#spikl) at level 30
 
 #### Spikl
+
 A block of ice.
 
 ```
@@ -811,17 +835,19 @@ A block of ice.
 - Rarity: 0.9
 - Loosing experience: 4
 - Attacks:
-   + [Tackle](#tackle)
-   + [Freeze](#freeze)
-   + [Snow Storm](#snow-storm)
-   + [Sword of Ice](#sword-of-ice)
+  - [Tackle](#tackle)
+  - [Freeze](#freeze)
+  - [Snow Storm](#snow-storm)
+  - [Sword of Ice](#sword-of-ice)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
 ### Normal Poketes
+
 #### Hornita
+
 A majestic horse that is always looking for something to pick with its horn.
 
 ```
@@ -841,20 +867,20 @@ A majestic horse that is always looking for something to pick with its horn.
 - Rarity: 1
 - Loosing experience: 3
 - Attacks:
-   + [Tackle](#tackle)
-   + [Meat Skewer](#meat-skewer)
-   + [Tail Swipe](#tail-wipe)
+  - [Tackle](#tackle)
+  - [Meat Skewer](#meat-skewer)
+  - [Tail Swipe](#tail-wipe)
 - Active: Always
 - Can be found in:
-   + Route 1
-   + Sunnydale
-   + Sunnydale Lake
-   + Route 5
-   + Route 6
+  - Route 1
+  - Sunnydale
+  - Sunnydale Lake
+  - Route 5
+  - Route 6
 - Does not evolve
 
-
 #### Horny
+
 A teenage unicorn in the middle of puberty.
 
 ```
@@ -874,14 +900,15 @@ A teenage unicorn in the middle of puberty.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Meat Skewer](#meat-skewer)
+  - [Tackle](#tackle)
+  - [Meat Skewer](#meat-skewer)
 - Active: Always
 - Can be found in:
-   + Nice Town
+  - Nice Town
 - Evolves to [Hornita](#hornita) at level 20
 
 #### Mowcow
+
 A cow-like creature found in meadows.
 
 ```
@@ -901,16 +928,16 @@ A cow-like creature found in meadows.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
+  - [Tackle](#tackle)
 - Active: Always
 - Can be found in:
-   + Mowcow Meadow
-   + The Fields of Agrawos
-   + Agrawos
+  - Mowcow Meadow
+  - The Fields of Agrawos
+  - Agrawos
 - Does not evolve
 
-
 #### Ratatat
+
 A damn dangerous and enourmous rat; it will bite of your leg.
 
 ```
@@ -930,16 +957,16 @@ A damn dangerous and enourmous rat; it will bite of your leg.
 - Rarity: 0.7
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Tail Swipe](#tail-wipe)
-   + [Power Bite](#power-bite)
+  - [Tackle](#tackle)
+  - [Tail Swipe](#tail-wipe)
+  - [Power Bite](#power-bite)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Rato
+
 An annoying rat.
 
 ```
@@ -959,22 +986,25 @@ An annoying rat.
 - Rarity: 1.3
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Tail Swipe](#tail-wipe)
+  - [Tackle](#tackle)
+  - [Tail Swipe](#tail-wipe)
 - Active: Always
 - Can be found in:
-   + Nice Town
-   + Nice Town Cave
-   + Route 1
-   + Sunnydale
-   + Sunnydale Lake
-   + Abandoned House
-   + Route 4
-   + Deepest Forest
-   + Big Mountain Sea
+  - Nice Town
+  - Nice Town Cave
+  - Route 1
+  - Sunnydale
+  - Sunnydale Lake
+  - Abandoned House
+  - Route 4
+  - Deepest Forest
+  - Big Mountain Sea
 - Evolves to [Ratatat](#ratatat) at level 25
+
 ### Plant Poketes
+
 #### Bushy
+
 A bush, and just a bush. But watch out!
 
 ```
@@ -994,16 +1024,17 @@ A bush, and just a bush. But watch out!
 - Rarity: 1
 - Loosing experience: 1
 - Attacks:
-   + [Tackle](#tackle)
-   + [Bark Hardening](#bark-hardening)
+  - [Tackle](#tackle)
+  - [Bark Hardening](#bark-hardening)
 - Active: Always
 - Can be found in:
-   + Route 2
-   + Route 7
-   + Mowcow Meadow
+  - Route 2
+  - Route 7
+  - Mowcow Meadow
 - Evolves to [Treenator](#treenator) at level 20
 
 #### Megapois
+
 A not at all suspicious plant.
 
 ```
@@ -1023,18 +1054,18 @@ A not at all suspicious plant.
 - Rarity: 0.9
 - Loosing experience: 6
 - Attacks:
-   + [Root Slap](#root-slap)
-   + [Poison Spores](#poison-spores)
-   + [Leaf Storm](#leaf-storm)
-   + [Poison Thorn](#poison-thorn)
+  - [Root Slap](#root-slap)
+  - [Poison Spores](#poison-spores)
+  - [Leaf Storm](#leaf-storm)
+  - [Poison Thorn](#poison-thorn)
 - Active: Always
 - Can be found in:
-   + The Fields of Agrawos
-   + Agrawos
+  - The Fields of Agrawos
+  - Agrawos
 - Does not evolve
 
-
 #### Poisopla
+
 A unsuspicious plant.
 
 ```
@@ -1054,15 +1085,16 @@ A unsuspicious plant.
 - Rarity: 0.9
 - Loosing experience: 6
 - Attacks:
-   + [Root Slap](#root-slap)
-   + [Poison Spores](#poison-spores)
-   + [Leaf Storm](#leaf-storm)
+  - [Root Slap](#root-slap)
+  - [Poison Spores](#poison-spores)
+  - [Leaf Storm](#leaf-storm)
 - Active: Always
 - Can be found in:
-   + Route 7
+  - Route 7
 - Evolves to [Megapois](#megapois) at level 20
 
 #### Rosi
+
 A plant Pokete that's often mistaken for a normal flower.
 
 ```
@@ -1082,15 +1114,15 @@ A plant Pokete that's often mistaken for a normal flower.
 - Rarity: 0.8
 - Loosing experience: 2
 - Attacks:
-   + [Sucker](#sucker)
-   + [Super Sucker](#super-sucker)
+  - [Sucker](#sucker)
+  - [Super Sucker](#super-sucker)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Treenator
+
 A scary and dangerous apple tree.
 
 ```
@@ -1110,17 +1142,17 @@ A scary and dangerous apple tree.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Apple Drop](#apple-drop)
-   + [Bark Hardening](#bark-hardening)
-   + [Branch Stab](#branch-stab)
-   + [Root Strangler](#root-strangler)
+  - [Apple Drop](#apple-drop)
+  - [Bark Hardening](#bark-hardening)
+  - [Branch Stab](#branch-stab)
+  - [Root Strangler](#root-strangler)
 - Active: Always
 - Can be found in:
-   + Route 7
+  - Route 7
 - Does not evolve
 
-
 #### Wheeto
+
 A plant Pokete found in Agrawos; it has special 'Powers'.
 
 ```
@@ -1140,15 +1172,17 @@ A plant Pokete found in Agrawos; it has special 'Powers'.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Root Slap](#root-slap)
-   + [Special Smell](#special-smell)
+  - [Root Slap](#root-slap)
+  - [Special Smell](#special-smell)
 - Active: Always
 - Can be found in:
-   + Agrawos
+  - Agrawos
 - Does not evolve
 
 ### Poison Poketes
+
 #### Choka
+
 A fucking dangerous and enormous snake Pokete.
 
 ```
@@ -1168,17 +1202,17 @@ A fucking dangerous and enormous snake Pokete.
 - Rarity: 0.5
 - Loosing experience: 4
 - Attacks:
-   + [Choker](#chocer)
-   + [Bite](#bite)
-   + [Poison Bite](#poison-bite)
-   + [Power Bite](#power-bite)
+  - [Choker](#chocer)
+  - [Bite](#bite)
+  - [Poison Bite](#poison-bite)
+  - [Power Bite](#power-bite)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Würgos
+
 A dangerous snake Pokete.
 
 ```
@@ -1198,18 +1232,21 @@ A dangerous snake Pokete.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Choker](#chocer)
-   + [Bite](#bite)
-   + [Poison Bite](#poison-bite)
+  - [Choker](#chocer)
+  - [Bite](#bite)
+  - [Poison Bite](#poison-bite)
 - Active: Always
 - Can be found in:
-   + Route 5
-   + Route 6
-   + Big Mountain Sea
-   + Sunny Beach
+  - Route 5
+  - Route 6
+  - Big Mountain Sea
+  - Sunny Beach
 - Evolves to [Choka](#choka) at level 30
+
 ### Stone Poketes
+
 #### Bigstone
+
 A big and heavy stone made from one of the hardest materials.
 
 ```
@@ -1229,16 +1266,16 @@ A big and heavy stone made from one of the hardest materials.
 - Rarity: 0.3
 - Loosing experience: 5
 - Attacks:
-   + [Snooze](#snooze)
-   + [Polish](#politure)
-   + [Brick Throw](#brick-throw)
+  - [Snooze](#snooze)
+  - [Polish](#politure)
+  - [Brick Throw](#brick-throw)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Diamondos
+
 A precious diamond that can only be found in the darkest caves.
 
 ```
@@ -1258,16 +1295,16 @@ A precious diamond that can only be found in the darkest caves.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Polish](#politure)
-   + [Dazzle](#dazzle)
+  - [Tackle](#tackle)
+  - [Polish](#politure)
+  - [Dazzle](#dazzle)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Lilstone
+
 A small but powerful stone Pokete that lives in the mountains.
 
 ```
@@ -1287,17 +1324,18 @@ A small but powerful stone Pokete that lives in the mountains.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Tackle](#tackle)
-   + [Polish](#politure)
-   + [Pebble Fire](#pepple-fire)
+  - [Tackle](#tackle)
+  - [Polish](#politure)
+  - [Pebble Fire](#pepple-fire)
 - Active: Always
 - Can be found in:
-   + Nice Town Cave
-   + Dark Cave
-   + Big Mountain Cave
+  - Nice Town Cave
+  - Dark Cave
+  - Big Mountain Cave
 - Evolves to [Bigstone](#bigstone) at level 25
 
 #### Poundi
+
 A powerful and heavy stone Pokete that lives in mountain caves.
 
 ```
@@ -1317,17 +1355,17 @@ A powerful and heavy stone Pokete that lives in mountain caves.
 - Rarity: 0.7
 - Loosing experience: 4
 - Attacks:
-   + [Tackle](#tackle)
-   + [Polish](#politure)
-   + [Earthquake](#earch-quake)
+  - [Tackle](#tackle)
+  - [Polish](#politure)
+  - [Earthquake](#earch-quake)
 - Active: Always
 - Can be found in:
-   + Big Mountain Sea
-   + Big Mountain Cave
+  - Big Mountain Sea
+  - Big Mountain Cave
 - Does not evolve
 
-
 #### Steini
+
 A squared stone that can be readily found just lying around.
 
 ```
@@ -1347,24 +1385,26 @@ A squared stone that can be readily found just lying around.
 - Rarity: 1
 - Loosing experience: 3
 - Attacks:
-   + [Tackle](#tackle)
-   + [Polish](#politure)
-   + [Brick Throw](#brick-throw)
+  - [Tackle](#tackle)
+  - [Polish](#politure)
+  - [Brick Throw](#brick-throw)
 - Active: Always
 - Can be found in:
-   + Nice Town Cave
-   + Route 1
-   + Sunnydale
-   + Sunnydale Lake
-   + Mysterious Cave
-   + Route 2
-   + Dark Cave
-   + Route 3
-   + Big Mountain Cave
+  - Nice Town Cave
+  - Route 1
+  - Sunnydale
+  - Sunnydale Lake
+  - Mysterious Cave
+  - Route 2
+  - Dark Cave
+  - Route 3
+  - Big Mountain Cave
 - Does not evolve
 
 ### Undead Poketes
+
 #### Angrilo
+
 A ghost Pokete that will scare your pants off.
 
 ```
@@ -1384,17 +1424,17 @@ A ghost Pokete that will scare your pants off.
 - Rarity: 0.6
 - Loosing experience: 4
 - Attacks:
-   + [Tackle](#tackle)
-   + [Mind Blow](#mind-blow)
-   + [Wet Slap](#wet-slap)
-   + [Heart Touch](#heart-touch)
+  - [Tackle](#tackle)
+  - [Mind Blow](#mind-blow)
+  - [Wet Slap](#wet-slap)
+  - [Heart Touch](#heart-touch)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 #### Confuso
+
 A ball floating around in dark woods and caves, that will confuse the shit out of you.
 
 ```
@@ -1414,14 +1454,14 @@ A ball floating around in dark woods and caves, that will confuse the shit out o
 - Rarity: 0.5
 - Loosing experience: 6
 - Attacks:
-   + [Confusion](#confusion)
+  - [Confusion](#confusion)
 - Active: Always
 - Can be found in:
-   + Route 7
+  - Route 7
 - Does not evolve
 
-
 #### Gobost
+
 A scary ghost Pokete that lives in caves and old houses.
 
 ```
@@ -1441,18 +1481,19 @@ A scary ghost Pokete that lives in caves and old houses.
 - Rarity: 1
 - Loosing experience: 3
 - Attacks:
-   + [Tackle](#tackle)
-   + [Mind Blow](#mind-blow)
-   + [Heart Touch](#heart-touch)
+  - [Tackle](#tackle)
+  - [Mind Blow](#mind-blow)
+  - [Heart Touch](#heart-touch)
 - Active: Always
 - Can be found in:
-   + Dark Cave
-   + Abandoned Village
-   + Abandoned House
-   + Route 7
+  - Dark Cave
+  - Abandoned Village
+  - Abandoned House
+  - Route 7
 - Evolves to [Angrilo](#angrilo) at level 25
 
 #### Saugh
+
 The dark and fiery souls of those who got burned to death by the hot sun!
 
 ```
@@ -1472,16 +1513,18 @@ The dark and fiery souls of those who got burned to death by the hot sun!
 - Rarity: 0.5
 - Loosing experience: 4
 - Attacks:
-   + [Mind Blow](#mind-blow)
-   + [Fire Ball](#fire-ball)
-   + [Sand Throw](#sand-throw)
+  - [Mind Blow](#mind-blow)
+  - [Fire Ball](#fire-ball)
+  - [Sand Throw](#sand-throw)
 - Active: Always
 - Can be found in:
-   + Sunny Beach
+  - Sunny Beach
 - Does not evolve
 
 ### Water Poketes
+
 #### Blub
+
 Very delicious and low fat water Pokete.
 
 ```
@@ -1501,19 +1544,19 @@ Very delicious and low fat water Pokete.
 - Rarity: 1
 - Loosing experience: 5
 - Attacks:
-   + [Tackle](#tackle)
-   + [Bubble Bomb](#bubble-bomb)
-   + [Bubble Shield](#bubble-shield)
+  - [Tackle](#tackle)
+  - [Bubble Bomb](#bubble-bomb)
+  - [Bubble Shield](#bubble-shield)
 - Active: Always
 - Can be found in:
-   + Sunnydale Lake
-   + Big Mountain Sea
-   + Rock-ville
-   + Sunny Beach
+  - Sunnydale Lake
+  - Big Mountain Sea
+  - Rock-ville
+  - Sunny Beach
 - Does not evolve
 
-
 #### Clampi
+
 A shell that lives deep in the sea or near bays; it's pretty hard to crack.
 
 ```
@@ -1533,17 +1576,18 @@ A shell that lives deep in the sea or near bays; it's pretty hard to crack.
 - Rarity: 0.8
 - Loosing experience: 5
 - Attacks:
-   + [Tackle](#tackle)
-   + [Bubble Bomb](#bubble-bomb)
-   + [Shell Pinch](#shell-pinch)
+  - [Tackle](#tackle)
+  - [Bubble Bomb](#bubble-bomb)
+  - [Shell Pinch](#shell-pinch)
 - Active: Always
 - Can be found in:
-   + Route 3
-   + Big Mountain Sea
-   + Sunny Beach
+  - Route 3
+  - Big Mountain Sea
+  - Sunny Beach
 - Evolves to [Crabbat](#crabbat) at level 20
 
 #### Crabbat
+
 A crusty Pokete that loves to pinch big toes.
 
 ```
@@ -1563,16 +1607,17 @@ A crusty Pokete that loves to pinch big toes.
 - Rarity: 0.8
 - Loosing experience: 5
 - Attacks:
-   + [Tackle](#tackle)
-   + [Bubble Gun](#bubble-gun)
-   + [Earthquake](#earch-quake)
-   + [Shell Pinch](#shell-pinch)
+  - [Tackle](#tackle)
+  - [Bubble Gun](#bubble-gun)
+  - [Earthquake](#earch-quake)
+  - [Shell Pinch](#shell-pinch)
 - Active: Always
 - Can be found in:
-   + Sunny Beach
+  - Sunny Beach
 - Evolves to [Rustacean](#rustacean) at level 40
 
 #### Karpi
+
 A harmless water Pokete that can be found everywhere.
 
 ```
@@ -1592,18 +1637,18 @@ A harmless water Pokete that can be found everywhere.
 - Rarity: 3
 - Loosing experience: 1
 - Attacks:
-   + [Tackle](#tackle)
+  - [Tackle](#tackle)
 - Active: Always
 - Can be found in:
-   + Sunnydale Lake
-   + Route 3
-   + Big Mountain Sea
-   + Rock-ville
-   + Sunny Beach
+  - Sunnydale Lake
+  - Route 3
+  - Big Mountain Sea
+  - Rock-ville
+  - Sunny Beach
 - Does not evolve
 
-
 #### Rustacean
+
 A crusty Pokete that will pinch your toes and check whether or not you borrowed something.
 
 ```
@@ -1623,21 +1668,23 @@ A crusty Pokete that will pinch your toes and check whether or not you borrowed 
 - Rarity: 0.5
 - Loosing experience: 5
 - Attacks:
-   + [Toe Breaker](#toe-breaker)
-   + [Bubble Gun](#bubble-gun)
-   + [Earthquake](#earch-quake)
-   + [Shell Pinch](#shell-pinch)
+  - [Toe Breaker](#toe-breaker)
+  - [Bubble Gun](#bubble-gun)
+  - [Earthquake](#earch-quake)
+  - [Shell Pinch](#shell-pinch)
 - Active: Always
 - Can be found in:
-   + Nowhere
+  - Nowhere
 - Does not evolve
 
-
 ## Attacks
+
 Those are all attacks present in the game.
 
 ### Electro attacks
+
 #### Shock
+
 Gives the enemy a shock.
 
 - Type: [Electro](#types)
@@ -1648,6 +1695,7 @@ Gives the enemy a shock.
 - Effect: None
 
 #### Charging
+
 Charges up the Pokete.
 
 - Type: [Electro](#types)
@@ -1658,6 +1706,7 @@ Charges up the Pokete.
 - Effect: None
 
 #### Mega Arch
+
 Gives the enemy a massive shock.
 
 - Type: [Electro](#types)
@@ -1668,7 +1717,9 @@ Gives the enemy a massive shock.
 - Effect: [Paralyzation](#paralyzation)
 
 ### Fire attacks
+
 #### Fire Bite
+
 Burns and bites the enemy at the same time.
 
 - Type: [Fire](#types)
@@ -1679,6 +1730,7 @@ Burns and bites the enemy at the same time.
 - Effect: [Burning](#burning)
 
 #### Ash Throw
+
 Throws ashes in the enemy's eyes.
 
 - Type: [Fire](#types)
@@ -1689,6 +1741,7 @@ Throws ashes in the enemy's eyes.
 - Effect: None
 
 #### Flame Throw
+
 Hans! Get ze Flammenwerfer!
 
 - Type: [Fire](#types)
@@ -1699,6 +1752,7 @@ Hans! Get ze Flammenwerfer!
 - Effect: [Burning](#burning)
 
 #### Fire Ball
+
 Casts a fireball at the enemy.
 
 - Type: [Fire](#types)
@@ -1709,7 +1763,9 @@ Casts a fireball at the enemy.
 - Effect: None
 
 ### Flying attacks
+
 #### Flying
+
 Gives the Pokete the ability to fly you around.
 
 - Type: [Flying](#types)
@@ -1720,6 +1776,7 @@ Gives the Pokete the ability to fly you around.
 - Effect: None
 
 #### Peck
+
 A peck at the enemy's weakest spot.
 
 - Type: [Flying](#types)
@@ -1730,6 +1787,7 @@ A peck at the enemy's weakest spot.
 - Effect: None
 
 #### Wind Blow
+
 Casts a gust of wind at the enemy.
 
 - Type: [Flying](#types)
@@ -1740,6 +1798,7 @@ Casts a gust of wind at the enemy.
 - Effect: None
 
 #### Storm Gale
+
 Casts a vicious and violent storm full of rain and hail, hitting the enemy in its weakest spots and makes it want to die.
 
 - Type: [Flying](#types)
@@ -1750,6 +1809,7 @@ Casts a vicious and violent storm full of rain and hail, hitting the enemy in it
 - Effect: None
 
 #### Schmetter
+
 Schmetters the enemy away.
 
 - Type: [Flying](#types)
@@ -1760,6 +1820,7 @@ Schmetters the enemy away.
 - Effect: None
 
 #### Eye Peck
+
 Pecks at one of the enemy's eyes.
 
 - Type: [Flying](#types)
@@ -1770,6 +1831,7 @@ Pecks at one of the enemy's eyes.
 - Effect: None
 
 #### Wing Hit
+
 Hits the enemy with a wing.
 
 - Type: [Flying](#types)
@@ -1780,6 +1842,7 @@ Hits the enemy with a wing.
 - Effect: None
 
 #### Brooding
+
 Regenerates 2 HP.
 
 - Type: [Flying](#types)
@@ -1790,6 +1853,7 @@ Regenerates 2 HP.
 - Effect: None
 
 #### Power Peck
+
 A harsh pecking on the enemy's head.
 
 - Type: [Flying](#types)
@@ -1800,7 +1864,9 @@ A harsh pecking on the enemy's head.
 - Effect: None
 
 ### Ground attacks
+
 #### Earthquake
+
 Moves the ground with tremendous force.
 
 - Type: [Ground](#types)
@@ -1811,6 +1877,7 @@ Moves the ground with tremendous force.
 - Effect: None
 
 #### Power Roll
+
 Rolls over the enemy.
 
 - Type: [Ground](#types)
@@ -1821,6 +1888,7 @@ Rolls over the enemy.
 - Effect: None
 
 #### Toe Breaker
+
 Breaks the enemy's toes.
 
 - Type: [Ground](#types)
@@ -1831,6 +1899,7 @@ Breaks the enemy's toes.
 - Effect: None
 
 #### Ground Hit
+
 Damages the enemy with an unpredictable hit out of the ground.
 
 - Type: [Ground](#types)
@@ -1841,6 +1910,7 @@ Damages the enemy with an unpredictable hit out of the ground.
 - Effect: None
 
 #### Dick Energy
+
 Collects a great amount of energy in the Pokete's tip.
 
 - Type: [Ground](#types)
@@ -1851,6 +1921,7 @@ Collects a great amount of energy in the Pokete's tip.
 - Effect: None
 
 #### Hiding
+
 Makes the Pokete hide under the ground to minimize damage.
 
 - Type: [Ground](#types)
@@ -1861,7 +1932,9 @@ Makes the Pokete hide under the ground to minimize damage.
 - Effect: None
 
 ### Ice attacks
+
 #### Freeze
+
 Freezes the enemy.
 
 - Type: [Ice](#types)
@@ -1872,6 +1945,7 @@ Freezes the enemy.
 - Effect: [Freezing](#freezing)
 
 #### Snow Storm
+
 Summons a snow storm full of ice spikes onto the enemy.
 
 - Type: [Ice](#types)
@@ -1882,6 +1956,7 @@ Summons a snow storm full of ice spikes onto the enemy.
 - Effect: None
 
 #### Sword of Ice
+
 Stabs a giant ice spike into the enemy.
 
 - Type: [Ice](#types)
@@ -1892,6 +1967,7 @@ Stabs a giant ice spike into the enemy.
 - Effect: None
 
 #### Spikes
+
 Stabs the enemy with some small ice spikes.
 
 - Type: [Ice](#types)
@@ -1902,7 +1978,9 @@ Stabs the enemy with some small ice spikes.
 - Effect: None
 
 ### Normal attacks
+
 #### Tackle
+
 Tackles the enemy very hard.
 
 - Type: [Normal](#types)
@@ -1913,6 +1991,7 @@ Tackles the enemy very hard.
 - Effect: None
 
 #### Cry
+
 So loud that it confuses the enemy.
 
 - Type: [Normal](#types)
@@ -1923,6 +2002,7 @@ So loud that it confuses the enemy.
 - Effect: None
 
 #### Bite
+
 A hard bite with sharp teeth.
 
 - Type: [Normal](#types)
@@ -1933,6 +2013,7 @@ A hard bite with sharp teeth.
 - Effect: None
 
 #### Power Bite
+
 The hardest bite you can think of.
 
 - Type: [Normal](#types)
@@ -1943,6 +2024,7 @@ The hardest bite you can think of.
 - Effect: None
 
 #### Choker
+
 Chokes the enemy and makes it weaker.
 
 - Type: [Normal](#types)
@@ -1953,6 +2035,7 @@ Chokes the enemy and makes it weaker.
 - Effect: [Paralyzation](#paralyzation)
 
 #### Tail Swipe
+
 Swipes through the enemy's face.
 
 - Type: [Normal](#types)
@@ -1963,6 +2046,7 @@ Swipes through the enemy's face.
 - Effect: None
 
 #### Meat Skewer
+
 Drills a horn deep in the enemy's flesh.
 
 - Type: [Normal](#types)
@@ -1973,6 +2057,7 @@ Drills a horn deep in the enemy's flesh.
 - Effect: None
 
 #### Snooze
+
 Makes the enemy sleepy.
 
 - Type: [Normal](#types)
@@ -1983,6 +2068,7 @@ Makes the enemy sleepy.
 - Effect: [Sleep](#sleep)
 
 #### Supercow Power
+
 Makes the Pokete angry and strong.
 
 - Type: [Normal](#types)
@@ -1993,7 +2079,9 @@ Makes the Pokete angry and strong.
 - Effect: None
 
 ### Plant attacks
+
 #### Special Smell
+
 Spreads a special smell that will make the enemy confused but very happy.
 
 - Type: [Plant](#types)
@@ -2004,6 +2092,7 @@ Spreads a special smell that will make the enemy confused but very happy.
 - Effect: [Confusion](#confusion)
 
 #### Apple Drop
+
 Makes an apple drop on the enemy's head.
 
 - Type: [Plant](#types)
@@ -2014,6 +2103,7 @@ Makes an apple drop on the enemy's head.
 - Effect: None
 
 #### Super Sucker
+
 Sucks 2 HP from the enemy and adds to its own.
 
 - Type: [Plant](#types)
@@ -2024,6 +2114,7 @@ Sucks 2 HP from the enemy and adds to its own.
 - Effect: None
 
 #### Sucker
+
 Sucks 1 HP from the enemy and adds to its own.
 
 - Type: [Plant](#types)
@@ -2034,6 +2125,7 @@ Sucks 1 HP from the enemy and adds to its own.
 - Effect: None
 
 #### Root Strangler
+
 Uses old and crusty roots to strangle the enemy.
 
 - Type: [Plant](#types)
@@ -2044,6 +2136,7 @@ Uses old and crusty roots to strangle the enemy.
 - Effect: [Paralyzation](#paralyzation)
 
 #### Root Slap
+
 Uses old and crusty roots to slap the enemy.
 
 - Type: [Plant](#types)
@@ -2054,6 +2147,7 @@ Uses old and crusty roots to slap the enemy.
 - Effect: None
 
 #### The Old Roots Hit
+
 An ancient attack that summons the deepest and oldest roots from deep in the earth to defeat the enemy.
 
 - Type: [Plant](#types)
@@ -2064,6 +2158,7 @@ An ancient attack that summons the deepest and oldest roots from deep in the ear
 - Effect: None
 
 #### Leaf Storm
+
 Blasts a bunch of spiky leaves at the enemy.
 
 - Type: [Plant](#types)
@@ -2074,6 +2169,7 @@ Blasts a bunch of spiky leaves at the enemy.
 - Effect: None
 
 #### Bark Hardening
+
 Hardens its outer layers to protect itself.
 
 - Type: [Plant](#types)
@@ -2084,6 +2180,7 @@ Hardens its outer layers to protect itself.
 - Effect: None
 
 #### Poison Spores
+
 Ejects some poisonous spores onto the enemy.
 
 - Type: [Plant](#types)
@@ -2094,6 +2191,7 @@ Ejects some poisonous spores onto the enemy.
 - Effect: [Poison](#poison)
 
 #### Branch Stab
+
 Stabs the enemy with a branch, preferably in the enemy's eyes.
 
 - Type: [Plant](#types)
@@ -2104,7 +2202,9 @@ Stabs the enemy with a branch, preferably in the enemy's eyes.
 - Effect: None
 
 ### Poison attacks
+
 #### Poison Bite
+
 Makes the enemy weaker.
 
 - Type: [Poison](#types)
@@ -2115,6 +2215,7 @@ Makes the enemy weaker.
 - Effect: [Poison](#poison)
 
 #### Poison Thorn
+
 Stabs a venomous thorn into the enemy's flesh.
 
 - Type: [Poison](#types)
@@ -2125,7 +2226,9 @@ Stabs a venomous thorn into the enemy's flesh.
 - Effect: [Poison](#poison)
 
 ### Stone attacks
+
 #### Pebble Fire
+
 Fires pebbles at the enemy and makes it blind.
 
 - Type: [Stone](#types)
@@ -2136,6 +2239,7 @@ Fires pebbles at the enemy and makes it blind.
 - Effect: None
 
 #### Sand Throw
+
 Throws sand at the enemy and makes it blind.
 
 - Type: [Stone](#types)
@@ -2146,6 +2250,7 @@ Throws sand at the enemy and makes it blind.
 - Effect: None
 
 #### Polish
+
 Upgrades defense and attack points.
 
 - Type: [Stone](#types)
@@ -2156,6 +2261,7 @@ Upgrades defense and attack points.
 - Effect: None
 
 #### Brick Throw
+
 Throws an Euler brick at the enemy.
 
 - Type: [Stone](#types)
@@ -2166,6 +2272,7 @@ Throws an Euler brick at the enemy.
 - Effect: None
 
 #### Rock Smash
+
 Pounds the enemy with the Pokete's full weight.
 
 - Type: [Stone](#types)
@@ -2176,6 +2283,7 @@ Pounds the enemy with the Pokete's full weight.
 - Effect: None
 
 #### Dia Stab
+
 Stabs the enemy with a giant diamond spike.
 
 - Type: [Stone](#types)
@@ -2186,6 +2294,7 @@ Stabs the enemy with a giant diamond spike.
 - Effect: None
 
 #### Dazzle
+
 Shines a bright light at the enemy and dazzles them.
 
 - Type: [Stone](#types)
@@ -2196,6 +2305,7 @@ Shines a bright light at the enemy and dazzles them.
 - Effect: [Paralyzation](#paralyzation)
 
 #### Dia spikes
+
 Throws a heck of a lot of diamond spikes at the enemy.
 
 - Type: [Stone](#types)
@@ -2206,7 +2316,9 @@ Throws a heck of a lot of diamond spikes at the enemy.
 - Effect: None
 
 ### Undead attacks
+
 #### Heart Touch
+
 Touches the enemy's heart with cold, ghostly claws.
 
 - Type: [Undead](#types)
@@ -2217,6 +2329,7 @@ Touches the enemy's heart with cold, ghostly claws.
 - Effect: None
 
 #### Confusion
+
 Confuses the enemy.
 
 - Type: [Undead](#types)
@@ -2227,6 +2340,7 @@ Confuses the enemy.
 - Effect: [Confusion](#confusion)
 
 #### Mind Blow
+
 Causes confusion deep in the enemy's mind.
 
 - Type: [Undead](#types)
@@ -2237,7 +2351,9 @@ Causes confusion deep in the enemy's mind.
 - Effect: [Confusion](#confusion)
 
 ### Water attacks
+
 #### Bubble Gun
+
 Fires some bubbles at the enemy.
 
 - Type: [Water](#types)
@@ -2248,6 +2364,7 @@ Fires some bubbles at the enemy.
 - Effect: None
 
 #### Bubble Bomb
+
 A deadly bubble.
 
 - Type: [Water](#types)
@@ -2258,6 +2375,7 @@ A deadly bubble.
 - Effect: None
 
 #### Bubble Shield
+
 Creates a giant bubble that protects the Pokete.
 
 - Type: [Water](#types)
@@ -2268,6 +2386,7 @@ Creates a giant bubble that protects the Pokete.
 - Effect: None
 
 #### Wet Slap
+
 Gives the enemy a cold and wet slap in the face.
 
 - Type: [Water](#types)
@@ -2278,6 +2397,7 @@ Gives the enemy a cold and wet slap in the face.
 - Effect: None
 
 #### Shell Pinch
+
 Pinches the enemy with its strong shell.
 
 - Type: [Water](#types)
@@ -2288,6 +2408,7 @@ Pinches the enemy with its strong shell.
 - Effect: None
 
 ## Types
+
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
 
 |Type|Effective against|Ineffective against|
@@ -2305,73 +2426,89 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 |Poison|Normal|Undead|
 
 ## Items
+
 Those are all items present in the game, that can be traded or found.
 
 ### AP potion
+
 Refills the Poketes attack APs.
 
 - Price: 100
 - Can be used in fights: Yes
 
 ### Healing potion
+
 Heals a Pokete with 5 HP
 
 - Price: 15
 - Can be used in fights: Yes
 
 ### Hyperball
+
 For catching Poketes with a waaay higher chance
 
 - Price: None
 - Can be used in fights: Yes
 
 ### Poketeball
+
 A ball you can use to catch Poketes
 
 - Price: 2
 - Can be used in fights: Yes
 
 ### 'Shut the fuck up' stone
+
 Makes trainer leaving you alone
 
 - Price: None
 - Can be used in fights: No
 
 ### Super potion
+
 Heals a Pokete with 15 HP
 
 - Price: 25
 - Can be used in fights: Yes
 
 ### Superball
+
 A ball you can use to catch Poketes with an increased chance
 
 - Price: 10
 - Can be used in fights: Yes
 
 ### Treat
+
 Upgrades a Pokete by a whole level.
 
 - Price: None
 - Can be used in fights: No
 
 ## Effects
+
 Those effects can be given to a Pokete through an attack.
 
 ### Paralyzation
+
 Paralyses the enemy and stops it from attacking. This is reverted randomly.
 
 ### Sleep
+
 Makes the enemy fall asleep and stops it from attacking. This is reverted randomly.
 
 ### Burning
+
 Sets the enemy on fire and damages them with 2 HP every round. This is reverted randomly.
 
 ### Poison
+
 Poisons the enemy and damages the enemy with 1 HP every round. This is reverted randomly.
 
 ### Confusion
+
 Makes the enemy hurt it self. This is reverted randomly.
 
 ### Freezing
+
 Freezes the enemy and stops it from attacking. This is reverted randomly.
