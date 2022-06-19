@@ -1,11 +1,11 @@
 """Classes related to buing stuff"""
 
 import scrap_engine as se
+from pokete_classes.hotkeys import Action, get_action
 from pokete_general_use_fns import liner
 from .loops import std_loop
 from .ui_elements import Box, ChooseBox
 from .inv_items import invitems
-from .event import _ev
 
 
 class Buy:
@@ -33,24 +33,23 @@ class Buy:
 
     def __call__(self):
         """Opens the buy menu"""
-        _ev.clear()
         with self.box.add(self.map, self.map.width - 35, 0):
             self.box2.add(self.map, self.box.x - 19, 3)
             self.rechar()
             self.map.show()
             while True:
-                if _ev.get() in ["s", "w"]:
-                    self.box.input(_ev.get())
-                    self.rechar()
-                    _ev.clear()
-                elif _ev.get() in ["Key.esc", "q"]:
-                    break
-                elif _ev.get() == "Key.enter":
-                    obj = self.items[self.box.index.index]
-                    if self.fig.get_money() - obj.price >= 0:
-                        self.fig.add_money(-obj.price)
-                        self.fig.give_item(obj.name)
-                    _ev.clear()
+                action = get_action()
+                match action:
+                    case Action.UP | Action.DOWN:
+                        self.box.input(action)
+                        self.rechar()
+                    case Action.CANCEL:
+                        break
+                    case Action.ACCEPT:
+                        obj = self.items[self.box.index.index]
+                        if self.fig.get_money() - obj.price >= 0:
+                            self.fig.add_money(-obj.price)
+                            self.fig.give_item(obj.name)
                 std_loop()
                 self.map.show()
         self.box2.remove()

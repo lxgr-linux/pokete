@@ -9,7 +9,6 @@ from .loops import std_loop, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 from .notify import notifier
-from .event import _ev
 
 
 class Achievement:
