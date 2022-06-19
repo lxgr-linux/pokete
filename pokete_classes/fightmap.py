@@ -357,7 +357,7 @@ class FightMap(gm.GameMap):
                 if prov.curr.hp <= 0:
                     loser = prov
                     winner = providers[(i + 1) % 2]
-            if winner != None:
+            if winner is not None:
                 self.outp.outp(f"{loser.curr.ext_name} is dead!")
             elif all(i.ap == 0 for i in player.curr.attack_obs):
                 winner = providers[(index + 1) % 2]
