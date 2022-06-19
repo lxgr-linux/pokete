@@ -11,6 +11,11 @@ pygobject = "*"
 
 [dev-packages]
 pylint = "*"
+black = "*"
+flake8 = "*"
+isort = "*"
+pre-commit = "*"
+# mypy = "*"
 
 [requires]
 python_version = "3.10"
