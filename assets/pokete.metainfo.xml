@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="desktop-application">
+  <id>com.github.lxgr_linux.pokete</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <name>Pokete</name>
+  <summary>A terminal based Pokemon like game </summary>
+  <description>
+    <p>
+      Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak. Imagine you're a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
+    </p>
+  </description>
+  <icon type="stock">com.github.lxgr_linux.pokete</icon>
+  <categories>
+    <category>Game</category>
+  </categories>
+  <keywords>
+    <keyword>game</keyword>
+    <keyword>python</keyword>
+    <keyword>pokemon</keyword>
+    <keyword>console-game</keyword>
+  </keywords>
+  <url type="homepage">https://github.com/lxgr-linux/pokete/</url>
+  <url type="bugtracker">https://github.com/lxgr-linux/pokete/issues</url>
+  <url type="contribute">https://github.com/lxgr-linux/pokete/#contributing</url>
+  <url type="vcs-browser">https://github.com/lxgr-linux/pokete/</url>
+  <provides>
+          <binary>com.github.lxgr_linux.pokete</binary>
+  </provides>
+  <launchable type="desktop-id">com.github.lxgr_linux.pokete</launchable>
+</component>
+
