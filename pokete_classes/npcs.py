@@ -5,7 +5,7 @@ import random
 import time
 
 import scrap_engine as se
-
+from pokete_classes.general import heal
 import pokete_classes.fightmap as fm
 import pokete_classes.movemap as mvp
 
@@ -280,6 +280,11 @@ class Trainer(NPC, Provider):
                         is_winner
                     ]
                 )
+                is_winner = (winner == self)
+                self.text({True: self.lose_texts,
+                           False: self.win_texts + ["Here's $20!"]}
+                          [is_winner])
+                heal(self) if is_winner else None
                 if not is_winner:
                     self.fig.add_money(20)
                     self.set_used()
