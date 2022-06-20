@@ -741,7 +741,7 @@ def save():
         "pokete_care": pokete_care.dict(),
         "time": timer.time.time
     }
-    with open(SAVEPATH + "/pokete.json", "w+") as file:
+    with open(SAVEPATH / "pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
     logging.info("[General] Saved")
@@ -781,15 +781,15 @@ def read_save():
         "time": 0
     }
 
-    if os.path.exists(SAVEPATH + "/pokete.json"):
-        with open(SAVEPATH + "/pokete.json") as _file:
+    if os.path.exists(SAVEPATH / "pokete.json"):
+        with open(SAVEPATH / "pokete.json") as _file:
             _si = json.load(_file)
-    elif os.path.exists(HOME + "/.cache/pokete/pokete.json"):
-        with open(HOME + "/.cache/pokete/pokete.json") as _file:
+    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.json"):
+        with open(HOME / ".cache" / "pokete" / "pokete.json") as _file:
             _si = json.load(_file)
-    elif os.path.exists(HOME + "/.cache/pokete/pokete.py"):
+    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.py"):
         l_dict = {}
-        with open(HOME + "/.cache/pokete/pokete.py", "r") as _file:
+        with open(HOME / ".cache" / "pokete" / "pokete.py", "r") as _file:
             exec(_file.read(), {"session_info": _si}, l_dict)
         _si = json.loads(json.dumps(l_dict["session_info"]))
     return _si
@@ -1402,7 +1402,7 @@ if __name__ == "__main__":
     width, height = tss()
 
     # Home global
-    HOME = str(Path.home())
+    HOME = Path.home()
 
     # loading screen
     loading_screen = LoadingScreen(VERSION, CODENAME)
@@ -1412,7 +1412,7 @@ if __name__ == "__main__":
     session_info = read_save()
 
     # logging config
-    log_file = f"{SAVEPATH}/pokete.log" if do_logging else None
+    log_file = (SAVEPATH / "pokete.log") if do_logging else None
     logging.basicConfig(filename=log_file,
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG if do_logging else logging.ERROR)
