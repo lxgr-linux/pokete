@@ -791,7 +791,7 @@ def save():
         &#34;pokete_care&#34;: pokete_care.dict(),
         &#34;time&#34;: timer.time.time
     }
-    with open(HOME + SAVEPATH + &#34;/pokete.json&#34;, &#34;w+&#34;) as file:
+    with open(SAVEPATH / &#34;pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
     logging.info(&#34;[General] Saved&#34;)
@@ -801,7 +801,7 @@ def read_save():
     &#34;&#34;&#34;Reads from savefile
     RETURNS:
         session_info dict&#34;&#34;&#34;
-    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
+    Path(SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     _si = {
         &#34;user&#34;: &#34;DEFAULT&#34;,
@@ -831,15 +831,17 @@ def read_save():
         &#34;time&#34;: 0
     }
 
-    if (not os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;)
-        and os.path.exists(HOME + SAVEPATH + &#34;/pokete.py&#34;)):
+    if os.path.exists(SAVEPATH / &#34;pokete.json&#34;):
+        with open(SAVEPATH / &#34;pokete.json&#34;) as _file:
+            _si = json.load(_file)
+    elif os.path.exists(HOME / &#34;.cache&#34; / &#34;pokete&#34; / &#34;pokete.json&#34;):
+        with open(HOME / &#34;.cache&#34; / &#34;pokete&#34; / &#34;pokete.json&#34;) as _file:
+            _si = json.load(_file)
+    elif os.path.exists(HOME / &#34;.cache&#34; / &#34;pokete&#34; / &#34;pokete.py&#34;):
         l_dict = {}
-        with open(HOME + SAVEPATH + &#34;/pokete.py&#34;, &#34;r&#34;) as _file:
+        with open(HOME / &#34;.cache&#34; / &#34;pokete&#34; / &#34;pokete.py&#34;, &#34;r&#34;) as _file:
             exec(_file.read(), {&#34;session_info&#34;: _si}, l_dict)
         _si = json.loads(json.dumps(l_dict[&#34;session_info&#34;]))
-    elif os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;):
-        with open(HOME + SAVEPATH + &#34;/pokete.json&#34;) as _file:
-            _si = json.load(_file)
     return _si
 
 
@@ -1468,21 +1470,23 @@ if __name__ == &#34;__main__&#34;:
     width, height = tss()
 
     # Home global
-    HOME = str(Path.home())
+    HOME = Path.home()
 
     # loading screen
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
 
+    # readinf savefile
+    session_info = read_save()
+
     # logging config
-    log_file = f&#34;{HOME}{SAVEPATH}/pokete.log&#34; if do_logging else None
+    log_file = (SAVEPATH / &#34;pokete.log&#34;) if do_logging else None
     logging.basicConfig(filename=log_file,
                         format=&#39;[%(asctime)s][%(levelname)s]: %(message)s&#39;,
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info(&#34;=== Startup Pokete %s v%s ===&#34;, CODENAME, VERSION)
 
-    # reading save file
-    session_info = read_save()
+    # settings
     settings.from_dict(session_info.get(&#34;settings&#34;, {}))
     save_trainers = settings(&#34;save_trainers&#34;).val
 
@@ -2092,7 +2096,7 @@ town.&#34;,
     &#34;&#34;&#34;Reads from savefile
     RETURNS:
         session_info dict&#34;&#34;&#34;
-    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
+    Path(SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     _si = {
         &#34;user&#34;: &#34;DEFAULT&#34;,
@@ -2122,15 +2126,17 @@ town.&#34;,
         &#34;time&#34;: 0
     }
 
-    if (not os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;)
-        and os.path.exists(HOME + SAVEPATH + &#34;/pokete.py&#34;)):
+    if os.path.exists(SAVEPATH / &#34;pokete.json&#34;):
+        with open(SAVEPATH / &#34;pokete.json&#34;) as _file:
+            _si = json.load(_file)
+    elif os.path.exists(HOME / &#34;.cache&#34; / &#34;pokete&#34; / &#34;pokete.json&#34;):
+        with open(HOME / &#34;.cache&#34; / &#34;pokete&#34; / &#34;pokete.json&#34;) as _file:
+            _si = json.load(_file)
+    elif os.path.exists(HOME / &#34;.cache&#34; / &#34;pokete&#34; / &#34;pokete.py&#34;):
         l_dict = {}
-        with open(HOME + SAVEPATH + &#34;/pokete.py&#34;, &#34;r&#34;) as _file:
+        with open(HOME / &#34;.cache&#34; / &#34;pokete&#34; / &#34;pokete.py&#34;, &#34;r&#34;) as _file:
             exec(_file.read(), {&#34;session_info&#34;: _si}, l_dict)
         _si = json.loads(json.dumps(l_dict[&#34;session_info&#34;]))
-    elif os.path.exists(HOME + SAVEPATH + &#34;/pokete.json&#34;):
-        with open(HOME + SAVEPATH + &#34;/pokete.json&#34;) as _file:
-            _si = json.load(_file)
     return _si</code></pre>
 </details>
 </dd>
@@ -2184,7 +2190,7 @@ town.&#34;,
         &#34;pokete_care&#34;: pokete_care.dict(),
         &#34;time&#34;: timer.time.time
     }
-    with open(HOME + SAVEPATH + &#34;/pokete.json&#34;, &#34;w+&#34;) as file:
+    with open(SAVEPATH / &#34;pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
     logging.info(&#34;[General] Saved&#34;)</code></pre>
