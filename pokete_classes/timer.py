@@ -7,7 +7,7 @@ import scrap_engine as se
 from pokete_classes.hotkeys import Action, get_action
 from .ui_elements import Box
 from .loops import std_loop
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 time = None
 clock = None

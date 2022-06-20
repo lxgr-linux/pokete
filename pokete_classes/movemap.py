@@ -9,7 +9,7 @@ from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 
 class Movemap(gm.GameSubmap):

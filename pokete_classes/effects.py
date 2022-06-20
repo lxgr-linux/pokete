@@ -5,7 +5,7 @@ import random
 import logging
 import scrap_engine as se
 from .color import Color
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 class Effect():
     """An effect that can be given to a Pokete and that effects the Pokete

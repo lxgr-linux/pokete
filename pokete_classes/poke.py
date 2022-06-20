@@ -17,7 +17,7 @@ from .types import types
 from .effects import effects
 from .learnattack import LearnAttack
 from .nature import PokeNature
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 
 class Poke:

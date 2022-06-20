@@ -15,7 +15,7 @@ from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
 from .general import check_walk_back
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 
 class NPCTrigger(se.Object):

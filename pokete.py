@@ -51,7 +51,7 @@ from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
 from pokete_general_use_fns import liner, sort_vers, parse_args
 
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 from release import VERSION, CODENAME, SAVEPATH
 
 

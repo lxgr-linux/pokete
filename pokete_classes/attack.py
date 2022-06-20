@@ -6,7 +6,7 @@ from pokete_data.attacks import attacks
 from .effects import effects
 from .types import types
 from .color import Color
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 
 class Attack:

@@ -4,7 +4,7 @@ import time
 from pokete_classes.hotkeys import Action, get_action
 import release
 from .notify import notifier
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 
 def easy_exit_loop(on_mvmp=True):

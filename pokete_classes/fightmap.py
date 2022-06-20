@@ -19,7 +19,7 @@ from .input import ask_bool
 from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 
 class FightMap(gm.GameMap):

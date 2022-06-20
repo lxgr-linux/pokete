@@ -3,7 +3,7 @@
 import time
 import scrap_engine as se
 from .color import Color
-from pokete_classes.constants import SPEED_OF_TIME
+from release import SPEED_OF_TIME
 
 
 class HealthBar(se.Text):
