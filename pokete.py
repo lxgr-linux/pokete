@@ -754,7 +754,7 @@ def save():
         "pokete_care": pokete_care.dict(),
         "time": timer.time.time
     }
-    with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
+    with open(SAVEPATH / "pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
     logging.info("[General] Saved")
@@ -764,7 +764,7 @@ def read_save():
     """Reads from savefile
     RETURNS:
         session_info dict"""
-    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
+    Path(SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     _si = {
         "user": "DEFAULT",
@@ -794,15 +794,17 @@ def read_save():
         "time": 0
     }
 
-    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
-        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
+    if os.path.exists(SAVEPATH / "pokete.json"):
+        with open(SAVEPATH / "pokete.json") as _file:
+            _si = json.load(_file)
+    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.json"):
+        with open(HOME / ".cache" / "pokete" / "pokete.json") as _file:
+            _si = json.load(_file)
+    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.py"):
         l_dict = {}
-        with open(HOME + SAVEPATH + "/pokete.py", "r") as _file:
+        with open(HOME / ".cache" / "pokete" / "pokete.py", "r") as _file:
             exec(_file.read(), {"session_info": _si}, l_dict)
         _si = json.loads(json.dumps(l_dict["session_info"]))
-    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
-        with open(HOME + SAVEPATH + "/pokete.json") as _file:
-            _si = json.load(_file)
     return _si
 
 
@@ -1431,21 +1433,23 @@ if __name__ == "__main__":
     width, height = tss()
 
     # Home global
-    HOME = str(Path.home())
+    HOME = Path.home()
 
     # loading screen
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
 
+    # readinf savefile
+    session_info = read_save()
+
     # logging config
-    log_file = f"{HOME}{SAVEPATH}/pokete.log" if do_logging else None
+    log_file = (SAVEPATH / "pokete.log") if do_logging else None
     logging.basicConfig(filename=log_file,
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
 
-    # reading save file
-    session_info = read_save()
+    # settings
     settings.from_dict(session_info.get("settings", {}))
     save_trainers = settings("save_trainers").val
 
