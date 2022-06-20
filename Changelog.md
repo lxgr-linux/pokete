@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.3] - 2022-06-20
+
+Preparation release for flatpaks. Includes:
+
+- A svg image of the pokete logo
+- A metainfo.xml file for pokete
+
 ## [0.7.2] - 2022-06-08
 
 Crucial bugfix related to natures and pokete dex.
