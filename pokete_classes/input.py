@@ -1,5 +1,6 @@
 """This file contains input wrappers for ui elements"""
 
+from pokete_classes.hotkeys import Action, get_action
 from pokete_general_use_fns import hard_liner
 from .loops import std_loop
 from .ui_elements import InfoBox, InputBox
@@ -19,6 +20,7 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
     bname = name
     _map.show()
     while True:
+        # Use lower level ev.get() methods because we need to handle typed text, not game actions
         if _ev.get() in ["Key.enter", "Key.esc"]:
             _ev.clear()
             obj.rechar(hard_liner(wrap_len, name))
@@ -37,8 +39,8 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
         elif ((i := _ev.get()) not in ["", "exit"] and "Key." not in i) \
              and len(name) < max_len or i == "Key.space":
             if _ev.get() == "Key.space":
-                _ev.set("' '")
-            name += str(_ev.get().strip("'"))
+                _ev.set(" ")
+            name += str(_ev.get())
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
             _ev.clear()
@@ -55,10 +57,11 @@ def ask_bool(_map, text):
     with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o",
                  info="", _map=_map):
         while True:
-            if _ev.get() == "'y'":
+            action = get_action()
+            if action.triggers(Action.ACCEPT):
                 ret = True
                 break
-            elif _ev.get() in ["'n'", "Key.esc", "'q'"]:
+            elif action.triggers(Action.CANCEL):
                 ret = False
                 break
             std_loop(_map.name == "movemap")
@@ -82,20 +85,17 @@ def ask_text(_map, infotext, introtext, text, name, max_len):
 
 
 def ask_ok(_map, text):
-    """Asks the player to an OK question
+    """Shows the player some information
     ARGS:
         _map: The map the question is asked on
         text: The question it self"""
     assert len(text) >= 4, "Text has to be longer then 4 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k", name="Info",
+    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '} [O]k ", name="Info",
                  info="", _map=_map):
         while True:
-            if _ev.get() in ["'o'", "'O'", "Key.enter"]:
+            action = get_action()
+            if action.triggers(Action.ACCEPT or action == Action.CANCEL):
                 break
             std_loop(_map.name == "movemap")
         _ev.clear()
-
-
-if __name__ == "__main__":
-    print("\033[31;1mDo not execute this!\033[0m")

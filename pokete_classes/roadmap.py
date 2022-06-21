@@ -1,13 +1,13 @@
 """Contains all classes relevant to show the roadmap"""
 
 import scrap_engine as se
+from pokete_classes.hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .color import Color
 from .ui_elements import Box, InfoBox
-from .event import _ev
 
 
 class RoadMapException(Exception):
@@ -58,11 +58,20 @@ class Station(se.Square):
         """Unchooses the station"""
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, inp):
+    def next(self, inp: ActionList):
         """Chooses the next station in a certain direction
         ARGS:
-            inp: Event object"""
-        inp = inp.strip("'")
+            inp: Action Enum"""
+        for action in inp:
+            if action in (ACTION_DIRECTIONS):
+                inp = action
+                break
+        inp = {
+            Action.UP: 'w',
+            Action.DOWN: 's',
+            Action.LEFT: 'a',
+            Action.RIGHT: 'd',
+        }[inp]
         if (n_e := getattr(self, inp + "_next")) != "":
             self.unchoose()
             getattr(self.roadmap, n_e).choose()
@@ -121,7 +130,6 @@ class RoadMap:
         ARGS:
             _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city"""
-        _ev.clear()
         for i in Station.obs:
             i.set_color(choose)
         [i for i in Station.obs
@@ -132,19 +140,17 @@ class RoadMap:
          in i.associates][0].choose()
         with self.box.center_add(_map):
             while True:
-                if _ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
-                    self.sta.next(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in ["'3'", "Key.esc", "'q'"]:
-                    _ev.clear()
+                action = get_action()
+                if action.triggers(*ACTION_DIRECTIONS):
+                    self.sta.next(action)
+                elif action.triggers(*[Action.ACT_3, Action.CANCEL]):
                     break
-                elif (_ev.get() == "Key.enter" and choose
+                elif (action == Action.ACCEPT and choose
                       and self.sta.has_been_visited()
                       and self.sta.is_city()):
                     return self.sta.associates[0]
-                elif (_ev.get() == "Key.enter" and not choose
+                elif (action == Action.ACCEPT and not choose
                       and self.sta.has_been_visited()):
-                    _ev.clear()
                     p_list = ", ".join(set(p_data.pokes[j]["name"]
                                        for i in self.sta.associates
                                            for j in

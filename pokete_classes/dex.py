@@ -1,12 +1,12 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
 import scrap_engine as se
+from pokete_classes.hotkeys import Action, ACTION_UP_DOWN, get_action
 import pokete_data as p_data
 import pokete_classes.movemap as mvp
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .poke import Poke
-from .event import _ev
 from .color import Color
 from .nature import PokeNature
 from .ui_elements import ChooseBox, Box
@@ -43,7 +43,6 @@ class Dex:
         """Shows details about the Pokete
         ARGS:
             poke: Pokes identifier"""
-        _ev.clear()
         poke = Poke(poke, 0)
         poke.nature = PokeNature.dummy()
         poke.set_vars()
@@ -79,7 +78,6 @@ Active: """) + se.Text(active[0], esccode=active[1])
     def __call__(self):
         """Opens the dex"""
         pokes = p_data.pokes
-        _ev.clear()
         self.idx = 0
         p_dict = {i[1]: i[-1] for i in
                   sorted([(pokes[j]["types"][0], j, pokes[j])
@@ -91,29 +89,29 @@ Active: """) + se.Text(active[0], esccode=active[1])
         self.add_c_obs()
         with self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0):
             while True:
+                action = get_action()
                 for event, idx, n_idx, add, idx_2 in zip(
-                                ["'s'", "'w'"],
-                                [len(self.box.c_obs) - 1, 0],
-                                [0, self.box.height - 3], [1, -1], [-1, 0]):
-                    if _ev.get() == event and self.box.index.index == idx:
+                    [Action.DOWN, Action.UP],
+                    [len(self.box.c_obs) - 1, 0],
+                    [0, self.box.height - 3],
+                    [1, -1],
+                    [-1, 0],
+                ):
+                    if action.triggers(event and self.box.index.index == idx):
                         if self.box.c_obs[self.box.index.index]\
                                     != self.obs[idx_2]:
                             self.rem_c_obs()
                             self.idx += add
                             self.add_c_obs()
                             self.box.set_index(n_idx)
-                        _ev.clear()
-                if _ev.get() == "Key.enter":
+                if action.triggers(Action.ACCEPT):
                     if "???" not in self.box.c_obs[self.box.index.index].text:
                         self.detail(list(p_dict)[self.idx
                                                  * (self.box.height - 2)
                                                  + self.box.index.index])
-                    _ev.clear()
-                elif _ev.get() in ["'s'", "'w'"]:
-                    self.box.input(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in ["'e'", "Key.esc", "'q'"]:
-                    _ev.clear()
+                elif action.triggers(*ACTION_UP_DOWN):
+                    self.box.input(action)
+                elif action.triggers(Action.CANCEL, Action.POKEDEX):
                     break
                 std_loop()
                 mvp.movemap.show()

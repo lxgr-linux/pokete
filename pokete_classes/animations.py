@@ -3,6 +3,7 @@
 import time
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from release import SPEED_OF_TIME
 
 
 def transition(_map, poke):
@@ -19,21 +20,21 @@ def transition(_map, poke):
     for i, j in zip(reversed(vec_2.obs), vec_1.obs):
         for obj in [i, j]:
             obj.rechar("#")
-        time.sleep(0.005)
+        time.sleep(SPEED_OF_TIME * 0.005)
         _map.show()
 
-    time.sleep(0.5)
+    time.sleep(SPEED_OF_TIME * 0.5)
     poke.ico.add(_map, round((_map.width - 11) / 2),
                  round((_map.height - 4) / 2))
     _map.show()
-    time.sleep(1)
+    time.sleep(SPEED_OF_TIME * 1)
     poke.ico.remove()
     _map.show()
 
     for i, j in zip(reversed(vec_2.obs), vec_1.obs):
         for obj in [i, j]:
             obj.rechar(" ")
-        time.sleep(0.005)
+        time.sleep(SPEED_OF_TIME * 0.005)
         _map.show()
 
     vec_1.remove()
@@ -60,7 +61,7 @@ def fight_intro(height, width):
             if j != " ":
                 j.rechar(" ")
         fancymap.show()
-        time.sleep(0.005)
+        time.sleep(SPEED_OF_TIME * 0.005)
     for i in vec_list:
         i.remove()
     del fancymap

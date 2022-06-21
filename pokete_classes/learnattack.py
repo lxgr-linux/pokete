@@ -2,6 +2,7 @@
 
 import random
 import scrap_engine as se
+from pokete_classes.hotkeys import Action, get_action
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
@@ -9,7 +10,6 @@ from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
 from .detail import Detail
 from .attack import Attack
-from .event import _ev
 
 
 class AttackInfo(Box):
@@ -86,35 +86,27 @@ class LearnAttack:
                                     for i, j in enumerate(self.poke.attack_obs)])
                 with self.box.center_add(self.map):
                     while True:
-                        if _ev.get() in ["'s'", "'w'"]:
-                            self.box.input(_ev.get())
+                        action = get_action()
+                        if action.triggers(Action.UP, Action.DOWN):
+                            self.box.input(action)
                             self.map.show()
-                            _ev.clear()
-                        elif _ev.get() == "Key.enter":
+                        elif action.triggers(Action.ACCEPT):
                             i = self.box.index.index
                             self.poke.attacks[i] = new_attack
                             self.poke.attack_obs[i] = Attack(new_attack, i + 1)
-                            _ev.clear()
                             ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")
-                            _ev.clear()
                             break
-                        elif _ev.get() == "'1'":
-                            _ev.clear()
+                        elif action.triggers(Action.ACT_1):
                             Detail(self.map.height, self.map.width)\
                                   (self.poke, False)
                             self.map.show(init=True)
-                        elif _ev.get() == "'2'":
+                        elif action.triggers(Action.ACT_2):
                             with AttackInfo(new_attack, self.map):
                                 easy_exit_loop()
-                        elif _ev.get() in ["Key.esc", "'q'"]:
-                            _ev.clear()
+                        elif action.triggers(Action.CANCEL):
                             return False
                         std_loop()
                 self.box.remove_c_obs()
             return True
         return False
-
-
-if __name__ == "__main__":
-    print("\033[31;1mDo not execute this!\033[0m")
