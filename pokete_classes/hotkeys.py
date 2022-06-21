@@ -44,7 +44,7 @@ class ActionList(list):
         for action in self:
             if action.value in range(Action.ACT_1.value, Action.ACT_9.value):
                 return action.value - Action.ACT_1.value
-        return 0
+        return -1
 
     def get_Y_strength(self) -> Number:
         if self.triggers(Action.UP):
