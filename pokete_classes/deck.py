@@ -98,7 +98,7 @@ class Deck(detail.Informer):
                             pokes[self.index.index].text_name.y)
                         self.move_label.rechar("2: Move    ")
                         self.submap.full_show()
-                elif action == Action.ACT_3:
+                elif action.triggers(Action.ACT_3):
                     if pokes[self.index.index].identifier == "__fallback__":
                         pass
                     elif len(
@@ -121,7 +121,7 @@ class Deck(detail.Informer):
                             + 1,
                             pokes[self.index.index].text_name.y)
                         mvp.movemap.balls_label_rechar(self.figure.pokes)
-                elif action == Action.ACCEPT:
+                elif action.triggers(Action.ACCEPT):
                     if len(pokes) == 0 or \
                             pokes[self.index.index].identifier == "__fallback__":
                         continue

@@ -190,7 +190,7 @@ Do you want to accept it?"):
                     if action.triggers(*ACTION_UP_DOWN):
                         c_b.input(action)
                         mvp.movemap.show()
-                    elif action == Action.ACCEPT:
+                    elif action.triggers(Action.ACCEPT):
                         key = keys[c_b.index.index]
                         break
                     std_loop()

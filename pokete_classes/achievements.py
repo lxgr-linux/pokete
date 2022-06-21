@@ -106,9 +106,9 @@ class AchievementOverview(BetterChooseBox):
                 if action.triggers(*ACTION_DIRECTIONS):
                     self.input(action)
                 else:
-                    if action == Action.CANCEL:
+                    if action.triggers(Action.CANCEL):
                         break
-                    elif action == Action.ACCEPT:
+                    elif action.triggers(Action.ACCEPT):
                         ach = achievements.achievements[
                             self.get_item(*self.index).ind
                         ]

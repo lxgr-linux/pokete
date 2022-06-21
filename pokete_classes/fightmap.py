@@ -187,7 +187,7 @@ class FightMap(gm.GameMap):
                     if attack.ap == 0:
                         continue
                     break
-                elif action == Action.INFO:
+                elif action.triggers(Action.INFO):
                     self.show_atk_info_box = not self.show_atk_info_box
                     if self.show_atk_info_box:
                         self.atk_info_box.add(self, 27, self.height - 7)
@@ -195,7 +195,7 @@ class FightMap(gm.GameMap):
                         self.atk_info_box.remove()
                     self.show()
                     continue
-                elif action == Action.CANCEL:
+                elif action.triggers(Action.CANCEL):
                     attack = ""
                     break
                 std_loop(False)
@@ -216,10 +216,10 @@ class FightMap(gm.GameMap):
                 if action.triggers(*ACTION_UP_DOWN):
                     self.invbox.input(action)
                     self.show()
-                elif action == Action.CANCEL:
+                elif action.triggers(Action.CANCEL):
                     item = ""
                     break
-                elif action == Action.ACCEPT:
+                elif action.triggers(Action.ACCEPT):
                     item = items[self.invbox.index.index]
                     break
                 std_loop(False)

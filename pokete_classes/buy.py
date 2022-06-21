@@ -42,9 +42,9 @@ class Buy:
                 if action.triggers(*ACTION_UP_DOWN):
                     self.box.input(action)
                     self.rechar()
-                elif action == Action.CANCEL:
+                elif action.triggers(Action.CANCEL):
                     break
-                elif action == Action.ACCEPT:
+                elif action.triggers(Action.ACCEPT):
                     obj = self.items[self.box.index.index]
                     if self.fig.get_money() - obj.price >= 0:
                         self.fig.add_money(-obj.price)

@@ -135,9 +135,9 @@ class Detail(Informer):
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif action == Action.ACT_2:
+            elif action.triggers(Action.ACT_2):
                 poke.nature.info(self.map)
-            elif action == Action.ACT_3:
+            elif action.triggers(Action.ACT_3):
                 if abb_obs != [] and abb:
                     with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
                                    c_obs=[se.Text(i.name)
@@ -148,13 +148,13 @@ class Detail(Informer):
                             if action.triggers(Action.UP, Action.DOWN):
                                 box.input(action)
                                 self.map.show()
-                            elif action == Action.ACCEPT:
+                            elif action.triggers(Action.ACCEPT):
                                 ret_action = abb_obs[box.index.index].world_action
                                 break
-                            elif action == Action.CANCEL:
+                            elif action.triggers(Action.CANCEL):
                                 break
                             std_loop(False)
-                        if action == Action.ACCEPT:
+                        if action.triggers(Action.ACCEPT):
                             # Exit to the world after performing a world action
                             break
             std_loop(False)

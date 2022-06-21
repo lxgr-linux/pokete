@@ -3,7 +3,7 @@ elements used in Pokete"""
 
 import scrap_engine as se
 
-from pokete_classes.hotkeys import Action, get_Y_strength
+from pokete_classes.hotkeys import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, ActionList, get_Y_strength
 
 
 class BoxIndex(se.Object):
@@ -115,10 +115,15 @@ class ChooseBox(Box):
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, inp: Action):
+    def input(self, inp: ActionList):
         """Moves the cursor in the box
         ARGS:
              inp: Inputted action"""
+        assert(inp.triggers(*ACTION_UP_DOWN))
+        if inp.triggers(Action.UP):
+            inp = Action.UP
+        else:
+            inp = Action.DOWN
         if {
             Action.DOWN: self.index.index + 1 < len(self.c_obs),
             Action.UP: self.index.index - 1 >= 0
@@ -222,6 +227,15 @@ class BetterChooseBox(Box):
         """Evaluates user input
         ARGS:
             inp: Inputted string"""
+        assert(inp.triggers(*ACTION_DIRECTIONS))
+        if inp.triggers(Action.UP):
+            inp = Action.UP
+        elif inp.triggers(Action.LEFT):
+            inp = Action.LEFT
+        elif inp.triggers(Action.RIGHT):
+            inp = Action.RIGHT
+        else:
+            inp = Action.DOWN
         _c = {
             Action.UP: (-1, 0),
             Action.DOWN: (1, 0),

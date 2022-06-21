@@ -90,21 +90,21 @@ class LearnAttack:
                         if action.triggers(Action.UP, Action.DOWN):
                             self.box.input(action)
                             self.map.show()
-                        elif action == Action.ACCEPT:
+                        elif action.triggers(Action.ACCEPT):
                             i = self.box.index.index
                             self.poke.attacks[i] = new_attack
                             self.poke.attack_obs[i] = Attack(new_attack, i + 1)
                             ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")
                             break
-                        elif action == Action.ACT_1:
+                        elif action.triggers(Action.ACT_1):
                             Detail(self.map.height, self.map.width)\
                                   (self.poke, False)
                             self.map.show(init=True)
-                        elif action == Action.ACT_2:
+                        elif action.triggers(Action.ACT_2):
                             with AttackInfo(new_attack, self.map):
                                 easy_exit_loop()
-                        elif action == Action.CANCEL:
+                        elif action.triggers(Action.CANCEL):
                             return False
                         std_loop()
                 self.box.remove_c_obs()

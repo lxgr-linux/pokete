@@ -1022,26 +1022,27 @@ def _game(_map):
         if action.triggers(*ACTION_DIRECTIONS):
             figure.direction = '' #TODO
             figure.set(figure.x + get_X_strength(action), figure.y + get_Y_strength(action))
-        else:
-            if action.triggers(*inp_dict):
-                audio_before = settings("audio").val
-                inp_dict[action][0](*inp_dict[action][1])
-                _ev.clear()
-                if audio_before != settings("audio").val:
-                    audio.switch(_map.song)
-                mvp.movemap.show(init=True)
-            elif action.triggers(Action.CANCEL, Action.ACT_2):
-                if ask_bool(mvp.movemap, "Do you really wish to exit?"):
-                    save()
-                    exiter()
-            elif action.triggers(Action.CONSOLE):
-                inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
-                                 mvp.movemap.width,
-                                 (mvp.movemap.width - 2)
-                                 * mvp.movemap.height - 1)[1:]
-                mvp.movemap.code_label.outp(figure.map.pretty_name)
-                codes(inp)
-                _ev.clear()
+        elif action.triggers(*inp_dict):
+            audio_before = settings("audio").val
+            for key in inp_dict:
+                if action.triggers(key):
+                    inp_dict[key][0](*inp_dict[key][1])
+            _ev.clear()
+            if audio_before != settings("audio").val:
+                audio.switch(_map.song)
+            mvp.movemap.show(init=True)
+        elif action.triggers(Action.CANCEL, Action.ACT_2):
+            if ask_bool(mvp.movemap, "Do you really wish to exit?"):
+                save()
+                exiter()
+        elif action.triggers(Action.CONSOLE):
+            inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
+                             mvp.movemap.width,
+                             (mvp.movemap.width - 2)
+                             * mvp.movemap.height - 1)[1:]
+            mvp.movemap.code_label.outp(figure.map.pretty_name)
+            codes(inp)
+            _ev.clear()
         std_loop(pevm=pevm)
         for statement, x, y in zip(
             [

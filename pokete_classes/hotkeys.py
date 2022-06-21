@@ -88,25 +88,25 @@ hotkey_mappings = {
 
 # Returns an action, then clears input; all input is valid to read only once
 def get_action() -> ActionList:
-    retval = None
+    retval = ActionList()
     raw_input = _ev.get()
     if raw_input == "exit":
         raise KeyboardInterrupt
     if raw_input in hotkey_mappings:
-        retval = hotkey_mappings[raw_input]
+        retval = ActionList(hotkey_mappings[raw_input])
     _ev.clear()
     return retval
 
 def get_Y_strength(action: Action) -> Number:
-    if action == Action.UP:
+    if action.triggers(Action.UP):
             return -1
-    elif action == Action.DOWN:
+    elif action.triggers(Action.DOWN):
         return 1
     return 0
 
 def get_X_strength(action: Action) -> Number:
-    if action == Action.RIGHT:
+    if action.triggers(Action.RIGHT):
         return 1
-    elif action == Action.LEFT:
+    elif action.triggers(Action.LEFT):
         return -1
     return 0

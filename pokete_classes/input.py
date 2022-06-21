@@ -58,10 +58,10 @@ def ask_bool(_map, text):
                  info="", _map=_map):
         while True:
             action = get_action()
-            if action == Action.ACCEPT:
+            if action.triggers(Action.ACCEPT):
                 ret = True
                 break
-            elif action == Action.CANCEL:
+            elif action.triggers(Action.CANCEL):
                 ret = False
                 break
             std_loop(_map.name == "movemap")
@@ -95,7 +95,7 @@ def ask_ok(_map, text):
                  info="", _map=_map):
         while True:
             action = get_action()
-            if action == Action.ACCEPT or action == Action.CANCEL:
+            if action.triggers(Action.ACCEPT or action == Action.CANCEL):
                 break
             std_loop(_map.name == "movemap")
         _ev.clear()
