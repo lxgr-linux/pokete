@@ -264,20 +264,20 @@ class CenterInteract(se.Object):
         )
         while True:
             action = get_action()
-            if action in (Action.DECK, Action.ACT_1):
+            if action.triggers(Action.DECK, Action.ACT_1):
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index("__fallback__"))
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif action in (Action.ACCEPT, Action.ACT_2):
+            elif action.triggers(Action.ACCEPT, Action.ACT_2):
                 heal(figure)
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                  ["...", "Your Poketes are now healed!"])
                 break
-            elif action in (Action.CANCEL, Action.ACT_3):
+            elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
             std_loop()
         mvp.movemap.full_show(init=True)
@@ -520,7 +520,7 @@ class Inv:
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:
                 action = get_action()
-                if action in (Action.UP, Action.DOWN):
+                if action.triggers(Action.UP, Action.DOWN):
                     self.box.input(action)
                 elif action == Action.CANCEL:
                     break
@@ -707,9 +707,9 @@ valid single-space character!")
                         AchievementOverview()(mvp.movemap)
                     else:
                         i.change()
-                elif action in (Action.UP, Action.DOWN):
+                elif action.triggers(Action.UP, Action.DOWN):
                     self.box.input(action)
-                elif action in (Action.CANCEL, Action.MENU):
+                elif action.triggers(Action.CANCEL, Action.MENU):
                     break
                 std_loop(pevm=pevm)
                 self.map.full_show()
@@ -882,7 +882,7 @@ def test():
         "Test", _map=mvp.movemap) as a:
         while True:
             action = get_action()
-            if action in ACTION_DIRECTIONS:
+            if action.triggers(*ACTION_DIRECTIONS):
                 a.input(action)
             elif action == Action.CANCEL:
                 break
@@ -1019,18 +1019,18 @@ def _game(_map):
     while True:
         # Directions are not being used yet
         action = get_action()
-        if action in ACTION_DIRECTIONS:
+        if action.triggers(*ACTION_DIRECTIONS):
             figure.direction = '' #TODO
             figure.set(figure.x + get_X_strength(action), figure.y + get_Y_strength(action))
         else:
-            if action in inp_dict:
+            if action.triggers(*inp_dict):
                 audio_before = settings("audio").val
                 inp_dict[action][0](*inp_dict[action][1])
                 _ev.clear()
                 if audio_before != settings("audio").val:
                     audio.switch(_map.song)
                 mvp.movemap.show(init=True)
-            elif action in (Action.CANCEL, Action.ACT_2):
+            elif action.triggers(Action.CANCEL, Action.ACT_2):
                 if ask_bool(mvp.movemap, "Do you really wish to exit?"):
                     save()
                     exiter()

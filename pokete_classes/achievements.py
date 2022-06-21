@@ -103,7 +103,7 @@ class AchievementOverview(BetterChooseBox):
         with self:
             while True:
                 action = get_action()
-                if action in ACTION_DIRECTIONS:
+                if action.triggers(*ACTION_DIRECTIONS):
                     self.input(action)
                 else:
                     if action == Action.CANCEL:

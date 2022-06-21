@@ -187,7 +187,7 @@ Do you want to accept it?"):
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
                     action = get_action()
-                    if action in ACTION_UP_DOWN:
+                    if action.triggers(*ACTION_UP_DOWN):
                         c_b.input(action)
                         mvp.movemap.show()
                     elif action == Action.ACCEPT:

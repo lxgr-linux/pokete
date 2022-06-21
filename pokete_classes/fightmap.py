@@ -176,7 +176,7 @@ class FightMap(gm.GameMap):
             self.show()
             while True:#158
                 action = get_action()
-                if action in [Action.UP, Action.DOWN]:
+                if action.triggers(*[Action.UP, Action.DOWN]):
                     self.box.input(action)
                     self.rechar_atk_info_box(attack_obs)
                     self.show()
@@ -213,7 +213,7 @@ class FightMap(gm.GameMap):
         with self.invbox.add(self, self.width - 35, 0):
             while True:
                 action = get_action()
-                if action in ACTION_UP_DOWN:
+                if action.triggers(*ACTION_UP_DOWN):
                     self.invbox.input(action)
                     self.show()
                 elif action == Action.CANCEL:
@@ -237,11 +237,11 @@ class FightMap(gm.GameMap):
                                          state="float"))
         while True:  # Inputloop for general options
             action = get_action()
-            if action in (Action.ACT_1, Action.ACCEPT):
+            if action.triggers(Action.ACT_1, Action.ACCEPT):
                 attack = self.get_attack(figure.curr.attack_obs)
                 if attack != "":
                     return attack
-            elif action in (Action.ACT_2, Action.RUN):
+            elif action.triggers(Action.ACT_2, Action.RUN):
                 if (
                     type(enem) is Trainer
                     or not ask_bool(self, "Do you really want to run away?")
@@ -258,7 +258,7 @@ class FightMap(gm.GameMap):
                 logging.info("[Fight] Ended, ran away")
                 audio.switch(figure.map.song)
                 return "won"
-            elif action in (Action.ACT_3, Action.INVENTORY):
+            elif action.triggers(Action.ACT_3, Action.INVENTORY):
                 items = [getattr(invitems, i)
                             for i in figure.inv
                             if getattr(invitems, i).fn is not None
@@ -281,7 +281,7 @@ class FightMap(gm.GameMap):
                     audio.switch(figure.map.song)
                     return "won"
                 return ""
-            elif action in (Action.ACT_4, Action.DECK):
+            elif action.triggers(Action.ACT_4, Action.DECK):
                 if not self.choose_poke(figure):
                     self.show(init=True)
                     continue

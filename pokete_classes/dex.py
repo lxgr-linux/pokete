@@ -109,9 +109,9 @@ Active: """) + se.Text(active[0], esccode=active[1])
                         self.detail(list(p_dict)[self.idx
                                                  * (self.box.height - 2)
                                                  + self.box.index.index])
-                elif action in Action_UP_DOWN:
+                elif action.triggers(*Action_UP_DOWN):
                     self.box.input(action)
-                elif action in (Action.CANCEL, Action.POKEDEX):
+                elif action.triggers(Action.CANCEL, Action.POKEDEX):
                     break
                 std_loop()
                 mvp.movemap.show()

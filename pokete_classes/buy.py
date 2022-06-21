@@ -39,7 +39,7 @@ class Buy:
             self.map.show()
             while True:
                 action = get_action()
-                if action in ACTION_UP_DOWN:
+                if action.triggers(*ACTION_UP_DOWN):
                     self.box.input(action)
                     self.rechar()
                 elif action == Action.CANCEL:

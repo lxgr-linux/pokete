@@ -32,6 +32,7 @@ class Action(Enum):
     ACT_8 = auto()
     ACT_9 = auto()
 
+class ActionList(list):
     def triggers(self, *actions):
         for action in actions:
             if action in self:
@@ -86,7 +87,7 @@ hotkey_mappings = {
 }
 
 # Returns an action, then clears input; all input is valid to read only once
-def get_action() -> Action:
+def get_action() -> ActionList:
     retval = None
     raw_input = _ev.get()
     if raw_input == "exit":

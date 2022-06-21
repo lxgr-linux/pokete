@@ -137,9 +137,9 @@ class RoadMap:
         with self.box.center_add(_map):
             while True:
                 action = get_action()
-                if action in ACTION_DIRECTIONS:
+                if action.triggers(*ACTION_DIRECTIONS):
                     self.sta.next(action)
-                elif action in [Action.ACT_3, Action.CANCEL]:
+                elif action.triggers(*[Action.ACT_3, Action.CANCEL]):
                     break
                 elif (action == Action.ACCEPT and choose
                       and self.sta.has_been_visited()

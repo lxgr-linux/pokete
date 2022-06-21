@@ -125,7 +125,7 @@ class Detail(Informer):
         self.map.show(init=True)
         while True:
             action = get_action()
-            if action in (Action.ACT_1, Action.DECK, Action.CANCEL, Action.ACCEPT):
+            if action.triggers(Action.ACT_1, Action.DECK, Action.CANCEL, Action.ACCEPT):
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
@@ -145,7 +145,7 @@ class Detail(Informer):
                             as box:
                         while True:
                             action = get_action()
-                            if action in (Action.UP, Action.DOWN):
+                            if action.triggers(Action.UP, Action.DOWN):
                                 box.input(action)
                                 self.map.show()
                             elif action == Action.ACCEPT:

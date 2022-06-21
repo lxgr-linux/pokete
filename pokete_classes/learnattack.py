@@ -87,7 +87,7 @@ class LearnAttack:
                 with self.box.center_add(self.map):
                     while True:
                         action = get_action()
-                        if action in (Action.UP, Action.DOWN):
+                        if action.triggers(Action.UP, Action.DOWN):
                             self.box.input(action)
                             self.map.show()
                         elif action == Action.ACCEPT:

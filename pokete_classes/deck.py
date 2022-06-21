@@ -66,10 +66,10 @@ class Deck(detail.Informer):
         self.submap.full_show(init=True)
         while True:
             action = get_action()
-            if action in ACTION_DIRECTIONS:
+            if action.triggers(*ACTION_DIRECTIONS):
                 self.control(pokes, action)
             else:
-                if action in (Action.CANCEL, Action.ACT_1, Action.DECK):
+                if action.triggers(Action.CANCEL, Action.ACT_1, Action.DECK):
                     self.rem_pokes(pokes)
                     while len(self.map.obs) > 0:
                         self.map.obs[0].remove()
@@ -77,7 +77,7 @@ class Deck(detail.Informer):
                     if ret_action is not None:
                         self.abb_funcs[ret_action](pokes[self.index.index])
                     return None
-                elif action in (Action.ACT_2, Action.MOVE_POKETE):
+                elif action.triggers(Action.ACT_2, Action.MOVE_POKETE):
                     if len(pokes) == 0:
                         continue
                     if not indici:
