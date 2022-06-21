@@ -86,9 +86,12 @@ hotkey_mappings = {
     '9': [Action.ACT_9],
 }
 
+# Exists maybe for performance so references to new actionlists don't have to always be cleaned up when the following function returns nothing
+EMPTY_ACTIONLIST = ActionList()
+
 # Returns an action, then clears input; all input is valid to read only once
 def get_action() -> ActionList:
-    retval = ActionList()
+    retval = EMPTY_ACTIONLIST
     raw_input = _ev.get()
     if raw_input == "exit":
         raise KeyboardInterrupt
