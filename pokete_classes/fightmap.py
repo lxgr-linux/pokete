@@ -176,7 +176,7 @@ class FightMap(gm.GameMap):
             self.show()
             while True:#158
                 action = get_action()
-                if action.triggers(*[Action.UP, Action.DOWN]):
+                if action.triggers(*ACTION_UP_DOWN):
                     self.box.input(action)
                     self.rechar_atk_info_box(attack_obs)
                     self.show()
