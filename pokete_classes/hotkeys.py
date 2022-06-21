@@ -64,7 +64,7 @@ hotkey_mappings = {
     'c': Action.CLOCK,
     '?': Action.HELP,
     'u': Action.MENU,
-    ':': Action.COLON,
+    ':': Action.CONSOLE,
 
     '1': Action.ACT_1,
     '2': Action.ACT_2,
@@ -73,6 +73,8 @@ hotkey_mappings = {
     '5': Action.ACT_5,
     '6': Action.ACT_6,
     '7': Action.ACT_7,
+    '8': Action.ACT_8,
+    '9': Action.ACT_9,
 }
 
 # Returns an action, then clears input; all input is valid to read only once

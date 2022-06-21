@@ -1030,11 +1030,11 @@ def _game(_map):
                 if audio_before != settings("audio").val:
                     audio.switch(_map.song)
                 mvp.movemap.show(init=True)
-            elif action == Action.CANCEL or action == Action.ACT_2:
+            elif action in (Action.CANCEL, Action.ACT_2):
                 if ask_bool(mvp.movemap, "Do you really wish to exit?"):
                     save()
                     exiter()
-            elif action == Action.COLON:
+            elif action == Action.CONSOLE:
                 inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
                                  mvp.movemap.width,
                                  (mvp.movemap.width - 2)
