@@ -180,9 +180,10 @@ class FightMap(gm.GameMap):
                     self.box.input(action)
                     self.rechar_atk_info_box(attack_obs)
                     self.show()
-                elif not action == None and action.value in [i + Action.ACT_1.value for i in range(len(attack_obs))] and action.value < Action.ACT_9.value or action == Action.ACCEPT:
+                #elif action == None and action.value in [i + Action.ACT_1.value for i in range(len(attack_obs))] and action.value < Action.ACT_9.value or action == Action.ACCEPT:
+                elif action.triggers(Action.ACCEPT) or 0 <= action.get_number() < len(attack_obs):
                     attack = attack_obs[
-                        self.box.index.index if action == Action.ACCEPT else action.value - Action.ACT_1.value
+                        self.box.index.index if action == Action.ACCEPT else action.get_number()
                     ]
                     if attack.ap == 0:
                         continue

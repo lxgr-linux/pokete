@@ -120,6 +120,7 @@ class ChooseBox(Box):
         ARGS:
              inp: Inputted action"""
         assert(inp.triggers(*ACTION_UP_DOWN))
+        y_str = inp.get_Y_strength()
         if inp.triggers(Action.UP):
             inp = Action.UP
         else:
@@ -128,7 +129,7 @@ class ChooseBox(Box):
             Action.DOWN: self.index.index + 1 < len(self.c_obs),
             Action.UP: self.index.index - 1 >= 0
         }[inp]:
-            self.index.index += inp.get_Y_strength()
+            self.index.index += y_str
         else:
             self.index.index = {
                 Action.DOWN: 0,
