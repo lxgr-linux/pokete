@@ -39,6 +39,27 @@ class ActionList(list):
                 return True
         return False
 
+    # Returns 0-8 if ACT_1 through ACT_9 is in the list, else -1
+    def get_number(self):
+        for action in self:
+            if action.value in range(Action.ACT_1.value, Action.ACT_9.value):
+                return action.value - Action.ACT_1.value
+        return 0
+
+    def get_Y_strength(self) -> Number:
+        if self.triggers(Action.UP):
+                return -1
+        elif self.triggers(Action.DOWN):
+            return 1
+        return 0
+
+    def get_X_strength(self) -> Number:
+        if self.triggers(Action.RIGHT):
+            return 1
+        elif self.triggers(Action.LEFT):
+            return -1
+        return 0
+
 ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
 ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
@@ -100,17 +121,3 @@ def get_action() -> ActionList:
         retval = hotkey_mappings[raw_input]
     _ev.clear()
     return retval
-
-def get_Y_strength(action: Action) -> Number:
-    if action.triggers(Action.UP):
-            return -1
-    elif action.triggers(Action.DOWN):
-        return 1
-    return 0
-
-def get_X_strength(action: Action) -> Number:
-    if action.triggers(Action.RIGHT):
-        return 1
-    elif action.triggers(Action.LEFT):
-        return -1
-    return 0
