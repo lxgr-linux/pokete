@@ -77,7 +77,7 @@ class Deck(detail.Informer):
                     if ret_action is not None:
                         self.abb_funcs[ret_action](pokes[self.index.index])
                     return None
-                elif action == Action.ACT_2: # Or [M]ap?
+                elif action in (Action.ACT_2, Action.MOVE_POKETE):
                     if len(pokes) == 0:
                         continue
                     if not indici:

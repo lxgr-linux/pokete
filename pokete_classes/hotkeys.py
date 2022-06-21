@@ -15,10 +15,12 @@ class Action(Enum):
     INVENTORY = auto()
     POKEDEX = auto()
     MAP = auto()
+    # This can't be programmatically changed. A better solution will be to have hotkey_mappings values be an iterator and check if any of its values matches desired ones
+    MOVE_POKETE = MAP
     CLOCK = auto()
     HELP = auto()
     MENU = auto()
-    COLON = auto()
+    CONSOLE = auto()
 
     ACT_1 = auto()
     ACT_2 = auto()
