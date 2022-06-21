@@ -43,47 +43,47 @@ ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
 ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
 hotkey_mappings = {
-    'a':        [Action.LEFT],
-    'h':        [Action.LEFT],
-    'Key.left': [Action.LEFT],
-    'd':         [Action.RIGHT],
-    'l':         [Action.RIGHT],
-    'Key.right': [Action.RIGHT],
-    'w':      [Action.UP],
-    'k':      [Action.UP],
-    'Key.up': [Action.UP],
-    's':        [Action.DOWN],
-    'j':        [Action.DOWN],
-    'Key.down': [Action.DOWN],
+    'a':        ActionList([Action.LEFT]),
+    'h':        ActionList([Action.LEFT]),
+    'Key.left': ActionList([Action.LEFT]),
+    'd':         ActionList([Action.RIGHT]),
+    'l':         ActionList([Action.RIGHT]),
+    'Key.right': ActionList([Action.RIGHT]),
+    'w':      ActionList([Action.UP]),
+    'k':      ActionList([Action.UP]),
+    'Key.up': ActionList([Action.UP]),
+    's':        ActionList([Action.DOWN]),
+    'j':        ActionList([Action.DOWN]),
+    'Key.down': ActionList([Action.DOWN]),
 
-    'Key.space': [Action.ACCEPT],
-    'Key.enter': [Action.ACCEPT],
-    'y':         [Action.ACCEPT],
-    'o':         [Action.ACCEPT],
-    'n':             [Action.CANCEL],
-    'q':             [Action.CANCEL],
-    'Key.esc':       [Action.CANCEL],
-    'Key.backspace': [Action.CANCEL],
+    'Key.space': ActionList([Action.ACCEPT]),
+    'Key.enter': ActionList([Action.ACCEPT]),
+    'y':         ActionList([Action.ACCEPT]),
+    'o':         ActionList([Action.ACCEPT]),
+    'n':             ActionList([Action.CANCEL]),
+    'q':             ActionList([Action.CANCEL]),
+    'Key.esc':       ActionList([Action.CANCEL]),
+    'Key.backspace': ActionList([Action.CANCEL]),
 
-    'r': [Action.RUN],
-    'e': [Action.DECK],
-    'i': [Action.INVENTORY],
-    'p': [Action.POKEDEX],
-    'm': [Action.MAP, Action.MOVE_POKETE],
-    'c': [Action.CLOCK],
-    '?': [Action.HELP, Action.INFO],
-    'u': [Action.MENU],
-    ':': [Action.CONSOLE],
+    'r': ActionList([Action.RUN]),
+    'e': ActionList([Action.DECK]),
+    'i': ActionList([Action.INVENTORY]),
+    'p': ActionList([Action.POKEDEX]),
+    'm': ActionList([Action.MAP, Action.MOVE_POKETE]),
+    'c': ActionList([Action.CLOCK]),
+    '?': ActionList([Action.HELP, Action.INFO]),
+    'u': ActionList([Action.MENU]),
+    ':': ActionList([Action.CONSOLE]),
 
-    '1': [Action.ACT_1],
-    '2': [Action.ACT_2],
-    '3': [Action.ACT_3],
-    '4': [Action.ACT_4],
-    '5': [Action.ACT_5],
-    '6': [Action.ACT_6],
-    '7': [Action.ACT_7],
-    '8': [Action.ACT_8],
-    '9': [Action.ACT_9],
+    '1': ActionList([Action.ACT_1]),
+    '2': ActionList([Action.ACT_2]),
+    '3': ActionList([Action.ACT_3]),
+    '4': ActionList([Action.ACT_4]),
+    '5': ActionList([Action.ACT_5]),
+    '6': ActionList([Action.ACT_6]),
+    '7': ActionList([Action.ACT_7]),
+    '8': ActionList([Action.ACT_8]),
+    '9': ActionList([Action.ACT_9]),
 }
 
 # Exists maybe for performance so references to new actionlists don't have to always be cleaned up when the following function returns nothing
@@ -97,7 +97,7 @@ def get_action() -> ActionList:
     if raw_input == "exit":
         raise KeyboardInterrupt
     if raw_input in hotkey_mappings:
-        retval = ActionList(hotkey_mappings[raw_input])
+        retval = hotkey_mappings[raw_input]
     _ev.clear()
     return retval
 
