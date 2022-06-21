@@ -109,7 +109,7 @@ Active: """) + se.Text(active[0], esccode=active[1])
                         self.detail(list(p_dict)[self.idx
                                                  * (self.box.height - 2)
                                                  + self.box.index.index])
-                elif action == Action.UP or action == Action.DOWN:
+                elif action in Action_UP_DOWN:
                     self.box.input(action)
                 elif action in (Action.CANCEL, Action.POKEDEX):
                     break
