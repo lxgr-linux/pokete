@@ -115,7 +115,7 @@ class Clock(Box):
         raw_time = self.time.time
         with self.center_add(_map):
             while True:
-                if get_action() in (Action.CANCEL, Action.CLOCK):
+                if get_action().triggers(*(Action.CANCEL, Action.CLOCK)):
                     break
                 if self.time.time == raw_time + 1:
                     d_p = not d_p

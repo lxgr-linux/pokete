@@ -12,7 +12,7 @@ def easy_exit_loop(on_mvmp=True):
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap"""
     while True:
-        if get_action() in (Action.CANCEL, Action.ACCEPT):
+        if get_action().triggers(*(Action.CANCEL, Action.ACCEPT)):
             return
         std_loop(on_mvmp)
 

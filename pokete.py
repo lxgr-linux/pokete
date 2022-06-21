@@ -530,7 +530,7 @@ class Inv:
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
                     while True:
-                        if get_action() in (Action.ACCEPT, Action.CANCEL):
+                        if get_action().triggers(*(Action.ACCEPT, Action.CANCEL)):
                             self.box2.remove()
                             if obj.name == "treat":
                                 if ask_bool(self.map,
