@@ -87,6 +87,7 @@ hotkey_mappings = {
 }
 
 # Exists maybe for performance so references to new actionlists don't have to always be cleaned up when the following function returns nothing
+# I don't trust python to be smart enough to do this itself
 EMPTY_ACTIONLIST = ActionList()
 
 # Returns an action, then clears input; all input is valid to read only once
