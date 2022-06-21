@@ -171,6 +171,10 @@ class Deck(detail.Informer):
             inp: Inputted string"""
         if len(pokes) <= 1:
             return
+        for action in inp:
+            if action in ACTION_DIRECTIONS:
+                inp = action
+                break
         for direction, not_out_of_bounds, index_delta, out_of_bounds_pos in zip(
             [Action.LEFT, Action.RIGHT, Action.DOWN, Action.UP],
             [
