@@ -45,7 +45,7 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
-from pokete_classes.hotkeys import get_X_strength, get_Y_strength, get_action, Action, ACTION_DIRECTIONS
+from pokete_classes.hotkeys import get_action, Action, ACTION_DIRECTIONS
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
@@ -1021,7 +1021,7 @@ def _game(_map):
         action = get_action()
         if action.triggers(*ACTION_DIRECTIONS):
             figure.direction = '' #TODO
-            figure.set(figure.x + get_X_strength(action), figure.y + get_Y_strength(action))
+            figure.set(figure.x + action.get_X_strength(), figure.y + action.get_Y_strength())
         elif action.triggers(*inp_dict):
             audio_before = settings("audio").val
             for key in inp_dict:

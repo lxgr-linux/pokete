@@ -3,7 +3,7 @@ elements used in Pokete"""
 
 import scrap_engine as se
 
-from pokete_classes.hotkeys import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, ActionList, get_Y_strength
+from pokete_classes.hotkeys import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, ActionList
 
 
 class BoxIndex(se.Object):
@@ -128,7 +128,7 @@ class ChooseBox(Box):
             Action.DOWN: self.index.index + 1 < len(self.c_obs),
             Action.UP: self.index.index - 1 >= 0
         }[inp]:
-            self.index.index += get_Y_strength(inp)
+            self.index.index += inp.get_Y_strength()
         else:
             self.index.index = {
                 Action.DOWN: 0,
