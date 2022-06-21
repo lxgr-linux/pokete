@@ -187,7 +187,7 @@ class FightMap(gm.GameMap):
                     if attack.ap == 0:
                         continue
                     break
-                elif action == Action.HELP:
+                elif action == Action.INFO:
                     self.show_atk_info_box = not self.show_atk_info_box
                     if self.show_atk_info_box:
                         self.atk_info_box.add(self, 27, self.height - 7)

@@ -19,6 +19,7 @@ class Action(Enum):
     MOVE_POKETE = MAP
     CLOCK = auto()
     HELP = auto()
+    INFO = HELP
     MENU = auto()
     CONSOLE = auto()
 
