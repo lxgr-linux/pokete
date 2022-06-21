@@ -32,6 +32,7 @@
 import time
 import scrap_engine as se
 from .color import Color
+from release import SPEED_OF_TIME
 
 class Moves:
     &#34;&#34;&#34;This class contains all attack moves
@@ -47,14 +48,14 @@ class Moves:
             self.poke.ico.move(i if self.poke.player
                                else -i, -j if self.poke.player else j)
             self.poke.ico.map.show()
-            time.sleep(_t)
+            time.sleep(SPEED_OF_TIME * _t)
 
     def pound(self):
         &#34;&#34;&#34;Pound move&#34;&#34;&#34;
         for i in [-1, 1]:
             self.poke.ico.move(0, i)
             self.poke.ico.map.show()
-            time.sleep(0.3)
+            time.sleep(SPEED_OF_TIME * 0.3)
 
     def bomb(self):
         &#34;&#34;&#34;Bomb move&#34;&#34;&#34;
@@ -100,8 +101,8 @@ class Moves:
         for i in frames:
             text.rechar(i)
             self.poke.ico.map.show()
-            time.sleep(0.03)
-        time.sleep(0.03)
+            time.sleep(SPEED_OF_TIME * 0.03)
+        time.sleep(SPEED_OF_TIME * 0.03)
         text.remove()
 
     def arch(self):
@@ -117,7 +118,7 @@ class Moves:
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         line.remove()
         del line
 
@@ -146,7 +147,7 @@ class Moves:
                     line.obs[i - j].rechar(txt)
                 if len(line.obs) &gt;= i - j &gt; 0:
                     line.obs[i - j - 1].rechar(line.char)
-            time.sleep(0.05)
+            time.sleep(SPEED_OF_TIME * 0.05)
             self.poke.ico.map.show()
         line.remove()
         del line
@@ -169,8 +170,8 @@ class Moves:
                               self.poke.ico.y + 3, self.poke.ico.y + 3]):
             i.add(self.poke.ico.map, _x, _y)
             self.poke.ico.map.show()
-            time.sleep(0.2)
-        time.sleep(0.2)
+            time.sleep(SPEED_OF_TIME * 0.2)
+        time.sleep(SPEED_OF_TIME * 0.2)
         for i in shines:
             i.remove()
         self.poke.ico.map.show()
@@ -223,14 +224,14 @@ if __name__ == &#34;__main__&#34;:
             self.poke.ico.move(i if self.poke.player
                                else -i, -j if self.poke.player else j)
             self.poke.ico.map.show()
-            time.sleep(_t)
+            time.sleep(SPEED_OF_TIME * _t)
 
     def pound(self):
         &#34;&#34;&#34;Pound move&#34;&#34;&#34;
         for i in [-1, 1]:
             self.poke.ico.move(0, i)
             self.poke.ico.map.show()
-            time.sleep(0.3)
+            time.sleep(SPEED_OF_TIME * 0.3)
 
     def bomb(self):
         &#34;&#34;&#34;Bomb move&#34;&#34;&#34;
@@ -276,8 +277,8 @@ if __name__ == &#34;__main__&#34;:
         for i in frames:
             text.rechar(i)
             self.poke.ico.map.show()
-            time.sleep(0.03)
-        time.sleep(0.03)
+            time.sleep(SPEED_OF_TIME * 0.03)
+        time.sleep(SPEED_OF_TIME * 0.03)
         text.remove()
 
     def arch(self):
@@ -293,7 +294,7 @@ if __name__ == &#34;__main__&#34;:
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         line.remove()
         del line
 
@@ -322,7 +323,7 @@ if __name__ == &#34;__main__&#34;:
                     line.obs[i - j].rechar(txt)
                 if len(line.obs) &gt;= i - j &gt; 0:
                     line.obs[i - j - 1].rechar(line.char)
-            time.sleep(0.05)
+            time.sleep(SPEED_OF_TIME * 0.05)
             self.poke.ico.map.show()
         line.remove()
         del line
@@ -345,8 +346,8 @@ if __name__ == &#34;__main__&#34;:
                               self.poke.ico.y + 3, self.poke.ico.y + 3]):
             i.add(self.poke.ico.map, _x, _y)
             self.poke.ico.map.show()
-            time.sleep(0.2)
-        time.sleep(0.2)
+            time.sleep(SPEED_OF_TIME * 0.2)
+        time.sleep(SPEED_OF_TIME * 0.2)
         for i in shines:
             i.remove()
         self.poke.ico.map.show()
@@ -380,7 +381,7 @@ if __name__ == &#34;__main__&#34;:
              self.poke.ico.x + (11 if self.poke.player else -1),
              self.poke.ico.y + 1)
     self.poke.ico.map.show()
-    time.sleep(1)
+    time.sleep(SPEED_OF_TIME * 1)
     line.remove()
     del line</code></pre>
 </details>
@@ -400,7 +401,7 @@ if __name__ == &#34;__main__&#34;:
         self.poke.ico.move(i if self.poke.player
                            else -i, -j if self.poke.player else j)
         self.poke.ico.map.show()
-        time.sleep(_t)</code></pre>
+        time.sleep(SPEED_OF_TIME * _t)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.moves.Moves.bomb"><code class="name flex">
@@ -456,8 +457,8 @@ if __name__ == &#34;__main__&#34;:
         for i in frames:
             text.rechar(i)
             self.poke.ico.map.show()
-            time.sleep(0.03)
-        time.sleep(0.03)
+            time.sleep(SPEED_OF_TIME * 0.03)
+        time.sleep(SPEED_OF_TIME * 0.03)
         text.remove()</code></pre>
 </details>
 </dd>
@@ -518,7 +519,7 @@ if __name__ == &#34;__main__&#34;:
     for i in [-1, 1]:
         self.poke.ico.move(0, i)
         self.poke.ico.map.show()
-        time.sleep(0.3)</code></pre>
+        time.sleep(SPEED_OF_TIME * 0.3)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.moves.Moves.shine"><code class="name flex">
@@ -540,8 +541,8 @@ if __name__ == &#34;__main__&#34;:
                           self.poke.ico.y + 3, self.poke.ico.y + 3]):
         i.add(self.poke.ico.map, _x, _y)
         self.poke.ico.map.show()
-        time.sleep(0.2)
-    time.sleep(0.2)
+        time.sleep(SPEED_OF_TIME * 0.2)
+    time.sleep(SPEED_OF_TIME * 0.2)
     for i in shines:
         i.remove()
     self.poke.ico.map.show()</code></pre>
@@ -590,7 +591,7 @@ if __name__ == &#34;__main__&#34;:
                 line.obs[i - j].rechar(txt)
             if len(line.obs) &gt;= i - j &gt; 0:
                 line.obs[i - j - 1].rechar(line.char)
-        time.sleep(0.05)
+        time.sleep(SPEED_OF_TIME * 0.05)
         self.poke.ico.map.show()
     line.remove()
     del line</code></pre>

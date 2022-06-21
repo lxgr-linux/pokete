@@ -30,13 +30,13 @@
 <pre><code class="python">&#34;&#34;&#34;Contains all classes relevant to show the roadmap&#34;&#34;&#34;
 
 import scrap_engine as se
+from pokete_classes.hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
 from pokete_general_use_fns import liner
 from .loops import std_loop, easy_exit_loop
 from .color import Color
 from .ui_elements import Box, InfoBox
-from .event import _ev
 
 
 class RoadMapException(Exception):
@@ -87,11 +87,20 @@ class Station(se.Square):
         &#34;&#34;&#34;Unchooses the station&#34;&#34;&#34;
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, inp):
+    def next(self, inp: ActionList):
         &#34;&#34;&#34;Chooses the next station in a certain direction
         ARGS:
-            inp: Event object&#34;&#34;&#34;
-        inp = inp.strip(&#34;&#39;&#34;)
+            inp: Action Enum&#34;&#34;&#34;
+        for action in inp:
+            if action in (ACTION_DIRECTIONS):
+                inp = action
+                break
+        inp = {
+            Action.UP: &#39;w&#39;,
+            Action.DOWN: &#39;s&#39;,
+            Action.LEFT: &#39;a&#39;,
+            Action.RIGHT: &#39;d&#39;,
+        }[inp]
         if (n_e := getattr(self, inp + &#34;_next&#34;)) != &#34;&#34;:
             self.unchoose()
             getattr(self.roadmap, n_e).choose()
@@ -150,7 +159,6 @@ class RoadMap:
         ARGS:
             _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city&#34;&#34;&#34;
-        _ev.clear()
         for i in Station.obs:
             i.set_color(choose)
         [i for i in Station.obs
@@ -161,19 +169,17 @@ class RoadMap:
          in i.associates][0].choose()
         with self.box.center_add(_map):
             while True:
-                if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;]:
-                    self.sta.next(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in [&#34;&#39;3&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                    _ev.clear()
+                action = get_action()
+                if action.triggers(*ACTION_DIRECTIONS):
+                    self.sta.next(action)
+                elif action.triggers(*[Action.ACT_3, Action.CANCEL]):
                     break
-                elif (_ev.get() == &#34;Key.enter&#34; and choose
+                elif (action == Action.ACCEPT and choose
                       and self.sta.has_been_visited()
                       and self.sta.is_city()):
                     return self.sta.associates[0]
-                elif (_ev.get() == &#34;Key.enter&#34; and not choose
+                elif (action == Action.ACCEPT and not choose
                       and self.sta.has_been_visited()):
-                    _ev.clear()
                     p_list = &#34;, &#34;.join(set(p_data.pokes[j][&#34;name&#34;]
                                        for i in self.sta.associates
                                            for j in
@@ -263,7 +269,6 @@ if __name__ == &#34;__main__&#34;:
         ARGS:
             _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city&#34;&#34;&#34;
-        _ev.clear()
         for i in Station.obs:
             i.set_color(choose)
         [i for i in Station.obs
@@ -274,19 +279,17 @@ if __name__ == &#34;__main__&#34;:
          in i.associates][0].choose()
         with self.box.center_add(_map):
             while True:
-                if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;]:
-                    self.sta.next(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in [&#34;&#39;3&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                    _ev.clear()
+                action = get_action()
+                if action.triggers(*ACTION_DIRECTIONS):
+                    self.sta.next(action)
+                elif action.triggers(*[Action.ACT_3, Action.CANCEL]):
                     break
-                elif (_ev.get() == &#34;Key.enter&#34; and choose
+                elif (action == Action.ACCEPT and choose
                       and self.sta.has_been_visited()
                       and self.sta.is_city()):
                     return self.sta.associates[0]
-                elif (_ev.get() == &#34;Key.enter&#34; and not choose
+                elif (action == Action.ACCEPT and not choose
                       and self.sta.has_been_visited()):
-                    _ev.clear()
                     p_list = &#34;, &#34;.join(set(p_data.pokes[j][&#34;name&#34;]
                                        for i in self.sta.associates
                                            for j in
@@ -473,11 +476,20 @@ def sta(self):
         &#34;&#34;&#34;Unchooses the station&#34;&#34;&#34;
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, inp):
+    def next(self, inp: ActionList):
         &#34;&#34;&#34;Chooses the next station in a certain direction
         ARGS:
-            inp: Event object&#34;&#34;&#34;
-        inp = inp.strip(&#34;&#39;&#34;)
+            inp: Action Enum&#34;&#34;&#34;
+        for action in inp:
+            if action in (ACTION_DIRECTIONS):
+                inp = action
+                break
+        inp = {
+            Action.UP: &#39;w&#39;,
+            Action.DOWN: &#39;s&#39;,
+            Action.LEFT: &#39;a&#39;,
+            Action.RIGHT: &#39;d&#39;,
+        }[inp]
         if (n_e := getattr(self, inp + &#34;_next&#34;)) != &#34;&#34;:
             self.unchoose()
             getattr(self.roadmap, n_e).choose()
@@ -566,24 +578,33 @@ def sta(self):
 </details>
 </dd>
 <dt id="pokete_classes.roadmap.Station.next"><code class="name flex">
-<span>def <span class="ident">next</span></span>(<span>self, inp)</span>
+<span>def <span class="ident">next</span></span>(<span>self, inp: <a title="pokete_classes.hotkeys.ActionList" href="hotkeys.html#pokete_classes.hotkeys.ActionList">ActionList</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Chooses the next station in a certain direction</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>inp</code></strong></dt>
-<dd>Event object</dd>
+<dd>Action Enum</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def next(self, inp):
+<pre><code class="python">def next(self, inp: ActionList):
     &#34;&#34;&#34;Chooses the next station in a certain direction
     ARGS:
-        inp: Event object&#34;&#34;&#34;
-    inp = inp.strip(&#34;&#39;&#34;)
+        inp: Action Enum&#34;&#34;&#34;
+    for action in inp:
+        if action in (ACTION_DIRECTIONS):
+            inp = action
+            break
+    inp = {
+        Action.UP: &#39;w&#39;,
+        Action.DOWN: &#39;s&#39;,
+        Action.LEFT: &#39;a&#39;,
+        Action.RIGHT: &#39;d&#39;,
+    }[inp]
     if (n_e := getattr(self, inp + &#34;_next&#34;)) != &#34;&#34;:
         self.unchoose()
         getattr(self.roadmap, n_e).choose()</code></pre>

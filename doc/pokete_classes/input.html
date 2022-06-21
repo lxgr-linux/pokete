@@ -29,6 +29,7 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34;This file contains input wrappers for ui elements&#34;&#34;&#34;
 
+from pokete_classes.hotkeys import Action, get_action
 from pokete_general_use_fns import hard_liner
 from .loops import std_loop
 from .ui_elements import InfoBox, InputBox
@@ -48,6 +49,7 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
     bname = name
     _map.show()
     while True:
+        # Use lower level ev.get() methods because we need to handle typed text, not game actions
         if _ev.get() in [&#34;Key.enter&#34;, &#34;Key.esc&#34;]:
             _ev.clear()
             obj.rechar(hard_liner(wrap_len, name))
@@ -66,8 +68,8 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
         elif ((i := _ev.get()) not in [&#34;&#34;, &#34;exit&#34;] and &#34;Key.&#34; not in i) \
              and len(name) &lt; max_len or i == &#34;Key.space&#34;:
             if _ev.get() == &#34;Key.space&#34;:
-                _ev.set(&#34;&#39; &#39;&#34;)
-            name += str(_ev.get().strip(&#34;&#39;&#34;))
+                _ev.set(&#34; &#34;)
+            name += str(_ev.get())
             obj.rechar(hard_liner(wrap_len, name + &#34;█&#34;))
             _map.show()
             _ev.clear()
@@ -84,10 +86,11 @@ def ask_bool(_map, text):
     with InfoBox(f&#34;{text}\n{round(text_len / 2 - 6) * &#39; &#39;}[Y]es   [N]o&#34;,
                  info=&#34;&#34;, _map=_map):
         while True:
-            if _ev.get() == &#34;&#39;y&#39;&#34;:
+            action = get_action()
+            if action.triggers(Action.ACCEPT):
                 ret = True
                 break
-            elif _ev.get() in [&#34;&#39;n&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
+            elif action.triggers(Action.CANCEL):
                 ret = False
                 break
             std_loop(_map.name == &#34;movemap&#34;)
@@ -111,23 +114,20 @@ def ask_text(_map, infotext, introtext, text, name, max_len):
 
 
 def ask_ok(_map, text):
-    &#34;&#34;&#34;Asks the player to an OK question
+    &#34;&#34;&#34;Shows the player some information
     ARGS:
         _map: The map the question is asked on
         text: The question it self&#34;&#34;&#34;
     assert len(text) &gt;= 4, &#34;Text has to be longer then 4 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
-    with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;}[O]k&#34;, name=&#34;Info&#34;,
+    with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;} [O]k &#34;, name=&#34;Info&#34;,
                  info=&#34;&#34;, _map=_map):
         while True:
-            if _ev.get() in [&#34;&#39;o&#39;&#34;, &#34;&#39;O&#39;&#34;, &#34;Key.enter&#34;]:
+            action = get_action()
+            if action.triggers(Action.ACCEPT or action == Action.CANCEL):
                 break
             std_loop(_map.name == &#34;movemap&#34;)
-        _ev.clear()
-
-
-if __name__ == &#34;__main__&#34;:
-    print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
+        _ev.clear()</code></pre>
 </details>
 </section>
 <section>
@@ -163,10 +163,11 @@ if __name__ == &#34;__main__&#34;:
     with InfoBox(f&#34;{text}\n{round(text_len / 2 - 6) * &#39; &#39;}[Y]es   [N]o&#34;,
                  info=&#34;&#34;, _map=_map):
         while True:
-            if _ev.get() == &#34;&#39;y&#39;&#34;:
+            action = get_action()
+            if action.triggers(Action.ACCEPT):
                 ret = True
                 break
-            elif _ev.get() in [&#34;&#39;n&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
+            elif action.triggers(Action.CANCEL):
                 ret = False
                 break
             std_loop(_map.name == &#34;movemap&#34;)
@@ -178,7 +179,7 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">ask_ok</span></span>(<span>_map, text)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Asks the player to an OK question</p>
+<div class="desc"><p>Shows the player some information</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>_map</code></strong></dt>
@@ -191,16 +192,17 @@ if __name__ == &#34;__main__&#34;:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def ask_ok(_map, text):
-    &#34;&#34;&#34;Asks the player to an OK question
+    &#34;&#34;&#34;Shows the player some information
     ARGS:
         _map: The map the question is asked on
         text: The question it self&#34;&#34;&#34;
     assert len(text) &gt;= 4, &#34;Text has to be longer then 4 characters!&#34;
     text_len = sorted([len(i) for i in text.split(&#39;\n&#39;)])[-1]
-    with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;}[O]k&#34;, name=&#34;Info&#34;,
+    with InfoBox(f&#34;{text}\n{round(text_len / 2 - 2) * &#39; &#39;} [O]k &#34;, name=&#34;Info&#34;,
                  info=&#34;&#34;, _map=_map):
         while True:
-            if _ev.get() in [&#34;&#39;o&#39;&#34;, &#34;&#39;O&#39;&#34;, &#34;Key.enter&#34;]:
+            action = get_action()
+            if action.triggers(Action.ACCEPT or action == Action.CANCEL):
                 break
             std_loop(_map.name == &#34;movemap&#34;)
         _ev.clear()</code></pre>
@@ -280,6 +282,7 @@ if __name__ == &#34;__main__&#34;:
     bname = name
     _map.show()
     while True:
+        # Use lower level ev.get() methods because we need to handle typed text, not game actions
         if _ev.get() in [&#34;Key.enter&#34;, &#34;Key.esc&#34;]:
             _ev.clear()
             obj.rechar(hard_liner(wrap_len, name))
@@ -298,8 +301,8 @@ if __name__ == &#34;__main__&#34;:
         elif ((i := _ev.get()) not in [&#34;&#34;, &#34;exit&#34;] and &#34;Key.&#34; not in i) \
              and len(name) &lt; max_len or i == &#34;Key.space&#34;:
             if _ev.get() == &#34;Key.space&#34;:
-                _ev.set(&#34;&#39; &#39;&#34;)
-            name += str(_ev.get().strip(&#34;&#39;&#34;))
+                _ev.set(&#34; &#34;)
+            name += str(_ev.get())
             obj.rechar(hard_liner(wrap_len, name + &#34;█&#34;))
             _map.show()
             _ev.clear()

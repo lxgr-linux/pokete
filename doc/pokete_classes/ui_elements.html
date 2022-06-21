@@ -34,6 +34,8 @@ elements used in Pokete&#34;&#34;&#34;
 
 import scrap_engine as se
 
+from pokete_classes.hotkeys import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, ActionList
+
 
 class BoxIndex(se.Object):
     &#34;&#34;&#34;Index that can be used in ChooseBox&#34;&#34;&#34;
@@ -144,15 +146,26 @@ class ChooseBox(Box):
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, inp):
+    def input(self, inp: ActionList):
         &#34;&#34;&#34;Moves the cursor in the box
         ARGS:
-             inp: Inputted char&#34;&#34;&#34;
-        if {&#34;&#39;s&#39;&#34;: self.index.index + 1 &lt; len(self.c_obs),
-                &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[inp]:
-            self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[inp]
+             inp: Inputted action&#34;&#34;&#34;
+        assert(inp.triggers(*ACTION_UP_DOWN))
+        y_str = inp.get_Y_strength()
+        if inp.triggers(Action.UP):
+            inp = Action.UP
         else:
-            self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[inp]
+            inp = Action.DOWN
+        if {
+            Action.DOWN: self.index.index + 1 &lt; len(self.c_obs),
+            Action.UP: self.index.index - 1 &gt;= 0
+        }[inp]:
+            self.index.index += y_str
+        else:
+            self.index.index = {
+                Action.DOWN: 0,
+                Action.UP: len(self.c_obs) - 1,
+            }[inp]
         self.set_index()
 
     def set_index(self, index=None):
@@ -242,14 +255,25 @@ class BetterChooseBox(Box):
             The BetterChooseBoxItem at the coordinate&#34;&#34;&#34;
         return self.nest_label_obs[_y][_x]
 
-    def input(self, inp):
+    def input(self, inp: Action):
         &#34;&#34;&#34;Evaluates user input
         ARGS:
             inp: Inputted string&#34;&#34;&#34;
-        _c = {&#34;&#39;w&#39;&#34;: (-1, 0),
-              &#34;&#39;s&#39;&#34;: (1, 0),
-              &#34;&#39;a&#39;&#34;: (0, -1),
-              &#34;&#39;d&#39;&#34;: (0, 1)}[inp]
+        assert(inp.triggers(*ACTION_DIRECTIONS))
+        if inp.triggers(Action.UP):
+            inp = Action.UP
+        elif inp.triggers(Action.LEFT):
+            inp = Action.LEFT
+        elif inp.triggers(Action.RIGHT):
+            inp = Action.RIGHT
+        else:
+            inp = Action.DOWN
+        _c = {
+            Action.UP: (-1, 0),
+            Action.DOWN: (1, 0),
+            Action.LEFT: (0, -1),
+            Action.RIGHT: (0, 1),
+        }[inp]
         self.set_index((self.index[0] + _c[0])
                             % len([i for i in self.nest_label_obs if len(i) &gt;
                                 self.index[1]]),
@@ -421,14 +445,25 @@ if __name__ == &#34;__main__&#34;:
             The BetterChooseBoxItem at the coordinate&#34;&#34;&#34;
         return self.nest_label_obs[_y][_x]
 
-    def input(self, inp):
+    def input(self, inp: Action):
         &#34;&#34;&#34;Evaluates user input
         ARGS:
             inp: Inputted string&#34;&#34;&#34;
-        _c = {&#34;&#39;w&#39;&#34;: (-1, 0),
-              &#34;&#39;s&#39;&#34;: (1, 0),
-              &#34;&#39;a&#39;&#34;: (0, -1),
-              &#34;&#39;d&#39;&#34;: (0, 1)}[inp]
+        assert(inp.triggers(*ACTION_DIRECTIONS))
+        if inp.triggers(Action.UP):
+            inp = Action.UP
+        elif inp.triggers(Action.LEFT):
+            inp = Action.LEFT
+        elif inp.triggers(Action.RIGHT):
+            inp = Action.RIGHT
+        else:
+            inp = Action.DOWN
+        _c = {
+            Action.UP: (-1, 0),
+            Action.DOWN: (1, 0),
+            Action.LEFT: (0, -1),
+            Action.RIGHT: (0, 1),
+        }[inp]
         self.set_index((self.index[0] + _c[0])
                             % len([i for i in self.nest_label_obs if len(i) &gt;
                                 self.index[1]]),
@@ -513,7 +548,7 @@ if __name__ == &#34;__main__&#34;:
 </details>
 </dd>
 <dt id="pokete_classes.ui_elements.BetterChooseBox.input"><code class="name flex">
-<span>def <span class="ident">input</span></span>(<span>self, inp)</span>
+<span>def <span class="ident">input</span></span>(<span>self, inp: <a title="pokete_classes.hotkeys.Action" href="hotkeys.html#pokete_classes.hotkeys.Action">Action</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Evaluates user input</p>
@@ -526,14 +561,25 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def input(self, inp):
+<pre><code class="python">def input(self, inp: Action):
     &#34;&#34;&#34;Evaluates user input
     ARGS:
         inp: Inputted string&#34;&#34;&#34;
-    _c = {&#34;&#39;w&#39;&#34;: (-1, 0),
-          &#34;&#39;s&#39;&#34;: (1, 0),
-          &#34;&#39;a&#39;&#34;: (0, -1),
-          &#34;&#39;d&#39;&#34;: (0, 1)}[inp]
+    assert(inp.triggers(*ACTION_DIRECTIONS))
+    if inp.triggers(Action.UP):
+        inp = Action.UP
+    elif inp.triggers(Action.LEFT):
+        inp = Action.LEFT
+    elif inp.triggers(Action.RIGHT):
+        inp = Action.RIGHT
+    else:
+        inp = Action.DOWN
+    _c = {
+        Action.UP: (-1, 0),
+        Action.DOWN: (1, 0),
+        Action.LEFT: (0, -1),
+        Action.RIGHT: (0, 1),
+    }[inp]
     self.set_index((self.index[0] + _c[0])
                         % len([i for i in self.nest_label_obs if len(i) &gt;
                             self.index[1]]),
@@ -944,15 +990,26 @@ See se.Box.resize</p></div>
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, inp):
+    def input(self, inp: ActionList):
         &#34;&#34;&#34;Moves the cursor in the box
         ARGS:
-             inp: Inputted char&#34;&#34;&#34;
-        if {&#34;&#39;s&#39;&#34;: self.index.index + 1 &lt; len(self.c_obs),
-                &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[inp]:
-            self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[inp]
+             inp: Inputted action&#34;&#34;&#34;
+        assert(inp.triggers(*ACTION_UP_DOWN))
+        y_str = inp.get_Y_strength()
+        if inp.triggers(Action.UP):
+            inp = Action.UP
         else:
-            self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[inp]
+            inp = Action.DOWN
+        if {
+            Action.DOWN: self.index.index + 1 &lt; len(self.c_obs),
+            Action.UP: self.index.index - 1 &gt;= 0
+        }[inp]:
+            self.index.index += y_str
+        else:
+            self.index.index = {
+                Action.DOWN: 0,
+                Action.UP: len(self.c_obs) - 1,
+            }[inp]
         self.set_index()
 
     def set_index(self, index=None):
@@ -1010,28 +1067,39 @@ See se.Box.resize</p></div>
 </details>
 </dd>
 <dt id="pokete_classes.ui_elements.ChooseBox.input"><code class="name flex">
-<span>def <span class="ident">input</span></span>(<span>self, inp)</span>
+<span>def <span class="ident">input</span></span>(<span>self, inp: <a title="pokete_classes.hotkeys.ActionList" href="hotkeys.html#pokete_classes.hotkeys.ActionList">ActionList</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Moves the cursor in the box</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>inp</code></strong></dt>
-<dd>Inputted char</dd>
+<dd>Inputted action</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def input(self, inp):
+<pre><code class="python">def input(self, inp: ActionList):
     &#34;&#34;&#34;Moves the cursor in the box
     ARGS:
-         inp: Inputted char&#34;&#34;&#34;
-    if {&#34;&#39;s&#39;&#34;: self.index.index + 1 &lt; len(self.c_obs),
-            &#34;&#39;w&#39;&#34;: self.index.index - 1 &gt;= 0}[inp]:
-        self.index.index += {&#34;&#39;s&#39;&#34;: 1, &#34;&#39;w&#39;&#34;: -1}[inp]
+         inp: Inputted action&#34;&#34;&#34;
+    assert(inp.triggers(*ACTION_UP_DOWN))
+    y_str = inp.get_Y_strength()
+    if inp.triggers(Action.UP):
+        inp = Action.UP
     else:
-        self.index.index = {&#34;&#39;s&#39;&#34;: 0, &#34;&#39;w&#39;&#34;: len(self.c_obs) - 1}[inp]
+        inp = Action.DOWN
+    if {
+        Action.DOWN: self.index.index + 1 &lt; len(self.c_obs),
+        Action.UP: self.index.index - 1 &gt;= 0
+    }[inp]:
+        self.index.index += y_str
+    else:
+        self.index.index = {
+            Action.DOWN: 0,
+            Action.UP: len(self.c_obs) - 1,
+        }[inp]
     self.set_index()</code></pre>
 </details>
 </dd>

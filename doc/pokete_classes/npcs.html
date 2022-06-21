@@ -35,6 +35,7 @@ import random
 import scrap_engine as se
 from pokete_classes.general import heal
 import pokete_classes.fightmap as fm
+from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 import pokete_classes.movemap as mvp
 from .providers import Provider
 from .loops import std_loop
@@ -42,8 +43,8 @@ from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
-from .event import _ev
 from .general import check_walk_back
+from release import SPEED_OF_TIME
 
 
 class NPCTrigger(se.Object):
@@ -113,7 +114,7 @@ class NPC(se.Box):
         except se.CoordinateError:
             pass
         mvp.movemap.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         exclamation.remove()
 
     def action(self):
@@ -122,7 +123,7 @@ class NPC(se.Box):
             return
         logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
         mvp.movemap.full_show()
-        time.sleep(0.7)
+        time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
         self.fn()
@@ -163,7 +164,7 @@ class NPC(se.Box):
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
             mvp.movemap.full_show()
-            time.sleep(0.2)
+            time.sleep(SPEED_OF_TIME * 0.2)
         return True
 
     def give(self, name, item):
@@ -198,8 +199,7 @@ Do you want to accept it?&#34;):
             return
         while True:
             self.text(q_a[&#34;q&#34;])
-            while _ev.get() == &#34;&#34;:
-                _ev.clear()
+            while get_action() == None:
                 std_loop()
             if q_a[&#34;a&#34;] == {}:
                 break
@@ -215,11 +215,11 @@ Do you want to accept it?&#34;):
             with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
-                    if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;]:
-                        c_b.input(_ev.get())
+                    action = get_action()
+                    if action.triggers(*ACTION_UP_DOWN):
+                        c_b.input(action)
                         mvp.movemap.show()
-                        _ev.clear()
-                    elif _ev.get() == &#34;Key.enter&#34;:
+                    elif action.triggers(Action.ACCEPT):
                         key = keys[c_b.index.index]
                         break
                     std_loop()
@@ -273,7 +273,7 @@ class Trainer(NPC, Provider):
                                  or not settings(&#34;save_trainers&#34;).val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
-            time.sleep(0.7)
+            time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp &gt; 0 for poke in self.fig.pokes[:6]):
@@ -367,7 +367,7 @@ class Trainer(NPC, Provider):
         except se.CoordinateError:
             pass
         mvp.movemap.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         exclamation.remove()
 
     def action(self):
@@ -376,7 +376,7 @@ class Trainer(NPC, Provider):
             return
         logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
         mvp.movemap.full_show()
-        time.sleep(0.7)
+        time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
         self.fn()
@@ -417,7 +417,7 @@ class Trainer(NPC, Provider):
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
             mvp.movemap.full_show()
-            time.sleep(0.2)
+            time.sleep(SPEED_OF_TIME * 0.2)
         return True
 
     def give(self, name, item):
@@ -452,8 +452,7 @@ Do you want to accept it?&#34;):
             return
         while True:
             self.text(q_a[&#34;q&#34;])
-            while _ev.get() == &#34;&#34;:
-                _ev.clear()
+            while get_action() == None:
                 std_loop()
             if q_a[&#34;a&#34;] == {}:
                 break
@@ -469,11 +468,11 @@ Do you want to accept it?&#34;):
             with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
-                    if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;]:
-                        c_b.input(_ev.get())
+                    action = get_action()
+                    if action.triggers(*ACTION_UP_DOWN):
+                        c_b.input(action)
                         mvp.movemap.show()
-                        _ev.clear()
-                    elif _ev.get() == &#34;Key.enter&#34;:
+                    elif action.triggers(Action.ACCEPT):
                         key = keys[c_b.index.index]
                         break
                     std_loop()
@@ -588,7 +587,7 @@ def used(self):
         return
     logging.info(&#34;[NPC][%s] Interaction&#34;, self.name)
     mvp.movemap.full_show()
-    time.sleep(0.7)
+    time.sleep(SPEED_OF_TIME * 0.7)
     self.exclamate()
     self.text(self.texts)
     self.fn()</code></pre>
@@ -610,8 +609,7 @@ def used(self):
         return
     while True:
         self.text(q_a[&#34;q&#34;])
-        while _ev.get() == &#34;&#34;:
-            _ev.clear()
+        while get_action() == None:
             std_loop()
         if q_a[&#34;a&#34;] == {}:
             break
@@ -627,11 +625,11 @@ def used(self):
         with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
                      self.fig.y - mvp.movemap.y + 1):
             while True:
-                if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;]:
-                    c_b.input(_ev.get())
+                action = get_action()
+                if action.triggers(*ACTION_UP_DOWN):
+                    c_b.input(action)
                     mvp.movemap.show()
-                    _ev.clear()
-                elif _ev.get() == &#34;Key.enter&#34;:
+                elif action.triggers(Action.ACCEPT):
                     key = keys[c_b.index.index]
                     break
                 std_loop()
@@ -694,7 +692,7 @@ def used(self):
     except se.CoordinateError:
         pass
     mvp.movemap.show()
-    time.sleep(1)
+    time.sleep(SPEED_OF_TIME * 1)
     exclamation.remove()</code></pre>
 </details>
 </dd>
@@ -827,7 +825,7 @@ Do you want to accept it?&#34;):
     for i in vec.obs:
         self.set(i.rx + o_x, i.ry + o_y)
         mvp.movemap.full_show()
-        time.sleep(0.2)
+        time.sleep(SPEED_OF_TIME * 0.2)
     return True</code></pre>
 </details>
 </dd>
@@ -941,7 +939,7 @@ Do you want to accept it?&#34;):
                                  or not settings(&#34;save_trainers&#34;).val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
-            time.sleep(0.7)
+            time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp &gt; 0 for poke in self.fig.pokes[:6]):
@@ -992,7 +990,7 @@ Do you want to accept it?&#34;):
                              or not settings(&#34;save_trainers&#34;).val) \
             and self.check_walk(self.fig.x, self.fig.y):
         mvp.movemap.full_show()
-        time.sleep(0.7)
+        time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.walk_point(self.fig.x, self.fig.y)
         if any(poke.hp &gt; 0 for poke in self.fig.pokes[:6]):

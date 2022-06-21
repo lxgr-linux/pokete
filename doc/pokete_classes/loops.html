@@ -30,30 +30,28 @@
 <pre><code class="python">&#34;&#34;&#34;Standardized loops components&#34;&#34;&#34;
 
 import time
+from pokete_classes.hotkeys import Action, get_action
 import release
-from .event import _ev
 from .notify import notifier
+from release import SPEED_OF_TIME
 
 
 def easy_exit_loop(on_mvmp=True):
-    &#34;&#34;&#34;Loops until q or Esc are pressed
+    &#34;&#34;&#34;Loops until Cancel or Accept is given
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap&#34;&#34;&#34;
     while True:
-        if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-            _ev.clear()
+        if get_action().triggers(*(Action.CANCEL, Action.ACCEPT)):
             return
         std_loop(on_mvmp)
 
 
 def std_loop(on_mvmp=True, pevm=None):
-    &#34;&#34;&#34;Standart action executed in most loops
+    &#34;&#34;&#34;Standard action executed in most loops
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap
         pevm: The PeriodicEventManager object, that may be needed to trigger
               periodic events in the overlaing loop&#34;&#34;&#34;
-    if _ev.get() == &#34;exit&#34;:
-        raise KeyboardInterrupt
     if on_mvmp:
         notifier.next()
     if pevm is not None:
@@ -72,7 +70,7 @@ def std_loop(on_mvmp=True, pevm=None):
 <span>def <span class="ident">easy_exit_loop</span></span>(<span>on_mvmp=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Loops until q or Esc are pressed</p>
+<div class="desc"><p>Loops until Cancel or Accept is given</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>on_mvmp</code></strong></dt>
@@ -83,12 +81,11 @@ def std_loop(on_mvmp=True, pevm=None):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def easy_exit_loop(on_mvmp=True):
-    &#34;&#34;&#34;Loops until q or Esc are pressed
+    &#34;&#34;&#34;Loops until Cancel or Accept is given
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap&#34;&#34;&#34;
     while True:
-        if _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-            _ev.clear()
+        if get_action().triggers(*(Action.CANCEL, Action.ACCEPT)):
             return
         std_loop(on_mvmp)</code></pre>
 </details>
@@ -97,7 +94,7 @@ def std_loop(on_mvmp=True, pevm=None):
 <span>def <span class="ident">std_loop</span></span>(<span>on_mvmp=True, pevm=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Standart action executed in most loops</p>
+<div class="desc"><p>Standard action executed in most loops</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>on_mvmp</code></strong></dt>
@@ -111,13 +108,11 @@ periodic events in the overlaing loop</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def std_loop(on_mvmp=True, pevm=None):
-    &#34;&#34;&#34;Standart action executed in most loops
+    &#34;&#34;&#34;Standard action executed in most loops
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap
         pevm: The PeriodicEventManager object, that may be needed to trigger
               periodic events in the overlaing loop&#34;&#34;&#34;
-    if _ev.get() == &#34;exit&#34;:
-        raise KeyboardInterrupt
     if on_mvmp:
         notifier.next()
     if pevm is not None:

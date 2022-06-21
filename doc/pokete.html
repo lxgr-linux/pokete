@@ -82,10 +82,13 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
+from pokete_classes.hotkeys import get_action, Action, ACTION_DIRECTIONS
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
 from pokete_general_use_fns import liner, sort_vers, parse_args
+
+from release import SPEED_OF_TIME
 from release import VERSION, CODENAME, SAVEPATH
 
 
@@ -287,29 +290,31 @@ class CenterInteract(se.Object):
             ob: The object triggering this action&#34;&#34;&#34;
         _ev.clear()
         mvp.movemap.full_show()
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [&#34;Welcome to the Pokete-Center&#34;,
-                          &#34;What do you want to do?&#34;,
-                          &#34;a: See your full deck\n b: Heal all your Poketes\
-\n c: Go&#34;])
+        mvp.movemap.text(
+            int(mvp.movemap.width / 2),
+            3,
+            [
+                &#34;Welcome to the Pokete-Center&#34;,
+                &#34;What do you want to do?&#34;,
+                &#34;1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes&#34;
+            ]
+        )
         while True:
-            if _ev.get() == &#34;&#39;a&#39;&#34;:
-                _ev.clear()
+            action = get_action()
+            if action.triggers(Action.DECK, Action.ACT_1):
                 while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index(&#34;__fallback__&#34;))
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif _ev.get() == &#34;&#39;b&#39;&#34;:
-                _ev.clear()
+            elif action.triggers(Action.ACCEPT, Action.ACT_2):
                 heal(figure)
-                time.sleep(0.5)
+                time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                  [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
                 break
-            elif _ev.get() == &#34;&#39;c&#39;&#34;:
-                _ev.clear()
+            elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
             std_loop()
         mvp.movemap.full_show(init=True)
@@ -551,22 +556,18 @@ class Inv:
         items = self.add()
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:
-                if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
-                    self.box.input(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in [&#34;&#39;4&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
+                action = get_action()
+                if action.triggers(Action.UP, Action.DOWN):
+                    self.box.input(action)
+                elif action.triggers(Action.CANCEL):
                     break
-                elif _ev.get() == &#34;Key.enter&#34;:
+                elif action.triggers(Action.ACCEPT):
                     obj = items[self.box.index.index]
                     self.box2.name_label.rechar(obj.pretty_name)
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
-                    _ev.clear()
                     while True:
-                        if _ev.get() == &#34;exit&#34;:
-                            raise KeyboardInterrupt
-                        elif _ev.get() in [&#34;Key.enter&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                            _ev.clear()
+                        if get_action().triggers(*(Action.ACCEPT, Action.CANCEL)):
                             self.box2.remove()
                             if obj.name == &#34;treat&#34;:
                                 if ask_bool(self.map,
@@ -616,11 +617,10 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
-                                    _ev.clear()
                             break
-                        time.sleep(0.05)
+                        time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif _ev.get() == &#34;&#39;r&#39;&#34;:
+                elif action.triggers(Action.RUN):
                     if ask_bool(self.map,
                                 f&#34;Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?&#34;):
@@ -628,7 +628,6 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                                               items)
                         if len(items) == 0:
                             break
-                    _ev.clear()
                 std_loop()
                 self.map.show()
         self.box.remove_c_obs()
@@ -704,14 +703,15 @@ class Menu:
 
     def __call__(self, pevm):
         &#34;&#34;&#34;Opens the menu&#34;&#34;&#34;
-        _ev.clear()
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
+            _ev.clear()
             while True:
-                if _ev.get() == &#34;Key.enter&#34;:
-                    _ev.clear()
-                    # Fuck python for not having case statements
+                action = get_action()
+                if action.triggers(Action.ACCEPT):
+                    # Fuck python for not having case statements - lxgr
+                    #     but it does lmao - Magnus
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
                         figure.name = text_input(self.realname_label, self.map,
@@ -734,7 +734,7 @@ valid single-space character!&#34;)
                         with InfoBox(&#34;Saving....&#34;, info=&#34;&#34;, _map=self.map):
                             # Shows a box displaying &#34;Saving....&#34; while saving
                             save()
-                            time.sleep(1.5)
+                            time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
                         exiter()
@@ -744,11 +744,9 @@ valid single-space character!&#34;)
                         AchievementOverview()(mvp.movemap)
                     else:
                         i.change()
-                elif _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
-                    self.box.input(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in [&#34;&#39;e&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                    _ev.clear()
+                elif action.triggers(Action.UP, Action.DOWN):
+                    self.box.input(action)
+                elif action.triggers(Action.CANCEL, Action.MENU):
                     break
                 std_loop(pevm=pevm)
                 self.map.full_show()
@@ -760,7 +758,7 @@ valid single-space character!&#34;)
 def autosave():
     &#34;&#34;&#34;Autosaves the game every 5 mins&#34;&#34;&#34;
     while True:
-        time.sleep(300)
+        time.sleep(SPEED_OF_TIME * 300)
         if settings(&#34;autosave&#34;).val:
             save()
 
@@ -846,10 +844,10 @@ def read_save():
 
 
 def on_press(key):
-    &#34;&#34;&#34;Sets the _ev variable
+    &#34;&#34;&#34;Sets the input to either a character like &#39;a&#39; or &#39;1&#39;, or Key.enter, Key.backspace, Key.space, Key.esc, exit
     ARGS:
         key: Key object _ev is set from&#34;&#34;&#34;
-    _ev.set(str(key))
+    _ev.set(str(key).strip(&#34;&#39;&#34;))
 
 
 def reset_terminal():
@@ -922,14 +920,12 @@ def test():
         &#34;Welt&#34;, &#34;Wie&#34;, &#34;Gehts&#34;, &#34;Dir&#34;, &#34;So&#34;, &#34;Du&#34;]],
         &#34;Test&#34;, _map=mvp.movemap) as a:
         while True:
-            if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;]:
-                a.input(_ev.get())
-                _ev.clear()
-            elif _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-                _ev.clear()
+            action = get_action()
+            if action.triggers(*ACTION_DIRECTIONS):
+                a.input(action)
+            elif action.triggers(Action.CANCEL):
                 break
-            elif _ev.get() == &#34;&#39;t&#39;&#34;:
-                _ev.clear()
+            elif action.triggers(Action.ACCEPT):
                 a.remove()
                 a.set_items(3, [se.Text(i, state=&#34;float&#34;) for i in [&#34;test&#34;,
                     &#34;test&#34;, &#34;123&#34;, &#34;fuckthesystem&#34;]])
@@ -1042,58 +1038,64 @@ def _game(_map):
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
     pevm = PeriodicEventManager(_map)
-    inp_dict = {&#34;&#39;1&#39;&#34;: [deck.deck, (6, &#34;Your deck&#34;)],
-                &#34;&#39;3&#39;&#34;: [roadmap, (mvp.movemap,)],
-                &#34;&#39;4&#39;&#34;: [inv, ()],
-                &#34;&#39;5&#39;&#34;: [pokete_dex, ()],
-                &#34;&#39;6&#39;&#34;: [timer.clock, (mvp.movemap,)],
-                &#34;&#39;e&#39;&#34;: [menu, (pevm,)],
-                &#34;&#39;?&#39;&#34;: [help_page, ()]}
+    inp_dict = {
+        Action.DECK: [deck.deck, (6, &#34;Your deck&#34;)],
+        Action.ACT_1: [deck.deck, (6, &#34;Your deck&#34;)],
+        Action.MAP: [roadmap, (mvp.movemap,)],
+        Action.ACT_3: [roadmap, (mvp.movemap,)],
+        Action.INVENTORY: [inv, ()],
+        Action.ACT_4: [inv, ()],
+        Action.POKEDEX: [pokete_dex, ()],
+        Action.ACT_5: [pokete_dex, ()],
+        Action.CLOCK: [timer.clock, (mvp.movemap,)],
+        Action.ACT_6: [timer.clock, (mvp.movemap,)],
+        Action.MENU: [menu, (pevm,)],
+        Action.ACT_7: [menu, (pevm,)],
+        Action.HELP: [help_page, ()]
+    }
     if _map.weather is not None:
         notifier.notify(&#34;Weather&#34;, &#34;Info&#34;, _map.weather.info)
     while True:
-        # Directions are not beening used yet
-        for name, _dir, x, y in zip([&#34;&#39;w&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;d&#39;&#34;],
-                                    [&#34;t&#34;, &#34;l&#34;, &#34;b&#34;, &#34;r&#34;],
-                                    [0, -1, 0, 1], [-1, 0, 1, 0]):
-            if _ev.get() == name:
-                figure.direction = _dir
-                figure.set(figure.x + x, figure.y + y)
-                _ev.clear()
-                break
-        else:
-            if _ev.get() in inp_dict:
-                audio_before = settings(&#34;audio&#34;).val
-                inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
-                _ev.clear()
-                if audio_before != settings(&#34;audio&#34;).val:
-                    audio.switch(_map.song)
-                mvp.movemap.show(init=True)
-            elif _ev.get() == &#34;&#39;2&#39;&#34;:
-                _ev.clear()
-                if ask_bool(mvp.movemap, &#34;Do you really want to exit?&#34;):
-                    save()
-                    exiter()
-            elif _ev.get() == &#34;&#39;:&#39;&#34;:
-                _ev.clear()
-                inp = text_input(mvp.movemap.code_label, mvp.movemap, &#34;:&#34;,
-                                 mvp.movemap.width,
-                                 (mvp.movemap.width - 2)
-                                 * mvp.movemap.height - 1)[1:]
-                mvp.movemap.code_label.outp(figure.map.pretty_name)
-                codes(inp)
-                _ev.clear()
+        # Directions are not being used yet
+        action = get_action()
+        if action.triggers(*ACTION_DIRECTIONS):
+            figure.direction = &#39;&#39; #TODO
+            figure.set(figure.x + action.get_X_strength(), figure.y + action.get_Y_strength())
+        elif action.triggers(*inp_dict):
+            audio_before = settings(&#34;audio&#34;).val
+            for key in inp_dict:
+                if action.triggers(key):
+                    inp_dict[key][0](*inp_dict[key][1])
+            _ev.clear()
+            if audio_before != settings(&#34;audio&#34;).val:
+                audio.switch(_map.song)
+            mvp.movemap.show(init=True)
+        elif action.triggers(Action.CANCEL, Action.ACT_2):
+            if ask_bool(mvp.movemap, &#34;Do you really wish to exit?&#34;):
+                save()
+                exiter()
+        elif action.triggers(Action.CONSOLE):
+            inp = text_input(mvp.movemap.code_label, mvp.movemap, &#34;:&#34;,
+                             mvp.movemap.width,
+                             (mvp.movemap.width - 2)
+                             * mvp.movemap.height - 1)[1:]
+            mvp.movemap.code_label.outp(figure.map.pretty_name)
+            codes(inp)
+            _ev.clear()
         std_loop(pevm=pevm)
-        for statement, x, y in zip([figure.x + 6 &gt; mvp.movemap.x
-                                    + mvp.movemap.width,
-                                    figure.x &lt; mvp.movemap.x + 6,
-                                    figure.y + 6 &gt; mvp.movemap.y
-                                    + mvp.movemap.height,
-                                    figure.y &lt; mvp.movemap.y + 6],
-                                   [1, -1, 0, 0], [0, 0, 1, -1]):
+        for statement, x, y in zip(
+            [
+                figure.x + 6 &gt; mvp.movemap.x + mvp.movemap.width,
+                figure.x &lt; mvp.movemap.x + 6,
+                figure.y + 6 &gt; mvp.movemap.y + mvp.movemap.height,
+                figure.y &lt; mvp.movemap.y + 6
+            ],
+            [1, -1, 0, 0],
+            [0, 0, 1, -1]
+        ):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
-        # checking for resizing
+        # checking for resizing the terminal
         width, height = os.get_terminal_size()
         if mvp.movemap.width != width or mvp.movemap.height != height - 1:
             mvp.movemap.resize(height - 1, width, &#34; &#34;)
@@ -1222,16 +1224,13 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 def main():
     &#34;&#34;&#34;Main function&#34;&#34;&#34;
     os.system(&#34;&#34;)
-    timeing = threading.Thread(target=timer.time_threat)
-    recognising = threading.Thread(target=recogniser)
-    autosaveing = threading.Thread(target=autosave)
-    timeing.daemon = True
-    recognising.daemon = True
-    autosaveing.daemon = True
+    timing = threading.Thread(target=timer.time_threat, daemon=True)
+    recognising = threading.Thread(target=recogniser, daemon=True)
+    autosaving = threading.Thread(target=autosave, daemon=True)
 
-    timeing.start()
+    timing.start()
     recognising.start()
-    autosaveing.start()
+    autosaving.start()
 
     check_version(session_info)
     if figure.name == &#34;DEFAULT&#34;:
@@ -1441,17 +1440,23 @@ if __name__ == &#34;__main__&#34;:
             fd = sys.stdin.fileno()
             old_settings = termios.tcgetattr(fd)
             tty.setraw(fd)
-            time.sleep(0.1)
+            time.sleep(SPEED_OF_TIME * 0.1)
             while True:
                 rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
                 if rlist:
                     char = sys.stdin.read(1)
-                    _ev.set({ord(char): f&#34;&#39;{char.rstrip()}&#39;&#34;, 13: &#34;Key.enter&#34;,
-                             127: &#34;Key.backspace&#34;, 32: &#34;Key.space&#34;,
-                             27: &#34;Key.esc&#34;}[ord(char)])
+                    _ev.set(
+                        {
+                            ord(char): f&#34;{char.rstrip()}&#34;,
+                            13: &#34;Key.enter&#34;,
+                            127: &#34;Key.backspace&#34;,
+                            32: &#34;Key.space&#34;,
+                            27: &#34;Key.esc&#34;,
+                            3: &#34;exit&#34;,
+                        }[ord(char)]
+                    )
                     if ord(char) == 3:
                         reset_terminal()
-                        _ev.set(&#34;exit&#34;)
     else:
         from pynput.keyboard import Listener
 
@@ -1607,7 +1612,7 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">def autosave():
     &#34;&#34;&#34;Autosaves the game every 5 mins&#34;&#34;&#34;
     while True:
-        time.sleep(300)
+        time.sleep(SPEED_OF_TIME * 300)
         if settings(&#34;autosave&#34;).val:
             save()</code></pre>
 </details>
@@ -1821,16 +1826,13 @@ town.&#34;,
 <pre><code class="python">def main():
     &#34;&#34;&#34;Main function&#34;&#34;&#34;
     os.system(&#34;&#34;)
-    timeing = threading.Thread(target=timer.time_threat)
-    recognising = threading.Thread(target=recogniser)
-    autosaveing = threading.Thread(target=autosave)
-    timeing.daemon = True
-    recognising.daemon = True
-    autosaveing.daemon = True
+    timing = threading.Thread(target=timer.time_threat, daemon=True)
+    recognising = threading.Thread(target=recogniser, daemon=True)
+    autosaving = threading.Thread(target=autosave, daemon=True)
 
-    timeing.start()
+    timing.start()
     recognising.start()
-    autosaveing.start()
+    autosaving.start()
 
     check_version(session_info)
     if figure.name == &#34;DEFAULT&#34;:
@@ -2033,7 +2035,7 @@ town.&#34;,
 <span>def <span class="ident">on_press</span></span>(<span>key)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Sets the _ev variable</p>
+<div class="desc"><p>Sets the input to either a character like 'a' or '1', or Key.enter, Key.backspace, Key.space, Key.esc, exit</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>key</code></strong></dt>
@@ -2044,10 +2046,10 @@ town.&#34;,
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def on_press(key):
-    &#34;&#34;&#34;Sets the _ev variable
+    &#34;&#34;&#34;Sets the input to either a character like &#39;a&#39; or &#39;1&#39;, or Key.enter, Key.backspace, Key.space, Key.esc, exit
     ARGS:
         key: Key object _ev is set from&#34;&#34;&#34;
-    _ev.set(str(key))</code></pre>
+    _ev.set(str(key).strip(&#34;&#39;&#34;))</code></pre>
 </details>
 </dd>
 <dt id="pokete.parse_obj"><code class="name flex">
@@ -2320,14 +2322,12 @@ this will remain</p></div>
         &#34;Welt&#34;, &#34;Wie&#34;, &#34;Gehts&#34;, &#34;Dir&#34;, &#34;So&#34;, &#34;Du&#34;]],
         &#34;Test&#34;, _map=mvp.movemap) as a:
         while True:
-            if _ev.get() in [&#34;&#39;w&#39;&#34;, &#34;&#39;s&#39;&#34;, &#34;&#39;a&#39;&#34;, &#34;&#39;d&#39;&#34;]:
-                a.input(_ev.get())
-                _ev.clear()
-            elif _ev.get() in [&#34;&#39;q&#39;&#34;, &#34;Key.esc&#34;]:
-                _ev.clear()
+            action = get_action()
+            if action.triggers(*ACTION_DIRECTIONS):
+                a.input(action)
+            elif action.triggers(Action.CANCEL):
                 break
-            elif _ev.get() == &#34;&#39;t&#39;&#34;:
-                _ev.clear()
+            elif action.triggers(Action.ACCEPT):
                 a.remove()
                 a.set_items(3, [se.Text(i, state=&#34;float&#34;) for i in [&#34;test&#34;,
                     &#34;test&#34;, &#34;123&#34;, &#34;fuckthesystem&#34;]])
@@ -2360,29 +2360,31 @@ this will remain</p></div>
             ob: The object triggering this action&#34;&#34;&#34;
         _ev.clear()
         mvp.movemap.full_show()
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [&#34;Welcome to the Pokete-Center&#34;,
-                          &#34;What do you want to do?&#34;,
-                          &#34;a: See your full deck\n b: Heal all your Poketes\
-\n c: Go&#34;])
+        mvp.movemap.text(
+            int(mvp.movemap.width / 2),
+            3,
+            [
+                &#34;Welcome to the Pokete-Center&#34;,
+                &#34;What do you want to do?&#34;,
+                &#34;1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes&#34;
+            ]
+        )
         while True:
-            if _ev.get() == &#34;&#39;a&#39;&#34;:
-                _ev.clear()
+            action = get_action()
+            if action.triggers(Action.DECK, Action.ACT_1):
                 while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index(&#34;__fallback__&#34;))
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif _ev.get() == &#34;&#39;b&#39;&#34;:
-                _ev.clear()
+            elif action.triggers(Action.ACCEPT, Action.ACT_2):
                 heal(figure)
-                time.sleep(0.5)
+                time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                  [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
                 break
-            elif _ev.get() == &#34;&#39;c&#39;&#34;:
-                _ev.clear()
+            elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
             std_loop()
         mvp.movemap.full_show(init=True)</code></pre>
@@ -2408,38 +2410,40 @@ this will remain</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">    def action(self, ob):
-        &#34;&#34;&#34;Triggers the interaction in the Pokete center
-        ARGS:
-            ob: The object triggering this action&#34;&#34;&#34;
-        _ev.clear()
-        mvp.movemap.full_show()
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         [&#34;Welcome to the Pokete-Center&#34;,
-                          &#34;What do you want to do?&#34;,
-                          &#34;a: See your full deck\n b: Heal all your Poketes\
-\n c: Go&#34;])
-        while True:
-            if _ev.get() == &#34;&#39;a&#39;&#34;:
-                _ev.clear()
-                while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
-                    figure.pokes.pop([p.identifier for p in
-                                      figure.pokes].index(&#34;__fallback__&#34;))
-                mvp.movemap.balls_label_rechar(figure.pokes)
-                deck.deck(len(figure.pokes))
-                break
-            elif _ev.get() == &#34;&#39;b&#39;&#34;:
-                _ev.clear()
-                heal(figure)
-                time.sleep(0.5)
-                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                 [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
-                break
-            elif _ev.get() == &#34;&#39;c&#39;&#34;:
-                _ev.clear()
-                break
-            std_loop()
-        mvp.movemap.full_show(init=True)</code></pre>
+<pre><code class="python">def action(self, ob):
+    &#34;&#34;&#34;Triggers the interaction in the Pokete center
+    ARGS:
+        ob: The object triggering this action&#34;&#34;&#34;
+    _ev.clear()
+    mvp.movemap.full_show()
+    mvp.movemap.text(
+        int(mvp.movemap.width / 2),
+        3,
+        [
+            &#34;Welcome to the Pokete-Center&#34;,
+            &#34;What do you want to do?&#34;,
+            &#34;1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes&#34;
+        ]
+    )
+    while True:
+        action = get_action()
+        if action.triggers(Action.DECK, Action.ACT_1):
+            while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
+                figure.pokes.pop([p.identifier for p in
+                                  figure.pokes].index(&#34;__fallback__&#34;))
+            mvp.movemap.balls_label_rechar(figure.pokes)
+            deck.deck(len(figure.pokes))
+            break
+        elif action.triggers(Action.ACCEPT, Action.ACT_2):
+            heal(figure)
+            time.sleep(SPEED_OF_TIME * 0.5)
+            mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+                             [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
+            break
+        elif action.triggers(Action.CANCEL, Action.ACT_3):
+            break
+        std_loop()
+    mvp.movemap.full_show(init=True)</code></pre>
 </details>
 </dd>
 </dl>
@@ -3019,22 +3023,18 @@ in the inventory!&#34;
         items = self.add()
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:
-                if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
-                    self.box.input(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in [&#34;&#39;4&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
+                action = get_action()
+                if action.triggers(Action.UP, Action.DOWN):
+                    self.box.input(action)
+                elif action.triggers(Action.CANCEL):
                     break
-                elif _ev.get() == &#34;Key.enter&#34;:
+                elif action.triggers(Action.ACCEPT):
                     obj = items[self.box.index.index]
                     self.box2.name_label.rechar(obj.pretty_name)
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
-                    _ev.clear()
                     while True:
-                        if _ev.get() == &#34;exit&#34;:
-                            raise KeyboardInterrupt
-                        elif _ev.get() in [&#34;Key.enter&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                            _ev.clear()
+                        if get_action().triggers(*(Action.ACCEPT, Action.CANCEL)):
                             self.box2.remove()
                             if obj.name == &#34;treat&#34;:
                                 if ask_bool(self.map,
@@ -3084,11 +3084,10 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
-                                    _ev.clear()
                             break
-                        time.sleep(0.05)
+                        time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif _ev.get() == &#34;&#39;r&#39;&#34;:
+                elif action.triggers(Action.RUN):
                     if ask_bool(self.map,
                                 f&#34;Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?&#34;):
@@ -3096,7 +3095,6 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                                               items)
                         if len(items) == 0:
                             break
-                    _ev.clear()
                 std_loop()
                 self.map.show()
         self.box.remove_c_obs()
@@ -3248,14 +3246,15 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
 
     def __call__(self, pevm):
         &#34;&#34;&#34;Opens the menu&#34;&#34;&#34;
-        _ev.clear()
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
+            _ev.clear()
             while True:
-                if _ev.get() == &#34;Key.enter&#34;:
-                    _ev.clear()
-                    # Fuck python for not having case statements
+                action = get_action()
+                if action.triggers(Action.ACCEPT):
+                    # Fuck python for not having case statements - lxgr
+                    #     but it does lmao - Magnus
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
                         figure.name = text_input(self.realname_label, self.map,
@@ -3278,7 +3277,7 @@ valid single-space character!&#34;)
                         with InfoBox(&#34;Saving....&#34;, info=&#34;&#34;, _map=self.map):
                             # Shows a box displaying &#34;Saving....&#34; while saving
                             save()
-                            time.sleep(1.5)
+                            time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
                         exiter()
@@ -3288,11 +3287,9 @@ valid single-space character!&#34;)
                         AchievementOverview()(mvp.movemap)
                     else:
                         i.change()
-                elif _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
-                    self.box.input(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in [&#34;&#39;e&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                    _ev.clear()
+                elif action.triggers(Action.UP, Action.DOWN):
+                    self.box.input(action)
+                elif action.triggers(Action.CANCEL, Action.MENU):
                     break
                 std_loop(pevm=pevm)
                 self.map.full_show()</code></pre>

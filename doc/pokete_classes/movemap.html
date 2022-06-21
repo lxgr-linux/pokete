@@ -38,6 +38,7 @@ from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
+from release import SPEED_OF_TIME
 
 
 class Movemap(gm.GameSubmap):
@@ -54,8 +55,8 @@ class Movemap(gm.GameSubmap):
         self.balls_label = se.Text(&#34;&#34;)
         self.label_bg = se.Square(&#34; &#34;, self.width, 1, state=&#34;float&#34;)
         self.label = se.Text(
-                        &#34;1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  6: Clock  &#34;
-                        &#34;?: Help&#34;)
+            &#34;1: Deck  2: Quit  3: Map  4: Inv.  5: Pokedex  6: Clock  ?: help&#34;
+        )
         self.code_label = OutP(&#34;&#34;)
         self.multitext = OutP(&#34;&#34;, state=&#34;float&#34;)
         self.underline = se.Square(&#34;-&#34;, self.width, 1, state=&#34;float&#34;)
@@ -84,7 +85,7 @@ class Movemap(gm.GameSubmap):
                 self.set(self.x + (1 if i == &#34;x&#34; else 0),
                          self.y + (1 if i == &#34;y&#34; else 0))
                 self.show()
-                time.sleep(0.045)
+                time.sleep(SPEED_OF_TIME * 0.045)
 
     def text(self, x, y, inp_arr):
         &#34;&#34;&#34;Shows dialog text on movemap
@@ -96,8 +97,9 @@ class Movemap(gm.GameSubmap):
         self.multitext.rechar(&#34;&#34;)
         self.multitext.add(self, x - self.x + 1, y - self.y)
         arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
-               for j, i in enumerate(inp_arr)] 
+               for j, i in enumerate(inp_arr)]
         for text in arr:
+            # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
             _ev.clear()
             self.multitext.rechar(&#34;&#34;)
             for i in range(len(text) + 1):
@@ -191,8 +193,8 @@ if __name__ == &#34;__main__&#34;:
         self.balls_label = se.Text(&#34;&#34;)
         self.label_bg = se.Square(&#34; &#34;, self.width, 1, state=&#34;float&#34;)
         self.label = se.Text(
-                        &#34;1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  6: Clock  &#34;
-                        &#34;?: Help&#34;)
+            &#34;1: Deck  2: Quit  3: Map  4: Inv.  5: Pokedex  6: Clock  ?: help&#34;
+        )
         self.code_label = OutP(&#34;&#34;)
         self.multitext = OutP(&#34;&#34;, state=&#34;float&#34;)
         self.underline = se.Square(&#34;-&#34;, self.width, 1, state=&#34;float&#34;)
@@ -221,7 +223,7 @@ if __name__ == &#34;__main__&#34;:
                 self.set(self.x + (1 if i == &#34;x&#34; else 0),
                          self.y + (1 if i == &#34;y&#34; else 0))
                 self.show()
-                time.sleep(0.045)
+                time.sleep(SPEED_OF_TIME * 0.045)
 
     def text(self, x, y, inp_arr):
         &#34;&#34;&#34;Shows dialog text on movemap
@@ -233,8 +235,9 @@ if __name__ == &#34;__main__&#34;:
         self.multitext.rechar(&#34;&#34;)
         self.multitext.add(self, x - self.x + 1, y - self.y)
         arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
-               for j, i in enumerate(inp_arr)] 
+               for j, i in enumerate(inp_arr)]
         for text in arr:
+            # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
             _ev.clear()
             self.multitext.rechar(&#34;&#34;)
             for i in range(len(text) + 1):
@@ -341,7 +344,7 @@ chunks of text are displayed</p>
             self.set(self.x + (1 if i == &#34;x&#34; else 0),
                      self.y + (1 if i == &#34;y&#34; else 0))
             self.show()
-            time.sleep(0.045)</code></pre>
+            time.sleep(SPEED_OF_TIME * 0.045)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.movemap.Movemap.balls_label_rechar"><code class="name flex">
@@ -442,8 +445,9 @@ See se.Map.resize</p></div>
     self.multitext.rechar(&#34;&#34;)
     self.multitext.add(self, x - self.x + 1, y - self.y)
     arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
-           for j, i in enumerate(inp_arr)] 
+           for j, i in enumerate(inp_arr)]
     for text in arr:
+        # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
         _ev.clear()
         self.multitext.rechar(&#34;&#34;)
         for i in range(len(text) + 1):

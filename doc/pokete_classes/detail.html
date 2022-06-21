@@ -31,10 +31,10 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from pokete_classes.hotkeys import Action, get_action
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
-from .event import _ev
 
 
 class Informer:
@@ -153,8 +153,8 @@ class Detail(Informer):
                 label.add(self.map, _x + __x, _y + __y)
         self.map.show(init=True)
         while True:
-            if _ev.get() in [&#34;&#39;1&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                _ev.clear()
+            action = get_action()
+            if action.triggers(Action.ACT_1, Action.DECK, Action.CANCEL, Action.ACCEPT):
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
@@ -164,27 +164,28 @@ class Detail(Informer):
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif _ev.get() == &#34;&#39;3&#39;&#34; and abb_obs != [] and abb:
-                with ChooseBox(len(abb_obs) + 2, 25, name=&#34;Abilities&#34;,
-                               c_obs=[se.Text(i.name)
-                                      for i in abb_obs]).center_add(self.map)\
-                        as box:
-                    while True:
-                        if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
-                            box.input(_ev.get())
-                            self.map.show()
-                            _ev.clear()
-                        elif _ev.get() == &#34;Key.enter&#34;:
-                            ret_action = abb_obs[box.index.index].world_action
-                            _ev.set(&#34;&#39;q&#39;&#34;)
-                            break
-                        elif _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                            _ev.clear()
-                            break
-                        std_loop(False)
-            elif _ev.get() == &#34;&#39;2&#39;&#34;:
-                _ev.clear()
+            elif action.triggers(Action.ACT_2):
                 poke.nature.info(self.map)
+            elif action.triggers(Action.ACT_3):
+                if abb_obs != [] and abb:
+                    with ChooseBox(len(abb_obs) + 2, 25, name=&#34;Abilities&#34;,
+                                   c_obs=[se.Text(i.name)
+                                          for i in abb_obs]).center_add(self.map)\
+                            as box:
+                        while True:
+                            action = get_action()
+                            if action.triggers(Action.UP, Action.DOWN):
+                                box.input(action)
+                                self.map.show()
+                            elif action.triggers(Action.ACCEPT):
+                                ret_action = abb_obs[box.index.index].world_action
+                                break
+                            elif action.triggers(Action.CANCEL):
+                                break
+                            std_loop(False)
+                        if action.triggers(Action.ACCEPT):
+                            # Exit to the world after performing a world action
+                            break
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:
@@ -313,8 +314,8 @@ if __name__ == &#34;__main__&#34;:
                 label.add(self.map, _x + __x, _y + __y)
         self.map.show(init=True)
         while True:
-            if _ev.get() in [&#34;&#39;1&#39;&#34;, &#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                _ev.clear()
+            action = get_action()
+            if action.triggers(Action.ACT_1, Action.DECK, Action.CANCEL, Action.ACCEPT):
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
@@ -324,27 +325,28 @@ if __name__ == &#34;__main__&#34;:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif _ev.get() == &#34;&#39;3&#39;&#34; and abb_obs != [] and abb:
-                with ChooseBox(len(abb_obs) + 2, 25, name=&#34;Abilities&#34;,
-                               c_obs=[se.Text(i.name)
-                                      for i in abb_obs]).center_add(self.map)\
-                        as box:
-                    while True:
-                        if _ev.get() in [&#34;&#39;s&#39;&#34;, &#34;&#39;w&#39;&#34;]:
-                            box.input(_ev.get())
-                            self.map.show()
-                            _ev.clear()
-                        elif _ev.get() == &#34;Key.enter&#34;:
-                            ret_action = abb_obs[box.index.index].world_action
-                            _ev.set(&#34;&#39;q&#39;&#34;)
-                            break
-                        elif _ev.get() in [&#34;Key.esc&#34;, &#34;&#39;q&#39;&#34;]:
-                            _ev.clear()
-                            break
-                        std_loop(False)
-            elif _ev.get() == &#34;&#39;2&#39;&#34;:
-                _ev.clear()
+            elif action.triggers(Action.ACT_2):
                 poke.nature.info(self.map)
+            elif action.triggers(Action.ACT_3):
+                if abb_obs != [] and abb:
+                    with ChooseBox(len(abb_obs) + 2, 25, name=&#34;Abilities&#34;,
+                                   c_obs=[se.Text(i.name)
+                                          for i in abb_obs]).center_add(self.map)\
+                            as box:
+                        while True:
+                            action = get_action()
+                            if action.triggers(Action.UP, Action.DOWN):
+                                box.input(action)
+                                self.map.show()
+                            elif action.triggers(Action.ACCEPT):
+                                ret_action = abb_obs[box.index.index].world_action
+                                break
+                            elif action.triggers(Action.CANCEL):
+                                break
+                            std_loop(False)
+                        if action.triggers(Action.ACCEPT):
+                            # Exit to the world after performing a world action
+                            break
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:
