@@ -522,9 +522,9 @@ class Inv:
                 action = get_action()
                 if action.triggers(Action.UP, Action.DOWN):
                     self.box.input(action)
-                elif action == Action.CANCEL:
+                elif action.triggers(Action.CANCEL):
                     break
-                elif action == Action.ACCEPT:
+                elif action.triggers(Action.ACCEPT):
                     obj = items[self.box.index.index]
                     self.box2.name_label.rechar(obj.pretty_name)
                     self.desc_label.rechar(liner(obj.desc, 19))
@@ -583,7 +583,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                             break
                         time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif action == Action.RUN:
+                elif action.triggers(Action.RUN):
                     if ask_bool(self.map,
                                 f"Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?"):
@@ -672,7 +672,7 @@ class Menu:
             _ev.clear()
             while True:
                 action = get_action()
-                if action == Action.ACCEPT:
+                if action.triggers(Action.ACCEPT):
                     # Fuck python for not having case statements - lxgr
                     #     but it does lmao - Magnus
                     if (i := self.box.c_obs[self.box.index.index]) ==\
@@ -884,9 +884,9 @@ def test():
             action = get_action()
             if action.triggers(*ACTION_DIRECTIONS):
                 a.input(action)
-            elif action == Action.CANCEL:
+            elif action.triggers(Action.CANCEL):
                 break
-            elif action == Action.ACCEPT:
+            elif action.triggers(Action.ACCEPT):
                 a.remove()
                 a.set_items(3, [se.Text(i, state="float") for i in ["test",
                     "test", "123", "fuckthesystem"]])
@@ -1034,7 +1034,7 @@ def _game(_map):
                 if ask_bool(mvp.movemap, "Do you really wish to exit?"):
                     save()
                     exiter()
-            elif action == Action.CONSOLE:
+            elif action.triggers(Action.CONSOLE):
                 inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
                                  mvp.movemap.width,
                                  (mvp.movemap.width - 2)
