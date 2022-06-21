@@ -15,11 +15,10 @@ class Action(Enum):
     INVENTORY = auto()
     POKEDEX = auto()
     MAP = auto()
-    # This can't be programmatically changed. A better solution will be to have hotkey_mappings values be an iterator and check if any of its values matches desired ones
-    MOVE_POKETE = MAP
+    MOVE_POKETE = auto()
     CLOCK = auto()
     HELP = auto()
-    INFO = HELP
+    INFO = auto()
     MENU = auto()
     CONSOLE = auto()
 
@@ -33,51 +32,57 @@ class Action(Enum):
     ACT_8 = auto()
     ACT_9 = auto()
 
+    def triggers(self, *actions):
+        for action in actions:
+            if action in self:
+                return True
+        return False
+
 ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
 ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
 hotkey_mappings = {
-    'a':        Action.LEFT,
-    'h':        Action.LEFT,
-    'Key.left': Action.LEFT,
-    'd':         Action.RIGHT,
-    'l':         Action.RIGHT,
-    'Key.right': Action.RIGHT,
-    'w':      Action.UP,
-    'k':      Action.UP,
-    'Key.up': Action.UP,
-    's':        Action.DOWN,
-    'j':        Action.DOWN,
-    'Key.down': Action.DOWN,
+    'a':        [Action.LEFT],
+    'h':        [Action.LEFT],
+    'Key.left': [Action.LEFT],
+    'd':         [Action.RIGHT],
+    'l':         [Action.RIGHT],
+    'Key.right': [Action.RIGHT],
+    'w':      [Action.UP],
+    'k':      [Action.UP],
+    'Key.up': [Action.UP],
+    's':        [Action.DOWN],
+    'j':        [Action.DOWN],
+    'Key.down': [Action.DOWN],
 
-    'Key.space': Action.ACCEPT,
-    'Key.enter': Action.ACCEPT,
-    'y':         Action.ACCEPT,
-    'o':         Action.ACCEPT,
-    'n':             Action.CANCEL,
-    'q':             Action.CANCEL,
-    'Key.esc':       Action.CANCEL,
-    'Key.backspace': Action.CANCEL,
+    'Key.space': [Action.ACCEPT],
+    'Key.enter': [Action.ACCEPT],
+    'y':         [Action.ACCEPT],
+    'o':         [Action.ACCEPT],
+    'n':             [Action.CANCEL],
+    'q':             [Action.CANCEL],
+    'Key.esc':       [Action.CANCEL],
+    'Key.backspace': [Action.CANCEL],
 
-    'r': Action.RUN,
-    'e': Action.DECK,
-    'i': Action.INVENTORY,
-    'p': Action.POKEDEX,
-    'm': Action.MAP,
-    'c': Action.CLOCK,
-    '?': Action.HELP,
-    'u': Action.MENU,
-    ':': Action.CONSOLE,
+    'r': [Action.RUN],
+    'e': [Action.DECK],
+    'i': [Action.INVENTORY],
+    'p': [Action.POKEDEX],
+    'm': [Action.MAP, Action.MOVE_POKETE],
+    'c': [Action.CLOCK],
+    '?': [Action.HELP, Action.INFO],
+    'u': [Action.MENU],
+    ':': [Action.CONSOLE],
 
-    '1': Action.ACT_1,
-    '2': Action.ACT_2,
-    '3': Action.ACT_3,
-    '4': Action.ACT_4,
-    '5': Action.ACT_5,
-    '6': Action.ACT_6,
-    '7': Action.ACT_7,
-    '8': Action.ACT_8,
-    '9': Action.ACT_9,
+    '1': [Action.ACT_1],
+    '2': [Action.ACT_2],
+    '3': [Action.ACT_3],
+    '4': [Action.ACT_4],
+    '5': [Action.ACT_5],
+    '6': [Action.ACT_6],
+    '7': [Action.ACT_7],
+    '8': [Action.ACT_8],
+    '9': [Action.ACT_9],
 }
 
 # Returns an action, then clears input; all input is valid to read only once
