@@ -1,7 +1,7 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
 import scrap_engine as se
-from pokete_classes.hotkeys import Action, get_action
+from pokete_classes.hotkeys import Action, Action_UP_DOWN, get_action
 import pokete_data as p_data
 import pokete_classes.movemap as mvp
 from pokete_general_use_fns import liner
