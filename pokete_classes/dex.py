@@ -1,7 +1,7 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
 import scrap_engine as se
-from pokete_classes.hotkeys import Action, get_action
+from pokete_classes.hotkeys import Action, Action_UP_DOWN, get_action
 import pokete_data as p_data
 import pokete_classes.movemap as mvp
 from pokete_general_use_fns import liner
@@ -109,7 +109,7 @@ Active: """) + se.Text(active[0], esccode=active[1])
                         self.detail(list(p_dict)[self.idx
                                                  * (self.box.height - 2)
                                                  + self.box.index.index])
-                elif action == Action.UP or action == Action.DOWN:
+                elif action in Action_UP_DOWN:
                     self.box.input(action)
                 elif action in (Action.CANCEL, Action.POKEDEX):
                     break
