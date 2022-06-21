@@ -1,7 +1,7 @@
 """Contains all classes relevant to show the roadmap"""
 
 import scrap_engine as se
-from pokete_classes.hotkeys import ACTION_DIRECTIONS, Action, get_action
+from pokete_classes.hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
 from pokete_general_use_fns import liner
@@ -58,10 +58,14 @@ class Station(se.Square):
         """Unchooses the station"""
         self.rechar(self.color + self.org_char + Color.reset)
 
-    def next(self, inp: Action):
+    def next(self, inp: ActionList):
         """Chooses the next station in a certain direction
         ARGS:
             inp: Action Enum"""
+        for action in inp:
+            if action in (ACTION_DIRECTIONS):
+                inp = action
+                break
         inp = {
             Action.UP: 'w',
             Action.DOWN: 's',
