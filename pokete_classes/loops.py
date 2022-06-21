@@ -18,7 +18,7 @@ def easy_exit_loop(on_mvmp=True):
 
 
 def std_loop(on_mvmp=True, pevm=None):
-    """Standart action executed in most loops
+    """Standard action executed in most loops
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap
         pevm: The PeriodicEventManager object, that may be needed to trigger
@@ -27,4 +27,4 @@ def std_loop(on_mvmp=True, pevm=None):
         notifier.next()
     if pevm is not None:
         pevm.event()
-    time.sleep(SPEED_OF_TIME * release.FRAMETIME)
+    time.sleep(release.FRAMETIME)
