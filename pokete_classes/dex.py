@@ -18,7 +18,8 @@ class Dex:
         figure: Figure object"""
 
     def __init__(self, figure):
-        self.box = ChooseBox(mvp.movemap.height - 3, 35, "Poketedex")
+        self.box = ChooseBox(mvp.movemap.height - 3, 35, "Poketedex",
+                             info=f"{Action.CANCEL.mapping}:close")
         self.detail_box = Box(16, 35)
         self.figure = figure
         self.idx = 0

@@ -9,6 +9,7 @@ class Action(Enum):
     DOWN = auto()
     ACCEPT = auto()
     CANCEL = auto()
+    NO = auto()
 
     RUN = auto()
     DECK = auto()
@@ -16,6 +17,7 @@ class Action(Enum):
     POKEDEX = auto()
     MAP = auto()
     MOVE_POKETE = auto()
+    FREE_POKETE = auto()
     CLOCK = auto()
     HELP = auto()
     INFO = auto()
@@ -31,6 +33,10 @@ class Action(Enum):
     ACT_7 = auto()
     ACT_8 = auto()
     ACT_9 = auto()
+
+    @property
+    def mapping(self):
+        return get_mapping(self)
 
 class ActionList(list):
     def triggers(self, *actions):
@@ -65,35 +71,31 @@ ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
 hotkey_mappings = {
     'a':        ActionList([Action.LEFT]),
-    'h':        ActionList([Action.LEFT]),
     'Key.left': ActionList([Action.LEFT]),
     'd':         ActionList([Action.RIGHT]),
-    'l':         ActionList([Action.RIGHT]),
     'Key.right': ActionList([Action.RIGHT]),
     'w':      ActionList([Action.UP]),
-    'k':      ActionList([Action.UP]),
     'Key.up': ActionList([Action.UP]),
     's':        ActionList([Action.DOWN]),
-    'j':        ActionList([Action.DOWN]),
     'Key.down': ActionList([Action.DOWN]),
 
     'Key.space': ActionList([Action.ACCEPT]),
     'Key.enter': ActionList([Action.ACCEPT]),
     'y':         ActionList([Action.ACCEPT]),
     'o':         ActionList([Action.ACCEPT]),
-    'n':             ActionList([Action.CANCEL]),
     'q':             ActionList([Action.CANCEL]),
+    'n':             ActionList([Action.CANCEL]),
     'Key.esc':       ActionList([Action.CANCEL]),
     'Key.backspace': ActionList([Action.CANCEL]),
 
     'r': ActionList([Action.RUN]),
-    'e': ActionList([Action.DECK]),
-    'i': ActionList([Action.INVENTORY]),
+    'i': ActionList([Action.INFO, Action.INVENTORY]),
     'p': ActionList([Action.POKEDEX]),
+    'f': ActionList([Action.FREE_POKETE]),
     'm': ActionList([Action.MAP, Action.MOVE_POKETE]),
     'c': ActionList([Action.CLOCK]),
     '?': ActionList([Action.HELP, Action.INFO]),
-    'u': ActionList([Action.MENU]),
+    'e': ActionList([Action.MENU]),
     ':': ActionList([Action.CONSOLE]),
 
     '1': ActionList([Action.ACT_1]),
@@ -106,6 +108,12 @@ hotkey_mappings = {
     '8': ActionList([Action.ACT_8]),
     '9': ActionList([Action.ACT_9]),
 }
+
+def get_mapping(action):
+    for key, actions_list in hotkey_mappings.items():
+        if action in actions_list:
+            return key
+    return None
 
 # Exists maybe for performance so references to new actionlists don't have to always be cleaned up when the following function returns nothing
 # I don't trust python to be smart enough to do this itself
