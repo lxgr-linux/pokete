@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!-- Copyright 2022 lxgr <lxgr@protonmail.com> -->
 <component type="desktop-application">
   <id>com.github.lxgr_linux.pokete</id>
   <metadata_license>MIT</metadata_license>
@@ -26,5 +26,35 @@
     <binary>com.github.lxgr_linux.pokete</binary>
   </provides>
   <launchable type="desktop-id">com.github.lxgr_linux.pokete.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Fight against other poketes</caption>
+      <image type="source" width="734" height="410">https://lxgr-linux.github.io/pokete/assets/ss/ss01.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Conversation with a trainer on Map Route 2</caption>
+      <image type="source" width="734" height="410">https://lxgr-linux.github.io/pokete/assets/ss/ss05.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release type="stable" version="0.7.3" date="2022-06-21" urgency="low">
+      <description>
+        <p> Preparation release for flatpaks. Includes:
+          <ul>
+             <li>A svg image of the pokete logo</li>
+             <li>A metainfo.xml file for pokete</li>
+          </ul>
+        </p>
+      </description>
+      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.7.3</url>
+      <location>https://github.com/lxgr-linux/pokete/archive/refs/tags/0.7.3.tar.gz</location>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-cartoon">mild</content_attribute>
+    <content_attribute id="drugs-narcotics">mild</content_attribute>
+    <content_attribute id="language-profanity">intense</content_attribute>
+    <content_attribute id="language-humor">moderate</content_attribute>
+  </content_rating>
 </component>
 
