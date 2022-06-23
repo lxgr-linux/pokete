@@ -4,7 +4,9 @@ import time
 import logging
 import random
 import scrap_engine as se
+from pokete_classes.general import heal
 import pokete_classes.fightmap as fm
+from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 import pokete_classes.movemap as mvp
 from .providers import Provider
 from .loops import std_loop
@@ -12,8 +14,8 @@ from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
-from .event import _ev
 from .general import check_walk_back
+from release import SPEED_OF_TIME
 
 
 class NPCTrigger(se.Object):
@@ -83,7 +85,7 @@ class NPC(se.Box):
         except se.CoordinateError:
             pass
         mvp.movemap.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         exclamation.remove()
 
     def action(self):
@@ -92,7 +94,7 @@ class NPC(se.Box):
             return
         logging.info("[NPC][%s] Interaction", self.name)
         mvp.movemap.full_show()
-        time.sleep(0.7)
+        time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
         self.fn()
@@ -133,7 +135,7 @@ class NPC(se.Box):
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
             mvp.movemap.full_show()
-            time.sleep(0.2)
+            time.sleep(SPEED_OF_TIME * 0.2)
         return True
 
     def give(self, name, item):
@@ -168,8 +170,7 @@ Do you want to accept it?"):
             return
         while True:
             self.text(q_a["q"])
-            while _ev.get() == "":
-                _ev.clear()
+            while get_action() == None:
                 std_loop()
             if q_a["a"] == {}:
                 break
@@ -185,11 +186,11 @@ Do you want to accept it?"):
             with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
-                    if _ev.get() in ["'w'", "'s'"]:
-                        c_b.input(_ev.get())
+                    action = get_action()
+                    if action.triggers(*ACTION_UP_DOWN):
+                        c_b.input(action)
                         mvp.movemap.show()
-                        _ev.clear()
-                    elif _ev.get() == "Key.enter":
+                    elif action.triggers(Action.ACCEPT):
                         key = keys[c_b.index.index]
                         break
                     std_loop()
@@ -243,7 +244,7 @@ class Trainer(NPC, Provider):
                                  or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
-            time.sleep(0.7)
+            time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
@@ -255,6 +256,7 @@ class Trainer(NPC, Provider):
                 self.text({True: self.lose_texts,
                            False: self.win_texts + ["Here's $20!"]}
                           [is_winner])
+                heal(self) if is_winner else None
                 if not is_winner:
                     self.fig.add_money(20)
                     self.set_used()

@@ -9,6 +9,8 @@ from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
+from .hotkeys import Action
+from release import SPEED_OF_TIME
 
 
 class Movemap(gm.GameSubmap):
@@ -25,8 +27,14 @@ class Movemap(gm.GameSubmap):
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
         self.label = se.Text(
-                        "1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  6: Clock  "
-                        "?: Help")
+            f"{Action.DECK.mapping}: Deck  "
+            f"{Action.EXIT_GAME.mapping}: Quit  "
+            f"{Action.MAP.mapping}: Map  "
+            f"{Action.INVENTORY.mapping}: Inv.  "
+            f"{Action.POKEDEX.mapping}: Pokedex  "
+            f"{Action.CLOCK.mapping}: Clock  "
+            f"{Action.HELP.mapping}: help"
+        )
         self.code_label = OutP("")
         self.multitext = OutP("", state="float")
         self.underline = se.Square("-", self.width, 1, state="float")
@@ -55,7 +63,7 @@ class Movemap(gm.GameSubmap):
                 self.set(self.x + (1 if i == "x" else 0),
                          self.y + (1 if i == "y" else 0))
                 self.show()
-                time.sleep(0.045)
+                time.sleep(SPEED_OF_TIME * 0.045)
 
     def text(self, x, y, inp_arr):
         """Shows dialog text on movemap
@@ -67,8 +75,9 @@ class Movemap(gm.GameSubmap):
         self.multitext.rechar("")
         self.multitext.add(self, x - self.x + 1, y - self.y)
         arr = [" < " + i + (" >" if j != len(inp_arr) - 1 else "")
-               for j, i in enumerate(inp_arr)] 
+               for j, i in enumerate(inp_arr)]
         for text in arr:
+            # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
             _ev.clear()
             self.multitext.rechar("")
             for i in range(len(text) + 1):

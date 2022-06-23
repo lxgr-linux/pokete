@@ -4,11 +4,11 @@ import datetime
 import logging
 import scrap_engine as se
 from pokete_general_use_fns import liner
+from .hotkeys import ACTION_DIRECTIONS, Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 from .notify import notifier
-from .event import _ev
 
 
 class Achievement:
@@ -81,7 +81,8 @@ class AchBox(LabelBox):
                              else Color.grey), state="float")\
                 + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
                 + se.Text("\n" + liner(ach.desc, 30), state="float")
-        super().__init__(label, name=ach.title, info="q:close")
+        super().__init__(label, name=ach.title,
+                         info=f"{Action.CANCEL.mapping}:close")
 
 
 class AchievementOverview(BetterChooseBox):
@@ -102,18 +103,18 @@ class AchievementOverview(BetterChooseBox):
         self.map = _map
         with self:
             while True:
-                if _ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
-                    self.input(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in ["'q'", "Key.esc"]:
-                    _ev.clear()
-                    break
-                elif _ev.get() == "Key.enter":
-                    _ev.clear()
-                    ach = achievements.achievements[
-                            self.get_item(*self.index).ind]
-                    with AchBox(ach, achievements).center_add(_map):
-                        easy_exit_loop()
+                action = get_action()
+                if action.triggers(*ACTION_DIRECTIONS):
+                    self.input(action)
+                else:
+                    if action.triggers(Action.CANCEL):
+                        break
+                    elif action.triggers(Action.ACCEPT):
+                        ach = achievements.achievements[
+                            self.get_item(*self.index).ind
+                        ]
+                        with AchBox(ach, achievements).center_add(_map):
+                            easy_exit_loop()
                 std_loop()
                 self.map.show()
 

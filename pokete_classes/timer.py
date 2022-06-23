@@ -3,9 +3,11 @@
 import logging
 import time as time_mod
 import scrap_engine as se
-from .event import _ev
+
+from .hotkeys import Action, get_action
 from .ui_elements import Box
 from .loops import std_loop
+from release import SPEED_OF_TIME
 
 time = None
 clock = None
@@ -102,7 +104,7 @@ class Clock(Box):
 
     def __init__(self, time):
         self.time = time
-        super().__init__(9, 28, "Clock", "q:close")
+        super().__init__(9, 28, "Clock", f"{Action.CANCEL.mapping}:close")
 
     def __call__(self, _map):
         """Shows the clock
@@ -113,8 +115,7 @@ class Clock(Box):
         raw_time = self.time.time
         with self.center_add(_map):
             while True:
-                if _ev.get() in ["'q'", "Key.esc"]:
-                    _ev.clear()
+                if get_action().triggers(*(Action.CANCEL, Action.CLOCK)):
                     break
                 if self.time.time == raw_time + 1:
                     d_p = not d_p
@@ -154,6 +155,6 @@ class Clock(Box):
 def time_threat():
     """Manages the time counting"""
     while True:
-        time_mod.sleep(1)
+        time_mod.sleep(SPEED_OF_TIME * 1)
         if time.time < time.last_input + 120:
             time.time += 1

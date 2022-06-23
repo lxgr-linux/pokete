@@ -17,6 +17,7 @@ from .types import types
 from .effects import effects
 from .learnattack import LearnAttack
 from .nature import PokeNature
+from release import SPEED_OF_TIME
 
 
 class Poke:
@@ -187,7 +188,7 @@ can't have more than 4 attacks!"
             if weather is not None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
-                time.sleep(1.5)
+                time.sleep(SPEED_OF_TIME * 1.5)
             enem.oldhp = enem.hp
             self.oldhp = self.hp
             eff = (1.3 if enem.type.name in attack.type.effective else 0.5
@@ -203,7 +204,7 @@ can't have more than 4 attacks!"
                 random_factor == 0: f"{self.name} missed!"}[True]
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
-            time.sleep(0.4)
+            time.sleep(SPEED_OF_TIME * 0.4)
             for i in attack.move:
                 getattr(self.moves, i)()
             if attack.action is not None and random_factor != 0:
@@ -212,7 +213,7 @@ can't have more than 4 attacks!"
             fightmap.outp.outp(
                 f'{self.ext_name} used {attack.name}! {eff_text}')
             if enem == self:
-                time.sleep(1)
+                time.sleep(SPEED_OF_TIME * 1)
                 fightmap.outp.outp(f'{self.ext_name} hurt itself!')
             if random_factor != 0:
                 attack.give_effect(enem)
@@ -244,24 +245,24 @@ can't have more than 4 attacks!"
                      round((evomap.height - 8) / 2))
         self.moves.shine()
         evomap.outp.outp("Look!")
-        time.sleep(0.5)
+        time.sleep(SPEED_OF_TIME * 0.5)
         evomap.outp.outp(f"{evomap.outp.text}\n{self.name} is evolving!")
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         for i in range(8):
             for j, k in zip([self.ico, new.ico], [new.ico, self.ico]):
                 j.remove()
                 k.add(evomap, round(evomap.width / 2 - 4),
                       round((evomap.height - 8) / 2))
-                time.sleep(0.7 - i * 0.09999)
+                time.sleep(SPEED_OF_TIME * 0.7 - i * 0.09999)
                 evomap.show()
         self.ico.remove()
         new.ico.add(evomap, round(evomap.width / 2 - 4),
                     round((evomap.height - 8) / 2))
         evomap.show()
-        time.sleep(0.01)
+        time.sleep(SPEED_OF_TIME * 0.01)
         new.moves.shine()
         evomap.outp.outp(f"{self.name} evolved into {new.name}!")
-        time.sleep(5)
+        time.sleep(SPEED_OF_TIME * 5)
         for i in range(max(len(p_data.pokes[new.identifier]["attacks"])
                            - len(self.attack_obs), 0)):
             LearnAttack(new, evomap)()

@@ -6,6 +6,7 @@ from pokete_data.attacks import attacks
 from .effects import effects
 from .types import types
 from .color import Color
+from release import SPEED_OF_TIME
 
 
 class Attack:
@@ -55,7 +56,7 @@ class Attack:
         ARGS:
             enem: Enemy object"""
         if self.effect is not None:
-            time.sleep(1.5)
+            time.sleep(SPEED_OF_TIME * 1.5)
             getattr(effects, self.effect)().add(enem)
 
     def set_ap(self, ap):
