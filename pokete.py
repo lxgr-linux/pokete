@@ -831,7 +831,7 @@ def exiter():
     print("\033[?1049l\033[1A")
     if audio.curr is not None:
         audio.kill()
-    sys.exit()
+    #sys.exit()
 
 
 # Functions needed for mvp.movemap
