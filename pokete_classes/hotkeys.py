@@ -132,6 +132,16 @@ def get_mapping(action):
             return key
     return None
 
+def hotkeys_save():
+    return {key: [i.name for i in value] for key, value in
+            hotkey_mappings.items()}
+
+def hotkeys_from_save(save):
+    global hotkey_mappings
+    if save == {}:
+        return
+    hotkey_mappings = {key: ActionList([Action[i] for i in value]) for key, value in save.items()}
+
 # Exists maybe for performance so references to new actionlists don't have to always be cleaned up when the following function returns nothing
 # I don't trust python to be smart enough to do this itself
 EMPTY_ACTIONLIST = ActionList()

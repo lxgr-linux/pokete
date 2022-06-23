@@ -45,7 +45,9 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
-from pokete_classes.hotkeys import get_action, Action, ACTION_DIRECTIONS
+from pokete_classes.hotkeys import (
+    get_action, Action, ACTION_DIRECTIONS, hotkeys_save, hotkeys_from_save
+)
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
@@ -748,6 +750,7 @@ def save():
                                                 for i in figure.pokes])),
         "visited_maps": figure.visited_maps,
         "startup_time": __t,
+        "hotkeys": hotkeys_save(),
         # filters doublicates from figure.used_npcs
         "used_npcs": list(dict.fromkeys(figure.used_npcs)),
         "pokete_care": pokete_care.dict(),
@@ -786,6 +789,7 @@ def read_save():
         "visited_maps": ["playmap_1"],
         "startup_time": 0,
         "used_npcs": [],
+        "hotkeys": {},
         "pokete_care": {
             "entry": 0,
             "poke": None,
@@ -1448,6 +1452,9 @@ if __name__ == "__main__":
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
+
+    # hotkeys
+    hotkeys_from_save(session_info.get("hotkeys", {}))
 
     # settings
     settings.from_dict(session_info.get("settings", {}))
