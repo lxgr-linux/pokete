@@ -8,7 +8,7 @@ import pokete_data as p_data
 from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
-from .hotkeys import ACTION_UP_DOWN, Action, get_action, get_mapping
+from .hotkeys import ACTION_UP_DOWN, Action, get_action
 from .audio import audio
 from .loops import std_loop
 from .npcs import Trainer
@@ -31,7 +31,7 @@ class FightMap(gm.GameMap):
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
         self.box = ChooseBox(6, 25, "Attacks",
-                             f"{get_mapping(Action.INFO)}:Info", index_x=1)
+                             f"{Action.INFO.mapping}:Info", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
         self.deadico1 = se.Text(r"""

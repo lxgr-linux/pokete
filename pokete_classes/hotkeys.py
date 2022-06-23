@@ -1,5 +1,7 @@
 from enum import Enum, auto
+from pokete_general_use_fns import liner
 from .event import _ev
+
 
 class Action(Enum):
     LEFT = auto()
@@ -8,7 +10,6 @@ class Action(Enum):
     DOWN = auto()
     ACCEPT = auto()
     CANCEL = auto()
-    NO = auto()
 
     RUN = auto()
     DECK = auto()
@@ -43,7 +44,7 @@ class Action(Enum):
 
     @property
     def mapping(self):
-        return get_mapping(self)
+        return get_mapping(self, hotkey_mappings)
 
 class ActionList(list):
     def triggers(self, *actions):
@@ -126,8 +127,8 @@ hotkey_mappings = {
     ':': ActionList([Action.CONSOLE]),
 }
 
-def get_mapping(action):
-    for key, actions_list in hotkey_mappings.items():
+def get_mapping(action, keys):
+    for key, actions_list in keys.items():
         if action in actions_list:
             return key
     return None
@@ -136,11 +137,32 @@ def hotkeys_save():
     return {key: [i.name for i in value] for key, value in
             hotkey_mappings.items()}
 
-def hotkeys_from_save(save):
+def hotkeys_from_save(save, _map, version_change):
     global hotkey_mappings
+    from .input import ask_bool
     if save == {}:
         return
-    hotkey_mappings = {key: ActionList([Action[i] for i in value]) for key, value in save.items()}
+
+    new_hotkey_mappings = {key: ActionList([Action[i] for i in value])
+                           for key, value in save.items()}
+    unset = [
+        action for action in Action
+        if get_mapping(action, new_hotkey_mappings) is None
+    ]
+    if unset:
+        if version_change or ask_bool(_map, f"""The folowing keys are not set:
+{liner(", ".join([i.name for i in unset]), 60)}
+Should defaults be loaded for those keys?"""):
+            for action in unset:
+                key = action.mapping
+                if key not in new_hotkey_mappings:
+                    new_hotkey_mappings[key] = ActionsList([action])
+                else:
+                    new_hotkey_mappings[key].append(action)
+        else:
+            exit()
+    hotkey_mappings = new_hotkey_mappings
+
 
 # Exists maybe for performance so references to new actionlists don't have to always be cleaned up when the following function returns nothing
 # I don't trust python to be smart enough to do this itself
