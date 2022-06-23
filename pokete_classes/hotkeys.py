@@ -163,8 +163,13 @@ def hotkeys_from_save(save, _map, version_change):
     if save == {}:
         return
 
-    new_hotkey_mappings = {key: ActionList([Action[i] for i in value])
-                           for key, value in save.items()}
+    new_hotkey_mappings = {
+        key: ActionList(
+            [
+                Action[i] for i in value if i in Action.__members__
+            ]
+        )
+        for key, value in save.items()}
     unset = [
         action for action in Action
         if get_mapping(action, new_hotkey_mappings) is None
