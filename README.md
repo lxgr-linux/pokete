@@ -52,12 +52,13 @@ For non gameplay related usage see `--help`.
 Try it out [online](https://replit.com/@lxgr-linux/pokete).
 
 ## How to play?
-Imagine you're a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
+Imagine you're a Pokete-Trainer and you run around in the world to catch/train as many Poketes as possible with the ultimate goal of becoming the best trainer.
 
 First of all you get a starter Pokete (Steini), that you can use to fight battles with other Poketes.
 The controls are w a s d to walk around.
 
-When entering the high grass (;), you may be attacked by a wild Pokete. By pressing 1 you can choose between the attacks (as long their AP is over 0) your Pokete has, and by pressing the according number, or navigating with the "\*"-cursor to the attack and pressing enter. The wild Pokete will fight back, you can kill it and gain XP to level up your Pokete or you can catch it to have it fight for you. To catch a Pokete you have to first weaken the enemy and then throw a Poketeball. And with a bit luck you can catch it.
+When entering the high grass (;), you may be attacked by a wild Pokete. By pressing 1 you can choose between the attacks (as long their AP is over 0) your Pokete has, and by pressing the according number, or navigating with the "\*"-cursor to the attack and pressing enter. The wild Pokete will fight back but you can kill it and gain XP to level up your Pokete. If you would like to catch the wild Pokete, you must first weaken it and then throw a Poketeball. With a bit of luck, you can catch it and have it fight for you.
+
 Pressing the "1" key you can take a look at your current deck, see the detailed information of your Pokete and your attacks or rearrange them.
 Changes will only be saved by quitting the game using the exit function.
 
@@ -97,8 +98,8 @@ For an example mod see [example.py](mods/example.py).
 
 ## Tips
 - In conversations you can very easily skip the text printing by pressing any key
-- When you want to see the next text in a conversation: also just press any key
-- Don't play on full-screen; the game then starts to be overseeable
+- When you want to see the next text in a conversation: press any key
+- Don't play on full-screen; the game will not run properly
 - Don't be offended by the other trainers; they may swear at you
 
 ## TODO
