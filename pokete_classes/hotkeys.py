@@ -4,6 +4,8 @@ from .event import _ev
 
 
 class Action(Enum):
+    """Keyboad action layer"""
+
     LEFT = auto()
     RIGHT = auto()
     UP = auto()
@@ -44,23 +46,28 @@ class Action(Enum):
 
     @property
     def mapping(self):
+        """Returns the current mapped char"""
         return get_mapping(self, hotkey_mappings)
 
 class ActionList(list):
+    """List of actions triggered by a key"""
+
     def triggers(self, *actions):
+        """Checks if the self triggers a set of actions"""
         for action in actions:
             if action in self:
                 return True
         return False
 
-    # Returns 0-8 if ACT_1 through ACT_9 is in the list, else -1
     def get_number(self):
+        """Returns 0-8 if ACT_1 through ACT_9 is in the list, else -1"""
         for action in self:
             if action.value in range(Action.ACT_1.value, Action.ACT_9.value):
                 return action.value - Action.ACT_1.value
         return -1
 
     def get_Y_strength(self) -> int:
+        """Gets move in Y direction"""
         if self.triggers(Action.UP):
                 return -1
         elif self.triggers(Action.DOWN):
@@ -68,6 +75,7 @@ class ActionList(list):
         return 0
 
     def get_X_strength(self) -> int:
+        """Gets move in X direction"""
         if self.triggers(Action.RIGHT):
             return 1
         elif self.triggers(Action.LEFT):
@@ -128,16 +136,19 @@ hotkey_mappings = {
 }
 
 def get_mapping(action, keys):
+    """Returns the current mapped char"""
     for key, actions_list in keys.items():
         if action in actions_list:
             return key
     return None
 
 def hotkeys_save():
+    """Returns a save dict"""
     return {key: [i.name for i in value] for key, value in
             hotkey_mappings.items()}
 
 def hotkeys_from_save(save, _map, version_change):
+    """Sets hotkey_mappings from save"""
     global hotkey_mappings
     from .input import ask_bool
     if save == {}:
@@ -170,6 +181,7 @@ EMPTY_ACTIONLIST = ActionList()
 
 # Returns an action, then clears input; all input is valid to read only once
 def get_action() -> ActionList:
+    """Returns the current actions list"""
     retval = EMPTY_ACTIONLIST
     raw_input = _ev.get()
     if raw_input == "exit":
