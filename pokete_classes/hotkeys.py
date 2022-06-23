@@ -1,3 +1,4 @@
+import logging
 from enum import Enum, auto
 from pokete_general_use_fns import liner
 from .event import _ev
@@ -43,6 +44,11 @@ class Action(Enum):
     ACT_7 = auto()
     ACT_8 = auto()
     ACT_9 = auto()
+
+    QUICK_ATC_1 = auto()
+    QUICK_ATC_2 = auto()
+    QUICK_ATC_3 = auto()
+    QUICK_ATC_4 = auto()
 
     @property
     def mapping(self):
@@ -117,7 +123,7 @@ hotkey_mappings = {
 
     'Key.space': ActionList([Action.ACCEPT]),
     'Key.enter': ActionList([Action.ACCEPT]),
-    'y':         ActionList([Action.ACCEPT]),
+    'y':         ActionList([Action.ACCEPT, Action.QUICK_ATC_1]),
     'o':         ActionList([Action.ACCEPT]),
     'q':             ActionList([Action.CANCEL]),
     'n':             ActionList([Action.CANCEL]),
@@ -129,10 +135,13 @@ hotkey_mappings = {
     'p': ActionList([Action.POKEDEX]),
     'f': ActionList([Action.FREE_POKETE]),
     'm': ActionList([Action.MAP, Action.MOVE_POKETE]),
-    'c': ActionList([Action.CLOCK]),
+    'c': ActionList([Action.CLOCK, Action.QUICK_ATC_3]),
     '?': ActionList([Action.HELP, Action.INFO]),
     'e': ActionList([Action.MENU]),
     ':': ActionList([Action.CONSOLE]),
+
+    'x': ActionList([Action.QUICK_ATC_2]),
+    'v': ActionList([Action.QUICK_ATC_4]),
 }
 
 def get_mapping(action, keys):
@@ -167,7 +176,7 @@ Should defaults be loaded for those keys?"""):
             for action in unset:
                 key = action.mapping
                 if key not in new_hotkey_mappings:
-                    new_hotkey_mappings[key] = ActionsList([action])
+                    new_hotkey_mappings[key] = ActionList([action])
                 else:
                     new_hotkey_mappings[key].append(action)
         else:

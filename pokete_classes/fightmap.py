@@ -239,16 +239,25 @@ class FightMap(gm.GameMap):
         ARGS:
             figure: The players provider
             enem: The enemys provider"""
-        attack_choose_string = " "
-        for i, j in enumerate(figure.curr.attack_obs):
-            attack_choose_string += str(i+1) + ": " + j.name + " "
+        quick_attacks = [
+            Action.QUICK_ATC_1, Action.QUICK_ATC_2,
+            Action.QUICK_ATC_3, Action.QUICK_ATC_4
+        ][:len(figure.curr.attack_obs)]
         self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
                                           else "") +
-                                         "What do you want to do?" + attack_choose_string,
+                                         "What do you want to do?",
                                          state="float"))
         while True:  # Inputloop for general options
             action = get_action()
-            if action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
+            if action.triggers(*quick_attacks):
+                attack = figure.curr.attack_obs[
+                    quick_attacks.index(
+                        next(i for i in action if i in quick_attacks)
+                    )
+                ]
+                if attack.ap > 0:
+                    return attack
+            elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
                 attack = self.get_attack(figure.curr.attack_obs)
                 if attack != "":
                     return attack

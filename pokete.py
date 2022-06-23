@@ -831,7 +831,7 @@ def exiter():
     print("\033[?1049l\033[1A")
     if audio.curr is not None:
         audio.kill()
-    sys.exit()
+    #sys.exit()
 
 
 # Functions needed for mvp.movemap
@@ -1197,7 +1197,8 @@ def main():
 
     ver_change = check_version(session_info)
     # hotkeys
-    hotkeys_from_save(session_info.get("hotkeys", {}), loading_screen.map, ver_change)
+    hotkeys_from_save(session_info.get("hotkeys", {}),
+                      loading_screen.map, ver_change)
     if figure.name == "DEFAULT":
         intro()
     game.game(figure.map)

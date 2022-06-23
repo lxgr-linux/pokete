@@ -1,5 +1,6 @@
 """This file contains input wrappers for ui elements"""
 
+import logging
 from pokete_classes.hotkeys import Action, get_action
 from pokete_general_use_fns import hard_liner
 from .loops import std_loop
@@ -65,7 +66,6 @@ def ask_bool(_map, text):
                 ret = False
                 break
             std_loop(_map.name == "movemap")
-        _ev.clear()
     return ret
 
 
