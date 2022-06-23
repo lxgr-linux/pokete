@@ -21,7 +21,7 @@ class Deck(detail.Informer):
     def __init__(self, height, width, figure, abb_funcs):
         self.map = gm.GameMap(height, width)
         self.submap = gm.GameSubmap(self.map, 0, 0, height, width, "decksubmap")
-        self.exit_label = se.Text(f"{Action.CANCEL.mapping}: Exit  ")
+        self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
         self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: Move    ")
         self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: Free")
         self.index = se.Object("*")
@@ -70,7 +70,7 @@ class Deck(detail.Informer):
             action = get_action()
             if action.triggers(*ACTION_DIRECTIONS):
                 self.control(pokes, action)
-            elif action.triggers(Action.CANCEL):
+            elif action.triggers(Action.DECK, Action.CANCEL):
                 self.rem_pokes(pokes)
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()

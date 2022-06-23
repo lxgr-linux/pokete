@@ -9,6 +9,7 @@ from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
+from .hotkeys import Action
 from release import SPEED_OF_TIME
 
 
@@ -26,7 +27,13 @@ class Movemap(gm.GameSubmap):
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
         self.label = se.Text(
-            "1: Deck  2: Quit  3: Map  4: Inv.  5: Pokedex  6: Clock  ?: help"
+            f"{Action.DECK.mapping}: Deck  "
+            f"{Action.EXIT_GAME.mapping}: Quit  "
+            f"{Action.MAP.mapping}: Map  "
+            f"{Action.INVENTORY.mapping}: Inv.  "
+            f"{Action.POKEDEX.mapping}: Pokedex  "
+            f"{Action.CLOCK.mapping}: Clock  "
+            f"{Action.HELP.mapping}: help"
         )
         self.code_label = OutP("")
         self.multitext = OutP("", state="float")

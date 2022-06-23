@@ -64,9 +64,9 @@ class Detail(Informer):
         self.world_actions_label = se.Text("Abilities:")
         self.type_label = se.Text("Type:")
         self.initiative_label = se.Text("Initiative:")
-        self.exit_label = se.Text("1: Exit")
-        self.nature_label = se.Text("2: Nature")
-        self.ability_label = se.Text("3: Use ability")
+        self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit")
+        self.nature_label = se.Text(f"{Action.NATURE_INFO.mapping}: Nature")
+        self.ability_label = se.Text(f"{Action.ABILITIES}: Use ability")
         self.line_sep1 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_middle = se.Square("|", 1, 10, state="float")
@@ -125,7 +125,7 @@ class Detail(Informer):
         self.map.show(init=True)
         while True:
             action = get_action()
-            if action.triggers(Action.ACT_1, Action.DECK, Action.CANCEL, Action.ACCEPT):
+            if action.triggers(Action.DECK, Action.CANCEL):
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
@@ -135,9 +135,9 @@ class Detail(Informer):
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
-            elif action.triggers(Action.ACT_2):
+            elif action.triggers(Action.NATURE_INFO):
                 poke.nature.info(self.map)
-            elif action.triggers(Action.ACT_3):
+            elif action.triggers(Action.ABILITIES):
                 if abb_obs != [] and abb:
                     with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
                                    c_obs=[se.Text(i.name)

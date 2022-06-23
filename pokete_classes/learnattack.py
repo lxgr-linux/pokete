@@ -49,7 +49,9 @@ class LearnAttack:
     def __init__(self, poke, _map):
         self.map = _map
         self.poke = poke
-        self.box = ChooseBox(6, 25, name="Attacks", info="1:Details, 2:Info")
+        self.box = ChooseBox(
+            6, 25, name="Attacks",
+            info=f"{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info")
 
     def __call__(self, attack=None):
         """Starts the learning process
@@ -97,11 +99,11 @@ class LearnAttack:
                             ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")
                             break
-                        elif action.triggers(Action.ACT_1):
+                        elif action.triggers(Action.DECK):
                             Detail(self.map.height, self.map.width)\
                                   (self.poke, False)
                             self.map.show(init=True)
-                        elif action.triggers(Action.ACT_2):
+                        elif action.triggers(Action.INFO):
                             with AttackInfo(new_attack, self.map):
                                 easy_exit_loop()
                         elif action.triggers(Action.CANCEL):

@@ -143,7 +143,7 @@ class RoadMap:
                 action = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
                     self.sta.next(action)
-                elif action.triggers(*[Action.ACT_3, Action.CANCEL]):
+                elif action.triggers(*[Action.MAP, Action.CANCEL]):
                     break
                 elif (action == Action.ACCEPT and choose
                       and self.sta.has_been_visited()

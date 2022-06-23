@@ -264,14 +264,14 @@ class CenterInteract(se.Object):
         )
         while True:
             action = get_action()
-            if action.triggers(Action.DECK, Action.ACT_1):
+            if action.triggers(Action.ACT_1):
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index("__fallback__"))
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif action.triggers(Action.ACCEPT, Action.ACT_2):
+            elif action.triggers(Action.ACT_2):
                 heal(figure)
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
@@ -1003,17 +1003,11 @@ def _game(_map):
     pevm = PeriodicEventManager(_map)
     inp_dict = {
         Action.DECK: [deck.deck, (6, "Your deck")],
-        Action.ACT_1: [deck.deck, (6, "Your deck")],
         Action.MAP: [roadmap, (mvp.movemap,)],
-        Action.ACT_3: [roadmap, (mvp.movemap,)],
         Action.INVENTORY: [inv, ()],
-        Action.ACT_4: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],
-        Action.ACT_5: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
-        Action.ACT_6: [timer.clock, (mvp.movemap,)],
         Action.MENU: [menu, (pevm,)],
-        Action.ACT_7: [menu, (pevm,)],
         Action.HELP: [help_page, ()]
     }
     if _map.weather is not None:
@@ -1033,7 +1027,7 @@ def _game(_map):
             if audio_before != settings("audio").val:
                 audio.switch(_map.song)
             mvp.movemap.show(init=True)
-        elif action.triggers(Action.CANCEL, Action.ACT_2):
+        elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
             if ask_bool(mvp.movemap, "Do you really wish to exit?"):
                 save()
                 exiter()
