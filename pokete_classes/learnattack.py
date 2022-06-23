@@ -2,9 +2,9 @@
 
 import random
 import scrap_engine as se
-from pokete_classes.hotkeys import Action, get_action
 import pokete_data as p_data
 from pokete_general_use_fns import liner
+from .hotkeys import Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
@@ -26,7 +26,7 @@ class AttackInfo(Box):
                             desc_label.text.split("\n")
                             + [atc.label_type.text,
                                atc.label_factor.text])[-1] + 4, atc.name,
-                         "q:close")
+                         f"{Action.CANCEL.mapping}:close")
         self.map = _map
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)

@@ -4,7 +4,7 @@ import logging
 import time as time_mod
 import scrap_engine as se
 
-from pokete_classes.hotkeys import Action, get_action
+from .hotkeys import Action, get_action
 from .ui_elements import Box
 from .loops import std_loop
 from release import SPEED_OF_TIME
@@ -104,7 +104,7 @@ class Clock(Box):
 
     def __init__(self, time):
         self.time = time
-        super().__init__(9, 28, "Clock", "q:close")
+        super().__init__(9, 28, "Clock", f"{Action.CANCEL.mapping}:close")
 
     def __call__(self, _map):
         """Shows the clock

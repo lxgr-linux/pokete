@@ -504,7 +504,8 @@ class Inv:
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Inventory", "R:remove")
+        self.box = ChooseBox(_map.height - 3, 35, "Inventory",
+                             f"{Action.REMOVE.mapping}:remove")
         self.box2 = Box(7, 21)
         self.money_label = se.Text(f"${figure.get_money()}")
         self.desc_label = se.Text(" ")
@@ -530,7 +531,7 @@ class Inv:
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
                     while True:
-                        if get_action().triggers(*(Action.ACCEPT, Action.CANCEL)):
+                        if get_action().triggers(Action.CANCEL):
                             self.box2.remove()
                             if obj.name == "treat":
                                 if ask_bool(self.map,
@@ -583,7 +584,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                             break
                         time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif action.triggers(Action.RUN):
+                elif action.triggers(Action.REMOVE):
                     if ask_bool(self.map,
                                 f"Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?"):

@@ -29,6 +29,7 @@ class Action(Enum):
     CHOOSE_ATTACK = auto()
     CHOOSE_ITEM = auto()
     CHOOSE_POKE = auto()
+    REMOVE = auto()
 
     ACT_1 = auto()
     ACT_2 = auto()
@@ -114,6 +115,7 @@ hotkey_mappings = {
     'Key.esc':       ActionList([Action.CANCEL]),
     'Key.backspace': ActionList([Action.CANCEL]),
 
+    'r': ActionList([Action.REMOVE]),
     'i': ActionList([Action.INFO, Action.INVENTORY]),
     'p': ActionList([Action.POKEDEX]),
     'f': ActionList([Action.FREE_POKETE]),
