@@ -681,6 +681,35 @@ WW\/o o\/WW
         """,
             "esc": ["thicc", "red"]}]
     },
+    "lindemon": {
+        "name": "Lindemon",
+        "hp": 30,
+        "atc": 8,
+        "defense": 8,
+        "attacks": ["fire_ball"],
+        "pool": ["cry", "bite", "power_bite"],
+        "miss_chance": 0,
+        "desc": "An ancient dragon Pokete famous for destroying cities and villages..",
+        "lose_xp": 8,
+        "rarity": 0.05,
+        "types": ["fire", "flying"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 6,
+        "ico": [
+            {
+                "txt": r"""      __
+/v___/  \
+\-^-/_   \
+      \_""",
+                "esc": None
+            }, {
+                "txt": r""" .
+      *""",
+                "esc": ["thicc", "red"]
+            }
+        ]
+    },
     "rollator": {
         "name": "Rollator",
         "hp": 25,
