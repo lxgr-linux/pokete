@@ -1,9 +1,11 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
+import logging
 import scrap_engine as se
 import pokete_classes.game_map as gm
 from pokete_classes.hotkeys import Action, get_action
 from .loops import std_loop
+from .event import _ev
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
 
@@ -134,6 +136,7 @@ class Detail(Informer):
                                 atc.label_desc, atc.label_type]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
+                logging.info("2"+repr(ret_action))
                 return ret_action
             elif action.triggers(Action.NATURE_INFO):
                 poke.nature.info(self.map)
@@ -150,13 +153,12 @@ class Detail(Informer):
                                 self.map.show()
                             elif action.triggers(Action.ACCEPT):
                                 ret_action = abb_obs[box.index.index].world_action
+                                logging.info("1"+repr(ret_action))
+                                _ev.set(Action.CANCEL.mapping)
                                 break
                             elif action.triggers(Action.CANCEL):
                                 break
                             std_loop(False)
-                        if action.triggers(Action.ACCEPT):
-                            # Exit to the world after performing a world action
-                            break
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:
