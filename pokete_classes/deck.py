@@ -1,5 +1,6 @@
 """The Deck shows all Poketes a player owns"""
 
+import logging
 import scrap_engine as se
 from pokete_classes import detail
 import pokete_classes.game_map as gm
@@ -141,8 +142,9 @@ class Deck(detail.Informer):
                     self.rem_pokes(pokes)
                     ret_action = detail.detail(pokes[self.index.index])
                     self.add_all(pokes)
+                    logging.info(ret_action)
                     if ret_action is not None:
-                        _ev.set("q")
+                        _ev.set(Action.CANCEL.mapping)
                         continue
                     self.submap.full_show(init=True)
             std_loop(False)
