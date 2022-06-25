@@ -946,6 +946,32 @@ that will confuse the shit out of you.",
             "esc": ["purple"]},
         ]
     },
+    "radishon": {
+        "name": "Radishon",
+        "hp": 15,
+        "atc": 3,
+        "defense": 5,
+        "attacks": ["root_slap", "hiding"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A small plant Pokete found burried in the ground.",
+        "lose_xp": 6,
+        "rarity": 0.9,
+        "types": ["plant", "ground"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 1,
+        "ico": [{
+            "txt": r""" .__ / __.
+  \_\|/_/""",
+            "esc": ["thicc", "green"]}, {
+            "txt": r"""
+
+   /o o\
+   \ - /""",
+            "esc": ["purple"]},
+        ]
+    },
     "megapois": {
         "name": "Megapois",
         "hp": 25,
