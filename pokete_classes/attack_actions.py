@@ -58,6 +58,12 @@ class AttackActions:
         obj.ico.map.outp.outp("It started raining!")
         time.sleep(2)
 
+    def encouragement(self, obj, _, providers):
+        for poke in next(
+            prov for prov in providers if prov.curr == obj
+        ).pokes[:6]:
+            poke.atc += 2
+
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
