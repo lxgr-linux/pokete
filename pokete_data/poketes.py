@@ -955,8 +955,8 @@ that will confuse the shit out of you.",
         "pool": [],
         "miss_chance": 0.1,
         "desc": "A small plant Pokete found burried in the ground.",
-        "lose_xp": 6,
-        "rarity": 0.9,
+        "lose_xp": 3,
+        "rarity": 0.5,
         "types": ["plant", "ground"],
         "evolve_poke": "",
         "evolve_lvl": 0,
@@ -970,6 +970,37 @@ that will confuse the shit out of you.",
    /o o\
    \ - /""",
             "esc": ["purple"]},
+        ]
+    },
+    "radishuk": {
+        "name": "Radishuk",
+        "hp": 20,
+        "atc": 4,
+        "defense": 6,
+        "attacks": ["root_slap", "hiding", "encouragement", "root_slap"],
+        "pool": ["rain_dance"],
+        "miss_chance": 0.1,
+        "desc": "A small plant Pokete found burried in the ground.",
+        "lose_xp": 6,
+        "rarity": 0.3,
+        "types": ["plant", "ground"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 1,
+        "ico": [{
+            "txt": r""" .__   __.
+  \_\_/_/""",
+            "esc": ["thicc", "green"]}, {
+            "txt": r"""
+
+   /o o\
+   \ - /""",
+            "esc": ["purple"]}, {
+            "txt": r"""
+
+  _       \
+\/      _/""",
+            "esc": ["yellow"]}
         ]
     },
     "megapois": {
