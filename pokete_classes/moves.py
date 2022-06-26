@@ -1,6 +1,7 @@
 """Contains all moves a Pokete can fullfill"""
 
 import time
+import random
 import scrap_engine as se
 from .color import Color
 from release import SPEED_OF_TIME
@@ -151,6 +152,37 @@ class Moves:
         """Downgrade move"""
         self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-"
                                    + Color.reset)
+
+    def rain(self):
+        """Rain animation"""
+        drops = []
+        _map = self.poke.ico.map
+        cloud = se.Text("""  _____
+ (  )  )_
+(____)___)""")
+
+        cloud.add(
+            _map,
+            round(_map.width / 2) - 5,
+            round(_map.frame_big.height / 2) - 1
+        )
+        _map.show()
+        for i in range(50):
+            if i >= 5:
+                drops.pop(random.choice(range(len(drops)))).remove()
+            rain = se.Text("\\", esccode=Color.blue)
+            rain.add(
+                _map,
+                random.choice(range(9)) + cloud.x + 1,
+                random.choice(range(2)) + cloud.y + 3
+            )
+            _map.show()
+            time.sleep(0.05)
+            drops.append(rain)
+        cloud.remove()
+        for drop in drops:
+            drop.remove()
+        _map.show()
 
 
 if __name__ == "__main__":

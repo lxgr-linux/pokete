@@ -560,7 +560,7 @@ attacks = {
         "factor": 2,
         "action": "rain_dance",
         "world_action": "",
-        "move": ["shine"],
+        "move": ["rain"],
         "miss_chance": 0,
         "min_lvl": 0,
         "desc": "Summons rainy clouds.",
