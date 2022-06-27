@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from collections import defaultdict
 from pokete_general_use_fns import liner
 from .event import _ev
 
@@ -154,13 +155,17 @@ def hotkeys_from_save(save, _map, version_change):
     if save == {}:
         return
 
-    new_hotkey_mappings = {
-        key: ActionList(
-            [
-                Action[i] for i in value if i in Action.__members__
-            ]
-        )
-        for key, value in save.items()}
+    new_hotkey_mappings = defaultdict(
+        ActionList,
+        {
+            key: ActionList(
+                [
+                    Action[i] for i in value if i in Action.__members__
+                ]
+            )
+            for key, value in save.items()
+        }
+    )
     unset = [
         action for action in Action
         if get_mapping(action, new_hotkey_mappings) is None
@@ -171,10 +176,7 @@ def hotkeys_from_save(save, _map, version_change):
 Should defaults be loaded for those keys?"""):
             for action in unset:
                 key = action.mapping
-                if key not in new_hotkey_mappings:
-                    new_hotkey_mappings[key] = ActionList([action])
-                else:
-                    new_hotkey_mappings[key].append(action)
+                new_hotkey_mappings[key].append(action)
         else:
             exit()
     hotkey_mappings = new_hotkey_mappings
