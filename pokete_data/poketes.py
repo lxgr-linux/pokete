@@ -958,8 +958,8 @@ that will confuse the shit out of you.",
         "lose_xp": 3,
         "rarity": 0.5,
         "types": ["plant", "ground"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "radishuk",
+        "evolve_lvl": 20,
         "initiative": 1,
         "ico": [{
             "txt": r""" .__ / __.
@@ -977,15 +977,15 @@ that will confuse the shit out of you.",
         "hp": 20,
         "atc": 4,
         "defense": 6,
-        "attacks": ["root_slap", "hiding", "encouragement", "root_slap"],
+        "attacks": ["root_slap", "hiding", "encouragement", "root_strangler"],
         "pool": ["rain_dance"],
         "miss_chance": 0.1,
-        "desc": "A small plant Pokete found burried in the ground.",
-        "lose_xp": 6,
+        "desc": "A small plant Pokete deeply burried in the ground.",
+        "lose_xp": 4,
         "rarity": 0.3,
         "types": ["plant", "ground"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "radishull",
+        "evolve_lvl": 40,
         "initiative": 1,
         "ico": [{
             "txt": r""" .__   __.
@@ -998,6 +998,34 @@ that will confuse the shit out of you.",
             "esc": ["purple"]}, {
             "txt": r"""
 
+  _       \
+\/      _/""",
+            "esc": ["yellow"]}
+        ]
+    },
+    "radishull": {
+        "name": "Radishull",
+        "hp": 25,
+        "atc": 5,
+        "defense": 7,
+        "attacks": ["root_slap", "hiding", "encouragement", "root_strangler"],
+        "pool": ["rain_dance"],
+        "miss_chance": 0.1,
+        "desc": "A small plant Pokete found in the ground.",
+        "lose_xp": 6,
+        "rarity": 0.2,
+        "types": ["plant", "ground"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 2,
+        "ico": [{
+            "txt": r"""
+
+   /o o\
+   \ - /""",
+            "esc": ["purple"]}, {
+            "txt": r"""  _  \  _\
+ / \_/_/
   _       \
 \/      _/""",
             "esc": ["yellow"]}
