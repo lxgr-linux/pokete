@@ -82,7 +82,9 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
-from pokete_classes.hotkeys import get_action, Action, ACTION_DIRECTIONS
+from pokete_classes.hotkeys import (
+    get_action, Action, ACTION_DIRECTIONS, hotkeys_save, hotkeys_from_save
+)
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
@@ -301,14 +303,14 @@ class CenterInteract(se.Object):
         )
         while True:
             action = get_action()
-            if action.triggers(Action.DECK, Action.ACT_1):
+            if action.triggers(Action.ACT_1):
                 while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index(&#34;__fallback__&#34;))
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif action.triggers(Action.ACCEPT, Action.ACT_2):
+            elif action.triggers(Action.ACT_2):
                 heal(figure)
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
@@ -541,7 +543,8 @@ class Inv:
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, &#34;Inventory&#34;, &#34;R:remove&#34;)
+        self.box = ChooseBox(_map.height - 3, 35, &#34;Inventory&#34;,
+                             f&#34;{Action.REMOVE.mapping}:remove&#34;)
         self.box2 = Box(7, 21)
         self.money_label = se.Text(f&#34;${figure.get_money()}&#34;)
         self.desc_label = se.Text(&#34; &#34;)
@@ -567,7 +570,7 @@ class Inv:
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
                     while True:
-                        if get_action().triggers(*(Action.ACCEPT, Action.CANCEL)):
+                        if get_action().triggers(Action.CANCEL):
                             self.box2.remove()
                             if obj.name == &#34;treat&#34;:
                                 if ask_bool(self.map,
@@ -620,7 +623,7 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                             break
                         time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif action.triggers(Action.RUN):
+                elif action.triggers(Action.REMOVE):
                     if ask_bool(self.map,
                                 f&#34;Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?&#34;):
@@ -737,7 +740,7 @@ valid single-space character!&#34;)
                             time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
-                        exiter()
+                        exit()
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
@@ -784,6 +787,7 @@ def save():
                                                 for i in figure.pokes])),
         &#34;visited_maps&#34;: figure.visited_maps,
         &#34;startup_time&#34;: __t,
+        &#34;hotkeys&#34;: hotkeys_save(),
         # filters doublicates from figure.used_npcs
         &#34;used_npcs&#34;: list(dict.fromkeys(figure.used_npcs)),
         &#34;pokete_care&#34;: pokete_care.dict(),
@@ -822,6 +826,7 @@ def read_save():
         &#34;visited_maps&#34;: [&#34;playmap_1&#34;],
         &#34;startup_time&#34;: 0,
         &#34;used_npcs&#34;: [],
+        &#34;hotkeys&#34;: {},
         &#34;pokete_care&#34;: {
             &#34;entry&#34;: 0,
             &#34;poke&#34;: None,
@@ -856,14 +861,14 @@ def reset_terminal():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-def exiter(end=False):
+def exiter():
     &#34;&#34;&#34;Exit function&#34;&#34;&#34;
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
     print(&#34;\033[?1049l\033[1A&#34;)
-    audio.kill()
-    if not end:
-        sys.exit()
+    if audio.curr is not None:
+        audio.kill()
+    #sys.exit()
 
 
 # Functions needed for mvp.movemap
@@ -884,7 +889,7 @@ def codes(string):
                 print(exc)
             return
         elif i == &#34;q&#34;:
-            exiter()
+            exit()
 
 
 # Playmap extra action functions
@@ -1040,17 +1045,11 @@ def _game(_map):
     pevm = PeriodicEventManager(_map)
     inp_dict = {
         Action.DECK: [deck.deck, (6, &#34;Your deck&#34;)],
-        Action.ACT_1: [deck.deck, (6, &#34;Your deck&#34;)],
         Action.MAP: [roadmap, (mvp.movemap,)],
-        Action.ACT_3: [roadmap, (mvp.movemap,)],
         Action.INVENTORY: [inv, ()],
-        Action.ACT_4: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],
-        Action.ACT_5: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
-        Action.ACT_6: [timer.clock, (mvp.movemap,)],
         Action.MENU: [menu, (pevm,)],
-        Action.ACT_7: [menu, (pevm,)],
         Action.HELP: [help_page, ()]
     }
     if _map.weather is not None:
@@ -1070,10 +1069,10 @@ def _game(_map):
             if audio_before != settings(&#34;audio&#34;).val:
                 audio.switch(_map.song)
             mvp.movemap.show(init=True)
-        elif action.triggers(Action.CANCEL, Action.ACT_2):
+        elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
             if ask_bool(mvp.movemap, &#34;Do you really wish to exit?&#34;):
                 save()
-                exiter()
+                exit()
         elif action.triggers(Action.CONSOLE):
             inp = text_input(mvp.movemap.code_label, mvp.movemap, &#34;:&#34;,
                              mvp.movemap.width,
@@ -1209,7 +1208,7 @@ def check_version(sinfo):
     ARGS:
         sinfo: session_info dict&#34;&#34;&#34;
     if &#34;ver&#34; not in sinfo:
-        return
+        return False
     else:
         ver = sinfo[&#34;ver&#34;]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
@@ -1218,7 +1217,8 @@ def check_version(sinfo):
 on version &#39;{ver}&#39;, the current version is &#39;{VERSION}&#39;, \
 such a downgrade may result in data loss! \
 Do you want to continue?&#34;, int(width * 2 / 3))):
-            exiter()
+            exit()
+    return VERSION != ver
 
 
 def main():
@@ -1232,7 +1232,9 @@ def main():
     recognising.start()
     autosaving.start()
 
-    check_version(session_info)
+    ver_change = check_version(session_info)
+    # hotkeys
+    hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}), loading_screen.map, ver_change)
     if figure.name == &#34;DEFAULT&#34;:
         intro()
     game.game(figure.map)
@@ -1590,7 +1592,7 @@ if __name__ == &#34;__main__&#34;:
     except KeyboardInterrupt:
         print(&#34;\033[?1049l\033[1A\nKeyboardInterrupt&#34;)
     finally:
-        exiter(True)</code></pre>
+        exiter()</code></pre>
 </details>
 </section>
 <section>
@@ -1636,7 +1638,7 @@ if __name__ == &#34;__main__&#34;:
     ARGS:
         sinfo: session_info dict&#34;&#34;&#34;
     if &#34;ver&#34; not in sinfo:
-        return
+        return False
     else:
         ver = sinfo[&#34;ver&#34;]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
@@ -1645,7 +1647,8 @@ if __name__ == &#34;__main__&#34;:
 on version &#39;{ver}&#39;, the current version is &#39;{VERSION}&#39;, \
 such a downgrade may result in data loss! \
 Do you want to continue?&#34;, int(width * 2 / 3))):
-            exiter()</code></pre>
+            exit()
+    return VERSION != ver</code></pre>
 </details>
 </dd>
 <dt id="pokete.codes"><code class="name flex">
@@ -1672,11 +1675,11 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
                 print(exc)
             return
         elif i == &#34;q&#34;:
-            exiter()</code></pre>
+            exit()</code></pre>
 </details>
 </dd>
 <dt id="pokete.exiter"><code class="name flex">
-<span>def <span class="ident">exiter</span></span>(<span>end=False)</span>
+<span>def <span class="ident">exiter</span></span>(<span>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Exit function</p></div>
@@ -1684,14 +1687,14 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def exiter(end=False):
+<pre><code class="python">def exiter():
     &#34;&#34;&#34;Exit function&#34;&#34;&#34;
     reset_terminal()
     logging.info(&#34;[General] Exiting...&#34;)
     print(&#34;\033[?1049l\033[1A&#34;)
-    audio.kill()
-    if not end:
-        sys.exit()</code></pre>
+    if audio.curr is not None:
+        audio.kill()
+    #sys.exit()</code></pre>
 </details>
 </dd>
 <dt id="pokete.gen_maps"><code class="name flex">
@@ -1834,7 +1837,9 @@ town.&#34;,
     recognising.start()
     autosaving.start()
 
-    check_version(session_info)
+    ver_change = check_version(session_info)
+    # hotkeys
+    hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}), loading_screen.map, ver_change)
     if figure.name == &#34;DEFAULT&#34;:
         intro()
     game.game(figure.map)</code></pre>
@@ -2121,6 +2126,7 @@ town.&#34;,
         &#34;visited_maps&#34;: [&#34;playmap_1&#34;],
         &#34;startup_time&#34;: 0,
         &#34;used_npcs&#34;: [],
+        &#34;hotkeys&#34;: {},
         &#34;pokete_care&#34;: {
             &#34;entry&#34;: 0,
             &#34;poke&#34;: None,
@@ -2187,6 +2193,7 @@ town.&#34;,
                                                 for i in figure.pokes])),
         &#34;visited_maps&#34;: figure.visited_maps,
         &#34;startup_time&#34;: __t,
+        &#34;hotkeys&#34;: hotkeys_save(),
         # filters doublicates from figure.used_npcs
         &#34;used_npcs&#34;: list(dict.fromkeys(figure.used_npcs)),
         &#34;pokete_care&#34;: pokete_care.dict(),
@@ -2371,14 +2378,14 @@ this will remain</p></div>
         )
         while True:
             action = get_action()
-            if action.triggers(Action.DECK, Action.ACT_1):
+            if action.triggers(Action.ACT_1):
                 while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index(&#34;__fallback__&#34;))
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif action.triggers(Action.ACCEPT, Action.ACT_2):
+            elif action.triggers(Action.ACT_2):
                 heal(figure)
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
@@ -2427,14 +2434,14 @@ this will remain</p></div>
     )
     while True:
         action = get_action()
-        if action.triggers(Action.DECK, Action.ACT_1):
+        if action.triggers(Action.ACT_1):
             while &#34;__fallback__&#34; in [p.identifier for p in figure.pokes]:
                 figure.pokes.pop([p.identifier for p in
                                   figure.pokes].index(&#34;__fallback__&#34;))
             mvp.movemap.balls_label_rechar(figure.pokes)
             deck.deck(len(figure.pokes))
             break
-        elif action.triggers(Action.ACCEPT, Action.ACT_2):
+        elif action.triggers(Action.ACT_2):
             heal(figure)
             time.sleep(SPEED_OF_TIME * 0.5)
             mvp.movemap.text(int(mvp.movemap.width / 2), 3,
@@ -3008,7 +3015,8 @@ in the inventory!&#34;
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, &#34;Inventory&#34;, &#34;R:remove&#34;)
+        self.box = ChooseBox(_map.height - 3, 35, &#34;Inventory&#34;,
+                             f&#34;{Action.REMOVE.mapping}:remove&#34;)
         self.box2 = Box(7, 21)
         self.money_label = se.Text(f&#34;${figure.get_money()}&#34;)
         self.desc_label = se.Text(&#34; &#34;)
@@ -3034,7 +3042,7 @@ in the inventory!&#34;
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
                     while True:
-                        if get_action().triggers(*(Action.ACCEPT, Action.CANCEL)):
+                        if get_action().triggers(Action.CANCEL):
                             self.box2.remove()
                             if obj.name == &#34;treat&#34;:
                                 if ask_bool(self.map,
@@ -3087,7 +3095,7 @@ teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo
                             break
                         time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif action.triggers(Action.RUN):
+                elif action.triggers(Action.REMOVE):
                     if ask_bool(self.map,
                                 f&#34;Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?&#34;):
@@ -3280,7 +3288,7 @@ valid single-space character!&#34;)
                             time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
-                        exiter()
+                        exit()
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
