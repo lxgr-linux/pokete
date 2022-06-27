@@ -143,13 +143,13 @@ class RoadMap:
                 action = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
                     self.sta.next(action)
-                elif action.triggers(*[Action.MAP, Action.CANCEL]):
+                elif action.triggers(Action.MAP, Action.CANCEL):
                     break
-                elif (action == Action.ACCEPT and choose
+                elif (action.triggers(Action.ACCEPT) and choose
                       and self.sta.has_been_visited()
                       and self.sta.is_city()):
                     return self.sta.associates[0]
-                elif (action == Action.ACCEPT and not choose
+                elif (action.triggers(Action.ACCEPT) and not choose
                       and self.sta.has_been_visited()):
                     p_list = ", ".join(set(p_data.pokes[j]["name"]
                                        for i in self.sta.associates
