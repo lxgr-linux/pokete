@@ -3,8 +3,8 @@
 import datetime
 import logging
 import scrap_engine as se
-from pokete_classes.hotkeys import ACTION_DIRECTIONS, Action, get_action
 from pokete_general_use_fns import liner
+from .hotkeys import ACTION_DIRECTIONS, Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
@@ -81,7 +81,8 @@ class AchBox(LabelBox):
                              else Color.grey), state="float")\
                 + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
                 + se.Text("\n" + liner(ach.desc, 30), state="float")
-        super().__init__(label, name=ach.title, info="q:close")
+        super().__init__(label, name=ach.title,
+                         info=f"{Action.CANCEL.mapping}:close")
 
 
 class AchievementOverview(BetterChooseBox):

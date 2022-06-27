@@ -4,11 +4,11 @@ import time
 import random
 import logging
 import scrap_engine as se
-from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
+from .hotkeys import ACTION_UP_DOWN, Action, get_action
 from .audio import audio
 from .loops import std_loop
 from .npcs import Trainer
@@ -30,7 +30,8 @@ class FightMap(gm.GameMap):
 
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
-        self.box = ChooseBox(6, 25, "Attacks", "?:Info", index_x=1)
+        self.box = ChooseBox(6, 25, "Attacks",
+                             f"{Action.INFO.mapping}:Info", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
         self.deadico1 = se.Text(r"""
@@ -54,7 +55,12 @@ class FightMap(gm.GameMap):
         self.p_upperline = se.Text("+----------------", state="float")
         self.p_sideline = se.Square("|", 1, 4, state="float")
         self.outp = OutP("", state="float")
-        self.label = se.Text("1: Attack  2: Run!  3: Inv.  4: Deck")
+        self.label = se.Text(
+            f"{Action.CHOOSE_ATTACK.mapping}: Attack  "
+            f"{Action.RUN.mapping}: Run!  "
+            f"{Action.CHOOSE_ITEM.mapping}: Inv.  "
+            f"{Action.CHOOSE_POKE.mapping}: Deck"
+        )
         # adding
         self.outp.add(self, 1, self.height - 4)
         self.e_underline.add(self, 1, 4)
@@ -180,10 +186,11 @@ class FightMap(gm.GameMap):
                     self.box.input(action)
                     self.rechar_atk_info_box(attack_obs)
                     self.show()
-                #elif action == None and action.value in [i + Action.ACT_1.value for i in range(len(attack_obs))] and action.value < Action.ACT_9.value or action == Action.ACCEPT:
-                elif action.triggers(Action.ACCEPT) or 0 <= action.get_number() < len(attack_obs):
+                elif action.triggers(Action.ACCEPT) or (0 <= action.get_number()
+                        < len(attack_obs)):
                     attack = attack_obs[
-                        self.box.index.index if action == Action.ACCEPT else action.get_number()
+                        self.box.index.index if action.triggers(Action.ACCEPT)
+                        else action.get_number()
                     ]
                     if attack.ap == 0:
                         continue
@@ -238,11 +245,11 @@ class FightMap(gm.GameMap):
                                          state="float"))
         while True:  # Inputloop for general options
             action = get_action()
-            if action.triggers(Action.ACT_1, Action.ACCEPT):
+            if action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
                 attack = self.get_attack(figure.curr.attack_obs)
                 if attack != "":
                     return attack
-            elif action.triggers(Action.ACT_2, Action.RUN):
+            elif action.triggers(Action.RUN):
                 if (
                     type(enem) is Trainer
                     or not ask_bool(self, "Do you really want to run away?")
@@ -259,7 +266,7 @@ class FightMap(gm.GameMap):
                 logging.info("[Fight] Ended, ran away")
                 audio.switch(figure.map.song)
                 return "won"
-            elif action.triggers(Action.ACT_3, Action.INVENTORY):
+            elif action.triggers(Action.CHOOSE_ITEM):
                 items = [getattr(invitems, i)
                             for i in figure.inv
                             if getattr(invitems, i).fn is not None
@@ -282,7 +289,7 @@ class FightMap(gm.GameMap):
                     audio.switch(figure.map.song)
                     return "won"
                 return ""
-            elif action.triggers(Action.ACT_4, Action.DECK):
+            elif action.triggers(Action.CHOOSE_POKE):
                 if not self.choose_poke(figure):
                     self.show(init=True)
                     continue

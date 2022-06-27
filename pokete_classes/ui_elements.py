@@ -3,7 +3,7 @@ elements used in Pokete"""
 
 import scrap_engine as se
 
-from pokete_classes.hotkeys import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, ActionList
+from .hotkeys import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, ActionList
 
 
 class BoxIndex(se.Object):
@@ -200,7 +200,7 @@ class BetterChooseBox(Box):
         self.set_items(columns, labels, init=True)
         super().__init__(3 * len(self.nest_label_obs) + 2,
                          sum(i.width for i in self.nest_label_obs[0]) + 2,
-                         name, "q:close")
+                         name, f"{Action.CANCEL.mapping}:close")
         self.map = _map
         self.__add_obs()
         self.index = (0, 0)
@@ -307,7 +307,7 @@ class InfoBox(LabelBox):
         info: Info that will be displayed in the bottom left corner of the box
         _map: The se.Map this will be shown on"""
 
-    def __init__(self, text, name="", info="q:close", _map=None):
+    def __init__(self, text, name="", info=f"{Action.CANCEL.mapping}:close", _map=None):
         super().__init__(se.Text(text), name=name, info=info)
         self.map = _map
 

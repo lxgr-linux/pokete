@@ -2,9 +2,9 @@
 
 import random
 import scrap_engine as se
-from pokete_classes.hotkeys import Action, get_action
 import pokete_data as p_data
 from pokete_general_use_fns import liner
+from .hotkeys import Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
@@ -26,7 +26,7 @@ class AttackInfo(Box):
                             desc_label.text.split("\n")
                             + [atc.label_type.text,
                                atc.label_factor.text])[-1] + 4, atc.name,
-                         "q:close")
+                         f"{Action.CANCEL.mapping}:close")
         self.map = _map
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)
@@ -49,7 +49,9 @@ class LearnAttack:
     def __init__(self, poke, _map):
         self.map = _map
         self.poke = poke
-        self.box = ChooseBox(6, 25, name="Attacks", info="1:Details, 2:Info")
+        self.box = ChooseBox(
+            6, 25, name="Attacks",
+            info=f"{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info")
 
     def __call__(self, attack=None):
         """Starts the learning process
@@ -97,11 +99,11 @@ class LearnAttack:
                             ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")
                             break
-                        elif action.triggers(Action.ACT_1):
+                        elif action.triggers(Action.DECK):
                             Detail(self.map.height, self.map.width)\
                                   (self.poke, False)
                             self.map.show(init=True)
-                        elif action.triggers(Action.ACT_2):
+                        elif action.triggers(Action.INFO):
                             with AttackInfo(new_attack, self.map):
                                 easy_exit_loop()
                         elif action.triggers(Action.CANCEL):

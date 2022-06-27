@@ -1,9 +1,11 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
+import logging
 import scrap_engine as se
 import pokete_classes.game_map as gm
 from pokete_classes.hotkeys import Action, get_action
 from .loops import std_loop
+from .event import _ev
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
 
@@ -64,9 +66,9 @@ class Detail(Informer):
         self.world_actions_label = se.Text("Abilities:")
         self.type_label = se.Text("Type:")
         self.initiative_label = se.Text("Initiative:")
-        self.exit_label = se.Text("1: Exit")
-        self.nature_label = se.Text("2: Nature")
-        self.ability_label = se.Text("3: Use ability")
+        self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit")
+        self.nature_label = se.Text(f"{Action.NATURE_INFO.mapping}: Nature")
+        self.ability_label = se.Text(f"{Action.ABILITIES}: Use ability")
         self.line_sep1 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_middle = se.Square("|", 1, 10, state="float")
@@ -125,7 +127,7 @@ class Detail(Informer):
         self.map.show(init=True)
         while True:
             action = get_action()
-            if action.triggers(Action.ACT_1, Action.DECK, Action.CANCEL, Action.ACCEPT):
+            if action.triggers(Action.DECK, Action.CANCEL):
                 self.remove(poke)
                 for obj in [poke.desc, poke.text_type]:
                     obj.remove()
@@ -134,10 +136,11 @@ class Detail(Informer):
                                 atc.label_desc, atc.label_type]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
+                logging.info("2"+repr(ret_action))
                 return ret_action
-            elif action.triggers(Action.ACT_2):
+            elif action.triggers(Action.NATURE_INFO):
                 poke.nature.info(self.map)
-            elif action.triggers(Action.ACT_3):
+            elif action.triggers(Action.ABILITIES):
                 if abb_obs != [] and abb:
                     with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
                                    c_obs=[se.Text(i.name)
@@ -150,13 +153,12 @@ class Detail(Informer):
                                 self.map.show()
                             elif action.triggers(Action.ACCEPT):
                                 ret_action = abb_obs[box.index.index].world_action
+                                logging.info("1"+repr(ret_action))
+                                _ev.set(Action.CANCEL.mapping)
                                 break
                             elif action.triggers(Action.CANCEL):
                                 break
                             std_loop(False)
-                        if action.triggers(Action.ACCEPT):
-                            # Exit to the world after performing a world action
-                            break
             std_loop(False)
             # This section generates the Text effect for attack labels
             for atc in poke.attack_obs:

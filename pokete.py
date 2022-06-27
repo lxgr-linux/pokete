@@ -45,7 +45,9 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
-from pokete_classes.hotkeys import get_action, Action, ACTION_DIRECTIONS
+from pokete_classes.hotkeys import (
+    get_action, Action, ACTION_DIRECTIONS, hotkeys_save, hotkeys_from_save
+)
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
@@ -264,14 +266,14 @@ class CenterInteract(se.Object):
         )
         while True:
             action = get_action()
-            if action.triggers(Action.DECK, Action.ACT_1):
+            if action.triggers(Action.ACT_1):
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index("__fallback__"))
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif action.triggers(Action.ACCEPT, Action.ACT_2):
+            elif action.triggers(Action.ACT_2):
                 heal(figure)
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
@@ -504,7 +506,8 @@ class Inv:
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Inventory", "R:remove")
+        self.box = ChooseBox(_map.height - 3, 35, "Inventory",
+                             f"{Action.REMOVE.mapping}:remove")
         self.box2 = Box(7, 21)
         self.money_label = se.Text(f"${figure.get_money()}")
         self.desc_label = se.Text(" ")
@@ -530,7 +533,7 @@ class Inv:
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
                     while True:
-                        if get_action().triggers(*(Action.ACCEPT, Action.CANCEL)):
+                        if get_action().triggers(Action.CANCEL):
                             self.box2.remove()
                             if obj.name == "treat":
                                 if ask_bool(self.map,
@@ -583,7 +586,7 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                             break
                         time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif action.triggers(Action.RUN):
+                elif action.triggers(Action.REMOVE):
                     if ask_bool(self.map,
                                 f"Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?"):
@@ -700,7 +703,7 @@ valid single-space character!")
                             time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
-                        exiter()
+                        exit()
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
@@ -747,6 +750,7 @@ def save():
                                                 for i in figure.pokes])),
         "visited_maps": figure.visited_maps,
         "startup_time": __t,
+        "hotkeys": hotkeys_save(),
         # filters doublicates from figure.used_npcs
         "used_npcs": list(dict.fromkeys(figure.used_npcs)),
         "pokete_care": pokete_care.dict(),
@@ -785,6 +789,7 @@ def read_save():
         "visited_maps": ["playmap_1"],
         "startup_time": 0,
         "used_npcs": [],
+        "hotkeys": {},
         "pokete_care": {
             "entry": 0,
             "poke": None,
@@ -819,14 +824,14 @@ def reset_terminal():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-def exiter(end=False):
+def exiter():
     """Exit function"""
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
-    audio.kill()
-    if not end:
-        sys.exit()
+    if audio.curr is not None:
+        audio.kill()
+    #sys.exit()
 
 
 # Functions needed for mvp.movemap
@@ -847,7 +852,7 @@ def codes(string):
                 print(exc)
             return
         elif i == "q":
-            exiter()
+            exit()
 
 
 # Playmap extra action functions
@@ -1003,17 +1008,11 @@ def _game(_map):
     pevm = PeriodicEventManager(_map)
     inp_dict = {
         Action.DECK: [deck.deck, (6, "Your deck")],
-        Action.ACT_1: [deck.deck, (6, "Your deck")],
         Action.MAP: [roadmap, (mvp.movemap,)],
-        Action.ACT_3: [roadmap, (mvp.movemap,)],
         Action.INVENTORY: [inv, ()],
-        Action.ACT_4: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],
-        Action.ACT_5: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
-        Action.ACT_6: [timer.clock, (mvp.movemap,)],
         Action.MENU: [menu, (pevm,)],
-        Action.ACT_7: [menu, (pevm,)],
         Action.HELP: [help_page, ()]
     }
     if _map.weather is not None:
@@ -1033,10 +1032,10 @@ def _game(_map):
             if audio_before != settings("audio").val:
                 audio.switch(_map.song)
             mvp.movemap.show(init=True)
-        elif action.triggers(Action.CANCEL, Action.ACT_2):
+        elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
             if ask_bool(mvp.movemap, "Do you really wish to exit?"):
                 save()
-                exiter()
+                exit()
         elif action.triggers(Action.CONSOLE):
             inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
                              mvp.movemap.width,
@@ -1172,7 +1171,7 @@ def check_version(sinfo):
     ARGS:
         sinfo: session_info dict"""
     if "ver" not in sinfo:
-        return
+        return False
     else:
         ver = sinfo["ver"]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
@@ -1181,7 +1180,8 @@ def check_version(sinfo):
 on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
 Do you want to continue?", int(width * 2 / 3))):
-            exiter()
+            exit()
+    return VERSION != ver
 
 
 def main():
@@ -1195,7 +1195,9 @@ def main():
     recognising.start()
     autosaving.start()
 
-    check_version(session_info)
+    ver_change = check_version(session_info)
+    # hotkeys
+    hotkeys_from_save(session_info.get("hotkeys", {}), loading_screen.map, ver_change)
     if figure.name == "DEFAULT":
         intro()
     game.game(figure.map)
@@ -1553,4 +1555,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\033[?1049l\033[1A\nKeyboardInterrupt")
     finally:
-        exiter(True)
+        exiter()

@@ -18,7 +18,8 @@ class Dex:
         figure: Figure object"""
 
     def __init__(self, figure):
-        self.box = ChooseBox(mvp.movemap.height - 3, 35, "Poketedex")
+        self.box = ChooseBox(mvp.movemap.height - 3, 35, "Poketedex",
+                             info=f"{Action.CANCEL.mapping}:close")
         self.detail_box = Box(16, 35)
         self.figure = figure
         self.idx = 0
@@ -97,13 +98,14 @@ Active: """) + se.Text(active[0], esccode=active[1])
                     [1, -1],
                     [-1, 0],
                 ):
-                    if action.triggers(event and self.box.index.index == idx):
+                    if action.triggers(event) and self.box.index.index == idx:
                         if self.box.c_obs[self.box.index.index]\
                                     != self.obs[idx_2]:
                             self.rem_c_obs()
                             self.idx += add
                             self.add_c_obs()
                             self.box.set_index(n_idx)
+                        action = get_action()
                 if action.triggers(Action.ACCEPT):
                     if "???" not in self.box.c_obs[self.box.index.index].text:
                         self.detail(list(p_dict)[self.idx

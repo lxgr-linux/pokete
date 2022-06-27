@@ -1,10 +1,10 @@
 """Contains all classes relevant to show the roadmap"""
 
 import scrap_engine as se
-from pokete_classes.hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
 from pokete_general_use_fns import liner
+from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .loops import std_loop, easy_exit_loop
 from .color import Color
 from .ui_elements import Box, InfoBox
@@ -103,7 +103,7 @@ class RoadMap:
 
     def __init__(self, fig):
         self.fig = fig
-        self.box = Box(11, 40, "Roadmap", "q:close")
+        self.box = Box(11, 40, "Roadmap", f"{Action.CANCEL.mapping}:close")
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta, _dict in p_data.stations.items():
@@ -143,13 +143,13 @@ class RoadMap:
                 action = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
                     self.sta.next(action)
-                elif action.triggers(*[Action.ACT_3, Action.CANCEL]):
+                elif action.triggers(Action.MAP, Action.CANCEL):
                     break
-                elif (action == Action.ACCEPT and choose
+                elif (action.triggers(Action.ACCEPT) and choose
                       and self.sta.has_been_visited()
                       and self.sta.is_city()):
                     return self.sta.associates[0]
-                elif (action == Action.ACCEPT and not choose
+                elif (action.triggers(Action.ACCEPT) and not choose
                       and self.sta.has_been_visited()):
                     p_list = ", ".join(set(p_data.pokes[j]["name"]
                                        for i in self.sta.associates
