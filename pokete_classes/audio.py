@@ -1,6 +1,7 @@
 """This manages audio playback"""
 
 import multiprocessing
+from pathlib import Path
 try:
     from playsound import playsound
 except ModuleNotFoundError:
@@ -8,13 +9,13 @@ except ModuleNotFoundError:
 from .settings import settings
 
 
-MUSIC_PATH = __file__.replace("pokete_classes/audio.py", 'assets/music/')
+MUSIC_PATH = Path(__file__).parent.parent / 'assets' / 'music'
 
 
 def audio_fn(song, play_audio):
     """plays a song in loop"""
     while play_audio:
-        playsound(MUSIC_PATH + song)
+        playsound(MUSIC_PATH / song)
 
 
 class Audio:
