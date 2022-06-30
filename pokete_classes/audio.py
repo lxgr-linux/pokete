@@ -9,7 +9,7 @@ except ModuleNotFoundError:
 from .settings import settings
 
 
-MUSIC_PATH = Path(__file__).parent.parent / 'assets' / 'music'
+MUSIC_PATH = Path(__file__).parents[1] / 'assets' / 'music'
 
 
 def audio_fn(song, play_audio):
