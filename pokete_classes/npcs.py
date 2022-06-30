@@ -4,8 +4,7 @@ import time
 import logging
 import random
 import scrap_engine as se
-import pokete_classes.fightmap as fm
-import pokete_classes.movemap as mvp
+from . import fightmap as fm, movemap as mvp
 from .providers import Provider
 from .loops import std_loop
 from .input import ask_bool

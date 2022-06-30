@@ -6,7 +6,7 @@ import logging
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
-from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
+from . import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
 from .audio import audio
 from .loops import std_loop

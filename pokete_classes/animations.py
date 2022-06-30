@@ -2,7 +2,7 @@
 
 import time
 import scrap_engine as se
-import pokete_classes.game_map as gm
+from . import game_map as gm
 
 
 def transition(_map, poke):

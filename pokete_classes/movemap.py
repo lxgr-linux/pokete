@@ -3,8 +3,7 @@
 import time
 import scrap_engine as se
 from pokete_general_use_fns import liner
-import pokete_classes.ob_maps as obmp
-import pokete_classes.game_map as gm
+from . import ob_maps as obmp, game_map as gm
 from .loops import std_loop
 from .classes import OutP
 from .color import Color
@@ -67,7 +66,7 @@ class Movemap(gm.GameSubmap):
         self.multitext.rechar("")
         self.multitext.add(self, x - self.x + 1, y - self.y)
         arr = [" < " + i + (" >" if j != len(inp_arr) - 1 else "")
-               for j, i in enumerate(inp_arr)] 
+               for j, i in enumerate(inp_arr)]
         for text in arr:
             _ev.clear()
             self.multitext.rechar("")

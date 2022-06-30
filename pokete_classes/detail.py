@@ -1,7 +1,7 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
 import scrap_engine as se
-import pokete_classes.game_map as gm
+from . import game_map as gm
 from .loops import std_loop
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
