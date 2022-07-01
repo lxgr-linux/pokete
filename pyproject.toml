@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pokete"
+version = "0.7.3"
+description = "A terminal based Pokemon like game"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "GPL-3.0"}
+dependencies = ["scrap_engine", "playsound", "pynput"]
+
+[tool.setuptools]
+packages = ["pokete", "pokete.pokete_data", "pokete.pokete_classes", "pokete.assets.music"]
+
+[tool.setuptools.package-dir]
+"pokete" = "pokete"
+"pokete.assets.music" = "pokete/assets/music"
+"pokete.pokete_data" = "pokete/pokete_data"
+"pokete.pokete_classes" = "pokete/pokete_classes"
+
+[tool.setuptools.package-data]
+"pokete.assets.music" = ["*.mp3", "*.wav"]
+
+[project.optional-dependencies]
+
+[project.scripts]
+pokete = "pokete:run_pokete"
+
