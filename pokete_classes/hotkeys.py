@@ -1,4 +1,3 @@
-import logging
 from enum import Enum, auto
 from collections import defaultdict
 from pokete_general_use_fns import liner
