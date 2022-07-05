@@ -140,6 +140,7 @@ hotkey_mappings = {
     'e': ActionList([Action.MENU]),
     ':': ActionList([Action.CONSOLE]),
 
+    'z': ActionList([Action.QUICK_ATC_1]),
     'x': ActionList([Action.QUICK_ATC_2]),
     'v': ActionList([Action.QUICK_ATC_4]),
 }
