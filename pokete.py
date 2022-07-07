@@ -1197,7 +1197,8 @@ def main():
 
     ver_change = check_version(session_info)
     # hotkeys
-    hotkeys_from_save(session_info.get("hotkeys", {}), loading_screen.map, ver_change)
+    hotkeys_from_save(session_info.get("hotkeys", {}),
+                      loading_screen.map, ver_change)
     if figure.name == "DEFAULT":
         intro()
     game.game(figure.map)
