@@ -1234,7 +1234,8 @@ def main():
 
     ver_change = check_version(session_info)
     # hotkeys
-    hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}), loading_screen.map, ver_change)
+    hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}),
+                      loading_screen.map, ver_change)
     if figure.name == &#34;DEFAULT&#34;:
         intro()
     game.game(figure.map)
@@ -1839,7 +1840,8 @@ town.&#34;,
 
     ver_change = check_version(session_info)
     # hotkeys
-    hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}), loading_screen.map, ver_change)
+    hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}),
+                      loading_screen.map, ver_change)
     if figure.name == &#34;DEFAULT&#34;:
         intro()
     game.game(figure.map)</code></pre>
