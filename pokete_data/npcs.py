@@ -1,17 +1,18 @@
 npcs = {
     "test_npc": {
-        "texts": ["Hey."],
+        "texts": ["npc.test_npc.hey"],
         "fn": None,
         "map": "playmap_3",
         "x": 49,
         "y": 14
     },
     "old_man": {
-        "texts": ["Hello, young trainer.",
-                  "When I was your age... I also was a trainer.",
-                  "One day I found this very special Poketeball...",
-                  "A Hyperball!", "It's one of the oldest and rarest of them all.",
-                  "You can keep it!"],
+        "texts": ["npc.old_man.greet",
+                  "npc.old_man.talk",
+                  "npc.old_man.found_hyperball",
+                  "npc.old_man.hyperball",
+                  "npc.old_man.rarest",
+                  "npc.old_man.keep"],
         "fn": "playmap_10_old_man",
         "map": "playmap_10",
         "x": 4,

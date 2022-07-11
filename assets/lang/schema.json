@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Pokete Translation File Schema",
+  "properties": {
+    "error.import.scrap_engine": {
+      "type": "string"
+    },
+    "ui.inventory.title": {
+      "type": "string"
+    },
+    "ui.lang.en_us": {
+      "type": "string"
+    },
+    "ui.lang.de_de": {
+      "type": "string"
+    },
+    "dialog.center.welcome": {
+      "type": "string"
+    },
+    "dialog.center.action": {
+      "type": "string"
+    },
+    "dialog.center.list": {
+      "type": "string"
+    },
+    "dialog.center.healed": {
+      "type": "string"
+    }
+  }
+}

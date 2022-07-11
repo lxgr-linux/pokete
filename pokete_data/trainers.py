@@ -2,8 +2,11 @@ trainers = {
     "playmap_1": [{
         "pokes": [("poundi", 60)],
         "args": ("Franz", "He",
-                 ["Wanna fight?"], ["Hahaha!", "You're a loser!"],
-                 ["You're a very good trainer!"], 30, 10)
+                 ["trainer.playmap1.franz.fight"], [
+                     "trainer.playmap1.franz.lose1",
+                     "trainer.playmap1.franz.lose2"
+                 ],
+                 ["trainer.playmap1.franz.win"], 30, 10)
     },
     ],
     "cave_1": [{

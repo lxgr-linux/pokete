@@ -1,5 +1,5 @@
 """This file contains all classes related to mods"""
-
+from .color import Color
 from .side_loops import About
 from .ui_elements import InfoBox
 from .settings import settings
@@ -16,7 +16,7 @@ class DummyMods:
 
 class ModError(Exception):
     """
-    An Error that is thrown, when an inproper module is loaded
+    An Error that is thrown, when an improper module is loaded
     ARGS:
         name: The mod's name
         err: The error that was thrown"""
@@ -45,4 +45,4 @@ Currently {len(mod_info)} mod{"s are" if len(mod_info) != 1 else " is"} loaded:
 
 
 if __name__ == "__main__":
-    print("\033[31;1mDo not execute this!\033[0m")
+    print(f"\033[31;1mDo not execute this!{Color.reset}")

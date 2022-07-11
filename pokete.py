@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """This software is licensed under the GPL3
 You should have gotten an copy of the GPL3 license anlonside this software
 Feel free to contribute what ever you want to this game
@@ -51,6 +52,8 @@ from pokete_classes.hotkeys import (
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
+from pokete_classes.language import _
+from pokete_classes.ui.overlays.language_overlay import LanguageOverlay
 from pokete_general_use_fns import liner, sort_vers, parse_args
 
 from release import SPEED_OF_TIME
@@ -259,9 +262,9 @@ class CenterInteract(se.Object):
             int(mvp.movemap.width / 2),
             3,
             [
-                "Welcome to the Pokete-Center",
-                "What do you want to do?",
-                "1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes"
+                "dialog.center.welcome",
+                "dialog.center.action",
+                "dialog.center.list"
             ]
         )
         while True:
@@ -277,7 +280,7 @@ class CenterInteract(se.Object):
                 heal(figure)
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                 ["...", "Your Poketes are now healed!"])
+                                 ["...", "dialog.center.healed"])
                 break
             elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
@@ -295,12 +298,12 @@ class ShopInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         ["Welcome to the Pokete-Shop",
-                          "Wanna buy something?"])
+                         ["dialog.shop.welcome",
+                          "dialog.shop.action"])
         buy()
         mvp.movemap.full_show(init=True)
         mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         ["Have a great day!"])
+                         ["dialog.shop.leave"])
 
 
 class CenterMap(PlayMap):
@@ -324,9 +327,8 @@ class CenterMap(PlayMap):
         self.dor_back1 = CenterDoor(" ", state="float")
         self.dor_back2 = CenterDoor(" ", state="float")
         self.trader = NPC("trader",
-                          ["I'm a trader.",
-                           "Here you can trade one of your Poketes for \
-one from another trainer."],
+                          ["dialog.trader.welcome",
+                           "dialog.trader.action"],
                           "swap_poke")
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
@@ -506,7 +508,7 @@ class Inv:
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Inventory",
+        self.box = ChooseBox(_map.height - 3, 35, _("ui.inventory.title"),
                              f"{Action.REMOVE.mapping}:remove")
         self.box2 = Box(7, 21)
         self.money_label = se.Text(f"${figure.get_money()}")
@@ -641,6 +643,7 @@ class Menu:
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
+        self.language_label = se.Text("Language", state="float")
         self.realname_label = se.Text(session_info["user"], state="float")
         self.char_label = se.Text(figure.char, state="float")
         self.box.add_c_obs([self.playername_label,
@@ -655,7 +658,7 @@ class Menu:
                                        {True: "On", False: "Off"}),
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
-                            self.mods_label, self.ach_label,
+                            self.language_label, self.mods_label, self.ach_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -708,6 +711,8 @@ valid single-space character!")
                         about()
                     elif i == self.ach_label:
                         AchievementOverview()(mvp.movemap)
+                    elif i == self.language_label:
+                        LanguageOverlay()(mvp.movemap)
                     else:
                         i.change()
                 elif action.triggers(Action.UP, Action.DOWN):

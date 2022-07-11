@@ -2,13 +2,17 @@
 
 import datetime
 import logging
-import scrap_engine as se
 from pokete_general_use_fns import liner
 from .hotkeys import ACTION_DIRECTIONS, Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 from .notify import notifier
+
+try:
+    import scrap_engine as se
+except ImportError:
+    print("You seem to not have the 'scrap-engine' package installed")
 
 
 class Achievement:
