@@ -45,7 +45,7 @@ class Settings:
     """Contains all possible settings"""
 
     def __init__(self):
-        self.settings = []
+        """Initializes with fallback values"""
         self.keywords = {
             "autosave": True,
             "animations": True,
@@ -54,11 +54,15 @@ class Settings:
             "audio": True,
             "language": "en_US"
         }
+        self.settings = [
+            Setting(i, self.keywords[i]) for i in self.keywords
+        ]
 
     def from_dict(self, src):
         """Setts the settings from a dict
         ARGS:
             src: The Dict"""
+        self.settings = []
         for i in src:
             self.settings.append(Setting(i, src[i]))
         for i in self.keywords:
@@ -71,7 +75,7 @@ class Settings:
             name: The Settings name
         RETURNS:
             Setting object"""
-        return [i for i in self.settings if i.name == name][0]
+        return next(i for i in self.settings if i.name == name)
 
     def to_dict(self):
         """Returns a dict of all current settings"""

@@ -10,7 +10,7 @@ from .classes import OutP
 from .color import Color
 from .event import _ev
 from .hotkeys import Action
-from .language import Language, _
+from .language import lang
 from release import SPEED_OF_TIME
 
 
@@ -24,7 +24,6 @@ class Movemap(gm.GameSubmap):
     def __init__(self, height, width):
         super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
                          height=height, width=width, name="movemap")
-        self.language = Language.instance()
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
@@ -76,7 +75,7 @@ class Movemap(gm.GameSubmap):
         self.assure_distance(x, y, 17, 10)
         self.multitext.rechar("")
         self.multitext.add(self, x - self.x + 1, y - self.y)
-        arr = [" < " + _(key) + (" >" if index != len(inp_arr) - 1 else "")
+        arr = [" < " + lang.str(key) + (" >" if index != len(inp_arr) - 1 else "")
                for index, key in enumerate(inp_arr)]
         for text in arr:
             # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.

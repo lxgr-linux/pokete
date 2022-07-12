@@ -52,8 +52,7 @@ from pokete_classes.hotkeys import (
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
-from pokete_classes.language import _
-from pokete_classes.ui.overlays.language_overlay import LanguageOverlay
+from pokete_classes.language import lang
 from pokete_general_use_fns import liner, sort_vers, parse_args
 
 from release import SPEED_OF_TIME, VERSION, CODENAME, SAVEPATH
@@ -507,7 +506,7 @@ class Inv:
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, _("ui.inventory.title"),
+        self.box = ChooseBox(_map.height - 3, 35, lang.str("ui.inventory.title"),
                              f"{Action.REMOVE.mapping}:remove")
         self.box2 = Box(7, 21)
         self.money_label = se.Text(f"${figure.get_money()}")
@@ -519,7 +518,9 @@ class Inv:
 
     def __call__(self):
         """Opens the inventory"""
-        _ev.clear()
+        self.box.name_label.rechar(
+            lang.str("ui.inventory.title")
+        )
         items = self.add()
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:

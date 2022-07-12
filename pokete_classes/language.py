@@ -2,8 +2,9 @@ from __future__ import annotations
 from pathlib import Path
 import json
 import locale
-from .entities.language_entity import LanguageEntity
 from .color import Color
+from .constants import CWD
+from .settings import settings
 
 
 HARDCODED_LANGUAGE_NAMES = {
@@ -27,22 +28,15 @@ class Language:
     Class for loading and managing translation files.
     """
 
-    __instance = None
-
-    @classmethod
-    def instance(cls) -> Language:
-        """
-        Returns: Singleton instance of language class
-        """
-        if Language.__instance is None:
-            Language.__instance = Language()
-        return Language.__instance
-
     def __init__(self, default_lang=None):
+        self._old_language_code = self.language_code
         self._language_file: dict = dict()
-        self.language: LanguageEntity = LanguageEntity()
-        self.language_path: Path = self.language.path.parent
-        self.change_language(default_lang or get_system_locale())
+        self.language_path: Path = CWD / "assets" / "lang"
+        self._load_language_file()
+
+    @property
+    def language_code(self):
+        return settings("language").val
 
     def str(self, key: str) -> str:
         """
@@ -53,6 +47,10 @@ class Language:
 
         Returns: Localized string
         """
+        if self._old_language_code != self.language_code:
+            self._old_language_code = self.language_code
+            self._load_language_file()
+
         if key in self._language_file:
             return str(self._language_file.get(key))
 
@@ -61,29 +59,6 @@ class Language:
 
         # raise RuntimeWarning(f"No entry with key '{key}' was found in the
         # translation file '{self.language.path}'")
-
-    def change_language(self, language: str) -> LanguageEntity:
-        """
-        Changes the current language. If parsed language identifier is invalid
-        then the fallback language 'en_US' will be used.
-
-        Args:
-            language: Language file to look for
-
-        Returns: Language entity. Will fall back to 'en_US' if no translation
-        file has been found.
-        """
-        self.language = self._get_language_entity(language)
-        self._load_language_file(self.language.path)
-        return self.language
-
-    def get_selected_language(self) -> LanguageEntity:
-        """
-        Returns
-
-        Returns: Selected language
-        """
-        return self.language
 
     def get_languages(self) -> list:
         """
@@ -102,39 +77,26 @@ class Language:
 
         return available_languages
 
-    def _get_language_entity(self, language: str) -> LanguageEntity:
-        """
-        This method will return a language entity, which contains its name
-        and its absolute path.
-
-        Args:
-            language: Language file to look for
-
-        Returns: Language entity. Will fall back to 'en_US' if no translation
-        file has been found.
-        """
-        entity = LanguageEntity()
-
-        language_file = self.language_path / f"{language}.json"
-
-        if language_file.exists() and language_file.is_file():
-            entity = LanguageEntity(language, language_file.resolve())
-
-        return entity
-
-    def _load_language_file(self, language_path: Path) -> None:
+    def _load_language_file(self) -> None:
         """
         Loads the language file into the internal dictionary.
 
         Args:
             language_path: Path to the language file
         """
+
+        language_path = self.language_path / f"{self.language_code}.json"
+
+        # if not (language_path.exists() and language_path.is_file()):
+
+
         with open(language_path, encoding="utf-8") as language_file:
             self._language_file = json.load(language_file)
 
 
 # For convenient use later in the program ~ origin
-_ = Language.instance().str
+# _ = Language.instance().str
+lang = Language()
 
 if __name__ == "__main__":
     print(f"\033[31;1mDo not execute this!{Color.reset}")
