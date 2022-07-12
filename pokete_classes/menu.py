@@ -1,5 +1,14 @@
 import scrap_engine as se
-from ..ui_elements import ChooseBox
+from . import movemap as mvp
+from .ui_elements import ChooseBox, InfoBox
+from .mods import ModInfo
+from .settings import VisSetting
+from .hotkeys import get_action, Action
+from .loops import std_loop
+from .input import text_input
+from .language import HARDCODED_LANGUAGE_NAMES
+from .achievements import AchievementOverview
+
 
 class Menu:
     """Menu to manage settings and other stuff in
@@ -16,9 +25,8 @@ class Menu:
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
-        self.language_label = se.Text("Language", state="float")
-        self.realname_label = se.Text(session_info["user"], state="float")
-        self.char_label = se.Text(figure.char, state="float")
+        self.realname_label = se.Text("", state="float")
+        self.char_label = se.Text("", state="float")
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
                             VisSetting("Autosave", "autosave",
@@ -31,7 +39,9 @@ class Menu:
                                        {True: "On", False: "Off"}),
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
-                            self.language_label, self.mods_label, self.ach_label,
+                            VisSetting("Language", "language",
+                                       HARDCODED_LANGUAGE_NAMES),
+                            self.mods_label, self.ach_label,
                             self.about_label, self.save_label,
                             self.exit_label])
         # adding
@@ -43,12 +53,11 @@ class Menu:
                         + self.represent_char_label.width,
                         self.represent_char_label.ry)
 
-    def __call__(self, pevm):
+    def __call__(self, pevm, figure, mods, about):
         """Opens the menu"""
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
-            _ev.clear()
             while True:
                 action = get_action()
                 if action.triggers(Action.ACCEPT):

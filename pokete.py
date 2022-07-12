@@ -25,7 +25,7 @@ from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
-from pokete_classes.settings import settings, VisSetting
+from pokete_classes.settings import settings
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
 from pokete_classes.providers import ProtoFigure
@@ -33,9 +33,9 @@ from pokete_classes.buy import Buy
 from pokete_classes.audio import audio
 from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
-from pokete_classes.mods import ModError, ModInfo, DummyMods
+from pokete_classes.mods import ModError, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
-from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
+from pokete_classes import deck, detail, game, timer, menu, ob_maps as obmp, \
                            movemap as mvp, fightmap as fm
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
@@ -56,8 +56,7 @@ from pokete_classes.language import _
 from pokete_classes.ui.overlays.language_overlay import LanguageOverlay
 from pokete_general_use_fns import liner, sort_vers, parse_args
 
-from release import SPEED_OF_TIME
-from release import VERSION, CODENAME, SAVEPATH
+from release import SPEED_OF_TIME, VERSION, CODENAME, SAVEPATH
 
 
 __t = time.time()
@@ -628,101 +627,6 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
         return items
 
 
-class Menu:
-    """Menu to manage settings and other stuff in
-    ARGS:
-        _map: se.Map this will be shown on"""
-
-    def __init__(self, _map):
-        self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Menu")
-        self.playername_label = se.Text("Playername: ", state="float")
-        self.represent_char_label = se.Text("Char: ", state="float")
-        self.mods_label = se.Text("Mods", state="float")
-        self.ach_label = se.Text("Achievements", state="float")
-        self.about_label = se.Text("About", state="float")
-        self.save_label = se.Text("Save", state="float")
-        self.exit_label = se.Text("Exit", state="float")
-        self.language_label = se.Text("Language", state="float")
-        self.realname_label = se.Text(session_info["user"], state="float")
-        self.char_label = se.Text(figure.char, state="float")
-        self.box.add_c_obs([self.playername_label,
-                            self.represent_char_label,
-                            VisSetting("Autosave", "autosave",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Animations", "animations",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Save trainers", "save_trainers",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Audio", "audio",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Load mods", "load_mods",
-                                       {True: "On", False: "Off"}),
-                            self.language_label, self.mods_label, self.ach_label,
-                            self.about_label, self.save_label,
-                            self.exit_label])
-        # adding
-        self.box.add_ob(self.realname_label,
-                        self.playername_label.rx + self.playername_label.width,
-                        self.playername_label.ry)
-        self.box.add_ob(self.char_label,
-                        self.represent_char_label.rx
-                        + self.represent_char_label.width,
-                        self.represent_char_label.ry)
-
-    def __call__(self, pevm):
-        """Opens the menu"""
-        self.realname_label.rechar(figure.name)
-        self.char_label.rechar(figure.char)
-        with self.box.add(self.map, self.map.width - self.box.width, 0):
-            _ev.clear()
-            while True:
-                action = get_action()
-                if action.triggers(Action.ACCEPT):
-                    # Fuck python for not having case statements - lxgr
-                    #     but it does lmao - Magnus
-                    if (i := self.box.c_obs[self.box.index.index]) ==\
-                            self.playername_label:
-                        figure.name = text_input(self.realname_label, self.map,
-                                                 figure.name, 18, 17)
-                        self.map.name_label_rechar(figure.name)
-                    elif i == self.represent_char_label:
-                        inp = text_input(self.char_label, self.map,
-                                         figure.char, 18, 1)
-                        # excludes bad unicode:
-                        if len(inp.encode("utf-8")) != 1:
-                            inp = "a"
-                            notifier.notify("Error", "Bad character",
-                                            "The chosen character has to be a \
-valid single-space character!")
-                        figure.rechar(inp)
-                    elif i == self.mods_label:
-                        ModInfo(mvp.movemap, mods.mod_info)()
-                    elif i == self.save_label:
-                        # When will python3.10 come out?
-                        with InfoBox("Saving....", info="", _map=self.map):
-                            # Shows a box displaying "Saving...." while saving
-                            save()
-                            time.sleep(SPEED_OF_TIME * 1.5)
-                    elif i == self.exit_label:
-                        save()
-                        exit()
-                    elif i == self.about_label:
-                        about()
-                    elif i == self.ach_label:
-                        AchievementOverview()(mvp.movemap)
-                    elif i == self.language_label:
-                        LanguageOverlay()(mvp.movemap)
-                    else:
-                        i.change()
-                elif action.triggers(Action.UP, Action.DOWN):
-                    self.box.input(action)
-                elif action.triggers(Action.CANCEL, Action.MENU):
-                    break
-                std_loop(pevm=pevm)
-                self.map.full_show()
-
-
 # General use functions
 #######################
 
@@ -1017,7 +921,7 @@ def _game(_map):
         Action.INVENTORY: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
-        Action.MENU: [menu, (pevm,)],
+        Action.MENU: [menu.menu, (pevm, figure, mods, about)],
         Action.HELP: [help_page, ()]
     }
     if _map.weather is not None:
@@ -1522,7 +1426,7 @@ if __name__ == "__main__":
     RoadMap.check_maps()
     roadmap = RoadMap(figure)
     deck.deck = deck.Deck(height - 1, width, figure, abb_funcs)
-    menu = Menu(mvp.movemap)
+    menu.menu = menu.Menu(mvp.movemap)
     about = About(VERSION, CODENAME, mvp.movemap)
     inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)

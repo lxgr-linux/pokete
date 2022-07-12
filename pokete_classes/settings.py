@@ -46,8 +46,14 @@ class Settings:
 
     def __init__(self):
         self.settings = []
-        self.keywords = ["autosave", "animations", "save_trainers",
-                         "load_mods", "audio"]
+        self.keywords = {
+            "autosave": True,
+            "animations": True,
+            "save_trainers": True,
+            "load_mods": False,
+            "audio": True,
+            "language": "en_US"
+        }
 
     def from_dict(self, src):
         """Setts the settings from a dict
@@ -57,7 +63,7 @@ class Settings:
             self.settings.append(Setting(i, src[i]))
         for i in self.keywords:
             if i not in [j.name for j in self.settings]:
-                self.settings.append(Setting(i, True))
+                self.settings.append(Setting(i, self.keywords[i]))
 
     def __call__(self, name):
         """Gets a Setting object

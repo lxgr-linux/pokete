@@ -6,6 +6,12 @@ from .entities.language_entity import LanguageEntity
 from .color import Color
 
 
+HARDCODED_LANGUAGE_NAMES = {
+    "en_US": "English",
+    "de_DE": "German"
+}
+
+
 def get_system_locale() -> str:
     """
     Fetches the main language of the user's operating system.
