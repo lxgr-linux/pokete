@@ -6,6 +6,7 @@ import pokete_classes.game_map as gm
 from pokete_classes.hotkeys import Action, get_action
 from .loops import std_loop
 from .event import _ev
+from .language import lang
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
 
@@ -59,16 +60,16 @@ class Detail(Informer):
 
     def __init__(self, height, width):
         self.map = gm.GameMap(height, width)
-        self.name_label = se.Text("Details", esccode=Color.thicc)
-        self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
+        self.name_label = se.Text(lang.str("ui.details.title"), esccode=Color.thicc)
+        self.name_attacks = se.Text(lang.str("ui.details.attacks"), esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state="float")
-        self.attack_defense = se.Text("Attack:   Defense:")
-        self.world_actions_label = se.Text("Abilities:")
-        self.type_label = se.Text("Type:")
-        self.initiative_label = se.Text("Initiative:")
-        self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit")
-        self.nature_label = se.Text(f"{Action.NATURE_INFO.mapping}: Nature")
-        self.ability_label = se.Text(f"{Action.ABILITIES}: Use ability")
+        self.attack_defense = se.Text(f"{lang.str('ui.details.attack')}:   {lang.str('ui.details.defense')}:")
+        self.world_actions_label = se.Text(f"{lang.str('ui.details.abilities')}:")
+        self.type_label = se.Text(f"{lang.str('dialog.attack.type')}:")
+        self.initiative_label = se.Text(f"{lang.str('ui.details.initiative')}:")
+        self.exit_label = se.Text(f"{Action.DECK.mapping}: {lang.str('ui.dialog.exit')}")
+        self.nature_label = se.Text(f"{Action.NATURE_INFO.mapping}: {lang.str('ui.details.nature')}")
+        self.ability_label = se.Text(f"{Action.ABILITIES}: {lang.str('ui.details.use_ability')}")
         self.line_sep1 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_middle = se.Square("|", 1, 10, state="float")
@@ -97,16 +98,16 @@ class Detail(Informer):
         abb_obs = [i for i in poke.attack_obs
                    if i.world_action != ""]
         if abb_obs != [] and abb:
-            self.world_actions_label.rechar("Abilities:"
+            self.world_actions_label.rechar(f"{lang.str('ui.details.abilities')}:"
                                             + " ".join([i.name
                                                         for i in abb_obs]))
-            self.ability_label.rechar("3: Use ability")
+            self.ability_label.rechar(f"3: {lang.str('ui.details.use_ability')}")
         else:
             self.world_actions_label.rechar("")
             self.ability_label.rechar("")
-        self.attack_defense.rechar(f"Attack:{poke.atc}\
-{(4 - len(str(poke.atc))) * ' '}Defense:{poke.defense}")
-        self.initiative_label.rechar(f"Initiative:{poke.initiative}")
+        self.attack_defense.rechar(f"{lang.str('ui.details.attack')}:{poke.atc}\
+{(4 - len(str(poke.atc))) * ' '}{lang.str('ui.details.defense')}:{poke.defense}")
+        self.initiative_label.rechar(f"{lang.str('ui.details.initiative')}:{poke.initiative}")
         for obj, _x, _y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
             obj.add(self.map, _x, _y)
         for atc, _x, _y in zip(poke.attack_obs, [1,
@@ -117,7 +118,7 @@ class Detail(Informer):
             atc.temp_i = 0
             atc.temp_j = -30
             atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
-            atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
+            atc.label_ap.rechar(f"{lang.str('dialog.attack.ap')}:{atc.ap}/{atc.max_ap}")
             for label, __x, __y in zip([atc.label_name, atc.label_factor,
                                         atc.label_type,
                                         atc.label_ap, atc.label_desc],
@@ -142,7 +143,7 @@ class Detail(Informer):
                 poke.nature.info(self.map)
             elif action.triggers(Action.ABILITIES):
                 if abb_obs != [] and abb:
-                    with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
+                    with ChooseBox(len(abb_obs) + 2, 25, name=lang.str("ui.details.abilities"),
                                    c_obs=[se.Text(i.name)
                                           for i in abb_obs]).center_add(self.map)\
                             as box:

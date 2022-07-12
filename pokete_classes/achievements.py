@@ -3,6 +3,7 @@
 import datetime
 import logging
 from pokete_general_use_fns import liner
+from .language import lang
 from .hotkeys import ACTION_DIRECTIONS, Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
@@ -55,9 +56,9 @@ class Achievements:
         if not self.is_achieved(identifier):
             ach = [i for i in self.achievements
                    if i.identifier == identifier][0]
-            notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
+            notifier.notify(ach.title, lang.str("ui.achievements.unlocked"), ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
-            logging.info("[Achievements] Unlocked %s", identifier)
+            logging.info(lang.str("log.achievements.unlocked"), identifier)
 
     def is_achieved(self, identifier):
         """Whether or not an identifier is achieved
@@ -78,12 +79,12 @@ class AchBox(LabelBox):
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = [i[-1] for i in ach_ob.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
-        label = se.Text("Achieved: ", state="float")\
-                + se.Text("Yes" if is_ach else "No",
+        label = se.Text(lang.str("ui.achievements.achieved"), state="float")\
+                + se.Text(lang.str("ui.dialog.yes") if is_ach else lang.str("ui.dialog.no"),
                           esccode=Color.thicc
                           + (Color.green if is_ach
                              else Color.grey), state="float")\
-                + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
+                + (se.Text(f"\n{lang.str('ui.dialog.at')}: " + date, state="float") if is_ach else se.Text(""))\
                 + se.Text("\n" + liner(ach.desc, 30), state="float")
         super().__init__(label, name=ach.title,
                          info=f"{Action.CANCEL.mapping}:close")
@@ -93,7 +94,7 @@ class AchievementOverview(BetterChooseBox):
     """Overview for Achievements"""
 
     def __init__(self):
-        super().__init__(4, [se.Text(" ")], name="Achievements")
+        super().__init__(4, [se.Text(" ")], name="ui.achievements.title")
 
     def __call__(self, _map):
         """Input loop

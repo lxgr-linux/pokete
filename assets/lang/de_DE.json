@@ -7,5 +7,7 @@
   "dialog.center.welcome": "Willkommen im Pokete-Center",
   "dialog.center.action": "Was möchtest du tun?",
   "dialog.center.healed": "Deine Pokete sind nun geheilt!",
-  "dialog.center.list": "1: Schaue dein Team an\n 2: Heil alle deine Pokete\n 3: Knuddel mit deinen Pokete"
+  "dialog.center.list": "1: Schaue dein Team an\n 2: Heil alle deine Pokete\n 3: Knuddel mit deinen Pokete",
+  "ui.menu.language": "Sprache",
+  "ui.about.title": "Über"
 }

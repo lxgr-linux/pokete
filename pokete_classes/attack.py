@@ -6,6 +6,7 @@ from pokete_data.attacks import attacks
 from .effects import effects
 from .types import types
 from .color import Color
+from .language import lang
 from release import SPEED_OF_TIME
 
 
@@ -34,12 +35,20 @@ class Attack:
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined,
                                   state="float")
-        self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}", state="float")
-        self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
+        self.label_ap = se.Text(
+            f"{lang.str('dialog.attack.ap')}:{self.ap}/{self.max_ap}",
+            state="float"
+        )
+        self.label_factor = se.Text(
+            f"{lang.str('dialog.attack.attack')}:{self.factor}",
+            state="float"
+        )
         self.label_desc = se.Text(self.desc[:10], state="float")
-        self.label_type = se.Text("Type:", state="float") \
-                          + se.Text(self.type.name.capitalize(),
-                                    esccode=self.type.color, state="float")
+        self.label_type = se.Text(
+            f"{lang.str('dialog.attack.type')}:",
+            state="float"
+        ) + se.Text(self.type.name.capitalize(),
+                    esccode=self.type.color, state="float")
         self.pref = pref
         self.label = self.make_label()
 

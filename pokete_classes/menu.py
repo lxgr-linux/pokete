@@ -6,7 +6,7 @@ from .settings import VisSetting
 from .hotkeys import get_action, Action
 from .loops import std_loop
 from .input import text_input
-from .language import HARDCODED_LANGUAGE_NAMES
+from .language import HARDCODED_LANGUAGE_NAMES, lang
 from .achievements import AchievementOverview
 
 
@@ -17,29 +17,29 @@ class Menu:
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Menu")
-        self.playername_label = se.Text("Playername: ", state="float")
-        self.represent_char_label = se.Text("Char: ", state="float")
-        self.mods_label = se.Text("Mods", state="float")
-        self.ach_label = se.Text("Achievements", state="float")
-        self.about_label = se.Text("About", state="float")
-        self.save_label = se.Text("Save", state="float")
-        self.exit_label = se.Text("Exit", state="float")
+        self.box = ChooseBox(_map.height - 3, 35, lang.str("ui.menu.title"))
+        self.playername_label = se.Text(f"{lang.str('ui.menu.playername')}: ", state="float")
+        self.represent_char_label = se.Text(f"{lang.str('ui.menu.playername_char')}: ", state="float")
+        self.mods_label = se.Text(lang.str("ui.mods.title"), state="float")
+        self.ach_label = se.Text(lang.str("ui.achievements.title"), state="float")
+        self.about_label = se.Text(lang.str("ui.about.title"), state="float")
+        self.save_label = se.Text(lang.str("ui.menu.save"), state="float")
+        self.exit_label = se.Text(lang.str("ui.menu.quit_game"), state="float")
         self.realname_label = se.Text("", state="float")
         self.char_label = se.Text("", state="float")
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
-                            VisSetting("Autosave", "autosave",
+                            VisSetting(lang.str("ui.menu.autosave"), "autosave",
                                        {True: "On", False: "Off"}),
-                            VisSetting("Animations", "animations",
+                            VisSetting(lang.str("ui.menu.animations"), "animations",
                                        {True: "On", False: "Off"}),
-                            VisSetting("Save trainers", "save_trainers",
+                            VisSetting(lang.str("ui.menu.save_trainers"), "save_trainers",
                                        {True: "On", False: "Off"}),
-                            VisSetting("Audio", "audio",
+                            VisSetting(lang.str("ui.menu.audio"), "audio",
                                        {True: "On", False: "Off"}),
-                            VisSetting("Load mods", "load_mods",
+                            VisSetting(lang.str("ui.mods.load"), "load_mods",
                                        {True: "On", False: "Off"}),
-                            VisSetting("Language", "language",
+                            VisSetting(lang.str("ui.menu.language"), "language",
                                        HARDCODED_LANGUAGE_NAMES),
                             self.mods_label, self.ach_label,
                             self.about_label, self.save_label,
