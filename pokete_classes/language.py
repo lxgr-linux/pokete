@@ -3,9 +3,8 @@ from pathlib import Path
 import json
 import locale
 from .color import Color
-from .constants import CWD
-from .settings import settings
-
+from .constants import CWD, FALLBACK_LANGUAGE
+from .settings import Settings, settings
 
 HARDCODED_LANGUAGE_NAMES = {
     "en_US": "English",
@@ -28,15 +27,17 @@ class Language:
     Class for loading and managing translation files.
     """
 
-    def __init__(self, default_lang=None):
-        self._old_language_code = self.language_code
+    def __init__(self, _settings: Settings, default_code=None):
+        self.settings = _settings
+        self._old_language_code = default_code or self.language_code
         self._language_file: dict = dict()
+        self._fallback_file: dict | None = None
         self.language_path: Path = CWD / "assets" / "lang"
         self._load_language_file()
 
     @property
     def language_code(self):
-        return settings("language").val
+        return self.settings.get("language").val
 
     def str(self, key: str) -> str:
         """
@@ -53,6 +54,12 @@ class Language:
 
         if key in self._language_file:
             return str(self._language_file.get(key))
+        else:
+            if self._fallback_file is None:
+                self._load_language_file_fallback()
+
+            if key in self._fallback_file:
+                return str(self._fallback_file.get(key))
 
         # Temporarily - So previous code is not broken
         return key
@@ -80,23 +87,34 @@ class Language:
     def _load_language_file(self) -> None:
         """
         Loads the language file into the internal dictionary.
-
-        Args:
-            language_path: Path to the language file
         """
+        self._language_file = self.__load_language_file_generic(self.language_code)
 
-        language_path = self.language_path / f"{self.language_code}.json"
+    def _load_language_file_fallback(self) -> None:
+        """
+        Loads the fallback language file into internal dictionary. It will be
+        accessed if translation keys are missing from the currently used translation.
+        """
+        self._fallback_file = self.__load_language_file_generic(FALLBACK_LANGUAGE)
 
-        # if not (language_path.exists() and language_path.is_file()):
+    def __load_language_file_generic(self, filename: str) -> dict:
+        """
+        Loads a language file and returns its content as dictionary.
+        """
+        language_path = self.language_path / f"{filename}.json"
 
+        if language_path.exists() and language_path.is_file():
+            with open(language_path, encoding="utf-8") as file:
+                return json.load(file)
 
-        with open(language_path, encoding="utf-8") as language_file:
-            self._language_file = json.load(language_file)
+        raise RuntimeError("No language file with code "
+                           f"'{filename}' found in path "
+                           f"'{language_path}'.")
 
 
 # For convenient use later in the program ~ origin
-# _ = Language.instance().str
-lang = Language()
+# Dependency injection for code testing
+lang = Language(settings)
 
 if __name__ == "__main__":
     print(f"\033[31;1mDo not execute this!{Color.reset}")

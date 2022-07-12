@@ -1,7 +1,8 @@
-"""Contains classes and objects related to settings"""
+"""Contains pokete_classes and objects related to settings"""
 
 import logging
 import scrap_engine as se
+from .color import Color
 
 
 class Setting:
@@ -58,8 +59,8 @@ class Settings:
             Setting(i, self.keywords[i]) for i in self.keywords
         ]
 
-    def from_dict(self, src):
-        """Setts the settings from a dict
+    def from_dict(self, src: dict) -> None:
+        """Sets the settings from a dict
         ARGS:
             src: The Dict"""
         self.settings = []
@@ -69,7 +70,7 @@ class Settings:
             if i not in [j.name for j in self.settings]:
                 self.settings.append(Setting(i, self.keywords[i]))
 
-    def __call__(self, name):
+    def __call__(self, name: str) -> Setting:
         """Gets a Setting object
         ARGS:
             name: The Settings name
@@ -77,9 +78,20 @@ class Settings:
             Setting object"""
         return next(i for i in self.settings if i.name == name)
 
-    def to_dict(self):
+    def get(self, name: str) -> Setting:
+        """
+        Replacement for __call__ magic function. Gets a setting object.
+
+        Returns: Setting object
+        """
+        return self.__call__(name)
+
+    def to_dict(self) -> dict:
         """Returns a dict of all current settings"""
         return {i.name: i.val for i in self.settings}
 
 
 settings = Settings()
+
+if __name__ == "__main__":
+    print(f"\033[31;1mDo not execute this!{Color.reset}")
