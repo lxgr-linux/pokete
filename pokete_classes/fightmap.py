@@ -7,7 +7,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
-                           deck, game_map as gm
+    deck, game_map as gm
 from .hotkeys import ACTION_UP_DOWN, Action, get_action
 from .audio import audio
 from .loops import std_loop
@@ -19,6 +19,7 @@ from .input import ask_bool
 from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
+from .language import lang
 from release import SPEED_OF_TIME
 
 
@@ -30,9 +31,10 @@ class FightMap(gm.GameMap):
 
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
-        self.box = ChooseBox(6, 25, "Attacks",
-                             f"{Action.INFO.mapping}:Info", index_x=1)
-        self.invbox = ChooseBox(height - 3, 35, "Inventory")
+        self.box = ChooseBox(6, 25, lang.str("dialog.attack.attacks"),
+                             f"{Action.INFO.mapping}:{lang.str('dialog.attack.info')}",
+                             index_x=1)
+        self.invbox = ChooseBox(height - 3, 35, lang.str("ui.inventory.title"))
         # icos
         self.deadico1 = se.Text(r"""
     \ /
@@ -56,10 +58,10 @@ class FightMap(gm.GameMap):
         self.p_sideline = se.Square("|", 1, 4, state="float")
         self.outp = OutP("", state="float")
         self.label = se.Text(
-            f"{Action.CHOOSE_ATTACK.mapping}: Attack  "
-            f"{Action.RUN.mapping}: Run!  "
-            f"{Action.CHOOSE_ITEM.mapping}: Inv.  "
-            f"{Action.CHOOSE_POKE.mapping}: Deck"
+            f"{Action.CHOOSE_ATTACK.mapping}: {lang.str('dialog.attack.attack')}  "
+            f"{Action.RUN.mapping}: {lang.str('dialog.attack.run')}  "
+            f"{Action.CHOOSE_ITEM.mapping}: {lang.str('ui.movemap.inventory_abbr')}  "
+            f"{Action.CHOOSE_POKE.mapping}: {lang.str('ui.movemap.deck')}"
         )
         # adding
         self.outp.add(self, 1, self.height - 4)
@@ -73,7 +75,8 @@ class FightMap(gm.GameMap):
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
         # Attack info box
-        self.atk_info_box = LabelBox(se.Text(""), "Attack Info")
+        self.atk_info_box = LabelBox(se.Text(""),
+                                     lang.str('dialog.attack.attack_info'))
         self.show_atk_info_box = False
 
     def clean_up(self, *providers):
@@ -129,7 +132,6 @@ class FightMap(gm.GameMap):
         if enem.curr.identifier in player.caught_pokes:
             enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)
 
-
     def add_2(self, player):
         """Adds player labels with sleeps
         ARGS:
@@ -180,14 +182,14 @@ class FightMap(gm.GameMap):
             if self.show_atk_info_box:
                 self.atk_info_box.add(self, 27, self.height - 7)
             self.show()
-            while True:#158
+            while True:  # 158
                 action = get_action()
                 if action.triggers(*ACTION_UP_DOWN):
                     self.box.input(action)
                     self.rechar_atk_info_box(attack_obs)
                     self.show()
                 elif action.triggers(Action.ACCEPT) or (0 <= action.get_number()
-                        < len(attack_obs)):
+                                                        < len(attack_obs)):
                     attack = attack_obs[
                         self.box.index.index if action.triggers(Action.ACCEPT)
                         else action.get_number()
@@ -240,13 +242,13 @@ class FightMap(gm.GameMap):
             figure: The players provider
             enem: The enemys provider"""
         quick_attacks = [
-            Action.QUICK_ATC_1, Action.QUICK_ATC_2,
-            Action.QUICK_ATC_3, Action.QUICK_ATC_4
-        ][:len(figure.curr.attack_obs)]
+                            Action.QUICK_ATC_1, Action.QUICK_ATC_2,
+                            Action.QUICK_ATC_3, Action.QUICK_ATC_4
+                        ][:len(figure.curr.attack_obs)]
         self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
-                                          else "") +
-                                         "What do you want to do?",
-                                         state="float"))
+                                  else "") +
+                                 lang.str("dialog.attack.what_to_do"),
+                                 state="float"))
         while True:  # Inputloop for general options
             action = get_action()
             if action.triggers(*quick_attacks):
@@ -264,29 +266,31 @@ class FightMap(gm.GameMap):
             elif action.triggers(Action.RUN):
                 if (
                     type(enem) is Trainer
-                    or not ask_bool(self, "Do you really want to run away?")
+                    or not ask_bool(self,
+                                    lang.str("dialog.attack.run_question"))
                 ):
                     continue
-                if (random.randint(0, 100) < max(5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95))):
-                    self.outp.outp("You failed to run away!")
+                if (random.randint(0, 100) < max(5, min(50 - (
+                    figure.curr.initiative - enem.curr.initiative), 95))):
+                    self.outp.outp(lang.str("dialog.attack.failed_run"))
                     time.sleep(SPEED_OF_TIME * 1)
                     return ""
                 audio.switch("xDeviruchi - Decisive Battle (End).wav")
-                self.outp.outp("You ran away!")
+                self.outp.outp(lang.str("dialog.attack.success_run"))
                 time.sleep(SPEED_OF_TIME * 2)
                 self.clean_up(figure, enem)
-                logging.info("[Fight] Ended, ran away")
+                logging.info(lang.str("log.fight.ran_away"))
                 audio.switch(figure.map.song)
-                return "won"
+                return lang.str("dialog.attack.won")
             elif action.triggers(Action.CHOOSE_ITEM):
                 items = [getattr(invitems, i)
-                            for i in figure.inv
-                            if getattr(invitems, i).fn is not None
-                            and figure.inv[i] > 0]
+                         for i in figure.inv
+                         if getattr(invitems, i).fn is not None
+                         and figure.inv[i] > 0]
                 if not items:
                     self.outp.outp(
-                        "You don't have any items left!\n"
-                        "What do you want to do?"
+                        f"{lang.str('dialog.attack.no_items')}\n"
+                        f"{lang.str('dialog.attack.what_to_do')}"
                     )
                     continue
                 item = self.get_item(items, figure.inv)
@@ -296,10 +300,10 @@ class FightMap(gm.GameMap):
                 if (i := getattr(fightitems, item.fn)(figure, enem)) == 1:
                     continue
                 elif i == 2:
-                    logging.info("[Fight] Ended, fightitem")
+                    logging.info(lang.str("log.fight.end_fight"))
                     time.sleep(SPEED_OF_TIME * 2)
                     audio.switch(figure.map.song)
-                    return "won"
+                    return lang.str("dialog.attack.won")
                 return ""
             elif action.triggers(Action.CHOOSE_POKE):
                 if not self.choose_poke(figure):
@@ -316,13 +320,11 @@ class FightMap(gm.GameMap):
             Provider that won the fight"""
         audio.switch("xDeviruchi - Decisive Battle (Loop).wav")
         index = 0
-        logging.info(
-            "[Fight] Started between %s",
-            "and ".join(
-                f"{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}"
-                    for prov in providers
-            )
-        )
+        logging.info(lang.str("log.fight.start_fight").join(
+            f"{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}"
+            for prov in providers
+        ))
+
         weather = providers[0].map.weather
         for prov in providers:
             prov.index_conf()
@@ -331,19 +333,18 @@ class FightMap(gm.GameMap):
         self.add_1(*providers)
         for prov in providers:
             if type(prov) is NatureProvider:
-                self.outp.outp(f"A wild {prov.curr.name} appeared!")
+                self.outp.outp(lang.str("dialog.attack.encounter") % prov.curr.name)
             elif type(prov) is Trainer:
-                self.outp.outp(f"{prov.name} started a fight!")
+                self.outp.outp(lang.str("dialog.attack.start_fight") % prov.name)
                 time.sleep(SPEED_OF_TIME * 1)
-                self.outp.outp(
-                    f'{self.outp.text}\n{prov.gender} used {prov.curr.name} '
-                    'against you!'
+                self.outp.outp(lang.str("dialog.attack.opponent.attack")
+                               % (self.outp.text, prov.gender, prov.curr.name)
                 )
         time.sleep(SPEED_OF_TIME * 1)
         self.add_2(providers[0])
         self.fast_change([providers[0].curr.ico, self.deadico2, self.deadico1,
                           providers[0].curr.ico], providers[0].curr.ico)
-        self.outp.outp(f"You used {providers[0].curr.name}")
+        self.outp.outp(lang.str("dialog.attack.player.attack") % providers[0].curr.name)
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
         index = providers.index(
@@ -372,12 +373,13 @@ class FightMap(gm.GameMap):
                     loser = prov
                     winner = providers[(i + 1) % 2]
             if winner is not None:
-                self.outp.outp(f"{loser.curr.ext_name} is dead!")
+                self.outp.outp(lang.str("dialog.attack.pokete.defeat") % loser.curr.ext_name)
             elif all(i.ap == 0 for i in player.curr.attack_obs):
                 winner = providers[(index + 1) % 2]
                 loser = player
                 time.sleep(SPEED_OF_TIME * 2)
-                self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
+                self.outp.outp(
+                    lang.str("dialog.attack.pokete.no_ap"))
                 time.sleep(SPEED_OF_TIME * 3)
             if winner is not None:
                 if (
@@ -389,7 +391,7 @@ class FightMap(gm.GameMap):
                 elif (
                     loser.curr.player
                     and any(p.hp > 0 for p in loser.pokes[:6])
-                    and ask_bool(self, "Do you want to choose another Pokete?")
+                    and ask_bool(self, lang.str("dialog.attack.player.swap_pokete"))
                 ):
                     success = self.choose_poke(loser)
                     if not success:
@@ -411,7 +413,7 @@ class FightMap(gm.GameMap):
                     self.fast_change(
                         [ico, self.deadico2, self.deadico1, ico], ico
                     )
-                    self.outp.outp(f"{loser.name} used {loser.curr.name}!")
+                    self.outp.outp(lang.str("dialog.attack.opponent.used") % (loser.name, loser.curr.name))
                     self.show()
                     time.sleep(SPEED_OF_TIME * 2)
                 else:
@@ -423,16 +425,15 @@ class FightMap(gm.GameMap):
             poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
             for poke in loser.pokes
         ) * (2 if not isinstance(loser, NatureProvider) else 1)
-        self.outp.outp(
-            f"{winner.curr.ext_name} won!" +
-            (f'\nXP + {_xp}' if winner.curr.player else '')
+        self.outp.outp((lang.str("dialog.attack.pokete.won") % winner.curr.ext_name) +
+            (f'\n{lang.str("dialog.attack.xp")} + {_xp}' if winner.curr.player else '')
         )
         if winner.curr.player and isinstance(loser, Trainer):
             achievements.achieve("first_duel")
         if winner.curr.player and winner.curr.add_xp(_xp):
             time.sleep(SPEED_OF_TIME * 1)
             self.outp.outp(
-                f"{winner.curr.name} reached lvl {winner.curr.lvl()}!"
+                lang.str("dialog.attack.pokete.levelup") % (winner.curr.name, winner.curr.lvl())
             )
             winner.curr.moves.shine()
             time.sleep(SPEED_OF_TIME * 0.5)
@@ -447,9 +448,8 @@ class FightMap(gm.GameMap):
         self.show()
         self.clean_up(*providers)
         mvp.movemap.balls_label_rechar(winner.pokes)
-        logging.info(
-            "[Fight] Ended, %s(%s) won",
-            winner.curr.name, "player" if winner.curr.player else "enemy"
+        logging.info(lang.str("log.fight.end_fight_won")
+                     % (winner.curr.name, lang.str("log.general.player") if winner.curr.player else lang.str("log.general.enemy"))
         )
         audio.switch(providers[0].map.song)
         return winner
@@ -464,13 +464,13 @@ class FightMap(gm.GameMap):
         self.clean_up(player)
         index = None
         while index is None:
-            index = deck.deck(6, "Your deck", True)
+            index = deck.deck(6, lang.str("dialog.attack.deck"), True)
             if allow_exit:
                 break
         if index is not None:
             player.play_index = index
         self.add_player(player)
-        self.outp.outp(f"You have choosen {player.curr.name}")
+        self.outp.outp(lang.str("dialog.attack.player.swap_pokete.confirm") % player.curr.name)
         for j in player.curr.effects:
             time.sleep(SPEED_OF_TIME * 1)
             j.readd()
@@ -504,11 +504,12 @@ class FightItems:
             None: To let the enemy attack"""
 
         if not isinstance(enem, NatureProvider):
-            fightmap.outp.outp("You can't do that in a duel!")
+            fightmap.outp.outp(lang.str("dialog.attack.noop"))
             return 1
-        fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
-        fightmap.fast_change([enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
-                             fightmap.pball], enem.curr.ico)
+        fightmap.outp.rechar(lang.str("dialog.attack.player.throw") % name.capitalize())
+        fightmap.fast_change(
+            [enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
+             fightmap.pball], enem.curr.ico)
         time.sleep(SPEED_OF_TIME * random.choice([1, 2, 3, 4]))
         obj.remove_item(name)
         catch_chance = 20 if obj.map == obmp.ob_maps["playmap_1"] else 0
@@ -520,22 +521,22 @@ class FightItems:
                                    enem.curr.full_hp], k=1)[0]:
             audio.switch("xDeviruchi - Decisive Battle (End).wav")
             obj.add_poke(enem.curr)
-            fightmap.outp.outp(f"You caught {enem.curr.name}!")
+            fightmap.outp.outp(lang.str("dialog.attack.pokete.caught") % enem.curr.name)
             time.sleep(SPEED_OF_TIME * 2)
             fightmap.pball.remove()
             fightmap.clean_up(obj, enem)
             mvp.movemap.balls_label_rechar(obj.pokes)
-            logging.info("[Fighitem][%s] Caught %s", name, enem.curr.name)
+            logging.info(lang.str("log.fight.pokete_caught"), name, enem.curr.name)
             achievements.achieve("first_poke")
             if all(poke in obj.caught_pokes for poke in p_data.pokes):
                 achievements.achieve("catch_em_all")
             return 2
-        fightmap.outp.outp("You missed!")
+        fightmap.outp.outp(lang.str("dialog.attack.pokete.missed"))
         fightmap.show()
         fightmap.pball.remove()
         enem.curr.ico.add(fightmap, enem.curr.ico.x, enem.curr.ico.y)
         fightmap.show()
-        logging.info("[Fighitem][%s] Missed", name)
+        logging.info(lang.str("log.fight.pokete_missed"), name)
         return None
 
     def potion(self, obj, enem, hp, name):
@@ -577,12 +578,11 @@ class FightItems:
         obj.remove_item("ap_potion")
         for atc in obj.curr.attack_obs:
             atc.set_ap(atc.max_ap)
-        logging.info("[Fighitem][ap_potion] Used")
+        logging.info(lang.str("log.fight.ap_potion_used"))
 
 
 fightitems = FightItems()
 fightmap = None
-
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

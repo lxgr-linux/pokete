@@ -10,6 +10,7 @@ from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
 from .detail import Detail
 from .attack import Attack
+from .language import lang
 
 
 class AttackInfo(Box):
@@ -30,7 +31,7 @@ class AttackInfo(Box):
         self.map = _map
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)
-        self.add_ob(se.Text(f"AP:{atc.max_ap}"), 2, 3)
+        self.add_ob(se.Text(f"{lang.str('dialog.attack.ap')}:{atc.max_ap}"), 2, 3)
         self.add_ob(desc_label, 2, 4)
 
     def __enter__(self):
@@ -50,8 +51,8 @@ class LearnAttack:
         self.map = _map
         self.poke = poke
         self.box = ChooseBox(
-            6, 25, name="Attacks",
-            info=f"{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info")
+            6, 25, name=lang.str("dialog.attack.attacks"),
+            info=f"{Action.DECK.mapping}:{lang.str('ui.details.title')}, {Action.INFO.mapping}:{lang.str('dialog.attack.info')}")
 
     def __call__(self, attack=None):
         """Starts the learning process
@@ -76,9 +77,7 @@ class LearnAttack:
             new_attack = random.choice(full_pool)
         else:
             new_attack = attack
-        if ask_bool(self.map,
-                    f"{self.poke.name} wants to learn \
-{attacks[new_attack]['name']}!"):
+        if ask_bool(self.map, lang.str("dialog.attack.pokete.learn_attack") % (self.poke.name, attacks[new_attack]['name'])):
             if len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)
                 self.poke.attack_obs.append(Attack(new_attack,
@@ -96,8 +95,7 @@ class LearnAttack:
                             i = self.box.index.index
                             self.poke.attacks[i] = new_attack
                             self.poke.attack_obs[i] = Attack(new_attack, i + 1)
-                            ask_ok(self.map, f"{self.poke.name} learned \
-{attacks[new_attack]['name']}!")
+                            ask_ok(self.map, lang.str("dialog.attack.pokete.learned_attack") % (self.poke.name, attacks[new_attack]['name']))
                             break
                         elif action.triggers(Action.DECK):
                             Detail(self.map.height, self.map.width)\

@@ -28,13 +28,13 @@ class Movemap(gm.GameSubmap):
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
         self.label = se.Text(
-            f"{Action.DECK.mapping}: Deck  "
-            f"{Action.EXIT_GAME.mapping}: Quit  "
-            f"{Action.MAP.mapping}: Map  "
-            f"{Action.INVENTORY.mapping}: Inv.  "
-            f"{Action.POKEDEX.mapping}: Pokedex  "
-            f"{Action.CLOCK.mapping}: Clock  "
-            f"{Action.HELP.mapping}: help"
+            f"{Action.DECK.mapping}: {lang.str('ui.movemap.deck')} "
+            f"{Action.EXIT_GAME.mapping}: {lang.str('ui.menu.quit_game')}  "
+            f"{Action.MAP.mapping}: {lang.str('ui.movemap.map')}  "
+            f"{Action.INVENTORY.mapping}: {lang.str('ui.movemap.inventory_abbr')}  "
+            f"{Action.POKEDEX.mapping}: {lang.str('ui.dex.title')}  "
+            f"{Action.CLOCK.mapping}: {lang.str('ui.movemap.clock')}  "
+            f"{Action.HELP.mapping}: {lang.str('ui.movemap.help')}"
         )
         self.code_label = OutP("")
         self.multitext = OutP("", state="float")

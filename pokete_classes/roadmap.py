@@ -7,6 +7,7 @@ from pokete_general_use_fns import liner
 from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .loops import std_loop, easy_exit_loop
 from .color import Color
+from .language import lang
 from .ui_elements import Box, InfoBox
 
 
@@ -15,7 +16,7 @@ class RoadMapException(Exception):
 
     def __init__(self, _map):
         self.map = _map
-        text = f"{_map} {_map.name} has no mapstation"
+        text = lang.str("error.exception.road_map_exception") % (_map, _map.name)
         super().__init__(text)
 
 
@@ -103,7 +104,7 @@ class RoadMap:
 
     def __init__(self, fig):
         self.fig = fig
-        self.box = Box(11, 40, "Roadmap", f"{Action.CANCEL.mapping}:close")
+        self.box = Box(11, 40, lang.str("ui.roadmap.title"), f"{Action.CANCEL.mapping}:close")
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta, _dict in p_data.stations.items():
@@ -157,8 +158,8 @@ class RoadMap:
                                            i.poke_args.get("pokes", [])
                                            + i.w_poke_args.get("pokes", [])))
                     with InfoBox(liner(self.sta.desc
-                                       + "\n\n Here you can find: " +
-                                       (p_list if p_list != "" else "Nothing"),
+                                       + f"\n\n {lang.str('ui.roadmap.find')} " +
+                                       (p_list if p_list != "" else lang.str("ui.dialog.nothing")),
                                        30), self.sta.name, _map=_map):
                         easy_exit_loop()
                 std_loop()

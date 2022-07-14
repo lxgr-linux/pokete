@@ -4,6 +4,7 @@ import logging
 from pokete_classes import movemap as mvp
 from .doors import DoorToCenter
 from .input import ask_ok
+from .language import lang
 
 
 def check_walk_back(figure, self=None):
@@ -13,12 +14,10 @@ def check_walk_back(figure, self=None):
         amount = round(figure.get_money() / 3)
         figure.add_money(-amount)
         heal(figure)
-        ask_ok(mvp.movemap, f"""All your Poketes have died and you ran
-back to the last Pokecenter you visited to heal them!
-On the way there, ${amount} fell out of your pocket!""")
+        ask_ok(mvp.movemap, lang.str("dialog.attack.blackout") % amount)
         figure.remove()
         figure.map = figure.last_center_map
-        logging.info("[Figure] You lost all Poketes and ran away!")
+        logging.info(lang.str("log.fight.blackout"))
         DoorToCenter().action(figure)
 
 
@@ -30,7 +29,7 @@ def heal(figure):
         poke.hp = poke.full_hp
         poke.effects = []
         poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar(f"HP:{poke.hp}")
+        poke.text_hp.rechar(f"{lang.str('dialog.attack.hp')}:{poke.hp}")
         poke.set_vars()
         poke.hp_bar.make(poke.hp)
         mvp.movemap.balls_label_rechar(figure.pokes)

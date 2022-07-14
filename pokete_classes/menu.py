@@ -16,6 +16,9 @@ class Menu:
         _map: se.Map this will be shown on"""
 
     def __init__(self, _map):
+        on = lang.str("ui.dialog.on")
+        off = lang.str("ui.dialog.off")
+
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, lang.str("ui.menu.title"))
         self.playername_label = se.Text(f"{lang.str('ui.menu.playername')}: ", state="float")
@@ -30,15 +33,15 @@ class Menu:
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
                             VisSetting(lang.str("ui.menu.autosave"), "autosave",
-                                       {True: "On", False: "Off"}),
+                                       {True: on, False: off}),
                             VisSetting(lang.str("ui.menu.animations"), "animations",
-                                       {True: "On", False: "Off"}),
+                                       {True: on, False: off}),
                             VisSetting(lang.str("ui.menu.save_trainers"), "save_trainers",
-                                       {True: "On", False: "Off"}),
+                                       {True: on, False: off}),
                             VisSetting(lang.str("ui.menu.audio"), "audio",
-                                       {True: "On", False: "Off"}),
+                                       {True: on, False: off}),
                             VisSetting(lang.str("ui.mods.load"), "load_mods",
-                                       {True: "On", False: "Off"}),
+                                       {True: on, False: off}),
                             VisSetting(lang.str("ui.menu.language"), "language",
                                        HARDCODED_LANGUAGE_NAMES),
                             self.mods_label, self.ach_label,
@@ -74,16 +77,14 @@ class Menu:
                         # excludes bad unicode:
                         if len(inp.encode("utf-8")) != 1:
                             inp = "a"
-                            notifier.notify("Error", "Bad character",
-                                            "The chosen character has to be a \
-valid single-space character!")
+                            notifier.notify("Error", "Bad character", lang.str("error.input.single_space_character"))
                         figure.rechar(inp)
                     elif i == self.mods_label:
                         ModInfo(mvp.movemap, mods.mod_info)()
                     elif i == self.save_label:
                         # When will python3.10 come out?
-                        with InfoBox("Saving....", info="", _map=self.map):
-                            # Shows a box displaying "Saving...." while saving
+                        with InfoBox(lang.str("ui.menu.saving"), info="", _map=self.map):
+                            # Shows a box displaying "Saving..." while saving
                             save()
                             time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:

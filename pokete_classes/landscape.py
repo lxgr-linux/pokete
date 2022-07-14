@@ -9,6 +9,7 @@ from .color import Color
 from .general import check_walk_back
 from .poke import Poke
 from .input import ask_ok
+from .language import lang
 
 
 class HighGrass(se.Object):
@@ -148,6 +149,11 @@ class Poketeball(se.Object):
         self.figure.give_item(item, amount)
         self.remove()
         mvp.movemap.full_show()
-        ask_ok(mvp.movemap, f"You found {amount if amount > 1 else 'a'} \
-{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
+
+        if amount > 1:
+            text_string = lang.str("dialog.walk.collected_item.plural") % (amount, p_data.items[item]['pretty_name'])
+        else:
+            text_string = lang.str("dialog.walk.collected_item.singular") % p_data.items[item]['pretty_name']
+
+        ask_ok(mvp.movemap, text_string)
         self.figure.used_npcs.append(self.name)

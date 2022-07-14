@@ -15,6 +15,7 @@ from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
 from .general import check_walk_back
+from .language import lang
 from release import SPEED_OF_TIME
 
 
@@ -92,7 +93,7 @@ class NPC(se.Box):
         """Interaction with the NPC triggered by NPCTrigger.action"""
         if self.used and settings("save_trainers").val:
             return
-        logging.info("[NPC][%s] Interaction", self.name)
+        logging.info(lang.str("log.npc.interaction"), self.name)
         mvp.movemap.full_show()
         time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
@@ -116,8 +117,8 @@ class NPC(se.Box):
                            for j in
                            self.map.obmap[i.ry + self.y][i.rx + self.x])
                        for i in vec.obs][1:])
-        logging.info("[NPC][%s] %s walk check to (%d|%d)",
-                     self.name, 'Succeeded' if ret else 'Failed', x, y)
+        logging.info(lang.str("log.npc.walk_check"),
+                     self.name, lang.str("ui.dialog.succeeded") if ret else lang.str("ui.dialog.failed"), x, y)
         return ret
 
     def walk_point(self, x, y):
@@ -145,8 +146,7 @@ class NPC(se.Box):
             item: Item name"""
         item = getattr(invitems, item)
         self.set_used()
-        if ask_bool(mvp.movemap, f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?"):
+        if ask_bool(mvp.movemap, lang.str("npc.interaction.give") % (name, item.pretty_name)):
             self.fig.give_item(item.name)
 
     @property
@@ -177,7 +177,7 @@ Do you want to accept it?"):
             keys = list(q_a["a"].keys())
             c_b = ChooseBox(len(keys) + 2,
                             sorted(len(i) for i in keys)[-1] + 6,
-                            name="Answer",
+                            name=lang.str("ui.dialog.answer"),
                             c_obs=[se.Text(i, state="float")
                                      for i in keys])
             c_b.frame.corners[0].rechar("^")
@@ -254,13 +254,13 @@ class Trainer(NPC, Provider):
                 )
                 is_winner = (winner == self)
                 self.text({True: self.lose_texts,
-                           False: self.win_texts + ["Here's $20!"]}
+                           False: self.win_texts + [lang.str("npc.interaction.twenty_dollars")]}
                           [is_winner])
                 heal(self) if is_winner else None
                 if not is_winner:
                     self.fig.add_money(20)
                     self.set_used()
-                logging.info("[NPC][%s] %s against player", self.name,
-                             'Lost' if not is_winner else 'Won')
+                logging.info(lang.str("log.npc.match_info"), self.name,
+                             lang.str("ui.dialog.lost") if not is_winner else lang.str("ui.dialog.won"))
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.fig)

@@ -4,6 +4,7 @@ import time
 import scrap_engine as se
 from .color import Color
 from release import SPEED_OF_TIME
+from .language import lang
 
 
 class HealthBar(se.Text):
@@ -32,11 +33,11 @@ class HealthBar(se.Text):
             oldhp: The pokes former hp"""
         while oldhp != self.poke.hp and oldhp > 0:
             oldhp += -1 if oldhp > self.poke.hp else 1
-            self.poke.text_hp.rechar(f"HP:{oldhp}", esccode=Color.yellow)
+            self.poke.text_hp.rechar(f"{lang.str('dialog.attack.hp')}:{oldhp}", esccode=Color.yellow)
             self.make(oldhp)
             time.sleep(SPEED_OF_TIME * 0.1)
             self.poke.ico.map.show()
-        self.poke.text_hp.rechar(f"HP:{oldhp}")
+        self.poke.text_hp.rechar(f"{lang.str('dialog.attack.hp')}:{oldhp}")
         time.sleep(SPEED_OF_TIME * 0.1)
 
 

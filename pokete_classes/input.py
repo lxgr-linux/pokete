@@ -5,6 +5,7 @@ from pokete_general_use_fns import hard_liner
 from .loops import std_loop
 from .ui_elements import InfoBox, InputBox
 from .event import _ev
+from .language import lang
 
 
 def text_input(obj, _map, name, wrap_len, max_len=1000000):
@@ -52,9 +53,9 @@ def ask_bool(_map, text):
     ARGS:
         _map: The map the question should be asked on
         text: The actual question"""
-    assert len(text) >= 12, "Text has to be longer then 12 characters!"
+    assert len(text) >= 12, lang.str("assert.input.text_length")
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o",
+    with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}{lang.str('ui.dialog.select_yes')}   {lang.str('ui.dialog.select_no')}",
                  info="", _map=_map):
         while True:
             action = get_action()
@@ -90,7 +91,7 @@ def ask_ok(_map, text):
         text: The question it self"""
     assert len(text) >= 4, "Text has to be longer then 4 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
-    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '} [O]k ", name="Info",
+    with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '} {lang.str('ui.dialog.select_ok')} ", name=lang.str("dialog.attack.info"),
                  info="", _map=_map):
         while True:
             action = get_action()

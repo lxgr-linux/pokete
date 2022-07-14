@@ -6,6 +6,7 @@ import pokete_classes.game_map as gm
 from pokete_general_use_fns import liner
 from .loops import easy_exit_loop
 from .ui_elements import InfoBox, StdFrame
+from .language import lang
 
 
 class About:
@@ -16,8 +17,7 @@ class About:
         _map: se.Map this will be displayed on"""
 
     def __init__(self, ver, cname, _map):
-        self.box = InfoBox(liner(f"""Pokete v{ver} -- {cname}
-by  lxgr-linux <lxgr@protonmail.com>
+        self.box = InfoBox(liner(f"""{lang.str('ui.pokete.title')}
 
 This  software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.
 Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
@@ -38,16 +38,12 @@ class Help(About):
 
     def __init__(self, _map):
         self.map = _map
-        self.box = InfoBox("""Controls:
-'w':up, 'a':left,
-'s':down, 'd':right,
-'e':menu
+        self.box = InfoBox(f"""{lang.str('ui.controls.title')}:
+'w':{lang.str('ui.help.controls.up')}, 'a':{lang.str('ui.help.controls.left')},
+'s':{lang.str('ui.help.controls.down')}, 'd':{lang.str('ui.help.controls.right')},
+'e':{lang.str('ui.help.controls.menu')}
 
-When walking into the high grass (';') you may get attacked
-by wild Poketes, those can be killed or weakened and caught.
-NPCs will talk to you when walking up to them.
-For more information about how to play this game, check out
-https://git.io/JRRqe""", name="Help", _map=self.map)
+{lang.str('ui.help.text')}""", name=lang.str("ui.movemap.help"), _map=self.map)
 
 
 class ResizeScreen():
@@ -56,7 +52,7 @@ class ResizeScreen():
     def __init__(self):
         width, height = os.get_terminal_size()
         self.map = gm.GameMap(height, width)
-        self.warning_label = se.Text("Minimum windowsize is 70x20")
+        self.warning_label = se.Text(lang.str("ui.dialog.min_window_size"))
         self.size_label = se.Text(f"{width}x{height}")
         self.frame = StdFrame(height - 1, width)
         self.warning_label.add(self.map, int(width / 2) - 13,

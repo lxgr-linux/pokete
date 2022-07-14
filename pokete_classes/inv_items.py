@@ -1,6 +1,7 @@
 """All classes needed for Item management"""
 
 import pokete_data as p_data
+from .language import lang
 
 
 class Items:
@@ -42,9 +43,9 @@ class LearnDisc(InvItem):
     def __init__(self, attack_name):
         self.attack_name = attack_name
         self.attack_dict = p_data.attacks[attack_name]
-        pretty_name = f"LD-{self.attack_dict['name']}"
+        pretty_name = f"{lang.str('dialog.inventory.prefix_ld_disk')}-{self.attack_dict['name']}"
         name = f"ld_{attack_name}"
-        desc = f"Teaches a Pokete the attack '{self.attack_dict['name']}'."
+        desc = lang.str("dialog.inventory.teach_disc") % self.attack_dict['name']
         super().__init__(name, pretty_name, desc, 0)
 
 
