@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+This file prepares and handles installs of the pokete game.
+
+It prepares the python (sub-)modules in a way that they can be installed via pip.
+"""
 
 import os
 import shutil
@@ -6,6 +11,21 @@ from setuptools import setup
 
 
 def package_file_to_pokete(file: str) -> None:
+    """Packages a file into the 'pokete' module.
+
+    Receives a filename and then uses this filename to locate the file from the
+    directory structure. It then copies the file into the 'pokete' folder
+    and renames all imports of all other pokete files and modules to submodules
+    of 'pokete'.
+
+    Arguments:
+    ---------
+    - file: The file to package into the module
+
+    Returns:
+    -------
+    None
+    """
     print(f"  Packaging {file} ...")
     replace_paths = [
         ("import pokete_data as p_data", "import pokete.pokete_data as p_data"),
@@ -31,6 +51,20 @@ def package_file_to_pokete(file: str) -> None:
 
 
 def main():
+    """The main function of the setup process.
+
+    This function prepares the modules directory structure in a way, so that
+    setuptools can easily install pokete:
+
+    1. Create all needed directories
+    2. Package the modules 'pokete_data' and 'pokete_classes'
+    3. Package the python files 'pokete.py', 'pokete_general_use_fns.py' and
+       'release.py'
+    4. Creates a '__init__.py' run pokete on module import.
+    5. Packages some needed assets.
+    6. Calls 'setup()', which uses 'setuptools' and the 'pyproject.toml' to
+       build the wheel.
+    """
     for directory in ["pokete_data", "pokete_classes"]:
         print(f"Processing directory '{directory}'...")
         os.makedirs(os.path.join("pokete", directory), exist_ok=True)
