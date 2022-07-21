@@ -29,11 +29,11 @@ jobs:
         with:
           # Optionally strip `v` prefix
           strip_v: true
-        
+
       - name: path
         run: echo "::set-output name=path::Pokete-${{ steps.tag.outputs.tag }}-x86_64.AppImage"
         id: path
-      
+
       # Runs a set of commands using the runners shell
       - name: Prepare
         run: |
@@ -44,10 +44,10 @@ jobs:
           sudo chmod +x /usr/local/bin/appimagetool
           sudo pip3 install git+https://github.com/AppImageCrafters/appimage-builder.git
           sed -i '/app_info:/{n;n;n;n;s/\(version\).*/\1: '"${{ steps.tag.outputs.tag }}"'/}' assets/AppImageBuilder.yml
-          
+
       - name: Build Appimage
         run: appimage-builder --skip-test --recipe assets/AppImageBuilder.yml
-        
+
       - name: Get Changelog Entry
         id: changelog_reader
         uses: mindsers/changelog-reader-action@v2
@@ -55,7 +55,7 @@ jobs:
           validation_depth: 10
           version: ${{ steps.tag.outputs.tag }}
           path: ./Changelog.md
-        
+
       - name: release
         uses: actions/create-release@v1
         id: create_release
@@ -67,7 +67,7 @@ jobs:
           body: ${{ steps.changelog_reader.outputs.changes }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        
+
       - name: upload linux artifact
         uses: actions/upload-release-asset@v1
         env:
@@ -77,3 +77,41 @@ jobs:
           asset_path: ${{ steps.path.outputs.path }}
           asset_name: ${{ steps.path.outputs.path }}
           asset_content_type: application/appimage
+
+  docker:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            hub.docker.com/${{ github.repository }}
+            ghcr.io/${{ github.repository }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
