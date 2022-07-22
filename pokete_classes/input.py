@@ -65,7 +65,6 @@ def ask_bool(_map, text):
                 ret = False
                 break
             std_loop(_map.name == "movemap")
-        _ev.clear()
     return ret
 
 

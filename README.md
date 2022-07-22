@@ -38,8 +38,8 @@ Or you can just run the AppImage from the release page.
 
 NOTE: In that case you first have to create the `~/.cache/pokete/` folder.
 
-For Windows:
 
+For Windows:
 ```shell
 git clone https://github.com/lxgr-linux/pokete.git
 pip install scrap_engine playsound==1.2.2
@@ -47,27 +47,27 @@ pip install scrap_engine playsound==1.2.2
 To run just execute `pokete.py`.
 
 ## Usage
-The game can be run normaly by not supplying any options.
-For non gameplay related usage see `--help`.
+The game can be run normally without supplying any options.
+For non gameplay related usage, use `--help`.
 Try it out [online](https://replit.com/@lxgr-linux/pokete).
 
-## How to play?
-Imagine you're a Pokete-Trainer and you run around in the world to catch/train as many Poketes as possible with the ultimate goal of becoming the best trainer.
+## How to play
+Imagine that you're a Pokete Trainer and you travel around the world to catch/train as many Poketes as possible with the ultimate goal of becoming the best trainer.
 
 First of all you get a starter Pokete (Steini), that you can use to fight battles with other Poketes.
-The controls are w a s d to walk around.
+Use W, A, S and D to move around.
 
-When entering the high grass (;), you may be attacked by a wild Pokete. By pressing 1 you can choose between the attacks (as long their AP is over 0) your Pokete has, and by pressing the according number, or navigating with the "\*"-cursor to the attack and pressing enter. The wild Pokete will fight back but you can kill it and gain XP to level up your Pokete. If you would like to catch the wild Pokete, you must first weaken it and then throw a Poketeball. With a bit of luck, you can catch it and have it fight for you.
+When entering the high grass (;), you may be attacked by a wild Pokete. By pressing `1` you can choose between the attacks your Pokete has (as long their AP is over 0). By pressing the according number, or navigating with the `*` cursor to the attack and pressing `Enter` you can use the attack selected. The wild Pokete will fight back, but you can kill it and gain XP to level up your Pokete. If you would like to catch a wild Pokete, you must first weaken it and then throw a Poketeball. With a bit of luck, you can catch it and have it fight for you.
 
-Pressing the "1" key you can take a look at your current deck, see the detailed information of your Pokete and your attacks or rearrange them.
+By pressing the `1` key, you can take a look at your current deck. You can see detailed information of your Pokete and your attacks, or rearrange them.
 Changes will only be saved by quitting the game using the exit function.
 
-Since you're a Pokete-Trainer, you can also fight against other trainers (the  other "a" in the middle of the landscape). He will start a fight with you when you get close enough to him. You can not escape from such a trainer fight, you either have to win, or lose. These trainer fights give double the XP.
+Since you're a Pokete Trainer, you can also fight against other trainers (they appear as an 'a'). He will start a fight with you when you get close enough to him. You can not run from a trainer fight; you either have to win, or lose. These trainer fights give double the XP.
 
-When one of your Poketes die, or is too weak, you can heal it by going into the house (Pokete-Center), talk the the person there and choose the healing option.
-Here you can also take a look at all of your Poketes, and not just the six in your team. The ones marked with an "o" are the ones in your deck.
+When one of your Poketes is too weak or dies, you can heal it by going into the Pokete Center (the house), talk the the person there and choose the healing option.
+Here you can also take a look at all of your Poketes, and not just the six in your team. The ones marked with an `o` are the ones in your deck.
 
-By pressing "e" you can get into a menu where player name, and later other settings, can be changed.
+By pressing `e`, a menu will appear where player name, and later other settings, can be changed.
 
 The red balls all over the map are Poketeballs. You'll need these to catch Poketes. Stepping on such a ball will add it to your inventory.
 
@@ -97,29 +97,28 @@ Mods can be written to extend Pokete. To load a mod, the mod has to be placed in
 For an example mod see [example.py](mods/example.py).
 
 ## Tips
-- In conversations you can very easily skip the text printing by pressing any key
-- When you want to see the next text in a conversation: press any key
+- When you want to see the next part of a conversation, press any key
 - Don't play on full-screen; the game will not run properly
 - Don't be offended by the other trainers; they may swear at you
 
 ## TODO
-- [x] Add a wizard to set name and choose starter Pokete at the start
-- [ ] Add More maps
-- [x] Add types for attacks and Poketes
-- [x] Add evolving
-- [ ] Add more than one Pokete for trainers
+- [x] A wizard at the start to set name and starter Pokete
+- [ ] More maps
+- [x] Types for attacks and Poketes
+- [x] Evolving
+- [ ] More than one Pokete for trainers
 - [x] Coloured Poketes
 - [x] A store to buy Poketeballs
-- [x] Add potions
-- [x] Add Intro
-- [x] Add trading
-- [x] Add Poketedex
+- [x] Potions
+- [x] Intro
+- [x] Trading
+- [x] Poketedex
 - [x] Effects
-- [x] Add colour codes for types
+- [x] Colour codes for types
 
 ## Dependencies
-Pokete depends on python3 and the scrap_engine module.
-On windows pynput has to be installed too.
+Pokete depends on python3 and the `scrap_engine` module.
+On Windows `pynput` has to be installed too.
 
 ## Documentation
 - [Documentation for pokete_classes](https://lxgr-linux.github.io/pokete/doc/pokete_classes/index.html)
@@ -133,12 +132,12 @@ On windows pynput has to be installed too.
 For release information see [Changelog](Changelog.md).
 
 ## Contributing
-Feel free to contribute what ever you want to this game.
+Feel free to contribute whatever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
 
-To see how to add more poketes/types/attacks to the game, see [the DevGuide](DevGuide.md)
+To learn how to add more poketes/types/attacks to the game, see [the development guide](DevGuide.md)
 
-After adding new Poketes and/or Attacks you may want to run
+After adding new Poketes and/or attacks you may want to run
 ```shell
 $ ./gen_wiki.py
 ```
@@ -151,5 +150,5 @@ Music:
 - Marllon Silva (xDeviruchi) - 8-bit-fantasy-adventure-music-pack - Available at [itch.io](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
 - SketchyLogic - Map - Available at [opengameart.org](https://opengameart.org/content/nes-shooter-music-5-tracks-3-jingles)
 
-## Trouble shooting
+## Troubleshooting
 If you're experiencing problems on Japanese systems take a look at [this](https://gist.github.com/z80oolong/c7523367b798bdda094f859342f4c8be).
