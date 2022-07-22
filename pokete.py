@@ -1391,14 +1391,27 @@ if __name__ == "__main__":
     do_logging, load_mods, force_pynput = parse_args(sys.argv)
     # deciding on wich input to use
     if sys.platform == "win32" or force_pynput:
-        from pynput.keyboard import Listener
+        import msvcrt
 
 
         def recogniser():
             """Gets keyboard input from pynput"""
-            while True:
-                with Listener(on_press=on_press) as listener:
-                    listener.join()
+             while True:
+                rlist, _, _ = select.select([msvcrt.getwch()], [], [], 0.1)
+                if rlist:
+                    char = msvcrt.getwch()
+                    _ev.set(
+                        {
+                            ord(char): f"{char.rstrip()}",
+                            13: "Key.enter",
+                            127: "Key.backspace",
+                            32: "Key.space",
+                            27: "Key.esc",
+                            3: "exit",
+                        }[ord(char)]
+                    )
+                    if ord(char) == 3:
+                        reset_terminal()
     else:
         import tty
         import termios
