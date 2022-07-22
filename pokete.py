@@ -811,13 +811,6 @@ def read_save():
     return _si
 
 
-def on_press(key):
-    """Sets the input to either a character like 'a' or '1', or Key.enter, Key.backspace, Key.space, Key.esc, exit
-    ARGS:
-        key: Key object _ev is set from"""
-    _ev.set(str(key).strip("'"))
-
-
 def reset_terminal():
     """Resets the terminals state"""
     if sys.platform == "linux":
