@@ -42,7 +42,7 @@ For Windows and OSX:
 
 ```shell
 git clone https://github.com/lxgr-linux/pokete.git
-pip install scrap_engine pynput playsound pygobject
+pip install scrap_engine pynput playsound==1.2.2
 ```
 To run just execute `pokete.py`.
 
