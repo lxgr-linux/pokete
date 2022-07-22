@@ -1396,9 +1396,8 @@ if __name__ == "__main__":
 
         def recogniser():
             """Gets keyboard input from pynput"""
-             while True:
-                rlist, _, _ = select.select([msvcrt.getwch()], [], [], 0.1)
-                if rlist:
+            while True:
+                if msvcrt.kbhit():
                     char = msvcrt.getwch()
                     _ev.set(
                         {
