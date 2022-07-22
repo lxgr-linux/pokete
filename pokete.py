@@ -1404,6 +1404,7 @@ if __name__ == "__main__":
                             ord(char): f"{char.rstrip()}",
                             13: "Key.enter",
                             127: "Key.backspace",
+                            8: "Key.backspace",
                             32: "Key.space",
                             27: "Key.esc",
                             3: "exit",
