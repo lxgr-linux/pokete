@@ -1390,7 +1390,16 @@ def map_additions():
 if __name__ == "__main__":
     do_logging, load_mods, force_pynput = parse_args(sys.argv)
     # deciding on wich input to use
-    if sys.platform == "linux" and not force_pynput:
+    if sys.platform == "win32" or force_pynput:
+        from pynput.keyboard import Listener
+
+
+        def recogniser():
+            """Gets keyboard input from pynput"""
+            while True:
+                with Listener(on_press=on_press) as listener:
+                    listener.join()
+    else:
         import tty
         import termios
         import select
@@ -1422,15 +1431,6 @@ if __name__ == "__main__":
                     )
                     if ord(char) == 3:
                         reset_terminal()
-    else:
-        from pynput.keyboard import Listener
-
-
-        def recogniser():
-            """Gets keyboard input from pynput"""
-            while True:
-                with Listener(on_press=on_press) as listener:
-                    listener.join()
 
 
     print("\033[?1049h")

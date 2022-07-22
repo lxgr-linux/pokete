@@ -22,7 +22,7 @@
 Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak.
 
 ## Installation
-For Linux just do this:
+For Linux, BSD, OSX etc. just do this:
 ```shell
 # pip install scrap_engine playsound pygobject
 $ git clone https://github.com/lxgr-linux/pokete.git
@@ -38,7 +38,7 @@ Or you can just run the AppImage from the release page.
 
 NOTE: In that case you first have to create the `~/.cache/pokete/` folder.
 
-For Windows and OSX:
+For Windows:
 
 ```shell
 git clone https://github.com/lxgr-linux/pokete.git
