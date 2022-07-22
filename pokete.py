@@ -820,7 +820,7 @@ def on_press(key):
 
 def reset_terminal():
     """Resets the terminals state"""
-    if sys.platform == "linux" and not force_pynput:
+    if sys.platform == "linux":
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
@@ -1388,9 +1388,9 @@ def map_additions():
 # Actual code execution
 #######################
 if __name__ == "__main__":
-    do_logging, load_mods, force_pynput = parse_args(sys.argv)
+    do_logging, load_mods = parse_args(sys.argv)
     # deciding on wich input to use
-    if sys.platform == "win32" or force_pynput:
+    if sys.platform == "win32":
         import msvcrt
 
 
@@ -1410,8 +1410,7 @@ if __name__ == "__main__":
                             3: "exit",
                         }[ord(char)]
                     )
-                    if ord(char) == 3:
-                        reset_terminal()
+
     else:
         import tty
         import termios
