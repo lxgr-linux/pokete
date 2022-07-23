@@ -264,3 +264,14 @@ class Trainer(NPC, Provider):
                              'Lost' if not is_winner else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.fig)
+
+    def greet(self, fightmap):
+        """Outputs a greeting text at the fights start:
+        ARGS:
+            fightmap: fightmap object"""
+        fightmap.outp.outp(f"{self.name} started a fight!")
+        time.sleep(SPEED_OF_TIME * 1)
+        fightmap.outp.outp(
+            f'{fightmap.outp.text}\n{self.gender} used {self.curr.name} '
+            'against you!'
+        )

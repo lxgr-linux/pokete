@@ -330,15 +330,7 @@ class FightMap(gm.GameMap):
             animations.fight_intro(self.height, self.width)
         self.add_1(*providers)
         for prov in providers:
-            if type(prov) is NatureProvider:
-                self.outp.outp(f"A wild {prov.curr.name} appeared!")
-            elif type(prov) is Trainer:
-                self.outp.outp(f"{prov.name} started a fight!")
-                time.sleep(SPEED_OF_TIME * 1)
-                self.outp.outp(
-                    f'{self.outp.text}\n{prov.gender} used {prov.curr.name} '
-                    'against you!'
-                )
+            prov.greet(self)
         time.sleep(SPEED_OF_TIME * 1)
         self.add_2(providers[0])
         self.fast_change([providers[0].curr.ico, self.deadico2, self.deadico1,

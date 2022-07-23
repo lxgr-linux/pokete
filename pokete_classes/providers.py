@@ -27,6 +27,13 @@ class Provider:
             anem: The enemy Provider"""
         raise NotImplementedError
 
+    def greet(self, fightmap):
+        """Outputs a greeting text at the fights start:
+        ARGS:
+            fightmap: fightmap object"""
+        raise NotImplementedError
+
+
 class NatureProvider(Provider):
     """The Natures Provider
     ARGS:
@@ -46,9 +53,20 @@ class NatureProvider(Provider):
             ]
         )[0]
 
+    def greet(self, fightmap):
+        """Outputs a greeting text at the fights start:
+        ARGS:
+            fightmap: fightmap object"""
+        fightmap.outp.outp(f"A wild {self.curr.name} appeared!")
+
 
 class ProtoFigure(Provider):
     """Class Figure inherits from to avoid injecting the Figure class
     into fight"""
-    pass
+
+    def greet(self, fightmap):
+        """Outputs a greeting text at the fights start:
+        ARGS:
+            fightmap: fightmap object"""
+        return
 
