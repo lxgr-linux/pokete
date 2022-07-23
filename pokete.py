@@ -1389,7 +1389,7 @@ if __name__ == "__main__":
 
 
         def recogniser():
-            """Gets keyboard input from pynput"""
+            """Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime"""
             while True:
                 if msvcrt.kbhit():
                     char = msvcrt.getwch()
