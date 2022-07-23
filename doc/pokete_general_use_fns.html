@@ -91,7 +91,6 @@ Options:
     --log          : Enables logging
     --help         : Shows this help
     --no_mods      : Disables mods
-    --force_pynput : Forces the usage of pynput as a keyboard input backend
 
 Homepage: https://github.com/lxgr-linux/pokete
 
@@ -111,14 +110,11 @@ def parse_args(args):
         Tuple of do_logging and load_mods&#34;&#34;&#34;
     do_logging = False
     load_mods = True
-    force_pynput = False
     for arg in args[1:]:
         if arg == &#34;--log&#34;:
             do_logging = True
         elif arg == &#34;--no_mods&#34;:
             load_mods = False
-        elif arg == &#34;--force_pynput&#34;:
-            force_pynput = True
         elif arg == &#34;--help&#34;:
             print_help(args[0])
             sys.exit(0)
@@ -126,7 +122,7 @@ def parse_args(args):
             print(f&#34;:: Error: &#39;{arg}&#39; is not a valid option! See &#39;--help&#39; for \
 options.&#34;)
             sys.exit(1)
-    return do_logging, load_mods, force_pynput
+    return do_logging, load_mods
 
 
 if __name__ == &#34;__main__&#34;:
@@ -240,14 +236,11 @@ if __name__ == &#34;__main__&#34;:
         Tuple of do_logging and load_mods&#34;&#34;&#34;
     do_logging = False
     load_mods = True
-    force_pynput = False
     for arg in args[1:]:
         if arg == &#34;--log&#34;:
             do_logging = True
         elif arg == &#34;--no_mods&#34;:
             load_mods = False
-        elif arg == &#34;--force_pynput&#34;:
-            force_pynput = True
         elif arg == &#34;--help&#34;:
             print_help(args[0])
             sys.exit(0)
@@ -255,7 +248,7 @@ if __name__ == &#34;__main__&#34;:
             print(f&#34;:: Error: &#39;{arg}&#39; is not a valid option! See &#39;--help&#39; for \
 options.&#34;)
             sys.exit(1)
-    return do_logging, load_mods, force_pynput</code></pre>
+    return do_logging, load_mods</code></pre>
 </details>
 </dd>
 <dt id="pokete_general_use_fns.print_help"><code class="name flex">
@@ -282,7 +275,6 @@ Options:
     --log          : Enables logging
     --help         : Shows this help
     --no_mods      : Disables mods
-    --force_pynput : Forces the usage of pynput as a keyboard input backend
 
 Homepage: https://github.com/lxgr-linux/pokete
 

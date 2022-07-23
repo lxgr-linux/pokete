@@ -1,0 +1,2062 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pokete_classes.fightmap API documentation</title>
+<meta name="description" content="This file contains all relevant classes for fight" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pokete_classes.fightmap</code></h1>
+</header>
+<section id="section-intro">
+<p>This file contains all relevant classes for fight</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;This file contains all relevant classes for fight&#34;&#34;&#34;
+
+import time
+import random
+import logging
+import scrap_engine as se
+import pokete_data as p_data
+from pokete_general_use_fns import liner
+from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
+                           deck, game_map as gm
+from .hotkeys import ACTION_UP_DOWN, Action, get_action
+from .audio import audio
+from .loops import std_loop
+from .npcs import Trainer
+from .providers import NatureProvider, ProtoFigure
+from .ui_elements import StdFrame2, ChooseBox, LabelBox
+from .classes import OutP
+from .input import ask_bool
+from .achievements import achievements
+from .inv_items import invitems
+from .settings import settings
+from release import SPEED_OF_TIME
+
+
+class FightMap(gm.GameMap):
+    &#34;&#34;&#34;Wrapper for gm.GameMap
+    ARGS:
+        height: The height of the map
+        width: The width of the map&#34;&#34;&#34;
+
+    def __init__(self, height, width):
+        super().__init__(height, width, name=&#34;fightmap&#34;)
+        self.box = ChooseBox(6, 25, &#34;Attacks&#34;,
+                             f&#34;{Action.INFO.mapping}:Info&#34;, index_x=1)
+        self.invbox = ChooseBox(height - 3, 35, &#34;Inventory&#34;)
+        # icos
+        self.deadico1 = se.Text(r&#34;&#34;&#34;
+    \ /
+     o
+    / \ &#34;&#34;&#34;)
+        self.deadico2 = se.Text(&#34;&#34;&#34;
+
+     o&#34;&#34;&#34;)
+        self.pball = se.Text(r&#34;&#34;&#34;   _____
+  /_____\
+  |__O__|
+  \_____/&#34;&#34;&#34;)
+        # visual objects
+        self.frame_big = StdFrame2(self.height - 5, self.width,
+                                   state=&#34;float&#34;)
+        self.frame_small = se.Frame(height=4, width=self.width,
+                                    state=&#34;float&#34;)
+        self.e_underline = se.Text(&#34;----------------+&#34;, state=&#34;float&#34;)
+        self.e_sideline = se.Square(&#34;|&#34;, 1, 3, state=&#34;float&#34;)
+        self.p_upperline = se.Text(&#34;+----------------&#34;, state=&#34;float&#34;)
+        self.p_sideline = se.Square(&#34;|&#34;, 1, 4, state=&#34;float&#34;)
+        self.outp = OutP(&#34;&#34;, state=&#34;float&#34;)
+        self.label = se.Text(
+            f&#34;{Action.CHOOSE_ATTACK.mapping}: Attack  &#34;
+            f&#34;{Action.RUN.mapping}: Run!  &#34;
+            f&#34;{Action.CHOOSE_ITEM.mapping}: Inv.  &#34;
+            f&#34;{Action.CHOOSE_POKE.mapping}: Deck&#34;
+        )
+        # adding
+        self.outp.add(self, 1, self.height - 4)
+        self.e_underline.add(self, 1, 4)
+        self.e_sideline.add(self, len(self.e_underline.text), 1)
+        self.p_upperline.add(self, self.width - 1 - len(self.p_upperline.text),
+                             self.height - 10)
+        self.frame_big.add(self, 0, 0)
+        self.p_sideline.add(self, self.width - 1 - len(self.p_upperline.text),
+                            self.height - 9)
+        self.frame_small.add(self, 0, self.height - 5)
+        self.label.add(self, 0, self.height - 1)
+        # Attack info box
+        self.atk_info_box = LabelBox(se.Text(&#34;&#34;), &#34;Attack Info&#34;)
+        self.show_atk_info_box = False
+
+    def clean_up(self, *providers):
+        &#34;&#34;&#34;Removes all labels from self
+        ARGS:
+            providers: The Providers to clean up
+        that the labels belong to&#34;&#34;&#34;
+        for prov in providers:
+            for obj in (
+                prov.curr.text_name, prov.curr.text_lvl, prov.curr.text_hp,
+                prov.curr.ico, prov.curr.hp_bar, prov.curr.tril, prov.curr.trir,
+                prov.curr.pball_small
+            ):
+                obj.remove()
+            if isinstance(prov, ProtoFigure):
+                self.box.remove_c_obs()
+            for j in prov.curr.effects:
+                j.cleanup()
+
+    def add_player(self, player):
+        &#34;&#34;&#34;Adds player labels
+        ARGS:
+            player: The player Poke object&#34;&#34;&#34;
+        player.curr.text_name.add(self, self.width - 17, self.height - 9)
+        player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
+        player.curr.tril.add(self, self.width - 11, self.height - 7)
+        player.curr.trir.add(self, self.width - 2, self.height - 7)
+        player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
+        player.curr.text_hp.add(self, self.width - 17, self.height - 7)
+        player.curr.ico.add(self, 3, self.height - 10)
+        self.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+        self.box.set_index(0)
+
+    def add_1(self, player, enem):
+        &#34;&#34;&#34;Adds enemy and general labels to self
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object that the labels belong to&#34;&#34;&#34;
+        for obj, x, y in zip(
+            (
+                enem.curr.tril,
+                enem.curr.trir,
+                enem.curr.text_name,
+                enem.curr.text_lvl,
+                enem.curr.text_hp,
+                enem.curr.ico,
+                enem.curr.hp_bar
+            ),
+            (7, 16, 1, 1, 1, self.width - 14, 8),
+            (3, 3, 1, 2, 3, 2, 3)
+        ):
+            obj.add(self, x, y)
+        if enem.curr.identifier in player.caught_pokes:
+            enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)
+
+
+    def add_2(self, player):
+        &#34;&#34;&#34;Adds player labels with sleeps
+        ARGS:
+            player: The player Poke object that the labels belong to&#34;&#34;&#34;
+        player.curr.text_name.add(self, self.width - 17, self.height - 9)
+        time.sleep(SPEED_OF_TIME * 0.05)
+        self.show()
+        player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
+        time.sleep(SPEED_OF_TIME * 0.05)
+        self.show()
+        player.curr.tril.add(self, self.width - 11, self.height - 7)
+        player.curr.trir.add(self, self.width - 2, self.height - 7)
+        player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
+        player.curr.text_hp.add(self, self.width - 17, self.height - 7)
+        time.sleep(SPEED_OF_TIME * 0.05)
+        self.show()
+        player.curr.ico.add(self, 3, self.height - 10)
+        self.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+        self.box.set_index(0)
+
+    def fast_change(self, arr, setob):
+        &#34;&#34;&#34;Changes fast between a list of texts
+        ARGS:
+            arr: List of se.Texts that will be changed through
+            setob: A reference se.Text with the coordinates the objs in arr
+                   will be set to.&#34;&#34;&#34;
+        for _i in range(1, len(arr)):
+            arr[_i - 1].remove()
+            arr[_i].add(self, setob.x, setob.y)
+            self.show()
+            time.sleep(SPEED_OF_TIME * 0.1)
+
+    def rechar_atk_info_box(self, attack_obs):
+        self.atk_info_box.label.rechar(
+            liner(attack_obs[self.box.index.index].desc, 37)
+        )
+        self.atk_info_box.resize(
+            self.atk_info_box.label.height + 2,
+            self.atk_info_box.label.width + 4
+        )
+
+    def get_attack(self, attack_obs):
+        &#34;&#34;&#34;Inputloop for attack options
+        ARGS:
+            attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
+        with self.box.add(self, 1, self.height - 7):
+            self.rechar_atk_info_box(attack_obs)
+            if self.show_atk_info_box:
+                self.atk_info_box.add(self, 27, self.height - 7)
+            self.show()
+            while True:#158
+                action = get_action()
+                if action.triggers(*ACTION_UP_DOWN):
+                    self.box.input(action)
+                    self.rechar_atk_info_box(attack_obs)
+                    self.show()
+                elif action.triggers(Action.ACCEPT) or (0 &lt;= action.get_number()
+                        &lt; len(attack_obs)):
+                    attack = attack_obs[
+                        self.box.index.index if action.triggers(Action.ACCEPT)
+                        else action.get_number()
+                    ]
+                    if attack.ap == 0:
+                        continue
+                    break
+                elif action.triggers(Action.INFO):
+                    self.show_atk_info_box = not self.show_atk_info_box
+                    if self.show_atk_info_box:
+                        self.atk_info_box.add(self, 27, self.height - 7)
+                    else:
+                        self.atk_info_box.remove()
+                    self.show()
+                    continue
+                elif action.triggers(Action.CANCEL):
+                    attack = &#34;&#34;
+                    break
+                std_loop(False)
+            self.atk_info_box.remove()
+        return attack
+
+    def get_item(self, items, inv):
+        &#34;&#34;&#34;Inputloop for inv
+        ARGS:
+            items: List of InvItems that can be choosen from
+            inv: The Figures inv&#34;&#34;&#34;
+        self.invbox.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {inv[i.name]}&#34;)
+                               for i in items])
+        self.invbox.set_index(0)
+        with self.invbox.add(self, self.width - 35, 0):
+            while True:
+                action = get_action()
+                if action.triggers(*ACTION_UP_DOWN):
+                    self.invbox.input(action)
+                    self.show()
+                elif action.triggers(Action.CANCEL):
+                    item = &#34;&#34;
+                    break
+                elif action.triggers(Action.ACCEPT):
+                    item = items[self.invbox.index.index]
+                    break
+                std_loop(False)
+        self.invbox.remove_c_obs()
+        return item
+
+    def get_figure_attack(self, figure, enem):
+        &#34;&#34;&#34;Chooses the players attack
+        ARGS:
+            figure: The players provider
+            enem: The enemys provider&#34;&#34;&#34;
+        quick_attacks = [
+            Action.QUICK_ATC_1, Action.QUICK_ATC_2,
+            Action.QUICK_ATC_3, Action.QUICK_ATC_4
+        ][:len(figure.curr.attack_obs)]
+        self.outp.append(se.Text((&#34;\n&#34; if &#34;\n&#34; not in self.outp.text
+                                          else &#34;&#34;) +
+                                         &#34;What do you want to do?&#34;,
+                                         state=&#34;float&#34;))
+        while True:  # Inputloop for general options
+            action = get_action()
+            if action.triggers(*quick_attacks):
+                attack = figure.curr.attack_obs[
+                    quick_attacks.index(
+                        next(i for i in action if i in quick_attacks)
+                    )
+                ]
+                if attack.ap &gt; 0:
+                    return attack
+            elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
+                attack = self.get_attack(figure.curr.attack_obs)
+                if attack != &#34;&#34;:
+                    return attack
+            elif action.triggers(Action.RUN):
+                if (
+                    type(enem) is Trainer
+                    or not ask_bool(self, &#34;Do you really want to run away?&#34;)
+                ):
+                    continue
+                if (random.randint(0, 100) &lt; max(5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95))):
+                    self.outp.outp(&#34;You failed to run away!&#34;)
+                    time.sleep(SPEED_OF_TIME * 1)
+                    return &#34;&#34;
+                audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+                self.outp.outp(&#34;You ran away!&#34;)
+                time.sleep(SPEED_OF_TIME * 2)
+                self.clean_up(figure, enem)
+                logging.info(&#34;[Fight] Ended, ran away&#34;)
+                audio.switch(figure.map.song)
+                return &#34;won&#34;
+            elif action.triggers(Action.CHOOSE_ITEM):
+                items = [getattr(invitems, i)
+                            for i in figure.inv
+                            if getattr(invitems, i).fn is not None
+                            and figure.inv[i] &gt; 0]
+                if not items:
+                    self.outp.outp(
+                        &#34;You don&#39;t have any items left!\n&#34;
+                        &#34;What do you want to do?&#34;
+                    )
+                    continue
+                item = self.get_item(items, figure.inv)
+                if item == &#34;&#34;:
+                    continue
+                # I hate you python for not having switch statements
+                if (i := getattr(fightitems, item.fn)(figure, enem)) == 1:
+                    continue
+                elif i == 2:
+                    logging.info(&#34;[Fight] Ended, fightitem&#34;)
+                    time.sleep(SPEED_OF_TIME * 2)
+                    audio.switch(figure.map.song)
+                    return &#34;won&#34;
+                return &#34;&#34;
+            elif action.triggers(Action.CHOOSE_POKE):
+                if not self.choose_poke(figure):
+                    self.show(init=True)
+                    continue
+                return &#34;&#34;
+            std_loop(False)
+
+    def fight(self, providers):
+        &#34;&#34;&#34;Fight between two Pokes
+        ARGS:
+            providers
+        RETURNS:
+            Provider that won the fight&#34;&#34;&#34;
+        audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
+        index = 0
+        logging.info(
+            &#34;[Fight] Started between %s&#34;,
+            &#34;and &#34;.join(
+                f&#34;{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}&#34;
+                    for prov in providers
+            )
+        )
+        weather = providers[0].map.weather
+        for prov in providers:
+            prov.index_conf()
+        if settings(&#34;animations&#34;).val:  # Intro animation
+            animations.fight_intro(self.height, self.width)
+        self.add_1(*providers)
+        for prov in providers:
+            if type(prov) is NatureProvider:
+                self.outp.outp(f&#34;A wild {prov.curr.name} appeared!&#34;)
+            elif type(prov) is Trainer:
+                self.outp.outp(f&#34;{prov.name} started a fight!&#34;)
+                time.sleep(SPEED_OF_TIME * 1)
+                self.outp.outp(
+                    f&#39;{self.outp.text}\n{prov.gender} used {prov.curr.name} &#39;
+                    &#39;against you!&#39;
+                )
+        time.sleep(SPEED_OF_TIME * 1)
+        self.add_2(providers[0])
+        self.fast_change([providers[0].curr.ico, self.deadico2, self.deadico1,
+                          providers[0].curr.ico], providers[0].curr.ico)
+        self.outp.outp(f&#34;You used {providers[0].curr.name}&#34;)
+        self.show()
+        time.sleep(SPEED_OF_TIME * 0.5)
+        index = providers.index(
+            max(providers, key=lambda i: i.curr.initiative)
+        )
+        for prov in providers:
+            i = prov.curr
+            for j in i.effects:
+                j.readd()
+        while True:
+            player = providers[index % 2]
+            enem = providers[(index + 1) % 2]
+
+            attack = player.get_attack(self, enem)
+            time.sleep(SPEED_OF_TIME * 0.3)
+            if attack == &#34;won&#34;:
+                return player
+            elif attack != &#34;&#34;:
+                player.curr.attack(attack, enem.curr, self, weather)
+            self.show()
+            time.sleep(SPEED_OF_TIME * 0.5)
+            winner = None
+            loser = None
+            for i, prov in enumerate(providers):
+                if prov.curr.hp &lt;= 0:
+                    loser = prov
+                    winner = providers[(i + 1) % 2]
+            if winner is not None:
+                self.outp.outp(f&#34;{loser.curr.ext_name} is dead!&#34;)
+            elif all(i.ap == 0 for i in player.curr.attack_obs):
+                winner = providers[(index + 1) % 2]
+                loser = player
+                time.sleep(SPEED_OF_TIME * 2)
+                self.outp.outp(f&#34;{player.curr.ext_name} has used all its&#39; attacks!&#34;)
+                time.sleep(SPEED_OF_TIME * 3)
+            if winner is not None:
+                if (
+                    type(winner) is Trainer
+                    and any(p.hp &gt; 0 for p in loser.pokes[:6])
+                ):
+                    time.sleep(2)
+                    self.choose_poke(loser, False)
+                elif (
+                    loser.curr.player
+                    and any(p.hp &gt; 0 for p in loser.pokes[:6])
+                    and ask_bool(self, &#34;Do you want to choose another Pokete?&#34;)
+                ):
+                    success = self.choose_poke(loser)
+                    if not success:
+                        break
+                elif (
+                    isinstance(loser, Trainer)
+                    and winner.curr.player
+                    and any(p.hp &gt; 0 for p in loser.pokes)
+                ):
+                    time.sleep(SPEED_OF_TIME * 1)
+                    ico = loser.curr.ico
+                    self.fast_change([ico, self.deadico1, self.deadico2], ico)
+                    self.deadico2.remove()
+                    self.show()
+                    self.clean_up(loser)
+                    loser.play_index += 1
+                    self.add_1(*providers)
+                    ico = loser.curr.ico
+                    self.fast_change(
+                        [ico, self.deadico2, self.deadico1, ico], ico
+                    )
+                    self.outp.outp(f&#34;{loser.name} used {loser.curr.name}!&#34;)
+                    self.show()
+                    time.sleep(SPEED_OF_TIME * 2)
+                else:
+                    break
+            index += 1
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+        time.sleep(SPEED_OF_TIME * 1)
+        _xp = sum(
+            poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
+            for poke in loser.pokes
+        ) * (2 if not isinstance(loser, NatureProvider) else 1)
+        self.outp.outp(
+            f&#34;{winner.curr.ext_name} won!&#34; +
+            (f&#39;\nXP + {_xp}&#39; if winner.curr.player else &#39;&#39;)
+        )
+        if winner.curr.player and isinstance(loser, Trainer):
+            achievements.achieve(&#34;first_duel&#34;)
+        if winner.curr.player and winner.curr.add_xp(_xp):
+            time.sleep(SPEED_OF_TIME * 1)
+            self.outp.outp(
+                f&#34;{winner.curr.name} reached lvl {winner.curr.lvl()}!&#34;
+            )
+            winner.curr.moves.shine()
+            time.sleep(SPEED_OF_TIME * 0.5)
+            winner.curr.set_vars()
+            winner.curr.learn_attack(self)
+            winner.curr.evolve(winner, self)
+        self.show()
+        time.sleep(SPEED_OF_TIME * 1)
+        ico = loser.curr.ico
+        self.fast_change([ico, self.deadico1, self.deadico2], ico)
+        self.deadico2.remove()
+        self.show()
+        self.clean_up(*providers)
+        mvp.movemap.balls_label_rechar(winner.pokes)
+        logging.info(
+            &#34;[Fight] Ended, %s(%s) won&#34;,
+            winner.curr.name, &#34;player&#34; if winner.curr.player else &#34;enemy&#34;
+        )
+        audio.switch(providers[0].map.song)
+        return winner
+
+    def choose_poke(self, player, allow_exit=True):
+        &#34;&#34;&#34;Lets the player choose another Pokete from their deck
+        ARGS:
+            player: The players&#39; used Poke
+            allow_exit: Whether or not it&#39;s allowed to exit without choosing
+        RETURNS:
+            bool whether or not a Pokete was choosen&#34;&#34;&#34;
+        self.clean_up(player)
+        index = None
+        while index is None:
+            index = deck.deck(6, &#34;Your deck&#34;, True)
+            if allow_exit:
+                break
+        if index is not None:
+            player.play_index = index
+        self.add_player(player)
+        self.outp.outp(f&#34;You have choosen {player.curr.name}&#34;)
+        for j in player.curr.effects:
+            time.sleep(SPEED_OF_TIME * 1)
+            j.readd()
+        if index is None:
+            return False
+        return True
+
+
+class FightItems:
+    &#34;&#34;&#34;Contains all fns callable by an item in fight
+    The methods that can actually be called in fight follow the following pattern:
+        ARGS:
+            obj: The players Provider
+            enem: The enemys Provider
+        RETURNS:
+            1: To continue the attack round
+            2: To win the game
+            None: To let the enemy attack&#34;&#34;&#34;
+
+    def throw(self, obj, enem, chance, name):
+        &#34;&#34;&#34;Throws a ball
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+            chance: The balls catch chance
+            name: The balls name
+        RETURNS:
+            1: The continue the attack round
+            2: The win the game
+            None: To let the enemy attack&#34;&#34;&#34;
+
+        if not isinstance(enem, NatureProvider):
+            fightmap.outp.outp(&#34;You can&#39;t do that in a duel!&#34;)
+            return 1
+        fightmap.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
+        fightmap.fast_change([enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
+                             fightmap.pball], enem.curr.ico)
+        time.sleep(SPEED_OF_TIME * random.choice([1, 2, 3, 4]))
+        obj.remove_item(name)
+        catch_chance = 20 if obj.map == obmp.ob_maps[&#34;playmap_1&#34;] else 0
+        for effect in enem.curr.effects:
+            catch_chance += effect.catch_chance
+        if random.choices([True, False],
+                          weights=[(enem.curr.full_hp / enem.curr.hp)
+                                   * chance + catch_chance,
+                                   enem.curr.full_hp], k=1)[0]:
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+            obj.add_poke(enem.curr)
+            fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
+            time.sleep(SPEED_OF_TIME * 2)
+            fightmap.pball.remove()
+            fightmap.clean_up(obj, enem)
+            mvp.movemap.balls_label_rechar(obj.pokes)
+            logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.curr.name)
+            achievements.achieve(&#34;first_poke&#34;)
+            if all(poke in obj.caught_pokes for poke in p_data.pokes):
+                achievements.achieve(&#34;catch_em_all&#34;)
+            return 2
+        fightmap.outp.outp(&#34;You missed!&#34;)
+        fightmap.show()
+        fightmap.pball.remove()
+        enem.curr.ico.add(fightmap, enem.curr.ico.x, enem.curr.ico.y)
+        fightmap.show()
+        logging.info(&#34;[Fighitem][%s] Missed&#34;, name)
+        return None
+
+    def potion(self, obj, enem, hp, name):
+        &#34;&#34;&#34;Potion function
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            hp: The hp that will be given to the Poke
+            name: The potions name&#34;&#34;&#34;
+
+        obj.remove_item(name)
+        obj.curr.oldhp = obj.curr.hp
+        obj.curr.hp = min(obj.curr.full_hp, obj.curr.hp + hp)
+        obj.curr.hp_bar.update(obj.curr.oldhp)
+        logging.info(&#34;[Fighitem][%s] Used&#34;, name)
+
+    def heal_potion(self, obj, enem):
+        &#34;&#34;&#34;Healing potion function&#34;&#34;&#34;
+        return self.potion(obj, enem, 5, &#34;healing_potion&#34;)
+
+    def super_potion(self, obj, enem):
+        &#34;&#34;&#34;Super potion function&#34;&#34;&#34;
+        return self.potion(obj, enem, 15, &#34;super_potion&#34;)
+
+    def poketeball(self, obj, enem):
+        &#34;&#34;&#34;Poketeball function&#34;&#34;&#34;
+        return self.throw(obj, enem, 1, &#34;poketeball&#34;)
+
+    def superball(self, obj, enem):
+        &#34;&#34;&#34;Superball function&#34;&#34;&#34;
+        return self.throw(obj, enem, 6, &#34;superball&#34;)
+
+    def hyperball(self, obj, enem):
+        &#34;&#34;&#34;Hyperball function&#34;&#34;&#34;
+        return self.throw(obj, enem, 1000, &#34;hyperball&#34;)
+
+    def ap_potion(self, obj, enem):
+        &#34;&#34;&#34;AP potion function&#34;&#34;&#34;
+        obj.remove_item(&#34;ap_potion&#34;)
+        for atc in obj.curr.attack_obs:
+            atc.set_ap(atc.max_ap)
+        logging.info(&#34;[Fighitem][ap_potion] Used&#34;)
+
+
+fightitems = FightItems()
+fightmap = None
+
+
+if __name__ == &#34;__main__&#34;:
+    print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pokete_classes.fightmap.FightItems"><code class="flex name class">
+<span>class <span class="ident">FightItems</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Contains all fns callable by an item in fight
+The methods that can actually be called in fight follow the following pattern:
+ARGS:
+obj: The players Provider
+enem: The enemys Provider
+RETURNS:
+1: To continue the attack round
+2: To win the game
+None: To let the enemy attack</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FightItems:
+    &#34;&#34;&#34;Contains all fns callable by an item in fight
+    The methods that can actually be called in fight follow the following pattern:
+        ARGS:
+            obj: The players Provider
+            enem: The enemys Provider
+        RETURNS:
+            1: To continue the attack round
+            2: To win the game
+            None: To let the enemy attack&#34;&#34;&#34;
+
+    def throw(self, obj, enem, chance, name):
+        &#34;&#34;&#34;Throws a ball
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            info: The info dict
+            chance: The balls catch chance
+            name: The balls name
+        RETURNS:
+            1: The continue the attack round
+            2: The win the game
+            None: To let the enemy attack&#34;&#34;&#34;
+
+        if not isinstance(enem, NatureProvider):
+            fightmap.outp.outp(&#34;You can&#39;t do that in a duel!&#34;)
+            return 1
+        fightmap.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
+        fightmap.fast_change([enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
+                             fightmap.pball], enem.curr.ico)
+        time.sleep(SPEED_OF_TIME * random.choice([1, 2, 3, 4]))
+        obj.remove_item(name)
+        catch_chance = 20 if obj.map == obmp.ob_maps[&#34;playmap_1&#34;] else 0
+        for effect in enem.curr.effects:
+            catch_chance += effect.catch_chance
+        if random.choices([True, False],
+                          weights=[(enem.curr.full_hp / enem.curr.hp)
+                                   * chance + catch_chance,
+                                   enem.curr.full_hp], k=1)[0]:
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+            obj.add_poke(enem.curr)
+            fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
+            time.sleep(SPEED_OF_TIME * 2)
+            fightmap.pball.remove()
+            fightmap.clean_up(obj, enem)
+            mvp.movemap.balls_label_rechar(obj.pokes)
+            logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.curr.name)
+            achievements.achieve(&#34;first_poke&#34;)
+            if all(poke in obj.caught_pokes for poke in p_data.pokes):
+                achievements.achieve(&#34;catch_em_all&#34;)
+            return 2
+        fightmap.outp.outp(&#34;You missed!&#34;)
+        fightmap.show()
+        fightmap.pball.remove()
+        enem.curr.ico.add(fightmap, enem.curr.ico.x, enem.curr.ico.y)
+        fightmap.show()
+        logging.info(&#34;[Fighitem][%s] Missed&#34;, name)
+        return None
+
+    def potion(self, obj, enem, hp, name):
+        &#34;&#34;&#34;Potion function
+        ARGS:
+            obj: The players Poke object
+            enem: The enemys Poke object
+            hp: The hp that will be given to the Poke
+            name: The potions name&#34;&#34;&#34;
+
+        obj.remove_item(name)
+        obj.curr.oldhp = obj.curr.hp
+        obj.curr.hp = min(obj.curr.full_hp, obj.curr.hp + hp)
+        obj.curr.hp_bar.update(obj.curr.oldhp)
+        logging.info(&#34;[Fighitem][%s] Used&#34;, name)
+
+    def heal_potion(self, obj, enem):
+        &#34;&#34;&#34;Healing potion function&#34;&#34;&#34;
+        return self.potion(obj, enem, 5, &#34;healing_potion&#34;)
+
+    def super_potion(self, obj, enem):
+        &#34;&#34;&#34;Super potion function&#34;&#34;&#34;
+        return self.potion(obj, enem, 15, &#34;super_potion&#34;)
+
+    def poketeball(self, obj, enem):
+        &#34;&#34;&#34;Poketeball function&#34;&#34;&#34;
+        return self.throw(obj, enem, 1, &#34;poketeball&#34;)
+
+    def superball(self, obj, enem):
+        &#34;&#34;&#34;Superball function&#34;&#34;&#34;
+        return self.throw(obj, enem, 6, &#34;superball&#34;)
+
+    def hyperball(self, obj, enem):
+        &#34;&#34;&#34;Hyperball function&#34;&#34;&#34;
+        return self.throw(obj, enem, 1000, &#34;hyperball&#34;)
+
+    def ap_potion(self, obj, enem):
+        &#34;&#34;&#34;AP potion function&#34;&#34;&#34;
+        obj.remove_item(&#34;ap_potion&#34;)
+        for atc in obj.curr.attack_obs:
+            atc.set_ap(atc.max_ap)
+        logging.info(&#34;[Fighitem][ap_potion] Used&#34;)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.fightmap.FightItems.ap_potion"><code class="name flex">
+<span>def <span class="ident">ap_potion</span></span>(<span>self, obj, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>AP potion function</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ap_potion(self, obj, enem):
+    &#34;&#34;&#34;AP potion function&#34;&#34;&#34;
+    obj.remove_item(&#34;ap_potion&#34;)
+    for atc in obj.curr.attack_obs:
+        atc.set_ap(atc.max_ap)
+    logging.info(&#34;[Fighitem][ap_potion] Used&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightItems.heal_potion"><code class="name flex">
+<span>def <span class="ident">heal_potion</span></span>(<span>self, obj, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Healing potion function</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def heal_potion(self, obj, enem):
+    &#34;&#34;&#34;Healing potion function&#34;&#34;&#34;
+    return self.potion(obj, enem, 5, &#34;healing_potion&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightItems.hyperball"><code class="name flex">
+<span>def <span class="ident">hyperball</span></span>(<span>self, obj, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hyperball function</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def hyperball(self, obj, enem):
+    &#34;&#34;&#34;Hyperball function&#34;&#34;&#34;
+    return self.throw(obj, enem, 1000, &#34;hyperball&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightItems.poketeball"><code class="name flex">
+<span>def <span class="ident">poketeball</span></span>(<span>self, obj, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Poketeball function</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def poketeball(self, obj, enem):
+    &#34;&#34;&#34;Poketeball function&#34;&#34;&#34;
+    return self.throw(obj, enem, 1, &#34;poketeball&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightItems.potion"><code class="name flex">
+<span>def <span class="ident">potion</span></span>(<span>self, obj, enem, hp, name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Potion function</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The players Poke object</dd>
+<dt><strong><code>enem</code></strong></dt>
+<dd>The enemys Poke object</dd>
+<dt><strong><code>hp</code></strong></dt>
+<dd>The hp that will be given to the Poke</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The potions name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def potion(self, obj, enem, hp, name):
+    &#34;&#34;&#34;Potion function
+    ARGS:
+        obj: The players Poke object
+        enem: The enemys Poke object
+        hp: The hp that will be given to the Poke
+        name: The potions name&#34;&#34;&#34;
+
+    obj.remove_item(name)
+    obj.curr.oldhp = obj.curr.hp
+    obj.curr.hp = min(obj.curr.full_hp, obj.curr.hp + hp)
+    obj.curr.hp_bar.update(obj.curr.oldhp)
+    logging.info(&#34;[Fighitem][%s] Used&#34;, name)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightItems.super_potion"><code class="name flex">
+<span>def <span class="ident">super_potion</span></span>(<span>self, obj, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Super potion function</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def super_potion(self, obj, enem):
+    &#34;&#34;&#34;Super potion function&#34;&#34;&#34;
+    return self.potion(obj, enem, 15, &#34;super_potion&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightItems.superball"><code class="name flex">
+<span>def <span class="ident">superball</span></span>(<span>self, obj, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Superball function</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def superball(self, obj, enem):
+    &#34;&#34;&#34;Superball function&#34;&#34;&#34;
+    return self.throw(obj, enem, 6, &#34;superball&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightItems.throw"><code class="name flex">
+<span>def <span class="ident">throw</span></span>(<span>self, obj, enem, chance, name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Throws a ball</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>The players Poke object</dd>
+<dt><strong><code>enem</code></strong></dt>
+<dd>The enemys Poke object</dd>
+<dt><strong><code>info</code></strong></dt>
+<dd>The info dict</dd>
+<dt><strong><code>chance</code></strong></dt>
+<dd>The balls catch chance</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>The balls name</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>1</code></dt>
+<dd>The continue the attack round</dd>
+<dt><code>2</code></dt>
+<dd>The win the game</dd>
+<dt><code>None</code></dt>
+<dd>To let the enemy attack</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def throw(self, obj, enem, chance, name):
+    &#34;&#34;&#34;Throws a ball
+    ARGS:
+        obj: The players Poke object
+        enem: The enemys Poke object
+        info: The info dict
+        chance: The balls catch chance
+        name: The balls name
+    RETURNS:
+        1: The continue the attack round
+        2: The win the game
+        None: To let the enemy attack&#34;&#34;&#34;
+
+    if not isinstance(enem, NatureProvider):
+        fightmap.outp.outp(&#34;You can&#39;t do that in a duel!&#34;)
+        return 1
+    fightmap.outp.rechar(f&#34;You threw a {name.capitalize()}!&#34;)
+    fightmap.fast_change([enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
+                         fightmap.pball], enem.curr.ico)
+    time.sleep(SPEED_OF_TIME * random.choice([1, 2, 3, 4]))
+    obj.remove_item(name)
+    catch_chance = 20 if obj.map == obmp.ob_maps[&#34;playmap_1&#34;] else 0
+    for effect in enem.curr.effects:
+        catch_chance += effect.catch_chance
+    if random.choices([True, False],
+                      weights=[(enem.curr.full_hp / enem.curr.hp)
+                               * chance + catch_chance,
+                               enem.curr.full_hp], k=1)[0]:
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+        obj.add_poke(enem.curr)
+        fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
+        time.sleep(SPEED_OF_TIME * 2)
+        fightmap.pball.remove()
+        fightmap.clean_up(obj, enem)
+        mvp.movemap.balls_label_rechar(obj.pokes)
+        logging.info(&#34;[Fighitem][%s] Caught %s&#34;, name, enem.curr.name)
+        achievements.achieve(&#34;first_poke&#34;)
+        if all(poke in obj.caught_pokes for poke in p_data.pokes):
+            achievements.achieve(&#34;catch_em_all&#34;)
+        return 2
+    fightmap.outp.outp(&#34;You missed!&#34;)
+    fightmap.show()
+    fightmap.pball.remove()
+    enem.curr.ico.add(fightmap, enem.curr.ico.x, enem.curr.ico.y)
+    fightmap.show()
+    logging.info(&#34;[Fighitem][%s] Missed&#34;, name)
+    return None</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap"><code class="flex name class">
+<span>class <span class="ident">FightMap</span></span>
+<span>(</span><span>height, width)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Wrapper for gm.GameMap</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>height</code></strong></dt>
+<dd>The height of the map</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>The width of the map</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FightMap(gm.GameMap):
+    &#34;&#34;&#34;Wrapper for gm.GameMap
+    ARGS:
+        height: The height of the map
+        width: The width of the map&#34;&#34;&#34;
+
+    def __init__(self, height, width):
+        super().__init__(height, width, name=&#34;fightmap&#34;)
+        self.box = ChooseBox(6, 25, &#34;Attacks&#34;,
+                             f&#34;{Action.INFO.mapping}:Info&#34;, index_x=1)
+        self.invbox = ChooseBox(height - 3, 35, &#34;Inventory&#34;)
+        # icos
+        self.deadico1 = se.Text(r&#34;&#34;&#34;
+    \ /
+     o
+    / \ &#34;&#34;&#34;)
+        self.deadico2 = se.Text(&#34;&#34;&#34;
+
+     o&#34;&#34;&#34;)
+        self.pball = se.Text(r&#34;&#34;&#34;   _____
+  /_____\
+  |__O__|
+  \_____/&#34;&#34;&#34;)
+        # visual objects
+        self.frame_big = StdFrame2(self.height - 5, self.width,
+                                   state=&#34;float&#34;)
+        self.frame_small = se.Frame(height=4, width=self.width,
+                                    state=&#34;float&#34;)
+        self.e_underline = se.Text(&#34;----------------+&#34;, state=&#34;float&#34;)
+        self.e_sideline = se.Square(&#34;|&#34;, 1, 3, state=&#34;float&#34;)
+        self.p_upperline = se.Text(&#34;+----------------&#34;, state=&#34;float&#34;)
+        self.p_sideline = se.Square(&#34;|&#34;, 1, 4, state=&#34;float&#34;)
+        self.outp = OutP(&#34;&#34;, state=&#34;float&#34;)
+        self.label = se.Text(
+            f&#34;{Action.CHOOSE_ATTACK.mapping}: Attack  &#34;
+            f&#34;{Action.RUN.mapping}: Run!  &#34;
+            f&#34;{Action.CHOOSE_ITEM.mapping}: Inv.  &#34;
+            f&#34;{Action.CHOOSE_POKE.mapping}: Deck&#34;
+        )
+        # adding
+        self.outp.add(self, 1, self.height - 4)
+        self.e_underline.add(self, 1, 4)
+        self.e_sideline.add(self, len(self.e_underline.text), 1)
+        self.p_upperline.add(self, self.width - 1 - len(self.p_upperline.text),
+                             self.height - 10)
+        self.frame_big.add(self, 0, 0)
+        self.p_sideline.add(self, self.width - 1 - len(self.p_upperline.text),
+                            self.height - 9)
+        self.frame_small.add(self, 0, self.height - 5)
+        self.label.add(self, 0, self.height - 1)
+        # Attack info box
+        self.atk_info_box = LabelBox(se.Text(&#34;&#34;), &#34;Attack Info&#34;)
+        self.show_atk_info_box = False
+
+    def clean_up(self, *providers):
+        &#34;&#34;&#34;Removes all labels from self
+        ARGS:
+            providers: The Providers to clean up
+        that the labels belong to&#34;&#34;&#34;
+        for prov in providers:
+            for obj in (
+                prov.curr.text_name, prov.curr.text_lvl, prov.curr.text_hp,
+                prov.curr.ico, prov.curr.hp_bar, prov.curr.tril, prov.curr.trir,
+                prov.curr.pball_small
+            ):
+                obj.remove()
+            if isinstance(prov, ProtoFigure):
+                self.box.remove_c_obs()
+            for j in prov.curr.effects:
+                j.cleanup()
+
+    def add_player(self, player):
+        &#34;&#34;&#34;Adds player labels
+        ARGS:
+            player: The player Poke object&#34;&#34;&#34;
+        player.curr.text_name.add(self, self.width - 17, self.height - 9)
+        player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
+        player.curr.tril.add(self, self.width - 11, self.height - 7)
+        player.curr.trir.add(self, self.width - 2, self.height - 7)
+        player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
+        player.curr.text_hp.add(self, self.width - 17, self.height - 7)
+        player.curr.ico.add(self, 3, self.height - 10)
+        self.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+        self.box.set_index(0)
+
+    def add_1(self, player, enem):
+        &#34;&#34;&#34;Adds enemy and general labels to self
+        ARGS:
+            player: The player Poke object
+            enemy: The enemy Poke object that the labels belong to&#34;&#34;&#34;
+        for obj, x, y in zip(
+            (
+                enem.curr.tril,
+                enem.curr.trir,
+                enem.curr.text_name,
+                enem.curr.text_lvl,
+                enem.curr.text_hp,
+                enem.curr.ico,
+                enem.curr.hp_bar
+            ),
+            (7, 16, 1, 1, 1, self.width - 14, 8),
+            (3, 3, 1, 2, 3, 2, 3)
+        ):
+            obj.add(self, x, y)
+        if enem.curr.identifier in player.caught_pokes:
+            enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)
+
+
+    def add_2(self, player):
+        &#34;&#34;&#34;Adds player labels with sleeps
+        ARGS:
+            player: The player Poke object that the labels belong to&#34;&#34;&#34;
+        player.curr.text_name.add(self, self.width - 17, self.height - 9)
+        time.sleep(SPEED_OF_TIME * 0.05)
+        self.show()
+        player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
+        time.sleep(SPEED_OF_TIME * 0.05)
+        self.show()
+        player.curr.tril.add(self, self.width - 11, self.height - 7)
+        player.curr.trir.add(self, self.width - 2, self.height - 7)
+        player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
+        player.curr.text_hp.add(self, self.width - 17, self.height - 7)
+        time.sleep(SPEED_OF_TIME * 0.05)
+        self.show()
+        player.curr.ico.add(self, 3, self.height - 10)
+        self.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+        self.box.set_index(0)
+
+    def fast_change(self, arr, setob):
+        &#34;&#34;&#34;Changes fast between a list of texts
+        ARGS:
+            arr: List of se.Texts that will be changed through
+            setob: A reference se.Text with the coordinates the objs in arr
+                   will be set to.&#34;&#34;&#34;
+        for _i in range(1, len(arr)):
+            arr[_i - 1].remove()
+            arr[_i].add(self, setob.x, setob.y)
+            self.show()
+            time.sleep(SPEED_OF_TIME * 0.1)
+
+    def rechar_atk_info_box(self, attack_obs):
+        self.atk_info_box.label.rechar(
+            liner(attack_obs[self.box.index.index].desc, 37)
+        )
+        self.atk_info_box.resize(
+            self.atk_info_box.label.height + 2,
+            self.atk_info_box.label.width + 4
+        )
+
+    def get_attack(self, attack_obs):
+        &#34;&#34;&#34;Inputloop for attack options
+        ARGS:
+            attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
+        with self.box.add(self, 1, self.height - 7):
+            self.rechar_atk_info_box(attack_obs)
+            if self.show_atk_info_box:
+                self.atk_info_box.add(self, 27, self.height - 7)
+            self.show()
+            while True:#158
+                action = get_action()
+                if action.triggers(*ACTION_UP_DOWN):
+                    self.box.input(action)
+                    self.rechar_atk_info_box(attack_obs)
+                    self.show()
+                elif action.triggers(Action.ACCEPT) or (0 &lt;= action.get_number()
+                        &lt; len(attack_obs)):
+                    attack = attack_obs[
+                        self.box.index.index if action.triggers(Action.ACCEPT)
+                        else action.get_number()
+                    ]
+                    if attack.ap == 0:
+                        continue
+                    break
+                elif action.triggers(Action.INFO):
+                    self.show_atk_info_box = not self.show_atk_info_box
+                    if self.show_atk_info_box:
+                        self.atk_info_box.add(self, 27, self.height - 7)
+                    else:
+                        self.atk_info_box.remove()
+                    self.show()
+                    continue
+                elif action.triggers(Action.CANCEL):
+                    attack = &#34;&#34;
+                    break
+                std_loop(False)
+            self.atk_info_box.remove()
+        return attack
+
+    def get_item(self, items, inv):
+        &#34;&#34;&#34;Inputloop for inv
+        ARGS:
+            items: List of InvItems that can be choosen from
+            inv: The Figures inv&#34;&#34;&#34;
+        self.invbox.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {inv[i.name]}&#34;)
+                               for i in items])
+        self.invbox.set_index(0)
+        with self.invbox.add(self, self.width - 35, 0):
+            while True:
+                action = get_action()
+                if action.triggers(*ACTION_UP_DOWN):
+                    self.invbox.input(action)
+                    self.show()
+                elif action.triggers(Action.CANCEL):
+                    item = &#34;&#34;
+                    break
+                elif action.triggers(Action.ACCEPT):
+                    item = items[self.invbox.index.index]
+                    break
+                std_loop(False)
+        self.invbox.remove_c_obs()
+        return item
+
+    def get_figure_attack(self, figure, enem):
+        &#34;&#34;&#34;Chooses the players attack
+        ARGS:
+            figure: The players provider
+            enem: The enemys provider&#34;&#34;&#34;
+        quick_attacks = [
+            Action.QUICK_ATC_1, Action.QUICK_ATC_2,
+            Action.QUICK_ATC_3, Action.QUICK_ATC_4
+        ][:len(figure.curr.attack_obs)]
+        self.outp.append(se.Text((&#34;\n&#34; if &#34;\n&#34; not in self.outp.text
+                                          else &#34;&#34;) +
+                                         &#34;What do you want to do?&#34;,
+                                         state=&#34;float&#34;))
+        while True:  # Inputloop for general options
+            action = get_action()
+            if action.triggers(*quick_attacks):
+                attack = figure.curr.attack_obs[
+                    quick_attacks.index(
+                        next(i for i in action if i in quick_attacks)
+                    )
+                ]
+                if attack.ap &gt; 0:
+                    return attack
+            elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
+                attack = self.get_attack(figure.curr.attack_obs)
+                if attack != &#34;&#34;:
+                    return attack
+            elif action.triggers(Action.RUN):
+                if (
+                    type(enem) is Trainer
+                    or not ask_bool(self, &#34;Do you really want to run away?&#34;)
+                ):
+                    continue
+                if (random.randint(0, 100) &lt; max(5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95))):
+                    self.outp.outp(&#34;You failed to run away!&#34;)
+                    time.sleep(SPEED_OF_TIME * 1)
+                    return &#34;&#34;
+                audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+                self.outp.outp(&#34;You ran away!&#34;)
+                time.sleep(SPEED_OF_TIME * 2)
+                self.clean_up(figure, enem)
+                logging.info(&#34;[Fight] Ended, ran away&#34;)
+                audio.switch(figure.map.song)
+                return &#34;won&#34;
+            elif action.triggers(Action.CHOOSE_ITEM):
+                items = [getattr(invitems, i)
+                            for i in figure.inv
+                            if getattr(invitems, i).fn is not None
+                            and figure.inv[i] &gt; 0]
+                if not items:
+                    self.outp.outp(
+                        &#34;You don&#39;t have any items left!\n&#34;
+                        &#34;What do you want to do?&#34;
+                    )
+                    continue
+                item = self.get_item(items, figure.inv)
+                if item == &#34;&#34;:
+                    continue
+                # I hate you python for not having switch statements
+                if (i := getattr(fightitems, item.fn)(figure, enem)) == 1:
+                    continue
+                elif i == 2:
+                    logging.info(&#34;[Fight] Ended, fightitem&#34;)
+                    time.sleep(SPEED_OF_TIME * 2)
+                    audio.switch(figure.map.song)
+                    return &#34;won&#34;
+                return &#34;&#34;
+            elif action.triggers(Action.CHOOSE_POKE):
+                if not self.choose_poke(figure):
+                    self.show(init=True)
+                    continue
+                return &#34;&#34;
+            std_loop(False)
+
+    def fight(self, providers):
+        &#34;&#34;&#34;Fight between two Pokes
+        ARGS:
+            providers
+        RETURNS:
+            Provider that won the fight&#34;&#34;&#34;
+        audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
+        index = 0
+        logging.info(
+            &#34;[Fight] Started between %s&#34;,
+            &#34;and &#34;.join(
+                f&#34;{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}&#34;
+                    for prov in providers
+            )
+        )
+        weather = providers[0].map.weather
+        for prov in providers:
+            prov.index_conf()
+        if settings(&#34;animations&#34;).val:  # Intro animation
+            animations.fight_intro(self.height, self.width)
+        self.add_1(*providers)
+        for prov in providers:
+            if type(prov) is NatureProvider:
+                self.outp.outp(f&#34;A wild {prov.curr.name} appeared!&#34;)
+            elif type(prov) is Trainer:
+                self.outp.outp(f&#34;{prov.name} started a fight!&#34;)
+                time.sleep(SPEED_OF_TIME * 1)
+                self.outp.outp(
+                    f&#39;{self.outp.text}\n{prov.gender} used {prov.curr.name} &#39;
+                    &#39;against you!&#39;
+                )
+        time.sleep(SPEED_OF_TIME * 1)
+        self.add_2(providers[0])
+        self.fast_change([providers[0].curr.ico, self.deadico2, self.deadico1,
+                          providers[0].curr.ico], providers[0].curr.ico)
+        self.outp.outp(f&#34;You used {providers[0].curr.name}&#34;)
+        self.show()
+        time.sleep(SPEED_OF_TIME * 0.5)
+        index = providers.index(
+            max(providers, key=lambda i: i.curr.initiative)
+        )
+        for prov in providers:
+            i = prov.curr
+            for j in i.effects:
+                j.readd()
+        while True:
+            player = providers[index % 2]
+            enem = providers[(index + 1) % 2]
+
+            attack = player.get_attack(self, enem)
+            time.sleep(SPEED_OF_TIME * 0.3)
+            if attack == &#34;won&#34;:
+                return player
+            elif attack != &#34;&#34;:
+                player.curr.attack(attack, enem.curr, self, weather)
+            self.show()
+            time.sleep(SPEED_OF_TIME * 0.5)
+            winner = None
+            loser = None
+            for i, prov in enumerate(providers):
+                if prov.curr.hp &lt;= 0:
+                    loser = prov
+                    winner = providers[(i + 1) % 2]
+            if winner is not None:
+                self.outp.outp(f&#34;{loser.curr.ext_name} is dead!&#34;)
+            elif all(i.ap == 0 for i in player.curr.attack_obs):
+                winner = providers[(index + 1) % 2]
+                loser = player
+                time.sleep(SPEED_OF_TIME * 2)
+                self.outp.outp(f&#34;{player.curr.ext_name} has used all its&#39; attacks!&#34;)
+                time.sleep(SPEED_OF_TIME * 3)
+            if winner is not None:
+                if (
+                    type(winner) is Trainer
+                    and any(p.hp &gt; 0 for p in loser.pokes[:6])
+                ):
+                    time.sleep(2)
+                    self.choose_poke(loser, False)
+                elif (
+                    loser.curr.player
+                    and any(p.hp &gt; 0 for p in loser.pokes[:6])
+                    and ask_bool(self, &#34;Do you want to choose another Pokete?&#34;)
+                ):
+                    success = self.choose_poke(loser)
+                    if not success:
+                        break
+                elif (
+                    isinstance(loser, Trainer)
+                    and winner.curr.player
+                    and any(p.hp &gt; 0 for p in loser.pokes)
+                ):
+                    time.sleep(SPEED_OF_TIME * 1)
+                    ico = loser.curr.ico
+                    self.fast_change([ico, self.deadico1, self.deadico2], ico)
+                    self.deadico2.remove()
+                    self.show()
+                    self.clean_up(loser)
+                    loser.play_index += 1
+                    self.add_1(*providers)
+                    ico = loser.curr.ico
+                    self.fast_change(
+                        [ico, self.deadico2, self.deadico1, ico], ico
+                    )
+                    self.outp.outp(f&#34;{loser.name} used {loser.curr.name}!&#34;)
+                    self.show()
+                    time.sleep(SPEED_OF_TIME * 2)
+                else:
+                    break
+            index += 1
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+        time.sleep(SPEED_OF_TIME * 1)
+        _xp = sum(
+            poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
+            for poke in loser.pokes
+        ) * (2 if not isinstance(loser, NatureProvider) else 1)
+        self.outp.outp(
+            f&#34;{winner.curr.ext_name} won!&#34; +
+            (f&#39;\nXP + {_xp}&#39; if winner.curr.player else &#39;&#39;)
+        )
+        if winner.curr.player and isinstance(loser, Trainer):
+            achievements.achieve(&#34;first_duel&#34;)
+        if winner.curr.player and winner.curr.add_xp(_xp):
+            time.sleep(SPEED_OF_TIME * 1)
+            self.outp.outp(
+                f&#34;{winner.curr.name} reached lvl {winner.curr.lvl()}!&#34;
+            )
+            winner.curr.moves.shine()
+            time.sleep(SPEED_OF_TIME * 0.5)
+            winner.curr.set_vars()
+            winner.curr.learn_attack(self)
+            winner.curr.evolve(winner, self)
+        self.show()
+        time.sleep(SPEED_OF_TIME * 1)
+        ico = loser.curr.ico
+        self.fast_change([ico, self.deadico1, self.deadico2], ico)
+        self.deadico2.remove()
+        self.show()
+        self.clean_up(*providers)
+        mvp.movemap.balls_label_rechar(winner.pokes)
+        logging.info(
+            &#34;[Fight] Ended, %s(%s) won&#34;,
+            winner.curr.name, &#34;player&#34; if winner.curr.player else &#34;enemy&#34;
+        )
+        audio.switch(providers[0].map.song)
+        return winner
+
+    def choose_poke(self, player, allow_exit=True):
+        &#34;&#34;&#34;Lets the player choose another Pokete from their deck
+        ARGS:
+            player: The players&#39; used Poke
+            allow_exit: Whether or not it&#39;s allowed to exit without choosing
+        RETURNS:
+            bool whether or not a Pokete was choosen&#34;&#34;&#34;
+        self.clean_up(player)
+        index = None
+        while index is None:
+            index = deck.deck(6, &#34;Your deck&#34;, True)
+            if allow_exit:
+                break
+        if index is not None:
+            player.play_index = index
+        self.add_player(player)
+        self.outp.outp(f&#34;You have choosen {player.curr.name}&#34;)
+        for j in player.curr.effects:
+            time.sleep(SPEED_OF_TIME * 1)
+            j.readd()
+        if index is None:
+            return False
+        return True</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.game_map.GameMap" href="game_map.html#pokete_classes.game_map.GameMap">GameMap</a></li>
+<li>scrap_engine.Map</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pokete_classes.fightmap.FightMap.add_1"><code class="name flex">
+<span>def <span class="ident">add_1</span></span>(<span>self, player, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds enemy and general labels to self</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The player Poke object</dd>
+<dt><strong><code>enemy</code></strong></dt>
+<dd>The enemy Poke object that the labels belong to</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_1(self, player, enem):
+    &#34;&#34;&#34;Adds enemy and general labels to self
+    ARGS:
+        player: The player Poke object
+        enemy: The enemy Poke object that the labels belong to&#34;&#34;&#34;
+    for obj, x, y in zip(
+        (
+            enem.curr.tril,
+            enem.curr.trir,
+            enem.curr.text_name,
+            enem.curr.text_lvl,
+            enem.curr.text_hp,
+            enem.curr.ico,
+            enem.curr.hp_bar
+        ),
+        (7, 16, 1, 1, 1, self.width - 14, 8),
+        (3, 3, 1, 2, 3, 2, 3)
+    ):
+        obj.add(self, x, y)
+    if enem.curr.identifier in player.caught_pokes:
+        enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.add_2"><code class="name flex">
+<span>def <span class="ident">add_2</span></span>(<span>self, player)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds player labels with sleeps</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The player Poke object that the labels belong to</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_2(self, player):
+    &#34;&#34;&#34;Adds player labels with sleeps
+    ARGS:
+        player: The player Poke object that the labels belong to&#34;&#34;&#34;
+    player.curr.text_name.add(self, self.width - 17, self.height - 9)
+    time.sleep(SPEED_OF_TIME * 0.05)
+    self.show()
+    player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
+    time.sleep(SPEED_OF_TIME * 0.05)
+    self.show()
+    player.curr.tril.add(self, self.width - 11, self.height - 7)
+    player.curr.trir.add(self, self.width - 2, self.height - 7)
+    player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
+    player.curr.text_hp.add(self, self.width - 17, self.height - 7)
+    time.sleep(SPEED_OF_TIME * 0.05)
+    self.show()
+    player.curr.ico.add(self, 3, self.height - 10)
+    self.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+    self.box.set_index(0)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.add_player"><code class="name flex">
+<span>def <span class="ident">add_player</span></span>(<span>self, player)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds player labels</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The player Poke object</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_player(self, player):
+    &#34;&#34;&#34;Adds player labels
+    ARGS:
+        player: The player Poke object&#34;&#34;&#34;
+    player.curr.text_name.add(self, self.width - 17, self.height - 9)
+    player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
+    player.curr.tril.add(self, self.width - 11, self.height - 7)
+    player.curr.trir.add(self, self.width - 2, self.height - 7)
+    player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
+    player.curr.text_hp.add(self, self.width - 17, self.height - 7)
+    player.curr.ico.add(self, 3, self.height - 10)
+    self.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+    self.box.set_index(0)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.choose_poke"><code class="name flex">
+<span>def <span class="ident">choose_poke</span></span>(<span>self, player, allow_exit=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Lets the player choose another Pokete from their deck</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>player</code></strong></dt>
+<dd>The players' used Poke</dd>
+<dt><strong><code>allow_exit</code></strong></dt>
+<dd>Whether or not it's allowed to exit without choosing</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>bool whether or not a Pokete was choosen</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def choose_poke(self, player, allow_exit=True):
+    &#34;&#34;&#34;Lets the player choose another Pokete from their deck
+    ARGS:
+        player: The players&#39; used Poke
+        allow_exit: Whether or not it&#39;s allowed to exit without choosing
+    RETURNS:
+        bool whether or not a Pokete was choosen&#34;&#34;&#34;
+    self.clean_up(player)
+    index = None
+    while index is None:
+        index = deck.deck(6, &#34;Your deck&#34;, True)
+        if allow_exit:
+            break
+    if index is not None:
+        player.play_index = index
+    self.add_player(player)
+    self.outp.outp(f&#34;You have choosen {player.curr.name}&#34;)
+    for j in player.curr.effects:
+        time.sleep(SPEED_OF_TIME * 1)
+        j.readd()
+    if index is None:
+        return False
+    return True</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.clean_up"><code class="name flex">
+<span>def <span class="ident">clean_up</span></span>(<span>self, *providers)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Removes all labels from self</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>providers</code></strong></dt>
+<dd>The Providers to clean up</dd>
+</dl>
+<p>that the labels belong to</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clean_up(self, *providers):
+    &#34;&#34;&#34;Removes all labels from self
+    ARGS:
+        providers: The Providers to clean up
+    that the labels belong to&#34;&#34;&#34;
+    for prov in providers:
+        for obj in (
+            prov.curr.text_name, prov.curr.text_lvl, prov.curr.text_hp,
+            prov.curr.ico, prov.curr.hp_bar, prov.curr.tril, prov.curr.trir,
+            prov.curr.pball_small
+        ):
+            obj.remove()
+        if isinstance(prov, ProtoFigure):
+            self.box.remove_c_obs()
+        for j in prov.curr.effects:
+            j.cleanup()</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.fast_change"><code class="name flex">
+<span>def <span class="ident">fast_change</span></span>(<span>self, arr, setob)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Changes fast between a list of texts</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>arr</code></strong></dt>
+<dd>List of se.Texts that will be changed through</dd>
+<dt><strong><code>setob</code></strong></dt>
+<dd>A reference se.Text with the coordinates the objs in arr
+will be set to.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fast_change(self, arr, setob):
+    &#34;&#34;&#34;Changes fast between a list of texts
+    ARGS:
+        arr: List of se.Texts that will be changed through
+        setob: A reference se.Text with the coordinates the objs in arr
+               will be set to.&#34;&#34;&#34;
+    for _i in range(1, len(arr)):
+        arr[_i - 1].remove()
+        arr[_i].add(self, setob.x, setob.y)
+        self.show()
+        time.sleep(SPEED_OF_TIME * 0.1)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.fight"><code class="name flex">
+<span>def <span class="ident">fight</span></span>(<span>self, providers)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fight between two Pokes</p>
+<h2 id="args">Args</h2>
+<p>providers</p>
+<h2 id="returns">Returns</h2>
+<p>Provider that won the fight</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fight(self, providers):
+    &#34;&#34;&#34;Fight between two Pokes
+    ARGS:
+        providers
+    RETURNS:
+        Provider that won the fight&#34;&#34;&#34;
+    audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
+    index = 0
+    logging.info(
+        &#34;[Fight] Started between %s&#34;,
+        &#34;and &#34;.join(
+            f&#34;{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}&#34;
+                for prov in providers
+        )
+    )
+    weather = providers[0].map.weather
+    for prov in providers:
+        prov.index_conf()
+    if settings(&#34;animations&#34;).val:  # Intro animation
+        animations.fight_intro(self.height, self.width)
+    self.add_1(*providers)
+    for prov in providers:
+        if type(prov) is NatureProvider:
+            self.outp.outp(f&#34;A wild {prov.curr.name} appeared!&#34;)
+        elif type(prov) is Trainer:
+            self.outp.outp(f&#34;{prov.name} started a fight!&#34;)
+            time.sleep(SPEED_OF_TIME * 1)
+            self.outp.outp(
+                f&#39;{self.outp.text}\n{prov.gender} used {prov.curr.name} &#39;
+                &#39;against you!&#39;
+            )
+    time.sleep(SPEED_OF_TIME * 1)
+    self.add_2(providers[0])
+    self.fast_change([providers[0].curr.ico, self.deadico2, self.deadico1,
+                      providers[0].curr.ico], providers[0].curr.ico)
+    self.outp.outp(f&#34;You used {providers[0].curr.name}&#34;)
+    self.show()
+    time.sleep(SPEED_OF_TIME * 0.5)
+    index = providers.index(
+        max(providers, key=lambda i: i.curr.initiative)
+    )
+    for prov in providers:
+        i = prov.curr
+        for j in i.effects:
+            j.readd()
+    while True:
+        player = providers[index % 2]
+        enem = providers[(index + 1) % 2]
+
+        attack = player.get_attack(self, enem)
+        time.sleep(SPEED_OF_TIME * 0.3)
+        if attack == &#34;won&#34;:
+            return player
+        elif attack != &#34;&#34;:
+            player.curr.attack(attack, enem.curr, self, weather)
+        self.show()
+        time.sleep(SPEED_OF_TIME * 0.5)
+        winner = None
+        loser = None
+        for i, prov in enumerate(providers):
+            if prov.curr.hp &lt;= 0:
+                loser = prov
+                winner = providers[(i + 1) % 2]
+        if winner is not None:
+            self.outp.outp(f&#34;{loser.curr.ext_name} is dead!&#34;)
+        elif all(i.ap == 0 for i in player.curr.attack_obs):
+            winner = providers[(index + 1) % 2]
+            loser = player
+            time.sleep(SPEED_OF_TIME * 2)
+            self.outp.outp(f&#34;{player.curr.ext_name} has used all its&#39; attacks!&#34;)
+            time.sleep(SPEED_OF_TIME * 3)
+        if winner is not None:
+            if (
+                type(winner) is Trainer
+                and any(p.hp &gt; 0 for p in loser.pokes[:6])
+            ):
+                time.sleep(2)
+                self.choose_poke(loser, False)
+            elif (
+                loser.curr.player
+                and any(p.hp &gt; 0 for p in loser.pokes[:6])
+                and ask_bool(self, &#34;Do you want to choose another Pokete?&#34;)
+            ):
+                success = self.choose_poke(loser)
+                if not success:
+                    break
+            elif (
+                isinstance(loser, Trainer)
+                and winner.curr.player
+                and any(p.hp &gt; 0 for p in loser.pokes)
+            ):
+                time.sleep(SPEED_OF_TIME * 1)
+                ico = loser.curr.ico
+                self.fast_change([ico, self.deadico1, self.deadico2], ico)
+                self.deadico2.remove()
+                self.show()
+                self.clean_up(loser)
+                loser.play_index += 1
+                self.add_1(*providers)
+                ico = loser.curr.ico
+                self.fast_change(
+                    [ico, self.deadico2, self.deadico1, ico], ico
+                )
+                self.outp.outp(f&#34;{loser.name} used {loser.curr.name}!&#34;)
+                self.show()
+                time.sleep(SPEED_OF_TIME * 2)
+            else:
+                break
+        index += 1
+    audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+    time.sleep(SPEED_OF_TIME * 1)
+    _xp = sum(
+        poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
+        for poke in loser.pokes
+    ) * (2 if not isinstance(loser, NatureProvider) else 1)
+    self.outp.outp(
+        f&#34;{winner.curr.ext_name} won!&#34; +
+        (f&#39;\nXP + {_xp}&#39; if winner.curr.player else &#39;&#39;)
+    )
+    if winner.curr.player and isinstance(loser, Trainer):
+        achievements.achieve(&#34;first_duel&#34;)
+    if winner.curr.player and winner.curr.add_xp(_xp):
+        time.sleep(SPEED_OF_TIME * 1)
+        self.outp.outp(
+            f&#34;{winner.curr.name} reached lvl {winner.curr.lvl()}!&#34;
+        )
+        winner.curr.moves.shine()
+        time.sleep(SPEED_OF_TIME * 0.5)
+        winner.curr.set_vars()
+        winner.curr.learn_attack(self)
+        winner.curr.evolve(winner, self)
+    self.show()
+    time.sleep(SPEED_OF_TIME * 1)
+    ico = loser.curr.ico
+    self.fast_change([ico, self.deadico1, self.deadico2], ico)
+    self.deadico2.remove()
+    self.show()
+    self.clean_up(*providers)
+    mvp.movemap.balls_label_rechar(winner.pokes)
+    logging.info(
+        &#34;[Fight] Ended, %s(%s) won&#34;,
+        winner.curr.name, &#34;player&#34; if winner.curr.player else &#34;enemy&#34;
+    )
+    audio.switch(providers[0].map.song)
+    return winner</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.get_attack"><code class="name flex">
+<span>def <span class="ident">get_attack</span></span>(<span>self, attack_obs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Inputloop for attack options</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>attack_obs</code></strong></dt>
+<dd>A list of Attack objects that belong to a Poke</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_attack(self, attack_obs):
+    &#34;&#34;&#34;Inputloop for attack options
+    ARGS:
+        attack_obs: A list of Attack objects that belong to a Poke&#34;&#34;&#34;
+    with self.box.add(self, 1, self.height - 7):
+        self.rechar_atk_info_box(attack_obs)
+        if self.show_atk_info_box:
+            self.atk_info_box.add(self, 27, self.height - 7)
+        self.show()
+        while True:#158
+            action = get_action()
+            if action.triggers(*ACTION_UP_DOWN):
+                self.box.input(action)
+                self.rechar_atk_info_box(attack_obs)
+                self.show()
+            elif action.triggers(Action.ACCEPT) or (0 &lt;= action.get_number()
+                    &lt; len(attack_obs)):
+                attack = attack_obs[
+                    self.box.index.index if action.triggers(Action.ACCEPT)
+                    else action.get_number()
+                ]
+                if attack.ap == 0:
+                    continue
+                break
+            elif action.triggers(Action.INFO):
+                self.show_atk_info_box = not self.show_atk_info_box
+                if self.show_atk_info_box:
+                    self.atk_info_box.add(self, 27, self.height - 7)
+                else:
+                    self.atk_info_box.remove()
+                self.show()
+                continue
+            elif action.triggers(Action.CANCEL):
+                attack = &#34;&#34;
+                break
+            std_loop(False)
+        self.atk_info_box.remove()
+    return attack</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.get_figure_attack"><code class="name flex">
+<span>def <span class="ident">get_figure_attack</span></span>(<span>self, figure, enem)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Chooses the players attack</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>figure</code></strong></dt>
+<dd>The players provider</dd>
+<dt><strong><code>enem</code></strong></dt>
+<dd>The enemys provider</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_figure_attack(self, figure, enem):
+    &#34;&#34;&#34;Chooses the players attack
+    ARGS:
+        figure: The players provider
+        enem: The enemys provider&#34;&#34;&#34;
+    quick_attacks = [
+        Action.QUICK_ATC_1, Action.QUICK_ATC_2,
+        Action.QUICK_ATC_3, Action.QUICK_ATC_4
+    ][:len(figure.curr.attack_obs)]
+    self.outp.append(se.Text((&#34;\n&#34; if &#34;\n&#34; not in self.outp.text
+                                      else &#34;&#34;) +
+                                     &#34;What do you want to do?&#34;,
+                                     state=&#34;float&#34;))
+    while True:  # Inputloop for general options
+        action = get_action()
+        if action.triggers(*quick_attacks):
+            attack = figure.curr.attack_obs[
+                quick_attacks.index(
+                    next(i for i in action if i in quick_attacks)
+                )
+            ]
+            if attack.ap &gt; 0:
+                return attack
+        elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
+            attack = self.get_attack(figure.curr.attack_obs)
+            if attack != &#34;&#34;:
+                return attack
+        elif action.triggers(Action.RUN):
+            if (
+                type(enem) is Trainer
+                or not ask_bool(self, &#34;Do you really want to run away?&#34;)
+            ):
+                continue
+            if (random.randint(0, 100) &lt; max(5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95))):
+                self.outp.outp(&#34;You failed to run away!&#34;)
+                time.sleep(SPEED_OF_TIME * 1)
+                return &#34;&#34;
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+            self.outp.outp(&#34;You ran away!&#34;)
+            time.sleep(SPEED_OF_TIME * 2)
+            self.clean_up(figure, enem)
+            logging.info(&#34;[Fight] Ended, ran away&#34;)
+            audio.switch(figure.map.song)
+            return &#34;won&#34;
+        elif action.triggers(Action.CHOOSE_ITEM):
+            items = [getattr(invitems, i)
+                        for i in figure.inv
+                        if getattr(invitems, i).fn is not None
+                        and figure.inv[i] &gt; 0]
+            if not items:
+                self.outp.outp(
+                    &#34;You don&#39;t have any items left!\n&#34;
+                    &#34;What do you want to do?&#34;
+                )
+                continue
+            item = self.get_item(items, figure.inv)
+            if item == &#34;&#34;:
+                continue
+            # I hate you python for not having switch statements
+            if (i := getattr(fightitems, item.fn)(figure, enem)) == 1:
+                continue
+            elif i == 2:
+                logging.info(&#34;[Fight] Ended, fightitem&#34;)
+                time.sleep(SPEED_OF_TIME * 2)
+                audio.switch(figure.map.song)
+                return &#34;won&#34;
+            return &#34;&#34;
+        elif action.triggers(Action.CHOOSE_POKE):
+            if not self.choose_poke(figure):
+                self.show(init=True)
+                continue
+            return &#34;&#34;
+        std_loop(False)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.get_item"><code class="name flex">
+<span>def <span class="ident">get_item</span></span>(<span>self, items, inv)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Inputloop for inv</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>items</code></strong></dt>
+<dd>List of InvItems that can be choosen from</dd>
+<dt><strong><code>inv</code></strong></dt>
+<dd>The Figures inv</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_item(self, items, inv):
+    &#34;&#34;&#34;Inputloop for inv
+    ARGS:
+        items: List of InvItems that can be choosen from
+        inv: The Figures inv&#34;&#34;&#34;
+    self.invbox.add_c_obs([se.Text(f&#34;{i.pretty_name}s : {inv[i.name]}&#34;)
+                           for i in items])
+    self.invbox.set_index(0)
+    with self.invbox.add(self, self.width - 35, 0):
+        while True:
+            action = get_action()
+            if action.triggers(*ACTION_UP_DOWN):
+                self.invbox.input(action)
+                self.show()
+            elif action.triggers(Action.CANCEL):
+                item = &#34;&#34;
+                break
+            elif action.triggers(Action.ACCEPT):
+                item = items[self.invbox.index.index]
+                break
+            std_loop(False)
+    self.invbox.remove_c_obs()
+    return item</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.fightmap.FightMap.rechar_atk_info_box"><code class="name flex">
+<span>def <span class="ident">rechar_atk_info_box</span></span>(<span>self, attack_obs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rechar_atk_info_box(self, attack_obs):
+    self.atk_info_box.label.rechar(
+        liner(attack_obs[self.box.index.index].desc, 37)
+    )
+    self.atk_info_box.resize(
+        self.atk_info_box.label.height + 2,
+        self.atk_info_box.label.width + 4
+    )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pokete_classes" href="index.html">pokete_classes</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pokete_classes.fightmap.FightItems" href="#pokete_classes.fightmap.FightItems">FightItems</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pokete_classes.fightmap.FightItems.ap_potion" href="#pokete_classes.fightmap.FightItems.ap_potion">ap_potion</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightItems.heal_potion" href="#pokete_classes.fightmap.FightItems.heal_potion">heal_potion</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightItems.hyperball" href="#pokete_classes.fightmap.FightItems.hyperball">hyperball</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightItems.poketeball" href="#pokete_classes.fightmap.FightItems.poketeball">poketeball</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightItems.potion" href="#pokete_classes.fightmap.FightItems.potion">potion</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightItems.super_potion" href="#pokete_classes.fightmap.FightItems.super_potion">super_potion</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightItems.superball" href="#pokete_classes.fightmap.FightItems.superball">superball</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightItems.throw" href="#pokete_classes.fightmap.FightItems.throw">throw</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pokete_classes.fightmap.FightMap" href="#pokete_classes.fightmap.FightMap">FightMap</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pokete_classes.fightmap.FightMap.add_1" href="#pokete_classes.fightmap.FightMap.add_1">add_1</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.add_2" href="#pokete_classes.fightmap.FightMap.add_2">add_2</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.add_player" href="#pokete_classes.fightmap.FightMap.add_player">add_player</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.choose_poke" href="#pokete_classes.fightmap.FightMap.choose_poke">choose_poke</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.clean_up" href="#pokete_classes.fightmap.FightMap.clean_up">clean_up</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.fast_change" href="#pokete_classes.fightmap.FightMap.fast_change">fast_change</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.fight" href="#pokete_classes.fightmap.FightMap.fight">fight</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.get_attack" href="#pokete_classes.fightmap.FightMap.get_attack">get_attack</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.get_figure_attack" href="#pokete_classes.fightmap.FightMap.get_figure_attack">get_figure_attack</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.get_item" href="#pokete_classes.fightmap.FightMap.get_item">get_item</a></code></li>
+<li><code><a title="pokete_classes.fightmap.FightMap.rechar_atk_info_box" href="#pokete_classes.fightmap.FightMap.rechar_atk_info_box">rechar_atk_info_box</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -848,16 +848,9 @@ def read_save():
     return _si
 
 
-def on_press(key):
-    &#34;&#34;&#34;Sets the input to either a character like &#39;a&#39; or &#39;1&#39;, or Key.enter, Key.backspace, Key.space, Key.esc, exit
-    ARGS:
-        key: Key object _ev is set from&#34;&#34;&#34;
-    _ev.set(str(key).strip(&#34;&#39;&#34;))
-
-
 def reset_terminal():
     &#34;&#34;&#34;Resets the terminals state&#34;&#34;&#34;
-    if sys.platform == &#34;linux&#34; and not force_pynput:
+    if sys.platform == &#34;linux&#34;:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
@@ -1426,9 +1419,30 @@ def map_additions():
 # Actual code execution
 #######################
 if __name__ == &#34;__main__&#34;:
-    do_logging, load_mods, force_pynput = parse_args(sys.argv)
+    do_logging, load_mods = parse_args(sys.argv)
     # deciding on wich input to use
-    if sys.platform == &#34;linux&#34; and not force_pynput:
+    if sys.platform == &#34;win32&#34;:
+        import msvcrt
+
+
+        def recogniser():
+            &#34;&#34;&#34;Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime&#34;&#34;&#34;
+            while True:
+                if msvcrt.kbhit():
+                    char = msvcrt.getwch()
+                    _ev.set(
+                        {
+                            ord(char): f&#34;{char.rstrip()}&#34;,
+                            13: &#34;Key.enter&#34;,
+                            127: &#34;Key.backspace&#34;,
+                            8: &#34;Key.backspace&#34;,
+                            32: &#34;Key.space&#34;,
+                            27: &#34;Key.esc&#34;,
+                            3: &#34;exit&#34;,
+                        }[ord(char)]
+                    )
+
+    else:
         import tty
         import termios
         import select
@@ -1460,15 +1474,6 @@ if __name__ == &#34;__main__&#34;:
                     )
                     if ord(char) == 3:
                         reset_terminal()
-    else:
-        from pynput.keyboard import Listener
-
-
-        def recogniser():
-            &#34;&#34;&#34;Gets keyboard input from pynput&#34;&#34;&#34;
-            while True:
-                with Listener(on_press=on_press) as listener:
-                    listener.join()
 
 
     print(&#34;\033[?1049h&#34;)
@@ -2038,27 +2043,6 @@ town.&#34;,
     _map.shopdor.add(_map, 122, 64)</code></pre>
 </details>
 </dd>
-<dt id="pokete.on_press"><code class="name flex">
-<span>def <span class="ident">on_press</span></span>(<span>key)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Sets the input to either a character like 'a' or '1', or Key.enter, Key.backspace, Key.space, Key.esc, exit</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>key</code></strong></dt>
-<dd>Key object _ev is set from</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def on_press(key):
-    &#34;&#34;&#34;Sets the input to either a character like &#39;a&#39; or &#39;1&#39;, or Key.enter, Key.backspace, Key.space, Key.esc, exit
-    ARGS:
-        key: Key object _ev is set from&#34;&#34;&#34;
-    _ev.set(str(key).strip(&#34;&#39;&#34;))</code></pre>
-</details>
-</dd>
 <dt id="pokete.parse_obj"><code class="name flex">
 <span>def <span class="ident">parse_obj</span></span>(<span>_map, name, obj, _dict)</span>
 </code></dt>
@@ -2161,7 +2145,7 @@ town.&#34;,
 </summary>
 <pre><code class="python">def reset_terminal():
     &#34;&#34;&#34;Resets the terminals state&#34;&#34;&#34;
-    if sys.platform == &#34;linux&#34; and not force_pynput:
+    if sys.platform == &#34;linux&#34;:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)</code></pre>
 </details>
 </dd>
@@ -4003,7 +3987,6 @@ def swap_poke(npc):
 <li><code><a title="pokete.intro" href="#pokete.intro">intro</a></code></li>
 <li><code><a title="pokete.main" href="#pokete.main">main</a></code></li>
 <li><code><a title="pokete.map_additions" href="#pokete.map_additions">map_additions</a></code></li>
-<li><code><a title="pokete.on_press" href="#pokete.on_press">on_press</a></code></li>
 <li><code><a title="pokete.parse_obj" href="#pokete.parse_obj">parse_obj</a></code></li>
 <li><code><a title="pokete.read_save" href="#pokete.read_save">read_save</a></code></li>
 <li><code><a title="pokete.reset_terminal" href="#pokete.reset_terminal">reset_terminal</a></code></li>
