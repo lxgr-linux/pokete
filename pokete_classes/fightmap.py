@@ -263,7 +263,7 @@ class FightMap(gm.GameMap):
                     return attack
             elif action.triggers(Action.RUN):
                 if (
-                    type(enem) is Trainer
+                    not enem.escapable
                     or not ask_bool(self, "Do you really want to run away?")
                 ):
                     continue
@@ -383,7 +383,7 @@ class FightMap(gm.GameMap):
         _xp = sum(
             poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
             for poke in loser.pokes
-        ) * (2 if not isinstance(loser, NatureProvider) else 1)
+        ) * loser.xp_multiplier
         self.outp.outp(
             f"{winner.curr.ext_name} won!" +
             (f'\nXP + {_xp}' if winner.curr.player else '')

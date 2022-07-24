@@ -8,9 +8,10 @@ class Provider:
     ARGS:
         pokes: The Poketes the Provider holds"""
 
-    def __init__(self, pokes, escapable):
+    def __init__(self, pokes, escapable, xp_multiplier):
         self.pokes = pokes
         self.escapable = escapable
+        self.xp_multiplier = xp_multiplier
         self.play_index = 0
 
     def heal(self):
@@ -62,7 +63,7 @@ class NatureProvider(Provider):
     ARGS:
         poke: One Pokete"""
     def __init__(self, poke):
-        super().__init__([poke], True)
+        super().__init__([poke], True, 1)
 
     def get_attack(self, fightmap, enem):
         """Returns the choosen attack:

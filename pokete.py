@@ -376,7 +376,8 @@ class Figure(se.Object, ProtoFigure):
         ProtoFigure.__init__(
             self,
             [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]],
-            True
+            True,
+            2
         )
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
