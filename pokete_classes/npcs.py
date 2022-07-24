@@ -203,7 +203,7 @@ class Trainer(NPC, Provider):
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
-        Provider.__init__(self, pokes)
+        Provider.__init__(self, pokes, False)
         # attributes
         self.gender = gender
         self.lose_texts = lose_texts
@@ -275,3 +275,30 @@ class Trainer(NPC, Provider):
             f'{fightmap.outp.text}\n{self.gender} used {self.curr.name} '
             'against you!'
         )
+
+    def handle_defeat(self, fightmap, winner):
+        """Function caleld when the providers current Pokete dies
+        ARGS:
+            fightmap: fightmap object
+            winner: the defeating provider"""
+        time.sleep(SPEED_OF_TIME * 1)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico1, fightmap.deadico2],
+            ico
+        )
+        fightmap.deadico2.remove()
+        fightmap.show()
+        fightmap.clean_up(self)
+        self.play_index += 1
+        fightmap.add_1(winner, self)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico2, fightmap.deadico1, ico],
+            ico
+        )
+        fightmap.outp.outp(f"{self.name} used {self.curr.name}!")
+        fightmap.show()
+        time.sleep(SPEED_OF_TIME * 2)
+        return True
+

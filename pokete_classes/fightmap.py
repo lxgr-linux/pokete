@@ -372,40 +372,9 @@ class FightMap(gm.GameMap):
                 self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
                 time.sleep(SPEED_OF_TIME * 3)
             if winner is not None:
-                if (
-                    type(winner) is Trainer
-                    and any(p.hp > 0 for p in loser.pokes[:6])
-                ):
-                    time.sleep(2)
-                    self.choose_poke(loser, False)
-                elif (
-                    loser.curr.player
-                    and any(p.hp > 0 for p in loser.pokes[:6])
-                    and ask_bool(self, "Do you want to choose another Pokete?")
-                ):
-                    success = self.choose_poke(loser)
-                    if not success:
+                if any(p.hp > 0 for p in loser.pokes[:6]):
+                    if not loser.handle_defeat(self, winner):
                         break
-                elif (
-                    isinstance(loser, Trainer)
-                    and winner.curr.player
-                    and any(p.hp > 0 for p in loser.pokes)
-                ):
-                    time.sleep(SPEED_OF_TIME * 1)
-                    ico = loser.curr.ico
-                    self.fast_change([ico, self.deadico1, self.deadico2], ico)
-                    self.deadico2.remove()
-                    self.show()
-                    self.clean_up(loser)
-                    loser.play_index += 1
-                    self.add_1(*providers)
-                    ico = loser.curr.ico
-                    self.fast_change(
-                        [ico, self.deadico2, self.deadico1, ico], ico
-                    )
-                    self.outp.outp(f"{loser.name} used {loser.curr.name}!")
-                    self.show()
-                    time.sleep(SPEED_OF_TIME * 2)
                 else:
                     break
             index += 1

@@ -376,7 +376,8 @@ class Figure(se.Object, ProtoFigure):
         super().__init__(r_char, state="solid")
         ProtoFigure.__init__(
             self,
-            [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]]
+            [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]],
+            True
         )
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
@@ -388,13 +389,6 @@ class Figure(se.Object, ProtoFigure):
                                                     "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
-
-    def get_attack(self, fightmap, enem):
-        """Returns the choosen attack:
-        ARGS:
-            fightmap: fightmap object
-            anem: The enemy Provider"""
-        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         """Processes data from save file
