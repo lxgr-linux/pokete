@@ -1,5 +1,6 @@
 import random
 import time
+from pokete_classes import movemap as mvp
 from .input import ask_bool
 
 class Provider:
@@ -11,6 +12,18 @@ class Provider:
         self.pokes = pokes
         self.escapable = escapable
         self.play_index = 0
+
+    def heal(self):
+        """Heals all poketes"""
+        for poke in self.pokes:
+            poke.hp = poke.full_hp
+            poke.effects = []
+            poke.miss_chance = poke.full_miss_chance
+            poke.text_hp.rechar(f"HP:{poke.hp}")
+            poke.set_vars()
+            poke.hp_bar.make(poke.hp)
+        if poke.player:
+            mvp.movemap.balls_label_rechar(self.pokes)
 
     @property
     def curr(self):

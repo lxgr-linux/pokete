@@ -19,7 +19,6 @@ from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
-from pokete_classes.general import heal
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
@@ -77,7 +76,7 @@ class NPCActions:
     @staticmethod
     def heal(npc):
         """Heal wrapper"""
-        heal(figure)
+        figure.heal()
 
     @staticmethod
     def playmap_17_boy(npc):
@@ -274,7 +273,7 @@ class CenterInteract(se.Object):
                 deck.deck(len(figure.pokes))
                 break
             elif action.triggers(Action.ACT_2):
-                heal(figure)
+                figure.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                  ["...", "Your Poketes are now healed!"])
