@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 
-VERSION = "0.7.2"
+VERSION = "0.8.0"
 CODENAME = "Grey Edition"
 SAVEPATH = Path(
     os.environ.get(

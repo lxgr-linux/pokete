@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.8.0] - 2022-07-25
+
+- Added audio
+- Removed pynput as a dependency on windows
+- A lot of spelling and grammar fixes
+- Fixed Poketes not beeing freeable
+- Added some game ballancing
+- Trainers can now obtain more than one Pokete
+- Made run away random
+- Added remappable controls
+- Save location is now based on XDG dirs, no intervention needed
+- Added quick attacks using `yzcv` so the attackamenu can be skipped
+
+Many thanks to everybody who contributed to this release!
+
 ## [0.7.3] - 2022-06-20
 
 Preparation release for flatpaks. Includes:
