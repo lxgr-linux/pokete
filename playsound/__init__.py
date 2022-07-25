@@ -11,11 +11,13 @@ def playsound(file):
 
 
 _playsound = ctypes.cdll.LoadLibrary(
-    Path(__file__).parent / (
-        "libplaysound." +
-        {
-            sys.platform: "so",
-            "win32": "dll"
-        }[sys.platform]
+    str(
+        Path(__file__).parent / (
+            "libplaysound." +
+            {
+                sys.platform: "so",
+                "win32": "dll"
+            }[sys.platform]
+        )
     )
 )
