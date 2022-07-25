@@ -311,7 +311,7 @@ class CenterMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="centermap",
-                         pretty_name="Pokete-Center", song="Map.wav")
+                         pretty_name="Pokete-Center", song="Map.mp3")
         self.inner = se.Text(""" ________________
  |______________|
  |     |a |     |
@@ -344,7 +344,7 @@ class ShopMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="shopmap",
-                         pretty_name="Pokete-Shop", song="Map.wav")
+                         pretty_name="Pokete-Shop", song="Map.mp3")
         self.inner = se.Text(""" __________________
  |________________|
  |      |a |      |
