@@ -161,7 +161,7 @@ For an example mod see [example.py](https://github.com/lxgr-linux/pokete/blob/ma
 - [ ] More maps
 - [x] Types for attacks and Poketes
 - [x] Evolving
-- [ ] More than one Pokete for trainers
+- [x] More than one Pokete for trainers
 - [x] Coloured Poketes
 - [x] A store to buy Poketeballs
 - [x] Potions

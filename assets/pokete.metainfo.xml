@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2022 lxgr <lxgr@protonmail.com> -->
+<component type="desktop-application">
+  <id>com.github.lxgr_linux.pokete</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <name>Pokete</name>
+  <summary>A terminal based Pokemon like game </summary>
+  <description>
+    <p>
+      Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak. Imagine you're a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
+    </p>
+  </description>
+  <categories>
+    <category>Game</category>
+  </categories>
+  <keywords>
+    <keyword>game</keyword>
+    <keyword>python</keyword>
+    <keyword>pokemon</keyword>
+    <keyword>console-game</keyword>
+  </keywords>
+  <url type="homepage">https://github.com/lxgr-linux/pokete/</url>
+  <url type="bugtracker">https://github.com/lxgr-linux/pokete/issues</url>
+  <provides>
+    <binary>com.github.lxgr_linux.pokete</binary>
+  </provides>
+  <launchable type="desktop-id">com.github.lxgr_linux.pokete.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Fight against other poketes</caption>
+      <image type="source" width="734" height="410">https://lxgr-linux.github.io/pokete/assets/ss/ss01.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Conversation with a trainer on Map Route 2</caption>
+      <image type="source" width="734" height="410">https://lxgr-linux.github.io/pokete/assets/ss/ss05.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release type="stable" version="0.8.0" date="2022-07-25" urgency="medium">
+      <description>
+              <p>We are constantly developing pokete further and with version 0.8.0 added a low of improvements and new features, such as music and sound effects. Running away from wild poketes can now fail and trainers can now have more than one pokete. Controls and hotkeys can now be remapped for different keyboard layouts. The default safe-file location has been moved to .local/share and some minor bugs have been fixed as well!</p>
+      </description>
+      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.0</url>
+      <location>https://github.com/lxgr-linux/pokete/archive/refs/tags/0.8.0.tar.gz</location>
+    </release>
+    <release type="stable" version="0.7.3" date="2022-06-21" urgency="low">
+      <description>
+        <p> Preparation release for flatpaks. Includes:
+          <ul>
+             <li>A svg image of the pokete logo</li>
+             <li>A metainfo.xml file for pokete</li>
+          </ul>
+        </p>
+      </description>
+      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.7.3</url>
+      <location>https://github.com/lxgr-linux/pokete/archive/refs/tags/0.7.3.tar.gz</location>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-cartoon">mild</content_attribute>
+    <content_attribute id="drugs-narcotics">mild</content_attribute>
+    <content_attribute id="language-profanity">intense</content_attribute>
+    <content_attribute id="language-humor">moderate</content_attribute>
+  </content_rating>
+</component>
+
