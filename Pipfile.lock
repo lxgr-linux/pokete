@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "bbffb8ad1c59b9c0759afd52651d68f10b82019575a4795fc34dc1247b6c2b84"
+            "sha256": "548f6e4f71ec08ca29dffcced94055df2015499d99bba165c1238da7daffc836"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,19 +16,12 @@
         ]
     },
     "default": {
-        "playsound": {
+        "scrap-engine": {
             "hashes": [
-                "sha256:cc6ed11d773034b0ef624e6bb4bf50f4b76b8414a59ce6d38afb89b423297ced"
+                "sha256:acc6510ff7c4d5e77c4791b04b76997072d2710d7eb92a57dbd2f0057b5711aa"
             ],
             "index": "pypi",
             "version": "==1.3.0"
-        },
-        "scrap-engine": {
-            "hashes": [
-                "sha256:767ffdc312b550777771cdc9a350a9f6dca73855259dd1fe7197c8736e38cac1"
-            ],
-            "index": "pypi",
-            "version": "==1.2.0"
         }
     },
     "develop": {
