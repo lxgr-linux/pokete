@@ -5,8 +5,10 @@ script:
   - mkdir -p AppDir/usr/share/icons
   - git clone --depth=1 https://github.com/lxgr-linux/pokete AppDir/usr/share/pokete
   - git clone --depth=1 https://github.com/lxgr-linux/scrap_engine AppDir/usr/share/scrap_engine
+  - git clone --depth=1 https://github.com/TaylorSMarks/playsound AppDir/usr/share/playsound
   - cp AppDir/usr/share/scrap_engine/scrap_engine.py AppDir/usr/share/pokete/
   - cp AppDir/usr/share/pokete/assets/pokete.png AppDir/usr/share/icons/pokete.png
+  - cp AppDir/usr/share/playsound/playsound.py AppDir/usr/share/pokete/
 
 AppDir:
   path: AppDir
@@ -14,7 +16,7 @@ AppDir:
     id: com.github.lxgr-linux.pokete
     name: Pokete
     icon: pokete
-    version: 0.6.0
+    version: 0.8.0
     exec: usr/bin/python3.10
     exec_args: $APPDIR/usr/share/pokete/pokete.py --log $@
   # pacman:
@@ -24,23 +26,24 @@ AppDir:
   apt:
     arch: amd64
     sources:
-      - sourceline: 'deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ impish main restricted universe multiverse'
+      - sourceline: 'deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'
         key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920d1991bc93c'
     include:
       - python3.10
+      - python3-gi
     exclude:
       - perl
   files:
     include: []
     exclude:
     - usr/share/man
-    - usr/share/pokete/assets
     - usr/share/pokete/bash
     - usr/share/pokete/.git
     - usr/share/pokete/prepare_pages.py
     - usr/share/pokete/gen_wiki.py./
     - usr/share/pokete/*.md
     - usr/share/scrap_engine
+    - usr/share/playsound
     - usr/share/doc
   test:
     fedora-30:
