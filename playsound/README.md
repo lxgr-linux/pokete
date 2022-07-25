@@ -1,6 +1,6 @@
 ## Build
 
-UNIX
+Linux
 ```
 go build -ldflags "-s -w" -buildmode=c-shared -o ./libplaysound.so
 ```
@@ -8,5 +8,10 @@ go build -ldflags "-s -w" -buildmode=c-shared -o ./libplaysound.so
 Windows
 ```
 GOOS=windows CGO_ENABLED=1 CC=x86_64-w64-mingw32-cc go build -ldflags "-s -w" -buildmode=c-shared -o ./libplaysound.dll
+```
+
+OSX
+```
+go build -ldflags "-s -w" -buildmode=c-shared -o ./libplaysound.osx.so
 ```
 
