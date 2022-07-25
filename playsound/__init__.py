@@ -1,6 +1,8 @@
 import ctypes
 import time
 import logging
+import sys
+from pathlib import Path
 
 
 def playsound(file):
@@ -8,4 +10,12 @@ def playsound(file):
     _playsound.playsound(file.encode("utf-8"))
 
 
-_playsound = ctypes.cdll.LoadLibrary('./playsound/libplaysound.so')
+_playsound = ctypes.cdll.LoadLibrary(
+    Path(__file__).parent / (
+        "libplaysound." +
+        {
+            sys.platform: "so",
+            "win32": "dll"
+        }[sys.platform]
+    )
+)
