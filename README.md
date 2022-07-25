@@ -24,7 +24,7 @@ Pokete is a small terminal based game in the style of a very popular and old gam
 ## Installation
 For Linux, BSD etc. just do this:
 ```shell
-# pip install scrap_engine playsound pygobject
+# pip install scrap_engine
 $ git clone https://github.com/lxgr-linux/pokete.git
 $ ./pokete/pokete.py
 ```
@@ -40,7 +40,7 @@ NOTE: In that case you first have to create the `~/.cache/pokete/` folder.
 
 For OSX:
 ```shell
-# pip install scrap_engine playsound pyobjc
+# pip install scrap_engine
 $ git clone https://github.com/lxgr-linux/pokete.git
 $ ./pokete/pokete.py
 ```
@@ -48,9 +48,11 @@ $ ./pokete/pokete.py
 For Windows:
 ```shell
 git clone https://github.com/lxgr-linux/pokete.git
-pip install scrap_engine playsound==1.2.2
+pip install scrap_engine
 ```
 To run just execute `pokete.py`.
+
+If you have problems with your ARCH you maybe need to rebuild the audio module, see [here](playsound/README.md).
 
 ## Usage
 The game can be run normally without supplying any options.
