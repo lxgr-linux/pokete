@@ -1,3 +1,5 @@
+// Contains library to play mp3 files
+
 package main
 
 import (
