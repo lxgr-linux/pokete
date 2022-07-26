@@ -127,6 +127,8 @@ class ProtoFigure(Provider):
                 success = fightmap.choose_poke(self)
                 if not success:
                     return False
+            else:
+                return False
         else:
             time.sleep(2)
             fightmap.choose_poke(self, False)
