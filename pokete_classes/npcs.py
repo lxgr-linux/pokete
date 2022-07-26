@@ -202,7 +202,7 @@ class Trainer(NPC, Provider):
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
-        Provider.__init__(self, pokes, False, 2)
+        Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
         self.gender = gender
         self.lose_texts = lose_texts
@@ -255,8 +255,9 @@ class Trainer(NPC, Provider):
                 self.text({True: self.lose_texts,
                            False: self.win_texts + ["Here's $20!"]}
                           [is_winner])
-                self.heal() if is_winner else None
-                if not is_winner:
+                if is_winner:
+                    self.heal()
+                else:
                     self.fig.add_money(20)
                     self.set_used()
                 logging.info("[NPC][%s] %s against player", self.name,

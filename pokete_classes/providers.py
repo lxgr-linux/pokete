@@ -51,10 +51,12 @@ class Provider:
         raise NotImplementedError
 
     def handle_defeat(self, fightmap, winner):
-        """Function caleld when the providers current Pokete dies
+        """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
-            winner: the defeating provider"""
+            winner: the defeating provider
+        RETURNS:
+            bool: whether or not a Pokete was choosen"""
         raise NotImplementedError
 
 
@@ -63,7 +65,7 @@ class NatureProvider(Provider):
     ARGS:
         poke: One Pokete"""
     def __init__(self, poke):
-        super().__init__([poke], True, 1)
+        super().__init__([poke], escapable=True, xp_multiplier=1)
 
     def get_attack(self, fightmap, enem):
         """Returns the choosen attack:
@@ -84,10 +86,12 @@ class NatureProvider(Provider):
         fightmap.outp.outp(f"A wild {self.curr.name} appeared!")
 
     def handle_defeat(self, fightmap, winner):
-        """Function caleld when the providers current Pokete dies
+        """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
-            winner: the defeating provider"""
+            winner: the defeating provider
+        RETURNS:
+            bool: whether or not a Pokete was choosen"""
         return False
 
 
@@ -109,10 +113,12 @@ class ProtoFigure(Provider):
         return fightmap.get_figure_attack(self, enem)
 
     def handle_defeat(self, fightmap, winner):
-        """Function caleld when the providers current Pokete dies
+        """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
-            winner: the defeating provider"""
+            winner: the defeating provider
+        RETURNS:
+            bool: whether or not a Pokete was choosen"""
         if winner.escapable:
             if ask_bool(fightmap, "Do you want to choose another Pokete?"):
                 success = fightmap.choose_poke(self)
