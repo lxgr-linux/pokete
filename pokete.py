@@ -970,10 +970,7 @@ def swap_poke():
 Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
 Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
         return
-    figure.add_poke(Poke(decode_data["poke"]["name"],
-                         decode_data["poke"]["xp"],
-                         decode_data["poke"]["hp"]), index)
-    figure.pokes[index].set_ap(decode_data["poke"]["ap"])
+    figure.add_poke(Poke.from_dict(decode_data["poke"]), index)
     save()  # to avoid duping
     ask_ok(mvp.movemap,
            f"You received: {figure.pokes[index].name.capitalize()} at level \

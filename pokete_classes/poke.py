@@ -128,12 +128,14 @@ can't have more than 4 attacks!"
     def dict(self):
         """RETURNS:
             A dict with all information about the Pokete"""
-        return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
-                "ap": [atc.ap for atc in self.attack_obs],
-                "effects": [eff.c_name for eff in self.effects],
-                "attacks": self.attacks,
-                "shiny": self.shiny,
-                "nature": self.nature.dict()}
+        return {
+            "name": self.identifier, "xp": self.xp, "hp": self.hp,
+            "ap": [atc.ap for atc in self.attack_obs],
+            "effects": [eff.c_name for eff in self.effects],
+            "attacks": self.attacks,
+            "shiny": self.shiny,
+            "nature": self.nature.dict()
+        }
 
     def set_ap(self, aps):
         """Sets attack aps from a list
