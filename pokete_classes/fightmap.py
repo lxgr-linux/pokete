@@ -372,6 +372,7 @@ class FightMap(gm.GameMap):
                 self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
                 time.sleep(SPEED_OF_TIME * 3)
             if winner is not None:
+                loser.curr.love_level -= 10
                 if any(p.hp > 0 for p in loser.pokes[:6]):
                     if not loser.handle_defeat(self, winner):
                         break
@@ -388,6 +389,7 @@ class FightMap(gm.GameMap):
             f"{winner.curr.ext_name} won!" +
             (f'\nXP + {_xp}' if winner.curr.player else '')
         )
+        winner.curr.love_level += 1
         if winner.curr.player and isinstance(loser, Trainer):
             achievements.achieve("first_duel")
         if winner.curr.player and winner.curr.add_xp(_xp):

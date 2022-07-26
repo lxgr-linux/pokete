@@ -31,7 +31,8 @@ class Poke:
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
     def __init__(self, poke, xp, _hp="SKIP", _ap=None, _attacks=None,
-                 _effects=None, player=True, shiny=False, nature=None):
+                 _effects=None, player=True, shiny=False, nature=None,
+                love_level=0):
         self.nature = PokeNature.random() if nature is None \
                         else PokeNature.from_dict(nature)
         self.inf = p_data.pokes[poke]
@@ -43,6 +44,7 @@ class Poke:
         self.xp = xp
         self.identifier = poke
         self.shiny = shiny
+        self.love_level = love_level
         self.atc = 0
         self.defense = 0
         self.initiative = 0
@@ -134,7 +136,8 @@ can't have more than 4 attacks!"
             "effects": [eff.c_name for eff in self.effects],
             "attacks": self.attacks,
             "shiny": self.shiny,
-            "nature": self.nature.dict()
+            "nature": self.nature.dict(),
+            "love_level": self.love_level
         }
 
     def set_ap(self, aps):
@@ -280,7 +283,8 @@ can't have more than 4 attacks!"
         """Assembles a Pokete from _dict"""
         return cls(_dict["name"], _dict["xp"], _dict["hp"], _dict["ap"],
                    _dict.get("attacks", None), _dict.get("effects", []),
-                   shiny=_dict.get("shiny", False), nature=_dict.get("nature"))
+                   shiny=_dict.get("shiny", False), nature=_dict.get("nature"),
+                   love_level=_dict.get("love_level", 0))
 
 
 def upgrade_by_one_lvl(poke, figure, _map):
