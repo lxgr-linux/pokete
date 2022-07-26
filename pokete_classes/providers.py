@@ -1,9 +1,10 @@
 import random
 import time
+from abc import ABC, abstractmethod
 from pokete_classes import movemap as mvp
 from .input import ask_bool
 
-class Provider:
+class Provider(ABC):
     """Provider can hold and manage Poketes
     ARGS:
         pokes: The Poketes the Provider holds"""
@@ -37,19 +38,22 @@ class Provider:
             i for i, poke in enumerate(self.pokes) if poke.hp > 0
         )
 
+    @abstractmethod
     def get_attack(self, fightmap, enem):
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
             anem: The enemy Provider"""
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def greet(self, fightmap):
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def handle_defeat(self, fightmap, winner):
         """Function called when the providers current Pokete dies
         ARGS:
@@ -57,8 +61,7 @@ class Provider:
             winner: the defeating provider
         RETURNS:
             bool: whether or not a Pokete was choosen"""
-        raise NotImplementedError
-
+        pass
 
 class NatureProvider(Provider):
     """The Natures Provider
