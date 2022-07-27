@@ -300,7 +300,7 @@ class FightMap(gm.GameMap):
                     self.outp.outp(&#34;You failed to run away!&#34;)
                     time.sleep(SPEED_OF_TIME * 1)
                     return &#34;&#34;
-                audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+                audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
                 self.outp.outp(&#34;You ran away!&#34;)
                 time.sleep(SPEED_OF_TIME * 2)
                 self.clean_up(figure, enem)
@@ -343,7 +343,7 @@ class FightMap(gm.GameMap):
             providers
         RETURNS:
             Provider that won the fight&#34;&#34;&#34;
-        audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
+        audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).mp3&#34;)
         index = 0
         logging.info(
             &#34;[Fight] Started between %s&#34;,
@@ -446,7 +446,7 @@ class FightMap(gm.GameMap):
                 else:
                     break
             index += 1
-        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
         time.sleep(SPEED_OF_TIME * 1)
         _xp = sum(
             poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
@@ -547,7 +547,7 @@ class FightItems:
                           weights=[(enem.curr.full_hp / enem.curr.hp)
                                    * chance + catch_chance,
                                    enem.curr.full_hp], k=1)[0]:
-            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
             obj.add_poke(enem.curr)
             fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
             time.sleep(SPEED_OF_TIME * 2)
@@ -682,7 +682,7 @@ None: To let the enemy attack</p></div>
                           weights=[(enem.curr.full_hp / enem.curr.hp)
                                    * chance + catch_chance,
                                    enem.curr.full_hp], k=1)[0]:
-            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
             obj.add_poke(enem.curr)
             fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
             time.sleep(SPEED_OF_TIME * 2)
@@ -926,7 +926,7 @@ None: To let the enemy attack</p></div>
                       weights=[(enem.curr.full_hp / enem.curr.hp)
                                * chance + catch_chance,
                                enem.curr.full_hp], k=1)[0]:
-        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
         obj.add_poke(enem.curr)
         fightmap.outp.outp(f&#34;You caught {enem.curr.name}!&#34;)
         time.sleep(SPEED_OF_TIME * 2)
@@ -1215,7 +1215,7 @@ None: To let the enemy attack</p></div>
                     self.outp.outp(&#34;You failed to run away!&#34;)
                     time.sleep(SPEED_OF_TIME * 1)
                     return &#34;&#34;
-                audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+                audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
                 self.outp.outp(&#34;You ran away!&#34;)
                 time.sleep(SPEED_OF_TIME * 2)
                 self.clean_up(figure, enem)
@@ -1258,7 +1258,7 @@ None: To let the enemy attack</p></div>
             providers
         RETURNS:
             Provider that won the fight&#34;&#34;&#34;
-        audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
+        audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).mp3&#34;)
         index = 0
         logging.info(
             &#34;[Fight] Started between %s&#34;,
@@ -1361,7 +1361,7 @@ None: To let the enemy attack</p></div>
                 else:
                     break
             index += 1
-        audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+        audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
         time.sleep(SPEED_OF_TIME * 1)
         _xp = sum(
             poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
@@ -1657,7 +1657,7 @@ will be set to.</dd>
         providers
     RETURNS:
         Provider that won the fight&#34;&#34;&#34;
-    audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).wav&#34;)
+    audio.switch(&#34;xDeviruchi - Decisive Battle (Loop).mp3&#34;)
     index = 0
     logging.info(
         &#34;[Fight] Started between %s&#34;,
@@ -1760,7 +1760,7 @@ will be set to.</dd>
             else:
                 break
         index += 1
-    audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+    audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
     time.sleep(SPEED_OF_TIME * 1)
     _xp = sum(
         poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
@@ -1905,7 +1905,7 @@ will be set to.</dd>
                 self.outp.outp(&#34;You failed to run away!&#34;)
                 time.sleep(SPEED_OF_TIME * 1)
                 return &#34;&#34;
-            audio.switch(&#34;xDeviruchi - Decisive Battle (End).wav&#34;)
+            audio.switch(&#34;xDeviruchi - Decisive Battle (End).mp3&#34;)
             self.outp.outp(&#34;You ran away!&#34;)
             time.sleep(SPEED_OF_TIME * 2)
             self.clean_up(figure, enem)

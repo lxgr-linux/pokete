@@ -31,10 +31,6 @@
 
 import multiprocessing
 from pathlib import Path
-try:
-    from playsound import playsound
-except ModuleNotFoundError:
-    from .dummy_playsound import playsound
 from .settings import settings
 
 
@@ -43,8 +39,9 @@ MUSIC_PATH = Path(__file__).parents[1] / &#39;assets&#39; / &#39;music&#39;
 
 def audio_fn(song, play_audio):
     &#34;&#34;&#34;plays a song in loop&#34;&#34;&#34;
+    import playsound
     while play_audio:
-        playsound(str(MUSIC_PATH / song))
+        playsound.playsound(str(MUSIC_PATH / song))
 
 
 class Audio:
@@ -95,8 +92,9 @@ audio = Audio()</code></pre>
 </summary>
 <pre><code class="python">def audio_fn(song, play_audio):
     &#34;&#34;&#34;plays a song in loop&#34;&#34;&#34;
+    import playsound
     while play_audio:
-        playsound(str(MUSIC_PATH / song))</code></pre>
+        playsound.playsound(str(MUSIC_PATH / song))</code></pre>
 </details>
 </dd>
 </dl>
