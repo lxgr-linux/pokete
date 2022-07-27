@@ -5,8 +5,6 @@ name = "pypi"
 
 [packages]
 scrap-engine = ">=1.2.0"
-playsound = "1.2.2"
-pygobject = {version = "*", sys_platform = "== 'linux'"}
 
 [dev-packages]
 pylint = "*"

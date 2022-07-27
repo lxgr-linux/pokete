@@ -5,10 +5,8 @@ script:
   - mkdir -p AppDir/usr/share/icons
   - git clone --depth=1 https://github.com/lxgr-linux/pokete AppDir/usr/share/pokete
   - git clone --depth=1 https://github.com/lxgr-linux/scrap_engine AppDir/usr/share/scrap_engine
-  - git clone --depth=1 https://github.com/TaylorSMarks/playsound AppDir/usr/share/playsound
   - cp AppDir/usr/share/scrap_engine/scrap_engine.py AppDir/usr/share/pokete/
   - cp AppDir/usr/share/pokete/assets/pokete.svg AppDir/usr/share/icons/pokete.svg
-  - cp AppDir/usr/share/playsound/playsound.py AppDir/usr/share/pokete/
 
 AppDir:
   path: AppDir
@@ -30,7 +28,6 @@ AppDir:
         key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920d1991bc93c'
     include:
       - python3.10
-      - python3-gi
     exclude:
       - perl
   files:
@@ -43,7 +40,8 @@ AppDir:
     - usr/share/pokete/gen_wiki.py./
     - usr/share/pokete/*.md
     - usr/share/scrap_engine
-    - usr/share/playsound
+    - usr/share/pokete/playsound/libplaysound.dll
+    - usr/share/pokete/playsound/libplaysound.osx.so
     - usr/share/doc
   test:
     fedora-30:
