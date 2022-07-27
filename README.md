@@ -46,6 +46,9 @@ $ ./pokete/pokete.py
 ```
 
 For Windows:
+
+Some windows antivirus may flag the `libplaysound.dll` as malicious. If pokete crashes, please make sure that the .dll exists and is **not** in quarantine!
+
 ```shell
 git clone https://github.com/lxgr-linux/pokete.git
 pip install scrap_engine

@@ -1,12 +1,11 @@
 import ctypes
-import time
 import logging
 import sys
 from pathlib import Path
 
 
 def playsound(file):
-    """plays an mp3 file
+    """Plays a mp3 file
     ARGS:
         file: path to file"""
     logging.info("[Playsound] playing %s", file)
