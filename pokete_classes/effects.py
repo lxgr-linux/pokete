@@ -5,6 +5,7 @@ import random
 import logging
 import scrap_engine as se
 from .color import Color
+from .language import lang
 from release import SPEED_OF_TIME
 
 class Effect():
@@ -46,7 +47,7 @@ class Effect():
         ARGS:
             obj: The Poke the effect is added to"""
         if obj.type.name in self.exclude:
-            obj.ico.map.outp.rechar(f'{obj.ext_name} is not affected by ')
+            obj.ico.map.outp.rechar((lang.str("dialog.effect.not_affected") % obj.ext_name) + " ")
             obj.ico.map.outp.append(se.Text(self.name,
                                             esccode=self.str_esccode,
                                             state="float"),
@@ -55,14 +56,14 @@ class Effect():
             self.obj = obj
             self.obj.effects.append(self)
             self.add_label()
-            self.obj.ico.map.outp.rechar(f'{obj.ext_name} is now ')
+            self.obj.ico.map.outp.rechar((lang.str("dialog.effect.now") % obj.ext_name) + " ")
             self.obj.ico.map.outp.append(se.Text(self.name,
                                                  esccode=self.str_esccode,
                                                  state="float"),
                                          se.Text("!", state="float"))
-            logging.info("[Effect][%s] Added to %s", self.name, obj.name)
+            logging.info(lang.str('log.effects.add'), self.name, obj.name)
         else:
-            obj.ico.map.outp.rechar(f'{obj.ext_name} is already ')
+            obj.ico.map.outp.rechar((lang.str("dialog.effect.already") % obj.ext_name) + " ")
             obj.ico.map.outp.append(se.Text(self.name,
                                             esccode=self.str_esccode,
                                             state="float"),
@@ -85,7 +86,7 @@ class Effect():
     def readd(self):
         """Readds label and shows text"""
         self.add_label()
-        self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
+        self.obj.ico.map.outp.outp((lang.str("dialog.effect.still") % self.obj.ext_name) + " ")
         self.obj.ico.map.outp.append(se.Text(self.name,
                                              esccode=self.str_esccode,
                                              state="float"),
@@ -95,16 +96,15 @@ class Effect():
     def remove(self):
         """Removes itself from the current pokete with a certain chance"""
         if random.randint(0, self.rem_chance) == 0:
-            self.obj.ico.map.outp.outp(f'{self.obj.ext_name} isn\'t ')
+            self.obj.ico.map.outp.outp((lang.str("dialog.effect.isnt") % self.obj.ext_name) + " ")
             self.obj.ico.map.outp.append(se.Text(self.name,
                                                  esccode=self.str_esccode,
                                                  state="float"),
-                                         se.Text(" anymore!", state="float"))
+                                         se.Text(" " + lang.str("dialog.effect.anymore"), state="float"))
             i = self.obj.effects.index(self)
             del self.obj.effects[i]
             self.cleanup(i)
-            logging.info("[Effect][%s] Removed from  %s", self.name,
-                         self.obj.name)
+            logging.info(lang.str("log.effects.remove"), self.name, self.obj.name)
             self.obj = None
             time.sleep(SPEED_OF_TIME * 2)
 
@@ -124,12 +124,14 @@ class Effect():
 
     def effect(self):
         """The action that's executed every attack round"""
-        self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
-        self.obj.ico.map.outp.append(se.Text(self.name,
-                                             esccode=self.str_esccode,
-                                             state="float"),
-                                     se.Text(" and can\'t attack!",
-                                             state="float"))
+        self.obj.ico.map.outp.outp((lang.str("dialog.effect.still") % self.obj.ext_name) + " ")
+        self.obj.ico.map.outp.append(
+            se.Text(self.name,
+                    esccode=self.str_esccode,
+                    state="float"),
+            se.Text(" " + lang.str("dialog.effect.cant_attack"),
+                    state="float")
+        )
         time.sleep(SPEED_OF_TIME * 0.5)
         return 1
 
@@ -144,8 +146,7 @@ class Effect():
 
 class EffectParalyzation(Effect):
     """Effect see desc"""
-    desc = "Paralyses the enemy and stops it from attacking. \
-This is reverted randomly."
+    desc = lang.str("dialog.effect.paralysis.description")
     c_name = "paralyzation"
 
     def __init__(self, obj=None):
@@ -155,8 +156,7 @@ This is reverted randomly."
 
 class EffectSleep(Effect):
     """Effect see desc"""
-    desc = "Makes the enemy fall asleep and stops it from attacking. \
-This is reverted randomly."
+    desc = lang.str("dialog.effect.sleep.description")
     c_name = "sleep"
 
     def __init__(self, obj=None):
@@ -165,8 +165,7 @@ This is reverted randomly."
 
 class EffectBurning(Effect):
     """Effect see desc"""
-    desc = "Sets the enemy on fire and damages them with 2 HP every round. \
-This is reverted randomly."
+    desc = lang.str("dialog.effect.burn.description")
     c_name = "burning"
 
     def __init__(self, obj=None):
@@ -194,8 +193,7 @@ This is reverted randomly."
 
 class EffectPoison(EffectBurning):
     """Effect see desc"""
-    desc = "Poisons the enemy and damages the enemy with 1 HP every round.\
- This is reverted randomly."
+    desc = lang.str("dialog.effect.poison.description")
     c_name = "poison"
 
     def __init__(self, obj=None):
@@ -207,7 +205,7 @@ class EffectPoison(EffectBurning):
 
 class EffectConfusion(Effect):
     """Effect see desc"""
-    desc = "Makes the enemy hurt it self. This is reverted randomly."
+    desc = lang.str("dialog.effect.confusion.description")
     c_name = "confusion"
 
     def __init__(self, obj=None):
@@ -215,7 +213,7 @@ class EffectConfusion(Effect):
                          exclude=["undead"])
 
     def effect(self):
-        self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
+        self.obj.ico.map.outp.outp((lang.str("dialog.effect.still") % self.obj.ext_name) + " ")
         self.obj.ico.map.outp.append(se.Text(self.name,
                                              esccode=self.str_esccode,
                                              state="float"),
@@ -226,8 +224,7 @@ class EffectConfusion(Effect):
 
 class EffectFreezing(Effect):
     """Effect see desc"""
-    desc = "Freezes the enemy and stops it from attacking. \
-This is reverted randomly."
+    desc = lang.str("dialog.effect.freeze.description")
     c_name = "freezing"
 
     def __init__(self, obj=None):

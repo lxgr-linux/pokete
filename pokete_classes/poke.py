@@ -15,6 +15,7 @@ from .color import Color
 from .moves import Moves
 from .types import types
 from .effects import effects
+from .language import lang
 from .learnattack import LearnAttack
 from .nature import PokeNature
 from release import SPEED_OF_TIME
@@ -56,8 +57,7 @@ class Poke:
         self.type = self.types[0]
         self.effects = []
         if _attacks is not None:
-            assert (len(_attacks) <= 4), f"A Pokete {poke} \
-can't have more than 4 attacks!"
+            assert (len(_attacks) <= 4), lang.str("assert.pokete.attack_length") % poke
         else:
             _attacks = self.inf["attacks"][:4]
         self.attacks = [atc for atc in _attacks
@@ -86,15 +86,15 @@ can't have more than 4 attacks!"
             self.ico.add_ob(se.Text(ico["txt"], state="float",
                                     esccode=esccode,
                                     ignore=f'{esccode} {Color.reset}'), 0, 0)
-        self.text_hp = se.Text(f"HP:{self.hp}", state="float")
-        self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
+        self.text_hp = se.Text(f"{lang.str('dialog.attack.hp')}:{self.hp}", state="float")
+        self.text_lvl = se.Text(f"{lang.str('dialog.attack.lvl')}:{self.lvl()}", state="float")
         self.text_name = se.Text(self.name,
                                  esccode=Color.underlined + (Color.yellow
                                                              if self.shiny
                                                              else ""),
                                  state="float")
         self.text_xp = se.Text(
-            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+            f"{lang.str('dialog.attack.xp')}:{self.xp - (self.lvl() ** 2 - 1)}/\
 {((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}",
             state="float")
         self.text_type = se.Text(self.type.name.capitalize(),
@@ -153,9 +153,9 @@ can't have more than 4 attacks!"
         self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
 {((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
         self.text_lvl.rechar(f"Lvl:{self.lvl()}")
-        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        logging.info(lang.str("log.pokete.gained_xp"), self.name, _xp, self.xp)
         if old_lvl < self.lvl():
-            logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
+            logging.info(lang.str("log.pokete.level_up"), self.name, self.lvl())
             return True
         return False
 
@@ -198,10 +198,10 @@ can't have more than 4 attacks!"
                           / (enem.defense if enem.defense >= 1 else 1))
                          * random_factor * eff)
             eff_text = {
-                eff < 1: "\nThat was not effective! ",
-                eff > 1: "\nThat was very effective! ",
+                eff < 1: f"\n{lang.str('dialog.attack.not_effective')} ",
+                eff > 1: f"\n{lang.str('dialog.attack.effective')} ",
                 eff == 1 or n_hp == 0: "",
-                random_factor == 0: f"{self.name} missed!"}[True]
+                random_factor == 0: lang.str("dialog.attack.missed") % self.name}[True]
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
             time.sleep(SPEED_OF_TIME * 0.4)
@@ -211,15 +211,15 @@ can't have more than 4 attacks!"
                 getattr(AttackActions(), attack.action)(self, enem)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
-                f'{self.ext_name} used {attack.name}! {eff_text}')
+                lang.str("dialog.attack.attack_used") % (self.ext_name, attack.name, eff_text))
             if enem == self:
                 time.sleep(SPEED_OF_TIME * 1)
-                fightmap.outp.outp(f'{self.ext_name} hurt itself!')
+                fightmap.outp.outp(lang.str("dialog.attack.hurt_itself") % self.ext_name)
             if random_factor != 0:
                 attack.give_effect(enem)
             for obj in [enem, self] if enem != self else [enem]:
                 obj.hp_bar.update(obj.oldhp)
-            logging.info("[Poke][%s] Used %s: %s", self.name, attack.name,
+            logging.info(lang.str("log.pokete.used_attack"), self.name, attack.name,
                          str({"eff": eff, "n_hp": n_hp}))
             fightmap.show()
 
@@ -244,9 +244,9 @@ can't have more than 4 attacks!"
         self.ico.add(evomap, round(evomap.width / 2 - 4),
                      round((evomap.height - 8) / 2))
         self.moves.shine()
-        evomap.outp.outp("Look!")
+        evomap.outp.outp(lang.str("dialog.evolution.look"))
         time.sleep(SPEED_OF_TIME * 0.5)
-        evomap.outp.outp(f"{evomap.outp.text}\n{self.name} is evolving!")
+        evomap.outp.outp(lang.str("dialog.evolution.evolving") % (evomap.outp.text, self.name))
         time.sleep(SPEED_OF_TIME * 1)
         for i in range(8):
             for j, k in zip([self.ico, new.ico], [new.ico, self.ico]):
@@ -261,7 +261,7 @@ can't have more than 4 attacks!"
         evomap.show()
         time.sleep(SPEED_OF_TIME * 0.01)
         new.moves.shine()
-        evomap.outp.outp(f"{self.name} evolved into {new.name}!")
+        evomap.outp.outp(lang.str("dialog.evolution.evolved") % (self.name, new.name))
         time.sleep(SPEED_OF_TIME * 5)
         for i in range(max(len(p_data.pokes[new.identifier]["attacks"])
                            - len(self.attack_obs), 0)):
@@ -269,7 +269,7 @@ can't have more than 4 attacks!"
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
-        logging.info("[Poke] %s evolved into %s", self.name, new.name)
+        logging.info(lang.str("log.pokete.evolved"), self.name, new.name)
         del self
         return True
 

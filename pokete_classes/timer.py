@@ -7,6 +7,7 @@ import scrap_engine as se
 from .hotkeys import Action, get_action
 from .ui_elements import Box
 from .loops import std_loop
+from .language import lang
 from release import SPEED_OF_TIME
 
 time = None
@@ -104,7 +105,7 @@ class Clock(Box):
 
     def __init__(self, time):
         self.time = time
-        super().__init__(9, 28, "Clock", f"{Action.CANCEL.mapping}:close")
+        super().__init__(9, 28, lang.str("ui.movemap.clock"), f"{Action.CANCEL.mapping}:close")
 
     def __call__(self, _map):
         """Shows the clock

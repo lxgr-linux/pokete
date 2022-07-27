@@ -13,6 +13,7 @@ from .input import ask_bool, ask_ok
 from .loops import std_loop
 from .color import Color
 from .poke import Poke
+from .language import lang
 from .ui_elements import StdFrame2
 
 
@@ -22,9 +23,9 @@ class Deck(detail.Informer):
     def __init__(self, height, width, figure, abb_funcs):
         self.map = gm.GameMap(height, width)
         self.submap = gm.GameSubmap(self.map, 0, 0, height, width, "decksubmap")
-        self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
-        self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: Move    ")
-        self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: Free")
+        self.exit_label = se.Text(f"{Action.DECK.mapping}: {lang.str('ui.dialog.exit')}  ")
+        self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: {lang.str('ui.dialog.move')}    ")
+        self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: {lang.str('ui.dialog.free')}")
         self.index = se.Object("*")
         self.figure = figure
         self.abb_funcs = abb_funcs
@@ -85,7 +86,7 @@ class Deck(detail.Informer):
                 if not indici:
                     indici.append(self.index.index)
                     self.move_label.rechar(
-                        f"{Action.MOVE_POKETE.mapping}: Move to "
+                        f"{Action.MOVE_POKETE.mapping}: {lang.str('ui.dialog.move_to')} "
                     )
                 else:
                     indici.append(self.index.index)
@@ -101,7 +102,7 @@ class Deck(detail.Informer):
                         + len(pokes[self.index.index].text_name.text) + 1,
                         pokes[self.index.index].text_name.y)
                     self.move_label.rechar(
-                        f"{Action.MOVE_POKETE.mapping}: Move    "
+                        f"{Action.MOVE_POKETE.mapping}: {lang.str('ui.dialog.move')}    "
                     )
                     self.submap.full_show()
             elif action.triggers(Action.FREE_POKETE):
@@ -113,9 +114,8 @@ class Deck(detail.Informer):
                         if poke.identifier != "__fallback__"
                     ]
                 ) <= 1:
-                    ask_ok(self.submap, "You can't free all your Poketes")
-                elif ask_bool(self.submap, f"Do you really want to free \
-{self.figure.pokes[self.index.index].name}?"):
+                    ask_ok(self.submap, lang.str("ui.dialog.cant_free_all"))
+                elif ask_bool(self.submap, lang.str("ui.dialog.free_pokete") % self.figure.pokes[self.index.index].name):
                     self.rem_pokes(pokes)
                     self.figure.pokes[self.index.index] = Poke("__fallback__",
                                                                    10, 0)

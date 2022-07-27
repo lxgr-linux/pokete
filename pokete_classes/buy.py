@@ -6,6 +6,7 @@ from pokete_general_use_fns import liner
 from .loops import std_loop
 from .ui_elements import Box, ChooseBox
 from .inv_items import invitems
+from .language import lang
 
 
 class Buy:
@@ -15,7 +16,7 @@ class Buy:
         _map: The se.Map the menu is shown on"""
 
     def __init__(self, figure, _map):
-        self.box = ChooseBox(_map.height - 3, 35, "Shop")
+        self.box = ChooseBox(_map.height - 3, 35, lang.str("ui.shop.title"))
         self.box2 = Box(7, 21)
         self.fig = figure
         self.map = _map

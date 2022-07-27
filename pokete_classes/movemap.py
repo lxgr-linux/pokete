@@ -10,6 +10,7 @@ from .classes import OutP
 from .color import Color
 from .event import _ev
 from .hotkeys import Action
+from .language import lang
 from release import SPEED_OF_TIME
 
 
@@ -27,13 +28,13 @@ class Movemap(gm.GameSubmap):
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
         self.label = se.Text(
-            f"{Action.DECK.mapping}: Deck  "
-            f"{Action.EXIT_GAME.mapping}: Quit  "
-            f"{Action.MAP.mapping}: Map  "
-            f"{Action.INVENTORY.mapping}: Inv.  "
-            f"{Action.POKEDEX.mapping}: Pokedex  "
-            f"{Action.CLOCK.mapping}: Clock  "
-            f"{Action.HELP.mapping}: help"
+            f"{Action.DECK.mapping}: {lang.str('ui.movemap.deck')} "
+            f"{Action.EXIT_GAME.mapping}: {lang.str('ui.menu.quit_game')}  "
+            f"{Action.MAP.mapping}: {lang.str('ui.movemap.map')}  "
+            f"{Action.INVENTORY.mapping}: {lang.str('ui.movemap.inventory_abbr')}  "
+            f"{Action.POKEDEX.mapping}: {lang.str('ui.dex.title')}  "
+            f"{Action.CLOCK.mapping}: {lang.str('ui.movemap.clock')}  "
+            f"{Action.HELP.mapping}: {lang.str('ui.movemap.help')}"
         )
         self.code_label = OutP("")
         self.multitext = OutP("", state="float")
@@ -74,8 +75,8 @@ class Movemap(gm.GameSubmap):
         self.assure_distance(x, y, 17, 10)
         self.multitext.rechar("")
         self.multitext.add(self, x - self.x + 1, y - self.y)
-        arr = [" < " + i + (" >" if j != len(inp_arr) - 1 else "")
-               for j, i in enumerate(inp_arr)]
+        arr = [" < " + lang.str(key) + (" >" if index != len(inp_arr) - 1 else "")
+               for index, key in enumerate(inp_arr)]
         for text in arr:
             # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
             _ev.clear()

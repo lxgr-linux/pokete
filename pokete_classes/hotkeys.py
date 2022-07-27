@@ -2,6 +2,7 @@ from enum import Enum, auto
 from collections import defaultdict
 from pokete_general_use_fns import liner
 from .event import _ev
+from .language import lang
 
 
 class Action(Enum):
@@ -180,9 +181,7 @@ def hotkeys_from_save(save, _map, version_change):
         if get_mapping(action, new_hotkey_mappings) is None
     ]
     if unset:
-        if version_change or ask_bool(_map, f"""The folowing keys are not set:
-{liner(", ".join([i.name for i in unset]), 60)}
-Should defaults be loaded for those keys?"""):
+        if version_change or ask_bool(_map, lang.str("ui.hotkeys.not_set") % {liner(", ".join([i.name for i in unset]), 60)}):
             for action in unset:
                 key = action.mapping
                 new_hotkey_mappings[key].append(action)

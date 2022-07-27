@@ -1,8 +1,9 @@
 """This file contains all classes related to mods"""
-
+from .color import Color
 from .side_loops import About
 from .ui_elements import InfoBox
 from .settings import settings
+from .language import lang
 
 
 class DummyMods:
@@ -16,7 +17,7 @@ class DummyMods:
 
 class ModError(Exception):
     """
-    An Error that is thrown, when an inproper module is loaded
+    An Error that is thrown, when an improper module is loaded
     ARGS:
         name: The mod's name
         err: The error that was thrown"""
@@ -24,7 +25,7 @@ class ModError(Exception):
     def __init__(self, name, err):
         self.name = name
         self.err = err
-        super().__init__(f"The mod '{name}' lacks attributes!\n{err}")
+        super().__init__(lang.str("error.mod.attributes") % (name, err))
 
 
 class ModInfo(About):
@@ -34,15 +35,14 @@ class ModInfo(About):
         mod_info: mod_info dict"""
 
     def __init__(self, _map, mod_info):
-        self.text = f"""
-Mods are { {True: 'enabled', False: 'disabled'}[settings("load_mods").val] }!
-To load a mod, it has to be placed in '/mods',
-and mods have to be enabled in the menu.
+        lang_key = f"ui.mods.currently.{'singular' if len(mod_info) == 1 else 'plural'}"
+        mod_status = f"ui.mods.{ {True: 'enabled', False: 'disabled'}[settings('load_mods').val]}"
 
-Currently {len(mod_info)} mod{"s are" if len(mod_info) != 1 else " is"} loaded:
-   """ + "\n   ".join(f"{i}-{mod_info[i]}" for i in mod_info) + "\n"
-        self.box = InfoBox(self.text, name="Mods", _map=_map)
+        self.text = f"{lang.str('ui.mods.description') % lang.str(mod_status)}" \
+                    f"\n\n{lang.str(lang_key)}" + "\n   ".join(
+                    f"{i}-{mod_info[i]}" for i in mod_info) + "\n "
+        self.box = InfoBox(self.text, name=lang.str("ui.mods.title"), _map=_map)
 
 
 if __name__ == "__main__":
-    print("\033[31;1mDo not execute this!\033[0m")
+    print(f"\033[31;1mDo not execute this!{Color.reset}")

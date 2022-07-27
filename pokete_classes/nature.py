@@ -8,6 +8,7 @@ from pokete_general_use_fns import liner
 from .hotkeys import Action
 from .ui_elements import LabelBox
 from .color import Color
+from .language import lang
 from .loops import easy_exit_loop
 
 
@@ -88,24 +89,22 @@ class NatureInfo(LabelBox):
         atc = self.get_amount(p_n.nature.atc)
         defense = self.get_amount(p_n.nature.defense)
         init = self.get_amount(p_n.nature.initiative)
-        text = se.Text(f"Nature: {'very ' if p_n.grade == 2 else ''}") \
+        text = se.Text(f"{lang.str('ui.details.nature')}: {lang.str('ui.details.nature.very') + ' ' if p_n.grade == 2 else ''}") \
             + se.Text(p_n.nature.name, esccode=Color.thicc
                       + p_n.nature.esccode) \
-            + se.Text(liner(f"\n\n That means it has {atc} attack, \
-{defense} defense and {init} initiative points compared to normal Poketes \
-of its kind.", 40, pre=""))
+            + se.Text(liner("\n\n" + (lang.str("ui.details.nature.description") % (atc, defense, init)), 40, pre=""))
         super().__init__(
-            text, name="Nature", info=f"{Action.CANCEL.mapping}:close"
+            text, name=lang.str("ui.details.nature"), info=f"{Action.CANCEL.mapping}:close"
         )
 
     @staticmethod
     def get_amount(val):
         """Gets the amount denominator for a value"""
         if val == 1:
-            return "the same"
+            return lang.str("ui.details.denominator.equal")
         elif val < 1:
-            return "less"
-        return "more"
+            return lang.str("ui.details.denominator.less_than")
+        return lang.str("ui.details.denominator.greater_than")
 
     def __call__(self, _map):
         """Shows the box
