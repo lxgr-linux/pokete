@@ -40,7 +40,8 @@ AppDir:
     - usr/share/pokete/gen_wiki.py./
     - usr/share/pokete/*.md
     - usr/share/scrap_engine
-    - usr/share/playsound
+    - usr/share/pokete/playsound/libplaysound.dll
+    - usr/share/pokete/playsound/libplaysound.osx.so
     - usr/share/doc
   test:
     fedora-30:
