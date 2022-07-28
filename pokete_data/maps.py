@@ -580,6 +580,15 @@ maps = {
         "poke_args": None,
         "weather": None
     },
+    "playmap_51": {
+        "height": 40,
+        "width": 110,
+        "song": "Map.mp3",
+        "pretty_name": "Route 0",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
 }
 
 
