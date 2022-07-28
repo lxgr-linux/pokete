@@ -31,7 +31,7 @@ pokes = {
         "hp": 25,
         "atc": 2,
         "defense": 4,
-        "attacks": ["tackle", "politure", "brick_throw"],
+        "attacks": ["tackle", "politure", "stone_crush", "brick_throw"],
         "pool": [],
         "miss_chance": 0,
         "desc": "A squared stone that can be readily found just lying around.",

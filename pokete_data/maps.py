@@ -10,7 +10,7 @@ maps = {
     },
     "playmap_1": {
         "height": 25,
-        "width": 90,
+        "width": 91,
         "song": "03 Chibi Ninja.mp3",
         "pretty_name": "Nice Town",
         "extra_actions": None,
