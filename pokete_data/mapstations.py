@@ -17,7 +17,9 @@ stations = {
             "additionals": [],
             "width": 1,
             "height": 1,
-            "desc": "A small town.",
+            "desc":
+                "Some small patches of grass surrounded by forrest, near "
+                "Nice Town.",
             "a_next": "playmap_1",
             "w_next": "cave_1"
         },
@@ -45,7 +47,7 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
-            "desc": "Part of light areas near Josi Town.",
+            "desc": "Part of light areas near Sunny Dale.",
             "a_next": "cave_1",
             "d_next": "playmap_3",
         },

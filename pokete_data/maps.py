@@ -21,6 +21,19 @@ maps = {
         },
         "weather": None
     },
+    "playmap_51": {
+        "height": 40,
+        "width": 110,
+        "song": "xDeviruchi - Exploring The Unknown.mp3",
+        "pretty_name": "Route 0",
+        "extra_actions": None,
+        "poke_args": {
+            "pokes": ["bushy", "lil_nut", "vogli"],
+            "minlvl": 30,
+            "maxlvl": 60
+        },
+        "weather": None
+    },
     "cave_1": {
         "height": 30,
         "width": 90,
@@ -576,15 +589,6 @@ maps = {
         "width": 30,
         "song": "Map.mp3",
         "pretty_name": "Pokete-Care",
-        "extra_actions": None,
-        "poke_args": None,
-        "weather": None
-    },
-    "playmap_51": {
-        "height": 40,
-        "width": 110,
-        "song": "Map.mp3",
-        "pretty_name": "Route 0",
         "extra_actions": None,
         "poke_args": None,
         "weather": None
