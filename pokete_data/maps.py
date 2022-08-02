@@ -28,7 +28,7 @@ maps = {
         "pretty_name": "Route 0",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["bushy", "lil_nut", "vogli"],
+            "pokes": ["bushy", "lil_nut", "radishon", "horny"],
             "minlvl": 30,
             "maxlvl": 60
         },
