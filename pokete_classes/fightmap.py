@@ -263,7 +263,7 @@ class FightMap(gm.GameMap):
                     return attack
             elif action.triggers(Action.RUN):
                 if (
-                    type(enem) is Trainer
+                    not enem.escapable
                     or not ask_bool(self, "Do you really want to run away?")
                 ):
                     continue
@@ -330,15 +330,7 @@ class FightMap(gm.GameMap):
             animations.fight_intro(self.height, self.width)
         self.add_1(*providers)
         for prov in providers:
-            if type(prov) is NatureProvider:
-                self.outp.outp(f"A wild {prov.curr.name} appeared!")
-            elif type(prov) is Trainer:
-                self.outp.outp(f"{prov.name} started a fight!")
-                time.sleep(SPEED_OF_TIME * 1)
-                self.outp.outp(
-                    f'{self.outp.text}\n{prov.gender} used {prov.curr.name} '
-                    'against you!'
-                )
+            prov.greet(self)
         time.sleep(SPEED_OF_TIME * 1)
         self.add_2(providers[0])
         self.fast_change([providers[0].curr.ico, self.deadico2, self.deadico1,
@@ -380,40 +372,9 @@ class FightMap(gm.GameMap):
                 self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
                 time.sleep(SPEED_OF_TIME * 3)
             if winner is not None:
-                if (
-                    type(winner) is Trainer
-                    and any(p.hp > 0 for p in loser.pokes[:6])
-                ):
-                    time.sleep(2)
-                    self.choose_poke(loser, False)
-                elif (
-                    loser.curr.player
-                    and any(p.hp > 0 for p in loser.pokes[:6])
-                    and ask_bool(self, "Do you want to choose another Pokete?")
-                ):
-                    success = self.choose_poke(loser)
-                    if not success:
+                if any(p.hp > 0 for p in loser.pokes[:6]):
+                    if not loser.handle_defeat(self, winner):
                         break
-                elif (
-                    isinstance(loser, Trainer)
-                    and winner.curr.player
-                    and any(p.hp > 0 for p in loser.pokes)
-                ):
-                    time.sleep(SPEED_OF_TIME * 1)
-                    ico = loser.curr.ico
-                    self.fast_change([ico, self.deadico1, self.deadico2], ico)
-                    self.deadico2.remove()
-                    self.show()
-                    self.clean_up(loser)
-                    loser.play_index += 1
-                    self.add_1(*providers)
-                    ico = loser.curr.ico
-                    self.fast_change(
-                        [ico, self.deadico2, self.deadico1, ico], ico
-                    )
-                    self.outp.outp(f"{loser.name} used {loser.curr.name}!")
-                    self.show()
-                    time.sleep(SPEED_OF_TIME * 2)
                 else:
                     break
             index += 1
@@ -422,7 +383,7 @@ class FightMap(gm.GameMap):
         _xp = sum(
             poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
             for poke in loser.pokes
-        ) * (2 if not isinstance(loser, NatureProvider) else 1)
+        ) * loser.xp_multiplier
         self.outp.outp(
             f"{winner.curr.ext_name} won!" +
             (f'\nXP + {_xp}' if winner.curr.player else '')

@@ -4,7 +4,6 @@ import time
 import logging
 import random
 import scrap_engine as se
-from pokete_classes.general import heal
 import pokete_classes.fightmap as fm
 from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 import pokete_classes.movemap as mvp
@@ -203,7 +202,7 @@ class Trainer(NPC, Provider):
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
-        Provider.__init__(self, pokes)
+        Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
         self.gender = gender
         self.lose_texts = lose_texts
@@ -256,11 +255,50 @@ class Trainer(NPC, Provider):
                 self.text({True: self.lose_texts,
                            False: self.win_texts + ["Here's $20!"]}
                           [is_winner])
-                heal(self) if is_winner else None
-                if not is_winner:
+                if is_winner:
+                    self.heal()
+                else:
                     self.fig.add_money(20)
                     self.set_used()
                 logging.info("[NPC][%s] %s against player", self.name,
                              'Lost' if not is_winner else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.fig)
+
+    def greet(self, fightmap):
+        """Outputs a greeting text at the fights start:
+        ARGS:
+            fightmap: fightmap object"""
+        fightmap.outp.outp(f"{self.name} started a fight!")
+        time.sleep(SPEED_OF_TIME * 1)
+        fightmap.outp.outp(
+            f'{fightmap.outp.text}\n{self.gender} used {self.curr.name} '
+            'against you!'
+        )
+
+    def handle_defeat(self, fightmap, winner):
+        """Function caleld when the providers current Pokete dies
+        ARGS:
+            fightmap: fightmap object
+            winner: the defeating provider"""
+        time.sleep(SPEED_OF_TIME * 1)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico1, fightmap.deadico2],
+            ico
+        )
+        fightmap.deadico2.remove()
+        fightmap.show()
+        fightmap.clean_up(self)
+        self.play_index += 1
+        fightmap.add_1(winner, self)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico2, fightmap.deadico1, ico],
+            ico
+        )
+        fightmap.outp.outp(f"{self.name} used {self.curr.name}!")
+        fightmap.show()
+        time.sleep(SPEED_OF_TIME * 2)
+        return True
+

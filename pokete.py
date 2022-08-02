@@ -19,7 +19,6 @@ from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
-from pokete_classes.general import heal
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
@@ -77,7 +76,7 @@ class NPCActions:
     @staticmethod
     def heal(npc):
         """Heal wrapper"""
-        heal(figure)
+        figure.heal()
 
     @staticmethod
     def playmap_17_boy(npc):
@@ -274,7 +273,7 @@ class CenterInteract(se.Object):
                 deck.deck(len(figure.pokes))
                 break
             elif action.triggers(Action.ACT_2):
-                heal(figure)
+                figure.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                  ["...", "Your Poketes are now healed!"])
@@ -376,7 +375,9 @@ class Figure(se.Object, ProtoFigure):
         super().__init__(r_char, state="solid")
         ProtoFigure.__init__(
             self,
-            [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]]
+            [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]],
+            escapable=True,
+            xp_multiplier=2
         )
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
@@ -388,13 +389,6 @@ class Figure(se.Object, ProtoFigure):
                                                     "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
-
-    def get_attack(self, fightmap, enem):
-        """Returns the choosen attack:
-        ARGS:
-            fightmap: fightmap object
-            anem: The enemy Provider"""
-        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         """Processes data from save file

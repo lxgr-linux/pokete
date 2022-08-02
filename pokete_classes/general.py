@@ -12,7 +12,7 @@ def check_walk_back(figure, self=None):
     if all(i.hp <= 0 for i in figure.pokes[:6]):
         amount = round(figure.get_money() / 3)
         figure.add_money(-amount)
-        heal(figure)
+        figure.heal()
         ask_ok(mvp.movemap, f"""All your Poketes have died and you ran
 back to the last Pokecenter you visited to heal them!
 On the way there, ${amount} fell out of your pocket!""")
@@ -20,17 +20,3 @@ On the way there, ${amount} fell out of your pocket!""")
         figure.map = figure.last_center_map
         logging.info("[Figure] You lost all Poketes and ran away!")
         DoorToCenter().action(figure)
-
-
-def heal(figure):
-    """Heals all poketes
-    ARGS:
-        figure: Figure object"""
-    for poke in figure.pokes:
-        poke.hp = poke.full_hp
-        poke.effects = []
-        poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar(f"HP:{poke.hp}")
-        poke.set_vars()
-        poke.hp_bar.make(poke.hp)
-        mvp.movemap.balls_label_rechar(figure.pokes)
