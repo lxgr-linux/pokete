@@ -33,7 +33,6 @@ import time
 import logging
 import random
 import scrap_engine as se
-from pokete_classes.general import heal
 import pokete_classes.fightmap as fm
 from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 import pokete_classes.movemap as mvp
@@ -232,7 +231,7 @@ class Trainer(NPC, Provider):
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
-        Provider.__init__(self, pokes)
+        Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
         self.gender = gender
         self.lose_texts = lose_texts
@@ -285,14 +284,52 @@ class Trainer(NPC, Provider):
                 self.text({True: self.lose_texts,
                            False: self.win_texts + [&#34;Here&#39;s $20!&#34;]}
                           [is_winner])
-                heal(self) if is_winner else None
-                if not is_winner:
+                if is_winner:
+                    self.heal()
+                else:
                     self.fig.add_money(20)
                     self.set_used()
                 logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
                              &#39;Lost&#39; if not is_winner else &#39;Won&#39;)
             self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
-            check_walk_back(self.fig)</code></pre>
+            check_walk_back(self.fig)
+
+    def greet(self, fightmap):
+        &#34;&#34;&#34;Outputs a greeting text at the fights start:
+        ARGS:
+            fightmap: fightmap object&#34;&#34;&#34;
+        fightmap.outp.outp(f&#34;{self.name} started a fight!&#34;)
+        time.sleep(SPEED_OF_TIME * 1)
+        fightmap.outp.outp(
+            f&#39;{fightmap.outp.text}\n{self.gender} used {self.curr.name} &#39;
+            &#39;against you!&#39;
+        )
+
+    def handle_defeat(self, fightmap, winner):
+        &#34;&#34;&#34;Function caleld when the providers current Pokete dies
+        ARGS:
+            fightmap: fightmap object
+            winner: the defeating provider&#34;&#34;&#34;
+        time.sleep(SPEED_OF_TIME * 1)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico1, fightmap.deadico2],
+            ico
+        )
+        fightmap.deadico2.remove()
+        fightmap.show()
+        fightmap.clean_up(self)
+        self.play_index += 1
+        fightmap.add_1(winner, self)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico2, fightmap.deadico1, ico],
+            ico
+        )
+        fightmap.outp.outp(f&#34;{self.name} used {self.curr.name}!&#34;)
+        fightmap.show()
+        time.sleep(SPEED_OF_TIME * 2)
+        return True</code></pre>
 </details>
 </section>
 <section>
@@ -898,7 +935,7 @@ Do you want to accept it?&#34;):
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
-        Provider.__init__(self, pokes)
+        Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
         self.gender = gender
         self.lose_texts = lose_texts
@@ -951,14 +988,52 @@ Do you want to accept it?&#34;):
                 self.text({True: self.lose_texts,
                            False: self.win_texts + [&#34;Here&#39;s $20!&#34;]}
                           [is_winner])
-                heal(self) if is_winner else None
-                if not is_winner:
+                if is_winner:
+                    self.heal()
+                else:
                     self.fig.add_money(20)
                     self.set_used()
                 logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
                              &#39;Lost&#39; if not is_winner else &#39;Won&#39;)
             self.walk_point(o_x, o_y + (1 if o_y &gt; self.y else -1))
-            check_walk_back(self.fig)</code></pre>
+            check_walk_back(self.fig)
+
+    def greet(self, fightmap):
+        &#34;&#34;&#34;Outputs a greeting text at the fights start:
+        ARGS:
+            fightmap: fightmap object&#34;&#34;&#34;
+        fightmap.outp.outp(f&#34;{self.name} started a fight!&#34;)
+        time.sleep(SPEED_OF_TIME * 1)
+        fightmap.outp.outp(
+            f&#39;{fightmap.outp.text}\n{self.gender} used {self.curr.name} &#39;
+            &#39;against you!&#39;
+        )
+
+    def handle_defeat(self, fightmap, winner):
+        &#34;&#34;&#34;Function caleld when the providers current Pokete dies
+        ARGS:
+            fightmap: fightmap object
+            winner: the defeating provider&#34;&#34;&#34;
+        time.sleep(SPEED_OF_TIME * 1)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico1, fightmap.deadico2],
+            ico
+        )
+        fightmap.deadico2.remove()
+        fightmap.show()
+        fightmap.clean_up(self)
+        self.play_index += 1
+        fightmap.add_1(winner, self)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico2, fightmap.deadico1, ico],
+            ico
+        )
+        fightmap.outp.outp(f&#34;{self.name} used {self.curr.name}!&#34;)
+        fightmap.show()
+        time.sleep(SPEED_OF_TIME * 2)
+        return True</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -967,6 +1042,7 @@ Do you want to accept it?&#34;):
 <li>scrap_engine.ObjectGroup</li>
 <li>scrap_engine.AddableObject</li>
 <li><a title="pokete_classes.providers.Provider" href="providers.html#pokete_classes.providers.Provider">Provider</a></li>
+<li>abc.ABC</li>
 </ul>
 <h3>Methods</h3>
 <dl>
@@ -1002,8 +1078,9 @@ Do you want to accept it?&#34;):
             self.text({True: self.lose_texts,
                        False: self.win_texts + [&#34;Here&#39;s $20!&#34;]}
                       [is_winner])
-            heal(self) if is_winner else None
-            if not is_winner:
+            if is_winner:
+                self.heal()
+            else:
                 self.fig.add_money(20)
                 self.set_used()
             logging.info(&#34;[NPC][%s] %s against player&#34;, self.name,
@@ -1034,6 +1111,49 @@ See se.Box.add</p></div>
     super().add(_map, x, y)</code></pre>
 </details>
 </dd>
+<dt id="pokete_classes.npcs.Trainer.handle_defeat"><code class="name flex">
+<span>def <span class="ident">handle_defeat</span></span>(<span>self, fightmap, winner)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Function caleld when the providers current Pokete dies</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>fightmap</code></strong></dt>
+<dd>fightmap object</dd>
+<dt><strong><code>winner</code></strong></dt>
+<dd>the defeating provider</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def handle_defeat(self, fightmap, winner):
+    &#34;&#34;&#34;Function caleld when the providers current Pokete dies
+    ARGS:
+        fightmap: fightmap object
+        winner: the defeating provider&#34;&#34;&#34;
+    time.sleep(SPEED_OF_TIME * 1)
+    ico = self.curr.ico
+    fightmap.fast_change(
+        [ico, fightmap.deadico1, fightmap.deadico2],
+        ico
+    )
+    fightmap.deadico2.remove()
+    fightmap.show()
+    fightmap.clean_up(self)
+    self.play_index += 1
+    fightmap.add_1(winner, self)
+    ico = self.curr.ico
+    fightmap.fast_change(
+        [ico, fightmap.deadico2, fightmap.deadico1, ico],
+        ico
+    )
+    fightmap.outp.outp(f&#34;{self.name} used {self.curr.name}!&#34;)
+    fightmap.show()
+    time.sleep(SPEED_OF_TIME * 2)
+    return True</code></pre>
+</details>
+</dd>
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
@@ -1056,11 +1176,13 @@ See se.Box.add</p></div>
 <li><code><b><a title="pokete_classes.providers.Provider" href="providers.html#pokete_classes.providers.Provider">Provider</a></b></code>:
 <ul class="hlist">
 <li><code><a title="pokete_classes.providers.Provider.get_attack" href="providers.html#pokete_classes.providers.Provider.get_attack">get_attack</a></code></li>
+<li><code><a title="pokete_classes.providers.Provider.greet" href="providers.html#pokete_classes.providers.Provider.greet">greet</a></code></li>
 </ul>
 </li>
 <li><code><b><a title="pokete_classes.providers.Provider" href="providers.html#pokete_classes.providers.Provider">Provider</a></b></code>:
 <ul class="hlist">
 <li><code><a title="pokete_classes.providers.Provider.curr" href="providers.html#pokete_classes.providers.Provider.curr">curr</a></code></li>
+<li><code><a title="pokete_classes.providers.Provider.heal" href="providers.html#pokete_classes.providers.Provider.heal">heal</a></code></li>
 <li><code><a title="pokete_classes.providers.Provider.index_conf" href="providers.html#pokete_classes.providers.Provider.index_conf">index_conf</a></code></li>
 </ul>
 </li>
@@ -1114,6 +1236,7 @@ See se.Box.add</p></div>
 <ul class="">
 <li><code><a title="pokete_classes.npcs.Trainer.action" href="#pokete_classes.npcs.Trainer.action">action</a></code></li>
 <li><code><a title="pokete_classes.npcs.Trainer.add" href="#pokete_classes.npcs.Trainer.add">add</a></code></li>
+<li><code><a title="pokete_classes.npcs.Trainer.handle_defeat" href="#pokete_classes.npcs.Trainer.handle_defeat">handle_defeat</a></code></li>
 </ul>
 </li>
 </ul>

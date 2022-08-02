@@ -56,7 +56,6 @@ from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
-from pokete_classes.general import heal
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
@@ -114,7 +113,7 @@ class NPCActions:
     @staticmethod
     def heal(npc):
         &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
-        heal(figure)
+        figure.heal()
 
     @staticmethod
     def playmap_17_boy(npc):
@@ -311,7 +310,7 @@ class CenterInteract(se.Object):
                 deck.deck(len(figure.pokes))
                 break
             elif action.triggers(Action.ACT_2):
-                heal(figure)
+                figure.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                  [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
@@ -413,7 +412,9 @@ class Figure(se.Object, ProtoFigure):
         super().__init__(r_char, state=&#34;solid&#34;)
         ProtoFigure.__init__(
             self,
-            [Poke.from_dict(_si[&#34;pokes&#34;][poke]) for poke in _si[&#34;pokes&#34;]]
+            [Poke.from_dict(_si[&#34;pokes&#34;][poke]) for poke in _si[&#34;pokes&#34;]],
+            escapable=True,
+            xp_multiplier=2
         )
         self.__money = _si.get(&#34;money&#34;, 10)
         self.inv = _si.get(&#34;inv&#34;, {&#34;poketeballs&#34;: 10})
@@ -425,13 +426,6 @@ class Figure(se.Object, ProtoFigure):
                                                     &#34;playmap_1&#34;)]
         self.oldmap = obmp.ob_maps[_si.get(&#34;oldmap&#34;, &#34;playmap_1&#34;)]
         self.direction = &#34;t&#34;
-
-    def get_attack(self, fightmap, enem):
-        &#34;&#34;&#34;Returns the choosen attack:
-        ARGS:
-            fightmap: fightmap object
-            anem: The enemy Provider&#34;&#34;&#34;
-        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         &#34;&#34;&#34;Processes data from save file
@@ -2372,7 +2366,7 @@ this will remain</p></div>
                 deck.deck(len(figure.pokes))
                 break
             elif action.triggers(Action.ACT_2):
-                heal(figure)
+                figure.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                                  [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
@@ -2428,7 +2422,7 @@ this will remain</p></div>
             deck.deck(len(figure.pokes))
             break
         elif action.triggers(Action.ACT_2):
-            heal(figure)
+            figure.heal()
             time.sleep(SPEED_OF_TIME * 0.5)
             mvp.movemap.text(int(mvp.movemap.width / 2), 3,
                              [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
@@ -2620,7 +2614,9 @@ def playmap_7():
         super().__init__(r_char, state=&#34;solid&#34;)
         ProtoFigure.__init__(
             self,
-            [Poke.from_dict(_si[&#34;pokes&#34;][poke]) for poke in _si[&#34;pokes&#34;]]
+            [Poke.from_dict(_si[&#34;pokes&#34;][poke]) for poke in _si[&#34;pokes&#34;]],
+            escapable=True,
+            xp_multiplier=2
         )
         self.__money = _si.get(&#34;money&#34;, 10)
         self.inv = _si.get(&#34;inv&#34;, {&#34;poketeballs&#34;: 10})
@@ -2632,13 +2628,6 @@ def playmap_7():
                                                     &#34;playmap_1&#34;)]
         self.oldmap = obmp.ob_maps[_si.get(&#34;oldmap&#34;, &#34;playmap_1&#34;)]
         self.direction = &#34;t&#34;
-
-    def get_attack(self, fightmap, enem):
-        &#34;&#34;&#34;Returns the choosen attack:
-        ARGS:
-            fightmap: fightmap object
-            anem: The enemy Provider&#34;&#34;&#34;
-        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         &#34;&#34;&#34;Processes data from save file
@@ -2739,6 +2728,7 @@ in the inventory!&#34;
 <li>scrap_engine.AddableObject</li>
 <li>pokete_classes.providers.ProtoFigure</li>
 <li>pokete_classes.providers.Provider</li>
+<li>abc.ABC</li>
 </ul>
 <h3>Methods</h3>
 <dl>
@@ -2796,30 +2786,6 @@ in the inventory!&#34;
     else:
         self.pokes[idx] = poke
     logging.info(&#34;[Figure] Added Poke %s&#34;, poke.name)</code></pre>
-</details>
-</dd>
-<dt id="pokete.Figure.get_attack"><code class="name flex">
-<span>def <span class="ident">get_attack</span></span>(<span>self, fightmap, enem)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the choosen attack:</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>fightmap</code></strong></dt>
-<dd>fightmap object</dd>
-<dt><strong><code>anem</code></strong></dt>
-<dd>The enemy Provider</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_attack(self, fightmap, enem):
-    &#34;&#34;&#34;Returns the choosen attack:
-    ARGS:
-        fightmap: fightmap object
-        anem: The enemy Provider&#34;&#34;&#34;
-    return fightmap.get_figure_attack(self, enem)</code></pre>
 </details>
 </dd>
 <dt id="pokete.Figure.get_money"><code class="name flex">
@@ -3315,7 +3281,7 @@ npc: The NPC the method belongs to</p></div>
     @staticmethod
     def heal(npc):
         &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
-        heal(figure)
+        figure.heal()
 
     @staticmethod
     def playmap_17_boy(npc):
@@ -3512,7 +3478,7 @@ def chat(npc):
 <pre><code class="python">@staticmethod
 def heal(npc):
     &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
-    heal(figure)</code></pre>
+    figure.heal()</code></pre>
 </details>
 </dd>
 <dt id="pokete.NPCActions.playmap_10_old_man"><code class="name flex">
@@ -4024,7 +3990,6 @@ def swap_poke(npc):
 <ul class="two-column">
 <li><code><a title="pokete.Figure.add_money" href="#pokete.Figure.add_money">add_money</a></code></li>
 <li><code><a title="pokete.Figure.add_poke" href="#pokete.Figure.add_poke">add_poke</a></code></li>
-<li><code><a title="pokete.Figure.get_attack" href="#pokete.Figure.get_attack">get_attack</a></code></li>
 <li><code><a title="pokete.Figure.get_money" href="#pokete.Figure.get_money">get_money</a></code></li>
 <li><code><a title="pokete.Figure.give_item" href="#pokete.Figure.give_item">give_item</a></code></li>
 <li><code><a title="pokete.Figure.has_item" href="#pokete.Figure.has_item">has_item</a></code></li>

@@ -41,28 +41,14 @@ def check_walk_back(figure, self=None):
     if all(i.hp &lt;= 0 for i in figure.pokes[:6]):
         amount = round(figure.get_money() / 3)
         figure.add_money(-amount)
-        heal(figure)
+        figure.heal()
         ask_ok(mvp.movemap, f&#34;&#34;&#34;All your Poketes have died and you ran
 back to the last Pokecenter you visited to heal them!
 On the way there, ${amount} fell out of your pocket!&#34;&#34;&#34;)
         figure.remove()
         figure.map = figure.last_center_map
         logging.info(&#34;[Figure] You lost all Poketes and ran away!&#34;)
-        DoorToCenter().action(figure)
-
-
-def heal(figure):
-    &#34;&#34;&#34;Heals all poketes
-    ARGS:
-        figure: Figure object&#34;&#34;&#34;
-    for poke in figure.pokes:
-        poke.hp = poke.full_hp
-        poke.effects = []
-        poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
-        poke.set_vars()
-        poke.hp_bar.make(poke.hp)
-        mvp.movemap.balls_label_rechar(figure.pokes)</code></pre>
+        DoorToCenter().action(figure)</code></pre>
 </details>
 </section>
 <section>
@@ -88,7 +74,7 @@ or not</p></div>
     if all(i.hp &lt;= 0 for i in figure.pokes[:6]):
         amount = round(figure.get_money() / 3)
         figure.add_money(-amount)
-        heal(figure)
+        figure.heal()
         ask_ok(mvp.movemap, f&#34;&#34;&#34;All your Poketes have died and you ran
 back to the last Pokecenter you visited to heal them!
 On the way there, ${amount} fell out of your pocket!&#34;&#34;&#34;)
@@ -96,34 +82,6 @@ On the way there, ${amount} fell out of your pocket!&#34;&#34;&#34;)
         figure.map = figure.last_center_map
         logging.info(&#34;[Figure] You lost all Poketes and ran away!&#34;)
         DoorToCenter().action(figure)</code></pre>
-</details>
-</dd>
-<dt id="pokete_classes.general.heal"><code class="name flex">
-<span>def <span class="ident">heal</span></span>(<span>figure)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Heals all poketes</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>figure</code></strong></dt>
-<dd>Figure object</dd>
-</dl></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def heal(figure):
-    &#34;&#34;&#34;Heals all poketes
-    ARGS:
-        figure: Figure object&#34;&#34;&#34;
-    for poke in figure.pokes:
-        poke.hp = poke.full_hp
-        poke.effects = []
-        poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
-        poke.set_vars()
-        poke.hp_bar.make(poke.hp)
-        mvp.movemap.balls_label_rechar(figure.pokes)</code></pre>
 </details>
 </dd>
 </dl>
@@ -145,7 +103,6 @@ On the way there, ${amount} fell out of your pocket!&#34;&#34;&#34;)
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="pokete_classes.general.check_walk_back" href="#pokete_classes.general.check_walk_back">check_walk_back</a></code></li>
-<li><code><a title="pokete_classes.general.heal" href="#pokete_classes.general.heal">heal</a></code></li>
 </ul>
 </li>
 </ul>
