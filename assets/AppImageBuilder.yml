@@ -30,6 +30,7 @@ AppDir:
       - python3.10
     exclude:
       - perl
+      - gcc-12-base
   files:
     include: []
     exclude:
@@ -42,6 +43,10 @@ AppDir:
     - usr/share/scrap_engine
     - usr/share/pokete/playsound/libplaysound.dll
     - usr/share/pokete/playsound/libplaysound.osx.so
+    - usr/share/pokete/assets/ss
+    - usr/share/pokete/assets/*.png
+    - usr/share/pokete/assets/*.kra
+    - usr/share/pokete/assets/*.svg
     - usr/share/doc
   test:
     fedora-30:
