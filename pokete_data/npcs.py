@@ -386,6 +386,27 @@ found some cool Poketes.",
         "x": 6,
         "y": 3
     },
+    "npc_30": {
+        "texts": ["In this field you can find Poketes to fight against", "If one is weak enought you can throw a Poketeball an try to catch it!"],
+        "fn": None,
+        "map": "playmap_1",
+        "x": 67,
+        "y": 7
+    },
+    "npc_31": {
+        "texts": ["Going this route you will find more Poketes, you can fight and catch."],
+        "fn": None,
+        "map": "playmap_1",
+        "x": 87,
+        "y": 15
+    },
+    "npc_31": {
+        "texts": ["In this cave you may find some interesting Poketes."],
+        "fn": None,
+        "map": "playmap_51",
+        "x": 27,
+        "y": 2
+    },
 }
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ maps = {
     },
     "playmap_1": {
         "height": 25,
-        "width": 90,
+        "width": 91,
         "song": "03 Chibi Ninja.mp3",
         "pretty_name": "Nice Town",
         "extra_actions": None,
@@ -18,6 +18,19 @@ maps = {
             "pokes": ["rato", "horny", "vogli"],
             "minlvl": 15,
             "maxlvl": 40
+        },
+        "weather": None
+    },
+    "playmap_51": {
+        "height": 40,
+        "width": 110,
+        "song": "xDeviruchi - Exploring The Unknown.mp3",
+        "pretty_name": "Route 0",
+        "extra_actions": None,
+        "poke_args": {
+            "pokes": ["bushy", "lil_nut", "radishon", "horny"],
+            "minlvl": 30,
+            "maxlvl": 60
         },
         "weather": None
     },
