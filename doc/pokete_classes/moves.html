@@ -30,6 +30,7 @@
 <pre><code class="python">&#34;&#34;&#34;Contains all moves a Pokete can fullfill&#34;&#34;&#34;
 
 import time
+import random
 import scrap_engine as se
 from .color import Color
 from release import SPEED_OF_TIME
@@ -180,6 +181,37 @@ class Moves:
         &#34;&#34;&#34;Downgrade move&#34;&#34;&#34;
         self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34;
                                    + Color.reset)
+
+    def rain(self):
+        &#34;&#34;&#34;Rain animation&#34;&#34;&#34;
+        drops = []
+        _map = self.poke.ico.map
+        cloud = se.Text(&#34;&#34;&#34;  _____
+ (  )  )_
+(____)___)&#34;&#34;&#34;)
+
+        cloud.add(
+            _map,
+            round(_map.width / 2) - 5,
+            round(_map.frame_big.height / 2) - 1
+        )
+        _map.show()
+        for i in range(50):
+            if i &gt;= 5:
+                drops.pop(random.choice(range(len(drops)))).remove()
+            rain = se.Text(&#34;\\&#34;, esccode=Color.blue)
+            rain.add(
+                _map,
+                random.choice(range(9)) + cloud.x + 1,
+                random.choice(range(2)) + cloud.y + 3
+            )
+            _map.show()
+            time.sleep(0.05)
+            drops.append(rain)
+        cloud.remove()
+        for drop in drops:
+            drop.remove()
+        _map.show()
 
 
 if __name__ == &#34;__main__&#34;:
@@ -355,7 +387,38 @@ if __name__ == &#34;__main__&#34;:
     def downgrade(self):
         &#34;&#34;&#34;Downgrade move&#34;&#34;&#34;
         self.poke.enem.moves.shine(ico=Color.thicc + Color.red + &#34;-&#34;
-                                   + Color.reset)</code></pre>
+                                   + Color.reset)
+
+    def rain(self):
+        &#34;&#34;&#34;Rain animation&#34;&#34;&#34;
+        drops = []
+        _map = self.poke.ico.map
+        cloud = se.Text(&#34;&#34;&#34;  _____
+ (  )  )_
+(____)___)&#34;&#34;&#34;)
+
+        cloud.add(
+            _map,
+            round(_map.width / 2) - 5,
+            round(_map.frame_big.height / 2) - 1
+        )
+        _map.show()
+        for i in range(50):
+            if i &gt;= 5:
+                drops.pop(random.choice(range(len(drops)))).remove()
+            rain = se.Text(&#34;\\&#34;, esccode=Color.blue)
+            rain.add(
+                _map,
+                random.choice(range(9)) + cloud.x + 1,
+                random.choice(range(2)) + cloud.y + 3
+            )
+            _map.show()
+            time.sleep(0.05)
+            drops.append(rain)
+        cloud.remove()
+        for drop in drops:
+            drop.remove()
+        _map.show()</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -522,6 +585,47 @@ if __name__ == &#34;__main__&#34;:
         time.sleep(SPEED_OF_TIME * 0.3)</code></pre>
 </details>
 </dd>
+<dt id="pokete_classes.moves.Moves.rain"><code class="name flex">
+<span>def <span class="ident">rain</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Rain animation</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">    def rain(self):
+        &#34;&#34;&#34;Rain animation&#34;&#34;&#34;
+        drops = []
+        _map = self.poke.ico.map
+        cloud = se.Text(&#34;&#34;&#34;  _____
+ (  )  )_
+(____)___)&#34;&#34;&#34;)
+
+        cloud.add(
+            _map,
+            round(_map.width / 2) - 5,
+            round(_map.frame_big.height / 2) - 1
+        )
+        _map.show()
+        for i in range(50):
+            if i &gt;= 5:
+                drops.pop(random.choice(range(len(drops)))).remove()
+            rain = se.Text(&#34;\\&#34;, esccode=Color.blue)
+            rain.add(
+                _map,
+                random.choice(range(9)) + cloud.x + 1,
+                random.choice(range(2)) + cloud.y + 3
+            )
+            _map.show()
+            time.sleep(0.05)
+            drops.append(rain)
+        cloud.remove()
+        for drop in drops:
+            drop.remove()
+        _map.show()</code></pre>
+</details>
+</dd>
 <dt id="pokete_classes.moves.Moves.shine"><code class="name flex">
 <span>def <span class="ident">shine</span></span>(<span>self, ico='\x1b[1m\x1b[32m*\x1b[0m')</span>
 </code></dt>
@@ -625,6 +729,7 @@ if __name__ == &#34;__main__&#34;:
 <li><code><a title="pokete_classes.moves.Moves.fireball" href="#pokete_classes.moves.Moves.fireball">fireball</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.gun" href="#pokete_classes.moves.Moves.gun">gun</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.pound" href="#pokete_classes.moves.Moves.pound">pound</a></code></li>
+<li><code><a title="pokete_classes.moves.Moves.rain" href="#pokete_classes.moves.Moves.rain">rain</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.shine" href="#pokete_classes.moves.Moves.shine">shine</a></code></li>
 <li><code><a title="pokete_classes.moves.Moves.throw" href="#pokete_classes.moves.Moves.throw">throw</a></code></li>
 </ul>

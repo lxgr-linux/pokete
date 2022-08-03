@@ -352,7 +352,6 @@ class FightMap(gm.GameMap):
                     for prov in providers
             )
         )
-        weather = providers[0].map.weather
         for prov in providers:
             prov.index_conf()
         if settings(&#34;animations&#34;).val:  # Intro animation
@@ -383,7 +382,7 @@ class FightMap(gm.GameMap):
             if attack == &#34;won&#34;:
                 return player
             elif attack != &#34;&#34;:
-                player.curr.attack(attack, enem.curr, self, weather)
+                player.curr.attack(attack, enem.curr, self, providers)
             self.show()
             time.sleep(SPEED_OF_TIME * 0.5)
             winner = None
@@ -1228,7 +1227,6 @@ None: To let the enemy attack</p></div>
                     for prov in providers
             )
         )
-        weather = providers[0].map.weather
         for prov in providers:
             prov.index_conf()
         if settings(&#34;animations&#34;).val:  # Intro animation
@@ -1259,7 +1257,7 @@ None: To let the enemy attack</p></div>
             if attack == &#34;won&#34;:
                 return player
             elif attack != &#34;&#34;:
-                player.curr.attack(attack, enem.curr, self, weather)
+                player.curr.attack(attack, enem.curr, self, providers)
             self.show()
             time.sleep(SPEED_OF_TIME * 0.5)
             winner = None
@@ -1588,7 +1586,6 @@ will be set to.</dd>
                 for prov in providers
         )
     )
-    weather = providers[0].map.weather
     for prov in providers:
         prov.index_conf()
     if settings(&#34;animations&#34;).val:  # Intro animation
@@ -1619,7 +1616,7 @@ will be set to.</dd>
         if attack == &#34;won&#34;:
             return player
         elif attack != &#34;&#34;:
-            player.curr.attack(attack, enem.curr, self, weather)
+            player.curr.attack(attack, enem.curr, self, providers)
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
         winner = None

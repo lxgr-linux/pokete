@@ -29,6 +29,10 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Contains the AttackActions class&#34;&#34;&#34;
 
+import time
+from .weather import Weather
+
+
 class AttackActions:
     &#34;&#34;&#34;This class contains all actions callable by an attack
     All these methods belong to one or more attacks and follow the following
@@ -37,46 +41,57 @@ class AttackActions:
             obj: The Poke object that attacks
             enem: The Poke object that is attacked&#34;&#34;&#34;
 
-    def cry(self, obj, enem):
+    def cry(self, obj, enem, _):
         enem.miss_chance += 1
 
-    def eye_pick(self, obj, enem):
+    def eye_pick(self, obj, enem, _):
         enem.miss_chance += 2
 
-    def chocer(self, obj, enem):
+    def chocer(self, obj, enem, _):
         enem.atc -= 1
 
-    def snooze(self, obj, enem):
+    def snooze(self, obj, enem, _):
         enem.miss_chance += 0.5
         enem.atc -= 1
         enem.defense -= 1
 
-    def politure(self, obj, enem):
+    def politure(self, obj, enem, _):
         obj.defense += 1
         obj.atc += 1
 
-    def bark_hardening(self, obj, enem):
+    def bark_hardening(self, obj, enem, _):
         obj.defense += 1
 
-    def dick_energy(self, obj, enem):
+    def dick_energy(self, obj, enem, _):
         obj.atc += 2
 
-    def hiding(self, obj, enem):
+    def hiding(self, obj, enem, _):
         obj.defense += 2
 
-    def brooding(self, obj, enem):
+    def brooding(self, obj, enem, _):
         obj.hp += 2 if obj.hp + 2 &lt;= obj.full_hp else 0
 
-    def heart_touch(self, obj, enem):
+    def heart_touch(self, obj, enem, _):
         enem.defense -= 4
 
-    def super_sucker(self, obj, enem):
-        enem.hp -=2
-        obj.hp +=2 if obj.hp+2 &lt;= obj.full_hp else 0
+    def super_sucker(self, obj, enem, _):
+        enem.hp -= 2
+        obj.hp += 2 if obj.hp+2 &lt;= obj.full_hp else 0
 
-    def sucker(self, obj, enem):
+    def sucker(self, obj, enem, _):
         enem.hp -= 1
         obj.hp += 1 if obj.hp+1 &lt;= obj.full_hp else 0
+
+    def rain_dance(self, obj, enem, providers):
+        providers[0].map.weather = Weather(&#34;rain&#34;)
+        obj.ico.map.outp.outp(&#34;It started raining!&#34;)
+        time.sleep(2)
+
+    def encouragement(self, obj, _, providers):
+        for poke in next(
+            prov for prov in providers if prov.curr == obj
+        ).pokes[:6]:
+            poke.atc += 2
 
 
 if __name__ == &#34;__main__&#34;:
@@ -114,51 +129,62 @@ enem: The Poke object that is attacked</p></div>
             obj: The Poke object that attacks
             enem: The Poke object that is attacked&#34;&#34;&#34;
 
-    def cry(self, obj, enem):
+    def cry(self, obj, enem, _):
         enem.miss_chance += 1
 
-    def eye_pick(self, obj, enem):
+    def eye_pick(self, obj, enem, _):
         enem.miss_chance += 2
 
-    def chocer(self, obj, enem):
+    def chocer(self, obj, enem, _):
         enem.atc -= 1
 
-    def snooze(self, obj, enem):
+    def snooze(self, obj, enem, _):
         enem.miss_chance += 0.5
         enem.atc -= 1
         enem.defense -= 1
 
-    def politure(self, obj, enem):
+    def politure(self, obj, enem, _):
         obj.defense += 1
         obj.atc += 1
 
-    def bark_hardening(self, obj, enem):
+    def bark_hardening(self, obj, enem, _):
         obj.defense += 1
 
-    def dick_energy(self, obj, enem):
+    def dick_energy(self, obj, enem, _):
         obj.atc += 2
 
-    def hiding(self, obj, enem):
+    def hiding(self, obj, enem, _):
         obj.defense += 2
 
-    def brooding(self, obj, enem):
+    def brooding(self, obj, enem, _):
         obj.hp += 2 if obj.hp + 2 &lt;= obj.full_hp else 0
 
-    def heart_touch(self, obj, enem):
+    def heart_touch(self, obj, enem, _):
         enem.defense -= 4
 
-    def super_sucker(self, obj, enem):
-        enem.hp -=2
-        obj.hp +=2 if obj.hp+2 &lt;= obj.full_hp else 0
+    def super_sucker(self, obj, enem, _):
+        enem.hp -= 2
+        obj.hp += 2 if obj.hp+2 &lt;= obj.full_hp else 0
 
-    def sucker(self, obj, enem):
+    def sucker(self, obj, enem, _):
         enem.hp -= 1
-        obj.hp += 1 if obj.hp+1 &lt;= obj.full_hp else 0</code></pre>
+        obj.hp += 1 if obj.hp+1 &lt;= obj.full_hp else 0
+
+    def rain_dance(self, obj, enem, providers):
+        providers[0].map.weather = Weather(&#34;rain&#34;)
+        obj.ico.map.outp.outp(&#34;It started raining!&#34;)
+        time.sleep(2)
+
+    def encouragement(self, obj, _, providers):
+        for poke in next(
+            prov for prov in providers if prov.curr == obj
+        ).pokes[:6]:
+            poke.atc += 2</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
 <dt id="pokete_classes.attack_actions.AttackActions.bark_hardening"><code class="name flex">
-<span>def <span class="ident">bark_hardening</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">bark_hardening</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -166,12 +192,12 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def bark_hardening(self, obj, enem):
+<pre><code class="python">def bark_hardening(self, obj, enem, _):
     obj.defense += 1</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.brooding"><code class="name flex">
-<span>def <span class="ident">brooding</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">brooding</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -179,12 +205,12 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def brooding(self, obj, enem):
+<pre><code class="python">def brooding(self, obj, enem, _):
     obj.hp += 2 if obj.hp + 2 &lt;= obj.full_hp else 0</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.chocer"><code class="name flex">
-<span>def <span class="ident">chocer</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">chocer</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -192,12 +218,12 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def chocer(self, obj, enem):
+<pre><code class="python">def chocer(self, obj, enem, _):
     enem.atc -= 1</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.cry"><code class="name flex">
-<span>def <span class="ident">cry</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">cry</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -205,12 +231,12 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def cry(self, obj, enem):
+<pre><code class="python">def cry(self, obj, enem, _):
     enem.miss_chance += 1</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.dick_energy"><code class="name flex">
-<span>def <span class="ident">dick_energy</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">dick_energy</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -218,12 +244,12 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def dick_energy(self, obj, enem):
+<pre><code class="python">def dick_energy(self, obj, enem, _):
     obj.atc += 2</code></pre>
 </details>
 </dd>
-<dt id="pokete_classes.attack_actions.AttackActions.eye_pick"><code class="name flex">
-<span>def <span class="ident">eye_pick</span></span>(<span>self, obj, enem)</span>
+<dt id="pokete_classes.attack_actions.AttackActions.encouragement"><code class="name flex">
+<span>def <span class="ident">encouragement</span></span>(<span>self, obj, _, providers)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -231,12 +257,28 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def eye_pick(self, obj, enem):
+<pre><code class="python">def encouragement(self, obj, _, providers):
+    for poke in next(
+        prov for prov in providers if prov.curr == obj
+    ).pokes[:6]:
+        poke.atc += 2</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.attack_actions.AttackActions.eye_pick"><code class="name flex">
+<span>def <span class="ident">eye_pick</span></span>(<span>self, obj, enem, _)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eye_pick(self, obj, enem, _):
     enem.miss_chance += 2</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.heart_touch"><code class="name flex">
-<span>def <span class="ident">heart_touch</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">heart_touch</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -244,12 +286,12 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def heart_touch(self, obj, enem):
+<pre><code class="python">def heart_touch(self, obj, enem, _):
     enem.defense -= 4</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.hiding"><code class="name flex">
-<span>def <span class="ident">hiding</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">hiding</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -257,12 +299,12 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def hiding(self, obj, enem):
+<pre><code class="python">def hiding(self, obj, enem, _):
     obj.defense += 2</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.politure"><code class="name flex">
-<span>def <span class="ident">politure</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">politure</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -270,13 +312,13 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def politure(self, obj, enem):
+<pre><code class="python">def politure(self, obj, enem, _):
     obj.defense += 1
     obj.atc += 1</code></pre>
 </details>
 </dd>
-<dt id="pokete_classes.attack_actions.AttackActions.snooze"><code class="name flex">
-<span>def <span class="ident">snooze</span></span>(<span>self, obj, enem)</span>
+<dt id="pokete_classes.attack_actions.AttackActions.rain_dance"><code class="name flex">
+<span>def <span class="ident">rain_dance</span></span>(<span>self, obj, enem, providers)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -284,14 +326,29 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def snooze(self, obj, enem):
+<pre><code class="python">def rain_dance(self, obj, enem, providers):
+    providers[0].map.weather = Weather(&#34;rain&#34;)
+    obj.ico.map.outp.outp(&#34;It started raining!&#34;)
+    time.sleep(2)</code></pre>
+</details>
+</dd>
+<dt id="pokete_classes.attack_actions.AttackActions.snooze"><code class="name flex">
+<span>def <span class="ident">snooze</span></span>(<span>self, obj, enem, _)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def snooze(self, obj, enem, _):
     enem.miss_chance += 0.5
     enem.atc -= 1
     enem.defense -= 1</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.sucker"><code class="name flex">
-<span>def <span class="ident">sucker</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">sucker</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -299,13 +356,13 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def sucker(self, obj, enem):
+<pre><code class="python">def sucker(self, obj, enem, _):
     enem.hp -= 1
     obj.hp += 1 if obj.hp+1 &lt;= obj.full_hp else 0</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.attack_actions.AttackActions.super_sucker"><code class="name flex">
-<span>def <span class="ident">super_sucker</span></span>(<span>self, obj, enem)</span>
+<span>def <span class="ident">super_sucker</span></span>(<span>self, obj, enem, _)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -313,9 +370,9 @@ enem: The Poke object that is attacked</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def super_sucker(self, obj, enem):
-    enem.hp -=2
-    obj.hp +=2 if obj.hp+2 &lt;= obj.full_hp else 0</code></pre>
+<pre><code class="python">def super_sucker(self, obj, enem, _):
+    enem.hp -= 2
+    obj.hp += 2 if obj.hp+2 &lt;= obj.full_hp else 0</code></pre>
 </details>
 </dd>
 </dl>
@@ -344,10 +401,12 @@ enem: The Poke object that is attacked</p></div>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.chocer" href="#pokete_classes.attack_actions.AttackActions.chocer">chocer</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.cry" href="#pokete_classes.attack_actions.AttackActions.cry">cry</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.dick_energy" href="#pokete_classes.attack_actions.AttackActions.dick_energy">dick_energy</a></code></li>
+<li><code><a title="pokete_classes.attack_actions.AttackActions.encouragement" href="#pokete_classes.attack_actions.AttackActions.encouragement">encouragement</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.eye_pick" href="#pokete_classes.attack_actions.AttackActions.eye_pick">eye_pick</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.heart_touch" href="#pokete_classes.attack_actions.AttackActions.heart_touch">heart_touch</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.hiding" href="#pokete_classes.attack_actions.AttackActions.hiding">hiding</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.politure" href="#pokete_classes.attack_actions.AttackActions.politure">politure</a></code></li>
+<li><code><a title="pokete_classes.attack_actions.AttackActions.rain_dance" href="#pokete_classes.attack_actions.AttackActions.rain_dance">rain_dance</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.snooze" href="#pokete_classes.attack_actions.AttackActions.snooze">snooze</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.sucker" href="#pokete_classes.attack_actions.AttackActions.sucker">sucker</a></code></li>
 <li><code><a title="pokete_classes.attack_actions.AttackActions.super_sucker" href="#pokete_classes.attack_actions.AttackActions.super_sucker">super_sucker</a></code></li>
