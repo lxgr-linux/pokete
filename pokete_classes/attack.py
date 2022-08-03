@@ -63,7 +63,7 @@ class Attack:
         """Sets attack points
         ARGS:
             ap: Attack points"""
-        if ap != "SKIP":
+        if _ap != "SKIP":
             self.ap = min(_ap, self.max_ap)
             self.label.rechar("")
             self.label += self.make_label()
