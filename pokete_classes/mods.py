@@ -1,6 +1,6 @@
 """This file contains all classes related to mods"""
 
-from .side_loops import About
+from .side_loops import LoopBox
 from .ui_elements import InfoBox
 from .settings import settings
 
@@ -27,7 +27,7 @@ class ModError(Exception):
         super().__init__(f"The mod '{name}' lacks attributes!\n{err}")
 
 
-class ModInfo(About):
+class ModInfo(LoopBox):
     """Gives information about mods
     ARGS:
         _map: The se.Map the info is shown on
@@ -41,7 +41,7 @@ and mods have to be enabled in the menu.
 
 Currently {len(mod_info)} mod{"s are" if len(mod_info) != 1 else " is"} loaded:
    """ + "\n   ".join(f"{i}-{mod_info[i]}" for i in mod_info) + "\n"
-        self.box = InfoBox(self.text, name="Mods", _map=_map)
+        super().__init__(InfoBox(self.text, name="Mods", _map=_map))
 
 
 if __name__ == "__main__":

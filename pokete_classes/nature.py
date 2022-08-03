@@ -37,7 +37,10 @@ class PokeNature:
         nature: The Nature of the Pokete
         grade: The Nature's grade, 1 or 2"""
 
-    natures = {name: Nature(name, **_dict) for name, _dict in p_data.natures.items()}
+    natures = {
+        name: Nature(name, **_dict)
+        for name, _dict in p_data.natures.items()
+    }
 
     def __init__(self, nature, grade):
         self.nature = nature
@@ -103,7 +106,7 @@ of its kind.", 40, pre=""))
         """Gets the amount denominator for a value"""
         if val == 1:
             return "the same"
-        elif val < 1:
+        if val < 1:
             return "less"
         return "more"
 

@@ -8,6 +8,7 @@ import pokete_data as p_data
 from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
+from release import SPEED_OF_TIME
 from .hotkeys import ACTION_UP_DOWN, Action, get_action
 from .audio import audio
 from .loops import std_loop
@@ -19,7 +20,6 @@ from .input import ask_bool
 from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
-from release import SPEED_OF_TIME
 
 
 class FightMap(gm.GameMap):
@@ -112,7 +112,7 @@ class FightMap(gm.GameMap):
         ARGS:
             player: The player Poke object
             enemy: The enemy Poke object that the labels belong to"""
-        for obj, x, y in zip(
+        for obj, _x, _y in zip(
             (
                 enem.curr.tril,
                 enem.curr.trir,
@@ -125,7 +125,7 @@ class FightMap(gm.GameMap):
             (7, 16, 1, 1, 1, self.width - 14, 8),
             (3, 3, 1, 2, 3, 2, 3)
         ):
-            obj.add(self, x, y)
+            obj.add(self, _x, _y)
         if enem.curr.identifier in player.caught_pokes:
             enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)
 
@@ -163,6 +163,9 @@ class FightMap(gm.GameMap):
             time.sleep(SPEED_OF_TIME * 0.1)
 
     def rechar_atk_info_box(self, attack_obs):
+        """Rechars the attack info box
+        ARGS:
+            attack_obs: The current attack obs"""
         self.atk_info_box.label.rechar(
             liner(attack_obs[self.box.index.index].desc, 37)
         )
@@ -267,7 +270,17 @@ class FightMap(gm.GameMap):
                     or not ask_bool(self, "Do you really want to run away?")
                 ):
                     continue
-                if (random.randint(0, 100) < max(5, min(50 - (figure.curr.initiative - enem.curr.initiative), 95))):
+                if (
+                    random.randint(0, 100) < max(
+                        5,
+                        min(
+                            50 - (
+                                figure.curr.initiative - enem.curr.initiative
+                            ),
+                            95
+                        )
+                    )
+                ):
                     self.outp.outp("You failed to run away!")
                     time.sleep(SPEED_OF_TIME * 1)
                     return ""
@@ -281,7 +294,7 @@ class FightMap(gm.GameMap):
             elif action.triggers(Action.CHOOSE_ITEM):
                 items = [getattr(invitems, i)
                             for i in figure.inv
-                            if getattr(invitems, i).fn is not None
+                            if getattr(invitems, i).func is not None
                             and figure.inv[i] > 0]
                 if not items:
                     self.outp.outp(
@@ -293,9 +306,9 @@ class FightMap(gm.GameMap):
                 if item == "":
                     continue
                 # I hate you python for not having switch statements
-                if (i := getattr(fightitems, item.fn)(figure, enem)) == 1:
+                if (i := getattr(fightitems, item.func)(figure, enem)) == 1:
                     continue
-                elif i == 2:
+                if i == 2:
                     logging.info("[Fight] Ended, fightitem")
                     time.sleep(SPEED_OF_TIME * 2)
                     audio.switch(figure.map.song)
@@ -352,7 +365,7 @@ class FightMap(gm.GameMap):
             time.sleep(SPEED_OF_TIME * 0.3)
             if attack == "won":
                 return player
-            elif attack != "":
+            if attack != "":
                 player.curr.attack(attack, enem.curr, self, providers)
             self.show()
             time.sleep(SPEED_OF_TIME * 0.5)
@@ -498,11 +511,10 @@ class FightItems:
         logging.info("[Fighitem][%s] Missed", name)
         return None
 
-    def potion(self, obj, enem, hp, name):
+    def potion(self, obj, hp, name):
         """Potion function
         ARGS:
             obj: The players Poke object
-            enem: The enemys Poke object
             hp: The hp that will be given to the Poke
             name: The potions name"""
 
@@ -512,13 +524,13 @@ class FightItems:
         obj.curr.hp_bar.update(obj.curr.oldhp)
         logging.info("[Fighitem][%s] Used", name)
 
-    def heal_potion(self, obj, enem):
+    def heal_potion(self, obj, _):
         """Healing potion function"""
-        return self.potion(obj, enem, 5, "healing_potion")
+        return self.potion(obj, 5, "healing_potion")
 
-    def super_potion(self, obj, enem):
+    def super_potion(self, obj, _):
         """Super potion function"""
-        return self.potion(obj, enem, 15, "super_potion")
+        return self.potion(obj, 15, "super_potion")
 
     def poketeball(self, obj, enem):
         """Poketeball function"""
@@ -532,7 +544,7 @@ class FightItems:
         """Hyperball function"""
         return self.throw(obj, enem, 1000, "hyperball")
 
-    def ap_potion(self, obj, enem):
+    def ap_potion(self, obj, _):
         """AP potion function"""
         obj.remove_item("ap_potion")
         for atc in obj.curr.attack_obs:

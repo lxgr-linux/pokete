@@ -3,10 +3,10 @@
 import time
 import scrap_engine as se
 from pokete_data.attacks import attacks
+from release import SPEED_OF_TIME
 from .effects import effects
 from .types import types
 from .color import Color
-from release import SPEED_OF_TIME
 
 
 class Attack:
@@ -59,12 +59,12 @@ class Attack:
             time.sleep(SPEED_OF_TIME * 1.5)
             getattr(effects, self.effect)().add(enem)
 
-    def set_ap(self, ap):
+    def set_ap(self, _ap):
         """Sets attack points
         ARGS:
             ap: Attack points"""
         if ap != "SKIP":
-            self.ap = min(ap, self.max_ap)
+            self.ap = min(_ap, self.max_ap)
             self.label.rechar("")
             self.label += self.make_label()
 

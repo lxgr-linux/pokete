@@ -1,3 +1,6 @@
+"""Contains everything related to input processing"""
+
+import sys
 from enum import Enum, auto
 from collections import defaultdict
 from pokete_general_use_fns import liner
@@ -72,19 +75,19 @@ class ActionList(list):
                 return action.value - Action.ACT_1.value
         return -1
 
-    def get_Y_strength(self) -> int:
+    def get_y_strength(self) -> int:
         """Gets move in Y direction"""
         if self.triggers(Action.UP):
-                return -1
-        elif self.triggers(Action.DOWN):
+            return -1
+        if self.triggers(Action.DOWN):
             return 1
         return 0
 
-    def get_X_strength(self) -> int:
+    def get_x_strength(self) -> int:
         """Gets move in X direction"""
         if self.triggers(Action.RIGHT):
             return 1
-        elif self.triggers(Action.LEFT):
+        if self.triggers(Action.LEFT):
             return -1
         return 0
 
@@ -159,8 +162,9 @@ def hotkeys_save():
 
 def hotkeys_from_save(save, _map, version_change):
     """Sets hotkey_mappings from save"""
-    global hotkey_mappings
     from .input import ask_bool
+    global hotkey_mappings
+
     if save == {}:
         return
 
@@ -187,11 +191,12 @@ Should defaults be loaded for those keys?"""):
                 key = action.mapping
                 new_hotkey_mappings[key].append(action)
         else:
-            exit()
+            sys.exit()
     hotkey_mappings = new_hotkey_mappings
 
 
-# Exists maybe for performance so references to new actionlists don't have to always be cleaned up when the following function returns nothing
+# Exists maybe for performance so references to new actionlists don't have
+# to always be cleaned up when the following function returns nothing
 # I don't trust python to be smart enough to do this itself
 EMPTY_ACTIONLIST = ActionList()
 
