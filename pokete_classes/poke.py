@@ -164,12 +164,13 @@ can't have more than 4 attacks!"
             Current level"""
         return int(math.sqrt(self.xp + 1))
 
-    def attack(self, attack, enem, fightmap, weather):
+    def attack(self, attack, enem, fightmap, providers):
         """Attack process
         ARGS:
             attack: Attack object
             enem: Enemy Poke
             fightmap: The map object where the fight is carried out on."""
+        weather = providers[0].map.weather
         if attack.ap > 0:
             for eff in self.effects:
                 eff.remove()
@@ -208,7 +209,7 @@ can't have more than 4 attacks!"
             for i in attack.move:
                 getattr(self.moves, i)()
             if attack.action is not None and random_factor != 0:
-                getattr(AttackActions(), attack.action)(self, enem)
+                getattr(AttackActions(), attack.action)(self, enem, providers)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
                 f'{self.ext_name} used {attack.name}! {eff_text}')

@@ -323,7 +323,6 @@ class FightMap(gm.GameMap):
                     for prov in providers
             )
         )
-        weather = providers[0].map.weather
         for prov in providers:
             prov.index_conf()
         if settings("animations").val:  # Intro animation
@@ -354,7 +353,7 @@ class FightMap(gm.GameMap):
             if attack == "won":
                 return player
             elif attack != "":
-                player.curr.attack(attack, enem.curr, self, weather)
+                player.curr.attack(attack, enem.curr, self, providers)
             self.show()
             time.sleep(SPEED_OF_TIME * 0.5)
             winner = None
