@@ -144,6 +144,7 @@ You can find different versions of this wiki:
        6. [Polish](#polish)
        7. [Rock Smash](#rock-smash)
        8. [Sand Throw](#sand-throw)
+       9. [Stone crush](#stone-crush)
    10. [Undead attacks](#undead-attacks)
        1. [Confusion](#confusion)
        2. [Heart Touch](#heart-touch)
@@ -711,6 +712,7 @@ A very small whatever that sticks out of the ground.
    + [Ground Hit](#ground-hit)
 - Active: Always
 - Can be found in:
+   + Route 0
    + The Fields of Agrawos
 - Evolves to [Dicki](#dicki) at level 35
 
@@ -914,6 +916,7 @@ A teenage unicorn in the middle of puberty.
 - Active: Always
 - Can be found in:
    + Nice Town
+   + Route 0
 - Evolves to [Hornita](#hornita) at level 20
 
 #### Mowcow
@@ -1033,6 +1036,7 @@ A bush, and just a bush. But watch out!
    + [Bark Hardening](#bark-hardening)
 - Active: Always
 - Can be found in:
+   + Route 0
    + Route 2
    + Route 7
    + Mowcow Meadow
@@ -1123,7 +1127,7 @@ A small plant Pokete found burried in the ground.
    + [Encouragement](#encouragement)
 - Active: Always
 - Can be found in:
-   + Nowhere
+   + Route 0
 - Evolves to [Radishuk](#radishuk) at level 20
 
 #### Radishuk
@@ -1472,6 +1476,7 @@ A squared stone that can be readily found just lying around.
 - Attacks:
    + [Tackle](#tackle)
    + [Polish](#politure)
+   + [Stone crush](#stone-crush)
    + [Brick Throw](#brick-throw)
 - Active: Always
 - Can be found in:
@@ -2293,6 +2298,16 @@ Throws an Euler brick at the enemy.
 
 - Type: [Stone](#types)
 - Minimum Level: 15
+- Attack factor: 2.5
+- Missing chance: 0.3
+- Attack points: 15
+- Effect: None
+
+#### Stone crush
+Crushes the enemy between two heavy stones.
+
+- Type: [Stone](#types)
+- Minimum Level: 0
 - Attack factor: 2
 - Missing chance: 0.3
 - Attack points: 20
