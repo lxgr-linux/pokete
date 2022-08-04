@@ -281,6 +281,33 @@ can't have more than 4 attacks!"
                    _dict.get("attacks", None), _dict.get("effects", []),
                    shiny=_dict.get("shiny", False), nature=_dict.get("nature"))
 
+    @classmethod
+    def wild(cls, poke, _xp):
+        """Simulates learning attacks for wild poketes
+        ARGS:
+            poke: The poketes descriptor
+            _xp: The poketes given xp"""
+        obj = cls(poke, _xp)
+        for i in range(obj.lvl()):
+            if (
+                i % 5 == 0
+                and (new_attack := LearnAttack.get_attack(obj)) is not None
+            ):
+                obj.attacks.append(new_attack)
+            else:
+                break
+
+        while len(obj.attacks) > 4:
+            obj.attacks.pop(random.randint(0, len(obj.attacks)-1))
+
+        return cls(
+            poke,
+            _xp,
+            _attacks=obj.attacks,
+            player=False,
+            shiny=(random.randint(0, 500) == 0)
+        )
+
 
 def upgrade_by_one_lvl(poke, figure, _map):
     """Upgrades a Pokete by exactly one level, this will only be used by treats

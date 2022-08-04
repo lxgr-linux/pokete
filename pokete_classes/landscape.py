@@ -31,7 +31,7 @@ class HighGrass(se.Object):
                 [
                     self.figure,
                     NatureProvider(
-                        Poke(
+                        Poke.wild(
                             random.choices(
                                 list(pokes),
                                 weights=[i["rarity"] for i in pokes.values()]
@@ -41,8 +41,7 @@ class HighGrass(se.Object):
                                     self.arg_proto["minlvl"],
                                     self.arg_proto["maxlvl"]
                                 )
-                            ),
-                            player=False, shiny=(random.randint(0, 500) == 0)
+                            )
                         )
                     )
                 ]
