@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.1] - 2022-08-04
+
+The distribution size was shrinked extremely compared to 0.8.0
+- Made all wav files mp3s
+- Added new audio library and replaced playsound
+- Reduced the Appimage size
+- The first map got a bigger overhaul to make an entrance into the game easier
+
 ## [0.8.0] - 2022-07-25
 
 - Added audio
