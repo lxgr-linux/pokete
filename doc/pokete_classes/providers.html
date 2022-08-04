@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.providers API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Providers are any instance that is able to paticipate in a fight" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,11 +22,14 @@
 <h1 class="title">Module <code>pokete_classes.providers</code></h1>
 </header>
 <section id="section-intro">
+<p>Providers are any instance that is able to paticipate in a fight</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import random
+<pre><code class="python">&#34;&#34;&#34;Providers are any instance that is able to paticipate in a fight&#34;&#34;&#34;
+
+import random
 import time
 from abc import ABC, abstractmethod
 from pokete_classes import movemap as mvp
@@ -45,15 +48,16 @@ class Provider(ABC):
 
     def heal(self):
         &#34;&#34;&#34;Heals all poketes&#34;&#34;&#34;
-        for poke in self.pokes:
-            poke.hp = poke.full_hp
-            poke.effects = []
-            poke.miss_chance = poke.full_miss_chance
-            poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
-            poke.set_vars()
-            poke.hp_bar.make(poke.hp)
-        if poke.player:
-            mvp.movemap.balls_label_rechar(self.pokes)
+        if self.pokes:
+            for poke in self.pokes:
+                poke.hp = poke.full_hp
+                poke.effects = []
+                poke.miss_chance = poke.full_miss_chance
+                poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
+                poke.set_vars()
+                poke.hp_bar.make(poke.hp)
+            if poke.player:
+                mvp.movemap.balls_label_rechar(self.pokes)
 
     @property
     def curr(self):
@@ -72,14 +76,12 @@ class Provider(ABC):
         ARGS:
             fightmap: fightmap object
             anem: The enemy Provider&#34;&#34;&#34;
-        pass
 
     @abstractmethod
     def greet(self, fightmap):
         &#34;&#34;&#34;Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object&#34;&#34;&#34;
-        pass
 
     @abstractmethod
     def handle_defeat(self, fightmap, winner):
@@ -89,7 +91,6 @@ class Provider(ABC):
             winner: the defeating provider
         RETURNS:
             bool: whether or not a Pokete was choosen&#34;&#34;&#34;
-        pass
 
 class NatureProvider(Provider):
     &#34;&#34;&#34;The Natures Provider
@@ -334,15 +335,16 @@ into fight</p></div>
 
     def heal(self):
         &#34;&#34;&#34;Heals all poketes&#34;&#34;&#34;
-        for poke in self.pokes:
-            poke.hp = poke.full_hp
-            poke.effects = []
-            poke.miss_chance = poke.full_miss_chance
-            poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
-            poke.set_vars()
-            poke.hp_bar.make(poke.hp)
-        if poke.player:
-            mvp.movemap.balls_label_rechar(self.pokes)
+        if self.pokes:
+            for poke in self.pokes:
+                poke.hp = poke.full_hp
+                poke.effects = []
+                poke.miss_chance = poke.full_miss_chance
+                poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
+                poke.set_vars()
+                poke.hp_bar.make(poke.hp)
+            if poke.player:
+                mvp.movemap.balls_label_rechar(self.pokes)
 
     @property
     def curr(self):
@@ -361,14 +363,12 @@ into fight</p></div>
         ARGS:
             fightmap: fightmap object
             anem: The enemy Provider&#34;&#34;&#34;
-        pass
 
     @abstractmethod
     def greet(self, fightmap):
         &#34;&#34;&#34;Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object&#34;&#34;&#34;
-        pass
 
     @abstractmethod
     def handle_defeat(self, fightmap, winner):
@@ -377,8 +377,7 @@ into fight</p></div>
             fightmap: fightmap object
             winner: the defeating provider
         RETURNS:
-            bool: whether or not a Pokete was choosen&#34;&#34;&#34;
-        pass</code></pre>
+            bool: whether or not a Pokete was choosen&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -429,8 +428,7 @@ def get_attack(self, fightmap, enem):
     &#34;&#34;&#34;Returns the choosen attack:
     ARGS:
         fightmap: fightmap object
-        anem: The enemy Provider&#34;&#34;&#34;
-    pass</code></pre>
+        anem: The enemy Provider&#34;&#34;&#34;</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.providers.Provider.greet"><code class="name flex">
@@ -451,8 +449,7 @@ def get_attack(self, fightmap, enem):
 def greet(self, fightmap):
     &#34;&#34;&#34;Outputs a greeting text at the fights start:
     ARGS:
-        fightmap: fightmap object&#34;&#34;&#34;
-    pass</code></pre>
+        fightmap: fightmap object&#34;&#34;&#34;</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.providers.Provider.handle_defeat"><code class="name flex">
@@ -483,8 +480,7 @@ def handle_defeat(self, fightmap, winner):
         fightmap: fightmap object
         winner: the defeating provider
     RETURNS:
-        bool: whether or not a Pokete was choosen&#34;&#34;&#34;
-    pass</code></pre>
+        bool: whether or not a Pokete was choosen&#34;&#34;&#34;</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.providers.Provider.heal"><code class="name flex">
@@ -498,15 +494,16 @@ def handle_defeat(self, fightmap, winner):
 </summary>
 <pre><code class="python">def heal(self):
     &#34;&#34;&#34;Heals all poketes&#34;&#34;&#34;
-    for poke in self.pokes:
-        poke.hp = poke.full_hp
-        poke.effects = []
-        poke.miss_chance = poke.full_miss_chance
-        poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
-        poke.set_vars()
-        poke.hp_bar.make(poke.hp)
-    if poke.player:
-        mvp.movemap.balls_label_rechar(self.pokes)</code></pre>
+    if self.pokes:
+        for poke in self.pokes:
+            poke.hp = poke.full_hp
+            poke.effects = []
+            poke.miss_chance = poke.full_miss_chance
+            poke.text_hp.rechar(f&#34;HP:{poke.hp}&#34;)
+            poke.set_vars()
+            poke.hp_bar.make(poke.hp)
+        if poke.player:
+            mvp.movemap.balls_label_rechar(self.pokes)</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.providers.Provider.index_conf"><code class="name flex">

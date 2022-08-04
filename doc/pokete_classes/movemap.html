@@ -34,12 +34,12 @@ import scrap_engine as se
 from pokete_general_use_fns import liner
 import pokete_classes.ob_maps as obmp
 import pokete_classes.game_map as gm
+from release import SPEED_OF_TIME
 from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
 from .hotkeys import Action
-from release import SPEED_OF_TIME
 
 
 class Movemap(gm.GameSubmap):
@@ -78,15 +78,15 @@ class Movemap(gm.GameSubmap):
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
-    def assure_distance(self, x, y, width, height):
+    def assure_distance(self, _x, _y, width, height):
         &#34;&#34;&#34;This ensures the game does not crash when big
         chunks of text are displayed
         ARGS:
-            x: The x coordinate the distance should be assured from
-            y: The y coordinate the distance should be assured from
+            _x: The x coordinate the distance should be assured from
+            _y: The y coordinate the distance should be assured from
             width: The distances width
             height: The distances height&#34;&#34;&#34;
-        for _c, i, j, _k in zip([x, y], [&#34;x&#34;, &#34;y&#34;],
+        for _c, i, j, _k in zip([_x, _y], [&#34;x&#34;, &#34;y&#34;],
                                 [self.width, self.height], [width, height]):
             while _c - getattr(self, i) + _k &gt;= j:
                 self.set(self.x + (1 if i == &#34;x&#34; else 0),
@@ -94,30 +94,41 @@ class Movemap(gm.GameSubmap):
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, x, y, inp_arr):
+    def text(self, _x, _y, inp_arr):
         &#34;&#34;&#34;Shows dialog text on movemap
         ARGS:
-            x: The message&#39;s X
-            y: And y-coordinate
+            _x: The message&#39;s X
+            _y: And y-coordinate
             inp_arr: List of messages that will be displayed&#34;&#34;&#34;
-        self.assure_distance(x, y, 17, 10)
+        self.assure_distance(_x, _y, 17, 10)
         self.multitext.rechar(&#34;&#34;)
-        self.multitext.add(self, x - self.x + 1, y - self.y)
+        self.multitext.add(self, _x - self.x + 1, _y - self.y)
         arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
                for j, i in enumerate(inp_arr)]
         for text in arr:
-            # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
+            # Clear events and animate text appearing until any key is pressed.
+            # Then wait until another key is pressed to close dialogue.
             _ev.clear()
             self.multitext.rechar(&#34;&#34;)
             for i in range(len(text) + 1):
-                self.multitext.outp(liner(text[:i],
-                                          self.width - (x - self.x + 1), &#34;   &#34;))
+                self.multitext.outp(
+                    liner(
+                        text[:i],
+                        self.width - (_x - self.x + 1),
+                        &#34;   &#34;
+                    )
+                )
                 std_loop()
                 if _ev.get() != &#34;&#34;:
                     _ev.clear()
                     break
-            self.multitext.outp(liner(text,
-                                      self.width - (x - self.x + 1), &#34;   &#34;))
+            self.multitext.outp(
+                liner(
+                    text,
+                    self.width - (_x - self.x + 1),
+                    &#34;   &#34;
+                )
+            )
             while _ev.get() == &#34;&#34;:
                 std_loop()
         self.multitext.remove()
@@ -222,15 +233,15 @@ if __name__ == &#34;__main__&#34;:
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
-    def assure_distance(self, x, y, width, height):
+    def assure_distance(self, _x, _y, width, height):
         &#34;&#34;&#34;This ensures the game does not crash when big
         chunks of text are displayed
         ARGS:
-            x: The x coordinate the distance should be assured from
-            y: The y coordinate the distance should be assured from
+            _x: The x coordinate the distance should be assured from
+            _y: The y coordinate the distance should be assured from
             width: The distances width
             height: The distances height&#34;&#34;&#34;
-        for _c, i, j, _k in zip([x, y], [&#34;x&#34;, &#34;y&#34;],
+        for _c, i, j, _k in zip([_x, _y], [&#34;x&#34;, &#34;y&#34;],
                                 [self.width, self.height], [width, height]):
             while _c - getattr(self, i) + _k &gt;= j:
                 self.set(self.x + (1 if i == &#34;x&#34; else 0),
@@ -238,30 +249,41 @@ if __name__ == &#34;__main__&#34;:
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, x, y, inp_arr):
+    def text(self, _x, _y, inp_arr):
         &#34;&#34;&#34;Shows dialog text on movemap
         ARGS:
-            x: The message&#39;s X
-            y: And y-coordinate
+            _x: The message&#39;s X
+            _y: And y-coordinate
             inp_arr: List of messages that will be displayed&#34;&#34;&#34;
-        self.assure_distance(x, y, 17, 10)
+        self.assure_distance(_x, _y, 17, 10)
         self.multitext.rechar(&#34;&#34;)
-        self.multitext.add(self, x - self.x + 1, y - self.y)
+        self.multitext.add(self, _x - self.x + 1, _y - self.y)
         arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
                for j, i in enumerate(inp_arr)]
         for text in arr:
-            # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
+            # Clear events and animate text appearing until any key is pressed.
+            # Then wait until another key is pressed to close dialogue.
             _ev.clear()
             self.multitext.rechar(&#34;&#34;)
             for i in range(len(text) + 1):
-                self.multitext.outp(liner(text[:i],
-                                          self.width - (x - self.x + 1), &#34;   &#34;))
+                self.multitext.outp(
+                    liner(
+                        text[:i],
+                        self.width - (_x - self.x + 1),
+                        &#34;   &#34;
+                    )
+                )
                 std_loop()
                 if _ev.get() != &#34;&#34;:
                     _ev.clear()
                     break
-            self.multitext.outp(liner(text,
-                                      self.width - (x - self.x + 1), &#34;   &#34;))
+            self.multitext.outp(
+                liner(
+                    text,
+                    self.width - (_x - self.x + 1),
+                    &#34;   &#34;
+                )
+            )
             while _ev.get() == &#34;&#34;:
                 std_loop()
         self.multitext.remove()
@@ -323,16 +345,16 @@ if __name__ == &#34;__main__&#34;:
 </details>
 </dd>
 <dt id="pokete_classes.movemap.Movemap.assure_distance"><code class="name flex">
-<span>def <span class="ident">assure_distance</span></span>(<span>self, x, y, width, height)</span>
+<span>def <span class="ident">assure_distance</span></span>(<span>self, _x, _y, width, height)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This ensures the game does not crash when big
 chunks of text are displayed</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>x</code></strong></dt>
+<dt><strong><code>_x</code></strong></dt>
 <dd>The x coordinate the distance should be assured from</dd>
-<dt><strong><code>y</code></strong></dt>
+<dt><strong><code>_y</code></strong></dt>
 <dd>The y coordinate the distance should be assured from</dd>
 <dt><strong><code>width</code></strong></dt>
 <dd>The distances width</dd>
@@ -343,15 +365,15 @@ chunks of text are displayed</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def assure_distance(self, x, y, width, height):
+<pre><code class="python">def assure_distance(self, _x, _y, width, height):
     &#34;&#34;&#34;This ensures the game does not crash when big
     chunks of text are displayed
     ARGS:
-        x: The x coordinate the distance should be assured from
-        y: The y coordinate the distance should be assured from
+        _x: The x coordinate the distance should be assured from
+        _y: The y coordinate the distance should be assured from
         width: The distances width
         height: The distances height&#34;&#34;&#34;
-    for _c, i, j, _k in zip([x, y], [&#34;x&#34;, &#34;y&#34;],
+    for _c, i, j, _k in zip([_x, _y], [&#34;x&#34;, &#34;y&#34;],
                             [self.width, self.height], [width, height]):
         while _c - getattr(self, i) + _k &gt;= j:
             self.set(self.x + (1 if i == &#34;x&#34; else 0),
@@ -431,15 +453,15 @@ See se.Map.resize</p></div>
 </details>
 </dd>
 <dt id="pokete_classes.movemap.Movemap.text"><code class="name flex">
-<span>def <span class="ident">text</span></span>(<span>self, x, y, inp_arr)</span>
+<span>def <span class="ident">text</span></span>(<span>self, _x, _y, inp_arr)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Shows dialog text on movemap</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>x</code></strong></dt>
+<dt><strong><code>_x</code></strong></dt>
 <dd>The message's X</dd>
-<dt><strong><code>y</code></strong></dt>
+<dt><strong><code>_y</code></strong></dt>
 <dd>And y-coordinate</dd>
 <dt><strong><code>inp_arr</code></strong></dt>
 <dd>List of messages that will be displayed</dd>
@@ -448,30 +470,41 @@ See se.Map.resize</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def text(self, x, y, inp_arr):
+<pre><code class="python">def text(self, _x, _y, inp_arr):
     &#34;&#34;&#34;Shows dialog text on movemap
     ARGS:
-        x: The message&#39;s X
-        y: And y-coordinate
+        _x: The message&#39;s X
+        _y: And y-coordinate
         inp_arr: List of messages that will be displayed&#34;&#34;&#34;
-    self.assure_distance(x, y, 17, 10)
+    self.assure_distance(_x, _y, 17, 10)
     self.multitext.rechar(&#34;&#34;)
-    self.multitext.add(self, x - self.x + 1, y - self.y)
+    self.multitext.add(self, _x - self.x + 1, _y - self.y)
     arr = [&#34; &lt; &#34; + i + (&#34; &gt;&#34; if j != len(inp_arr) - 1 else &#34;&#34;)
            for j, i in enumerate(inp_arr)]
     for text in arr:
-        # Clear events and animate text appearing until any key is pressed. Then wait until another key is pressed to close dialogue.
+        # Clear events and animate text appearing until any key is pressed.
+        # Then wait until another key is pressed to close dialogue.
         _ev.clear()
         self.multitext.rechar(&#34;&#34;)
         for i in range(len(text) + 1):
-            self.multitext.outp(liner(text[:i],
-                                      self.width - (x - self.x + 1), &#34;   &#34;))
+            self.multitext.outp(
+                liner(
+                    text[:i],
+                    self.width - (_x - self.x + 1),
+                    &#34;   &#34;
+                )
+            )
             std_loop()
             if _ev.get() != &#34;&#34;:
                 _ev.clear()
                 break
-        self.multitext.outp(liner(text,
-                                  self.width - (x - self.x + 1), &#34;   &#34;))
+        self.multitext.outp(
+            liner(
+                text,
+                self.width - (_x - self.x + 1),
+                &#34;   &#34;
+            )
+        )
         while _ev.get() == &#34;&#34;:
             std_loop()
     self.multitext.remove()</code></pre>

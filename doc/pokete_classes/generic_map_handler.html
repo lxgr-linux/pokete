@@ -65,8 +65,8 @@ class GenericMapHandler:
         &#34;&#34;&#34;Adds a Meadow to the map&#34;&#34;&#34;
 
         self.grass_raw = &#34;&#34;
-        for l in self.string_map:
-            for i in l:
+        for j in self.string_map:
+            for i in j:
                 if i == &#34;;&#34;:
                     self.grass_raw += i
                 else:
@@ -79,8 +79,8 @@ class GenericMapHandler:
         &#34;&#34;&#34;Adds all solid objects to the map&#34;&#34;&#34;
 
         self.solid_raw = &#34;&#34;
-        for l in self.string_map:
-            for i in l:
+        for j in self.string_map:
+            for i in j:
                 if i not in [&#34;;&#34;, &#34;~&#34;, &#34;.&#34;]:
                     self.solid_raw += i
                 else:
@@ -147,8 +147,8 @@ if __name__ == &#34;__main__&#34;:
         &#34;&#34;&#34;Adds a Meadow to the map&#34;&#34;&#34;
 
         self.grass_raw = &#34;&#34;
-        for l in self.string_map:
-            for i in l:
+        for j in self.string_map:
+            for i in j:
                 if i == &#34;;&#34;:
                     self.grass_raw += i
                 else:
@@ -161,8 +161,8 @@ if __name__ == &#34;__main__&#34;:
         &#34;&#34;&#34;Adds all solid objects to the map&#34;&#34;&#34;
 
         self.solid_raw = &#34;&#34;
-        for l in self.string_map:
-            for i in l:
+        for j in self.string_map:
+            for i in j:
                 if i not in [&#34;;&#34;, &#34;~&#34;, &#34;.&#34;]:
                     self.solid_raw += i
                 else:
@@ -186,8 +186,8 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;Adds a Meadow to the map&#34;&#34;&#34;
 
     self.grass_raw = &#34;&#34;
-    for l in self.string_map:
-        for i in l:
+    for j in self.string_map:
+        for i in j:
             if i == &#34;;&#34;:
                 self.grass_raw += i
             else:
@@ -210,8 +210,8 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;Adds all solid objects to the map&#34;&#34;&#34;
 
     self.solid_raw = &#34;&#34;
-    for l in self.string_map:
-        for i in l:
+    for j in self.string_map:
+        for i in j:
             if i not in [&#34;;&#34;, &#34;~&#34;, &#34;.&#34;]:
                 self.solid_raw += i
             else:

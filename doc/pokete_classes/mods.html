@@ -29,7 +29,7 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34;This file contains all classes related to mods&#34;&#34;&#34;
 
-from .side_loops import About
+from .side_loops import LoopBox
 from .ui_elements import InfoBox
 from .settings import settings
 
@@ -56,7 +56,7 @@ class ModError(Exception):
         super().__init__(f&#34;The mod &#39;{name}&#39; lacks attributes!\n{err}&#34;)
 
 
-class ModInfo(About):
+class ModInfo(LoopBox):
     &#34;&#34;&#34;Gives information about mods
     ARGS:
         _map: The se.Map the info is shown on
@@ -70,7 +70,7 @@ and mods have to be enabled in the menu.
 
 Currently {len(mod_info)} mod{&#34;s are&#34; if len(mod_info) != 1 else &#34; is&#34;} loaded:
    &#34;&#34;&#34; + &#34;\n   &#34;.join(f&#34;{i}-{mod_info[i]}&#34; for i in mod_info) + &#34;\n&#34;
-        self.box = InfoBox(self.text, name=&#34;Mods&#34;, _map=_map)
+        super().__init__(InfoBox(self.text, name=&#34;Mods&#34;, _map=_map))
 
 
 if __name__ == &#34;__main__&#34;:
@@ -156,7 +156,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ModInfo(About):
+<pre><code class="python">class ModInfo(LoopBox):
     &#34;&#34;&#34;Gives information about mods
     ARGS:
         _map: The se.Map the info is shown on
@@ -170,11 +170,11 @@ and mods have to be enabled in the menu.
 
 Currently {len(mod_info)} mod{&#34;s are&#34; if len(mod_info) != 1 else &#34; is&#34;} loaded:
    &#34;&#34;&#34; + &#34;\n   &#34;.join(f&#34;{i}-{mod_info[i]}&#34; for i in mod_info) + &#34;\n&#34;
-        self.box = InfoBox(self.text, name=&#34;Mods&#34;, _map=_map)</code></pre>
+        super().__init__(InfoBox(self.text, name=&#34;Mods&#34;, _map=_map))</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="pokete_classes.side_loops.About" href="side_loops.html#pokete_classes.side_loops.About">About</a></li>
+<li><a title="pokete_classes.side_loops.LoopBox" href="side_loops.html#pokete_classes.side_loops.LoopBox">LoopBox</a></li>
 </ul>
 </dd>
 </dl>

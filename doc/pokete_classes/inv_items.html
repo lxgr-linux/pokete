@@ -55,12 +55,12 @@ class InvItem:
         price: The item&#39;s price in the shop
         fn: The associated method name in FightItems&#34;&#34;&#34;
 
-    def __init__(self, name, pretty_name, desc, price, fn=None):
+    def __init__(self, name, pretty_name, desc, price, _fn=None):
         self.name = name
         self.pretty_name = pretty_name
         self.desc = desc
         self.price = price
-        self.fn = fn
+        self.func = _fn
 
 
 class LearnDisc(InvItem):
@@ -94,7 +94,7 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="pokete_classes.inv_items.InvItem"><code class="flex name class">
 <span>class <span class="ident">InvItem</span></span>
-<span>(</span><span>name, pretty_name, desc, price, fn=None)</span>
+<span>(</span><span>name, pretty_name, desc, price)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Item for the inventory</p>
@@ -124,12 +124,12 @@ if __name__ == &#34;__main__&#34;:
         price: The item&#39;s price in the shop
         fn: The associated method name in FightItems&#34;&#34;&#34;
 
-    def __init__(self, name, pretty_name, desc, price, fn=None):
+    def __init__(self, name, pretty_name, desc, price, _fn=None):
         self.name = name
         self.pretty_name = pretty_name
         self.desc = desc
         self.price = price
-        self.fn = fn</code></pre>
+        self.func = _fn</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">

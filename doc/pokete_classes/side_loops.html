@@ -37,22 +37,13 @@ from .loops import easy_exit_loop
 from .ui_elements import InfoBox, StdFrame
 
 
-class About:
-    &#34;&#34;&#34;The about text, that can be triggered in the menu
+class LoopBox:
+    &#34;&#34;&#34;Provides an easy_exit_loop call function
     ARGS:
-        ver: Version
-        cname: Codename
-        _map: se.Map this will be displayed on&#34;&#34;&#34;
+        box: The box to display&#34;&#34;&#34;
 
-    def __init__(self, ver, cname, _map):
-        self.box = InfoBox(liner(f&#34;&#34;&#34;Pokete v{ver} -- {cname}
-by  lxgr-linux &lt;lxgr@protonmail.com&gt;
-
-This  software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.
-Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
-For  this see the comments in the definations area.
-You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
-                                 60, pre=&#34;&#34;), name=&#34;About&#34;, _map=_map)
+    def __init__(self, box):
+        self.box = box
 
     def __call__(self):
         &#34;&#34;&#34;Shows the about text&#34;&#34;&#34;
@@ -60,14 +51,43 @@ You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
             easy_exit_loop()
 
 
-class Help(About):
+class About(LoopBox):
+    &#34;&#34;&#34;The about text, that can be triggered in the menu
+    ARGS:
+        ver: Version
+        cname: Codename
+        _map: se.Map this will be displayed on&#34;&#34;&#34;
+
+    def __init__(self, ver, cname, _map):
+        super().__init__(
+            InfoBox(
+                liner(
+                    f&#34;&#34;&#34;Pokete v{ver} -- {cname}
+by  lxgr-linux &lt;lxgr@protonmail.com&gt;
+
+This  software is licensed under the GPL3, you should have gotten a \
+copy of the GPL3 license alongside this software.
+Feel  free to contribute what ever you want to this game, \
+new Pokete contributions are especially welcome.
+For  this see the comments in the definations area.
+You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
+                    60, pre=&#34;&#34;
+                ),
+                name=&#34;About&#34;,
+                _map=_map
+            )
+        )
+
+
+class Help(LoopBox):
     &#34;&#34;&#34;Helptext that can be displayed by pressing &#39;?&#39;
     ARGS:
         _map: se.Map this will be displayed on&#34;&#34;&#34;
 
     def __init__(self, _map):
-        self.map = _map
-        self.box = InfoBox(&#34;&#34;&#34;Controls:
+        super().__init__(
+            InfoBox(
+                &#34;&#34;&#34;Controls:
 &#39;w&#39;:up, &#39;a&#39;:left,
 &#39;s&#39;:down, &#39;d&#39;:right,
 &#39;e&#39;:menu
@@ -76,7 +96,11 @@ When walking into the high grass (&#39;;&#39;) you may get attacked
 by wild Poketes, those can be killed or weakened and caught.
 NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
-https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)
+https://git.io/JRRqe&#34;&#34;&#34;,
+                name=&#34;Help&#34;,
+                _map=_map
+            )
+        )
 
 
 class ResizeScreen():
@@ -172,7 +196,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class About:
+<pre><code class="python">class About(LoopBox):
     &#34;&#34;&#34;The about text, that can be triggered in the menu
     ARGS:
         ver: Version
@@ -180,24 +204,28 @@ if __name__ == &#34;__main__&#34;:
         _map: se.Map this will be displayed on&#34;&#34;&#34;
 
     def __init__(self, ver, cname, _map):
-        self.box = InfoBox(liner(f&#34;&#34;&#34;Pokete v{ver} -- {cname}
+        super().__init__(
+            InfoBox(
+                liner(
+                    f&#34;&#34;&#34;Pokete v{ver} -- {cname}
 by  lxgr-linux &lt;lxgr@protonmail.com&gt;
 
-This  software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.
-Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
+This  software is licensed under the GPL3, you should have gotten a \
+copy of the GPL3 license alongside this software.
+Feel  free to contribute what ever you want to this game, \
+new Pokete contributions are especially welcome.
 For  this see the comments in the definations area.
 You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
-                                 60, pre=&#34;&#34;), name=&#34;About&#34;, _map=_map)
-
-    def __call__(self):
-        &#34;&#34;&#34;Shows the about text&#34;&#34;&#34;
-        with self.box:
-            easy_exit_loop()</code></pre>
+                    60, pre=&#34;&#34;
+                ),
+                name=&#34;About&#34;,
+                _map=_map
+            )
+        )</code></pre>
 </details>
-<h3>Subclasses</h3>
+<h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="pokete_classes.mods.ModInfo" href="mods.html#pokete_classes.mods.ModInfo">ModInfo</a></li>
-<li><a title="pokete_classes.side_loops.Help" href="#pokete_classes.side_loops.Help">Help</a></li>
+<li><a title="pokete_classes.side_loops.LoopBox" href="#pokete_classes.side_loops.LoopBox">LoopBox</a></li>
 </ul>
 </dd>
 <dt id="pokete_classes.side_loops.Help"><code class="flex name class">
@@ -215,14 +243,15 @@ You  can contribute here: https://github.com/lxgr-linux/pokete&#34;&#34;&#34;,
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Help(About):
+<pre><code class="python">class Help(LoopBox):
     &#34;&#34;&#34;Helptext that can be displayed by pressing &#39;?&#39;
     ARGS:
         _map: se.Map this will be displayed on&#34;&#34;&#34;
 
     def __init__(self, _map):
-        self.map = _map
-        self.box = InfoBox(&#34;&#34;&#34;Controls:
+        super().__init__(
+            InfoBox(
+                &#34;&#34;&#34;Controls:
 &#39;w&#39;:up, &#39;a&#39;:left,
 &#39;s&#39;:down, &#39;d&#39;:right,
 &#39;e&#39;:menu
@@ -231,11 +260,15 @@ When walking into the high grass (&#39;;&#39;) you may get attacked
 by wild Poketes, those can be killed or weakened and caught.
 NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
-https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)</code></pre>
+https://git.io/JRRqe&#34;&#34;&#34;,
+                name=&#34;Help&#34;,
+                _map=_map
+            )
+        )</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="pokete_classes.side_loops.About" href="#pokete_classes.side_loops.About">About</a></li>
+<li><a title="pokete_classes.side_loops.LoopBox" href="#pokete_classes.side_loops.LoopBox">LoopBox</a></li>
 </ul>
 </dd>
 <dt id="pokete_classes.side_loops.LoadingScreen"><code class="flex name class">
@@ -284,6 +317,41 @@ https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)</code><
         &#34;&#34;&#34;Shows the loading screen&#34;&#34;&#34;
         self.map.show()</code></pre>
 </details>
+</dd>
+<dt id="pokete_classes.side_loops.LoopBox"><code class="flex name class">
+<span>class <span class="ident">LoopBox</span></span>
+<span>(</span><span>box)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Provides an easy_exit_loop call function</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>box</code></strong></dt>
+<dd>The box to display</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LoopBox:
+    &#34;&#34;&#34;Provides an easy_exit_loop call function
+    ARGS:
+        box: The box to display&#34;&#34;&#34;
+
+    def __init__(self, box):
+        self.box = box
+
+    def __call__(self):
+        &#34;&#34;&#34;Shows the about text&#34;&#34;&#34;
+        with self.box:
+            easy_exit_loop()</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pokete_classes.mods.ModInfo" href="mods.html#pokete_classes.mods.ModInfo">ModInfo</a></li>
+<li><a title="pokete_classes.side_loops.About" href="#pokete_classes.side_loops.About">About</a></li>
+<li><a title="pokete_classes.side_loops.Help" href="#pokete_classes.side_loops.Help">Help</a></li>
+</ul>
 </dd>
 <dt id="pokete_classes.side_loops.ResizeScreen"><code class="flex name class">
 <span>class <span class="ident">ResizeScreen</span></span>
@@ -349,6 +417,9 @@ https://git.io/JRRqe&#34;&#34;&#34;, name=&#34;Help&#34;, _map=self.map)</code><
 </li>
 <li>
 <h4><code><a title="pokete_classes.side_loops.LoadingScreen" href="#pokete_classes.side_loops.LoadingScreen">LoadingScreen</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pokete_classes.side_loops.LoopBox" href="#pokete_classes.side_loops.LoopBox">LoopBox</a></code></h4>
 </li>
 <li>
 <h4><code><a title="pokete_classes.side_loops.ResizeScreen" href="#pokete_classes.side_loops.ResizeScreen">ResizeScreen</a></code></h4>

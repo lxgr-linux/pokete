@@ -106,12 +106,12 @@ class NPCActions:
             npc: The NPC the method belongs to&#34;&#34;&#34;
 
     @staticmethod
-    def swap_poke(npc):
+    def swap_poke(_):
         &#34;&#34;&#34;Swap_poke wrapper&#34;&#34;&#34;
         swap_poke()
 
     @staticmethod
-    def heal(npc):
+    def heal(_):
         &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
         figure.heal()
 
@@ -312,8 +312,10 @@ class CenterInteract(se.Object):
             elif action.triggers(Action.ACT_2):
                 figure.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
-                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                 [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
+                mvp.movemap.text(
+                    int(mvp.movemap.width / 2), 3,
+                    [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;]
+                )
                 break
             elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
@@ -587,7 +589,7 @@ class Inv:
                                     ask_ok(self.map,
                                            f&#34;{poke.name} reached level &#34;
                                            f&#34;{poke.lvl()}!&#34;)
-                            elif type(obj) is LearnDisc:
+                            elif isinstance(obj, LearnDisc):
                                 if ask_bool(self.map, f&#34;Do you want to teach &#39;\
 {obj.attack_dict[&#39;name&#39;]}&#39;?&#34;):
                                     ex_cond = True
@@ -603,10 +605,13 @@ class Inv:
                                                    obj.attack_dict[&#39;types&#39;][0])\
                                                 in poke.types:
                                             break
-                                        else:
-                                            ex_cond = ask_bool(self.map,
-                                                               f&#34;You cant&#39;t \
-teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo you want to continue?&#34;)
+                                        ex_cond = ask_bool(
+                                            self.map,
+                                            &#34;You cant&#39;t teach &#34;
+                                            f&#34;&#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#34;
+                                            f&#34;&#39;{poke.name}&#39;! \n&#34;
+                                            &#34;Do you want to continue?&#34;
+                                        )
                                     if not ex_cond:
                                         break
                                     if LearnAttack(poke, self.map)\
@@ -734,7 +739,7 @@ valid single-space character!&#34;)
                             time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
-                        exit()
+                        sys.exit()
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
@@ -855,7 +860,6 @@ def exiter():
     print(&#34;\033[?1049l\033[1A&#34;)
     if audio.curr is not None:
         audio.kill()
-    #sys.exit()
 
 
 # Functions needed for mvp.movemap
@@ -876,7 +880,7 @@ def codes(string):
                 print(exc)
             return
         elif i == &#34;q&#34;:
-            exit()
+            sys.exit()
 
 
 # Playmap extra action functions
@@ -932,13 +936,14 @@ def teleport(poke):
         poke: The Poke shown in the animation&#34;&#34;&#34;
     if (obj := roadmap(mvp.movemap, choose=True)) is None:
         return
-    else:
-        if settings(&#34;animations&#34;).val:
-            animations.transition(mvp.movemap, poke)
-        cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
-        Door(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
-                                          &#34;x&#34;: cen_d[&#34;x&#34;] + 5,
-                                          &#34;y&#34;: cen_d[&#34;y&#34;] + 6}).action(figure)
+    if settings(&#34;animations&#34;).val:
+        animations.transition(mvp.movemap, poke)
+    cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
+    Door(&#34;&#34;, state=&#34;float&#34;, arg_proto={
+        &#34;map&#34;: obj.name,
+        &#34;x&#34;: cen_d[&#34;x&#34;] + 5,
+        &#34;y&#34;: cen_d[&#34;y&#34;] + 6
+    }).action(figure)
 
 
 def swap_poke():
@@ -1045,13 +1050,16 @@ def _game(_map):
         # Directions are not being used yet
         action = get_action()
         if action.triggers(*ACTION_DIRECTIONS):
-            figure.direction = &#39;&#39; #TODO
-            figure.set(figure.x + action.get_X_strength(), figure.y + action.get_Y_strength())
+            figure.direction = &#39;&#39;
+            figure.set(
+                figure.x + action.get_x_strength(),
+                figure.y + action.get_y_strength()
+            )
         elif action.triggers(*inp_dict):
             audio_before = settings(&#34;audio&#34;).val
-            for key in inp_dict:
+            for key, option in inp_dict.items():
                 if action.triggers(key):
-                    inp_dict[key][0](*inp_dict[key][1])
+                    option[0](*option[1])
             _ev.clear()
             if audio_before != settings(&#34;audio&#34;).val:
                 audio.switch(_map.song)
@@ -1059,7 +1067,7 @@ def _game(_map):
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
             if ask_bool(mvp.movemap, &#34;Do you really wish to exit?&#34;):
                 save()
-                exit()
+                sys.exit()
         elif action.triggers(Action.CONSOLE):
             inp = text_input(mvp.movemap.code_label, mvp.movemap, &#34;:&#34;,
                              mvp.movemap.width,
@@ -1129,48 +1137,47 @@ def gen_obs():
     trainers = p_data.trainers
 
     # adding all trainer to map
-    for i in trainers:
+    for i, trainer_list in trainers.items():
         _map = obmp.ob_maps[i]
-        for j in trainers[i]:
+        for j in trainer_list:
             args = j[&#34;args&#34;]
             trainer = Trainer([Poke(*p, player=False) for p in j[&#34;pokes&#34;]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
     # generating objects from map_data
-    for ob_map in map_data:
+    for ob_map, single_map in map_data.items():
         _map = obmp.ob_maps[ob_map]
-        for hard_ob in map_data[ob_map][&#34;hard_obs&#34;]:
+        for hard_ob, single_hard_ob in single_map[&#34;hard_obs&#34;].items():
             parse_obj(_map, hard_ob,
-                      se.Text(map_data[ob_map][&#34;hard_obs&#34;][hard_ob][&#34;txt&#34;],
+                      se.Text(single_hard_ob[&#34;txt&#34;],
                               ignore=&#34; &#34;),
-                      map_data[ob_map][&#34;hard_obs&#34;][hard_ob])
-        for soft_ob in map_data[ob_map][&#34;soft_obs&#34;]:
+                      single_hard_ob)
+        for soft_ob, single_soft_ob in single_map[&#34;soft_obs&#34;].items():
             cls = {
                 &#34;sand&#34;: Sand,
                 &#34;meadow&#34;: Meadow,
                 &#34;water&#34;: Water,
-            }[map_data[ob_map][&#34;soft_obs&#34;][soft_ob].get(&#34;cls&#34;, &#34;meadow&#34;)]
+            }[single_soft_ob.get(&#34;cls&#34;, &#34;meadow&#34;)]
             parse_obj(_map, soft_ob,
-                      cls(map_data[ob_map][&#34;soft_obs&#34;][soft_ob][&#34;txt&#34;],
+                      cls(single_soft_ob[&#34;txt&#34;],
                           _map.poke_args
                           if cls != Water else _map.w_poke_args),
-                      map_data[ob_map][&#34;soft_obs&#34;][soft_ob])
-        for door in map_data[ob_map][&#34;dors&#34;]:
+                      single_soft_ob)
+        for door, single_door in single_map[&#34;dors&#34;].items():
             parse_obj(_map, door,
                       Door(&#34; &#34;, state=&#34;float&#34;,
-                           arg_proto=map_data[ob_map][&#34;dors&#34;][door][&#34;args&#34;]),
-                      map_data[ob_map][&#34;dors&#34;][door])
-        for ball in map_data[ob_map][&#34;balls&#34;]:
+                           arg_proto=single_door[&#34;args&#34;]),
+                      single_door)
+        for ball, single_ball in single_map[&#34;balls&#34;].items():
             if f&#39;{ob_map}.{ball}&#39; not in figure.used_npcs or not \
             settings(&#34;save_trainers&#34;).val:
                 parse_obj(_map, ball,
                           Poketeball(f&#34;{ob_map}.{ball}&#34;),
-                          map_data[ob_map][&#34;balls&#34;][ball])
+                          single_ball)
     # NPCs
-    for npc in npcs:
-        _npc = npcs[npc]
-        NPC(npc, _npc[&#34;texts&#34;], fn=_npc[&#34;fn&#34;],
+    for npc, _npc in npcs.items():
+        NPC(npc, _npc[&#34;texts&#34;], _fn=_npc[&#34;fn&#34;],
             chat=_npc.get(&#34;chat&#34;, None)).add(obmp.ob_maps[_npc[&#34;map&#34;]],
                                              _npc[&#34;x&#34;], _npc[&#34;y&#34;])
 
@@ -1180,8 +1187,7 @@ def gen_maps():
     RETURNS:
         Dict of all PlayMaps&#34;&#34;&#34;
     maps = {}
-    for ob_map in p_data.maps:
-        args = p_data.maps[ob_map]
+    for ob_map, args in p_data.maps.items():
         args[&#34;extra_actions&#34;] = (getattr(ExtraActions, args[&#34;extra_actions&#34;],
                                          None)
                                  if args[&#34;extra_actions&#34;] is not None
@@ -1196,15 +1202,14 @@ def check_version(sinfo):
         sinfo: session_info dict&#34;&#34;&#34;
     if &#34;ver&#34; not in sinfo:
         return False
-    else:
-        ver = sinfo[&#34;ver&#34;]
+    ver = sinfo[&#34;ver&#34;]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
         if not ask_bool(loading_screen.map,
                         liner(f&#34;The save file was created \
 on version &#39;{ver}&#39;, the current version is &#39;{VERSION}&#39;, \
 such a downgrade may result in data loss! \
 Do you want to continue?&#34;, int(width * 2 / 3))):
-            exit()
+            sys.exit()
     return VERSION != ver
 
 
@@ -1504,8 +1509,8 @@ if __name__ == &#34;__main__&#34;:
     if settings(&#34;load_mods&#34;).val:
         try:
             import mods
-        except ModError as err:
-            error_box = InfoBox(str(err), &#34;Mod-loading Error&#34;)
+        except ModError as mod_err:
+            error_box = InfoBox(str(mod_err), &#34;Mod-loading Error&#34;)
             error_box.center_add(loading_screen.map)
             loading_screen.map.show()
             sys.exit(1)
@@ -1570,8 +1575,8 @@ if __name__ == &#34;__main__&#34;:
 
     # Achievements
     achievements.set_achieved(session_info.get(&#34;achievements&#34;, []))
-    for identifier, args in p_data.achievements.items():
-        achievements.add(identifier, **args)
+    for identifier, achievement_args in p_data.achievements.items():
+        achievements.add(identifier, **achievement_args)
 
     # objects relevant for fm.fight()
     fm.fightmap = fm.FightMap(height - 1, width)
@@ -1639,15 +1644,14 @@ if __name__ == &#34;__main__&#34;:
         sinfo: session_info dict&#34;&#34;&#34;
     if &#34;ver&#34; not in sinfo:
         return False
-    else:
-        ver = sinfo[&#34;ver&#34;]
+    ver = sinfo[&#34;ver&#34;]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
         if not ask_bool(loading_screen.map,
                         liner(f&#34;The save file was created \
 on version &#39;{ver}&#39;, the current version is &#39;{VERSION}&#39;, \
 such a downgrade may result in data loss! \
 Do you want to continue?&#34;, int(width * 2 / 3))):
-            exit()
+            sys.exit()
     return VERSION != ver</code></pre>
 </details>
 </dd>
@@ -1675,7 +1679,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
                 print(exc)
             return
         elif i == &#34;q&#34;:
-            exit()</code></pre>
+            sys.exit()</code></pre>
 </details>
 </dd>
 <dt id="pokete.exiter"><code class="name flex">
@@ -1693,8 +1697,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     logging.info(&#34;[General] Exiting...&#34;)
     print(&#34;\033[?1049l\033[1A&#34;)
     if audio.curr is not None:
-        audio.kill()
-    #sys.exit()</code></pre>
+        audio.kill()</code></pre>
 </details>
 </dd>
 <dt id="pokete.gen_maps"><code class="name flex">
@@ -1713,8 +1716,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     RETURNS:
         Dict of all PlayMaps&#34;&#34;&#34;
     maps = {}
-    for ob_map in p_data.maps:
-        args = p_data.maps[ob_map]
+    for ob_map, args in p_data.maps.items():
         args[&#34;extra_actions&#34;] = (getattr(ExtraActions, args[&#34;extra_actions&#34;],
                                          None)
                                  if args[&#34;extra_actions&#34;] is not None
@@ -1739,48 +1741,47 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
     trainers = p_data.trainers
 
     # adding all trainer to map
-    for i in trainers:
+    for i, trainer_list in trainers.items():
         _map = obmp.ob_maps[i]
-        for j in trainers[i]:
+        for j in trainer_list:
             args = j[&#34;args&#34;]
             trainer = Trainer([Poke(*p, player=False) for p in j[&#34;pokes&#34;]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
     # generating objects from map_data
-    for ob_map in map_data:
+    for ob_map, single_map in map_data.items():
         _map = obmp.ob_maps[ob_map]
-        for hard_ob in map_data[ob_map][&#34;hard_obs&#34;]:
+        for hard_ob, single_hard_ob in single_map[&#34;hard_obs&#34;].items():
             parse_obj(_map, hard_ob,
-                      se.Text(map_data[ob_map][&#34;hard_obs&#34;][hard_ob][&#34;txt&#34;],
+                      se.Text(single_hard_ob[&#34;txt&#34;],
                               ignore=&#34; &#34;),
-                      map_data[ob_map][&#34;hard_obs&#34;][hard_ob])
-        for soft_ob in map_data[ob_map][&#34;soft_obs&#34;]:
+                      single_hard_ob)
+        for soft_ob, single_soft_ob in single_map[&#34;soft_obs&#34;].items():
             cls = {
                 &#34;sand&#34;: Sand,
                 &#34;meadow&#34;: Meadow,
                 &#34;water&#34;: Water,
-            }[map_data[ob_map][&#34;soft_obs&#34;][soft_ob].get(&#34;cls&#34;, &#34;meadow&#34;)]
+            }[single_soft_ob.get(&#34;cls&#34;, &#34;meadow&#34;)]
             parse_obj(_map, soft_ob,
-                      cls(map_data[ob_map][&#34;soft_obs&#34;][soft_ob][&#34;txt&#34;],
+                      cls(single_soft_ob[&#34;txt&#34;],
                           _map.poke_args
                           if cls != Water else _map.w_poke_args),
-                      map_data[ob_map][&#34;soft_obs&#34;][soft_ob])
-        for door in map_data[ob_map][&#34;dors&#34;]:
+                      single_soft_ob)
+        for door, single_door in single_map[&#34;dors&#34;].items():
             parse_obj(_map, door,
                       Door(&#34; &#34;, state=&#34;float&#34;,
-                           arg_proto=map_data[ob_map][&#34;dors&#34;][door][&#34;args&#34;]),
-                      map_data[ob_map][&#34;dors&#34;][door])
-        for ball in map_data[ob_map][&#34;balls&#34;]:
+                           arg_proto=single_door[&#34;args&#34;]),
+                      single_door)
+        for ball, single_ball in single_map[&#34;balls&#34;].items():
             if f&#39;{ob_map}.{ball}&#39; not in figure.used_npcs or not \
             settings(&#34;save_trainers&#34;).val:
                 parse_obj(_map, ball,
                           Poketeball(f&#34;{ob_map}.{ball}&#34;),
-                          map_data[ob_map][&#34;balls&#34;][ball])
+                          single_ball)
     # NPCs
-    for npc in npcs:
-        _npc = npcs[npc]
-        NPC(npc, _npc[&#34;texts&#34;], fn=_npc[&#34;fn&#34;],
+    for npc, _npc in npcs.items():
+        NPC(npc, _npc[&#34;texts&#34;], _fn=_npc[&#34;fn&#34;],
             chat=_npc.get(&#34;chat&#34;, None)).add(obmp.ob_maps[_npc[&#34;map&#34;]],
                                              _npc[&#34;x&#34;], _npc[&#34;y&#34;])</code></pre>
 </details>
@@ -2283,13 +2284,14 @@ Your partners mods: {&#39;, &#39;.join(i + &#39;-&#39; + mod_info[i] for i in mo
         poke: The Poke shown in the animation&#34;&#34;&#34;
     if (obj := roadmap(mvp.movemap, choose=True)) is None:
         return
-    else:
-        if settings(&#34;animations&#34;).val:
-            animations.transition(mvp.movemap, poke)
-        cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
-        Door(&#34;&#34;, state=&#34;float&#34;, arg_proto={&#34;map&#34;: obj.name,
-                                          &#34;x&#34;: cen_d[&#34;x&#34;] + 5,
-                                          &#34;y&#34;: cen_d[&#34;y&#34;] + 6}).action(figure)</code></pre>
+    if settings(&#34;animations&#34;).val:
+        animations.transition(mvp.movemap, poke)
+    cen_d = p_data.map_data[obj.name][&#34;hard_obs&#34;][&#34;pokecenter&#34;]
+    Door(&#34;&#34;, state=&#34;float&#34;, arg_proto={
+        &#34;map&#34;: obj.name,
+        &#34;x&#34;: cen_d[&#34;x&#34;] + 5,
+        &#34;y&#34;: cen_d[&#34;y&#34;] + 6
+    }).action(figure)</code></pre>
 </details>
 </dd>
 <dt id="pokete.test"><code class="name flex">
@@ -2368,8 +2370,10 @@ this will remain</p></div>
             elif action.triggers(Action.ACT_2):
                 figure.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
-                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                 [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
+                mvp.movemap.text(
+                    int(mvp.movemap.width / 2), 3,
+                    [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;]
+                )
                 break
             elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
@@ -2424,8 +2428,10 @@ this will remain</p></div>
         elif action.triggers(Action.ACT_2):
             figure.heal()
             time.sleep(SPEED_OF_TIME * 0.5)
-            mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                             [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;])
+            mvp.movemap.text(
+                int(mvp.movemap.width / 2), 3,
+                [&#34;...&#34;, &#34;Your Poketes are now healed!&#34;]
+            )
             break
         elif action.triggers(Action.CANCEL, Action.ACT_3):
             break
@@ -3017,7 +3023,7 @@ in the inventory!&#34;
                                     ask_ok(self.map,
                                            f&#34;{poke.name} reached level &#34;
                                            f&#34;{poke.lvl()}!&#34;)
-                            elif type(obj) is LearnDisc:
+                            elif isinstance(obj, LearnDisc):
                                 if ask_bool(self.map, f&#34;Do you want to teach &#39;\
 {obj.attack_dict[&#39;name&#39;]}&#39;?&#34;):
                                     ex_cond = True
@@ -3033,10 +3039,13 @@ in the inventory!&#34;
                                                    obj.attack_dict[&#39;types&#39;][0])\
                                                 in poke.types:
                                             break
-                                        else:
-                                            ex_cond = ask_bool(self.map,
-                                                               f&#34;You cant&#39;t \
-teach &#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#39;{poke.name}&#39;! \nDo you want to continue?&#34;)
+                                        ex_cond = ask_bool(
+                                            self.map,
+                                            &#34;You cant&#39;t teach &#34;
+                                            f&#34;&#39;{obj.attack_dict[&#39;name&#39;]}&#39; to &#34;
+                                            f&#34;&#39;{poke.name}&#39;! \n&#34;
+                                            &#34;Do you want to continue?&#34;
+                                        )
                                     if not ex_cond:
                                         break
                                     if LearnAttack(poke, self.map)\
@@ -3240,7 +3249,7 @@ valid single-space character!&#34;)
                             time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
-                        exit()
+                        sys.exit()
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
@@ -3274,12 +3283,12 @@ npc: The NPC the method belongs to</p></div>
             npc: The NPC the method belongs to&#34;&#34;&#34;
 
     @staticmethod
-    def swap_poke(npc):
+    def swap_poke(_):
         &#34;&#34;&#34;Swap_poke wrapper&#34;&#34;&#34;
         swap_poke()
 
     @staticmethod
-    def heal(npc):
+    def heal(_):
         &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
         figure.heal()
 
@@ -3467,7 +3476,7 @@ def chat(npc):
 </details>
 </dd>
 <dt id="pokete.NPCActions.heal"><code class="name flex">
-<span>def <span class="ident">heal</span></span>(<span>npc)</span>
+<span>def <span class="ident">heal</span></span>(<span>_)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Heal wrapper</p></div>
@@ -3476,7 +3485,7 @@ def chat(npc):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def heal(npc):
+def heal(_):
     &#34;&#34;&#34;Heal wrapper&#34;&#34;&#34;
     figure.heal()</code></pre>
 </details>
@@ -3803,7 +3812,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!&#34;])
 </details>
 </dd>
 <dt id="pokete.NPCActions.swap_poke"><code class="name flex">
-<span>def <span class="ident">swap_poke</span></span>(<span>npc)</span>
+<span>def <span class="ident">swap_poke</span></span>(<span>_)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Swap_poke wrapper</p></div>
@@ -3812,7 +3821,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!&#34;])
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def swap_poke(npc):
+def swap_poke(_):
     &#34;&#34;&#34;Swap_poke wrapper&#34;&#34;&#34;
     swap_poke()</code></pre>
 </details>

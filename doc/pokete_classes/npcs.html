@@ -34,8 +34,9 @@ import logging
 import random
 import scrap_engine as se
 import pokete_classes.fightmap as fm
+from release import SPEED_OF_TIME
 from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
-import pokete_classes.movemap as mvp
+from . import movemap as mvp
 from .providers import Provider
 from .loops import std_loop
 from .input import ask_bool
@@ -43,7 +44,6 @@ from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
 from .general import check_walk_back
-from release import SPEED_OF_TIME
 
 
 class NPCTrigger(se.Object):
@@ -82,11 +82,11 @@ class NPC(se.Box):
             name: The NPCs name&#34;&#34;&#34;
         return cls.registry[name]
 
-    def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
+    def __init__(self, name, texts, _fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
         self.name = name
         self.texts = texts
-        self.__fn = fn
+        self.__fn = _fn
         if chat is None:
             self.q_a = {}
         else:
@@ -125,40 +125,40 @@ class NPC(se.Box):
         time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
-        self.fn()
+        self.func()
 
-    def fn(self):
+    def func(self):
         &#34;&#34;&#34;The function that&#39;s executed after the interaction&#34;&#34;&#34;
         if self.__fn is not None:
             getattr(self.npcactions, self.__fn)(self)
 
-    def check_walk(self, x, y):
+    def check_walk(self, _x, _y):
         &#34;&#34;&#34;Checks whether the NPC can walk to a point or not
         ARGS:
-            x: X-coordinate
-            y: Y-coordinate
+            _x: X-coordinate
+            _y: Y-coordinate
         RETURNS:
             bool: Whether or not the walk is possible&#34;&#34;&#34;
-        vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
+        vec = se.Line(&#34; &#34;, _x - self.x, _y - self.y)
         ret = not any([any(j.state == &#34;solid&#34;
                            for j in
                            self.map.obmap[i.ry + self.y][i.rx + self.x])
                        for i in vec.obs][1:])
         logging.info(&#34;[NPC][%s] %s walk check to (%d|%d)&#34;,
-                     self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, x, y)
+                     self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, _x, _y)
         return ret
 
-    def walk_point(self, x, y):
+    def walk_point(self, _x, _y):
         &#34;&#34;&#34;Walks the NPC tp a certain point
         ARGS:
-            x: X-coordinate
-            y: Y-coordinate
+            _x: X-coordinate
+            _y: Y-coordinate
         RETURNS:
             bool: Whether or not the walk succeeded&#34;&#34;&#34;
         o_x = self.x
         o_y = self.y
-        vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
-        if not self.check_walk(x, y):
+        vec = se.Line(&#34; &#34;, _x - o_x, _y - o_y)
+        if not self.check_walk(_x, _y):
             return False
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
@@ -198,7 +198,7 @@ Do you want to accept it?&#34;):
             return
         while True:
             self.text(q_a[&#34;q&#34;])
-            while get_action() == None:
+            while get_action() is None:
                 std_loop()
             if q_a[&#34;a&#34;] == {}:
                 break
@@ -343,7 +343,7 @@ class Trainer(NPC, Provider):
 <dl>
 <dt id="pokete_classes.npcs.NPC"><code class="flex name class">
 <span>class <span class="ident">NPC</span></span>
-<span>(</span><span>name, texts, fn=None, chat=None, side_trigger=True)</span>
+<span>(</span><span>name, texts, chat=None, side_trigger=True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>An NPC to talk to</p></div>
@@ -373,11 +373,11 @@ class Trainer(NPC, Provider):
             name: The NPCs name&#34;&#34;&#34;
         return cls.registry[name]
 
-    def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
+    def __init__(self, name, texts, _fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
         self.name = name
         self.texts = texts
-        self.__fn = fn
+        self.__fn = _fn
         if chat is None:
             self.q_a = {}
         else:
@@ -416,40 +416,40 @@ class Trainer(NPC, Provider):
         time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
-        self.fn()
+        self.func()
 
-    def fn(self):
+    def func(self):
         &#34;&#34;&#34;The function that&#39;s executed after the interaction&#34;&#34;&#34;
         if self.__fn is not None:
             getattr(self.npcactions, self.__fn)(self)
 
-    def check_walk(self, x, y):
+    def check_walk(self, _x, _y):
         &#34;&#34;&#34;Checks whether the NPC can walk to a point or not
         ARGS:
-            x: X-coordinate
-            y: Y-coordinate
+            _x: X-coordinate
+            _y: Y-coordinate
         RETURNS:
             bool: Whether or not the walk is possible&#34;&#34;&#34;
-        vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
+        vec = se.Line(&#34; &#34;, _x - self.x, _y - self.y)
         ret = not any([any(j.state == &#34;solid&#34;
                            for j in
                            self.map.obmap[i.ry + self.y][i.rx + self.x])
                        for i in vec.obs][1:])
         logging.info(&#34;[NPC][%s] %s walk check to (%d|%d)&#34;,
-                     self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, x, y)
+                     self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, _x, _y)
         return ret
 
-    def walk_point(self, x, y):
+    def walk_point(self, _x, _y):
         &#34;&#34;&#34;Walks the NPC tp a certain point
         ARGS:
-            x: X-coordinate
-            y: Y-coordinate
+            _x: X-coordinate
+            _y: Y-coordinate
         RETURNS:
             bool: Whether or not the walk succeeded&#34;&#34;&#34;
         o_x = self.x
         o_y = self.y
-        vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
-        if not self.check_walk(x, y):
+        vec = se.Line(&#34; &#34;, _x - o_x, _y - o_y)
+        if not self.check_walk(_x, _y):
             return False
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
@@ -489,7 +489,7 @@ Do you want to accept it?&#34;):
             return
         while True:
             self.text(q_a[&#34;q&#34;])
-            while get_action() == None:
+            while get_action() is None:
                 std_loop()
             if q_a[&#34;a&#34;] == {}:
                 break
@@ -627,7 +627,7 @@ def used(self):
     time.sleep(SPEED_OF_TIME * 0.7)
     self.exclamate()
     self.text(self.texts)
-    self.fn()</code></pre>
+    self.func()</code></pre>
 </details>
 </dd>
 <dt id="pokete_classes.npcs.NPC.chat"><code class="name flex">
@@ -646,7 +646,7 @@ def used(self):
         return
     while True:
         self.text(q_a[&#34;q&#34;])
-        while get_action() == None:
+        while get_action() is None:
             std_loop()
         if q_a[&#34;a&#34;] == {}:
             break
@@ -674,15 +674,15 @@ def used(self):
 </details>
 </dd>
 <dt id="pokete_classes.npcs.NPC.check_walk"><code class="name flex">
-<span>def <span class="ident">check_walk</span></span>(<span>self, x, y)</span>
+<span>def <span class="ident">check_walk</span></span>(<span>self, _x, _y)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Checks whether the NPC can walk to a point or not</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>x</code></strong></dt>
+<dt><strong><code>_x</code></strong></dt>
 <dd>X-coordinate</dd>
-<dt><strong><code>y</code></strong></dt>
+<dt><strong><code>_y</code></strong></dt>
 <dd>Y-coordinate</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -694,20 +694,20 @@ def used(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def check_walk(self, x, y):
+<pre><code class="python">def check_walk(self, _x, _y):
     &#34;&#34;&#34;Checks whether the NPC can walk to a point or not
     ARGS:
-        x: X-coordinate
-        y: Y-coordinate
+        _x: X-coordinate
+        _y: Y-coordinate
     RETURNS:
         bool: Whether or not the walk is possible&#34;&#34;&#34;
-    vec = se.Line(&#34; &#34;, x - self.x, y - self.y)
+    vec = se.Line(&#34; &#34;, _x - self.x, _y - self.y)
     ret = not any([any(j.state == &#34;solid&#34;
                        for j in
                        self.map.obmap[i.ry + self.y][i.rx + self.x])
                    for i in vec.obs][1:])
     logging.info(&#34;[NPC][%s] %s walk check to (%d|%d)&#34;,
-                 self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, x, y)
+                 self.name, &#39;Succeeded&#39; if ret else &#39;Failed&#39;, _x, _y)
     return ret</code></pre>
 </details>
 </dd>
@@ -733,8 +733,8 @@ def used(self):
     exclamation.remove()</code></pre>
 </details>
 </dd>
-<dt id="pokete_classes.npcs.NPC.fn"><code class="name flex">
-<span>def <span class="ident">fn</span></span>(<span>self)</span>
+<dt id="pokete_classes.npcs.NPC.func"><code class="name flex">
+<span>def <span class="ident">func</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The function that's executed after the interaction</p></div>
@@ -742,7 +742,7 @@ def used(self):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def fn(self):
+<pre><code class="python">def func(self):
     &#34;&#34;&#34;The function that&#39;s executed after the interaction&#34;&#34;&#34;
     if self.__fn is not None:
         getattr(self.npcactions, self.__fn)(self)</code></pre>
@@ -827,15 +827,15 @@ Do you want to accept it?&#34;):
 </details>
 </dd>
 <dt id="pokete_classes.npcs.NPC.walk_point"><code class="name flex">
-<span>def <span class="ident">walk_point</span></span>(<span>self, x, y)</span>
+<span>def <span class="ident">walk_point</span></span>(<span>self, _x, _y)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Walks the NPC tp a certain point</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>x</code></strong></dt>
+<dt><strong><code>_x</code></strong></dt>
 <dd>X-coordinate</dd>
-<dt><strong><code>y</code></strong></dt>
+<dt><strong><code>_y</code></strong></dt>
 <dd>Y-coordinate</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -847,17 +847,17 @@ Do you want to accept it?&#34;):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def walk_point(self, x, y):
+<pre><code class="python">def walk_point(self, _x, _y):
     &#34;&#34;&#34;Walks the NPC tp a certain point
     ARGS:
-        x: X-coordinate
-        y: Y-coordinate
+        _x: X-coordinate
+        _y: Y-coordinate
     RETURNS:
         bool: Whether or not the walk succeeded&#34;&#34;&#34;
     o_x = self.x
     o_y = self.y
-    vec = se.Line(&#34; &#34;, x - o_x, y - o_y)
-    if not self.check_walk(x, y):
+    vec = se.Line(&#34; &#34;, _x - o_x, _y - o_y)
+    if not self.check_walk(_x, _y):
         return False
     for i in vec.obs:
         self.set(i.rx + o_x, i.ry + o_y)
@@ -1162,7 +1162,7 @@ See se.Box.add</p></div>
 <li><code><a title="pokete_classes.npcs.NPC.chat" href="#pokete_classes.npcs.NPC.chat">chat</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.check_walk" href="#pokete_classes.npcs.NPC.check_walk">check_walk</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.exclamate" href="#pokete_classes.npcs.NPC.exclamate">exclamate</a></code></li>
-<li><code><a title="pokete_classes.npcs.NPC.fn" href="#pokete_classes.npcs.NPC.fn">fn</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.func" href="#pokete_classes.npcs.NPC.func">func</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.get" href="#pokete_classes.npcs.NPC.get">get</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.give" href="#pokete_classes.npcs.NPC.give">give</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.set_used" href="#pokete_classes.npcs.NPC.set_used">set_used</a></code></li>
@@ -1212,7 +1212,7 @@ See se.Box.add</p></div>
 <li><code><a title="pokete_classes.npcs.NPC.check_walk" href="#pokete_classes.npcs.NPC.check_walk">check_walk</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.exclamate" href="#pokete_classes.npcs.NPC.exclamate">exclamate</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.fig" href="#pokete_classes.npcs.NPC.fig">fig</a></code></li>
-<li><code><a title="pokete_classes.npcs.NPC.fn" href="#pokete_classes.npcs.NPC.fn">fn</a></code></li>
+<li><code><a title="pokete_classes.npcs.NPC.func" href="#pokete_classes.npcs.NPC.func">func</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.get" href="#pokete_classes.npcs.NPC.get">get</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.give" href="#pokete_classes.npcs.NPC.give">give</a></code></li>
 <li><code><a title="pokete_classes.npcs.NPC.npcactions" href="#pokete_classes.npcs.NPC.npcactions">npcactions</a></code></li>

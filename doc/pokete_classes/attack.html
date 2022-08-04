@@ -32,10 +32,10 @@
 import time
 import scrap_engine as se
 from pokete_data.attacks import attacks
+from release import SPEED_OF_TIME
 from .effects import effects
 from .types import types
 from .color import Color
-from release import SPEED_OF_TIME
 
 
 class Attack:
@@ -88,12 +88,12 @@ class Attack:
             time.sleep(SPEED_OF_TIME * 1.5)
             getattr(effects, self.effect)().add(enem)
 
-    def set_ap(self, ap):
+    def set_ap(self, _ap):
         &#34;&#34;&#34;Sets attack points
         ARGS:
             ap: Attack points&#34;&#34;&#34;
-        if ap != &#34;SKIP&#34;:
-            self.ap = min(ap, self.max_ap)
+        if _ap != &#34;SKIP&#34;:
+            self.ap = min(_ap, self.max_ap)
             self.label.rechar(&#34;&#34;)
             self.label += self.make_label()
 
@@ -178,12 +178,12 @@ if __name__ == &#34;__main__&#34;:
             time.sleep(SPEED_OF_TIME * 1.5)
             getattr(effects, self.effect)().add(enem)
 
-    def set_ap(self, ap):
+    def set_ap(self, _ap):
         &#34;&#34;&#34;Sets attack points
         ARGS:
             ap: Attack points&#34;&#34;&#34;
-        if ap != &#34;SKIP&#34;:
-            self.ap = min(ap, self.max_ap)
+        if _ap != &#34;SKIP&#34;:
+            self.ap = min(_ap, self.max_ap)
             self.label.rechar(&#34;&#34;)
             self.label += self.make_label()</code></pre>
 </details>
@@ -233,7 +233,7 @@ if __name__ == &#34;__main__&#34;:
 </details>
 </dd>
 <dt id="pokete_classes.attack.Attack.set_ap"><code class="name flex">
-<span>def <span class="ident">set_ap</span></span>(<span>self, ap)</span>
+<span>def <span class="ident">set_ap</span></span>(<span>self, _ap)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sets attack points</p>
@@ -246,12 +246,12 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def set_ap(self, ap):
+<pre><code class="python">def set_ap(self, _ap):
     &#34;&#34;&#34;Sets attack points
     ARGS:
         ap: Attack points&#34;&#34;&#34;
-    if ap != &#34;SKIP&#34;:
-        self.ap = min(ap, self.max_ap)
+    if _ap != &#34;SKIP&#34;:
+        self.ap = min(_ap, self.max_ap)
         self.label.rechar(&#34;&#34;)
         self.label += self.make_label()</code></pre>
 </details>

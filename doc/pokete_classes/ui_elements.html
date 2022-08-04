@@ -150,8 +150,8 @@ class ChooseBox(Box):
         &#34;&#34;&#34;Moves the cursor in the box
         ARGS:
              inp: Inputted action&#34;&#34;&#34;
-        assert(inp.triggers(*ACTION_UP_DOWN))
-        y_str = inp.get_Y_strength()
+        assert inp.triggers(*ACTION_UP_DOWN)
+        y_str = inp.get_y_strength()
         if inp.triggers(Action.UP):
             inp = Action.UP
         else:
@@ -259,7 +259,7 @@ class BetterChooseBox(Box):
         &#34;&#34;&#34;Evaluates user input
         ARGS:
             inp: Inputted string&#34;&#34;&#34;
-        assert(inp.triggers(*ACTION_DIRECTIONS))
+        assert inp.triggers(*ACTION_DIRECTIONS)
         if inp.triggers(Action.UP):
             inp = Action.UP
         elif inp.triggers(Action.LEFT):
@@ -449,7 +449,7 @@ if __name__ == &#34;__main__&#34;:
         &#34;&#34;&#34;Evaluates user input
         ARGS:
             inp: Inputted string&#34;&#34;&#34;
-        assert(inp.triggers(*ACTION_DIRECTIONS))
+        assert inp.triggers(*ACTION_DIRECTIONS)
         if inp.triggers(Action.UP):
             inp = Action.UP
         elif inp.triggers(Action.LEFT):
@@ -565,7 +565,7 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;Evaluates user input
     ARGS:
         inp: Inputted string&#34;&#34;&#34;
-    assert(inp.triggers(*ACTION_DIRECTIONS))
+    assert inp.triggers(*ACTION_DIRECTIONS)
     if inp.triggers(Action.UP):
         inp = Action.UP
     elif inp.triggers(Action.LEFT):
@@ -994,8 +994,8 @@ See se.Box.resize</p></div>
         &#34;&#34;&#34;Moves the cursor in the box
         ARGS:
              inp: Inputted action&#34;&#34;&#34;
-        assert(inp.triggers(*ACTION_UP_DOWN))
-        y_str = inp.get_Y_strength()
+        assert inp.triggers(*ACTION_UP_DOWN)
+        y_str = inp.get_y_strength()
         if inp.triggers(Action.UP):
             inp = Action.UP
         else:
@@ -1084,8 +1084,8 @@ See se.Box.resize</p></div>
     &#34;&#34;&#34;Moves the cursor in the box
     ARGS:
          inp: Inputted action&#34;&#34;&#34;
-    assert(inp.triggers(*ACTION_UP_DOWN))
-    y_str = inp.get_Y_strength()
+    assert inp.triggers(*ACTION_UP_DOWN)
+    y_str = inp.get_y_strength()
     if inp.triggers(Action.UP):
         inp = Action.UP
     else:

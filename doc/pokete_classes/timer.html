@@ -32,11 +32,11 @@
 import logging
 import time as time_mod
 import scrap_engine as se
-
+from release import SPEED_OF_TIME
 from .hotkeys import Action, get_action
 from .ui_elements import Box
 from .loops import std_loop
-from release import SPEED_OF_TIME
+
 
 time = None
 clock = None
@@ -131,8 +131,8 @@ class Clock(Box):
     ARGS:
         time: Time object&#34;&#34;&#34;
 
-    def __init__(self, time):
-        self.time = time
+    def __init__(self, time_ob):
+        self.time = time_ob
         super().__init__(9, 28, &#34;Clock&#34;, f&#34;{Action.CANCEL.mapping}:close&#34;)
 
     def __call__(self, _map):
@@ -220,7 +220,7 @@ def time_threat():
 <dl>
 <dt id="pokete_classes.timer.Clock"><code class="flex name class">
 <span>class <span class="ident">Clock</span></span>
-<span>(</span><span>time)</span>
+<span>(</span><span>time_ob)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Clock class to display the current time</p>
@@ -238,8 +238,8 @@ def time_threat():
     ARGS:
         time: Time object&#34;&#34;&#34;
 
-    def __init__(self, time):
-        self.time = time
+    def __init__(self, time_ob):
+        self.time = time_ob
         super().__init__(9, 28, &#34;Clock&#34;, f&#34;{Action.CANCEL.mapping}:close&#34;)
 
     def __call__(self, _map):
