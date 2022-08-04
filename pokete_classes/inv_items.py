@@ -26,12 +26,12 @@ class InvItem:
         price: The item's price in the shop
         fn: The associated method name in FightItems"""
 
-    def __init__(self, name, pretty_name, desc, price, fn=None):
+    def __init__(self, name, pretty_name, desc, price, _fn=None):
         self.name = name
         self.pretty_name = pretty_name
         self.desc = desc
         self.price = price
-        self.fn = fn
+        self.func = _fn
 
 
 class LearnDisc(InvItem):

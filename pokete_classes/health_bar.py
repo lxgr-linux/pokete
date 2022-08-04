@@ -2,8 +2,8 @@
 
 import time
 import scrap_engine as se
-from .color import Color
 from release import SPEED_OF_TIME
+from .color import Color
 
 
 class HealthBar(se.Text):

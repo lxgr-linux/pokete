@@ -21,12 +21,12 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
     _map.show()
     while True:
         # Use lower level ev.get() methods because we need to handle typed text, not game actions
-        if _ev.get() in ["Key.enter", "Key.esc"]:
+        if _ev.get() in ("Key.enter", "Key.esc"):
             _ev.clear()
             obj.rechar(hard_liner(wrap_len, name))
             _map.show()
             return name
-        elif _ev.get() == "Key.backspace":
+        if _ev.get() == "Key.backspace":
             if len(name) <= 0:
                 _ev.clear()
                 obj.rechar(bname)
@@ -61,7 +61,7 @@ def ask_bool(_map, text):
             if action.triggers(Action.ACCEPT):
                 ret = True
                 break
-            elif action.triggers(Action.CANCEL):
+            if action.triggers(Action.CANCEL):
                 ret = False
                 break
             std_loop(_map.name == "movemap")

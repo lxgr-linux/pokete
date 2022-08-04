@@ -8,22 +8,13 @@ from .loops import easy_exit_loop
 from .ui_elements import InfoBox, StdFrame
 
 
-class About:
-    """The about text, that can be triggered in the menu
+class LoopBox:
+    """Provides an easy_exit_loop call function
     ARGS:
-        ver: Version
-        cname: Codename
-        _map: se.Map this will be displayed on"""
+        box: The box to display"""
 
-    def __init__(self, ver, cname, _map):
-        self.box = InfoBox(liner(f"""Pokete v{ver} -- {cname}
-by  lxgr-linux <lxgr@protonmail.com>
-
-This  software is licensed under the GPL3, you should have gotten a copy of the GPL3 license alongside this software.
-Feel  free to contribute what ever you want to this game, new Pokete contributions are especially welcome.
-For  this see the comments in the definations area.
-You  can contribute here: https://github.com/lxgr-linux/pokete""",
-                                 60, pre=""), name="About", _map=_map)
+    def __init__(self, box):
+        self.box = box
 
     def __call__(self):
         """Shows the about text"""
@@ -31,14 +22,43 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
             easy_exit_loop()
 
 
-class Help(About):
+class About(LoopBox):
+    """The about text, that can be triggered in the menu
+    ARGS:
+        ver: Version
+        cname: Codename
+        _map: se.Map this will be displayed on"""
+
+    def __init__(self, ver, cname, _map):
+        super().__init__(
+            InfoBox(
+                liner(
+                    f"""Pokete v{ver} -- {cname}
+by  lxgr-linux <lxgr@protonmail.com>
+
+This  software is licensed under the GPL3, you should have gotten a \
+copy of the GPL3 license alongside this software.
+Feel  free to contribute what ever you want to this game, \
+new Pokete contributions are especially welcome.
+For  this see the comments in the definations area.
+You  can contribute here: https://github.com/lxgr-linux/pokete""",
+                    60, pre=""
+                ),
+                name="About",
+                _map=_map
+            )
+        )
+
+
+class Help(LoopBox):
     """Helptext that can be displayed by pressing '?'
     ARGS:
         _map: se.Map this will be displayed on"""
 
     def __init__(self, _map):
-        self.map = _map
-        self.box = InfoBox("""Controls:
+        super().__init__(
+            InfoBox(
+                """Controls:
 'w':up, 'a':left,
 's':down, 'd':right,
 'e':menu
@@ -47,7 +67,11 @@ When walking into the high grass (';') you may get attacked
 by wild Poketes, those can be killed or weakened and caught.
 NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
-https://git.io/JRRqe""", name="Help", _map=self.map)
+https://git.io/JRRqe""",
+                name="Help",
+                _map=_map
+            )
+        )
 
 
 class ResizeScreen():

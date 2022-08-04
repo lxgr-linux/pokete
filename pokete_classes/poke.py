@@ -7,6 +7,7 @@ import random
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
+from release import SPEED_OF_TIME
 from .attack_actions import AttackActions
 from .attack import Attack
 from .health_bar import HealthBar
@@ -17,20 +18,19 @@ from .types import types
 from .effects import effects
 from .learnattack import LearnAttack
 from .nature import PokeNature
-from release import SPEED_OF_TIME
 
 
 class Poke:
     """The Pokete class
     ARGS:
         poke: The Pokes generic name
-        xp: Initial xp
+        _xp: Initial xp
         _hp: Initial hp ('SKIP' sets to max hp)
         _attacks: List of attack names learned
         player: Bool whether or not the Poke belongs to the player
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
-    def __init__(self, poke, xp, _hp="SKIP", _ap=None, _attacks=None,
+    def __init__(self, poke, _xp, _hp="SKIP", _ap=None, _attacks=None,
                  _effects=None, player=True, shiny=False, nature=None):
         self.nature = PokeNature.random() if nature is None \
                         else PokeNature.from_dict(nature)
@@ -40,7 +40,7 @@ class Poke:
         self.night_active = self.inf.get("night_active", None)
         self.enem = None
         self.oldhp = 0
-        self.xp = xp
+        self.xp = _xp
         self.identifier = poke
         self.shiny = shiny
         self.atc = 0
@@ -177,7 +177,7 @@ can't have more than 4 attacks!"
             for eff in self.effects:
                 if eff.effect() == 1:
                     return
-            if any(type(i) is effects.confusion for i in self.effects):
+            if any(isinstance(i, effects.confusion) for i in self.effects):
                 self.enem = enem = self
             else:
                 self.enem = enem

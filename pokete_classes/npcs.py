@@ -5,8 +5,9 @@ import logging
 import random
 import scrap_engine as se
 import pokete_classes.fightmap as fm
+from release import SPEED_OF_TIME
 from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
-import pokete_classes.movemap as mvp
+from . import movemap as mvp
 from .providers import Provider
 from .loops import std_loop
 from .input import ask_bool
@@ -14,7 +15,6 @@ from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
 from .general import check_walk_back
-from release import SPEED_OF_TIME
 
 
 class NPCTrigger(se.Object):
@@ -53,11 +53,11 @@ class NPC(se.Box):
             name: The NPCs name"""
         return cls.registry[name]
 
-    def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
+    def __init__(self, name, texts, _fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
         self.name = name
         self.texts = texts
-        self.__fn = fn
+        self.__fn = _fn
         if chat is None:
             self.q_a = {}
         else:
@@ -96,40 +96,40 @@ class NPC(se.Box):
         time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
-        self.fn()
+        self.func()
 
-    def fn(self):
+    def func(self):
         """The function that's executed after the interaction"""
         if self.__fn is not None:
             getattr(self.npcactions, self.__fn)(self)
 
-    def check_walk(self, x, y):
+    def check_walk(self, _x, _y):
         """Checks whether the NPC can walk to a point or not
         ARGS:
-            x: X-coordinate
-            y: Y-coordinate
+            _x: X-coordinate
+            _y: Y-coordinate
         RETURNS:
             bool: Whether or not the walk is possible"""
-        vec = se.Line(" ", x - self.x, y - self.y)
+        vec = se.Line(" ", _x - self.x, _y - self.y)
         ret = not any([any(j.state == "solid"
                            for j in
                            self.map.obmap[i.ry + self.y][i.rx + self.x])
                        for i in vec.obs][1:])
         logging.info("[NPC][%s] %s walk check to (%d|%d)",
-                     self.name, 'Succeeded' if ret else 'Failed', x, y)
+                     self.name, 'Succeeded' if ret else 'Failed', _x, _y)
         return ret
 
-    def walk_point(self, x, y):
+    def walk_point(self, _x, _y):
         """Walks the NPC tp a certain point
         ARGS:
-            x: X-coordinate
-            y: Y-coordinate
+            _x: X-coordinate
+            _y: Y-coordinate
         RETURNS:
             bool: Whether or not the walk succeeded"""
         o_x = self.x
         o_y = self.y
-        vec = se.Line(" ", x - o_x, y - o_y)
-        if not self.check_walk(x, y):
+        vec = se.Line(" ", _x - o_x, _y - o_y)
+        if not self.check_walk(_x, _y):
             return False
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
@@ -169,7 +169,7 @@ Do you want to accept it?"):
             return
         while True:
             self.text(q_a["q"])
-            while get_action() == None:
+            while get_action() is None:
                 std_loop()
             if q_a["a"] == {}:
                 break
@@ -301,4 +301,3 @@ class Trainer(NPC, Provider):
         fightmap.show()
         time.sleep(SPEED_OF_TIME * 2)
         return True
-

@@ -1,6 +1,5 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
-import logging
 import scrap_engine as se
 import pokete_classes.game_map as gm
 from pokete_classes.hotkeys import Action, get_action
@@ -136,9 +135,8 @@ class Detail(Informer):
                                 atc.label_desc, atc.label_type]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
-                logging.info("2"+repr(ret_action))
                 return ret_action
-            elif action.triggers(Action.NATURE_INFO):
+            if action.triggers(Action.NATURE_INFO):
                 poke.nature.info(self.map)
             elif action.triggers(Action.ABILITIES):
                 if abb_obs != [] and abb:
@@ -153,7 +151,6 @@ class Detail(Informer):
                                 self.map.show()
                             elif action.triggers(Action.ACCEPT):
                                 ret_action = abb_obs[box.index.index].world_action
-                                logging.info("1"+repr(ret_action))
                                 _ev.set(Action.CANCEL.mapping)
                                 break
                             elif action.triggers(Action.CANCEL):

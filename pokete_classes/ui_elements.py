@@ -119,8 +119,8 @@ class ChooseBox(Box):
         """Moves the cursor in the box
         ARGS:
              inp: Inputted action"""
-        assert(inp.triggers(*ACTION_UP_DOWN))
-        y_str = inp.get_Y_strength()
+        assert inp.triggers(*ACTION_UP_DOWN)
+        y_str = inp.get_y_strength()
         if inp.triggers(Action.UP):
             inp = Action.UP
         else:
@@ -228,7 +228,7 @@ class BetterChooseBox(Box):
         """Evaluates user input
         ARGS:
             inp: Inputted string"""
-        assert(inp.triggers(*ACTION_DIRECTIONS))
+        assert inp.triggers(*ACTION_DIRECTIONS)
         if inp.triggers(Action.UP):
             inp = Action.UP
         elif inp.triggers(Action.LEFT):

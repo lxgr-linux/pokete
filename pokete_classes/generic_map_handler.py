@@ -32,8 +32,8 @@ class GenericMapHandler:
         """Adds a Meadow to the map"""
 
         self.grass_raw = ""
-        for l in self.string_map:
-            for i in l:
+        for j in self.string_map:
+            for i in j:
                 if i == ";":
                     self.grass_raw += i
                 else:
@@ -46,8 +46,8 @@ class GenericMapHandler:
         """Adds all solid objects to the map"""
 
         self.solid_raw = ""
-        for l in self.string_map:
-            for i in l:
+        for j in self.string_map:
+            for i in j:
                 if i not in [";", "~", "."]:
                     self.solid_raw += i
                 else:

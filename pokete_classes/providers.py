@@ -1,3 +1,5 @@
+"""Providers are any instance that is able to paticipate in a fight"""
+
 import random
 import time
 from abc import ABC, abstractmethod
@@ -17,15 +19,16 @@ class Provider(ABC):
 
     def heal(self):
         """Heals all poketes"""
-        for poke in self.pokes:
-            poke.hp = poke.full_hp
-            poke.effects = []
-            poke.miss_chance = poke.full_miss_chance
-            poke.text_hp.rechar(f"HP:{poke.hp}")
-            poke.set_vars()
-            poke.hp_bar.make(poke.hp)
-        if poke.player:
-            mvp.movemap.balls_label_rechar(self.pokes)
+        if self.pokes:
+            for poke in self.pokes:
+                poke.hp = poke.full_hp
+                poke.effects = []
+                poke.miss_chance = poke.full_miss_chance
+                poke.text_hp.rechar(f"HP:{poke.hp}")
+                poke.set_vars()
+                poke.hp_bar.make(poke.hp)
+            if poke.player:
+                mvp.movemap.balls_label_rechar(self.pokes)
 
     @property
     def curr(self):
@@ -44,14 +47,12 @@ class Provider(ABC):
         ARGS:
             fightmap: fightmap object
             anem: The enemy Provider"""
-        pass
 
     @abstractmethod
     def greet(self, fightmap):
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
-        pass
 
     @abstractmethod
     def handle_defeat(self, fightmap, winner):
@@ -61,7 +62,6 @@ class Provider(ABC):
             winner: the defeating provider
         RETURNS:
             bool: whether or not a Pokete was choosen"""
-        pass
 
 class NatureProvider(Provider):
     """The Natures Provider
@@ -133,5 +133,3 @@ class ProtoFigure(Provider):
             time.sleep(2)
             fightmap.choose_poke(self, False)
         return True
-
-

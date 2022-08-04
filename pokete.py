@@ -69,12 +69,12 @@ class NPCActions:
             npc: The NPC the method belongs to"""
 
     @staticmethod
-    def swap_poke(npc):
+    def swap_poke(_):
         """Swap_poke wrapper"""
         swap_poke()
 
     @staticmethod
-    def heal(npc):
+    def heal(_):
         """Heal wrapper"""
         figure.heal()
 
@@ -275,8 +275,10 @@ class CenterInteract(se.Object):
             elif action.triggers(Action.ACT_2):
                 figure.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
-                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                 ["...", "Your Poketes are now healed!"])
+                mvp.movemap.text(
+                    int(mvp.movemap.width / 2), 3,
+                    ["...", "Your Poketes are now healed!"]
+                )
                 break
             elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
@@ -550,7 +552,7 @@ class Inv:
                                     ask_ok(self.map,
                                            f"{poke.name} reached level "
                                            f"{poke.lvl()}!")
-                            elif type(obj) is LearnDisc:
+                            elif isinstance(obj, LearnDisc):
                                 if ask_bool(self.map, f"Do you want to teach '\
 {obj.attack_dict['name']}'?"):
                                     ex_cond = True
@@ -566,10 +568,13 @@ class Inv:
                                                    obj.attack_dict['types'][0])\
                                                 in poke.types:
                                             break
-                                        else:
-                                            ex_cond = ask_bool(self.map,
-                                                               f"You cant't \
-teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
+                                        ex_cond = ask_bool(
+                                            self.map,
+                                            "You cant't teach "
+                                            f"'{obj.attack_dict['name']}' to "
+                                            f"'{poke.name}'! \n"
+                                            "Do you want to continue?"
+                                        )
                                     if not ex_cond:
                                         break
                                     if LearnAttack(poke, self.map)\
@@ -697,7 +702,7 @@ valid single-space character!")
                             time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
-                        exit()
+                        sys.exit()
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
@@ -818,7 +823,6 @@ def exiter():
     print("\033[?1049l\033[1A")
     if audio.curr is not None:
         audio.kill()
-    #sys.exit()
 
 
 # Functions needed for mvp.movemap
@@ -839,7 +843,7 @@ def codes(string):
                 print(exc)
             return
         elif i == "q":
-            exit()
+            sys.exit()
 
 
 # Playmap extra action functions
@@ -895,13 +899,14 @@ def teleport(poke):
         poke: The Poke shown in the animation"""
     if (obj := roadmap(mvp.movemap, choose=True)) is None:
         return
-    else:
-        if settings("animations").val:
-            animations.transition(mvp.movemap, poke)
-        cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
-        Door("", state="float", arg_proto={"map": obj.name,
-                                          "x": cen_d["x"] + 5,
-                                          "y": cen_d["y"] + 6}).action(figure)
+    if settings("animations").val:
+        animations.transition(mvp.movemap, poke)
+    cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
+    Door("", state="float", arg_proto={
+        "map": obj.name,
+        "x": cen_d["x"] + 5,
+        "y": cen_d["y"] + 6
+    }).action(figure)
 
 
 def swap_poke():
@@ -1008,13 +1013,16 @@ def _game(_map):
         # Directions are not being used yet
         action = get_action()
         if action.triggers(*ACTION_DIRECTIONS):
-            figure.direction = '' #TODO
-            figure.set(figure.x + action.get_X_strength(), figure.y + action.get_Y_strength())
+            figure.direction = ''
+            figure.set(
+                figure.x + action.get_x_strength(),
+                figure.y + action.get_y_strength()
+            )
         elif action.triggers(*inp_dict):
             audio_before = settings("audio").val
-            for key in inp_dict:
+            for key, option in inp_dict.items():
                 if action.triggers(key):
-                    inp_dict[key][0](*inp_dict[key][1])
+                    option[0](*option[1])
             _ev.clear()
             if audio_before != settings("audio").val:
                 audio.switch(_map.song)
@@ -1022,7 +1030,7 @@ def _game(_map):
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
             if ask_bool(mvp.movemap, "Do you really wish to exit?"):
                 save()
-                exit()
+                sys.exit()
         elif action.triggers(Action.CONSOLE):
             inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
                              mvp.movemap.width,
@@ -1092,48 +1100,47 @@ def gen_obs():
     trainers = p_data.trainers
 
     # adding all trainer to map
-    for i in trainers:
+    for i, trainer_list in trainers.items():
         _map = obmp.ob_maps[i]
-        for j in trainers[i]:
+        for j in trainer_list:
             args = j["args"]
             trainer = Trainer([Poke(*p, player=False) for p in j["pokes"]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
     # generating objects from map_data
-    for ob_map in map_data:
+    for ob_map, single_map in map_data.items():
         _map = obmp.ob_maps[ob_map]
-        for hard_ob in map_data[ob_map]["hard_obs"]:
+        for hard_ob, single_hard_ob in single_map["hard_obs"].items():
             parse_obj(_map, hard_ob,
-                      se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"],
+                      se.Text(single_hard_ob["txt"],
                               ignore=" "),
-                      map_data[ob_map]["hard_obs"][hard_ob])
-        for soft_ob in map_data[ob_map]["soft_obs"]:
+                      single_hard_ob)
+        for soft_ob, single_soft_ob in single_map["soft_obs"].items():
             cls = {
                 "sand": Sand,
                 "meadow": Meadow,
                 "water": Water,
-            }[map_data[ob_map]["soft_obs"][soft_ob].get("cls", "meadow")]
+            }[single_soft_ob.get("cls", "meadow")]
             parse_obj(_map, soft_ob,
-                      cls(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
+                      cls(single_soft_ob["txt"],
                           _map.poke_args
                           if cls != Water else _map.w_poke_args),
-                      map_data[ob_map]["soft_obs"][soft_ob])
-        for door in map_data[ob_map]["dors"]:
+                      single_soft_ob)
+        for door, single_door in single_map["dors"].items():
             parse_obj(_map, door,
                       Door(" ", state="float",
-                           arg_proto=map_data[ob_map]["dors"][door]["args"]),
-                      map_data[ob_map]["dors"][door])
-        for ball in map_data[ob_map]["balls"]:
+                           arg_proto=single_door["args"]),
+                      single_door)
+        for ball, single_ball in single_map["balls"].items():
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
             settings("save_trainers").val:
                 parse_obj(_map, ball,
                           Poketeball(f"{ob_map}.{ball}"),
-                          map_data[ob_map]["balls"][ball])
+                          single_ball)
     # NPCs
-    for npc in npcs:
-        _npc = npcs[npc]
-        NPC(npc, _npc["texts"], fn=_npc["fn"],
+    for npc, _npc in npcs.items():
+        NPC(npc, _npc["texts"], _fn=_npc["fn"],
             chat=_npc.get("chat", None)).add(obmp.ob_maps[_npc["map"]],
                                              _npc["x"], _npc["y"])
 
@@ -1143,8 +1150,7 @@ def gen_maps():
     RETURNS:
         Dict of all PlayMaps"""
     maps = {}
-    for ob_map in p_data.maps:
-        args = p_data.maps[ob_map]
+    for ob_map, args in p_data.maps.items():
         args["extra_actions"] = (getattr(ExtraActions, args["extra_actions"],
                                          None)
                                  if args["extra_actions"] is not None
@@ -1159,15 +1165,14 @@ def check_version(sinfo):
         sinfo: session_info dict"""
     if "ver" not in sinfo:
         return False
-    else:
-        ver = sinfo["ver"]
+    ver = sinfo["ver"]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
         if not ask_bool(loading_screen.map,
                         liner(f"The save file was created \
 on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
 Do you want to continue?", int(width * 2 / 3))):
-            exit()
+            sys.exit()
     return VERSION != ver
 
 
@@ -1467,8 +1472,8 @@ if __name__ == "__main__":
     if settings("load_mods").val:
         try:
             import mods
-        except ModError as err:
-            error_box = InfoBox(str(err), "Mod-loading Error")
+        except ModError as mod_err:
+            error_box = InfoBox(str(mod_err), "Mod-loading Error")
             error_box.center_add(loading_screen.map)
             loading_screen.map.show()
             sys.exit(1)
@@ -1533,8 +1538,8 @@ if __name__ == "__main__":
 
     # Achievements
     achievements.set_achieved(session_info.get("achievements", []))
-    for identifier, args in p_data.achievements.items():
-        achievements.add(identifier, **args)
+    for identifier, achievement_args in p_data.achievements.items():
+        achievements.add(identifier, **achievement_args)
 
     # objects relevant for fm.fight()
     fm.fightmap = fm.FightMap(height - 1, width)
