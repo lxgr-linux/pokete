@@ -37,6 +37,13 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release type="stable" version="0.8.2" date="2022-08-05" urgency="low">
+      <description>
+        <p>Version 0.8.2 fixes a display bug of the release notes on flatpak. Version 0.8.1 on the other hand brought the following improvements: This version brings a new cross-platform implementation of how the audio is played, written in go. This makes the installation size of pokete significantly smaller, as less dependencies are required. The first map has been reworked, to make it easier for new players to understand the game.</p>
+      </description>
+      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.2</url>
+      <location>https://github.com/lxgr-linux/pokete/archive/refs/tags/0.8.2.tar.gz</location>
+    </release>
     <release type="stable" version="0.8.1" date="2022-08-04" urgency="high">
       <description>
         <p>This version brings a new cross-platform implementation of how the audio is played, written in go. This makes the installation size of pokete significantly smaller, as less dependencies are required. The first map has been reworked, to make it easier for new players to understand the game.</p>
