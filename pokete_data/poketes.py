@@ -8,7 +8,7 @@
 
 pokes = {
     "__fallback__": {
-        "name": "",
+        "name": "pokete.__fallback__.name",
         "hp": 20,
         "atc": 0,
         "defense": 0,
@@ -27,7 +27,7 @@ pokes = {
             "esc": None}],
     },
     "steini": {
-        "name": "Steini",
+        "name": "pokete.steini.name",
         "hp": 25,
         "atc": 2,
         "defense": 4,
@@ -49,7 +49,7 @@ pokes = {
             "esc": None}],
     },
     "mowcow": {
-        "name": "Mowcow",
+        "name": "pokete.mowcow.name",
         "hp": 20,
         "atc": 2,
         "defense": 3,
@@ -70,7 +70,7 @@ pokes = {
             "esc": None}],
     },
     "bigstone": {
-        "name": "Bigstone",
+        "name": "pokete.bigstone.name",
         "hp": 30,
         "atc": 2,
         "defense": 13,
@@ -92,7 +92,7 @@ pokes = {
             "esc": None}],
     },
     "poundi": {
-        "name": "Poundi",
+        "name": "pokete.poundi.name",
         "hp": 25,
         "atc": 2,
         "defense": 3,
@@ -114,7 +114,7 @@ pokes = {
             "esc": None}],
     },
     "lilstone": {
-        "name": "Lilstone",
+        "name": "pokete.lilstone.name",
         "hp": 20,
         "atc": 1,
         "defense": 2,
@@ -136,7 +136,7 @@ pokes = {
             "esc": None}],
     },
     "rosi": {
-        "name": "Rosi",
+        "name": "pokete.rosi.name",
         "hp": 20,
         "atc": 0,
         "defense": 1,
@@ -158,7 +158,7 @@ pokes = {
             "esc": None}],
     },
     "wheeto": {
-        "name": "Wheeto",
+        "name": "pokete.wheeto.name",
         "hp": 20,
         "atc": 3,
         "defense": 2,
@@ -180,7 +180,7 @@ pokes = {
             "esc": None}],
     },
     "saugh": {
-        "name": "Saugh",
+        "name": "pokete.saugh.name",
         "hp": 20,
         "atc": 4,
         "defense": 2,
@@ -208,7 +208,7 @@ pokes = {
                 }],
     },
     "gobost": {
-        "name": "Gobost",
+        "name": "pokete.gobost.name",
         "hp": 20,
         "atc": 2,
         "defense": 1,
@@ -230,7 +230,7 @@ pokes = {
             "esc": None}],
     },
     "angrilo": {
-        "name": "Angrilo",
+        "name": "pokete.angrilo.name",
         "hp": 25,
         "atc": 3,
         "defense": 2,
@@ -252,7 +252,7 @@ pokes = {
             "esc": None}],
     },
     "vogli": {
-        "name": "Vogli",
+        "name": "pokete.vogli.name",
         "hp": 20,
         "atc": 6,
         "defense": 1,
@@ -274,7 +274,7 @@ pokes = {
             "esc": None}]
     },
     "voglo": {
-        "name": "Voglo",
+        "name": "pokete.voglo.name",
         "hp": 20,
         "atc": 7,
         "defense": 1,
@@ -296,7 +296,7 @@ pokes = {
             "esc": None}]
     },
     "voglus": {
-        "name": "Voglus",
+        "name": "pokete.voglus.name",
         "hp": 25,
         "atc": 9,
         "defense": 3,
@@ -321,7 +321,7 @@ pokes = {
             "esc": ["thicc", "red"]}]
     },
     "ostri": {
-        "name": "Ostri",
+        "name": "pokete.ostri.name",
         "hp": 20,
         "atc": 8,
         "defense": 0,
@@ -343,7 +343,7 @@ pokes = {
             "esc": None}]
     },
     "karpi": {
-        "name": "Karpi",
+        "name": "pokete.karpi.name",
         "hp": 15,
         "atc": 0,
         "defense": 0,
@@ -365,7 +365,7 @@ pokes = {
             "esc": None}]
     },
     "würgos": {
-        "name": "Würgos",
+        "name": "pokete.würgos.name",
         "hp": 20,
         "atc": 3,
         "defense": 0,
@@ -387,7 +387,7 @@ pokes = {
             "esc": None}]
     },
     "choka": {
-        "name": "Choka",
+        "name": "pokete.choka.name",
         "hp": 25,
         "atc": 5,
         "defense": 1,
@@ -409,7 +409,7 @@ pokes = {
             "esc": None}]
     },
     "treenator": {
-        "name": "Treenator",
+        "name": "pokete.treenator.name",
         "hp": 25,
         "atc": 2,
         "defense": 2,
@@ -431,7 +431,7 @@ pokes = {
             "esc": None}]
     },
     "bato": {
-        "name": "Bato",
+        "name": "pokete.bato.name",
         "hp": 20,
         "atc": 3,
         "defense": 1,
@@ -452,7 +452,7 @@ WW\/* *\/WW
             "esc": None}]
     },
     "bator": {
-        "name": "Bator",
+        "name": "pokete.bator.name",
         "hp": 25,
         "atc": 4,
         "defense": 2,
@@ -474,7 +474,7 @@ WW\/o o\/WW
             "esc": None}]
     },
     "blub": {
-        "name": "Blub",
+        "name": "pokete.blub.name",
         "hp": 20,
         "atc": 2,
         "defense": 1,
@@ -496,7 +496,7 @@ WW\/o o\/WW
             "esc": None}]
     },
     "owol": {
-        "name": "Owol",
+        "name": "pokete.owol.name",
         "hp": 20,
         "atc": 7,
         "defense": 2,
@@ -520,7 +520,7 @@ WW\/o o\/WW
             "esc": None}]
     },
     "rato": {
-        "name": "Rato",
+        "name": "pokete.rato.name",
         "hp": 20,
         "atc": 4,
         "defense": 2,
@@ -541,7 +541,7 @@ WW\/o o\/WW
             "esc": None}]
     },
     "ratatat": {
-        "name": "Ratatat",
+        "name": "pokete.ratatat.name",
         "hp": 25,
         "atc": 7,
         "defense": 3,
@@ -566,7 +566,7 @@ WW\/o o\/WW
             "esc": ["thicc", "green"]}]
     },
     "hornita": {
-        "name": "Hornita",
+        "name": "pokete.hornita.name",
         "hp": 20,
         "atc": 6,
         "defense": 2,
@@ -588,7 +588,7 @@ WW\/o o\/WW
             "esc": None}]
     },
     "horny": {
-        "name": "Horny",
+        "name": "pokete.horny.name",
         "hp": 20,
         "atc": 5,
         "defense": 1,
@@ -610,7 +610,7 @@ WW\/o o\/WW
             "esc": None}]
     },
     "bushy": {
-        "name": "Bushy",
+        "name": "pokete.bushy.name",
         "hp": 25,
         "atc": 2,
         "defense": 1,
@@ -631,7 +631,7 @@ WW\/o o\/WW
             "esc": None}]
     },
     "wolfior": {
-        "name": "Wolfior",
+        "name": "pokete.wolfior.name",
         "hp": 20,
         "atc": 6,
         "defense": 3,
@@ -656,7 +656,7 @@ WW\/o o\/WW
             "esc": ["thicc", "red"]}]
     },
     "wolfiro": {
-        "name": "Wolfiro",
+        "name": "pokete.wolfiro.name",
         "hp": 25,
         "atc": 7,
         "defense": 4,
@@ -681,7 +681,7 @@ WW\/o o\/WW
             "esc": ["thicc", "red"]}]
     },
     "rollator": {
-        "name": "Rollator",
+        "name": "pokete.rollator.name",
         "hp": 25,
         "atc": 2,
         "defense": 5,
@@ -703,7 +703,7 @@ WW\/o o\/WW
             "esc": None}]
     },
     "clampi": {
-        "name": "Clampi",
+        "name": "pokete.clampi.name",
         "hp": 25,
         "atc": 2,
         "defense": 7,
@@ -727,7 +727,7 @@ WW\/o o\/WW
             "esc": ["lightblue"]}]
     },
     "crabbat": {
-        "name": "Crabbat",
+        "name": "pokete.crabbat.name",
         "hp": 30,
         "atc": 3,
         "defense": 8,
@@ -751,7 +751,7 @@ WW\/o o\/WW
             "esc": ["lightblue"]}]
     },
     "rustacean": {
-        "name": "Rustacean",
+        "name": "pokete.rustacean.name",
         "hp": 35,
         "atc": 4,
         "defense": 9,
@@ -775,7 +775,7 @@ WW\/o o\/WW
             "esc": ["lightblue"]}]
     },
     "electrode": {
-        "name": "Electrode",
+        "name": "pokete.electrode.name",
         "hp": 20,
         "atc": 5,
         "defense": 2,
@@ -798,7 +798,7 @@ WW\/o o\/WW
             "esc": ["lightblue"]}]
     },
     "cubl": {
-        "name": "Cubl",
+        "name": "pokete.cubl.name",
         "hp": 20,
         "atc": 3,
         "defense": 3,
@@ -828,7 +828,7 @@ WW\/o o\/WW
         ]
     },
     "spikl": {
-        "name": "Spikl",
+        "name": "pokete.spikl.name",
         "hp": 25,
         "atc": 4,
         "defense": 4,
@@ -860,7 +860,7 @@ WW\/o o\/WW
         ]
     },
     "confuso": {
-        "name": "Confuso",
+        "name": "pokete.confuso.name",
         "hp": 20,
         "atc": 1,
         "defense": 1,
@@ -889,7 +889,7 @@ WW\/o o\/WW
         ]
     },
     "poisopla": {
-        "name": "Poisopla",
+        "name": "pokete.poisopla.name",
         "hp": 20,
         "atc": 3,
         "defense": 3,
@@ -915,7 +915,7 @@ WW\/o o\/WW
         ]
     },
     "megapois": {
-        "name": "Megapois",
+        "name": "pokete.megapois.name",
         "hp": 25,
         "atc": 3,
         "defense": 5,
@@ -941,7 +941,7 @@ WW\/o o\/WW
         ]
     },
     "corcos_day": {
-        "name": "Corcos",
+        "name": "pokete.corcos_day.name",
         "hp": 15,
         "atc": 2,
         "defense": 5,
@@ -965,7 +965,7 @@ WW\/o o\/WW
         ]
     },
     "corcos_night": {
-        "name": "Corcos",
+        "name": "pokete.corcos_night.name",
         "hp": 15,
         "atc": 2,
         "defense": 5,
@@ -989,7 +989,7 @@ WW\/o o\/WW
         ]
     },
     "raupathor_day": {
-        "name": "Raupathor",
+        "name": "pokete.raupathor_day.name",
         "hp": 20,
         "atc": 3,
         "defense": 4,
@@ -1014,7 +1014,7 @@ WW\/o o\/WW
         ]
     },
     "raupathor_night": {
-        "name": "Raupathor",
+        "name": "pokete.raupathor_night.name",
         "hp": 20,
         "atc": 3,
         "defense": 4,
@@ -1042,7 +1042,7 @@ WW\/o o\/WW
         ]
     },
     "schmetterling": {
-        "name": "Schmetterling",
+        "name": "pokete.schmetterling.name",
         "hp": 20,
         "atc": 5,
         "defense": 2,
@@ -1065,7 +1065,7 @@ WW\/o o\/WW
         ]
     },
     "mothor": {
-        "name": "Mothor",
+        "name": "pokete.mothor.name",
         "hp": 20,
         "atc": 6,
         "defense": 2,
@@ -1093,7 +1093,7 @@ WW\/o o\/WW
         ]
     },
     "lil_nut": {
-        "name": "Lil Nut",
+        "name": "pokete.lil_nut.name",
         "hp": 20,
         "atc": 1,
         "defense": 3,
@@ -1116,7 +1116,7 @@ WW\/o o\/WW
         ]
     },
     "dicki": {
-        "name": "Dicki",
+        "name": "pokete.dicki.name",
         "hp": 20,
         "atc": 2,
         "defense": 4,
@@ -1139,7 +1139,7 @@ WW\/o o\/WW
         ]
     },
     "dicko": {
-        "name": "Dicko",
+        "name": "pokete.dicko.name",
         "hp": 25,
         "atc": 3,
         "defense": 5,
@@ -1162,7 +1162,7 @@ WW\/o o\/WW
         ]
     },
     "diamondos": {
-        "name": "Diamondos",
+        "name": "pokete.diamondos.name",
         "hp": 20,
         "atc": 2,
         "defense": 15,
