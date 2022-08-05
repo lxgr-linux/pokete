@@ -6,9 +6,13 @@ It prepares the python (sub-)modules in a way that they can be installed via pip
 """
 
 import os
+from pathlib import Path
 import shutil
+import sys
 from setuptools import setup
 
+
+PACKAGE_PATH = Path(__file__).parent / "pokete"
 
 def package_file_to_pokete(file: str) -> None:
     """Packages a file into the 'pokete' module.
@@ -34,7 +38,8 @@ def package_file_to_pokete(file: str) -> None:
         ("from pokete_classes", "from pokete.pokete_classes"),
         ("from pokete_general_use_fns import",
             "from pokete.pokete_general_use_fns import"),
-        ("from release import", "from pokete.release import")
+        ("from release import", "from pokete.release import"),
+        ("from playsound import", "from pokete.playsound import")
     ]
 
     with open(file, 'r') as f:
@@ -46,7 +51,7 @@ def package_file_to_pokete(file: str) -> None:
     if file == "pokete.py":
         data = data.replace('if __name__ == "__main__":', 'if True:')
 
-    with open(os.path.join('pokete', file), 'w') as f:
+    with open(Path('pokete') / file, 'w') as f:
         f.write(data)
 
 
@@ -67,18 +72,32 @@ def main():
     """
     for directory in ["pokete_data", "pokete_classes"]:
         print(f"Processing directory '{directory}'...")
-        os.makedirs(os.path.join("pokete", directory), exist_ok=True)
+        os.makedirs(PACKAGE_PATH / directory, exist_ok=True)
         for file in os.listdir(directory):
-            file = os.path.join(directory, file)
+            file = Path(directory) / file
             if os.path.isfile(file):
                 package_file_to_pokete(file)
+    print("Packaging directory 'playsound'...")
+    os.makedirs(PACKAGE_PATH / "playsound", exist_ok=True)
+    libpath = ("libplaysound." +
+        {
+            sys.platform: "so",
+            "win32": "dll",
+            "darwin": "osx.so"
+        }[sys.platform]
+    )
+    for file in ["__init__.py", libpath]:
+        file = Path("playsound") / file
+        print(f"  Packaging '{file}'...")
+        shutil.copyfile(file, PACKAGE_PATH / file)
+
 
     print("Packaging root file scripts...")
     for file in ["pokete.py", "pokete_general_use_fns.py", "release.py"]:
         package_file_to_pokete(file)
 
     print("Packaging new '__init__.py' file...")
-    with open(os.path.join("pokete", "__init__.py"), 'w') as f:
+    with open(PACKAGE_PATH / "__init__.py", 'w') as f:
         f.write("""def run_pokete():
     import pokete.pokete
 
@@ -87,19 +106,19 @@ if __name__ == "__main__":
 """)
 
     print("Packaging assets...")
-    asset_path = os.path.join("assets", "music")
-    os.makedirs(os.path.join("pokete", asset_path), exist_ok=True)
+    asset_path = Path("assets") / "music"
+    os.makedirs(PACKAGE_PATH / asset_path, exist_ok=True)
     for file in os.listdir(asset_path):
-        file = os.path.join(asset_path, file)
+        file = asset_path / file
         if os.path.isfile(file):
             print(f"  Packaging '{file}'...")
-            shutil.copyfile(file, os.path.join("pokete", file))
+            shutil.copyfile(file, PACKAGE_PATH / file)
 
     setup()
     # For setuptools<44.0 uncomment the following lines instead
     #setup(
     #    name="pokete",
-    #    version="0.7.3",
+    #    version="0.8.2",
     #    description="A terminal based Pokemon like game",
     #    author="lxgr-linux",
     #    author_email="lxgr@protonmail.com",
@@ -111,10 +130,7 @@ if __name__ == "__main__":
     #        ]
     #    },
     #    install_requires=[
-    #        "scrap_engine >= 1.2.0",
-    #        "playsound",
-    #        "pygobject",
-    #        "pynput"
+    #        "scrap_engine >= 1.2.0"
     #    ],
     #    include_package_data=True
     #)
