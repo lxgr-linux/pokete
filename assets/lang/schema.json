@@ -2,16 +2,280 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "title": "Pokete Translation File Schema",
   "properties": {
+    "assert.input.text_length": {
+      "type": "string"
+    },
+    "assert.pokete.attack_length": {
+      "type": "string"
+    },
+    "error.input.single_space_character": {
+      "type": "string"
+    },
     "error.import.scrap_engine": {
       "type": "string"
     },
+    "error.exception.road_map_exception": {
+      "type": "string"
+    },
+    "error.mod.attributes": {
+      "type": "string"
+    },
+    "ui.pokete.title": {
+      "type": "string"
+    },
+    "ui.dialog.yes": {
+      "type": "string"
+    },
+    "ui.dialog.no": {
+      "type": "string"
+    },
+    "ui.dialog.select_yes": {
+      "type": "string"
+    },
+    "ui.dialog.select_no": {
+      "type": "string"
+    },
+    "ui.dialog.select_ok": {
+      "type": "string"
+    },
+    "ui.dialog.min_window_size": {
+      "type": "string"
+    },
+    "ui.dialog.on": {
+      "type": "string"
+    },
+    "ui.dialog.off": {
+      "type": "string"
+    },
+    "ui.dialog.nothing": {
+      "type": "string"
+    },
+    "ui.dialog.succeeded": {
+      "type": "string"
+    },
+    "ui.dialog.failed": {
+      "type": "string"
+    },
+    "ui.dialog.answer": {
+      "type": "string"
+    },
+    "ui.dialog.lost": {
+      "type": "string"
+    },
+    "ui.dialog.won": {
+      "type": "string"
+    },
+    "ui.dialog.close": {
+      "type": "string"
+    },
+    "ui.dialog.at": {
+      "type": "string"
+    },
+    "ui.dialog.exit": {
+      "type": "string"
+    },
+    "ui.dialog.active": {
+      "type": "string"
+    },
+    "ui.dialog.move": {
+      "type": "string"
+    },
+    "ui.dialog.move_to": {
+      "type": "string"
+    },
+    "ui.dialog.cant_free_all": {
+      "type": "string"
+    },
+    "ui.dialog.free": {
+      "type": "string"
+    },
+    "ui.dialog.free_pokete": {
+      "type": "string"
+    },
+    "ui.details.title": {
+      "type": "string"
+    },
+    "ui.details.attacks": {
+      "type": "string"
+    },
+    "ui.details.attack": {
+      "type": "string"
+    },
+    "ui.details.defense": {
+      "type": "string"
+    },
+    "ui.details.abilities": {
+      "type": "string"
+    },
+    "ui.details.initiative": {
+      "type": "string"
+    },
+    "ui.details.nature": {
+      "type": "string"
+    },
+    "ui.details.nature.very": {
+      "type": "string"
+    },
+    "ui.details.nature.description": {
+      "type": "string"
+    },
+    "ui.details.use_ability": {
+      "type": "string"
+    },
+    "ui.details.denominator.equal": {
+      "type": "string"
+    },
+    "ui.details.denominator.less_than": {
+      "type": "string"
+    },
+    "ui.details.denominator.greater_than": {
+      "type": "string"
+    },
+    "ui.movemap.deck": {
+      "type": "string"
+    },
+    "ui.movemap.map": {
+      "type": "string"
+    },
+    "ui.movemap.inventory_abbr": {
+      "type": "string"
+    },
+    "ui.movemap.clock": {
+      "type": "string"
+    },
+    "ui.movemap.help": {
+      "type": "string"
+    },
+    "ui.hotkeys.not_set": {
+      "type": "string"
+    },
+    "ui.menu.title": {
+      "type": "string"
+    },
+    "ui.menu.playername": {
+      "type": "string"
+    },
+    "ui.menu.playername_char": {
+      "type": "string"
+    },
+    "ui.menu.save": {
+      "type": "string"
+    },
+    "ui.menu.quit_game": {
+      "type": "string"
+    },
+    "ui.menu.autosave": {
+      "type": "string"
+    },
+    "ui.menu.animations": {
+      "type": "string"
+    },
+    "ui.menu.save_trainers": {
+      "type": "string"
+    },
+    "ui.menu.audio": {
+      "type": "string"
+    },
+    "ui.menu.language": {
+      "type": "string"
+    },
+    "ui.menu.saving": {
+      "type": "string"
+    },
+    "ui.about.title": {
+      "type": "string"
+    },
+    "ui.mods.title": {
+      "type": "string"
+    },
+    "ui.mods.load": {
+      "type": "string"
+    },
+    "ui.mods.description": {
+      "type": "string"
+    },
+    "ui.mods.currently.singular": {
+      "type": "string"
+    },
+    "ui.mods.currently.plural": {
+      "type": "string"
+    },
+    "ui.mods.enabled": {
+      "type": "string"
+    },
+    "ui.mods.disabled": {
+      "type": "string"
+    },
+    "ui.dex.title": {
+      "type": "string"
+    },
     "ui.inventory.title": {
+      "type": "string"
+    },
+    "ui.achievements.title": {
+      "type": "string"
+    },
+    "ui.achievements.achieved": {
+      "type": "string"
+    },
+    "ui.achievements.unlocked": {
+      "type": "string"
+    },
+    "ui.shop.title": {
+      "type": "string"
+    },
+    "ui.roadmap.title": {
+      "type": "string"
+    },
+    "ui.roadmap.find": {
+      "type": "string"
+    },
+    "ui.controls.title": {
+      "type": "string"
+    },
+    "ui.help.controls.up": {
+      "type": "string"
+    },
+    "ui.help.controls.down": {
+      "type": "string"
+    },
+    "ui.help.controls.left": {
+      "type": "string"
+    },
+    "ui.help.controls.right": {
+      "type": "string"
+    },
+    "ui.help.controls.menu": {
+      "type": "string"
+    },
+    "ui.help.text": {
       "type": "string"
     },
     "ui.lang.en_us": {
       "type": "string"
     },
     "ui.lang.de_de": {
+      "type": "string"
+    },
+    "dialog.time.day": {
+      "type": "string"
+    },
+    "dialog.time.night": {
+      "type": "string"
+    },
+    "dialog.time.always": {
+      "type": "string"
+    },
+    "dialog.evolution.look": {
+      "type": "string"
+    },
+    "dialog.evolution.evolving": {
+      "type": "string"
+    },
+    "dialog.evolution.evolved": {
+      "type": "string"
+    },
+    "dialog.evolution.evolve": {
       "type": "string"
     },
     "dialog.center.welcome": {
@@ -24,6 +288,1701 @@
       "type": "string"
     },
     "dialog.center.healed": {
+      "type": "string"
+    },
+    "dialog.shop.welcome": {
+      "type": "string"
+    },
+    "dialog.shop.action": {
+      "type": "string"
+    },
+    "dialog.shop.leave": {
+      "type": "string"
+    },
+    "dialog.trader.welcome": {
+      "type": "string"
+    },
+    "dialog.trader.action": {
+      "type": "string"
+    },
+    "dialog.attack.what_to_do": {
+      "type": "string"
+    },
+    "dialog.attack.no_items": {
+      "type": "string"
+    },
+    "dialog.attack.run_question": {
+      "type": "string"
+    },
+    "dialog.attack.failed_run": {
+      "type": "string"
+    },
+    "dialog.attack.success_run": {
+      "type": "string"
+    },
+    "dialog.attack.encounter": {
+      "type": "string"
+    },
+    "dialog.attack.start_fight": {
+      "type": "string"
+    },
+    "dialog.attack.opponent.attack": {
+      "type": "string"
+    },
+    "dialog.attack.opponent.used": {
+      "type": "string"
+    },
+    "dialog.attack.player.attack": {
+      "type": "string"
+    },
+    "dialog.attack.player.swap_pokete": {
+      "type": "string"
+    },
+    "dialog.attack.player.swap_pokete.confirm": {
+      "type": "string"
+    },
+    "dialog.attack.player.throw": {
+      "type": "string"
+    },
+    "dialog.attack.pokete.defeat": {
+      "type": "string"
+    },
+    "dialog.attack.pokete.no_ap": {
+      "type": "string"
+    },
+    "dialog.attack.pokete.won": {
+      "type": "string"
+    },
+    "dialog.attack.pokete.levelup": {
+      "type": "string"
+    },
+    "dialog.attack.pokete.caught": {
+      "type": "string"
+    },
+    "dialog.attack.pokete.missed": {
+      "type": "string"
+    },
+    "dialog.attack.pokete.learn_attack": {
+      "type": "string"
+    },
+    "dialog.attack.pokete.learned_attack": {
+      "type": "string"
+    },
+    "dialog.attack.noop": {
+      "type": "string"
+    },
+    "dialog.attack.blackout": {
+      "type": "string"
+    },
+    "dialog.attack.deck": {
+      "type": "string"
+    },
+    "dialog.attack.won": {
+      "type": "string"
+    },
+    "dialog.attack.lvl": {
+      "type": "string"
+    },
+    "dialog.attack.hp": {
+      "type": "string"
+    },
+    "dialog.attack.xp": {
+      "type": "string"
+    },
+    "dialog.attack.ap": {
+      "type": "string"
+    },
+    "dialog.attack.attacks": {
+      "type": "string"
+    },
+    "dialog.attack.attack": {
+      "type": "string"
+    },
+    "dialog.attack.attack_info": {
+      "type": "string"
+    },
+    "dialog.attack.run": {
+      "type": "string"
+    },
+    "dialog.attack.type": {
+      "type": "string"
+    },
+    "dialog.attack.info": {
+      "type": "string"
+    },
+    "dialog.attack.effective": {
+      "type": "string"
+    },
+    "dialog.attack.not_effective": {
+      "type": "string"
+    },
+    "dialog.attack.missed": {
+      "type": "string"
+    },
+    "dialog.attack.attack_used": {
+      "type": "string"
+    },
+    "dialog.attack.hurt_itself": {
+      "type": "string"
+    },
+    "dialog.inventory.prefix_ld_disk": {
+      "type": "string"
+    },
+    "dialog.inventory.teach_disc": {
+      "type": "string"
+    },
+    "dialog.effect.not_affected": {
+      "type": "string"
+    },
+    "dialog.effect.now": {
+      "type": "string"
+    },
+    "dialog.effect.already": {
+      "type": "string"
+    },
+    "dialog.effect.still": {
+      "type": "string"
+    },
+    "dialog.effect.isnt": {
+      "type": "string"
+    },
+    "dialog.effect.anymore": {
+      "type": "string"
+    },
+    "dialog.effect.cant_attack": {
+      "type": "string"
+    },
+    "dialog.effect.paralysis.description": {
+      "type": "string"
+    },
+    "dialog.effect.sleep.description": {
+      "type": "string"
+    },
+    "dialog.effect.burn.description": {
+      "type": "string"
+    },
+    "dialog.effect.poison.description": {
+      "type": "string"
+    },
+    "dialog.effect.confusion.description": {
+      "type": "string"
+    },
+    "dialog.effect.freeze.description": {
+      "type": "string"
+    },
+    "dialog.walk.collected_item.singular": {
+      "type": "string"
+    },
+    "dialog.walk.collected_item.plural": {
+      "type": "string"
+    },
+    "npc.interaction.give": {
+      "type": "string"
+    },
+    "npc.interaction.twenty_dollars": {
+      "type": "string"
+    },
+    "npc.test_npc.hey": {
+      "type": "string"
+    },
+    "npc.old_man.greet": {
+      "type": "string"
+    },
+    "npc.old_man.talk": {
+      "type": "string"
+    },
+    "npc.old_man.found_hyperball": {
+      "type": "string"
+    },
+    "npc.old_man.hyperball": {
+      "type": "string"
+    },
+    "npc.old_man.rarest": {
+      "type": "string"
+    },
+    "npc.old_man.keep": {
+      "type": "string"
+    },
+    "achievement.first_poke.title": {
+      "type": "string"
+    },
+    "achievement.first_poke.description": {
+      "type": "string"
+    },
+    "achievement.first_duel.title": {
+      "type": "string"
+    },
+    "achievement.first_duel.description": {
+      "type": "string"
+    },
+    "achievement.catch_em_all.title": {
+      "type": "string"
+    },
+    "achievement.catch_em_all.description": {
+      "type": "string"
+    },
+    "attack.tackle.title": {
+      "type": "string"
+    },
+    "attack.tackle.description": {
+      "type": "string"
+    },
+    "attack.cry.title": {
+      "type": "string"
+    },
+    "attack.cry.description": {
+      "type": "string"
+    },
+    "attack.bite.title": {
+      "type": "string"
+    },
+    "attack.bite.description": {
+      "type": "string"
+    },
+    "attack.power_bite.title": {
+      "type": "string"
+    },
+    "attack.power_bite.description": {
+      "type": "string"
+    },
+    "attack.chocer.title": {
+      "type": "string"
+    },
+    "attack.chocer.description": {
+      "type": "string"
+    },
+    "attack.tail_wipe.title": {
+      "type": "string"
+    },
+    "attack.tail_wipe.description": {
+      "type": "string"
+    },
+    "attack.meat_skewer.title": {
+      "type": "string"
+    },
+    "attack.meat_skewer.description": {
+      "type": "string"
+    },
+    "attack.snooze.title": {
+      "type": "string"
+    },
+    "attack.snooze.description": {
+      "type": "string"
+    },
+    "attack.supercow_power.title": {
+      "type": "string"
+    },
+    "attack.supercow_power.description": {
+      "type": "string"
+    },
+    "attack.poison_bite.title": {
+      "type": "string"
+    },
+    "attack.poison_bite.description": {
+      "type": "string"
+    },
+    "attack.poison_thorn.title": {
+      "type": "string"
+    },
+    "attack.poison_thorn.description": {
+      "type": "string"
+    },
+    "attack.pepple_fire.title": {
+      "type": "string"
+    },
+    "attack.pepple_fire.description": {
+      "type": "string"
+    },
+    "attack.sand_throw.title": {
+      "type": "string"
+    },
+    "attack.sand_throw.description": {
+      "type": "string"
+    },
+    "attack.politure.title": {
+      "type": "string"
+    },
+    "attack.politure.description": {
+      "type": "string"
+    },
+    "attack.brick_throw.title": {
+      "type": "string"
+    },
+    "attack.brick_throw.description": {
+      "type": "string"
+    },
+    "attack.rock_smash.title": {
+      "type": "string"
+    },
+    "attack.rock_smash.description": {
+      "type": "string"
+    },
+    "attack.dia_stab.title": {
+      "type": "string"
+    },
+    "attack.dia_stab.description": {
+      "type": "string"
+    },
+    "attack.dazzle.title": {
+      "type": "string"
+    },
+    "attack.dazzle.description": {
+      "type": "string"
+    },
+    "attack.dia_spikes.title": {
+      "type": "string"
+    },
+    "attack.dia_spikes.description": {
+      "type": "string"
+    },
+    "attack.earch_quake.title": {
+      "type": "string"
+    },
+    "attack.earch_quake.description": {
+      "type": "string"
+    },
+    "attack.power_roll.title": {
+      "type": "string"
+    },
+    "attack.power_roll.description": {
+      "type": "string"
+    },
+    "attack.toe_breaker.title": {
+      "type": "string"
+    },
+    "attack.toe_breaker.description": {
+      "type": "string"
+    },
+    "attack.ground_hit.title": {
+      "type": "string"
+    },
+    "attack.ground_hit.description": {
+      "type": "string"
+    },
+    "attack.dick_energy.title": {
+      "type": "string"
+    },
+    "attack.dick_energy.description": {
+      "type": "string"
+    },
+    "attack.hiding.title": {
+      "type": "string"
+    },
+    "attack.hiding.description": {
+      "type": "string"
+    },
+    "attack.fire_bite.title": {
+      "type": "string"
+    },
+    "attack.fire_bite.description": {
+      "type": "string"
+    },
+    "attack.ash_throw.title": {
+      "type": "string"
+    },
+    "attack.ash_throw.description": {
+      "type": "string"
+    },
+    "attack.flame_throw.title": {
+      "type": "string"
+    },
+    "attack.flame_throw.description": {
+      "type": "string"
+    },
+    "attack.fire_ball.title": {
+      "type": "string"
+    },
+    "attack.fire_ball.description": {
+      "type": "string"
+    },
+    "attack.flying.title": {
+      "type": "string"
+    },
+    "attack.flying.description": {
+      "type": "string"
+    },
+    "attack.pick.title": {
+      "type": "string"
+    },
+    "attack.pick.description": {
+      "type": "string"
+    },
+    "attack.wind_blow.title": {
+      "type": "string"
+    },
+    "attack.wind_blow.description": {
+      "type": "string"
+    },
+    "attack.storm_gust.title": {
+      "type": "string"
+    },
+    "attack.storm_gust.description": {
+      "type": "string"
+    },
+    "attack.schmetter.title": {
+      "type": "string"
+    },
+    "attack.schmetter.description": {
+      "type": "string"
+    },
+    "attack.eye_pick.title": {
+      "type": "string"
+    },
+    "attack.eye_pick.description": {
+      "type": "string"
+    },
+    "attack.wing_hit.title": {
+      "type": "string"
+    },
+    "attack.wing_hit.description": {
+      "type": "string"
+    },
+    "attack.brooding.title": {
+      "type": "string"
+    },
+    "attack.brooding.description": {
+      "type": "string"
+    },
+    "attack.power_pick.title": {
+      "type": "string"
+    },
+    "attack.power_pick.description": {
+      "type": "string"
+    },
+    "attack.bubble_gun.title": {
+      "type": "string"
+    },
+    "attack.bubble_gun.description": {
+      "type": "string"
+    },
+    "attack.bubble_bomb.title": {
+      "type": "string"
+    },
+    "attack.bubble_bomb.description": {
+      "type": "string"
+    },
+    "attack.bubble_shield.title": {
+      "type": "string"
+    },
+    "attack.bubble_shield.description": {
+      "type": "string"
+    },
+    "attack.wet_slap.title": {
+      "type": "string"
+    },
+    "attack.wet_slap.description": {
+      "type": "string"
+    },
+    "attack.shell_pinch.title": {
+      "type": "string"
+    },
+    "attack.shell_pinch.description": {
+      "type": "string"
+    },
+    "attack.heart_touch.title": {
+      "type": "string"
+    },
+    "attack.heart_touch.description": {
+      "type": "string"
+    },
+    "attack.confusion.title": {
+      "type": "string"
+    },
+    "attack.confusion.description": {
+      "type": "string"
+    },
+    "attack.mind_blow.title": {
+      "type": "string"
+    },
+    "attack.mind_blow.description": {
+      "type": "string"
+    },
+    "attack.shock.title": {
+      "type": "string"
+    },
+    "attack.shock.description": {
+      "type": "string"
+    },
+    "attack.charging.title": {
+      "type": "string"
+    },
+    "attack.charging.description": {
+      "type": "string"
+    },
+    "attack.mega_arch.title": {
+      "type": "string"
+    },
+    "attack.mega_arch.description": {
+      "type": "string"
+    },
+    "attack.special_smell.title": {
+      "type": "string"
+    },
+    "attack.special_smell.description": {
+      "type": "string"
+    },
+    "attack.apple_drop.title": {
+      "type": "string"
+    },
+    "attack.apple_drop.description": {
+      "type": "string"
+    },
+    "attack.super_sucker.title": {
+      "type": "string"
+    },
+    "attack.super_sucker.description": {
+      "type": "string"
+    },
+    "attack.sucker.title": {
+      "type": "string"
+    },
+    "attack.sucker.description": {
+      "type": "string"
+    },
+    "attack.root_strangler.title": {
+      "type": "string"
+    },
+    "attack.root_strangler.description": {
+      "type": "string"
+    },
+    "attack.root_slap.title": {
+      "type": "string"
+    },
+    "attack.root_slap.description": {
+      "type": "string"
+    },
+    "attack.the_old_roots_hit.title": {
+      "type": "string"
+    },
+    "attack.the_old_roots_hit.description": {
+      "type": "string"
+    },
+    "attack.leaf_storm.title": {
+      "type": "string"
+    },
+    "attack.leaf_storm.description": {
+      "type": "string"
+    },
+    "attack.bark_hardening.title": {
+      "type": "string"
+    },
+    "attack.bark_hardening.description": {
+      "type": "string"
+    },
+    "attack.poison_spores.title": {
+      "type": "string"
+    },
+    "attack.poison_spores.description": {
+      "type": "string"
+    },
+    "attack.branch_stab.title": {
+      "type": "string"
+    },
+    "attack.branch_stab.description": {
+      "type": "string"
+    },
+    "attack.freeze.title": {
+      "type": "string"
+    },
+    "attack.freeze.description": {
+      "type": "string"
+    },
+    "attack.snow_storm.title": {
+      "type": "string"
+    },
+    "attack.snow_storm.description": {
+      "type": "string"
+    },
+    "attack.sword_of_ice.title": {
+      "type": "string"
+    },
+    "attack.sword_of_ice.description": {
+      "type": "string"
+    },
+    "attack.spikes.title": {
+      "type": "string"
+    },
+    "attack.spikes.description": {
+      "type": "string"
+    },
+    "item.poketeball.title": {
+      "type": "string"
+    },
+    "item.poketeball.description": {
+      "type": "string"
+    },
+    "item.superball.title": {
+      "type": "string"
+    },
+    "item.superball.description": {
+      "type": "string"
+    },
+    "item.hyperball.title": {
+      "type": "string"
+    },
+    "item.hyperball.description": {
+      "type": "string"
+    },
+    "item.healing_potion.title": {
+      "type": "string"
+    },
+    "item.healing_potion.description": {
+      "type": "string"
+    },
+    "item.super_potion.title": {
+      "type": "string"
+    },
+    "item.super_potion.description": {
+      "type": "string"
+    },
+    "item.ap_potion.title": {
+      "type": "string"
+    },
+    "item.ap_potion.description": {
+      "type": "string"
+    },
+    "item.treat.title": {
+      "type": "string"
+    },
+    "item.treat.description": {
+      "type": "string"
+    },
+    "item.shut_the_fuck_up_stone.title": {
+      "type": "string"
+    },
+    "item.shut_the_fuck_up_stone.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_1.description": {
+      "type": "string"
+    },
+    "mapstation.cave_1.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_2.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_3.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_4.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_6.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_7.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_8.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_11.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_12.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_13.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_15.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_16.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_18.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_19.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_21.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_28.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_30.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_33.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_35.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_40.description": {
+      "type": "string"
+    },
+    "mapstation.playmap_39.description": {
+      "type": "string"
+    },
+    "pokete.__fallback__.name": {
+      "type": "string"
+    },
+    "pokete.__fallback__.description": {
+      "type": "string"
+    },
+    "pokete.steini.name": {
+      "type": "string"
+    },
+    "pokete.steini.description": {
+      "type": "string"
+    },
+    "pokete.mowcow.name": {
+      "type": "string"
+    },
+    "pokete.mowcow.description": {
+      "type": "string"
+    },
+    "pokete.bigstone.name": {
+      "type": "string"
+    },
+    "pokete.bigstone.description": {
+      "type": "string"
+    },
+    "pokete.poundi.name": {
+      "type": "string"
+    },
+    "pokete.poundi.description": {
+      "type": "string"
+    },
+    "pokete.lilstone.name": {
+      "type": "string"
+    },
+    "pokete.lilstone.description": {
+      "type": "string"
+    },
+    "pokete.rosi.name": {
+      "type": "string"
+    },
+    "pokete.rosi.description": {
+      "type": "string"
+    },
+    "pokete.wheeto.name": {
+      "type": "string"
+    },
+    "pokete.wheeto.description": {
+      "type": "string"
+    },
+    "pokete.saugh.name": {
+      "type": "string"
+    },
+    "pokete.saugh.description": {
+      "type": "string"
+    },
+    "pokete.gobost.name": {
+      "type": "string"
+    },
+    "pokete.gobost.description": {
+      "type": "string"
+    },
+    "pokete.angrilo.name": {
+      "type": "string"
+    },
+    "pokete.angrilo.description": {
+      "type": "string"
+    },
+    "pokete.vogli.name": {
+      "type": "string"
+    },
+    "pokete.vogli.description": {
+      "type": "string"
+    },
+    "pokete.voglo.name": {
+      "type": "string"
+    },
+    "pokete.voglo.description": {
+      "type": "string"
+    },
+    "pokete.voglus.name": {
+      "type": "string"
+    },
+    "pokete.voglus.description": {
+      "type": "string"
+    },
+    "pokete.ostri.name": {
+      "type": "string"
+    },
+    "pokete.ostri.description": {
+      "type": "string"
+    },
+    "pokete.karpi.name": {
+      "type": "string"
+    },
+    "pokete.karpi.description": {
+      "type": "string"
+    },
+    "pokete.w\u00c3\u00bcrgos.name": {
+      "type": "string"
+    },
+    "pokete.w\u00c3\u00bcrgos.description": {
+      "type": "string"
+    },
+    "pokete.choka.name": {
+      "type": "string"
+    },
+    "pokete.choka.description": {
+      "type": "string"
+    },
+    "pokete.treenator.name": {
+      "type": "string"
+    },
+    "pokete.treenator.description": {
+      "type": "string"
+    },
+    "pokete.bato.name": {
+      "type": "string"
+    },
+    "pokete.bato.description": {
+      "type": "string"
+    },
+    "pokete.bator.name": {
+      "type": "string"
+    },
+    "pokete.bator.description": {
+      "type": "string"
+    },
+    "pokete.blub.name": {
+      "type": "string"
+    },
+    "pokete.blub.description": {
+      "type": "string"
+    },
+    "pokete.owol.name": {
+      "type": "string"
+    },
+    "pokete.owol.description": {
+      "type": "string"
+    },
+    "pokete.rato.name": {
+      "type": "string"
+    },
+    "pokete.rato.description": {
+      "type": "string"
+    },
+    "pokete.ratatat.name": {
+      "type": "string"
+    },
+    "pokete.ratatat.description": {
+      "type": "string"
+    },
+    "pokete.hornita.name": {
+      "type": "string"
+    },
+    "pokete.hornita.description": {
+      "type": "string"
+    },
+    "pokete.horny.name": {
+      "type": "string"
+    },
+    "pokete.horny.description": {
+      "type": "string"
+    },
+    "pokete.bushy.name": {
+      "type": "string"
+    },
+    "pokete.bushy.description": {
+      "type": "string"
+    },
+    "pokete.wolfior.name": {
+      "type": "string"
+    },
+    "pokete.wolfior.description": {
+      "type": "string"
+    },
+    "pokete.wolfiro.name": {
+      "type": "string"
+    },
+    "pokete.wolfiro.description": {
+      "type": "string"
+    },
+    "pokete.rollator.name": {
+      "type": "string"
+    },
+    "pokete.rollator.description": {
+      "type": "string"
+    },
+    "pokete.clampi.name": {
+      "type": "string"
+    },
+    "pokete.clampi.description": {
+      "type": "string"
+    },
+    "pokete.crabbat.name": {
+      "type": "string"
+    },
+    "pokete.crabbat.description": {
+      "type": "string"
+    },
+    "pokete.rustacean.name": {
+      "type": "string"
+    },
+    "pokete.rustacean.description": {
+      "type": "string"
+    },
+    "pokete.electrode.name": {
+      "type": "string"
+    },
+    "pokete.electrode.description": {
+      "type": "string"
+    },
+    "pokete.cubl.name": {
+      "type": "string"
+    },
+    "pokete.cubl.description": {
+      "type": "string"
+    },
+    "pokete.spikl.name": {
+      "type": "string"
+    },
+    "pokete.spikl.description": {
+      "type": "string"
+    },
+    "pokete.confuso.name": {
+      "type": "string"
+    },
+    "pokete.confuso.description": {
+      "type": "string"
+    },
+    "pokete.poisopla.name": {
+      "type": "string"
+    },
+    "pokete.poisopla.description": {
+      "type": "string"
+    },
+    "pokete.megapois.name": {
+      "type": "string"
+    },
+    "pokete.megapois.description": {
+      "type": "string"
+    },
+    "pokete.corcos_day.name": {
+      "type": "string"
+    },
+    "pokete.corcos_day.description": {
+      "type": "string"
+    },
+    "pokete.corcos_night.name": {
+      "type": "string"
+    },
+    "pokete.corcos_night.description": {
+      "type": "string"
+    },
+    "pokete.raupathor_day.name": {
+      "type": "string"
+    },
+    "pokete.raupathor_day.description": {
+      "type": "string"
+    },
+    "pokete.raupathor_night.name": {
+      "type": "string"
+    },
+    "pokete.raupathor_night.description": {
+      "type": "string"
+    },
+    "pokete.schmetterling.name": {
+      "type": "string"
+    },
+    "pokete.schmetterling.description": {
+      "type": "string"
+    },
+    "pokete.mothor.name": {
+      "type": "string"
+    },
+    "pokete.mothor.description": {
+      "type": "string"
+    },
+    "pokete.lil_nut.name": {
+      "type": "string"
+    },
+    "pokete.lil_nut.description": {
+      "type": "string"
+    },
+    "pokete.dicki.name": {
+      "type": "string"
+    },
+    "pokete.dicki.description": {
+      "type": "string"
+    },
+    "pokete.dicko.name": {
+      "type": "string"
+    },
+    "pokete.dicko.description": {
+      "type": "string"
+    },
+    "pokete.diamondos.name": {
+      "type": "string"
+    },
+    "pokete.diamondos.description": {
+      "type": "string"
+    },
+    "trainer.playmap_1.franz.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_1.franz.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_1.franz.lose2": {
+      "type": "string"
+    },
+    "trainer.playmap_1.franz.win1": {
+      "type": "string"
+    },
+    "trainer.cave_1.monica.dialog1": {
+      "type": "string"
+    },
+    "trainer.cave_1.monica.dialog2": {
+      "type": "string"
+    },
+    "trainer.cave_1.monica.lose1": {
+      "type": "string"
+    },
+    "trainer.cave_1.monica.lose2": {
+      "type": "string"
+    },
+    "trainer.cave_1.monica.win1": {
+      "type": "string"
+    },
+    "trainer.cave_1.monica.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_2.wanderer_murrad.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_2.wanderer_murrad.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_2.wanderer_murrad.dialog3": {
+      "type": "string"
+    },
+    "trainer.playmap_2.wanderer_murrad.lose": {
+      "type": "string"
+    },
+    "trainer.playmap_2.wanderer_murrad.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_2.wanderer_murrad.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_3.markus.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_3.markus.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_3.markus.dialog3": {
+      "type": "string"
+    },
+    "trainer.playmap_3.markus.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_3.markus.lose2": {
+      "type": "string"
+    },
+    "trainer.playmap_3.markus.lose3": {
+      "type": "string"
+    },
+    "trainer.playmap_3.markus.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_4.kevin.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_4.kevin.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_4.kevin.dialog3": {
+      "type": "string"
+    },
+    "trainer.playmap_4.kevin.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_4.kevin.lose2": {
+      "type": "string"
+    },
+    "trainer.playmap_4.kevin.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_4.kevin.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_5.caveman_marc.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_5.caveman_marc.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_5.caveman_marc.dialog3": {
+      "type": "string"
+    },
+    "trainer.playmap_5.caveman_marc.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_5.caveman_marc.lose2": {
+      "type": "string"
+    },
+    "trainer.playmap_5.caveman_marc.lose3": {
+      "type": "string"
+    },
+    "trainer.playmap_5.caveman_marc.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_5.caveman_marc.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_6.eva.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_6.eva.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_6.eva.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_6.eva.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_7.caveman_dieter.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_7.caveman_dieter.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_7.caveman_dieter.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_7.caveman_dieter.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_8.woodsman_bert.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_8.woodsman_bert.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_8.woodsman_bert.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_8.woodsman_bert.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_11.fishermans_friend.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_11.fishermans_friend.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_11.fishermans_friend.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_11.fishermans_friend.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_12.brother_justin.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_12.brother_justin.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_12.brother_justin.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_12.brother_justus.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_12.brother_justus.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_12.brother_justus.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_13.citizen.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_13.citizen.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_13.citizen.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_13.citizen.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.first_trainer.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.first_trainer.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_14.first_trainer.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.first_trainer.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.second_trainer.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.second_trainer.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.second_trainer.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.third_trainer.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.third_trainer.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.third_trainer.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.last_trainer.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.last_trainer.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.last_trainer.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_14.last_trainer.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_14.last_trainer.win3": {
+      "type": "string"
+    },
+    "trainer.playmap_15.samantha.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_15.samantha.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_15.samantha.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_15.samantha.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_15.samantha.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_15.jessica.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_15.jessica.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_15.jessica.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_18.bert.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_18.bert.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_18.bert.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_18.bert.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_18.karen.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_18.karen.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_18.karen.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_18.karen.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_19.brian.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_19.brian.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_19.brian.lose2": {
+      "type": "string"
+    },
+    "trainer.playmap_19.brian.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_19.brian.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_19.simon.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_19.simon.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_19.simon.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_19.simon.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_21.rock_hard_rick.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_21.rock_hard_rick.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_21.rock_hard_rick.dialog3": {
+      "type": "string"
+    },
+    "trainer.playmap_21.rock_hard_rick.dialog4": {
+      "type": "string"
+    },
+    "trainer.playmap_21.rock_hard_rick.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_21.rock_hard_rick.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_21.rock_hard_rick.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_27.bertold.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.bertold.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.bertold.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.gerard.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.gerard.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.gerard.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.jessica.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.jessica.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.jessica.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.first_trainer.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.first_trainer.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_27.first_trainer.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.steven_the_big.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.steven_the_big.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.steven_the_big.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.steven_the_big.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurena.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurena.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurena.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurena.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurena.win2": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurin.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurin.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurin.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.laurin.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.fucking_badass_looking_dude_in_the_woods.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.fucking_badass_looking_dude_in_the_woods.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_28.fucking_badass_looking_dude_in_the_woods.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_28.fucking_badass_looking_dude_in_the_woods.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_30.guy_at_the_entrance.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_30.guy_at_the_entrance.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_30.guy_at_the_entrance.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.luther.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.luther.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.luther.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.heavy_hans.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.heavy_hans.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.heavy_hans.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.aurelia.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.aurelia.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.aurelia.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.master_of_the_flowers.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.master_of_the_flowers.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_31.master_of_the_flowers.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_33.cowsay.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_33.cowsay.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_33.cowsay.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_gert.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_gert.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_gert.dialog3": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_gert.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_gert.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_doora.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_doora.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_doora.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_ralf.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_ralf.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_35.farmer_ralf.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_39.gardener_angela.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_39.gardener_angela.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_39.gardener_angela.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_39.gardener_angela.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_40.angler_gustav.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_40.angler_gustav.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_40.angler_gustav.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_41.farmer_daniel.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_41.farmer_daniel.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_41.farmer_daniel.dialog3": {
+      "type": "string"
+    },
+    "trainer.playmap_41.farmer_daniel.dialog4": {
+      "type": "string"
+    },
+    "trainer.playmap_41.farmer_daniel.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_41.farmer_daniel.lose2": {
+      "type": "string"
+    },
+    "trainer.playmap_41.farmer_daniel.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.farmer_martin.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.farmer_martin.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_46.farmer_martin.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.farmer_martin.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.the_undetermined.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.the_undetermined.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.the_undetermined.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.gardener_daniela.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.gardener_daniela.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.gardener_daniela.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.leader_sebastian.dialog1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.leader_sebastian.dialog2": {
+      "type": "string"
+    },
+    "trainer.playmap_46.leader_sebastian.lose1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.leader_sebastian.win1": {
+      "type": "string"
+    },
+    "trainer.playmap_46.leader_sebastian.win2": {
+      "type": "string"
+    },
+    "weather.rain.info": {
+      "type": "string"
+    },
+    "weather.thunderstorm.info": {
+      "type": "string"
+    },
+    "weather.foggy.info": {
+      "type": "string"
+    },
+    "weather.sunny.info": {
+      "type": "string"
+    },
+    "log.achievements.unlocked": {
+      "type": "string"
+    },
+    "log.general.player": {
+      "type": "string"
+    },
+    "log.general.enemy": {
+      "type": "string"
+    },
+    "log.effects.add": {
+      "type": "string"
+    },
+    "log.effects.remove": {
+      "type": "string"
+    },
+    "log.fight.ran_away": {
+      "type": "string"
+    },
+    "log.fight.end_fight": {
+      "type": "string"
+    },
+    "log.fight.start_fight": {
+      "type": "string"
+    },
+    "log.fight.end_fight_won": {
+      "type": "string"
+    },
+    "log.fight.pokete_caught": {
+      "type": "string"
+    },
+    "log.fight.pokete_missed": {
+      "type": "string"
+    },
+    "log.fight.ap_potion_used": {
+      "type": "string"
+    },
+    "log.fight.blackout": {
+      "type": "string"
+    },
+    "log.npc.interaction": {
+      "type": "string"
+    },
+    "log.npc.walk_check": {
+      "type": "string"
+    },
+    "log.npc.match_info": {
+      "type": "string"
+    },
+    "log.pokete.gained_xp": {
+      "type": "string"
+    },
+    "log.pokete.level_up": {
+      "type": "string"
+    },
+    "log.pokete.used_attack": {
+      "type": "string"
+    },
+    "log.pokete.evolved": {
       "type": "string"
     }
   }
