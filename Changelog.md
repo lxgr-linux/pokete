@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.8.2] - 2022-08-05
+
+Fixes a small bug in the representation of pokete on flathub.
+
 ## [0.8.1] - 2022-08-04
 
 The distribution size was shrinked extremely compared to 0.8.0
