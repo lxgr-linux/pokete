@@ -26,8 +26,8 @@ class Achievement:
 
     def __init__(self, identifier, title, desc):
         self.identifier = identifier
-        self.title = title
-        self.desc = desc
+        self.title = lang.str(title)
+        self.desc = lang.str(desc)
 
 
 class Achievements:
@@ -94,7 +94,7 @@ class AchievementOverview(BetterChooseBox):
     """Overview for Achievements"""
 
     def __init__(self):
-        super().__init__(4, [se.Text(" ")], name="ui.achievements.title")
+        super().__init__(4, [se.Text(" ")], name=lang.str("ui.achievements.title"))
 
     def __call__(self, _map):
         """Input loop

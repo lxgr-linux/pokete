@@ -85,7 +85,7 @@ class Dex:
                   sorted([(pokes[j]["types"][0], j, pokes[j])
                           for j in list(pokes)[1:]])}
         self.obs = [se.Text(f"{i + 1} \
-{p_dict[poke]['name'] if poke in self.figure.caught_pokes else '???'}",
+{lang.str(p_dict[poke]['name']) if poke in self.figure.caught_pokes else '???'}",
                     state="float")
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()

@@ -151,9 +151,11 @@ class Poketeball(se.Object):
         mvp.movemap.full_show()
 
         if amount > 1:
-            text_string = lang.str("dialog.walk.collected_item.plural") % (amount, p_data.items[item]['pretty_name'])
+            text_string = lang.str("dialog.walk.collected_item.plural") % \
+                          lang.str((amount, p_data.items[item]['pretty_name']))
         else:
-            text_string = lang.str("dialog.walk.collected_item.singular") % p_data.items[item]['pretty_name']
+            text_string = lang.str("dialog.walk.collected_item.singular") % \
+                          lang.str(p_data.items[item]['pretty_name'])
 
         ask_ok(mvp.movemap, text_string)
         self.figure.used_npcs.append(self.name)

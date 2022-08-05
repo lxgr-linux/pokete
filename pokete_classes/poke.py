@@ -48,7 +48,7 @@ class Poke:
         self.defense = 0
         self.initiative = 0
         self.hp = self.inf["hp"]
-        self.name = self.inf["name"]
+        self.name = lang.str(self.inf["name"])
         self.miss_chance = self.inf["miss_chance"]
         self.lose_xp = self.inf["lose_xp"]
         self.evolve_poke = self.inf["evolve_poke"]
@@ -77,7 +77,7 @@ class Poke:
         # Labels
         self.hp_bar = HealthBar(self)
         self.hp_bar.make(self.hp)
-        self.desc = se.Text(liner(self.inf["desc"], se.screen_width - 34))
+        self.desc = se.Text(liner(lang.str(self.inf["desc"]), se.screen_width - 34))
         self.ico = se.Box(4, 11)
         for ico in self.inf["ico"]:
             esccode = (str.join("", [getattr(Color, i) for i in ico["esc"]])

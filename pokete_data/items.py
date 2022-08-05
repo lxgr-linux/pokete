@@ -1,49 +1,49 @@
 items = {
     "poketeball": {
-        "pretty_name": "Poketeball",
-        "desc": "A ball you can use to catch Poketes",
+        "pretty_name": "item.poketeball.title",
+        "desc": "item.poketeball.description",
         "price": 2,
         "fn": "poketeball"
     },
     "superball": {
-        "pretty_name": "Superball",
-        "desc": "A ball you can use to catch Poketes with an increased chance",
+        "pretty_name": "item.superball.title",
+        "desc": "item.superball.description",
         "price": 10,
         "fn": "superball"
     },
     "hyperball": {
-        "pretty_name": "Hyperball",
-        "desc": "For catching Poketes with a waaay higher chance",
+        "pretty_name": "item.hyperball.title",
+        "desc": "item.hyperball.description",
         "price": None,
         "fn": "hyperball"
     },
     "healing_potion": {
-        "pretty_name": "Healing potion",
-        "desc": "Heals a Pokete with 5 HP",
+        "pretty_name": "item.healing_potion.title",
+        "desc": "item.healing_potion.description",
         "price": 15,
         "fn": "heal_potion"
     },
     "super_potion": {
-        "pretty_name": "Super potion",
-        "desc": "Heals a Pokete with 15 HP",
+        "pretty_name": "item.super_potion.title",
+        "desc": "item.super_potion.description",
         "price": 25,
         "fn": "super_potion"
     },
     "ap_potion": {
-        "pretty_name": "AP potion",
-        "desc": "Refills the Poketes attack APs.",
+        "pretty_name": "item.ap_potion.title",
+        "desc": "item.ap_potion.description",
         "price": 100,
         "fn": "ap_potion"
     },
     "treat": {
-        "pretty_name": "Treat",
-        "desc": "Upgrades a Pokete by a whole level.",
+        "pretty_name": "item.treat.title",
+        "desc": "item.treat.description",
         "price": None,
         "fn": None
     },
     "shut_the_fuck_up_stone": {
-        "pretty_name": "'Shut the fuck up' stone",
-        "desc": "Makes trainer leaving you alone",
+        "pretty_name": "item.shut_the_fuck_up_stone.title",
+        "desc": "item.shut_the_fuck_up_stone.description",
         "price": None,
         "fn": None
     },

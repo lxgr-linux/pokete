@@ -1,10 +1,12 @@
 stations = {
     "playmap_1": {
         "gen": {
-            "additionals": ["intromap"],
+            "additionals": [
+                "intromap"
+            ],
             "width": 2,
             "height": 1,
-            "desc": "A small town.",
+            "desc": "mapstation.playmap_1.description",
             "w_next": "cave_1"
         },
         "add": {
@@ -17,9 +19,9 @@ stations = {
             "additionals": [],
             "width": 1,
             "height": 2,
-            "desc": "A dark cave full of batos.",
+            "desc": "mapstation.cave_1.description",
             "s_next": "playmap_1",
-            "d_next": "playmap_2",
+            "d_next": "playmap_2"
         },
         "add": {
             "x": 6,
@@ -31,9 +33,9 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
-            "desc": "Part of light areas near Josi Town.",
+            "desc": "mapstation.playmap_2.description",
             "a_next": "cave_1",
-            "d_next": "playmap_3",
+            "d_next": "playmap_3"
         },
         "add": {
             "x": 7,
@@ -42,13 +44,15 @@ stations = {
     },
     "playmap_3": {
         "gen": {
-            "additionals": ["playmap_49"],
+            "additionals": [
+                "playmap_49"
+            ],
             "width": 2,
             "height": 1,
-            "desc": "A small sunny village.",
+            "desc": "mapstation.playmap_3.description",
             "a_next": "playmap_2",
             "w_next": "playmap_4",
-            "s_next": "playmap_6",
+            "s_next": "playmap_6"
         },
         "add": {
             "x": 9,
@@ -57,10 +61,12 @@ stations = {
     },
     "playmap_4": {
         "gen": {
-            "additionals": ["playmap_5"],
+            "additionals": [
+                "playmap_5"
+            ],
             "width": 1,
             "height": 3,
-            "desc": "The shores of the great Sunnydale lake.",
+            "desc": "mapstation.playmap_4.description",
             "s_next": "playmap_3",
             "d_next": "playmap_28"
         },
@@ -74,11 +80,10 @@ stations = {
             "additionals": [],
             "width": 1,
             "height": 2,
-            "desc": "The woodland edge at the foot of a great mountain full of \
-caves.",
+            "desc": "mapstation.playmap_6.description",
             "w_next": "playmap_3",
             "a_next": "playmap_7",
-            "d_next": "playmap_8",
+            "d_next": "playmap_8"
         },
         "add": {
             "x": 10,
@@ -90,8 +95,8 @@ caves.",
             "additionals": [],
             "width": 1,
             "height": 1,
-            "desc": "A dark and mysterious cave.",
-            "d_next": "playmap_6",
+            "desc": "mapstation.playmap_7.description",
+            "d_next": "playmap_6"
         },
         "add": {
             "x": 9,
@@ -100,13 +105,16 @@ caves.",
     },
     "playmap_8": {
         "gen": {
-            "additionals": ["playmap_10", "playmap_9"],
+            "additionals": [
+                "playmap_10",
+                "playmap_9"
+            ],
             "width": 2,
             "height": 1,
-            "desc": "An abandoned fisher village.",
+            "desc": "mapstation.playmap_8.description",
             "a_next": "playmap_6",
             "s_next": "playmap_11",
-            "d_next": "playmap_12",
+            "d_next": "playmap_12"
         },
         "add": {
             "x": 11,
@@ -118,8 +126,8 @@ caves.",
             "additionals": [],
             "width": 1,
             "height": 1,
-            "desc": "The shore of a lake near an olf fisher village.",
-            "w_next": "playmap_8",
+            "desc": "mapstation.playmap_11.description",
+            "w_next": "playmap_8"
         },
         "add": {
             "x": 11,
@@ -131,9 +139,9 @@ caves.",
             "width": 2,
             "additionals": [],
             "height": 1,
-            "desc": "A dense forest near Deepens forest.",
+            "desc": "mapstation.playmap_12.description",
             "a_next": "playmap_8",
-            "w_next": "playmap_13",
+            "w_next": "playmap_13"
         },
         "add": {
             "x": 13,
@@ -142,13 +150,15 @@ caves.",
     },
     "playmap_13": {
         "gen": {
-            "additionals": ["playmap_14", "playmap_20"],
+            "additionals": [
+                "playmap_14",
+                "playmap_20"
+            ],
             "width": 1,
             "height": 2,
-            "desc": "Deepens forest, a big town in the middle of the deepest \
-forest, populated by thousands of people and cultural center of the region.",
+            "desc": "mapstation.playmap_13.description",
             "s_next": "playmap_12",
-            "w_next": "playmap_15",
+            "w_next": "playmap_15"
         },
         "add": {
             "x": 14,
@@ -160,9 +170,9 @@ forest, populated by thousands of people and cultural center of the region.",
             "additionals": [],
             "width": 2,
             "height": 1,
-            "desc": "A small clearing near Deepens forest.",
+            "desc": "mapstation.playmap_15.description",
             "s_next": "playmap_13",
-            "d_next": "playmap_16",
+            "d_next": "playmap_16"
         },
         "add": {
             "x": 14,
@@ -171,12 +181,14 @@ forest, populated by thousands of people and cultural center of the region.",
     },
     "playmap_16": {
         "gen": {
-            "additionals": ["playmap_17"],
+            "additionals": [
+                "playmap_17"
+            ],
             "width": 1,
             "height": 1,
-            "desc": "A small 'village', that's not even worth talking about.",
+            "desc": "mapstation.playmap_16.description",
             "a_next": "playmap_15",
-            "d_next": "playmap_18",
+            "d_next": "playmap_18"
         },
         "add": {
             "x": 16,
@@ -188,9 +200,9 @@ forest, populated by thousands of people and cultural center of the region.",
             "additionals": [],
             "width": 2,
             "height": 1,
-            "desc": "A small see at the foot of the Big mountain.",
+            "desc": "mapstation.playmap_18.description",
             "a_next": "playmap_16",
-            "w_next": "playmap_19",
+            "w_next": "playmap_19"
         },
         "add": {
             "x": 17,
@@ -202,9 +214,9 @@ forest, populated by thousands of people and cultural center of the region.",
             "additionals": [],
             "width": 1,
             "height": 1,
-            "desc": "A dark and big cave in the Big mountain.",
+            "desc": "mapstation.playmap_19.description",
             "s_next": "playmap_18",
-            "w_next": "playmap_21",
+            "w_next": "playmap_21"
         },
         "add": {
             "x": 18,
@@ -213,14 +225,19 @@ forest, populated by thousands of people and cultural center of the region.",
     },
     "playmap_21": {
         "gen": {
-            "additionals": ["playmap_22", "playmap_23", "playmap_24",
-                            "playmap_25", "playmap_26", "playmap_27",
-                            "playmap_29", "playmap_50"],
+            "additionals": [
+                "playmap_22",
+                "playmap_23",
+                "playmap_24",
+                "playmap_25",
+                "playmap_26",
+                "playmap_27",
+                "playmap_29",
+                "playmap_50"
+            ],
             "width": 3,
             "height": 1,
-            "desc": "The great Rock-ville is the biggest city in the region \
-around the Big mountain. With the Rocky hotel it's also a tourist \
-hotspot.",
+            "desc": "mapstation.playmap_21.description",
             "s_next": "playmap_19",
             "d_next": "playmap_33",
             "w_next": "playmap_40"
@@ -235,9 +252,9 @@ hotspot.",
             "additionals": [],
             "width": 2,
             "height": 1,
-            "desc": "A foggy place full of ghosts and plants.",
+            "desc": "mapstation.playmap_28.description",
             "a_next": "playmap_4",
-            "d_next": "playmap_30",
+            "d_next": "playmap_30"
         },
         "add": {
             "x": 11,
@@ -246,13 +263,14 @@ hotspot.",
     },
     "playmap_30": {
         "gen": {
-            "additionals": ["playmap_31", "playmap_32"],
+            "additionals": [
+                "playmap_31",
+                "playmap_32"
+            ],
             "width": 1,
             "height": 1,
-            "desc": "With its plant Poketes, Flowy Town may be the greenest \
-spot in the Pokete world and with the great git-tree it may also be one \
-of the most spectacular.",
-            "a_next": "playmap_28",
+            "desc": "mapstation.playmap_30.description",
+            "a_next": "playmap_28"
         },
         "add": {
             "x": 13,
@@ -261,12 +279,14 @@ of the most spectacular.",
     },
     "playmap_33": {
         "gen": {
-            "additionals": ["playmap_34"],
+            "additionals": [
+                "playmap_34"
+            ],
             "width": 1,
             "height": 1,
-            "desc": "Part of the great agracultural landscape near Agrawos.",
+            "desc": "mapstation.playmap_33.description",
             "a_next": "playmap_21",
-            "d_next": "playmap_35",
+            "d_next": "playmap_35"
         },
         "add": {
             "x": 21,
@@ -275,12 +295,16 @@ of the most spectacular.",
     },
     "playmap_35": {
         "gen": {
-            "additionals": ["playmap_36", "playmap_37", "playmap_38"],
+            "additionals": [
+                "playmap_36",
+                "playmap_37",
+                "playmap_38"
+            ],
             "width": 1,
             "height": 2,
-            "desc": "Part of the great agracultural landscape near Agrawos.",
+            "desc": "mapstation.playmap_35.description",
             "a_next": "playmap_33",
-            "s_next": "playmap_39",
+            "s_next": "playmap_39"
         },
         "add": {
             "x": 22,
@@ -292,8 +316,8 @@ of the most spectacular.",
             "additionals": [],
             "width": 2,
             "height": 1,
-            "desc": "A Great beach, with great weather, always.",
-            "s_next": "playmap_21",
+            "desc": "mapstation.playmap_40.description",
+            "s_next": "playmap_21"
         },
         "add": {
             "x": 18,
@@ -302,24 +326,26 @@ of the most spectacular.",
     },
     "playmap_39": {
         "gen": {
-            "additionals": ["playmap_41", "playmap_42", "playmap_43",
-                            "playmap_44", "playmap_45", "playmap_46",
-                            "playmap_47", "playmap_48"],
+            "additionals": [
+                "playmap_41",
+                "playmap_42",
+                "playmap_43",
+                "playmap_44",
+                "playmap_45",
+                "playmap_46",
+                "playmap_47",
+                "playmap_48"
+            ],
             "width": 2,
             "height": 2,
-            "desc": "The great city of Agrawos, agricultural and cultural "
-                    "center of the whole region. It's famous for its great "
-                    "Pokete-Arena and its master trainer. Check out the "
-                    "MowCow-Burger restaurant, which offers the best, "
-                    "juiciest and most delicious Mowcow-burgers, cut from the "
-                    "happiest and most delicious Mowcows anywhere to find!", 
-            "w_next": "playmap_35",
+            "desc": "mapstation.playmap_39.description",
+            "w_next": "playmap_35"
         },
         "add": {
             "x": 21,
             "y": 4
         }
-    },
+    }
 }
 
 if __name__ == "__main__":

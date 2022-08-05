@@ -2,15 +2,15 @@
 
 achievements = {
     "first_poke": {
-        "title": "First Pokete",
-        "desc": "Catch your first Pokete!"
+        "title": "achievement.first_poke.title",
+        "desc": "achievement.first_poke.description"
     },
     "first_duel": {
-        "title": "First duel",
-        "desc": "Fight against your first trainer!"
+        "title": "achievement.first_duel.title",
+        "desc": "achievement.first_duel.description"
     },
     "catch_em_all": {
-        "title": "Catch em all",
-        "desc": "Catch all Poketes and fill your Pokete-Dex!"
+        "title": "achievement.catch_em_all.title",
+        "desc": "achievement.catch_em_all.description"
     },
 }

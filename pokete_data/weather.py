@@ -1,6 +1,6 @@
 weathers = {
     "rain": {
-        "info": "It's raining!",
+        "info": "weather.rain.info",
         "effected": {
             "fire": 0.5,
             "plant": 1.5,
@@ -8,7 +8,7 @@ weathers = {
         }
     },
     "thunderstorm": {
-        "info": "There is a thunderstorm going on!",
+        "info": "weather.thunderstorm.info",
         "effected": {
             "fire": 0.5,
             "plant": 1.5,
@@ -17,14 +17,14 @@ weathers = {
         }
     },
     "foggy": {
-        "info": "It's foggy!",
+        "info": "weather.foggy.info",
         "effected": {
             "undead": 1.5,
             "normal": 0.75,
         }
     },
     "sunny": {
-        "info": "It's a hot sunny day!",
+        "info": "weather.sunny.info",
         "effected": {
             "fire": 1.5,
             "water": 0.75,

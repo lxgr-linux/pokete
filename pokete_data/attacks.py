@@ -1,914 +1,1189 @@
 attacks = {
     # normal attacks
     "tackle": {
-        "name": "Tackle",
-        "factor": 3 / 2,
+        "name": "attack.tackle.title",
+        "factor": 1.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 0,
-        "desc": "Tackles the enemy very hard.",
-        "types": ["normal"],
+        "desc": "attack.tackle.description",
+        "types": [
+            "normal"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 30,
+        "ap": 30
     },
     "cry": {
-        "name": "Cry",
+        "name": "attack.cry.title",
         "factor": 0,
         "action": "cry",
         "world_action": "",
-        "move": ["downgrade"],
+        "move": [
+            "downgrade"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "So loud that it confuses the enemy.",
-        "types": ["normal"],
+        "desc": "attack.cry.description",
+        "types": [
+            "normal"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 10,
+        "ap": 10
     },
     "bite": {
-        "name": "Bite",
+        "name": "attack.bite.title",
         "factor": 1.75,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 0,
-        "desc": "A hard bite with sharp teeth.",
-        "types": ["normal"],
+        "desc": "attack.bite.description",
+        "types": [
+            "normal"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 30,
+        "ap": 30
     },
     "power_bite": {
-        "name": "Power Bite",
+        "name": "attack.power_bite.title",
         "factor": 8,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 30,
-        "desc": "The hardest bite you can think of.",
-        "types": ["normal"],
+        "desc": "attack.power_bite.description",
+        "types": [
+            "normal"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 5,
+        "ap": 5
     },
     "chocer": {
-        "name": "Choker",
+        "name": "attack.chocer.title",
         "factor": 1,
         "action": "chocer",
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 0,
-        "desc": "Chokes the enemy and makes it weaker.",
-        "types": ["normal", "snake"],
+        "desc": "attack.chocer.description",
+        "types": [
+            "normal",
+            "snake"
+        ],
         "effect": "paralyzation",
         "is_generic": True,
-        "ap": 15,
+        "ap": 15
     },
     "tail_wipe": {
-        "name": "Tail Swipe",
+        "name": "attack.tail_wipe.title",
         "factor": 2.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.5,
         "min_lvl": 10,
-        "desc": "Swipes through the enemy's face.",
-        "types": ["normal"],
+        "desc": "attack.tail_wipe.description",
+        "types": [
+            "normal"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 10,
+        "ap": 10
     },
     "meat_skewer": {
-        "name": "Meat Skewer",
+        "name": "attack.meat_skewer.title",
         "factor": 3.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.7,
         "min_lvl": 0,
-        "desc": "Drills a horn deep in the enemy's flesh.",
-        "types": ["normal"],
+        "desc": "attack.meat_skewer.description",
+        "types": [
+            "normal"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 10,
+        "ap": 10
     },
     "snooze": {
-        "name": "Snooze",
+        "name": "attack.snooze.title",
         "factor": 0,
         "action": "snooze",
         "world_action": "",
-        "move": ["downgrade"],
+        "move": [
+            "downgrade"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 15,
-        "desc": "Makes the enemy sleepy.",
-        "types": ["normal"],
+        "desc": "attack.snooze.description",
+        "types": [
+            "normal"
+        ],
         "effect": "sleep",
         "is_generic": False,
-        "ap": 15,
+        "ap": 15
     },
     "supercow_power": {
-        "name": "Supercow Power",
+        "name": "attack.supercow_power.title",
         "factor": 0,
         "action": "self.atc += 1",
         "world_action": "",
-        "move": ["shine"],
+        "move": [
+            "shine"
+        ],
         "miss_chance": 0,
         "min_lvl": 10,
-        "desc": "Makes the Pokete angry and strong.",
-        "types": ["normal"],
+        "desc": "attack.supercow_power.description",
+        "types": [
+            "normal"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 10,
+        "ap": 10
     },
     # poison attacks
     "poison_bite": {
-        "name": "Poison Bite",
+        "name": "attack.poison_bite.title",
         "factor": 1,
         "action": None,
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0.3,
         "min_lvl": 0,
-        "desc": "Makes the enemy weaker.",
-        "types": ["poison", "snake"],
+        "desc": "attack.poison_bite.description",
+        "types": [
+            "poison",
+            "snake"
+        ],
         "effect": "poison",
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "poison_thorn": {
-        "name": "Poison Thorn",
+        "name": "attack.poison_thorn.title",
         "factor": 2.75,
         "action": None,
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 15,
-        "desc": "Stabs a venomous thorn into the enemy's flesh.",
-        "types": ["poison"],
+        "desc": "attack.poison_thorn.description",
+        "types": [
+            "poison"
+        ],
         "effect": "poison",
         "is_generic": False,
-        "ap": 20,
+        "ap": 20
     },
     # stone attacks
     "pepple_fire": {
-        "name": "Pebble Fire",
+        "name": "attack.pepple_fire.title",
         "factor": 1,
         "action": "cry",
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Fires pebbles at the enemy and makes it blind.",
-        "types": ["stone"],
+        "desc": "attack.pepple_fire.description",
+        "types": [
+            "stone"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 5,
+        "ap": 5
     },
     "sand_throw": {
-        "name": "Sand Throw",
+        "name": "attack.sand_throw.title",
         "factor": 1,
         "action": "cry",
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Throws sand at the enemy and makes it blind.",
-        "types": ["stone"],
+        "desc": "attack.sand_throw.description",
+        "types": [
+            "stone"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 5,
+        "ap": 5
     },
     "politure": {
-        "name": "Polish",
+        "name": "attack.politure.title",
         "factor": 0,
         "action": "politure",
         "world_action": "",
-        "move": ["shine"],
+        "move": [
+            "shine"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Upgrades defense and attack points.",
-        "types": ["stone"],
+        "desc": "attack.politure.description",
+        "types": [
+            "stone"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 15,
+        "ap": 15
     },
     "brick_throw": {
-        "name": "Brick Throw",
+        "name": "attack.brick_throw.title",
         "factor": 2,
         "action": None,
         "world_action": "",
-        "move": ["throw"],
+        "move": [
+            "throw"
+        ],
         "miss_chance": 0.3,
         "min_lvl": 15,
-        "desc": "Throws an Euler brick at the enemy.",
-        "types": ["stone"],
+        "desc": "attack.brick_throw.description",
+        "types": [
+            "stone"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 20,
+        "ap": 20
     },
     "rock_smash": {
-        "name": "Rock Smash",
+        "name": "attack.rock_smash.title",
         "factor": 5,
         "action": None,
         "world_action": "",
-        "move": ["pound"],
+        "move": [
+            "pound"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 15,
-        "desc": "Pounds the enemy with the Pokete's full weight.",
-        "types": ["stone"],
+        "desc": "attack.rock_smash.description",
+        "types": [
+            "stone"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 5,
+        "ap": 5
     },
     "dia_stab": {
-        "name": "Dia Stab",
+        "name": "attack.dia_stab.title",
         "factor": 5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 15,
-        "desc": "Stabs the enemy with a giant diamond spike.",
-        "types": ["stone"],
+        "desc": "attack.dia_stab.description",
+        "types": [
+            "stone"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 5,
+        "ap": 5
     },
     "dazzle": {
-        "name": "Dazzle",
+        "name": "attack.dazzle.title",
         "factor": 1.5,
         "action": None,
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 10,
-        "desc": "Shines a bright light at the enemy and dazzles them.",
-        "types": ["stone"],
+        "desc": "attack.dazzle.description",
+        "types": [
+            "stone"
+        ],
         "effect": "paralyzation",
         "is_generic": False,
-        "ap": 20,
+        "ap": 20
     },
     "dia_spikes": {
-        "name": "Dia spikes",
+        "name": "attack.dia_spikes.title",
         "factor": 2,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0,
         "min_lvl": 20,
-        "desc": "Throws a heck of a lot of diamond spikes at the enemy.",
-        "types": ["stone"],
+        "desc": "attack.dia_spikes.description",
+        "types": [
+            "stone"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 20,
+        "ap": 20
     },
     # ground attacks
     "earch_quake": {
-        "name": "Earthquake",
+        "name": "attack.earch_quake.title",
         "factor": 4,
         "action": None,
         "world_action": "",
-        "move": ["pound"],
+        "move": [
+            "pound"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Moves the ground with tremendous force.",
-        "types": ["ground"],
+        "desc": "attack.earch_quake.description",
+        "types": [
+            "ground"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "power_roll": {
-        "name": "Power Roll",
+        "name": "attack.power_roll.title",
         "factor": 2.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 0,
-        "desc": "Rolls over the enemy.",
-        "types": ["ground"],
+        "desc": "attack.power_roll.description",
+        "types": [
+            "ground"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 15,
+        "ap": 15
     },
     "toe_breaker": {
-        "name": "Toe Breaker",
+        "name": "attack.toe_breaker.title",
         "factor": 2.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.3,
         "min_lvl": 0,
-        "desc": "Breaks the enemy's toes.",
-        "types": ["ground"],
+        "desc": "attack.toe_breaker.description",
+        "types": [
+            "ground"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 20,
+        "ap": 20
     },
     "ground_hit": {
-        "name": "Ground Hit",
+        "name": "attack.ground_hit.title",
         "factor": 3,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 0,
-        "desc": "Damages the enemy with an unpredictable hit out of the ground.",
-        "types": ["ground"],
+        "desc": "attack.ground_hit.description",
+        "types": [
+            "ground"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "dick_energy": {
-        "name": "Dick Energy",
+        "name": "attack.dick_energy.title",
         "factor": 0,
         "action": "dick_energy",
         "world_action": "",
-        "move": ["shine"],
+        "move": [
+            "shine"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Collects a great amount of energy in the Pokete's tip.",
-        "types": ["ground"],
+        "desc": "attack.dick_energy.description",
+        "types": [
+            "ground"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 15,
+        "ap": 15
     },
     "hiding": {
-        "name": "Hiding",
+        "name": "attack.hiding.title",
         "factor": 0,
         "action": "hiding",
         "world_action": "",
-        "move": ["shine"],
+        "move": [
+            "shine"
+        ],
         "miss_chance": 0,
         "min_lvl": 20,
-        "desc": "Makes the Pokete hide under the ground to minimize damage.",
-        "types": ["ground"],
+        "desc": "attack.hiding.description",
+        "types": [
+            "ground"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 15,
+        "ap": 15
     },
-
     # Fire attacks
     "fire_bite": {
-        "name": "Fire Bite",
+        "name": "attack.fire_bite.title",
         "factor": 2,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 0,
-        "desc": "Burns and bites the enemy at the same time.",
-        "types": ["fire"],
+        "desc": "attack.fire_bite.description",
+        "types": [
+            "fire"
+        ],
         "effect": "burning",
         "is_generic": True,
-        "ap": 15,
+        "ap": 15
     },
     "ash_throw": {
-        "name": "Ash Throw",
+        "name": "attack.ash_throw.title",
         "factor": 0.5,
         "action": "cry",
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0,
         "min_lvl": 15,
-        "desc": "Throws ashes in the enemy's eyes.",
-        "types": ["fire"],
+        "desc": "attack.ash_throw.description",
+        "types": [
+            "fire"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 15,
+        "ap": 15
     },
     "flame_throw": {
-        "name": "Flame Throw",
+        "name": "attack.flame_throw.title",
         "factor": 2.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.3,
         "min_lvl": 15,
-        "desc": "Hans! Get ze Flammenwerfer!",
-        "types": ["fire"],
+        "desc": "attack.flame_throw.description",
+        "types": [
+            "fire"
+        ],
         "effect": "burning",
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
-
     "fire_ball": {
-        "name": "Fire Ball",
+        "name": "attack.fire_ball.title",
         "factor": 4,
         "action": None,
         "world_action": "",
-        "move": ["fireball"],
+        "move": [
+            "fireball"
+        ],
         "miss_chance": 0,
         "min_lvl": 25,
-        "desc": "Casts a fireball at the enemy.",
-        "types": ["fire"],
+        "desc": "attack.fire_ball.description",
+        "types": [
+            "fire"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     # flying attacks
     "flying": {
-        "name": "Flying",
+        "name": "attack.flying.title",
         "factor": 1.5,
         "action": None,
         "world_action": "teleport",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 0,
-        "desc": "Gives the Pokete the ability to fly you around.",
-        "types": ["flying"],
+        "desc": "attack.flying.description",
+        "types": [
+            "flying"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 30,
+        "ap": 30
     },
     "pick": {
-        "name": "Peck",
+        "name": "attack.pick.title",
         "factor": 1.7,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 0,
-        "desc": "A peck at the enemy's weakest spot.",
-        "types": ["flying", "bird"],
+        "desc": "attack.pick.description",
+        "types": [
+            "flying",
+            "bird"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 30,
+        "ap": 30
     },
     "wind_blow": {
-        "name": "Wind Blow",
+        "name": "attack.wind_blow.title",
         "factor": 2,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Casts a gust of wind at the enemy.",
-        "types": ["flying"],
+        "desc": "attack.wind_blow.description",
+        "types": [
+            "flying"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 20,
+        "ap": 20
     },
     "storm_gust": {
-        "name": "Storm Gale",
+        "name": "attack.storm_gust.title",
         "factor": 6,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Casts a vicious and violent storm full of rain and hail, hitting the enemy in its weakest spots "
-                "and makes it want to die.",
-        "types": ["flying"],
+        "desc": "attack.storm_gust.description",
+        "types": [
+            "flying"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "schmetter": {
-        "name": "Schmetter",
+        "name": "attack.schmetter.title",
         "factor": 1.7,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 0,
-        "desc": "Schmetters the enemy away.",
-        "types": ["flying"],
+        "desc": "attack.schmetter.description",
+        "types": [
+            "flying"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 30,
+        "ap": 30
     },
     "eye_pick": {
-        "name": "Eye Peck",
+        "name": "attack.eye_pick.title",
         "factor": 2.5,
         "action": "eye_pick",
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0.6,
         "min_lvl": 0,
-        "desc": "Pecks at one of the enemy's eyes.",
-        "types": ["flying", "bird"],
+        "desc": "attack.eye_pick.description",
+        "types": [
+            "flying",
+            "bird"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "wing_hit": {
-        "name": "Wing Hit",
+        "name": "attack.wing_hit.title",
         "factor": 2.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.5,
         "min_lvl": 0,
-        "desc": "Hits the enemy with a wing.",
-        "types": ["flying"],
+        "desc": "attack.wing_hit.description",
+        "types": [
+            "flying"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "brooding": {
-        "name": "Brooding",
+        "name": "attack.brooding.title",
         "factor": 0,
         "action": "brooding",
         "world_action": "",
-        "move": ["shine"],
+        "move": [
+            "shine"
+        ],
         "miss_chance": 0,
         "min_lvl": 15,
-        "desc": "Regenerates 2 HP.",
-        "types": ["flying", "bird"],
+        "desc": "attack.brooding.description",
+        "types": [
+            "flying",
+            "bird"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "power_pick": {
-        "name": "Power Peck",
+        "name": "attack.power_pick.title",
         "factor": 2,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.4,
         "min_lvl": 0,
-        "desc": "A harsh pecking on the enemy's head.",
-        "types": ["flying", "bird"],
+        "desc": "attack.power_pick.description",
+        "types": [
+            "flying",
+            "bird"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     # water attacks
     "bubble_gun": {
-        "name": "Bubble Gun",
+        "name": "attack.bubble_gun.title",
         "factor": 2,
         "action": None,
         "world_action": "",
-        "move": ["gun"],
+        "move": [
+            "gun"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 0,
-        "desc": "Fires some bubbles at the enemy.",
-        "types": ["water"],
+        "desc": "attack.bubble_gun.description",
+        "types": [
+            "water"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 20,
+        "ap": 20
     },
     "bubble_bomb": {
-        "name": "Bubble Bomb",
+        "name": "attack.bubble_bomb.title",
         "factor": 6,
         "action": "cry",
         "world_action": "",
-        "move": ["bomb", "downgrade"],
+        "move": [
+            "bomb",
+            "downgrade"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "A deadly bubble.",
-        "types": ["water"],
+        "desc": "attack.bubble_bomb.description",
+        "types": [
+            "water"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "bubble_shield": {
-        "name": "Bubble Shield",
+        "name": "attack.bubble_shield.title",
         "factor": 0,
         "action": "hiding",
         "world_action": "",
-        "move": ["shine"],
+        "move": [
+            "shine"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Creates a giant bubble that protects the Pokete.",
-        "types": ["water"],
+        "desc": "attack.bubble_shield.description",
+        "types": [
+            "water"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "wet_slap": {
-        "name": "Wet Slap",
+        "name": "attack.wet_slap.title",
         "factor": 2.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 10,
-        "desc": "Gives the enemy a cold and wet slap in the face.",
-        "types": ["water"],
+        "desc": "attack.wet_slap.description",
+        "types": [
+            "water"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 15,
+        "ap": 15
     },
     "shell_pinch": {
-        "name": "Shell Pinch",
+        "name": "attack.shell_pinch.title",
         "factor": 2.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 15,
-        "desc": "Pinches the enemy with its strong shell.",
-        "types": ["water"],
+        "desc": "attack.shell_pinch.description",
+        "types": [
+            "water"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 20,
+        "ap": 20
     },
     # undead attacks
     "heart_touch": {
-        "name": "Heart Touch",
+        "name": "attack.heart_touch.title",
         "factor": 4,
         "action": "heart_touch",
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0,
         "min_lvl": 20,
-        "desc": "Touches the enemy's heart with cold, ghostly claws.",
-        "types": ["undead"],
+        "desc": "attack.heart_touch.description",
+        "types": [
+            "undead"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "confusion": {
-        "name": "Confusion",
+        "name": "attack.confusion.title",
         "factor": 0,
         "action": None,
         "world_action": "",
-        "move": ["downgrade"],
+        "move": [
+            "downgrade"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 0,
-        "desc": "Confuses the enemy.",
-        "types": ["undead"],
+        "desc": "attack.confusion.description",
+        "types": [
+            "undead"
+        ],
         "effect": "confusion",
         "is_generic": True,
-        "ap": 40,
+        "ap": 40
     },
     "mind_blow": {
-        "name": "Mind Blow",
+        "name": "attack.mind_blow.title",
         "factor": 0,
         "action": None,
         "world_action": "",
-        "move": ["downgrade"],
+        "move": [
+            "downgrade"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 0,
-        "desc": "Causes confusion deep in the enemy's mind.",
-        "types": ["undead"],
+        "desc": "attack.mind_blow.description",
+        "types": [
+            "undead"
+        ],
         "effect": "confusion",
         "is_generic": True,
-        "ap": 15,
+        "ap": 15
     },
     # electro attacks
     "shock": {
-        "name": "Shock",
-        "factor": 3 / 2,
-        "action": None,
-        "world_action": "",
-        "move": ["arch"],
-        "miss_chance": 0.2,
-        "min_lvl": 0,
-        "desc": "Gives the enemy a shock.",
-        "types": ["electro"],
-        "effect": None,
-        "is_generic": True,
-        "ap": 30,
-    },
-    "charging": {
-        "name": "Charging",
-        "factor": 0,
-        "action": "dick_energy",
-        "world_action": "",
-        "move": ["shine"],
-        "miss_chance": 0,
-        "min_lvl": 10,
-        "desc": "Charges up the Pokete.",
-        "types": ["electro"],
-        "effect": None,
-        "is_generic": True,
-        "ap": 15,
-    },
-    "mega_arch": {
-        "name": "Mega Arch",
-        "factor": 5,
-        "action": None,
-        "world_action": "",
-        "move": ["arch"],
-        "miss_chance": 0.2,
-        "min_lvl": 15,
-        "desc": "Gives the enemy a massive shock.",
-        "types": ["electro"],
-        "effect": "paralyzation",
-        "is_generic": True,
-        "ap": 10,
-    },
-    # plant attacks
-    "special_smell": {
-        "name": "Special Smell",
-        "factor": 0,
-        "action": None,
-        "world_action": "",
-        "move": ["downgrade"],
-        "miss_chance": 0.1,
-        "min_lvl": 0,
-        "desc": "Spreads a special smell that will make the enemy confused but very happy.",
-        "types": ["plant"],
-        "effect": "confusion",
-        "is_generic": False,
-        "ap": 10,
-    },
-    "apple_drop": {
-        "name": "Apple Drop",
-        "factor": 1.7,
-        "action": None,
-        "world_action": "",
-        "move": ["attack"],
-        "miss_chance": 0.3,
-        "min_lvl": 0,
-        "desc": "Makes an apple drop on the enemy's head.",
-        "types": ["plant"],
-        "effect": None,
-        "is_generic": False,
-        "ap": 30,
-    },
-    "super_sucker": {
-        "name": "Super Sucker",
-        "factor": 0,
-        "action": "super_sucker",
-        "world_action": "",
-        "move": ["downgrade", "shine"],
-        "miss_chance": 0,
-        "min_lvl": 0,
-        "desc": "Sucks 2 HP from the enemy and adds to its own.",
-        "types": ["plant"],
-        "effect": None,
-        "is_generic": False,
-        "ap": 10,
-    },
-    "sucker": {
-        "name": "Sucker",
-        "factor": 0,
-        "action": "sucker",
-        "world_action": "",
-        "move": ["downgrade", "shine"],
-        "miss_chance": 0,
-        "min_lvl": 0,
-        "desc": "Sucks 1 HP from the enemy and adds to its own.",
-        "types": ["plant"],
-        "effect": None,
-        "is_generic": False,
-        "ap": 20,
-    },
-    "root_strangler": {
-        "name": "Root Strangler",
-        "factor": 1,
-        "action": None,
-        "world_action": "",
-        "move": ["attack", "downgrade"],
-        "miss_chance": 0.2,
-        "min_lvl": 20,
-        "desc": "Uses old and crusty roots to strangle the enemy.",
-        "types": ["plant"],
-        "effect": "paralyzation",
-        "is_generic": True,
-        "ap": 15,
-    },
-    "root_slap": {
-        "name": "Root Slap",
+        "name": "attack.shock.title",
         "factor": 1.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "arch"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 0,
-        "desc": "Uses old and crusty roots to slap the enemy.",
-        "types": ["plant"],
+        "desc": "attack.shock.description",
+        "types": [
+            "electro"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 30,
+        "ap": 30
+    },
+    "charging": {
+        "name": "attack.charging.title",
+        "factor": 0,
+        "action": "dick_energy",
+        "world_action": "",
+        "move": [
+            "shine"
+        ],
+        "miss_chance": 0,
+        "min_lvl": 10,
+        "desc": "attack.charging.description",
+        "types": [
+            "electro"
+        ],
+        "effect": None,
+        "is_generic": True,
+        "ap": 15
+    },
+    "mega_arch": {
+        "name": "attack.mega_arch.title",
+        "factor": 5,
+        "action": None,
+        "world_action": "",
+        "move": [
+            "arch"
+        ],
+        "miss_chance": 0.2,
+        "min_lvl": 15,
+        "desc": "attack.mega_arch.description",
+        "types": [
+            "electro"
+        ],
+        "effect": "paralyzation",
+        "is_generic": True,
+        "ap": 10
+    },
+    # plant attacks
+    "special_smell": {
+        "name": "attack.special_smell.title",
+        "factor": 0,
+        "action": None,
+        "world_action": "",
+        "move": [
+            "downgrade"
+        ],
+        "miss_chance": 0.1,
+        "min_lvl": 0,
+        "desc": "attack.special_smell.description",
+        "types": [
+            "plant"
+        ],
+        "effect": "confusion",
+        "is_generic": False,
+        "ap": 10
+    },
+    "apple_drop": {
+        "name": "attack.apple_drop.title",
+        "factor": 1.7,
+        "action": None,
+        "world_action": "",
+        "move": [
+            "attack"
+        ],
+        "miss_chance": 0.3,
+        "min_lvl": 0,
+        "desc": "attack.apple_drop.description",
+        "types": [
+            "plant"
+        ],
+        "effect": None,
+        "is_generic": False,
+        "ap": 30
+    },
+    "super_sucker": {
+        "name": "attack.super_sucker.title",
+        "factor": 0,
+        "action": "super_sucker",
+        "world_action": "",
+        "move": [
+            "downgrade",
+            "shine"
+        ],
+        "miss_chance": 0,
+        "min_lvl": 0,
+        "desc": "attack.super_sucker.description",
+        "types": [
+            "plant"
+        ],
+        "effect": None,
+        "is_generic": False,
+        "ap": 10
+    },
+    "sucker": {
+        "name": "attack.sucker.title",
+        "factor": 0,
+        "action": "sucker",
+        "world_action": "",
+        "move": [
+            "downgrade",
+            "shine"
+        ],
+        "miss_chance": 0,
+        "min_lvl": 0,
+        "desc": "attack.sucker.description",
+        "types": [
+            "plant"
+        ],
+        "effect": None,
+        "is_generic": False,
+        "ap": 20
+    },
+    "root_strangler": {
+        "name": "attack.root_strangler.title",
+        "factor": 1,
+        "action": None,
+        "world_action": "",
+        "move": [
+            "attack",
+            "downgrade"
+        ],
+        "miss_chance": 0.2,
+        "min_lvl": 20,
+        "desc": "attack.root_strangler.description",
+        "types": [
+            "plant"
+        ],
+        "effect": "paralyzation",
+        "is_generic": True,
+        "ap": 15
+    },
+    "root_slap": {
+        "name": "attack.root_slap.title",
+        "factor": 1.5,
+        "action": None,
+        "world_action": "",
+        "move": [
+            "attack"
+        ],
+        "miss_chance": 0.2,
+        "min_lvl": 0,
+        "desc": "attack.root_slap.description",
+        "types": [
+            "plant"
+        ],
+        "effect": None,
+        "is_generic": True,
+        "ap": 30
     },
     "the_old_roots_hit": {
-        "name": "The Old Roots Hit",
+        "name": "attack.the_old_roots_hit.title",
         "factor": 50,
         "action": None,
         "world_action": "",
-        "move": ["shine", "shine", "attack"],
+        "move": [
+            "shine",
+            "shine",
+            "attack"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "An ancient attack that summons the deepest and oldest roots from deep in the earth to defeat the enemy.",
-        "types": ["plant"],
+        "desc": "attack.the_old_roots_hit.description",
+        "types": [
+            "plant"
+        ],
         "effect": None,
         "is_generic": False,
-        "ap": 1,
+        "ap": 1
     },
     "leaf_storm": {
-        "name": "Leaf Storm",
+        "name": "attack.leaf_storm.title",
         "factor": 5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0,
         "min_lvl": 20,
-        "desc": "Blasts a bunch of spiky leaves at the enemy.",
-        "types": ["plant"],
+        "desc": "attack.leaf_storm.description",
+        "types": [
+            "plant"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "bark_hardening": {
-        "name": "Bark Hardening",
+        "name": "attack.bark_hardening.title",
         "factor": 0,
         "action": "bark_hardening",
         "world_action": "",
-        "move": ["shine"],
+        "move": [
+            "shine"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Hardens its outer layers to protect itself.",
-        "types": ["plant"],
+        "desc": "attack.bark_hardening.description",
+        "types": [
+            "plant"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 15,
+        "ap": 15
     },
     "poison_spores": {
-        "name": "Poison Spores",
+        "name": "attack.poison_spores.title",
         "factor": 0,
         "action": None,
         "world_action": "",
-        "move": ["downgrade"],
+        "move": [
+            "downgrade"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Ejects some poisonous spores onto the enemy.",
-        "types": ["plant"],
+        "desc": "attack.poison_spores.description",
+        "types": [
+            "plant"
+        ],
         "effect": "poison",
         "is_generic": False,
-        "ap": 15,
+        "ap": 15
     },
     "branch_stab": {
-        "name": "Branch Stab",
+        "name": "attack.branch_stab.title",
         "factor": 4,
         "action": "cry",
         "world_action": "",
-        "move": ["attack", "downgrade"],
+        "move": [
+            "attack",
+            "downgrade"
+        ],
         "miss_chance": 0.2,
         "min_lvl": 15,
-        "desc": "Stabs the enemy with a branch, preferably in the enemy's eyes.",
-        "types": ["plant"],
+        "desc": "attack.branch_stab.description",
+        "types": [
+            "plant"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     # ice attacks
     "freeze": {
-        "name": "Freeze",
+        "name": "attack.freeze.title",
         "factor": 0,
         "action": None,
         "world_action": "",
-        "move": ["downgrade"],
+        "move": [
+            "downgrade"
+        ],
         "miss_chance": 0.1,
         "min_lvl": 10,
-        "desc": "Freezes the enemy.",
-        "types": ["ice"],
+        "desc": "attack.freeze.description",
+        "types": [
+            "ice"
+        ],
         "effect": "freezing",
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "snow_storm": {
-        "name": "Snow Storm",
+        "name": "attack.snow_storm.title",
         "factor": 2.5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Summons a snow storm full of ice spikes onto the enemy.",
-        "types": ["ice"],
+        "desc": "attack.snow_storm.description",
+        "types": [
+            "ice"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 20,
+        "ap": 20
     },
     "sword_of_ice": {
-        "name": "Sword of Ice",
+        "name": "attack.sword_of_ice.title",
         "factor": 5,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0.3,
         "min_lvl": 20,
-        "desc": "Stabs a giant ice spike into the enemy.",
-        "types": ["ice"],
+        "desc": "attack.sword_of_ice.description",
+        "types": [
+            "ice"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 10,
+        "ap": 10
     },
     "spikes": {
-        "name": "Spikes",
+        "name": "attack.spikes.title",
         "factor": 1.75,
         "action": None,
         "world_action": "",
-        "move": ["attack"],
+        "move": [
+            "attack"
+        ],
         "miss_chance": 0,
         "min_lvl": 0,
-        "desc": "Stabs the enemy with some small ice spikes.",
-        "types": ["ice"],
+        "desc": "attack.spikes.description",
+        "types": [
+            "ice"
+        ],
         "effect": None,
         "is_generic": True,
-        "ap": 30,
-    },
+        "ap": 30
+    }
 }
 
 if __name__ == "__main__":

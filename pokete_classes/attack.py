@@ -19,14 +19,14 @@ class Attack:
     def __init__(self, index, pref=""):
         inf = attacks[index]
         # Attributes
-        self.name = inf["name"]
+        self.name = lang.str(inf["name"])
         self.factor = inf["factor"]
         self.action = inf["action"]
         self.world_action = inf["world_action"]
         self.move = inf["move"]
         self.miss_chance = inf["miss_chance"]
         self.min_lvl = inf["min_lvl"]
-        self.desc = inf["desc"]
+        self.desc = lang.str(inf["desc"])
         self.effect = inf["effect"]
         self.is_generic = inf["is_generic"]
         self.ap = inf["ap"]

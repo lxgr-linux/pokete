@@ -28,9 +28,9 @@ class InvItem:
         fn: The associated method name in FightItems"""
 
     def __init__(self, name, pretty_name, desc, price, fn=None):
-        self.name = name
+        self.name = lang.str(name)
         self.pretty_name = pretty_name
-        self.desc = desc
+        self.desc = lang.str(desc)
         self.price = price
         self.fn = fn
 
@@ -41,7 +41,7 @@ class LearnDisc(InvItem):
         attack_name: The name of the attack being taught"""
 
     def __init__(self, attack_name):
-        self.attack_name = attack_name
+        self.attack_name = lang.str(attack_name)
         self.attack_dict = p_data.attacks[attack_name]
         pretty_name = f"{lang.str('dialog.inventory.prefix_ld_disk')}-{self.attack_dict['name']}"
         name = f"ld_{attack_name}"

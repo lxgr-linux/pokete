@@ -57,7 +57,7 @@ class NPC(se.Box):
 
     def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
-        self.name = name
+        self.name = lang.str(name)
         self.texts = texts
         self.__fn = fn
         if chat is None:
