@@ -5,13 +5,14 @@ import logging
 import random
 import scrap_engine as se
 from . import fightmap as fm, movemap as mvp
+from release import SPEED_OF_TIME
+from .hotkeys import ACTION_UP_DOWN, Action, get_action
 from .providers import Provider
 from .loops import std_loop
 from .input import ask_bool
 from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
-from .event import _ev
 from .general import check_walk_back
 
 
@@ -51,11 +52,11 @@ class NPC(se.Box):
             name: The NPCs name"""
         return cls.registry[name]
 
-    def __init__(self, name, texts, fn=None, chat=None, side_trigger=True):
+    def __init__(self, name, texts, _fn=None, chat=None, side_trigger=True):
         super().__init__(0, 0)
         self.name = name
         self.texts = texts
-        self.__fn = fn
+        self.__fn = _fn
         if chat is None:
             self.q_a = {}
         else:
@@ -82,7 +83,7 @@ class NPC(se.Box):
         except se.CoordinateError:
             pass
         mvp.movemap.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         exclamation.remove()
 
     def action(self):
@@ -91,48 +92,48 @@ class NPC(se.Box):
             return
         logging.info("[NPC][%s] Interaction", self.name)
         mvp.movemap.full_show()
-        time.sleep(0.7)
+        time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
-        self.fn()
+        self.func()
 
-    def fn(self):
+    def func(self):
         """The function that's executed after the interaction"""
         if self.__fn is not None:
             getattr(self.npcactions, self.__fn)(self)
 
-    def check_walk(self, x, y):
+    def check_walk(self, _x, _y):
         """Checks whether the NPC can walk to a point or not
         ARGS:
-            x: X-coordinate
-            y: Y-coordinate
+            _x: X-coordinate
+            _y: Y-coordinate
         RETURNS:
             bool: Whether or not the walk is possible"""
-        vec = se.Line(" ", x - self.x, y - self.y)
+        vec = se.Line(" ", _x - self.x, _y - self.y)
         ret = not any([any(j.state == "solid"
                            for j in
                            self.map.obmap[i.ry + self.y][i.rx + self.x])
                        for i in vec.obs][1:])
         logging.info("[NPC][%s] %s walk check to (%d|%d)",
-                     self.name, 'Succeeded' if ret else 'Failed', x, y)
+                     self.name, 'Succeeded' if ret else 'Failed', _x, _y)
         return ret
 
-    def walk_point(self, x, y):
+    def walk_point(self, _x, _y):
         """Walks the NPC tp a certain point
         ARGS:
-            x: X-coordinate
-            y: Y-coordinate
+            _x: X-coordinate
+            _y: Y-coordinate
         RETURNS:
             bool: Whether or not the walk succeeded"""
         o_x = self.x
         o_y = self.y
-        vec = se.Line(" ", x - o_x, y - o_y)
-        if not self.check_walk(x, y):
+        vec = se.Line(" ", _x - o_x, _y - o_y)
+        if not self.check_walk(_x, _y):
             return False
         for i in vec.obs:
             self.set(i.rx + o_x, i.ry + o_y)
             mvp.movemap.full_show()
-            time.sleep(0.2)
+            time.sleep(SPEED_OF_TIME * 0.2)
         return True
 
     def give(self, name, item):
@@ -167,8 +168,7 @@ Do you want to accept it?"):
             return
         while True:
             self.text(q_a["q"])
-            while _ev.get() == "":
-                _ev.clear()
+            while get_action() is None:
                 std_loop()
             if q_a["a"] == {}:
                 break
@@ -184,11 +184,11 @@ Do you want to accept it?"):
             with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
                          self.fig.y - mvp.movemap.y + 1):
                 while True:
-                    if _ev.get() in ["'w'", "'s'"]:
-                        c_b.input(_ev.get())
+                    action = get_action()
+                    if action.triggers(*ACTION_UP_DOWN):
+                        c_b.input(action)
                         mvp.movemap.show()
-                        _ev.clear()
-                    elif _ev.get() == "Key.enter":
+                    elif action.triggers(Action.ACCEPT):
                         key = keys[c_b.index.index]
                         break
                     std_loop()
@@ -201,7 +201,7 @@ class Trainer(NPC, Provider):
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
-        Provider.__init__(self, pokes)
+        Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
         self.gender = gender
         self.lose_texts = lose_texts
@@ -242,7 +242,7 @@ class Trainer(NPC, Provider):
                                  or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
-            time.sleep(0.7)
+            time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
@@ -254,10 +254,49 @@ class Trainer(NPC, Provider):
                 self.text({True: self.lose_texts,
                            False: self.win_texts + ["Here's $20!"]}
                           [is_winner])
-                if not is_winner:
+                if is_winner:
+                    self.heal()
+                else:
                     self.fig.add_money(20)
                     self.set_used()
                 logging.info("[NPC][%s] %s against player", self.name,
                              'Lost' if not is_winner else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.fig)
+
+    def greet(self, fightmap):
+        """Outputs a greeting text at the fights start:
+        ARGS:
+            fightmap: fightmap object"""
+        fightmap.outp.outp(f"{self.name} started a fight!")
+        time.sleep(SPEED_OF_TIME * 1)
+        fightmap.outp.outp(
+            f'{fightmap.outp.text}\n{self.gender} used {self.curr.name} '
+            'against you!'
+        )
+
+    def handle_defeat(self, fightmap, winner):
+        """Function caleld when the providers current Pokete dies
+        ARGS:
+            fightmap: fightmap object
+            winner: the defeating provider"""
+        time.sleep(SPEED_OF_TIME * 1)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico1, fightmap.deadico2],
+            ico
+        )
+        fightmap.deadico2.remove()
+        fightmap.show()
+        fightmap.clean_up(self)
+        self.play_index += 1
+        fightmap.add_1(winner, self)
+        ico = self.curr.ico
+        fightmap.fast_change(
+            [ico, fightmap.deadico2, fightmap.deadico1, ico],
+            ico
+        )
+        fightmap.outp.outp(f"{self.name} used {self.curr.name}!")
+        fightmap.show()
+        time.sleep(SPEED_OF_TIME * 2)
+        return True

@@ -19,7 +19,6 @@ from pathlib import Path
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
-from pokete_classes.general import heal
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
@@ -45,10 +44,15 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
 from pokete_classes.event import _ev
+from pokete_classes.hotkeys import (
+    get_action, Action, ACTION_DIRECTIONS, hotkeys_save, hotkeys_from_save
+)
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
 from pokete_general_use_fns import liner, sort_vers, parse_args
+
+from release import SPEED_OF_TIME
 from release import VERSION, CODENAME, SAVEPATH
 
 
@@ -65,14 +69,14 @@ class NPCActions:
             npc: The NPC the method belongs to"""
 
     @staticmethod
-    def swap_poke(npc):
+    def swap_poke(_):
         """Swap_poke wrapper"""
         swap_poke()
 
     @staticmethod
-    def heal(npc):
+    def heal(_):
         """Heal wrapper"""
-        heal(figure)
+        figure.heal()
 
     @staticmethod
     def playmap_17_boy(npc):
@@ -250,29 +254,33 @@ class CenterInteract(se.Object):
             ob: The object triggering this action"""
         _ev.clear()
         mvp.movemap.full_show()
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                         ["Welcome to the Pokete-Center",
-                          "What do you want to do?",
-                          "a: See your full deck\n b: Heal all your Poketes\
-\n c: Go"])
+        mvp.movemap.text(
+            int(mvp.movemap.width / 2),
+            3,
+            [
+                "Welcome to the Pokete-Center",
+                "What do you want to do?",
+                "1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes"
+            ]
+        )
         while True:
-            if _ev.get() == "'a'":
-                _ev.clear()
+            action = get_action()
+            if action.triggers(Action.ACT_1):
                 while "__fallback__" in [p.identifier for p in figure.pokes]:
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index("__fallback__"))
                 mvp.movemap.balls_label_rechar(figure.pokes)
                 deck.deck(len(figure.pokes))
                 break
-            elif _ev.get() == "'b'":
-                _ev.clear()
-                heal(figure)
-                time.sleep(0.5)
-                mvp.movemap.text(int(mvp.movemap.width / 2), 3,
-                                 ["...", "Your Poketes are now healed!"])
+            elif action.triggers(Action.ACT_2):
+                figure.heal()
+                time.sleep(SPEED_OF_TIME * 0.5)
+                mvp.movemap.text(
+                    int(mvp.movemap.width / 2), 3,
+                    ["...", "Your Poketes are now healed!"]
+                )
                 break
-            elif _ev.get() == "'c'":
-                _ev.clear()
+            elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
             std_loop()
         mvp.movemap.full_show(init=True)
@@ -304,7 +312,7 @@ class CenterMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="centermap",
-                         pretty_name="Pokete-Center", song="Map.wav")
+                         pretty_name="Pokete-Center", song="Map.mp3")
         self.inner = se.Text(""" ________________
  |______________|
  |     |a |     |
@@ -337,7 +345,7 @@ class ShopMap(PlayMap):
 
     def __init__(self, _he, _wi):
         super().__init__(_he, _wi, name="shopmap",
-                         pretty_name="Pokete-Shop", song="Map.wav")
+                         pretty_name="Pokete-Shop", song="Map.mp3")
         self.inner = se.Text(""" __________________
  |________________|
  |      |a |      |
@@ -369,7 +377,9 @@ class Figure(se.Object, ProtoFigure):
         super().__init__(r_char, state="solid")
         ProtoFigure.__init__(
             self,
-            [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]]
+            [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]],
+            escapable=True,
+            xp_multiplier=2
         )
         self.__money = _si.get("money", 10)
         self.inv = _si.get("inv", {"poketeballs": 10})
@@ -381,13 +391,6 @@ class Figure(se.Object, ProtoFigure):
                                                     "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
-
-    def get_attack(self, fightmap, enem):
-        """Returns the choosen attack:
-        ARGS:
-            fightmap: fightmap object
-            anem: The enemy Provider"""
-        return fightmap.get_figure_attack(self, enem)
 
     def set_args(self, _si):
         """Processes data from save file
@@ -499,7 +502,8 @@ class Inv:
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Inventory", "R:remove")
+        self.box = ChooseBox(_map.height - 3, 35, "Inventory",
+                             f"{Action.REMOVE.mapping}:remove")
         self.box2 = Box(7, 21)
         self.money_label = se.Text(f"${figure.get_money()}")
         self.desc_label = se.Text(" ")
@@ -514,22 +518,18 @@ class Inv:
         items = self.add()
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:
-                if _ev.get() in ["'s'", "'w'"]:
-                    self.box.input(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in ["'4'", "Key.esc", "'q'"]:
+                action = get_action()
+                if action.triggers(Action.UP, Action.DOWN):
+                    self.box.input(action)
+                elif action.triggers(Action.CANCEL):
                     break
-                elif _ev.get() == "Key.enter":
+                elif action.triggers(Action.ACCEPT):
                     obj = items[self.box.index.index]
                     self.box2.name_label.rechar(obj.pretty_name)
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
-                    _ev.clear()
                     while True:
-                        if _ev.get() == "exit":
-                            raise KeyboardInterrupt
-                        elif _ev.get() in ["Key.enter", "Key.esc", "'q'"]:
-                            _ev.clear()
+                        if get_action().triggers(Action.CANCEL):
                             self.box2.remove()
                             if obj.name == "treat":
                                 if ask_bool(self.map,
@@ -552,7 +552,7 @@ class Inv:
                                     ask_ok(self.map,
                                            f"{poke.name} reached level "
                                            f"{poke.lvl()}!")
-                            elif type(obj) is LearnDisc:
+                            elif isinstance(obj, LearnDisc):
                                 if ask_bool(self.map, f"Do you want to teach '\
 {obj.attack_dict['name']}'?"):
                                     ex_cond = True
@@ -568,10 +568,13 @@ class Inv:
                                                    obj.attack_dict['types'][0])\
                                                 in poke.types:
                                             break
-                                        else:
-                                            ex_cond = ask_bool(self.map,
-                                                               f"You cant't \
-teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
+                                        ex_cond = ask_bool(
+                                            self.map,
+                                            "You cant't teach "
+                                            f"'{obj.attack_dict['name']}' to "
+                                            f"'{poke.name}'! \n"
+                                            "Do you want to continue?"
+                                        )
                                     if not ex_cond:
                                         break
                                     if LearnAttack(poke, self.map)\
@@ -579,11 +582,10 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
-                                    _ev.clear()
                             break
-                        time.sleep(0.05)
+                        time.sleep(SPEED_OF_TIME * 0.05)
                         self.map.show()
-                elif _ev.get() == "'r'":
+                elif action.triggers(Action.REMOVE):
                     if ask_bool(self.map,
                                 f"Do you really want to throw \
 {items[self.box.index.index].pretty_name} away?"):
@@ -591,7 +593,6 @@ teach '{obj.attack_dict['name']}' to '{poke.name}'! \nDo you want to continue?")
                                               items)
                         if len(items) == 0:
                             break
-                    _ev.clear()
                 std_loop()
                 self.map.show()
         self.box.remove_c_obs()
@@ -667,14 +668,15 @@ class Menu:
 
     def __call__(self, pevm):
         """Opens the menu"""
-        _ev.clear()
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
+            _ev.clear()
             while True:
-                if _ev.get() == "Key.enter":
-                    _ev.clear()
-                    # Fuck python for not having case statements
+                action = get_action()
+                if action.triggers(Action.ACCEPT):
+                    # Fuck python for not having case statements - lxgr
+                    #     but it does lmao - Magnus
                     if (i := self.box.c_obs[self.box.index.index]) ==\
                             self.playername_label:
                         figure.name = text_input(self.realname_label, self.map,
@@ -697,21 +699,19 @@ valid single-space character!")
                         with InfoBox("Saving....", info="", _map=self.map):
                             # Shows a box displaying "Saving...." while saving
                             save()
-                            time.sleep(1.5)
+                            time.sleep(SPEED_OF_TIME * 1.5)
                     elif i == self.exit_label:
                         save()
-                        exiter()
+                        sys.exit()
                     elif i == self.about_label:
                         about()
                     elif i == self.ach_label:
                         AchievementOverview()(mvp.movemap)
                     else:
                         i.change()
-                elif _ev.get() in ["'s'", "'w'"]:
-                    self.box.input(_ev.get())
-                    _ev.clear()
-                elif _ev.get() in ["'e'", "Key.esc", "'q'"]:
-                    _ev.clear()
+                elif action.triggers(Action.UP, Action.DOWN):
+                    self.box.input(action)
+                elif action.triggers(Action.CANCEL, Action.MENU):
                     break
                 std_loop(pevm=pevm)
                 self.map.full_show()
@@ -723,7 +723,7 @@ valid single-space character!")
 def autosave():
     """Autosaves the game every 5 mins"""
     while True:
-        time.sleep(300)
+        time.sleep(SPEED_OF_TIME * 300)
         if settings("autosave").val:
             save()
 
@@ -749,12 +749,13 @@ def save():
                                                 for i in figure.pokes])),
         "visited_maps": figure.visited_maps,
         "startup_time": __t,
+        "hotkeys": hotkeys_save(),
         # filters doublicates from figure.used_npcs
         "used_npcs": list(dict.fromkeys(figure.used_npcs)),
         "pokete_care": pokete_care.dict(),
         "time": timer.time.time
     }
-    with open(HOME + SAVEPATH + "/pokete.json", "w+") as file:
+    with open(SAVEPATH / "pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
     logging.info("[General] Saved")
@@ -764,7 +765,7 @@ def read_save():
     """Reads from savefile
     RETURNS:
         session_info dict"""
-    Path(HOME + SAVEPATH).mkdir(parents=True, exist_ok=True)
+    Path(SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     _si = {
         "user": "DEFAULT",
@@ -787,6 +788,7 @@ def read_save():
         "visited_maps": ["playmap_1"],
         "startup_time": 0,
         "used_npcs": [],
+        "hotkeys": {},
         "pokete_care": {
             "entry": 0,
             "poke": None,
@@ -794,39 +796,33 @@ def read_save():
         "time": 0
     }
 
-    if (not os.path.exists(HOME + SAVEPATH + "/pokete.json")
-        and os.path.exists(HOME + SAVEPATH + "/pokete.py")):
+    if os.path.exists(SAVEPATH / "pokete.json"):
+        with open(SAVEPATH / "pokete.json") as _file:
+            _si = json.load(_file)
+    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.json"):
+        with open(HOME / ".cache" / "pokete" / "pokete.json") as _file:
+            _si = json.load(_file)
+    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.py"):
         l_dict = {}
-        with open(HOME + SAVEPATH + "/pokete.py", "r") as _file:
+        with open(HOME / ".cache" / "pokete" / "pokete.py", "r") as _file:
             exec(_file.read(), {"session_info": _si}, l_dict)
         _si = json.loads(json.dumps(l_dict["session_info"]))
-    elif os.path.exists(HOME + SAVEPATH + "/pokete.json"):
-        with open(HOME + SAVEPATH + "/pokete.json") as _file:
-            _si = json.load(_file)
     return _si
-
-
-def on_press(key):
-    """Sets the _ev variable
-    ARGS:
-        key: Key object _ev is set from"""
-    _ev.set(str(key))
 
 
 def reset_terminal():
     """Resets the terminals state"""
-    if sys.platform == "linux" and not force_pynput:
+    if sys.platform == "linux":
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-def exiter(end=False):
+def exiter():
     """Exit function"""
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
-    audio.kill()
-    if not end:
-        sys.exit()
+    if audio.curr is not None:
+        audio.kill()
 
 
 # Functions needed for mvp.movemap
@@ -847,7 +843,7 @@ def codes(string):
                 print(exc)
             return
         elif i == "q":
-            exiter()
+            sys.exit()
 
 
 # Playmap extra action functions
@@ -883,14 +879,12 @@ def test():
         "Welt", "Wie", "Gehts", "Dir", "So", "Du"]],
         "Test", _map=mvp.movemap) as a:
         while True:
-            if _ev.get() in ["'w'", "'s'", "'a'", "'d'"]:
-                a.input(_ev.get())
-                _ev.clear()
-            elif _ev.get() in ["'q'", "Key.esc"]:
-                _ev.clear()
+            action = get_action()
+            if action.triggers(*ACTION_DIRECTIONS):
+                a.input(action)
+            elif action.triggers(Action.CANCEL):
                 break
-            elif _ev.get() == "'t'":
-                _ev.clear()
+            elif action.triggers(Action.ACCEPT):
                 a.remove()
                 a.set_items(3, [se.Text(i, state="float") for i in ["test",
                     "test", "123", "fuckthesystem"]])
@@ -905,13 +899,14 @@ def teleport(poke):
         poke: The Poke shown in the animation"""
     if (obj := roadmap(mvp.movemap, choose=True)) is None:
         return
-    else:
-        if settings("animations").val:
-            animations.transition(mvp.movemap, poke)
-        cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
-        Door("", state="float", arg_proto={"map": obj.name,
-                                          "x": cen_d["x"] + 5,
-                                          "y": cen_d["y"] + 6}).action(figure)
+    if settings("animations").val:
+        animations.transition(mvp.movemap, poke)
+    cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
+    Door("", state="float", arg_proto={
+        "map": obj.name,
+        "x": cen_d["x"] + 5,
+        "y": cen_d["y"] + 6
+    }).action(figure)
 
 
 def swap_poke():
@@ -1003,58 +998,61 @@ def _game(_map):
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
     pevm = PeriodicEventManager(_map)
-    inp_dict = {"'1'": [deck.deck, (6, "Your deck")],
-                "'3'": [roadmap, (mvp.movemap,)],
-                "'4'": [inv, ()],
-                "'5'": [pokete_dex, ()],
-                "'6'": [timer.clock, (mvp.movemap,)],
-                "'e'": [menu, (pevm,)],
-                "'?'": [help_page, ()]}
+    inp_dict = {
+        Action.DECK: [deck.deck, (6, "Your deck")],
+        Action.MAP: [roadmap, (mvp.movemap,)],
+        Action.INVENTORY: [inv, ()],
+        Action.POKEDEX: [pokete_dex, ()],
+        Action.CLOCK: [timer.clock, (mvp.movemap,)],
+        Action.MENU: [menu, (pevm,)],
+        Action.HELP: [help_page, ()]
+    }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
     while True:
-        # Directions are not beening used yet
-        for name, _dir, x, y in zip(["'w'", "'a'", "'s'", "'d'"],
-                                    ["t", "l", "b", "r"],
-                                    [0, -1, 0, 1], [-1, 0, 1, 0]):
-            if _ev.get() == name:
-                figure.direction = _dir
-                figure.set(figure.x + x, figure.y + y)
-                _ev.clear()
-                break
-        else:
-            if _ev.get() in inp_dict:
-                audio_before = settings("audio").val
-                inp_dict[_ev.get()][0](*inp_dict[_ev.get()][1])
-                _ev.clear()
-                if audio_before != settings("audio").val:
-                    audio.switch(_map.song)
-                mvp.movemap.show(init=True)
-            elif _ev.get() == "'2'":
-                _ev.clear()
-                if ask_bool(mvp.movemap, "Do you really want to exit?"):
-                    save()
-                    exiter()
-            elif _ev.get() == "':'":
-                _ev.clear()
-                inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
-                                 mvp.movemap.width,
-                                 (mvp.movemap.width - 2)
-                                 * mvp.movemap.height - 1)[1:]
-                mvp.movemap.code_label.outp(figure.map.pretty_name)
-                codes(inp)
-                _ev.clear()
+        # Directions are not being used yet
+        action = get_action()
+        if action.triggers(*ACTION_DIRECTIONS):
+            figure.direction = ''
+            figure.set(
+                figure.x + action.get_x_strength(),
+                figure.y + action.get_y_strength()
+            )
+        elif action.triggers(*inp_dict):
+            audio_before = settings("audio").val
+            for key, option in inp_dict.items():
+                if action.triggers(key):
+                    option[0](*option[1])
+            _ev.clear()
+            if audio_before != settings("audio").val:
+                audio.switch(_map.song)
+            mvp.movemap.show(init=True)
+        elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
+            if ask_bool(mvp.movemap, "Do you really wish to exit?"):
+                save()
+                sys.exit()
+        elif action.triggers(Action.CONSOLE):
+            inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
+                             mvp.movemap.width,
+                             (mvp.movemap.width - 2)
+                             * mvp.movemap.height - 1)[1:]
+            mvp.movemap.code_label.outp(figure.map.pretty_name)
+            codes(inp)
+            _ev.clear()
         std_loop(pevm=pevm)
-        for statement, x, y in zip([figure.x + 6 > mvp.movemap.x
-                                    + mvp.movemap.width,
-                                    figure.x < mvp.movemap.x + 6,
-                                    figure.y + 6 > mvp.movemap.y
-                                    + mvp.movemap.height,
-                                    figure.y < mvp.movemap.y + 6],
-                                   [1, -1, 0, 0], [0, 0, 1, -1]):
+        for statement, x, y in zip(
+            [
+                figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
+                figure.x < mvp.movemap.x + 6,
+                figure.y + 6 > mvp.movemap.y + mvp.movemap.height,
+                figure.y < mvp.movemap.y + 6
+            ],
+            [1, -1, 0, 0],
+            [0, 0, 1, -1]
+        ):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
-        # checking for resizing
+        # checking for resizing the terminal
         width, height = os.get_terminal_size()
         if mvp.movemap.width != width or mvp.movemap.height != height - 1:
             mvp.movemap.resize(height - 1, width, " ")
@@ -1102,48 +1100,47 @@ def gen_obs():
     trainers = p_data.trainers
 
     # adding all trainer to map
-    for i in trainers:
+    for i, trainer_list in trainers.items():
         _map = obmp.ob_maps[i]
-        for j in trainers[i]:
+        for j in trainer_list:
             args = j["args"]
             trainer = Trainer([Poke(*p, player=False) for p in j["pokes"]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
     # generating objects from map_data
-    for ob_map in map_data:
+    for ob_map, single_map in map_data.items():
         _map = obmp.ob_maps[ob_map]
-        for hard_ob in map_data[ob_map]["hard_obs"]:
+        for hard_ob, single_hard_ob in single_map["hard_obs"].items():
             parse_obj(_map, hard_ob,
-                      se.Text(map_data[ob_map]["hard_obs"][hard_ob]["txt"],
+                      se.Text(single_hard_ob["txt"],
                               ignore=" "),
-                      map_data[ob_map]["hard_obs"][hard_ob])
-        for soft_ob in map_data[ob_map]["soft_obs"]:
+                      single_hard_ob)
+        for soft_ob, single_soft_ob in single_map["soft_obs"].items():
             cls = {
                 "sand": Sand,
                 "meadow": Meadow,
                 "water": Water,
-            }[map_data[ob_map]["soft_obs"][soft_ob].get("cls", "meadow")]
+            }[single_soft_ob.get("cls", "meadow")]
             parse_obj(_map, soft_ob,
-                      cls(map_data[ob_map]["soft_obs"][soft_ob]["txt"],
+                      cls(single_soft_ob["txt"],
                           _map.poke_args
                           if cls != Water else _map.w_poke_args),
-                      map_data[ob_map]["soft_obs"][soft_ob])
-        for door in map_data[ob_map]["dors"]:
+                      single_soft_ob)
+        for door, single_door in single_map["dors"].items():
             parse_obj(_map, door,
                       Door(" ", state="float",
-                           arg_proto=map_data[ob_map]["dors"][door]["args"]),
-                      map_data[ob_map]["dors"][door])
-        for ball in map_data[ob_map]["balls"]:
+                           arg_proto=single_door["args"]),
+                      single_door)
+        for ball, single_ball in single_map["balls"].items():
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
             settings("save_trainers").val:
                 parse_obj(_map, ball,
                           Poketeball(f"{ob_map}.{ball}"),
-                          map_data[ob_map]["balls"][ball])
+                          single_ball)
     # NPCs
-    for npc in npcs:
-        _npc = npcs[npc]
-        NPC(npc, _npc["texts"], fn=_npc["fn"],
+    for npc, _npc in npcs.items():
+        NPC(npc, _npc["texts"], _fn=_npc["fn"],
             chat=_npc.get("chat", None)).add(obmp.ob_maps[_npc["map"]],
                                              _npc["x"], _npc["y"])
 
@@ -1153,8 +1150,7 @@ def gen_maps():
     RETURNS:
         Dict of all PlayMaps"""
     maps = {}
-    for ob_map in p_data.maps:
-        args = p_data.maps[ob_map]
+    for ob_map, args in p_data.maps.items():
         args["extra_actions"] = (getattr(ExtraActions, args["extra_actions"],
                                          None)
                                  if args["extra_actions"] is not None
@@ -1168,33 +1164,33 @@ def check_version(sinfo):
     ARGS:
         sinfo: session_info dict"""
     if "ver" not in sinfo:
-        return
-    else:
-        ver = sinfo["ver"]
+        return False
+    ver = sinfo["ver"]
     if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
         if not ask_bool(loading_screen.map,
                         liner(f"The save file was created \
 on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
 Do you want to continue?", int(width * 2 / 3))):
-            exiter()
+            sys.exit()
+    return VERSION != ver
 
 
 def main():
     """Main function"""
     os.system("")
-    timeing = threading.Thread(target=timer.time_threat)
-    recognising = threading.Thread(target=recogniser)
-    autosaveing = threading.Thread(target=autosave)
-    timeing.daemon = True
-    recognising.daemon = True
-    autosaveing.daemon = True
+    timing = threading.Thread(target=timer.time_threat, daemon=True)
+    recognising = threading.Thread(target=recogniser, daemon=True)
+    autosaving = threading.Thread(target=autosave, daemon=True)
 
-    timeing.start()
+    timing.start()
     recognising.start()
-    autosaveing.start()
+    autosaving.start()
 
-    check_version(session_info)
+    ver_change = check_version(session_info)
+    # hotkeys
+    hotkeys_from_save(session_info.get("hotkeys", {}),
+                      loading_screen.map, ver_change)
     if figure.name == "DEFAULT":
         intro()
     game.game(figure.map)
@@ -1385,9 +1381,30 @@ def map_additions():
 # Actual code execution
 #######################
 if __name__ == "__main__":
-    do_logging, load_mods, force_pynput = parse_args(sys.argv)
+    do_logging, load_mods = parse_args(sys.argv)
     # deciding on wich input to use
-    if sys.platform == "linux" and not force_pynput:
+    if sys.platform == "win32":
+        import msvcrt
+
+
+        def recogniser():
+            """Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime"""
+            while True:
+                if msvcrt.kbhit():
+                    char = msvcrt.getwch()
+                    _ev.set(
+                        {
+                            ord(char): f"{char.rstrip()}",
+                            13: "Key.enter",
+                            127: "Key.backspace",
+                            8: "Key.backspace",
+                            32: "Key.space",
+                            27: "Key.esc",
+                            3: "exit",
+                        }[ord(char)]
+                    )
+
+    else:
         import tty
         import termios
         import select
@@ -1402,26 +1419,23 @@ if __name__ == "__main__":
             fd = sys.stdin.fileno()
             old_settings = termios.tcgetattr(fd)
             tty.setraw(fd)
-            time.sleep(0.1)
+            time.sleep(SPEED_OF_TIME * 0.1)
             while True:
                 rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
                 if rlist:
                     char = sys.stdin.read(1)
-                    _ev.set({ord(char): f"'{char.rstrip()}'", 13: "Key.enter",
-                             127: "Key.backspace", 32: "Key.space",
-                             27: "Key.esc"}[ord(char)])
+                    _ev.set(
+                        {
+                            ord(char): f"{char.rstrip()}",
+                            13: "Key.enter",
+                            127: "Key.backspace",
+                            32: "Key.space",
+                            27: "Key.esc",
+                            3: "exit",
+                        }[ord(char)]
+                    )
                     if ord(char) == 3:
                         reset_terminal()
-                        _ev.set("exit")
-    else:
-        from pynput.keyboard import Listener
-
-
-        def recogniser():
-            """Gets keyboard input from pynput"""
-            while True:
-                with Listener(on_press=on_press) as listener:
-                    listener.join()
 
 
     print("\033[?1049h")
@@ -1431,21 +1445,23 @@ if __name__ == "__main__":
     width, height = tss()
 
     # Home global
-    HOME = str(Path.home())
+    HOME = Path.home()
 
     # loading screen
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
 
+    # readinf savefile
+    session_info = read_save()
+
     # logging config
-    log_file = f"{HOME}{SAVEPATH}/pokete.log" if do_logging else None
+    log_file = (SAVEPATH / "pokete.log") if do_logging else None
     logging.basicConfig(filename=log_file,
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
                         level=logging.DEBUG if do_logging else logging.ERROR)
     logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
 
-    # reading save file
-    session_info = read_save()
+    # settings
     settings.from_dict(session_info.get("settings", {}))
     save_trainers = settings("save_trainers").val
 
@@ -1456,8 +1472,8 @@ if __name__ == "__main__":
     if settings("load_mods").val:
         try:
             import mods
-        except ModError as err:
-            error_box = InfoBox(str(err), "Mod-loading Error")
+        except ModError as mod_err:
+            error_box = InfoBox(str(mod_err), "Mod-loading Error")
             error_box.center_add(loading_screen.map)
             loading_screen.map.show()
             sys.exit(1)
@@ -1522,8 +1538,8 @@ if __name__ == "__main__":
 
     # Achievements
     achievements.set_achieved(session_info.get("achievements", []))
-    for identifier, args in p_data.achievements.items():
-        achievements.add(identifier, **args)
+    for identifier, achievement_args in p_data.achievements.items():
+        achievements.add(identifier, **achievement_args)
 
     # objects relevant for fm.fight()
     fm.fightmap = fm.FightMap(height - 1, width)
@@ -1544,4 +1560,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\033[?1049l\033[1A\nKeyboardInterrupt")
     finally:
-        exiter(True)
+        exiter()

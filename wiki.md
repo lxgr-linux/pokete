@@ -1,10 +1,10 @@
-v0.7.2
+v0.8.1
 
-# Pokete wiki
-This wiki/documentation is a compilation of all Poketes/attacks/types present in the Pokete game.
-This wiki can be generated using ```$ ./gen_wiki.py```.
+# Pokete Wiki
+This wiki/documentation is a compilation of all Poketes, attacks, and types present in the Pokete game.
+The wiki can be generated using ```$ ./gen_wiki.py```.
 
-Use ```$./gen_wiki.py help``` to get more information about different wikis.
+Use ```$ ./gen_wiki.py help``` to get more information about different wikis.
 
 You can find different versions of this wiki:
 
@@ -16,8 +16,9 @@ You can find different versions of this wiki:
    1. [Electro Poketes](#electro-poketes)
        1. [Electrode](#electrode)
    2. [Fire Poketes](#fire-poketes)
-       1. [Wolfior](#wolfior)
-       2. [Wolfiro](#wolfiro)
+       1. [Lindemon](#lindemon)
+       2. [Wolfior](#wolfior)
+       3. [Wolfiro](#wolfiro)
    3. [Flying Poketes](#flying-poketes)
        1. [Bato](#bato)
        2. [Bator](#bator)
@@ -50,9 +51,12 @@ You can find different versions of this wiki:
        1. [Bushy](#bushy)
        2. [Megapois](#megapois)
        3. [Poisopla](#poisopla)
-       4. [Rosi](#rosi)
-       5. [Treenator](#treenator)
-       6. [Wheeto](#wheeto)
+       4. [Radishon](#radishon)
+       5. [Radishuk](#radishuk)
+       6. [Radishull](#radishull)
+       7. [Rosi](#rosi)
+       8. [Treenator](#treenator)
+       9. [Wheeto](#wheeto)
    8. [Poison Poketes](#poison-poketes)
        1. [Choka](#choka)
        2. [Würgos](#würgos)
@@ -119,14 +123,15 @@ You can find different versions of this wiki:
        1. [Apple Drop](#apple-drop)
        2. [Bark Hardening](#bark-hardening)
        3. [Branch Stab](#branch-stab)
-       4. [Leaf Storm](#leaf-storm)
-       5. [Poison Spores](#poison-spores)
-       6. [Root Slap](#root-slap)
-       7. [Root Strangler](#root-strangler)
-       8. [Special Smell](#special-smell)
-       9. [Sucker](#sucker)
-       10. [Super Sucker](#super-sucker)
-       11. [The Old Roots Hit](#the-old-roots-hit)
+       4. [Encouragement](#encouragement)
+       5. [Leaf Storm](#leaf-storm)
+       6. [Poison Spores](#poison-spores)
+       7. [Root Slap](#root-slap)
+       8. [Root Strangler](#root-strangler)
+       9. [Special Smell](#special-smell)
+       10. [Sucker](#sucker)
+       11. [Super Sucker](#super-sucker)
+       12. [The Old Roots Hit](#the-old-roots-hit)
    8. [Poison attacks](#poison-attacks)
        1. [Poison Bite](#poison-bite)
        2. [Poison Thorn](#poison-thorn)
@@ -139,6 +144,7 @@ You can find different versions of this wiki:
        6. [Polish](#polish)
        7. [Rock Smash](#rock-smash)
        8. [Sand Throw](#sand-throw)
+       9. [Stone crush](#stone-crush)
    10. [Undead attacks](#undead-attacks)
        1. [Confusion](#confusion)
        2. [Heart Touch](#heart-touch)
@@ -147,8 +153,9 @@ You can find different versions of this wiki:
        1. [Bubble Bomb](#bubble-bomb)
        2. [Bubble Gun](#bubble-gun)
        3. [Bubble Shield](#bubble-shield)
-       4. [Shell Pinch](#shell-pinch)
-       5. [Wet Slap](#wet-slap)
+       4. [Rain dance](#rain-dance)
+       5. [Shell Pinch](#shell-pinch)
+       6. [Wet Slap](#wet-slap)
 3. [Types](#types)
 4. [Items](#items)
    1. [AP potion](#ap-potion)
@@ -200,6 +207,35 @@ A small floating ball that will give you a shock.
 - Does not evolve
 
 ### Fire Poketes
+#### Lindemon
+An ancient dragon Pokete famous for destroying cities and villages.
+
+```
+ .    __   
+/v___/* \  
+\-^-/_   \ 
+      \_   
+
+```
+
+- Type: [Fire](#types)
+- Health points: 30
+- Attack factor: 8
+- Defense factor: 8
+- Initiative: 6
+- Missing chance: 0
+- Rarity: 0.05
+- Loosing experience: 8
+- Attacks:
+   + [Bite](#bite)
+   + [Wind Blow](#wind-blow)
+   + [Flame Throw](#flame-throw)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Does not evolve
+
+
 #### Wolfior
 A fiery wolf straight from hell that likes to burn 11 years old butts off.
 
@@ -676,6 +712,7 @@ A very small whatever that sticks out of the ground.
    + [Ground Hit](#ground-hit)
 - Active: Always
 - Can be found in:
+   + Route 0
    + The Fields of Agrawos
 - Evolves to [Dicki](#dicki) at level 35
 
@@ -879,6 +916,7 @@ A teenage unicorn in the middle of puberty.
 - Active: Always
 - Can be found in:
    + Nice Town
+   + Route 0
 - Evolves to [Hornita](#hornita) at level 20
 
 #### Mowcow
@@ -998,6 +1036,7 @@ A bush, and just a bush. But watch out!
    + [Bark Hardening](#bark-hardening)
 - Active: Always
 - Can be found in:
+   + Route 0
    + Route 2
    + Route 7
    + Mowcow Meadow
@@ -1061,6 +1100,94 @@ A unsuspicious plant.
 - Can be found in:
    + Route 7
 - Evolves to [Megapois](#megapois) at level 20
+
+#### Radishon
+A small plant Pokete found burried in the ground.
+
+```
+ .__ / __. 
+  \_\|/_/  
+   /o o\   
+   \ - /   
+
+```
+
+- Type: [Plant](#types)
+- Health points: 15
+- Attack factor: 3
+- Defense factor: 5
+- Initiative: 1
+- Missing chance: 0.1
+- Rarity: 0.5
+- Loosing experience: 3
+- Attacks:
+   + [Root Slap](#root-slap)
+   + [Hiding](#hiding)
+   + [Rain dance](#rain-dance)
+   + [Encouragement](#encouragement)
+- Active: Always
+- Can be found in:
+   + Route 0
+- Evolves to [Radishuk](#radishuk) at level 20
+
+#### Radishuk
+A small plant Pokete deeply burried in the ground.
+
+```
+ .__   __. 
+  \_\_/_/  
+  _/o o\  \
+\/ \ - /_/ 
+
+```
+
+- Type: [Plant](#types)
+- Health points: 20
+- Attack factor: 4
+- Defense factor: 6
+- Initiative: 1
+- Missing chance: 0.1
+- Rarity: 0.3
+- Loosing experience: 4
+- Attacks:
+   + [Root Slap](#root-slap)
+   + [Hiding](#hiding)
+   + [Encouragement](#encouragement)
+   + [Root Strangler](#root-strangler)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Evolves to [Radishull](#radishull) at level 40
+
+#### Radishull
+A small plant Pokete found in the ground.
+
+```
+  _  \  _\ 
+ / \_/_/   
+  _/o o\  \
+\/ \ - /_/ 
+
+```
+
+- Type: [Plant](#types)
+- Health points: 25
+- Attack factor: 5
+- Defense factor: 7
+- Initiative: 2
+- Missing chance: 0.1
+- Rarity: 0.2
+- Loosing experience: 6
+- Attacks:
+   + [Root Slap](#root-slap)
+   + [Hiding](#hiding)
+   + [Encouragement](#encouragement)
+   + [Root Strangler](#root-strangler)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Does not evolve
+
 
 #### Rosi
 A plant Pokete that's often mistaken for a normal flower.
@@ -1349,6 +1476,7 @@ A squared stone that can be readily found just lying around.
 - Attacks:
    + [Tackle](#tackle)
    + [Polish](#politure)
+   + [Stone crush](#stone-crush)
    + [Brick Throw](#brick-throw)
 - Active: Always
 - Can be found in:
@@ -2013,6 +2141,16 @@ Makes an apple drop on the enemy's head.
 - Attack points: 30
 - Effect: None
 
+#### Encouragement
+Encourages and strengthens all Poketes in your team.
+
+- Type: [Plant](#types)
+- Minimum Level: 20
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 10
+- Effect: None
+
 #### Super Sucker
 Sucks 2 HP from the enemy and adds to its own.
 
@@ -2160,6 +2298,16 @@ Throws an Euler brick at the enemy.
 
 - Type: [Stone](#types)
 - Minimum Level: 15
+- Attack factor: 2.5
+- Missing chance: 0.3
+- Attack points: 15
+- Effect: None
+
+#### Stone crush
+Crushes the enemy between two heavy stones.
+
+- Type: [Stone](#types)
+- Minimum Level: 0
 - Attack factor: 2
 - Missing chance: 0.3
 - Attack points: 20
@@ -2245,6 +2393,16 @@ Fires some bubbles at the enemy.
 - Attack factor: 2
 - Missing chance: 0.2
 - Attack points: 20
+- Effect: None
+
+#### Rain dance
+Summons rainy clouds.
+
+- Type: [Water](#types)
+- Minimum Level: 0
+- Attack factor: 2
+- Missing chance: 0
+- Attack points: 10
 - Effect: None
 
 #### Bubble Bomb

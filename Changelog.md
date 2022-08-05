@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.8.2] - 2022-08-05
+
+Fixes a small bug in the representation of pokete on flathub.
+
+## [0.8.1] - 2022-08-04
+
+The distribution size was shrinked extremely compared to 0.8.0
+- Made all wav files mp3s
+- Added new audio library and replaced playsound
+- Reduced the Appimage size
+- The first map got a bigger overhaul to make an entrance into the game easier
+
+## [0.8.0] - 2022-07-25
+
+- Added audio
+- Removed pynput as a dependency on windows
+- A lot of spelling and grammar fixes
+- Fixed Poketes not beeing freeable
+- Added some game ballancing
+- Trainers can now obtain more than one Pokete
+- Made run away random
+- Added remappable controls
+- Save location is now based on XDG dirs, no intervention needed
+- Added quick attacks using `yzcv` so the attackamenu can be skipped
+
+Many thanks to everybody who contributed to this release!
+
 ## [0.7.3] - 2022-06-20
 
 Preparation release for flatpaks. Includes:

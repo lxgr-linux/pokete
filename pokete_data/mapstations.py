@@ -5,10 +5,26 @@ stations = {
             "width": 2,
             "height": 1,
             "desc": "A small town.",
+            "d_next": "playmap_51"
+        },
+        "add": {
+            "x": 4,
+            "y": 7
+        }
+    },
+    "playmap_51": {
+        "gen": {
+            "additionals": [],
+            "width": 1,
+            "height": 1,
+            "desc":
+                "Some small patches of grass surrounded by forrest, near "
+                "Nice Town.",
+            "a_next": "playmap_1",
             "w_next": "cave_1"
         },
         "add": {
-            "x": 5,
+            "x": 6,
             "y": 7
         }
     },
@@ -18,7 +34,7 @@ stations = {
             "width": 1,
             "height": 2,
             "desc": "A dark cave full of batos.",
-            "s_next": "playmap_1",
+            "s_next": "playmap_51",
             "d_next": "playmap_2",
         },
         "add": {
@@ -31,7 +47,7 @@ stations = {
             "additionals": [],
             "width": 2,
             "height": 1,
-            "desc": "Part of light areas near Josi Town.",
+            "desc": "Part of light areas near Sunny Dale.",
             "a_next": "cave_1",
             "d_next": "playmap_3",
         },
@@ -312,7 +328,7 @@ of the most spectacular.",
                     "Pokete-Arena and its master trainer. Check out the "
                     "MowCow-Burger restaurant, which offers the best, "
                     "juiciest and most delicious Mowcow-burgers, cut from the "
-                    "happiest and most delicious Mowcows anywhere to find!", 
+                    "happiest and most delicious Mowcows anywhere to find!",
             "w_next": "playmap_35",
         },
         "add": {

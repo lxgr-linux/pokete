@@ -7,6 +7,7 @@ import random
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
+from release import SPEED_OF_TIME
 from .attack_actions import AttackActions
 from .attack import Attack
 from .health_bar import HealthBar
@@ -23,13 +24,13 @@ class Poke:
     """The Pokete class
     ARGS:
         poke: The Pokes generic name
-        xp: Initial xp
+        _xp: Initial xp
         _hp: Initial hp ('SKIP' sets to max hp)
         _attacks: List of attack names learned
         player: Bool whether or not the Poke belongs to the player
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
-    def __init__(self, poke, xp, _hp="SKIP", _ap=None, _attacks=None,
+    def __init__(self, poke, _xp, _hp="SKIP", _ap=None, _attacks=None,
                  _effects=None, player=True, shiny=False, nature=None):
         self.nature = PokeNature.random() if nature is None \
                         else PokeNature.from_dict(nature)
@@ -39,7 +40,7 @@ class Poke:
         self.night_active = self.inf.get("night_active", None)
         self.enem = None
         self.oldhp = 0
-        self.xp = xp
+        self.xp = _xp
         self.identifier = poke
         self.shiny = shiny
         self.atc = 0
@@ -163,19 +164,20 @@ can't have more than 4 attacks!"
             Current level"""
         return int(math.sqrt(self.xp + 1))
 
-    def attack(self, attack, enem, fightmap, weather):
+    def attack(self, attack, enem, fightmap, providers):
         """Attack process
         ARGS:
             attack: Attack object
             enem: Enemy Poke
             fightmap: The map object where the fight is carried out on."""
+        weather = providers[0].map.weather
         if attack.ap > 0:
             for eff in self.effects:
                 eff.remove()
             for eff in self.effects:
                 if eff.effect() == 1:
                     return
-            if any(type(i) is effects.confusion for i in self.effects):
+            if any(isinstance(i, effects.confusion) for i in self.effects):
                 self.enem = enem = self
             else:
                 self.enem = enem
@@ -187,7 +189,7 @@ can't have more than 4 attacks!"
             if weather is not None:
                 w_eff = weather.effect(attack.type)
                 fightmap.outp.outp(weather.info)
-                time.sleep(1.5)
+                time.sleep(SPEED_OF_TIME * 1.5)
             enem.oldhp = enem.hp
             self.oldhp = self.hp
             eff = (1.3 if enem.type.name in attack.type.effective else 0.5
@@ -203,16 +205,16 @@ can't have more than 4 attacks!"
                 random_factor == 0: f"{self.name} missed!"}[True]
             enem.hp -= max(n_hp, 0)
             enem.hp = max(enem.hp, 0)
-            time.sleep(0.4)
+            time.sleep(SPEED_OF_TIME * 0.4)
             for i in attack.move:
                 getattr(self.moves, i)()
             if attack.action is not None and random_factor != 0:
-                getattr(AttackActions(), attack.action)(self, enem)
+                getattr(AttackActions(), attack.action)(self, enem, providers)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
                 f'{self.ext_name} used {attack.name}! {eff_text}')
             if enem == self:
-                time.sleep(1)
+                time.sleep(SPEED_OF_TIME * 1)
                 fightmap.outp.outp(f'{self.ext_name} hurt itself!')
             if random_factor != 0:
                 attack.give_effect(enem)
@@ -244,24 +246,24 @@ can't have more than 4 attacks!"
                      round((evomap.height - 8) / 2))
         self.moves.shine()
         evomap.outp.outp("Look!")
-        time.sleep(0.5)
+        time.sleep(SPEED_OF_TIME * 0.5)
         evomap.outp.outp(f"{evomap.outp.text}\n{self.name} is evolving!")
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         for i in range(8):
             for j, k in zip([self.ico, new.ico], [new.ico, self.ico]):
                 j.remove()
                 k.add(evomap, round(evomap.width / 2 - 4),
                       round((evomap.height - 8) / 2))
-                time.sleep(0.7 - i * 0.09999)
+                time.sleep(SPEED_OF_TIME * 0.7 - i * 0.09999)
                 evomap.show()
         self.ico.remove()
         new.ico.add(evomap, round(evomap.width / 2 - 4),
                     round((evomap.height - 8) / 2))
         evomap.show()
-        time.sleep(0.01)
+        time.sleep(SPEED_OF_TIME * 0.01)
         new.moves.shine()
         evomap.outp.outp(f"{self.name} evolved into {new.name}!")
-        time.sleep(5)
+        time.sleep(SPEED_OF_TIME * 5)
         for i in range(max(len(p_data.pokes[new.identifier]["attacks"])
                            - len(self.attack_obs), 0)):
             LearnAttack(new, evomap)()

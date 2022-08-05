@@ -1,20 +1,20 @@
 """This manages audio playback"""
 
 import multiprocessing
-try:
-    from playsound import playsound
-except ModuleNotFoundError:
-    from .dummy_playsound import playsound
+from pathlib import Path
 from .settings import settings
 
 
-MUSIC_PATH = __file__.replace("pokete_classes/audio.py", 'assets/music/')
+MUSIC_PATH = Path(__file__).parents[1] / 'assets' / 'music'
 
 
-def audio_fn(song):
+def audio_fn(song, play_audio):
     """plays a song in loop"""
-    while settings("audio").val:
-        playsound(MUSIC_PATH + song)
+    import playsound
+
+
+    while play_audio:
+        playsound.playsound(str(MUSIC_PATH / song))
 
 
 class Audio:
@@ -29,7 +29,7 @@ class Audio:
             song: The song played"""
         self.curr = multiprocessing.Process(
             target=audio_fn,
-            args=(song, )
+            args=(song, settings("audio").val)
         )
         self.curr.start()
 
@@ -45,4 +45,3 @@ class Audio:
         self.curr.terminate()
 
 audio = Audio()
-

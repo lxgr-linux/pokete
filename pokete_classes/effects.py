@@ -4,6 +4,7 @@ import time
 import random
 import logging
 import scrap_engine as se
+from release import SPEED_OF_TIME
 from .color import Color
 
 
@@ -67,7 +68,7 @@ class Effect():
                                             esccode=self.str_esccode,
                                             state="float"),
                                     se.Text("!", state="float"))
-        time.sleep(2)
+        time.sleep(SPEED_OF_TIME * 2)
 
     def add_label(self):
         """Adds the label to the fightmap"""
@@ -106,7 +107,7 @@ class Effect():
             logging.info("[Effect][%s] Removed from  %s", self.name,
                          self.obj.name)
             self.obj = None
-            time.sleep(2)
+            time.sleep(SPEED_OF_TIME * 2)
 
     def cleanup(self, j=None):
         """Does a cleanup
@@ -130,7 +131,7 @@ class Effect():
                                              state="float"),
                                      se.Text(" and can\'t attack!",
                                              state="float"))
-        time.sleep(0.5)
+        time.sleep(SPEED_OF_TIME * 0.5)
         return 1
 
     @classmethod
@@ -182,13 +183,13 @@ This is reverted randomly."
                                              state="float"),
                                      se.Text("!", state="float"))
         self.obj.ico.map.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         for _ in range(random.randint(1, 3)):
             oldhp = self.obj.hp
             self.obj.hp = max(self.obj.hp - self.damage, 0)
             self.obj.hp_bar.update(oldhp)
             self.obj.ico.map.outp.outp(f'{self.obj.ext_name} {self.hurt_text}')
-            time.sleep(0.5)
+            time.sleep(SPEED_OF_TIME * 0.5)
         return 0
 
 
@@ -220,7 +221,7 @@ class EffectConfusion(Effect):
                                              esccode=self.str_esccode,
                                              state="float"),
                                      se.Text("!", state="float"))
-        time.sleep(0.5)
+        time.sleep(SPEED_OF_TIME * 0.5)
         return 0
 
 

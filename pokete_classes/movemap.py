@@ -4,10 +4,12 @@ import time
 import scrap_engine as se
 from pokete_general_use_fns import liner
 from . import ob_maps as obmp, game_map as gm
+from release import SPEED_OF_TIME
 from .loops import std_loop
 from .classes import OutP
 from .color import Color
 from .event import _ev
+from .hotkeys import Action
 
 
 class Movemap(gm.GameSubmap):
@@ -24,8 +26,14 @@ class Movemap(gm.GameSubmap):
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
         self.label = se.Text(
-                        "1: Deck  2: Exit  3: Map  4: Inv.  5: Dex  6: Clock  "
-                        "?: Help")
+            f"{Action.DECK.mapping}: Deck  "
+            f"{Action.EXIT_GAME.mapping}: Quit  "
+            f"{Action.MAP.mapping}: Map  "
+            f"{Action.INVENTORY.mapping}: Inv.  "
+            f"{Action.POKEDEX.mapping}: Pokedex  "
+            f"{Action.CLOCK.mapping}: Clock  "
+            f"{Action.HELP.mapping}: help"
+        )
         self.code_label = OutP("")
         self.multitext = OutP("", state="float")
         self.underline = se.Square("-", self.width, 1, state="float")
@@ -40,45 +48,57 @@ class Movemap(gm.GameSubmap):
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
 
-    def assure_distance(self, x, y, width, height):
+    def assure_distance(self, _x, _y, width, height):
         """This ensures the game does not crash when big
         chunks of text are displayed
         ARGS:
-            x: The x coordinate the distance should be assured from
-            y: The y coordinate the distance should be assured from
+            _x: The x coordinate the distance should be assured from
+            _y: The y coordinate the distance should be assured from
             width: The distances width
             height: The distances height"""
-        for _c, i, j, _k in zip([x, y], ["x", "y"],
+        for _c, i, j, _k in zip([_x, _y], ["x", "y"],
                                 [self.width, self.height], [width, height]):
             while _c - getattr(self, i) + _k >= j:
                 self.set(self.x + (1 if i == "x" else 0),
                          self.y + (1 if i == "y" else 0))
                 self.show()
-                time.sleep(0.045)
+                time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, x, y, inp_arr):
+    def text(self, _x, _y, inp_arr):
         """Shows dialog text on movemap
         ARGS:
-            x: The message's X
-            y: And y-coordinate
+            _x: The message's X
+            _y: And y-coordinate
             inp_arr: List of messages that will be displayed"""
-        self.assure_distance(x, y, 17, 10)
+        self.assure_distance(_x, _y, 17, 10)
         self.multitext.rechar("")
-        self.multitext.add(self, x - self.x + 1, y - self.y)
+        self.multitext.add(self, _x - self.x + 1, _y - self.y)
         arr = [" < " + i + (" >" if j != len(inp_arr) - 1 else "")
                for j, i in enumerate(inp_arr)]
         for text in arr:
+            # Clear events and animate text appearing until any key is pressed.
+            # Then wait until another key is pressed to close dialogue.
             _ev.clear()
             self.multitext.rechar("")
             for i in range(len(text) + 1):
-                self.multitext.outp(liner(text[:i],
-                                          self.width - (x - self.x + 1), "   "))
+                self.multitext.outp(
+                    liner(
+                        text[:i],
+                        self.width - (_x - self.x + 1),
+                        "   "
+                    )
+                )
                 std_loop()
                 if _ev.get() != "":
                     _ev.clear()
                     break
-            self.multitext.outp(liner(text,
-                                      self.width - (x - self.x + 1), "   "))
+            self.multitext.outp(
+                liner(
+                    text,
+                    self.width - (_x - self.x + 1),
+                    "   "
+                )
+            )
             while _ev.get() == "":
                 std_loop()
         self.multitext.remove()

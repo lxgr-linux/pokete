@@ -5,6 +5,7 @@ import random
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
+from .hotkeys import Action
 from .ui_elements import LabelBox
 from .color import Color
 from .loops import easy_exit_loop
@@ -36,7 +37,10 @@ class PokeNature:
         nature: The Nature of the Pokete
         grade: The Nature's grade, 1 or 2"""
 
-    natures = {name: Nature(name, **_dict) for name, _dict in p_data.natures.items()}
+    natures = {
+        name: Nature(name, **_dict)
+        for name, _dict in p_data.natures.items()
+    }
 
     def __init__(self, nature, grade):
         self.nature = nature
@@ -93,14 +97,16 @@ class NatureInfo(LabelBox):
             + se.Text(liner(f"\n\n That means it has {atc} attack, \
 {defense} defense and {init} initiative points compared to normal Poketes \
 of its kind.", 40, pre=""))
-        super().__init__(text, name="Nature", info="q:close")
+        super().__init__(
+            text, name="Nature", info=f"{Action.CANCEL.mapping}:close"
+        )
 
     @staticmethod
     def get_amount(val):
         """Gets the amount denominator for a value"""
         if val == 1:
             return "the same"
-        elif val < 1:
+        if val < 1:
             return "less"
         return "more"
 

@@ -37,6 +37,27 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release type="stable" version="0.8.2" date="2022-08-05" urgency="low">
+      <description>
+        <p>Version 0.8.2 fixes a display bug of the release notes on flatpak. Version 0.8.1 on the other hand brought the following improvements: This version brings a new cross-platform implementation of how the audio is played, written in go. This makes the installation size of pokete significantly smaller, as less dependencies are required. The first map has been reworked, to make it easier for new players to understand the game.</p>
+      </description>
+      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.2</url>
+      <location>https://github.com/lxgr-linux/pokete/archive/refs/tags/0.8.2.tar.gz</location>
+    </release>
+    <release type="stable" version="0.8.1" date="2022-08-04" urgency="high">
+      <description>
+        <p>This version brings a new cross-platform implementation of how the audio is played, written in go. This makes the installation size of pokete significantly smaller, as less dependencies are required. The first map has been reworked, to make it easier for new players to understand the game.</p>
+      </description>
+      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.1</url>
+      <location>https://github.com/lxgr-linux/pokete/archive/refs/tags/0.8.1.tar.gz</location>
+    </release>
+    <release type="stable" version="0.8.0" date="2022-07-25" urgency="medium">
+      <description>
+        <p>We are constantly developing pokete further and with version 0.8.0 added a low of improvements and new features, such as music and sound effects. Running away from wild poketes can now fail and trainers can now have more than one pokete. Controls and hotkeys can now be remapped for different keyboard layouts. The default safe-file location has been moved to .local/share and some minor bugs have been fixed as well!</p>
+      </description>
+      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.0</url>
+      <location>https://github.com/lxgr-linux/pokete/archive/refs/tags/0.8.0.tar.gz</location>
+    </release>
     <release type="stable" version="0.7.3" date="2022-06-21" urgency="low">
       <description>
         <p> Preparation release for flatpaks. Includes:

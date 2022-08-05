@@ -1,7 +1,9 @@
 """The Deck shows all Poketes a player owns"""
 
+import logging
 import scrap_engine as se
 from . import detail, game_map as gm, movemap as mvp
+from .hotkeys import ACTION_DIRECTIONS, Action, get_action
 from .event import _ev
 from .input import ask_bool, ask_ok
 from .loops import std_loop
@@ -16,9 +18,9 @@ class Deck(detail.Informer):
     def __init__(self, height, width, figure, abb_funcs):
         self.map = gm.GameMap(height, width)
         self.submap = gm.GameSubmap(self.map, 0, 0, height, width, "decksubmap")
-        self.exit_label = se.Text("1: Exit  ")
-        self.move_label = se.Text("2: Move    ")
-        self.move_free = se.Text("3: Free")
+        self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
+        self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: Move    ")
+        self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: Free")
         self.index = se.Object("*")
         self.figure = figure
         self.abb_funcs = abb_funcs
@@ -40,7 +42,6 @@ class Deck(detail.Informer):
             p_len: Number of Pokes being included
             label: The displayed label
             in_fight: Whether or not this is called in a fight"""
-        _ev.clear()
         pokes = self.figure.pokes[:p_len]
         ret_action = None
         self.map.resize(5 * int((len(pokes) + 1) / 2) + 2, self.map.width,
@@ -51,7 +52,7 @@ class Deck(detail.Informer):
                                                    round(self.map.width / 2),
                                                    1)
         StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
-        self.move_label.rechar("2: Move    ")
+        self.move_label.rechar(f"{Action.MOVE_POKETE.mapping}: Move    ")
         indici = []
         self.add_all(pokes, True)
         self.index.index = 0
@@ -63,8 +64,10 @@ class Deck(detail.Informer):
                            pokes[self.index.index].text_name.y)
         self.submap.full_show(init=True)
         while True:
-            if _ev.get() in ["'1'", "Key.esc", "'q'"]:
-                _ev.clear()
+            action = get_action()
+            if action.triggers(*ACTION_DIRECTIONS):
+                self.control(pokes, action)
+            elif action.triggers(Action.DECK, Action.CANCEL):
                 self.rem_pokes(pokes)
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()
@@ -72,13 +75,14 @@ class Deck(detail.Informer):
                 if ret_action is not None:
                     self.abb_funcs[ret_action](pokes[self.index.index])
                 return None
-            elif _ev.get() == "'2'":
-                _ev.clear()
+            elif action.triggers(Action.MOVE_POKETE):
                 if len(pokes) == 0:
                     continue
                 if not indici:
                     indici.append(self.index.index)
-                    self.move_label.rechar("2: Move to ")
+                    self.move_label.rechar(
+                        f"{Action.MOVE_POKETE.mapping}: Move to "
+                    )
                 else:
                     indici.append(self.index.index)
                     self.figure.pokes[indici[0]], self.figure.pokes[indici[1]] = \
@@ -92,10 +96,11 @@ class Deck(detail.Informer):
                         pokes[self.index.index].text_name.x
                         + len(pokes[self.index.index].text_name.text) + 1,
                         pokes[self.index.index].text_name.y)
-                    self.move_label.rechar("2: Move    ")
+                    self.move_label.rechar(
+                        f"{Action.MOVE_POKETE.mapping}: Move    "
+                    )
                     self.submap.full_show()
-            elif _ev.get() == "'3'":
-                _ev.clear()
+            elif action.triggers(Action.FREE_POKETE):
                 if pokes[self.index.index].identifier == "__fallback__":
                     pass
                 elif len(
@@ -109,7 +114,7 @@ class Deck(detail.Informer):
 {self.figure.pokes[self.index.index].name}?"):
                     self.rem_pokes(pokes)
                     self.figure.pokes[self.index.index] = Poke("__fallback__",
-                                                               10, 0)
+                                                                   10, 0)
                     pokes = self.figure.pokes[:len(pokes)]
                     self.add_all(pokes)
                     self.index.set(
@@ -118,11 +123,7 @@ class Deck(detail.Informer):
                         + 1,
                         pokes[self.index.index].text_name.y)
                     mvp.movemap.balls_label_rechar(self.figure.pokes)
-            elif _ev.get() in ["'w'", "'a'", "'s'", "'d'"]:
-                self.control(pokes, _ev.get())
-                _ev.clear()
-            elif _ev.get() == "Key.enter":
-                _ev.clear()
+            elif action.triggers(Action.ACCEPT):
                 if len(pokes) == 0 or \
                         pokes[self.index.index].identifier == "__fallback__":
                     continue
@@ -137,8 +138,9 @@ class Deck(detail.Informer):
                     self.rem_pokes(pokes)
                     ret_action = detail.detail(pokes[self.index.index])
                     self.add_all(pokes)
+                    logging.info(ret_action)
                     if ret_action is not None:
-                        _ev.set("'q'")
+                        _ev.set(Action.CANCEL.mapping)
                         continue
                     self.submap.full_show(init=True)
             std_loop(False)
@@ -172,26 +174,40 @@ class Deck(detail.Informer):
             inp: Inputted string"""
         if len(pokes) <= 1:
             return
-        for con, stat, fir, sec in zip(["'a'", "'d'", "'s'", "'w'"],
-                                       [self.index.index != 0,
-                                        self.index.index != len(pokes) - 1,
-                                        self.index.index + 2 < len(pokes),
-                                        self.index.index - 2 >= 0],
-                                       [-1, 1, 2, -2],
-                                       [len(pokes) - 1, 0,
-                                        self.index.index % 2,
-                                        [i for i in range(len(pokes))
-                                         if i % 2 ==
-                                            self.index.index % 2][-1]]):
-            if inp == con:
-                if stat:
-                    self.index.index += fir
-                else:
-                    self.index.index = sec
+        for action in inp:
+            if action in ACTION_DIRECTIONS:
+                inp = action
                 break
-        self.index.set(pokes[self.index.index].text_name.x
-                       + len(pokes[self.index.index].text_name.text) + 1,
-                       pokes[self.index.index].text_name.y)
+        for direction, not_out_of_bounds, index_delta, out_of_bounds_pos in zip(
+            [Action.LEFT, Action.RIGHT, Action.DOWN, Action.UP],
+            [
+                self.index.index != 0,
+                self.index.index != len(pokes) - 1,
+                self.index.index + 2 < len(pokes),
+                self.index.index - 2 >= 0,
+            ],
+            [-1, 1, 2, -2],
+            [
+                len(pokes) - 1,
+                0,
+                self.index.index % 2,
+                [
+                    i for i in range(len(pokes))
+                    if i % 2 == self.index.index % 2
+                ][-1]
+            ]
+        ):
+            if inp == direction:
+                if not_out_of_bounds:
+                    self.index.index += index_delta
+                else:
+                    self.index.index = out_of_bounds_pos
+                break
+        self.index.set(
+            pokes[self.index.index].text_name.x
+            + len(pokes[self.index.index].text_name.text) + 1,
+            pokes[self.index.index].text_name.y
+        )
 
 
 deck = None

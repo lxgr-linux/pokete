@@ -31,7 +31,7 @@ pokes = {
         "hp": 25,
         "atc": 2,
         "defense": 4,
-        "attacks": ["tackle", "politure", "brick_throw"],
+        "attacks": ["tackle", "politure", "stone_crush", "brick_throw"],
         "pool": [],
         "miss_chance": 0,
         "desc": "A squared stone that can be readily found just lying around.",
@@ -681,6 +681,35 @@ WW\/o o\/WW
         """,
             "esc": ["thicc", "red"]}]
     },
+    "lindemon": {
+        "name": "Lindemon",
+        "hp": 30,
+        "atc": 8,
+        "defense": 8,
+        "attacks": ["bite", "wind_blow", "flame_throw"],
+        "pool": ["cry", "power_bite"],
+        "miss_chance": 0,
+        "desc": "An ancient dragon Pokete famous for destroying cities and villages.",
+        "lose_xp": 8,
+        "rarity": 0.05,
+        "types": ["fire", "flying"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 6,
+        "ico": [
+            {
+                "txt": r"""      __
+/v___/  \
+\-^-/_   \
+      \_""",
+                "esc": None
+            }, {
+                "txt": r""" .
+      *""",
+                "esc": ["thicc", "red"]
+            }
+        ]
+    },
     "rollator": {
         "name": "Rollator",
         "hp": 25,
@@ -915,6 +944,91 @@ that will confuse the shit out of you.",
             "txt": r"""
      w""",
             "esc": ["purple"]},
+        ]
+    },
+    "radishon": {
+        "name": "Radishon",
+        "hp": 15,
+        "atc": 3,
+        "defense": 5,
+        "attacks": ["root_slap", "hiding", "rain_dance", "encouragement"],
+        "pool": [],
+        "miss_chance": 0.1,
+        "desc": "A small plant Pokete found burried in the ground.",
+        "lose_xp": 3,
+        "rarity": 0.5,
+        "types": ["plant", "ground"],
+        "evolve_poke": "radishuk",
+        "evolve_lvl": 20,
+        "initiative": 1,
+        "ico": [{
+            "txt": r""" .__ / __.
+  \_\|/_/""",
+            "esc": ["thicc", "green"]}, {
+            "txt": r"""
+
+   /o o\
+   \ - /""",
+            "esc": ["purple"]},
+        ]
+    },
+    "radishuk": {
+        "name": "Radishuk",
+        "hp": 20,
+        "atc": 4,
+        "defense": 6,
+        "attacks": ["root_slap", "hiding", "encouragement", "root_strangler"],
+        "pool": ["rain_dance"],
+        "miss_chance": 0.1,
+        "desc": "A small plant Pokete deeply burried in the ground.",
+        "lose_xp": 4,
+        "rarity": 0.3,
+        "types": ["plant", "ground"],
+        "evolve_poke": "radishull",
+        "evolve_lvl": 40,
+        "initiative": 1,
+        "ico": [{
+            "txt": r""" .__   __.
+  \_\_/_/""",
+            "esc": ["thicc", "green"]}, {
+            "txt": r"""
+
+   /o o\
+   \ - /""",
+            "esc": ["purple"]}, {
+            "txt": r"""
+
+  _       \
+\/      _/""",
+            "esc": ["yellow"]}
+        ]
+    },
+    "radishull": {
+        "name": "Radishull",
+        "hp": 25,
+        "atc": 5,
+        "defense": 7,
+        "attacks": ["root_slap", "hiding", "encouragement", "root_strangler"],
+        "pool": ["rain_dance"],
+        "miss_chance": 0.1,
+        "desc": "A small plant Pokete found in the ground.",
+        "lose_xp": 6,
+        "rarity": 0.2,
+        "types": ["plant", "ground"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 2,
+        "ico": [{
+            "txt": r"""
+
+   /o o\
+   \ - /""",
+            "esc": ["purple"]}, {
+            "txt": r"""  _  \  _\
+ / \_/_/
+  _       \
+\/      _/""",
+            "esc": ["yellow"]}
         ]
     },
     "megapois": {

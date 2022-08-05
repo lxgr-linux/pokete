@@ -1,9 +1,22 @@
 trainers = {
     "playmap_1": [{
-        "pokes": [("poundi", 60)],
-        "args": ("Franz", "He",
-                 ["Wanna fight?"], ["Hahaha!", "You're a loser!"],
-                 ["You're a very good trainer!"], 30, 10)
+        "pokes": [("vogli", 40)],
+        "args": (
+            "Franz", "He",
+            [
+                "Hey there",
+                "I guess you're a quite new Pokete trainer",
+                "So let's have a fight"
+            ],
+            [
+                "That was already quite good!",
+                "You'll be better next time!"
+            ],
+            [
+                "You're already a very good trainer!"
+            ],
+            30, 10
+        )
     },
     ],
     "cave_1": [{

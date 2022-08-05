@@ -1,8 +1,11 @@
 """Contains all moves a Pokete can fullfill"""
 
 import time
+import random
 import scrap_engine as se
+from release import SPEED_OF_TIME
 from .color import Color
+
 
 class Moves:
     """This class contains all attack moves
@@ -18,14 +21,14 @@ class Moves:
             self.poke.ico.move(i if self.poke.player
                                else -i, -j if self.poke.player else j)
             self.poke.ico.map.show()
-            time.sleep(_t)
+            time.sleep(SPEED_OF_TIME * _t)
 
     def pound(self):
         """Pound move"""
         for i in [-1, 1]:
             self.poke.ico.move(0, i)
             self.poke.ico.map.show()
-            time.sleep(0.3)
+            time.sleep(SPEED_OF_TIME * 0.3)
 
     def bomb(self):
         """Bomb move"""
@@ -71,8 +74,8 @@ class Moves:
         for i in frames:
             text.rechar(i)
             self.poke.ico.map.show()
-            time.sleep(0.03)
-        time.sleep(0.03)
+            time.sleep(SPEED_OF_TIME * 0.03)
+        time.sleep(SPEED_OF_TIME * 0.03)
         text.remove()
 
     def arch(self):
@@ -88,7 +91,7 @@ class Moves:
                  self.poke.ico.x + (11 if self.poke.player else -1),
                  self.poke.ico.y + 1)
         self.poke.ico.map.show()
-        time.sleep(1)
+        time.sleep(SPEED_OF_TIME * 1)
         line.remove()
         del line
 
@@ -117,7 +120,7 @@ class Moves:
                     line.obs[i - j].rechar(txt)
                 if len(line.obs) >= i - j > 0:
                     line.obs[i - j - 1].rechar(line.char)
-            time.sleep(0.05)
+            time.sleep(SPEED_OF_TIME * 0.05)
             self.poke.ico.map.show()
         line.remove()
         del line
@@ -140,8 +143,8 @@ class Moves:
                               self.poke.ico.y + 3, self.poke.ico.y + 3]):
             i.add(self.poke.ico.map, _x, _y)
             self.poke.ico.map.show()
-            time.sleep(0.2)
-        time.sleep(0.2)
+            time.sleep(SPEED_OF_TIME * 0.2)
+        time.sleep(SPEED_OF_TIME * 0.2)
         for i in shines:
             i.remove()
         self.poke.ico.map.show()
@@ -150,6 +153,37 @@ class Moves:
         """Downgrade move"""
         self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-"
                                    + Color.reset)
+
+    def rain(self):
+        """Rain animation"""
+        drops = []
+        _map = self.poke.ico.map
+        cloud = se.Text("""  _____
+ (  )  )_
+(____)___)""")
+
+        cloud.add(
+            _map,
+            round(_map.width / 2) - 5,
+            round(_map.frame_big.height / 2) - 1
+        )
+        _map.show()
+        for i in range(50):
+            if i >= 5:
+                drops.pop(random.choice(range(len(drops)))).remove()
+            rain = se.Text("\\", esccode=Color.blue)
+            rain.add(
+                _map,
+                random.choice(range(9)) + cloud.x + 1,
+                random.choice(range(2)) + cloud.y + 3
+            )
+            _map.show()
+            time.sleep(0.05)
+            drops.append(rain)
+        cloud.remove()
+        for drop in drops:
+            drop.remove()
+        _map.show()
 
 
 if __name__ == "__main__":

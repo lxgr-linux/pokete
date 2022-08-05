@@ -4,12 +4,12 @@ import random
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
+from .hotkeys import Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
 from .detail import Detail
 from .attack import Attack
-from .event import _ev
 
 
 class AttackInfo(Box):
@@ -26,7 +26,7 @@ class AttackInfo(Box):
                             desc_label.text.split("\n")
                             + [atc.label_type.text,
                                atc.label_factor.text])[-1] + 4, atc.name,
-                         "q:close")
+                         f"{Action.CANCEL.mapping}:close")
         self.map = _map
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)
@@ -49,7 +49,9 @@ class LearnAttack:
     def __init__(self, poke, _map):
         self.map = _map
         self.poke = poke
-        self.box = ChooseBox(6, 25, name="Attacks", info="1:Details, 2:Info")
+        self.box = ChooseBox(
+            6, 25, name="Attacks",
+            info=f"{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info")
 
     def __call__(self, attack=None):
         """Starts the learning process
@@ -86,35 +88,27 @@ class LearnAttack:
                                     for i, j in enumerate(self.poke.attack_obs)])
                 with self.box.center_add(self.map):
                     while True:
-                        if _ev.get() in ["'s'", "'w'"]:
-                            self.box.input(_ev.get())
+                        action = get_action()
+                        if action.triggers(Action.UP, Action.DOWN):
+                            self.box.input(action)
                             self.map.show()
-                            _ev.clear()
-                        elif _ev.get() == "Key.enter":
+                        elif action.triggers(Action.ACCEPT):
                             i = self.box.index.index
                             self.poke.attacks[i] = new_attack
                             self.poke.attack_obs[i] = Attack(new_attack, i + 1)
-                            _ev.clear()
                             ask_ok(self.map, f"{self.poke.name} learned \
 {attacks[new_attack]['name']}!")
-                            _ev.clear()
                             break
-                        elif _ev.get() == "'1'":
-                            _ev.clear()
+                        elif action.triggers(Action.DECK):
                             Detail(self.map.height, self.map.width)\
                                   (self.poke, False)
                             self.map.show(init=True)
-                        elif _ev.get() == "'2'":
+                        elif action.triggers(Action.INFO):
                             with AttackInfo(new_attack, self.map):
                                 easy_exit_loop()
-                        elif _ev.get() in ["Key.esc", "'q'"]:
-                            _ev.clear()
+                        elif action.triggers(Action.CANCEL):
                             return False
                         std_loop()
                 self.box.remove_c_obs()
             return True
         return False
-
-
-if __name__ == "__main__":
-    print("\033[31;1mDo not execute this!\033[0m")
