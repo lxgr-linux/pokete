@@ -1,7 +1,7 @@
 """Standardized loops components"""
 
 import time
-import release
+from release import FRAMETIME
 from .event import _ev
 from .notify import notifier
 
@@ -29,4 +29,4 @@ def std_loop(on_mvmp=True, pevm=None):
         notifier.next()
     if pevm is not None:
         pevm.event()
-    time.sleep(release.FRAMETIME)
+    time.sleep(FRAMETIME)
