@@ -10,6 +10,7 @@ from pathlib import Path
 import shutil
 import sys
 from setuptools import setup
+import subprocess
 
 
 PACKAGE_PATH = Path(__file__).parent / "pokete"
@@ -55,6 +56,20 @@ def package_file_to_pokete(file: str) -> None:
         f.write(data)
 
 
+def compile_playsound():
+    print("  Rebuilding go library...")
+    command = ["go", "build", "-ldflags", "-s -w", "-buildvcs=false", "-buildmode=c-shared", "-o",
+        {
+            sys.platform: "./libplaysound.so",
+            "win32": "./libplaysound.dll",
+            "darwin": "./libplaysound.osx.so"
+        }[sys.platform]
+    ]
+
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=Path(__file__).parent / 'playsound')
+    print(f"Playsound compilation finished with stdout: {result.stdout} / stderr: {result.stderr}")
+
+
 def main():
     """The main function of the setup process.
 
@@ -77,7 +92,9 @@ def main():
             file = Path(directory) / file
             if os.path.isfile(file):
                 package_file_to_pokete(file)
+
     print("Packaging directory 'playsound'...")
+    compile_playsound()
     os.makedirs(PACKAGE_PATH / "playsound", exist_ok=True)
     libpath = ("libplaysound." +
         {
@@ -114,8 +131,12 @@ if __name__ == "__main__":
             print(f"  Packaging '{file}'...")
             shutil.copyfile(file, PACKAGE_PATH / file)
 
+
+if __name__ == "__main__":
+    main()
+
     setup()
-    # For setuptools<44.0 uncomment the following lines instead
+    # For setuptools<61.0 uncomment the following lines instead
     #setup(
     #    name="pokete",
     #    version="0.8.2",
@@ -123,18 +144,13 @@ if __name__ == "__main__":
     #    author="lxgr-linux",
     #    author_email="lxgr@protonmail.com",
     #    license="GPL-3.0",
-    #    packages=["pokete", "pokete.pokete_data", "pokete.pokete_classes"],
+    #    packages=["pokete", "pokete.pokete_data", "pokete.pokete_classes", "pokete.playsound", "scrap_engine"],
     #    entry_points={
     #        'console_scripts': [
     #            'pokete = pokete:run_pokete'
     #        ]
     #    },
-    #    install_requires=[
-    #        "scrap_engine >= 1.2.0"
-    #    ],
+    #    install_requires=[],
+    #    package_data={"pokete": ["assets/music/*", "playsound/libplaysound.so"]},
     #    include_package_data=True
     #)
-
-
-if __name__ == "__main__":
-    main()

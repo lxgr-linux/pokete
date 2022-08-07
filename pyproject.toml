@@ -23,6 +23,7 @@ packages = ["pokete", "pokete.pokete_data", "pokete.pokete_classes", "pokete.ass
 
 [tool.setuptools.package-data]
 "pokete.assets.music" = ["*.mp3"]
+"pokete.playsound" = ["libplaysound*"]
 
 [project.optional-dependencies]
 
