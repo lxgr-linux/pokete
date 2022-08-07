@@ -86,7 +86,8 @@ sudo apt-get install -y \
   libasound2-dev \
   python3-pip \
   dh-python \
-  python3-all
+  python3-all \
+  curl
 
 #heading "Installing python setuptools>=61..."
 #pip3 install 'setuptools>=61'
