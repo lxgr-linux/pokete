@@ -1,0 +1,61 @@
+---
+name: "pokete"
+title: "Pokete"
+base: "core20"
+version: "0.8.2"
+summary: "A terminal based Pokemon like game"
+description: |
+  Pokete is a small terminal based game in the style of a very popular and old
+  game by Gamefreak. Imagine you're a Pokete-Trainer and your goal is it to run
+  around in the world and catch/train as many Poketes as possible and to get
+  the best trainer.
+license: "GPL-3.0"
+contact: "mafelp@proton.me"
+icon: "assets/pokete.svg"
+source-code: "https://github.com/lxgr-linux/pokete/"
+website: "https://github.com/lxgr-linux/pokete/"
+type: "app"
+
+grade: "stable"
+confinement: "strict"
+
+architectures:
+  - build-on: ["amd64"]
+
+parts:
+  pokete:
+    plugin: "python"
+    python-packages:
+      - "scrap_engine"
+    source: "."
+    build-packages:
+      - "libasound2-dev"
+      - "libpulse-dev"
+      - "pkg-config"
+    stage-packages:
+      - "libasound2"
+    build-snaps:
+      - "go"
+    #override-pull: |
+    #  snapcraftctl pull
+
+    #  # Place the desktop file and icon file
+    #  sed -i 's|Exec=/usr/bin/pokete.py --log|Exec=$SNAP/bin/pokete|g' assets/pokete.desktop
+    #  sed -i 's|Icon=/usr/share/pokete/assets/pokete.svg|Icon=$SNAP/meta/gui/pokete.svg|g' assets/pokete.desktop
+    #  mkdir -p snap/gui
+    #  cp assets/pokete.svg snap/gui/pokete.svg
+    #  cp assets/pokete.desktop snap/gui/pokete.desktop
+
+layout:
+  /usr/share/alsa:
+    bind: "$SNAP/usr/share/alsa"
+  /etc/alsa:
+    bind: "$SNAP/etc/alsa"
+
+apps:
+  pokete:
+    command: "bin/pokete"
+    plugs:
+      - "home"  # Stores the save files
+      - "network"  # For trading with other players
+      - "audio-playback"  # Used to play music
