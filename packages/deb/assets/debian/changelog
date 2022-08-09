@@ -1,0 +1,6 @@
+pokete (0.8.2-1) UNRELEASED; urgency=low
+
+  * Fixes a small bug in the representation of pokete on flathub
+  * Closes #195: Publish formats
+
+ -- MaFeLP <mafelp@proton.me>  Fri, 05 Aug 2022 04:19:00 +0200

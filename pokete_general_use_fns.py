@@ -1,7 +1,7 @@
 """General use functions for Pokete"""
 
 import sys
-import release
+from release import CODENAME, SAVEPATH, VERSION
 
 
 def liner(text, width, pre=""):
@@ -56,7 +56,7 @@ def print_help(path):
     """Shows help message
     ARGS:
         path: The game's path"""
-    print(f"""Pokete {release.CODENAME} v{release.VERSION}
+    print(f"""Pokete {CODENAME} v{VERSION}
 Usage: {path} (<options>)
 Options:
     --log          : Enables logging
@@ -65,7 +65,7 @@ Options:
 
 Homepage: https://github.com/lxgr-linux/pokete
 
-All save and logfiles are located in ~{release.SAVEPATH}/
+All save and logfiles are located in ~{SAVEPATH}/
 Feel free to contribute.
 See README.md for more information.
 This software is licensed under the GPLv3, you should have gotten a

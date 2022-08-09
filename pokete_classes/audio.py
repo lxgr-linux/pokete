@@ -10,11 +10,11 @@ MUSIC_PATH = Path(__file__).parents[1] / 'assets' / 'music'
 
 def audio_fn(song, play_audio):
     """plays a song in loop"""
-    import playsound
+    from playsound import playsound
 
 
     while play_audio:
-        playsound.playsound(str(MUSIC_PATH / song))
+        playsound(str(MUSIC_PATH / song))
 
 
 class Audio:

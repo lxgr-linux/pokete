@@ -4,10 +4,9 @@ import time
 import logging
 import random
 import scrap_engine as se
-import pokete_classes.fightmap as fm
+from . import fightmap as fm, movemap as mvp
 from release import SPEED_OF_TIME
-from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
-from . import movemap as mvp
+from .hotkeys import ACTION_UP_DOWN, Action, get_action
 from .providers import Provider
 from .loops import std_loop
 from .input import ask_bool

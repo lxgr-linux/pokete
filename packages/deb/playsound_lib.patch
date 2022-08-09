@@ -1,0 +1,36 @@
+--- playsound/__init__.py	2022-08-05 16:52:07.648610000 +0200
++++ playsound/__init__.py.patched	2022-08-07 20:42:05.805025300 +0200
+@@ -1,6 +1,6 @@
+ import ctypes
+ import logging
+-import sys
++import os
+ from pathlib import Path
+ 
+ 
+@@ -12,15 +12,13 @@
+     _playsound.playsound(file.encode("utf-8"))
+ 
+ 
+-_playsound = ctypes.cdll.LoadLibrary(
+-    str(
+-        Path(__file__).parent / (
+-            "libplaysound." +
+-            {
+-                sys.platform: "so",
+-                "win32": "dll",
+-                "darwin": "osx.so"
+-            }[sys.platform]
+-        )
+-    )
+-)
++def _get_libpath():
++    dirpath = Path(__file__).parent
++    contents = os.listdir(dirpath)
++    for file in contents:
++        if file.startswith("libplaysound") and file.endswith(".so") and not file.endswith(".osx.so"):
++            return str(dirpath / file)
++
++_playsound = ctypes.cdll.LoadLibrary(_get_libpath())
++
++del _get_libpath

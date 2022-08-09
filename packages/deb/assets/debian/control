@@ -1,0 +1,20 @@
+Source: pokete
+Section: cli-mono
+Priority: optional
+Maintainer: MaFeLP <mafelp@proton.me>
+Build-Depends: debhelper-compat (= 12),
+               dh-python,
+               python3-all,
+               python3-setuptools
+Standards-Version: 4.5.0
+Homepage: https://github.com/lxgr-linux/pokete/
+X-Python3-Version: >= 3.8
+
+Package: pokete
+Architecture: amd64
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         libc6 (>= 2.34),
+         libasound2,
+         pulseaudio
+Description: A terminal based Pokemon like game

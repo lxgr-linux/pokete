@@ -1,6 +1,6 @@
 """Contains the pevm"""
 
-from pokete_classes import timer
+from . import timer
 from .settings import settings
 from .landscape import Meadow
 from .npcs import NPC

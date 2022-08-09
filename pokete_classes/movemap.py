@@ -3,8 +3,7 @@
 import time
 import scrap_engine as se
 from pokete_general_use_fns import liner
-import pokete_classes.ob_maps as obmp
-import pokete_classes.game_map as gm
+from . import ob_maps as obmp, game_map as gm
 from release import SPEED_OF_TIME
 from .loops import std_loop
 from .classes import OutP

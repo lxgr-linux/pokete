@@ -3,7 +3,7 @@
 import random
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_classes import timer, movemap as mvp, fightmap as fm
+from . import timer, movemap as mvp, fightmap as fm
 from .providers import NatureProvider
 from .color import Color
 from .general import check_walk_back

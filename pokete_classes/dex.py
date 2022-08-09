@@ -3,8 +3,8 @@
 import scrap_engine as se
 from pokete_classes.hotkeys import Action, ACTION_UP_DOWN, get_action
 import pokete_data as p_data
-import pokete_classes.movemap as mvp
 from pokete_general_use_fns import liner
+from . import movemap as mvp
 from .loops import std_loop, easy_exit_loop
 from .poke import Poke
 from .color import Color

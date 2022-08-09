@@ -1,8 +1,8 @@
 """Standardized loops components"""
 
 import time
-from pokete_classes.hotkeys import Action, get_action
-import release
+from release import FRAMETIME
+from .hotkeys import Action, get_action
 from .notify import notifier
 
 
@@ -26,4 +26,4 @@ def std_loop(on_mvmp=True, pevm=None):
         notifier.next()
     if pevm is not None:
         pevm.event()
-    time.sleep(release.FRAMETIME)
+    time.sleep(FRAMETIME)

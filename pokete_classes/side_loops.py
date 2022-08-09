@@ -2,8 +2,8 @@
 
 import os
 import scrap_engine as se
-import pokete_classes.game_map as gm
 from pokete_general_use_fns import liner
+from . import game_map as gm
 from .loops import easy_exit_loop
 from .ui_elements import InfoBox, StdFrame
 

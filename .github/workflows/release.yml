@@ -13,14 +13,9 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  release:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
       - name: Get tag
@@ -29,25 +24,7 @@ jobs:
         with:
           # Optionally strip `v` prefix
           strip_v: true
-        
-      - name: path
-        run: echo "::set-output name=path::Pokete-${{ steps.tag.outputs.tag }}-x86_64.AppImage"
-        id: path
-      
-      # Runs a set of commands using the runners shell
-      - name: Prepare
-        run: |
-          echo ${{ steps.tag.outputs.tag }}
-          echo ${{ steps.path.outputs.path }}
-          sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
-          sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
-          sudo chmod +x /usr/local/bin/appimagetool
-          sudo pip3 install git+https://github.com/AppImageCrafters/appimage-builder.git
-          sed -i '/app_info:/{n;n;n;n;s/\(version\).*/\1: '"${{ steps.tag.outputs.tag }}"'/}' assets/AppImageBuilder.yml
-          
-      - name: Build Appimage
-        run: appimage-builder --skip-test --recipe assets/AppImageBuilder.yml
-        
+
       - name: Get Changelog Entry
         id: changelog_reader
         uses: mindsers/changelog-reader-action@v2
@@ -55,8 +32,9 @@ jobs:
           validation_depth: 10
           version: ${{ steps.tag.outputs.tag }}
           path: ./Changelog.md
-        
-      - name: release
+
+
+      - name: Create release
         uses: actions/create-release@v1
         id: create_release
         with:
@@ -67,13 +45,133 @@ jobs:
           body: ${{ steps.changelog_reader.outputs.changes }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        
-      - name: upload linux artifact
+
+  debianpkg:
+    runs-on: ubuntu-latest
+    needs: "release"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+        with:
+          # Optionally strip `v` prefix
+          strip_v: true
+
+      - name: Build Debian package
+        run: tools/debbuild.sh
+
+      - name: Get release release url
+        run: |
+          url=$(gh api 'https://api.github.com/repos/lxgr-linux/pokete/releases/latest' | jq -r '.upload_url')
+          echo "Url: ${url}"
+          echo "::set-output name=url::${url}"
+        id: url
+
+      - name: Get Debian package path
+        run: |
+          p=ls build/pokete_${{ steps.tag.outputs.tag }}-1_amd64.deb
+          echo "Path: ${p}"
+          echo "::set-output name=path::${p}"
+        id: path
+
+      - name: Upload debian package
         uses: actions/upload-release-asset@v1
         env:
          GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.url.outputs.url }}
+          asset_path: ${{ steps.path.outputs.path }}
+          asset_name: pokete_${{ steps.tag.outputs.tag }}-1_amd64.deb
+          asset_content_type: application/x-deb
+
+
+  appimage:
+    runs-on: ubuntu-latest
+    needs: "release"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+        with:
+          # Optionally strip `v` prefix
+          strip_v: true
+
+      - name: path
+        run: echo "::set-output name=path::Pokete-${{ steps.tag.outputs.tag }}-x86_64.AppImage"
+        id: path
+
+      - name: Get release url
+        run: |
+          url=$(gh api 'https://api.github.com/repos/lxgr-linux/pokete/releases/latest' | jq -r '.upload_url')
+          echo "Url: ${url}"
+          echo "::set-output name=url::${url}"
+        id: url
+
+      - name: Prepare
+        run: |
+          echo ${{ steps.tag.outputs.tag }}
+          echo ${{ steps.path.outputs.path }}
+          sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
+          sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
+          sudo chmod +x /usr/local/bin/appimagetool
+          sudo pip3 install git+https://github.com/AppImageCrafters/appimage-builder.git
+          sed -i '/app_info:/{n;n;n;n;s/\(version\).*/\1: '"${{ steps.tag.outputs.tag }}"'/}' assets/AppImageBuilder.yml
+
+      - name: Build Appimage
+        run: appimage-builder --skip-test --recipe assets/AppImageBuilder.yml
+
+      - name: Upload AppImage
+        uses: actions/upload-release-asset@v1
+        env:
+         GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.url.outputs.url }}
           asset_path: ${{ steps.path.outputs.path }}
           asset_name: ${{ steps.path.outputs.path }}
           asset_content_type: application/appimage
+
+  # Build and push the docker images
+  docker:
+    runs-on: ubuntu-latest
+    needs: "release"
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            hub.docker.com/${{ github.repository }}
+            ghcr.io/${{ github.repository }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

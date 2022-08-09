@@ -1,7 +1,7 @@
 """Contains some stuff that's used in this module"""
 
 import logging
-from pokete_classes import movemap as mvp
+from . import movemap as mvp
 from .doors import DoorToCenter
 from .input import ask_ok
 

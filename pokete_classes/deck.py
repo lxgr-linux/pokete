@@ -2,12 +2,8 @@
 
 import logging
 import scrap_engine as se
-from pokete_classes import detail
-import pokete_classes.game_map as gm
-from pokete_classes.hotkeys import (
-    ACTION_DIRECTIONS, Action, get_action
-)
-import pokete_classes.movemap as mvp
+from . import detail, game_map as gm, movemap as mvp
+from .hotkeys import ACTION_DIRECTIONS, Action, get_action
 from .event import _ev
 from .input import ask_bool, ask_ok
 from .loops import std_loop

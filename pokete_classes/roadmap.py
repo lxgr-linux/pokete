@@ -2,8 +2,8 @@
 
 import scrap_engine as se
 import pokete_data as p_data
-import pokete_classes.ob_maps as obmp
 from pokete_general_use_fns import liner
+from . import ob_maps as obmp
 from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .loops import std_loop, easy_exit_loop
 from .color import Color
