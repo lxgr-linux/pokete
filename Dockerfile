@@ -1,28 +1,37 @@
-FROM alpine:3.15 AS compile-image
+FROM ubuntu:22.04 AS compile-image
 
-RUN apk add \
-    python3-dev \
-    py3-pip \
-    py3-gst \
-    gobject-introspection-dev \
-    cairo-dev \
-    build-base
+WORKDIR /build
 
-RUN python3 -m pip install --user scrap_engine playsound pygobject
+RUN apt-get update && \
+    DEBIAN_FRONTEND=non-interactive apt-get install -y \
+    libasound-dev \
+    libpulse-dev \
+    pkg-config \
+    golang \
+    curl
 
-FROM alpine:3.15
+COPY playsound /build/playsound/
 
-RUN apk add --no-cache \
-    python3-dev \
-    py3-gst
+RUN curl -o scrap_engine.py "https://raw.githubusercontent.com/lxgr-linux/scrap_engine/master/scrap_engine.py" && \
+    cd playsound && \
+    go build -ldflags "-s -w" -buildmode=c-shared -buildvcs=false -o ./libplaysound.so && \
+    rm -v go.mod go.sum main.go README.md
 
-COPY --from=compile-image /root/.local /root/.local
-ENV PATH="/root/.local/bin:$PATH"
+FROM ubuntu:22.04
 
-RUN mkdir -p /root/.cache/pokete && \
-    ln -s /root/.cache/pokete /data
+WORKDIR /app
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=non-interactive apt-get install -y \
+    alsa-base \
+    pulseaudio \
+    python3
+
+RUN mkdir -p /root/.local/share/pokete && \
+    ln -s /root/.local/share/pokete /data
 
 COPY . .
+COPY --from=compile-image /build /app
 
 VOLUME ["/data"]
 

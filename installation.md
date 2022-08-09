@@ -87,5 +87,10 @@ docker pull lxgr-linux/pokete:latest
 2. Run the docker container:
 
 ```bash
-docker run -it --rm -v "$(pwd)/pokete:/data" lxgr-linux/pokete
+docker run -it \
+  -v "${HOME}/.local/share/pokete:/data" \
+  --device /dev/snd \
+  -e "PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native" \
+  -v "${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native" \
+  lxgr-linux/pokete
 ```
