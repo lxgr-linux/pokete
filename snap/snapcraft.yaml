@@ -1,7 +1,7 @@
 ---
 name: "pokete"
 title: "Pokete"
-base: "core20"
+base: "core22"
 version: "0.8.2"
 summary: "A terminal based Pokemon like game"
 description: |
@@ -32,19 +32,9 @@ parts:
       - "libasound2-dev"
       - "libpulse-dev"
       - "pkg-config"
+      - "golang"
     stage-packages:
       - "libasound2"
-    build-snaps:
-      - "go"
-    #override-pull: |
-    #  snapcraftctl pull
-
-    #  # Place the desktop file and icon file
-    #  sed -i 's|Exec=/usr/bin/pokete.py --log|Exec=$SNAP/bin/pokete|g' assets/pokete.desktop
-    #  sed -i 's|Icon=/usr/share/pokete/assets/pokete.svg|Icon=$SNAP/meta/gui/pokete.svg|g' assets/pokete.desktop
-    #  mkdir -p snap/gui
-    #  cp assets/pokete.svg snap/gui/pokete.svg
-    #  cp assets/pokete.desktop snap/gui/pokete.desktop
 
 layout:
   /usr/share/alsa:
