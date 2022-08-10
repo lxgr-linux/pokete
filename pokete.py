@@ -1079,7 +1079,6 @@ the world and be a Pokete-trainer.",
                             "You will be the best Pokete-Trainer in Nice \
 town.",
                             "Now go out and become the best!"])
-    game.game(obmp.ob_maps["intromap"])
 
 
 def parse_obj(_map, name, obj, _dict):
@@ -1191,9 +1190,15 @@ def main():
     # hotkeys
     hotkeys_from_save(session_info.get("hotkeys", {}),
                       loading_screen.map, ver_change)
+    game_map = figure.map
     if figure.name == "DEFAULT":
         intro()
-    game.game(figure.map)
+        game_map = obmp.ob_maps["intromap"]
+    while True:
+        try:
+            _game(game_map)
+        except game.MapChangeExeption as err:
+            game_map = err.map
 
 
 def map_additions():
@@ -1531,7 +1536,6 @@ if __name__ == "__main__":
     }))
     timer.time = timer.Time(session_info.get("time", 0))
     timer.clock = timer.Clock(timer.time)
-    game.game = _game
     HighGrass.figure = figure
     Poketeball.figure = figure
     _ev.set_emit_fn(timer.time.emit_input)
