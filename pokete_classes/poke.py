@@ -294,8 +294,6 @@ can't have more than 4 attacks!"
                 and (new_attack := LearnAttack.get_attack(obj)) is not None
             ):
                 obj.attacks.append(new_attack)
-            else:
-                break
 
         while len(obj.attacks) > 4:
             obj.attacks.pop(random.randint(0, len(obj.attacks)-1))
