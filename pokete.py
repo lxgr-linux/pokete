@@ -1201,7 +1201,6 @@ def main():
             game_map = err.map
 
 
-
 def map_additions():
     """Applies additions to the maps"""
 
