@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pokete_classes.game API documentation</title>
-<meta name="description" content="This is here to be able to globalize the game function" />
+<meta name="description" content="Contains exception to exit a game loop and enter a new" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,14 +22,22 @@
 <h1 class="title">Module <code>pokete_classes.game</code></h1>
 </header>
 <section id="section-intro">
-<p>This is here to be able to globalize the game function</p>
+<p>Contains exception to exit a game loop and enter a new</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;This is here to be able to globalize the game function&#34;&#34;&#34;
+<pre><code class="python">&#34;&#34;&#34;Contains exception to exit a game loop and enter a new&#34;&#34;&#34;
 
-game = None
+
+class MapChangeExeption(Exception):
+    &#34;&#34;&#34;Exception to exit a game loop and enter a new
+    ARGS:
+        _map: The new map to enter&#34;&#34;&#34;
+
+    def __init__(self, _map):
+        self.map = _map
+        super().__init__(f&#34;Map change to {_map.name}&#34;)
 
 
 if __name__ == &#34;__main__&#34;:
@@ -43,6 +51,39 @@ if __name__ == &#34;__main__&#34;:
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pokete_classes.game.MapChangeExeption"><code class="flex name class">
+<span>class <span class="ident">MapChangeExeption</span></span>
+<span>(</span><span>_map)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception to exit a game loop and enter a new</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_map</code></strong></dt>
+<dd>The new map to enter</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MapChangeExeption(Exception):
+    &#34;&#34;&#34;Exception to exit a game loop and enter a new
+    ARGS:
+        _map: The new map to enter&#34;&#34;&#34;
+
+    def __init__(self, _map):
+        self.map = _map
+        super().__init__(f&#34;Map change to {_map.name}&#34;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -54,6 +95,13 @@ if __name__ == &#34;__main__&#34;:
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="pokete_classes" href="index.html">pokete_classes</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pokete_classes.game.MapChangeExeption" href="#pokete_classes.game.MapChangeExeption">MapChangeExeption</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

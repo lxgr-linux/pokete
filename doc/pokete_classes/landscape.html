@@ -60,7 +60,7 @@ class HighGrass(se.Object):
                 [
                     self.figure,
                     NatureProvider(
-                        Poke(
+                        Poke.wild(
                             random.choices(
                                 list(pokes),
                                 weights=[i[&#34;rarity&#34;] for i in pokes.values()]
@@ -70,8 +70,7 @@ class HighGrass(se.Object):
                                     self.arg_proto[&#34;minlvl&#34;],
                                     self.arg_proto[&#34;maxlvl&#34;]
                                 )
-                            ),
-                            player=False, shiny=(random.randint(0, 500) == 0)
+                            )
                         )
                     )
                 ]
@@ -221,7 +220,7 @@ class Poketeball(se.Object):
                 [
                     self.figure,
                     NatureProvider(
-                        Poke(
+                        Poke.wild(
                             random.choices(
                                 list(pokes),
                                 weights=[i[&#34;rarity&#34;] for i in pokes.values()]
@@ -231,8 +230,7 @@ class Poketeball(se.Object):
                                     self.arg_proto[&#34;minlvl&#34;],
                                     self.arg_proto[&#34;maxlvl&#34;]
                                 )
-                            ),
-                            player=False, shiny=(random.randint(0, 500) == 0)
+                            )
                         )
                     )
                 ]
@@ -283,7 +281,7 @@ class Poketeball(se.Object):
             [
                 self.figure,
                 NatureProvider(
-                    Poke(
+                    Poke.wild(
                         random.choices(
                             list(pokes),
                             weights=[i[&#34;rarity&#34;] for i in pokes.values()]
@@ -293,8 +291,7 @@ class Poketeball(se.Object):
                                 self.arg_proto[&#34;minlvl&#34;],
                                 self.arg_proto[&#34;maxlvl&#34;]
                             )
-                        ),
-                        player=False, shiny=(random.randint(0, 500) == 0)
+                        )
                     )
                 )
             ]

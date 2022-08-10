@@ -51,7 +51,7 @@ class CenterDoor(se.Object):
                if ob.map == obmp.ob_maps[&#34;centermap&#34;]
                else ob.oldmap.shopdor.y + 1)
         ob.oldmap = obmp.ob_maps[i]
-        game.game(ob.map)
+        raise game.MapChangeExeption(ob.map)
 
 
 class Door(se.Object):
@@ -66,7 +66,7 @@ class Door(se.Object):
         ob.add(obmp.ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
                self.arg_proto[&#34;y&#34;])
         ob.oldmap = obmp.ob_maps[i]
-        game.game(obmp.ob_maps[self.arg_proto[&#34;map&#34;]])
+        raise game.MapChangeExeption(obmp.ob_maps[self.arg_proto[&#34;map&#34;]])
 
 
 class DoorToCenter(Door):
@@ -148,7 +148,7 @@ if __name__ == &#34;__main__&#34;:
                if ob.map == obmp.ob_maps[&#34;centermap&#34;]
                else ob.oldmap.shopdor.y + 1)
         ob.oldmap = obmp.ob_maps[i]
-        game.game(ob.map)</code></pre>
+        raise game.MapChangeExeption(ob.map)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -185,7 +185,7 @@ if __name__ == &#34;__main__&#34;:
            if ob.map == obmp.ob_maps[&#34;centermap&#34;]
            else ob.oldmap.shopdor.y + 1)
     ob.oldmap = obmp.ob_maps[i]
-    game.game(ob.map)</code></pre>
+    raise game.MapChangeExeption(ob.map)</code></pre>
 </details>
 </dd>
 </dl>
@@ -247,7 +247,7 @@ if __name__ == &#34;__main__&#34;:
         ob.add(obmp.ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
                self.arg_proto[&#34;y&#34;])
         ob.oldmap = obmp.ob_maps[i]
-        game.game(obmp.ob_maps[self.arg_proto[&#34;map&#34;]])</code></pre>
+        raise game.MapChangeExeption(obmp.ob_maps[self.arg_proto[&#34;map&#34;]])</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -285,7 +285,7 @@ if __name__ == &#34;__main__&#34;:
     ob.add(obmp.ob_maps[self.arg_proto[&#34;map&#34;]], self.arg_proto[&#34;x&#34;],
            self.arg_proto[&#34;y&#34;])
     ob.oldmap = obmp.ob_maps[i]
-    game.game(obmp.ob_maps[self.arg_proto[&#34;map&#34;]])</code></pre>
+    raise game.MapChangeExeption(obmp.ob_maps[self.arg_proto[&#34;map&#34;]])</code></pre>
 </details>
 </dd>
 </dl>

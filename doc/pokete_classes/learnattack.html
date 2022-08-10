@@ -82,6 +82,26 @@ class LearnAttack:
             6, 25, name=&#34;Attacks&#34;,
             info=f&#34;{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info&#34;)
 
+    @staticmethod
+    def get_attack(poke):
+        &#34;&#34;&#34;Gets a learnable attack for a given pokete
+        ARGS:
+            poke: The pokete
+        RETURNS:
+            The attacks name, None if none is found&#34;&#34;&#34;
+        attacks = p_data.attacks
+        pool = [i for i, atc in attacks.items()
+                if all(j in [i.name for i in poke.types]
+                       for j in atc[&#34;types&#34;])
+                and atc[&#34;is_generic&#34;]]
+        full_pool = [i for i in poke.inf[&#34;attacks&#34;] +
+                     poke.inf[&#34;pool&#34;] + pool
+                     if i not in poke.attacks
+                     and attacks[i][&#34;min_lvl&#34;] &lt;= poke.lvl()]
+        if len(full_pool) == 0:
+            return None
+        return random.choice(full_pool)
+
     def __call__(self, attack=None):
         &#34;&#34;&#34;Starts the learning process
         ARGS:
@@ -89,20 +109,10 @@ class LearnAttack:
                     attack will be chosen randomly
         RETURNS:
             bool: Whether or not the attack was learned&#34;&#34;&#34;
-
         attacks = p_data.attacks
         if attack is None:
-            pool = [i for i, atc in attacks.items()
-                    if all(j in [i.name for i in self.poke.types]
-                           for j in atc[&#34;types&#34;])
-                    and atc[&#34;is_generic&#34;]]
-            full_pool = [i for i in self.poke.inf[&#34;attacks&#34;] +
-                         self.poke.inf[&#34;pool&#34;] + pool
-                         if i not in self.poke.attacks
-                         and attacks[i][&#34;min_lvl&#34;] &lt;= self.poke.lvl()]
-            if len(full_pool) == 0:
+            if (new_attack := self.get_attack(self.poke)) is None:
                 return False
-            new_attack = random.choice(full_pool)
         else:
             new_attack = attack
         if ask_bool(self.map,
@@ -244,6 +254,26 @@ class LearnAttack:
             6, 25, name=&#34;Attacks&#34;,
             info=f&#34;{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info&#34;)
 
+    @staticmethod
+    def get_attack(poke):
+        &#34;&#34;&#34;Gets a learnable attack for a given pokete
+        ARGS:
+            poke: The pokete
+        RETURNS:
+            The attacks name, None if none is found&#34;&#34;&#34;
+        attacks = p_data.attacks
+        pool = [i for i, atc in attacks.items()
+                if all(j in [i.name for i in poke.types]
+                       for j in atc[&#34;types&#34;])
+                and atc[&#34;is_generic&#34;]]
+        full_pool = [i for i in poke.inf[&#34;attacks&#34;] +
+                     poke.inf[&#34;pool&#34;] + pool
+                     if i not in poke.attacks
+                     and attacks[i][&#34;min_lvl&#34;] &lt;= poke.lvl()]
+        if len(full_pool) == 0:
+            return None
+        return random.choice(full_pool)
+
     def __call__(self, attack=None):
         &#34;&#34;&#34;Starts the learning process
         ARGS:
@@ -251,20 +281,10 @@ class LearnAttack:
                     attack will be chosen randomly
         RETURNS:
             bool: Whether or not the attack was learned&#34;&#34;&#34;
-
         attacks = p_data.attacks
         if attack is None:
-            pool = [i for i, atc in attacks.items()
-                    if all(j in [i.name for i in self.poke.types]
-                           for j in atc[&#34;types&#34;])
-                    and atc[&#34;is_generic&#34;]]
-            full_pool = [i for i in self.poke.inf[&#34;attacks&#34;] +
-                         self.poke.inf[&#34;pool&#34;] + pool
-                         if i not in self.poke.attacks
-                         and attacks[i][&#34;min_lvl&#34;] &lt;= self.poke.lvl()]
-            if len(full_pool) == 0:
+            if (new_attack := self.get_attack(self.poke)) is None:
                 return False
-            new_attack = random.choice(full_pool)
         else:
             new_attack = attack
         if ask_bool(self.map,
@@ -304,6 +324,46 @@ class LearnAttack:
             return True
         return False</code></pre>
 </details>
+<h3>Static methods</h3>
+<dl>
+<dt id="pokete_classes.learnattack.LearnAttack.get_attack"><code class="name flex">
+<span>def <span class="ident">get_attack</span></span>(<span>poke)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a learnable attack for a given pokete</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>poke</code></strong></dt>
+<dd>The pokete</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The attacks name, None if none is found</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_attack(poke):
+    &#34;&#34;&#34;Gets a learnable attack for a given pokete
+    ARGS:
+        poke: The pokete
+    RETURNS:
+        The attacks name, None if none is found&#34;&#34;&#34;
+    attacks = p_data.attacks
+    pool = [i for i, atc in attacks.items()
+            if all(j in [i.name for i in poke.types]
+                   for j in atc[&#34;types&#34;])
+            and atc[&#34;is_generic&#34;]]
+    full_pool = [i for i in poke.inf[&#34;attacks&#34;] +
+                 poke.inf[&#34;pool&#34;] + pool
+                 if i not in poke.attacks
+                 and attacks[i][&#34;min_lvl&#34;] &lt;= poke.lvl()]
+    if len(full_pool) == 0:
+        return None
+    return random.choice(full_pool)</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 </dl>
 </section>
@@ -326,6 +386,9 @@ class LearnAttack:
 </li>
 <li>
 <h4><code><a title="pokete_classes.learnattack.LearnAttack" href="#pokete_classes.learnattack.LearnAttack">LearnAttack</a></code></h4>
+<ul class="">
+<li><code><a title="pokete_classes.learnattack.LearnAttack.get_attack" href="#pokete_classes.learnattack.LearnAttack.get_attack">get_attack</a></code></li>
+</ul>
 </li>
 </ul>
 </li>
