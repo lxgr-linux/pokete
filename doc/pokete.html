@@ -1116,6 +1116,7 @@ the world and be a Pokete-trainer.&#34;,
                             &#34;You will be the best Pokete-Trainer in Nice \
 town.&#34;,
                             &#34;Now go out and become the best!&#34;])
+    game.game(obmp.ob_maps[&#34;intromap&#34;])
 
 
 def parse_obj(_map, name, obj, _dict):
@@ -1227,15 +1228,9 @@ def main():
     # hotkeys
     hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}),
                       loading_screen.map, ver_change)
-    game_map = figure.map
     if figure.name == &#34;DEFAULT&#34;:
         intro()
-        game_map = obmp.ob_maps[&#34;intromap&#34;]
-    while True:
-        try:
-            _game(game_map)
-        except game.MapChangeExeption as err:
-            game_map = err.map
+    game.game(figure.map)
 
 
 def map_additions():
@@ -1573,6 +1568,7 @@ if __name__ == &#34;__main__&#34;:
     }))
     timer.time = timer.Time(session_info.get(&#34;time&#34;, 0))
     timer.clock = timer.Clock(timer.time)
+    game.game = _game
     HighGrass.figure = figure
     Poketeball.figure = figure
     _ev.set_emit_fn(timer.time.emit_input)
@@ -1818,7 +1814,8 @@ the world and be a Pokete-trainer.&#34;,
                             &#34;&#39;Healing potion&#39;.&#34;,
                             &#34;You will be the best Pokete-Trainer in Nice \
 town.&#34;,
-                            &#34;Now go out and become the best!&#34;])</code></pre>
+                            &#34;Now go out and become the best!&#34;])
+    game.game(obmp.ob_maps[&#34;intromap&#34;])</code></pre>
 </details>
 </dd>
 <dt id="pokete.main"><code class="name flex">
@@ -1845,15 +1842,9 @@ town.&#34;,
     # hotkeys
     hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}),
                       loading_screen.map, ver_change)
-    game_map = figure.map
     if figure.name == &#34;DEFAULT&#34;:
         intro()
-        game_map = obmp.ob_maps[&#34;intromap&#34;]
-    while True:
-        try:
-            _game(game_map)
-        except game.MapChangeExeption as err:
-            game_map = err.map</code></pre>
+    game.game(figure.map)</code></pre>
 </details>
 </dd>
 <dt id="pokete.map_additions"><code class="name flex">
