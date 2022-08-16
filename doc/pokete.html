@@ -116,6 +116,27 @@ class NPCActions:
         figure.heal()
 
     @staticmethod
+    def playmap_13_introductor(npc):
+        &#34;&#34;&#34;Interaction with introductor&#34;&#34;&#34;
+        if not obmp.ob_maps[&#34;playmap_14&#34;].trainers[-1].used:
+            npc.text(
+                [
+                    &#34;To get to the other side of this building, &#34;
+                    &#34;you have to win some epic fights against Deepest &#34;
+                    &#34;Forests&#39; best trainers!&#34;, &#34;This won&#39;t be easy!&#34;
+                ]
+            )
+        else:
+            npc.text(
+                [
+                    &#34;It looks like you&#39;ve been succesfull!&#34;,
+                    &#34;Congrats!&#34;
+                ]
+            )
+            npc.set_used()
+
+
+    @staticmethod
     def playmap_17_boy(npc):
         &#34;&#34;&#34;Interaction with boy&#34;&#34;&#34;
         if &#34;choka&#34; in [i.identifier for i in figure.pokes[:6]]:
@@ -1116,7 +1137,6 @@ the world and be a Pokete-trainer.&#34;,
                             &#34;You will be the best Pokete-Trainer in Nice \
 town.&#34;,
                             &#34;Now go out and become the best!&#34;])
-    game.game(obmp.ob_maps[&#34;intromap&#34;])
 
 
 def parse_obj(_map, name, obj, _dict):
@@ -1141,7 +1161,7 @@ def gen_obs():
         _map = obmp.ob_maps[i]
         for j in trainer_list:
             args = j[&#34;args&#34;]
-            trainer = Trainer([Poke(*p, player=False) for p in j[&#34;pokes&#34;]], *args[:-2])
+            trainer = Trainer([Poke.wild(*p) for p in j[&#34;pokes&#34;]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
@@ -1228,9 +1248,15 @@ def main():
     # hotkeys
     hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}),
                       loading_screen.map, ver_change)
+    game_map = figure.map
     if figure.name == &#34;DEFAULT&#34;:
         intro()
-    game.game(figure.map)
+        game_map = obmp.ob_maps[&#34;intromap&#34;]
+    while True:
+        try:
+            _game(game_map)
+        except game.MapChangeExeption as err:
+            game_map = err.map
 
 
 def map_additions():
@@ -1568,7 +1594,6 @@ if __name__ == &#34;__main__&#34;:
     }))
     timer.time = timer.Time(session_info.get(&#34;time&#34;, 0))
     timer.clock = timer.Clock(timer.time)
-    game.game = _game
     HighGrass.figure = figure
     Poketeball.figure = figure
     _ev.set_emit_fn(timer.time.emit_input)
@@ -1745,7 +1770,7 @@ Do you want to continue?&#34;, int(width * 2 / 3))):
         _map = obmp.ob_maps[i]
         for j in trainer_list:
             args = j[&#34;args&#34;]
-            trainer = Trainer([Poke(*p, player=False) for p in j[&#34;pokes&#34;]], *args[:-2])
+            trainer = Trainer([Poke.wild(*p) for p in j[&#34;pokes&#34;]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 
@@ -1814,8 +1839,7 @@ the world and be a Pokete-trainer.&#34;,
                             &#34;&#39;Healing potion&#39;.&#34;,
                             &#34;You will be the best Pokete-Trainer in Nice \
 town.&#34;,
-                            &#34;Now go out and become the best!&#34;])
-    game.game(obmp.ob_maps[&#34;intromap&#34;])</code></pre>
+                            &#34;Now go out and become the best!&#34;])</code></pre>
 </details>
 </dd>
 <dt id="pokete.main"><code class="name flex">
@@ -1842,9 +1866,15 @@ town.&#34;,
     # hotkeys
     hotkeys_from_save(session_info.get(&#34;hotkeys&#34;, {}),
                       loading_screen.map, ver_change)
+    game_map = figure.map
     if figure.name == &#34;DEFAULT&#34;:
         intro()
-    game.game(figure.map)</code></pre>
+        game_map = obmp.ob_maps[&#34;intromap&#34;]
+    while True:
+        try:
+            _game(game_map)
+        except game.MapChangeExeption as err:
+            game_map = err.map</code></pre>
 </details>
 </dd>
 <dt id="pokete.map_additions"><code class="name flex">
@@ -3293,6 +3323,27 @@ npc: The NPC the method belongs to</p></div>
         figure.heal()
 
     @staticmethod
+    def playmap_13_introductor(npc):
+        &#34;&#34;&#34;Interaction with introductor&#34;&#34;&#34;
+        if not obmp.ob_maps[&#34;playmap_14&#34;].trainers[-1].used:
+            npc.text(
+                [
+                    &#34;To get to the other side of this building, &#34;
+                    &#34;you have to win some epic fights against Deepest &#34;
+                    &#34;Forests&#39; best trainers!&#34;, &#34;This won&#39;t be easy!&#34;
+                ]
+            )
+        else:
+            npc.text(
+                [
+                    &#34;It looks like you&#39;ve been succesfull!&#34;,
+                    &#34;Congrats!&#34;
+                ]
+            )
+            npc.set_used()
+
+
+    @staticmethod
     def playmap_17_boy(npc):
         &#34;&#34;&#34;Interaction with boy&#34;&#34;&#34;
         if &#34;choka&#34; in [i.identifier for i in figure.pokes[:6]]:
@@ -3503,6 +3554,36 @@ def heal(_):
 def playmap_10_old_man(npc):
     &#34;&#34;&#34;Interaction with ld_man&#34;&#34;&#34;
     npc.give(&#34;Old man&#34;, &#34;hyperball&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pokete.NPCActions.playmap_13_introductor"><code class="name flex">
+<span>def <span class="ident">playmap_13_introductor</span></span>(<span>npc)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Interaction with introductor</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def playmap_13_introductor(npc):
+    &#34;&#34;&#34;Interaction with introductor&#34;&#34;&#34;
+    if not obmp.ob_maps[&#34;playmap_14&#34;].trainers[-1].used:
+        npc.text(
+            [
+                &#34;To get to the other side of this building, &#34;
+                &#34;you have to win some epic fights against Deepest &#34;
+                &#34;Forests&#39; best trainers!&#34;, &#34;This won&#39;t be easy!&#34;
+            ]
+        )
+    else:
+        npc.text(
+            [
+                &#34;It looks like you&#39;ve been succesfull!&#34;,
+                &#34;Congrats!&#34;
+            ]
+        )
+        npc.set_used()</code></pre>
 </details>
 </dd>
 <dt id="pokete.NPCActions.playmap_17_boy"><code class="name flex">
@@ -4019,10 +4100,11 @@ def swap_poke(_):
 </li>
 <li>
 <h4><code><a title="pokete.NPCActions" href="#pokete.NPCActions">NPCActions</a></code></h4>
-<ul class="two-column">
+<ul class="">
 <li><code><a title="pokete.NPCActions.chat" href="#pokete.NPCActions.chat">chat</a></code></li>
 <li><code><a title="pokete.NPCActions.heal" href="#pokete.NPCActions.heal">heal</a></code></li>
 <li><code><a title="pokete.NPCActions.playmap_10_old_man" href="#pokete.NPCActions.playmap_10_old_man">playmap_10_old_man</a></code></li>
+<li><code><a title="pokete.NPCActions.playmap_13_introductor" href="#pokete.NPCActions.playmap_13_introductor">playmap_13_introductor</a></code></li>
 <li><code><a title="pokete.NPCActions.playmap_17_boy" href="#pokete.NPCActions.playmap_17_boy">playmap_17_boy</a></code></li>
 <li><code><a title="pokete.NPCActions.playmap_20_trader" href="#pokete.NPCActions.playmap_20_trader">playmap_20_trader</a></code></li>
 <li><code><a title="pokete.NPCActions.playmap_23_npc_8" href="#pokete.NPCActions.playmap_23_npc_8">playmap_23_npc_8</a></code></li>
