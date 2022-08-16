@@ -79,6 +79,27 @@ class NPCActions:
         figure.heal()
 
     @staticmethod
+    def playmap_13_introductor(npc):
+        """Interaction with introductor"""
+        if not obmp.ob_maps["playmap_14"].trainers[-1].used:
+            npc.text(
+                [
+                    "To get to the other side of this building, "
+                    "you have to win some epic fights against Deepest "
+                    "Forests' best trainers!", "This won't be easy!"
+                ]
+            )
+        else:
+            npc.text(
+                [
+                    "It looks like you've been succesfull!",
+                    "Congrats!"
+                ]
+            )
+            npc.set_used()
+
+
+    @staticmethod
     def playmap_17_boy(npc):
         """Interaction with boy"""
         if "choka" in [i.identifier for i in figure.pokes[:6]]:
@@ -1103,7 +1124,7 @@ def gen_obs():
         _map = obmp.ob_maps[i]
         for j in trainer_list:
             args = j["args"]
-            trainer = Trainer([Poke(*p, player=False) for p in j["pokes"]], *args[:-2])
+            trainer = Trainer([Poke.wild(*p) for p in j["pokes"]], *args[:-2])
             trainer.add(_map, args[-2], args[-1])
             _map.trainers.append(trainer)
 

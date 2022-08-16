@@ -25,9 +25,8 @@ npcs = {
         "y": 1
     },
     "npc_1": {
-        "texts": ["To get to the other side of this building, you have to win some epic fights against Deepest "
-                  "Forests' best trainers!", "This won't be easy!"],
-        "fn": None,
+        "texts": [],
+        "fn": "playmap_13_introductor",
         "map": "playmap_13",
         "x": 33,
         "y": 6
@@ -38,8 +37,8 @@ npcs = {
                   "I hope you have a great time!"],
         "fn": None,
         "map": "playmap_13",
-        "x": 38,
-        "y": 31
+        "x": 44,
+        "y": 29
     },
     "npc_3": {
         "texts": ["In this cave your'll encounter the best Pokete trainers of this town.",
@@ -152,7 +151,7 @@ found some cool Poketes.",
                   "Here you'll have to fight our best trainers and rarest Poketes!"],
         "fn": None,
         "map": "playmap_30",
-        "x": 60,
+        "x": 65,
         "y": 18
     },
     "npc_12": {
@@ -404,7 +403,7 @@ found some cool Poketes.",
         "texts": ["In this cave you may find some interesting Poketes."],
         "fn": None,
         "map": "playmap_51",
-        "x": 27,
+        "x": 16,
         "y": 2
     },
 }
