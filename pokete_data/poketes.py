@@ -1311,6 +1311,28 @@ that will confuse the shit out of you.",
             "esc": ["white"]}
         ]
     },
+    "kartmen": {
+        "name": "Kartmen",
+        "hp": 20,
+        "atc": 3,
+        "defense": 1,
+        "attacks": ["tackle", "bubble_bomb", "bubble_gun"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A freshwater fighting fish Pokete.",
+        "lose_xp": 5,
+        "rarity": 1,
+        "types": ["water", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""  _((((
+ /O   _\/))
+ >_((((/\))
+   ((((""",
+            "esc": None}]
+    },
 }
 
 if __name__ == "__main__":
