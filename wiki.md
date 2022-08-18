@@ -76,7 +76,8 @@ You can find different versions of this wiki:
        2. [Clampi](#clampi)
        3. [Crabbat](#crabbat)
        4. [Karpi](#karpi)
-       5. [Rustacean](#rustacean)
+       5. [Kartmen](#kartmen)
+       6. [Rustacean](#rustacean)
 2. [Attacks](#attacks)
    1. [Electro attacks](#electro-attacks)
        1. [Charging](#charging)
@@ -1728,6 +1729,35 @@ A harmless water Pokete that can be found everywhere.
    + Big Mountain Sea
    + Rock-ville
    + Sunny Beach
+- Does not evolve
+
+
+#### Kartmen
+A freshwater fighting fish Pokete.
+
+```
+  _((((    
+ /O   _\/))
+ >_((((/\))
+   ((((    
+
+```
+
+- Type: [Water](#types)
+- Health points: 20
+- Attack factor: 3
+- Defense factor: 1
+- Initiative: 1
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 5
+- Attacks:
+   + [Tackle](#tackle)
+   + [Bubble Bomb](#bubble-bomb)
+   + [Bubble Gun](#bubble-gun)
+- Active: Always
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
