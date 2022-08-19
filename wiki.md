@@ -1729,8 +1729,7 @@ A harmless water Pokete that can be found everywhere.
    + Big Mountain Sea
    + Rock-ville
    + Sunny Beach
-- Does not evolve
-
+- Evolves to [Kartmen](#kartmen) at level 20
 
 #### Kartmen
 A freshwater fighting fish Pokete.
@@ -1744,9 +1743,9 @@ A freshwater fighting fish Pokete.
 ```
 
 - Type: [Water](#types)
-- Health points: 20
-- Attack factor: 3
-- Defense factor: 1
+- Health points: 25
+- Attack factor: 5
+- Defense factor: 3
 - Initiative: 1
 - Missing chance: 0
 - Rarity: 1
