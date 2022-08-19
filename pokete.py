@@ -29,7 +29,7 @@ from pokete_classes.types import types
 from pokete_classes.providers import ProtoFigure
 from pokete_classes.buy import Buy
 from pokete_classes.audio import audio
-from pokete_classes.side_loops import ResizeScreen, LoadingScreen, About, Help
+from pokete_classes.side_loops import tss, LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
@@ -1074,7 +1074,7 @@ def _game(_map):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
         # checking for resizing the terminal
-        width, height = os.get_terminal_size()
+        width, height = tss()
         if mvp.movemap.width != width or mvp.movemap.height != height - 1:
             mvp.movemap.resize(height - 1, width, " ")
         mvp.movemap.full_show()
@@ -1467,7 +1467,6 @@ if __name__ == "__main__":
     print("\033[?1049h")
 
     # resizing screen
-    tss = ResizeScreen()
     width, height = tss()
 
     # Home global
