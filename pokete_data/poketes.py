@@ -356,7 +356,7 @@ it will try to peck out your eyes.",
         "rarity": 3,
         "types": ["water", "normal"],
         "evolve_poke": "kartmen",
-        "evolve_lvl": 20,
+        "evolve_lvl": 30,
         "initiative": 0,
         "ico": [{
             "txt": r"""

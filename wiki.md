@@ -1729,7 +1729,7 @@ A harmless water Pokete that can be found everywhere.
    + Big Mountain Sea
    + Rock-ville
    + Sunny Beach
-- Evolves to [Kartmen](#kartmen) at level 20
+- Evolves to [Kartmen](#kartmen) at level 30
 
 #### Kartmen
 A freshwater fighting fish Pokete.
