@@ -817,8 +817,8 @@ or not you borrowed something.",
         "lose_xp": 3,
         "rarity": 0.8,
         "types": ["electro"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "kakraholt",
+        "evolve_lvl": 30,
         "initiative": 4,
         "ico": [{
             "txt": r"""
@@ -1353,6 +1353,36 @@ that will confuse the shit out of you.",
   -)_(-U
  / ; \ """,
             "esc": None}]
+    },
+    "kakraholt": {
+        "name": "Kakraholt",
+        "hp": 25,
+        "atc": 6,
+        "defense": 3,
+        "attacks": ["shock", "charging", "mega_arch", "tackle"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A terrestrial crab full of accumulated electrical energy.",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "types": ["electro", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r"""     _
+   +O O+
+   /(+)\->>
+  /\|^|/\  """,
+            "esc": None}, {
+            "txt": r"""
+
+->>     ->>""",
+            "esc": ["yellow"]}, {
+            "txt": r"""
+   +   +
+     +     """,
+            "esc": ["lightblue"]}]
     },
 }
 

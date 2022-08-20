@@ -15,6 +15,7 @@ You can find different versions of this wiki:
 1. [Poketes](#poketes)
    1. [Electro Poketes](#electro-poketes)
        1. [Electrode](#electrode)
+       2. [Kakraholt](#kakraholt)
    2. [Fire Poketes](#fire-poketes)
        1. [Lindemon](#lindemon)
        2. [Wolfior](#wolfior)
@@ -203,6 +204,35 @@ A small floating ball that will give you a shock.
    + [Shock](#shock)
    + [Charging](#charging)
    + [Mega Arch](#mega-arch)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Evolves to [Kakraholt](#kakraholt) at level 30
+
+#### Kakraholt
+A terrestrial crab full of accumulated electrical energy.
+
+```
+     _     
+   +O O+   
+->>/(+)\->>
+  /\|^|/\  
+
+```
+
+- Type: [Electro](#types)
+- Health points: 25
+- Attack factor: 6
+- Defense factor: 3
+- Initiative: 5
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 4
+- Attacks:
+   + [Shock](#shock)
+   + [Charging](#charging)
+   + [Mega Arch](#mega-arch)
+   + [Tackle](#tackle)
 - Active: Always
 - Can be found in:
    + Nowhere
