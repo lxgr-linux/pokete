@@ -18,6 +18,7 @@ from .types import types
 from .effects import effects
 from .learnattack import LearnAttack
 from .nature import PokeNature
+from .achievements import achievements
 
 
 class Poke:
@@ -270,6 +271,7 @@ can't have more than 4 attacks!"
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
+        achievements.achieve("first_evolve")
         logging.info("[Poke] %s evolved into %s", self.name, new.name)
         del self
         return True
