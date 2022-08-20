@@ -21,7 +21,7 @@ import pokete_data as p_data
 from pokete_classes import animations
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
-from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
+from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox, InputBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
@@ -412,6 +412,7 @@ class Figure(se.Object, ProtoFigure):
                                                     "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
+        self.audio_volume = _si.get("audio_volume", 100)
 
     def set_args(self, _si):
         """Processes data from save file
@@ -506,6 +507,19 @@ in the inventory!"
         self.inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)
 
+    def get_audio_volume(self):
+        """Getter for audio_volume
+        RETURNS:
+            The current audio volume"""
+        return self.audio_volume
+
+    def set_audio_volume(self, audio_volume: int):
+        """Sets audio volume
+        ARGS:
+            audio_volume: New value of audio volume"""
+        assert audio_volume >= 0
+        assert audio_volume <= 100
+        self.audio_volume = audio_volume
 
 class Debug:
     """Debug class"""
@@ -663,6 +677,8 @@ class Menu:
         self.exit_label = se.Text("Exit", state="float")
         self.realname_label = se.Text(session_info["user"], state="float")
         self.char_label = se.Text(figure.char, state="float")
+        self.audio_volume_label = se.Text("Audio volume in %: ", state="float")
+        self.audio_volume_value_field = se.Text(str(figure.get_audio_volume()), state="float")
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
                             VisSetting("Autosave", "autosave",
@@ -673,6 +689,7 @@ class Menu:
                                        {True: "On", False: "Off"}),
                             VisSetting("Audio", "audio",
                                        {True: "On", False: "Off"}),
+                            self.audio_volume_label,
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
                             self.mods_label, self.ach_label,
@@ -686,6 +703,11 @@ class Menu:
                         self.represent_char_label.rx
                         + self.represent_char_label.width,
                         self.represent_char_label.ry)
+        self.box.add_ob(self.audio_volume_value_field,
+                        self.audio_volume_label.rx
+                        + self.audio_volume_label.width,
+                        self.audio_volume_label.ry)
+
 
     def __call__(self, pevm):
         """Opens the menu"""
@@ -728,6 +750,14 @@ valid single-space character!")
                         about()
                     elif i == self.ach_label:
                         AchievementOverview()(mvp.movemap)
+                    elif i == self.audio_volume_label:
+                         inp = text_input(self.audio_volume_value_field, self.map,
+                                         str(figure.audio_volume), 18, 3)
+                         try:
+                            converted = int(inp)
+                         except:
+                            converted = figure.get_audio_volume()
+                         figure.set_audio_volume(converted)
                     else:
                         i.change()
                 elif action.triggers(Action.UP, Action.DOWN):
@@ -774,7 +804,8 @@ def save():
         # filters doublicates from figure.used_npcs
         "used_npcs": list(dict.fromkeys(figure.used_npcs)),
         "pokete_care": pokete_care.dict(),
-        "time": timer.time.time
+        "time": timer.time.time,
+        "audio_volume" : figure.get_audio_volume()
     }
     with open(SAVEPATH / "pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
@@ -1010,7 +1041,7 @@ def _game(_map):
         figure.visited_maps.append(_map.name)
 
     if audio.curr is None:
-        audio.start(_map.song)
+        audio.start(_map.song, figure.get_audio_volume())
     else:
         audio.switch(_map.song)
 
