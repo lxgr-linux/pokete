@@ -47,8 +47,9 @@ class Box(se.Box):
         name: The boxes displayed name
         info: Info that will be displayed in the bottom left corner of the box"""
 
-    def __init__(self, height, width, name="", info=""):
+    def __init__(self, height, width, name="", info="", overview=None):
         super().__init__(height, width)
+        self.overview = overview
         self.frame = StdFrame(height, width)
         self.inner = se.Square(char=" ", width=width - 2, height=height - 2,
                                state="float")
@@ -59,6 +60,13 @@ class Box(se.Box):
         self.add_ob(self.inner, 1, 1)
         self.add_ob(self.name_label, 2, 0)
         self.add_ob(self.info_label, 2, self.height - 1)
+
+    def resize_view(self):
+        if self.overview is not None:
+            self.remove()
+            self.overview.resize_view()
+            self.center_add(self.map)
+            self.map.full_show()
 
     def center_add(self, _map):
         """Adds the box to the maps center
@@ -104,8 +112,11 @@ class ChooseBox(Box):
         index_x: The indexes x-coordinate
         c_obs: List of se.Texts that can be choosen from"""
 
-    def __init__(self, height, width, name="", info="", index_x=2, c_obs=None):
-        super().__init__(height, width, name, info)
+    def __init__(
+            self, height, width, name="", info="",
+            index_x=2, c_obs=None, overview=None
+        ):
+        super().__init__(height, width, name, info, overview=overview)
         self.index_x = index_x
         self.index = BoxIndex()
         if c_obs is not None:
@@ -195,12 +206,18 @@ class BetterChooseBox(Box):
         name: The boxes displayed name
         _map: The map it will be shown on"""
 
-    def __init__(self, columns, labels: [se.Text], name="", _map=None):
+    def __init__(
+            self, columns, labels: [se.Text],
+            name="", _map=None, overview=None
+        ):
         self.nest_label_obs = []
         self.set_items(columns, labels, init=True)
-        super().__init__(3 * len(self.nest_label_obs) + 2,
-                         sum(i.width for i in self.nest_label_obs[0]) + 2,
-                         name, f"{Action.CANCEL.mapping}:close")
+        super().__init__(
+            3 * len(self.nest_label_obs) + 2,
+            sum(i.width for i in self.nest_label_obs[0]) + 2,
+            name, f"{Action.CANCEL.mapping}:close",
+            overview=overview
+        )
         self.map = _map
         self.__add_obs()
         self.index = (0, 0)
@@ -293,9 +310,12 @@ class LabelBox(Box):
         name: The boxes displayed name
         info: Info that will be displayed in the bottom left corner of the box"""
 
-    def __init__(self, label, name="", info=""):
+    def __init__(self, label, name="", info="", overview=None):
         self.label = label
-        super().__init__(label.height + 2, label.width + 4, name, info)
+        super().__init__(
+            label.height + 2, label.width + 4, name, info,
+            overview=overview
+        )
         self.add_ob(label, 2, 1)
 
 
@@ -307,8 +327,12 @@ class InfoBox(LabelBox):
         info: Info that will be displayed in the bottom left corner of the box
         _map: The se.Map this will be shown on"""
 
-    def __init__(self, text, name="", info=f"{Action.CANCEL.mapping}:close", _map=None):
-        super().__init__(se.Text(text), name=name, info=info)
+    def __init__(
+            self, text, name="",
+            info=f"{Action.CANCEL.mapping}:close",
+            _map=None, overview=None
+        ):
+        super().__init__(se.Text(text), name=name, info=info, overview=overview)
         self.map = _map
 
     def __enter__(self):  # Contextmanagement is fucking awesome!

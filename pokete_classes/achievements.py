@@ -9,6 +9,7 @@ from .loops import std_loop, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
 from .color import Color
 from .notify import notifier
+from . import movemap as mvp
 
 
 class Achievement:
@@ -70,7 +71,7 @@ class AchBox(LabelBox):
         ach: The Achievement
         achievements: Achievement's object"""
 
-    def __init__(self, ach, ach_ob):
+    def __init__(self, ach, ach_ob, overview):
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = [i[-1] for i in ach_ob.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
@@ -82,14 +83,18 @@ class AchBox(LabelBox):
                 + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
                 + se.Text("\n" + liner(ach.desc, 30), state="float")
         super().__init__(label, name=ach.title,
-                         info=f"{Action.CANCEL.mapping}:close")
+                         info=f"{Action.CANCEL.mapping}:close",
+                         overview=overview)
 
 
 class AchievementOverview(BetterChooseBox):
     """Overview for Achievements"""
 
     def __init__(self):
-        super().__init__(4, [se.Text(" ")], name="Achievements")
+        super().__init__(
+            4, [se.Text(" ")], name="Achievements",
+            overview=mvp.movemap.menu
+        )
 
     def __call__(self, _map):
         """Input loop
@@ -113,9 +118,13 @@ class AchievementOverview(BetterChooseBox):
                         ach = achievements.achievements[
                             self.get_item(*self.index).ind
                         ]
-                        with AchBox(ach, achievements).center_add(_map):
-                            easy_exit_loop()
-                std_loop()
+                        with AchBox(
+                            ach,
+                            achievements,
+                            self
+                        ).center_add(_map) as achbox:
+                            easy_exit_loop(box=achbox)
+                std_loop(box=self)
                 self.map.show()
 
 

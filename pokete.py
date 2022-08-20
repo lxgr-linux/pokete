@@ -29,7 +29,8 @@ from pokete_classes.types import types
 from pokete_classes.providers import ProtoFigure
 from pokete_classes.buy import Buy
 from pokete_classes.audio import audio
-from pokete_classes.side_loops import tss, LoadingScreen, About, Help
+from pokete_classes.tss import tss
+from pokete_classes.side_loops import LoadingScreen, About, Help
 from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
@@ -516,6 +517,14 @@ class Debug:
         print(figure.x, figure.y, figure.map.name)
 
 
+class InvBox(Box):
+    def resize_view(self):
+        self.remove()
+        self.overview.resize_view()
+        self.add(self.map, self.overview.box.x - 19, 3)
+        mvp.movemap.full_show()
+
+
 class Inv:
     """Inventory to see and manage items in
     ARGS:
@@ -525,7 +534,7 @@ class Inv:
         self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Inventory",
                              f"{Action.REMOVE.mapping}:remove")
-        self.box2 = Box(7, 21)
+        self.box2 = InvBox(7, 21, overview=self)
         self.money_label = se.Text(f"${figure.get_money()}")
         self.desc_label = se.Text(" ")
         # adding
@@ -533,10 +542,18 @@ class Inv:
                         self.box.width - 2 - len(self.money_label.text), 0)
         self.box2.add_ob(self.desc_label, 1, 1)
 
+    def resize_view(self):
+        self.box.remove()
+        self.map.resize_view()
+        self.box.resize(self.map.height - 3, 35)
+        self.box.add(self.map, self.map.width - self.box.width, 0)
+        mvp.movemap.full_show()
+
     def __call__(self):
         """Opens the inventory"""
         _ev.clear()
         items = self.add()
+        self.box.resize(self.map.height - 3, 35)
         with self.box.add(self.map, self.map.width - 35, 0):
             while True:
                 action = get_action()
@@ -604,7 +621,7 @@ class Inv:
                                         if len(items) == 0:
                                             break
                             break
-                        time.sleep(SPEED_OF_TIME * 0.05)
+                        std_loop(box=self.box2)
                         self.map.show()
                 elif action.triggers(Action.REMOVE):
                     if ask_bool(self.map,
@@ -614,7 +631,7 @@ class Inv:
                                               items)
                         if len(items) == 0:
                             break
-                std_loop()
+                std_loop(box=self)
                 self.map.show()
         self.box.remove_c_obs()
 
@@ -653,7 +670,7 @@ class Menu:
 
     def __init__(self, _map):
         self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Menu")
+        self.box = ChooseBox(_map.height - 3, 35, "Menu", overview=_map)
         self.playername_label = se.Text("Playername: ", state="float")
         self.represent_char_label = se.Text("Char: ", state="float")
         self.mods_label = se.Text("Mods", state="float")
@@ -687,8 +704,15 @@ class Menu:
                         + self.represent_char_label.width,
                         self.represent_char_label.ry)
 
+    def resize_view(self):
+        self.box.remove()
+        self.box.overview.resize_view()
+        self.box.resize(self.map.height - 3, 35)
+        self.box.add(self.map, self.map.width - self.box.width, 0)
+
     def __call__(self, pevm):
         """Opens the menu"""
+        self.box.resize(self.map.height - 3, 35)
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
         with self.box.add(self.map, self.map.width - self.box.width, 0):
@@ -734,7 +758,7 @@ valid single-space character!")
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.MENU):
                     break
-                std_loop(pevm=pevm)
+                std_loop(pevm=pevm, box=self)
                 self.map.full_show()
 
 
@@ -1003,7 +1027,6 @@ def _game(_map):
     """Game function
     ARGS:
         _map: The map that will be shown"""
-    global width, height
     _ev.clear()
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
     if _map.name not in figure.visited_maps:
@@ -1025,7 +1048,7 @@ def _game(_map):
         Action.INVENTORY: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
-        Action.MENU: [menu, (pevm,)],
+        Action.MENU: [mvp.movemap.menu, (pevm,)],
         Action.HELP: [help_page, ()]
     }
     if _map.weather is not None:
@@ -1074,9 +1097,9 @@ def _game(_map):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
         # checking for resizing the terminal
-        width, height = tss()
-        if mvp.movemap.width != width or mvp.movemap.height != height - 1:
-            mvp.movemap.resize(height - 1, width, " ")
+        if tss():
+            mvp.movemap.resize(tss.height - 1, tss.width, " ")
+            mvp.movemap.full_show(True)
         mvp.movemap.full_show()
 
 
@@ -1191,7 +1214,7 @@ def check_version(sinfo):
                         liner(f"The save file was created \
 on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
-Do you want to continue?", int(width * 2 / 3))):
+Do you want to continue?", int(tss.width * 2 / 3))):
             sys.exit()
     return VERSION != ver
 
@@ -1467,7 +1490,7 @@ if __name__ == "__main__":
     print("\033[?1049h")
 
     # resizing screen
-    width, height = tss()
+    tss()
 
     # Home global
     HOME = Path.home()
@@ -1521,8 +1544,8 @@ if __name__ == "__main__":
     obmp.ob_maps = gen_maps()
     # Those two maps cant to sourced out, because `height` and `width`
     # are global variables exclusive to pokete.py
-    centermap = CenterMap(height - 1, width)
-    shopmap = ShopMap(height - 1, width)
+    centermap = CenterMap(tss.height - 1, tss.width)
+    shopmap = ShopMap(tss.height - 1, tss.width)
     obmp.ob_maps["centermap"] = centermap
     obmp.ob_maps["shopmap"] = shopmap
 
@@ -1534,19 +1557,19 @@ if __name__ == "__main__":
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
-    mvp.movemap = mvp.Movemap(height - 1, width)
+
+    mvp.movemap = mvp.Movemap(tss.height - 1, tss.width, Menu)
 
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
 
     # side fn definitions
-    detail.detail = detail.Detail(height - 1, width)
+    detail.detail = detail.Detail(tss.height - 1, tss.width)
     pokete_dex = Dex(figure)
     help_page = Help(mvp.movemap)
     RoadMap.check_maps()
     roadmap = RoadMap(figure)
-    deck.deck = deck.Deck(height - 1, width, figure, abb_funcs)
-    menu = Menu(mvp.movemap)
+    deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
     about = About(VERSION, CODENAME, mvp.movemap)
     inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)
@@ -1566,7 +1589,7 @@ if __name__ == "__main__":
         achievements.add(identifier, **achievement_args)
 
     # objects relevant for fm.fight()
-    fm.fightmap = fm.FightMap(height - 1, width)
+    fm.fightmap = fm.FightMap(tss.height - 1, tss.width)
 
     for _i in [NPC, Trainer]:
         _i.set_vars(figure, NPCActions)

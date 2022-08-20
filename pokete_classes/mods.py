@@ -3,6 +3,7 @@
 from .side_loops import LoopBox
 from .ui_elements import InfoBox
 from .settings import settings
+from . import movemap as mvp
 
 
 class DummyMods:
@@ -41,7 +42,12 @@ and mods have to be enabled in the menu.
 
 Currently {len(mod_info)} mod{"s are" if len(mod_info) != 1 else " is"} loaded:
    """ + "\n   ".join(f"{i}-{mod_info[i]}" for i in mod_info) + "\n"
-        super().__init__(InfoBox(self.text, name="Mods", _map=_map))
+        super().__init__(
+            InfoBox(
+                self.text, name="Mods", _map=_map,
+                overview=mvp.movemap.menu
+            )
+        )
 
 
 if __name__ == "__main__":

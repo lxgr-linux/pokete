@@ -4,19 +4,20 @@ import time
 from pokete_classes.hotkeys import Action, get_action
 import release
 from .notify import notifier
+from .tss import tss
 
 
-def easy_exit_loop(on_mvmp=True):
+def easy_exit_loop(on_mvmp=True, box=None):
     """Loops until Cancel or Accept is given
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap"""
     while True:
         if get_action().triggers(*(Action.CANCEL, Action.ACCEPT)):
             return
-        std_loop(on_mvmp)
+        std_loop(on_mvmp, box=box)
 
 
-def std_loop(on_mvmp=True, pevm=None):
+def std_loop(on_mvmp=True, pevm=None, box=None):
     """Standard action executed in most loops
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap
@@ -26,4 +27,6 @@ def std_loop(on_mvmp=True, pevm=None):
         notifier.next()
     if pevm is not None:
         pevm.event()
+    if box is not None and tss():
+        box.resize_view()
     time.sleep(release.FRAMETIME)
