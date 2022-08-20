@@ -1333,6 +1333,27 @@ that will confuse the shit out of you.",
    ((((""",
             "esc": None}]
     },
+    "bablbam": {
+        "name": "Bablbam",
+        "hp": 20,
+        "atc": 2,
+        "defense": 1,
+        "attacks": ["tackle", "mind_blow"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Dead or alive entity with slow movement and mental ability.",
+        "lose_xp": 3,
+        "rarity": 1,
+        "types": ["undead"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""   (.)~
+  -)_(-U
+ / ; \ """,
+            "esc": None}]
+    },
 }
 
 if __name__ == "__main__":

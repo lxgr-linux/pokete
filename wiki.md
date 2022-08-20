@@ -68,9 +68,10 @@ You can find different versions of this wiki:
        5. [Steini](#steini)
    10. [Undead Poketes](#undead-poketes)
        1. [Angrilo](#angrilo)
-       2. [Confuso](#confuso)
-       3. [Gobost](#gobost)
-       4. [Saugh](#saugh)
+       2. [Bablbam](#bablbam)
+       3. [Confuso](#confuso)
+       4. [Gobost](#gobost)
+       5. [Saugh](#saugh)
    11. [Water Poketes](#water-poketes)
        1. [Blub](#blub)
        2. [Clampi](#clampi)
@@ -1517,6 +1518,34 @@ A ghost Pokete that will scare your pants off.
    + [Mind Blow](#mind-blow)
    + [Wet Slap](#wet-slap)
    + [Heart Touch](#heart-touch)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Does not evolve
+
+
+#### Bablbam
+Dead or alive entity with slow movement and mental ability.
+
+```
+   (.)~    
+  -)_(-U   
+ / ; \     
+           
+
+```
+
+- Type: [Undead](#types)
+- Health points: 20
+- Attack factor: 2
+- Defense factor: 1
+- Initiative: 1
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 3
+- Attacks:
+   + [Tackle](#tackle)
+   + [Mind Blow](#mind-blow)
 - Active: Always
 - Can be found in:
    + Nowhere
