@@ -19,20 +19,17 @@ def audio_fn(song, play_audio, volume):
 
 class Audio:
     """Audio controler class"""
-    volume = 100
 
     def __init__(self):
         self.curr = None
 
-    def start(self, song, volume):
+    def start(self, song):
         """Starts playing a song
         ARGS:
-            song: The song played
-            volume: The volume value in percentage from 0 to 100"""
-        self.volume = volume
+            song: The song played"""
         self.curr = multiprocessing.Process(
             target=audio_fn,
-            args=(song, settings("audio").val, self.volume)
+            args=(song, settings("audio").val, settings("volume").val)
         )
         self.curr.start()
 
@@ -41,7 +38,7 @@ class Audio:
         ARGS:
             song: The song played"""
         self.kill()
-        self.start(song, self.volume)
+        self.start(song)
 
     def kill(self):
         """Kills the running music"""

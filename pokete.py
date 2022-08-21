@@ -412,7 +412,6 @@ class Figure(se.Object, ProtoFigure):
                                                     "playmap_1")]
         self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
-        self.audio_volume = _si.get("audio_volume", 100)
 
     def set_args(self, _si):
         """Processes data from save file
@@ -507,19 +506,6 @@ in the inventory!"
         self.inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)
 
-    def get_audio_volume(self):
-        """Getter for audio_volume
-        RETURNS:
-            The current audio volume"""
-        return self.audio_volume
-
-    def set_audio_volume(self, audio_volume: int):
-        """Sets audio volume
-        ARGS:
-            audio_volume: New value of audio volume"""
-        assert audio_volume >= 0
-        assert audio_volume <= 100
-        self.audio_volume = audio_volume
 
 class Debug:
     """Debug class"""
@@ -678,7 +664,10 @@ class Menu:
         self.realname_label = se.Text(session_info["user"], state="float")
         self.char_label = se.Text(figure.char, state="float")
         self.audio_volume_label = se.Text("Audio volume in %: ", state="float")
-        self.audio_volume_value_field = se.Text(str(figure.get_audio_volume()), state="float")
+        self.audio_volume_value_field = se.Text(
+            str(settings("volume").val),
+            state="float"
+        )
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
                             VisSetting("Autosave", "autosave",
@@ -752,12 +741,12 @@ valid single-space character!")
                         AchievementOverview()(mvp.movemap)
                     elif i == self.audio_volume_label:
                          inp = text_input(self.audio_volume_value_field, self.map,
-                                         str(figure.audio_volume), 18, 3)
+                                         str(settings("volume").val), 18, 3)
                          try:
                             converted = int(inp)
                          except:
                             converted = figure.get_audio_volume()
-                         figure.set_audio_volume(converted)
+                         settings("volume").val = converted
                     else:
                         i.change()
                 elif action.triggers(Action.UP, Action.DOWN):
@@ -805,7 +794,6 @@ def save():
         "used_npcs": list(dict.fromkeys(figure.used_npcs)),
         "pokete_care": pokete_care.dict(),
         "time": timer.time.time,
-        "audio_volume" : figure.get_audio_volume()
     }
     with open(SAVEPATH / "pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
@@ -1041,7 +1029,7 @@ def _game(_map):
         figure.visited_maps.append(_map.name)
 
     if audio.curr is None:
-        audio.start(_map.song, figure.get_audio_volume())
+        audio.start(_map.song)
     else:
         audio.switch(_map.song)
 
