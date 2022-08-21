@@ -702,6 +702,8 @@ class Menu:
         """Opens the menu"""
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
+        audio_before = settings("audio").val
+        volume_before = settings("volume").val
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             _ev.clear()
             while True:
@@ -749,6 +751,13 @@ valid single-space character!")
                          settings("volume").val = converted
                     else:
                         i.change()
+                    if (
+                        audio_before != settings("audio").val
+                        or volume_before != settings("volume").val
+                    ):
+                        audio.switch(figure.map.song)
+                        audio_before = settings("audio").val
+                        volume_before = settings("volume").val
                 elif action.triggers(Action.UP, Action.DOWN):
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.MENU):
@@ -1059,13 +1068,10 @@ def _game(_map):
                 figure.y + action.get_y_strength()
             )
         elif action.triggers(*inp_dict):
-            audio_before = settings("audio").val
             for key, option in inp_dict.items():
                 if action.triggers(key):
                     option[0](*option[1])
             _ev.clear()
-            if audio_before != settings("audio").val:
-                audio.switch(_map.song)
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
             if ask_bool(mvp.movemap, "Do you really wish to exit?"):
