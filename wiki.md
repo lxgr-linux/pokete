@@ -61,7 +61,7 @@ You can find different versions of this wiki:
    8. [Poison Poketes](#poison-poketes)
        1. [Choka](#choka)
        2. [Pavous](#pavous)
-       3. [Uberpavous](#uber-pavous)
+       3. [Uberpavous](#uberpavous)
        4. [Würgos](#würgos)
    9. [Stone Poketes](#stone-poketes)
        1. [Bigstone](#bigstone)
@@ -1362,11 +1362,11 @@ w        w
 - Attacks:
    + [Poison Bite](#poison-bite)
    + [Bite](#bite)
-   + [Web attack](#web-attack)
+   + [Web attack](#webattack)
 - Active: Always
 - Can be found in:
    + Nowhere
-- Evolves to [Uberpavous](#uber_pavous) at level 30
+- Evolves to [Uberpavous](#uberpavous) at level 30
 
 #### Uberpavous
 Dnagerous spider like Pokete with strong mandibles.
@@ -1390,7 +1390,7 @@ W         W
 - Attacks:
    + [Poison Bite](#poison-bite)
    + [Bite](#bite)
-   + [Web attack](#web-attack)
+   + [Web attack](#webattack)
    + [Power Bite](#power-bite)
 - Active: Always
 - Can be found in:

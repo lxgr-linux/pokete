@@ -1371,8 +1371,8 @@ that will confuse the shit out of you.",
         "initiative": 5,
         "ico": [{
             "txt": r"""     _
-   +O O+
-   /(+)\->>
+    O O
+   /( )\
   /\|^|/\  """,
             "esc": None}, {
             "txt": r"""
@@ -1389,14 +1389,14 @@ that will confuse the shit out of you.",
         "hp": 20,
         "atc": 3,
         "defense": 0,
-        "attacks": ["poison_bite", "bite", "web_attack"],
+        "attacks": ["poison_bite", "bite", "webattack"],
         "pool": [],
         "miss_chance": 0,
         "desc": "A tiny spider like Pokete.",
         "lose_xp": 4,
         "rarity": 1,
         "types": ["poison", "normal"],
-        "evolve_poke": "uber_pavous",
+        "evolve_poke": "uberpavous",
         "evolve_lvl": 30,
         "initiative": 3,
         "ico": [{
@@ -1405,12 +1405,12 @@ that will confuse the shit out of you.",
 w        w""",
             "esc": None}]
     },
-    "uber_pavous": {
+    "uberpavous": {
         "name": "Uberpavous",
         "hp": 25,
         "atc": 5,
         "defense": 1,
-        "attacks": ["poison_bite", "bite", "web_attack", "power_bite"],
+        "attacks": ["poison_bite", "bite", "webattack", "power_bite"],
         "pool": [],
         "miss_chance": 0,
         "desc": "Dnagerous spider like Pokete with strong mandibles.",

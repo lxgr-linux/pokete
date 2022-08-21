@@ -367,7 +367,7 @@ attacks = {
         "is_generic": False,
         "ap": 15,
     },
-     "web_attack": {
+     "webattack": {
         "name": "Web attack",
         "factor": 1,
         "action": None,
