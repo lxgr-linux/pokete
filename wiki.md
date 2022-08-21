@@ -60,7 +60,9 @@ You can find different versions of this wiki:
        9. [Wheeto](#wheeto)
    8. [Poison Poketes](#poison-poketes)
        1. [Choka](#choka)
-       2. [Würgos](#würgos)
+       2. [Pavous](#pavous)
+       3. [Uberpavous](#uber-pavous)
+       4. [Würgos](#würgos)
    9. [Stone Poketes](#stone-poketes)
        1. [Bigstone](#bigstone)
        2. [Diamondos](#diamondos)
@@ -122,6 +124,7 @@ You can find different versions of this wiki:
        7. [Supercow Power](#supercow-power)
        8. [Tackle](#tackle)
        9. [Tail Swipe](#tail-swipe)
+       10. [Web attack](#web-attack)
    7. [Plant attacks](#plant-attacks)
        1. [Apple Drop](#apple-drop)
        2. [Bark Hardening](#bark-hardening)
@@ -1337,6 +1340,64 @@ A fucking dangerous and enormous snake Pokete.
 - Does not evolve
 
 
+#### Pavous
+A tiny spider like Pokete.
+
+```
+  (0)(0)   
+ /  ''  \  
+w        w 
+           
+
+```
+
+- Type: [Poison](#types)
+- Health points: 20
+- Attack factor: 3
+- Defense factor: 0
+- Initiative: 3
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 4
+- Attacks:
+   + [Poison Bite](#poison-bite)
+   + [Bite](#bite)
+   + [Web attack](#web-attack)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Evolves to [Uberpavous](#uber_pavous) at level 30
+
+#### Uberpavous
+Dnagerous spider like Pokete with strong mandibles.
+
+```
+  /\~-~/\  
+ //\0_0/\\ 
+//  '''  \\
+W         W
+
+```
+
+- Type: [Poison](#types)
+- Health points: 25
+- Attack factor: 5
+- Defense factor: 1
+- Initiative: 5
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 4
+- Attacks:
+   + [Poison Bite](#poison-bite)
+   + [Bite](#bite)
+   + [Web attack](#web-attack)
+   + [Power Bite](#power-bite)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Does not evolve
+
+
 #### Würgos
 A dangerous snake Pokete.
 
@@ -2207,6 +2268,16 @@ Makes the Pokete angry and strong.
 - Missing chance: 0
 - Attack points: 10
 - Effect: None
+
+#### Web attack
+Thows web towards enemy in order to immobilize.
+
+- Type: [Normal](#types)
+- Minimum Level: 0
+- Attack factor: 1
+- Missing chance: 0.2
+- Attack points: 10
+- Effect: [Paralyzation](#paralyzation)
 
 ### Plant attacks
 #### Special Smell

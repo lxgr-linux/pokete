@@ -1384,6 +1384,49 @@ that will confuse the shit out of you.",
      +     """,
             "esc": ["lightblue"]}]
     },
+    "pavous": {
+        "name": "Pavous",
+        "hp": 20,
+        "atc": 3,
+        "defense": 0,
+        "attacks": ["poison_bite", "bite", "web_attack"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A tiny spider like Pokete.",
+        "lose_xp": 4,
+        "rarity": 1,
+        "types": ["poison", "normal"],
+        "evolve_poke": "uber_pavous",
+        "evolve_lvl": 30,
+        "initiative": 3,
+        "ico": [{
+            "txt": r"""  (0)(0)
+ /  ''  \
+w        w""",
+            "esc": None}]
+    },
+    "uber_pavous": {
+        "name": "Uberpavous",
+        "hp": 25,
+        "atc": 5,
+        "defense": 1,
+        "attacks": ["poison_bite", "bite", "web_attack", "power_bite"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Dnagerous spider like Pokete with strong mandibles.",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "types": ["poison", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r"""  /\~-~/\
+ //\0_0/\\
+//  '''  \\
+W         W""",
+            "esc": None}]
+    },
 }
 
 if __name__ == "__main__":
