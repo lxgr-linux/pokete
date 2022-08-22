@@ -18,15 +18,20 @@ class AttackInfo(Box):
         attack: The attack's name
         _map: se.Map this should be shown on"""
 
-    def __init__(self, attack, _map):
+    def __init__(self, attack, _map, overview):
         atc = Attack(attack)
         desc_label = se.Text(liner(atc.desc, 40))
-        super().__init__(5 + len(desc_label.text.split("\n")),
-                         sorted(len(i) for i in
-                            desc_label.text.split("\n")
-                            + [atc.label_type.text,
-                               atc.label_factor.text])[-1] + 4, atc.name,
-                         f"{Action.CANCEL.mapping}:close")
+        super().__init__(
+            5 + len(desc_label.text.split("\n")),
+            sorted(
+                len(i) for i in
+                desc_label.text.split("\n")
+                + [
+                    atc.label_type.text,
+                    atc.label_factor.text
+                ]
+            )[-1] + 4, atc.name, f"{Action.CANCEL.mapping}:close",
+            overview=overview)
         self.map = _map
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)
@@ -46,12 +51,14 @@ class LearnAttack:
         poke: The Poke that should learn an attack
         _map: The se.Map this should happen on"""
 
-    def __init__(self, poke, _map):
+    def __init__(self, poke, _map, overview):
         self.map = _map
         self.poke = poke
         self.box = ChooseBox(
             6, 25, name="Attacks",
-            info=f"{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info")
+            info=f"{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info",
+            overview=overview
+        )
 
     @staticmethod
     def get_attack(poke):
@@ -86,9 +93,12 @@ class LearnAttack:
                 return False
         else:
             new_attack = attack
-        if ask_bool(self.map,
-                    f"{self.poke.name} wants to learn \
-{attacks[new_attack]['name']}!"):
+        if ask_bool(
+            self.map,
+            f"{self.poke.name} wants to learn "
+            f"{attacks[new_attack]['name']}!",
+            self.box
+        ):
             if len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)
                 self.poke.attack_obs.append(Attack(new_attack,
@@ -106,19 +116,25 @@ class LearnAttack:
                             i = self.box.index.index
                             self.poke.attacks[i] = new_attack
                             self.poke.attack_obs[i] = Attack(new_attack, i + 1)
-                            ask_ok(self.map, f"{self.poke.name} learned \
-{attacks[new_attack]['name']}!")
+                            ask_ok(
+                                self.map,
+                                f"{self.poke.name} learned "
+                                f"{attacks[new_attack]['name']}!",
+                                self.box
+                            )
                             break
                         elif action.triggers(Action.DECK):
                             Detail(self.map.height, self.map.width)\
                                   (self.poke, False)
                             self.map.show(init=True)
                         elif action.triggers(Action.INFO):
-                            with AttackInfo(new_attack, self.map):
-                                easy_exit_loop()
+                            with AttackInfo(
+                                new_attack, self.map, self.box
+                            ) as box:
+                                easy_exit_loop(box=box)
                         elif action.triggers(Action.CANCEL):
                             return False
-                        std_loop()
+                        std_loop(box=self.box)
                 self.box.remove_c_obs()
             return True
         return False

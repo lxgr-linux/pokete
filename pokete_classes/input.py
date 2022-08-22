@@ -7,7 +7,7 @@ from .ui_elements import InfoBox, InputBox
 from .event import _ev
 
 
-def text_input(obj, _map, name, wrap_len, max_len=1000000):
+def text_input(obj, _map, name, wrap_len, max_len=1000000, box=None):
     """Processes text input
     ARGS:
         obj: The text label that will be rechared
@@ -44,10 +44,10 @@ def text_input(obj, _map, name, wrap_len, max_len=1000000):
             obj.rechar(hard_liner(wrap_len, name + "█"))
             _map.show()
             _ev.clear()
-        std_loop(_map.name == "movemap")
+        std_loop(_map.name == "movemap", box=box)
 
 
-def ask_bool(_map, text):
+def ask_bool(_map, text, overview=None):
     """Asks the player to aswer a yes/no question
     ARGS:
         _map: The map the question should be asked on
@@ -55,7 +55,7 @@ def ask_bool(_map, text):
     assert len(text) >= 12, "Text has to be longer then 12 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
     with InfoBox(f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o",
-                 info="", _map=_map):
+                 info="", _map=_map, overview=overview) as box:
         while True:
             action = get_action()
             if action.triggers(Action.ACCEPT):
@@ -64,11 +64,11 @@ def ask_bool(_map, text):
             if action.triggers(Action.CANCEL):
                 ret = False
                 break
-            std_loop(_map.name == "movemap")
+            std_loop(_map.name == "movemap", box=box)
     return ret
 
 
-def ask_text(_map, infotext, introtext, text, name, max_len):
+def ask_text(_map, infotext, introtext, text, name, max_len, overview=None):
     """Asks the player to input a text
     ARGS:
         _map: The map the input box should be shown on
@@ -77,13 +77,15 @@ def ask_text(_map, infotext, introtext, text, name, max_len):
         text: The default text in the text field
         name: The boxes displayed name
         max_len: Max length of the text"""
-    with InputBox(infotext, introtext, text, max_len, name, _map) as inputbox:
+    with InputBox(
+        infotext, introtext, text, max_len, name, _map, overview
+    ) as inputbox:
         ret = text_input(inputbox.text, _map, text, max_len + 1,
-                         max_len=max_len)
+                         max_len=max_len, box=inputbox)
     return ret
 
 
-def ask_ok(_map, text):
+def ask_ok(_map, text, overview=None):
     """Shows the player some information
     ARGS:
         _map: The map the question is asked on
@@ -91,10 +93,10 @@ def ask_ok(_map, text):
     assert len(text) >= 4, "Text has to be longer then 4 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
     with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '} [O]k ", name="Info",
-                 info="", _map=_map):
+                 info="", _map=_map, overview=overview) as box:
         while True:
             action = get_action()
             if action.triggers(Action.ACCEPT or action == Action.CANCEL):
                 break
-            std_loop(_map.name == "movemap")
+            std_loop(_map.name == "movemap", box=box)
         _ev.clear()

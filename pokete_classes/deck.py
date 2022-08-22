@@ -81,9 +81,17 @@ class Deck(detail.Informer):
             in_fight: Whether or not this is called in a fight"""
         self.pokes = self.figure.pokes[:p_len]
         ret_action = None
+
+        self.exit_label.remove()
+        self.move_label.remove()
+        self.move_free.remove()
+        self.submap.resize(tss.height - 1, tss.width)
+        self.exit_label.add(self.submap, 0, self.submap.height - 1)
+        self.move_label.add(self.submap, 9, self.submap.height - 1)
+        self.move_free.add(self.submap, 20, self.submap.height - 1)
         self.map.resize(5 * int((len(self.pokes) + 1) / 2) + 2, tss.width,
                         self.map.background)
-        self.submap.resize(tss.height - 1, tss.width)
+
         self.label = label
         se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
         se.Square("|", 1, self.map.height - 2).add(self.map,
@@ -147,9 +155,9 @@ class Deck(detail.Informer):
                         if poke.identifier != "__fallback__"
                     ]
                 ) <= 1:
-                    ask_ok(self.submap, "You can't free all your Poketes")
+                    ask_ok(self.submap, "You can't free all your Poketes", self)
                 elif ask_bool(self.submap, f"Do you really want to free \
-{self.figure.pokes[self.index.index].name}?"):
+{self.figure.pokes[self.index.index].name}?", self):
                     self.rem_pokes()
                     self.figure.pokes[self.index.index] = Poke("__fallback__",
                                                                    10, 0)

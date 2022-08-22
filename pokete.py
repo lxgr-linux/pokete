@@ -107,8 +107,11 @@ class NPCActions:
             npc.text(["Oh, cool!", "You have a Choka!",
                       "I've never seen one before!",
                       "Here you go, have $200!"])
-            if ask_bool(mvp.movemap,
-                        "The young boy gifted you $200. Do you want to accept it?"):
+            if ask_bool(
+                    mvp.movemap,
+                    "The young boy gifted you $200. Do you want to accept it?",
+                    mvp.movemap
+                ):
                 figure.add_money(200)
             npc.set_used()
         else:
@@ -120,14 +123,17 @@ It evolves into Choka.",
     @staticmethod
     def playmap_20_trader(npc):
         """Interaction with trader"""
-        if ask_bool(mvp.movemap, "Do you want to trade a Pokete?"):
+        if ask_bool(mvp.movemap, "Do you want to trade a Pokete?", mvp.movemap):
             if (index := deck.deck(6, "Your deck", True)) is None:
                 return
             figure.add_poke(Poke("ostri", 500), index)
             npc.set_used()
-            ask_ok(mvp.movemap,
-                   f"You received: {figure.pokes[index].name.capitalize()} \
-at level {figure.pokes[index].lvl()}.")
+            ask_ok(
+                mvp.movemap,
+                f"You received: {figure.pokes[index].name.capitalize()}"
+                f" at level {figure.pokes[index].lvl()}.",
+                mvp.movemap
+            )
             mvp.movemap.text(npc.x, npc.y, ["Cool, huh?"])
 
     @staticmethod
@@ -136,8 +142,11 @@ at level {figure.pokes[index].lvl()}.")
         if pokete_care.poke is None:
             npc.text(["Here you can leave one of your Poketes for some time \
 and we will train it."])
-            if ask_bool(mvp.movemap, "Do you want to put a Pokete into the \
-Pokete-Care?"):
+            if ask_bool(
+                mvp.movemap,
+                "Do you want to put a Pokete into the Pokete-Care?",
+                mvp.movemap
+            ):
                 if (index := deck.deck(6, "Your deck", True)) is not None:
                     pokete_care.poke = figure.pokes[index]
                     pokete_care.entry = timer.time.time
@@ -149,7 +158,7 @@ Pokete-Care?"):
             pokete_care.poke.add_xp(add_xp)
             npc.text(["Oh, you're back.", f"Your {pokete_care.poke.name} \
 gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
-            if ask_bool(mvp.movemap, "Do you want it back?"):
+            if ask_bool(mvp.movemap, "Do you want it back?", mvp.movemap):
                 dummy = DummyFigure(pokete_care.poke)
                 while dummy.pokes[0].evolve(dummy, mvp.movemap):
                     continue
@@ -162,8 +171,10 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
     @staticmethod
     def playmap_23_npc_8(npc):
         """Interaction with npc_8"""
-        if ask_bool(mvp.movemap,
-                    "The man gifted you $100. Do you want to accept it?"):
+        if ask_bool(
+            mvp.movemap,
+            "The man gifted you $100. Do you want to accept it?", mvp.movemap
+        ):
             npc.set_used()
             figure.add_money(100)
 
@@ -224,13 +235,18 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                       "I'm thanking you!",
                       "Now I can still serve the best MowCow-Burgers!",
                       "Can I have it?"])
-            if ask_bool(mvp.movemap,
-                        "Do you want to give your Mowcow to the cook?"):
+            if ask_bool(
+                mvp.movemap,
+                "Do you want to give your Mowcow to the cook?", mvp.movemap
+            ):
                 figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
                 npc.text(["Here you go, have $1000!"])
-                if ask_bool(mvp.movemap,
-                            "The cook gifted you $1000. "
-                            "Do you want to accept it?"):
+                if ask_bool(
+                    mvp.movemap,
+                    "The cook gifted you $1000. "
+                    "Do you want to accept it?",
+                    mvp.movemap
+                ):
                     figure.add_money(1000)
                 npc.set_used()
         else:
@@ -256,8 +272,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
     @staticmethod
     def playmap_43_npc_23(npc):
         """Interaction with npc_23"""
-        if ask_bool(mvp.movemap,
-                    "Do you also want to have one?"):
+        if ask_bool(mvp.movemap, "Do you also want to have one?", mvp.movemap):
             figure.pokes.append(Poke("mowcow", 2000))
             npc.set_used()
 
@@ -567,12 +582,19 @@ class Inv:
                     self.desc_label.rechar(liner(obj.desc, 19))
                     self.box2.add(self.map, self.box.x - 19, 3)
                     while True:
-                        if get_action().triggers(Action.CANCEL):
+                        action = get_action()
+                        if (
+                            action.triggers(Action.CANCEL)
+                            or action.triggers(Action.ACCEPT)
+                        ):
                             self.box2.remove()
                             if obj.name == "treat":
-                                if ask_bool(self.map,
-                                            "Do you want to upgrade one of "
-                                            "your Poketes by a level?"):
+                                if ask_bool(
+                                    self.map,
+                                    "Do you want to upgrade one of "
+                                    "your Poketes by a level?",
+                                    self
+                                ):
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(6, label="Your deck",
@@ -587,12 +609,19 @@ class Inv:
                                         break
                                     upgrade_by_one_lvl(poke, figure, self.map)
                                     items = self.rem_item(obj.name, items)
-                                    ask_ok(self.map,
-                                           f"{poke.name} reached level "
-                                           f"{poke.lvl()}!")
+                                    ask_ok(
+                                        self.map,
+                                        f"{poke.name} reached level "
+                                        f"{poke.lvl()}!",
+                                        self
+                                    )
                             elif isinstance(obj, LearnDisc):
-                                if ask_bool(self.map, f"Do you want to teach '\
-{obj.attack_dict['name']}'?"):
+                                if ask_bool(
+                                    self.map,
+                                    f"Do you want to teach "
+                                    f"'{obj.attack_dict['name']}'?",
+                                    self
+                                ):
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(6, label="Your deck",
@@ -608,14 +637,15 @@ class Inv:
                                             break
                                         ex_cond = ask_bool(
                                             self.map,
-                                            "You cant't teach "
+                                            "You can't teach "
                                             f"'{obj.attack_dict['name']}' to "
                                             f"'{poke.name}'! \n"
-                                            "Do you want to continue?"
+                                            "Do you want to continue?",
+                                            self
                                         )
                                     if not ex_cond:
                                         break
-                                    if LearnAttack(poke, self.map)\
+                                    if LearnAttack(poke, self.map, self)\
                                             (obj.attack_name):
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
@@ -624,9 +654,12 @@ class Inv:
                         std_loop(box=self.box2)
                         self.map.show()
                 elif action.triggers(Action.REMOVE):
-                    if ask_bool(self.map,
-                                f"Do you really want to throw \
-{items[self.box.index.index].pretty_name} away?"):
+                    if ask_bool(
+                        self.map,
+                        "Do you really want to throw "
+                        f"{items[self.box.index.index].pretty_name} away?",
+                        self
+                    ):
                         items = self.rem_item(items[self.box.index.index].name,
                                               items)
                         if len(items) == 0:
@@ -956,11 +989,14 @@ def teleport(poke):
 
 def swap_poke():
     """Trading with other players in the local network"""
-    if not ask_bool(mvp.movemap, "Do you want to trade with another trainer?"):
+    if not ask_bool(
+        mvp.movemap, "Do you want to trade with another trainer?",
+        mvp.movemap
+    ):
         return
     port = 65432
     save()
-    do = ask_bool(mvp.movemap, "Do you want to be the host?")
+    do = ask_bool(mvp.movemap, "Do you want to be the host?", mvp.movemap)
     if (index := deck.deck(6, "Your deck", True)) is None:
         return
     if do:
@@ -987,7 +1023,7 @@ def swap_poke():
         host = ""
         while host == "":
             host = ask_text(mvp.movemap, "Please type in the hosts hostname",
-                            "Host:", "", "Hostname", 30)
+                            "Host:", "", "Hostname", 30, mvp.movemap)
             if host in ["localhost", "127.0.0.1", "0.0.0.0",
                         socket.gethostname()]:
                 ask_ok(mvp.movemap,
@@ -1009,9 +1045,12 @@ def swap_poke():
     logging.info("[Swap_poke] Recieved %s", decode_data)
     mod_info = decode_data.get("mods", {})
     if mods.mod_info != mod_info:
-        ask_ok(mvp.movemap, f"""Conflicting mod versions!
+        ask_ok(
+            mvp.movemap, f"""Conflicting mod versions!
 Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
-Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
+Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""",
+            mvp.movemap
+        )
         return
     figure.add_poke(Poke(decode_data["poke"]["name"],
                          decode_data["poke"]["xp"],
@@ -1020,7 +1059,7 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""")
     save()  # to avoid duping
     ask_ok(mvp.movemap,
            f"You received: {figure.pokes[index].name.capitalize()} at level \
-{figure.pokes[index].lvl()} from {decode_data['name']}.")
+{figure.pokes[index].lvl()} from {decode_data['name']}.", mvp.movemap)
 
 
 def _game(_map):
@@ -1072,7 +1111,10 @@ def _game(_map):
                 audio.switch(_map.song)
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
-            if ask_bool(mvp.movemap, "Do you really wish to exit?"):
+            if ask_bool(
+                mvp.movemap, "Do you really wish to exit?",
+                mvp.movemap
+            ):
                 save()
                 sys.exit()
         elif action.triggers(Action.CONSOLE):
@@ -1109,9 +1151,11 @@ def intro():
     mvp.movemap.bmap = obmp.ob_maps["intromap"]
     mvp.movemap.full_show()
     while figure.name in ["DEFAULT", ""]:
-        figure.name = ask_text(mvp.movemap,
-                               "Welcome to Pokete!\nPlease choose your name!\n",
-                               "Name:", "", "Name", 17)
+        figure.name = ask_text(
+            mvp.movemap,
+            "Welcome to Pokete!\nPlease choose your name!\n",
+            "Name:", "", "Name", 17, movemap.mvp
+        )
     mvp.movemap.name_label_rechar(figure.name)
     mvp.movemap.text(4, 3, ["Hello, my child.",
                             "You're now ten years old.",

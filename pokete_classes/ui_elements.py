@@ -352,11 +352,14 @@ class InputBox(InfoBox):
         name: The boxes desplayed name
         max_len: Max length of the text"""
 
-    def __init__(self, infotext, introtext, text, max_len, name="", _map=None):
+    def __init__(
+        self, infotext, introtext, text, max_len,
+        name="", _map=None, overview=None
+    ):
         height = len(infotext.split("\n")) + 3
         width = sorted([len(i) for i in infotext.split("\n")]
                         + [len(introtext) + 1 + max_len])[-1] + 4
-        super(LabelBox, self).__init__(height, width, name)
+        super(LabelBox, self).__init__(height, width, name, overview=overview)
         self.map = _map
         self.infotext = se.Text(infotext)
         self.introtext = se.Text(introtext)
