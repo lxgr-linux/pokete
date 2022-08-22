@@ -44,6 +44,7 @@ class Deck(detail.Informer):
             self.remove(poke)
 
     def resize_view(self):
+        mvp.movemap.resize_view()
         self.exit_label.remove()
         self.move_label.remove()
         self.move_free.remove()
@@ -65,7 +66,12 @@ class Deck(detail.Informer):
                                                    1)
         StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
         self.add_all(True)
-
+        self.index.add(
+            self.map,
+            self.pokes[self.index.index].text_name.x
+            + len(self.pokes[self.index.index].text_name.text) + 1,
+            self.pokes[self.index.index].text_name.y
+        )
 
     def __call__(self, p_len, label="Your full deck", in_fight=False):
         """Opens the deck
@@ -75,9 +81,9 @@ class Deck(detail.Informer):
             in_fight: Whether or not this is called in a fight"""
         self.pokes = self.figure.pokes[:p_len]
         ret_action = None
-        self.map.resize(5 * int((len(self.pokes) + 1) / 2) + 2, self.map.width,
+        self.map.resize(5 * int((len(self.pokes) + 1) / 2) + 2, tss.width,
                         self.map.background)
-        # decksubmap.resize(height-1, width)
+        self.submap.resize(tss.height - 1, tss.width)
         self.label = label
         se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
         se.Square("|", 1, self.map.height - 2).add(self.map,
