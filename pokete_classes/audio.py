@@ -9,7 +9,11 @@ MUSIC_PATH = Path(__file__).parents[1] / 'assets' / 'music'
 
 
 def audio_fn(song, play_audio, volume):
-    """plays a song in loop"""
+    """plays a song in loop
+    ARGS:
+        song: path to file
+        play_audio: bool whether or not audio actually should be played
+        volume: the sound volume as an int 0-100"""
     import playsound
 
 
