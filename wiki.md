@@ -15,6 +15,7 @@ You can find different versions of this wiki:
 1. [Poketes](#poketes)
    1. [Electro Poketes](#electro-poketes)
        1. [Electrode](#electrode)
+       2. [Kakraholt](#kakraholt)
    2. [Fire Poketes](#fire-poketes)
        1. [Lindemon](#lindemon)
        2. [Wolfior](#wolfior)
@@ -59,7 +60,9 @@ You can find different versions of this wiki:
        9. [Wheeto](#wheeto)
    8. [Poison Poketes](#poison-poketes)
        1. [Choka](#choka)
-       2. [Würgos](#würgos)
+       2. [Pavous](#pavous)
+       3. [Uberpavous](#uberpavous)
+       4. [Würgos](#würgos)
    9. [Stone Poketes](#stone-poketes)
        1. [Bigstone](#bigstone)
        2. [Diamondos](#diamondos)
@@ -68,15 +71,17 @@ You can find different versions of this wiki:
        5. [Steini](#steini)
    10. [Undead Poketes](#undead-poketes)
        1. [Angrilo](#angrilo)
-       2. [Confuso](#confuso)
-       3. [Gobost](#gobost)
-       4. [Saugh](#saugh)
+       2. [Bablbam](#bablbam)
+       3. [Confuso](#confuso)
+       4. [Gobost](#gobost)
+       5. [Saugh](#saugh)
    11. [Water Poketes](#water-poketes)
        1. [Blub](#blub)
        2. [Clampi](#clampi)
        3. [Crabbat](#crabbat)
        4. [Karpi](#karpi)
-       5. [Rustacean](#rustacean)
+       5. [Kartmen](#kartmen)
+       6. [Rustacean](#rustacean)
 2. [Attacks](#attacks)
    1. [Electro attacks](#electro-attacks)
        1. [Charging](#charging)
@@ -119,6 +124,7 @@ You can find different versions of this wiki:
        7. [Supercow Power](#supercow-power)
        8. [Tackle](#tackle)
        9. [Tail Swipe](#tail-swipe)
+       10. [Web attack](#web-attack)
    7. [Plant attacks](#plant-attacks)
        1. [Apple Drop](#apple-drop)
        2. [Bark Hardening](#bark-hardening)
@@ -201,6 +207,35 @@ A small floating ball that will give you a shock.
    + [Shock](#shock)
    + [Charging](#charging)
    + [Mega Arch](#mega-arch)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Evolves to [Kakraholt](#kakraholt) at level 30
+
+#### Kakraholt
+A terrestrial crab full of accumulated electrical energy.
+
+```
+     _     
+   +O O+   
+->>/(+)\->>
+  /\|^|/\  
+
+```
+
+- Type: [Electro](#types)
+- Health points: 25
+- Attack factor: 6
+- Defense factor: 3
+- Initiative: 5
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 4
+- Attacks:
+   + [Shock](#shock)
+   + [Charging](#charging)
+   + [Mega Arch](#mega-arch)
+   + [Tackle](#tackle)
 - Active: Always
 - Can be found in:
    + Nowhere
@@ -1305,6 +1340,64 @@ A fucking dangerous and enormous snake Pokete.
 - Does not evolve
 
 
+#### Pavous
+A tiny spider like Pokete.
+
+```
+  (0)(0)   
+ /  ''  \  
+w        w 
+           
+
+```
+
+- Type: [Poison](#types)
+- Health points: 20
+- Attack factor: 3
+- Defense factor: 0
+- Initiative: 3
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 4
+- Attacks:
+   + [Poison Bite](#poison-bite)
+   + [Bite](#bite)
+   + [Web attack](#webattack)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Evolves to [Uberpavous](#uberpavous) at level 30
+
+#### Uberpavous
+Dnagerous spider like Pokete with strong mandibles.
+
+```
+  /\~-~/\  
+ //\0_0/\\ 
+//  '''  \\
+W         W
+
+```
+
+- Type: [Poison](#types)
+- Health points: 25
+- Attack factor: 5
+- Defense factor: 1
+- Initiative: 5
+- Missing chance: 0
+- Rarity: 0.5
+- Loosing experience: 4
+- Attacks:
+   + [Poison Bite](#poison-bite)
+   + [Bite](#bite)
+   + [Web attack](#webattack)
+   + [Power Bite](#power-bite)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Does not evolve
+
+
 #### Würgos
 A dangerous snake Pokete.
 
@@ -1522,6 +1615,34 @@ A ghost Pokete that will scare your pants off.
 - Does not evolve
 
 
+#### Bablbam
+Dead or alive entity with slow movement and mental ability.
+
+```
+   (.)~    
+  -)_(-U   
+ / ; \     
+           
+
+```
+
+- Type: [Undead](#types)
+- Health points: 20
+- Attack factor: 2
+- Defense factor: 1
+- Initiative: 1
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 3
+- Attacks:
+   + [Tackle](#tackle)
+   + [Mind Blow](#mind-blow)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Does not evolve
+
+
 #### Confuso
 A ball floating around in dark woods and caves, that will confuse the shit out of you.
 
@@ -1728,6 +1849,34 @@ A harmless water Pokete that can be found everywhere.
    + Big Mountain Sea
    + Rock-ville
    + Sunny Beach
+- Evolves to [Kartmen](#kartmen) at level 30
+
+#### Kartmen
+A freshwater fighting fish Pokete.
+
+```
+  _((((    
+ /O   _\/))
+ >_((((/\))
+   ((((    
+
+```
+
+- Type: [Water](#types)
+- Health points: 25
+- Attack factor: 5
+- Defense factor: 3
+- Initiative: 1
+- Missing chance: 0
+- Rarity: 1
+- Loosing experience: 5
+- Attacks:
+   + [Tackle](#tackle)
+   + [Bubble Bomb](#bubble-bomb)
+   + [Bubble Gun](#bubble-gun)
+- Active: Always
+- Can be found in:
+   + Nowhere
 - Does not evolve
 
 
@@ -2119,6 +2268,16 @@ Makes the Pokete angry and strong.
 - Missing chance: 0
 - Attack points: 10
 - Effect: None
+
+#### Web attack
+Thows web towards enemy in order to immobilize.
+
+- Type: [Normal](#types)
+- Minimum Level: 0
+- Attack factor: 1
+- Missing chance: 0.2
+- Attack points: 10
+- Effect: [Paralyzation](#paralyzation)
 
 ### Plant attacks
 #### Special Smell

@@ -494,7 +494,7 @@ Those effects can be given to a Pokete through an attack.
         # writing to file
         if QUIET or VERBOSE:
             print("==> Writing to wiki.md...")
-        with open(filename, "w+") as file:
+        with open(filename, mode="w+", encoding="utf-8") as file:
             file.write(md_str)
 
     @staticmethod

@@ -355,8 +355,8 @@ it will try to peck out your eyes.",
         "lose_xp": 1,
         "rarity": 3,
         "types": ["water", "normal"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "kartmen",
+        "evolve_lvl": 30,
         "initiative": 0,
         "ico": [{
             "txt": r"""
@@ -817,8 +817,8 @@ or not you borrowed something.",
         "lose_xp": 3,
         "rarity": 0.8,
         "types": ["electro"],
-        "evolve_poke": "",
-        "evolve_lvl": 0,
+        "evolve_poke": "kakraholt",
+        "evolve_lvl": 30,
         "initiative": 4,
         "ico": [{
             "txt": r"""
@@ -1310,6 +1310,122 @@ that will confuse the shit out of you.",
       _>""",
             "esc": ["white"]}
         ]
+    },
+    "kartmen": {
+        "name": "Kartmen",
+        "hp": 25,
+        "atc": 5,
+        "defense": 3,
+        "attacks": ["tackle", "bubble_bomb", "bubble_gun"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A freshwater fighting fish Pokete.",
+        "lose_xp": 5,
+        "rarity": 1,
+        "types": ["water", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""  _((((
+ /O   _\/))
+ >_((((/\))
+   ((((""",
+            "esc": None}]
+    },
+    "bablbam": {
+        "name": "Bablbam",
+        "hp": 20,
+        "atc": 2,
+        "defense": 1,
+        "attacks": ["tackle", "mind_blow"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Dead or alive entity with slow movement and mental ability.",
+        "lose_xp": 3,
+        "rarity": 1,
+        "types": ["undead"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""   (.)~
+  -)_(-U
+ / ; \ """,
+            "esc": None}]
+    },
+    "kakraholt": {
+        "name": "Kakraholt",
+        "hp": 25,
+        "atc": 6,
+        "defense": 3,
+        "attacks": ["shock", "charging", "mega_arch", "tackle"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A terrestrial crab full of accumulated electrical energy.",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "types": ["electro", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r"""     _
+    O O
+   /( )\
+  /\|^|/\  """,
+            "esc": None}, {
+            "txt": r"""
+
+->>     ->>""",
+            "esc": ["yellow"]}, {
+            "txt": r"""
+   +   +
+     +     """,
+            "esc": ["lightblue"]}]
+    },
+    "pavous": {
+        "name": "Pavous",
+        "hp": 20,
+        "atc": 3,
+        "defense": 0,
+        "attacks": ["poison_bite", "bite", "webattack"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A tiny spider like Pokete.",
+        "lose_xp": 4,
+        "rarity": 1,
+        "types": ["poison", "normal"],
+        "evolve_poke": "uberpavous",
+        "evolve_lvl": 30,
+        "initiative": 3,
+        "ico": [{
+            "txt": r"""  (0)(0)
+ /  ''  \
+w        w""",
+            "esc": None}]
+    },
+    "uberpavous": {
+        "name": "Uberpavous",
+        "hp": 25,
+        "atc": 5,
+        "defense": 1,
+        "attacks": ["poison_bite", "bite", "webattack", "power_bite"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Dnagerous spider like Pokete with strong mandibles.",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "types": ["poison", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r"""  /\~-~/\
+ //\0_0/\\
+//  '''  \\
+W         W""",
+            "esc": None}]
     },
 }
 

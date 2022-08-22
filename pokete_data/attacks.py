@@ -367,6 +367,20 @@ attacks = {
         "is_generic": False,
         "ap": 15,
     },
+     "webattack": {
+        "name": "Web attack",
+        "factor": 1,
+        "action": None,
+        "world_action": "",
+        "move": ["attack"],
+        "miss_chance": 0.2,
+        "min_lvl": 0,
+        "desc": "Thows web towards enemy in order to immobilize.",
+        "types": ["normal"],
+        "effect": "paralyzation",
+        "is_generic": False,
+        "ap": 10,
+    },
 
     # Fire attacks
     "fire_bite": {
