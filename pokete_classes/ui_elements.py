@@ -66,7 +66,7 @@ class Box(se.Box):
             self.remove()
             self.overview.resize_view()
             self.center_add(self.map)
-            self.map.full_show()
+            self.map.show()
 
     def center_add(self, _map):
         """Adds the box to the maps center

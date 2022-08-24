@@ -21,7 +21,7 @@ class Deck(detail.Informer):
     """Deck to see Poketes in"""
 
     def __init__(self, height, width, figure, abb_funcs):
-        self.map = gm.GameMap(height, width)
+        self.map = gm.GameMap(height, width, name="deck")
         self.submap = gm.GameSubmap(self.map, 0, 0, height, width, "decksubmap")
         self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
         self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: Move    ")
@@ -55,7 +55,9 @@ class Deck(detail.Informer):
         self.move_label.add(self.submap, 9, self.submap.height - 1)
         self.move_free.add(self.submap, 20, self.submap.height - 1)
 
-        self.rem_pokes()
+        if all(i.ico.map == self.map for i in self.pokes):
+            self.rem_pokes()
+
         while len(self.map.obs) > 0:
             self.map.obs[0].remove()
         self.map.resize(5 * int((len(self.pokes) + 1) / 2) + 2, tss.width,
@@ -65,7 +67,7 @@ class Deck(detail.Informer):
                                                    round(self.map.width / 2),
                                                    1)
         StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
-        self.add_all(True)
+        self.add_all(True, not all(i.ico.map == self.map for i in self.pokes))
         self.index.add(
             self.map,
             self.pokes[self.index.index].text_name.x
@@ -182,8 +184,15 @@ class Deck(detail.Informer):
                         return self.index.index
                 else:
                     self.rem_pokes()
-                    ret_action = detail.detail(self.pokes[self.index.index])
+                    ret_action = detail.detail(
+                        self.pokes[self.index.index],
+                        overview=self
+                    )
                     self.add_all()
+                    self.index.set(
+                        self.pokes[self.index.index].text_name.x
+                        + len(self.pokes[self.index.index].text_name.text) + 1,
+                        self.pokes[self.index.index].text_name.y)
                     logging.info(ret_action)
                     if ret_action is not None:
                         _ev.set(Action.CANCEL.mapping)
@@ -197,16 +206,17 @@ class Deck(detail.Informer):
                 self.submap.set(self.submap.x, self.submap.y - 1)
             self.submap.full_show()
 
-    def add_all(self, init=False):
+    def add_all(self, init=False, no_poke=False):
         """Adds all Poketes to the deck
         ARGS:
             pokes: List of all Pokes being added
             init: Whether or not this happens for the first time"""
         j = 0
         for i, poke in enumerate(self.pokes):
-            self.add(poke, self.figure, self.map,
-                     1 if i % 2 == 0
-                     else round(self.map.width / 2) + 1, j * 5 + 1)
+            if not no_poke:
+                self.add(poke, self.figure, self.map,
+                         1 if i % 2 == 0
+                         else round(self.map.width / 2) + 1, j * 5 + 1)
             if i % 2 == 0 and init:
                 se.Square("-", self.map.width - 2, 1).add(self.map, 1,
                                                           j * 5 + 5)

@@ -110,9 +110,10 @@ of its kind.", 40, pre=""))
             return "less"
         return "more"
 
-    def __call__(self, _map):
+    def __call__(self, _map, overview):
         """Shows the box
         ARGS:
             _map: Map to show on"""
+        self.overview = overview
         with self.center_add(_map):
-            easy_exit_loop(False)
+            easy_exit_loop(False, box=self)

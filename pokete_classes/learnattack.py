@@ -8,7 +8,7 @@ from .hotkeys import Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .input import ask_bool, ask_ok
 from .ui_elements import ChooseBox, Box
-from .detail import Detail
+from . import detail
 from .attack import Attack
 
 
@@ -124,8 +124,7 @@ class LearnAttack:
                             )
                             break
                         elif action.triggers(Action.DECK):
-                            Detail(self.map.height, self.map.width)\
-                                  (self.poke, False)
+                            detail.detail(self.poke, False, overview=self.box)
                             self.map.show(init=True)
                         elif action.triggers(Action.INFO):
                             with AttackInfo(

@@ -108,6 +108,7 @@ class Movemap(gm.GameSubmap):
 
     def resize_view(self):
         self.resize(tss.height - 1, tss.width, " ")
+        self.remap()
 
     def resize(self, height, width, background=" "):
         """Resizes the map and its attributes

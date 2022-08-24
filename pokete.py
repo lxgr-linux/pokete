@@ -691,8 +691,15 @@ class Inv:
         RETURNS:
             List of Items"""
         items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] > 0]
-        self.box.add_c_obs([se.Text(f"{i.pretty_name}s : {figure.inv[i.name]}")
-                            for i in items])
+        self.box.add_c_obs(
+            [
+                se.Text(
+                    f"{i.pretty_name}s : {figure.inv[i.name]}",
+                    state="float"
+                )
+                for i in items
+            ]
+        )
         return items
 
 

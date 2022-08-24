@@ -2,11 +2,13 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from pokete_general_use_fns import liner
 from pokete_classes.hotkeys import Action, get_action
 from .loops import std_loop
 from .event import _ev
 from .ui_elements import StdFrame2, ChooseBox
 from .color import Color
+from .tss import tss
 
 
 class Informer:
@@ -57,7 +59,7 @@ class Detail(Informer):
         width: Width of the map"""
 
     def __init__(self, height, width):
-        self.map = gm.GameMap(height, width)
+        self.map = gm.GameMap(height, width, name="detail")
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state="float")
@@ -85,34 +87,49 @@ class Detail(Informer):
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
+        self.poke = None
+        self.overview = None
 
-    def __call__(self, poke, abb=True):
-        """Shows details
-        ARGS:
-            poke: Poke object whose details are given
-            abb: Bool whether or not the ability option is shown"""
-        ret_action = None
-        self.add(poke, None, self.map, 1, 1, False)
-        abb_obs = [i for i in poke.attack_obs
-                   if i.world_action != ""]
-        if abb_obs != [] and abb:
-            self.world_actions_label.rechar("Abilities:"
-                                            + " ".join([i.name
-                                                        for i in abb_obs]))
-            self.ability_label.rechar("3: Use ability")
-        else:
-            self.world_actions_label.rechar("")
-            self.ability_label.rechar("")
-        self.attack_defense.rechar(f"Attack:{poke.atc}\
-{(4 - len(str(poke.atc))) * ' '}Defense:{poke.defense}")
-        self.initiative_label.rechar(f"Initiative:{poke.initiative}")
-        for obj, _x, _y in zip([poke.desc, poke.text_type], [34, 41], [2, 5]):
-            obj.add(self.map, _x, _y)
-        for atc, _x, _y in zip(poke.attack_obs, [1,
-                                                round(self.map.width / 2) + 1,
-                                                1,
-                                                round(self.map.width / 2) + 1],
-                               [7, 7, 12, 12]):
+    def resize_view(self):
+        self.exit_label.remove()
+        self.nature_label.remove()
+        self.ability_label.remove()
+        self.line_sep1.remove()
+        self.line_sep2.remove()
+        self.frame.remove()
+        self.line_middle.remove()
+        self.poke.desc.remove()
+        for atc in self.poke.attack_obs:
+            for label in [
+                atc.label_name, atc.label_factor,
+                atc.label_type, atc.label_ap, atc.label_desc
+            ]:
+                label.remove()
+        self.map.resize(tss.height - 1, tss.width, background=" ")
+        self.overview.resize_view()
+        self.line_sep1.resize(self.map.width - 2, 1)
+        self.line_sep2.resize(self.map.width - 2, 1)
+        self.frame.resize(17, self.map.width)
+        self.poke.desc.rechar(liner(self.poke.inf["desc"], tss.width - 34))
+        self.line_sep1.add(self.map, 1, 6)
+        self.line_sep2.add(self.map, 1, 11)
+        self.frame.add(self.map, 0, 0)
+        self.exit_label.add(self.map, 0, self.map.height - 1)
+        self.nature_label.add(self.map, 9, self.map.height - 1)
+        self.ability_label.add(self.map, 20, self.map.height - 1)
+        self.poke.desc.add(self.map, self.poke.desc.x, self.poke.desc.y)
+        self.add_attack_labels()
+        self.line_middle.add(self.map, round(self.map.width / 2), 7)
+
+    def add_attack_labels(self):
+        for atc, _x, _y in zip(
+            self.poke.attack_obs,
+            [
+                1, round(self.map.width / 2) + 1,
+                1, round(self.map.width / 2) + 1
+            ],
+            [7, 7, 12, 12]
+        ):
             atc.temp_i = 0
             atc.temp_j = -30
             atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
@@ -123,26 +140,59 @@ class Detail(Informer):
                                        [0, 0, 11, 0, 0],
                                        [0, 1, 1, 2, 3]):
                 label.add(self.map, _x + __x, _y + __y)
+
+    def __call__(self, poke, abb=True, overview=None):
+        """Shows details
+        ARGS:
+            poke: Poke object whose details are given
+            abb: Bool whether or not the ability option is shown"""
+        self.poke = poke
+        self.overview = overview
+        ret_action = None
+        self.add(self.poke, None, self.map, 1, 1, False)
+        abb_obs = [i for i in self.poke.attack_obs
+                   if i.world_action != ""]
+        if abb_obs != [] and abb:
+            self.world_actions_label.rechar("Abilities:"
+                                            + " ".join([i.name
+                                                        for i in abb_obs]))
+            self.ability_label.rechar("3: Use ability")
+        else:
+            self.world_actions_label.rechar("")
+            self.ability_label.rechar("")
+        self.attack_defense.rechar(f"Attack:{self.poke.atc}\
+{(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}")
+        self.initiative_label.rechar(f"Initiative:{self.poke.initiative}")
+        for obj, _x, _y in zip([self.poke.desc, self.poke.text_type], [34, 41], [2, 5]):
+            obj.add(self.map, _x, _y)
+        self.add_attack_labels()
+        if (tss.height - 1, tss.width) != (self.map.height, self.map.width):
+            self.resize_view()
         self.map.show(init=True)
         while True:
             action = get_action()
             if action.triggers(Action.DECK, Action.CANCEL):
-                self.remove(poke)
-                for obj in [poke.desc, poke.text_type]:
+                self.remove(self.poke)
+                for obj in [self.poke.desc, self.poke.text_type]:
                     obj.remove()
-                for atc in poke.attack_obs:
+                for atc in self.poke.attack_obs:
                     for obj in [atc.label_name, atc.label_factor, atc.label_ap,
                                 atc.label_desc, atc.label_type]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
                 return ret_action
             if action.triggers(Action.NATURE_INFO):
-                poke.nature.info(self.map)
+                self.poke.nature.info(self.map, self)
             elif action.triggers(Action.ABILITIES):
                 if abb_obs != [] and abb:
-                    with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
-                                   c_obs=[se.Text(i.name)
-                                          for i in abb_obs]).center_add(self.map)\
+                    with ChooseBox(
+                        len(abb_obs) + 2, 25, name="Abilities",
+                        c_obs=[
+                            se.Text(i.name)
+                            for i in abb_obs
+                        ],
+                        overview=self
+                    ).center_add(self.map)\
                             as box:
                         while True:
                             action = get_action()
@@ -155,10 +205,10 @@ class Detail(Informer):
                                 break
                             elif action.triggers(Action.CANCEL):
                                 break
-                            std_loop(False)
-            std_loop(False)
+                            std_loop(False, box=box)
+            std_loop(False, box=self)
             # This section generates the Text effect for attack labels
-            for atc in poke.attack_obs:
+            for atc in self.poke.attack_obs:
                 if len(atc.desc) > int((self.map.width - 3) / 2 - 1):
                     if atc.temp_j == 5:
                         atc.temp_i += 1
