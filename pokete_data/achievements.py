@@ -14,7 +14,7 @@ achievements = {
         "desc": "Catch all Poketes and fill your Pokete-Dex!"
     },
     "first_evolve": {
-        "title": "First evolved Pokete",
+        "title": "First evolution",
         "desc": "Evolve your first Pokete!"
-    }
+    },
 }

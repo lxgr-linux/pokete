@@ -92,7 +92,7 @@ class AchievementOverview(BetterChooseBox):
 
     def __init__(self):
         super().__init__(
-            4, [se.Text(" ")], name="Achievements",
+            3, [se.Text(" ")], name="Achievements",
             overview=mvp.movemap.menu
         )
 
@@ -100,7 +100,7 @@ class AchievementOverview(BetterChooseBox):
         """Input loop
         ARGS:
             _map: se.Map to show this on"""
-        self.set_items(4, [se.Text(i.title,
+        self.set_items(3, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
                                    if achievements.is_achieved(i.identifier)
                                    else "", state="float")

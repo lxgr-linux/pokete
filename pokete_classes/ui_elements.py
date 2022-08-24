@@ -1,6 +1,7 @@
 """This file contains most of the user interface
 elements used in Pokete"""
 
+import logging
 import scrap_engine as se
 
 from .hotkeys import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, ActionList
@@ -278,8 +279,11 @@ class BetterChooseBox(Box):
         box_width = sorted(len(i.text) for i in labels)[-1]
         label_obs = [BetterChooserItem(3, box_width + 4, label, i)
                      for i, label in enumerate(labels)]
-        self.nest_label_obs = [label_obs[i * columns:(i + 1) * columns]
-                               for i in range(int(len(labels) / columns) + 1)]
+        self.nest_label_obs = [
+            label_obs[i * columns:(i + 1) * columns]
+            for i in range(max(round(len(labels) / columns + 0.49), 1))
+        ]
+        logging.info(self.nest_label_obs)
         if not init:
             self.resize(3 * len(self.nest_label_obs) + 2,
                         sum(i.width for i in self.nest_label_obs[0]) + 2)
