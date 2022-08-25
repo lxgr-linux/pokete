@@ -3,6 +3,7 @@
 import scrap_engine as se
 import pokete_classes.game_map as gm
 from pokete_classes.hotkeys import Action, get_action
+from pokete_classes.pokestats import PokeStatsInfoBox
 from .loops import std_loop
 from .event import _ev
 from .ui_elements import StdFrame2, ChooseBox
@@ -67,6 +68,7 @@ class Detail(Informer):
         self.initiative_label = se.Text("Initiative:")
         self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit")
         self.nature_label = se.Text(f"{Action.NATURE_INFO.mapping}: Nature")
+        self.stats_label = se.Text(f"{Action.STATS_INFO.mapping}: Statistics")
         self.ability_label = se.Text(f"{Action.ABILITIES}: Use ability")
         self.line_sep1 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.map.width - 2, 1, state="float")
@@ -80,6 +82,7 @@ class Detail(Informer):
         self.initiative_label.add(self.map, 49, 5)
         self.exit_label.add(self.map, 0, self.map.height - 1)
         self.nature_label.add(self.map, 9, self.map.height - 1)
+        self.stats_label.add(self.map, 20, self.map.height - 1)
         self.ability_label.add(self.map, 20, self.map.height - 1)
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
@@ -138,6 +141,8 @@ class Detail(Informer):
                 return ret_action
             if action.triggers(Action.NATURE_INFO):
                 poke.nature.info(self.map)
+            elif action.triggers(Action.STATS_INFO):
+                PokeStatsInfoBox(poke.name, poke.poke_stats)(self.map)
             elif action.triggers(Action.ABILITIES):
                 if abb_obs != [] and abb:
                     with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",

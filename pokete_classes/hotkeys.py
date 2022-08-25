@@ -32,6 +32,7 @@ class Action(Enum):
     EXIT_GAME = auto()
 
     NATURE_INFO = auto()
+    STATS_INFO = auto()
     ABILITIES = auto()
     CHOOSE_ATTACK = auto()
     CHOOSE_ITEM = auto()
@@ -108,7 +109,12 @@ hotkey_mappings = {
             Action.CHOOSE_ITEM
         ]
     ),
-    '4': ActionList([Action.ACT_4, Action.INVENTORY, Action.CHOOSE_POKE]),
+    '4': ActionList(
+        [
+            Action.ACT_4, Action.INVENTORY, Action.CHOOSE_POKE,
+            Action.STATS_INFO
+        ]
+    ),
     '5': ActionList([Action.ACT_5, Action.POKEDEX]),
     '6': ActionList([Action.ACT_6, Action.CLOCK]),
     '7': ActionList([Action.ACT_7]),
