@@ -71,7 +71,7 @@ class PokeStats:
 class PokeStatsInfoBox(LabelBox):
     """Box to show statistics about caught Poketes
     ARGS:
-        poke_stats: PoketeNature object"""
+        poke_stats: PokeStats object"""
 
     def __init__(self, poke_name, poke_stats: PokeStats):
         not_available = "N/A"
