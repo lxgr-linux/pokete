@@ -20,6 +20,8 @@ from .input import ask_bool
 from .achievements import achievements
 from .inv_items import invitems
 from .settings import settings
+from .tss import tss
+from . import movemap as mvp
 
 
 class FightMap(gm.GameMap):
@@ -30,6 +32,7 @@ class FightMap(gm.GameMap):
 
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
+        self.providers = []
         self.box = ChooseBox(6, 25, "Attacks",
                              f"{Action.INFO.mapping}:Info", index_x=1)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
@@ -62,9 +65,15 @@ class FightMap(gm.GameMap):
             f"{Action.CHOOSE_POKE.mapping}: Deck"
         )
         # adding
-        self.outp.add(self, 1, self.height - 4)
         self.e_underline.add(self, 1, 4)
         self.e_sideline.add(self, len(self.e_underline.text), 1)
+        self.add_base_boxes()
+        # Attack info box
+        self.atk_info_box = LabelBox(se.Text(""), "Attack Info")
+        self.show_atk_info_box = False
+
+    def add_base_boxes(self):
+        self.outp.add(self, 1, self.height - 4)
         self.p_upperline.add(self, self.width - 1 - len(self.p_upperline.text),
                              self.height - 10)
         self.frame_big.add(self, 0, 0)
@@ -72,9 +81,22 @@ class FightMap(gm.GameMap):
                             self.height - 9)
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
-        # Attack info box
-        self.atk_info_box = LabelBox(se.Text(""), "Attack Info")
-        self.show_atk_info_box = False
+
+    def resize_view(self):
+        for obj in [
+            self.outp, self.p_upperline,
+            self.frame_big, self.p_sideline, self.frame_small, self.label
+        ]:
+            obj.remove()
+        self.clean_up(self.providers[0])
+
+        self.resize(tss.height - 1, tss.width, background=" ")
+        self.frame_big.resize(self.height - 5, self.width)
+        self.frame_small.resize(4, self.width)
+        mvp.movemap.resize_view()
+
+        self.add_base_boxes()
+        self.add_player(self.providers[0])
 
     def clean_up(self, *providers):
         """Removes all labels from self
@@ -96,7 +118,7 @@ class FightMap(gm.GameMap):
     def add_player(self, player):
         """Adds player labels
         ARGS:
-            player: The player Poke object"""
+            player: The player provider object"""
         player.curr.text_name.add(self, self.width - 17, self.height - 9)
         player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
         player.curr.tril.add(self, self.width - 11, self.height - 7)
@@ -319,7 +341,8 @@ class FightMap(gm.GameMap):
                     self.show(init=True)
                     continue
                 return ""
-            std_loop(False)
+            std_loop(False, box=self)
+            self.show()
 
     def fight(self, providers):
         """Fight between two Pokes
@@ -329,56 +352,57 @@ class FightMap(gm.GameMap):
             Provider that won the fight"""
         audio.switch("xDeviruchi - Decisive Battle (Loop).mp3")
         index = 0
+        self.providers = providers
         logging.info(
             "[Fight] Started between %s",
             "and ".join(
                 f"{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}"
-                    for prov in providers
+                    for prov in self.providers
             )
         )
-        for prov in providers:
+        for prov in self.providers:
             prov.index_conf()
         if settings("animations").val:  # Intro animation
             animations.fight_intro(self.height, self.width)
-        self.add_1(*providers)
-        for prov in providers:
+        self.add_1(*self.providers)
+        for prov in self.providers:
             prov.greet(self)
         time.sleep(SPEED_OF_TIME * 1)
-        self.add_2(providers[0])
-        self.fast_change([providers[0].curr.ico, self.deadico2, self.deadico1,
-                          providers[0].curr.ico], providers[0].curr.ico)
-        self.outp.outp(f"You used {providers[0].curr.name}")
+        self.add_2(self.providers[0])
+        self.fast_change([self.providers[0].curr.ico, self.deadico2, self.deadico1,
+                          self.providers[0].curr.ico], self.providers[0].curr.ico)
+        self.outp.outp(f"You used {self.providers[0].curr.name}")
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
-        index = providers.index(
-            max(providers, key=lambda i: i.curr.initiative)
+        index = self.providers.index(
+            max(self.providers, key=lambda i: i.curr.initiative)
         )
-        for prov in providers:
+        for prov in self.providers:
             i = prov.curr
             for j in i.effects:
                 j.readd()
         while True:
-            player = providers[index % 2]
-            enem = providers[(index + 1) % 2]
+            player = self.providers[index % 2]
+            enem = self.providers[(index + 1) % 2]
 
             attack = player.get_attack(self, enem)
             time.sleep(SPEED_OF_TIME * 0.3)
             if attack == "won":
                 return player
             if attack != "":
-                player.curr.attack(attack, enem.curr, self, providers)
+                player.curr.attack(attack, enem.curr, self, self.providers)
             self.show()
             time.sleep(SPEED_OF_TIME * 0.5)
             winner = None
             loser = None
-            for i, prov in enumerate(providers):
+            for i, prov in enumerate(self.providers):
                 if prov.curr.hp <= 0:
                     loser = prov
-                    winner = providers[(i + 1) % 2]
+                    winner = self.providers[(i + 1) % 2]
             if winner is not None:
                 self.outp.outp(f"{loser.curr.ext_name} is dead!")
             elif all(i.ap == 0 for i in player.curr.attack_obs):
-                winner = providers[(index + 1) % 2]
+                winner = self.providers[(index + 1) % 2]
                 loser = player
                 time.sleep(SPEED_OF_TIME * 2)
                 self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
@@ -418,13 +442,13 @@ class FightMap(gm.GameMap):
         self.fast_change([ico, self.deadico1, self.deadico2], ico)
         self.deadico2.remove()
         self.show()
-        self.clean_up(*providers)
+        self.clean_up(*self.providers)
         mvp.movemap.balls_label_rechar(winner.pokes)
         logging.info(
             "[Fight] Ended, %s(%s) won",
             winner.curr.name, "player" if winner.curr.player else "enemy"
         )
-        audio.switch(providers[0].map.song)
+        audio.switch(self.providers[0].map.song)
         return winner
 
     def choose_poke(self, player, allow_exit=True):
