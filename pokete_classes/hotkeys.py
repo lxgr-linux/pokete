@@ -105,14 +105,14 @@ hotkey_mappings = {
     ),
     '3': ActionList(
         [
-            Action.ACT_3, Action.MAP, Action.FREE_POKETE, Action.ABILITIES,
+            Action.ACT_3, Action.MAP, Action.FREE_POKETE, Action.STATS_INFO,
             Action.CHOOSE_ITEM
         ]
     ),
     '4': ActionList(
         [
             Action.ACT_4, Action.INVENTORY, Action.CHOOSE_POKE,
-            Action.STATS_INFO
+            Action.ABILITIES
         ]
     ),
     '5': ActionList([Action.ACT_5, Action.POKEDEX]),

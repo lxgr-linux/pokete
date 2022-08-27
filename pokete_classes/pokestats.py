@@ -1,3 +1,5 @@
+"""Contains classes nedded for pokete stats"""
+
 from datetime import datetime
 
 import scrap_engine as se
@@ -8,6 +10,18 @@ from pokete_classes.ui_elements import LabelBox
 
 
 class PokeStats:
+    """Holds a poketes statistics data
+    ARGS:
+        poke_name: The poketes name
+        ownership_date: The date of ownership
+        caught_by: The balls name the pokete got caught with
+        evolve_date: The date the pokete evolved at
+        total_battles: The number of battles played with a pokete
+        lost_battles: The number of battles the pokete lost
+        win_battles: The number of battles the pokete won
+        earn_xp: The xp the pokete collected while in posession
+        run_away: The number of battles the pokete ran away from"""
+
     def __init__(self, poke_name, ownership_date, caught_by=None,
                  evolved_date=None, total_battles=0, lost_battles=0,
                  win_battles=0, earn_xp=0, run_away=0):
@@ -22,6 +36,9 @@ class PokeStats:
         self.run_away = run_away
 
     def add_battle(self, win=False):
+        """Adds a battle to the statistics
+        ARGS:
+            win: Whether or not the battle was won"""
         if win:
             self.win_battles += 1
         else:
@@ -29,12 +46,19 @@ class PokeStats:
         self.total_battles += 1
 
     def set_evolve_date(self, evolved_date):
+        """Sets the date the pokete evolve at
+        ARGS:
+            evolve_date: The date"""
         self.evolved_date = evolved_date
 
-    def add_xp(self, xp):
-        self.earn_xp += xp
+    def add_xp(self, _xp):
+        """Adds xp to the statistics
+        ARGS:
+            _xp: Number of xp"""
+        self.earn_xp += _xp
 
     def set_run_away_battle(self):
+        """Sets a battle that was aborted"""
         self.run_away += 1
         self.total_battles += 1
 
@@ -73,7 +97,7 @@ class PokeStatsInfoBox(LabelBox):
     ARGS:
         poke_stats: PokeStats object"""
 
-    def __init__(self, poke_name, poke_stats: PokeStats):
+    def __init__(self, poke_stats: PokeStats):
         not_available = "N/A"
         if poke_stats.ownership_date is None:
             ownership_date = not_available
@@ -101,7 +125,7 @@ class PokeStatsInfoBox(LabelBox):
                + se.Text(f"\nNumber of run away: {poke_stats.run_away}") \
                + se.Text(f"\nTotal XP earned: {poke_stats.earn_xp}\n")
         super().__init__(
-            text, name=f"{poke_name} statistics",
+            text, name=f"{poke_stats.poke_name} statistics",
             info=f"{Action.CANCEL.mapping}:close"
         )
 

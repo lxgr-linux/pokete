@@ -7,7 +7,7 @@ For this see the comments in the definations area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
-from datetime import datetime
+
 import time
 import os
 import sys
@@ -17,10 +17,11 @@ import socket
 import json
 import logging
 from pathlib import Path
-from pokete_classes.pokestats import PokeStats
+from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
+from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox

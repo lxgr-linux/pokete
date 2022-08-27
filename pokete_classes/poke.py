@@ -5,13 +5,13 @@ import time
 import logging
 import random
 import scrap_engine as se
-from pokete_classes.pokestats import PokeStats
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from release import SPEED_OF_TIME
 from .attack_actions import AttackActions
 from .attack import Attack
 from .health_bar import HealthBar
+from .pokestats import PokeStats
 from .evomap import EvoMap
 from .color import Color
 from .moves import Moves
@@ -125,6 +125,9 @@ can't have more than 4 attacks!"
         self.ext_name = f'{self.name}({self.affil})'
 
     def set_poke_stats(self, poke_stats):
+        """Sets the Poketes stats:
+        ARGS:
+            poke_stats: PokeStats object"""
         self.poke_stats = poke_stats
 
     def set_vars(self):
