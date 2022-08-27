@@ -9,81 +9,21 @@ from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
                            deck, game_map as gm
 from release import SPEED_OF_TIME
-from .hotkeys import ACTION_UP_DOWN, Action, get_action
-from .audio import audio
-from .loops import std_loop
-from .npcs import Trainer
-from .providers import NatureProvider, ProtoFigure
-from .ui_elements import StdFrame2, ChooseBox, LabelBox
-from .classes import OutP
-from .input import ask_bool
-from .achievements import achievements
-from .inv_items import invitems
-from .settings import settings
-from .tss import tss
-from . import movemap as mvp
-
-
-class AttackBox(se.Box):
-    def __init__(self, overview):
-        super().__init__(0, 0)
-        self.overview = overview
-        self.box = ChooseBox(
-            6, 25, "Attacks",
-            f"{Action.INFO.mapping}:Info", index_x=1
-        )
-        self.atk_box = LabelBox(se.Text(""), "Attack Info")
-        self.add_ob(self.box, 0, 0)
-        self.atk_box_added = False
-
-    def rechar_atk_box(self, attack_obs):
-        """Rechars the attack info box
-        ARGS:
-            attack_obs: The current attack obs"""
-        self.atk_box.label.rechar(
-            liner(attack_obs[self.box.index.index].desc, 37)
-        )
-        self.atk_box.resize(
-            self.atk_box.label.height + 2,
-            self.atk_box.label.width + 4
-        )
-
-    def toggle_atk_box(self):
-        if not self.atk_box_added:
-            self.add_ob(self.atk_box, 26, 0)
-        else:
-            self.rem_ob(self.atk_box)
-            self.atk_box.remove()
-        self.atk_box_added = not self.atk_box_added
-
-    def resize_view(self):
-        self.remove()
-        self.overview.resize_view()
-        self.add(self.map, 1, self.map.height - 7)
-        self.map.show()
-
-    def add(self, _map, _x, _y):
-        super().add(_map, _x, _y)
-        return self
-
-    def __enter__(self):
-        """Enter dunder for context management"""
-        self.map.show()
-        return self
-
-    def __exit__(self, exc_type, exc_value, exc_tb):
-        """Exit dunder for context management"""
-        self.remove()
-        self.map.show()
-
-
-class InvBox(ChooseBox):
-    def resize_view(self):
-        self.remove()
-        self.overview.resize_view()
-        self.resize(self.map.height - 3, 35)
-        self.add(self.map, self.map.width - 35, 0)
-        self.map.show()
+from ..hotkeys import ACTION_UP_DOWN, Action, get_action
+from ..audio import audio
+from ..npcs import Trainer
+from ..providers import NatureProvider, ProtoFigure
+from ..ui_elements import StdFrame2, ChooseBox, LabelBox
+from ..classes import OutP
+from ..input import ask_bool
+from ..achievements import achievements
+from ..inv_items import invitems
+from ..settings import settings
+from ..loops import std_loop
+from ..tss import tss
+from .. import movemap as mvp
+from .attack import AttackBox
+from .inv import InvBox
 
 
 class FightMap(gm.GameMap):
@@ -242,62 +182,6 @@ class FightMap(gm.GameMap):
             self.show()
             time.sleep(SPEED_OF_TIME * 0.1)
 
-    def get_attack(self, attack_obs):
-        """Inputloop for attack options
-        ARGS:
-            attack_obs: A list of Attack objects that belong to a Poke"""
-        with self.box.add(self, 1, self.height - 7):
-            self.box.rechar_atk_box(attack_obs)
-            self.show()
-            while True:#158
-                action = get_action()
-                if action.triggers(*ACTION_UP_DOWN):
-                    self.box.box.input(action)
-                    self.box.rechar_atk_box(attack_obs)
-                    self.show()
-                elif action.triggers(Action.ACCEPT) or (0 <= action.get_number()
-                        < len(attack_obs)):
-                    attack = attack_obs[
-                        self.box.box.index.index if action.triggers(Action.ACCEPT)
-                        else action.get_number()
-                    ]
-                    if attack.ap == 0:
-                        continue
-                    break
-                elif action.triggers(Action.INFO):
-                    self.box.toggle_atk_box()
-                    self.show()
-                    continue
-                elif action.triggers(Action.CANCEL):
-                    attack = ""
-                    break
-                std_loop(False, box=self.box)
-        return attack
-
-    def get_item(self, items, inv):
-        """Inputloop for inv
-        ARGS:
-            items: List of InvItems that can be choosen from
-            inv: The Figures inv"""
-        self.invbox.add_c_obs([se.Text(f"{i.pretty_name}s : {inv[i.name]}")
-                               for i in items])
-        self.invbox.set_index(0)
-        with self.invbox.add(self, self.width - 35, 0):
-            while True:
-                action = get_action()
-                if action.triggers(*ACTION_UP_DOWN):
-                    self.invbox.input(action)
-                    self.show()
-                elif action.triggers(Action.CANCEL):
-                    item = ""
-                    break
-                elif action.triggers(Action.ACCEPT):
-                    item = items[self.invbox.index.index]
-                    break
-                std_loop(False, box=self.invbox)
-        self.invbox.remove_c_obs()
-        return item
-
     def get_figure_attack(self, figure, enem):
         """Chooses the players attack
         ARGS:
@@ -322,7 +206,7 @@ class FightMap(gm.GameMap):
                 if attack.ap > 0:
                     return attack
             elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
-                attack = self.get_attack(figure.curr.attack_obs)
+                attack = self.box(self, figure.curr.attack_obs)
                 if attack != "":
                     return attack
             elif action.triggers(Action.RUN):
@@ -363,7 +247,7 @@ class FightMap(gm.GameMap):
                         "What do you want to do?"
                     )
                     continue
-                item = self.get_item(items, figure.inv)
+                item = self.invbox(self, items, figure.inv)
                 if item == "":
                     continue
                 # I hate you python for not having switch statements
