@@ -31,6 +31,7 @@ class Deck(detail.Informer):
         self.abb_funcs = abb_funcs
         self.pokes = []
         self.label = ""
+        self.overview = None
         # adding
         self.exit_label.add(self.submap, 0, self.submap.height - 1)
         self.move_label.add(self.submap, 9, self.submap.height - 1)
@@ -44,7 +45,6 @@ class Deck(detail.Informer):
             self.remove(poke)
 
     def resize_view(self):
-        mvp.movemap.resize_view()
         self.exit_label.remove()
         self.move_label.remove()
         self.move_free.remove()
@@ -62,6 +62,7 @@ class Deck(detail.Informer):
             self.map.obs[0].remove()
         self.map.resize(5 * int((len(self.pokes) + 1) / 2) + 2, tss.width,
                         self.map.background)
+        self.overview.resize_view()
         se.Text(self.label, esccode=Color.thicc).add(self.map, 2, 0)
         se.Square("|", 1, self.map.height - 2).add(self.map,
                                                    round(self.map.width / 2),
@@ -75,12 +76,14 @@ class Deck(detail.Informer):
             self.pokes[self.index.index].text_name.y
         )
 
-    def __call__(self, p_len, label="Your full deck", in_fight=False):
+    def __call__(self, overview, p_len, label="Your full deck", in_fight=False):
         """Opens the deck
         ARGS:
+            overview: Overview
             p_len: Number of Pokes being included
             label: The displayed label
             in_fight: Whether or not this is called in a fight"""
+        self.overview = overview
         self.pokes = self.figure.pokes[:p_len]
         ret_action = None
 

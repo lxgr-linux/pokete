@@ -124,7 +124,7 @@ It evolves into Choka.",
     def playmap_20_trader(npc):
         """Interaction with trader"""
         if ask_bool(mvp.movemap, "Do you want to trade a Pokete?", mvp.movemap):
-            if (index := deck.deck(6, "Your deck", True)) is None:
+            if (index := deck.deck(mvp.movemap, 6, "Your deck", True)) is None:
                 return
             figure.add_poke(Poke("ostri", 500), index)
             npc.set_used()
@@ -147,7 +147,7 @@ and we will train it."])
                 "Do you want to put a Pokete into the Pokete-Care?",
                 mvp.movemap
             ):
-                if (index := deck.deck(6, "Your deck", True)) is not None:
+                if (index := deck.deck(mvp.movemap, 6, "Your deck", True)) is not None:
                     pokete_care.poke = figure.pokes[index]
                     pokete_care.entry = timer.time.time
                     figure.add_poke(Poke("__fallback__", 0), index)
@@ -307,7 +307,7 @@ class CenterInteract(se.Object):
                     figure.pokes.pop([p.identifier for p in
                                       figure.pokes].index("__fallback__"))
                 mvp.movemap.balls_label_rechar(figure.pokes)
-                deck.deck(len(figure.pokes))
+                deck.deck(mvp.movemap, len(figure.pokes))
                 break
             elif action.triggers(Action.ACT_2):
                 figure.heal()
@@ -597,8 +597,10 @@ class Inv:
                                 ):
                                     ex_cond = True
                                     while ex_cond:
-                                        index = deck.deck(6, label="Your deck",
-                                                          in_fight=True)
+                                        index = deck.deck(
+                                            mvp.movemap, 6, label="Your deck",
+                                            in_fight=True
+                                        )
                                         if index is None:
                                             ex_cond = False
                                             self.map.show(init=True)
@@ -624,8 +626,10 @@ class Inv:
                                 ):
                                     ex_cond = True
                                     while ex_cond:
-                                        index = deck.deck(6, label="Your deck",
-                                                          in_fight=True)
+                                        index = deck.deck(
+                                            mvp.movemap, 6, label="Your deck",
+                                            in_fight=True
+                                        )
                                         if index is None:
                                             ex_cond = False
                                             self.map.show(init=True)
@@ -1004,7 +1008,7 @@ def swap_poke():
     port = 65432
     save()
     do = ask_bool(mvp.movemap, "Do you want to be the host?", mvp.movemap)
-    if (index := deck.deck(6, "Your deck", True)) is None:
+    if (index := deck.deck(mvp.movemap, 6, "Your deck", True)) is None:
         return
     if do:
         with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...",
@@ -1089,7 +1093,7 @@ def _game(_map):
     mvp.movemap.full_show()
     pevm = PeriodicEventManager(_map)
     inp_dict = {
-        Action.DECK: [deck.deck, (6, "Your deck")],
+        Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
         Action.MAP: [roadmap, (mvp.movemap,)],
         Action.INVENTORY: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],

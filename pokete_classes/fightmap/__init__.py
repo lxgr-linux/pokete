@@ -81,6 +81,7 @@ class FightMap(gm.GameMap):
         self.label.add(self, 0, self.height - 1)
 
     def resize_view(self):
+        added = self.providers[0].curr.ico.added
         for obj in [
             self.outp, self.p_upperline,
             self.frame_big, self.p_sideline, self.frame_small, self.label
@@ -94,7 +95,8 @@ class FightMap(gm.GameMap):
         mvp.movemap.resize_view()
 
         self.add_base_boxes()
-        self.add_player(self.providers[0])
+        if added:
+            self.add_player(self.providers[0])
 
     def clean_up(self, *providers):
         """Removes all labels from self
@@ -384,7 +386,7 @@ class FightMap(gm.GameMap):
         self.clean_up(player)
         index = None
         while index is None:
-            index = deck.deck(6, "Your deck", True)
+            index = deck.deck(self, 6, "Your deck", True)
             if allow_exit:
                 break
         if index is not None:
