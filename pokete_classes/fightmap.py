@@ -77,6 +77,15 @@ class AttackBox(se.Box):
         self.map.show()
 
 
+class InvBox(ChooseBox):
+    def resize_view(self):
+        self.remove()
+        self.overview.resize_view()
+        self.resize(self.map.height - 3, 35)
+        self.add(self.map, self.map.width - 35, 0)
+        self.map.show()
+
+
 class FightMap(gm.GameMap):
     """Wrapper for gm.GameMap
     ARGS:
@@ -87,7 +96,7 @@ class FightMap(gm.GameMap):
         super().__init__(height, width, name="fightmap")
         self.providers = []
         self.box = AttackBox(self)
-        self.invbox = ChooseBox(height - 3, 35, "Inventory")
+        self.invbox = InvBox(height - 3, 35, "Inventory", overview=self)
         # icos
         self.deadico1 = se.Text(r"""
     \ /
@@ -285,7 +294,7 @@ class FightMap(gm.GameMap):
                 elif action.triggers(Action.ACCEPT):
                     item = items[self.invbox.index.index]
                     break
-                std_loop(False)
+                std_loop(False, box=self.invbox)
         self.invbox.remove_c_obs()
         return item
 
