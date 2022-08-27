@@ -24,6 +24,59 @@ from .tss import tss
 from . import movemap as mvp
 
 
+class AttackBox(se.Box):
+    def __init__(self, overview):
+        super().__init__(0, 0)
+        self.overview = overview
+        self.box = ChooseBox(
+            6, 25, "Attacks",
+            f"{Action.INFO.mapping}:Info", index_x=1
+        )
+        self.atk_box = LabelBox(se.Text(""), "Attack Info")
+        self.add_ob(self.box, 0, 0)
+        self.atk_box_added = False
+
+    def rechar_atk_box(self, attack_obs):
+        """Rechars the attack info box
+        ARGS:
+            attack_obs: The current attack obs"""
+        self.atk_box.label.rechar(
+            liner(attack_obs[self.box.index.index].desc, 37)
+        )
+        self.atk_box.resize(
+            self.atk_box.label.height + 2,
+            self.atk_box.label.width + 4
+        )
+
+    def toggle_atk_box(self):
+        if not self.atk_box_added:
+            self.add_ob(self.atk_box, 26, 0)
+        else:
+            self.rem_ob(self.atk_box)
+            self.atk_box.remove()
+        self.atk_box_added = not self.atk_box_added
+
+    def resize_view(self):
+        self.remove()
+        self.overview.resize_view()
+        self.add(self.map, 1, self.map.height - 7)
+        self.map.show()
+
+    def add(self, _map, _x, _y):
+        super().add(_map, _x, _y)
+        return self
+
+    def __enter__(self):
+        """Enter dunder for context management"""
+        self.map.show()
+        return self
+
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        """Exit dunder for context management"""
+        self.remove()
+        self.map.show()
+
+
 class FightMap(gm.GameMap):
     """Wrapper for gm.GameMap
     ARGS:
@@ -33,8 +86,7 @@ class FightMap(gm.GameMap):
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
         self.providers = []
-        self.box = ChooseBox(6, 25, "Attacks",
-                             f"{Action.INFO.mapping}:Info", index_x=1)
+        self.box = AttackBox(self)
         self.invbox = ChooseBox(height - 3, 35, "Inventory")
         # icos
         self.deadico1 = se.Text(r"""
@@ -68,9 +120,6 @@ class FightMap(gm.GameMap):
         self.e_underline.add(self, 1, 4)
         self.e_sideline.add(self, len(self.e_underline.text), 1)
         self.add_base_boxes()
-        # Attack info box
-        self.atk_info_box = LabelBox(se.Text(""), "Attack Info")
-        self.show_atk_info_box = False
 
     def add_base_boxes(self):
         self.outp.add(self, 1, self.height - 4)
@@ -111,7 +160,7 @@ class FightMap(gm.GameMap):
             ):
                 obj.remove()
             if isinstance(prov, ProtoFigure):
-                self.box.remove_c_obs()
+                self.box.box.remove_c_obs()
             for j in prov.curr.effects:
                 j.cleanup()
 
@@ -126,8 +175,8 @@ class FightMap(gm.GameMap):
         player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
         player.curr.text_hp.add(self, self.width - 17, self.height - 7)
         player.curr.ico.add(self, 3, self.height - 10)
-        self.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
-        self.box.set_index(0)
+        self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+        self.box.box.set_index(0)
 
     def add_1(self, player, enem):
         """Adds enemy and general labels to self
@@ -169,8 +218,8 @@ class FightMap(gm.GameMap):
         time.sleep(SPEED_OF_TIME * 0.05)
         self.show()
         player.curr.ico.add(self, 3, self.height - 10)
-        self.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
-        self.box.set_index(0)
+        self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+        self.box.box.set_index(0)
 
     def fast_change(self, arr, setob):
         """Changes fast between a list of texts
@@ -184,55 +233,36 @@ class FightMap(gm.GameMap):
             self.show()
             time.sleep(SPEED_OF_TIME * 0.1)
 
-    def rechar_atk_info_box(self, attack_obs):
-        """Rechars the attack info box
-        ARGS:
-            attack_obs: The current attack obs"""
-        self.atk_info_box.label.rechar(
-            liner(attack_obs[self.box.index.index].desc, 37)
-        )
-        self.atk_info_box.resize(
-            self.atk_info_box.label.height + 2,
-            self.atk_info_box.label.width + 4
-        )
-
     def get_attack(self, attack_obs):
         """Inputloop for attack options
         ARGS:
             attack_obs: A list of Attack objects that belong to a Poke"""
         with self.box.add(self, 1, self.height - 7):
-            self.rechar_atk_info_box(attack_obs)
-            if self.show_atk_info_box:
-                self.atk_info_box.add(self, 27, self.height - 7)
+            self.box.rechar_atk_box(attack_obs)
             self.show()
             while True:#158
                 action = get_action()
                 if action.triggers(*ACTION_UP_DOWN):
-                    self.box.input(action)
-                    self.rechar_atk_info_box(attack_obs)
+                    self.box.box.input(action)
+                    self.box.rechar_atk_box(attack_obs)
                     self.show()
                 elif action.triggers(Action.ACCEPT) or (0 <= action.get_number()
                         < len(attack_obs)):
                     attack = attack_obs[
-                        self.box.index.index if action.triggers(Action.ACCEPT)
+                        self.box.box.index.index if action.triggers(Action.ACCEPT)
                         else action.get_number()
                     ]
                     if attack.ap == 0:
                         continue
                     break
                 elif action.triggers(Action.INFO):
-                    self.show_atk_info_box = not self.show_atk_info_box
-                    if self.show_atk_info_box:
-                        self.atk_info_box.add(self, 27, self.height - 7)
-                    else:
-                        self.atk_info_box.remove()
+                    self.box.toggle_atk_box()
                     self.show()
                     continue
                 elif action.triggers(Action.CANCEL):
                     attack = ""
                     break
-                std_loop(False)
-            self.atk_info_box.remove()
+                std_loop(False, box=self.box)
         return attack
 
     def get_item(self, items, inv):
