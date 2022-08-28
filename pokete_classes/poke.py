@@ -258,7 +258,7 @@ can't have more than 4 attacks!"
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks,
                    shiny=self.shiny)
         new.set_poke_stats(self.poke_stats)
-        new.poke_stats.set_evolve_date(datetime.now())
+        new.poke_stats.set_evolved_date(datetime.now())
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width / 2 - 4),
                      round((evomap.height - 8) / 2))
