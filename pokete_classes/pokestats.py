@@ -114,16 +114,16 @@ class PokeStatsInfoBox(LabelBox):
         else:
             caught_with = poke_stats.caught_with
 
-        text = se.Text(
-            f"\nOwnership date: {ownership_date}") \
-               + se.Text(f"\nCaught with: {caught_with}") \
-               + se.Text(f"\nEvolved date: {evolve_date}") \
-               + se.Text(
-            f"\nNumber of total battles: {poke_stats.total_battles}") \
-               + se.Text(f"\nNumber of won battles: {poke_stats.win_battles}") \
-               + se.Text(f"\nNumber of lost battles: {poke_stats.lost_battles}") \
-               + se.Text(f"\nNumber of run away: {poke_stats.run_away}") \
-               + se.Text(f"\nTotal XP earned: {poke_stats.earned_xp}\n")
+        text = (
+            se.Text(f"\nOwnership date: {ownership_date}")
+            + se.Text(f"\nCaught with: {caught_with}")
+            + se.Text(f"\nEvolved date: {evolve_date}")
+            + se.Text(f"\nNumber of total battles: {poke_stats.total_battles}")
+            + se.Text(f"\nNumber of won battles: {poke_stats.win_battles}")
+            + se.Text(f"\nNumber of lost battles: {poke_stats.lost_battles}")
+            + se.Text(f"\nNumber of run away: {poke_stats.run_away}")
+            + se.Text(f"\nTotal XP earned: {poke_stats.earned_xp}\n")
+        )
         super().__init__(
             text, name=f"{poke_stats.poke_name} statistics",
             info=f"{Action.CANCEL.mapping}:close"
