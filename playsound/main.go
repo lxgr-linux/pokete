@@ -13,7 +13,7 @@ import (
 )
 
 //export playsound
-func playsound(file *C.char) {
+func playsound(file *C.char, volume int) {
 	f, err := os.Open(C.GoString(file))
 	if err != nil {
 		panic(err)
@@ -35,6 +35,7 @@ func playsound(file *C.char) {
 
 	p := c.NewPlayer(d)
 	defer p.Close()
+	p.SetVolume(float64(volume) / float64(100))
 	p.Play()
 
 	for {

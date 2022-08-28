@@ -4,13 +4,13 @@ import sys
 from pathlib import Path
 
 
-def playsound(file):
+def playsound(file, volume):
     """Plays a mp3 file
     ARGS:
-        file: path to file"""
+        file: path to file
+        volume: the sound volume as an int 0-100"""
     logging.info("[Playsound] playing %s", file)
-    _playsound.playsound(file.encode("utf-8"))
-
+    _playsound.playsound(file.encode("utf-8"), volume)
 
 _playsound = ctypes.cdll.LoadLibrary(
     str(

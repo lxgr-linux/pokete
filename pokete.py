@@ -21,7 +21,7 @@ import pokete_data as p_data
 from pokete_classes import animations
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
-from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
+from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox, InputBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
@@ -724,6 +724,11 @@ class Menu:
         self.exit_label = se.Text("Exit", state="float")
         self.realname_label = se.Text(session_info["user"], state="float")
         self.char_label = se.Text(figure.char, state="float")
+        self.audio_volume_label = se.Text("Audio volume in %: ", state="float")
+        self.audio_volume_value_field = se.Text(
+            str(settings("volume").val),
+            state="float"
+        )
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
                             VisSetting("Autosave", "autosave",
@@ -734,6 +739,7 @@ class Menu:
                                        {True: "On", False: "Off"}),
                             VisSetting("Audio", "audio",
                                        {True: "On", False: "Off"}),
+                            self.audio_volume_label,
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
                             self.mods_label, self.ach_label,
@@ -747,6 +753,11 @@ class Menu:
                         self.represent_char_label.rx
                         + self.represent_char_label.width,
                         self.represent_char_label.ry)
+        self.box.add_ob(self.audio_volume_value_field,
+                        self.audio_volume_label.rx
+                        + self.audio_volume_label.width,
+                        self.audio_volume_label.ry)
+
 
     def resize_view(self):
         self.box.remove()
@@ -759,6 +770,8 @@ class Menu:
         self.box.resize(self.map.height - 3, 35)
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
+        audio_before = settings("audio").val
+        volume_before = settings("volume").val
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             _ev.clear()
             while True:
@@ -796,8 +809,23 @@ valid single-space character!")
                         about()
                     elif i == self.ach_label:
                         AchievementOverview()(mvp.movemap)
+                    elif i == self.audio_volume_label:
+                         inp = text_input(self.audio_volume_value_field, self.map,
+                                         str(settings("volume").val), 18, 3)
+                         try:
+                            converted = int(inp)
+                         except:
+                            converted = figure.get_audio_volume()
+                         settings("volume").val = converted
                     else:
                         i.change()
+                    if (
+                        audio_before != settings("audio").val
+                        or volume_before != settings("volume").val
+                    ):
+                        audio.switch(figure.map.song)
+                        audio_before = settings("audio").val
+                        volume_before = settings("volume").val
                 elif action.triggers(Action.UP, Action.DOWN):
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.MENU):
@@ -842,7 +870,7 @@ def save():
         # filters doublicates from figure.used_npcs
         "used_npcs": list(dict.fromkeys(figure.used_npcs)),
         "pokete_care": pokete_care.dict(),
-        "time": timer.time.time
+        "time": timer.time.time,
     }
     with open(SAVEPATH / "pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
@@ -1113,13 +1141,10 @@ def _game(_map):
                 figure.y + action.get_y_strength()
             )
         elif action.triggers(*inp_dict):
-            audio_before = settings("audio").val
             for key, option in inp_dict.items():
                 if action.triggers(key):
                     option[0](*option[1])
             _ev.clear()
-            if audio_before != settings("audio").val:
-                audio.switch(_map.song)
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
             if ask_bool(

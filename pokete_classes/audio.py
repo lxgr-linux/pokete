@@ -8,13 +8,17 @@ from .settings import settings
 MUSIC_PATH = Path(__file__).parents[1] / 'assets' / 'music'
 
 
-def audio_fn(song, play_audio):
-    """plays a song in loop"""
+def audio_fn(song, play_audio, volume):
+    """plays a song in loop
+    ARGS:
+        song: path to file
+        play_audio: bool whether or not audio actually should be played
+        volume: the sound volume as an int 0-100"""
     import playsound
 
 
     while play_audio:
-        playsound.playsound(str(MUSIC_PATH / song))
+        playsound.playsound(str(MUSIC_PATH / song), volume)
 
 
 class Audio:
@@ -29,7 +33,7 @@ class Audio:
             song: The song played"""
         self.curr = multiprocessing.Process(
             target=audio_fn,
-            args=(song, settings("audio").val)
+            args=(song, settings("audio").val, settings("volume").val)
         )
         self.curr.start()
 
