@@ -58,7 +58,7 @@ import pokete_data as p_data
 from pokete_classes import animations
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
-from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox
+from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox, InputBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
@@ -700,6 +700,11 @@ class Menu:
         self.exit_label = se.Text(&#34;Exit&#34;, state=&#34;float&#34;)
         self.realname_label = se.Text(session_info[&#34;user&#34;], state=&#34;float&#34;)
         self.char_label = se.Text(figure.char, state=&#34;float&#34;)
+        self.audio_volume_label = se.Text(&#34;Audio volume in %: &#34;, state=&#34;float&#34;)
+        self.audio_volume_value_field = se.Text(
+            str(settings(&#34;volume&#34;).val),
+            state=&#34;float&#34;
+        )
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
                             VisSetting(&#34;Autosave&#34;, &#34;autosave&#34;,
@@ -710,6 +715,7 @@ class Menu:
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             VisSetting(&#34;Audio&#34;, &#34;audio&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
+                            self.audio_volume_label,
                             VisSetting(&#34;Load mods&#34;, &#34;load_mods&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             self.mods_label, self.ach_label,
@@ -723,11 +729,18 @@ class Menu:
                         self.represent_char_label.rx
                         + self.represent_char_label.width,
                         self.represent_char_label.ry)
+        self.box.add_ob(self.audio_volume_value_field,
+                        self.audio_volume_label.rx
+                        + self.audio_volume_label.width,
+                        self.audio_volume_label.ry)
+
 
     def __call__(self, pevm):
         &#34;&#34;&#34;Opens the menu&#34;&#34;&#34;
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
+        audio_before = settings(&#34;audio&#34;).val
+        volume_before = settings(&#34;volume&#34;).val
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             _ev.clear()
             while True:
@@ -765,8 +778,23 @@ valid single-space character!&#34;)
                         about()
                     elif i == self.ach_label:
                         AchievementOverview()(mvp.movemap)
+                    elif i == self.audio_volume_label:
+                         inp = text_input(self.audio_volume_value_field, self.map,
+                                         str(settings(&#34;volume&#34;).val), 18, 3)
+                         try:
+                            converted = int(inp)
+                         except:
+                            converted = figure.get_audio_volume()
+                         settings(&#34;volume&#34;).val = converted
                     else:
                         i.change()
+                    if (
+                        audio_before != settings(&#34;audio&#34;).val
+                        or volume_before != settings(&#34;volume&#34;).val
+                    ):
+                        audio.switch(figure.map.song)
+                        audio_before = settings(&#34;audio&#34;).val
+                        volume_before = settings(&#34;volume&#34;).val
                 elif action.triggers(Action.UP, Action.DOWN):
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.MENU):
@@ -811,7 +839,7 @@ def save():
         # filters doublicates from figure.used_npcs
         &#34;used_npcs&#34;: list(dict.fromkeys(figure.used_npcs)),
         &#34;pokete_care&#34;: pokete_care.dict(),
-        &#34;time&#34;: timer.time.time
+        &#34;time&#34;: timer.time.time,
     }
     with open(SAVEPATH / &#34;pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
@@ -1077,13 +1105,10 @@ def _game(_map):
                 figure.y + action.get_y_strength()
             )
         elif action.triggers(*inp_dict):
-            audio_before = settings(&#34;audio&#34;).val
             for key, option in inp_dict.items():
                 if action.triggers(key):
                     option[0](*option[1])
             _ev.clear()
-            if audio_before != settings(&#34;audio&#34;).val:
-                audio.switch(_map.song)
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
             if ask_bool(mvp.movemap, &#34;Do you really wish to exit?&#34;):
@@ -2208,7 +2233,7 @@ town.&#34;,
         # filters doublicates from figure.used_npcs
         &#34;used_npcs&#34;: list(dict.fromkeys(figure.used_npcs)),
         &#34;pokete_care&#34;: pokete_care.dict(),
-        &#34;time&#34;: timer.time.time
+        &#34;time&#34;: timer.time.time,
     }
     with open(SAVEPATH / &#34;pokete.json&#34;, &#34;w+&#34;) as file:
         # writes the data to the save file in a nice format
@@ -3219,6 +3244,11 @@ in the inventory!&#34;
         self.exit_label = se.Text(&#34;Exit&#34;, state=&#34;float&#34;)
         self.realname_label = se.Text(session_info[&#34;user&#34;], state=&#34;float&#34;)
         self.char_label = se.Text(figure.char, state=&#34;float&#34;)
+        self.audio_volume_label = se.Text(&#34;Audio volume in %: &#34;, state=&#34;float&#34;)
+        self.audio_volume_value_field = se.Text(
+            str(settings(&#34;volume&#34;).val),
+            state=&#34;float&#34;
+        )
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
                             VisSetting(&#34;Autosave&#34;, &#34;autosave&#34;,
@@ -3229,6 +3259,7 @@ in the inventory!&#34;
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             VisSetting(&#34;Audio&#34;, &#34;audio&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
+                            self.audio_volume_label,
                             VisSetting(&#34;Load mods&#34;, &#34;load_mods&#34;,
                                        {True: &#34;On&#34;, False: &#34;Off&#34;}),
                             self.mods_label, self.ach_label,
@@ -3242,11 +3273,18 @@ in the inventory!&#34;
                         self.represent_char_label.rx
                         + self.represent_char_label.width,
                         self.represent_char_label.ry)
+        self.box.add_ob(self.audio_volume_value_field,
+                        self.audio_volume_label.rx
+                        + self.audio_volume_label.width,
+                        self.audio_volume_label.ry)
+
 
     def __call__(self, pevm):
         &#34;&#34;&#34;Opens the menu&#34;&#34;&#34;
         self.realname_label.rechar(figure.name)
         self.char_label.rechar(figure.char)
+        audio_before = settings(&#34;audio&#34;).val
+        volume_before = settings(&#34;volume&#34;).val
         with self.box.add(self.map, self.map.width - self.box.width, 0):
             _ev.clear()
             while True:
@@ -3284,8 +3322,23 @@ valid single-space character!&#34;)
                         about()
                     elif i == self.ach_label:
                         AchievementOverview()(mvp.movemap)
+                    elif i == self.audio_volume_label:
+                         inp = text_input(self.audio_volume_value_field, self.map,
+                                         str(settings(&#34;volume&#34;).val), 18, 3)
+                         try:
+                            converted = int(inp)
+                         except:
+                            converted = figure.get_audio_volume()
+                         settings(&#34;volume&#34;).val = converted
                     else:
                         i.change()
+                    if (
+                        audio_before != settings(&#34;audio&#34;).val
+                        or volume_before != settings(&#34;volume&#34;).val
+                    ):
+                        audio.switch(figure.map.song)
+                        audio_before = settings(&#34;audio&#34;).val
+                        volume_before = settings(&#34;volume&#34;).val
                 elif action.triggers(Action.UP, Action.DOWN):
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.MENU):
