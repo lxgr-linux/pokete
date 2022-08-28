@@ -498,7 +498,7 @@ class FightItems:
                                    * chance + catch_chance,
                                    enem.curr.full_hp], k=1)[0]:
             audio.switch("xDeviruchi - Decisive Battle (End).mp3")
-            obj.add_poke(enem.curr, caught_by=name)
+            obj.add_poke(enem.curr, caught_with=name)
             fightmap.outp.outp(f"You caught {enem.curr.name}!")
             time.sleep(SPEED_OF_TIME * 2)
             fightmap.pball.remove()

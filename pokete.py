@@ -462,14 +462,14 @@ class Figure(se.Object, ProtoFigure):
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
-    def add_poke(self, poke: Poke, idx=None, caught_by=None):
+    def add_poke(self, poke: Poke, idx=None, caught_with=None):
         """Adds a Pokete to the players Poketes
         ARGS:
             poke: Poke object beeing added
             idx: Index of the Poke
-            caught_by: Name of ball which was used"""
+            caught_with: Name of ball which was used"""
         poke.set_player(True)
-        poke.set_poke_stats(PokeStats(poke.name, datetime.now(), caught_by=caught_by))
+        poke.set_poke_stats(PokeStats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
