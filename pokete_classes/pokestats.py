@@ -81,8 +81,8 @@ class PokeStats:
     @classmethod
     def from_dict(cls, _dict, poke_name):
         """Assembles a PokeStats from _dict"""
-        ownership_date = None if _dict.get("ownership_date", None) is None else \
-            datetime.fromisoformat(_dict.get("ownership_date"))
+        ownership_date = None if _dict.get("ownership_date", None) is None \
+            else datetime.fromisoformat(_dict.get("ownership_date"))
         evolved_date = None if _dict.get("evolved_date", None) is None else \
             datetime.fromisoformat(_dict.get("evolved_date"))
         return cls(poke_name, ownership_date,
