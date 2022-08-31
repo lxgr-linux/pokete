@@ -7,6 +7,7 @@ For this see the comments in the definations area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
+
 import time
 import os
 import sys
@@ -16,9 +17,11 @@ import socket
 import json
 import logging
 from pathlib import Path
+from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
+from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox, InputBox
@@ -459,12 +462,14 @@ class Figure(se.Object, ProtoFigure):
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
-    def add_poke(self, poke, idx=None):
+    def add_poke(self, poke: Poke, idx=None, caught_with=None):
         """Adds a Pokete to the players Poketes
         ARGS:
             poke: Poke object beeing added
-            idx: Index of the Poke"""
+            idx: Index of the Poke
+            caught_with: Name of ball which was used"""
         poke.set_player(True)
+        poke.set_poke_stats(PokeStats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]

@@ -289,6 +289,7 @@ class FightMap(gm.GameMap):
                 time.sleep(SPEED_OF_TIME * 2)
                 self.clean_up(figure, enem)
                 logging.info("[Fight] Ended, ran away")
+                figure.curr.poke_stats.set_run_away_battle()
                 audio.switch(figure.map.song)
                 return "won"
             elif action.triggers(Action.CHOOSE_ITEM):
@@ -309,6 +310,7 @@ class FightMap(gm.GameMap):
                 if (i := getattr(fightitems, item.func)(figure, enem)) == 1:
                     continue
                 if i == 2:
+                    figure.curr.poke_stats.add_battle(True)
                     logging.info("[Fight] Ended, fightitem")
                     time.sleep(SPEED_OF_TIME * 2)
                     audio.switch(figure.map.song)
@@ -412,6 +414,10 @@ class FightMap(gm.GameMap):
             winner.curr.set_vars()
             winner.curr.learn_attack(self)
             winner.curr.evolve(winner, self)
+        if winner.curr.player:
+            winner.curr.poke_stats.add_battle(True)
+        else:
+            loser.curr.poke_stats.add_battle(False)
         self.show()
         time.sleep(SPEED_OF_TIME * 1)
         ico = loser.curr.ico
@@ -492,7 +498,7 @@ class FightItems:
                                    * chance + catch_chance,
                                    enem.curr.full_hp], k=1)[0]:
             audio.switch("xDeviruchi - Decisive Battle (End).mp3")
-            obj.add_poke(enem.curr)
+            obj.add_poke(enem.curr, caught_with=name)
             fightmap.outp.outp(f"You caught {enem.curr.name}!")
             time.sleep(SPEED_OF_TIME * 2)
             fightmap.pball.remove()
