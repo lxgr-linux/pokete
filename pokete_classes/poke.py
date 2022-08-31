@@ -11,6 +11,7 @@ from release import SPEED_OF_TIME
 from .attack_actions import AttackActions
 from .attack import Attack
 from .health_bar import HealthBar
+from .pokestats import PokeStats
 from .evomap import EvoMap
 from .color import Color
 from .moves import Moves
@@ -19,6 +20,7 @@ from .effects import effects
 from .learnattack import LearnAttack
 from .nature import PokeNature
 from .achievements import achievements
+from datetime import datetime
 
 
 class Poke:
@@ -32,7 +34,8 @@ class Poke:
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
     def __init__(self, poke, _xp, _hp="SKIP", _ap=None, _attacks=None,
-                 _effects=None, player=True, shiny=False, nature=None):
+                 _effects=None, player=True, shiny=False, nature=None,
+                 stats=None):
         self.nature = PokeNature.random() if nature is None \
                         else PokeNature.from_dict(nature)
         self.inf = p_data.pokes[poke]
@@ -110,6 +113,9 @@ can't have more than 4 attacks!"
             for eff in _effects:
                 self.effects.append(getattr(effects, eff)(self))
 
+        self.poke_stats = PokeStats(self.name, None) if stats is None \
+            else PokeStats.from_dict(stats, self.name)
+
     def set_player(self, player):
         """Sets the player attribute when the Pokete changes the owner
         ARGS:
@@ -117,6 +123,12 @@ can't have more than 4 attacks!"
         self.player = player
         self.affil = "you" if self.player else "enemy"
         self.ext_name = f'{self.name}({self.affil})'
+
+    def set_poke_stats(self, poke_stats):
+        """Sets the Poketes stats:
+        ARGS:
+            poke_stats: PokeStats object"""
+        self.poke_stats = poke_stats
 
     def set_vars(self):
         """Updates/sets some vars"""
@@ -134,7 +146,8 @@ can't have more than 4 attacks!"
                 "effects": [eff.c_name for eff in self.effects],
                 "attacks": self.attacks,
                 "shiny": self.shiny,
-                "nature": self.nature.dict()}
+                "nature": self.nature.dict(),
+                "stats": self.poke_stats.dict()}
 
     def set_ap(self, aps):
         """Sets attack aps from a list
@@ -151,6 +164,7 @@ can't have more than 4 attacks!"
             bool: whether or not the next level is reached"""
         old_lvl = self.lvl()
         self.xp += _xp
+        self.poke_stats.add_xp(_xp)
         self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
 {((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
         self.text_lvl.rechar(f"Lvl:{self.lvl()}")
@@ -241,7 +255,10 @@ can't have more than 4 attacks!"
                 or self.lvl() < self.evolve_lvl:
             return False
         evomap = EvoMap(_map.height, _map.width)
-        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny)
+        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks,
+                   shiny=self.shiny)
+        new.set_poke_stats(self.poke_stats)
+        new.poke_stats.set_evolved_date(datetime.now())
         self.ico.remove()
         self.ico.add(evomap, round(evomap.width / 2 - 4),
                      round((evomap.height - 8) / 2))
@@ -281,7 +298,8 @@ can't have more than 4 attacks!"
         """Assembles a Pokete from _dict"""
         return cls(_dict["name"], _dict["xp"], _dict["hp"], _dict["ap"],
                    _dict.get("attacks", None), _dict.get("effects", []),
-                   shiny=_dict.get("shiny", False), nature=_dict.get("nature"))
+                   shiny=_dict.get("shiny", False), nature=_dict.get("nature"),
+                   stats=_dict.get("stats", None))
 
     @classmethod
     def wild(cls, poke, _xp):
