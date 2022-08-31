@@ -62,6 +62,7 @@ Options:
     --log          : Enables logging
     --help         : Shows this help
     --no_mods      : Disables mods
+    --no_audio     : Disables
 
 Homepage: https://github.com/lxgr-linux/pokete
 
@@ -78,14 +79,17 @@ def parse_args(args):
     ARGS:
         args: Arguments given to the game
     RETURNS:
-        Tuple of do_logging and load_mods"""
+        Tuple of do_logging, load_mods and use_audio"""
     do_logging = False
     load_mods = True
+    use_audio = True
     for arg in args[1:]:
         if arg == "--log":
             do_logging = True
         elif arg == "--no_mods":
             load_mods = False
+        elif arg == "--no_audio":
+            use_audio = False
         elif arg == "--help":
             print_help(args[0])
             sys.exit(0)
@@ -93,7 +97,7 @@ def parse_args(args):
             print(f":: Error: '{arg}' is not a valid option! See '--help' for \
 options.")
             sys.exit(1)
-    return do_logging, load_mods
+    return do_logging, load_mods, use_audio
 
 
 if __name__ == "__main__":
