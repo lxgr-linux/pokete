@@ -33,7 +33,7 @@ class Action(Enum):
 
     NATURE_INFO = auto()
     STATS_INFO = auto()
-    ABILITIES = auto()
+    ABILITIES_INFO = auto()
     CHOOSE_ATTACK = auto()
     CHOOSE_ITEM = auto()
     CHOOSE_POKE = auto()
@@ -112,7 +112,7 @@ hotkey_mappings = {
     '4': ActionList(
         [
             Action.ACT_4, Action.INVENTORY, Action.CHOOSE_POKE,
-            Action.ABILITIES
+            Action.ABILITIES_INFO
         ]
     ),
     '5': ActionList([Action.ACT_5, Action.POKEDEX]),

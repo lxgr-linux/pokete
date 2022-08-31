@@ -74,7 +74,7 @@ class Detail(Informer):
             f"{Action.STATS_INFO.mapping}: Statistics", state="float"
         )
         self.ability_label = se.Text(
-            f"{Action.ABILITIES.mapping}: Use ability", state="float"
+            f"{Action.ABILITIES_INFO.mapping}: Use ability", state="float"
         )
         self.line_sep1 = se.Square("-", self.map.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.map.width - 2, 1, state="float")
@@ -149,7 +149,7 @@ class Detail(Informer):
                 poke.nature.info(self.map)
             elif action.triggers(Action.STATS_INFO):
                 PokeStatsInfoBox(poke.poke_stats)(self.map)
-            elif action.triggers(Action.ABILITIES):
+            elif action.triggers(Action.ABILITIES_INFO):
                 if abb_obs != [] and abb:
                     with ChooseBox(len(abb_obs) + 2, 25, name="Abilities",
                                    c_obs=[se.Text(i.name)
