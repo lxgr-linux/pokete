@@ -1432,7 +1432,7 @@ def map_additions():
 # Actual code execution
 #######################
 if __name__ == "__main__":
-    do_logging, load_mods = parse_args(sys.argv)
+    do_logging, load_mods, audio.use_audio = parse_args(sys.argv)
     # deciding on wich input to use
     if sys.platform == "win32":
         import msvcrt
