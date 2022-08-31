@@ -214,7 +214,10 @@ class FightMap(gm.GameMap):
             elif action.triggers(Action.RUN):
                 if (
                     not enem.escapable
-                    or not ask_bool(self, "Do you really want to run away?")
+                    or not ask_bool(
+                        self, "Do you really want to run away?",
+                        overview=self
+                    )
                 ):
                     continue
                 if (
