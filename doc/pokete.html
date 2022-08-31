@@ -44,6 +44,7 @@ For this see the comments in the definations area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback&#34;&#34;&#34;
 
+
 import time
 import os
 import sys
@@ -53,9 +54,11 @@ import socket
 import json
 import logging
 from pathlib import Path
+from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
+from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox, InputBox
@@ -496,12 +499,14 @@ class Figure(se.Object, ProtoFigure):
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
-    def add_poke(self, poke, idx=None):
+    def add_poke(self, poke: Poke, idx=None, caught_with=None):
         &#34;&#34;&#34;Adds a Pokete to the players Poketes
         ARGS:
             poke: Poke object beeing added
-            idx: Index of the Poke&#34;&#34;&#34;
+            idx: Index of the Poke
+            caught_with: Name of ball which was used&#34;&#34;&#34;
         poke.set_player(True)
+        poke.set_poke_stats(PokeStats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
@@ -2736,12 +2741,14 @@ def playmap_7():
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
-    def add_poke(self, poke, idx=None):
+    def add_poke(self, poke: Poke, idx=None, caught_with=None):
         &#34;&#34;&#34;Adds a Pokete to the players Poketes
         ARGS:
             poke: Poke object beeing added
-            idx: Index of the Poke&#34;&#34;&#34;
+            idx: Index of the Poke
+            caught_with: Name of ball which was used&#34;&#34;&#34;
         poke.set_player(True)
+        poke.set_poke_stats(PokeStats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
@@ -2815,7 +2822,7 @@ in the inventory!&#34;
 </details>
 </dd>
 <dt id="pokete.Figure.add_poke"><code class="name flex">
-<span>def <span class="ident">add_poke</span></span>(<span>self, poke, idx=None)</span>
+<span>def <span class="ident">add_poke</span></span>(<span>self, poke: pokete_classes.poke.Poke, idx=None, caught_with=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a Pokete to the players Poketes</p>
@@ -2825,17 +2832,21 @@ in the inventory!&#34;
 <dd>Poke object beeing added</dd>
 <dt><strong><code>idx</code></strong></dt>
 <dd>Index of the Poke</dd>
+<dt><strong><code>caught_with</code></strong></dt>
+<dd>Name of ball which was used</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def add_poke(self, poke, idx=None):
+<pre><code class="python">def add_poke(self, poke: Poke, idx=None, caught_with=None):
     &#34;&#34;&#34;Adds a Pokete to the players Poketes
     ARGS:
         poke: Poke object beeing added
-        idx: Index of the Poke&#34;&#34;&#34;
+        idx: Index of the Poke
+        caught_with: Name of ball which was used&#34;&#34;&#34;
     poke.set_player(True)
+    poke.set_poke_stats(PokeStats(poke.name, datetime.now(), caught_with=caught_with))
     self.caught_pokes.append(poke.identifier)
     if idx is None:
         id_list = [i.identifier for i in self.pokes]
