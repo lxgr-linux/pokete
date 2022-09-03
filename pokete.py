@@ -322,7 +322,7 @@ class CenterInteract(se.Object):
                 break
             elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
-            std_loop()
+            std_loop(box=mvp.movemap)
         mvp.movemap.full_show(init=True)
 
 
@@ -1159,7 +1159,7 @@ def _game(_map):
             mvp.movemap.code_label.outp(figure.map.pretty_name)
             codes(inp)
             _ev.clear()
-        std_loop(pevm=pevm)
+        std_loop(pevm=pevm, box=mvp.movemap)
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
@@ -1172,10 +1172,6 @@ def _game(_map):
         ):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
-        # checking for resizing the terminal
-        if tss():
-            mvp.movemap.resize(tss.height - 1, tss.width, " ")
-            mvp.movemap.full_show(True)
         mvp.movemap.full_show()
 
 
