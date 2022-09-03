@@ -97,7 +97,7 @@ class PokeStatsInfoBox(LabelBox):
     ARGS:
         poke_stats: PokeStats object"""
 
-    def __init__(self, poke_stats: PokeStats):
+    def __init__(self, poke_stats: PokeStats, overview):
         not_available = "N/A"
         if poke_stats.ownership_date is None:
             ownership_date = not_available
@@ -126,7 +126,8 @@ class PokeStatsInfoBox(LabelBox):
         )
         super().__init__(
             text, name=f"{poke_stats.poke_name} statistics",
-            info=f"{Action.CANCEL.mapping}:close"
+            info=f"{Action.CANCEL.mapping}:close",
+            overview=overview
         )
 
     def __call__(self, _map):
@@ -134,4 +135,4 @@ class PokeStatsInfoBox(LabelBox):
         ARGS:
             _map: Map to show on"""
         with self.center_add(_map):
-            easy_exit_loop(False)
+            easy_exit_loop(False, box=self)

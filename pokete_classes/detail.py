@@ -197,7 +197,7 @@ class Detail(Informer):
             if action.triggers(Action.NATURE_INFO):
                 poke.nature.info(self.map, self)
             elif action.triggers(Action.STATS_INFO):
-                PokeStatsInfoBox(poke.poke_stats)(self.map)
+                PokeStatsInfoBox(poke.poke_stats, self)(self.map)
             elif action.triggers(Action.ABILITIES_INFO):
                 if abb_obs != [] and abb:
                     with ChooseBox(
