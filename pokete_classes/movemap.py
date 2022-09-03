@@ -91,7 +91,7 @@ class Movemap(gm.GameSubmap):
                         "   "
                     )
                 )
-                std_loop()
+                std_loop(box=self)
                 if _ev.get() != "":
                     _ev.clear()
                     break
@@ -103,7 +103,8 @@ class Movemap(gm.GameSubmap):
                 )
             )
             while _ev.get() == "":
-                std_loop()
+                std_loop(box=self)
+                self.show()
         self.multitext.remove()
 
     def resize_view(self):
