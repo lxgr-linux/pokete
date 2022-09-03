@@ -30,7 +30,7 @@ from pokete_classes.settings import settings, VisSetting
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
 from pokete_classes.providers import ProtoFigure
-from pokete_classes.buy import Buy
+from pokete_classes.buy import Buy, InvBox
 from pokete_classes.audio import audio
 from pokete_classes.tss import tss
 from pokete_classes.side_loops import LoadingScreen, About, Help
@@ -535,14 +535,6 @@ class Debug:
     def pos(cls):
         """Prints the figures' position"""
         print(figure.x, figure.y, figure.map.name)
-
-
-class InvBox(Box):
-    def resize_view(self):
-        self.remove()
-        self.overview.resize_view()
-        self.add(self.map, self.overview.box.x - 19, 3)
-        mvp.movemap.full_show()
 
 
 class Inv:
