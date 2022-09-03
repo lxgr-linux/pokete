@@ -1071,13 +1071,14 @@ def swap_poke():
             if host in ["localhost", "127.0.0.1", "0.0.0.0",
                         socket.gethostname()]:
                 ask_ok(mvp.movemap,
-                       "You're not allowed trade with your self!\nYou fool!")
+                       "You're not allowed trade with your self!\nYou fool!",
+                       mvp.movemap)
                 host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 sock.connect((host, port))
             except Exception as err:
-                ask_ok(mvp.movemap, str(err))
+                ask_ok(mvp.movemap, str(err), mvp.movemap)
                 return
             sock.sendall(
                     str.encode(

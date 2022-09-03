@@ -123,7 +123,10 @@ class ProtoFigure(Provider):
         RETURNS:
             bool: whether or not a Pokete was choosen"""
         if winner.escapable:
-            if ask_bool(fightmap, "Do you want to choose another Pokete?"):
+            if ask_bool(
+                    fightmap, "Do you want to choose another Pokete?",
+                    fightmap
+                ):
                 success = fightmap.choose_poke(self)
                 if not success:
                     return False

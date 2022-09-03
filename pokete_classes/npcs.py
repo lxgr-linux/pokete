@@ -145,7 +145,7 @@ class NPC(se.Box):
         item = getattr(invitems, item)
         self.set_used()
         if ask_bool(mvp.movemap, f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?"):
+Do you want to accept it?", mvp.movemap):
             self.fig.give_item(item.name)
 
     @property
