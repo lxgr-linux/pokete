@@ -1656,7 +1656,7 @@ if __name__ == "__main__":
         "poke": None,
     }))
     timer.time = timer.Time(session_info.get("time", 0))
-    timer.clock = timer.Clock(timer.time)
+    timer.clock = timer.Clock(timer.time, mvp.movemap)
     HighGrass.figure = figure
     Poketeball.figure = figure
     _ev.set_emit_fn(timer.time.emit_input)

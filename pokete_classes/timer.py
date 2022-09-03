@@ -102,9 +102,12 @@ class Clock(Box):
     ARGS:
         time: Time object"""
 
-    def __init__(self, time_ob):
+    def __init__(self, time_ob, overview):
         self.time = time_ob
-        super().__init__(9, 28, "Clock", f"{Action.CANCEL.mapping}:close")
+        super().__init__(
+            9, 28, "Clock", f"{Action.CANCEL.mapping}:close",
+            overview
+        )
 
     def __call__(self, _map):
         """Shows the clock
@@ -122,7 +125,7 @@ class Clock(Box):
                     letter_obs = self.draw_letters(d_p, letter_obs)
                     raw_time = self.time.time
                 self.map.show()
-                std_loop()
+                std_loop(box=self)
             self.__rem_obs(letter_obs)
 
     def __rem_obs(self, letter_obs):
