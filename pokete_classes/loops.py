@@ -23,10 +23,10 @@ def std_loop(on_mvmp=True, pevm=None, box=None):
         on_mvmp: Indicates if the loop is executed on movemap
         pevm: The PeriodicEventManager object, that may be needed to trigger
               periodic events in the overlaing loop"""
+    if box is not None and tss():
+        box.resize_view()
     if on_mvmp:
         notifier.next()
     if pevm is not None:
         pevm.event()
-    if box is not None and tss():
-        box.resize_view()
     time.sleep(release.FRAMETIME)

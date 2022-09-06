@@ -11,6 +11,7 @@ from .classes import OutP
 from .color import Color
 from .event import _ev
 from .hotkeys import Action
+from .notify import notifier
 from .tss import tss
 
 
@@ -37,7 +38,7 @@ class Movemap(gm.GameSubmap):
             f"{Action.CLOCK.mapping}: Clock  "
             f"{Action.HELP.mapping}: help"
         )
-        self.code_label = OutP("")
+        self.code_label = OutP("", state="float")
         self.multitext = OutP("", state="float")
         self.underline = se.Square("-", self.width, 1, state="float")
         self.code_label.add(self, 0, 0)
@@ -108,8 +109,14 @@ class Movemap(gm.GameSubmap):
         self.multitext.remove()
 
     def resize_view(self):
+        if notifier.notified:
+            notifier.notification.remove()
+            saved_coords = (self.width - notifier.notification.x)
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
+        if notifier.notified:
+            notifier.notification.add(self, self.width - saved_coords, 0)
+            #notifier.notification.add(self, 10, 0)
 
     def resize(self, height, width, background=" "):
         """Resizes the map and its attributes
