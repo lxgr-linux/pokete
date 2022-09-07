@@ -78,6 +78,7 @@ Active: """) + se.Text(active[0], esccode=active[1])
         self.detail_box.rem_ob(poke.ico)
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         self.box.remove()
         mvp.movemap.resize_view()
         self.box.resize(mvp.movemap.height - 3, 35)

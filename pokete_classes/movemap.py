@@ -109,6 +109,7 @@ class Movemap(gm.GameSubmap):
         self.multitext.remove()
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         if notifier.notified:
             notifier.notification.remove()
             saved_coords = (self.width - notifier.notification.x)
@@ -116,7 +117,6 @@ class Movemap(gm.GameSubmap):
         self.remap()
         if notifier.notified:
             notifier.notification.add(self, self.width - saved_coords, 0)
-            #notifier.notification.add(self, 10, 0)
 
     def resize(self, height, width, background=" "):
         """Resizes the map and its attributes

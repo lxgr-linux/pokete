@@ -4,6 +4,7 @@ import math
 import time
 import logging
 import random
+from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
@@ -20,7 +21,6 @@ from .effects import effects
 from .learnattack import LearnAttack
 from .nature import PokeNature
 from .achievements import achievements
-from datetime import datetime
 
 
 class Poke:
@@ -239,12 +239,13 @@ can't have more than 4 attacks!"
                          str({"eff": eff, "n_hp": n_hp}))
             fightmap.show()
 
-    def learn_attack(self, _map):
+    def learn_attack(self, _map, overview):
         """Checks if a new attack can be learned and then teaches it the poke
         ARGS:
-            _map: The map this happens on"""
+            _map: The map this happens on
+            overview: Overview"""
         if self.lvl() % 5 == 0:
-            LearnAttack(self, _map)()
+            LearnAttack(self, _map, overview)()
 
     def evolve(self, figure, _map):
         """Evolves the Pokete to its evolve_poke
@@ -284,7 +285,7 @@ can't have more than 4 attacks!"
         time.sleep(SPEED_OF_TIME * 5)
         for i in range(max(len(p_data.pokes[new.identifier]["attacks"])
                            - len(self.attack_obs), 0)):
-            LearnAttack(new, evomap)()
+            LearnAttack(new, evomap, evomap)()
         figure.pokes[figure.pokes.index(self)] = new
         if new.identifier not in figure.caught_pokes:
             figure.caught_pokes.append(new.identifier)
@@ -335,5 +336,5 @@ def upgrade_by_one_lvl(poke, figure, _map):
         _map: The map the upgrade happens on"""
     poke.add_xp((poke.lvl()+1)**2-1 - ((poke.lvl())**2-1))
     poke.set_vars()
-    poke.learn_attack(_map)
+    poke.learn_attack(_map, _map)
     poke.evolve(figure, _map)

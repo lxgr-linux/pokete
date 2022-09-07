@@ -10,7 +10,10 @@ from . import movemap as mvp
 
 
 class InvBox(Box):
+    """Box wrapper for inv"""
+
     def resize_view(self):
+        """Manages recursive view resizing"""
         self.remove()
         self.overview.resize_view()
         self.add(self.map, self.overview.box.x - 19, 3)
@@ -42,6 +45,7 @@ class Buy:
         self.box2.add_ob(self.desc_label, 1, 1)
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         self.box.remove()
         self.map.resize_view()
         self.box.resize(self.map.height - 3, 35)

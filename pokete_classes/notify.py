@@ -1,6 +1,5 @@
 """Contains classes for notifications"""
 
-import logging
 import scrap_engine as se
 from pokete_general_use_fns import liner
 from .ui_elements import LabelBox

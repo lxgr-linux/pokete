@@ -100,6 +100,7 @@ class Detail(Informer):
         self.overview = None
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         self.exit_label.remove()
         self.nature_label.remove()
         abb_added = self.ability_label.added
@@ -135,6 +136,7 @@ class Detail(Informer):
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
 
     def add_attack_labels(self):
+        """Adds the atatck labels to map"""
         for atc, _x, _y in zip(
             self.poke.attack_obs,
             [

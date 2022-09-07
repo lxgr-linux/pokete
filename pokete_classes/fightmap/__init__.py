@@ -71,6 +71,7 @@ class FightMap(gm.GameMap):
         self.add_base_boxes()
 
     def add_base_boxes(self):
+        """Adds the basic map layout"""
         self.outp.add(self, 1, self.height - 4)
         self.p_upperline.add(self, self.width - 1 - len(self.p_upperline.text),
                              self.height - 10)
@@ -81,6 +82,7 @@ class FightMap(gm.GameMap):
         self.label.add(self, 0, self.height - 1)
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         added = self.providers[0].curr.ico.added
         for obj in [
             self.outp, self.p_upperline,

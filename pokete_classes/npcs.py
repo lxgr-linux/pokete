@@ -202,8 +202,11 @@ Do you want to accept it?", mvp.movemap):
 
 
 class MultiTextChooseBox(ChooseBox):
+    """ChooseBox wrapper for multitext conversations"""
     fig = None
+
     def resize_view(self):
+        """Manages recursive view resizing"""
         self.remove()
         self.overview.resize_view()
         mvp.movemap.assure_distance(

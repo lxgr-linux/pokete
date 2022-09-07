@@ -54,7 +54,7 @@ class Settings:
             "volume": 100,
         }
         self.settings = [
-            Setting(i, self.keywords[i]) for i in self.keywords
+            Setting(name, val) for nam, val in self.keywords.items()
         ]
 
     def from_dict(self, src):
@@ -62,8 +62,8 @@ class Settings:
         ARGS:
             src: The Dict"""
         self.settings = []
-        for i in src:
-            self.settings.append(Setting(i, src[i]))
+        for name, val in src.items():
+            self.settings.append(Setting(name, val))
         for i in self.keywords:
             if i not in [j.name for j in self.settings]:
                 self.settings.append(Setting(i, self.keywords[i]))

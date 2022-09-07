@@ -45,6 +45,7 @@ class Deck(detail.Informer):
             self.remove(poke)
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         self.exit_label.remove()
         self.move_label.remove()
         self.move_free.remove()

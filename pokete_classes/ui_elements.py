@@ -63,6 +63,7 @@ class Box(se.Box):
         self.add_ob(self.info_label, 2, self.height - 1)
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         if self.overview is not None:
             self.remove()
             self.overview.resize_view()

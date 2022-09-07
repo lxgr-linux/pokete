@@ -555,6 +555,7 @@ class Inv:
         self.box2.add_ob(self.desc_label, 1, 1)
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         self.box.remove()
         self.map.resize_view()
         self.box.resize(self.map.height - 3, 35)
@@ -757,6 +758,7 @@ class Menu:
 
 
     def resize_view(self):
+        """Manages recursive view resizing"""
         self.box.remove()
         self.box.overview.resize_view()
         self.box.resize(self.map.height - 3, 35)
