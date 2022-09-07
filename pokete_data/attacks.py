@@ -115,7 +115,7 @@ attacks = {
     "supercow_power": {
         "name": "Supercow Power",
         "factor": 0,
-        "action": "self.atc += 1",
+        "action": "dick_energy",
         "world_action": "",
         "move": ["shine"],
         "miss_chance": 0,
