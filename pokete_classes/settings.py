@@ -54,7 +54,7 @@ class Settings:
             "volume": 100,
         }
         self.settings = [
-            Setting(name, val) for nam, val in self.keywords.items()
+            Setting(name, val) for name, val in self.keywords.items()
         ]
 
     def from_dict(self, src):
