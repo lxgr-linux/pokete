@@ -130,11 +130,11 @@ class ProtoFigure(Provider):
                 success = fightmap.choose_poke(self)
                 if not success:
                     return False
-                self.poke_stats.add_battle(False)
+                self.curr.poke_stats.add_battle(False)
             else:
                 return False
         else:
             time.sleep(2)
-            self.poke_stats.add_battle(False)
+            self.curr.poke_stats.add_battle(False)
             fightmap.choose_poke(self, False)
         return True
