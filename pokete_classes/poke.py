@@ -255,7 +255,7 @@ can't have more than 4 attacks!"
         if not self.player or self.evolve_poke == "" \
                 or self.lvl() < self.evolve_lvl:
             return False
-        evomap = EvoMap(_map.height, _map.width)
+        evomap = EvoMap(_map.height, _map.width, _map)
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks,
                    shiny=self.shiny)
         new.set_poke_stats(self.poke_stats)
