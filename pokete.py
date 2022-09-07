@@ -809,13 +809,13 @@ valid single-space character!")
                     elif i == self.ach_label:
                         AchievementOverview()(mvp.movemap)
                     elif i == self.audio_volume_label:
-                         inp = text_input(self.audio_volume_value_field, self.map,
+                        inp = text_input(self.audio_volume_value_field, self.map,
                                          str(settings("volume").val), 18, 3)
-                         try:
+                        try:
                             converted = int(inp)
-                         except:
-                            converted = figure.get_audio_volume()
-                         settings("volume").val = converted
+                        except:
+                            converted = settings("volume").val
+                        settings("volume").val = converted
                     else:
                         i.change()
                     if (
@@ -1186,7 +1186,7 @@ def intro():
         figure.name = ask_text(
             mvp.movemap,
             "Welcome to Pokete!\nPlease choose your name!\n",
-            "Name:", "", "Name", 17, movemap.mvp
+            "Name:", "", "Name", 17, mvp.movemap
         )
     mvp.movemap.name_label_rechar(figure.name)
     mvp.movemap.text(4, 3, ["Hello, my child.",
