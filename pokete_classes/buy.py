@@ -54,6 +54,7 @@ class Buy:
 
     def __call__(self):
         """Opens the buy menu"""
+        self.box.resize(self.map.height - 3, 35)
         with self.box.add(self.map, self.map.width - 35, 0):
             self.box2.add(self.map, self.box.x - 19, 3)
             self.rechar()

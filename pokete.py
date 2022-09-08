@@ -295,7 +295,7 @@ class CenterInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(
-            int(mvp.movemap.width / 2),
+            mvp.movemap.bmap.inner.x - mvp.movemap.x + 8,
             3,
             [
                 "Welcome to the Pokete-Center",
@@ -316,7 +316,7 @@ class CenterInteract(se.Object):
                 figure.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(
-                    int(mvp.movemap.width / 2), 3,
+                    mvp.movemap.bmap.inner.x - mvp.movemap.x + 8, 3,
                     ["...", "Your Poketes are now healed!"]
                 )
                 break
@@ -335,12 +335,12 @@ class ShopInteract(se.Object):
             ob: The object triggering this action"""
         _ev.clear()
         mvp.movemap.full_show()
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+        mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
                          ["Welcome to the Pokete-Shop",
                           "Wanna buy something?"])
         buy()
         mvp.movemap.full_show(init=True)
-        mvp.movemap.text(int(mvp.movemap.width / 2), 3,
+        mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
                          ["Have a great day!"])
 
 
