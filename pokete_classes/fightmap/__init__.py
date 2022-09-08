@@ -366,7 +366,7 @@ class FightMap(gm.GameMap):
             winner.curr.moves.shine()
             time.sleep(SPEED_OF_TIME * 0.5)
             winner.curr.set_vars()
-            winner.curr.learn_attack(self)
+            winner.curr.learn_attack(self, self)
             winner.curr.evolve(winner, self)
         if winner.curr.player:
             winner.curr.poke_stats.add_battle(True)

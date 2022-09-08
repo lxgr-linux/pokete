@@ -97,7 +97,7 @@ class LearnAttack:
             self.map,
             f"{self.poke.name} wants to learn "
             f"{attacks[new_attack]['name']}!",
-            self.box
+            self.map
         ):
             if len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)

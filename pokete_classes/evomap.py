@@ -25,8 +25,8 @@ class EvoMap(gm.GameMap):
         """Manages recursive view resizing"""
         self.frame_small.remove()
         self.outp.remove()
-        self.resize(tss.height - 1, tss.width)
+        self.resize(tss.height - 1, tss.width, " ")
         self.overview.resize_view()
-        self.frame_small.resize(self.height, self.width)
+        self.frame_small.resize(4, self.width)
         self.frame_small.add(self, 0, self.height - 5)
         self.outp.add(self, 1, self.height - 4)
