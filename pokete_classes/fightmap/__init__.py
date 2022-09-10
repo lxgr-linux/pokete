@@ -7,7 +7,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
-                           deck, game_map as gm
+    deck, game_map as gm, effects
 from release import SPEED_OF_TIME
 from ..hotkeys import ACTION_UP_DOWN, Action, get_action
 from ..audio import audio
@@ -89,7 +89,7 @@ class FightMap(gm.GameMap):
             self.frame_big, self.p_sideline, self.frame_small, self.label
         ]:
             obj.remove()
-        self.clean_up(self.providers[0])
+        self.clean_up(self.providers[0], resize=True)
 
         self.resize(tss.height - 1, tss.width, background=" ")
         self.frame_big.resize(self.height - 5, self.width)
@@ -98,14 +98,14 @@ class FightMap(gm.GameMap):
 
         self.add_base_boxes()
         if added:
-            self.add_player(self.providers[0])
+            self.add_player(self.providers[0], resize=True)
         self.providers[1].curr.ico.add(self, self.width - 14, 2)
 
-    def clean_up(self, *providers):
+    def clean_up(self, *providers, resize=False):
         """Removes all labels from self
         ARGS:
-            providers: The Providers to clean up
-        that the labels belong to"""
+            providers: The Providers to clean up that the labels belong to
+            resize: Whether or not the box is beeing resized"""
         for prov in providers:
             for obj in (
                 prov.curr.text_name, prov.curr.text_lvl, prov.curr.text_hp,
@@ -113,15 +113,17 @@ class FightMap(gm.GameMap):
                 prov.curr.pball_small
             ):
                 obj.remove()
-            if isinstance(prov, ProtoFigure):
-                self.box.box.remove_c_obs()
+            if not resize:
+                if isinstance(prov, ProtoFigure):
+                    self.box.box.remove_c_obs()
             for j in prov.curr.effects:
                 j.cleanup()
 
-    def add_player(self, player):
+    def add_player(self, player, resize=False):
         """Adds player labels
         ARGS:
-            player: The player provider object"""
+            player: The player provider object
+            resize: Whether or not the box is beeing resized"""
         player.curr.text_name.add(self, self.width - 17, self.height - 9)
         player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
         player.curr.tril.add(self, self.width - 11, self.height - 7)
@@ -129,8 +131,9 @@ class FightMap(gm.GameMap):
         player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
         player.curr.text_hp.add(self, self.width - 17, self.height - 7)
         player.curr.ico.add(self, 3, self.height - 10)
-        self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
-        self.box.box.set_index(0)
+        if not resize:
+            self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+            self.box.box.set_index(0)
 
     def add_1(self, player, enem):
         """Adds enemy and general labels to self

@@ -93,11 +93,10 @@ can't have more than 4 attacks!"
                                     ignore=f'{esccode} {Color.reset}'), 0, 0)
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
-        self.text_name = se.Text(self.name,
-                                 esccode=Color.underlined + (Color.yellow
-                                                             if self.shiny
-                                                             else ""),
-                                 state="float")
+        self.text_name = se.Text(
+            (self.name.upper() if self.shiny else self.name),
+            esccode=Color.underlined + self.type.color,
+            state="float")
         self.text_xp = se.Text(
             f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
 {((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}",
