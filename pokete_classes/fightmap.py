@@ -5,7 +5,6 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_classes.color import Color
 from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
     deck, game_map as gm, effects
@@ -78,6 +77,8 @@ class FightMap(gm.GameMap):
         self.show_atk_info_box = False
         self.is_effect_info_box_active = False
         self.effects_dictionary = {e.c_name: e for e in effects.effect_list}
+        self.effect_info_text = "Effect Info"
+        self.attack_info_text = "Attack Info"
 
     def clean_up(self, *providers):
         """Removes all labels from self
@@ -169,10 +170,10 @@ class FightMap(gm.GameMap):
         """Rechars the attack info box
         ARGS:
             attack_obs: The current attack obs"""
-        self.atk_info_box.name_label.rechar("Attack Info")
+        self.atk_info_box.name_label.rechar(self.attack_info_text)
         if attack_obs[self.box.index.index].effect is not None:
             self.atk_info_box.info_label.rechar(
-                f"{Action.SCREEN_SWITCH.mapping}: Effect Info")
+                f"{Action.SCREEN_SWITCH.mapping}:{self.effect_info_text}")
         else:
             self.atk_info_box.info_label.rechar("")
         self.atk_info_box.label.rechar(
@@ -187,9 +188,9 @@ class FightMap(gm.GameMap):
         """Rechars the attack info box with effect info
         ARGS:
             attack_obs: The current attack obs"""
-        self.atk_info_box.name_label.rechar("Effect Info")
+        self.atk_info_box.name_label.rechar(self.effect_info_text)
         self.atk_info_box.info_label.rechar(
-            f"{Action.SCREEN_SWITCH.mapping}: Attack Info")
+            f"{Action.SCREEN_SWITCH.mapping}:{self.attack_info_text}")
         current_attack = attack_obs[self.box.index.index]
 
         self.atk_info_box.label.rechar(
