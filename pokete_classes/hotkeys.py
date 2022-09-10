@@ -38,6 +38,7 @@ class Action(Enum):
     CHOOSE_ITEM = auto()
     CHOOSE_POKE = auto()
     REMOVE = auto()
+    SCREEN_SWITCH = auto()
 
     ACT_1 = auto()
     ACT_2 = auto()
@@ -146,7 +147,7 @@ hotkey_mappings = {
     'm': ActionList([Action.MAP, Action.MOVE_POKETE]),
     'c': ActionList([Action.CLOCK, Action.QUICK_ATC_3]),
     '?': ActionList([Action.HELP, Action.INFO]),
-    'e': ActionList([Action.MENU]),
+    'e': ActionList([Action.MENU, Action.SCREEN_SWITCH]),
     ':': ActionList([Action.CONSOLE]),
 
     'z': ActionList([Action.QUICK_ATC_1]),
