@@ -22,9 +22,11 @@ class Effect():
         exclude: A list of type names that the effect can't be added to
     CLASS VARS:
         desc: The effects description
-        c_name: The class' simplified name"""
+        c_name: The class' simplified name
+        color: The color of effect"""
     desc = ""
     c_name = ""
+    color = ""
 
     def __init__(self, name, rem_chance, catch_chance, text, str_esccode="",
                  obj=None, exclude=None):
@@ -148,9 +150,10 @@ class EffectParalyzation(Effect):
     desc = "Paralyses the enemy and stops it from attacking. \
 This is reverted randomly."
     c_name = "paralyzation"
+    color = Color.thicc + Color.yellow
 
     def __init__(self, obj=None):
-        super().__init__("paralyzed", 3, 2, "(Par)", Color.thicc + Color.yellow,
+        super().__init__("paralyzed", 3, 2, "(Par)", self.color,
                          obj)
 
 
@@ -159,9 +162,9 @@ class EffectSleep(Effect):
     desc = "Makes the enemy fall asleep and stops it from attacking. \
 This is reverted randomly."
     c_name = "sleep"
-
+    color = Color.white
     def __init__(self, obj=None):
-        super().__init__("sleeping", 4, 3, "(Sle)", Color.white, obj)
+        super().__init__("sleeping", 4, 3, "(Sle)", self.color, obj)
 
 
 class EffectBurning(Effect):
@@ -169,9 +172,10 @@ class EffectBurning(Effect):
     desc = "Sets the enemy on fire and damages them with 2 HP every round. \
 This is reverted randomly."
     c_name = "burning"
+    color = Color.thicc + Color.red
 
     def __init__(self, obj=None):
-        super().__init__("burning", 3, 0, "(Bur)", Color.thicc + Color.red, obj,
+        super().__init__("burning", 3, 0, "(Bur)", self.color, obj,
                          exclude=["fire", "water"])
         self.hurt_text = "burned it self!"
         self.damage = 2
@@ -198,10 +202,11 @@ class EffectPoison(EffectBurning):
     desc = "Poisons the enemy and damages the enemy with 1 HP every round.\
  This is reverted randomly."
     c_name = "poison"
+    color = Color.purple
 
     def __init__(self, obj=None):
-        super(EffectBurning, self).__init__("poisoned", 4, 2, "(Poi)",
-                                            Color.purple, obj)
+        super(EffectBurning, self).__init__("poisoned", 4, 2, "(Poi)", self.color
+                                            , obj)
         self.hurt_text = "got damaged through poison!"
         self.damage = 1
 
@@ -210,9 +215,10 @@ class EffectConfusion(Effect):
     """Effect see desc"""
     desc = "Makes the enemy hurt it self. This is reverted randomly."
     c_name = "confusion"
+    color = Color.lightblue
 
     def __init__(self, obj=None):
-        super().__init__("confused", 3, 2, "(Con)", Color.lightblue, obj,
+        super().__init__("confused", 3, 2, "(Con)", self.color, obj,
                          exclude=["undead"])
 
     def effect(self):
@@ -230,9 +236,10 @@ class EffectFreezing(Effect):
     desc = "Freezes the enemy and stops it from attacking. \
 This is reverted randomly."
     c_name = "freezing"
+    color = Color.cyan
 
     def __init__(self, obj=None):
-        super().__init__("frozen", 3, 3, "(Fro)", Color.cyan, obj,
+        super().__init__("frozen", 3, 3, "(Fro)", self.color, obj,
                          exclude=["ice", "fire"])
 
 

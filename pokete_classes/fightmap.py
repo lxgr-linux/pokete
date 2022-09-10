@@ -5,9 +5,10 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
+from pokete_classes.color import Color
 from pokete_general_use_fns import liner
 from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
-                           deck, game_map as gm
+    deck, game_map as gm, effects
 from release import SPEED_OF_TIME
 from .hotkeys import ACTION_UP_DOWN, Action, get_action
 from .audio import audio
@@ -75,6 +76,8 @@ class FightMap(gm.GameMap):
         # Attack info box
         self.atk_info_box = LabelBox(se.Text(""), "Attack Info")
         self.show_atk_info_box = False
+        self.is_effect_info_box_active = False
+        self.effects_dictionary = {e.c_name: e for e in effects.effect_list}
 
     def clean_up(self, *providers):
         """Removes all labels from self
@@ -166,6 +169,12 @@ class FightMap(gm.GameMap):
         """Rechars the attack info box
         ARGS:
             attack_obs: The current attack obs"""
+        self.atk_info_box.name_label.rechar("Attack Info")
+        if attack_obs[self.box.index.index].effect is not None:
+            self.atk_info_box.info_label.rechar(
+                f"{Action.SCREEN_SWITCH.mapping}: Effect Info")
+        else:
+            self.atk_info_box.info_label.rechar("")
         self.atk_info_box.label.rechar(
             liner(attack_obs[self.box.index.index].desc, 37)
         )
@@ -174,6 +183,23 @@ class FightMap(gm.GameMap):
             self.atk_info_box.label.width + 4
         )
 
+    def rechar_atk_info_with_effect_info(self, attack_obs):
+        """Rechars the attack info box with effect info
+        ARGS:
+            attack_obs: The current attack obs"""
+        self.atk_info_box.name_label.rechar("Effect Info")
+        self.atk_info_box.info_label.rechar(
+            f"{Action.SCREEN_SWITCH.mapping}: Attack Info")
+        current_attack = attack_obs[self.box.index.index]
+
+        self.atk_info_box.label.rechar(
+            liner(self.effects_dictionary[current_attack.effect].desc, 37),
+            esccode=self.effects_dictionary[current_attack.effect].color
+        )
+        self.atk_info_box.resize(
+            self.atk_info_box.label.height + 2,
+            self.atk_info_box.label.width + 4
+        )
     def get_attack(self, attack_obs):
         """Inputloop for attack options
         ARGS:
@@ -187,6 +213,7 @@ class FightMap(gm.GameMap):
                 action = get_action()
                 if action.triggers(*ACTION_UP_DOWN):
                     self.box.input(action)
+                    self.is_effect_info_box_active = False
                     self.rechar_atk_info_box(attack_obs)
                     self.show()
                 elif action.triggers(Action.ACCEPT) or (0 <= action.get_number()
@@ -209,6 +236,17 @@ class FightMap(gm.GameMap):
                 elif action.triggers(Action.CANCEL):
                     attack = ""
                     break
+                elif action.triggers(Action.SCREEN_SWITCH):
+                    selected_attack = attack_obs[self.box.index.index]
+                    if self.show_atk_info_box and selected_attack.effect is not None:
+                        self.is_effect_info_box_active = \
+                            not self.is_effect_info_box_active
+                        if self.is_effect_info_box_active:
+                            self.rechar_atk_info_with_effect_info(attack_obs)
+                        else:
+                            self.rechar_atk_info_box(attack_obs)
+                    self.show()
+                    continue
                 std_loop(False)
             self.atk_info_box.remove()
         return attack
