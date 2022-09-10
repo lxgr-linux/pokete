@@ -201,6 +201,7 @@ class FightMap(gm.GameMap):
             self.atk_info_box.label.height + 2,
             self.atk_info_box.label.width + 4
         )
+
     def get_attack(self, attack_obs):
         """Inputloop for attack options
         ARGS:
