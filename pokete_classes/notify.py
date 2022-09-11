@@ -4,6 +4,7 @@ import scrap_engine as se
 from pokete_general_use_fns import liner
 from .ui_elements import LabelBox
 from .color import Color
+from .util.object_group import get_nested
 
 
 class Notification(LabelBox):
@@ -29,13 +30,10 @@ class Notification(LabelBox):
     def shift(self):
         """Shifts the box to the right"""
         self.x += 1
-        for i in self.frame.corners + [k for j in self.frame.horizontals
-                                       + self.frame.verticals + [
-                                           self.inner, self.name_label,
-                                           self.info_label,
-                                           self.label] for k in j.obs]:
+        for i in get_nested(self):
             if i.x == self.map.width - 1:
                 i.remove()
+                i.group.rem_ob(i)
             else:
                 i.set(i.x + 1, i.y)
         self.map.show()

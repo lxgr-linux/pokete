@@ -10,6 +10,7 @@ from .poke import Poke
 from .color import Color
 from .nature import PokeNature
 from .ui_elements import ChooseBox, Box
+from .tss import tss
 
 
 class Dex:
@@ -20,7 +21,7 @@ class Dex:
     def __init__(self, figure):
         self.box = ChooseBox(mvp.movemap.height - 3, 35, "Poketedex",
                              info=f"{Action.CANCEL.mapping}:close")
-        self.detail_box = Box(16, 35)
+        self.detail_box = Box(16, 35, overview=self)
         self.figure = figure
         self.idx = 0
         self.obs = []
@@ -73,11 +74,29 @@ Initiative: {poke.initiative}
 Active: """) + se.Text(active[0], esccode=active[1])
 
         with self.detail_box.center_add(mvp.movemap):
-            easy_exit_loop()
+            easy_exit_loop(box=self.detail_box)
         self.detail_box.rem_ob(poke.ico)
+
+    def resize_view(self):
+        """Manages recursive view resizing"""
+        self.box.remove()
+        mvp.movemap.resize_view()
+        self.box.resize(mvp.movemap.height - 3, 35)
+        self.rem_c_obs()
+        self.add_c_obs()
+        if len(self.box.c_obs) == 0:
+            self.idx -= 1
+            self.rem_c_obs()
+            self.add_c_obs()
+            self.box.set_index(len(self.box.c_obs) - 1)
+        if self.box.index.index >= len(self.box.c_obs):
+            self.box.set_index(len(self.box.c_obs) - 1)
+        self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0)
+        mvp.movemap.full_show()
 
     def __call__(self):
         """Opens the dex"""
+        self.box.resize(mvp.movemap.height - 3, 35)
         pokes = p_data.pokes
         self.idx = 0
         p_dict = {i[1]: i[-1] for i in
@@ -115,6 +134,6 @@ Active: """) + se.Text(active[0], esccode=active[1])
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.POKEDEX):
                     break
-                std_loop()
+                std_loop(box=self)
                 mvp.movemap.show()
             self.rem_c_obs()

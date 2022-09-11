@@ -5,7 +5,8 @@ import scrap_engine as se
 import pokete_classes.game_map as gm
 from pokete_general_use_fns import liner
 from .loops import easy_exit_loop
-from .ui_elements import InfoBox, StdFrame
+from .ui_elements import InfoBox
+from . import movemap as mvp
 
 
 class LoopBox:
@@ -19,7 +20,7 @@ class LoopBox:
     def __call__(self):
         """Shows the about text"""
         with self.box:
-            easy_exit_loop()
+            easy_exit_loop(box=self.box)
 
 
 class About(LoopBox):
@@ -45,7 +46,8 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
                     60, pre=""
                 ),
                 name="About",
-                _map=_map
+                _map=_map,
+                overview=mvp.movemap.menu
             )
         )
 
@@ -69,40 +71,10 @@ NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
 https://git.io/JRRqe""",
                 name="Help",
-                _map=_map
+                _map=_map,
+                overview=mvp.movemap
             )
         )
-
-
-class ResizeScreen():
-    """Screen thats shown when the screen is resized"""
-
-    def __init__(self):
-        width, height = os.get_terminal_size()
-        self.map = gm.GameMap(height, width)
-        self.warning_label = se.Text("Minimum windowsize is 70x20")
-        self.size_label = se.Text(f"{width}x{height}")
-        self.frame = StdFrame(height - 1, width)
-        self.warning_label.add(self.map, int(width / 2) - 13,
-                               int(height / 2) - 1)
-        self.size_label.add(self.map, 1, 0)
-        self.frame.add(self.map, 0, 0)
-
-    def __call__(self):
-        """Shows the map"""
-        width, height = os.get_terminal_size()
-        while width < 70 or height < 20:
-            width, height = os.get_terminal_size()
-            self.warning_label.set(1, 1)
-            self.frame.remove()
-            self.map.resize(height - 1, width, " ")
-            self.warning_label.set(int(width / 2) - 13,
-                                   int((height - 1) / 2) - 1)
-            self.size_label.rechar(f"{width}x{height}")
-            self.frame.resize(height - 1, width)
-            self.frame.add(self.map, 0, 0)
-            self.map.show()
-        return width, height
 
 
 class LoadingScreen():

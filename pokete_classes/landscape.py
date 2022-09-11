@@ -148,5 +148,5 @@ class Poketeball(se.Object):
         self.remove()
         mvp.movemap.full_show()
         ask_ok(mvp.movemap, f"You found {amount if amount > 1 else 'a'} \
-{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
+{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!", mvp.movemap)
         self.figure.used_npcs.append(self.name)

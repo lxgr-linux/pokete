@@ -145,7 +145,7 @@ class NPC(se.Box):
         item = getattr(invitems, item)
         self.set_used()
         if ask_bool(mvp.movemap, f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?"):
+Do you want to accept it?", mvp.movemap):
             self.fig.give_item(item.name)
 
     @property
@@ -170,15 +170,19 @@ Do you want to accept it?"):
         while True:
             self.text(q_a["q"])
             while get_action() is None:
-                std_loop()
+                std_loop(mvp.movemap)
+                mvp.movemap.show()
             if q_a["a"] == {}:
                 break
             keys = list(q_a["a"].keys())
-            c_b = ChooseBox(len(keys) + 2,
-                            sorted(len(i) for i in keys)[-1] + 6,
-                            name="Answer",
-                            c_obs=[se.Text(i, state="float")
-                                     for i in keys])
+            c_b = MultiTextChooseBox(
+                len(keys) + 2,
+                sorted(len(i) for i in keys)[-1] + 6,
+                name="Answer",
+                c_obs=[se.Text(i, state="float") for i in keys],
+                overview=mvp.movemap
+            )
+            c_b.fig = self.fig
             c_b.frame.corners[0].rechar("^")
             mvp.movemap.assure_distance(self.fig.x, self.fig.y,
                                         c_b.width + 2, c_b.height + 2)
@@ -192,8 +196,28 @@ Do you want to accept it?"):
                     elif action.triggers(Action.ACCEPT):
                         key = keys[c_b.index.index]
                         break
-                    std_loop()
+                    std_loop(box=c_b)
+                    mvp.movemap.show()
             q_a = q_a["a"][key]
+
+
+class MultiTextChooseBox(ChooseBox):
+    """ChooseBox wrapper for multitext conversations"""
+    fig = None
+
+    def resize_view(self):
+        """Manages recursive view resizing"""
+        self.remove()
+        self.overview.resize_view()
+        mvp.movemap.assure_distance(
+            self.fig.x, self.fig.y,
+            self.width + 2, self.height + 2
+        )
+        self.add(
+            mvp.movemap,
+            self.fig.x - mvp.movemap.x,
+            self.fig.y - mvp.movemap.y + 1
+        )
 
 
 class Trainer(NPC, Provider):

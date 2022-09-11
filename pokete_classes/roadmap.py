@@ -8,6 +8,8 @@ from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .loops import std_loop, easy_exit_loop
 from .color import Color
 from .ui_elements import Box, InfoBox
+from .tss import tss
+from . import movemap as mvp
 
 
 class RoadMapException(Exception):
@@ -103,7 +105,11 @@ class RoadMap:
 
     def __init__(self, fig):
         self.fig = fig
-        self.box = Box(11, 40, "Roadmap", f"{Action.CANCEL.mapping}:close")
+        self.box = Box(
+            11, 40, "Roadmap",
+            f"{Action.CANCEL.mapping}:close",
+            overview=mvp.movemap
+        )
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width-2, 0)
         for sta, _dict in p_data.stations.items():
@@ -156,12 +162,18 @@ class RoadMap:
                                            for j in
                                            i.poke_args.get("pokes", [])
                                            + i.w_poke_args.get("pokes", [])))
-                    with InfoBox(liner(self.sta.desc
-                                       + "\n\n Here you can find: " +
-                                       (p_list if p_list != "" else "Nothing"),
-                                       30), self.sta.name, _map=_map):
-                        easy_exit_loop()
-                std_loop()
+                    with InfoBox(
+                        liner(
+                            self.sta.desc
+                            + "\n\n Here you can find: "
+                            + (p_list if p_list != "" else "Nothing"),
+                            30
+                        ),
+                        self.sta.name,
+                        _map=_map, overview=self.box
+                    ) as box:
+                        easy_exit_loop(box=box)
+                std_loop(box=self.box)
                 _map.show()
         self.sta.unchoose()
 

@@ -6,6 +6,18 @@ from pokete_general_use_fns import liner
 from .loops import std_loop
 from .ui_elements import Box, ChooseBox
 from .inv_items import invitems
+from . import movemap as mvp
+
+
+class InvBox(Box):
+    """Box wrapper for inv"""
+
+    def resize_view(self):
+        """Manages recursive view resizing"""
+        self.remove()
+        self.overview.resize_view()
+        self.add(self.map, self.overview.box.x - 19, 3)
+        mvp.movemap.full_show()
 
 
 class Buy:
@@ -15,8 +27,9 @@ class Buy:
         _map: The se.Map the menu is shown on"""
 
     def __init__(self, figure, _map):
+        self.map = _map
         self.box = ChooseBox(_map.height - 3, 35, "Shop")
-        self.box2 = Box(7, 21)
+        self.box2 = InvBox(7, 21, overview=self)
         self.fig = figure
         self.map = _map
         self.items = [invitems.poketeball, invitems.superball,
@@ -31,8 +44,17 @@ class Buy:
                         self.box.width - 2 - len(self.money_label.text), 0)
         self.box2.add_ob(self.desc_label, 1, 1)
 
+    def resize_view(self):
+        """Manages recursive view resizing"""
+        self.box.remove()
+        self.map.resize_view()
+        self.box.resize(self.map.height - 3, 35)
+        self.box.add(self.map, self.map.width - self.box.width, 0)
+        mvp.movemap.full_show()
+
     def __call__(self):
         """Opens the buy menu"""
+        self.box.resize(self.map.height - 3, 35)
         with self.box.add(self.map, self.map.width - 35, 0):
             self.box2.add(self.map, self.box.x - 19, 3)
             self.rechar()
@@ -49,7 +71,7 @@ class Buy:
                     if self.fig.get_money() - obj.price >= 0:
                         self.fig.add_money(-obj.price)
                         self.fig.give_item(obj.name)
-                std_loop()
+                std_loop(box=self.box2)
                 self.map.show()
         self.box2.remove()
 
