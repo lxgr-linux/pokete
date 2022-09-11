@@ -107,6 +107,7 @@ class Movemap(gm.GameSubmap):
                 std_loop(box=self)
                 self.show()
         self.multitext.remove()
+        _ev.clear()
 
     def resize_view(self):
         """Manages recursive view resizing"""
