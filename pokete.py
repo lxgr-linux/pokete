@@ -26,7 +26,7 @@ from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox, InputBox
 from pokete_classes.classes import PlayMap
-from pokete_classes.settings import settings, VisSetting
+from pokete_classes.settings import settings, VisSetting, Slider
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
 from pokete_classes.providers import ProtoFigure
@@ -724,7 +724,7 @@ class Menu:
         self.char_label = se.Text(figure.char, state="float")
         self.audio_volume_label = se.Text("Audio volume in %: ", state="float")
         self.audio_volume_value_field = se.Text(
-            str(settings("volume").val),
+            str(round(settings("volume").val)),
             state="float"
         )
         self.box.add_c_obs([self.playername_label,
@@ -737,6 +737,7 @@ class Menu:
                                        {True: "On", False: "Off"}),
                             VisSetting("Audio", "audio",
                                        {True: "On", False: "Off"}),
+                            Slider("Volume", "volume"),
                             self.audio_volume_label,
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
@@ -775,11 +776,14 @@ class Menu:
             _ev.clear()
             while True:
                 action = get_action()
-                if action.triggers(Action.ACCEPT):
+                i = self.box.c_obs[self.box.index.index]
+                if (strength := action.get_x_strength()) != 0:
+                    if isinstance(i, Slider):
+                        i.change(strength)
+                elif action.triggers(Action.ACCEPT):
                     # Fuck python for not having case statements - lxgr
                     #     but it does lmao - Magnus
-                    if (i := self.box.c_obs[self.box.index.index]) ==\
-                            self.playername_label:
+                    if i == self.playername_label:
                         figure.name = text_input(self.realname_label, self.map,
                                                  figure.name, 18, 17)
                         self.map.name_label_rechar(figure.name)
@@ -816,7 +820,7 @@ valid single-space character!")
                         except:
                             converted = settings("volume").val
                         settings("volume").val = converted
-                    else:
+                    elif isinstance(i, VisSetting):
                         i.change()
                     if (
                         audio_before != settings("audio").val

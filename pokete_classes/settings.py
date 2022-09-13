@@ -2,6 +2,7 @@
 
 import logging
 import scrap_engine as se
+from .color import Color
 
 
 class Setting:
@@ -13,6 +14,72 @@ class Setting:
     def __init__(self, name, val):
         self.val = val
         self.name = name
+
+class SliderCursor(se.Text):
+    def move(self, x=0, y=0):
+        """
+        Moves all objects in the group by a certain vector.
+        """
+        for obj in self.obs:
+            obj.remove()
+        for obj in self.obs:
+            if self.added:
+                obj.add(self.map, obj.x + x, obj.y + y)
+
+
+class Slider(se.Box):
+    def __init__(self, text, setting):
+        super().__init__(0, 0)
+        self.setting = settings(setting)
+        self.text = se.Text(text + ":", state="float")
+        self.slider = SliderCursor("<o>", state="float")
+        self.left = se.Object("[", state="float")
+        self.right = se.Object("]", state="float")
+        self.line = (
+            se.Text(6 * "#", esccode=Color.green, state="float")
+            + se.Text(7 * "#", esccode=Color.yellow, state="float")
+            + se.Text(6 * "#", esccode=Color.red, state="float")
+        )
+        self.boundary = self.line.width - 1
+        self.add_ob(self.text, 0, 0)
+        self.add_ob(self.left, self.text.width + 1, 0)
+        self.add_ob(self.line, self.left.rx + 1, 0)
+        self.add_ob(self.right, self.line.rx + self.line.width, 0)
+        self.add_ob(self.slider, 0, 0)
+        self.set_slider_from_setting()
+
+    def add(self, _map, x, y):
+        super().add(_map, x, y)
+        self.set_top_redraw(self.left)
+        self.set_top_redraw(self.right)
+
+    def set_slider(self, x):
+        logging.info("%s, %s", str(self.slider.x), str(self.x))
+        self.set_ob(self.slider, self.left.rx + x, 0)
+        self.set_top_redraw(self.left)
+        self.set_top_redraw(self.right)
+
+    @staticmethod
+    def set_top_redraw(obj):
+        if obj.added:
+            obj.map.obs.pop(obj.map.obs.index(obj))
+            obj.map.obs.append(obj)
+            obj.redraw()
+
+    def set_slider_from_setting(self):
+        self.set_slider(
+            round(self.boundary * self.setting.val / 100)
+        )
+
+    @property
+    def offset(self):
+        return self.slider.rx - self.left.rx
+
+    def change(self, val):
+        logging.info(self.offset + val)
+        if 0 <= (self.offset + val) <= self.boundary:
+            self.set_slider(self.offset + val)
+            self.setting.val = 100 * self.offset/self.boundary
 
 
 class VisSetting(se.Text):
