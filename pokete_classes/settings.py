@@ -15,7 +15,10 @@ class Setting:
         self.val = val
         self.name = name
 
+
 class SliderCursor(se.Text):
+    """Wrapper for se.Text to ensure stuff actually works"""
+
     def move(self, x=0, y=0):
         """
         Moves all objects in the group by a certain vector.
@@ -28,6 +31,11 @@ class SliderCursor(se.Text):
 
 
 class Slider(se.Box):
+    """Slider component for menu
+    ARGS:
+        text: The text to show
+        setting: The associated settings name"""
+
     def __init__(self, text, setting):
         super().__init__(0, 0)
         self.setting = settings(setting)
@@ -49,34 +57,44 @@ class Slider(se.Box):
         self.set_slider_from_setting()
 
     def add(self, _map, x, y):
+        """Add wrapper, see se.Box.add"""
         super().add(_map, x, y)
         self.set_top_redraw(self.left)
         self.set_top_redraw(self.right)
 
     def set_slider(self, x):
-        logging.info("%s, %s", str(self.slider.x), str(self.x))
+        """Sets the slider to a certain position
+        ARGS:
+            x: The position"""
         self.set_ob(self.slider, self.left.rx + x, 0)
         self.set_top_redraw(self.left)
         self.set_top_redraw(self.right)
 
     @staticmethod
     def set_top_redraw(obj):
+        """Makes sure object is and will be redrawn
+        ARGS:
+            obj: The object"""
         if obj.added:
             obj.map.obs.pop(obj.map.obs.index(obj))
             obj.map.obs.append(obj)
             obj.redraw()
 
     def set_slider_from_setting(self):
+        """Sets the sliders position from the given setting"""
         self.set_slider(
             round(self.boundary * self.setting.val / 100)
         )
 
     @property
     def offset(self):
+        """The sliders current position"""
         return self.slider.rx - self.left.rx
 
     def change(self, val):
-        logging.info(self.offset + val)
+        """Changes the current position by a value
+        ARGS:
+            val: The value"""
         if 0 <= (self.offset + val) <= self.boundary:
             self.set_slider(self.offset + val)
             self.setting.val = 100 * self.offset/self.boundary
