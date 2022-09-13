@@ -722,11 +722,6 @@ class Menu:
         self.exit_label = se.Text("Exit", state="float")
         self.realname_label = se.Text(session_info["user"], state="float")
         self.char_label = se.Text(figure.char, state="float")
-        self.audio_volume_label = se.Text("Audio volume in %: ", state="float")
-        self.audio_volume_value_field = se.Text(
-            str(round(settings("volume").val)),
-            state="float"
-        )
         self.box.add_c_obs([self.playername_label,
                             self.represent_char_label,
                             VisSetting("Autosave", "autosave",
@@ -738,7 +733,6 @@ class Menu:
                             VisSetting("Audio", "audio",
                                        {True: "On", False: "Off"}),
                             Slider("Volume", "volume"),
-                            self.audio_volume_label,
                             VisSetting("Load mods", "load_mods",
                                        {True: "On", False: "Off"}),
                             self.mods_label, self.ach_label,
@@ -752,11 +746,6 @@ class Menu:
                         self.represent_char_label.rx
                         + self.represent_char_label.width,
                         self.represent_char_label.ry)
-        self.box.add_ob(self.audio_volume_value_field,
-                        self.audio_volume_label.rx
-                        + self.audio_volume_label.width,
-                        self.audio_volume_label.ry)
-
 
     def resize_view(self):
         """Manages recursive view resizing"""
@@ -812,23 +801,15 @@ valid single-space character!")
                         about()
                     elif i == self.ach_label:
                         AchievementOverview()(mvp.movemap)
-                    elif i == self.audio_volume_label:
-                        inp = text_input(self.audio_volume_value_field, self.map,
-                                         str(settings("volume").val), 18, 3)
-                        try:
-                            converted = int(inp)
-                        except:
-                            converted = settings("volume").val
-                        settings("volume").val = converted
                     elif isinstance(i, VisSetting):
                         i.change()
-                    if (
-                        audio_before != settings("audio").val
-                        or volume_before != settings("volume").val
-                    ):
-                        audio.switch(figure.map.song)
-                        audio_before = settings("audio").val
-                        volume_before = settings("volume").val
+                if (
+                    audio_before != settings("audio").val
+                    or volume_before != settings("volume").val
+                ):
+                    audio.switch(figure.map.song)
+                    audio_before = settings("audio").val
+                    volume_before = settings("volume").val
                 elif action.triggers(Action.UP, Action.DOWN):
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.MENU):
