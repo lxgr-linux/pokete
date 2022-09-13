@@ -136,7 +136,7 @@ class Settings:
             "save_trainers": True,
             "load_mods": False,
             "audio": True,
-            "volume": 100,
+            "volume": 50,
         }
         self.settings = [
             Setting(name, val) for name, val in self.keywords.items()
