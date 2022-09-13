@@ -38,8 +38,8 @@ class Audio:
         self.curr = multiprocessing.Process(
             target=audio_fn,
             args=(
-                song, settings("audio").val,
-                settings("volume").val and self.use_audio
+                song, settings("audio").val and self.use_audio,
+                settings("volume").val
             )
         )
         self.curr.start()
