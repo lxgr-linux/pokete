@@ -2,7 +2,7 @@
 name: "pokete"
 title: "Pokete"
 base: "core20"
-version: "0.8.2"
+version: "0.9.0"
 summary: "A terminal based Pokemon like game"
 description: |
   Pokete is a small terminal based game in the style of a very popular and old

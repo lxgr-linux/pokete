@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.9.0] - 2022-09-13
+
+Quite a lot happened until this release:
+- Moved some NPCs out of the way
+- Fixed a small bug with `gen_wiki.py` on windows
+- Added new `first evolution` achievement
+- Added new Poketes (Pavous, Uberpavous, Kartmen, Kakraholt, Bablbam)
+- Volume settings with a funky new volumeslider
+- A new `--no_audio` commandline option to supress all audio
+- Stats for Poketes
+- Infos about the effect an attack has
+- The complete game is now resizable
+- Reduced stack traces
+
+This release now requires `scrap_engine` on v1.4.0
+
+Many thanks to @ondrejmyska for your many contributions.
+
 ## [0.8.2] - 2022-08-05
 
 Fixes a small bug in the representation of pokete on flathub.
