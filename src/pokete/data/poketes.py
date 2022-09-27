@@ -28,6 +28,28 @@ pokes: dict[str, PokeDict] = {
             "txt": """ """,
             "esc": []}],
     },
+    "vacter": {
+        "name": "Vacter",
+        "hp": 19,
+        "atc": 6,
+        "defense": 1,
+        "attacks": ["shock", "wing_hit", "wind_blow", "pick"],
+        "pool": ["mega_arch", "eye_pick", "power_pick", "storm_gust"],
+        "miss_chance": 0,
+        "desc": "A lighting fast bird.",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "types": ["flying", "electro"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 8,
+        "ico": [{
+            "txt": r"""      //\
+<[*] //
+  <WWWWWW>-;
+    \   \""",
+            "esc": None}],
+    },
     "steini": {
         "name": "Steini",
         "hp": 25,
