@@ -1540,6 +1540,29 @@ W         W""",
 w        w""",
             "esc": None}]
     },
+    
+    "pepegus": {
+        "name": "Pepegus",
+        "hp": 21,
+        "atc": 7,
+        "defense": 0.5,
+        "attacks": ["stone_crush", "dia_stab", "dick_energy", "sand_throw"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Cute frog with surprising abilities.",
+        "lose_xp": 3,
+        "rarity": 0.9,
+        "types": ["stone", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 2,
+        "ico": [{
+            "txt": r"""  ()-()
+      .-(___)-.
+_<   >_
+\/   \/""",
+            "esc": None}]
+    },
 }
 
 if __name__ == "__main__":
