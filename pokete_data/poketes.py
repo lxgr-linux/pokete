@@ -1427,7 +1427,7 @@ w        w""",
 W         W""",
             "esc": None}]
     },
-    "uberpavous": {
+    "charizard": {
         "name": "Charizard",
         "hp": 30,
         "atc": 10,
