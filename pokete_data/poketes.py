@@ -48,6 +48,28 @@ pokes = {
  +-------+ """,
             "esc": None}],
     },
+        "cundovNemesis": {
+        "name": "Cundov Nemesis",
+        "hp": 100,
+        "atc": 5,
+        "defense": 1,
+        "attacks": ["brick_throw"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A fallen hero's nemesis.",
+        "lose_xp": 3,
+        "rarity": 1,
+        "types": ["stone", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r""" +-------+
+ |  o   o |
+ |  -----  |
+ +-------+ """,
+            "esc": None}],
+    },
     "mowcow": {
         "name": "Mowcow",
         "hp": 20,
