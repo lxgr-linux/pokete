@@ -780,8 +780,12 @@ class Menu:
                         inp = text_input(self.char_label, self.map,
                                          figure.char, 18, 1)
                         # excludes bad unicode:
-                        if len(inp.encode("utf-8")) != 1:
+                        if (
+                            len(inp.encode("utf-8")) != 1
+                            and inp not in ["ä", "ö", "ü", "ß"]
+                        ):
                             inp = "a"
+                            self.char_label.rechar(inp)
                             notifier.notify("Error", "Bad character",
                                             "The chosen character has to be a \
 valid single-space character!")
