@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """This software is licensed under the GPL3
-You should have gotten an copy of the GPL3 license anlonside this software
+You should have gotten a copy of the GPL3 license anlonside this software
 Feel free to contribute what ever you want to this game
 New Pokete contributions are especially welcome
 For this see the comments in the definations area
@@ -38,9 +38,9 @@ from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
 from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
-                           movemap as mvp, fightmap as fm
+    movemap as mvp, fightmap as fm
 # import pokete_classes.generic_map_handler as gmh
-from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
+from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball, HIGHGRASS_WEIGHT
 from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
@@ -102,7 +102,6 @@ class NPCActions:
             )
             npc.set_used()
 
-
     @staticmethod
     def playmap_17_boy(npc):
         """Interaction with boy"""
@@ -111,10 +110,10 @@ class NPCActions:
                       "I've never seen one before!",
                       "Here you go, have $200!"])
             if ask_bool(
-                    mvp.movemap,
-                    "The young boy gifted you $200. Do you want to accept it?",
-                    mvp.movemap
-                ):
+                mvp.movemap,
+                "The young boy gifted you $200. Do you want to accept it?",
+                mvp.movemap
+            ):
                 figure.add_money(200)
             npc.set_used()
         else:
@@ -242,7 +241,8 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                 mvp.movemap,
                 "Do you want to give your Mowcow to the cook?", mvp.movemap
             ):
-                figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
+                figure.pokes[figure.pokes.index(
+                    poke)] = Poke("__fallback__", 0)
                 npc.text(["Here you go, have $1000!"])
                 if ask_bool(
                     mvp.movemap,
@@ -327,7 +327,7 @@ class CenterInteract(se.Object):
 
 
 class ShopInteract(se.Object):
-    """Triggers an conversation in the shop"""
+    """Triggers a conversation in the shop"""
 
     def action(self, ob):
         """Triggers an interaction in the shop
@@ -485,7 +485,8 @@ class Figure(se.Object, ProtoFigure):
             idx: Index of the Poke
             caught_with: Name of ball which was used"""
         poke.set_player(True)
-        poke.set_poke_stats(PokeStats(poke.name, datetime.now(), caught_with=caught_with))
+        poke.set_poke_stats(
+            PokeStats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
@@ -647,8 +648,7 @@ class Inv:
                                         )
                                     if not ex_cond:
                                         break
-                                    if LearnAttack(poke, self.map, self)\
-                                            (obj.attack_name):
+                                    if LearnAttack(poke, self.map, self)(obj.attack_name):
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
                                             break
@@ -977,12 +977,13 @@ class ExtraActions:
 # main functions
 ################
 
+
 def test():
     """test/demo for BetterChooseBox, until BetterChooseBox is actively used
        this will remain"""
     with BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo",
-        "Welt", "Wie", "Gehts", "Dir", "So", "Du"]],
-        "Test", _map=mvp.movemap) as a:
+                                                                 "Welt", "Wie", "Gehts", "Dir", "So", "Du"]],
+                         "Test", _map=mvp.movemap) as a:
         while True:
             action = get_action()
             if action.triggers(*ACTION_DIRECTIONS):
@@ -992,7 +993,7 @@ def test():
             elif action.triggers(Action.ACCEPT):
                 a.remove()
                 a.set_items(3, [se.Text(i, state="float") for i in ["test",
-                    "test", "123", "fuckthesystem"]])
+                                                                    "test", "123", "fuckthesystem"]])
                 a.center_add(a.map)
             std_loop()
             a.map.show()
@@ -1041,11 +1042,11 @@ def swap_poke():
                             break
                         decode_data = json.loads(data.decode())
                         conn.sendall(
-                                str.encode(
-                                    json.dumps(
-                                        {"mods": mods.mod_info,
-                                         "name": figure.name,
-                                         "poke": figure.pokes[index].dict()})))
+                            str.encode(
+                                json.dumps(
+                                    {"mods": mods.mod_info,
+                                     "name": figure.name,
+                                     "poke": figure.pokes[index].dict()})))
     else:
         host = ""
         while host == "":
@@ -1064,10 +1065,10 @@ def swap_poke():
                 ask_ok(mvp.movemap, str(err), mvp.movemap)
                 return
             sock.sendall(
-                    str.encode(
-                        json.dumps({"mods": mods.mod_info,
-                                    "name": figure.name,
-                                    "poke": figure.pokes[index].dict()})))
+                str.encode(
+                    json.dumps({"mods": mods.mod_info,
+                                "name": figure.name,
+                                "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
     logging.info("[Swap_poke] Recieved %s", decode_data)
@@ -1120,15 +1121,19 @@ def _game(_map):
     }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
+    figure.fightWeight = HIGHGRASS_WEIGHT
     while True:
         # Directions are not being used yet
         action = get_action()
         if action.triggers(*ACTION_DIRECTIONS):
+            figure.npc = None
             figure.direction = ''
             figure.set(
                 figure.x + action.get_x_strength(),
                 figure.y + action.get_y_strength()
             )
+        elif action.triggers(Action.ACCEPT) and figure.npc != None:
+            figure.npc.reaction()
         elif action.triggers(*inp_dict):
             for key, option in inp_dict.items():
                 if action.triggers(key):
@@ -1177,6 +1182,7 @@ def intro():
             "Welcome to Pokete!\nPlease choose your name!\n",
             "Name:", "", "Name", 17, mvp.movemap
         )
+    figure.char = figure.name[0]
     mvp.movemap.name_label_rechar(figure.name)
     mvp.movemap.text(4, 3, ["Hello, my child.",
                             "You're now ten years old.",
@@ -1242,7 +1248,7 @@ def gen_obs():
                       single_door)
         for ball, single_ball in single_map["balls"].items():
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
-            settings("save_trainers").val:
+                    settings("save_trainers").val:
                 parse_obj(_map, ball,
                           Poketeball(f"{ob_map}.{ball}"),
                           single_ball)
@@ -1500,7 +1506,6 @@ if __name__ == "__main__":
     if sys.platform == "win32":
         import msvcrt
 
-
         def recogniser():
             """Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime"""
             while True:
@@ -1522,7 +1527,6 @@ if __name__ == "__main__":
         import tty
         import termios
         import select
-
 
         def recogniser():
             """Use another (not on xserver relying) way to read keyboard input,
@@ -1550,7 +1554,6 @@ if __name__ == "__main__":
                     )
                     if ord(char) == 3:
                         reset_terminal()
-
 
     print("\033[?1049h")
 

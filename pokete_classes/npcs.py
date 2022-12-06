@@ -15,6 +15,7 @@ from .inv_items import invitems
 from .settings import settings
 from .ui_elements import ChooseBox
 from .general import check_walk_back
+from .achievements import achievements
 
 
 class NPCTrigger(se.Object):
@@ -86,6 +87,10 @@ class NPC(se.Box):
         mvp.movemap.show()
         time.sleep(SPEED_OF_TIME * 1)
         exclamation.remove()
+        if self.__class__ == Trainer or ask_bool(mvp.movemap, "Would you like to talk?", mvp.movemap):
+            return True
+        else:
+            return False
 
     def action(self):
         """Interaction with the NPC triggered by NPCTrigger.action"""
@@ -93,10 +98,15 @@ class NPC(se.Box):
             return
         logging.info("[NPC][%s] Interaction", self.name)
         mvp.movemap.full_show()
-        time.sleep(SPEED_OF_TIME * 0.7)
-        self.exclamate()
-        self.text(self.texts)
-        self.func()
+        self.fig.npc = self
+
+    def reaction(self):
+        opinion = self.exclamate()
+        if opinion == True:
+            self.text(self.texts)
+            self.func()
+        else:
+            pass
 
     def func(self):
         """The function that's executed after the interaction"""
@@ -264,7 +274,7 @@ class Trainer(NPC, Provider):
             return
         self.pokes = [p for p in self.pokes if p.hp > 0]
         if self.pokes and (not self.used
-                                 or not settings("save_trainers").val) \
+                           or not settings("save_trainers").val) \
                 and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
             time.sleep(SPEED_OF_TIME * 0.7)
@@ -284,10 +294,15 @@ class Trainer(NPC, Provider):
                 else:
                     self.fig.add_money(20)
                     self.set_used()
+                    #add first gym win acheivement when you win Last Trainer in playmap_14 
+                    if self.name == "Master of the Flowers":
+                        achievements.achieve("first Gym Win")
+
                 logging.info("[NPC][%s] %s against player", self.name,
                              'Lost' if not is_winner else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.fig)
+            
 
     def greet(self, fightmap):
         """Outputs a greeting text at the fights start:

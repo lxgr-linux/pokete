@@ -5,6 +5,7 @@ import random
 import scrap_engine as se
 from release import SPEED_OF_TIME
 from .color import Color
+from pokete_classes.hotkeys import get_action, Action
 
 
 class Moves:
@@ -120,6 +121,9 @@ class Moves:
                     line.obs[i - j].rechar(txt)
                 if len(line.obs) >= i - j > 0:
                     line.obs[i - j - 1].rechar(line.char)
+            action = get_action()
+            if action.triggers(Action.ACCEPT):
+                break
             time.sleep(SPEED_OF_TIME * 0.05)
             self.poke.ico.map.show()
         line.remove()

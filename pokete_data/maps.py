@@ -54,7 +54,7 @@ maps = {
         "pretty_name": "Route 1",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["rato", "hornita", "steini", "voglo", "wolfior"],
+            "pokes": ["rabbitto", "hornita", "steini", "voglo", "wolfior"],
             "minlvl": 60,
             "maxlvl": 128
         },
@@ -85,7 +85,7 @@ maps = {
             "maxlvl": 230
         },
         "w_poke_args": {
-            "pokes": ["karpi", "blub"],
+            "pokes": ["pangsuni", "blub"],
             "minlvl": 180,
             "maxlvl": 230
         },
@@ -203,7 +203,7 @@ maps = {
         "song": "xDeviruchi - Title Theme .mp3",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["voglo", "vogli", "owol", "rato"],
+            "pokes": ["rabbitto","whitecotten","pangsuni"],
             "minlvl": 300,
             "maxlvl": 480
         },

@@ -1,6 +1,7 @@
 """Contains classes that can be placed on playmaps"""
 
 import random
+import logging
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import timer, movemap as mvp, fightmap as fm
@@ -9,6 +10,8 @@ from .color import Color
 from .general import check_walk_back
 from .poke import Poke
 from .input import ask_ok
+
+HIGHGRASS_WEIGHT = 300
 
 
 class HighGrass(se.Object):
@@ -26,7 +29,9 @@ class HighGrass(se.Object):
                  if (n_a := p_data.pokes[i].get("night_active", None)) is None
                  or (not n_a and not is_night)
                  or (n_a and is_night)}
-        if random.randint(0, 8) == 0:
+        logging.info("[Walking] fight Weight %f",  ob.fightWeight)
+        if random.randint(0, ob.fightWeight) == 0:
+            ob.fightWeight = HIGHGRASS_WEIGHT
             fm.fightmap.fight(
                 [
                     self.figure,
@@ -47,6 +52,8 @@ class HighGrass(se.Object):
                 ]
             )
             check_walk_back(self.figure)
+        else:
+            ob.fightWeight //= 2
 
 
 class Meadow(se.Text):

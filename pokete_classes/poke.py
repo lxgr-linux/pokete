@@ -38,7 +38,7 @@ class Poke:
                  _effects=None, player=True, shiny=False, nature=None,
                  stats=None):
         self.nature = PokeNature.random() if nature is None \
-                        else PokeNature.from_dict(nature)
+            else PokeNature.from_dict(nature)
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
@@ -51,7 +51,8 @@ class Poke:
         self.atc = 0
         self.defense = 0
         self.initiative = 0
-        self.hp = self.inf["hp"]
+        #We set the hp to increase by 2 each time the level of Pokemon rises
+        self.hp = round((self.lvl() * 2 + self.inf["hp"]))
         self.name = self.inf["name"]
         self.miss_chance = self.inf["miss_chance"]
         self.lose_xp = self.inf["lose_xp"]
@@ -135,6 +136,12 @@ can't have more than 4 attacks!"
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, round((self.lvl() + self.inf[name]
                     + (2 if self.shiny else 0)) * self.nature.get_value(name)))
+        #when my poke's level up
+        if(self.full_hp < round(self.inf["hp"] + self.lvl() * 2)):
+            self.hp += 2
+            self.text_hp.rechar(f"HP:{self.hp}")
+        self.full_hp = round(self.inf["hp"] + self.lvl() * 2)
+        
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
@@ -168,7 +175,9 @@ can't have more than 4 attacks!"
         self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
 {((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
         self.text_lvl.rechar(f"Lvl:{self.lvl()}")
-        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        self.text_hp.rechar(f"HP:{self.oldhp}")
+        logging.info("[Poke][%s] Gained %dxp (curr:%d)",
+                     self.name, _xp, self.xp)
         if old_lvl < self.lvl():
             logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
             return True
@@ -192,12 +201,12 @@ can't have more than 4 attacks!"
             for eff in self.effects:
                 if eff.effect() == 1:
                     return
-            if any(isinstance(i, effects.confusion) for i in self.effects):
+            if any(isinstance(i, effects.confusion) for i in self.effects) and random.randint(0, 1) == 0:
                 self.enem = enem = self
             else:
                 self.enem = enem
             w_eff = 1
-            random_factor = random.choices([0, 0.75, 1, 1.26],
+            random_factor = random.choices([0, 0.8, 1, 1.2],
                                            weights=[attack.miss_chance
                                                     + self.miss_chance,
                                                     1, 1, 1], k=1)[0]
@@ -207,10 +216,11 @@ can't have more than 4 attacks!"
                 time.sleep(SPEED_OF_TIME * 1.5)
             enem.oldhp = enem.hp
             self.oldhp = self.hp
-            eff = (1.3 if enem.type.name in attack.type.effective else 0.5
+            eff = (2 if enem.type.name in attack.type.effective else 0.5
                    if enem.type.name in attack.type.ineffective else 1) * w_eff
-            n_hp = round((self.atc
-                          * attack.factor
+            #We set the damage to increase as the level difference between the two Pokémon increases.
+            n_hp = round(( self.atc
+                          * (5 * attack.factor)
                           / (enem.defense if enem.defense >= 1 else 1))
                          * random_factor * eff)
             eff_text = {
@@ -218,7 +228,9 @@ can't have more than 4 attacks!"
                 eff > 1: "\nThat was very effective! ",
                 eff == 1 or n_hp == 0: "",
                 random_factor == 0: f"{self.name} missed!"}[True]
-            enem.hp -= max(n_hp, 0)
+            #Set the damage to be at least 1 if the attack is not missed
+            if(random_factor != 0):
+                enem.hp -= max(n_hp, 1)
             enem.hp = max(enem.hp, 0)
             time.sleep(SPEED_OF_TIME * 0.4)
             for i in attack.move:

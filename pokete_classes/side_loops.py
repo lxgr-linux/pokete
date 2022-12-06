@@ -1,6 +1,8 @@
 """Contains some small loops"""
 
 import os
+import shutil
+
 import scrap_engine as se
 import pokete_classes.game_map as gm
 from pokete_general_use_fns import liner
@@ -84,7 +86,7 @@ class LoadingScreen():
         codename: Codename"""
 
     def __init__(self, ver, codename):
-        width, height = os.get_terminal_size()
+        width, height = shutil.get_terminal_size()
         self.map = gm.GameMap(width=width, height=height - 1)
         se.Text(r""" _____      _        _
 |  __ \    | |      | |
