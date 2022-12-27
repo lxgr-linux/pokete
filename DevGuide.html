@@ -22,7 +22,7 @@
 {"@context":"https://schema.org","@type":"WebSite","description":"A terminal based Pokemon like game","headline":"pokete","name":"pokete","url":"https://lxgr-linux.github.io/pokete/"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/pokete/assets/css/style.css?v=dbf4adbabc71dbc6495fe64e1b567378ec345a54">
+    <link rel="stylesheet" href="/pokete/assets/css/style.css?v=da9d273ba582954eb29ea9394605287ed021ec1c">
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
@@ -66,28 +66,28 @@
 </ol>
 <h2 id="adding-poketes">Adding Poketes</h2>
 <p>Every Pokete has an entry in the <code>pokes</code> dictionary in <a href="./pokete_data/poketes.py"><code>pokete_data/poketes.py</code></a>. Every entry needs to have this structure:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode Python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" title="1"><span class="co">&quot;steini&quot;</span>: {  <span class="co"># This is the Poketes simplified name/identifier without spaces and in lowercase, which is used to refer to the Pokete in the code</span></a>
-<a class="sourceLine" id="cb1-2" title="2">        <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Steini&quot;</span>,  <span class="co"># This is the Pokete&#39;s pretty name</span></a>
-<a class="sourceLine" id="cb1-3" title="3">        <span class="st">&quot;hp&quot;</span>: <span class="dv">25</span>,  <span class="co"># The Pokete&#39;s max health points</span></a>
-<a class="sourceLine" id="cb1-4" title="4">        <span class="st">&quot;atc&quot;</span>: <span class="dv">2</span>,  <span class="co"># The Pokete&#39;s attack points that will added to the Pokete&#39;s level</span></a>
-<a class="sourceLine" id="cb1-5" title="5">        <span class="st">&quot;defense&quot;</span>: <span class="dv">4</span>,  <span class="co"># The Pokete&#39;s defense points that will added to the Pokete&#39;s level</span></a>
-<a class="sourceLine" id="cb1-6" title="6">        <span class="st">&quot;attacks&quot;</span>: [<span class="st">&quot;tackle&quot;</span>, <span class="st">&quot;politure&quot;</span>, <span class="st">&quot;brick_throw&quot;</span>],  <span class="co"># The Pokete&#39;s starting attacks</span></a>
-<a class="sourceLine" id="cb1-7" title="7">        <span class="st">&quot;pool&quot;</span>: [],  <span class="co"># List of additional ungeneric attacks the Pokete can learn</span></a>
-<a class="sourceLine" id="cb1-8" title="8">        <span class="st">&quot;miss_chance&quot;</span>: <span class="dv">0</span>,  <span class="co"># The chance a Pokete will miss an attack, this is added to the attacks individual `miss_chance`</span></a>
-<a class="sourceLine" id="cb1-9" title="9">        <span class="st">&quot;desc&quot;</span>: <span class="st">&quot;A squared stone that can casually be found on the ground.&quot;</span>,  <span class="co"># The Pokete&#39;s description</span></a>
-<a class="sourceLine" id="cb1-10" title="10">        <span class="st">&quot;lose_xp&quot;</span>: <span class="dv">3</span>,  <span class="co"># The amount of experience the player gets by killing the Pokete</span></a>
-<a class="sourceLine" id="cb1-11" title="11">        <span class="st">&quot;rarity&quot;</span>: <span class="dv">1</span>,  <span class="co"># Rarity</span></a>
-<a class="sourceLine" id="cb1-12" title="12">        <span class="st">&quot;types&quot;</span>: [<span class="st">&quot;stone&quot;</span>, <span class="st">&quot;normal&quot;</span>],  <span class="co"># The Pokete&#39;s types</span></a>
-<a class="sourceLine" id="cb1-13" title="13">        <span class="st">&quot;evolve_poke&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># The name/identifier of the Pokete, that this Pokete evolves to at a certain level</span></a>
-<a class="sourceLine" id="cb1-14" title="14">        <span class="st">&quot;evolve_lvl&quot;</span>: <span class="dv">0</span>,  <span class="co"># The level the Pokete evolves at</span></a>
-<a class="sourceLine" id="cb1-15" title="15">        <span class="st">&quot;initiative&quot;</span>: <span class="dv">5</span>,  <span class="co"># The Pokete&#39;s initiative points that will added to the Pokete&#39;s level, and determine what Pokete starts in a fight</span></a>
-<a class="sourceLine" id="cb1-16" title="16">        <span class="st">&quot;ico&quot;</span>: [{  <span class="co"># A list of dictionaries containing a displayed string and a color; all those strings will be layered over each other and represent the Pokete in the fight</span></a>
-<a class="sourceLine" id="cb1-17" title="17">            <span class="st">&quot;txt&quot;</span>: <span class="st">&quot;&quot;&quot; +-------+</span></a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="st"> | o   o |</span></a>
-<a class="sourceLine" id="cb1-19" title="19"><span class="st"> |  www  |</span></a>
-<a class="sourceLine" id="cb1-20" title="20"><span class="st"> +-------+ &quot;&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb1-21" title="21">            <span class="st">&quot;esc&quot;</span>: <span class="va">None</span>}],</a>
-<a class="sourceLine" id="cb1-22" title="22">    },</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">&quot;steini&quot;</span>: {  <span class="co"># This is the Poketes simplified name/identifier without spaces and in lowercase, which is used to refer to the Pokete in the code</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>        <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Steini&quot;</span>,  <span class="co"># This is the Pokete&#39;s pretty name</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>        <span class="st">&quot;hp&quot;</span>: <span class="dv">25</span>,  <span class="co"># The Pokete&#39;s max health points</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>        <span class="st">&quot;atc&quot;</span>: <span class="dv">2</span>,  <span class="co"># The Pokete&#39;s attack points that will added to the Pokete&#39;s level</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>        <span class="st">&quot;defense&quot;</span>: <span class="dv">4</span>,  <span class="co"># The Pokete&#39;s defense points that will added to the Pokete&#39;s level</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>        <span class="st">&quot;attacks&quot;</span>: [<span class="st">&quot;tackle&quot;</span>, <span class="st">&quot;politure&quot;</span>, <span class="st">&quot;brick_throw&quot;</span>],  <span class="co"># The Pokete&#39;s starting attacks</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>        <span class="st">&quot;pool&quot;</span>: [],  <span class="co"># List of additional ungeneric attacks the Pokete can learn</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>        <span class="st">&quot;miss_chance&quot;</span>: <span class="dv">0</span>,  <span class="co"># The chance a Pokete will miss an attack, this is added to the attacks individual `miss_chance`</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>        <span class="st">&quot;desc&quot;</span>: <span class="st">&quot;A squared stone that can casually be found on the ground.&quot;</span>,  <span class="co"># The Pokete&#39;s description</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>        <span class="st">&quot;lose_xp&quot;</span>: <span class="dv">3</span>,  <span class="co"># The amount of experience the player gets by killing the Pokete</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>        <span class="st">&quot;rarity&quot;</span>: <span class="dv">1</span>,  <span class="co"># Rarity</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>        <span class="st">&quot;types&quot;</span>: [<span class="st">&quot;stone&quot;</span>, <span class="st">&quot;normal&quot;</span>],  <span class="co"># The Pokete&#39;s types</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>        <span class="st">&quot;evolve_poke&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># The name/identifier of the Pokete, that this Pokete evolves to at a certain level</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>        <span class="st">&quot;evolve_lvl&quot;</span>: <span class="dv">0</span>,  <span class="co"># The level the Pokete evolves at</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>        <span class="st">&quot;initiative&quot;</span>: <span class="dv">5</span>,  <span class="co"># The Pokete&#39;s initiative points that will added to the Pokete&#39;s level, and determine what Pokete starts in a fight</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>        <span class="st">&quot;ico&quot;</span>: [{  <span class="co"># A list of dictionaries containing a displayed string and a color; all those strings will be layered over each other and represent the Pokete in the fight</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>            <span class="st">&quot;txt&quot;</span>: <span class="st">&quot;&quot;&quot; +-------+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a><span class="st"> | o   o |</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a><span class="st"> |  www  |</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a><span class="st"> +-------+ &quot;&quot;&quot;</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a>            <span class="st">&quot;esc&quot;</span>: <span class="va">None</span>}],</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>    },</span></code></pre></div>
 <p>For more examples on the dictionaries see <a href="./pokete_data/poketes.py"><code>pokete_data/poketes.py</code></a>.</p>
 <h3 id="types">Types</h3>
 <p>Only the first type in the <code>"types"</code> list is the Poketes actual displayed type that determines the Pokete's effectivity. The other types in the list are just secondary types that determine what generic attacks a Pokete is able to learn. Those can also be subtypes. The main type can't! For a list of all types and subtypes see <a href="./pokete_data/types.py"><code>pokete_data/types.py</code></a></p>
@@ -95,20 +95,20 @@
 <p>In addition the attacks in the <code>"attacks"</code> and the <code>"pool"</code> lists, a Pokete can learn all generic attacks of the Poketes types.</p>
 <h2 id="adding-attacks">Adding attacks</h2>
 <p>Every attack has an entry in the <code>attacks</code> dictionary in <a href="./pokete_data/attacks.py"><code>pokete_data/attacks.py </code></a>. Every entry needs to have this structure:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode Python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" title="1"><span class="co">&quot;poison_bite&quot;</span>: {  <span class="co"># This is the attack&#39;s simplified name/identifier without spaces and in lowercase, which is used to refer to the attack in the code</span></a>
-<a class="sourceLine" id="cb2-2" title="2">        <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Poison bite&quot;</span>,  <span class="co"># The attack&#39;s pretty name</span></a>
-<a class="sourceLine" id="cb2-3" title="3">        <span class="st">&quot;factor&quot;</span>: <span class="dv">1</span>,  <span class="co"># The attack factor that is used to calculate damage</span></a>
-<a class="sourceLine" id="cb2-4" title="4">        <span class="st">&quot;action&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># A string that&#39;s executed when the attack is used, to effect the Pokete&#39;s or the enemy&#39;s values (don&#39;t use this) </span></a>
-<a class="sourceLine" id="cb2-5" title="5">        <span class="st">&quot;world_action&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># An extra ability the attack can be used for</span></a>
-<a class="sourceLine" id="cb2-6" title="6">        <span class="st">&quot;move&quot;</span>: [<span class="st">&quot;attack&quot;</span>, <span class="st">&quot;downgrade&quot;</span>],  <span class="co"># The moves the Pokete does using the attack</span></a>
-<a class="sourceLine" id="cb2-7" title="7">        <span class="st">&quot;miss_chance&quot;</span>: <span class="fl">0.3</span>,  <span class="co"># The chance to miss the attack</span></a>
-<a class="sourceLine" id="cb2-8" title="8">        <span class="st">&quot;min_lvl&quot;</span>: <span class="dv">0</span>,  <span class="co"># The minimal level a Pokete needs in order to learn the attack</span></a>
-<a class="sourceLine" id="cb2-9" title="9">        <span class="st">&quot;desc&quot;</span>: <span class="st">&quot;Makes the enemy weaker.&quot;</span>,  <span class="co"># The attack&#39;s description</span></a>
-<a class="sourceLine" id="cb2-10" title="10">        <span class="st">&quot;types&quot;</span>: [<span class="st">&quot;poison&quot;</span>],  <span class="co"># The attack&#39;s types</span></a>
-<a class="sourceLine" id="cb2-11" title="11">        <span class="st">&quot;effect&quot;</span>: <span class="st">&quot;poison&quot;</span>,  <span class="co"># The effect the enemy gets when the attack is used, default is None </span></a>
-<a class="sourceLine" id="cb2-12" title="12">        <span class="st">&quot;is_generic&quot;</span>: <span class="va">False</span>,  <span class="co"># Whether or not the attack can be learned by any Pokete of its types</span></a>
-<a class="sourceLine" id="cb2-13" title="13">        <span class="st">&quot;ap&quot;</span>: <span class="dv">10</span>,  <span class="co"># Attack points; the amount of times the attack can be used by a Pokete until the Pokete has to be healed</span></a>
-<a class="sourceLine" id="cb2-14" title="14">    },</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">&quot;poison_bite&quot;</span>: {  <span class="co"># This is the attack&#39;s simplified name/identifier without spaces and in lowercase, which is used to refer to the attack in the code</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>        <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Poison bite&quot;</span>,  <span class="co"># The attack&#39;s pretty name</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>        <span class="st">&quot;factor&quot;</span>: <span class="dv">1</span>,  <span class="co"># The attack factor that is used to calculate damage</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>        <span class="st">&quot;action&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># A string that&#39;s executed when the attack is used, to effect the Pokete&#39;s or the enemy&#39;s values (don&#39;t use this) </span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>        <span class="st">&quot;world_action&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># An extra ability the attack can be used for</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>        <span class="st">&quot;move&quot;</span>: [<span class="st">&quot;attack&quot;</span>, <span class="st">&quot;downgrade&quot;</span>],  <span class="co"># The moves the Pokete does using the attack</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>        <span class="st">&quot;miss_chance&quot;</span>: <span class="fl">0.3</span>,  <span class="co"># The chance to miss the attack</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>        <span class="st">&quot;min_lvl&quot;</span>: <span class="dv">0</span>,  <span class="co"># The minimal level a Pokete needs in order to learn the attack</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>        <span class="st">&quot;desc&quot;</span>: <span class="st">&quot;Makes the enemy weaker.&quot;</span>,  <span class="co"># The attack&#39;s description</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>        <span class="st">&quot;types&quot;</span>: [<span class="st">&quot;poison&quot;</span>],  <span class="co"># The attack&#39;s types</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>        <span class="st">&quot;effect&quot;</span>: <span class="st">&quot;poison&quot;</span>,  <span class="co"># The effect the enemy gets when the attack is used, default is None </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>        <span class="st">&quot;is_generic&quot;</span>: <span class="va">False</span>,  <span class="co"># Whether or not the attack can be learned by any Pokete of its types</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>        <span class="st">&quot;ap&quot;</span>: <span class="dv">10</span>,  <span class="co"># Attack points; the amount of times the attack can be used by a Pokete until the Pokete has to be healed</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>    },</span></code></pre></div>
 <p>For more examples on the dictionaries see <a href="./pokete_data/attacks.py"><code>pokete_data/attacks.py</code></a>.</p>
 <h3 id="types-and-learning">Types and learning</h3>
 <p>Only the first type in the <code>"types"</code> list is the attack's real type and determines its effectivity. The other type can only be subtypes. A generic attack can only be learned by a Pokete that has all its types. An ungeneric attack can only be learned if the attack is in the Pokete's <code>"pool"</code> or <code>"attacks"</code> list.</p>
@@ -118,11 +118,11 @@
 <p>An attacks <code>"world_action"</code> is some kind of extra ability which can be called from the Poketes detail view and be used to, for example, make the player fly. The string in <code>"world_action"</code> has to be a key in the <code>abb_funcs</code> list in <a href="./pokete.py"><code>pokete.py</code></a>.</p>
 <h2 id="adding-types">Adding types</h2>
 <p>Every type has an entry inside the <code>types</code> dictionary in <a href="./pokete_data/types.py"><code>pokete_data/types.py</code></a>. Every entry needs to have this structure:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode Python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" title="1"><span class="co">&quot;stone&quot;</span>: {  <span class="co"># The type&#39;s name</span></a>
-<a class="sourceLine" id="cb3-2" title="2">        <span class="st">&quot;effective&quot;</span>: [<span class="st">&quot;flying&quot;</span>, <span class="st">&quot;fire&quot;</span>],  <span class="co"># The types the type is effective against </span></a>
-<a class="sourceLine" id="cb3-3" title="3">        <span class="st">&quot;ineffective&quot;</span>: [<span class="st">&quot;plant&quot;</span>],  <span class="co"># The types the type is ineffective against</span></a>
-<a class="sourceLine" id="cb3-4" title="4">        <span class="st">&quot;color&quot;</span>: [<span class="st">&quot;grey&quot;</span>]  <span class="co"># The type&#39;s label color</span></a>
-<a class="sourceLine" id="cb3-5" title="5">    },</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">&quot;stone&quot;</span>: {  <span class="co"># The type&#39;s name</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>        <span class="st">&quot;effective&quot;</span>: [<span class="st">&quot;flying&quot;</span>, <span class="st">&quot;fire&quot;</span>],  <span class="co"># The types the type is effective against </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>        <span class="st">&quot;ineffective&quot;</span>: [<span class="st">&quot;plant&quot;</span>],  <span class="co"># The types the type is ineffective against</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>        <span class="st">&quot;color&quot;</span>: [<span class="st">&quot;grey&quot;</span>]  <span class="co"># The type&#39;s label color</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    },</span></code></pre></div>
 <h2 id="adding-subtypes">Adding subtypes</h2>
 <p>Every subtype has an entry inside the <code>sub_types</code> list in <a href="./pokete_data/types.py"><code>pokete_data/types.py</code></a>. They have no further attributes. Subtypes are only useful to determine what Poketes can use what generic attack in a type. For example, to avoid that <code>bato</code> learns the generic <code>flying</code> attack <code>pick</code>.</p>
 </section>
