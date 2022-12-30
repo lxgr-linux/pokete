@@ -97,6 +97,7 @@ class Effect():
 
     def remove(self):
         """Removes itself from the current pokete with a certain chance"""
+        logging.info("[Effect] %f rem_chance", self.rem_chance)
         if random.randint(0, self.rem_chance) == 0:
             self.obj.ico.map.outp.outp(f'{self.obj.ext_name} isn\'t ')
             self.obj.ico.map.outp.append(se.Text(self.name,
@@ -110,6 +111,8 @@ class Effect():
                          self.obj.name)
             self.obj = None
             time.sleep(SPEED_OF_TIME * 2)
+        else:
+            self.rem_chance //= 2
 
     def cleanup(self, j=None):
         """Does a cleanup
@@ -127,14 +130,17 @@ class Effect():
 
     def effect(self):
         """The action that's executed every attack round"""
-        self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
-        self.obj.ico.map.outp.append(se.Text(self.name,
-                                             esccode=self.str_esccode,
-                                             state="float"),
-                                     se.Text(" and can\'t attack!",
-                                             state="float"))
-        time.sleep(SPEED_OF_TIME * 0.5)
-        return 1
+        if random.randint(0, 1) == 0:
+            self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
+            self.obj.ico.map.outp.append(se.Text(self.name,
+                                                esccode=self.str_esccode,
+                                                state="float"),
+                                        se.Text(" and can\'t attack!",
+                                                state="float"))
+            time.sleep(SPEED_OF_TIME * 0.5)
+            return 1
+        else:
+            return 0
 
     @classmethod
     def ret_md(cls):
@@ -153,7 +159,7 @@ This is reverted randomly."
     color = Color.thicc + Color.yellow
 
     def __init__(self, obj=None):
-        super().__init__("paralyzed", 3, 2, "(Par)", self.color,
+        super().__init__("paralyzed", 6, 2, "(Par)", self.color,
                          obj)
 
 
@@ -163,8 +169,20 @@ class EffectSleep(Effect):
 This is reverted randomly."
     c_name = "sleep"
     color = Color.white
+
     def __init__(self, obj=None):
-        super().__init__("sleeping", 4, 3, "(Sle)", self.color, obj)
+        super().__init__("sleeping", 8, 3, "(Sle)", self.color, obj)
+
+    def effect(self):
+        """The action that's executed every attack round"""
+        self.obj.ico.map.outp.outp(f'{self.obj.ext_name} is still ')
+        self.obj.ico.map.outp.append(se.Text(self.name,
+                                             esccode=self.str_esccode,
+                                             state="float"),
+                                     se.Text(" and can\'t attack!",
+                                             state="float"))
+        time.sleep(SPEED_OF_TIME * 0.5)
+        return 1
 
 
 class EffectBurning(Effect):
@@ -175,7 +193,7 @@ This is reverted randomly."
     color = Color.thicc + Color.red
 
     def __init__(self, obj=None):
-        super().__init__("burning", 3, 0, "(Bur)", self.color, obj,
+        super().__init__("burning", 6, 0, "(Bur)", self.color, obj,
                          exclude=["fire", "water"])
         self.hurt_text = "burned it self!"
         self.damage = 2
@@ -205,8 +223,8 @@ class EffectPoison(EffectBurning):
     color = Color.purple
 
     def __init__(self, obj=None):
-        super(EffectBurning, self).__init__("poisoned", 4, 2, "(Poi)", self.color
-                                            , obj)
+        super(EffectBurning, self).__init__(
+            "poisoned", 8, 2, "(Poi)", self.color, obj)
         self.hurt_text = "got damaged through poison!"
         self.damage = 1
 
@@ -218,7 +236,7 @@ class EffectConfusion(Effect):
     color = Color.lightblue
 
     def __init__(self, obj=None):
-        super().__init__("confused", 3, 2, "(Con)", self.color, obj,
+        super().__init__("confused", 6, 2, "(Con)", self.color, obj,
                          exclude=["undead"])
 
     def effect(self):
@@ -239,7 +257,7 @@ This is reverted randomly."
     color = Color.cyan
 
     def __init__(self, obj=None):
-        super().__init__("frozen", 3, 3, "(Fro)", self.color, obj,
+        super().__init__("frozen", 6, 3, "(Fro)", self.color, obj,
                          exclude=["ice", "fire"])
 
 

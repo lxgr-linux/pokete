@@ -353,7 +353,7 @@ class FightMap(gm.GameMap):
         audio.switch("xDeviruchi - Decisive Battle (End).mp3")
         time.sleep(SPEED_OF_TIME * 1)
         _xp = sum(
-            poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
+            (int)(2 * poke.lose_xp * poke.lvl() / winner.curr.lvl())
             for poke in loser.pokes
         ) * loser.xp_multiplier
         self.outp.outp(

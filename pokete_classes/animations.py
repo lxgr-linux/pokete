@@ -4,6 +4,7 @@ import time
 import scrap_engine as se
 import pokete_classes.game_map as gm
 from release import SPEED_OF_TIME
+from pokete_classes.hotkeys import get_action, Action
 
 
 def transition(_map, poke):
@@ -61,6 +62,9 @@ def fight_intro(height, width):
             if j != " ":
                 j.rechar(" ")
         fancymap.show()
+        action = get_action()
+        if action.triggers(Action.ACCEPT):
+            break
         time.sleep(SPEED_OF_TIME * 0.005)
     for i in vec_list:
         i.remove()

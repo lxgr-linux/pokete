@@ -17,4 +17,8 @@ achievements = {
         "title": "First evolution",
         "desc": "Evolve your first Pokete!"
     },
+    "first Gym Win": {
+        "title": "First win at the Gym",
+        "desc" : "You win at the Gym First!!"
+    }
 }
