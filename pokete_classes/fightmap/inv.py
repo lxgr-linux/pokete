@@ -26,6 +26,7 @@ class InvBox(ChooseBox):
         self.add_c_obs([se.Text(f"{i.pretty_name}s : {inv[i.name]}")
                                for i in items])
         self.set_index(0)
+        self.resize(_map.height - 3, 35)
         with self.add(_map, _map.width - 35, 0):
             while True:
                 action = get_action()
