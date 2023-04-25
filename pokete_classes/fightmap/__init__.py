@@ -83,7 +83,8 @@ class FightMap(gm.GameMap):
 
     def resize_view(self):
         """Manages recursive view resizing"""
-        added = self.providers[0].curr.ico.added
+        player_added = self.providers[0].curr.ico.added
+        enem_added = self.providers[1].curr.ico.added
         for obj in [
             self.outp, self.p_upperline, self.providers[1].curr.ico,
             self.frame_big, self.p_sideline, self.frame_small, self.label
@@ -97,9 +98,10 @@ class FightMap(gm.GameMap):
         mvp.movemap.resize_view()
 
         self.add_base_boxes()
-        if added:
+        if player_added:
             self.add_player(self.providers[0], resize=True)
-        self.providers[1].curr.ico.add(self, self.width - 14, 2)
+        if enem_added:
+            self.providers[1].curr.ico.add(self, self.width - 14, 2)
 
     def clean_up(self, *providers, resize=False):
         """Removes all labels from self
@@ -296,6 +298,7 @@ class FightMap(gm.GameMap):
                     for prov in self.providers
             )
         )
+        self.resize_view()
         for prov in self.providers:
             prov.index_conf()
         if settings("animations").val:  # Intro animation
