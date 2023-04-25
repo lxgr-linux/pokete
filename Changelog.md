@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.9.1] - 2023-04-25
+
+- Fixed a bug with fightmap not resozing
+- Did some reformating
+
 ## [0.9.0] - 2022-09-13
 
 Quite a lot happened until this release:
