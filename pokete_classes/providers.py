@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 from pokete_classes import movemap as mvp
 from .input import ask_bool
 
+
 class Provider(ABC):
     """Provider can hold and manage Poketes
     ARGS:
@@ -46,7 +47,7 @@ class Provider(ABC):
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
-            anem: The enemy Provider"""
+            enem: The enemy Provider"""
 
     @abstractmethod
     def greet(self, fightmap):
@@ -63,6 +64,7 @@ class Provider(ABC):
         RETURNS:
             bool: whether or not a Pokete was choosen"""
 
+
 class NatureProvider(Provider):
     """The Natures Provider
     ARGS:
@@ -74,7 +76,7 @@ class NatureProvider(Provider):
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
-            anem: The enemy Provider"""
+            enem: The enemy Provider"""
         return random.choices(
             self.curr.attack_obs,
             weights=[
@@ -112,7 +114,7 @@ class ProtoFigure(Provider):
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
-            anem: The enemy Provider"""
+            enem: The enemy Provider"""
         return fightmap.get_figure_attack(self, enem)
 
     def handle_defeat(self, fightmap, winner):
@@ -126,7 +128,7 @@ class ProtoFigure(Provider):
             if ask_bool(
                     fightmap, "Do you want to choose another Pokete?",
                     fightmap
-                ):
+            ):
                 success = fightmap.choose_poke(self)
                 if not success:
                     return False

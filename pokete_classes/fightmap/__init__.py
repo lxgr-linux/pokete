@@ -5,15 +5,14 @@ import random
 import logging
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_general_use_fns import liner
-from pokete_classes import animations, ob_maps as obmp, movemap as mvp, \
-    deck, game_map as gm, effects
+from pokete_classes import animations, ob_maps as obmp, \
+    deck, game_map as gm
 from release import SPEED_OF_TIME
-from ..hotkeys import ACTION_UP_DOWN, Action, get_action
+from ..hotkeys import Action, get_action
 from ..audio import audio
 from ..npcs import Trainer
 from ..providers import NatureProvider, ProtoFigure
-from ..ui_elements import StdFrame2, ChooseBox, LabelBox
+from ..ui_elements import StdFrame2
 from ..classes import OutP
 from ..input import ask_bool
 from ..achievements import achievements
@@ -134,14 +133,15 @@ class FightMap(gm.GameMap):
         player.curr.text_hp.add(self, self.width - 17, self.height - 7)
         player.curr.ico.add(self, 3, self.height - 10)
         if not resize:
-            self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+            self.box.box.add_c_obs(
+                [atc.label for atc in player.curr.attack_obs])
             self.box.box.set_index(0)
 
     def add_1(self, player, enem):
         """Adds enemy and general labels to self
         ARGS:
             player: The player Poke object
-            enemy: The enemy Poke object that the labels belong to"""
+            enem: The enemy Poke object that the labels belong to"""
         for obj, _x, _y in zip(
             (
                 enem.curr.tril,
@@ -158,7 +158,6 @@ class FightMap(gm.GameMap):
             obj.add(self, _x, _y)
         if enem.curr.identifier in player.caught_pokes:
             enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)
-
 
     def add_2(self, player):
         """Adds player labels with sleeps
@@ -198,13 +197,13 @@ class FightMap(gm.GameMap):
             figure: The players provider
             enem: The enemys provider"""
         quick_attacks = [
-            Action.QUICK_ATC_1, Action.QUICK_ATC_2,
-            Action.QUICK_ATC_3, Action.QUICK_ATC_4
-        ][:len(figure.curr.attack_obs)]
+                            Action.QUICK_ATC_1, Action.QUICK_ATC_2,
+                            Action.QUICK_ATC_3, Action.QUICK_ATC_4
+                        ][:len(figure.curr.attack_obs)]
         self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
-                                          else "") +
-                                         "What do you want to do?",
-                                         state="float"))
+                                  else "") +
+                                 "What do you want to do?",
+                                 state="float"))
         while True:  # Inputloop for general options
             action = get_action()
             if action.triggers(*quick_attacks):
@@ -223,7 +222,8 @@ class FightMap(gm.GameMap):
                 if (
                     not enem.escapable
                     or not ask_bool(
-                        self, "Do you really want to run away?",
+                        self,
+                        "Do you really want to run away?",
                         overview=self
                     )
                 ):
@@ -252,9 +252,9 @@ class FightMap(gm.GameMap):
                 return "won"
             elif action.triggers(Action.CHOOSE_ITEM):
                 items = [getattr(invitems, i)
-                            for i in figure.inv
-                            if getattr(invitems, i).func is not None
-                            and figure.inv[i] > 0]
+                         for i in figure.inv
+                         if getattr(invitems, i).func is not None
+                         and figure.inv[i] > 0]
                 if not items:
                     self.outp.outp(
                         "You don't have any items left!\n"
@@ -289,13 +289,12 @@ class FightMap(gm.GameMap):
         RETURNS:
             Provider that won the fight"""
         audio.switch("xDeviruchi - Decisive Battle (Loop).mp3")
-        index = 0
         self.providers = providers
         logging.info(
             "[Fight] Started between %s",
             "and ".join(
                 f"{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}"
-                    for prov in self.providers
+                for prov in self.providers
             )
         )
         self.resize_view()
@@ -308,8 +307,9 @@ class FightMap(gm.GameMap):
             prov.greet(self)
         time.sleep(SPEED_OF_TIME * 1)
         self.add_2(self.providers[0])
-        self.fast_change([self.providers[0].curr.ico, self.deadico2, self.deadico1,
-                          self.providers[0].curr.ico], self.providers[0].curr.ico)
+        self.fast_change(
+            [self.providers[0].curr.ico, self.deadico2, self.deadico1,
+             self.providers[0].curr.ico], self.providers[0].curr.ico)
         self.outp.outp(f"You used {self.providers[0].curr.name}")
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
@@ -344,7 +344,8 @@ class FightMap(gm.GameMap):
                 winner = self.providers[(index + 1) % 2]
                 loser = player
                 time.sleep(SPEED_OF_TIME * 2)
-                self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
+                self.outp.outp(
+                    f"{player.curr.ext_name} has used all its' attacks!")
                 time.sleep(SPEED_OF_TIME * 3)
             if winner is not None:
                 if any(p.hp > 0 for p in loser.pokes[:6]):
@@ -421,7 +422,8 @@ class FightMap(gm.GameMap):
 
 class FightItems:
     """Contains all fns callable by an item in fight
-    The methods that can actually be called in fight follow the following pattern:
+    The methods that can actually be called in fight follow
+    the following pattern:
         ARGS:
             obj: The players Provider
             enem: The enemys Provider
@@ -430,12 +432,12 @@ class FightItems:
             2: To win the game
             None: To let the enemy attack"""
 
-    def throw(self, obj, enem, chance, name):
+    @staticmethod
+    def throw(obj, enem, chance, name):
         """Throws a ball
         ARGS:
             obj: The players Poke object
             enem: The enemys Poke object
-            info: The info dict
             chance: The balls catch chance
             name: The balls name
         RETURNS:
@@ -447,8 +449,9 @@ class FightItems:
             fightmap.outp.outp("You can't do that in a duel!")
             return 1
         fightmap.outp.rechar(f"You threw a {name.capitalize()}!")
-        fightmap.fast_change([enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
-                             fightmap.pball], enem.curr.ico)
+        fightmap.fast_change(
+            [enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
+             fightmap.pball], enem.curr.ico)
         time.sleep(SPEED_OF_TIME * random.choice([1, 2, 3, 4]))
         obj.remove_item(name)
         catch_chance = 20 if obj.map == obmp.ob_maps["playmap_1"] else 0
@@ -478,7 +481,8 @@ class FightItems:
         logging.info("[Fighitem][%s] Missed", name)
         return None
 
-    def potion(self, obj, hp, name):
+    @staticmethod
+    def potion(obj, hp, name):
         """Potion function
         ARGS:
             obj: The players Poke object
@@ -511,7 +515,8 @@ class FightItems:
         """Hyperball function"""
         return self.throw(obj, enem, 1000, "hyperball")
 
-    def ap_potion(self, obj, _):
+    @staticmethod
+    def ap_potion(obj, _):
         """AP potion function"""
         obj.remove_item("ap_potion")
         for atc in obj.curr.attack_obs:
@@ -520,8 +525,7 @@ class FightItems:
 
 
 fightitems = FightItems()
-fightmap = None
-
+fightmap: FightMap = None
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

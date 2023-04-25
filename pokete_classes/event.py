@@ -4,7 +4,7 @@
 class Event:
     """Event class to enable dependency injection
     ARGS:
-        _ev: Initial char"""
+        event: Initial char"""
 
     def __init__(self, event=""):
         self._ev = event
@@ -19,7 +19,7 @@ class Event:
     def set(self, event):
         """Setter
         ARGS:
-            _ev: New char"""
+            event: New char"""
         self._ev = event
         self.emit_fn()
 

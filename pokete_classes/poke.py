@@ -42,6 +42,9 @@ class Poke:
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
+        self.player = None
+        self.affil = ""
+        self.ext_name = ""
         self.night_active = self.inf.get("night_active", None)
         self.enem = None
         self.oldhp = 0
@@ -224,7 +227,7 @@ can't have more than 4 attacks!"
             for i in attack.move:
                 getattr(self.moves, i)()
             if attack.action is not None and random_factor != 0:
-                getattr(AttackActions(), attack.action)(self, enem, providers)
+                getattr(AttackActions, attack.action)(self, enem, providers)
             attack.set_ap(attack.ap - 1)
             fightmap.outp.outp(
                 f'{self.ext_name} used {attack.name}! {eff_text}')

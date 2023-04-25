@@ -6,7 +6,7 @@ import pokete_classes.game_map as gm
 from .ui_elements import StdFrame
 
 
-class ResizeScreen():
+class ResizeScreen:
     """Screen thats shown when the screen is resized"""
 
     def __init__(self):

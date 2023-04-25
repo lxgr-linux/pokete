@@ -77,7 +77,7 @@ https://git.io/JRRqe""",
         )
 
 
-class LoadingScreen():
+class LoadingScreen:
     """Loading screen that's shown at game's start
     ARGS:
         ver: Version

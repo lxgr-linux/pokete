@@ -7,7 +7,6 @@ For this see the comments in the definations area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
-
 import time
 import os
 import sys
@@ -24,7 +23,7 @@ from pokete_classes import animations
 from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
-from pokete_classes.ui_elements import Box, ChooseBox, InfoBox, BetterChooseBox, InputBox
+from pokete_classes.ui_elements import ChooseBox, InfoBox, BetterChooseBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting, Slider
 from pokete_classes.inv_items import invitems, LearnDisc
@@ -38,10 +37,12 @@ from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
 from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
-                           movemap as mvp, fightmap as fm
+    movemap as mvp, fightmap as fm
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
-from pokete_classes.doors import CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
+from pokete_classes.doors import (
+    CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
+)
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.npcs import NPC, Trainer
@@ -58,7 +59,6 @@ from pokete_general_use_fns import liner, sort_vers, parse_args
 
 from release import SPEED_OF_TIME
 from release import VERSION, CODENAME, SAVEPATH
-
 
 __t = time.time()
 
@@ -102,7 +102,6 @@ class NPCActions:
             )
             npc.set_used()
 
-
     @staticmethod
     def playmap_17_boy(npc):
         """Interaction with boy"""
@@ -111,10 +110,10 @@ class NPCActions:
                       "I've never seen one before!",
                       "Here you go, have $200!"])
             if ask_bool(
-                    mvp.movemap,
-                    "The young boy gifted you $200. Do you want to accept it?",
-                    mvp.movemap
-                ):
+                mvp.movemap,
+                "The young boy gifted you $200. Do you want to accept it?",
+                mvp.movemap
+            ):
                 figure.add_money(200)
             npc.set_used()
         else:
@@ -150,7 +149,8 @@ and we will train it."])
                 "Do you want to put a Pokete into the Pokete-Care?",
                 mvp.movemap
             ):
-                if (index := deck.deck(mvp.movemap, 6, "Your deck", True)) is not None:
+                if (index := deck.deck(mvp.movemap, 6, "Your deck",
+                                       True)) is not None:
                     pokete_care.poke = figure.pokes[index]
                     pokete_care.entry = timer.time.time
                     figure.add_poke(Poke("__fallback__", 0), index)
@@ -485,7 +485,8 @@ class Figure(se.Object, ProtoFigure):
             idx: Index of the Poke
             caught_with: Name of ball which was used"""
         poke.set_player(True)
-        poke.set_poke_stats(PokeStats(poke.name, datetime.now(), caught_with=caught_with))
+        poke.set_poke_stats(
+            PokeStats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
@@ -634,8 +635,8 @@ class Inv:
                                             break
                                         poke = figure.pokes[index]
                                         if getattr(types,
-                                                   obj.attack_dict['types'][0])\
-                                                in poke.types:
+                                                   obj.attack_dict['types'][0]) \
+                                            in poke.types:
                                             break
                                         ex_cond = ask_bool(
                                             self.map,
@@ -647,7 +648,7 @@ class Inv:
                                         )
                                     if not ex_cond:
                                         break
-                                    if LearnAttack(poke, self.map, self)\
+                                    if LearnAttack(poke, self.map, self) \
                                             (obj.attack_name):
                                         items = self.rem_item(obj.name, items)
                                         if len(items) == 0:
@@ -962,41 +963,21 @@ class ExtraActions:
     def playmap_7():
         """Cave animation"""
         _map = obmp.ob_maps["playmap_7"]
-        for obj in _map.get_obj("inner_walls").obs\
-                + [i.main_ob for i in _map.trainers]\
-                + [obmp.ob_maps["playmap_7"].get_obj(i)
-                    for i in p_data.map_data["playmap_7"]["balls"] if
-                    "playmap_7." + i not in figure.used_npcs
-                    or not save_trainers]:
+        for obj in _map.get_obj("inner_walls").obs \
+                   + [i.main_ob for i in _map.trainers] \
+                   + [obmp.ob_maps["playmap_7"].get_obj(i)
+                      for i in p_data.map_data["playmap_7"]["balls"] if
+                      "playmap_7." + i not in figure.used_npcs
+                      or not save_trainers]:
             if obj.added and math.sqrt((obj.y - figure.y) ** 2
                                        + (obj.x - figure.x) ** 2) <= 3:
                 obj.rechar(obj.bchar)
             else:
                 obj.rechar(" ")
 
+
 # main functions
 ################
-
-def test():
-    """test/demo for BetterChooseBox, until BetterChooseBox is actively used
-       this will remain"""
-    with BetterChooseBox(3, [se.Text(i, state="float") for i in ["Hallo",
-        "Welt", "Wie", "Gehts", "Dir", "So", "Du"]],
-        "Test", _map=mvp.movemap) as a:
-        while True:
-            action = get_action()
-            if action.triggers(*ACTION_DIRECTIONS):
-                a.input(action)
-            elif action.triggers(Action.CANCEL):
-                break
-            elif action.triggers(Action.ACCEPT):
-                a.remove()
-                a.set_items(3, [se.Text(i, state="float") for i in ["test",
-                    "test", "123", "fuckthesystem"]])
-                a.center_add(a.map)
-            std_loop()
-            a.map.show()
-
 
 def teleport(poke):
     """Teleports the player to another towns pokecenter
@@ -1041,11 +1022,11 @@ def swap_poke():
                             break
                         decode_data = json.loads(data.decode())
                         conn.sendall(
-                                str.encode(
-                                    json.dumps(
-                                        {"mods": mods.mod_info,
-                                         "name": figure.name,
-                                         "poke": figure.pokes[index].dict()})))
+                            str.encode(
+                                json.dumps(
+                                    {"mods": mods.mod_info,
+                                     "name": figure.name,
+                                     "poke": figure.pokes[index].dict()})))
     else:
         host = ""
         while host == "":
@@ -1064,10 +1045,10 @@ def swap_poke():
                 ask_ok(mvp.movemap, str(err), mvp.movemap)
                 return
             sock.sendall(
-                    str.encode(
-                        json.dumps({"mods": mods.mod_info,
-                                    "name": figure.name,
-                                    "poke": figure.pokes[index].dict()})))
+                str.encode(
+                    json.dumps({"mods": mods.mod_info,
+                                "name": figure.name,
+                                "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
     logging.info("[Swap_poke] Recieved %s", decode_data)
@@ -1242,7 +1223,7 @@ def gen_obs():
                       single_door)
         for ball, single_ball in single_map["balls"].items():
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
-            settings("save_trainers").val:
+                settings("save_trainers").val:
                 parse_obj(_map, ball,
                           Poketeball(f"{ob_map}.{ball}"),
                           single_ball)
@@ -1394,10 +1375,11 @@ def map_additions():
 ####################  ########
 ##############################""", ignore="#", ob_class=HighGrass,
                          ob_args=_map.poke_args, state="float")
-    for ob in (_map.get_obj("inner_walls").obs + [i.main_ob for i in _map.trainers] +
-               [_map.get_obj(i) for i in p_data.map_data["playmap_7"]["balls"]
-                if "playmap_7." + i not in figure.used_npcs
-                   or not settings("save_trainers").val]):
+    for ob in (
+        _map.get_obj("inner_walls").obs + [i.main_ob for i in _map.trainers] +
+        [_map.get_obj(i) for i in p_data.map_data["playmap_7"]["balls"]
+         if "playmap_7." + i not in figure.used_npcs
+            or not settings("save_trainers").val]):
         ob.bchar = ob.char
         ob.rechar(" ")
     # adding
@@ -1550,7 +1532,6 @@ if __name__ == "__main__":
                     )
                     if ord(char) == 3:
                         reset_terminal()
-
 
     print("\033[?1049h")
 

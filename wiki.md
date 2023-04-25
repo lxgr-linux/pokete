@@ -441,7 +441,7 @@ A very aggressive bird Pokete that lives near deserts; it will try to peck out y
 - Loosing experience: 4
 - Attacks:
    + [Tackle](#tackle)
-   + [Eye Peck](#eye-pick)
+   + [Eye Peck](#eye-peck)
    + [Brooding](#brooding)
 - Active: Always
 - Can be found in:
@@ -469,7 +469,7 @@ A nocturnal Pokete that is looking for small children to eat as a midnight snack
 - Rarity: 0.5
 - Loosing experience: 2
 - Attacks:
-   + [Peck](#pick)
+   + [Peck](#peck)
    + [Wing Hit](#wing-hit)
    + [Cry](#cry)
 - Active: Night
@@ -532,7 +532,7 @@ A very common bird Pokete; it lives everywhere.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Power Peck](#power-pick)
+   + [Power Peck](#power-peck)
 - Active: Always
 - Can be found in:
    + Nice Town
@@ -561,7 +561,7 @@ A very aggressive bird Pokete that can only be found in the woods.
 - Loosing experience: 3
 - Attacks:
    + [Tackle](#tackle)
-   + [Power Peck](#power-pick)
+   + [Power Peck](#power-peck)
    + [Wing Hit](#wing-hit)
    + [Brooding](#brooding)
 - Active: Always
@@ -601,8 +601,8 @@ A very aggressive and hard to find bird Pokete.
 - Loosing experience: 5
 - Attacks:
    + [Tackle](#tackle)
-   + [Power Peck](#power-pick)
-   + [Storm Gale](#storm-gust)
+   + [Power Peck](#power-peck)
+   + [Storm Gale](#storm-gale)
    + [Brooding](#brooding)
 - Active: Always
 - Can be found in:
@@ -635,7 +635,7 @@ A small heavy thing that can be found on the ground; it may reveal something won
 - Active: Day
 - Can be found in:
    + Abandoned Village
-- Evolves to [Raupathor day](#raupathor_day) at level 20
+- Evolves to [Raupathor day](#raupathor-day) at level 20
 
 #### Corcos night
 A small heavy thing that can be found on the ground; it may reveal something wonderful later.
@@ -662,7 +662,7 @@ A small heavy thing that can be found on the ground; it may reveal something won
 - Active: Night
 - Can be found in:
    + Abandoned Village
-- Evolves to [Raupathor night](#raupathor_night) at level 20
+- Evolves to [Raupathor night](#raupathor-night) at level 20
 
 #### Dicki
 A little whatever that sticks out of the ground.
@@ -915,7 +915,7 @@ A majestic horse that is always looking for something to pick with its horn.
 - Attacks:
    + [Tackle](#tackle)
    + [Meat Skewer](#meat-skewer)
-   + [Tail Swipe](#tail-wipe)
+   + [Tail Swipe](#tail-swipe)
 - Active: Always
 - Can be found in:
    + Route 1
@@ -1004,7 +1004,7 @@ A damn dangerous and enourmous rat; it will bite of your leg.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Tail Swipe](#tail-wipe)
+   + [Tail Swipe](#tail-swipe)
    + [Power Bite](#power-bite)
 - Active: Always
 - Can be found in:
@@ -1033,7 +1033,7 @@ An annoying rat.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Tail Swipe](#tail-wipe)
+   + [Tail Swipe](#tail-swipe)
 - Active: Always
 - Can be found in:
    + Nice Town
@@ -1330,7 +1330,7 @@ A fucking dangerous and enormous snake Pokete.
 - Rarity: 0.5
 - Loosing experience: 4
 - Attacks:
-   + [Choker](#chocer)
+   + [Choker](#choker)
    + [Bite](#bite)
    + [Poison Bite](#poison-bite)
    + [Power Bite](#power-bite)
@@ -1362,7 +1362,7 @@ w        w
 - Attacks:
    + [Poison Bite](#poison-bite)
    + [Bite](#bite)
-   + [Web attack](#webattack)
+   + [Web attack](#web-attack)
 - Active: Always
 - Can be found in:
    + Nowhere
@@ -1390,7 +1390,7 @@ W         W
 - Attacks:
    + [Poison Bite](#poison-bite)
    + [Bite](#bite)
-   + [Web attack](#webattack)
+   + [Web attack](#web-attack)
    + [Power Bite](#power-bite)
 - Active: Always
 - Can be found in:
@@ -1418,7 +1418,7 @@ A dangerous snake Pokete.
 - Rarity: 1
 - Loosing experience: 2
 - Attacks:
-   + [Choker](#chocer)
+   + [Choker](#choker)
    + [Bite](#bite)
    + [Poison Bite](#poison-bite)
 - Active: Always
@@ -1450,7 +1450,7 @@ A big and heavy stone made from one of the hardest materials.
 - Loosing experience: 5
 - Attacks:
    + [Snooze](#snooze)
-   + [Polish](#politure)
+   + [Polish](#polish)
    + [Brick Throw](#brick-throw)
 - Active: Always
 - Can be found in:
@@ -1479,7 +1479,7 @@ A precious diamond that can only be found in the darkest caves.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Polish](#politure)
+   + [Polish](#polish)
    + [Dazzle](#dazzle)
 - Active: Always
 - Can be found in:
@@ -1508,8 +1508,8 @@ A small but powerful stone Pokete that lives in the mountains.
 - Loosing experience: 2
 - Attacks:
    + [Tackle](#tackle)
-   + [Polish](#politure)
-   + [Pebble Fire](#pepple-fire)
+   + [Polish](#polish)
+   + [Pebble Fire](#pebble-fire)
 - Active: Always
 - Can be found in:
    + Nice Town Cave
@@ -1538,8 +1538,8 @@ A powerful and heavy stone Pokete that lives in mountain caves.
 - Loosing experience: 4
 - Attacks:
    + [Tackle](#tackle)
-   + [Polish](#politure)
-   + [Earthquake](#earch-quake)
+   + [Polish](#polish)
+   + [Earthquake](#earthquake)
 - Active: Always
 - Can be found in:
    + Big Mountain Sea
@@ -1568,7 +1568,7 @@ A squared stone that can be readily found just lying around.
 - Loosing experience: 3
 - Attacks:
    + [Tackle](#tackle)
-   + [Polish](#politure)
+   + [Polish](#polish)
    + [Stone crush](#stone-crush)
    + [Brick Throw](#brick-throw)
 - Active: Always
@@ -1814,7 +1814,7 @@ A crusty Pokete that loves to pinch big toes.
 - Attacks:
    + [Tackle](#tackle)
    + [Bubble Gun](#bubble-gun)
-   + [Earthquake](#earch-quake)
+   + [Earthquake](#earthquake)
    + [Shell Pinch](#shell-pinch)
 - Active: Always
 - Can be found in:
@@ -1902,7 +1902,7 @@ A crusty Pokete that will pinch your toes and check whether or not you borrowed 
 - Attacks:
    + [Toe Breaker](#toe-breaker)
    + [Bubble Gun](#bubble-gun)
-   + [Earthquake](#earch-quake)
+   + [Earthquake](#earthquake)
    + [Shell Pinch](#shell-pinch)
 - Active: Always
 - Can be found in:

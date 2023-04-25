@@ -52,9 +52,10 @@ You can find different versions of this wiki:
         An overview for a multi-page wiki.
         """
         return "Table of contents\n" + \
-"\n".join(f"{i+1}. [{name.capitalize()}]({'' if multi_page else '#'}{name})"
-          for i, name in enumerate(["poketes", "attacks", "types", "item",
-                                    "effects"])) + "\n"
+            "\n".join(
+                f"{i + 1}. [{name.capitalize()}]({'' if multi_page else '#'}{name})"
+                for i, name in enumerate(["poketes", "attacks", "types", "item",
+                                          "effects"])) + "\n"
 
     @staticmethod
     def get_name(poke):
@@ -96,7 +97,7 @@ You can find different versions of this wiki:
                 for j, atc in enumerate([k for k in sorted(attacks) if
                                          attacks[k]["types"][0] == typ]):
                     out += f"""       {j + 1}. [{attacks[atc]["name"]}](#{attacks[atc]["name"]
-                            .replace(" ", "-").lower()})\n"""
+                    .replace(" ", "-").lower()})\n"""
             out += """3. [Types](#types)
 4. [Items](#items)
 """
@@ -217,13 +218,15 @@ In the following all Poketes with their attributes are displayed.
             evolve_txt = "- Does not evolve\n"
         else:
             evolve_txt = f"""- Evolves to [{Wiki.get_name(evolve_pokete)}]({f'./{pokes[evolve_pokete]["types"][0]}'
-            if multi_page else ""}#{evolve_pokete}) at level {pokes[poke]['evolve_lvl']}"""
+            if multi_page else ""}#{evolve_pokete.replace("_", "-")}) at level {pokes[poke]['evolve_lvl']}"""
 
         md_attacks = "\n   + " + "\n   + ".join(f"""[{attacks[atc]["name"]}]({
-                            f'../attacks/{attacks[atc]["types"][0].capitalize()}'
-                                if multi_page else ""
-                            }#{atc.replace("_", "-")})"""
-                        for atc in pokes[poke]["attacks"])
+        f'../attacks/{attacks[atc]["types"][0].capitalize()}'
+        if multi_page else ""
+        }#{attacks[atc]["name"]
+                                                .replace(" ", "-").lower()})"""
+                                                for atc in
+                                                pokes[poke]["attacks"])
         # ico
         ico_map = se.Map(4, 11, background=" ")
         for ico in pokes[poke]["ico"]:
@@ -237,10 +240,11 @@ In the following all Poketes with their attributes are displayed.
         }[pokes[poke].get("night_active")]
 
         md_locations = "\n   + ".join(maps[i]["pretty_name"] for i in maps
-                                if maps[i]["poke_args"] is not None
-                                and poke in maps[i]["poke_args"]["pokes"]
-                                or "w_poke_args" in maps[i]
-                                and poke in maps[i]["w_poke_args"]["pokes"])
+                                      if maps[i]["poke_args"] is not None
+                                      and poke in maps[i]["poke_args"]["pokes"]
+                                      or "w_poke_args" in maps[i]
+                                      and poke in maps[i]["w_poke_args"][
+                                          "pokes"])
 
         return f"""
 ##{'' if multi_page else '##'} {Wiki.get_name(poke)}
@@ -355,7 +359,7 @@ Those are all attacks present in the game.
 {attacks[attack]["desc"]}
 
 - Type: [{attacks[attack]["types"][0].capitalize()}]({"../types" if multi_page
-                                                                 else "#types"})
+        else "#types"})
 - Minimum Level: {attacks[attack]["min_lvl"]}
 - Attack factor: {attacks[attack]["factor"]}
 - Missing chance: {attacks[attack]["miss_chance"]}
@@ -386,7 +390,8 @@ Those are all the Pokete/Attack types that are present in the game with all thei
 
         for poke_type in types:
             effective, ineffective = ("".join([i.capitalize() + (", "
-                                                                 if i != types[poke_type][j][-1]
+                                                                 if i != types[
+                poke_type][j][-1]
                                                                  else "")
                                                for i in types[poke_type][j]])
                                       for j in ["effective", "ineffective"])

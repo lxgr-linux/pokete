@@ -243,7 +243,7 @@ class BetterChooseBox(Box):
             The BetterChooseBoxItem at the coordinate"""
         return self.nest_label_obs[_y][_x]
 
-    def input(self, inp: Action):
+    def input(self, inp: ActionList):
         """Evaluates user input
         ARGS:
             inp: Inputted string"""
