@@ -103,7 +103,7 @@ class AttackBox(se.Box):
         with self.add(_map, 1, _map.height - 7):
             self.rechar_atk_box(attack_obs)
             self.map.show()
-            while True:#158
+            while True:
                 action = get_action()
                 if action.triggers(*ACTION_UP_DOWN):
                     self.box.input(action)

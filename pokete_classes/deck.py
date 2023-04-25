@@ -38,9 +38,7 @@ class Deck(detail.Informer):
         self.move_free.add(self.submap, 20, self.submap.height - 1)
 
     def rem_pokes(self):
-        """Removes all Poketes from the Deck
-        ARGS:
-            pokes: List of Pokes being removed"""
+        """Removes all Poketes from the Deck"""
         for poke in self.pokes:
             self.remove(poke)
 
@@ -213,8 +211,8 @@ class Deck(detail.Informer):
     def add_all(self, init=False, no_poke=False):
         """Adds all Poketes to the deck
         ARGS:
-            pokes: List of all Pokes being added
-            init: Whether or not this happens for the first time"""
+            init: Whether or not this happens for the first time
+            no_poke: Whether or not pokes should be added"""
         j = 0
         for i, poke in enumerate(self.pokes):
             if not no_poke:
@@ -230,7 +228,6 @@ class Deck(detail.Informer):
     def control(self, inp):
         """Processes inputs
         ARGS:
-            pokes: List of all Pokes in deck
             inp: Inputted string"""
         if len(self.pokes) <= 1:
             return

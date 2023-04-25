@@ -8,7 +8,7 @@ from release import SPEED_OF_TIME
 from .color import Color
 
 
-class Effect():
+class Effect:
     """An effect that can be given to a Pokete and that effects the Pokete
     during fights
     ARGS:
@@ -163,6 +163,7 @@ class EffectSleep(Effect):
 This is reverted randomly."
     c_name = "sleep"
     color = Color.white
+    
     def __init__(self, obj=None):
         super().__init__("sleeping", 4, 3, "(Sle)", self.color, obj)
 

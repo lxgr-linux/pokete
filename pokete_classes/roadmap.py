@@ -54,7 +54,9 @@ class Station(se.Square):
         """Chooses and hightlights the station"""
         self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
         Station.choosen = self
-        self.roadmap.rechar_info(self.name if self.has_been_visited() else "???")
+        self.roadmap.rechar_info(
+            self.name if self.has_been_visited() else "???"
+        )
 
     def unchoose(self):
         """Unchooses the station"""
@@ -65,7 +67,7 @@ class Station(se.Square):
         ARGS:
             inp: Action Enum"""
         for action in inp:
-            if action in (ACTION_DIRECTIONS):
+            if action in ACTION_DIRECTIONS:
                 inp = action
                 break
         inp = {
@@ -84,7 +86,7 @@ class Station(se.Square):
 
     def is_city(self):
         """Returns if the station is a city"""
-        return "pokecenter"\
+        return "pokecenter" \
             in p_data.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
@@ -111,7 +113,7 @@ class RoadMap:
             overview=mvp.movemap
         )
         self.info_label = se.Text("", state="float")
-        self.box.add_ob(self.info_label, self.box.width-2, 0)
+        self.box.add_ob(self.info_label, self.box.width - 2, 0)
         for sta, _dict in p_data.stations.items():
             obj = Station(self, obmp.ob_maps[sta], **_dict['gen'])
             self.box.add_ob(obj, **_dict['add'])
@@ -129,7 +131,7 @@ class RoadMap:
         self.info_label.remove()
         self.box.rem_ob(self.info_label)
         self.info_label.rechar(name)
-        self.box.add_ob(self.info_label, self.box.width-2-len(name), 0)
+        self.box.add_ob(self.info_label, self.box.width - 2 - len(name), 0)
 
     def __call__(self, _map, choose=False):
         """Shows the roadmap
@@ -141,7 +143,7 @@ class RoadMap:
         [i for i in Station.obs
          if (self.fig.map
              if self.fig.map not in [obmp.ob_maps[i] for i in
-                                            ["shopmap", "centermap"]]
+                                     ("shopmap", "centermap")]
              else self.fig.oldmap)
          in i.associates][0].choose()
         with self.box.center_add(_map):
@@ -158,7 +160,7 @@ class RoadMap:
                 elif (action.triggers(Action.ACCEPT) and not choose
                       and self.sta.has_been_visited()):
                     p_list = ", ".join(set(p_data.pokes[j]["name"]
-                                       for i in self.sta.associates
+                                           for i in self.sta.associates
                                            for j in
                                            i.poke_args.get("pokes", [])
                                            + i.w_poke_args.get("pokes", [])))

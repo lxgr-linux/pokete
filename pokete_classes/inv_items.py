@@ -24,7 +24,7 @@ class InvItem:
         pretty_name: The item's pretty name (Healing potion)
         desc: The item's description
         price: The item's price in the shop
-        fn: The associated method name in FightItems"""
+        _fn: The associated method name in FightItems"""
 
     def __init__(self, name, pretty_name, desc, price, _fn=None):
         self.name = name

@@ -60,6 +60,7 @@ class Action(Enum):
         """Returns the current mapped char"""
         return get_mapping(self, hotkey_mappings)
 
+
 class ActionList(list):
     """List of actions triggered by a key"""
 
@@ -92,6 +93,7 @@ class ActionList(list):
         if self.triggers(Action.LEFT):
             return -1
         return 0
+
 
 ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
 ACTION_UP_DOWN = (Action.UP, Action.DOWN)
@@ -155,6 +157,7 @@ hotkey_mappings = {
     'v': ActionList([Action.QUICK_ATC_4]),
 }
 
+
 def get_mapping(action, keys):
     """Returns the current mapped char"""
     for key, actions_list in keys.items():
@@ -162,10 +165,12 @@ def get_mapping(action, keys):
             return key
     return None
 
+
 def hotkeys_save():
     """Returns a save dict"""
     return {key: [i.name for i in value] for key, value in
             hotkey_mappings.items()}
+
 
 def hotkeys_from_save(save, _map, version_change):
     """Sets hotkey_mappings from save"""
@@ -206,6 +211,7 @@ Should defaults be loaded for those keys?"""):
 # to always be cleaned up when the following function returns nothing
 # I don't trust python to be smart enough to do this itself
 EMPTY_ACTIONLIST = ActionList()
+
 
 # Returns an action, then clears input; all input is valid to read only once
 def get_action() -> ActionList:

@@ -38,8 +38,10 @@ class Attack:
         self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
         self.label_desc = se.Text(self.desc[:10], state="float")
         self.label_type = se.Text("Type:", state="float") \
-                          + se.Text(self.type.name.capitalize(),
-                                    esccode=self.type.color, state="float")
+            + se.Text(
+                self.type.name.capitalize(),
+                esccode=self.type.color, state="float"
+            )
         self.pref = pref
         self.label = self.make_label()
 
@@ -47,9 +49,9 @@ class Attack:
         """Creates label
         RETURNS:
             New label"""
-        return se.Text(f"{self.pref}: ", state="float")\
-                + se.Text(self.name, esccode=self.type.color)\
-                + se.Text(f"-{self.ap}")
+        return se.Text(f"{self.pref}: ", state="float") \
+            + se.Text(self.name, esccode=self.type.color) \
+            + se.Text(f"-{self.ap}")
 
     def give_effect(self, enem):
         """Gives the associated effect to a Pokete
@@ -62,7 +64,7 @@ class Attack:
     def set_ap(self, _ap):
         """Sets attack points
         ARGS:
-            ap: Attack points"""
+            _ap: Attack points"""
         if _ap != "SKIP":
             self.ap = min(_ap, self.max_ap)
             self.label.rechar("")

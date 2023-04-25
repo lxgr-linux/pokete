@@ -8,57 +8,56 @@ from .hotkeys import Action, get_action
 from .ui_elements import Box
 from .loops import std_loop
 
-
 time = None
 clock = None
 
 letters = [
-""" ##
+    """ ##
 #  #
 #  #
 #  #
  ##""",
-"""  #
+    """  #
  ##
   #
   #
  ###""",
-""" ##
+    """ ##
 #  #
   #
  #
 ####""",
-""" ##
+    """ ##
 #  #
   #
 #  #
  ##""",
-"""  #
+    """  #
  ##
 ####
   #
   #""",
-"""####
+    """####
 #
 ###
    #
 ###""",
-"""  #
+    """  #
  #
 ###
 #  #
  ##""",
-"""####
+    """####
    #
   #
  #
 #""",
-""" ##
+    """ ##
 #  #
  ##
 #  #
  ##""",
-""" ##
+    """ ##
 #  #
  ###
   #
@@ -94,13 +93,14 @@ class Time:
     @property
     def normalized(self):
         """Returns normalized time"""
-        return self.time % (24*60)
+        return self.time % (24 * 60)
 
 
 class Clock(Box):
     """Clock class to display the current time
     ARGS:
-        time: Time object"""
+        time_ob: Time object
+        overview: The overview this happens on"""
 
     def __init__(self, time_ob, overview):
         self.time = time_ob

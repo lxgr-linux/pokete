@@ -5,9 +5,7 @@ from .color import Color
 
 
 class Types:
-    """Class to organize PokeTypes
-    ARGS:
-        p_data: p_data module"""
+    """Class to organize PokeTypese"""
 
     def __init__(self):
         for i, typ in p_data.types.items():
@@ -16,7 +14,7 @@ class Types:
             setattr(self, i, PokeSubType(i))
 
 
-class PokeType():
+class PokeType:
     """Type for Poketes and attacks
     ARGS:
         name: The types name

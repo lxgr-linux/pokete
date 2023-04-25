@@ -87,18 +87,18 @@ See [How to play](HowToPlay.md).
 ## Game depth
 Not only are there Poketes that are stronger than others, but also Poketes with different types, which are effective against some types and ineffective against others.
 
-Type|Effective against|Ineffective against
----|---|---
-Normal||
-Stone|Flying, Fire|Plant
-Plant|Stone, Ground, Water|Fire, Ice
-Water|Stone, Flying, Fire|Plant, Ice
-Fire|Flying, Plant, Undead, Ice|Stone, Water
-Ground|Normal|Flying
-Electro|Stone, Flying|Ground
-Flying|Plant|Stone
-Undead|Normal, Ground, Plant, Water|Fire
-Ice|Water, Plant|Fire
+| Type    | Effective against            | Ineffective against |
+|---------|------------------------------|---------------------|
+| Normal  |                              |                     |
+| Stone   | Flying, Fire                 | Plant               |
+| Plant   | Stone, Ground, Water         | Fire, Ice           |
+| Water   | Stone, Flying, Fire          | Plant, Ice          |
+| Fire    | Flying, Plant, Undead, Ice   | Stone, Water        |
+| Ground  | Normal                       | Flying              |
+| Electro | Stone, Flying                | Ground              |
+| Flying  | Plant                        | Stone               |
+| Undead  | Normal, Ground, Plant, Water | Fire                |
+| Ice     | Water, Plant                 | Fire                |
 
 For additional information you can see [wiki](wiki.md) or
 [the multi-page wiki](https://lxgr-linux.github.io/pokete/wiki-multi).

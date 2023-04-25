@@ -18,9 +18,9 @@ from .tss import tss
 class Movemap(gm.GameSubmap):
     """Movemap class to remove bad code
     ARGS:
-        ob_maps: Dict that contains all PlayMaps
         height: Height of the map
-        width: Width of the map"""
+        width: Width of the map
+        menu_cls: The class Menu"""
 
     def __init__(self, height, width, menu_cls):
         super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
@@ -135,7 +135,7 @@ class Movemap(gm.GameSubmap):
         ARGS:
             pokes: The player's Pokes"""
         self.balls_label.rechar("".join("-" if i >= len(pokes)
-                                or pokes[i].identifier == "__fallback__"\
+                                or pokes[i].identifier == "__fallback__"
                                         else "o" if pokes[i].hp > 0
                                         else "x"
                                         for i in range(6)), esccode=Color.thicc)
