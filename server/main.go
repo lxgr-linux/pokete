@@ -77,13 +77,11 @@ func handleRequests(res []byte, connection *net.Conn) error {
 }
 
 func processClient(connection net.Conn) {
-	defer connection.Close()
 	for {
 		buffer := make([]byte, 1024)
 		mLen, err := connection.Read(buffer)
 		if err != nil {
 			fmt.Println("Error reading:", err)
-			user_repository.RemoveByConn(&connection)
 			break
 		}
 		err = handleRequests(buffer[:mLen], &connection)
@@ -92,4 +90,6 @@ func processClient(connection net.Conn) {
 			break
 		}
 	}
+    _ = user_repository.RemoveByConn(&connection)
+    connection.Close()
 }

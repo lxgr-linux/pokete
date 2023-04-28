@@ -32,13 +32,21 @@ func Remove(name string) {
     delete(*users, name)
 }
 
-func RemoveByConn(conn *net.Conn) {
-    for name, user := range *users {
+func GetByConn(conn *net.Conn) (error, User){
+    for _, user := range *users {
         if user.Conn == conn {
-            Remove(name)
-            break
+            return nil, user
         }
     }
+    return fmt.Errorf("user with given connection was not found, somebody fucked up badly"), User{}
+}
+
+func RemoveByConn(conn *net.Conn) error {
+    err, user := GetByConn(conn); if err != nil {
+        return err
+    }
+    Remove(user.Name)
+    return nil
 }
 
 func GetAllUsers() (retUsers []User) {
@@ -46,6 +54,13 @@ func GetAllUsers() (retUsers []User) {
         retUsers = append(retUsers, user)
     }
     return 
+}
+
+func SetNewPositionToUser(name string, newPosition Position) error {
+    user := (*users)[name]
+    err := user.Position.Change(newPosition)
+    (*users)[name] = user
+    return err
 }
 
 func GetStartPosition() Position {

@@ -1,8 +1,8 @@
 package requests
 
 import (
-	"fmt"
-	"github.com/lxgr-linux/pokete/server/config"
+    "fmt"
+    "github.com/lxgr-linux/pokete/server/config"
 	"github.com/lxgr-linux/pokete/server/responses"
 	"github.com/lxgr-linux/pokete/server/user_repository"
 	"net"
@@ -24,10 +24,33 @@ type Request[T RequestBody] struct {
 	Body T
 }
 
-type RequestPosition user_repository.Position
+type RequestPosition struct {
+    user_repository.Position
+}
 
-func (r RequestPosition) Handle(_ *net.Conn) error {
-	fmt.Println("Yes")
+func (r RequestPosition) Handle(connection *net.Conn) error {
+    users := user_repository.GetAllUsers()
+    err, thisUser := user_repository.GetByConn(connection); if err != nil {
+        return err
+    }
+    err = user_repository.SetNewPositionToUser(thisUser.Name, r.Position); if err != nil {
+        err = responses.WritePositionImplausibleResponse(connection, err.Error()); if err != nil {
+            return err
+        }
+        return fmt.Errorf("connection closed")
+    }
+    err, thisUser = user_repository.GetByConn(connection); if err != nil {
+        return err
+    }
+    for _, user := range users {
+        if user.Conn != connection {
+            err := responses.WritePositionChangeResponse(user.Conn, thisUser)
+            if err != nil {
+                return err
+            }
+        }
+    }
+
 	return nil
 }
 
@@ -50,9 +73,7 @@ func (r RequestHandshake) Handle(connection *net.Conn) error {
 		if err != nil {
 			return err
 		}
-		(*connection).Close()
-
-		return nil
+        return fmt.Errorf("connection closed")
 	}
 
 	err := user_repository.Add(newUser)
@@ -62,9 +83,7 @@ func (r RequestHandshake) Handle(connection *net.Conn) error {
 		if err != nil {
 			return err
 		}
-		(*connection).Close()
-
-		return nil
+        return fmt.Errorf("connection closed")
 	}
 
 	for _, user := range users {

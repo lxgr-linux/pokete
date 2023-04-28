@@ -2,9 +2,9 @@ package responses
 
 import (
 	"encoding/json"
-    "fmt"
-    "github.com/lxgr-linux/pokete/server/config"
-    "github.com/lxgr-linux/pokete/server/map_repository"
+	"fmt"
+	"github.com/lxgr-linux/pokete/server/config"
+	"github.com/lxgr-linux/pokete/server/map_repository"
 	"github.com/lxgr-linux/pokete/server/user_repository"
 	"net"
 )
@@ -16,6 +16,7 @@ const (
 	ResponseType_POSITION_CHANGE
 	ResponseType_USER_ALLREADY_PRESENT
 	ResponseType_VERSION_MISMATCH
+	ResponseType_POSITION_IMPLAUSIBLE
 )
 
 func writeResponse(connection *net.Conn, response Response) error {
@@ -63,12 +64,22 @@ func WriteUserAllreadyTakenResponse(connection *net.Conn) error {
 	)
 }
 
+func WritePositionImplausibleResponse(connection *net.Conn, message string) error {
+	return writeResponse(
+		connection,
+		Response{
+			Type: ResponseType_POSITION_IMPLAUSIBLE,
+			Body: message,
+		},
+	)
+}
+
 func WriteVersionMismatchResponse(connection *net.Conn) error {
 	return writeResponse(
 		connection,
 		Response{
 			Type: ResponseType_VERSION_MISMATCH,
-            Body: fmt.Sprintf("Required version is %s", config.Get().ClientVersion),
+			Body: fmt.Sprintf("Required version is %s", config.Get().ClientVersion),
 		},
 	)
 }
