@@ -20,6 +20,7 @@ from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
+from pokete_classes.multiplayer.menu import ModeChooser
 from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
@@ -1284,6 +1285,7 @@ def main():
     if figure.name == "DEFAULT":
         intro()
         game_map = obmp.ob_maps["intromap"]
+    ModeChooser()()
     while True:
         try:
             _game(game_map)
