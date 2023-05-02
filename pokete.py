@@ -20,6 +20,7 @@ from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import animations
+from pokete_classes.multiplayer.connector import connector
 from pokete_classes.multiplayer.menu import ModeChooser
 from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
@@ -928,6 +929,7 @@ def exiter():
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
+    connector.ensure_closure()
     if audio.curr is not None:
         audio.kill()
 

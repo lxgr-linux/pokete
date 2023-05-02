@@ -7,7 +7,7 @@ from pokete_classes.loops import std_loop
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.tss import tss
 from pokete_classes.ui_elements import BetterChooseBox
-from pokete_classes import movemap as mvp
+from .connector import connector
 
 
 class PreGameMap(gm.GameSubmap):
@@ -29,9 +29,9 @@ class ModeChooser(BetterChooseBox):
         )
         super().__init__(
             1, [
-                se.Text("Singleplayer"),
-                se.Text("Multiplayer"),
-                se.Text("Leave..."),
+                se.Text("Singleplayer", state="float"),
+                se.Text("Multiplayer", state="float"),
+                se.Text("Leave...", state="float"),
             ], name="Mode",
             overview=self.map,
             _map=self.map
@@ -53,7 +53,7 @@ class ModeChooser(BetterChooseBox):
                             return
                         elif num == 1:
                             modeProvider.mode = Mode.MULTI
-                            # Connection entrypoint here
+                            connector(self.map, self)
                             return
                         else:
                             sys.exit()

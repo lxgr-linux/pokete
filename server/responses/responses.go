@@ -25,7 +25,7 @@ func writeResponse(connection *net.Conn, response Response) error {
 		return err
 	}
 
-	_, err = (*connection).Write(resp)
+    _, err = (*connection).Write(append(resp, []byte("<END>")...))
 	if err != nil {
 		return err
 	}
