@@ -14,12 +14,14 @@ type User struct {
 }
 
 type Position struct {
+    Map string
 	X uint64
 	Y uint32
 }
 
 func (p *Position) Change(newPosition Position) error {
 	if p.isPlausible(newPosition) {
+        p.Map = newPosition.Map
 		p.X = newPosition.X
 		p.Y = newPosition.Y
 		return nil
@@ -28,12 +30,12 @@ func (p *Position) Change(newPosition Position) error {
 }
 
 func (p Position) isPlausible(newPosition Position) bool {
-	return slices.Contains(
+	return p.Map == newPosition.Map && slices.Contains(
 		[]Position{
-			{p.X, p.Y + 1},
-			{p.X, p.Y - 1},
-			{p.X + 1, p.Y},
-			{p.X - 1, p.Y},
+            {p.Map, p.X, p.Y + 1,},
+            {p.Map, p.X, p.Y - 1},
+            {p.Map, p.X + 1, p.Y},
+            {p.Map, p.X - 1, p.Y},
 		},
 		newPosition,
 	)

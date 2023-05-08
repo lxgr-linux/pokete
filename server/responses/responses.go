@@ -25,7 +25,7 @@ func writeResponse(connection *net.Conn, response Response) error {
 		return err
 	}
 
-    _, err = (*connection).Write(append(resp, []byte("<END>")...))
+	_, err = (*connection).Write(append(resp, []byte("<END>")...))
 	if err != nil {
 		return err
 	}
@@ -38,8 +38,10 @@ type Response struct {
 }
 
 type MapResponse struct {
-	Obmap    map_repository.Obmap
-	Map      map_repository.Map
+	Obmaps   map_repository.Obmaps
+	Maps     map_repository.Maps
+	NPCs     map_repository.NPCs
+	Trainers map_repository.Trainers
 	Position user_repository.Position
 	Users    []user_repository.User
 }
@@ -90,8 +92,10 @@ func WriteMapResponse(connection *net.Conn, position user_repository.Position, u
 		Response{
 			Type: ResponseType_MAP,
 			Body: MapResponse{
-				Obmap:    map_repository.GetObmap(),
-				Map:      map_repository.GetMap(),
+				Obmaps:   map_repository.GetObmaps(),
+				Maps:     map_repository.GetMaps(),
+				NPCs:     map_repository.GetNPCs(),
+				Trainers: map_repository.GetTrainers(),
 				Position: position,
 				Users:    users,
 			},

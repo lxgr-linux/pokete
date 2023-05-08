@@ -3,8 +3,8 @@ package config
 import (
 	"os"
 	"sync"
-    
-    "github.com/joho/godotenv"
+
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -12,6 +12,7 @@ type Config struct {
 	ServerPort    string
 	ServerType    string
 	ClientVersion string
+	EntryMap      string
 }
 
 var (
@@ -28,17 +29,18 @@ func getEnvWithFallBack(envName, fallback string) (env string) {
 }
 
 func Init() {
-    godotenv.Load(".env")
+	godotenv.Load(".env")
 	once.Do(func() {
 		config = &Config{
 			ServerHost:    getEnvWithFallBack("POKETE_SERVER_HOST", "localhost"),
 			ServerPort:    getEnvWithFallBack("POKETE_SERVER_PORT", "9988"),
 			ServerType:    getEnvWithFallBack("POKETE_SERVER_TYPE", "tcp"),
 			ClientVersion: getEnvWithFallBack("POKETE_SERVER_CLIENT_VERSION", "0.9.1"),
+			EntryMap:      getEnvWithFallBack("POKETE_SERVER_CLIENT_ENTRYMAP", "playmap_1"),
 		}
 	})
 }
 
 func Get() Config {
-    return *config
+	return *config
 }

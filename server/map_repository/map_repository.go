@@ -6,33 +6,39 @@ import (
 	"sync"
 )
 
-const (
-	MAP = "playmap_18"
+var (
+	obmaps   *Obmaps
+	maps     *Maps
+	npcs     *NPCs
+	trainers *Trainers
+	once     sync.Once
 )
 
-var (
-	obmaps *Obmaps
-	maps   *Maps
-	once   sync.Once
-)
+func readFile[T any](fileName string) (temp T, err error) {
+	content, err := os.ReadFile(fileName)
+	if err != nil {
+		return
+	}
+
+	err = json.Unmarshal(content, &temp)
+
+	return
+}
 
 func Read() error {
-	mapDataContent, err := os.ReadFile("res/map_data.json")
+	tempObmaps, err := readFile[Obmaps]("res/map_data.json")
 	if err != nil {
 		return err
 	}
-	mapContent, err := os.ReadFile("res/maps.json")
+	tempMaps, err := readFile[Maps]("res/maps.json")
 	if err != nil {
 		return err
 	}
-
-	tempObmaps := Obmaps{}
-	tempMaps := Maps{}
-	err = json.Unmarshal(mapDataContent, &tempObmaps)
+	tempNPCs, err := readFile[NPCs]("res/npcs.json")
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(mapContent, &tempMaps)
+	tempTrainers, err := readFile[Trainers]("res/trainers.json")
 	if err != nil {
 		return err
 	}
@@ -40,15 +46,25 @@ func Read() error {
 	once.Do(func() {
 		obmaps = &tempObmaps
 		maps = &tempMaps
+		npcs = &tempNPCs
+		trainers = &tempTrainers
 	})
 
 	return nil
 }
 
-func GetObmap() Obmap {
-	return (*obmaps)[MAP]
+func GetObmaps() Obmaps {
+	return *obmaps
 }
 
-func GetMap() Map {
-	return (*maps)[MAP]
+func GetMaps() Maps {
+	return *maps
+}
+
+func GetNPCs() NPCs {
+	return *npcs
+}
+
+func GetTrainers() Trainers {
+	return *trainers
 }

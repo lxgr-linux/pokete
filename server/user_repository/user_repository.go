@@ -2,8 +2,9 @@ package user_repository
 
 import (
 	"fmt"
-    "net"
-    "sync"
+	"github.com/lxgr-linux/pokete/server/config"
+	"net"
+	"sync"
 )
 
 var users *map[string]User
@@ -29,43 +30,45 @@ func Add(user User) error {
 }
 
 func Remove(name string) {
-    delete(*users, name)
+	delete(*users, name)
 }
 
-func GetByConn(conn *net.Conn) (error, User){
-    for _, user := range *users {
-        if user.Conn == conn {
-            return nil, user
-        }
-    }
-    return fmt.Errorf("user with given connection was not found, somebody fucked up badly"), User{}
+func GetByConn(conn *net.Conn) (error, User) {
+	for _, user := range *users {
+		if user.Conn == conn {
+			return nil, user
+		}
+	}
+	return fmt.Errorf("user with given connection was not found, somebody fucked up badly"), User{}
 }
 
 func RemoveByConn(conn *net.Conn) error {
-    err, user := GetByConn(conn); if err != nil {
-        return err
-    }
-    Remove(user.Name)
-    return nil
+	err, user := GetByConn(conn)
+	if err != nil {
+		return err
+	}
+	Remove(user.Name)
+	return nil
 }
 
 func GetAllUsers() (retUsers []User) {
-    for _, user := range *users {
-        retUsers = append(retUsers, user)
-    }
-    return 
+	for _, user := range *users {
+		retUsers = append(retUsers, user)
+	}
+	return
 }
 
 func SetNewPositionToUser(name string, newPosition Position) error {
-    user := (*users)[name]
-    err := user.Position.Change(newPosition)
-    (*users)[name] = user
-    return err
+	user := (*users)[name]
+	err := user.Position.Change(newPosition)
+	(*users)[name] = user
+	return err
 }
 
 func GetStartPosition() Position {
 	return Position{
-		X: 4,
-		Y: 4,
+		Map: config.Get().EntryMap,
+		X:   10,
+		Y:   10,
 	}
 }

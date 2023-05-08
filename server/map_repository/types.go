@@ -50,3 +50,41 @@ type PokeArgs struct {
 	Minlvl int32    `json:"minlvl"`
 	Maxlvl int32    `json:"maxlvl"`
 }
+
+type NPCs map[string]NPC
+
+type NPC struct {
+	Texts []string `json:"texts"`
+	Fn   *string  `json:"fn"`
+	Map  string   `json:"map"`
+	X    int32    `json:"x"`
+	Y    int32    `json:"y"`
+	Chat *Chat    `json:"chat"`
+}
+
+type Chat struct {
+	Q []string        `json:"q"`
+	A map[string]Chat `json:"a"`
+}
+
+type Trainers map[string][]Trainer
+
+type Trainer struct {
+	Pokes []TrainerPokeArgs `json:"pokes"`
+	Args  TrainerArgs       `json:"args"`
+}
+
+type TrainerPokeArgs struct {
+	Name string `json:"name"`
+	Xp   int32  `json:"xp"`
+}
+
+type TrainerArgs struct {
+	Name      string   `json:"name"`
+	Gender    string   `json:"gender"`
+	Texts     []string `json:"texts"`
+	LoseTexts []string `json:"lose_texts"`
+	WinTexts  []string `json:"win_texts"`
+	X         int32    `json:"x"`
+	Y         int32    `json:"y"`
+}

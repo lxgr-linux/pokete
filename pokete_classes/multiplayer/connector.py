@@ -1,7 +1,10 @@
 import socket
 import json
+import logging
 
 import release
+from pokete_classes import ob_maps as obmp
+from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.input import ask_text, ask_ok
 
 END_SECTION = b"<END>"
@@ -15,6 +18,7 @@ class Connector:
         self.connection = None
         self.map = None
         self.overview = None
+        self.figure = None
 
     def __call__(self, _map, overview):
         self.map = _map
@@ -33,7 +37,7 @@ class Connector:
                 self.host + ":" + self.port if self.host else "",
                 "Host",
                 20,
-                self.overview
+                self.overview,
             )
         splid = unified_host_port.split(":")
         if len(splid) == 1:
@@ -45,13 +49,13 @@ class Connector:
     def ask_user_name(self, reask=False):
         self.user_name = ask_text(
             self.map,
-            ("That username isn't awailable right now\n" if reask else "") +
-            "Please enter the username you want to use on the server",
+            ("That username isn't awailable right now\n" if reask else "")
+            + "Please enter the username you want to use on the server",
             "Username:",
             self.user_name,
             "Username",
             20,
-            self.overview
+            self.overview,
         )
 
     def establish_connection(self):
@@ -63,9 +67,9 @@ class Connector:
                 self.map,
                 f"An error occured connecting to {self.host}:{self.port} :\n"
                 f"{excpt}",
-                self.overview
+                self.overview,
             )
-            
+
     def handshake(self):
         self.connection.sendall(
             str.encode(
@@ -74,8 +78,8 @@ class Connector:
                         "Type": 1,
                         "Body": {
                             "UserName": self.user_name,
-                            "Version": release.VERSION
-                        }
+                            "Version": release.VERSION,
+                        },
                     }
                 )
             )
@@ -85,21 +89,35 @@ class Connector:
             self.establish_connection()
             self.handshake()
         elif d["Type"] == 3:
-            ask_ok(
-                self.map,
-                f"Version mismatch: {d['Body']}",
-                self.overview
+            ask_ok(self.map, f"Version mismatch: {d['Body']}", self.overview)
+        elif d["Type"] == 0:
+            obmp.ob_maps = gen_maps(d["Body"]["Maps"])
+            gen_obs(
+                d["Body"]["Obmaps"],
+                d["Body"]["NPCs"],
+                d["Body"]["Trainers"],
+                self.figure,
             )
-            
+            pos = d["Body"]["Position"]
+            self.figure.remove()
+            self.figure.add(
+                obmp.ob_maps[pos["Map"]], pos["X"], pos["Y"]
+            )
+
     def receive_data(self):
         data = self.connection.recv(1048576)
         while data[-len(END_SECTION):] != END_SECTION:
             data += self.connection.recv(1048576)
-        return json.loads(data[:-len(END_SECTION)])
+        ret = json.loads(data[: -len(END_SECTION)])
+        logging.info("[Connector] Received data: %s", ret)
+        return ret
 
     def ensure_closure(self):
         if self.connection:
             self.connection.close()
+
+    def set_args(self, figure):
+        self.figure = figure
 
 
 connector = Connector()
