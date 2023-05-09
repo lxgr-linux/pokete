@@ -23,6 +23,7 @@ from pokete_classes import animations
 from pokete_classes.map_additions.map_addtions import map_additions
 import pokete_classes.multiplayer.connector as connector
 from pokete_classes.multiplayer.menu import ModeChooser
+from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
@@ -718,15 +719,22 @@ def autosave():
 
 def save():
     """Saves all relevant data to savefile"""
+    _map = figure.map.name
+    old_map = figure.oldmap.name
+    x = figure.x
+    y = figure.y
+    if modeProvider.mode == Mode.MULTI:
+        _map, old_map, x, y = connector.connector.saved_pos
+
     _si = {
         "user": figure.name,
         "represent_char": figure.char,
         "ver": VERSION,
-        "map": figure.map.name,
-        "oldmap": figure.oldmap.name,
+        "map": _map,
+        "oldmap": old_map,
         "last_center_map": figure.last_center_map.name,
-        "x": figure.x,
-        "y": figure.y,
+        "x": x,
+        "y": y,
         "achievements": achievements.achieved,
         "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,

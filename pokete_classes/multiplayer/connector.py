@@ -19,6 +19,7 @@ class Connector:
         self.map = None
         self.overview = None
         self.figure = None
+        self.saved_pos = ()
 
     def __call__(self, _map, overview):
         self.map = _map
@@ -99,6 +100,12 @@ class Connector:
                 self.figure,
             )
             pos = d["Body"]["Position"]
+            self.saved_pos = (
+                self.figure.map.name,
+                self.figure.oldmap.name,
+                self.figure.x,
+                self.figure.y,
+            )
             self.figure.remove()
             self.figure.add(
                 obmp.ob_maps[pos["Map"]], pos["X"], pos["Y"]

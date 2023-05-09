@@ -52,8 +52,8 @@ class ModeChooser(BetterChooseBox):
                             modeProvider.mode = Mode.SINGLE
                             return
                         elif num == 1:
-                            modeProvider.mode = Mode.MULTI
                             connector.connector(self.map, self)
+                            modeProvider.mode = Mode.MULTI
                             return
                         else:
                             sys.exit()
