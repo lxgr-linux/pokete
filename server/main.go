@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/lxgr-linux/pokete/server/config"
-	"github.com/lxgr-linux/pokete/server/user_repository"
-	"net"
+    "github.com/lxgr-linux/pokete/server/status"
+    "github.com/lxgr-linux/pokete/server/user_repository"
+    "log"
+    "net"
 	"os"
 
 	"github.com/lxgr-linux/pokete/server/map_repository"
@@ -19,22 +20,23 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Println("Server Running...")
+	log.Print("Server Running...")
 	server, err := net.Listen(config.Get().ServerType, config.Get().ServerHost+":"+config.Get().ServerPort)
 	if err != nil {
-		fmt.Println("Error listening:", err.Error())
+		log.Print("Error listening:", err.Error())
 		os.Exit(1)
 	}
 	defer server.Close()
-	fmt.Println("Listening on " + config.Get().ServerHost + ":" + config.Get().ServerPort)
-	fmt.Println("Waiting for client...")
+    go status.HandleRequests()
+	log.Print("Listening on " + config.Get().ServerHost + ":" + config.Get().ServerPort)
+	log.Print("Waiting for client...")
 	for {
 		connection, err := server.Accept()
 		if err != nil {
-			fmt.Println("Error accepting: ", err.Error())
+			log.Print("Error accepting: ", err.Error())
 			os.Exit(1)
 		}
-		fmt.Println("client connected")
+		log.Print("client connected")
 		go processClient(connection)
 	}
 }
@@ -68,7 +70,7 @@ func handleRequests(res []byte, connection *net.Conn) error {
 		}
 	}
 
-	fmt.Printf("%#v\n", genericResponseObject)
+	log.Printf("%#v\n", genericResponseObject)
 	err = genericResponseObject.Body.Handle(connection)
 	if err != nil {
 		return err
@@ -81,12 +83,12 @@ func processClient(connection net.Conn) {
 		buffer := make([]byte, 1024)
 		mLen, err := connection.Read(buffer)
 		if err != nil {
-			fmt.Println("Error reading:", err)
+			log.Print("Error reading:", err)
 			break
 		}
 		err = handleRequests(buffer[:mLen], &connection)
 		if err != nil {
-			fmt.Println("Error handeling:", err.Error())
+			log.Print("Error handeling:", err.Error())
 			break
 		}
 	}

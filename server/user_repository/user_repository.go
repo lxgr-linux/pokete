@@ -58,6 +58,13 @@ func GetAllUsers() (retUsers []User) {
 	return
 }
 
+func GetAllUserNames() (names []string) {
+    for _, user := range *users {
+        names = append(names, user.Name)
+    }
+    return
+}
+
 func SetNewPositionToUser(name string, newPosition Position) error {
 	user := (*users)[name]
 	err := user.Position.Change(newPosition)
