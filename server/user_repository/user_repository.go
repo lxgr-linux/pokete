@@ -68,7 +68,7 @@ func SetNewPositionToUser(name string, newPosition Position) error {
 func GetStartPosition() Position {
 	return Position{
 		Map: config.Get().EntryMap,
-		X:   10,
-		Y:   10,
+		X:   2,
+		Y:   9,
 	}
 }
