@@ -1,4 +1,6 @@
 import sys
+import threading
+
 import scrap_engine as se
 
 import pokete_classes.game_map as gm
@@ -8,10 +10,11 @@ from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.tss import tss
 from pokete_classes.ui_elements import BetterChooseBox
 from . import connector
+from .response_manager import ResponseManager
 
 
 class PreGameMap(gm.GameSubmap):
-    
+
     def resize_view(self):
         """Manages recursive view resizing"""
         self.resize(tss.height - 1, tss.width, " ")
@@ -19,7 +22,7 @@ class PreGameMap(gm.GameSubmap):
 
 
 class ModeChooser(BetterChooseBox):
-    
+
     def __init__(self):
         self.map = PreGameMap(
             se.Map(0, 0, " "),
@@ -36,7 +39,7 @@ class ModeChooser(BetterChooseBox):
             overview=self.map,
             _map=self.map
         )
-        
+
     def __call__(self):
         with self:
             while True:
@@ -54,9 +57,12 @@ class ModeChooser(BetterChooseBox):
                         elif num == 1:
                             connector.connector(self.map, self)
                             modeProvider.mode = Mode.MULTI
+                            threading.Thread(
+                                target=ResponseManager(),
+                                daemon=True
+                            ).start()
                             return
                         else:
                             sys.exit()
                 std_loop(box=self)
                 self.map.show()
-        
