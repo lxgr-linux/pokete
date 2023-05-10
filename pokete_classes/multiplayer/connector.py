@@ -23,9 +23,11 @@ class Connector:
 
     def __call__(self, _map, overview):
         self.map = _map
-        self.set_host_port()
-        self.ask_user_name()
-        self.establish_connection()
+        conn_succ = False
+        while not conn_succ:
+            self.set_host_port()
+            self.ask_user_name()
+            conn_succ = self.establish_connection()
         self.handshake()
 
     def set_host_port(self):
@@ -35,16 +37,17 @@ class Connector:
                 self.map,
                 "Please enter the servers host you want to connect to.",
                 "Host:",
-                self.host + ":" + self.port if self.host else "",
+                f"{self.host}:{self.port}" if self.host else "",
                 "Host",
                 20,
                 self.overview,
             )
         splid = unified_host_port.split(":")
+        logging.info(splid)
         if len(splid) == 1:
             self.port = 9988
         else:
-            self.port = splid[1]
+            self.port = int(splid[1])
         self.host = splid[0]
 
     def ask_user_name(self, reask=False):
@@ -63,6 +66,7 @@ class Connector:
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             self.connection.connect((self.host, self.port))
+            return True
         except Exception as excpt:
             ask_ok(
                 self.map,
@@ -70,6 +74,7 @@ class Connector:
                 f"{excpt}",
                 self.overview,
             )
+            return False
 
     def handshake(self):
         self.connection.sendall(
