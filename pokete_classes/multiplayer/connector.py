@@ -76,6 +76,22 @@ class Connector:
             )
             return False
 
+    def send_pos_update(self, _map, x, y):
+        self.connection.sendall(
+            str.encode(
+                json.dumps(
+                    {
+                        "Type": 0,
+                        "Body": {
+                            "Map": _map,
+                            "X": x,
+                            "Y": y,
+                        },
+                    }
+                )
+            )
+        )
+
     def handshake(self):
         self.connection.sendall(
             str.encode(

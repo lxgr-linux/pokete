@@ -336,6 +336,10 @@ class Figure(se.Object, ProtoFigure):
         mvp.movemap.balls_label_rechar(self.pokes)
         mvp.movemap.add_obs()
 
+    def set(self, x, y):
+        if super().set(x, y) == 0 and modeProvider.mode == Mode.MULTI:
+            connector.connector.send_pos_update(self.map.name, x, y)
+
     def add_money(self, money):
         """Adds money
         ARGS:
