@@ -17,6 +17,7 @@ const (
 	ResponseType_USER_ALLREADY_PRESENT
 	ResponseType_VERSION_MISMATCH
 	ResponseType_POSITION_IMPLAUSIBLE
+	ResponseType_USER_REMOVED
 )
 
 func writeResponse(connection *net.Conn, response Response) error {
@@ -82,6 +83,16 @@ func WriteVersionMismatchResponse(connection *net.Conn) error {
 		Response{
 			Type: ResponseType_VERSION_MISMATCH,
 			Body: fmt.Sprintf("Required version is %s", config.Get().ClientVersion),
+		},
+	)
+}
+
+func WriteUserRemovedResponse(connection *net.Conn, userName string) error {
+	return writeResponse(
+		connection,
+		Response{
+			Type: ResponseType_USER_REMOVED,
+			Body: userName,
 		},
 	)
 }

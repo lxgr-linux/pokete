@@ -6,6 +6,7 @@ import release
 from pokete_classes import ob_maps as obmp
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.input import ask_text, ask_ok
+from pokete_classes.multiplayer.pc_manager import pc_manager
 
 END_SECTION = b"<END>"
 
@@ -128,9 +129,15 @@ class Connector:
                 self.figure.y,
             )
             self.figure.remove()
-            self.figure.add(
-                obmp.ob_maps[pos["Map"]], pos["X"], pos["Y"]
-            )
+            self.figure.add(obmp.ob_maps[pos["Map"]], pos["X"], pos["Y"])
+            if d["Body"]["Users"]:
+                for user in d["Body"]["Users"]:
+                    pc_manager.set(
+                        user["Name"],
+                        user["Position"]["Map"],
+                        user["Position"]["X"],
+                        user["Position"]["Y"],
+                    )
 
     def receive_data(self):
         data = self.connection.recv(1048576)

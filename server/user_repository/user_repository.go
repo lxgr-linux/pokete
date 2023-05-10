@@ -33,17 +33,17 @@ func Remove(name string) {
 	delete(*users, name)
 }
 
-func GetByConn(conn *net.Conn) (error, User) {
+func GetByConn(conn *net.Conn) (User, error) {
 	for _, user := range *users {
 		if user.Conn == conn {
-			return nil, user
+			return user, nil
 		}
 	}
-	return fmt.Errorf("user with given connection was not found, somebody fucked up badly"), User{}
+    return User{}, fmt.Errorf("user with given connection was not found, somebody fucked up badly")
 }
 
 func RemoveByConn(conn *net.Conn) error {
-	err, user := GetByConn(conn)
+	user, err := GetByConn(conn)
 	if err != nil {
 		return err
 	}

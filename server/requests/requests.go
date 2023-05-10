@@ -30,7 +30,7 @@ type RequestPosition struct {
 
 func (r RequestPosition) Handle(connection *net.Conn) error {
     users := user_repository.GetAllUsers()
-    err, thisUser := user_repository.GetByConn(connection); if err != nil {
+    thisUser, err := user_repository.GetByConn(connection); if err != nil {
         return err
     }
     err = user_repository.SetNewPositionToUser(thisUser.Name, r.Position); if err != nil {
@@ -39,7 +39,7 @@ func (r RequestPosition) Handle(connection *net.Conn) error {
         }
         return fmt.Errorf("connection closed")
     }
-    err, thisUser = user_repository.GetByConn(connection); if err != nil {
+    thisUser, err = user_repository.GetByConn(connection); if err != nil {
         return err
     }
     for _, user := range users {

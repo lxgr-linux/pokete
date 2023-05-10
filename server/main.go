@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/lxgr-linux/pokete/server/config"
+    "github.com/lxgr-linux/pokete/server/responses"
     "github.com/lxgr-linux/pokete/server/status"
     "github.com/lxgr-linux/pokete/server/user_repository"
     "log"
@@ -78,6 +79,16 @@ func handleRequests(res []byte, connection *net.Conn) error {
 	return nil
 }
 
+func removeUser(connection *net.Conn) error {
+    thisUser, err := user_repository.GetByConn(connection)
+    err = user_repository.RemoveByConn(connection)
+    for _, user := range user_repository.GetAllUsers() {
+        err = responses.WriteUserRemovedResponse(user.Conn, thisUser.Name)
+    }
+    err = (*connection).Close()
+    return err
+}
+
 func processClient(connection net.Conn) {
 	for {
 		buffer := make([]byte, 1024)
@@ -88,10 +99,12 @@ func processClient(connection net.Conn) {
 		}
 		err = handleRequests(buffer[:mLen], &connection)
 		if err != nil {
-			log.Print("Error handeling:", err.Error())
+			log.Print("Error handeling:", err)
 			break
 		}
 	}
-    _ = user_repository.RemoveByConn(&connection)
-    connection.Close()
+    err := removeUser(&connection)
+    if err != nil {
+        log.Print("Error closing:", err)
+    }
 }
