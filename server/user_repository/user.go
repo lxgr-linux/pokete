@@ -30,9 +30,9 @@ func (p *Position) Change(newPosition Position) error {
 }
 
 func (p Position) isPlausible(newPosition Position) bool {
-	return p.Map == newPosition.Map && slices.Contains(
+	return p.Map != newPosition.Map || slices.Contains(
 		[]Position{
-            {p.Map, p.X, p.Y + 1,},
+            {p.Map, p.X, p.Y + 1},
             {p.Map, p.X, p.Y - 1},
             {p.Map, p.X + 1, p.Y},
             {p.Map, p.X - 1, p.Y},

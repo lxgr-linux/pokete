@@ -8,7 +8,7 @@ from .landscape import Meadow, Water, Sand, Poketeball
 from .classes import PlayMap
 from .npcs import Trainer
 from .poke import Poke
-from .doors import Door
+from .doors import Door, DoorToShop, DoorToCenter
 from .npcs import NPC
 from .settings import settings
 from . import ob_maps as obmp
@@ -93,6 +93,14 @@ def gen_obs(map_data, npcs, trainers, figure):
                 parse_obj(_map, ball,
                           Poketeball(f"{ob_map}.{ball}"),
                           single_ball)
+        if "special_dors" in single_map:
+            for name, cls in [("dor", DoorToCenter), ("shopdor", DoorToShop)]:
+                if name in single_map["special_dors"]:
+                    obj = cls()
+                    setattr(_map, name, obj)
+                    obj.add(_map, single_map["special_dors"][name]["x"],
+                            single_map["special_dors"][name]["y"])
+
     # NPCs
     for npc, _npc in npcs.items():
         NPC(npc, _npc["texts"], _fn=_npc["fn"],

@@ -337,8 +337,16 @@ class Figure(se.Object, ProtoFigure):
         mvp.movemap.add_obs()
 
     def set(self, x, y):
-        if super().set(x, y) == 0 and modeProvider.mode == Mode.MULTI:
-            connector.connector.send_pos_update(self.map.name, x, y)
+        if super().set(x, y) == 0:
+            self.update_server_pos()
+
+    def add(self, _map, x, y):
+        if super().add(_map, x, y) == 0:
+            self.update_server_pos()
+
+    def update_server_pos(self):
+        if modeProvider.mode == Mode.MULTI:
+            connector.connector.send_pos_update(self.map.name, self.x, self.y)
 
     def add_money(self, money):
         """Adds money

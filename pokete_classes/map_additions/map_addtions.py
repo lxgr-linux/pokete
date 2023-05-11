@@ -1,7 +1,7 @@
 import scrap_engine as se
 
 import pokete_data as p_data
-from pokete_classes.doors import DoorToCenter, Door, DoorToShop, ChanceDoor
+from pokete_classes.doors import Door, ChanceDoor
 from .. import ob_maps as obmp
 from ..landscape import HighGrass
 from ..settings import settings
@@ -9,12 +9,6 @@ from ..settings import settings
 
 def map_additions(figure):
     """Applies additions to the maps"""
-
-    # playmap_1
-    _map = obmp.ob_maps["playmap_1"]
-    _map.dor = DoorToCenter()
-    # adding
-    _map.dor.add(_map, 25, 4)
 
     # cave_1
     _map = obmp.ob_maps["cave_1"]
@@ -43,14 +37,6 @@ def map_additions(figure):
                          state="float")
     # adding
     _map.inner.add(_map, 0, 0)
-
-    # playmap_3
-    _map = obmp.ob_maps["playmap_3"]
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor.add(_map, 25, 6)
-    _map.shopdor.add(_map, 61, 6)
 
     # playmap_4
     _map = obmp.ob_maps["playmap_4"]
@@ -117,14 +103,6 @@ def map_additions(figure):
     # adding
     _map.inner.add(_map, 2, 1)
 
-    # playmap_13
-    _map = obmp.ob_maps["playmap_13"]
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor.add(_map, 14, 29)
-    _map.shopdor.add(_map, 52, 29)
-
     # playmap_19
     _map = obmp.ob_maps["playmap_19"]
     _map.inner = se.Text("""                         ####
@@ -166,25 +144,5 @@ def map_additions(figure):
     _map.dor_playmap_19 = Door("_", state="float",
                                arg_proto={"map": "playmap_19",
                                           "x": 26, "y": 1})
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
     # adding
     _map.dor_playmap_19.add(_map, 5, 26)
-    _map.dor.add(_map, 10, 7)
-    _map.shopdor.add(_map, 34, 7)
-
-    # playmap_30
-    _map = obmp.ob_maps["playmap_30"]
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor.add(_map, 13, 7)
-    _map.shopdor.add(_map, 30, 7)
-
-    # playmap_39
-    _map = obmp.ob_maps["playmap_39"]
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor.add(_map, 44, 52)
-    _map.shopdor.add(_map, 122, 64)

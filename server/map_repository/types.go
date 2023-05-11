@@ -3,10 +3,21 @@ package map_repository
 type Obmaps map[string]Obmap
 
 type Obmap struct {
-	HardObs map[string]Ob   `json:"hard_obs"`
-	SoftObs map[string]Ob   `json:"soft_obs"`
-	Dors    map[string]Dor  `json:"dors"`
-	Balls   map[string]Ball `json:"balls"`
+	HardObs     map[string]Ob   `json:"hard_obs"`
+	SoftObs     map[string]Ob   `json:"soft_obs"`
+	Dors        map[string]Dor  `json:"dors"`
+	SpecialDors *SpecialDors    `json:"special_dors"`
+	Balls       map[string]Ball `json:"balls"`
+}
+
+type SpecialDors struct {
+	Dor     *SpecialDor `json:"dor"`
+	ShopDor *SpecialDor `json:"shopdor"`
+}
+
+type SpecialDor struct {
+	X int32 `json:"x"`
+	Y int32 `json:"y"`
 }
 
 type Ob struct {
@@ -55,11 +66,11 @@ type NPCs map[string]NPC
 
 type NPC struct {
 	Texts []string `json:"texts"`
-	Fn   *string  `json:"fn"`
-	Map  string   `json:"map"`
-	X    int32    `json:"x"`
-	Y    int32    `json:"y"`
-	Chat *Chat    `json:"chat"`
+	Fn    *string  `json:"fn"`
+	Map   string   `json:"map"`
+	X     int32    `json:"x"`
+	Y     int32    `json:"y"`
+	Chat  *Chat    `json:"chat"`
 }
 
 type Chat struct {
