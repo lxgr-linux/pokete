@@ -3,68 +3,64 @@ package map_repository
 import (
 	"encoding/json"
 	"os"
-	"sync"
 )
 
-var (
-	obmaps   *Obmaps
-	maps     *Maps
-	npcs     *NPCs
-	trainers *Trainers
-	once     sync.Once
-)
+type MapRepo struct {
+    obmaps   *Obmaps
+    maps     *Maps
+    npcs     *NPCs
+    trainers *Trainers
+}
 
-func readFile[T any](fileName string) (temp T, err error) {
-	content, err := os.ReadFile(fileName)
+func (m MapRepo)GetObmaps() Obmaps {
+    return *m.obmaps
+}
+
+func (m MapRepo)GetMaps() Maps {
+    return *m.maps
+}
+
+func (m MapRepo)GetNPCs() NPCs {
+    return *m.npcs
+}
+
+func (m MapRepo)GetTrainers() Trainers {
+    return *m.trainers
+}
+
+func NewMapRepo() (mapRepo MapRepo, err error) {
+	tempObmaps, err := readFile[Obmaps]("res/map_data.json")
+	if err != nil {
+		return
+	}
+	tempMaps, err := readFile[Maps]("res/maps.json")
+	if err != nil {
+		return
+	}
+	tempNPCs, err := readFile[NPCs]("res/npcs.json")
+	if err != nil {
+		return
+	}
+	tempTrainers, err := readFile[Trainers]("res/trainers.json")
 	if err != nil {
 		return
 	}
 
-	err = json.Unmarshal(content, &temp)
-
-	return
+    return MapRepo {
+        obmaps: &tempObmaps,
+        maps: &tempMaps,
+        npcs: &tempNPCs,
+        trainers: &tempTrainers,
+    }, nil
 }
 
-func Read() error {
-	tempObmaps, err := readFile[Obmaps]("res/map_data.json")
-	if err != nil {
-		return err
-	}
-	tempMaps, err := readFile[Maps]("res/maps.json")
-	if err != nil {
-		return err
-	}
-	tempNPCs, err := readFile[NPCs]("res/npcs.json")
-	if err != nil {
-		return err
-	}
-	tempTrainers, err := readFile[Trainers]("res/trainers.json")
-	if err != nil {
-		return err
-	}
+func readFile[T any](fileName string) (temp T, err error) {
+    content, err := os.ReadFile(fileName)
+    if err != nil {
+        return
+    }
 
-	once.Do(func() {
-		obmaps = &tempObmaps
-		maps = &tempMaps
-		npcs = &tempNPCs
-		trainers = &tempTrainers
-	})
+    err = json.Unmarshal(content, &temp)
 
-	return nil
-}
-
-func GetObmaps() Obmaps {
-	return *obmaps
-}
-
-func GetMaps() Maps {
-	return *maps
-}
-
-func GetNPCs() NPCs {
-	return *npcs
-}
-
-func GetTrainers() Trainers {
-	return *trainers
+    return
 }

@@ -2,80 +2,71 @@ package user_repository
 
 import (
 	"fmt"
-	"github.com/lxgr-linux/pokete/server/config"
 	"net"
-	"sync"
 )
 
-var users *map[string]User
-var once sync.Once
-
-func Init() {
-	var tempUsers = make(map[string]User)
-	once.Do(func() {
-		users = &tempUsers
-	})
+type UserRepo struct {
+	users *map[string]User
 }
 
-func Add(user User) error {
-	for name, _ := range *users {
+func (u UserRepo) Add(user User) error {
+	for name, _ := range *u.users {
 		if name == user.Name {
 			return fmt.Errorf("user already present")
 		}
 	}
 
-	(*users)[user.Name] = user
+	(*u.users)[user.Name] = user
 
 	return nil
 }
 
-func Remove(name string) {
-	delete(*users, name)
+func (u UserRepo) Remove(name string) {
+	delete(*u.users, name)
 }
 
-func GetByConn(conn *net.Conn) (User, error) {
-	for _, user := range *users {
+func (u UserRepo) GetByConn(conn *net.Conn) (User, error) {
+	for _, user := range *u.users {
 		if user.Conn == conn {
 			return user, nil
 		}
 	}
-    return User{}, fmt.Errorf("user with given connection was not found, somebody fucked up badly")
+	return User{}, fmt.Errorf("user with given connection was not found, somebody fucked up badly")
 }
 
-func RemoveByConn(conn *net.Conn) error {
-	user, err := GetByConn(conn)
+func (u UserRepo) RemoveByConn(conn *net.Conn) error {
+	user, err := u.GetByConn(conn)
 	if err != nil {
 		return err
 	}
-	Remove(user.Name)
+	u.Remove(user.Name)
 	return nil
 }
 
-func GetAllUsers() (retUsers []User) {
-	for _, user := range *users {
+func (u UserRepo) GetAllUsers() (retUsers []User) {
+	for _, user := range *u.users {
 		retUsers = append(retUsers, user)
 	}
 	return
 }
 
-func GetAllUserNames() (names []string) {
-    for _, user := range *users {
-        names = append(names, user.Name)
-    }
-    return
+func (u UserRepo) GetAllUserNames() (names []string) {
+	for _, user := range *u.users {
+		names = append(names, user.Name)
+	}
+	return
 }
 
-func SetNewPositionToUser(name string, newPosition Position) error {
-	user := (*users)[name]
+func (u UserRepo) SetNewPositionToUser(name string, newPosition Position) error {
+	user := (*u.users)[name]
 	err := user.Position.Change(newPosition)
-	(*users)[name] = user
+	(*u.users)[name] = user
 	return err
 }
 
-func GetStartPosition() Position {
-	return Position{
-		Map: config.Get().EntryMap,
-		X:   2,
-		Y:   9,
+func NewUserRepo() UserRepo {
+	var tempUsers = make(map[string]User)
+	return UserRepo{
+		users: &tempUsers,
 	}
 }

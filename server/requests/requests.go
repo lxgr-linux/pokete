@@ -1,11 +1,13 @@
 package requests
 
 import (
-    "fmt"
-    "github.com/lxgr-linux/pokete/server/config"
+	"fmt"
+	"net"
+
+	"github.com/lxgr-linux/pokete/server/config"
+	"github.com/lxgr-linux/pokete/server/provider"
 	"github.com/lxgr-linux/pokete/server/responses"
 	"github.com/lxgr-linux/pokete/server/user_repository"
-	"net"
 )
 
 type RequestType int32
@@ -16,7 +18,7 @@ const (
 )
 
 type RequestBody interface {
-	Handle(connection *net.Conn) error
+	Handle(connection *net.Conn, p provider.Provider) error
 }
 
 type Request[T RequestBody] struct {
@@ -25,31 +27,35 @@ type Request[T RequestBody] struct {
 }
 
 type RequestPosition struct {
-    user_repository.Position
+	user_repository.Position
 }
 
-func (r RequestPosition) Handle(connection *net.Conn) error {
-    users := user_repository.GetAllUsers()
-    thisUser, err := user_repository.GetByConn(connection); if err != nil {
-        return err
-    }
-    err = user_repository.SetNewPositionToUser(thisUser.Name, r.Position); if err != nil {
-        err = responses.WritePositionImplausibleResponse(connection, err.Error()); if err != nil {
-            return err
-        }
-        return fmt.Errorf("connection closed")
-    }
-    thisUser, err = user_repository.GetByConn(connection); if err != nil {
-        return err
-    }
-    for _, user := range users {
-        if user.Conn != connection {
-            err := responses.WritePositionChangeResponse(user.Conn, thisUser)
-            if err != nil {
-                return err
-            }
-        }
-    }
+func (r RequestPosition) Handle(connection *net.Conn, p provider.Provider) error {
+	users := p.UserRepo.GetAllUsers()
+	thisUser, err := p.UserRepo.GetByConn(connection)
+	if err != nil {
+		return err
+	}
+	err = p.UserRepo.SetNewPositionToUser(thisUser.Name, r.Position)
+	if err != nil {
+		err = responses.WritePositionImplausibleResponse(connection, err.Error())
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("connection closed")
+	}
+	thisUser, err = p.UserRepo.GetByConn(connection)
+	if err != nil {
+		return err
+	}
+	for _, user := range users {
+		if user.Conn != connection {
+			err := responses.WritePositionChangeResponse(user.Conn, thisUser)
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	return nil
 }
@@ -59,31 +65,31 @@ type RequestHandshake struct {
 	Version  string
 }
 
-func (r RequestHandshake) Handle(connection *net.Conn) error {
-	position := user_repository.GetStartPosition()
-	users := user_repository.GetAllUsers()
+func (r RequestHandshake) Handle(connection *net.Conn, p provider.Provider) error {
+	position := getStartPosition(p.Config)
+	users := p.UserRepo.GetAllUsers()
 	newUser := user_repository.User{
 		Name:     r.UserName,
 		Conn:     connection,
 		Position: position,
 	}
 
-	if r.Version != config.Get().ClientVersion {
-		err := responses.WriteVersionMismatchResponse(connection)
+	if r.Version != p.Config.ClientVersion {
+		err := responses.WriteVersionMismatchResponse(connection, p.Config)
 		if err != nil {
 			return err
 		}
-        return fmt.Errorf("connection closed")
+		return fmt.Errorf("connection closed")
 	}
 
-	err := user_repository.Add(newUser)
+	err := p.UserRepo.Add(newUser)
 
 	if err != nil {
 		err = responses.WriteUserAllreadyTakenResponse(connection)
 		if err != nil {
 			return err
 		}
-        return fmt.Errorf("connection closed")
+		return fmt.Errorf("connection closed")
 	}
 
 	for _, user := range users {
@@ -93,10 +99,18 @@ func (r RequestHandshake) Handle(connection *net.Conn) error {
 		}
 	}
 
-	err = responses.WriteMapResponse(connection, position, users)
+	err = responses.WriteMapResponse(connection, position, users, p.MapRepo)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func getStartPosition(cfg config.Config) user_repository.Position {
+	return user_repository.Position{
+		Map: cfg.EntryMap,
+		X:   2,
+		Y:   9,
+	}
 }

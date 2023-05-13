@@ -3,10 +3,11 @@ package responses
 import (
 	"encoding/json"
 	"fmt"
+	"net"
+
 	"github.com/lxgr-linux/pokete/server/config"
 	"github.com/lxgr-linux/pokete/server/map_repository"
 	"github.com/lxgr-linux/pokete/server/user_repository"
-	"net"
 )
 
 type ResponseType int32
@@ -77,12 +78,12 @@ func WritePositionImplausibleResponse(connection *net.Conn, message string) erro
 	)
 }
 
-func WriteVersionMismatchResponse(connection *net.Conn) error {
+func WriteVersionMismatchResponse(connection *net.Conn, cfg config.Config) error {
 	return writeResponse(
 		connection,
 		Response{
 			Type: ResponseType_VERSION_MISMATCH,
-			Body: fmt.Sprintf("Required version is %s", config.Get().ClientVersion),
+			Body: fmt.Sprintf("Required version is %s", cfg.ClientVersion),
 		},
 	)
 }
@@ -97,16 +98,16 @@ func WriteUserRemovedResponse(connection *net.Conn, userName string) error {
 	)
 }
 
-func WriteMapResponse(connection *net.Conn, position user_repository.Position, users []user_repository.User) error {
+func WriteMapResponse(connection *net.Conn, position user_repository.Position, users []user_repository.User, mapRepo map_repository.MapRepo) error {
 	return writeResponse(
 		connection,
 		Response{
 			Type: ResponseType_MAP,
 			Body: MapResponse{
-				Obmaps:   map_repository.GetObmaps(),
-				Maps:     map_repository.GetMaps(),
-				NPCs:     map_repository.GetNPCs(),
-				Trainers: map_repository.GetTrainers(),
+				Obmaps:   mapRepo.GetObmaps(),
+				Maps:     mapRepo.GetMaps(),
+				NPCs:     mapRepo.GetNPCs(),
+				Trainers: mapRepo.GetTrainers(),
 				Position: position,
 				Users:    users,
 			},
