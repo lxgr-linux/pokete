@@ -44,7 +44,6 @@ class Connector:
                 self.overview,
             )
         splid = unified_host_port.split(":")
-        logging.info(splid)
         if len(splid) == 1:
             self.port = 9988
         else:

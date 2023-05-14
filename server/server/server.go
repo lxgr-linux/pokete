@@ -62,13 +62,22 @@ func (s Server) handleRequests(res []byte, connection *net.Conn) error {
 }
 
 func (s Server) removeUser(connection *net.Conn) error {
+    defer (*connection).Close()
 	thisUser, err := s.UserRepo.GetByConn(connection)
+    if err != nil {
+        return err
+    }
 	err = s.UserRepo.RemoveByConn(connection)
+    if err != nil {
+        return err
+    }
 	for _, user := range s.UserRepo.GetAllUsers() {
 		err = responses.WriteUserRemovedResponse(user.Conn, thisUser.Name)
+        if err != nil {
+            return err
+        }
 	}
-	err = (*connection).Close()
-	return err
+	return nil
 }
 
 func (s Server) processClient(connection net.Conn) {
