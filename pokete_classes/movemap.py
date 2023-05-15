@@ -2,6 +2,8 @@
 
 import time
 import scrap_engine as se
+
+from pokete_classes.multiplayer.pc_manager import pc_manager
 from pokete_general_use_fns import liner
 import pokete_classes.ob_maps as obmp
 import pokete_classes.game_map as gm
@@ -114,10 +116,14 @@ class Movemap(gm.GameSubmap):
         if notifier.notified:
             notifier.notification.remove()
             saved_coords = (self.width - notifier.notification.x)
+        for _, rmtplr in pc_manager.reg.items():
+            rmtplr.name_tag.remove()
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
         if notifier.notified:
             notifier.notification.add(self, self.width - saved_coords, 0)
+        for _, rmtplr in pc_manager.reg.items():
+            rmtplr.name_tag.add_name_tag()
 
     def resize(self, height, width, background=" "):
         """Resizes the map and its attributes

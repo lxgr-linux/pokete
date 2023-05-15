@@ -24,6 +24,7 @@ from pokete_classes.map_additions.map_addtions import map_additions
 import pokete_classes.multiplayer.connector as connector
 from pokete_classes.multiplayer.menu import ModeChooser
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
+from pokete_classes.multiplayer.pc_manager import pc_manager, NameTag
 from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
@@ -991,6 +992,7 @@ def _game(_map):
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
+    pc_manager.movemap_move()
     mvp.movemap.full_show()
     pevm = PeriodicEventManager(_map)
     inp_dict = {
@@ -1047,6 +1049,7 @@ def _game(_map):
         ):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
+                pc_manager.movemap_move()
         mvp.movemap.full_show()
 
 
@@ -1237,6 +1240,7 @@ if __name__ == "__main__":
     # Figure
     figure = Figure(session_info)
     connector.connector.set_args(figure)
+    NameTag.set_args(figure)
 
     gen_obs(p_data.map_data, p_data.npcs, p_data.trainers, figure)
     map_additions(figure)
