@@ -7,6 +7,7 @@ from pokete_classes import ob_maps as obmp
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.input import ask_text, ask_ok
 from pokete_classes.multiplayer.pc_manager import pc_manager
+from pokete_general_use_fns import liner
 
 END_SECTION = b"<END>"
 
@@ -129,6 +130,11 @@ class Connector:
             )
             self.figure.remove()
             self.figure.add(obmp.ob_maps[pos["Map"]], pos["X"], pos["Y"])
+            if d["Body"]["GreetingText"]:
+                ask_ok(
+                    self.map,
+                    liner(d["Body"]["GreetingText"], self.map.width - 4)
+                )
             if d["Body"]["Users"]:
                 for user in d["Body"]["Users"]:
                     pc_manager.set(

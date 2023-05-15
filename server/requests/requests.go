@@ -99,7 +99,7 @@ func (r RequestHandshake) Handle(connection *net.Conn, p provider.Provider) erro
 		}
 	}
 
-	err = responses.WriteMapResponse(connection, position, users, p.MapRepo)
+	err = responses.WriteMapResponse(connection, position, users, p.MapRepo, p.GreetingText)
 	if err != nil {
 		return err
 	}

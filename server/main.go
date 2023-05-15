@@ -12,5 +12,7 @@ func main() {
         log.Fatal(err)
     }
 
+    pokete.WithGreetingText("Welcome to the server")
+
     pokete.Start()
 }

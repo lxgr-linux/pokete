@@ -10,4 +10,9 @@ type Provider struct {
     Config   config.Config
     MapRepo  map_repository.MapRepo
     UserRepo user_repository.UserRepo
+    GreetingText string
+}
+
+func (p *Provider) WithGreetingText(greetingText string) {
+    p.GreetingText = greetingText
 }

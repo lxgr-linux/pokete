@@ -40,12 +40,13 @@ type Response struct {
 }
 
 type MapResponse struct {
-	Obmaps   map_repository.Obmaps
-	Maps     map_repository.Maps
-	NPCs     map_repository.NPCs
-	Trainers map_repository.Trainers
-	Position user_repository.Position
-	Users    []user_repository.User
+	Obmaps       map_repository.Obmaps
+	Maps         map_repository.Maps
+	NPCs         map_repository.NPCs
+	Trainers     map_repository.Trainers
+	Position     user_repository.Position
+	Users        []user_repository.User
+	GreetingText string
 }
 
 func WritePositionChangeResponse(connection *net.Conn, user user_repository.User) error {
@@ -98,18 +99,19 @@ func WriteUserRemovedResponse(connection *net.Conn, userName string) error {
 	)
 }
 
-func WriteMapResponse(connection *net.Conn, position user_repository.Position, users []user_repository.User, mapRepo map_repository.MapRepo) error {
+func WriteMapResponse(connection *net.Conn, position user_repository.Position, users []user_repository.User, mapRepo map_repository.MapRepo, greetingtext string) error {
 	return writeResponse(
 		connection,
 		Response{
 			Type: ResponseType_MAP,
 			Body: MapResponse{
-				Obmaps:   mapRepo.GetObmaps(),
-				Maps:     mapRepo.GetMaps(),
-				NPCs:     mapRepo.GetNPCs(),
-				Trainers: mapRepo.GetTrainers(),
-				Position: position,
-				Users:    users,
+				Obmaps:       mapRepo.GetObmaps(),
+				Maps:         mapRepo.GetMaps(),
+				NPCs:         mapRepo.GetNPCs(),
+				Trainers:     mapRepo.GetTrainers(),
+				Position:     position,
+				Users:        users,
+				GreetingText: greetingtext,
 			},
 		},
 	)
