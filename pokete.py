@@ -736,8 +736,9 @@ def save():
     old_map = figure.oldmap.name
     x = figure.x
     y = figure.y
+    last_center_map = figure.last_center_map.name
     if modeProvider.mode == Mode.MULTI:
-        _map, old_map, x, y = connector.connector.saved_pos
+        _map, old_map, last_center_map, x, y = connector.connector.saved_pos
 
     _si = {
         "user": figure.name,
@@ -745,7 +746,7 @@ def save():
         "ver": VERSION,
         "map": _map,
         "oldmap": old_map,
-        "last_center_map": figure.last_center_map.name,
+        "last_center_map": last_center_map,
         "x": x,
         "y": y,
         "achievements": achievements.achieved,

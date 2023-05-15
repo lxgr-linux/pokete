@@ -122,6 +122,7 @@ class Connector:
             self.saved_pos = (
                 self.figure.map.name,
                 self.figure.oldmap.name,
+                self.figure.last_center_map.name,
                 self.figure.x,
                 self.figure.y,
             )
