@@ -123,7 +123,7 @@ class Movemap(gm.GameSubmap):
         if notifier.notified:
             notifier.notification.add(self, self.width - saved_coords, 0)
         for _, rmtplr in pc_manager.reg.items():
-            rmtplr.name_tag.add_name_tag()
+            rmtplr.add_name_tag()
 
     def resize(self, height, width, background=" "):
         """Resizes the map and its attributes
