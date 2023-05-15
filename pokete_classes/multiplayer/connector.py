@@ -77,35 +77,32 @@ class Connector:
             )
             return False
 
-    def send_pos_update(self, _map, x, y):
+    def send(self, data: dict):
         self.connection.sendall(
-            str.encode(
-                json.dumps(
-                    {
-                        "Type": 0,
-                        "Body": {
-                            "Map": _map,
-                            "X": x,
-                            "Y": y,
-                        },
-                    }
-                )
-            )
+            str.encode(json.dumps(data)) + END_SECTION
+        )
+
+    def send_pos_update(self, _map, x, y):
+        self.send(
+            {
+                "Type": 0,
+                "Body": {
+                    "Map": _map,
+                    "X": x,
+                    "Y": y,
+                },
+            }
         )
 
     def handshake(self):
-        self.connection.sendall(
-            str.encode(
-                json.dumps(
-                    {
-                        "Type": 1,
-                        "Body": {
-                            "UserName": self.user_name,
-                            "Version": release.VERSION,
-                        },
-                    }
-                )
-            )
+        self.send(
+            {
+                "Type": 1,
+                "Body": {
+                    "UserName": self.user_name,
+                    "Version": release.VERSION,
+                },
+            }
         )
         if (d := self.receive_data())["Type"] == 2:
             self.ask_user_name(True)

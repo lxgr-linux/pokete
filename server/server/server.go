@@ -1,7 +1,8 @@
 package server
 
 import (
-	"github.com/lxgr-linux/pokete/server/provider"
+    "bytes"
+    "github.com/lxgr-linux/pokete/server/provider"
 	"log"
 	"net"
 
@@ -11,6 +12,10 @@ import (
 	"github.com/lxgr-linux/pokete/server/responses"
 	"github.com/lxgr-linux/pokete/server/status"
 	"github.com/lxgr-linux/pokete/server/user_repository"
+)
+
+var (
+    END_SECTION = []byte("<END>")
 )
 
 func NewServer(cfg config.Config) (server Server, err error) {
@@ -51,13 +56,17 @@ func (s Server) Start() {
 	}
 }
 
-func (s Server) handleRequests(res []byte, connection *net.Conn) error {
-	genericResponseObject, err := handler.Handle(res)
-	log.Printf("%#v\n", genericResponseObject)
-	err = genericResponseObject.Body.Handle(connection, s.Provider)
-	if err != nil {
-		return err
-	}
+func (s Server) handleRequests(origRes []byte, connection *net.Conn) error {
+    splid := bytes.Split(origRes, END_SECTION)
+    for _, res := range  splid[:len(splid) - 1]{
+        genericResponseObject, err := handler.Handle(res)
+        log.Printf("%s", res)
+        log.Printf("%#v\n", genericResponseObject)
+        err = genericResponseObject.Body.Handle(connection, s.Provider)
+        if err != nil {
+            return err
+        }
+    }
 	return nil
 }
 
