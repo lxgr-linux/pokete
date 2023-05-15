@@ -11,11 +11,11 @@ type Obmap struct {
 }
 
 type SpecialDors struct {
-	Dor     *SpecialDor `json:"dor"`
-	ShopDor *SpecialDor `json:"shopdor"`
+	Dor     *Coords `json:"dor"`
+	ShopDor *Coords `json:"shopdor"`
 }
 
-type SpecialDor struct {
+type Coords struct {
 	X int32 `json:"x"`
 	Y int32 `json:"y"`
 }
@@ -98,4 +98,22 @@ type TrainerArgs struct {
 	WinTexts  []string `json:"win_texts"`
 	X         int32    `json:"x"`
 	Y         int32    `json:"y"`
+}
+
+type Stations map[string]Station
+
+type Station struct {
+	Gen StationGen `json:"gen"`
+	Add Coords     `json:"add"`
+}
+
+type StationGen struct {
+	Additionals []string `json:"additionals"`
+	Width       int32    `json:"width"`
+	Height      int32    `json:"height"`
+	Desc        string   `json:"desc"`
+	ANext       *string  `json:"a_next"`
+	WNext       *string  `json:"w_next"`
+	SNext       *string  `json:"s_next"`
+	DNext       *string  `json:"d_next"`
 }

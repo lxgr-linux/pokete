@@ -41,12 +41,11 @@ from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
-    movemap as mvp, fightmap as fm, buy
+    movemap as mvp, fightmap as fm, buy, roadmap
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import HighGrass, Poketeball
 from pokete_classes.doors import Door
 from pokete_classes.learnattack import LearnAttack
-from pokete_classes.roadmap import RoadMap
 from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.notify import notifier
 from pokete_classes.achievements import achievements, AchievementOverview
@@ -998,7 +997,7 @@ def _game(_map):
     pevm = PeriodicEventManager(_map)
     inp_dict = {
         Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
-        Action.MAP: [roadmap, (mvp.movemap,)],
+        Action.MAP: [roadmap.roadmap, (mvp.movemap,)],
         Action.INVENTORY: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
@@ -1258,8 +1257,8 @@ if __name__ == "__main__":
     detail.detail = detail.Detail(tss.height - 1, tss.width)
     pokete_dex = Dex(figure)
     help_page = Help(mvp.movemap)
-    RoadMap.check_maps()
-    roadmap = RoadMap(figure)
+    roadmap.RoadMap.check_maps()
+    roadmap.roadmap = roadmap.RoadMap(figure)
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
     about = About(VERSION, CODENAME, mvp.movemap)
     inv = Inv(mvp.movemap)

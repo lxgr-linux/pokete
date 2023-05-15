@@ -3,7 +3,7 @@ import json
 import logging
 
 import release
-from pokete_classes import ob_maps as obmp
+from pokete_classes import ob_maps as obmp, roadmap
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.input import ask_text, ask_ok
 from pokete_classes.multiplayer.pc_manager import pc_manager
@@ -118,6 +118,7 @@ class Connector:
                 d["Body"]["Trainers"],
                 self.figure,
             )
+            roadmap.roadmap = roadmap.RoadMap(self.figure, d["Body"]["MapStations"])
             pos = d["Body"]["Position"]
             self.saved_pos = (
                 self.figure.map.name,

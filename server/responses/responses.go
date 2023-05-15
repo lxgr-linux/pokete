@@ -47,6 +47,7 @@ type MapResponse struct {
 	Position     user_repository.Position
 	Users        []user_repository.User
 	GreetingText string
+	MapStations  map_repository.Stations
 }
 
 func WritePositionChangeResponse(connection *net.Conn, user user_repository.User) error {
@@ -99,7 +100,13 @@ func WriteUserRemovedResponse(connection *net.Conn, userName string) error {
 	)
 }
 
-func WriteMapResponse(connection *net.Conn, position user_repository.Position, users []user_repository.User, mapRepo map_repository.MapRepo, greetingtext string) error {
+func WriteMapResponse(
+	connection *net.Conn,
+	position user_repository.Position,
+	users []user_repository.User,
+	mapRepo map_repository.MapRepo,
+	greetingtext string,
+) error {
 	return writeResponse(
 		connection,
 		Response{
@@ -112,6 +119,7 @@ func WriteMapResponse(connection *net.Conn, position user_repository.Position, u
 				Position:     position,
 				Users:        users,
 				GreetingText: greetingtext,
+                MapStations:  mapRepo.GetStations(),
 			},
 		},
 	)

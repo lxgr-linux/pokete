@@ -6,26 +6,31 @@ import (
 )
 
 type MapRepo struct {
-    obmaps   *Obmaps
-    maps     *Maps
-    npcs     *NPCs
-    trainers *Trainers
+	obmaps   *Obmaps
+	maps     *Maps
+	npcs     *NPCs
+	trainers *Trainers
+	stations *Stations
 }
 
-func (m MapRepo)GetObmaps() Obmaps {
-    return *m.obmaps
+func (m MapRepo) GetObmaps() Obmaps {
+	return *m.obmaps
 }
 
-func (m MapRepo)GetMaps() Maps {
-    return *m.maps
+func (m MapRepo) GetMaps() Maps {
+	return *m.maps
 }
 
-func (m MapRepo)GetNPCs() NPCs {
-    return *m.npcs
+func (m MapRepo) GetNPCs() NPCs {
+	return *m.npcs
 }
 
-func (m MapRepo)GetTrainers() Trainers {
-    return *m.trainers
+func (m MapRepo) GetTrainers() Trainers {
+	return *m.trainers
+}
+
+func (m MapRepo) GetStations() Stations {
+    return *m.stations
 }
 
 func NewMapRepo() (mapRepo MapRepo, err error) {
@@ -45,22 +50,27 @@ func NewMapRepo() (mapRepo MapRepo, err error) {
 	if err != nil {
 		return
 	}
+	tempStations, err := readFile[Stations]("res/mapstations.json")
+	if err != nil {
+		return
+	}
 
-    return MapRepo {
-        obmaps: &tempObmaps,
-        maps: &tempMaps,
-        npcs: &tempNPCs,
-        trainers: &tempTrainers,
-    }, nil
+	return MapRepo{
+		obmaps:   &tempObmaps,
+		maps:     &tempMaps,
+		npcs:     &tempNPCs,
+		trainers: &tempTrainers,
+		stations: &tempStations,
+	}, nil
 }
 
 func readFile[T any](fileName string) (temp T, err error) {
-    content, err := os.ReadFile(fileName)
-    if err != nil {
-        return
-    }
+	content, err := os.ReadFile(fileName)
+	if err != nil {
+		return
+	}
 
-    err = json.Unmarshal(content, &temp)
+	err = json.Unmarshal(content, &temp)
 
-    return
+	return
 }
