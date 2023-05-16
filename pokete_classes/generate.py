@@ -1,4 +1,4 @@
-import logging
+"""Generating maps"""
 
 import scrap_engine as se
 
