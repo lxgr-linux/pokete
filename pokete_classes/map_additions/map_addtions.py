@@ -8,7 +8,9 @@ from ..settings import settings
 
 
 def map_additions(figure):
-    """Applies additions to the maps"""
+    """Applies additions to the maps
+    ARGS:
+        figure: Figure instance"""
 
     # cave_1
     _map = obmp.ob_maps["cave_1"]

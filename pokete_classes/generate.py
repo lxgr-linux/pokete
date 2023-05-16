@@ -27,6 +27,9 @@ def parse_obj(_map, name, obj, _dict):
 
 def gen_maps(p_maps, extra_actions=None):
     """Generates all maps
+    ARGS:
+        p_maps: contains maps data
+        extra_actions: contains ExtraActions class
     RETURNS:
         Dict of all PlayMaps"""
     maps = {}
@@ -47,7 +50,12 @@ def gen_maps(p_maps, extra_actions=None):
 
 
 def gen_obs(map_data, npcs, trainers, figure):
-    """Generates all objects on the maps"""
+    """Generates all objects on the maps
+    ARSG:
+        map_data: Contains map_data
+        npcs: Contains npc data
+        trainers: Contains trainers data
+        figure: Figure instance"""
 
     # adding all trainer to map
     for i, trainer_list in trainers.items():

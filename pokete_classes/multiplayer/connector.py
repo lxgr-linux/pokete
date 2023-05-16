@@ -1,3 +1,5 @@
+"""Contains class retaed to cennecting to a server"""
+
 import socket
 import json
 import logging
@@ -13,6 +15,8 @@ END_SECTION = b"<END>"
 
 
 class Connector:
+    """Managers server connection"""
+
     def __init__(self):
         self.host = ""
         self.port = ""
@@ -24,6 +28,10 @@ class Connector:
         self.saved_pos = ()
 
     def __call__(self, _map, overview):
+        """Starts ui to connect to server
+        ARGS:
+            _map: Map to show this on
+            overview: Overview for resizing"""
         self.map = _map
         conn_succ = False
         while not conn_succ:
@@ -33,6 +41,7 @@ class Connector:
         self.handshake()
 
     def set_host_port(self):
+        """Asks the user for host and port to conenct to"""
         unified_host_port = ""
         while unified_host_port == "":
             unified_host_port = ask_text(
@@ -52,6 +61,9 @@ class Connector:
         self.host = splid[0]
 
     def ask_user_name(self, reask=False):
+        """Asks the user for username
+        ARGS:
+            reask: Boolean whether or not this is asked again"""
         self.user_name = ask_text(
             self.map,
             ("That username isn't awailable right now\n" if reask else "")
@@ -64,6 +76,7 @@ class Connector:
         )
 
     def establish_connection(self):
+        """Actually connects to the server"""
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             self.connection.connect((self.host, self.port))
@@ -78,11 +91,19 @@ class Connector:
             return False
 
     def send(self, data: dict):
+        """Sends a request to the server
+        ARGS:
+            data: dict that is send"""
         self.connection.sendall(
             str.encode(json.dumps(data)) + END_SECTION
         )
 
     def send_pos_update(self, _map, x, y):
+        """Sends a position update to the server
+        ARGS:
+            _map: Name of the map the player is on
+            x: X-coordinate
+            y: Y-coordinate"""
         self.send(
             {
                 "Type": 0,
@@ -95,6 +116,7 @@ class Connector:
         )
 
     def handshake(self):
+        """Sends and handles the handshake with the server"""
         self.send(
             {
                 "Type": 1,
@@ -118,7 +140,10 @@ class Connector:
                 d["Body"]["Trainers"],
                 self.figure,
             )
-            roadmap.roadmap = roadmap.RoadMap(self.figure, d["Body"]["MapStations"])
+            roadmap.roadmap = roadmap.RoadMap(
+                self.figure,
+                d["Body"]["MapStations"]
+            )
             pos = d["Body"]["Position"]
             self.saved_pos = (
                 self.figure.map.name,
@@ -144,6 +169,7 @@ class Connector:
                     )
 
     def receive_data(self):
+        """Receives and returns data from the server"""
         data = self.connection.recv(1048576)
         while data[-len(END_SECTION):] != END_SECTION:
             data += self.connection.recv(1048576)
@@ -152,10 +178,14 @@ class Connector:
         return ret
 
     def ensure_closure(self):
+        """Makes sure the connection is closed"""
         if self.connection:
             self.connection.close()
 
     def set_args(self, figure):
+        """Sets arguments
+        ARGS:
+            figure: Figure instance"""
         self.figure = figure
 
 

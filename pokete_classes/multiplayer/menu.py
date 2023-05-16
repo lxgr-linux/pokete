@@ -1,3 +1,5 @@
+"""Contains classes ralated to the mode choosing meni"""
+
 import sys
 import threading
 
@@ -14,6 +16,7 @@ from .response_manager import ResponseManager
 
 
 class PreGameMap(gm.GameSubmap):
+    """Map for background"""
 
     def resize_view(self):
         """Manages recursive view resizing"""
@@ -22,6 +25,7 @@ class PreGameMap(gm.GameSubmap):
 
 
 class ModeChooser(BetterChooseBox):
+    """The menu to choose modes in"""
 
     def __init__(self):
         self.map = PreGameMap(
@@ -41,6 +45,7 @@ class ModeChooser(BetterChooseBox):
         )
 
     def __call__(self):
+        """Opens the menu"""
         with self:
             while True:
                 action = get_action()
