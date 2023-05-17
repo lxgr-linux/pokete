@@ -133,7 +133,7 @@ class Connector:
         elif d["Type"] == 3:
             ask_ok(self.map, f"Version mismatch: {d['Body']}", self.overview)
         elif d["Type"] == 0:
-            obmp.ob_maps = gen_maps(d["Body"]["Maps"])
+            obmp.ob_maps = gen_maps(d["Body"]["Maps"], fix_center=True)
             gen_obs(
                 d["Body"]["Obmaps"],
                 d["Body"]["NPCs"],

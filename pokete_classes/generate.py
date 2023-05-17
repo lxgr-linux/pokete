@@ -1,4 +1,5 @@
 """Generating maps"""
+import logging
 
 import scrap_engine as se
 
@@ -25,11 +26,12 @@ def parse_obj(_map, name, obj, _dict):
     obj.add(_map, _dict["x"], _dict["y"])
 
 
-def gen_maps(p_maps, extra_actions=None):
+def gen_maps(p_maps, extra_actions=None, fix_center=False):
     """Generates all maps
     ARGS:
         p_maps: contains maps data
         extra_actions: contains ExtraActions class
+        fix_center: Whether or not the pokete center should have a fixed size
     RETURNS:
         Dict of all PlayMaps"""
     maps = {}
@@ -40,10 +42,13 @@ def gen_maps(p_maps, extra_actions=None):
                                  else None and extra_actions)
         maps[ob_map] = PlayMap(name=ob_map, **args)
 
-    # Those two maps cant be sourced out, because `height` and `width`
-    # are global variables exclusive to pokete.py
-    centermap = CenterMap(tss.height - 1, tss.width)
-    shopmap = ShopMap(tss.height - 1, tss.width)
+    _h = tss.height - 1
+    _w = tss.width
+    if fix_center:
+        _h = 50
+        _w = 50
+    centermap = CenterMap(_h, _w)
+    shopmap = ShopMap(_h, _w)
     maps["centermap"] = centermap
     maps["shopmap"] = shopmap
     return maps
