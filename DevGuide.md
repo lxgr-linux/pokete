@@ -5,6 +5,7 @@ This guide only handles adding new types, attacks and Poketes to Pokete. For fur
 2. [Adding attacks](#adding-attacks)
 3. [Adding types](#adding-types)
 4. [Adding subtypes](#adding-subtypes)
+5. [Adding maps](#adding-maps)
 
 ## Adding Poketes
 Every Pokete has an entry in the `pokes` dictionary in [`pokete_data/poketes.py`](./pokete_data/poketes.py). Every entry needs to have this structure:
@@ -51,14 +52,14 @@ Every attack has an entry in the `attacks` dictionary in [`pokete_data/attacks.p
 "poison_bite": {  # This is the attack's simplified name/identifier without spaces and in lowercase, which is used to refer to the attack in the code
         "name": "Poison bite",  # The attack's pretty name
         "factor": 1,  # The attack factor that is used to calculate damage
-        "action": "",  # A string that's executed when the attack is used, to effect the Pokete's or the enemy's values (don't use this) 
+        "action": "",  # A string that's executed when the attack is used, to effect the Pokete's or the enemy's values (don't use this)
         "world_action": "",  # An extra ability the attack can be used for
         "move": ["attack", "downgrade"],  # The moves the Pokete does using the attack
         "miss_chance": 0.3,  # The chance to miss the attack
         "min_lvl": 0,  # The minimal level a Pokete needs in order to learn the attack
         "desc": "Makes the enemy weaker.",  # The attack's description
         "types": ["poison"],  # The attack's types
-        "effect": "poison",  # The effect the enemy gets when the attack is used, default is None 
+        "effect": "poison",  # The effect the enemy gets when the attack is used, default is None
         "is_generic": False,  # Whether or not the attack can be learned by any Pokete of its types
         "ap": 10,  # Attack points; the amount of times the attack can be used by a Pokete until the Pokete has to be healed
     },
@@ -81,7 +82,7 @@ Every type has an entry inside the `types` dictionary in [`pokete_data/types.py`
 
 ```Python
 "stone": {  # The type's name
-        "effective": ["flying", "fire"],  # The types the type is effective against 
+        "effective": ["flying", "fire"],  # The types the type is effective against
         "ineffective": ["plant"],  # The types the type is ineffective against
         "color": ["grey"]  # The type's label color
     },
@@ -89,3 +90,154 @@ Every type has an entry inside the `types` dictionary in [`pokete_data/types.py`
 
 ## Adding subtypes
 Every subtype has an entry inside the `sub_types` list in [`pokete_data/types.py`](./pokete_data/types.py). They have no further attributes. Subtypes are only useful to determine what Poketes can use what generic attack in a type. For example, to avoid that `bato` learns the generic `flying` attack `pick`.
+
+## Adding maps
+Every map has an entry in the `maps` list in `pokete_data/maps.py`. Every map needs to have this structure:
+```Python
+"intromap": {
+        "height": 15,
+        "width": 30,
+        "song": "03 Chibi Ninja.mp3",
+        "pretty_name": "Your home",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
+```
+When creating maps you can use any of the provided map data which is found in `pokete_data/map_data.py`. You will have to create your map data and name it the same name as your map. Your map data should be created in this format:
+```Python
+     "playmap_1": {
+         "hard_obs": {
+         },
+         "soft_obs": {
+         },
+         "dors": {
+         },
+         "balls": {
+         }
+     },
+```
+There are given buildings you can add such as:
+```Python
+CENTER = r""" __________
+             /         /\
+            /_Center!_/  \
+            | # ___ # |  |
+            |___| |___|__|"""
+
+SHOP = r"""   __________
+             /         /\
+            /__Shop!__/  \
+            | # ___ # |  |
+            |___| |___|__|"""
+
+HOUSE1 = r""" ________
+             /       /\
+            /_______/  \
+            |# ___ #|  |
+            |__| |__|__|"""
+```
+You would add them by adding this to the map:
+```Python
+            "pokecenter": {
+                "x": 20,
+                "y": 0,
+                "txt": CENTER
+            },
+            "house1": {
+                "x": 2,
+                "y": 0,
+                "txt": HOUSE1
+            },
+            "shop": {
+                "x": 29,
+                "y": 3,
+                "txt": SHOP
+            },
+```
+You can also add you own buildings if you want like this:
+```Python
+"hotel": {
+                "x": 43,
+                "y": 18,
+                "txt": r"""    ..___________
+                              /||          /\
+                             / ||         /  \
+                            /___Hotel!___/    \
+                            | ##      ## | ## |
+                            |    ____    |    |
+                            |____|  |____|____|"""
+            },
+```
+You should also add terrain such as:
+```Python
+"hard_obs": {
+            "tree_group_1": {
+                "x": 35,
+                "y": 2,
+                "txt": """ (()(()((())((()((()
+())(())))())))()))(()
+ || ||| ||||| |||||"""
+            },
+    }
+```
+You can also add soft obstacles where you can find poketes such as:
+```Python
+"soft_obs": {
+            "meadow1": {
+                "x": 1,
+                "y": 8,
+                "txt": """     ;;;;;;;
+                            ;;;;;;;;;;;;
+                         ;;;;;;;;;;;;;;;;
+                        ;;;;;;;;;;;;;;;;;;;
+                         ;;;;;;;;;;;;;;;;;
+                           ;;;;;;;;;;;;;
+                              ;;;;;;    """
+            },
+    }
+```
+If you want to add a door to a building you do that with the `dors:` portion of the dict such as:
+```Python
+"dors": {
+            "dor_playmap_51_1": {
+                "x": 90,
+                "y": 12,
+                "args": {"map": "playmap_51", "x": 1, "y": 28}
+            },
+        }
+```
+If you're adding doors to buildings you should also include a map of the inside of the building such as:
+```Python
+"playmap_22": {
+        "hard_obs": {
+            "inner_walls": {
+                "x": 2,
+                "y": 1,
+                "txt": """________________________
+                          |______________________|
+                          |          a           |
+                          |       ________       |
+                          |                      |
+                          |                      | |
+                          |                        |
+                          |                      __|
+                          |__________  __________|
+                          |_________|  |_________|"""
+            },
+        },
+}
+```
+To add balls to pickup throughout the map you add them like this:
+```Python
+"balls": {
+            "ball_1": {
+                "x": 1,
+                "y": 1
+            },
+            "ball_2": {
+                "x": 7,
+                "y": 12
+            },
+        }
+```
