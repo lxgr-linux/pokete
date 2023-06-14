@@ -887,7 +887,7 @@ def teleport(poke):
     """Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation"""
-    if (obj := roadmap(mvp.movemap, choose=True)) is None:
+    if (obj := roadmap.roadmap(mvp.movemap, choose=True)) is None:
         return
     if settings("animations").val:
         animations.transition(mvp.movemap, poke)
