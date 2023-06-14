@@ -145,7 +145,6 @@ class Clock(Box):
             letter_obs = []
         self.__rem_obs(letter_obs)
         ftime = self.time.formatted().replace(":", "")
-        logging.info(ftime)
         letter_obs = [se.Text(letters[int(letter)]) for letter in ftime]
         letter_obs.insert(2, se.Text(DOUBLE_POINT if d_p else ""))
         _x = 2
