@@ -48,6 +48,28 @@ pokes = {
  +-------+ """,
             "esc": None}],
     },
+        "cundovNemesis": {
+        "name": "Cundov Nemesis",
+        "hp": 100,
+        "atc": 5,
+        "defense": 1,
+        "attacks": ["brick_throw"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "A fallen hero's nemesis.",
+        "lose_xp": 3,
+        "rarity": 1,
+        "types": ["stone", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r""" +-------+
+ |  o   o |
+ |  -----  |
+ +-------+ """,
+            "esc": None}],
+    },
     "mowcow": {
         "name": "Mowcow",
         "hp": 20,
@@ -1425,6 +1447,54 @@ w        w""",
  //\0_0/\\
 //  '''  \\
 W         W""",
+            "esc": None}]
+    },
+    "charizard": {
+        "name": "Charizard",
+        "hp": 30,
+        "atc": 10,
+        "defense": 5,
+        "attacks": ["fire_bite", "bite", "power_bite", "fire_ball"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Dragon like pokete with flaming attacks.",
+        "lose_xp": 4,
+        "rarity": 0.1,
+        "types": ["fire", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r"""  /\____/\
+ \	    /
+  |o  o|
+  \    /
+   \../
+    ''""",
+            "esc": None}]
+    },
+    "Raichu": {
+        "name": "Raichu",
+        "hp": 69,
+        "atc": 15,
+        "defense": 20,
+        "attacks": ["fire_bite", "bite", "power_bite", "fire_ball"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Dragon like pokete with flaming attacks.",
+        "lose_xp": 4,
+        "rarity": 0.1,
+        "types": ["fire", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r"""  /\____/\
+ \	    /
+  |o  o|
+  \    /
+   \../
+    ''""",
             "esc": None}]
     },
 }
