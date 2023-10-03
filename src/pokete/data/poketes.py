@@ -1519,6 +1519,27 @@ W         W""",
             "esc": ["thicc", "white"]
         }]
     },
+    "Pacino": {
+        "name": "Pacino",
+        "hp": 5,
+        "atc": 30,
+        "defense": 0,
+        "attacks": ["cry", "power_bite", "snooze"],
+        "pool": [],
+        "miss_chance": 20,
+        "desc": "Lazy pokete with huge power, but zero stamina.",
+        "lose_xp": 4,
+        "rarity": 3,
+        "types": ["undead", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": "",
+        "initiative": 1,
+        "ico": [{
+            "txt": r"""  (-)(-)
+ /  ''  /
+w        w""",
+            "esc": None}]
+    },
 }
 
 if __name__ == "__main__":
