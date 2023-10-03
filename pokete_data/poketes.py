@@ -1473,6 +1473,30 @@ W         W""",
     ''""",
             "esc": None}]
     },
+    "Raichu": {
+        "name": "Raichu",
+        "hp": 69,
+        "atc": 15,
+        "defense": 20,
+        "attacks": ["fire_bite", "bite", "power_bite", "fire_ball"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Dragon like pokete with flaming attacks.",
+        "lose_xp": 4,
+        "rarity": 0.1,
+        "types": ["fire", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "ico": [{
+            "txt": r"""  /\____/\
+ \	    /
+  |o  o|
+  \    /
+   \../
+    ''""",
+            "esc": None}]
+    },
 }
 
 if __name__ == "__main__":
