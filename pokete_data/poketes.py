@@ -1427,6 +1427,49 @@ w        w""",
 W         W""",
             "esc": None}]
     },
+    "curiosea": {
+        "name": "Curiosea",
+        "hp": 15,
+        "atc": 4,
+        "defense": 2,
+        "attacks": ["bubble_gun", "rain_dance"],
+        "pool": ["bubble_shield"],
+        "miss_chance": 0,
+        "desc": "A small fish that lives near hydroelectric dams.",
+        "lose_xp": 3,
+        "rarity": 1,
+        "types": ["water"],
+        "evolve_poke": "",
+        "evolve_lvl": 20,
+        "initiative": 1,
+        "ico": [{
+            "txt": """ ෴ܓ
+╳====°>
+  ¯^¯""",
+            "esc": None}],
+    },
+    "curioshock": {
+        "name": "Curioshock",
+        "hp": 20,
+        "atc": 5,
+        "defense": 3,
+        "attacks": ["bubble_gun", "shock", "rain_dance"],
+        "pool": ["bubble_shield", "mega_arch"],
+        "miss_chance": 0,
+        "desc": "Evolves when a Curiosea's curiosity gets the better of it and swims into a turbine.",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "types": ["water", "electro"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 4,
+        "ico": [{
+            "txt": """_ /¯¯¯¯¯\
+ ╳ ᶚᶚᶚ °<
+¯ \_____/
+     ^^""",
+            "esc": None}],
+    },
 }
 
 if __name__ == "__main__":
