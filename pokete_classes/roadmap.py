@@ -3,6 +3,9 @@
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
+import time
+import threading
+import signal
 from pokete_general_use_fns import liner
 from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .loops import std_loop, easy_exit_loop
@@ -20,8 +23,40 @@ class RoadMapException(Exception):
         text = f"{_map} {_map.name} has no mapstation"
         super().__init__(text)
 
+"""A little hackaround"""
+class StationObject(se.Box):
+    
+    def __init__(self, text, width, height, ob_class=se.Object):
+        super().__init__(height, width)
+        self.ob_class = ob_class
+        self.text = text
+        self.ob_args = {}
+        self.__create()
 
-class Station(se.Square):
+    def __create(self):
+        for ry in range(self.height):
+            for rx in range(self.width):
+                if len(self.text)==1:
+                    r=0
+                else:
+                    r=ry*self.width+rx
+                self.add_ob(
+                    self.ob_class(
+                        self.text[r], self.state, arg_proto=self.ob_args
+                    ),
+                    rx, ry
+                )
+
+    def recolor(self, color):
+        r=0
+        for obj in self.obs:
+            obj.rechar(color + self.text[r] + Color.reset)
+            if len(self.text)!=1:
+                r+=1
+
+
+ 
+class Station(StationObject):
     """Selectable station for Roadmap
     ARGS:
         roadmap: RoadMap object
@@ -35,15 +70,18 @@ class Station(se.Square):
     choosen = None
     obs = []
 
-    def __init__(self, roadmap, associate, additionals, width, height, desc,
-                 char="#", w_next="", a_next="", s_next="", d_next=""):
+    def __init__(self, roadmap, associate, additionals, width, height, desc, color="",
+                 text="#", w_next="", a_next="", s_next="", d_next=""):
         self.desc = desc
         self.roadmap = roadmap
-        self.org_char = char
+        self.org_char = text
         self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
-        self.color = ""
-        self.name = self.associates[0].pretty_name
-        super().__init__(char, width, height, state="float")
+        self.color = color
+        if self.associates[0]:
+            self.name = self.associates[0].pretty_name
+        super().__init__(text, width, height)
+        self.set_color()
+        self.recolor(self.color)
         self.w_next = w_next
         self.a_next = a_next
         self.s_next = s_next
@@ -52,15 +90,23 @@ class Station(se.Square):
 
     def choose(self):
         """Chooses and hightlights the station"""
-        self.rechar(Color.red + Color.thicc + self.org_char + Color.reset)
+        
         Station.choosen = self
         self.roadmap.rechar_info(
             self.name if self.has_been_visited() else "???"
         )
-
+        threading.Thread(target = self.blink, daemon = True).start()
+          
+    def blink(self):
+        while Station.choosen == self:
+            self.recolor(Color.red+Color.thicc)
+            time.sleep(0.6)
+            self.recolor(self.color)
+            time.sleep(0.35)
+    
     def unchoose(self):
         """Unchooses the station"""
-        self.rechar(self.color + self.org_char + Color.reset)
+        self.recolor(self.color)
 
     def next(self, inp: ActionList):
         """Chooses the next station in a certain direction
@@ -90,14 +136,15 @@ class Station(se.Square):
             in p_data.map_data[self.associates[0].name]["hard_obs"]
 
     def set_color(self, choose=False):
-        """Marks a station as visited
-        ARGS:
-            choose: Bool whether or not this done when choosing a city"""
-        if self.has_been_visited() and (self.is_city() if choose else True):
-            self.color = Color.yellow
-        else:
-            self.color = ""
-        self.unchoose()
+        """Marks a station as visited"""
+
+        if self.associates[0] is not None and not self.has_been_visited() and self.is_city():
+            self.text=self.text.replace("A", " ")
+            self.text=self.text.replace("P", " ")
+            self.text=self.text.replace("$", " ")
+            self.text=self.text.replace("C", " ")
+            self.text=self.text.replace("⌂", " ")
+            
 
 
 class RoadMap:
@@ -108,7 +155,7 @@ class RoadMap:
     def __init__(self, fig):
         self.fig = fig
         self.box = Box(
-            11, 40, "Roadmap",
+            17, 61, "Roadmap",
             f"{Action.CANCEL.mapping}:close",
             overview=mvp.movemap
         )
@@ -118,6 +165,12 @@ class RoadMap:
             obj = Station(self, obmp.ob_maps[sta], **_dict['gen'])
             self.box.add_ob(obj, **_dict['add'])
             setattr(self, sta, obj)
+            
+        for sta, _dict in p_data.decorations.items():
+            obj = Station(self, None, **_dict['gen'])
+            self.box.add_ob(obj, **_dict['add'])
+            setattr(self, sta, obj)
+            
 
     @property
     def sta(self):
