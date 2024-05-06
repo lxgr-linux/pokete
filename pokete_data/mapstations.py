@@ -139,7 +139,7 @@ caves.",
             "a_next": "playmap_6",
             "s_next": "playmap_11",
             "d_next": "playmap_12",
-            "text": """ ⌂ ━┳━""",
+            "text": """⌂  ━┳━""",
             "color": "\033[38;5;136m"
         },
         "add": {
@@ -155,7 +155,7 @@ caves.",
             "desc": "The shore of a lake near an olf fisher village.",
             "w_next": "playmap_8",
             "text": """┃""",
-            "color": "\033[38;5;178m"
+            "color": "\033[38;5;220m"
         },
         "add": {
             "x": 17,
@@ -164,14 +164,14 @@ caves.",
     },
     "playmap_12": {
         "gen": {
-            "width": 3,
             "additionals": [],
+            "width": 2,
             "height": 2,
             "desc": "A dense forest near Deepens forest.",
             "a_next": "playmap_8",
             "w_next": "playmap_13",
-            "text": """  ┃━━┛""",
-            "color": "\033[38;5;88m\033[1m"
+            "text": """ ┃━┛""",
+            "color": "\033[38;5;88m"
         },
         "add": {
             "x": 19,
@@ -188,10 +188,10 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_12",
             "w_next": "playmap_15",
             "text": """⌂┃A⌂┃⌂P┃$""",
-            "color": "\033[38;5;94m\033[1m"
+            "color": "\033[38;5;94m"
         },
         "add": {
-            "x": 20,
+            "x": 19,
             "y": 9
         }
     },
@@ -204,26 +204,26 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_13",
             "d_next": "playmap_16",
             "text": """┏━━""",
-            "color": "\033[38;5;88m\033[1m"
+            "color": "\033[38;5;88m"
         },
         "add": {
-            "x": 21,
+            "x": 20,
             "y": 8
         }
     },
     "playmap_16": {
         "gen": {
             "additionals": ["playmap_17"],
-            "width": 2,
+            "width": 3,
             "height": 1,
             "desc": "A small 'village', that's not even worth talking about.",
             "a_next": "playmap_15",
             "d_next": "playmap_18",
-            "text": """━━""",
-            "color": "\033[38;5;154m\033[1m"
+            "text": """━━━""",
+            "color": "\033[38;5;154m"
         },
         "add": {
-            "x": 24,
+            "x": 23,
             "y": 8
         }
     },
@@ -236,7 +236,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "a_next": "playmap_16",
             "w_next": "playmap_19",
             "text": """━━┛""",
-            "color": "\033[38;5;28m\033[1m"
+            "color": "\033[38;5;64m"
         },
         "add": {
             "x": 26,
@@ -278,6 +278,21 @@ hotspot.",
         "add": {
             "x": 28,
             "y": 3
+        }
+    },
+    "playmap_40": {
+        "gen": {
+            "additionals": [],
+            "width": 1,
+            "height": 1,
+            "desc": "A Great beach, with great weather, always.",
+            "s_next": "playmap_21",
+            "text": """┃""",
+            "color": "\033[38;5;220m"
+        },
+        "add": {
+            "x": 29,
+            "y": 2
         }
     },
     "playmap_28": {
@@ -345,21 +360,6 @@ of the most spectacular.",
             "y": 4
         }
     },
-    "playmap_40": {
-        "gen": {
-            "additionals": [],
-            "width": 1,
-            "height": 1,
-            "desc": "A Great beach, with great weather, always.",
-            "s_next": "playmap_21",
-            "text": """┃""",
-            "color": "\033[38;5;178m"
-        },
-        "add": {
-            "x": 29,
-            "y": 2
-        }
-    },
     "playmap_39": {
         "gen": {
             "additionals": ["playmap_41", "playmap_42", "playmap_43",
@@ -374,8 +374,8 @@ of the most spectacular.",
                     "juiciest and most delicious Mowcow-burgers, cut from the "
                     "happiest and most delicious Mowcows anywhere to find!",
             "w_next": "playmap_35",
-            "text": """  ┃⌂ P┃A┣━┛⌂⌂$⌂⌂""",
-            "color": "\033[38;5;227m\033[1m"
+            "text": """⌂⌂┃⌂⌂P┃A┣━┛⌂⌂$⌂⌂""",
+            "color": "\033[38;5;227m"
         },
         "add": {
             "x": 36,
@@ -387,22 +387,7 @@ of the most spectacular.",
     
 }
 
-decorations={
-    "wheeto": {
-        "gen": {
-            "additionals": [],
-            "width": 3,
-            "height": 4,
-            "desc": "",
-            "text": """\ /\|/\|/ | """,
-            "color": "\033[38;5;64m\033[1m"
-        },
-        "add": {
-            "x": 41,
-            "y": 6
-        }
-    },
-    
+decorations={    
     "cave3": {
         "gen": {
             "additionals": [],
@@ -478,21 +463,6 @@ decorations={
         }
     },
     
-    
-    "water_mountainsee": {
-        "gen": {
-            "additionals": [],
-            "width": 1,
-            "height": 1,
-            "desc": "",
-            "text": """█""",
-            "color": "\033[38;5;27m\033[1m"
-        },
-        "add": {
-            "x": 29,
-            "y": 8
-        }
-    },
     "cave5": {
         "gen": {
             "additionals": [],
@@ -507,19 +477,18 @@ decorations={
             "y": 5
         }
     },
-    
-    "water_rockybeach": {
+    "mountainsee": {
         "gen": {
             "additionals": [],
-            "width": 6,
-            "height": 2,
-            "desc": "",
-            "text": """████▀▀▀▀ ▔  """,
-            "color": "\033[38;5;27m\033[1m"
+            "width": 1,
+            "height": 1,
+            "desc": "_LAKE",
+            "text": """█""",
+            "color": "\033[38;5;39m"
         },
         "add": {
-            "x": 27,
-            "y": 1
+            "x": 29,
+            "y": 8
         }
     },
     
@@ -537,6 +506,22 @@ decorations={
             "y": 1
         }
     },
+    
+    "rockybeach": {
+        "gen": {
+            "additionals": [],
+            "width": 7,
+            "height": 1,
+            "desc": "_LAKE",
+            "text": """████▀▀▔""",
+            "color": "\033[38;5;39m"
+        },
+        "add": {
+            "x": 27,
+            "y": 1
+        }
+    },
+    
     
     "cave6": {
         "gen": {
@@ -566,14 +551,14 @@ decorations={
             "y": 11
         }
     },
-    "water_sunnylake": {
+    "sunnylake": {
         "gen": {
             "additionals": [],
             "width": 2,
             "height": 2,
-            "desc": "",
+            "desc": "_LAKE",
             "text": """▄▄██""",
-            "color": "\033[38;5;27m\033[1m"
+            "color": "\033[38;5;39m"
         },
         "add": {
             "x": 12,
@@ -581,14 +566,14 @@ decorations={
         }
     },
     
-    "water_fisherlake": {
+    "fisherlake": {
         "gen": {
             "additionals": [],
             "width": 6,
             "height": 1,
-            "desc": "",
+            "desc": "_LAKE",
             "text": """▆▆██▆▃""",
-            "color": "\033[38;5;27m\033[1m"
+            "color": "\033[38;5;39m"
         },
         "add": {
             "x": 14,
@@ -608,66 +593,6 @@ decorations={
         "add": {
             "x": 45,
             "y": 1
-        }
-    },
-    
-    "karpi": {
-        "gen": {
-            "additionals": [],
-            "width": 8,
-            "height": 1,
-            "desc": "",
-            "text": """<°))))><""",
-            "color": "\033[1m\033[34m"
-        },
-        "add": {
-            "x": 21,
-            "y": 15
-        }
-    },
-       
-    "owl": {
-        "gen": {
-            "additionals": [],
-            "width": 5,
-            "height": 4,
-            "desc": "",
-            "text": """,___,{o,o}/)_)  ""  """,
-            "color": "\033[1m\033[38;5;22m"
-        },
-        "add": {
-            "x": 24,
-            "y": 9
-        }
-    },
-    
-    "rosi_flower": {
-        "gen": {
-            "additionals": [],
-            "width": 3,
-            "height": 1,
-            "desc": "",
-            "text": """(@)""",
-            "color": "\033[1m\033[38;5;196m"
-        },
-        "add": {
-            "x": 16,
-            "y": 1
-        }
-    },
-    
-    "rosi_trunk": {
-        "gen": {
-            "additionals": [],
-            "width": 3,
-            "height": 2,
-            "desc": "",
-            "text": """ | \|/""",
-            "color": "\033[1m\033[38;5;29m"
-        },
-        "add": {
-            "x": 16,
-            "y": 2
         }
     },
 }

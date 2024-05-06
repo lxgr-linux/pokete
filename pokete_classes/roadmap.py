@@ -5,7 +5,7 @@ import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
 import time
 import threading
-import signal
+import random
 from pokete_general_use_fns import liner
 from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .loops import std_loop, easy_exit_loop
@@ -32,6 +32,8 @@ class StationObject(se.Box):
         self.text = text
         self.ob_args = {}
         self.__create()
+        if self.desc == "_LAKE":
+            threading.Thread(target = self.animate_water, daemon = True).start()
 
     def __create(self):
         for ry in range(self.height):
@@ -42,7 +44,7 @@ class StationObject(se.Box):
                     r=ry*self.width+rx
                 self.add_ob(
                     self.ob_class(
-                        self.text[r], self.state, arg_proto=self.ob_args
+                        self.text[r], "float", arg_proto=self.ob_args
                     ),
                     rx, ry
                 )
@@ -53,6 +55,16 @@ class StationObject(se.Box):
             obj.rechar(color + self.text[r] + Color.reset)
             if len(self.text)!=1:
                 r+=1
+                
+    def animate_water(self):
+        #bruh i think this could be done better
+        water_colors = ["\033[38;5;38m", "\033[38;5;75m", "\033[38;5;39m", "\033[38;5;74m"]
+        while True:
+            r=0
+            for obj in self.obs:
+                obj.rechar(water_colors[random.randint(0, len(water_colors)-1)] + self.text[r] + Color.reset)
+                r+=1
+            time.sleep(0.7)
 
 
  
@@ -80,8 +92,8 @@ class Station(StationObject):
         if self.associates[0]:
             self.name = self.associates[0].pretty_name
         super().__init__(text, width, height)
-        self.set_color()
         self.recolor(self.color)
+        self.hide_if_visited()
         self.w_next = w_next
         self.a_next = a_next
         self.s_next = s_next
@@ -90,23 +102,22 @@ class Station(StationObject):
 
     def choose(self):
         """Chooses and hightlights the station"""
-        
         Station.choosen = self
         self.roadmap.rechar_info(
             self.name if self.has_been_visited() else "???"
         )
-        threading.Thread(target = self.blink, daemon = True).start()
-          
-    def blink(self):
-        while Station.choosen == self:
-            self.recolor(Color.red+Color.thicc)
-            time.sleep(0.6)
-            self.recolor(self.color)
-            time.sleep(0.35)
-    
+        threading.Thread(target = self.animate_blink, daemon = True).start()
+              
     def unchoose(self):
         """Unchooses the station"""
         self.recolor(self.color)
+
+    def animate_blink(self):
+        while Station.choosen == self:
+            self.recolor(Color.red+Color.thicc)
+            time.sleep(0.8)
+            self.recolor(self.color)
+            time.sleep(0.5)
 
     def next(self, inp: ActionList):
         """Chooses the next station in a certain direction
@@ -135,18 +146,13 @@ class Station(StationObject):
         return "pokecenter" \
             in p_data.map_data[self.associates[0].name]["hard_obs"]
 
-    def set_color(self, choose=False):
+    def hide_if_visited(self, choose=False):
         """Marks a station as visited"""
-
-        if self.associates[0] is not None and not self.has_been_visited() and self.is_city():
-            self.text=self.text.replace("A", " ")
-            self.text=self.text.replace("P", " ")
-            self.text=self.text.replace("$", " ")
-            self.text=self.text.replace("C", " ")
-            self.text=self.text.replace("⌂", " ")
+        if self.associates[0] is not None and not self.has_been_visited():
+            features = ["A", "P", "$", "C", "⌂"]
+            for ch in features:
+                self.text=self.text.replace(ch, " ")
             
-
-
 class RoadMap:
     """Map you can see and navigate maps on
     ARGS:
@@ -161,15 +167,16 @@ class RoadMap:
         )
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width - 2, 0)
+        for sta, _dict in p_data.decorations.items():
+            obj = Station(self, None, **_dict['gen'])
+            self.box.add_ob(obj, **_dict['add'])
+            setattr(self, sta, obj)
+
         for sta, _dict in p_data.stations.items():
             obj = Station(self, obmp.ob_maps[sta], **_dict['gen'])
             self.box.add_ob(obj, **_dict['add'])
             setattr(self, sta, obj)
             
-        for sta, _dict in p_data.decorations.items():
-            obj = Station(self, None, **_dict['gen'])
-            self.box.add_ob(obj, **_dict['add'])
-            setattr(self, sta, obj)
             
 
     @property
@@ -192,7 +199,7 @@ class RoadMap:
             _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city"""
         for i in Station.obs:
-            i.set_color(choose)
+            i.hide_if_visited(choose)
         [i for i in Station.obs
          if (self.fig.map
              if self.fig.map not in [obmp.ob_maps[i] for i in
