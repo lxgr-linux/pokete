@@ -30,10 +30,12 @@ trainers = {
     "playmap_2": [{
         "pokes": [("ostri", 160)],
         "args": ("Wanderer Murrad", "He",
-                 ["Isn't it a great day?", "I traveled here from a distant country",
+                 ["Isn't it a great day?",
+                  "I traveled here from a distant country",
                   "Do you want to fight against my rare Pokete?"],
                  ["It is stronger than you might have expected"],
-                 ["Oh, I didn't think you could defeat my Pokete!", "You are a very good trainer!"], 32, 12)
+                 ["Oh, I didn't think you could defeat my Pokete!",
+                  "You are a very good trainer!"], 32, 12)
     },
     ],
     "playmap_3": [{
@@ -80,7 +82,8 @@ trainers = {
     "playmap_8": [{
         "pokes": [("gobost", 400)],
         "args": ("Woodsman Bert", "He",
-                 ["Do you see this abandoned house?", "I caught this Pokete in there!"],
+                 ["Do you see this abandoned house?",
+                  "I caught this Pokete in there!"],
                  ["It's pretty cool huh?!"],
                  ["Oh, yours is better than mine!"], 39, 6)
     },
@@ -110,7 +113,8 @@ trainers = {
     "playmap_13": [{
         "pokes": [("vogli", 600)],
         "args": ("Citizen", "He",
-                 ["Hello, fellow stranger!", "This town is known for its bird Poketes"],
+                 ["Hello, fellow stranger!",
+                  "This town is known for its bird Poketes"],
                  ["Haha, you're bad!"],
                  ["Damn!"], 5, 31)
     },
@@ -118,7 +122,8 @@ trainers = {
     "playmap_14": [{
         "pokes": [("owol", 650)],
         "args": ("First Trainer", "He",
-                 ["Welcome to the Deepest Forest Pokete Arena", "I'm your first enemy!"],
+                 ["Welcome to the Deepest Forest Pokete Arena",
+                  "I'm your first enemy!"],
                  ["Haha, you're bad!"],
                  ["Good luck!"], 17, 10)
     }, {
@@ -139,15 +144,18 @@ trainers = {
             "args": ("Last Trainer", "He",
                      ["I'm your last enemy!"],
                      ["Haha, you're bad!"],
-                     ["Oh!", "You were able to defeat me?", "You can now leave Deepest Forest"], 17, 5)
+                     ["Oh!", "You were able to defeat me?",
+                      "You can now leave Deepest Forest"], 17, 5)
         },
     ],
     "playmap_15": [{
         "pokes": [("clampi", 650)],
         "args": ("Samantha", "She",
-                 ["Hey, you!", "My Pokete is very effective against bird Poketes"],
+                 ["Hey, you!",
+                  "My Pokete is very effective against bird Poketes"],
                  ["You see, it's effective"],
-                 ["Oh no", "I guess yours is even more effective than mine!"], 43, 17)
+                 ["Oh no", "I guess yours is even more effective than mine!"],
+                 43, 17)
     }, {
         "pokes": [("angrilo", 650)],
         "args": ("Jessica", "She",
@@ -165,7 +173,8 @@ trainers = {
     }, {
         "pokes": [("clampi", 700)],
         "args": ("Karen", "She",
-                 ["I don't think you can walk here", "I demand a fight with you!"],
+                 ["I don't think you can walk here",
+                  "I demand a fight with you!"],
                  ["Go home, little zoomer."],
                  ["I want to talk to your manager!"], 56, 11)
     },
@@ -192,8 +201,10 @@ trainers = {
                   "When leaving this town through the 'Cave of Doom' you have to fight against the best trainers of "
                   "this town.",
                   "But first, you have to fight me!"],
-                 ["If I'm a problem for you, you might not be able to fight the other trainers."],
-                 ["Oh", "I guess you will be a challenge for our trainers!"], 12, 23)
+                 [
+                     "If I'm a problem for you, you might not be able to fight the other trainers."],
+                 ["Oh", "I guess you will be a challenge for our trainers!"],
+                 12, 23)
     },
     ],
     "playmap_27": [{
@@ -210,14 +221,14 @@ trainers = {
                  ["The other trainers wont be as easy!"], 11, 10)
     }, {
         "pokes": [("treenator", 950), ("lilstone", 950)],
-        "args": ("Jessica", "She",
+        "args": ("Jessica the fighter", "She",
                  ["You wont be ready for my Treenator!"],
                  ["You're a loooser!"],
                  ["Our best trainer will defeat you though!"], 16, 6)
     },
         {
             "pokes": [("poundi", 1000), ("steini", 1000), ("diamondos", 1000)],
-            "args": ("First Trainer", "He",
+            "args": ("First Trainer of Rock-ville", "He",
                      ["Let's have a fair fight!"],
                      ["You're a loooser!"],
                      ["I wish you the best luck on your journey!"], 22, 10)
@@ -232,20 +243,23 @@ trainers = {
     }, {
         "pokes": [("steini", 850)],
         "args": ("Laurena", "She",
-                 ["I trained my Steini for years to get to this level", "I will win!"],
+                 ["I trained my Steini for years to get to this level",
+                  "I will win!"],
                  ["You're a loooser!"],
                  ["Ohhh nooo!", "NOT MY STEINI!!!1!!1"], 114, 37)
     }, {
         "pokes": [("poisopla", 950)],
         "args": ("Laurin", "They",
-                 ["Poisopla is one of the strongest local Poketes!", "And it will kill your lame Pokete!"],
+                 ["Poisopla is one of the strongest local Poketes!",
+                  "And it will kill your lame Pokete!"],
                  ["You're a loooser!"],
                  ["It won't be as easy in 'Flowy Town'!"], 141, 23)
     },
         {
             "pokes": [("confuso", 900)],
             "args": ("Fucking badass looking dude in the woods", "He",
-                     ["You have to beat my Pokete to enter 'Flowy Town'", "I guess it'll confuse you!"],
+                     ["You have to beat my Pokete to enter 'Flowy Town'",
+                      "I guess it'll confuse you!"],
                      ["You're a loooser!"],
                      ["I wish you the best of luck in 'Flowy Town'!"], 190, 8)
         },
@@ -255,7 +269,9 @@ trainers = {
         "args": ("Guy at the Entrance", "He",
                  ["Welcome to 'Flowy Town', home of the flowers."],
                  ["You're a loooser!"],
-                 ["I wish you the best of luck fighting against our best trainers!"], 5, 18)
+                 [
+                     "I wish you the best of luck fighting against our best trainers!"],
+                 5, 18)
     },
     ],
     "playmap_31": [{
@@ -280,7 +296,8 @@ trainers = {
         {
             "pokes": [("rosi", 1200)],
             "args": ("Master of the Flowers", "He",
-                     ["I'm the Master of the plants and I have one of the rarest plant Poketes!"],
+                     [
+                         "I'm the Master of the plants and I have one of the rarest plant Poketes!"],
                      ["You're a loooser!"],
                      ["This was unfortunate!"], 31, 4)
         },
@@ -291,7 +308,7 @@ trainers = {
                  ["This apt has supercow-powers!"],
                  ["You're a loooser!"],
                  ["I hope you'll also catch one!!"], 59, 23)
-        },
+    },
     ],
     "playmap_35": [{
         "pokes": [("mowcow", 1200)],
@@ -301,19 +318,19 @@ trainers = {
                   "You have to pass my field to reach Agrawos!"],
                  ["I don't think you'll ever get there!"],
                  ["Have fun in Agrawos!"], 6, 17)
-        }, {
+    }, {
         "pokes": [("dicki", 1250)],
         "args": ("Farmer Doora", "She",
                  ["This is a cool Pokete I found on my field!"],
                  ["It's cool, innit?!"],
                  ["I guess have still have to train it. :("], 74, 33)
-        }, {
+    }, {
         "pokes": [("wolfiro", 1300)],
         "args": ("Farmer Ralf", "He",
                  ["DIE!"],
                  ["HAHAHA, IM BETTER THAN YOU!"],
                  ["NOOOOOO; WHYYY ARE YOU BETTER ??!!!1!!!111"], 69, 61)
-        },
+    },
     ],
     "playmap_39": [{
         "pokes": [("megapois", 2000)],
@@ -322,7 +339,7 @@ trainers = {
                   "If so, look at this cool Pokete!"],
                  ["You're a loooser!"],
                  ["Cool, huh?"], 8, 37)
-        },
+    },
     ],
     "playmap_40": [{
         "pokes": [("rustacean", 1800)],
@@ -330,7 +347,7 @@ trainers = {
                  ["My Pokete will blow you away!"],
                  ["You're a loooser!"],
                  ["Cool, huh?"], 58, 12)
-        },
+    },
     ],
     "playmap_41": [{
         "pokes": [("wheeto", 2000)],
@@ -340,7 +357,7 @@ trainers = {
                   "The good stuff!"],
                  ["Uhhh yeah!", "The good stuff...!"],
                  ["I guess it's not the good stuff"], 17, 4)
-        },
+    },
     ],
     "playmap_46": [
         {
