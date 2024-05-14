@@ -3,32 +3,30 @@ package msg
 import "fmt"
 
 type Registry struct {
-	types *map[Type]Body
+	unMarshallers *map[Type]UnMarshaller
 }
 
-func (r Registry) GetType(t Type) (Body, error) {
-	body, ok := (*r.types)[t]
+func (r Registry) GetUnMarshaller(t Type) (UnMarshaller, error) {
+	m, ok := (*r.unMarshallers)[t]
 
 	if !ok {
 		return nil, fmt.Errorf("can't find type register for type `%s`", t)
 	}
-	return body, nil
+	return m, nil
 }
 
-func (r Registry) RegisterType(b Body) error {
-	t := b.GetType()
-
-	_, err := r.GetType(t)
+func (r Registry) RegisterType(t Type, m UnMarshaller) error {
+	_, err := r.GetUnMarshaller(t)
 	if err == nil {
 		return fmt.Errorf("type `%s` is already registered", t)
 	}
 
-	(*r.types)[t] = b
+	(*r.unMarshallers)[t] = m
 
 	return nil
 }
 
 func NewRegistry() Registry {
-	m := make(map[Type]Body)
+	m := make(map[Type]UnMarshaller)
 	return Registry{&m}
 }

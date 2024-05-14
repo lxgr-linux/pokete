@@ -2,31 +2,25 @@ package bs_rpc
 
 import (
     "encoding/json"
-    "fmt"
+
     "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
 )
 
-func newInstance[T msg.Body](_ T) (b msg.Msg[T]) {
-    return msg.Msg[T]{}
-}
-
-func Unmarshall(reg *msg.Registry, b []byte) (msg.Body, error) {
+func Unmarshall(reg *msg.Registry, b []byte) (msg.Msg[msg.Body], error) {
     genericMsg := msg.Msg[msg.Body]{}
     _ = json.Unmarshal(b, &genericMsg)
 
-    emptyOb, err := reg.GetType(genericMsg.Type)
+    unMarshaller, err := reg.GetUnMarshaller(genericMsg.Type)
     if err != nil {
-        return nil, err
+        return genericMsg, err
     }
 
-    newMsg := msg.NewMsg(emptyOb)
-
-    fmt.Printf("%#v", newMsg)
-    err = json.Unmarshal(b, &newMsg)
-    return newMsg.Body, err
+    body, err := unMarshaller(b)
+    genericMsg.Body = body
+    return genericMsg, err
 }
 
-func Marshall(m msg.Body) ([]byte, error) {
-    nm := msg.NewMsg(m)
+func Marshall(m msg.Body, call uint32, method msg.Method) ([]byte, error) {
+    nm := msg.NewMsg(m, call, method)
     return json.Marshal(nm)
 }
