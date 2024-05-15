@@ -33,6 +33,17 @@ func main() {
     if err != nil {
         log.Panic(err)
     }
-
     fmt.Println(resp)
+
+    ch, err := c.CallForResponses(msg.TestStreamMsg{4})
+    if err != nil {
+        log.Panic(err)
+    }
+    for {
+        val := <-ch
+        if val == nil {
+            break
+        }
+        fmt.Println(val)
+    }
 }
