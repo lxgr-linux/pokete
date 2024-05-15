@@ -86,8 +86,11 @@ def single_validate(dict, validator, name=&#34;&#34;):
 
 def validate():
     &#34;&#34;&#34;Validates all modules&#34;&#34;&#34;
-    for i, j in zip([weathers, achievements, pokes, types, map_data, stations, items, npcs,
-                     attacks, maps], validators):
+    all_trainer_names = []
+
+    for i, j in zip(
+        [weathers, achievements, pokes, types, map_data, stations, items, npcs,
+         attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
         for i in pokes[p][&#34;ico&#34;]:
@@ -101,6 +104,9 @@ def validate():
     for t in trainers:
         for i in trainers[t]:
             one_validate(i, &#34;trainer&#34;, t + &#34;.trainer&#34;)
+            if (trainer_name := i[&#34;args&#34;][0]) in all_trainer_names:
+                raise Exception(f&#34;Trainer {i}s name is duplicated&#34;)
+            all_trainer_names.append(trainer_name)
 
 
 validators = {
@@ -126,7 +132,6 @@ validators = {
     &#34;poke_ico&#34;: [&#34;txt&#34;, &#34;esc&#34;],
     &#34;trainer&#34;: [&#34;pokes&#34;, &#34;args&#34;]
 }
-
 
 if __name__ == &#34;__main__&#34;:
     print(&#34;\033[31;1mDo not execute this!\033[0m&#34;)</code></pre>
@@ -262,8 +267,11 @@ and …</p></div>
 </summary>
 <pre><code class="python">def validate():
     &#34;&#34;&#34;Validates all modules&#34;&#34;&#34;
-    for i, j in zip([weathers, achievements, pokes, types, map_data, stations, items, npcs,
-                     attacks, maps], validators):
+    all_trainer_names = []
+
+    for i, j in zip(
+        [weathers, achievements, pokes, types, map_data, stations, items, npcs,
+         attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
         for i in pokes[p][&#34;ico&#34;]:
@@ -276,7 +284,10 @@ and …</p></div>
         one_validate(stations[s][&#34;add&#34;], &#34;add&#34;, s + &#34;add&#34;)
     for t in trainers:
         for i in trainers[t]:
-            one_validate(i, &#34;trainer&#34;, t + &#34;.trainer&#34;)</code></pre>
+            one_validate(i, &#34;trainer&#34;, t + &#34;.trainer&#34;)
+            if (trainer_name := i[&#34;args&#34;][0]) in all_trainer_names:
+                raise Exception(f&#34;Trainer {i}s name is duplicated&#34;)
+            all_trainer_names.append(trainer_name)</code></pre>
 </details>
 </dd>
 </dl>
