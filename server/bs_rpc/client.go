@@ -66,6 +66,14 @@ func (c Client) send(body msg.Body, call uint32, method msg.Method) error {
     return err
 }
 
+func (c Client) getCall(callId uint32) (*chan msg.Body, error) {
+    ch, found := (*c.calls)[callId]
+    if !found {
+        return nil, fmt.Errorf("call id for response not found")
+    }
+    return ch, nil
+}
+
 func (c Client) Listen(ctx context.Context) error {
     var msgBuf []byte
     for {
@@ -93,16 +101,16 @@ func (c Client) Listen(ctx context.Context) error {
 
             switch m.Method {
             case msg.METHOD_RESPONSE:
-                ch, found := (*c.calls)[m.Call]
-                if !found {
-                    return fmt.Errorf("call id for response not found")
+                ch, err := c.getCall(m.Call)
+                if err != nil {
+                    return err
                 }
 
                 *ch <- m.Body
             case msg.METHOD_RESPONSE_CLOSE:
-                ch, found := (*c.calls)[m.Call]
-                if !found {
-                    return fmt.Errorf("call id for response not found")
+                ch, err := c.getCall(m.Call)
+                if err != nil {
+                    return err
                 }
 
                 close(*ch)
