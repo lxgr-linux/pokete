@@ -1,4 +1,4 @@
-from bs_rpc import msg, Body
+from .msg import EmptyMsg
 
 
 class NotRegistredException(Exception):
@@ -12,6 +12,7 @@ class AlreadyRegistredException(Exception):
 class Registry:
     def __init__(self):
         self.reg = {}
+        self.register(EmptyMsg)
 
     def register(self, body_class):
         t = body_class({}).get_type()

@@ -1,9 +1,10 @@
 import json
 import logging
 import time
-import threading
 
-from bs_rpc.msg import Body, Method, Msg, EmptyMsg
+from .channel_generator import ChannelGenerator
+from .msg import Body, Method, Msg, EmptyMsg
+from .channel import Channel
 from .registry import Registry
 
 END_SECTION = b"<END>"
@@ -13,7 +14,7 @@ class Client:
     def __init__(self, rw, reg: Registry):
         self.rw = rw
         self.reg = reg
-        self.calls: dict[int: tuple[threading.Event, list[Body]]] = {}
+        self.calls: dict[int: Channel] = {}
 
     def __send(self, body: Body, call: int, method: Method):
         """Sends a request to the server
@@ -31,7 +32,7 @@ class Client:
             ) + END_SECTION
         )
 
-    def __get_call(self, call_id: int) -> tuple[threading.Event, list[Body]]:
+    def __get_call(self, call_id: int) -> Channel:
         if (
             call := self.calls.get(call_id)
         ) is not None:
@@ -40,14 +41,24 @@ class Client:
             raise Exception("call id for response not found")
 
     def call_for_response(self, body: Body) -> Body:
-        event = threading.Event()
         call_id = int(time.time())
+        ch = Channel()
         self.__send(body, call_id, Method.CALL_FOR_RESPONSE)
-        self.calls[call_id] = (event, [])
-        event.wait()
-        call = self.__get_call(call_id)[1]
+        self.calls[call_id] = ch
+        call = ch.listen()
         del self.calls[call_id]
-        return call[0]
+        return call
+
+    def call_for_responses(self, body: Body) -> ChannelGenerator:
+        call_id = int(time.time())
+        ch = Channel()
+        self.__send(body, call_id, Method.CALL_FOR_RESPONSES)
+        self.calls[call_id] = ch
+
+        def close_fn():
+            del self.calls[call_id]
+
+        return ChannelGenerator(ch, close_fn)
 
     def listen(self, context):
         msg_buf = b""
@@ -81,12 +92,10 @@ class Client:
                             Method.RESPONSE_CLOSE
                         )
                     case Method.RESPONSE:
-                        call = self.__get_call(msg["call"])
-                        call[1].append(body)
-                        call[0].set()
-                        call[0].clear()
+                        ch = self.__get_call(msg["call"])
+                        ch.push(body)
                     case Method.RESPONSE_CLOSE:
-                        self.__get_call(msg["call"])
-                        del self.calls[msg["call"]]
+                        ch = self.__get_call(msg["call"])
+                        ch.close()
 
                 msg_buf = bytes.join(END_SECTION, msg_parts[1:])

@@ -33,5 +33,5 @@ class Msg(TypedDict):
 
 
 class EmptyMsg(Body):
-    def __init__(self, _):
+    def __init__(self, data):
         super().__init__("internal.empty", {})

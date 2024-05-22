@@ -19,6 +19,8 @@ class Channel:
         return self.__closed
 
     def listen(self):
-        if len(self.__state) == 0 and not self.__closed:
+        if len(self.__state) == 0:
+            if self.__closed:
+                return None
             self.__event.wait()
         return self.__state.pop(0)
