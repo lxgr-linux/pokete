@@ -1,6 +1,7 @@
 import json
 import logging
 import time
+import threading
 
 from bs_rpc.msg import Body, Method, Msg, EmptyMsg
 from .registry import Registry
@@ -12,7 +13,7 @@ class Client:
     def __init__(self, rw, reg: Registry):
         self.rw = rw
         self.reg = reg
-        self.calls: dict[int: list[Body]] = {}
+        self.calls: dict[int: tuple[threading.Event, list[Body]]] = {}
 
     def __send(self, body: Body, call: int, method: Method):
         """Sends a request to the server
@@ -30,7 +31,7 @@ class Client:
             ) + END_SECTION
         )
 
-    def __get_call(self, call_id: int) -> list[Body]:
+    def __get_call(self, call_id: int) -> tuple[threading.Event, list[Body]]:
         if (
             call := self.calls.get(call_id)
         ) is not None:
@@ -39,11 +40,12 @@ class Client:
             raise Exception("call id for response not found")
 
     def call_for_response(self, body: Body) -> Body:
+        event = threading.Event()
         call_id = int(time.time())
         self.__send(body, call_id, Method.CALL_FOR_RESPONSE)
-        self.calls[call_id] = []
-        while len(call := self.__get_call(call_id)) == 0:
-            time.sleep(0.1)
+        self.calls[call_id] = (event, [])
+        event.wait()
+        call = self.__get_call(call_id)[1]
         del self.calls[call_id]
         return call[0]
 
@@ -80,7 +82,9 @@ class Client:
                         )
                     case Method.RESPONSE:
                         call = self.__get_call(msg["call"])
-                        call.append(body)
+                        call[1].append(body)
+                        call[0].set()
+                        call[0].clear()
                     case Method.RESPONSE_CLOSE:
                         self.__get_call(msg["call"])
                         del self.calls[msg["call"]]
