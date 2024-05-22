@@ -26,7 +26,7 @@ func (p *Position) Change(newPosition Position) error {
         p.Y = newPosition.Y
         return nil
     }
-    return fmt.Errorf("position %v is not playsible to result from %v", newPosition, *p)
+    return fmt.Errorf("position %v is not plausible to result from %v", newPosition, *p)
 }
 
 func (p Position) isPlausible(newPosition Position) bool {

@@ -3,15 +3,17 @@
 import socket
 import json
 import logging
+import threading
 
+import bs_rpc
 import release
+
 from pokete_classes import ob_maps as obmp, roadmap
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.input import ask_text, ask_ok
+from pokete_classes.multiplayer import msg
 from pokete_classes.multiplayer.pc_manager import pc_manager
 from pokete_general_use_fns import liner
-
-END_SECTION = b"<END>"
 
 
 class Connector:
@@ -26,6 +28,8 @@ class Connector:
         self.overview = None
         self.figure = None
         self.saved_pos = ()
+        self.bs_rpc_client: bs_rpc.Client = None
+        self.reg = msg.get_registry()
 
     def __call__(self, _map, overview):
         """Starts ui to connect to server
@@ -80,6 +84,13 @@ class Connector:
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             self.connection.connect((self.host, self.port))
+            self.bs_rpc_client = bs_rpc.Client(connector, self.reg)
+
+            listen = threading.Thread(
+                target=lambda: self.bs_rpc_client.listen(self),
+                daemon=True)
+
+            listen.start()
             return True
         except Exception as excpt:
             ask_ok(
@@ -89,14 +100,6 @@ class Connector:
                 self.overview,
             )
             return False
-
-    def send(self, data: dict):
-        """Sends a request to the server
-        ARGS:
-            data: dict that is send"""
-        self.connection.sendall(
-            str.encode(json.dumps(data)) + END_SECTION
-        )
 
     def send_pos_update(self, _map, x, y):
         """Sends a position update to the server
@@ -114,68 +117,14 @@ class Connector:
                 },
             }
         )
+        self.bs_rpc_client.__send(msg.)
 
     def handshake(self):
         """Sends and handles the handshake with the server"""
-        self.send(
-            {
-                "Type": 1,
-                "Body": {
-                    "UserName": self.user_name,
-                    "Version": release.VERSION,
-                },
-            }
-        )
-        if (d := self.receive_data())["Type"] == 2:
-            self.ask_user_name(True)
-            self.establish_connection()
-            self.handshake()
-        elif d["Type"] == 3:
-            ask_ok(self.map, f"Version mismatch: {d['Body']}", self.overview)
-        elif d["Type"] == 0:
-            obmp.ob_maps = gen_maps(d["Body"]["Maps"], fix_center=True)
-            gen_obs(
-                d["Body"]["Obmaps"],
-                d["Body"]["NPCs"],
-                d["Body"]["Trainers"],
-                self.figure,
-            )
-            roadmap.roadmap = roadmap.RoadMap(
-                self.figure,
-                d["Body"]["MapStations"]
-            )
-            pos = d["Body"]["Position"]
-            self.saved_pos = (
-                self.figure.map.name,
-                self.figure.oldmap.name,
-                self.figure.last_center_map.name,
-                self.figure.x,
-                self.figure.y,
-            )
-            self.figure.remove()
-            self.figure.add(obmp.ob_maps[pos["Map"]], pos["X"], pos["Y"])
-            if d["Body"]["GreetingText"]:
-                ask_ok(
-                    self.map,
-                    liner(d["Body"]["GreetingText"], self.map.width - 4)
-                )
-            if d["Body"]["Users"]:
-                for user in d["Body"]["Users"]:
-                    pc_manager.set(
-                        user["Name"],
-                        user["Position"]["Map"],
-                        user["Position"]["X"],
-                        user["Position"]["Y"],
-                    )
-
-    def receive_data(self):
-        """Receives and returns data from the server"""
-        data = self.connection.recv(1048576)
-        while data[-len(END_SECTION):] != END_SECTION:
-            data += self.connection.recv(1048576)
-        ret = json.loads(data[: -len(END_SECTION)])
-        logging.info("[Connector] Received data: %s", ret)
-        return ret
+        self.bs_rpc_client.__send(msg.TYPE_HANDSHAKE, {
+            "UserName": self.user_name,
+            "Version": release.VERSION,
+        })
 
     def ensure_closure(self):
         """Makes sure the connection is closed"""

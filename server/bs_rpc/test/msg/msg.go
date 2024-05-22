@@ -4,6 +4,7 @@ import (
     "context"
     "fmt"
     "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+    "time"
 )
 
 type TestRequestMsg struct {
@@ -56,7 +57,7 @@ func (t TestStreamMsg) CallForResponses(ctx context.Context, r msg.Responder) er
         if err != nil {
             return err
         }
-        //time.Sleep(1 * time.Second)
+        time.Sleep(1 * time.Second)
     }
 
     return nil

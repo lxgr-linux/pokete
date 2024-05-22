@@ -4,7 +4,6 @@ import (
     "github.com/lxgr-linux/pokete/server/config"
     "github.com/lxgr-linux/pokete/server/pokete/users"
     "github.com/lxgr-linux/pokete/server/resources"
-    "os/user"
 )
 
 type OptionsFunc func(*options) error
@@ -23,7 +22,7 @@ type options struct {
 type Pokete struct {
     config    *config.Config
     resources *resources.Resources
-    users     *user.Users
+    users     *users.Users
     options   *options
 }
 
