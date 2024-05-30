@@ -7,3 +7,7 @@ type EmptyMsg struct {
 func (e EmptyMsg) GetType() Type {
     return "internal.empty"
 }
+
+func NewEmptyMsg() EmptyMsg {
+    return EmptyMsg{BaseMsg{}}
+}

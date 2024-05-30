@@ -4,14 +4,17 @@ import (
     "bytes"
     "context"
     "encoding/json"
+    "errors"
     "fmt"
-    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
     "io"
     "time"
+
+    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
 )
 
 var (
-    endSection = []byte("<END>")
+    endSection            = []byte("<END>")
+    disconnectError error = errors.New("eof reached")
 )
 
 func NewClient(rw io.ReadWriter, registry msg.Registry) Client {
@@ -76,17 +79,36 @@ func (c Client) getCall(callId uint32) (*chan msg.Body, error) {
 
 func (c Client) Listen(ctx context.Context) error {
     var msgBuf []byte
-    for {
+    var errorCh = make(chan error)
+    var byteCh = make(chan []byte)
+
+    bufReadFn := func() {
         buf := make([]byte, 32)
         mLen, err := c.rw.Read(buf)
         if err == io.EOF {
-            return nil
+            errorCh <- disconnectError
         }
         if err != nil {
-            return err
+            errorCh <- err
         }
 
-        msgBuf = append(msgBuf, buf[:mLen]...)
+        byteCh <- buf[:mLen]
+    }
+
+    for {
+        go bufReadFn()
+
+        select {
+        case err := <-errorCh:
+            if err == disconnectError {
+                return nil
+            }
+            if err != nil {
+                return err
+            }
+        case buf := <-byteCh:
+            msgBuf = append(msgBuf, buf...)
+        }
 
         if bytes.Contains(msgBuf, endSection) {
             msgParts := bytes.Split(msgBuf, endSection)
@@ -99,45 +121,55 @@ func (c Client) Listen(ctx context.Context) error {
                 return err
             }
 
-            switch m.Method {
-            case msg.METHOD_RESPONSE:
-                ch, err := c.getCall(m.Call)
-                if err != nil {
-                    return err
-                }
-
-                *ch <- m.Body
-            case msg.METHOD_RESPONSE_CLOSE:
-                ch, err := c.getCall(m.Call)
-                if err != nil {
-                    return err
-                }
-
-                close(*ch)
-                delete(*c.calls, m.Call)
-            case msg.METHOD_CALL_FOR_RESPONSES:
-                err := m.Body.CallForResponses(ctx, func(body msg.Body) error {
-                    return c.send(body, m.Call, msg.METHOD_RESPONSE)
-                })
-                if err != nil {
-                    return err
-                }
-                err = c.send(msg.EmptyMsg{}, m.Call, msg.METHOD_RESPONSE_CLOSE)
-                if err != nil {
-                    return err
-                }
-            case msg.METHOD_CALL_FOR_RESPONSE:
-                resp, err := m.Body.CallForResponse(ctx)
-                if err != nil {
-                    return err
-                }
-                err = c.send(resp, m.Call, msg.METHOD_RESPONSE)
-                if err != nil {
-                    return err
-                }
-            }
+            go func() {
+                errorCh <- c.handleMsg(ctx, m)
+            }()
 
             msgBuf = bytes.Join(msgParts[1:], endSection)
         }
     }
+}
+
+func (c Client) handleMsg(ctx context.Context, m msg.Msg[msg.Body]) error {
+    switch m.Method {
+    case msg.METHOD_RESPONSE:
+        ch, err := c.getCall(m.Call)
+        if err != nil {
+            return err
+        }
+
+        *ch <- m.Body
+    case msg.METHOD_RESPONSE_CLOSE:
+        ch, err := c.getCall(m.Call)
+        if err != nil {
+            return err
+        }
+
+        close(*ch)
+        delete(*c.calls, m.Call)
+    case msg.METHOD_CALL_FOR_RESPONSES:
+        err := m.Body.CallForResponses(ctx, func(body msg.Body) error {
+            return c.send(body, m.Call, msg.METHOD_RESPONSE)
+        })
+        if err != nil {
+            return err
+        }
+        err = c.send(msg.EmptyMsg{}, m.Call, msg.METHOD_RESPONSE_CLOSE)
+        if err != nil {
+            return err
+        }
+    case msg.METHOD_CALL_FOR_RESPONSE:
+        resp, respErr := m.Body.CallForResponse(ctx)
+        if resp == nil {
+            return respErr
+        }
+        err := c.send(resp, m.Call, msg.METHOD_RESPONSE)
+        if err != nil {
+            return err
+        }
+        if respErr != nil {
+            return respErr
+        }
+    }
+    return nil
 }
