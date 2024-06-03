@@ -2,6 +2,7 @@ package pokete
 
 import (
     "github.com/lxgr-linux/pokete/server/config"
+    "github.com/lxgr-linux/pokete/server/pokete/positions"
     "github.com/lxgr-linux/pokete/server/pokete/users"
     "github.com/lxgr-linux/pokete/server/resources"
 )
@@ -24,6 +25,7 @@ type Pokete struct {
     resources *resources.Resources
     users     *users.Users
     options   *options
+    positions *positions.Positions
 }
 
 func New(config *config.Config, resources *resources.Resources, opts ...OptionsFunc) (*Pokete, error) {
@@ -35,10 +37,13 @@ func New(config *config.Config, resources *resources.Resources, opts ...OptionsF
         }
     }
 
+    p := positions.NewPositions()
+
     return &Pokete{
         config:    config,
         resources: resources,
-        users:     users.NewUsers(),
+        users:     users.NewUsers(p),
         options:   &o,
+        positions: p,
     }, nil
 }

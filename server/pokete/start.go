@@ -1,7 +1,7 @@
 package pokete
 
 import (
-    "context"
+    "github.com/lxgr-linux/pokete/server/context"
     "log"
     "net"
 
@@ -23,21 +23,24 @@ func (p Pokete) Start() error {
         return err
     }
 
-    for {
+    for conId := uint64(0); true; conId++ {
         connection, err := server.Accept()
         if err != nil {
             return err
         }
         bsRpcClient := bs_rpc.NewClient(connection, *reg)
+        ctx := context.PoketeContext(p.users, p.resources, p.config, &bsRpcClient, conId, p.positions)
 
         log.Print("client connected")
         go func() {
-            err := bsRpcClient.Listen(context.Background())
+            err := bsRpcClient.Listen(ctx)
             if err != nil {
                 log.Printf("Connection failed, %s", err)
             }
         }()
     }
+
+    return nil
 }
 
 /*

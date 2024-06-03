@@ -1,6 +1,6 @@
 package responses
 
-import (
+/*import (
 	"encoding/json"
 	"fmt"
 	"net"
@@ -124,3 +124,4 @@ func WriteMapResponse(
 		},
 	)
 }
+*/

@@ -1,6 +1,6 @@
 package status
 
-import (
+/*import (
 	"encoding/json"
     "log"
 	"net/http"
@@ -31,4 +31,4 @@ func (s statusHandler) handleStatus(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(status{
 		UsersOnline: s.p.UserRepo.GetAllUserNames(),
 	})
-}
+}*/

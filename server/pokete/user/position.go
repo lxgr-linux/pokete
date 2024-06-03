@@ -1,17 +1,9 @@
-package users
+package user
 
 import (
     "fmt"
-    "net"
-
-    "golang.org/x/exp/slices"
+    "slices"
 )
-
-type User struct {
-    Name     string
-    Position Position
-    Conn     *net.Conn
-}
 
 type Position struct {
     Map string

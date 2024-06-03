@@ -84,7 +84,7 @@ class Connector:
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             self.connection.connect((self.host, self.port))
-            self.bs_rpc_client = bs_rpc.Client(connector, self.reg)
+            self.bs_rpc_client = bs_rpc.Client(self.connection, self.reg)
 
             listen = threading.Thread(
                 target=lambda: self.bs_rpc_client.listen(self),
@@ -117,14 +117,15 @@ class Connector:
                 },
             }
         )
-        self.bs_rpc_client.__send(msg.)
+        # self.bs_rpc_client.call_for_respo
 
     def handshake(self):
         """Sends and handles the handshake with the server"""
-        self.bs_rpc_client.__send(msg.TYPE_HANDSHAKE, {
-            "UserName": self.user_name,
-            "Version": release.VERSION,
-        })
+        self.bs_rpc_client.call_for_response(
+            msg.Handshake({
+                "user_name": self.user_name,
+                "version": release.VERSION
+            }))
 
     def ensure_closure(self):
         """Makes sure the connection is closed"""

@@ -1,16 +1,16 @@
-package msg
+package positon
 
 import (
     "context"
     "fmt"
     "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
-    "github.com/lxgr-linux/pokete/server/pokete/users"
+    "github.com/lxgr-linux/pokete/server/pokete/user"
 )
 
 const PositionType msg.Type = "pokete.position.request"
 
 type Position struct {
-    users.Position
+    user.Position
 }
 
 func (p Position) GetType() msg.Type {

@@ -13,8 +13,8 @@ import (
 )
 
 var (
-    endSection            = []byte("<END>")
-    disconnectError error = errors.New("eof reached")
+    ENDSECTION       = []byte("<END>")
+    DISCONNECT error = errors.New("eof reached")
 )
 
 func NewClient(rw io.ReadWriter, registry msg.Registry) Client {
@@ -65,7 +65,7 @@ func (c Client) send(body msg.Body, call uint32, method msg.Method) error {
         return err
     }
 
-    _, err = c.rw.Write(append(resp, endSection...))
+    _, err = c.rw.Write(append(resp, ENDSECTION...))
     return err
 }
 
@@ -86,7 +86,7 @@ func (c Client) Listen(ctx context.Context) error {
         buf := make([]byte, 32)
         mLen, err := c.rw.Read(buf)
         if err == io.EOF {
-            errorCh <- disconnectError
+            errorCh <- DISCONNECT
         }
         if err != nil {
             errorCh <- err
@@ -100,7 +100,7 @@ func (c Client) Listen(ctx context.Context) error {
 
         select {
         case err := <-errorCh:
-            if err == disconnectError {
+            if err == DISCONNECT {
                 return nil
             }
             if err != nil {
@@ -110,8 +110,8 @@ func (c Client) Listen(ctx context.Context) error {
             msgBuf = append(msgBuf, buf...)
         }
 
-        if bytes.Contains(msgBuf, endSection) {
-            msgParts := bytes.Split(msgBuf, endSection)
+        if bytes.Contains(msgBuf, ENDSECTION) {
+            msgParts := bytes.Split(msgBuf, ENDSECTION)
 
             m, err := Unmarshall(
                 &c.registry,
@@ -125,7 +125,7 @@ func (c Client) Listen(ctx context.Context) error {
                 errorCh <- c.handleMsg(ctx, m)
             }()
 
-            msgBuf = bytes.Join(msgParts[1:], endSection)
+            msgBuf = bytes.Join(msgParts[1:], ENDSECTION)
         }
     }
 }

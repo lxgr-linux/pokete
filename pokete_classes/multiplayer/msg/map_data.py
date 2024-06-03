@@ -6,7 +6,7 @@ from pokete_general_use_fns import liner
 from pokete_classes.input import ask_ok
 from pokete_classes.multiplayer.pc_manager import pc_manager
 
-
+"""
 def handle_map_data(context: Connector, body, client):
     obmp.ob_maps = gen_maps(body["Maps"], fix_center=True)
     gen_obs(
@@ -42,3 +42,4 @@ def handle_map_data(context: Connector, body, client):
                 user["Position"]["X"],
                 user["Position"]["Y"],
             )
+"""

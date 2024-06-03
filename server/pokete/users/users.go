@@ -1,72 +1,63 @@
 package users
 
 import (
-	"fmt"
-	"net"
+    "errors"
+    "github.com/lxgr-linux/pokete/server/pokete/positions"
+    "github.com/lxgr-linux/pokete/server/pokete/user"
+)
+
+var (
+    USER_PRESENT error = errors.New("newUser already present")
 )
 
 type Users struct {
-	users *map[string]User
+    users     *map[uint64]user.User
+    positions *positions.Positions
 }
 
-func (u Users) Add(user User) error {
-	for name, _ := range *u.users {
-		if name == user.Name {
-			return fmt.Errorf("user already present")
-		}
-	}
+func (u Users) Add(conId uint64, newUser user.User) error {
+    for _, us := range *u.users {
+        if us.Name == newUser.Name {
+            return USER_PRESENT
+        }
+    }
 
-	(*u.users)[user.Name] = user
+    (*u.users)[conId] = newUser
+    err := u.positions.BroadcastChange(conId, newUser)
 
-	return nil
+    return err
 }
 
-func (u Users) Remove(name string) {
-	delete(*u.users, name)
+func (u Users) Remove(conId uint64) {
+    delete(*u.users, conId)
 }
 
-func (u Users) GetByConn(conn *net.Conn) (User, error) {
-	for _, user := range *u.users {
-		if user.Conn == conn {
-			return user, nil
-		}
-	}
-	return User{}, fmt.Errorf("user with given connection was not found, somebody fucked up badly")
-}
-
-func (u Users) RemoveByConn(conn *net.Conn) error {
-	user, err := u.GetByConn(conn)
-	if err != nil {
-		return err
-	}
-	u.Remove(user.Name)
-	return nil
-}
-
-func (u Users) GetAllUsers() (retUsers []User) {
-	for _, user := range *u.users {
-		retUsers = append(retUsers, user)
-	}
-	return
+func (u Users) GetAllUsers() (retUsers []user.User) {
+    for _, us := range *u.users {
+        retUsers = append(retUsers, us)
+    }
+    return
 }
 
 func (u Users) GetAllUserNames() (names []string) {
-	for _, user := range *u.users {
-		names = append(names, user.Name)
-	}
-	return
+    for _, us := range *u.users {
+        names = append(names, us.Name)
+    }
+    return
 }
 
-func (u Users) SetNewPositionToUser(name string, newPosition Position) error {
-	user := (*u.users)[name]
-	err := user.Position.Change(newPosition)
-	(*u.users)[name] = user
-	return err
+func (u Users) SetNewPositionToUser(conId uint64, newPosition user.Position) error {
+    us := (*u.users)[conId]
+    err := us.Position.Change(newPosition)
+    (*u.users)[conId] = us
+    err = u.positions.BroadcastChange(conId, us)
+    return err
 }
 
-func NewUsers() *Users {
-	var tempUsers = make(map[string]User)
-	return &Users{
-		users: &tempUsers,
-	}
+func NewUsers(positions2 *positions.Positions) *Users {
+    var tempUsers = make(map[uint64]user.User)
+    return &Users{
+        users:     &tempUsers,
+        positions: positions2,
+    }
 }
