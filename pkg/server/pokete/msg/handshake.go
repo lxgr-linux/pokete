@@ -5,7 +5,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+    "github.com/lxgr-linux/pokete/bs_rpc/msg"
     "github.com/lxgr-linux/pokete/server/config"
     pctx "github.com/lxgr-linux/pokete/server/context"
     error2 "github.com/lxgr-linux/pokete/server/pokete/msg/error"

@@ -1,7 +1,7 @@
 package user
 
 import (
-    "github.com/lxgr-linux/pokete/server/bs_rpc"
+    "github.com/lxgr-linux/pokete/bs_rpc"
 )
 
 type User struct {

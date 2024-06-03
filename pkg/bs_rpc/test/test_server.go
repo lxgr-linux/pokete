@@ -2,8 +2,8 @@ package main
 
 import (
     "context"
-    "github.com/lxgr-linux/pokete/server/bs_rpc"
-    "github.com/lxgr-linux/pokete/server/bs_rpc/test/msg"
+    "github.com/lxgr-linux/pokete/bs_rpc"
+    "github.com/lxgr-linux/pokete/bs_rpc/test/msg"
     "log"
     "net"
 )

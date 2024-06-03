@@ -2,7 +2,7 @@ package positon
 
 import (
     "context"
-    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+    "github.com/lxgr-linux/pokete/bs_rpc/msg"
     pctx "github.com/lxgr-linux/pokete/server/context"
 )
 

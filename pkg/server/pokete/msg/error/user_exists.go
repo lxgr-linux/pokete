@@ -1,6 +1,6 @@
 package error
 
-import "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+import "github.com/lxgr-linux/pokete/bs_rpc/msg"
 
 const UserExistsType msg.Type = "pokete.error.user_exists"
 

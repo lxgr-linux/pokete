@@ -5,7 +5,7 @@ import (
     "log"
     "net"
 
-    "github.com/lxgr-linux/pokete/server/bs_rpc"
+    "github.com/lxgr-linux/pokete/bs_rpc"
     "github.com/lxgr-linux/pokete/server/pokete/msg"
 )
 

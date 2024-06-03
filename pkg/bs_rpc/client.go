@@ -9,7 +9,7 @@ import (
     "io"
     "time"
 
-    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+    "github.com/lxgr-linux/pokete/bs_rpc/msg"
 )
 
 var (

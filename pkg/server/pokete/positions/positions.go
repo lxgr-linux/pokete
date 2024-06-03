@@ -4,7 +4,7 @@ import (
     "errors"
     "github.com/lxgr-linux/pokete/server/pokete/user"
 
-    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+    "github.com/lxgr-linux/pokete/bs_rpc/msg"
     positon "github.com/lxgr-linux/pokete/server/pokete/msg/position"
 )
 

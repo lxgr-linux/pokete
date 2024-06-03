@@ -3,7 +3,7 @@ package bs_rpc
 import (
     "encoding/json"
 
-    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+    "github.com/lxgr-linux/pokete/bs_rpc/msg"
 )
 
 func Unmarshall(reg *msg.Registry, b []byte) (msg.Msg[msg.Body], error) {

@@ -2,8 +2,8 @@ package context
 
 import (
     "context"
-    "github.com/lxgr-linux/pokete/server/bs_rpc"
-    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+    "github.com/lxgr-linux/pokete/bs_rpc"
+    "github.com/lxgr-linux/pokete/bs_rpc/msg"
     "github.com/lxgr-linux/pokete/server/config"
     "github.com/lxgr-linux/pokete/server/pokete/user"
     "github.com/lxgr-linux/pokete/server/resources"

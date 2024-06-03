@@ -1,7 +1,7 @@
 package msg
 
 import (
-    "github.com/lxgr-linux/pokete/server/bs_rpc/msg"
+    "github.com/lxgr-linux/pokete/bs_rpc/msg"
     error2 "github.com/lxgr-linux/pokete/server/pokete/msg/error"
 )
 
