@@ -5,7 +5,7 @@ import (
 )
 
 type User struct {
-    Name     string
-    Position Position
-    Client   *bs_rpc.Client // TODO: Maybe remove
+    Name     string         `json:"name"`
+    Position Position       `json:"position"`
+    Client   *bs_rpc.Client `json:"client"` // TODO: Maybe remove
 }

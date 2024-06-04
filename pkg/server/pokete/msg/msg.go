@@ -3,6 +3,7 @@ package msg
 import (
     "github.com/lxgr-linux/pokete/bs_rpc/msg"
     error2 "github.com/lxgr-linux/pokete/server/pokete/msg/error"
+    "github.com/lxgr-linux/pokete/server/pokete/msg/position"
 )
 
 func GetRegistry() (*msg.Registry, error) {
@@ -19,5 +20,18 @@ func GetRegistry() (*msg.Registry, error) {
     if err != nil {
         return nil, err
     }
+    err = reg.RegisterType(position.SubscribePositonsType, msg.NewGenericUnmarshaller[position.SubscribePositons]())
+    if err != nil {
+        return nil, err
+    }
+    err = reg.RegisterType(position.PositionUpdateType, msg.NewGenericUnmarshaller[position.Update]())
+    if err != nil {
+        return nil, err
+    }
+    err = reg.RegisterType(error2.PositionUnplausibleType, msg.NewGenericUnmarshaller[error2.PositionUnplausible]())
+    if err != nil {
+        return nil, err
+    }
+
     return &reg, nil
 }

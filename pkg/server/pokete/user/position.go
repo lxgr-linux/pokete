@@ -1,14 +1,17 @@
 package user
 
 import (
+    "errors"
     "fmt"
     "slices"
 )
 
+var POSITION_ERROR = errors.New("unplaussible position")
+
 type Position struct {
-    Map string
-    X   uint64
-    Y   uint32
+    Map string `json:"map"`
+    X   uint64 `json:"x"`
+    Y   uint32 `json:"y"`
 }
 
 func (p *Position) Change(newPosition Position) error {
@@ -18,7 +21,7 @@ func (p *Position) Change(newPosition Position) error {
         p.Y = newPosition.Y
         return nil
     }
-    return fmt.Errorf("position %v is not plausible to result from %v", newPosition, *p)
+    return errors.Join(POSITION_ERROR, fmt.Errorf("position %v is not plausible to result from %v", newPosition, *p))
 }
 
 func (p Position) isPlausible(newPosition Position) bool {
