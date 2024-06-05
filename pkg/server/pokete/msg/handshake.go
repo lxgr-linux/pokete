@@ -3,7 +3,6 @@ package msg
 import (
     "context"
     "fmt"
-    "log"
 
     "github.com/lxgr-linux/pokete/bs_rpc/msg"
     "github.com/lxgr-linux/pokete/server/config"
@@ -26,8 +25,6 @@ func (h Handshake) GetType() msg.Type {
 }
 
 func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
-    log.Println("handshake shaken")
-
     cfg, _ := pctx.ConfigFromContext(ctx)
     client, _ := pctx.ClientFromContext(ctx)
     u, _ := pctx.UsersFromContext(ctx)
@@ -63,47 +60,3 @@ func getStartPosition(cfg *config.Config) user.Position {
         Y:   9,
     }
 }
-
-/*func (h Handshake) Handle(ctx context.Context, c msg.SendClient) error {
-    position := getStartPosition(p.Config)
-      users := p.UserRepo.GetAllUsers()
-      newUser := user_repository.User{
-          Name:     r.UserName,
-          Conn:     connection,
-          Position: position,
-      }
-
-      if r.Version != p.Config.ClientVersion {
-          err := responses.WriteVersionMismatchResponse(connection, p.Config)
-          if err != nil {
-              return err
-          }
-          return fmt.Errorf("connection closed")
-      }
-
-      err := p.UserRepo.Add(newUser)
-
-      if err != nil {
-          err = responses.WriteUserAllreadyTakenResponse(connection)
-          if err != nil {
-              return err
-          }
-          return fmt.Errorf("connection closed")
-      }
-
-      for _, user := range users {
-          err = responses.WritePositionChangeResponse(user.Conn, newUser)
-          if err != nil {
-              return err
-          }
-      }
-
-      err = responses.WriteMapResponse(connection, position, users, p.MapRepo, p.GreetingText)
-      if err != nil {
-          return err
-      }
-
-    log.Println("handshake shaken")
-
-    return nil
-}*/

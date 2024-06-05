@@ -24,11 +24,15 @@ func GetRegistry() (*msg.Registry, error) {
     if err != nil {
         return nil, err
     }
-    err = reg.RegisterType(position.PositionUpdateType, msg.NewGenericUnmarshaller[position.Update]())
+    err = reg.RegisterType(position.UpdateType, msg.NewGenericUnmarshaller[position.Update]())
     if err != nil {
         return nil, err
     }
     err = reg.RegisterType(error2.PositionUnplausibleType, msg.NewGenericUnmarshaller[error2.PositionUnplausible]())
+    if err != nil {
+        return nil, err
+    }
+    err = reg.RegisterType(position.RemoveType, msg.NewGenericUnmarshaller[position.Remove]())
     if err != nil {
         return nil, err
     }

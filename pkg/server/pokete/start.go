@@ -34,6 +34,7 @@ func (p Pokete) Start() error {
         log.Print("client connected")
         go func() {
             err := bsRpcClient.Listen(ctx)
+            p.users.Remove(conId)
             if err != nil {
                 log.Printf("Connection failed, %s", err)
             }

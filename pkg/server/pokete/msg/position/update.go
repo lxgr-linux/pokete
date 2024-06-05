@@ -10,7 +10,7 @@ import (
     "github.com/lxgr-linux/pokete/server/pokete/user"
 )
 
-const PositionUpdateType msg.Type = "pokete.position.update"
+const UpdateType msg.Type = "pokete.position.update"
 
 type Update struct {
     msg.BaseMsg
@@ -18,7 +18,7 @@ type Update struct {
 }
 
 func (u Update) GetType() msg.Type {
-    return PositionUpdateType
+    return UpdateType
 }
 
 func (u Update) CallForResponse(ctx context.Context) (msg.Body, error) {

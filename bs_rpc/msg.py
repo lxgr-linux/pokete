@@ -9,10 +9,10 @@ class Method(Enum):
     RESPONSE = "response"
 
 
-class Body:
+class Body():
     def __init__(self, msg_type: str, data: dict):
         self.type = msg_type
-        self.data = data
+        self.data: dict = data
 
     def call_for_response(self, context):
         """returns Body"""

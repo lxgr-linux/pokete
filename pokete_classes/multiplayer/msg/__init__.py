@@ -18,6 +18,7 @@ def get_registry():
     reg.register(error.UserExists)
     reg.register(error.VersionMismatch)
     reg.register(error.PositionUnplausible)
+    reg.register(position.Remove)
 
     # reg.register(TYPE_VERSION_MISMATCH, handle_version_mismatch)
     # reg.register(TYPE_MAP_DATA, handle_map_data)

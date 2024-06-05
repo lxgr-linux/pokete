@@ -38,10 +38,16 @@ class Client:
         ) is not None:
             return call
         else:
-            raise Exception("call id for response not found")
+            raise Exception(f"call id `{call_id}`for response not found")
+
+    def __new_call_id(self):
+        call_id = int(time.time())
+        while call_id in self.calls:
+            call_id += 1
+        return call_id
 
     def call_for_response(self, body: Body) -> Body:
-        call_id = int(time.time())
+        call_id = self.__new_call_id()
         ch = Channel()
         self.__send(body, call_id, Method.CALL_FOR_RESPONSE)
         self.calls[call_id] = ch
@@ -50,7 +56,7 @@ class Client:
         return call
 
     def call_for_responses(self, body: Body) -> ChannelGenerator:
-        call_id = int(time.time())
+        call_id = self.__new_call_id()
         ch = Channel()
         self.__send(body, call_id, Method.CALL_FOR_RESPONSES)
         self.calls[call_id] = ch

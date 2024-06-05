@@ -1,3 +1,6 @@
+from typing import Generator
+
+from . import msg
 from .channel import Channel
 
 
@@ -6,7 +9,7 @@ class ChannelGenerator:
         self.__ch: Channel = ch
         self.__close_fn = close_fn
 
-    def __call__(self):
+    def __call__(self) -> Generator[msg.Body, None, None]:
         while True:
             ret = self.__ch.listen()
             if ret is None:

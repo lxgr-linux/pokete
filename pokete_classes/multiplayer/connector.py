@@ -12,6 +12,7 @@ from pokete_classes import ob_maps as obmp, roadmap
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.input import ask_text, ask_ok
 from pokete_classes.multiplayer import msg
+from pokete_classes.multiplayer.msg import position
 from pokete_classes.multiplayer.pc_manager import pc_manager
 from pokete_general_use_fns import liner
 
@@ -86,11 +87,10 @@ class Connector:
             self.connection.connect((self.host, self.port))
             self.bs_rpc_client = bs_rpc.Client(self.connection, self.reg)
 
-            listen = threading.Thread(
+            threading.Thread(
                 target=lambda: self.bs_rpc_client.listen(self),
-                daemon=True)
-
-            listen.start()
+                daemon=True
+            ).start()
             return True
         except Exception as excpt:
             ask_ok(
@@ -107,17 +107,18 @@ class Connector:
             _map: Name of the map the player is on
             x: X-coordinate
             y: Y-coordinate"""
-        self.send(
+        resp = self.bs_rpc_client.call_for_response(position.Update(
             {
-                "Type": 0,
-                "Body": {
-                    "Map": _map,
-                    "X": x,
-                    "Y": y,
+                "name": "",
+                "position": {
+                    "map": _map,
+                    "x": x,
+                    "y": y,
                 },
+                "client": None
             }
-        )
-        # self.bs_rpc_client.call_for_respo
+        ))
+        logging.warning(resp.get_type())
 
     def handshake(self):
         """Sends and handles the handshake with the server"""

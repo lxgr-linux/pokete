@@ -5,7 +5,7 @@ from pokete_classes.multiplayer.pc_manager import pc_manager
 
 class ResponseManager:
     """Manages responses from the server"""
-    
+
     def __call__(self):
         while True:
             if (d := connector.connector.receive_data())["Type"] == 1:

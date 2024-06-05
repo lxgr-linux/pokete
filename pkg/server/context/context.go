@@ -56,17 +56,17 @@ func ResourcesFromContext(ctx context.Context) (*resources.Resources, bool) {
 }
 
 func ConfigFromContext(ctx context.Context) (*config.Config, bool) {
-    c, ok := ctx.Value(contextKey_resources).(*config.Config)
+    c, ok := ctx.Value(contextKey_config).(*config.Config)
     return c, ok
 }
 
 func ClientFromContext(ctx context.Context) (*bs_rpc.Client, bool) {
-    c, ok := ctx.Value(contextKey_resources).(*bs_rpc.Client)
+    c, ok := ctx.Value(contextKey_client).(*bs_rpc.Client)
     return c, ok
 }
 
 func ConnectionIdFromContext(ctx context.Context) (uint64, bool) {
-    c, ok := ctx.Value(contextKey_resources).(uint64)
+    c, ok := ctx.Value(contextKey_id).(uint64)
     return c, ok
 }
 
