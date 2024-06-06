@@ -28,40 +28,22 @@ func (p Pokete) Start() error {
         if err != nil {
             return err
         }
+
         bsRpcClient := bs_rpc.NewClient(connection, *reg)
         ctx := context.PoketeContext(p.users, p.resources, p.config, &bsRpcClient, conId, p.positions)
 
-        log.Print("client connected")
         go func() {
+            log.Println("Client connected")
+            defer connection.Close()
             err := bsRpcClient.Listen(ctx)
             p.users.Remove(conId)
             if err != nil {
-                log.Printf("Connection failed, %s", err)
+                log.Printf("Connection failed, %s\n", err)
+            } else {
+                log.Println("Client disconnected")
             }
         }()
     }
 
     return nil
 }
-
-/*
-func (p Pokete) listen(connection net.Conn) {
-    for {
-        buffer := make([]byte, 1024)
-        mLen, err := connection.Read(buffer)
-        if err != nil {
-            log.Print("Error reading:", err)
-            break
-        }
-        err = s.handleRequests(buffer[:mLen], &connection)
-        if err != nil {
-            log.Print("Error handeling:", err)
-            break
-        }
-    }
-    err := s.removeUser(&connection)
-    if err != nil {
-        log.Print("Error closing:", err)
-    }
-}
-*/
