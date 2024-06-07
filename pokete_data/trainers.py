@@ -101,7 +101,9 @@ trainers = {
     "playmap_6": [
         {
             "pokes": [("treenator", 400)],
-            "args": ("Eva", "She", ["Hi!", "Fight?"], ["Loser"], ["I lost!"], 47, 43),
+            "args": (
+                "Eva", "She", ["Hi!", "Fight?"], ["Loser"], ["I lost!"], 47,
+                43),
         },
     ],
     "playmap_7": [
@@ -124,7 +126,8 @@ trainers = {
             "args": (
                 "Woodsman Bert",
                 "He",
-                ["Do you see this abandoned house?", "I caught this Pokete in there!"],
+                ["Do you see this abandoned house?",
+                 "I caught this Pokete in there!"],
                 ["It's pretty cool huh?!"],
                 ["Oh, yours is better than mine!"],
                 39,
@@ -178,7 +181,8 @@ trainers = {
             "args": (
                 "Citizen",
                 "He",
-                ["Hello, fellow stranger!", "This town is known for its bird Poketes"],
+                ["Hello, fellow stranger!",
+                 "This town is known for its bird Poketes"],
                 ["Haha, you're bad!"],
                 ["Damn!"],
                 5,
@@ -192,7 +196,8 @@ trainers = {
             "args": (
                 "First Trainer",
                 "He",
-                ["Welcome to the Deepest Forest Pokete Arena", "I'm your first enemy!"],
+                ["Welcome to the Deepest Forest Pokete Arena",
+                 "I'm your first enemy!"],
                 ["Haha, you're bad!"],
                 ["Good luck!"],
                 17,
@@ -246,7 +251,8 @@ trainers = {
             "args": (
                 "Samantha",
                 "She",
-                ["Hey, you!", "My Pokete is very effective against bird Poketes"],
+                ["Hey, you!",
+                 "My Pokete is very effective against bird Poketes"],
                 ["You see, it's effective"],
                 ["Oh no", "I guess yours is even more effective than mine!"],
                 43,
@@ -284,7 +290,8 @@ trainers = {
             "args": (
                 "Karen",
                 "She",
-                ["I don't think you can walk here", "I demand a fight with you!"],
+                ["I don't think you can walk here",
+                 "I demand a fight with you!"],
                 ["Go home, little zoomer."],
                 ["I want to talk to your manager!"],
                 56,
@@ -408,7 +415,8 @@ trainers = {
             "args": (
                 "Laurena",
                 "She",
-                ["I trained my Steini for years to get to this level", "I will win!"],
+                ["I trained my Steini for years to get to this level",
+                 "I will win!"],
                 ["You're a loooser!"],
                 ["Ohhh nooo!", "NOT MY STEINI!!!1!!1"],
                 114,
@@ -454,7 +462,8 @@ trainers = {
                 "He",
                 ["Welcome to 'Flowy Town', home of the flowers."],
                 ["You're a loooser!"],
-                ["I wish you the best of luck fighting against our best trainers!"],
+                [
+                    "I wish you the best of luck fighting against our best trainers!"],
                 5,
                 18,
             ),
