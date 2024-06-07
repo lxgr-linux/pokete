@@ -2,10 +2,10 @@ package positions
 
 import (
     "errors"
-    "github.com/lxgr-linux/pokete/server/pokete/user"
 
     "github.com/lxgr-linux/pokete/bs_rpc/msg"
     positon "github.com/lxgr-linux/pokete/server/pokete/msg/position"
+    "github.com/lxgr-linux/pokete/server/pokete/user"
 )
 
 var (

@@ -71,7 +71,7 @@ class Client:
         while True:
             data = self.rw.recv(32)
             msg_buf += data
-            if END_SECTION in data:
+            while END_SECTION in msg_buf:
                 msg_parts = msg_buf.split(END_SECTION)
 
                 msg: Msg = json.loads(msg_parts[0])

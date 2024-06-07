@@ -4,15 +4,12 @@ import socket
 import bs_rpc
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.multiplayer import msg
+from pokete_classes.multiplayer.exceptions import ConnectionException, \
+    VersionMismatchException, UserPresentException
 from pokete_classes.multiplayer.msg import position, error, map_info
 from pokete_classes.multiplayer.msg.position.update import User
 from pokete_classes.multiplayer.pc_manager import pc_manager
 from pokete_classes import ob_maps as obmp, roadmap
-
-
-class ConnectionException(Exception):
-    def __init__(self, e: Exception):
-        super().__init__("failed to connect", e)
 
 
 class CommunicationService:
@@ -72,9 +69,9 @@ class CommunicationService:
             }))
         match resp.get_type():
             case error.VERSION_MISMATCH_TYPE:
-                raise Exception("Version mismatch")
+                raise VersionMismatchException(resp.data["version"])
             case error.USER_EXISTS_TYPE:
-                raise Exception("User exists")
+                raise UserPresentException()
             case map_info.INFO_TYPE:
                 data: map_info.InfoData = resp.data
                 obmp.ob_maps = gen_maps(data["maps"], fix_center=True)

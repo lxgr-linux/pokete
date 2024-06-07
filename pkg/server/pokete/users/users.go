@@ -29,7 +29,10 @@ func (u Users) Add(conId uint64, newUser user.User) error {
 }
 
 func (u Users) Remove(conId uint64) {
-    _ = u.positions.BroadcastRemoval(conId, (*u.users)[conId].Name)
+    us, ok := (*u.users)[conId]
+    if ok {
+        _ = u.positions.BroadcastRemoval(conId, us.Name)
+    }
     u.positions.UnSubscribe(conId)
     delete(*u.users, conId)
 }
