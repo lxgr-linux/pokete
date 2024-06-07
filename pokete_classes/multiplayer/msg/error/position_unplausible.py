@@ -3,6 +3,8 @@ from typing import TypedDict
 import bs_rpc
 from ..position import Position
 
+POSITION_UNPLAUSIBLE_TYPE = "pokete.error.position_unplausible"
+
 
 class PositionUnplausibleData(TypedDict):
     position: Position
@@ -11,4 +13,4 @@ class PositionUnplausibleData(TypedDict):
 
 class PositionUnplausible(bs_rpc.Body):
     def __init__(self, data: PositionUnplausibleData):
-        super().__init__("pokete.error.position_unplausible", data)
+        super().__init__(POSITION_UNPLAUSIBLE_TYPE, data)

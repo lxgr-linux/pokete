@@ -30,7 +30,7 @@ func (p Pokete) Start() error {
         }
 
         bsRpcClient := bs_rpc.NewClient(connection, *reg)
-        ctx := context.PoketeContext(p.users, p.resources, p.config, &bsRpcClient, conId, p.positions)
+        ctx := context.PoketeContext(p.users, p.resources, p.config, &bsRpcClient, conId, p.positions, p.options)
 
         go func() {
             log.Println("Client connected")

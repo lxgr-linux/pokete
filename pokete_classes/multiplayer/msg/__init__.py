@@ -1,5 +1,5 @@
 import bs_rpc
-from . import position, error
+from . import position, error, map_info
 from .handshake import Handshake
 
 
@@ -19,6 +19,7 @@ def get_registry():
     reg.register(error.VersionMismatch)
     reg.register(error.PositionUnplausible)
     reg.register(position.Remove)
+    reg.register(map_info.Info)
 
     # reg.register(TYPE_VERSION_MISMATCH, handle_version_mismatch)
     # reg.register(TYPE_MAP_DATA, handle_map_data)

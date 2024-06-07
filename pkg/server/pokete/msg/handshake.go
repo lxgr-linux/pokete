@@ -3,6 +3,7 @@ package msg
 import (
     "context"
     "fmt"
+    "github.com/lxgr-linux/pokete/server/pokete/msg/map_info"
 
     "github.com/lxgr-linux/pokete/bs_rpc/msg"
     "github.com/lxgr-linux/pokete/server/config"
@@ -29,6 +30,8 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
     client, _ := pctx.ClientFromContext(ctx)
     u, _ := pctx.UsersFromContext(ctx)
     conId, _ := pctx.ConnectionIdFromContext(ctx)
+    res, _ := pctx.ResourcesFromContext(ctx)
+    opts, _ := pctx.OptionsFromContext(ctx)
 
     position := getStartPosition(cfg)
 
@@ -50,7 +53,7 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
         return nil, err
     }
 
-    return msg.NewEmptyMsg(), nil
+    return map_info.NewInfo(res, position, u, opts.GreetingText), nil
 }
 
 func getStartPosition(cfg *config.Config) user.Position {

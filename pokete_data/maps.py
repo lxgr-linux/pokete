@@ -1,4 +1,6 @@
-maps = {
+from pokete_classes.maps import Maps
+
+maps: Maps = {
     "intromap": {
         "height": 15,
         "width": 30,
@@ -368,7 +370,8 @@ maps = {
         "extra_actions": None,
         "song": "xDeviruchi - Take some rest and eat some food!.mp3",
         "poke_args": {
-            "pokes": ["poisopla", "treenator", "bushy", "confuso", "gobost", "raupathor_day", "raupathor_night"],
+            "pokes": ["poisopla", "treenator", "bushy", "confuso", "gobost",
+                      "raupathor_day", "raupathor_night"],
             "minlvl": 640,
             "maxlvl": 740
         },
@@ -594,7 +597,6 @@ maps = {
         "weather": None
     },
 }
-
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

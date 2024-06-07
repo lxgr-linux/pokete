@@ -1,7 +1,6 @@
 """Contains classes ralated to the mode choosing meni"""
 
 import sys
-import threading
 
 import scrap_engine as se
 
@@ -12,8 +11,7 @@ from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.tss import tss
 from pokete_classes.ui_elements import BetterChooseBox
 from . import connector
-from .com_service import ComService
-from .response_manager import ResponseManager
+from .communication import CommunicationService, com_service
 
 
 class PreGameMap(gm.GameSubmap):
@@ -63,8 +61,6 @@ class ModeChooser(BetterChooseBox):
                         elif num == 1:
                             connector.connector(self.map, self)
                             modeProvider.mode = Mode.MULTI
-                            com_service = ComService(
-                                connector.connector.bs_rpc_client)
                             com_service()
                             return
                         else:

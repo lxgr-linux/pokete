@@ -2,6 +2,8 @@ from typing import TypedDict
 
 import bs_rpc
 
+VERSION_MISMATCH_TYPE = "pokete.error.version_mismatch"
+
 
 class VersionMismatchData(TypedDict):
     version: str
@@ -9,4 +11,4 @@ class VersionMismatchData(TypedDict):
 
 class VersionMismatch(bs_rpc.Body):
     def __init__(self, data: VersionMismatchData):
-        super().__init__("pokete.error.version_mismatch", data)
+        super().__init__(VERSION_MISMATCH_TYPE, data)

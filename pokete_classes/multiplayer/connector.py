@@ -1,20 +1,10 @@
 """Contains class retaed to cennecting to a server"""
 
-import socket
-import json
-import logging
-import threading
-
-import bs_rpc
 import release
 
-from pokete_classes import ob_maps as obmp, roadmap
-from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.input import ask_text, ask_ok
-from pokete_classes.multiplayer import msg
-from pokete_classes.multiplayer.msg import position
-from pokete_classes.multiplayer.pc_manager import pc_manager
 from pokete_general_use_fns import liner
+from .communication import com_service, ConnectionException
 
 
 class Connector:
@@ -24,13 +14,10 @@ class Connector:
         self.host = ""
         self.port = ""
         self.user_name = ""
-        self.connection = None
         self.map = None
         self.overview = None
         self.figure = None
         self.saved_pos = ()
-        self.bs_rpc_client: bs_rpc.Client = None
-        self.reg = msg.get_registry()
 
     def __call__(self, _map, overview):
         """Starts ui to connect to server
@@ -43,7 +30,12 @@ class Connector:
             self.set_host_port()
             self.ask_user_name()
             conn_succ = self.establish_connection()
-        self.handshake()
+        greeting_text = com_service.handshake(self, self.user_name,
+                                              release.VERSION)
+        ask_ok(
+            _map,
+            liner(greeting_text, _map.width - 4)
+        )
 
     def set_host_port(self):
         """Asks the user for host and port to conenct to"""
@@ -82,17 +74,9 @@ class Connector:
 
     def establish_connection(self):
         """Actually connects to the server"""
-        self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            self.connection.connect((self.host, self.port))
-            self.bs_rpc_client = bs_rpc.Client(self.connection, self.reg)
-
-            threading.Thread(
-                target=lambda: self.bs_rpc_client.listen(self),
-                daemon=True
-            ).start()
-            return True
-        except Exception as excpt:
+            com_service.connect(self.host, self.port)
+        except ConnectionException as excpt:
             ask_ok(
                 self.map,
                 f"An error occured connecting to {self.host}:{self.port} :\n"
@@ -100,38 +84,7 @@ class Connector:
                 self.overview,
             )
             return False
-
-    def send_pos_update(self, _map, x, y):
-        """Sends a position update to the server
-        ARGS:
-            _map: Name of the map the player is on
-            x: X-coordinate
-            y: Y-coordinate"""
-        resp = self.bs_rpc_client.call_for_response(position.Update(
-            {
-                "name": "",
-                "position": {
-                    "map": _map,
-                    "x": x,
-                    "y": y,
-                },
-                "client": None
-            }
-        ))
-        logging.warning(resp.get_type())
-
-    def handshake(self):
-        """Sends and handles the handshake with the server"""
-        self.bs_rpc_client.call_for_response(
-            msg.Handshake({
-                "user_name": self.user_name,
-                "version": release.VERSION
-            }))
-
-    def ensure_closure(self):
-        """Makes sure the connection is closed"""
-        if self.connection:
-            self.connection.close()
+        return True
 
     def set_args(self, figure):
         """Sets arguments

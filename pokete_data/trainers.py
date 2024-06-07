@@ -1,4 +1,6 @@
-trainers = {
+from pokete_classes.maps import Trainers
+
+trainers: Trainers = {
     "playmap_1": [
         {
             "pokes": [{"name": "vogli", "xp": 40}],
@@ -26,7 +28,8 @@ trainers = {
             "args": {
                 "name": "Monica",
                 "gender": "She",
-                "texts": ["Hello, noble traveler", "Are you willing to fight me?"],
+                "texts": ["Hello, noble traveler",
+                          "Are you willing to fight me?"],
                 "lose_texts": ["Hahaha!", "Looooser!"],
                 "win_texts": ["Congratulations!", "Have a great day!"],
                 "x": 23,
@@ -61,7 +64,8 @@ trainers = {
             "args": {
                 "name": "Markus",
                 "gender": "He",
-                "texts": ["Hey!", "Welcome to Sunnydale!", "But first, we must fight!"],
+                "texts": ["Hey!", "Welcome to Sunnydale!",
+                          "But first, we must fight!"],
                 "lose_texts": ["Hahaha!", "Hahaha!", "You're a loser!"],
                 "win_texts": ["Damn, I lost!"],
                 "x": 11,
@@ -77,7 +81,8 @@ trainers = {
                 "gender": "He",
                 "texts": ["Yo!", "Whaddup?", "Wanna see my sick-ass Pokete?"],
                 "lose_texts": ["Yeaaah!", "My Pokete is sooo sick!"],
-                "win_texts": ["Daaaamn", "Your Pokete is nooot from this planet!"],
+                "win_texts": ["Daaaamn",
+                              "Your Pokete is nooot from this planet!"],
                 "x": 32,
                 "y": 31,
             },
@@ -94,8 +99,10 @@ trainers = {
                     "I haven't seen anyone down here for a while",
                     "Can I show you my rare Pokete which can only be found in this cave?",
                 ],
-                "lose_texts": ["Oh!", "My Pokete is not just rare", "It's also strong"],
-                "win_texts": ["Congratulations!", "I hope you can also catch one!"],
+                "lose_texts": ["Oh!", "My Pokete is not just rare",
+                               "It's also strong"],
+                "win_texts": ["Congratulations!",
+                              "I hope you can also catch one!"],
                 "x": 23,
                 "y": 12,
             },
@@ -298,7 +305,8 @@ trainers = {
             "args": {
                 "name": "Bert",
                 "gender": "He",
-                "texts": ["Hey!", "This region is full of stone and ground Poketes"],
+                "texts": ["Hey!",
+                          "This region is full of stone and ground Poketes"],
                 "lose_texts": ["Haha, you're bad!"],
                 "win_texts": ["Oh, I lost!"],
                 "x": 6,
@@ -667,7 +675,8 @@ trainers = {
             "args": {
                 "name": "Farmer Martin",
                 "gender": "He",
-                "texts": ["Howdy, partner!", "I will be your first challenger!"],
+                "texts": ["Howdy, partner!",
+                          "I will be your first challenger!"],
                 "lose_texts": ["You'll do better next time."],
                 "win_texts": ["I wish you the best of luck"],
                 "x": 19,
@@ -687,7 +696,8 @@ trainers = {
             },
         },
         {
-            "pokes": [{"name": "megapois", "xp": 2200}, {"name": "bushy", "xp": 2200}],
+            "pokes": [{"name": "megapois", "xp": 2200},
+                      {"name": "bushy", "xp": 2200}],
             "args": {
                 "name": "Gardener Daniela",
                 "gender": "She",

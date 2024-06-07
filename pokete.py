@@ -22,6 +22,7 @@ import pokete_data as p_data
 from pokete_classes import animations
 from pokete_classes.map_additions.map_addtions import map_additions
 import pokete_classes.multiplayer.connector as connector
+from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.menu import ModeChooser
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager, NameTag
@@ -346,7 +347,7 @@ class Figure(se.Object, ProtoFigure):
 
     def update_server_pos(self):
         if modeProvider.mode == Mode.MULTI:
-            connector.connector.send_pos_update(self.map.name, self.x, self.y)
+            com_service.pos_update(self.map.name, self.x, self.y)
 
     def add_money(self, money):
         """Adds money
@@ -830,7 +831,6 @@ def exiter():
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
-    connector.connector.ensure_closure()
     if audio.curr is not None:
         audio.kill()
 

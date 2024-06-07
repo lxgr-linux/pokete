@@ -1,6 +1,7 @@
 package main
 
 import (
+    "github.com/lxgr-linux/pokete/server/options"
     "log"
 
     "github.com/lxgr-linux/pokete/server/config"
@@ -24,5 +25,5 @@ func buildPokete() (*pokete.Pokete, error) {
         return nil, err
     }
 
-    return pokete.New(&cfg, r, pokete.WithGreeting("Welcome to the server"))
+    return pokete.New(&cfg, r, options.WithGreeting("Welcome to the server"))
 }

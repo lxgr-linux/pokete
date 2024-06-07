@@ -1,9 +1,8 @@
 """Generating maps"""
-import logging
-
 import scrap_engine as se
 
 from pokete_classes.map_additions.center import CenterMap, ShopMap
+from pokete_classes.maps import Maps, Obmaps, NPCs, Trainers
 from pokete_classes.tss import tss
 from .landscape import Meadow, Water, Sand, Poketeball
 from .classes import PlayMap
@@ -26,7 +25,7 @@ def parse_obj(_map, name, obj, _dict):
     obj.add(_map, _dict["x"], _dict["y"])
 
 
-def gen_maps(p_maps, extra_actions=None, fix_center=False):
+def gen_maps(p_maps: Maps, extra_actions=None, fix_center=False):
     """Generates all maps
     ARGS:
         p_maps: contains maps data
@@ -54,7 +53,7 @@ def gen_maps(p_maps, extra_actions=None, fix_center=False):
     return maps
 
 
-def gen_obs(map_data, npcs, trainers, figure):
+def gen_obs(map_data: Obmaps, npcs: NPCs, trainers: Trainers, figure):
     """Generates all objects on the maps
     ARSG:
         map_data: Contains map_data

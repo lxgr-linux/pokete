@@ -10,7 +10,7 @@ type Remove struct {
 }
 
 func (r Remove) GetType() msg.Type {
-    return UpdateType
+    return RemoveType
 }
 
 func NewRemove(userName string) Remove {
