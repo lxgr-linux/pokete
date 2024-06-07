@@ -52,8 +52,11 @@ def single_validate(dict, validator, name=""):
 
 def validate():
     """Validates all modules"""
-    for i, j in zip([weathers, achievements, pokes, types, map_data, stations, items, npcs,
-                     attacks, maps], validators):
+    all_trainer_names = []
+
+    for i, j in zip(
+        [weathers, achievements, pokes, types, map_data, stations, items, npcs,
+         attacks, maps], validators):
         single_validate(i, j)
     for p in pokes:
         for i in pokes[p]["ico"]:
@@ -67,6 +70,9 @@ def validate():
     for t in trainers:
         for i in trainers[t]:
             one_validate(i, "trainer", t + ".trainer")
+            if (trainer_name := i["args"]["name"]) in all_trainer_names:
+                raise Exception(f"Trainer {i}s name is duplicated")
+            all_trainer_names.append(trainer_name)
 
 
 validators = {
@@ -92,7 +98,6 @@ validators = {
     "poke_ico": ["txt", "esc"],
     "trainer": ["pokes", "args"]
 }
-
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
