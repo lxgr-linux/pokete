@@ -101,10 +101,9 @@ jobs:
           mkdir /tmp/gen-wiki
           cp -r HowToPlay.md DevGuide.md wiki.md /tmp/gen-wiki
       - name: Switch to wiki repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: 'lxgr-linux/pokete.wiki'
-          branch: "master"
       - name: Move files back to current work dir
         run: |
           rm -rf ./HowToPlay.md DevGuide.md wiki.md
