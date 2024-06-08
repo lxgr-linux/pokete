@@ -22,7 +22,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
+
       - name: Cache
         uses: actions/cache@v2.1.6
         with:
@@ -63,7 +63,7 @@ jobs:
           git add .
             git commit -m "Updated pages"
           fi
-    
+
       - name: Push changes  # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:
@@ -101,9 +101,10 @@ jobs:
           mkdir /tmp/gen-wiki
           cp -r HowToPlay.md DevGuide.md wiki.md /tmp/gen-wiki
       - name: Switch to wiki repository
-        uses: actions/checkout/@v2
+        uses: actions/checkout@v2
         with:
           repository: 'lxgr-linux/pokete.wiki'
+          branch: "master"
       - name: Move files back to current work dir
         run: |
           rm -rf ./HowToPlay.md DevGuide.md wiki.md
