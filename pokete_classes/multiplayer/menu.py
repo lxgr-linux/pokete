@@ -11,7 +11,7 @@ from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.tss import tss
 from pokete_classes.ui_elements import BetterChooseBox
 from . import connector
-from .communication import CommunicationService, com_service
+from .communication import com_service
 
 
 class PreGameMap(gm.GameSubmap):

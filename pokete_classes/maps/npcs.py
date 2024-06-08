@@ -1,9 +1,9 @@
-from typing import TypedDict, Self
+from typing import TypedDict
 
 
 class Chat(TypedDict):
     q: list[str]
-    a: dict[str, Self]
+    a: dict[str, "Chat"]
 
 
 class NPC(TypedDict):
