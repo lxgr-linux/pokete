@@ -22,7 +22,7 @@
 {"@context":"https://schema.org","@type":"WebSite","description":"A terminal based Pokemon like game","headline":"pokete","name":"pokete","url":"https://lxgr-linux.github.io/pokete/"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/pokete/assets/css/style.css?v=d978a924c7d717b75d63ab17c9ad24f84060531b">
+    <link rel="stylesheet" href="/pokete/assets/css/style.css?v=0effc7d0649663e06e1b05d9b4c0d3a4ddac5db8">
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
@@ -63,31 +63,35 @@
 <li><a href="#adding-attacks">Adding attacks</a></li>
 <li><a href="#adding-types">Adding types</a></li>
 <li><a href="#adding-subtypes">Adding subtypes</a></li>
+<li><a href="#adding-maps">Adding maps</a></li>
 </ol>
 <h2 id="adding-poketes">Adding Poketes</h2>
 <p>Every Pokete has an entry in the <code>pokes</code> dictionary in <a href="./pokete_data/poketes.py"><code>pokete_data/poketes.py</code></a>. Every entry needs to have this structure:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">&quot;steini&quot;</span>: {  <span class="co"># This is the Poketes simplified name/identifier without spaces and in lowercase, which is used to refer to the Pokete in the code</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>        <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Steini&quot;</span>,  <span class="co"># This is the Pokete&#39;s pretty name</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>        <span class="st">&quot;hp&quot;</span>: <span class="dv">25</span>,  <span class="co"># The Pokete&#39;s max health points</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>        <span class="st">&quot;atc&quot;</span>: <span class="dv">2</span>,  <span class="co"># The Pokete&#39;s attack points that will added to the Pokete&#39;s level</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>        <span class="st">&quot;defense&quot;</span>: <span class="dv">4</span>,  <span class="co"># The Pokete&#39;s defense points that will added to the Pokete&#39;s level</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>        <span class="st">&quot;attacks&quot;</span>: [<span class="st">&quot;tackle&quot;</span>, <span class="st">&quot;politure&quot;</span>, <span class="st">&quot;brick_throw&quot;</span>],  <span class="co"># The Pokete&#39;s starting attacks</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>        <span class="st">&quot;pool&quot;</span>: [],  <span class="co"># List of additional ungeneric attacks the Pokete can learn</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>        <span class="st">&quot;miss_chance&quot;</span>: <span class="dv">0</span>,  <span class="co"># The chance a Pokete will miss an attack, this is added to the attacks individual `miss_chance`</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>        <span class="st">&quot;desc&quot;</span>: <span class="st">&quot;A squared stone that can casually be found on the ground.&quot;</span>,  <span class="co"># The Pokete&#39;s description</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>        <span class="st">&quot;lose_xp&quot;</span>: <span class="dv">3</span>,  <span class="co"># The amount of experience the player gets by killing the Pokete</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>        <span class="st">&quot;rarity&quot;</span>: <span class="dv">1</span>,  <span class="co"># Rarity</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>        <span class="st">&quot;types&quot;</span>: [<span class="st">&quot;stone&quot;</span>, <span class="st">&quot;normal&quot;</span>],  <span class="co"># The Pokete&#39;s types</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>        <span class="st">&quot;evolve_poke&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># The name/identifier of the Pokete, that this Pokete evolves to at a certain level</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>        <span class="st">&quot;evolve_lvl&quot;</span>: <span class="dv">0</span>,  <span class="co"># The level the Pokete evolves at</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>        <span class="st">&quot;initiative&quot;</span>: <span class="dv">5</span>,  <span class="co"># The Pokete&#39;s initiative points that will added to the Pokete&#39;s level, and determine what Pokete starts in a fight</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>        <span class="st">&quot;ico&quot;</span>: [{  <span class="co"># A list of dictionaries containing a displayed string and a color; all those strings will be layered over each other and represent the Pokete in the fight</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>            <span class="st">&quot;txt&quot;</span>: <span class="st">&quot;&quot;&quot; +-------+</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a><span class="st"> | o   o |</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a><span class="st"> |  www  |</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a><span class="st"> +-------+ &quot;&quot;&quot;</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a>            <span class="st">&quot;esc&quot;</span>: <span class="va">None</span>}],</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a>    },</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">&quot;steini&quot;</span>: {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="co"># This is the Poketes simplified name/identifier without spaces and in lowercase, which is used to refer to the Pokete in the code</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>  <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Steini&quot;</span>,  <span class="co"># This is the Pokete&#39;s pretty name</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>  <span class="st">&quot;hp&quot;</span>: <span class="dv">25</span>,  <span class="co"># The Pokete&#39;s max health points</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>  <span class="st">&quot;atc&quot;</span>: <span class="dv">2</span>,  <span class="co"># The Pokete&#39;s attack points that will added to the Pokete&#39;s level</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>  <span class="st">&quot;defense&quot;</span>: <span class="dv">4</span>,  <span class="co"># The Pokete&#39;s defense points that will added to the Pokete&#39;s level</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  <span class="st">&quot;attacks&quot;</span>: [<span class="st">&quot;tackle&quot;</span>, <span class="st">&quot;politure&quot;</span>, <span class="st">&quot;brick_throw&quot;</span>],  <span class="co"># The Pokete&#39;s starting attacks</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>  <span class="st">&quot;pool&quot;</span>: [],  <span class="co"># List of additional ungeneric attacks the Pokete can learn</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>  <span class="st">&quot;miss_chance&quot;</span>: <span class="dv">0</span>,  <span class="co"># The chance a Pokete will miss an attack, this is added to the attacks individual `miss_chance`</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>  <span class="st">&quot;desc&quot;</span>: <span class="st">&quot;A squared stone that can casually be found on the ground.&quot;</span>,  <span class="co"># The Pokete&#39;s description</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>  <span class="st">&quot;lose_xp&quot;</span>: <span class="dv">3</span>,  <span class="co"># The amount of experience the player gets by killing the Pokete</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>  <span class="st">&quot;rarity&quot;</span>: <span class="dv">1</span>,  <span class="co"># Rarity</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>  <span class="st">&quot;types&quot;</span>: [<span class="st">&quot;stone&quot;</span>, <span class="st">&quot;normal&quot;</span>],  <span class="co"># The Pokete&#39;s types</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a>  <span class="st">&quot;evolve_poke&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># The name/identifier of the Pokete, that this Pokete evolves to at a certain level</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a>  <span class="st">&quot;evolve_lvl&quot;</span>: <span class="dv">0</span>,  <span class="co"># The level the Pokete evolves at</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a>  <span class="st">&quot;initiative&quot;</span>: <span class="dv">5</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a>  <span class="co"># The Pokete&#39;s initiative points that will added to the Pokete&#39;s level, and determine what Pokete starts in a fight</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a>  <span class="st">&quot;ico&quot;</span>: [{</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a>    <span class="co"># A list of dictionaries containing a displayed string and a color; all those strings will be layered over each other and represent the Pokete in the fight</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a>    <span class="st">&quot;txt&quot;</span>: <span class="st">&quot;&quot;&quot; +-------+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a><span class="st"> | o   o |</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a><span class="st"> |  www  |</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a><span class="st"> +-------+ &quot;&quot;&quot;</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a>    <span class="st">&quot;esc&quot;</span>: <span class="va">None</span>}],</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a>},</span></code></pre></div>
 <p>For more examples on the dictionaries see <a href="./pokete_data/poketes.py"><code>pokete_data/poketes.py</code></a>.</p>
 <h3 id="types">Types</h3>
 <p>Only the first type in the <code>"types"</code> list is the Poketes actual displayed type that determines the Pokete's effectivity. The other types in the list are just secondary types that determine what generic attacks a Pokete is able to learn. Those can also be subtypes. The main type can't! For a list of all types and subtypes see <a href="./pokete_data/types.py"><code>pokete_data/types.py</code></a></p>
@@ -95,20 +99,22 @@
 <p>In addition the attacks in the <code>"attacks"</code> and the <code>"pool"</code> lists, a Pokete can learn all generic attacks of the Poketes types.</p>
 <h2 id="adding-attacks">Adding attacks</h2>
 <p>Every attack has an entry in the <code>attacks</code> dictionary in <a href="./pokete_data/attacks.py"><code>pokete_data/attacks.py </code></a>. Every entry needs to have this structure:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">&quot;poison_bite&quot;</span>: {  <span class="co"># This is the attack&#39;s simplified name/identifier without spaces and in lowercase, which is used to refer to the attack in the code</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>        <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Poison bite&quot;</span>,  <span class="co"># The attack&#39;s pretty name</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>        <span class="st">&quot;factor&quot;</span>: <span class="dv">1</span>,  <span class="co"># The attack factor that is used to calculate damage</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>        <span class="st">&quot;action&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># A string that&#39;s executed when the attack is used, to effect the Pokete&#39;s or the enemy&#39;s values (don&#39;t use this) </span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>        <span class="st">&quot;world_action&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># An extra ability the attack can be used for</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>        <span class="st">&quot;move&quot;</span>: [<span class="st">&quot;attack&quot;</span>, <span class="st">&quot;downgrade&quot;</span>],  <span class="co"># The moves the Pokete does using the attack</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>        <span class="st">&quot;miss_chance&quot;</span>: <span class="fl">0.3</span>,  <span class="co"># The chance to miss the attack</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>        <span class="st">&quot;min_lvl&quot;</span>: <span class="dv">0</span>,  <span class="co"># The minimal level a Pokete needs in order to learn the attack</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>        <span class="st">&quot;desc&quot;</span>: <span class="st">&quot;Makes the enemy weaker.&quot;</span>,  <span class="co"># The attack&#39;s description</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>        <span class="st">&quot;types&quot;</span>: [<span class="st">&quot;poison&quot;</span>],  <span class="co"># The attack&#39;s types</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>        <span class="st">&quot;effect&quot;</span>: <span class="st">&quot;poison&quot;</span>,  <span class="co"># The effect the enemy gets when the attack is used, default is None </span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>        <span class="st">&quot;is_generic&quot;</span>: <span class="va">False</span>,  <span class="co"># Whether or not the attack can be learned by any Pokete of its types</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>        <span class="st">&quot;ap&quot;</span>: <span class="dv">10</span>,  <span class="co"># Attack points; the amount of times the attack can be used by a Pokete until the Pokete has to be healed</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>    },</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">&quot;poison_bite&quot;</span>: {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  <span class="co"># This is the attack&#39;s simplified name/identifier without spaces and in lowercase, which is used to refer to the attack in the code</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>  <span class="st">&quot;name&quot;</span>: <span class="st">&quot;Poison bite&quot;</span>,  <span class="co"># The attack&#39;s pretty name</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>  <span class="st">&quot;factor&quot;</span>: <span class="dv">1</span>,  <span class="co"># The attack factor that is used to calculate damage</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>  <span class="st">&quot;action&quot;</span>: <span class="st">&quot;&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>  <span class="co"># A string that&#39;s executed when the attack is used, to effect the Pokete&#39;s or the enemy&#39;s values (don&#39;t use this)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>  <span class="st">&quot;world_action&quot;</span>: <span class="st">&quot;&quot;</span>,  <span class="co"># An extra ability the attack can be used for</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  <span class="st">&quot;move&quot;</span>: [<span class="st">&quot;attack&quot;</span>, <span class="st">&quot;downgrade&quot;</span>],  <span class="co"># The moves the Pokete does using the attack</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>  <span class="st">&quot;miss_chance&quot;</span>: <span class="fl">0.3</span>,  <span class="co"># The chance to miss the attack</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>  <span class="st">&quot;min_lvl&quot;</span>: <span class="dv">0</span>,  <span class="co"># The minimal level a Pokete needs in order to learn the attack</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>  <span class="st">&quot;desc&quot;</span>: <span class="st">&quot;Makes the enemy weaker.&quot;</span>,  <span class="co"># The attack&#39;s description</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>  <span class="st">&quot;types&quot;</span>: [<span class="st">&quot;poison&quot;</span>],  <span class="co"># The attack&#39;s types</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>  <span class="st">&quot;effect&quot;</span>: <span class="st">&quot;poison&quot;</span>,  <span class="co"># The effect the enemy gets when the attack is used, default is None</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>  <span class="st">&quot;is_generic&quot;</span>: <span class="va">False</span>,  <span class="co"># Whether or not the attack can be learned by any Pokete of its types</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>  <span class="st">&quot;ap&quot;</span>: <span class="dv">10</span>,  <span class="co"># Attack points; the amount of times the attack can be used by a Pokete until the Pokete has to be healed</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>},</span></code></pre></div>
 <p>For more examples on the dictionaries see <a href="./pokete_data/attacks.py"><code>pokete_data/attacks.py</code></a>.</p>
 <h3 id="types-and-learning">Types and learning</h3>
 <p>Only the first type in the <code>"types"</code> list is the attack's real type and determines its effectivity. The other type can only be subtypes. A generic attack can only be learned by a Pokete that has all its types. An ungeneric attack can only be learned if the attack is in the Pokete's <code>"pool"</code> or <code>"attacks"</code> list.</p>
@@ -119,12 +125,143 @@
 <h2 id="adding-types">Adding types</h2>
 <p>Every type has an entry inside the <code>types</code> dictionary in <a href="./pokete_data/types.py"><code>pokete_data/types.py</code></a>. Every entry needs to have this structure:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">&quot;stone&quot;</span>: {  <span class="co"># The type&#39;s name</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>        <span class="st">&quot;effective&quot;</span>: [<span class="st">&quot;flying&quot;</span>, <span class="st">&quot;fire&quot;</span>],  <span class="co"># The types the type is effective against </span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>        <span class="st">&quot;ineffective&quot;</span>: [<span class="st">&quot;plant&quot;</span>],  <span class="co"># The types the type is ineffective against</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>        <span class="st">&quot;color&quot;</span>: [<span class="st">&quot;grey&quot;</span>]  <span class="co"># The type&#39;s label color</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    },</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="st">&quot;effective&quot;</span>: [<span class="st">&quot;flying&quot;</span>, <span class="st">&quot;fire&quot;</span>],  <span class="co"># The types the type is effective against</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  <span class="st">&quot;ineffective&quot;</span>: [<span class="st">&quot;plant&quot;</span>],  <span class="co"># The types the type is ineffective against</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  <span class="st">&quot;color&quot;</span>: [<span class="st">&quot;grey&quot;</span>]  <span class="co"># The type&#39;s label color</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>},</span></code></pre></div>
 <h2 id="adding-subtypes">Adding subtypes</h2>
 <p>Every subtype has an entry inside the <code>sub_types</code> list in <a href="./pokete_data/types.py"><code>pokete_data/types.py</code></a>. They have no further attributes. Subtypes are only useful to determine what Poketes can use what generic attack in a type. For example, to avoid that <code>bato</code> learns the generic <code>flying</code> attack <code>pick</code>.</p>
+<h2 id="adding-maps">Adding maps</h2>
+<p>Every map has an entry in the <code>maps</code> list in <code>pokete_data/maps.py</code>. Every map needs to have this structure:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co">&quot;intromap&quot;</span>: {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="st">&quot;height&quot;</span>: <span class="dv">15</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  <span class="st">&quot;width&quot;</span>: <span class="dv">30</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>  <span class="st">&quot;song&quot;</span>: <span class="st">&quot;03 Chibi Ninja.mp3&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>  <span class="st">&quot;pretty_name&quot;</span>: <span class="st">&quot;Your home&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>  <span class="st">&quot;extra_actions&quot;</span>: <span class="va">None</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>  <span class="st">&quot;poke_args&quot;</span>: <span class="va">None</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>  <span class="st">&quot;weather&quot;</span>: <span class="va">None</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>},</span></code></pre></div>
+<p>When creating maps you can use any of the provided map data which is found in <code>pokete_data/map_data.py</code>. You will have to create your map data and name it the same name as your map. Your map data should be created in this format:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>     <span class="co">&quot;playmap_1&quot;</span>: {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="st">&quot;hard_obs&quot;</span>: {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  },</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>  <span class="st">&quot;soft_obs&quot;</span>: {</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>  },</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>  <span class="st">&quot;dors&quot;</span>: {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>  },</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>  <span class="st">&quot;balls&quot;</span>: {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>  }</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>},</span></code></pre></div>
+<p>There are given buildings you can add such as:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>CENTER <span class="op">=</span> <span class="vs">r&quot;&quot;&quot; __________</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="vs"> /         /\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="vs">/_Center!_/  \</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="vs">| # ___ # |  |</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="vs">|___| |___|__|&quot;&quot;&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>SHOP <span class="op">=</span> <span class="vs">r&quot;&quot;&quot;   __________</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="vs"> /         /\</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a><span class="vs">/__Shop!__/  \</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="vs">| # ___ # |  |</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a><span class="vs">|___| |___|__|&quot;&quot;&quot;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>HOUSE1 <span class="op">=</span> <span class="vs">r&quot;&quot;&quot; ________</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a><span class="vs"> /       /\</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a><span class="vs">/_______/  \</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a><span class="vs">|# ___ #|  |</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a><span class="vs">|__| |__|__|&quot;&quot;&quot;</span></span></code></pre></div>
+<p>You would add them by adding this to the map:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="co">&quot;pokecenter&quot;</span>: {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>  <span class="st">&quot;x&quot;</span>: <span class="dv">20</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>  <span class="st">&quot;y&quot;</span>: <span class="dv">0</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>  <span class="st">&quot;txt&quot;</span>: CENTER</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>},</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a><span class="co">&quot;house1&quot;</span>: {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>  <span class="st">&quot;x&quot;</span>: <span class="dv">2</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>  <span class="st">&quot;y&quot;</span>: <span class="dv">0</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>  <span class="st">&quot;txt&quot;</span>: HOUSE1</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>},</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a><span class="co">&quot;shop&quot;</span>: {</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>  <span class="st">&quot;x&quot;</span>: <span class="dv">29</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>  <span class="st">&quot;y&quot;</span>: <span class="dv">3</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>  <span class="st">&quot;txt&quot;</span>: SHOP</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>},</span></code></pre></div>
+<p>You can also add you own buildings if you want like this:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="co">&quot;hotel&quot;</span>: {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>  <span class="st">&quot;x&quot;</span>: <span class="dv">43</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>  <span class="st">&quot;y&quot;</span>: <span class="dv">18</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>  <span class="st">&quot;txt&quot;</span>: <span class="vs">r&quot;&quot;&quot;    ..___________</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a><span class="vs">  /||          /\</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a><span class="vs"> / ||         /  \</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a><span class="vs">/___Hotel!___/    \</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a><span class="vs">| ##      ## | ## |</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a><span class="vs">|    ____    |    |</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a><span class="vs">|____|  |____|____|&quot;&quot;&quot;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a>},</span></code></pre></div>
+<p>You should also add terrain such as:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="co">&quot;hard_obs&quot;</span>: {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>  <span class="st">&quot;tree_group_1&quot;</span>: {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>    <span class="st">&quot;x&quot;</span>: <span class="dv">35</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>    <span class="st">&quot;y&quot;</span>: <span class="dv">2</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a>    <span class="st">&quot;txt&quot;</span>: <span class="st">&quot;&quot;&quot; (()(()((())((()((()</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="st">())(())))())))()))(()</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a><span class="st"> || ||| ||||| |||||&quot;&quot;&quot;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a>  },</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a>}</span></code></pre></div>
+<p>You can also add soft obstacles where you can find poketes such as:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="co">&quot;soft_obs&quot;</span>: {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>  <span class="st">&quot;meadow1&quot;</span>: {</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    <span class="st">&quot;x&quot;</span>: <span class="dv">1</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    <span class="st">&quot;y&quot;</span>: <span class="dv">8</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>    <span class="st">&quot;txt&quot;</span>: <span class="st">&quot;&quot;&quot;     ;;;;;;;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a><span class="st">    ;;;;;;;;;;;;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a><span class="st">  ;;;;;;;;;;;;;;;;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a><span class="st">;;;;;;;;;;;;;;;;;;;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a><span class="st"> ;;;;;;;;;;;;;;;;;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a><span class="st">   ;;;;;;;;;;;;;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a><span class="st">     ;;;;;;&quot;&quot;&quot;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>  },</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a>}</span></code></pre></div>
+<p>If you want to add a door to a building you do that with the <code>dors:</code> portion of the dict such as:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="co">&quot;dors&quot;</span>: {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>  <span class="st">&quot;dor_playmap_51_1&quot;</span>: {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>    <span class="st">&quot;x&quot;</span>: <span class="dv">90</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>    <span class="st">&quot;y&quot;</span>: <span class="dv">12</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a>    <span class="st">&quot;args&quot;</span>: {<span class="st">&quot;map&quot;</span>: <span class="st">&quot;playmap_51&quot;</span>, <span class="st">&quot;x&quot;</span>: <span class="dv">1</span>, <span class="st">&quot;y&quot;</span>: <span class="dv">28</span>}</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>  },</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a>}</span></code></pre></div>
+<p>If you're adding doors to buildings you should also include a map of the inside of the building such as:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="co">&quot;playmap_22&quot;</span>: {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>  <span class="st">&quot;hard_obs&quot;</span>: {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    <span class="st">&quot;inner_walls&quot;</span>: {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>      <span class="st">&quot;x&quot;</span>: <span class="dv">2</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>      <span class="st">&quot;y&quot;</span>: <span class="dv">1</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>      <span class="st">&quot;txt&quot;</span>: <span class="st">&quot;&quot;&quot;________________________</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a><span class="st">|______________________|</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a><span class="st">|          a           |</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a><span class="st">|       ________       |</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a><span class="st">|                      |</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a><span class="st">|                      | |</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a><span class="st">|                        |</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a><span class="st">|                      __|</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true"></a><span class="st">|__________  __________|</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true"></a><span class="st">|_________|  |_________|&quot;&quot;&quot;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true"></a>    },</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true"></a>  },</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true"></a>}</span></code></pre></div>
+<p>To add balls to pickup throughout the map you add them like this:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode Python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="co">&quot;balls&quot;</span>: {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>  <span class="st">&quot;ball_1&quot;</span>: {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    <span class="st">&quot;x&quot;</span>: <span class="dv">1</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>    <span class="st">&quot;y&quot;</span>: <span class="dv">1</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>  },</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>  <span class="st">&quot;ball_2&quot;</span>: {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a>    <span class="st">&quot;x&quot;</span>: <span class="dv">7</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>    <span class="st">&quot;y&quot;</span>: <span class="dv">12</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a>  },</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Also new maps have to be added to <code>pokete_data/mapstations.py</code> to be displayed correctly in the minimap.</p>
 </section>
       <footer>
         
