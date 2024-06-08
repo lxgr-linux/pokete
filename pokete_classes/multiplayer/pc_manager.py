@@ -1,4 +1,5 @@
 """Manages remote players"""
+import logging
 
 import scrap_engine as se
 
@@ -114,7 +115,14 @@ class PCManager:
         """Removes a remote player
         ARGS:
             name: The Players name"""
-        self.reg[name].remove()
+        pc = self.reg.get(name, None)
+        if pc is None:
+            logging.warning(
+                "[PCManager] Trying to remove player with name `%s`, "
+                "but is not present",
+                name)
+            return
+        pc.remove()
         del self.reg[name]
 
     def movemap_move(self):
