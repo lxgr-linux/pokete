@@ -21,4 +21,4 @@ class Trainer(TypedDict):
     args: TrainerArgs
 
 
-Trainers = dict[str, Trainer]
+Trainers = dict[str, list[Trainer]]
