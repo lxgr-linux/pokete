@@ -19,7 +19,7 @@
 
 
 ## Plot
-The plot of the game is that you - a ten year old boy/girl - are running around in the world doing what ten year olds do; catching little creatures (Poketes) and letting them fight against other little creatures.
+The plot of the game is that you - a ten year old boy/girl - are running around in the world doing what ten year olds do: catching little creatures (Poketes) and letting them fight against other little creatures.
 
 You are on a journey to explore the world and catch all Poketes. Along the way you will meet many different NPCs that may or may not be nice to you.
 
