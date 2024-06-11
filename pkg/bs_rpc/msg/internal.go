@@ -1,13 +1,13 @@
 package msg
 
 type EmptyMsg struct {
-    BaseMsg
+	BaseMsg
 }
 
 func (e EmptyMsg) GetType() Type {
-    return "internal.empty"
+	return "internal.empty"
 }
 
 func NewEmptyMsg() EmptyMsg {
-    return EmptyMsg{BaseMsg{}}
+	return EmptyMsg{BaseMsg{}}
 }
