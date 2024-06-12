@@ -4,6 +4,7 @@ import time
 
 from pokete_data import achievements
 from release import SPEED_OF_TIME
+from .attack_process import AttackProcess
 from .attack_result import Result
 from .fight_items import FightItems
 from .fightmap import FightMap
@@ -11,7 +12,6 @@ from .providers import Provider
 from ..attack import Attack
 from ..audio import audio
 from ..inv_items import InvItem
-from ..npcs import Trainer
 from ..tss import tss
 from .. import movemap as mvp
 
@@ -21,10 +21,12 @@ class Fight:
         self.fightmap: FightMap = FightMap(tss.height - 1, tss.width)
         self.providers: list[Provider] = []
         self.fight_items = FightItems()
+        self.attack_process = AttackProcess(self.fightmap)
 
     def __call__(self, providers: list[Provider]):
         audio.switch("xDeviruchi - Decisive Battle (Loop).mp3")
         self.providers = providers
+        self.fightmap.set_providers(providers)
         logging.info(
             "[Fight] Started between %s",
             "and ".join(
@@ -53,12 +55,11 @@ class Fight:
             match attack_result.result:
                 case Result.ATTACK:
                     attack: Attack = attack_result.attack
-                    player.curr.attack(
-                        attack, enem.curr, self.fightmap,
-                        self.providers
-                    )
+                    self.attack_process(player.curr, enem.curr, attack,
+                                        self.providers)
+
                 case Result.RUN_AWAY:
-                    if enem.escapable:
+                    if not enem.escapable:
                         logging.warning(
                             "[Fight]: Trying to run away from inescapbale fight")
                     else:
@@ -96,7 +97,7 @@ class Fight:
                             return player
 
             time.sleep(SPEED_OF_TIME * 0.3)
-            self.show()
+            self.fightmap.show()
             time.sleep(SPEED_OF_TIME * 0.5)
 
             for i, prov in enumerate(self.providers):
@@ -124,7 +125,7 @@ class Fight:
         ) * loser.xp_multiplier
         self.fightmap.declare_winner(winner, xp)
 
-        if winner.curr.player and isinstance(loser, Trainer):
+        if winner.curr.player and hasattr(loser, "trainer"):
             achievements.achieve("first_duel")
         if winner.curr.player and winner.curr.add_xp(xp):
             self.fightmap.win_animation(winner)
@@ -137,7 +138,7 @@ class Fight:
         else:
             loser.curr.poke_stats.add_battle(False)
 
-        self.fightmap.death_animation(loser)
+        self.fightmap.death_animation(loser, winner)
         mvp.movemap.balls_label_rechar(winner.pokes)
         logging.info(
             "[Fight] Ended, %s(%s) won",

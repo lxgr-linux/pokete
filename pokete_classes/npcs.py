@@ -230,6 +230,7 @@ class Trainer(NPC, Provider):
         self.gender = gender
         self.lose_texts = lose_texts
         self.win_texts = win_texts
+        self.trainer = True
 
     def get_attack(self, fightmap, enem):
         return random.choices(

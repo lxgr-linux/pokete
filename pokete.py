@@ -33,7 +33,7 @@ from pokete_classes.ui_elements import ChooseBox, InfoBox
 from pokete_classes.settings import settings, VisSetting, Slider
 from pokete_classes.inv_items import invitems, LearnDisc
 from pokete_classes.types import types
-from pokete_classes.providers import ProtoFigure
+from pokete_classes.fight import ProtoFigure
 from pokete_classes.audio import audio
 from pokete_classes.tss import tss
 from pokete_classes.side_loops import LoadingScreen, About, Help
@@ -42,7 +42,7 @@ from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
-    movemap as mvp, fightmap as fm, buy, roadmap
+    movemap as mvp, buy, roadmap
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import HighGrass, Poketeball
 from pokete_classes.doors import Door

@@ -4,7 +4,7 @@ import time
 import scrap_engine as se
 from pokete_classes import animations, \
     deck, game_map as gm
-from pokete_classes.fight import AttackResult
+from ..attack_result import AttackResult
 from release import SPEED_OF_TIME
 from ...hotkeys import Action, get_action
 from ..providers import ProtoFigure, Provider
@@ -28,9 +28,9 @@ class FightMap(gm.GameMap):
 
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
-        self.providers = []
         self.box = AttackBox(self)
         self.invbox = InvBox(height - 3, 35, "Inventory", overview=self)
+        self.providers: list[Provider] = []
         # icos
         self.deadico1 = se.Text(r"""
     \ /
@@ -208,11 +208,11 @@ class FightMap(gm.GameMap):
                     )
                 ]
                 if attack.ap > 0:
-                    return attack
+                    return AttackResult.attack(attack)
             elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
                 attack = self.box(self, player.curr.attack_obs)
                 if attack != "":
-                    return attack
+                    return AttackResult.attack(attack)
             elif action.triggers(Action.RUN):
                 if (
                     not enem.escapable
@@ -408,14 +408,14 @@ class FightMap(gm.GameMap):
             return False
         return True
 
-    def death_animation(self, loser: Provider):
+    def death_animation(self, loser: Provider, winner: Provider):
         ico = loser.curr.ico
         self.show()
         time.sleep(SPEED_OF_TIME * 1)
         self.fast_change([ico, self.deadico1, self.deadico2], ico)
         self.deadico2.remove()
         self.show()
-        self.clean_up(*self.providers)
+        self.clean_up(loser, winner)
 
     def win_animation(self, winner: Provider):
         time.sleep(SPEED_OF_TIME * 1)
@@ -463,6 +463,9 @@ class FightMap(gm.GameMap):
     def show_weather(self, weather):
         self.outp.outp(weather.info)
         time.sleep(SPEED_OF_TIME * 1.5)
+
+    def set_providers(self, providers: list[Provider]):
+        self.providers = providers
 
 
 if __name__ == "__main__":
