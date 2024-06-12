@@ -1279,7 +1279,7 @@ if __name__ == "__main__":
         achievements.add(identifier, **achievement_args)
 
     # objects relevant for fm.fight()
-    fm.fightmap = fm.FightMap(tss.height - 1, tss.width)
+    ## fm.fightmap = fm.FightMap(tss.height - 1, tss.width) TODO: Remove later
 
     for _i in [NPC, Trainer]:
         _i.set_vars(figure, NPCActions)

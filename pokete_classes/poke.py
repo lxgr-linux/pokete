@@ -9,7 +9,6 @@ import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from release import SPEED_OF_TIME
-from .attack_actions import AttackActions
 from .attack import Attack
 from .health_bar import HealthBar
 from .pokestats import PokeStats
@@ -38,7 +37,7 @@ class Poke:
                  _effects=None, player=True, shiny=False, nature=None,
                  stats=None):
         self.nature = PokeNature.random() if nature is None \
-                        else PokeNature.from_dict(nature)
+            else PokeNature.from_dict(nature)
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
@@ -81,7 +80,7 @@ can't have more than 4 attacks!"
         self.full_miss_chance = self.miss_chance
         # re-set hp
         if _hp != "SKIP":
-            self.hp = _hp
+            self.hp: int = _hp
         # Labels
         self.hp_bar = HealthBar(self)
         self.hp_bar.make(self.hp)
@@ -137,7 +136,9 @@ can't have more than 4 attacks!"
         """Updates/sets some vars"""
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, round((self.lvl() + self.inf[name]
-                    + (2 if self.shiny else 0)) * self.nature.get_value(name)))
+                                       + (
+                                           2 if self.shiny else 0)) * self.nature.get_value(
+                name)))
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
@@ -171,7 +172,8 @@ can't have more than 4 attacks!"
         self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
 {((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
         self.text_lvl.rechar(f"Lvl:{self.lvl()}")
-        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp,
+                     self.xp)
         if old_lvl < self.lvl():
             logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
             return True
@@ -181,66 +183,6 @@ can't have more than 4 attacks!"
         """RETURNS:
             Current level"""
         return int(math.sqrt(self.xp + 1))
-
-    def attack(self, attack, enem, fightmap, providers):
-        """Attack process
-        ARGS:
-            attack: Attack object
-            enem: Enemy Poke
-            fightmap: The map object where the fight is carried out on."""
-        weather = providers[0].map.weather
-        if attack.ap > 0:
-            for eff in self.effects:
-                eff.remove()
-            for eff in self.effects:
-                if eff.effect() == 1:
-                    return
-            if any(isinstance(i, effects.confusion) for i in self.effects):
-                self.enem = enem = self
-            else:
-                self.enem = enem
-            w_eff = 1
-            random_factor = random.choices([0, 0.75, 1, 1.26],
-                                           weights=[attack.miss_chance
-                                                    + self.miss_chance,
-                                                    1, 1, 1], k=1)[0]
-            if weather is not None:
-                w_eff = weather.effect(attack.type)
-                fightmap.outp.outp(weather.info)
-                time.sleep(SPEED_OF_TIME * 1.5)
-            enem.oldhp = enem.hp
-            self.oldhp = self.hp
-            eff = (1.3 if enem.type.name in attack.type.effective else 0.5
-                   if enem.type.name in attack.type.ineffective else 1) * w_eff
-            n_hp = round((self.atc
-                          * attack.factor
-                          / (enem.defense if enem.defense >= 1 else 1))
-                         * random_factor * eff)
-            eff_text = {
-                eff < 1: "\nThat was not effective! ",
-                eff > 1: "\nThat was very effective! ",
-                eff == 1 or n_hp == 0: "",
-                random_factor == 0: f"{self.name} missed!"}[True]
-            enem.hp -= max(n_hp, 0)
-            enem.hp = max(enem.hp, 0)
-            time.sleep(SPEED_OF_TIME * 0.4)
-            for i in attack.move:
-                getattr(self.moves, i)()
-            if attack.action is not None and random_factor != 0:
-                getattr(AttackActions, attack.action)(self, enem, providers)
-            attack.set_ap(attack.ap - 1)
-            fightmap.outp.outp(
-                f'{self.ext_name} used {attack.name}! {eff_text}')
-            if enem == self:
-                time.sleep(SPEED_OF_TIME * 1)
-                fightmap.outp.outp(f'{self.ext_name} hurt itself!')
-            if random_factor != 0:
-                attack.give_effect(enem)
-            for obj in [enem, self] if enem != self else [enem]:
-                obj.hp_bar.update(obj.oldhp)
-            logging.info("[Poke][%s] Used %s: %s", self.name, attack.name,
-                         str({"eff": eff, "n_hp": n_hp}))
-            fightmap.show()
 
     def learn_attack(self, _map, overview):
         """Checks if a new attack can be learned and then teaches it the poke
@@ -256,7 +198,7 @@ can't have more than 4 attacks!"
             figure: The figure object the poke belongs to
             _map: The map the evolving happens on"""
         if not self.player or self.evolve_poke == "" \
-                or self.lvl() < self.evolve_lvl:
+            or self.lvl() < self.evolve_lvl:
             return False
         evomap = EvoMap(_map.height, _map.width, _map)
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks,
@@ -299,6 +241,13 @@ can't have more than 4 attacks!"
         del self
         return True
 
+    def backup_hp(self):
+        self.oldhp = self.hp
+
+    def set_hp(self, hp: int):
+        """Saves saves hp"""
+        self.hp = max(self.hp - max(hp, 0), 0)
+
     @classmethod
     def from_dict(cls, _dict):
         """Assembles a Pokete from _dict"""
@@ -322,7 +271,7 @@ can't have more than 4 attacks!"
                 obj.attacks.append(new_attack)
 
         while len(obj.attacks) > 4:
-            obj.attacks.pop(random.randint(0, len(obj.attacks)-1))
+            obj.attacks.pop(random.randint(0, len(obj.attacks) - 1))
 
         return cls(
             poke,
@@ -339,7 +288,7 @@ def upgrade_by_one_lvl(poke, figure, _map):
         poke: The pokete, that will be upgraded
         figure: The figure object the Pokete belongs to
         _map: The map the upgrade happens on"""
-    poke.add_xp((poke.lvl()+1)**2-1 - ((poke.lvl())**2-1))
+    poke.add_xp((poke.lvl() + 1) ** 2 - 1 - ((poke.lvl()) ** 2 - 1))
     poke.set_vars()
     poke.learn_attack(_map, _map)
     poke.evolve(figure, _map)

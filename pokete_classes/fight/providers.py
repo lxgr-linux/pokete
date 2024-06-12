@@ -4,7 +4,9 @@ import random
 import time
 from abc import ABC, abstractmethod
 from pokete_classes import movemap as mvp
-from .input import ask_bool
+from .attack_result import AttackResult
+from ..input import ask_bool
+from ..poke import Poke
 
 
 class Provider(ABC):
@@ -12,7 +14,7 @@ class Provider(ABC):
     ARGS:
         pokes: The Poketes the Provider holds"""
 
-    def __init__(self, pokes, escapable, xp_multiplier):
+    def __init__(self, pokes: list[Poke], escapable, xp_multiplier):
         self.pokes = pokes
         self.escapable = escapable
         self.xp_multiplier = xp_multiplier
@@ -32,7 +34,7 @@ class Provider(ABC):
                 mvp.movemap.balls_label_rechar(self.pokes)
 
     @property
-    def curr(self):
+    def curr(self) -> Poke:
         """Returns the currently used Pokete"""
         return self.pokes[self.play_index]
 
@@ -43,7 +45,7 @@ class Provider(ABC):
         )
 
     @abstractmethod
-    def get_attack(self, fightmap, enem):
+    def get_attack(self, fightmap: "FightMap", enem) -> AttackResult:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
@@ -69,20 +71,21 @@ class NatureProvider(Provider):
     """The Natures Provider
     ARGS:
         poke: One Pokete"""
+
     def __init__(self, poke):
         super().__init__([poke], escapable=True, xp_multiplier=1)
 
-    def get_attack(self, fightmap, enem):
+    def get_attack(self, fightmap, enem) -> AttackResult:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
             enem: The enemy Provider"""
-        return random.choices(
+        return AttackResult.attack(random.choices(
             self.curr.attack_obs,
             weights=[
                 i.ap for i in self.curr.attack_obs
             ]
-        )[0]
+        )[0])
 
     def greet(self, fightmap):
         """Outputs a greeting text at the fights start:
@@ -110,7 +113,7 @@ class ProtoFigure(Provider):
             fightmap: fightmap object"""
         return
 
-    def get_attack(self, fightmap, enem):
+    def get_attack(self, fightmap, enem) -> AttackResult:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
@@ -126,8 +129,8 @@ class ProtoFigure(Provider):
             bool: whether or not a Pokete was choosen"""
         if winner.escapable:
             if ask_bool(
-                    fightmap, "Do you want to choose another Pokete?",
-                    fightmap
+                fightmap, "Do you want to choose another Pokete?",
+                fightmap
             ):
                 success = fightmap.choose_poke(self)
                 if not success:

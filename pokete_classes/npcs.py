@@ -4,11 +4,10 @@ import time
 import logging
 import random
 import scrap_engine as se
-import pokete_classes.fightmap as fm
 from release import SPEED_OF_TIME
 from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 from . import movemap as mvp
-from .providers import Provider
+from .fight import Fight, Provider
 from .loops import std_loop
 from .input import ask_bool
 from .inv_items import invitems
@@ -264,15 +263,15 @@ class Trainer(NPC, Provider):
             return
         self.pokes = [p for p in self.pokes if p.hp > 0]
         if self.pokes and (not self.used
-                                 or not settings("save_trainers").val) \
-                and self.check_walk(self.fig.x, self.fig.y):
+                           or not settings("save_trainers").val) \
+            and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
             time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
             self.walk_point(self.fig.x, self.fig.y)
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
                 self.text(self.texts)
-                winner = fm.fightmap.fight(
+                winner = Fight()(
                     [self.fig, self]
                 )
                 is_winner = (winner == self)
@@ -315,7 +314,7 @@ class Trainer(NPC, Provider):
         fightmap.show()
         fightmap.clean_up(self)
         self.play_index += 1
-        fightmap.add_1(winner, self)
+        fightmap.__add_1(winner, self)
         ico = self.curr.ico
         fightmap.fast_change(
             [ico, fightmap.deadico2, fightmap.deadico1, ico],
