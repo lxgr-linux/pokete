@@ -983,7 +983,7 @@ def teleport(poke):
     """Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation"""
-    if (obj := roadmap(mvp.movemap, choose=True)) is None:
+    if (obj := roadmap(mvp.movemap, None, choose=True)) is None:
         return
     if settings("animations").val:
         animations.transition(mvp.movemap, poke)
@@ -1092,7 +1092,7 @@ def _game(_map):
     pevm = PeriodicEventManager(_map)
     inp_dict = {
         Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
-        Action.MAP: [roadmap, (mvp.movemap,)],
+        Action.MAP: [roadmap, (mvp.movemap, pevm)],
         Action.INVENTORY: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
