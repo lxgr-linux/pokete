@@ -78,8 +78,7 @@ class AttackProcess:
             self.fightmap.show_effectivity(eff, n_hp, random_factor, attacker,
                                            attack)
             if defender == attacker:
-                time.sleep(SPEED_OF_TIME * 1)
-                self.fightmap.outp.outp(f'{attacker.ext_name} hurt itself!')
+                self.fightmap.show_hurt_it_self()
             if random_factor != 0:
                 attack.give_effect(defender)
             for obj in [defender, attacker] if defender != attacker else [

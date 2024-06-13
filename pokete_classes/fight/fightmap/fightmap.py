@@ -267,123 +267,6 @@ class FightMap(gm.GameMap):
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
 
-    def fight(self, providers):
-        """Fight between two Pokes
-        ARGS:
-            providers
-        RETURNS:
-            Provider that won the fight"""
-        """
-        audio.switch("xDeviruchi - Decisive Battle (Loop).mp3")
-        self.providers = providers
-        logging.info(
-            "[Fight] Started between %s",
-            "and ".join(
-                f"{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}"
-                for prov in self.providers
-            )
-        )
-        self.resize_view()
-        for prov in self.providers:
-            prov.index_conf()
-        if settings("animations").val:  # Intro animation
-            animations.fight_intro(self.height, self.width)
-        self.add_1(*self.providers)
-        for prov in self.providers:
-            prov.greet(self)
-        time.sleep(SPEED_OF_TIME * 1)
-        self.add_2(self.providers[0])
-        self.fast_change(
-            [self.providers[0].curr.ico, self.deadico2, self.deadico1,
-             self.providers[0].curr.ico], self.providers[0].curr.ico)
-        self.outp.outp(f"You used {self.providers[0].curr.name}")
-        self.show()
-        time.sleep(SPEED_OF_TIME * 0.5)
-        
-        index = self.providers.index(
-            max(self.providers, key=lambda i: i.curr.initiative)
-        )
-        for prov in self.providers:
-            i = prov.curr
-            for j in i.effects:
-                j.readd()
-        
-        while True:
-            player = self.providers[index % 2]
-            enem = self.providers[(index + 1) % 2]
-
-            attack = player.get_attack(self, enem)
-            time.sleep(SPEED_OF_TIME * 0.3)
-            if attack == "won":
-                return player
-            if attack != "":
-                player.curr.attack(attack, enem.curr, self, self.providers)
-            self.show()
-            time.sleep(SPEED_OF_TIME * 0.5)
-            winner = None
-            loser = None
-            for i, prov in enumerate(self.providers):
-                if prov.curr.hp <= 0:
-                    loser = prov
-                    winner = self.providers[(i + 1) % 2]
-            if winner is not None:
-                self.outp.outp(f"{loser.curr.ext_name} is dead!")
-            elif all(i.ap == 0 for i in player.curr.attack_obs):
-                winner = self.providers[(index + 1) % 2]
-                loser = player
-                time.sleep(SPEED_OF_TIME * 2)
-                self.outp.outp(
-                    f"{player.curr.ext_name} has used all its' attacks!")
-                time.sleep(SPEED_OF_TIME * 3)
-            if winner is not None:
-                if any(p.hp > 0 for p in loser.pokes[:6]):
-                    if not loser.handle_defeat(self, winner):
-                        break
-                else:
-                    break
-            index += 1
-        audio.switch("xDeviruchi - Decisive Battle (End).mp3")
-        time.sleep(SPEED_OF_TIME * 1)
-        _xp = sum(
-            poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
-            for poke in loser.pokes
-        ) * loser.xp_multiplier
-        self.outp.outp(
-            f"{winner.curr.ext_name} won!" +
-            (f'\nXP + {_xp}' if winner.curr.player else '')
-        )
-        if winner.curr.player and isinstance(loser, Trainer):
-            achievements.achieve("first_duel")
-        if winner.curr.player and winner.curr.add_xp(_xp):
-            time.sleep(SPEED_OF_TIME * 1)
-            self.outp.outp(
-                f"{winner.curr.name} reached lvl {winner.curr.lvl()}!"
-            )
-            winner.curr.moves.shine()
-            time.sleep(SPEED_OF_TIME * 0.5)
-            winner.curr.set_vars()
-            winner.curr.learn_attack(self, self)
-            winner.curr.evolve(winner, self)
-        if winner.curr.player:
-            winner.curr.poke_stats.add_battle(True)
-        else:
-            loser.curr.poke_stats.add_battle(False)
-        self.show()
-        time.sleep(SPEED_OF_TIME * 1)
-        ico = loser.curr.ico
-        self.fast_change([ico, self.deadico1, self.deadico2], ico)
-        self.deadico2.remove()
-        self.show()
-        self.clean_up(*self.providers)
-        mvp.movemap.balls_label_rechar(winner.pokes)
-        logging.info(
-            "[Fight] Ended, %s(%s) won",
-            winner.curr.name, "player" if winner.curr.player else "enemy"
-        )
-        audio.switch(self.providers[0].map.song)
-        return winner
-        """
-
     def choose_poke(self, player, allow_exit=True):
         """Lets the player choose another Pokete from their deck
         ARGS:
@@ -466,6 +349,10 @@ class FightMap(gm.GameMap):
 
     def set_providers(self, providers: list[Provider]):
         self.providers = providers
+
+    def show_hurt_it_self(self, attacker):
+        time.sleep(SPEED_OF_TIME * 1)
+        self.outp.outp(f'{attacker.ext_name} hurt itself!')
 
 
 if __name__ == "__main__":

@@ -112,7 +112,7 @@ class Fight:
                 self.fightmap.show_used_all_attacks(player)
             if winner is not None:
                 if any(p.hp > 0 for p in loser.pokes[:6]):
-                    if not loser.handle_defeat(self, winner):
+                    if not loser.handle_defeat(self.fightmap, winner):
                         break
                 else:
                     break
