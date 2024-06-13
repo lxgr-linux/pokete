@@ -1,6 +1,7 @@
 package config
 
 import (
+	"gopkg.in/yaml.v3"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -23,7 +24,7 @@ func getEnvWithFallBack(envName, fallback string) (env string) {
 	return
 }
 
-func NewConfiFromEnv() Config {
+func FromEnv() Config {
 	godotenv.Load(".env")
 	return Config{
 		ServerHost:    getEnvWithFallBack("POKETE_SERVER_HOST", "localhost"),
@@ -33,4 +34,16 @@ func NewConfiFromEnv() Config {
 		ClientVersion: getEnvWithFallBack("POKETE_SERVER_CLIENT_VERSION", "0.9.1"),
 		EntryMap:      getEnvWithFallBack("POKETE_SERVER_CLIENT_ENTRYMAP", "playmap_1"),
 	}
+}
+
+func FromYAML(path string) (*Config, error) {
+	var config Config
+	file, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	err = yaml.Unmarshal(file, &config)
+
+	return &config, err
 }

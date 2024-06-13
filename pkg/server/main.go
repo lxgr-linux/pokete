@@ -19,7 +19,7 @@ func main() {
 }
 
 func buildPokete() (*pokete.Pokete, error) {
-	cfg := config.NewConfiFromEnv()
+	cfg := config.FromEnv()
 
 	r, err := resources.FromDir("./res")
 	if err != nil {
