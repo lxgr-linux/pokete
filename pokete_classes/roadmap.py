@@ -6,6 +6,7 @@ import pokete_classes.ob_maps as obmp
 import time
 import threading
 import random
+from os import environ
 from pokete_general_use_fns import liner
 from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .loops import std_loop, easy_exit_loop
@@ -32,8 +33,8 @@ class StationObject(se.Box):
         self.text = text
         self.ob_args = {}
         self.__create()
-        if self.desc == "_LAKE":
-            threading.Thread(target = self.animate_water, daemon = True).start()
+        #if self.desc == "_LAKE":
+            #threading.Thread(target = self.animate_water, daemon = True).start()
 
     def __create(self):
         for ry in range(self.height):
@@ -82,13 +83,16 @@ class Station(StationObject):
     choosen = None
     obs = []
 
-    def __init__(self, roadmap, associate, additionals, width, height, desc, color="",
+    def __init__(self, roadmap, associate, additionals, width, height, desc, color="", colorTTY="",
                  text="#", w_next="", a_next="", s_next="", d_next=""):
         self.desc = desc
         self.roadmap = roadmap
         self.org_char = text
         self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
-        self.color = color
+        if colorTTY!="" and environ['TERM']=="linux":
+            self.color = colorTTY
+        else:
+            self.color = color
         if self.associates[0]:
             self.name = self.associates[0].pretty_name
         super().__init__(text, width, height)
@@ -149,7 +153,7 @@ class Station(StationObject):
     def hide_if_visited(self, choose=False):
         """Marks a station as visited"""
         if self.associates[0] is not None and not self.has_been_visited():
-            features = ["A", "P", "$", "C", "⌂"]
+            features = ["A", "P", "$", "C", "⌂", "#"]
             for ch in features:
                 self.text=self.text.replace(ch, " ")
             

@@ -6,8 +6,8 @@ stations = {
             "height": 3,
             "desc": "A small town.",
             "d_next": "playmap_51",
-            "text": """*P⌂ ┣━━━ ⌂⌂ """,
-            "color": "\033[38;5;28m"
+            "text": """ *P#├─── # #""",
+            "color": "\033[38;5;46m"
         },
         "add": {
             "x": 3,
@@ -24,8 +24,9 @@ stations = {
                 "Nice Town.",
             "a_next": "playmap_1",
             "w_next": "cave_1",
-            "text": r"""┗━┓━━┛""",
-            "color": "\033[38;5;22m"
+            "text": r"""└─┐──┘""",
+            "color": "\033[38;5;29m",
+            "colorTTY": "\033[38;5;22m"
         },
         "add": {
             "x": 7,
@@ -40,7 +41,8 @@ stations = {
             "desc": "A dark cave full of batos.",
             "s_next": "playmap_51",
             "d_next": "playmap_2",
-            "text": """▅██""",
+            "text": """███""",
+            "colorTTY": "\033[38;5;7m",
             "color": "\033[38;5;236m"
         },
         "add": {
@@ -56,8 +58,8 @@ stations = {
             "desc": "Part of light areas near Sunny Dale.",
             "a_next": "cave_1",
             "d_next": "playmap_3",
-            "text": """━━━━""",
-            "color": "\033[38;5;28m"
+            "text": """────""",
+            "color": "\033[38;5;29m"
         },
         "add": {
             "x": 8,
@@ -73,8 +75,9 @@ stations = {
             "a_next": "playmap_2",
             "w_next": "playmap_4",
             "s_next": "playmap_6",
-            "text": """P┃$━┫⌂⌂┃⌂""",
-            "color": "\033[38;5;76m"
+            "text": """P│$─┤ #│#""",
+            "color": "\033[38;5;76;1m",
+            "colorTTY": "\033[38;5;22m"
         },
         "add": {
             "x": 12,
@@ -89,8 +92,8 @@ stations = {
             "desc": "The shores of the great Sunnydale lake.",
             "s_next": "playmap_3",
             "d_next": "playmap_28",
-            "text": """┣┃┃""",
-            "color": "\033[38;5;29m"
+            "text": """├││""",
+            "color": "\033[38;5;29;1m"
         },
         "add": {
             "x": 13,
@@ -107,8 +110,8 @@ caves.",
             "w_next": "playmap_3",
             "a_next": "playmap_7",
             "d_next": "playmap_8",
-            "text": """┃  ┃  ┻━━""",
-            "color": "\033[38;5;28m"
+            "text": """│  │  ┴──""",
+            "color": "\033[38;5;46m"
         },
         "add": {
             "x": 13,
@@ -123,6 +126,7 @@ caves.",
             "desc": "A dark and mysterious cave.",
             "d_next": "playmap_6",
             "text": """██""",
+            "colorTTY": "\033[38;5;7m",
             "color": "\033[38;5;236m"
         },
         "add": {
@@ -139,8 +143,8 @@ caves.",
             "a_next": "playmap_6",
             "s_next": "playmap_11",
             "d_next": "playmap_12",
-            "text": """⌂  ━┳━""",
-            "color": "\033[38;5;136m"
+            "text": """#  ─┬─""",
+            "color": "\033[38;5;10m"
         },
         "add": {
             "x": 16,
@@ -154,8 +158,8 @@ caves.",
             "height": 1,
             "desc": "The shore of a lake near an olf fisher village.",
             "w_next": "playmap_8",
-            "text": """┃""",
-            "color": "\033[38;5;220m"
+            "text": """│""",
+            "color": "\033[38;5;226m"
         },
         "add": {
             "x": 17,
@@ -170,8 +174,9 @@ caves.",
             "desc": "A dense forest near Deepens forest.",
             "a_next": "playmap_8",
             "w_next": "playmap_13",
-            "text": """ ┃━┛""",
-            "color": "\033[38;5;88m"
+            "text": """ │─┘""",
+            "color": "\033[38;5;88;1m",
+            "colorTTY": "\033[38;5;1m"
         },
         "add": {
             "x": 19,
@@ -187,8 +192,9 @@ caves.",
 forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_12",
             "w_next": "playmap_15",
-            "text": """⌂┃A⌂┃⌂P┃$""",
-            "color": "\033[38;5;94m"
+            "text": """#│A │ P│$""",
+            "color": "\033[38;5;94;1m",
+            "colorTTY": "\033[38;5;9m"
         },
         "add": {
             "x": 19,
@@ -203,8 +209,9 @@ forest, populated by thousands of people and cultural center of the region.",
             "desc": "A small clearing near Deepens forest.",
             "s_next": "playmap_13",
             "d_next": "playmap_16",
-            "text": """┏━━""",
-            "color": "\033[38;5;88m"
+            "text": """┌──""",
+            "color": "\033[38;5;88;1m",
+            "colorTTY": "\033[38;5;1m"
         },
         "add": {
             "x": 20,
@@ -219,8 +226,8 @@ forest, populated by thousands of people and cultural center of the region.",
             "desc": "A small 'village', that's not even worth talking about.",
             "a_next": "playmap_15",
             "d_next": "playmap_18",
-            "text": """━━━""",
-            "color": "\033[38;5;154m"
+            "text": """───""",
+            "color": "\033[38;5;154;1m"
         },
         "add": {
             "x": 23,
@@ -235,8 +242,8 @@ forest, populated by thousands of people and cultural center of the region.",
             "desc": "A small see at the foot of the Big mountain.",
             "a_next": "playmap_16",
             "w_next": "playmap_19",
-            "text": """━━┛""",
-            "color": "\033[38;5;64m"
+            "text": """──┘""",
+            "color": "\033[38;5;64;1m"
         },
         "add": {
             "x": 26,
@@ -252,7 +259,8 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_18",
             "w_next": "playmap_21",
             "text": """██""",
-            "color": "\033[38;5;236m"
+            "colorTTY": "\033[38;5;7m",
+            "color": "\033[38;5;236;1m"
         },
         "add": {
             "x": 28,
@@ -272,8 +280,8 @@ hotspot.",
             "s_next": "playmap_19",
             "d_next": "playmap_33",
             "w_next": "playmap_40",
-            "text": """P┃⌂⌂┏┻━━┃⌂C """,
-            "color": "\033[38;5;246m"
+            "text": """P│ #┌┴──│#C """,
+            "color": "\033[38;5;246;1m"
         },
         "add": {
             "x": 28,
@@ -287,8 +295,8 @@ hotspot.",
             "height": 1,
             "desc": "A Great beach, with great weather, always.",
             "s_next": "playmap_21",
-            "text": """┃""",
-            "color": "\033[38;5;220m"
+            "text": """│""",
+            "color": "\033[38;5;226m"
         },
         "add": {
             "x": 29,
@@ -303,8 +311,9 @@ hotspot.",
             "desc": "A foggy place full of ghosts and plants.",
             "a_next": "playmap_4",
             "d_next": "playmap_30",
-            "text": """  ┏━━━━┛  """,
-            "color": "\033[38;5;22m"
+            "text": """  ┌────┘  """,
+            "color": "\033[38;5;22;1m",
+            "colorTTY": "\033[38;5;22m"
         },
         "add": {
             "x": 14,
@@ -320,8 +329,8 @@ hotspot.",
 spot in the Pokete world and with the great git-tree it may also be one \
 of the most spectacular.",
             "a_next": "playmap_28",
-            "text": """ $P ━━━┫⌂A⌂⌂""",
-            "color": "\033[38;5;34m"
+            "text": """A$P ───┤# # """,
+            "color": "\033[38;5;34;1m"
         },
         "add": {
             "x": 19,
@@ -336,8 +345,8 @@ of the most spectacular.",
             "desc": "Part of the great agracultural landscape near Agrawos.",
             "a_next": "playmap_21",
             "d_next": "playmap_35",
-            "text": """━━""",
-            "color": "\033[38;5;178m"
+            "text": """──""",
+            "color": "\033[38;5;227;1m"
         },
         "add": {
             "x": 34,
@@ -352,8 +361,9 @@ of the most spectacular.",
             "desc": "Part of the great agracultural landscape near Agrawos.",
             "a_next": "playmap_33",
             "s_next": "playmap_39",
-            "text": """━━┓┏━┛┗━┓""",
-            "color": "\033[38;5;154m"
+            "text": """──┐┌─┘└─┐""",
+            "color": "\033[38;5;100m",
+            "colorTTY": "\033[38;5;3m"
         },
         "add": {
             "x": 36,
@@ -374,8 +384,8 @@ of the most spectacular.",
                     "juiciest and most delicious Mowcow-burgers, cut from the "
                     "happiest and most delicious Mowcows anywhere to find!",
             "w_next": "playmap_35",
-            "text": """⌂⌂┃⌂⌂P┃A┣━┛⌂⌂$⌂⌂""",
-            "color": "\033[38;5;227m"
+            "text": """ #│# P│A├─┘# $ #""",
+            "color": "\033[38;5;227;1m"
         },
         "add": {
             "x": 36,
@@ -394,8 +404,8 @@ decorations={
             "width": 5,
             "height": 3,
             "desc": "",
-            "text": """█▄   ███▄   ▜█▙""",
-            "color": "\033[38;5;238m"
+            "text": """██   ████   ███""",
+            "color": "\033[38;5;238;1m"
         },
         "add": {
             "x": 8,
@@ -409,8 +419,8 @@ decorations={
             "width": 4,
             "height": 3,
             "desc": "",
-            "text": """▐   ▐██  ▜█▆""",
-            "color": "\033[38;5;238m"
+            "text": """█   ███  ███""",
+            "color": "\033[38;5;238;1m"
         },
         "add": {
             "x": 10,
@@ -424,8 +434,8 @@ decorations={
             "width": 6,
             "height": 4,
             "desc": "",
-            "text": """▄▄▂   ████▇▅██████    ▀▜""",
-            "color": "\033[38;5;238m"
+            "text": """      ████████████     █""",
+            "color": "\033[38;5;238;1m"
         },
         "add": {
             "x": 1,
@@ -440,7 +450,7 @@ decorations={
             "height": 2,
             "desc": "",
             "text": """████████""",
-            "color": "\033[38;5;238m"
+            "color": "\033[38;5;238;1m"
         },
         "add": {
             "x": 23,
@@ -454,8 +464,8 @@ decorations={
             "width": 5,
             "height": 5,
             "desc": "",
-            "text": """▐███ ▕███▎ ▜██▊  ▜██  ▝██""",
-            "color": "\033[38;5;238m"
+            "text": """ ███  ███   ███  ███   ██""",
+            "color": "\033[38;5;238;1m"
         },
         "add": {
             "x": 23,
@@ -469,8 +479,8 @@ decorations={
             "width": 5,
             "height": 4,
             "desc": "",
-            "text": """   ██▙▄▟█▛███▌  █▀  """,
-            "color": "\033[38;5;238m"
+            "text": """   ███████████  ██  """,
+            "color": "\033[38;5;238;1m"
         },
         "add": {
             "x": 29,
@@ -484,7 +494,7 @@ decorations={
             "height": 1,
             "desc": "_LAKE",
             "text": """█""",
-            "color": "\033[38;5;39m"
+            "color": "\033[38;5;33;1m"
         },
         "add": {
             "x": 29,
@@ -498,8 +508,8 @@ decorations={
             "width": 6,
             "height": 3,
             "desc": "",
-            "text": """   ██▀  ▗█▛  ▐█▀  """,
-            "color": "\033[38;5;238m"
+            "text": """ ████   ███  ███  """,
+            "color": "\033[38;5;238;1m"
         },
         "add": {
             "x": 31,
@@ -513,8 +523,8 @@ decorations={
             "width": 7,
             "height": 1,
             "desc": "_LAKE",
-            "text": """████▀▀▔""",
-            "color": "\033[38;5;39m"
+            "text": """█████  """,
+            "color": "\033[38;5;33;1m"
         },
         "add": {
             "x": 27,
@@ -530,7 +540,7 @@ decorations={
             "height": 1,
             "desc": "",
             "text": """██""",
-            "color": "\033[38;5;236m"
+            "color": "\033[38;5;236;1m"
         },
         "add": {
             "x": 32,
@@ -554,15 +564,15 @@ decorations={
     "sunnylake": {
         "gen": {
             "additionals": [],
-            "width": 2,
-            "height": 2,
+            "width": 3,
+            "height": 1,
             "desc": "_LAKE",
-            "text": """▄▄██""",
-            "color": "\033[38;5;39m"
+            "text": """███""",
+            "color": "\033[38;5;33;1m"
         },
         "add": {
             "x": 12,
-            "y": 3
+            "y": 4
         }
     },
     
@@ -572,8 +582,8 @@ decorations={
             "width": 6,
             "height": 1,
             "desc": "_LAKE",
-            "text": """▆▆██▆▃""",
-            "color": "\033[38;5;39m"
+            "text": """ ████ """,
+            "color": "\033[38;5;33;1m"
         },
         "add": {
             "x": 14,
@@ -598,4 +608,4 @@ decorations={
 }
 
 if __name__ == "__main__":
-    print("\033[31;1mDo not execute this!\033[0m")
+    print("\033[31;1mDo not execute this!\033[0;1m")
