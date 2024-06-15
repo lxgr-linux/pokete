@@ -1,4 +1,6 @@
-stations = {
+from pokete_classes.maps import Stations
+
+stations: Stations = {
     "playmap_1": {
         "gen": {
             "additionals": ["intromap"],

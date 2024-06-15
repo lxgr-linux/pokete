@@ -195,7 +195,6 @@ class Deck(detail.Informer):
                         self.pokes[self.index.index].text_name.x
                         + len(self.pokes[self.index.index].text_name.text) + 1,
                         self.pokes[self.index.index].text_name.y)
-                    logging.info(ret_action)
                     if ret_action is not None:
                         _ev.set(Action.CANCEL.mapping)
                         continue

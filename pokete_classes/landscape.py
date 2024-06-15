@@ -3,8 +3,8 @@
 import random
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_classes import timer, movemap as mvp, fightmap as fm
-from .providers import NatureProvider
+from pokete_classes import timer, movemap as mvp
+from .fight import Fight, NatureProvider
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
@@ -27,7 +27,7 @@ class HighGrass(se.Object):
                  or (not n_a and not is_night)
                  or (n_a and is_night)}
         if random.randint(0, 8) == 0:
-            fm.fightmap.fight(
+            Fight()(
                 [
                     self.figure,
                     NatureProvider(

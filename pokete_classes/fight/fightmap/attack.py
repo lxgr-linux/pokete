@@ -2,10 +2,11 @@
 
 import scrap_engine as se
 from pokete_general_use_fns import liner
-from ..hotkeys import ACTION_UP_DOWN, Action, get_action
-from ..ui_elements import ChooseBox, LabelBox
-from ..loops import std_loop
-from .. import effects
+from ...hotkeys import ACTION_UP_DOWN, Action, get_action
+from ...ui_elements import ChooseBox, LabelBox
+from ...loops import std_loop
+from ... import effects
+from ...attack import Attack
 
 
 class AttackBox(se.Box):
@@ -95,7 +96,7 @@ class AttackBox(se.Box):
         self.remove()
         self.map.show()
 
-    def __call__(self, _map, attack_obs):
+    def __call__(self, _map, attack_obs: list[Attack]) -> Attack:
         """Inputloop for attack options
         ARGS:
             _map: Map to add to
@@ -111,7 +112,7 @@ class AttackBox(se.Box):
                     self.rechar_atk_box(attack_obs)
                     self.map.show()
                 elif action.triggers(Action.ACCEPT) or (0 <= action.get_number()
-                        < len(attack_obs)):
+                                                        < len(attack_obs)):
                     attack = attack_obs[
                         self.box.index.index if action.triggers(Action.ACCEPT)
                         else action.get_number()

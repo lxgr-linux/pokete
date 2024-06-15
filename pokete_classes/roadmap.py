@@ -8,7 +8,6 @@ from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .loops import std_loop, easy_exit_loop
 from .color import Color
 from .ui_elements import Box, InfoBox
-from .tss import tss
 from . import movemap as mvp
 
 
@@ -76,7 +75,7 @@ class Station(se.Square):
             Action.LEFT: 'a',
             Action.RIGHT: 'd',
         }[inp]
-        if (n_e := getattr(self, inp + "_next")) != "":
+        if (n_e := getattr(self, inp + "_next")) not in ["", None]:
             self.unchoose()
             getattr(self.roadmap, n_e).choose()
 
@@ -105,7 +104,9 @@ class RoadMap:
     ARGS:
         fig: Figure object"""
 
-    def __init__(self, fig):
+    def __init__(self, fig, stations=None):
+        if stations is None:
+            stations = p_data.stations
         self.fig = fig
         self.box = Box(
             11, 40, "Roadmap",
@@ -114,7 +115,7 @@ class RoadMap:
         )
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width - 2, 0)
-        for sta, _dict in p_data.stations.items():
+        for sta, _dict in stations.items():
             obj = Station(self, obmp.ob_maps[sta], **_dict['gen'])
             self.box.add_ob(obj, **_dict['add'])
             setattr(self, sta, obj)
@@ -190,6 +191,9 @@ class RoadMap:
         for _, _map in obmp.ob_maps.items():
             if _map.name not in all_road_maps:
                 raise RoadMapException(_map)
+
+
+roadmap: RoadMap = None
 
 
 if __name__ == "__main__":

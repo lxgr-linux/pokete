@@ -70,7 +70,7 @@ def validate():
     for t in trainers:
         for i in trainers[t]:
             one_validate(i, "trainer", t + ".trainer")
-            if (trainer_name := i["args"][0]) in all_trainer_names:
+            if (trainer_name := i["args"]["name"]) in all_trainer_names:
                 raise Exception(f"Trainer {i}s name is duplicated")
             all_trainer_names.append(trainer_name)
 

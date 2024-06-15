@@ -1,9 +1,11 @@
 """Contains stuff related to fight inventory"""
 
 import scrap_engine as se
-from ..ui_elements import ChooseBox
-from ..loops import std_loop
-from ..hotkeys import ACTION_UP_DOWN, Action, get_action
+
+from ...inv_items import InvItem
+from ...ui_elements import ChooseBox
+from ...loops import std_loop
+from ...hotkeys import ACTION_UP_DOWN, Action, get_action
 
 
 class InvBox(ChooseBox):
@@ -17,14 +19,14 @@ class InvBox(ChooseBox):
         self.add(self.map, self.map.width - 35, 0)
         self.map.show()
 
-    def __call__(self, _map, items, inv):
+    def __call__(self, _map, items: list[InvItem], inv) -> InvItem | None:
         """Inputloop for inv
         ARGS:
             _map: Map to add to
             items: List of InvItems that can be choosen from
             inv: The Figures inv"""
         self.add_c_obs([se.Text(f"{i.pretty_name}s : {inv[i.name]}")
-                               for i in items])
+                        for i in items])
         self.set_index(0)
         self.resize(_map.height - 3, 35)
         with self.add(_map, _map.width - 35, 0):
@@ -34,7 +36,7 @@ class InvBox(ChooseBox):
                     self.input(action)
                     _map.show()
                 elif action.triggers(Action.CANCEL):
-                    item = ""
+                    item = None
                     break
                 elif action.triggers(Action.ACCEPT):
                     item = items[self.index.index]
