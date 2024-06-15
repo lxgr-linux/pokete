@@ -2,7 +2,6 @@
 
 import time
 import random
-from os import environ
 import scrap_engine as se
 
 import pokete_data as p_data
@@ -35,8 +34,7 @@ class StationObject(se.Box):
         self.text = text
         self.ob_args = {}
         self.__create()
-        # if self.desc == "_LAKE":
-        # threading.Thread(target = self.animate_water, daemon = True).start()
+        #TODO: if self.desc == "_LAKE" animate water
 
     def __create(self):
         for ry in range(self.height):
@@ -101,7 +99,6 @@ class Station(StationObject):
         height,
         desc,
         color="",
-        colorTTY="",
         text="#",
         w_next="",
         a_next="",
@@ -112,15 +109,12 @@ class Station(StationObject):
         self.roadmap = roadmap
         self.org_char = text
         self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
-        if colorTTY != "" and environ["TERM"] == "linux":
-            self.color = colorTTY
-        else:
-            self.color = color
+        self.color = getattr(Color, color, "\033[1;37m")
         if self.associates[0]:
             self.name = self.associates[0].pretty_name
         super().__init__(text, width, height)
         self.recolor(self.color)
-        self.hide_if_visited()
+        #self.hide_if_visited()
         self.w_next = w_next
         self.a_next = a_next
         self.s_next = s_next
@@ -169,13 +163,25 @@ class Station(StationObject):
         """Returns if the station is a city"""
         return "pokecenter" in p_data.map_data[self.associates[0].name][
             "hard_obs"]
+        
+    def is_cave(self):
+        #returns if the station is in a cave
+        if self.text[0] == "█": return True
+        return False
 
     def hide_if_visited(self, choose=False):
-        """Marks a station as visited"""
-        if self.associates[0] is not None and not self.has_been_visited():
-            features = ["A", "P", "$", "C", "⌂", "#"]
-            for ch in features:
-                self.text = self.text.replace(ch, " ")
+        if self.associates[0] is not None:
+            if choose:
+                if self.is_city() and self.has_been_visited():
+                    self.recolor(Color.green + Color.thicc)
+                elif not self.is_cave():
+                    self.recolor(Color.white)
+            else:
+                self.recolor(self.color)
+            if not self.has_been_visited():
+                features = ["A", "P", "$", "C", "⌂", "#"]
+                for ch in features:
+                    self.text = self.text.replace(ch, " ")
 
 
 class RoadMap:

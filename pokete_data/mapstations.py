@@ -7,7 +7,7 @@ stations = {
             "desc": "A small town.",
             "d_next": "playmap_51",
             "text": """ *P#├─── # #""",
-            "color": "\033[38;5;46m"
+            "color": "brightgreen"
         },
         "add": {
             "x": 3,
@@ -25,8 +25,7 @@ stations = {
             "a_next": "playmap_1",
             "w_next": "cave_1",
             "text": r"""└─┐──┘""",
-            "color": "\033[38;5;29m",
-            "colorTTY": "\033[38;5;22m"
+            "color": "darkgreen"
         },
         "add": {
             "x": 7,
@@ -42,8 +41,7 @@ stations = {
             "s_next": "playmap_51",
             "d_next": "playmap_2",
             "text": """███""",
-            "colorTTY": "\033[38;5;7m",
-            "color": "\033[38;5;236m"
+            "color": "cavegray"
         },
         "add": {
             "x": 7,
@@ -59,7 +57,7 @@ stations = {
             "a_next": "cave_1",
             "d_next": "playmap_3",
             "text": """────""",
-            "color": "\033[38;5;29m"
+            "color": "darkgreen"
         },
         "add": {
             "x": 8,
@@ -76,8 +74,7 @@ stations = {
             "w_next": "playmap_4",
             "s_next": "playmap_6",
             "text": """P│$─┤ #│#""",
-            "color": "\033[38;5;76;1m",
-            "colorTTY": "\033[38;5;22m"
+            "color": "brightgreen"
         },
         "add": {
             "x": 12,
@@ -93,7 +90,7 @@ stations = {
             "s_next": "playmap_3",
             "d_next": "playmap_28",
             "text": """├││""",
-            "color": "\033[38;5;29;1m"
+            "color": "darkgreen"
         },
         "add": {
             "x": 13,
@@ -111,7 +108,7 @@ caves.",
             "a_next": "playmap_7",
             "d_next": "playmap_8",
             "text": """│  │  ┴──""",
-            "color": "\033[38;5;46m"
+            "color": "deepgreen"
         },
         "add": {
             "x": 13,
@@ -126,8 +123,7 @@ caves.",
             "desc": "A dark and mysterious cave.",
             "d_next": "playmap_6",
             "text": """██""",
-            "colorTTY": "\033[38;5;7m",
-            "color": "\033[38;5;236m"
+            "color": "cavegray"
         },
         "add": {
             "x": 11,
@@ -144,7 +140,7 @@ caves.",
             "s_next": "playmap_11",
             "d_next": "playmap_12",
             "text": """#  ─┬─""",
-            "color": "\033[38;5;10m"
+            "color": "brightyellow"
         },
         "add": {
             "x": 16,
@@ -159,7 +155,7 @@ caves.",
             "desc": "The shore of a lake near an olf fisher village.",
             "w_next": "playmap_8",
             "text": """│""",
-            "color": "\033[38;5;226m"
+            "color": "yellow"
         },
         "add": {
             "x": 17,
@@ -175,8 +171,7 @@ caves.",
             "a_next": "playmap_8",
             "w_next": "playmap_13",
             "text": """ │─┘""",
-            "color": "\033[38;5;88;1m",
-            "colorTTY": "\033[38;5;1m"
+            "color": "brown"
         },
         "add": {
             "x": 19,
@@ -193,8 +188,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_12",
             "w_next": "playmap_15",
             "text": """#│A │ P│$""",
-            "color": "\033[38;5;94;1m",
-            "colorTTY": "\033[38;5;9m"
+            "color": "gold"
         },
         "add": {
             "x": 19,
@@ -210,8 +204,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_13",
             "d_next": "playmap_16",
             "text": """┌──""",
-            "color": "\033[38;5;88;1m",
-            "colorTTY": "\033[38;5;1m"
+            "color": "brown"
         },
         "add": {
             "x": 20,
@@ -227,7 +220,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "a_next": "playmap_15",
             "d_next": "playmap_18",
             "text": """───""",
-            "color": "\033[38;5;154;1m"
+            "color": "brightyellow"
         },
         "add": {
             "x": 23,
@@ -243,7 +236,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "a_next": "playmap_16",
             "w_next": "playmap_19",
             "text": """──┘""",
-            "color": "\033[38;5;64;1m"
+            "color": "darkgreen"
         },
         "add": {
             "x": 26,
@@ -259,8 +252,7 @@ forest, populated by thousands of people and cultural center of the region.",
             "s_next": "playmap_18",
             "w_next": "playmap_21",
             "text": """██""",
-            "colorTTY": "\033[38;5;7m",
-            "color": "\033[38;5;236;1m"
+            "color": "cavegray"
         },
         "add": {
             "x": 28,
@@ -281,7 +273,7 @@ hotspot.",
             "d_next": "playmap_33",
             "w_next": "playmap_40",
             "text": """P│ #┌┴──│#C """,
-            "color": "\033[38;5;246;1m"
+            "color": "lightgray"
         },
         "add": {
             "x": 28,
@@ -296,7 +288,7 @@ hotspot.",
             "desc": "A Great beach, with great weather, always.",
             "s_next": "playmap_21",
             "text": """│""",
-            "color": "\033[38;5;226m"
+            "color": "yellow"
         },
         "add": {
             "x": 29,
@@ -312,8 +304,7 @@ hotspot.",
             "a_next": "playmap_4",
             "d_next": "playmap_30",
             "text": """  ┌────┘  """,
-            "color": "\033[38;5;22;1m",
-            "colorTTY": "\033[38;5;22m"
+            "color": "brightgreen"
         },
         "add": {
             "x": 14,
@@ -330,7 +321,7 @@ spot in the Pokete world and with the great git-tree it may also be one \
 of the most spectacular.",
             "a_next": "playmap_28",
             "text": """A$P ───┤# # """,
-            "color": "\033[38;5;34;1m"
+            "color": "deepgreen"
         },
         "add": {
             "x": 19,
@@ -346,7 +337,7 @@ of the most spectacular.",
             "a_next": "playmap_21",
             "d_next": "playmap_35",
             "text": """──""",
-            "color": "\033[38;5;227;1m"
+            "color": "yellow"
         },
         "add": {
             "x": 34,
@@ -362,8 +353,7 @@ of the most spectacular.",
             "a_next": "playmap_33",
             "s_next": "playmap_39",
             "text": """──┐┌─┘└─┐""",
-            "color": "\033[38;5;100m",
-            "colorTTY": "\033[38;5;3m"
+            "color": "brightyellow"
         },
         "add": {
             "x": 36,
@@ -385,7 +375,7 @@ of the most spectacular.",
                     "happiest and most delicious Mowcows anywhere to find!",
             "w_next": "playmap_35",
             "text": """ #│# P│A├─┘# $ #""",
-            "color": "\033[38;5;227;1m"
+            "color": "yellow"
         },
         "add": {
             "x": 36,
@@ -405,7 +395,7 @@ decorations={
             "height": 3,
             "desc": "",
             "text": """██   ████   ███""",
-            "color": "\033[38;5;238;1m"
+            "color": "mediumgray"
         },
         "add": {
             "x": 8,
@@ -420,7 +410,7 @@ decorations={
             "height": 3,
             "desc": "",
             "text": """█   ███  ███""",
-            "color": "\033[38;5;238;1m"
+            "color": "mediumgray"
         },
         "add": {
             "x": 10,
@@ -435,7 +425,7 @@ decorations={
             "height": 4,
             "desc": "",
             "text": """      ████████████     █""",
-            "color": "\033[38;5;238;1m"
+            "color": "mediumgray"
         },
         "add": {
             "x": 1,
@@ -450,7 +440,7 @@ decorations={
             "height": 2,
             "desc": "",
             "text": """████████""",
-            "color": "\033[38;5;238;1m"
+            "color": "mediumgray"
         },
         "add": {
             "x": 23,
@@ -465,7 +455,7 @@ decorations={
             "height": 5,
             "desc": "",
             "text": """ ███  ███   ███  ███   ██""",
-            "color": "\033[38;5;238;1m"
+            "color": "mediumgray"
         },
         "add": {
             "x": 23,
@@ -480,7 +470,7 @@ decorations={
             "height": 4,
             "desc": "",
             "text": """   ███████████  ██  """,
-            "color": "\033[38;5;238;1m"
+            "color": "mediumgray"
         },
         "add": {
             "x": 29,
@@ -494,7 +484,7 @@ decorations={
             "height": 1,
             "desc": "_LAKE",
             "text": """█""",
-            "color": "\033[38;5;33;1m"
+            "color": "lakeblue"
         },
         "add": {
             "x": 29,
@@ -508,8 +498,8 @@ decorations={
             "width": 6,
             "height": 3,
             "desc": "",
-            "text": """ ████   ███  ███  """,
-            "color": "\033[38;5;238;1m"
+            "text": """  ████  ████ ███  """,
+            "color": "mediumgray"
         },
         "add": {
             "x": 31,
@@ -520,11 +510,11 @@ decorations={
     "rockybeach": {
         "gen": {
             "additionals": [],
-            "width": 7,
+            "width": 5,
             "height": 1,
             "desc": "_LAKE",
-            "text": """█████  """,
-            "color": "\033[38;5;33;1m"
+            "text": """█████""",
+            "color": "lakeblue"
         },
         "add": {
             "x": 27,
@@ -540,7 +530,7 @@ decorations={
             "height": 1,
             "desc": "",
             "text": """██""",
-            "color": "\033[38;5;236;1m"
+            "color": "cavegray"
         },
         "add": {
             "x": 32,
@@ -568,7 +558,7 @@ decorations={
             "height": 1,
             "desc": "_LAKE",
             "text": """███""",
-            "color": "\033[38;5;33;1m"
+            "color": "lakeblue"
         },
         "add": {
             "x": 12,
@@ -583,7 +573,7 @@ decorations={
             "height": 1,
             "desc": "_LAKE",
             "text": """ ████ """,
-            "color": "\033[38;5;33;1m"
+            "color": "lakeblue"
         },
         "add": {
             "x": 14,
