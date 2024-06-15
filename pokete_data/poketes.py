@@ -200,12 +200,12 @@ pokes = {
   , .. .
  ...,..,.""",
             "esc": ["yellow"]
-                }, {
+        }, {
             "txt": r"""
 
    *  *""",
             "esc": ["thicc", "red"]
-                }],
+        }],
     },
     "gobost": {
         "name": "Gobost",
@@ -414,7 +414,8 @@ it will try to peck out your eyes.",
         "hp": 25,
         "atc": 2,
         "defense": 2,
-        "attacks": ["apple_drop", "bark_hardening", "branch_stab", "root_strangler"],
+        "attacks": ["apple_drop", "bark_hardening", "branch_stab",
+                    "root_strangler"],
         "pool": [],
         "miss_chance": 0,
         "desc": "A scary and dangerous apple tree.",
@@ -855,7 +856,7 @@ or not you borrowed something.",
 
   \     /""",
             "esc": ["cyan"]
-            }
+        }
         ]
     },
     "spikl": {
@@ -879,14 +880,14 @@ or not you borrowed something.",
   -------""",
             "esc": None},
             {
-            "txt": r"""
+                "txt": r"""
     * *""",
-            "esc": ["lightblue"]},
+                "esc": ["lightblue"]},
             {
-            "txt": r""" /       \
+                "txt": r""" /       \
 
  \       /""",
-            "esc": ["cyan"]
+                "esc": ["cyan"]
             }
         ]
     },
@@ -1155,7 +1156,7 @@ that will confuse the shit out of you.",
   .  .  .
 
   '  '  '""",
-    "esc": ["thicc", "blue"]}
+            "esc": ["thicc", "blue"]}
         ]
     },
     "schmetterling": {
@@ -1206,7 +1207,7 @@ that will confuse the shit out of you.",
 
 
  ´       `""",
-    "esc": ["thicc", "blue"]}
+            "esc": ["thicc", "blue"]}
         ]
     },
     "lil_nut": {
