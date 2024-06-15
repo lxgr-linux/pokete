@@ -121,10 +121,8 @@ Again very special thanks to @MaFeLP for supporting me!
 
 What changed until this release?
 
--
-
-Added [Diamondos](wiki.md#diamondos), [Dia stab](wiki.md#dia-stab), [Dazzle](wiki.md#dazzle), [Dia spikes](wiki.md#dia-spikes)
-
+- Added [Diamondos](wiki.md#diamondos), [Dia stab](wiki.md#dia-stab),
+- [Dazzle](wiki.md#dazzle), [Dia spikes](wiki.md#dia-spikes)
 - Added [Megapois](wiki.md#megapois), [Poison thorn](wiki.md#poison-thorn)
 - Added [Dicko](wiki.md#dicko), [Lil nut](wiki.md#lil-nut)
 - Added [Mowcow](wiki.md#mowcow), [Supercow power](wiki.md#supercow-power)
@@ -161,12 +159,10 @@ What changed until this release?
 - Added startuptime to savefile
 - Added Route 7
 - Added coloured Minimap
--
-
-Added [Spikes](wiki.md#spikes), [Bubble gun](wiki.md#bubble-gun), [Flame throw](wiki.md#flame-throw), [Toe breaker](wiki.md#toe-breaker), [Wind blow](wiki.md#wind-blow), [Storm gust](wiki.md#storm-gust), [Rock smash](wiki.md#rock-smash)
--
-Added [Dicki](wiki.md#dicki), [Dick energy](wiki.md#dick-energy), [Ground hit](wiki.md#ground-hit), [Hiding](wiki.md#hiding)
-
+- Added [Spikes](wiki.md#spikes), [Bubble gun](wiki.md#bubble-gun),
+- [Flame throw](wiki.md#flame-throw), [Toe breaker](wiki.md#toe-breaker), [Wind blow](wiki.md#wind-blow), [Storm gust](wiki.md#storm-gust), [Rock smash](wiki.md#rock-smash)
+- Added [Dicki](wiki.md#dicki), [Dick energy](wiki.md#dick-energy),
+- [Ground hit](wiki.md#ground-hit), [Hiding](wiki.md#hiding)
 - Added [Schmetterling](wiki.md#Schmetterling), [Schmetter](wiki.md#schmetter)
 - Added abbility to learn a new attack very fifth level
 - Added second type
