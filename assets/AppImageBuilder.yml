@@ -34,20 +34,20 @@ AppDir:
   files:
     include: []
     exclude:
-    - usr/share/man
-    - usr/share/pokete/bash
-    - usr/share/pokete/.git
-    - usr/share/pokete/prepare_pages.py
-    - usr/share/pokete/gen_wiki.py./
-    - usr/share/pokete/*.md
-    - usr/share/scrap_engine
-    - usr/share/pokete/playsound/libplaysound.dll
-    - usr/share/pokete/playsound/libplaysound.osx.so
-    - usr/share/pokete/assets/ss
-    - usr/share/pokete/assets/*.png
-    - usr/share/pokete/assets/*.kra
-    - usr/share/pokete/assets/*.svg
-    - usr/share/doc
+      - usr/share/man
+      - usr/share/pokete/bash
+      - usr/share/pokete/.git
+      - usr/share/pokete/prepare_pages.py
+      - usr/share/pokete/gen_wiki.py./
+      - usr/share/pokete/*.md
+      - usr/share/scrap_engine
+      - usr/share/pokete/playsound/libplaysound.dll
+      - usr/share/pokete/playsound/libplaysound.osx.so
+      - usr/share/pokete/assets/ss
+      - usr/share/pokete/assets/*.png
+      - usr/share/pokete/assets/*.kra
+      - usr/share/pokete/assets/*.svg
+      - usr/share/doc
   test:
     fedora-30:
       image: appimagecrafters/tests-env:fedora-30
@@ -66,4 +66,5 @@ AppDir:
       command: ./AppRun
 AppImage:
   arch: x86_64
+  comp: gzip
   update-information: guess
