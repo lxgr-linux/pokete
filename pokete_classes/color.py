@@ -29,7 +29,7 @@ class Color:
     gold = "\033[38;5;94m"
     cavegrey = "\033[38;5;236m"
 
-    if environ["TERM"] == "linux":  # this fixes some colors on TTY
+    if environ.get("TERM", "linux") == "linux":  # this fixes some colors on TTY
         gold = "\033[38;5;9m"
         cavegrey = "\033[38;5;7m"
 
