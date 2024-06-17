@@ -57,7 +57,8 @@ jobs:
       # Push to github_pages
       - name: Release documentation
         run: |
-          git config --local user.name  ${{ github.actor }}
+          git config --local user.name ${{ github.actor }}
+          git config --local user.email ${{ github.actor.email }}
           if [[ $(git diff) != "" ]]
           then
           git add .
