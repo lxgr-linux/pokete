@@ -1,6 +1,7 @@
 """Contains the color class"""
 from os import environ
 
+
 class Color:
     """Color class that provides all needed escape codes"""
     reset = "\033[0m"
@@ -16,23 +17,21 @@ class Color:
     cyan = "\033[1;36m"
     lightgrey = "\033[37m"
     white = "\033[1;37m"
-    
-    #extended color palette
-    brown="\033[38;5;88m"
-    lakeblue="\033[38;5;33m"
-    mediumgray="\033[38;5;238m"
-    brightyellow="\033[38;5;155m"
-    deepgreen="\033[38;5;35m"
-    lightgray="\033[38;5;246m"
-    brightgreen="\033[38;5;46m"
-    darkgreen="\033[38;5;29m"
-    gold="\033[38;5;94m"
-    cavegray="\033[38;5;236m"
-        
-    if environ["TERM"] == "linux":  #this fixes some colors on TTY
-        gold="\033[38;5;9m"
-        cavegray="\033[38;5;7m"
-        
+
+    # extended color palette
+    brown = "\033[38;5;88m"
+    lakeblue = "\033[38;5;33m"
+    mediumgrey = "\033[38;5;238m"
+    brightyellow = "\033[38;5;155m"
+    deepgreen = "\033[38;5;35m"
+    brightgreen = "\033[38;5;46m"
+    darkgreen = "\033[38;5;29m"
+    gold = "\033[38;5;94m"
+    cavegrey = "\033[38;5;236m"
+
+    if environ["TERM"] == "linux":  # this fixes some colors on TTY
+        gold = "\033[38;5;9m"
+        cavegrey = "\033[38;5;7m"
 
 
 if __name__ == "__main__":

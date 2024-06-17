@@ -1,7 +1,4 @@
 """Contains all classes relevant to show the roadmap"""
-
-import time
-import random
 import scrap_engine as se
 
 import pokete_data as p_data
@@ -23,56 +20,15 @@ class RoadMapException(Exception):
         super().__init__(text)
 
 
-"""A little hackaround"""
+class StationObject(se.Text):
+
+    def __init__(self, text, color):
+        super().__init__(text, esccode=color, state="float")
 
 
-class StationObject(se.Box):
-
-    def __init__(self, text, width, height, ob_class=se.Object):
-        super().__init__(height, width)
-        self.ob_class = ob_class
-        self.text = text
-        self.ob_args = {}
-        self.__create()
-        #TODO: if self.desc == "_LAKE" animate water
-
-    def __create(self):
-        for ry in range(self.height):
-            for rx in range(self.width):
-                if len(self.text) == 1:
-                    r = 0
-                else:
-                    r = ry * self.width + rx
-                self.add_ob(
-                    self.ob_class(self.text[r], "float",
-                                  arg_proto=self.ob_args), rx, ry
-                )
-
-    def recolor(self, color):
-        r = 0
-        for obj in self.obs:
-            obj.rechar(color + self.text[r] + Color.reset)
-            if len(self.text) != 1:
-                r += 1
-
-    def animate_water(self):
-        # bruh i think this could be done better
-        water_colors = [
-            "\033[38;5;38m",
-            "\033[38;5;75m",
-            "\033[38;5;39m",
-            "\033[38;5;74m",
-        ]
-        while True:
-            r = 0
-            for obj in self.obs:
-                obj.rechar(
-                    water_colors[random.randint(0, len(water_colors) - 1)]
-                    + self.text[r]
-                    + Color.reset
-                )
-                r += 1
-            time.sleep(0.7)
+class Decoration(StationObject):
+    def __init__(self, text, color=""):
+        super().__init__(text, getattr(Color, color, Color.lightgrey))
 
 
 class Station(StationObject):
@@ -81,10 +37,7 @@ class Station(StationObject):
         roadmap: RoadMap object
         associate: Main PlayMap name the station belongs to
         additionals: List of PlayMap names the station also belongs to
-        width: The Station's width
-        height: The Station's height
         desc: The associated description
-        char: Displayed char
         {w,a,s,d}_next: The next Station's name in a certain direction"""
 
     choosen = None
@@ -95,11 +48,9 @@ class Station(StationObject):
         roadmap,
         associate,
         additionals,
-        width,
-        height,
         desc,
+        text,
         color="",
-        text="#",
         w_next="",
         a_next="",
         s_next="",
@@ -107,14 +58,13 @@ class Station(StationObject):
     ):
         self.desc = desc
         self.roadmap = roadmap
-        self.org_char = text
-        self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
         self.color = getattr(Color, color, "\033[1;37m")
+        self.base_color = self.color
+        self.base_text = text
+        self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
         if self.associates[0]:
             self.name = self.associates[0].pretty_name
-        super().__init__(text, width, height)
-        self.recolor(self.color)
-        #self.hide_if_visited()
+        super().__init__(text, self.color)
         self.w_next = w_next
         self.a_next = a_next
         self.s_next = s_next
@@ -132,10 +82,10 @@ class Station(StationObject):
         self.un_blink()
 
     def blink(self):
-        self.recolor(Color.red + Color.thicc)
+        self.rechar(self.text, Color.red + Color.thicc)
 
     def un_blink(self):
-        self.recolor(self.color)
+        self.rechar(self.text, self.color)
 
     def next(self, inp: ActionList):
         """Chooses the next station in a certain direction
@@ -163,25 +113,21 @@ class Station(StationObject):
         """Returns if the station is a city"""
         return "pokecenter" in p_data.map_data[self.associates[0].name][
             "hard_obs"]
-        
-    def is_cave(self):
-        #returns if the station is in a cave
-        if self.text[0] == "█": return True
-        return False
 
     def hide_if_visited(self, choose=False):
-        if self.associates[0] is not None:
-            if choose:
-                if self.is_city() and self.has_been_visited():
-                    self.recolor(Color.green + Color.thicc)
-                elif not self.is_cave():
-                    self.recolor(Color.white)
+        self.text = self.base_text
+        if not self.has_been_visited():
+            self.color = Color.white
+            for ch in ["A", "P", "$", "C", "#"]:
+                self.text = self.text.replace(ch, " ")
+        elif choose:
+            if self.is_city():
+                self.color = self.base_color
             else:
-                self.recolor(self.color)
-            if not self.has_been_visited():
-                features = ["A", "P", "$", "C", "⌂", "#"]
-                for ch in features:
-                    self.text = self.text.replace(ch, " ")
+                self.color = Color.white
+        else:
+            self.color = self.base_color
+        self.rechar(self.text, self.color)
 
 
 class RoadMap:
@@ -195,10 +141,23 @@ class RoadMap:
             17, 61, "Roadmap", f"{Action.CANCEL.mapping}:close",
             overview=mvp.movemap
         )
+        self.rose = se.Text("""   N
+   ▲
+W ◀ ▶ E
+   ▼
+   S""", state="float")
+        self.legend = se.Text("""│ Legend:
+│ P-Pokecenter
+│ $-Shop
+│ C-PoketeCare
+│ A-Arena
+└──────────────""", state="float")
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width - 2, 0)
+        self.box.add_ob(self.rose, 53, 11)
+        self.box.add_ob(self.legend, 45, 1)
         for sta, _dict in p_data.decorations.items():
-            obj = Station(self, None, **_dict["gen"])
+            obj = Decoration(**_dict["gen"])
             self.box.add_ob(obj, **_dict["add"])
             setattr(self, sta, obj)
 
