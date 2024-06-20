@@ -43,5 +43,10 @@ func GetRegistry() (*msg.Registry, error) {
 		return nil, err
 	}
 
+	err = reg.RegisterType(error2.InvalidPokeType, msg.NewGenericUnmarshaller[error2.InvalidPoke]())
+	if err != nil {
+		return nil, err
+	}
+
 	return &reg, nil
 }

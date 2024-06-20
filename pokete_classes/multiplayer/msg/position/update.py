@@ -1,6 +1,7 @@
 from typing import TypedDict
 
 import bs_rpc
+from pokete_classes.poke import PokeDict
 
 UPDATE_TYPE = "pokete.position.update"
 
@@ -15,6 +16,7 @@ class User(TypedDict):
     name: str
     position: Position
     client: None  # TODO: Remove later
+    pokes: list[PokeDict]
 
 
 class Update(bs_rpc.Body):

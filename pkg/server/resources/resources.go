@@ -12,6 +12,7 @@ type Resources struct {
 	npcs     *NPCs
 	trainers *Trainers
 	stations *Stations
+	pokes    *Pokes
 }
 
 func (m Resources) GetObmaps() Obmaps {
@@ -32,6 +33,10 @@ func (m Resources) GetTrainers() Trainers {
 
 func (m Resources) GetStations() Stations {
 	return *m.stations
+}
+
+func (m Resources) GetPokes() Pokes {
+	return *m.pokes
 }
 
 func FromDir(baseDir string) (*Resources, error) {
@@ -56,12 +61,18 @@ func FromDir(baseDir string) (*Resources, error) {
 		return nil, err
 	}
 
+	tempPokes, err := readFile[Pokes](path.Join(baseDir, "poketes.json"))
+	if err != nil {
+		return nil, err
+	}
+
 	return &Resources{
 		obmaps:   &tempObmaps,
 		maps:     &tempMaps,
 		npcs:     &tempNPCs,
 		trainers: &tempTrainers,
 		stations: &tempStations,
+		pokes:    &tempPokes,
 	}, nil
 }
 

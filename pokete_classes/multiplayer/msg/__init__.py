@@ -20,6 +20,7 @@ def get_registry():
     reg.register(error.PositionUnplausible)
     reg.register(position.Remove)
     reg.register(map_info.Info)
+    reg.register(error.InvalidPoke)
 
     # reg.register(TYPE_VERSION_MISMATCH, handle_version_mismatch)
     # reg.register(TYPE_MAP_DATA, handle_map_data)

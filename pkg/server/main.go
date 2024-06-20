@@ -15,7 +15,10 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	p.Start()
+	err = p.Start()
+	if err != nil {
+		log.Panic(err)
+	}
 }
 
 func buildPokete() (*pokete.Pokete, error) {

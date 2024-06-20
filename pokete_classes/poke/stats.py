@@ -6,10 +6,11 @@ import scrap_engine as se
 
 from pokete_classes.hotkeys import Action
 from pokete_classes.loops import easy_exit_loop
+from pokete_classes.poke.dicts import StatsDict
 from pokete_classes.ui_elements import LabelBox
 
 
-class PokeStats:
+class Stats:
     """Holds a poketes statistics data
     ARGS:
         poke_name: The poketes name
@@ -62,7 +63,7 @@ class PokeStats:
         self.run_away += 1
         self.total_battles += 1
 
-    def dict(self):
+    def dict(self) -> StatsDict:
         """RETURNS:
             A dict containing information to reconstruct the object"""
         ownership_date = None if self.ownership_date is None else \
@@ -79,7 +80,7 @@ class PokeStats:
                 "run_away": self.run_away}
 
     @classmethod
-    def from_dict(cls, _dict, poke_name):
+    def from_dict(cls, _dict: StatsDict, poke_name):
         """Assembles a PokeStats from _dict"""
         ownership_date = None if _dict.get("ownership_date", None) is None \
             else datetime.fromisoformat(_dict.get("ownership_date"))
@@ -92,12 +93,12 @@ class PokeStats:
                    _dict.get("earned_xp", 0), _dict.get("run_away", 0))
 
 
-class PokeStatsInfoBox(LabelBox):
+class StatsInfoBox(LabelBox):
     """Box to show statistics about caught Poketes
     ARGS:
         poke_stats: PokeStats object"""
 
-    def __init__(self, poke_stats: PokeStats, overview):
+    def __init__(self, poke_stats: Stats, overview):
         not_available = "N/A"
         if poke_stats.ownership_date is None:
             ownership_date = not_available

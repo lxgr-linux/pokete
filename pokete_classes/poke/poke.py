@@ -5,22 +5,24 @@ import time
 import logging
 import random
 from datetime import datetime
+
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_general_use_fns import liner
 from release import SPEED_OF_TIME
-from .attack import Attack
-from .health_bar import HealthBar
-from .pokestats import PokeStats
-from .evomap import EvoMap
-from .color import Color
-from .moves import Moves
-from .types import types
-from .effects import effects
-from .learnattack import LearnAttack
+from .dicts import PokeDict
+from ..attack import Attack
+from ..health_bar import HealthBar
+from .stats import Stats
+from ..evomap import EvoMap
+from ..color import Color
+from ..moves import Moves
+from ..types import types
+from ..effects import effects
+from ..learnattack import LearnAttack
 from .nature import PokeNature
-from .achievements import achievements
-from .loops import std_loop
+from ..achievements import achievements
+from ..loops import std_loop
 
 
 class Poke:
@@ -115,8 +117,8 @@ can't have more than 4 attacks!"
             for eff in _effects:
                 self.effects.append(getattr(effects, eff)(self))
 
-        self.poke_stats = PokeStats(self.name, None) if stats is None \
-            else PokeStats.from_dict(stats, self.name)
+        self.poke_stats = Stats(self.name, None) if stats is None \
+            else Stats.from_dict(stats, self.name)
 
     def set_player(self, player):
         """Sets the player attribute when the Pokete changes the owner
@@ -142,7 +144,7 @@ can't have more than 4 attacks!"
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
-    def dict(self):
+    def dict(self) -> PokeDict:
         """RETURNS:
             A dict with all information about the Pokete"""
         return {"name": self.identifier, "xp": self.xp, "hp": self.hp,

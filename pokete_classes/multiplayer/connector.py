@@ -5,7 +5,8 @@ import release
 from pokete_classes.input import ask_text, ask_ok
 from pokete_general_use_fns import liner
 from .communication import com_service, ConnectionException
-from .exceptions import UserPresentException, VersionMismatchException
+from .exceptions import UserPresentException, VersionMismatchException, \
+    InvalidPokeException
 
 
 class Connector:
@@ -48,6 +49,8 @@ class Connector:
             self.handshake()
         except VersionMismatchException as e:
             ask_ok(self.map, f"Version mismatch: {e.version}", self.overview)
+        except InvalidPokeException as e:
+            ask_ok(self.map, f"Invalid Poke: {e.msg}", self.overview)
 
     def set_host_port(self):
         """Asks the user for host and port to conenct to"""

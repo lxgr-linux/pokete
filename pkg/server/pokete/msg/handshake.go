@@ -3,6 +3,8 @@ package msg
 import (
 	"context"
 	"fmt"
+	"github.com/lxgr-linux/pokete/server/pokete/fight"
+	"github.com/lxgr-linux/pokete/server/pokete/troll"
 
 	"github.com/lxgr-linux/pokete/server/pokete/msg/map_info"
 
@@ -18,8 +20,9 @@ const HandshakeType msg.Type = "pokete.handshake"
 
 type Handshake struct {
 	msg.BaseMsg
-	UserName string `json:"user_name"`
-	Version  string `json:"version"`
+	UserName string       `json:"user_name"`
+	Version  string       `json:"version"`
+	Pokes    []fight.Poke `json:"pokes"`
 }
 
 func (h Handshake) GetType() msg.Type {
@@ -36,17 +39,23 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
 
 	position := getStartPosition(cfg)
 
+	err := troll.CheckPokes(res.GetPokes(), h.Pokes)
+	if err != nil {
+		return error2.NewInvalidPoke(err), err
+	}
+
 	newUser := user.User{
 		Name:     h.UserName,
 		Client:   client,
 		Position: position,
+		Pokes:    h.Pokes,
 	}
 
 	if h.Version != cfg.ClientVersion {
 		return error2.NewVersionMismatch(cfg.ClientVersion), fmt.Errorf("connection closed")
 	}
 
-	err := u.Add(conId, newUser)
+	err = u.Add(conId, newUser)
 	if err == users.USER_PRESENT {
 		return error2.NewUserExists(), fmt.Errorf("connection closed")
 	}

@@ -2,9 +2,9 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from pokete_classes.poke import StatsInfoBox
 from pokete_general_use_fns import liner
 from .hotkeys import Action, get_action
-from .pokestats import PokeStatsInfoBox
 from .loops import std_loop
 from .event import _ev
 from .ui_elements import StdFrame2, ChooseBox
@@ -35,8 +35,8 @@ class Informer:
                 obj.add(_map, _x + __x, _y + __y)
             if in_deck and figure.pokes.index(poke) < 6:
                 poke.pball_small.add(_map, round(_map.width / 2) - 1
-                                           if figure.pokes.index(poke) % 2 == 0
-                                           else _map.width - 2, _y)
+                if figure.pokes.index(poke) % 2 == 0
+                else _map.width - 2, _y)
             for eff in poke.effects:
                 eff.add_label()
 
@@ -178,7 +178,8 @@ class Detail(Informer):
         self.attack_defense.rechar(f"Attack:{self.poke.atc}\
 {(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}")
         self.initiative_label.rechar(f"Initiative:{self.poke.initiative}")
-        for obj, _x, _y in zip([self.poke.desc, self.poke.text_type], [34, 41], [2, 5]):
+        for obj, _x, _y in zip([self.poke.desc, self.poke.text_type], [34, 41],
+                               [2, 5]):
             obj.add(self.map, _x, _y)
         self.add_attack_labels()
         if (tss.height - 1, tss.width) != (self.map.height, self.map.width):
@@ -199,7 +200,7 @@ class Detail(Informer):
             if action.triggers(Action.NATURE_INFO):
                 poke.nature.info(self.map, self)
             elif action.triggers(Action.STATS_INFO):
-                PokeStatsInfoBox(poke.poke_stats, self)(self.map)
+                StatsInfoBox(poke.poke_stats, self)(self.map)
             elif action.triggers(Action.ABILITIES_INFO):
                 if abb_obs != [] and abb:
                     with ChooseBox(
@@ -209,15 +210,16 @@ class Detail(Informer):
                             for i in abb_obs
                         ],
                         overview=self
-                    ).center_add(self.map)\
-                            as box:
+                    ).center_add(self.map) \
+                        as box:
                         while True:
                             action = get_action()
                             if action.triggers(Action.UP, Action.DOWN):
                                 box.input(action)
                                 self.map.show()
                             elif action.triggers(Action.ACCEPT):
-                                ret_action = abb_obs[box.index.index].world_action
+                                ret_action = abb_obs[
+                                    box.index.index].world_action
                                 _ev.set(Action.CANCEL.mapping)
                                 break
                             elif action.triggers(Action.CANCEL):
@@ -230,9 +232,9 @@ class Detail(Informer):
                     if atc.temp_j == 5:
                         atc.temp_i += 1
                         atc.temp_j = 0
-                        if atc.temp_i == len(atc.desc)\
-                                          - int(self.map.width / 2 - 1)\
-                                          + 10:
+                        if atc.temp_i == len(atc.desc) \
+                            - int(self.map.width / 2 - 1) \
+                            + 10:
                             atc.temp_i = 0
                             atc.temp_j = -30
                         atc.label_desc.rechar(atc.desc[atc.temp_i:

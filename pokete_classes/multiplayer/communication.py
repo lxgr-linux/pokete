@@ -5,7 +5,7 @@ import bs_rpc
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.multiplayer import msg
 from pokete_classes.multiplayer.exceptions import ConnectionException, \
-    VersionMismatchException, UserPresentException
+    VersionMismatchException, UserPresentException, InvalidPokeException
 from pokete_classes.multiplayer.msg import position, error, map_info
 from pokete_classes.multiplayer.msg.position.update import User
 from pokete_classes.multiplayer.pc_manager import pc_manager
@@ -65,13 +65,17 @@ class CommunicationService:
         resp = self.client.call_for_response(
             msg.Handshake({
                 "user_name": user_name,
-                "version": version
+                "version": version,
+                "pokes": [p.dict() for p in context.figure.pokes]
             }))
         match resp.get_type():
             case error.VERSION_MISMATCH_TYPE:
                 raise VersionMismatchException(resp.data["version"])
             case error.USER_EXISTS_TYPE:
                 raise UserPresentException()
+            case error.INVALID_POKE_TYPE:
+                data: error.InvalidPokeData = resp.data
+                raise InvalidPokeException(data["error"])
             case map_info.INFO_TYPE:
                 data: map_info.InfoData = resp.data
                 obmp.ob_maps = gen_maps(data["maps"], fix_center=True)

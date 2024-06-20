@@ -26,8 +26,7 @@ from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.menu import ModeChooser
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager, NameTag
-from pokete_classes.pokestats import PokeStats
-from pokete_classes.poke import Poke, upgrade_by_one_lvl
+from pokete_classes.poke import Poke, upgrade_by_one_lvl, Stats
 from pokete_classes.color import Color
 from pokete_classes.ui_elements import ChooseBox, InfoBox
 from pokete_classes.settings import settings, VisSetting, Slider
@@ -382,7 +381,7 @@ class Figure(se.Object, ProtoFigure):
             caught_with: Name of ball which was used"""
         poke.set_player(True)
         poke.set_poke_stats(
-            PokeStats(poke.name, datetime.now(), caught_with=caught_with))
+            Stats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
