@@ -14,13 +14,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        
+
       - name: install deps
         run: pip3 install scrap_engine
 
       - name: gen-wiki
-        run: python3 ./gen_wiki.py
-        
+        run: python3 util.py wiki
+
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
@@ -30,7 +30,7 @@ jobs:
             git add ./wiki.md
             git commit -m "Updated wiki"
           fi
-    
+
       - name: Push changes  # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:

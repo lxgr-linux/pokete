@@ -37,8 +37,7 @@ AppDir:
       - usr/share/man
       - usr/share/pokete/bash
       - usr/share/pokete/.git
-      - usr/share/pokete/prepare_pages.py
-      - usr/share/pokete/gen_wiki.py./
+      - usr/share/pokete/util.py
       - usr/share/pokete/*.md
       - usr/share/scrap_engine
       - usr/share/pokete/playsound/libplaysound.dll

@@ -1,7 +1,4 @@
-#!/usr/bin/env python
 """
-Prepare pages prepares all files in "files" for GitHub Pages
-
 This script takes one argument, which specifies if the actions it should take are before the command
 "git switch gh-pages" or afterwards. "before" means that it will the pre-change actions and "after" the after-change
 actions.
@@ -13,19 +10,6 @@ is a boolean which specifies, if the file should be converted into HTML by pando
 Afterwards this script will replace all the links specified in the list "replace_links". There the first argument of
 the Tuple specifies the old link and the second argument the new link. With "new_name" the file will be renamed on the
 website.
-
-Usage:
------
-- python3 prepare_pages.py before
-  - Invokes actions before the branch switch
-- python3 prepare_pages.py after
-  - Invokes actions after the branch switch
-
-Exit Codes:
-----------
-- 0: Everything is OK.
-- 1: An internal error occurred
-- 2: The user did not specify the right/enough arguments
 """
 import os
 from os.path import exists
@@ -387,12 +371,16 @@ def after() -> None:
 
 
 def show_help(ex: str, command: str):
-    print(f"""{ex} {command} -- Prepare for github pages
+    print(f"""{ex} {command} -- Prepare pages prepares all files in "files" for GitHub Pages
 Usage:
     {ex} {command} [after|before] <flags>
 
+Options:
+    before\tActions run pre branch switch
+    after\tActions run pre branch switch
+
 Flags:
-    --help\t\tShows help for a specific command
+    --help\tShows help for a specific command
 
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
 

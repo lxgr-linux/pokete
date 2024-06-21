@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys
 from util import parse, gen_wiki, prepare_pages
 
