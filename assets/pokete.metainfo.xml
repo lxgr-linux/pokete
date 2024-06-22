@@ -177,27 +177,23 @@
 					<li>Added achievements visible via a submenu</li>
 					<li>Added commandline options</li>
 					<li>Several new Poketes have been added:</li>
-					<ul>
-						<li>Voglus</li>
-						<li>Ratatat</li>
-						<li>Crabbat</li>
-						<li>Rustacean</li>
-						<li>Saugh</li>
-						<li>Corcos day</li>
-						<li>Corcos night</li>
-						<li>Raupathor day</li>
-						<li>Raupathor night</li>
-						<li>Mothor</li>
-					</ul>
+					<li>Voglus</li>
+					<li>Ratatat</li>
+					<li>Crabbat</li>
+					<li>Rustacean</li>
+					<li>Saugh</li>
+					<li>Corcos day</li>
+					<li>Corcos night</li>
+					<li>Raupathor day</li>
+					<li>Raupathor night</li>
+					<li>Mothor</li>
 					<li>Also the maps &quot;Agrawos&quot; and &quot;Sunny Beach&quot; have been added</li>
 					<li>Weather influencing effectivities has been added</li>
 					<li>Added notifications</li>
 					<li>Ingame time was added:</li>
-					<ul>
-						<li>Day and Night active Poketes</li>
-						<li>A clock</li>
-						<li>Time stops after a certain period of idling</li>
-					</ul>
+					<li>Day and Night active Poketes</li>
+					<li>A clock</li>
+					<li>Time stops after a certain period of idling</li>
 					<li>Treats and the Pokete-Care where added to make leveling easier</li>
 					<li>The game is now available as an AppImage</li>
 					<li>The newly added natures now influence a Poketes stats on an individual basis</li>

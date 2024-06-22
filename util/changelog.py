@@ -59,7 +59,11 @@ def __parse_markup(
     line_depth = len(lines[idx]) - len(line)
     if line.startswith(LIST_STARTERS):
         ul_sep = line[0:2]
-        if ul_sep != curr_ul_sep:
+        if curr_ul_sep == "":
+            curr_ul_sep = ul_sep
+            ul_depth += 1
+            parsed_line += "<ul>"
+        '''if ul_sep != curr_ul_sep:
             curr_ul_sep = ul_sep
             if line_depth >= curr_line_depth:
                 ul_depth += 1
@@ -67,6 +71,8 @@ def __parse_markup(
             else:
                 ul_depth -= 1
                 parsed_line += "</ul>"
+            # Since Appstream does not support nested lists ind their standart, this is left out
+        '''
         parsed_line += f"<li>{__parse_line(line.lstrip(ul_sep))}</li>"
     elif line_depth == curr_line_depth + 2 and curr_ul_sep != "":
         parsed_line += f"<MERGE_FORMER>{__parse_line(line)}</li>"
