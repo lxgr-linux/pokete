@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-from util import parse, gen_wiki, prepare_pages
+from util import parse, gen_wiki, prepare_pages, make_release
 
 
 def show_help(name: str):
@@ -34,6 +34,8 @@ def main():
             gen_wiki(*arg_tup)
         case "prepare-pages":
             prepare_pages(*arg_tup)
+        case "release":
+            make_release(*arg_tup)
         case _:
             if "--help" in flags:
                 show_help(args[0])
