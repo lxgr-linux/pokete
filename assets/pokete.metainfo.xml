@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2022 lxgr <lxgr@protonmail.com> -->
 <component type="desktop-application">
 	<id>com.github.lxgr_linux.pokete</id>

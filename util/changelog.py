@@ -134,7 +134,12 @@ def write_changelog():
                          content, flags=re.DOTALL)
     with open("assets/pokete.metainfo.xml", "w") as metainfo_file:
         metainfo_file.write(
-            "\n".join(line for line in xml.dom.minidom.parseString(
-                new_content.replace("\n", "")
-            ).toprettyxml().split("\n") if line.strip())
+            "\n".join(
+                line for line in xml.dom.minidom.parseString(
+                    new_content.replace("\n", "")
+                )
+                .toprettyxml(encoding="UTF-8")
+                .decode("UTF-8")
+                .split("\n")
+                if line.strip())
         )
