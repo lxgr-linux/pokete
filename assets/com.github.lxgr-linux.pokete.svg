@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg
+   width="256px"
+   height="256px"
+   viewBox="0 0 256 256"
+   version="1.1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+>
+<!-- Background -->
+  <rect
+    style="fill:#302d2d;fill-opacity:1"
+    id="background"
+    width="256"
+    height="256"
+    x="0"
+    y="0"
+    ry="45"
+  />
+
+<!-- Characters -->
+  <g
+    fill="white"
+    fill-opacity="1"
+    id="drawing"
+  >
+    <!-- All y-values +17 -->
+    <g id="frame">
+      <g id="top-bar">
+        <rect
+          id="cross-top-left1"
+          width="20"
+          height="5"
+          x="9"
+          y="36"
+        />
+        <rect
+          id="cross-top-left2"
+          width="5"
+          height="21"
+          x="17"
+          y="28"
+        />
+        <rect
+          id="top-bar1"
+          width="20"
+          height="5"
+          x="36"
+          y="36"
+        />
+        <rect
+          id="top-bar2"
+          width="20"
+          height="5"
+          x="63"
+          y="36"
+        />
+        <rect
+          id="top-bar3"
+          width="19"
+          height="5"
+          x="90"
+          y="36"
+        />
+        <rect
+          id="top-bar4"
+          width="20"
+          height="5"
+          x="116"
+          y="36"
+        />
+        <rect
+          id="top-bar5"
+          width="20"
+          height="5"
+          x="143"
+          y="36"
+        />
+        <rect
+          id="top-bar6"
+          width="20"
+          height="5"
+          x="170"
+          y="36"
+        />
+        <rect
+          id="top-bar7"
+          width="19"
+          height="5"
+          x="197"
+          y="36"
+        />
+        <rect
+          id="cross-top-right1"
+          width="20"
+          height="5"
+          x="224"
+          y="36"
+        />
+        <rect
+          id="cross-top-right1"
+          width="5"
+          height="21"
+          x="231"
+          y="28"
+        />
+      </g>
+
+      <g id="bottom-bar">
+        <rect
+          id="cross-bottom-left1"
+          width="20"
+          height="5"
+          x="9"
+          y="215"
+        />
+        <rect
+          id="cross-bottom-left2"
+          width="5"
+          height="21"
+          x="17"
+          y="207"
+        />
+        <rect
+          id="bottom-bar1"
+          width="20"
+          height="5"
+          x="36"
+          y="215"
+        />
+        <rect
+          id="bottom-bar2"
+          width="20"
+          height="5"
+          x="63"
+          y="215"
+        />
+        <rect
+          id="bottom-bar3"
+          width="19"
+          height="5"
+          x="90"
+          y="215"
+        />
+        <rect
+          id="bottom-bar4"
+          width="20"
+          height="5"
+          x="116"
+          y="215"
+        />
+        <rect
+          id="bottom-bar5"
+          width="20"
+          height="5"
+          x="143"
+          y="215"
+        />
+        <rect
+          id="bottom-bar6"
+          width="20"
+          height="5"
+          x="170"
+          y="215"
+        />
+        <rect
+          id="bottom-bar7"
+          width="19"
+          height="5"
+          x="197"
+          y="215"
+        />
+        <rect
+          id="cross-bottom-left1"
+          width="20"
+          height="5"
+          x="224"
+          y="215"
+        />
+        <rect
+          id="cross-bottom-left2"
+          width="5"
+          height="21"
+          x="231"
+          y="207"
+        />
+      </g>
+
+      <g id="left-bar">
+        <rect id="left-bar1"
+          width="5"
+          height="47"
+          x="17"
+          y="75"
+        />
+        <rect id="left-bar2"
+          width="5"
+          height="47"
+          x="17"
+          y="142"
+        />
+      </g>
+
+      <g id="right-bar">
+        <rect id="right-bar1"
+          width="5"
+          height="47"
+          x="231"
+          y="75"
+        />
+        <rect id="right-bar2"
+          width="5"
+          height="47"
+          x="231"
+          y="142"
+        />
+      </g>
+    </g>
+
+    <g id="eyes">
+      <ellipse id="left-eye"
+        cx="73"
+        cy="104"
+        rx="11"
+        ry="12"
+        fill="#302d2d"
+        stroke="#ffffff"
+        stroke-opacity="1"
+        stroke-width="5"
+      />
+      <ellipse id="right-eye"
+        cx="183"
+        cy="104"
+        rx="11"
+        ry="12"
+        fill="#302d2d"
+        stroke="#ffffff"
+        stroke-opacity="1"
+        stroke-width="5"
+      />
+    </g>
+
+    <g id="mouth">
+      <path
+        id="mouth-w1"
+        d="M87 151
+          l5 24 l6 0 l4 -13 l4 13 l6 0 l5 -24
+          l-5 0 l-3 18 l-4 -15 l-5 0 l-4 15 l-4 -18
+        z"
+      />
+      <path
+        id="mouth-w2"
+        d="M115 151
+          l5 24 l6 0 l4 -13 l4 13 l6 0 l5 -24
+          l-5 0 l-3 18 l-4 -15 l-5 0 l-4 15 l-4 -18
+        z"
+      />
+      <path
+        id="mouth-w3"
+        d="M143 151
+          l5 24 l6 0 l4 -13 l4 13 l6 0 l5 -24
+          l-5 0 l-3 18 l-4 -15 l-5 0 l-4 15 l-4 -18
+        z"
+      />
+    </g>
+  </g>
+</svg>
