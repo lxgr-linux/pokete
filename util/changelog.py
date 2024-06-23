@@ -141,5 +141,6 @@ def write_changelog():
                 .toprettyxml(encoding="UTF-8")
                 .decode("UTF-8")
                 .split("\n")
-                if line.strip())
+                if line.strip()
+            )
         )
