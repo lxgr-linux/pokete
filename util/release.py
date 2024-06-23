@@ -23,7 +23,7 @@ Usage:
 Tags have to follow the `vMAJOR.MINOR.PATCH-RELEASE` semantic.
 
 Flags:
-    --help\t\tShows help for a specific command
+    --help\tShows help for a specific command
 
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
 
@@ -37,7 +37,7 @@ def main(
     elif len(options) == 0:
         print(
             ":: Error: Not enough arguments, a tag has to be given, "
-            f"try `{ex} {command} help`"
+            f"try `{ex} {command} --help`"
         )
         sys.exit(2)
     else:
@@ -45,7 +45,7 @@ def main(
         if not __is_tag_valid(tag):
             print(
                 ":: Error: Invalid tag, "
-                f"try `{ex} {command} help`"
+                f"try `{ex} {command} --help`"
             )
             sys.exit(2)
         __release(tag)

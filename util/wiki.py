@@ -647,6 +647,6 @@ def gen(ex: str, command: str, options: list[str],
                 case _:
                     print(
                         f":: Error: Option '{opt}' not found, "
-                        f"try `{ex} {command} help`"
+                        f"try `{ex} {command} --help`"
                     )
                     sys.exit(2)
