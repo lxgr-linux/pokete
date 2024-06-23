@@ -28,9 +28,9 @@ class Wiki:
 
 # Pokete Wiki
 This wiki/documentation is a compilation of all Poketes, attacks, and types present in the Pokete game.
-The wiki can be generated using ```$ ./gen_wiki.py```.
+The wiki can be generated using ```$ ./util.py wiki```.
 
-Use ```$ ./gen_wiki.py help``` to get more information about different wikis.
+Use ```$ ./util.py wiki --help``` to get more information about different wikis.
 
 You can find different versions of this wiki:
 
@@ -591,51 +591,62 @@ def gen_pics():
         file.write(md_str)
 
 
-if __name__ == "__main__":
-    if len(sys.argv) == 1:
+def show_help(ex: str, command: str):
+    print(f"""{ex} {command} -- Generate a markdown wiki
+Usage:
+    {ex} {command} [options]... <flags>
+
+Options:
+    silent:\t\tPrints no statements at all
+    quite:\t\tPrints only some minimal statements
+    verbose:\tPrints everything that it's doing
+    single:\t\tGenerated the `wiki.md` as a single file
+    multi:\t\tGenerates a folder `wiki` with the wiki files
+    \t\t(Warning: Links are for html pages, not markdown pages!)
+    pics:\t\tGenerates the `assets/pics.md` file with all sample pictures
+    
+Flags:
+    --help\t\tShows help for a specific command
+
+Examples:
+    - {ex} {command} silent single verbose multi
+        Creates wiki.md silently and the multi-wiki verbosely
+    - {ex} {command} quite single multi pics
+        Creates wiki.md, the multi-page wiki and pics.md quitely
+
+Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
+
+
+def gen(ex: str, command: str, options: list[str],
+        flags: dict[str, list[str]]):
+    global SILENT, QUIET, VERBOSE
+
+    if "--help" in flags:
+        show_help(ex, command)
+    elif len(options) == 0:
         SILENT, QUIET, VERBOSE = False, True, False
         Wiki.single()
         gen_pics()
     else:
-        for arg in sys.argv[1:]:
-            if arg.lower() in ["silent", "quite", "verbose"]:
-                SILENT, QUIET, VERBOSE = False, False, False
-                if arg.lower() == "silent":
-                    SILENT = True
-                elif arg.lower() == "quite":
-                    QUIET = True
-                else:
-                    VERBOSE = True
-            elif arg.lower() == "single":
-                Wiki.single()
-            elif arg.lower() == "multi":
-                Wiki.multi("wiki")
-            elif arg.lower() == "pics":
-                gen_pics()
-            else:
-                print(f"""gen_wiki.py:
-
-Usage:
-------
-{sys.argv[0]} OPTION1 (OPTION2 OPTION3 ...)
-
-Options:
---------
-silent:\t\tPrints no statements at all
-quite:\t\tPrints only some minimal statements
-verbose:\tPrints everything that it's doing
-single:\t\tGenerated the `wiki.md` as a single file
-multi:\t\tGenerates a folder `wiki` with the wiki files
-\t\t(Warning: Links are for html pages, not markdown pages!)
-pics:\t\tGenerates the `assets/pics.md` file with all sample pictures
-
-Examples:
----------
-- {sys.argv[0]} silent single verbose multi
-\t`-> Creates wiki.md silently and the multi-wiki verbosely
-- {sys.argv[0]} quite single multi pics
-\t`-> Creates wiki.md, the multi-page wiki and pics.md quitely
-
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2021""")
-                if arg.lower() not in ["-h", "--help", "help"]:
+        for opt in options:
+            match opt := opt.lower():
+                case "silent", "quite", "verbose":
+                    SILENT, QUIET, VERBOSE = False, False, False
+                    if opt == "silent":
+                        SILENT = True
+                    elif opt == "quite":
+                        QUIET = True
+                    else:
+                        VERBOSE = True
+                case "single":
+                    Wiki.single()
+                case "multi":
+                    Wiki.multi("wiki")
+                case "pics":
+                    gen_pics()
+                case _:
+                    print(
+                        f":: Error: Option '{opt}' not found, "
+                        f"try `{ex} {command} --help`"
+                    )
                     sys.exit(2)
