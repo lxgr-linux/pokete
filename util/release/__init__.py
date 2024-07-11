@@ -4,6 +4,7 @@ import sys
 from util.arguments import not_enough_args
 from .changelog import write_changelog
 from .appimage import write_appimage
+from .release_py import write_release_py
 
 TAG_REGEX = r"^v([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z-]+)?$"
 
@@ -11,6 +12,7 @@ TAG_REGEX = r"^v([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z-]+)?$"
 def __release(tag: str):
     write_changelog()
     write_appimage(tag)
+    write_release_py(tag)
 
 
 def __is_tag_valid(tag: str) -> bool:
