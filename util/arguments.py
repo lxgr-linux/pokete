@@ -52,6 +52,9 @@ class Flag:
         self.aliases = aliases
         self.desc = desc
 
+    def is_flag(self, flag: str):
+        return flag in self.aliases
+
 
 class Command:
     def __init__(
@@ -64,20 +67,23 @@ class Command:
         self.name = name
         self.desc = desc
         self.fn = fn
-        self.flags = flags if flags is not None else []
+        self.flags = (flags if flags is not None else []) + [
+            Flag(["-h", "--help"], "Shows help for a specific command")]
         self.commands = commands if commands is not None else []
 
-    def print_help(self, exec: str):
+    def __print_help(self, ex: str):
         print(f"""{self.name} -- {self.desc}
 
 Usage:
-    {exec} [command] [options]... <flags>
+    {ex} [command] [options]... <flags>
 {f"""
 Options:
 {"\n".join(f"\t{command.name}\t\t{command.desc}" for command in self.commands)}
 """ if self.commands else ""}
+{f"""
 Flags:
-    --help\t\tShows help for a specific command
+{"\n".join(f"\t{"|".join(flag.aliases)}\t\t{flag.desc}" for flag in self.flags)}
+""" if self.flags else ""}
 
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
 
@@ -90,8 +96,16 @@ Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
                           options[1:],
                           flags)
                     return
-        if "--help" in flags:
-            self.print_help(ex)
+        all_flags = [i for f in self.flags for i in f.aliases]
+        for flag in flags:
+            if flag not in all_flags:
+                print(
+                    f":: Error: Unknown flag `{flag}`, "
+                    f"try `{ex} --help`"
+                )
+                sys.exit(2)
+        if "--help" in flags or "-h" in flags:
+            self.__print_help(ex)
         else:
             self.fn(ex, options, flags)
 

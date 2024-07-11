@@ -2,8 +2,9 @@
 
 import sys
 from util import gen_wiki, prepare_after, prepare_before, make_release, \
-    install
-from util.arguments import RootCommand, Command, not_found, not_enough_args
+    install, wiki
+from util.arguments import RootCommand, Command, not_found, not_enough_args, \
+    Flag
 
 
 def fallback(ex: str, options: list[str],
@@ -30,7 +31,10 @@ def main():
                 ]
             ),
             Command("release", "Creates a release", make_release),
-            Command("wiki", "Generate a markdown wiki", gen_wiki)
+            Command("wiki", "Generate a markdown wiki", gen_wiki, flags=[
+                wiki.silent_flag, wiki.quiet_flag, wiki.verbose_flag,
+                wiki.single_flag, wiki.multi_flag, wiki.pics_flag
+            ])
         ]
     )
 

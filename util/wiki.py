@@ -7,7 +7,7 @@ import scrap_engine as se
 import release
 from pokete_classes.effects import effects, effect_list
 from pokete_data import pokes, attacks, types, items, maps
-from util.arguments import not_found
+from util.arguments import not_found, Flag
 
 SILENT = False
 QUIET = False
@@ -621,27 +621,32 @@ Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
 def gen(ex: str, options: list[str],
         flags: dict[str, list[str]]):
     global SILENT, QUIET, VERBOSE
-
-    if len(options) == 0:
+    if len(flags) == 0:
         SILENT, QUIET, VERBOSE = False, True, False
         Wiki.single()
         gen_pics()
     else:
-        for opt in options:
-            match opt := opt.lower():
-                case "silent", "quite", "verbose":
-                    SILENT, QUIET, VERBOSE = False, False, False
-                    if opt == "silent":
-                        SILENT = True
-                    elif opt == "quite":
-                        QUIET = True
-                    else:
-                        VERBOSE = True
-                case "single":
-                    Wiki.single()
-                case "multi":
-                    Wiki.multi("wiki")
-                case "pics":
-                    gen_pics()
-                case _:
-                    not_found(ex, opt)
+        for flag in flags:
+            print(flag)
+            if silent_flag.is_flag(flag):
+                SILENT, QUIET, VERBOSE = True, False, False
+            elif quiet_flag.is_flag(flag):
+                SILENT, QUIET, VERBOSE = False, True, False
+            elif silent_flag.is_flag(flag):
+                SILENT, QUIET, VERBOSE = False, False, True
+            elif single_flag.is_flag(flag):
+                Wiki.single()
+            elif multi_flag.is_flag(flag):
+                Wiki.multi("wiki")
+            elif pics_flag.is_flag(flag):
+                gen_pics()
+
+
+silent_flag = Flag(["--silent"], "Prints no statements at all")
+quiet_flag = Flag(["--quiet"], "Prints only some minimal statements")
+verbose_flag = Flag(["--verbose"], "Prints everything it's doing")
+single_flag = Flag(["--single"], "Generates the `wiki.md` as a single file")
+multi_flag = Flag(["--multi"],
+                  "Generates a folder `wiki` with the wiki files")
+pics_flag = Flag(["--pics"],
+                 "Generates the `assets/pics.md` file with all sample pictures")
