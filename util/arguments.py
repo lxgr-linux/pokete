@@ -1,17 +1,20 @@
-def parse(args) -> tuple[str, list[str], dict[str, list[str]]]:
-    if len(args) == 0:
-        return "", [], {}
+import sys
+
+
+def parse(args) -> tuple[list[str], dict[str, list[str]]]:
+    if len(args) == 1:
+        return [], {}
     options: list[str] = []
     flags: dict[str, list[str]] = {}
     idx = 0
-    for arg in args[2:]:
+    for arg in args[1:]:
         if arg.startswith("--"):
             break
         idx += 1
         options.append(arg)
-    __index_flags(0, args[2 + idx:], "", flags)
+    __index_flags(0, args[1 + idx:], "", flags)
 
-    return args[1], options, flags
+    return options, flags
 
 
 def __index_flags(
@@ -26,3 +29,75 @@ def __index_flags(
     else:
         flags[flag].append(arr[idx])
     __index_flags(idx + 1, arr, flag, flags)
+
+
+def not_found(ex, option):
+    print(
+        f":: Error: Command '{option}' not found, "
+        f"try `{ex} --help`"
+    )
+    sys.exit(2)
+
+
+def not_enough_args(ex):
+    print(
+        ":: Error: Not enough arguments, "
+        f"try `{ex} --help`"
+    )
+    sys.exit(2)
+
+
+class Flag:
+    def __init__(self, aliases: list[str], desc: str):
+        self.aliases = aliases
+        self.desc = desc
+
+
+class Command:
+    def __init__(
+        self,
+        name: str, desc: str,
+        fn,
+        flags: list[Flag] | None = None,
+        commands: list["Command"] | None = None
+    ):
+        self.name = name
+        self.desc = desc
+        self.fn = fn
+        self.flags = flags if flags is not None else []
+        self.commands = commands if commands is not None else []
+
+    def print_help(self, exec: str):
+        print(f"""{self.name} -- {self.desc}
+
+Usage:
+    {exec} [command] [options]... <flags>
+{f"""
+Options:
+{"\n".join(f"\t{command.name}\t\t{command.desc}" for command in self.commands)}
+""" if self.commands else ""}
+Flags:
+    --help\t\tShows help for a specific command
+
+Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
+
+    def run(self, ex: str, options: list[str],
+            flags: dict[str, list[str]]):
+        if options:
+            for c in self.commands:
+                if c.name == options[0]:
+                    c.run(f"{ex} {options[0]}",
+                          options[1:],
+                          flags)
+                    return
+        if "--help" in flags:
+            self.print_help(ex)
+        else:
+            self.fn(ex, options, flags)
+
+
+class RootCommand(Command):
+    def exec(self):
+        args = sys.argv
+        options, flags = parse(args)
+        self.run(args[0], options, flags)

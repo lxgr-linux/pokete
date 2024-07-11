@@ -1,6 +1,7 @@
 import re
 import sys
 
+from util.arguments import not_enough_args
 from util.changelog import write_changelog
 
 TAG_REGEX = r"^v([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z-]+)?$"
@@ -29,23 +30,17 @@ Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
 
 
 def main(
-    ex: str, command: str, options: list[str],
+    ex: str, options: list[str],
     flags: dict[str, list[str]]
 ):
-    if "--help" in flags:
-        show_help(ex, command)
-    elif len(options) == 0:
-        print(
-            ":: Error: Not enough arguments, a tag has to be given, "
-            f"try `{ex} {command} --help`"
-        )
-        sys.exit(2)
+    if len(options) == 0:
+        not_enough_args(ex)
     else:
         tag = options[0]
         if not __is_tag_valid(tag):
             print(
                 ":: Error: Invalid tag, "
-                f"try `{ex} {command} --help`"
+                f"try `{ex} --help`"
             )
             sys.exit(2)
         __release(tag)

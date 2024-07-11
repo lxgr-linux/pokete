@@ -7,6 +7,7 @@ import scrap_engine as se
 import release
 from pokete_classes.effects import effects, effect_list
 from pokete_data import pokes, attacks, types, items, maps
+from util.arguments import not_found
 
 SILENT = False
 QUIET = False
@@ -617,13 +618,11 @@ Examples:
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
 
 
-def gen(ex: str, command: str, options: list[str],
+def gen(ex: str, options: list[str],
         flags: dict[str, list[str]]):
     global SILENT, QUIET, VERBOSE
 
-    if "--help" in flags:
-        show_help(ex, command)
-    elif len(options) == 0:
+    if len(options) == 0:
         SILENT, QUIET, VERBOSE = False, True, False
         Wiki.single()
         gen_pics()
@@ -645,8 +644,4 @@ def gen(ex: str, command: str, options: list[str],
                 case "pics":
                     gen_pics()
                 case _:
-                    print(
-                        f":: Error: Option '{opt}' not found, "
-                        f"try `{ex} {command} --help`"
-                    )
-                    sys.exit(2)
+                    not_found(ex, opt)

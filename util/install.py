@@ -13,14 +13,12 @@ Flags:
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
 
 
-def install(ex: str, command: str, options: list[str],
+def install(ex: str, options: list[str],
             flags: dict[str, list[str]]):
-    if "--help" in flags:
-        show_help(ex, command)
-    elif len(options) == 0:
+    if len(options) == 0:
         print(
             ":: Error: Not enough arguments, a destination has to be given, "
-            f"try `{ex} {command} --help`"
+            f"try `{ex} {options} --help`"
         )
         sys.exit(2)
     else:

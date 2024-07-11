@@ -13,9 +13,10 @@ website.
 """
 import os
 from os.path import exists
-import sys
 import json
 from urllib import request
+
+from util.arguments import not_enough_args, not_found
 from util.wiki import Wiki
 
 """
@@ -370,46 +371,19 @@ def after() -> None:
     print(':: Done!')
 
 
-def show_help(ex: str, command: str):
-    print(f"""{ex} {command} -- Prepare pages prepares all files in "files" for GitHub Pages
-Usage:
-    {ex} {command} [after|before] <flags>
-
-Options:
-    before\tActions run pre branch switch
-    after\tActions run pre branch switch
-
-Flags:
-    --help\tShows help for a specific command
-
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
-
-
-def prepare(
-    ex: str, command: str, options: list[str],
+def prepare_before(
+    ex: str, options: list[str],
     flags: dict[str, list[str]]
 ):
     global files
-    if "--help" in flags:
-        show_help(ex, command)
+    with open('.gh-pages.json', 'r') as config_file:
+        files = json.loads(config_file.read())
+    before()
 
-    elif len(options) == 0:
-        print(
-            ":: Error: Not enough arguments, "
-            f"try `{ex} {command} help`"
-        )
-        sys.exit(2)
-    else:
-        match opt := options[0]:
-            case 'before':
-                with open('.gh-pages.json', 'r') as config_file:
-                    files = json.loads(config_file.read())
-                before()
-            case 'after':
-                after()
-            case _:
-                print(
-                    f":: Error: Option '{opt}' not found, "
-                    f"try `{ex} {command} help`"
-                )
-                sys.exit(2)
+
+def prepare_after(
+    ex: str, options: list[str],
+    flags: dict[str, list[str]]
+):
+    global files
+    after()
