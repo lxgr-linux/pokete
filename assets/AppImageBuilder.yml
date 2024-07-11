@@ -1,58 +1,53 @@
-# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
-version: 1
-script:
-  - rm -rf AppDir | true
-  - git clone --depth=1 https://github.com/lxgr-linux/pokete
-  - git clone --depth=1 https://github.com/lxgr-linux/scrap_engine AppDir/usr/share/scrap_engine
-  - cd ./pokete && python3.10 ./util.py install AppDir/usr
-
 AppDir:
-  path: AppDir
   app_info:
-    id: com.github.lxgr_linux.pokete
-    name: Pokete
-    icon: com.github.lxgr_linux.pokete
-    version: 0.8.0
     exec: usr/bin/python3.10
     exec_args: $APPDIR/usr/bin/pokete.py --log $@
-  # pacman:
-  #   include:
-  #     - python
-  #   exclude: []
+    icon: com.github.lxgr_linux.pokete
+    id: com.github.lxgr_linux.pokete
+    name: Pokete
+    version: 0.9.2
   apt:
     arch: amd64
-    sources:
-      - sourceline: 'deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'
-        key_url: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920d1991bc93c'
+    exclude:
+    - perl
+    - gcc-12-base
     include:
-      - python3.10
-    exclude:
-      - perl
-      - gcc-12-base
+    - python3.10
+    sources:
+    - key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x871920d1991bc93c
+      sourceline: deb [arch=amd64] https://archive.ubuntu.com/ubuntu/ jammy main restricted
+        universe multiverse
   files:
-    include: []
     exclude:
-      - pokete
-      - usr/share/scrap_engine
-      - usr/share/pokete/playsound/libplaysound.dll
-      - usr/share/pokete/playsound/libplaysound.osx.so
+    - pokete
+    - usr/share/scrap_engine
+    - usr/share/pokete/playsound/libplaysound.dll
+    - usr/share/pokete/playsound/libplaysound.osx.so
+    include: []
+  path: AppDir
   test:
-    fedora-30:
-      image: appimagecrafters/tests-env:fedora-30
-      command: ./AppRun
-    debian-stable:
-      image: appimagecrafters/tests-env:debian-stable
-      command: ./AppRun
     archlinux-latest:
+      command: ./AppRun
       image: appimagecrafters/tests-env:archlinux-latest
-      command: ./AppRun
     centos-7:
+      command: ./AppRun
       image: appimagecrafters/tests-env:centos-7
+    debian-stable:
       command: ./AppRun
+      image: appimagecrafters/tests-env:debian-stable
+    fedora-30:
+      command: ./AppRun
+      image: appimagecrafters/tests-env:fedora-30
     ubuntu-xenial:
-      image: appimagecrafters/tests-env:ubuntu-xenial
       command: ./AppRun
+      image: appimagecrafters/tests-env:ubuntu-xenial
 AppImage:
   arch: x86_64
   comp: gzip
   update-information: guess
+script:
+- rm -rf AppDir | true
+- git clone --depth=1 https://github.com/lxgr-linux/pokete
+- git clone --depth=1 https://github.com/lxgr-linux/scrap_engine AppDir/usr/share/scrap_engine
+- cd ./pokete && python3.10 ./util.py install AppDir/usr
+version: 1

@@ -30,7 +30,8 @@ def main():
                             prepare_after)
                 ]
             ),
-            Command("release", "Creates a release", make_release),
+            Command("release", "Prepare all relevant files for release",
+                    make_release),
             Command("wiki", "Generate a markdown wiki", gen_wiki, flags=[
                 wiki.silent_flag, wiki.quiet_flag, wiki.verbose_flag,
                 wiki.single_flag, wiki.multi_flag, wiki.pics_flag
