@@ -40,7 +40,7 @@ jobs:
       - name: Install dependecies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
-          pip install scrap_engine pdoc3
+          pip install scrap_engine pdoc3 yaml
           sudo apt-get -qq install pandoc
 
       - name: Preprocess page files
@@ -100,7 +100,7 @@ jobs:
       - name: Install dependecies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
-          pip install scrap_engine
+          pip install scrap_engine yaml
 
       - name: Make multipage wiki
         run: |
