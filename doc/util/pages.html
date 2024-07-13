@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>util.pages API documentation</title>
+<meta name="description" content="This script takes one argument, which specifies if the actions it should take are before the command
+&#34;git switch gh-pages&#34; or afterwards. &#34;before&#34; …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>util.pages</code></h1>
+</header>
+<section id="section-intro">
+<p>This script takes one argument, which specifies if the actions it should take are before the command
+"git switch gh-pages" or afterwards. "before" means that it will the pre-change actions and "after" the after-change
+actions.</p>
+<p>This script processes files on how they are configured in the "files" dictionary: If the type is documentation
+if will call pdoc3 to create the documentation for it. If the type is "page", the argument "convert_with_pandoc"
+is a boolean which specifies, if the file should be converted into HTML by pandoc (True) or GitHub Pages' Jekyll
+(False). If set to false, it is advised to set "convert_tables" to True, as Jekyll can not handle markdown tables.
+Afterwards this script will replace all the links specified in the list "replace_links". There the first argument of
+the Tuple specifies the old link and the second argument the new link. With "new_name" the file will be renamed on the
+website.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="util.pages.add_folder"><code class="name flex">
+<span>def <span class="ident">add_folder</span></span>(<span>folder: str, add_tmp_folder: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a folder, if not does not already exist</p>
+<p>This function creates a folder in the current working directory.
+It also creates a folder with the same name in /tmp, if needed.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>The name</code> of <code>the folder to create</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>add_tmp_folder If a folder in /tmp should be creates as well.</p></div>
+</dd>
+<dt id="util.pages.add_wiki_folder"><code class="name flex">
+<span>def <span class="ident">add_wiki_folder</span></span>(<span>folder_name: str) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gives out all markdown files in current and subdirectories as a list</p>
+<p>This function adds all markdown files in the current directory to the list
+is gives back. It also calls itself for each sub-directory and appends the
+markdown files from itself to the output list as well.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>folder_name</code></strong> :&ensp;<code>The folder to add</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns:</h2>
+<p>A list of all markdown files in the current and all subdirectories.</p></div>
+</dd>
+<dt id="util.pages.add_wiki_to_files"><code class="name flex">
+<span>def <span class="ident">add_wiki_to_files</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add files from multi-page wiki to files dictionary</p>
+<p>This function adds all markdown files from the directory ./wiki-multi-md
+and its subdirectories into the files dictionary to be processed by the other functions as well.</p></div>
+</dd>
+<dt id="util.pages.after"><code class="name flex">
+<span>def <span class="ident">after</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The actions that shall be executed in the gh-pages branch.</p>
+<p>This function copies all previously created files from /tmp/ to the current
+working directory and adds the start and end of the gh-pages index website
+to the files which have been converted with pandoc. This achieves a universal
+look on all gh-pages pages. This function then replaces all the links for
+each file.</p></div>
+</dd>
+<dt id="util.pages.before"><code class="name flex">
+<span>def <span class="ident">before</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The actions that should be executed before the brach switch</p>
+<p>This functions creates documentation for all the files, replaces tables if necessary or converts the files with
+pandoc. All the files are then moved into the /mp directory.</p></div>
+</dd>
+<dt id="util.pages.create_documentation"><code class="name flex">
+<span>def <span class="ident">create_documentation</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates documentation for all tagged files</p>
+<p>This function creates python documentation for all files and folders in the files dictionary that have the type
+"documentation". This function will call pdoc to create the documentation for it.</p></div>
+</dd>
+<dt id="util.pages.create_wiki"><code class="name flex">
+<span>def <span class="ident">create_wiki</span></span>(<span>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a multi-page and a single-page wiki.</p>
+<p>This function calls the multi-page and single-page methods from the
+gen_wiki file to add to the gh-pages.</p></div>
+</dd>
+<dt id="util.pages.get_footer"><code class="name flex">
+<span>def <span class="ident">get_footer</span></span>(<span>url: str = 'https://lxgr-linux.github.io/pokete', footer_start: str = &#x27;&lt;/section&gt;&#x27;) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the last part of a webpage</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>url: The URL to get the last part of.</li>
+<li>footer_start: Where the "footer"/the end of the webpage begins.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The end of this webpage.</p></div>
+</dd>
+<dt id="util.pages.get_header"><code class="name flex">
+<span>def <span class="ident">get_header</span></span>(<span>url: str = 'https://lxgr-linux.github.io/pokete', header_end: str = &#x27;&lt;section&gt;&#x27;) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the first part of a webpage</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>url: The URL to get the first part of.</li>
+<li>header_end: the end of the "header".</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The start of this webpage.</p></div>
+</dd>
+<dt id="util.pages.prepare_after"><code class="name flex">
+<span>def <span class="ident">prepare_after</span></span>(<span>ex: str, options: list[str], flags: dict[str, list[str]])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="util.pages.prepare_before"><code class="name flex">
+<span>def <span class="ident">prepare_before</span></span>(<span>ex: str, options: list[str], flags: dict[str, list[str]])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="util.pages.replace_tables"><code class="name flex">
+<span>def <span class="ident">replace_tables</span></span>(<span>_text: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Replaces all markdown tables in _text with html tables</p>
+<p>This function writes the mardkwon table to a temporary file in /tmp/, calls pandoc to convert this file to html and
+reads the text back in.</p>
+<h2 id="arguments">Arguments:</h2>
+<ul>
+<li>_text: The text in which all the tables should be converted.</li>
+</ul>
+<h2 id="returns">Returns:</h2>
+<p>The input string, but with replaced markdown tables.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="util" href="index.html">util</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="util.pages.add_folder" href="#util.pages.add_folder">add_folder</a></code></li>
+<li><code><a title="util.pages.add_wiki_folder" href="#util.pages.add_wiki_folder">add_wiki_folder</a></code></li>
+<li><code><a title="util.pages.add_wiki_to_files" href="#util.pages.add_wiki_to_files">add_wiki_to_files</a></code></li>
+<li><code><a title="util.pages.after" href="#util.pages.after">after</a></code></li>
+<li><code><a title="util.pages.before" href="#util.pages.before">before</a></code></li>
+<li><code><a title="util.pages.create_documentation" href="#util.pages.create_documentation">create_documentation</a></code></li>
+<li><code><a title="util.pages.create_wiki" href="#util.pages.create_wiki">create_wiki</a></code></li>
+<li><code><a title="util.pages.get_footer" href="#util.pages.get_footer">get_footer</a></code></li>
+<li><code><a title="util.pages.get_header" href="#util.pages.get_header">get_header</a></code></li>
+<li><code><a title="util.pages.prepare_after" href="#util.pages.prepare_after">prepare_after</a></code></li>
+<li><code><a title="util.pages.prepare_before" href="#util.pages.prepare_before">prepare_before</a></code></li>
+<li><code><a title="util.pages.replace_tables" href="#util.pages.replace_tables">replace_tables</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

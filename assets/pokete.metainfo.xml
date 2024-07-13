@@ -1,88 +1,438 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2022 lxgr <lxgr@protonmail.com> -->
 <component type="desktop-application">
-  <id>com.github.lxgr_linux.pokete</id>
-  <developer id="com.github">
-    <name>lxgr-linux</name>
-  </developer>
-  <metadata_license>MIT</metadata_license>
-  <project_license>GPL-3.0</project_license>
-  <name>Pokete</name>
-  <summary>A terminal based Pokemon like game</summary>
-  <description>
-    <p>
-      Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak. Imagine you're a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.
-    </p>
-  </description>
-  <categories>
-    <category>Game</category>
-  </categories>
-  <keywords>
-    <keyword>game</keyword>
-    <keyword>python</keyword>
-    <keyword>pokemon</keyword>
-    <keyword>console-game</keyword>
-  </keywords>
-  <url type="homepage">https://github.com/lxgr-linux/pokete/</url>
-  <url type="bugtracker">https://github.com/lxgr-linux/pokete/issues</url>
-  <provides>
-    <binary>com.github.lxgr_linux.pokete</binary>
-  </provides>
-  <launchable type="desktop-id">com.github.lxgr_linux.pokete.desktop</launchable>
-  <screenshots>
-    <screenshot type="default">
-      <caption>Fight against other poketes</caption>
-      <image type="source" width="734" height="410">https://lxgr-linux.github.io/pokete/assets/ss/ss01.png</image>
-    </screenshot>
-    <screenshot>
-      <caption>Conversation with a trainer on Map Route 2</caption>
-      <image type="source" width="734" height="410">https://lxgr-linux.github.io/pokete/assets/ss/ss05.png</image>
-    </screenshot>
-  </screenshots>
-  <releases>
-    <release type="stable" version="0.9.2" date="2024-06-15" urgency="low">
-      <description>
-        <p>Quite a lot of bugs were fixed: Added more documentation. #278: Fixed random dor in flowytown arena. #279: Fixed warnings at startup due to new python versions. #281: Fixed trainer name conflicts</p>
-      </description>
-      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.9.2</url>
-    </release>
-    <release type="stable" version="0.9.0" date="2022-09-13" urgency="low">
-      <description>
-        <p>Quite a lot happened until this release: Moved some NPCs out of the way. Fixed a small bug with `gen_wiki.py` on windows. Added new `first evolution` achievement. Added new Poketes (Pavous, Uberpavous, Kartmen, Kakraholt, Bablbam). Volume settings with a funky new volumeslider. A new `--no_audio` commandline option to supress all audio. Stats for Poketes. Infos about the effect an attack has. The complete game is now resizable. Reduced stack traces. This release now requires `scrap_engine` on v1.4.0. Many thanks to @ondrejmyska for your many contributions.</p>
-      </description>
-      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.9.0</url>
-    </release>
-    <release type="stable" version="0.8.2" date="2022-08-05" urgency="low">
-      <description>
-        <p>Version 0.8.2 fixes a display bug of the release notes on flatpak. Version 0.8.1 on the other hand brought the following improvements: This version brings a new cross-platform implementation of how the audio is played, written in go. This makes the installation size of pokete significantly smaller, as less dependencies are required. The first map has been reworked, to make it easier for new players to understand the game.</p>
-      </description>
-      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.2</url>
-    </release>
-    <release type="stable" version="0.8.1" date="2022-08-04" urgency="high">
-      <description>
-        <p>This version brings a new cross-platform implementation of how the audio is played, written in go. This makes the installation size of pokete significantly smaller, as less dependencies are required. The first map has been reworked, to make it easier for new players to understand the game.</p>
-      </description>
-      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.1</url>
-    </release>
-    <release type="stable" version="0.8.0" date="2022-07-25" urgency="medium">
-      <description>
-        <p>We are constantly developing pokete further and with version 0.8.0 added a low of improvements and new features, such as music and sound effects. Running away from wild poketes can now fail and trainers can now have more than one pokete. Controls and hotkeys can now be remapped for different keyboard layouts. The default safe-file location has been moved to .local/share and some minor bugs have been fixed as well!</p>
-      </description>
-      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.0</url>
-    </release>
-    <release type="stable" version="0.7.3" date="2022-06-21" urgency="low">
-      <description>
-        <p>Preparation release for flatpaks. Includes: A svg image of the pokete logo, A metainfo.xml file for pokete
-        </p>
-      </description>
-      <url>https://github.com/lxgr-linux/pokete/releases/tag/0.7.3</url>
-    </release>
-  </releases>
-  <content_rating type="oars-1.1">
-    <content_attribute id="violence-cartoon">mild</content_attribute>
-    <content_attribute id="drugs-narcotics">mild</content_attribute>
-    <content_attribute id="language-profanity">intense</content_attribute>
-    <content_attribute id="language-humor">moderate</content_attribute>
-  </content_rating>
+	<id>com.github.lxgr_linux.pokete</id>
+	<developer id="com.github">
+		<name>lxgr-linux</name>
+	</developer>
+	<metadata_license>MIT</metadata_license>
+	<project_license>GPL-3.0</project_license>
+	<name>Pokete</name>
+	<summary>Terminal based Pokemon like game</summary>
+	<description>
+		<p>Pokete is a small terminal based game in the style of a very popular and old game by Gamefreak. Imagine you're a Pokete-Trainer and your goal is it to run around in the world and catch/train as many Poketes as possible and to get the best trainer.</p>
+	</description>
+	<categories>
+		<category>Game</category>
+	</categories>
+	<keywords>
+		<keyword>game</keyword>
+		<keyword>python</keyword>
+		<keyword>pokemon</keyword>
+		<keyword>console-game</keyword>
+	</keywords>
+	<url type="homepage">https://github.com/lxgr-linux/pokete/</url>
+	<url type="bugtracker">https://github.com/lxgr-linux/pokete/issues</url>
+	<provides>
+		<binary>com.github.lxgr_linux.pokete</binary>
+	</provides>
+	<launchable type="desktop-id">com.github.lxgr_linux.pokete.desktop</launchable>
+	<screenshots>
+		<screenshot type="default">
+			<caption>Fight against other poketes</caption>
+			<image type="source" width="734" height="410">https://lxgr-linux.github.io/pokete/assets/ss/ss01.png</image>
+		</screenshot>
+		<screenshot>
+			<caption>Conversation with a trainer on Map Route 2</caption>
+			<image type="source" width="734" height="410">https://lxgr-linux.github.io/pokete/assets/ss/ss05.png</image>
+		</screenshot>
+	</screenshots>
+	<releases>
+		<release type="stable" version="0.9.2" date="2024-06-15" urgency="low">
+			<description>
+				<p>Quite a lot of bugs were fixed:</p>
+				<ul>
+					<li>Added more documentation</li>
+					<li>#278: Fixed random dor in flowytown arena</li>
+					<li>#279: Fixed warnings at startup due to new python versions</li>
+					<li>#281: Fixed trainer name conflicts</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.9.2</url>
+		</release>
+		<release type="stable" version="0.9.1" date="2023-04-25" urgency="low">
+			<description>
+				<ul>
+					<li>Fixed a bug with fightmap not resozing</li>
+					<li>Did some reformating</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.9.1</url>
+		</release>
+		<release type="stable" version="0.9.0" date="2022-09-13" urgency="medium">
+			<description>
+				<p>Quite a lot happened until this release:</p>
+				<ul>
+					<li>Moved some NPCs out of the way</li>
+					<li>
+						Fixed a small bug with 
+						<code>gen_wiki.py</code>
+						 on windows
+					</li>
+					<li>
+						Added new 
+						<code>first evolution</code>
+						 achievement
+					</li>
+					<li>Added new Poketes (Pavous, Uberpavous, Kartmen, Kakraholt, Bablbam)</li>
+					<li>Volume settings with a funky new volumeslider</li>
+					<li>
+						A new 
+						<code>--no_audio</code>
+						 commandline option to supress all audio
+					</li>
+					<li>Stats for Poketes</li>
+					<li>Infos about the effect an attack has</li>
+					<li>The complete game is now resizable</li>
+					<li>Reduced stack traces</li>
+				</ul>
+				<p>
+					This release now requires 
+					<code>scrap_engine</code>
+					 on v1.4.0
+				</p>
+				<p>Many thanks to @ondrejmyska for your many contributions.</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.9.0</url>
+		</release>
+		<release type="stable" version="0.8.2" date="2022-08-05" urgency="low">
+			<description>
+				<p>Fixes a small bug in the representation of pokete on flathub.</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.2</url>
+		</release>
+		<release type="stable" version="0.8.1" date="2022-08-04" urgency="low">
+			<description>
+				<p>The distribution size was shrinked extremely compared to 0.8.0</p>
+				<ul>
+					<li>Made all wav files mp3s</li>
+					<li>Added new audio library and replaced playsound</li>
+					<li>Reduced the Appimage size</li>
+					<li>The first map got a bigger overhaul to make an entrance into the game easier</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.1</url>
+		</release>
+		<release type="stable" version="0.8.0" date="2022-07-25" urgency="medium">
+			<description>
+				<ul>
+					<li>Added audio</li>
+					<li>Removed pynput as a dependency on windows</li>
+					<li>A lot of spelling and grammar fixes</li>
+					<li>Fixed Poketes not beeing freeable</li>
+					<li>Added some game ballancing</li>
+					<li>Trainers can now obtain more than one Pokete</li>
+					<li>Made run away random</li>
+					<li>Added remappable controls</li>
+					<li>Save location is now based on XDG dirs, no intervention needed</li>
+					<li>
+						Added quick attacks using 
+						<code>yzcv</code>
+						 so the attackamenu can be skipped
+					</li>
+				</ul>
+				<p>Many thanks to everybody who contributed to this release!</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.8.0</url>
+		</release>
+		<release type="stable" version="0.7.3" date="2022-06-20" urgency="low">
+			<description>
+				<p>Preparation release for flatpaks. Includes:</p>
+				<ul>
+					<li>A svg image of the pokete logo</li>
+					<li>A metainfo.xml file for pokete</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.7.3</url>
+		</release>
+		<release type="stable" version="0.7.2" date="2022-06-08" urgency="low">
+			<description>
+				<p>Crucial bugfix related to natures and pokete dex.</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.7.2</url>
+		</release>
+		<release type="stable" version="0.7.1" date="2022-06-08" urgency="low">
+			<description>
+				<p>Just some small bugfixes.</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.7.1</url>
+		</release>
+		<release type="stable" version="0.7.0" date="2022-06-06" urgency="medium">
+			<description>
+				<p> Under the hood</p>
+				<ul>
+					<li>Massive code reorganisation</li>
+					<li>
+						Added 
+						<code>PeriodicEventManager</code>
+						, introducing a centralized approach to handling periodically occurring events
+					</li>
+					<li>Enabled pipenv support</li>
+				</ul>
+				<p> Game design and behaviour</p>
+				<ul>
+					<li>After all Poketes are dead, players are now transported back to the last visited Pokete center</li>
+					<li>Multiple Poketes in a fight are now automatically possible</li>
+					<li>NPCs are way smarter now and support multi-answer chats</li>
+					<li>Added achievements visible via a submenu</li>
+					<li>Added commandline options</li>
+					<li>Several new Poketes have been added:</li>
+					<li>Voglus</li>
+					<li>Ratatat</li>
+					<li>Crabbat</li>
+					<li>Rustacean</li>
+					<li>Saugh</li>
+					<li>Corcos day</li>
+					<li>Corcos night</li>
+					<li>Raupathor day</li>
+					<li>Raupathor night</li>
+					<li>Mothor</li>
+					<li>Also the maps &quot;Agrawos&quot; and &quot;Sunny Beach&quot; have been added</li>
+					<li>Weather influencing effectivities has been added</li>
+					<li>Added notifications</li>
+					<li>Ingame time was added:</li>
+					<li>Day and Night active Poketes</li>
+					<li>A clock</li>
+					<li>Time stops after a certain period of idling</li>
+					<li>Treats and the Pokete-Care where added to make leveling easier</li>
+					<li>The game is now available as an AppImage</li>
+					<li>The newly added natures now influence a Poketes stats on an individual basis</li>
+				</ul>
+				<p>This article summarises the changes further.</p>
+				<p>Again very special thanks to @MaFeLP for supporting me!</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.7.0</url>
+		</release>
+		<release type="stable" version="0.6.0" date="2021-11-09" urgency="medium">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Added Diamondos, Dia stab,</li>
+					<li>Dazzle, Dia spikes</li>
+					<li>Added Megapois, Poison thorn</li>
+					<li>Added Dicko, Lil nut</li>
+					<li>Added Mowcow, Supercow power</li>
+					<li>Added Wheeto, Special smell</li>
+					<li>Added Flowy Town, Mowcow Meadow, The Fields of Agrawos</li>
+					<li>Reformated files</li>
+					<li>Added Github pages, special thanks to MaFeLP</li>
+					<li>Added validation action</li>
+					<li>Made the savefile json</li>
+					<li>Added subtypes to better organise generic attacks</li>
+					<li>Added Devguide</li>
+					<li>Added modloader</li>
+					<li>Added .editorconfig</li>
+					<li>Added Pipfile and Pipfile.lock</li>
+					<li>Overhauled Roadmap</li>
+					<li>Added multipage wiki</li>
+					<li>Completely rewrote gen_wiki.py</li>
+					<li>Reformated, moved, outsourced, chnages a lot of code</li>
+				</ul>
+				<p>Again special thanks to MaFeLP</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.6.0</url>
+		</release>
+		<release type="stable" version="0.5.1" date="2021-09-19" urgency="low">
+			<description>
+				<p>Some minor changes due to API changes in scrap_engine v1.0.0.</p>
+				<p>scrap_engine v1.0.0 is now required.</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.5.1</url>
+		</release>
+		<release type="stable" version="0.5.0" date="2021-09-10" urgency="medium">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Improve Help</li>
+					<li>Added CODENAME: Grey Edition</li>
+					<li>Now unvisited maps names are not displayed in Roadmap anymore</li>
+					<li>Added question when exiting</li>
+					<li>Added startuptime to savefile</li>
+					<li>Added Route 7</li>
+					<li>Added coloured Minimap</li>
+					<li>Added Spikes, Bubble gun,</li>
+					<li>Flame throw, Toe breaker, Wind blow, Storm gust, Rock smash</li>
+					<li>Added Dicki, Dick energy,</li>
+					<li>Ground hit, Hiding</li>
+					<li>Added Schmetterling, Schmetter</li>
+					<li>Added abbility to learn a new attack very fifth level</li>
+					<li>Added second type</li>
+					<li>Added savable attacks</li>
+					<li>Added Poison Type</li>
+					<li>Added Learn Discs that can be used to teach new attack to Poketes</li>
+					<li>Added abilities</li>
+					<li>Added flying</li>
+					<li>scrap_engine v0.3.3 is now needed</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.5.0</url>
+		</release>
+		<release type="stable" version="0.4.1" date="2021-08-08" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Added EffectFreezing</li>
+					<li>Added ice Poketes (Cubl, Spikl) andattacks (freeze, Snow storm, Sword of ice)</li>
+					<li>Added some more new Poketes (Confuso, Poisopla) andattacks (Confusion, Posion spores, Root slap)</li>
+					<li>Added shiny Poketes</li>
+					<li>Outsourced all map information to maps.py</li>
+					<li>Added version checking to warn about data loss when downgrading</li>
+					<li>Sorted the Poketes and attacks in the wiki by types</li>
+					<li>Fixed the effectivity of EffectBurning</li>
+					<li>Fixed logic bug in most effects, so that some types are not affected by some effects</li>
+					<li>Added Pokete dex for the user to keep track of all Pokete 'races' they have ever caught regardless of wether or notthe Poketes are in the deck or not</li>
+					<li>Cleaned up save file to be more readable for humans</li>
+					<li>Changed development flow</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.4.1</url>
+		</release>
+		<release type="stable" version="0.4.0" date="2021-08-01" urgency="medium">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Added confirmation for running away</li>
+					<li>Made playmap_1 way easier</li>
+					<li>Changed attack list to start with 1 and not 0</li>
+					<li>Renamed attacs to attacks</li>
+					<li>Added several new attacks</li>
+					<li>Added several new moves (downgrade...)</li>
+					<li>Added Rock-ville</li>
+					<li>Added new mechanic that moves movemap to ensure all text fits on movemap</li>
+					<li>Fixed bug with exclamations out of movemap</li>
+					<li>Added support for more than one move per attack</li>
+					<li>Increased attack AP to avoid running back to the Pokete-center as often</li>
+					<li>Changed roadmap mechanism</li>
+					<li>Added effects</li>
+					<li>Added coloured output for OutP (scrap_engine &gt;= v0.3.1 is now needed)</li>
+					<li>Fixed bug with saving in shops</li>
+					<li>Fixed bug with moves when confused</li>
+					<li>Outsourced general-use functions</li>
+					<li>Made some functions a class</li>
+					<li>Made some other quality of life changes</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.4.0</url>
+		</release>
+		<release type="stable" version="0.3.8" date="2021-07-07" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Added coloured type tags and attack labels</li>
+					<li>Added ice type</li>
+					<li>Added about</li>
+					<li>Added a now Pokete</li>
+					<li>Made some minor fixes and changes</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.8</url>
+		</release>
+		<release type="stable" version="0.3.7" date="2021-06-30" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Added trading with other players in the same network</li>
+					<li>Simplified some code</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.7</url>
+		</release>
+		<release type="stable" version="0.3.6" date="2021-06-28" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>scrap_engine 0.3.0 in now needed</li>
+					<li>Added initiative attribute for Poketes to determine which Pokete attacks first</li>
+					<li>Several minor fixed and additions</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.6</url>
+		</release>
+		<release type="stable" version="0.3.5" date="2021-06-25" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Compatibility with scrap_engine 0.2.0</li>
+					<li>Added validation for pokete_data</li>
+					<li>Added Intro</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.5</url>
+		</release>
+		<release type="stable" version="0.3.4" date="2021-06-21" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Added Changelog.md</li>
+					<li>Added Route 6, bigmountain see and bigmountain cave</li>
+					<li>Improved wiki.md</li>
+					<li>Added Wolfiro</li>
+					<li>Added saving Poketeballs</li>
+					<li>Added some new attacks</li>
+					<li>Fixed some bugs</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.4</url>
+		</release>
+		<release type="stable" version="0.3.3" date="2021-06-15" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Trainers are now more likely to use effective attacks</li>
+					<li>Added autosave</li>
+					<li>Added a proper settings system</li>
+					<li>Added undead type</li>
+					<li>Added some new Poketes and attacks</li>
+					<li>Added HowToPlay.md</li>
+					<li>Added trainer saving</li>
+					<li>Added Route 5</li>
+					<li>Added confirmation texts when doing sensible stuff</li>
+					<li>Moved some stuff around</li>
+					<li>Fixed some bugs</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.3</url>
+		</release>
+		<release type="stable" version="0.3.2" date="2021-06-08" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Added route 3</li>
+					<li>Added route 4</li>
+					<li>Added Deepest forest</li>
+					<li>minor fixes</li>
+					<li>Added pics</li>
+					<li>Fixed some values</li>
+					<li>Fixed some bugs with trainers</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.2</url>
+		</release>
+		<release type="stable" version="0.3.1" date="2021-06-04" urgency="low">
+			<description>
+				<p>What changed until this release?</p>
+				<ul>
+					<li>Added Abandoned village</li>
+					<li>Added clampi</li>
+					<li>Added more NPCs</li>
+					<li>Added .desktop (MaFeLP) and logo</li>
+					<li>Made additions to the item system</li>
+				</ul>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.1</url>
+		</release>
+		<release type="stable" version="0.3.0" date="2021-05-30" urgency="medium">
+			<description>
+				<p>This is the first real release of Pokete, because at this point most of the key game mechanics are implemented and most</p>
+				<p>stuff that's still missing is just game content.</p>
+			</description>
+			<url>https://github.com/lxgr-linux/pokete/releases/tag/0.3.0</url>
+		</release>
+	</releases>
+	<content_rating type="oars-1.1">
+		<content_attribute id="violence-cartoon">mild</content_attribute>
+		<content_attribute id="drugs-narcotics">mild</content_attribute>
+		<content_attribute id="language-profanity">intense</content_attribute>
+		<content_attribute id="language-humor">moderate</content_attribute>
+	</content_rating>
 </component>
-

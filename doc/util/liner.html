@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>pokete_data.trainers API documentation</title>
+<title>util.liner API documentation</title>
 <meta name="description" content="">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
@@ -22,7 +22,7 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pokete_data.trainers</code></h1>
+<h1 class="title">Module <code>util.liner</code></h1>
 </header>
 <section id="section-intro">
 </section>
@@ -31,6 +31,41 @@ hljs.highlightAll();
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="util.liner.hard_liner"><code class="name flex">
+<span>def <span class="ident">hard_liner</span></span>(<span>l_len, name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Wraps a string after a certain length</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The String</dd>
+<dt><strong><code>l_len</code></strong></dt>
+<dd>The max length</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The lined string</p></div>
+</dd>
+<dt id="util.liner.liner"><code class="name flex">
+<span>def <span class="ident">liner</span></span>(<span>text, width, pre='')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Wraps a string after a certain length and respects word endings</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>text</code></strong></dt>
+<dd>The text that should be lined</dd>
+<dt><strong><code>width</code></strong></dt>
+<dd>The max width</dd>
+<dt><strong><code>pre</code></strong></dt>
+<dd>Prefix that will be added in the next line</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The lined string</p></div>
+</dd>
+</dl>
 </section>
 <section>
 </section>
@@ -42,7 +77,13 @@ hljs.highlightAll();
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="pokete_data" href="index.html">pokete_data</a></code></li>
+<li><code><a title="util" href="index.html">util</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="util.liner.hard_liner" href="#util.liner.hard_liner">hard_liner</a></code></li>
+<li><code><a title="util.liner.liner" href="#util.liner.liner">liner</a></code></li>
 </ul>
 </li>
 </ul>
