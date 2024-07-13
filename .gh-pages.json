@@ -49,16 +49,16 @@
     "convert_with_pandoc": true,
     "new_name": "DevGuide.html"
   },
-  "gen_wiki.py": {
+  "util.py": {
     "type": "documentation"
   },
   "pokete.py": {
     "type": "documentation"
   },
-  "prepare_pages.py": {
+  "pokete_general_use_fns.py": {
     "type": "documentation"
   },
-  "pokete_general_use_fns.py": {
+  "util/": {
     "type": "documentation"
   },
   "pokete_classes/": {

@@ -42,9 +42,9 @@ jobs:
 
       - name: Preprocess page files
         run: |
-          python3 ./prepare_pages.py before
+          python3 util.py prepare-pages before
           cp -r ./assets/ /tmp/assets
-          cp ./prepare_pages.py /tmp/prepare_pages.py
+          cp ./* /tmp/pokete
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
         with:
@@ -53,7 +53,7 @@ jobs:
         run: |
           rm -rf ./assets ./wiki-multi
           mv '/tmp/assets/' .
-          python3 /tmp/prepare_pages.py after
+          python3 /tmp/pokete/util.py prepare-pages after
       # Push to github_pages
       - name: Release documentation
         run: |
@@ -98,7 +98,7 @@ jobs:
 
       - name: Make multipage wiki
         run: |
-          python3 gen_wiki.py verbose single multi pics
+          python3 util.py wiki --verbose --single --multi --pics
           mkdir /tmp/gen-wiki
           cp -r HowToPlay.md DevGuide.md wiki.md /tmp/gen-wiki
       - name: Switch to wiki repository

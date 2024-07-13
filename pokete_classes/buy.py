@@ -2,7 +2,7 @@
 
 import scrap_engine as se
 from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
-from pokete_general_use_fns import liner
+from util import liner
 from .loops import std_loop
 from .ui_elements import Box, ChooseBox
 from .inv_items import invitems

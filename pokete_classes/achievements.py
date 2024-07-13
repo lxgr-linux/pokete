@@ -3,7 +3,7 @@
 import datetime
 import logging
 import scrap_engine as se
-from pokete_general_use_fns import liner
+from util import liner
 from .hotkeys import ACTION_DIRECTIONS, Action, get_action
 from .loops import std_loop, easy_exit_loop
 from .ui_elements import BetterChooseBox, LabelBox
