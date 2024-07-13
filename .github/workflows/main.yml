@@ -19,7 +19,7 @@ jobs:
           python-version: '3.12'
 
       - name: install deps
-        run: pip install scrap_engine yaml
+        run: pip install scrap_engine pyyaml
 
       - name: gen-wiki
         run: python util.py wiki
