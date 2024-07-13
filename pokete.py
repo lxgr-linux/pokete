@@ -1507,7 +1507,8 @@ if __name__ == "__main__":
 Feel free to contribute.
 See README.md for more information.
 This software is licensed under the GPLv3, you should have gotten a
-copy of it alongside this software."""
+copy of it alongside this software.""",
+        usage=""
     )
 
     c.exec()

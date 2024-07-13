@@ -2,17 +2,6 @@ import os
 import sys
 
 
-def show_help(ex: str, command: str):
-    print(f"""{ex} {command} -- Install pokete to a given directory
-Usage:
-    {ex} {command} [dest] <flags>
-
-Flags:
-    --help\tShows help for a specific command
-
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
-
-
 def install(ex: str, options: list[str],
             flags: dict[str, list[str]]):
     if len(options) == 0:

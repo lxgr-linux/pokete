@@ -592,32 +592,6 @@ def gen_pics():
         file.write(md_str)
 
 
-def show_help(ex: str, command: str):
-    print(f"""{ex} {command} -- Generate a markdown wiki
-Usage:
-    {ex} {command} [options]... <flags>
-
-Options:
-    silent:\t\tPrints no statements at all
-    quite:\t\tPrints only some minimal statements
-    verbose:\tPrints everything that it's doing
-    single:\t\tGenerated the `wiki.md` as a single file
-    multi:\t\tGenerates a folder `wiki` with the wiki files
-    \t\t(Warning: Links are for html pages, not markdown pages!)
-    pics:\t\tGenerates the `assets/pics.md` file with all sample pictures
-    
-Flags:
-    --help\t\tShows help for a specific command
-
-Examples:
-    - {ex} {command} silent single verbose multi
-        Creates wiki.md silently and the multi-wiki verbosely
-    - {ex} {command} quite single multi pics
-        Creates wiki.md, the multi-page wiki and pics.md quitely
-
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
-
-
 def gen(ex: str, options: list[str],
         flags: dict[str, list[str]]):
     global SILENT, QUIET, VERBOSE

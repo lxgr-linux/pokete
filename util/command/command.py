@@ -19,7 +19,8 @@ class Command:
         fn,
         flags: list[Flag] | None = None,
         commands: list["Command"] | None = None,
-        additional_info: str = ""
+        additional_info: str = "",
+        usage="[command] [options]..."
     ):
         self.name = name
         self.desc = desc
@@ -28,12 +29,13 @@ class Command:
             Flag(["-h", "--help"], "Shows help for a specific command")]
         self.additional_info = additional_info
         self.commands = commands if commands is not None else []
+        self.usage = usage
 
     def __print_help(self, ex: str):
         print(f"""{self.name} -- {self.desc}
 
 Usage:
-    {ex} [command] [options]... <flags>
+    {ex}{f" {self.usage}" if self.usage else ""} <flags>
 {f"""
 Options:
 {"\n".join(f"\t{command.name}\t\t{command.desc}" for command in self.commands)}
