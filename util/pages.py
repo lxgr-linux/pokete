@@ -122,12 +122,11 @@ def create_documentation() -> None:
     "documentation". This function will call pdoc to create the documentation for it.
     """
     modules = [file for file in files if files[file]["type"] == "documentation"]
-    pdoc_path = "/home/runner/.local/bin/pdoc"
 
     for module in modules:
         print(f" -> {module}")
         os.system(
-            f"{pdoc_path} --html {module} --output-dir \"/tmp/doc/\" --force")
+            f"pdoc --html {module} --output-dir \"/tmp/doc/\" --force")
 
 
 def add_folder(folder: str, add_tmp_folder: bool = False) -> None:
