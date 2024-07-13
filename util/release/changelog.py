@@ -122,10 +122,18 @@ def __get_full_releases(releases: list[str]):
 </releases>"""
 
 
-def write_changelog():
+def check_versions(tag: str, raw_releases: RawReleases):
+    all_versions = [__parse_version_date(release[0])[0]
+                    for release in raw_releases]
+    if tag.lstrip("v") not in all_versions:
+        print(f":: Warning: release tag `{tag}` has no changelog entry!")
+
+
+def write_changelog(tag: str):
     with open("Changelog.md", "r") as changelog_file:
         changelog_content = changelog_file.read()
     raw_releases = __get_raw_releases(changelog_content)
+    check_versions(tag, raw_releases)
     releases = [__parse_release_xml(r) for r in raw_releases]
     full_releases = __get_full_releases(releases)
     with open("assets/pokete.metainfo.xml", "r") as metainfo_file:

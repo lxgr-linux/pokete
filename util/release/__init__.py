@@ -10,8 +10,11 @@ TAG_REGEX = r"^v([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z-]+)?$"
 
 
 def __release(tag: str):
-    write_changelog()
+    print(":: Writing appstream data...")
+    write_changelog(tag)
+    print(":: Writing appimage builder file...")
     write_appimage(tag)
+    print(":: Writing release.py...")
     write_release_py(tag)
 
 
