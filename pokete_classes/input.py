@@ -1,7 +1,7 @@
 """This file contains input wrappers for ui elements"""
 
 from pokete_classes.hotkeys import Action, get_action
-from pokete_general_use_fns import hard_liner
+from util import hard_liner
 from .loops import std_loop
 from .ui_elements import InfoBox, InputBox
 from .event import _ev

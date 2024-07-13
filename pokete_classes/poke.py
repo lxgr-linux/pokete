@@ -7,7 +7,7 @@ import random
 from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_general_use_fns import liner
+from util import liner
 from release import SPEED_OF_TIME
 from .attack_actions import AttackActions
 from .attack import Attack
