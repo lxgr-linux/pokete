@@ -119,6 +119,7 @@ jobs:
       - name: Release documentation
         run: |
           git config --local user.name  ${{ github.actor }}
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
           if [[ $(git diff) != "" ]]
           then
           git add .
