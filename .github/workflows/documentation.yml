@@ -48,7 +48,7 @@ jobs:
           mkdir /tmp/pokete
           python util.py prepare-pages before
           cp -r ./assets/ /tmp/assets
-          cp ./* /tmp/pokete
+          cp -r ./* /tmp/pokete
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
         with:
