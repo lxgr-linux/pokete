@@ -17,12 +17,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-      
+
       - name: install deps
-        run: pip3 install scrap_engine
+        run: pip install scrap_engine
 
       - name: gen-wiki
-        run: python3 util.py wiki
+        run: python util.py wiki
 
       - name: Commit files
         run: |

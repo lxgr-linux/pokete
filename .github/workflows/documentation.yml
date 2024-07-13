@@ -31,7 +31,7 @@ jobs:
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
           path: |
-            ~/.cache/pip3
+            ~/.cache/pip
             /usr/bin/pandoc
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-dependencies
@@ -40,12 +40,12 @@ jobs:
       - name: Install dependecies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
-          pip3 install scrap_engine pdoc3
+          pip install scrap_engine pdoc3
           sudo apt-get -qq install pandoc
 
       - name: Preprocess page files
         run: |
-          python3 util.py prepare-pages before
+          python util.py prepare-pages before
           cp -r ./assets/ /tmp/assets
           cp ./* /tmp/pokete
       - name: Switch branch to gh-pages
@@ -56,7 +56,7 @@ jobs:
         run: |
           rm -rf ./assets ./wiki-multi
           mv '/tmp/assets/' .
-          python3 /tmp/pokete/util.py prepare-pages after
+          python /tmp/pokete/util.py prepare-pages after
       # Push to github_pages
       - name: Release documentation
         run: |
@@ -92,7 +92,7 @@ jobs:
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
           path: |
-            ~/.cache/pip3
+            ~/.cache/pip
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-dependencies
 
@@ -100,11 +100,11 @@ jobs:
       - name: Install dependecies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
-          pip3 install scrap_engine
+          pip install scrap_engine
 
       - name: Make multipage wiki
         run: |
-          python3 util.py wiki --verbose --single --multi --pics
+          python util.py wiki --verbose --single --multi --pics
           mkdir /tmp/gen-wiki
           cp -r HowToPlay.md DevGuide.md wiki.md /tmp/gen-wiki
       - name: Switch to wiki repository
