@@ -22,19 +22,6 @@ def __is_tag_valid(tag: str) -> bool:
     return re.fullmatch(TAG_REGEX, tag) is not None
 
 
-def show_help(ex: str, command: str):
-    print(f"""{ex} {command} -- Prepare all relevant files for release
-Usage:
-    {ex} {command} [tag] <flags>
-    
-Tags have to follow the `vMAJOR.MINOR.PATCH-RELEASE` semantic.
-
-Flags:
-    --help\tShows help for a specific command
-
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
-
-
 def main(
     ex: str, options: list[str],
     flags: dict[str, list[str]]
