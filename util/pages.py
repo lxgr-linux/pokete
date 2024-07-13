@@ -16,7 +16,6 @@ from os.path import exists
 import json
 from urllib import request
 
-from util.arguments import not_enough_args, not_found
 from util.wiki import Wiki
 
 """

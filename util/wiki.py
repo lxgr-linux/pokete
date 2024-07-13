@@ -7,7 +7,7 @@ import scrap_engine as se
 import release
 from pokete_classes.effects import effects, effect_list
 from pokete_data import pokes, attacks, types, items, maps
-from util.arguments import not_found, Flag
+from util.command import Flag
 
 SILENT = False
 QUIET = False
