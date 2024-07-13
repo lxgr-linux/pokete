@@ -31,18 +31,34 @@ class Command:
         self.commands = commands if commands is not None else []
         self.usage = usage
 
+    @staticmethod
+    def __line_setter(lines: list[tuple[str, str]], line_spaces: int):
+        return "\n".join(
+            f"\t{line[0]}{" " * (line_spaces - len(line[0]))}{line[1]}" for line
+            in lines
+        )
+
     def __print_help(self, ex: str):
+        option_lines: list[tuple[str, str]] = [(command.name, command.desc) for
+                                               command in self.commands]
+        flag_lines: list[tuple[str, str]] = [
+            ("|".join(flag.aliases), flag.desc) for flag in self.flags]
+
+        line_spaces = sorted([
+            len(i[0]) for i in option_lines + flag_lines
+        ])[-1] + 8
+
         print(f"""{self.name} -- {self.desc}
 
 Usage:
     {ex}{f" {self.usage}" if self.usage else ""} <flags>
 {f"""
 Options:
-{"\n".join(f"\t{command.name}\t\t{command.desc}" for command in self.commands)}
+{self.__line_setter(option_lines, line_spaces)}
 """ if self.commands else ""}
 {f"""
 Flags:
-{"\n".join(f"\t{"|".join(flag.aliases)}\t\t{flag.desc}" for flag in self.flags)}
+{self.__line_setter(flag_lines, line_spaces)}
 """ if self.flags else ""}
 {f"\n{self.additional_info}\n" if self.additional_info else ""}
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
