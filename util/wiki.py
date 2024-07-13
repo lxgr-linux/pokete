@@ -627,7 +627,6 @@ def gen(ex: str, options: list[str],
         gen_pics()
     else:
         for flag in flags:
-            print(flag)
             if silent_flag.is_flag(flag):
                 SILENT, QUIET, VERBOSE = True, False, False
             elif quiet_flag.is_flag(flag):
