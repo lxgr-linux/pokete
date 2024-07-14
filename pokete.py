@@ -20,11 +20,11 @@ from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 import release
-from pokete_classes import animations
+from pokete_classes import animations, loops
 from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke, upgrade_by_one_lvl
 from pokete_classes.color import Color
-from pokete_classes.ui_elements import ChooseBox, InfoBox, BetterChooseBox
+from pokete_classes.ui.elements import ChooseBox, InfoBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting, Slider
 from pokete_classes.inv_items import invitems, LearnDisc
@@ -34,7 +34,7 @@ from pokete_classes.buy import Buy, InvBox
 from pokete_classes.audio import audio
 from pokete_classes.tss import tss
 from pokete_classes.side_loops import LoadingScreen, About, Help
-from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
+from pokete_classes.input import text_input, _ev
 from pokete_classes.mods import ModError, ModInfo, DummyMods
 from pokete_classes.pokete_care import PoketeCare, DummyFigure
 from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
@@ -47,14 +47,12 @@ from pokete_classes.doors import (
 from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.npcs import NPC, Trainer
-from pokete_classes.notify import notifier
+from pokete_classes.ui import notifier, ask_bool, ask_text, ask_ok
 from pokete_classes.achievements import achievements, AchievementOverview
-from pokete_classes.event import _ev
-from pokete_classes.hotkeys import (
+from pokete_classes.input import (
     get_action, Action, ACTION_DIRECTIONS, hotkeys_save, hotkeys_from_save
 )
 from pokete_classes.dex import Dex
-from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
 from util import liner, sort_vers
 
@@ -324,7 +322,7 @@ class CenterInteract(se.Object):
                 break
             elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
-            std_loop(box=mvp.movemap)
+            loops.std(box=mvp.movemap)
         mvp.movemap.full_show(init=True)
 
 
@@ -656,7 +654,7 @@ class Inv:
                                         if len(items) == 0:
                                             break
                             break
-                        std_loop(box=self.box2)
+                        loops.std(box=self.box2)
                         self.map.show()
                 elif action.triggers(Action.REMOVE):
                     if ask_bool(
@@ -669,7 +667,7 @@ class Inv:
                                               items)
                         if len(items) == 0:
                             break
-                std_loop(box=self)
+                loops.std(box=self)
                 self.map.show()
         self.box.remove_c_obs()
 
@@ -821,7 +819,7 @@ valid single-space character!")
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.MENU):
                     break
-                std_loop(pevm=pevm, box=self)
+                loops.std(pevm=pevm, box=self)
                 self.map.full_show()
 
 
@@ -1133,7 +1131,7 @@ def _game(_map):
             mvp.movemap.code_label.outp(figure.map.pretty_name)
             codes(inp)
             _ev.clear()
-        std_loop(pevm=pevm, box=mvp.movemap)
+        loops.std(pevm=pevm, box=mvp.movemap)
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,

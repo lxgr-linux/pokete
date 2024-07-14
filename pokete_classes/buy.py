@@ -1,12 +1,11 @@
 """Classes related to buing stuff"""
 
 import scrap_engine as se
-from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
 from util import liner
-from .loops import std_loop
-from .ui_elements import Box, ChooseBox
+from .input import ACTION_UP_DOWN, Action, get_action
+from .ui.elements import Box, ChooseBox
 from .inv_items import invitems
-from . import movemap as mvp
+from . import movemap as mvp, loops
 
 
 class InvBox(Box):
@@ -71,7 +70,7 @@ class Buy:
                     if self.fig.get_money() - obj.price >= 0:
                         self.fig.add_money(-obj.price)
                         self.fig.give_item(obj.name)
-                std_loop(box=self.box2)
+                loops.std(box=self.box2)
                 self.map.show()
         self.box2.remove()
 

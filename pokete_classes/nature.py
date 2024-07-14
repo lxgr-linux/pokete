@@ -5,10 +5,10 @@ import random
 import scrap_engine as se
 import pokete_data as p_data
 from util import liner
-from .hotkeys import Action
-from .ui_elements import LabelBox
+from .input import Action
+from .ui.elements import LabelBox
 from .color import Color
-from .loops import easy_exit_loop
+from . import loops
 
 
 class Nature:
@@ -51,7 +51,7 @@ class PokeNature:
         """Gets one attribute value by its name
         ARGS:
             name: The name of the attribute"""
-        return getattr(self.nature, name)**self.grade
+        return getattr(self.nature, name) ** self.grade
 
     def dict(self):
         """RETURNS:
@@ -92,9 +92,9 @@ class NatureInfo(LabelBox):
         defense = self.get_amount(p_n.nature.defense)
         init = self.get_amount(p_n.nature.initiative)
         text = se.Text(f"Nature: {'very ' if p_n.grade == 2 else ''}") \
-            + se.Text(p_n.nature.name, esccode=Color.thicc
-                      + p_n.nature.esccode) \
-            + se.Text(liner(f"\n\n That means it has {atc} attack, \
+               + se.Text(p_n.nature.name, esccode=Color.thicc
+                                                  + p_n.nature.esccode) \
+               + se.Text(liner(f"\n\n That means it has {atc} attack, \
 {defense} defense and {init} initiative points compared to normal Poketes \
 of its kind.", 40, pre=""))
         super().__init__(
@@ -116,4 +116,4 @@ of its kind.", 40, pre=""))
             _map: Map to show on"""
         self.overview = overview
         with self.center_add(_map):
-            easy_exit_loop(False, box=self)
+            loops.easy_exit(False, box=self)

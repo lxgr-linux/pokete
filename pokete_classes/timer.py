@@ -4,9 +4,9 @@ import logging
 import time as time_mod
 import scrap_engine as se
 from release import SPEED_OF_TIME
-from .hotkeys import Action, get_action
-from .ui_elements import Box
-from .loops import std_loop
+from .input import Action, get_action
+from .ui.elements import Box
+from . import loops
 
 time = None
 clock = None
@@ -125,7 +125,7 @@ class Clock(Box):
                     letter_obs = self.draw_letters(d_p, letter_obs)
                     raw_time = self.time.time
                 self.map.show()
-                std_loop(box=self)
+                loops.std(box=self)
             self.__rem_obs(letter_obs)
 
     def __rem_obs(self, letter_obs):

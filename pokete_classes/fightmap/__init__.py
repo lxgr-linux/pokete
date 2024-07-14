@@ -8,19 +8,18 @@ import pokete_data as p_data
 from pokete_classes import animations, ob_maps as obmp, \
     deck, game_map as gm
 from release import SPEED_OF_TIME
-from ..hotkeys import Action, get_action
+from ..input import Action, get_action
 from ..audio import audio
 from ..npcs import Trainer
 from ..providers import NatureProvider, ProtoFigure
-from ..ui_elements import StdFrame2
+from ..ui.elements import StdFrame2
 from ..classes import OutP
-from ..input import ask_bool
+from ..ui import ask_bool
 from ..achievements import achievements
 from ..inv_items import invitems
 from ..settings import settings
-from ..loops import std_loop
 from ..tss import tss
-from .. import movemap as mvp
+from .. import movemap as mvp, loops
 from .attack import AttackBox
 from .inv import InvBox
 
@@ -222,22 +221,22 @@ class FightMap(gm.GameMap):
                 if (
                     not enem.escapable
                     or not ask_bool(
-                        self,
-                        "Do you really want to run away?",
-                        overview=self
-                    )
+                    self,
+                    "Do you really want to run away?",
+                    overview=self
+                )
                 ):
                     continue
                 if (
                     random.randint(0, 100) < max(
-                        5,
-                        min(
-                            50 - (
-                                figure.curr.initiative - enem.curr.initiative
-                            ),
-                            95
-                        )
+                    5,
+                    min(
+                        50 - (
+                            figure.curr.initiative - enem.curr.initiative
+                        ),
+                        95
                     )
+                )
                 ):
                     self.outp.outp("You failed to run away!")
                     time.sleep(SPEED_OF_TIME * 1)
@@ -279,7 +278,7 @@ class FightMap(gm.GameMap):
                     self.show(init=True)
                     continue
                 return ""
-            std_loop(False, box=self)
+            loops.std(False, box=self)
             self.show()
 
     def fight(self, providers):

@@ -1,16 +1,15 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
 import scrap_engine as se
-from pokete_classes.hotkeys import Action, ACTION_UP_DOWN, get_action
 import pokete_data as p_data
-import pokete_classes.movemap as mvp
+
 from util import liner
-from .loops import std_loop, easy_exit_loop
+from .input import Action, ACTION_UP_DOWN, get_action
 from .poke import Poke
 from .color import Color
 from .nature import PokeNature
-from .ui_elements import ChooseBox, Box
-from .tss import tss
+from .ui.elements import ChooseBox, Box
+from . import movemap as mvp, loops
 
 
 class Dex:
@@ -55,10 +54,10 @@ class Dex:
         }[poke.night_active]
         desc_text = liner(poke.desc.text.replace("\n", " ") +
                           (f"""\n\n Evolves into {
-                              p_data.pokes[poke.evolve_poke]['name'] if
-                              poke.evolve_poke in
-                              self.figure.caught_pokes else '???'
-                                                }."""
+                          p_data.pokes[poke.evolve_poke]['name'] if
+                          poke.evolve_poke in
+                          self.figure.caught_pokes else '???'
+                          }."""
                            if poke.evolve_lvl != 0 else ""), 29)
         self.detail_box.resize(10 + len(desc_text.split("\n")), 35)
         self.detail_box.name_label.rechar(poke.name)
@@ -74,7 +73,7 @@ Initiative: {poke.initiative}
 Active: """) + se.Text(active[0], esccode=active[1])
 
         with self.detail_box.center_add(mvp.movemap):
-            easy_exit_loop(box=self.detail_box)
+            loops.easy_exit(box=self.detail_box)
         self.detail_box.rem_ob(poke.ico)
 
     def resize_view(self):
@@ -104,7 +103,7 @@ Active: """) + se.Text(active[0], esccode=active[1])
                           for j in list(pokes)[1:]])}
         self.obs = [se.Text(f"{i + 1} \
 {p_dict[poke]['name'] if poke in self.figure.caught_pokes else '???'}",
-                    state="float")
+                            state="float")
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()
         with self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0):
@@ -118,8 +117,8 @@ Active: """) + se.Text(active[0], esccode=active[1])
                     [-1, 0],
                 ):
                     if action.triggers(event) and self.box.index.index == idx:
-                        if self.box.c_obs[self.box.index.index]\
-                                    != self.obs[idx_2]:
+                        if self.box.c_obs[self.box.index.index] \
+                            != self.obs[idx_2]:
                             self.rem_c_obs()
                             self.idx += add
                             self.add_c_obs()
@@ -134,6 +133,6 @@ Active: """) + se.Text(active[0], esccode=active[1])
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.POKEDEX):
                     break
-                std_loop(box=self)
+                loops.std(box=self)
                 mvp.movemap.show()
             self.rem_c_obs()

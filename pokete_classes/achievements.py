@@ -4,12 +4,11 @@ import datetime
 import logging
 import scrap_engine as se
 from util import liner
-from .hotkeys import ACTION_DIRECTIONS, Action, get_action
-from .loops import std_loop, easy_exit_loop
-from .ui_elements import BetterChooseBox, LabelBox
+from .input import ACTION_DIRECTIONS, Action, get_action
+from .ui.elements import BetterChooseBox, LabelBox
+from .ui.notify import notifier
 from .color import Color
-from .notify import notifier
-from . import movemap as mvp
+from . import movemap as mvp, loops
 
 
 class Achievement:
@@ -75,12 +74,13 @@ class AchBox(LabelBox):
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = [i[-1] for i in ach_ob.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
-        label = se.Text("Achieved: ", state="float")\
+        label = se.Text("Achieved: ", state="float") \
                 + se.Text("Yes" if is_ach else "No",
                           esccode=Color.thicc
-                          + (Color.green if is_ach
-                             else Color.grey), state="float")\
-                + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
+                                  + (Color.green if is_ach
+                                     else Color.grey), state="float") \
+                + (se.Text("\nAt: " + date,
+                           state="float") if is_ach else se.Text("")) \
                 + se.Text("\n" + liner(ach.desc, 30), state="float")
         super().__init__(label, name=ach.title,
                          info=f"{Action.CANCEL.mapping}:close",
@@ -123,8 +123,9 @@ class AchievementOverview(BetterChooseBox):
                             achievements,
                             self
                         ).center_add(_map) as achbox:
-                            easy_exit_loop(box=achbox)
-                std_loop(box=self)
+                            loops.easy_exit(
+                                box=achbox)
+                loops.std(box=self)
                 self.map.show()
 
 

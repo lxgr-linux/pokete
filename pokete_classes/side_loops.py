@@ -4,13 +4,12 @@ import os
 import scrap_engine as se
 import pokete_classes.game_map as gm
 from util import liner
-from .loops import easy_exit_loop
-from .ui_elements import InfoBox
-from . import movemap as mvp
+from .ui.elements import InfoBox
+from . import movemap as mvp, loops
 
 
 class LoopBox:
-    """Provides an easy_exit_loop call function
+    """Provides an loops.easy_exit call function
     ARGS:
         box: The box to display"""
 
@@ -20,7 +19,7 @@ class LoopBox:
     def __call__(self):
         """Shows the about text"""
         with self.box:
-            easy_exit_loop(box=self.box)
+            loops.easy_exit(box=self.box)
 
 
 class About(LoopBox):
@@ -91,7 +90,7 @@ class LoadingScreen:
 | |__) |__ | | _____| |_ ___
 |  ___/ _ \| |/ / _ \ __/ _ \
 | |  | (_) |   <  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|""", state="float")\
+|_|   \___/|_|\_\___|\__\___|""", state="float") \
             .add(self.map, int(self.map.width / 2) - 15,
                  int(self.map.height / 2) - 4)
         se.Text(f"v{ver}", state="float").add(self.map,

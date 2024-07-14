@@ -3,7 +3,7 @@
 import logging
 from pokete_classes import movemap as mvp
 from .doors import DoorToCenter
-from .input import ask_ok
+from .ui import ask_ok
 
 
 def check_walk_back(figure, self=None):

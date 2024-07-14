@@ -2,10 +2,9 @@
 
 import scrap_engine as se
 from util import liner
-from ..hotkeys import ACTION_UP_DOWN, Action, get_action
-from ..ui_elements import ChooseBox, LabelBox
-from ..loops import std_loop
-from .. import effects
+from ..input import ACTION_UP_DOWN, Action, get_action
+from ..ui.elements import ChooseBox, LabelBox
+from .. import effects, loops
 
 
 class AttackBox(se.Box):
@@ -111,7 +110,7 @@ class AttackBox(se.Box):
                     self.rechar_atk_box(attack_obs)
                     self.map.show()
                 elif action.triggers(Action.ACCEPT) or (0 <= action.get_number()
-                        < len(attack_obs)):
+                                                        < len(attack_obs)):
                     attack = attack_obs[
                         self.box.index.index if action.triggers(Action.ACCEPT)
                         else action.get_number()
@@ -137,5 +136,5 @@ class AttackBox(se.Box):
                             self.rechar_atk_box(attack_obs)
                     self.map.show()
                     continue
-                std_loop(False, box=self)
+                loops.std(False, box=self)
         return attack

@@ -1,7 +1,7 @@
 """This file contains all classes related to mods"""
 
 from .side_loops import LoopBox
-from .ui_elements import InfoBox
+from .ui.elements import InfoBox
 from .settings import settings
 from . import movemap as mvp
 
@@ -36,7 +36,7 @@ class ModInfo(LoopBox):
 
     def __init__(self, _map, mod_info):
         self.text = f"""
-Mods are { {True: 'enabled', False: 'disabled'}[settings("load_mods").val] }!
+Mods are { {True: 'enabled', False: 'disabled'}[settings("load_mods").val]}!
 To load a mod, it has to be placed in '/mods',
 and mods have to be enabled in the menu.
 

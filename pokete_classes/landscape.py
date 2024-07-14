@@ -8,7 +8,7 @@ from .providers import NatureProvider
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
-from .input import ask_ok
+from .ui import ask_ok
 
 
 class HighGrass(se.Object):

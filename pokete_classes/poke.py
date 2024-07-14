@@ -21,7 +21,7 @@ from .effects import effects
 from .learnattack import LearnAttack
 from .nature import PokeNature
 from .achievements import achievements
-from .loops import std_loop
+from . import loops
 
 
 class Poke:
@@ -38,7 +38,7 @@ class Poke:
                  _effects=None, player=True, shiny=False, nature=None,
                  stats=None):
         self.nature = PokeNature.random() if nature is None \
-                        else PokeNature.from_dict(nature)
+            else PokeNature.from_dict(nature)
         self.inf = p_data.pokes[poke]
         self.moves = Moves(self)
         # Attributes
@@ -137,7 +137,9 @@ can't have more than 4 attacks!"
         """Updates/sets some vars"""
         for name in ["atc", "defense", "initiative"]:
             setattr(self, name, round((self.lvl() + self.inf[name]
-                    + (2 if self.shiny else 0)) * self.nature.get_value(name)))
+                                       + (
+                                           2 if self.shiny else 0)) * self.nature.get_value(
+                name)))
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
@@ -171,7 +173,8 @@ can't have more than 4 attacks!"
         self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
 {((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
         self.text_lvl.rechar(f"Lvl:{self.lvl()}")
-        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp,
+                     self.xp)
         if old_lvl < self.lvl():
             logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
             return True
@@ -211,7 +214,7 @@ can't have more than 4 attacks!"
             enem.oldhp = enem.hp
             self.oldhp = self.hp
             eff = (1.3 if enem.type.name in attack.type.effective else 0.5
-                   if enem.type.name in attack.type.ineffective else 1) * w_eff
+            if enem.type.name in attack.type.ineffective else 1) * w_eff
             n_hp = round((self.atc
                           * attack.factor
                           / (enem.defense if enem.defense >= 1 else 1))
@@ -256,7 +259,7 @@ can't have more than 4 attacks!"
             figure: The figure object the poke belongs to
             _map: The map the evolving happens on"""
         if not self.player or self.evolve_poke == "" \
-                or self.lvl() < self.evolve_lvl:
+            or self.lvl() < self.evolve_lvl:
             return False
         evomap = EvoMap(_map.height, _map.width, _map)
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks,
@@ -278,7 +281,7 @@ can't have more than 4 attacks!"
                       round((evomap.height - 8) / 2))
                 time.sleep(SPEED_OF_TIME * 0.7 - i * 0.09999)
                 evomap.show()
-                std_loop(box=evomap)
+                loops.std(box=evomap)
         self.ico.remove()
         new.ico.add(evomap, round(evomap.width / 2 - 4),
                     round((evomap.height - 8) / 2))
@@ -295,7 +298,7 @@ can't have more than 4 attacks!"
             figure.caught_pokes.append(new.identifier)
         achievements.achieve("first_evolve")
         logging.info("[Poke] %s evolved into %s", self.name, new.name)
-        std_loop(box=evomap)
+        loops.std(box=evomap)
         del self
         return True
 
@@ -322,7 +325,7 @@ can't have more than 4 attacks!"
                 obj.attacks.append(new_attack)
 
         while len(obj.attacks) > 4:
-            obj.attacks.pop(random.randint(0, len(obj.attacks)-1))
+            obj.attacks.pop(random.randint(0, len(obj.attacks) - 1))
 
         return cls(
             poke,
@@ -339,7 +342,7 @@ def upgrade_by_one_lvl(poke, figure, _map):
         poke: The pokete, that will be upgraded
         figure: The figure object the Pokete belongs to
         _map: The map the upgrade happens on"""
-    poke.add_xp((poke.lvl()+1)**2-1 - ((poke.lvl())**2-1))
+    poke.add_xp((poke.lvl() + 1) ** 2 - 1 - ((poke.lvl()) ** 2 - 1))
     poke.set_vars()
     poke.learn_attack(_map, _map)
     poke.evolve(figure, _map)

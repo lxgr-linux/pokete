@@ -4,11 +4,10 @@ import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
 from util import liner
-from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
-from .loops import std_loop, easy_exit_loop
+from .input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .color import Color
-from .ui_elements import Box, InfoBox
-from . import movemap as mvp
+from .ui.elements import Box, InfoBox
+from . import movemap as mvp, loops
 
 
 class RoadMapException(Exception):
@@ -237,8 +236,8 @@ W ◀ ▶ E
                         _map=_map,
                         overview=self.box,
                     ) as box:
-                        easy_exit_loop(box=box)
-                std_loop(box=self.box, pevm=pevm)
+                        loops.easy_exit(box=box)
+                loops.std(box=self.box, pevm=pevm)
                 blinker(self.sta)
                 _map.full_show()
         self.sta.unchoose()
