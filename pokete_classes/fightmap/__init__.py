@@ -16,7 +16,7 @@ from ..ui.elements import StdFrame2
 from ..classes import OutP
 from ..ui import ask_bool
 from ..achievements import achievements
-from ..inv_items import invitems
+from ..inv import invitems
 from ..settings import settings
 from ..tss import tss
 from .. import movemap as mvp, loops

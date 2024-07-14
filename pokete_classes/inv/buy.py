@@ -1,22 +1,13 @@
 """Classes related to buing stuff"""
 
 import scrap_engine as se
+
 from util import liner
-from .input import ACTION_UP_DOWN, Action, get_action
-from .ui.elements import Box, ChooseBox
-from .inv_items import invitems
-from . import movemap as mvp, loops
-
-
-class InvBox(Box):
-    """Box wrapper for inv"""
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.remove()
-        self.overview.resize_view()
-        self.add(self.map, self.overview.box.x - 19, 3)
-        mvp.movemap.full_show()
+from .box import InvBox
+from .items import invitems
+from ..input import ACTION_UP_DOWN, Action, get_action
+from ..ui.elements import ChooseBox
+from .. import movemap as mvp, loops
 
 
 class Buy:

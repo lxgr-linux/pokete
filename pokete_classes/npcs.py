@@ -9,7 +9,7 @@ from release import SPEED_OF_TIME
 from .input import ACTION_UP_DOWN, Action, get_action
 from .providers import Provider
 from .ui import ask_bool
-from .inv_items import invitems
+from .inv import invitems
 from .settings import settings
 from .ui.elements import ChooseBox
 from .general import check_walk_back

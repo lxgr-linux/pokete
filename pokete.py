@@ -21,16 +21,14 @@ import scrap_engine as se
 import pokete_data as p_data
 import release
 from pokete_classes import animations, loops
+from pokete_classes.inv import inv, Buy
 from pokete_classes.pokestats import PokeStats
-from pokete_classes.poke import Poke, upgrade_by_one_lvl
+from pokete_classes.poke import Poke
 from pokete_classes.color import Color
 from pokete_classes.ui.elements import ChooseBox, InfoBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings, VisSetting, Slider
-from pokete_classes.inv_items import invitems, LearnDisc
-from pokete_classes.types import types
 from pokete_classes.providers import ProtoFigure
-from pokete_classes.buy import Buy, InvBox
 from pokete_classes.audio import audio
 from pokete_classes.tss import tss
 from pokete_classes.side_loops import LoadingScreen, About, Help
@@ -474,7 +472,7 @@ class Figure(se.Object, ProtoFigure):
                      money, self.__money)
         self.__money = money
         for cls in [inv, buy]:
-            cls.money_label.rechar("$" + str(self.__money))
+            cls.money_label.rechar("$" + str(self.__money))  # TODO: Remove
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
@@ -536,174 +534,6 @@ class Debug:
     def pos(cls):
         """Prints the figures' position"""
         print(figure.x, figure.y, figure.map.name)
-
-
-class Inv:
-    """Inventory to see and manage items in
-    ARGS:
-        _map: se.Map this will be shown on"""
-
-    def __init__(self, _map):
-        self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Inventory",
-                             f"{Action.REMOVE.mapping}:remove")
-        self.box2 = InvBox(7, 21, overview=self)
-        self.money_label = se.Text(f"${figure.get_money()}")
-        self.desc_label = se.Text(" ")
-        # adding
-        self.box.add_ob(self.money_label,
-                        self.box.width - 2 - len(self.money_label.text), 0)
-        self.box2.add_ob(self.desc_label, 1, 1)
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.box.remove()
-        self.map.resize_view()
-        self.box.resize(self.map.height - 3, 35)
-        self.box.add(self.map, self.map.width - self.box.width, 0)
-        mvp.movemap.full_show()
-
-    def __call__(self):
-        """Opens the inventory"""
-        _ev.clear()
-        items = self.add()
-        self.box.resize(self.map.height - 3, 35)
-        with self.box.add(self.map, self.map.width - 35, 0):
-            while True:
-                action = get_action()
-                if action.triggers(Action.UP, Action.DOWN):
-                    self.box.input(action)
-                elif action.triggers(Action.CANCEL):
-                    break
-                elif action.triggers(Action.ACCEPT):
-                    obj = items[self.box.index.index]
-                    self.box2.name_label.rechar(obj.pretty_name)
-                    self.desc_label.rechar(liner(obj.desc, 19))
-                    self.box2.add(self.map, self.box.x - 19, 3)
-                    while True:
-                        action = get_action()
-                        if (
-                            action.triggers(Action.CANCEL)
-                            or action.triggers(Action.ACCEPT)
-                        ):
-                            self.box2.remove()
-                            if obj.name == "treat":
-                                if ask_bool(
-                                    self.map,
-                                    "Do you want to upgrade one of "
-                                    "your Poketes by a level?",
-                                    self
-                                ):
-                                    ex_cond = True
-                                    while ex_cond:
-                                        index = deck.deck(
-                                            mvp.movemap, 6, label="Your deck",
-                                            in_fight=True
-                                        )
-                                        if index is None:
-                                            ex_cond = False
-                                            self.map.show(init=True)
-                                            break
-                                        poke = figure.pokes[index]
-                                        break
-                                    if not ex_cond:
-                                        break
-                                    upgrade_by_one_lvl(poke, figure, self.map)
-                                    items = self.rem_item(obj.name, items)
-                                    ask_ok(
-                                        self.map,
-                                        f"{poke.name} reached level "
-                                        f"{poke.lvl()}!",
-                                        self
-                                    )
-                            elif isinstance(obj, LearnDisc):
-                                if ask_bool(
-                                    self.map,
-                                    f"Do you want to teach "
-                                    f"'{obj.attack_dict['name']}'?",
-                                    self
-                                ):
-                                    ex_cond = True
-                                    while ex_cond:
-                                        index = deck.deck(
-                                            mvp.movemap, 6, label="Your deck",
-                                            in_fight=True
-                                        )
-                                        if index is None:
-                                            ex_cond = False
-                                            self.map.show(init=True)
-                                            break
-                                        poke = figure.pokes[index]
-                                        if getattr(types,
-                                                   obj.attack_dict['types'][0]) \
-                                            in poke.types:
-                                            break
-                                        ex_cond = ask_bool(
-                                            self.map,
-                                            "You can't teach "
-                                            f"'{obj.attack_dict['name']}' to "
-                                            f"'{poke.name}'! \n"
-                                            "Do you want to continue?",
-                                            self
-                                        )
-                                    if not ex_cond:
-                                        break
-                                    if LearnAttack(poke, self.map, self) \
-                                            (obj.attack_name):
-                                        items = self.rem_item(obj.name, items)
-                                        if len(items) == 0:
-                                            break
-                            break
-                        loops.std(box=self.box2)
-                        self.map.show()
-                elif action.triggers(Action.REMOVE):
-                    if ask_bool(
-                        self.map,
-                        "Do you really want to throw "
-                        f"{items[self.box.index.index].pretty_name} away?",
-                        self
-                    ):
-                        items = self.rem_item(items[self.box.index.index].name,
-                                              items)
-                        if len(items) == 0:
-                            break
-                loops.std(box=self)
-                self.map.show()
-        self.box.remove_c_obs()
-
-    def rem_item(self, name, items):
-        """Removes an item from the inv
-        ARGS:
-            name: Items name
-            items: List of Items
-        RETURNS:
-            List of Items"""
-        figure.remove_item(name)
-        for obj in self.box.c_obs:
-            obj.remove()
-        self.box.remove_c_obs()
-        items = self.add()
-        if not items:
-            return items
-        if self.box.index.index >= len(items):
-            self.box.set_index(len(items) - 1)
-        return items
-
-    def add(self):
-        """Adds all items to the box
-        RETURNS:
-            List of Items"""
-        items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] > 0]
-        self.box.add_c_obs(
-            [
-                se.Text(
-                    f"{i.pretty_name}s : {figure.inv[i.name]}",
-                    state="float"
-                )
-                for i in items
-            ]
-        )
-        return items
 
 
 class Menu:
@@ -1093,7 +923,7 @@ def _game(_map):
     inp_dict = {
         Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
         Action.MAP: [roadmap, (mvp.movemap, pevm)],
-        Action.INVENTORY: [inv, ()],
+        Action.INVENTORY: [inv, (mvp.movemap, pevm, figure)],
         Action.POKEDEX: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
         Action.MENU: [mvp.movemap.menu, (pevm,)],
@@ -1650,7 +1480,6 @@ copy of it alongside this software.""",
     roadmap = RoadMap(figure)
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
     about = About(VERSION, CODENAME, mvp.movemap)
-    inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)
     pokete_care = PoketeCare.from_dict(session_info.get("pokete_care", {
         "entry": 0,
