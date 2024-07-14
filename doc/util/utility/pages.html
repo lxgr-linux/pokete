@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>util.pages API documentation</title>
+<title>util.utility.pages API documentation</title>
 <meta name="description" content="This script takes one argument, which specifies if the actions it should take are before the command
 &#34;git switch gh-pages&#34; or afterwards. &#34;before&#34; …">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
@@ -23,7 +23,7 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>util.pages</code></h1>
+<h1 class="title">Module <code>util.utility.pages</code></h1>
 </header>
 <section id="section-intro">
 <p>This script takes one argument, which specifies if the actions it should take are before the command
@@ -44,7 +44,7 @@ website.</p>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="util.pages.add_folder"><code class="name flex">
+<dt id="util.utility.pages.add_folder"><code class="name flex">
 <span>def <span class="ident">add_folder</span></span>(<span>folder: str, add_tmp_folder: bool = False) ‑> None</span>
 </code></dt>
 <dd>
@@ -58,7 +58,7 @@ It also creates a folder with the same name in /tmp, if needed.</p>
 </dl>
 <p>add_tmp_folder If a folder in /tmp should be creates as well.</p></div>
 </dd>
-<dt id="util.pages.add_wiki_folder"><code class="name flex">
+<dt id="util.utility.pages.add_wiki_folder"><code class="name flex">
 <span>def <span class="ident">add_wiki_folder</span></span>(<span>folder_name: str) ‑> list</span>
 </code></dt>
 <dd>
@@ -74,7 +74,7 @@ markdown files from itself to the output list as well.</p>
 <h2 id="returns">Returns:</h2>
 <p>A list of all markdown files in the current and all subdirectories.</p></div>
 </dd>
-<dt id="util.pages.add_wiki_to_files"><code class="name flex">
+<dt id="util.utility.pages.add_wiki_to_files"><code class="name flex">
 <span>def <span class="ident">add_wiki_to_files</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
@@ -82,7 +82,7 @@ markdown files from itself to the output list as well.</p>
 <p>This function adds all markdown files from the directory ./wiki-multi-md
 and its subdirectories into the files dictionary to be processed by the other functions as well.</p></div>
 </dd>
-<dt id="util.pages.after"><code class="name flex">
+<dt id="util.utility.pages.after"><code class="name flex">
 <span>def <span class="ident">after</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
@@ -93,7 +93,7 @@ to the files which have been converted with pandoc. This achieves a universal
 look on all gh-pages pages. This function then replaces all the links for
 each file.</p></div>
 </dd>
-<dt id="util.pages.before"><code class="name flex">
+<dt id="util.utility.pages.before"><code class="name flex">
 <span>def <span class="ident">before</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
@@ -101,7 +101,7 @@ each file.</p></div>
 <p>This functions creates documentation for all the files, replaces tables if necessary or converts the files with
 pandoc. All the files are then moved into the /mp directory.</p></div>
 </dd>
-<dt id="util.pages.create_documentation"><code class="name flex">
+<dt id="util.utility.pages.create_documentation"><code class="name flex">
 <span>def <span class="ident">create_documentation</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
@@ -109,7 +109,7 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
 <p>This function creates python documentation for all files and folders in the files dictionary that have the type
 "documentation". This function will call pdoc to create the documentation for it.</p></div>
 </dd>
-<dt id="util.pages.create_wiki"><code class="name flex">
+<dt id="util.utility.pages.create_wiki"><code class="name flex">
 <span>def <span class="ident">create_wiki</span></span>(<span>) ‑> None</span>
 </code></dt>
 <dd>
@@ -117,7 +117,7 @@ pandoc. All the files are then moved into the /mp directory.</p></div>
 <p>This function calls the multi-page and single-page methods from the
 gen_wiki file to add to the gh-pages.</p></div>
 </dd>
-<dt id="util.pages.get_footer"><code class="name flex">
+<dt id="util.utility.pages.get_footer"><code class="name flex">
 <span>def <span class="ident">get_footer</span></span>(<span>url: str = 'https://lxgr-linux.github.io/pokete', footer_start: str = &#x27;&lt;/section&gt;&#x27;) ‑> str</span>
 </code></dt>
 <dd>
@@ -130,7 +130,7 @@ gen_wiki file to add to the gh-pages.</p></div>
 <h2 id="returns">Returns:</h2>
 <p>The end of this webpage.</p></div>
 </dd>
-<dt id="util.pages.get_header"><code class="name flex">
+<dt id="util.utility.pages.get_header"><code class="name flex">
 <span>def <span class="ident">get_header</span></span>(<span>url: str = 'https://lxgr-linux.github.io/pokete', header_end: str = &#x27;&lt;section&gt;&#x27;) ‑> str</span>
 </code></dt>
 <dd>
@@ -143,19 +143,19 @@ gen_wiki file to add to the gh-pages.</p></div>
 <h2 id="returns">Returns:</h2>
 <p>The start of this webpage.</p></div>
 </dd>
-<dt id="util.pages.prepare_after"><code class="name flex">
+<dt id="util.utility.pages.prepare_after"><code class="name flex">
 <span>def <span class="ident">prepare_after</span></span>(<span>ex: str, options: list[str], flags: dict[str, list[str]])</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="util.pages.prepare_before"><code class="name flex">
+<dt id="util.utility.pages.prepare_before"><code class="name flex">
 <span>def <span class="ident">prepare_before</span></span>(<span>ex: str, options: list[str], flags: dict[str, list[str]])</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="util.pages.replace_tables"><code class="name flex">
+<dt id="util.utility.pages.replace_tables"><code class="name flex">
 <span>def <span class="ident">replace_tables</span></span>(<span>_text: str) ‑> str</span>
 </code></dt>
 <dd>
@@ -181,23 +181,23 @@ reads the text back in.</p>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="util" href="index.html">util</a></code></li>
+<li><code><a title="util.utility" href="index.html">util.utility</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="util.pages.add_folder" href="#util.pages.add_folder">add_folder</a></code></li>
-<li><code><a title="util.pages.add_wiki_folder" href="#util.pages.add_wiki_folder">add_wiki_folder</a></code></li>
-<li><code><a title="util.pages.add_wiki_to_files" href="#util.pages.add_wiki_to_files">add_wiki_to_files</a></code></li>
-<li><code><a title="util.pages.after" href="#util.pages.after">after</a></code></li>
-<li><code><a title="util.pages.before" href="#util.pages.before">before</a></code></li>
-<li><code><a title="util.pages.create_documentation" href="#util.pages.create_documentation">create_documentation</a></code></li>
-<li><code><a title="util.pages.create_wiki" href="#util.pages.create_wiki">create_wiki</a></code></li>
-<li><code><a title="util.pages.get_footer" href="#util.pages.get_footer">get_footer</a></code></li>
-<li><code><a title="util.pages.get_header" href="#util.pages.get_header">get_header</a></code></li>
-<li><code><a title="util.pages.prepare_after" href="#util.pages.prepare_after">prepare_after</a></code></li>
-<li><code><a title="util.pages.prepare_before" href="#util.pages.prepare_before">prepare_before</a></code></li>
-<li><code><a title="util.pages.replace_tables" href="#util.pages.replace_tables">replace_tables</a></code></li>
+<li><code><a title="util.utility.pages.add_folder" href="#util.utility.pages.add_folder">add_folder</a></code></li>
+<li><code><a title="util.utility.pages.add_wiki_folder" href="#util.utility.pages.add_wiki_folder">add_wiki_folder</a></code></li>
+<li><code><a title="util.utility.pages.add_wiki_to_files" href="#util.utility.pages.add_wiki_to_files">add_wiki_to_files</a></code></li>
+<li><code><a title="util.utility.pages.after" href="#util.utility.pages.after">after</a></code></li>
+<li><code><a title="util.utility.pages.before" href="#util.utility.pages.before">before</a></code></li>
+<li><code><a title="util.utility.pages.create_documentation" href="#util.utility.pages.create_documentation">create_documentation</a></code></li>
+<li><code><a title="util.utility.pages.create_wiki" href="#util.utility.pages.create_wiki">create_wiki</a></code></li>
+<li><code><a title="util.utility.pages.get_footer" href="#util.utility.pages.get_footer">get_footer</a></code></li>
+<li><code><a title="util.utility.pages.get_header" href="#util.utility.pages.get_header">get_header</a></code></li>
+<li><code><a title="util.utility.pages.prepare_after" href="#util.utility.pages.prepare_after">prepare_after</a></code></li>
+<li><code><a title="util.utility.pages.prepare_before" href="#util.utility.pages.prepare_before">prepare_before</a></code></li>
+<li><code><a title="util.utility.pages.replace_tables" href="#util.utility.pages.replace_tables">replace_tables</a></code></li>
 </ul>
 </li>
 </ul>

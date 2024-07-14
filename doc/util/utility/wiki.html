@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>util.wiki API documentation</title>
+<title>util.utility.wiki API documentation</title>
 <meta name="description" content="This script generates the Pokete wiki">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
@@ -22,7 +22,7 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>util.wiki</code></h1>
+<h1 class="title">Module <code>util.utility.wiki</code></h1>
 </header>
 <section id="section-intro">
 <p>This script generates the Pokete wiki</p>
@@ -34,13 +34,13 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="util.wiki.gen"><code class="name flex">
+<dt id="util.utility.wiki.gen"><code class="name flex">
 <span>def <span class="ident">gen</span></span>(<span>ex: str, options: list[str], flags: dict[str, list[str]])</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="util.wiki.gen_pics"><code class="name flex">
+<dt id="util.utility.wiki.gen_pics"><code class="name flex">
 <span>def <span class="ident">gen_pics</span></span>(<span>)</span>
 </code></dt>
 <dd>
@@ -51,7 +51,7 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="util.wiki.Wiki"><code class="flex name class">
+<dt id="util.utility.wiki.Wiki"><code class="flex name class">
 <span>class <span class="ident">Wiki</span></span>
 </code></dt>
 <dd>
@@ -627,7 +627,7 @@ Those effects can be given to a Pokete through an attack.
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="util.wiki.Wiki.attack_info"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.attack_info"><code class="name flex">
 <span>def <span class="ident">attack_info</span></span>(<span>attack: str, multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -642,7 +642,7 @@ wiki or not.</li>
 <h2 id="returns">Returns</h2>
 <p>A markdown string with the information about the attack.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.attacks"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.attacks"><code class="name flex">
 <span>def <span class="ident">attacks</span></span>(<span>multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -655,7 +655,7 @@ wiki or not.</li>
 <h2 id="returns">Returns</h2>
 <p>A markdown string of all attacks with their attributes and informations.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.effects"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.effects"><code class="name flex">
 <span>def <span class="ident">effects</span></span>(<span>multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -668,13 +668,13 @@ wiki or not.</li>
 <h2 id="returns">Returns</h2>
 <p>A markdown string of all the effects in the game.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.get_name"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.get_name"><code class="name flex">
 <span>def <span class="ident">get_name</span></span>(<span>poke)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the name of a Pokete to display in headings</p></div>
 </dd>
-<dt id="util.wiki.Wiki.item_info"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.item_info"><code class="name flex">
 <span>def <span class="ident">item_info</span></span>(<span>item: str, multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -688,7 +688,7 @@ wiki or not.</li>
 <h2 id="returns">Returns</h2>
 <p>A markdown string with the information about the item.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.items"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.items"><code class="name flex">
 <span>def <span class="ident">items</span></span>(<span>multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -701,7 +701,7 @@ wiki or not.</li>
 <h2 id="returns">Returns</h2>
 <p>A markdown string that contains information about all items.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.multi"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.multi"><code class="name flex">
 <span>def <span class="ident">multi</span></span>(<span>folder_name: str = 'wiki') ‑> None</span>
 </code></dt>
 <dd>
@@ -720,7 +720,7 @@ following to it:
 <li>folder_name (string): The folder to save the wiki to.</li>
 </ul></div>
 </dd>
-<dt id="util.wiki.Wiki.overview"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.overview"><code class="name flex">
 <span>def <span class="ident">overview</span></span>(<span>multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -732,7 +732,7 @@ following to it:
 <h2 id="returns">Returns</h2>
 <p>An overview for a multi-page wiki.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.poke_info"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.poke_info"><code class="name flex">
 <span>def <span class="ident">poke_info</span></span>(<span>poke: str, multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -746,7 +746,7 @@ wiki or not.</li>
 <h2 id="returns">Returns</h2>
 <p>A markdown string of all the attributes and information of the pokete.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.poketes"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.poketes"><code class="name flex">
 <span>def <span class="ident">poketes</span></span>(<span>page_mode='single', pokete_type=None) ‑> str</span>
 </code></dt>
 <dd>
@@ -766,7 +766,7 @@ defines the pokete type to get the information and links of.</li>
 <h2 id="returns">Returns</h2>
 <p>All poketes and their attributes as a markdown string.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.single"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.single"><code class="name flex">
 <span>def <span class="ident">single</span></span>(<span>filename: str = 'wiki.md') ‑> None</span>
 </code></dt>
 <dd>
@@ -785,7 +785,7 @@ following to it:
 <li>filename (string): The file to save the wiki to.</li>
 </ul></div>
 </dd>
-<dt id="util.wiki.Wiki.start"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.start"><code class="name flex">
 <span>def <span class="ident">start</span></span>(<span>) ‑> str</span>
 </code></dt>
 <dd>
@@ -793,7 +793,7 @@ following to it:
 <h2 id="returns">Returns</h2>
 <p>The title of the wiki page.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.table_of_contents"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.table_of_contents"><code class="name flex">
 <span>def <span class="ident">table_of_contents</span></span>(<span>multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -805,7 +805,7 @@ following to it:
 <h2 id="returns">Returns</h2>
 <p>A Table of contents for a single page wiki.</p></div>
 </dd>
-<dt id="util.wiki.Wiki.types"><code class="name flex">
+<dt id="util.utility.wiki.Wiki.types"><code class="name flex">
 <span>def <span class="ident">types</span></span>(<span>multi_page: bool = False) ‑> str</span>
 </code></dt>
 <dd>
@@ -830,34 +830,34 @@ wiki or not.</li>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="util" href="index.html">util</a></code></li>
+<li><code><a title="util.utility" href="index.html">util.utility</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="util.wiki.gen" href="#util.wiki.gen">gen</a></code></li>
-<li><code><a title="util.wiki.gen_pics" href="#util.wiki.gen_pics">gen_pics</a></code></li>
+<li><code><a title="util.utility.wiki.gen" href="#util.utility.wiki.gen">gen</a></code></li>
+<li><code><a title="util.utility.wiki.gen_pics" href="#util.utility.wiki.gen_pics">gen_pics</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="util.wiki.Wiki" href="#util.wiki.Wiki">Wiki</a></code></h4>
+<h4><code><a title="util.utility.wiki.Wiki" href="#util.utility.wiki.Wiki">Wiki</a></code></h4>
 <ul class="two-column">
-<li><code><a title="util.wiki.Wiki.attack_info" href="#util.wiki.Wiki.attack_info">attack_info</a></code></li>
-<li><code><a title="util.wiki.Wiki.attacks" href="#util.wiki.Wiki.attacks">attacks</a></code></li>
-<li><code><a title="util.wiki.Wiki.effects" href="#util.wiki.Wiki.effects">effects</a></code></li>
-<li><code><a title="util.wiki.Wiki.get_name" href="#util.wiki.Wiki.get_name">get_name</a></code></li>
-<li><code><a title="util.wiki.Wiki.item_info" href="#util.wiki.Wiki.item_info">item_info</a></code></li>
-<li><code><a title="util.wiki.Wiki.items" href="#util.wiki.Wiki.items">items</a></code></li>
-<li><code><a title="util.wiki.Wiki.multi" href="#util.wiki.Wiki.multi">multi</a></code></li>
-<li><code><a title="util.wiki.Wiki.overview" href="#util.wiki.Wiki.overview">overview</a></code></li>
-<li><code><a title="util.wiki.Wiki.poke_info" href="#util.wiki.Wiki.poke_info">poke_info</a></code></li>
-<li><code><a title="util.wiki.Wiki.poketes" href="#util.wiki.Wiki.poketes">poketes</a></code></li>
-<li><code><a title="util.wiki.Wiki.single" href="#util.wiki.Wiki.single">single</a></code></li>
-<li><code><a title="util.wiki.Wiki.start" href="#util.wiki.Wiki.start">start</a></code></li>
-<li><code><a title="util.wiki.Wiki.table_of_contents" href="#util.wiki.Wiki.table_of_contents">table_of_contents</a></code></li>
-<li><code><a title="util.wiki.Wiki.types" href="#util.wiki.Wiki.types">types</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.attack_info" href="#util.utility.wiki.Wiki.attack_info">attack_info</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.attacks" href="#util.utility.wiki.Wiki.attacks">attacks</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.effects" href="#util.utility.wiki.Wiki.effects">effects</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.get_name" href="#util.utility.wiki.Wiki.get_name">get_name</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.item_info" href="#util.utility.wiki.Wiki.item_info">item_info</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.items" href="#util.utility.wiki.Wiki.items">items</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.multi" href="#util.utility.wiki.Wiki.multi">multi</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.overview" href="#util.utility.wiki.Wiki.overview">overview</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.poke_info" href="#util.utility.wiki.Wiki.poke_info">poke_info</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.poketes" href="#util.utility.wiki.Wiki.poketes">poketes</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.single" href="#util.utility.wiki.Wiki.single">single</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.start" href="#util.utility.wiki.Wiki.start">start</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.table_of_contents" href="#util.utility.wiki.Wiki.table_of_contents">table_of_contents</a></code></li>
+<li><code><a title="util.utility.wiki.Wiki.types" href="#util.utility.wiki.Wiki.types">types</a></code></li>
 </ul>
 </li>
 </ul>
