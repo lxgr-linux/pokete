@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from util import gen_wiki, prepare_after, prepare_before, make_release, \
+from util.utility import gen_wiki, prepare_after, prepare_before, make_release, \
     install, wiki
 from util.command import RootCommand, Command, not_enough_args, not_found
 

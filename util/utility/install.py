@@ -12,4 +12,4 @@ def install(ex: str, options: list[str],
         sys.exit(2)
     else:
         dest = options[0]
-        print(os.popen(f'sh -c "./util/install.sh {dest}"').read())
+        print(os.popen(f'sh -c "./util/utility/install.sh {dest}"').read())
