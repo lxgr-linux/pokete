@@ -16,7 +16,7 @@ from os.path import exists
 import json
 from urllib import request
 
-from util.wiki import Wiki
+from .wiki import Wiki
 
 """
 The files dictionary specifies how and which files should be processed.

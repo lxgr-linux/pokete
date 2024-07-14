@@ -2,7 +2,6 @@
 """This script generates the Pokete wiki"""
 import os
 from os.path import exists, isdir
-import sys
 import scrap_engine as se
 import release
 from pokete_classes.effects import effects, effect_list

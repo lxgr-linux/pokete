@@ -4,7 +4,7 @@ import sys
 from .changelog import write_changelog
 from .appimage import write_appimage
 from .release_py import write_release_py
-from ..command import not_enough_args
+from util.command import not_enough_args
 
 TAG_REGEX = r"^v([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z-]+)?$"
 
