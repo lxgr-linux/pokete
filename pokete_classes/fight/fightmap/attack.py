@@ -1,7 +1,7 @@
 """Contains stuff related to fight attack choosing"""
 
 import scrap_engine as se
-from pokete_general_use_fns import liner
+from util import liner
 from ...hotkeys import ACTION_UP_DOWN, Action, get_action
 from ...ui_elements import ChooseBox, LabelBox
 from ...loops import std_loop

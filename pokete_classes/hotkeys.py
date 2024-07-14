@@ -3,7 +3,7 @@
 import sys
 from enum import Enum, auto
 from collections import defaultdict
-from pokete_general_use_fns import liner
+from util import liner
 from .event import _ev
 
 

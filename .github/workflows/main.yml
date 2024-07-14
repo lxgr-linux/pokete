@@ -14,23 +14,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: install deps
-        run: pip3 install scrap_engine
+        run: pip install scrap_engine pyyaml
 
       - name: gen-wiki
-        run: python3 ./gen_wiki.py
-        
+        run: python util.py wiki
+
       - name: Commit files
         run: |
           git config --local user.name  ${{ github.actor }}
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
           if [[ $(git diff) != "" ]]
           then
             git pull
             git add ./wiki.md
             git commit -m "Updated wiki"
           fi
-    
+
       - name: Push changes  # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:

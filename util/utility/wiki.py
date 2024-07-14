@@ -2,11 +2,11 @@
 """This script generates the Pokete wiki"""
 import os
 from os.path import exists, isdir
-import sys
 import scrap_engine as se
 import release
 from pokete_classes.effects import effects, effect_list
 from pokete_data import pokes, attacks, types, items, maps
+from util.command import Flag
 
 SILENT = False
 QUIET = False
@@ -28,9 +28,9 @@ class Wiki:
 
 # Pokete Wiki
 This wiki/documentation is a compilation of all Poketes, attacks, and types present in the Pokete game.
-The wiki can be generated using ```$ ./gen_wiki.py```.
+The wiki can be generated using ```$ ./util.py wiki```.
 
-Use ```$ ./gen_wiki.py help``` to get more information about different wikis.
+Use ```$ ./util.py wiki --help``` to get more information about different wikis.
 
 You can find different versions of this wiki:
 
@@ -591,51 +591,34 @@ def gen_pics():
         file.write(md_str)
 
 
-if __name__ == "__main__":
-    if len(sys.argv) == 1:
+def gen(ex: str, options: list[str],
+        flags: dict[str, list[str]]):
+    global SILENT, QUIET, VERBOSE
+    if len(flags) == 0:
         SILENT, QUIET, VERBOSE = False, True, False
         Wiki.single()
         gen_pics()
     else:
-        for arg in sys.argv[1:]:
-            if arg.lower() in ["silent", "quite", "verbose"]:
-                SILENT, QUIET, VERBOSE = False, False, False
-                if arg.lower() == "silent":
-                    SILENT = True
-                elif arg.lower() == "quite":
-                    QUIET = True
-                else:
-                    VERBOSE = True
-            elif arg.lower() == "single":
+        for flag in flags:
+            if silent_flag.is_flag(flag):
+                SILENT, QUIET, VERBOSE = True, False, False
+            elif quiet_flag.is_flag(flag):
+                SILENT, QUIET, VERBOSE = False, True, False
+            elif silent_flag.is_flag(flag):
+                SILENT, QUIET, VERBOSE = False, False, True
+            elif single_flag.is_flag(flag):
                 Wiki.single()
-            elif arg.lower() == "multi":
+            elif multi_flag.is_flag(flag):
                 Wiki.multi("wiki")
-            elif arg.lower() == "pics":
+            elif pics_flag.is_flag(flag):
                 gen_pics()
-            else:
-                print(f"""gen_wiki.py:
 
-Usage:
-------
-{sys.argv[0]} OPTION1 (OPTION2 OPTION3 ...)
 
-Options:
---------
-silent:\t\tPrints no statements at all
-quite:\t\tPrints only some minimal statements
-verbose:\tPrints everything that it's doing
-single:\t\tGenerated the `wiki.md` as a single file
-multi:\t\tGenerates a folder `wiki` with the wiki files
-\t\t(Warning: Links are for html pages, not markdown pages!)
-pics:\t\tGenerates the `assets/pics.md` file with all sample pictures
-
-Examples:
----------
-- {sys.argv[0]} silent single verbose multi
-\t`-> Creates wiki.md silently and the multi-wiki verbosely
-- {sys.argv[0]} quite single multi pics
-\t`-> Creates wiki.md, the multi-page wiki and pics.md quitely
-
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2021""")
-                if arg.lower() not in ["-h", "--help", "help"]:
-                    sys.exit(2)
+silent_flag = Flag(["--silent"], "Prints no statements at all")
+quiet_flag = Flag(["--quiet"], "Prints only some minimal statements")
+verbose_flag = Flag(["--verbose"], "Prints everything it's doing")
+single_flag = Flag(["--single"], "Generates the `wiki.md` as a single file")
+multi_flag = Flag(["--multi"],
+                  "Generates a folder `wiki` with the wiki files")
+pics_flag = Flag(["--pics"],
+                 "Generates the `assets/pics.md` file with all sample pictures")

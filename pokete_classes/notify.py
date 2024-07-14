@@ -1,7 +1,7 @@
 """Contains classes for notifications"""
 
 import scrap_engine as se
-from pokete_general_use_fns import liner
+from util import liner
 from .ui_elements import LabelBox
 from .color import Color
 from .util.object_group import get_nested

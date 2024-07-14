@@ -4,7 +4,7 @@ of their stats"""
 import random
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_general_use_fns import liner
+from util import liner
 from .dicts import NatureDict
 from ..hotkeys import Action
 from ..ui_elements import LabelBox

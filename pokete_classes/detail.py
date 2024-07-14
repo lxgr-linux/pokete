@@ -2,8 +2,8 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
-from pokete_classes.poke import StatsInfoBox
-from pokete_general_use_fns import liner
+from util import liner
+from .poke import StatsInfoBox
 from .hotkeys import Action, get_action
 from .loops import std_loop
 from .event import _ev

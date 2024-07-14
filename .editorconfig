@@ -19,6 +19,8 @@ max_line_length = 80
 indent_size = 4
 tab_width = 4
 max_line_length = 80
+
+[*.xml]
 indent_style = tab
 
 [pokete_data/{map_data,npcs}.py]

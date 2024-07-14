@@ -19,6 +19,7 @@ from pathlib import Path
 from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
+import release
 from pokete_classes import animations
 from pokete_classes.map_additions.map_addtions import map_additions
 import pokete_classes.multiplayer.connector as connector
@@ -56,10 +57,11 @@ from pokete_classes.hotkeys import (
 from pokete_classes.dex import Dex
 from pokete_classes.loops import std_loop
 from pokete_classes.periodic_event_manager import PeriodicEventManager
-from pokete_general_use_fns import liner, sort_vers, parse_args
+from util import liner, sort_vers
 
 from release import SPEED_OF_TIME
 from release import VERSION, CODENAME, SAVEPATH
+from util.command import RootCommand, Flag
 
 __t = time.time()
 
@@ -886,7 +888,7 @@ def teleport(poke):
     """Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation"""
-    if (obj := roadmap.roadmap(mvp.movemap, choose=True)) is None:
+    if (obj := roadmap.roadmap(mvp.movemap, choose=True, pevm=None)) is None:
         return
     if settings("animations").val:
         animations.transition(mvp.movemap, poke)
@@ -996,12 +998,12 @@ def _game(_map):
     pevm = PeriodicEventManager(_map)
     inp_dict = {
         Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
-        Action.MAP: [roadmap.roadmap, (mvp.movemap,)],
+        Action.MAP: [roadmap.roadmap, (mvp.movemap, pevm)],
         Action.INVENTORY: [inv, ()],
         Action.POKEDEX: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
         Action.MENU: [mvp.movemap.menu, (pevm,)],
-        Action.HELP: [help_page, ()]
+        Action.HELP: [help_page, ()],
     }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
@@ -1124,7 +1126,40 @@ def main():
 # Actual code execution
 #######################
 if __name__ == "__main__":
-    do_logging, load_mods, audio.use_audio = parse_args(sys.argv)
+    log_flag = Flag(["--log"], "Enables logging")
+    mods_flag = Flag(["--no_mods"], "Disables mods")
+    audio_flag = Flag(["--no_audio"], "Disables audio")
+
+    do_logging = False
+    load_mods = True
+    audio.use_audio = True
+
+
+    def root_fn(ex: str, options: list[str],
+                flags: dict[str, list[str]]):
+        global do_logging, load_mods
+        for flag in flags:
+            if log_flag.is_flag(flag):
+                do_logging = True
+            elif mods_flag.is_flag(flag):
+                load_mods = False
+            elif audio_flag.is_flag(flag):
+                audio.use_audio = False
+
+
+    c = RootCommand(
+        "Pokete", f"{release.CODENAME} v{release.VERSION}", root_fn,
+        flags=[log_flag, mods_flag, audio_flag],
+        additional_info=f"""All save and logfiles are located in ~{release.SAVEPATH}/
+Feel free to contribute.
+See README.md for more information.
+This software is licensed under the GPLv3, you should have gotten a
+copy of it alongside this software.""",
+        usage=""
+    )
+
+    c.exec()
+
     # deciding on wich input to use
     if sys.platform == "win32":
         import msvcrt

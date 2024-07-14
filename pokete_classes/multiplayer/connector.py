@@ -3,7 +3,7 @@
 import release
 
 from pokete_classes.input import ask_text, ask_ok
-from pokete_general_use_fns import liner
+from util import liner
 from .communication import com_service, ConnectionException
 from .exceptions import UserPresentException, VersionMismatchException, \
     InvalidPokeException

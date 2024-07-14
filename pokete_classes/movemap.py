@@ -3,11 +3,11 @@
 import time
 import scrap_engine as se
 
-from pokete_classes.multiplayer.pc_manager import pc_manager
-from pokete_general_use_fns import liner
 import pokete_classes.ob_maps as obmp
 import pokete_classes.game_map as gm
+from util import liner
 from release import SPEED_OF_TIME
+from .multiplayer.pc_manager import pc_manager
 from .loops import std_loop
 from .classes import OutP
 from .color import Color
@@ -141,9 +141,10 @@ class Movemap(gm.GameSubmap):
         ARGS:
             pokes: The player's Pokes"""
         self.balls_label.rechar("".join("-" if i >= len(pokes)
-                                or pokes[i].identifier == "__fallback__"
+                                               or pokes[
+                                                   i].identifier == "__fallback__"
                                         else "o" if pokes[i].hp > 0
-                                        else "x"
+        else "x"
                                         for i in range(6)), esccode=Color.thicc)
 
     def name_label_rechar(self, name):

@@ -1,7 +1,4 @@
-#!/usr/bin/env python
 """
-Prepare pages prepares all files in "files" for GitHub Pages
-
 This script takes one argument, which specifies if the actions it should take are before the command
 "git switch gh-pages" or afterwards. "before" means that it will the pre-change actions and "after" the after-change
 actions.
@@ -13,25 +10,13 @@ is a boolean which specifies, if the file should be converted into HTML by pando
 Afterwards this script will replace all the links specified in the list "replace_links". There the first argument of
 the Tuple specifies the old link and the second argument the new link. With "new_name" the file will be renamed on the
 website.
-
-Usage:
------
-- python3 prepare_pages.py before
-  - Invokes actions before the branch switch
-- python3 prepare_pages.py after
-  - Invokes actions after the branch switch
-
-Exit Codes:
-----------
-- 0: Everything is OK.
-- 1: An internal error occurred
-- 2: The user did not specify the right/enough arguments
 """
 import os
 from os.path import exists
-import sys
 import json
 from urllib import request
+
+from .wiki import Wiki
 
 """
 The files dictionary specifies how and which files should be processed.
@@ -80,7 +65,8 @@ def replace_tables(_text: str) -> str:
                 in_table = False
                 with open('/tmp/pandoc_convert.md', 'w') as _f:
                     _f.write(table)
-                os.system('pandoc /tmp/pandoc_convert.md -o /tmp/pandoc_convert.html')
+                os.system(
+                    'pandoc /tmp/pandoc_convert.md -o /tmp/pandoc_convert.html')
                 with open('/tmp/pandoc_convert.html', 'r') as _f:
                     md_text = _f.read()
                 table = ''
@@ -136,11 +122,11 @@ def create_documentation() -> None:
     "documentation". This function will call pdoc to create the documentation for it.
     """
     modules = [file for file in files if files[file]["type"] == "documentation"]
-    pdoc_path = "/home/runner/.local/bin/pdoc"
 
     for module in modules:
         print(f" -> {module}")
-        os.system(f"{pdoc_path} --html {module} --output-dir \"/tmp/doc/\" --force")
+        os.system(
+            f"pdoc --html {module} --output-dir \"/tmp/doc/\" --force")
 
 
 def add_folder(folder: str, add_tmp_folder: bool = False) -> None:
@@ -172,7 +158,6 @@ def create_wiki() -> None:
     This function calls the multi-page and single-page methods from the
     gen_wiki file to add to the gh-pages.
     """
-    from gen_wiki import Wiki
     Wiki.multi("./wiki-multi-md/")
     Wiki.single("./wiki-single.md")
 
@@ -197,7 +182,8 @@ def add_wiki_folder(folder_name: str) -> list:
     for item in items:
         file = os.path.join(folder_name, item)
         if os.path.isdir(file):
-            add_folder(file.replace("./wiki-multi-md/", "./wiki-multi-html/"), True)
+            add_folder(file.replace("./wiki-multi-md/", "./wiki-multi-html/"),
+                       True)
             for f in add_wiki_folder(file):
                 out.append(f)
         elif os.path.isfile(file):
@@ -224,14 +210,15 @@ def add_wiki_to_files() -> None:
     print(wiki_files)
     for wiki_file in wiki_files:
         files.update({
-                wiki_file: {
-                    "type": "page",
-                    "replace_tables": False,
-                    "convert_with_pandoc": True,
-                    "replace_links": [],
-                    "new_name": str(wiki_file.replace(".md", ".html")).replace("./wiki-multi-md/", "./wiki-multi-html/")
-                }
-            })
+            wiki_file: {
+                "type": "page",
+                "replace_tables": False,
+                "convert_with_pandoc": True,
+                "replace_links": [],
+                "new_name": str(wiki_file.replace(".md", ".html")).replace(
+                    "./wiki-multi-md/", "./wiki-multi-html/")
+            }
+        })
     print(files)
 
 
@@ -252,10 +239,12 @@ def before() -> None:
         print(f"==> Preparing {file}")
         properties = files[file]
 
-        if properties["type"] == "documentation" or properties["type"] == "folder":
+        if properties["type"] == "documentation" or properties[
+            "type"] == "folder":
             continue
 
-        new_name = properties["new_name"] if properties["new_name"] is not None else file
+        new_name = properties["new_name"] if properties[
+                                                 "new_name"] is not None else file
 
         # Jekyll can not handle double open/closing brackets (e.g. {{) , so we
         # need to manually convert these pages.
@@ -263,7 +252,8 @@ def before() -> None:
         # root page to the start and the end of the
         if properties["convert_with_pandoc"]:
             print(" -> Converting to html...")
-            os.system(f"pandoc --from gfm --to html5 -o \"{new_name}\" \"{file}\"")
+            os.system(
+                f"pandoc --from gfm --to html5 -o \"{new_name}\" \"{file}\"")
 
         # Tables only need to be replaced, if the file is not converted with
         # pandoc, as pandoc is converting the tables automatically.
@@ -345,7 +335,8 @@ def after() -> None:
         elif properties["type"] == "folder":
             continue
 
-        new_name = properties["new_name"] if properties["new_name"] is not None else file
+        new_name = properties["new_name"] if properties[
+                                                 "new_name"] is not None else file
         print(f'==> After processing {new_name}')
 
         # If a file was converted with pandoc, it needs the stylesheet
@@ -378,18 +369,19 @@ def after() -> None:
     print(':: Done!')
 
 
-if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        print('Error! Not enough arguments:')
-        print(f"Usage: '{sys.argv[0]}' <after|before>")
-        sys.exit(2)
-    if sys.argv[1] == 'before':
-        with open('.gh-pages.json', 'r') as config_file:
-            files = json.loads(config_file.read())
-        before()
-    elif 'after' == sys.argv[1]:
-        after()
-    else:
-        print('Error! Unrecognised first argument:')
-        print(f"Usage: '{sys.argv[0]}' <after|before>")
-        sys.exit(2)
+def prepare_before(
+    ex: str, options: list[str],
+    flags: dict[str, list[str]]
+):
+    global files
+    with open('.gh-pages.json', 'r') as config_file:
+        files = json.loads(config_file.read())
+    before()
+
+
+def prepare_after(
+    ex: str, options: list[str],
+    flags: dict[str, list[str]]
+):
+    global files
+    after()

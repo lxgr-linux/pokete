@@ -22,13 +22,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
       - name: Cache
         uses: actions/cache@v2.1.6
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
           path: |
-            ~/.cache/pip3
+            ~/.cache/pip
             /usr/bin/pandoc
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-dependencies
@@ -37,14 +40,15 @@ jobs:
       - name: Install dependecies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
-          pip3 install scrap_engine pdoc3
+          pip install scrap_engine pdoc3 pyyaml
           sudo apt-get -qq install pandoc
 
       - name: Preprocess page files
         run: |
-          python3 ./prepare_pages.py before
+          mkdir /tmp/pokete
+          python util.py prepare-pages before
           cp -r ./assets/ /tmp/assets
-          cp ./prepare_pages.py /tmp/prepare_pages.py
+          cp -r ./* /tmp/pokete
       - name: Switch branch to gh-pages
         uses: actions/checkout/@v2
         with:
@@ -53,11 +57,12 @@ jobs:
         run: |
           rm -rf ./assets ./wiki-multi
           mv '/tmp/assets/' .
-          python3 /tmp/prepare_pages.py after
+          python /tmp/pokete/util.py prepare-pages after
       # Push to github_pages
       - name: Release documentation
         run: |
-          git config --local user.name  ${{ github.actor }}
+          git config --local user.name ${{ github.actor }}
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
           if [[ $(git diff) != "" ]]
           then
           git add .
@@ -79,13 +84,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
       - name: Cache
         uses: actions/cache@v2.1.6
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
           path: |
-            ~/.cache/pip3
+            ~/.cache/pip
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-dependencies
 
@@ -93,11 +101,11 @@ jobs:
       - name: Install dependecies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
-          pip3 install scrap_engine
+          pip install scrap_engine pyyaml
 
       - name: Make multipage wiki
         run: |
-          python3 gen_wiki.py verbose single multi pics
+          python util.py wiki --verbose --single --multi --pics
           mkdir /tmp/gen-wiki
           cp -r HowToPlay.md DevGuide.md wiki.md /tmp/gen-wiki
       - name: Switch to wiki repository
@@ -112,6 +120,7 @@ jobs:
       - name: Release documentation
         run: |
           git config --local user.name  ${{ github.actor }}
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
           if [[ $(git diff) != "" ]]
           then
           git add .
