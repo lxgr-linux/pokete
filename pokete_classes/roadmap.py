@@ -3,6 +3,7 @@ import scrap_engine as se
 
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
+from pokete_classes.game import PeriodicEvent, PeriodicEventManager
 from util import liner
 from .input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .color import Color
@@ -179,7 +180,8 @@ W ◀ ▶ E
         self.info_label.rechar(name)
         self.box.add_ob(self.info_label, self.box.width - 2 - len(name), 0)
 
-    def __call__(self, _map: se.Submap, pevm, choose=False):
+    def __call__(self, _map: se.Submap, pevm: PeriodicEventManager,
+                 choose=False):
         """Shows the roadmap
         ARGS:
             _map: se.Map this is shown on
@@ -197,7 +199,6 @@ W ◀ ▶ E
                )
                in i.associates
         ][0].choose()
-        blinker = Blinker()
         with self.box.center_add(_map):
             while True:
                 action = get_action()
@@ -237,8 +238,10 @@ W ◀ ▶ E
                         overview=self.box,
                     ) as box:
                         loops.easy_exit(box=box)
-                loops.std(box=self.box, pevm=pevm)
-                blinker(self.sta)
+                loops.std(
+                    box=self.box,
+                    pevm=pevm.with_events([BlinkerEvent(self.sta)])
+                )
                 _map.full_show()
         self.sta.unchoose()
 
@@ -266,6 +269,20 @@ class Blinker:
         if self.idx == 20:
             station.un_blink()
             self.idx = 0
+
+
+class BlinkerEvent(PeriodicEvent):
+    def __init__(self, station: Station):
+        self.station = station
+        self.blink = False
+
+    def tick(self, tick: int):
+        if tick % 10 == 0:
+            if self.blink:
+                self.station.blink()
+            else:
+                self.station.un_blink()
+            self.blink = not self.blink
 
 
 if __name__ == "__main__":

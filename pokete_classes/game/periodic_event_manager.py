@@ -13,6 +13,12 @@ class PeriodicEventManager:
         self.events = events
         self.tick = 0
 
+    def with_events(
+        self,
+        events: list[PeriodicEvent]
+    ) -> "PeriodicEventManager":
+        return PeriodicEventManager(self.events + events)
+
     def event(self):
         """Executes the events"""
         for event in self.events:
