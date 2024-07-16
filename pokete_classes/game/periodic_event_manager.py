@@ -9,15 +9,15 @@ class PeriodicEvent:
 class PeriodicEventManager:
     """As the name states: It manages periodic events in the game loop"""
 
-    def __init__(self, events: list[PeriodicEvent]):
+    def __init__(self, events: list[PeriodicEvent], tick=0):
         self.events = events
-        self.tick = 0
+        self.tick = tick
 
     def with_events(
         self,
         events: list[PeriodicEvent]
     ) -> "PeriodicEventManager":
-        return PeriodicEventManager(self.events + events)
+        return PeriodicEventManager(self.events + events, self.tick)
 
     def event(self):
         """Executes the events"""

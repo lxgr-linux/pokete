@@ -621,7 +621,8 @@ def teleport(poke):
     """Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation"""
-    if (obj := roadmap(mvp.movemap, None, choose=True)) is None:
+    if (obj := RoadMap()(Context(None, mvp.movemap, mvp.movemap, figure),
+                         choose=True)) is None:
         return
     if settings("animations").val:
         animations.transition(mvp.movemap, poke)
@@ -733,7 +734,7 @@ def _game(_map: PlayMap):
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
     inp_dict = {
         Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
-        Action.MAP: [roadmap, (mvp.movemap, pevm)],
+        Action.MAP: [RoadMap(), (ctx,)],
         Action.INVENTORY: [inv, (ctx,)],
         Action.POKEDEX: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
@@ -1269,7 +1270,6 @@ copy of it alongside this software.""",
     detail.detail = detail.Detail(tss.height - 1, tss.width)
     pokete_dex = Dex(figure)
     RoadMap.check_maps()
-    roadmap = RoadMap(figure)
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
     buy = Buy(figure, mvp.movemap)
     pokete_care.from_dict(session_info.get("pokete_care", {

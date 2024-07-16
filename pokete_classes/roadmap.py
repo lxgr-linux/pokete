@@ -1,14 +1,16 @@
 """Contains all classes relevant to show the roadmap"""
-import scrap_engine as se
+import logging
 
+import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
-from pokete_classes.game import PeriodicEvent, PeriodicEventManager
+from pokete_classes.context import Context
+from pokete_classes.game import PeriodicEvent
 from util import liner
 from .input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .color import Color
 from .ui.elements import Box, InfoBox
-from . import movemap as mvp, loops
+from . import loops
 
 
 class RoadMapException(Exception):
@@ -71,11 +73,11 @@ class Station(StationObject):
         self.d_next = d_next
         Station.obs.append(self)
 
-    def choose(self):
+    def choose(self, figure):
         """Chooses and hightlights the station"""
         Station.choosen = self
         self.roadmap.rechar_info(
-            self.name if self.has_been_visited() else "???")
+            self.name if self.has_been_visited(figure) else "???")
 
     def unchoose(self):
         """Unchooses the station"""
@@ -87,7 +89,7 @@ class Station(StationObject):
     def un_blink(self):
         self.rechar(self.text, self.color)
 
-    def next(self, inp: ActionList):
+    def next(self, inp: ActionList, figure):
         """Chooses the next station in a certain direction
         ARGS:
             inp: Action Enum"""
@@ -103,20 +105,20 @@ class Station(StationObject):
         }[inp]
         if (n_e := getattr(self, inp + "_next")) != "":
             self.unchoose()
-            getattr(self.roadmap, n_e).choose()
+            getattr(self.roadmap, n_e).choose(figure)
 
-    def has_been_visited(self):
+    def has_been_visited(self, figure):
         """Returns if the stations map has been visited before"""
-        return self.associates[0].name in self.roadmap.fig.visited_maps
+        return self.associates[0].name in figure.visited_maps
 
     def is_city(self):
         """Returns if the station is a city"""
         return "pokecenter" in p_data.map_data[self.associates[0].name][
             "hard_obs"]
 
-    def hide_if_visited(self, choose=False):
+    def hide_if_visited(self, figure, choose=False):
         self.text = self.base_text
-        if not self.has_been_visited():
+        if not self.has_been_visited(figure):
             self.color = Color.white
             for ch in ["A", "P", "$", "C", "#"]:
                 self.text = self.text.replace(ch, " ")
@@ -131,15 +133,11 @@ class Station(StationObject):
 
 
 class RoadMap:
-    """Map you can see and navigate maps on
-    ARGS:
-        fig: Figure object"""
+    """Map you can see and navigate maps on"""
 
-    def __init__(self, fig):
-        self.fig = fig
+    def __init__(self):
         self.box = Box(
             17, 61, "Roadmap", f"{Action.CANCEL.mapping}:close",
-            overview=mvp.movemap
         )
         self.rose = se.Text("""   N
    ▲
@@ -167,7 +165,7 @@ W ◀ ▶ E
             setattr(self, sta, obj)
 
     @property
-    def sta(self):
+    def sta(self) -> Station:
         """Gives choosen station"""
         return Station.choosen
 
@@ -180,43 +178,44 @@ W ◀ ▶ E
         self.info_label.rechar(name)
         self.box.add_ob(self.info_label, self.box.width - 2 - len(name), 0)
 
-    def __call__(self, _map: se.Submap, pevm: PeriodicEventManager,
-                 choose=False):
+    def __call__(self, ctx: Context, choose=False):
         """Shows the roadmap
         ARGS:
-            _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city"""
         for i in Station.obs:
-            i.hide_if_visited(choose)
+            i.hide_if_visited(ctx.figure, choose)
         [
             i
             for i in Station.obs
             if (
-                   self.fig.map
-                   if self.fig.map
+                   ctx.figure.map
+                   if ctx.figure.map
                       not in [obmp.ob_maps[i] for i in ("shopmap", "centermap")]
-                   else self.fig.oldmap
+                   else ctx.figure.oldmap
                )
                in i.associates
-        ][0].choose()
-        with self.box.center_add(_map):
+        ][0].choose(ctx.figure)
+        self.box.overview = ctx.overview
+        blinker = BlinkerEvent(self.sta)
+        pevm = ctx.pevm.with_events([blinker])
+        with self.box.center_add(ctx.map):
             while True:
                 action = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
-                    self.sta.next(action)
+                    self.sta.next(action, ctx.figure)
                 elif action.triggers(Action.MAP, Action.CANCEL):
                     break
                 elif (
                     action.triggers(Action.ACCEPT)
                     and choose
-                    and self.sta.has_been_visited()
+                    and self.sta.has_been_visited(ctx.figure)
                     and self.sta.is_city()
                 ):
                     return self.sta.associates[0]
                 elif (
                     action.triggers(Action.ACCEPT)
                     and not choose
-                    and self.sta.has_been_visited()
+                    and self.sta.has_been_visited(ctx.figure)
                 ):
                     p_list = ", ".join(
                         set(
@@ -234,15 +233,16 @@ W ◀ ▶ E
                             30,
                         ),
                         self.sta.name,
-                        _map=_map,
+                        _map=ctx.map,
                         overview=self.box,
                     ) as box:
-                        loops.easy_exit(box=box)
+                        loops.easy_exit(box=box, pevm=ctx.pevm)
+                blinker.station = self.sta
                 loops.std(
                     box=self.box,
-                    pevm=pevm.with_events([BlinkerEvent(self.sta)])
+                    pevm=pevm
                 )
-                _map.full_show()
+                ctx.map.full_show()
         self.sta.unchoose()
 
     @staticmethod
@@ -258,25 +258,13 @@ W ◀ ▶ E
                 raise RoadMapException(_map)
 
 
-class Blinker:
-    def __init__(self):
-        self.idx = 0
-
-    def __call__(self, station: Station):
-        self.idx += 1
-        if self.idx == 10:
-            station.blink()
-        if self.idx == 20:
-            station.un_blink()
-            self.idx = 0
-
-
 class BlinkerEvent(PeriodicEvent):
     def __init__(self, station: Station):
         self.station = station
         self.blink = False
 
     def tick(self, tick: int):
+        logging.info("yws" + str(self.blink))
         if tick % 10 == 0:
             if self.blink:
                 self.station.blink()
