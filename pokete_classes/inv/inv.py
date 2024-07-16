@@ -4,18 +4,17 @@ from util import liner
 from .items import LearnDisc, invitems
 from .. import loops, deck
 from .box import InvBox
+from ..context import Context
 from ..input import Action, get_action, _ev
 from ..learnattack import LearnAttack
 from ..types import types
 from ..poke import upgrade_by_one_lvl
-from ..ui import ask_bool, ask_ok
+from ..ui import ask_bool, ask_ok, Overview
 from ..ui.elements import ChooseBox
 
 
-class Inv:
-    """Inventory to see and manage items in
-    ARGS:
-        _map: se.Map this will be shown on"""
+class Inv(Overview):
+    """Inventory to see and manage items in"""
 
     def __init__(self):
         self.map = None
@@ -32,7 +31,7 @@ class Inv:
     def resize_view(self):
         """Manages recursive view resizing"""
         self.box.remove()
-        self.map.resize_view()
+        self.box.overview.resize_view()
         self.box.resize(self.map.height - 3, 35)
         self.box.add(self.map, self.map.width - self.box.width, 0)
         self.map.full_show()
@@ -42,9 +41,11 @@ class Inv:
         self.box.set_ob(self.money_label,
                         self.box.width - 2 - len(self.money_label.text), 0)
 
-    def __call__(self, _map, pevm, figure):
+    def __call__(self, ctx: Context):
         """Opens the inventory"""
-        self.map = _map
+        self.map = ctx.map
+        self.box.overview = ctx.overview
+        figure = ctx.figure
         _ev.clear()
         items = self.add(figure)
         self.box.resize(self.map.height - 3, 35)
@@ -137,7 +138,7 @@ class Inv:
                                         if len(items) == 0:
                                             break
                             break
-                        loops.std(pevm=pevm, box=self.box2)
+                        loops.std(pevm=ctx.pevm, box=self.box2)
                         self.map.full_show()
                 elif action.triggers(Action.REMOVE):
                     if ask_bool(
@@ -152,7 +153,7 @@ class Inv:
                         )
                         if len(items) == 0:
                             break
-                loops.std(pevm=pevm, box=self)
+                loops.std(pevm=ctx.pevm, box=self)
                 self.map.full_show()
         self.box.remove_c_obs()
 

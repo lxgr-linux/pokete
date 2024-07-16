@@ -4,11 +4,12 @@ import datetime
 import logging
 import scrap_engine as se
 from util import liner
+from .context import Context
 from .input import ACTION_DIRECTIONS, Action, get_action
 from .ui.elements import BetterChooseBox, LabelBox
 from .ui.notify import notifier
 from .color import Color
-from . import movemap as mvp, loops
+from . import loops
 
 
 class Achievement:
@@ -93,19 +94,17 @@ class AchievementOverview(BetterChooseBox):
     def __init__(self):
         super().__init__(
             3, [se.Text(" ")], name="Achievements",
-            overview=mvp.movemap.menu
         )
 
-    def __call__(self, _map):
-        """Input loop
-        ARGS:
-            _map: se.Map to show this on"""
+    def __call__(self, ctx: Context):
+        """Input loop"""
         self.set_items(3, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
                                    if achievements.is_achieved(i.identifier)
                                    else "", state="float")
                            for i in achievements.achievements])
-        self.map = _map
+        self.map = ctx.map
+        self.overview = ctx.overview
         with self:
             while True:
                 action = get_action()
@@ -122,11 +121,11 @@ class AchievementOverview(BetterChooseBox):
                             ach,
                             achievements,
                             self
-                        ).center_add(_map) as achbox:
+                        ).center_add(ctx.map) as achbox:
                             loops.easy_exit(
-                                box=achbox)
-                loops.std(box=self)
-                self.map.show()
+                                box=achbox, pevm=ctx.pevm)
+                loops.std(box=self, pevm=ctx.pevm)
+                self.map.full_show()
 
 
 achievements = Achievements()

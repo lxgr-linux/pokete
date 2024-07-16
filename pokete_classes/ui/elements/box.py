@@ -1,9 +1,10 @@
 import scrap_engine as se
 
 from .frame import StdFrame
+from ..overview import Overview
 
 
-class Box(se.Box):
+class Box(se.Box, Overview):
     """Box to show content in
     ARGS:
         height: The boxes height

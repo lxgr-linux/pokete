@@ -2,6 +2,7 @@
 
 import time
 import scrap_engine as se
+
 from util import liner
 from release import SPEED_OF_TIME
 from .classes import OutP
@@ -16,13 +17,11 @@ class Movemap(gm.GameSubmap):
     """Movemap class to remove bad code
     ARGS:
         height: Height of the map
-        width: Width of the map
-        menu_cls: The class Menu"""
+        width: Width of the map"""
 
-    def __init__(self, height, width, menu_cls):
+    def __init__(self, height, width):
         super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
                          height=height, width=width, name="movemap")
-        self.menu = menu_cls(self)
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")

@@ -8,15 +8,19 @@ from .input import Action, get_action
 from .tss import tss
 
 
-def easy_exit(on_mvmp=True, box=None):
+def easy_exit(on_mvmp=True, box=None, pevm=None):
     """Loops until Cancel or Accept is given
     ARGS:
         on_mvmp: Indicates if the loop is executed on movemap
+        pevm: The PeriodicEventManager object, that may be needed to trigger
+              periodic events in the overlaing loop
         box: The box this is called for"""
     while True:
         if get_action().triggers(*(Action.CANCEL, Action.ACCEPT)):
             return
-        std(on_mvmp, box=box)
+        std(on_mvmp, box=box, pevm=pevm)
+        if pevm:
+            box.map.full_show()
 
 
 def std(on_mvmp=True, pevm=None, box=None):

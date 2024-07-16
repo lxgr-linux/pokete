@@ -21,37 +21,43 @@ import scrap_engine as se
 import pokete_data as p_data
 import release
 from pokete_classes import animations, loops
+from pokete_classes.context import Context
 from pokete_classes.inv import inv, Buy
+from pokete_classes.menu import menu
+from pokete_classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
+    TreatNPCEvent
 from pokete_classes.pokestats import PokeStats
 from pokete_classes.poke import Poke
 from pokete_classes.color import Color
-from pokete_classes.ui.elements import ChooseBox, InfoBox
+from pokete_classes.save import read_save, save
+from pokete_classes.ui.elements import InfoBox
 from pokete_classes.classes import PlayMap
-from pokete_classes.settings import settings, VisSetting, Slider
+from pokete_classes.settings import settings
 from pokete_classes.providers import ProtoFigure
 from pokete_classes.audio import audio
 from pokete_classes.tss import tss
-from pokete_classes.side_loops import LoadingScreen, About, Help
+from pokete_classes.side_loops import loading_screen, Help
 from pokete_classes.input import text_input, _ev
-from pokete_classes.mods import ModError, ModInfo, DummyMods
-from pokete_classes.pokete_care import PoketeCare, DummyFigure
-from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
+from pokete_classes.mods import try_load_mods, loaded_mods
+from pokete_classes.pokete_care import DummyFigure, pokete_care
+from pokete_classes import deck, detail, timer, ob_maps as obmp, \
     movemap as mvp, fightmap as fm
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
 from pokete_classes.doors import (
     CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
 )
-from pokete_classes.learnattack import LearnAttack
 from pokete_classes.roadmap import RoadMap
 from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.ui import notifier, ask_bool, ask_text, ask_ok
-from pokete_classes.achievements import achievements, AchievementOverview
+from pokete_classes.achievements import achievements
 from pokete_classes.input import (
-    get_action, Action, ACTION_DIRECTIONS, hotkeys_save, hotkeys_from_save
+    get_action, Action, ACTION_DIRECTIONS, hotkeys_from_save
 )
 from pokete_classes.dex import Dex
-from pokete_classes.periodic_event_manager import PeriodicEventManager
+from pokete_classes.game import (
+    PeriodicEventManager, PeriodicEvent, MapChangeExeption
+)
 from util import liner, sort_vers
 
 from release import SPEED_OF_TIME
@@ -536,123 +542,6 @@ class Debug:
         print(figure.x, figure.y, figure.map.name)
 
 
-class Menu:
-    """Menu to manage settings and other stuff in
-    ARGS:
-        _map: se.Map this will be shown on"""
-
-    def __init__(self, _map):
-        self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Menu", overview=_map)
-        self.playername_label = se.Text("Playername: ", state="float")
-        self.represent_char_label = se.Text("Char: ", state="float")
-        self.mods_label = se.Text("Mods", state="float")
-        self.ach_label = se.Text("Achievements", state="float")
-        self.about_label = se.Text("About", state="float")
-        self.save_label = se.Text("Save", state="float")
-        self.exit_label = se.Text("Exit", state="float")
-        self.realname_label = se.Text(session_info["user"], state="float")
-        self.char_label = se.Text(figure.char, state="float")
-        self.box.add_c_obs([self.playername_label,
-                            self.represent_char_label,
-                            VisSetting("Autosave", "autosave",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Animations", "animations",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Save trainers", "save_trainers",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Audio", "audio",
-                                       {True: "On", False: "Off"}),
-                            Slider("Volume", "volume"),
-                            VisSetting("Load mods", "load_mods",
-                                       {True: "On", False: "Off"}),
-                            self.mods_label, self.ach_label,
-                            self.about_label, self.save_label,
-                            self.exit_label])
-        # adding
-        self.box.add_ob(self.realname_label,
-                        self.playername_label.rx + self.playername_label.width,
-                        self.playername_label.ry)
-        self.box.add_ob(self.char_label,
-                        self.represent_char_label.rx
-                        + self.represent_char_label.width,
-                        self.represent_char_label.ry)
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.box.remove()
-        self.box.overview.resize_view()
-        self.box.resize(self.map.height - 3, 35)
-        self.box.add(self.map, self.map.width - self.box.width, 0)
-
-    def __call__(self, pevm):
-        """Opens the menu"""
-        self.box.resize(self.map.height - 3, 35)
-        self.realname_label.rechar(figure.name)
-        self.char_label.rechar(figure.char)
-        audio_before = settings("audio").val
-        volume_before = settings("volume").val
-        with self.box.add(self.map, self.map.width - self.box.width, 0):
-            _ev.clear()
-            while True:
-                action = get_action()
-                i = self.box.c_obs[self.box.index.index]
-                if (strength := action.get_x_strength()) != 0:
-                    if isinstance(i, Slider):
-                        i.change(strength)
-                elif action.triggers(Action.ACCEPT):
-                    # Fuck python for not having case statements - lxgr
-                    #     but it does lmao - Magnus
-                    if i == self.playername_label:
-                        figure.name = text_input(self.realname_label, self.map,
-                                                 figure.name, 18, 17)
-                        self.map.name_label_rechar(figure.name)
-                    elif i == self.represent_char_label:
-                        inp = text_input(self.char_label, self.map,
-                                         figure.char, 18, 1)
-                        # excludes bad unicode:
-                        if (
-                            len(inp.encode("utf-8")) != 1
-                            and inp not in ["ä", "ö", "ü", "ß"]
-                        ):
-                            inp = "a"
-                            self.char_label.rechar(inp)
-                            notifier.notify("Error", "Bad character",
-                                            "The chosen character has to be a \
-valid single-space character!")
-                        figure.rechar(inp)
-                    elif i == self.mods_label:
-                        ModInfo(mvp.movemap, mods.mod_info)()
-                    elif i == self.save_label:
-                        # When will python3.10 come out?
-                        with InfoBox("Saving....", info="", _map=self.map):
-                            # Shows a box displaying "Saving...." while saving
-                            save()
-                            time.sleep(SPEED_OF_TIME * 1.5)
-                    elif i == self.exit_label:
-                        save()
-                        sys.exit()
-                    elif i == self.about_label:
-                        about()
-                    elif i == self.ach_label:
-                        AchievementOverview()(mvp.movemap)
-                    elif isinstance(i, VisSetting):
-                        i.change()
-                if (
-                    audio_before != settings("audio").val
-                    or volume_before != settings("volume").val
-                ):
-                    audio.switch(figure.map.song)
-                    audio_before = settings("audio").val
-                    volume_before = settings("volume").val
-                elif action.triggers(Action.UP, Action.DOWN):
-                    self.box.input(action)
-                elif action.triggers(Action.CANCEL, Action.MENU):
-                    break
-                loops.std(pevm=pevm, box=self)
-                self.map.full_show()
-
-
 # General use functions
 #######################
 
@@ -661,89 +550,7 @@ def autosave():
     while True:
         time.sleep(SPEED_OF_TIME * 300)
         if settings("autosave").val:
-            save()
-
-
-def save():
-    """Saves all relevant data to savefile"""
-    _si = {
-        "user": figure.name,
-        "represent_char": figure.char,
-        "ver": VERSION,
-        "map": figure.map.name,
-        "oldmap": figure.oldmap.name,
-        "last_center_map": figure.last_center_map.name,
-        "x": figure.x,
-        "y": figure.y,
-        "achievements": achievements.achieved,
-        "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
-        "inv": figure.inv,
-        "money": figure.get_money(),
-        "settings": settings.to_dict(),
-        "caught_poketes": list(dict.fromkeys(figure.caught_pokes
-                                             + [i.identifier
-                                                for i in figure.pokes])),
-        "visited_maps": figure.visited_maps,
-        "startup_time": __t,
-        "hotkeys": hotkeys_save(),
-        # filters doublicates from figure.used_npcs
-        "used_npcs": list(dict.fromkeys(figure.used_npcs)),
-        "pokete_care": pokete_care.dict(),
-        "time": timer.time.time,
-    }
-    with open(SAVEPATH / "pokete.json", "w+") as file:
-        # writes the data to the save file in a nice format
-        json.dump(_si, file, indent=4)
-    logging.info("[General] Saved")
-
-
-def read_save():
-    """Reads from savefile
-    RETURNS:
-        session_info dict"""
-    Path(SAVEPATH).mkdir(parents=True, exist_ok=True)
-    # Default test session_info
-    _si = {
-        "user": "DEFAULT",
-        "represent_char": "a",
-        "ver": VERSION,
-        "map": "intromap",
-        "oldmap": "playmap_1",
-        "last_center_map": "playmap_1",
-        "x": 4,
-        "y": 5,
-        "achievements": [],
-        "pokes": {
-            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
-                  "ap": ["SKIP", "SKIP"]}
-        },
-        "inv": {"poketeball": 15, "healing_potion": 1},
-        "settings": {
-            "load_mods": False},
-        "figure.caught_pokes": ["steini"],
-        "visited_maps": ["playmap_1"],
-        "startup_time": 0,
-        "used_npcs": [],
-        "hotkeys": {},
-        "pokete_care": {
-            "entry": 0,
-            "poke": None,
-        },
-        "time": 0
-    }
-
-    if os.path.exists(SAVEPATH / "pokete.json"):
-        with open(SAVEPATH / "pokete.json") as _file:
-            _si = json.load(_file)
-    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.json"):
-        with open(HOME / ".cache" / "pokete" / "pokete.json") as _file:
-            _si = json.load(_file)
-    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.py"):
-        l_dict = {}
-        with open(HOME / ".cache" / "pokete" / "pokete.py", "r") as _file:
-            exec(_file.read(), {"session_info": _si}, l_dict)
-        _si = json.loads(json.dumps(l_dict["session_info"]))
-    return _si
+            save(figure)
 
 
 def reset_terminal():
@@ -768,7 +575,7 @@ def codes(string):
     """Cheats"""
     for i in string:
         if i == "w":
-            save()
+            save(figure)
         elif i == "!":
             exec(string[string.index("!") + 2:])
             return
@@ -786,12 +593,8 @@ def codes(string):
 # Those are adding additional actions to playmaps
 #################################################
 
-class ExtraActions:
-    """Extra actions class to keep track of extra actions"""
-
-    @staticmethod
-    def playmap_7():
-        """Cave animation"""
+class Playmap7Event(PeriodicEvent):
+    def tick(self, tick: int):
         _map = obmp.ob_maps["playmap_7"]
         for obj in _map.get_obj("inner_walls").obs \
                    + [i.main_ob for i in _map.trainers] \
@@ -804,6 +607,11 @@ class ExtraActions:
                 obj.rechar(obj.bchar)
             else:
                 obj.rechar(" ")
+
+
+extra_actions: dict[str, list[PeriodicEvent]] = {
+    "playmap_7": [Playmap7Event()]
+}
 
 
 # main functions
@@ -833,7 +641,7 @@ def swap_poke():
     ):
         return
     port = 65432
-    save()
+    save(figure)
     do = ask_bool(mvp.movemap, "Do you want to be the host?", mvp.movemap)
     if (index := deck.deck(mvp.movemap, 6, "Your deck", True)) is None:
         return
@@ -854,7 +662,7 @@ def swap_poke():
                         conn.sendall(
                             str.encode(
                                 json.dumps(
-                                    {"mods": mods.mod_info,
+                                    {"mods": loaded_mods.mod_info,
                                      "name": figure.name,
                                      "poke": figure.pokes[index].dict()})))
     else:
@@ -876,17 +684,17 @@ def swap_poke():
                 return
             sock.sendall(
                 str.encode(
-                    json.dumps({"mods": mods.mod_info,
+                    json.dumps({"mods": loaded_mods.mod_info,
                                 "name": figure.name,
                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
     logging.info("[Swap_poke] Recieved %s", decode_data)
     mod_info = decode_data.get("mods", {})
-    if mods.mod_info != mod_info:
+    if loaded_mods.mod_info != mod_info:
         ask_ok(
             mvp.movemap, f"""Conflicting mod versions!
-Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
+Your mods: {', '.join(i + '-' + loaded_mods.mod_info[i] for i in loaded_mods.mod_info)}
 Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""",
             mvp.movemap
         )
@@ -895,13 +703,13 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""",
                          decode_data["poke"]["xp"],
                          decode_data["poke"]["hp"]), index)
     figure.pokes[index].set_ap(decode_data["poke"]["ap"])
-    save()  # to avoid duping
+    save(figure)  # to avoid duping
     ask_ok(mvp.movemap,
            f"You received: {figure.pokes[index].name.capitalize()} at level \
 {figure.pokes[index].lvl()} from {decode_data['name']}.", mvp.movemap)
 
 
-def _game(_map):
+def _game(_map: PlayMap):
     """Game function
     ARGS:
         _map: The map that will be shown"""
@@ -919,15 +727,18 @@ def _game(_map):
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
     mvp.movemap.full_show()
-    pevm = PeriodicEventManager(_map)
+    pevm = PeriodicEventManager(
+        [MovingGrassEvent(_map), MovingWaterEvent(_map),
+         TreatNPCEvent()] + _map.extra_actions())
+    ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
     inp_dict = {
         Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
         Action.MAP: [roadmap, (mvp.movemap, pevm)],
-        Action.INVENTORY: [inv, (mvp.movemap, pevm, figure)],
+        Action.INVENTORY: [inv, (ctx,)],
         Action.POKEDEX: [pokete_dex, ()],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
-        Action.MENU: [mvp.movemap.menu, (pevm,)],
-        Action.HELP: [help_page, ()]
+        Action.MENU: [menu, (ctx,)],
+        Action.HELP: [Help(), (mvp.movemap,)]
     }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
@@ -951,7 +762,7 @@ def _game(_map):
                 mvp.movemap, "Do you really wish to exit?",
                 mvp.movemap
             ):
-                save()
+                save(figure)
                 sys.exit()
         elif action.triggers(Action.CONSOLE):
             inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
@@ -1070,8 +881,7 @@ def gen_maps():
         Dict of all PlayMaps"""
     maps = {}
     for ob_map, args in p_data.maps.items():
-        args["extra_actions"] = (getattr(ExtraActions, args["extra_actions"],
-                                         None)
+        args["extra_actions"] = (extra_actions.get(args["extra_actions"])
                                  if args["extra_actions"] is not None
                                  else None)
         maps[ob_map] = PlayMap(name=ob_map, **args)
@@ -1117,7 +927,7 @@ def main():
     while True:
         try:
             _game(game_map)
-        except game.MapChangeExeption as err:
+        except MapChangeExeption as err:
             game_map = err.map
 
 
@@ -1400,13 +1210,10 @@ copy of it alongside this software.""",
 
     # resizing screen
     tss()
+    loading_screen()
 
     # Home global
     HOME = Path.home()
-
-    # loading screen
-    loading_screen = LoadingScreen(VERSION, CODENAME)
-    loading_screen()
 
     # readinf savefile
     session_info = read_save()
@@ -1426,21 +1233,7 @@ copy of it alongside this software.""",
         settings("load_mods").val = False
 
     # Loading mods
-    if settings("load_mods").val:
-        try:
-            import mods
-        except ModError as mod_err:
-            error_box = InfoBox(str(mod_err), "Mod-loading Error")
-            error_box.center_add(loading_screen.map)
-            loading_screen.map.show()
-            sys.exit(1)
-
-        for mod in mods.mod_obs:
-            mod.mod_p_data(p_data)
-    else:
-        mods = DummyMods()
-    logging.info("[General] %d mods are loaded: (%s)",
-                 len(mods.mod_obs), ', '.join(mods.mod_names))
+    try_load_mods(loading_screen.map)
 
     # validating data
     p_data.validate()
@@ -1467,7 +1260,7 @@ copy of it alongside this software.""",
     # Definiton of all additionaly needed obs and maps
     #############################################################
 
-    mvp.movemap = mvp.Movemap(tss.height - 1, tss.width, Menu)
+    mvp.movemap = mvp.Movemap(tss.height - 1, tss.width)
 
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
@@ -1475,13 +1268,11 @@ copy of it alongside this software.""",
     # side fn definitions
     detail.detail = detail.Detail(tss.height - 1, tss.width)
     pokete_dex = Dex(figure)
-    help_page = Help(mvp.movemap)
     RoadMap.check_maps()
     roadmap = RoadMap(figure)
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
-    about = About(VERSION, CODENAME, mvp.movemap)
     buy = Buy(figure, mvp.movemap)
-    pokete_care = PoketeCare.from_dict(session_info.get("pokete_care", {
+    pokete_care.from_dict(session_info.get("pokete_care", {
         "entry": 0,
         "poke": None,
     }))

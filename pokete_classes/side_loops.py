@@ -3,9 +3,11 @@
 import os
 import scrap_engine as se
 import pokete_classes.game_map as gm
+import release
+from pokete_classes.context import Context
 from util import liner
 from .ui.elements import InfoBox
-from . import movemap as mvp, loops
+from . import loops
 
 
 class LoopBox:
@@ -16,24 +18,22 @@ class LoopBox:
     def __init__(self, box):
         self.box = box
 
-    def __call__(self):
+    def __call__(self, ctx: Context):
         """Shows the about text"""
+        self.box.map = ctx.map
+        self.box.overview = ctx.overview
         with self.box:
-            loops.easy_exit(box=self.box)
+            loops.easy_exit(box=self.box, pevm=ctx.pevm)
 
 
 class About(LoopBox):
-    """The about text, that can be triggered in the menu
-    ARGS:
-        ver: Version
-        cname: Codename
-        _map: se.Map this will be displayed on"""
+    """The about text, that can be triggered in the menu"""
 
-    def __init__(self, ver, cname, _map):
+    def __init__(self):
         super().__init__(
             InfoBox(
                 liner(
-                    f"""Pokete v{ver} -- {cname}
+                    f"""Pokete v{release.VERSION} -- {release.CODENAME}
 by  lxgr-linux <lxgr@protonmail.com>
 
 This  software is licensed under the GPL3, you should have gotten a \
@@ -45,18 +45,14 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
                     60, pre=""
                 ),
                 name="About",
-                _map=_map,
-                overview=mvp.movemap.menu
             )
         )
 
 
 class Help(LoopBox):
-    """Helptext that can be displayed by pressing '?'
-    ARGS:
-        _map: se.Map this will be displayed on"""
+    """Helptext that can be displayed by pressing '?'"""
 
-    def __init__(self, _map):
+    def __init__(self):
         super().__init__(
             InfoBox(
                 """Controls:
@@ -70,19 +66,14 @@ NPCs will talk to you when walking up to them.
 For more information about how to play this game, check out
 https://git.io/JRRqe""",
                 name="Help",
-                _map=_map,
-                overview=mvp.movemap
             )
         )
 
 
 class LoadingScreen:
-    """Loading screen that's shown at game's start
-    ARGS:
-        ver: Version
-        codename: Codename"""
+    """Loading screen that's shown at game's start"""
 
-    def __init__(self, ver, codename):
+    def __init__(self):
         width, height = os.get_terminal_size()
         self.map = gm.GameMap(width=width, height=height - 1)
         se.Text(r""" _____      _        _
@@ -93,18 +84,20 @@ class LoadingScreen:
 |_|   \___/|_|\_\___|\__\___|""", state="float") \
             .add(self.map, int(self.map.width / 2) - 15,
                  int(self.map.height / 2) - 4)
-        se.Text(f"v{ver}", state="float").add(self.map,
-                                              int(self.map.width / 2) - 15,
-                                              int(self.map.height / 2) + 2)
-        se.Text(codename, state="float").add(self.map,
-                                             int(self.map.width / 2) + 14
-                                             - len(codename),
-                                             int(self.map.height / 2) + 2)
+        se.Text(f"v{release.VERSION}", state="float").add(self.map,
+                                                          int(self.map.width / 2) - 15,
+                                                          int(self.map.height / 2) + 2)
+        se.Text(release.CODENAME, state="float").add(self.map,
+                                                     int(self.map.width / 2) + 14
+                                                     - len(release.CODENAME),
+                                                     int(self.map.height / 2) + 2)
 
     def __call__(self):
         """Shows the loading screen"""
         self.map.show()
 
+
+loading_screen = LoadingScreen()
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
