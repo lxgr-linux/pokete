@@ -12,7 +12,8 @@ class Box(se.Box, Overview):
         name: The boxes displayed name
         info: Info that will be displayed in the bottom left corner of the box"""
 
-    def __init__(self, height, width, name="", info="", overview=None):
+    def __init__(self, height, width, name="", info="",
+                 overview: Overview | None = None):
         super().__init__(height, width)
         self.overview = overview
         self.frame = StdFrame(height, width)

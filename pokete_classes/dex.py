@@ -4,24 +4,23 @@ import scrap_engine as se
 import pokete_data as p_data
 
 from util import liner
+from .context import Context
 from .input import Action, ACTION_UP_DOWN, get_action
 from .poke import Poke
 from .color import Color
 from .nature import PokeNature
+from .ui import Overview
 from .ui.elements import ChooseBox, Box
-from . import movemap as mvp, loops
+from . import loops
 
 
-class Dex:
-    """The Pokete dex that shows stats about all Poketes ever caught
-    ARGS:
-        figure: Figure object"""
+class Dex(Overview):
+    """The Pokete dex that shows stats about all Poketes ever caught"""
 
-    def __init__(self, figure):
-        self.box = ChooseBox(mvp.movemap.height - 3, 35, "Poketedex",
+    def __init__(self):
+        self.box = ChooseBox(50, 35, "Poketedex",
                              info=f"{Action.CANCEL.mapping}:close")
         self.detail_box = Box(16, 35, overview=self)
-        self.figure = figure
         self.idx = 0
         self.obs = []
         self.detail_info = se.Text("", state="float")
@@ -40,7 +39,7 @@ class Dex:
             c_ob.remove()
         self.box.remove_c_obs()
 
-    def detail(self, poke):
+    def detail(self, ctx: Context, poke):
         """Shows details about the Pokete
         ARGS:
             poke: Pokes identifier"""
@@ -56,7 +55,7 @@ class Dex:
                           (f"""\n\n Evolves into {
                           p_data.pokes[poke.evolve_poke]['name'] if
                           poke.evolve_poke in
-                          self.figure.caught_pokes else '???'
+                          ctx.figure.caught_pokes else '???'
                           }."""
                            if poke.evolve_lvl != 0 else ""), 29)
         self.detail_box.resize(10 + len(desc_text.split("\n")), 35)
@@ -72,15 +71,15 @@ Defense: {poke.defense}
 Initiative: {poke.initiative}
 Active: """) + se.Text(active[0], esccode=active[1])
 
-        with self.detail_box.center_add(mvp.movemap):
-            loops.easy_exit(box=self.detail_box)
+        with self.detail_box.center_add(self.box.map):
+            loops.easy_exit(box=self.detail_box, pevm=ctx.pevm)
         self.detail_box.rem_ob(poke.ico)
 
     def resize_view(self):
         """Manages recursive view resizing"""
         self.box.remove()
-        mvp.movemap.resize_view()
-        self.box.resize(mvp.movemap.height - 3, 35)
+        self.box.overview.resize_view()
+        self.box.resize(self.box.map.height - 3, 35)
         self.rem_c_obs()
         self.add_c_obs()
         if len(self.box.c_obs) == 0:
@@ -90,23 +89,24 @@ Active: """) + se.Text(active[0], esccode=active[1])
             self.box.set_index(len(self.box.c_obs) - 1)
         if self.box.index.index >= len(self.box.c_obs):
             self.box.set_index(len(self.box.c_obs) - 1)
-        self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0)
-        mvp.movemap.full_show()
+        self.box.add(self.box.map, self.box.map.width - self.box.width, 0)
+        self.box.map.full_show()
 
-    def __call__(self):
+    def __call__(self, ctx: Context):
         """Opens the dex"""
-        self.box.resize(mvp.movemap.height - 3, 35)
+        self.box.overview = ctx.overview
+        self.box.resize(ctx.map.height - 3, 35)
         pokes = p_data.pokes
         self.idx = 0
         p_dict = {i[1]: i[-1] for i in
                   sorted([(pokes[j]["types"][0], j, pokes[j])
                           for j in list(pokes)[1:]])}
         self.obs = [se.Text(f"{i + 1} \
-{p_dict[poke]['name'] if poke in self.figure.caught_pokes else '???'}",
+{p_dict[poke]['name'] if poke in ctx.figure.caught_pokes else '???'}",
                             state="float")
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()
-        with self.box.add(mvp.movemap, mvp.movemap.width - self.box.width, 0):
+        with self.box.add(ctx.map, ctx.map.width - self.box.width, 0):
             while True:
                 action = get_action()
                 for event, idx, n_idx, add, idx_2 in zip(
@@ -126,13 +126,16 @@ Active: """) + se.Text(active[0], esccode=active[1])
                         action = get_action()
                 if action.triggers(Action.ACCEPT):
                     if "???" not in self.box.c_obs[self.box.index.index].text:
-                        self.detail(list(p_dict)[self.idx
-                                                 * (self.box.height - 2)
-                                                 + self.box.index.index])
+                        self.detail(
+                            ctx,
+                            list(p_dict)[self.idx
+                                         * (self.box.height - 2)
+                                         + self.box.index.index],
+                        )
                 elif action.triggers(*ACTION_UP_DOWN):
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.POKEDEX):
                     break
-                loops.std(box=self)
-                mvp.movemap.show()
+                loops.std(box=self, pevm=ctx.pevm)
+                ctx.map.full_show()
             self.rem_c_obs()

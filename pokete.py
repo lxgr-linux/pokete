@@ -736,7 +736,7 @@ def _game(_map: PlayMap):
         Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
         Action.MAP: [RoadMap(), (ctx,)],
         Action.INVENTORY: [inv, (ctx,)],
-        Action.POKEDEX: [pokete_dex, ()],
+        Action.POKEDEX: [Dex(), (ctx,)],
         Action.CLOCK: [timer.clock, (mvp.movemap,)],
         Action.MENU: [menu, (ctx,)],
         Action.HELP: [Help(), (mvp.movemap,)]
@@ -1268,7 +1268,6 @@ copy of it alongside this software.""",
 
     # side fn definitions
     detail.detail = detail.Detail(tss.height - 1, tss.width)
-    pokete_dex = Dex(figure)
     RoadMap.check_maps()
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
     buy = Buy(figure, mvp.movemap)
