@@ -4,23 +4,22 @@ import time
 import scrap_engine as se
 from pokete_classes import animations, \
     deck, game_map as gm
-from ..attack_result import AttackResult
 from release import SPEED_OF_TIME
-from ...hotkeys import Action, get_action
+from ...ui import ask_bool, Overview
+from ..attack_result import AttackResult
+from ...input import Action, get_action
 from ..providers import ProtoFigure, Provider
-from ...ui_elements import StdFrame2
+from ...ui.elements import StdFrame2
 from ...classes import OutP
-from ...input import ask_bool
-from ...inv_items import invitems, InvItem
+from ...inv import invitems, InvItem
 from ...settings import settings
-from ...loops import std_loop
 from ...tss import tss
-from ... import movemap as mvp
+from ... import movemap as mvp, loops
 from .attack import AttackBox
 from .inv import InvBox
 
 
-class FightMap(gm.GameMap):
+class FightMap(gm.GameMap, Overview):
     """Wrapper for gm.GameMap
     ARGS:
         height: The height of the map
@@ -248,7 +247,7 @@ class FightMap(gm.GameMap):
                     self.show(init=True)
                     continue
                 return AttackResult.choose_poke()
-            std_loop(False, box=self)
+            loops.std(False, box=self)
             self.show()
 
     def add_providers(self, providers: list[Provider]):

@@ -1,9 +1,8 @@
-"""This file contains most of the user interface
-elements used in Pokete"""
-
 import scrap_engine as se
 
-from .hotkeys import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, ActionList
+from .box import Box
+from pokete_classes.input import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, \
+    ActionList
 
 
 class BoxIndex(se.Object):
@@ -12,95 +11,6 @@ class BoxIndex(se.Object):
     def __init__(self):
         super().__init__("*", state="float")
         self.index = 0
-
-
-class StdFrame(se.Frame):
-    """Standardized frame
-    ARGS:
-        height: The frames height
-        width: The frames width"""
-
-    def __init__(self, height, width):
-        super().__init__(width=width, height=height,
-                         corner_chars=["┌", "┐", "└", "┘"],
-                         horizontal_chars=["─", "─"],
-                         vertical_chars=["│", "│"], state="float")
-
-
-class StdFrame2(se.Frame):
-    """Standardized frame
-    ARGS:
-        height: The frames height
-        width: The frames width"""
-
-    def __init__(self, height, width, state="solid"):
-        super().__init__(width=width, height=height,
-                         corner_chars=["_", "_", "|", "|"],
-                         horizontal_chars=["_", "_"], state=state)
-
-
-class Box(se.Box):
-    """Box to show content in
-    ARGS:
-        height: The boxes height
-        width: The boxes width
-        name: The boxes displayed name
-        info: Info that will be displayed in the bottom left corner of the box"""
-
-    def __init__(self, height, width, name="", info="", overview=None):
-        super().__init__(height, width)
-        self.overview = overview
-        self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=" ", width=width - 2, height=height - 2,
-                               state="float")
-        self.name_label = se.Text(name, state="float")
-        self.info_label = se.Text(info, state="float")
-        # adding
-        self.add_ob(self.frame, 0, 0)
-        self.add_ob(self.inner, 1, 1)
-        self.add_ob(self.name_label, 2, 0)
-        self.add_ob(self.info_label, 2, self.height - 1)
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        if self.overview is not None:
-            self.remove()
-            self.overview.resize_view()
-            self.center_add(self.map)
-            self.map.show()
-
-    def center_add(self, _map):
-        """Adds the box to the maps center
-        ARGS:
-            _map: se.Map the box will be added to"""
-        self.add(_map, round((_map.width - self.width) / 2),
-                 round((_map.height - self.height) / 2))
-        return self
-
-    def resize(self, height, width):
-        """Resizes the box to a certain size
-        See se.Box.resize"""
-        super().resize(height, width)
-        self.inner.resize(width - 2, height - 2)
-        self.frame.resize(height, width)
-        self.set_ob(self.name_label, 2, 0)
-        self.set_ob(self.info_label, 2, self.height - 1)
-
-    def add(self, _map, x, y):
-        """Adds the box to a map
-        See se.Box.add"""
-        super().add(_map, x, y)
-        return self
-
-    def __enter__(self):
-        """Enter dunder for context management"""
-        self.map.show()
-        return self
-
-    def __exit__(self, exc_type, exc_value, exc_tb):
-        """Exit dunder for context management"""
-        self.remove()
-        self.map.show()
 
 
 class ChooseBox(Box):
@@ -114,9 +24,9 @@ class ChooseBox(Box):
         c_obs: List of se.Texts that can be choosen from"""
 
     def __init__(
-            self, height, width, name="", info="",
-            index_x=2, c_obs=None, overview=None
-        ):
+        self, height, width, name="", info="",
+        index_x=2, c_obs=None, overview=None
+    ):
         super().__init__(height, width, name, info, overview=overview)
         self.index_x = index_x
         self.index = BoxIndex()
@@ -208,9 +118,9 @@ class BetterChooseBox(Box):
         _map: The map it will be shown on"""
 
     def __init__(
-            self, columns, labels: [se.Text],
-            name="", _map=None, overview=None
-        ):
+        self, columns, labels: [se.Text],
+        name="", _map=None, overview=None
+    ):
         self.nest_label_obs = []
         self.set_items(columns, labels, init=True)
         super().__init__(
@@ -262,10 +172,10 @@ class BetterChooseBox(Box):
             Action.RIGHT: (0, 1),
         }[inp]
         self.set_index((self.index[0] + _c[0])
-                            % len([i for i in self.nest_label_obs if len(i) >
-                                self.index[1]]),
+                       % len([i for i in self.nest_label_obs if len(i) >
+                              self.index[1]]),
                        (self.index[1] + _c[1])
-                            % len(self.nest_label_obs[self.index[0]]))
+                       % len(self.nest_label_obs[self.index[0]]))
 
     def set_items(self, columns, labels: [se.Text], init=False):
         """Sets the items shown in the box
@@ -304,74 +214,3 @@ class BetterChooseBox(Box):
         self.center_add(self.map)
         self.map.show()
         return self
-
-
-class LabelBox(Box):
-    """A Box just containing one label
-    ARGS:
-        label: The se.Text label
-        name: The boxes displayed name
-        info: Info that will be displayed in the bottom left corner of the box"""
-
-    def __init__(self, label, name="", info="", overview=None):
-        self.label = label
-        super().__init__(
-            label.height + 2, label.width + 4, name, info,
-            overview=overview
-        )
-        self.add_ob(label, 2, 1)
-
-
-class InfoBox(LabelBox):
-    """Box to display basic text information in
-    ARGS:
-        text: String displayed
-        name: The boxes displayed name
-        info: Info that will be displayed in the bottom left corner of the box
-        _map: The se.Map this will be shown on"""
-
-    def __init__(
-            self, text, name="",
-            info=f"{Action.CANCEL.mapping}:close",
-            _map=None, overview=None
-        ):
-        super().__init__(se.Text(text), name=name, info=info, overview=overview)
-        self.map = _map
-
-    def __enter__(self):  # Contextmanagement is fucking awesome!
-        """Enter dunder for contextmanagement"""
-        self.center_add(self.map)
-        self.map.show()
-        return self
-
-
-class InputBox(InfoBox):
-    """Box that promps the user to input a text
-    ARGS:
-        _map: The map the input box should be shown on
-        infotext: The information text about the input
-        introtext: The text that introduces the text field
-        text: The default text in the text field
-        name: The boxes desplayed name
-        max_len: Max length of the text"""
-
-    def __init__(
-        self, infotext, introtext, text, max_len,
-        name="", _map=None, overview=None
-    ):
-        height = len(infotext.split("\n")) + 3
-        width = sorted([len(i) for i in infotext.split("\n")]
-                        + [len(introtext) + 1 + max_len])[-1] + 4
-        super(LabelBox, self).__init__(height, width, name, overview=overview)
-        self.map = _map
-        self.infotext = se.Text(infotext)
-        self.introtext = se.Text(introtext)
-        self.text = se.Text(text)
-        self.add_ob(self.infotext, 2, 1)
-        self.add_ob(self.introtext, 2, len(infotext.split("\n")) + 1)
-        self.add_ob(self.text, self.introtext.rx + len(introtext) + 1,
-                    self.introtext.ry)
-
-
-if __name__ == "__main__":
-    print("\033[31;1mDo not execute this!\033[0m")

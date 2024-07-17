@@ -2,11 +2,11 @@
 
 import release
 
-from pokete_classes.input import ask_text, ask_ok
 from util import liner
 from .communication import com_service, ConnectionException
 from .exceptions import UserPresentException, VersionMismatchException, \
     InvalidPokeException
+from ..ui import ask_ok, ask_text
 
 
 class Connector:

@@ -2,14 +2,14 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from pokete_classes.poke import StatsInfoBox
 from util import liner
-from .poke import StatsInfoBox
-from .hotkeys import Action, get_action
-from .loops import std_loop
-from .event import _ev
-from .ui_elements import StdFrame2, ChooseBox
+from .input import Action, get_action, _ev
+from .ui import Overview
+from .ui.elements import StdFrame2, ChooseBox
 from .color import Color
 from .tss import tss
+from . import loops
 
 
 class Informer:
@@ -53,7 +53,7 @@ class Informer:
             eff.cleanup()
 
 
-class Detail(Informer):
+class Detail(Informer, Overview):
     """Shows details about a Pokete
     ARGS:
         height: Height of the map
@@ -224,8 +224,8 @@ class Detail(Informer):
                                 break
                             elif action.triggers(Action.CANCEL):
                                 break
-                            std_loop(False, box=box)
-            std_loop(False, box=self)
+                            loops.std(False, box=box)
+            loops.std(False, box=self)
             # This section generates the Text effect for attack labels
             for atc in self.poke.attack_obs:
                 if len(atc.desc) > int((self.map.width - 3) / 2 - 1):

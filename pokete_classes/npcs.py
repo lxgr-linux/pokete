@@ -5,15 +5,14 @@ import logging
 import random
 import scrap_engine as se
 from release import SPEED_OF_TIME
-from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
-from . import movemap as mvp
 from .fight import Fight, Provider
-from .loops import std_loop
-from .input import ask_bool
-from .inv_items import invitems
+from .input import ACTION_UP_DOWN, Action, get_action
+from .ui import ask_bool
+from .inv import invitems
 from .settings import settings
-from .ui_elements import ChooseBox
+from .ui.elements import ChooseBox
 from .general import check_walk_back
+from . import movemap as mvp, loops
 
 
 class NPCTrigger(se.Object):
@@ -169,7 +168,7 @@ Do you want to accept it?", mvp.movemap):
         while True:
             self.text(q_a["q"])
             while get_action() is None:
-                std_loop(mvp.movemap)
+                loops.std(mvp.movemap)
                 mvp.movemap.show()
             if q_a["a"] == {}:
                 break
@@ -195,7 +194,7 @@ Do you want to accept it?", mvp.movemap):
                     elif action.triggers(Action.ACCEPT):
                         key = keys[c_b.index.index]
                         break
-                    std_loop(box=c_b)
+                    loops.std(box=c_b)
                     mvp.movemap.show()
             q_a = q_a["a"][key]
 

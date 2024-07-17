@@ -1,13 +1,12 @@
 import time
 import scrap_engine as se
 
-from pokete_classes import movemap as mvp, buy, deck
+from pokete_classes import movemap as mvp, deck, loops
 from pokete_classes.classes import PlayMap
 from pokete_classes.doors import CenterDoor
-from pokete_classes.hotkeys import get_action, Action
-from pokete_classes.loops import std_loop
+from pokete_classes.inv import buy
 from pokete_classes.npcs import NPC
-from pokete_classes.event import _ev
+from pokete_classes.input import _ev, get_action, Action
 from release import SPEED_OF_TIME
 
 
@@ -68,7 +67,7 @@ class ShopMap(PlayMap):
         self.dor_back2.add(self, int(self.width / 2) + 1, 8)
         self.inner.add(self, int(self.width / 2) - 9, 1)
         self.interact.add(self, int(self.width / 2), 4)
-        
+
 
 class CenterInteract(se.Object):
     """Triggers a conversation in the Pokete center"""
@@ -93,7 +92,7 @@ class CenterInteract(se.Object):
             if action.triggers(Action.ACT_1):
                 while "__fallback__" in [p.identifier for p in ob.pokes]:
                     ob.pokes.pop([p.identifier for p in
-                                      ob.pokes].index("__fallback__"))
+                                  ob.pokes].index("__fallback__"))
                 mvp.movemap.balls_label_rechar(ob.pokes)
                 deck.deck(mvp.movemap, len(ob.pokes))
                 break
@@ -107,7 +106,7 @@ class CenterInteract(se.Object):
                 break
             elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
-            std_loop(box=mvp.movemap)
+            loops.std(box=mvp.movemap)
         mvp.movemap.full_show(init=True)
 
 
@@ -123,7 +122,7 @@ class ShopInteract(se.Object):
         mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
                          ["Welcome to the Pokete-Shop",
                           "Wanna buy something?"])
-        buy.buy()
+        buy()
         mvp.movemap.full_show(init=True)
         mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
                          ["Have a great day!"])

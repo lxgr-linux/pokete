@@ -2,7 +2,7 @@
 
 import random
 import scrap_engine as se
-from pokete_classes import game, ob_maps as obmp
+from . import game, ob_maps as obmp
 
 
 class CenterDoor(se.Object):

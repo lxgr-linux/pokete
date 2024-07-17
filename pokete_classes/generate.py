@@ -35,8 +35,7 @@ def gen_maps(p_maps: Maps, extra_actions=None, fix_center=False):
         Dict of all PlayMaps"""
     maps = {}
     for ob_map, args in p_maps.items():
-        args["extra_actions"] = (getattr(extra_actions, args["extra_actions"],
-                                         None)
+        args["extra_actions"] = (extra_actions.get(args["extra_actions"])
                                  if args["extra_actions"] is not None
                                  else None and extra_actions)
         maps[ob_map] = PlayMap(name=ob_map, **args)

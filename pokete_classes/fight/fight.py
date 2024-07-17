@@ -11,7 +11,7 @@ from .fightmap import FightMap
 from .providers import Provider
 from ..attack import Attack
 from ..audio import audio
-from ..inv_items import InvItem
+from ..inv import InvItem
 from ..tss import tss
 from .. import movemap as mvp
 

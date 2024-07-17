@@ -5,16 +5,17 @@ import sys
 import scrap_engine as se
 
 import pokete_classes.game_map as gm
-from pokete_classes.hotkeys import get_action, ACTION_DIRECTIONS, Action
-from pokete_classes.loops import std_loop
+from pokete_classes import loops
+from pokete_classes.input import get_action, ACTION_DIRECTIONS, Action
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.tss import tss
-from pokete_classes.ui_elements import BetterChooseBox
+from pokete_classes.ui.elements import BetterChooseBox
 from . import connector
 from .communication import com_service
+from ..ui import Overview
 
 
-class PreGameMap(gm.GameSubmap):
+class PreGameMap(gm.GameSubmap, Overview):
     """Map for background"""
 
     def resize_view(self):
@@ -65,5 +66,5 @@ class ModeChooser(BetterChooseBox):
                             return
                         else:
                             sys.exit()
-                std_loop(box=self)
+                loops.std(box=self)
                 self.map.show()

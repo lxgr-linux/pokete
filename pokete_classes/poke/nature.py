@@ -6,10 +6,10 @@ import scrap_engine as se
 import pokete_data as p_data
 from util import liner
 from .dicts import NatureDict
-from ..hotkeys import Action
-from ..ui_elements import LabelBox
+from ..input import Action
+from ..ui.elements import LabelBox
 from ..color import Color
-from ..loops import easy_exit_loop
+from .. import loops
 
 
 class Nature:
@@ -117,4 +117,4 @@ of its kind.", 40, pre=""))
             _map: Map to show on"""
         self.overview = overview
         with self.center_add(_map):
-            easy_exit_loop(False, box=self)
+            loops.easy_exit(False, box=self)

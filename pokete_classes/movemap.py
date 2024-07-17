@@ -3,31 +3,26 @@
 import time
 import scrap_engine as se
 
-import pokete_classes.ob_maps as obmp
-import pokete_classes.game_map as gm
 from util import liner
 from release import SPEED_OF_TIME
-from .multiplayer.pc_manager import pc_manager
-from .loops import std_loop
 from .classes import OutP
 from .color import Color
-from .event import _ev
-from .hotkeys import Action
-from .notify import notifier
+from .input import _ev, Action
+from .ui import notifier, Overview
 from .tss import tss
+from .multiplayer.pc_manager import pc_manager
+from . import loops, ob_maps as obmp, game_map as gm
 
 
-class Movemap(gm.GameSubmap):
+class Movemap(gm.GameSubmap, Overview):
     """Movemap class to remove bad code
     ARGS:
         height: Height of the map
-        width: Width of the map
-        menu_cls: The class Menu"""
+        width: Width of the map"""
 
-    def __init__(self, height, width, menu_cls):
+    def __init__(self, height, width):
         super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
                          height=height, width=width, name="movemap")
-        self.menu = menu_cls(self)
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
@@ -94,7 +89,7 @@ class Movemap(gm.GameSubmap):
                         "   "
                     )
                 )
-                std_loop(box=self)
+                loops.std(box=self)
                 if _ev.get() != "":
                     _ev.clear()
                     break
@@ -106,7 +101,7 @@ class Movemap(gm.GameSubmap):
                 )
             )
             while _ev.get() == "":
-                std_loop(box=self)
+                loops.std(box=self)
                 self.show()
         self.multitext.remove()
         _ev.clear()

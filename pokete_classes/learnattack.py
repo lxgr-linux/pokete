@@ -1,15 +1,15 @@
 """Contains the LearnAttack class"""
 
 import random
+
 import scrap_engine as se
 import pokete_data as p_data
 from util import liner
-from .hotkeys import Action, get_action
-from .loops import std_loop, easy_exit_loop
-from .input import ask_bool, ask_ok
-from .ui_elements import ChooseBox, Box
-from . import detail
+from .input import Action, get_action
+from .ui import ask_bool, ask_ok
+from .ui.elements import ChooseBox, Box
 from .attack import Attack
+from . import detail, loops
 
 
 class AttackInfo(Box):
@@ -136,10 +136,10 @@ class LearnAttack:
                             with AttackInfo(
                                 new_attack, self.map, self.box
                             ) as box:
-                                easy_exit_loop(box=box)
+                                loops.easy_exit(box=box)
                         elif action.triggers(Action.CANCEL):
                             return False
-                        std_loop(box=self.box)
+                        loops.std(box=self.box)
                 self.box.remove_c_obs()
             return True
         return False

@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
-from pokete_classes.attack import Attack
-from pokete_classes.inv_items import InvItem
+from ..attack import Attack
+from ..inv import InvItem
 
 
 class Result(Enum):

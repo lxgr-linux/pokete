@@ -22,7 +22,7 @@ from ..effects import effects
 from ..learnattack import LearnAttack
 from .nature import PokeNature
 from ..achievements import achievements
-from ..loops import std_loop
+from .. import loops
 
 
 class Poke:
@@ -193,7 +193,7 @@ can't have more than 4 attacks!"
             overview: Overview"""
         if self.lvl() % 5 == 0:
             LearnAttack(self, _map, overview)()
-
+    
     def evolve(self, figure, _map):
         """Evolves the Pokete to its evolve_poke
         ARGS:
@@ -222,7 +222,7 @@ can't have more than 4 attacks!"
                       round((evomap.height - 8) / 2))
                 time.sleep(SPEED_OF_TIME * 0.7 - i * 0.09999)
                 evomap.show()
-                std_loop(box=evomap)
+                loops.std(box=evomap)
         self.ico.remove()
         new.ico.add(evomap, round(evomap.width / 2 - 4),
                     round((evomap.height - 8) / 2))
@@ -239,7 +239,7 @@ can't have more than 4 attacks!"
             figure.caught_pokes.append(new.identifier)
         achievements.achieve("first_evolve")
         logging.info("[Poke] %s evolved into %s", self.name, new.name)
-        std_loop(box=evomap)
+        loops.std(box=evomap)
         del self
         return True
 
