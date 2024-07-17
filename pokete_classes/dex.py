@@ -8,7 +8,7 @@ from .context import Context
 from .input import Action, ACTION_UP_DOWN, get_action
 from .poke import Poke
 from .color import Color
-from .nature import PokeNature
+from .poke import PokeNature
 from .ui import Overview
 from .ui.elements import ChooseBox, Box
 from . import loops
