@@ -22,7 +22,7 @@ import pokete_data as p_data
 import release
 from pokete_classes import animations, loops
 from pokete_classes.context import Context
-from pokete_classes.inv import inv, Buy
+from pokete_classes.inv import inv, buy
 from pokete_classes.menu import menu
 from pokete_classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
     TreatNPCEvent
@@ -342,7 +342,7 @@ class ShopInteract(se.Object):
         mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
                          ["Welcome to the Pokete-Shop",
                           "Wanna buy something?"])
-        buy()
+        buy(Context(None, mvp.movemap, mvp.movemap, figure))
         mvp.movemap.full_show(init=True)
         mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
                          ["Have a great day!"])
@@ -737,9 +737,9 @@ def _game(_map: PlayMap):
         Action.MAP: [RoadMap(), (ctx,)],
         Action.INVENTORY: [inv, (ctx,)],
         Action.POKEDEX: [Dex(), (ctx,)],
-        Action.CLOCK: [timer.clock, (mvp.movemap,)],
+        Action.CLOCK: [timer.clock, (ctx,)],
         Action.MENU: [menu, (ctx,)],
-        Action.HELP: [Help(), (mvp.movemap,)]
+        Action.HELP: [Help(), (ctx,)]
     }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
@@ -1270,13 +1270,12 @@ copy of it alongside this software.""",
     detail.detail = detail.Detail(tss.height - 1, tss.width)
     RoadMap.check_maps()
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
-    buy = Buy(figure, mvp.movemap)
     pokete_care.from_dict(session_info.get("pokete_care", {
         "entry": 0,
         "poke": None,
     }))
     timer.time = timer.Time(session_info.get("time", 0))
-    timer.clock = timer.Clock(timer.time, mvp.movemap)
+    timer.clock = timer.Clock(timer.time)
     HighGrass.figure = figure
     Poketeball.figure = figure
     _ev.set_emit_fn(timer.time.emit_input)

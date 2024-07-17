@@ -8,12 +8,12 @@ from release import SPEED_OF_TIME
 from .classes import OutP
 from .color import Color
 from .input import _ev, Action
-from .ui import notifier
+from .ui import notifier, Overview
 from .tss import tss
 from . import loops, ob_maps as obmp, game_map as gm
 
 
-class Movemap(gm.GameSubmap):
+class Movemap(gm.GameSubmap, Overview):
     """Movemap class to remove bad code
     ARGS:
         height: Height of the map
