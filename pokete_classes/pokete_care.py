@@ -25,13 +25,11 @@ class PoketeCare:
         self.entry = entry
         self.poke = poke
 
-    @classmethod
-    def from_dict(cls, _dict):
+    def from_dict(self, _dict):
         """Assembles a PoketeCare from _dict"""
-        entry = _dict.get("entry", 0)
-        poke = None if _dict.get("poke") is None else \
+        self.entry = _dict.get("entry", 0)
+        self.poke = None if _dict.get("poke") is None else \
             Poke.from_dict(_dict["poke"])
-        return cls(entry, poke)
 
     def dict(self):
         """Returns a dict from the object"""
@@ -39,3 +37,6 @@ class PoketeCare:
             "entry": self.entry,
             "poke": None if self.poke is None else self.poke.dict(),
         }
+
+
+pokete_care = PoketeCare()

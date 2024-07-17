@@ -2,9 +2,9 @@
 
 import scrap_engine as se
 from util import liner
-from .ui_elements import LabelBox
-from .color import Color
-from .util.object_group import get_nested
+from .elements import LabelBox
+from .util import get_nested
+from ..color import Color
 
 
 class Notification(LabelBox):

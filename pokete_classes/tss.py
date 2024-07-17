@@ -2,8 +2,8 @@
 
 import os
 import scrap_engine as se
-import pokete_classes.game_map as gm
-from .ui_elements import StdFrame
+from .ui.elements import StdFrame
+from . import game_map as gm
 
 
 class ResizeScreen:

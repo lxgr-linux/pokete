@@ -3,10 +3,9 @@
 from datetime import datetime
 
 import scrap_engine as se
-
-from pokete_classes.hotkeys import Action
-from pokete_classes.loops import easy_exit_loop
-from pokete_classes.ui_elements import LabelBox
+from .input import Action
+from .ui.elements import LabelBox
+from . import loops
 
 
 class PokeStats:
@@ -135,4 +134,4 @@ class PokeStatsInfoBox(LabelBox):
         ARGS:
             _map: Map to show on"""
         with self.center_add(_map):
-            easy_exit_loop(False, box=self)
+            loops.easy_exit(False, box=self)
