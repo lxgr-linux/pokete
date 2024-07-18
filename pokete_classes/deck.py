@@ -1,6 +1,5 @@
 """The Deck shows all Poketes a player owns"""
 
-import logging
 import scrap_engine as se
 from pokete_classes import detail
 import pokete_classes.game_map as gm
@@ -8,7 +7,7 @@ from .input import (
     ACTION_DIRECTIONS, Action, get_action, _ev
 )
 import pokete_classes.movemap as mvp
-from .ui import ask_bool, ask_ok
+from .input_loops import ask_bool, ask_ok
 from .color import Color
 from .poke import Poke
 from .ui.elements import StdFrame2

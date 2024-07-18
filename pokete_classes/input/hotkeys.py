@@ -174,7 +174,7 @@ def hotkeys_save():
 
 def hotkeys_from_save(save, _map, version_change):
     """Sets hotkey_mappings from save"""
-    from ..ui import ask_bool
+    from ..input_loops import ask_bool
     global hotkey_mappings
 
     if save == {}:

@@ -6,7 +6,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from util import liner
 from .input import Action, get_action
-from .ui import ask_bool, ask_ok
+from .input_loops import ask_bool, ask_ok
 from .ui.elements import ChooseBox, Box
 from .attack import Attack
 from . import detail, loops

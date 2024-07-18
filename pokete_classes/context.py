@@ -2,7 +2,7 @@ from copy import copy
 
 from .game_map import GameSubmap
 from .game import PeriodicEventManager
-from .ui import Overview
+from .ui.overview import Overview
 
 
 class Context:

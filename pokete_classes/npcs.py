@@ -7,7 +7,7 @@ import scrap_engine as se
 from release import SPEED_OF_TIME
 from .fight import Fight, Provider
 from .input import ACTION_UP_DOWN, Action, get_action
-from .ui import ask_bool
+from .input_loops import ask_bool
 from .inv import invitems
 from .settings import settings
 from .ui.elements import ChooseBox

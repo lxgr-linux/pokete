@@ -23,7 +23,6 @@ import release
 from pokete_classes.map_additions.map_addtions import map_additions
 import pokete_classes.multiplayer.connector as connector
 from pokete_classes.multiplayer.communication import com_service
-from pokete_classes.multiplayer.menu import ModeChooser
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager, NameTag
 from pokete_classes.poke import Stats
@@ -41,7 +40,7 @@ from pokete_classes.poke import Poke
 from pokete_classes.color import Color
 from pokete_classes.pre_game import PreGameMap
 from pokete_classes.save import read_save, save
-from pokete_classes.text_input import text_input
+from pokete_classes.input_loops import text_input
 from pokete_classes.ui.elements import InfoBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings
@@ -54,13 +53,11 @@ from pokete_classes.pokete_care import DummyFigure, pokete_care
 from pokete_classes import deck, detail, timer, ob_maps as obmp, \
     movemap as mvp
 # import pokete_classes.generic_map_handler as gmh
-from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
-from pokete_classes.doors import (
-    CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
-)
-from pokete_classes.roadmap import RoadMap
+from pokete_classes.landscape import HighGrass, Poketeball
+from pokete_classes.doors import Door
 from pokete_classes.npcs import NPC, Trainer
-from pokete_classes.ui import notifier, ask_bool, ask_text, ask_ok
+from pokete_classes.ui import notifier
+from pokete_classes.input_loops import ask_bool, ask_text, ask_ok
 from pokete_classes.achievements import achievements
 from pokete_classes.input import (
     get_action, Action, ACTION_DIRECTIONS, hotkeys_from_save
@@ -526,8 +523,9 @@ def teleport(poke):
     """Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation"""
-    if (obj := roadmap.roadmap(Context(None, mvp.movemap, mvp.movemap, figure),
-                               choose=True)) is None:
+    if (obj := roadmap.roadmap(
+        Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure),
+        choose=True)) is None:
         return
     if settings("animations").val:
         animations.transition(mvp.movemap, poke)
@@ -630,6 +628,7 @@ def _game(_map: PlayMap):
         audio.switch(_map.song)
 
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
+    mvp.movemap.resize_view()
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
     pc_manager.movemap_move()
@@ -898,7 +897,6 @@ copy of it alongside this software.""",
 
     # Figure
     figure = Figure(session_info)
-    connector.connector.set_args(figure)
     NameTag.set_args(figure)
 
     gen_obs(p_data.map_data, p_data.npcs, p_data.trainers, figure)

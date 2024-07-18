@@ -5,7 +5,8 @@ import scrap_engine as se
 from pokete_classes import animations, \
     deck, game_map as gm
 from release import SPEED_OF_TIME
-from ...ui import ask_bool, Overview
+from ...input_loops import ask_bool
+from ...ui import Overview
 from ..attack_result import AttackResult
 from ...input import Action, get_action
 from ..providers import ProtoFigure, Provider

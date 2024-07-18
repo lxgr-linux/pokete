@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from pokete_classes import movemap as mvp
 from .attack_result import AttackResult
 from ..poke import Poke
-from ..ui import ask_bool
+from ..input_loops import ask_bool
 
 
 class Provider(ABC):

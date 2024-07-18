@@ -25,7 +25,9 @@ def parse_obj(_map, name, obj, _dict):
     obj.add(_map, _dict["x"], _dict["y"])
 
 
-def gen_maps(p_maps: Maps, extra_actions=None, fix_center=False):
+def gen_maps(
+    p_maps: Maps, extra_actions=None, fix_center=False
+) -> dict[str, PlayMap]:
     """Generates all maps
     ARGS:
         p_maps: contains maps data

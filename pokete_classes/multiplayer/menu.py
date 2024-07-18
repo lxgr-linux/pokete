@@ -4,7 +4,6 @@ import sys
 
 import scrap_engine as se
 
-import pokete_classes.game_map as gm
 from .. import loops
 from ..context import Context
 from ..input import get_action, ACTION_DIRECTIONS, Action
@@ -49,5 +48,5 @@ class ModeChooser(BetterChooseBox):
                             return
                         else:
                             sys.exit()
-                loops.std(box=self)
-                self.map.show()
+                loops.std(ctx=ctx.with_overview(self))
+                self.map.full_show()

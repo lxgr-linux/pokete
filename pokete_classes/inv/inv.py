@@ -9,7 +9,8 @@ from ..input import Action, get_action, _ev
 from ..learnattack import LearnAttack
 from ..types import types
 from ..poke import upgrade_by_one_lvl
-from ..ui import ask_bool, ask_ok, Overview
+from ..input_loops import ask_bool, ask_ok
+from ..ui import Overview
 from ..ui.elements import ChooseBox
 
 

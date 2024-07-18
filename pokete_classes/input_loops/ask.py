@@ -1,9 +1,9 @@
 """This file contains input wrappers for ui elements"""
-
-from .elements import InfoBox, InputBox
+from ..context import Context
+from ..ui.elements import InfoBox, InputBox
 from ..input import Action, get_action, _ev
 from .. import loops
-from ..text_input import text_input
+from .text_input import text_input
 
 
 def ask_bool(_map, text, overview=None):
@@ -28,37 +28,38 @@ def ask_bool(_map, text, overview=None):
     return ret
 
 
-def ask_text(_map, infotext, introtext, text, name, max_len, overview=None):
+def ask_text(ctx: Context, infotext, introtext, text, name, max_len):
     """Asks the player to input a text
     ARGS:
-        _map: The map the input box should be shown on
+        ctx: Context
         infotext: The information text about the input
         introtext: The text that introduces the text field
         text: The default text in the text field
         name: The boxes displayed name
-        max_len: Max length of the text
-        overview: The overview this is called on"""
+        max_len: Max length of the text"""
     with InputBox(
-        infotext, introtext, text, max_len, name, _map, overview
+        infotext, introtext, text, max_len, name, ctx.map, ctx.overview
     ) as inputbox:
-        ret = text_input(inputbox.text, _map, text, max_len + 1,
-                         max_len=max_len, box=inputbox)
+        ret = text_input(
+            ctx.with_overview(inputbox), inputbox.text, text,
+            max_len + 1,
+            max_len=max_len
+        )
     return ret
 
 
-def ask_ok(_map, text, overview=None):
+def ask_ok(ctx: Context, text):
     """Shows the player some information
     ARGS:
-        _map: The map the question is asked on
-        text: The question it self
-        overview: The overview this is called on"""
+        ctx:Context
+        text: The question it self"""
     assert len(text) >= 4, "Text has to be longer then 4 characters!"
     text_len = sorted([len(i) for i in text.split('\n')])[-1]
     with InfoBox(f"{text}\n{round(text_len / 2 - 2) * ' '} [O]k ", name="Info",
-                 info="", _map=_map, overview=overview) as box:
+                 info="", _map=ctx.map, overview=ctx.overview) as box:
         while True:
             action = get_action()
             if action.triggers(Action.ACCEPT or action == Action.CANCEL):
                 break
-            loops.std(_map.name == "movemap", box=box)
+            loops.std(ctx.map.name == "movemap", ctx.with_overview(box))
         _ev.clear()

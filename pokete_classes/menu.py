@@ -12,7 +12,7 @@ from .mods import ModInfo
 from .save import save
 from .settings import VisSetting, Slider, settings
 from .side_loops import About
-from .text_input import text_input
+from .input_loops import text_input
 from .ui import notifier, Overview
 from .ui.elements import ChooseBox, InfoBox
 
