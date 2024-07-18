@@ -6,6 +6,7 @@ import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
 from pokete_classes.context import Context
 from pokete_classes.game import PeriodicEvent
+from pokete_classes.maps import Stations, Decorations
 from util import liner
 from .input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .color import Color
@@ -135,7 +136,8 @@ class Station(StationObject):
 class RoadMap:
     """Map you can see and navigate maps on"""
 
-    def __init__(self, stations=None, decorations=None):
+    def __init__(self, stations: Stations = None,
+                 decorations: Decorations = None):
         if stations is None:
             stations = p_data.stations
         if decorations is None:

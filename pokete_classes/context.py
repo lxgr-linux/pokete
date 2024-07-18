@@ -1,13 +1,13 @@
 from copy import copy
 
-from .movemap import Movemap
+from .game_map import GameSubmap
 from .game import PeriodicEventManager
 from .ui import Overview
 
 
 class Context:
     def __init__(
-        self, pevm: PeriodicEventManager, _map: Movemap,
+        self, pevm: PeriodicEventManager, _map: GameSubmap,
         overview: Overview, figure
     ):
         self.pevm = pevm

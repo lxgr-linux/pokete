@@ -2,9 +2,9 @@
     "servermap_1": {
         "gen": {
             "additionals": [],
-            "width": 2,
-            "height": 1,
-            "desc": "This server"
+            "desc": "This server",
+            "text": "--",
+            "color": "yellow"
         },
         "add": {
             "x": 4,

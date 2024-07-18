@@ -86,8 +86,8 @@ class CommunicationService:
                     context.figure,
                 )
                 roadmap.roadmap = roadmap.RoadMap(
-                    context.figure,
-                    data["map_stations"]
+                    data["map_stations"],
+                    data["map_decorations"]
                 )
                 pos = data["position"]
                 context.saved_pos = (
@@ -122,7 +122,8 @@ class CommunicationService:
                     "x": x,
                     "y": y,
                 },
-                "client": None
+                "client": None,
+                "pokes": [],
             }))
 
 

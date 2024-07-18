@@ -6,6 +6,7 @@ from util import liner
 from .communication import com_service, ConnectionException
 from .exceptions import UserPresentException, VersionMismatchException, \
     InvalidPokeException
+from ..context import Context
 from ..ui import ask_ok, ask_text
 
 
@@ -21,12 +22,10 @@ class Connector:
         self.figure = None
         self.saved_pos = ()
 
-    def __call__(self, _map, overview):
-        """Starts ui to connect to server
-        ARGS:
-            _map: Map to show this on
-            overview: Overview for resizing"""
-        self.map = _map
+    def __call__(self, ctx: Context):
+        """Starts ui to connect to server"""
+        self.map = ctx.map
+        self.overview = ctx.overview
         conn_succ = False
         while not conn_succ:
             self.set_host_port()
@@ -60,7 +59,7 @@ class Connector:
                 self.map,
                 "Please enter the servers host you want to connect to.",
                 "Host:",
-                f"{self.host}:{self.port}" if self.host else "",
+                f"{self.host}:{self.port}" if self.host else "localhost",
                 "Host",
                 20,
                 self.overview,
@@ -81,7 +80,7 @@ class Connector:
             ("That username isn't awailable right now\n" if reask else "")
             + "Please enter the username you want to use on the server",
             "Username:",
-            self.user_name,
+            self.user_name if self.user_name else "lxgr",
             "Username",
             20,
             self.overview,

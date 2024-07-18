@@ -2,8 +2,9 @@
 
 import os
 import scrap_engine as se
+
+from .game_map import GameMap
 from .ui.elements import StdFrame
-from . import game_map as gm
 
 
 class ResizeScreen:
@@ -13,7 +14,7 @@ class ResizeScreen:
         self.height = 0
         self.width = 0
         self.__set_dimensions()
-        self.map = gm.GameMap(self.height - 1, self.width)
+        self.map = GameMap(self.height - 1, self.width)
         self.warning_label = se.Text("Minimum windowsize is 70x20")
         self.size_label = se.Text(f"{self.width}x{self.height}")
         self.frame = StdFrame(self.height - 1, self.width)

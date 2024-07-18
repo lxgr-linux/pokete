@@ -7,6 +7,8 @@ import release
 from . import timer
 from .achievements import achievements
 from .input import hotkeys_save
+from .multiplayer.connector import connector
+from .multiplayer.modeprovider import modeProvider, Mode
 from .pokete_care import pokete_care
 from .settings import settings
 
@@ -14,16 +16,24 @@ HOME = Path.home()
 
 
 def save(figure):
+    _map = figure.map.name
+    old_map = figure.oldmap.name
+    x = figure.x
+    y = figure.y
+    last_center_map = figure.last_center_map.name
+    if modeProvider.mode == Mode.MULTI:
+        _map, old_map, last_center_map, x, y = connector.saved_pos
+
     """Saves all relevant data to savefile"""
     _si = {
         "user": figure.name,
         "represent_char": figure.char,
         "ver": release.VERSION,
-        "map": figure.map.name,
-        "oldmap": figure.oldmap.name,
-        "last_center_map": figure.last_center_map.name,
-        "x": figure.x,
-        "y": figure.y,
+        "map": _map,
+        "oldmap": old_map,
+        "last_center_map": last_center_map,
+        "x": x,
+        "y": y,
         "achievements": achievements.achieved,
         "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         "inv": figure.inv,

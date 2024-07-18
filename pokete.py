@@ -39,6 +39,7 @@ from pokete_classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
     TreatNPCEvent
 from pokete_classes.poke import Poke
 from pokete_classes.color import Color
+from pokete_classes.pre_game import PreGameMap
 from pokete_classes.save import read_save, save
 from pokete_classes.text_input import text_input
 from pokete_classes.ui.elements import InfoBox
@@ -751,7 +752,7 @@ def main():
     # hotkeys
     hotkeys_from_save(session_info.get("hotkeys", {}),
                       loading_screen.map, ver_change)
-    ModeChooser()()
+    PreGameMap()(figure)
     game_map = figure.map
     logging.info("%s, %s", figure.map.name, figure.added)
     if figure.name == "DEFAULT":

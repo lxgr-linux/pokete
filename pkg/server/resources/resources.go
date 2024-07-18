@@ -7,12 +7,13 @@ import (
 )
 
 type Resources struct {
-	obmaps   *Obmaps
-	maps     *Maps
-	npcs     *NPCs
-	trainers *Trainers
-	stations *Stations
-	pokes    *Pokes
+	obmaps         *Obmaps
+	maps           *Maps
+	npcs           *NPCs
+	trainers       *Trainers
+	mapStations    *MapStations
+	mapDecorations *MapDecorations
+	pokes          *Pokes
 }
 
 func (m Resources) GetObmaps() Obmaps {
@@ -31,8 +32,12 @@ func (m Resources) GetTrainers() Trainers {
 	return *m.trainers
 }
 
-func (m Resources) GetStations() Stations {
-	return *m.stations
+func (m Resources) GetMapStations() MapStations {
+	return *m.mapStations
+}
+
+func (m Resources) GetMapDecorations() MapDecorations {
+	return *m.mapDecorations
 }
 
 func (m Resources) GetPokes() Pokes {
@@ -56,7 +61,12 @@ func FromDir(baseDir string) (*Resources, error) {
 	if err != nil {
 		return nil, err
 	}
-	tempStations, err := readFile[Stations](path.Join(baseDir, "mapstations.json"))
+	tempStations, err := readFile[MapStations](path.Join(baseDir, "map_stations.json"))
+	if err != nil {
+		return nil, err
+	}
+
+	tempDecorations, err := readFile[MapDecorations](path.Join(baseDir, "map_decorations.json"))
 	if err != nil {
 		return nil, err
 	}
@@ -67,12 +77,13 @@ func FromDir(baseDir string) (*Resources, error) {
 	}
 
 	return &Resources{
-		obmaps:   &tempObmaps,
-		maps:     &tempMaps,
-		npcs:     &tempNPCs,
-		trainers: &tempTrainers,
-		stations: &tempStations,
-		pokes:    &tempPokes,
+		obmaps:         &tempObmaps,
+		maps:           &tempMaps,
+		npcs:           &tempNPCs,
+		trainers:       &tempTrainers,
+		mapStations:    &tempStations,
+		mapDecorations: &tempDecorations,
+		pokes:          &tempPokes,
 	}, nil
 }
 

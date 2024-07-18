@@ -100,20 +100,32 @@ type TrainerArgs struct {
 	Y         int32    `json:"y"`
 }
 
-type Stations map[string]Station
+type MapStations map[string]MapStation
 
-type Station struct {
-	Gen StationGen `json:"gen"`
-	Add Coords     `json:"add"`
+type MapStation struct {
+	Gen MapStationGen `json:"gen"`
+	Add Coords        `json:"add"`
 }
 
-type StationGen struct {
+type MapStationGen struct {
 	Additionals []string `json:"additionals"`
-	Width       int32    `json:"width"`
-	Height      int32    `json:"height"`
 	Desc        string   `json:"desc"`
+	Text        string   `json:"text"`
+	Color       string   `json:"color"`
 	ANext       *string  `json:"a_next"`
 	WNext       *string  `json:"w_next"`
 	SNext       *string  `json:"s_next"`
 	DNext       *string  `json:"d_next"`
+}
+
+type MapDecorations map[string]MapDecoration
+
+type MapDecoration struct {
+	Gen MapDecorationGen `json:"gen"`
+	Add Coords           `json:"add"`
+}
+
+type MapDecorationGen struct {
+	Desc string `json:"desc"`
+	Text string `json:"text"`
 }
