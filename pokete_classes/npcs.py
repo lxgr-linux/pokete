@@ -10,10 +10,9 @@ from .fight import Fight, Provider
 from .input import ACTION_UP_DOWN, Action, get_action
 from .input_loops import ask_bool
 from .inv import invitems
-from .settings import settings
 from .ui.elements import ChooseBox
 from .general import check_walk_back
-from . import movemap as mvp, loops
+from . import movemap as mvp, loops, settings
 
 
 class NPCTrigger(se.Object):
@@ -88,7 +87,7 @@ class NPC(se.Box):
 
     def action(self):
         """Interaction with the NPC triggered by NPCTrigger.action"""
-        if self.used and settings("save_trainers").val:
+        if self.used and settings.settings("save_trainers").val:
             return
         logging.info("[NPC][%s] Interaction", self.name)
         mvp.movemap.full_show()
@@ -241,7 +240,7 @@ class Trainer(NPC, Provider):
         self.win_texts = win_texts
         self.trainer = True
 
-    def get_attack(self, fightmap, enem):
+    def get_attack(self, ctx: Context, fightmap, enem):
         return random.choices(
             self.curr.attack_obs,
             weights=[
@@ -273,7 +272,7 @@ class Trainer(NPC, Provider):
             return
         self.pokes = [p for p in self.pokes if p.hp > 0]
         if self.pokes and (not self.used
-                           or not settings("save_trainers").val) \
+                           or not settings.settings("save_trainers").val) \
             and self.check_walk(self.fig.x, self.fig.y):
             mvp.movemap.full_show()
             time.sleep(SPEED_OF_TIME * 0.7)
@@ -310,7 +309,7 @@ class Trainer(NPC, Provider):
             'against you!'
         )
 
-    def handle_defeat(self, fightmap, winner):
+    def handle_defeat(self, ctx: Context, fightmap, winner):
         """Function caleld when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
