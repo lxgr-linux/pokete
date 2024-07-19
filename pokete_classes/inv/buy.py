@@ -60,7 +60,7 @@ class Buy(Overview):
                     if ctx.figure.get_money() - obj.price >= 0:
                         ctx.figure.add_money(-obj.price)
                         ctx.figure.give_item(obj.name)
-                loops.std(box=self.box2, pevm=ctx.pevm)
+                loops.std(ctx=ctx.with_overview(self.box2))
                 ctx.map.full_show()
         self.box2.remove()
 

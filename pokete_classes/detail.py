@@ -2,6 +2,8 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from pokete_classes.context import Context
+from pokete_classes.game import PeriodicEventManager
 from pokete_classes.poke import StatsInfoBox
 from util import liner
 from .input import Action, get_action, _ev
@@ -156,13 +158,14 @@ class Detail(Informer, Overview):
                                        [0, 1, 1, 2, 3]):
                 label.add(self.map, _x + __x, _y + __y)
 
-    def __call__(self, poke, abb=True, overview=None):
+    def __call__(self, ctx: Context, poke, abb=True):
         """Shows details
         ARGS:
             poke: Poke object whose details are given
-            abb: Bool whether or not the ability option is shown"""
+            abb: Bool whether or not the ability option is overview=Nonshown"""
         self.poke = poke
-        self.overview = overview
+        self.overview = ctx.overview
+        ctx = Context(PeriodicEventManager([]), self.map, self, ctx.figure)
         ret_action = None
         self.add(self.poke, None, self.map, 1, 1, False)
         abb_obs = [i for i in self.poke.attack_obs
@@ -224,8 +227,8 @@ class Detail(Informer, Overview):
                                 break
                             elif action.triggers(Action.CANCEL):
                                 break
-                            loops.std(False, box=box)
-            loops.std(False, box=self)
+                            loops.std(ctx.with_overview(box))
+            loops.std(ctx)
             # This section generates the Text effect for attack labels
             for atc in self.poke.attack_obs:
                 if len(atc.desc) > int((self.map.width - 3) / 2 - 1):
@@ -246,7 +249,7 @@ class Detail(Informer, Overview):
             self.map.show()
 
 
-detail = None
+detail: Detail | None = None
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

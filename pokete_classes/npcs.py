@@ -5,6 +5,7 @@ import logging
 import random
 import scrap_engine as se
 from release import SPEED_OF_TIME
+from .context import Context
 from .fight import Fight, Provider
 from .input import ACTION_UP_DOWN, Action, get_action
 from .input_loops import ask_bool
@@ -31,7 +32,7 @@ class NPCTrigger(se.Object):
 
 class NPC(se.Box):
     """An NPC to talk to"""
-    fig = None
+    ctx: Context = None
     npcactions = None
     registry = {}
 
@@ -71,7 +72,7 @@ class NPC(se.Box):
         """Movemap.text wrapper
         ARGS:
             text: Text that should be printed"""
-        mvp.movemap.text(self.x, self.y, text)
+        mvp.movemap.text(self.ctx, self.x, self.y, text)
 
     def exclamate(self):
         """Shows the exclamation on top of a NPC"""
@@ -142,8 +143,8 @@ class NPC(se.Box):
             item: Item name"""
         item = getattr(invitems, item)
         self.set_used()
-        if ask_bool(mvp.movemap, f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?", mvp.movemap):
+        if ask_bool(self.ctx, f"{name} gifted you a '{item.pretty_name}'. \
+Do you want to accept it?"):
             self.fig.give_item(item.name)
 
     @property
@@ -172,36 +173,25 @@ Do you want to accept it?", mvp.movemap):
                 mvp.movemap.show()
             if q_a["a"] == {}:
                 break
-            keys = list(q_a["a"].keys())
-            c_b = MultiTextChooseBox(
-                len(keys) + 2,
-                sorted(len(i) for i in keys)[-1] + 6,
-                name="Answer",
-                c_obs=[se.Text(i, state="float") for i in keys],
-                overview=mvp.movemap
-            )
-            c_b.fig = self.fig
-            c_b.frame.corners[0].rechar("^")
-            mvp.movemap.assure_distance(self.fig.x, self.fig.y,
-                                        c_b.width + 2, c_b.height + 2)
-            with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
-                         self.fig.y - mvp.movemap.y + 1):
-                while True:
-                    action = get_action()
-                    if action.triggers(*ACTION_UP_DOWN):
-                        c_b.input(action)
-                        mvp.movemap.show()
-                    elif action.triggers(Action.ACCEPT):
-                        key = keys[c_b.index.index]
-                        break
-                    loops.std(box=c_b)
-                    mvp.movemap.show()
-            q_a = q_a["a"][key]
+            q_a = q_a["a"][
+                MultiTextChooseBox(
+                    list(q_a["a"].keys())
+                )(self.ctx)
+            ]
 
 
 class MultiTextChooseBox(ChooseBox):
     """ChooseBox wrapper for multitext conversations"""
-    fig = None
+
+    def __init__(self, keys):
+        super().__init__(
+            len(keys) + 2,
+            sorted(len(i) for i in keys)[-1] + 6,
+            name="Answer",
+            c_obs=[se.Text(i, state="float") for i in keys],
+        )
+        self.fig = None
+        self.keys = keys
 
     def resize_view(self):
         """Manages recursive view resizing"""
@@ -216,6 +206,26 @@ class MultiTextChooseBox(ChooseBox):
             self.fig.x - mvp.movemap.x,
             self.fig.y - mvp.movemap.y + 1
         )
+
+    def __call__(self, ctx: Context) -> int:
+        self.set_ctx(ctx)
+        self.fig = ctx.figure
+        self.frame.corners[0].rechar("^")
+        mvp.movemap.assure_distance(self.fig.x, self.fig.y,
+                                    self.width + 2, self.height + 2)
+        with self.add(ctx.map, self.fig.x - mvp.movemap.x,
+                      self.fig.y - mvp.movemap.y + 1):
+            while True:
+                action = get_action()
+                if action.triggers(*ACTION_UP_DOWN):
+                    self.input(action)
+                    mvp.movemap.show()
+                elif action.triggers(Action.ACCEPT):
+                    key = self.keys[self.index.index]
+                    break
+                loops.std(ctx.with_overview(self))
+                mvp.movemap.show()
+        return key
 
 
 class Trainer(NPC, Provider):

@@ -3,6 +3,7 @@
 import time
 import scrap_engine as se
 
+from pokete_classes.context import Context
 from util import liner
 from release import SPEED_OF_TIME
 from .classes import OutP
@@ -65,7 +66,7 @@ class Movemap(gm.GameSubmap, Overview):
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, _x, _y, inp_arr):
+    def text(self, ctx: Context, _x, _y, inp_arr):
         """Shows dialog text on movemap
         ARGS:
             _x: The message's X
@@ -89,7 +90,7 @@ class Movemap(gm.GameSubmap, Overview):
                         "   "
                     )
                 )
-                loops.std(box=self)
+                loops.std(ctx.with_overview(self))
                 if _ev.get() != "":
                     _ev.clear()
                     break
@@ -101,8 +102,8 @@ class Movemap(gm.GameSubmap, Overview):
                 )
             )
             while _ev.get() == "":
-                loops.std(box=self)
-                self.show()
+                loops.std(ctx.with_overview(self))
+                self.full_show()
         self.multitext.remove()
         _ev.clear()
 
@@ -151,7 +152,7 @@ class Movemap(gm.GameSubmap, Overview):
         self.balls_label.set(4 + len(self.name_label.text), self.height - 2)
 
 
-movemap = None
+movemap: Movemap | None = None
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

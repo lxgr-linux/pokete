@@ -20,10 +20,9 @@ class LoopBox:
 
     def __call__(self, ctx: Context):
         """Shows the about text"""
-        self.box.map = ctx.map
-        self.box.overview = ctx.overview
+        self.box.set_ctx(ctx)
         with self.box:
-            loops.easy_exit(box=self.box, pevm=ctx.pevm)
+            loops.easy_exit(ctx=ctx.with_overview(self.box))
 
 
 class About(LoopBox):

@@ -13,9 +13,12 @@ class Box(se.Box, Overview):
         info: Info that will be displayed in the bottom left corner of the box"""
 
     def __init__(self, height, width, name="", info="",
-                 overview: Overview | None = None):
+                 overview: Overview | None = None, ctx=None):
         super().__init__(height, width)
         self.overview = overview
+        if ctx:
+            self.overview = ctx.overview
+            self.map = ctx.map
         self.frame = StdFrame(height, width)
         self.inner = se.Square(char=" ", width=width - 2, height=height - 2,
                                state="float")

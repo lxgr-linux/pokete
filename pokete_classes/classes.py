@@ -69,7 +69,7 @@ class OutP(se.Text):
         ARGS:
             text: String that's printed out"""
         self.rechar(text)
-        self.map.show()
+        self.map.full_show()
 
     def append(self, *args):
         """Appends another se.Text to the outp
@@ -77,7 +77,7 @@ class OutP(se.Text):
             args: se.Texts that will be appended"""
         for i in args:
             self += i
-        self.map.show()
+        self.map.full_show()
 
 
 if __name__ == "__main__":

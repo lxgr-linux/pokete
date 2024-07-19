@@ -44,5 +44,5 @@ def text_input(ctx: Context, obj, name, wrap_len, max_len=1000000):
             obj.rechar(hard_liner(wrap_len, name + "█"))
             ctx.map.show()
             _ev.clear()
-        loops.std(ctx.map.name == "movemap", ctx)
+        loops.std(ctx)
         ctx.map.full_show()

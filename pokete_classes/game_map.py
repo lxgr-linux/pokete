@@ -3,7 +3,15 @@
 import scrap_engine as se
 
 
-class GameMap(se.Map):
+class CompatMap:
+    def show(self):
+        pass
+
+    def full_show(self):
+        self.show()
+
+
+class GameMap(se.Map, CompatMap):
     """Wraps the se.Map class and adds a name attribute
     ARGS:
         height: The map's height
@@ -16,7 +24,7 @@ class GameMap(se.Map):
         self.name = name
 
 
-class GameSubmap(se.Submap):
+class GameSubmap(se.Submap, CompatMap):
     """Wraps the se.Submap class and adds a name attribute
     ARGS:
         bmap: The map's parent map

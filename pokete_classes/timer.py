@@ -123,7 +123,7 @@ class Clock(Box):
                     d_p = not d_p
                     letter_obs = self.draw_letters(d_p, letter_obs)
                     raw_time = self.time.time
-                loops.std(box=self, pevm=ctx.pevm)
+                loops.std(ctx=ctx.with_overview(self))
                 self.map.full_show()
             self.__rem_obs(letter_obs)
 

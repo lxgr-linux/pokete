@@ -46,6 +46,7 @@ class Inv(Overview):
         """Opens the inventory"""
         self.map = ctx.map
         self.box.overview = ctx.overview
+        self.box.set_ctx(ctx)
         figure = ctx.figure
         _ev.clear()
         items = self.add(figure)
@@ -95,10 +96,10 @@ class Inv(Overview):
                                     items = self.rem_item(figure, obj.name,
                                                           items)
                                     ask_ok(
-                                        self.map,
+                                        ctx.with_overview(self),
                                         f"{poke.name} reached level "
                                         f"{poke.lvl()}!",
-                                        self
+
                                     )
                             elif isinstance(obj, LearnDisc):
                                 if ask_bool(
@@ -139,7 +140,7 @@ class Inv(Overview):
                                         if len(items) == 0:
                                             break
                             break
-                        loops.std(pevm=ctx.pevm, box=self.box2)
+                        loops.std(ctx=ctx.with_overview(self.box2))
                         self.map.full_show()
                 elif action.triggers(Action.REMOVE):
                     if ask_bool(
@@ -154,7 +155,7 @@ class Inv(Overview):
                         )
                         if len(items) == 0:
                             break
-                loops.std(pevm=ctx.pevm, box=self)
+                loops.std(ctx=ctx.with_overview(self))
                 self.map.full_show()
         self.box.remove_c_obs()
 

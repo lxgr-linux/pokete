@@ -35,7 +35,7 @@ from pokete_classes.context import Context
 from pokete_classes.inv import inv, buy
 from pokete_classes.menu import menu
 from pokete_classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
-    TreatNPCEvent
+    TreatNPCEvent, NotifierEvent
 from pokete_classes.poke import Poke
 from pokete_classes.color import Color
 from pokete_classes.pre_game import PreGameMap
@@ -634,11 +634,16 @@ def _game(_map: PlayMap):
     pc_manager.movemap_move()
     mvp.movemap.full_show()
     pevm = PeriodicEventManager(
-        [MovingGrassEvent(_map), MovingWaterEvent(_map),
-         TreatNPCEvent()] + _map.extra_actions())
+        [
+            MovingGrassEvent(_map),
+            MovingWaterEvent(_map),
+            TreatNPCEvent(),
+            NotifierEvent()
+        ] + _map.extra_actions())
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
+    NPC.ctx = ctx  # Npcs need thois global context
     inp_dict = {
-        Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
+        Action.DECK: [deck.deck, (ctx, 6, "Your deck")],
         Action.MAP: [roadmap.roadmap, (ctx,)],
         Action.INVENTORY: [inv, (ctx,)],
         Action.POKEDEX: [Dex(), (ctx,)],
@@ -664,10 +669,7 @@ def _game(_map: PlayMap):
             _ev.clear()
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
-            if ask_bool(
-                mvp.movemap, "Do you really wish to exit?",
-                mvp.movemap
-            ):
+            if ask_bool(ctx, "Do you really wish to exit?"):
                 save(figure)
                 sys.exit()
         elif action.triggers(Action.CONSOLE):
@@ -678,7 +680,7 @@ def _game(_map: PlayMap):
             mvp.movemap.code_label.outp(figure.map.pretty_name)
             codes(inp)
             _ev.clear()
-        loops.std(pevm=pevm, box=mvp.movemap)
+        loops.std(ctx=ctx)
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,

@@ -71,7 +71,7 @@ class AchBox(LabelBox):
         ach: The Achievement
         achievements: Achievement's object"""
 
-    def __init__(self, ach, ach_ob, overview):
+    def __init__(self, ctx: Context, ach, ach_ob):
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = [i[-1] for i in ach_ob.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
@@ -85,7 +85,7 @@ class AchBox(LabelBox):
                 + se.Text("\n" + liner(ach.desc, 30), state="float")
         super().__init__(label, name=ach.title,
                          info=f"{Action.CANCEL.mapping}:close",
-                         overview=overview)
+                         ctx=ctx)
 
 
 class AchievementOverview(BetterChooseBox):
@@ -103,8 +103,7 @@ class AchievementOverview(BetterChooseBox):
                                    if achievements.is_achieved(i.identifier)
                                    else "", state="float")
                            for i in achievements.achievements])
-        self.map = ctx.map
-        self.overview = ctx.overview
+        self.set_ctx(ctx)
         with self:
             while True:
                 action = get_action()
@@ -118,13 +117,11 @@ class AchievementOverview(BetterChooseBox):
                             self.get_item(*self.index).ind
                         ]
                         with AchBox(
-                            ach,
-                            achievements,
-                            self
+                            ctx.with_overview(self),
+                            ach, achievements,
                         ).center_add(ctx.map) as achbox:
-                            loops.easy_exit(
-                                box=achbox, pevm=ctx.pevm)
-                loops.std(box=self, pevm=ctx.pevm)
+                            loops.easy_exit(ctx.with_overview(achbox))
+                loops.std(ctx.with_overview(self))
                 self.map.full_show()
 
 

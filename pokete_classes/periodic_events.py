@@ -6,6 +6,7 @@ from .landscape import Meadow, HighGrass
 from .npcs import NPC
 from .game import PeriodicEvent
 from .settings import settings
+from .ui import notifier
 
 
 def check_figure_redraw(obj):
@@ -61,3 +62,8 @@ class TreatNPCEvent(PeriodicEvent):
     def tick(self, tick: int):
         if timer.time.normalized == 6 * 60:
             NPC.get("npc_28").unset_used()
+
+
+class NotifierEvent(PeriodicEvent):
+    def tick(self, tick: int):
+        notifier.next()

@@ -68,7 +68,7 @@ class Menu(Overview):
         """Opens the menu"""
         self.map = ctx.map
         figure = ctx.figure
-        self.box.overview = ctx.overview
+        self.box.set_ctx(ctx)
 
         self.box.resize(self.map.height - 3, 35)
         self.realname_label.rechar(figure.name)
@@ -87,12 +87,18 @@ class Menu(Overview):
                     # Fuck python for not having case statements - lxgr
                     #     but it does lmao - Magnus
                     if i == self.playername_label:
-                        figure.name = text_input(self.realname_label, self.map,
-                                                 figure.name, 18, 17)
+                        figure.name = text_input(
+                            ctx.with_overview(self),
+                            self.realname_label,
+                            figure.name, 18, 17
+                        )
                         self.map.name_label_rechar(figure.name)
                     elif i == self.represent_char_label:
-                        inp = text_input(self.char_label, self.map,
-                                         figure.char, 18, 1)
+                        inp = text_input(
+                            ctx.with_overview(self),
+                            self.char_label,
+                            figure.char, 18, 1
+                        )
                         # excludes bad unicode:
                         if (
                             len(inp.encode("utf-8")) != 1
@@ -108,7 +114,8 @@ valid single-space character!")
                         ModInfo()(ctx.with_overview(self))
                     elif i == self.save_label:
                         # When will python3.10 come out?
-                        with InfoBox("Saving....", info="", _map=self.map):
+                        with InfoBox("Saving....", info="",
+                                     ctx=ctx.with_overview(self.box)):
                             # Shows a box displaying "Saving...." while saving
                             save(figure)
                             time.sleep(SPEED_OF_TIME * 1.5)
@@ -132,7 +139,7 @@ valid single-space character!")
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.MENU):
                     break
-                loops.std(pevm=ctx.pevm, box=self)
+                loops.std(ctx.with_overview(self))
                 self.map.full_show()
 
 

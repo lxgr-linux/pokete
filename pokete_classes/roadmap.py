@@ -203,7 +203,8 @@ W ◀ ▶ E
         ][0].choose(ctx.figure)
         self.box.overview = ctx.overview
         blinker = BlinkerEvent(self.sta)
-        pevm = ctx.pevm.with_events([blinker])
+        ctx = ctx.with_pevm(ctx.pevm.with_events([blinker])).with_overview(
+            self.box)
         with self.box.center_add(ctx.map):
             while True:
                 action = get_action()
@@ -239,15 +240,13 @@ W ◀ ▶ E
                             30,
                         ),
                         self.sta.name,
-                        _map=ctx.map,
-                        overview=self.box,
+                        ctx=ctx,
                     ) as box:
-                        loops.easy_exit(box=box, pevm=ctx.pevm)
+                        blinker.box = box
+                        loops.easy_exit(ctx=ctx.with_overview(box))
+                        blinker.box = None
                 blinker.station = self.sta
-                loops.std(
-                    box=self.box,
-                    pevm=pevm
-                )
+                loops.std(ctx=ctx.with_overview(self.box))
                 ctx.map.full_show()
         self.sta.unchoose()
 
@@ -271,6 +270,7 @@ class BlinkerEvent(PeriodicEvent):
     def __init__(self, station: Station):
         self.station = station
         self.blink = False
+        self.box: Box | None = None
 
     def tick(self, tick: int):
         logging.info("yws" + str(self.blink))
@@ -280,6 +280,8 @@ class BlinkerEvent(PeriodicEvent):
             else:
                 self.station.un_blink()
             self.blink = not self.blink
+            if self.box:
+                self.box.set(self.box.x, self.box.y)
 
 
 if __name__ == "__main__":

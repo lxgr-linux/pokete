@@ -4,6 +4,8 @@ import time
 import scrap_engine as se
 from pokete_classes import animations, \
     deck, game_map as gm
+from pokete_classes.context import Context
+from pokete_classes.game import PeriodicEventManager
 from release import SPEED_OF_TIME
 from ...input_loops import ask_bool
 from ...ui import Overview
@@ -191,6 +193,8 @@ class FightMap(gm.GameMap, Overview):
         ARGS:
             player: The players provider
             enem: The enemys provider"""
+        pevm = PeriodicEventManager([])
+        ctx = Context(pevm, self, self, player)
         quick_attacks = [
                             Action.QUICK_ATC_1, Action.QUICK_ATC_2,
                             Action.QUICK_ATC_3, Action.QUICK_ATC_4
@@ -248,7 +252,7 @@ class FightMap(gm.GameMap, Overview):
                     self.show(init=True)
                     continue
                 return AttackResult.choose_poke()
-            loops.std(False, box=self)
+            loops.std(False, ctx)
             self.show()
 
     def add_providers(self, providers: list[Provider]):

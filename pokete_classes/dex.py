@@ -72,7 +72,7 @@ Initiative: {poke.initiative}
 Active: """) + se.Text(active[0], esccode=active[1])
 
         with self.detail_box.center_add(self.box.map):
-            loops.easy_exit(box=self.detail_box, pevm=ctx.pevm)
+            loops.easy_exit(ctx=ctx.with_overview(self.detail_box))
         self.detail_box.rem_ob(poke.ico)
 
     def resize_view(self):
@@ -136,6 +136,6 @@ Active: """) + se.Text(active[0], esccode=active[1])
                     self.box.input(action)
                 elif action.triggers(Action.CANCEL, Action.POKEDEX):
                     break
-                loops.std(box=self, pevm=ctx.pevm)
+                loops.std(ctx=ctx.with_overview(self))
                 ctx.map.full_show()
             self.rem_c_obs()

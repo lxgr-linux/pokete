@@ -3,6 +3,8 @@
 import scrap_engine as se
 from pokete_classes import detail
 import pokete_classes.game_map as gm
+from .context import Context
+from .game import PeriodicEventManager
 from .input import (
     ACTION_DIRECTIONS, Action, get_action, _ev
 )
@@ -10,12 +12,13 @@ import pokete_classes.movemap as mvp
 from .input_loops import ask_bool, ask_ok
 from .color import Color
 from .poke import Poke
+from .ui import Overview
 from .ui.elements import StdFrame2
 from .tss import tss
 from . import loops
 
 
-class Deck(detail.Informer):
+class Deck(detail.Informer, Overview):
     """Deck to see Poketes in"""
 
     def __init__(self, height, width, figure, abb_funcs):
@@ -73,14 +76,16 @@ class Deck(detail.Informer):
             self.pokes[self.index.index].text_name.y
         )
 
-    def __call__(self, overview, p_len, label="Your full deck", in_fight=False):
+    def __call__(self, ctx: Context, p_len, label="Your full deck",
+                 in_fight=False):
         """Opens the deck
         ARGS:
-            overview: Overview
+            ctx: Context
             p_len: Number of Pokes being included
             label: The displayed label
             in_fight: Whether or not this is called in a fight"""
-        self.overview = overview
+        self.overview = ctx.overview
+        ctx = Context(PeriodicEventManager([]), self.submap, self, ctx.figure)
         self.pokes = self.figure.pokes[:p_len]
         ret_action = None
 
@@ -157,9 +162,9 @@ class Deck(detail.Informer):
                         if poke.identifier != "__fallback__"
                     ]
                 ) <= 1:
-                    ask_ok(self.submap, "You can't free all your Poketes", self)
-                elif ask_bool(self.submap, f"Do you really want to free \
-{self.figure.pokes[self.index.index].name}?", self):
+                    ask_ok(ctx, "You can't free all your Poketes")
+                elif ask_bool(ctx, f"Do you really want to free \
+{self.figure.pokes[self.index.index].name}?"):
                     self.rem_pokes()
                     self.figure.pokes[self.index.index] = Poke("__fallback__",
                                                                10, 0)
@@ -185,8 +190,8 @@ class Deck(detail.Informer):
                 else:
                     self.rem_pokes()
                     ret_action = detail.detail(
+                        ctx,
                         self.pokes[self.index.index],
-                        overview=self
                     )
                     self.add_all()
                     self.index.set(
@@ -197,7 +202,7 @@ class Deck(detail.Informer):
                         _ev.set(Action.CANCEL.mapping)
                         continue
                     self.submap.full_show(init=True)
-            loops.std(False, box=self)
+            loops.std(ctx)
             if len(self.pokes) > 0 and \
                 self.index.y - self.submap.y + 6 > self.submap.height:
                 self.submap.set(self.submap.x, self.submap.y + 1)
