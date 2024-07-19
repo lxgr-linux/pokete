@@ -141,6 +141,3 @@ valid single-space character!")
                     break
                 loops.std(ctx.with_overview(self))
                 self.map.full_show()
-
-
-menu = Menu()

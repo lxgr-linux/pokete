@@ -97,7 +97,7 @@ class Slider(se.Box):
             val: The value"""
         if 0 <= (self.offset + val) <= self.boundary:
             self.set_slider(self.offset + val)
-            self.setting.val = round(100 * self.offset/self.boundary)
+            self.setting.val = round(100 * self.offset / self.boundary)
 
 
 class VisSetting(se.Text):

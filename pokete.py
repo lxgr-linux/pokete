@@ -21,7 +21,6 @@ import scrap_engine as se
 import pokete_data as p_data
 import release
 from pokete_classes.map_additions.map_addtions import map_additions
-import pokete_classes.multiplayer.connector as connector
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager, NameTag
@@ -33,7 +32,7 @@ from pokete_classes import roadmap
 from pokete_classes import animations, loops
 from pokete_classes.context import Context
 from pokete_classes.inv import inv, buy
-from pokete_classes.menu import menu
+from pokete_classes.menu import Menu
 from pokete_classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
     TreatNPCEvent, NotifierEvent
 from pokete_classes.poke import Poke
@@ -649,7 +648,7 @@ def _game(_map: PlayMap):
         Action.INVENTORY: [inv, (ctx,)],
         Action.POKEDEX: [Dex(), (ctx,)],
         Action.CLOCK: [timer.clock, (ctx,)],
-        Action.MENU: [menu, (ctx,)],
+        Action.MENU: [Menu(), (ctx,)],
         Action.HELP: [Help(), (ctx,)]
     }
     if _map.weather is not None:
