@@ -4,6 +4,7 @@ import random
 import scrap_engine as se
 import pokete_data as p_data
 from pokete_classes import timer, movemap as mvp
+from .context import Context
 from .fight import Fight, NatureProvider
 from .color import Color
 from .general import check_walk_back
@@ -13,7 +14,7 @@ from .input_loops import ask_ok
 
 class HighGrass(se.Object):
     """Object on the map, that triggers a fight"""
-    figure = None
+    ctx: Context | None = None
 
     def action(self, ob):
         """Action triggers the fight
@@ -28,8 +29,9 @@ class HighGrass(se.Object):
                  or (n_a and is_night)}
         if random.randint(0, 8) == 0:
             Fight()(
+                self.ctx,
                 [
-                    self.figure,
+                    self.ctx.figure,
                     NatureProvider(
                         Poke.wild(
                             random.choices(
@@ -46,7 +48,7 @@ class HighGrass(se.Object):
                     )
                 ]
             )
-            check_walk_back(self.figure)
+            check_walk_back(self.ctx.figure)
 
 
 class Meadow(se.Text):

@@ -122,7 +122,7 @@ class ProtoFigure(Provider):
         ARGS:
             fightmap: fightmap object
             enem: The enemy Provider"""
-        return fightmap.get_figure_attack(self, enem)
+        return fightmap.get_figure_attack(ctx, self, enem)
 
     def handle_defeat(self, ctx: Context, fightmap, winner):
         """Function called when the providers current Pokete dies
@@ -135,7 +135,7 @@ class ProtoFigure(Provider):
             if ask_bool(
                 ctx, "Do you want to choose another Pokete?",
             ):
-                success = fightmap.choose_poke(self)
+                success = fightmap.choose_poke(ctx, self)
                 if not success:
                     return False
                 self.curr.poke_stats.add_battle(False)
@@ -144,5 +144,5 @@ class ProtoFigure(Provider):
         else:
             time.sleep(2)
             self.curr.poke_stats.add_battle(False)
-            fightmap.choose_poke(self, False)
+            fightmap.choose_poke(ctx, self, False)
         return True

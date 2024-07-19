@@ -642,6 +642,7 @@ def _game(_map: PlayMap):
         ] + _map.extra_actions())
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
     NPC.ctx = ctx  # Npcs need thois global context
+    HighGrass.ctx = ctx
     inp_dict = {
         Action.DECK: [deck.deck, (ctx, 6, "Your deck")],
         Action.MAP: [roadmap.roadmap, (ctx,)],

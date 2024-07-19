@@ -30,7 +30,7 @@ class FightMap(gm.GameMap, Overview):
 
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
-        self.box = AttackBox(self)
+        self.box = AttackBox()
         self.invbox = InvBox(height - 3, 35, "Inventory", overview=self)
         self.providers: list[Provider] = []
         # icos
@@ -212,7 +212,7 @@ class FightMap(gm.GameMap, Overview):
                 if attack.ap > 0:
                     return AttackResult.attack(attack)
             elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
-                attack = self.box(self, player.curr.attack_obs)
+                attack = self.box(ctx, player.curr.attack_obs)
                 if attack != "":
                     return AttackResult.attack(attack)
             elif action.triggers(Action.RUN):
@@ -236,7 +236,7 @@ class FightMap(gm.GameMap, Overview):
                         "What do you want to do?"
                     )
                     continue
-                item = self.invbox(self, items, player.inv)
+                item = self.invbox(ctx, items, player.inv)
                 if item is None:
                     continue
 
@@ -245,7 +245,7 @@ class FightMap(gm.GameMap, Overview):
                 # if (i := getattr(fightitems, item.func)(player, enem)) == 1:
                 #   continue TODO: impl
             elif action.triggers(Action.CHOOSE_POKE):
-                if not self.choose_poke(player):
+                if not self.choose_poke(ctx, player):
                     self.show(init=True)
                     continue
                 return AttackResult.choose_poke()
@@ -268,7 +268,7 @@ class FightMap(gm.GameMap, Overview):
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
 
-    def choose_poke(self, player, allow_exit=True):
+    def choose_poke(self, ctx: Context, player, allow_exit=True):
         """Lets the player choose another Pokete from their deck
         ARGS:
             player: The players' used Poke
@@ -278,7 +278,7 @@ class FightMap(gm.GameMap, Overview):
         self.clean_up(player)
         index = None
         while index is None:
-            index = deck.deck(self, 6, "Your deck", True)
+            index = deck.deck(ctx, 6, "Your deck", True)
             if allow_exit:
                 break
         if index is not None:

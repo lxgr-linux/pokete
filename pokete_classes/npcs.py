@@ -219,12 +219,12 @@ class MultiTextChooseBox(ChooseBox):
                 action = get_action()
                 if action.triggers(*ACTION_UP_DOWN):
                     self.input(action)
-                    mvp.movemap.show()
+                    mvp.movemap.full_show()
                 elif action.triggers(Action.ACCEPT):
                     key = self.keys[self.index.index]
                     break
                 loops.std(ctx.with_overview(self))
-                mvp.movemap.show()
+                mvp.movemap.full_show()
         return key
 
 
@@ -282,6 +282,7 @@ class Trainer(NPC, Provider):
             if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
                 self.text(self.texts)
                 winner = Fight()(
+                    self.ctx,
                     [self.fig, self]
                 )
                 is_winner = (winner == self)

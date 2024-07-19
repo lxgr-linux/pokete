@@ -2,20 +2,20 @@
 
 import scrap_engine as se
 from util import liner
+from ...context import Context
 from ...input import ACTION_UP_DOWN, Action, get_action
+from ...ui import Overview
 from ...ui.elements import ChooseBox, LabelBox
 from ... import effects, loops
 from ...attack import Attack
 
 
-class AttackBox(se.Box):
-    """Box containing attack choose and info box
-    ARGS:
-        overview: Overview"""
+class AttackBox(se.Box, Overview):
+    """Box containing attack choose and info box"""
 
-    def __init__(self, overview):
+    def __init__(self):
         super().__init__(0, 0)
-        self.overview = overview
+        self.overview: Overview | None = None
         self.box = ChooseBox(
             6, 25, "Attacks",
             f"{Action.INFO.mapping}:Info", index_x=1
@@ -95,12 +95,12 @@ class AttackBox(se.Box):
         self.remove()
         self.map.show()
 
-    def __call__(self, _map, attack_obs: list[Attack]) -> Attack:
+    def __call__(self, ctx: Context, attack_obs: list[Attack]) -> Attack:
         """Inputloop for attack options
         ARGS:
-            _map: Map to add to
             attack_obs: A list of Attack objects that belong to a Poke"""
-        with self.add(_map, 1, _map.height - 7):
+        self.overview = ctx.overview
+        with self.add(ctx.map, 1, ctx.map.height - 7):
             self.rechar_atk_box(attack_obs)
             self.map.show()
             while True:
@@ -137,5 +137,5 @@ class AttackBox(se.Box):
                             self.rechar_atk_box(attack_obs)
                     self.map.show()
                     continue
-                loops.std(False, box=self)
+                loops.std(ctx.with_overview(self))
         return attack

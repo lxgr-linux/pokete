@@ -1,5 +1,6 @@
 import logging
 import random
+import time
 
 import pokete_data as p_data
 from pokete_classes import ob_maps as obmp
@@ -7,7 +8,6 @@ from pokete_classes.achievements import achievements
 from pokete_classes.audio import audio
 from pokete_classes.fight import FightMap
 from pokete_classes.fight.providers import NatureProvider, Provider
-from pokete_classes.timer import time
 from release import SPEED_OF_TIME
 from .. import movemap as mvp
 
