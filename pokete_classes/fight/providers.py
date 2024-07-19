@@ -5,6 +5,7 @@ import time
 from abc import ABC, abstractmethod
 from pokete_classes import movemap as mvp
 from .attack_result import AttackResult
+from ..context import Context
 from ..poke import Poke
 from ..input_loops import ask_bool
 
@@ -45,7 +46,10 @@ class Provider(ABC):
         )
 
     @abstractmethod
-    def get_attack(self, fightmap: "FightMap", enem) -> AttackResult:
+    def get_attack(
+        self, ctx: Context, fightmap: "FightMap",
+        enem
+    ) -> AttackResult:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
@@ -58,7 +62,7 @@ class Provider(ABC):
             fightmap: fightmap object"""
 
     @abstractmethod
-    def handle_defeat(self, fightmap, winner):
+    def handle_defeat(self, ctx: Context, fightmap, winner):
         """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
@@ -75,7 +79,7 @@ class NatureProvider(Provider):
     def __init__(self, poke):
         super().__init__([poke], escapable=True, xp_multiplier=1)
 
-    def get_attack(self, fightmap, enem) -> AttackResult:
+    def get_attack(self, ctx: Context, fightmap, enem) -> AttackResult:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
@@ -93,7 +97,7 @@ class NatureProvider(Provider):
             fightmap: fightmap object"""
         fightmap.outp.outp(f"A wild {self.curr.name} appeared!")
 
-    def handle_defeat(self, fightmap, winner):
+    def handle_defeat(self, ctx: Context, fightmap, winner):
         """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
@@ -113,14 +117,14 @@ class ProtoFigure(Provider):
             fightmap: fightmap object"""
         return
 
-    def get_attack(self, fightmap, enem) -> AttackResult:
+    def get_attack(self, ctx: Context, fightmap, enem) -> AttackResult:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
             enem: The enemy Provider"""
         return fightmap.get_figure_attack(self, enem)
 
-    def handle_defeat(self, fightmap, winner):
+    def handle_defeat(self, ctx: Context, fightmap, winner):
         """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
@@ -129,8 +133,7 @@ class ProtoFigure(Provider):
             bool: whether or not a Pokete was choosen"""
         if winner.escapable:
             if ask_bool(
-                fightmap, "Do you want to choose another Pokete?",
-                fightmap
+                ctx, "Do you want to choose another Pokete?",
             ):
                 success = fightmap.choose_poke(self)
                 if not success:

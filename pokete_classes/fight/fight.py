@@ -11,6 +11,8 @@ from .fightmap import FightMap
 from .providers import Provider
 from ..attack import Attack
 from ..audio import audio
+from ..context import Context
+from ..game import PeriodicEventManager
 from ..inv import InvItem
 from ..tss import tss
 from .. import movemap as mvp
@@ -23,7 +25,11 @@ class Fight:
         self.fight_items = FightItems()
         self.attack_process = AttackProcess(self.fightmap)
 
-    def __call__(self, providers: list[Provider]):
+    def __call__(self, ctx: Context, providers: list[Provider]):
+        ctx = Context(
+            PeriodicEventManager([]), self.fightmap, ctx.overview,
+            ctx.figure
+        )
         audio.switch("xDeviruchi - Decisive Battle (Loop).mp3")
         self.providers = providers
         self.fightmap.set_providers(providers)
@@ -51,7 +57,10 @@ class Fight:
             winner: Provider | None = None
             loser: Provider | None = None
 
-            attack_result = player.get_attack(self.fightmap, enem)
+            attack_result = player.get_attack(
+                ctx.with_overview(self.fightmap),
+                self.fightmap, enem
+            )
             match attack_result.result:
                 case Result.ATTACK:
                     attack: Attack = attack_result.attack
@@ -112,7 +121,10 @@ class Fight:
                 self.fightmap.show_used_all_attacks(player)
             if winner is not None:
                 if any(p.hp > 0 for p in loser.pokes[:6]):
-                    if not loser.handle_defeat(self.fightmap, winner):
+                    if not loser.handle_defeat(
+                        ctx.with_overview(self.fightmap),
+                        self.fightmap, winner
+                    ):
                         break
                 else:
                     break

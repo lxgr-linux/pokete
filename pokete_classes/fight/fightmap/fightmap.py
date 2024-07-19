@@ -188,13 +188,11 @@ class FightMap(gm.GameMap, Overview):
             self.show()
             time.sleep(SPEED_OF_TIME * 0.1)
 
-    def get_figure_attack(self, player, enem) -> AttackResult:
+    def get_figure_attack(self, ctx: Context, player, enem) -> AttackResult:
         """Chooses the players attack
         ARGS:
             player: The players provider
             enem: The enemys provider"""
-        pevm = PeriodicEventManager([])
-        ctx = Context(pevm, self, self, player)
         quick_attacks = [
                             Action.QUICK_ATC_1, Action.QUICK_ATC_2,
                             Action.QUICK_ATC_3, Action.QUICK_ATC_4
@@ -221,9 +219,8 @@ class FightMap(gm.GameMap, Overview):
                 if (
                     not enem.escapable
                     or not ask_bool(
-                    self,
+                    ctx,
                     "Do you really want to run away?",
-                    overview=self
                 )):
                     continue
                 return AttackResult.run_away()
@@ -252,7 +249,7 @@ class FightMap(gm.GameMap, Overview):
                     self.show(init=True)
                     continue
                 return AttackResult.choose_poke()
-            loops.std(False, ctx)
+            loops.std(ctx)
             self.show()
 
     def add_providers(self, providers: list[Provider]):
