@@ -6,16 +6,18 @@ from util import liner
 from .communication import com_service, ConnectionException
 from .exceptions import UserPresentException, VersionMismatchException, \
     InvalidPokeException
+from .host_port import HostPort, HostPortParseException
 from ..context import Context
 from ..input_loops import ask_ok, ask_text
+
+DEFAULT_PORT = 9988
 
 
 class Connector:
     """Managers server connection"""
 
     def __init__(self):
-        self.host = ""
-        self.port = ""
+        self.host_port: HostPort = HostPort("localhost")
         self.user_name = ""
         self.saved_pos = ()
 
@@ -44,22 +46,20 @@ class Connector:
 
     def set_host_port(self, ctx: Context):
         """Asks the user for host and port to conenct to"""
-        unified_host_port = ""
-        while unified_host_port == "":
-            unified_host_port = ask_text(
-                ctx,
-                "Please enter the servers host you want to connect to.",
-                "Host:",
-                f"{self.host}:{self.port}" if self.host else "localhost",
-                "Host",
-                20,
-            )
-        splid = unified_host_port.split(":")
-        if len(splid) == 1:
-            self.port = 9988
-        else:
-            self.port = int(splid[1])
-        self.host = splid[0]
+        while True:
+            try:
+                self.host_port = HostPort.parse(ask_text(
+                    ctx,
+                    "Please enter the servers host you want to connect to.",
+                    "Host:",
+                    str(self.host_port),
+                    "Host",
+                    40,
+                ))
+            except HostPortParseException as e:
+                ask_ok(ctx, f"Error: {e}")
+                continue
+            break
 
     def ask_user_name(self, ctx: Context, reask=False):
         """Asks the user for username
@@ -79,11 +79,14 @@ class Connector:
     def establish_connection(self, ctx):
         """Actually connects to the server"""
         try:
-            com_service.connect(self.host, self.port)
+            com_service.connect(
+                self.host_port.host,
+                self.host_port.port if self.host_port.port is not None else DEFAULT_PORT
+            )
         except ConnectionException as excpt:
             ask_ok(
                 ctx,
-                f"An error occured connecting to {self.host}:{self.port} :\n"
+                f"An error occured connecting to {self.host_port} :\n"
                 f"{excpt}",
             )
             return False

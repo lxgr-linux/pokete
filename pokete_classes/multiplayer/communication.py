@@ -43,7 +43,7 @@ class CommunicationService:
             daemon=True
         ).start()
 
-    def connect(self, host: str, port: str):
+    def connect(self, host: str, port: int):
         con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             con.connect((host, port))
