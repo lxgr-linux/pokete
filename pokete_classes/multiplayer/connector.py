@@ -30,7 +30,7 @@ class Connector:
 
     def handshake(self, ctx: Context):
         try:
-            greeting_text = com_service.handshake(self, self.user_name,
+            greeting_text = com_service.handshake(ctx, self.user_name,
                                                   release.VERSION)
             ask_ok(ctx, liner(greeting_text, ctx.map.width - 4))
         except UserPresentException:
@@ -65,12 +65,13 @@ class Connector:
         """Asks the user for username
         ARGS:
             reask: Boolean whether or not this is asked again"""
+        self.user_name = ctx.figure.name
         self.user_name = ask_text(
             ctx,
             ("That username isn't awailable right now\n" if reask else "")
             + "Please enter the username you want to use on the server",
             "Username:",
-            self.user_name if self.user_name else "lxgr",
+            self.user_name,
             "Username",
             20,
         )

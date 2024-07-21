@@ -7,7 +7,7 @@ import release
 from . import timer
 from .achievements import achievements
 from .input import hotkeys_save
-from .multiplayer.connector import connector
+from .multiplayer.connector import com_service
 from .multiplayer.modeprovider import modeProvider, Mode
 from .pokete_care import pokete_care
 from .settings import settings
@@ -22,7 +22,7 @@ def save(figure):
     y = figure.y
     last_center_map = figure.last_center_map.name
     if modeProvider.mode == Mode.MULTI:
-        _map, old_map, last_center_map, x, y = connector.saved_pos
+        _map, old_map, last_center_map, x, y = com_service.saved_pos
 
     """Saves all relevant data to savefile"""
     _si = {

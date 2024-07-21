@@ -2,6 +2,7 @@ import threading
 import socket
 
 import bs_rpc
+from pokete_classes.context import Context
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.multiplayer import msg
 from pokete_classes.multiplayer.exceptions import ConnectionException, \
@@ -15,6 +16,7 @@ from pokete_classes import ob_maps as obmp, roadmap
 class CommunicationService:
     def __init__(self):
         self.client: bs_rpc.Client | None = None
+        self.saved_pos = ()
 
     def __subscribe_position_updates(self):
         gen = self.client.call_for_responses(
@@ -60,13 +62,16 @@ class CommunicationService:
             daemon=True
         ).start()
 
-    def handshake(self, context, user_name, version):
+    def handshake(
+        self, ctx: Context, user_name,
+        version
+    ):  # Here COmntext usage outside of the UI context
         """Sends and handles the handshake with the server"""
         resp = self.client.call_for_response(
             msg.Handshake({
                 "user_name": user_name,
                 "version": version,
-                "pokes": [p.dict() for p in context.figure.pokes]
+                "pokes": [p.dict() for p in ctx.figure.pokes]
             }))
         match resp.get_type():
             case error.VERSION_MISMATCH_TYPE:
@@ -83,22 +88,22 @@ class CommunicationService:
                     data["obmaps"],
                     data["npcs"],
                     data["trainers"],
-                    context.figure,
+                    ctx.figure,
                 )
                 roadmap.roadmap = roadmap.RoadMap(
                     data["map_stations"],
                     data["map_decorations"]
                 )
                 pos = data["position"]
-                context.saved_pos = (
-                    context.figure.map.name,
-                    context.figure.oldmap.name,
-                    context.figure.last_center_map.name,
-                    context.figure.x,
-                    context.figure.y,
+                self.saved_pos = (
+                    ctx.figure.map.name,
+                    ctx.figure.oldmap.name,
+                    ctx.figure.last_center_map.name,
+                    ctx.figure.x,
+                    ctx.figure.y,
                 )
-                context.figure.remove()
-                context.figure.add(obmp.ob_maps[pos["map"]], pos["x"], pos["y"])
+                ctx.figure.remove()
+                ctx.figure.add(obmp.ob_maps[pos["map"]], pos["x"], pos["y"])
                 for user in data["users"]:
                     pc_manager.set(
                         user["name"],
