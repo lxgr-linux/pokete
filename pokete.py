@@ -691,7 +691,6 @@ def _game(_map: PlayMap):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
                 pc_manager.movemap_move()
-        mvp.movemap.full_show()
 
 
 def intro(ctx: Context):
