@@ -677,7 +677,7 @@ def _game(_map: PlayMap):
             mvp.movemap.code_label.outp(figure.map.pretty_name)
             codes(inp)
             _ev.clear()
-        loops.std(ctx=ctx)
+
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
@@ -691,6 +691,7 @@ def _game(_map: PlayMap):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
                 pc_manager.movemap_move()
+        loops.std(ctx)
 
 
 def intro(ctx: Context):
@@ -751,7 +752,6 @@ def main():
                       loading_screen.map, ver_change)
     PreGameMap()(figure)
     game_map = figure.map
-    logging.info("%s, %s", figure.map.name, figure.added)
     if figure.name == "DEFAULT":
         intro(
             Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure)

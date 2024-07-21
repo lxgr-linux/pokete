@@ -1,6 +1,4 @@
 """Contains all classes relevant to show the roadmap"""
-import logging
-
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
@@ -273,7 +271,6 @@ class BlinkerEvent(PeriodicEvent):
         self.box: Box | None = None
 
     def tick(self, tick: int):
-        logging.info("yws" + str(self.blink))
         if tick % 10 == 0:
             if self.blink:
                 self.station.blink()
