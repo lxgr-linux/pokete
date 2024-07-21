@@ -670,7 +670,7 @@ def _game(_map: PlayMap):
                 save(figure)
                 sys.exit()
         elif action.triggers(Action.CONSOLE):
-            inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
+            inp = text_input(ctx, mvp.movemap.code_label, ":",
                              mvp.movemap.width,
                              (mvp.movemap.width - 2)
                              * mvp.movemap.height - 1)[1:]
