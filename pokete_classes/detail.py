@@ -213,8 +213,7 @@ class Detail(Informer, Overview):
                             for i in abb_obs
                         ],
                         overview=self
-                    ).center_add(self.map) \
-                        as box:
+                    ).center_add(self.map) as box:
                         while True:
                             action = get_action()
                             if action.triggers(Action.UP, Action.DOWN):
@@ -228,7 +227,6 @@ class Detail(Informer, Overview):
                             elif action.triggers(Action.CANCEL):
                                 break
                             loops.std(ctx.with_overview(box))
-            loops.std(ctx)
             # This section generates the Text effect for attack labels
             for atc in self.poke.attack_obs:
                 if len(atc.desc) > int((self.map.width - 3) / 2 - 1):
@@ -246,7 +244,7 @@ class Detail(Informer, Overview):
                                                        + atc.temp_i])
                     else:
                         atc.temp_j += 1
-            self.map.show()
+            loops.std(ctx)
 
 
 detail: Detail | None = None

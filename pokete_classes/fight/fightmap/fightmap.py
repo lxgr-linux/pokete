@@ -240,9 +240,6 @@ class FightMap(gm.GameMap, Overview):
                     continue
 
                 return AttackResult.item(item)
-                # I hate you python for not having switch statements
-                # if (i := getattr(fightitems, item.func)(player, enem)) == 1:
-                #   continue TODO: impl
             elif action.triggers(Action.CHOOSE_POKE):
                 if not self.choose_poke(ctx, player):
                     self.show(init=True)

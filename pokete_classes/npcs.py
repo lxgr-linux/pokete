@@ -222,7 +222,6 @@ class MultiTextChooseBox(ChooseBox):
                     key = self.keys[self.index.index]
                     break
                 loops.std(ctx.with_overview(self))
-                mvp.movemap.full_show()
         return key
 
 
