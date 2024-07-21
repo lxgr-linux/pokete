@@ -5,9 +5,9 @@ import time
 import pokete_data as p_data
 import scrap_engine as se
 import pokete_classes.game_map as gm
-from pokete_data import achievements
 from release import SPEED_OF_TIME
 from .. import loops
+from ..achievements import achievements
 from ..classes import OutP
 from ..context import Context
 from ..game import PeriodicEventManager

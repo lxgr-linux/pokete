@@ -5,6 +5,7 @@ from datetime import datetime
 import scrap_engine as se
 
 from .dicts import StatsDict
+from ..context import Context
 from ..input import Action
 from ..ui.elements import LabelBox
 from .. import loops
@@ -98,7 +99,7 @@ class StatsInfoBox(LabelBox):
     ARGS:
         poke_stats: PokeStats object"""
 
-    def __init__(self, poke_stats: Stats, overview):
+    def __init__(self, poke_stats: Stats):
         not_available = "N/A"
         if poke_stats.ownership_date is None:
             ownership_date = not_available
@@ -116,24 +117,27 @@ class StatsInfoBox(LabelBox):
             caught_with = poke_stats.caught_with
 
         text = (
-            se.Text(f"\nOwnership date: {ownership_date}")
-            + se.Text(f"\nCaught with: {caught_with}")
-            + se.Text(f"\nEvolved date: {evolve_date}")
-            + se.Text(f"\nNumber of total battles: {poke_stats.total_battles}")
-            + se.Text(f"\nNumber of won battles: {poke_stats.win_battles}")
-            + se.Text(f"\nNumber of lost battles: {poke_stats.lost_battles}")
-            + se.Text(f"\nNumber of run away: {poke_stats.run_away}")
-            + se.Text(f"\nTotal XP earned: {poke_stats.earned_xp}\n")
+            se.Text(f"\nOwnership date: {ownership_date}", state="float")
+            + se.Text(f"\nCaught with: {caught_with}", state="float")
+            + se.Text(f"\nEvolved date: {evolve_date}", state="float")
+            + se.Text(f"\nNumber of total battles: {poke_stats.total_battles}",
+                      state="float")
+            + se.Text(f"\nNumber of won battles: {poke_stats.win_battles}",
+                      state="float")
+            + se.Text(f"\nNumber of lost battles: {poke_stats.lost_battles}",
+                      state="float")
+            + se.Text(f"\nNumber of run away: {poke_stats.run_away}",
+                      state="float")
+            + se.Text(f"\nTotal XP earned: {poke_stats.earned_xp}\n",
+                      state="float")
         )
         super().__init__(
             text, name=f"{poke_stats.poke_name} statistics",
-            info=f"{Action.CANCEL.mapping}:close",
-            overview=overview
+            info=f"{Action.CANCEL.mapping}:close"
         )
 
-    def __call__(self, _map):
-        """Shows the box
-        ARGS:
-            _map: Map to show on"""
-        with self.center_add(_map):
-            loops.easy_exit(False, box=self)
+    def __call__(self, ctx: Context):
+        """Shows the box"""
+        self.set_ctx(ctx)
+        with self.center_add(self.map):
+            loops.easy_exit(ctx.with_overview(self))

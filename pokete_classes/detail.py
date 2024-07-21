@@ -201,9 +201,9 @@ class Detail(Informer, Overview):
                     del atc.temp_i, atc.temp_j
                 return ret_action
             if action.triggers(Action.NATURE_INFO):
-                poke.nature.info(self.map, self)
+                poke.nature.info(ctx)
             elif action.triggers(Action.STATS_INFO):
-                StatsInfoBox(poke.poke_stats, self)(self.map)
+                StatsInfoBox(poke.poke_stats)(ctx.with_overview(self))
             elif action.triggers(Action.ABILITIES_INFO):
                 if abb_obs != [] and abb:
                     with ChooseBox(

@@ -2,13 +2,13 @@ import logging
 import random
 import time
 
-from pokete_data import achievements
 from release import SPEED_OF_TIME
 from .attack_process import AttackProcess
 from .attack_result import Result
 from .fight_items import FightItems
 from .fightmap import FightMap
 from .providers import Provider
+from ..achievements import achievements
 from ..attack import Attack
 from ..audio import audio
 from ..context import Context

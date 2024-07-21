@@ -6,6 +6,7 @@ import scrap_engine as se
 import pokete_data as p_data
 from util import liner
 from .dicts import NatureDict
+from ..context import Context
 from ..input import Action
 from ..ui.elements import LabelBox
 from ..color import Color
@@ -111,10 +112,8 @@ of its kind.", 40, pre=""))
             return "less"
         return "more"
 
-    def __call__(self, _map, overview):
-        """Shows the box
-        ARGS:
-            _map: Map to show on"""
-        self.overview = overview
-        with self.center_add(_map):
-            loops.easy_exit(False, box=self)
+    def __call__(self, ctx: Context):
+        """Shows the box"""
+        self.set_ctx(ctx)
+        with self.center_add(self.map):
+            loops.easy_exit(ctx.with_overview(self))
