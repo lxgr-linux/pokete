@@ -5,7 +5,6 @@ import scrap_engine as se
 from pokete_classes import animations, \
     deck, game_map as gm
 from pokete_classes.context import Context
-from pokete_classes.game import PeriodicEventManager
 from release import SPEED_OF_TIME
 from ...input_loops import ask_bool
 from ...ui import Overview
@@ -268,6 +267,17 @@ class FightMap(gm.GameMap, Overview):
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
 
+    def add_enemy_after_choosing(self, winner, enem):
+        self.__add_1(winner, enem)
+        ico = enem.curr.ico
+        self.fast_change(
+            [ico, self.deadico2, self.deadico1, ico],
+            ico
+        )
+        self.outp.outp(f"{enem.name} used {enem.curr.name}!")
+        self.show()
+        time.sleep(SPEED_OF_TIME * 2)
+
     def choose_poke(self, ctx: Context, player, allow_exit=True):
         """Lets the player choose another Pokete from their deck
         ARGS:
@@ -292,14 +302,14 @@ class FightMap(gm.GameMap, Overview):
             return False
         return True
 
-    def death_animation(self, loser: Provider, winner: Provider):
+    def death_animation(self, loser: Provider):
         ico = loser.curr.ico
         self.show()
         time.sleep(SPEED_OF_TIME * 1)
         self.fast_change([ico, self.deadico1, self.deadico2], ico)
         self.deadico2.remove()
         self.show()
-        self.clean_up(loser, winner)
+        self.clean_up(loser)
 
     def win_animation(self, winner: Provider):
         time.sleep(SPEED_OF_TIME * 1)

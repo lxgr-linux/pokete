@@ -92,7 +92,10 @@ class Inv(Overview):
                                         break
                                     if not ex_cond:
                                         break
-                                    upgrade_by_one_lvl(poke, figure, self.map)
+                                    upgrade_by_one_lvl(
+                                        ctx.with_overview(self),
+                                        poke
+                                    )
                                     items = self.rem_item(figure, obj.name,
                                                           items)
                                     ask_ok(

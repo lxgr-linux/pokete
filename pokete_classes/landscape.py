@@ -55,7 +55,7 @@ class HighGrass(se.Object, MapInteract):
                     )
                 ]
             )
-            check_walk_back(self.ctx.figure)
+            check_walk_back(self.ctx)
 
 
 class Meadow(se.Text):

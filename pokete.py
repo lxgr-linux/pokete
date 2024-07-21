@@ -935,7 +935,7 @@ copy of it alongside this software.""",
     ## fm.fightmap = fm.FightMap(tss.height - 1, tss.width) TODO: Remove later
 
     for _i in [NPC, Trainer]:
-        _i.set_vars(figure, NPCActions)
+        _i.set_vars(NPCActions)
     notifier.set_vars(mvp.movemap)
     figure.set_args(session_info)
 

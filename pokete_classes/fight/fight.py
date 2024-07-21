@@ -152,7 +152,8 @@ class Fight:
         else:
             loser.curr.poke_stats.add_battle(False)
 
-        self.fightmap.death_animation(loser, winner)
+        self.fightmap.death_animation(loser)
+        self.fightmap.clean_up(winner)
         mvp.movemap.balls_label_rechar(winner.pokes)
         logging.info(
             "[Fight] Ended, %s(%s) won",

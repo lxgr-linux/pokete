@@ -3,7 +3,7 @@
 
 class PeriodicEvent:
     def tick(self, tick: int):
-        raise NotImplemented
+        raise NotImplementedError()
 
 
 class PeriodicEventManager:
