@@ -49,4 +49,3 @@ class ModeChooser(BetterChooseBox):
                         else:
                             sys.exit()
                 loops.std(ctx=ctx.with_overview(self))
-                self.map.full_show()

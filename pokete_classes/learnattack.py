@@ -5,6 +5,7 @@ import random
 import scrap_engine as se
 import pokete_data as p_data
 from util import liner
+from .context import Context
 from .input import Action, get_action
 from .input_loops import ask_bool, ask_ok
 from .ui.elements import ChooseBox, Box
@@ -18,7 +19,7 @@ class AttackInfo(Box):
         attack: The attack's name
         _map: se.Map this should be shown on"""
 
-    def __init__(self, attack, _map, overview):
+    def __init__(self, attack):
         atc = Attack(attack)
         desc_label = se.Text(liner(atc.desc, 40))
         super().__init__(
@@ -30,9 +31,7 @@ class AttackInfo(Box):
                     atc.label_type.text,
                     atc.label_factor.text
                 ]
-            )[-1] + 4, atc.name, f"{Action.CANCEL.mapping}:close",
-            overview=overview)
-        self.map = _map
+            )[-1] + 4, atc.name, f"{Action.CANCEL.mapping}:close")
         self.add_ob(atc.label_type, 2, 1)
         self.add_ob(atc.label_factor, 2, 2)
         self.add_ob(se.Text(f"AP:{atc.max_ap}"), 2, 3)
@@ -51,13 +50,11 @@ class LearnAttack:
         poke: The Poke that should learn an attack
         _map: The se.Map this should happen on"""
 
-    def __init__(self, poke, _map, overview):
-        self.map = _map
+    def __init__(self, poke):
         self.poke = poke
         self.box = ChooseBox(
             6, 25, name="Attacks",
             info=f"{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info",
-            overview=overview
         )
 
     @staticmethod
@@ -80,7 +77,7 @@ class LearnAttack:
             return None
         return random.choice(full_pool)
 
-    def __call__(self, attack=None):
+    def __call__(self, ctx: Context, attack=None):
         """Starts the learning process
         ARGS:
             attack: The attack's name that should be learned, if None a fitting
@@ -88,16 +85,16 @@ class LearnAttack:
         RETURNS:
             bool: Whether or not the attack was learned"""
         attacks = p_data.attacks
+        self.box.set_ctx(ctx)
         if attack is None:
             if (new_attack := self.get_attack(self.poke)) is None:
                 return False
         else:
             new_attack = attack
         if ask_bool(
-            self.map,
+            ctx,
             f"{self.poke.name} wants to learn "
             f"{attacks[new_attack]['name']}!",
-            self.map
         ):
             if len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)
@@ -112,34 +109,34 @@ class LearnAttack:
                     [se.Text(f"{i + 1}: {j.name}", state="float")
                      for i, j in enumerate(self.poke.attack_obs)]
                 )
-                with self.box.center_add(self.map):
+                with self.box.center_add(ctx.map):
                     while True:
                         action = get_action()
                         if action.triggers(Action.UP, Action.DOWN):
                             self.box.input(action)
-                            self.map.show()
+                            ctx.map.show()
                         elif action.triggers(Action.ACCEPT):
                             i = self.box.index.index
                             self.poke.attacks[i] = new_attack
                             self.poke.attack_obs[i] = Attack(new_attack, i + 1)
                             ask_ok(
-                                self.map,
+                                ctx.with_overview(self.box),
                                 f"{self.poke.name} learned "
                                 f"{attacks[new_attack]['name']}!",
-                                self.box
                             )
                             break
                         elif action.triggers(Action.DECK):
-                            detail.detail(self.poke, False, overview=self.box)
-                            self.map.show(init=True)
+                            detail.detail(ctx.with_overview(self.box),
+                                          self.poke, False)
+                            ctx.map.show(init=True)
                         elif action.triggers(Action.INFO):
                             with AttackInfo(
-                                new_attack, self.map, self.box
-                            ) as box:
-                                loops.easy_exit(box=box)
+                                new_attack
+                            ).set_ctx(ctx.with_overview(self.box)) as box:
+                                loops.easy_exit(ctx.with_overview(box))
                         elif action.triggers(Action.CANCEL):
                             return False
-                        loops.std(box=self.box)
+                        loops.std(ctx.with_overview(self.box))
                 self.box.remove_c_obs()
             return True
         return False

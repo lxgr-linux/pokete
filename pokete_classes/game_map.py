@@ -1,9 +1,13 @@
 """Map wrapper for compatibility purposes"""
+from abc import ABC
 
 import scrap_engine as se
 
 
-class CompatMap:
+class CompatMap(ABC):
+    height: int
+    width: int
+
     def show(self):
         pass
 

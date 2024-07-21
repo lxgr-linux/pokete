@@ -1,7 +1,6 @@
 """Contains the Poke class"""
 
 import math
-import time
 import logging
 import random
 from datetime import datetime
@@ -9,20 +8,17 @@ from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 from util import liner
-from release import SPEED_OF_TIME
 from .dicts import PokeDict
 from ..attack import Attack
+from ..context import Context
 from ..health_bar import HealthBar
 from .stats import Stats
-from ..evomap import EvoMap
 from ..color import Color
 from ..moves import Moves
 from ..types import types
 from ..effects import effects
 from ..learnattack import LearnAttack
 from .nature import PokeNature
-from ..achievements import achievements
-from .. import loops
 
 
 class Poke:
@@ -186,62 +182,17 @@ can't have more than 4 attacks!"
             Current level"""
         return int(math.sqrt(self.xp + 1))
 
-    def learn_attack(self, _map, overview):
-        """Checks if a new attack can be learned and then teaches it the poke
-        ARGS:
-            _map: The map this happens on
-            overview: Overview"""
+    def learn_attack(self, ctx: Context):
+        """Checks if a new attack can be learned and then teaches it the poke"""
         if self.lvl() % 5 == 0:
-            LearnAttack(self, _map, overview)()
-    
-    def evolve(self, figure, _map):
-        """Evolves the Pokete to its evolve_poke
-        ARGS:
-            figure: The figure object the poke belongs to
-            _map: The map the evolving happens on"""
-        if not self.player or self.evolve_poke == "" \
-            or self.lvl() < self.evolve_lvl:
-            return False
-        evomap = EvoMap(_map.height, _map.width, _map)
+            LearnAttack(self)(ctx)
+
+    def get_evolve_poke(self) -> "Poke":
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks,
                    shiny=self.shiny)
         new.set_poke_stats(self.poke_stats)
         new.poke_stats.set_evolved_date(datetime.now())
-        self.ico.remove()
-        self.ico.add(evomap, round(evomap.width / 2 - 4),
-                     round((evomap.height - 8) / 2))
-        self.moves.shine()
-        evomap.outp.outp("Look!")
-        time.sleep(SPEED_OF_TIME * 0.5)
-        evomap.outp.outp(f"{evomap.outp.text}\n{self.name} is evolving!")
-        time.sleep(SPEED_OF_TIME * 1)
-        for i in range(8):
-            for j, k in zip([self.ico, new.ico], [new.ico, self.ico]):
-                j.remove()
-                k.add(evomap, round(evomap.width / 2 - 4),
-                      round((evomap.height - 8) / 2))
-                time.sleep(SPEED_OF_TIME * 0.7 - i * 0.09999)
-                evomap.show()
-                loops.std(box=evomap)
-        self.ico.remove()
-        new.ico.add(evomap, round(evomap.width / 2 - 4),
-                    round((evomap.height - 8) / 2))
-        evomap.show()
-        time.sleep(SPEED_OF_TIME * 0.01)
-        new.moves.shine()
-        evomap.outp.outp(f"{self.name} evolved into {new.name}!")
-        time.sleep(SPEED_OF_TIME * 5)
-        for i in range(max(len(p_data.pokes[new.identifier]["attacks"])
-                           - len(self.attack_obs), 0)):
-            LearnAttack(new, evomap, evomap)()
-        figure.pokes[figure.pokes.index(self)] = new
-        if new.identifier not in figure.caught_pokes:
-            figure.caught_pokes.append(new.identifier)
-        achievements.achieve("first_evolve")
-        logging.info("[Poke] %s evolved into %s", self.name, new.name)
-        loops.std(box=evomap)
-        del self
-        return True
+        return new
 
     def backup_hp(self):
         self.oldhp = self.hp
@@ -282,15 +233,3 @@ can't have more than 4 attacks!"
             player=False,
             shiny=(random.randint(0, 500) == 0)
         )
-
-
-def upgrade_by_one_lvl(poke, figure, _map):
-    """Upgrades a Pokete by exactly one level, this will only be used by treats
-    ARGS:
-        poke: The pokete, that will be upgraded
-        figure: The figure object the Pokete belongs to
-        _map: The map the upgrade happens on"""
-    poke.add_xp((poke.lvl() + 1) ** 2 - 1 - ((poke.lvl()) ** 2 - 1))
-    poke.set_vars()
-    poke.learn_attack(_map, _map)
-    poke.evolve(figure, _map)

@@ -13,6 +13,7 @@ from .inv import invitems
 from .settings import settings
 from .ui.elements import ChooseBox
 from .general import check_walk_back
+from .landscape import MapInteract
 from . import movemap as mvp, loops
 
 
@@ -30,9 +31,8 @@ class NPCTrigger(se.Object):
         self.npc.action()
 
 
-class NPC(se.Box):
+class NPC(se.Box, MapInteract):
     """An NPC to talk to"""
-    ctx: Context = None
     npcactions = None
     registry = {}
 

@@ -1,4 +1,5 @@
 """The Deck shows all Poketes a player owns"""
+import logging
 
 import scrap_engine as se
 from pokete_classes import detail
@@ -269,4 +270,4 @@ class Deck(detail.Informer, Overview):
         )
 
 
-deck = None
+deck: Deck | None = None

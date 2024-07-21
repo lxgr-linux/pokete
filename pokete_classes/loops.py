@@ -14,7 +14,6 @@ def easy_exit(ctx: Context | None = None):
         if get_action().triggers(*(Action.CANCEL, Action.ACCEPT)):
             return
         std(ctx)
-        ctx.map.full_show()
 
 
 def std(ctx: Context | None = None):
@@ -23,4 +22,5 @@ def std(ctx: Context | None = None):
         ctx.overview.resize_view()
     if ctx is not None:
         ctx.pevm.event()
+    ctx.map.full_show()
     time.sleep(release.FRAMETIME)

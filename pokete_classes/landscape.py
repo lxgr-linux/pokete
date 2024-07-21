@@ -12,9 +12,16 @@ from .poke import Poke
 from .input_loops import ask_ok
 
 
-class HighGrass(se.Object):
-    """Object on the map, that triggers a fight"""
+class MapInteract:
     ctx: Context | None = None
+
+    @classmethod
+    def set_ctx(cls, ctx: Context):
+        cls.ctx = ctx
+
+
+class HighGrass(se.Object, MapInteract):
+    """Object on the map, that triggers a fight"""
 
     def action(self, ob):
         """Action triggers the fight
@@ -82,11 +89,10 @@ class Sand(Meadow):
     esccode = Color.yellow
 
 
-class Poketeball(se.Object):
+class Poketeball(se.Object, MapInteract):
     """Poketeball that can be picked up on the map
     ARGS:
         name: Generic name of the ball"""
-    figure = None
 
     def __init__(self, name):
         self.name = name
@@ -103,9 +109,9 @@ class Poketeball(se.Object):
                                "healing_potion", "treat"],
                               weights=[10, 1.5, 1, 1, 1],
                               k=1)[0]
-        self.figure.give_item(item, amount)
+        self.ctx.figure.give_item(item, amount)
         self.remove()
         mvp.movemap.full_show()
-        ask_ok(mvp.movemap, f"You found {amount if amount > 1 else 'a'} \
-{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!", mvp.movemap)
-        self.figure.used_npcs.append(self.name)
+        ask_ok(self.ctx, f"You found {amount if amount > 1 else 'a'} \
+{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
+        self.ctx.figure.used_npcs.append(self.name)

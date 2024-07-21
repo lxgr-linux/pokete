@@ -14,6 +14,7 @@ from ..audio import audio
 from ..context import Context
 from ..game import PeriodicEventManager
 from ..inv import InvItem
+from ..poke import EvoMap
 from ..tss import tss
 from .. import movemap as mvp
 
@@ -90,7 +91,7 @@ class Fight:
                             self.fightmap.ran_away(player, enem)
                             logging.info("[Fight] Ended, ran away")
                             player.curr.poke_stats.set_run_away_battle()
-                            audio.switch(player.map.song)
+                            audio.switch(ctx.figure.map.song)
                             return player
                 case Result.ITEM:
                     item: InvItem = attack_result.item
@@ -102,7 +103,7 @@ class Fight:
                             player.curr.poke_stats.add_battle(True)
                             logging.info("[Fight] Ended, fightitem")
                             time.sleep(SPEED_OF_TIME * 2)
-                            audio.switch(player.map.song)
+                            audio.switch(ctx.figure.map.song)
                             return player
 
             time.sleep(SPEED_OF_TIME * 0.3)
@@ -142,8 +143,9 @@ class Fight:
         if winner.curr.player and winner.curr.add_xp(xp):
             self.fightmap.win_animation(winner)
             winner.curr.set_vars()
-            winner.curr.learn_attack(self, self)
-            winner.curr.evolve(winner, self)
+            winner.curr.learn_attack(ctx.with_overview(self.fightmap))
+            evomap = EvoMap(self.fightmap.height, self.fightmap.width)
+            evomap(ctx.with_overview(self.fightmap), winner.curr)
 
         if winner.curr.player:
             winner.curr.poke_stats.add_battle(True)
@@ -156,5 +158,5 @@ class Fight:
             "[Fight] Ended, %s(%s) won",
             winner.curr.name, "player" if winner.curr.player else "enemy"
         )
-        audio.switch(self.providers[0].map.song)
+        audio.switch(ctx.figure.map.song)
         return winner

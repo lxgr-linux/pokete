@@ -73,15 +73,15 @@ class Inv(Overview):
                             self.box2.remove()
                             if obj.name == "treat":
                                 if ask_bool(
-                                    self.map,
+                                    ctx.with_overview(self),
                                     "Do you want to upgrade one of "
                                     "your Poketes by a level?",
-                                    self
                                 ):
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(
-                                            self.map, 6, label="Your deck",
+                                            ctx.with_overview(self), 6,
+                                            label="Your deck",
                                             in_fight=True
                                         )
                                         if index is None:
@@ -103,15 +103,15 @@ class Inv(Overview):
                                     )
                             elif isinstance(obj, LearnDisc):
                                 if ask_bool(
-                                    self.map,
+                                    ctx.with_overview(self),
                                     f"Do you want to teach "
                                     f"'{obj.attack_dict['name']}'?",
-                                    self
                                 ):
                                     ex_cond = True
                                     while ex_cond:
                                         index = deck.deck(
-                                            self.map, 6, label="Your deck",
+                                            ctx.with_overview(self), 6,
+                                            label="Your deck",
                                             in_fight=True
                                         )
                                         if index is None:
@@ -124,17 +124,18 @@ class Inv(Overview):
                                             in poke.types:
                                             break
                                         ex_cond = ask_bool(
-                                            self.map,
+                                            ctx.with_overview(self),
                                             "You can't teach "
                                             f"'{obj.attack_dict['name']}' to "
                                             f"'{poke.name}'! \n"
                                             "Do you want to continue?",
-                                            self
                                         )
                                     if not ex_cond:
                                         break
-                                    if LearnAttack(poke, self.map, self) \
-                                            (obj.attack_name):
+                                    if LearnAttack(poke)(
+                                        ctx.with_overview(self),
+                                        obj.attack_name
+                                    ):
                                         items = self.rem_item(figure, obj.name,
                                                               items)
                                         if len(items) == 0:
@@ -144,10 +145,9 @@ class Inv(Overview):
                         self.map.full_show()
                 elif action.triggers(Action.REMOVE):
                     if ask_bool(
-                        self.map,
+                        ctx.with_overview(self),
                         "Do you really want to throw "
-                        f"{items[self.box.index.index].pretty_name} away?",
-                        self
+                        f"{items[self.box.index.index].pretty_name} away?"
                     ):
                         items = self.rem_item(
                             figure, items[self.box.index.index].name,

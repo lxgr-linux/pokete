@@ -1,3 +1,4 @@
+import logging
 import time
 import scrap_engine as se
 
@@ -5,6 +6,7 @@ from pokete_classes import movemap as mvp, deck, loops
 from pokete_classes.classes import PlayMap
 from pokete_classes.doors import CenterDoor
 from pokete_classes.inv import buy
+from pokete_classes.landscape import MapInteract
 from pokete_classes.npcs import NPC
 from pokete_classes.input import _ev, get_action, Action
 from release import SPEED_OF_TIME
@@ -69,7 +71,7 @@ class ShopMap(PlayMap):
         self.interact.add(self, int(self.width / 2), 4)
 
 
-class CenterInteract(se.Object):
+class CenterInteract(se.Object, MapInteract):
     """Triggers a conversation in the Pokete center"""
 
     def action(self, ob):
@@ -79,13 +81,14 @@ class CenterInteract(se.Object):
         _ev.clear()
         mvp.movemap.full_show()
         mvp.movemap.text(
+            self.ctx,
             mvp.movemap.bmap.inner.x - mvp.movemap.x + 8,
             3,
             [
                 "Welcome to the Pokete-Center",
                 "What do you want to do?",
                 "1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes"
-            ]
+            ], passthrough=True
         )
         while True:
             action = get_action()
@@ -94,23 +97,24 @@ class CenterInteract(se.Object):
                     ob.pokes.pop([p.identifier for p in
                                   ob.pokes].index("__fallback__"))
                 mvp.movemap.balls_label_rechar(ob.pokes)
-                deck.deck(mvp.movemap, len(ob.pokes))
+                deck.deck(self.ctx, len(ob.pokes))
                 break
             elif action.triggers(Action.ACT_2):
                 ob.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(
+                    self.ctx,
                     mvp.movemap.bmap.inner.x - mvp.movemap.x + 8, 3,
                     ["...", "Your Poketes are now healed!"]
                 )
                 break
             elif action.triggers(Action.CANCEL, Action.ACT_3):
                 break
-            loops.std(box=mvp.movemap)
+            loops.std(self.ctx)
         mvp.movemap.full_show(init=True)
 
 
-class ShopInteract(se.Object):
+class ShopInteract(se.Object, MapInteract):
     """Triggers an conversation in the shop"""
 
     def action(self, ob):
@@ -119,10 +123,15 @@ class ShopInteract(se.Object):
             ob: The object triggering this action"""
         _ev.clear()
         mvp.movemap.full_show()
-        mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
-                         ["Welcome to the Pokete-Shop",
-                          "Wanna buy something?"])
-        buy()
+        mvp.movemap.text(
+            self.ctx, mvp.movemap.bmap.inner.x - mvp.movemap.x + 9,
+            3, [
+                "Welcome to the Pokete-Shop", "Wanna buy something?"
+            ]
+        )
+        buy(self.ctx)
         mvp.movemap.full_show(init=True)
-        mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
-                         ["Have a great day!"])
+        mvp.movemap.text(
+            self.ctx, mvp.movemap.bmap.inner.x - mvp.movemap.x + 9,
+            3, ["Have a great day!"]
+        )

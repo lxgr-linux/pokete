@@ -64,6 +64,7 @@ class Box(se.Box, Overview):
     def set_ctx(self, ctx):
         self.map = ctx.map
         self.overview = ctx.overview
+        return self
 
     def __enter__(self):
         """Enter dunder for context management"""
