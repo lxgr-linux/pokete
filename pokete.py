@@ -20,6 +20,7 @@ from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 import release
+from pokete_classes.input.recogniser import recogniser
 from pokete_classes.map_additions.map_addtions import map_additions
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
@@ -455,15 +456,9 @@ def autosave():
             save(figure)
 
 
-def reset_terminal():
-    """Resets the terminals state"""
-    if sys.platform == "linux":
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-
-
 def exiter():
     """Exit function"""
-    reset_terminal()
+    recogniser.reset()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
     if audio.curr is not None:
@@ -801,61 +796,6 @@ copy of it alongside this software.""",
 
     c.exec()
 
-    # deciding on wich input to use
-    if sys.platform == "win32":
-        import msvcrt
-
-
-        def recogniser():
-            """Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime"""
-            while True:
-                if msvcrt.kbhit():
-                    char = msvcrt.getwch()
-                    _ev.set(
-                        {
-                            ord(char): f"{char.rstrip()}",
-                            13: "Key.enter",
-                            127: "Key.backspace",
-                            8: "Key.backspace",
-                            32: "Key.space",
-                            27: "Key.esc",
-                            3: "exit",
-                        }[ord(char)]
-                    )
-
-    else:
-        import tty
-        import termios
-        import select
-
-
-        def recogniser():
-            """Use another (not on xserver relying) way to read keyboard input,
-                to make this shit work in tty or via ssh,
-                where no xserver is available"""
-            global fd, old_settings
-
-            fd = sys.stdin.fileno()
-            old_settings = termios.tcgetattr(fd)
-            tty.setraw(fd)
-            time.sleep(SPEED_OF_TIME * 0.1)
-            while True:
-                rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
-                if rlist:
-                    char = sys.stdin.read(1)
-                    _ev.set(
-                        {
-                            ord(char): f"{char.rstrip()}",
-                            13: "Key.enter",
-                            127: "Key.backspace",
-                            32: "Key.space",
-                            27: "Key.esc",
-                            3: "exit",
-                        }[ord(char)]
-                    )
-                    if ord(char) == 3:
-                        reset_terminal()
-
     print("\033[?1049h")
 
     # resizing screen
@@ -937,9 +877,6 @@ copy of it alongside this software.""",
 
     __t = time.time() - __t
     logging.info("[General] Startup took %fs", __t)
-
-    fd = None
-    old_settings = None
 
     try:
         main()
