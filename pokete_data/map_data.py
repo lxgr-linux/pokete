@@ -1,5 +1,6 @@
 """This file contains a dict with all Strings that will be
    added to the maps"""
+from pokete_classes.maps import Obmaps
 
 # Those are some vars used in map_data
 CENTER = r"""  __________
@@ -21,7 +22,7 @@ HOUSE1 = r"""  ________
 |__| |__|__|"""
 
 # This is the actual map_data dict
-map_data = {
+map_data: Obmaps = {
     #     "playmap_1": {
     #         "hard_obs": {
     #         },
@@ -159,6 +160,12 @@ map_data = {
                 "y": 13,
                 "args": {"map": "playmap_51", "x": 1, "y": 29}
             },
+        },
+        "special_dors": {
+            "dor": {
+                "x": 25,
+                "y": 4
+            }
         },
         "balls": {
             "ball_1": {
@@ -619,6 +626,16 @@ map_data = {
                 "y": 15,
                 "args": {"map": "playmap_49", "x": 11, "y": 7}
             },
+        },
+        "special_dors": {
+            "dor": {
+                "x": 25,
+                "y": 6,
+            },
+            "shopdor": {
+                "x": 61,
+                "y": 6,
+            }
         },
         "balls": {
             "ball_1": {
@@ -1582,6 +1599,16 @@ _________________________
                 "args": {"map": "playmap_20", "x": 11, "y": 7}
             },
         },
+        "special_dors": {
+            "dor": {
+                "x": 14,
+                "y": 29,
+            },
+            "shopdor": {
+                "x": 52,
+                "y": 29,
+            }
+        },
         "balls": {
             "ball_1": {
                 "x": 14,
@@ -2429,6 +2456,16 @@ ___________________________
                 "args": {"map": "playmap_50", "x": 11, "y": 7}
             },
         },
+        "special_dors": {
+            "dor": {
+                "x": 10,
+                "y": 7,
+            },
+            "shopdor": {
+                "x": 34,
+                "y": 7,
+            }
+        },
         "balls": {
             "ball_1": {
                 "x": 146,
@@ -2919,6 +2956,16 @@ ___________________________
                 "y": 27,
                 "args": {"map": "playmap_32", "x": 11, "y": 7}
             },
+        },
+        "special_dors": {
+            "dor": {
+                "x": 13,
+                "y": 7,
+            },
+            "shopdor": {
+                "x": 30,
+                "y": 7,
+            }
         },
         "balls": {
             "ball_1": {
@@ -3845,6 +3892,16 @@ ___________________________
                 "y": 64,
                 "args": {"map": "playmap_48", "x": 11, "y": 7}
             },
+        },
+        "special_dors": {
+            "dor": {
+                "x": 44,
+                "y": 52,
+            },
+            "shopdor": {
+                "x": 122,
+                "y": 64,
+            }
         },
         "balls": {
             "ball_1": {

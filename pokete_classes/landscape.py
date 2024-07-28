@@ -3,17 +3,25 @@
 import random
 import scrap_engine as se
 import pokete_data as p_data
-from pokete_classes import timer, movemap as mvp, fightmap as fm
-from .providers import NatureProvider
+from pokete_classes import timer, movemap as mvp
+from .context import Context
+from .fight import Fight, NatureProvider
 from .color import Color
 from .general import check_walk_back
 from .poke import Poke
-from .input import ask_ok
+from .input_loops import ask_ok
 
 
-class HighGrass(se.Object):
+class MapInteract:
+    ctx: Context | None = None
+
+    @classmethod
+    def set_ctx(cls, ctx: Context):
+        cls.ctx = ctx
+
+
+class HighGrass(se.Object, MapInteract):
     """Object on the map, that triggers a fight"""
-    figure = None
 
     def action(self, ob):
         """Action triggers the fight
@@ -27,9 +35,10 @@ class HighGrass(se.Object):
                  or (not n_a and not is_night)
                  or (n_a and is_night)}
         if random.randint(0, 8) == 0:
-            fm.fightmap.fight(
+            Fight()(
+                self.ctx,
                 [
-                    self.figure,
+                    self.ctx.figure,
                     NatureProvider(
                         Poke.wild(
                             random.choices(
@@ -46,7 +55,7 @@ class HighGrass(se.Object):
                     )
                 ]
             )
-            check_walk_back(self.figure)
+            check_walk_back(self.ctx)
 
 
 class Meadow(se.Text):
@@ -58,8 +67,6 @@ class Meadow(se.Text):
     all_grass = []
     all_water = []
     all_sand = []
-    max_tick = 100
-    curr_tick = max_tick
 
     def __init__(self, string, poke_args):
         super().__init__(string, ignore=self.esccode + " " + Color.reset,
@@ -70,47 +77,6 @@ class Meadow(se.Text):
             Color.blue: Meadow.all_water,
             Color.yellow: Meadow.all_sand,
         }[self.esccode].append(self)
-
-    @classmethod
-    def moving_grass(cls, objs):
-        """Animation for moving grass
-        ARGS:
-            objs: List of Highgrass objects this is done for"""
-        if cls.curr_tick < cls.max_tick:
-            cls.curr_tick += 1
-            return
-        cls.curr_tick = 0
-
-        for obj in objs:
-            if obj.char == cls.esccode + ";" + Color.reset:
-                if random.randint(0, 600) == 0:
-                    obj.rechar(Color.thicc + cls.esccode + ";" + Color.reset)
-                    cls.check_figure_redraw(obj)
-            else:
-                obj.rechar(cls.esccode + ";" + Color.reset)
-                cls.check_figure_redraw(obj)
-
-    @classmethod
-    def moving_water(cls, objs):
-        """Water animation
-        ARGS:
-            objs: The water objects this will happen for"""
-        for obj in objs:
-            if random.randint(0, 9) == 0:
-                if " " not in obj.char:
-                    obj.rechar([i for i in
-                                [Color.lightblue + "~" + Color.reset,
-                                 Color.blue + "~" + Color.reset]
-                                if i != obj.char][0])
-                    cls.check_figure_redraw(obj)
-
-    @staticmethod
-    def check_figure_redraw(obj):
-        """Checks whether or not the figure has to be redrawn
-        ARGS:
-            obj: The obj that this is checked for"""
-        if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
-            HighGrass.figure.redraw()
 
 
 class Water(Meadow):
@@ -123,11 +89,10 @@ class Sand(Meadow):
     esccode = Color.yellow
 
 
-class Poketeball(se.Object):
+class Poketeball(se.Object, MapInteract):
     """Poketeball that can be picked up on the map
     ARGS:
         name: Generic name of the ball"""
-    figure = None
 
     def __init__(self, name):
         self.name = name
@@ -144,9 +109,9 @@ class Poketeball(se.Object):
                                "healing_potion", "treat"],
                               weights=[10, 1.5, 1, 1, 1],
                               k=1)[0]
-        self.figure.give_item(item, amount)
+        self.ctx.figure.give_item(item, amount)
         self.remove()
         mvp.movemap.full_show()
-        ask_ok(mvp.movemap, f"You found {amount if amount > 1 else 'a'} \
-{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!", mvp.movemap)
-        self.figure.used_npcs.append(self.name)
+        ask_ok(self.ctx, f"You found {amount if amount > 1 else 'a'} \
+{p_data.items[item]['pretty_name']}{'s' if amount > 1 else ''}!")
+        self.ctx.figure.used_npcs.append(self.name)

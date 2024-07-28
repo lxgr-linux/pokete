@@ -2,30 +2,28 @@
 
 import time
 import scrap_engine as se
+
+from pokete_classes.context import Context
 from util import liner
-import pokete_classes.ob_maps as obmp
-import pokete_classes.game_map as gm
 from release import SPEED_OF_TIME
-from .loops import std_loop
 from .classes import OutP
 from .color import Color
-from .event import _ev
-from .hotkeys import Action
-from .notify import notifier
+from .input import _ev, Action
+from .ui import notifier, Overview
 from .tss import tss
+from .multiplayer.pc_manager import pc_manager
+from . import loops, ob_maps as obmp, game_map as gm
 
 
-class Movemap(gm.GameSubmap):
+class Movemap(gm.GameSubmap, Overview):
     """Movemap class to remove bad code
     ARGS:
         height: Height of the map
-        width: Width of the map
-        menu_cls: The class Menu"""
+        width: Width of the map"""
 
-    def __init__(self, height, width, menu_cls):
+    def __init__(self, height, width):
         super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
                          height=height, width=width, name="movemap")
-        self.menu = menu_cls(self)
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
@@ -68,7 +66,7 @@ class Movemap(gm.GameSubmap):
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, _x, _y, inp_arr):
+    def text(self, ctx: Context, _x, _y, inp_arr, passthrough=False):
         """Shows dialog text on movemap
         ARGS:
             _x: The message's X
@@ -92,7 +90,7 @@ class Movemap(gm.GameSubmap):
                         "   "
                     )
                 )
-                std_loop(box=self)
+                loops.std(ctx.with_overview(self))
                 if _ev.get() != "":
                     _ev.clear()
                     break
@@ -104,20 +102,25 @@ class Movemap(gm.GameSubmap):
                 )
             )
             while _ev.get() == "":
-                std_loop(box=self)
-                self.show()
+                loops.std(ctx.with_overview(self))
+                self.full_show()
         self.multitext.remove()
-        _ev.clear()
+        if not passthrough:
+            _ev.clear()
 
     def resize_view(self):
         """Manages recursive view resizing"""
         if notifier.notified:
             notifier.notification.remove()
             saved_coords = (self.width - notifier.notification.x)
+        for _, rmtplr in pc_manager.reg.items():
+            rmtplr.name_tag.remove()
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
         if notifier.notified:
             notifier.notification.add(self, self.width - saved_coords, 0)
+        for _, rmtplr in pc_manager.reg.items():
+            rmtplr.add_name_tag()
 
     def resize(self, height, width, background=" "):
         """Resizes the map and its attributes
@@ -135,9 +138,10 @@ class Movemap(gm.GameSubmap):
         ARGS:
             pokes: The player's Pokes"""
         self.balls_label.rechar("".join("-" if i >= len(pokes)
-                                or pokes[i].identifier == "__fallback__"
+                                               or pokes[
+                                                   i].identifier == "__fallback__"
                                         else "o" if pokes[i].hp > 0
-                                        else "x"
+        else "x"
                                         for i in range(6)), esccode=Color.thicc)
 
     def name_label_rechar(self, name):
@@ -149,7 +153,7 @@ class Movemap(gm.GameSubmap):
         self.balls_label.set(4 + len(self.name_label.text), self.height - 2)
 
 
-movemap = None
+movemap: Movemap | None = None
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

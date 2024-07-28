@@ -20,42 +20,52 @@ from datetime import datetime
 import scrap_engine as se
 import pokete_data as p_data
 import release
-from pokete_classes import animations
-from pokete_classes.pokestats import PokeStats
-from pokete_classes.poke import Poke, upgrade_by_one_lvl
+from pokete_classes.input.recogniser import recogniser
+from pokete_classes.map_additions.map_addtions import map_additions
+from pokete_classes.multiplayer.communication import com_service
+from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
+from pokete_classes.multiplayer.pc_manager import pc_manager, NameTag
+from pokete_classes.poke import Stats, EvoMap
+from pokete_classes.fight import ProtoFigure
+from pokete_classes.generate import gen_maps, gen_obs
+from pokete_classes import roadmap
+# import pokete_classes.generic_map_handler as gmh
+from pokete_classes import animations, loops
+from pokete_classes.context import Context
+from pokete_classes.inv import inv, buy
+from pokete_classes.menu import Menu
+from pokete_classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
+    TreatNPCEvent, NotifierEvent
+from pokete_classes.poke import Poke
 from pokete_classes.color import Color
-from pokete_classes.ui_elements import ChooseBox, InfoBox, BetterChooseBox
+from pokete_classes.pre_game import PreGameMap
+from pokete_classes.save import read_save, save
+from pokete_classes.input_loops import text_input
+from pokete_classes.ui.elements import InfoBox
 from pokete_classes.classes import PlayMap
-from pokete_classes.settings import settings, VisSetting, Slider
-from pokete_classes.inv_items import invitems, LearnDisc
-from pokete_classes.types import types
-from pokete_classes.providers import ProtoFigure
-from pokete_classes.buy import Buy, InvBox
+from pokete_classes.settings import settings
 from pokete_classes.audio import audio
 from pokete_classes.tss import tss
-from pokete_classes.side_loops import LoadingScreen, About, Help
-from pokete_classes.input import text_input, ask_bool, ask_text, ask_ok
-from pokete_classes.mods import ModError, ModInfo, DummyMods
-from pokete_classes.pokete_care import PoketeCare, DummyFigure
-from pokete_classes import deck, detail, game, timer, ob_maps as obmp, \
-    movemap as mvp, fightmap as fm
+from pokete_classes.side_loops import loading_screen, Help
+from pokete_classes.input import _ev
+from pokete_classes.mods import try_load_mods, loaded_mods
+from pokete_classes.pokete_care import DummyFigure, pokete_care
+from pokete_classes import deck, detail, timer, ob_maps as obmp, \
+    movemap as mvp
 # import pokete_classes.generic_map_handler as gmh
-from pokete_classes.landscape import Meadow, Water, Sand, HighGrass, Poketeball
-from pokete_classes.doors import (
-    CenterDoor, Door, DoorToCenter, DoorToShop, ChanceDoor
-)
-from pokete_classes.learnattack import LearnAttack
-from pokete_classes.roadmap import RoadMap
+from pokete_classes.landscape import HighGrass, Poketeball, MapInteract
+from pokete_classes.doors import Door
 from pokete_classes.npcs import NPC, Trainer
-from pokete_classes.notify import notifier
-from pokete_classes.achievements import achievements, AchievementOverview
-from pokete_classes.event import _ev
-from pokete_classes.hotkeys import (
-    get_action, Action, ACTION_DIRECTIONS, hotkeys_save, hotkeys_from_save
+from pokete_classes.ui import notifier
+from pokete_classes.input_loops import ask_bool, ask_text, ask_ok
+from pokete_classes.achievements import achievements
+from pokete_classes.input import (
+    get_action, Action, ACTION_DIRECTIONS, hotkeys_from_save
 )
 from pokete_classes.dex import Dex
-from pokete_classes.loops import std_loop
-from pokete_classes.periodic_event_manager import PeriodicEventManager
+from pokete_classes.game import (
+    PeriodicEventManager, PeriodicEvent, MapChangeExeption
+)
 from util import liner, sort_vers
 
 from release import SPEED_OF_TIME
@@ -75,9 +85,9 @@ class NPCActions:
             npc: The NPC the method belongs to"""
 
     @staticmethod
-    def swap_poke(_):
+    def swap_poke(npc):
         """Swap_poke wrapper"""
-        swap_poke()
+        swap_poke(npc.ctx)
 
     @staticmethod
     def heal(_):
@@ -112,9 +122,8 @@ class NPCActions:
                       "I've never seen one before!",
                       "Here you go, have $200!"])
             if ask_bool(
-                mvp.movemap,
-                "The young boy gifted you $200. Do you want to accept it?",
-                mvp.movemap
+                npc.ctx,
+                "The young boy gifted you $200. Do you want to accept it?"
             ):
                 figure.add_money(200)
             npc.set_used()
@@ -127,18 +136,17 @@ It evolves into Choka.",
     @staticmethod
     def playmap_20_trader(npc):
         """Interaction with trader"""
-        if ask_bool(mvp.movemap, "Do you want to trade a Pokete?", mvp.movemap):
-            if (index := deck.deck(mvp.movemap, 6, "Your deck", True)) is None:
+        if ask_bool(npc.ctx, "Do you want to trade a Pokete?"):
+            if (index := deck.deck(npc.ctx, 6, "Your deck", True)) is None:
                 return
             figure.add_poke(Poke("ostri", 500), index)
             npc.set_used()
             ask_ok(
-                mvp.movemap,
+                npc.ctx,
                 f"You received: {figure.pokes[index].name.capitalize()}"
                 f" at level {figure.pokes[index].lvl()}.",
-                mvp.movemap
             )
-            mvp.movemap.text(npc.x, npc.y, ["Cool, huh?"])
+            mvp.movemap.text(npc.ctx, npc.x, npc.y, ["Cool, huh?"])
 
     @staticmethod
     def playmap_50_npc_29(npc):
@@ -147,11 +155,10 @@ It evolves into Choka.",
             npc.text(["Here you can leave one of your Poketes for some time \
 and we will train it."])
             if ask_bool(
-                mvp.movemap,
-                "Do you want to put a Pokete into the Pokete-Care?",
-                mvp.movemap
+                npc.ctx,
+                "Do you want to put a Pokete into the Pokete-Care?"
             ):
-                if (index := deck.deck(mvp.movemap, 6, "Your deck",
+                if (index := deck.deck(npc.ctx, 6, "Your deck",
                                        True)) is not None:
                     pokete_care.poke = figure.pokes[index]
                     pokete_care.entry = timer.time.time
@@ -163,9 +170,14 @@ and we will train it."])
             pokete_care.poke.add_xp(add_xp)
             npc.text(["Oh, you're back.", f"Your {pokete_care.poke.name} \
 gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
-            if ask_bool(mvp.movemap, "Do you want it back?", mvp.movemap):
+            if ask_bool(npc.ctx, "Do you want it back?"):
                 dummy = DummyFigure(pokete_care.poke)
-                while dummy.pokes[0].evolve(dummy, mvp.movemap):
+                evomap = EvoMap(npc.ctx.map.height, npc.ctx.map.width)
+                while evomap(
+                    Context(PeriodicEventManager([]), npc.ctx.map,
+                            npc.ctx.overview, dummy),
+                    dummy.pokes[0]
+                ):
                     continue
                 figure.add_poke(dummy.pokes[0])
                 figure.caught_pokes += dummy.caught_pokes
@@ -177,8 +189,8 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
     def playmap_23_npc_8(npc):
         """Interaction with npc_8"""
         if ask_bool(
-            mvp.movemap,
-            "The man gifted you $100. Do you want to accept it?", mvp.movemap
+            npc.ctx,
+            "The man gifted you $100. Do you want to accept it?",
         ):
             npc.set_used()
             figure.add_money(100)
@@ -241,16 +253,15 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                       "Now I can still serve the best MowCow-Burgers!",
                       "Can I have it?"])
             if ask_bool(
-                mvp.movemap,
-                "Do you want to give your Mowcow to the cook?", mvp.movemap
+                npc.ctx,
+                "Do you want to give your Mowcow to the cook?"
             ):
                 figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
                 npc.text(["Here you go, have $1000!"])
                 if ask_bool(
-                    mvp.movemap,
+                    npc.ctx,
                     "The cook gifted you $1000. "
                     "Do you want to accept it?",
-                    mvp.movemap
                 ):
                     figure.add_money(1000)
                 npc.set_used()
@@ -277,7 +288,7 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
     @staticmethod
     def playmap_43_npc_23(npc):
         """Interaction with npc_23"""
-        if ask_bool(mvp.movemap, "Do you also want to have one?", mvp.movemap):
+        if ask_bool(npc.ctx, "Do you also want to have one?"):
             figure.pokes.append(Poke("mowcow", 2000))
             npc.set_used()
 
@@ -285,124 +296,6 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
     def chat(npc):
         """Starts a chat"""
         npc.chat()
-
-
-class CenterInteract(se.Object):
-    """Triggers a conversation in the Pokete center"""
-
-    def action(self, ob):
-        """Triggers the interaction in the Pokete center
-        ARGS:
-            ob: The object triggering this action"""
-        _ev.clear()
-        mvp.movemap.full_show()
-        mvp.movemap.text(
-            mvp.movemap.bmap.inner.x - mvp.movemap.x + 8,
-            3,
-            [
-                "Welcome to the Pokete-Center",
-                "What do you want to do?",
-                "1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes"
-            ]
-        )
-        while True:
-            action = get_action()
-            if action.triggers(Action.ACT_1):
-                while "__fallback__" in [p.identifier for p in figure.pokes]:
-                    figure.pokes.pop([p.identifier for p in
-                                      figure.pokes].index("__fallback__"))
-                mvp.movemap.balls_label_rechar(figure.pokes)
-                deck.deck(mvp.movemap, len(figure.pokes))
-                break
-            elif action.triggers(Action.ACT_2):
-                figure.heal()
-                time.sleep(SPEED_OF_TIME * 0.5)
-                mvp.movemap.text(
-                    mvp.movemap.bmap.inner.x - mvp.movemap.x + 8, 3,
-                    ["...", "Your Poketes are now healed!"]
-                )
-                break
-            elif action.triggers(Action.CANCEL, Action.ACT_3):
-                break
-            std_loop(box=mvp.movemap)
-        mvp.movemap.full_show(init=True)
-
-
-class ShopInteract(se.Object):
-    """Triggers an conversation in the shop"""
-
-    def action(self, ob):
-        """Triggers an interaction in the shop
-        ARGS:
-            ob: The object triggering this action"""
-        _ev.clear()
-        mvp.movemap.full_show()
-        mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
-                         ["Welcome to the Pokete-Shop",
-                          "Wanna buy something?"])
-        buy()
-        mvp.movemap.full_show(init=True)
-        mvp.movemap.text(mvp.movemap.bmap.inner.x - mvp.movemap.x + 9, 3,
-                         ["Have a great day!"])
-
-
-class CenterMap(PlayMap):
-    """Contains all relevant objects for centermap
-    ARGS:
-        _he: The maps height
-        _wi: The maps width"""
-
-    def __init__(self, _he, _wi):
-        super().__init__(_he, _wi, name="centermap",
-                         pretty_name="Pokete-Center", song="Map.mp3")
-        self.inner = se.Text(""" ________________
- |______________|
- |     |a |     |
- |     ¯ ¯¯     |
- |              |
- |______  ______|
- |_____|  |_____|""", ignore=" ")
-
-        self.interact = CenterInteract("¯", state="float")
-        self.dor_back1 = CenterDoor(" ", state="float")
-        self.dor_back2 = CenterDoor(" ", state="float")
-        self.trader = NPC("trader",
-                          ["I'm a trader.",
-                           "Here you can trade one of your Poketes for \
-one from another trainer."],
-                          "swap_poke")
-        # adding
-        self.dor_back1.add(self, int(self.width / 2), 8)
-        self.dor_back2.add(self, int(self.width / 2) + 1, 8)
-        self.inner.add(self, int(self.width / 2) - 8, 1)
-        self.interact.add(self, int(self.width / 2), 4)
-        self.trader.add(self, int(self.width / 2) - 6, 3)
-
-
-class ShopMap(PlayMap):
-    """Contains all relevant objects for shopmap
-    ARGS:
-        _he: The maps height
-        _wi: The maps width """
-
-    def __init__(self, _he, _wi):
-        super().__init__(_he, _wi, name="shopmap",
-                         pretty_name="Pokete-Shop", song="Map.mp3")
-        self.inner = se.Text(""" __________________
- |________________|
- |      |a |      |
- |      ¯ ¯¯      |
- |                |
- |_______  _______|
- |______|  |______|""", ignore=" ")
-        self.interact = ShopInteract("¯", state="float")
-        self.dor_back1 = CenterDoor(" ", state="float")
-        self.dor_back2 = CenterDoor(" ", state="float")
-        # adding
-        self.dor_back1.add(self, int(self.width / 2), 8)
-        self.dor_back2.add(self, int(self.width / 2) + 1, 8)
-        self.inner.add(self, int(self.width / 2) - 9, 1)
-        self.interact.add(self, int(self.width / 2), 4)
 
 
 class Figure(se.Object, ProtoFigure):
@@ -455,6 +348,18 @@ class Figure(se.Object, ProtoFigure):
         mvp.movemap.balls_label_rechar(self.pokes)
         mvp.movemap.add_obs()
 
+    def set(self, x, y):
+        if super().set(x, y) == 0:
+            self.update_server_pos()
+
+    def add(self, _map, x, y):
+        if super().add(_map, x, y) == 0:
+            self.update_server_pos()
+
+    def update_server_pos(self):
+        if modeProvider.mode == Mode.MULTI:
+            com_service.pos_update(self.map.name, self.x, self.y)
+
     def add_money(self, money):
         """Adds money
         ARGS:
@@ -476,7 +381,7 @@ class Figure(se.Object, ProtoFigure):
                      money, self.__money)
         self.__money = money
         for cls in [inv, buy]:
-            cls.money_label.rechar("$" + str(self.__money))
+            cls.money_label.rechar("$" + str(self.__money))  # TODO: Remove
             cls.box.set_ob(cls.money_label,
                            cls.box.width - 2 - len(cls.money_label.text), 0)
 
@@ -488,7 +393,7 @@ class Figure(se.Object, ProtoFigure):
             caught_with: Name of ball which was used"""
         poke.set_player(True)
         poke.set_poke_stats(
-            PokeStats(poke.name, datetime.now(), caught_with=caught_with))
+            Stats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
@@ -540,291 +445,6 @@ class Debug:
         print(figure.x, figure.y, figure.map.name)
 
 
-class Inv:
-    """Inventory to see and manage items in
-    ARGS:
-        _map: se.Map this will be shown on"""
-
-    def __init__(self, _map):
-        self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Inventory",
-                             f"{Action.REMOVE.mapping}:remove")
-        self.box2 = InvBox(7, 21, overview=self)
-        self.money_label = se.Text(f"${figure.get_money()}")
-        self.desc_label = se.Text(" ")
-        # adding
-        self.box.add_ob(self.money_label,
-                        self.box.width - 2 - len(self.money_label.text), 0)
-        self.box2.add_ob(self.desc_label, 1, 1)
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.box.remove()
-        self.map.resize_view()
-        self.box.resize(self.map.height - 3, 35)
-        self.box.add(self.map, self.map.width - self.box.width, 0)
-        mvp.movemap.full_show()
-
-    def __call__(self):
-        """Opens the inventory"""
-        _ev.clear()
-        items = self.add()
-        self.box.resize(self.map.height - 3, 35)
-        with self.box.add(self.map, self.map.width - 35, 0):
-            while True:
-                action = get_action()
-                if action.triggers(Action.UP, Action.DOWN):
-                    self.box.input(action)
-                elif action.triggers(Action.CANCEL):
-                    break
-                elif action.triggers(Action.ACCEPT):
-                    obj = items[self.box.index.index]
-                    self.box2.name_label.rechar(obj.pretty_name)
-                    self.desc_label.rechar(liner(obj.desc, 19))
-                    self.box2.add(self.map, self.box.x - 19, 3)
-                    while True:
-                        action = get_action()
-                        if (
-                            action.triggers(Action.CANCEL)
-                            or action.triggers(Action.ACCEPT)
-                        ):
-                            self.box2.remove()
-                            if obj.name == "treat":
-                                if ask_bool(
-                                    self.map,
-                                    "Do you want to upgrade one of "
-                                    "your Poketes by a level?",
-                                    self
-                                ):
-                                    ex_cond = True
-                                    while ex_cond:
-                                        index = deck.deck(
-                                            mvp.movemap, 6, label="Your deck",
-                                            in_fight=True
-                                        )
-                                        if index is None:
-                                            ex_cond = False
-                                            self.map.show(init=True)
-                                            break
-                                        poke = figure.pokes[index]
-                                        break
-                                    if not ex_cond:
-                                        break
-                                    upgrade_by_one_lvl(poke, figure, self.map)
-                                    items = self.rem_item(obj.name, items)
-                                    ask_ok(
-                                        self.map,
-                                        f"{poke.name} reached level "
-                                        f"{poke.lvl()}!",
-                                        self
-                                    )
-                            elif isinstance(obj, LearnDisc):
-                                if ask_bool(
-                                    self.map,
-                                    f"Do you want to teach "
-                                    f"'{obj.attack_dict['name']}'?",
-                                    self
-                                ):
-                                    ex_cond = True
-                                    while ex_cond:
-                                        index = deck.deck(
-                                            mvp.movemap, 6, label="Your deck",
-                                            in_fight=True
-                                        )
-                                        if index is None:
-                                            ex_cond = False
-                                            self.map.show(init=True)
-                                            break
-                                        poke = figure.pokes[index]
-                                        if getattr(types,
-                                                   obj.attack_dict['types'][0]) \
-                                            in poke.types:
-                                            break
-                                        ex_cond = ask_bool(
-                                            self.map,
-                                            "You can't teach "
-                                            f"'{obj.attack_dict['name']}' to "
-                                            f"'{poke.name}'! \n"
-                                            "Do you want to continue?",
-                                            self
-                                        )
-                                    if not ex_cond:
-                                        break
-                                    if LearnAttack(poke, self.map, self) \
-                                            (obj.attack_name):
-                                        items = self.rem_item(obj.name, items)
-                                        if len(items) == 0:
-                                            break
-                            break
-                        std_loop(box=self.box2)
-                        self.map.show()
-                elif action.triggers(Action.REMOVE):
-                    if ask_bool(
-                        self.map,
-                        "Do you really want to throw "
-                        f"{items[self.box.index.index].pretty_name} away?",
-                        self
-                    ):
-                        items = self.rem_item(items[self.box.index.index].name,
-                                              items)
-                        if len(items) == 0:
-                            break
-                std_loop(box=self)
-                self.map.show()
-        self.box.remove_c_obs()
-
-    def rem_item(self, name, items):
-        """Removes an item from the inv
-        ARGS:
-            name: Items name
-            items: List of Items
-        RETURNS:
-            List of Items"""
-        figure.remove_item(name)
-        for obj in self.box.c_obs:
-            obj.remove()
-        self.box.remove_c_obs()
-        items = self.add()
-        if not items:
-            return items
-        if self.box.index.index >= len(items):
-            self.box.set_index(len(items) - 1)
-        return items
-
-    def add(self):
-        """Adds all items to the box
-        RETURNS:
-            List of Items"""
-        items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] > 0]
-        self.box.add_c_obs(
-            [
-                se.Text(
-                    f"{i.pretty_name}s : {figure.inv[i.name]}",
-                    state="float"
-                )
-                for i in items
-            ]
-        )
-        return items
-
-
-class Menu:
-    """Menu to manage settings and other stuff in
-    ARGS:
-        _map: se.Map this will be shown on"""
-
-    def __init__(self, _map):
-        self.map = _map
-        self.box = ChooseBox(_map.height - 3, 35, "Menu", overview=_map)
-        self.playername_label = se.Text("Playername: ", state="float")
-        self.represent_char_label = se.Text("Char: ", state="float")
-        self.mods_label = se.Text("Mods", state="float")
-        self.ach_label = se.Text("Achievements", state="float")
-        self.about_label = se.Text("About", state="float")
-        self.save_label = se.Text("Save", state="float")
-        self.exit_label = se.Text("Exit", state="float")
-        self.realname_label = se.Text(session_info["user"], state="float")
-        self.char_label = se.Text(figure.char, state="float")
-        self.box.add_c_obs([self.playername_label,
-                            self.represent_char_label,
-                            VisSetting("Autosave", "autosave",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Animations", "animations",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Save trainers", "save_trainers",
-                                       {True: "On", False: "Off"}),
-                            VisSetting("Audio", "audio",
-                                       {True: "On", False: "Off"}),
-                            Slider("Volume", "volume"),
-                            VisSetting("Load mods", "load_mods",
-                                       {True: "On", False: "Off"}),
-                            self.mods_label, self.ach_label,
-                            self.about_label, self.save_label,
-                            self.exit_label])
-        # adding
-        self.box.add_ob(self.realname_label,
-                        self.playername_label.rx + self.playername_label.width,
-                        self.playername_label.ry)
-        self.box.add_ob(self.char_label,
-                        self.represent_char_label.rx
-                        + self.represent_char_label.width,
-                        self.represent_char_label.ry)
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.box.remove()
-        self.box.overview.resize_view()
-        self.box.resize(self.map.height - 3, 35)
-        self.box.add(self.map, self.map.width - self.box.width, 0)
-
-    def __call__(self, pevm):
-        """Opens the menu"""
-        self.box.resize(self.map.height - 3, 35)
-        self.realname_label.rechar(figure.name)
-        self.char_label.rechar(figure.char)
-        audio_before = settings("audio").val
-        volume_before = settings("volume").val
-        with self.box.add(self.map, self.map.width - self.box.width, 0):
-            _ev.clear()
-            while True:
-                action = get_action()
-                i = self.box.c_obs[self.box.index.index]
-                if (strength := action.get_x_strength()) != 0:
-                    if isinstance(i, Slider):
-                        i.change(strength)
-                elif action.triggers(Action.ACCEPT):
-                    # Fuck python for not having case statements - lxgr
-                    #     but it does lmao - Magnus
-                    if i == self.playername_label:
-                        figure.name = text_input(self.realname_label, self.map,
-                                                 figure.name, 18, 17)
-                        self.map.name_label_rechar(figure.name)
-                    elif i == self.represent_char_label:
-                        inp = text_input(self.char_label, self.map,
-                                         figure.char, 18, 1)
-                        # excludes bad unicode:
-                        if (
-                            len(inp.encode("utf-8")) != 1
-                            and inp not in ["ä", "ö", "ü", "ß"]
-                        ):
-                            inp = "a"
-                            self.char_label.rechar(inp)
-                            notifier.notify("Error", "Bad character",
-                                            "The chosen character has to be a \
-valid single-space character!")
-                        figure.rechar(inp)
-                    elif i == self.mods_label:
-                        ModInfo(mvp.movemap, mods.mod_info)()
-                    elif i == self.save_label:
-                        # When will python3.10 come out?
-                        with InfoBox("Saving....", info="", _map=self.map):
-                            # Shows a box displaying "Saving...." while saving
-                            save()
-                            time.sleep(SPEED_OF_TIME * 1.5)
-                    elif i == self.exit_label:
-                        save()
-                        sys.exit()
-                    elif i == self.about_label:
-                        about()
-                    elif i == self.ach_label:
-                        AchievementOverview()(mvp.movemap)
-                    elif isinstance(i, VisSetting):
-                        i.change()
-                if (
-                    audio_before != settings("audio").val
-                    or volume_before != settings("volume").val
-                ):
-                    audio.switch(figure.map.song)
-                    audio_before = settings("audio").val
-                    volume_before = settings("volume").val
-                elif action.triggers(Action.UP, Action.DOWN):
-                    self.box.input(action)
-                elif action.triggers(Action.CANCEL, Action.MENU):
-                    break
-                std_loop(pevm=pevm, box=self)
-                self.map.full_show()
-
-
 # General use functions
 #######################
 
@@ -833,100 +453,12 @@ def autosave():
     while True:
         time.sleep(SPEED_OF_TIME * 300)
         if settings("autosave").val:
-            save()
-
-
-def save():
-    """Saves all relevant data to savefile"""
-    _si = {
-        "user": figure.name,
-        "represent_char": figure.char,
-        "ver": VERSION,
-        "map": figure.map.name,
-        "oldmap": figure.oldmap.name,
-        "last_center_map": figure.last_center_map.name,
-        "x": figure.x,
-        "y": figure.y,
-        "achievements": achievements.achieved,
-        "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
-        "inv": figure.inv,
-        "money": figure.get_money(),
-        "settings": settings.to_dict(),
-        "caught_poketes": list(dict.fromkeys(figure.caught_pokes
-                                             + [i.identifier
-                                                for i in figure.pokes])),
-        "visited_maps": figure.visited_maps,
-        "startup_time": __t,
-        "hotkeys": hotkeys_save(),
-        # filters doublicates from figure.used_npcs
-        "used_npcs": list(dict.fromkeys(figure.used_npcs)),
-        "pokete_care": pokete_care.dict(),
-        "time": timer.time.time,
-    }
-    with open(SAVEPATH / "pokete.json", "w+") as file:
-        # writes the data to the save file in a nice format
-        json.dump(_si, file, indent=4)
-    logging.info("[General] Saved")
-
-
-def read_save():
-    """Reads from savefile
-    RETURNS:
-        session_info dict"""
-    Path(SAVEPATH).mkdir(parents=True, exist_ok=True)
-    # Default test session_info
-    _si = {
-        "user": "DEFAULT",
-        "represent_char": "a",
-        "ver": VERSION,
-        "map": "intromap",
-        "oldmap": "playmap_1",
-        "last_center_map": "playmap_1",
-        "x": 4,
-        "y": 5,
-        "achievements": [],
-        "pokes": {
-            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
-                  "ap": ["SKIP", "SKIP"]}
-        },
-        "inv": {"poketeball": 15, "healing_potion": 1},
-        "settings": {
-            "load_mods": False},
-        "figure.caught_pokes": ["steini"],
-        "visited_maps": ["playmap_1"],
-        "startup_time": 0,
-        "used_npcs": [],
-        "hotkeys": {},
-        "pokete_care": {
-            "entry": 0,
-            "poke": None,
-        },
-        "time": 0
-    }
-
-    if os.path.exists(SAVEPATH / "pokete.json"):
-        with open(SAVEPATH / "pokete.json") as _file:
-            _si = json.load(_file)
-    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.json"):
-        with open(HOME / ".cache" / "pokete" / "pokete.json") as _file:
-            _si = json.load(_file)
-    elif os.path.exists(HOME / ".cache" / "pokete" / "pokete.py"):
-        l_dict = {}
-        with open(HOME / ".cache" / "pokete" / "pokete.py", "r") as _file:
-            exec(_file.read(), {"session_info": _si}, l_dict)
-        _si = json.loads(json.dumps(l_dict["session_info"]))
-    return _si
-
-
-def reset_terminal():
-    """Resets the terminals state"""
-    if sys.platform == "linux":
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+            save(figure)
 
 
 def exiter():
     """Exit function"""
-    reset_terminal()
+    recogniser.reset()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
     if audio.curr is not None:
@@ -940,7 +472,7 @@ def codes(string):
     """Cheats"""
     for i in string:
         if i == "w":
-            save()
+            save(figure)
         elif i == "!":
             exec(string[string.index("!") + 2:])
             return
@@ -958,12 +490,8 @@ def codes(string):
 # Those are adding additional actions to playmaps
 #################################################
 
-class ExtraActions:
-    """Extra actions class to keep track of extra actions"""
-
-    @staticmethod
-    def playmap_7():
-        """Cave animation"""
+class Playmap7Event(PeriodicEvent):
+    def tick(self, tick: int):
         _map = obmp.ob_maps["playmap_7"]
         for obj in _map.get_obj("inner_walls").obs \
                    + [i.main_ob for i in _map.trainers] \
@@ -978,6 +506,11 @@ class ExtraActions:
                 obj.rechar(" ")
 
 
+extra_actions: dict[str, list[PeriodicEvent]] = {
+    "playmap_7": [Playmap7Event()]
+}
+
+
 # main functions
 ################
 
@@ -985,7 +518,9 @@ def teleport(poke):
     """Teleports the player to another towns pokecenter
     ARGS:
         poke: The Poke shown in the animation"""
-    if (obj := roadmap(mvp.movemap, None, choose=True)) is None:
+    if (obj := roadmap.roadmap(
+        Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure),
+        choose=True)) is None:
         return
     if settings("animations").val:
         animations.transition(mvp.movemap, poke)
@@ -997,21 +532,20 @@ def teleport(poke):
     }).action(figure)
 
 
-def swap_poke():
+def swap_poke(ctx: Context):
     """Trading with other players in the local network"""
     if not ask_bool(
-        mvp.movemap, "Do you want to trade with another trainer?",
-        mvp.movemap
+        ctx, "Do you want to trade with another trainer?",
     ):
         return
     port = 65432
-    save()
-    do = ask_bool(mvp.movemap, "Do you want to be the host?", mvp.movemap)
-    if (index := deck.deck(mvp.movemap, 6, "Your deck", True)) is None:
+    save(figure)
+    do = ask_bool(ctx, "Do you want to be the host?")
+    if (index := deck.deck(ctx, 6, "Your deck", True)) is None:
         return
     if do:
         with InfoBox(f"Hostname: {socket.gethostname()}\nWaiting...",
-                     _map=mvp.movemap):
+                     ctx=ctx):
             host = ''
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 sock.bind((host, port))
@@ -1026,54 +560,52 @@ def swap_poke():
                         conn.sendall(
                             str.encode(
                                 json.dumps(
-                                    {"mods": mods.mod_info,
+                                    {"mods": loaded_mods.mod_info,
                                      "name": figure.name,
                                      "poke": figure.pokes[index].dict()})))
     else:
         host = ""
         while host == "":
-            host = ask_text(mvp.movemap, "Please type in the hosts hostname",
-                            "Host:", "", "Hostname", 30, mvp.movemap)
+            host = ask_text(ctx, "Please type in the hosts hostname",
+                            "Host:", "", "Hostname", 30)
             if host in ["localhost", "127.0.0.1", "0.0.0.0",
                         socket.gethostname()]:
-                ask_ok(mvp.movemap,
-                       "You're not allowed trade with your self!\nYou fool!",
-                       mvp.movemap)
+                ask_ok(ctx,
+                       "You're not allowed trade with your self!\nYou fool!")
                 host = ""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             try:
                 sock.connect((host, port))
             except Exception as err:
-                ask_ok(mvp.movemap, str(err), mvp.movemap)
+                ask_ok(ctx, str(err))
                 return
             sock.sendall(
                 str.encode(
-                    json.dumps({"mods": mods.mod_info,
+                    json.dumps({"mods": loaded_mods.mod_info,
                                 "name": figure.name,
                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
     logging.info("[Swap_poke] Recieved %s", decode_data)
     mod_info = decode_data.get("mods", {})
-    if mods.mod_info != mod_info:
+    if loaded_mods.mod_info != mod_info:
         ask_ok(
-            mvp.movemap, f"""Conflicting mod versions!
-Your mods: {', '.join(i + '-' + mods.mod_info[i] for i in mods.mod_info)}
-Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""",
-            mvp.movemap
+            ctx, f"""Conflicting mod versions!
+Your mods: {', '.join(i + '-' + loaded_mods.mod_info[i] for i in loaded_mods.mod_info)}
+Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}"""
         )
         return
     figure.add_poke(Poke(decode_data["poke"]["name"],
                          decode_data["poke"]["xp"],
                          decode_data["poke"]["hp"]), index)
     figure.pokes[index].set_ap(decode_data["poke"]["ap"])
-    save()  # to avoid duping
-    ask_ok(mvp.movemap,
+    save(figure)  # to avoid duping
+    ask_ok(ctx,
            f"You received: {figure.pokes[index].name.capitalize()} at level \
-{figure.pokes[index].lvl()} from {decode_data['name']}.", mvp.movemap)
+{figure.pokes[index].lvl()} from {decode_data['name']}.")
 
 
-def _game(_map):
+def _game(_map: PlayMap):
     """Game function
     ARGS:
         _map: The map that will be shown"""
@@ -1088,18 +620,28 @@ def _game(_map):
         audio.switch(_map.song)
 
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
+    mvp.movemap.resize_view()
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = _map
+    pc_manager.movemap_move()
     mvp.movemap.full_show()
-    pevm = PeriodicEventManager(_map)
+    pevm = PeriodicEventManager(
+        [
+            MovingGrassEvent(_map),
+            MovingWaterEvent(_map),
+            TreatNPCEvent(),
+            NotifierEvent()
+        ] + _map.extra_actions())
+    ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
+    MapInteract.set_ctx(ctx)  # Npcs need thois global context
     inp_dict = {
-        Action.DECK: [deck.deck, (mvp.movemap, 6, "Your deck")],
-        Action.MAP: [roadmap, (mvp.movemap, pevm)],
-        Action.INVENTORY: [inv, ()],
-        Action.POKEDEX: [pokete_dex, ()],
-        Action.CLOCK: [timer.clock, (mvp.movemap,)],
-        Action.MENU: [mvp.movemap.menu, (pevm,)],
-        Action.HELP: [help_page, ()]
+        Action.DECK: [deck.deck, (ctx, 6, "Your deck")],
+        Action.MAP: [roadmap.roadmap, (ctx,)],
+        Action.INVENTORY: [inv, (ctx,)],
+        Action.POKEDEX: [Dex(), (ctx,)],
+        Action.CLOCK: [timer.clock, (ctx,)],
+        Action.MENU: [Menu(), (ctx,)],
+        Action.HELP: [Help(), (ctx,)]
     }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
@@ -1119,21 +661,18 @@ def _game(_map):
             _ev.clear()
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
-            if ask_bool(
-                mvp.movemap, "Do you really wish to exit?",
-                mvp.movemap
-            ):
-                save()
+            if ask_bool(ctx, "Do you really wish to exit?"):
+                save(figure)
                 sys.exit()
         elif action.triggers(Action.CONSOLE):
-            inp = text_input(mvp.movemap.code_label, mvp.movemap, ":",
+            inp = text_input(ctx, mvp.movemap.code_label, ":",
                              mvp.movemap.width,
                              (mvp.movemap.width - 2)
                              * mvp.movemap.height - 1)[1:]
             mvp.movemap.code_label.outp(figure.map.pretty_name)
             codes(inp)
             _ev.clear()
-        std_loop(pevm=pevm, box=mvp.movemap)
+
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
@@ -1146,19 +685,20 @@ def _game(_map):
         ):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
-        mvp.movemap.full_show()
+                pc_manager.movemap_move()
+        loops.std(ctx)
 
 
-def intro():
+def intro(ctx: Context):
     """Intro to Pokete"""
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = obmp.ob_maps["intromap"]
     mvp.movemap.full_show()
     while figure.name in ["DEFAULT", ""]:
         figure.name = ask_text(
-            mvp.movemap,
+            ctx,
             "Welcome to Pokete!\nPlease choose your name!\n",
-            "Name:", "", "Name", 17, mvp.movemap
+            "Name:", "", "Name", 17
         )
     mvp.movemap.name_label_rechar(figure.name)
     mvp.movemap.text(4, 3, ["Hello, my child.",
@@ -1171,83 +711,6 @@ the world and be a Pokete-trainer.",
                             "You will be the best Pokete-Trainer in Nice \
 town.",
                             "Now go out and become the best!"])
-
-
-def parse_obj(_map, name, obj, _dict):
-    """Parses an object to a maps attribute and adds it
-    ARGS:
-        _map: The given PlayMap
-        name: Name of the attribute
-        obj: Object beeing set
-        _dict: Dict containing info"""
-    _map.register_obj(name, obj)
-    obj.add(_map, _dict["x"], _dict["y"])
-
-
-def gen_obs():
-    """Generates all objects on the maps"""
-    map_data = p_data.map_data
-    npcs = p_data.npcs
-    trainers = p_data.trainers
-
-    # adding all trainer to map
-    for i, trainer_list in trainers.items():
-        _map = obmp.ob_maps[i]
-        for j in trainer_list:
-            args = j["args"]
-            trainer = Trainer([Poke.wild(*p) for p in j["pokes"]], *args[:-2])
-            trainer.add(_map, args[-2], args[-1])
-            _map.trainers.append(trainer)
-
-    # generating objects from map_data
-    for ob_map, single_map in map_data.items():
-        _map = obmp.ob_maps[ob_map]
-        for hard_ob, single_hard_ob in single_map["hard_obs"].items():
-            parse_obj(_map, hard_ob,
-                      se.Text(single_hard_ob["txt"],
-                              ignore=" "),
-                      single_hard_ob)
-        for soft_ob, single_soft_ob in single_map["soft_obs"].items():
-            cls = {
-                "sand": Sand,
-                "meadow": Meadow,
-                "water": Water,
-            }[single_soft_ob.get("cls", "meadow")]
-            parse_obj(_map, soft_ob,
-                      cls(single_soft_ob["txt"],
-                          _map.poke_args
-                          if cls != Water else _map.w_poke_args),
-                      single_soft_ob)
-        for door, single_door in single_map["dors"].items():
-            parse_obj(_map, door,
-                      Door(" ", state="float",
-                           arg_proto=single_door["args"]),
-                      single_door)
-        for ball, single_ball in single_map["balls"].items():
-            if f'{ob_map}.{ball}' not in figure.used_npcs or not \
-                settings("save_trainers").val:
-                parse_obj(_map, ball,
-                          Poketeball(f"{ob_map}.{ball}"),
-                          single_ball)
-    # NPCs
-    for npc, _npc in npcs.items():
-        NPC(npc, _npc["texts"], _fn=_npc["fn"],
-            chat=_npc.get("chat", None)).add(obmp.ob_maps[_npc["map"]],
-                                             _npc["x"], _npc["y"])
-
-
-def gen_maps():
-    """Generates all maps
-    RETURNS:
-        Dict of all PlayMaps"""
-    maps = {}
-    for ob_map, args in p_data.maps.items():
-        args["extra_actions"] = (getattr(ExtraActions, args["extra_actions"],
-                                         None)
-                                 if args["extra_actions"] is not None
-                                 else None)
-        maps[ob_map] = PlayMap(name=ob_map, **args)
-    return maps
 
 
 def check_version(sinfo):
@@ -1282,198 +745,18 @@ def main():
     # hotkeys
     hotkeys_from_save(session_info.get("hotkeys", {}),
                       loading_screen.map, ver_change)
+    PreGameMap()(figure)
     game_map = figure.map
     if figure.name == "DEFAULT":
-        intro()
+        intro(
+            Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure)
+        )
         game_map = obmp.ob_maps["intromap"]
     while True:
         try:
             _game(game_map)
-        except game.MapChangeExeption as err:
+        except MapChangeExeption as err:
             game_map = err.map
-
-
-def map_additions():
-    """Applies additions to the maps"""
-
-    # playmap_1
-    _map = obmp.ob_maps["playmap_1"]
-    _map.dor = DoorToCenter()
-    # adding
-    _map.dor.add(_map, 25, 4)
-
-    # cave_1
-    _map = obmp.ob_maps["cave_1"]
-    _map.inner = se.Text("""##########################################
-##        ################################
-#         ################################
-#         ######################        ##
-#                    ###########   #######
-#         #########  ###########   #######
-#         #########  ###########   #######
-###################  ###########   #######
-##############                     #######
-##############                     #######
-##############  ##########################
-##############  ##########################
-########        ##########################
-#######  ###    ##########################
-#######  ###    ##########################
-#######         ##########################
-##############  ##########################
-##############  ##########################
-##############  ##########################
-##############  ##########################""", ignore="#",
-                         ob_class=HighGrass,
-                         ob_args=_map.poke_args,
-                         state="float")
-    # adding
-    _map.inner.add(_map, 0, 0)
-
-    # playmap_3
-    _map = obmp.ob_maps["playmap_3"]
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor.add(_map, 25, 6)
-    _map.shopdor.add(_map, 61, 6)
-
-    # playmap_4
-    _map = obmp.ob_maps["playmap_4"]
-    _map.dor_playmap_5 = ChanceDoor("~", state="float",
-                                    arg_proto={"chance": 6,
-                                               "map": "playmap_5",
-                                               "x": 17, "y": 16})
-    # adding
-    _map.dor_playmap_5.add(_map, 56, 1)
-
-    # playmap_5
-    _map = obmp.ob_maps["playmap_5"]
-    _map.inner = se.Square(" ", 11, 11, state="float", ob_class=HighGrass,
-                           ob_args=_map.poke_args)
-    # adding
-    _map.inner.add(_map, 26, 1)
-
-    # playmap_7
-    _map = obmp.ob_maps["playmap_7"]
-    _map.inner = se.Text("""##############################
-#########        #############
-#########        #############
-#########        #############
-#########        #############
-#########               ######
-##   ####     ####      ######
-#    ####     ####     #######
-#             ################
-#    ####     ################
-#########     ################
-#########     ################
-#########                   ##
-#########     ################
-#########     ################
-#########     ################
-#########             ########
-###################   ########
-####################  ########
-##############################""", ignore="#", ob_class=HighGrass,
-                         ob_args=_map.poke_args, state="float")
-    for ob in (
-        _map.get_obj("inner_walls").obs + [i.main_ob for i in _map.trainers] +
-        [_map.get_obj(i) for i in p_data.map_data["playmap_7"]["balls"]
-         if "playmap_7." + i not in figure.used_npcs
-            or not settings("save_trainers").val]):
-        ob.bchar = ob.char
-        ob.rechar(" ")
-    # adding
-    _map.inner.add(_map, 0, 0)
-
-    # playmap_9
-    _map = obmp.ob_maps["playmap_9"]
-    _map.inner = se.Text("""
-#########################
-#########################
-###       #  #         ##
-#         ####          #
-#                       #
-##                      #
-#               #########
-############ ############
-#########################""", ignore="#", ob_class=HighGrass,
-                         ob_args=_map.poke_args, state="float")
-    # adding
-    _map.inner.add(_map, 2, 1)
-
-    # playmap_13
-    _map = obmp.ob_maps["playmap_13"]
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor.add(_map, 14, 29)
-    _map.shopdor.add(_map, 52, 29)
-
-    # playmap_19
-    _map = obmp.ob_maps["playmap_19"]
-    _map.inner = se.Text("""                         ####
-                         #  #   ############
-                         #  #   #          #
-                         #  #   #          #
-        ##############   #  #####          #
-        ##           #   #                 #
-        #            #   #  #####          #
-        #            #####  #   #          #
-        #                   #   #         ##
-        #            #####  #   ############
-        ##############   #  #
-                         #  #
-         #################  ####################
-         #                                    ##
-     #####                                     #
-     #                                         #
-     #                        #######          #
-     #                        #     #          #
-     ######## #################     ######  ####
-            # #                          #  #
-            # #                          #  #
-            # #                          #  #
-            # #                          #  #
-            # #                          #  #
-            # #                   ########  #
-            # #                  ##         #
-            # #                   ###########
-            # #
-            # #
-            ###""", ignore="#", ob_class=HighGrass,
-                         ob_args=_map.poke_args, state="float")
-    # adding
-    _map.inner.add(_map, 0, 0)
-
-    # playmap_21
-    _map = obmp.ob_maps["playmap_21"]
-    _map.dor_playmap_19 = Door("_", state="float",
-                               arg_proto={"map": "playmap_19",
-                                          "x": 26, "y": 1})
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor_playmap_19.add(_map, 5, 26)
-    _map.dor.add(_map, 10, 7)
-    _map.shopdor.add(_map, 34, 7)
-
-    # playmap_30
-    _map = obmp.ob_maps["playmap_30"]
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor.add(_map, 13, 7)
-    _map.shopdor.add(_map, 30, 7)
-
-    # playmap_39
-    _map = obmp.ob_maps["playmap_39"]
-    _map.dor = DoorToCenter()
-    _map.shopdor = DoorToShop()
-    # adding
-    _map.dor.add(_map, 44, 52)
-    _map.shopdor.add(_map, 122, 64)
 
 
 # Actual code execution
@@ -1513,72 +796,14 @@ copy of it alongside this software.""",
 
     c.exec()
 
-    # deciding on wich input to use
-    if sys.platform == "win32":
-        import msvcrt
-
-
-        def recogniser():
-            """Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime"""
-            while True:
-                if msvcrt.kbhit():
-                    char = msvcrt.getwch()
-                    _ev.set(
-                        {
-                            ord(char): f"{char.rstrip()}",
-                            13: "Key.enter",
-                            127: "Key.backspace",
-                            8: "Key.backspace",
-                            32: "Key.space",
-                            27: "Key.esc",
-                            3: "exit",
-                        }[ord(char)]
-                    )
-
-    else:
-        import tty
-        import termios
-        import select
-
-
-        def recogniser():
-            """Use another (not on xserver relying) way to read keyboard input,
-                to make this shit work in tty or via ssh,
-                where no xserver is available"""
-            global fd, old_settings
-
-            fd = sys.stdin.fileno()
-            old_settings = termios.tcgetattr(fd)
-            tty.setraw(fd)
-            time.sleep(SPEED_OF_TIME * 0.1)
-            while True:
-                rlist, _, _ = select.select([sys.stdin], [], [], 0.1)
-                if rlist:
-                    char = sys.stdin.read(1)
-                    _ev.set(
-                        {
-                            ord(char): f"{char.rstrip()}",
-                            13: "Key.enter",
-                            127: "Key.backspace",
-                            32: "Key.space",
-                            27: "Key.esc",
-                            3: "exit",
-                        }[ord(char)]
-                    )
-                    if ord(char) == 3:
-                        reset_terminal()
-
     print("\033[?1049h")
 
     # resizing screen
     tss()
+    loading_screen()
 
     # Home global
     HOME = Path.home()
-
-    # loading screen
-    loading_screen = LoadingScreen(VERSION, CODENAME)
-    loading_screen()
 
     # readinf savefile
     session_info = read_save()
@@ -1598,21 +823,7 @@ copy of it alongside this software.""",
         settings("load_mods").val = False
 
     # Loading mods
-    if settings("load_mods").val:
-        try:
-            import mods
-        except ModError as mod_err:
-            error_box = InfoBox(str(mod_err), "Mod-loading Error")
-            error_box.center_add(loading_screen.map)
-            loading_screen.map.show()
-            sys.exit(1)
-
-        for mod in mods.mod_obs:
-            mod.mod_p_data(p_data)
-    else:
-        mods = DummyMods()
-    logging.info("[General] %d mods are loaded: (%s)",
-                 len(mods.mod_obs), ', '.join(mods.mod_names))
+    try_load_mods(loading_screen.map)
 
     # validating data
     p_data.validate()
@@ -1622,44 +833,34 @@ copy of it alongside this software.""",
     # but can be extended via map_additions()
     ############################################################
 
-    obmp.ob_maps = gen_maps()
-    # Those two maps cant to sourced out, because `height` and `width`
-    # are global variables exclusive to pokete.py
-    centermap = CenterMap(tss.height - 1, tss.width)
-    shopmap = ShopMap(tss.height - 1, tss.width)
-    obmp.ob_maps["centermap"] = centermap
-    obmp.ob_maps["shopmap"] = shopmap
+    obmp.ob_maps = gen_maps(p_data.maps, extra_actions)
 
     # Figure
     figure = Figure(session_info)
+    NameTag.set_args(figure)
 
-    gen_obs()
-    map_additions()
+    gen_obs(p_data.map_data, p_data.npcs, p_data.trainers, figure)
+    map_additions(figure)
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
 
-    mvp.movemap = mvp.Movemap(tss.height - 1, tss.width, Menu)
+    mvp.movemap = mvp.Movemap(tss.height - 1, tss.width)
 
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
 
     # side fn definitions
     detail.detail = detail.Detail(tss.height - 1, tss.width)
-    pokete_dex = Dex(figure)
-    help_page = Help(mvp.movemap)
-    RoadMap.check_maps()
-    roadmap = RoadMap(figure)
+    roadmap.RoadMap.check_maps()
+    roadmap.roadmap = roadmap.RoadMap()
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
-    about = About(VERSION, CODENAME, mvp.movemap)
-    inv = Inv(mvp.movemap)
-    buy = Buy(figure, mvp.movemap)
-    pokete_care = PoketeCare.from_dict(session_info.get("pokete_care", {
+    pokete_care.from_dict(session_info.get("pokete_care", {
         "entry": 0,
         "poke": None,
     }))
     timer.time = timer.Time(session_info.get("time", 0))
-    timer.clock = timer.Clock(timer.time, mvp.movemap)
+    timer.clock = timer.Clock(timer.time)
     HighGrass.figure = figure
     Poketeball.figure = figure
     _ev.set_emit_fn(timer.time.emit_input)
@@ -1669,19 +870,13 @@ copy of it alongside this software.""",
     for identifier, achievement_args in p_data.achievements.items():
         achievements.add(identifier, **achievement_args)
 
-    # objects relevant for fm.fight()
-    fm.fightmap = fm.FightMap(tss.height - 1, tss.width)
-
     for _i in [NPC, Trainer]:
-        _i.set_vars(figure, NPCActions)
+        _i.set_vars(NPCActions)
     notifier.set_vars(mvp.movemap)
     figure.set_args(session_info)
 
     __t = time.time() - __t
     logging.info("[General] Startup took %fs", __t)
-
-    fd = None
-    old_settings = None
 
     try:
         main()

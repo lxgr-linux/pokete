@@ -4,17 +4,17 @@ import time
 import logging
 import random
 import scrap_engine as se
-import pokete_classes.fightmap as fm
 from release import SPEED_OF_TIME
-from pokete_classes.hotkeys import ACTION_UP_DOWN, Action, get_action
-from . import movemap as mvp
-from .providers import Provider
-from .loops import std_loop
-from .input import ask_bool
-from .inv_items import invitems
+from .context import Context
+from .fight import Fight, Provider, AttackResult
+from .input import ACTION_UP_DOWN, Action, get_action
+from .input_loops import ask_bool
+from .inv import invitems
 from .settings import settings
-from .ui_elements import ChooseBox
+from .ui.elements import ChooseBox
 from .general import check_walk_back
+from .landscape import MapInteract
+from . import movemap as mvp, loops
 
 
 class NPCTrigger(se.Object):
@@ -31,19 +31,16 @@ class NPCTrigger(se.Object):
         self.npc.action()
 
 
-class NPC(se.Box):
+class NPC(se.Box, MapInteract):
     """An NPC to talk to"""
-    fig = None
     npcactions = None
     registry = {}
 
     @classmethod
-    def set_vars(cls, fig, npcactions):
+    def set_vars(cls, npcactions):
         """Sets all variables needed by NPCs
         ARGS:
-            fig: Figure object
             npcactions: NPCActions class"""
-        cls.fig = fig
         cls.npcactions = npcactions
 
     @classmethod
@@ -73,7 +70,7 @@ class NPC(se.Box):
         """Movemap.text wrapper
         ARGS:
             text: Text that should be printed"""
-        mvp.movemap.text(self.x, self.y, text)
+        mvp.movemap.text(self.ctx, self.x, self.y, text)
 
     def exclamate(self):
         """Shows the exclamation on top of a NPC"""
@@ -144,23 +141,24 @@ class NPC(se.Box):
             item: Item name"""
         item = getattr(invitems, item)
         self.set_used()
-        if ask_bool(mvp.movemap, f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?", mvp.movemap):
-            self.fig.give_item(item.name)
+        if ask_bool(self.ctx, f"{name} gifted you a '{item.pretty_name}'. \
+Do you want to accept it?"):
+            self.ctx.figure.give_item(item.name)
 
     @property
     def used(self):
         """Indicates whether or not the NPC has been used"""
-        return self.name in self.fig.used_npcs
+        return self.name in self.ctx.figure.used_npcs
 
     def set_used(self):
         """Sets the NPC as used"""
-        self.fig.used_npcs.append(self.name)
+        self.ctx.figure.used_npcs.append(self.name)
 
     def unset_used(self):
         """Sets the NPC as unused"""
         if self.used:
-            self.fig.used_npcs.pop(self.fig.used_npcs.index(self.name))
+            self.ctx.figure.used_npcs.pop(
+                self.ctx.figure.used_npcs.index(self.name))
 
     def chat(self):
         """Starts a question-answer chat"""
@@ -170,40 +168,28 @@ Do you want to accept it?", mvp.movemap):
         while True:
             self.text(q_a["q"])
             while get_action() is None:
-                std_loop(mvp.movemap)
-                mvp.movemap.show()
+                loops.std(self.ctx)
             if q_a["a"] == {}:
                 break
-            keys = list(q_a["a"].keys())
-            c_b = MultiTextChooseBox(
-                len(keys) + 2,
-                sorted(len(i) for i in keys)[-1] + 6,
-                name="Answer",
-                c_obs=[se.Text(i, state="float") for i in keys],
-                overview=mvp.movemap
-            )
-            c_b.fig = self.fig
-            c_b.frame.corners[0].rechar("^")
-            mvp.movemap.assure_distance(self.fig.x, self.fig.y,
-                                        c_b.width + 2, c_b.height + 2)
-            with c_b.add(mvp.movemap, self.fig.x - mvp.movemap.x,
-                         self.fig.y - mvp.movemap.y + 1):
-                while True:
-                    action = get_action()
-                    if action.triggers(*ACTION_UP_DOWN):
-                        c_b.input(action)
-                        mvp.movemap.show()
-                    elif action.triggers(Action.ACCEPT):
-                        key = keys[c_b.index.index]
-                        break
-                    std_loop(box=c_b)
-                    mvp.movemap.show()
-            q_a = q_a["a"][key]
+            q_a = q_a["a"][
+                MultiTextChooseBox(
+                    list(q_a["a"].keys())
+                )(self.ctx)
+            ]
 
 
 class MultiTextChooseBox(ChooseBox):
     """ChooseBox wrapper for multitext conversations"""
-    fig = None
+
+    def __init__(self, keys):
+        super().__init__(
+            len(keys) + 2,
+            sorted(len(i) for i in keys)[-1] + 6,
+            name="Answer",
+            c_obs=[se.Text(i, state="float") for i in keys],
+        )
+        self.fig = None
+        self.keys = keys
 
     def resize_view(self):
         """Manages recursive view resizing"""
@@ -219,6 +205,25 @@ class MultiTextChooseBox(ChooseBox):
             self.fig.y - mvp.movemap.y + 1
         )
 
+    def __call__(self, ctx: Context) -> int:
+        self.set_ctx(ctx)
+        self.fig = ctx.figure
+        self.frame.corners[0].rechar("^")
+        mvp.movemap.assure_distance(self.fig.x, self.fig.y,
+                                    self.width + 2, self.height + 2)
+        with self.add(ctx.map, self.fig.x - mvp.movemap.x,
+                      self.fig.y - mvp.movemap.y + 1):
+            while True:
+                action = get_action()
+                if action.triggers(*ACTION_UP_DOWN):
+                    self.input(action)
+                    mvp.movemap.full_show()
+                elif action.triggers(Action.ACCEPT):
+                    key = self.keys[self.index.index]
+                    break
+                loops.std(ctx.with_overview(self))
+        return key
+
 
 class Trainer(NPC, Provider):
     """Trainer class to fight against"""
@@ -231,9 +236,10 @@ class Trainer(NPC, Provider):
         self.gender = gender
         self.lose_texts = lose_texts
         self.win_texts = win_texts
+        self.trainer = True
 
-    def get_attack(self, fightmap, enem):
-        return random.choices(
+    def get_attack(self, ctx: Context, fightmap, enem) -> AttackResult:
+        return AttackResult.attack(random.choices(
             self.curr.attack_obs,
             weights=[
                 i.ap * (
@@ -243,7 +249,7 @@ class Trainer(NPC, Provider):
                 )
                 for i in self.curr.attack_obs
             ]
-        )[0]
+        )[0])
 
     def add(self, _map, x, y):
         """Add wrapper
@@ -260,20 +266,21 @@ class Trainer(NPC, Provider):
         """Interaction with the trainer"""
         o_x = self.x
         o_y = self.y
-        if self.fig.has_item("shut_the_fuck_up_stone"):
+        if self.ctx.figure.has_item("shut_the_fuck_up_stone"):
             return
         self.pokes = [p for p in self.pokes if p.hp > 0]
         if self.pokes and (not self.used
-                                 or not settings("save_trainers").val) \
-                and self.check_walk(self.fig.x, self.fig.y):
+                           or not settings("save_trainers").val) \
+            and self.check_walk(self.ctx.figure.x, self.ctx.figure.y):
             mvp.movemap.full_show()
             time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
-            self.walk_point(self.fig.x, self.fig.y)
-            if any(poke.hp > 0 for poke in self.fig.pokes[:6]):
+            self.walk_point(self.ctx.figure.x, self.ctx.figure.y)
+            if any(poke.hp > 0 for poke in self.ctx.figure.pokes[:6]):
                 self.text(self.texts)
-                winner = fm.fightmap.fight(
-                    [self.fig, self]
+                winner = Fight()(
+                    self.ctx,
+                    [self.ctx.figure, self]
                 )
                 is_winner = (winner == self)
                 self.text({True: self.lose_texts,
@@ -282,12 +289,12 @@ class Trainer(NPC, Provider):
                 if is_winner:
                     self.heal()
                 else:
-                    self.fig.add_money(20)
+                    self.ctx.figure.add_money(20)
                     self.set_used()
                 logging.info("[NPC][%s] %s against player", self.name,
                              'Lost' if not is_winner else 'Won')
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
-            check_walk_back(self.fig)
+            check_walk_back(self.ctx)
 
     def greet(self, fightmap):
         """Outputs a greeting text at the fights start:
@@ -300,28 +307,12 @@ class Trainer(NPC, Provider):
             'against you!'
         )
 
-    def handle_defeat(self, fightmap, winner):
-        """Function caleld when the providers current Pokete dies
+    def handle_defeat(self, ctx: Context, fightmap, winner):
+        """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
             winner: the defeating provider"""
-        time.sleep(SPEED_OF_TIME * 1)
-        ico = self.curr.ico
-        fightmap.fast_change(
-            [ico, fightmap.deadico1, fightmap.deadico2],
-            ico
-        )
-        fightmap.deadico2.remove()
-        fightmap.show()
-        fightmap.clean_up(self)
+        fightmap.death_animation(self)
         self.play_index += 1
-        fightmap.add_1(winner, self)
-        ico = self.curr.ico
-        fightmap.fast_change(
-            [ico, fightmap.deadico2, fightmap.deadico1, ico],
-            ico
-        )
-        fightmap.outp.outp(f"{self.name} used {self.curr.name}!")
-        fightmap.show()
-        time.sleep(SPEED_OF_TIME * 2)
+        fightmap.add_enemy_after_choosing(winner, self)
         return True
