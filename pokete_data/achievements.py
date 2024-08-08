@@ -1,6 +1,7 @@
 """Contains raw achievement data"""
+from pokete_classes.asset_service.asset_types import Achievements
 
-achievements = {
+achievements: Achievements = {
     "first_poke": {
         "title": "First Pokete",
         "desc": "Catch your first Pokete!"

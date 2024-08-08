@@ -1,4 +1,6 @@
-items = {
+from pokete_classes.asset_service.asset_types import Items
+
+items: Items = {
     "poketeball": {
         "pretty_name": "Poketeball",
         "desc": "A ball you can use to catch Poketes",
@@ -48,7 +50,6 @@ items = {
         "fn": None
     },
 }
-
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

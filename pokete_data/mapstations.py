@@ -1,4 +1,4 @@
-from pokete_classes.maps import Stations
+from pokete_classes.asset_service.asset_types import Stations, Decorations
 
 stations: Stations = {
     "playmap_1": {
@@ -368,7 +368,7 @@ P│$""",
 
 }
 
-decorations = {
+decorations: Decorations = {
     "cave3": {
         "gen": {
             "text": """██

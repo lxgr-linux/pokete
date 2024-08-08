@@ -1,4 +1,6 @@
-npcs = {
+from pokete_classes.asset_service.asset_types import NPCs
+
+npcs: NPCs = {
     "test_npc": {
         "texts": ["Hey."],
         "fn": None,
@@ -199,18 +201,18 @@ found some cool Poketes.",
                 "Hello": {
                     "q": ["Hi."],
                     "a": {}
-                    },
+                },
                 "How are you?": {
                     "q": ["I'm fine, thanks.", "Where are you from?"],
                     "a": {
                         "Home.": {
                             "q": ["Wow."],
                             "a": {}
-                            }
                         }
                     }
                 }
-            },
+            }
+        },
         "map": "playmap_8",
         "x": 74,
         "y": 15
@@ -224,7 +226,7 @@ found some cool Poketes.",
                 "Just chilling.": {
                     "q": ["Nice.", "This beach is the most beautiful in the region!", "Isn't the weather great today?"],
                     "a": {}
-                    },
+                },
                 "Searching for Poketes": {
                     "q": ["Oh cool, you're a Pokete trainer!", "Did you already find some?"],
                     "a": {
@@ -237,40 +239,40 @@ found some cool Poketes.",
                                         "Yes": {
                                             "q": ["Those are fucking beasts!"],
                                             "a": {}
-                                            },
+                                        },
                                         "Hell, what are those?": {
                                             "q": ["They're the dark and fiery souls of those who got burned to death by the hot sun!"],
                                             "a": {}
-                                            }
                                         }
-                                    },
-                                "Yes, of course" : {
+                                    }
+                                },
+                                "Yes, of course": {
                                     "q": ["You're a good trainer, huh?", "I want to see you fight a Rustacean.", "They're very tough!"],
                                     "a": {}
-                                    },
+                                },
                                 "No": {
                                     "q": ["That's too bad.", "But they're very tough!"],
                                     "a": {}
-                                    }
                                 }
-                            },
+                            }
+                        },
                         "No": {
                             "q": ["That's too bad.", "You can find some in the sand fields."],
                             "a": {
                                 "Thanks a lot!": {
                                     "q": ["No problem!"],
                                     "a": {}
-                                    },
+                                },
                                 "Are you a trainer yourself?": {
                                     "q": ["No, but the guy over there is."],
                                     "a": {}
-                                    }
                                 }
                             }
                         }
                     }
                 }
-            },
+            }
+        },
         "map": "playmap_40",
         "x": 107,
         "y": 25

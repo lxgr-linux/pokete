@@ -1,8 +1,11 @@
 """Generating maps"""
 import scrap_engine as se
 
+from .asset_service.asset_types import Maps, NPCs
+from pokete_classes.asset_service.asset_types.npcs import NPCs
+from pokete_classes.asset_service.asset_types.obmaps import Obmaps
+from pokete_classes.asset_service.asset_types.trainers import Trainers
 from pokete_classes.map_additions.center import CenterMap, ShopMap
-from pokete_classes.maps import Maps, Obmaps, NPCs, Trainers
 from pokete_classes.tss import tss
 from .landscape import Meadow, Water, Sand, Poketeball
 from .classes import PlayMap
@@ -14,7 +17,7 @@ from .settings import settings
 from . import ob_maps as obmp
 
 
-def parse_obj(_map, name, obj, _dict):
+def __parse_obj(_map, name, obj, _dict):
     """Parses an object to a maps attribute and adds it
     ARGS:
         _map: The given PlayMap
@@ -80,32 +83,32 @@ def gen_obs(map_data: Obmaps, npcs: NPCs, trainers: Trainers, figure):
     for ob_map, single_map in map_data.items():
         _map = obmp.ob_maps[ob_map]
         for hard_ob, single_hard_ob in single_map["hard_obs"].items():
-            parse_obj(_map, hard_ob,
-                      se.Text(single_hard_ob["txt"],
-                              ignore=" "),
-                      single_hard_ob)
+            __parse_obj(_map, hard_ob,
+                        se.Text(single_hard_ob["txt"],
+                                ignore=" "),
+                        single_hard_ob)
         for soft_ob, single_soft_ob in single_map["soft_obs"].items():
             cls = {
                 "sand": Sand,
                 "meadow": Meadow,
                 "water": Water,
             }[single_soft_ob.get("cls", "meadow")]
-            parse_obj(_map, soft_ob,
-                      cls(single_soft_ob["txt"],
-                          _map.poke_args
-                          if cls != Water else _map.w_poke_args),
-                      single_soft_ob)
+            __parse_obj(_map, soft_ob,
+                        cls(single_soft_ob["txt"],
+                            _map.poke_args
+                            if cls != Water else _map.w_poke_args),
+                        single_soft_ob)
         for door, single_door in single_map["dors"].items():
-            parse_obj(_map, door,
-                      Door(" ", state="float",
-                           arg_proto=single_door["args"]),
-                      single_door)
+            __parse_obj(_map, door,
+                        Door(" ", state="float",
+                             arg_proto=single_door["args"]),
+                        single_door)
         for ball, single_ball in single_map["balls"].items():
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
                 settings("save_trainers").val:
-                parse_obj(_map, ball,
-                          Poketeball(f"{ob_map}.{ball}"),
-                          single_ball)
+                __parse_obj(_map, ball,
+                            Poketeball(f"{ob_map}.{ball}"),
+                            single_ball)
         if "special_dors" in single_map:
             for name, cls in [("dor", DoorToCenter), ("shopdor", DoorToShop)]:
                 if name in single_map["special_dors"]:

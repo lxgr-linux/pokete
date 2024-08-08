@@ -1,6 +1,6 @@
 """This file contains a dict with all Strings that will be
    added to the maps"""
-from pokete_classes.maps import Obmaps
+from pokete_classes.asset_service.asset_types import Obmaps
 
 # Those are some vars used in map_data
 CENTER = r"""  __________

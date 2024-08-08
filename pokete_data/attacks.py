@@ -1,4 +1,6 @@
-attacks = {
+from pokete_classes.asset_service.asset_types import Attacks
+
+attacks: Attacks = {
     # normal attacks
     "tackle": {
         "name": "Tackle",
@@ -367,7 +369,7 @@ attacks = {
         "is_generic": False,
         "ap": 15,
     },
-     "webattack": {
+    "webattack": {
         "name": "Web attack",
         "factor": 1,
         "action": None,

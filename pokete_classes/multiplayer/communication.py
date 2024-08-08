@@ -83,16 +83,16 @@ class CommunicationService:
                 raise InvalidPokeException(data["error"])
             case map_info.INFO_TYPE:
                 data: map_info.InfoData = resp.data
-                obmp.ob_maps = gen_maps(data["maps"], fix_center=True)
+                obmp.ob_maps = gen_maps(data["assets"]["maps"], fix_center=True)
                 gen_obs(
-                    data["obmaps"],
-                    data["npcs"],
-                    data["trainers"],
+                    data["assets"]["obmaps"],
+                    data["assets"]["npcs"],
+                    data["assets"]["trainers"],
                     ctx.figure,
                 )
                 roadmap.roadmap = roadmap.RoadMap(
-                    data["map_stations"],
-                    data["map_decorations"]
+                    data["assets"]["stations"],
+                    data["assets"]["decorations"]
                 )
                 pos = data["position"]
                 self.saved_pos = (

@@ -1,4 +1,4 @@
-from pokete_classes.maps import Maps
+from pokete_classes.asset_service.asset_types import Maps
 
 maps: Maps = {
     "intromap": {

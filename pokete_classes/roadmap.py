@@ -2,9 +2,9 @@
 import scrap_engine as se
 import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
+from pokete_classes.asset_service.asset_types import Stations, Decorations
 from pokete_classes.context import Context
 from pokete_classes.game import PeriodicEvent
-from pokete_classes.maps import Stations, Decorations
 from util import liner
 from .input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .color import Color

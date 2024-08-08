@@ -1,4 +1,4 @@
-from pokete_classes.maps import Trainers
+from pokete_classes.asset_service.asset_types import Trainers
 
 trainers: Trainers = {
     "playmap_1": [

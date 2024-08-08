@@ -11,15 +11,19 @@ const InfoType msg.Type = "pokete.map.info"
 
 type Info struct {
 	msg.BaseMsg
-	Obmaps         resources.Obmaps         `json:"obmaps"`
-	Maps           resources.Maps           `json:"maps"`
-	NPCs           resources.NPCs           `json:"npcs"`
-	Trainers       resources.Trainers       `json:"trainers"`
-	MapStations    resources.MapStations    `json:"map_stations"`
-	MapDecorations resources.MapDecorations `json:"map_decorations"`
-	Position       user.Position            `json:"position"`
-	Users          []user.User              `json:"users"`
-	GreetingText   string                   `json:"greeting_text"`
+	Assets       Assets        `json:"assets"`
+	Position     user.Position `json:"position"`
+	Users        []user.User   `json:"users"`
+	GreetingText string        `json:"greeting_text"`
+}
+
+type Assets struct {
+	Obmaps      resources.Obmaps         `json:"obmaps"`
+	Maps        resources.Maps           `json:"maps"`
+	NPCs        resources.NPCs           `json:"npcs"`
+	Trainers    resources.Trainers       `json:"trainers"`
+	Stations    resources.MapStations    `json:"stations"`
+	Decorations resources.MapDecorations `json:"decorations"`
 }
 
 func (i Info) GetType() msg.Type {
@@ -34,12 +38,14 @@ func NewInfo(
 ) Info {
 	return Info{
 		msg.BaseMsg{},
-		resources2.GetObmaps(),
-		resources2.GetMaps(),
-		resources2.GetNPCs(),
-		resources2.GetTrainers(),
-		resources2.GetMapStations(),
-		resources2.GetMapDecorations(),
+		Assets{
+			resources2.GetObmaps(),
+			resources2.GetMaps(),
+			resources2.GetNPCs(),
+			resources2.GetTrainers(),
+			resources2.GetMapStations(),
+			resources2.GetMapDecorations(),
+		},
 		position,
 		users.GetAllUsers(),
 		greetingtext,

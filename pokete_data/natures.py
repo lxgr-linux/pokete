@@ -1,6 +1,7 @@
 """Contains data about the different natures"""
+from pokete_classes.asset_service.asset_types import Natures
 
-natures = {
+natures: Natures = {
     "brave": {
         "esc": "blue",
         "atc": 1.1,
