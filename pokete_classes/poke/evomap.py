@@ -2,12 +2,12 @@
 import logging
 import time
 
-import pokete_data as p_data
 import scrap_engine as se
 import pokete_classes.game_map as gm
 from release import SPEED_OF_TIME
 from .. import loops
 from ..achievements import achievements
+from ..asset_service.service import asset_service
 from ..classes import OutP
 from ..context import Context
 from ..game import PeriodicEventManager
@@ -72,7 +72,8 @@ class EvoMap(gm.GameMap, Overview):
         new.moves.shine()
         self.outp.outp(f"{self.name} evolved into {new.name}!")
         time.sleep(SPEED_OF_TIME * 5)
-        for i in range(max(len(p_data.pokes[new.identifier]["attacks"])
+        for i in range(max(len(
+            asset_service.get_base_assets()["pokes"][new.identifier]["attacks"])
                            - len(poke.attack_obs), 0)):
             LearnAttack(new)(ctx)
         ctx.figure.pokes[ctx.figure.pokes.index(self)] = new

@@ -1,8 +1,7 @@
 """Contains all classes relevant to show the roadmap"""
 import scrap_engine as se
-import pokete_data as p_data
 import pokete_classes.ob_maps as obmp
-from pokete_classes.asset_service.asset_types import Stations, Decorations
+from pokete_classes.asset_service.service import asset_service
 from pokete_classes.context import Context
 from pokete_classes.game import PeriodicEvent
 from util import liner
@@ -112,8 +111,9 @@ class Station(StationObject):
 
     def is_city(self):
         """Returns if the station is a city"""
-        return "pokecenter" in p_data.map_data[self.associates[0].name][
-            "hard_obs"]
+        return "pokecenter" in \
+            asset_service.get_assets()["obmaps"][self.associates[0].name][
+                "hard_obs"]
 
     def hide_if_visited(self, figure, choose=False):
         self.text = self.base_text
@@ -134,12 +134,9 @@ class Station(StationObject):
 class RoadMap:
     """Map you can see and navigate maps on"""
 
-    def __init__(self, stations: Stations = None,
-                 decorations: Decorations = None):
-        if stations is None:
-            stations = p_data.stations
-        if decorations is None:
-            decorations = p_data.decorations
+    def __init__(self):
+        stations = asset_service.get_assets()["stations"]
+        decorations = asset_service.get_assets()["decorations"]
         self.box = Box(
             17, 61, "Roadmap", f"{Action.CANCEL.mapping}:close",
         )
@@ -224,7 +221,7 @@ W ◀ ▶ E
                 ):
                     p_list = ", ".join(
                         set(
-                            p_data.pokes[j]["name"]
+                            asset_service.get_base_assets()["pokes"][j]["name"]
                             for i in self.sta.associates
                             for j in i.poke_args.get("pokes", [])
                             + i.w_poke_args.get("pokes", [])
@@ -248,17 +245,18 @@ W ◀ ▶ E
                 ctx.map.full_show()
         self.sta.unchoose()
 
-    @staticmethod
-    def check_maps():
-        """Checks for PlayMaps not having a corresponding MapStation"""
-        all_road_maps = ["centermap", "shopmap"]
-        for i, _dict in p_data.stations.items():
-            all_road_maps.append(i)
-            all_road_maps += _dict["gen"]["additionals"]
-
-        for _, _map in obmp.ob_maps.items():
-            if _map.name not in all_road_maps:
-                raise RoadMapException(_map)
+    # @staticmethod
+    # TODO: Add to assetloading validation
+    # def check_maps():
+    #    """Checks for PlayMaps not having a corresponding MapStation"""
+    #    all_road_maps = ["centermap", "shopmap"]
+    #    for i, _dict in p_data.stations.items():
+    #        all_road_maps.append(i)
+    #        all_road_maps += _dict["gen"]["additionals"]
+    #
+    #   for _, _map in obmp.ob_maps.items():
+    #        if _map.name not in all_road_maps:
+    #            raise RoadMapException(_map)
 
 
 roadmap: RoadMap | None = None

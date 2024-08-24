@@ -839,8 +839,8 @@ copy of it alongside this software.""",
     figure = Figure(session_info)
     NameTag.set_args(figure)
 
-    gen_obs(p_data.map_data, p_data.npcs, p_data.trainers, figure)
-    map_additions(figure)
+    # gen_obs(p_data.map_data, p_data.npcs, p_data.trainers, figure)
+    # map_additions(figure)
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
@@ -852,8 +852,6 @@ copy of it alongside this software.""",
 
     # side fn definitions
     detail.detail = detail.Detail(tss.height - 1, tss.width)
-    roadmap.RoadMap.check_maps()
-    roadmap.roadmap = roadmap.RoadMap()
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
     pokete_care.from_dict(session_info.get("pokete_care", {
         "entry": 0,

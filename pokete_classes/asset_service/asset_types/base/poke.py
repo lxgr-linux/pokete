@@ -21,6 +21,7 @@ class Poke(TypedDict):
     evolve_poke: str
     evolve_lvl: int
     initiative: int
+    night_active: bool | None
     ico: list[BaseIco]
 
 

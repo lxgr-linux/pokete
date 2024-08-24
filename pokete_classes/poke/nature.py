@@ -3,9 +3,9 @@ of their stats"""
 
 import random
 import scrap_engine as se
-import pokete_data as p_data
 from util import liner
 from .dicts import NatureDict
+from ..asset_service.service import asset_service
 from ..context import Context
 from ..input import Action
 from ..ui.elements import LabelBox
@@ -41,7 +41,7 @@ class PokeNature:
 
     natures = {
         name: Nature(name, **_dict)
-        for name, _dict in p_data.natures.items()
+        for name, _dict in asset_service.get_base_assets()["natures"].items()
     }
 
     def __init__(self, nature, grade):

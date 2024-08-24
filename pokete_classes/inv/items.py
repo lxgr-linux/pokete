@@ -1,13 +1,12 @@
 """All classes needed for Item management"""
-
-import pokete_data as p_data
+from pokete_classes.asset_service.service import asset_service
 
 
 class Items:
     """Has all items as attributes"""
 
     def __init__(self):
-        for item in p_data.items.items():
+        for item in asset_service.get_base_assets()["items"].items():
             _obj = InvItem(item[0], item[1]["pretty_name"],
                            item[1]["desc"],
                            item[1]["price"], item[1]["fn"])
@@ -41,7 +40,8 @@ class LearnDisc(InvItem):
 
     def __init__(self, attack_name):
         self.attack_name = attack_name
-        self.attack_dict = p_data.attacks[attack_name]
+        self.attack_dict = asset_service.get_base_assets()["attacks"][
+            attack_name]
         pretty_name = f"LD-{self.attack_dict['name']}"
         name = f"ld_{attack_name}"
         desc = f"Teaches a Pokete the attack '{self.attack_dict['name']}'."

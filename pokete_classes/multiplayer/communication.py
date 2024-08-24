@@ -2,6 +2,7 @@ import threading
 import socket
 
 import bs_rpc
+from pokete_classes.asset_service.service import asset_service
 from pokete_classes.context import Context
 from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes.multiplayer import msg
@@ -84,16 +85,7 @@ class CommunicationService:
             case map_info.INFO_TYPE:
                 data: map_info.InfoData = resp.data
                 obmp.ob_maps = gen_maps(data["assets"]["maps"], fix_center=True)
-                gen_obs(
-                    data["assets"]["obmaps"],
-                    data["assets"]["npcs"],
-                    data["assets"]["trainers"],
-                    ctx.figure,
-                )
-                roadmap.roadmap = roadmap.RoadMap(
-                    data["assets"]["stations"],
-                    data["assets"]["decorations"]
-                )
+                asset_service.load_assets(data["assets"])
                 pos = data["position"]
                 self.saved_pos = (
                     ctx.figure.map.name,

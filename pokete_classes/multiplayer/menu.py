@@ -4,8 +4,10 @@ import sys
 
 import scrap_engine as se
 
-from .. import loops
+from .. import loops, roadmap
+from ..asset_service.service import asset_service
 from ..context import Context
+from ..generate import gen_obs
 from ..input import get_action, ACTION_DIRECTIONS, Action
 from ..multiplayer.modeprovider import modeProvider, Mode
 from ..ui.elements import BetterChooseBox
@@ -40,12 +42,15 @@ class ModeChooser(BetterChooseBox):
                         num = self.index[0]
                         if num == 0:
                             modeProvider.mode = Mode.SINGLE
-                            return
+                            asset_service.load_assets_from_p_data()
                         elif num == 1:
                             connector.connector(ctx.with_overview(self))
                             modeProvider.mode = Mode.MULTI
                             com_service()
-                            return
                         else:
                             sys.exit()
+                        # roadmap.RoadMap.check_maps()
+                        roadmap.roadmap = roadmap.RoadMap()
+                        gen_obs(ctx.figure)
+                        return
                 loops.std(ctx.with_overview(self))

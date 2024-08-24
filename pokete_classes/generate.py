@@ -1,10 +1,8 @@
 """Generating maps"""
 import scrap_engine as se
 
-from .asset_service.asset_types import Maps, NPCs
-from pokete_classes.asset_service.asset_types.npcs import NPCs
-from pokete_classes.asset_service.asset_types.obmaps import Obmaps
-from pokete_classes.asset_service.asset_types.trainers import Trainers
+from pokete_classes.asset_service.service import asset_service
+from .asset_service.asset_types import Maps
 from pokete_classes.map_additions.center import CenterMap, ShopMap
 from pokete_classes.tss import tss
 from .landscape import Meadow, Water, Sand, Poketeball
@@ -57,7 +55,7 @@ def gen_maps(
     return maps
 
 
-def gen_obs(map_data: Obmaps, npcs: NPCs, trainers: Trainers, figure):
+def gen_obs(figure):
     """Generates all objects on the maps
     ARSG:
         map_data: Contains map_data
@@ -65,8 +63,10 @@ def gen_obs(map_data: Obmaps, npcs: NPCs, trainers: Trainers, figure):
         trainers: Contains trainers data
         figure: Figure instance"""
 
+    assets = asset_service.get_assets()
+
     # adding all trainer to map
-    for i, trainer_list in trainers.items():
+    for i, trainer_list in assets["trainers"].items():
         _map = obmp.ob_maps[i]
         for j in trainer_list:
             args = j["args"]
@@ -80,7 +80,7 @@ def gen_obs(map_data: Obmaps, npcs: NPCs, trainers: Trainers, figure):
             _map.trainers.append(trainer)
 
     # generating objects from map_data
-    for ob_map, single_map in map_data.items():
+    for ob_map, single_map in assets["obmaps"].items():
         _map = obmp.ob_maps[ob_map]
         for hard_ob, single_hard_ob in single_map["hard_obs"].items():
             __parse_obj(_map, hard_ob,
@@ -118,7 +118,7 @@ def gen_obs(map_data: Obmaps, npcs: NPCs, trainers: Trainers, figure):
                             single_map["special_dors"][name]["y"])
 
     # NPCs
-    for npc, _npc in npcs.items():
+    for npc, _npc in assets["npcs"].items():
         NPC(npc, _npc["texts"], _fn=_npc["fn"],
             chat=_npc.get("chat", None)).add(obmp.ob_maps[_npc["map"]],
                                              _npc["x"], _npc["y"])

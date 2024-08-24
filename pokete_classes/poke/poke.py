@@ -6,9 +6,9 @@ import random
 from datetime import datetime
 
 import scrap_engine as se
-import pokete_data as p_data
 from util import liner
 from .dicts import PokeDict
+from ..asset_service.service import asset_service
 from ..attack import Attack
 from ..context import Context
 from ..health_bar import HealthBar
@@ -36,7 +36,7 @@ class Poke:
                  stats=None):
         self.nature = PokeNature.random() if nature is None \
             else PokeNature.from_dict(nature)
-        self.inf = p_data.pokes[poke]
+        self.inf = asset_service.get_base_assets()["pokes"][poke]
         self.moves = Moves(self)
         # Attributes
         self.player = None
@@ -66,12 +66,16 @@ can't have more than 4 attacks!"
         else:
             _attacks = self.inf["attacks"][:4]
         self.attacks = [atc for atc in _attacks
-                        if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
+                        if self.lvl() >=
+                        asset_service.get_base_assets()["attacks"][atc][
+                            "min_lvl"]]
         if self.shiny:
             self.hp += 5
         self.attack_obs = [Attack(atc, str(i + 1))
                            for i, atc in enumerate(self.attacks)
-                           if self.lvl() >= p_data.attacks[atc]["min_lvl"]]
+                           if self.lvl() >=
+                           asset_service.get_base_assets()["attacks"][atc][
+                               "min_lvl"]]
         self.set_player(player)
         # Backup vars
         self.full_hp = self.hp

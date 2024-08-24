@@ -1,6 +1,5 @@
 """Type and PokeType class"""
-
-import pokete_data as p_data
+from pokete_classes.asset_service.service import asset_service
 from .color import Color
 
 
@@ -8,9 +7,9 @@ class Types:
     """Class to organize PokeTypese"""
 
     def __init__(self):
-        for i, typ in p_data.types.items():
+        for i, typ in asset_service.get_base_assets()["types"].items():
             setattr(self, i, PokeType(i, **typ))
-        for i in p_data.sub_types:
+        for i in asset_service.get_base_assets()["sub_types"]:
             setattr(self, i, PokeSubType(i))
 
 

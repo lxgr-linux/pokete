@@ -2,7 +2,6 @@ import logging
 import random
 import time
 
-import pokete_data as p_data
 from pokete_classes import ob_maps as obmp
 from pokete_classes.achievements import achievements
 from pokete_classes.audio import audio
@@ -10,6 +9,7 @@ from pokete_classes.fight import FightMap
 from pokete_classes.fight.providers import NatureProvider, Provider
 from release import SPEED_OF_TIME
 from .. import movemap as mvp
+from ..asset_service.service import asset_service
 
 
 class FightItems:
@@ -62,7 +62,8 @@ class FightItems:
             mvp.movemap.balls_label_rechar(obj.pokes)
             logging.info("[Fighitem][%s] Caught %s", name, enem.curr.name)
             achievements.achieve("first_poke")
-            if all(poke in obj.caught_pokes for poke in p_data.pokes):
+            if all(poke in obj.caught_pokes for poke in
+                   asset_service.get_base_assets()["pokes"]):
                 achievements.achieve("catch_em_all")
             return 2
         fightmap.outp.outp("You missed!")

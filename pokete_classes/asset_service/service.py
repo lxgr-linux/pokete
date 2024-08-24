@@ -32,13 +32,15 @@ class AssetSerice:
         self.__load_base_assets({
             "items": p_data.items,
             "pokes": p_data.pokes,
+            "attacks": p_data.attacks,
             "natures": p_data.natures,
             "weathers": p_data.weathers,
             "types": p_data.types,
+            "sub_types": p_data.sub_types,
             "achievements": p_data.achievements
         })
 
-    def get_assets(self) -> Assets | None:
+    def get_assets(self) -> Assets:
         return self.__assets
 
     def get_base_assets(self) -> BaseAssets:

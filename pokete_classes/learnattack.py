@@ -3,8 +3,8 @@
 import random
 
 import scrap_engine as se
-import pokete_data as p_data
 from util import liner
+from .asset_service.service import asset_service
 from .context import Context
 from .input import Action, get_action
 from .input_loops import ask_bool, ask_ok
@@ -16,8 +16,7 @@ from . import detail, loops
 class AttackInfo(Box):
     """Gives information about a certain attack
     ARGS:
-        attack: The attack's name
-        _map: se.Map this should be shown on"""
+        attack: The attack's name"""
 
     def __init__(self, attack):
         atc = Attack(attack)
@@ -47,8 +46,7 @@ class AttackInfo(Box):
 class LearnAttack:
     """Lets a Pokete learn a new attack
     ARGS:
-        poke: The Poke that should learn an attack
-        _map: The se.Map this should happen on"""
+        poke: The Poke that should learn an attack"""
 
     def __init__(self, poke):
         self.poke = poke
@@ -64,7 +62,7 @@ class LearnAttack:
             poke: The pokete
         RETURNS:
             The attacks name, None if none is found"""
-        attacks = p_data.attacks
+        attacks = asset_service.get_base_assets()["attacks"]
         pool = [i for i, atc in attacks.items()
                 if all(j in [i.name for i in poke.types]
                        for j in atc["types"])
@@ -84,7 +82,7 @@ class LearnAttack:
                     attack will be chosen randomly
         RETURNS:
             bool: Whether or not the attack was learned"""
-        attacks = p_data.attacks
+        attacks = asset_service.get_base_assets()["attacks"]
         self.box.set_ctx(ctx)
         if attack is None:
             if (new_attack := self.get_attack(self.poke)) is None:

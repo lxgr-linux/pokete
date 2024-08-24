@@ -1,4 +1,3 @@
-import logging
 import time
 import scrap_engine as se
 
