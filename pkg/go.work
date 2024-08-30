@@ -1,6 +1,7 @@
-go 1.22.3
+go 1.23.0
 
 use (
 	./bs_rpc
 	./server
+	resources_python
 )
