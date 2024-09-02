@@ -14,7 +14,16 @@ type ResourceType struct {
 type Field struct {
 	Name       string
 	PythonType MappedType
-	Optional   bool
+}
+
+type FieldWithVar struct {
+	Field
+	Var string
+}
+
+type PythonTypeWithVar struct {
+	MappedType
+	Var string
 }
 
 type Model struct {
@@ -26,7 +35,6 @@ func NewField(p *Producer, d *descriptorpb.FieldDescriptorProto) Field {
 	f := Field{
 		Name:       util.ToSnakeCase(*d.Name),
 		PythonType: p.MapType(d),
-		Optional:   d.Proto3Optional != nil,
 	}
 
 	return f

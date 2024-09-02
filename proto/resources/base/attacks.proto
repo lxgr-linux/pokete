@@ -1,0 +1,17 @@
+syntax = "proto3";
+package pokete.resources.base;
+
+message Attack {
+    string Name = 1;
+    float Factor = 2;
+    optional string Action = 3;
+    string WorldAction = 4;
+    repeated string Move = 5;
+    float MissChance = 6;
+    int32 MinLvl = 7;
+    string Desc = 8;
+    repeated string Types = 9;
+    optional string Effect = 10;
+    bool IsGeneric = 11;
+    int32 Ap = 12;
+}

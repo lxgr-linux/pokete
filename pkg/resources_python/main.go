@@ -2,9 +2,11 @@ package main
 
 import (
 	"bytes"
-	"fmt"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/producer"
 	"log/slog"
+
+	//"fmt"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/producer"
+	//"log/slog"
 	"text/template"
 
 	//"bytes"
@@ -24,6 +26,9 @@ var fileTmpl string
 
 //go:embed templates/Field.pb.py.tmpl
 var fieldTmpl string
+
+//go:embed templates/Unmarshall.pb.py.tmpl
+var unmarshallTmpl string
 
 var suffixFlag string
 
@@ -52,7 +57,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) error {
 		return nil
 	}
 
-	slog.Warn(fmt.Sprintf("%+v", m))
+	//slog.Warn(fmt.Sprintf("%+v", m))
 
 	filename := file.GeneratedFilenamePrefix + suffixFlag
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
@@ -62,10 +67,40 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) error {
 		return err
 	}
 
-	tmpl.New("field").Parse(fieldTmpl)
+	_, err = tmpl.New("field").Parse(fieldTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.Funcs(template.FuncMap{
+		"fieldWithVar": func(field producer.Field, v string) producer.FieldWithVar {
+			return producer.FieldWithVar{Field: field, Var: v}
+		},
+		"pythonTypeWithVar": func(pythonType producer.MappedType, v string) producer.PythonTypeWithVar {
+			return producer.PythonTypeWithVar{MappedType: pythonType, Var: v}
+		},
+		"get": func(field producer.FieldWithVar) string {
+			t, _ := template.New("").Parse(`
+				{{- if .PythonType.Optional -}}
+        			{{ .Var }}.get("{{ .Name }}", None)
+				{{- else -}}
+        			{{ .Var }}["{{ .Name }}"]
+    			{{- end -}}`)
+			var buf bytes.Buffer
+			err = t.Execute(&buf, field)
+			if err != nil {
+				slog.Warn(err.Error())
+			}
+			return buf.String()
+		},
+	}).New("unmarshall").Parse(unmarshallTmpl)
+	if err != nil {
+		return err
+	}
 
 	var buf bytes.Buffer
-	if err = tmpl.Execute(&buf, m); err != nil {
+	err = tmpl.Execute(&buf, m)
+	if err != nil {
 		return err
 	}
 

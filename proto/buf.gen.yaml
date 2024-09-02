@@ -1,0 +1,8 @@
+version: v1
+managed:
+    enabled: true
+    go_package_prefix:
+        default: github.com/lxgr-linux/pokete
+plugins:
+    - plugin: pokete-resources-python
+      out: ../Buf
