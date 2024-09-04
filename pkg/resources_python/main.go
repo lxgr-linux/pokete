@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"log/slog"
 
 	//"fmt"
@@ -57,27 +58,27 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) error {
 		return nil
 	}
 
-	//slog.Warn(fmt.Sprintf("%+v", m))
-
 	filename := file.GeneratedFilenamePrefix + suffixFlag
+
+	slog.Warn(fmt.Sprintf(
+		"%s, %s, %s, %s, %s",
+		file.GeneratedFilenamePrefix,
+		file.GoPackageName,
+		file.GoImportPath,
+		file.Desc.FullName(), file.Desc.Path()),
+	)
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
 
-	tmpl, err := template.New("file").Parse(fileTmpl)
-	if err != nil {
-		return err
-	}
-
-	_, err = tmpl.New("field").Parse(fieldTmpl)
-	if err != nil {
-		return err
-	}
-
-	_, err = tmpl.Funcs(template.FuncMap{
+	tmpl, err := template.New("file").Funcs(template.FuncMap{
 		"fieldWithVar": func(field producer.Field, v string) producer.FieldWithVar {
 			return producer.FieldWithVar{Field: field, Var: v}
 		},
 		"pythonTypeWithVar": func(pythonType producer.MappedType, v string) producer.PythonTypeWithVar {
 			return producer.PythonTypeWithVar{MappedType: pythonType, Var: v}
+		},
+		"pythonTypeAsBaseType": func(pythonType producer.PythonTypeWithVar) producer.MappedType {
+			pythonType.MappedType.IsRepeated = false
+			return pythonType.MappedType
 		},
 		"get": func(field producer.FieldWithVar) string {
 			t, _ := template.New("").Parse(`
@@ -87,13 +88,23 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) error {
         			{{ .Var }}["{{ .Name }}"]
     			{{- end -}}`)
 			var buf bytes.Buffer
-			err = t.Execute(&buf, field)
+			err := t.Execute(&buf, field)
 			if err != nil {
 				slog.Warn(err.Error())
 			}
 			return buf.String()
 		},
-	}).New("unmarshall").Parse(unmarshallTmpl)
+	}).Parse(fileTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.New("field").Parse(fieldTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.New("unmarshall").Parse(unmarshallTmpl)
 	if err != nil {
 		return err
 	}

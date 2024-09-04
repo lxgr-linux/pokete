@@ -1,0 +1,8 @@
+syntax = "proto3";
+package pokete.resources.base;
+
+message Nature {
+    string Esc = 1;
+    float Atc = 2;
+    float Def = 3;
+}

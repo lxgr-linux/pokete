@@ -1,0 +1,8 @@
+syntax = "proto3";
+package pokete.resources.base;
+
+message Type {
+    repeated string Effective = 1;
+    repeated string Ineffective = 2;
+    repeated string Color = 3;
+}
