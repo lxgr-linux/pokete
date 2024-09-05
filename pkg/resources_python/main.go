@@ -2,74 +2,102 @@ package main
 
 import (
 	"bytes"
-	"fmt"
-	"log/slog"
-
-	//"fmt"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/producer"
-	//"log/slog"
-	"text/template"
-
-	//"bytes"
 	_ "embed"
 	"flag"
-	"log"
-	"os"
-
-	//"strings"
-	//"text/template"
-
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/module_resolver"
+	path "github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/producer"
 	"google.golang.org/protobuf/compiler/protogen"
+	"log/slog"
+	"text/template"
 )
 
-//go:embed templates/Type.pb.py.tmpl
+//go:embed templates/File.py.tmpl
 var fileTmpl string
 
-//go:embed templates/Field.pb.py.tmpl
+//go:embed templates/field.tmpl
 var fieldTmpl string
 
-//go:embed templates/Unmarshall.pb.py.tmpl
+//go:embed templates/unmarshall.tmpl
 var unmarshallTmpl string
+
+//go:embed templates/__init__.py.tmpl
+var initTmpl string
+
+//go:embed templates/header.tmpl
+var headerTmpl string
 
 var suffixFlag string
 
 func main() {
-	log.SetOutput(os.Stderr)
-	flag.StringVar(&suffixFlag, "suffix", ".pb.py", "file suffixFlag")
+	flag.StringVar(&suffixFlag, "suffix", ".py", "file suffixFlag")
 
 	protogen.Options{ParamFunc: flag.Set}.Run(func(gen *protogen.Plugin) error {
 		gen.SupportedFeatures = 1 // Enables support for optioal fields
+
+		moduleResolver := module_resolver.New()
+
 		for _, f := range gen.Files {
 			if !f.Generate {
 				continue
 			}
-			if err := generateFile(gen, f); err != nil {
+
+			err := generateFile(&moduleResolver, gen, f)
+			if err != nil {
+				slog.Error(err.Error())
 				return err
 			}
 		}
+
+		err := generateInnitPy(&moduleResolver, gen)
+		if err != nil {
+			slog.Error(err.Error())
+			return err
+		}
+
 		return nil
 	})
 }
 
-func generateFile(gen *protogen.Plugin, file *protogen.File) error {
+func generateInnitPy(moduleResolver *module_resolver.ModuleResolver, gen *protogen.Plugin) error {
+	filePath := path.FromFile(gen.Files[0])
+	g := gen.NewGeneratedFile(filePath.Module()+"/__init__.py", "")
+
+	tmpl, err := template.New("__init__").Parse(initTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.New("header").Parse(headerTmpl)
+	if err != nil {
+		return err
+	}
+
+	var buf bytes.Buffer
+	err = tmpl.Execute(&buf, moduleResolver)
+	if err != nil {
+		return err
+	}
+
+	g.P(buf.String())
+
+	return nil
+}
+
+func generateFile(moduleResolver *module_resolver.ModuleResolver, gen *protogen.Plugin, file *protogen.File) error {
+	filePath := path.FromFile(file)
 	p := producer.PythonProducer()
 	m := p.Produce(file)
 	if m == nil {
 		return nil
 	}
 
-	filename := file.GeneratedFilenamePrefix + suffixFlag
+	moduleResolver.Add(filePath.Name(), m)
 
-	slog.Warn(fmt.Sprintf(
-		"%s, %s, %s, %s, %s",
-		file.GeneratedFilenamePrefix,
-		file.GoPackageName,
-		file.GoImportPath,
-		file.Desc.FullName(), file.Desc.Path()),
-	)
+	filename := filePath.String() + suffixFlag
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
 
-	tmpl, err := template.New("file").Funcs(template.FuncMap{
+	funcs := template.FuncMap{
 		"fieldWithVar": func(field producer.Field, v string) producer.FieldWithVar {
 			return producer.FieldWithVar{Field: field, Var: v}
 		},
@@ -81,20 +109,25 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) error {
 			return pythonType.MappedType
 		},
 		"get": func(field producer.FieldWithVar) string {
-			t, _ := template.New("").Parse(`
+			t, err := template.New("abc").Parse(`
 				{{- if .PythonType.Optional -}}
         			{{ .Var }}.get("{{ .Name }}", None)
 				{{- else -}}
         			{{ .Var }}["{{ .Name }}"]
     			{{- end -}}`)
-			var buf bytes.Buffer
-			err := t.Execute(&buf, field)
 			if err != nil {
-				slog.Warn(err.Error())
+				panic(err.Error())
+			}
+			var buf bytes.Buffer
+			err = t.Execute(&buf, field)
+			if err != nil {
+				panic(err.Error())
 			}
 			return buf.String()
 		},
-	}).Parse(fileTmpl)
+	}
+
+	tmpl, err := template.New("file").Funcs(funcs).Parse(fileTmpl)
 	if err != nil {
 		return err
 	}
@@ -105,6 +138,11 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) error {
 	}
 
 	_, err = tmpl.New("unmarshall").Parse(unmarshallTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.New("header").Parse(headerTmpl)
 	if err != nil {
 		return err
 	}

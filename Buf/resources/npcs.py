@@ -6,7 +6,7 @@ from typing import TypedDict
 
 class ChatDict(TypedDict):
     q: list[str]
-    a: dict[str, "Chat"]
+    a: dict[str, "ChatDict"]
     
 
 class Chat:
@@ -34,7 +34,7 @@ class NPCDict(TypedDict):
     map: str
     x: int
     y: int
-    chat: "Chat" | None
+    chat: "ChatDict" | None
     
 
 class NPC:
