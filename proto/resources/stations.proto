@@ -1,0 +1,20 @@
+syntax = "proto3";
+package pokete.resources;
+
+import "resources/coords.proto";
+
+message StationGen {
+    repeated string Additionals = 1;
+    string Desc = 2;
+    string Text = 3;
+    string Color = 4;
+    optional string ANext = 5;
+    optional string WNext = 6;
+    optional string SNext = 7;
+    optional string DNext = 8;
+}
+
+message Station {
+    StationGen Gen = 1;
+    Coords Add = 2;
+}

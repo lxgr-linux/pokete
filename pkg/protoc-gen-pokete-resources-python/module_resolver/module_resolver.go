@@ -4,12 +4,7 @@ import (
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/producer"
 )
 
-type File struct {
-	Types []string
-	Path  string
-}
-
-type ModuleResolver []File
+type ModuleResolver producer.ImportFiles
 
 func (m *ModuleResolver) Add(name string, model *producer.Model) {
 	var types []string
@@ -17,7 +12,7 @@ func (m *ModuleResolver) Add(name string, model *producer.Model) {
 		types = append(types, t.Name)
 	}
 
-	*m = append(*m, File{Types: types, Path: name})
+	*m = append(*m, producer.ImportFile{Types: types, Path: name})
 }
 
 func New() ModuleResolver {

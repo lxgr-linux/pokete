@@ -5,3 +5,5 @@
 
 from .coords import (Coords, CoordsDict, )
 from .npcs import (Chat, ChatDict, NPC, NPCDict, )
+from .stations import (StationGen, StationGenDict, Station, StationDict, )
+from .trainers import (TrainerPokeArgs, TrainerPokeArgsDict, TrainerArgs, TrainerArgsDict, Trainer, TrainerDict, )

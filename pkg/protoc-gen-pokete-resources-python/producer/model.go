@@ -1,6 +1,7 @@
 package producer
 
 import (
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/util"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"
@@ -28,7 +29,8 @@ type PythonTypeWithVar struct {
 
 type Model struct {
 	Types   []ResourceType
-	Package string
+	Package path.Path
+	Imports ImportFiles
 }
 
 func NewField(p *Producer, d *descriptorpb.FieldDescriptorProto) Field {
@@ -67,7 +69,7 @@ func NewResourceType(path string, p *Producer, d *descriptorpb.DescriptorProto) 
 }
 
 func NewModel(file *protogen.File) *Model {
-	m := Model{Package: *file.Proto.Package}
+	m := Model{Package: path.FromIdentifier(*file.Proto.Package)}
 
 	return &m
 }

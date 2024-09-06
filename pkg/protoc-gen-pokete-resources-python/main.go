@@ -27,6 +27,9 @@ var initTmpl string
 //go:embed templates/header.tmpl
 var headerTmpl string
 
+//go:embed templates/imports.tmpl
+var importsTmpl string
+
 var suffixFlag string
 
 func main() {
@@ -61,7 +64,7 @@ func main() {
 
 func generateInnitPy(moduleResolver *module_resolver.ModuleResolver, gen *protogen.Plugin) error {
 	filePath := path.FromFile(gen.Files[0])
-	g := gen.NewGeneratedFile(filePath.Module()+"/__init__.py", "")
+	g := gen.NewGeneratedFile(filePath.Module().String()+"/__init__.py", "")
 
 	tmpl, err := template.New("__init__").Parse(initTmpl)
 	if err != nil {
@@ -69,6 +72,11 @@ func generateInnitPy(moduleResolver *module_resolver.ModuleResolver, gen *protog
 	}
 
 	_, err = tmpl.New("header").Parse(headerTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.New("imports").Parse(importsTmpl)
 	if err != nil {
 		return err
 	}
@@ -143,6 +151,11 @@ func generateFile(moduleResolver *module_resolver.ModuleResolver, gen *protogen.
 	}
 
 	_, err = tmpl.New("header").Parse(headerTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.New("imports").Parse(importsTmpl)
 	if err != nil {
 		return err
 	}

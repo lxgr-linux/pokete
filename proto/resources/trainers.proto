@@ -1,0 +1,23 @@
+syntax = "proto3";
+package pokete.resources;
+
+
+message TrainerPokeArgs {
+    string Name = 1;
+    int32 Xp = 2;
+}
+
+message TrainerArgs {
+    string Name = 1;
+    string Gender = 2;
+    repeated string Texts = 3;
+    repeated string LoseTexts = 4;
+    repeated string WinTexts = 5;
+    int32 X = 6;
+    int32 Y = 7;
+}
+
+message Trainer {
+    repeated TrainerPokeArgs Pokes = 1;
+    TrainerArgs Args = 2;
+}

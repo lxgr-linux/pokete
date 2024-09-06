@@ -2,8 +2,10 @@ package producer
 
 import (
 	"fmt"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"log/slog"
+	"strings"
 )
 
 type MappedType struct {
@@ -42,6 +44,16 @@ func PythonTypeMapper(p *Producer, d *descriptorpb.FieldDescriptorProto) (mt Map
 			}
 		} else {
 			mt.IsPurelyDomestic = false
+			typeIdentifier := path.FromIdentifier(strings.TrimLeft(*d.TypeName, "."))
+
+			for _, imp := range p.Imports {
+				if imp.Identifier.Equals(typeIdentifier.Module()) {
+					mt.Expression = typeIdentifier.Name()
+					imp.Types = append(imp.Types, mt.Expression)
+					return
+				}
+			}
+
 			slog.Warn(fmt.Sprintf("Unregistered type lookup: %s", *d.TypeName))
 			mt.Expression = *d.TypeName
 		}
