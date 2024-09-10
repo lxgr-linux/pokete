@@ -5,6 +5,7 @@ import (
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"log/slog"
+	"slices"
 	"strings"
 )
 
@@ -21,6 +22,7 @@ type MappedType struct {
 func PythonTypeMapper(p *Producer, d *descriptorpb.FieldDescriptorProto) (mt MappedType) {
 	mt.IsPurelyDomestic = true
 	mt.Optional = d.Proto3Optional != nil
+	mt.IsRepeated = *d.Label == descriptorpb.FieldDescriptorProto_LABEL_REPEATED
 	switch *d.Type {
 	case descriptorpb.FieldDescriptorProto_TYPE_DOUBLE, descriptorpb.FieldDescriptorProto_TYPE_FLOAT:
 		mt.Expression = "float"
@@ -49,7 +51,9 @@ func PythonTypeMapper(p *Producer, d *descriptorpb.FieldDescriptorProto) (mt Map
 			for _, imp := range p.Imports {
 				if imp.Identifier.Equals(typeIdentifier.Module()) {
 					mt.Expression = typeIdentifier.Name()
-					imp.Types = append(imp.Types, mt.Expression)
+					if !slices.Contains(imp.Types, mt.Expression) {
+						imp.Types = append(imp.Types, mt.Expression)
+					}
 					return
 				}
 			}
@@ -58,8 +62,6 @@ func PythonTypeMapper(p *Producer, d *descriptorpb.FieldDescriptorProto) (mt Map
 			mt.Expression = *d.TypeName
 		}
 	}
-
-	mt.IsRepeated = *d.Label == descriptorpb.FieldDescriptorProto_LABEL_REPEATED && !mt.IsDict
 
 	return
 }

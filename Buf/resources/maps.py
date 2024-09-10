@@ -8,7 +8,7 @@ class PokeArgsDict(TypedDict):
     pokes: list[str]
     minlvl: int
     maxlvl: int
-    
+
 
 class PokeArgs:
     def __init__(
@@ -20,9 +20,9 @@ class PokeArgs:
         self.pokes: list[str] = pokes
         self.minlvl: int = minlvl
         self.maxlvl: int = maxlvl
-        
+
     @classmethod
-    def from_dict(cls, _d: PokeArgsDict | None) -> "PokeArgs" | None:
+    def from_dict(cls, _d: PokeArgsDict | None) -> "PokeArgs | None":
         if _d is None:
             return None
         return cls(
@@ -38,10 +38,10 @@ class MapDict(TypedDict):
     song: str
     pretty_name: str
     extra_actions: str | None
-    poke_args: "PokeArgsDict" | None
-    w_poke_args: "PokeArgsDict" | None
+    poke_args: "PokeArgsDict | None"
+    w_poke_args: "PokeArgsDict | None"
     weather: str | None
-    
+
 
 class Map:
     def __init__(
@@ -51,8 +51,8 @@ class Map:
         song: str,
         pretty_name: str,
         extra_actions: str | None,
-        poke_args: "PokeArgs" | None,
-        w_poke_args: "PokeArgs" | None,
+        poke_args: "PokeArgs | None",
+        w_poke_args: "PokeArgs | None",
         weather: str | None
     ):
         self.height: int = height
@@ -60,12 +60,12 @@ class Map:
         self.song: str = song
         self.pretty_name: str = pretty_name
         self.extra_actions: str | None = extra_actions
-        self.poke_args: "PokeArgs" | None = poke_args
-        self.w_poke_args: "PokeArgs" | None = w_poke_args
+        self.poke_args: "PokeArgs | None" = poke_args
+        self.w_poke_args: "PokeArgs | None" = w_poke_args
         self.weather: str | None = weather
-        
+
     @classmethod
-    def from_dict(cls, _d: MapDict | None) -> "Map" | None:
+    def from_dict(cls, _d: MapDict | None) -> "Map | None":
         if _d is None:
             return None
         return cls(

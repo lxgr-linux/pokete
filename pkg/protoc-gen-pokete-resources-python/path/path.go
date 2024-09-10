@@ -30,6 +30,10 @@ func (p Path) Equals(p1 Path) bool {
 	return slices.Equal(p.items, p1.items)
 }
 
+func (p Path) Len() int {
+	return len(p.items)
+}
+
 func (p Path) Relative(base Path) *Path {
 	for i := len(p.items); i >= 0; i-- {
 		if slices.Equal(p.items[:i], base.items) {

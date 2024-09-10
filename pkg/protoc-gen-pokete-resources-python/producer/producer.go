@@ -1,9 +1,12 @@
 package producer
 
 import (
+	"fmt"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"
+	"log/slog"
+	"slices"
 )
 
 type TypeMapper func(p *Producer, d *descriptorpb.FieldDescriptorProto) MappedType
@@ -37,13 +40,29 @@ func (p *Producer) Produce(file *protogen.File) *Model {
 		return nil
 	}
 
+	var identifiers []string
+
 	for i := 0; i < file.Desc.Imports().Len(); i++ {
 		imp := file.Desc.Imports().Get(i)
 
-		p.Imports = append(p.Imports, &Import{
-			ImportFile{Path: path.New(imp.Path()).Relative(filePath.Module()).Identifier()},
+		imp.FullName()
+
+		pathIdentifier := path.New(imp.Path()).Relative(filePath.Module()).Module().Identifier()
+		if slices.Contains(identifiers, pathIdentifier) {
+			continue
+		}
+
+		impOb := Import{
+			ImportFile{
+				Path: pathIdentifier,
+			},
 			path.FromIdentifier(string(imp.Package())),
-		})
+		}
+
+		identifiers = append(identifiers, pathIdentifier)
+		p.Imports = append(p.Imports, &impOb)
+
+		slog.Warn(fmt.Sprintf("%+v", impOb))
 	}
 
 	for _, message := range file.Proto.MessageType {

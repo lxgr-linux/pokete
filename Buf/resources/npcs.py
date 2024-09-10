@@ -7,7 +7,7 @@ from typing import TypedDict
 class ChatDict(TypedDict):
     q: list[str]
     a: dict[str, "ChatDict"]
-    
+
 
 class Chat:
     def __init__(
@@ -17,9 +17,9 @@ class Chat:
     ):
         self.q: list[str] = q
         self.a: dict[str, "Chat"] = a
-        
+
     @classmethod
-    def from_dict(cls, _d: ChatDict | None) -> "Chat" | None:
+    def from_dict(cls, _d: ChatDict | None) -> "Chat | None":
         if _d is None:
             return None
         return cls(
@@ -34,8 +34,8 @@ class NPCDict(TypedDict):
     map: str
     x: int
     y: int
-    chat: "ChatDict" | None
-    
+    chat: "ChatDict | None"
+
 
 class NPC:
     def __init__(
@@ -45,17 +45,17 @@ class NPC:
         map: str,
         x: int,
         y: int,
-        chat: "Chat" | None
+        chat: "Chat | None"
     ):
         self.texts: list[str] = texts
         self.fn: str | None = fn
         self.map: str = map
         self.x: int = x
         self.y: int = y
-        self.chat: "Chat" | None = chat
-        
+        self.chat: "Chat | None" = chat
+
     @classmethod
-    def from_dict(cls, _d: NPCDict | None) -> "NPC" | None:
+    def from_dict(cls, _d: NPCDict | None) -> "NPC | None":
         if _d is None:
             return None
         return cls(

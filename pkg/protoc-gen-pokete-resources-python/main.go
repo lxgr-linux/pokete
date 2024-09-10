@@ -4,12 +4,12 @@ import (
 	"bytes"
 	_ "embed"
 	"flag"
-	"fmt"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/module_resolver"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/producer"
 	"google.golang.org/protobuf/compiler/protogen"
 	"log/slog"
+	"maps"
 	"text/template"
 )
 
@@ -63,22 +63,25 @@ func main() {
 	})
 }
 
-func firstKey[T comparable, K any](m map[T]K) (*T, error) {
-	for key := range m {
-		return &key, nil
-	}
-	return nil, fmt.Errorf("empty map")
-}
-
 func generateInnitPy(moduleResolver *module_resolver.ModuleResolver, gen *protogen.Plugin) error {
-	key, err := firstKey(gen.FilesByPath)
-	if err != nil {
-		return err
+	keys := maps.Keys(gen.FilesByPath)
+
+	var filePath *path.Path = nil
+	var stringKeys []string
+
+	for s := range keys {
+		stringKeys = append(stringKeys, s)
 	}
 
-	filePath := path.New(*key)
+	for _, s := range stringKeys {
+		mod := path.New(s).Module()
 
-	g := gen.NewGeneratedFile(filePath.Module().String()+"/__init__.py", "")
+		if filePath == nil || mod.Len() < filePath.Len() {
+			filePath = &mod
+		}
+	}
+
+	g := gen.NewGeneratedFile(filePath.String()+"/__init__.py", "")
 
 	tmpl, err := template.New("__init__").Parse(initTmpl)
 	if err != nil {

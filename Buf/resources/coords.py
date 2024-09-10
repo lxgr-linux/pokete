@@ -7,7 +7,7 @@ from typing import TypedDict
 class CoordsDict(TypedDict):
     x: int
     y: int
-    
+
 
 class Coords:
     def __init__(
@@ -17,9 +17,9 @@ class Coords:
     ):
         self.x: int = x
         self.y: int = y
-        
+
     @classmethod
-    def from_dict(cls, _d: CoordsDict | None) -> "Coords" | None:
+    def from_dict(cls, _d: CoordsDict | None) -> "Coords | None":
         if _d is None:
             return None
         return cls(

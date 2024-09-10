@@ -7,7 +7,7 @@ from typing import TypedDict
 class TrainerPokeArgsDict(TypedDict):
     name: str
     xp: int
-    
+
 
 class TrainerPokeArgs:
     def __init__(
@@ -17,9 +17,9 @@ class TrainerPokeArgs:
     ):
         self.name: str = name
         self.xp: int = xp
-        
+
     @classmethod
-    def from_dict(cls, _d: TrainerPokeArgsDict | None) -> "TrainerPokeArgs" | None:
+    def from_dict(cls, _d: TrainerPokeArgsDict | None) -> "TrainerPokeArgs | None":
         if _d is None:
             return None
         return cls(
@@ -36,7 +36,7 @@ class TrainerArgsDict(TypedDict):
     win_texts: list[str]
     x: int
     y: int
-    
+
 
 class TrainerArgs:
     def __init__(
@@ -56,9 +56,9 @@ class TrainerArgs:
         self.win_texts: list[str] = win_texts
         self.x: int = x
         self.y: int = y
-        
+
     @classmethod
-    def from_dict(cls, _d: TrainerArgsDict | None) -> "TrainerArgs" | None:
+    def from_dict(cls, _d: TrainerArgsDict | None) -> "TrainerArgs | None":
         if _d is None:
             return None
         return cls(
@@ -75,7 +75,7 @@ class TrainerArgs:
 class TrainerDict(TypedDict):
     pokes: list["TrainerPokeArgsDict"]
     args: "TrainerArgsDict"
-    
+
 
 class Trainer:
     def __init__(
@@ -85,9 +85,9 @@ class Trainer:
     ):
         self.pokes: list["TrainerPokeArgs"] = pokes
         self.args: "TrainerArgs" = args
-        
+
     @classmethod
-    def from_dict(cls, _d: TrainerDict | None) -> "Trainer" | None:
+    def from_dict(cls, _d: TrainerDict | None) -> "Trainer | None":
         if _d is None:
             return None
         return cls(

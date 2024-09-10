@@ -7,26 +7,26 @@ from typing import TypedDict
 class NatureDict(TypedDict):
     esc: str
     atc: float
-    def: float
-    
+    def_: float
+
 
 class Nature:
     def __init__(
         self,
         esc: str,
         atc: float,
-        def: float
+        def_: float
     ):
         self.esc: str = esc
         self.atc: float = atc
-        self.def: float = def
-        
+        self.def_: float = def_
+
     @classmethod
-    def from_dict(cls, _d: NatureDict | None) -> "Nature" | None:
+    def from_dict(cls, _d: NatureDict | None) -> "Nature | None":
         if _d is None:
             return None
         return cls(
             esc=_d["esc"],
             atc=_d["atc"],
-            def=_d["def"],
+            def_=_d["def_"],
         )

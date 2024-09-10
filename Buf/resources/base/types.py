@@ -8,7 +8,7 @@ class TypeDict(TypedDict):
     effective: list[str]
     ineffective: list[str]
     color: list[str]
-    
+
 
 class Type:
     def __init__(
@@ -20,9 +20,9 @@ class Type:
         self.effective: list[str] = effective
         self.ineffective: list[str] = ineffective
         self.color: list[str] = color
-        
+
     @classmethod
-    def from_dict(cls, _d: TypeDict | None) -> "Type" | None:
+    def from_dict(cls, _d: TypeDict | None) -> "Type | None":
         if _d is None:
             return None
         return cls(

@@ -7,7 +7,7 @@ from typing import TypedDict
 class WeatherDict(TypedDict):
     info: str
     effected: dict[str, float]
-    
+
 
 class Weather:
     def __init__(
@@ -17,9 +17,9 @@ class Weather:
     ):
         self.info: str = info
         self.effected: dict[str, float] = effected
-        
+
     @classmethod
-    def from_dict(cls, _d: WeatherDict | None) -> "Weather" | None:
+    def from_dict(cls, _d: WeatherDict | None) -> "Weather | None":
         if _d is None:
             return None
         return cls(

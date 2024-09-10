@@ -7,7 +7,7 @@ from typing import TypedDict
 class BaseIcoDict(TypedDict):
     txt: str
     esc: str | None
-    
+
 
 class BaseIco:
     def __init__(
@@ -17,9 +17,9 @@ class BaseIco:
     ):
         self.txt: str = txt
         self.esc: str | None = esc
-        
+
     @classmethod
-    def from_dict(cls, _d: BaseIcoDict | None) -> "BaseIco" | None:
+    def from_dict(cls, _d: BaseIcoDict | None) -> "BaseIco | None":
         if _d is None:
             return None
         return cls(
@@ -45,7 +45,7 @@ class PokeDict(TypedDict):
     initiative: int
     night_active: bool | None
     ico: list["BaseIcoDict"]
-    
+
 
 class Poke:
     def __init__(
@@ -83,9 +83,9 @@ class Poke:
         self.initiative: int = initiative
         self.night_active: bool | None = night_active
         self.ico: list["BaseIco"] = ico
-        
+
     @classmethod
-    def from_dict(cls, _d: PokeDict | None) -> "Poke" | None:
+    def from_dict(cls, _d: PokeDict | None) -> "Poke | None":
         if _d is None:
             return None
         return cls(

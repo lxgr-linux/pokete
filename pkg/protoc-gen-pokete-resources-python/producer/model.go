@@ -35,7 +35,7 @@ type Model struct {
 
 func NewField(p *Producer, d *descriptorpb.FieldDescriptorProto) Field {
 	f := Field{
-		Name:       util.ToSnakeCase(*d.Name),
+		Name:       util.KeywordSafe(util.ToSnakeCase(*d.Name)),
 		PythonType: p.MapType(d),
 	}
 

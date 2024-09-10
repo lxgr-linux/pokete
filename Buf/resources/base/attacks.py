@@ -17,7 +17,7 @@ class AttackDict(TypedDict):
     effect: str | None
     is_generic: bool
     ap: int
-    
+
 
 class Attack:
     def __init__(
@@ -47,9 +47,9 @@ class Attack:
         self.effect: str | None = effect
         self.is_generic: bool = is_generic
         self.ap: int = ap
-        
+
     @classmethod
-    def from_dict(cls, _d: AttackDict | None) -> "Attack" | None:
+    def from_dict(cls, _d: AttackDict | None) -> "Attack | None":
         if _d is None:
             return None
         return cls(

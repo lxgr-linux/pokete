@@ -9,7 +9,7 @@ class ItemDict(TypedDict):
     desc: str
     price: int
     fn: str | None
-    
+
 
 class Item:
     def __init__(
@@ -23,9 +23,9 @@ class Item:
         self.desc: str = desc
         self.price: int = price
         self.fn: str | None = fn
-        
+
     @classmethod
-    def from_dict(cls, _d: ItemDict | None) -> "Item" | None:
+    def from_dict(cls, _d: ItemDict | None) -> "Item | None":
         if _d is None:
             return None
         return cls(

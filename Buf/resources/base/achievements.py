@@ -7,7 +7,7 @@ from typing import TypedDict
 class AchievementDict(TypedDict):
     title: str
     desc: str
-    
+
 
 class Achievement:
     def __init__(
@@ -17,9 +17,9 @@ class Achievement:
     ):
         self.title: str = title
         self.desc: str = desc
-        
+
     @classmethod
-    def from_dict(cls, _d: AchievementDict | None) -> "Achievement" | None:
+    def from_dict(cls, _d: AchievementDict | None) -> "Achievement | None":
         if _d is None:
             return None
         return cls(
