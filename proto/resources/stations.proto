@@ -18,3 +18,13 @@ message Station {
     StationGen Gen = 1;
     Coords Add = 2;
 }
+
+message DecorationGen {
+    string Text = 1;
+    string Color = 2;
+}
+
+message Decoration {
+    DecorationGen Gen = 1;
+    Coords Add = 2;
+}

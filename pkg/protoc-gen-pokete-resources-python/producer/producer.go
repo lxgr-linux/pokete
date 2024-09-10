@@ -32,6 +32,7 @@ func (p *Producer) MapType(d *descriptorpb.FieldDescriptorProto) MappedType {
 
 func (p *Producer) Produce(file *protogen.File) *Model {
 	m := NewModel(file)
+	filePath := path.FromFile(file)
 	if len(file.Proto.MessageType) == 0 {
 		return nil
 	}
@@ -40,7 +41,7 @@ func (p *Producer) Produce(file *protogen.File) *Model {
 		imp := file.Desc.Imports().Get(i)
 
 		p.Imports = append(p.Imports, &Import{
-			ImportFile{Path: path.New(imp.Path()).Name()},
+			ImportFile{Path: path.New(imp.Path()).Relative(filePath.Module()).Identifier()},
 			path.FromIdentifier(string(imp.Package())),
 		})
 	}

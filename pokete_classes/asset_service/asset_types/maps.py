@@ -4,7 +4,7 @@ from typing import TypedDict
 class PokeArgs(TypedDict):
     pokes: list[str]
     minlvl: int
-    maxlxl: int
+    maxlvl: int
 
 
 class Map(TypedDict):

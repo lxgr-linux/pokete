@@ -31,9 +31,9 @@ func (p Path) Equals(p1 Path) bool {
 }
 
 func (p Path) Relative(base Path) *Path {
-	for u := p; len(u.items) >= 0; u = u.Module() {
-		if u.Module().Equals(base) {
-			return &u
+	for i := len(p.items); i >= 0; i-- {
+		if slices.Equal(p.items[:i], base.items) {
+			return &Path{p.items[i:]}
 		}
 	}
 	return nil

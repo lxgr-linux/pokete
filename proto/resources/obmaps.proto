@@ -1,0 +1,37 @@
+syntax = "proto3";
+package pokete.resources;
+
+import "resources/coords.proto";
+
+message DorArgs {
+    int32 X = 1;
+    int32 Y = 2;
+    string Map = 3;
+}
+
+message Dor {
+    int32 X = 1;
+    int32 Y = 2;
+    DorArgs Args = 3;
+}
+
+message SpecialDors {
+    Coords Dor = 1;
+    Coords Shopdor = 2;
+}
+
+message Ob {
+    int32 X = 1;
+    int32 Y = 2;
+    string Txt = 3;
+}
+
+message Obmap {
+    map<string, Ob> HardObs = 1;
+    map<string, Ob> SoftObs = 2;
+    map<string, Dor> Dors = 3;
+    optional SpecialDors SpecialDors = 4;
+    map<string, Coords> Balls = 5;
+}
+
+

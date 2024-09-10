@@ -1,0 +1,8 @@
+syntax = "proto3";
+package pokete.resources;
+
+import "resources/base/items.proto";
+
+message BaseAssets {
+    map<string, pokete.resources.base.Item> Items = 1;
+}
