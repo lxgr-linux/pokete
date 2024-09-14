@@ -9,7 +9,7 @@ message BaseIco {
 message Poke {
     string Name = 1;
     int32 Hp = 2;
-    int32 Arc = 3;
+    int32 Atc = 3;
     int32 Defense = 4;
     repeated string Attacks = 5;
     repeated string Pool = 6;

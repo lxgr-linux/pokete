@@ -1,6 +1,6 @@
-from pokete_classes.asset_service.asset_types import NPCs
+from pokete_classes.asset_service.resources import NPCDict
 
-npcs: NPCs = {
+npcs: dict[str, NPCDict] = {
     "test_npc": {
         "texts": ["Hey."],
         "fn": None,

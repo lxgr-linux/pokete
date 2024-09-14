@@ -1,7 +1,7 @@
 import logging
 
 import pokete_data as p_data
-from .asset_types.assets import Assets, BaseAssets
+from .resources import Assets, BaseAssets
 
 
 class AssetSerice:
@@ -19,17 +19,19 @@ class AssetSerice:
     def load_assets_from_p_data(self):
         if self.__assets is not None:
             logging.warning("[AssetService]: Assets already loaded")
-        self.load_assets({
-            "trainers": p_data.trainers,
-            "npcs": p_data.npcs,
-            "obmaps": p_data.map_data,
-            "stations": p_data.stations,
-            "decorations": p_data.decorations,
-            "maps": p_data.maps,
-        })
+        self.load_assets(
+            Assets.from_dict({
+                "trainers": p_data.trainers,
+                "npcs": p_data.npcs,
+                "obmaps": p_data.map_data,
+                "stations": p_data.stations,
+                "decorations": p_data.decorations,
+                "maps": p_data.maps,
+            })
+        )
 
     def load_base_assets_from_p_data(self):
-        self.__load_base_assets({
+        self.__load_base_assets(BaseAssets.from_dict({
             "items": p_data.items,
             "pokes": p_data.pokes,
             "attacks": p_data.attacks,
@@ -38,7 +40,7 @@ class AssetSerice:
             "types": p_data.types,
             "sub_types": p_data.sub_types,
             "achievements": p_data.achievements
-        })
+        }))
 
     def get_assets(self) -> Assets:
         return self.__assets

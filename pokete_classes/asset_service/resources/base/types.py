@@ -30,3 +30,12 @@ class Type:
             ineffective=_d["ineffective"],
             color=_d["color"],
         )
+
+    def to_dict(self) -> TypeDict:
+        ret: TypeDict = {}
+        
+        ret["effective"] = self.effective
+        ret["ineffective"] = self.ineffective
+        ret["color"] = self.color
+        
+        return ret

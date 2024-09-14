@@ -66,3 +66,23 @@ class Attack:
             is_generic=_d["is_generic"],
             ap=_d["ap"],
         )
+
+    def to_dict(self) -> AttackDict:
+        ret: AttackDict = {}
+        
+        ret["name"] = self.name
+        ret["factor"] = self.factor
+        if self.action is not None:
+            ret["action"] = self.action
+        ret["world_action"] = self.world_action
+        ret["move"] = self.move
+        ret["miss_chance"] = self.miss_chance
+        ret["min_lvl"] = self.min_lvl
+        ret["desc"] = self.desc
+        ret["types"] = self.types
+        if self.effect is not None:
+            ret["effect"] = self.effect
+        ret["is_generic"] = self.is_generic
+        ret["ap"] = self.ap
+        
+        return ret

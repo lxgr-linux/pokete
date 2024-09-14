@@ -34,3 +34,14 @@ class Item:
             price=_d["price"],
             fn=_d.get("fn", None),
         )
+
+    def to_dict(self) -> ItemDict:
+        ret: ItemDict = {}
+        
+        ret["pretty_name"] = self.pretty_name
+        ret["desc"] = self.desc
+        ret["price"] = self.price
+        if self.fn is not None:
+            ret["fn"] = self.fn
+        
+        return ret

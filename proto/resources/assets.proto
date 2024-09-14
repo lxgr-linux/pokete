@@ -27,12 +27,12 @@ message BaseAssets {
 }
 
 message Assets {
-    message B {
+    message MapTrainers {
         repeated Trainer Trainers = 1;
     }
 
-    map<string, B> Trainers = 1;
-    map<string, NPC> NPCs = 2;
+    map<string, MapTrainers> Trainers = 1;
+    map<string, NPC> Npcs = 2;
     map<string, Obmap> Obmaps = 3;
     map<string, Station> Stations = 4;
     map<string, Decoration> Decorations = 5;

@@ -7,9 +7,12 @@ class Types:
     """Class to organize PokeTypese"""
 
     def __init__(self):
-        for i, typ in asset_service.get_base_assets()["types"].items():
-            setattr(self, i, PokeType(i, **typ))
-        for i in asset_service.get_base_assets()["sub_types"]:
+        for i, typ in asset_service.get_base_assets().types.items():
+            setattr(self, i,
+                    PokeType(
+                        i, typ.effective, typ.ineffective, typ.color
+                    ))
+        for i in asset_service.get_base_assets().sub_types:
             setattr(self, i, PokeSubType(i))
 
 

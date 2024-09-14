@@ -9,6 +9,7 @@ import scrap_engine as se
 from util import liner
 from .dicts import PokeDict
 from ..asset_service.service import asset_service
+from ..asset_service.resources.base import Poke as ResourcePoke
 from ..attack import Attack
 from ..context import Context
 from ..health_bar import HealthBar
@@ -36,13 +37,13 @@ class Poke:
                  stats=None):
         self.nature = PokeNature.random() if nature is None \
             else PokeNature.from_dict(nature)
-        self.inf = asset_service.get_base_assets()["pokes"][poke]
+        self.inf: ResourcePoke = asset_service.get_base_assets().pokes[poke]
         self.moves = Moves(self)
         # Attributes
         self.player = None
         self.affil = ""
         self.ext_name = ""
-        self.night_active = self.inf.get("night_active", None)
+        self.night_active = self.inf.night_active
         self.enem = None
         self.oldhp = 0
         self.xp = _xp
@@ -51,31 +52,28 @@ class Poke:
         self.atc = 0
         self.defense = 0
         self.initiative = 0
-        self.hp = self.inf["hp"]
-        self.name = self.inf["name"]
-        self.miss_chance = self.inf["miss_chance"]
-        self.lose_xp = self.inf["lose_xp"]
-        self.evolve_poke = self.inf["evolve_poke"]
-        self.evolve_lvl = self.inf["evolve_lvl"]
-        self.types = [getattr(types, i) for i in self.inf["types"]]
+        self.hp = self.inf.hp
+        self.name = self.inf.name
+        self.miss_chance = self.inf.miss_chance
+        self.lose_xp = self.inf.lose_xp
+        self.evolve_poke = self.inf.evolve_poke
+        self.evolve_lvl = self.inf.evolve_lvl
+        self.types = [getattr(types, i) for i in self.inf.types]
         self.type = self.types[0]
         self.effects = []
         if _attacks is not None:
             assert (len(_attacks) <= 4), f"A Pokete {poke} \
 can't have more than 4 attacks!"
         else:
-            _attacks = self.inf["attacks"][:4]
+            _attacks = self.inf.attacks[:4]
+        attacks = asset_service.get_base_assets().attacks
         self.attacks = [atc for atc in _attacks
-                        if self.lvl() >=
-                        asset_service.get_base_assets()["attacks"][atc][
-                            "min_lvl"]]
+                        if self.lvl() >= attacks[atc].min_lvl]
         if self.shiny:
             self.hp += 5
         self.attack_obs = [Attack(atc, str(i + 1))
                            for i, atc in enumerate(self.attacks)
-                           if self.lvl() >=
-                           asset_service.get_base_assets()["attacks"][atc][
-                               "min_lvl"]]
+                           if self.lvl() >= attacks[atc].min_lvl]
         self.set_player(player)
         # Backup vars
         self.full_hp = self.hp
@@ -86,13 +84,13 @@ can't have more than 4 attacks!"
         # Labels
         self.hp_bar = HealthBar(self)
         self.hp_bar.make(self.hp)
-        self.desc = se.Text(liner(self.inf["desc"], se.screen_width - 34))
+        self.desc = se.Text(liner(self.inf.desc, se.screen_width - 34))
         self.ico = se.Box(4, 11)
-        for ico in self.inf["ico"]:
-            esccode = (str.join("", [getattr(Color, i) for i in ico["esc"]])
-                       if ico["esc"] is not None
+        for ico in self.inf.ico:
+            esccode = (str.join("", [getattr(Color, i) for i in ico.esc])
+                       if ico.esc is not None
                        else "")
-            self.ico.add_ob(se.Text(ico["txt"], state="float",
+            self.ico.add_ob(se.Text(ico.txt, state="float",
                                     esccode=esccode,
                                     ignore=f'{esccode} {Color.reset}'), 0, 0)
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
@@ -137,7 +135,7 @@ can't have more than 4 attacks!"
     def set_vars(self):
         """Updates/sets some vars"""
         for name in ["atc", "defense", "initiative"]:
-            setattr(self, name, round((self.lvl() + self.inf[name]
+            setattr(self, name, round((self.lvl() + getattr(self.inf, name)
                                        + (
                                            2 if self.shiny else 0)) * self.nature.get_value(
                 name)))

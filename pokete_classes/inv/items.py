@@ -6,11 +6,11 @@ class Items:
     """Has all items as attributes"""
 
     def __init__(self):
-        for item in asset_service.get_base_assets()["items"].items():
-            _obj = InvItem(item[0], item[1]["pretty_name"],
-                           item[1]["desc"],
-                           item[1]["price"], item[1]["fn"])
-            setattr(self, item[0], _obj)
+        for i, item in asset_service.get_base_assets().items.items():
+            _obj = InvItem(i, item.pretty_name,
+                           item.desc,
+                           item.price, item.fn)
+            setattr(self, i, _obj)
         self.ld_bubble_bomb = LearnDisc("bubble_bomb")
         self.ld_flying = LearnDisc("flying")
         self.ld_the_old_roots_hit = LearnDisc("the_old_roots_hit")
@@ -40,11 +40,11 @@ class LearnDisc(InvItem):
 
     def __init__(self, attack_name):
         self.attack_name = attack_name
-        self.attack_dict = asset_service.get_base_assets()["attacks"][
+        self.attack = asset_service.get_base_assets().attacks[
             attack_name]
-        pretty_name = f"LD-{self.attack_dict['name']}"
+        pretty_name = f"LD-{self.attack.name}"
         name = f"ld_{attack_name}"
-        desc = f"Teaches a Pokete the attack '{self.attack_dict['name']}'."
+        desc = f"Teaches a Pokete the attack '{self.attack.name}'."
         super().__init__(name, pretty_name, desc, 0)
 
 

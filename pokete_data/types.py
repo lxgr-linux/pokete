@@ -1,6 +1,6 @@
-from pokete_classes.asset_service.asset_types import Types
+from pokete_classes.asset_service.resources.base import TypeDict
 
-types: Types = {
+types: dict[str, TypeDict] = {
     "normal": {
         "effective": [],
         "ineffective": [],

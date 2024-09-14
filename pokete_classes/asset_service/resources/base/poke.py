@@ -27,11 +27,20 @@ class BaseIco:
             esc=_d.get("esc", None),
         )
 
+    def to_dict(self) -> BaseIcoDict:
+        ret: BaseIcoDict = {}
+        
+        ret["txt"] = self.txt
+        if self.esc is not None:
+            ret["esc"] = self.esc
+        
+        return ret
+
 
 class PokeDict(TypedDict):
     name: str
     hp: int
-    arc: int
+    atc: int
     defense: int
     attacks: list[str]
     pool: list[str]
@@ -52,7 +61,7 @@ class Poke:
         self,
         name: str,
         hp: int,
-        arc: int,
+        atc: int,
         defense: int,
         attacks: list[str],
         pool: list[str],
@@ -69,7 +78,7 @@ class Poke:
     ):
         self.name: str = name
         self.hp: int = hp
-        self.arc: int = arc
+        self.atc: int = atc
         self.defense: int = defense
         self.attacks: list[str] = attacks
         self.pool: list[str] = pool
@@ -91,7 +100,7 @@ class Poke:
         return cls(
             name=_d["name"],
             hp=_d["hp"],
-            arc=_d["arc"],
+            atc=_d["atc"],
             defense=_d["defense"],
             attacks=_d["attacks"],
             pool=_d["pool"],
@@ -106,3 +115,26 @@ class Poke:
             night_active=_d.get("night_active", None),
             ico=[BaseIco.from_dict(i) for i in _d["ico"]],
         )
+
+    def to_dict(self) -> PokeDict:
+        ret: PokeDict = {}
+        
+        ret["name"] = self.name
+        ret["hp"] = self.hp
+        ret["atc"] = self.atc
+        ret["defense"] = self.defense
+        ret["attacks"] = self.attacks
+        ret["pool"] = self.pool
+        ret["miss_chance"] = self.miss_chance
+        ret["desc"] = self.desc
+        ret["lose_xp"] = self.lose_xp
+        ret["rarity"] = self.rarity
+        ret["types"] = self.types
+        ret["evolve_poke"] = self.evolve_poke
+        ret["evolve_lvl"] = self.evolve_lvl
+        ret["initiative"] = self.initiative
+        if self.night_active is not None:
+            ret["night_active"] = self.night_active
+        ret["ico"] = [BaseIco.to_dict(i) for i in self.ico]
+        
+        return ret

@@ -26,3 +26,11 @@ class Weather:
             info=_d["info"],
             effected=_d["effected"],
         )
+
+    def to_dict(self) -> WeatherDict:
+        ret: WeatherDict = {}
+        
+        ret["info"] = self.info
+        ret["effected"] = self.effected
+        
+        return ret

@@ -1,6 +1,6 @@
-from pokete_classes.asset_service.asset_types import Items
+from pokete_classes.asset_service.resources.base import ItemDict
 
-items: Items = {
+items: dict[str, ItemDict] = {
     "poketeball": {
         "pretty_name": "Poketeball",
         "desc": "A ball you can use to catch Poketes",

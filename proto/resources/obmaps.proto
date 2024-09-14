@@ -16,14 +16,15 @@ message Dor {
 }
 
 message SpecialDors {
-    Coords Dor = 1;
-    Coords Shopdor = 2;
+    optional Coords Dor = 1;
+    optional Coords Shopdor = 2;
 }
 
 message Ob {
     int32 X = 1;
     int32 Y = 2;
     string Txt = 3;
+    optional string Cls = 4;
 }
 
 message Obmap {

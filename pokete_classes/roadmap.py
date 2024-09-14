@@ -1,4 +1,6 @@
 """Contains all classes relevant to show the roadmap"""
+import logging
+
 import scrap_engine as se
 import pokete_classes.ob_maps as obmp
 from pokete_classes.asset_service.service import asset_service
@@ -56,6 +58,7 @@ class Station(StationObject):
         s_next="",
         d_next="",
     ):
+        logging.info(color)
         self.desc = desc
         self.roadmap = roadmap
         self.color = getattr(Color, color, "\033[1;37m")
@@ -112,8 +115,7 @@ class Station(StationObject):
     def is_city(self):
         """Returns if the station is a city"""
         return "pokecenter" in \
-            asset_service.get_assets()["obmaps"][self.associates[0].name][
-                "hard_obs"]
+            asset_service.get_assets().obmaps[self.associates[0].name].hard_obs
 
     def hide_if_visited(self, figure, choose=False):
         self.text = self.base_text
@@ -135,8 +137,8 @@ class RoadMap:
     """Map you can see and navigate maps on"""
 
     def __init__(self):
-        stations = asset_service.get_assets()["stations"]
-        decorations = asset_service.get_assets()["decorations"]
+        stations = asset_service.get_assets().stations
+        decorations = asset_service.get_assets().decorations
         self.box = Box(
             17, 61, "Roadmap", f"{Action.CANCEL.mapping}:close",
         )
@@ -155,14 +157,14 @@ W ◀ ▶ E
         self.box.add_ob(self.info_label, self.box.width - 2, 0)
         self.box.add_ob(self.rose, 53, 11)
         self.box.add_ob(self.legend, 45, 1)
-        for sta, _dict in decorations.items():
-            obj = Decoration(**_dict["gen"])
-            self.box.add_ob(obj, **_dict["add"])
+        for sta, d in decorations.items():
+            obj = Decoration(d.gen.text, d.gen.color)
+            self.box.add_ob(obj, d.add.x, d.add.y)
             setattr(self, sta, obj)
 
-        for sta, _dict in stations.items():
-            obj = Station(self, obmp.ob_maps[sta], **_dict["gen"])
-            self.box.add_ob(obj, **_dict["add"])
+        for sta, d in stations.items():
+            obj = Station(self, obmp.ob_maps[sta], **d.gen.to_dict())
+            self.box.add_ob(obj, d.add.x, d.add.y)
             setattr(self, sta, obj)
 
     @property
@@ -221,7 +223,7 @@ W ◀ ▶ E
                 ):
                     p_list = ", ".join(
                         set(
-                            asset_service.get_base_assets()["pokes"][j]["name"]
+                            asset_service.get_base_assets().pokes[j].name
                             for i in self.sta.associates
                             for j in i.poke_args.get("pokes", [])
                             + i.w_poke_args.get("pokes", [])

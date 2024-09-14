@@ -31,6 +31,15 @@ class PokeArgs:
             maxlvl=_d["maxlvl"],
         )
 
+    def to_dict(self) -> PokeArgsDict:
+        ret: PokeArgsDict = {}
+        
+        ret["pokes"] = self.pokes
+        ret["minlvl"] = self.minlvl
+        ret["maxlvl"] = self.maxlvl
+        
+        return ret
+
 
 class MapDict(TypedDict):
     height: int
@@ -78,3 +87,21 @@ class Map:
             w_poke_args=PokeArgs.from_dict(_d.get("w_poke_args", None)),
             weather=_d.get("weather", None),
         )
+
+    def to_dict(self) -> MapDict:
+        ret: MapDict = {}
+        
+        ret["height"] = self.height
+        ret["width"] = self.width
+        ret["song"] = self.song
+        ret["pretty_name"] = self.pretty_name
+        if self.extra_actions is not None:
+            ret["extra_actions"] = self.extra_actions
+        if self.poke_args is not None:
+            ret["poke_args"] = PokeArgs.to_dict(self.poke_args)
+        if self.w_poke_args is not None:
+            ret["w_poke_args"] = PokeArgs.to_dict(self.w_poke_args)
+        if self.weather is not None:
+            ret["weather"] = self.weather
+        
+        return ret

@@ -32,6 +32,15 @@ class DorArgs:
             map=_d["map"],
         )
 
+    def to_dict(self) -> DorArgsDict:
+        ret: DorArgsDict = {}
+        
+        ret["x"] = self.x
+        ret["y"] = self.y
+        ret["map"] = self.map
+        
+        return ret
+
 
 class DorDict(TypedDict):
     x: int
@@ -60,35 +69,55 @@ class Dor:
             args=DorArgs.from_dict(_d["args"]),
         )
 
+    def to_dict(self) -> DorDict:
+        ret: DorDict = {}
+        
+        ret["x"] = self.x
+        ret["y"] = self.y
+        ret["args"] = DorArgs.to_dict(self.args)
+        
+        return ret
+
 
 class SpecialDorsDict(TypedDict):
-    dor: "CoordsDict"
-    shopdor: "CoordsDict"
+    dor: "CoordsDict | None"
+    shopdor: "CoordsDict | None"
 
 
 class SpecialDors:
     def __init__(
         self,
-        dor: "Coords",
-        shopdor: "Coords"
+        dor: "Coords | None",
+        shopdor: "Coords | None"
     ):
-        self.dor: "Coords" = dor
-        self.shopdor: "Coords" = shopdor
+        self.dor: "Coords | None" = dor
+        self.shopdor: "Coords | None" = shopdor
 
     @classmethod
     def from_dict(cls, _d: SpecialDorsDict | None) -> "SpecialDors | None":
         if _d is None:
             return None
         return cls(
-            dor=Coords.from_dict(_d["dor"]),
-            shopdor=Coords.from_dict(_d["shopdor"]),
+            dor=Coords.from_dict(_d.get("dor", None)),
+            shopdor=Coords.from_dict(_d.get("shopdor", None)),
         )
+
+    def to_dict(self) -> SpecialDorsDict:
+        ret: SpecialDorsDict = {}
+        
+        if self.dor is not None:
+            ret["dor"] = Coords.to_dict(self.dor)
+        if self.shopdor is not None:
+            ret["shopdor"] = Coords.to_dict(self.shopdor)
+        
+        return ret
 
 
 class ObDict(TypedDict):
     x: int
     y: int
     txt: str
+    cls: str | None
 
 
 class Ob:
@@ -96,11 +125,13 @@ class Ob:
         self,
         x: int,
         y: int,
-        txt: str
+        txt: str,
+        cls: str | None
     ):
         self.x: int = x
         self.y: int = y
         self.txt: str = txt
+        self.cls: str | None = cls
 
     @classmethod
     def from_dict(cls, _d: ObDict | None) -> "Ob | None":
@@ -110,7 +141,19 @@ class Ob:
             x=_d["x"],
             y=_d["y"],
             txt=_d["txt"],
+            cls=_d.get("cls", None),
         )
+
+    def to_dict(self) -> ObDict:
+        ret: ObDict = {}
+        
+        ret["x"] = self.x
+        ret["y"] = self.y
+        ret["txt"] = self.txt
+        if self.cls is not None:
+            ret["cls"] = self.cls
+        
+        return ret
 
 
 class ObmapDict(TypedDict):
@@ -141,9 +184,21 @@ class Obmap:
         if _d is None:
             return None
         return cls(
-            hard_obs={i: item for i, item in _d["hard_obs"].items()},
-            soft_obs={i: item for i, item in _d["soft_obs"].items()},
-            dors={i: item for i, item in _d["dors"].items()},
+            hard_obs={i: Ob.from_dict(item) for i, item in _d["hard_obs"].items()},
+            soft_obs={i: Ob.from_dict(item) for i, item in _d["soft_obs"].items()},
+            dors={i: Dor.from_dict(item) for i, item in _d["dors"].items()},
             special_dors=SpecialDors.from_dict(_d.get("special_dors", None)),
-            balls={i: item for i, item in _d["balls"].items()},
+            balls={i: Coords.from_dict(item) for i, item in _d["balls"].items()},
         )
+
+    def to_dict(self) -> ObmapDict:
+        ret: ObmapDict = {}
+        
+        ret["hard_obs"] = {i: Ob.to_dict(item) for i, item in self.hard_obs.items()}
+        ret["soft_obs"] = {i: Ob.to_dict(item) for i, item in self.soft_obs.items()}
+        ret["dors"] = {i: Dor.to_dict(item) for i, item in self.dors.items()}
+        if self.special_dors is not None:
+            ret["special_dors"] = SpecialDors.to_dict(self.special_dors)
+        ret["balls"] = {i: Coords.to_dict(item) for i, item in self.balls.items()}
+        
+        return ret

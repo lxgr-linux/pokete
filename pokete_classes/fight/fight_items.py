@@ -63,7 +63,7 @@ class FightItems:
             logging.info("[Fighitem][%s] Caught %s", name, enem.curr.name)
             achievements.achieve("first_poke")
             if all(poke in obj.caught_pokes for poke in
-                   asset_service.get_base_assets()["pokes"]):
+                   asset_service.get_base_assets().pokes):
                 achievements.achieve("catch_em_all")
             return 2
         fightmap.outp.outp("You missed!")

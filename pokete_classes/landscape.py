@@ -29,10 +29,10 @@ class HighGrass(se.Object, MapInteract):
             ob: The object triggering this action"""
         is_night = (360 > timer.time.normalized
                     or timer.time.normalized > 1320)
-        all_pokes = asset_service.get_base_assets()["pokes"]
+        all_pokes = asset_service.get_base_assets().pokes
         pokes = {i: all_pokes[i]
                  for i in self.arg_proto["pokes"]
-                 if (n_a := all_pokes[i].get("night_active", None)) is None
+                 if (n_a := all_pokes[i].night_active) is None
                  or (not n_a and not is_night)
                  or (n_a and is_night)}
         if random.randint(0, 8) == 0:
@@ -44,7 +44,7 @@ class HighGrass(se.Object, MapInteract):
                         Poke.wild(
                             random.choices(
                                 list(pokes),
-                                weights=[i["rarity"] for i in pokes.values()]
+                                weights=[i.rarity for i in pokes.values()]
                             )[0],
                             random.choice(
                                 range(
@@ -114,5 +114,5 @@ class Poketeball(se.Object, MapInteract):
         self.remove()
         mvp.movemap.full_show()
         ask_ok(self.ctx, f"You found {amount if amount > 1 else 'a'} \
-{asset_service.get_base_assets()["items"][item]['pretty_name']}{'s' if amount > 1 else ''}!")
+{asset_service.get_base_assets().items[item].pretty_name}{'s' if amount > 1 else ''}!")
         self.ctx.figure.used_npcs.append(self.name)

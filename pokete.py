@@ -825,9 +825,6 @@ copy of it alongside this software.""",
     # Loading mods
     try_load_mods(loading_screen.map)
 
-    # validating data
-    p_data.validate()
-
     # Definiton of the playmaps
     # Most of the objects are generated from map_data,
     # but can be extended via map_additions()

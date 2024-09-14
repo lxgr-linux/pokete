@@ -53,7 +53,7 @@ class Dex(Overview):
         }[poke.night_active]
         desc_text = liner(poke.desc.text.replace("\n", " ") +
                           (f"""\n\n Evolves into {
-                          asset_service.get_base_assets()["pokes"][poke.evolve_poke]['name'] if
+                          asset_service.get_base_assets().pokes[poke.evolve_poke].name if
                           poke.evolve_poke in
                           ctx.figure.caught_pokes else '???'
                           }."""
@@ -96,13 +96,13 @@ Active: """) + se.Text(active[0], esccode=active[1])
         """Opens the dex"""
         self.box.overview = ctx.overview
         self.box.resize(ctx.map.height - 3, 35)
-        pokes = asset_service.get_base_assets()["pokes"]
+        pokes = asset_service.get_base_assets().pokes
         self.idx = 0
         p_dict = {i[1]: i[-1] for i in
-                  sorted([(pokes[j]["types"][0], j, pokes[j])
+                  sorted([(pokes[j].types[0], j, pokes[j])
                           for j in list(pokes)[1:]])}
         self.obs = [se.Text(f"{i + 1} \
-{p_dict[poke]['name'] if poke in ctx.figure.caught_pokes else '???'}",
+{p_dict[poke].name if poke in ctx.figure.caught_pokes else '???'}",
                             state="float")
                     for i, poke in enumerate(p_dict)]
         self.add_c_obs()

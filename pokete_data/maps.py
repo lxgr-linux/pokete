@@ -1,6 +1,6 @@
-from pokete_classes.asset_service.asset_types import Maps
+from pokete_classes.asset_service.resources import MapDict
 
-maps: Maps = {
+maps: dict[str, MapDict] = {
     "intromap": {
         "height": 15,
         "width": 30,

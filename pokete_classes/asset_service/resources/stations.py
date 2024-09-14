@@ -52,6 +52,24 @@ class StationGen:
             d_next=_d.get("d_next", None),
         )
 
+    def to_dict(self) -> StationGenDict:
+        ret: StationGenDict = {}
+        
+        ret["additionals"] = self.additionals
+        ret["desc"] = self.desc
+        ret["text"] = self.text
+        ret["color"] = self.color
+        if self.a_next is not None:
+            ret["a_next"] = self.a_next
+        if self.w_next is not None:
+            ret["w_next"] = self.w_next
+        if self.s_next is not None:
+            ret["s_next"] = self.s_next
+        if self.d_next is not None:
+            ret["d_next"] = self.d_next
+        
+        return ret
+
 
 class StationDict(TypedDict):
     gen: "StationGenDict"
@@ -75,6 +93,14 @@ class Station:
             gen=StationGen.from_dict(_d["gen"]),
             add=Coords.from_dict(_d["add"]),
         )
+
+    def to_dict(self) -> StationDict:
+        ret: StationDict = {}
+        
+        ret["gen"] = StationGen.to_dict(self.gen)
+        ret["add"] = Coords.to_dict(self.add)
+        
+        return ret
 
 
 class DecorationGenDict(TypedDict):
@@ -100,6 +126,14 @@ class DecorationGen:
             color=_d["color"],
         )
 
+    def to_dict(self) -> DecorationGenDict:
+        ret: DecorationGenDict = {}
+        
+        ret["text"] = self.text
+        ret["color"] = self.color
+        
+        return ret
+
 
 class DecorationDict(TypedDict):
     gen: "DecorationGenDict"
@@ -123,3 +157,11 @@ class Decoration:
             gen=DecorationGen.from_dict(_d["gen"]),
             add=Coords.from_dict(_d["add"]),
         )
+
+    def to_dict(self) -> DecorationDict:
+        ret: DecorationDict = {}
+        
+        ret["gen"] = DecorationGen.to_dict(self.gen)
+        ret["add"] = Coords.to_dict(self.add)
+        
+        return ret

@@ -27,6 +27,14 @@ class TrainerPokeArgs:
             xp=_d["xp"],
         )
 
+    def to_dict(self) -> TrainerPokeArgsDict:
+        ret: TrainerPokeArgsDict = {}
+        
+        ret["name"] = self.name
+        ret["xp"] = self.xp
+        
+        return ret
+
 
 class TrainerArgsDict(TypedDict):
     name: str
@@ -71,6 +79,19 @@ class TrainerArgs:
             y=_d["y"],
         )
 
+    def to_dict(self) -> TrainerArgsDict:
+        ret: TrainerArgsDict = {}
+        
+        ret["name"] = self.name
+        ret["gender"] = self.gender
+        ret["texts"] = self.texts
+        ret["lose_texts"] = self.lose_texts
+        ret["win_texts"] = self.win_texts
+        ret["x"] = self.x
+        ret["y"] = self.y
+        
+        return ret
+
 
 class TrainerDict(TypedDict):
     pokes: list["TrainerPokeArgsDict"]
@@ -94,3 +115,11 @@ class Trainer:
             pokes=[TrainerPokeArgs.from_dict(i) for i in _d["pokes"]],
             args=TrainerArgs.from_dict(_d["args"]),
         )
+
+    def to_dict(self) -> TrainerDict:
+        ret: TrainerDict = {}
+        
+        ret["pokes"] = [TrainerPokeArgs.to_dict(i) for i in self.pokes]
+        ret["args"] = TrainerArgs.to_dict(self.args)
+        
+        return ret

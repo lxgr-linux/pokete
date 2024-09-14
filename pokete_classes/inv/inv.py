@@ -108,7 +108,7 @@ class Inv(Overview):
                                 if ask_bool(
                                     ctx.with_overview(self),
                                     f"Do you want to teach "
-                                    f"'{obj.attack_dict['name']}'?",
+                                    f"'{obj.attack['name']}'?",
                                 ):
                                     ex_cond = True
                                     while ex_cond:
@@ -123,13 +123,13 @@ class Inv(Overview):
                                             break
                                         poke = figure.pokes[index]
                                         if getattr(types,
-                                                   obj.attack_dict['types'][0]) \
+                                                   obj.attack['types'][0]) \
                                             in poke.types:
                                             break
                                         ex_cond = ask_bool(
                                             ctx.with_overview(self),
                                             "You can't teach "
-                                            f"'{obj.attack_dict['name']}' to "
+                                            f"'{obj.attack['name']}' to "
                                             f"'{poke.name}'! \n"
                                             "Do you want to continue?",
                                         )

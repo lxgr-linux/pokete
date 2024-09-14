@@ -1,6 +1,6 @@
 """This file contains a dict with all Strings that will be
    added to the maps"""
-from pokete_classes.asset_service.asset_types import Obmaps
+from pokete_classes.asset_service.resources import ObmapDict
 
 # Those are some vars used in map_data
 CENTER = r"""  __________
@@ -22,7 +22,7 @@ HOUSE1 = r"""  ________
 |__| |__|__|"""
 
 # This is the actual map_data dict
-map_data: Obmaps = {
+map_data: dict[str, ObmapDict] = {
     #     "playmap_1": {
     #         "hard_obs": {
     #         },

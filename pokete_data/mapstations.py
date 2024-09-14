@@ -1,6 +1,6 @@
-from pokete_classes.asset_service.asset_types import Stations, Decorations
+from pokete_classes.asset_service.resources import StationDict, DecorationDict
 
-stations: Stations = {
+stations: dict[str, StationDict] = {
     "playmap_1": {
         "gen": {
             "additionals": ["intromap"],
@@ -368,7 +368,7 @@ P│$""",
 
 }
 
-decorations: Decorations = {
+decorations: dict[str, DecorationDict] = {
     "cave3": {
         "gen": {
             "text": """██

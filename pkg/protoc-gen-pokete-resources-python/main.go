@@ -22,6 +22,9 @@ var fieldTmpl string
 //go:embed templates/unmarshall.tmpl
 var unmarshallTmpl string
 
+//go:embed templates/marshall.tmpl
+var marshallTmpl string
+
 //go:embed templates/__init__.py.tmpl
 var initTmpl string
 
@@ -163,6 +166,11 @@ func generateFile(moduleResolver *module_resolver.ModuleResolver, gen *protogen.
 	}
 
 	_, err = tmpl.New("unmarshall").Parse(unmarshallTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.New("marshall").Parse(marshallTmpl)
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,6 @@
-from pokete_classes.asset_service.asset_types import Attacks
+from pokete_classes.asset_service.resources.base import AttackDict
 
-attacks: Attacks = {
+attacks: dict[str, AttackDict] = {
     # normal attacks
     "tackle": {
         "name": "Tackle",

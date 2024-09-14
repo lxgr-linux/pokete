@@ -26,3 +26,11 @@ class Achievement:
             title=_d["title"],
             desc=_d["desc"],
         )
+
+    def to_dict(self) -> AchievementDict:
+        ret: AchievementDict = {}
+        
+        ret["title"] = self.title
+        ret["desc"] = self.desc
+        
+        return ret

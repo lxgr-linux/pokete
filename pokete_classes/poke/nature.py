@@ -6,6 +6,7 @@ import scrap_engine as se
 from util import liner
 from .dicts import NatureDict
 from ..asset_service.service import asset_service
+from ..asset_service.resources.base import Nature as ResouceNature
 from ..context import Context
 from ..input import Action
 from ..ui.elements import LabelBox
@@ -19,18 +20,18 @@ class Nature:
     ARGS:
         name: The nature name
         atc: The attack change
-        _def: The defense change
+        def_: The defense change
         init: The initiative change"""
 
-    def __init__(self, name, esc=None, atc=1, _def=1, init=1):
+    def __init__(self, name, esc=None, atc=None, def_=None, init=None):
         self.name = name
         if esc is not None:
             self.esccode = getattr(Color, esc)
         else:
             self.esccode = ""
-        self.atc = atc
-        self.defense = _def
-        self.initiative = init
+        self.atc = atc if atc is not None else 1
+        self.defense = def_ if def_ is not None else 1
+        self.initiative = init if init is not None else 1
 
 
 class PokeNature:
@@ -40,8 +41,8 @@ class PokeNature:
         grade: The Nature's grade, 1 or 2"""
 
     natures = {
-        name: Nature(name, **_dict)
-        for name, _dict in asset_service.get_base_assets()["natures"].items()
+        name: Nature(name, n.esc, n.atc, n.def_, n.init)
+        for name, n in asset_service.get_base_assets().natures.items()
     }
 
     def __init__(self, nature, grade):

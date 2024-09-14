@@ -26,3 +26,11 @@ class Coords:
             x=_d["x"],
             y=_d["y"],
         )
+
+    def to_dict(self) -> CoordsDict:
+        ret: CoordsDict = {}
+        
+        ret["x"] = self.x
+        ret["y"] = self.y
+        
+        return ret

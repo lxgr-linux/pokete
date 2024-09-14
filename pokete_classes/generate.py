@@ -2,7 +2,7 @@
 import scrap_engine as se
 
 from pokete_classes.asset_service.service import asset_service
-from .asset_service.asset_types import Maps
+from .asset_service.resources import Map, MapDict
 from pokete_classes.map_additions.center import CenterMap, ShopMap
 from pokete_classes.tss import tss
 from .landscape import Meadow, Water, Sand, Poketeball
@@ -23,11 +23,11 @@ def __parse_obj(_map, name, obj, _dict):
         obj: Object beeing set
         _dict: Dict containing info"""
     _map.register_obj(name, obj)
-    obj.add(_map, _dict["x"], _dict["y"])
+    obj.add(_map, _dict.x, _dict.y)
 
 
 def gen_maps(
-    p_maps: Maps, extra_actions=None, fix_center=False
+    p_maps: dict[str, MapDict], extra_actions=None, fix_center=False
 ) -> dict[str, PlayMap]:
     """Generates all maps
     ARGS:
@@ -66,62 +66,63 @@ def gen_obs(figure):
     assets = asset_service.get_assets()
 
     # adding all trainer to map
-    for i, trainer_list in assets["trainers"].items():
+    for i, map_trainers in assets.trainers.items():
         _map = obmp.ob_maps[i]
-        for j in trainer_list:
-            args = j["args"]
+        for j in map_trainers.trainers:
+            args = j.args
             trainer = Trainer(
-                [Poke.wild(p["name"], p["xp"]) for p in j["pokes"]],
-                args["name"],
-                args["gender"], args["texts"], args["lose_texts"],
-                args["win_texts"]
+                [Poke.wild(p.name, p.xp) for p in j.pokes],
+                args.name,
+                args.gender, args.texts, args.lose_texts,
+                args.win_texts
             )
-            trainer.add(_map, args["x"], args["y"])
+            trainer.add(_map, args.x, args.y)
             _map.trainers.append(trainer)
 
     # generating objects from map_data
-    for ob_map, single_map in assets["obmaps"].items():
+    for ob_map, single_map in assets.obmaps.items():
         _map = obmp.ob_maps[ob_map]
-        for hard_ob, single_hard_ob in single_map["hard_obs"].items():
+        for hard_ob, single_hard_ob in single_map.hard_obs.items():
             __parse_obj(_map, hard_ob,
-                        se.Text(single_hard_ob["txt"],
+                        se.Text(single_hard_ob.txt,
                                 ignore=" "),
                         single_hard_ob)
-        for soft_ob, single_soft_ob in single_map["soft_obs"].items():
+        for soft_ob, single_soft_ob in single_map.soft_obs.items():
             cls = {
                 "sand": Sand,
                 "meadow": Meadow,
                 "water": Water,
-            }[single_soft_ob.get("cls", "meadow")]
+            }[
+                single_soft_ob.cls if single_soft_ob.cls is not None else "meadow"]
             __parse_obj(_map, soft_ob,
-                        cls(single_soft_ob["txt"],
+                        cls(single_soft_ob.txt,
                             _map.poke_args
                             if cls != Water else _map.w_poke_args),
                         single_soft_ob)
-        for door, single_door in single_map["dors"].items():
+        for door, single_door in single_map.dors.items():
             __parse_obj(_map, door,
                         Door(" ", state="float",
-                             arg_proto=single_door["args"]),
+                             arg_proto=single_door.args.to_dict()),
                         single_door)
-        for ball, single_ball in single_map["balls"].items():
+        for ball, single_ball in single_map.balls.items():
             if f'{ob_map}.{ball}' not in figure.used_npcs or not \
                 settings("save_trainers").val:
                 __parse_obj(_map, ball,
                             Poketeball(f"{ob_map}.{ball}"),
                             single_ball)
-        if "special_dors" in single_map:
+        if single_map.special_dors is not None:
             for name, cls in [("dor", DoorToCenter), ("shopdor", DoorToShop)]:
-                if name in single_map["special_dors"]:
+                door_ob = getattr(single_map.special_dors, name)
+                if door_ob is not None:
                     obj = cls()
                     setattr(_map, name, obj)
-                    obj.add(_map, single_map["special_dors"][name]["x"],
-                            single_map["special_dors"][name]["y"])
+                    obj.add(_map, door_ob.x, door_ob.y)
 
     # NPCs
-    for npc, _npc in assets["npcs"].items():
-        NPC(npc, _npc["texts"], _fn=_npc["fn"],
-            chat=_npc.get("chat", None)).add(obmp.ob_maps[_npc["map"]],
-                                             _npc["x"], _npc["y"])
+    for npc, _npc in assets.npcs.items():
+        NPC(npc, _npc.texts, _fn=_npc.fn,
+            chat=_npc.chat).add(obmp.ob_maps[_npc.map],
+                                _npc.x, _npc.y)
 
 
 if __name__ == "__main__":

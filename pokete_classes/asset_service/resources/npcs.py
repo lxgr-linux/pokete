@@ -24,8 +24,16 @@ class Chat:
             return None
         return cls(
             q=_d["q"],
-            a={i: item for i, item in _d["a"].items()},
+            a={i: Chat.from_dict(item) for i, item in _d["a"].items()},
         )
+
+    def to_dict(self) -> ChatDict:
+        ret: ChatDict = {}
+        
+        ret["q"] = self.q
+        ret["a"] = {i: Chat.to_dict(item) for i, item in self.a.items()}
+        
+        return ret
 
 
 class NPCDict(TypedDict):
@@ -66,3 +74,17 @@ class NPC:
             y=_d["y"],
             chat=Chat.from_dict(_d.get("chat", None)),
         )
+
+    def to_dict(self) -> NPCDict:
+        ret: NPCDict = {}
+        
+        ret["texts"] = self.texts
+        if self.fn is not None:
+            ret["fn"] = self.fn
+        ret["map"] = self.map
+        ret["x"] = self.x
+        ret["y"] = self.y
+        if self.chat is not None:
+            ret["chat"] = Chat.to_dict(self.chat)
+        
+        return ret

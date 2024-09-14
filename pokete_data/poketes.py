@@ -5,9 +5,9 @@
   All attributes have to be present make a Pokete work
   A type has to be present
   Hornita was inspired and partly designed by Pia <pialandrath@gmail.com>"""
-from pokete_classes.asset_service.asset_types import Pokes
+from pokete_classes.asset_service.resources.base import PokeDict
 
-pokes: Pokes = {
+pokes: dict[str, PokeDict] = {
     "__fallback__": {
         "name": "",
         "hp": 20,

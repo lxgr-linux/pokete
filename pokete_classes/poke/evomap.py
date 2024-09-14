@@ -73,7 +73,7 @@ class EvoMap(gm.GameMap, Overview):
         self.outp.outp(f"{self.name} evolved into {new.name}!")
         time.sleep(SPEED_OF_TIME * 5)
         for i in range(max(len(
-            asset_service.get_base_assets()["pokes"][new.identifier]["attacks"])
+            asset_service.get_base_assets().pokes[new.identifier].attacks)
                            - len(poke.attack_obs), 0)):
             LearnAttack(new)(ctx)
         ctx.figure.pokes[ctx.figure.pokes.index(self)] = new

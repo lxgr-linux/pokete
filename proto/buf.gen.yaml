@@ -5,4 +5,4 @@ managed:
         default: github.com/lxgr-linux/pokete
 plugins:
     - plugin: pokete-resources-python
-      out: ../Buf
+      out: ../pokete_classes/asset_service
