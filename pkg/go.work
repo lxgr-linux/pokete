@@ -3,5 +3,5 @@ go 1.23.0
 use (
 	./bs_rpc
 	./server
-	protoc-gen-pokete-resources-python
+	protoc-gen-pokete-resources
 )

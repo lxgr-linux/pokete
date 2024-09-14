@@ -1,8 +1,8 @@
 package producer
 
 import (
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/util"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/path"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/util"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"
 )
@@ -14,6 +14,7 @@ type ResourceType struct {
 
 type Field struct {
 	Name       string
+	GoName     string
 	PythonType MappedType
 }
 
@@ -28,14 +29,16 @@ type PythonTypeWithVar struct {
 }
 
 type Model struct {
-	Types   []ResourceType
-	Package path.Path
-	Imports ImportFiles
+	Types     []ResourceType
+	Package   path.Path
+	GoPackage protogen.GoPackageName
+	Imports   ImportFiles
 }
 
 func NewField(p *Producer, d *descriptorpb.FieldDescriptorProto) Field {
 	f := Field{
 		Name:       util.KeywordSafe(util.ToSnakeCase(*d.Name)),
+		GoName:     util.ToCamelCase(*d.Name),
 		PythonType: p.MapType(d),
 	}
 
@@ -69,7 +72,7 @@ func NewResourceType(path string, p *Producer, d *descriptorpb.DescriptorProto) 
 }
 
 func NewModel(file *protogen.File) *Model {
-	m := Model{Package: path.FromIdentifier(*file.Proto.Package)}
+	m := Model{Package: path.FromIdentifier(*file.Proto.Package), GoPackage: file.GoPackageName}
 
 	return &m
 }

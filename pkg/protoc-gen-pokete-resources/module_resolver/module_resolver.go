@@ -1,7 +1,7 @@
 package module_resolver
 
 import (
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/producer"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/producer"
 )
 
 type ModuleResolver producer.ImportFiles

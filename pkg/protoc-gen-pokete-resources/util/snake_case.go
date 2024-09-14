@@ -11,3 +11,10 @@ func ToSnakeCase(identifier string) (result string) {
 	}
 	return strings.ToLower(result)
 }
+
+func ToCamelCase(identifier string) (result string) {
+	for _, part := range strings.Split(identifier, "_") {
+		result += strings.ToUpper(part[0:1]) + part[1:]
+	}
+	return
+}

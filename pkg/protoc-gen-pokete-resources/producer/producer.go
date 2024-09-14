@@ -2,14 +2,14 @@ package producer
 
 import (
 	"fmt"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/path"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"log/slog"
 	"slices"
 )
 
-type TypeMapper func(p *Producer, d *descriptorpb.FieldDescriptorProto) MappedType
+type TypeMapper func(d *descriptorpb.FieldDescriptorProto, mt *MappedType)
 
 type TypeInfo struct {
 	Name      string
@@ -27,10 +27,6 @@ type Producer struct {
 	Types      map[string]*TypeInfo
 	typeMapper TypeMapper
 	Imports    []*Import
-}
-
-func (p *Producer) MapType(d *descriptorpb.FieldDescriptorProto) MappedType {
-	return p.typeMapper(p, d)
 }
 
 func (p *Producer) Produce(file *protogen.File) *Model {
@@ -80,5 +76,12 @@ func PythonProducer() Producer {
 	return Producer{
 		Model:      nil,
 		typeMapper: PythonTypeMapper,
+		Types:      make(map[string]*TypeInfo)}
+}
+
+func GoProducer() Producer {
+	return Producer{
+		Model:      nil,
+		typeMapper: GoTypeMapper,
 		Types:      make(map[string]*TypeInfo)}
 }

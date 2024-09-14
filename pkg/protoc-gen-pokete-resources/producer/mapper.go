@@ -2,7 +2,7 @@ package producer
 
 import (
 	"fmt"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources-python/path"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/path"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"log/slog"
 	"slices"
@@ -19,19 +19,11 @@ type MappedType struct {
 	Optional         bool
 }
 
-func PythonTypeMapper(p *Producer, d *descriptorpb.FieldDescriptorProto) (mt MappedType) {
+func (p *Producer) MapType(d *descriptorpb.FieldDescriptorProto) (mt MappedType) {
 	mt.IsPurelyDomestic = true
 	mt.Optional = d.Proto3Optional != nil
 	mt.IsRepeated = *d.Label == descriptorpb.FieldDescriptorProto_LABEL_REPEATED
 	switch *d.Type {
-	case descriptorpb.FieldDescriptorProto_TYPE_DOUBLE, descriptorpb.FieldDescriptorProto_TYPE_FLOAT:
-		mt.Expression = "float"
-	case descriptorpb.FieldDescriptorProto_TYPE_STRING:
-		mt.Expression = "str"
-	case descriptorpb.FieldDescriptorProto_TYPE_BOOL:
-		mt.Expression = "bool"
-	case descriptorpb.FieldDescriptorProto_TYPE_INT32, descriptorpb.FieldDescriptorProto_TYPE_INT64:
-		mt.Expression = "int"
 	case descriptorpb.FieldDescriptorProto_TYPE_MESSAGE:
 		registeredType, ok := p.Types[*d.TypeName]
 		if ok {
@@ -61,7 +53,39 @@ func PythonTypeMapper(p *Producer, d *descriptorpb.FieldDescriptorProto) (mt Map
 			slog.Warn(fmt.Sprintf("Unregistered type lookup: %s", *d.TypeName))
 			mt.Expression = *d.TypeName
 		}
+	default:
+		p.typeMapper(d, &mt)
 	}
 
 	return
+}
+
+func PythonTypeMapper(d *descriptorpb.FieldDescriptorProto, mt *MappedType) {
+	switch *d.Type {
+	case descriptorpb.FieldDescriptorProto_TYPE_DOUBLE, descriptorpb.FieldDescriptorProto_TYPE_FLOAT:
+		mt.Expression = "float"
+	case descriptorpb.FieldDescriptorProto_TYPE_STRING:
+		mt.Expression = "str"
+	case descriptorpb.FieldDescriptorProto_TYPE_BOOL:
+		mt.Expression = "bool"
+	case descriptorpb.FieldDescriptorProto_TYPE_INT32, descriptorpb.FieldDescriptorProto_TYPE_INT64:
+		mt.Expression = "int"
+	}
+}
+
+func GoTypeMapper(d *descriptorpb.FieldDescriptorProto, mt *MappedType) {
+	switch *d.Type {
+	case descriptorpb.FieldDescriptorProto_TYPE_FLOAT:
+		mt.Expression = "float32"
+	case descriptorpb.FieldDescriptorProto_TYPE_DOUBLE:
+		mt.Expression = "float64"
+	case descriptorpb.FieldDescriptorProto_TYPE_STRING:
+		mt.Expression = "string"
+	case descriptorpb.FieldDescriptorProto_TYPE_BOOL:
+		mt.Expression = "bool"
+	case descriptorpb.FieldDescriptorProto_TYPE_INT32:
+		mt.Expression = "int32"
+	case descriptorpb.FieldDescriptorProto_TYPE_INT64:
+		mt.Expression = "int64"
+	}
 }
