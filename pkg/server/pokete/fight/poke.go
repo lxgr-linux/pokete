@@ -7,8 +7,8 @@ type Nature struct {
 
 type Poke struct {
 	Name    string   `json:"name"`
-	Xp      uint     `json:"xp"`
-	Hp      uint     `json:"hp"`
+	Xp      uint32   `json:"xp"`
+	Hp      uint32   `json:"hp"`
 	Ap      [4]uint  `json:"ap"`
 	Effects []string `json:"effects"`
 	Attacks []string `json:"attacks"`

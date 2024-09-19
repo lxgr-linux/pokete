@@ -4,7 +4,9 @@
 
 package base
 
-type Achievement struct {
-	Title string `json:"title"`
-	Desc  string `json:"desc"`
+import ()
+
+type Weather struct {
+	Info     string             `json:"info"`
+	Effected map[string]float32 `json:"effected"`
 }

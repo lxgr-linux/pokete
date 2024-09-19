@@ -2,7 +2,7 @@ package producer
 
 import (
 	"fmt"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/path"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/identifier"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"log/slog"
 	"slices"
@@ -10,6 +10,7 @@ import (
 )
 
 type MappedType struct {
+	Package          string
 	Expression       string
 	IsPurelyDomestic bool
 	IsRepeated       bool
@@ -38,7 +39,13 @@ func (p *Producer) MapType(d *descriptorpb.FieldDescriptorProto) (mt MappedType)
 			}
 		} else {
 			mt.IsPurelyDomestic = false
-			typeIdentifier := path.FromIdentifier(strings.TrimLeft(*d.TypeName, "."))
+			typeIdentifier := identifier.FromIdentifier(strings.TrimLeft(*d.TypeName, "."))
+
+			slog.Warn(fmt.Sprintf("%v, %v", typeIdentifier.Module(), p.Package))
+
+			if !typeIdentifier.Module().Equals(*p.Package) {
+				mt.Package = typeIdentifier.Module().Name() + "."
+			}
 
 			for _, imp := range p.Imports {
 				if imp.Identifier.Equals(typeIdentifier.Module()) {
@@ -68,7 +75,7 @@ func PythonTypeMapper(d *descriptorpb.FieldDescriptorProto, mt *MappedType) {
 		mt.Expression = "str"
 	case descriptorpb.FieldDescriptorProto_TYPE_BOOL:
 		mt.Expression = "bool"
-	case descriptorpb.FieldDescriptorProto_TYPE_INT32, descriptorpb.FieldDescriptorProto_TYPE_INT64:
+	case descriptorpb.FieldDescriptorProto_TYPE_INT32, descriptorpb.FieldDescriptorProto_TYPE_INT64, descriptorpb.FieldDescriptorProto_TYPE_UINT32, descriptorpb.FieldDescriptorProto_TYPE_UINT64:
 		mt.Expression = "int"
 	}
 }
@@ -87,5 +94,9 @@ func GoTypeMapper(d *descriptorpb.FieldDescriptorProto, mt *MappedType) {
 		mt.Expression = "int32"
 	case descriptorpb.FieldDescriptorProto_TYPE_INT64:
 		mt.Expression = "int64"
+	case descriptorpb.FieldDescriptorProto_TYPE_UINT32:
+		mt.Expression = "uint32"
+	case descriptorpb.FieldDescriptorProto_TYPE_UINT64:
+		mt.Expression = "uint64"
 	}
 }

@@ -4,15 +4,19 @@
 
 package resources
 
+import (
+	"github.com/lxgr-linux/pokete/resources/base"
+)
+
 type BaseAssets struct {
-	Items        map[string]Item        `json:"items"`
-	Pokes        map[string]Poke        `json:"pokes"`
-	Attacks      map[string]Attack      `json:"attacks"`
-	Natures      map[string]Nature      `json:"natures"`
-	Weathers     map[string]Weather     `json:"weathers"`
-	Types        map[string]Type        `json:"types"`
-	SubTypes     []string               `json:"sub_types"`
-	Achievements map[string]Achievement `json:"achievements"`
+	Items        map[string]base.Item        `json:"items"`
+	Pokes        map[string]base.Poke        `json:"pokes"`
+	Attacks      map[string]base.Attack      `json:"attacks"`
+	Natures      map[string]base.Nature      `json:"natures"`
+	Weathers     map[string]base.Weather     `json:"weathers"`
+	Types        map[string]base.Type        `json:"types"`
+	SubTypes     []string                    `json:"sub_types"`
+	Achievements map[string]base.Achievement `json:"achievements"`
 }
 
 type MapTrainers struct {

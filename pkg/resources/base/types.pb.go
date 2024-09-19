@@ -4,6 +4,8 @@
 
 package base
 
+import ()
+
 type Type struct {
 	Effective   []string `json:"effective"`
 	Ineffective []string `json:"ineffective"`

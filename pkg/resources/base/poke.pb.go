@@ -4,26 +4,28 @@
 
 package base
 
+import ()
+
 type BaseIco struct {
-	Txt string  `json:"txt"`
-	Esc *string `json:"esc"`
+	Txt string   `json:"txt"`
+	Esc []string `json:"esc"`
 }
 
 type Poke struct {
 	Name        string    `json:"name"`
-	Hp          int32     `json:"hp"`
-	Atc         int32     `json:"atc"`
-	Defense     int32     `json:"defense"`
+	Hp          uint32    `json:"hp"`
+	Atc         uint32    `json:"atc"`
+	Defense     uint32    `json:"defense"`
 	Attacks     []string  `json:"attacks"`
 	Pool        []string  `json:"pool"`
-	MissChance  int32     `json:"miss_chance"`
+	MissChance  float32   `json:"miss_chance"`
 	Desc        string    `json:"desc"`
-	LoseXp      int32     `json:"lose_xp"`
-	Rarity      int32     `json:"rarity"`
+	LoseXp      uint32    `json:"lose_xp"`
+	Rarity      float32   `json:"rarity"`
 	Types       []string  `json:"types"`
 	EvolvePoke  string    `json:"evolve_poke"`
-	EvolveLvl   int32     `json:"evolve_lvl"`
-	Initiative  int32     `json:"initiative"`
+	EvolveLvl   uint32    `json:"evolve_lvl"`
+	Initiative  uint32    `json:"initiative"`
 	NightActive *bool     `json:"night_active"`
 	Ico         []BaseIco `json:"ico"`
 }

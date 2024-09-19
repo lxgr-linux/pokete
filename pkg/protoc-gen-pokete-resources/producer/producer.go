@@ -1,12 +1,11 @@
 package producer
 
 import (
-	"fmt"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/path"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/identifier"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"
-	"log/slog"
 	"slices"
+	"strings"
 )
 
 type TypeMapper func(d *descriptorpb.FieldDescriptorProto, mt *MappedType)
@@ -19,10 +18,11 @@ type TypeInfo struct {
 
 type Import struct {
 	ImportFile
-	Identifier path.Path
+	Identifier identifier.Identifier
 }
 
 type Producer struct {
+	Package    *identifier.Identifier
 	Model      *Model
 	Types      map[string]*TypeInfo
 	typeMapper TypeMapper
@@ -30,8 +30,10 @@ type Producer struct {
 }
 
 func (p *Producer) Produce(file *protogen.File) *Model {
+	id := identifier.FromIdentifier(string(file.Desc.Package()))
+	p.Package = &id
 	m := NewModel(file)
-	filePath := path.FromFile(file)
+	filePath := identifier.FromFile(file)
 	if len(file.Proto.MessageType) == 0 {
 		return nil
 	}
@@ -41,24 +43,24 @@ func (p *Producer) Produce(file *protogen.File) *Model {
 	for i := 0; i < file.Desc.Imports().Len(); i++ {
 		imp := file.Desc.Imports().Get(i)
 
-		imp.FullName()
-
-		pathIdentifier := path.New(imp.Path()).Relative(filePath.Module()).Module().Identifier()
+		pathIdentifier := identifier.FromPath(imp.Path()).Relative(filePath.Module()).Module().Identifier()
 		if slices.Contains(identifiers, pathIdentifier) {
 			continue
 		}
 
 		impOb := Import{
 			ImportFile{
-				Path: pathIdentifier,
+				IsSameMod:    file.Desc.Package() == imp.Package(),
+				Path:         pathIdentifier,
+				GoImportPath: identifier.FromUrl(strings.Trim(file.GoImportPath.String(), "\"")).Reduce(id).Extend(identifier.FromIdentifier(string(imp.Package()))).String(),
 			},
-			path.FromIdentifier(string(imp.Package())),
+			identifier.FromIdentifier(string(imp.Package())),
 		}
 
 		identifiers = append(identifiers, pathIdentifier)
 		p.Imports = append(p.Imports, &impOb)
 
-		slog.Warn(fmt.Sprintf("%+v", impOb))
+		//slog.Warn(fmt.Sprintf("%+v", impOb))
 	}
 
 	for _, message := range file.Proto.MessageType {

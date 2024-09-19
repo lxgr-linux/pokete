@@ -4,6 +4,8 @@
 
 package resources
 
+import ()
+
 type TrainerPokeArgs struct {
 	Name string `json:"name"`
 	Xp   int32  `json:"xp"`

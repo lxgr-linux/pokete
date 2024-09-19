@@ -4,6 +4,8 @@
 
 package base
 
+import ()
+
 type Item struct {
 	PrettyName string  `json:"pretty_name"`
 	Desc       string  `json:"desc"`

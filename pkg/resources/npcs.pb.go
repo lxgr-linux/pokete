@@ -4,6 +4,8 @@
 
 package resources
 
+import ()
+
 type Chat struct {
 	Q []string        `json:"q"`
 	A map[string]Chat `json:"a"`

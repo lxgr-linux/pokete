@@ -4,6 +4,8 @@
 
 package resources
 
+import ()
+
 type DorArgs struct {
 	X   int32  `json:"x"`
 	Y   int32  `json:"y"`

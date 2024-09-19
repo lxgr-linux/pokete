@@ -5,7 +5,7 @@ import (
 	_ "embed"
 	"flag"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/module_resolver"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/path"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/identifier"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/producer"
 	"google.golang.org/protobuf/compiler/protogen"
 	"log/slog"
@@ -69,7 +69,7 @@ func main() {
 func generateInnitPy(moduleResolver *module_resolver.ModuleResolver, gen *protogen.Plugin) error {
 	keys := maps.Keys(gen.FilesByPath)
 
-	var filePath *path.Path = nil
+	var filePath *identifier.Identifier = nil
 	var stringKeys []string
 
 	for s := range keys {
@@ -77,7 +77,7 @@ func generateInnitPy(moduleResolver *module_resolver.ModuleResolver, gen *protog
 	}
 
 	for _, s := range stringKeys {
-		mod := path.New(s).Module()
+		mod := identifier.FromPath(s).Module()
 
 		if filePath == nil || mod.Len() < filePath.Len() {
 			filePath = &mod
@@ -113,7 +113,7 @@ func generateInnitPy(moduleResolver *module_resolver.ModuleResolver, gen *protog
 }
 
 func generateFile(moduleResolver *module_resolver.ModuleResolver, gen *protogen.Plugin, file *protogen.File) error {
-	filePath := path.FromFile(file)
+	filePath := identifier.FromFile(file)
 	p := producer.PythonProducer()
 	m := p.Produce(file)
 	if m == nil {

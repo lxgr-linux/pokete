@@ -36,10 +36,10 @@ const (
 	contextKey_options
 )
 
-func PoketeContext(users Users, resources *resources.Resources, config *config.Config, client *bs_rpc.Client, connectionId uint64, positions Positions, options *options.Options) context.Context {
+func PoketeContext(users Users, r *resources.Resources, config *config.Config, client *bs_rpc.Client, connectionId uint64, positions Positions, options *options.Options) context.Context {
 	ctx := context.Background()
 	ctx = context.WithValue(ctx, contextKey_users, users)
-	ctx = context.WithValue(ctx, contextKey_resources, resources)
+	ctx = context.WithValue(ctx, contextKey_resources, r)
 	ctx = context.WithValue(ctx, contextKey_config, config)
 	ctx = context.WithValue(ctx, contextKey_client, client)
 	ctx = context.WithValue(ctx, contextKey_id, connectionId)

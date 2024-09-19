@@ -4,6 +4,8 @@
 
 package base
 
+import ()
+
 type Attack struct {
 	Name        string   `json:"name"`
 	Factor      float32  `json:"factor"`

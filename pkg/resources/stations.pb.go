@@ -4,6 +4,8 @@
 
 package resources
 
+import ()
+
 type StationGen struct {
 	Additionals []string `json:"additionals"`
 	Desc        string   `json:"desc"`

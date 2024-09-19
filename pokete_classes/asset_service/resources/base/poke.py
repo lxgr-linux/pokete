@@ -6,17 +6,17 @@ from typing import TypedDict
 
 class BaseIcoDict(TypedDict):
     txt: str
-    esc: str | None
+    esc: list[str]
 
 
 class BaseIco:
     def __init__(
         self,
         txt: str,
-        esc: str | None
+        esc: list[str]
     ):
         self.txt: str = txt
-        self.esc: str | None = esc
+        self.esc: list[str] = esc
 
     @classmethod
     def from_dict(cls, _d: BaseIcoDict | None) -> "BaseIco | None":
@@ -24,15 +24,14 @@ class BaseIco:
             return None
         return cls(
             txt=_d["txt"],
-            esc=_d.get("esc", None),
+            esc=_d["esc"],
         )
 
     def to_dict(self) -> BaseIcoDict:
         ret: BaseIcoDict = {}
         
         ret["txt"] = self.txt
-        if self.esc is not None:
-            ret["esc"] = self.esc
+        ret["esc"] = self.esc
         
         return ret
 
@@ -44,10 +43,10 @@ class PokeDict(TypedDict):
     defense: int
     attacks: list[str]
     pool: list[str]
-    miss_chance: int
+    miss_chance: float
     desc: str
     lose_xp: int
-    rarity: int
+    rarity: float
     types: list[str]
     evolve_poke: str
     evolve_lvl: int
@@ -65,10 +64,10 @@ class Poke:
         defense: int,
         attacks: list[str],
         pool: list[str],
-        miss_chance: int,
+        miss_chance: float,
         desc: str,
         lose_xp: int,
-        rarity: int,
+        rarity: float,
         types: list[str],
         evolve_poke: str,
         evolve_lvl: int,
@@ -82,10 +81,10 @@ class Poke:
         self.defense: int = defense
         self.attacks: list[str] = attacks
         self.pool: list[str] = pool
-        self.miss_chance: int = miss_chance
+        self.miss_chance: float = miss_chance
         self.desc: str = desc
         self.lose_xp: int = lose_xp
-        self.rarity: int = rarity
+        self.rarity: float = rarity
         self.types: list[str] = types
         self.evolve_poke: str = evolve_poke
         self.evolve_lvl: int = evolve_lvl

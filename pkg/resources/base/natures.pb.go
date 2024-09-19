@@ -4,7 +4,11 @@
 
 package base
 
-type Weather struct {
-	Info     string             `json:"info"`
-	Effected map[string]float32 `json:"effected"`
+import ()
+
+type Nature struct {
+	Esc  *string  `json:"esc"`
+	Atc  *float32 `json:"atc"`
+	Def  *float32 `json:"def_"`
+	Init *float32 `json:"init"`
 }

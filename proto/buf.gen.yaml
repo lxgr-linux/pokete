@@ -7,4 +7,5 @@ plugins:
     - plugin: pokete-resources-python
       out: ../pokete_classes/asset_service
     - plugin: pokete-resources-go
-      out: ../Buf
+      out: ../pkg
+      opt: paths=source_relative

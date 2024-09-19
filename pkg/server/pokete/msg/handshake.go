@@ -39,7 +39,7 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
 
 	position := getStartPosition(cfg)
 
-	err := troll.CheckPokes(res.GetPokes(), h.Pokes)
+	err := troll.CheckPokes(res.BaseAssets.Pokes, h.Pokes)
 	if err != nil {
 		return error2.NewInvalidPoke(err), err
 	}
@@ -63,7 +63,7 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
 		return nil, err
 	}
 
-	return map_info.NewInfo(res, position, u, opts.GreetingText), nil
+	return map_info.NewInfo(res.Assets, position, u, opts.GreetingText), nil
 }
 
 func getStartPosition(cfg *config.Config) user.Position {

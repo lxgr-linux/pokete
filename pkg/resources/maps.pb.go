@@ -4,6 +4,8 @@
 
 package resources
 
+import ()
+
 type PokeArgs struct {
 	Pokes  []string `json:"pokes"`
 	Minlvl int32    `json:"minlvl"`

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	_ "embed"
 	"flag"
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/identifier"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/module_resolver"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/path"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/producer"
 	"google.golang.org/protobuf/compiler/protogen"
 	"log/slog"
@@ -60,12 +60,14 @@ func main() {
 }
 
 func generateFile(moduleResolver *module_resolver.ModuleResolver, gen *protogen.Plugin, file *protogen.File) error {
-	filePath := path.FromFile(file)
+	filePath := identifier.FromFile(file)
 	p := producer.GoProducer()
 	m := p.Produce(file)
 	if m == nil {
 		return nil
 	}
+
+	//slog.Warn(fmt.Sprintf("%#v", *m))
 
 	moduleResolver.Add(filePath.Name(), m)
 
