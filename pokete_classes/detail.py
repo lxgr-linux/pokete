@@ -2,9 +2,9 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
-from pokete_classes.context import Context
-from pokete_classes.game import PeriodicEventManager
-from pokete_classes.poke import StatsInfoBox
+from .context import Context
+from .game import PeriodicEventManager
+from .poke.stats import StatsInfoBox
 from util import liner
 from .input import Action, get_action, _ev
 from .ui import Overview

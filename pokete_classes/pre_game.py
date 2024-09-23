@@ -1,6 +1,5 @@
 import scrap_engine as se
 
-from pokete_classes import ob_maps as obmp
 from pokete_classes.context import Context
 from pokete_classes.game import PeriodicEventManager, PeriodicEvent
 from pokete_classes.game_map import GameSubmap
@@ -36,7 +35,7 @@ class PreGameMap(GameSubmap, Overview):
 
     def __init__(self):
         super().__init__(
-            obmp.ob_maps["playmap_39"],
+            se.Map(background=" "),  # obmp.ob_maps["playmap_39"],
             0, 0,
             tss.height - 1, tss.width,
             "PreGameMap"

@@ -5,6 +5,7 @@ import scrap_engine as se
 
 from pokete_classes import ob_maps as obmp, movemap as mvp
 from pokete_classes.color import Color
+from pokete_classes.multiplayer.msg.position.update import User
 
 
 class RemotePlayer(se.Object):
@@ -98,6 +99,7 @@ class PCManager:
 
     def __init__(self):
         self.reg = {}
+        self.waiting_users: list[User] = []
 
     def set(self, name, _map, x, y):
         """Stets a remote player to a certain position
@@ -110,6 +112,15 @@ class PCManager:
             self.reg[name] = RemotePlayer(name)
         self.reg[name].remove()
         self.reg[name].add(obmp.ob_maps[_map], x, y)
+
+    def set_waiting_users(self):
+        for user in self.waiting_users:
+            pc_manager.set(
+                user["name"],
+                user["position"]["map"],
+                user["position"]["x"],
+                user["position"]["y"],
+            )
 
     def remove(self, name):
         """Removes a remote player

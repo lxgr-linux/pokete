@@ -15,7 +15,7 @@ class StatsDict(TypedDict):
 class NatureDict(TypedDict):
     nature: str
     grade: int
-    
+
 
 class PokeDict(TypedDict):
     name: str

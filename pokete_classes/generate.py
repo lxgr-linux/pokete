@@ -1,8 +1,11 @@
 """Generating maps"""
+import math
+
 import scrap_engine as se
 
 from pokete_classes.asset_service.service import asset_service
-from .asset_service.resources import Map, MapDict
+from pokete_classes.game import PeriodicEvent
+from .asset_service.resources import Map
 from pokete_classes.map_additions.center import CenterMap, ShopMap
 from pokete_classes.tss import tss
 from .landscape import Meadow, Water, Sand, Poketeball
@@ -13,6 +16,26 @@ from .doors import Door, DoorToShop, DoorToCenter
 from .npcs import NPC
 from .settings import settings
 from . import ob_maps as obmp
+
+
+class Playmap7Event(PeriodicEvent):
+    def __init__(self, fig):
+        self.fig = fig
+
+    def tick(self, tick: int):
+        _map = obmp.ob_maps["playmap_7"]
+        for obj in _map.get_obj("inner_walls").obs \
+                   + [i.main_ob for i in _map.trainers] \
+                   + [obmp.ob_maps["playmap_7"].get_obj(i)
+                      for i in
+                      asset_service.get_assets().obmaps["playmap_7"].balls if
+                      "playmap_7." + i not in self.fig.used_npcs
+                      or not settings("save_trainers").val]:
+            if obj.added and math.sqrt((obj.y - self.fig.y) ** 2
+                                       + (obj.x - self.fig.x) ** 2) <= 3:
+                obj.rechar(obj.bchar)
+            else:
+                obj.rechar(" ")
 
 
 def __parse_obj(_map, name, obj, _dict):
@@ -27,7 +50,7 @@ def __parse_obj(_map, name, obj, _dict):
 
 
 def gen_maps(
-    p_maps: dict[str, MapDict], extra_actions=None, fix_center=False
+    p_maps: dict[str, Map], extra_actions=None, fix_center=False
 ) -> dict[str, PlayMap]:
     """Generates all maps
     ARGS:
@@ -38,10 +61,14 @@ def gen_maps(
         Dict of all PlayMaps"""
     maps = {}
     for ob_map, args in p_maps.items():
-        args["extra_actions"] = (extra_actions.get(args["extra_actions"])
-                                 if args["extra_actions"] is not None
-                                 else None and extra_actions)
-        maps[ob_map] = PlayMap(name=ob_map, **args)
+        maps[ob_map] = PlayMap(
+            name=ob_map, height=args.height,
+            width=args.width, poke_args=args.poke_args,
+            w_poke_args=args.w_poke_args, weather=args.weather, song=args.song,
+            pretty_name=args.pretty_name, extra_actions=(
+                extra_actions.get(args.extra_actions)
+                if args.extra_actions is not None
+                else None and extra_actions))
 
     _h = tss.height - 1
     _w = tss.width
@@ -64,6 +91,12 @@ def gen_obs(figure):
         figure: Figure instance"""
 
     assets = asset_service.get_assets()
+
+    extra_actions: dict[str, list[PeriodicEvent]] = {
+        "playmap_7": [Playmap7Event(figure)]
+    }
+
+    obmp.ob_maps = gen_maps(assets.maps, extra_actions, True)
 
     # adding all trainer to map
     for i, map_trainers in assets.trainers.items():

@@ -1,7 +1,7 @@
 from typing import TypedDict
 
 import bs_rpc
-from pokete_classes.poke import PokeDict
+from pokete_classes.asset_service.resources.base import PokeDict
 
 UPDATE_TYPE = "pokete.position.update"
 

@@ -11,8 +11,8 @@ from .color import Color
 from .input import _ev, Action
 from .ui import notifier, Overview
 from .tss import tss
-from .multiplayer.pc_manager import pc_manager
-from . import loops, ob_maps as obmp, game_map as gm
+import pokete_classes.multiplayer.pc_manager as pc_manager
+from . import loops, game_map as gm
 
 
 class Movemap(gm.GameSubmap, Overview):
@@ -22,7 +22,7 @@ class Movemap(gm.GameSubmap, Overview):
         width: Width of the map"""
 
     def __init__(self, height, width):
-        super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
+        super().__init__(se.Map(), 0, 0,
                          height=height, width=width, name="movemap")
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
@@ -113,13 +113,13 @@ class Movemap(gm.GameSubmap, Overview):
         if notifier.notified:
             notifier.notification.remove()
             saved_coords = (self.width - notifier.notification.x)
-        for _, rmtplr in pc_manager.reg.items():
+        for _, rmtplr in pc_manager.pc_manager.reg.items():
             rmtplr.name_tag.remove()
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
         if notifier.notified:
             notifier.notification.add(self, self.width - saved_coords, 0)
-        for _, rmtplr in pc_manager.reg.items():
+        for _, rmtplr in pc_manager.pc_manager.reg.items():
             rmtplr.add_name_tag()
 
     def resize(self, height, width, background=" "):

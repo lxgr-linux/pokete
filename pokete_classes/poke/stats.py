@@ -4,9 +4,9 @@ from datetime import datetime
 
 import scrap_engine as se
 
-from .dicts import StatsDict
 from ..context import Context
 from ..input import Action
+from ..multiplayer.msg.poke import StatsDict
 from ..ui.elements import LabelBox
 from .. import loops
 

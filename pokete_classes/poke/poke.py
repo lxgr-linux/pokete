@@ -7,7 +7,6 @@ from datetime import datetime
 
 import scrap_engine as se
 from util import liner
-from .dicts import PokeDict
 from ..asset_service.service import asset_service
 from ..asset_service.resources.base import Poke as ResourcePoke
 from ..attack import Attack
@@ -16,6 +15,7 @@ from ..health_bar import HealthBar
 from .stats import Stats
 from ..color import Color
 from ..moves import Moves
+from ..multiplayer.msg.poke import PokeDict
 from ..types import types
 from ..effects import effects
 from ..learnattack import LearnAttack

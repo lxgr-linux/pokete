@@ -11,7 +11,6 @@ import time
 import os
 import sys
 import threading
-import math
 import socket
 import json
 import logging
@@ -21,15 +20,12 @@ import scrap_engine as se
 import pokete_data as p_data
 import release
 from pokete_classes.input.recogniser import recogniser
-from pokete_classes.map_additions.map_addtions import map_additions
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager, NameTag
 from pokete_classes.poke import Stats, EvoMap
 from pokete_classes.fight import ProtoFigure
-from pokete_classes.generate import gen_maps, gen_obs
 from pokete_classes import roadmap
-# import pokete_classes.generic_map_handler as gmh
 from pokete_classes import animations, loops
 from pokete_classes.context import Context
 from pokete_classes.inv import inv, buy
@@ -64,7 +60,7 @@ from pokete_classes.input import (
 )
 from pokete_classes.dex import Dex
 from pokete_classes.game import (
-    PeriodicEventManager, PeriodicEvent, MapChangeExeption
+    PeriodicEventManager, MapChangeExeption
 )
 from util import liner, sort_vers
 
@@ -322,27 +318,44 @@ class Figure(se.Object, ProtoFigure):
         self.caught_pokes = _si.get("caught_poketes", [])
         self.visited_maps = _si.get("visited_maps", ["playmap_1"])
         self.used_npcs = _si.get("used_npcs", [])
-        self.last_center_map = obmp.ob_maps[_si.get("last_center_map",
-                                                    "playmap_1")]
-        self.oldmap = obmp.ob_maps[_si.get("oldmap", "playmap_1")]
         self.direction = "t"
+        self.last_center_map = None
+        self.oldmap = None
+        self.oldmap_name = _si.get("oldmap", "playmap_1")
+        self.map_name = _si.get("map", "playmap_1")
+        self.last_center_map_name = _si.get("last_center_map",
+                                            "playmap_1")
+        self.x = _si["x"]
+        self.y = _si["y"]
+
+    def self_add(self):
+        try:
+            # Looking if figure would be in centermap,
+            # so the player may spawn out of the center
+            if self.map_name in ["centermap",
+                                 "shopmap"] and modeProvider.mode != Mode.MULTI:
+                _map = obmp.ob_maps[self.map_name]
+                self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
+            else:
+                if self.add(obmp.ob_maps[self.map_name], self.x, self.y) == 1:
+                    raise se.CoordinateError(
+                        self, obmp.ob_maps.get(self.map_name, "undefined map"),
+                        self.x, self.y)
+        except se.CoordinateError:
+            self.add(obmp.ob_maps["playmap_1"], 6, 5)
+        # self.add(obmp.ob_maps[self.map_name], self.x, self.y)
 
     def set_args(self, _si):
         """Processes data from save file
         ARGS:
             _si: session_info dict"""
-        try:
-            # Looking if figure would be in centermap,
-            # so the player may spawn out of the center
-            if _si["map"] in ["centermap", "shopmap"]:
-                _map = obmp.ob_maps[_si["map"]]
-                self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
-            else:
-                if self.add(obmp.ob_maps[_si["map"]], _si["x"], _si["y"]) == 1:
-                    raise se.CoordinateError(self, obmp.ob_maps[_si["map"]],
-                                             _si["x"], _si["y"])
-        except se.CoordinateError:
-            self.add(obmp.ob_maps["playmap_1"], 6, 5)
+        self.last_center_map = obmp.ob_maps.get(
+            _si.get(
+                "last_center_map",
+                "playmap_1"),
+            "playmap_1")
+        self.oldmap = obmp.ob_maps.get(_si.get("oldmap", "playmap_1"),
+                                       "playmap_1")
         mvp.movemap.name_label.rechar(self.name, esccode=Color.thicc)
         mvp.movemap.code_label.rechar(self.map.pretty_name)
         mvp.movemap.balls_label_rechar(self.pokes)
@@ -489,26 +502,6 @@ def codes(string):
 # Playmap extra action functions
 # Those are adding additional actions to playmaps
 #################################################
-
-class Playmap7Event(PeriodicEvent):
-    def tick(self, tick: int):
-        _map = obmp.ob_maps["playmap_7"]
-        for obj in _map.get_obj("inner_walls").obs \
-                   + [i.main_ob for i in _map.trainers] \
-                   + [obmp.ob_maps["playmap_7"].get_obj(i)
-                      for i in p_data.map_data["playmap_7"]["balls"] if
-                      "playmap_7." + i not in figure.used_npcs
-                      or not save_trainers]:
-            if obj.added and math.sqrt((obj.y - figure.y) ** 2
-                                       + (obj.x - figure.x) ** 2) <= 3:
-                obj.rechar(obj.bchar)
-            else:
-                obj.rechar(" ")
-
-
-extra_actions: dict[str, list[PeriodicEvent]] = {
-    "playmap_7": [Playmap7Event()]
-}
 
 
 # main functions
@@ -746,6 +739,7 @@ def main():
     hotkeys_from_save(session_info.get("hotkeys", {}),
                       loading_screen.map, ver_change)
     PreGameMap()(figure)
+    figure.set_args(session_info)
     game_map = figure.map
     if figure.name == "DEFAULT":
         intro(
@@ -817,7 +811,6 @@ copy of it alongside this software.""",
 
     # settings
     settings.from_dict(session_info.get("settings", {}))
-    save_trainers = settings("save_trainers").val
 
     if not load_mods:
         settings("load_mods").val = False
@@ -830,7 +823,7 @@ copy of it alongside this software.""",
     # but can be extended via map_additions()
     ############################################################
 
-    obmp.ob_maps = gen_maps(p_data.maps, extra_actions)
+    # obmp.ob_maps = gen_maps(p_data.maps, extra_actions)
 
     # Figure
     figure = Figure(session_info)
@@ -868,7 +861,7 @@ copy of it alongside this software.""",
     for _i in [NPC, Trainer]:
         _i.set_vars(NPCActions)
     notifier.set_vars(mvp.movemap)
-    figure.set_args(session_info)
+    #    figure.set_args(session_info)
 
     __t = time.time() - __t
     logging.info("[General] Startup took %fs", __t)

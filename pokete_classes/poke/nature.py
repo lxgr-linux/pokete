@@ -4,9 +4,8 @@ of their stats"""
 import random
 import scrap_engine as se
 from util import liner
-from .dicts import NatureDict
+from ..multiplayer.msg.poke import NatureDict
 from ..asset_service.service import asset_service
-from ..asset_service.resources.base import Nature as ResouceNature
 from ..context import Context
 from ..input import Action
 from ..ui.elements import LabelBox

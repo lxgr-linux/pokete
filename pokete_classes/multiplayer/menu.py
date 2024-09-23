@@ -4,6 +4,7 @@ import sys
 
 import scrap_engine as se
 
+from .pc_manager import pc_manager
 from .. import loops, roadmap
 from ..asset_service.service import asset_service
 from ..context import Context
@@ -50,7 +51,9 @@ class ModeChooser(BetterChooseBox):
                         else:
                             sys.exit()
                         # roadmap.RoadMap.check_maps()
-                        roadmap.roadmap = roadmap.RoadMap()
                         gen_obs(ctx.figure)
+                        ctx.figure.self_add()
+                        pc_manager.set_waiting_users()
+                        roadmap.roadmap = roadmap.RoadMap()
                         return
                 loops.std(ctx.with_overview(self))

@@ -1,4 +1,4 @@
-from .poke import Poke, PokeDict
+from .poke import Poke
 from .stats import Stats, StatsInfoBox
 from .nature import PokeNature
 from .evomap import EvoMap
