@@ -3,6 +3,7 @@
 import random
 import scrap_engine as se
 from pokete_classes import timer, movemap as mvp
+from .asset_service.resources import PokeArgs
 from .asset_service.service import asset_service
 from .context import Context
 from .fight import Fight, NatureProvider
@@ -22,6 +23,7 @@ class MapInteract:
 
 class HighGrass(se.Object, MapInteract):
     """Object on the map, that triggers a fight"""
+    arg_proto: PokeArgs
 
     def action(self, ob):
         """Action triggers the fight
@@ -31,7 +33,7 @@ class HighGrass(se.Object, MapInteract):
                     or timer.time.normalized > 1320)
         all_pokes = asset_service.get_base_assets().pokes
         pokes = {i: all_pokes[i]
-                 for i in self.arg_proto["pokes"]
+                 for i in self.arg_proto.pokes
                  if (n_a := all_pokes[i].night_active) is None
                  or (not n_a and not is_night)
                  or (n_a and is_night)}
@@ -48,8 +50,8 @@ class HighGrass(se.Object, MapInteract):
                             )[0],
                             random.choice(
                                 range(
-                                    self.arg_proto["minlvl"],
-                                    self.arg_proto["maxlvl"]
+                                    self.arg_proto.minlvl,
+                                    self.arg_proto.maxlvl
                                 )
                             )
                         )
