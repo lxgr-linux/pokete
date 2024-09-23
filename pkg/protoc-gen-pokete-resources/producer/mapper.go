@@ -41,8 +41,6 @@ func (p *Producer) MapType(d *descriptorpb.FieldDescriptorProto) (mt MappedType)
 			mt.IsPurelyDomestic = false
 			typeIdentifier := identifier.FromIdentifier(strings.TrimLeft(*d.TypeName, "."))
 
-			slog.Warn(fmt.Sprintf("%v, %v", typeIdentifier.Module(), p.Package))
-
 			if !typeIdentifier.Module().Equals(*p.Package) {
 				mt.Package = typeIdentifier.Module().Name() + "."
 			}

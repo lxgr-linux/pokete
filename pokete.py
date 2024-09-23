@@ -353,9 +353,9 @@ class Figure(se.Object, ProtoFigure):
             _si.get(
                 "last_center_map",
                 "playmap_1"),
-            "playmap_1")
+            PlayMap())
         self.oldmap = obmp.ob_maps.get(_si.get("oldmap", "playmap_1"),
-                                       "playmap_1")
+                                       PlayMap())
         mvp.movemap.name_label.rechar(self.name, esccode=Color.thicc)
         mvp.movemap.code_label.rechar(self.map.pretty_name)
         mvp.movemap.balls_label_rechar(self.pokes)
