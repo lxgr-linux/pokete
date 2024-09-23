@@ -25,7 +25,7 @@ pokes: dict[str, PokeDict] = {
         "initiative": 0,
         "ico": [{
             "txt": """ """,
-            "esc": None}],
+            "esc": []}],
     },
     "steini": {
         "name": "Steini",
@@ -47,7 +47,7 @@ pokes: dict[str, PokeDict] = {
  | o   o |
  |  www  |
  +-------+ """,
-            "esc": None}],
+            "esc": []}],
     },
     "mowcow": {
         "name": "Mowcow",
@@ -68,7 +68,7 @@ pokes: dict[str, PokeDict] = {
             "txt": r"""    ^__^
     (oo)
     (__)""",
-            "esc": None}],
+            "esc": []}],
     },
     "bigstone": {
         "name": "Bigstone",
@@ -90,7 +90,7 @@ pokes: dict[str, PokeDict] = {
 |  o   o  |
 |   ---   |
 +---------+""",
-            "esc": None}],
+            "esc": []}],
     },
     "poundi": {
         "name": "Poundi",
@@ -112,7 +112,7 @@ pokes: dict[str, PokeDict] = {
   < o o >
   < --- >
    VvVvV""",
-            "esc": None}],
+            "esc": []}],
     },
     "lilstone": {
         "name": "Lilstone",
@@ -134,7 +134,7 @@ pokes: dict[str, PokeDict] = {
    _____
    |'ᵕ'|
    ‾‾‾‾‾""",
-            "esc": None}],
+            "esc": []}],
     },
     "rosi": {
         "name": "Rosi",
@@ -156,7 +156,7 @@ pokes: dict[str, PokeDict] = {
     (@)
      |
     \|/""",
-            "esc": None}],
+            "esc": []}],
     },
     "wheeto": {
         "name": "Wheeto",
@@ -178,7 +178,7 @@ pokes: dict[str, PokeDict] = {
     \|/
     \|/
      |""",
-            "esc": None}],
+            "esc": []}],
     },
     "saugh": {
         "name": "Saugh",
@@ -228,7 +228,7 @@ pokes: dict[str, PokeDict] = {
  ░░o░░░o░░
  ░░░░░░░░░
  ░ ░ ░ ░ ░""",
-            "esc": None}],
+            "esc": []}],
     },
     "angrilo": {
         "name": "Angrilo",
@@ -250,7 +250,7 @@ pokes: dict[str, PokeDict] = {
  ░░\░░░/░░
  .░░( )░░.
 .         .""",
-            "esc": None}],
+            "esc": []}],
     },
     "vogli": {
         "name": "Vogli",
@@ -272,7 +272,7 @@ pokes: dict[str, PokeDict] = {
    <')
     www*
     ||     """,
-            "esc": None}]
+            "esc": []}]
     },
     "voglo": {
         "name": "Voglo",
@@ -294,7 +294,7 @@ pokes: dict[str, PokeDict] = {
    >´)
     www*
     ||     """,
-            "esc": None}]
+            "esc": []}]
     },
     "voglus": {
         "name": "Voglus",
@@ -316,7 +316,7 @@ pokes: dict[str, PokeDict] = {
    > }
     WWW'
     ||""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": """
     ´""",
             "esc": ["thicc", "red"]}]
@@ -342,7 +342,7 @@ it will try to peck out your eyes.",
   >´)
     \www'
      ||""",
-            "esc": None}]
+            "esc": []}]
     },
     "karpi": {
         "name": "Karpi",
@@ -364,7 +364,7 @@ it will try to peck out your eyes.",
 
   <°))))><
            """,
-            "esc": None}]
+            "esc": []}]
     },
     "würgos": {
         "name": "Würgos",
@@ -386,7 +386,7 @@ it will try to peck out your eyes.",
   }}}}}}}
  {{{{{{{{{
            """,
-            "esc": None}]
+            "esc": []}]
     },
     "choka": {
         "name": "Choka",
@@ -408,7 +408,7 @@ it will try to peck out your eyes.",
 /____ * \
  (   \   \
 \______   \ """,
-            "esc": None}]
+            "esc": []}]
     },
     "treenator": {
         "name": "Treenator",
@@ -431,7 +431,7 @@ it will try to peck out your eyes.",
    (()))
      H
      H""",
-            "esc": None}]
+            "esc": []}]
     },
     "bato": {
         "name": "Bato",
@@ -452,7 +452,7 @@ it will try to peck out your eyes.",
             "txt": r"""    ___
 WW\/* *\/WW
    \v-v/""",
-            "esc": None}]
+            "esc": []}]
     },
     "bator": {
         "name": "Bator",
@@ -474,7 +474,7 @@ WW\/* *\/WW
 WW\/o o\/WW
    |v-v|
    \___/""",
-            "esc": None}]
+            "esc": []}]
     },
     "blub": {
         "name": "Blub",
@@ -496,7 +496,7 @@ WW\/o o\/WW
  / o   \
  >   v  ><
  \_____/""",
-            "esc": None}]
+            "esc": []}]
     },
     "owol": {
         "name": "Owol",
@@ -520,7 +520,7 @@ WW\/o o\/WW
    /)_)
     ""
 """,
-            "esc": None}]
+            "esc": []}]
     },
     "rato": {
         "name": "Rato",
@@ -541,7 +541,7 @@ WW\/o o\/WW
             "txt": r"""   ^---^
    \o o/
    >\./<""",
-            "esc": None}]
+            "esc": []}]
     },
     "ratatat": {
         "name": "Ratatat",
@@ -563,7 +563,7 @@ WW\/o o\/WW
    \   /
    >VvV<
     ^^^""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
     * *""",
             "esc": ["thicc", "green"]}]
@@ -588,7 +588,7 @@ WW\/o o\/WW
  =')~
    (¯¯¯¯)~
    //¯¯\\ """,
-            "esc": None}]
+            "esc": []}]
     },
     "horny": {
         "name": "Horny",
@@ -610,7 +610,7 @@ WW\/o o\/WW
  =')
    (¯¯¯)~
    //¯\\ """,
-            "esc": None}]
+            "esc": []}]
     },
     "bushy": {
         "name": "Bushy",
@@ -631,7 +631,7 @@ WW\/o o\/WW
             "txt": r"""
     (()
    (()))""",
-            "esc": None}]
+            "esc": []}]
     },
     "wolfior": {
         "name": "Wolfior",
@@ -652,7 +652,7 @@ WW\/o o\/WW
             "txt": r"""   ^---^
    (   )
    >(.)<""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
     * *
         """,
@@ -677,7 +677,7 @@ WW\/o o\/WW
             "txt": r"""   \^-^/
    {   }
    >{.}<""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
     * *
         """,
@@ -704,7 +704,7 @@ WW\/o o\/WW
 /v___/  \
 \-^-/_   \
       \_""",
-                "esc": None
+                "esc": []
             }, {
                 "txt": r""" .
       *""",
@@ -732,7 +732,7 @@ WW\/o o\/WW
   / o o \
   | ___ |
   \_____/""",
-            "esc": None}]
+            "esc": []}]
     },
     "clampi": {
         "name": "Clampi",
@@ -753,7 +753,7 @@ WW\/o o\/WW
             "txt": r"""    ___
   -/   \-
   -\___/-""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
      *""",
             "esc": ["lightblue"]}]
@@ -777,7 +777,7 @@ WW\/o o\/WW
             "txt": r""" (  ___  )
   \-   -/
    ^   ^""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
     * *""",
             "esc": ["lightblue"]}]
@@ -802,7 +802,7 @@ or not you borrowed something.",
             "txt": r""" {  ^^^  }
   \-   -/
    ^   ^""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
     * *""",
             "esc": ["lightblue"]}]
@@ -825,7 +825,7 @@ or not you borrowed something.",
         "ico": [{
             "txt": r"""
     ( )""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": """
      +""",
             "esc": ["lightblue"]}]
@@ -849,7 +849,7 @@ or not you borrowed something.",
             "txt": r"""   -----
    |   |
    -----""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
     * *""",
             "esc": ["lightblue"]}, {
@@ -879,7 +879,7 @@ or not you borrowed something.",
             "txt": r"""  -------
   |     |
   -------""",
-            "esc": None},
+            "esc": []},
             {
                 "txt": r"""
     * *""",
@@ -912,7 +912,7 @@ that will confuse the shit out of you.",
             "txt": r"""
      _
     (_) """,
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""        }
       {
        }""",
@@ -942,7 +942,7 @@ that will confuse the shit out of you.",
        .
  .__ |/|
   \_\||/""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
      w""",
             "esc": ["purple"]},
@@ -1053,7 +1053,7 @@ that will confuse the shit out of you.",
     |/.
 .__\|/|
  \_\||/ """,
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""    w w
   w""",
             "esc": ["purple"]},
@@ -1080,7 +1080,7 @@ that will confuse the shit out of you.",
     |\
     |'\
     \_|""",
-            "esc": None}
+            "esc": []}
         ]
     },
     "corcos_night": {
@@ -1104,7 +1104,7 @@ that will confuse the shit out of you.",
     |\
     |'\
     \_|""",
-            "esc": None}
+            "esc": []}
         ]
     },
     "raupathor_day": {
@@ -1129,7 +1129,7 @@ that will confuse the shit out of you.",
  ()__)__)}´
   '  '  '
  """,
-            "esc": None}
+            "esc": []}
         ]
     },
     "raupathor_night": {
@@ -1152,7 +1152,7 @@ that will confuse the shit out of you.",
             "txt": r"""
    __ __
  ()__)__)}´""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
   .  .  .
 
@@ -1180,7 +1180,7 @@ that will confuse the shit out of you.",
             "txt": r""" .__ o __.
   \_\|/_/
   /_/'\_\ """,
-            "esc": None}
+            "esc": []}
         ]
     },
     "mothor": {
@@ -1203,7 +1203,7 @@ that will confuse the shit out of you.",
             "txt": r"""  __`o´__
   \_\|/_/
   /_/'\_\ """,
-            "esc": None}, {
+            "esc": []}, {
             "txt": r""" .       .
 
 
@@ -1231,7 +1231,7 @@ that will confuse the shit out of you.",
 
     __
    ('')""",
-            "esc": None}
+            "esc": []}
         ]
     },
     "dicki": {
@@ -1254,7 +1254,7 @@ that will confuse the shit out of you.",
     __
    ('')
    |  |""",
-            "esc": None}
+            "esc": []}
         ]
     },
     "dicko": {
@@ -1277,7 +1277,7 @@ that will confuse the shit out of you.",
    ('')
    |  |
    |  |""",
-            "esc": None}
+            "esc": []}
         ]
     },
     "diamondos": {
@@ -1300,7 +1300,7 @@ that will confuse the shit out of you.",
 
     o o
      -""",
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
     /\ /
        >
@@ -1333,7 +1333,7 @@ that will confuse the shit out of you.",
  /O   _\/))
  >_((((/\))
    ((((""",
-            "esc": None}]
+            "esc": []}]
     },
     "bablbam": {
         "name": "Bablbam",
@@ -1354,7 +1354,7 @@ that will confuse the shit out of you.",
             "txt": r"""   (.)~
   -)_(-U
  / ; \ """,
-            "esc": None}]
+            "esc": []}]
     },
     "kakraholt": {
         "name": "Kakraholt",
@@ -1376,7 +1376,7 @@ that will confuse the shit out of you.",
     O O
    /( )\
   /\|^|/\  """,
-            "esc": None}, {
+            "esc": []}, {
             "txt": r"""
 
 ->>     ->>""",
@@ -1405,7 +1405,7 @@ that will confuse the shit out of you.",
             "txt": r"""  (0)(0)
  /  ''  \
 w        w""",
-            "esc": None}]
+            "esc": []}]
     },
     "uberpavous": {
         "name": "Uberpavous",
@@ -1427,7 +1427,7 @@ w        w""",
  //\0_0/\\
 //  '''  \\
 W         W""",
-            "esc": None}]
+            "esc": []}]
     },
 }
 

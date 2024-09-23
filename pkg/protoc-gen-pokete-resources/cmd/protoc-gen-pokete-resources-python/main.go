@@ -34,6 +34,9 @@ var headerTmpl string
 //go:embed templates/imports.tmpl
 var importsTmpl string
 
+//go:embed templates/validate.tmpl
+var validateTmpl string
+
 var suffixFlag string
 
 func main() {
@@ -171,6 +174,11 @@ func generateFile(moduleResolver *module_resolver.ModuleResolver, gen *protogen.
 	}
 
 	_, err = tmpl.New("marshall").Parse(marshallTmpl)
+	if err != nil {
+		return err
+	}
+
+	_, err = tmpl.New("validate").Parse(validateTmpl)
 	if err != nil {
 		return err
 	}

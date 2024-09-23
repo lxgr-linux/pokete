@@ -83,7 +83,7 @@ class CommunicationService:
                 raise InvalidPokeException(data["error"])
             case map_info.INFO_TYPE:
                 data: map_info.InfoData = resp.data
-                asset_service.load_assets(Assets.from_dict(data["assets"]))
+                asset_service.load_assets(data["assets"])
                 pos = data["position"]
                 self.saved_pos = (
                     ctx.figure.map_name,

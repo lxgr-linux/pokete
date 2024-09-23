@@ -9,6 +9,6 @@ import ()
 type Item struct {
 	PrettyName string  `json:"pretty_name"`
 	Desc       string  `json:"desc"`
-	Price      int32   `json:"price"`
+	Price      *int32  `json:"price"`
 	Fn         *string `json:"fn"`
 }

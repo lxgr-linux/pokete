@@ -4,6 +4,6 @@ package pokete.resources.base;
 message Item {
     string PrettyName = 1;
     string Desc = 2;
-    int32 Price = 3;
+    optional int32 Price = 3;
     optional string Fn = 4;
 }
