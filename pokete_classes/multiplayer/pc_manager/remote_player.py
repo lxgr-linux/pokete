@@ -1,21 +1,23 @@
-"""Manages remote players"""
-import logging
-
 import scrap_engine as se
 
-from pokete_classes import ob_maps as obmp, movemap as mvp
-from pokete_classes.color import Color
-from pokete_classes.multiplayer.msg.position.update import User
+from ...color import Color
+from ...interactions import Interactor, MultiTextChooseBox
+from ...landscape import MapInteract
+from ... import movemap as mvp
 
 
-class RemotePlayer(se.Object):
+class RemotePlayer(se.Object, MapInteract, Interactor):
     """A remote player
     ARGS:
         name: The players name"""
 
     def __init__(self, name):
         super().__init__("a", "float")
+        self.name = name
         self.name_tag = NameTag(name)
+        self.interaction_choose_box = MultiTextChooseBox(
+            ["fight", "cancel"],
+            "Interact")
 
     def add(self, _map, x, y):
         """Adds the player remoteplayer to the map
@@ -41,11 +43,10 @@ class RemotePlayer(se.Object):
         self.add_name_tag()
 
 
-class NameTag(se.Box):
+class NameTag(se.Box, MapInteract):
     """Nametag that shows the RemotePlayers name
     ARGS:
         name: The remote players name"""
-    fig = None
 
     def __init__(self, name):
         super().__init__(2, len(name))
@@ -64,7 +65,7 @@ class NameTag(se.Box):
             player_map: The map the remte player is on
             x: The X-coordinate
             y: The Y-coordinate"""
-        if player_map == self.fig.map:
+        if player_map == self.ctx.figure.map:
             self.add(
                 mvp.movemap,
                 x - mvp.movemap.x - round(self.width / 2),
@@ -85,61 +86,3 @@ class NameTag(se.Box):
             ):  # Avoid crashing, when out of view
                 obj.add(self.map, obj.rx + self.x, obj.ry + self.y)
         self.added = True
-
-    @classmethod
-    def set_args(cls, fig):
-        """Sets class args
-        ARGS:
-            fig: Figure instance"""
-        cls.fig = fig
-
-
-class PCManager:
-    """Manages remote players"""
-
-    def __init__(self):
-        self.reg = {}
-        self.waiting_users: list[User] = []
-
-    def set(self, name, _map, x, y):
-        """Stets a remote player to a certain position
-        ARGS:
-            name: The players name
-            _map: The maps name to add them to
-            x: X-coordniate
-            y: Y-ccordniate"""
-        if name not in self.reg:
-            self.reg[name] = RemotePlayer(name)
-        self.reg[name].remove()
-        self.reg[name].add(obmp.ob_maps[_map], x, y)
-
-    def set_waiting_users(self):
-        for user in self.waiting_users:
-            pc_manager.set(
-                user["name"],
-                user["position"]["map"],
-                user["position"]["x"],
-                user["position"]["y"],
-            )
-
-    def remove(self, name):
-        """Removes a remote player
-        ARGS:
-            name: The Players name"""
-        pc = self.reg.get(name, None)
-        if pc is None:
-            logging.warning(
-                "[PCManager] Trying to remove player with name `%s`, "
-                "but is not present",
-                name)
-            return
-        pc.remove()
-        del self.reg[name]
-
-    def movemap_move(self):
-        """Handles the movemap moving"""
-        for _, rmtpl in self.reg.items():
-            rmtpl.readd_name_tag()
-
-
-pc_manager = PCManager()

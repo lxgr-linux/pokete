@@ -5,13 +5,14 @@ import logging
 import random
 import scrap_engine as se
 from release import SPEED_OF_TIME
+from .asset_service.resources import Chat
 from .context import Context
 from .fight import Fight, Provider, AttackResult
-from .input import ACTION_UP_DOWN, Action, get_action
+from .input import get_action
 from .input_loops import ask_bool
+from .interactions import MultiTextChooseBox, Interactor
 from .inv import invitems
 from .settings import settings
-from .ui.elements import ChooseBox
 from .general import check_walk_back
 from .landscape import MapInteract
 from . import movemap as mvp, loops
@@ -31,7 +32,7 @@ class NPCTrigger(se.Object):
         self.npc.action()
 
 
-class NPC(se.Box, MapInteract):
+class NPC(se.Box, MapInteract, Interactor):
     """An NPC to talk to"""
     npcactions = None
     registry = {}
@@ -50,7 +51,8 @@ class NPC(se.Box, MapInteract):
             name: The NPCs name"""
         return cls.registry[name]
 
-    def __init__(self, name, texts, _fn=None, chat=None, side_trigger=True):
+    def __init__(self, name, texts, _fn=None, chat: Chat | None = None,
+                 side_trigger=True):
         super().__init__(0, 0)
         self.name = name
         self.texts = texts
@@ -65,24 +67,6 @@ class NPC(se.Box, MapInteract):
                 self.add_ob(NPCTrigger(self), i, j)
         self.add_ob(self.main_ob, 0, 0)
         NPC.registry[self.name] = self
-
-    def text(self, text):
-        """Movemap.text wrapper
-        ARGS:
-            text: Text that should be printed"""
-        mvp.movemap.text(self.ctx, self.x, self.y, text)
-
-    def exclamate(self):
-        """Shows the exclamation on top of a NPC"""
-        exclamation = se.Object("!")
-        try:
-            exclamation.add(mvp.movemap, self.x - mvp.movemap.x,
-                            self.y - 1 - mvp.movemap.y)
-        except se.CoordinateError:
-            pass
-        mvp.movemap.show()
-        time.sleep(SPEED_OF_TIME * 1)
-        exclamation.remove()
 
     def action(self):
         """Interaction with the NPC triggered by NPCTrigger.action"""
@@ -99,40 +83,6 @@ class NPC(se.Box, MapInteract):
         """The function that's executed after the interaction"""
         if self.__fn is not None:
             getattr(self.npcactions, self.__fn)(self)
-
-    def check_walk(self, _x, _y):
-        """Checks whether the NPC can walk to a point or not
-        ARGS:
-            _x: X-coordinate
-            _y: Y-coordinate
-        RETURNS:
-            bool: Whether or not the walk is possible"""
-        vec = se.Line(" ", _x - self.x, _y - self.y)
-        ret = not any([any(j.state == "solid"
-                           for j in
-                           self.map.obmap[i.ry + self.y][i.rx + self.x])
-                       for i in vec.obs][1:])
-        logging.info("[NPC][%s] %s walk check to (%d|%d)",
-                     self.name, 'Succeeded' if ret else 'Failed', _x, _y)
-        return ret
-
-    def walk_point(self, _x, _y):
-        """Walks the NPC tp a certain point
-        ARGS:
-            _x: X-coordinate
-            _y: Y-coordinate
-        RETURNS:
-            bool: Whether or not the walk succeeded"""
-        o_x = self.x
-        o_y = self.y
-        vec = se.Line(" ", _x - o_x, _y - o_y)
-        if not self.check_walk(_x, _y):
-            return False
-        for i in vec.obs:
-            self.set(i.rx + o_x, i.ry + o_y)
-            mvp.movemap.full_show()
-            time.sleep(SPEED_OF_TIME * 0.2)
-        return True
 
     def give(self, name, item):
         """Method that gifts an item to the player
@@ -162,67 +112,20 @@ Do you want to accept it?"):
 
     def chat(self):
         """Starts a question-answer chat"""
-        q_a = self.q_a
+        q_a: Chat = self.q_a
         if q_a == {}:
             return
         while True:
-            self.text(q_a["q"])
+            self.text(q_a.q)
             while get_action() is None:
                 loops.std(self.ctx)
-            if q_a["a"] == {}:
+            if q_a.a == {}:
                 break
-            q_a = q_a["a"][
+            q_a = q_a.a[
                 MultiTextChooseBox(
-                    list(q_a["a"].keys())
+                    list(q_a.a.keys()), "Answer"
                 )(self.ctx)
             ]
-
-
-class MultiTextChooseBox(ChooseBox):
-    """ChooseBox wrapper for multitext conversations"""
-
-    def __init__(self, keys):
-        super().__init__(
-            len(keys) + 2,
-            sorted(len(i) for i in keys)[-1] + 6,
-            name="Answer",
-            c_obs=[se.Text(i, state="float") for i in keys],
-        )
-        self.fig = None
-        self.keys = keys
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.remove()
-        self.overview.resize_view()
-        mvp.movemap.assure_distance(
-            self.fig.x, self.fig.y,
-            self.width + 2, self.height + 2
-        )
-        self.add(
-            mvp.movemap,
-            self.fig.x - mvp.movemap.x,
-            self.fig.y - mvp.movemap.y + 1
-        )
-
-    def __call__(self, ctx: Context) -> int:
-        self.set_ctx(ctx)
-        self.fig = ctx.figure
-        self.frame.corners[0].rechar("^")
-        mvp.movemap.assure_distance(self.fig.x, self.fig.y,
-                                    self.width + 2, self.height + 2)
-        with self.add(ctx.map, self.fig.x - mvp.movemap.x,
-                      self.fig.y - mvp.movemap.y + 1):
-            while True:
-                action = get_action()
-                if action.triggers(*ACTION_UP_DOWN):
-                    self.input(action)
-                    mvp.movemap.full_show()
-                elif action.triggers(Action.ACCEPT):
-                    key = self.keys[self.index.index]
-                    break
-                loops.std(ctx.with_overview(self))
-        return key
 
 
 class Trainer(NPC, Provider):

@@ -22,7 +22,7 @@ import release
 from pokete_classes.input.recogniser import recogniser
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
-from pokete_classes.multiplayer.pc_manager import pc_manager, NameTag
+from pokete_classes.multiplayer.pc_manager import pc_manager
 from pokete_classes.poke import Stats, EvoMap
 from pokete_classes.fight import ProtoFigure
 from pokete_classes import roadmap
@@ -827,7 +827,6 @@ copy of it alongside this software.""",
 
     # Figure
     figure = Figure(session_info)
-    NameTag.set_args(figure)
 
     # gen_obs(p_data.map_data, p_data.npcs, p_data.trainers, figure)
     # map_additions(figure)

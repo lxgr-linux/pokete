@@ -11,6 +11,7 @@ from ..context import Context
 from ..generate import gen_obs
 from ..input import get_action, ACTION_DIRECTIONS, Action
 from ..input_loops import ask_ok
+from ..landscape import MapInteract
 from ..multiplayer.modeprovider import modeProvider, Mode
 from ..ui.elements import BetterChooseBox
 from . import connector
@@ -52,6 +53,7 @@ class ModeChooser(BetterChooseBox):
                         # roadmap.RoadMap.check_maps()
                         gen_obs(ctx.figure)
                         ctx.figure.self_add()
+                        MapInteract.set_ctx(ctx)
                         pc_manager.set_waiting_users()
                         roadmap.roadmap = roadmap.RoadMap()
                         return
