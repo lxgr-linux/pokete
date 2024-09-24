@@ -1,6 +1,5 @@
 """Contains Classes to manage in-game time"""
 
-import logging
 import time as time_mod
 import scrap_engine as se
 from release import SPEED_OF_TIME
@@ -20,7 +19,7 @@ letters = [
  ##""",
     """  #
  ##
-  #
+  #yw
   #
  ###""",
     """ ##

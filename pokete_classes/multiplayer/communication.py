@@ -2,7 +2,6 @@ import threading
 import socket
 
 import bs_rpc
-from pokete_classes.asset_service.resources import Assets
 from pokete_classes.asset_service.service import asset_service
 from pokete_classes.context import Context
 from pokete_classes.multiplayer import msg

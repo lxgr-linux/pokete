@@ -6,10 +6,11 @@ import scrap_engine as se
 
 from .pc_manager import pc_manager
 from .. import loops, roadmap
-from ..asset_service.service import asset_service
+from ..asset_service.service import asset_service, ValidationException
 from ..context import Context
 from ..generate import gen_obs
 from ..input import get_action, ACTION_DIRECTIONS, Action
+from ..input_loops import ask_ok
 from ..multiplayer.modeprovider import modeProvider, Mode
 from ..ui.elements import BetterChooseBox
 from . import connector
@@ -28,10 +29,8 @@ class ModeChooser(BetterChooseBox):
             ], name="Mode"
         )
 
-    def __call__(self, ctx: Context):
-        """Opens the menu"""
-        self.set_ctx(ctx)
-        with self:
+    def __choose(self, ctx: Context):
+        try:
             while True:
                 action = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
@@ -57,3 +56,13 @@ class ModeChooser(BetterChooseBox):
                         roadmap.roadmap = roadmap.RoadMap()
                         return
                 loops.std(ctx.with_overview(self))
+        except ValidationException as e:
+            ask_ok(ctx.with_overview(self),
+                   f"An error ocured validating game data:\n{e}")
+            self.__choose(ctx)
+
+    def __call__(self, ctx: Context):
+        """Opens the menu"""
+        self.set_ctx(ctx)
+        with self:
+            self.__choose(ctx)
