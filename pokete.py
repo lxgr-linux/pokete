@@ -706,23 +706,6 @@ town.",
                             "Now go out and become the best!"])
 
 
-def check_version(sinfo):
-    """Checks if version in save file is the same as current version
-    ARGS:
-        sinfo: session_info dict"""
-    if "ver" not in sinfo:
-        return False
-    ver = sinfo["ver"]
-    if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
-        if not ask_bool(loading_screen.map,
-                        liner(f"The save file was created \
-on version '{ver}', the current version is '{VERSION}', \
-such a downgrade may result in data loss! \
-Do you want to continue?", int(tss.width * 2 / 3))):
-            sys.exit()
-    return VERSION != ver
-
-
 def main():
     """Main function"""
     os.system("")
@@ -734,11 +717,7 @@ def main():
     recognising.start()
     autosaving.start()
 
-    ver_change = check_version(session_info)
-    # hotkeys
-    hotkeys_from_save(session_info.get("hotkeys", {}),
-                      loading_screen.map, ver_change)
-    PreGameMap()(figure)
+    PreGameMap()(session_info, figure)
     figure.set_args(session_info)
     game_map = figure.map
     if figure.name == "DEFAULT":

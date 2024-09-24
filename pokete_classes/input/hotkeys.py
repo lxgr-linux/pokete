@@ -55,6 +55,8 @@ class Action(Enum):
     QUICK_ATC_3 = auto()
     QUICK_ATC_4 = auto()
 
+    INTERACT = auto()
+
     @property
     def mapping(self):
         """Returns the current mapped char"""
@@ -155,6 +157,8 @@ hotkey_mappings = {
     'z': ActionList([Action.QUICK_ATC_1]),
     'x': ActionList([Action.QUICK_ATC_2]),
     'v': ActionList([Action.QUICK_ATC_4]),
+
+    '#': ActionList([Action.INTERACT]),
 }
 
 
@@ -172,7 +176,7 @@ def hotkeys_save():
             hotkey_mappings.items()}
 
 
-def hotkeys_from_save(save, _map, version_change):
+def hotkeys_from_save(ctx, save, version_change):
     """Sets hotkey_mappings from save"""
     from ..input_loops import ask_bool
     global hotkey_mappings
@@ -196,7 +200,7 @@ def hotkeys_from_save(save, _map, version_change):
         if get_mapping(action, new_hotkey_mappings) is None
     ]
     if unset:
-        if version_change or ask_bool(_map, f"""The folowing keys are not set:
+        if version_change or ask_bool(ctx, f"""The folowing keys are not set:
 {liner(", ".join([i.name for i in unset]), 60)}
 Should defaults be loaded for those keys?"""):
             for action in unset:

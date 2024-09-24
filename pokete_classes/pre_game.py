@@ -1,11 +1,17 @@
+import sys
+
 import scrap_engine as se
 
 from pokete_classes.context import Context
 from pokete_classes.game import PeriodicEventManager, PeriodicEvent
 from pokete_classes.game_map import GameSubmap
+from pokete_classes.input import hotkeys_from_save
+from pokete_classes.input_loops import ask_bool
 from pokete_classes.multiplayer.menu import ModeChooser
 from pokete_classes.tss import tss
 from pokete_classes.ui import Overview
+from release import VERSION
+from util import sort_vers, liner
 
 
 class BGMoverEvent(PeriodicEvent):
@@ -46,7 +52,27 @@ class PreGameMap(GameSubmap, Overview):
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
 
-    def __call__(self, figure):
+    def __call__(self, session_info, figure):
         pevm = PeriodicEventManager([BGMoverEvent(self)])
         ctx = Context(pevm, self, self, figure)
+        hotkeys_from_save(ctx, session_info.get("hotkeys", {}),
+                          check_version(ctx, session_info))
         ModeChooser()(ctx)
+
+
+def check_version(ctx: Context, sinfo):
+    """Checks if version in save file is the same as current version
+    ARGS:
+        sinfo: session_info dict"""
+    if "ver" not in sinfo:
+        return False
+    ver = sinfo["ver"]
+    if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
+        if not ask_bool(
+            ctx,
+            liner(f"The save file was created \
+on version '{ver}', the current version is '{VERSION}', \
+such a downgrade may result in data loss! \
+Do you want to continue?", int(tss.width * 2 / 3))):
+            sys.exit()
+    return VERSION != ver
