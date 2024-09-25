@@ -11,6 +11,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependecies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: |
+          pip install scrap_engine pyyaml
 
       - name: Validate
         run: |
