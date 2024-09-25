@@ -55,14 +55,11 @@ from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.ui import notifier
 from pokete_classes.input_loops import ask_bool, ask_text, ask_ok
 from pokete_classes.achievements import achievements
-from pokete_classes.input import (
-    get_action, Action, ACTION_DIRECTIONS, hotkeys_from_save
-)
+from pokete_classes.input import get_action, Action, ACTION_DIRECTIONS
 from pokete_classes.dex import Dex
 from pokete_classes.game import (
     PeriodicEventManager, MapChangeExeption
 )
-from util import liner, sort_vers
 
 from release import SPEED_OF_TIME
 from release import VERSION, CODENAME, SAVEPATH

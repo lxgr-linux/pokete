@@ -2,7 +2,10 @@
    p_data can be manipulated by mods and therefore should be injected and not
    imported
 
-   I know all this is very awfull..."""
+   I know all this is very awfull...
+
+   ...not so awfull anymore, since I introduced code generation
+"""
 
 from .poketes import *
 from .attacks import *
