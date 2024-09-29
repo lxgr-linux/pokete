@@ -4,41 +4,31 @@ import time
 import logging
 import random
 import scrap_engine as se
+
 from release import SPEED_OF_TIME
-from .asset_service.resources import Chat
-from .context import Context
-from .fight import Fight, Provider, AttackResult
-from .input import get_action
-from .input_loops import ask_bool
-from .interactions import MultiTextChooseBox, Interactor
-from .inv import invitems
-from .settings import settings
-from .general import check_walk_back
-from .landscape import MapInteract
-from . import movemap as mvp, loops
+from .npc_action import NPCInterface, NPCAction
+from .npc_trigger import NPCTrigger
+from .ui import UI
+from ..asset_service.resources import Chat
+from ..context import Context
+from ..fight import Fight, Provider, AttackResult
+from ..input import get_action
+from ..input_loops import ask_bool
+from ..interactions import MultiTextChooseBox, Interactor
+from ..inv import invitems
+from ..settings import settings
+from ..general import check_walk_back
+from ..landscape import MapInteract
+from .. import movemap as mvp, loops
 
 
-class NPCTrigger(se.Object):
-    """Object on the map, that triggers a npc
-    ARGS:
-        npc: The NPC it belongs to"""
-
-    def __init__(self, npc):
-        super().__init__(" ", state="float")
-        self.npc = npc
-
-    def action(self, ob):
-        """Action triggers the NPCs action"""
-        self.npc.action()
-
-
-class NPC(se.Box, MapInteract, Interactor):
+class NPC(se.Box, NPCInterface, MapInteract, Interactor):
     """An NPC to talk to"""
-    npcactions = None
-    registry = {}
+    npcactions: dict[str, NPCAction] = {}
+    registry: dict[str, "NPC"] = {}
 
     @classmethod
-    def set_vars(cls, npcactions):
+    def set_vars(cls, npcactions: dict[str, NPCAction]):
         """Sets all variables needed by NPCs
         ARGS:
             npcactions: NPCActions class"""
@@ -82,7 +72,9 @@ class NPC(se.Box, MapInteract, Interactor):
     def func(self):
         """The function that's executed after the interaction"""
         if self.__fn is not None:
-            getattr(self.npcactions, self.__fn)(self)
+            action = self.npcactions.get(self.__fn, None)
+            if action is not None:
+                action.act(self, UI(self))
 
     def give(self, name, item):
         """Method that gifts an item to the player

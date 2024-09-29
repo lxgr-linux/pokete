@@ -4,6 +4,7 @@ import time
 import scrap_engine as se
 
 from pokete_classes.context import Context
+from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from util import liner
 from release import SPEED_OF_TIME
 from .classes import OutP
@@ -32,9 +33,12 @@ class Movemap(gm.GameSubmap, Overview):
             f"{Action.EXIT_GAME.mapping}: Quit  "
             f"{Action.MAP.mapping}: Map  "
             f"{Action.INVENTORY.mapping}: Inv.  "
-            f"{Action.POKEDEX.mapping}: Pokedex  "
+            f"{Action.POKEDEX.mapping}: Dex  "
             f"{Action.CLOCK.mapping}: Clock  "
-            f"{Action.HELP.mapping}: help"
+            f"{Action.HELP.mapping}: help  "
+            + (
+                f"{Action.INTERACT.mapping}: act" if modeProvider.mode == Mode.MULTI else ""
+            )
         )
         self.code_label = OutP("", state="float")
         self.multitext = OutP("", state="float")

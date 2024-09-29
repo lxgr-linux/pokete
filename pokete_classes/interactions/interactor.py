@@ -5,11 +5,12 @@ from abc import ABC, abstractmethod
 import scrap_engine as se
 
 from release import SPEED_OF_TIME
+from .interactor_interface import InteractorInterface
 from .. import movemap as mvp
 from ..context import Context
 
 
-class Interactor(ABC):
+class Interactor(InteractorInterface, ABC):
     """Interactor interface for map interactions"""
     x: int
     y: int

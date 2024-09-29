@@ -124,7 +124,7 @@ class Detail(Informer, Overview):
         self.line_sep1.resize(self.map.width - 2, 1)
         self.line_sep2.resize(self.map.width - 2, 1)
         self.frame.resize(17, self.map.width)
-        self.poke.desc.rechar(liner(self.poke.inf["desc"], tss.width - 34))
+        self.poke.desc.rechar(liner(self.poke.inf.desc, tss.width - 34))
         self.line_sep1.add(self.map, 1, 6)
         self.line_sep2.add(self.map, 1, 11)
         self.frame.add(self.map, 0, 0)
@@ -247,7 +247,7 @@ class Detail(Informer, Overview):
             loops.std(ctx)
 
 
-detail: Detail | None = None
+detail: Detail = Detail(tss.height - 1, tss.width)
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

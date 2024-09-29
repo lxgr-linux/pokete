@@ -13,8 +13,8 @@ def check_figure_redraw(obj):
     """Checks whether or not the figure has to be redrawn
     ARGS:
         obj: The obj that this is checked for"""
-    if obj.x == HighGrass.figure.x and obj.y == HighGrass.figure.y:
-        HighGrass.figure.redraw()
+    if obj.x == HighGrass.ctx.figure.x and obj.y == HighGrass.ctx.figure.y:
+        HighGrass.ctx.figure.redraw()
 
 
 class MovingGrassEvent(PeriodicEvent):

@@ -46,10 +46,10 @@ from pokete_classes.side_loops import loading_screen, Help
 from pokete_classes.input import _ev
 from pokete_classes.mods import try_load_mods, loaded_mods
 from pokete_classes.pokete_care import DummyFigure, pokete_care
-from pokete_classes import deck, detail, timer, ob_maps as obmp, \
+from pokete_classes import deck, timer, ob_maps as obmp, \
     movemap as mvp
 # import pokete_classes.generic_map_handler as gmh
-from pokete_classes.landscape import HighGrass, Poketeball, MapInteract
+from pokete_classes.landscape import MapInteract
 from pokete_classes.doors import Door
 from pokete_classes.npcs import NPC, Trainer
 from pokete_classes.ui import notifier
@@ -88,60 +88,6 @@ class NPCActions:
         figure.heal()
 
     @staticmethod
-    def playmap_13_introductor(npc):
-        """Interaction with introductor"""
-        if not obmp.ob_maps["playmap_14"].trainers[-1].used:
-            npc.text(
-                [
-                    "To get to the other side of this building, "
-                    "you have to win some epic fights against Deepest "
-                    "Forests' best trainers!", "This won't be easy!"
-                ]
-            )
-        else:
-            npc.text(
-                [
-                    "It looks like you've been succesfull!",
-                    "Congrats!"
-                ]
-            )
-            npc.set_used()
-
-    @staticmethod
-    def playmap_17_boy(npc):
-        """Interaction with boy"""
-        if "choka" in [i.identifier for i in figure.pokes[:6]]:
-            npc.text(["Oh, cool!", "You have a Choka!",
-                      "I've never seen one before!",
-                      "Here you go, have $200!"])
-            if ask_bool(
-                npc.ctx,
-                "The young boy gifted you $200. Do you want to accept it?"
-            ):
-                figure.add_money(200)
-            npc.set_used()
-        else:
-            npc.text(["In this region lives the Würgos Pokete.",
-                      f"At level {p_data.pokes['würgos']['evolve_lvl']} \
-It evolves into Choka.",
-                      "I have never seen one before!"])
-
-    @staticmethod
-    def playmap_20_trader(npc):
-        """Interaction with trader"""
-        if ask_bool(npc.ctx, "Do you want to trade a Pokete?"):
-            if (index := deck.deck(npc.ctx, 6, "Your deck", True)) is None:
-                return
-            figure.add_poke(Poke("ostri", 500), index)
-            npc.set_used()
-            ask_ok(
-                npc.ctx,
-                f"You received: {figure.pokes[index].name.capitalize()}"
-                f" at level {figure.pokes[index].lvl()}.",
-            )
-            mvp.movemap.text(npc.ctx, npc.x, npc.y, ["Cool, huh?"])
-
-    @staticmethod
     def playmap_50_npc_29(npc):
         """Interaction with npc_28"""
         if pokete_care.poke is None:
@@ -177,118 +123,6 @@ gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
                 npc.text(["Here you go!", "Until next time!"])
                 pokete_care.poke = None
         npc.text(["See you!"])
-
-    @staticmethod
-    def playmap_23_npc_8(npc):
-        """Interaction with npc_8"""
-        if ask_bool(
-            npc.ctx,
-            "The man gifted you $100. Do you want to accept it?",
-        ):
-            npc.set_used()
-            figure.add_money(100)
-
-    @staticmethod
-    def playmap_10_old_man(npc):
-        """Interaction with ld_man"""
-        npc.give("Old man", "hyperball")
-
-    @staticmethod
-    def playmap_29_ld_man(npc):
-        """Interaction with ld_man"""
-        npc.give("The man", "ld_flying")
-
-    @staticmethod
-    def playmap_32_npc_12(npc):
-        """Interaction with npc_12"""
-        npc.give("Old man", "hyperball")
-
-    @staticmethod
-    def playmap_36_npc_14(npc):
-        """Interaction with npc_14"""
-        npc.give("Old woman", "ap_potion")
-
-    @staticmethod
-    def playmap_37_npc_15(npc):
-        """Interaction with npc_14"""
-        npc.give("Bert the bird", "super_potion")
-
-    @staticmethod
-    def playmap_39_npc_20(npc):
-        """Interaction with npc_20"""
-        npc.give("Gerald the farmer", "super_potion")
-
-    @staticmethod
-    def playmap_47_npc_26(npc):
-        """Interaction with npc_26"""
-        npc.give("Poor man", "healing_potion")
-
-    @staticmethod
-    def playmap_48_npc_27(npc):
-        """Interaction with npc_27"""
-        npc.give("Old geezer", "ld_the_old_roots_hit")
-
-    @staticmethod
-    def playmap_49_npc_28(npc):
-        """Interaction with npc_28"""
-        npc.give("Candy man", "treat")
-
-    @staticmethod
-    def playmap_42_npc_21(npc):
-        """Interaction with npc_21"""
-        poke_list = [i for i in figure.pokes[:6]
-                     if i.lvl() >= 50 and i.identifier == "mowcow"]
-        if len(poke_list) > 0:
-            poke = poke_list[0]
-            npc.text(["Oh great!", "You're my hero!",
-                      f"You brought me a level {poke.lvl()} Mowcow!",
-                      "I'm thanking you!",
-                      "Now I can still serve the best MowCow-Burgers!",
-                      "Can I have it?"])
-            if ask_bool(
-                npc.ctx,
-                "Do you want to give your Mowcow to the cook?"
-            ):
-                figure.pokes[figure.pokes.index(poke)] = Poke("__fallback__", 0)
-                npc.text(["Here you go, have $1000!"])
-                if ask_bool(
-                    npc.ctx,
-                    "The cook gifted you $1000. "
-                    "Do you want to accept it?",
-                ):
-                    figure.add_money(1000)
-                npc.set_used()
-        else:
-            npc.text(["Ohhh man...", "All of our beef is empty...",
-                      "How are we going to serve the best MowCow-Burgers "
-                      "without beef?",
-                      "If only someone here could bring me a fitting "
-                      "Mowcow!?",
-                      "But it has to be at least on level 50 to meet our "
-                      "high quality standards.",
-                      "I will pay a good price!"])
-
-    @staticmethod
-    def playmap_39_npc_25(npc):
-        """Interaction with npc_25"""
-        if not NPC.get("Leader Sebastian").used:
-            npc.text(["I can't let you go!",
-                      "You first have to defeat our arena leader!"])
-            figure.set(figure.x + 1, figure.y)
-        else:
-            npc.text(["Have a pleasant day."])
-
-    @staticmethod
-    def playmap_43_npc_23(npc):
-        """Interaction with npc_23"""
-        if ask_bool(npc.ctx, "Do you also want to have one?"):
-            figure.pokes.append(Poke("mowcow", 2000))
-            npc.set_used()
-
-    @staticmethod
-    def chat(npc):
-        """Starts a chat"""
-        npc.chat()
 
 
 class Figure(se.Object, ProtoFigure):
@@ -775,7 +609,7 @@ copy of it alongside this software.""",
     # Home global
     HOME = Path.home()
 
-    # readinf savefile
+    # readingŝ savefile
     session_info = read_save()
 
     # logging config
@@ -816,7 +650,6 @@ copy of it alongside this software.""",
     abb_funcs = {"teleport": teleport}
 
     # side fn definitions
-    detail.detail = detail.Detail(tss.height - 1, tss.width)
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
     pokete_care.from_dict(session_info.get("pokete_care", {
         "entry": 0,
@@ -824,8 +657,6 @@ copy of it alongside this software.""",
     }))
     timer.time = timer.Time(session_info.get("time", 0))
     timer.clock = timer.Clock(timer.time)
-    HighGrass.figure = figure
-    Poketeball.figure = figure
     _ev.set_emit_fn(timer.time.emit_input)
 
     # Achievements
