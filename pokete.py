@@ -23,7 +23,9 @@ from pokete_classes.input.recogniser import recogniser
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager
-from pokete_classes.poke import Stats, EvoMap
+from pokete_classes.npcs.data import base_npc_actions, npc_actions
+from pokete_classes.npcs.npc_action import NPCInterface, UIInterface
+from pokete_classes.poke import Stats
 from pokete_classes.fight import ProtoFigure
 from pokete_classes import roadmap
 from pokete_classes import animations, loops
@@ -45,13 +47,13 @@ from pokete_classes.tss import tss
 from pokete_classes.side_loops import loading_screen, Help
 from pokete_classes.input import _ev
 from pokete_classes.mods import try_load_mods, loaded_mods
-from pokete_classes.pokete_care import DummyFigure, pokete_care
+from pokete_classes.pokete_care import pokete_care, PoketeCareNPCAction
 from pokete_classes import deck, timer, ob_maps as obmp, \
     movemap as mvp
 # import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import MapInteract
 from pokete_classes.doors import Door
-from pokete_classes.npcs import NPC, Trainer
+from pokete_classes.npcs import NPC, Trainer, NPCAction
 from pokete_classes.ui import notifier
 from pokete_classes.input_loops import ask_bool, ask_text, ask_ok
 from pokete_classes.achievements import achievements
@@ -61,8 +63,7 @@ from pokete_classes.game import (
     PeriodicEventManager, MapChangeExeption
 )
 
-from release import SPEED_OF_TIME
-from release import VERSION, CODENAME, SAVEPATH
+from release import SPEED_OF_TIME, VERSION, CODENAME, SAVEPATH
 from util.command import RootCommand, Flag
 
 __t = time.time()
@@ -71,58 +72,9 @@ __t = time.time()
 # Class definition
 ##################
 
-class NPCActions:
-    """This class contains all functions callable by NPCs
-    All this methods follow the same pattern:
-        ARGS:
-            npc: The NPC the method belongs to"""
-
-    @staticmethod
-    def swap_poke(npc):
-        """Swap_poke wrapper"""
+class SwapPokeNPCAction(NPCAction):
+    def act(self, npc: NPCInterface, ui: UIInterface):
         swap_poke(npc.ctx)
-
-    @staticmethod
-    def heal(_):
-        """Heal wrapper"""
-        figure.heal()
-
-    @staticmethod
-    def playmap_50_npc_29(npc):
-        """Interaction with npc_28"""
-        if pokete_care.poke is None:
-            npc.text(["Here you can leave one of your Poketes for some time \
-and we will train it."])
-            if ask_bool(
-                npc.ctx,
-                "Do you want to put a Pokete into the Pokete-Care?"
-            ):
-                if (index := deck.deck(npc.ctx, 6, "Your deck",
-                                       True)) is not None:
-                    pokete_care.poke = figure.pokes[index]
-                    pokete_care.entry = timer.time.time
-                    figure.add_poke(Poke("__fallback__", 0), index)
-                    npc.text(["We will take care of it."])
-        else:
-            add_xp = int((timer.time.time - pokete_care.entry) / 30)
-            pokete_care.entry = timer.time.time
-            pokete_care.poke.add_xp(add_xp)
-            npc.text(["Oh, you're back.", f"Your {pokete_care.poke.name} \
-gained {add_xp}xp and reached level {pokete_care.poke.lvl()}!"])
-            if ask_bool(npc.ctx, "Do you want it back?"):
-                dummy = DummyFigure(pokete_care.poke)
-                evomap = EvoMap(npc.ctx.map.height, npc.ctx.map.width)
-                while evomap(
-                    Context(PeriodicEventManager([]), npc.ctx.map,
-                            npc.ctx.overview, dummy),
-                    dummy.pokes[0]
-                ):
-                    continue
-                figure.add_poke(dummy.pokes[0])
-                figure.caught_pokes += dummy.caught_pokes
-                npc.text(["Here you go!", "Until next time!"])
-                pokete_care.poke = None
-        npc.text(["See you!"])
 
 
 class Figure(se.Object, ProtoFigure):
@@ -665,7 +617,12 @@ copy of it alongside this software.""",
         achievements.add(identifier, **achievement_args)
 
     for _i in [NPC, Trainer]:
-        _i.set_vars(NPCActions)
+        _i.set_vars(
+            {
+                **base_npc_actions, **npc_actions,
+                "playmap_50_npc_29": PoketeCareNPCAction(pokete_care),
+                "swap_poke": SwapPokeNPCAction()
+            })
     notifier.set_vars(mvp.movemap)
     #    figure.set_args(session_info)
 
