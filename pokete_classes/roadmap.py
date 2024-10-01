@@ -4,6 +4,7 @@ import logging
 import scrap_engine as se
 import pokete_classes.ob_maps as obmp
 from pokete_classes.asset_service.service import asset_service
+from pokete_classes.classes import PlayMap
 from pokete_classes.context import Context
 from pokete_classes.game import PeriodicEvent
 from util import liner
@@ -64,7 +65,8 @@ class Station(StationObject):
         self.color = getattr(Color, color, "\033[1;37m")
         self.base_color = self.color
         self.base_text = text
-        self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
+        self.associates: list[PlayMap] = [associate] + [obmp.ob_maps[i] for i in
+                                                        additionals]
         if self.associates[0]:
             self.name = self.associates[0].pretty_name
         super().__init__(text, self.color)
@@ -225,8 +227,12 @@ W ◀ ▶ E
                         set(
                             asset_service.get_base_assets().pokes[j].name
                             for i in self.sta.associates
-                            for j in i.poke_args.get("pokes", [])
-                            + i.w_poke_args.get("pokes", [])
+                            for j in [
+                                *(
+                                    [] if i.poke_args is None else i.poke_args.pokes),
+                                *(
+                                    [] if i.w_poke_args is None else i.w_poke_args.pokes)
+                            ]
                         )
                     )
                     with InfoBox(
