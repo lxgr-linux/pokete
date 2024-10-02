@@ -17,8 +17,8 @@ import logging
 from pathlib import Path
 from datetime import datetime
 import scrap_engine as se
-import pokete_data as p_data
-import release
+
+from pokete_classes.asset_service.service import asset_service
 from pokete_classes.input.recogniser import recogniser
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
@@ -50,7 +50,6 @@ from pokete_classes.mods import try_load_mods, loaded_mods
 from pokete_classes.pokete_care import pokete_care, PoketeCareNPCAction
 from pokete_classes import deck, timer, ob_maps as obmp, \
     movemap as mvp
-# import pokete_classes.generic_map_handler as gmh
 from pokete_classes.landscape import MapInteract
 from pokete_classes.doors import Door
 from pokete_classes.npcs import NPC, Trainer, NPCAction
@@ -62,7 +61,6 @@ from pokete_classes.dex import Dex
 from pokete_classes.game import (
     PeriodicEventManager, MapChangeExeption
 )
-
 from release import SPEED_OF_TIME, VERSION, CODENAME, SAVEPATH
 from util.command import RootCommand, Flag
 
@@ -282,11 +280,6 @@ def codes(string):
             sys.exit()
 
 
-# Playmap extra action functions
-# Those are adding additional actions to playmaps
-#################################################
-
-
 # main functions
 ################
 
@@ -300,11 +293,11 @@ def teleport(poke):
         return
     if settings("animations").val:
         animations.transition(mvp.movemap, poke)
-    cen_d = p_data.map_data[obj.name]["hard_obs"]["pokecenter"]
+    cen_d = asset_service.get_assets().obmaps[obj.name].hard_obs["pokecenter"]
     Door("", state="float", arg_proto={
         "map": obj.name,
-        "x": cen_d["x"] + 5,
-        "y": cen_d["y"] + 6
+        "x": cen_d.x + 5,
+        "y": cen_d.y + 6
     }).action(figure)
 
 
@@ -540,9 +533,9 @@ if __name__ == "__main__":
 
 
     c = RootCommand(
-        "Pokete", f"{release.CODENAME} v{release.VERSION}", root_fn,
+        "Pokete", f"{CODENAME} v{VERSION}", root_fn,
         flags=[log_flag, mods_flag, audio_flag],
-        additional_info=f"""All save and logfiles are located in ~{release.SAVEPATH}/
+        additional_info=f"""All save and logfiles are located in ~{SAVEPATH}/
 Feel free to contribute.
 See README.md for more information.
 This software is licensed under the GPLv3, you should have gotten a
@@ -580,18 +573,8 @@ copy of it alongside this software.""",
     # Loading mods
     try_load_mods(loading_screen.map)
 
-    # Definiton of the playmaps
-    # Most of the objects are generated from map_data,
-    # but can be extended via map_additions()
-    ############################################################
-
-    # obmp.ob_maps = gen_maps(p_data.maps, extra_actions)
-
     # Figure
     figure = Figure(session_info)
-
-    # gen_obs(p_data.map_data, p_data.npcs, p_data.trainers, figure)
-    # map_additions(figure)
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
@@ -613,8 +596,9 @@ copy of it alongside this software.""",
 
     # Achievements
     achievements.set_achieved(session_info.get("achievements", []))
-    for identifier, achievement_args in p_data.achievements.items():
-        achievements.add(identifier, **achievement_args)
+    for identifier, achievement_args in asset_service.get_base_assets().achievements.items():
+        achievements.add(identifier, achievement_args.title,
+                         achievement_args.desc)
 
     for _i in [NPC, Trainer]:
         _i.set_vars(
