@@ -31,17 +31,17 @@ class CenterMap(PlayMap):
         self.interact = CenterInteract("¯", state="float")
         self.dor_back1 = CenterDoor(" ", state="float")
         self.dor_back2 = CenterDoor(" ", state="float")
-        self.trader = NPC("trader",
-                          ["I'm a trader.",
-                           "Here you can trade one of your Poketes for \
-one from another trainer."],
-                          "swap_poke")
+        # self.trader = NPC("trader",
+        #                  ["I'm a trader.",
+        #                   "Here you can trade one of your Poketes for \
+        # one from another trainer."],
+        #                         "swap_poke")
         # adding
         self.dor_back1.add(self, int(self.width / 2), 8)
         self.dor_back2.add(self, int(self.width / 2) + 1, 8)
         self.inner.add(self, int(self.width / 2) - 8, 1)
         self.interact.add(self, int(self.width / 2), 4)
-        self.trader.add(self, int(self.width / 2) - 6, 3)
+        # self.trader.add(self, int(self.width / 2) - 6, 3)
 
 
 class ShopMap(PlayMap):

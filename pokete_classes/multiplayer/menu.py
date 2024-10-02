@@ -12,7 +12,10 @@ from ..generate import gen_obs
 from ..input import get_action, ACTION_DIRECTIONS, Action
 from ..input_loops import ask_ok
 from ..landscape import MapInteract
+from ..npcs.data import base_npc_actions, npc_actions
 from ..multiplayer.modeprovider import modeProvider, Mode
+from ..npcs import NPC
+from ..pokete_care import PoketeCareNPCAction, pokete_care
 from ..ui.elements import BetterChooseBox
 from . import connector
 from .communication import com_service
@@ -44,6 +47,11 @@ class ModeChooser(BetterChooseBox):
                         if num == 0:
                             modeProvider.mode = Mode.SINGLE
                             asset_service.load_assets_from_p_data()
+                            NPC.set_vars({
+                                **base_npc_actions, **npc_actions,
+                                "playmap_50_npc_29": PoketeCareNPCAction(
+                                    pokete_care),
+                            })
                         elif num == 1:
                             connector.connector(ctx.with_overview(self))
                             modeProvider.mode = Mode.MULTI

@@ -23,7 +23,6 @@ from pokete_classes.input.recogniser import recogniser
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager
-from pokete_classes.npcs.data import base_npc_actions, npc_actions
 from pokete_classes.npcs.npc_action import NPCInterface, UIInterface
 from pokete_classes.poke import Stats
 from pokete_classes.fight import ProtoFigure
@@ -47,7 +46,7 @@ from pokete_classes.tss import tss
 from pokete_classes.side_loops import loading_screen, Help
 from pokete_classes.input import _ev
 from pokete_classes.mods import try_load_mods, loaded_mods
-from pokete_classes.pokete_care import pokete_care, PoketeCareNPCAction
+from pokete_classes.pokete_care import pokete_care
 from pokete_classes import deck, timer, ob_maps as obmp, \
     movemap as mvp
 from pokete_classes.landscape import MapInteract
@@ -301,6 +300,7 @@ def teleport(poke):
     }).action(figure)
 
 
+''' # this is awfull and has to be removed
 def swap_poke(ctx: Context):
     """Trading with other players in the local network"""
     if not ask_bool(
@@ -372,6 +372,7 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}"""
     ask_ok(ctx,
            f"You received: {figure.pokes[index].name.capitalize()} at level \
 {figure.pokes[index].lvl()} from {decode_data['name']}.")
+'''
 
 
 def _game(_map: PlayMap):
@@ -470,16 +471,16 @@ def intro(ctx: Context):
             "Name:", "", "Name", 17
         )
     mvp.movemap.name_label_rechar(figure.name)
-    mvp.movemap.text(4, 3, ["Hello, my child.",
-                            "You're now ten years old.",
-                            "I think it's now time for you to travel \
-the world and be a Pokete-trainer.",
-                            "Therefore, I give you this powerful 'Steini', \
-15 'Poketeballs' to catch Poketes, and a "
-                            "'Healing potion'.",
-                            "You will be the best Pokete-Trainer in Nice \
-town.",
-                            "Now go out and become the best!"])
+    mvp.movemap.text(ctx, 4, 3, ["Hello, my child.",
+                                 "You're now ten years old.",
+                                 "I think it's now time for you to travel \
+     the world and be a Pokete-trainer.",
+                                 "Therefore, I give you this powerful 'Steini', \
+     15 'Poketeballs' to catch Poketes, and a "
+                                 "'Healing potion'.",
+                                 "You will be the best Pokete-Trainer in Nice \
+     town.",
+                                 "Now go out and become the best!"])
 
 
 def main():
@@ -600,13 +601,6 @@ copy of it alongside this software.""",
         achievements.add(identifier, achievement_args.title,
                          achievement_args.desc)
 
-    for _i in [NPC, Trainer]:
-        _i.set_vars(
-            {
-                **base_npc_actions, **npc_actions,
-                "playmap_50_npc_29": PoketeCareNPCAction(pokete_care),
-                "swap_poke": SwapPokeNPCAction()
-            })
     notifier.set_vars(mvp.movemap)
     #    figure.set_args(session_info)
 
