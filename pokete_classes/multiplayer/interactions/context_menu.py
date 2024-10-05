@@ -14,4 +14,11 @@ class ContextMenu:
         rmtpl = pc_manager.get_interactable(ctx.figure)
         if rmtpl is None:
             return
-        self.menu(ctx)
+        match self.menu(ctx):
+            case 0:
+                # Initiate fight
+                pass
+            case 1:
+                # Initiate trade
+                pass
+        

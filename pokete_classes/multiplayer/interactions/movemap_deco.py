@@ -6,10 +6,12 @@ from ...input import Action
 
 class MovemapDeco(se.Text):
     def __init__(self):
+        self.blank = False
         super().__init__(self.__get_text())
 
-    @staticmethod
-    def __get_text():
+    def __get_text(self):
+        if self.blank:
+            return ""
         return f"{Action.INTERACT.mapping}: act"
 
     def set_active(self):
@@ -19,6 +21,7 @@ class MovemapDeco(se.Text):
         self.rechar(self.__get_text(), esccode=Color.lightgrey)
 
     def set_blank(self):
+        self.blank = True
         self.rechar("")
 
 

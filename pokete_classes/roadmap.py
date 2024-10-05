@@ -59,7 +59,6 @@ class Station(StationObject):
         s_next="",
         d_next="",
     ):
-        logging.info(color)
         self.desc = desc
         self.roadmap = roadmap
         self.color = getattr(Color, color, "\033[1;37m")
