@@ -129,7 +129,7 @@ class Movemap(gm.GameSubmap, Overview):
         """Resizes the map and its attributes
         See se.Map.resize"""
         for obj in [self.underline, self.label, self.label_bg,
-                    self.name_label, self.balls_label]:
+                    self.name_label, self.balls_label, movemap_deco]:
             obj.remove()
         super().resize(height, width, background)
         self.underline.resize(self.width, 1)
