@@ -3,8 +3,8 @@ import logging
 
 from .remote_player import RemotePlayer
 from ..interactions import movemap_deco
-from ... import ob_maps as obmp
 from ...multiplayer.msg.position.update import User
+from ... import ob_maps as obmp
 
 
 class PCManager:
@@ -49,22 +49,29 @@ class PCManager:
             return
         pc.remove()
         del self.reg[name]
+        self.check_interactable(pc.ctx.figure)
 
     def movemap_move(self):
         """Handles the movemap moving"""
         for _, rmtpl in self.reg.items():
             rmtpl.readd_name_tag()
 
-    def check_interactable(self, figure):
+    def get_interactable(self, figure) -> RemotePlayer | None:
         for _, rmtpl in self.reg.items():
             if (
                 rmtpl.map == figure.map and
                 (figure.x - 2 <= rmtpl.x <= figure.x + 2) and
                 (figure.y - 2 <= rmtpl.y <= figure.y + 2)
             ):
-                movemap_deco.set_active()
-                return
-        movemap_deco.set_inactive()
+                return rmtpl
+        return None
+
+    def check_interactable(self, figure):
+        rmtpl = self.get_interactable(figure)
+        if rmtpl is None:
+            movemap_deco.set_inactive()
+        else:
+            movemap_deco.set_active()
 
 
 pc_manager = PCManager()

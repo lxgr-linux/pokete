@@ -19,6 +19,7 @@ import scrap_engine as se
 from pokete_classes.asset_service.service import asset_service
 from pokete_classes.input.recogniser import recogniser
 from pokete_classes.multiplayer.communication import com_service
+from pokete_classes.multiplayer.interactions.context_menu import ContextMenu
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager
 from pokete_classes.poke import Stats
@@ -400,14 +401,15 @@ def _game(_map: PlayMap):
         ] + _map.extra_actions())
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
     MapInteract.set_ctx(ctx)  # Npcs need this global context
-    inp_dict = {
-        Action.DECK: [deck.deck, (ctx, 6, "Your deck")],
-        Action.MAP: [roadmap.roadmap, (ctx,)],
-        Action.INVENTORY: [inv, (ctx,)],
-        Action.POKEDEX: [Dex(), (ctx,)],
-        Action.CLOCK: [timer.clock, (ctx,)],
-        Action.MENU: [Menu(), (ctx,)],
-        Action.HELP: [Help(), (ctx,)]
+    inp_dict: dict[Action, tuple] = {
+        Action.DECK: (deck.deck, (ctx, 6, "Your deck")),
+        Action.MAP: (roadmap.roadmap, (ctx,)),
+        Action.INVENTORY: (inv, (ctx,)),
+        Action.POKEDEX: (Dex(), (ctx,)),
+        Action.CLOCK: (timer.clock, (ctx,)),
+        Action.MENU: (Menu(), (ctx,)),
+        Action.HELP: (Help(), (ctx,)),
+        Action.INTERACT: (ContextMenu(), (ctx,))
     }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
