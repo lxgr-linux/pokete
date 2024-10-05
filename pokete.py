@@ -11,8 +11,6 @@ import time
 import os
 import sys
 import threading
-import socket
-import json
 import logging
 from pathlib import Path
 from datetime import datetime
@@ -23,7 +21,6 @@ from pokete_classes.input.recogniser import recogniser
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager
-from pokete_classes.npcs.npc_action import NPCInterface, UIInterface
 from pokete_classes.poke import Stats
 from pokete_classes.fight import ProtoFigure
 from pokete_classes import roadmap
@@ -38,22 +35,20 @@ from pokete_classes.color import Color
 from pokete_classes.pre_game import PreGameMap
 from pokete_classes.save import read_save, save
 from pokete_classes.input_loops import text_input
-from pokete_classes.ui.elements import InfoBox
 from pokete_classes.classes import PlayMap
 from pokete_classes.settings import settings
 from pokete_classes.audio import audio
 from pokete_classes.tss import tss
 from pokete_classes.side_loops import loading_screen, Help
 from pokete_classes.input import _ev
-from pokete_classes.mods import try_load_mods, loaded_mods
+from pokete_classes.mods import try_load_mods
 from pokete_classes.pokete_care import pokete_care
 from pokete_classes import deck, timer, ob_maps as obmp, \
     movemap as mvp
 from pokete_classes.landscape import MapInteract
 from pokete_classes.doors import Door
-from pokete_classes.npcs import NPC, Trainer, NPCAction
 from pokete_classes.ui import notifier
-from pokete_classes.input_loops import ask_bool, ask_text, ask_ok
+from pokete_classes.input_loops import ask_bool, ask_text
 from pokete_classes.achievements import achievements
 from pokete_classes.input import get_action, Action, ACTION_DIRECTIONS
 from pokete_classes.dex import Dex
@@ -65,13 +60,14 @@ from util.command import RootCommand, Flag
 
 __t = time.time()
 
-
 # Class definition
 ##################
 
+"""
 class SwapPokeNPCAction(NPCAction):
     def act(self, npc: NPCInterface, ui: UIInterface):
         swap_poke(npc.ctx)
+"""
 
 
 class Figure(se.Object, ProtoFigure):
@@ -399,11 +395,11 @@ def _game(_map: PlayMap):
         [
             MovingGrassEvent(_map),
             MovingWaterEvent(_map),
-            TreatNPCEvent(),
+            *([TreatNPCEvent()] if modeProvider.mode == Mode.SINGLE else []),
             NotifierEvent()
         ] + _map.extra_actions())
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
-    MapInteract.set_ctx(ctx)  # Npcs need thois global context
+    MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict = {
         Action.DECK: [deck.deck, (ctx, 6, "Your deck")],
         Action.MAP: [roadmap.roadmap, (ctx,)],
@@ -424,6 +420,7 @@ def _game(_map: PlayMap):
                 figure.x + action.get_x_strength(),
                 figure.y + action.get_y_strength()
             )
+            pc_manager.check_interactable(figure)
         elif action.triggers(*inp_dict):
             for key, option in inp_dict.items():
                 if action.triggers(key):
@@ -456,6 +453,7 @@ def _game(_map: PlayMap):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
                 pc_manager.movemap_move()
+
         loops.std(ctx)
 
 
@@ -602,7 +600,6 @@ copy of it alongside this software.""",
                          achievement_args.desc)
 
     notifier.set_vars(mvp.movemap)
-    #    figure.set_args(session_info)
 
     __t = time.time() - __t
     logging.info("[General] Startup took %fs", __t)

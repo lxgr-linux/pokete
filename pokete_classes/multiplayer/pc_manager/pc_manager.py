@@ -2,6 +2,7 @@
 import logging
 
 from .remote_player import RemotePlayer
+from ..interactions import movemap_deco
 from ... import ob_maps as obmp
 from ...multiplayer.msg.position.update import User
 
@@ -10,7 +11,7 @@ class PCManager:
     """Manages remote players"""
 
     def __init__(self):
-        self.reg = {}
+        self.reg: dict[str, RemotePlayer] = {}
         self.waiting_users: list[User] = []
 
     def set(self, name, _map, x, y):
@@ -24,6 +25,7 @@ class PCManager:
             self.reg[name] = RemotePlayer(name)
         self.reg[name].remove()
         self.reg[name].add(obmp.ob_maps[_map], x, y)
+        self.check_interactable(self.reg[name].ctx.figure)
 
     def set_waiting_users(self):
         for user in self.waiting_users:
@@ -52,6 +54,17 @@ class PCManager:
         """Handles the movemap moving"""
         for _, rmtpl in self.reg.items():
             rmtpl.readd_name_tag()
+
+    def check_interactable(self, figure):
+        for _, rmtpl in self.reg.items():
+            if (
+                rmtpl.map == figure.map and
+                (figure.x - 2 <= rmtpl.x <= figure.x + 2) and
+                (figure.y - 2 <= rmtpl.y <= figure.y + 2)
+            ):
+                movemap_deco.set_active()
+                return
+        movemap_deco.set_inactive()
 
 
 pc_manager = PCManager()

@@ -4,6 +4,7 @@ import sys
 
 import scrap_engine as se
 
+from .interactions import movemap_deco
 from .pc_manager import pc_manager
 from .. import loops, roadmap
 from ..asset_service.service import asset_service, ValidationException
@@ -46,6 +47,7 @@ class ModeChooser(BetterChooseBox):
                         num = self.index[0]
                         if num == 0:
                             modeProvider.mode = Mode.SINGLE
+                            movemap_deco.set_blank()
                             asset_service.load_assets_from_p_data()
                             NPC.set_vars({
                                 **base_npc_actions, **npc_actions,
@@ -55,6 +57,7 @@ class ModeChooser(BetterChooseBox):
                         elif num == 1:
                             connector.connector(ctx.with_overview(self))
                             modeProvider.mode = Mode.MULTI
+                            movemap_deco.set_inactive()
                             com_service()
                         else:
                             sys.exit()

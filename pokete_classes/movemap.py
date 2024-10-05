@@ -1,12 +1,13 @@
 """This file caontains the Movemap class with all related mothods"""
 
 import time
+
 import scrap_engine as se
 
-from pokete_classes.context import Context
-from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from util import liner
 from release import SPEED_OF_TIME
+from .context import Context
+from .multiplayer.interactions import movemap_deco
 from .classes import OutP
 from .color import Color
 from .input import _ev, Action
@@ -36,9 +37,6 @@ class Movemap(gm.GameSubmap, Overview):
             f"{Action.POKEDEX.mapping}: Dex  "
             f"{Action.CLOCK.mapping}: Clock  "
             f"{Action.HELP.mapping}: help  "
-            + (
-                f"{Action.INTERACT.mapping}: act" if modeProvider.mode == Mode.MULTI else ""
-            )
         )
         self.code_label = OutP("", state="float")
         self.multitext = OutP("", state="float")
@@ -53,6 +51,7 @@ class Movemap(gm.GameSubmap, Overview):
                              self.height - 2)
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
+        movemap_deco.add(self, self.label.width, self.height - 1)
 
     def assure_distance(self, _x, _y, width, height):
         """This ensures the game does not crash when big

@@ -16,4 +16,10 @@ class MovemapDeco(se.Text):
         self.rechar(self.__get_text())
 
     def set_inactive(self):
-        self.rechar(self.__get_text(), esccode=Color.grey)
+        self.rechar(self.__get_text(), esccode=Color.lightgrey)
+
+    def set_blank(self):
+        self.rechar("")
+
+
+movemap_deco = MovemapDeco()
