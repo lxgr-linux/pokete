@@ -1,12 +1,18 @@
+from ..communication import com_service
 from ...context import Context
+from ...input_loops import ask_ok
 from ...interactions import MultiTextChooseBox
 from ...multiplayer.pc_manager import pc_manager
+
+OPTION_FIGHT = "Fight"
+OPTION_TRADE = "Trade"
+OPTION_QUIT = "Quit..."
 
 
 class ContextMenu:
     def __init__(self):
         self.menu = MultiTextChooseBox(
-            ["Fight", "Trade", "Quit..."],
+            [OPTION_FIGHT, OPTION_TRADE, OPTION_QUIT],
             "Interact"
         )
 
@@ -15,10 +21,10 @@ class ContextMenu:
         if rmtpl is None:
             return
         match self.menu(ctx):
-            case 0:
-                # Initiate fight
+            case "Fight":
+                resp = com_service.request_fight(rmtpl.name)
+                ask_ok(rmtpl.ctx, f"jaja '{resp}'")
+            case "Trade":
                 pass
-            case 1:
-                # Initiate trade
+            case "Quit...":
                 pass
-        

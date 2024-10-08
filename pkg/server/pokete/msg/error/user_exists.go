@@ -2,16 +2,16 @@ package error
 
 import "github.com/lxgr-linux/pokete/bs_rpc/msg"
 
-const UserExistsType msg.Type = "pokete.error.user_exists"
+const UserDoesntExistType msg.Type = "pokete.error.user_doesnt_exit"
 
-type UserExists struct {
+type UserDoesntExist struct {
 	msg.BaseMsg
 }
 
-func (u UserExists) GetType() msg.Type {
-	return UserExistsType
+func (u UserDoesntExist) GetType() msg.Type {
+	return UserDoesntExistType
 }
 
-func NewUserExists() UserExists {
-	return UserExists{msg.BaseMsg{}}
+func NewUserDoesntExist() UserDoesntExist {
+	return UserDoesntExist{msg.BaseMsg{}}
 }

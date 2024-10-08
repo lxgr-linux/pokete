@@ -22,6 +22,8 @@ type Users interface {
 	GetAllUsers() (retUsers []user.User)
 	GetAllUserNames() (names []string)
 	SetNewPositionToUser(conId uint64, newPosition user.Position) error
+	GetUserByName(string) (*user.User, error)
+	GetUserByConId(conId uint64) (*user.User, error)
 }
 
 type contextKey uint

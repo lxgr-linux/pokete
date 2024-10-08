@@ -1,12 +1,6 @@
 import bs_rpc
-from . import position, error, map_info
+from . import position, error, map_info, fight
 from .handshake import Handshake
-
-
-# TYPE_HANDSHAKE = "pokete.handshake"
-# TYPE_VERSION_MISMATCH = "pokete.error.version_mismatch"
-# TYPE_MAP_DATA = "pokete.map_data"
-# TYPE_USER_ALREADY_PRESENT = "pokete.error.user_already_present"
 
 
 def get_registry():
@@ -21,9 +15,8 @@ def get_registry():
     reg.register(position.Remove)
     reg.register(map_info.Info)
     reg.register(error.InvalidPoke)
-
-    # reg.register(TYPE_VERSION_MISMATCH, handle_version_mismatch)
-    # reg.register(TYPE_MAP_DATA, handle_map_data)
-    # reg.register(TYPE_USER_ALREADY_PRESENT, handle_map_data)
+    reg.register(fight.Request)
+    reg.register(fight.Response)
+    reg.register(error.UserDoesntExist)
 
     return reg

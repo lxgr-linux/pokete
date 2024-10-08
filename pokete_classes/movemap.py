@@ -140,12 +140,14 @@ class Movemap(gm.GameSubmap, Overview):
         """Rechars the ball's label
         ARGS:
             pokes: The player's Pokes"""
-        self.balls_label.rechar("".join("-" if i >= len(pokes)
-                                               or pokes[
-                                                   i].identifier == "__fallback__"
-                                        else "o" if pokes[i].hp > 0
-        else "x"
-                                        for i in range(6)), esccode=Color.thicc)
+        self.balls_label.rechar(
+            "".join("-" if i >= len(pokes)
+                           or pokes[
+                               i].identifier == "__fallback__"
+                    else "o" if pokes[i].hp > 0
+            else "x"
+                    for i in range(6)),
+            esccode=Color.thicc)
 
     def name_label_rechar(self, name):
         """Rechars name_label and sets balls_label correctly

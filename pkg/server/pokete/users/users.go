@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	USER_PRESENT error = errors.New("newUser already present")
+	USER_PRESENT      error = errors.New("newUser already present")
+	USER_DOESNT_EXIST error = errors.New("user doesn't exist")
 )
 
 type Users struct {
@@ -43,6 +44,23 @@ func (u Users) GetAllUsers() (retUsers []user.User) {
 		retUsers = append(retUsers, us)
 	}
 	return
+}
+
+func (u Users) GetUserByName(name string) (*user.User, error) {
+	for _, us := range *u.users {
+		if us.Name == name {
+			return &us, nil
+		}
+	}
+	return nil, USER_DOESNT_EXIST
+}
+
+func (u Users) GetUserByConId(conId uint64) (*user.User, error) {
+	us, ok := (*u.users)[conId]
+	if !ok {
+		return nil, USER_DOESNT_EXIST
+	}
+	return &us, nil
 }
 
 func (u Users) GetAllUserNames() (names []string) {

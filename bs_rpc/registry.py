@@ -14,7 +14,7 @@ class Registry:
         self.reg = {}
         self.register(EmptyMsg)
 
-    def register(self, body_class):
+    def register(self, body_class) -> None:
         t = body_class({}).get_type()
         if t not in self.reg:
             self.reg[t] = body_class

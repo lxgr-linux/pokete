@@ -7,7 +7,7 @@ from pokete_classes.context import Context
 from pokete_classes.multiplayer import msg
 from pokete_classes.multiplayer.exceptions import ConnectionException, \
     VersionMismatchException, UserPresentException, InvalidPokeException
-from pokete_classes.multiplayer.msg import position, error, map_info
+from pokete_classes.multiplayer.msg import position, error, map_info, fight
 from pokete_classes.multiplayer.msg.position.update import User
 from pokete_classes.multiplayer.pc_manager import pc_manager
 
@@ -97,6 +97,14 @@ class CommunicationService:
                 ctx.figure.y = pos["y"]
                 pc_manager.waiting_users = data["users"]
                 return data["greeting_text"]
+
+    def request_fight(self, name: str) -> bool | None:
+        resp = self.client.call_for_response(fight.Request({"name": name}))
+        match resp.type:
+            case fight.RESPONSE_TYPE:
+                return resp.data["accept"]
+            case _:
+                return None
 
     def pos_update(self, _map, x, y):
         """Sends a position update to the server

@@ -27,6 +27,9 @@ class PCManager:
         self.reg[name].add(obmp.ob_maps[_map], x, y)
         self.check_interactable(self.reg[name].ctx.figure)
 
+    def get(self, name: str) -> RemotePlayer | None:
+        return self.reg.get(name, None)
+
     def set_waiting_users(self):
         for user in self.waiting_users:
             pc_manager.set(
