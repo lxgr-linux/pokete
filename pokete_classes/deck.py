@@ -17,18 +17,23 @@ from .ui.elements import StdFrame2
 from .tss import tss
 from . import loops
 
+class Index(se.Object):
+    def __init__(self):
+        super().__init__("*")
+        self.index = 0
+
 
 class Deck(detail.Informer, Overview):
     """Deck to see Poketes in"""
 
-    def __init__(self, height, width, figure, abb_funcs):
+    def __init__(self, height, width, abb_funcs):
         self.map = gm.GameMap(height, width, name="deck")
         self.submap = gm.GameSubmap(self.map, 0, 0, height, width, "decksubmap")
         self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
         self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: Move    ")
         self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: Free")
-        self.index = se.Object("*")
-        self.figure = figure
+        self.index = Index()
+        self.figure = None
         self.abb_funcs = abb_funcs
         self.pokes = []
         self.label = ""
@@ -84,6 +89,7 @@ class Deck(detail.Informer, Overview):
             p_len: Number of Pokes being included
             label: The displayed label
             in_fight: Whether or not this is called in a fight"""
+        self.figure = ctx.figure
         self.overview = ctx.overview
         ctx = Context(PeriodicEventManager([]), self.submap, self, ctx.figure)
         self.pokes = self.figure.pokes[:p_len]

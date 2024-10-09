@@ -1,4 +1,4 @@
-"""This file caontains the Movemap class with all related mothods"""
+"""This file contains the Movemap class with all related mothods"""
 
 import time
 
@@ -158,7 +158,7 @@ class Movemap(gm.GameSubmap, Overview):
         self.balls_label.set(4 + len(self.name_label.text), self.height - 2)
 
 
-movemap: Movemap | None = None
+movemap: Movemap = Movemap(tss.height - 1, tss.width)
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

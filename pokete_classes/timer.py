@@ -8,9 +8,6 @@ from .input import Action, get_action
 from .ui.elements import Box
 from . import loops
 
-time = None
-clock = None
-
 letters = [
     """ ##
 #  #
@@ -19,7 +16,7 @@ letters = [
  ##""",
     """  #
  ##
-  #yw
+  #
   #
  ###""",
     """ ##
@@ -86,6 +83,10 @@ class Time:
         minutes = _t % 60
         return f"{hours:02}:{minutes:02}"
 
+    def set(self, t):
+        self.time = t
+        self.last_input = t
+
     def emit_input(self):
         """Sets the last input time to the current time"""
         self.last_input = self.time
@@ -94,6 +95,9 @@ class Time:
     def normalized(self):
         """Returns normalized time"""
         return self.time % (24 * 60)
+
+
+time = Time()
 
 
 class Clock(Box):
@@ -150,6 +154,9 @@ class Clock(Box):
             self.add_ob(obj, _x, 2)
             _x += 5
         return letter_obs
+
+
+clock = Clock(time)
 
 
 def time_threat():

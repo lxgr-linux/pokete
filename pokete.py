@@ -580,19 +580,16 @@ copy of it alongside this software.""",
     # Definiton of all additionaly needed obs and maps
     #############################################################
 
-    mvp.movemap = mvp.Movemap(tss.height - 1, tss.width)
-
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
 
     # side fn definitions
-    deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
+    deck.deck = deck.Deck(tss.height - 1, tss.width, abb_funcs)
     pokete_care.from_dict(session_info.get("pokete_care", {
         "entry": 0,
         "poke": None,
     }))
-    timer.time = timer.Time(session_info.get("time", 0))
-    timer.clock = timer.Clock(timer.time)
+    timer.time.set(session_info.get("time", 0))
     _ev.set_emit_fn(timer.time.emit_input)
 
     # Achievements
