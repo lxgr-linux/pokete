@@ -3,9 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/lxgr-linux/pokete/server/options"
-
 	"github.com/lxgr-linux/pokete/server/config"
+	"github.com/lxgr-linux/pokete/server/options"
 	"github.com/lxgr-linux/pokete/server/pokete"
 	"github.com/lxgr-linux/pokete/server/resources"
 )

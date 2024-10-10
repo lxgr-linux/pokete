@@ -1,23 +1,25 @@
 package pokete
 
 import (
-	"log"
+	"log/slog"
 	"net"
 
-	"github.com/lxgr-linux/pokete/server/context"
-
 	"github.com/lxgr-linux/pokete/bs_rpc"
+	"github.com/lxgr-linux/pokete/server/context"
 	"github.com/lxgr-linux/pokete/server/pokete/msg"
 )
 
 func (p Pokete) Start() error {
+	defaultLogger := slog.Default()
+	*defaultLogger = *slog.New(&context.ContextHandler{Handler: defaultLogger.Handler()})
+
 	socketHost := p.config.ServerHost + ":" + p.config.ServerPort
 	server, err := net.Listen("tcp", socketHost)
 	if err != nil {
 		return err
 	}
 	defer server.Close()
-	log.Printf("Server Running on %s...\n", socketHost)
+	slog.Info("Server Running", slog.String("socket", socketHost))
 
 	reg, err := msg.GetRegistry()
 	if err != nil {
@@ -31,17 +33,17 @@ func (p Pokete) Start() error {
 		}
 
 		bsRpcClient := bs_rpc.NewClient(connection, *reg)
-		ctx := context.PoketeContext(p.users, p.resources, p.config, &bsRpcClient, conId, p.positions, p.options)
+		ctx := context.PoketeContext(p.users, p.resources, p.fights, p.config, &bsRpcClient, conId, p.positions, p.options)
 
 		go func() {
-			log.Println("Client connected")
+			slog.InfoContext(ctx, "Client connected")
 			defer connection.Close()
 			err := bsRpcClient.Listen(ctx)
 			p.users.Remove(conId)
 			if err != nil {
-				log.Printf("Connection failed, %s\n", err)
+				slog.ErrorContext(ctx, "Connection failed", slog.Any("error", err))
 			} else {
-				log.Println("Client disconnected")
+				slog.InfoContext(ctx, "Client disconnected")
 			}
 		}()
 	}

@@ -2,7 +2,7 @@ package position
 
 import (
 	"context"
-	"log"
+	"log/slog"
 
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
 	pctx "github.com/lxgr-linux/pokete/server/context"
@@ -21,7 +21,7 @@ func (s SubscribePositons) GetType() msg.Type {
 func (s SubscribePositons) CallForResponses(ctx context.Context, r msg.Responder) error {
 	p, _ := pctx.PositionsFromContext(ctx)
 	conId, _ := pctx.ConnectionIdFromContext(ctx)
-	log.Println("Subscribe")
+	slog.InfoContext(ctx, "Subscribe")
 
 	return p.Subscribe(conId, r)
 }

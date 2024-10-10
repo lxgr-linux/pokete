@@ -90,6 +90,6 @@ func OptionsFromContext(ctx context.Context) (*options.Options, bool) {
 }
 
 func FightsFromContext(ctx context.Context) (*fight.Fights, bool) {
-	f, ok := ctx.Value(contextKey_options).(*fight.Fights)
+	f, ok := ctx.Value(contextKey_fights).(*fight.Fights)
 	return f, ok
 }

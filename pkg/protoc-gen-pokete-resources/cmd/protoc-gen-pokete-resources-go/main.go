@@ -4,12 +4,13 @@ import (
 	"bytes"
 	_ "embed"
 	"flag"
+	"log/slog"
+	"text/template"
+
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/identifier"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/module_resolver"
 	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/producer"
 	"google.golang.org/protobuf/compiler/protogen"
-	"log/slog"
-	"text/template"
 )
 
 //go:embed templates/File.pb.go.tmpl
@@ -67,7 +68,7 @@ func generateFile(moduleResolver *module_resolver.ModuleResolver, gen *protogen.
 		return nil
 	}
 
-	//slog.Warn(fmt.Sprintf("%#v", *m))
+	//slog.WarnContext(ctx,fmt.Sprintf("%#v", *m))
 
 	moduleResolver.Add(filePath.Name(), m)
 

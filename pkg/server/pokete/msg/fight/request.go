@@ -31,7 +31,7 @@ func (r Request) CallForResponse(ctx context.Context) (msg.Body, error) {
 	conId, _ := pctx.ConnectionIdFromContext(ctx)
 	fights, _ := pctx.FightsFromContext(ctx)
 
-	slog.Info("Received request")
+	slog.InfoContext(ctx, "Received request")
 
 	attacker, err := u.GetUserByConId(conId)
 	if err != nil {
@@ -45,7 +45,7 @@ func (r Request) CallForResponse(ctx context.Context) (msg.Body, error) {
 
 	resp, err := enemy.Client.CallForResponse(NewRequest(attacker.Name))
 	if err != nil {
-		slog.Warn("error recuiving data")
+		slog.WarnContext(ctx, "error recuiving data")
 		return nil, err
 	}
 
@@ -54,9 +54,10 @@ func (r Request) CallForResponse(ctx context.Context) (msg.Body, error) {
 		dataResp := resp.(Response)
 		f := fight.New(attacker, enemy)
 		fights.Add(&f)
+		slog.InfoContext(ctx, "Started fight", slog.Any("fight", f))
 		return dataResp, nil
 	default:
-		slog.Warn("big uff")
+		slog.WarnContext(ctx, "big uff")
 		return nil, fmt.Errorf("something went wrong initialting fight")
 	}
 }

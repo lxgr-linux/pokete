@@ -2,11 +2,12 @@ package producer
 
 import (
 	"fmt"
-	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/identifier"
-	"google.golang.org/protobuf/types/descriptorpb"
 	"log/slog"
 	"slices"
 	"strings"
+
+	"github.com/lxgr-linux/pokete/protoc-gen-pokete-resources/identifier"
+	"google.golang.org/protobuf/types/descriptorpb"
 )
 
 type MappedType struct {
