@@ -3,7 +3,8 @@ package msg
 import (
 	"context"
 	"fmt"
-	"github.com/lxgr-linux/pokete/server/pokete/fight"
+
+	"github.com/lxgr-linux/pokete/server/pokete/poke"
 	"github.com/lxgr-linux/pokete/server/pokete/troll"
 
 	"github.com/lxgr-linux/pokete/server/pokete/msg/map_info"
@@ -20,9 +21,9 @@ const HandshakeType msg.Type = "pokete.handshake"
 
 type Handshake struct {
 	msg.BaseMsg
-	UserName string       `json:"user_name"`
-	Version  string       `json:"version"`
-	Pokes    []fight.Poke `json:"pokes"`
+	UserName string          `json:"user_name"`
+	Version  string          `json:"version"`
+	Pokes    []poke.Instance `json:"pokes"`
 }
 
 func (h Handshake) GetType() msg.Type {

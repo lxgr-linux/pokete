@@ -7,6 +7,7 @@ import (
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
 	"github.com/lxgr-linux/pokete/server/config"
 	"github.com/lxgr-linux/pokete/server/options"
+	"github.com/lxgr-linux/pokete/server/pokete/fight"
 	"github.com/lxgr-linux/pokete/server/pokete/user"
 	"github.com/lxgr-linux/pokete/server/resources"
 )
@@ -36,9 +37,10 @@ const (
 	contextKey_id
 	contextKey_positions
 	contextKey_options
+	contextKey_fights
 )
 
-func PoketeContext(users Users, r *resources.Resources, config *config.Config, client *bs_rpc.Client, connectionId uint64, positions Positions, options *options.Options) context.Context {
+func PoketeContext(users Users, r *resources.Resources, fights *fight.Fights, config *config.Config, client *bs_rpc.Client, connectionId uint64, positions Positions, options *options.Options) context.Context {
 	ctx := context.Background()
 	ctx = context.WithValue(ctx, contextKey_users, users)
 	ctx = context.WithValue(ctx, contextKey_resources, r)
@@ -47,6 +49,7 @@ func PoketeContext(users Users, r *resources.Resources, config *config.Config, c
 	ctx = context.WithValue(ctx, contextKey_id, connectionId)
 	ctx = context.WithValue(ctx, contextKey_positions, positions)
 	ctx = context.WithValue(ctx, contextKey_options, options)
+	ctx = context.WithValue(ctx, contextKey_fights, fights)
 
 	return ctx
 }
@@ -84,4 +87,9 @@ func PositionsFromContext(ctx context.Context) (Positions, bool) {
 func OptionsFromContext(ctx context.Context) (*options.Options, bool) {
 	o, ok := ctx.Value(contextKey_options).(*options.Options)
 	return o, ok
+}
+
+func FightsFromContext(ctx context.Context) (*fight.Fights, bool) {
+	f, ok := ctx.Value(contextKey_options).(*fight.Fights)
+	return f, ok
 }

@@ -2,11 +2,12 @@ package troll
 
 import (
 	"fmt"
+
 	"github.com/lxgr-linux/pokete/resources/base"
-	"github.com/lxgr-linux/pokete/server/pokete/fight"
+	"github.com/lxgr-linux/pokete/server/pokete/poke"
 )
 
-func CheckPokes(protos map[string]base.Poke, pokes []fight.Poke) error {
+func CheckPokes(protos map[string]base.Poke, pokes []poke.Instance) error {
 	for _, poke := range pokes {
 		err := CheckPoke(protos, poke)
 		if err != nil {
@@ -16,7 +17,7 @@ func CheckPokes(protos map[string]base.Poke, pokes []fight.Poke) error {
 	return nil
 }
 
-func CheckPoke(pokes map[string]base.Poke, poke fight.Poke) error {
+func CheckPoke(pokes map[string]base.Poke, poke poke.Instance) error {
 	proto, ok := pokes[poke.Name]
 	if !ok {
 		return fmt.Errorf("poke %s not found", poke.Name)

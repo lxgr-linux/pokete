@@ -1,11 +1,11 @@
-package fight
+package poke
 
 type Nature struct {
 	Nature string `json:"nature"`
 	Grade  uint   `json:"grade"`
 }
 
-type Poke struct {
+type Instance struct {
 	Name    string   `json:"name"`
 	Xp      uint32   `json:"xp"`
 	Hp      uint32   `json:"hp"`
