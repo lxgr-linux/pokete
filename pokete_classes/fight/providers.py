@@ -3,7 +3,6 @@
 import random
 import time
 from abc import ABC, abstractmethod
-from pokete_classes import movemap as mvp
 from .attack_result import AttackResult
 from ..context import Context
 from ..poke import Poke
@@ -32,7 +31,7 @@ class Provider(ABC):
                 poke.set_vars()
                 poke.hp_bar.make(poke.hp)
             if poke.player:
-                mvp.movemap.balls_label_rechar(self.pokes)
+                self.balls_label_rechar()
 
     @property
     def curr(self) -> Poke:

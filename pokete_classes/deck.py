@@ -8,7 +8,6 @@ from .game import PeriodicEventManager
 from .input import (
     ACTION_DIRECTIONS, Action, get_action, _ev
 )
-import pokete_classes.movemap as mvp
 from .input_loops import ask_bool, ask_ok
 from .color import Color
 from .poke import Poke
@@ -181,7 +180,7 @@ class Deck(detail.Informer, Overview):
                         + len(self.pokes[self.index.index].text_name.text)
                         + 1,
                         self.pokes[self.index.index].text_name.y)
-                    mvp.movemap.balls_label_rechar(self.figure.pokes)
+                    self.figure.balls_label_rechar()
             elif action.triggers(Action.ACCEPT):
                 if len(self.pokes) == 0 or \
                     self.pokes[self.index.index].identifier == "__fallback__":

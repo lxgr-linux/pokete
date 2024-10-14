@@ -1,5 +1,4 @@
 from ..ui.elements import Box
-from .. import movemap as mvp
 
 
 class InvBox(Box):
@@ -10,4 +9,3 @@ class InvBox(Box):
         self.remove()
         self.overview.resize_view()
         self.add(self.map, self.overview.box.x - 19, 3)
-        mvp.movemap.full_show()

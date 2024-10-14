@@ -8,7 +8,6 @@ from pokete_classes.audio import audio
 from pokete_classes.fight import FightMap
 from pokete_classes.fight.providers import NatureProvider, Provider
 from release import SPEED_OF_TIME
-from .. import movemap as mvp
 from ..asset_service.service import asset_service
 
 
@@ -59,7 +58,7 @@ class FightItems:
             time.sleep(SPEED_OF_TIME * 2)
             fightmap.pball.remove()
             fightmap.clean_up(obj, enem)
-            mvp.movemap.balls_label_rechar(obj.pokes)
+            obj.balls_label_rechar()
             logging.info("[Fighitem][%s] Caught %s", name, enem.curr.name)
             achievements.achieve("first_poke")
             if all(poke in obj.caught_pokes for poke in

@@ -16,7 +16,6 @@ from ..game import PeriodicEventManager
 from ..inv import InvItem
 from ..poke import EvoMap
 from ..tss import tss
-from .. import movemap as mvp
 
 
 class Fight:
@@ -33,6 +32,7 @@ class Fight:
         )
         audio.switch("xDeviruchi - Decisive Battle (Loop).mp3")
         self.providers = providers
+        self.fightmap.set_overview(ctx.overview)
         self.fightmap.set_providers(providers)
         logging.info(
             "[Fight] Started between %s",
@@ -156,7 +156,7 @@ class Fight:
 
         self.fightmap.death_animation(loser)
         self.fightmap.clean_up(winner)
-        mvp.movemap.balls_label_rechar(winner.pokes)
+        winner.balls_label_rechar()
         logging.info(
             "[Fight] Ended, %s(%s) won",
             winner.curr.name, "player" if winner.curr.player else "enemy"

@@ -95,7 +95,7 @@ class CenterInteract(se.Object, MapInteract):
                 while "__fallback__" in [p.identifier for p in ob.pokes]:
                     ob.pokes.pop([p.identifier for p in
                                   ob.pokes].index("__fallback__"))
-                mvp.movemap.balls_label_rechar(ob.pokes)
+                ob.balls_label_rechar()
                 deck.deck(self.ctx, len(ob.pokes))
                 break
             elif action.triggers(Action.ACT_2):

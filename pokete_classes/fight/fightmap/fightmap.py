@@ -16,7 +16,7 @@ from ...classes import OutP
 from ...inv import invitems, InvItem
 from ...settings import settings
 from ...tss import tss
-from ... import movemap as mvp, loops
+from ... import loops
 from .attack import AttackBox
 from .inv import InvBox
 
@@ -32,6 +32,7 @@ class FightMap(gm.GameMap, Overview):
         self.box = AttackBox()
         self.invbox = InvBox(height - 3, 35, "Inventory", overview=self)
         self.providers: list[Provider] = []
+        self.overview: Overview
         # icos
         self.deadico1 = se.Text(r"""
     \ /
@@ -65,6 +66,9 @@ class FightMap(gm.GameMap, Overview):
         self.e_sideline.add(self, len(self.e_underline.text), 1)
         self.add_base_boxes()
 
+    def set_overview(self, overview: Overview):
+        self.overview = overview
+
     def add_base_boxes(self):
         """Adds the basic map layout"""
         self.outp.add(self, 1, self.height - 4)
@@ -90,7 +94,7 @@ class FightMap(gm.GameMap, Overview):
         self.resize(tss.height - 1, tss.width, background=" ")
         self.frame_big.resize(self.height - 5, self.width)
         self.frame_small.resize(4, self.width)
-        mvp.movemap.resize_view()
+        self.overview.resize_view()
 
         self.add_base_boxes()
         if player_added:

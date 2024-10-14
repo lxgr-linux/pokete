@@ -135,7 +135,7 @@ class Figure(se.Object, ProtoFigure):
                                        PlayMap())
         mvp.movemap.name_label.rechar(self.name, esccode=Color.thicc)
         mvp.movemap.code_label.rechar(self.map.pretty_name)
-        mvp.movemap.balls_label_rechar(self.pokes)
+        self.balls_label_rechar()
         mvp.movemap.add_obs()
 
     def set(self, x, y):
@@ -224,6 +224,9 @@ class Figure(se.Object, ProtoFigure):
 in the inventory!"
         self.inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)
+
+    def balls_label_rechar(self):
+        mvp.movemap.balls_label_rechar(self.pokes)
 
 
 class Debug:

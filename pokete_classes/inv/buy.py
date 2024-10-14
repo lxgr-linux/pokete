@@ -9,7 +9,7 @@ from .items import invitems
 from ..ui import Overview
 from ..input import ACTION_UP_DOWN, Action, get_action
 from ..ui.elements import ChooseBox
-from .. import movemap as mvp, loops
+from .. import loops
 
 
 class Buy(Overview):
@@ -36,7 +36,6 @@ class Buy(Overview):
         self.box.map.resize_view()
         self.box.resize(self.box.map.height - 3, 35)
         self.box.add(self.box.map, self.box.map.width - self.box.width, 0)
-        mvp.movemap.full_show()
 
     def __call__(self, ctx: Context):
         """Opens the buy menu"""
