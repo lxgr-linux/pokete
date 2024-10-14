@@ -1,4 +1,6 @@
-weathers = {
+from pokete_classes.asset_service.resources.base import WeatherDict
+
+weathers: dict[str, WeatherDict] = {
     "rain": {
         "info": "It's raining!",
         "effected": {

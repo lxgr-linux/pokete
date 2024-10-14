@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            "type": "python",
+            "name": "Python configuration",
+            "file": "pokete.py",
+            "arguments": [
+                "--log",
+                "--no_audio"
+            ],
+        },
+    ]
+}

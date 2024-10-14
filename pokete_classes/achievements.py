@@ -4,12 +4,12 @@ import datetime
 import logging
 import scrap_engine as se
 from util import liner
-from .hotkeys import ACTION_DIRECTIONS, Action, get_action
-from .loops import std_loop, easy_exit_loop
-from .ui_elements import BetterChooseBox, LabelBox
+from .context import Context
+from .input import ACTION_DIRECTIONS, Action, get_action
+from .ui.elements import BetterChooseBox, LabelBox
+from .ui.notify import notifier
 from .color import Color
-from .notify import notifier
-from . import movemap as mvp
+from . import loops
 
 
 class Achievement:
@@ -71,20 +71,21 @@ class AchBox(LabelBox):
         ach: The Achievement
         achievements: Achievement's object"""
 
-    def __init__(self, ach, ach_ob, overview):
+    def __init__(self, ctx: Context, ach, ach_ob):
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = [i[-1] for i in ach_ob.achieved if i[0] ==
                 ach.identifier][0] if is_ach else ""
-        label = se.Text("Achieved: ", state="float")\
+        label = se.Text("Achieved: ", state="float") \
                 + se.Text("Yes" if is_ach else "No",
                           esccode=Color.thicc
-                          + (Color.green if is_ach
-                             else Color.grey), state="float")\
-                + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))\
+                                  + (Color.green if is_ach
+                                     else Color.grey), state="float") \
+                + (se.Text("\nAt: " + date,
+                           state="float") if is_ach else se.Text("")) \
                 + se.Text("\n" + liner(ach.desc, 30), state="float")
         super().__init__(label, name=ach.title,
                          info=f"{Action.CANCEL.mapping}:close",
-                         overview=overview)
+                         ctx=ctx)
 
 
 class AchievementOverview(BetterChooseBox):
@@ -93,19 +94,16 @@ class AchievementOverview(BetterChooseBox):
     def __init__(self):
         super().__init__(
             3, [se.Text(" ")], name="Achievements",
-            overview=mvp.movemap.menu
         )
 
-    def __call__(self, _map):
-        """Input loop
-        ARGS:
-            _map: se.Map to show this on"""
+    def __call__(self, ctx: Context):
+        """Input loop"""
         self.set_items(3, [se.Text(i.title,
                                    esccode=Color.thicc + Color.green
                                    if achievements.is_achieved(i.identifier)
                                    else "", state="float")
                            for i in achievements.achievements])
-        self.map = _map
+        self.set_ctx(ctx)
         with self:
             while True:
                 action = get_action()
@@ -119,13 +117,12 @@ class AchievementOverview(BetterChooseBox):
                             self.get_item(*self.index).ind
                         ]
                         with AchBox(
-                            ach,
-                            achievements,
-                            self
-                        ).center_add(_map) as achbox:
-                            easy_exit_loop(box=achbox)
-                std_loop(box=self)
-                self.map.show()
+                            ctx.with_overview(self),
+                            ach, achievements,
+                        ).center_add(ctx.map) as achbox:
+                            loops.easy_exit(ctx.with_overview(achbox))
+                loops.std(ctx.with_overview(self))
+                self.map.full_show()
 
 
 achievements = Achievements()

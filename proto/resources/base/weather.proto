@@ -1,0 +1,7 @@
+syntax = "proto3";
+package pokete.resources.base;
+
+message Weather {
+    string Info = 1;
+    map<string, float> Effected = 2;
+}

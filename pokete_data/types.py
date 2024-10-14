@@ -1,4 +1,6 @@
-types = {
+from pokete_classes.asset_service.resources.base import TypeDict
+
+types: dict[str, TypeDict] = {
     "normal": {
         "effective": [],
         "ineffective": [],
@@ -56,9 +58,7 @@ types = {
     },
 }
 
-
 sub_types = ["bird", "snake"]
-
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

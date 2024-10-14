@@ -2,6 +2,8 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from pokete_classes.asset_service.resources import PokeArgs
+from .game import PeriodicEvent
 from .weather import Weather
 
 
@@ -18,8 +20,10 @@ class PlayMap(gm.GameMap):
         extra_actions: Function executed every frame"""
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
-                 trainers=None, name="", pretty_name="", poke_args=None,
-                 w_poke_args=None, extra_actions=None, weather=None,
+                 trainers=None, name="", pretty_name="",
+                 poke_args: PokeArgs = None,
+                 w_poke_args: PokeArgs = None,
+                 extra_actions: list[PeriodicEvent] | None = None, weather=None,
                  song="03 Chibi Ninja.mp3"):
         super().__init__(height, width, name=name)
         self.song = song
@@ -30,10 +34,6 @@ class PlayMap(gm.GameMap):
         self.registry = {}
         if self.trainers is None:
             self.trainers = []
-        if self.poke_args is None:
-            self.poke_args = {}
-        if self.w_poke_args is None:
-            self.w_poke_args = {}
         self.__extra_actions = extra_actions
         self.weather = None
         if weather is not None:
@@ -52,10 +52,11 @@ class PlayMap(gm.GameMap):
             name: Name in registry"""
         return self.registry.get(name, None)
 
-    def extra_actions(self):
+    def extra_actions(self) -> list[PeriodicEvent]:
         """Executes the extra action"""
         if self.__extra_actions is not None:
-            self.__extra_actions()
+            return self.__extra_actions
+        return []
 
 
 class OutP(se.Text):
@@ -66,7 +67,7 @@ class OutP(se.Text):
         ARGS:
             text: String that's printed out"""
         self.rechar(text)
-        self.map.show()
+        self.map.full_show()
 
     def append(self, *args):
         """Appends another se.Text to the outp
@@ -74,7 +75,7 @@ class OutP(se.Text):
             args: se.Texts that will be appended"""
         for i in args:
             self += i
-        self.map.show()
+        self.map.full_show()
 
 
 if __name__ == "__main__":

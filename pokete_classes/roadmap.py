@@ -1,14 +1,17 @@
 """Contains all classes relevant to show the roadmap"""
-import scrap_engine as se
+import logging
 
-import pokete_data as p_data
+import scrap_engine as se
 import pokete_classes.ob_maps as obmp
+from pokete_classes.asset_service.service import asset_service
+from pokete_classes.classes import PlayMap
+from pokete_classes.context import Context
+from pokete_classes.game import PeriodicEvent
 from util import liner
-from .hotkeys import ACTION_DIRECTIONS, Action, ActionList, get_action
-from .loops import std_loop, easy_exit_loop
+from .input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from .color import Color
-from .ui_elements import Box, InfoBox
-from . import movemap as mvp
+from .ui.elements import Box, InfoBox
+from . import loops
 
 
 class RoadMapException(Exception):
@@ -61,7 +64,8 @@ class Station(StationObject):
         self.color = getattr(Color, color, "\033[1;37m")
         self.base_color = self.color
         self.base_text = text
-        self.associates = [associate] + [obmp.ob_maps[i] for i in additionals]
+        self.associates: list[PlayMap] = [associate] + [obmp.ob_maps[i] for i in
+                                                        additionals]
         if self.associates[0]:
             self.name = self.associates[0].pretty_name
         super().__init__(text, self.color)
@@ -71,11 +75,11 @@ class Station(StationObject):
         self.d_next = d_next
         Station.obs.append(self)
 
-    def choose(self):
+    def choose(self, figure):
         """Chooses and hightlights the station"""
         Station.choosen = self
         self.roadmap.rechar_info(
-            self.name if self.has_been_visited() else "???")
+            self.name if self.has_been_visited(figure) else "???")
 
     def unchoose(self):
         """Unchooses the station"""
@@ -87,7 +91,7 @@ class Station(StationObject):
     def un_blink(self):
         self.rechar(self.text, self.color)
 
-    def next(self, inp: ActionList):
+    def next(self, inp: ActionList, figure):
         """Chooses the next station in a certain direction
         ARGS:
             inp: Action Enum"""
@@ -101,22 +105,22 @@ class Station(StationObject):
             Action.LEFT: "a",
             Action.RIGHT: "d",
         }[inp]
-        if (n_e := getattr(self, inp + "_next")) != "":
+        if (n_e := getattr(self, inp + "_next")) not in ["", None]:
             self.unchoose()
-            getattr(self.roadmap, n_e).choose()
+            getattr(self.roadmap, n_e).choose(figure)
 
-    def has_been_visited(self):
+    def has_been_visited(self, figure):
         """Returns if the stations map has been visited before"""
-        return self.associates[0].name in self.roadmap.fig.visited_maps
+        return self.associates[0].name in figure.visited_maps
 
     def is_city(self):
         """Returns if the station is a city"""
-        return "pokecenter" in p_data.map_data[self.associates[0].name][
-            "hard_obs"]
+        return "pokecenter" in \
+            asset_service.get_assets().obmaps[self.associates[0].name].hard_obs
 
-    def hide_if_visited(self, choose=False):
+    def hide_if_visited(self, figure, choose=False):
         self.text = self.base_text
-        if not self.has_been_visited():
+        if not self.has_been_visited(figure):
             self.color = Color.white
             for ch in ["A", "P", "$", "C", "#"]:
                 self.text = self.text.replace(ch, " ")
@@ -131,15 +135,13 @@ class Station(StationObject):
 
 
 class RoadMap:
-    """Map you can see and navigate maps on
-    ARGS:
-        fig: Figure object"""
+    """Map you can see and navigate maps on"""
 
-    def __init__(self, fig):
-        self.fig = fig
+    def __init__(self):
+        stations = asset_service.get_assets().stations
+        decorations = asset_service.get_assets().decorations
         self.box = Box(
             17, 61, "Roadmap", f"{Action.CANCEL.mapping}:close",
-            overview=mvp.movemap
         )
         self.rose = se.Text("""   N
    ▲
@@ -156,18 +158,18 @@ W ◀ ▶ E
         self.box.add_ob(self.info_label, self.box.width - 2, 0)
         self.box.add_ob(self.rose, 53, 11)
         self.box.add_ob(self.legend, 45, 1)
-        for sta, _dict in p_data.decorations.items():
-            obj = Decoration(**_dict["gen"])
-            self.box.add_ob(obj, **_dict["add"])
+        for sta, d in decorations.items():
+            obj = Decoration(d.gen.text, d.gen.color)
+            self.box.add_ob(obj, d.add.x, d.add.y)
             setattr(self, sta, obj)
 
-        for sta, _dict in p_data.stations.items():
-            obj = Station(self, obmp.ob_maps[sta], **_dict["gen"])
-            self.box.add_ob(obj, **_dict["add"])
+        for sta, d in stations.items():
+            obj = Station(self, obmp.ob_maps[sta], **d.gen.to_dict())
+            self.box.add_ob(obj, d.add.x, d.add.y)
             setattr(self, sta, obj)
 
     @property
-    def sta(self):
+    def sta(self) -> Station:
         """Gives choosen station"""
         return Station.choosen
 
@@ -180,50 +182,56 @@ W ◀ ▶ E
         self.info_label.rechar(name)
         self.box.add_ob(self.info_label, self.box.width - 2 - len(name), 0)
 
-    def __call__(self, _map: se.Submap, pevm, choose=False):
+    def __call__(self, ctx: Context, choose=False):
         """Shows the roadmap
         ARGS:
-            _map: se.Map this is shown on
             choose: Bool whether or not this is done to choose a city"""
         for i in Station.obs:
-            i.hide_if_visited(choose)
+            i.hide_if_visited(ctx.figure, choose)
         [
             i
             for i in Station.obs
             if (
-                   self.fig.map
-                   if self.fig.map
+                   ctx.figure.map
+                   if ctx.figure.map
                       not in [obmp.ob_maps[i] for i in ("shopmap", "centermap")]
-                   else self.fig.oldmap
+                   else ctx.figure.oldmap
                )
                in i.associates
-        ][0].choose()
-        blinker = Blinker()
-        with self.box.center_add(_map):
+        ][0].choose(ctx.figure)
+        self.box.overview = ctx.overview
+        blinker = BlinkerEvent(self.sta)
+        ctx = ctx.with_pevm(ctx.pevm.with_events([blinker])).with_overview(
+            self.box)
+        with self.box.center_add(ctx.map):
             while True:
                 action = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
-                    self.sta.next(action)
+                    self.sta.next(action, ctx.figure)
                 elif action.triggers(Action.MAP, Action.CANCEL):
                     break
                 elif (
                     action.triggers(Action.ACCEPT)
                     and choose
-                    and self.sta.has_been_visited()
+                    and self.sta.has_been_visited(ctx.figure)
                     and self.sta.is_city()
                 ):
                     return self.sta.associates[0]
                 elif (
                     action.triggers(Action.ACCEPT)
                     and not choose
-                    and self.sta.has_been_visited()
+                    and self.sta.has_been_visited(ctx.figure)
                 ):
                     p_list = ", ".join(
                         set(
-                            p_data.pokes[j]["name"]
+                            asset_service.get_base_assets().pokes[j].name
                             for i in self.sta.associates
-                            for j in i.poke_args.get("pokes", [])
-                            + i.w_poke_args.get("pokes", [])
+                            for j in [
+                                *(
+                                    [] if i.poke_args is None else i.poke_args.pokes),
+                                *(
+                                    [] if i.w_poke_args is None else i.w_poke_args.pokes)
+                            ]
                         )
                     )
                     with InfoBox(
@@ -234,39 +242,48 @@ W ◀ ▶ E
                             30,
                         ),
                         self.sta.name,
-                        _map=_map,
-                        overview=self.box,
+                        ctx=ctx,
                     ) as box:
-                        easy_exit_loop(box=box)
-                std_loop(box=self.box, pevm=pevm)
-                blinker(self.sta)
-                _map.full_show()
+                        blinker.box = box
+                        loops.easy_exit(ctx=ctx.with_overview(box))
+                        blinker.box = None
+                blinker.station = self.sta
+                loops.std(ctx=ctx.with_overview(self.box))
+                ctx.map.full_show()
         self.sta.unchoose()
 
-    @staticmethod
-    def check_maps():
-        """Checks for PlayMaps not having a corresponding MapStation"""
-        all_road_maps = ["centermap", "shopmap"]
-        for i, _dict in p_data.stations.items():
-            all_road_maps.append(i)
-            all_road_maps += _dict["gen"]["additionals"]
+    # @staticmethod
+    # TODO: Add to assetloading validation
+    # def check_maps():
+    #    """Checks for PlayMaps not having a corresponding MapStation"""
+    #    all_road_maps = ["centermap", "shopmap"]
+    #    for i, _dict in p_data.stations.items():
+    #        all_road_maps.append(i)
+    #        all_road_maps += _dict["gen"]["additionals"]
+    #
+    #   for _, _map in obmp.ob_maps.items():
+    #        if _map.name not in all_road_maps:
+    #            raise RoadMapException(_map)
 
-        for _, _map in obmp.ob_maps.items():
-            if _map.name not in all_road_maps:
-                raise RoadMapException(_map)
+
+roadmap: RoadMap | None = None
 
 
-class Blinker:
-    def __init__(self):
-        self.idx = 0
+class BlinkerEvent(PeriodicEvent):
+    def __init__(self, station: Station):
+        self.station = station
+        self.blink = False
+        self.box: Box | None = None
 
-    def __call__(self, station: Station):
-        self.idx += 1
-        if self.idx == 10:
-            station.blink()
-        if self.idx == 20:
-            station.un_blink()
-            self.idx = 0
+    def tick(self, tick: int):
+        if tick % 10 == 0:
+            if self.blink:
+                self.station.blink()
+            else:
+                self.station.un_blink()
+            self.blink = not self.blink
+            if self.box:
+                self.box.set(self.box.x, self.box.y)
 
 
 if __name__ == "__main__":

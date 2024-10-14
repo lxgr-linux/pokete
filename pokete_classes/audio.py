@@ -4,7 +4,6 @@ import multiprocessing
 from pathlib import Path
 from .settings import settings
 
-
 MUSIC_PATH = Path(__file__).parents[1] / 'assets' / 'music'
 
 
@@ -18,7 +17,6 @@ def audio_fn(song, play_audio, volume):
         return
 
     import playsound
-
 
     while True:
         playsound.playsound(str(MUSIC_PATH / song), volume)
@@ -54,5 +52,6 @@ class Audio:
     def kill(self):
         """Kills the running music"""
         self.curr.terminate()
+
 
 audio = Audio()

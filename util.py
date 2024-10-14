@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from util.utility import gen_wiki, prepare_after, prepare_before, make_release, \
-    install, wiki
+    install, wiki, validate
 from util.command import RootCommand, Command, not_enough_args, not_found
 
 
@@ -42,6 +42,9 @@ def main():
                     wiki.silent_flag, wiki.quiet_flag, wiki.verbose_flag,
                     wiki.single_flag, wiki.multi_flag, wiki.pics_flag
                 ]
+            ),
+            Command(
+                "validate-data", "Validates pokete_data", validate
             )
         ]
     )

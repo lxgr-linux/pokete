@@ -1,6 +1,7 @@
 """Contains raw achievement data"""
+from pokete_classes.asset_service.resources.base import AchievementDict
 
-achievements = {
+achievements: dict[str, AchievementDict] = {
     "first_poke": {
         "title": "First Pokete",
         "desc": "Catch your first Pokete!"

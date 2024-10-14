@@ -1,34 +1,34 @@
 """Standardized loops components"""
 
+from threading import Event
 import time
-from pokete_classes.hotkeys import Action, get_action
+
 import release
-from .notify import notifier
+from .context import Context
+from .input import Action, get_action
 from .tss import tss
 
 
-def easy_exit_loop(on_mvmp=True, box=None):
-    """Loops until Cancel or Accept is given
-    ARGS:
-        on_mvmp: Indicates if the loop is executed on movemap
-        box: The box this is called for"""
+def easy_exit(ctx: Context | None = None):
+    """Loops until Cancel or Accept is given"""
     while True:
         if get_action().triggers(*(Action.CANCEL, Action.ACCEPT)):
             return
-        std_loop(on_mvmp, box=box)
+        std(ctx)
+
+def event_wait(ctx: Context, event:Event):
+    """Loops until an event is set"""
+    while True:
+        if event.is_set():
+            return
+        std(ctx)
 
 
-def std_loop(on_mvmp=True, pevm=None, box=None):
-    """Standard action executed in most loops
-    ARGS:
-        on_mvmp: Indicates if the loop is executed on movemap
-        pevm: The PeriodicEventManager object, that may be needed to trigger
-              periodic events in the overlaing loop
-        box: The box this is called for"""
-    if box is not None and tss():
-        box.resize_view()
-    if on_mvmp:
-        notifier.next()
-    if pevm is not None:
-        pevm.event()
+def std(ctx: Context | None = None):
+    """Standard action executed in most loops"""
+    if ctx is not None and tss():
+        ctx.overview.resize_view()
+    if ctx is not None:
+        ctx.pevm.event()
+    ctx.map.full_show()
     time.sleep(release.FRAMETIME)

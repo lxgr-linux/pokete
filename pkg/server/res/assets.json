@@ -1,0 +1,336 @@
+{
+    "trainers": {
+        "servermap_1": {
+            "trainers": [
+                {
+                    "pokes": [
+                        {
+                            "name": "hornita",
+                            "xp": 200
+                        }
+                    ],
+                    "args": {
+                        "name": "Markus",
+                        "gender": "He",
+                        "texts": [
+                            "Hey!",
+                            "Welcome on the server!",
+                            "But first, we must fight!"
+                        ],
+                        "lose_texts": [
+                            "Hahaha!",
+                            "Hahaha!",
+                            "You're a loser!"
+                        ],
+                        "win_texts": [
+                            "Damn, I lost!"
+                        ],
+                        "x": 11,
+                        "y": 5
+                    }
+                }
+            ]
+        }
+    },
+    "npcs": {
+        "test_npc": {
+            "texts": [
+                "Hey."
+            ],
+            "fn": null,
+            "map": "servermap_1",
+            "x": 49,
+            "y": 14
+        }
+    },
+    "obmaps": {
+        "servermap_1": {
+            "hard_obs": {
+                "tree_group_1": {
+                    "x": 0,
+                    "y": 0,
+                    "txt": "())\n))()\n()))\n)()(\n))()\n()))\n()))\n(())\n|||"
+                },
+                "tree_group_2": {
+                    "x": 0,
+                    "y": 11,
+                    "txt": "())\n))()\n()))\n)()(\n(())\n|||"
+                },
+                "tree_group_3": {
+                    "x": 35,
+                    "y": 4,
+                    "txt": " ())\n())()\n |||"
+                },
+                "tree_group_5": {
+                    "x": 45,
+                    "y": 4,
+                    "txt": " ())\n())()\n |||"
+                },
+                "tree_group_6": {
+                    "x": 49,
+                    "y": 19,
+                    "txt": " ()))\n(())))\n())())\n ||||"
+                },
+                "tree_group_7": {
+                    "x": 51,
+                    "y": 10,
+                    "txt": " ()))\n(())))\n())())\n ||||"
+                },
+                "tree_group_8": {
+                    "x": 6,
+                    "y": 15,
+                    "txt": "()))\n())))\n()())\n||||"
+                },
+                "tree_group_9": {
+                    "x": 31,
+                    "y": 12,
+                    "txt": " ()))\n(())))\n())())\n ||||"
+                },
+                "pokecenter": {
+                    "x": 20,
+                    "y": 2,
+                    "txt": "  __________\n /         /\\\n/_Center!_/  \\\n| # ___ # |  |\n|___| |___|__|"
+                },
+                "shop": {
+                    "x": 56,
+                    "y": 2,
+                    "txt": "  __________\n /         /\\\n/__Shop!__/  \\\n| # ___ # |  |\n|___| |___|__|"
+                },
+                "house2": {
+                    "x": 18,
+                    "y": 11,
+                    "txt": "  ________\n /       /\\\n/_______/  \\\n|# ___ #|  |\n|__| |__|__|"
+                },
+                "house3": {
+                    "x": 18,
+                    "y": 17,
+                    "txt": "  ________\n /       /\\\n/_______/  \\\n|# ___ #|  |\n|__| |__|__|"
+                },
+                "house4": {
+                    "x": 58,
+                    "y": 9,
+                    "txt": "  ________\n /       /\\\n/_______/  \\\n|# ___ #|  |\n|__| |__|__|"
+                },
+                "fence1": {
+                    "x": 3,
+                    "y": 0,
+                    "txt": "                                   #\n  ##################################\n  #\n  #\n  #\n  #\n  #\n  #\n###\n"
+                },
+                "fence2": {
+                    "x": 45,
+                    "y": 0,
+                    "txt": "#\n###################################\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n                                  #\n###################################\n#"
+                },
+                "fence3": {
+                    "x": 3,
+                    "y": 11,
+                    "txt": "###\n  #\n  #\n  #\n  #\n  #\n  #\n  #\n  #\n  #\n  #\n  #\n  #\n  #\n  ##################################\n                                   #"
+                }
+            },
+            "soft_obs": {
+                "meadow1": {
+                    "x": 61,
+                    "y": 17,
+                    "txt": "    ;;;;;\n  ;;;;;;;;;\n ;;;;;;;;;;;;\n;;;;;;;;;;;;;;\n;;;;;;;;;;;;;\n ;;;;;;;;;;;\n   ;;;;;;;"
+                }
+            },
+            "dors": {
+                "dor_playmap_2_1": {
+                    "x": 0,
+                    "y": 9,
+                    "args": {
+                        "map": "playmap_2",
+                        "x": 109,
+                        "y": 9
+                    }
+                },
+                "dor_playmap_2_2": {
+                    "x": 0,
+                    "y": 10,
+                    "args": {
+                        "map": "playmap_2",
+                        "x": 109,
+                        "y": 10
+                    }
+                },
+                "dor_playmap_4_1": {
+                    "x": 39,
+                    "y": 0,
+                    "args": {
+                        "map": "playmap_4",
+                        "x": 29,
+                        "y": 58
+                    }
+                },
+                "dor_playmap_4_2": {
+                    "x": 40,
+                    "y": 0,
+                    "args": {
+                        "map": "playmap_4",
+                        "x": 29,
+                        "y": 58
+                    }
+                },
+                "dor_playmap_4_3": {
+                    "x": 41,
+                    "y": 0,
+                    "args": {
+                        "map": "playmap_4",
+                        "x": 29,
+                        "y": 58
+                    }
+                },
+                "dor_playmap_4_4": {
+                    "x": 42,
+                    "y": 0,
+                    "args": {
+                        "map": "playmap_4",
+                        "x": 30,
+                        "y": 58
+                    }
+                },
+                "dor_playmap_4_5": {
+                    "x": 43,
+                    "y": 0,
+                    "args": {
+                        "map": "playmap_4",
+                        "x": 30,
+                        "y": 58
+                    }
+                },
+                "dor_playmap_4_6": {
+                    "x": 44,
+                    "y": 0,
+                    "args": {
+                        "map": "playmap_4",
+                        "x": 30,
+                        "y": 58
+                    }
+                },
+                "dor_playmap_6_1": {
+                    "x": 39,
+                    "y": 26,
+                    "args": {
+                        "map": "playmap_6",
+                        "x": 29,
+                        "y": 1
+                    }
+                },
+                "dor_playmap_6_2": {
+                    "x": 40,
+                    "y": 26,
+                    "args": {
+                        "map": "playmap_6",
+                        "x": 29,
+                        "y": 1
+                    }
+                },
+                "dor_playmap_6_3": {
+                    "x": 41,
+                    "y": 26,
+                    "args": {
+                        "map": "playmap_6",
+                        "x": 29,
+                        "y": 1
+                    }
+                },
+                "dor_playmap_6_4": {
+                    "x": 42,
+                    "y": 26,
+                    "args": {
+                        "map": "playmap_6",
+                        "x": 30,
+                        "y": 1
+                    }
+                },
+                "dor_playmap_6_5": {
+                    "x": 43,
+                    "y": 26,
+                    "args": {
+                        "map": "playmap_6",
+                        "x": 30,
+                        "y": 1
+                    }
+                },
+                "dor_playmap_6_6": {
+                    "x": 44,
+                    "y": 26,
+                    "args": {
+                        "map": "playmap_6",
+                        "x": 30,
+                        "y": 1
+                    }
+                },
+                "dor_playmap_49": {
+                    "x": 22,
+                    "y": 15,
+                    "args": {
+                        "map": "playmap_49",
+                        "x": 11,
+                        "y": 7
+                    }
+                }
+            },
+            "special_dors": {
+                "dor": {
+                    "x": 25,
+                    "y": 6
+                },
+                "shopdor": {
+                    "x": 61,
+                    "y": 6
+                }
+            },
+            "balls": {
+                "ball_1": {
+                    "x": 56,
+                    "y": 13
+                },
+                "ball_2": {
+                    "x": 22,
+                    "y": 21
+                },
+                "ball_3": {
+                    "x": 6,
+                    "y": 2
+                }
+            }
+        }
+    },
+    "stations": {
+        "servermap_1": {
+            "gen": {
+                "additionals": [],
+                "desc": "This server",
+                "text": "--",
+                "color": "yellow"
+            },
+            "add": {
+                "x": 4,
+                "y": 7
+            }
+        }
+    },
+    "decorations": {},
+    "maps": {
+        "servermap_1": {
+            "height": 30,
+            "width": 90,
+            "pretty_name": "Sunnydale",
+            "song": "xDeviruchi - Exploring The Unknown.mp3",
+            "extra_actions": null,
+            "poke_args": {
+                "pokes": [
+                    "rato",
+                    "hornita",
+                    "steini",
+                    "voglo",
+                    "wolfior"
+                ],
+                "minlvl": 100,
+                "maxlvl": 200
+            },
+            "weather": null
+        }
+    }
+}
