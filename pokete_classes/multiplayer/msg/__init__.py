@@ -18,5 +18,7 @@ def get_registry():
     reg.register(fight.Request)
     reg.register(fight.Response)
     reg.register(error.UserDoesntExist)
+    reg.register(fight.AttackResult)
+    reg.register(fight.Fight)
 
     return reg

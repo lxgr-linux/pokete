@@ -1,3 +1,4 @@
+from abc import ABC
 from enum import Enum
 from typing import TypedDict
 
@@ -9,16 +10,16 @@ class Method(Enum):
     RESPONSE = "response"
 
 
-class Body():
+class Body(ABC):
     def __init__(self, msg_type: str, data: dict):
         self.type = msg_type
         self.data: dict = data
 
-    def call_for_response(self, context):
+    def call_for_response(self, context) -> "Body":
         """returns Body"""
         raise Exception(f"call_for_response not implemented for {self.type}")
 
-    def call_for_responses(self, context, response_writer):
+    def call_for_responses(self, context, response_writer) -> None:
         raise Exception(f"call_for_responses not implemented for {self.type}")
 
     def get_type(self):

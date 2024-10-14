@@ -15,7 +15,7 @@ class Provider(ABC):
     ARGS:
         pokes: The Poketes the Provider holds"""
 
-    def __init__(self, pokes: list[Poke], escapable, xp_multiplier):
+    def __init__(self, pokes: list[Poke], escapable:bool, xp_multiplier:int):
         self.pokes = pokes
         self.escapable = escapable
         self.xp_multiplier = xp_multiplier

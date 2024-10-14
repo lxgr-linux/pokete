@@ -106,6 +106,9 @@ class CommunicationService:
             case _:
                 return None
 
+    def join_fight(self, fight_id: int) -> bs_rpc.ChannelGenerator:
+        return self.client.call_for_responses(fight.Fight({"fight_id": fight_id}))
+
     def pos_update(self, _map, x, y):
         """Sends a position update to the server
         ARGS:

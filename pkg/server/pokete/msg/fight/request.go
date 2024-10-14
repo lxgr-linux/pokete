@@ -55,9 +55,55 @@ func (r Request) CallForResponse(ctx context.Context) (msg.Body, error) {
 		f := fight.New(attacker, enemy)
 		fights.Add(&f)
 		slog.InfoContext(ctx, "Started fight", slog.Any("fight", f))
+
+		go func() {
+			if err := startFight(ctx, &f); err != nil {
+				slog.ErrorContext(ctx, "Fight crashed up", slog.Any("error", err))
+			}
+		}()
+
 		return dataResp, nil
 	default:
-		slog.WarnContext(ctx, "big uff")
 		return nil, fmt.Errorf("something went wrong initialting fight")
 	}
+}
+
+func startFight(ctx context.Context, f *fight.Fight) error {
+	if err := connectPlayers(f); err != nil {
+		return err
+	}
+
+	slog.InfoContext(ctx, "Waiting for fight...")
+	f.WaitForStart()
+	slog.InfoContext(ctx, "Fight ready")
+
+	for {
+		resp := <-f.Attacker().Incoming
+		switch resp.GetType() {
+		case AttackResultType:
+			attackResult := resp.(AttackResult)
+			_ = attackResult
+		default:
+			slog.WarnContext(
+				ctx, "Received non attackResult resp in fight",
+				slog.Any("resp", resp),
+			)
+		}
+	}
+
+	f.End()
+	return nil
+}
+
+// connectPlayers sets response channels on players
+func connectPlayers(f *fight.Fight) error {
+	for _, p := range f.Players() {
+		respChan, err := p.User.Client.CallForResponses(NewFight(f.ID))
+		if err != nil {
+			return err
+		}
+		p.Incoming = respChan
+	}
+
+	return nil
 }

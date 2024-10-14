@@ -1,5 +1,6 @@
 """Standardized loops components"""
 
+from threading import Event
 import time
 
 import release
@@ -12,6 +13,13 @@ def easy_exit(ctx: Context | None = None):
     """Loops until Cancel or Accept is given"""
     while True:
         if get_action().triggers(*(Action.CANCEL, Action.ACCEPT)):
+            return
+        std(ctx)
+
+def event_wait(ctx: Context, event:Event):
+    """Loops until an event is set"""
+    while True:
+        if event.is_set():
             return
         std(ctx)
 

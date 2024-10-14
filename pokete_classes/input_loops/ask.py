@@ -1,4 +1,5 @@
 """This file contains input wrappers for ui elements"""
+from threading import Event
 from ..context import Context
 from ..ui.elements import InfoBox, InputBox
 from ..input import Action, get_action, _ev
@@ -25,6 +26,12 @@ def ask_bool(ctx: Context, text):
                 break
             loops.std(ctx.with_overview(box))
     return ret
+
+
+def wait_event(ctx: Context, text:str, event:Event):
+    """Shows box until event is set"""
+    with InfoBox(text, info="", ctx=ctx):
+        loops.event_wait(ctx, event)
 
 
 def ask_text(ctx: Context, infotext, introtext, text, name, max_len):

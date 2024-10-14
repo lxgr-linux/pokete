@@ -75,7 +75,7 @@ class Client:
                 msg_parts = msg_buf.split(END_SECTION)
 
                 msg: Msg = json.loads(msg_parts[0])
-                logging.info("[BsRpc] Received data: %s", msg)
+                #logging.info("[BsRpc] Received data: %s", msg)
 
                 body: Body = self.reg.get(msg["type"])(
                     data=msg["body"]
