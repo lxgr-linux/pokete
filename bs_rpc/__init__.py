@@ -1,9 +1,10 @@
 import json
 import logging
+import threading
 import time
 
 from .channel_generator import ChannelGenerator
-from .msg import Body, Method, Msg, EmptyMsg
+from .msg import Body, Method, Msg, EmptyMsg, ResponseWriter
 from .channel import Channel
 from .registry import Registry
 
@@ -14,7 +15,7 @@ class Client:
     def __init__(self, rw, reg: Registry):
         self.rw = rw
         self.reg = reg
-        self.calls: dict[int: Channel] = {}
+        self.calls: dict[int, Channel] = {}
 
     def __send(self, body: Body, call: int, method: Method):
         """Sends a request to the server
@@ -66,6 +67,30 @@ class Client:
 
         return ChannelGenerator(ch, close_fn)
 
+    def __eval_msg(self, context, msg:Msg, body:Body):
+        match Method(msg["method"]):
+            case Method.CALL_FOR_RESPONSE:
+                resp: Body = body.call_for_response(context)
+                self.__send(
+                    resp, msg["call"],
+                    Method.RESPONSE
+                )
+            case Method.CALL_FOR_RESPONSES:
+                def response_writer(b: Body):
+                    self.__send(b, msg["call"], Method.RESPONSE)
+
+                body.call_for_responses(context, response_writer)
+                self.__send(
+                    EmptyMsg({}), msg["call"],
+                    Method.RESPONSE_CLOSE
+                )
+            case Method.RESPONSE:
+                ch = self.__get_call(msg["call"])
+                ch.push(body)
+            case Method.RESPONSE_CLOSE:
+                ch = self.__get_call(msg["call"])
+                ch.close()
+
     def listen(self, context):
         msg_buf = b""
         while True:
@@ -81,27 +106,8 @@ class Client:
                     data=msg["body"]
                 )
 
-                match Method(msg["method"]):
-                    case Method.CALL_FOR_RESPONSE:
-                        resp: Body = body.call_for_response(context)
-                        self.__send(
-                            resp, msg["call"],
-                            Method.RESPONSE
-                        )
-                    case Method.CALL_FOR_RESPONSES:
-                        def response_writer(b: Body):
-                            self.__send(b, msg["call"], Method.RESPONSE)
-
-                        body.call_for_responses(context, response_writer)
-                        self.__send(
-                            EmptyMsg({}), msg["call"],
-                            Method.RESPONSE_CLOSE
-                        )
-                    case Method.RESPONSE:
-                        ch = self.__get_call(msg["call"])
-                        ch.push(body)
-                    case Method.RESPONSE_CLOSE:
-                        ch = self.__get_call(msg["call"])
-                        ch.close()
+                threading.Thread(
+                    target=self.__eval_msg, args=(context, msg, body)
+                ).start()
 
                 msg_buf = bytes.join(END_SECTION, msg_parts[1:])
