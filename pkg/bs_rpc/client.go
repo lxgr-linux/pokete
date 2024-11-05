@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"time"
 
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
@@ -59,6 +60,7 @@ func (c Client) CallForResponses(body msg.Body) (<-chan msg.Body, error) {
 
 func (c Client) send(body msg.Body, call uint32, method msg.Method) error {
 	m := msg.NewMsg(body, call, method)
+	slog.Info("sending" + string(body.GetType()))
 
 	resp, err := json.Marshal(m)
 	if err != nil {

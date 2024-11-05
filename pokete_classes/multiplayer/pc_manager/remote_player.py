@@ -67,9 +67,9 @@ class NameTag(se.Box, MapInteract):
             y: The Y-coordinate"""
         if player_map == self.ctx.figure.map:
             self.add(
-                mvp.movemap,
-                x - mvp.movemap.x - round(self.width / 2),
-                y - mvp.movemap.y - 2,
+                self.ctx.map,
+                x - self.ctx.map.x - round(self.width / 2),
+                y - self.ctx.map.y - 2,
             )
 
     def add(self, _map, x, y):

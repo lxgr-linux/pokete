@@ -32,7 +32,7 @@ class Poke:
         player: Bool whether or not the Poke belongs to the player
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
-    def __init__(self, poke, _xp, _hp="SKIP", _ap=None, _attacks=None,
+    def __init__(self, poke:str, _xp:int, _hp="SKIP", _ap=None, _attacks=None,
                  _effects=None, player=True, shiny=False, nature=None,
                  stats=None):
         self.nature = PokeNature.random() if nature is None \

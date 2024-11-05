@@ -5,6 +5,7 @@ import (
 	error2 "github.com/lxgr-linux/pokete/server/pokete/msg/error"
 	"github.com/lxgr-linux/pokete/server/pokete/msg/fight"
 	"github.com/lxgr-linux/pokete/server/pokete/msg/map_info"
+	"github.com/lxgr-linux/pokete/server/pokete/msg/player"
 	"github.com/lxgr-linux/pokete/server/pokete/msg/position"
 )
 
@@ -63,6 +64,16 @@ func GetRegistry() (*msg.Registry, error) {
 		return nil, err
 	}
 	err = reg.RegisterType(fight.AttackResultType, msg.NewGenericUnmarshaller[fight.AttackResult]())
+	if err != nil {
+		return nil, err
+	}
+
+	err = reg.RegisterType(player.GetType, msg.NewGenericUnmarshaller[player.Get]())
+	if err != nil {
+		return nil, err
+	}
+
+	err = reg.RegisterType(player.PlayerType, msg.NewGenericUnmarshaller[player.Player]())
 	if err != nil {
 		return nil, err
 	}

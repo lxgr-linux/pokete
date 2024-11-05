@@ -22,6 +22,7 @@ from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.interactions.context_menu import ContextMenu
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
 from pokete_classes.multiplayer.pc_manager import pc_manager
+from pokete_classes.multiplayer.remote_fight import main_thread_fight_attacher
 from pokete_classes.poke import Stats
 from pokete_classes.fight import ProtoFigure
 from pokete_classes import roadmap
@@ -444,7 +445,7 @@ def _game(_map: PlayMap):
             mvp.movemap.code_label.outp(figure.map.pretty_name)
             codes(inp)
             _ev.clear()
-
+        main_thread_fight_attacher.attach(ctx)
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,

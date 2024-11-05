@@ -26,7 +26,7 @@ class ContextMenu:
                 resp = com_service.request_fight(rmtpl.name)
                 #ask_ok(ctx, f"{resp}")
                 if resp:
-                    remote_fight.start(rmtpl.ctx)
+                    remote_fight.start(rmtpl.ctx, rmtpl.name)
             case "Trade":
                 pass
             case "Quit...":

@@ -1,5 +1,5 @@
 import bs_rpc
-from . import position, error, map_info, fight
+from . import position, error, map_info, fight, player
 from .handshake import Handshake
 
 
@@ -20,5 +20,7 @@ def get_registry():
     reg.register(error.UserDoesntExist)
     reg.register(fight.AttackResult)
     reg.register(fight.Fight)
+    reg.register(player.Player)
+    reg.register(player.Get)
 
     return reg

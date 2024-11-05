@@ -15,7 +15,8 @@ const UpdateType msg.Type = "pokete.position.update"
 
 type Update struct {
 	msg.BaseMsg
-	user.User
+	Name     string        `json:"name"`
+	Position user.Position `json:"position"`
 }
 
 func (u Update) GetType() msg.Type {
@@ -34,5 +35,5 @@ func (u Update) CallForResponse(ctx context.Context) (msg.Body, error) {
 }
 
 func NewUpdate(user user.User) Update {
-	return Update{msg.BaseMsg{}, user}
+	return Update{msg.BaseMsg{}, user.Name, user.Position}
 }

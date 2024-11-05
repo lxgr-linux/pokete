@@ -17,5 +17,5 @@ class Fight(bs_rpc.Body):
 
     def call_for_responses(self, context, response_writer):
         chan = context.join_fight(self.data["fight_id"])
-        remote_fight.ready(response_writer, chan)
+        remote_fight.ready(response_writer, chan, context)
         remote_fight.end.wait()

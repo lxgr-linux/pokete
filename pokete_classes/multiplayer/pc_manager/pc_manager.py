@@ -3,7 +3,7 @@ import logging
 
 from .remote_player import RemotePlayer
 from ..interactions import movemap_deco
-from ...multiplayer.msg.position.update import User
+from ...multiplayer.msg.position.update import UpdateDict
 from ... import ob_maps as obmp
 
 
@@ -12,7 +12,7 @@ class PCManager:
 
     def __init__(self):
         self.reg: dict[str, RemotePlayer] = {}
-        self.waiting_users: list[User] = []
+        self.waiting_users: list[UpdateDict] = []
 
     def set(self, name, _map, x, y):
         """Stets a remote player to a certain position

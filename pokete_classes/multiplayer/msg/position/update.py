@@ -12,13 +12,11 @@ class Position(TypedDict):
     y: int
 
 
-class User(TypedDict):
+class UpdateDict(TypedDict):
     name: str
     position: Position
-    client: None  # TODO: Remove later
-    pokes: list[PokeDict]
 
 
 class Update(bs_rpc.Body):
-    def __init__(self, data: User):
+    def __init__(self, data: UpdateDict):
         super().__init__(UPDATE_TYPE, data)

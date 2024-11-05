@@ -2,6 +2,7 @@ import threading
 from typing import TypedDict
 
 import bs_rpc
+from pokete_classes.multiplayer.remote_fight import main_thread_fight_attacher
 from ....input_loops import ask_bool
 from ...remote_fight import remote_fight
 from ...pc_manager import pc_manager
@@ -21,10 +22,5 @@ class Request(bs_rpc.Body):
     def call_for_response(self, context):
         name = self.data["name"]
         rmtpl = pc_manager.get(name)
-        accept = ask_bool(
-            rmtpl.ctx,
-            f"'{name}' wants to start a fight with you"
-        )
-        if accept:
-            threading.Thread(target=remote_fight.start, args=(rmtpl.ctx, ), daemon=True).start()
+        accept = main_thread_fight_attacher.set_ready(name).listen()
         return Response({"accept": accept})

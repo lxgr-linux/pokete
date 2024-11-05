@@ -15,7 +15,7 @@ class Attack:
         index: The attacks basic name
         pref: Prefix used for the attack label"""
 
-    def __init__(self, index, pref=""):
+    def __init__(self, index, pref="", ap:int|None=None):
         inf = attacks[index]
         # Attributes
         self.name = inf["name"]
@@ -44,6 +44,8 @@ class Attack:
             )
         self.pref = pref
         self.label = self.make_label()
+        if ap != None:
+            self.set_ap(ap)
 
     def make_label(self):
         """Creates label

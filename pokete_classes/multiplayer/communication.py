@@ -1,3 +1,4 @@
+import logging
 import threading
 import socket
 
@@ -7,14 +8,14 @@ from pokete_classes.context import Context
 from pokete_classes.multiplayer import msg
 from pokete_classes.multiplayer.exceptions import ConnectionException, \
     VersionMismatchException, UserPresentException, InvalidPokeException
-from pokete_classes.multiplayer.msg import position, error, map_info, fight
-from pokete_classes.multiplayer.msg.position.update import User
+from pokete_classes.multiplayer.msg import player, position, error, map_info, fight
+from pokete_classes.multiplayer.msg.position.update import UpdateDict
 from pokete_classes.multiplayer.pc_manager import pc_manager
 
 
 class CommunicationService:
     def __init__(self):
-        self.client: bs_rpc.Client | None = None
+        self.client: bs_rpc.Client
         self.saved_pos = ()
 
     def __subscribe_position_updates(self):
@@ -25,16 +26,16 @@ class CommunicationService:
         for body in gen():
             match body.get_type():
                 case position.UPDATE_TYPE:
-                    data: User = body.data
+                    update_data: UpdateDict = body.data
                     pc_manager.set(
-                        data["name"],
-                        data["position"]["map"],
-                        data["position"]["x"],
-                        data["position"]["y"],
+                        update_data["name"],
+                        update_data["position"]["map"],
+                        update_data["position"]["x"],
+                        update_data["position"]["y"],
                     )
                 case position.REMOVE_TYPE:
-                    data: position.RemoveData = body.data
-                    pc_manager.remove(data["user_name"])
+                    pos_data: position.RemoveData = body.data
+                    pc_manager.remove(pos_data["user_name"])
 
     def __call__(self):
         threading.Thread(
@@ -78,8 +79,8 @@ class CommunicationService:
             case error.USER_EXISTS_TYPE:
                 raise UserPresentException()
             case error.INVALID_POKE_TYPE:
-                data: error.InvalidPokeData = resp.data
-                raise InvalidPokeException(data["error"])
+                err_data: error.InvalidPokeData = resp.data
+                raise InvalidPokeException(err_data["error"])
             case map_info.INFO_TYPE:
                 data: map_info.InfoData = resp.data
                 asset_service.load_assets(data["assets"])
@@ -123,9 +124,19 @@ class CommunicationService:
                     "x": x,
                     "y": y,
                 },
-                "client": None,
-                "pokes": [],
             }))
+
+    def get_player(self, name) -> player.User:
+        resp = self.client.call_for_response(
+            player.Get({"name": name})
+        )
+        logging.info(resp)
+        match resp.get_type():
+            case player.PLAYER_TYPE:
+                data: player.PlayerData = resp.data
+                return data["user"]
+            case _:
+                raise Exception(resp)
 
 
 com_service: CommunicationService = CommunicationService()
