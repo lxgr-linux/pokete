@@ -12,6 +12,7 @@ class User(TypedDict):
     positon: Position
     client: None
     pokes: list[PokeDict]
+    items: dict[str, int]
 
 class PlayerData(TypedDict):
     user: User

@@ -1,4 +1,4 @@
-from ..remote_fight import remote_fight
+from ..remote_fight import remote_fight_controller
 from ..communication import com_service
 from ...context import Context
 from ...input_loops import ask_ok
@@ -26,7 +26,7 @@ class ContextMenu:
                 resp = com_service.request_fight(rmtpl.name)
                 #ask_ok(ctx, f"{resp}")
                 if resp:
-                    remote_fight.start(rmtpl.ctx, rmtpl.name)
+                    remote_fight_controller.start(rmtpl.ctx, rmtpl.name)
             case "Trade":
                 pass
             case "Quit...":

@@ -22,5 +22,6 @@ def get_registry():
     reg.register(fight.Fight)
     reg.register(player.Player)
     reg.register(player.Get)
+    reg.register(fight.Starter)
 
     return reg

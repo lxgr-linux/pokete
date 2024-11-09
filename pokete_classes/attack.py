@@ -18,6 +18,7 @@ class Attack:
     def __init__(self, index, pref="", ap:int|None=None):
         inf = attacks[index]
         # Attributes
+        self.index = index
         self.name = inf["name"]
         self.factor = inf["factor"]
         self.action = inf["action"]

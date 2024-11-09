@@ -6,13 +6,13 @@ import (
 )
 
 type Player struct {
-	User      *user.User
-	Incoming  <-chan msg.Body
-	Outgoinng msg.Responder
+	User     *user.User
+	Incoming <-chan msg.Body
+	Outgoing msg.Responder
 }
 
 func (p Player) Ready() bool {
-	return p.Incoming != nil && p.Outgoinng != nil
+	return p.Incoming != nil && p.Outgoing != nil
 }
 
 type Fight struct {

@@ -2,7 +2,7 @@ from threading import Event, main_thread
 
 import bs_rpc
 from pokete_classes.input_loops.ask import ask_bool
-from pokete_classes.multiplayer.remote_fight import remote_fight
+from pokete_classes.multiplayer.remote_fight import remote_fight_controller
 
 
 class MainThreatFightAttacher:
@@ -19,7 +19,7 @@ class MainThreatFightAttacher:
             )
             self.__chan.push(accept)
             self.__chan.close
-            remote_fight.start(ctx, self.__name)
+            remote_fight_controller.start(ctx, self.__name)
             self.__ready = False
 
     def set_ready(self, name) -> bs_rpc.Channel:

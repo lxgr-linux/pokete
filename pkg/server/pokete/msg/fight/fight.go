@@ -42,7 +42,7 @@ func (i Fight) CallForResponses(ctx context.Context, r msg.Responder) error {
 
 	for _, p := range fight.Players() {
 		if p.User.Name == user.Name {
-			p.Outgoinng = r
+			p.Outgoing = r
 			fight.CheckReady()
 			fight.WaitForEnd()
 			return nil

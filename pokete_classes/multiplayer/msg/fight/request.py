@@ -4,7 +4,7 @@ from typing import TypedDict
 import bs_rpc
 from pokete_classes.multiplayer.remote_fight import main_thread_fight_attacher
 from ....input_loops import ask_bool
-from ...remote_fight import remote_fight
+from ...remote_fight import remote_fight_controller
 from ...pc_manager import pc_manager
 from .reponse import Response
 

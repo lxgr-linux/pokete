@@ -2,7 +2,7 @@ import threading
 from typing import TypedDict
 
 import bs_rpc
-from ...remote_fight import remote_fight
+from ...remote_fight import remote_fight_controller
 
 FIGHT_TYPE = "pokete.fight.fight"
 
@@ -17,5 +17,5 @@ class Fight(bs_rpc.Body):
 
     def call_for_responses(self, context, response_writer):
         chan = context.join_fight(self.data["fight_id"])
-        remote_fight.ready(response_writer, chan, context)
-        remote_fight.end.wait()
+        remote_fight_controller.ready(response_writer, chan, context)
+        remote_fight_controller.end.wait()

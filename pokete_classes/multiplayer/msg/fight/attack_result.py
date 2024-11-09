@@ -7,8 +7,8 @@ ATTACK_RESULT_TYPE = "pokete.fight.attackResult"
 
 class AttackResultData(TypedDict):
     result: int
-    attack: str
-    item: str
+    attack: str | None
+    item: str | None
 
 
 class AttackResult(bs_rpc.Body):

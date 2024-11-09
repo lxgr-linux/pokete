@@ -25,6 +25,11 @@ class Fight:
         self.fight_items = FightItems()
         self.attack_process = AttackProcess(self.fightmap)
 
+    def initial_player_index(self):
+        return self.providers.index(
+            max(self.providers, key=lambda i: i.curr.initiative)
+        )
+
     def __call__(self, ctx: Context, providers: list[Provider]):
         ctx = Context(
             PeriodicEventManager([]), self.fightmap, ctx.overview,
@@ -45,9 +50,7 @@ class Fight:
             prov.index_conf()
         self.fightmap.add_providers(self.providers)
 
-        index = self.providers.index(
-            max(self.providers, key=lambda i: i.curr.initiative)
-        )
+        index = self.initial_player_index()
         for prov in self.providers:
             i = prov.curr
             for j in i.effects:
@@ -65,7 +68,7 @@ class Fight:
                 )
                 match attack_result.result:
                     case Result.ATTACK:
-                        attack: Attack = attack_result.attack
+                        attack: Attack = attack_result.attack_value
                         self.attack_process(player.curr, enem.curr, attack,
                                             self.providers)
 
@@ -95,7 +98,7 @@ class Fight:
                                 audio.switch(ctx.figure.map.song)
                                 return player
                     case Result.ITEM:
-                        item: InvItem = attack_result.item
+                        item: InvItem = attack_result.item_value
                         fight_func = getattr(self.fight_items, item.func)
                         match fight_func(self.fightmap, player, enem):
                             case 1:

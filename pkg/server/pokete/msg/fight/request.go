@@ -69,6 +69,7 @@ func (r Request) CallForResponse(ctx context.Context) (msg.Body, error) {
 }
 
 func startFight(ctx context.Context, f *fight.Fight) error {
+	defer f.End()
 	if err := connectPlayers(f); err != nil {
 		return err
 	}
@@ -77,12 +78,20 @@ func startFight(ctx context.Context, f *fight.Fight) error {
 	f.WaitForStart()
 	slog.InfoContext(ctx, "Fight ready")
 
-	for {
+	starter := NewStarter(f.Attacker().User.Name)
+	f.Attacker().Outgoing(starter)
+	f.Defender().Outgoing(starter)
+
+	for ; ; f.Next() {
 		resp := <-f.Attacker().Incoming
 		switch resp.GetType() {
 		case AttackResultType:
 			attackResult := resp.(AttackResult)
-			_ = attackResult
+			slog.InfoContext(ctx, "Forward")
+			err := f.Defender().Outgoing(attackResult)
+			if err != nil {
+				return nil
+			}
 		default:
 			slog.WarnContext(
 				ctx, "Received non attackResult resp in fight",
@@ -91,7 +100,6 @@ func startFight(ctx context.Context, f *fight.Fight) error {
 		}
 	}
 
-	f.End()
 	return nil
 }
 
