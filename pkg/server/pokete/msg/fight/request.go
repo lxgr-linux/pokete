@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"math/rand"
 
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
 	pctx "github.com/lxgr-linux/pokete/server/context"
@@ -86,11 +87,20 @@ func startFight(ctx context.Context, f *fight.Fight) error {
 		resp := <-f.Attacker().Incoming
 		switch resp.GetType() {
 		case FightDecisionType:
+			seed := NewSeed(rand.Uint32())
 			attackResult := resp.(FightDecision)
-			slog.InfoContext(ctx, "Forward")
-			err := f.Defender().Outgoing(attackResult)
+			err := f.Attacker().Outgoing(seed)
 			if err != nil {
-				return nil
+				return err
+			}
+
+			err = f.Defender().Outgoing(seed)
+			if err != nil {
+				return err
+			}
+			err = f.Defender().Outgoing(attackResult)
+			if err != nil {
+				return err
 			}
 		default:
 			slog.WarnContext(

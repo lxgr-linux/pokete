@@ -1,4 +1,5 @@
 import logging
+import random
 from typing import Generator
 import bs_rpc
 from pokete_classes.attack import Attack
@@ -31,6 +32,14 @@ class RemoteProvider(Provider):
     def get_decision(
         self, ctx: Context, fightmap: FightMap, enem
     ) -> FightDecision:
+        resp = next(self.incomming)
+        match resp.type:
+            case fight.SEED_TYPE:
+                seed: fight.SeedData = resp.data
+                random.seed(seed["seed"])
+            case _:
+                assert False, resp.type
+
         resp = next(self.incomming)
         match resp.type:
             case fight.FIGHT_DECISION_TYPE:

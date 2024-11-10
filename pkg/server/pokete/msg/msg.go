@@ -83,5 +83,10 @@ func GetRegistry() (*msg.Registry, error) {
 		return nil, err
 	}
 
+	err = reg.RegisterType(fight.SeedType, msg.NewGenericUnmarshaller[fight.Seed]())
+	if err != nil {
+		return nil, err
+	}
+
 	return &reg, nil
 }

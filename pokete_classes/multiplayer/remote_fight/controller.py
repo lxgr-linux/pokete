@@ -40,7 +40,7 @@ class RemoteFightController:
         starter = self.__wait_starter()
 
         RemoteFight(starter != name)(ctx, [
-            FigureWrapperProvider(ctx.figure, self.outgoing),
+            FigureWrapperProvider(ctx.figure, self.outgoing, self.incomming),
             RemoteProvider(
                 name, self.outgoing, self.incomming, self.com_service
             )
