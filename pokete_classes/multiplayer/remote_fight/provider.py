@@ -3,7 +3,7 @@ from typing import Generator
 import bs_rpc
 from pokete_classes.attack import Attack
 from pokete_classes.context import Context
-from pokete_classes.fight.attack_result import AttackResult
+from pokete_classes.fight.fight_decision import FightDecision
 from pokete_classes.fight.fightmap.fightmap import FightMap
 from pokete_classes.multiplayer.msg import player, fight
 from pokete_classes.poke.poke import Poke
@@ -28,16 +28,14 @@ class RemoteProvider(Provider):
     def greet(self, fightmap: FightMap):
         fightmap.outp.outp(f"Fight started with {self.name}, good luck!")
 
-    def get_attack(
+    def get_decision(
         self, ctx: Context, fightmap: FightMap, enem
-    ) -> AttackResult:
-        logging.info("Waiting attack")
+    ) -> FightDecision:
         resp = next(self.incomming)
-        logging.info(resp)
         match resp.type:
-            case fight.ATTACK_RESULT_TYPE:
-                data: fight.AttackResultData = resp.data
-                return AttackResult.from_dict(data, self.curr, self.player)
+            case fight.FIGHT_DECISION_TYPE:
+                data: fight.FightDecisionData = resp.data
+                return FightDecision.from_dict(data, self.curr, self.player)
             case _:
                 assert False
 

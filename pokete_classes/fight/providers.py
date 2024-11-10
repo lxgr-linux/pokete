@@ -3,7 +3,7 @@
 import random
 import time
 from abc import ABC, abstractmethod
-from .attack_result import AttackResult
+from .fight_decision import FightDecision
 from ..context import Context
 from ..poke import Poke
 from ..input_loops import ask_bool
@@ -45,10 +45,10 @@ class Provider(ABC):
         )
 
     @abstractmethod
-    def get_attack(
+    def get_decision(
         self, ctx: Context, fightmap: "FightMap",
         enem
-    ) -> AttackResult:
+    ) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
@@ -78,12 +78,12 @@ class NatureProvider(Provider):
     def __init__(self, poke):
         super().__init__([poke], escapable=True, xp_multiplier=1)
 
-    def get_attack(self, ctx: Context, fightmap, enem) -> AttackResult:
+    def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
             enem: The enemy Provider"""
-        return AttackResult.attack(random.choices(
+        return FightDecision.attack(random.choices(
             self.curr.attack_obs,
             weights=[
                 i.ap for i in self.curr.attack_obs
@@ -116,7 +116,7 @@ class ProtoFigure(Provider):
             fightmap: fightmap object"""
         return
 
-    def get_attack(self, ctx: Context, fightmap, enem) -> AttackResult:
+    def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object

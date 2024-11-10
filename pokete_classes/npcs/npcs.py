@@ -11,7 +11,7 @@ from .npc_trigger import NPCTrigger
 from .ui import UI
 from ..asset_service.resources import Chat
 from ..context import Context
-from ..fight import Fight, Provider, AttackResult
+from ..fight import Fight, Provider, FightDecision
 from ..input import get_action
 from ..input_loops import ask_bool
 from ..interactions import MultiTextChooseBox, Interactor
@@ -133,8 +133,8 @@ class Trainer(NPC, Provider):
         self.win_texts = win_texts
         self.trainer = True
 
-    def get_attack(self, ctx: Context, fightmap, enem) -> AttackResult:
-        return AttackResult.attack(random.choices(
+    def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
+        return FightDecision.attack(random.choices(
             self.curr.attack_obs,
             weights=[
                 i.ap * (

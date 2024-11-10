@@ -85,8 +85,8 @@ func startFight(ctx context.Context, f *fight.Fight) error {
 	for ; ; f.Next() {
 		resp := <-f.Attacker().Incoming
 		switch resp.GetType() {
-		case AttackResultType:
-			attackResult := resp.(AttackResult)
+		case FightDecisionType:
+			attackResult := resp.(FightDecision)
 			slog.InfoContext(ctx, "Forward")
 			err := f.Defender().Outgoing(attackResult)
 			if err != nil {

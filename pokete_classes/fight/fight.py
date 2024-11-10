@@ -4,7 +4,7 @@ import time
 
 from release import SPEED_OF_TIME
 from .attack_process import AttackProcess
-from .attack_result import Result
+from .fight_decision import Result
 from .fight_items import FightItems
 from .fightmap import FightMap
 from .providers import Provider
@@ -62,7 +62,7 @@ class Fight:
             loser: Provider | None = None
 
             while True:
-                attack_result = player.get_attack(
+                attack_result = player.get_decision(
                     ctx.with_overview(self.fightmap),
                     self.fightmap, enem
                 )

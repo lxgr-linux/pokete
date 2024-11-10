@@ -2,7 +2,7 @@ package fight
 
 import "github.com/lxgr-linux/pokete/bs_rpc/msg"
 
-const AttackResultType msg.Type = "pokete.fight.attackResult"
+const FightDecisionType msg.Type = "pokete.fight.fightDecision"
 
 type Result uint
 
@@ -13,13 +13,13 @@ const (
 	Result_ChoosePoke
 )
 
-type AttackResult struct {
+type FightDecision struct {
 	msg.BaseMsg
 	Result Result `json:"result"`
 	Attack string `json:"attack"`
 	Item   string `json:"item"`
 }
 
-func (r AttackResult) GetType() msg.Type {
-	return AttackResultType
+func (r FightDecision) GetType() msg.Type {
+	return FightDecisionType
 }

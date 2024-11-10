@@ -1,5 +1,5 @@
 from .fightmap import FightMap
 from .fight import Fight
-from .attack_result import AttackResult
+from .fight_decision import FightDecision
 from .providers import NatureProvider, Provider, ProtoFigure
 from .attack_process import AttackProcess

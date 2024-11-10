@@ -1,7 +1,7 @@
 from enum import Enum, auto
 import logging
 
-from pokete_classes.multiplayer.msg.fight.attack_result import AttackResultData
+from pokete_classes.multiplayer.msg.fight.fight_decision import FightDecisionData
 from pokete_classes.multiplayer.msg.player import player
 from pokete_classes.multiplayer.msg.poke import PokeDict
 from pokete_classes.inv.items import invitems
@@ -18,7 +18,7 @@ class Result(Enum):
 
 
 
-class AttackResult:
+class FightDecision:
     def __init__(
         self, result: Result, attack: Attack | None = None,
         item: InvItem | None = None
@@ -27,8 +27,8 @@ class AttackResult:
         self.attack_value: Attack | None = attack
         self.item_value: InvItem | None = item
 
-    def to_dict(self) -> AttackResultData:
-        result: AttackResultData = {
+    def to_dict(self) -> FightDecisionData:
+        result: FightDecisionData = {
             "result": self.result.value,
             "attack": None if self.attack_value is None else self.attack_value.index,
             "item": None if self.item_value is None else self.item_value.name,
@@ -37,7 +37,7 @@ class AttackResult:
 
     @classmethod
     def from_dict(
-        cls, _d: AttackResultData, _poke: Poke, _player: player.User
+        cls, _d: FightDecisionData, _poke: Poke, _player: player.User
     ):
         match _d["result"]:
             case Result.ATTACK.value:
@@ -58,17 +58,17 @@ class AttackResult:
 
 
     @classmethod
-    def attack(cls, attack: Attack) -> "AttackResult":
+    def attack(cls, attack: Attack) -> "FightDecision":
         return cls(Result.ATTACK, attack=attack)
 
     @classmethod
-    def run_away(cls) -> "AttackResult":
+    def run_away(cls) -> "FightDecision":
         return cls(Result.RUN_AWAY)
 
     @classmethod
-    def item(cls, item: InvItem) -> "AttackResult":
+    def item(cls, item: InvItem) -> "FightDecision":
         return cls(Result.ITEM, item=item)
 
     @classmethod
-    def choose_poke(cls) -> "AttackResult":
+    def choose_poke(cls) -> "FightDecision":
         return cls(Result.CHOOSE_POKE)

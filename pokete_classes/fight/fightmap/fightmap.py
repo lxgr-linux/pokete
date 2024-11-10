@@ -8,7 +8,7 @@ from pokete_classes.context import Context
 from release import SPEED_OF_TIME
 from ...input_loops import ask_bool
 from ...ui import Overview
-from ..attack_result import AttackResult
+from ..fight_decision import FightDecision
 from ...input import Action, get_action
 from ..providers import ProtoFigure, Provider
 from ...ui.elements import StdFrame2
@@ -191,7 +191,7 @@ class FightMap(gm.GameMap, Overview):
             self.show()
             time.sleep(SPEED_OF_TIME * 0.1)
 
-    def get_figure_attack(self, ctx: Context, player, enem) -> AttackResult:
+    def get_figure_attack(self, ctx: Context, player, enem) -> FightDecision:
         """Chooses the players attack
         ARGS:
             player: The players provider
@@ -213,11 +213,11 @@ class FightMap(gm.GameMap, Overview):
                     )
                 ]
                 if attack.ap > 0:
-                    return AttackResult.attack(attack)
+                    return FightDecision.attack(attack)
             elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
                 attack = self.box(ctx, player.curr.attack_obs)
                 if attack != "":
-                    return AttackResult.attack(attack)
+                    return FightDecision.attack(attack)
             elif action.triggers(Action.RUN):
                 if (
                     not enem.escapable
@@ -226,7 +226,7 @@ class FightMap(gm.GameMap, Overview):
                     "Do you really want to run away?",
                 )):
                     continue
-                return AttackResult.run_away()
+                return FightDecision.run_away()
             elif action.triggers(Action.CHOOSE_ITEM):
                 items: list[InvItem] = [
                     getattr(invitems, i)
@@ -243,12 +243,12 @@ class FightMap(gm.GameMap, Overview):
                 if item is None:
                     continue
 
-                return AttackResult.item(item)
+                return FightDecision.item(item)
             elif action.triggers(Action.CHOOSE_POKE):
                 if not self.choose_poke(ctx, player):
                     self.show(init=True)
                     continue
-                return AttackResult.choose_poke()
+                return FightDecision.choose_poke()
             loops.std(ctx)
             self.show()
 
