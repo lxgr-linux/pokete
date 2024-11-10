@@ -16,7 +16,7 @@ class AttackProcess:
         self.fightmap: FightMap = fightmap
 
     @staticmethod
-    def get_random_factor(attack, attacker) -> int:
+    def get_random_factor(attack, attacker) -> float:
         return random.choices(
             [0, 0.75, 1, 1.26],
             weights=[attack.miss_chance
@@ -25,7 +25,7 @@ class AttackProcess:
         )[0]
 
     @staticmethod
-    def get_base_effectivity(defender: Poke, attack: Attack) -> int:
+    def get_base_effectivity(defender: Poke, attack: Attack) -> float:
         return (
             1.3 if defender.type.name in attack.type.effective else 0.5
             if defender.type.name in attack.type.ineffective else 1

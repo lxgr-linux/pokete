@@ -5,9 +5,9 @@ import time
 from release import SPEED_OF_TIME
 from .attack_process import AttackProcess
 from .fight_decision import Result
-from .fight_items import FightItems
 from .fightmap import FightMap
 from .providers import Provider
+from .items import fight_items
 from ..achievements import achievements
 from ..attack import Attack
 from ..audio import audio
@@ -22,7 +22,6 @@ class Fight:
     def __init__(self):
         self.fightmap: FightMap = FightMap(tss.height - 1, tss.width)
         self.providers: list[Provider] = []
-        self.fight_items = FightItems()
         self.attack_process = AttackProcess(self.fightmap)
 
     def initial_player_index(self):
@@ -99,8 +98,10 @@ class Fight:
                                 return player
                     case Result.ITEM:
                         item: InvItem = attack_result.item_value
-                        fight_func = getattr(self.fight_items, item.func)
-                        match fight_func(self.fightmap, player, enem):
+                        fight_item = fight_items.get(item.func, None)
+                        if fight_item is None:
+                            raise Exception(f"fight_item doesnt exist {item.func}")
+                        match fight_item.use(self.fightmap, player, enem):
                             case 1:
                                 continue  # This is the sole reason for the while loop on top
                             case 2:
