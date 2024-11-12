@@ -1,5 +1,6 @@
 """Contains classes ralated to the mode choosing meni"""
 
+import logging
 import sys
 
 import scrap_engine as se

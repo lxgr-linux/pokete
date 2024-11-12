@@ -10,4 +10,5 @@ type User struct {
 	Position Position        `json:"position"`
 	Client   *bs_rpc.Client  `json:"client"` // TODO: Maybe remove
 	Pokes    []poke.Instance `json:"pokes"`
+	Items    map[string]uint `json:"items"`
 }

@@ -9,7 +9,7 @@ PLAYER_TYPE = "pokete.player.player"
 
 class User(TypedDict):
     name: str
-    positon: Position
+    position: Position
     client: None
     pokes: list[PokeDict]
     items: dict[str, int]

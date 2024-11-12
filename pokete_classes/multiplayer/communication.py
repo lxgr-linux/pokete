@@ -9,7 +9,7 @@ from pokete_classes.multiplayer import msg
 from pokete_classes.multiplayer.exceptions import ConnectionException, \
     VersionMismatchException, UserPresentException, InvalidPokeException
 from pokete_classes.multiplayer.msg import player, position, error, map_info, fight
-from pokete_classes.multiplayer.msg.position.update import UpdateDict
+from pokete_classes.multiplayer.msg.position.update import Position, UpdateDict
 from pokete_classes.multiplayer.pc_manager import pc_manager
 
 
@@ -69,9 +69,14 @@ class CommunicationService:
         """Sends and handles the handshake with the server"""
         resp = self.client.call_for_response(
             msg.Handshake({
-                "user_name": user_name,
+                "user": {
+                    "name": user_name,
+                    "pokes": [p.dict() for p in ctx.figure.pokes],
+                    "items": ctx.figure.inv,
+                    "client": None,
+                    "position": {"map": "", "x":0, "y": 0}  # Null position
+                },
                 "version": version,
-                "pokes": [p.dict() for p in ctx.figure.pokes]
             }))
         match resp.get_type():
             case error.VERSION_MISMATCH_TYPE:
@@ -98,6 +103,8 @@ class CommunicationService:
                 ctx.figure.y = pos["y"]
                 pc_manager.waiting_users = data["users"]
                 return data["greeting_text"]
+            case _:
+                assert False, resp.get_type()
 
     def request_fight(self, name: str) -> bool | None:
         resp = self.client.call_for_response(fight.Request({"name": name}))

@@ -4,15 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/lxgr-linux/pokete/server/pokete/poke"
-	"github.com/lxgr-linux/pokete/server/pokete/troll"
-
-	"github.com/lxgr-linux/pokete/server/pokete/msg/map_info"
-
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
 	"github.com/lxgr-linux/pokete/server/config"
 	pctx "github.com/lxgr-linux/pokete/server/context"
 	error2 "github.com/lxgr-linux/pokete/server/pokete/msg/error"
+	"github.com/lxgr-linux/pokete/server/pokete/msg/map_info"
+	"github.com/lxgr-linux/pokete/server/pokete/troll"
 	"github.com/lxgr-linux/pokete/server/pokete/user"
 	"github.com/lxgr-linux/pokete/server/pokete/users"
 )
@@ -21,9 +18,8 @@ const HandshakeType msg.Type = "pokete.handshake"
 
 type Handshake struct {
 	msg.BaseMsg
-	UserName string          `json:"user_name"`
-	Version  string          `json:"version"`
-	Pokes    []poke.Instance `json:"pokes"`
+	User    user.User `json:"user"`
+	Version string    `json:"version"`
 }
 
 func (h Handshake) GetType() msg.Type {
@@ -40,17 +36,14 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
 
 	position := getStartPosition(cfg)
 
-	err := troll.CheckPokes(res.BaseAssets.Pokes, h.Pokes)
+	err := troll.CheckPokes(res.BaseAssets.Pokes, h.User.Pokes)
 	if err != nil {
 		return error2.NewInvalidPoke(err), err
 	}
 
-	newUser := user.User{
-		Name:     h.UserName,
-		Client:   client,
-		Position: position,
-		Pokes:    h.Pokes,
-	}
+	newUser := h.User
+	newUser.Client = client
+	newUser.Position = position
 
 	if h.Version != cfg.ClientVersion {
 		return error2.NewVersionMismatch(cfg.ClientVersion), fmt.Errorf("connection closed")

@@ -140,12 +140,14 @@ class Figure(se.Object, ProtoFigure):
         mvp.movemap.add_obs()
 
     def set(self, x, y):
-        if super().set(x, y) == 0:
+        if (ret := super().set(x, y)) == 0:
             self.update_server_pos()
+        return ret
 
     def add(self, _map, x, y):
-        if super().add(_map, x, y) == 0:
+        if (ret := super().add(_map, x, y)) == 0:
             self.update_server_pos()
+        return ret
 
     def update_server_pos(self):
         if modeProvider.mode == Mode.MULTI:
