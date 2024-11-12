@@ -1,5 +1,4 @@
 import json
-import logging
 import threading
 import time
 
@@ -48,19 +47,19 @@ class Client:
         return call_id
 
     def call_for_response(self, body: Body) -> Body:
-        call_id = self.__new_call_id()
         ch = Channel()
-        self.__send(body, call_id, Method.CALL_FOR_RESPONSE)
+        call_id = self.__new_call_id()
         self.calls[call_id] = ch
+        self.__send(body, call_id, Method.CALL_FOR_RESPONSE)
         call = ch.listen()
         del self.calls[call_id]
         return call
 
     def call_for_responses(self, body: Body) -> ChannelGenerator:
-        call_id = self.__new_call_id()
         ch = Channel()
-        self.__send(body, call_id, Method.CALL_FOR_RESPONSES)
+        call_id = self.__new_call_id()
         self.calls[call_id] = ch
+        self.__send(body, call_id, Method.CALL_FOR_RESPONSES)
 
         def close_fn():
             del self.calls[call_id]
