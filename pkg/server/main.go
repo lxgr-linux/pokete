@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"log"
 
 	"github.com/lxgr-linux/pokete/server/config"
@@ -8,6 +9,12 @@ import (
 	"github.com/lxgr-linux/pokete/server/pokete"
 	"github.com/lxgr-linux/pokete/server/resources"
 )
+
+//go:embed res/base_assets.json
+var baseAssetBytes []byte
+
+//go:embed res/assets.json
+var assetBytes []byte
 
 func main() {
 	p, err := buildPokete()
@@ -23,7 +30,7 @@ func main() {
 func buildPokete() (*pokete.Pokete, error) {
 	cfg := config.FromEnv()
 
-	r, err := resources.FromDir("./res")
+	r, err := resources.FromBytes(assetBytes, baseAssetBytes)
 	if err != nil {
 		return nil, err
 	}

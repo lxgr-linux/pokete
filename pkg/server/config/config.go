@@ -1,10 +1,10 @@
 package config
 
 import (
-	"gopkg.in/yaml.v3"
 	"os"
 
 	"github.com/joho/godotenv"
+	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
@@ -31,8 +31,8 @@ func FromEnv() Config {
 		ServerPort:    getEnvWithFallBack("POKETE_SERVER_PORT", "9988"),
 		APIPort:       getEnvWithFallBack("POKETE_API_PORT", "9989"),
 		ServerType:    getEnvWithFallBack("POKETE_SERVER_TYPE", "tcp"),
-		ClientVersion: getEnvWithFallBack("POKETE_SERVER_CLIENT_VERSION", "0.9.1"),
-		EntryMap:      getEnvWithFallBack("POKETE_SERVER_CLIENT_ENTRYMAP", "playmap_1"),
+		ClientVersion: getEnvWithFallBack("POKETE_SERVER_CLIENT_VERSION", "0.9.2"),
+		EntryMap:      getEnvWithFallBack("POKETE_SERVER_CLIENT_ENTRYMAP", "servermap_1"),
 	}
 }
 
