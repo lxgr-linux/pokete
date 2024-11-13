@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
+	"time"
 
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
 	pctx "github.com/lxgr-linux/pokete/server/context"
@@ -24,6 +26,7 @@ func (u Update) GetType() msg.Type {
 }
 
 func (u Update) CallForResponse(ctx context.Context) (msg.Body, error) {
+	_t := time.Now()
 	us, _ := pctx.UsersFromContext(ctx)
 	conId, _ := pctx.ConnectionIdFromContext(ctx)
 
@@ -31,6 +34,7 @@ func (u Update) CallForResponse(ctx context.Context) (msg.Body, error) {
 	if errors.Is(err, user.POSITION_ERROR) {
 		return error2.NewPositionUnplausible(u.Position, fmt.Sprint(errors.Unwrap(err))), nil
 	}
+	slog.InfoContext(ctx, "Process time: "+time.Now().Sub(_t).String())
 	return msg.EmptyMsg{}, err
 }
 

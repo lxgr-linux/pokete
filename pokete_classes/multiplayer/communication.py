@@ -38,20 +38,28 @@ class CommunicationService:
                     pos_data: position.RemoveData = body.data
                     pc_manager.remove(pos_data["user_name"])
 
+    def __send_position_update(self, coords: tuple[str, int, int]):
+        resp = self.client.call_for_response(
+            position.Update({
+                "name": "",
+                "position": {
+                    "map": coords[0],
+                    "x": coords[1],
+                    "y": coords[2],
+                },
+            }))
+        # Handle Err here
+
 
     def __send_position_updates(self):
         gen = bs_rpc.ChannelGenerator(self.__positions_channel, None)
         for coords in gen():
-            resp = self.client.call_for_response(
-                position.Update({
-                    "name": "",
-                    "position": {
-                        "map": coords[0],
-                        "x": coords[1],
-                        "y": coords[2],
-                    },
-                }))
-            # Handle Err here
+            threading.Thread(
+                target=self.__send_position_update,
+                args=(coords, ),
+                daemon=True
+            ).start()
+
 
     def __call__(self):
         threading.Thread(
