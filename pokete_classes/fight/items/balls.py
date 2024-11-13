@@ -19,7 +19,7 @@ class GenericPokeBall(FightItem, ABC):
         self.chance = chance
         self.name = name
 
-    def use(self, fightmap: FightMap, obj, enem:Provider) -> RoundContinuation:
+    def use(self, fightmap: FightMap, obj:Provider, enem:Provider) -> RoundContinuation:
         """Throws a ball
         ARGS:
             obj: The players Poke object

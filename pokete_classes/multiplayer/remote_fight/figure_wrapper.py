@@ -28,6 +28,9 @@ class FigureWrapperProvider(Provider):
     def map(self):
         return self.figure.map
 
+    def remove_item(self, name:str):
+        self.figure.remove_item(name)
+
     def greet(self, fightmap: FightMap):
         return super().greet(fightmap)
 
