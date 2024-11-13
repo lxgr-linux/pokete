@@ -2,6 +2,8 @@ package users
 
 import (
 	"errors"
+	"fmt"
+	"log/slog"
 
 	"github.com/lxgr-linux/pokete/server/pokete/positions"
 	"github.com/lxgr-linux/pokete/server/pokete/user"
@@ -74,7 +76,12 @@ func (u Users) SetNewPositionToUser(conId uint64, newPosition user.Position) err
 	us := (*u.users)[conId]
 	err := us.Position.Change(newPosition)
 	(*u.users)[conId] = us
-	err = u.positions.BroadcastChange(conId, us)
+	go func() {
+		err := u.positions.BroadcastChange(conId, us)
+		if err != nil {
+			slog.Error(fmt.Sprintf("Error broadcasting position update: %s", err))
+		}
+	}()
 	return err
 }
 

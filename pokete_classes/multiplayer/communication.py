@@ -17,6 +17,7 @@ class CommunicationService:
     def __init__(self):
         self.client: bs_rpc.Client
         self.saved_pos = ()
+        self.__positions_channel = bs_rpc.Channel[tuple[str, int, int]]()
 
     def __subscribe_position_updates(self):
         gen = self.client.call_for_responses(
@@ -37,9 +38,28 @@ class CommunicationService:
                     pos_data: position.RemoveData = body.data
                     pc_manager.remove(pos_data["user_name"])
 
+
+    def __send_position_updates(self):
+        gen = bs_rpc.ChannelGenerator(self.__positions_channel, None)
+        for coords in gen():
+            resp = self.client.call_for_response(
+                position.Update({
+                    "name": "",
+                    "position": {
+                        "map": coords[0],
+                        "x": coords[1],
+                        "y": coords[2],
+                    },
+                }))
+            # Handle Err here
+
     def __call__(self):
         threading.Thread(
             target=self.__subscribe_position_updates,
+            daemon=True
+        ).start()
+        threading.Thread(
+            target=self.__send_position_updates,
             daemon=True
         ).start()
 
@@ -117,21 +137,13 @@ class CommunicationService:
     def join_fight(self, fight_id: int) -> bs_rpc.ChannelGenerator:
         return self.client.call_for_responses(fight.Fight({"fight_id": fight_id}))
 
-    def pos_update(self, _map, x, y):
+    def pos_update(self, _map:str, x:int, y:int):
         """Sends a position update to the server
         ARGS:
             _map: Name of the map the player is on
             x: X-coordinate
             y: Y-coordinate"""
-        resp = self.client.call_for_response(
-            position.Update({
-                "name": "",
-                "position": {
-                    "map": _map,
-                    "x": x,
-                    "y": y,
-                },
-            }))
+        self.__positions_channel.push((_map, x, y))
 
     def get_player(self, name) -> player.User:
         resp = self.client.call_for_response(
