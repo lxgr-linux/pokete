@@ -7,7 +7,7 @@ T = TypeVar("T")
 
 class ChannelGenerator(Generic[T]):
     def __init__(self, ch: Channel[T], close_fn: CloseFn | None):
-        self.__ch: Channel = ch
+        self.__ch: Channel[T] = ch
         self.__close_fn = close_fn
 
     def __call__(self) -> Generator[T, None, None]:
