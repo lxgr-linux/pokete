@@ -1,16 +1,18 @@
 import threading
+from typing import Generic, TypeVar
 
+T = TypeVar("T")
 
-class Channel:
+class Channel(Generic[T]):
     def __init__(self):
-        self.__state: list = []
+        self.__state: list[T] = []
         self.__event: threading.Event = threading.Event()
         self.__closed = False
 
     def close(self):
         self.__closed = True
 
-    def push(self, item):
+    def push(self, item: T):
         self.__state.append(item)
         self.__event.set()
         self.__event.clear()
@@ -18,7 +20,7 @@ class Channel:
     def is_closed(self) -> bool:
         return self.__closed
 
-    def listen(self):
+    def listen(self) -> T | None:
         if len(self.__state) == 0:
             if self.__closed:
                 return None

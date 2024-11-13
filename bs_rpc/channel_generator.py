@@ -1,18 +1,20 @@
-from typing import Generator
+from typing import Callable, Generator, Generic, TypeVar
 
-from . import msg
 from .channel import Channel
 
+CloseFn = Callable[[], None]
+T = TypeVar("T")
 
-class ChannelGenerator:
-    def __init__(self, ch: Channel, close_fn):
+class ChannelGenerator(Generic[T]):
+    def __init__(self, ch: Channel[T], close_fn: CloseFn | None):
         self.__ch: Channel = ch
         self.__close_fn = close_fn
 
-    def __call__(self) -> Generator[msg.Body, None, None]:
+    def __call__(self) -> Generator[T, None, None]:
         while True:
             ret = self.__ch.listen()
             if ret is None:
-                self.__close_fn()
+                if self.__close_fn is not None:
+                    self.__close_fn()
                 return
             yield ret

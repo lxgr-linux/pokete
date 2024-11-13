@@ -14,7 +14,7 @@ class Client:
     def __init__(self, rw, reg: Registry):
         self.rw = rw
         self.reg = reg
-        self.calls: dict[int, Channel] = {}
+        self.calls: dict[int, Channel[Body]] = {}
 
     def __send(self, body: Body, call: int, method: Method):
         """Sends a request to the server
@@ -32,7 +32,7 @@ class Client:
             ) + END_SECTION
         )
 
-    def __get_call(self, call_id: int) -> Channel:
+    def __get_call(self, call_id: int) -> Channel[Body]:
         if (
             call := self.calls.get(call_id)
         ) is not None:
@@ -47,7 +47,7 @@ class Client:
         return call_id
 
     def call_for_response(self, body: Body) -> Body:
-        ch = Channel()
+        ch = Channel[Body]()
         call_id = self.__new_call_id()
         self.calls[call_id] = ch
         self.__send(body, call_id, Method.CALL_FOR_RESPONSE)
@@ -56,7 +56,7 @@ class Client:
         return call
 
     def call_for_responses(self, body: Body) -> ChannelGenerator:
-        ch = Channel()
+        ch = Channel[Body]()
         call_id = self.__new_call_id()
         self.calls[call_id] = ch
         self.__send(body, call_id, Method.CALL_FOR_RESPONSES)
