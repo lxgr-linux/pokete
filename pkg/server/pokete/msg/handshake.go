@@ -3,12 +3,14 @@ package msg
 import (
 	"context"
 	"fmt"
+	"log/slog"
 
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
 	"github.com/lxgr-linux/pokete/server/config"
 	pctx "github.com/lxgr-linux/pokete/server/context"
 	error2 "github.com/lxgr-linux/pokete/server/pokete/msg/error"
 	"github.com/lxgr-linux/pokete/server/pokete/msg/map_info"
+	"github.com/lxgr-linux/pokete/server/pokete/msg/position"
 	"github.com/lxgr-linux/pokete/server/pokete/troll"
 	"github.com/lxgr-linux/pokete/server/pokete/user"
 	"github.com/lxgr-linux/pokete/server/pokete/users"
@@ -34,7 +36,7 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
 	res, _ := pctx.ResourcesFromContext(ctx)
 	opts, _ := pctx.OptionsFromContext(ctx)
 
-	position := getStartPosition(cfg)
+	pos := getStartPosition(cfg)
 
 	err := troll.CheckPokes(res.BaseAssets.Pokes, h.User.Pokes)
 	if err != nil {
@@ -43,7 +45,7 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
 
 	newUser := h.User
 	newUser.Client = client
-	newUser.Position = position
+	newUser.Position = pos
 
 	if h.Version != cfg.ClientVersion {
 		return error2.NewVersionMismatch(cfg.ClientVersion), fmt.Errorf("connection closed")
@@ -57,7 +59,14 @@ func (h Handshake) CallForResponse(ctx context.Context) (msg.Body, error) {
 		return nil, err
 	}
 
-	return map_info.NewInfo(res.Assets, position, u, opts.GreetingText), nil
+	go func() {
+		err := position.ReveiveUpdates(ctx)
+		if err != nil {
+			slog.ErrorContext(ctx, err.Error())
+		}
+	}()
+
+	return map_info.NewInfo(res.Assets, pos, u, opts.GreetingText), nil
 }
 
 func getStartPosition(cfg *config.Config) user.Position {

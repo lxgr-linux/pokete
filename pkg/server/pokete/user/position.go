@@ -31,6 +31,7 @@ func (p Position) isPlausible(newPosition Position) bool {
 			{p.Map, p.X, p.Y - 1},
 			{p.Map, p.X + 1, p.Y},
 			{p.Map, p.X - 1, p.Y},
+			p,
 		},
 		newPosition,
 	)

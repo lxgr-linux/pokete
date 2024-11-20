@@ -19,6 +19,9 @@ class CommunicationService:
         self.saved_pos = ()
         self.__positions_channel = bs_rpc.Channel[tuple[str, int, int]]()
 
+    def position_channel_generator(self):
+        return bs_rpc.ChannelGenerator(self.__positions_channel)
+
     def __subscribe_position_updates(self):
         gen = self.client.call_for_responses(
             position.SubscribePosition({})
@@ -38,7 +41,7 @@ class CommunicationService:
                     pos_data: position.RemoveData = body.data
                     pc_manager.remove(pos_data["user_name"])
 
-    def __send_position_update(self, coords: tuple[str, int, int]):
+    """def __send_position_update(self, coords: tuple[str, int, int]):
         resp = self.client.call_for_response(
             position.Update({
                 "name": "",
@@ -49,9 +52,9 @@ class CommunicationService:
                 },
             }))
         # Handle Err here
+        """
 
-
-    def __send_position_updates(self):
+    """def __send_position_updates(self):
         gen = bs_rpc.ChannelGenerator(self.__positions_channel, None)
         for coords in gen():
             threading.Thread(
@@ -59,17 +62,17 @@ class CommunicationService:
                 args=(coords, ),
                 daemon=True
             ).start()
-
+    """
 
     def __call__(self):
         threading.Thread(
             target=self.__subscribe_position_updates,
             daemon=True
         ).start()
-        threading.Thread(
-            target=self.__send_position_updates,
-            daemon=True
-        ).start()
+        #threading.Thread(
+        #    target=self.__send_position_updates,
+        #    daemon=True
+        #).start()
 
     def connect(self, host: str, port: int):
         con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
