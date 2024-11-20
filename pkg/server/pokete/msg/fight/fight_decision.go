@@ -15,9 +15,10 @@ const (
 
 type FightDecision struct {
 	msg.BaseMsg
-	Result Result `json:"result"`
-	Attack string `json:"attack"`
-	Item   string `json:"item"`
+	Result Result  `json:"result"`
+	Attack *string `json:"attack"`
+	Item   *string `json:"item"`
+	Poke   *int    `json:"poke"`
 }
 
 func (r FightDecision) GetType() msg.Type {
