@@ -191,7 +191,9 @@ class FightMap(gm.GameMap, Overview):
             self.show()
             time.sleep(SPEED_OF_TIME * 0.1)
 
-    def get_figure_attack(self, ctx: Context, player, enem) -> FightDecision:
+    def get_figure_attack(
+        self, ctx: Context, player: Provider, enem: Provider
+    ) -> FightDecision:
         """Chooses the players attack
         ARGS:
             player: The players provider
@@ -248,7 +250,7 @@ class FightMap(gm.GameMap, Overview):
                 if not self.choose_poke(ctx, player):
                     self.show(init=True)
                     continue
-                return FightDecision.choose_poke()
+                return FightDecision.choose_poke(player.play_index)
             loops.std(ctx)
             self.show()
 

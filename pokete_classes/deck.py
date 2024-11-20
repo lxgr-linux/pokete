@@ -274,4 +274,4 @@ class Deck(detail.Informer, Overview):
         )
 
 
-deck: Deck | None = None
+deck: Deck

@@ -14,11 +14,15 @@ class Provider(ABC):
     ARGS:
         pokes: The Poketes the Provider holds"""
 
-    def __init__(self, pokes: list[Poke], escapable:bool, xp_multiplier:int):
+    def __init__(self,
+        pokes: list[Poke], escapable:bool, xp_multiplier:int,
+        inv: dict[str, int] | None = None
+    ):
         self.pokes = pokes
         self.escapable = escapable
         self.xp_multiplier = xp_multiplier
         self.play_index = 0
+        self.inv: dict[str, int] = {} if inv is None else inv
 
     def heal(self):
         """Heals all poketes"""
@@ -44,7 +48,7 @@ class Provider(ABC):
             i for i, poke in enumerate(self.pokes) if poke.hp > 0
         )
 
-    def remove_item(self, name:str):
+    def remove_item(self, name:str, amount:int=1):
         """Removes and item from the providers inventory
             Accept for the player implementation that shouldnt do anything"""
         return

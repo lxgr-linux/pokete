@@ -18,7 +18,7 @@ class FigureWrapperProvider(Provider):
         self.outgoing = outgoing
         self.incomming = incomming
         self.figure = figure
-        super().__init__(figure.pokes, figure.escapable, figure.xp_multiplier)
+        super().__init__(figure.pokes, figure.escapable, figure.xp_multiplier, figure.inv)
 
     @property
     def caught_pokes(self):

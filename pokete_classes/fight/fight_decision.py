@@ -21,17 +21,19 @@ class Result(Enum):
 class FightDecision:
     def __init__(
         self, result: Result, attack: Attack | None = None,
-        item: InvItem | None = None
+        item: InvItem | None = None, poke: int | None = None
     ):
         self.result: Result = result
         self.attack_value: Attack | None = attack
         self.item_value: InvItem | None = item
+        self.poke: int | None = poke
 
     def to_dict(self) -> FightDecisionData:
         result: FightDecisionData = {
             "result": self.result.value,
             "attack": None if self.attack_value is None else self.attack_value.index,
             "item": None if self.item_value is None else self.item_value.name,
+            "poke": self.poke
         }
         return result
 
@@ -46,13 +48,15 @@ class FightDecision:
                 attack = _poke.attack_obs[_poke.attacks.index(_d["attack"])]
                 return cls.attack(attack)
             case Result.ITEM.value:
+                assert _d["item"] is not None
                 assert _d["item"] in _player["items"].keys()
                 item = getattr(invitems, _d["item"])
                 return cls.item(item)
             case Result.RUN_AWAY.value:
                 return cls.run_away()
             case Result.CHOOSE_POKE.value:
-                return cls.run_away()
+                assert _d["poke"] is not None
+                return cls.choose_poke(_d["poke"])
             case _:
                 assert False
 
@@ -70,5 +74,5 @@ class FightDecision:
         return cls(Result.ITEM, item=item)
 
     @classmethod
-    def choose_poke(cls) -> "FightDecision":
-        return cls(Result.CHOOSE_POKE)
+    def choose_poke(cls, poke: int) -> "FightDecision":
+        return cls(Result.CHOOSE_POKE, poke=poke)

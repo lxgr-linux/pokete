@@ -9,6 +9,7 @@ class FightDecisionData(TypedDict):
     result: int
     attack: str | None
     item: str | None
+    poke: int | None
 
 
 class FightDecision(bs_rpc.Body):
