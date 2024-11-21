@@ -52,6 +52,8 @@ func ReveiveUpdates(ctx context.Context) error {
 			return fmt.Errorf("message not positon update but: `%s`", u.GetType())
 		}
 
+		slog.InfoContext(ctx, fmt.Sprintf("%v", u.Position))
+
 		err = us.SetNewPositionToUser(conId, u.Position)
 		if err != nil {
 			return err

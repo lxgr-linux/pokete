@@ -8,7 +8,10 @@ import (
 
 func Unmarshall(reg *msg.Registry, b []byte) (msg.Msg[msg.Body], error) {
 	genericMsg := msg.Msg[msg.Body]{}
-	_ = json.Unmarshal(b, &genericMsg)
+	err := json.Unmarshal(b, &genericMsg)
+	if err != nil {
+		return genericMsg, err
+	}
 
 	unMarshaller, err := reg.GetUnMarshaller(genericMsg.Type)
 	if err != nil {

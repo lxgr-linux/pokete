@@ -110,7 +110,7 @@ func (c Client) Listen(ctx context.Context) error {
 			msgBuf = append(msgBuf, buf...)
 		}
 
-		if bytes.Contains(msgBuf, ENDSECTION) {
+		if bytes.Contains(msgBuf, ENDSECTION) && !bytes.Equal(msgBuf, ENDSECTION) {
 			msgParts := bytes.Split(msgBuf, ENDSECTION)
 
 			m, err := Unmarshall(
