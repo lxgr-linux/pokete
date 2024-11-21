@@ -125,7 +125,11 @@ func (c Client) Listen(ctx context.Context) error {
 				errorCh <- c.handleMsg(ctx, m)
 			}()
 
-			msgBuf = bytes.Join(msgParts[1:], ENDSECTION)
+			if len(msgParts[1]) != 0 {
+				msgBuf = bytes.Join(msgParts[1:], ENDSECTION)
+			} else {
+				msgBuf = []byte{}
+			}
 		}
 	}
 }
