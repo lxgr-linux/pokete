@@ -1,3 +1,4 @@
+import logging
 import bs_rpc
 from bs_rpc.msg import ResponseWriter
 from pokete_classes.multiplayer.msg.position.update import Update
@@ -12,6 +13,7 @@ class SubscribePosition(bs_rpc.Body):
     def call_for_responses(self, context, response_writer: ResponseWriter) -> None:
         gen = context.position_channel_generator()
         for coords in gen():
+            logging.info(coords)
             response_writer(Update({
                 "name": "",
                 "position": {
