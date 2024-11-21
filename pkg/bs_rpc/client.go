@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"time"
 
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
@@ -112,6 +113,7 @@ func (c Client) Listen(ctx context.Context) error {
 
 		if bytes.Contains(msgBuf, ENDSECTION) && !bytes.Equal(msgBuf, ENDSECTION) {
 			msgParts := bytes.Split(msgBuf, ENDSECTION)
+			slog.Info(string(msgBuf))
 
 			m, err := Unmarshall(
 				&c.registry,
