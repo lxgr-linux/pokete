@@ -13,7 +13,6 @@ class SubscribePosition(bs_rpc.Body):
     def call_for_responses(self, context, response_writer: ResponseWriter) -> None:
         gen = context.position_channel_generator()
         for coords in gen():
-            logging.info(coords)
             response_writer(Update({
                 "name": "",
                 "position": {
