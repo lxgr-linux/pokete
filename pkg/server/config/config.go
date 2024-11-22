@@ -16,7 +16,7 @@ type Config struct {
 	EntryMap      string
 }
 
-func getEnvWithFallBack(envName, fallback string) (env string) {
+func GetEnvWithFallBack(envName, fallback string) (env string) {
 	env = os.Getenv(envName)
 	if env == "" {
 		env = fallback
@@ -27,12 +27,12 @@ func getEnvWithFallBack(envName, fallback string) (env string) {
 func FromEnv() Config {
 	godotenv.Load(".env")
 	return Config{
-		ServerHost:    getEnvWithFallBack("POKETE_SERVER_HOST", "localhost"),
-		ServerPort:    getEnvWithFallBack("POKETE_SERVER_PORT", "9988"),
-		APIPort:       getEnvWithFallBack("POKETE_API_PORT", "9989"),
-		ServerType:    getEnvWithFallBack("POKETE_SERVER_TYPE", "tcp"),
-		ClientVersion: getEnvWithFallBack("POKETE_SERVER_CLIENT_VERSION", "0.9.2"),
-		EntryMap:      getEnvWithFallBack("POKETE_SERVER_CLIENT_ENTRYMAP", "servermap_1"),
+		ServerHost:    GetEnvWithFallBack("POKETE_SERVER_HOST", "localhost"),
+		ServerPort:    GetEnvWithFallBack("POKETE_SERVER_PORT", "9988"),
+		APIPort:       GetEnvWithFallBack("POKETE_API_PORT", "9989"),
+		ServerType:    GetEnvWithFallBack("POKETE_SERVER_TYPE", "tcp"),
+		ClientVersion: GetEnvWithFallBack("POKETE_SERVER_CLIENT_VERSION", "0.9.2"),
+		EntryMap:      GetEnvWithFallBack("POKETE_SERVER_CLIENT_ENTRYMAP", "servermap_1"),
 	}
 }
 
