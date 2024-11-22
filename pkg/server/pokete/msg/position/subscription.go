@@ -22,7 +22,7 @@ func (s SubscribePositons) GetType() msg.Type {
 func (s SubscribePositons) CallForResponses(ctx context.Context, r msg.Responder) error {
 	p, _ := pctx.PositionsFromContext(ctx)
 	conId, _ := pctx.ConnectionIdFromContext(ctx)
-	slog.InfoContext(ctx, "Subscribe")
+	slog.InfoContext(ctx, "Subscribe position updates")
 
 	return p.Subscribe(conId, r)
 }
@@ -51,8 +51,6 @@ func ReveiveUpdates(ctx context.Context) error {
 		if !ok {
 			return fmt.Errorf("message not positon update but: `%s`", u.GetType())
 		}
-
-		slog.InfoContext(ctx, fmt.Sprintf("%v", u.Position))
 
 		err = us.SetNewPositionToUser(conId, u.Position)
 		if err != nil {
