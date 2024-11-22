@@ -17,5 +17,4 @@ func (b BaseMsg) CallForResponses(ctx context.Context, r Responder) error {
 
 func (b BaseMsg) GetType() Type {
 	panic("not implemented")
-	return ""
 }
