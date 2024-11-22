@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log/slog"
 	"time"
 
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
@@ -82,6 +81,13 @@ func (c Client) Listen(ctx context.Context) error {
 	var msgBuf []byte
 	var errorCh = make(chan error)
 	var byteCh = make(chan []byte)
+	var msgCh = make(chan msg.Msg[msg.Body])
+
+	go func() {
+		for {
+			c.handleMsg(ctx, <-msgCh, errorCh)
+		}
+	}()
 
 	bufReadFn := func() {
 		buf := make([]byte, 32)
@@ -113,7 +119,6 @@ func (c Client) Listen(ctx context.Context) error {
 
 		if bytes.Contains(msgBuf, ENDSECTION) && !bytes.Equal(msgBuf, ENDSECTION) {
 			msgParts := bytes.Split(msgBuf, ENDSECTION)
-			slog.Info(string(msgBuf))
 
 			m, err := Unmarshall(
 				&c.registry,
@@ -123,9 +128,7 @@ func (c Client) Listen(ctx context.Context) error {
 				return err
 			}
 
-			go func() {
-				errorCh <- c.handleMsg(ctx, m)
-			}()
+			msgCh <- m
 
 			if len(msgParts[1]) != 0 {
 				msgBuf = bytes.Join(msgParts[1:], ENDSECTION)
@@ -136,46 +139,56 @@ func (c Client) Listen(ctx context.Context) error {
 	}
 }
 
-func (c Client) handleMsg(ctx context.Context, m msg.Msg[msg.Body]) error {
+func (c Client) handleMsg(ctx context.Context, m msg.Msg[msg.Body], errorCh chan error) {
 	switch m.Method {
 	case msg.METHOD_RESPONSE:
 		ch, err := c.getCall(m.Call)
 		if err != nil {
-			return err
+			errorCh <- err
+			return
 		}
 
 		*ch <- m.Body
 	case msg.METHOD_RESPONSE_CLOSE:
 		ch, err := c.getCall(m.Call)
 		if err != nil {
-			return err
+			errorCh <- err
+			return
 		}
 
 		close(*ch)
 		delete(*c.calls, m.Call)
 	case msg.METHOD_CALL_FOR_RESPONSES:
-		err := m.Body.CallForResponses(ctx, func(body msg.Body) error {
-			return c.send(body, m.Call, msg.METHOD_RESPONSE)
-		})
-		if err != nil {
-			return err
-		}
-		err = c.send(msg.EmptyMsg{}, m.Call, msg.METHOD_RESPONSE_CLOSE)
-		if err != nil {
-			return err
-		}
+		go func() {
+			err := m.Body.CallForResponses(ctx, func(body msg.Body) error {
+				return c.send(body, m.Call, msg.METHOD_RESPONSE)
+			})
+			if err != nil {
+				errorCh <- err
+				return
+			}
+			err = c.send(msg.EmptyMsg{}, m.Call, msg.METHOD_RESPONSE_CLOSE)
+			if err != nil {
+				errorCh <- err
+				return
+			}
+		}()
 	case msg.METHOD_CALL_FOR_RESPONSE:
-		resp, respErr := m.Body.CallForResponse(ctx)
-		if resp == nil {
-			return respErr
-		}
-		err := c.send(resp, m.Call, msg.METHOD_RESPONSE)
-		if err != nil {
-			return err
-		}
-		if respErr != nil {
-			return respErr
-		}
+		go func() {
+			resp, respErr := m.Body.CallForResponse(ctx)
+			if resp == nil {
+				errorCh <- respErr
+				return
+			}
+			err := c.send(resp, m.Call, msg.METHOD_RESPONSE)
+			if err != nil {
+				errorCh <- err
+				return
+			}
+			if respErr != nil {
+				errorCh <- respErr
+				return
+			}
+		}()
 	}
-	return nil
 }

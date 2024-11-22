@@ -2,6 +2,8 @@ package bs_rpc
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 
 	"github.com/lxgr-linux/pokete/bs_rpc/msg"
 )
@@ -12,7 +14,7 @@ func Unmarshall(reg *msg.Registry, b []byte) (msg.Msg[msg.Body], error) {
 
 	unMarshaller, err := reg.GetUnMarshaller(genericMsg.Type)
 	if err != nil {
-		return genericMsg, err
+		return genericMsg, errors.Join(fmt.Errorf("failed to unmarshall for `%s`", string(b)), err)
 	}
 
 	body, err := unMarshaller(b)
