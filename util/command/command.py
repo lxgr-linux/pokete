@@ -34,34 +34,31 @@ class Command:
     @staticmethod
     def __line_setter(lines: list[tuple[str, str]], line_spaces: int):
         return "\n".join(
-            f"\t{line[0]}{" " * (line_spaces - len(line[0]))}{line[1]}" for line
-            in lines
+            f"\t{line[0]}{' ' * (line_spaces - len(line[0]))}{line[1]}" 
+            for line in lines
         )
 
     def __print_help(self, ex: str):
-        option_lines: list[tuple[str, str]] = [(command.name, command.desc) for
-                                               command in self.commands]
-        flag_lines: list[tuple[str, str]] = [
-            ("|".join(flag.aliases), flag.desc) for flag in self.flags]
-
-        line_spaces = sorted([
-            len(i[0]) for i in option_lines + flag_lines
-        ])[-1] + 8
-
-        print(f"""{self.name} -- {self.desc}
-
+        option_lines: list[tuple[str, str]] = [(command.name, command.desc) for command in self.commands]
+        flag_lines: list[tuple[str, str]] = [("|".join(flag.aliases), flag.desc) for flag in self.flags]
+        line_spaces = max((len(i[0]) for i in option_lines + flag_lines), default=0) + 8
+        options_section = (
+            f"Options:\n{self.__line_setter(option_lines, line_spaces)}"
+            if self.commands else ""
+        )
+        flags_section = (
+            f"Flags:\n{self.__line_setter(flag_lines, line_spaces)}"
+            if self.flags else ""
+        )
+        additional_info_section = f"\n{self.additional_info}\n" if self.additional_info else ""
+        print(
+            f"""{self.name} -- {self.desc}
 Usage:
     {ex}{f" {self.usage}" if self.usage else ""} <flags>
-{f"""
-Options:
-{self.__line_setter(option_lines, line_spaces)}
-""" if self.commands else ""}
-{f"""
-Flags:
-{self.__line_setter(flag_lines, line_spaces)}
-""" if self.flags else ""}
-{f"\n{self.additional_info}\n" if self.additional_info else ""}
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
+{options_section}
+{flags_section}
+{additional_info_section}Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024"""
+        )
 
     def run(self, ex: str, options: list[str],
             flags: dict[str, list[str]]):
