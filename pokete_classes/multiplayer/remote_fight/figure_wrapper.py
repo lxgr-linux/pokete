@@ -1,5 +1,5 @@
 import random
-from typing_extensions import Generator
+from typing import Generator
 
 import bs_rpc
 from pokete_classes.context import Context

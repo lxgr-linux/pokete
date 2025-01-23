@@ -46,7 +46,7 @@ class Client:
             call_id += 1
         return call_id
 
-    def call_for_response(self, body: Body) -> Body:
+    def call_for_response(self, body: Body) -> Body | None:
         ch = Channel[Body]()
         call_id = self.__new_call_id()
         self.calls[call_id] = ch
@@ -99,7 +99,7 @@ class Client:
                 msg_parts = msg_buf.split(END_SECTION)
 
                 msg: Msg = json.loads(msg_parts[0])
-                #logging.info("[BsRpc] Received data: %s", msg)
+                # logging.info("[BsRpc] Received data: %s", msg)
 
                 body: Body = self.reg.get(msg["type"])(
                     data=msg["body"]
