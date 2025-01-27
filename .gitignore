@@ -5,3 +5,5 @@ templates
 scrap_engine.py
 .mypy_cache
 .ropeproject
+.fleet
+.vim
