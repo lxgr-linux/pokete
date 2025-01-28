@@ -1,6 +1,5 @@
 import logging
 import threading
-from types import TracebackType
 
 from .audio import audio
 from .input.recogniser import recogniser
@@ -11,7 +10,7 @@ class GameContext:
         threading.Thread(target=recogniser, daemon=True).start()
         print("\033[?1049h")
 
-    def __exit__(self, exc_type, exc_value, exc_tb:TracebackType):
+    def __exit__(self, exc_type, exc_value, exc_tb):
         recogniser.reset()
         print("\033[?1049l\033[1A")
         logging.info("[General] Exiting...")
@@ -21,6 +20,8 @@ class GameContext:
         if exc_type == KeyboardInterrupt:
             print("\033[?1049l\033[1A\nKeyboardInterrupt")
             return True
+        elif exc_type == SystemExit:
+            pass
         else:
             logging.error("[General] Error occurend:", exc_info=True)
             return False
