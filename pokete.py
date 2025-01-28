@@ -12,12 +12,11 @@ import os
 import sys
 import threading
 import logging
-from pathlib import Path
 from datetime import datetime
 import scrap_engine as se
 
 from pokete_classes.asset_service.service import asset_service
-from pokete_classes.input.recogniser import recogniser
+from pokete_classes.game_context import GameContext
 from pokete_classes.multiplayer.communication import com_service
 from pokete_classes.multiplayer.interactions.context_menu import ContextMenu
 from pokete_classes.multiplayer.modeprovider import modeProvider, Mode
@@ -252,15 +251,6 @@ def autosave():
             save(figure)
 
 
-def exiter():
-    """Exit function"""
-    recogniser.reset()
-    logging.info("[General] Exiting...")
-    print("\033[?1049l\033[1A")
-    if audio.curr is not None:
-        audio.kill()
-
-
 # Functions needed for mvp.movemap
 ##############################
 
@@ -493,11 +483,9 @@ def main():
     """Main function"""
     os.system("")
     timing = threading.Thread(target=timer.time_threat, daemon=True)
-    recognising = threading.Thread(target=recogniser, daemon=True)
     autosaving = threading.Thread(target=autosave, daemon=True)
 
     timing.start()
-    recognising.start()
     autosaving.start()
 
     PreGameMap()(session_info, figure)
@@ -552,66 +540,57 @@ copy of it alongside this software.""",
 
     c.exec()
 
-    print("\033[?1049h")
+    with GameContext():
+        # resizing screen
+        tss()
+        loading_screen()
 
-    # resizing screen
-    tss()
-    loading_screen()
+        # reading savefile
+        session_info = read_save()
 
-    # Home global
-    HOME = Path.home()
+        # logging config
+        log_file = (SAVEPATH / "pokete.log") if do_logging else None
+        logging.basicConfig(filename=log_file,
+                            format='[%(asctime)s][%(levelname)s]: %(message)s',
+                            level=logging.DEBUG if do_logging else logging.ERROR)
+        logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
 
-    # readingŝ savefile
-    session_info = read_save()
+        # settings
+        settings.from_dict(session_info.get("settings", {}))
 
-    # logging config
-    log_file = (SAVEPATH / "pokete.log") if do_logging else None
-    logging.basicConfig(filename=log_file,
-                        format='[%(asctime)s][%(levelname)s]: %(message)s',
-                        level=logging.DEBUG if do_logging else logging.ERROR)
-    logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
+        if not load_mods:
+            settings("load_mods").val = False
 
-    # settings
-    settings.from_dict(session_info.get("settings", {}))
+        # Loading mods
+        try_load_mods(loading_screen.map)
 
-    if not load_mods:
-        settings("load_mods").val = False
+        # Figure
+        figure = Figure(session_info)
 
-    # Loading mods
-    try_load_mods(loading_screen.map)
+        # Definiton of all additionaly needed obs and maps
+        #############################################################
 
-    # Figure
-    figure = Figure(session_info)
+        # A dict that contains all world action functions for Attacks
+        abb_funcs = {"teleport": teleport}
 
-    # Definiton of all additionaly needed obs and maps
-    #############################################################
+        # side fn definitions
+        deck.deck = deck.Deck(tss.height - 1, tss.width, abb_funcs)
+        pokete_care.from_dict(session_info.get("pokete_care", {
+            "entry": 0,
+            "poke": None,
+        }))
+        timer.time.set(session_info.get("time", 0))
+        _ev.set_emit_fn(timer.time.emit_input)
 
-    # A dict that contains all world action functions for Attacks
-    abb_funcs = {"teleport": teleport}
+        # Achievements
+        achievements.set_achieved(session_info.get("achievements", []))
+        for identifier, achievement_args in asset_service.get_base_assets().achievements.items():
+            achievements.add(identifier, achievement_args.title,
+                            achievement_args.desc)
 
-    # side fn definitions
-    deck.deck = deck.Deck(tss.height - 1, tss.width, abb_funcs)
-    pokete_care.from_dict(session_info.get("pokete_care", {
-        "entry": 0,
-        "poke": None,
-    }))
-    timer.time.set(session_info.get("time", 0))
-    _ev.set_emit_fn(timer.time.emit_input)
+        notifier.set_vars(mvp.movemap)
 
-    # Achievements
-    achievements.set_achieved(session_info.get("achievements", []))
-    for identifier, achievement_args in asset_service.get_base_assets().achievements.items():
-        achievements.add(identifier, achievement_args.title,
-                         achievement_args.desc)
+        __t = time.time() - __t
+        logging.info("[General] Startup took %fs", __t)
 
-    notifier.set_vars(mvp.movemap)
-
-    __t = time.time() - __t
-    logging.info("[General] Startup took %fs", __t)
-
-    try:
         main()
-    except KeyboardInterrupt:
-        print("\033[?1049l\033[1A\nKeyboardInterrupt")
-    finally:
-        exiter()
