@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/lxgr-linux/pokete/bs_rpc/test/msg"
 )
 
-func main() {
+func testServer() {
 	server, err := net.Listen("tcp", "localhost:9988")
 	if err != nil {
 		log.Panic(err)

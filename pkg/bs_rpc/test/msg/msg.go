@@ -14,8 +14,6 @@ type TestRequestMsg struct {
 }
 
 func (t TestRequestMsg) CallForResponse(ctx context.Context) (msg.Body, error) {
-	fmt.Println("yes")
-
 	return TestResponseMsg{t.Field1 + t.Field2}, nil
 }
 
@@ -32,7 +30,6 @@ type TestResponseMsg struct {
 }
 
 func (t TestResponseMsg) CallForResponse(ctx context.Context) (msg.Body, error) {
-	fmt.Println("yes")
 	return nil, nil
 }
 

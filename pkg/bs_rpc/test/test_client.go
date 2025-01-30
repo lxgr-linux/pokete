@@ -1,22 +1,22 @@
-package main
+package test
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net"
 
 	"github.com/lxgr-linux/pokete/bs_rpc"
-	"github.com/lxgr-linux/pokete/bs_rpc/test/msg"
+	"github.com/lxgr-linux/pokete/bs_rpc/msg"
+	msg1 "github.com/lxgr-linux/pokete/bs_rpc/test/msg"
 )
 
-func main() {
+func testClient() (results []msg.Body) {
 	con, err := net.Dial("tcp", "localhost:9988")
 	if err != nil {
 		log.Panic(err)
 	}
 
-	reg, err := msg.GetRegistry()
+	reg, err := msg1.GetRegistry()
 	if err != nil {
 		log.Panic(err)
 	}
@@ -30,13 +30,13 @@ func main() {
 		}
 	}()
 
-	resp, err := c.CallForResponse(msg.TestRequestMsg{"abc", "def"})
+	resp, err := c.CallForResponse(msg1.TestRequestMsg{"abc", "def"})
 	if err != nil {
 		log.Panic(err)
 	}
-	fmt.Println(resp)
+	results = append(results, resp)
 
-	ch, err := c.CallForResponses(msg.TestStreamMsg{4})
+	ch, err := c.CallForResponses(msg1.TestStreamMsg{4})
 	if err != nil {
 		log.Panic(err)
 	}
@@ -45,6 +45,8 @@ func main() {
 		if val == nil {
 			break
 		}
-		fmt.Println(val)
+		results = append(results, val)
 	}
+
+	return
 }
