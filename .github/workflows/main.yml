@@ -2,10 +2,9 @@
 
 name: gen-wiki
 
-
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
 
 jobs:
@@ -16,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: install deps
         run: pip install scrap_engine pyyaml
@@ -31,14 +30,13 @@ jobs:
           if [[ $(git diff) != "" ]]
           then
             git pull
-            git add ./wiki.md
+            git add ./docs/wiki.md
             git commit -m "Updated wiki"
           fi
 
-      - name: Push changes  # push the output folder to your repo
+      - name: Push changes # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:
           fetch-depth: 0
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: false
-

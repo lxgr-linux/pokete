@@ -596,7 +596,7 @@ def gen(ex: str, options: list[str],
     global SILENT, QUIET, VERBOSE
     if len(flags) == 0:
         SILENT, QUIET, VERBOSE = False, True, False
-        Wiki.single()
+        Wiki.single("docs/wiki.md")
         gen_pics()
     else:
         for flag in flags:
