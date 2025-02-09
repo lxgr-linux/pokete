@@ -15,6 +15,9 @@ import logging
 from datetime import datetime
 import scrap_engine as se
 
+from pokete.startup.command import PoketeCommand
+from pokete.startup.logging import init_logger
+
 from .classes.asset_service.service import asset_service
 from .classes.game_context import GameContext
 from .classes.multiplayer.communication import com_service
@@ -59,7 +62,6 @@ from .classes.game import (
 from .release import SPEED_OF_TIME, VERSION, CODENAME, SAVEPATH
 from pokete.util.command import RootCommand, Flag
 
-__t = time.time()
 
 # Class definition
 ##################
@@ -234,8 +236,8 @@ in the inventory!"
 class Debug:
     """Debug class"""
 
-    @classmethod
-    def pos(cls):
+    @staticmethod
+    def pos(figure):
         """Prints the figures' position"""
         print(figure.x, figure.y, figure.map.name)
 
@@ -243,7 +245,7 @@ class Debug:
 # General use functions
 #######################
 
-def autosave():
+def autosave(figure):
     """Autosaves the game every 5 mins"""
     while True:
         time.sleep(SPEED_OF_TIME * 300)
@@ -254,7 +256,7 @@ def autosave():
 # Functions needed for mvp.movemap
 ##############################
 
-def codes(string):
+def codes(string:str, figure:Figure):
     """Cheats"""
     for i in string:
         if i == "w":
@@ -368,7 +370,7 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}"""
 '''
 
 
-def _game(_map: PlayMap):
+def _game(_map: PlayMap, figure: Figure):
     """Game function
     ARGS:
         _map: The map that will be shown"""
@@ -435,7 +437,7 @@ def _game(_map: PlayMap):
                              (mvp.movemap.width - 2)
                              * mvp.movemap.height - 1)[1:]
             mvp.movemap.code_label.outp(figure.map.pretty_name)
-            codes(inp)
+            codes(inp, figure)
             _ev.clear()
         main_thread_fight_attacher.attach(ctx)
         for statement, x, y in zip(
@@ -460,13 +462,13 @@ def intro(ctx: Context):
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = obmp.ob_maps["intromap"]
     mvp.movemap.full_show()
-    while figure.name in ["DEFAULT", ""]:
-        figure.name = ask_text(
+    while ctx.figure.name in ["DEFAULT", ""]:
+        ctx.figure.name = ask_text(
             ctx,
             "Welcome to Pokete!\nPlease choose your name!\n",
             "Name:", "", "Name", 17
         )
-    mvp.movemap.name_label_rechar(figure.name)
+    mvp.movemap.name_label_rechar(ctx.figure.name)
     mvp.movemap.text(ctx, 4, 3, ["Hello, my child.",
                                  "You're now ten years old.",
                                  "I think it's now time for you to travel \
@@ -481,96 +483,26 @@ def intro(ctx: Context):
 
 def main():
     """Main function"""
-    os.system("")
-    timing = threading.Thread(target=timer.time_threat, daemon=True)
-    autosaving = threading.Thread(target=autosave, daemon=True)
 
-    timing.start()
-    autosaving.start()
+    do_logging, load_mods = PoketeCommand(audio).run()
 
-    PreGameMap()(session_info, figure)
-    figure.set_args(session_info)
-    game_map = figure.map
-    if figure.name == "DEFAULT":
-        intro(
-            Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure)
-        )
-        game_map = obmp.ob_maps["intromap"]
-    while True:
-        try:
-            _game(game_map)
-        except MapChangeExeption as err:
-            game_map = err.map
-
-
-# Actual code execution
-#######################
-if __name__ == "__main__":
-    log_flag = Flag(["--log"], "Enables logging")
-    mods_flag = Flag(["--no_mods"], "Disables mods")
-    audio_flag = Flag(["--no_audio"], "Disables audio")
-
-    do_logging = False
-    load_mods = True
-    audio.use_audio = True
-
-
-    def root_fn(ex: str, options: list[str],
-                flags: dict[str, list[str]]):
-        global do_logging, load_mods
-        for flag in flags:
-            if log_flag.is_flag(flag):
-                do_logging = True
-            elif mods_flag.is_flag(flag):
-                load_mods = False
-            elif audio_flag.is_flag(flag):
-                audio.use_audio = False
-
-
-    c = RootCommand(
-        "Pokete", f"{CODENAME} v{VERSION}", root_fn,
-        flags=[log_flag, mods_flag, audio_flag],
-        additional_info=f"""All save and logfiles are located in ~{SAVEPATH}/
-Feel free to contribute.
-See README.md for more information.
-This software is licensed under the GPLv3, you should have gotten a
-copy of it alongside this software.""",
-        usage=""
-    )
-
-    c.exec()
+    init_logger(do_logging)
 
     with GameContext():
-        # resizing screen
         tss()
         loading_screen()
 
         # reading savefile
         session_info = read_save()
-
-        # logging config
-        log_file = (SAVEPATH / "pokete.log") if do_logging else None
-        logging.basicConfig(filename=log_file,
-                            format='[%(asctime)s][%(levelname)s]: %(message)s',
-                            level=logging.DEBUG if do_logging else logging.ERROR)
-        logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
-
-        # settings
         settings.from_dict(session_info.get("settings", {}))
 
         if not load_mods:
             settings("load_mods").val = False
 
-        # Loading mods
         try_load_mods(loading_screen.map)
 
-        # Figure
         figure = Figure(session_info)
 
-        # Definiton of all additionaly needed obs and maps
-        #############################################################
-
-        # A dict that contains all world action functions for Attacks
         abb_funcs = {"teleport": teleport}
 
         # side fn definitions
@@ -590,7 +522,27 @@ copy of it alongside this software.""",
 
         notifier.set_vars(mvp.movemap)
 
-        __t = time.time() - __t
-        logging.info("[General] Startup took %fs", __t)
+        os.system("")
+        timing = threading.Thread(target=timer.time_threat, daemon=True)
+        autosaving = threading.Thread(target=autosave, args=(figure,), daemon=True)
 
-        main()
+        timing.start()
+        autosaving.start()
+
+        PreGameMap()(session_info, figure)
+        figure.set_args(session_info)
+        game_map = figure.map
+        if figure.name == "DEFAULT":
+            intro(
+                Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure)
+            )
+            game_map = obmp.ob_maps["intromap"]
+        while True:
+            try:
+                _game(game_map, figure)
+            except MapChangeExeption as err:
+                game_map = err.map
+
+
+if __name__ == "__main__":
+    main()
