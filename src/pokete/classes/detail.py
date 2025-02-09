@@ -171,6 +171,16 @@ class Detail(Informer, Overview):
         if event != None:
             single_event_periodic_event.add(event)
 
+    def cleanup(self):
+        self.remove(self.poke)
+        for obj in [self.poke.desc, self.poke.text_type]:
+            obj.remove()
+        for atc in self.poke.attack_obs:
+            for obj in [atc.label_name, atc.label_factor, atc.label_ap,
+                        atc.label_desc, atc.label_type]:
+                obj.remove()
+            del atc.temp_i, atc.temp_j
+
     def __call__(self, ctx: Context, poke, abb=True):
         """Shows details
         ARGS:
@@ -180,6 +190,7 @@ class Detail(Informer, Overview):
         self.overview = ctx.overview
         ctx = Context(PeriodicEventManager([]), self.map, self, ctx.figure)
         self.add(self.poke, None, self.map, 1, 1, False)
+        do_exit = False
         abb_obs = [i for i in self.poke.attack_obs
                    if i.world_action != ""]
         if abb_obs != [] and abb:
@@ -201,16 +212,12 @@ class Detail(Informer, Overview):
             self.resize_view()
         self.map.show(init=True)
         while True:
+            if do_exit:
+                self.cleanup()
+                return
             action = get_action()
             if action.triggers(Action.DECK, Action.CANCEL):
-                self.remove(self.poke)
-                for obj in [self.poke.desc, self.poke.text_type]:
-                    obj.remove()
-                for atc in self.poke.attack_obs:
-                    for obj in [atc.label_name, atc.label_factor, atc.label_ap,
-                                atc.label_desc, atc.label_type]:
-                        obj.remove()
-                    del atc.temp_i, atc.temp_j
+                self.cleanup()
                 return
             if action.triggers(Action.NATURE_INFO):
                 poke.nature.info(ctx)
@@ -235,6 +242,7 @@ class Detail(Informer, Overview):
                                 self.enq_single_action(
                                     abb_obs[box.index.index].world_action,
                                 )
+                                do_exit = True
                                 _ev.set(Action.CANCEL.mapping)
                                 break
                             elif action.triggers(Action.CANCEL):
