@@ -3,7 +3,7 @@ from pokete.classes.context import Context
 from pokete.classes.doors import Door
 from pokete.classes.single_event.single_event import SingleEvent
 from pokete.classes.settings import settings
-from pokete.classes.asset_service import asset_service
+from pokete.classes.asset_service.service import asset_service
 
 class TeleportationSingleEvent(SingleEvent):
     def __init__(self, poke):
