@@ -8,13 +8,13 @@ You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
 import time
-import os
 import sys
 import threading
 import logging
 from datetime import datetime
 import scrap_engine as se
 
+from pokete.release import SPEED_OF_TIME
 from pokete.startup.command import PoketeCommand
 from pokete.startup.logging import init_logger
 
@@ -59,9 +59,7 @@ from .classes.dex import Dex
 from .classes.game import (
     PeriodicEventManager, MapChangeExeption
 )
-from .release import SPEED_OF_TIME, VERSION, CODENAME, SAVEPATH
-from pokete.util.command import RootCommand, Flag
-
+from .classes.single_event import single_event_periodic_event
 
 # Class definition
 ##################
@@ -277,24 +275,6 @@ def codes(string:str, figure:Figure):
 # main functions
 ################
 
-def teleport(poke):
-    """Teleports the player to another towns pokecenter
-    ARGS:
-        poke: The Poke shown in the animation"""
-    if (obj := roadmap.roadmap(
-        Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure),
-        choose=True)) is None:
-        return
-    if settings("animations").val:
-        animations.transition(mvp.movemap, poke)
-    cen_d = asset_service.get_assets().obmaps[obj.name].hard_obs["pokecenter"]
-    Door("", state="float", arg_proto={
-        "map": obj.name,
-        "x": cen_d.x + 5,
-        "y": cen_d.y + 6
-    }).action(figure)
-
-
 ''' # this is awfull and has to be removed
 def swap_poke(ctx: Context):
     """Trading with other players in the local network"""
@@ -395,9 +375,11 @@ def _game(_map: PlayMap, figure: Figure):
             MovingGrassEvent(_map),
             MovingWaterEvent(_map),
             *([TreatNPCEvent()] if modeProvider.mode == Mode.SINGLE else []),
-            NotifierEvent()
+            NotifierEvent(),
+            single_event_periodic_event,
         ] + _map.extra_actions())
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
+    single_event_periodic_event.set_root_context(ctx)  # Terribly injected from behind
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: dict[Action, tuple] = {
         Action.DECK: (deck.deck, (ctx, 6, "Your deck")),
@@ -503,10 +485,8 @@ def main():
 
         figure = Figure(session_info)
 
-        abb_funcs = {"teleport": teleport}
-
         # side fn definitions
-        deck.deck = deck.Deck(tss.height - 1, tss.width, abb_funcs)
+        deck.deck = deck.Deck(tss.height - 1, tss.width)
         pokete_care.from_dict(session_info.get("pokete_care", {
             "entry": 0,
             "poke": None,
@@ -522,12 +502,8 @@ def main():
 
         notifier.set_vars(mvp.movemap)
 
-        os.system("")
-        timing = threading.Thread(target=timer.time_threat, daemon=True)
-        autosaving = threading.Thread(target=autosave, args=(figure,), daemon=True)
-
-        timing.start()
-        autosaving.start()
+        threading.Thread(target=timer.time_threat, daemon=True).start()
+        threading.Thread(target=autosave, args=(figure,), daemon=True).start()
 
         PreGameMap()(session_info, figure)
         figure.set_args(session_info)

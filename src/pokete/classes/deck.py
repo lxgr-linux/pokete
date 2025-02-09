@@ -6,7 +6,7 @@ import pokete.classes.game_map as gm
 from .context import Context
 from .game import PeriodicEventManager
 from .input import (
-    ACTION_DIRECTIONS, Action, get_action, _ev
+    ACTION_DIRECTIONS, Action, get_action
 )
 from .input_loops import ask_bool, ask_ok
 from .color import Color
@@ -25,7 +25,7 @@ class Index(se.Object):
 class Deck(detail.Informer, Overview):
     """Deck to see Poketes in"""
 
-    def __init__(self, height, width, abb_funcs):
+    def __init__(self, height, width):
         self.map = gm.GameMap(height, width, name="deck")
         self.submap = gm.GameSubmap(self.map, 0, 0, height, width, "decksubmap")
         self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
@@ -33,7 +33,6 @@ class Deck(detail.Informer, Overview):
         self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: Free")
         self.index = Index()
         self.figure = None
-        self.abb_funcs = abb_funcs
         self.pokes = []
         self.label = ""
         self.overview = None
@@ -92,7 +91,6 @@ class Deck(detail.Informer, Overview):
         self.overview = ctx.overview
         ctx = Context(PeriodicEventManager([]), self.submap, self, ctx.figure)
         self.pokes = self.figure.pokes[:p_len]
-        ret_action = None
 
         self.exit_label.remove()
         self.move_label.remove()
@@ -130,8 +128,6 @@ class Deck(detail.Informer, Overview):
                 while len(self.map.obs) > 0:
                     self.map.obs[0].remove()
                 self.submap.set(0, 0)
-                if ret_action is not None:
-                    self.abb_funcs[ret_action](self.pokes[self.index.index])
                 return None
             elif action.triggers(Action.MOVE_POKETE):
                 if len(self.pokes) == 0:
@@ -194,7 +190,7 @@ class Deck(detail.Informer, Overview):
                         return self.index.index
                 else:
                     self.rem_pokes()
-                    ret_action = detail.detail(
+                    detail.detail(
                         ctx,
                         self.pokes[self.index.index],
                     )
@@ -203,9 +199,6 @@ class Deck(detail.Informer, Overview):
                         self.pokes[self.index.index].text_name.x
                         + len(self.pokes[self.index.index].text_name.text) + 1,
                         self.pokes[self.index.index].text_name.y)
-                    if ret_action is not None:
-                        _ev.set(Action.CANCEL.mapping)
-                        continue
                     self.submap.full_show(init=True)
             loops.std(ctx)
             if len(self.pokes) > 0 and \

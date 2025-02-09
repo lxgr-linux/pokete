@@ -1,5 +1,3 @@
-from threading import Event, main_thread
-
 import pokete.bs_rpc as bs_rpc
 from pokete.classes.input_loops.ask import ask_bool
 from pokete.classes.multiplayer.remote_fight import remote_fight_controller

@@ -1,7 +1,10 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
+from typing import Optional
 import scrap_engine as se
 import pokete.classes.game_map as gm
+from pokete.classes.single_event import single_event_periodic_event, SingleEvent
+from pokete.classes.single_events import TeleportationSingleEvent
 from .context import Context
 from .game import PeriodicEventManager
 from .poke.stats import StatsInfoBox
@@ -158,6 +161,16 @@ class Detail(Informer, Overview):
                                        [0, 1, 1, 2, 3]):
                 label.add(self.map, _x + __x, _y + __y)
 
+    def enq_single_action(self, ret_action:str):
+        event: Optional[SingleEvent] = None
+        match ret_action:
+            case "teleport":
+                event = TeleportationSingleEvent(self.poke)
+            case None, _:
+                return
+        if event != None:
+            single_event_periodic_event.add(event)
+
     def __call__(self, ctx: Context, poke, abb=True):
         """Shows details
         ARGS:
@@ -166,7 +179,6 @@ class Detail(Informer, Overview):
         self.poke = poke
         self.overview = ctx.overview
         ctx = Context(PeriodicEventManager([]), self.map, self, ctx.figure)
-        ret_action = None
         self.add(self.poke, None, self.map, 1, 1, False)
         abb_obs = [i for i in self.poke.attack_obs
                    if i.world_action != ""]
@@ -199,7 +211,7 @@ class Detail(Informer, Overview):
                                 atc.label_desc, atc.label_type]:
                         obj.remove()
                     del atc.temp_i, atc.temp_j
-                return ret_action
+                return
             if action.triggers(Action.NATURE_INFO):
                 poke.nature.info(ctx)
             elif action.triggers(Action.STATS_INFO):
@@ -220,8 +232,9 @@ class Detail(Informer, Overview):
                                 box.input(action)
                                 self.map.show()
                             elif action.triggers(Action.ACCEPT):
-                                ret_action = abb_obs[
-                                    box.index.index].world_action
+                                self.enq_single_action(
+                                    abb_obs[box.index.index].world_action,
+                                )
                                 _ev.set(Action.CANCEL.mapping)
                                 break
                             elif action.triggers(Action.CANCEL):

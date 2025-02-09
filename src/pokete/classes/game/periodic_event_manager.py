@@ -1,10 +1,13 @@
 """Contains the pevm"""
 
 
-class PeriodicEvent:
-    def tick(self, tick: int):
-        raise NotImplementedError()
+from abc import ABC, abstractmethod
 
+
+class PeriodicEvent(ABC):
+    @abstractmethod
+    def tick(self, tick: int):
+        pass
 
 class PeriodicEventManager:
     """As the name states: It manages periodic events in the game loop"""

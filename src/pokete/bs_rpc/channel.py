@@ -21,8 +21,11 @@ class Channel(Generic[T]):
     def is_closed(self) -> bool:
         return self.__closed
 
+    def is_empty(self) -> bool:
+        return len(self.__state) == 0
+
     def listen(self) -> T | None:
-        if len(self.__state) == 0:
+        if self.is_empty():
             if self.__closed:
                 return None
             self.__event.wait()

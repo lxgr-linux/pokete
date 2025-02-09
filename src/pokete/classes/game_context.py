@@ -1,4 +1,5 @@
 import logging
+import os
 import threading
 
 from .audio import audio
@@ -9,6 +10,7 @@ class GameContext:
     def __enter__(self):
         threading.Thread(target=recogniser, daemon=True).start()
         print("\033[?1049h")
+        os.system("")
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         recogniser.reset()
