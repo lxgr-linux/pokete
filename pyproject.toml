@@ -19,6 +19,7 @@ dependencies = ["scrap_engine>=1.4.2"]
 
 [project.scripts]
 pokete = "pokete.__main__:main"
+pokete-util = "pokete.util.__main__:main"
 
 [tool.setuptools.package-data]
 "*" = ["*.mp3", "*.so", "*.dll"]
