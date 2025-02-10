@@ -28,7 +28,7 @@ from .classes.multiplayer.remote_fight import main_thread_fight_attacher
 from .classes.poke import Stats
 from .classes.fight import ProtoFigure
 from .classes import roadmap
-from .classes import animations, loops
+from .classes import loops
 from .classes.context import Context
 from .classes.inv import inv, buy
 from .classes.menu import Menu
@@ -50,7 +50,6 @@ from .classes.pokete_care import pokete_care
 from .classes import deck, timer, ob_maps as obmp, \
     movemap as mvp
 from .classes.landscape import MapInteract
-from .classes.doors import Door
 from .classes.ui import notifier
 from .classes.input_loops import ask_bool, ask_text
 from .classes.achievements import achievements
@@ -215,17 +214,17 @@ class Figure(se.Object, ProtoFigure):
             If the player has this item"""
         return item in self.inv and self.inv[item] > 0
 
-    def remove_item(self, item, amount=1):
+    def remove_item(self, name, amount=1):
         """Removes a certain amount of an item from the inv
         ARGS:
             item: Generic item name
             amount: Amount of items beeing removed"""
         assert amount > 0, "Amounts have to be positive!"
-        assert item in self.inv, f"Item {item} is not in the inventory!"
-        assert self.inv[item] - amount >= 0, f"There are not enought {item}s \
+        assert name in self.inv, f"Item {name} is not in the inventory!"
+        assert self.inv[name] - amount >= 0, f"There are not enought {name}s \
 in the inventory!"
-        self.inv[item] -= amount
-        logging.info("[Figure] %d %s(s) removed", amount, item)
+        self.inv[name] -= amount
+        logging.info("[Figure] %d %s(s) removed", amount, name)
 
     def balls_label_rechar(self):
         mvp.movemap.balls_label_rechar(self.pokes)
