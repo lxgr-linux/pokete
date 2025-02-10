@@ -24,7 +24,6 @@ from .classes.multiplayer.communication import com_service
 from .classes.multiplayer.interactions.context_menu import ContextMenu
 from .classes.multiplayer.modeprovider import modeProvider, Mode
 from .classes.multiplayer.pc_manager import pc_manager
-from .classes.multiplayer.remote_fight import main_thread_fight_attacher
 from .classes.poke import Stats
 from .classes.fight import ProtoFigure
 from .classes import roadmap
@@ -420,7 +419,6 @@ def _game(_map: PlayMap, figure: Figure):
             mvp.movemap.code_label.outp(figure.map.pretty_name)
             codes(inp, figure)
             _ev.clear()
-        main_thread_fight_attacher.attach(ctx)
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,

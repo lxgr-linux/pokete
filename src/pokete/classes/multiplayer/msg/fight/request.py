@@ -1,10 +1,8 @@
-import threading
 from typing import TypedDict
 
 import pokete.bs_rpc as bs_rpc
-from pokete.classes.multiplayer.remote_fight import main_thread_fight_attacher
-from ....input_loops import ask_bool
-from ...remote_fight import remote_fight_controller
+from pokete.classes.multiplayer.remote_fight import MainThreatFightEvent
+from pokete.classes.single_event import single_event_periodic_event
 from ...pc_manager import pc_manager
 from .reponse import Response
 
@@ -22,5 +20,7 @@ class Request(bs_rpc.Body):
     def call_for_response(self, context):
         name = self.data["name"]
         rmtpl = pc_manager.get(name)
-        accept = main_thread_fight_attacher.set_ready(name).listen()
+        event = MainThreatFightEvent(name)
+        single_event_periodic_event.add(event)
+        accept = event.wait_accepted()
         return Response({"accept": accept})
