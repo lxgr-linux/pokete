@@ -4,8 +4,9 @@ import time
 import random
 import logging
 import scrap_engine as se
+
 from pokete.release import SPEED_OF_TIME
-from .color import Color
+from pokete.base.color import Color
 
 
 class Effect:

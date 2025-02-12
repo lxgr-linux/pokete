@@ -1,7 +1,7 @@
 import scrap_engine as se
 
 from .box import Box
-from pokete.classes.input import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, \
+from pokete.base.input import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, \
     ActionList
 
 

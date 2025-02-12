@@ -1,20 +1,20 @@
 """Contains the map used for evolving"""
 import logging
 import time
-
 import scrap_engine as se
-import pokete.classes.game_map as gm
+
 from pokete.release import SPEED_OF_TIME
-from .. import loops
+import pokete.base.game_map as gm
+from pokete.base import loops
+from pokete.base.context import Context
+from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.tss import tss
+from pokete.base.ui import Overview
 from ..achievements import achievements
 from ..asset_service.service import asset_service
 from ..classes import OutP
-from ..context import Context
-from ..game import PeriodicEventManager
 from ..learnattack import LearnAttack
 from .poke import Poke
-from ..tss import tss
-from ..ui import Overview
 
 
 class EvoMap(gm.GameMap, Overview):

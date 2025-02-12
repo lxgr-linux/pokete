@@ -3,14 +3,15 @@ of their stats"""
 
 import random
 import scrap_engine as se
+
 from pokete.util import liner
+from pokete.base.context import Context
+from pokete.base.input import Action
+from pokete.base.ui.elements import LabelBox
+from pokete.base.color import Color
+from pokete.base import loops
 from ..multiplayer.msg.poke import NatureDict
 from ..asset_service.service import asset_service
-from ..context import Context
-from ..input import Action
-from ..ui.elements import LabelBox
-from ..color import Color
-from .. import loops
 
 
 class Nature:

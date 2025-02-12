@@ -3,6 +3,9 @@ import random
 import time
 
 from pokete.release import SPEED_OF_TIME
+from pokete.base.context import Context
+from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.tss import tss
 from .attack_process import AttackProcess
 from .fight_decision import Result
 from .fightmap import FightMap
@@ -11,11 +14,8 @@ from .items import fight_items
 from ..achievements import achievements
 from ..attack import Attack
 from ..audio import audio
-from ..context import Context
-from ..game import PeriodicEventManager
 from ..inv import InvItem
 from ..poke import EvoMap
-from ..tss import tss
 
 
 class Fight:

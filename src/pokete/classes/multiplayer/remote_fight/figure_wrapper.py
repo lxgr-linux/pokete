@@ -2,7 +2,7 @@ import random
 from typing import Generator
 
 import pokete.bs_rpc as bs_rpc
-from pokete.classes.context import Context
+from pokete.base.context import Context
 from pokete.classes.fight.fight_decision import FightDecision
 from pokete.classes.fight.fightmap.fightmap import FightMap
 from pokete.classes.fight.providers import Provider

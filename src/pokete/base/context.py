@@ -1,7 +1,7 @@
 from copy import copy
 
 from .game_map import CompatMap
-from .game import PeriodicEventManager
+from .periodic_event_manager import PeriodicEventManager
 from .ui.overview import Overview
 
 

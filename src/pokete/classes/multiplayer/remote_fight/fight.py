@@ -1,4 +1,3 @@
-from typing import overload
 from pokete.classes.fight.fight import Fight
 
 

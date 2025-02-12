@@ -2,19 +2,21 @@
 
 from typing import Optional
 import scrap_engine as se
-import pokete.classes.game_map as gm
-from pokete.classes.single_event import single_event_periodic_event, SingleEvent
+
+import pokete.base.game_map as gm
+from pokete.base.single_event import single_event_periodic_event, SingleEvent
 from pokete.classes.single_events import TeleportationSingleEvent
-from .context import Context
-from .game import PeriodicEventManager
-from .poke.stats import StatsInfoBox
+from pokete.base.context import Context
+from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.input import Action, get_action, _ev
+from pokete.base.ui import Overview
+from pokete.base.ui.elements import StdFrame2, ChooseBox
+from pokete.base.color import Color
+from pokete.base.tss import tss
+from pokete.base import loops
 from pokete.util import liner
-from .input import Action, get_action, _ev
-from .ui import Overview
-from .ui.elements import StdFrame2, ChooseBox
-from .color import Color
-from .tss import tss
-from . import loops
+from .poke.stats import StatsInfoBox
+
 
 
 class Informer:

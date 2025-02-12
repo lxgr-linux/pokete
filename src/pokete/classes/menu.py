@@ -3,18 +3,18 @@ import time
 
 import scrap_engine as se
 from pokete.release import SPEED_OF_TIME
-from . import loops
+from pokete.base import loops
+from pokete.base.context import Context
+from pokete.base.input import get_action, Action, _ev
+from pokete.base.input_loops import text_input
+from pokete.base.ui import notifier, Overview
+from pokete.base.ui.elements import ChooseBox, InfoBox
 from .achievements import AchievementOverview
 from .audio import audio
-from .context import Context
-from .input import get_action, Action, _ev
 from .mods import ModInfo
 from .save import save
 from .settings import VisSetting, Slider, settings
 from .side_loops import About
-from .input_loops import text_input
-from .ui import notifier, Overview
-from .ui.elements import ChooseBox, InfoBox
 
 
 class Menu(Overview):

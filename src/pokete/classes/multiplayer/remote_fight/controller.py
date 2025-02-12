@@ -3,9 +3,8 @@ from threading import Event
 from typing import Generator
 
 import pokete.bs_rpc as bs_rpc
-from pokete.classes.context import Context
-from pokete.classes.fight import Fight
-from pokete.classes.input_loops.ask import wait_event
+from pokete.base.context import Context
+from pokete.base.input_loops.ask import wait_event
 from pokete.classes.multiplayer.remote_fight.fight import RemoteFight
 from pokete.classes.multiplayer.remote_fight.figure_wrapper import FigureWrapperProvider
 from pokete.classes.multiplayer.remote_fight.provider import RemoteProvider

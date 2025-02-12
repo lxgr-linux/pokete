@@ -3,14 +3,14 @@
 import random
 import scrap_engine as se
 from pokete.classes import timer, movemap as mvp
+from pokete.base.input_loops import ask_ok
+from pokete.base.context import Context
+from pokete.base.color import Color
 from .asset_service.resources import PokeArgs
 from .asset_service.service import asset_service
-from .context import Context
 from .fight import Fight, NatureProvider
-from .color import Color
 from .general import check_walk_back
 from .poke import Poke
-from .input_loops import ask_ok
 
 
 class MapInteract:

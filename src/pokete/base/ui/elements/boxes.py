@@ -1,6 +1,6 @@
 import scrap_engine as se
 
-from pokete.classes.input import Action
+from pokete.base.input import Action
 from .box import Box
 
 

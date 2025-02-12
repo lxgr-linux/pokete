@@ -3,11 +3,11 @@
 import random
 import time
 from abc import ABC, abstractmethod
-from .fight_decision import FightDecision
-from ..context import Context
-from ..poke import Poke
-from ..input_loops import ask_bool
 
+from pokete.base.context import Context
+from pokete.base.input_loops import ask_bool
+from .fight_decision import FightDecision
+from ..poke import Poke
 
 class Provider(ABC):
     """Provider can hold and manage Poketes

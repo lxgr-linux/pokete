@@ -1,16 +1,17 @@
 """Contains the LearnAttack class"""
 
 import random
-
 import scrap_engine as se
+
 from pokete.util import liner
+from pokete.base.context import Context
+from pokete.base.input import Action, get_action
+from pokete.base.input_loops import ask_bool, ask_ok
+from pokete.base.ui.elements import ChooseBox, Box
+from pokete.base import loops
 from .asset_service.service import asset_service
-from .context import Context
-from .input import Action, get_action
-from .input_loops import ask_bool, ask_ok
-from .ui.elements import ChooseBox, Box
 from .attack import Attack
-from . import detail, loops
+from . import detail
 
 
 class AttackInfo(Box):

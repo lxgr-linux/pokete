@@ -1,9 +1,9 @@
 """Contains just some small classes"""
 
 import scrap_engine as se
-import pokete.classes.game_map as gm
+import pokete.base.game_map as gm
+from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.classes.asset_service.resources import PokeArgs
-from .game import PeriodicEvent
 from .weather import Weather
 
 

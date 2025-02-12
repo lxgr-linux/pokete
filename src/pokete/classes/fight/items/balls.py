@@ -8,7 +8,7 @@ from pokete.classes.fight.fightmap.fightmap import FightMap
 from pokete.classes.fight.providers import Provider
 from pokete.classes.audio import audio
 from ... import ob_maps as obmp
-from pokete.classes.fight.providers import NatureProvider, Provider
+from pokete.classes.fight.providers import NatureProvider
 from .item import FightItem, RoundContinuation
 from ...asset_service.service import asset_service
 from pokete.release import SPEED_OF_TIME

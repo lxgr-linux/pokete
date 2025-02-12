@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from pokete.classes.context import Context
+from ..context import Context
 
 
 class SingleEvent(ABC):

@@ -1,7 +1,7 @@
+from pokete.base.context import Context
+from pokete.base.periodic_event_manager import PeriodicEventManager
 from .pokete_care import PoketeCare
 from .. import timer
-from ..context import Context
-from ..game import PeriodicEventManager
 from ..npcs import NPCAction
 from ..npcs.npc_action import NPCInterface, UIInterface
 from .dummy import DummyFigure

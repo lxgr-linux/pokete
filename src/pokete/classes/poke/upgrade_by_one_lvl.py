@@ -1,5 +1,5 @@
+from pokete.base.context import Context
 from . import Poke
-from ..context import Context
 from .evomap import EvoMap
 
 

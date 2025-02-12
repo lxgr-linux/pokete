@@ -3,11 +3,11 @@ import math
 
 import scrap_engine as se
 
-from pokete.classes.asset_service.service import asset_service
-from pokete.classes.game import PeriodicEvent
+from pokete.base.periodic_event_manager import PeriodicEvent
+from pokete.base.tss import tss
+from .asset_service.service import asset_service
 from .asset_service.resources import Map
-from pokete.classes.map_additions.center import CenterMap, ShopMap
-from pokete.classes.tss import tss
+from .map_additions.center import CenterMap, ShopMap
 from .landscape import Meadow, Water, Sand, Poketeball
 from .classes import PlayMap
 from .npcs import Trainer

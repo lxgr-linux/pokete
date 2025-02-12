@@ -1,9 +1,10 @@
 import scrap_engine as se
 
-from ..context import Context
-from ..input import get_action, ACTION_UP_DOWN, Action
-from ..ui.elements import ChooseBox
-from .. import movemap as mvp, loops
+from pokete.base.context import Context
+from pokete.base.input import get_action, ACTION_UP_DOWN, Action
+from pokete.base.ui.elements import ChooseBox
+from pokete.base import loops
+from .. import movemap as mvp
 
 
 class MultiTextChooseBox(ChooseBox):

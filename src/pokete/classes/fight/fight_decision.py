@@ -3,7 +3,6 @@ import logging
 
 from pokete.classes.multiplayer.msg.fight.fight_decision import FightDecisionData
 from pokete.classes.multiplayer.msg.player import player
-from pokete.classes.multiplayer.msg.poke import PokeDict
 from pokete.classes.inv.items import invitems
 from pokete.classes.poke.poke import Poke
 from ..attack import Attack

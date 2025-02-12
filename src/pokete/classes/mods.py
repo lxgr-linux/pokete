@@ -3,8 +3,8 @@ import logging
 import sys
 
 import pokete.data as p_data
+from pokete.base.ui.elements import InfoBox
 from .side_loops import LoopBox
-from .ui.elements import InfoBox
 from .settings import settings
 
 

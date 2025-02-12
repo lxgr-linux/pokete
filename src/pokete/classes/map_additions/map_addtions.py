@@ -1,6 +1,6 @@
 import scrap_engine as se
 
-import pokete_data as p_data
+import pokete.data as p_data
 from pokete.classes.doors import Door, ChanceDoor
 from .. import ob_maps as obmp
 from ..landscape import HighGrass

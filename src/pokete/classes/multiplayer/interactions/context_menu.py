@@ -1,9 +1,9 @@
+from pokete.base.context import Context
 from ..remote_fight import remote_fight_controller
 from ..communication import com_service
-from ...context import Context
-from ...input_loops import ask_ok
 from ...interactions import MultiTextChooseBox
 from ...multiplayer.pc_manager import pc_manager
+
 
 OPTION_FIGHT = "Fight"
 OPTION_TRADE = "Trade"

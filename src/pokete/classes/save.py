@@ -1,13 +1,12 @@
-from importlib import reload
 import json
 import logging
 import os
 from pathlib import Path
 
 from pokete import release
+from pokete.base.input import hotkeys_save
 from . import timer
 from .achievements import achievements
-from .input import hotkeys_save
 from .multiplayer.connector import com_service
 from .multiplayer.modeprovider import modeProvider, Mode
 from .pokete_care import pokete_care

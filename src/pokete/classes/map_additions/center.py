@@ -1,13 +1,13 @@
 import time
 import scrap_engine as se
 
-from pokete.classes import movemap as mvp, deck, loops
+from pokete.base.input import _ev, get_action, Action
+from pokete.base import loops
+from pokete.classes import movemap as mvp, deck
 from pokete.classes.classes import PlayMap
 from pokete.classes.doors import CenterDoor
 from pokete.classes.inv import buy
 from pokete.classes.landscape import MapInteract
-from pokete.classes.npcs import NPC
-from pokete.classes.input import _ev, get_action, Action
 from pokete.release import SPEED_OF_TIME
 
 

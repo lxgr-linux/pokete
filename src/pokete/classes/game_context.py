@@ -2,8 +2,8 @@ import logging
 import os
 import threading
 
+from pokete.base.input.recogniser import recogniser
 from .audio import audio
-from .input.recogniser import recogniser
 
 
 class GameContext:

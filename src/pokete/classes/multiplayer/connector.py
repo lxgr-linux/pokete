@@ -2,12 +2,13 @@
 
 from pokete import release
 from pokete.util import liner
+from pokete.base.context import Context
+from pokete.base.input_loops import ask_ok, ask_text
 from .communication import com_service, ConnectionException
 from .exceptions import UserPresentException, VersionMismatchException, \
     InvalidPokeException
 from .host_port import HostPort, HostPortParseException
-from ..context import Context
-from ..input_loops import ask_ok, ask_text
+
 
 DEFAULT_PORT = 9988
 

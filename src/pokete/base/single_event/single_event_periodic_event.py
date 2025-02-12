@@ -1,7 +1,7 @@
 import logging
 from pokete import bs_rpc
-from pokete.classes.context import Context
-from pokete.classes.game.periodic_event_manager import PeriodicEvent
+from ..context import Context
+from ..periodic_event_manager import PeriodicEvent
 from .single_event import SingleEvent
 
 

@@ -3,10 +3,10 @@
 import time
 import scrap_engine as se
 from pokete.data.attacks import attacks
+from pokete.base.color import Color
 from pokete.release import SPEED_OF_TIME
 from .effects import effects
 from .types import types
-from .color import Color
 
 
 class Attack:

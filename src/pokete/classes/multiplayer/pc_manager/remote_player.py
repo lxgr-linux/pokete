@@ -1,8 +1,9 @@
 import scrap_engine as se
 
-from ...color import Color
+from pokete.base.color import Color
 from ...interactions import Interactor, MultiTextChooseBox
 from ...landscape import MapInteract
+
 
 class RemotePlayer(se.Object, MapInteract, Interactor):
     """A remote player

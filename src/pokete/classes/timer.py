@@ -2,11 +2,12 @@
 
 import time as time_mod
 import scrap_engine as se
+
 from pokete.release import SPEED_OF_TIME
-from .context import Context
-from .input import Action, get_action
-from .ui.elements import Box
-from . import loops
+from pokete.base.context import Context
+from pokete.base.input import Action, get_action
+from pokete.base.ui.elements import Box
+from pokete.base import loops
 
 letters = [
     """ ##

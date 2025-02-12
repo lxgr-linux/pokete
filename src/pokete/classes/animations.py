@@ -2,7 +2,7 @@
 
 import time
 import scrap_engine as se
-import pokete.classes.game_map as gm
+import pokete.base.game_map as gm
 from pokete.release import SPEED_OF_TIME
 
 

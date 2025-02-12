@@ -2,7 +2,7 @@ from typing import TypedDict
 
 import pokete.bs_rpc as bs_rpc
 from pokete.classes.multiplayer.remote_fight import MainThreatFightEvent
-from pokete.classes.single_event import single_event_periodic_event
+from pokete.base.single_event import single_event_periodic_event
 from ...pc_manager import pc_manager
 from .reponse import Response
 

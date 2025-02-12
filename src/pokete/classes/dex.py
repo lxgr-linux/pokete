@@ -4,14 +4,14 @@ import scrap_engine as se
 
 from pokete.util import liner
 from .asset_service.service import asset_service
-from .context import Context
-from .input import Action, ACTION_UP_DOWN, get_action
+from pokete.base.context import Context
+from pokete.base.input import Action, ACTION_UP_DOWN, get_action
+from pokete.base.color import Color
+from pokete.base.ui import Overview
+from pokete.base.ui.elements import ChooseBox, Box
+from pokete.base import loops
 from .poke import Poke
-from .color import Color
 from .poke import PokeNature
-from .ui import Overview
-from .ui.elements import ChooseBox, Box
-from . import loops
 
 
 class Dex(Overview):

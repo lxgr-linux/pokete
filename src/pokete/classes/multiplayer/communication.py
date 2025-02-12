@@ -3,13 +3,13 @@ import threading
 import socket
 
 import pokete.bs_rpc as bs_rpc
+from pokete.base.context import Context
 from pokete.classes.asset_service.service import asset_service
-from pokete.classes.context import Context
 from pokete.classes.multiplayer import msg
 from pokete.classes.multiplayer.exceptions import ConnectionException, \
     VersionMismatchException, UserPresentException, InvalidPokeException
 from pokete.classes.multiplayer.msg import player, position, error, map_info, fight
-from pokete.classes.multiplayer.msg.position.update import Position, UpdateDict
+from pokete.classes.multiplayer.msg.position.update import UpdateDict
 from pokete.classes.multiplayer.pc_manager import pc_manager
 
 

@@ -1,14 +1,13 @@
 """Contains classes nedded for pokete stats"""
 
 from datetime import datetime
-
 import scrap_engine as se
 
-from ..context import Context
-from ..input import Action
+from pokete.base.context import Context
+from pokete.base.input import Action
+from pokete.base.ui.elements import LabelBox
+from pokete.base import loops
 from ..multiplayer.msg.poke import StatsDict
-from ..ui.elements import LabelBox
-from .. import loops
 
 
 class Stats:

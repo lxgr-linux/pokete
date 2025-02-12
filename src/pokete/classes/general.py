@@ -1,9 +1,9 @@
 """Contains some stuff that's used in this module"""
 
 import logging
-from .context import Context
+from pokete.base.context import Context
+from pokete.base.input_loops import ask_ok
 from .doors import DoorToCenter
-from .input_loops import ask_ok
 
 
 def check_walk_back(ctx: Context, self=None):

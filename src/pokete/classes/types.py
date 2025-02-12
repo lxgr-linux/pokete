@@ -1,6 +1,6 @@
 """Type and PokeType class"""
 from pokete.classes.asset_service.service import asset_service
-from .color import Color
+from pokete.base.color import Color
 
 
 class Types:

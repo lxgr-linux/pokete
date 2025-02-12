@@ -48,7 +48,7 @@ class Notifier:
         self.map = None
         self.wait = []
         self.notified = False
-        self.notification = None
+        self.notification:Notification
         self.counter = -1
 
     def set_vars(self, _map):
@@ -69,7 +69,7 @@ class Notifier:
         else:
             self.__notify(noti)
 
-    def __notify(self, noti):
+    def __notify(self, noti:Notification):
         """Shows a Notifications
         ARGS:
             noti: The Notification"""

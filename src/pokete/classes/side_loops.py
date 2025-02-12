@@ -2,12 +2,12 @@
 
 import os
 import scrap_engine as se
-import pokete.classes.game_map as gm
+import pokete.base.game_map as gm
 from pokete import release
-from pokete.classes.context import Context
+from pokete.base.context import Context
+from pokete.base.ui.elements import InfoBox
+from pokete.base import loops
 from pokete.util import liner
-from .ui.elements import InfoBox
-from . import loops
 
 
 class LoopBox:

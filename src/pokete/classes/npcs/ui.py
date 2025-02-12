@@ -1,5 +1,5 @@
+from pokete.base.input_loops import ask_bool, ask_ok
 from pokete.classes import deck
-from pokete.classes.input_loops import ask_bool, ask_ok
 from pokete.classes.landscape import MapInteract
 from pokete.classes.npcs.npc_action import UIInterface
 

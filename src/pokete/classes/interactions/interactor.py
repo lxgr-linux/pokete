@@ -1,13 +1,12 @@
 import logging
 import time
 from abc import ABC, abstractmethod
-
 import scrap_engine as se
 
 from pokete.release import SPEED_OF_TIME
+from pokete.base.context import Context
 from .interactor_interface import InteractorInterface
 from .. import movemap as mvp
-from ..context import Context
 
 
 class Interactor(InteractorInterface, ABC):

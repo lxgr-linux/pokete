@@ -14,10 +14,19 @@ import logging
 from datetime import datetime
 import scrap_engine as se
 
-from pokete.release import SPEED_OF_TIME
-from pokete.startup.command import PoketeCommand
-from pokete.startup.logging import init_logger
-
+from .release import SPEED_OF_TIME
+from .startup.command import PoketeCommand
+from .startup.logging import init_logger
+from .base.ui import notifier
+from .base.input_loops import ask_bool, ask_text
+from .base.single_event import single_event_periodic_event
+from .base.input import get_action, Action, ACTION_DIRECTIONS, _ev
+from .base.context import Context
+from .base.color import Color
+from .base.input_loops import text_input
+from .base.tss import tss
+from .base.periodic_event_manager import PeriodicEventManager
+from .base import loops
 from .classes.asset_service.service import asset_service
 from .classes.game_context import GameContext
 from .classes.multiplayer.communication import com_service
@@ -27,37 +36,26 @@ from .classes.multiplayer.pc_manager import pc_manager
 from .classes.poke import Stats
 from .classes.fight import ProtoFigure
 from .classes import roadmap
-from .classes import loops
-from .classes.context import Context
 from .classes.inv import inv, buy
 from .classes.menu import Menu
 from .classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
     TreatNPCEvent, NotifierEvent
 from .classes.poke import Poke
-from .classes.color import Color
 from .classes.pre_game import PreGameMap
 from .classes.save import read_save, save
-from .classes.input_loops import text_input
 from .classes.classes import PlayMap
 from .classes.settings import settings
 from .classes.audio import audio
-from .classes.tss import tss
 from .classes.side_loops import loading_screen, Help
-from .classes.input import _ev
 from .classes.mods import try_load_mods
 from .classes.pokete_care import pokete_care
 from .classes import deck, timer, ob_maps as obmp, \
     movemap as mvp
 from .classes.landscape import MapInteract
-from .classes.ui import notifier
-from .classes.input_loops import ask_bool, ask_text
 from .classes.achievements import achievements
-from .classes.input import get_action, Action, ACTION_DIRECTIONS
 from .classes.dex import Dex
-from .classes.game import (
-    PeriodicEventManager, MapChangeExeption
-)
-from .classes.single_event import single_event_periodic_event
+from .classes.game import MapChangeExeption
+
 
 # Class definition
 ##################

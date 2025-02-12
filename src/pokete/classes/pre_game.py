@@ -1,15 +1,14 @@
 import sys
-
 import scrap_engine as se
 
-from pokete.classes.context import Context
-from pokete.classes.game import PeriodicEventManager, PeriodicEvent
-from pokete.classes.game_map import GameSubmap
-from pokete.classes.input import hotkeys_from_save
-from pokete.classes.input_loops import ask_bool
+from pokete.base.context import Context
+from pokete.base.periodic_event_manager import PeriodicEventManager, PeriodicEvent
+from pokete.base.game_map import GameSubmap
+from pokete.base.input import hotkeys_from_save
+from pokete.base.input_loops import ask_bool
+from pokete.base.tss import tss
+from pokete.base.ui import Overview
 from pokete.classes.multiplayer.menu import ModeChooser
-from pokete.classes.tss import tss
-from pokete.classes.ui import Overview
 from pokete.release import VERSION
 from pokete.util import sort_vers, liner
 

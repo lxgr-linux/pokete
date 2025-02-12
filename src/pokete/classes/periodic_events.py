@@ -1,12 +1,12 @@
 import random
 
-from . import timer
-from .color import Color
+from pokete.base.color import Color
+from pokete.base.periodic_event_manager import PeriodicEvent
+from pokete.base.ui import notifier
 from .landscape import Meadow, HighGrass
 from .npcs import NPC
-from .game import PeriodicEvent
+from . import timer
 from .settings import settings
-from .ui import notifier
 
 
 def check_figure_redraw(obj):

@@ -4,20 +4,21 @@ import time
 
 import scrap_engine as se
 
+from pokete.base.game_map import GameSubmap
 from pokete.util import liner
 from pokete.release import SPEED_OF_TIME
-from .context import Context
+from pokete.base.context import Context
+from pokete.base.color import Color
+from pokete.base.input import _ev, Action
+from pokete.base.ui import notifier, Overview
+from pokete.base.tss import tss
+from pokete.base import loops
 from .multiplayer.interactions import movemap_deco
 from .classes import OutP
-from .color import Color
-from .input import _ev, Action
-from .ui import notifier, Overview
-from .tss import tss
 import pokete.classes.multiplayer.pc_manager as pc_manager
-from . import loops, game_map as gm
 
 
-class Movemap(gm.GameSubmap, Overview):
+class Movemap(GameSubmap, Overview):
     """Movemap class to remove bad code
     ARGS:
         height: Height of the map

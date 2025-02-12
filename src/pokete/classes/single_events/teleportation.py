@@ -1,7 +1,7 @@
+from pokete.base.context import Context
+from pokete.base.single_event import SingleEvent
 from pokete.classes import animations, roadmap
-from pokete.classes.context import Context
 from pokete.classes.doors import Door
-from pokete.classes.single_event.single_event import SingleEvent
 from pokete.classes.settings import settings
 from pokete.classes.asset_service.service import asset_service
 

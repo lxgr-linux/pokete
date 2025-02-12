@@ -1,5 +1,6 @@
 from abc import ABC
 import logging
+
 from pokete.classes.fight.fightmap.fightmap import FightMap
 from pokete.classes.fight.items.item import FightItem, RoundContinuation
 from pokete.classes.fight.providers import Provider

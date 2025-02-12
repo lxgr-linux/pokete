@@ -1,20 +1,22 @@
 """The Deck shows all Poketes a player owns"""
 
 import scrap_engine as se
-from pokete.classes import detail
-import pokete.classes.game_map as gm
-from .context import Context
-from .game import PeriodicEventManager
-from .input import (
+
+from pokete.base.context import Context
+from pokete.base.game_map import GameMap, GameSubmap
+from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.input import (
     ACTION_DIRECTIONS, Action, get_action
 )
-from .input_loops import ask_bool, ask_ok
-from .color import Color
+from pokete.base.input_loops import ask_bool, ask_ok
+from pokete.base.color import Color
+from pokete.base.ui import Overview
+from pokete.base.ui.elements import StdFrame2
+from pokete.base.tss import tss
+from pokete.base import loops
+from pokete.classes import detail
 from .poke import Poke
-from .ui import Overview
-from .ui.elements import StdFrame2
-from .tss import tss
-from . import loops
+
 
 class Index(se.Object):
     def __init__(self):
@@ -26,8 +28,8 @@ class Deck(detail.Informer, Overview):
     """Deck to see Poketes in"""
 
     def __init__(self, height, width):
-        self.map = gm.GameMap(height, width, name="deck")
-        self.submap = gm.GameSubmap(self.map, 0, 0, height, width, "decksubmap")
+        self.map = GameMap(height, width, name="deck")
+        self.submap = GameSubmap(self.map, 0, 0, height, width, "decksubmap")
         self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
         self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: Move    ")
         self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: Free")

@@ -1,4 +1,4 @@
-from ..ui.elements import Box
+from pokete.base.ui.elements import Box
 
 
 class InvBox(Box):

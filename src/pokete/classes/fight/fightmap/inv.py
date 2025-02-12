@@ -2,11 +2,11 @@
 
 import scrap_engine as se
 
-from ...context import Context
+from pokete.base.context import Context
+from pokete.base.ui.elements import ChooseBox
+from pokete.base.input import ACTION_UP_DOWN, Action, get_action
+from pokete.base import loops
 from ...inv import InvItem
-from ...ui.elements import ChooseBox
-from ...input import ACTION_UP_DOWN, Action, get_action
-from ... import loops
 
 
 class InvBox(ChooseBox):

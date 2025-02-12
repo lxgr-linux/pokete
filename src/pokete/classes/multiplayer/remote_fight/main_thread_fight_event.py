@@ -1,8 +1,8 @@
 import pokete.bs_rpc as bs_rpc
-from pokete.classes.context import Context
-from pokete.classes.input_loops.ask import ask_bool
+from pokete.base.context import Context
+from pokete.base.input_loops.ask import ask_bool
+from pokete.base.single_event import SingleEvent
 from pokete.classes.multiplayer.remote_fight import remote_fight_controller
-from pokete.classes.single_event.single_event import SingleEvent
 
 
 class MainThreatFightEvent(SingleEvent):

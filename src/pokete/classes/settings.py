@@ -2,7 +2,8 @@
 
 import logging
 import scrap_engine as se
-from .color import Color
+
+from pokete.base.color import Color
 
 
 class Setting:

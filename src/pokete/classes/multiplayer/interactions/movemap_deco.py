@@ -1,7 +1,7 @@
 import scrap_engine as se
 
-from ...color import Color
-from ...input import Action
+from pokete.base.color import Color
+from pokete.base.input import Action
 
 
 class MovemapDeco(se.Text):

@@ -6,20 +6,20 @@ import random
 import scrap_engine as se
 
 from pokete.release import SPEED_OF_TIME
+from pokete.base.context import Context
+from pokete.base.input import get_action
+from pokete.base.input_loops import ask_bool
+from pokete.base import loops
 from .npc_action import NPCInterface, NPCAction
 from .npc_trigger import NPCTrigger
 from .ui import UI
 from ..asset_service.resources import Chat
-from ..context import Context
 from ..fight import Fight, Provider, FightDecision
-from ..input import get_action
-from ..input_loops import ask_bool
 from ..interactions import MultiTextChooseBox, Interactor
 from ..inv import invitems
 from ..settings import settings
 from ..general import check_walk_back
 from ..landscape import MapInteract
-from .. import movemap as mvp, loops
 
 
 class NPC(se.Box, NPCInterface, MapInteract, Interactor):
