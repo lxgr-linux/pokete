@@ -9,12 +9,12 @@ from .audio import audio
 class GameContext:
     def __enter__(self):
         threading.Thread(target=recogniser, daemon=True).start()
-        print("\033[?1049h")
         os.system("")
+        print("\033[?1049h" + "\033[?25l")
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         recogniser.reset()
-        print("\033[?1049l\033[1A")
+        print("\033[?1049l\033[1A" + "\033[?25h")
         logging.info("[General] Exiting...")
         if audio.curr is not None:
             audio.kill()
