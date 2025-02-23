@@ -2,6 +2,7 @@
 
 import multiprocessing
 from pathlib import Path
+from typing import Optional
 from .settings import settings
 
 MUSIC_PATH = Path(__file__).parents[1] / 'assets' / 'music'
@@ -26,21 +27,21 @@ class Audio:
     """Audio controler class"""
 
     def __init__(self):
-        self.curr = None
+        self.__curr: Optional[multiprocessing.Process] = None
         self.use_audio = True
 
-    def start(self, song):
+    def start(self, song: str):
         """Starts playing a song
         ARGS:
             song: The song played"""
-        self.curr = multiprocessing.Process(
+        self.__curr = multiprocessing.Process(
             target=audio_fn,
             args=(
                 song, settings("audio").val and self.use_audio,
                 settings("volume").val
             )
         )
-        self.curr.start()
+        self.__curr.start()
 
     def switch(self, song):
         """Switched the played song
@@ -51,7 +52,8 @@ class Audio:
 
     def kill(self):
         """Kills the running music"""
-        self.curr.terminate()
+        if self.__curr is not None:
+            self.__curr.terminate()
 
 
 audio = Audio()

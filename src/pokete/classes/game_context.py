@@ -16,8 +16,7 @@ class GameContext:
         recogniser.reset()
         print("\033[?1049l\033[1A" + "\033[?25h")
         logging.info("[General] Exiting...")
-        if audio.curr is not None:
-            audio.kill()
+        audio.kill()
 
         if exc_type == KeyboardInterrupt:
             print("\033[?1049l\033[1A\nKeyboardInterrupt")

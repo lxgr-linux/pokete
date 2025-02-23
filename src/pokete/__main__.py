@@ -355,10 +355,7 @@ def _game(_map: PlayMap, figure: Figure):
     if _map.name not in figure.visited_maps:
         figure.visited_maps.append(_map.name)
 
-    if audio.curr is None:
-        audio.start(_map.song)
-    else:
-        audio.switch(_map.song)
+    audio.switch(_map.song)
 
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
     mvp.movemap.resize_view()
