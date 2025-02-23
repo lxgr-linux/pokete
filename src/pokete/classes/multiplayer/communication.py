@@ -1,8 +1,8 @@
 import logging
-import threading
 import socket
 
 import pokete.bs_rpc as bs_rpc
+from pokete.base.exception_propagation import PropagatingThread
 from pokete.base.context import Context
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.multiplayer import msg
@@ -65,7 +65,7 @@ class CommunicationService:
     """
 
     def __call__(self):
-        threading.Thread(
+        PropagatingThread(
             target=self.__subscribe_position_updates,
             daemon=True
         ).start()
@@ -88,7 +88,7 @@ class CommunicationService:
                 con.close()
 
         self.client = bs_rpc.Client(con, msg.get_registry())
-        threading.Thread(
+        PropagatingThread(
             target=listener,
             daemon=True
         ).start()

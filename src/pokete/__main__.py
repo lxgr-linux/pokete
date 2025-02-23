@@ -9,7 +9,6 @@ Thanks to MaFeLP for your code review and your great feedback"""
 
 import time
 import sys
-import threading
 import logging
 from datetime import datetime
 import scrap_engine as se
@@ -26,6 +25,7 @@ from .base.color import Color
 from .base.input_loops import text_input
 from .base.tss import tss
 from .base.periodic_event_manager import PeriodicEventManager
+from .base.exception_propagation import PropagatingThread, exception_propagating_periodic_event
 from .base import loops
 from .classes.asset_service.service import asset_service
 from .classes.game_context import GameContext
@@ -368,6 +368,7 @@ def _game(_map: PlayMap, figure: Figure):
     mvp.movemap.full_show()
     pevm = PeriodicEventManager(
         [
+            exception_propagating_periodic_event,
             MovingGrassEvent(_map),
             MovingWaterEvent(_map),
             *([TreatNPCEvent()] if modeProvider.mode == Mode.SINGLE else []),
@@ -497,8 +498,8 @@ def main():
 
         notifier.set_vars(mvp.movemap)
 
-        threading.Thread(target=timer.time_threat, daemon=True).start()
-        threading.Thread(target=autosave, args=(figure,), daemon=True).start()
+        PropagatingThread(target=timer.time_threat, daemon=True).start()
+        PropagatingThread(target=autosave, args=(figure,), daemon=True).start()
 
         PreGameMap()(session_info, figure)
         figure.set_args(session_info)

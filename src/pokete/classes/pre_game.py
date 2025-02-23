@@ -2,6 +2,7 @@ import sys
 import scrap_engine as se
 
 from pokete.base.context import Context
+from pokete.base.exception_propagation import exception_propagating_periodic_event
 from pokete.base.periodic_event_manager import PeriodicEventManager, PeriodicEvent
 from pokete.base.game_map import GameSubmap
 from pokete.base.input import hotkeys_from_save
@@ -52,7 +53,7 @@ class PreGameMap(GameSubmap, Overview):
         self.remap()
 
     def __call__(self, session_info, figure):
-        pevm = PeriodicEventManager([BGMoverEvent(self)])
+        pevm = PeriodicEventManager([exception_propagating_periodic_event, BGMoverEvent(self)])
         ctx = Context(pevm, self, self, figure)
         hotkeys_from_save(ctx, session_info.get("hotkeys", {}),
                           check_version(ctx, session_info))

@@ -3,6 +3,7 @@ import logging
 import time
 import scrap_engine as se
 
+from pokete.base.exception_propagation import exception_propagating_periodic_event
 from pokete.release import SPEED_OF_TIME
 import pokete.base.game_map as gm
 from pokete.base import loops
@@ -47,7 +48,7 @@ class EvoMap(gm.GameMap, Overview):
             or poke.lvl() < poke.evolve_lvl:
             return False
         self.overview = ctx.overview
-        ctx = Context(PeriodicEventManager([]), self, self, ctx.figure)
+        ctx = Context(PeriodicEventManager([exception_propagating_periodic_event]), self, self, ctx.figure)
         new = poke.get_evolve_poke()
         poke.ico.remove()
         poke.ico.add(self, round(self.width / 2 - 4),

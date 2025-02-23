@@ -3,6 +3,7 @@
 from typing import Optional
 import scrap_engine as se
 
+from pokete.base.exception_propagation import exception_propagating_periodic_event
 import pokete.base.game_map as gm
 from pokete.base.single_event import single_event_periodic_event, SingleEvent
 from pokete.classes.single_events import TeleportationSingleEvent
@@ -190,7 +191,7 @@ class Detail(Informer, Overview):
             abb: Bool whether or not the ability option is overview=Nonshown"""
         self.poke = poke
         self.overview = ctx.overview
-        ctx = Context(PeriodicEventManager([]), self.map, self, ctx.figure)
+        ctx = Context(PeriodicEventManager([exception_propagating_periodic_event]), self.map, self, ctx.figure)
         self.add(self.poke, None, self.map, 1, 1, False)
         do_exit = False
         abb_obs = [i for i in self.poke.attack_obs

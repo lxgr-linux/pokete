@@ -1,14 +1,14 @@
 import logging
 import os
-import threading
 
+from pokete.base.exception_propagation import PropagatingThread
 from pokete.base.input.recogniser import recogniser
 from .audio import audio
 
 
 class GameContext:
     def __enter__(self):
-        threading.Thread(target=recogniser, daemon=True).start()
+        PropagatingThread(target=recogniser, daemon=True).start()
         os.system("")
         print("\033[?1049h" + "\033[?25l")
 

@@ -3,6 +3,7 @@
 import scrap_engine as se
 
 from pokete.base.context import Context
+from pokete.base.exception_propagation import exception_propagating_periodic_event
 from pokete.base.game_map import GameMap, GameSubmap
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.input import (
@@ -91,7 +92,7 @@ class Deck(detail.Informer, Overview):
             in_fight: Whether or not this is called in a fight"""
         self.figure = ctx.figure
         self.overview = ctx.overview
-        ctx = Context(PeriodicEventManager([]), self.submap, self, ctx.figure)
+        ctx = Context(PeriodicEventManager([exception_propagating_periodic_event]), self.submap, self, ctx.figure)
         self.pokes = self.figure.pokes[:p_len]
 
         self.exit_label.remove()

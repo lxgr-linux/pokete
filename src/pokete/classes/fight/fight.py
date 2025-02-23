@@ -2,6 +2,7 @@ import logging
 import random
 import time
 
+from pokete.base.exception_propagation import exception_propagating_periodic_event
 from pokete.release import SPEED_OF_TIME
 from pokete.base.context import Context
 from pokete.base.periodic_event_manager import PeriodicEventManager
@@ -31,7 +32,7 @@ class Fight:
 
     def __call__(self, ctx: Context, providers: list[Provider]):
         ctx = Context(
-            PeriodicEventManager([]), self.fightmap, ctx.overview,
+            PeriodicEventManager([exception_propagating_periodic_event]), self.fightmap, ctx.overview,
             ctx.figure
         )
         audio.switch("xDeviruchi - Decisive Battle (Loop).mp3")

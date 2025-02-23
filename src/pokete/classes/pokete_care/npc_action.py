@@ -1,4 +1,5 @@
 from pokete.base.context import Context
+from pokete.base.exception_propagation import exception_propagating_periodic_event
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from .pokete_care import PoketeCare
 from .. import timer
@@ -34,7 +35,7 @@ gained {add_xp}xp and reached level {self.care.poke.lvl()}!"])
                 dummy = DummyFigure(self.care.poke)
                 evomap = EvoMap(npc.ctx.map.height, npc.ctx.map.width)
                 while evomap(
-                    Context(PeriodicEventManager([]), npc.ctx.map,
+                    Context(PeriodicEventManager([exception_propagating_periodic_event]), npc.ctx.map,
                             npc.ctx.overview, dummy),
                     dummy.pokes[0]
                 ):
