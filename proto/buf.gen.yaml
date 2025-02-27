@@ -1,11 +1,11 @@
 version: v1
 managed:
-    enabled: true
-    go_package_prefix:
-        default: github.com/lxgr-linux/pokete
+  enabled: true
+  go_package_prefix:
+    default: github.com/lxgr-linux/pokete
 plugins:
-    - plugin: pokete-resources-python
-      out: ../pokete_classes/asset_service
-    - plugin: pokete-resources-go
-      out: ../pkg
-      opt: paths=source_relative
+  - plugin: pokete-resources-python
+    out: ../src/pokete/classes/asset_service
+  - plugin: pokete-resources-go
+    out: ../pkg
+    opt: paths=source_relative

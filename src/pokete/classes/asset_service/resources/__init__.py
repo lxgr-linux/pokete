@@ -10,3 +10,4 @@ from .obmaps import (DorArgs, DorArgsDict, Dor, DorDict, SpecialDors, SpecialDor
 from .stations import (StationGen, StationGenDict, Station, StationDict, DecorationGen, DecorationGenDict, Decoration, DecorationDict, )
 from .maps import (PokeArgs, PokeArgsDict, Map, MapDict, )
 from .assets import (BaseAssets, BaseAssetsDict, MapTrainers, MapTrainersDict, Assets, AssetsDict, )
+from .track import (TrackInfo, TrackInfoDict, Track, TrackDict, )

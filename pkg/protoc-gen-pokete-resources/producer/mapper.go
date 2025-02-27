@@ -76,6 +76,8 @@ func PythonTypeMapper(d *descriptorpb.FieldDescriptorProto, mt *MappedType) {
 		mt.Expression = "bool"
 	case descriptorpb.FieldDescriptorProto_TYPE_INT32, descriptorpb.FieldDescriptorProto_TYPE_INT64, descriptorpb.FieldDescriptorProto_TYPE_UINT32, descriptorpb.FieldDescriptorProto_TYPE_UINT64:
 		mt.Expression = "int"
+	case descriptorpb.FieldDescriptorProto_TYPE_BYTES:
+		mt.Expression = "bytes"
 	}
 }
 
@@ -97,5 +99,7 @@ func GoTypeMapper(d *descriptorpb.FieldDescriptorProto, mt *MappedType) {
 		mt.Expression = "uint32"
 	case descriptorpb.FieldDescriptorProto_TYPE_UINT64:
 		mt.Expression = "uint64"
+	case descriptorpb.FieldDescriptorProto_TYPE_BYTES:
+		mt.Expression = "[]byte"
 	}
 }

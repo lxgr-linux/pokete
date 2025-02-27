@@ -1,0 +1,18 @@
+{{ define "_type" -}}
+{{- if .IsDict -}}
+dict[{{ template "_type" (pythonTypeWithVar .DictField1 .Var) }}, {{ template "_type" (pythonTypeWithVar .DictField2 .Var) }}]
+{{- else -}}
+    {{- if .IsRepeated -}}
+list[
+    {{- end -}}
+{{- if not .IsPurelyDomestic }}"{{ end -}}
+{{ .Expression }}
+{{- if not .IsPurelyDomestic }}{{ .Var }}{{ end -}}
+{{- if .Optional }} | None{{ end -}}
+{{- if not .IsPurelyDomestic }}"{{ end -}}
+    {{- if .IsRepeated -}}
+]
+    {{- end -}}
+{{- end -}}
+{{- end -}}
+{{ .Name }}: {{ template "_type" (pythonTypeWithVar .PythonType .Var) -}}
