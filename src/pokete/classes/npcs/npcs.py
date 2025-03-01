@@ -63,7 +63,7 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
         if self.used and settings("save_trainers").val:
             return
         logging.info("[NPC][%s] Interaction", self.name)
-        mvp.movemap.full_show()
+        self.ctx.map.full_show()
         time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
         self.text(self.texts)
