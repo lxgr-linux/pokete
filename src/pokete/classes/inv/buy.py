@@ -4,11 +4,8 @@ import scrap_engine as se
 
 from pokete.util import liner
 from pokete.base.context import Context
-from pokete.base.ui import Overview
 from pokete.base.input import ACTION_UP_DOWN, Action, get_action
-from pokete.base.ui.elements import ChooseBox
 from pokete.base import loops
-from .box import InvBox
 from .items import invitems
 from .base_inv import BaseInv
 

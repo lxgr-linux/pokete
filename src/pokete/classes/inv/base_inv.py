@@ -1,8 +1,8 @@
 import scrap_engine as se
 
 from pokete.base.ui.elements import ChooseBox
-from .box import InvBox
 from pokete.base.ui import Overview
+from .box import InvBox
 
 
 class BaseInv(Overview):

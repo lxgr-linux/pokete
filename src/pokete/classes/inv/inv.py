@@ -5,10 +5,7 @@ from pokete.base import loops
 from pokete.base.context import Context
 from pokete.base.input import Action, get_action, _ev
 from pokete.base.input_loops import ask_bool, ask_ok
-from pokete.base.ui import Overview
-from pokete.base.ui.elements import ChooseBox
 from .items import LearnDisc, invitems
-from .box import InvBox
 from .. import deck
 from ..learnattack import LearnAttack
 from ..types import types
