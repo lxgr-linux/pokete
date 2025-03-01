@@ -167,7 +167,7 @@ class Trainer(NPC, Provider):
         if self.pokes and (not self.used
                            or not settings("save_trainers").val) \
             and self.check_walk(self.ctx.figure.x, self.ctx.figure.y):
-            mvp.movemap.full_show()
+            self.ctx.map.full_show()
             time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
             self.walk_point(self.ctx.figure.x, self.ctx.figure.y)
