@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 
 from pokete.base.context import Context
 from pokete.base.input_loops import ask_bool
+from ..achievements import achievements
 from .fight_decision import FightDecision
 from ..poke import Poke
 
@@ -77,6 +78,9 @@ class Provider(ABC):
             winner: the defeating provider
         RETURNS:
             bool: whether or not a Pokete was choosen"""
+
+    def handle_win(self, ctx: Context, loser):
+        pass
 
 
 class NatureProvider(Provider):
@@ -154,3 +158,8 @@ class ProtoFigure(Provider):
             self.curr.poke_stats.add_battle(False)
             fightmap.choose_poke(ctx, self, False)
         return True
+
+    def handle_win(self, ctx:Context, loser):
+        if hasattr(loser, "trainer"):
+            achievements.achieve("first_duel")
+        self.balls_label_rechar()

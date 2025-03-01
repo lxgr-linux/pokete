@@ -12,7 +12,6 @@ from .fight_decision import Result
 from .fightmap import FightMap
 from .providers import Provider
 from .items import fight_items
-from ..achievements import achievements
 from ..attack import Attack
 from ..audio import audio
 from ..inv import InvItem
@@ -145,8 +144,7 @@ class Fight:
         ) * loser.xp_multiplier
         self.fightmap.declare_winner(winner, xp)
 
-        if winner.curr.player and hasattr(loser, "trainer"):
-            achievements.achieve("first_duel")
+        winner.handle_win(ctx, loser)
         if winner.curr.player and winner.curr.add_xp(xp):
             self.fightmap.win_animation(winner)
             winner.curr.set_vars()
@@ -161,7 +159,6 @@ class Fight:
 
         self.fightmap.death_animation(loser)
         self.fightmap.clean_up(winner)
-        winner.balls_label_rechar()
         logging.info(
             "[Fight] Ended, %s(%s) won",
             winner.curr.name, "player" if winner.curr.player else "enemy"
