@@ -13,47 +13,27 @@ from .. import deck
 from ..learnattack import LearnAttack
 from ..types import types
 from ..poke import upgrade_by_one_lvl
+from .base_inv import BaseInv
 
 
-class Inv(Overview):
+class Inv(BaseInv):
     """Inventory to see and manage items in"""
 
     def __init__(self):
-        self.map = None
-        self.box = ChooseBox(50, 35, "Inventory",
-                             f"{Action.REMOVE.mapping}:remove")
-        self.box2 = InvBox(7, 21, overview=self)
-        self.money_label = se.Text("$0")
-        self.desc_label = se.Text(" ")
-        # adding
-        self.box.add_ob(self.money_label,
-                        self.box.width - 2 - len(self.money_label.text), 0)
-        self.box2.add_ob(self.desc_label, 1, 1)
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.box.remove()
-        self.box.overview.resize_view()
-        self.box.resize(self.map.height - 3, 35)
-        self.box.add(self.map, self.map.width - self.box.width, 0)
-        self.map.full_show()
-
-    def set_money(self, figure):
-        self.money_label.rechar(f"${figure.get_money()}")
-        self.box.set_ob(self.money_label,
-                        self.box.width - 2 - len(self.money_label.text), 0)
+        super().__init__(
+            "Inventory",
+            f"{Action.REMOVE.mapping}:remove"
+        )
 
     def __call__(self, ctx: Context):
         """Opens the inventory"""
-        self.map = ctx.map
-        self.box.overview = ctx.overview
         self.box.set_ctx(ctx)
         figure = ctx.figure
         _ev.clear()
         items = self.add(figure)
-        self.box.resize(self.map.height - 3, 35)
+        self.box.resize(ctx.map.height - 3, 35)
         self.set_money(figure)
-        with self.box.add(self.map, self.map.width - 35, 0):
+        with self.box.add(ctx.map, ctx.map.width - 35, 0):
             while True:
                 action = get_action()
                 if action.triggers(Action.UP, Action.DOWN):
@@ -62,16 +42,16 @@ class Inv(Overview):
                     break
                 elif action.triggers(Action.ACCEPT):
                     obj = items[self.box.index.index]
-                    self.box2.name_label.rechar(obj.pretty_name)
+                    self.invbox.name_label.rechar(obj.pretty_name)
                     self.desc_label.rechar(liner(obj.desc, 19))
-                    self.box2.add(self.map, self.box.x - 19, 3)
+                    self.invbox.add(ctx.map, self.box.x - 19, 3)
                     while True:
                         action = get_action()
                         if (
                             action.triggers(Action.CANCEL)
                             or action.triggers(Action.ACCEPT)
                         ):
-                            self.box2.remove()
+                            self.invbox.remove()
                             if obj.name == "treat":
                                 if ask_bool(
                                     ctx.with_overview(self),
@@ -87,7 +67,7 @@ class Inv(Overview):
                                         )
                                         if index is None:
                                             ex_cond = False
-                                            self.map.show(init=True)
+                                            ctx.map.show(init=True)
                                             break
                                         poke = figure.pokes[index]
                                         break
@@ -120,7 +100,7 @@ class Inv(Overview):
                                         )
                                         if index is None:
                                             ex_cond = False
-                                            self.map.show(init=True)
+                                            ctx.map.show(init=True)
                                             break
                                         poke = figure.pokes[index]
                                         if getattr(types,
@@ -145,8 +125,7 @@ class Inv(Overview):
                                         if len(items) == 0:
                                             break
                             break
-                        loops.std(ctx=ctx.with_overview(self.box2))
-                        self.map.full_show()
+                        loops.std(ctx=ctx.with_overview(self.invbox))
                 elif action.triggers(Action.REMOVE):
                     if ask_bool(
                         ctx.with_overview(self),
@@ -160,7 +139,6 @@ class Inv(Overview):
                         if len(items) == 0:
                             break
                 loops.std(ctx=ctx.with_overview(self))
-                self.map.full_show()
         self.box.remove_c_obs()
 
     def rem_item(self, figure, name, items):

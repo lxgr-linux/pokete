@@ -10,41 +10,26 @@ from pokete.base.ui.elements import ChooseBox
 from pokete.base import loops
 from .box import InvBox
 from .items import invitems
+from .base_inv import BaseInv
 
-
-class Buy(Overview):
+class Buy(BaseInv):
     """Menu to buy items in, is triggered in shop"""
 
     def __init__(self):
-        self.box = ChooseBox(50, 35, "Shop")
-        self.box2 = InvBox(7, 21, overview=self)
+        super().__init__("Shop")
         self.items = [invitems.poketeball, invitems.superball,
                       invitems.healing_potion,
                       invitems.super_potion, invitems.ap_potion]
         self.box.add_c_obs([se.Text(f"{obj.pretty_name} : {obj.price}$")
                             for obj in self.items])
-        self.money_label = se.Text("0$")
-        self.desc_label = se.Text(" ")
-        # adding
-        self.box.add_ob(self.money_label,
-                        self.box.width - 2 - len(self.money_label.text), 0)
-        self.box2.add_ob(self.desc_label, 1, 1)
-
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.box.remove()
-        self.box.map.resize_view()
-        self.box.resize(self.box.map.height - 3, 35)
-        self.box.add(self.box.map, self.box.map.width - self.box.width, 0)
 
     def __call__(self, ctx: Context):
         """Opens the buy menu"""
-        self.money_label.rechar(f"{ctx.figure.get_money()}$")
-        self.box.set_ob(self.money_label,
-                        self.box.width - 2 - len(self.money_label.text), 0)
+        self.box.set_ctx(ctx)
         self.box.resize(ctx.map.height - 3, 35)
+        self.set_money(ctx.figure)
         with self.box.add(ctx.map, ctx.map.width - 35, 0):
-            self.box2.add(ctx.map, self.box.x - 19, 3)
+            self.invbox.add(ctx.map, self.box.x - 19, 3)
             self.rechar()
             ctx.map.show()
             while True:
@@ -59,14 +44,15 @@ class Buy(Overview):
                     if ctx.figure.get_money() - obj.price >= 0:
                         ctx.figure.add_money(-obj.price)
                         ctx.figure.give_item(obj.name)
-                loops.std(ctx=ctx.with_overview(self.box2))
+                        self.set_money(ctx.figure)
+                loops.std(ctx=ctx.with_overview(self.invbox))
                 ctx.map.full_show()
-        self.box2.remove()
+        self.invbox.remove()
 
     def rechar(self):
         """Rechars the detail text"""
         obj = self.items[self.box.index.index]
-        self.box2.name_label.rechar(obj.pretty_name)
+        self.invbox.name_label.rechar(obj.pretty_name)
         self.desc_label.rechar(liner(obj.desc, 19))
 
 

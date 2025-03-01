@@ -168,10 +168,6 @@ class Figure(se.Object, ProtoFigure):
         logging.info("[Figure] Money set to $%d from $%d",
                      money, self.__money)
         self.__money = money
-        for cls in [inv, buy]:
-            cls.money_label.rechar("$" + str(self.__money))  # TODO: Remove
-            cls.box.set_ob(cls.money_label,
-                           cls.box.width - 2 - len(cls.money_label.text), 0)
 
     def add_poke(self, poke: Poke, idx=None, caught_with=None):
         """Adds a Pokete to the players Poketes
