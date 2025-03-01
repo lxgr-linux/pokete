@@ -22,6 +22,7 @@ class BaseInv(Overview):
         self.box.overview.resize_view()
         self.box.resize(self.box.map.height - 3, 35)
         self.box.add(self.box.map, self.box.map.width - self.box.width, 0)
+        self.box.map.full_show()
 
     def set_money(self, figure):
         self.money_label.rechar(f"${figure.get_money()}")
