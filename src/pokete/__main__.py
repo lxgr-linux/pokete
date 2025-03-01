@@ -36,7 +36,7 @@ from .classes.multiplayer.pc_manager import pc_manager
 from .classes.poke import Stats
 from .classes.fight import ProtoFigure
 from .classes import roadmap
-from .classes.inv import inv, buy
+from .classes.inv import inv
 from .classes.menu import Menu
 from .classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
     TreatNPCEvent, NotifierEvent
@@ -474,8 +474,6 @@ def main():
 
         figure = Figure(session_info)
 
-        # side fn definitions
-        deck.deck = deck.Deck(tss.height - 1, tss.width)
         pokete_care.from_dict(session_info.get("pokete_care", {
             "entry": 0,
             "poke": None,

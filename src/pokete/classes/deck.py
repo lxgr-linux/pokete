@@ -270,4 +270,4 @@ class Deck(detail.Informer, Overview):
         )
 
 
-deck: Deck
+deck: Deck = Deck(tss.height - 1, tss.width)
