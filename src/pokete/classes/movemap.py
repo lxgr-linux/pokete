@@ -24,9 +24,9 @@ class Movemap(GameSubmap, Overview):
         height: Height of the map
         width: Width of the map"""
 
-    def __init__(self, height, width):
+    def __init__(self):
         super().__init__(se.Map(), 0, 0,
-                         height=height, width=width, name="movemap")
+                         height=50, width=100, name="movemap")
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
@@ -159,7 +159,7 @@ class Movemap(GameSubmap, Overview):
         self.balls_label.set(4 + len(self.name_label.text), self.height - 2)
 
 
-movemap: Movemap = Movemap(tss.height - 1, tss.width)
+movemap: Movemap = Movemap()
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

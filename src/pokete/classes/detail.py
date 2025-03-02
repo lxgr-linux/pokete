@@ -67,8 +67,8 @@ class Detail(Informer, Overview):
         height: Height of the map
         width: Width of the map"""
 
-    def __init__(self, height, width):
-        self.map = gm.GameMap(height, width, name="detail")
+    def __init__(self):
+        self.map = gm.GameMap(50, 100, name="detail")
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state="float")
@@ -271,7 +271,7 @@ class Detail(Informer, Overview):
             loops.std(ctx)
 
 
-detail: Detail = Detail(tss.height - 1, tss.width)
+detail: Detail = Detail()
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

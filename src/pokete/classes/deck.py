@@ -28,9 +28,9 @@ class Index(se.Object):
 class Deck(detail.Informer, Overview):
     """Deck to see Poketes in"""
 
-    def __init__(self, height, width):
-        self.map = GameMap(height, width, name="deck")
-        self.submap = GameSubmap(self.map, 0, 0, height, width, "decksubmap")
+    def __init__(self):
+        self.map = GameMap(50, 100, name="deck")
+        self.submap = GameSubmap(self.map, 0, 0, 50, 100, "decksubmap")
         self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
         self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: Move    ")
         self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: Free")
@@ -270,4 +270,4 @@ class Deck(detail.Informer, Overview):
         )
 
 
-deck: Deck = Deck(tss.height - 1, tss.width)
+deck: Deck = Deck()
