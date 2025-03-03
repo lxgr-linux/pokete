@@ -118,7 +118,7 @@ class BetterChooseBox(Box):
         _map: The map it will be shown on"""
 
     def __init__(
-        self, columns, labels: [se.Text],
+        self, columns, labels: list[se.Text],
         name="", _map=None, overview=None
     ):
         self.nest_label_obs = []

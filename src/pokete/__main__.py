@@ -193,10 +193,7 @@ class Figure(se.Object, ProtoFigure):
     def give_item(self, item, amount=1):
         """Gives an item to the player"""
         assert amount > 0, "Amounts have to be positive!"
-        if item not in self.inv:
-            self.inv[item] = amount
-        else:
-            self.inv[item] += amount
+        self.inv[item] = self.inv.get(item, 0) + amount
         logging.info("[Figure] %d %s(s) given", amount, item)
 
     def has_item(self, item):
