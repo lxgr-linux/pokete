@@ -1,0 +1,15 @@
+{{ define "_unmarshall" -}}
+    {{ if .IsPurelyDomestic -}}
+        {{ .Var }}
+    {{- else if .IsDict -}}
+        {i: {{ template "_unmarshall" (pythonTypeWithVar .DictField2 "item") }} for i, item in {{ .Var }}.items()}
+    {{- else if .IsRepeated -}}
+        [{{ template "_unmarshall" (pythonTypeWithVar (pythonTypeAsBaseType .) "i") }} for i in {{ .Var }}]
+    {{- else -}}
+         {{- .Expression }}.from_dict({{ .Var }})
+    {{- end -}}
+{{- end -}}
+{{ define "_um" -}}
+    {{ template "_unmarshall" pythonTypeWithVar .PythonType (get .) }}
+{{- end -}}
+{{ .Name }}={{ template "_um" fieldWithVar . "_d" }},{{ "" -}}

@@ -1,0 +1,42 @@
+{{ template "header" }}
+from typing import TypedDict
+{{- template "imports" .Imports -}}
+{{- range .Types }}
+
+
+class {{ .Name }}Dict(TypedDict):{{ range .Fields }}
+    {{ template "field" (fieldWithVar . "Dict") }}{{ end }}
+
+
+class {{ .Name }}:
+    def __init__(
+        self{{ range .Fields }},
+        {{ template "field" (fieldWithVar . "") }}{{ end }}
+    ):{{ range .Fields }}
+        self.{{ template "field" (fieldWithVar . "") }} = {{ .Name }}{{ end }}
+
+    @classmethod
+    def from_dict(cls, _d: {{ .Name }}Dict | None) -> "{{ .Name }} | None":
+        if _d is None:
+            return None
+        return cls({{ range .Fields }}
+            {{ template "unmarshall" .}}
+            {{- end }}
+        )
+
+    @staticmethod
+    def validate(_d: {{ .Name }}Dict) -> bool:
+        return all([{{ range .Fields }}
+            {{ template "validate" .}}
+        {{- end }}
+        ])
+
+    def to_dict(self) -> {{ .Name }}Dict:
+        ret: {{ .Name }}Dict = {}
+        {{ range .Fields }}
+        {{ template "marshall" .}}
+        {{- end }}
+
+        return ret
+
+{{- end -}}

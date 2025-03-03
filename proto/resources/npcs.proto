@@ -1,0 +1,17 @@
+syntax = "proto3";
+package pokete.resources;
+
+
+message Chat {
+    repeated string Q = 1;
+    map<string, Chat> A = 2;
+}
+
+message NPC {
+    repeated string Texts = 1;
+    optional string Fn = 2;
+    string Map = 3;
+    int32 X = 4;
+    int32 Y = 5;
+    optional Chat Chat = 6;
+}

@@ -103,7 +103,7 @@ By pressing `e`, a menu will appear where player name, and later other settings,
 The red balls all over the map are Poketeballs. You'll need these to catch Poketes. Stepping on such a ball will add it
 to your inventory.
 
-See [How to play](HowToPlay.md).
+See [How to play](docs/HowToPlay.md).
 
 ## Game depth
 
@@ -176,7 +176,7 @@ For release information see [Changelog](Changelog.md).
 Feel free to contribute whatever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
 
-To learn how to add more poketes/types/attacks to the game, see [the development guide](DevGuide.md)
+To learn how to add more poketes/types/attacks to the game, see [the development guide](docs/DevGuide.md)
 
 After adding new Poketes and/or attacks you may want to run
 

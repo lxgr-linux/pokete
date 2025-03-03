@@ -2,7 +2,7 @@
 
 import os
 import importlib
-from pokete_classes.mods import ModError
+from pokete.classes.mods import ModError
 
 
 mod_names = [i.strip(".py") for i in os.listdir(__file__.strip("__init__.py"))

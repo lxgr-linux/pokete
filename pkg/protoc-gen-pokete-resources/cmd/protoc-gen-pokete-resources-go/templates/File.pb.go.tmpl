@@ -1,0 +1,12 @@
+{{ template "header" }}
+package {{ .GoPackage }}
+{{ template "imports"  .Imports }}
+{{- range .Types }}
+
+type {{ .Name }} struct {
+    {{- range .Fields }}
+    {{- template "field" (fieldWithVar . "") }}
+    {{- end }}
+}
+
+{{- end -}}

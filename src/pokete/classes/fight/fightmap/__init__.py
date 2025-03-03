@@ -1,0 +1,1 @@
+from .fightmap import FightMap

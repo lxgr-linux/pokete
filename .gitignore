@@ -1,5 +1,10 @@
 **/__pycache__
-templates
+dist/
+**/*.egg-info
 
 .idea
 scrap_engine.py
+.mypy_cache
+.ropeproject
+.fleet
+.vim
