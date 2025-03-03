@@ -10,4 +10,4 @@ scrap-engine = ">=1.2.0"
 pylint = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.12"
