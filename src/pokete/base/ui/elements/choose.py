@@ -37,13 +37,13 @@ class ChooseBox(Box):
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, inp: ActionList):
+    def input(self, input: ActionList):
         """Moves the cursor in the box
         ARGS:
              inp: Inputted action"""
-        assert inp.triggers(*ACTION_UP_DOWN)
-        y_str = inp.get_y_strength()
-        if inp.triggers(Action.UP):
+        assert input.triggers(*ACTION_UP_DOWN)
+        y_str = input.get_y_strength()
+        if input.triggers(Action.UP):
             inp = Action.UP
         else:
             inp = Action.DOWN
@@ -152,16 +152,16 @@ class BetterChooseBox(Box):
             The BetterChooseBoxItem at the coordinate"""
         return self.nest_label_obs[_y][_x]
 
-    def input(self, inp: ActionList):
+    def input(self, input: ActionList):
         """Evaluates user input
         ARGS:
             inp: Inputted string"""
-        assert inp.triggers(*ACTION_DIRECTIONS)
-        if inp.triggers(Action.UP):
+        assert input.triggers(*ACTION_DIRECTIONS)
+        if input.triggers(Action.UP):
             inp = Action.UP
-        elif inp.triggers(Action.LEFT):
+        elif input.triggers(Action.LEFT):
             inp = Action.LEFT
-        elif inp.triggers(Action.RIGHT):
+        elif input.triggers(Action.RIGHT):
             inp = Action.RIGHT
         else:
             inp = Action.DOWN
@@ -177,7 +177,7 @@ class BetterChooseBox(Box):
                        (self.index[1] + _c[1])
                        % len(self.nest_label_obs[self.index[0]]))
 
-    def set_items(self, columns, labels: [se.Text], init=False):
+    def set_items(self, columns, labels: list[se.Text], init=False):
         """Sets the items shown in the box
         ARGS:
             columns: Number of columns

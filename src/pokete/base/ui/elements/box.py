@@ -1,8 +1,11 @@
+from typing import Optional
 import scrap_engine as se
+
+from pokete.base.game_map import CompatMap
 
 from .frame import StdFrame
 from ..overview import Overview
-
+from ...context import Context
 
 class Box(se.Box, Overview):
     """Box to show content in
@@ -13,9 +16,10 @@ class Box(se.Box, Overview):
         info: Info that will be displayed in the bottom left corner of the box"""
 
     def __init__(self, height, width, name="", info="",
-                 overview: Overview | None = None, ctx=None):
+                 overview:Optional[Overview]=None, ctx:Optional[Context]=None):
         super().__init__(height, width)
-        self.overview = overview
+        self.map: Optional[CompatMap]
+        self.overview: Optional[Overview] = overview
         if ctx:
             self.overview = ctx.overview
             self.map = ctx.map

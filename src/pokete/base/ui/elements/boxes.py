@@ -1,8 +1,9 @@
+from typing import Optional
 import scrap_engine as se
 
 from pokete.base.input import Action
 from .box import Box
-
+from ...context import Context
 
 class LabelBox(Box):
     """A Box just containing one label
@@ -11,8 +12,8 @@ class LabelBox(Box):
         name: The boxes displayed name
         info: Info that will be displayed in the bottom left corner of the box"""
 
-    def __init__(self, label, name="", info="", ctx=None):
-        self.label = label
+    def __init__(self, label:se.Text, name="", info="", ctx:Optional[Context]=None):
+        self.label: se.Text = label
         super().__init__(
             label.height + 2, label.width + 4, name, info,
             ctx=ctx
