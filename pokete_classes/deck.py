@@ -4,17 +4,16 @@ import logging
 import scrap_engine as se
 from pokete_classes import detail
 import pokete_classes.game_map as gm
-from pokete_classes.hotkeys import (
-    ACTION_DIRECTIONS, Action, get_action
+from .input import (
+    ACTION_DIRECTIONS, Action, get_action, _ev
 )
 import pokete_classes.movemap as mvp
-from .event import _ev
-from .input import ask_bool, ask_ok
-from .loops import std_loop
+from .ui import ask_bool, ask_ok
 from .color import Color
 from .poke import Poke
-from .ui_elements import StdFrame2
+from .ui.elements import StdFrame2
 from .tss import tss
+from . import loops
 
 
 class Deck(detail.Informer):
@@ -164,7 +163,7 @@ class Deck(detail.Informer):
 {self.figure.pokes[self.index.index].name}?", self):
                     self.rem_pokes()
                     self.figure.pokes[self.index.index] = Poke("__fallback__",
-                                                                   10, 0)
+                                                               10, 0)
                     self.pokes = self.figure.pokes[:len(self.pokes)]
                     self.add_all()
                     self.index.set(
@@ -175,7 +174,7 @@ class Deck(detail.Informer):
                     mvp.movemap.balls_label_rechar(self.figure.pokes)
             elif action.triggers(Action.ACCEPT):
                 if len(self.pokes) == 0 or \
-                        self.pokes[self.index.index].identifier == "__fallback__":
+                    self.pokes[self.index.index].identifier == "__fallback__":
                     continue
                 if in_fight:
                     if self.pokes[self.index.index].hp > 0:
@@ -200,9 +199,9 @@ class Deck(detail.Informer):
                         _ev.set(Action.CANCEL.mapping)
                         continue
                     self.submap.full_show(init=True)
-            std_loop(False, box=self)
-            if len(self.pokes) > 0 and\
-                    self.index.y - self.submap.y + 6 > self.submap.height:
+            loops.std(False, box=self)
+            if len(self.pokes) > 0 and \
+                self.index.y - self.submap.y + 6 > self.submap.height:
                 self.submap.set(self.submap.x, self.submap.y + 1)
             elif len(self.pokes) > 0 and self.index.y - 1 < self.submap.y:
                 self.submap.set(self.submap.x, self.submap.y - 1)

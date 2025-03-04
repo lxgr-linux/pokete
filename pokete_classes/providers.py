@@ -4,7 +4,7 @@ import random
 import time
 from abc import ABC, abstractmethod
 from pokete_classes import movemap as mvp
-from .input import ask_bool
+from .ui import ask_bool
 
 
 class Provider(ABC):
@@ -69,6 +69,7 @@ class NatureProvider(Provider):
     """The Natures Provider
     ARGS:
         poke: One Pokete"""
+
     def __init__(self, poke):
         super().__init__([poke], escapable=True, xp_multiplier=1)
 
@@ -126,8 +127,8 @@ class ProtoFigure(Provider):
             bool: whether or not a Pokete was choosen"""
         if winner.escapable:
             if ask_bool(
-                    fightmap, "Do you want to choose another Pokete?",
-                    fightmap
+                fightmap, "Do you want to choose another Pokete?",
+                fightmap
             ):
                 success = fightmap.choose_poke(self)
                 if not success:

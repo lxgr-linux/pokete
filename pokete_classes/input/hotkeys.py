@@ -124,22 +124,22 @@ hotkey_mappings = {
     '8': ActionList([Action.ACT_8]),
     '9': ActionList([Action.ACT_9]),
 
-    'a':        ActionList([Action.LEFT]),
+    'a': ActionList([Action.LEFT]),
     'Key.left': ActionList([Action.LEFT]),
-    'd':         ActionList([Action.RIGHT]),
+    'd': ActionList([Action.RIGHT]),
     'Key.right': ActionList([Action.RIGHT]),
-    'w':      ActionList([Action.UP]),
+    'w': ActionList([Action.UP]),
     'Key.up': ActionList([Action.UP]),
-    's':        ActionList([Action.DOWN]),
+    's': ActionList([Action.DOWN]),
     'Key.down': ActionList([Action.DOWN]),
 
     'Key.space': ActionList([Action.ACCEPT]),
     'Key.enter': ActionList([Action.ACCEPT]),
-    'y':         ActionList([Action.ACCEPT, Action.QUICK_ATC_1]),
-    'o':         ActionList([Action.ACCEPT]),
-    'q':             ActionList([Action.CANCEL]),
-    'n':             ActionList([Action.CANCEL]),
-    'Key.esc':       ActionList([Action.CANCEL]),
+    'y': ActionList([Action.ACCEPT, Action.QUICK_ATC_1]),
+    'o': ActionList([Action.ACCEPT]),
+    'q': ActionList([Action.CANCEL]),
+    'n': ActionList([Action.CANCEL]),
+    'Key.esc': ActionList([Action.CANCEL]),
     'Key.backspace': ActionList([Action.CANCEL]),
 
     'r': ActionList([Action.REMOVE]),
@@ -174,7 +174,7 @@ def hotkeys_save():
 
 def hotkeys_from_save(save, _map, version_change):
     """Sets hotkey_mappings from save"""
-    from .input import ask_bool
+    from ..ui import ask_bool
     global hotkey_mappings
 
     if save == {}:

@@ -2,30 +2,26 @@
 
 import time
 import scrap_engine as se
+
 from util import liner
-import pokete_classes.ob_maps as obmp
-import pokete_classes.game_map as gm
 from release import SPEED_OF_TIME
-from .loops import std_loop
 from .classes import OutP
 from .color import Color
-from .event import _ev
-from .hotkeys import Action
-from .notify import notifier
+from .input import _ev, Action
+from .ui import notifier, Overview
 from .tss import tss
+from . import loops, ob_maps as obmp, game_map as gm
 
 
-class Movemap(gm.GameSubmap):
+class Movemap(gm.GameSubmap, Overview):
     """Movemap class to remove bad code
     ARGS:
         height: Height of the map
-        width: Width of the map
-        menu_cls: The class Menu"""
+        width: Width of the map"""
 
-    def __init__(self, height, width, menu_cls):
+    def __init__(self, height, width):
         super().__init__(obmp.ob_maps["playmap_1"], 0, 0,
                          height=height, width=width, name="movemap")
-        self.menu = menu_cls(self)
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
@@ -92,7 +88,7 @@ class Movemap(gm.GameSubmap):
                         "   "
                     )
                 )
-                std_loop(box=self)
+                loops.std(box=self)
                 if _ev.get() != "":
                     _ev.clear()
                     break
@@ -104,7 +100,7 @@ class Movemap(gm.GameSubmap):
                 )
             )
             while _ev.get() == "":
-                std_loop(box=self)
+                loops.std(box=self)
                 self.show()
         self.multitext.remove()
         _ev.clear()
@@ -135,9 +131,10 @@ class Movemap(gm.GameSubmap):
         ARGS:
             pokes: The player's Pokes"""
         self.balls_label.rechar("".join("-" if i >= len(pokes)
-                                or pokes[i].identifier == "__fallback__"
+                                               or pokes[
+                                                   i].identifier == "__fallback__"
                                         else "o" if pokes[i].hp > 0
-                                        else "x"
+        else "x"
                                         for i in range(6)), esccode=Color.thicc)
 
     def name_label_rechar(self, name):

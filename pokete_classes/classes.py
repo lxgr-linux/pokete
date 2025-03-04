@@ -2,6 +2,7 @@
 
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from .game import PeriodicEvent
 from .weather import Weather
 
 
@@ -19,7 +20,8 @@ class PlayMap(gm.GameMap):
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name="", pretty_name="", poke_args=None,
-                 w_poke_args=None, extra_actions=None, weather=None,
+                 w_poke_args=None,
+                 extra_actions: list[PeriodicEvent] | None = None, weather=None,
                  song="03 Chibi Ninja.mp3"):
         super().__init__(height, width, name=name)
         self.song = song
@@ -52,10 +54,11 @@ class PlayMap(gm.GameMap):
             name: Name in registry"""
         return self.registry.get(name, None)
 
-    def extra_actions(self):
+    def extra_actions(self) -> list[PeriodicEvent]:
         """Executes the extra action"""
         if self.__extra_actions is not None:
-            self.__extra_actions()
+            return self.__extra_actions
+        return []
 
 
 class OutP(se.Text):

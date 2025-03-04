@@ -4,9 +4,10 @@ import logging
 import time as time_mod
 import scrap_engine as se
 from release import SPEED_OF_TIME
-from .hotkeys import Action, get_action
-from .ui_elements import Box
-from .loops import std_loop
+from .context import Context
+from .input import Action, get_action
+from .ui.elements import Box
+from . import loops
 
 time = None
 clock = None
@@ -99,24 +100,22 @@ class Time:
 class Clock(Box):
     """Clock class to display the current time
     ARGS:
-        time_ob: Time object
-        overview: The overview this happens on"""
+        time_ob: Time object"""
 
-    def __init__(self, time_ob, overview):
+    def __init__(self, time_ob):
         self.time = time_ob
         super().__init__(
             9, 28, "Clock", f"{Action.CANCEL.mapping}:close",
-            overview
         )
 
-    def __call__(self, _map):
-        """Shows the clock
-        ARGS:
-            _map: The map to show on"""
+    def __call__(self, ctx: Context):
+        """Shows the clock"""
+
         d_p = True
         letter_obs = self.draw_letters(d_p)
         raw_time = self.time.time
-        with self.center_add(_map):
+        self.overview = ctx.overview
+        with self.center_add(ctx.map):
             while True:
                 if get_action().triggers(*(Action.CANCEL, Action.CLOCK)):
                     break
@@ -124,8 +123,8 @@ class Clock(Box):
                     d_p = not d_p
                     letter_obs = self.draw_letters(d_p, letter_obs)
                     raw_time = self.time.time
-                self.map.show()
-                std_loop(box=self)
+                loops.std(box=self, pevm=ctx.pevm)
+                self.map.full_show()
             self.__rem_obs(letter_obs)
 
     def __rem_obs(self, letter_obs):
