@@ -1,5 +1,6 @@
 import scrap_engine as se
 
+from pokete.figure.inv import Inventory
 from pokete.util import liner
 from pokete.base import loops
 from pokete.base.context import Context
@@ -25,7 +26,7 @@ class Inv(BaseInv):
     def __call__(self, ctx: Context):
         """Opens the inventory"""
         self.box.set_ctx(ctx)
-        figure = ctx.figure
+        figure: Inventory = ctx.figure
         _ev.clear()
         items = self.add(figure)
         self.box.resize(ctx.map.height - 3, 35)
@@ -156,15 +157,16 @@ class Inv(BaseInv):
             self.box.set_index(len(items) - 1)
         return items
 
-    def add(self, figure):
+    def add(self, figure:Inventory):
         """Adds all items to the box
         RETURNS:
             List of Items"""
-        items = [getattr(invitems, i) for i in figure.inv if figure.inv[i] > 0]
+        inv = figure.get_inv()
+        items = [getattr(invitems, i) for i in inv if inv[i] > 0]
         self.box.add_c_obs(
             [
                 se.Text(
-                    f"{i.pretty_name}s : {figure.inv[i.name]}",
+                    f"{i.pretty_name}s : {inv[i.name]}",
                     state="float"
                 )
                 for i in items

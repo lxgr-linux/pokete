@@ -49,7 +49,7 @@ class Provider(ABC):
             i for i, poke in enumerate(self.pokes) if poke.hp > 0
         )
 
-    def remove_item(self, name:str, amount:int=1):
+    def remove_item(self, item:str, amount:int=1):
         """Removes and item from the providers inventory
             Accept for the player implementation that shouldnt do anything"""
         return

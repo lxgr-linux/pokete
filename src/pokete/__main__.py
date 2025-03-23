@@ -13,6 +13,7 @@ import logging
 from datetime import datetime
 import scrap_engine as se
 
+from .figure import Bank, Inventory
 from .release import SPEED_OF_TIME
 from .startup.command import PoketeCommand
 from .startup.logging import init_logger
@@ -67,7 +68,7 @@ class SwapPokeNPCAction(NPCAction):
 """
 
 
-class Figure(se.Object, ProtoFigure):
+class Figure(se.Object, Inventory, ProtoFigure, Bank):
     """The figure that moves around on the map and represents the player
     ARGS:
         _si: session_info dict"""
@@ -85,8 +86,8 @@ class Figure(se.Object, ProtoFigure):
             escapable=True,
             xp_multiplier=2
         )
-        self.__money = _si.get("money", 10)
-        self.inv = _si.get("inv", {"poketeballs": 10})
+        Bank.__init__(self, _si.get("money", 10))
+        Inventory.__init__(self, _si.get("inv", {"poketeballs": 10}))
         self.name = _si.get("user", "DEFAULT")
         self.caught_pokes = _si.get("caught_poketes", [])
         self.visited_maps = _si.get("visited_maps", ["playmap_1"])
@@ -148,27 +149,6 @@ class Figure(se.Object, ProtoFigure):
         if modeProvider.mode == Mode.MULTI:
             com_service.pos_update(self.map.name, self.x, self.y)
 
-    def add_money(self, money):
-        """Adds money
-        ARGS:
-            money: Amount of money being added"""
-        self.set_money(self.__money + money)
-
-    def get_money(self):
-        """Getter for __money
-        RETURNS:
-            The current money"""
-        return self.__money
-
-    def set_money(self, money):
-        """Sets the money to a certain value
-        ARGS:
-            money: New value"""
-        assert money >= 0, "Money has to be positive."
-        logging.info("[Figure] Money set to $%d from $%d",
-                     money, self.__money)
-        self.__money = money
-
     def add_poke(self, poke: Poke, idx=None, caught_with=None):
         """Adds a Pokete to the players Poketes
         ARGS:
@@ -189,32 +169,6 @@ class Figure(se.Object, ProtoFigure):
         else:
             self.pokes[idx] = poke
         logging.info("[Figure] Added Poke %s", poke.name)
-
-    def give_item(self, item, amount=1):
-        """Gives an item to the player"""
-        assert amount > 0, "Amounts have to be positive!"
-        self.inv[item] = self.inv.get(item, 0) + amount
-        logging.info("[Figure] %d %s(s) given", amount, item)
-
-    def has_item(self, item):
-        """Checks if an item is already present
-        ARGS:
-            item: Generic item name
-        RETURNS:
-            If the player has this item"""
-        return item in self.inv and self.inv[item] > 0
-
-    def remove_item(self, name, amount=1):
-        """Removes a certain amount of an item from the inv
-        ARGS:
-            item: Generic item name
-            amount: Amount of items beeing removed"""
-        assert amount > 0, "Amounts have to be positive!"
-        assert name in self.inv, f"Item {name} is not in the inventory!"
-        assert self.inv[name] - amount >= 0, f"There are not enought {name}s \
-in the inventory!"
-        self.inv[name] -= amount
-        logging.info("[Figure] %d %s(s) removed", amount, name)
 
     def balls_label_rechar(self):
         mvp.movemap.balls_label_rechar(self.pokes)
