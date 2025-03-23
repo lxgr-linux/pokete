@@ -5,6 +5,7 @@ import logging
 import random
 import scrap_engine as se
 
+from pokete.classes.asset_service.service import asset_service
 from pokete.release import SPEED_OF_TIME
 from pokete.base.context import Context
 from pokete.base.input import get_action
@@ -16,7 +17,6 @@ from .ui import UI
 from ..asset_service.resources import Chat
 from ..fight import Fight, Provider, FightDecision
 from ..interactions import MultiTextChooseBox, Interactor
-from ..inv import invitems
 from ..settings import settings
 from ..general import check_walk_back
 from ..landscape import MapInteract
@@ -76,12 +76,12 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
             if action is not None:
                 action.act(self, UI(self))
 
-    def give(self, name, item):
+    def give(self, name, item_name:str):
         """Method that gifts an item to the player
         ARGS:
             name: The displayed name of the npc
             item: Item name"""
-        item = getattr(invitems, item)
+        item = asset_service.get_items()[item_name]
         self.set_used()
         if ask_bool(self.ctx, f"{name} gifted you a '{item.pretty_name}'. \
 Do you want to accept it?"):

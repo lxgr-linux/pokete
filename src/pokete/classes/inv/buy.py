@@ -2,11 +2,11 @@
 
 import scrap_engine as se
 
+from pokete.classes.asset_service.service import asset_service
 from pokete.util import liner
 from pokete.base.context import Context
 from pokete.base.input import ACTION_UP_DOWN, Action, get_action
 from pokete.base import loops
-from .items import invitems
 from .base_inv import BaseInv
 
 class Buy(BaseInv):
@@ -14,9 +14,13 @@ class Buy(BaseInv):
 
     def __init__(self):
         super().__init__("Shop")
-        self.items = [invitems.poketeball, invitems.superball,
-                      invitems.healing_potion,
-                      invitems.super_potion, invitems.ap_potion]
+        invitems = asset_service.get_items()
+        self.items = [
+            invitems[i] for i in [
+                "poketeball", "superball",
+                "healing_potion", "super_potion", "ap_potion"
+            ]
+        ]
         self.box.add_c_obs([se.Text(f"{obj.pretty_name} : {obj.price}$")
                             for obj in self.items])
 

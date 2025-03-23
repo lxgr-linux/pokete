@@ -12,11 +12,12 @@ from pokete.base import loops
 from pokete.base.ui import Overview
 from pokete.base.input import Action, get_action
 from pokete.base.ui.elements import StdFrame2
+from pokete.classes.items.invitem import InvItem
+from pokete.classes.asset_service.service import asset_service
 from pokete.classes import animations, deck
 from ..fight_decision import FightDecision
 from ..providers import ProtoFigure, Provider
 from ...classes import OutP
-from ...inv import invitems, InvItem
 from ...settings import settings
 from .attack import AttackBox
 from .inv import InvBox
@@ -231,10 +232,11 @@ class FightMap(gm.GameMap, Overview):
                     continue
                 return FightDecision.run_away()
             elif action.triggers(Action.CHOOSE_ITEM):
+                invitems = asset_service.get_items()
                 items: list[InvItem] = [
-                    getattr(invitems, i)
+                    invitems[i]
                     for i in player.inv
-                    if getattr(invitems, i).func is not None
+                    if invitems[i].func is not None
                        and player.inv[i] > 0]
                 if not items:
                     self.outp.outp(

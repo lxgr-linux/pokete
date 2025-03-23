@@ -6,7 +6,7 @@ from pokete.base.context import Context
 from pokete.base.ui.elements import ChooseBox
 from pokete.base.input import ACTION_UP_DOWN, Action, get_action
 from pokete.base import loops
-from ...inv import InvItem
+from pokete.classes.items.invitem import InvItem
 
 
 class InvBox(ChooseBox):

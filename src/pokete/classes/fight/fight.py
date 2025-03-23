@@ -14,7 +14,7 @@ from .providers import Provider
 from .items import fight_items
 from ..attack import Attack
 from ..audio import audio
-from ..inv import InvItem
+from pokete.classes.items.invitem import InvItem
 from ..poke import EvoMap
 
 

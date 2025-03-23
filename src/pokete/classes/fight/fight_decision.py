@@ -1,12 +1,12 @@
 from enum import Enum, auto
 import logging
 
+from pokete.classes.asset_service.service import asset_service
 from pokete.classes.multiplayer.msg.fight.fight_decision import FightDecisionData
 from pokete.classes.multiplayer.msg.player import player
-from pokete.classes.inv.items import invitems
 from pokete.classes.poke.poke import Poke
 from ..attack import Attack
-from ..inv import InvItem
+from pokete.classes.items.invitem import InvItem
 
 
 class Result(Enum):
@@ -49,7 +49,7 @@ class FightDecision:
             case Result.ITEM.value:
                 assert _d["item"] is not None
                 assert _d["item"] in _player["items"].keys()
-                item = getattr(invitems, _d["item"])
+                item = asset_service.get_items()[_d["item"]]
                 return cls.item(item)
             case Result.RUN_AWAY.value:
                 return cls.run_away()

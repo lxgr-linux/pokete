@@ -1,12 +1,14 @@
+import logging
 import scrap_engine as se
 
+from pokete.classes.asset_service.service import asset_service
 from pokete.figure.inv import Inventory
 from pokete.util import liner
 from pokete.base import loops
 from pokete.base.context import Context
 from pokete.base.input import Action, get_action, _ev
 from pokete.base.input_loops import ask_bool, ask_ok
-from .items import LearnDisc, invitems
+from pokete.classes.items.learndisc import LearnDisc
 from .. import deck
 from ..learnattack import LearnAttack
 from ..types import types
@@ -162,7 +164,7 @@ class Inv(BaseInv):
         RETURNS:
             List of Items"""
         inv = figure.get_inv()
-        items = [getattr(invitems, i) for i in inv if inv[i] > 0]
+        items = [asset_service.get_items()[i] for i in inv if inv[i] > 0]
         self.box.add_c_obs(
             [
                 se.Text(

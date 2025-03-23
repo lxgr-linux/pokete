@@ -1,7 +1,11 @@
 import logging
 
+from pokete.classes.items import InvItem, LearnDisc
 import pokete.data as p_data
 from .resources import Assets, BaseAssets, AssetsDict, BaseAssetsDict
+
+
+Items = dict[str, InvItem]
 
 
 class ValidationException(Exception):
@@ -13,6 +17,7 @@ class AssetSerice:
     def __init__(self):
         self.__assets: Assets | None = None
         self.__base_assets: BaseAssets | None = None
+        self.__items: Items = {}
         self.load_base_assets_from_p_data()
 
     def load_assets(self, assets: AssetsDict):
@@ -25,6 +30,22 @@ class AssetSerice:
         if not BaseAssets.validate(base_assets):
             raise ValidationException
         self.__base_assets = BaseAssets.from_dict(base_assets)
+        assert self.__base_assets is not None
+        self.__items = {**{
+            name: InvItem(
+                name, item.pretty_name,
+                item.desc, item.price, item.fn
+            )
+            for name, item in self.__base_assets.items.items()
+        }, **{
+            (
+                disc:=LearnDisc(i, self.__base_assets.attacks[i])
+            ).name: disc
+            for i in ["flying","bubble_bomb", "the_old_roots_hit"]
+        }}
+
+    def get_items(self) -> Items:
+        return self.__items
 
     def load_assets_from_p_data(self):
         if self.__assets is not None:
