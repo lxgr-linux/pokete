@@ -10,25 +10,15 @@ import (
 	"google.golang.org/protobuf/types/descriptorpb"
 )
 
-type BaseMappedType struct {
+type MappedType struct {
 	Package          string
+	Expression       string
 	IsPurelyDomestic bool
 	IsRepeated       bool
 	IsDict           bool
 	DictField1       *MappedType
 	DictField2       *MappedType
 	Optional         bool
-}
-
-type MappedType struct {
-	*BaseMappedType
-	Expression string
-	Basetype   *MappedType
-	MappedType *MappedType
-}
-
-func NewMappedType(expression string, dictExpression string, baseMapped BaseMappedType) *MappedType {
-	baseType := MappedType{BaseMappedType: &baseMapped, Expression: expression}
 }
 
 func (p *Producer) MapType(d *descriptorpb.FieldDescriptorProto) (mt MappedType) {
