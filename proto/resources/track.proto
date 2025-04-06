@@ -1,7 +1,7 @@
 syntax = "proto3";
 package pokete.resources;
 
-message TrackInfo {
+/*message TrackInfo {
   string name = 1;
   bytes hash = 2;
 }
@@ -9,4 +9,4 @@ message TrackInfo {
 message Track {
   TrackInfo info = 1;
   bytes content = 2;
-}
+}*/
