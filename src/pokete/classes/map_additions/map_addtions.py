@@ -140,11 +140,3 @@ def map_additions(figure):
                          ob_args=_map.poke_args, state="float")
     # adding
     _map.inner.add(_map, 0, 0)
-
-    # playmap_21
-    _map = obmp.ob_maps["playmap_21"]
-    _map.dor_playmap_19 = Door("_", state="float",
-                               arg_proto={"map": "playmap_19",
-                                          "x": 26, "y": 1})
-    # adding
-    _map.dor_playmap_19.add(_map, 5, 26)
