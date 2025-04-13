@@ -1,5 +1,6 @@
 """Contains just some small classes"""
 
+from typing import Optional
 import scrap_engine as se
 import pokete.base.game_map as gm
 from pokete.base.periodic_event_manager import PeriodicEvent
@@ -21,8 +22,8 @@ class PlayMap(gm.GameMap):
 
     def __init__(self, height=se.screen_height - 1, width=se.screen_width,
                  trainers=None, name="", pretty_name="",
-                 poke_args: PokeArgs = None,
-                 w_poke_args: PokeArgs = None,
+                 poke_args: Optional[PokeArgs] = None,
+                 w_poke_args: Optional[PokeArgs] = None,
                  extra_actions: list[PeriodicEvent] | None = None, weather=None,
                  song="03 Chibi Ninja.mp3"):
         super().__init__(height, width, name=name)
