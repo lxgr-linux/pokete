@@ -5,6 +5,7 @@ import scrap_engine as se
 
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.tss import tss
+from pokete.classes.map_additions import customizers
 from .asset_service.service import asset_service
 from .asset_service.resources import Map
 from .map_additions.center import CenterMap, ShopMap
@@ -69,6 +70,8 @@ def gen_maps(
                 extra_actions.get(args.extra_actions)
                 if args.extra_actions is not None
                 else None and extra_actions))
+        if ob_map in customizers:
+            customizers[ob_map].customize(maps[ob_map])
 
     _h = tss.height - 1
     _w = tss.width
