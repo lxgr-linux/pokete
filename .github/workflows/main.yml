@@ -18,7 +18,7 @@ jobs:
           python-version: "3.12"
 
       - name: install deps
-        run: pip install pyyaml
+        run: pip install pyyaml scrap_engine
 
       - name: gen-wiki
         run: |
