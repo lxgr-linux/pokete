@@ -5,7 +5,7 @@ name: Build documentation
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  push:
+  #push:
   #    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -27,7 +27,7 @@ jobs:
           python-version: "3.12"
 
       - name: Cache
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v4.2.3
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
           path: |
