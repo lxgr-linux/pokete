@@ -3,7 +3,7 @@ name: Test CD
 on:
   push:
     branches:
-      - 267-multiplayer-mode
+      - master
 
 jobs:
   run_pull:
