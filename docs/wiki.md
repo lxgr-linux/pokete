@@ -1,10 +1,10 @@
-v0.9.2
+v0.10.0
 
 # Pokete Wiki
 This wiki/documentation is a compilation of all Poketes, attacks, and types present in the Pokete game.
-The wiki can be generated using ```$ ./util.py wiki```.
+The wiki can be generated using ```$ ./pokete.util.py wiki```.
 
-Use ```$ ./util.py wiki --help``` to get more information about different wikis.
+Use ```$ ./pokete.util.py wiki --help``` to get more information about different wikis.
 
 You can find different versions of this wiki:
 
