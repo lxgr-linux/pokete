@@ -22,21 +22,30 @@ from . import ob_maps as obmp
 class Playmap7Event(PeriodicEvent):
     def __init__(self, fig):
         self.fig = fig
+        self.init = False
 
     def tick(self, tick: int):
-        _map = obmp.ob_maps["playmap_7"]
-        for obj in _map.get_obj("inner_walls").obs \
-                   + [i.main_ob for i in _map.trainers] \
-                   + [obmp.ob_maps["playmap_7"].get_obj(i)
-                      for i in
-                      asset_service.get_assets().obmaps["playmap_7"].balls if
-                      "playmap_7." + i not in self.fig.used_npcs
-                      or not settings("save_trainers").val]:
+        if not self.init:
+            self.init = True
+            for obj in self.__all_obs():
+                obj.bchar = obj.char
+                obj.rechar(" ")
+        for obj in self.__all_obs():
             if obj.added and math.sqrt((obj.y - self.fig.y) ** 2
                                        + (obj.x - self.fig.x) ** 2) <= 3:
                 obj.rechar(obj.bchar)
             else:
                 obj.rechar(" ")
+
+    def __all_obs(self):
+        _map = obmp.ob_maps["playmap_7"]
+        return _map.get_obj("inner_walls").obs \
+                   + [i.main_ob for i in _map.trainers] \
+                   + [obmp.ob_maps["playmap_7"].get_obj(i)
+                      for i in
+                      asset_service.get_assets().obmaps["playmap_7"].balls if
+                      "playmap_7." + i not in self.fig.used_npcs
+                      or not settings("save_trainers").val]
 
 
 def __parse_obj(_map, name, obj, _dict):

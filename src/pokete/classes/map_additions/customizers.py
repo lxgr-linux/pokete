@@ -75,16 +75,6 @@ class Playmap7Customizer(MapCustomizer):
 ####################  ########
 ##############################""", ignore="#", ob_class=HighGrass,
                              ob_args=_map.poke_args, state="float")
-        for ob in (
-            _map.get_obj("inner_walls").obs + [i.main_ob for i in _map.trainers] +
-            [_map.get_obj(i) for i in p_data.map_data["playmap_7"]["balls"]
-        #     if "playmap_7." + i not in figure.used_npcs
-        #        or not settings("save_trainers").val
-            ]
-        ):
-            ob.bchar = ob.char
-            ob.rechar(" ")
-        # adding
         _map.inner.add(_map, 0, 0)
 
 
@@ -146,7 +136,7 @@ customizers: dict[str, MapCustomizer] = {
     "cave_1": Cave1Customizer(),
     "playmap_4": Playmap4Customizer(),
     "playmap_5": Playmap5Customizer(),
- #   "playmap_7": Playmap7Customizer(),
+    "playmap_7": Playmap7Customizer(),
     "playmap_9": Playmap9Customizer(),
     "playmap_19": Playmap19Customizer(),
 }
