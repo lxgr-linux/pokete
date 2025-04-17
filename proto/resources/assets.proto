@@ -1,0 +1,40 @@
+syntax = "proto3";
+package pokete.resources;
+
+import "resources/base/items.proto";
+import "resources/base/poke.proto";
+import "resources/base/attacks.proto";
+import "resources/base/natures.proto";
+import "resources/base/weather.proto";
+import "resources/base/types.proto";
+import "resources/base/achievements.proto";
+import "resources/trainers.proto";
+import "resources/npcs.proto";
+import "resources/obmaps.proto";
+import "resources/stations.proto";
+import "resources/maps.proto";
+
+
+message BaseAssets {
+    map<string, pokete.resources.base.Item> Items = 1;
+    map<string, pokete.resources.base.Poke> Pokes = 2;
+    map<string, pokete.resources.base.Attack> Attacks = 3;
+    map<string, pokete.resources.base.Nature> Natures = 4;
+    map<string, pokete.resources.base.Weather> Weathers = 5;
+    map<string, pokete.resources.base.Type> Types = 6;
+    repeated string SubTypes = 7;
+    map<string, pokete.resources.base.Achievement> Achievements = 8;
+}
+
+message Assets {
+    message MapTrainers {
+        repeated Trainer Trainers = 1;
+    }
+
+    map<string, MapTrainers> Trainers = 1;
+    map<string, NPC> Npcs = 2;
+    map<string, Obmap> Obmaps = 3;
+    map<string, Station> Stations = 4;
+    map<string, Decoration> Decorations = 5;
+    map<string, Map> Maps = 6;
+}

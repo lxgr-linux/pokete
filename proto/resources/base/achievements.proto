@@ -1,0 +1,7 @@
+syntax = "proto3";
+package pokete.resources.base;
+
+message Achievement {
+    string Title = 1;
+    string Desc = 2;
+}

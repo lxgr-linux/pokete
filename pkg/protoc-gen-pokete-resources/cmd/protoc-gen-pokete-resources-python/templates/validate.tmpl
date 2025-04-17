@@ -1,0 +1,15 @@
+{{ define "_validate" -}}
+    {{- if .IsDict -}}
+        all({{ template "_validate" (pythonTypeWithVar .DictField2 "item") }} for _, item in {{ .Var }}.items())
+    {{- else if .IsRepeated -}}
+        all({{ template "_validate" (pythonTypeWithVar (pythonTypeAsBaseType .) "i") }} for i in {{ .Var }})
+    {{- else if .IsPurelyDomestic -}}
+        type({{ .Var }}) is {{ .Expression }}{{ if eq .Expression "float" }} or type({{ .Var }}) is int{{ end }}{{ if .Optional }} or {{ .Var }} is None{{ end -}}
+    {{- else -}}
+         {{ if .Optional }}True if {{ .Var }} is None else {{ end }}{{- .Expression }}.validate({{ .Var }})
+    {{- end -}}
+{{- end -}}
+{{ define "_va" -}}
+    {{ template "_validate" pythonTypeWithVar .PythonType (get .) }}
+{{- end -}}
+{{ if not .PythonType.Optional }}"{{ .Name }}" in _d and {{ end }}{{ template "_va" fieldWithVar . "_d" -}},{{ "" -}}

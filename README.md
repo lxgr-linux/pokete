@@ -25,12 +25,8 @@ Pokete is a small terminal based game in the style of a very popular and old gam
 
 ## Installation
 
-For Linux, BSD etc. just do this:
-
 ```shell
-# pip install scrap_engine
-$ git clone https://github.com/lxgr-linux/pokete.git
-$ ./pokete/pokete.py
+pip install pokete
 ```
 
 You can also install it from the AUR:
@@ -43,27 +39,21 @@ Or you can just run the AppImage from the release page.
 
 NOTE: In that case you first have to create the `~/.cache/pokete/` folder.
 
-For OSX:
-
-```shell
-# pip install scrap_engine
-$ git clone https://github.com/lxgr-linux/pokete.git
-$ ./pokete/pokete.py
-```
-
 For Windows:
 
 Some windows antivirus may flag the `libplaysound.dll` as malicious. If pokete crashes, please make sure that the .dll
 exists and is **not** in quarantine!
 
-```shell
-git clone https://github.com/lxgr-linux/pokete.git
-pip install scrap_engine
-```
-
-To run just execute `pokete.py`.
-
 If you have problems with your ARCH you maybe need to rebuild the audio module, see [here](playsound/README.md).
+
+## Running locally
+
+```shell
+pip install scrap_engine
+git clone https://github.com/lxgr-linux/pokete.git
+cd src
+python -m pokete
+```
 
 ## Usage
 
@@ -103,7 +93,7 @@ By pressing `e`, a menu will appear where player name, and later other settings,
 The red balls all over the map are Poketeballs. You'll need these to catch Poketes. Stepping on such a ball will add it
 to your inventory.
 
-See [How to play](HowToPlay.md).
+See [How to play](docs/HowToPlay.md).
 
 ## Game depth
 
@@ -176,7 +166,7 @@ For release information see [Changelog](Changelog.md).
 Feel free to contribute whatever you want to this game.
 New Pokete contributions are especially welcome, those are located in /pokete_data/poketes.py
 
-To learn how to add more poketes/types/attacks to the game, see [the development guide](DevGuide.md)
+To learn how to add more poketes/types/attacks to the game, see [the development guide](docs/DevGuide.md)
 
 After adding new Poketes and/or attacks you may want to run
 

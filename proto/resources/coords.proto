@@ -1,0 +1,7 @@
+syntax = "proto3";
+package pokete.resources;
+
+message Coords {
+    int32 X = 1;
+    int32 Y = 2;
+}

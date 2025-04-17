@@ -1,0 +1,19 @@
+syntax = "proto3";
+package pokete.resources;
+
+message PokeArgs {
+    repeated string Pokes = 1;
+    int32 Minlvl = 2;
+    int32 Maxlvl = 3;
+}
+
+message Map {
+    int32 Height = 1;
+    int32 Width = 2;
+    string Song = 3;
+    string PrettyName = 4;
+    optional string ExtraActions = 5;
+    optional PokeArgs PokeArgs = 6;
+    optional PokeArgs WPokeArgs = 7;
+    optional string Weather = 8;
+}

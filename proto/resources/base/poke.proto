@@ -1,0 +1,26 @@
+syntax = "proto3";
+package pokete.resources.base;
+
+message BaseIco {
+    string Txt = 1;
+    repeated string Esc = 2;
+}
+
+message Poke {
+    string Name = 1;
+    uint32 Hp = 2;
+    uint32 Atc = 3;
+    uint32 Defense = 4;
+    repeated string Attacks = 5;
+    repeated string Pool = 6;
+    float MissChance = 7;
+    string Desc = 8;
+    uint32 LoseXp = 9;
+    float Rarity = 10;
+    repeated string Types = 11;
+    string EvolvePoke = 12;
+    uint32 EvolveLvl = 13;
+    uint32 initiative = 14;
+    optional bool NightActive = 15;
+    repeated BaseIco ico = 16;
+}

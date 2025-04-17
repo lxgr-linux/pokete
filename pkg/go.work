@@ -1,0 +1,8 @@
+go 1.23.1
+
+use (
+	./bs_rpc
+	./server
+	protoc-gen-pokete-resources
+	resources
+)

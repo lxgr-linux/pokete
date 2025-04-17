@@ -1,0 +1,18 @@
+{{ define "_marshall" -}}
+    {{ if .IsPurelyDomestic -}}
+        {{ .Var }}
+    {{- else if .IsDict -}}
+        {i: {{ template "_marshall" (pythonTypeWithVar .DictField2 "item") }} for i, item in {{ .Var }}.items()}
+    {{- else if .IsRepeated -}}
+        [{{ template "_marshall" (pythonTypeWithVar (pythonTypeAsBaseType .) "i") }} for i in {{ .Var }}]
+    {{- else -}}
+         {{- .Expression }}.to_dict({{ .Var }})
+    {{- end -}}
+{{- end -}}
+{{ define "_m" -}}
+    {{ template "_marshall" pythonTypeWithVar .PythonType .Var  }}
+{{- end -}}
+{{- if .PythonType.Optional -}}
+if self.{{ .Name }} is not None:
+            {{ end -}}
+ret["{{ .Name }}"] = {{ template "_m" fieldWithVar . (print "self." .Name) -}}

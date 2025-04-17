@@ -1,0 +1,12 @@
+{{ define "_type" -}}
+{{- if .IsDict -}}
+map[{{ template "_type" (pythonTypeWithVar .DictField1 .Var) }}]{{ template "_type" (pythonTypeWithVar .DictField2 .Var) }}
+{{- else -}}
+    {{- if .IsRepeated -}}
+[]
+    {{- end -}}
+{{- if .Optional }}*{{ end -}}{{ .Package }}{{ .Expression }}
+{{- if not .IsPurelyDomestic }}{{ .Var }}{{ end -}}
+{{- end -}}
+{{- end -}}
+{{ .GoName }} {{ template "_type" (pythonTypeWithVar .PythonType .Var) }} `json:"{{ .Name }}"`
