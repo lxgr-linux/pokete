@@ -18,15 +18,12 @@ jobs:
           python-version: "3.12"
 
       - name: install deps
-        run: pip install pyyaml build
-
-      - name: build
-        run: |
-          python -m build
-          pip install dist/*.whl
+        run: pip install pyyaml
 
       - name: gen-wiki
-        run: pokete-util wiki
+        run: |
+          cd ./src
+          python -m pokete.util wiki
 
       - name: Commit files
         run: |
