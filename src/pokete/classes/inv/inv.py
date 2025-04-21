@@ -25,10 +25,10 @@ class Inv(BaseInv):
             f"{Action.REMOVE.mapping}:remove"
         )
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context[Inventory]):
         """Opens the inventory"""
         self.box.set_ctx(ctx)
-        figure: Inventory = ctx.figure
+        figure = ctx.figure
         _ev.clear()
         items = self.add(figure)
         self.box.resize(ctx.map.height - 3, 35)
