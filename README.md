@@ -1,6 +1,5 @@
 [![Wiki](https://github.com/lxgr-linux/pokete/actions/workflows/main.yml/badge.svg)](https://github.com/lxgr-linux/pokete/actions/workflows/main.yml)
 [![Code-Validation](https://github.com/lxgr-linux/pokete/actions/workflows/main_validate.yml/badge.svg)](https://github.com/lxgr-linux/pokete/actions/workflows/main_validate.yml)
-<br>
 ![License](https://img.shields.io/github/license/lxgr-linux/pokete)
 ![AUR version](https://img.shields.io/aur/version/pokete-git)
 <br>
