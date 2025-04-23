@@ -15,7 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-dependencies = ["scrap_engine>=1.4.2"]
+dependencies = ["scrap_engine>=1.4.3"]
 
 [project.scripts]
 pokete = "pokete.__main__:main"

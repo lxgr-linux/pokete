@@ -16,6 +16,7 @@ def easy_exit(ctx: Context | None = None):
             return
         std(ctx)
 
+
 def event_wait(ctx: Context, event:Event):
     """Loops until an event is set"""
     while True:
