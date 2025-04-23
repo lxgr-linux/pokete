@@ -14,7 +14,7 @@ from .poke import Poke
 
 
 class MapInteract:
-    ctx: Context | None = None
+    ctx: Context
 
     @classmethod
     def set_ctx(cls, ctx: Context):
