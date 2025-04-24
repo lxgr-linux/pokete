@@ -7,7 +7,7 @@ name = "pokete"
 authors = [{ name = "lxgr", email = "lxgr@protonmail.com" }]
 description = "A terminal based Pokemon like game"
 keywords = ["game", "Ascii"]
-version = "0.10.0-rc2"
+version = "0.10.0-rc3"
 license = { text = "GPL-3.0-only" }
 readme = "README.md"
 requires-python = ">=3.11"
