@@ -18,7 +18,7 @@ jobs:
       - name: Install dependecies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
-          pip install scrap_engine pyyaml unittest
+          pip install scrap_engine pyyaml
 
       - name: Tests
         run: |
