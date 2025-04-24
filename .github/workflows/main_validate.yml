@@ -20,7 +20,12 @@ jobs:
         run: |
           pip install scrap_engine pyyaml
 
+      - name: Tests
+        run: |
+          cd src
+          python -m unittest tests
+
       - name: Validate
         run: |
-          cd ./src
+          cd src
           python -m pokete.util validate-data

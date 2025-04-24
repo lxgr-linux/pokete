@@ -12,6 +12,7 @@ from pokete.base.ui import Overview
 from pokete.classes.multiplayer.menu import ModeChooser
 from pokete.release import VERSION
 from pokete.util import sort_vers, liner
+from pokete.util.semantic_version import SemanticVersion
 
 
 class BGMoverEvent(PeriodicEvent):
@@ -67,7 +68,7 @@ def check_version(ctx: Context, sinfo):
     if "ver" not in sinfo:
         return False
     ver = sinfo["ver"]
-    if VERSION != ver and sort_vers([VERSION, ver])[-1] == ver:
+    if SemanticVersion.parse(VERSION) < SemanticVersion.parse(ver):
         if not ask_bool(
             ctx,
             liner(f"The save file was created \
