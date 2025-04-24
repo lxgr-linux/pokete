@@ -15,4 +15,4 @@ jobs:
           go install github.com/lxgr-linux/liefer@latest
       - name: deploy
         run: |
-          ~/go/bin/liefer deliver pokete_server 267-multiplayer-mode ${{ secrets.LIEFER_PRIVKEY }} --address ${{ secrets.LXGR_HOST }}:8080
+          ~/go/bin/liefer deliver pokete_server ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} ${{ secrets.LIEFER_PRIVKEY }} --address ${{ secrets.LXGR_HOST }}:8080
