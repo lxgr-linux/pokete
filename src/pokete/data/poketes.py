@@ -1466,7 +1466,7 @@ w        w""",
         "attacks": ["poison_bite", "bite", "webattack", "power_bite"],
         "pool": [],
         "miss_chance": 0,
-        "desc": "Dnagerous spider like Pokete with strong mandibles.",
+        "desc": "Dangerous spider like Pokete with strong mandibles.",
         "lose_xp": 4,
         "rarity": 0.5,
         "types": ["poison", "normal"],
@@ -1480,6 +1480,44 @@ w        w""",
 //  '''  \\
 W         W""",
             "esc": []}]
+    },
+    "peachade": {
+        "name": "Peachade",
+        "hp": 25,
+        "atc": 5,
+        "defense": 1,
+        "attacks": ["tackle", "politure", "dazzle"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Sweat and juicy plant pokete thats' looks and juicines will drive you crazy.",
+        "lose_xp": 4,
+        "rarity": 0.5,
+        "types": ["plant", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 5,
+        "night_active": None,
+        "ico": [{
+            "txt": r"""     / __.
+     |/_/""",
+            "esc": ["thicc", "green"]
+        },{
+            "txt": r"""
+
+   /o -\
+   \  (/""",
+            "esc": ["thicc", "peach"]
+        },{
+            "txt": r"""
+
+
+     x""",
+            "esc": ["thicc", "red"]
+        },{
+            "txt": r"""
+  *""",
+            "esc": ["thicc", "white"]
+        }]
     },
 }
 
