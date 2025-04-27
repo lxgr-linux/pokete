@@ -109,7 +109,7 @@ against some types and ineffective against others.
 | Undead  | Normal, Ground, Plant, Water | Fire                |
 | Ice     | Water, Plant                 | Fire                |
 
-For additional information you can see [wiki](wiki.md) or
+For additional information you can see [wiki](https://lxgr-linux.github.io/pokete/wiki) or
 [the multi-page wiki](https://lxgr-linux.github.io/pokete/wiki-multi).
 
 ## Mods
