@@ -1,11 +1,12 @@
 """Contains all moves a Pokete can fullfill"""
 
-import time
 import random
+import time
+
 import scrap_engine as se
 
-from pokete.release import SPEED_OF_TIME
 from pokete.base.color import Color
+from pokete.release import SPEED_OF_TIME
 
 
 class Moves:
@@ -19,8 +20,9 @@ class Moves:
     def attack(self):
         """Attack move"""
         for i, j, _t in zip([3, -3], [2, -2], [0.3, 0]):
-            self.poke.ico.move(i if self.poke.player
-                               else -i, -j if self.poke.player else j)
+            self.poke.ico.move(
+                i if self.poke.player else -i, -j if self.poke.player else j
+            )
             self.poke.ico.map.show()
             time.sleep(SPEED_OF_TIME * _t)
 
@@ -38,39 +40,48 @@ class Moves:
 
      o
 
-""", """
+""",
+            """
 
     (o)
 
-""", """
+""",
+            """
 
     ( )
 
-""", r"""
+""",
+            r"""
    \   /
     ( )
    /   \
-""", r"""
+""",
+            r"""
    \   /
 
    /   \
-""", r"""
+""",
+            r"""
    \ - /
  (       )
    / - \
-""", """
+""",
+            """
      -
  (       )
      -
-""", """
+""",
+            """
 '         '
 
 .         .
-"""
+""",
         ]
         _map = self.poke.ico.map
         text = se.Text("")
-        text.add(_map, round((_map.width - 11)/2), round((_map.height - 9)/2))
+        text.add(
+            _map, round((_map.width - 11) / 2), round((_map.height - 9) / 2)
+        )
         self.throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
         for i in frames:
             text.rechar(i)
@@ -83,20 +94,27 @@ class Moves:
         """Arch move"""
         if self.poke.enem == self:
             return
-        line = se.Line(Color.thicc + Color.yellow + "-" + Color.reset,
-                       (self.poke.enem.ico.x - self.poke.ico.x
-                        + (-11 if self.poke.player else 11)),
-                       self.poke.enem.ico.y - self.poke.ico.y,
-                       l_type="crippled")
-        line.add(self.poke.ico.map,
-                 self.poke.ico.x + (11 if self.poke.player else -1),
-                 self.poke.ico.y + 1)
+        line = se.Line(
+            Color.thicc + Color.yellow + "-" + Color.reset,
+            (
+                self.poke.enem.ico.x
+                - self.poke.ico.x
+                + (-11 if self.poke.player else 11)
+            ),
+            self.poke.enem.ico.y - self.poke.ico.y,
+            l_type="crippled",
+        )
+        line.add(
+            self.poke.ico.map,
+            self.poke.ico.x + (11 if self.poke.player else -1),
+            self.poke.ico.y + 1,
+        )
         self.poke.ico.map.show()
         time.sleep(SPEED_OF_TIME * 1)
         line.remove()
         del line
 
-    def throw(self, txt="#", factor=1., num=1):
+    def throw(self, txt="#", factor=1.0, num=1):
         """Throw move
         ARGS:
             txt: The char that moves across the screen
@@ -104,19 +122,25 @@ class Moves:
             num: The number of chars thrown"""
         if self.poke.enem == self.poke:
             return
-        line = se.Line(" ",
-                       (self.poke.enem.ico.x
-                        - self.poke.ico.x
-                        + (-11 if self.poke.player else 11)),
-                       self.poke.enem.ico.y - self.poke.ico.y,
-                       l_type="crippled")
+        line = se.Line(
+            " ",
+            (
+                self.poke.enem.ico.x
+                - self.poke.ico.x
+                + (-11 if self.poke.player else 11)
+            ),
+            self.poke.enem.ico.y - self.poke.ico.y,
+            l_type="crippled",
+        )
         line.resize(line.cx * factor, line.cy * factor)
-        line.add(self.poke.ico.map,
-                 self.poke.ico.x + (11 if self.poke.player else -1),
-                 self.poke.ico.y + 1)
+        line.add(
+            self.poke.ico.map,
+            self.poke.ico.x + (11 if self.poke.player else -1),
+            self.poke.ico.y + 1,
+        )
         self.poke.ico.map.show()
-        for i in range(len(line.obs) + num*5 - 1):
-            for j in range(0, num*5, 5):
+        for i in range(len(line.obs) + num * 5 - 1):
+            for j in range(0, num * 5, 5):
                 if len(line.obs) > i - j >= 0:
                     line.obs[i - j].rechar(txt)
                 if len(line.obs) >= i - j > 0:
@@ -137,11 +161,21 @@ class Moves:
     def shine(self, ico=Color.thicc + Color.green + "*" + Color.reset):
         """Shine Move"""
         shines = [se.Object(ico) for _ in range(4)]
-        for i, _x, _y in zip(shines,
-                             [self.poke.ico.x - 1, self.poke.ico.x + 11,
-                              self.poke.ico.x - 1, self.poke.ico.x + 11],
-                             [self.poke.ico.y, self.poke.ico.y,
-                              self.poke.ico.y + 3, self.poke.ico.y + 3]):
+        for i, _x, _y in zip(
+            shines,
+            [
+                self.poke.ico.x - 1,
+                self.poke.ico.x + 11,
+                self.poke.ico.x - 1,
+                self.poke.ico.x + 11,
+            ],
+            [
+                self.poke.ico.y,
+                self.poke.ico.y,
+                self.poke.ico.y + 3,
+                self.poke.ico.y + 3,
+            ],
+        ):
             i.add(self.poke.ico.map, _x, _y)
             self.poke.ico.map.show()
             time.sleep(SPEED_OF_TIME * 0.2)
@@ -152,8 +186,12 @@ class Moves:
 
     def downgrade(self):
         """Downgrade move"""
-        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-"
-                                   + Color.reset)
+        self.poke.enem.moves.shine(
+            ico=Color.thicc + Color.red + "-" + Color.reset
+        )
+
+    def smell(self):
+        self.shine(ico=Color.thicc + Color.peach + "~" + Color.reset)
 
     def rain(self):
         """Rain animation"""
@@ -166,7 +204,7 @@ class Moves:
         cloud.add(
             _map,
             round(_map.width / 2) - 5,
-            round(_map.frame_big.height / 2) - 1
+            round(_map.frame_big.height / 2) - 1,
         )
         _map.show()
         for i in range(50):
@@ -176,7 +214,7 @@ class Moves:
             rain.add(
                 _map,
                 random.choice(range(9)) + cloud.x + 1,
-                random.choice(range(2)) + cloud.y + 3
+                random.choice(range(2)) + cloud.y + 3,
             )
             _map.show()
             time.sleep(0.05)

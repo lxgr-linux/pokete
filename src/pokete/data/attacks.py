@@ -383,7 +383,6 @@ attacks: dict[str, AttackDict] = {
         "is_generic": False,
         "ap": 10,
     },
-
     # Fire attacks
     "fire_bite": {
         "name": "Fire Bite",
@@ -427,7 +426,6 @@ attacks: dict[str, AttackDict] = {
         "is_generic": True,
         "ap": 10,
     },
-
     "fire_ball": {
         "name": "Fire Ball",
         "factor": 4,
@@ -494,7 +492,7 @@ attacks: dict[str, AttackDict] = {
         "miss_chance": 0,
         "min_lvl": 0,
         "desc": "Casts a vicious and violent storm full of rain and hail, hitting the enemy in its weakest spots "
-                "and makes it want to die.",
+        "and makes it want to die.",
         "types": ["flying"],
         "effect": None,
         "is_generic": True,
@@ -972,7 +970,7 @@ attacks: dict[str, AttackDict] = {
         "factor": 0,
         "action": None,
         "world_action": "",
-        "move": ["downgrade"],
+        "move": ["smell", "downgrade"],
         "miss_chance": 0,
         "min_lvl": 0,
         "desc": "Unleashes a sweet scent that's turning heads and minds alike.",
