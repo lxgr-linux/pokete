@@ -51,13 +51,14 @@ You can find different versions of this wiki:
    7. [Plant Poketes](#plant-poketes)
        1. [Bushy](#bushy)
        2. [Megapois](#megapois)
-       3. [Poisopla](#poisopla)
-       4. [Radishon](#radishon)
-       5. [Radishuk](#radishuk)
-       6. [Radishull](#radishull)
-       7. [Rosi](#rosi)
-       8. [Treenator](#treenator)
-       9. [Wheeto](#wheeto)
+       3. [Peachade](#peachade)
+       4. [Poisopla](#poisopla)
+       5. [Radishon](#radishon)
+       6. [Radishuk](#radishuk)
+       7. [Radishull](#radishull)
+       8. [Rosi](#rosi)
+       9. [Treenator](#treenator)
+       10. [Wheeto](#wheeto)
    8. [Poison Poketes](#poison-poketes)
        1. [Choka](#choka)
        2. [Pavous](#pavous)
@@ -137,7 +138,8 @@ You can find different versions of this wiki:
        9. [Special Smell](#special-smell)
        10. [Sucker](#sucker)
        11. [Super Sucker](#super-sucker)
-       12. [The Old Roots Hit](#the-old-roots-hit)
+       12. [Sweet smell](#sweet-smell)
+       13. [The Old Roots Hit](#the-old-roots-hit)
    8. [Poison attacks](#poison-attacks)
        1. [Poison Bite](#poison-bite)
        2. [Poison Thorn](#poison-thorn)
@@ -1108,6 +1110,36 @@ A not at all suspicious plant.
 - Does not evolve
 
 
+#### Peachade
+Sweat and juicy plant pokete thats' looks and thiccness will drive you crazy.
+
+```
+     / __. 
+  *  |/_/  
+   /o -\   
+   \ x(/   
+
+```
+
+- Type: [Plant](#types)
+- Health points: 25
+- Attack factor: 3
+- Defense factor: 2
+- Initiative: 1
+- Missing chance: 0
+- Rarity: 0.2
+- Loosing experience: 4
+- Attacks:
+   + [Tackle](#tackle)
+   + [Polish](#polish)
+   + [Dazzle](#dazzle)
+   + [Sweet smell](#sweet-smell)
+- Active: Always
+- Can be found in:
+   + Nowhere
+- Does not evolve
+
+
 #### Poisopla
 A unsuspicious plant.
 
@@ -1369,7 +1401,7 @@ w        w
 - Evolves to [Uberpavous](#uberpavous) at level 30
 
 #### Uberpavous
-Dnagerous spider like Pokete with strong mandibles.
+Dangerous spider like Pokete with strong mandibles.
 
 ```
   /\~-~/\  
@@ -2399,6 +2431,16 @@ Stabs the enemy with a branch, preferably in the enemy's eyes.
 - Missing chance: 0.2
 - Attack points: 10
 - Effect: None
+
+#### Sweet smell
+Unleashes a sweet scent that's turning heads and minds alike.
+
+- Type: [Plant](#types)
+- Minimum Level: 0
+- Attack factor: 0
+- Missing chance: 0
+- Attack points: 15
+- Effect: [Confusion](#confusion)
 
 ### Poison attacks
 #### Poison Bite
