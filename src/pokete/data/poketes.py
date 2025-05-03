@@ -23,6 +23,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 0,
+        "night_active": None,
         "ico": [{
             "txt": """ """,
             "esc": []}],
@@ -42,6 +43,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 5,
+        "night_active": None,
         "ico": [{
             "txt": r""" +-------+
  | o   o |
@@ -64,6 +66,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""    ^__^
     (oo)
@@ -85,6 +88,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 5,
+        "night_active": None,
         "ico": [{
             "txt": r"""+---------+
 |  o   o  |
@@ -107,6 +111,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 4,
+        "night_active": None,
         "ico": [{
             "txt": r"""   A-A-A
   < o o >
@@ -129,6 +134,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "bigstone",
         "evolve_lvl": 25,
         "initiative": 3,
+        "night_active": None,
         "ico": [{
             "txt": r"""
    _____
@@ -151,6 +157,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 3,
+        "night_active": None,
         "ico": [{
             "txt": r"""
     (@)
@@ -173,6 +180,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""    \ /
     \|/
@@ -195,6 +203,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 5,
+        "night_active": None,
         "ico": [{
             "txt": r"""
     .,
@@ -223,6 +232,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "angrilo",
         "evolve_lvl": 25,
         "initiative": 6,
+        "night_active": None,
         "ico": [{
             "txt": r""" .░░░░░░░.
  ░░o░░░o░░
@@ -245,6 +255,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 7,
+        "night_active": None,
         "ico": [{
             "txt": r""" .░░░░░░░.
  ░░\░░░/░░
@@ -267,6 +278,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "voglo",
         "initiative": 6,
         "evolve_lvl": 20,
+        "night_active": None,
         "ico": [{
             "txt": r"""    A
    <')
@@ -289,6 +301,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "voglus",
         "evolve_lvl": 35,
         "initiative": 7,
+        "night_active": None,
         "ico": [{
             "txt": r"""    ?
    >´)
@@ -311,6 +324,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 8,
+        "night_active": None,
         "ico": [{
             "txt": r"""    /
    > }
@@ -337,6 +351,7 @@ it will try to peck out your eyes.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 7,
+        "night_active": None,
         "ico": [{
             "txt": r"""   !
   >´)
@@ -359,6 +374,7 @@ it will try to peck out your eyes.",
         "evolve_poke": "kartmen",
         "evolve_lvl": 30,
         "initiative": 0,
+        "night_active": None,
         "ico": [{
             "txt": r"""
 
@@ -381,6 +397,7 @@ it will try to peck out your eyes.",
         "evolve_poke": "choka",
         "evolve_lvl": 30,
         "initiative": 3,
+        "night_active": None,
         "ico": [{
             "txt": r"""  >'({{{
   }}}}}}}
@@ -403,6 +420,7 @@ it will try to peck out your eyes.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 4,
+        "night_active": None,
         "ico": [{
             "txt": r""" _______
 /____ * \
@@ -426,6 +444,7 @@ it will try to peck out your eyes.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""    (()
    (()))
@@ -448,6 +467,7 @@ it will try to peck out your eyes.",
         "evolve_poke": "bator",
         "evolve_lvl": 20,
         "initiative": 6,
+        "night_active": None,
         "ico": [{
             "txt": r"""    ___
 WW\/* *\/WW
@@ -469,6 +489,7 @@ WW\/* *\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 8,
+        "night_active": None,
         "ico": [{
             "txt": r"""    ___
 WW\/o o\/WW
@@ -491,6 +512,7 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r"""  _____
  / o   \
@@ -537,6 +559,7 @@ WW\/o o\/WW
         "evolve_poke": "ratatat",
         "evolve_lvl": 25,
         "initiative": 6,
+        "night_active": None,
         "ico": [{
             "txt": r"""   ^---^
    \o o/
@@ -558,6 +581,7 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 7,
+        "night_active": None,
         "ico": [{
             "txt": r"""   ^---^
    \   /
@@ -583,6 +607,7 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 3,
+        "night_active": None,
         "ico": [{
             "txt": r""" \
  =')~
@@ -605,6 +630,7 @@ WW\/o o\/WW
         "evolve_poke": "hornita",
         "evolve_lvl": 20,
         "initiative": 4,
+        "night_active": None,
         "ico": [{
             "txt": r"""  ,
  =')
@@ -627,6 +653,7 @@ WW\/o o\/WW
         "evolve_poke": "treenator",
         "evolve_lvl": 20,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r"""
     (()
@@ -648,6 +675,7 @@ WW\/o o\/WW
         "evolve_poke": "wolfiro",
         "evolve_lvl": 25,
         "initiative": 4,
+        "night_active": None,
         "ico": [{
             "txt": r"""   ^---^
    (   )
@@ -673,6 +701,7 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 5,
+        "night_active": None,
         "ico": [{
             "txt": r"""   \^-^/
    {   }
@@ -698,6 +727,7 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 6,
+        "night_active": None,
         "ico": [
             {
                 "txt": r"""      __
@@ -727,6 +757,7 @@ WW\/o o\/WW
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 3,
+        "night_active": None,
         "ico": [{
             "txt": r"""   _____
   / o o \
@@ -749,6 +780,7 @@ WW\/o o\/WW
         "evolve_poke": "crabbat",
         "evolve_lvl": 20,
         "initiative": 3,
+        "night_active": None,
         "ico": [{
             "txt": r"""    ___
   -/   \-
@@ -773,6 +805,7 @@ WW\/o o\/WW
         "evolve_poke": "rustacean",
         "evolve_lvl": 40,
         "initiative": 4,
+        "night_active": None,
         "ico": [{
             "txt": r""" (  ___  )
   \-   -/
@@ -798,6 +831,7 @@ or not you borrowed something.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 5,
+        "night_active": None,
         "ico": [{
             "txt": r""" {  ^^^  }
   \-   -/
@@ -822,6 +856,7 @@ or not you borrowed something.",
         "evolve_poke": "kakraholt",
         "evolve_lvl": 30,
         "initiative": 4,
+        "night_active": None,
         "ico": [{
             "txt": r"""
     ( )""",
@@ -845,6 +880,7 @@ or not you borrowed something.",
         "evolve_poke": "spikl",
         "evolve_lvl": 30,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r"""   -----
    |   |
@@ -875,6 +911,7 @@ or not you borrowed something.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""  -------
   |     |
@@ -908,6 +945,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""
      _
@@ -937,6 +975,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "megapois",
         "evolve_lvl": 20,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r"""
        .
@@ -963,6 +1002,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "radishuk",
         "evolve_lvl": 20,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r""" .__ / __.
   \_\|/_/""",
@@ -989,6 +1029,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "radishull",
         "evolve_lvl": 40,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r""" .__   __.
   \_\_/_/""",
@@ -1020,6 +1061,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""
 
@@ -1048,6 +1090,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""
     |/.
@@ -1226,6 +1269,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "dicki",
         "evolve_lvl": 35,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r"""
 
@@ -1249,6 +1293,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "dicko",
         "evolve_lvl": 55,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""
     __
@@ -1272,6 +1317,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 3,
+        "night_active": None,
         "ico": [{
             "txt": r"""    __
    ('')
@@ -1295,6 +1341,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 2,
+        "night_active": None,
         "ico": [{
             "txt": r"""
 
@@ -1328,6 +1375,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r"""  _((((
  /O   _\/))
@@ -1350,6 +1398,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 1,
+        "night_active": None,
         "ico": [{
             "txt": r"""   (.)~
   -)_(-U
@@ -1371,6 +1420,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 5,
+        "night_active": None,
         "ico": [{
             "txt": r"""     _
     O O
@@ -1401,6 +1451,7 @@ that will confuse the shit out of you.",
         "evolve_poke": "uberpavous",
         "evolve_lvl": 30,
         "initiative": 3,
+        "night_active": None,
         "ico": [{
             "txt": r"""  (0)(0)
  /  ''  \
@@ -1415,19 +1466,58 @@ w        w""",
         "attacks": ["poison_bite", "bite", "webattack", "power_bite"],
         "pool": [],
         "miss_chance": 0,
-        "desc": "Dnagerous spider like Pokete with strong mandibles.",
+        "desc": "Dangerous spider like Pokete with strong mandibles.",
         "lose_xp": 4,
         "rarity": 0.5,
         "types": ["poison", "normal"],
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 5,
+        "night_active": None,
         "ico": [{
             "txt": r"""  /\~-~/\
  //\0_0/\\
 //  '''  \\
 W         W""",
             "esc": []}]
+    },
+    "peachade": {
+        "name": "Peachade",
+        "hp": 25,
+        "atc": 3,
+        "defense": 2,
+        "attacks": ["tackle", "politure", "dazzle", "sweet_smell"],
+        "pool": [],
+        "miss_chance": 0,
+        "desc": "Sweat and juicy plant pokete thats' looks and thiccness will drive you crazy.",
+        "lose_xp": 4,
+        "rarity": 0.2,
+        "types": ["plant", "normal"],
+        "evolve_poke": "",
+        "evolve_lvl": 0,
+        "initiative": 1,
+        "night_active": None,
+        "ico": [{
+            "txt": r"""     / __.
+     |/_/""",
+            "esc": ["thicc", "green"]
+        },{
+            "txt": r"""
+
+   /o -\
+   \  (/""",
+            "esc": ["thicc", "peach"]
+        },{
+            "txt": r"""
+
+
+     x""",
+            "esc": ["thicc", "red"]
+        },{
+            "txt": r"""
+  *""",
+            "esc": ["thicc", "white"]
+        }]
     },
 }
 
