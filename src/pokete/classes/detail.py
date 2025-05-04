@@ -1,23 +1,26 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
 from typing import Optional
+
 import scrap_engine as se
 
-from pokete.base.exception_propagation import exception_propagating_periodic_event
 import pokete.base.game_map as gm
-from pokete.base.single_event import single_event_periodic_event, SingleEvent
-from pokete.classes.single_events import TeleportationSingleEvent
-from pokete.base.context import Context
-from pokete.base.periodic_event_manager import PeriodicEventManager
-from pokete.base.input import Action, get_action, _ev
-from pokete.base.ui import Overview
-from pokete.base.ui.elements import StdFrame2, ChooseBox
-from pokete.base.color import Color
-from pokete.base.tss import tss
 from pokete.base import loops
+from pokete.base.color import Color
+from pokete.base.context import Context
+from pokete.base.exception_propagation import (
+    exception_propagating_periodic_event,
+)
+from pokete.base.input import Action, _ev, get_action
+from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.single_event import SingleEvent, single_event_periodic_event
+from pokete.base.tss import tss
+from pokete.base.ui import Overview
+from pokete.base.ui.elements import ChooseBox, StdFrame2
+from pokete.classes.single_events import TeleportationSingleEvent
 from pokete.util import liner
-from .poke.stats import StatsInfoBox
 
+from .poke.stats import StatsInfoBox
 
 
 class Informer:
@@ -35,16 +38,28 @@ class Informer:
             in_deck: bool whether or not the info is added to the deck"""
         poke.text_name.add(_map, _x + 12, _y + 0)
         if poke.identifier != "__fallback__":
-            for obj, __x, __y in zip([poke.ico, poke.text_lvl, poke.text_hp,
-                                      poke.tril, poke.trir, poke.hp_bar,
-                                      poke.text_xp],
-                                     [0, 12, 12, 18, 27, 19, 12],
-                                     [0, 1, 2, 2, 2, 2, 3]):
+            for obj, __x, __y in zip(
+                [
+                    poke.ico,
+                    poke.text_lvl,
+                    poke.text_hp,
+                    poke.tril,
+                    poke.trir,
+                    poke.hp_bar,
+                    poke.text_xp,
+                ],
+                [0, 12, 12, 18, 27, 19, 12],
+                [0, 1, 2, 2, 2, 2, 3],
+            ):
                 obj.add(_map, _x + __x, _y + __y)
             if in_deck and figure.pokes.index(poke) < 6:
-                poke.pball_small.add(_map, round(_map.width / 2) - 1
-                if figure.pokes.index(poke) % 2 == 0
-                else _map.width - 2, _y)
+                poke.pball_small.add(
+                    _map,
+                    round(_map.width / 2) - 1
+                    if figure.pokes.index(poke) % 2 == 0
+                    else _map.width - 2,
+                    _y,
+                )
             for eff in poke.effects:
                 eff.add_label()
 
@@ -53,9 +68,17 @@ class Informer:
         """Removes a Pokete from the deck
         ARGS:
             poke: Poke object that should be removed"""
-        for obj in [poke.ico, poke.text_name, poke.text_lvl, poke.text_hp,
-                    poke.tril, poke.trir, poke.hp_bar, poke.text_xp,
-                    poke.pball_small]:
+        for obj in [
+            poke.ico,
+            poke.text_name,
+            poke.text_lvl,
+            poke.text_hp,
+            poke.tril,
+            poke.trir,
+            poke.hp_bar,
+            poke.text_xp,
+            poke.pball_small,
+        ]:
             obj.remove()
         for eff in poke.effects:
             eff.cleanup()
@@ -68,7 +91,7 @@ class Detail(Informer, Overview):
         width: Width of the map"""
 
     def __init__(self):
-        self.map = gm.GameMap(50, 100, name="detail")
+        self.map = gm.GameMap(50, 200, name="detail")
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
         self.frame = StdFrame2(17, self.map.width, state="float")
@@ -121,8 +144,11 @@ class Detail(Informer, Overview):
         self.poke.desc.remove()
         for atc in self.poke.attack_obs:
             for label in [
-                atc.label_name, atc.label_factor,
-                atc.label_type, atc.label_ap, atc.label_desc
+                atc.label_name,
+                atc.label_factor,
+                atc.label_type,
+                atc.label_ap,
+                atc.label_desc,
             ]:
                 label.remove()
         self.map.resize(tss.height - 1, tss.width, background=" ")
@@ -148,23 +174,31 @@ class Detail(Informer, Overview):
         for atc, _x, _y in zip(
             self.poke.attack_obs,
             [
-                1, round(self.map.width / 2) + 1,
-                1, round(self.map.width / 2) + 1
+                1,
+                round(self.map.width / 2) + 1,
+                1,
+                round(self.map.width / 2) + 1,
             ],
-            [7, 7, 12, 12]
+            [7, 7, 12, 12],
         ):
             atc.temp_i = 0
             atc.temp_j = -30
-            atc.label_desc.rechar(atc.desc[:int(self.map.width / 2 - 1)])
+            atc.label_desc.rechar(atc.desc[: int(self.map.width / 2 - 1)])
             atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
-            for label, __x, __y in zip([atc.label_name, atc.label_factor,
-                                        atc.label_type,
-                                        atc.label_ap, atc.label_desc],
-                                       [0, 0, 11, 0, 0],
-                                       [0, 1, 1, 2, 3]):
+            for label, __x, __y in zip(
+                [
+                    atc.label_name,
+                    atc.label_factor,
+                    atc.label_type,
+                    atc.label_ap,
+                    atc.label_desc,
+                ],
+                [0, 0, 11, 0, 0],
+                [0, 1, 1, 2, 3],
+            ):
                 label.add(self.map, _x + __x, _y + __y)
 
-    def enq_single_action(self, ret_action:str):
+    def enq_single_action(self, ret_action: str):
         event: Optional[SingleEvent] = None
         match ret_action:
             case "teleport":
@@ -179,8 +213,13 @@ class Detail(Informer, Overview):
         for obj in [self.poke.desc, self.poke.text_type]:
             obj.remove()
         for atc in self.poke.attack_obs:
-            for obj in [atc.label_name, atc.label_factor, atc.label_ap,
-                        atc.label_desc, atc.label_type]:
+            for obj in [
+                atc.label_name,
+                atc.label_factor,
+                atc.label_ap,
+                atc.label_desc,
+                atc.label_type,
+            ]:
                 obj.remove()
             del atc.temp_i, atc.temp_j
 
@@ -191,24 +230,31 @@ class Detail(Informer, Overview):
             abb: Bool whether or not the ability option is overview=Nonshown"""
         self.poke = poke
         self.overview = ctx.overview
-        ctx = Context(PeriodicEventManager([exception_propagating_periodic_event]), self.map, self, ctx.figure)
+        ctx = Context(
+            PeriodicEventManager([exception_propagating_periodic_event]),
+            self.map,
+            self,
+            ctx.figure,
+        )
         self.add(self.poke, None, self.map, 1, 1, False)
         do_exit = False
-        abb_obs = [i for i in self.poke.attack_obs
-                   if i.world_action != ""]
+        abb_obs = [i for i in self.poke.attack_obs if i.world_action != ""]
         if abb_obs != [] and abb:
-            self.world_actions_label.rechar("Abilities:"
-                                            + " ".join([i.name
-                                                        for i in abb_obs]))
+            self.world_actions_label.rechar(
+                "Abilities:" + " ".join([i.name for i in abb_obs])
+            )
             self.ability_label.add(self.map, 35, self.map.height - 1)
         else:
             self.world_actions_label.rechar("")
             self.ability_label.remove()
-        self.attack_defense.rechar(f"Attack:{self.poke.atc}\
-{(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}")
+        self.attack_defense.rechar(
+            f"Attack:{self.poke.atc}\
+{(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}"
+        )
         self.initiative_label.rechar(f"Initiative:{self.poke.initiative}")
-        for obj, _x, _y in zip([self.poke.desc, self.poke.text_type], [34, 41],
-                               [2, 5]):
+        for obj, _x, _y in zip(
+            [self.poke.desc, self.poke.text_type], [34, 41], [2, 5]
+        ):
             obj.add(self.map, _x, _y)
         self.add_attack_labels()
         if (tss.height - 1, tss.width) != (self.map.height, self.map.width):
@@ -229,12 +275,11 @@ class Detail(Informer, Overview):
             elif action.triggers(Action.ABILITIES_INFO):
                 if abb_obs != [] and abb:
                     with ChooseBox(
-                        len(abb_obs) + 2, 25, name="Abilities",
-                        c_obs=[
-                            se.Text(i.name)
-                            for i in abb_obs
-                        ],
-                        overview=self
+                        len(abb_obs) + 2,
+                        25,
+                        name="Abilities",
+                        c_obs=[se.Text(i.name) for i in abb_obs],
+                        overview=self,
                     ).center_add(self.map) as box:
                         while True:
                             action = get_action()
@@ -257,15 +302,18 @@ class Detail(Informer, Overview):
                     if atc.temp_j == 5:
                         atc.temp_i += 1
                         atc.temp_j = 0
-                        if atc.temp_i == len(atc.desc) \
-                            - int(self.map.width / 2 - 1) \
-                            + 10:
+                        if (
+                            atc.temp_i
+                            == len(atc.desc) - int(self.map.width / 2 - 1) + 10
+                        ):
                             atc.temp_i = 0
                             atc.temp_j = -30
-                        atc.label_desc.rechar(atc.desc[atc.temp_i:
-                                                       int(self.map.width
-                                                           / 2 - 1)
-                                                       + atc.temp_i])
+                        atc.label_desc.rechar(
+                            atc.desc[
+                                atc.temp_i : int(self.map.width / 2 - 1)
+                                + atc.temp_i
+                            ]
+                        )
                     else:
                         atc.temp_j += 1
             loops.std(ctx)
