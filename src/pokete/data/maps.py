@@ -610,8 +610,8 @@ maps: dict[str, MapDict] = {
         "weather": None
     },
     "playmap_53":{
-        "height": 25,
-        "width": 50,
+        "height": 15,
+        "width": 30,
         "song": "Map.mp3",
         "pretty_name": "workshop",
         "extra": None,
@@ -623,7 +623,7 @@ maps: dict[str, MapDict] = {
         "height": 10,
         "width": 15,
         "song": "Map.mp3",
-        "pretty_name": "workshop",
+        "pretty_name": "house",
         "extra": None,
         "poke_args": None,
         "weather": None
