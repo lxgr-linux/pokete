@@ -627,6 +627,19 @@ maps: dict[str, MapDict] = {
         "extra": None,
         "poke_args": None,
         "weather": None
+    },
+    "playmap_55": {
+        "height": 45,
+        "width": 65,
+        "song": "Map.mp3",
+        "pretty_name": "Watermill School",
+        "extra": None,
+        "poke_args":{
+            "pokes": ["kartmen", "rustacean", "lil_nut", "megapois"],
+            "minlvl": 1100,
+            "maxlvl": 1500
+        },
+        "weather": None
     }
 }
 
