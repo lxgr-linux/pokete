@@ -531,6 +531,21 @@ decorations: dict[str, DecorationDict] = {
             "y": 15
         }
     },
+    "playmap_57": {
+        "gen": {
+            "additionals": [],
+            "desc": "A new community surrounding a small field.",
+            "d_next": "playmap_1",
+            "text": """ *P#
+├───
+ # #""",
+            "color": "brightgreen"
+        },
+        "add": {
+            "x": 3,
+            "y": 3
+        }
+    },
 }
 
 if __name__ == "__main__":
