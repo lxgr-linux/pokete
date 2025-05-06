@@ -621,7 +621,7 @@ maps: dict[str, MapDict] = {
     },
     "playmap_54":{
         "height": 10,
-        "width": 15,
+        "width": 25,
         "song": "Map.mp3",
         "pretty_name": "house",
         "extra": None,

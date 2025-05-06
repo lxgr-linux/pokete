@@ -4193,11 +4193,28 @@ ___________________________
             },
         },
     },
+<<<<<<< HEAD:src/pokete/data/map_data.py
     "playmap_52": {
         "hard_obs": {
             "workshop": {
                 "x": 30,
                 "y": 15,
+=======
+
+    "playmap_52":{
+        "hard_obs":{
+            "tree_group_51_1":{
+                "x": 0,
+                "y": 70,
+                "txt": r"""
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()
+"""
+            },
+            "workshop":{
+                "x": 29,
+                "y": 19,
+>>>>>>> e78631c (Map data for watermill including more water, sand, and meadow textures. Trees added on top border):pokete_data/map_data.py
                 "txt": """
   _________
  / ^    ^ /\
@@ -4372,12 +4389,40 @@ ___________________________
              .......
               .......
                  .....
+<<<<<<< HEAD:src/pokete/data/map_data.py
                  .....""",
             },
             "pathway_1": {
                 "x": 0,
                 "y": 23,
                 "txt": r"""
+=======
+                 ....."""
+        },
+        "sand_2": {
+            "x": 69,
+            "y": 21,
+            "txt": r"""
+      ..
+    ...
+  ....
+ ....
+....
+....
+.....
+ .....
+ .....
+  ...
+  ...
+   ..
+    ..
+    .."""
+        },
+        "pathway_1":{
+            "x": 0,
+            "y": 23,
+            "txt": r"""
+>>>>>>> e78631c (Map data for watermill including more water, sand, and meadow textures. Trees added on top border):pokete_data/map_data.py
   _______________|   \_______/  /
  |                             /
  |___       __________________/
@@ -4510,13 +4555,37 @@ _   |
   ;;;;;;;;;
   ;;;;;;;;;
 """
+        },
+        "meadow_4":{
+            "x": 54,
+            "y": 14,
+            "txt": r"""
+        ;;
+     ;;;;;;;;;
+   ;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;
+ ;;;;;;;;;;;;;;;
+ ;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+ ;;;;;;;;;;;;;;;;
+  ;;;;;;;;;;;;;;;
+    ;;;;;;;;;;;;
+      ;;;;;;;
+        ;;;"""
         }
+
         },
         "dors": {
-            "dor_playmap_53": {
+            "dor_playmap_52_1": {
                 "x": 33,
                 "y": 15,
                 "args": {"map": "playmap_53", "x": 9, "y": 0}
+            },
+            "dor_playmap_52_2": {
+                "x": 16,
+                "y": 29,
+                "args": { "map": "playmap_54", "x": 13,"y": 0}
             }
         }
 
@@ -4526,7 +4595,11 @@ _   |
             "inner_walls": {
                 "x": 2,
                 "y": 1,
+<<<<<<< HEAD:src/pokete/data/map_data.py
                 "txt": """
+=======
+                "txt": r""" 
+>>>>>>> e78631c (Map data for watermill including more water, sand, and meadow textures. Trees added on top border):pokete_data/map_data.py
  __________________________
  |                        |
  |     |                  |
@@ -4552,11 +4625,36 @@ _   |
                 "x": 9,
                 "y": 0,
                 "args": {"map": "playmap_52", "x": 33, "y": 15}
-            },
+            }
+        }
+    },
+    "playmap_54": {
+        "hard_obs":{
+            "inner_walls":{
+                "x": 2,
+                "y": 1,
+                "txt": r"""
+_________________________
+|        |              |
+|                       |
+|___  ___|              |
+|        |         _____|
+|        |        |
+|________|___  ___|"""
+            }
         },
-    }
-}
+        "soft_obs":{
+        },
+        "dors":{
+            "dor_playmap_54":{
+                "x": 13,
+                "y": 0,
+                "args":{"map": "playmap_52", "x": 16, "y":29}
+            }
+        }
 
+        }
+    }
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")
