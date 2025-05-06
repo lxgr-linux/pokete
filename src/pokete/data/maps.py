@@ -640,7 +640,17 @@ maps: dict[str, MapDict] = {
             "maxlvl": 1500
         },
         "weather": None
+    },
+    "playmap_56": {
+        "height": 10,
+        "width": 30,
+        "song": "Map.mp3",
+        "pretty_name": "Watermill Center",
+        "extra": None,
+        "poke_args": None,
+        "weather": None
     }
+
 }
 
 if __name__ == "__main__":
