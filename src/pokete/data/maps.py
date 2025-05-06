@@ -649,8 +649,16 @@ maps: dict[str, MapDict] = {
         "extra": None,
         "poke_args": None,
         "weather": None
-    }
-
+    },
+    "playmap_57": {
+        "height": 25,
+        "width": 91,
+        "song": "Map.mp3",
+        "pretty_name": "New Town",
+        "extra_actions": None,
+        "poke_args": None,
+        "weather": None
+    },
 }
 
 if __name__ == "__main__":
