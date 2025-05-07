@@ -597,8 +597,8 @@ maps: dict[str, MapDict] = {
         "weather": None
     },
     "playmap_52":{
-        "height": 75,
-        "width": 135,
+        "height": 105,
+        "width": 140,
         "song": "Map.mp3",
         "pretty_name": "Town of Watermill",
         "extra_actions": None,
@@ -621,7 +621,7 @@ maps: dict[str, MapDict] = {
     },
     "playmap_54":{
         "height": 10,
-        "width": 25,
+        "width": 28,
         "song": "Map.mp3",
         "pretty_name": "house",
         "extra_actions": None,
@@ -629,8 +629,8 @@ maps: dict[str, MapDict] = {
         "weather": None
     },
     "playmap_55": {
-        "height": 45,
-        "width": 65,
+        "height": 48,
+        "width": 95,
         "song": "Map.mp3",
         "pretty_name": "Watermill School",
         "extra_actions": None,
@@ -652,7 +652,7 @@ maps: dict[str, MapDict] = {
     },
     "playmap_57": {
         "height": 25,
-        "width": 91,
+        "width": 99,
         "song": "Map.mp3",
         "pretty_name": "New Town",
         "extra_actions": None,
