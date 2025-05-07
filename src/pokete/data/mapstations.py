@@ -368,7 +368,7 @@ P│$""",
     },
     "playmap_52":{
         "gen":{
-            "additionals":["playmap_53", "playmap_54"],
+            "additionals":["playmap_53", "playmap_54","playmap_55","playmap_56"],
             "desc": "The town of Watermill is known for "
                     "the beautiful plants and wonderful "
                     "nature reserves.""",
