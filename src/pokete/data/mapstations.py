@@ -22,7 +22,7 @@ stations: dict[str, StationDict] = {
             "desc":
                 "Some small patches of grass surrounded by forrest, near "
                 "Nice Town.",
-            "a_next": "playmap_1",
+            "a_next": "playmap_57",
             "w_next": "cave_1",
             "text": r"""└─┐
 ──┘""",
@@ -386,15 +386,16 @@ ____""",
         "gen": {
             "additionals": [],
             "desc": "A new community surrounding a small field.",
-            "d_next": "playmap_1",
+            "a_next": "playmap_1",
+            "d_next": "playmap_51",
             "text": """ *P#
 ├───
  # #""",
             "color": "brightgreen"
         },
         "add": {
-            "x": 3,
-            "y": 3
+            "x": 8,
+            "y": 13
         }
     }
 
