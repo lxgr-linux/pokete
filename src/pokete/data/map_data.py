@@ -4780,7 +4780,7 @@ _   |
             "dor_playmap_52_3": {
                 "x": 0,
                 "y": 32,
-                "args": {"map": "playmap_52", "x": 200, "y": 32}
+                "args": {"map": "playmap_52", "x": 199, "y": 32}
             },
             "dor_playmap_52_4": {
                 "x": 0,
