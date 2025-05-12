@@ -1,10 +1,12 @@
 """Contains classes for notifications"""
 
 import scrap_engine as se
+
 from pokete.util import liner
+
+from ..color import Color
 from .elements import LabelBox
 from .util import get_nested
-from ..color import Color
 
 
 class Notification(LabelBox):
@@ -17,10 +19,9 @@ class Notification(LabelBox):
     def __init__(self, title, name, desc):
         self.title = title
         self.desc = desc
-        label = (
-            se.Text(title + "\n", esccode=Color.thicc, state="float")
-            + se.Text(liner(desc, 30), state="float")
-        )
+        label = se.Text(
+            title + "\n", esccode=Color.thicc, state="float"
+        ) + se.Text(liner(desc, 30), state="float")
         super().__init__(label, name)
 
     def corner_add(self, _map):
@@ -48,7 +49,7 @@ class Notifier:
         self.map = None
         self.wait = []
         self.notified = False
-        self.notification:Notification
+        self.notification: Notification
         self.counter = -1
 
     def set_vars(self, _map):
@@ -69,7 +70,7 @@ class Notifier:
         else:
             self.__notify(noti)
 
-    def __notify(self, noti:Notification):
+    def __notify(self, noti: Notification):
         """Shows a Notifications
         ARGS:
             noti: The Notification"""

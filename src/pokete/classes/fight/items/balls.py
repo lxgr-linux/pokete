@@ -46,7 +46,7 @@ class GenericPokeBall(FightItem, ABC):
                           weights=[(enem.curr.full_hp / enem.curr.hp)
                                    * self.chance + catch_chance,
                                    enem.curr.full_hp], k=1)[0]:
-            audio.switch("xDeviruchi - Decisive Battle (End).mp3")
+            audio.play("xDeviruchi - Decisive Battle (End).mp3")
             obj.add_poke(enem.curr, caught_with=self.name)
             fightmap.outp.outp(f"You caught {enem.curr.name}!")
             time.sleep(SPEED_OF_TIME * 2)

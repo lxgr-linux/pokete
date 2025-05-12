@@ -2,20 +2,23 @@ import logging
 import random
 import time
 
-from pokete.base.exception_propagation import exception_propagating_periodic_event
-from pokete.release import SPEED_OF_TIME
 from pokete.base.context import Context
+from pokete.base.exception_propagation import (
+    exception_propagating_periodic_event,
+)
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.tss import tss
+from pokete.classes.items.invitem import InvItem
+from pokete.release import SPEED_OF_TIME
+
+from ..attack import Attack
+from ..audio import audio
+from ..poke import EvoMap
 from .attack_process import AttackProcess
 from .fight_decision import Result
 from .fightmap import FightMap
-from .providers import Provider
 from .items import fight_items
-from ..attack import Attack
-from ..audio import audio
-from pokete.classes.items.invitem import InvItem
-from ..poke import EvoMap
+from .providers import Provider
 
 
 class Fight:
@@ -31,10 +34,12 @@ class Fight:
 
     def __call__(self, ctx: Context, providers: list[Provider]):
         ctx = Context(
-            PeriodicEventManager([exception_propagating_periodic_event]), self.fightmap, ctx.overview,
-            ctx.figure
+            PeriodicEventManager([exception_propagating_periodic_event]),
+            self.fightmap,
+            ctx.overview,
+            ctx.figure,
         )
-        audio.switch("xDeviruchi - Decisive Battle (Loop).mp3")
+        audio.play("xDeviruchi - Decisive Battle (Loop).mp3")
         self.providers = providers
         self.fightmap.set_overview(ctx.overview)
         self.fightmap.set_providers(providers)
@@ -43,7 +48,7 @@ class Fight:
             "and ".join(
                 f"{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}"
                 for prov in self.providers
-            )
+            ),
         )
         for prov in self.providers:
             prov.index_conf()
@@ -62,45 +67,49 @@ class Fight:
 
             while True:
                 attack_result = player.get_decision(
-                    ctx.with_overview(self.fightmap),
-                    self.fightmap, enem
+                    ctx.with_overview(self.fightmap), self.fightmap, enem
                 )
                 match attack_result.result:
                     case Result.ATTACK:
                         attack: Attack = attack_result.attack_value
-                        self.attack_process(player.curr, enem.curr, attack,
-                                            self.providers)
+                        self.attack_process(
+                            player.curr, enem.curr, attack, self.providers
+                        )
 
                     case Result.RUN_AWAY:
                         if not enem.escapable:
                             logging.warning(
-                                "[Fight]: Trying to run away from inescapbale fight")
+                                "[Fight]: Trying to run away from inescapbale fight"
+                            )
                         else:
-                            if (
-                                random.randint(0, 100) < max(
+                            if random.randint(0, 100) < max(
                                 5,
                                 min(
-                                    50 - (
-                                        player.curr.initiative - enem.curr.initiative
+                                    50
+                                    - (
+                                        player.curr.initiative
+                                        - enem.curr.initiative
                                     ),
-                                    95
-                                )
-                            )):
+                                    95,
+                                ),
+                            ):
                                 self.fightmap.failed_to_escape()
                             else:
-                                audio.switch(
+                                audio.play(
                                     "xDeviruchi - Decisive Battle (End).mp3"
                                 )
                                 self.fightmap.ran_away(player, enem)
                                 logging.info("[Fight] Ended, ran away")
                                 player.curr.poke_stats.set_run_away_battle()
-                                audio.switch(ctx.figure.map.song)
+                                audio.play(ctx.figure.map.song)
                                 return player
                     case Result.ITEM:
                         item: InvItem = attack_result.item_value
                         fight_item = fight_items.get(item.func, None)
                         if fight_item is None:
-                            raise Exception(f"fight_item doesnt exist {item.func}")
+                            raise Exception(
+                                f"fight_item doesnt exist {item.func}"
+                            )
                         match fight_item.use(self.fightmap, player, enem):
                             case 1:
                                 continue  # This is the sole reason for the while loop on top
@@ -108,7 +117,7 @@ class Fight:
                                 player.curr.poke_stats.add_battle(True)
                                 logging.info("[Fight] Ended, fightitem")
                                 time.sleep(SPEED_OF_TIME * 2)
-                                audio.switch(ctx.figure.map.song)
+                                audio.play(ctx.figure.map.song)
                                 return player
                 break
 
@@ -129,19 +138,21 @@ class Fight:
             if winner is not None:
                 if any(p.hp > 0 for p in loser.pokes[:6]):
                     if not loser.handle_defeat(
-                        ctx.with_overview(self.fightmap),
-                        self.fightmap, winner
+                        ctx.with_overview(self.fightmap), self.fightmap, winner
                     ):
                         break
                 else:
                     break
             index += 1
-        audio.switch("xDeviruchi - Decisive Battle (End).mp3")
+        audio.play("xDeviruchi - Decisive Battle (End).mp3")
 
-        xp = sum(
-            poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
-            for poke in loser.pokes
-        ) * loser.xp_multiplier
+        xp = (
+            sum(
+                poke.lose_xp + max(0, poke.lvl() - winner.curr.lvl())
+                for poke in loser.pokes
+            )
+            * loser.xp_multiplier
+        )
         self.fightmap.declare_winner(winner, xp)
 
         winner.handle_win(ctx, loser)
@@ -161,7 +172,8 @@ class Fight:
         self.fightmap.clean_up(winner)
         logging.info(
             "[Fight] Ended, %s(%s) won",
-            winner.curr.name, "player" if winner.curr.player else "enemy"
+            winner.curr.name,
+            "player" if winner.curr.player else "enemy",
         )
-        audio.switch(ctx.figure.map.song)
+        audio.play(ctx.figure.map.song)
         return winner

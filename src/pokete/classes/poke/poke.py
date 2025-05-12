@@ -1,25 +1,27 @@
 """Contains the Poke class"""
 
-import math
 import logging
+import math
 import random
 from datetime import datetime
+
 import scrap_engine as se
 
-from pokete.util import liner
-from pokete.base.context import Context
 from pokete.base.color import Color
-from ..asset_service.service import asset_service
+from pokete.base.context import Context
+from pokete.classes.model.poke import PokeDict
+from pokete.util import liner
+
 from ..asset_service.resources.base import Poke as ResourcePoke
+from ..asset_service.service import asset_service
 from ..attack import Attack
-from ..health_bar import HealthBar
-from .stats import Stats
-from ..moves import Moves
-from ..multiplayer.msg.poke import PokeDict
-from ..types import types
 from ..effects import effects
+from ..health_bar import HealthBar
 from ..learnattack import LearnAttack
+from ..moves import Moves
+from ..types import types
 from .nature import PokeNature
+from .stats import Stats
 
 
 class Poke:
@@ -32,11 +34,24 @@ class Poke:
         player: Bool whether or not the Poke belongs to the player
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
-    def __init__(self, poke:str, _xp:int, _hp="SKIP", _ap=None, _attacks=None,
-                 _effects=None, player=True, shiny=False, nature=None,
-                 stats=None):
-        self.nature = PokeNature.random() if nature is None \
+    def __init__(
+        self,
+        poke: str,
+        _xp: int,
+        _hp="SKIP",
+        _ap=None,
+        _attacks=None,
+        _effects=None,
+        player=True,
+        shiny=False,
+        nature=None,
+        stats=None,
+    ):
+        self.nature = (
+            PokeNature.random()
+            if nature is None
             else PokeNature.from_dict(nature)
+        )
         self.inf: ResourcePoke = asset_service.get_base_assets().pokes[poke]
         self.moves = Moves(self)
         # Attributes
@@ -62,18 +77,23 @@ class Poke:
         self.type = self.types[0]
         self.effects = []
         if _attacks is not None:
-            assert (len(_attacks) <= 4), f"A Pokete {poke} \
+            assert len(_attacks) <= 4, (
+                f"A Pokete {poke} \
 can't have more than 4 attacks!"
+            )
         else:
             _attacks = self.inf.attacks[:4]
         attacks = asset_service.get_base_assets().attacks
-        self.attacks = [atc for atc in _attacks
-                        if self.lvl() >= attacks[atc].min_lvl]
+        self.attacks = [
+            atc for atc in _attacks if self.lvl() >= attacks[atc].min_lvl
+        ]
         if self.shiny:
             self.hp += 5
-        self.attack_obs = [Attack(atc, str(i + 1))
-                           for i, atc in enumerate(self.attacks)
-                           if self.lvl() >= attacks[atc].min_lvl]
+        self.attack_obs = [
+            Attack(atc, str(i + 1))
+            for i, atc in enumerate(self.attacks)
+            if self.lvl() >= attacks[atc].min_lvl
+        ]
         self.set_player(player)
         # Backup vars
         self.full_hp = self.hp
@@ -87,24 +107,36 @@ can't have more than 4 attacks!"
         self.desc = se.Text(liner(self.inf.desc, se.screen_width - 34))
         self.ico = se.Box(4, 11)
         for ico in self.inf.ico:
-            esccode = (str.join("", [getattr(Color, i) for i in ico.esc])
-                       if ico.esc is not None
-                       else "")
-            self.ico.add_ob(se.Text(ico.txt, state="float",
-                                    esccode=esccode,
-                                    ignore=f'{esccode} {Color.reset}'), 0, 0)
+            esccode = (
+                str.join("", [getattr(Color, i) for i in ico.esc])
+                if ico.esc is not None
+                else ""
+            )
+            self.ico.add_ob(
+                se.Text(
+                    ico.txt,
+                    state="float",
+                    esccode=esccode,
+                    ignore=f"{esccode} {Color.reset}",
+                ),
+                0,
+                0,
+            )
         self.text_hp = se.Text(f"HP:{self.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
         self.text_name = se.Text(
             (self.name.upper() if self.shiny else self.name),
             esccode=Color.underlined + self.type.color,
-            state="float")
+            state="float",
+        )
         self.text_xp = se.Text(
             f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
 {((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}",
-            state="float")
-        self.text_type = se.Text(self.type.name.capitalize(),
-                                 state="float", esccode=self.type.color)
+            state="float",
+        )
+        self.text_type = se.Text(
+            self.type.name.capitalize(), state="float", esccode=self.type.color
+        )
         self.tril = se.Object("<", state="float")
         self.trir = se.Object(">", state="float")
         self.pball_small = se.Object("o")
@@ -115,8 +147,11 @@ can't have more than 4 attacks!"
             for eff in _effects:
                 self.effects.append(getattr(effects, eff)(self))
 
-        self.poke_stats = Stats(self.name, None) if stats is None \
+        self.poke_stats = (
+            Stats(self.name, None)
+            if stats is None
             else Stats.from_dict(stats, self.name)
+        )
 
     def set_player(self, player):
         """Sets the player attribute when the Pokete changes the owner
@@ -124,7 +159,7 @@ can't have more than 4 attacks!"
             player: Bool whether or not the Poke new belongs to the player"""
         self.player = player
         self.affil = "you" if self.player else "enemy"
-        self.ext_name = f'{self.name}({self.affil})'
+        self.ext_name = f"{self.name}({self.affil})"
 
     def set_poke_stats(self, poke_stats):
         """Sets the Poketes stats:
@@ -135,23 +170,35 @@ can't have more than 4 attacks!"
     def set_vars(self):
         """Updates/sets some vars"""
         for name in ["atc", "defense", "initiative"]:
-            setattr(self, name, round((self.lvl() + getattr(self.inf, name)
-                                       + (
-                                           2 if self.shiny else 0)) * self.nature.get_value(
-                name)))
+            setattr(
+                self,
+                name,
+                round(
+                    (
+                        self.lvl()
+                        + getattr(self.inf, name)
+                        + (2 if self.shiny else 0)
+                    )
+                    * self.nature.get_value(name)
+                ),
+            )
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
     def dict(self) -> PokeDict:
         """RETURNS:
-            A dict with all information about the Pokete"""
-        return {"name": self.identifier, "xp": self.xp, "hp": self.hp,
-                "ap": [atc.ap for atc in self.attack_obs],
-                "effects": [eff.c_name for eff in self.effects],
-                "attacks": self.attacks,
-                "shiny": self.shiny,
-                "nature": self.nature.dict(),
-                "stats": self.poke_stats.dict()}
+        A dict with all information about the Pokete"""
+        return {
+            "name": self.identifier,
+            "xp": self.xp,
+            "hp": self.hp,
+            "ap": [atc.ap for atc in self.attack_obs],
+            "effects": [eff.c_name for eff in self.effects],
+            "attacks": self.attacks,
+            "shiny": self.shiny,
+            "nature": self.nature.dict(),
+            "stats": self.poke_stats.dict(),
+        }
 
     def set_ap(self, aps):
         """Sets attack aps from a list
@@ -169,11 +216,14 @@ can't have more than 4 attacks!"
         old_lvl = self.lvl()
         self.xp += _xp
         self.poke_stats.add_xp(_xp)
-        self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
-{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
+        self.text_xp.rechar(
+            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}"
+        )
         self.text_lvl.rechar(f"Lvl:{self.lvl()}")
-        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp,
-                     self.xp)
+        logging.info(
+            "[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp
+        )
         if old_lvl < self.lvl():
             logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
             return True
@@ -181,7 +231,7 @@ can't have more than 4 attacks!"
 
     def lvl(self):
         """RETURNS:
-            Current level"""
+        Current level"""
         return int(math.sqrt(self.xp + 1))
 
     def learn_attack(self, ctx: Context):
@@ -190,8 +240,9 @@ can't have more than 4 attacks!"
             LearnAttack(self)(ctx)
 
     def get_evolve_poke(self) -> "Poke":
-        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks,
-                   shiny=self.shiny)
+        new = Poke(
+            self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny
+        )
         new.set_poke_stats(self.poke_stats)
         new.poke_stats.set_evolved_date(datetime.now())
         return new
@@ -206,10 +257,17 @@ can't have more than 4 attacks!"
     @classmethod
     def from_dict(cls, _dict):
         """Assembles a Pokete from _dict"""
-        return cls(_dict["name"], _dict["xp"], _dict["hp"], _dict["ap"],
-                   _dict.get("attacks", None), _dict.get("effects", []),
-                   shiny=_dict.get("shiny", False), nature=_dict.get("nature"),
-                   stats=_dict.get("stats", None))
+        return cls(
+            _dict["name"],
+            _dict["xp"],
+            _dict["hp"],
+            _dict["ap"],
+            _dict.get("attacks", None),
+            _dict.get("effects", []),
+            shiny=_dict.get("shiny", False),
+            nature=_dict.get("nature"),
+            stats=_dict.get("stats", None),
+        )
 
     @classmethod
     def wild(cls, poke, _xp):
@@ -233,5 +291,5 @@ can't have more than 4 attacks!"
             _xp,
             _attacks=obj.attacks,
             player=False,
-            shiny=(random.randint(0, 500) == 0)
+            shiny=(random.randint(0, 500) == 0),
         )

@@ -1,12 +1,13 @@
-from enum import Enum, auto
 import logging
+from enum import Enum, auto
 
 from pokete.classes.asset_service.service import asset_service
-from pokete.classes.multiplayer.msg.fight.fight_decision import FightDecisionData
-from pokete.classes.multiplayer.msg.player import player
-from pokete.classes.poke.poke import Poke
-from ..attack import Attack
 from pokete.classes.items.invitem import InvItem
+from pokete.classes.model.fight_decision import FightDecisionData
+from pokete.classes.model.user import User
+from pokete.classes.poke.poke import Poke
+
+from ..attack import Attack
 
 
 class Result(Enum):
@@ -16,11 +17,13 @@ class Result(Enum):
     CHOOSE_POKE = auto()
 
 
-
 class FightDecision:
     def __init__(
-        self, result: Result, attack: Attack | None = None,
-        item: InvItem | None = None, poke: int | None = None
+        self,
+        result: Result,
+        attack: Attack | None = None,
+        item: InvItem | None = None,
+        poke: int | None = None,
     ):
         self.result: Result = result
         self.attack_value: Attack | None = attack
@@ -30,16 +33,16 @@ class FightDecision:
     def to_dict(self) -> FightDecisionData:
         result: FightDecisionData = {
             "result": self.result.value,
-            "attack": None if self.attack_value is None else self.attack_value.index,
+            "attack": None
+            if self.attack_value is None
+            else self.attack_value.index,
             "item": None if self.item_value is None else self.item_value.name,
-            "poke": self.poke
+            "poke": self.poke,
         }
         return result
 
     @classmethod
-    def from_dict(
-        cls, _d: FightDecisionData, _poke: Poke, _player: player.User
-    ):
+    def from_dict(cls, _d: FightDecisionData, _poke: Poke, _player: User):
         match _d["result"]:
             case Result.ATTACK.value:
                 logging.info("%s, %s", _d["attack"], _poke.attacks)
@@ -58,7 +61,6 @@ class FightDecision:
                 return cls.choose_poke(_d["poke"])
             case _:
                 assert False
-
 
     @classmethod
     def attack(cls, attack: Attack) -> "FightDecision":

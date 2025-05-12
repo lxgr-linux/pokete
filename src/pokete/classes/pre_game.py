@@ -91,7 +91,7 @@ class PreGameMap(GameSubmap, Overview):
             [exception_propagating_periodic_event, BGMoverEvent(self)]
         )
         ctx = Context(pevm, self, self, figure)
-        audio.switch("xDeviruchi - Minigame .mp3")
+        audio.play("xDeviruchi - Minigame .mp3")
         hotkeys_from_save(
             ctx,
             session_info.get("hotkeys", {}),

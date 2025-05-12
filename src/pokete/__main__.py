@@ -7,56 +7,61 @@ For this see the comments in the definations area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
-import time
-import sys
 import logging
+import sys
+import time
 from datetime import datetime
+
 import scrap_engine as se
 
+from .base import loops
+from .base.color import Color
+from .base.context import Context
+from .base.exception_propagation import (
+    PropagatingThread,
+    exception_propagating_periodic_event,
+)
+from .base.input import ACTION_DIRECTIONS, Action, _ev, get_action
+from .base.input_loops import ask_bool, ask_text, text_input
+from .base.periodic_event_manager import PeriodicEventManager
+from .base.single_event import single_event_periodic_event
+from .base.tss import tss
+from .base.ui.notify import notifier
+from .classes import deck, roadmap, timer
+from .classes import movemap as mvp
+from .classes import ob_maps as obmp
+from .classes.achievements import achievements
+from .classes.asset_service.service import asset_service
+from .classes.audio import audio
+from .classes.classes import PlayMap
+from .classes.dex import Dex
+from .classes.fight import ProtoFigure
+from .classes.game import MapChangeExeption
+from .classes.game_context import GameContext
+from .classes.inv import inv
+from .classes.landscape import MapInteract
+from .classes.menu import Menu
+from .classes.mods import try_load_mods
+from .classes.multiplayer.communication import com_service
+from .classes.multiplayer.interactions.context_menu import ContextMenu
+from .classes.multiplayer.modeprovider import Mode, modeProvider
+from .classes.multiplayer.pc_manager import pc_manager
+from .classes.periodic_events import (
+    MovingGrassEvent,
+    MovingWaterEvent,
+    NotifierEvent,
+    TreatNPCEvent,
+)
+from .classes.poke import Poke, Stats
+from .classes.pokete_care import pokete_care
+from .classes.pre_game import PreGameMap
+from .classes.save import read_save, save
+from .classes.settings import settings
+from .classes.side_loops import Help, loading_screen
 from .figure import Bank, Inventory
 from .release import SPEED_OF_TIME
 from .startup.command import PoketeCommand
 from .startup.logging import init_logger
-from .base.ui import notifier
-from .base.input_loops import ask_bool, ask_text
-from .base.single_event import single_event_periodic_event
-from .base.input import get_action, Action, ACTION_DIRECTIONS, _ev
-from .base.context import Context
-from .base.color import Color
-from .base.input_loops import text_input
-from .base.tss import tss
-from .base.periodic_event_manager import PeriodicEventManager
-from .base.exception_propagation import PropagatingThread, exception_propagating_periodic_event
-from .base import loops
-from .classes.asset_service.service import asset_service
-from .classes.game_context import GameContext
-from .classes.multiplayer.communication import com_service
-from .classes.multiplayer.interactions.context_menu import ContextMenu
-from .classes.multiplayer.modeprovider import modeProvider, Mode
-from .classes.multiplayer.pc_manager import pc_manager
-from .classes.poke import Stats
-from .classes.fight import ProtoFigure
-from .classes import roadmap
-from .classes.inv import inv
-from .classes.menu import Menu
-from .classes.periodic_events import MovingGrassEvent, MovingWaterEvent, \
-    TreatNPCEvent, NotifierEvent
-from .classes.poke import Poke
-from .classes.pre_game import PreGameMap
-from .classes.save import read_save, save
-from .classes.classes import PlayMap
-from .classes.settings import settings
-from .classes.audio import audio
-from .classes.side_loops import loading_screen, Help
-from .classes.mods import try_load_mods
-from .classes.pokete_care import pokete_care
-from .classes import deck, timer, ob_maps as obmp, \
-    movemap as mvp
-from .classes.landscape import MapInteract
-from .classes.achievements import achievements
-from .classes.dex import Dex
-from .classes.game import MapChangeExeption
-
 
 # Class definition
 ##################
@@ -77,14 +82,15 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         r_char = _si.get("represent_char", "a")
         if len(r_char) != 1:
             logging.info(
-                "[Figure] '%s' is no valid 'represent_char', resetting", r_char)
+                "[Figure] '%s' is no valid 'represent_char', resetting", r_char
+            )
             r_char = "a"
         super().__init__(r_char, state="solid")
         ProtoFigure.__init__(
             self,
             [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]],
             escapable=True,
-            xp_multiplier=2
+            xp_multiplier=2,
         )
         Bank.__init__(self, _si.get("money", 10))
         Inventory.__init__(self, _si.get("inv", {"poketeballs": 10}))
@@ -97,8 +103,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         self.oldmap = None
         self.oldmap_name = _si.get("oldmap", "playmap_1")
         self.map_name = _si.get("map", "playmap_1")
-        self.last_center_map_name = _si.get("last_center_map",
-                                            "playmap_1")
+        self.last_center_map_name = _si.get("last_center_map", "playmap_1")
         self.x = _si["x"]
         self.y = _si["y"]
 
@@ -106,15 +111,20 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         try:
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
-            if self.map_name in ["centermap",
-                                 "shopmap"] and modeProvider.mode != Mode.MULTI:
+            if (
+                self.map_name in ["centermap", "shopmap"]
+                and modeProvider.mode != Mode.MULTI
+            ):
                 _map = obmp.ob_maps[self.map_name]
                 self.add(_map, _map.dor_back1.x, _map.dor_back1.y - 1)
             else:
                 if self.add(obmp.ob_maps[self.map_name], self.x, self.y) == 1:
                     raise se.CoordinateError(
-                        self, obmp.ob_maps.get(self.map_name, "undefined map"),
-                        self.x, self.y)
+                        self,
+                        obmp.ob_maps.get(self.map_name, "undefined map"),
+                        self.x,
+                        self.y,
+                    )
         except se.CoordinateError:
             self.add(obmp.ob_maps["playmap_1"], 6, 5)
         # self.add(obmp.ob_maps[self.map_name], self.x, self.y)
@@ -124,12 +134,11 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         ARGS:
             _si: session_info dict"""
         self.last_center_map = obmp.ob_maps.get(
-            _si.get(
-                "last_center_map",
-                "playmap_1"),
-            PlayMap())
-        self.oldmap = obmp.ob_maps.get(_si.get("oldmap", "playmap_1"),
-                                       PlayMap())
+            _si.get("last_center_map", "playmap_1"), PlayMap()
+        )
+        self.oldmap = obmp.ob_maps.get(
+            _si.get("oldmap", "playmap_1"), PlayMap()
+        )
         mvp.movemap.name_label.rechar(self.name, esccode=Color.thicc)
         mvp.movemap.code_label.rechar(self.map.pretty_name)
         self.balls_label_rechar()
@@ -157,7 +166,8 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
             caught_with: Name of ball which was used"""
         poke.set_player(True)
         poke.set_poke_stats(
-            Stats(poke.name, datetime.now(), caught_with=caught_with))
+            Stats(poke.name, datetime.now(), caught_with=caught_with)
+        )
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
@@ -186,6 +196,7 @@ class Debug:
 # General use functions
 #######################
 
+
 def autosave(figure):
     """Autosaves the game every 5 mins"""
     while True:
@@ -197,17 +208,18 @@ def autosave(figure):
 # Functions needed for mvp.movemap
 ##############################
 
-def codes(string:str, figure:Figure):
+
+def codes(string: str, figure: Figure):
     """Cheats"""
     for i in string:
         if i == "w":
             save(figure)
         elif i == "!":
-            exec(string[string.index("!") + 2:])
+            exec(string[string.index("!") + 2 :])
             return
         elif i == "e":
             try:
-                exec(string[string.index("e") + 2:])
+                exec(string[string.index("e") + 2 :])
             except Exception as exc:
                 print(exc)
             return
@@ -302,7 +314,7 @@ def _game(_map: PlayMap, figure: Figure):
     if _map.name not in figure.visited_maps:
         figure.visited_maps.append(_map.name)
 
-    audio.switch(_map.song)
+    audio.play(_map.song)
 
     mvp.movemap.code_label.rechar(figure.map.pretty_name)
     mvp.movemap.resize_view()
@@ -318,9 +330,13 @@ def _game(_map: PlayMap, figure: Figure):
             *([TreatNPCEvent()] if modeProvider.mode == Mode.SINGLE else []),
             NotifierEvent(),
             single_event_periodic_event,
-        ] + _map.extra_actions())
+        ]
+        + _map.extra_actions()
+    )
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
-    single_event_periodic_event.set_root_context(ctx)  # Terribly injected from behind
+    single_event_periodic_event.set_root_context(
+        ctx
+    )  # Terribly injected from behind
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: dict[Action, tuple] = {
         Action.DECK: (deck.deck, (ctx, 6, "Your deck")),
@@ -330,7 +346,7 @@ def _game(_map: PlayMap, figure: Figure):
         Action.CLOCK: (timer.clock, (ctx,)),
         Action.MENU: (Menu(), (ctx,)),
         Action.HELP: (Help(), (ctx,)),
-        Action.INTERACT: (ContextMenu(), (ctx,))
+        Action.INTERACT: (ContextMenu(), (ctx,)),
     }
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
@@ -338,10 +354,10 @@ def _game(_map: PlayMap, figure: Figure):
         # Directions are not being used yet
         action = get_action()
         if action.triggers(*ACTION_DIRECTIONS):
-            figure.direction = ''
+            figure.direction = ""
             figure.set(
                 figure.x + action.get_x_strength(),
-                figure.y + action.get_y_strength()
+                figure.y + action.get_y_strength(),
             )
             pc_manager.check_interactable(figure)
         elif action.triggers(*inp_dict):
@@ -355,10 +371,13 @@ def _game(_map: PlayMap, figure: Figure):
                 save(figure)
                 sys.exit()
         elif action.triggers(Action.CONSOLE):
-            inp = text_input(ctx, mvp.movemap.code_label, ":",
-                             mvp.movemap.width,
-                             (mvp.movemap.width - 2)
-                             * mvp.movemap.height - 1)[1:]
+            inp = text_input(
+                ctx,
+                mvp.movemap.code_label,
+                ":",
+                mvp.movemap.width,
+                (mvp.movemap.width - 2) * mvp.movemap.height - 1,
+            )[1:]
             mvp.movemap.code_label.outp(figure.map.pretty_name)
             codes(inp, figure)
             _ev.clear()
@@ -367,10 +386,10 @@ def _game(_map: PlayMap, figure: Figure):
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
                 figure.x < mvp.movemap.x + 6,
                 figure.y + 6 > mvp.movemap.y + mvp.movemap.height,
-                figure.y < mvp.movemap.y + 6
+                figure.y < mvp.movemap.y + 6,
             ],
             [1, -1, 0, 0],
-            [0, 0, 1, -1]
+            [0, 0, 1, -1],
         ):
             if statement:
                 mvp.movemap.set(mvp.movemap.x + x, mvp.movemap.y + y)
@@ -388,19 +407,29 @@ def intro(ctx: Context):
         ctx.figure.name = ask_text(
             ctx,
             "Welcome to Pokete!\nPlease choose your name!\n",
-            "Name:", "", "Name", 17
+            "Name:",
+            "",
+            "Name",
+            17,
         )
     mvp.movemap.name_label_rechar(ctx.figure.name)
-    mvp.movemap.text(ctx, 4, 3, ["Hello, my child.",
-                                 "You're now ten years old.",
-                                 "I think it's now time for you to travel \
+    mvp.movemap.text(
+        ctx,
+        4,
+        3,
+        [
+            "Hello, my child.",
+            "You're now ten years old.",
+            "I think it's now time for you to travel \
      the world and be a Pokete-trainer.",
-                                 "Therefore, I give you this powerful 'Steini', \
+            "Therefore, I give you this powerful 'Steini', \
      15 'Poketeballs' to catch Poketes, and a "
-                                 "'Healing potion'.",
-                                 "You will be the best Pokete-Trainer in Nice \
+            "'Healing potion'.",
+            "You will be the best Pokete-Trainer in Nice \
      town.",
-                                 "Now go out and become the best!"])
+            "Now go out and become the best!",
+        ],
+    )
 
 
 def main():
@@ -425,18 +454,27 @@ def main():
 
         figure = Figure(session_info)
 
-        pokete_care.from_dict(session_info.get("pokete_care", {
-            "entry": 0,
-            "poke": None,
-        }))
+        pokete_care.from_dict(
+            session_info.get(
+                "pokete_care",
+                {
+                    "entry": 0,
+                    "poke": None,
+                },
+            )
+        )
         timer.time.set(session_info.get("time", 0))
         _ev.set_emit_fn(timer.time.emit_input)
 
         # Achievements
         achievements.set_achieved(session_info.get("achievements", []))
-        for identifier, achievement_args in asset_service.get_base_assets().achievements.items():
-            achievements.add(identifier, achievement_args.title,
-                            achievement_args.desc)
+        for (
+            identifier,
+            achievement_args,
+        ) in asset_service.get_base_assets().achievements.items():
+            achievements.add(
+                identifier, achievement_args.title, achievement_args.desc
+            )
 
         notifier.set_vars(mvp.movemap)
 
@@ -448,7 +486,9 @@ def main():
         game_map = figure.map
         if figure.name == "DEFAULT":
             intro(
-                Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure)
+                Context(
+                    PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure
+                )
             )
             game_map = obmp.ob_maps["intromap"]
         while True:

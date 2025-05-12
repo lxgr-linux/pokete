@@ -1,25 +1,27 @@
 """Contains classes ralated to the mode choosing meni"""
 
 import sys
+
 import scrap_engine as se
 
 from pokete.base import loops
 from pokete.base.context import Context
-from pokete.base.input import get_action, ACTION_DIRECTIONS, Action
+from pokete.base.input import ACTION_DIRECTIONS, Action, get_action
 from pokete.base.input_loops import ask_ok
 from pokete.base.ui.elements import BetterChooseBox
-from .interactions import movemap_deco
-from .pc_manager import pc_manager
+
 from .. import roadmap
-from ..asset_service.service import asset_service, ValidationException
+from ..asset_service.service import ValidationException, asset_service
 from ..generate import gen_obs
 from ..landscape import MapInteract
-from ..npcs.data import base_npc_actions, npc_actions
-from ..multiplayer.modeprovider import modeProvider, Mode
+from ..multiplayer.modeprovider import Mode, modeProvider
 from ..npcs import NPC
+from ..npcs.data import base_npc_actions, npc_actions
 from ..pokete_care import PoketeCareNPCAction, pokete_care
 from . import connector
 from .communication import com_service
+from .interactions import movemap_deco
+from .pc_manager import pc_manager
 
 
 class ModeChooser(BetterChooseBox):
@@ -27,11 +29,13 @@ class ModeChooser(BetterChooseBox):
 
     def __init__(self):
         super().__init__(
-            1, [
+            1,
+            [
                 se.Text("Singleplayer", state="float"),
                 se.Text("Multiplayer", state="float"),
                 se.Text("Leave...", state="float"),
-            ], name="Mode"
+            ],
+            name="Mode",
         )
 
     def __choose(self, ctx: Context):
@@ -49,11 +53,15 @@ class ModeChooser(BetterChooseBox):
                             modeProvider.mode = Mode.SINGLE
                             movemap_deco.set_blank()
                             asset_service.load_assets_from_p_data()
-                            NPC.set_vars({
-                                **base_npc_actions, **npc_actions,
-                                "playmap_50_npc_29": PoketeCareNPCAction(
-                                    pokete_care),
-                            })
+                            NPC.set_vars(
+                                {
+                                    **base_npc_actions,
+                                    **npc_actions,
+                                    "playmap_50_npc_29": PoketeCareNPCAction(
+                                        pokete_care
+                                    ),
+                                }
+                            )
                         elif num == 1:
                             connector.connector(ctx.with_overview(self))
                             modeProvider.mode = Mode.MULTI
@@ -70,8 +78,10 @@ class ModeChooser(BetterChooseBox):
                         return
                 loops.std(ctx.with_overview(self))
         except ValidationException as e:
-            ask_ok(ctx.with_overview(self),
-                   f"An error ocured validating game data:\n{e}")
+            ask_ok(
+                ctx.with_overview(self),
+                f"An error ocured validating game data:\n{e}",
+            )
             self.__choose(ctx)
 
     def __call__(self, ctx: Context):

@@ -1,6 +1,8 @@
 from threading import Thread
 
-from .exception_propagating_periodic_event import exception_propagating_periodic_event
+from .exception_propagating_periodic_event import (
+    exception_propagating_periodic_event,
+)
 
 
 class PropagatingThread(Thread):

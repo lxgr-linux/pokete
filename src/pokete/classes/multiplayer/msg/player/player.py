@@ -1,18 +1,10 @@
 from typing import TypedDict
 
 import pokete.bs_rpc as bs_rpc
-from pokete.classes.multiplayer.msg.poke import PokeDict
-from pokete.classes.multiplayer.msg.position.update import Position
+from pokete.classes.model.user import User
 
 PLAYER_TYPE = "pokete.player.player"
 
-
-class User(TypedDict):
-    name: str
-    position: Position
-    client: None
-    pokes: list[PokeDict]
-    items: dict[str, int]
 
 class PlayerData(TypedDict):
     user: User

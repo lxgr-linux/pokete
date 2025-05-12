@@ -4,18 +4,20 @@ import time
 
 import scrap_engine as se
 
-from pokete.base.game_map import GameSubmap
-from pokete.util import liner
-from pokete.release import SPEED_OF_TIME
-from pokete.base.context import Context
-from pokete.base.color import Color
-from pokete.base.input import _ev, Action
-from pokete.base.ui import notifier, Overview
-from pokete.base.tss import tss
-from pokete.base import loops
-from .multiplayer.interactions import movemap_deco
-from .classes import OutP
 import pokete.classes.multiplayer.pc_manager as pc_manager
+from pokete.base import loops
+from pokete.base.color import Color
+from pokete.base.context import Context
+from pokete.base.game_map import GameSubmap
+from pokete.base.input import Action, _ev
+from pokete.base.tss import tss
+from pokete.base.ui import Overview
+from pokete.base.ui.notify import notifier
+from pokete.release import SPEED_OF_TIME
+from pokete.util import liner
+
+from .classes import OutP
+from .multiplayer.interactions import movemap_deco
 
 
 class Movemap(GameSubmap, Overview):
@@ -25,8 +27,7 @@ class Movemap(GameSubmap, Overview):
         width: Width of the map"""
 
     def __init__(self):
-        super().__init__(se.Map(), 0, 0,
-                         height=50, width=100, name="movemap")
+        super().__init__(se.Map(), 0, 0, height=50, width=100, name="movemap")
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
@@ -48,8 +49,9 @@ class Movemap(GameSubmap, Overview):
         """Adds needed labels to movemap"""
         self.underline.add(self, 0, self.height - 2)
         self.name_label.add(self, 2, self.height - 2)
-        self.balls_label.add(self, 4 + len(self.name_label.text),
-                             self.height - 2)
+        self.balls_label.add(
+            self, 4 + len(self.name_label.text), self.height - 2
+        )
         self.label_bg.add(self, 0, self.height - 1)
         self.label.add(self, 0, self.height - 1)
         movemap_deco.add(self, self.label.width, self.height - 1)
@@ -62,11 +64,14 @@ class Movemap(GameSubmap, Overview):
             _y: The y coordinate the distance should be assured from
             width: The distances width
             height: The distances height"""
-        for _c, i, j, _k in zip([_x, _y], ["x", "y"],
-                                [self.width, self.height], [width, height]):
+        for _c, i, j, _k in zip(
+            [_x, _y], ["x", "y"], [self.width, self.height], [width, height]
+        ):
             while _c - getattr(self, i) + _k >= j:
-                self.set(self.x + (1 if i == "x" else 0),
-                         self.y + (1 if i == "y" else 0))
+                self.set(
+                    self.x + (1 if i == "x" else 0),
+                    self.y + (1 if i == "y" else 0),
+                )
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
@@ -79,8 +84,10 @@ class Movemap(GameSubmap, Overview):
         self.assure_distance(_x, _y, 17, 10)
         self.multitext.rechar("")
         self.multitext.add(self, _x - self.x + 1, _y - self.y)
-        arr = [" < " + i + (" >" if j != len(inp_arr) - 1 else "")
-               for j, i in enumerate(inp_arr)]
+        arr = [
+            " < " + i + (" >" if j != len(inp_arr) - 1 else "")
+            for j, i in enumerate(inp_arr)
+        ]
         for text in arr:
             # Clear events and animate text appearing until any key is pressed.
             # Then wait until another key is pressed to close dialogue.
@@ -88,22 +95,14 @@ class Movemap(GameSubmap, Overview):
             self.multitext.rechar("")
             for i in range(len(text) + 1):
                 self.multitext.outp(
-                    liner(
-                        text[:i],
-                        self.width - (_x - self.x + 1),
-                        "   "
-                    )
+                    liner(text[:i], self.width - (_x - self.x + 1), "   ")
                 )
                 loops.std(ctx.with_overview(self))
                 if _ev.get() != "":
                     _ev.clear()
                     break
             self.multitext.outp(
-                liner(
-                    text,
-                    self.width - (_x - self.x + 1),
-                    "   "
-                )
+                liner(text, self.width - (_x - self.x + 1), "   ")
             )
             while _ev.get() == "":
                 loops.std(ctx.with_overview(self))
@@ -116,7 +115,7 @@ class Movemap(GameSubmap, Overview):
         """Manages recursive view resizing"""
         if notifier.notified:
             notifier.notification.remove()
-            saved_coords = (self.width - notifier.notification.x)
+            saved_coords = self.width - notifier.notification.x
         for _, rmtplr in pc_manager.pc_manager.reg.items():
             rmtplr.name_tag.remove()
         self.resize(tss.height - 1, tss.width, " ")
@@ -129,8 +128,14 @@ class Movemap(GameSubmap, Overview):
     def resize(self, height, width, background=" "):
         """Resizes the map and its attributes
         See se.Map.resize"""
-        for obj in [self.underline, self.label, self.label_bg,
-                    self.name_label, self.balls_label, movemap_deco]:
+        for obj in [
+            self.underline,
+            self.label,
+            self.label_bg,
+            self.name_label,
+            self.balls_label,
+            movemap_deco,
+        ]:
             obj.remove()
         super().resize(height, width, background)
         self.underline.resize(self.width, 1)
@@ -142,13 +147,16 @@ class Movemap(GameSubmap, Overview):
         ARGS:
             pokes: The player's Pokes"""
         self.balls_label.rechar(
-            "".join("-" if i >= len(pokes)
-                           or pokes[
-                               i].identifier == "__fallback__"
-                    else "o" if pokes[i].hp > 0
-            else "x"
-                    for i in range(6)),
-            esccode=Color.thicc)
+            "".join(
+                "-"
+                if i >= len(pokes) or pokes[i].identifier == "__fallback__"
+                else "o"
+                if pokes[i].hp > 0
+                else "x"
+                for i in range(6)
+            ),
+            esccode=Color.thicc,
+        )
 
     def name_label_rechar(self, name):
         """Rechars name_label and sets balls_label correctly

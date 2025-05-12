@@ -2,10 +2,11 @@ import random
 
 from pokete.base.color import Color
 from pokete.base.periodic_event_manager import PeriodicEvent
-from pokete.base.ui import notifier
-from .landscape import Meadow, HighGrass
-from .npcs import NPC
+from pokete.base.ui.notify import notifier
+
 from . import timer
+from .landscape import HighGrass, Meadow
+from .npcs import NPC
 from .settings import settings
 
 
@@ -32,7 +33,8 @@ class MovingGrassEvent(PeriodicEvent):
                 if obj.char == Color.green + ";" + Color.reset:
                     if random.randint(0, 600) == 0:
                         obj.rechar(
-                            Color.thicc + Color.green + ";" + Color.reset)
+                            Color.thicc + Color.green + ";" + Color.reset
+                        )
                         check_figure_redraw(obj)
                 else:
                     obj.rechar(Color.green + ";" + Color.reset)
@@ -51,10 +53,16 @@ class MovingWaterEvent(PeriodicEvent):
             for obj in self.all_water_objs:
                 if random.randint(0, 9) == 0:
                     if " " not in obj.char:
-                        obj.rechar([i for i in
-                                    [Color.lightblue + "~" + Color.reset,
-                                     Color.blue + "~" + Color.reset]
-                                    if i != obj.char][0])
+                        obj.rechar(
+                            [
+                                i
+                                for i in [
+                                    Color.lightblue + "~" + Color.reset,
+                                    Color.blue + "~" + Color.reset,
+                                ]
+                                if i != obj.char
+                            ][0]
+                        )
                         check_figure_redraw(obj)
 
 

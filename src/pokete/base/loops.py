@@ -1,9 +1,10 @@
 """Standardized loops components"""
 
-from threading import Event
 import time
+from threading import Event
 
 from pokete import release
+
 from .context import Context
 from .input import Action, get_action
 from .tss import tss
@@ -17,7 +18,7 @@ def easy_exit(ctx: Context):
         std(ctx)
 
 
-def event_wait(ctx: Context, event:Event):
+def event_wait(ctx: Context, event: Event):
     """Loops until an event is set"""
     while True:
         if event.is_set():

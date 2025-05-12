@@ -1,15 +1,7 @@
-from typing import TypedDict
-
 import pokete.bs_rpc as bs_rpc
+from pokete.classes.model.fight_decision import FightDecisionData
 
 FIGHT_DECISION_TYPE = "pokete.fight.fightDecision"
-
-
-class FightDecisionData(TypedDict):
-    result: int
-    attack: str | None
-    item: str | None
-    poke: int | None
 
 
 class FightDecision(bs_rpc.Body):
