@@ -104,6 +104,10 @@ class Station(StationObject):
             Action.DOWN: "s",
             Action.LEFT: "a",
             Action.RIGHT: "d",
+            Action.UP_LEFT: "h",
+            Action.DOWN_LEFT: "j",
+            Action.UP_RIGHT: "k",
+            Action.DOWN_RIGHT: "l",
         }[inp]
         if (n_e := getattr(self, inp + "_next")) not in ["", None]:
             self.unchoose()
