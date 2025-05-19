@@ -163,13 +163,25 @@ class BetterChooseBox(Box):
             inp = Action.LEFT
         elif input.triggers(Action.RIGHT):
             inp = Action.RIGHT
-        else:
+        elif input.triggers(Action.DOWN):
             inp = Action.DOWN
+        elif input.triggers(Action.UP_LEFT):
+            inp = Action.UP_LEFT
+        elif input.triggers(Action.UP_RIGHT):
+            inp = Action.UP_RIGHT
+        elif input.triggers(Action.DOWN_LEFT):
+            inp = Action.DOWN_LEFT
+        else:
+            inp = Action.DOWN_RIGHT
         _c = {
             Action.UP: (-1, 0),
             Action.DOWN: (1, 0),
             Action.LEFT: (0, -1),
             Action.RIGHT: (0, 1),
+            Action.UP_LEFT: (-1, -1),
+            Action.UP_RIGHT: (-1, 1),
+            Action.DOWN_LEFT: (1, -1),
+            Action.DOWN_RIGHT: (1, 1),
         }[inp]
         self.set_index((self.index[0] + _c[0])
                        % len([i for i in self.nest_label_obs if len(i) >

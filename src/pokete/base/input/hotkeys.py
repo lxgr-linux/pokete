@@ -15,6 +15,10 @@ class Action(Enum):
     RIGHT = auto()
     UP = auto()
     DOWN = auto()
+    UP_LEFT = auto()
+    UP_RIGHT = auto()
+    DOWN_LEFT = auto()
+    DOWN_RIGHT = auto()
     ACCEPT = auto()
     CANCEL = auto()
 
@@ -83,22 +87,23 @@ class ActionList(list):
 
     def get_y_strength(self) -> int:
         """Gets move in Y direction"""
-        if self.triggers(Action.UP):
+        if self.triggers(Action.UP, Action.UP_LEFT, Action.UP_RIGHT):
             return -1
-        if self.triggers(Action.DOWN):
+        if self.triggers(Action.DOWN, Action.DOWN_LEFT, Action.DOWN_RIGHT):
             return 1
         return 0
 
     def get_x_strength(self) -> int:
         """Gets move in X direction"""
-        if self.triggers(Action.RIGHT):
+        if self.triggers(Action.RIGHT, Action.UP_RIGHT, Action.DOWN_RIGHT):
             return 1
-        if self.triggers(Action.LEFT):
+        if self.triggers(Action.LEFT, Action.UP_LEFT, Action.DOWN_LEFT):
             return -1
         return 0
 
 
-ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
+ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN, 
+                    Action.UP_LEFT, Action.UP_RIGHT, Action.DOWN_LEFT, Action.DOWN_RIGHT)
 ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
 hotkey_mappings = {
@@ -160,6 +165,11 @@ hotkey_mappings = {
     'v': ActionList([Action.QUICK_ATC_4]),
 
     '#': ActionList([Action.INTERACT]),
+
+    'h': ActionList([Action.UP_LEFT]),
+    'j': ActionList([Action.DOWN_LEFT]),
+    'k': ActionList([Action.UP_RIGHT]),
+    'l': ActionList([Action.DOWN_RIGHT]),
 }
 
 

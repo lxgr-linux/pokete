@@ -239,14 +239,19 @@ class Deck(detail.Informer, Overview):
                 inp = action
                 break
         for direction, not_out_of_bounds, index_delta, out_of_bounds_pos in zip(
-            [Action.LEFT, Action.RIGHT, Action.DOWN, Action.UP],
+            [Action.LEFT, Action.RIGHT, Action.DOWN, Action.UP,
+             Action.UP_LEFT, Action.UP_RIGHT, Action.DOWN_LEFT, Action.DOWN_RIGHT],
             [
                 self.index.index != 0,
                 self.index.index != len(self.pokes) - 1,
                 self.index.index + 2 < len(self.pokes),
                 self.index.index - 2 >= 0,
+                self.index.index - 2 >= 0 and self.index.index != 0,
+                self.index.index - 2 >= 0 and self.index.index != len(self.pokes) - 1,
+                self.index.index + 2 < len(self.pokes) and self.index.index != 0,
+                self.index.index + 2 < len(self.pokes) and self.index.index != len(self.pokes) - 1,
             ],
-            [-1, 1, 2, -2],
+            [-1, 1, 2, -2, -3, -1, 1, 3],
             [
                 len(self.pokes) - 1,
                 0,
@@ -254,7 +259,11 @@ class Deck(detail.Informer, Overview):
                 [
                     i for i in range(len(self.pokes))
                     if i % 2 == self.index.index % 2
-                ][-1]
+                ][-1],
+                len(self.pokes) - 2,
+                1,
+                len(self.pokes) - 1,
+                0
             ]
         ):
             if inp == direction:
