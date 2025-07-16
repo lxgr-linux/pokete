@@ -1,24 +1,26 @@
 """This file contains all relevant classes for fight"""
 
 import time
+
 import scrap_engine as se
 
-from pokete.release import SPEED_OF_TIME
 from pokete.base import game_map as gm
+from pokete.base import loops
 from pokete.base.context import Context
+from pokete.base.input import Action, get_action
 from pokete.base.input_loops import ask_bool
 from pokete.base.tss import tss
-from pokete.base import loops
 from pokete.base.ui import Overview
-from pokete.base.input import Action, get_action
 from pokete.base.ui.elements import StdFrame2
-from pokete.classes.items.invitem import InvItem
-from pokete.classes.asset_service.service import asset_service
 from pokete.classes import animations, deck
-from ..fight_decision import FightDecision
-from ..providers import ProtoFigure, Provider
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.items.invitem import InvItem
+from pokete.release import SPEED_OF_TIME
+
 from ...classes import OutP
 from ...settings import settings
+from ..fight_decision import FightDecision
+from ..providers import ProtoFigure, Provider
 from .attack import AttackBox
 from .inv import InvBox
 
@@ -48,10 +50,8 @@ class FightMap(gm.GameMap, Overview):
   |__O__|
   \_____/""")
         # visual objects
-        self.frame_big = StdFrame2(self.height - 5, self.width,
-                                   state="float")
-        self.frame_small = se.Frame(height=4, width=self.width,
-                                    state="float")
+        self.frame_big = StdFrame2(self.height - 5, self.width, state="float")
+        self.frame_small = se.Frame(height=4, width=self.width, state="float")
         self.e_underline = se.Text("----------------+", state="float")
         self.e_sideline = se.Square("|", 1, 3, state="float")
         self.p_upperline = se.Text("+----------------", state="float")
@@ -74,11 +74,13 @@ class FightMap(gm.GameMap, Overview):
     def add_base_boxes(self):
         """Adds the basic map layout"""
         self.outp.add(self, 1, self.height - 4)
-        self.p_upperline.add(self, self.width - 1 - len(self.p_upperline.text),
-                             self.height - 10)
+        self.p_upperline.add(
+            self, self.width - 1 - len(self.p_upperline.text), self.height - 10
+        )
         self.frame_big.add(self, 0, 0)
-        self.p_sideline.add(self, self.width - 1 - len(self.p_upperline.text),
-                            self.height - 9)
+        self.p_sideline.add(
+            self, self.width - 1 - len(self.p_upperline.text), self.height - 9
+        )
         self.frame_small.add(self, 0, self.height - 5)
         self.label.add(self, 0, self.height - 1)
 
@@ -87,8 +89,13 @@ class FightMap(gm.GameMap, Overview):
         player_added = self.providers[0].curr.ico.added
         enem_added = self.providers[1].curr.ico.added
         for obj in [
-            self.outp, self.p_upperline, self.providers[1].curr.ico,
-            self.frame_big, self.p_sideline, self.frame_small, self.label
+            self.outp,
+            self.p_upperline,
+            self.providers[1].curr.ico,
+            self.frame_big,
+            self.p_sideline,
+            self.frame_small,
+            self.label,
         ]:
             obj.remove()
         self.clean_up(self.providers[0], resize=True)
@@ -111,9 +118,14 @@ class FightMap(gm.GameMap, Overview):
             resize: Whether or not the box is beeing resized"""
         for prov in providers:
             for obj in (
-                prov.curr.text_name, prov.curr.text_lvl, prov.curr.text_hp,
-                prov.curr.ico, prov.curr.hp_bar, prov.curr.tril, prov.curr.trir,
-                prov.curr.pball_small
+                prov.curr.text_name,
+                prov.curr.text_lvl,
+                prov.curr.text_hp,
+                prov.curr.ico,
+                prov.curr.hp_bar,
+                prov.curr.tril,
+                prov.curr.trir,
+                prov.curr.pball_small,
             ):
                 obj.remove()
             if not resize:
@@ -136,7 +148,8 @@ class FightMap(gm.GameMap, Overview):
         player.curr.ico.add(self, 3, self.height - 10)
         if not resize:
             self.box.box.add_c_obs(
-                [atc.label for atc in player.curr.attack_obs])
+                [atc.label for atc in player.curr.attack_obs]
+            )
             self.box.box.set_index(0)
 
     def __add_1(self, player, enem):
@@ -152,10 +165,10 @@ class FightMap(gm.GameMap, Overview):
                 enem.curr.text_lvl,
                 enem.curr.text_hp,
                 enem.curr.ico,
-                enem.curr.hp_bar
+                enem.curr.hp_bar,
             ),
             (7, 16, 1, 1, 1, self.width - 14, 8),
-            (3, 3, 1, 2, 3, 2, 3)
+            (3, 3, 1, 2, 3, 2, 3),
         ):
             obj.add(self, _x, _y)
         if enem.curr.identifier in player.caught_pokes:
@@ -201,13 +214,18 @@ class FightMap(gm.GameMap, Overview):
             player: The players provider
             enem: The enemys provider"""
         quick_attacks = [
-                            Action.QUICK_ATC_1, Action.QUICK_ATC_2,
-                            Action.QUICK_ATC_3, Action.QUICK_ATC_4
-                        ][:len(player.curr.attack_obs)]
-        self.outp.append(se.Text(("\n" if "\n" not in self.outp.text
-                                  else "") +
-                                 "What do you want to do?",
-                                 state="float"))
+            Action.QUICK_ATC_1,
+            Action.QUICK_ATC_2,
+            Action.QUICK_ATC_3,
+            Action.QUICK_ATC_4,
+        ][: len(player.curr.attack_obs)]
+        self.outp.append(
+            se.Text(
+                ("\n" if "\n" not in self.outp.text else "")
+                + "What do you want to do?",
+                state="float",
+            )
+        )
         while True:  # Inputloop for general options
             action = get_action()
             if action.triggers(*quick_attacks):
@@ -223,28 +241,26 @@ class FightMap(gm.GameMap, Overview):
                 if attack != "":
                     return FightDecision.attack(attack)
             elif action.triggers(Action.RUN):
-                if (
-                    not enem.escapable
-                    or not ask_bool(
+                if not enem.escapable or not ask_bool(
                     ctx,
                     "Do you really want to run away?",
-                )):
+                ):
                     continue
                 return FightDecision.run_away()
             elif action.triggers(Action.CHOOSE_ITEM):
                 invitems = asset_service.get_items()
                 items: list[InvItem] = [
                     invitems[i]
-                    for i in player.inv
-                    if invitems[i].func is not None
-                       and player.inv[i] > 0]
+                    for i in player.get_inv()
+                    if invitems[i].func is not None and player.get_inv()[i] > 0
+                ]
                 if not items:
                     self.outp.outp(
                         "You don't have any items left!\n"
                         "What do you want to do?"
                     )
                     continue
-                item = self.invbox(ctx, items, player.inv)
+                item = self.invbox(ctx, items, player.get_inv())
                 if item is None:
                     continue
 
@@ -267,8 +283,14 @@ class FightMap(gm.GameMap, Overview):
         time.sleep(SPEED_OF_TIME * 1)
         self.__add_2(providers[0])
         self.fast_change(
-            [providers[0].curr.ico, self.deadico2, self.deadico1,
-             providers[0].curr.ico], providers[0].curr.ico)
+            [
+                providers[0].curr.ico,
+                self.deadico2,
+                self.deadico1,
+                providers[0].curr.ico,
+            ],
+            providers[0].curr.ico,
+        )
         self.outp.outp(f"You used {providers[0].curr.name}")
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
@@ -276,10 +298,7 @@ class FightMap(gm.GameMap, Overview):
     def add_enemy_after_choosing(self, winner, enem):
         self.__add_1(winner, enem)
         ico = enem.curr.ico
-        self.fast_change(
-            [ico, self.deadico2, self.deadico1, ico],
-            ico
-        )
+        self.fast_change([ico, self.deadico2, self.deadico1, ico], ico)
         self.outp.outp(f"{enem.name} used {enem.curr.name}!")
         self.show()
         time.sleep(SPEED_OF_TIME * 2)
@@ -319,23 +338,20 @@ class FightMap(gm.GameMap, Overview):
 
     def win_animation(self, winner: Provider):
         time.sleep(SPEED_OF_TIME * 1)
-        self.outp.outp(
-            f"{winner.curr.name} reached lvl {winner.curr.lvl()}!"
-        )
+        self.outp.outp(f"{winner.curr.name} reached lvl {winner.curr.lvl()}!")
         winner.curr.moves.shine()
         time.sleep(SPEED_OF_TIME * 0.5)
 
     def declare_winner(self, winner: Provider, xp: int):
         time.sleep(SPEED_OF_TIME * 1)
         self.outp.outp(
-            f"{winner.curr.ext_name} won!" +
-            (f'\nXP + {xp}' if winner.curr.player else '')
+            f"{winner.curr.ext_name} won!"
+            + (f"\nXP + {xp}" if winner.curr.player else "")
         )
 
     def show_used_all_attacks(self, player: Provider):
         time.sleep(SPEED_OF_TIME * 2)
-        self.outp.outp(
-            f"{player.curr.ext_name} has used all its' attacks!")
+        self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
         time.sleep(SPEED_OF_TIME * 3)
 
     def show_death(self, loser: Provider):
@@ -350,15 +366,16 @@ class FightMap(gm.GameMap, Overview):
         time.sleep(SPEED_OF_TIME * 2)
         self.clean_up(*providers)
 
-    def show_effectivity(self, eff: int, n_hp: int, random_factor: int,
-                         attacker, attack):
+    def show_effectivity(
+        self, eff: int, n_hp: int, random_factor: int, attacker, attack
+    ):
         eff_text = {
             eff < 1: "\nThat was not effective! ",
             eff > 1: "\nThat was very effective! ",
             eff == 1 or n_hp == 0: "",
-            random_factor == 0: f"{attacker.name} missed!"}[True]
-        self.outp.outp(
-            f'{attacker.ext_name} used {attack.name}! {eff_text}')
+            random_factor == 0: f"{attacker.name} missed!",
+        }[True]
+        self.outp.outp(f"{attacker.ext_name} used {attack.name}! {eff_text}")
 
     def show_weather(self, weather):
         self.outp.outp(weather.info)
@@ -369,7 +386,7 @@ class FightMap(gm.GameMap, Overview):
 
     def show_hurt_it_self(self, attacker):
         time.sleep(SPEED_OF_TIME * 1)
-        self.outp.outp(f'{attacker.ext_name} hurt itself!')
+        self.outp.outp(f"{attacker.ext_name} hurt itself!")
 
 
 if __name__ == "__main__":

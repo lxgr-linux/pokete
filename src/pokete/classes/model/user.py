@@ -1,4 +1,4 @@
-from typing_extensions import TypedDict
+from typing import TypedDict
 
 from pokete.classes.model.poke import PokeDict
 from pokete.classes.model.position import Position

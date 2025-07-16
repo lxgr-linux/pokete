@@ -6,24 +6,32 @@ from abc import ABC, abstractmethod
 
 from pokete.base.context import Context
 from pokete.base.input_loops import ask_bool
+
 from ..achievements import achievements
-from .fight_decision import FightDecision
 from ..poke import Poke
+from .fight_decision import FightDecision
+
 
 class Provider(ABC):
     """Provider can hold and manage Poketes
     ARGS:
         pokes: The Poketes the Provider holds"""
 
-    def __init__(self,
-        pokes: list[Poke], escapable:bool, xp_multiplier:int,
-        inv: dict[str, int] | None = None
+    def __init__(
+        self,
+        pokes: list[Poke],
+        escapable: bool,
+        xp_multiplier: int,
+        inv: dict[str, int] | None = None,
     ):
         self.pokes = pokes
         self.escapable = escapable
         self.xp_multiplier = xp_multiplier
         self.play_index = 0
-        self.inv: dict[str, int] = {} if inv is None else inv
+        self.__inv: dict[str, int] = {} if inv is None else inv
+
+    def get_inv(self) -> dict[str, int]:
+        return self.__inv
 
     def heal(self):
         """Heals all poketes"""
@@ -49,15 +57,14 @@ class Provider(ABC):
             i for i, poke in enumerate(self.pokes) if poke.hp > 0
         )
 
-    def remove_item(self, item:str, amount:int=1):
+    def remove_item(self, item: str, amount: int = 1):
         """Removes and item from the providers inventory
-            Accept for the player implementation that shouldnt do anything"""
+        Accept for the player implementation that shouldnt do anything"""
         return
 
     @abstractmethod
     def get_decision(
-        self, ctx: Context, fightmap: "FightMap",
-        enem
+        self, ctx: Context, fightmap: "FightMap", enem
     ) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
@@ -96,12 +103,12 @@ class NatureProvider(Provider):
         ARGS:
             fightmap: fightmap object
             enem: The enemy Provider"""
-        return FightDecision.attack(random.choices(
-            self.curr.attack_obs,
-            weights=[
-                i.ap for i in self.curr.attack_obs
-            ]
-        )[0])
+        return FightDecision.attack(
+            random.choices(
+                self.curr.attack_obs,
+                weights=[i.ap for i in self.curr.attack_obs],
+            )[0]
+        )
 
     def greet(self, fightmap):
         """Outputs a greeting text at the fights start:
@@ -145,7 +152,8 @@ class ProtoFigure(Provider):
             bool: whether or not a Pokete was choosen"""
         if winner.escapable:
             if ask_bool(
-                ctx, "Do you want to choose another Pokete?",
+                ctx,
+                "Do you want to choose another Pokete?",
             ):
                 success = fightmap.choose_poke(ctx, self)
                 if not success:
@@ -159,7 +167,7 @@ class ProtoFigure(Provider):
             fightmap.choose_poke(ctx, self, False)
         return True
 
-    def handle_win(self, ctx:Context, loser):
+    def handle_win(self, ctx: Context, loser):
         if hasattr(loser, "trainer"):
             achievements.achieve("first_duel")
         self.balls_label_rechar()

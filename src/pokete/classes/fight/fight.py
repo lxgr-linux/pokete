@@ -8,6 +8,7 @@ from pokete.base.exception_propagation import (
 )
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.tss import tss
+from pokete.classes.fight.items.item import RoundContinuation
 from pokete.classes.items.invitem import InvItem
 from pokete.release import SPEED_OF_TIME
 
@@ -111,9 +112,11 @@ class Fight:
                                 f"fight_item doesnt exist {item.func}"
                             )
                         match fight_item.use(self.fightmap, player, enem):
-                            case 1:
+                            case RoundContinuation.CONTINUE_ATTACK:
                                 continue  # This is the sole reason for the while loop on top
-                            case 2:
+                            case RoundContinuation.ENEMY_ATTACK:
+                                break
+                            case RoundContinuation.EXIT:
                                 player.curr.poke_stats.add_battle(True)
                                 logging.info("[Fight] Ended, fightitem")
                                 time.sleep(SPEED_OF_TIME * 2)
