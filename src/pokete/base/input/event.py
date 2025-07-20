@@ -1,6 +1,7 @@
 """Contains event var"""
 
 
+import logging
 from typing import Callable
 
 
