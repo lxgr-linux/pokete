@@ -422,13 +422,13 @@ def intro(ctx: Context):
         [
             "Hello, my child.",
             "You're now ten years old.",
-            "I think it's now time for you to travel \
-     the world and be a Pokete-trainer.",
-            "Therefore, I give you this powerful 'Steini', \
-     15 'Poketeballs' to catch Poketes, and a "
+            "I think it's now time for you to travel "
+            "the world and become a Pokete-trainer.",
+            "Therefore, I'll give you this powerful 'Steini', "
+            "15 'Poketeballs' to catch Poketes, and a "
             "'Healing potion'.",
-            "You will be the best Pokete-Trainer in Nice \
-     town.",
+            "You will be the best Pokete-Trainer in Nice "
+            "town.",
             "Now go out and become the best!",
         ],
     )
