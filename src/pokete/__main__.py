@@ -62,6 +62,7 @@ from .figure import Bank, Inventory
 from .release import SPEED_OF_TIME
 from .startup.command import PoketeCommand
 from .startup.logging import init_logger
+from pokete import release
 
 # Class definition
 ##################
@@ -435,7 +436,10 @@ def intro(ctx: Context):
 def main():
     """Main function"""
 
-    do_logging, load_mods = PoketeCommand(audio).run()
+    do_logging, load_mods, save_dir = PoketeCommand(audio).run()
+
+    release.SAVEPATH = save_dir
+    release.SAVEPATH.mkdir(parents=True, exist_ok=True)
 
     init_logger(do_logging)
 

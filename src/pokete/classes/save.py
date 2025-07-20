@@ -59,7 +59,6 @@ def read_save():
     """Reads from savefile
     RETURNS:
         session_info dict"""
-    Path(release.SAVEPATH).mkdir(parents=True, exist_ok=True)
     # Default test session_info
     _si = {
         "user": "DEFAULT",

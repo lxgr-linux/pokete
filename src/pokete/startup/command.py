@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 import sys
 from pokete.release import CODENAME, SAVEPATH, VERSION, SAVEPATH
 from pokete.util.command.command import Flag, RootCommand
@@ -14,7 +15,7 @@ class PoketeCommand:
         self.load_mods = True
         audio.use_audio = True
         self.audio = audio
-        self.save_dir = SAVEPATH
+        self.save_dir:Path = SAVEPATH
 
     def root_fn(self, ex: str, options: list[str],
                 flags: dict[str, list[str]]):
@@ -27,11 +28,11 @@ class PoketeCommand:
                 self.audio.use_audio = False
             elif self.save_dir_flag.is_flag(flag):
                 if len(values) != 1:
-                    print(f"Error: Flag {flag} takes exactly one argument")
+                    logging.error("Flag '%s' takes exactly one argument", flag)
                     sys.exit(1)
-                self.save_dir = flags[flag][0]
+                self.save_dir = Path(flags[flag][0])
 
-    def run(self) -> tuple[bool, bool]:
+    def run(self) -> tuple[bool, bool, Path]:
         c = RootCommand(
             "Pokete", f"{CODENAME} v{VERSION}", self.root_fn,
             flags=[self.log_flag, self.mods_flag, self.audio_flag, self.save_dir_flag],
@@ -45,4 +46,4 @@ class PoketeCommand:
 
         c.exec()
 
-        return self.do_logging, self.load_mods
+        return self.do_logging, self.load_mods, self.save_dir
