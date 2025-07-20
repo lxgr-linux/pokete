@@ -61,7 +61,7 @@ Flags:
 {self.__line_setter(flag_lines, line_spaces)}
 """ if self.flags else ""}
 {f"\n{self.additional_info}\n" if self.additional_info else ""}
-Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2024""")
+Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2025""")
 
     def run(self, ex: str, options: list[str],
             flags: dict[str, list[str]]):
