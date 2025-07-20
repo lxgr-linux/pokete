@@ -403,6 +403,7 @@ def intro(ctx: Context):
     """Intro to Pokete"""
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = obmp.ob_maps["intromap"]
+    mvp.movemap.resize_view()
     mvp.movemap.full_show()
     while ctx.figure.name in ["DEFAULT", ""]:
         ctx.figure.name = ask_text(
