@@ -18,10 +18,10 @@ class Recogniser:
         "[B": "Key.down",
         "[C": "Key.right",
         "[D": "Key.left",
-        "P": "Key.up",
-        "M": "Key.down",
-        "K": "Key.right",
-        "H": "Key.left",
+        "H": "Key.up",
+        "P": "Key.down",
+        "M": "Key.right",
+        "K": "Key.left",
     }
     UNIX_KEY_MAPPING: dict[int, str] = {
         13: "Key.enter",
@@ -50,12 +50,11 @@ class Recogniser:
             def recogniser():
                 """Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime"""
                 while True:
-                    if msvcrt.kbhit():
-                        char = msvcrt.getwch()
-                        self.set_event(
-                            char,
-                            self.WINDOWS_KEY_MAPPING,
-                        )
+                    char = msvcrt.getwch()
+                    self.set_event(
+                        char,
+                        self.WINDOWS_KEY_MAPPING,
+                    )
 
         else:
             import termios
