@@ -32,7 +32,7 @@ class ModeChooser(BetterChooseBox):
             1,
             [
                 se.Text("Singleplayer", state="float"),
-                se.Text("Multiplayer", state="float"),
+                se.Text("Multiplayer (Beta)", state="float"),
                 se.Text("Leave...", state="float"),
             ],
             name="Mode",

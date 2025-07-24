@@ -1,1956 +1,3429 @@
 {
-    "items": {},
-    "pokes": {
-        "__fallback__": {
-            "name": "",
-            "hp": 20,
-            "atc": 0,
-            "defense": 0,
-            "attacks": [],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "",
-            "lose_xp": 0,
-            "rarity": 0,
-            "types": [
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 0,
-            "ico": [
-                {
-                    "txt": " ",
-                    "esc": null
-                }
-            ]
-        },
-        "steini": {
-            "name": "Steini",
-            "hp": 25,
-            "atc": 2,
-            "defense": 4,
-            "attacks": [
-                "tackle",
-                "politure",
-                "stone_crush",
-                "brick_throw"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A squared stone that can be readily found just lying around.",
-            "lose_xp": 3,
-            "rarity": 1,
-            "types": [
-                "stone",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 5,
-            "ico": [
-                {
-                    "txt": " +-------+\n | o   o |\n |  www  |\n +-------+ ",
-                    "esc": null
-                }
-            ]
-        },
-        "mowcow": {
-            "name": "Mowcow",
-            "hp": 20,
-            "atc": 2,
-            "defense": 3,
-            "attacks": [
-                "tackle"
-            ],
-            "pool": [
-                "supercow_power",
-                "meat_skewer"
-            ],
-            "miss_chance": 0,
-            "desc": "A cow-like creature found in meadows.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "    ^__^\n    (oo)\n    (__)",
-                    "esc": null
-                }
-            ]
-        },
-        "bigstone": {
-            "name": "Bigstone",
-            "hp": 30,
-            "atc": 2,
-            "defense": 13,
-            "attacks": [
-                "snooze",
-                "politure",
-                "brick_throw"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A big and heavy stone made from one of the hardest materials.",
-            "lose_xp": 5,
-            "rarity": 0.3,
-            "types": [
-                "stone",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 5,
-            "ico": [
-                {
-                    "txt": "+---------+\n|  o   o  |\n|   ---   |\n+---------+",
-                    "esc": null
-                }
-            ]
-        },
-        "poundi": {
-            "name": "Poundi",
-            "hp": 25,
-            "atc": 2,
-            "defense": 3,
-            "attacks": [
-                "tackle",
-                "politure",
-                "earch_quake"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A powerful and heavy stone Pokete that lives in mountain caves.",
-            "lose_xp": 4,
-            "rarity": 0.7,
-            "types": [
-                "stone",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 4,
-            "ico": [
-                {
-                    "txt": "   A-A-A\n  < o o >\n  < --- >\n   VvVvV",
-                    "esc": null
-                }
-            ]
-        },
-        "lilstone": {
-            "name": "Lilstone",
-            "hp": 20,
-            "atc": 1,
-            "defense": 2,
-            "attacks": [
-                "tackle",
-                "politure",
-                "pepple_fire"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A small but powerful stone Pokete that lives in the mountains.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "stone",
-                "normal"
-            ],
-            "evolve_poke": "bigstone",
-            "evolve_lvl": 25,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "\n   _____\n   |'\u1d55'|\n   \u203e\u203e\u203e\u203e\u203e",
-                    "esc": null
-                }
-            ]
-        },
-        "rosi": {
-            "name": "Rosi",
-            "hp": 20,
-            "atc": 0,
-            "defense": 1,
-            "attacks": [
-                "sucker",
-                "super_sucker"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A plant Pokete that's often mistaken for a normal flower.",
-            "lose_xp": 2,
-            "rarity": 0.8,
-            "types": [
-                "plant"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "\n    (@)\n     |\n    \\|/",
-                    "esc": null
-                }
-            ]
-        },
-        "wheeto": {
-            "name": "Wheeto",
-            "hp": 20,
-            "atc": 3,
-            "defense": 2,
-            "attacks": [
-                "root_slap",
-                "special_smell"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A plant Pokete found in Agrawos; it has special 'Powers'.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "plant"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "    \\ /\n    \\|/\n    \\|/\n     |",
-                    "esc": null
-                }
-            ]
-        },
-        "saugh": {
-            "name": "Saugh",
-            "hp": 20,
-            "atc": 4,
-            "defense": 2,
-            "attacks": [
-                "mind_blow",
-                "fire_ball",
-                "sand_throw"
-            ],
-            "pool": [
-                "hiding"
-            ],
-            "miss_chance": 1,
-            "desc": "The dark and fiery souls of those who got burned to death by the hot sun!",
-            "lose_xp": 4,
-            "rarity": 0.5,
-            "types": [
-                "undead",
-                "fire"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 5,
-            "ico": [
-                {
-                    "txt": "\n    .,\n  , .. .\n ...,..,.",
-                    "esc": [
-                        "yellow"
-                    ]
-                },
-                {
-                    "txt": "\n\n   *  *",
-                    "esc": [
-                        "thicc",
-                        "red"
-                    ]
-                }
-            ]
-        },
-        "gobost": {
-            "name": "Gobost",
-            "hp": 20,
-            "atc": 2,
-            "defense": 1,
-            "attacks": [
-                "tackle",
-                "mind_blow",
-                "heart_touch"
-            ],
-            "pool": [
-                "cry"
-            ],
-            "miss_chance": 0,
-            "desc": "A scary ghost Pokete that lives in caves and old houses.",
-            "lose_xp": 3,
-            "rarity": 1,
-            "types": [
-                "undead",
-                "normal"
-            ],
-            "evolve_poke": "angrilo",
-            "evolve_lvl": 25,
-            "initiative": 6,
-            "ico": [
-                {
-                    "txt": " .\u2591\u2591\u2591\u2591\u2591\u2591\u2591.\n \u2591\u2591o\u2591\u2591\u2591o\u2591\u2591\n \u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\n \u2591 \u2591 \u2591 \u2591 \u2591",
-                    "esc": null
-                }
-            ]
-        },
-        "angrilo": {
-            "name": "Angrilo",
-            "hp": 25,
-            "atc": 3,
-            "defense": 2,
-            "attacks": [
-                "tackle",
-                "mind_blow",
-                "wet_slap",
-                "heart_touch"
-            ],
-            "pool": [
-                "cry"
-            ],
-            "miss_chance": 0,
-            "desc": "A ghost Pokete that will scare your pants off.",
-            "lose_xp": 4,
-            "rarity": 0.6,
-            "types": [
-                "undead",
-                "normal",
-                "water"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 7,
-            "ico": [
-                {
-                    "txt": " .\u2591\u2591\u2591\u2591\u2591\u2591\u2591.\n \u2591\u2591\\\u2591\u2591\u2591/\u2591\u2591\n .\u2591\u2591( )\u2591\u2591.\n.         .",
-                    "esc": null
-                }
-            ]
-        },
-        "vogli": {
-            "name": "Vogli",
-            "hp": 20,
-            "atc": 6,
-            "defense": 1,
-            "attacks": [
-                "tackle",
-                "power_pick"
-            ],
-            "pool": [
-                "cry"
-            ],
-            "miss_chance": 0,
-            "desc": "A very common bird Pokete; it lives everywhere.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "flying",
-                "normal",
-                "bird"
-            ],
-            "evolve_poke": "voglo",
-            "initiative": 6,
-            "evolve_lvl": 20,
-            "ico": [
-                {
-                    "txt": "    A\n   <')\n    www*\n    ||     ",
-                    "esc": null
-                }
-            ]
-        },
-        "voglo": {
-            "name": "Voglo",
-            "hp": 20,
-            "atc": 7,
-            "defense": 1,
-            "attacks": [
-                "tackle",
-                "power_pick",
-                "wing_hit",
-                "brooding"
-            ],
-            "pool": [
-                "cry"
-            ],
-            "miss_chance": 0,
-            "desc": "A very aggressive bird Pokete that can only be found in the woods.",
-            "lose_xp": 3,
-            "rarity": 0.8,
-            "types": [
-                "flying",
-                "normal",
-                "bird"
-            ],
-            "evolve_poke": "voglus",
-            "evolve_lvl": 35,
-            "initiative": 7,
-            "ico": [
-                {
-                    "txt": "    ?\n   >\u00b4)\n    www*\n    ||     ",
-                    "esc": null
-                }
-            ]
-        },
-        "voglus": {
-            "name": "Voglus",
-            "hp": 25,
-            "atc": 9,
-            "defense": 3,
-            "attacks": [
-                "tackle",
-                "power_pick",
-                "storm_gust",
-                "brooding"
-            ],
-            "pool": [
-                "cry"
-            ],
-            "miss_chance": 0,
-            "desc": "A very aggressive and hard to find bird Pokete.",
-            "lose_xp": 5,
-            "rarity": 0.2,
-            "types": [
-                "flying",
-                "normal",
-                "bird"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 8,
-            "ico": [
-                {
-                    "txt": "    /\n   > }\n    WWW'\n    ||",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    \u00b4",
-                    "esc": [
-                        "thicc",
-                        "red"
-                    ]
-                }
-            ]
-        },
-        "ostri": {
-            "name": "Ostri",
-            "hp": 20,
-            "atc": 8,
-            "defense": 0,
-            "attacks": [
-                "tackle",
-                "eye_pick",
-                "brooding"
-            ],
-            "pool": [
-                "cry"
-            ],
-            "miss_chance": 0,
-            "desc": "A very aggressive bird Pokete that lives near deserts; it will try to peck out your eyes.",
-            "rarity": 0.6,
-            "lose_xp": 4,
-            "types": [
-                "flying",
-                "normal",
-                "bird"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 7,
-            "ico": [
-                {
-                    "txt": "   !\n  >\u00b4)\n    \\www'\n     ||",
-                    "esc": null
-                }
-            ]
-        },
-        "karpi": {
-            "name": "Karpi",
-            "hp": 15,
-            "atc": 0,
-            "defense": 0,
-            "attacks": [
-                "tackle"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A harmless water Pokete that can be found everywhere.",
-            "lose_xp": 1,
-            "rarity": 3,
-            "types": [
-                "water",
-                "normal"
-            ],
-            "evolve_poke": "kartmen",
-            "evolve_lvl": 30,
-            "initiative": 0,
-            "ico": [
-                {
-                    "txt": "\n\n  <\u00b0))))><\n           ",
-                    "esc": null
-                }
-            ]
-        },
-        "w\u00fcrgos": {
-            "name": "W\u00fcrgos",
-            "hp": 20,
-            "atc": 3,
-            "defense": 0,
-            "attacks": [
-                "chocer",
-                "bite",
-                "poison_bite"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A dangerous snake Pokete.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "poison",
-                "normal",
-                "snake"
-            ],
-            "evolve_poke": "choka",
-            "evolve_lvl": 30,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "  >'({{{\n  }}}}}}}\n {{{{{{{{{\n           ",
-                    "esc": null
-                }
-            ]
-        },
-        "choka": {
-            "name": "Choka",
-            "hp": 25,
-            "atc": 5,
-            "defense": 1,
-            "attacks": [
-                "chocer",
-                "bite",
-                "poison_bite",
-                "power_bite"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A fucking dangerous and enormous snake Pokete.",
-            "lose_xp": 4,
-            "rarity": 0.5,
-            "types": [
-                "poison",
-                "normal",
-                "snake"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 4,
-            "ico": [
-                {
-                    "txt": " _______\n/____ * \\\n (   \\   \\\n\\______   \\ ",
-                    "esc": null
-                }
-            ]
-        },
-        "treenator": {
-            "name": "Treenator",
-            "hp": 25,
-            "atc": 2,
-            "defense": 2,
-            "attacks": [
-                "apple_drop",
-                "bark_hardening",
-                "branch_stab",
-                "root_strangler"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A scary and dangerous apple tree.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "plant"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "    (()\n   (()))\n     H\n     H",
-                    "esc": null
-                }
-            ]
-        },
-        "bato": {
-            "name": "Bato",
-            "hp": 20,
-            "atc": 3,
-            "defense": 1,
-            "attacks": [
-                "bite",
-                "cry"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "An annoying flying rat.",
-            "lose_xp": 3,
-            "rarity": 1.3,
-            "types": [
-                "flying",
-                "flying"
-            ],
-            "evolve_poke": "bator",
-            "evolve_lvl": 20,
-            "initiative": 6,
-            "ico": [
-                {
-                    "txt": "    ___\nWW\\/* *\\/WW\n   \\v-v/",
-                    "esc": null
-                }
-            ]
-        },
-        "bator": {
-            "name": "Bator",
-            "hp": 25,
-            "atc": 4,
-            "defense": 2,
-            "attacks": [
-                "bite",
-                "cry",
-                "poison_bite",
-                "wing_hit"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A chongus flying rat.",
-            "lose_xp": 4,
-            "rarity": 0.2,
-            "types": [
-                "flying",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 8,
-            "ico": [
-                {
-                    "txt": "    ___\nWW\\/o o\\/WW\n   |v-v|\n   \\___/",
-                    "esc": null
-                }
-            ]
-        },
-        "blub": {
-            "name": "Blub",
-            "hp": 20,
-            "atc": 2,
-            "defense": 1,
-            "attacks": [
-                "tackle",
-                "bubble_bomb",
-                "bubble_shield"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "Very delicious and low fat water Pokete.",
-            "lose_xp": 5,
-            "rarity": 1,
-            "types": [
-                "water",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "  _____\n / o   \\\n >   v  ><\n \\_____/",
-                    "esc": null
-                }
-            ]
-        },
-        "owol": {
-            "name": "Owol",
-            "hp": 20,
-            "atc": 7,
-            "defense": 2,
-            "attacks": [
-                "pick",
-                "wing_hit",
-                "cry"
-            ],
-            "pool": [
-                "cry"
-            ],
-            "miss_chance": 0,
-            "desc": "A nocturnal Pokete that is looking for small children to eat as a midnight snack.",
-            "lose_xp": 2,
-            "rarity": 0.5,
-            "types": [
-                "flying",
-                "normal",
-                "bird"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 3,
-            "night_active": true,
-            "ico": [
-                {
-                    "txt": "   ,___,\n   {o,o}\n   /)_)\n    \"\"\n",
-                    "esc": null
-                }
-            ]
-        },
-        "rato": {
-            "name": "Rato",
-            "hp": 20,
-            "atc": 4,
-            "defense": 2,
-            "attacks": [
-                "tackle",
-                "tail_wipe"
-            ],
-            "pool": [
-                "bite",
-                "power_bite"
-            ],
-            "miss_chance": 0,
-            "desc": "An annoying rat.",
-            "lose_xp": 2,
-            "rarity": 1.3,
-            "types": [
-                "normal"
-            ],
-            "evolve_poke": "ratatat",
-            "evolve_lvl": 25,
-            "initiative": 6,
-            "ico": [
-                {
-                    "txt": "   ^---^\n   \\o o/\n   >\\./<",
-                    "esc": null
-                }
-            ]
-        },
-        "ratatat": {
-            "name": "Ratatat",
-            "hp": 25,
-            "atc": 7,
-            "defense": 3,
-            "attacks": [
-                "tackle",
-                "tail_wipe",
-                "power_bite"
-            ],
-            "pool": [
-                "bite"
-            ],
-            "miss_chance": 0,
-            "desc": "A damn dangerous and enourmous rat; it will bite of your leg.",
-            "lose_xp": 2,
-            "rarity": 0.7,
-            "types": [
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 7,
-            "ico": [
-                {
-                    "txt": "   ^---^\n   \\   /\n   >VvV<\n    ^^^",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    * *",
-                    "esc": [
-                        "thicc",
-                        "green"
-                    ]
-                }
-            ]
-        },
-        "hornita": {
-            "name": "Hornita",
-            "hp": 20,
-            "atc": 6,
-            "defense": 2,
-            "attacks": [
-                "tackle",
-                "meat_skewer",
-                "tail_wipe"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A majestic horse that is always looking for something to pick with its horn.",
-            "lose_xp": 3,
-            "rarity": 1,
-            "types": [
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": " \\\n =')~\n   (\u00af\u00af\u00af\u00af)~\n   //\u00af\u00af\\\\ ",
-                    "esc": null
-                }
-            ]
-        },
-        "horny": {
-            "name": "Horny",
-            "hp": 20,
-            "atc": 5,
-            "defense": 1,
-            "attacks": [
-                "tackle",
-                "meat_skewer"
-            ],
-            "pool": [
-                "tail_wipe"
-            ],
-            "miss_chance": 0.2,
-            "desc": "A teenage unicorn in the middle of puberty.",
-            "rarity": 1,
-            "lose_xp": 2,
-            "types": [
-                "normal"
-            ],
-            "evolve_poke": "hornita",
-            "evolve_lvl": 20,
-            "initiative": 4,
-            "ico": [
-                {
-                    "txt": "  ,\n =')\n   (\u00af\u00af\u00af)~\n   //\u00af\\\\ ",
-                    "esc": null
-                }
-            ]
-        },
-        "bushy": {
-            "name": "Bushy",
-            "hp": 25,
-            "atc": 2,
-            "defense": 1,
-            "attacks": [
-                "tackle",
-                "bark_hardening"
-            ],
-            "pool": [
-                "apple_drop"
-            ],
-            "miss_chance": 0,
-            "desc": "A bush, and just a bush. But watch out!",
-            "lose_xp": 1,
-            "rarity": 1,
-            "types": [
-                "plant",
-                "normal"
-            ],
-            "evolve_poke": "treenator",
-            "evolve_lvl": 20,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "\n    (()\n   (()))",
-                    "esc": null
-                }
-            ]
-        },
-        "wolfior": {
-            "name": "Wolfior",
-            "hp": 20,
-            "atc": 6,
-            "defense": 3,
-            "attacks": [
-                "tackle",
-                "fire_bite",
-                "ash_throw"
-            ],
-            "pool": [
-                "cry",
-                "bite",
-                "power_bite"
-            ],
-            "miss_chance": 0,
-            "desc": "A fiery wolf straight from hell that likes to burn 11 years old butts off.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "fire",
-                "normal"
-            ],
-            "evolve_poke": "wolfiro",
-            "evolve_lvl": 25,
-            "initiative": 4,
-            "ico": [
-                {
-                    "txt": "   ^---^\n   (   )\n   >(.)<",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    * *\n        ",
-                    "esc": [
-                        "thicc",
-                        "red"
-                    ]
-                }
-            ]
-        },
-        "wolfiro": {
-            "name": "Wolfiro",
-            "hp": 25,
-            "atc": 7,
-            "defense": 4,
-            "attacks": [
-                "tackle",
-                "fire_bite",
-                "ash_throw",
-                "fire_ball"
-            ],
-            "pool": [
-                "cry",
-                "bite",
-                "power_bite"
-            ],
-            "miss_chance": 0,
-            "desc": "A fiery wolf from hell on steroids.",
-            "lose_xp": 4,
-            "rarity": 1,
-            "types": [
-                "fire",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 5,
-            "ico": [
-                {
-                    "txt": "   \\^-^/\n   {   }\n   >{.}<",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    * *\n        ",
-                    "esc": [
-                        "thicc",
-                        "red"
-                    ]
-                }
-            ]
-        },
-        "lindemon": {
-            "name": "Lindemon",
-            "hp": 30,
-            "atc": 8,
-            "defense": 8,
-            "attacks": [
-                "bite",
-                "wind_blow",
-                "flame_throw"
-            ],
-            "pool": [
-                "cry",
-                "power_bite"
-            ],
-            "miss_chance": 0,
-            "desc": "An ancient dragon Pokete famous for destroying cities and villages.",
-            "lose_xp": 8,
-            "rarity": 0.05,
-            "types": [
-                "fire",
-                "flying"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 6,
-            "ico": [
-                {
-                    "txt": "      __\n/v___/  \\\n\\-^-/_   \\\n      \\_",
-                    "esc": null
-                },
-                {
-                    "txt": " .\n      *",
-                    "esc": [
-                        "thicc",
-                        "red"
-                    ]
-                }
-            ]
-        },
-        "rollator": {
-            "name": "Rollator",
-            "hp": 25,
-            "atc": 2,
-            "defense": 5,
-            "attacks": [
-                "tackle",
-                "power_roll"
-            ],
-            "pool": [
-                "hiding"
-            ],
-            "miss_chance": 0,
-            "desc": "A big chunk of stone and dirt that rolls around.",
-            "lose_xp": 3,
-            "rarity": 0.5,
-            "types": [
-                "ground",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "   _____\n  / o o \\\n  | ___ |\n  \\_____/",
-                    "esc": null
-                }
-            ]
-        },
-        "clampi": {
-            "name": "Clampi",
-            "hp": 25,
-            "atc": 2,
-            "defense": 7,
-            "attacks": [
-                "tackle",
-                "bubble_bomb",
-                "shell_pinch"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A shell that lives deep in the sea or near bays; it's pretty hard to crack.",
-            "lose_xp": 5,
-            "rarity": 0.8,
-            "types": [
-                "water",
-                "normal"
-            ],
-            "evolve_poke": "crabbat",
-            "evolve_lvl": 20,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "    ___\n  -/   \\-\n  -\\___/-",
-                    "esc": null
-                },
-                {
-                    "txt": "\n     *",
-                    "esc": [
-                        "lightblue"
-                    ]
-                }
-            ]
-        },
-        "crabbat": {
-            "name": "Crabbat",
-            "hp": 30,
-            "atc": 3,
-            "defense": 8,
-            "attacks": [
-                "tackle",
-                "bubble_gun",
-                "earch_quake",
-                "shell_pinch"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A crusty Pokete that loves to pinch big toes.",
-            "lose_xp": 5,
-            "rarity": 0.8,
-            "types": [
-                "water",
-                "ground",
-                "normal"
-            ],
-            "evolve_poke": "rustacean",
-            "evolve_lvl": 40,
-            "initiative": 4,
-            "ico": [
-                {
-                    "txt": " (  ___  )\n  \\-   -/\n   ^   ^",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    * *",
-                    "esc": [
-                        "lightblue"
-                    ]
-                }
-            ]
-        },
-        "rustacean": {
-            "name": "Rustacean",
-            "hp": 35,
-            "atc": 4,
-            "defense": 9,
-            "attacks": [
-                "toe_breaker",
-                "bubble_gun",
-                "earch_quake",
-                "shell_pinch"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A crusty Pokete that will pinch your toes and check whether or not you borrowed something.",
-            "lose_xp": 5,
-            "rarity": 0.5,
-            "types": [
-                "water",
-                "ground",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 5,
-            "ico": [
-                {
-                    "txt": " {  ^^^  }\n  \\-   -/\n   ^   ^",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    * *",
-                    "esc": [
-                        "lightblue"
-                    ]
-                }
-            ]
-        },
-        "electrode": {
-            "name": "Electrode",
-            "hp": 20,
-            "atc": 5,
-            "defense": 2,
-            "attacks": [
-                "shock",
-                "charging",
-                "mega_arch"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A small floating ball that will give you a shock.",
-            "lose_xp": 3,
-            "rarity": 0.8,
-            "types": [
-                "electro"
-            ],
-            "evolve_poke": "kakraholt",
-            "evolve_lvl": 30,
-            "initiative": 4,
-            "ico": [
-                {
-                    "txt": "\n    ( )",
-                    "esc": null
-                },
-                {
-                    "txt": "\n     +",
-                    "esc": [
-                        "lightblue"
-                    ]
-                }
-            ]
-        },
-        "cubl": {
-            "name": "Cubl",
-            "hp": 20,
-            "atc": 3,
-            "defense": 3,
-            "attacks": [
-                "tackle",
-                "freeze",
-                "snow_storm"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A small ice cube.",
-            "lose_xp": 2,
-            "rarity": 1.2,
-            "types": [
-                "ice",
-                "normal"
-            ],
-            "evolve_poke": "spikl",
-            "evolve_lvl": 30,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "   -----\n   |   |\n   -----",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    * *",
-                    "esc": [
-                        "lightblue"
-                    ]
-                },
-                {
-                    "txt": "  /     \\\n\n  \\     /",
-                    "esc": [
-                        "cyan"
-                    ]
-                }
-            ]
-        },
-        "spikl": {
-            "name": "Spikl",
-            "hp": 25,
-            "atc": 4,
-            "defense": 4,
-            "attacks": [
-                "tackle",
-                "freeze",
-                "snow_storm",
-                "sword_of_ice"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A block of ice.",
-            "lose_xp": 4,
-            "rarity": 0.9,
-            "types": [
-                "ice",
-                "normal",
-                "water"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "  -------\n  |     |\n  -------",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    * *",
-                    "esc": [
-                        "lightblue"
-                    ]
-                },
-                {
-                    "txt": " /       \\\n\n \\       /",
-                    "esc": [
-                        "cyan"
-                    ]
-                }
-            ]
-        },
-        "confuso": {
-            "name": "Confuso",
-            "hp": 20,
-            "atc": 1,
-            "defense": 1,
-            "attacks": [
-                "confusion"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A ball floating around in dark woods and caves, that will confuse the shit out of you.",
-            "lose_xp": 6,
-            "rarity": 0.5,
-            "types": [
-                "undead"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "\n     _\n    (_) ",
-                    "esc": null
-                },
-                {
-                    "txt": "        }\n      {\n       }",
-                    "esc": [
-                        "purple"
-                    ]
-                },
-                {
-                    "txt": "       }\n       {",
-                    "esc": [
-                        "lightblue"
-                    ]
-                }
-            ]
-        },
-        "poisopla": {
-            "name": "Poisopla",
-            "hp": 20,
-            "atc": 3,
-            "defense": 3,
-            "attacks": [
-                "root_slap",
-                "poison_spores",
-                "leaf_storm"
-            ],
-            "pool": [
-                "poison_thorn"
-            ],
-            "miss_chance": 0.1,
-            "desc": "A unsuspicious plant.",
-            "lose_xp": 6,
-            "rarity": 0.9,
-            "types": [
-                "plant",
-                "poison"
-            ],
-            "evolve_poke": "megapois",
-            "evolve_lvl": 20,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "\n       .\n .__ |/|\n  \\_\\||/",
-                    "esc": null
-                },
-                {
-                    "txt": "\n     w",
-                    "esc": [
-                        "purple"
-                    ]
-                }
-            ]
-        },
-        "radishon": {
-            "name": "Radishon",
-            "hp": 15,
-            "atc": 3,
-            "defense": 5,
-            "attacks": [
-                "root_slap",
-                "hiding",
-                "rain_dance",
-                "encouragement"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A small plant Pokete found burried in the ground.",
-            "lose_xp": 3,
-            "rarity": 0.5,
-            "types": [
-                "plant",
-                "ground"
-            ],
-            "evolve_poke": "radishuk",
-            "evolve_lvl": 20,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": " .__ / __.\n  \\_\\|/_/",
-                    "esc": [
-                        "thicc",
-                        "green"
-                    ]
-                },
-                {
-                    "txt": "\n\n   /o o\\\n   \\ - /",
-                    "esc": [
-                        "purple"
-                    ]
-                }
-            ]
-        },
-        "radishuk": {
-            "name": "Radishuk",
-            "hp": 20,
-            "atc": 4,
-            "defense": 6,
-            "attacks": [
-                "root_slap",
-                "hiding",
-                "encouragement",
-                "root_strangler"
-            ],
-            "pool": [
-                "rain_dance"
-            ],
-            "miss_chance": 0.1,
-            "desc": "A small plant Pokete deeply burried in the ground.",
-            "lose_xp": 4,
-            "rarity": 0.3,
-            "types": [
-                "plant",
-                "ground"
-            ],
-            "evolve_poke": "radishull",
-            "evolve_lvl": 40,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": " .__   __.\n  \\_\\_/_/",
-                    "esc": [
-                        "thicc",
-                        "green"
-                    ]
-                },
-                {
-                    "txt": "\n\n   /o o\\\n   \\ - /",
-                    "esc": [
-                        "purple"
-                    ]
-                },
-                {
-                    "txt": "\n\n  _       \\\n\\/      _/",
-                    "esc": [
-                        "yellow"
-                    ]
-                }
-            ]
-        },
-        "radishull": {
-            "name": "Radishull",
-            "hp": 25,
-            "atc": 5,
-            "defense": 7,
-            "attacks": [
-                "root_slap",
-                "hiding",
-                "encouragement",
-                "root_strangler"
-            ],
-            "pool": [
-                "rain_dance"
-            ],
-            "miss_chance": 0.1,
-            "desc": "A small plant Pokete found in the ground.",
-            "lose_xp": 6,
-            "rarity": 0.2,
-            "types": [
-                "plant",
-                "ground"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "\n\n   /o o\\\n   \\ - /",
-                    "esc": [
-                        "purple"
-                    ]
-                },
-                {
-                    "txt": "  _  \\  _\\\n / \\_/_/\n  _       \\\n\\/      _/",
-                    "esc": [
-                        "yellow"
-                    ]
-                }
-            ]
-        },
-        "megapois": {
-            "name": "Megapois",
-            "hp": 25,
-            "atc": 3,
-            "defense": 5,
-            "attacks": [
-                "root_slap",
-                "poison_spores",
-                "leaf_storm",
-                "poison_thorn"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A not at all suspicious plant.",
-            "lose_xp": 6,
-            "rarity": 0.9,
-            "types": [
-                "plant",
-                "poison"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "\n    |/.\n.__\\|/|\n \\_\\||/ ",
-                    "esc": null
-                },
-                {
-                    "txt": "    w w\n  w",
-                    "esc": [
-                        "purple"
-                    ]
-                }
-            ]
-        },
-        "corcos_day": {
-            "name": "Corcos",
-            "hp": 15,
-            "atc": 2,
-            "defense": 5,
-            "attacks": [
-                "tackle",
-                "hiding"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A small heavy thing that can be found on the ground; it may reveal something wonderful later.",
-            "lose_xp": 1,
-            "rarity": 1,
-            "night_active": false,
-            "types": [
-                "ground"
-            ],
-            "evolve_poke": "raupathor_day",
-            "evolve_lvl": 20,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "\n    |\\\n    |'\\\n    \\_|",
-                    "esc": null
-                }
-            ]
-        },
-        "corcos_night": {
-            "name": "Corcos",
-            "hp": 15,
-            "atc": 2,
-            "defense": 5,
-            "attacks": [
-                "tackle",
-                "hiding"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A small heavy thing that can be found on the ground; it may reveal something wonderful later.",
-            "lose_xp": 1,
-            "rarity": 1,
-            "night_active": true,
-            "types": [
-                "ground"
-            ],
-            "evolve_poke": "raupathor_night",
-            "evolve_lvl": 20,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "\n    |\\\n    |'\\\n    \\_|",
-                    "esc": null
-                }
-            ]
-        },
-        "raupathor_day": {
-            "name": "Raupathor",
-            "hp": 20,
-            "atc": 3,
-            "defense": 4,
-            "attacks": [
-                "tackle",
-                "hiding"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A small caterpillar found on leaves.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "night_active": false,
-            "types": [
-                "ground",
-                "plant"
-            ],
-            "evolve_poke": "schmetterling",
-            "evolve_lvl": 30,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "\n  .__.__.\n ()__)__)}\u00b4\n  '  '  '\n ",
-                    "esc": null
-                }
-            ]
-        },
-        "raupathor_night": {
-            "name": "Raupathor",
-            "hp": 20,
-            "atc": 3,
-            "defense": 4,
-            "attacks": [
-                "tackle",
-                "hiding"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A small caterpillar found on leaves.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "night_active": true,
-            "types": [
-                "ground",
-                "undead"
-            ],
-            "evolve_poke": "mothor",
-            "evolve_lvl": 30,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "\n   __ __\n ()__)__)}\u00b4",
-                    "esc": null
-                },
-                {
-                    "txt": "\n  .  .  .\n\n  '  '  '",
-                    "esc": [
-                        "thicc",
-                        "blue"
-                    ]
-                }
-            ]
-        },
-        "schmetterling": {
-            "name": "Schmetterling",
-            "hp": 20,
-            "atc": 5,
-            "defense": 2,
-            "attacks": [
-                "schmetter",
-                "wing_hit"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A butterfly that will schmetter you away.",
-            "lose_xp": 3,
-            "rarity": 1,
-            "night_active": false,
-            "types": [
-                "flying"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 4,
-            "ico": [
-                {
-                    "txt": " .__ o __.\n  \\_\\|/_/\n  /_/'\\_\\ ",
-                    "esc": null
-                }
-            ]
-        },
-        "mothor": {
-            "name": "Mothor",
-            "hp": 20,
-            "atc": 6,
-            "defense": 2,
-            "attacks": [
-                "schmetter",
-                "wing_hit"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A dark butterfly that will schmetter you away.",
-            "lose_xp": 4,
-            "rarity": 1,
-            "night_active": true,
-            "types": [
-                "flying",
-                "undead"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 4,
-            "ico": [
-                {
-                    "txt": "  __`o\u00b4__\n  \\_\\|/_/\n  /_/'\\_\\ ",
-                    "esc": null
-                },
-                {
-                    "txt": " .       .\n\n\n \u00b4       `",
-                    "esc": [
-                        "thicc",
-                        "blue"
-                    ]
-                }
-            ]
-        },
-        "lil_nut": {
-            "name": "Lil Nut",
-            "hp": 20,
-            "atc": 1,
-            "defense": 3,
-            "attacks": [
-                "tackle",
-                "ground_hit"
-            ],
-            "pool": [
-                "dick_energy",
-                "hiding"
-            ],
-            "miss_chance": 0.1,
-            "desc": "A very small whatever that sticks out of the ground.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "ground",
-                "normal"
-            ],
-            "evolve_poke": "dicki",
-            "evolve_lvl": 35,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "\n\n    __\n   ('')",
-                    "esc": null
-                }
-            ]
-        },
-        "dicki": {
-            "name": "Dicki",
-            "hp": 20,
-            "atc": 2,
-            "defense": 4,
-            "attacks": [
-                "tackle",
-                "dick_energy",
-                "hiding",
-                "ground_hit"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "A little whatever that sticks out of the ground.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "ground",
-                "normal"
-            ],
-            "evolve_poke": "dicko",
-            "evolve_lvl": 55,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "\n    __\n   ('')\n   |  |",
-                    "esc": null
-                }
-            ]
-        },
-        "dicko": {
-            "name": "Dicko",
-            "hp": 25,
-            "atc": 3,
-            "defense": 5,
-            "attacks": [
-                "tackle",
-                "dick_energy",
-                "hiding",
-                "ground_hit"
-            ],
-            "pool": [],
-            "miss_chance": 0.1,
-            "desc": "An even bigger whatever that sticks out of the ground.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "ground",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "    __\n   ('')\n   |  |\n   |  |",
-                    "esc": null
-                }
-            ]
-        },
-        "diamondos": {
-            "name": "Diamondos",
-            "hp": 20,
-            "atc": 2,
-            "defense": 15,
-            "attacks": [
-                "tackle",
-                "politure",
-                "dazzle"
-            ],
-            "pool": [
-                "dia_stab",
-                "dia_spikes"
-            ],
-            "miss_chance": 0.1,
-            "desc": "A precious diamond that can only be found in the darkest caves.",
-            "lose_xp": 2,
-            "rarity": 1,
-            "types": [
-                "stone"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 2,
-            "ico": [
-                {
-                    "txt": "\n\n    o o\n     -",
-                    "esc": null
-                },
-                {
-                    "txt": "\n    /\\ /\n       >\n   <_",
-                    "esc": [
-                        "cyan"
-                    ]
-                },
-                {
-                    "txt": "\n      ^\n   <\n      _>",
-                    "esc": [
-                        "white"
-                    ]
-                }
-            ]
-        },
-        "kartmen": {
-            "name": "Kartmen",
-            "hp": 25,
-            "atc": 5,
-            "defense": 3,
-            "attacks": [
-                "tackle",
-                "bubble_bomb",
-                "bubble_gun"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A freshwater fighting fish Pokete.",
-            "lose_xp": 5,
-            "rarity": 1,
-            "types": [
-                "water",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "  _((((\n /O   _\\/))\n >_((((/\\))\n   ((((",
-                    "esc": null
-                }
-            ]
-        },
-        "bablbam": {
-            "name": "Bablbam",
-            "hp": 20,
-            "atc": 2,
-            "defense": 1,
-            "attacks": [
-                "tackle",
-                "mind_blow"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "Dead or alive entity with slow movement and mental ability.",
-            "lose_xp": 3,
-            "rarity": 1,
-            "types": [
-                "undead"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 1,
-            "ico": [
-                {
-                    "txt": "   (.)~\n  -)_(-U\n / ; \\ ",
-                    "esc": null
-                }
-            ]
-        },
-        "kakraholt": {
-            "name": "Kakraholt",
-            "hp": 25,
-            "atc": 6,
-            "defense": 3,
-            "attacks": [
-                "shock",
-                "charging",
-                "mega_arch",
-                "tackle"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A terrestrial crab full of accumulated electrical energy.",
-            "lose_xp": 4,
-            "rarity": 0.5,
-            "types": [
-                "electro",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 5,
-            "ico": [
-                {
-                    "txt": "     _\n    O O\n   /( )\\\n  /\\|^|/\\  ",
-                    "esc": null
-                },
-                {
-                    "txt": "\n\n->>     ->>",
-                    "esc": [
-                        "yellow"
-                    ]
-                },
-                {
-                    "txt": "\n   +   +\n     +     ",
-                    "esc": [
-                        "lightblue"
-                    ]
-                }
-            ]
-        },
-        "pavous": {
-            "name": "Pavous",
-            "hp": 20,
-            "atc": 3,
-            "defense": 0,
-            "attacks": [
-                "poison_bite",
-                "bite",
-                "webattack"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "A tiny spider like Pokete.",
-            "lose_xp": 4,
-            "rarity": 1,
-            "types": [
-                "poison",
-                "normal"
-            ],
-            "evolve_poke": "uberpavous",
-            "evolve_lvl": 30,
-            "initiative": 3,
-            "ico": [
-                {
-                    "txt": "  (0)(0)\n /  ''  \\\nw        w",
-                    "esc": null
-                }
-            ]
-        },
-        "uberpavous": {
-            "name": "Uberpavous",
-            "hp": 25,
-            "atc": 5,
-            "defense": 1,
-            "attacks": [
-                "poison_bite",
-                "bite",
-                "webattack",
-                "power_bite"
-            ],
-            "pool": [],
-            "miss_chance": 0,
-            "desc": "Dnagerous spider like Pokete with strong mandibles.",
-            "lose_xp": 4,
-            "rarity": 0.5,
-            "types": [
-                "poison",
-                "normal"
-            ],
-            "evolve_poke": "",
-            "evolve_lvl": 0,
-            "initiative": 5,
-            "ico": [
-                {
-                    "txt": "  /\\~-~/\\\n //\\0_0/\\\\\n//  '''  \\\\\nW         W",
-                    "esc": null
-                }
-            ]
-        }
+  "items": {
+    "poketeball": {
+      "pretty_name": "Poketeball",
+      "desc": "A ball you can use to catch Poketes",
+      "price": 2,
+      "fn": "poketeball"
     },
-    "attacks": {},
-    "natures": {},
-    "weathers": {},
-    "types": {},
-    "sub_types": [],
-    "achievements": {}
+    "superball": {
+      "pretty_name": "Superball",
+      "desc": "A ball you can use to catch Poketes with an increased chance",
+      "price": 10,
+      "fn": "superball"
+    },
+    "hyperball": {
+      "pretty_name": "Hyperball",
+      "desc": "For catching Poketes with a waaay higher chance",
+      "fn": "hyperball"
+    },
+    "healing_potion": {
+      "pretty_name": "Healing potion",
+      "desc": "Heals a Pokete with 5 HP",
+      "price": 15,
+      "fn": "heal_potion"
+    },
+    "super_potion": {
+      "pretty_name": "Super potion",
+      "desc": "Heals a Pokete with 15 HP",
+      "price": 25,
+      "fn": "super_potion"
+    },
+    "ap_potion": {
+      "pretty_name": "AP potion",
+      "desc": "Refills the Poketes attack APs.",
+      "price": 100,
+      "fn": "ap_potion"
+    },
+    "treat": {
+      "pretty_name": "Treat",
+      "desc": "Upgrades a Pokete by a whole level."
+    },
+    "shut_the_fuck_up_stone": {
+      "pretty_name": "'Shut the fuck up' stone",
+      "desc": "Makes trainer leaving you alone"
+    }
+  },
+  "pokes": {
+    "__fallback__": {
+      "name": "",
+      "hp": 20,
+      "atc": 0,
+      "defense": 0,
+      "attacks": [],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "",
+      "lose_xp": 0,
+      "rarity": 0,
+      "types": [
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 0,
+      "ico": [
+        {
+          "txt": " ",
+          "esc": []
+        }
+      ]
+    },
+    "steini": {
+      "name": "Steini",
+      "hp": 25,
+      "atc": 2,
+      "defense": 4,
+      "attacks": [
+        "tackle",
+        "politure",
+        "stone_crush",
+        "brick_throw"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A squared stone that can be readily found just lying around.",
+      "lose_xp": 3,
+      "rarity": 1,
+      "types": [
+        "stone",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 5,
+      "ico": [
+        {
+          "txt": " +-------+\n | o   o |\n |  www  |\n +-------+ ",
+          "esc": []
+        }
+      ]
+    },
+    "mowcow": {
+      "name": "Mowcow",
+      "hp": 20,
+      "atc": 2,
+      "defense": 3,
+      "attacks": [
+        "tackle"
+      ],
+      "pool": [
+        "supercow_power",
+        "meat_skewer"
+      ],
+      "miss_chance": 0,
+      "desc": "A cow-like creature found in meadows.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "    ^__^\n    (oo)\n    (__)",
+          "esc": []
+        }
+      ]
+    },
+    "bigstone": {
+      "name": "Bigstone",
+      "hp": 30,
+      "atc": 2,
+      "defense": 13,
+      "attacks": [
+        "snooze",
+        "politure",
+        "brick_throw"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A big and heavy stone made from one of the hardest materials.",
+      "lose_xp": 5,
+      "rarity": 0.3,
+      "types": [
+        "stone",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 5,
+      "ico": [
+        {
+          "txt": "+---------+\n|  o   o  |\n|   ---   |\n+---------+",
+          "esc": []
+        }
+      ]
+    },
+    "poundi": {
+      "name": "Poundi",
+      "hp": 25,
+      "atc": 2,
+      "defense": 3,
+      "attacks": [
+        "tackle",
+        "politure",
+        "earch_quake"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A powerful and heavy stone Pokete that lives in mountain caves.",
+      "lose_xp": 4,
+      "rarity": 0.7,
+      "types": [
+        "stone",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 4,
+      "ico": [
+        {
+          "txt": "   A-A-A\n  < o o >\n  < --- >\n   VvVvV",
+          "esc": []
+        }
+      ]
+    },
+    "lilstone": {
+      "name": "Lilstone",
+      "hp": 20,
+      "atc": 1,
+      "defense": 2,
+      "attacks": [
+        "tackle",
+        "politure",
+        "pepple_fire"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A small but powerful stone Pokete that lives in the mountains.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "stone",
+        "normal"
+      ],
+      "evolve_poke": "bigstone",
+      "evolve_lvl": 25,
+      "initiative": 3,
+      "ico": [
+        {
+          "txt": "\n   _____\n   |'\u1d55'|\n   \u203e\u203e\u203e\u203e\u203e",
+          "esc": []
+        }
+      ]
+    },
+    "rosi": {
+      "name": "Rosi",
+      "hp": 20,
+      "atc": 0,
+      "defense": 1,
+      "attacks": [
+        "sucker",
+        "super_sucker"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A plant Pokete that's often mistaken for a normal flower.",
+      "lose_xp": 2,
+      "rarity": 0.8,
+      "types": [
+        "plant"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 3,
+      "ico": [
+        {
+          "txt": "\n    (@)\n     |\n    \\|/",
+          "esc": []
+        }
+      ]
+    },
+    "wheeto": {
+      "name": "Wheeto",
+      "hp": 20,
+      "atc": 3,
+      "defense": 2,
+      "attacks": [
+        "root_slap",
+        "special_smell"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A plant Pokete found in Agrawos; it has special 'Powers'.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "plant"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "    \\ /\n    \\|/\n    \\|/\n     |",
+          "esc": []
+        }
+      ]
+    },
+    "saugh": {
+      "name": "Saugh",
+      "hp": 20,
+      "atc": 4,
+      "defense": 2,
+      "attacks": [
+        "mind_blow",
+        "fire_ball",
+        "sand_throw"
+      ],
+      "pool": [
+        "hiding"
+      ],
+      "miss_chance": 1,
+      "desc": "The dark and fiery souls of those who got burned to death by the hot sun!",
+      "lose_xp": 4,
+      "rarity": 0.5,
+      "types": [
+        "undead",
+        "fire"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 5,
+      "ico": [
+        {
+          "txt": "\n    .,\n  , .. .\n ...,..,.",
+          "esc": [
+            "yellow"
+          ]
+        },
+        {
+          "txt": "\n\n   *  *",
+          "esc": [
+            "thicc",
+            "red"
+          ]
+        }
+      ]
+    },
+    "gobost": {
+      "name": "Gobost",
+      "hp": 20,
+      "atc": 2,
+      "defense": 1,
+      "attacks": [
+        "tackle",
+        "mind_blow",
+        "heart_touch"
+      ],
+      "pool": [
+        "cry"
+      ],
+      "miss_chance": 0,
+      "desc": "A scary ghost Pokete that lives in caves and old houses.",
+      "lose_xp": 3,
+      "rarity": 1,
+      "types": [
+        "undead",
+        "normal"
+      ],
+      "evolve_poke": "angrilo",
+      "evolve_lvl": 25,
+      "initiative": 6,
+      "ico": [
+        {
+          "txt": " .\u2591\u2591\u2591\u2591\u2591\u2591\u2591.\n \u2591\u2591o\u2591\u2591\u2591o\u2591\u2591\n \u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591\n \u2591 \u2591 \u2591 \u2591 \u2591",
+          "esc": []
+        }
+      ]
+    },
+    "angrilo": {
+      "name": "Angrilo",
+      "hp": 25,
+      "atc": 3,
+      "defense": 2,
+      "attacks": [
+        "tackle",
+        "mind_blow",
+        "wet_slap",
+        "heart_touch"
+      ],
+      "pool": [
+        "cry"
+      ],
+      "miss_chance": 0,
+      "desc": "A ghost Pokete that will scare your pants off.",
+      "lose_xp": 4,
+      "rarity": 0.6,
+      "types": [
+        "undead",
+        "normal",
+        "water"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 7,
+      "ico": [
+        {
+          "txt": " .\u2591\u2591\u2591\u2591\u2591\u2591\u2591.\n \u2591\u2591\\\u2591\u2591\u2591/\u2591\u2591\n .\u2591\u2591( )\u2591\u2591.\n.         .",
+          "esc": []
+        }
+      ]
+    },
+    "vogli": {
+      "name": "Vogli",
+      "hp": 20,
+      "atc": 6,
+      "defense": 1,
+      "attacks": [
+        "tackle",
+        "power_pick"
+      ],
+      "pool": [
+        "cry"
+      ],
+      "miss_chance": 0,
+      "desc": "A very common bird Pokete; it lives everywhere.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "flying",
+        "normal",
+        "bird"
+      ],
+      "evolve_poke": "voglo",
+      "evolve_lvl": 20,
+      "initiative": 6,
+      "ico": [
+        {
+          "txt": "    A\n   <')\n    www*\n    ||     ",
+          "esc": []
+        }
+      ]
+    },
+    "voglo": {
+      "name": "Voglo",
+      "hp": 20,
+      "atc": 7,
+      "defense": 1,
+      "attacks": [
+        "tackle",
+        "power_pick",
+        "wing_hit",
+        "brooding"
+      ],
+      "pool": [
+        "cry"
+      ],
+      "miss_chance": 0,
+      "desc": "A very aggressive bird Pokete that can only be found in the woods.",
+      "lose_xp": 3,
+      "rarity": 0.8,
+      "types": [
+        "flying",
+        "normal",
+        "bird"
+      ],
+      "evolve_poke": "voglus",
+      "evolve_lvl": 35,
+      "initiative": 7,
+      "ico": [
+        {
+          "txt": "    ?\n   >\u00b4)\n    www*\n    ||     ",
+          "esc": []
+        }
+      ]
+    },
+    "voglus": {
+      "name": "Voglus",
+      "hp": 25,
+      "atc": 9,
+      "defense": 3,
+      "attacks": [
+        "tackle",
+        "power_pick",
+        "storm_gust",
+        "brooding"
+      ],
+      "pool": [
+        "cry"
+      ],
+      "miss_chance": 0,
+      "desc": "A very aggressive and hard to find bird Pokete.",
+      "lose_xp": 5,
+      "rarity": 0.2,
+      "types": [
+        "flying",
+        "normal",
+        "bird"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 8,
+      "ico": [
+        {
+          "txt": "    /\n   > }\n    WWW'\n    ||",
+          "esc": []
+        },
+        {
+          "txt": "\n    \u00b4",
+          "esc": [
+            "thicc",
+            "red"
+          ]
+        }
+      ]
+    },
+    "ostri": {
+      "name": "Ostri",
+      "hp": 20,
+      "atc": 8,
+      "defense": 0,
+      "attacks": [
+        "tackle",
+        "eye_pick",
+        "brooding"
+      ],
+      "pool": [
+        "cry"
+      ],
+      "miss_chance": 0,
+      "desc": "A very aggressive bird Pokete that lives near deserts; it will try to peck out your eyes.",
+      "lose_xp": 4,
+      "rarity": 0.6,
+      "types": [
+        "flying",
+        "normal",
+        "bird"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 7,
+      "ico": [
+        {
+          "txt": "   !\n  >\u00b4)\n    \\www'\n     ||",
+          "esc": []
+        }
+      ]
+    },
+    "karpi": {
+      "name": "Karpi",
+      "hp": 15,
+      "atc": 0,
+      "defense": 0,
+      "attacks": [
+        "tackle"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A harmless water Pokete that can be found everywhere.",
+      "lose_xp": 1,
+      "rarity": 3,
+      "types": [
+        "water",
+        "normal"
+      ],
+      "evolve_poke": "kartmen",
+      "evolve_lvl": 30,
+      "initiative": 0,
+      "ico": [
+        {
+          "txt": "\n\n  <\u00b0))))><\n           ",
+          "esc": []
+        }
+      ]
+    },
+    "w\u00fcrgos": {
+      "name": "W\u00fcrgos",
+      "hp": 20,
+      "atc": 3,
+      "defense": 0,
+      "attacks": [
+        "chocer",
+        "bite",
+        "poison_bite"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A dangerous snake Pokete.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "poison",
+        "normal",
+        "snake"
+      ],
+      "evolve_poke": "choka",
+      "evolve_lvl": 30,
+      "initiative": 3,
+      "ico": [
+        {
+          "txt": "  >'({{{\n  }}}}}}}\n {{{{{{{{{\n           ",
+          "esc": []
+        }
+      ]
+    },
+    "choka": {
+      "name": "Choka",
+      "hp": 25,
+      "atc": 5,
+      "defense": 1,
+      "attacks": [
+        "chocer",
+        "bite",
+        "poison_bite",
+        "power_bite"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A fucking dangerous and enormous snake Pokete.",
+      "lose_xp": 4,
+      "rarity": 0.5,
+      "types": [
+        "poison",
+        "normal",
+        "snake"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 4,
+      "ico": [
+        {
+          "txt": " _______\n/____ * \\\n (   \\   \\\n\\______   \\ ",
+          "esc": []
+        }
+      ]
+    },
+    "treenator": {
+      "name": "Treenator",
+      "hp": 25,
+      "atc": 2,
+      "defense": 2,
+      "attacks": [
+        "apple_drop",
+        "bark_hardening",
+        "branch_stab",
+        "root_strangler"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A scary and dangerous apple tree.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "plant"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "    (()\n   (()))\n     H\n     H",
+          "esc": []
+        }
+      ]
+    },
+    "bato": {
+      "name": "Bato",
+      "hp": 20,
+      "atc": 3,
+      "defense": 1,
+      "attacks": [
+        "bite",
+        "cry"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "An annoying flying rat.",
+      "lose_xp": 3,
+      "rarity": 1.3,
+      "types": [
+        "flying",
+        "flying"
+      ],
+      "evolve_poke": "bator",
+      "evolve_lvl": 20,
+      "initiative": 6,
+      "ico": [
+        {
+          "txt": "    ___\nWW\\/* *\\/WW\n   \\v-v/",
+          "esc": []
+        }
+      ]
+    },
+    "bator": {
+      "name": "Bator",
+      "hp": 25,
+      "atc": 4,
+      "defense": 2,
+      "attacks": [
+        "bite",
+        "cry",
+        "poison_bite",
+        "wing_hit"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A chongus flying rat.",
+      "lose_xp": 4,
+      "rarity": 0.2,
+      "types": [
+        "flying",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 8,
+      "ico": [
+        {
+          "txt": "    ___\nWW\\/o o\\/WW\n   |v-v|\n   \\___/",
+          "esc": []
+        }
+      ]
+    },
+    "blub": {
+      "name": "Blub",
+      "hp": 20,
+      "atc": 2,
+      "defense": 1,
+      "attacks": [
+        "tackle",
+        "bubble_bomb",
+        "bubble_shield"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "Very delicious and low fat water Pokete.",
+      "lose_xp": 5,
+      "rarity": 1,
+      "types": [
+        "water",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": "  _____\n / o   \\\n >   v  ><\n \\_____/",
+          "esc": []
+        }
+      ]
+    },
+    "owol": {
+      "name": "Owol",
+      "hp": 20,
+      "atc": 7,
+      "defense": 2,
+      "attacks": [
+        "pick",
+        "wing_hit",
+        "cry"
+      ],
+      "pool": [
+        "cry"
+      ],
+      "miss_chance": 0,
+      "desc": "A nocturnal Pokete that is looking for small children to eat as a midnight snack.",
+      "lose_xp": 2,
+      "rarity": 0.5,
+      "types": [
+        "flying",
+        "normal",
+        "bird"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 3,
+      "night_active": true,
+      "ico": [
+        {
+          "txt": "   ,___,\n   {o,o}\n   /)_)\n    \"\"\n",
+          "esc": []
+        }
+      ]
+    },
+    "rato": {
+      "name": "Rato",
+      "hp": 20,
+      "atc": 4,
+      "defense": 2,
+      "attacks": [
+        "tackle",
+        "tail_wipe"
+      ],
+      "pool": [
+        "bite",
+        "power_bite"
+      ],
+      "miss_chance": 0,
+      "desc": "An annoying rat.",
+      "lose_xp": 2,
+      "rarity": 1.3,
+      "types": [
+        "normal"
+      ],
+      "evolve_poke": "ratatat",
+      "evolve_lvl": 25,
+      "initiative": 6,
+      "ico": [
+        {
+          "txt": "   ^---^\n   \\o o/\n   >\\./<",
+          "esc": []
+        }
+      ]
+    },
+    "ratatat": {
+      "name": "Ratatat",
+      "hp": 25,
+      "atc": 7,
+      "defense": 3,
+      "attacks": [
+        "tackle",
+        "tail_wipe",
+        "power_bite"
+      ],
+      "pool": [
+        "bite"
+      ],
+      "miss_chance": 0,
+      "desc": "A damn dangerous and enourmous rat; it will bite of your leg.",
+      "lose_xp": 2,
+      "rarity": 0.7,
+      "types": [
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 7,
+      "ico": [
+        {
+          "txt": "   ^---^\n   \\   /\n   >VvV<\n    ^^^",
+          "esc": []
+        },
+        {
+          "txt": "\n    * *",
+          "esc": [
+            "thicc",
+            "green"
+          ]
+        }
+      ]
+    },
+    "hornita": {
+      "name": "Hornita",
+      "hp": 20,
+      "atc": 6,
+      "defense": 2,
+      "attacks": [
+        "tackle",
+        "meat_skewer",
+        "tail_wipe"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A majestic horse that is always looking for something to pick with its horn.",
+      "lose_xp": 3,
+      "rarity": 1,
+      "types": [
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 3,
+      "ico": [
+        {
+          "txt": " \\\n =')~\n   (\u00af\u00af\u00af\u00af)~\n   //\u00af\u00af\\\\ ",
+          "esc": []
+        }
+      ]
+    },
+    "horny": {
+      "name": "Horny",
+      "hp": 20,
+      "atc": 5,
+      "defense": 1,
+      "attacks": [
+        "tackle",
+        "meat_skewer"
+      ],
+      "pool": [
+        "tail_wipe"
+      ],
+      "miss_chance": 0.2,
+      "desc": "A teenage unicorn in the middle of puberty.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "normal"
+      ],
+      "evolve_poke": "hornita",
+      "evolve_lvl": 20,
+      "initiative": 4,
+      "ico": [
+        {
+          "txt": "  ,\n =')\n   (\u00af\u00af\u00af)~\n   //\u00af\\\\ ",
+          "esc": []
+        }
+      ]
+    },
+    "bushy": {
+      "name": "Bushy",
+      "hp": 25,
+      "atc": 2,
+      "defense": 1,
+      "attacks": [
+        "tackle",
+        "bark_hardening"
+      ],
+      "pool": [
+        "apple_drop"
+      ],
+      "miss_chance": 0,
+      "desc": "A bush, and just a bush. But watch out!",
+      "lose_xp": 1,
+      "rarity": 1,
+      "types": [
+        "plant",
+        "normal"
+      ],
+      "evolve_poke": "treenator",
+      "evolve_lvl": 20,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": "\n    (()\n   (()))",
+          "esc": []
+        }
+      ]
+    },
+    "wolfior": {
+      "name": "Wolfior",
+      "hp": 20,
+      "atc": 6,
+      "defense": 3,
+      "attacks": [
+        "tackle",
+        "fire_bite",
+        "ash_throw"
+      ],
+      "pool": [
+        "cry",
+        "bite",
+        "power_bite"
+      ],
+      "miss_chance": 0,
+      "desc": "A fiery wolf straight from hell that likes to burn 11 years old butts off.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "fire",
+        "normal"
+      ],
+      "evolve_poke": "wolfiro",
+      "evolve_lvl": 25,
+      "initiative": 4,
+      "ico": [
+        {
+          "txt": "   ^---^\n   (   )\n   >(.)<",
+          "esc": []
+        },
+        {
+          "txt": "\n    * *\n        ",
+          "esc": [
+            "thicc",
+            "red"
+          ]
+        }
+      ]
+    },
+    "wolfiro": {
+      "name": "Wolfiro",
+      "hp": 25,
+      "atc": 7,
+      "defense": 4,
+      "attacks": [
+        "tackle",
+        "fire_bite",
+        "ash_throw",
+        "fire_ball"
+      ],
+      "pool": [
+        "cry",
+        "bite",
+        "power_bite"
+      ],
+      "miss_chance": 0,
+      "desc": "A fiery wolf from hell on steroids.",
+      "lose_xp": 4,
+      "rarity": 1,
+      "types": [
+        "fire",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 5,
+      "ico": [
+        {
+          "txt": "   \\^-^/\n   {   }\n   >{.}<",
+          "esc": []
+        },
+        {
+          "txt": "\n    * *\n        ",
+          "esc": [
+            "thicc",
+            "red"
+          ]
+        }
+      ]
+    },
+    "lindemon": {
+      "name": "Lindemon",
+      "hp": 30,
+      "atc": 8,
+      "defense": 8,
+      "attacks": [
+        "bite",
+        "wind_blow",
+        "flame_throw"
+      ],
+      "pool": [
+        "cry",
+        "power_bite"
+      ],
+      "miss_chance": 0,
+      "desc": "An ancient dragon Pokete famous for destroying cities and villages.",
+      "lose_xp": 8,
+      "rarity": 0.05,
+      "types": [
+        "fire",
+        "flying"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 6,
+      "ico": [
+        {
+          "txt": "      __\n/v___/  \\\n\\-^-/_   \\\n      \\_",
+          "esc": []
+        },
+        {
+          "txt": " .\n      *",
+          "esc": [
+            "thicc",
+            "red"
+          ]
+        }
+      ]
+    },
+    "rollator": {
+      "name": "Rollator",
+      "hp": 25,
+      "atc": 2,
+      "defense": 5,
+      "attacks": [
+        "tackle",
+        "power_roll"
+      ],
+      "pool": [
+        "hiding"
+      ],
+      "miss_chance": 0,
+      "desc": "A big chunk of stone and dirt that rolls around.",
+      "lose_xp": 3,
+      "rarity": 0.5,
+      "types": [
+        "ground",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 3,
+      "ico": [
+        {
+          "txt": "   _____\n  / o o \\\n  | ___ |\n  \\_____/",
+          "esc": []
+        }
+      ]
+    },
+    "clampi": {
+      "name": "Clampi",
+      "hp": 25,
+      "atc": 2,
+      "defense": 7,
+      "attacks": [
+        "tackle",
+        "bubble_bomb",
+        "shell_pinch"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A shell that lives deep in the sea or near bays; it's pretty hard to crack.",
+      "lose_xp": 5,
+      "rarity": 0.8,
+      "types": [
+        "water",
+        "normal"
+      ],
+      "evolve_poke": "crabbat",
+      "evolve_lvl": 20,
+      "initiative": 3,
+      "ico": [
+        {
+          "txt": "    ___\n  -/   \\-\n  -\\___/-",
+          "esc": []
+        },
+        {
+          "txt": "\n     *",
+          "esc": [
+            "lightblue"
+          ]
+        }
+      ]
+    },
+    "crabbat": {
+      "name": "Crabbat",
+      "hp": 30,
+      "atc": 3,
+      "defense": 8,
+      "attacks": [
+        "tackle",
+        "bubble_gun",
+        "earch_quake",
+        "shell_pinch"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A crusty Pokete that loves to pinch big toes.",
+      "lose_xp": 5,
+      "rarity": 0.8,
+      "types": [
+        "water",
+        "ground",
+        "normal"
+      ],
+      "evolve_poke": "rustacean",
+      "evolve_lvl": 40,
+      "initiative": 4,
+      "ico": [
+        {
+          "txt": " (  ___  )\n  \\-   -/\n   ^   ^",
+          "esc": []
+        },
+        {
+          "txt": "\n    * *",
+          "esc": [
+            "lightblue"
+          ]
+        }
+      ]
+    },
+    "rustacean": {
+      "name": "Rustacean",
+      "hp": 35,
+      "atc": 4,
+      "defense": 9,
+      "attacks": [
+        "toe_breaker",
+        "bubble_gun",
+        "earch_quake",
+        "shell_pinch"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A crusty Pokete that will pinch your toes and check whether or not you borrowed something.",
+      "lose_xp": 5,
+      "rarity": 0.5,
+      "types": [
+        "water",
+        "ground",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 5,
+      "ico": [
+        {
+          "txt": " {  ^^^  }\n  \\-   -/\n   ^   ^",
+          "esc": []
+        },
+        {
+          "txt": "\n    * *",
+          "esc": [
+            "lightblue"
+          ]
+        }
+      ]
+    },
+    "electrode": {
+      "name": "Electrode",
+      "hp": 20,
+      "atc": 5,
+      "defense": 2,
+      "attacks": [
+        "shock",
+        "charging",
+        "mega_arch"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A small floating ball that will give you a shock.",
+      "lose_xp": 3,
+      "rarity": 0.8,
+      "types": [
+        "electro"
+      ],
+      "evolve_poke": "kakraholt",
+      "evolve_lvl": 30,
+      "initiative": 4,
+      "ico": [
+        {
+          "txt": "\n    ( )",
+          "esc": []
+        },
+        {
+          "txt": "\n     +",
+          "esc": [
+            "lightblue"
+          ]
+        }
+      ]
+    },
+    "cubl": {
+      "name": "Cubl",
+      "hp": 20,
+      "atc": 3,
+      "defense": 3,
+      "attacks": [
+        "tackle",
+        "freeze",
+        "snow_storm"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A small ice cube.",
+      "lose_xp": 2,
+      "rarity": 1.2,
+      "types": [
+        "ice",
+        "normal"
+      ],
+      "evolve_poke": "spikl",
+      "evolve_lvl": 30,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": "   -----\n   |   |\n   -----",
+          "esc": []
+        },
+        {
+          "txt": "\n    * *",
+          "esc": [
+            "lightblue"
+          ]
+        },
+        {
+          "txt": "  /     \\\n\n  \\     /",
+          "esc": [
+            "cyan"
+          ]
+        }
+      ]
+    },
+    "spikl": {
+      "name": "Spikl",
+      "hp": 25,
+      "atc": 4,
+      "defense": 4,
+      "attacks": [
+        "tackle",
+        "freeze",
+        "snow_storm",
+        "sword_of_ice"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A block of ice.",
+      "lose_xp": 4,
+      "rarity": 0.9,
+      "types": [
+        "ice",
+        "normal",
+        "water"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "  -------\n  |     |\n  -------",
+          "esc": []
+        },
+        {
+          "txt": "\n    * *",
+          "esc": [
+            "lightblue"
+          ]
+        },
+        {
+          "txt": " /       \\\n\n \\       /",
+          "esc": [
+            "cyan"
+          ]
+        }
+      ]
+    },
+    "confuso": {
+      "name": "Confuso",
+      "hp": 20,
+      "atc": 1,
+      "defense": 1,
+      "attacks": [
+        "confusion"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A ball floating around in dark woods and caves, that will confuse the shit out of you.",
+      "lose_xp": 6,
+      "rarity": 0.5,
+      "types": [
+        "undead"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "\n     _\n    (_) ",
+          "esc": []
+        },
+        {
+          "txt": "        }\n      {\n       }",
+          "esc": [
+            "purple"
+          ]
+        },
+        {
+          "txt": "       }\n       {",
+          "esc": [
+            "lightblue"
+          ]
+        }
+      ]
+    },
+    "poisopla": {
+      "name": "Poisopla",
+      "hp": 20,
+      "atc": 3,
+      "defense": 3,
+      "attacks": [
+        "root_slap",
+        "poison_spores",
+        "leaf_storm"
+      ],
+      "pool": [
+        "poison_thorn"
+      ],
+      "miss_chance": 0.1,
+      "desc": "A unsuspicious plant.",
+      "lose_xp": 6,
+      "rarity": 0.9,
+      "types": [
+        "plant",
+        "poison"
+      ],
+      "evolve_poke": "megapois",
+      "evolve_lvl": 20,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": "\n       .\n .__ |/|\n  \\_\\||/",
+          "esc": []
+        },
+        {
+          "txt": "\n     w",
+          "esc": [
+            "purple"
+          ]
+        }
+      ]
+    },
+    "radishon": {
+      "name": "Radishon",
+      "hp": 15,
+      "atc": 3,
+      "defense": 5,
+      "attacks": [
+        "root_slap",
+        "hiding",
+        "rain_dance",
+        "encouragement"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A small plant Pokete found burried in the ground.",
+      "lose_xp": 3,
+      "rarity": 0.5,
+      "types": [
+        "plant",
+        "ground"
+      ],
+      "evolve_poke": "radishuk",
+      "evolve_lvl": 20,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": " .__ / __.\n  \\_\\|/_/",
+          "esc": [
+            "thicc",
+            "green"
+          ]
+        },
+        {
+          "txt": "\n\n   /o o\\\n   \\ - /",
+          "esc": [
+            "purple"
+          ]
+        }
+      ]
+    },
+    "radishuk": {
+      "name": "Radishuk",
+      "hp": 20,
+      "atc": 4,
+      "defense": 6,
+      "attacks": [
+        "root_slap",
+        "hiding",
+        "encouragement",
+        "root_strangler"
+      ],
+      "pool": [
+        "rain_dance"
+      ],
+      "miss_chance": 0.1,
+      "desc": "A small plant Pokete deeply burried in the ground.",
+      "lose_xp": 4,
+      "rarity": 0.3,
+      "types": [
+        "plant",
+        "ground"
+      ],
+      "evolve_poke": "radishull",
+      "evolve_lvl": 40,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": " .__   __.\n  \\_\\_/_/",
+          "esc": [
+            "thicc",
+            "green"
+          ]
+        },
+        {
+          "txt": "\n\n   /o o\\\n   \\ - /",
+          "esc": [
+            "purple"
+          ]
+        },
+        {
+          "txt": "\n\n  _       \\\n\\/      _/",
+          "esc": [
+            "yellow"
+          ]
+        }
+      ]
+    },
+    "radishull": {
+      "name": "Radishull",
+      "hp": 25,
+      "atc": 5,
+      "defense": 7,
+      "attacks": [
+        "root_slap",
+        "hiding",
+        "encouragement",
+        "root_strangler"
+      ],
+      "pool": [
+        "rain_dance"
+      ],
+      "miss_chance": 0.1,
+      "desc": "A small plant Pokete found in the ground.",
+      "lose_xp": 6,
+      "rarity": 0.2,
+      "types": [
+        "plant",
+        "ground"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "\n\n   /o o\\\n   \\ - /",
+          "esc": [
+            "purple"
+          ]
+        },
+        {
+          "txt": "  _  \\  _\\\n / \\_/_/\n  _       \\\n\\/      _/",
+          "esc": [
+            "yellow"
+          ]
+        }
+      ]
+    },
+    "megapois": {
+      "name": "Megapois",
+      "hp": 25,
+      "atc": 3,
+      "defense": 5,
+      "attacks": [
+        "root_slap",
+        "poison_spores",
+        "leaf_storm",
+        "poison_thorn"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A not at all suspicious plant.",
+      "lose_xp": 6,
+      "rarity": 0.9,
+      "types": [
+        "plant",
+        "poison"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "\n    |/.\n.__\\|/|\n \\_\\||/ ",
+          "esc": []
+        },
+        {
+          "txt": "    w w\n  w",
+          "esc": [
+            "purple"
+          ]
+        }
+      ]
+    },
+    "corcos_day": {
+      "name": "Corcos",
+      "hp": 15,
+      "atc": 2,
+      "defense": 5,
+      "attacks": [
+        "tackle",
+        "hiding"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A small heavy thing that can be found on the ground; it may reveal something wonderful later.",
+      "lose_xp": 1,
+      "rarity": 1,
+      "types": [
+        "ground"
+      ],
+      "evolve_poke": "raupathor_day",
+      "evolve_lvl": 20,
+      "initiative": 1,
+      "night_active": false,
+      "ico": [
+        {
+          "txt": "\n    |\\\n    |'\\\n    \\_|",
+          "esc": []
+        }
+      ]
+    },
+    "corcos_night": {
+      "name": "Corcos",
+      "hp": 15,
+      "atc": 2,
+      "defense": 5,
+      "attacks": [
+        "tackle",
+        "hiding"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A small heavy thing that can be found on the ground; it may reveal something wonderful later.",
+      "lose_xp": 1,
+      "rarity": 1,
+      "types": [
+        "ground"
+      ],
+      "evolve_poke": "raupathor_night",
+      "evolve_lvl": 20,
+      "initiative": 1,
+      "night_active": true,
+      "ico": [
+        {
+          "txt": "\n    |\\\n    |'\\\n    \\_|",
+          "esc": []
+        }
+      ]
+    },
+    "raupathor_day": {
+      "name": "Raupathor",
+      "hp": 20,
+      "atc": 3,
+      "defense": 4,
+      "attacks": [
+        "tackle",
+        "hiding"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A small caterpillar found on leaves.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "ground",
+        "plant"
+      ],
+      "evolve_poke": "schmetterling",
+      "evolve_lvl": 30,
+      "initiative": 3,
+      "night_active": false,
+      "ico": [
+        {
+          "txt": "\n  .__.__.\n ()__)__)}\u00b4\n  '  '  '\n ",
+          "esc": []
+        }
+      ]
+    },
+    "raupathor_night": {
+      "name": "Raupathor",
+      "hp": 20,
+      "atc": 3,
+      "defense": 4,
+      "attacks": [
+        "tackle",
+        "hiding"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A small caterpillar found on leaves.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "ground",
+        "undead"
+      ],
+      "evolve_poke": "mothor",
+      "evolve_lvl": 30,
+      "initiative": 3,
+      "night_active": true,
+      "ico": [
+        {
+          "txt": "\n   __ __\n ()__)__)}\u00b4",
+          "esc": []
+        },
+        {
+          "txt": "\n  .  .  .\n\n  '  '  '",
+          "esc": [
+            "thicc",
+            "blue"
+          ]
+        }
+      ]
+    },
+    "schmetterling": {
+      "name": "Schmetterling",
+      "hp": 20,
+      "atc": 5,
+      "defense": 2,
+      "attacks": [
+        "schmetter",
+        "wing_hit"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A butterfly that will schmetter you away.",
+      "lose_xp": 3,
+      "rarity": 1,
+      "types": [
+        "flying"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 4,
+      "night_active": false,
+      "ico": [
+        {
+          "txt": " .__ o __.\n  \\_\\|/_/\n  /_/'\\_\\ ",
+          "esc": []
+        }
+      ]
+    },
+    "mothor": {
+      "name": "Mothor",
+      "hp": 20,
+      "atc": 6,
+      "defense": 2,
+      "attacks": [
+        "schmetter",
+        "wing_hit"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A dark butterfly that will schmetter you away.",
+      "lose_xp": 4,
+      "rarity": 1,
+      "types": [
+        "flying",
+        "undead"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 4,
+      "night_active": true,
+      "ico": [
+        {
+          "txt": "  __`o\u00b4__\n  \\_\\|/_/\n  /_/'\\_\\ ",
+          "esc": []
+        },
+        {
+          "txt": " .       .\n\n\n \u00b4       `",
+          "esc": [
+            "thicc",
+            "blue"
+          ]
+        }
+      ]
+    },
+    "lil_nut": {
+      "name": "Lil Nut",
+      "hp": 20,
+      "atc": 1,
+      "defense": 3,
+      "attacks": [
+        "tackle",
+        "ground_hit"
+      ],
+      "pool": [
+        "dick_energy",
+        "hiding"
+      ],
+      "miss_chance": 0.1,
+      "desc": "A very small whatever that sticks out of the ground.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "ground",
+        "normal"
+      ],
+      "evolve_poke": "dicki",
+      "evolve_lvl": 35,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": "\n\n    __\n   ('')",
+          "esc": []
+        }
+      ]
+    },
+    "dicki": {
+      "name": "Dicki",
+      "hp": 20,
+      "atc": 2,
+      "defense": 4,
+      "attacks": [
+        "tackle",
+        "dick_energy",
+        "hiding",
+        "ground_hit"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "A little whatever that sticks out of the ground.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "ground",
+        "normal"
+      ],
+      "evolve_poke": "dicko",
+      "evolve_lvl": 55,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "\n    __\n   ('')\n   |  |",
+          "esc": []
+        }
+      ]
+    },
+    "dicko": {
+      "name": "Dicko",
+      "hp": 25,
+      "atc": 3,
+      "defense": 5,
+      "attacks": [
+        "tackle",
+        "dick_energy",
+        "hiding",
+        "ground_hit"
+      ],
+      "pool": [],
+      "miss_chance": 0.1,
+      "desc": "An even bigger whatever that sticks out of the ground.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "ground",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 3,
+      "ico": [
+        {
+          "txt": "    __\n   ('')\n   |  |\n   |  |",
+          "esc": []
+        }
+      ]
+    },
+    "diamondos": {
+      "name": "Diamondos",
+      "hp": 20,
+      "atc": 2,
+      "defense": 15,
+      "attacks": [
+        "tackle",
+        "politure",
+        "dazzle"
+      ],
+      "pool": [
+        "dia_stab",
+        "dia_spikes"
+      ],
+      "miss_chance": 0.1,
+      "desc": "A precious diamond that can only be found in the darkest caves.",
+      "lose_xp": 2,
+      "rarity": 1,
+      "types": [
+        "stone"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 2,
+      "ico": [
+        {
+          "txt": "\n\n    o o\n     -",
+          "esc": []
+        },
+        {
+          "txt": "\n    /\\ /\n       >\n   <_",
+          "esc": [
+            "cyan"
+          ]
+        },
+        {
+          "txt": "\n      ^\n   <\n      _>",
+          "esc": [
+            "white"
+          ]
+        }
+      ]
+    },
+    "kartmen": {
+      "name": "Kartmen",
+      "hp": 25,
+      "atc": 5,
+      "defense": 3,
+      "attacks": [
+        "tackle",
+        "bubble_bomb",
+        "bubble_gun"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A freshwater fighting fish Pokete.",
+      "lose_xp": 5,
+      "rarity": 1,
+      "types": [
+        "water",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": "  _((((\n /O   _\\/))\n >_((((/\\))\n   ((((",
+          "esc": []
+        }
+      ]
+    },
+    "bablbam": {
+      "name": "Bablbam",
+      "hp": 20,
+      "atc": 2,
+      "defense": 1,
+      "attacks": [
+        "tackle",
+        "mind_blow"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "Dead or alive entity with slow movement and mental ability.",
+      "lose_xp": 3,
+      "rarity": 1,
+      "types": [
+        "undead"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": "   (.)~\n  -)_(-U\n / ; \\ ",
+          "esc": []
+        }
+      ]
+    },
+    "kakraholt": {
+      "name": "Kakraholt",
+      "hp": 25,
+      "atc": 6,
+      "defense": 3,
+      "attacks": [
+        "shock",
+        "charging",
+        "mega_arch",
+        "tackle"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A terrestrial crab full of accumulated electrical energy.",
+      "lose_xp": 4,
+      "rarity": 0.5,
+      "types": [
+        "electro",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 5,
+      "ico": [
+        {
+          "txt": "     _\n    O O\n   /( )\\\n  /\\|^|/\\  ",
+          "esc": []
+        },
+        {
+          "txt": "\n\n->>     ->>",
+          "esc": [
+            "yellow"
+          ]
+        },
+        {
+          "txt": "\n   +   +\n     +     ",
+          "esc": [
+            "lightblue"
+          ]
+        }
+      ]
+    },
+    "pavous": {
+      "name": "Pavous",
+      "hp": 20,
+      "atc": 3,
+      "defense": 0,
+      "attacks": [
+        "poison_bite",
+        "bite",
+        "webattack"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "A tiny spider like Pokete.",
+      "lose_xp": 4,
+      "rarity": 1,
+      "types": [
+        "poison",
+        "normal"
+      ],
+      "evolve_poke": "uberpavous",
+      "evolve_lvl": 30,
+      "initiative": 3,
+      "ico": [
+        {
+          "txt": "  (0)(0)\n /  ''  \\\nw        w",
+          "esc": []
+        }
+      ]
+    },
+    "uberpavous": {
+      "name": "Uberpavous",
+      "hp": 25,
+      "atc": 5,
+      "defense": 1,
+      "attacks": [
+        "poison_bite",
+        "bite",
+        "webattack",
+        "power_bite"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "Dangerous spider like Pokete with strong mandibles.",
+      "lose_xp": 4,
+      "rarity": 0.5,
+      "types": [
+        "poison",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 5,
+      "ico": [
+        {
+          "txt": "  /\\~-~/\\\n //\\0_0/\\\\\n//  '''  \\\\\nW         W",
+          "esc": []
+        }
+      ]
+    },
+    "peachade": {
+      "name": "Peachade",
+      "hp": 25,
+      "atc": 3,
+      "defense": 2,
+      "attacks": [
+        "tackle",
+        "politure",
+        "dazzle",
+        "sweet_smell"
+      ],
+      "pool": [],
+      "miss_chance": 0,
+      "desc": "Sweat and juicy plant pokete thats' looks and thiccness will drive you crazy.",
+      "lose_xp": 4,
+      "rarity": 0.2,
+      "types": [
+        "plant",
+        "normal"
+      ],
+      "evolve_poke": "",
+      "evolve_lvl": 0,
+      "initiative": 1,
+      "ico": [
+        {
+          "txt": "     / __.\n     |/_/",
+          "esc": [
+            "thicc",
+            "green"
+          ]
+        },
+        {
+          "txt": "\n\n   /o -\\\n   \\  (/",
+          "esc": [
+            "thicc",
+            "peach"
+          ]
+        },
+        {
+          "txt": "\n\n\n     x",
+          "esc": [
+            "thicc",
+            "red"
+          ]
+        },
+        {
+          "txt": "\n  *",
+          "esc": [
+            "thicc",
+            "white"
+          ]
+        }
+      ]
+    }
+  },
+  "attacks": {
+    "tackle": {
+      "name": "Tackle",
+      "factor": 1.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Tackles the enemy very hard.",
+      "types": [
+        "normal"
+      ],
+      "is_generic": true,
+      "ap": 30
+    },
+    "cry": {
+      "name": "Cry",
+      "factor": 0,
+      "action": "cry",
+      "world_action": "",
+      "move": [
+        "downgrade"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "So loud that it confuses the enemy.",
+      "types": [
+        "normal"
+      ],
+      "is_generic": false,
+      "ap": 10
+    },
+    "bite": {
+      "name": "Bite",
+      "factor": 1.75,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 0,
+      "desc": "A hard bite with sharp teeth.",
+      "types": [
+        "normal"
+      ],
+      "is_generic": false,
+      "ap": 30
+    },
+    "power_bite": {
+      "name": "Power Bite",
+      "factor": 8,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 30,
+      "desc": "The hardest bite you can think of.",
+      "types": [
+        "normal"
+      ],
+      "is_generic": false,
+      "ap": 5
+    },
+    "chocer": {
+      "name": "Choker",
+      "factor": 1,
+      "action": "chocer",
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Chokes the enemy and makes it weaker.",
+      "types": [
+        "normal",
+        "snake"
+      ],
+      "effect": "paralyzation",
+      "is_generic": true,
+      "ap": 15
+    },
+    "tail_wipe": {
+      "name": "Tail Swipe",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.5,
+      "min_lvl": 10,
+      "desc": "Swipes through the enemy's face.",
+      "types": [
+        "normal"
+      ],
+      "is_generic": false,
+      "ap": 10
+    },
+    "meat_skewer": {
+      "name": "Meat Skewer",
+      "factor": 3.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.7,
+      "min_lvl": 0,
+      "desc": "Drills a horn deep in the enemy's flesh.",
+      "types": [
+        "normal"
+      ],
+      "is_generic": false,
+      "ap": 10
+    },
+    "snooze": {
+      "name": "Snooze",
+      "factor": 0,
+      "action": "snooze",
+      "world_action": "",
+      "move": [
+        "downgrade"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 15,
+      "desc": "Makes the enemy sleepy.",
+      "types": [
+        "normal"
+      ],
+      "effect": "sleep",
+      "is_generic": false,
+      "ap": 15
+    },
+    "supercow_power": {
+      "name": "Supercow Power",
+      "factor": 0,
+      "action": "dick_energy",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 10,
+      "desc": "Makes the Pokete angry and strong.",
+      "types": [
+        "normal"
+      ],
+      "is_generic": false,
+      "ap": 10
+    },
+    "poison_bite": {
+      "name": "Poison Bite",
+      "factor": 1,
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0.3,
+      "min_lvl": 0,
+      "desc": "Makes the enemy weaker.",
+      "types": [
+        "poison",
+        "snake"
+      ],
+      "effect": "poison",
+      "is_generic": true,
+      "ap": 10
+    },
+    "poison_thorn": {
+      "name": "Poison Thorn",
+      "factor": 2.75,
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 15,
+      "desc": "Stabs a venomous thorn into the enemy's flesh.",
+      "types": [
+        "poison"
+      ],
+      "effect": "poison",
+      "is_generic": false,
+      "ap": 20
+    },
+    "pepple_fire": {
+      "name": "Pebble Fire",
+      "factor": 1,
+      "action": "cry",
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Fires pebbles at the enemy and makes it blind.",
+      "types": [
+        "stone"
+      ],
+      "is_generic": true,
+      "ap": 5
+    },
+    "sand_throw": {
+      "name": "Sand Throw",
+      "factor": 1,
+      "action": "cry",
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Throws sand at the enemy and makes it blind.",
+      "types": [
+        "stone"
+      ],
+      "is_generic": false,
+      "ap": 5
+    },
+    "politure": {
+      "name": "Polish",
+      "factor": 0,
+      "action": "politure",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Upgrades defense and attack points.",
+      "types": [
+        "stone"
+      ],
+      "is_generic": true,
+      "ap": 15
+    },
+    "brick_throw": {
+      "name": "Brick Throw",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "throw"
+      ],
+      "miss_chance": 0.3,
+      "min_lvl": 15,
+      "desc": "Throws an Euler brick at the enemy.",
+      "types": [
+        "stone"
+      ],
+      "is_generic": true,
+      "ap": 15
+    },
+    "stone_crush": {
+      "name": "Stone crush",
+      "factor": 2,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.3,
+      "min_lvl": 0,
+      "desc": "Crushes the enemy between two heavy stones.",
+      "types": [
+        "stone"
+      ],
+      "is_generic": true,
+      "ap": 20
+    },
+    "rock_smash": {
+      "name": "Rock Smash",
+      "factor": 5,
+      "world_action": "",
+      "move": [
+        "pound"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 15,
+      "desc": "Pounds the enemy with the Pokete's full weight.",
+      "types": [
+        "stone"
+      ],
+      "is_generic": true,
+      "ap": 5
+    },
+    "dia_stab": {
+      "name": "Dia Stab",
+      "factor": 5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 15,
+      "desc": "Stabs the enemy with a giant diamond spike.",
+      "types": [
+        "stone"
+      ],
+      "is_generic": false,
+      "ap": 5
+    },
+    "dazzle": {
+      "name": "Dazzle",
+      "factor": 1.5,
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 10,
+      "desc": "Shines a bright light at the enemy and dazzles them.",
+      "types": [
+        "stone"
+      ],
+      "effect": "paralyzation",
+      "is_generic": false,
+      "ap": 20
+    },
+    "dia_spikes": {
+      "name": "Dia spikes",
+      "factor": 2,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 20,
+      "desc": "Throws a heck of a lot of diamond spikes at the enemy.",
+      "types": [
+        "stone"
+      ],
+      "is_generic": false,
+      "ap": 20
+    },
+    "earch_quake": {
+      "name": "Earthquake",
+      "factor": 4,
+      "world_action": "",
+      "move": [
+        "pound"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Moves the ground with tremendous force.",
+      "types": [
+        "ground"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "power_roll": {
+      "name": "Power Roll",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Rolls over the enemy.",
+      "types": [
+        "ground"
+      ],
+      "is_generic": true,
+      "ap": 15
+    },
+    "toe_breaker": {
+      "name": "Toe Breaker",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.3,
+      "min_lvl": 0,
+      "desc": "Breaks the enemy's toes.",
+      "types": [
+        "ground"
+      ],
+      "is_generic": true,
+      "ap": 20
+    },
+    "ground_hit": {
+      "name": "Ground Hit",
+      "factor": 3,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 0,
+      "desc": "Damages the enemy with an unpredictable hit out of the ground.",
+      "types": [
+        "ground"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "dick_energy": {
+      "name": "Dick Energy",
+      "factor": 0,
+      "action": "dick_energy",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Collects a great amount of energy in the Pokete's tip.",
+      "types": [
+        "ground"
+      ],
+      "is_generic": false,
+      "ap": 15
+    },
+    "hiding": {
+      "name": "Hiding",
+      "factor": 0,
+      "action": "hiding",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 20,
+      "desc": "Makes the Pokete hide under the ground to minimize damage.",
+      "types": [
+        "ground"
+      ],
+      "is_generic": false,
+      "ap": 15
+    },
+    "webattack": {
+      "name": "Web attack",
+      "factor": 1,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Thows web towards enemy in order to immobilize.",
+      "types": [
+        "normal"
+      ],
+      "effect": "paralyzation",
+      "is_generic": false,
+      "ap": 10
+    },
+    "fire_bite": {
+      "name": "Fire Bite",
+      "factor": 2,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Burns and bites the enemy at the same time.",
+      "types": [
+        "fire"
+      ],
+      "effect": "burning",
+      "is_generic": true,
+      "ap": 15
+    },
+    "ash_throw": {
+      "name": "Ash Throw",
+      "factor": 0.5,
+      "action": "cry",
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 15,
+      "desc": "Throws ashes in the enemy's eyes.",
+      "types": [
+        "fire"
+      ],
+      "is_generic": true,
+      "ap": 15
+    },
+    "flame_throw": {
+      "name": "Flame Throw",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.3,
+      "min_lvl": 15,
+      "desc": "Hans! Get ze Flammenwerfer!",
+      "types": [
+        "fire"
+      ],
+      "effect": "burning",
+      "is_generic": true,
+      "ap": 10
+    },
+    "fire_ball": {
+      "name": "Fire Ball",
+      "factor": 4,
+      "world_action": "",
+      "move": [
+        "fireball"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 25,
+      "desc": "Casts a fireball at the enemy.",
+      "types": [
+        "fire"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "flying": {
+      "name": "Flying",
+      "factor": 1.5,
+      "world_action": "teleport",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 0,
+      "desc": "Gives the Pokete the ability to fly you around.",
+      "types": [
+        "flying"
+      ],
+      "is_generic": false,
+      "ap": 30
+    },
+    "pick": {
+      "name": "Peck",
+      "factor": 1.7,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 0,
+      "desc": "A peck at the enemy's weakest spot.",
+      "types": [
+        "flying",
+        "bird"
+      ],
+      "is_generic": true,
+      "ap": 30
+    },
+    "wind_blow": {
+      "name": "Wind Blow",
+      "factor": 2,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Casts a gust of wind at the enemy.",
+      "types": [
+        "flying"
+      ],
+      "is_generic": true,
+      "ap": 20
+    },
+    "storm_gust": {
+      "name": "Storm Gale",
+      "factor": 6,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Casts a vicious and violent storm full of rain and hail, hitting the enemy in its weakest spots and makes it want to die.",
+      "types": [
+        "flying"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "schmetter": {
+      "name": "Schmetter",
+      "factor": 1.7,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 0,
+      "desc": "Schmetters the enemy away.",
+      "types": [
+        "flying"
+      ],
+      "is_generic": false,
+      "ap": 30
+    },
+    "eye_pick": {
+      "name": "Eye Peck",
+      "factor": 2.5,
+      "action": "eye_pick",
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0.6,
+      "min_lvl": 0,
+      "desc": "Pecks at one of the enemy's eyes.",
+      "types": [
+        "flying",
+        "bird"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "wing_hit": {
+      "name": "Wing Hit",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.5,
+      "min_lvl": 0,
+      "desc": "Hits the enemy with a wing.",
+      "types": [
+        "flying"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "brooding": {
+      "name": "Brooding",
+      "factor": 0,
+      "action": "brooding",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 15,
+      "desc": "Regenerates 2 HP.",
+      "types": [
+        "flying",
+        "bird"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "power_pick": {
+      "name": "Power Peck",
+      "factor": 2,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.4,
+      "min_lvl": 0,
+      "desc": "A harsh pecking on the enemy's head.",
+      "types": [
+        "flying",
+        "bird"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "bubble_gun": {
+      "name": "Bubble Gun",
+      "factor": 2,
+      "world_action": "",
+      "move": [
+        "gun"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Fires some bubbles at the enemy.",
+      "types": [
+        "water"
+      ],
+      "is_generic": true,
+      "ap": 20
+    },
+    "rain_dance": {
+      "name": "Rain dance",
+      "factor": 2,
+      "action": "rain_dance",
+      "world_action": "",
+      "move": [
+        "rain"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Summons rainy clouds.",
+      "types": [
+        "water"
+      ],
+      "is_generic": false,
+      "ap": 10
+    },
+    "bubble_bomb": {
+      "name": "Bubble Bomb",
+      "factor": 6,
+      "action": "cry",
+      "world_action": "",
+      "move": [
+        "bomb",
+        "downgrade"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "A deadly bubble.",
+      "types": [
+        "water"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "bubble_shield": {
+      "name": "Bubble Shield",
+      "factor": 0,
+      "action": "hiding",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Creates a giant bubble that protects the Pokete.",
+      "types": [
+        "water"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "wet_slap": {
+      "name": "Wet Slap",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 10,
+      "desc": "Gives the enemy a cold and wet slap in the face.",
+      "types": [
+        "water"
+      ],
+      "is_generic": true,
+      "ap": 15
+    },
+    "shell_pinch": {
+      "name": "Shell Pinch",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 15,
+      "desc": "Pinches the enemy with its strong shell.",
+      "types": [
+        "water"
+      ],
+      "is_generic": false,
+      "ap": 20
+    },
+    "heart_touch": {
+      "name": "Heart Touch",
+      "factor": 4,
+      "action": "heart_touch",
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 20,
+      "desc": "Touches the enemy's heart with cold, ghostly claws.",
+      "types": [
+        "undead"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "confusion": {
+      "name": "Confusion",
+      "factor": 0,
+      "world_action": "",
+      "move": [
+        "downgrade"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Confuses the enemy.",
+      "types": [
+        "undead"
+      ],
+      "effect": "confusion",
+      "is_generic": true,
+      "ap": 40
+    },
+    "mind_blow": {
+      "name": "Mind Blow",
+      "factor": 0,
+      "world_action": "",
+      "move": [
+        "downgrade"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Causes confusion deep in the enemy's mind.",
+      "types": [
+        "undead"
+      ],
+      "effect": "confusion",
+      "is_generic": true,
+      "ap": 15
+    },
+    "shock": {
+      "name": "Shock",
+      "factor": 1.5,
+      "world_action": "",
+      "move": [
+        "arch"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Gives the enemy a shock.",
+      "types": [
+        "electro"
+      ],
+      "is_generic": true,
+      "ap": 30
+    },
+    "charging": {
+      "name": "Charging",
+      "factor": 0,
+      "action": "dick_energy",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 10,
+      "desc": "Charges up the Pokete.",
+      "types": [
+        "electro"
+      ],
+      "is_generic": true,
+      "ap": 15
+    },
+    "mega_arch": {
+      "name": "Mega Arch",
+      "factor": 5,
+      "world_action": "",
+      "move": [
+        "arch"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 15,
+      "desc": "Gives the enemy a massive shock.",
+      "types": [
+        "electro"
+      ],
+      "effect": "paralyzation",
+      "is_generic": true,
+      "ap": 10
+    },
+    "special_smell": {
+      "name": "Special Smell",
+      "factor": 0,
+      "world_action": "",
+      "move": [
+        "downgrade"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 0,
+      "desc": "Spreads a special smell that will make the enemy confused but very happy.",
+      "types": [
+        "plant"
+      ],
+      "effect": "confusion",
+      "is_generic": false,
+      "ap": 10
+    },
+    "apple_drop": {
+      "name": "Apple Drop",
+      "factor": 1.7,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.3,
+      "min_lvl": 0,
+      "desc": "Makes an apple drop on the enemy's head.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": false,
+      "ap": 30
+    },
+    "encouragement": {
+      "name": "Encouragement",
+      "factor": 0,
+      "action": "encouragement",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 20,
+      "desc": "Encourages and strengthens all Poketes in your team.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": false,
+      "ap": 10
+    },
+    "super_sucker": {
+      "name": "Super Sucker",
+      "factor": 0,
+      "action": "super_sucker",
+      "world_action": "",
+      "move": [
+        "downgrade",
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Sucks 2 HP from the enemy and adds to its own.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": false,
+      "ap": 10
+    },
+    "sucker": {
+      "name": "Sucker",
+      "factor": 0,
+      "action": "sucker",
+      "world_action": "",
+      "move": [
+        "downgrade",
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Sucks 1 HP from the enemy and adds to its own.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": false,
+      "ap": 20
+    },
+    "root_strangler": {
+      "name": "Root Strangler",
+      "factor": 1,
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 20,
+      "desc": "Uses old and crusty roots to strangle the enemy.",
+      "types": [
+        "plant"
+      ],
+      "effect": "paralyzation",
+      "is_generic": true,
+      "ap": 15
+    },
+    "root_slap": {
+      "name": "Root Slap",
+      "factor": 1.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 0,
+      "desc": "Uses old and crusty roots to slap the enemy.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": true,
+      "ap": 30
+    },
+    "the_old_roots_hit": {
+      "name": "The Old Roots Hit",
+      "factor": 50,
+      "world_action": "",
+      "move": [
+        "shine",
+        "shine",
+        "attack"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "An ancient attack that summons the deepest and oldest roots from deep in the earth to defeat the enemy.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": false,
+      "ap": 1
+    },
+    "leaf_storm": {
+      "name": "Leaf Storm",
+      "factor": 5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 20,
+      "desc": "Blasts a bunch of spiky leaves at the enemy.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "bark_hardening": {
+      "name": "Bark Hardening",
+      "factor": 0,
+      "action": "bark_hardening",
+      "world_action": "",
+      "move": [
+        "shine"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Hardens its outer layers to protect itself.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": true,
+      "ap": 15
+    },
+    "poison_spores": {
+      "name": "Poison Spores",
+      "factor": 0,
+      "world_action": "",
+      "move": [
+        "downgrade"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Ejects some poisonous spores onto the enemy.",
+      "types": [
+        "plant"
+      ],
+      "effect": "poison",
+      "is_generic": false,
+      "ap": 15
+    },
+    "branch_stab": {
+      "name": "Branch Stab",
+      "factor": 4,
+      "action": "cry",
+      "world_action": "",
+      "move": [
+        "attack",
+        "downgrade"
+      ],
+      "miss_chance": 0.2,
+      "min_lvl": 15,
+      "desc": "Stabs the enemy with a branch, preferably in the enemy's eyes.",
+      "types": [
+        "plant"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "freeze": {
+      "name": "Freeze",
+      "factor": 0,
+      "world_action": "",
+      "move": [
+        "downgrade"
+      ],
+      "miss_chance": 0.1,
+      "min_lvl": 10,
+      "desc": "Freezes the enemy.",
+      "types": [
+        "ice"
+      ],
+      "effect": "freezing",
+      "is_generic": true,
+      "ap": 10
+    },
+    "snow_storm": {
+      "name": "Snow Storm",
+      "factor": 2.5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Summons a snow storm full of ice spikes onto the enemy.",
+      "types": [
+        "ice"
+      ],
+      "is_generic": true,
+      "ap": 20
+    },
+    "sword_of_ice": {
+      "name": "Sword of Ice",
+      "factor": 5,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0.3,
+      "min_lvl": 20,
+      "desc": "Stabs a giant ice spike into the enemy.",
+      "types": [
+        "ice"
+      ],
+      "is_generic": true,
+      "ap": 10
+    },
+    "spikes": {
+      "name": "Spikes",
+      "factor": 1.75,
+      "world_action": "",
+      "move": [
+        "attack"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Stabs the enemy with some small ice spikes.",
+      "types": [
+        "ice"
+      ],
+      "is_generic": true,
+      "ap": 30
+    },
+    "sweet_smell": {
+      "name": "Sweet smell",
+      "factor": 0,
+      "world_action": "",
+      "move": [
+        "smell",
+        "downgrade"
+      ],
+      "miss_chance": 0,
+      "min_lvl": 0,
+      "desc": "Unleashes a sweet scent that's turning heads and minds alike.",
+      "types": [
+        "plant"
+      ],
+      "effect": "confusion",
+      "is_generic": false,
+      "ap": 15
+    }
+  },
+  "natures": {
+    "brave": {
+      "esc": "blue",
+      "atc": 1.1,
+      "def_": 0.9
+    },
+    "relaxed": {
+      "esc": "green",
+      "atc": 0.9,
+      "def_": 1.1
+    },
+    "hasty": {
+      "esc": "red",
+      "def_": 0.9,
+      "init": 1.1
+    },
+    "normal": {}
+  },
+  "weathers": {
+    "rain": {
+      "info": "It's raining!",
+      "effected": {
+        "fire": 0.5,
+        "plant": 1.5,
+        "water": 1.5
+      }
+    },
+    "thunderstorm": {
+      "info": "There is a thunderstorm going on!",
+      "effected": {
+        "fire": 0.5,
+        "plant": 1.5,
+        "water": 1.5,
+        "electro": 2
+      }
+    },
+    "foggy": {
+      "info": "It's foggy!",
+      "effected": {
+        "undead": 1.5,
+        "normal": 0.75
+      }
+    },
+    "sunny": {
+      "info": "It's a hot sunny day!",
+      "effected": {
+        "fire": 1.5,
+        "water": 0.75,
+        "ice": 0.5,
+        "plant": 0.75
+      }
+    }
+  },
+  "types": {
+    "normal": {
+      "effective": [],
+      "ineffective": [],
+      "color": []
+    },
+    "stone": {
+      "effective": [
+        "flying",
+        "fire"
+      ],
+      "ineffective": [
+        "plant"
+      ],
+      "color": [
+        "grey"
+      ]
+    },
+    "plant": {
+      "effective": [
+        "stone",
+        "ground",
+        "water"
+      ],
+      "ineffective": [
+        "fire",
+        "ice"
+      ],
+      "color": [
+        "green"
+      ]
+    },
+    "water": {
+      "effective": [
+        "stone",
+        "flying",
+        "fire"
+      ],
+      "ineffective": [
+        "plant",
+        "ice"
+      ],
+      "color": [
+        "lightblue"
+      ]
+    },
+    "fire": {
+      "effective": [
+        "flying",
+        "plant",
+        "undead",
+        "ice"
+      ],
+      "ineffective": [
+        "stone",
+        "water"
+      ],
+      "color": [
+        "thicc",
+        "red"
+      ]
+    },
+    "ground": {
+      "effective": [
+        "normal"
+      ],
+      "ineffective": [
+        "flying",
+        "ice"
+      ],
+      "color": [
+        "grey"
+      ]
+    },
+    "electro": {
+      "effective": [
+        "stone",
+        "flying"
+      ],
+      "ineffective": [
+        "ground"
+      ],
+      "color": [
+        "thicc",
+        "yellow"
+      ]
+    },
+    "flying": {
+      "effective": [
+        "plant"
+      ],
+      "ineffective": [
+        "stone"
+      ],
+      "color": [
+        "thicc"
+      ]
+    },
+    "undead": {
+      "effective": [
+        "normal",
+        "ground",
+        "plant",
+        "water",
+        "poison"
+      ],
+      "ineffective": [
+        "fire"
+      ],
+      "color": [
+        "purple"
+      ]
+    },
+    "ice": {
+      "effective": [
+        "water",
+        "plant",
+        "ground"
+      ],
+      "ineffective": [
+        "fire"
+      ],
+      "color": [
+        "cyan"
+      ]
+    },
+    "poison": {
+      "effective": [
+        "normal"
+      ],
+      "ineffective": [
+        "undead"
+      ],
+      "color": [
+        "thicc",
+        "green"
+      ]
+    }
+  },
+  "sub_types": [
+    "bird",
+    "snake"
+  ],
+  "achievements": {
+    "first_poke": {
+      "title": "First Pokete",
+      "desc": "Catch your first Pokete!"
+    },
+    "first_duel": {
+      "title": "First duel",
+      "desc": "Fight against your first trainer!"
+    },
+    "catch_em_all": {
+      "title": "Catch em all",
+      "desc": "Catch all Poketes and fill your Pokete-Dex!"
+    },
+    "first_evolve": {
+      "title": "First evolution",
+      "desc": "Evolve your first Pokete!"
+    }
+  }
 }
