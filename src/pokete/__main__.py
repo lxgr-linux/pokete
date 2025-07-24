@@ -62,6 +62,7 @@ from .figure import Bank, Inventory
 from .release import SPEED_OF_TIME
 from .startup.command import PoketeCommand
 from .startup.logging import init_logger
+from pokete import release
 
 # Class definition
 ##################
@@ -402,6 +403,7 @@ def intro(ctx: Context):
     """Intro to Pokete"""
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = obmp.ob_maps["intromap"]
+    mvp.movemap.resize_view()
     mvp.movemap.full_show()
     while ctx.figure.name in ["DEFAULT", ""]:
         ctx.figure.name = ask_text(
@@ -420,13 +422,13 @@ def intro(ctx: Context):
         [
             "Hello, my child.",
             "You're now ten years old.",
-            "I think it's now time for you to travel \
-     the world and be a Pokete-trainer.",
-            "Therefore, I give you this powerful 'Steini', \
-     15 'Poketeballs' to catch Poketes, and a "
+            "I think it's now time for you to travel "
+            "the world and become a Pokete-trainer.",
+            "Therefore, I'll give you this powerful 'Steini', "
+            "15 'Poketeballs' to catch Poketes, and a "
             "'Healing potion'.",
-            "You will be the best Pokete-Trainer in Nice \
-     town.",
+            "You will be the best Pokete-Trainer in Nice "
+            "town.",
             "Now go out and become the best!",
         ],
     )
@@ -435,7 +437,10 @@ def intro(ctx: Context):
 def main():
     """Main function"""
 
-    do_logging, load_mods = PoketeCommand(audio).run()
+    do_logging, load_mods, save_dir = PoketeCommand(audio).run()
+
+    release.SAVEPATH = save_dir
+    release.SAVEPATH.mkdir(parents=True, exist_ok=True)
 
     init_logger(do_logging)
 
