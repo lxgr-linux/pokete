@@ -80,8 +80,8 @@ class Recogniser:
                     if ord(char) == 3:
                         self.reset()
 
+            PropagatingThread(target=self.check_escape, daemon=True).start()
         self.recogniser = recogniser
-        PropagatingThread(target=self.check_escape, daemon=True).start()
 
     def check_escape(self):
         while True:
