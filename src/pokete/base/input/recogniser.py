@@ -1,21 +1,23 @@
-from collections.abc import Buffer
-from io import BufferedReader
-from json.encoder import ESCAPE
-import logging
 import sys
 import threading
 import time
 from typing import Optional
 
-from pokete.base.exception_propagation.propagating_thread import PropagatingThread
+from pokete.base.exception_propagation.propagating_thread import (
+    PropagatingThread,
+)
 from pokete.release import SPEED_OF_TIME
+
 from .event import _ev
 
 
 class Recogniser:
     ESCAPES: list[int] = [27]
     ESCAPED_KEY_MAPPING: dict[str, str] = {
-        "[A": "Key.up", "[B": "Key.down", "[C": "Key.right", "[D": "Key.left"
+        "[A": "Key.up",
+        "[B": "Key.down",
+        "[C": "Key.right",
+        "[D": "Key.left",
     }
 
     def __init__(self):
@@ -31,25 +33,27 @@ class Recogniser:
                 while True:
                     if msvcrt.kbhit():
                         char = msvcrt.getwch()
-                        self.set_event(char, {
-                            ord(char): f"{char.rstrip()}",
-                            13: "Key.enter",
-                            127: "Key.backspace",
-                            8: "Key.backspace",
-                            32: "Key.space",
-                            27: "Key.esc",
-                            3: "exit",
-                        })
+                        self.set_event(
+                            char,
+                            {
+                                ord(char): f"{char.rstrip()}",
+                                13: "Key.enter",
+                                127: "Key.backspace",
+                                8: "Key.backspace",
+                                32: "Key.space",
+                                27: "Key.esc",
+                                3: "exit",
+                            },
+                        )
 
         else:
-            import tty
             import termios
-            import select
+            import tty
 
             def recogniser():
                 """Use another (not on xserver relying) way to read keyboard input,
-                    to make this shit work in tty or via ssh,
-                    where no xserver is available"""
+                to make this shit work in tty or via ssh,
+                where no xserver is available"""
 
                 self.fd = sys.stdin.fileno()
                 self.old_settings = termios.tcgetattr(self.fd)
@@ -58,16 +62,17 @@ class Recogniser:
 
                 while True:
                     char = sys.stdin.read(1)
-
-                    logging.info("input %s %d", char, ord(char))
-                    self.set_event(char, {
+                    self.set_event(
+                        char,
+                        {
                             ord(char): f"{char.rstrip()}",
                             13: "Key.enter",
                             127: "Key.backspace",
                             32: "Key.space",
                             27: "Key.esc",
                             3: "exit",
-                    })
+                        },
+                    )
                     if ord(char) == 3:
                         self.reset()
 
@@ -83,14 +88,16 @@ class Recogniser:
                 _ev.set("Key.esc")
                 self.escape_input = None
 
-    def set_event(self, char:str, key_mapping:dict[int, str]):
+    def set_event(self, char: str, key_mapping: dict[int, str]):
         char_ord = ord(char)
         if char_ord in self.ESCAPES:
             self.escape_input = ""
             self.escape_event.set()
         elif self.escape_input is not None:
             self.escape_input += char
-            if (event := self.ESCAPED_KEY_MAPPING.get(self.escape_input, None)) is not None:
+            if (
+                event := self.ESCAPED_KEY_MAPPING.get(self.escape_input, None)
+            ) is not None:
                 _ev.set(event)
                 self.escape_input = None
         else:
@@ -103,6 +110,10 @@ class Recogniser:
         """Resets the terminals state"""
         if sys.platform == "linux":
             import termios
+
+            assert self.fd is not None
+            assert self.old_settings is not None
+
             termios.tcsetattr(self.fd, termios.TCSADRAIN, self.old_settings)
 
 
