@@ -12,12 +12,16 @@ from .event import _ev
 
 
 class Recogniser:
-    ESCAPES: list[int] = [27]
+    ESCAPES: list[int] = [27, 0]
     ESCAPED_KEY_MAPPING: dict[str, str] = {
         "[A": "Key.up",
         "[B": "Key.down",
         "[C": "Key.right",
         "[D": "Key.left",
+        "P": "Key.up",
+        "M": "Key.down",
+        "K": "Key.right",
+        "H": "Key.left",
     }
     UNIX_KEY_MAPPING: dict[int, str] = {
         13: "Key.enter",
