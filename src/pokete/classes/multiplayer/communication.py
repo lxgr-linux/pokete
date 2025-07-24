@@ -2,13 +2,23 @@ import logging
 import socket
 
 import pokete.bs_rpc as bs_rpc
-from pokete.base.exception_propagation import PropagatingThread
 from pokete.base.context import Context
+from pokete.base.exception_propagation import PropagatingThread
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.multiplayer import msg
-from pokete.classes.multiplayer.exceptions import ConnectionException, \
-    VersionMismatchException, UserPresentException, InvalidPokeException
-from pokete.classes.multiplayer.msg import player, position, error, map_info, fight
+from pokete.classes.multiplayer.exceptions import (
+    ConnectionException,
+    InvalidPokeException,
+    UserPresentException,
+    VersionMismatchException,
+)
+from pokete.classes.multiplayer.msg import (
+    error,
+    fight,
+    map_info,
+    player,
+    position,
+)
 from pokete.classes.multiplayer.msg.position.update import UpdateDict
 from pokete.classes.multiplayer.pc_manager import pc_manager
 
@@ -23,9 +33,7 @@ class CommunicationService:
         return bs_rpc.ChannelGenerator(self.__positions_channel)
 
     def __subscribe_position_updates(self):
-        gen = self.client.call_for_responses(
-            position.SubscribePosition({})
-        )
+        gen = self.client.call_for_responses(position.SubscribePosition({}))
 
         for body in gen():
             match body.get_type():
@@ -66,13 +74,12 @@ class CommunicationService:
 
     def __call__(self):
         PropagatingThread(
-            target=self.__subscribe_position_updates,
-            daemon=True
+            target=self.__subscribe_position_updates, daemon=True
         ).start()
-        #threading.Thread(
+        # threading.Thread(
         #    target=self.__send_position_updates,
         #    daemon=True
-        #).start()
+        # ).start()
 
     def connect(self, host: str, port: int):
         con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -88,27 +95,30 @@ class CommunicationService:
                 con.close()
 
         self.client = bs_rpc.Client(con, msg.get_registry())
-        PropagatingThread(
-            target=listener,
-            daemon=True
-        ).start()
+        PropagatingThread(target=listener, daemon=True).start()
 
     def handshake(
-        self, ctx: Context, user_name,
-        version
+        self, ctx: Context, user_name, version
     ):  # Here Context usage outside of the UI context
         """Sends and handles the handshake with the server"""
         resp = self.client.call_for_response(
-            msg.Handshake({
-                "user": {
-                    "name": user_name,
-                    "pokes": [p.dict() for p in ctx.figure.pokes],
-                    "items": ctx.figure.inv,
-                    "client": None,
-                    "position": {"map": "", "x":0, "y": 0}  # Null position
-                },
-                "version": version,
-            }))
+            msg.Handshake(
+                {
+                    "user": {
+                        "name": user_name,
+                        "pokes": [p.dict() for p in ctx.figure.pokes],
+                        "items": ctx.figure.get_inv(),
+                        "client": None,
+                        "position": {
+                            "map": "",
+                            "x": 0,
+                            "y": 0,
+                        },  # Null position
+                    },
+                    "version": version,
+                }
+            )
+        )
         match resp.get_type():
             case error.VERSION_MISMATCH_TYPE:
                 raise VersionMismatchException(resp.data["version"])
@@ -146,9 +156,11 @@ class CommunicationService:
                 return None
 
     def join_fight(self, fight_id: int) -> bs_rpc.ChannelGenerator:
-        return self.client.call_for_responses(fight.Fight({"fight_id": fight_id}))
+        return self.client.call_for_responses(
+            fight.Fight({"fight_id": fight_id})
+        )
 
-    def pos_update(self, _map:str, x:int, y:int):
+    def pos_update(self, _map: str, x: int, y: int):
         """Sends a position update to the server
         ARGS:
             _map: Name of the map the player is on
@@ -157,9 +169,7 @@ class CommunicationService:
         self.__positions_channel.push((_map, x, y))
 
     def get_player(self, name) -> player.User:
-        resp = self.client.call_for_response(
-            player.Get({"name": name})
-        )
+        resp = self.client.call_for_response(player.Get({"name": name}))
         logging.info(resp)
         match resp.get_type():
             case player.PLAYER_TYPE:
