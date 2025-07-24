@@ -1,10 +1,9 @@
 """Contains event var"""
 
-
 from typing import Callable
 
-
 EmitFn = Callable[[], None]
+
 
 class Event:
     """Event class to enable dependency injection
@@ -32,7 +31,7 @@ class Event:
         """Clears the event"""
         self._ev = ""
 
-    def set_emit_fn(self, emit_fn:EmitFn):
+    def set_emit_fn(self, emit_fn: EmitFn):
         """Sets the method used to emit events to the timer"""
         self.emit_fn = emit_fn
 
