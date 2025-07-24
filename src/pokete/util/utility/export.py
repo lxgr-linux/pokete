@@ -13,6 +13,7 @@ def export_base_data(ex: str, options: list[str], flags: dict[str, list[str]]):
     out_path: Path = DEFAULT_OUT_PATH
 
     for flag, value in flags.items():
+        print(flag)
         if out_flag.is_flag(flag):
             out_path = Path(value[0])
 
