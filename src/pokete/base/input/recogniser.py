@@ -3,9 +3,11 @@ from io import BufferedReader
 from json.encoder import ESCAPE
 import logging
 import sys
+import threading
 import time
 from typing import Optional
 
+from pokete.base.exception_propagation.propagating_thread import PropagatingThread
 from pokete.release import SPEED_OF_TIME
 from .event import _ev
 
@@ -17,6 +19,7 @@ class Recogniser:
     }
 
     def __init__(self):
+        self.escape_event = threading.Event()
         self.escape_input: Optional[str] = None
         self.fd = None
         self.old_settings = None
@@ -69,11 +72,22 @@ class Recogniser:
                         self.reset()
 
         self.recogniser = recogniser
+        PropagatingThread(target=self.check_escape, daemon=True).start()
+
+    def check_escape(self):
+        while True:
+            self.escape_event.wait()
+            self.escape_event.clear()
+            time.sleep(0.01)
+            if self.escape_input == "":
+                _ev.set("Key.esc")
+                self.escape_input = None
 
     def set_event(self, char:str, key_mapping:dict[int, str]):
         char_ord = ord(char)
         if char_ord in self.ESCAPES:
             self.escape_input = ""
+            self.escape_event.set()
         elif self.escape_input is not None:
             self.escape_input += char
             if (event := self.ESCAPED_KEY_MAPPING.get(self.escape_input, None)) is not None:
