@@ -1,10 +1,11 @@
 """Contains everything related to input processing"""
 
 import sys
-from enum import Enum, auto
 from collections import defaultdict
+from enum import Enum, auto
 
 from pokete.util import liner
+
 from .event import _ev
 
 
@@ -102,64 +103,67 @@ ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
 ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
 hotkey_mappings = {
-    '1': ActionList([Action.ACT_1, Action.DECK, Action.CHOOSE_ATTACK]),
-    '2': ActionList(
+    "1": ActionList([Action.ACT_1, Action.DECK, Action.CHOOSE_ATTACK]),
+    "2": ActionList(
         [
-            Action.ACT_2, Action.EXIT_GAME, Action.MOVE_POKETE,
-            Action.NATURE_INFO, Action.RUN
+            Action.ACT_2,
+            Action.EXIT_GAME,
+            Action.MOVE_POKETE,
+            Action.NATURE_INFO,
+            Action.RUN,
         ]
     ),
-    '3': ActionList(
+    "3": ActionList(
         [
-            Action.ACT_3, Action.MAP, Action.FREE_POKETE, Action.STATS_INFO,
-            Action.CHOOSE_ITEM
+            Action.ACT_3,
+            Action.MAP,
+            Action.FREE_POKETE,
+            Action.STATS_INFO,
+            Action.CHOOSE_ITEM,
         ]
     ),
-    '4': ActionList(
+    "4": ActionList(
         [
-            Action.ACT_4, Action.INVENTORY, Action.CHOOSE_POKE,
-            Action.ABILITIES_INFO
+            Action.ACT_4,
+            Action.INVENTORY,
+            Action.CHOOSE_POKE,
+            Action.ABILITIES_INFO,
         ]
     ),
-    '5': ActionList([Action.ACT_5, Action.POKEDEX]),
-    '6': ActionList([Action.ACT_6, Action.CLOCK]),
-    '7': ActionList([Action.ACT_7]),
-    '8': ActionList([Action.ACT_8]),
-    '9': ActionList([Action.ACT_9]),
-
-    'a': ActionList([Action.LEFT]),
-    'Key.left': ActionList([Action.LEFT]),
-    'd': ActionList([Action.RIGHT]),
-    'Key.right': ActionList([Action.RIGHT]),
-    'w': ActionList([Action.UP]),
-    'Key.up': ActionList([Action.UP]),
-    's': ActionList([Action.DOWN]),
-    'Key.down': ActionList([Action.DOWN]),
-
-    'Key.space': ActionList([Action.ACCEPT]),
-    'Key.enter': ActionList([Action.ACCEPT]),
-    'y': ActionList([Action.ACCEPT, Action.QUICK_ATC_1]),
-    'o': ActionList([Action.ACCEPT]),
-    'q': ActionList([Action.CANCEL]),
-    'n': ActionList([Action.CANCEL]),
-    'Key.esc': ActionList([Action.CANCEL]),
-    'Key.backspace': ActionList([Action.CANCEL]),
-
-    'r': ActionList([Action.REMOVE]),
-    'i': ActionList([Action.INFO, Action.INVENTORY]),
-    'p': ActionList([Action.POKEDEX]),
-    'f': ActionList([Action.FREE_POKETE]),
-    'm': ActionList([Action.MAP, Action.MOVE_POKETE]),
-    'c': ActionList([Action.CLOCK, Action.QUICK_ATC_3]),
-    '?': ActionList([Action.HELP, Action.INFO]),
-    'e': ActionList([Action.MENU, Action.SCREEN_SWITCH]),
-    ':': ActionList([Action.CONSOLE]),
-
-    'z': ActionList([Action.QUICK_ATC_1]),
-    'x': ActionList([Action.QUICK_ATC_2]),
-    'v': ActionList([Action.QUICK_ATC_4]),
-
-    '#': ActionList([Action.INTERACT]),
+    "5": ActionList([Action.ACT_5, Action.POKEDEX]),
+    "6": ActionList([Action.ACT_6, Action.CLOCK]),
+    "7": ActionList([Action.ACT_7]),
+    "8": ActionList([Action.ACT_8]),
+    "9": ActionList([Action.ACT_9]),
+    "a": ActionList([Action.LEFT]),
+    "Key.left": ActionList([Action.LEFT]),
+    "d": ActionList([Action.RIGHT]),
+    "Key.right": ActionList([Action.RIGHT]),
+    "w": ActionList([Action.UP]),
+    "Key.up": ActionList([Action.UP]),
+    "s": ActionList([Action.DOWN]),
+    "Key.down": ActionList([Action.DOWN]),
+    "Key.space": ActionList([Action.ACCEPT]),
+    "Key.enter": ActionList([Action.ACCEPT]),
+    "y": ActionList([Action.ACCEPT, Action.QUICK_ATC_1]),
+    "o": ActionList([Action.ACCEPT]),
+    "q": ActionList([Action.CANCEL]),
+    "n": ActionList([Action.CANCEL]),
+    "Key.esc": ActionList([Action.CANCEL]),
+    "Key.backspace": ActionList([Action.CANCEL]),
+    "r": ActionList([Action.REMOVE]),
+    "i": ActionList([Action.INFO, Action.INVENTORY]),
+    "p": ActionList([Action.POKEDEX]),
+    "f": ActionList([Action.FREE_POKETE]),
+    "m": ActionList([Action.MAP, Action.MOVE_POKETE]),
+    "c": ActionList([Action.CLOCK, Action.QUICK_ATC_3]),
+    "?": ActionList([Action.HELP, Action.INFO]),
+    "e": ActionList([Action.MENU, Action.SCREEN_SWITCH]),
+    ":": ActionList([Action.CONSOLE]),
+    "z": ActionList([Action.QUICK_ATC_1]),
+    "x": ActionList([Action.QUICK_ATC_2]),
+    "v": ActionList([Action.QUICK_ATC_4]),
+    "#": ActionList([Action.INTERACT]),
 }
 
 
@@ -173,13 +177,15 @@ def get_mapping(action, keys):
 
 def hotkeys_save():
     """Returns a save dict"""
-    return {key: [i.name for i in value] for key, value in
-            hotkey_mappings.items()}
+    return {
+        key: [i.name for i in value] for key, value in hotkey_mappings.items()
+    }
 
 
 def hotkeys_from_save(ctx, save, version_change):
     """Sets hotkey_mappings from save"""
     from ..input_loops import ask_bool
+
     global hotkey_mappings
 
     if save == {}:
@@ -189,21 +195,23 @@ def hotkeys_from_save(ctx, save, version_change):
         ActionList,
         {
             key: ActionList(
-                [
-                    Action[i] for i in value if i in Action.__members__
-                ]
+                [Action[i] for i in value if i in Action.__members__]
             )
             for key, value in save.items()
-        }
+        },
     )
     unset = [
-        action for action in Action
+        action
+        for action in Action
         if get_mapping(action, new_hotkey_mappings) is None
     ]
     if unset:
-        if version_change or ask_bool(ctx, f"""The folowing keys are not set:
+        if version_change or ask_bool(
+            ctx,
+            f"""The folowing keys are not set:
 {liner(", ".join([i.name for i in unset]), 60)}
-Should defaults be loaded for those keys?"""):
+Should defaults be loaded for those keys?""",
+        ):
             for action in unset:
                 key = action.mapping
                 new_hotkey_mappings[key].append(action)
