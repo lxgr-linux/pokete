@@ -47,7 +47,7 @@ If you have problems with your ARCH you maybe need to rebuild the audio module, 
 ```shell
 pip install scrap_engine
 git clone https://github.com/lxgr-linux/pokete.git
-cd src
+cd pokete/src
 python -m pokete
 ```
 
