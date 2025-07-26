@@ -7,7 +7,7 @@ go build -ldflags "-s -w" -buildmode=c-shared -o ./libplaysound.x86_64.so
 
 ### Windows
 ```shell
-GOOS=windows CGO_ENABLED=1 CC=x86_64-w64-mingw32-cc go build -ldflags "-s -w" -buildmode=c-shared -o ./libplaysound.x86_64.dll
+GOOS=windows CGO_ENABLED=1 CC=x86_64-w64-mingw32-cc go build -ldflags "-s -w" -buildmode=c-shared -o ./libplaysound.AMD64.dll
 ```
 
 ### OSX
