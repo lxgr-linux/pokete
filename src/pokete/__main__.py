@@ -92,10 +92,11 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
             [Poke.from_dict(_si["pokes"][poke]) for poke in _si["pokes"]],
             escapable=True,
             xp_multiplier=2,
+            name=_si.get("user", "DEFAULT"),
+            is_player=True
         )
         Bank.__init__(self, _si.get("money", 10))
         Inventory.__init__(self, _si.get("inv", {"poketeballs": 10}))
-        self.name = _si.get("user", "DEFAULT")
         self.caught_pokes = _si.get("caught_poketes", [])
         self.visited_maps = _si.get("visited_maps", ["playmap_1"])
         self.used_npcs = _si.get("used_npcs", [])

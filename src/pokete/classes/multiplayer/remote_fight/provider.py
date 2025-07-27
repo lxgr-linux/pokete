@@ -18,12 +18,10 @@ class RemoteProvider(Provider):
         self.player: player.User = com_service.get_player(name)
         self.outgoing = outgoing
         self.incomming = incomming
-        self.name = name
-
         super().__init__(
             [Poke(
                 poke["name"], _xp=poke["xp"], _hp=poke["hp"], _ap=poke["ap"], _attacks=poke["attacks"], _effects=poke["effects"], player=False, shiny=poke["shiny"], nature=poke["nature"], stats=poke["stats"]
-            ) for poke in self.player["pokes"]], False, 4, self.player["items"])
+            ) for poke in self.player["pokes"]], False, 4, name, False, self.player["items"])
 
     def greet(self, fightmap: FightMap):
         fightmap.outp.outp(f"Fight started with {self.name}, good luck!")

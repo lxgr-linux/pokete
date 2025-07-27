@@ -275,7 +275,7 @@ class FightMap(gm.GameMap, Overview):
             self.show()
 
     def show_item_used(self, player: Provider, item: InvItem):
-        self.outp.outp(f"{"You" if player.curr.player else player.name} used item '{item.pretty_name}'")
+        self.outp.outp(f"{"You" if player.is_player else player.name} used item '{item.pretty_name}'")
 
     def add_providers(self, providers: list[Provider]):
         self.resize_view()

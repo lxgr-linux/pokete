@@ -22,8 +22,12 @@ class Provider(ABC):
         pokes: list[Poke],
         escapable: bool,
         xp_multiplier: int,
+        name: str,
+        is_player: bool,
         inv: dict[str, int] | None = None,
     ):
+        self.name = name
+        self.is_player = is_player
         self.pokes = pokes
         self.escapable = escapable
         self.xp_multiplier = xp_multiplier
@@ -96,7 +100,9 @@ class NatureProvider(Provider):
         poke: One Pokete"""
 
     def __init__(self, poke):
-        super().__init__([poke], escapable=True, xp_multiplier=1)
+        super().__init__(
+            [poke], name="Nature", is_player=False, escapable=True, xp_multiplier=1
+        )
 
     def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
         """Returns the choosen attack:

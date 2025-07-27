@@ -126,7 +126,7 @@ class Trainer(NPC, Provider):
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
-        Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
+        Provider.__init__(self, pokes, name=name, is_player=False, escapable=False, xp_multiplier=2)
         # attributes
         self.gender = gender
         self.lose_texts = lose_texts
