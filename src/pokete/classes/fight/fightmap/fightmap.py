@@ -21,7 +21,7 @@ from pokete.release import SPEED_OF_TIME
 from ...classes import OutP
 from ...settings import settings
 from ..fight_decision import FightDecision
-from ..providers import ProtoFigure, Provider
+from ..providers import NatureProvider, ProtoFigure, Provider
 from .attack import AttackBox
 from .inv import InvBox
 
@@ -261,7 +261,7 @@ class FightMap(gm.GameMap, Overview):
                         "What do you want to do?"
                     )
                     continue
-                item = self.invbox(ctx, items, player.get_inv())
+                item = self.invbox(ctx, items, player.get_inv(), not isinstance(enem, NatureProvider))
                 if item is None:
                     continue
 

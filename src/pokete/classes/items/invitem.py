@@ -8,10 +8,11 @@ class InvItem:
         _fn: The associated method name in FightItems"""
 
     def __init__(
-        self, name:str, pretty_name: str, desc: str, price: int | None, _fn: str | None=None
+        self, name:str, pretty_name: str, desc: str, price: int | None, usable_in_duel: bool, _fn: str | None=None
     ):
         self.name: str = name
         self.pretty_name = pretty_name
         self.desc = desc
         self.price = price
         self.func = _fn
+        self.usable_in_duel = usable_in_duel

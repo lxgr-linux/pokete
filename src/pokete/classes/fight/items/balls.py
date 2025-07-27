@@ -30,9 +30,6 @@ class GenericPokeBall(FightItem, ABC):
             1: The continue the attack round
             2: The win the game
             None: To let the enemy attack"""
-        if not isinstance(enem, NatureProvider):
-            fightmap.outp.outp("You can't do that in a duel!")
-            return RoundContinuation.CONTINUE_ATTACK
         fightmap.outp.rechar(f"You threw a {self.name.capitalize()}!")
         fightmap.fast_change(
             [enem.curr.ico, fightmap.deadico1, fightmap.deadico2,

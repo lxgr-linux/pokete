@@ -14,4 +14,4 @@ class LearnDisc(InvItem):
         pretty_name = f"LD-{self.attack.name}"
         name = f"ld_{attack_name}"
         desc = f"Teaches a Pokete the attack '{self.attack.name}'."
-        super().__init__(name, pretty_name, desc, 0)
+        super().__init__(name, pretty_name, desc, 0, False)

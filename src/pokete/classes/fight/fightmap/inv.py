@@ -3,6 +3,7 @@
 import scrap_engine as se
 
 from pokete.base.context import Context
+from pokete.base.input_loops.ask import ask_ok
 from pokete.base.ui.elements import ChooseBox
 from pokete.base.input import ACTION_UP_DOWN, Action, get_action
 from pokete.base import loops
@@ -20,8 +21,10 @@ class InvBox(ChooseBox):
         self.add(self.map, self.map.width - 35, 0)
         self.map.show()
 
-    def __call__(self, ctx: Context, items: list[InvItem],
-                 inv) -> InvItem | None:
+    def __call__(
+        self, ctx: Context, items: list[InvItem],
+        inv: dict[str, int], is_duel: bool
+    ) -> InvItem | None:
         """Inputloop for inv
         ARGS:
             items: List of InvItems that can be choosen from
@@ -42,6 +45,9 @@ class InvBox(ChooseBox):
                     break
                 elif action.triggers(Action.ACCEPT):
                     item = items[self.index.index]
+                    if not item.usable_in_duel and is_duel:
+                        ask_ok(ctx, "You can't use this in a duel")
+                        continue
                     break
                 loops.std(ctx.with_overview(self))
         self.remove_c_obs()

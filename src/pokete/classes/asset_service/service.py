@@ -34,7 +34,7 @@ class AssetSerice:
         self.__items = {**{
             name: InvItem(
                 name, item.pretty_name,
-                item.desc, item.price, item.fn
+                item.desc, item.price, item.usable_in_duel, item.fn
             )
             for name, item in self.__base_assets.items.items()
         }, **{

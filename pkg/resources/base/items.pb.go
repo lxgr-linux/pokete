@@ -7,8 +7,9 @@ package base
 import ()
 
 type Item struct {
-	PrettyName string  `json:"pretty_name"`
-	Desc       string  `json:"desc"`
-	Price      *int32  `json:"price"`
-	Fn         *string `json:"fn"`
+	PrettyName   string  `json:"pretty_name"`
+	Desc         string  `json:"desc"`
+	Price        *int32  `json:"price"`
+	Fn           *string `json:"fn"`
+	UsableInDuel bool    `json:"usable_in_duel"`
 }
