@@ -111,6 +111,7 @@ class Fight:
                             raise Exception(
                                 f"fight_item doesnt exist {item.func}"
                             )
+                        self.fightmap.show_item_used(player, item)
                         match fight_item.use(self.fightmap, player, enem):
                             case RoundContinuation.CONTINUE_ATTACK:
                                 continue  # This is the sole reason for the while loop on top

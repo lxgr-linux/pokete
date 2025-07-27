@@ -1,5 +1,6 @@
 """This file contains all relevant classes for fight"""
 
+import logging
 import time
 
 import scrap_engine as se
@@ -272,6 +273,9 @@ class FightMap(gm.GameMap, Overview):
                 return FightDecision.choose_poke(player.play_index)
             loops.std(ctx)
             self.show()
+
+    def show_item_used(self, player: Provider, item: InvItem):
+        self.outp.outp(f"{"You" if player.curr.player else player.name} used item '{item.pretty_name}'")
 
     def add_providers(self, providers: list[Provider]):
         self.resize_view()
