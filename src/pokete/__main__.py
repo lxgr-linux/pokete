@@ -14,6 +14,8 @@ from datetime import datetime
 
 import scrap_engine as se
 
+from pokete import release
+
 from .base import loops
 from .base.color import Color
 from .base.context import Context
@@ -62,7 +64,6 @@ from .figure import Bank, Inventory
 from .release import SPEED_OF_TIME
 from .startup.command import PoketeCommand
 from .startup.logging import init_logger
-from pokete import release
 
 # Class definition
 ##################
@@ -427,8 +428,7 @@ def intro(ctx: Context):
             "Therefore, I'll give you this powerful 'Steini', "
             "15 'Poketeballs' to catch Poketes, and a "
             "'Healing potion'.",
-            "You will be the best Pokete-Trainer in Nice "
-            "town.",
+            "You will be the best Pokete-Trainer in Nice town.",
             "Now go out and become the best!",
         ],
     )
