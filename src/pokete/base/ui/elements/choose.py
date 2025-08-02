@@ -1,8 +1,15 @@
 import scrap_engine as se
 
+from pokete.base.input import (
+    ACTION_DIRECTIONS,
+    ACTION_UP_DOWN,
+    Action,
+    ActionList,
+)
+from pokete.base.input.mouse import MouseEvent, MouseEventType
+from pokete.base.mouse import Area, MouseInteractor, mouse_interaction_manager
+
 from .box import Box
-from pokete.base.input import ACTION_DIRECTIONS, ACTION_UP_DOWN, Action, \
-    ActionList
 
 
 class BoxIndex(se.Object):
@@ -24,8 +31,14 @@ class ChooseBox(Box):
         c_obs: List of se.Texts that can be choosen from"""
 
     def __init__(
-        self, height, width, name="", info="",
-        index_x=2, c_obs=None, overview=None
+        self,
+        height,
+        width,
+        name="",
+        info="",
+        index_x=2,
+        c_obs=None,
+        overview=None,
     ):
         super().__init__(height, width, name, info, overview=overview)
         self.index_x = index_x
@@ -49,7 +62,7 @@ class ChooseBox(Box):
             inp = Action.DOWN
         if {
             Action.DOWN: self.index.index + 1 < len(self.c_obs),
-            Action.UP: self.index.index - 1 >= 0
+            Action.UP: self.index.index - 1 >= 0,
         }[inp]:
             self.index.index += y_str
         else:
@@ -98,18 +111,22 @@ class BetterChooserItem(Box):
 
     def choose(self):
         """Rechars the frame to be highlighted"""
-        self.frame.rechar(corner_chars=["┏", "┓", "┗", "┛"],
-                          horizontal_chars=["━", "━"],
-                          vertical_chars=["┃", "┃"])
+        self.frame.rechar(
+            corner_chars=["┏", "┓", "┗", "┛"],
+            horizontal_chars=["━", "━"],
+            vertical_chars=["┃", "┃"],
+        )
 
     def unchoose(self):
         """Rechars the frame to be not highlighted"""
-        self.frame.rechar(corner_chars=["┌", "┐", "└", "┘"],
-                          horizontal_chars=["─", "─"],
-                          vertical_chars=["│", "│"])
+        self.frame.rechar(
+            corner_chars=["┌", "┐", "└", "┘"],
+            horizontal_chars=["─", "─"],
+            vertical_chars=["│", "│"],
+        )
 
 
-class BetterChooseBox(Box):
+class BetterChooseBox(Box, MouseInteractor):
     """Better Choosebox using a tile layout
     ARGS:
         columns: Number of columns
@@ -118,21 +135,40 @@ class BetterChooseBox(Box):
         _map: The map it will be shown on"""
 
     def __init__(
-        self, columns, labels: list[se.Text],
-        name="", _map=None, overview=None
+        self, columns, labels: list[se.Text], name="", _map=None, overview=None
     ):
-        self.nest_label_obs = []
+        self.nest_label_obs: list[list[BetterChooserItem]] = []
         self.set_items(columns, labels, init=True)
         super().__init__(
             3 * len(self.nest_label_obs) + 2,
             sum(i.width for i in self.nest_label_obs[0]) + 2,
-            name, f"{Action.CANCEL.mapping}:close",
-            overview=overview
+            name,
+            f"{Action.CANCEL.mapping}:close",
+            overview=overview,
         )
+        self.columns = columns
         self.map = _map
         self.__add_obs()
         self.index = (0, 0)
         self.get_item(*self.index).choose()
+
+    def add(self, _map, x, y):
+        mouse_interaction_manager.attach([self])
+        return super().add(_map, x, y)
+
+    def remove(self):
+        mouse_interaction_manager.attach([])
+        return super().remove()
+
+    def get_interaction_areas(self) -> list[Area]:
+        return [i.get_area() for f in self.nest_label_obs for i in f]
+
+    def __get_index_from_area_idx(self, idx: int) -> tuple[int, int]:
+        return (int(idx / self.columns), idx % self.columns)
+
+    def interact(self, area_idx: int, event: MouseEvent):
+        if event.type == MouseEventType.MOVE:
+            self.set_index(*self.__get_index_from_area_idx(area_idx))
 
     def set_index(self, _y, _x):
         """Sets index and chooses item
@@ -171,11 +207,11 @@ class BetterChooseBox(Box):
             Action.LEFT: (0, -1),
             Action.RIGHT: (0, 1),
         }[inp]
-        self.set_index((self.index[0] + _c[0])
-                       % len([i for i in self.nest_label_obs if len(i) >
-                              self.index[1]]),
-                       (self.index[1] + _c[1])
-                       % len(self.nest_label_obs[self.index[0]]))
+        self.set_index(
+            (self.index[0] + _c[0])
+            % len([i for i in self.nest_label_obs if len(i) > self.index[1]]),
+            (self.index[1] + _c[1]) % len(self.nest_label_obs[self.index[0]]),
+        )
 
     def set_items(self, columns, labels: list[se.Text], init=False):
         """Sets the items shown in the box
@@ -187,15 +223,19 @@ class BetterChooseBox(Box):
             for obj in i:
                 self.rem_ob(obj)
         box_width = sorted(len(i.text) for i in labels)[-1]
-        label_obs = [BetterChooserItem(3, box_width + 4, label, i)
-                     for i, label in enumerate(labels)]
+        label_obs = [
+            BetterChooserItem(3, box_width + 4, label, i)
+            for i, label in enumerate(labels)
+        ]
         self.nest_label_obs = [
-            label_obs[i * columns:(i + 1) * columns]
+            label_obs[i * columns : (i + 1) * columns]
             for i in range(max(round(len(labels) / columns + 0.49), 1))
         ]
         if not init:
-            self.resize(3 * len(self.nest_label_obs) + 2,
-                        sum(i.width for i in self.nest_label_obs[0]) + 2)
+            self.resize(
+                3 * len(self.nest_label_obs) + 2,
+                sum(i.width for i in self.nest_label_obs[0]) + 2,
+            )
             self.__add_obs()
             try:
                 self.set_index(*self.index)

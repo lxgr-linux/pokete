@@ -2,15 +2,16 @@
 
 import datetime
 import logging
+
 import scrap_engine as se
 
-from pokete.util import liner
+from pokete.base import loops
+from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import ACTION_DIRECTIONS, Action, get_action
 from pokete.base.ui.elements import BetterChooseBox, LabelBox
 from pokete.base.ui.notify import notifier
-from pokete.base.color import Color
-from pokete.base import loops
+from pokete.util import liner
 
 
 class Achievement:
@@ -51,8 +52,9 @@ class Achievements:
         ARGS:
             identifier: The Achievements identifier"""
         if not self.is_achieved(identifier):
-            ach = [i for i in self.achievements
-                   if i.identifier == identifier][0]
+            ach = [i for i in self.achievements if i.identifier == identifier][
+                0
+            ]
             notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
             logging.info("[Achievements] Unlocked %s", identifier)
@@ -74,19 +76,31 @@ class AchBox(LabelBox):
 
     def __init__(self, ctx: Context, ach, ach_ob):
         is_ach = ach_ob.is_achieved(ach.identifier)
-        date = [i[-1] for i in ach_ob.achieved if i[0] ==
-                ach.identifier][0] if is_ach else ""
-        label = se.Text("Achieved: ", state="float") \
-                + se.Text("Yes" if is_ach else "No",
-                          esccode=Color.thicc
-                                  + (Color.green if is_ach
-                                     else Color.grey), state="float") \
-                + (se.Text("\nAt: " + date,
-                           state="float") if is_ach else se.Text("")) \
-                + se.Text("\n" + liner(ach.desc, 30), state="float")
-        super().__init__(label, name=ach.title,
-                         info=f"{Action.CANCEL.mapping}:close",
-                         ctx=ctx)
+        date = (
+            [i[-1] for i in ach_ob.achieved if i[0] == ach.identifier][0]
+            if is_ach
+            else ""
+        )
+        label = (
+            se.Text("Achieved: ", state="float")
+            + se.Text(
+                "Yes" if is_ach else "No",
+                esccode=Color.thicc + (Color.green if is_ach else Color.grey),
+                state="float",
+            )
+            + (
+                se.Text("\nAt: " + date, state="float")
+                if is_ach
+                else se.Text("")
+            )
+            + se.Text("\n" + liner(ach.desc, 30), state="float")
+        )
+        super().__init__(
+            label,
+            name=ach.title,
+            info=f"{Action.CANCEL.mapping}:close",
+            ctx=ctx,
+        )
 
 
 class AchievementOverview(BetterChooseBox):
@@ -94,16 +108,26 @@ class AchievementOverview(BetterChooseBox):
 
     def __init__(self):
         super().__init__(
-            3, [se.Text(" ")], name="Achievements",
+            3,
+            [se.Text(" ")],
+            name="Achievements",
         )
 
     def __call__(self, ctx: Context):
         """Input loop"""
-        self.set_items(3, [se.Text(i.title,
-                                   esccode=Color.thicc + Color.green
-                                   if achievements.is_achieved(i.identifier)
-                                   else "", state="float")
-                           for i in achievements.achievements])
+        self.set_items(
+            3,
+            [
+                se.Text(
+                    i.title,
+                    esccode=Color.thicc + Color.green
+                    if achievements.is_achieved(i.identifier)
+                    else "",
+                    state="float",
+                )
+                for i in achievements.achievements
+            ],
+        )
         self.set_ctx(ctx)
         with self:
             while True:
@@ -119,7 +143,8 @@ class AchievementOverview(BetterChooseBox):
                         ]
                         with AchBox(
                             ctx.with_overview(self),
-                            ach, achievements,
+                            ach,
+                            achievements,
                         ).center_add(ctx.map) as achbox:
                             loops.easy_exit(ctx.with_overview(achbox))
                 loops.std(ctx.with_overview(self))
