@@ -103,7 +103,8 @@ class PreGameMap(GameSubmap, Overview):
             session_info.get("hotkeys", {}),
             check_version(ctx, session_info),
         )
-        ModeChooser()(ctx)
+        if not ModeChooser()(ctx):
+            sys.exit()
 
 
 def check_version(ctx: Context, sinfo):

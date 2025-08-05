@@ -6,8 +6,6 @@ from pokete.base.input import (
     Action,
     ActionList,
 )
-from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import Area, MouseInteractor, mouse_interaction_manager
 
 from .box import Box
 
@@ -126,7 +124,7 @@ class BetterChooserItem(Box):
         )
 
 
-class BetterChooseBox(Box, MouseInteractor):
+class BetterChooseBox(Box):
     """Better Choosebox using a tile layout
     ARGS:
         columns: Number of columns
@@ -151,24 +149,6 @@ class BetterChooseBox(Box, MouseInteractor):
         self.__add_obs()
         self.index = (0, 0)
         self.get_item(*self.index).choose()
-
-    def add(self, _map, x, y):
-        mouse_interaction_manager.attach([self])
-        return super().add(_map, x, y)
-
-    def remove(self):
-        mouse_interaction_manager.attach([])
-        return super().remove()
-
-    def get_interaction_areas(self) -> list[Area]:
-        return [i.get_area() for f in self.nest_label_obs for i in f]
-
-    def __get_index_from_area_idx(self, idx: int) -> tuple[int, int]:
-        return (int(idx / self.columns), idx % self.columns)
-
-    def interact(self, area_idx: int, event: MouseEvent):
-        if event.type == MouseEventType.MOVE:
-            self.set_index(*self.__get_index_from_area_idx(area_idx))
 
     def set_index(self, _y, _x):
         """Sets index and chooses item

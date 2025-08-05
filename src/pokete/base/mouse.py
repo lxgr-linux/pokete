@@ -20,7 +20,7 @@ class MouseInteractor(ABC):
     ) -> list[Area]: ...
 
     @abstractmethod
-    def interact(self, area_idx: int, event: MouseEvent): ...
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent): ...
 
 
 class InteractionSingleEvent(SingleEvent):
@@ -33,7 +33,7 @@ class InteractionSingleEvent(SingleEvent):
         self.idx = idx
 
     def run(self, ctx: Context):
-        self.interactor.interact(self.idx, self.event)
+        self.interactor.interact(ctx, self.idx, self.event)
 
 
 class MouseInteractionManager:
