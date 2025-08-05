@@ -7,7 +7,7 @@ from pokete.base import loops
 from pokete.base.context import Context
 from pokete.base.input.hotkeys import ACTION_UP_DOWN, Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import Area, MouseInteractor
+from pokete.base.mouse import Area, MouseInteractor, mouse_interaction_manager
 from pokete.base.ui.elements.choose import ChooseBox
 
 
@@ -30,14 +30,25 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
     def choose(self, ctx: Context, idx: int) -> Optional[Never]: ...
 
     def get_interaction_areas(self) -> list[Area]:
-        return
+        return [
+            (
+                (i.x, i.y),
+                (self.x + self.width - 2, i.y + i.height - 1),
+            )
+            for i in self.elems[
+                self.page * (self.height - 2) : (self.page + 1)
+                * (self.height - 2)
+            ]
+        ]
 
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
         match event.type:
             case MouseEventType.MOVE:
-                self.set_index(*self.__get_index_from_area_idx(area_idx))
+                self.set_index(area_idx)
             case MouseEventType.LEFT:
-                self.__special_ret = self.choose(ctx, area_idx)
+                self.__special_ret = self.choose(
+                    ctx, self.page * (self.height - 2) + area_idx
+                )
 
     def add_elems(self):
         """Adds c_obs to box"""
@@ -71,8 +82,17 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
             c_ob.remove()
         self.remove_c_obs()
 
+    def __enter__(self):
+        mouse_interaction_manager.attach([self])
+        return super().__enter__()
+
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        mouse_interaction_manager.attach([])
+        return super().__exit__(exc_type, exc_value, exc_tb)
+
     def __call__(self, ctx: Context):
         self.set_ctx(ctx)
+
         while True:
             action = get_action()
             for event, idx, n_idx, add_page, idx_2 in zip(
