@@ -54,7 +54,10 @@ class Box(se.Box, Overview):
             self.map.show()
 
     def get_area(self) -> Area:
-        return ((self.x, self.y), (self.x + self.width, self.y + self.height))
+        return (
+            (self.x, self.y),
+            (self.x + self.width - 1, self.y + self.height - 1),
+        )
 
     def center_add(self, _map):
         """Adds the box to the maps center

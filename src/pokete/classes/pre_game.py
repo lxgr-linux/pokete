@@ -14,6 +14,7 @@ from pokete.base.periodic_event_manager import (
     PeriodicEvent,
     PeriodicEventManager,
 )
+from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.classes import ob_maps as obmp
@@ -88,9 +89,14 @@ class PreGameMap(GameSubmap, Overview):
 
     def __call__(self, session_info, figure):
         pevm = PeriodicEventManager(
-            [exception_propagating_periodic_event, BGMoverEvent(self)]
+            [
+                exception_propagating_periodic_event,
+                single_event_periodic_event,
+                BGMoverEvent(self),
+            ]
         )
         ctx = Context(pevm, self, self, figure)
+        single_event_periodic_event.set_root_context(ctx)
         audio.play("xDeviruchi - Minigame .mp3")
         hotkeys_from_save(
             ctx,

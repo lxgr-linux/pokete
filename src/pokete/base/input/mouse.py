@@ -1,4 +1,3 @@
-import logging
 import re
 from dataclasses import dataclass
 from enum import Enum
@@ -29,7 +28,7 @@ class MouseManager:
         return not not self.pattern.match(inp)
 
     def handle(self, inp: str):
-        logging.info("handle %s", inp)
+        # logging.info("handle %s", inp)
         pressed = inp.endswith("m")
 
         num_vals: list[int] = [
