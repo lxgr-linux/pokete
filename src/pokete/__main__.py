@@ -36,7 +36,7 @@ from .classes.achievements import achievements
 from .classes.asset_service.service import asset_service
 from .classes.audio import audio
 from .classes.classes import PlayMap
-from .classes.dex import Dex
+from .classes.dex import PokeDex
 from .classes.fight import ProtoFigure
 from .classes.game import MapChangeExeption
 from .classes.game_context import GameContext
@@ -344,7 +344,7 @@ def _game(_map: PlayMap, figure: Figure):
         Action.DECK: (deck.deck, (ctx, 6, "Your deck")),
         Action.MAP: (roadmap.roadmap, (ctx,)),
         Action.INVENTORY: (inv, (ctx,)),
-        Action.POKEDEX: (Dex(), (ctx,)),
+        Action.POKEDEX: (PokeDex(), (ctx,)),
         Action.CLOCK: (timer.clock, (ctx,)),
         Action.MENU: (Menu(), (ctx,)),
         Action.HELP: (Help(), (ctx,)),
