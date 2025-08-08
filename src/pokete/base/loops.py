@@ -30,6 +30,6 @@ def std(ctx: Context):
     """Standard action executed in most loops"""
     if tss():
         ctx.overview.resize_view()
-    ctx.pevm.event()
+    ctx.pevm.event(ctx)
     ctx.map.full_show()
     time.sleep(release.FRAMETIME)

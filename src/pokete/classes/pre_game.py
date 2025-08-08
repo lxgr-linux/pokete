@@ -36,7 +36,7 @@ class BGMoverEvent(PeriodicEvent):
         self.up = True
         self.right = True
 
-    def tick(self, tick: int):
+    def tick(self, ctx: Context, tick: int):
         if tick % 2 == 0:
             if self.map.x + self.map.width >= self.map.bmap.width:
                 self.right = False
@@ -96,7 +96,6 @@ class PreGameMap(GameSubmap, Overview):
             ]
         )
         ctx = Context(pevm, self, self, figure)
-        single_event_periodic_event.set_root_context(ctx)
         audio.play("xDeviruchi - Minigame .mp3")
         hotkeys_from_save(
             ctx,

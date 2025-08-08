@@ -336,9 +336,6 @@ def _game(_map: PlayMap, figure: Figure):
         + _map.extra_actions()
     )
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
-    single_event_periodic_event.set_root_context(
-        ctx
-    )  # Terribly injected from behind
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: dict[Action, tuple] = {
         Action.DECK: (deck.deck, (ctx, 6, "Your deck")),
