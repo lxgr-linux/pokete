@@ -1,1 +1,1 @@
-from .semantic_version import *
+from .semantic_version_test import *
