@@ -14,6 +14,8 @@ from datetime import datetime
 
 import scrap_engine as se
 
+from pokete import release
+
 from .base import loops
 from .base.color import Color
 from .base.context import Context
@@ -34,7 +36,7 @@ from .classes.achievements import achievements
 from .classes.asset_service.service import asset_service
 from .classes.audio import audio
 from .classes.classes import PlayMap
-from .classes.dex import Dex
+from .classes.dex import PokeDex
 from .classes.fight import ProtoFigure
 from .classes.game import MapChangeExeption
 from .classes.game_context import GameContext
@@ -62,7 +64,6 @@ from .figure import Bank, Inventory
 from .release import SPEED_OF_TIME
 from .startup.command import PoketeCommand
 from .startup.logging import init_logger
-from pokete import release
 
 # Class definition
 ##################
@@ -335,15 +336,12 @@ def _game(_map: PlayMap, figure: Figure):
         + _map.extra_actions()
     )
     ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
-    single_event_periodic_event.set_root_context(
-        ctx
-    )  # Terribly injected from behind
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: dict[Action, tuple] = {
         Action.DECK: (deck.deck, (ctx, 6, "Your deck")),
         Action.MAP: (roadmap.roadmap, (ctx,)),
         Action.INVENTORY: (inv, (ctx,)),
-        Action.POKEDEX: (Dex(), (ctx,)),
+        Action.POKEDEX: (PokeDex(), (ctx,)),
         Action.CLOCK: (timer.clock, (ctx,)),
         Action.MENU: (Menu(), (ctx,)),
         Action.HELP: (Help(), (ctx,)),
@@ -427,8 +425,7 @@ def intro(ctx: Context):
             "Therefore, I'll give you this powerful 'Steini', "
             "15 'Poketeballs' to catch Poketes, and a "
             "'Healing potion'.",
-            "You will be the best Pokete-Trainer in Nice "
-            "town.",
+            "You will be the best Pokete-Trainer in Nice town.",
             "Now go out and become the best!",
         ],
     )

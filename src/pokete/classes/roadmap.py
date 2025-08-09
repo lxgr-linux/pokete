@@ -2,13 +2,13 @@
 
 import scrap_engine as se
 
-from pokete.base.input import ACTION_DIRECTIONS, Action, ActionList, get_action
-from pokete.base.color import Color
-from pokete.base.ui.elements import Box, InfoBox
-from pokete.base.context import Context
-from pokete.base.periodic_event_manager import PeriodicEvent
-from pokete.base import loops
 import pokete.classes.ob_maps as obmp
+from pokete.base import loops
+from pokete.base.color import Color
+from pokete.base.context import Context
+from pokete.base.input import ACTION_DIRECTIONS, Action, ActionList, get_action
+from pokete.base.periodic_event_manager import PeriodicEvent
+from pokete.base.ui.elements import Box, InfoBox
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.classes import PlayMap
 from pokete.util import liner
@@ -24,7 +24,6 @@ class RoadMapException(Exception):
 
 
 class StationObject(se.Text):
-
     def __init__(self, text, color):
         super().__init__(text, esccode=color, state="float")
 
@@ -64,8 +63,9 @@ class Station(StationObject):
         self.color = getattr(Color, color, "\033[1;37m")
         self.base_color = self.color
         self.base_text = text
-        self.associates: list[PlayMap] = [associate] + [obmp.ob_maps[i] for i in
-                                                        additionals]
+        self.associates: list[PlayMap] = [associate] + [
+            obmp.ob_maps[i] for i in additionals
+        ]
         if self.associates[0]:
             self.name = self.associates[0].pretty_name
         super().__init__(text, self.color)
@@ -79,7 +79,8 @@ class Station(StationObject):
         """Chooses and hightlights the station"""
         Station.choosen = self
         self.roadmap.rechar_info(
-            self.name if self.has_been_visited(figure) else "???")
+            self.name if self.has_been_visited(figure) else "???"
+        )
 
     def unchoose(self):
         """Unchooses the station"""
@@ -115,8 +116,12 @@ class Station(StationObject):
 
     def is_city(self):
         """Returns if the station is a city"""
-        return "pokecenter" in \
-            asset_service.get_assets().obmaps[self.associates[0].name].hard_obs
+        return (
+            "pokecenter"
+            in asset_service.get_assets()
+            .obmaps[self.associates[0].name]
+            .hard_obs
+        )
 
     def hide_if_visited(self, figure, choose=False):
         self.text = self.base_text
@@ -141,19 +146,28 @@ class RoadMap:
         stations = asset_service.get_assets().stations
         decorations = asset_service.get_assets().decorations
         self.box = Box(
-            17, 61, "Roadmap", f"{Action.CANCEL.mapping}:close",
+            17,
+            61,
+            "Roadmap",
+            f"{Action.CANCEL.mapping}:close",
         )
-        self.rose = se.Text("""   N
+        self.rose = se.Text(
+            """   N
    ▲
 W ◀ ▶ E
    ▼
-   S""", state="float")
-        self.legend = se.Text("""│ Legend:
+   S""",
+            state="float",
+        )
+        self.legend = se.Text(
+            """│ Legend:
 │ P-Pokecenter
 │ $-Shop
 │ C-PoketeCare
 │ A-Arena
-└──────────────""", state="float")
+└──────────────""",
+            state="float",
+        )
         self.info_label = se.Text("", state="float")
         self.box.add_ob(self.info_label, self.box.width - 2, 0)
         self.box.add_ob(self.rose, 53, 11)
@@ -192,17 +206,18 @@ W ◀ ▶ E
             i
             for i in Station.obs
             if (
-                   ctx.figure.map
-                   if ctx.figure.map
-                      not in [obmp.ob_maps[i] for i in ("shopmap", "centermap")]
-                   else ctx.figure.oldmap
-               )
-               in i.associates
+                ctx.figure.map
+                if ctx.figure.map
+                not in [obmp.ob_maps[i] for i in ("shopmap", "centermap")]
+                else ctx.figure.oldmap
+            )
+            in i.associates
         ][0].choose(ctx.figure)
         self.box.overview = ctx.overview
         blinker = BlinkerEvent(self.sta)
         ctx = ctx.with_pevm(ctx.pevm.with_events([blinker])).with_overview(
-            self.box)
+            self.box
+        )
         with self.box.center_add(ctx.map):
             while True:
                 action = get_action()
@@ -228,9 +243,15 @@ W ◀ ▶ E
                             for i in self.sta.associates
                             for j in [
                                 *(
-                                    [] if i.poke_args is None else i.poke_args.pokes),
+                                    []
+                                    if i.poke_args is None
+                                    else i.poke_args.pokes
+                                ),
                                 *(
-                                    [] if i.w_poke_args is None else i.w_poke_args.pokes)
+                                    []
+                                    if i.w_poke_args is None
+                                    else i.w_poke_args.pokes
+                                ),
                             ]
                         )
                     )
@@ -275,7 +296,7 @@ class BlinkerEvent(PeriodicEvent):
         self.blink = False
         self.box: Box | None = None
 
-    def tick(self, tick: int):
+    def tick(self, ctx: Context, tick: int):
         if tick % 10 == 0:
             if self.blink:
                 self.station.blink()
