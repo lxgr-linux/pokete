@@ -7,6 +7,7 @@ from typing import Never, Optional
 import scrap_engine as se
 
 from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import Action
@@ -76,7 +77,7 @@ class AchBox(LabelBox):
         ach: The Achievement
         achievements: Achievement's object"""
 
-    def __init__(self, ctx: Context, ach, ach_ob):
+    def __init__(self, ach, ach_ob):
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = (
             [i[-1] for i in ach_ob.achieved if i[0] == ach.identifier][0]
@@ -101,7 +102,6 @@ class AchBox(LabelBox):
             label,
             name=ach.title,
             info=f"{Action.CANCEL.mapping}:close",
-            ctx=ctx,
         )
 
 
@@ -134,11 +134,12 @@ class AchievementOverview(BetterChooseBoxView):
     def choose(self, ctx: Context, idx: int) -> Optional[Never]:
         ach = achievements.achievements[idx]
         with AchBox(
-            ctx.with_overview(self),
             ach,
             achievements,
         ).center_add(ctx.map) as achbox:
-            loops.easy_exit(ctx.with_overview(achbox))
+            achbox.set_ctx(ctx)
+            ctx = change_ctx(ctx, achbox)
+            loops.easy_exit(ctx)
 
 
 achievements = Achievements()

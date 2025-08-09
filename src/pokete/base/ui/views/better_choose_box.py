@@ -5,10 +5,11 @@ from typing import Optional
 import scrap_engine as se
 
 from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.input.hotkeys import ACTION_DIRECTIONS, Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import Area, MouseInteractor, mouse_interaction_manager
+from pokete.base.mouse import Area, MouseInteractor
 from pokete.base.ui.elements.choose import BetterChooseBox
 
 T = TypeVar("T")
@@ -36,17 +37,11 @@ class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, ABC):
                 self.set_index(*self.__get_index_from_area_idx(area_idx))
             case MouseEventType.LEFT:
                 self.__special_ret = self.choose(ctx, area_idx)
-
-    def __enter__(self):
-        mouse_interaction_manager.attach([self])
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, exc_tb):
-        mouse_interaction_manager.attach([])
-        return super().__exit__(exc_type, exc_value, exc_tb)
+                ctx = change_ctx(ctx, self)
 
     def __call__(self, ctx: Context) -> Optional[T]:
         self.set_ctx(ctx)
+        ctx = change_ctx(ctx, self)
         with self:
             while True:
                 action = get_action()
@@ -59,9 +54,10 @@ class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, ABC):
                         res = self.choose(
                             ctx, self.index[0] + self.index[1] * self.columns
                         )
+                        ctx = change_ctx(ctx, self)
                         if res is not None:
                             return res
-                loops.std(ctx.with_overview(self))
+                loops.std(ctx)
                 if self.__special_ret is not None:
                     return self.__special_ret
         return None

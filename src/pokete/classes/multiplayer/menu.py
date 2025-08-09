@@ -51,7 +51,7 @@ class ModeChooser(BetterChooseBoxView[bool]):
                     }
                 )
             elif idx == 1:
-                connector.connector(ctx.with_overview(self))
+                connector.connector(ctx)
                 modeProvider.mode = Mode.MULTI
                 movemap_deco.set_inactive()
                 com_service()
@@ -66,7 +66,7 @@ class ModeChooser(BetterChooseBoxView[bool]):
             return True
         except ValidationException as e:
             ask_ok(
-                ctx.with_overview(self),
+                ctx,
                 f"An error ocured validating game data:\n{e}",
             )
             return None

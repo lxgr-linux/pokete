@@ -4,10 +4,11 @@ from typing import Never, Optional
 import scrap_engine as se
 
 from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.input.hotkeys import ACTION_UP_DOWN, Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import Area, MouseInteractor, mouse_interaction_manager
+from pokete.base.mouse import Area, MouseInteractor
 from pokete.base.ui.elements.choose import ChooseBox
 
 
@@ -49,6 +50,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
                 self.__special_ret = self.choose(
                     ctx, self.page * (self.height - 2) + area_idx
                 )
+                ctx = change_ctx(ctx, self)
 
     def add_elems(self):
         """Adds c_obs to box"""
@@ -82,16 +84,9 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
             c_ob.remove()
         self.remove_c_obs()
 
-    def __enter__(self):
-        mouse_interaction_manager.attach([self])
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, exc_tb):
-        mouse_interaction_manager.attach([])
-        return super().__exit__(exc_type, exc_value, exc_tb)
-
     def __call__(self, ctx: Context):
         self.set_ctx(ctx)
+        ctx = change_ctx(ctx, self)
 
         while True:
             action = get_action()
@@ -113,9 +108,10 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
                 self.choose(
                     ctx, self.page * (self.height - 2) + self.index.index
                 )
+                ctx = change_ctx(ctx, self)
             elif action.triggers(*ACTION_UP_DOWN):
                 self.input(action)
             elif action.triggers(Action.CANCEL, Action.POKEDEX):
                 break
-            loops.std(ctx=ctx.with_overview(self))
+            loops.std(ctx)
         self.rem_elems()

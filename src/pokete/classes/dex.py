@@ -5,6 +5,7 @@ from typing import Never, Optional
 import scrap_engine as se
 
 from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import Action
@@ -63,8 +64,9 @@ Active: """)
         )
 
         self.set_ctx(ctx)
+        ctx = change_ctx(ctx, self)
         with self.center_add(self.map):
-            loops.easy_exit(ctx.with_overview(self))
+            loops.easy_exit(ctx)
         self.rem_ob(poke.ico)
 
 
@@ -85,7 +87,7 @@ class PokeDex(ChooseBoxView):
     def choose(self, ctx: Context, idx: int) -> Optional[Never]:
         if "???" not in self.c_obs[self.index.index].text:
             self.detail_box(
-                ctx.with_overview(self),
+                ctx,
                 list(self.p_dict)[idx],
             )
 
