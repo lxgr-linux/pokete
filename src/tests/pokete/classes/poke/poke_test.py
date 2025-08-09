@@ -1,6 +1,6 @@
 import unittest
 
-from .poke import Poke
+from pokete.classes.poke import Poke
 
 class AddXpTest(unittest.TestCase):
     def create_temp_pokete(self, current_xp):
