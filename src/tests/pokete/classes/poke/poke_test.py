@@ -1,6 +1,9 @@
 import unittest
+from unittest.mock import patch
 
-from pokete.classes.poke import Poke
+with patch('os.get_terminal_size') as mock_get_terminal_size:
+    mock_get_terminal_size.return_value = (140, 40)
+    from pokete.classes.poke import Poke
 
 class AddXpTest(unittest.TestCase):
     def create_temp_pokete(self, current_xp):
