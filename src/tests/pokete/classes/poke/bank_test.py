@@ -21,10 +21,8 @@ class bank_test(unittest.TestCase):
     # negative test case
     def test_addMoneyNegative(self):
         bank = Bank (0)
-        try:
+        with self.assertRaises(AssertionError):
             bank.add_money(-10)
-        except AssertionError as err:
-            self.assertEqual(str(err), "Money has to be positive.")
 
     # boundary test case - add 0
     def test_addMoneyZero(self):
