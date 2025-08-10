@@ -5,6 +5,9 @@ class Bank:
     __money: int
 
     def __init__(self, money:int):
+        assert money >= 0, "Money has to be positive."
+        logging.info("[Figure] Money initiated to $%d",
+                     money)
         self.__money = money
 
     def add_money(self, money:int):
