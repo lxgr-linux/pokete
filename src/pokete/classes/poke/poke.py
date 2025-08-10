@@ -61,6 +61,9 @@ class Poke:
         self.night_active = self.inf.night_active
         self.enem = None
         self.oldhp = 0
+        # don't allow pokete with negative xp
+        if _xp < 0:
+            raise ValueError("Tried to create a pokete with negative XP")
         self.xp = _xp
         self.identifier = poke
         self.shiny = shiny
@@ -213,6 +216,11 @@ can't have more than 4 attacks!"
             _xp: Amount of xp added to the current xp
         RETURNS:
             bool: whether or not the next level is reached"""
+        
+        # Check if _xp is negative, if so, raise error
+        if _xp < 0:
+            raise ValueError("Tried to add Negative XP")
+        
         old_lvl = self.lvl()
         self.xp += _xp
         self.poke_stats.add_xp(_xp)
