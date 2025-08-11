@@ -10,8 +10,11 @@ from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.game_map import GameSubmap
 from pokete.base.input import Action, _ev
+from pokete.base.input.mouse import MouseEvent, MouseEventType
+from pokete.base.mouse import Area, MouseInteractor
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
+from pokete.base.ui.elements.text import HightlightableText
 from pokete.base.ui.notify import notifier
 from pokete.release import SPEED_OF_TIME
 from pokete.util import liner
@@ -20,7 +23,7 @@ from .classes import OutP
 from .multiplayer.interactions import movemap_deco
 
 
-class Movemap(GameSubmap, Overview):
+class Movemap(GameSubmap, Overview, MouseInteractor):
     """Movemap class to remove bad code
     ARGS:
         height: Height of the map
@@ -31,19 +34,34 @@ class Movemap(GameSubmap, Overview):
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
-        self.label = se.Text(
-            f"{Action.DECK.mapping}: Deck  "
-            f"{Action.EXIT_GAME.mapping}: Quit  "
-            f"{Action.MAP.mapping}: Map  "
-            f"{Action.INVENTORY.mapping}: Inv.  "
-            f"{Action.POKEDEX.mapping}: Dex  "
-            f"{Action.CLOCK.mapping}: Clock  "
-            f"{Action.HELP.mapping}: help  "
-        )
+        self.labels: list[HightlightableText] = [
+            HightlightableText(f"{Action.DECK.mapping}: Deck"),
+            HightlightableText(f"{Action.EXIT_GAME.mapping}: Quit"),
+            HightlightableText(f"{Action.MAP.mapping}: Map"),
+            HightlightableText(f"{Action.INVENTORY.mapping}: Inv."),
+            HightlightableText(f"{Action.POKEDEX.mapping}: Dex"),
+            HightlightableText(f"{Action.CLOCK.mapping}: Clock"),
+            HightlightableText(f"{Action.HELP.mapping}: help"),
+            movemap_deco,
+        ]
         self.code_label = OutP("", state="float")
         self.multitext = OutP("", state="float")
         self.underline = se.Square("-", self.width, 1, state="float")
         self.code_label.add(self, 0, 0)
+
+    def get_interaction_areas(self) -> list[Area]:
+        return [i.get_area() for i in self.labels + [movemap_deco]]
+
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+        if area_idx >= 0:
+            match event.type:
+                case MouseEventType.MOVE:
+                    for label in self.labels:
+                        label.un_highlight()
+                    self.labels[area_idx].highlight()
+        else:
+            for label in self.labels:
+                label.un_highlight()
 
     def add_obs(self):
         """Adds needed labels to movemap"""
@@ -53,8 +71,10 @@ class Movemap(GameSubmap, Overview):
             self, 4 + len(self.name_label.text), self.height - 2
         )
         self.label_bg.add(self, 0, self.height - 1)
-        self.label.add(self, 0, self.height - 1)
-        movemap_deco.add(self, self.label.width, self.height - 1)
+        width = 0
+        for label in self.labels:
+            label.add(self, width, self.height - 1)
+            width += label.width + 2
 
     def assure_distance(self, _x, _y, width, height):
         """This ensures the game does not crash when big
@@ -130,12 +150,10 @@ class Movemap(GameSubmap, Overview):
         See se.Map.resize"""
         for obj in [
             self.underline,
-            self.label,
             self.label_bg,
             self.name_label,
             self.balls_label,
-            movemap_deco,
-        ]:
+        ] + self.labels:
             obj.remove()
         super().resize(height, width, background)
         self.underline.resize(self.width, 1)

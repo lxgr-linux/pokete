@@ -15,6 +15,7 @@ from datetime import datetime
 import scrap_engine as se
 
 from pokete import release
+from pokete.base.change import change_ctx
 
 from .base import loops
 from .base.color import Color
@@ -335,7 +336,9 @@ def _game(_map: PlayMap, figure: Figure):
         ]
         + _map.extra_actions()
     )
-    ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
+    ctx = change_ctx(
+        Context(pevm, mvp.movemap, mvp.movemap, figure), mvp.movemap
+    )
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: dict[Action, tuple] = {
         Action.DECK: (deck.deck, (ctx, 6, "Your deck")),
@@ -363,6 +366,8 @@ def _game(_map: PlayMap, figure: Figure):
             for key, option in inp_dict.items():
                 if action.triggers(key):
                     option[0](*option[1])
+                    break
+            ctx = change_ctx(ctx, mvp.movemap)
             _ev.clear()
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
