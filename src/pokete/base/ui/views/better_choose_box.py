@@ -32,12 +32,13 @@ class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, ABC):
         return (int(idx / self.columns), idx % self.columns)
 
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
-        match event.type:
-            case MouseEventType.MOVE:
-                self.set_index(*self.__get_index_from_area_idx(area_idx))
-            case MouseEventType.LEFT:
-                self.__special_ret = self.choose(ctx, area_idx)
-                ctx = change_ctx(ctx, self)
+        if area_idx >= 0:
+            match event.type:
+                case MouseEventType.MOVE:
+                    self.set_index(*self.__get_index_from_area_idx(area_idx))
+                case MouseEventType.LEFT:
+                    self.__special_ret = self.choose(ctx, area_idx)
+                    ctx = change_ctx(ctx, self)
 
     def __call__(self, ctx: Context) -> Optional[T]:
         self.set_ctx(ctx)

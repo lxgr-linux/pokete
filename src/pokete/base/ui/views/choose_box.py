@@ -43,14 +43,15 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
         ]
 
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
-        match event.type:
-            case MouseEventType.MOVE:
-                self.set_index(area_idx)
-            case MouseEventType.LEFT:
-                self.__special_ret = self.choose(
-                    ctx, self.page * (self.height - 2) + area_idx
-                )
-                ctx = change_ctx(ctx, self)
+        if area_idx >= 0:
+            match event.type:
+                case MouseEventType.MOVE:
+                    self.set_index(area_idx)
+                case MouseEventType.LEFT:
+                    self.__special_ret = self.choose(
+                        ctx, self.page * (self.height - 2) + area_idx
+                    )
+                    ctx = change_ctx(ctx, self)
 
     def add_elems(self):
         """Adds c_obs to box"""

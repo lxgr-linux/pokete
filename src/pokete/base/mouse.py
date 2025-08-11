@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 from typing import Optional
 
@@ -43,7 +44,6 @@ class MouseInteractionManager:
             None
         )
         PropagatingThread(target=self.run, daemon=True).start()
-        self.t = 0
 
     def attach(self, interactors: list[MouseInteractor]):
         self.__interactors = interactors
@@ -56,16 +56,22 @@ class MouseInteractionManager:
                         area[0][0] <= event.x <= area[1][0]
                         and area[0][1] <= event.y <= area[1][1]
                     ):
-                        curr = (interactor, idx, event.type)
+                        self.cast_event(interactor, idx, event)
+                        break
+                else:
+                    self.cast_event(interactor, -1, event)
 
-                        if curr != self.__last:
-                            single_event_periodic_event.add(
-                                InteractionSingleEvent(
-                                    interactor, 0 + idx, event
-                                )
-                            )
-                            self.__last = curr
-                            self.t += 1
+    def cast_event(
+        self, interactor: MouseInteractor, idx: int, event: MouseEvent
+    ):
+        curr = (interactor, idx, event.type)
+
+        if curr != self.__last:
+            single_event_periodic_event.add(
+                InteractionSingleEvent(interactor, idx, event)
+            )
+            logging.info("Casting %s", curr)
+            self.__last = curr
 
 
 mouse_interaction_manager = MouseInteractionManager()
