@@ -4,6 +4,7 @@ import scrap_engine as se
 
 import pokete.classes.ob_maps as obmp
 from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import ACTION_DIRECTIONS, Action, ActionList, get_action
@@ -215,8 +216,8 @@ W ◀ ▶ E
         ][0].choose(ctx.figure)
         self.box.overview = ctx.overview
         blinker = BlinkerEvent(self.sta)
-        ctx = ctx.with_pevm(ctx.pevm.with_events([blinker])).with_overview(
-            self.box
+        ctx = change_ctx(
+            ctx.with_pevm(ctx.pevm.with_events([blinker])), self.box
         )
         with self.box.center_add(ctx.map):
             while True:
@@ -265,11 +266,12 @@ W ◀ ▶ E
                         self.sta.name,
                         ctx=ctx,
                     ) as box:
+                        ctx = change_ctx(ctx, box)
                         blinker.box = box
-                        loops.easy_exit(ctx=ctx.with_overview(box))
+                        loops.easy_exit(ctx)
                         blinker.box = None
                 blinker.station = self.sta
-                loops.std(ctx=ctx.with_overview(self.box))
+                loops.std(ctx)
                 ctx.map.full_show()
         self.sta.unchoose()
 

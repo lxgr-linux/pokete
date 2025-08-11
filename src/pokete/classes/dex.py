@@ -9,6 +9,7 @@ from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import Action
+from pokete.base.input.hotkeys import ActionList
 from pokete.base.ui.elements import Box
 from pokete.base.ui.views.choose_box import ChooseBoxView
 from pokete.util import liner
@@ -90,6 +91,9 @@ class PokeDex(ChooseBoxView):
                 ctx,
                 list(self.p_dict)[idx],
             )
+
+    def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
+        return action.triggers(Action.POKEDEX)
 
     def __call__(self, ctx: Context):
         """Opens the dex"""

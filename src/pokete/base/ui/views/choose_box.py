@@ -6,7 +6,12 @@ import scrap_engine as se
 from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
-from pokete.base.input.hotkeys import ACTION_UP_DOWN, Action, get_action
+from pokete.base.input.hotkeys import (
+    ACTION_UP_DOWN,
+    Action,
+    ActionList,
+    get_action,
+)
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import Area, MouseInteractor
 from pokete.base.ui.elements.choose import ChooseBox
@@ -85,6 +90,9 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
             c_ob.remove()
         self.remove_c_obs()
 
+    def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
+        return False
+
     def __call__(self, ctx: Context):
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
@@ -112,7 +120,9 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
                 ctx = change_ctx(ctx, self)
             elif action.triggers(*ACTION_UP_DOWN):
                 self.input(action)
-            elif action.triggers(Action.CANCEL, Action.POKEDEX):
+            elif action.triggers(Action.CANCEL):
+                break
+            if self.handle_extra_actions(ctx, action):
                 break
             loops.std(ctx)
         self.rem_elems()
