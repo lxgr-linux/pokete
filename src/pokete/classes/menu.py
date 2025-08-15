@@ -6,7 +6,6 @@ import scrap_engine as se
 
 from pokete.base.context import Context
 from pokete.base.input.hotkeys import ActionList
-from pokete.base.input_loops import text_input
 from pokete.base.ui.elements import InfoBox
 from pokete.base.ui.notify import notifier
 from pokete.base.ui.views.choose_box import ChooseBoxView
@@ -16,7 +15,7 @@ from .achievements import AchievementOverview
 from .audio import audio
 from .mods import ModInfo
 from .save import save
-from .settings import Slider, VisSetting, settings
+from .settings import Slider, TextInputBox, VisSetting, settings
 from .side_loops import About
 
 
@@ -114,25 +113,3 @@ valid single-space character!",
         self.add_elems()
         with self.add(ctx.map, ctx.map.width - self.width, 0):
             return super().__call__(ctx)
-
-
-class TextInputBox(se.Box):
-    def __init__(self, label: str, max_len: int):
-        super().__init__(1, len(label) + 1 + max_len)
-        self.max_len = max_len
-        self.label = se.Text(label, state="float")
-        self.value = se.Text("", state="float")
-        self.add_ob(self.label, 0, 0)
-        self.add_ob(self.value, len(label) + 1, 0)
-
-    def __call__(self, ctx: Context) -> str:
-        return text_input(
-            ctx,
-            self.value,
-            self.value.text,
-            self.max_len + 1,
-            self.max_len,
-        )
-
-    def set_value(self, value: str):
-        self.value.rechar(value)
