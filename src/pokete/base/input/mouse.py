@@ -6,9 +6,19 @@ from pokete import bs_rpc
 
 
 class MouseEventType(Enum):
-    MOVE = 35
     LEFT = 0
+    MIDDLE = 1
     RIGHT = 2
+    DRAG_LEFT = 32
+    DRAG_MIDDLE = 33
+    DRAG_RIGHT = 34
+    MOVE = 35
+    SCROLL_UP = 64
+    SCROLL_DOWN = 65
+    MISC_1 = 128
+    MISC_2 = 129
+    MISC_1_MOVE = 160
+    MISC_2_MOVE = 161
 
 
 @dataclass
