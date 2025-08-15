@@ -1,3 +1,4 @@
+import logging
 from abc import ABC, abstractmethod
 from typing import Never, Optional
 
@@ -51,12 +52,18 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
         if area_idx >= 0:
             match event.type:
                 case MouseEventType.MOVE:
-                    self.set_index(area_idx)
+                    if area_idx < len(self.c_obs):
+                        self.set_index(area_idx)
                 case MouseEventType.LEFT:
                     self.__special_ret = self.choose(
                         ctx, self.page * (self.height - 2) + area_idx
                     )
                     ctx = change_ctx(ctx, self)
+        match event.type:
+            case MouseEventType.SCROLL_UP:
+                self.change_page(-1, self.height - 3)
+            case MouseEventType.SCROLL_DOWN:
+                self.change_page(1, 0)
 
     def add_elems(self):
         """Adds c_obs to box"""
@@ -93,25 +100,36 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
     def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
         return False
 
+    def change_page(self, add_page, n_idx):
+        if (
+            0
+            <= (self.page + add_page)
+            <= int(len(self.elems) / (self.height - 3))
+        ):
+            logging.info(
+                "%d < %d",
+                (self.page + add_page),
+                int(len(self.elems) / (self.height - 3)),
+            )
+            self.rem_elems()
+            self.page += add_page
+            self.add_elems()
+            self.set_index(n_idx)
+
     def __call__(self, ctx: Context):
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
 
         while True:
             action = get_action()
-            for event, idx, n_idx, add_page, idx_2 in zip(
+            for event, idx, n_idx, add_page in zip(
                 [Action.DOWN, Action.UP],
                 [len(self.c_obs) - 1, 0],
                 [0, self.height - 3],
                 [1, -1],
-                [-1, 0],
             ):
                 if action.triggers(event) and self.index.index == idx:
-                    if self.c_obs[self.index.index] != self.elems[idx_2]:
-                        self.rem_elems()
-                        self.page += add_page
-                        self.add_elems()
-                        self.set_index(n_idx)
+                    self.change_page(add_page, n_idx)
                     action = get_action()
             if action.triggers(Action.ACCEPT):
                 self.choose(
