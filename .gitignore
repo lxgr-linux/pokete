@@ -7,4 +7,6 @@ scrap_engine.py
 .mypy_cache
 .ropeproject
 .fleet
+.zed
+.vscode
 .vim
