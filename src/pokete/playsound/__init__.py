@@ -1,7 +1,7 @@
 import ctypes
 import logging
-import sys
 import platform
+import sys
 from pathlib import Path
 
 
@@ -13,15 +13,15 @@ def playsound(file, volume):
     logging.info("[Playsound] playing %s", file)
     _playsound.playsound(file.encode("utf-8"), volume)
 
+
 _playsound = ctypes.cdll.LoadLibrary(
     str(
-        Path(__file__).parent / (
-            f"libplaysound.{platform.machine()}." +
-            {
-                sys.platform: "so",
-                "win32": "dll",
-                "darwin": "osx.so"
-            }[sys.platform]
+        Path(__file__).parent
+        / (
+            f"libplaysound.{platform.machine()}."
+            + {sys.platform: "so", "win32": "dll", "darwin": "osx.so"}[
+                sys.platform
+            ]
         )
     )
 )

@@ -1,6 +1,7 @@
 import random
 
 from pokete.base.color import Color
+from pokete.base.context import Context
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.ui.notify import notifier
 
@@ -27,7 +28,7 @@ class MovingGrassEvent(PeriodicEvent):
             if meadow.map == _map:
                 self.all_grass_objs += meadow.obs
 
-    def tick(self, tick: int):
+    def tick(self, ctx: Context, tick: int):
         if tick % self.max_tick == 0 and settings("animations").val:
             for obj in self.all_grass_objs:
                 if obj.char == Color.green + ";" + Color.reset:
@@ -48,7 +49,7 @@ class MovingWaterEvent(PeriodicEvent):
             if water.map == _map:
                 self.all_water_objs += water.obs
 
-    def tick(self, tick: int):
+    def tick(self, ctx: Context, tick: int):
         if settings("animations").val:
             for obj in self.all_water_objs:
                 if random.randint(0, 9) == 0:
@@ -67,11 +68,11 @@ class MovingWaterEvent(PeriodicEvent):
 
 
 class TreatNPCEvent(PeriodicEvent):
-    def tick(self, tick: int):
+    def tick(self, ctx: Context, tick: int):
         if timer.time.normalized == 6 * 60:
             NPC.get("npc_28").unset_used()
 
 
 class NotifierEvent(PeriodicEvent):
-    def tick(self, tick: int):
+    def tick(self, ctx: Context, tick: int):
         notifier.next()

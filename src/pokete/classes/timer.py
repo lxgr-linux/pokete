@@ -1,13 +1,15 @@
 """Contains Classes to manage in-game time"""
 
 import time as time_mod
+
 import scrap_engine as se
 
-from pokete.release import SPEED_OF_TIME
+from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.input import Action, get_action
 from pokete.base.ui.elements import Box
-from pokete.base import loops
+from pokete.release import SPEED_OF_TIME
 
 letters = [
     """ ##
@@ -109,17 +111,20 @@ class Clock(Box):
     def __init__(self, time_ob):
         self.time = time_ob
         super().__init__(
-            9, 28, "Clock", f"{Action.CANCEL.mapping}:close",
+            9,
+            28,
+            "Clock",
+            f"{Action.CANCEL.mapping}:close",
         )
 
     def __call__(self, ctx: Context):
         """Shows the clock"""
-
+        self.set_ctx(ctx)
+        ctx = change_ctx(ctx, self)
         d_p = True
         letter_obs = self.draw_letters(d_p)
         raw_time = self.time.time
-        self.overview = ctx.overview
-        with self.center_add(ctx.map):
+        with self.center_add(self.map):
             while True:
                 if get_action().triggers(*(Action.CANCEL, Action.CLOCK)):
                     break
@@ -127,8 +132,7 @@ class Clock(Box):
                     d_p = not d_p
                     letter_obs = self.draw_letters(d_p, letter_obs)
                     raw_time = self.time.time
-                loops.std(ctx=ctx.with_overview(self))
-                self.map.full_show()
+                loops.std(ctx)
             self.__rem_obs(letter_obs)
 
     def __rem_obs(self, letter_obs):

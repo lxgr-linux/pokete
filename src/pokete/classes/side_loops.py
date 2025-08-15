@@ -1,12 +1,15 @@
 """Contains some small loops"""
 
 import os
+
 import scrap_engine as se
+
 import pokete.base.game_map as gm
 from pokete import release
+from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.ui.elements import InfoBox
-from pokete.base import loops
 from pokete.util import liner
 
 
@@ -21,8 +24,9 @@ class LoopBox:
     def __call__(self, ctx: Context):
         """Shows the about text"""
         self.box.set_ctx(ctx)
+        ctx = change_ctx(ctx, self.box)
         with self.box:
-            loops.easy_exit(ctx=ctx.with_overview(self.box))
+            loops.easy_exit(ctx)
 
 
 class About(LoopBox):
@@ -41,7 +45,8 @@ Feel  free to contribute what ever you want to this game, \
 new Pokete contributions are especially welcome.
 For  this see the comments in the definations area.
 You  can contribute here: https://github.com/lxgr-linux/pokete""",
-                    60, pre=""
+                    60,
+                    pre="",
                 ),
                 name="About",
             )
@@ -75,21 +80,25 @@ class LoadingScreen:
     def __init__(self):
         width, height = os.get_terminal_size()
         self.map = gm.GameMap(width=width, height=height - 1)
-        se.Text(r""" _____      _        _
+        se.Text(
+            r""" _____      _        _
 |  __ \    | |      | |
 | |__) |__ | | _____| |_ ___
 |  ___/ _ \| |/ / _ \ __/ _ \
 | |  | (_) |   <  __/ ||  __/
-|_|   \___/|_|\_\___|\__\___|""", state="float") \
-            .add(self.map, int(self.map.width / 2) - 15,
-                 int(self.map.height / 2) - 4)
-        se.Text(f"v{release.VERSION}", state="float").add(self.map,
-                                                          int(self.map.width / 2) - 15,
-                                                          int(self.map.height / 2) + 2)
-        se.Text(release.CODENAME, state="float").add(self.map,
-                                                     int(self.map.width / 2) + 14
-                                                     - len(release.CODENAME),
-                                                     int(self.map.height / 2) + 2)
+|_|   \___/|_|\_\___|\__\___|""",
+            state="float",
+        ).add(
+            self.map, int(self.map.width / 2) - 15, int(self.map.height / 2) - 4
+        )
+        se.Text(f"v{release.VERSION}", state="float").add(
+            self.map, int(self.map.width / 2) - 15, int(self.map.height / 2) + 2
+        )
+        se.Text(release.CODENAME, state="float").add(
+            self.map,
+            int(self.map.width / 2) + 14 - len(release.CODENAME),
+            int(self.map.height / 2) + 2,
+        )
 
     def __call__(self):
         """Shows the loading screen"""
