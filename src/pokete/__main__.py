@@ -8,6 +8,7 @@ You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
 import logging
+import multiprocessing
 import sys
 import time
 from datetime import datetime
@@ -312,6 +313,7 @@ def _game(_map: PlayMap, figure: Figure):
     """Game function
     ARGS:
         _map: The map that will be shown"""
+
     _ev.clear()
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
     if _map.name not in figure.visited_maps:
@@ -506,4 +508,5 @@ def main():
 
 
 if __name__ == "__main__":
+    multiprocessing.set_start_method("spawn")
     main()

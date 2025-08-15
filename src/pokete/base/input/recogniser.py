@@ -6,7 +6,6 @@ from typing import Optional
 from pokete.base.exception_propagation.propagating_thread import (
     PropagatingThread,
 )
-from pokete.release import SPEED_OF_TIME
 
 from .event import _ev
 from .mouse import mouse_manager
@@ -69,7 +68,6 @@ class Recogniser:
                 self.__fd = sys.stdin.fileno()
                 self.__old_settings = termios.tcgetattr(self.__fd)
                 tty.setraw(self.__fd)
-                time.sleep(SPEED_OF_TIME * 0.1)
 
                 while True:
                     char = sys.stdin.read(1)
