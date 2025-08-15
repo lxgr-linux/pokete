@@ -9,10 +9,17 @@ class MouseEventType(Enum):
     LEFT = 0
     MIDDLE = 1
     RIGHT = 2
+    ALT_LEFT = 8
+    ALT_MIDDLE = 9
+    ALT_RIGHT = 10
     DRAG_LEFT = 32
     DRAG_MIDDLE = 33
     DRAG_RIGHT = 34
+    DRAG_ALT_LEFT = 40
+    DRAG_ALT_MIDDLE = 41
+    DRAG_ALT_RIGHT = 42
     MOVE = 35
+    ALT_MOVE = 43
     SCROLL_UP = 64
     SCROLL_DOWN = 65
     MISC_1 = 128
