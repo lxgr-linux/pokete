@@ -1,6 +1,7 @@
 """Contains classes and objects related to settings"""
 
 import logging
+
 import scrap_engine as se
 
 from pokete.base.color import Color
@@ -83,9 +84,7 @@ class Slider(se.Box):
 
     def set_slider_from_setting(self):
         """Sets the sliders position from the given setting"""
-        self.set_slider(
-            round(self.boundary * self.setting.val / 100)
-        )
+        self.set_slider(round(self.boundary * self.setting.val / 100))
 
     @property
     def offset(self):
@@ -115,16 +114,18 @@ class VisSetting(se.Text):
         self.name = text
         self.setting = settings(setting)
         self.index = list(options).index(self.setting.val)
-        super().__init__(text + ": " + self.options[self.setting.val],
-                         state="float")
+        super().__init__(
+            text + ": " + self.options[self.setting.val], state="float"
+        )
 
     def change(self):
         """Change the setting"""
         self.index = (self.index + 1) % len(self.options)
         self.setting.val = list(self.options)[self.index]
         self.rechar(self.name + ": " + self.options[self.setting.val])
-        logging.info("[Setting][%s] set to %s", self.setting.name,
-                     self.setting.val)
+        logging.info(
+            "[Setting][%s] set to %s", self.setting.name, self.setting.val
+        )
 
 
 class Settings:

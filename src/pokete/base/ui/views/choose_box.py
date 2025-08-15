@@ -30,7 +30,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
     ):
         super().__init__(height, width, name, info, index_x, c_obs, overview)
         self.page = 0
-        self.elems: list[se.Text] = []
+        self.elems: list[se.ObjectGroup] = []
 
     @abstractmethod
     def choose(self, ctx: Context, idx: int) -> Optional[Never]: ...
