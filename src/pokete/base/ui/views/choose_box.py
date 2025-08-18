@@ -1,4 +1,3 @@
-import logging
 from abc import ABC, abstractmethod
 from typing import Never, Optional
 
@@ -104,13 +103,8 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
         if (
             0
             <= (self.page + add_page)
-            <= int(len(self.elems) / (self.height - 3))
+            <= int(len(self.elems) / (self.height - 2))
         ):
-            logging.info(
-                "%d < %d",
-                (self.page + add_page),
-                int(len(self.elems) / (self.height - 3)),
-            )
             self.rem_elems()
             self.page += add_page
             self.add_elems()
