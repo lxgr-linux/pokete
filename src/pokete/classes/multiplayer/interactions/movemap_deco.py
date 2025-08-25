@@ -1,10 +1,9 @@
-import scrap_engine as se
-
 from pokete.base.color import Color
 from pokete.base.input import Action
+from pokete.base.ui.elements.text import HightlightableText
 
 
-class MovemapDeco(se.Text):
+class MovemapDeco(HightlightableText):
     def __init__(self):
         self.blank = False
         super().__init__(self.__get_text())

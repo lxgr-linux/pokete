@@ -1,14 +1,13 @@
 """Contains classes ralated to the mode choosing meni"""
 
 import sys
+from typing import Optional
 
 import scrap_engine as se
 
-from pokete.base import loops
 from pokete.base.context import Context
-from pokete.base.input import ACTION_DIRECTIONS, Action, get_action
 from pokete.base.input_loops import ask_ok
-from pokete.base.ui.elements import BetterChooseBox
+from pokete.base.ui.views.better_choose_box import BetterChooseBoxView
 
 from .. import roadmap
 from ..asset_service.service import ValidationException, asset_service
@@ -24,7 +23,7 @@ from .interactions import movemap_deco
 from .pc_manager import pc_manager
 
 
-class ModeChooser(BetterChooseBox):
+class ModeChooser(BetterChooseBoxView[bool]):
     """The menu to choose modes in"""
 
     def __init__(self):
@@ -38,54 +37,36 @@ class ModeChooser(BetterChooseBox):
             name="Mode",
         )
 
-    def __choose(self, ctx: Context):
+    def choose(self, ctx: Context, idx: int) -> Optional[bool]:
         try:
-            while True:
-                action = get_action()
-                if action.triggers(*ACTION_DIRECTIONS):
-                    self.input(action)
-                else:
-                    if action.triggers(Action.CANCEL):
-                        sys.exit()
-                    elif action.triggers(Action.ACCEPT):
-                        num = self.index[0]
-                        if num == 0:
-                            modeProvider.mode = Mode.SINGLE
-                            movemap_deco.set_blank()
-                            asset_service.load_assets_from_p_data()
-                            NPC.set_vars(
-                                {
-                                    **base_npc_actions,
-                                    **npc_actions,
-                                    "playmap_50_npc_29": PoketeCareNPCAction(
-                                        pokete_care
-                                    ),
-                                }
-                            )
-                        elif num == 1:
-                            connector.connector(ctx.with_overview(self))
-                            modeProvider.mode = Mode.MULTI
-                            movemap_deco.set_inactive()
-                            com_service()
-                        else:
-                            sys.exit()
-                        # roadmap.RoadMap.check_maps()
-                        gen_obs(ctx.figure)
-                        ctx.figure.self_add()
-                        MapInteract.set_ctx(ctx)
-                        pc_manager.set_waiting_users()
-                        roadmap.roadmap = roadmap.RoadMap()
-                        return
-                loops.std(ctx.with_overview(self))
+            if idx == 0:
+                modeProvider.mode = Mode.SINGLE
+                movemap_deco.set_blank()
+                asset_service.load_assets_from_p_data()
+                NPC.set_vars(
+                    {
+                        **base_npc_actions,
+                        **npc_actions,
+                        "playmap_50_npc_29": PoketeCareNPCAction(pokete_care),
+                    }
+                )
+            elif idx == 1:
+                connector.connector(ctx)
+                modeProvider.mode = Mode.MULTI
+                movemap_deco.set_inactive()
+                com_service()
+            else:
+                sys.exit()
+            # roadmap.RoadMap.check_maps()
+            gen_obs(ctx.figure)
+            ctx.figure.self_add()
+            MapInteract.set_ctx(ctx)
+            pc_manager.set_waiting_users()
+            roadmap.roadmap = roadmap.RoadMap()
+            return True
         except ValidationException as e:
             ask_ok(
-                ctx.with_overview(self),
+                ctx,
                 f"An error ocured validating game data:\n{e}",
             )
-            self.__choose(ctx)
-
-    def __call__(self, ctx: Context):
-        """Opens the menu"""
-        self.set_ctx(ctx)
-        with self:
-            self.__choose(ctx)
+            return None

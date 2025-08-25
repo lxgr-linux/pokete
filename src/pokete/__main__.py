@@ -8,11 +8,15 @@ You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
 import logging
+import multiprocessing
 import sys
 import time
 from datetime import datetime
 
 import scrap_engine as se
+
+from pokete import release
+from pokete.base.change import change_ctx
 
 from .base import loops
 from .base.color import Color
@@ -34,7 +38,7 @@ from .classes.achievements import achievements
 from .classes.asset_service.service import asset_service
 from .classes.audio import audio
 from .classes.classes import PlayMap
-from .classes.dex import Dex
+from .classes.dex import PokeDex
 from .classes.fight import ProtoFigure
 from .classes.game import MapChangeExeption
 from .classes.game_context import GameContext
@@ -62,7 +66,6 @@ from .figure import Bank, Inventory
 from .release import SPEED_OF_TIME
 from .startup.command import PoketeCommand
 from .startup.logging import init_logger
-from pokete import release
 
 # Class definition
 ##################
@@ -310,6 +313,7 @@ def _game(_map: PlayMap, figure: Figure):
     """Game function
     ARGS:
         _map: The map that will be shown"""
+
     _ev.clear()
     print("\033]0;Pokete - " + _map.pretty_name + "\a", end="")
     if _map.name not in figure.visited_maps:
@@ -334,16 +338,15 @@ def _game(_map: PlayMap, figure: Figure):
         ]
         + _map.extra_actions()
     )
-    ctx = Context(pevm, mvp.movemap, mvp.movemap, figure)
-    single_event_periodic_event.set_root_context(
-        ctx
-    )  # Terribly injected from behind
+    ctx = change_ctx(
+        Context(pevm, mvp.movemap, mvp.movemap, figure), mvp.movemap
+    )
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: dict[Action, tuple] = {
         Action.DECK: (deck.deck, (ctx, 6, "Your deck")),
         Action.MAP: (roadmap.roadmap, (ctx,)),
         Action.INVENTORY: (inv, (ctx,)),
-        Action.POKEDEX: (Dex(), (ctx,)),
+        Action.POKEDEX: (PokeDex(), (ctx,)),
         Action.CLOCK: (timer.clock, (ctx,)),
         Action.MENU: (Menu(), (ctx,)),
         Action.HELP: (Help(), (ctx,)),
@@ -365,6 +368,8 @@ def _game(_map: PlayMap, figure: Figure):
             for key, option in inp_dict.items():
                 if action.triggers(key):
                     option[0](*option[1])
+                    break
+            ctx = change_ctx(ctx, mvp.movemap)
             _ev.clear()
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CANCEL, Action.EXIT_GAME):
@@ -427,8 +432,7 @@ def intro(ctx: Context):
             "Therefore, I'll give you this powerful 'Steini', "
             "15 'Poketeballs' to catch Poketes, and a "
             "'Healing potion'.",
-            "You will be the best Pokete-Trainer in Nice "
-            "town.",
+            "You will be the best Pokete-Trainer in Nice town.",
             "Now go out and become the best!",
         ],
     )
@@ -504,4 +508,5 @@ def main():
 
 
 if __name__ == "__main__":
+    multiprocessing.set_start_method("spawn")
     main()
