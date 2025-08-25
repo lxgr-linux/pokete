@@ -85,6 +85,9 @@ class PokeDex(ChooseBoxView):
             )
         }
 
+    def new_size(self) -> tuple[int, int]:
+        return self.map.height - 3, 35
+
     def choose(self, ctx: Context, idx: int) -> Optional[Never]:
         if "???" not in self.c_obs[self.index.index].text:
             self.detail_box(

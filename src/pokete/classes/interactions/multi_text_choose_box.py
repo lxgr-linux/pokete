@@ -1,13 +1,14 @@
+from typing import Optional
+
 import scrap_engine as se
 
 from pokete.base.context import Context
-from pokete.base.input import get_action, ACTION_UP_DOWN, Action
-from pokete.base.ui.elements import ChooseBox
-from pokete.base import loops
+from pokete.base.ui.views.choose_box import ChooseBoxView
+
 from .. import movemap as mvp
 
 
-class MultiTextChooseBox(ChooseBox):
+class MultiTextChooseBox(ChooseBoxView[str]):
     """ChooseBox wrapper for multitext conversations"""
 
     def __init__(self, keys: list[str], name: str):
@@ -15,40 +16,34 @@ class MultiTextChooseBox(ChooseBox):
             len(keys) + 2,
             sorted(len(i) for i in keys)[-1] + 6,
             name=name,
-            c_obs=[se.Text(i, state="float") for i in keys],
         )
-        self.fig = None
         self.keys = keys
+        self.elems: list[se.ObjectGroup] = [
+            se.Text(i, state="float") for i in keys
+        ]
+        self.fig: Optional[se.Text] = None
 
-    def resize_view(self):
-        """Manages recursive view resizing"""
-        self.remove()
-        self.overview.resize_view()
+    def new_size(self) -> tuple[int, int]:
+        return self.height, self.width
+
+    def choose(self, ctx: Context, idx: int) -> Optional[str]:
+        if idx >= 0:
+            return self.keys[idx]
+        else:
+            return None
+
+    def add(self, _map, x, y):
+        assert self.fig
         mvp.movemap.assure_distance(
-            self.fig.x, self.fig.y,
-            self.width + 2, self.height + 2
+            self.fig.x, self.fig.y, self.width + 2, self.height + 2
         )
-        self.add(
-            mvp.movemap,
-            self.fig.x - mvp.movemap.x,
-            self.fig.y - mvp.movemap.y + 1
+        return super().add(
+            _map, self.fig.x - mvp.movemap.x, self.fig.y - mvp.movemap.y + 1
         )
 
-    def __call__(self, ctx: Context) -> str:
-        self.set_ctx(ctx)
+    def __call__(self, ctx: Context) -> Optional[str]:
         self.fig = ctx.figure
-        self.frame.corners[0].rechar("^")
-        mvp.movemap.assure_distance(self.fig.x, self.fig.y,
-                                    self.width + 2, self.height + 2)
-        with self.add(ctx.map, self.fig.x - mvp.movemap.x,
-                      self.fig.y - mvp.movemap.y + 1):
-            while True:
-                action = get_action()
-                if action.triggers(*ACTION_UP_DOWN):
-                    self.input(action)
-                    mvp.movemap.full_show()
-                elif action.triggers(Action.ACCEPT):
-                    key = self.keys[self.index.index]
-                    break
-                loops.std(ctx.with_overview(self))
-        return key
+        self.add_elems()
+
+        with self.add(ctx.map, -1, -1):
+            return super().__call__(ctx)

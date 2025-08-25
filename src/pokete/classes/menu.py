@@ -57,6 +57,9 @@ class Menu(ChooseBoxView):
             audio.play(ctx.figure.map.song)
         return False
 
+    def new_size(self) -> tuple[int, int]:
+        return self.map.height - 3, 35
+
     def choose(self, ctx: Context, idx: int) -> Optional[Never]:
         i = self.c_obs[self.index.index]
         audio_before = settings("audio").val

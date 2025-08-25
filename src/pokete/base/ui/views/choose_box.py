@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Never, Optional
+from typing import Optional, TypeVar
 
 import scrap_engine as se
 
@@ -16,8 +16,10 @@ from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import Area, MouseInteractor
 from pokete.base.ui.elements.choose import ChooseBox
 
+T = TypeVar("T")
 
-class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
+
+class ChooseBoxView[T](ChooseBox, MouseInteractor, ABC):
     def __init__(
         self,
         height,
@@ -31,9 +33,10 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
         super().__init__(height, width, name, info, index_x, c_obs, overview)
         self.page = 0
         self.elems: list[se.ObjectGroup] = []
+        self.__special_ret: Optional[T] = None
 
     @abstractmethod
-    def choose(self, ctx: Context, idx: int) -> Optional[Never]: ...
+    def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
 
     def get_interaction_areas(self) -> list[Area]:
         return [
@@ -73,11 +76,14 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
             ]
         )
 
+    @abstractmethod
+    def new_size(self) -> tuple[int, int]: ...
+
     def resize_view(self):
         """Manages recursive view resizing"""
         self.remove()
         self.overview.resize_view()
-        self.resize(self.map.height - 3, 35)
+        self.resize(*self.new_size())
         self.rem_elems()
         self.add_elems()
         if len(self.c_obs) == 0:
@@ -110,7 +116,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
             self.add_elems()
             self.set_index(n_idx)
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> Optional[T]:
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
 
@@ -126,10 +132,12 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
                     self.change_page(add_page, n_idx)
                     action = get_action()
             if action.triggers(Action.ACCEPT):
-                self.choose(
+                res = self.choose(
                     ctx, self.page * (self.height - 2) + self.index.index
                 )
                 ctx = change_ctx(ctx, self)
+                if res is not None:
+                    return res
             elif action.triggers(*ACTION_UP_DOWN):
                 self.input(action)
             elif action.triggers(Action.CANCEL):
@@ -137,4 +145,8 @@ class ChooseBoxView(ChooseBox, MouseInteractor, ABC):
             if self.handle_extra_actions(ctx, action):
                 break
             loops.std(ctx)
+            if self.__special_ret is not None:
+                self.rem_elems()
+                return self.__special_ret
         self.rem_elems()
+        return None

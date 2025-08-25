@@ -76,7 +76,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             label.add(self, width, self.height - 1)
             width += label.width + 2
 
-    def assure_distance(self, _x, _y, width, height):
+    def assure_distance(self, _x: int, _y: int, width: int, height: int):
         """This ensures the game does not crash when big
         chunks of text are displayed
         ARGS:
