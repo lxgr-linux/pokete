@@ -6,9 +6,9 @@ from typing import Optional
 from pokete.base.exception_propagation.propagating_thread import (
     PropagatingThread,
 )
-from pokete.release import SPEED_OF_TIME
 
 from .event import _ev
+from .mouse import mouse_manager
 
 
 class Recogniser:
@@ -68,10 +68,10 @@ class Recogniser:
                 self.__fd = sys.stdin.fileno()
                 self.__old_settings = termios.tcgetattr(self.__fd)
                 tty.setraw(self.__fd)
-                time.sleep(SPEED_OF_TIME * 0.1)
 
                 while True:
                     char = sys.stdin.read(1)
+                    # logging.info("input %s -- %d", char, ord(char))
                     self.set_event(
                         char,
                         self.UNIX_KEY_MAPPING,
@@ -103,6 +103,9 @@ class Recogniser:
                 event := self.ESCAPED_KEY_MAPPING.get(self.__escape_input, None)
             ) is not None:
                 _ev.set(event)
+                self.__escape_input = None
+            elif mouse_manager.is_mouse_event(self.__escape_input):
+                mouse_manager.handle(self.__escape_input)
                 self.__escape_input = None
         else:
             _ev.set(key_mapping[char_ord])

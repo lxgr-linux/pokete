@@ -1,9 +1,12 @@
 """Contains classes and objects related to settings"""
 
 import logging
+
 import scrap_engine as se
 
 from pokete.base.color import Color
+from pokete.base.context import Context
+from pokete.base.input_loops import text_input
 
 
 class Setting:
@@ -38,7 +41,7 @@ class Slider(se.Box):
         setting: The associated settings name"""
 
     def __init__(self, text, setting):
-        super().__init__(0, 0)
+        super().__init__(1, 1)
         self.setting = settings(setting)
         self.text = se.Text(text + ":", state="float")
         self.slider = SliderCursor("<o>", state="float")
@@ -83,9 +86,7 @@ class Slider(se.Box):
 
     def set_slider_from_setting(self):
         """Sets the sliders position from the given setting"""
-        self.set_slider(
-            round(self.boundary * self.setting.val / 100)
-        )
+        self.set_slider(round(self.boundary * self.setting.val / 100))
 
     @property
     def offset(self):
@@ -115,16 +116,18 @@ class VisSetting(se.Text):
         self.name = text
         self.setting = settings(setting)
         self.index = list(options).index(self.setting.val)
-        super().__init__(text + ": " + self.options[self.setting.val],
-                         state="float")
+        super().__init__(
+            text + ": " + self.options[self.setting.val], state="float"
+        )
 
     def change(self):
         """Change the setting"""
         self.index = (self.index + 1) % len(self.options)
         self.setting.val = list(self.options)[self.index]
         self.rechar(self.name + ": " + self.options[self.setting.val])
-        logging.info("[Setting][%s] set to %s", self.setting.name,
-                     self.setting.val)
+        logging.info(
+            "[Setting][%s] set to %s", self.setting.name, self.setting.val
+        )
 
 
 class Settings:
@@ -165,6 +168,28 @@ class Settings:
     def to_dict(self):
         """Returns a dict of all current settings"""
         return {i.name: i.val for i in self.settings}
+
+
+class TextInputBox(se.Box):
+    def __init__(self, label: str, max_len: int):
+        super().__init__(1, len(label) + 1 + max_len)
+        self.max_len = max_len
+        self.label = se.Text(label, state="float")
+        self.value = se.Text("", state="float")
+        self.add_ob(self.label, 0, 0)
+        self.add_ob(self.value, len(label) + 1, 0)
+
+    def __call__(self, ctx: Context) -> str:
+        return text_input(
+            ctx,
+            self.value,
+            self.value.text,
+            self.max_len + 1,
+            self.max_len,
+        )
+
+    def set_value(self, value: str):
+        self.value.rechar(value)
 
 
 settings = Settings()
