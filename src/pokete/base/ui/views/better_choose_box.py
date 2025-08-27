@@ -29,7 +29,7 @@ class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, ABC):
         return [i.get_area() for f in self.nest_label_obs for i in f]
 
     def __get_index_from_area_idx(self, idx: int) -> tuple[int, int]:
-        return (int(idx / self.columns), idx % self.columns)
+        return int(idx / self.columns), idx % self.columns
 
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
         if area_idx >= 0:
