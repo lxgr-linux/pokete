@@ -9,30 +9,8 @@ from ...context import Context
 from ...input import Action, get_action
 from ...ui.elements import InfoBox, InputBox
 from ..text_input import text_input
+from .bool import ask_bool
 from .ok import ask_ok
-
-
-def ask_bool(ctx: Context, text):
-    """Asks the player to aswer a yes/no question
-    ARGS:
-        ctx: Context
-        text: The actual question"""
-    assert len(text) >= 12, "Text has to be longer then 12 characters!"
-    text_len = sorted([len(i) for i in text.split("\n")])[-1]
-    with InfoBox(
-        f"{text}\n{round(text_len / 2 - 6) * ' '}[Y]es   [N]o", info="", ctx=ctx
-    ) as box:
-        ctx = change_ctx(ctx, box)
-        while True:
-            action = get_action()
-            if action.triggers(Action.ACCEPT):
-                ret = True
-                break
-            if action.triggers(Action.CANCEL):
-                ret = False
-                break
-            loops.std(ctx)
-    return ret
 
 
 def wait_event(ctx: Context, text: str, event: Event):
