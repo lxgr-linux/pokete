@@ -4,11 +4,12 @@ from threading import Event
 
 from pokete.base.change import change_ctx
 
-from .. import loops
-from ..context import Context
-from ..input import Action, _ev, get_action
-from ..ui.elements import InfoBox, InputBox
-from .text_input import text_input
+from ... import loops
+from ...context import Context
+from ...input import Action, get_action
+from ...ui.elements import InfoBox, InputBox
+from ..text_input import text_input
+from .ok import ask_ok
 
 
 def ask_bool(ctx: Context, text):
@@ -59,25 +60,3 @@ def ask_text(ctx: Context, infotext, introtext, text, name, max_len):
             max_len=max_len,
         )
     return ret
-
-
-def ask_ok(ctx: Context, text):
-    """Shows the player some information
-    ARGS:
-        ctx:Context
-        text: The question it self"""
-    assert len(text) >= 4, "Text has to be longer then 4 characters!"
-    text_len = sorted([len(i) for i in text.split("\n")])[-1]
-    with InfoBox(
-        f"{text}\n{round(text_len / 2 - 2) * ' '}[O]k ",
-        name="Info",
-        info="",
-        ctx=ctx,
-    ) as box:
-        ctx = change_ctx(ctx, box)
-        while True:
-            action = get_action()
-            if action.triggers(Action.ACCEPT or action == Action.CANCEL):
-                break
-            loops.std(ctx)
-        _ev.clear()
