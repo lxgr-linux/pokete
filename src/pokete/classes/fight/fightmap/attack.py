@@ -2,12 +2,13 @@
 
 import scrap_engine as se
 
-from pokete.util import liner
+from pokete.base import loops
 from pokete.base.context import Context
 from pokete.base.input import ACTION_UP_DOWN, Action, get_action
 from pokete.base.ui import Overview
 from pokete.base.ui.elements import ChooseBox, LabelBox
-from pokete.base import loops
+from pokete.util import liner
+
 from ... import effects
 from ...attack import Attack
 
@@ -19,8 +20,7 @@ class AttackBox(se.Box, Overview):
         super().__init__(0, 0)
         self.overview: Overview | None = None
         self.box = ChooseBox(
-            6, 25, "Attacks",
-            f"{Action.INFO.mapping}:Info", index_x=1
+            6, 25, "Attacks", f"{Action.INFO.mapping}:Info", index_x=1
         )
         self.atk_box = LabelBox(se.Text(""), "Attack Info")
         self.add_ob(self.box, 0, 0)
@@ -37,15 +37,15 @@ class AttackBox(se.Box, Overview):
         self.atk_box.name_label.rechar(self.attack_info_text)
         if attack_obs[self.box.index.index].effect is not None:
             self.atk_box.info_label.rechar(
-                f"{Action.SCREEN_SWITCH.mapping}:{self.effect_info_text}")
+                f"{Action.SCREEN_SWITCH.mapping}:{self.effect_info_text}"
+            )
         else:
             self.atk_box.info_label.rechar("")
         self.atk_box.label.rechar(
             liner(attack_obs[self.box.index.index].desc, 37)
         )
         self.atk_box.resize(
-            self.atk_box.label.height + 2,
-            self.atk_box.label.width + 4
+            self.atk_box.label.height + 2, self.atk_box.label.width + 4
         )
 
     def rechar_with_effect_info(self, attack_obs):
@@ -54,16 +54,16 @@ class AttackBox(se.Box, Overview):
             attack_obs: The current attack obs"""
         self.atk_box.name_label.rechar(self.effect_info_text)
         self.atk_box.info_label.rechar(
-            f"{Action.SCREEN_SWITCH.mapping}:{self.attack_info_text}")
+            f"{Action.SCREEN_SWITCH.mapping}:{self.attack_info_text}"
+        )
         current_attack = attack_obs[self.box.index.index]
 
         self.atk_box.label.rechar(
             liner(self.effects_dictionary[current_attack.effect].desc, 37),
-            esccode=self.effects_dictionary[current_attack.effect].color
+            esccode=self.effects_dictionary[current_attack.effect].color,
         )
         self.atk_box.resize(
-            self.atk_box.label.height + 2,
-            self.atk_box.label.width + 4
+            self.atk_box.label.height + 2, self.atk_box.label.width + 4
         )
 
     def toggle_atk_box(self):
@@ -112,10 +112,12 @@ class AttackBox(se.Box, Overview):
                     self.is_effect_info_box_active = False
                     self.rechar_atk_box(attack_obs)
                     self.map.show()
-                elif action.triggers(Action.ACCEPT) or (0 <= action.get_number()
-                                                        < len(attack_obs)):
+                elif action.triggers(Action.ACCEPT) or (
+                    0 <= action.get_number() < len(attack_obs)
+                ):
                     attack = attack_obs[
-                        self.box.index.index if action.triggers(Action.ACCEPT)
+                        self.box.index.index
+                        if action.triggers(Action.ACCEPT)
                         else action.get_number()
                     ]
                     if attack.ap == 0:
@@ -130,9 +132,13 @@ class AttackBox(se.Box, Overview):
                     break
                 elif action.triggers(Action.SCREEN_SWITCH):
                     selected_attack = attack_obs[self.box.index.index]
-                    if self.atk_box_added and selected_attack.effect is not None:
-                        self.is_effect_info_box_active = \
+                    if (
+                        self.atk_box_added
+                        and selected_attack.effect is not None
+                    ):
+                        self.is_effect_info_box_active = (
                             not self.is_effect_info_box_active
+                        )
                         if self.is_effect_info_box_active:
                             self.rechar_with_effect_info(attack_obs)
                         else:

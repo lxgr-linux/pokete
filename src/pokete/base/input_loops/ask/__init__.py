@@ -6,7 +6,6 @@ from pokete.base.change import change_ctx
 
 from ... import loops
 from ...context import Context
-from ...input import Action, get_action
 from ...ui.elements import InfoBox, InputBox
 from ..text_input import text_input
 from .bool import ask_bool

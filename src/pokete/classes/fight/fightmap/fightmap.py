@@ -34,7 +34,7 @@ class FightMap(gm.GameMap, Overview):
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
         self.box = AttackBox()
-        self.invbox = InvBox(height - 3, 35, "Inventory", overview=self)
+        self.invbox = InvBox()
         self.providers: list[Provider] = []
         self.overview: Overview
         # icos

@@ -7,6 +7,7 @@ from pokete.base.exception_propagation import (
     exception_propagating_periodic_event,
 )
 from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.classes.fight.items.item import RoundContinuation
 from pokete.classes.items.invitem import InvItem
@@ -35,7 +36,12 @@ class Fight:
 
     def __call__(self, ctx: Context, providers: list[Provider]):
         ctx = Context(
-            PeriodicEventManager([exception_propagating_periodic_event]),
+            PeriodicEventManager(
+                [
+                    exception_propagating_periodic_event,
+                    single_event_periodic_event,
+                ]
+            ),
             self.fightmap,
             ctx.overview,
             ctx.figure,
