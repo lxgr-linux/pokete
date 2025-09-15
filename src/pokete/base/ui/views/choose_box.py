@@ -1,3 +1,4 @@
+import math
 from abc import ABC, abstractmethod
 from typing import Optional, TypeVar
 
@@ -37,6 +38,12 @@ class ChooseBoxView[T](ChooseBox, MouseInteractor, ABC):
 
     @abstractmethod
     def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
+
+    def on_index_change(self, area_idx: int): ...
+
+    def set_index(self, index: int):
+        super().set_index(index)
+        self.on_index_change(self.page * (self.height - 2) + index)
 
     def get_interaction_areas(self) -> list[Area]:
         return [
@@ -109,7 +116,7 @@ class ChooseBoxView[T](ChooseBox, MouseInteractor, ABC):
         if (
             0
             <= (self.page + add_page)
-            <= int(len(self.elems) / (self.height - 2))
+            < math.ceil(len(self.elems) / (self.height - 2))
         ):
             self.rem_elems()
             self.page += add_page

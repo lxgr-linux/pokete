@@ -22,6 +22,10 @@ class LabelBox(Box):
         super().__init__(label.height + 2, label.width + 4, name, info, ctx=ctx)
         self.add_ob(label, 2, 1)
 
+    def resize(self, height, width):
+        super().resize(height, width)
+        self.set_ob(self.label, 2, 1)
+
 
 class InfoBox(LabelBox):
     """Box to display basic text information in

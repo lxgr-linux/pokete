@@ -15,7 +15,7 @@ class BoxIndex(se.Object):
 
     def __init__(self):
         super().__init__("*", state="float")
-        self.index = 0
+        self.index: int = 0
 
 
 class ChooseBox(Box):
@@ -62,20 +62,20 @@ class ChooseBox(Box):
             Action.DOWN: self.index.index + 1 < len(self.c_obs),
             Action.UP: self.index.index - 1 >= 0,
         }[inp]:
-            self.index.index += y_str
+            self.set_index(self.index.index + y_str)
         else:
-            self.index.index = {
-                Action.DOWN: 0,
-                Action.UP: len(self.c_obs) - 1,
-            }[inp]
-        self.set_index()
+            self.set_index(
+                {
+                    Action.DOWN: 0,
+                    Action.UP: len(self.c_obs) - 1,
+                }[inp]
+            )
 
-    def set_index(self, index=None):
+    def set_index(self, index: int):
         """Sets the cursors index
         ARGS:
             index: The new index, if None the old index will be used"""
-        if index is not None:
-            self.index.index = index
+        self.index.index = index
         self.set_ob(self.index, self.index.rx, self.c_obs[self.index.index].ry)
 
     def add_c_obs(self, _list):
