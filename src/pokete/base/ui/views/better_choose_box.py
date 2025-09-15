@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from ast import TypeVar
-from typing import Optional
+from typing import Generic, Optional, TypeVar
 
 import scrap_engine as se
 
@@ -15,7 +14,7 @@ from pokete.base.ui.elements.choose import BetterChooseBox
 T = TypeVar("T")
 
 
-class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, ABC):
+class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
     def __init__(
         self, columns, labels: list[se.Text], name="", _map=None, overview=None
     ):

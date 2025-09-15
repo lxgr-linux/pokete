@@ -1,6 +1,6 @@
 import math
 from abc import ABC, abstractmethod
-from typing import Optional, TypeVar
+from typing import Generic, Optional, TypeVar
 
 import scrap_engine as se
 
@@ -20,7 +20,7 @@ from pokete.base.ui.elements.choose import ChooseBox
 T = TypeVar("T")
 
 
-class ChooseBoxView[T](ChooseBox, MouseInteractor, ABC):
+class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], ABC):
     def __init__(
         self,
         height,
