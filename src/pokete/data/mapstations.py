@@ -354,6 +354,7 @@ P│$""",
                     "juiciest and most delicious Mowcow-burgers, cut from the "
                     "happiest and most delicious Mowcows anywhere to find!",
             "w_next": "playmap_35",
+            "a_next": "playmap_52",
             "text": """ #│#
  P│A
 ├─┘#
@@ -365,6 +366,16 @@ P│$""",
             "y": 7
         }
     },
+    "playmap_52":{
+        "gen":{
+            "additionals":["playmap_53", "playmap_54"],
+            "desc": "The town of Watermill is known for "
+                    "the beautiful plants and wonderful "
+                    "nature reserves.""",
+            "d_next": "playmap_39",
+
+        }
+    }
 
 }
 

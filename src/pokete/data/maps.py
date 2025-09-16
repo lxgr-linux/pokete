@@ -596,6 +596,38 @@ maps: dict[str, MapDict] = {
         "poke_args": None,
         "weather": None
     },
+    "playmap_52":{
+        "height": 70,
+        "width": 130,
+        "song": "Map.mp3",
+        "pretty_name": "Town of Watermill",
+        "extra_actions": None,
+        "poke_args": { 
+            "pokes": ["kartmen", "rustacean", "lil_nut", "megapois"],
+            "minlvl": 1100,
+            "maxlvl": 1500
+        },
+        "weather": None
+    },
+    "playmap_53":{
+        "height": 25,
+        "width": 50,
+        "song": "Map.mp3",
+        "pretty_name": "workshop",
+        "extra": None,
+        "poke_args": None,
+        "weather": None
+
+    },
+    "playmap_54":{
+        "height": 10,
+        "width": 15,
+        "song": "Map.mp3",
+        "pretty_name": "workshop",
+        "extra": None,
+        "poke_args": None,
+        "weather": None
+    }
 }
 
 if __name__ == "__main__":
