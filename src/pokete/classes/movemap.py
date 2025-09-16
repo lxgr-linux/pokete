@@ -3,6 +3,7 @@
 import time
 
 import scrap_engine as se
+from scrap_engine.addable.area import Area
 
 import pokete.classes.multiplayer.pc_manager as pc_manager
 from pokete.base import loops
@@ -11,7 +12,7 @@ from pokete.base.context import Context
 from pokete.base.game_map import GameSubmap
 from pokete.base.input import Action, _ev
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import Area, MouseInteractor
+from pokete.base.mouse import MouseInteractor
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements.text import HightlightableText

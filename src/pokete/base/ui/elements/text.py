@@ -3,7 +3,6 @@ from typing import Type
 import scrap_engine as se
 
 from pokete.base.color import Color
-from pokete.base.mouse import Area
 
 
 class HightlightableText(se.Text):
@@ -24,9 +23,3 @@ class HightlightableText(se.Text):
 
     def un_highlight(self):
         self.rechar(self.text, self.default_esccode)
-
-    def get_area(self) -> Area:
-        return (
-            (self.x, self.y),
-            (self.x + self.width - 1, self.y + self.height - 1),
-        )

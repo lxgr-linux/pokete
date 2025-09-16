@@ -2,6 +2,8 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Optional
 
+from scrap_engine.addable.area import Area
+
 from pokete import bs_rpc
 from pokete.base.context import Context
 from pokete.base.exception_propagation.propagating_thread import (
@@ -10,8 +12,6 @@ from pokete.base.exception_propagation.propagating_thread import (
 from pokete.base.input.mouse import MouseEvent, MouseEventType, mouse_manager
 from pokete.base.single_event import single_event_periodic_event
 from pokete.base.single_event.single_event import SingleEvent
-
-type Area = tuple[tuple[int, int], tuple[int, int]]
 
 
 class MouseInteractor(ABC):

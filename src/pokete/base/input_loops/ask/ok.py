@@ -1,11 +1,12 @@
 import scrap_engine as se
+from scrap_engine.addable.area import Area
 
 from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.input import Action, _ev, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import Area, MouseInteractor
+from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.box import Box
 from pokete.base.ui.elements.text import HightlightableText
 

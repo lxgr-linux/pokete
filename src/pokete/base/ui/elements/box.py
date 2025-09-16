@@ -1,9 +1,9 @@
 from typing import Optional
 
 import scrap_engine as se
+from scrap_engine.addable.area import Area
 
 from pokete.base.game_map import CompatMap
-from pokete.base.mouse import Area
 
 from ...context import Context
 from ..overview import Overview

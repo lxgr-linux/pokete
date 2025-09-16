@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar
 
 import scrap_engine as se
+from scrap_engine.addable.area import Area
 
 from pokete.base import loops
 from pokete.base.change import change_ctx
@@ -14,7 +15,7 @@ from pokete.base.input.hotkeys import (
     get_action,
 )
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import Area, MouseInteractor
+from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import ChooseBox
 
 T = TypeVar("T")
