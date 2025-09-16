@@ -32,6 +32,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
 
     def __init__(self):
         super().__init__(se.Map(), 0, 0, height=50, width=100, name="movemap")
+        self.mouse_choosen = -1
         self.name_label = se.Text("")
         self.balls_label = se.Text("")
         self.label_bg = se.Square(" ", self.width, 1, state="float")
@@ -60,6 +61,8 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                     for label in self.labels:
                         label.un_highlight()
                     self.labels[area_idx].highlight()
+                case MouseEventType.LEFT:
+                    self.mouse_choosen = area_idx
         else:
             for label in self.labels:
                 label.un_highlight()
