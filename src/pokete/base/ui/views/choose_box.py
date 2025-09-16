@@ -2,8 +2,7 @@ import math
 from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar
 
-import scrap_engine as se
-from scrap_engine.addable.area import Area
+from scrap_engine.addable.area import Area, HasArea
 
 from pokete.base import loops
 from pokete.base.change import change_ctx
@@ -34,7 +33,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], ABC):
     ):
         super().__init__(height, width, name, info, index_x, c_obs, overview)
         self.page = 0
-        self.elems: list[se.ObjectGroup] = []
+        self.elems: list[HasArea] = []
         self.__special_ret: Optional[T] = None
 
     @abstractmethod

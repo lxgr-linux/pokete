@@ -1,7 +1,6 @@
 from typing import Optional
 
 import scrap_engine as se
-from scrap_engine.addable.area import Area
 
 from pokete.base.game_map import CompatMap
 
@@ -52,12 +51,6 @@ class Box(se.Box, Overview):
             self.overview.resize_view()
             self.center_add(self.map)
             self.map.show()
-
-    def get_area(self) -> Area:
-        return (
-            (self.x, self.y),
-            (self.x + self.width - 1, self.y + self.height - 1),
-        )
 
     def center_add(self, _map):
         """Adds the box to the maps center
