@@ -1,5 +1,7 @@
 """Contains all classes relevant to show the roadmap"""
 
+from typing import override
+
 import scrap_engine as se
 
 import pokete.classes.ob_maps as obmp
@@ -8,6 +10,8 @@ from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import ACTION_DIRECTIONS, Action, ActionList, get_action
+from pokete.base.input.mouse import MouseEvent, MouseEventType
+from pokete.base.mouse import MouseInteractor
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.ui.elements import Box, InfoBox
 from pokete.classes.asset_service.service import asset_service
@@ -44,7 +48,6 @@ class Station(StationObject):
         {w,a,s,d}_next: The next Station's name in a certain direction"""
 
     choosen = None
-    obs = []
 
     def __init__(
         self,
@@ -74,7 +77,6 @@ class Station(StationObject):
         self.a_next = a_next
         self.s_next = s_next
         self.d_next = d_next
-        Station.obs.append(self)
 
     def choose(self, figure):
         """Chooses and hightlights the station"""
@@ -140,13 +142,14 @@ class Station(StationObject):
         self.rechar(self.text, self.color)
 
 
-class RoadMap:
+class RoadMap(Box, MouseInteractor):
     """Map you can see and navigate maps on"""
 
     def __init__(self):
+        self.mouse_choosen = False
         stations = asset_service.get_assets().stations
         decorations = asset_service.get_assets().decorations
-        self.box = Box(
+        super().__init__(
             17,
             61,
             "Roadmap",
@@ -170,18 +173,34 @@ W ◀ ▶ E
             state="float",
         )
         self.info_label = se.Text("", state="float")
-        self.box.add_ob(self.info_label, self.box.width - 2, 0)
-        self.box.add_ob(self.rose, 53, 11)
-        self.box.add_ob(self.legend, 45, 1)
+        self.add_ob(self.info_label, self.width - 2, 0)
+        self.add_ob(self.rose, 53, 11)
+        self.add_ob(self.legend, 45, 1)
         for sta, d in decorations.items():
             obj = Decoration(d.gen.text, d.gen.color)
-            self.box.add_ob(obj, d.add.x, d.add.y)
+            self.add_ob(obj, d.add.x, d.add.y)
             setattr(self, sta, obj)
+
+        self.all_stations: list[Station] = []
 
         for sta, d in stations.items():
             obj = Station(self, obmp.ob_maps[sta], **d.gen.to_dict())
-            self.box.add_ob(obj, d.add.x, d.add.y)
+            self.add_ob(obj, d.add.x, d.add.y)
+            self.all_stations.append(obj)
             setattr(self, sta, obj)
+
+    @override
+    def get_interaction_areas(self) -> list[se.Area]:
+        return [i.get_area() for i in self.all_stations]
+
+    @override
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+        if area_idx >= 0:
+            self.sta.unchoose()
+            self.all_stations[area_idx].choose(ctx.figure)
+            match event.type:
+                case MouseEventType.LEFT:
+                    self.mouse_choosen = True
 
     @property
     def sta(self) -> Station:
@@ -193,19 +212,19 @@ W ◀ ▶ E
         ARGS:
             name: String displayed"""
         self.info_label.remove()
-        self.box.rem_ob(self.info_label)
+        self.rem_ob(self.info_label)
         self.info_label.rechar(name)
-        self.box.add_ob(self.info_label, self.box.width - 2 - len(name), 0)
+        self.add_ob(self.info_label, self.width - 2 - len(name), 0)
 
     def __call__(self, ctx: Context, choose=False):
         """Shows the roadmap
         ARGS:
             choose: Bool whether or not this is done to choose a city"""
-        for i in Station.obs:
+        for i in self.all_stations:
             i.hide_if_visited(ctx.figure, choose)
         [
             i
-            for i in Station.obs
+            for i in self.all_stations
             if (
                 ctx.figure.map
                 if ctx.figure.map
@@ -214,12 +233,10 @@ W ◀ ▶ E
             )
             in i.associates
         ][0].choose(ctx.figure)
-        self.box.overview = ctx.overview
+        self.set_ctx(ctx)
         blinker = BlinkerEvent(self.sta)
-        ctx = change_ctx(
-            ctx.with_pevm(ctx.pevm.with_events([blinker])), self.box
-        )
-        with self.box.center_add(ctx.map):
+        ctx = change_ctx(ctx.with_pevm(ctx.pevm.with_events([blinker])), self)
+        with self.center_add(self.map):
             while True:
                 action = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
@@ -227,14 +244,14 @@ W ◀ ▶ E
                 elif action.triggers(Action.MAP, Action.CANCEL):
                     break
                 elif (
-                    action.triggers(Action.ACCEPT)
+                    (action.triggers(Action.ACCEPT) or self.mouse_choosen)
                     and choose
                     and self.sta.has_been_visited(ctx.figure)
                     and self.sta.is_city()
                 ):
                     return self.sta.associates[0]
                 elif (
-                    action.triggers(Action.ACCEPT)
+                    (action.triggers(Action.ACCEPT) or self.mouse_choosen)
                     and not choose
                     and self.sta.has_been_visited(ctx.figure)
                 ):
@@ -270,6 +287,8 @@ W ◀ ▶ E
                         blinker.box = box
                         loops.easy_exit(ctx)
                         blinker.box = None
+                    ctx = change_ctx(ctx, self)
+                self.mouse_choosen = False
                 blinker.station = self.sta
                 loops.std(ctx)
                 ctx.map.full_show()
