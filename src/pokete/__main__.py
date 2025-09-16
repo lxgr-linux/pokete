@@ -16,9 +16,9 @@ from datetime import datetime
 import scrap_engine as se
 
 from pokete import release
-from pokete.base.change import change_ctx
 
 from .base import loops
+from .base.change import change_ctx
 from .base.color import Color
 from .base.context import Context
 from .base.exception_propagation import (
@@ -359,6 +359,7 @@ def _game(_map: PlayMap, figure: Figure):
         ([Action.INTERACT], (ContextMenu(), (ctx,))),
         ([Action.MENU], (Menu(), (ctx,))),
     ]
+    inp_list = [i for j in inp_dict for i in j[0]]
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
     while True:
@@ -375,7 +376,7 @@ def _game(_map: PlayMap, figure: Figure):
                 figure.y + action.get_y_strength(),
             )
             pc_manager.check_interactable(figure)
-        elif action.triggers(*inp_dict) or mouse_choosen >= 0:
+        elif action.triggers(*inp_list) or mouse_choosen >= 0:
             for idx, (keys, option) in enumerate(inp_dict):
                 if action.triggers(*keys) or idx == mouse_choosen:
                     option[0](*option[1])
