@@ -22,6 +22,8 @@ class MouseEventType(Enum):
     ALT_MOVE = 43
     SCROLL_UP = 64
     SCROLL_DOWN = 65
+    SCROLL_RIGHT = 66
+    SCROLL_LEFT = 67
     MISC_1 = 128
     MISC_2 = 129
     MISC_1_MOVE = 160
