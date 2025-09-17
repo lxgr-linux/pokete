@@ -15,7 +15,7 @@ from .asset_service.resources import Map
 from .asset_service.service import asset_service
 from .classes import PlayMap
 from .doors import Door, DoorToCenter, DoorToShop
-from .landscape import Meadow, Poketeball, Sand, Water
+from .landscape import Meadow, Misc, Poketeball, Sand, Water
 from .map_additions.center import CenterMap, ShopMap
 from .npcs import NPC, Trainer
 from .poke import Poke
@@ -109,6 +109,7 @@ def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]):
             "sand": Sand,
             "meadow": Meadow,
             "water": Water,
+            "misc": Misc,
         }[single_soft_ob.cls if single_soft_ob.cls is not None else "meadow"]
         __parse_obj(
             _map,
