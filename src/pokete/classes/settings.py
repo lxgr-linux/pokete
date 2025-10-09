@@ -4,10 +4,15 @@ import logging
 
 import scrap_engine as se
 
+from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
+from pokete.base.input.hotkeys import Action, get_action
+from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.input_loops import text_input
-from pokete.base.mouse import mouse_interaction_manager
+from pokete.base.mouse import MouseInteractor, mouse_interaction_manager
+from pokete.base.ui.overview import Overview
 
 
 class Setting:
@@ -35,7 +40,7 @@ class SliderCursor(se.Text):
                 obj.add(self.map, obj.x + x, obj.y + y)
 
 
-class Slider(se.Box):
+class Slider(se.Box, Overview, MouseInteractor):
     """Slider component for menu
     ARGS:
         text: The text to show
@@ -43,6 +48,7 @@ class Slider(se.Box):
 
     def __init__(self, text, setting):
         super().__init__(1, 1)
+        self.overview: Overview
         self.setting = settings(setting)
         self.text = se.Text(text + ":", state="float")
         self.slider = SliderCursor("<o>", state="float")
@@ -94,13 +100,36 @@ class Slider(se.Box):
         """The sliders current position"""
         return self.slider.rx - self.left.rx
 
-    def change(self, val):
+    def resize_view(self):
+        return self.overview.resize_view()
+
+    def __set_setting(self):
+        self.setting.val = round(100 * self.offset / self.boundary)
+
+    def get_interaction_areas(self) -> list[se.Area]:
+        return [e.get_area() for e in self.line.obs]
+
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+        if area_idx >= 0:
+            if event.type == MouseEventType.LEFT:
+                self.set_slider(area_idx)
+                self.__set_setting()
+
+    def change(self, ctx: Context):
         """Changes the current position by a value
         ARGS:
             val: The value"""
-        if 0 <= (self.offset + val) <= self.boundary:
-            self.set_slider(self.offset + val)
-            self.setting.val = round(100 * self.offset / self.boundary)
+        self.overview = ctx.overview
+        ctx = change_ctx(ctx, self)
+        while True:
+            action = get_action()
+            if (strength := action.get_x_strength()) != 0:
+                if 0 <= (self.offset + strength) <= self.boundary:
+                    self.set_slider(self.offset + strength)
+                    self.__set_setting()
+            if action.triggers(Action.ACCEPT, Action.CANCEL):
+                return
+            loops.std(ctx)
 
 
 class VisSetting(se.Text):
@@ -121,7 +150,7 @@ class VisSetting(se.Text):
             text + ": " + self.options[self.setting.val], state="float"
         )
 
-    def change(self):
+    def change(self, ctx: Context):
         """Change the setting"""
         self.index = (self.index + 1) % len(self.options)
         self.setting.val = list(self.options)[self.index]

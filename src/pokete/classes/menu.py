@@ -5,7 +5,6 @@ from typing import Never, Optional
 import scrap_engine as se
 
 from pokete.base.context import Context
-from pokete.base.input.hotkeys import ActionList
 from pokete.base.ui.elements import InfoBox
 from pokete.base.ui.notify import notifier
 from pokete.base.ui.views.choose_box import ChooseBoxView
@@ -47,22 +46,13 @@ class Menu(ChooseBoxView):
             self.exit_label,
         ]
 
-    def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
-        i = self.c_obs[self.index.index]
-        volume_before = settings("volume").val
-        if (strength := action.get_x_strength()) != 0:
-            if isinstance(i, Slider):
-                i.change(strength)
-        if volume_before != settings("volume").val:
-            audio.play(ctx.figure.map.song)
-        return False
-
     def new_size(self) -> tuple[int, int]:
         return self.map.height - 3, 35
 
     def choose(self, ctx: Context, idx: int) -> Optional[Never]:
         i = self.c_obs[self.index.index]
         audio_before = settings("audio").val
+        volume_before = settings("volume").val
         if i == self.playername_input:
             ctx.figure.name = self.playername_input(ctx)
             self.map.name_label_rechar(ctx.figure.name)
@@ -103,9 +93,12 @@ valid single-space character!",
             About()(ctx)
         elif i == self.ach_label:
             AchievementOverview()(ctx)
-        elif isinstance(i, VisSetting):
-            i.change()
-        if audio_before != settings("audio").val:
+        elif isinstance(i, VisSetting) or isinstance(i, Slider):
+            i.change(ctx)
+        if (
+            audio_before != settings("audio").val
+            or volume_before != settings("volume").val
+        ):
             audio.play(ctx.figure.map.song)
 
     def __call__(self, ctx: Context):
