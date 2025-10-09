@@ -1,14 +1,17 @@
 """Contains class retaed to cennecting to a server"""
 
 from pokete import release
-from pokete.util import liner
 from pokete.base.context import Context
 from pokete.base.input_loops import ask_ok, ask_text
-from .communication import com_service, ConnectionException
-from .exceptions import UserPresentException, VersionMismatchException, \
-    InvalidPokeException
-from .host_port import HostPort, HostPortParseException
+from pokete.util import liner
 
+from .communication import ConnectionException, com_service
+from .exceptions import (
+    InvalidPokeException,
+    UserPresentException,
+    VersionMismatchException,
+)
+from .host_port import HostPort, HostPortParseException
 
 DEFAULT_PORT = 9988
 
@@ -32,8 +35,9 @@ class Connector:
 
     def handshake(self, ctx: Context):
         try:
-            greeting_text = com_service.handshake(ctx, self.user_name,
-                                                  release.VERSION)
+            greeting_text = com_service.handshake(
+                ctx, self.user_name, release.VERSION
+            )
             ask_ok(ctx, liner(greeting_text, ctx.map.width - 4))
         except UserPresentException:
             self.ask_user_name(ctx, True)
@@ -48,14 +52,16 @@ class Connector:
         """Asks the user for host and port to conenct to"""
         while True:
             try:
-                self.host_port = HostPort.parse(ask_text(
-                    ctx,
-                    "Please enter the servers host you want to connect to.",
-                    "Host:",
-                    str(self.host_port),
-                    "Host",
-                    40,
-                ))
+                self.host_port = HostPort.parse(
+                    ask_text(
+                        ctx,
+                        "Please enter the servers host you want to connect to.",
+                        "Host:",
+                        str(self.host_port),
+                        "Host",
+                        40,
+                    )
+                )
             except HostPortParseException as e:
                 ask_ok(ctx, f"Error: {e}")
                 continue
@@ -81,13 +87,14 @@ class Connector:
         try:
             com_service.connect(
                 self.host_port.host,
-                self.host_port.port if self.host_port.port is not None else DEFAULT_PORT
+                self.host_port.port
+                if self.host_port.port is not None
+                else DEFAULT_PORT,
             )
         except ConnectionException as excpt:
             ask_ok(
                 ctx,
-                f"An error occured connecting to {self.host_port} :\n"
-                f"{excpt}",
+                f"An error occured connecting to {self.host_port} :\n{excpt}",
             )
             return False
         return True

@@ -1,9 +1,18 @@
 """Contains classes and objects related to settings"""
 
 import logging
+
 import scrap_engine as se
 
+from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.color import Color
+from pokete.base.context import Context
+from pokete.base.input.hotkeys import Action, get_action
+from pokete.base.input.mouse import MouseEvent, MouseEventType
+from pokete.base.input_loops import text_input
+from pokete.base.mouse import MouseInteractor, mouse_interaction_manager
+from pokete.base.ui.overview import Overview
 
 
 class Setting:
@@ -31,14 +40,15 @@ class SliderCursor(se.Text):
                 obj.add(self.map, obj.x + x, obj.y + y)
 
 
-class Slider(se.Box):
+class Slider(se.Box, Overview, MouseInteractor):
     """Slider component for menu
     ARGS:
         text: The text to show
         setting: The associated settings name"""
 
     def __init__(self, text, setting):
-        super().__init__(0, 0)
+        super().__init__(1, 1)
+        self.overview: Overview
         self.setting = settings(setting)
         self.text = se.Text(text + ":", state="float")
         self.slider = SliderCursor("<o>", state="float")
@@ -83,22 +93,43 @@ class Slider(se.Box):
 
     def set_slider_from_setting(self):
         """Sets the sliders position from the given setting"""
-        self.set_slider(
-            round(self.boundary * self.setting.val / 100)
-        )
+        self.set_slider(round(self.boundary * self.setting.val / 100))
 
     @property
     def offset(self):
         """The sliders current position"""
         return self.slider.rx - self.left.rx
 
-    def change(self, val):
+    def resize_view(self):
+        return self.overview.resize_view()
+
+    def __set_setting(self):
+        self.setting.val = round(100 * self.offset / self.boundary)
+
+    def get_interaction_areas(self) -> list[se.Area]:
+        return [e.get_area() for e in self.line.obs]
+
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+        if area_idx >= 0:
+            if event.type == MouseEventType.LEFT:
+                self.set_slider(area_idx)
+                self.__set_setting()
+
+    def change(self, ctx: Context):
         """Changes the current position by a value
         ARGS:
             val: The value"""
-        if 0 <= (self.offset + val) <= self.boundary:
-            self.set_slider(self.offset + val)
-            self.setting.val = round(100 * self.offset / self.boundary)
+        self.overview = ctx.overview
+        ctx = change_ctx(ctx, self)
+        while True:
+            action = get_action()
+            if (strength := action.get_x_strength()) != 0:
+                if 0 <= (self.offset + strength) <= self.boundary:
+                    self.set_slider(self.offset + strength)
+                    self.__set_setting()
+            if action.triggers(Action.ACCEPT, Action.CANCEL):
+                return
+            loops.std(ctx)
 
 
 class VisSetting(se.Text):
@@ -115,16 +146,18 @@ class VisSetting(se.Text):
         self.name = text
         self.setting = settings(setting)
         self.index = list(options).index(self.setting.val)
-        super().__init__(text + ": " + self.options[self.setting.val],
-                         state="float")
+        super().__init__(
+            text + ": " + self.options[self.setting.val], state="float"
+        )
 
-    def change(self):
+    def change(self, ctx: Context):
         """Change the setting"""
         self.index = (self.index + 1) % len(self.options)
         self.setting.val = list(self.options)[self.index]
         self.rechar(self.name + ": " + self.options[self.setting.val])
-        logging.info("[Setting][%s] set to %s", self.setting.name,
-                     self.setting.val)
+        logging.info(
+            "[Setting][%s] set to %s", self.setting.name, self.setting.val
+        )
 
 
 class Settings:
@@ -165,6 +198,29 @@ class Settings:
     def to_dict(self):
         """Returns a dict of all current settings"""
         return {i.name: i.val for i in self.settings}
+
+
+class TextInputBox(se.Box):
+    def __init__(self, label: str, max_len: int):
+        super().__init__(1, len(label) + 1 + max_len)
+        self.max_len = max_len
+        self.label = se.Text(label, state="float")
+        self.value = se.Text("", state="float")
+        self.add_ob(self.label, 0, 0)
+        self.add_ob(self.value, len(label) + 1, 0)
+
+    def __call__(self, ctx: Context) -> str:
+        mouse_interaction_manager.attach([])
+        return text_input(
+            ctx,
+            self.value,
+            self.value.text,
+            self.max_len + 1,
+            self.max_len,
+        )
+
+    def set_value(self, value: str):
+        self.value.rechar(value)
 
 
 settings = Settings()

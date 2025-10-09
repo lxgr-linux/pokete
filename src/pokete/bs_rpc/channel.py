@@ -6,6 +6,7 @@ T = TypeVar("T")
 
 class Channel(Generic[T]):
     def __init__(self):
+        self.__mutex = threading.Lock()
         self.__state: list[T] = []
         self.__event: threading.Event = threading.Event()
         self.__closed = False
@@ -14,9 +15,10 @@ class Channel(Generic[T]):
         self.__closed = True
 
     def push(self, item: T):
-        self.__state.append(item)
-        self.__event.set()
-        self.__event.clear()
+        with self.__mutex:
+            self.__state.append(item)
+            self.__event.set()
+            self.__event.clear()
 
     def is_closed(self) -> bool:
         return self.__closed

@@ -1,18 +1,22 @@
 """This file contains all relevant classes for fight"""
 
-import logging
 import time
 
 import scrap_engine as se
+from scrap_engine.addable.area import Area
 
 from pokete.base import game_map as gm
 from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.input import Action, get_action
+from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.input_loops import ask_bool
+from pokete.base.mouse import MouseInteractor
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements import StdFrame2
+from pokete.base.ui.elements.text import HightlightableText
 from pokete.classes import animations, deck
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.items.invitem import InvItem
@@ -21,12 +25,12 @@ from pokete.release import SPEED_OF_TIME
 from ...classes import OutP
 from ...settings import settings
 from ..fight_decision import FightDecision
-from ..providers import NatureProvider, ProtoFigure, Provider
+from ..providers import NatureProvider, Provider
 from .attack import AttackBox
 from .inv import InvBox
 
 
-class FightMap(gm.GameMap, Overview):
+class FightMap(gm.GameMap, Overview, MouseInteractor):
     """Wrapper for gm.GameMap
     ARGS:
         height: The height of the map
@@ -34,8 +38,9 @@ class FightMap(gm.GameMap, Overview):
 
     def __init__(self, height, width):
         super().__init__(height, width, name="fightmap")
+        self.mouse_choosen = -1
         self.box = AttackBox()
-        self.invbox = InvBox(height - 3, 35, "Inventory", overview=self)
+        self.invbox = InvBox()
         self.providers: list[Provider] = []
         self.overview: Overview
         # icos
@@ -58,16 +63,46 @@ class FightMap(gm.GameMap, Overview):
         self.p_upperline = se.Text("+----------------", state="float")
         self.p_sideline = se.Square("|", 1, 4, state="float")
         self.outp = OutP("", state="float")
-        self.label = se.Text(
-            f"{Action.CHOOSE_ATTACK.mapping}: Attack  "
-            f"{Action.RUN.mapping}: Run!  "
-            f"{Action.CHOOSE_ITEM.mapping}: Inv.  "
-            f"{Action.CHOOSE_POKE.mapping}: Deck"
+        self.label_attack = HightlightableText(
+            f"{Action.CHOOSE_ATTACK.mapping}: Attack", state="float"
         )
+        self.label_run = HightlightableText(
+            f"{Action.RUN.mapping}: Run!", state="float"
+        )
+        self.label_inv = HightlightableText(
+            f"{Action.CHOOSE_ITEM.mapping}: Inv", state="float"
+        )
+        self.label_deck = HightlightableText(
+            f"{Action.CHOOSE_POKE.mapping}: Deck", state="float"
+        )
+        self.labels: list[HightlightableText] = [
+            self.label_attack,
+            self.label_run,
+            self.label_inv,
+            self.label_deck,
+        ]
+
         # adding
         self.e_underline.add(self, 1, 4)
         self.e_sideline.add(self, len(self.e_underline.text), 1)
         self.add_base_boxes()
+
+    def get_interaction_areas(self) -> list[Area]:
+        return [i.get_area() for i in self.labels]
+
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+        if area_idx >= 0:
+            match event.type:
+                case MouseEventType.MOVE:
+                    for label in self.labels:
+                        label.un_highlight()
+                    self.labels[area_idx].highlight()
+                case MouseEventType.LEFT:
+                    self.mouse_choosen = area_idx
+        else:
+            for label in self.labels:
+                label.un_highlight()
+            # self.mouse_choosen = -1
 
     def set_overview(self, overview: Overview):
         self.overview = overview
@@ -83,7 +118,10 @@ class FightMap(gm.GameMap, Overview):
             self, self.width - 1 - len(self.p_upperline.text), self.height - 9
         )
         self.frame_small.add(self, 0, self.height - 5)
-        self.label.add(self, 0, self.height - 1)
+        x = 0
+        for label in self.labels:
+            label.add(self, x, self.height - 1)
+            x += label.width + 2
 
     def resize_view(self):
         """Manages recursive view resizing"""
@@ -96,8 +134,7 @@ class FightMap(gm.GameMap, Overview):
             self.frame_big,
             self.p_sideline,
             self.frame_small,
-            self.label,
-        ]:
+        ] + self.labels:
             obj.remove()
         self.clean_up(self.providers[0], resize=True)
 
@@ -129,9 +166,9 @@ class FightMap(gm.GameMap, Overview):
                 prov.curr.pball_small,
             ):
                 obj.remove()
-            if not resize:
-                if isinstance(prov, ProtoFigure):
-                    self.box.box.remove_c_obs()
+            # if not resize:
+            #    if isinstance(prov, ProtoFigure):
+            #        self.box.box.remove_c_obs()
             for j in prov.curr.effects:
                 j.cleanup()
 
@@ -147,11 +184,11 @@ class FightMap(gm.GameMap, Overview):
         player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
         player.curr.text_hp.add(self, self.width - 17, self.height - 7)
         player.curr.ico.add(self, 3, self.height - 10)
-        if not resize:
-            self.box.box.add_c_obs(
-                [atc.label for atc in player.curr.attack_obs]
-            )
-            self.box.box.set_index(0)
+        # if not resize:
+        #    self.box.box.add_c_obs(
+        #        [atc.label for atc in player.curr.attack_obs]
+        #    )
+        #    self.box.box.set_index(0)
 
     def __add_1(self, player, enem):
         """Adds enemy and general labels to self
@@ -192,8 +229,8 @@ class FightMap(gm.GameMap, Overview):
         time.sleep(SPEED_OF_TIME * 0.05)
         self.show()
         player.curr.ico.add(self, 3, self.height - 10)
-        self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
-        self.box.box.set_index(0)
+        # self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
+        # self.box.box.set_index(0)
 
     def fast_change(self, arr, setob):
         """Changes fast between a list of texts
@@ -229,6 +266,10 @@ class FightMap(gm.GameMap, Overview):
         )
         while True:  # Inputloop for general options
             action = get_action()
+            mouse_choosen = -1
+            if self.mouse_choosen >= 0:
+                mouse_choosen = self.mouse_choosen
+                self.mouse_choosen = -1
             if action.triggers(*quick_attacks):
                 attack = player.curr.attack_obs[
                     quick_attacks.index(
@@ -237,18 +278,21 @@ class FightMap(gm.GameMap, Overview):
                 ]
                 if attack.ap > 0:
                     return FightDecision.attack(attack)
-            elif action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT):
+            elif (
+                action.triggers(Action.CHOOSE_ATTACK, Action.ACCEPT)
+                or mouse_choosen == 0
+            ):
                 attack = self.box(ctx, player.curr.attack_obs)
-                if attack != "":
+                if attack is not None:
                     return FightDecision.attack(attack)
-            elif action.triggers(Action.RUN):
+            elif action.triggers(Action.RUN) or mouse_choosen == 1:
                 if not enem.escapable or not ask_bool(
                     ctx,
                     "Do you really want to run away?",
                 ):
                     continue
                 return FightDecision.run_away()
-            elif action.triggers(Action.CHOOSE_ITEM):
+            elif action.triggers(Action.CHOOSE_ITEM) or mouse_choosen == 2:
                 invitems = asset_service.get_items()
                 items: list[InvItem] = [
                     invitems[i]
@@ -261,21 +305,29 @@ class FightMap(gm.GameMap, Overview):
                         "What do you want to do?"
                     )
                     continue
-                item = self.invbox(ctx, items, player.get_inv(), not isinstance(enem, NatureProvider))
+                item = self.invbox(
+                    ctx,
+                    items,
+                    player.get_inv(),
+                    not isinstance(enem, NatureProvider),
+                )
                 if item is None:
                     continue
 
                 return FightDecision.item(item)
-            elif action.triggers(Action.CHOOSE_POKE):
+            elif action.triggers(Action.CHOOSE_POKE) or mouse_choosen == 3:
                 if not self.choose_poke(ctx, player):
                     self.show(init=True)
                     continue
                 return FightDecision.choose_poke(player.play_index)
+            ctx = change_ctx(ctx, self)
             loops.std(ctx)
             self.show()
 
     def show_item_used(self, player: Provider, item: InvItem):
-        self.outp.outp(f"{"You" if player.is_player else player.name} used item '{item.pretty_name}'")
+        self.outp.outp(
+            f"{'You' if player.is_player else player.name} used item '{item.pretty_name}'"
+        )
 
     def add_providers(self, providers: list[Provider]):
         self.resize_view()

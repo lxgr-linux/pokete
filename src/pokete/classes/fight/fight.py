@@ -2,11 +2,13 @@ import logging
 import random
 import time
 
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.exception_propagation import (
     exception_propagating_periodic_event,
 )
 from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.classes.fight.items.item import RoundContinuation
 from pokete.classes.items.invitem import InvItem
@@ -34,16 +36,24 @@ class Fight:
         )
 
     def __call__(self, ctx: Context, providers: list[Provider]):
-        ctx = Context(
-            PeriodicEventManager([exception_propagating_periodic_event]),
-            self.fightmap,
-            ctx.overview,
-            ctx.figure,
-        )
         audio.play("xDeviruchi - Decisive Battle (Loop).mp3")
         self.providers = providers
         self.fightmap.set_overview(ctx.overview)
         self.fightmap.set_providers(providers)
+        ctx = change_ctx(
+            Context(
+                PeriodicEventManager(
+                    [
+                        exception_propagating_periodic_event,
+                        single_event_periodic_event,
+                    ]
+                ),
+                self.fightmap,
+                ctx.overview,
+                ctx.figure,
+            ),
+            self.fightmap,
+        )
         logging.info(
             "[Fight] Started between %s",
             "and ".join(
@@ -67,9 +77,7 @@ class Fight:
             loser: Provider | None = None
 
             while True:
-                attack_result = player.get_decision(
-                    ctx.with_overview(self.fightmap), self.fightmap, enem
-                )
+                attack_result = player.get_decision(ctx, self.fightmap, enem)
                 match attack_result.result:
                     case Result.ATTACK:
                         attack: Attack = attack_result.attack_value
@@ -141,9 +149,7 @@ class Fight:
                 self.fightmap.show_used_all_attacks(player)
             if winner is not None:
                 if any(p.hp > 0 for p in loser.pokes[:6]):
-                    if not loser.handle_defeat(
-                        ctx.with_overview(self.fightmap), self.fightmap, winner
-                    ):
+                    if not loser.handle_defeat(ctx, self.fightmap, winner):
                         break
                 else:
                     break

@@ -14,6 +14,7 @@ from pokete.base.periodic_event_manager import (
     PeriodicEvent,
     PeriodicEventManager,
 )
+from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.classes import ob_maps as obmp
@@ -35,7 +36,7 @@ class BGMoverEvent(PeriodicEvent):
         self.up = True
         self.right = True
 
-    def tick(self, tick: int):
+    def tick(self, ctx: Context, tick: int):
         if tick % 2 == 0:
             if self.map.x + self.map.width >= self.map.bmap.width:
                 self.right = False
@@ -88,7 +89,11 @@ class PreGameMap(GameSubmap, Overview):
 
     def __call__(self, session_info, figure):
         pevm = PeriodicEventManager(
-            [exception_propagating_periodic_event, BGMoverEvent(self)]
+            [
+                exception_propagating_periodic_event,
+                single_event_periodic_event,
+                BGMoverEvent(self),
+            ]
         )
         ctx = Context(pevm, self, self, figure)
         audio.play("xDeviruchi - Minigame .mp3")
@@ -97,7 +102,8 @@ class PreGameMap(GameSubmap, Overview):
             session_info.get("hotkeys", {}),
             check_version(ctx, session_info),
         )
-        ModeChooser()(ctx)
+        if not ModeChooser()(ctx):
+            sys.exit()
 
 
 def check_version(ctx: Context, sinfo):

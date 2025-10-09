@@ -1,11 +1,13 @@
 from typing import Optional
+
 import scrap_engine as se
 
 from pokete.base.game_map import CompatMap
 
-from .frame import StdFrame
-from ..overview import Overview
 from ...context import Context
+from ..overview import Overview
+from .frame import StdFrame
+
 
 class Box(se.Box, Overview):
     """Box to show content in
@@ -15,8 +17,15 @@ class Box(se.Box, Overview):
         name: The boxes displayed name
         info: Info that will be displayed in the bottom left corner of the box"""
 
-    def __init__(self, height, width, name="", info="",
-                 overview:Optional[Overview]=None, ctx:Optional[Context]=None):
+    def __init__(
+        self,
+        height,
+        width,
+        name="",
+        info="",
+        overview: Optional[Overview] = None,
+        ctx: Optional[Context] = None,
+    ):
         super().__init__(height, width)
         self.map: Optional[CompatMap]
         self.overview: Optional[Overview] = overview
@@ -24,8 +33,9 @@ class Box(se.Box, Overview):
             self.overview = ctx.overview
             self.map = ctx.map
         self.frame = StdFrame(height, width)
-        self.inner = se.Square(char=" ", width=width - 2, height=height - 2,
-                               state="float")
+        self.inner = se.Square(
+            char=" ", width=width - 2, height=height - 2, state="float"
+        )
         self.name_label = se.Text(name, state="float")
         self.info_label = se.Text(info, state="float")
         # adding
@@ -46,8 +56,11 @@ class Box(se.Box, Overview):
         """Adds the box to the maps center
         ARGS:
             _map: se.Map the box will be added to"""
-        self.add(_map, round((_map.width - self.width) / 2),
-                 round((_map.height - self.height) / 2))
+        self.add(
+            _map,
+            round((_map.width - self.width) / 2),
+            round((_map.height - self.height) / 2),
+        )
         return self
 
     def resize(self, height, width):

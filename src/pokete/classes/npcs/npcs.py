@@ -1,29 +1,32 @@
 """Contains all classes needed to generate NPCs"""
 
-import time
 import logging
 import random
+import time
+
 import scrap_engine as se
 
-from pokete.classes.asset_service.service import asset_service
-from pokete.release import SPEED_OF_TIME
+from pokete.base import loops
 from pokete.base.context import Context
 from pokete.base.input import get_action
 from pokete.base.input_loops import ask_bool
-from pokete.base import loops
-from .npc_action import NPCInterface, NPCAction
+from pokete.classes.asset_service.service import asset_service
+from pokete.release import SPEED_OF_TIME
+
+from ..asset_service.resources import Chat
+from ..fight import Fight, FightDecision, Provider
+from ..general import check_walk_back
+from ..interactions import Interactor, MultiTextChooseBox
+from ..landscape import MapInteract
+from ..settings import settings
+from .npc_action import NPCAction, NPCInterface
 from .npc_trigger import NPCTrigger
 from .ui import UI
-from ..asset_service.resources import Chat
-from ..fight import Fight, Provider, FightDecision
-from ..interactions import MultiTextChooseBox, Interactor
-from ..settings import settings
-from ..general import check_walk_back
-from ..landscape import MapInteract
 
 
 class NPC(se.Box, NPCInterface, MapInteract, Interactor):
     """An NPC to talk to"""
+
     npcactions: dict[str, NPCAction] = {}
     registry: dict[str, "NPC"] = {}
 
@@ -41,8 +44,9 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
             name: The NPCs name"""
         return cls.registry[name]
 
-    def __init__(self, name, texts, _fn=None, chat: Chat | None = None,
-                 side_trigger=True):
+    def __init__(
+        self, name, texts, _fn=None, chat: Chat | None = None, side_trigger=True
+    ):
         super().__init__(0, 0)
         self.name = name
         self.texts = texts
@@ -76,15 +80,18 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
             if action is not None:
                 action.act(self, UI(self))
 
-    def give(self, name, item_name:str):
+    def give(self, name, item_name: str):
         """Method that gifts an item to the player
         ARGS:
             name: The displayed name of the npc
             item: Item name"""
         item = asset_service.get_items()[item_name]
         self.set_used()
-        if ask_bool(self.ctx, f"{name} gifted you a '{item.pretty_name}'. \
-Do you want to accept it?"):
+        if ask_bool(
+            self.ctx,
+            f"{name} gifted you a '{item.pretty_name}'. \
+Do you want to accept it?",
+        ):
             self.ctx.figure.give_item(item.name)
 
     @property
@@ -100,7 +107,8 @@ Do you want to accept it?"):
         """Sets the NPC as unused"""
         if self.used:
             self.ctx.figure.used_npcs.pop(
-                self.ctx.figure.used_npcs.index(self.name))
+                self.ctx.figure.used_npcs.index(self.name)
+            )
 
     def chat(self):
         """Starts a question-answer chat"""
@@ -114,17 +122,14 @@ Do you want to accept it?"):
             if q_a.a == {}:
                 break
             q_a = q_a.a[
-                MultiTextChooseBox(
-                    list(q_a.a.keys()), "Answer"
-                )(self.ctx)
+                MultiTextChooseBox(list(q_a.a.keys()), "Answer")(self.ctx)
             ]
 
 
 class Trainer(NPC, Provider):
     """Trainer class to fight against"""
 
-    def __init__(self, pokes, name, gender, texts, lose_texts,
-                 win_texts):
+    def __init__(self, pokes, name, gender, texts, lose_texts, win_texts):
         NPC.__init__(self, name, texts, side_trigger=False)
         Provider.__init__(self, pokes, name=name, is_player=False, escapable=False, xp_multiplier=2)
         # attributes
@@ -134,17 +139,22 @@ class Trainer(NPC, Provider):
         self.trainer = True
 
     def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
-        return FightDecision.attack(random.choices(
-            self.curr.attack_obs,
-            weights=[
-                i.ap * (
-                    1.5 if enem.curr.type.name in i.type.effective
-                    else 0.5 if enem.curr.type.name in i.type.ineffective
-                    else 1
-                )
-                for i in self.curr.attack_obs
-            ]
-        )[0])
+        return FightDecision.attack(
+            random.choices(
+                self.curr.attack_obs,
+                weights=[
+                    i.ap
+                    * (
+                        1.5
+                        if enem.curr.type.name in i.type.effective
+                        else 0.5
+                        if enem.curr.type.name in i.type.ineffective
+                        else 1
+                    )
+                    for i in self.curr.attack_obs
+                ],
+            )[0]
+        )
 
     def add(self, _map, x, y):
         """Add wrapper
@@ -164,30 +174,35 @@ class Trainer(NPC, Provider):
         if self.ctx.figure.has_item("shut_the_fuck_up_stone"):
             return
         self.pokes = [p for p in self.pokes if p.hp > 0]
-        if self.pokes and (not self.used
-                           or not settings("save_trainers").val) \
-            and self.check_walk(self.ctx.figure.x, self.ctx.figure.y):
+        if (
+            self.pokes
+            and (not self.used or not settings("save_trainers").val)
+            and self.check_walk(self.ctx.figure.x, self.ctx.figure.y)
+        ):
             self.ctx.map.full_show()
             time.sleep(SPEED_OF_TIME * 0.7)
             self.exclamate()
             self.walk_point(self.ctx.figure.x, self.ctx.figure.y)
             if any(poke.hp > 0 for poke in self.ctx.figure.pokes[:6]):
                 self.text(self.texts)
-                winner = Fight()(
-                    self.ctx,
-                    [self.ctx.figure, self]
+                winner = Fight()(self.ctx, [self.ctx.figure, self])
+                is_winner = winner == self
+                self.text(
+                    {
+                        True: self.lose_texts,
+                        False: self.win_texts + ["Here's $20!"],
+                    }[is_winner]
                 )
-                is_winner = (winner == self)
-                self.text({True: self.lose_texts,
-                           False: self.win_texts + ["Here's $20!"]}
-                          [is_winner])
                 if is_winner:
                     self.heal()
                 else:
                     self.ctx.figure.add_money(20)
                     self.set_used()
-                logging.info("[NPC][%s] %s against player", self.name,
-                             'Lost' if not is_winner else 'Won')
+                logging.info(
+                    "[NPC][%s] %s against player",
+                    self.name,
+                    "Lost" if not is_winner else "Won",
+                )
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.ctx)
 
@@ -198,8 +213,8 @@ class Trainer(NPC, Provider):
         fightmap.outp.outp(f"{self.name} started a fight!")
         time.sleep(SPEED_OF_TIME * 1)
         fightmap.outp.outp(
-            f'{fightmap.outp.text}\n{self.gender} used {self.curr.name} '
-            'against you!'
+            f"{fightmap.outp.text}\n{self.gender} used {self.curr.name} "
+            "against you!"
         )
 
     def handle_defeat(self, ctx: Context, fightmap, winner):
