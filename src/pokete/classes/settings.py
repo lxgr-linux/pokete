@@ -7,6 +7,7 @@ import scrap_engine as se
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input_loops import text_input
+from pokete.base.mouse import mouse_interaction_manager
 
 
 class Setting:
@@ -180,6 +181,7 @@ class TextInputBox(se.Box):
         self.add_ob(self.value, len(label) + 1, 0)
 
     def __call__(self, ctx: Context) -> str:
+        mouse_interaction_manager.attach([])
         return text_input(
             ctx,
             self.value,
