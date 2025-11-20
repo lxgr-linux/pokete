@@ -40,6 +40,11 @@ For Windows:
 Some windows antivirus may flag the `libplaysound.dll` as malicious. If pokete crashes, please make sure that the .dll
 exists and is **not** in quarantine!
 
+To build a contained executable
+```shell
+pyinstaller --onefile src/pokete/__main__.py --name pokete --add-binary="src/pokete/playsound/libplaysound.x86_64.so:." --add-data="src/pokete/assets:pokete/assets"
+```
+
 If you have problems with your ARCH you maybe need to rebuild the audio module, see [here](playsound/README.md).
 
 ## Running locally

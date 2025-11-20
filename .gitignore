@@ -1,5 +1,6 @@
 **/__pycache__
 dist/
+build/
 **/*.egg-info
 
 .idea
@@ -10,3 +11,4 @@ scrap_engine.py
 .zed
 .vscode
 .vim
+*.spec
