@@ -1,5 +1,6 @@
 **/__pycache__
 dist/
+build/
 **/*.egg-info
 
 .idea
@@ -7,5 +8,7 @@ scrap_engine.py
 .mypy_cache
 .ropeproject
 .fleet
-.vim
 .zed
+.vscode
+.vim
+*.spec

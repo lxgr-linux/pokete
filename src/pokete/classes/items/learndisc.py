@@ -1,5 +1,7 @@
 """All classes needed for Item management"""
+
 from pokete.classes.asset_service.resources.base.attacks import Attack
+
 from .invitem import InvItem
 
 
@@ -8,9 +10,9 @@ class LearnDisc(InvItem):
     ARGS:
         attack_name: The name of the attack being taught"""
 
-    def __init__(self, attack_name:str, attack:Attack):
+    def __init__(self, attack_name: str, attack: Attack):
         self.attack_name = attack_name
-        self.attack = attack
+        self.attack: Attack = attack
         pretty_name = f"LD-{self.attack.name}"
         name = f"ld_{attack_name}"
         desc = f"Teaches a Pokete the attack '{self.attack.name}'."

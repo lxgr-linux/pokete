@@ -2,20 +2,22 @@
 
 import scrap_engine as se
 
-from pokete.base.context import Context
-from pokete.base.exception_propagation import exception_propagating_periodic_event
-from pokete.base.game_map import GameMap, GameSubmap
-from pokete.base.periodic_event_manager import PeriodicEventManager
-from pokete.base.input import (
-    ACTION_DIRECTIONS, Action, get_action
-)
-from pokete.base.input_loops import ask_bool, ask_ok
+from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.color import Color
+from pokete.base.context import Context
+from pokete.base.exception_propagation import (
+    exception_propagating_periodic_event,
+)
+from pokete.base.game_map import GameMap, GameSubmap
+from pokete.base.input import ACTION_DIRECTIONS, Action, get_action
+from pokete.base.input_loops import ask_bool, ask_ok
+from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements import StdFrame2
-from pokete.base.tss import tss
-from pokete.base import loops
 from pokete.classes import detail
+
 from .poke import Poke
 
 
@@ -66,24 +68,29 @@ class Deck(detail.Informer, Overview):
 
         while len(self.map.obs) > 0:
             self.map.obs[0].remove()
-        self.map.resize(5 * int((len(self.pokes) + 1) / 2) + 2, tss.width,
-                        self.map.background)
+        self.map.resize(
+            5 * int((len(self.pokes) + 1) / 2) + 2,
+            tss.width,
+            self.map.background,
+        )
         self.overview.resize_view()
         se.Text(self.label, esccode=Color.thicc).add(self.map, 2, 0)
-        se.Square("|", 1, self.map.height - 2).add(self.map,
-                                                   round(self.map.width / 2),
-                                                   1)
+        se.Square("|", 1, self.map.height - 2).add(
+            self.map, round(self.map.width / 2), 1
+        )
         StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
         self.add_all(True, not all(i.ico.map == self.map for i in self.pokes))
         self.index.add(
             self.map,
             self.pokes[self.index.index].text_name.x
-            + len(self.pokes[self.index.index].text_name.text) + 1,
-            self.pokes[self.index.index].text_name.y
+            + len(self.pokes[self.index.index].text_name.text)
+            + 1,
+            self.pokes[self.index.index].text_name.y,
         )
 
-    def __call__(self, ctx: Context, p_len, label="Your full deck",
-                 in_fight=False):
+    def __call__(
+        self, ctx: Context, p_len, label="Your full deck", in_fight=False
+    ):
         """Opens the deck
         ARGS:
             ctx: Context
@@ -92,7 +99,16 @@ class Deck(detail.Informer, Overview):
             in_fight: Whether or not this is called in a fight"""
         self.figure = ctx.figure
         self.overview = ctx.overview
-        ctx = Context(PeriodicEventManager([exception_propagating_periodic_event]), self.submap, self, ctx.figure)
+        ctx = change_ctx(
+            Context(
+                PeriodicEventManager([exception_propagating_periodic_event]),
+                self.submap,
+                self,
+                ctx.figure,
+            ),
+            self,
+        )
+
         self.pokes = self.figure.pokes[:p_len]
 
         self.exit_label.remove()
@@ -102,25 +118,30 @@ class Deck(detail.Informer, Overview):
         self.exit_label.add(self.submap, 0, self.submap.height - 1)
         self.move_label.add(self.submap, 9, self.submap.height - 1)
         self.move_free.add(self.submap, 20, self.submap.height - 1)
-        self.map.resize(5 * int((len(self.pokes) + 1) / 2) + 2, tss.width,
-                        self.map.background)
+        self.map.resize(
+            5 * int((len(self.pokes) + 1) / 2) + 2,
+            tss.width,
+            self.map.background,
+        )
 
         self.label = label
         se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
-        se.Square("|", 1, self.map.height - 2).add(self.map,
-                                                   round(self.map.width / 2),
-                                                   1)
+        se.Square("|", 1, self.map.height - 2).add(
+            self.map, round(self.map.width / 2), 1
+        )
         StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
         self.move_label.rechar(f"{Action.MOVE_POKETE.mapping}: Move    ")
         indici = []
         self.add_all(True)
         self.index.index = 0
         if len(self.pokes) > 0:
-            self.index.add(self.map,
-                           self.pokes[self.index.index].text_name.x
-                           + len(self.pokes[self.index.index].text_name.text)
-                           + 1,
-                           self.pokes[self.index.index].text_name.y)
+            self.index.add(
+                self.map,
+                self.pokes[self.index.index].text_name.x
+                + len(self.pokes[self.index.index].text_name.text)
+                + 1,
+                self.pokes[self.index.index].text_name.y,
+            )
         self.submap.full_show(init=True)
         while True:
             action = get_action()
@@ -142,8 +163,10 @@ class Deck(detail.Informer, Overview):
                     )
                 else:
                     indici.append(self.index.index)
-                    self.figure.pokes[indici[0]], self.figure.pokes[indici[1]] = \
-                        self.pokes[indici[1]], self.pokes[indici[0]]
+                    (
+                        self.figure.pokes[indici[0]],
+                        self.figure.pokes[indici[1]],
+                    ) = self.pokes[indici[1]], self.pokes[indici[0]]
                     self.pokes = self.figure.pokes[:p_len]
                     indici = []
                     self.rem_pokes()
@@ -151,8 +174,10 @@ class Deck(detail.Informer, Overview):
                     self.add_all()
                     self.index.set(
                         self.pokes[self.index.index].text_name.x
-                        + len(self.pokes[self.index.index].text_name.text) + 1,
-                        self.pokes[self.index.index].text_name.y)
+                        + len(self.pokes[self.index.index].text_name.text)
+                        + 1,
+                        self.pokes[self.index.index].text_name.y,
+                    )
                     self.move_label.rechar(
                         f"{Action.MOVE_POKETE.mapping}: Move    "
                     )
@@ -160,29 +185,40 @@ class Deck(detail.Informer, Overview):
             elif action.triggers(Action.FREE_POKETE):
                 if self.pokes[self.index.index].identifier == "__fallback__":
                     pass
-                elif len(
-                    [
-                        poke for poke in self.pokes
-                        if poke.identifier != "__fallback__"
-                    ]
-                ) <= 1:
+                elif (
+                    len(
+                        [
+                            poke
+                            for poke in self.pokes
+                            if poke.identifier != "__fallback__"
+                        ]
+                    )
+                    <= 1
+                ):
                     ask_ok(ctx, "You can't free all your Poketes")
-                elif ask_bool(ctx, f"Do you really want to free \
-{self.figure.pokes[self.index.index].name}?"):
+                elif ask_bool(
+                    ctx,
+                    f"Do you really want to free \
+{self.figure.pokes[self.index.index].name}?",
+                ):
                     self.rem_pokes()
-                    self.figure.pokes[self.index.index] = Poke("__fallback__",
-                                                               10, 0)
-                    self.pokes = self.figure.pokes[:len(self.pokes)]
+                    self.figure.pokes[self.index.index] = Poke(
+                        "__fallback__", 10, 0
+                    )
+                    self.pokes = self.figure.pokes[: len(self.pokes)]
                     self.add_all()
                     self.index.set(
                         self.pokes[self.index.index].text_name.x
                         + len(self.pokes[self.index.index].text_name.text)
                         + 1,
-                        self.pokes[self.index.index].text_name.y)
+                        self.pokes[self.index.index].text_name.y,
+                    )
                     self.figure.balls_label_rechar()
             elif action.triggers(Action.ACCEPT):
-                if len(self.pokes) == 0 or \
-                    self.pokes[self.index.index].identifier == "__fallback__":
+                if (
+                    len(self.pokes) == 0
+                    or self.pokes[self.index.index].identifier == "__fallback__"
+                ):
                     continue
                 if in_fight:
                     if self.pokes[self.index.index].hp > 0:
@@ -200,12 +236,16 @@ class Deck(detail.Informer, Overview):
                     self.add_all()
                     self.index.set(
                         self.pokes[self.index.index].text_name.x
-                        + len(self.pokes[self.index.index].text_name.text) + 1,
-                        self.pokes[self.index.index].text_name.y)
+                        + len(self.pokes[self.index.index].text_name.text)
+                        + 1,
+                        self.pokes[self.index.index].text_name.y,
+                    )
                     self.submap.full_show(init=True)
             loops.std(ctx)
-            if len(self.pokes) > 0 and \
-                self.index.y - self.submap.y + 6 > self.submap.height:
+            if (
+                len(self.pokes) > 0
+                and self.index.y - self.submap.y + 6 > self.submap.height
+            ):
                 self.submap.set(self.submap.x, self.submap.y + 1)
             elif len(self.pokes) > 0 and self.index.y - 1 < self.submap.y:
                 self.submap.set(self.submap.x, self.submap.y - 1)
@@ -219,12 +259,17 @@ class Deck(detail.Informer, Overview):
         j = 0
         for i, poke in enumerate(self.pokes):
             if not no_poke:
-                self.add(poke, self.figure, self.map,
-                         1 if i % 2 == 0
-                         else round(self.map.width / 2) + 1, j * 5 + 1)
+                self.add(
+                    poke,
+                    self.figure,
+                    self.map,
+                    1 if i % 2 == 0 else round(self.map.width / 2) + 1,
+                    j * 5 + 1,
+                )
             if i % 2 == 0 and init:
-                se.Square("-", self.map.width - 2, 1).add(self.map, 1,
-                                                          j * 5 + 5)
+                se.Square("-", self.map.width - 2, 1).add(
+                    self.map, 1, j * 5 + 5
+                )
             if i % 2 == 1:
                 j += 1
 
@@ -252,10 +297,11 @@ class Deck(detail.Informer, Overview):
                 0,
                 self.index.index % 2,
                 [
-                    i for i in range(len(self.pokes))
+                    i
+                    for i in range(len(self.pokes))
                     if i % 2 == self.index.index % 2
-                ][-1]
-            ]
+                ][-1],
+            ],
         ):
             if inp == direction:
                 if not_out_of_bounds:
@@ -265,8 +311,9 @@ class Deck(detail.Informer, Overview):
                 break
         self.index.set(
             self.pokes[self.index.index].text_name.x
-            + len(self.pokes[self.index.index].text_name.text) + 1,
-            self.pokes[self.index.index].text_name.y
+            + len(self.pokes[self.index.index].text_name.text)
+            + 1,
+            self.pokes[self.index.index].text_name.y,
         )
 
 
