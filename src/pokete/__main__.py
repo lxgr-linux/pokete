@@ -16,56 +16,55 @@ from datetime import datetime
 import scrap_engine as se
 
 from pokete import release
-
-from .base import loops
-from .base.change import change_ctx
-from .base.color import Color
-from .base.context import Context
-from .base.exception_propagation import (
+from pokete.base import loops
+from pokete.base.change import change_ctx
+from pokete.base.color import Color
+from pokete.base.context import Context
+from pokete.base.exception_propagation import (
     PropagatingThread,
     exception_propagating_periodic_event,
 )
-from .base.input import ACTION_DIRECTIONS, Action, _ev, get_action
-from .base.input_loops import ask_bool, ask_text, text_input
-from .base.periodic_event_manager import PeriodicEventManager
-from .base.single_event import single_event_periodic_event
-from .base.tss import tss
-from .base.ui.notify import notifier
-from .classes import deck, roadmap, timer
-from .classes import movemap as mvp
-from .classes import ob_maps as obmp
-from .classes.achievements import achievements
-from .classes.asset_service.service import asset_service
-from .classes.audio import audio
-from .classes.classes import PlayMap
-from .classes.dex import PokeDex
-from .classes.fight import ProtoFigure
-from .classes.game import MapChangeExeption
-from .classes.game_context import GameContext
-from .classes.inv import inv
-from .classes.landscape import MapInteract
-from .classes.menu import Menu
-from .classes.mods import try_load_mods
-from .classes.multiplayer.communication import com_service
-from .classes.multiplayer.interactions.context_menu import ContextMenu
-from .classes.multiplayer.modeprovider import Mode, modeProvider
-from .classes.multiplayer.pc_manager import pc_manager
-from .classes.periodic_events import (
+from pokete.base.input import ACTION_DIRECTIONS, Action, _ev, get_action
+from pokete.base.input_loops import ask_bool, ask_text, text_input
+from pokete.base.periodic_event_manager import PeriodicEventManager
+from pokete.base.single_event import single_event_periodic_event
+from pokete.base.tss import tss
+from pokete.base.ui.notify import notifier
+from pokete.classes import deck, roadmap, timer
+from pokete.classes import movemap as mvp
+from pokete.classes import ob_maps as obmp
+from pokete.classes.achievements import achievements
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.audio import audio
+from pokete.classes.classes import PlayMap
+from pokete.classes.dex import PokeDex
+from pokete.classes.fight import ProtoFigure
+from pokete.classes.game import MapChangeExeption
+from pokete.classes.game_context import GameContext
+from pokete.classes.inv import inv
+from pokete.classes.landscape import MapInteract
+from pokete.classes.menu import Menu
+from pokete.classes.mods import try_load_mods
+from pokete.classes.multiplayer.communication import com_service
+from pokete.classes.multiplayer.interactions.context_menu import ContextMenu
+from pokete.classes.multiplayer.modeprovider import Mode, modeProvider
+from pokete.classes.multiplayer.pc_manager import pc_manager
+from pokete.classes.periodic_events import (
     MovingGrassEvent,
     MovingWaterEvent,
     NotifierEvent,
     TreatNPCEvent,
 )
-from .classes.poke import Poke, Stats
-from .classes.pokete_care import pokete_care
-from .classes.pre_game import PreGameMap
-from .classes.save import read_save, save
-from .classes.settings import settings
-from .classes.side_loops import Help, loading_screen
-from .figure import Bank, Inventory
-from .release import SPEED_OF_TIME
-from .startup.command import PoketeCommand
-from .startup.logging import init_logger
+from pokete.classes.poke import Poke, Stats
+from pokete.classes.pokete_care import pokete_care
+from pokete.classes.pre_game import PreGameMap
+from pokete.classes.save import read_save, save
+from pokete.classes.settings import settings
+from pokete.classes.side_loops import Help, loading_screen
+from pokete.figure import Bank, Inventory
+from pokete.release import SPEED_OF_TIME
+from pokete.startup.command import PoketeCommand
+from pokete.startup.logging import init_logger
 
 # Class definition
 ##################
@@ -517,4 +516,5 @@ def main():
 
 if __name__ == "__main__":
     multiprocessing.set_start_method("spawn")
+    multiprocessing.freeze_support()
     main()
