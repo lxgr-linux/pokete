@@ -1,3 +1,4 @@
+import logging
 import re
 from dataclasses import dataclass
 from enum import Enum
@@ -54,14 +55,21 @@ class MouseManager:
             int(i) for i in inp.strip("[<").strip("m").strip("M").split(";")
         ]
 
-        self.events.push(
-            MouseEvent(
-                MouseEventType(num_vals[0]),
-                num_vals[1] - 1,
-                num_vals[2] - 1,
-                pressed,
+        mouse_event_type_literal = num_vals[0]
+
+        if any(t.value == mouse_event_type_literal for t in MouseEventType):
+            self.events.push(
+                MouseEvent(
+                    MouseEventType(mouse_event_type_literal),
+                    num_vals[1] - 1,
+                    num_vals[2] - 1,
+                    pressed,
+                )
             )
-        )
+        else:
+            logging.warning(
+                "[Input] Unknown MouseEventType %d", mouse_event_type_literal
+            )
 
 
 mouse_manager = MouseManager()
