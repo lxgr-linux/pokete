@@ -5,10 +5,11 @@ from pathlib import Path
 
 from pokete import release
 from pokete.base.input import hotkeys_save
+
 from . import timer
 from .achievements import achievements
 from .multiplayer.connector import com_service
-from .multiplayer.modeprovider import modeProvider, Mode
+from .multiplayer.modeprovider import Mode, modeProvider
 from .pokete_care import pokete_care
 from .settings import settings
 
@@ -39,9 +40,11 @@ def save(figure):
         "inv": figure.get_inv(),
         "money": figure.get_money(),
         "settings": settings.to_dict(),
-        "caught_poketes": list(dict.fromkeys(figure.caught_pokes
-                                             + [i.identifier
-                                                for i in figure.pokes])),
+        "caught_poketes": list(
+            dict.fromkeys(
+                figure.caught_pokes + [i.identifier for i in figure.pokes]
+            )
+        ),
         "visited_maps": figure.visited_maps,
         "hotkeys": hotkeys_save(),
         # filters doublicates from figure.used_npcs
@@ -71,13 +74,16 @@ def read_save():
         "y": 5,
         "achievements": [],
         "pokes": {
-            "0": {"name": "steini", "xp": 50, "hp": "SKIP",
-                  "ap": ["SKIP", "SKIP"]}
+            "0": {
+                "name": "steini",
+                "xp": 50,
+                "hp": "SKIP",
+                "ap": ["SKIP", "SKIP"],
+            }
         },
         "inv": {"poketeball": 15, "healing_potion": 1},
-        "settings": {
-            "load_mods": False},
-        "figure.caught_pokes": ["steini"],
+        "settings": {"load_mods": False},
+        "caught_poketes": ["steini"],
         "visited_maps": ["playmap_1"],
         "used_npcs": [],
         "hotkeys": {},
@@ -85,7 +91,7 @@ def read_save():
             "entry": 0,
             "poke": None,
         },
-        "time": 0
+        "time": 0,
     }
 
     save_file = release.SAVEPATH / "pokete.json"
