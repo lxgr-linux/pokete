@@ -76,6 +76,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], ABC):
 
     def add_elems(self):
         """Adds c_obs to box"""
+        self.remove_c_obs()
         self.add_c_obs(
             self.elems[
                 self.page * (self.height - 2) : (self.page + 1)
