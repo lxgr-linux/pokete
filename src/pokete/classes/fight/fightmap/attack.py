@@ -8,6 +8,7 @@ from pokete.base.context import Context
 from pokete.base.input import Action
 from pokete.base.input.hotkeys import ActionList
 from pokete.base.ui.elements import LabelBox
+from pokete.base.ui.elements.labels import GenericActionLabel
 from pokete.base.ui.views.choose_box import ChooseBoxView
 from pokete.util import liner
 
@@ -21,10 +22,16 @@ class AttackInfoBox(se.Box):
         self.effect_active = False
         self.effect_available = False
         self.attack_info = LabelBox(se.Text("", state="float"), "Attack Info")
+        self.attack_info_label = GenericActionLabel(
+            Action.SCREEN_SWITCH, "Attack Info"
+        )
+        self.effect_info_label = GenericActionLabel(
+            Action.SCREEN_SWITCH, "Effect Info"
+        )
         self.effect_info = LabelBox(
             se.Text("", state="float"),
             "Effect Info",
-            info=f"{Action.SCREEN_SWITCH.mapping}:Attack Info",
+            info=[self.attack_info_label],
         )
         super().__init__(1, 1)
 
@@ -51,9 +58,11 @@ class AttackInfoBox(se.Box):
         self.attack_info.label.rechar(liner(attack_ob.desc, 37))
         self.effect_available = attack_ob.effect is not None
         if self.effect_available:
-            self.attack_info.info_labels.rechar(
-                f"{Action.SCREEN_SWITCH.mapping}:Effect Info"
-            )
+            for label in self.attack_info.info_labels:
+                self.attack_info.rem_ob(label)
+                label.remove()
+            self.attack_info.info_labels = [self.effect_info_label]
+            self.attack_info.add_info_labels()
             self.effect_info.label.rechar(
                 liner(self.effects_dictionary[attack_ob.effect].desc, 37),
                 esccode=self.effects_dictionary[attack_ob.effect].color,
@@ -63,7 +72,10 @@ class AttackInfoBox(se.Box):
                 self.effect_info.label.width + 4,
             )
         else:
-            self.attack_info.info_labels.rechar("")
+            for label in self.attack_info.info_labels:
+                self.attack_info.rem_ob(label)
+                label.remove()
+            self.attack_info.info_labels = []
             self.unshow_effect()
         self.attack_info.resize(
             self.attack_info.label.height + 2, self.attack_info.label.width + 4
@@ -75,7 +87,11 @@ class AttackBox(ChooseBoxView[Attack]):
         self.attack_obs: list[Attack] = []
         self.attack_info_box = AttackInfoBox()
         super().__init__(
-            6, 25, "Attacks", f"{Action.INFO.mapping}:Info", index_x=1
+            6,
+            25,
+            "Attacks",
+            [GenericActionLabel(Action.INFO, "Info")],
+            index_x=1,
         )
 
     def toggle_atk_box(self):
@@ -119,6 +135,7 @@ class AttackBox(ChooseBoxView[Attack]):
         self, ctx: Context, attack_obs: list[Attack]
     ) -> Optional[Attack]:
         self.attack_obs = attack_obs
+        self.attack_info_box.set_attack(self.attack_obs[0])
         self.elems = [atc.label for atc in attack_obs]
         self.add_elems()
         if self.index.index >= len(attack_obs):

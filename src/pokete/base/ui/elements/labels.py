@@ -24,7 +24,8 @@ class GenericActionLabel(HightlightableText, MouseInteractor):
                 case MouseEventType.MOVE:
                     self.highlight()
                 case MouseEventType.LEFT:
-                    _ev.set(self.action.mapping)
+                    if event.pressed:
+                        _ev.set(self.action.mapping)
         else:
             self.un_highlight()
 
