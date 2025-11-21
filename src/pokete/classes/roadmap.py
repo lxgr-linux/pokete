@@ -14,6 +14,7 @@ from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.ui.elements import Box, InfoBox
+from pokete.base.ui.elements.labels import CloseLabel
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.classes import PlayMap
 from pokete.util import liner
@@ -153,7 +154,7 @@ class RoadMap(Box, MouseInteractor):
             17,
             61,
             "Roadmap",
-            f"{Action.CANCEL.mapping}:close",
+            [CloseLabel()],
         )
         self.rose = se.Text(
             """   N

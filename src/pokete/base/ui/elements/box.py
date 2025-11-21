@@ -22,7 +22,7 @@ class Box(se.Box, Overview):
         height,
         width,
         name="",
-        info="",
+        info: Optional[list[se.Text]] = None,
         overview: Optional[Overview] = None,
         ctx: Optional[Context] = None,
     ):
@@ -37,12 +37,20 @@ class Box(se.Box, Overview):
             char=" ", width=width - 2, height=height - 2, state="float"
         )
         self.name_label = se.Text(name, state="float")
-        self.info_label = se.Text(info, state="float")
+        self.info_labels: list[se.Text] = []
+        if info is not None:
+            self.info_labels = info
         # adding
         self.add_ob(self.frame, 0, 0)
         self.add_ob(self.inner, 1, 1)
         self.add_ob(self.name_label, 2, 0)
-        self.add_ob(self.info_label, 2, self.height - 1)
+        self.add_info_labels()
+
+    def add_info_labels(self):
+        label_length = 0
+        for label in self.info_labels:
+            self.add_ob(label, label_length + 2, self.height - 1)
+            label_length += label.width + 1
 
     def resize_view(self):
         """Manages recursive view resizing"""
@@ -70,7 +78,7 @@ class Box(se.Box, Overview):
         self.inner.resize(width - 2, height - 2)
         self.frame.resize(height, width)
         self.set_ob(self.name_label, 2, 0)
-        self.set_ob(self.info_label, 2, self.height - 1)
+        self.add_info_labels()
 
     def add(self, _map, x, y):
         """Adds the box to a map

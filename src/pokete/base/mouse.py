@@ -15,6 +15,15 @@ from pokete.base.single_event.single_event import SingleEvent
 
 
 class MouseInteractor(ABC):
+    def get_all_interaction_areas(
+        self,
+    ) -> list[Area]:
+        return [
+            j
+            for i in self.get_all_interactors()
+            for j in i.get_interaction_areas()
+        ]
+
     @abstractmethod
     def get_interaction_areas(
         self,
@@ -22,6 +31,15 @@ class MouseInteractor(ABC):
 
     @abstractmethod
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent): ...
+
+    def get_all_interactors(self) -> list["MouseInteractor"]:
+        interactors: list[MouseInteractor] = [self]
+        for interactor in self.get_partial_interactors():
+            interactors += interactor.get_all_interactors()
+        return interactors
+
+    def get_partial_interactors(self) -> list["MouseInteractor"]:
+        return []
 
 
 class InteractionSingleEvent(SingleEvent):
@@ -34,7 +52,23 @@ class InteractionSingleEvent(SingleEvent):
         self.idx = idx
 
     def run(self, ctx: Context):
-        self.interactor.interact(ctx, self.idx, self.event)
+        interactors = self.interactor.get_all_interactors()
+        logging.info("%d", len(interactors))
+        if self.idx < 0:
+            for interactor in interactors:
+                interactor.interact(ctx, self.idx, self.event)
+        else:
+            current_idx = 0
+            set = False
+            for interactor in interactors:
+                new_idx = current_idx + len(interactor.get_interaction_areas())
+                logging.info("%d - %d", self.idx, current_idx)
+                if self.idx < new_idx and not set:
+                    interactor.interact(ctx, self.idx - current_idx, self.event)
+                    set = True
+                else:
+                    interactor.interact(ctx, -1, self.event)
+                current_idx = new_idx
 
 
 class MouseInteractionManager:
@@ -51,7 +85,9 @@ class MouseInteractionManager:
     def run(self):
         for event in bs_rpc.ChannelGenerator(mouse_manager.events)():
             for interactor in self.__interactors:
-                for idx, area in enumerate(interactor.get_interaction_areas()):
+                for idx, area in enumerate(
+                    interactor.get_all_interaction_areas()
+                ):
                     if (
                         area[0][0] <= event.x <= area[1][0]
                         and area[0][1] <= event.y <= area[1][1]

@@ -9,6 +9,7 @@ from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.input import Action, get_action
 from pokete.base.ui.elements import Box
+from pokete.base.ui.elements.labels import CloseLabel
 from pokete.release import SPEED_OF_TIME
 
 letters = [
@@ -114,7 +115,7 @@ class Clock(Box):
             9,
             28,
             "Clock",
-            f"{Action.CANCEL.mapping}:close",
+            [CloseLabel()],
         )
 
     def __call__(self, ctx: Context):

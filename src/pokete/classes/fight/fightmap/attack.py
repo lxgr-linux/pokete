@@ -51,7 +51,7 @@ class AttackInfoBox(se.Box):
         self.attack_info.label.rechar(liner(attack_ob.desc, 37))
         self.effect_available = attack_ob.effect is not None
         if self.effect_available:
-            self.attack_info.info_label.rechar(
+            self.attack_info.info_labels.rechar(
                 f"{Action.SCREEN_SWITCH.mapping}:Effect Info"
             )
             self.effect_info.label.rechar(
@@ -63,7 +63,7 @@ class AttackInfoBox(se.Box):
                 self.effect_info.label.width + 4,
             )
         else:
-            self.attack_info.info_label.rechar("")
+            self.attack_info.info_labels.rechar("")
             self.unshow_effect()
         self.attack_info.resize(
             self.attack_info.label.height + 2, self.attack_info.label.width + 4

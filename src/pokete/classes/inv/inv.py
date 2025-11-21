@@ -7,6 +7,7 @@ from pokete.base.context import Context
 from pokete.base.input import Action
 from pokete.base.input.hotkeys import ActionList
 from pokete.base.input_loops import ask_bool, ask_ok
+from pokete.base.ui.elements.text import HightlightableText
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.items.invitem import InvItem
 from pokete.classes.items.learndisc import LearnDisc
@@ -24,7 +25,9 @@ class Inv(BaseInv):
     """Inventory to see and manage items in"""
 
     def __init__(self):
-        super().__init__("Inventory", f"{Action.REMOVE.mapping}:remove")
+        super().__init__(
+            "Inventory", [HightlightableText(f"{Action.REMOVE.mapping}:remove")]
+        )
         self.items: list[InvItem] = []
 
     def choose(self, ctx: Context, idx: int) -> Optional[Never]:
