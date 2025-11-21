@@ -37,8 +37,9 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
                 case MouseEventType.MOVE:
                     self.set_index(*self.__get_index_from_area_idx(area_idx))
                 case MouseEventType.LEFT:
-                    self.__special_ret = self.choose(ctx, area_idx)
-                    ctx = change_ctx(ctx, self)
+                    if event.pressed:
+                        self.__special_ret = self.choose(ctx, area_idx)
+                        ctx = change_ctx(ctx, self)
 
     @override
     def get_partial_interactors(self) -> list["MouseInteractor"]:
