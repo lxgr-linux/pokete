@@ -1,6 +1,6 @@
 import math
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar
+from typing import Generic, Optional, TypeVar, override
 
 from scrap_engine.addable.area import Area, HasArea
 
@@ -35,6 +35,14 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], ABC):
         self.page = 0
         self.elems: list[HasArea] = []
         self.__special_ret: Optional[T] = None
+
+    @override
+    def get_partial_interactors(self) -> list["MouseInteractor"]:
+        return [
+            label
+            for label in self.info_labels
+            if isinstance(label, MouseInteractor)
+        ]
 
     @abstractmethod
     def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
