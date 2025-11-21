@@ -1,5 +1,3 @@
-import logging
-
 from scrap_engine import Area
 
 from pokete.base.context import Context
@@ -27,7 +25,6 @@ class CloseLabel(HightlightableText, MouseInteractor):
                 case MouseEventType.MOVE:
                     self.highlight()
                 case MouseEventType.LEFT:
-                    logging.info("leave")
                     _ev.set(Action.CANCEL.mapping)
         else:
             self.un_highlight()

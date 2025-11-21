@@ -2,6 +2,7 @@ import math
 from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar, override
 
+import scrap_engine as se
 from scrap_engine.addable.area import Area, HasArea
 
 from pokete.base import loops
@@ -16,11 +17,52 @@ from pokete.base.input.hotkeys import (
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import ChooseBox
+from pokete.base.ui.elements.text import HightlightableText
 
 T = TypeVar("T")
 
 
-class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], ABC):
+class Pageable(ABC):
+    @abstractmethod
+    def change_page(self, add_page, n_idx): ...
+
+
+class UpDownSwitch(se.Box, MouseInteractor):
+    def __init__(self, pageable: Pageable):
+        super().__init__(1, 1)
+        self.pageable = pageable
+        self.up = HightlightableText("<")
+        self.down = HightlightableText(">")
+        self.add_ob(self.up, 0, 0)
+        self.add_ob(self.down, 1, 0)
+
+    def get_interaction_areas(self) -> list[Area]:
+        return [self.up.get_area(), self.down.get_area()]
+
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+        if area_idx >= 0:
+            match event.type:
+                case MouseEventType.MOVE:
+                    if area_idx == 0:
+                        self.down.un_highlight()
+                        self.up.highlight()
+                    else:
+                        self.up.un_highlight()
+                        self.down.highlight()
+                case MouseEventType.LEFT:
+                    if event.pressed:
+                        if area_idx == 0:
+                            self.pageable.change_page(
+                                -1, self.pageable.height - 3
+                            )
+                        else:
+                            self.pageable.change_page(1, 0)
+        else:
+            self.up.un_highlight()
+            self.down.un_highlight()
+
+
+class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
     def __init__(
         self,
         height,
@@ -34,15 +76,22 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], ABC):
         super().__init__(height, width, name, info, index_x, c_obs, overview)
         self.page = 0
         self.elems: list[HasArea] = []
+        self.up_down_switch = UpDownSwitch(self)
         self.__special_ret: Optional[T] = None
+        self.add_ob(
+            self.up_down_switch,
+            self.width - 3 - self.up_down_switch.width,
+            self.height - 1,
+        )
 
     @override
-    def get_partial_interactors(self) -> list["MouseInteractor"]:
+    def get_partial_interactors(self) -> list[MouseInteractor]:
+        up_down: list[MouseInteractor] = [self.up_down_switch]
         return [
             label
             for label in self.info_labels
             if isinstance(label, MouseInteractor)
-        ]
+        ] + up_down
 
     @abstractmethod
     def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
@@ -72,10 +121,11 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], ABC):
                     if area_idx < len(self.c_obs):
                         self.set_index(area_idx)
                 case MouseEventType.LEFT:
-                    self.__special_ret = self.choose(
-                        ctx, self.page * (self.height - 2) + area_idx
-                    )
-                    ctx = change_ctx(ctx, self)
+                    if event.pressed:
+                        self.__special_ret = self.choose(
+                            ctx, self.page * (self.height - 2) + area_idx
+                        )
+                        ctx = change_ctx(ctx, self)
         match event.type:
             case MouseEventType.SCROLL_UP:
                 self.change_page(-1, self.height - 3)
@@ -94,6 +144,14 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], ABC):
 
     @abstractmethod
     def new_size(self) -> tuple[int, int]: ...
+
+    def resize(self, height, width):
+        super().resize(height, width)
+        self.add_ob(
+            self.up_down_switch,
+            self.width - 3 - self.up_down_switch.width,
+            self.height - 1,
+        )
 
     def resize_view(self):
         """Manages recursive view resizing"""

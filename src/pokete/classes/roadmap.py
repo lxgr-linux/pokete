@@ -201,7 +201,8 @@ W ◀ ▶ E
             self.all_stations[area_idx].choose(ctx.figure)
             match event.type:
                 case MouseEventType.LEFT:
-                    self.mouse_choosen = True
+                    if event.pressed:
+                        self.mouse_choosen = True
 
     @property
     def sta(self) -> Station:

@@ -53,7 +53,6 @@ class InteractionSingleEvent(SingleEvent):
 
     def run(self, ctx: Context):
         interactors = self.interactor.get_all_interactors()
-        logging.info("%d", len(interactors))
         if self.idx < 0:
             for interactor in interactors:
                 interactor.interact(ctx, self.idx, self.event)
@@ -62,7 +61,6 @@ class InteractionSingleEvent(SingleEvent):
             set = False
             for interactor in interactors:
                 new_idx = current_idx + len(interactor.get_interaction_areas())
-                logging.info("%d - %d", self.idx, current_idx)
                 if self.idx < new_idx and not set:
                     interactor.interact(ctx, self.idx - current_idx, self.event)
                     set = True
@@ -74,9 +72,9 @@ class InteractionSingleEvent(SingleEvent):
 class MouseInteractionManager:
     def __init__(self) -> None:
         self.__interactors: list[MouseInteractor] = []
-        self.__last: Optional[tuple[MouseInteractor, int, MouseEventType]] = (
-            None
-        )
+        self.__last: Optional[
+            tuple[MouseInteractor, int, MouseEventType, bool]
+        ] = None
         PropagatingThread(target=self.run, daemon=True).start()
 
     def attach(self, interactors: list[MouseInteractor]):
@@ -100,7 +98,7 @@ class MouseInteractionManager:
     def cast_event(
         self, interactor: MouseInteractor, idx: int, event: MouseEvent
     ):
-        curr = (interactor, idx, event.type)
+        curr = (interactor, idx, event.type, event.pressed)
 
         if curr != self.__last:
             single_event_periodic_event.add(
