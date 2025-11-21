@@ -10,11 +10,10 @@ from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.text import HightlightableText
 
 
-class CloseLabel(HightlightableText, MouseInteractor):
-    def __init__(
-        self,
-    ):
-        super().__init__(f"{Action.CANCEL.mapping}:close")
+class GenericActionLabel(HightlightableText, MouseInteractor):
+    def __init__(self, action: Action, text: str):
+        self.action = action
+        super().__init__(f"{action.mapping}:{text}")
 
     def get_interaction_areas(self) -> list[Area]:
         return [self.get_area()]
@@ -25,6 +24,11 @@ class CloseLabel(HightlightableText, MouseInteractor):
                 case MouseEventType.MOVE:
                     self.highlight()
                 case MouseEventType.LEFT:
-                    _ev.set(Action.CANCEL.mapping)
+                    _ev.set(self.action.mapping)
         else:
             self.un_highlight()
+
+
+class CloseLabel(GenericActionLabel):
+    def __init__(self):
+        super().__init__(Action.CANCEL, "close")
