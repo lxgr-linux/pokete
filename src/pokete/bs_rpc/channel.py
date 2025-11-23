@@ -11,6 +11,10 @@ class Channel(Generic[T]):
         self.__event: threading.Event = threading.Event()
         self.__closed = False
 
+    @property
+    def state(self) -> tuple[T, ...]:
+        return tuple(self.__state)
+
     def close(self):
         self.__closed = True
 
