@@ -7,6 +7,7 @@ import scrap_engine as se
 from pokete.base.context import Context
 from pokete.base.input import Action
 from pokete.base.input.hotkeys import ActionList
+from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements import LabelBox
 from pokete.base.ui.elements.labels import GenericActionLabel
 from pokete.base.ui.views.choose_box import ChooseBoxView
@@ -102,6 +103,17 @@ class AttackBox(ChooseBoxView[Attack]):
             self.rem_ob(self.attack_info_box)
             self.attack_info_box.remove()
 
+    def get_partial_interactors(self) -> list[MouseInteractor]:
+        return super().get_partial_interactors() + [
+            label
+            for label in (
+                self.attack_info_box.attack_info.info_labels
+                if not self.attack_info_box.effect_active
+                else self.attack_info_box.effect_info.info_labels
+            )
+            if isinstance(label, MouseInteractor)
+        ]
+
     @override
     def new_size(self) -> tuple[int, int]:
         return 6, 25
@@ -135,10 +147,10 @@ class AttackBox(ChooseBoxView[Attack]):
         self, ctx: Context, attack_obs: list[Attack]
     ) -> Optional[Attack]:
         self.attack_obs = attack_obs
-        self.attack_info_box.set_attack(self.attack_obs[0])
         self.elems = [atc.label for atc in attack_obs]
         self.add_elems()
         if self.index.index >= len(attack_obs):
             self.set_index(0)
+        self.attack_info_box.set_attack(self.attack_obs[self.index.index])
         with self.add(ctx.map, 1, ctx.map.height - 7):
             return super().__call__(ctx)
