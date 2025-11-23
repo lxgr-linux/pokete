@@ -8,6 +8,8 @@ from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.input import Action, get_action
+from pokete.base.input.mouse import MouseEvent
+from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements import Box
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.release import SPEED_OF_TIME
@@ -104,7 +106,7 @@ class Time:
 time = Time()
 
 
-class Clock(Box):
+class Clock(Box, MouseInteractor):
     """Clock class to display the current time
     ARGS:
         time_ob: Time object"""
@@ -117,6 +119,14 @@ class Clock(Box):
             "Clock",
             [CloseLabel()],
         )
+
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent): ...
+
+    def get_interaction_areas(self) -> list[se.Area]:
+        return []
+
+    def get_partial_interactors(self) -> list["MouseInteractor"]:
+        return [i for i in self.info_labels if isinstance(i, MouseInteractor)]
 
     def __call__(self, ctx: Context):
         """Shows the clock"""
