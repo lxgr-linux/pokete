@@ -25,6 +25,22 @@ class Moves:
             )
             self.poke.ico.map.show()
             time.sleep(SPEED_OF_TIME * _t)
+        self.impact()
+
+    def impact(self):
+        """Brief flash effect on enemy when attack lands"""
+        if self.poke.enem == self.poke:
+            return
+        enem_ico = self.poke.enem.ico
+        flash_chars = ["*", "X", "*"]
+        flash = se.Text(flash_chars[0], esccode=Color.thicc + Color.white)
+        flash.add(enem_ico.map, enem_ico.x + 5, enem_ico.y + 1)
+        for char in flash_chars:
+            flash.rechar(char, esccode=Color.thicc + Color.white)
+            enem_ico.map.show()
+            time.sleep(SPEED_OF_TIME * 0.04)
+        flash.remove()
+        enem_ico.map.show()
 
     def pound(self):
         """Pound move"""
@@ -32,6 +48,7 @@ class Moves:
             self.poke.ico.move(0, i)
             self.poke.ico.map.show()
             time.sleep(SPEED_OF_TIME * 0.3)
+        self.impact()
 
     def bomb(self):
         """Bomb move"""
@@ -114,12 +131,13 @@ class Moves:
         line.remove()
         del line
 
-    def throw(self, txt="#", factor=1.0, num=1):
-        """Throw move
+    def throw(self, txt="#", factor=1.0, num=1, trail=True):
+        """Throw move with trail effect
         ARGS:
             txt: The char that moves across the screen
             factor: Scalar to stretch the vector
-            num: The number of chars thrown"""
+            num: The number of chars thrown
+            trail: Whether to show a fading trail behind projectile"""
         if self.poke.enem == self.poke:
             return
         line = se.Line(
@@ -139,12 +157,22 @@ class Moves:
             self.poke.ico.y + 1,
         )
         self.poke.ico.map.show()
+        trail_char = Color.grey + "." + Color.reset if trail else line.char
+        trail_len = 3 if trail else 0
         for i in range(len(line.obs) + num * 5 - 1):
             for j in range(0, num * 5, 5):
                 if len(line.obs) > i - j >= 0:
                     line.obs[i - j].rechar(txt)
-                if len(line.obs) >= i - j > 0:
-                    line.obs[i - j - 1].rechar(line.char)
+                # Trail effect: show fading dots behind projectile
+                if trail:
+                    for t in range(1, trail_len + 1):
+                        trail_idx = i - j - t
+                        if 0 <= trail_idx < len(line.obs):
+                            line.obs[trail_idx].rechar(trail_char)
+                # Clear old trail
+                clear_idx = i - j - trail_len - 1 if trail else i - j - 1
+                if len(line.obs) > clear_idx >= 0:
+                    line.obs[clear_idx].rechar(line.char)
             time.sleep(SPEED_OF_TIME * 0.05)
             self.poke.ico.map.show()
         line.remove()
@@ -217,7 +245,7 @@ class Moves:
                 random.choice(range(2)) + cloud.y + 3,
             )
             _map.show()
-            time.sleep(0.05)
+            time.sleep(SPEED_OF_TIME * 0.05)
             drops.append(rain)
         cloud.remove()
         for drop in drops:

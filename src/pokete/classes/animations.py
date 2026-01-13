@@ -45,7 +45,7 @@ def transition(_map, poke):
 
 
 def fight_intro(height, width):
-    """Intro animation for fight
+    """Intro animation for fight with enhanced visual effect
     ARGS:
         height: Height of the animation
         width: Width of the animation"""
@@ -57,17 +57,33 @@ def fight_intro(height, width):
     for i in vec_list:
         i.add(fancymap, int(width / 2), int((height - 1) / 2))
     fancymap.show()
+
+    # Phase 1: Expanding lines with alternating chars for more visual interest
+    chars = ["-", "=", "-"]
+    char_idx = 0
     for i, _l in zip(
         list(zip(*[j.obs for j in vec_list])),
         list(zip(*[list(2 * " ") + k for k in [j.obs for j in vec_list]])),
     ):
         for j in i:
-            j.rechar("-")
+            j.rechar(chars[char_idx % len(chars)])
         for j in _l:
             if j != " ":
                 j.rechar(" ")
+        char_idx += 1
         fancymap.show()
-        time.sleep(SPEED_OF_TIME * 0.005)
+        time.sleep(SPEED_OF_TIME * 0.008)
+
+    # Phase 2: Brief flash at full extension
+    time.sleep(SPEED_OF_TIME * 0.15)
+
+    # Phase 3: Contract back with different char
+    for i in vec_list:
+        for j in reversed(i.obs):
+            j.rechar(" ")
+            fancymap.show()
+            time.sleep(SPEED_OF_TIME * 0.003)
+
     for i in vec_list:
         i.remove()
     del fancymap
