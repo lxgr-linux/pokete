@@ -219,8 +219,9 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
             if self.handle_extra_actions(ctx, action):
                 break
             loops.std(ctx)
-            if self.__special_ret is not None:
+            if (ret := self.__special_ret) is not None:
                 self.rem_elems()
-                return self.__special_ret
+                self.__special_ret = None
+                return ret
         self.rem_elems()
         return None

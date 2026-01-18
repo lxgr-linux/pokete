@@ -5,12 +5,16 @@ from .game_map import CompatMap
 from .periodic_event_manager import PeriodicEventManager
 from .ui.overview import Overview
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class Context[T]:
     def __init__(
-        self, pevm: PeriodicEventManager, _map: CompatMap,
-        overview: Overview, figure: T
+        self,
+        pevm: PeriodicEventManager,
+        _map: CompatMap,
+        overview: Overview,
+        figure: T,
     ):
         self.pevm = pevm
         self.map = _map
