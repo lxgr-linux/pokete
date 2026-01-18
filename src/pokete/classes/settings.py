@@ -112,8 +112,9 @@ class Slider(se.Box, Overview, MouseInteractor):
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
         if area_idx >= 0:
             if event.type == MouseEventType.LEFT:
-                self.set_slider(area_idx)
-                self.__set_setting()
+                if event.pressed:
+                    self.set_slider(area_idx)
+                    self.__set_setting()
 
     def change(self, ctx: Context):
         """Changes the current position by a value

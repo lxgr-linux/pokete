@@ -10,8 +10,8 @@ from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
-from pokete.base.input import Action
 from pokete.base.ui.elements import LabelBox
+from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.notify import notifier
 from pokete.base.ui.views.better_choose_box import BetterChooseBoxView
 from pokete.util import liner
@@ -101,7 +101,7 @@ class AchBox(LabelBox):
         super().__init__(
             label,
             name=ach.title,
-            info=f"{Action.CANCEL.mapping}:close",
+            info=[CloseLabel()],
         )
 
 

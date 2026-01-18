@@ -1,3 +1,5 @@
+from typing import Optional
+
 import scrap_engine as se
 
 from pokete.base.input import (
@@ -6,6 +8,7 @@ from pokete.base.input import (
     Action,
     ActionList,
 )
+from pokete.base.ui.elements.labels import CloseLabel
 
 from .box import Box
 
@@ -33,7 +36,7 @@ class ChooseBox(Box):
         height,
         width,
         name="",
-        info="",
+        info: Optional[list[se.Text]] = None,
         index_x=2,
         c_obs=None,
         overview=None,
@@ -141,7 +144,7 @@ class BetterChooseBox(Box):
             3 * len(self.nest_label_obs) + 2,
             sum(i.width for i in self.nest_label_obs[0]) + 2,
             name,
-            f"{Action.CANCEL.mapping}:close",
+            [CloseLabel()],
             overview=overview,
         )
         self.columns = columns

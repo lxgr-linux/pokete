@@ -11,6 +11,7 @@ from pokete.base.context import Context
 from pokete.base.input import Action
 from pokete.base.input.hotkeys import ActionList
 from pokete.base.ui.elements import Box
+from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.views.choose_box import ChooseBoxView
 from pokete.util import liner
 
@@ -73,9 +74,7 @@ Active: """)
 
 class PokeDex(ChooseBoxView):
     def __init__(self):
-        super().__init__(
-            50, 35, "Poketedex", info=f"{Action.CANCEL.mapping}:close"
-        )
+        super().__init__(50, 35, "Poketedex", info=[CloseLabel()])
         self.detail_box = DetailBox()
         pokes = asset_service.get_base_assets().pokes
         self.p_dict = {
