@@ -47,6 +47,11 @@ class Provider(ABC):
                 self.balls_label_rechar()
 
     @property
+    def valid_pokes(self) -> list[Poke]:
+        """Returns all non-fallback Poketes"""
+        return [p for p in self.pokes if p.identifier != "__fallback__"]
+
+    @property
     def curr(self) -> Poke:
         """Returns the currently used Pokete"""
         return self.pokes[self.play_index]
