@@ -1,3 +1,4 @@
+import random
 import time
 
 import scrap_engine as se
@@ -11,6 +12,15 @@ from pokete.classes.interactions.multi_text_choose_box import MultiTextChooseBox
 from pokete.classes.inv import buy
 from pokete.classes.landscape import MapInteract
 from pokete.release import SPEED_OF_TIME
+
+CUDDLE_MESSAGES = [
+    "{name} nuzzles against you affectionately!",
+    "{name} nuzzles against you lovingly!",
+    "{name} nuzzles against you happily!",
+    "{name} purrs contentedly in your arms!",
+    "{name} looks up at you with adoring eyes!",
+    "{name} snuggles closer to you!",
+]
 
 
 class CenterMap(PlayMap):
@@ -87,6 +97,18 @@ class ShopMap(PlayMap):
 class CenterInteract(se.Object, MapInteract):
     """Triggers a conversation in the Pokete center"""
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.menu = MultiTextChooseBox(
+            [
+                "See your full deck",
+                "Heal all your Poketes",
+                "Cuddle with the Poketes",
+                "Quit",
+            ],
+            "Select",
+        )
+
     def action(self, ob):
         """Triggers the interaction in the Pokete center
         ARGS:
@@ -102,14 +124,7 @@ class CenterInteract(se.Object, MapInteract):
                 "What do you want to do?",
             ],
         )
-        selected = MultiTextChooseBox(
-            [
-                "1: See your full deck",
-                "2: Heal all your Poketes",
-                "3: Cuddle with the Poketes",
-            ],
-            "Select",
-        )(self.ctx)[0]
+        selected = self.menu(self.ctx)[0]
 
         match selected:
             case 0:
@@ -128,6 +143,33 @@ class CenterInteract(se.Object, MapInteract):
                     3,
                     ["...", "Your Poketes are now healed!"],
                 )
+            case 2:
+                valid_pokes = ob.valid_pokes
+                if valid_pokes:
+                    selected_idx = deck.deck(
+                        self.ctx,
+                        len(valid_pokes),
+                        label="Choose a Pokete to cuddle",
+                        in_fight=True,
+                    )
+                    if selected_idx is not None:
+                        poke = valid_pokes[selected_idx]
+                        message = random.choice(CUDDLE_MESSAGES).format(
+                            name=poke.name
+                        )
+                        mvp.movemap.text(
+                            self.ctx,
+                            mvp.movemap.bmap.inner.x - mvp.movemap.x + 8,
+                            3,
+                            ["...", message],
+                        )
+                else:
+                    mvp.movemap.text(
+                        self.ctx,
+                        mvp.movemap.bmap.inner.x - mvp.movemap.x + 8,
+                        3,
+                        ["You don't have any Poketes to cuddle with!"],
+                    )
         mvp.movemap.full_show(init=True)
 
 
