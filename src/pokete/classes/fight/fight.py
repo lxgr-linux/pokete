@@ -206,13 +206,19 @@ class Fight:
         p_hp_pct = sum(p.hp for p in p_pokes) / max(
             1, sum(p.full_hp for p in p_pokes)
         )
+        p_max_lvl = max([p.lvl() for p in p_pokes]) if p_pokes else 1
         p_avg_lvl = sum(p.lvl() for p in p_pokes) / max(1, len(p_pokes))
+        # Weighted Team Level calculation to prevent averaging exploits
+        p_effective_lvl = (p_max_lvl * 2 + p_avg_lvl) / 3
+
+        e_max_lvl = max([p.lvl() for p in e_prov.pokes]) if e_prov.pokes else 1
         e_avg_lvl = sum(p.lvl() for p in e_prov.pokes) / max(
             1, len(e_prov.pokes)
         )
+        e_effective_lvl = (e_max_lvl * 2 + e_avg_lvl) / 3
 
         ctx.figure.difficulty_manager.record_battle(
-            winner == p_prov, p_hp_pct, p_avg_lvl, e_avg_lvl, turn_count
+            winner == p_prov, p_hp_pct, p_effective_lvl, e_effective_lvl, turn_count
         )
 
         audio.play(ctx.figure.map.song)

@@ -14,5 +14,16 @@ jobs:
         run: |
           go install github.com/lxgr-linux/liefer@latest
       - name: deploy
+        env:
+          LIEFER_PRIVKEY: ${{ secrets.LIEFER_PRIVKEY }}
+          LXGR_HOST: ${{ secrets.LXGR_HOST }}
         run: |
-          ~/go/bin/liefer deliver pokete_server ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} ${{ secrets.LIEFER_PRIVKEY }} --address ${{ secrets.LXGR_HOST }}:8080
+          if [ -z "$LIEFER_PRIVKEY" ]; then
+            echo "Error: LIEFER_PRIVKEY secret is missing. Deployment aborted."
+            exit 1
+          fi
+          if [ -z "$LXGR_HOST" ]; then
+            echo "Error: LXGR_HOST secret is missing. Deployment aborted."
+            exit 1
+          fi
+          ~/go/bin/liefer deliver pokete_server ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} "$LIEFER_PRIVKEY" --address "$LXGR_HOST":8080

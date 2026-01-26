@@ -39,12 +39,21 @@ class GenericPokeBall(FightItem, ABC):
              fightmap.pball], enem.curr.ico)
         time.sleep(SPEED_OF_TIME * random.choice([1, 2, 3, 4]))
         obj.remove_item(self.name)
+        # Dynamic Catch Rate Scaling
+        diff_m = obj.difficulty_manager
+        diff_score = diff_m.score
+        # A higher difficulty makes catching slightly harder
+        diff_factor = 1.0 / max(0.5, diff_score)
+
         catch_chance = 20 if obj.map == obmp.ob_maps.get("playmap_1", None) else 0
         for effect in enem.curr.effects:
             catch_chance += effect.catch_chance
+
+        # Apply scaling to the base ball chance and the additional catch_chance
+        total_catch_weight = ((enem.curr.full_hp / enem.curr.hp) * self.chance + catch_chance) * diff_factor
+
         if random.choices([True, False],
-                          weights=[(enem.curr.full_hp / enem.curr.hp)
-                                   * self.chance + catch_chance,
+                          weights=[total_catch_weight,
                                    enem.curr.full_hp], k=1)[0]:
             audio.play("xDeviruchi - Decisive Battle (End).mp3")
             obj.add_poke(enem.curr, caught_with=self.name)

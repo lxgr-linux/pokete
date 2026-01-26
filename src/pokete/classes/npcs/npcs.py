@@ -142,23 +142,32 @@ class Trainer(NPC, Provider):
         diff_m = self.ctx.figure.difficulty_manager
         diff_score = diff_m.score
 
+        # Survival Instinct: At high difficulty and low HP, prioritize tactical moves
+        survival_mode = diff_score > 1.4 and (self.curr.hp / self.curr.full_hp) < 0.3
+
         # High difficulty: More likely to pick mathematically optimal move
         # Low difficulty: Falls back to weighted random
 
-        best_move = max(
-            self.curr.attack_obs,
-            key=lambda i: (
-                (
-                    1.5
-                    if enem.curr.type.name in i.type.effective
-                    else 0.5
-                    if enem.curr.type.name in i.type.ineffective
-                    else 1
-                )
-                if i.ap > 0
-                else -1
-            ),
-        )
+        def get_move_weight(i):
+            if i.ap <= 0:
+                return -1
+
+            # Base effectiveness weight
+            weight = (
+                1.5
+                if enem.curr.type.name in i.type.effective
+                else 0.5
+                if enem.curr.type.name in i.type.ineffective
+                else 1
+            )
+
+            # Survival bias: Boost status effects (like sleep, paralyze) or healing if in survival mode
+            if survival_mode and (i.effect is not None or i.action in ["brooding", "sucker", "super_sucker"]):
+                weight *= 2.0
+
+            return weight
+
+        best_move = max(self.curr.attack_obs, key=get_move_weight)
 
         # "Smartness" probability scales linearly from score 0.5 (0%) to 2.0 (100%)
         if random.random() < (diff_score - 0.5) / 1.5:
