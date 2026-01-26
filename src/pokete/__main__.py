@@ -49,6 +49,7 @@ from pokete.classes.multiplayer.communication import com_service
 from pokete.classes.multiplayer.interactions.context_menu import ContextMenu
 from pokete.classes.multiplayer.modeprovider import Mode, modeProvider
 from pokete.classes.multiplayer.pc_manager import pc_manager
+from pokete.classes.difficulty import DifficultyManager
 from pokete.classes.periodic_events import (
     MovingGrassEvent,
     MovingWaterEvent,
@@ -109,6 +110,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         self.last_center_map_name = _si.get("last_center_map", "playmap_1")
         self.x = _si["x"]
         self.y = _si["y"]
+        self.difficulty_manager = DifficultyManager(_si.get("difficulty_manager"))
 
     def self_add(self):
         try:

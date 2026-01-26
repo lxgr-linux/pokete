@@ -44,6 +44,10 @@ class HighGrass(se.Object, MapInteract):
             or (n_a and is_night)
         }
         if random.randint(0, 8) == 0:
+            diff_m = self.ctx.figure.difficulty_manager
+            lvl_offset = diff_m.get_level_offset()
+            stat_multiplier = diff_m.get_stat_multiplier()
+
             Fight()(
                 self.ctx,
                 [
@@ -54,11 +58,17 @@ class HighGrass(se.Object, MapInteract):
                                 list(pokes),
                                 weights=[i.rarity for i in pokes.values()],
                             )[0],
-                            random.choice(
-                                range(
-                                    self.arg_proto.minlvl, self.arg_proto.maxlvl
+                            max(
+                                1,
+                                random.choice(
+                                    range(
+                                        self.arg_proto.minlvl,
+                                        self.arg_proto.maxlvl,
+                                    )
                                 )
+                                + lvl_offset,
                             ),
+                            difficulty_multiplier=stat_multiplier,
                         )
                     ),
                 ],

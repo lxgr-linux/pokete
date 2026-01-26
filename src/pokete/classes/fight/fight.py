@@ -70,7 +70,10 @@ class Fight:
             i = prov.curr
             for j in i.effects:
                 j.readd()
+
+        turn_count = 0
         while True:
+            turn_count += 1
             player: Provider = self.providers[index % 2]
             enem: Provider = self.providers[(index + 1) % 2]
             winner: Provider | None = None
@@ -184,5 +187,33 @@ class Fight:
             winner.curr.name,
             "player" if winner.curr.player else "enemy",
         )
+
+        # Record metrics for Dynamic Difficulty Adjustment
+        p_prov = (
+            self.providers[0]
+            if self.providers[0].curr.player
+            else self.providers[1]
+        )
+        e_prov = (
+            self.providers[1]
+            if self.providers[0].curr.player
+            else self.providers[0]
+        )
+
+        p_pokes = [
+            p for p in p_prov.pokes[:6] if p.identifier != "__fallback__"
+        ]
+        p_hp_pct = sum(p.hp for p in p_pokes) / max(
+            1, sum(p.full_hp for p in p_pokes)
+        )
+        p_avg_lvl = sum(p.lvl() for p in p_pokes) / max(1, len(p_pokes))
+        e_avg_lvl = sum(p.lvl() for p in e_prov.pokes) / max(
+            1, len(e_prov.pokes)
+        )
+
+        ctx.figure.difficulty_manager.record_battle(
+            winner == p_prov, p_hp_pct, p_avg_lvl, e_avg_lvl, turn_count
+        )
+
         audio.play(ctx.figure.map.song)
         return winner
