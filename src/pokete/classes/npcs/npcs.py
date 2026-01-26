@@ -139,6 +139,31 @@ class Trainer(NPC, Provider):
         self.trainer = True
 
     def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
+        diff_m = self.ctx.figure.difficulty_manager
+        diff_score = diff_m.score
+
+        # High difficulty: More likely to pick mathematically optimal move
+        # Low difficulty: Falls back to weighted random
+
+        best_move = max(
+            self.curr.attack_obs,
+            key=lambda i: (
+                (
+                    1.5
+                    if enem.curr.type.name in i.type.effective
+                    else 0.5
+                    if enem.curr.type.name in i.type.ineffective
+                    else 1
+                )
+                if i.ap > 0
+                else -1
+            ),
+        )
+
+        # "Smartness" probability scales linearly from score 0.5 (0%) to 2.0 (100%)
+        if random.random() < (diff_score - 0.5) / 1.5:
+            return FightDecision.attack(best_move)
+
         return FightDecision.attack(
             random.choices(
                 self.curr.attack_obs,

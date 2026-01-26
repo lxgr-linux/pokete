@@ -46,7 +46,9 @@ class Poke:
         shiny=False,
         nature=None,
         stats=None,
+        difficulty_multiplier=1.0,
     ):
+        self.difficulty_multiplier = difficulty_multiplier
         self.nature = (
             PokeNature.random()
             if nature is None
@@ -170,18 +172,17 @@ can't have more than 4 attacks!"
     def set_vars(self):
         """Updates/sets some vars"""
         for name in ["atc", "defense", "initiative"]:
-            setattr(
-                self,
-                name,
-                round(
-                    (
-                        self.lvl()
-                        + getattr(self.inf, name)
-                        + (2 if self.shiny else 0)
-                    )
-                    * self.nature.get_value(name)
-                ),
+            val = round(
+                (
+                    self.lvl()
+                    + getattr(self.inf, name)
+                    + (2 if self.shiny else 0)
+                )
+                * self.nature.get_value(name)
             )
+            if not self.player:
+                val = round(val * self.difficulty_multiplier)
+            setattr(self, name, val)
         for atc in self.attack_obs:
             atc.set_ap(atc.max_ap)
 
@@ -198,6 +199,7 @@ can't have more than 4 attacks!"
             "shiny": self.shiny,
             "nature": self.nature.dict(),
             "stats": self.poke_stats.dict(),
+            "difficulty_multiplier": self.difficulty_multiplier,
         }
 
     def set_ap(self, aps):
@@ -267,15 +269,16 @@ can't have more than 4 attacks!"
             shiny=_dict.get("shiny", False),
             nature=_dict.get("nature"),
             stats=_dict.get("stats", None),
+            difficulty_multiplier=_dict.get("difficulty_multiplier", 1.0),
         )
 
     @classmethod
-    def wild(cls, poke, _xp):
+    def wild(cls, poke, _xp, difficulty_multiplier=1.0):
         """Simulates learning attacks for wild poketes
         ARGS:
             poke: The poketes descriptor
             _xp: The poketes given xp"""
-        obj = cls(poke, _xp)
+        obj = cls(poke, _xp, difficulty_multiplier=difficulty_multiplier)
         for i in range(obj.lvl()):
             if (
                 i % 5 == 0
@@ -292,4 +295,5 @@ can't have more than 4 attacks!"
             _attacks=obj.attacks,
             player=False,
             shiny=(random.randint(0, 500) == 0),
+            difficulty_multiplier=difficulty_multiplier,
         )

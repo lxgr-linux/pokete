@@ -39,6 +39,7 @@ def save(figure):
         "pokes": {i: poke.dict() for i, poke in enumerate(figure.pokes)},
         "inv": figure.get_inv(),
         "money": figure.get_money(),
+        "difficulty_manager": figure.difficulty_manager.to_dict(),
         "settings": settings.to_dict(),
         "caught_poketes": list(
             dict.fromkeys(

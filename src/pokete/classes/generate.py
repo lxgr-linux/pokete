@@ -188,12 +188,28 @@ def gen_obs(figure):
     obmp.ob_maps = gen_maps(assets.maps, extra_actions, True)
 
     # adding all trainer to map
+    diff_m = figure.difficulty_manager
+    stat_multiplier = diff_m.get_stat_multiplier()
+    lvl_offset = diff_m.get_level_offset()
+
     for i, map_trainers in assets.trainers.items():
         _map = obmp.ob_maps[i]
         for j in map_trainers.trainers:
             args = j.args
+            scaled_pokes = []
+            for p in j.pokes:
+                # Calculate level from XP, add offset, then convert back to XP
+                curr_lvl = round(math.sqrt(p.xp + 1))
+                new_lvl = max(1, curr_lvl + lvl_offset)
+                new_xp = new_lvl**2 - 1
+                scaled_pokes.append(
+                    Poke.wild(
+                        p.name, new_xp, difficulty_multiplier=stat_multiplier
+                    )
+                )
+
             trainer = Trainer(
-                [Poke.wild(p.name, p.xp) for p in j.pokes],
+                scaled_pokes,
                 args.name,
                 args.gender,
                 args.texts,
