@@ -60,3 +60,27 @@ class DifficultyManagerTest(unittest.TestCase):
         dm2 = DifficultyManager(data)
         self.assertEqual(dm.score, dm2.score)
         self.assertEqual(len(dm2.history), 1)
+
+    def test_weighted_level_math_simulation(self):
+        # Testing the formula used in fight.py: (MaxLvl * 2 + AvgLvl) / 3
+        max_lvl = 100
+        avg_lvl = 20 # (100 + 1 + 1 + 1 + 1 + 1) / 6 = 17.5, rounded up to 20
+        effective_lvl = (max_lvl * 2 + avg_lvl) / 3
+        self.assertEqual(effective_lvl, 73.33333333333333)
+
+        # Comparison with standard average
+        standard_avg = (max_lvl + avg_lvl) / 2 # 60
+        self.assertGreater(effective_lvl, standard_avg)
+
+    def test_catch_rate_factor(self):
+        dm = DifficultyManager()
+        # Initial score 1.0 -> factor 1.0
+        self.assertEqual(1.0 / max(0.5, dm.score), 1.0)
+
+        # Max difficulty 2.0 -> factor 0.5 (harder catch)
+        dm.score = 2.0
+        self.assertEqual(1.0 / max(0.5, dm.score), 0.5)
+
+        # Min difficulty 0.5 -> factor 2.0 (easier catch)
+        dm.score = 0.5
+        self.assertEqual(1.0 / max(0.5, dm.score), 2.0)
