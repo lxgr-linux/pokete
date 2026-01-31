@@ -1,3 +1,5 @@
+from typing import Optional
+
 import scrap_engine as se
 
 from pokete.base.ui.views.choose_box import ChooseBoxView
@@ -6,7 +8,7 @@ from .box import InvBox
 
 
 class BaseInv(ChooseBoxView):
-    def __init__(self, name: str, info=""):
+    def __init__(self, name: str, info: Optional[list[se.Text]] = None):
         super().__init__(50, 35, name, info)
         self.invbox = InvBox(overview=self)
         self.money_label = se.Text("$0")

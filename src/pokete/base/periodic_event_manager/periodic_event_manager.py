@@ -1,19 +1,10 @@
 """Contains the pevm"""
 
-from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
+from pokete.base.periodic_event_manager.periodic_event import PeriodicEvent
+
 T = TypeVar("T")
-
-
-class PeriodicEvent(ABC, Generic[T]):
-    @abstractmethod
-    def tick(
-        self,
-        ctx: T,
-        tick: int,
-    ):
-        pass
 
 
 class PeriodicEventManager(Generic[T]):

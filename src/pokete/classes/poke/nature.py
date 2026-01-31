@@ -8,8 +8,8 @@ import scrap_engine as se
 from pokete.base import loops
 from pokete.base.color import Color
 from pokete.base.context import Context
-from pokete.base.input import Action
 from pokete.base.ui.elements import LabelBox
+from pokete.base.ui.elements.labels import CloseLabel
 from pokete.classes.model.poke import NatureDict
 from pokete.util import liner
 
@@ -109,9 +109,7 @@ of its kind.",
                 )
             )
         )
-        super().__init__(
-            text, name="Nature", info=f"{Action.CANCEL.mapping}:close"
-        )
+        super().__init__(text, name="Nature", info=[CloseLabel()])
 
     @staticmethod
     def get_amount(val):

@@ -2,7 +2,7 @@ from typing import Optional
 
 import scrap_engine as se
 
-from pokete.base.input import Action
+from pokete.base.ui.elements.labels import CloseLabel
 
 from ...context import Context
 from .box import Box
@@ -16,7 +16,11 @@ class LabelBox(Box):
         info: Info that will be displayed in the bottom left corner of the box"""
 
     def __init__(
-        self, label: se.Text, name="", info="", ctx: Optional[Context] = None
+        self,
+        label: se.Text,
+        name="",
+        info: Optional[list[se.Text]] = None,
+        ctx: Optional[Context] = None,
     ):
         self.label: se.Text = label
         super().__init__(label.height + 2, label.width + 4, name, info, ctx=ctx)
@@ -35,7 +39,11 @@ class InfoBox(LabelBox):
         info: Info that will be displayed in the bottom left corner of the box"""
 
     def __init__(
-        self, text, name="", info=f"{Action.CANCEL.mapping}:close", ctx=None
+        self,
+        text,
+        name="",
+        info: Optional[list[se.Text]] = [CloseLabel()],
+        ctx=None,
     ):
         super().__init__(se.Text(text), name=name, info=info, ctx=ctx)
 

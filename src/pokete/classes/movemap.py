@@ -62,7 +62,8 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                         label.un_highlight()
                     self.labels[area_idx].highlight()
                 case MouseEventType.LEFT:
-                    self.mouse_choosen = area_idx
+                    if event.pressed:
+                        self.mouse_choosen = area_idx
         else:
             for label in self.labels:
                 label.un_highlight()

@@ -3,6 +3,7 @@ import os
 
 from pokete.base.exception_propagation import PropagatingThread
 from pokete.base.input.recogniser import recogniser
+from pokete.base.single_event import single_event_periodic_event
 
 from .audio import audio
 
@@ -10,6 +11,7 @@ from .audio import audio
 class GameContext:
     def __enter__(self):
         PropagatingThread(target=recogniser, daemon=True).start()
+        single_event_periodic_event.monitor()
         os.system("")
         print("\033[?1049h" + "\033[?25l" + "\033[?1003h\033[?1015h\033[?1006h")
 

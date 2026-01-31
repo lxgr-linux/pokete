@@ -9,7 +9,7 @@ class HightlightableText(se.Text):
     def __init__(
         self,
         text,
-        state: se.State = se.DEFAULT_STATE,
+        state: se.State = "float",
         esccode="",
         ob_class: Type[se.Object] = se.Object,
         ob_args=None,

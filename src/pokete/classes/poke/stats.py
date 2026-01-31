@@ -6,8 +6,8 @@ import scrap_engine as se
 
 from pokete.base import loops
 from pokete.base.context import Context
-from pokete.base.input import Action
 from pokete.base.ui.elements import LabelBox
+from pokete.base.ui.elements.labels import CloseLabel
 from pokete.classes.model.poke import StatsDict
 
 
@@ -169,7 +169,7 @@ class StatsInfoBox(LabelBox):
         super().__init__(
             text,
             name=f"{poke_stats.poke_name} statistics",
-            info=f"{Action.CANCEL.mapping}:close",
+            info=[CloseLabel()],
         )
 
     def __call__(self, ctx: Context):
