@@ -10,8 +10,8 @@ from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import Action
 from pokete.base.input.hotkeys import ActionList
-from pokete.base.ui.elements import Box
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.views.box import BoxView
 from pokete.base.ui.views.choose_box import ChooseBoxView
 from pokete.util import liner
 
@@ -19,9 +19,9 @@ from .asset_service.service import asset_service
 from .poke import Poke, PokeNature
 
 
-class DetailBox(Box):
+class DetailBox(BoxView):
     def __init__(self):
-        super().__init__(16, 35)
+        super().__init__(16, 35, info=[CloseLabel()])
         self.detail_info = se.Text("", state="float")
         self.detail_desc = se.Text("", state="float")
         self.add_ob(self.detail_info, 16, 1)

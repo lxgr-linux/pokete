@@ -25,12 +25,14 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
     @abstractmethod
     def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
 
+    @override
     def get_interaction_areas(self) -> list[Area]:
         return [i.get_area() for f in self.nest_label_obs for i in f]
 
     def __get_index_from_area_idx(self, idx: int) -> tuple[int, int]:
         return int(idx / self.columns), idx % self.columns
 
+    @override
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
         if area_idx >= 0:
             match event.type:
@@ -42,7 +44,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
                         ctx = change_ctx(ctx, self)
 
     @override
-    def get_partial_interactors(self) -> list["MouseInteractor"]:
+    def get_partial_interactors(self) -> list[MouseInteractor]:
         return [
             label
             for label in self.info_labels
