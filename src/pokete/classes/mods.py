@@ -1,11 +1,13 @@
 """This file contains all classes related to mods"""
+
 import logging
 import sys
 
 import pokete.data as p_data
-from pokete.base.ui.elements import InfoBox
-from .side_loops import LoopBox
+from pokete.base.ui.views.boxes import InfoBoxView
+
 from .settings import settings
+from .side_loops import LoopBox
 
 
 class DummyMods:
@@ -34,17 +36,23 @@ class ModInfo(LoopBox):
     """Gives information about mods"""
 
     def __init__(self):
-        self.text = f"""
-Mods are { {True: 'enabled', False: 'disabled'}[settings("load_mods").val]}!
+        self.text = (
+            f"""
+Mods are { {True: "enabled", False: "disabled"}[settings("load_mods").val] }!
 To load a mod, it has to be placed in '/mods',
 and mods have to be enabled in the menu.
 
 Currently {len(loaded_mods.mod_info)} mod{"s are" if len(loaded_mods.mod_info) != 1 else " is"} loaded:
-   """ + "\n   ".join(f"{i}-{loaded_mods.mod_info[i]}" for i in
-                      loaded_mods.mod_info) + "\n"
+   """
+            + "\n   ".join(
+                f"{i}-{loaded_mods.mod_info[i]}" for i in loaded_mods.mod_info
+            )
+            + "\n"
+        )
         super().__init__(
-            InfoBox(
-                self.text, name="Mods",
+            InfoBoxView(
+                self.text,
+                name="Mods",
             )
         )
 
@@ -55,7 +63,7 @@ def try_load_mods(_map):
         try:
             import mods
         except ModError as mod_err:
-            error_box = InfoBox(str(mod_err), "Mod-loading Error")
+            error_box = InfoBoxView(str(mod_err), "Mod-loading Error")
             error_box.center_add(_map)
             _map.show()
             sys.exit(1)
@@ -64,8 +72,11 @@ def try_load_mods(_map):
             mod.mod_p_data(p_data)
     else:
         loaded_mods = DummyMods()
-    logging.info("[General] %d mods are loaded: (%s)",
-                 len(loaded_mods.mod_obs), ', '.join(loaded_mods.mod_names))
+    logging.info(
+        "[General] %d mods are loaded: (%s)",
+        len(loaded_mods.mod_obs),
+        ", ".join(loaded_mods.mod_names),
+    )
 
 
 loaded_mods = DummyMods()

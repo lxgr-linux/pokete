@@ -5,8 +5,8 @@ from typing import Never, Optional
 import scrap_engine as se
 
 from pokete.base.context import Context
-from pokete.base.ui.elements import InfoBox
 from pokete.base.ui.notify import notifier
+from pokete.base.ui.views.boxes import InfoBoxView
 from pokete.base.ui.views.choose_box import ChooseBoxView
 from pokete.release import SPEED_OF_TIME
 
@@ -78,9 +78,9 @@ valid single-space character!",
             ModInfo()(ctx)
         elif i == self.save_label:
             # When will python3.10 come out?
-            with InfoBox(
+            with InfoBoxView(
                 "Saving....",
-                info="",
+                info=None,
                 ctx=ctx,
             ):
                 # Shows a box displaying "Saving...." while saving
