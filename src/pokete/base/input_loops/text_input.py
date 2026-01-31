@@ -1,7 +1,8 @@
 from pokete.util import hard_liner
+
+from .. import loops
 from ..context import Context
 from ..input import _ev
-from .. import loops
 
 
 def text_input(ctx: Context, obj, name, wrap_len, max_len=1000000):
@@ -36,7 +37,8 @@ def text_input(ctx: Context, obj, name, wrap_len, max_len=1000000):
             _ev.clear()
         elif (
             ((i := _ev.get()) not in ["", "exit"] and "Key." not in i)
-            and len(name) < max_len or i == "Key.space"
+            and len(name) < max_len
+            or i == "Key.space"
         ):
             if _ev.get() == "Key.space":
                 _ev.set(" ")

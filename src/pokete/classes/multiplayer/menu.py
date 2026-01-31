@@ -51,7 +51,8 @@ class ModeChooser(BetterChooseBoxView[bool]):
                     }
                 )
             elif idx == 1:
-                connector.connector(ctx)
+                if not connector.connector(ctx):
+                    return None
                 modeProvider.mode = Mode.MULTI
                 movemap_deco.set_inactive()
                 com_service()

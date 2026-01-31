@@ -2,6 +2,8 @@
 
 from threading import Event
 
+from scrap_engine.addable.misc.frame import Optional
+
 from pokete.base.change import change_ctx
 from pokete.base.ui.views.boxes import InfoBoxView, InputBoxView
 
@@ -18,7 +20,9 @@ def wait_event(ctx: Context, text: str, event: Event):
         loops.event_wait(ctx, event)
 
 
-def ask_text(ctx: Context, infotext, introtext, text, name, max_len):
+def ask_text(
+    ctx: Context, infotext, introtext, text, name, max_len
+) -> Optional[str]:
     """Asks the player to input a text
     ARGS:
         ctx: Context
@@ -27,6 +31,8 @@ def ask_text(ctx: Context, infotext, introtext, text, name, max_len):
         text: The default text in the text field
         name: The boxes displayed name
         max_len: Max length of the text"""
+
+    """
     with InputBoxView(
         infotext, introtext, text, max_len, name, ctx
     ) as inputbox:
@@ -39,3 +45,5 @@ def ask_text(ctx: Context, infotext, introtext, text, name, max_len):
             max_len=max_len,
         )
     return ret
+    """
+    return InputBoxView(infotext, introtext, text, max_len, name)(ctx)

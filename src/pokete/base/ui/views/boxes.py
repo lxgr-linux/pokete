@@ -1,8 +1,11 @@
-from typing import Optional
+from typing import Optional, override
 
 import scrap_engine as se
 
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
+from pokete.base.input_loops.new_text_input import TextInput
+from pokete.base.mouse.interactor import MouseInteractor
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.views.box import BoxView
 
@@ -62,7 +65,7 @@ class InputBoxView(InfoBoxView):
         name: The boxes desplayed name
         max_len: Max length of the text"""
 
-    def __init__(self, infotext, introtext, text, max_len, name="", ctx=None):
+    def __init__(self, infotext, introtext, text, max_len, name=""):
         height = len(infotext.split("\n")) + 3
         width = (
             sorted(
@@ -71,7 +74,7 @@ class InputBoxView(InfoBoxView):
             )[-1]
             + 4
         )
-        super(LabelBoxView, self).__init__(height, width, name, ctx=ctx)
+        super(LabelBoxView, self).__init__(height, width, name)
         self.infotext = se.Text(infotext)
         self.introtext = se.Text(introtext)
         self.text = se.Text(text)
@@ -80,3 +83,17 @@ class InputBoxView(InfoBoxView):
         self.add_ob(
             self.text, self.introtext.rx + len(introtext) + 1, self.introtext.ry
         )
+        self.__input = TextInput(
+            self.text,
+            wrap_len=max_len,
+        )
+
+    @override
+    def get_partial_interactors(self) -> list[MouseInteractor]:
+        return super().get_partial_interactors() + [self.__input]
+
+    def __call__(self, ctx: Context):
+        self.set_ctx(ctx)
+        with self:
+            ctx = change_ctx(ctx, self)
+            return self.__input(ctx)
