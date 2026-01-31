@@ -54,10 +54,14 @@ class Menu(ChooseBoxView):
         audio_before = settings("audio").val
         volume_before = settings("volume").val
         if i == self.playername_input:
-            ctx.figure.name = self.playername_input(ctx)
-            self.map.name_label_rechar(ctx.figure.name)
+            name = self.playername_input(ctx)
+            if name is not None:
+                ctx.figure.name = name
+                self.map.name_label_rechar(ctx.figure.name)
         elif i == self.represent_char_input:
             inp = self.represent_char_input(ctx)
+            if inp is None:
+                return
             # excludes bad unicode:
             if len(inp.encode("utf-8")) != 1 and inp not in [
                 "ä",
@@ -65,7 +69,7 @@ class Menu(ChooseBoxView):
                 "ü",
                 "ß",
             ]:
-                inp = "a"
+                inp = ctx.figure.char
                 self.represent_char_input.set_value(inp)
                 notifier.notify(
                     "Error",
@@ -73,6 +77,8 @@ class Menu(ChooseBoxView):
                     "The chosen character has to be a \
 valid single-space character!",
                 )
+                return
+            self.represent_char_input.set_value(inp)
             ctx.figure.rechar(inp)
         elif i == self.mods_label:
             ModInfo()(ctx)

@@ -32,7 +32,7 @@ class TextInput(MouseInteractor):
 
     @override
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
-        if area_idx > 0:
+        if area_idx >= 0:
             if event.type == MouseEventType.LEFT:
                 self.__change_idx(area_idx - self.__idx)
 

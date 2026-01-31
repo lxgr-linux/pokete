@@ -1,6 +1,7 @@
 """Contains classes and objects related to settings"""
 
 import logging
+from typing import Optional
 
 import scrap_engine as se
 
@@ -10,7 +11,7 @@ from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input.hotkeys import Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.input_loops import text_input
+from pokete.base.input_loops.new_text_input import TextInput
 from pokete.base.mouse import MouseInteractor, mouse_interaction_manager
 from pokete.base.ui.overview import Overview
 
@@ -209,16 +210,11 @@ class TextInputBox(se.Box):
         self.value = se.Text("", state="float")
         self.add_ob(self.label, 0, 0)
         self.add_ob(self.value, len(label) + 1, 0)
+        self.__input = TextInput(self.value, self.max_len + 1, self.max_len)
 
-    def __call__(self, ctx: Context) -> str:
-        mouse_interaction_manager.attach([])
-        return text_input(
-            ctx,
-            self.value,
-            self.value.text,
-            self.max_len + 1,
-            self.max_len,
-        )
+    def __call__(self, ctx: Context) -> Optional[str]:
+        mouse_interaction_manager.attach([self.__input])
+        return self.__input(ctx)
 
     def set_value(self, value: str):
         self.value.rechar(value)
