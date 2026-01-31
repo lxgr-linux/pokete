@@ -195,7 +195,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
         ctx = change_ctx(ctx, self)
 
         while True:
-            action = get_action()
+            action, _ = get_action()
             for event, idx, n_idx, add_page in zip(
                 [Action.DOWN, Action.UP],
                 [len(self.c_obs) - 1, 0],
@@ -204,7 +204,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
             ):
                 if action.triggers(event) and self.index.index == idx:
                     self.change_page(add_page, n_idx)
-                    action = get_action()
+                    action, _ = get_action()
             if action.triggers(Action.ACCEPT):
                 res = self.choose(
                     ctx, self.page * (self.height - 2) + self.index.index

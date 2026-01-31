@@ -363,7 +363,7 @@ def _game(_map: PlayMap, figure: Figure):
         notifier.notify("Weather", "Info", _map.weather.info)
     while True:
         # Directions are not being used yet
-        action = get_action()
+        action, _ = get_action()
         mouse_choosen = -1
         if mvp.movemap.mouse_choosen >= 0:
             mouse_choosen = mvp.movemap.mouse_choosen

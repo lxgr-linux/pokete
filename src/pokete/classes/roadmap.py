@@ -241,7 +241,7 @@ W ◀ ▶ E
         ctx = change_ctx(ctx.with_pevm(ctx.pevm.with_events([blinker])), self)
         with self.center_add(self.map):
             while True:
-                action = get_action()
+                action, _ = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
                     self.sta.next(action, ctx.figure)
                 elif action.triggers(Action.MAP, Action.CANCEL):

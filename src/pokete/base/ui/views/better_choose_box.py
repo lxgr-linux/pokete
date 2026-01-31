@@ -56,7 +56,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
         ctx = change_ctx(ctx, self)
         with self:
             while True:
-                action = get_action()
+                action, _ = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
                     self.input(action)
                 else:

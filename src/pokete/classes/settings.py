@@ -123,7 +123,7 @@ class Slider(se.Box, Overview, MouseInteractor):
         self.overview = ctx.overview
         ctx = change_ctx(ctx, self)
         while True:
-            action = get_action()
+            action, _ = get_action()
             if (strength := action.get_x_strength()) != 0:
                 if 0 <= (self.offset + strength) <= self.boundary:
                     self.set_slider(self.offset + strength)

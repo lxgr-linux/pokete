@@ -123,7 +123,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                     liner(text[:i], self.width - (_x - self.x + 1), "   ")
                 )
                 loops.std(ctx.with_overview(self))
-                if _ev.get() != "":
+                if _ev.get() is not None:
                     _ev.clear()
                     break
             self.multitext.outp(

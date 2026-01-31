@@ -264,7 +264,7 @@ class Detail(Informer, Overview):
             if do_exit:
                 self.cleanup()
                 return
-            action = get_action()
+            action, _ = get_action()
             if action.triggers(Action.DECK, Action.CANCEL):
                 self.cleanup()
                 return
@@ -282,7 +282,7 @@ class Detail(Informer, Overview):
                         overview=self,
                     ).center_add(self.map) as box:
                         while True:
-                            action = get_action()
+                            action, _ = get_action()
                             if action.triggers(Action.UP, Action.DOWN):
                                 box.input(action)
                                 self.map.show()

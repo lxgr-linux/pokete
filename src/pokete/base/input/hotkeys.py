@@ -3,7 +3,9 @@
 import sys
 from collections import defaultdict
 from enum import Enum, auto
+from typing import Optional
 
+from pokete.base.input import key
 from pokete.util import liner
 
 from .event import _ev
@@ -227,13 +229,16 @@ EMPTY_ACTIONLIST = ActionList()
 
 
 # Returns an action, then clears input; all input is valid to read only once
-def get_action() -> ActionList:
+def get_action() -> tuple[ActionList, Optional[key.Key]]:
     """Returns the current actions list"""
     retval = EMPTY_ACTIONLIST
     raw_input = _ev.get()
-    if raw_input == "exit":
+    if raw_input is None:
+        return retval, None
+    if raw_input == key.EXIT:
         raise KeyboardInterrupt
-    if raw_input in hotkey_mappings:
-        retval = hotkey_mappings[raw_input]
+    marshall_input = raw_input.marshall()
+    if marshall_input in hotkey_mappings:
+        retval = hotkey_mappings[marshall_input]
     _ev.clear()
-    return retval
+    return retval, raw_input
