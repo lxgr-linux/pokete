@@ -392,8 +392,8 @@ def _game(_map: PlayMap, figure: Figure):
             mvp.movemap.code_label.rechar(":")
             text_input = TextInput(
                 mvp.movemap.code_label,
-                (mvp.movemap.width - 2) * mvp.movemap.height - 1,
                 mvp.movemap.width - 1,
+                (mvp.movemap.width - 2) * mvp.movemap.height - 1,
             )
             mouse_interaction_manager.attach([text_input])
             inp = text_input(ctx)
