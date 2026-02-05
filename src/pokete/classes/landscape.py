@@ -4,6 +4,7 @@ import random
 
 import scrap_engine as se
 
+from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input_loops import ask_ok
@@ -63,6 +64,7 @@ class HighGrass(se.Object, MapInteract):
                     ),
                 ],
             )
+            change_ctx(self.ctx, self.ctx.overview)
             check_walk_back(self.ctx)
 
 
