@@ -25,7 +25,12 @@ from pokete.base.exception_propagation import (
     exception_propagating_periodic_event,
 )
 from pokete.base.input import ACTION_DIRECTIONS, Action, _ev, get_action
-from pokete.base.input_loops import ask_bool, ask_text, text_input
+from pokete.base.input_loops import (
+    ask_bool,
+    ask_text,
+)
+from pokete.base.input_loops.new_text_input import TextInput
+from pokete.base.mouse import mouse_interaction_manager
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
@@ -384,16 +389,19 @@ def _game(_map: PlayMap, figure: Figure):
             _ev.clear()
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CONSOLE):
-            inp = text_input(
-                ctx,
+            mvp.movemap.code_label.rechar(":")
+            text_input = TextInput(
                 mvp.movemap.code_label,
-                ":",
-                mvp.movemap.width,
                 (mvp.movemap.width - 2) * mvp.movemap.height - 1,
-            )[1:]
+                mvp.movemap.width - 1,
+            )
+            mouse_interaction_manager.attach([text_input])
+            inp = text_input(ctx)
+            ctx = change_ctx(ctx, mvp.movemap)
             mvp.movemap.code_label.outp(figure.map.pretty_name)
-            codes(inp, figure)
-            _ev.clear()
+            if inp is None:
+                continue
+            codes(inp[1:], figure)
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
