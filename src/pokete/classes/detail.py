@@ -12,6 +12,7 @@ from pokete.base.exception_propagation import (
     exception_propagating_periodic_event,
 )
 from pokete.base.input import Action, _ev, get_action
+from pokete.base.input.key import Key
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.single_event import SingleEvent, single_event_periodic_event
 from pokete.base.tss import tss
@@ -291,7 +292,7 @@ class Detail(Informer, Overview):
                                     abb_obs[box.index.index].world_action,
                                 )
                                 do_exit = True
-                                _ev.set(Action.CANCEL.mapping)
+                                _ev.set(Key(Action.CANCEL.mapping))
                                 break
                             elif action.triggers(Action.CANCEL):
                                 break
