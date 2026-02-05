@@ -1,5 +1,6 @@
 """Contains everything related to input processing"""
 
+import logging
 import sys
 from collections import defaultdict
 from enum import Enum, auto
@@ -62,7 +63,7 @@ class Action(Enum):
     INTERACT = auto()
 
     @property
-    def mapping(self):
+    def mapping(self) -> str:
         """Returns the current mapped char"""
         return get_mapping(self, hotkey_mappings)
 
@@ -104,7 +105,7 @@ class ActionList(list):
 ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
 ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
-hotkey_mappings = {
+hotkey_mappings: dict[str, ActionList] = {
     "1": ActionList([Action.ACT_1, Action.DECK, Action.CHOOSE_ATTACK]),
     "2": ActionList(
         [
@@ -169,12 +170,13 @@ hotkey_mappings = {
 }
 
 
-def get_mapping(action, keys):
+def get_mapping(action: Action, keys: dict[str, ActionList]) -> str:
     """Returns the current mapped char"""
-    for key, actions_list in keys.items():
+    for _key, actions_list in keys.items():
         if action in actions_list:
-            return key
-    return None
+            return _key
+    logging.warning("Unset mapping for Action '%s'", action.name)
+    return ""
 
 
 def hotkeys_save():
