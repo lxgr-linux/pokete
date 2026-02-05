@@ -10,10 +10,10 @@ from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
-from pokete.base.ui.elements import LabelBox
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.notify import notifier
 from pokete.base.ui.views.better_choose_box import BetterChooseBoxView
+from pokete.base.ui.views.boxes import LabelBoxView
 from pokete.util import liner
 
 
@@ -71,7 +71,7 @@ class Achievements:
         return identifier in [i[0] for i in self.achieved]
 
 
-class AchBox(LabelBox):
+class AchBox(LabelBoxView):
     """Box with info about an Achievement
     ARGS:
         ach: The Achievement
