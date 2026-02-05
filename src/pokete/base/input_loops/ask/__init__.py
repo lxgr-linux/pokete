@@ -9,7 +9,6 @@ from pokete.base.ui.views.boxes import InfoBoxView, InputBoxView
 
 from ... import loops
 from ...context import Context
-from ..text_input import text_input
 from .bool import ask_bool
 from .ok import ask_ok
 
