@@ -1,4 +1,4 @@
-"""Contains class retaed to cennecting to a server"""
+"""Contains class related to connecting to a server"""
 
 from pokete import release
 from pokete.base.context import Context
@@ -17,7 +17,7 @@ DEFAULT_PORT = 9988
 
 
 class Connector:
-    """Managers server connection"""
+    """Manages server connection"""
 
     def __init__(self):
         self.host_port: HostPort = HostPort("localhost")
@@ -52,7 +52,7 @@ class Connector:
             ask_ok(ctx, f"Invalid Poke: {e.msg}")
 
     def set_host_port(self, ctx: Context) -> bool:
-        """Asks the user for host and port to conenct to"""
+        """Asks the user for host and port to connect to"""
         while True:
             host = ask_text(
                 ctx,
@@ -79,7 +79,7 @@ class Connector:
         self.user_name = ctx.figure.name
         name = ask_text(
             ctx,
-            ("That username isn't awailable right now\n" if reask else "")
+            ("That username isn't available right now\n" if reask else "")
             + "Please enter the username you want to use on the server",
             "Username:",
             self.user_name,
@@ -103,7 +103,7 @@ class Connector:
         except ConnectionException as excpt:
             ask_ok(
                 ctx,
-                f"An error occured connecting to {self.host_port} :\n{excpt}",
+                f"An error occurred connecting to {self.host_port} :\n{excpt}",
             )
             return False
         return True

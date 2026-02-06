@@ -84,7 +84,7 @@ Since you're a Pokete Trainer, you can also fight against other trainers (they a
 with you when you get close enough to him. You can not run from a trainer fight; you either have to win, or lose. These
 trainer fights give double the XP.
 
-When one of your Poketes is too weak or dies, you can heal it by going into the Pokete Center (the house), talk the the
+When one of your Poketes is too weak or dies, you can heal it by going into the Pokete Center (the house), talk to the
 person there and choose the healing option.
 Here you can also take a look at all of your Poketes, and not just the six in your team. The ones marked with an `o` are
 the ones in your deck.
