@@ -2,7 +2,7 @@
 
 ## Limitations
 The purpose and abilities of Mods are restricted to modifying the `pokete_data` module.
-But this can be very powerfull, because this enables adding and modifying Poketes, Maps, NPCs, trainers, types, achievements and much more.
+But this can be very powerful, because this enables adding and modifying Poketes, Maps, NPCs, trainers, types, achievements and much more.
 
 ## Structure
 The basic structure of a mod is:

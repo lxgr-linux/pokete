@@ -19,8 +19,8 @@ needs to have this structure:
   # This is the Poketes simplified name/identifier without spaces and in lowercase, which is used to refer to the Pokete in the code
   "name": "Steini",  # This is the Pokete's pretty name
   "hp": 25,  # The Pokete's max health points
-  "atc": 2,  # The Pokete's attack points that will added to the Pokete's level
-  "defense": 4,  # The Pokete's defense points that will added to the Pokete's level
+  "atc": 2,  # The Pokete's attack points that will be added to the Pokete's level
+  "defense": 4,  # The Pokete's defense points that will be added to the Pokete's level
   "attacks": ["tackle", "politure", "brick_throw"],  # The Pokete's starting attacks
   "pool": [],  # List of additional ungeneric attacks the Pokete can learn
   "miss_chance": 0,  # The chance a Pokete will miss an attack, this is added to the attacks individual `miss_chance`
@@ -31,7 +31,7 @@ needs to have this structure:
   "evolve_poke": "",  # The name/identifier of the Pokete, that this Pokete evolves to at a certain level
   "evolve_lvl": 0,  # The level the Pokete evolves at
   "initiative": 5,
-  # The Pokete's initiative points that will added to the Pokete's level, and determine what Pokete starts in a fight
+  # The Pokete's initiative points that will be added to the Pokete's level, and determine what Pokete starts in a fight
   "ico": [{
     # A list of dictionaries containing a displayed string and a color; all those strings will be layered over each other and represent the Pokete in the fight
     "txt": """ +-------+
@@ -58,7 +58,7 @@ types.
 
 ## Adding attacks
 
-Every attack has an entry in the `attacks` dictionary in [`pokete_data/attacks.py `](./pokete_data/attacks.py). Every
+Every attack has an entry in the `attacks` dictionary in [`pokete_data/attacks.py`](./pokete_data/attacks.py). Every
 entry needs to have this structure:
 
 ```Python
@@ -91,7 +91,7 @@ be learned if the attack is in the Pokete's `"pool"` or `"attacks"` list.
 ### Effects
 
 The effect given in the `"effect"` attribute has to be the `c_name` of an effect listed
-in [`pokete_classes/types.py`](./pokete_classes/types.py ) or `None`.
+in [`pokete_classes/types.py`](./pokete_classes/types.py) or `None`.
 
 ### World action
 
