@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """This software is licensed under the GPL3
-You should have gotten an copy of the GPL3 license anlonside this software
+You should have gotten a copy of the GPL3 license alongside this software
 Feel free to contribute what ever you want to this game
 New Pokete contributions are especially welcome
-For this see the comments in the definations area
+For this see the comments in the definitions area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
@@ -39,7 +39,7 @@ from pokete.classes.audio import audio
 from pokete.classes.classes import PlayMap
 from pokete.classes.dex import PokeDex
 from pokete.classes.fight import ProtoFigure
-from pokete.classes.game import MapChangeExeption
+from pokete.classes.game import MapChangeException
 from pokete.classes.game_context import GameContext
 from pokete.classes.inv import inv
 from pokete.classes.landscape import MapInteract
@@ -233,7 +233,7 @@ def codes(string: str, figure: Figure):
 # main functions
 ################
 
-''' # this is awfull and has to be removed
+''' # this is awful and has to be removed
 def swap_poke(ctx: Context):
     """Trading with other players in the local network"""
     if not ask_bool(
@@ -288,7 +288,7 @@ def swap_poke(ctx: Context):
                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
-    logging.info("[Swap_poke] Recieved %s", decode_data)
+    logging.info("[Swap_poke] Received %s", decode_data)
     mod_info = decode_data.get("mods", {})
     if loaded_mods.mod_info != mod_info:
         ask_ok(
@@ -510,7 +510,7 @@ def main():
         while True:
             try:
                 _game(game_map, figure)
-            except MapChangeExeption as err:
+            except MapChangeException as err:
                 game_map = err.map
 
 
