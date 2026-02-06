@@ -13,8 +13,9 @@ from pokete.base.input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.periodic_event_manager import PeriodicEvent
-from pokete.base.ui.elements import Box, InfoBox
+from pokete.base.ui.elements import Box
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.views.boxes import InfoBoxView
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.classes import PlayMap
 from pokete.util import liner
@@ -240,7 +241,7 @@ W ◀ ▶ E
         ctx = change_ctx(ctx.with_pevm(ctx.pevm.with_events([blinker])), self)
         with self.center_add(self.map):
             while True:
-                action = get_action()
+                action, _ = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
                     self.sta.next(action, ctx.figure)
                 elif action.triggers(Action.MAP, Action.CANCEL):
@@ -275,7 +276,7 @@ W ◀ ▶ E
                             ]
                         )
                     )
-                    with InfoBox(
+                    with InfoBoxView(
                         liner(
                             self.sta.desc
                             + "\n\n Here you can find: "

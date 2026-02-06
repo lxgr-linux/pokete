@@ -1,4 +1,3 @@
-import logging
 from typing import Optional
 
 from pokete import bs_rpc
@@ -51,7 +50,7 @@ class MouseInteractionManager:
             single_event_periodic_event.add(
                 InteractionSingleEvent(interactor, idx, event)
             )
-            logging.info("Casting %s", curr[2])
+            # logging.info("Casting %s", curr[2])
             self.__last = curr
 
 

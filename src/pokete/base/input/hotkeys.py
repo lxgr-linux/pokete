@@ -1,9 +1,12 @@
 """Contains everything related to input processing"""
 
+import logging
 import sys
 from collections import defaultdict
 from enum import Enum, auto
+from typing import Optional
 
+from pokete.base.input import key
 from pokete.util import liner
 
 from .event import _ev
@@ -60,7 +63,7 @@ class Action(Enum):
     INTERACT = auto()
 
     @property
-    def mapping(self):
+    def mapping(self) -> str:
         """Returns the current mapped char"""
         return get_mapping(self, hotkey_mappings)
 
@@ -102,7 +105,7 @@ class ActionList(list):
 ACTION_DIRECTIONS = (Action.LEFT, Action.RIGHT, Action.UP, Action.DOWN)
 ACTION_UP_DOWN = (Action.UP, Action.DOWN)
 
-hotkey_mappings = {
+hotkey_mappings: dict[str, ActionList] = {
     "1": ActionList([Action.ACT_1, Action.DECK, Action.CHOOSE_ATTACK]),
     "2": ActionList(
         [
@@ -167,12 +170,13 @@ hotkey_mappings = {
 }
 
 
-def get_mapping(action, keys):
+def get_mapping(action: Action, keys: dict[str, ActionList]) -> str:
     """Returns the current mapped char"""
-    for key, actions_list in keys.items():
+    for _key, actions_list in keys.items():
         if action in actions_list:
-            return key
-    return None
+            return _key
+    logging.warning("Unset mapping for Action '%s'", action.name)
+    return ""
 
 
 def hotkeys_save():
@@ -227,13 +231,16 @@ EMPTY_ACTIONLIST = ActionList()
 
 
 # Returns an action, then clears input; all input is valid to read only once
-def get_action() -> ActionList:
+def get_action() -> tuple[ActionList, Optional[key.Key]]:
     """Returns the current actions list"""
     retval = EMPTY_ACTIONLIST
     raw_input = _ev.get()
-    if raw_input == "exit":
+    if raw_input is None:
+        return retval, None
+    if raw_input == key.EXIT:
         raise KeyboardInterrupt
-    if raw_input in hotkey_mappings:
-        retval = hotkey_mappings[raw_input]
+    marshall_input = raw_input.marshall()
+    if marshall_input in hotkey_mappings:
+        retval = hotkey_mappings[marshall_input]
     _ev.clear()
-    return retval
+    return retval, raw_input

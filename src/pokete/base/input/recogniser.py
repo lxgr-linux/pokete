@@ -6,6 +6,7 @@ from typing import Optional
 from pokete.base.exception_propagation.propagating_thread import (
     PropagatingThread,
 )
+from pokete.base.input import key
 
 from .event import _ev
 from .mouse import mouse_manager
@@ -13,30 +14,30 @@ from .mouse import mouse_manager
 
 class Recogniser:
     ESCAPES: list[int] = [27, 0]
-    ESCAPED_KEY_MAPPING: dict[str, str] = {
-        "[A": "Key.up",
-        "[B": "Key.down",
-        "[C": "Key.right",
-        "[D": "Key.left",
-        "H": "Key.up",
-        "P": "Key.down",
-        "M": "Key.right",
-        "K": "Key.left",
+    ESCAPED_KEY_MAPPING: dict[str, key.Key] = {
+        "[A": key.UP,
+        "[B": key.DOWN,
+        "[C": key.RIGHT,
+        "[D": key.LEFT,
+        "H": key.UP,
+        "P": key.DOWN,
+        "M": key.RIGHT,
+        "K": key.LEFT,
     }
-    UNIX_KEY_MAPPING: dict[int, str] = {
-        13: "Key.enter",
-        127: "Key.backspace",
-        32: "Key.space",
-        27: "Key.esc",
-        3: "exit",
+    UNIX_KEY_MAPPING: dict[int, key.Key] = {
+        13: key.ENTER,
+        127: key.BACKSPACE,
+        32: key.SPACE,
+        27: key.ESC,
+        3: key.EXIT,
     }
-    WINDOWS_KEY_MAPPING: dict[int, str] = {
-        13: "Key.enter",
-        127: "Key.backspace",
-        8: "Key.backspace",
-        32: "Key.space",
-        27: "Key.esc",
-        3: "exit",
+    WINDOWS_KEY_MAPPING: dict[int, key.Key] = {
+        13: key.ENTER,
+        127: key.BACKSPACE,
+        8: key.BACKSPACE,
+        32: key.SPACE,
+        27: key.ESC,
+        3: key.EXIT,
     }
 
     def __init__(self):
@@ -88,12 +89,12 @@ class Recogniser:
             self.__escape_event.clear()
             time.sleep(0.01)
             if self.__escape_input == "":
-                _ev.set("Key.esc")
+                _ev.set(key.ESC)
                 self.__escape_input = None
 
-    def set_event(self, char: str, key_mapping: dict[int, str]):
+    def set_event(self, char: str, key_mapping: dict[int, key.Key]):
         char_ord = ord(char)
-        key_mapping.setdefault(char_ord, f"{char.rstrip()}")
+        key_mapping.setdefault(char_ord, key.Key(f"{char.rstrip()}"))
         if char_ord in self.ESCAPES:
             self.__escape_input = ""
             self.__escape_event.set()

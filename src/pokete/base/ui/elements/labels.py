@@ -5,6 +5,7 @@ from pokete.base.input import (
     Action,
 )
 from pokete.base.input.event import _ev
+from pokete.base.input.key import Key
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.text import HightlightableText
@@ -13,6 +14,10 @@ from pokete.base.ui.elements.text import HightlightableText
 class GenericActionLabel(HightlightableText, MouseInteractor):
     def __init__(self, action: Action, text: str):
         self.action = action
+        assert action.mapping is not None and len(action.mapping) == 1, (
+            "Trying to create Actionlabel with noch char mapping"
+        )
+        self.key = Key(action.mapping)
         super().__init__(f"{action.mapping}:{text}")
 
     def get_interaction_areas(self) -> list[Area]:
@@ -25,7 +30,7 @@ class GenericActionLabel(HightlightableText, MouseInteractor):
                     self.highlight()
                 case MouseEventType.LEFT:
                     if event.pressed:
-                        _ev.set(self.action.mapping)
+                        _ev.set(self.key)
         else:
             self.un_highlight()
 

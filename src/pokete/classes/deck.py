@@ -144,7 +144,7 @@ class Deck(detail.Informer, Overview):
             )
         self.submap.full_show(init=True)
         while True:
-            action = get_action()
+            action, _ = get_action()
             if action.triggers(*ACTION_DIRECTIONS):
                 self.control(action)
             elif action.triggers(Action.DECK, Action.CANCEL):
