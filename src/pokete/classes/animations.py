@@ -58,7 +58,6 @@ def fight_intro(height, width):
         i.add(fancymap, int(width / 2), int((height - 1) / 2))
     fancymap.show()
 
-    # Phase 1: Expanding lines with alternating chars for more visual interest
     chars = ["-", "=", "-"]
     char_idx = 0
     for i, _l in zip(
@@ -74,15 +73,7 @@ def fight_intro(height, width):
         fancymap.show()
         time.sleep(SPEED_OF_TIME * 0.008)
 
-    # Phase 2: Brief flash at full extension
     time.sleep(SPEED_OF_TIME * 0.15)
-
-    # Phase 3: Contract back with different char
-    for i in vec_list:
-        for j in reversed(i.obs):
-            j.rechar(" ")
-            fancymap.show()
-            time.sleep(SPEED_OF_TIME * 0.003)
 
     for i in vec_list:
         i.remove()
