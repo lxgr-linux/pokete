@@ -2,12 +2,12 @@ import time
 
 import scrap_engine as se
 
-from pokete.base import loops
-from pokete.base.input import Action, _ev, get_action
+from pokete.base.input import _ev
 from pokete.classes import deck
 from pokete.classes import movemap as mvp
 from pokete.classes.classes import PlayMap
 from pokete.classes.doors import CenterDoor
+from pokete.classes.interactions.multi_text_choose_box import MultiTextChooseBox
 from pokete.classes.inv import buy
 from pokete.classes.landscape import MapInteract
 from pokete.release import SPEED_OF_TIME
@@ -100,21 +100,26 @@ class CenterInteract(se.Object, MapInteract):
             [
                 "Welcome to the Pokete-Center",
                 "What do you want to do?",
-                "1: See your full deck\n 2: Heal all your Poketes\n 3: Cuddle with the Poketes",
             ],
-            passthrough=True,
         )
-        while True:
-            action, _ = get_action()
-            if action.triggers(Action.ACT_1):
+        selected = MultiTextChooseBox(
+            [
+                "1: See your full deck",
+                "2: Heal all your Poketes",
+                "3: Cuddle with the Poketes",
+            ],
+            "Select",
+        )(self.ctx)[0]
+
+        match selected:
+            case 0:
                 while "__fallback__" in [p.identifier for p in ob.pokes]:
                     ob.pokes.pop(
                         [p.identifier for p in ob.pokes].index("__fallback__")
                     )
                 ob.balls_label_rechar()
                 deck.deck(self.ctx, len(ob.pokes))
-                break
-            elif action.triggers(Action.ACT_2):
+            case 1:
                 ob.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
                 mvp.movemap.text(
@@ -123,10 +128,6 @@ class CenterInteract(se.Object, MapInteract):
                     3,
                     ["...", "Your Poketes are now healed!"],
                 )
-                break
-            elif action.triggers(Action.CANCEL, Action.ACT_3):
-                break
-            loops.std(self.ctx)
         mvp.movemap.full_show(init=True)
 
 
