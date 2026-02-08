@@ -20,13 +20,14 @@ class ContextMenu:
         rmtpl = pc_manager.get_interactable(ctx.figure)
         if rmtpl is None:
             return
-        match self.menu(ctx):
-            case "Fight":
+        match self.menu(ctx)[0]:
+            case 0:
                 resp = com_service.request_fight(rmtpl.name)
                 # ask_ok(ctx, f"{resp}")
                 if resp:
                     remote_fight_controller.start(rmtpl.ctx, rmtpl.name)
-            case "Trade":
+            case 1:
+                # TODO impl trading
                 pass
-            case "Quit...":
+            case 2:
                 pass
