@@ -2,6 +2,7 @@
 dist/
 build/
 **/*.egg-info
+.DS_Store
 
 .idea
 scrap_engine.py
