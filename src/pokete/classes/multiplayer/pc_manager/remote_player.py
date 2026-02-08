@@ -2,7 +2,7 @@ import scrap_engine as se
 
 from pokete.base.color import Color
 
-from ...interactions import Interactor, MultiTextChooseBox
+from ...interactions import Interactor
 from ...landscape import MapInteract
 
 
@@ -15,9 +15,6 @@ class RemotePlayer(se.Object, MapInteract, Interactor):
         super().__init__("a", "float")
         self.name = name
         self.name_tag = NameTag(name)
-        self.interaction_choose_box = MultiTextChooseBox(
-            ["fight", "cancel"], "Interact"
-        )
 
     def add(self, _map, x, y):
         """Adds the player remoteplayer to the map
