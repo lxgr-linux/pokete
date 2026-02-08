@@ -109,6 +109,10 @@ class CenterInteract(se.Object, MapInteract):
             "Select",
         )
 
+    def __normalize_pokes(self, ob):
+        while "__fallback__" in [p.identifier for p in ob.pokes]:
+            ob.pokes.pop([p.identifier for p in ob.pokes].index("__fallback__"))
+
     def action(self, ob):
         """Triggers the interaction in the Pokete center
         ARGS:
@@ -124,14 +128,10 @@ class CenterInteract(se.Object, MapInteract):
                 "What do you want to do?",
             ],
         )
-        selected = self.menu(self.ctx)[0]
 
-        match selected:
+        match self.menu(self.ctx)[0]:
             case 0:
-                while "__fallback__" in [p.identifier for p in ob.pokes]:
-                    ob.pokes.pop(
-                        [p.identifier for p in ob.pokes].index("__fallback__")
-                    )
+                self.__normalize_pokes(ob)
                 ob.balls_label_rechar()
                 deck.deck(self.ctx, len(ob.pokes))
             case 1:
@@ -144,16 +144,16 @@ class CenterInteract(se.Object, MapInteract):
                     ["...", "Your Poketes are now healed!"],
                 )
             case 2:
-                valid_pokes = ob.valid_pokes
-                if valid_pokes:
+                self.__normalize_pokes(ob)
+                if ob.pokes:
                     selected_idx = deck.deck(
                         self.ctx,
-                        len(valid_pokes),
+                        len(ob.pokes),
                         label="Choose a Pokete to cuddle",
                         in_fight=True,
                     )
                     if selected_idx is not None:
-                        poke = valid_pokes[selected_idx]
+                        poke = ob.pokes[selected_idx]
                         message = random.choice(CUDDLE_MESSAGES).format(
                             name=poke.name
                         )
