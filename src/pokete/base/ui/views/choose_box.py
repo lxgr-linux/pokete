@@ -78,11 +78,15 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
         self.elems: list[HasArea] = []
         self.up_down_switch = UpDownSwitch(self)
         self.__special_ret: Optional[T] = None
-        self.add_ob(
-            self.up_down_switch,
-            self.width - 3 - self.up_down_switch.width,
-            self.height - 1,
-        )
+        self.__add_up_down_switch()
+
+    def __add_up_down_switch(self):
+        if len(self.elems) / (self.height - 2) > 1:
+            self.add_ob(
+                self.up_down_switch,
+                self.width - 3 - self.up_down_switch.width,
+                self.height - 1,
+            )
 
     @override
     def get_partial_interactors(self) -> list[MouseInteractor]:
@@ -145,19 +149,13 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
     @abstractmethod
     def new_size(self) -> tuple[int, int]: ...
 
-    def resize(self, height, width):
-        super().resize(height, width)
-        self.add_ob(
-            self.up_down_switch,
-            self.width - 3 - self.up_down_switch.width,
-            self.height - 1,
-        )
-
     def resize_view(self):
         """Manages recursive view resizing"""
         self.remove()
         self.overview.resize_view()
+        self.rem_ob(self.up_down_switch)
         self.resize(*self.new_size())
+        self.__add_up_down_switch()
         self.rem_elems()
         self.add_elems()
         if len(self.c_obs) == 0:
@@ -193,6 +191,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
     def __call__(self, ctx: Context) -> Optional[T]:
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
+        self.__add_up_down_switch()
 
         while True:
             action, _ = get_action()
