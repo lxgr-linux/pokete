@@ -33,12 +33,22 @@ class Moves:
             return
         enem_ico = self.poke.enem.ico
         flash_chars = ["*", "X", "*"]
-        flash = se.Text(flash_chars[0], esccode=Color.thicc + Color.white)
-        flash.add(enem_ico.map, enem_ico.x + 5, enem_ico.y + 1)
+        flash = se.Text(flash_chars[0], esccode=Color.thicc + Color.yellow)
+        flash.add(
+            enem_ico.map,
+            *(
+                (enem_ico.x, enem_ico.y + enem_ico.height)
+                if self.poke.player
+                else (
+                    enem_ico.x + enem_ico.width,
+                    enem_ico.y,
+                )
+            ),
+        )
         for char in flash_chars:
-            flash.rechar(char, esccode=Color.thicc + Color.white)
+            flash.rechar(char, esccode=Color.thicc + Color.yellow)
             enem_ico.map.show()
-            time.sleep(SPEED_OF_TIME * 0.04)
+            time.sleep(SPEED_OF_TIME * 0.1)
         flash.remove()
         enem_ico.map.show()
 
@@ -99,7 +109,7 @@ class Moves:
         text.add(
             _map, round((_map.width - 11) / 2), round((_map.height - 9) / 2)
         )
-        self.throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
+        self.__throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
         for i in frames:
             text.rechar(i)
             self.poke.ico.map.show()
@@ -131,7 +141,11 @@ class Moves:
         line.remove()
         del line
 
-    def throw(self, txt="#", factor=1.0, num=1, trail=True):
+    def throw(self):
+        self.__throw()
+        self.impact()
+
+    def __throw(self, txt="#", factor=1.0, num=1, trail=True):
         """Throw move with trail effect
         ARGS:
             txt: The char that moves across the screen
@@ -157,7 +171,7 @@ class Moves:
             self.poke.ico.y + 1,
         )
         self.poke.ico.map.show()
-        trail_char = Color.grey + "." + Color.reset if trail else line.char
+        trail_char = Color.white + "." + Color.reset
         trail_len = 3 if trail else 0
         for i in range(len(line.obs) + num * 5 - 1):
             for j in range(0, num * 5, 5):
@@ -180,11 +194,13 @@ class Moves:
 
     def gun(self):
         """Gun move"""
-        self.throw(txt=Color.thicc + Color.blue + "o" + Color.reset, num=4)
+        self.__throw(txt=Color.thicc + Color.blue + "o" + Color.reset, num=4)
+        self.impact()
 
     def fireball(self):
         """Fireball move"""
-        self.throw(txt=Color.thicc + Color.red + "*" + Color.reset)
+        self.__throw(txt=Color.thicc + Color.red + "*" + Color.reset)
+        self.impact()
 
     def shine(self, ico=Color.thicc + Color.green + "*" + Color.reset):
         """Shine Move"""
