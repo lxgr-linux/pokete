@@ -28,14 +28,20 @@ class HealthBar(se.Text):
         self.rechar(bar_num * "#", esccode)
 
     def update(self, oldhp):
-        """Updates the healthbar in steps
+        """Updates the healthbar in steps with easing effect
         ARGS:
             oldhp: The pokes former hp"""
+        diff = abs(oldhp - self.poke.hp)
+        step = 0
         while oldhp != self.poke.hp and oldhp > 0:
             oldhp += -1 if oldhp > self.poke.hp else 1
+            step += 1
             self.poke.text_hp.rechar(f"HP:{oldhp}", esccode=Color.yellow)
             self.make(oldhp)
-            time.sleep(SPEED_OF_TIME * 0.1)
+            # Easing: starts fast, slows down towards end
+            progress = step / max(diff, 1)
+            delay = 0.03 + (0.12 * progress * progress)
+            time.sleep(SPEED_OF_TIME * delay)
             self.poke.ico.map.show()
         self.poke.text_hp.rechar(f"HP:{oldhp}")
         time.sleep(SPEED_OF_TIME * 0.1)
