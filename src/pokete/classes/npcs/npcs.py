@@ -55,7 +55,7 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
             self.q_a = {}
         else:
             self.q_a = chat
-        self.main_ob = se.Object("a")
+        self.main_ob = se.Object("?")
         if side_trigger:
             for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
                 self.add_ob(NPCTrigger(self), i, j)
