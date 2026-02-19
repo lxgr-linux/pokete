@@ -17,11 +17,13 @@ HOME = Path.home()
 
 
 def save(figure):
-    _map = figure.map.name
-    old_map = figure.oldmap.name
+    _map = figure.map.name if figure.map else "intromap"
+    old_map = figure.oldmap.name if figure.oldmap else "playmap_1"
+    last_center_map = (
+        figure.last_center_map.name if figure.last_center_map else "playmap_1"
+    )
     x = figure.x
     y = figure.y
-    last_center_map = figure.last_center_map.name
     if modeProvider.mode == Mode.MULTI:
         _map, old_map, last_center_map, x, y = com_service.saved_pos
 
