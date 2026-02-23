@@ -117,7 +117,7 @@ class LearnAttack:
                 )
                 with self.box.center_add(ctx.map):
                     while True:
-                        action = get_action()
+                        action, _ = get_action()
                         if action.triggers(Action.UP, Action.DOWN):
                             self.box.input(action)
                             ctx.map.show()

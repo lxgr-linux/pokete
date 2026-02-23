@@ -22,7 +22,7 @@ class CenterDoor(se.Object):
                if ob.map == obmp.ob_maps["centermap"]
                else ob.oldmap.shopdor.y + 1)
         ob.oldmap = obmp.ob_maps[i]
-        raise game.MapChangeExeption(ob.map)
+        raise game.MapChangeException(ob.map)
 
 
 class Door(se.Object):
@@ -37,7 +37,7 @@ class Door(se.Object):
         ob.add(obmp.ob_maps[self.arg_proto["map"]], self.arg_proto["x"],
                self.arg_proto["y"])
         ob.oldmap = obmp.ob_maps[i]
-        raise game.MapChangeExeption(obmp.ob_maps[self.arg_proto["map"]])
+        raise game.MapChangeException(obmp.ob_maps[self.arg_proto["map"]])
 
 
 class DoorToCenter(Door):

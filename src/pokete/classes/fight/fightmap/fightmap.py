@@ -266,7 +266,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
             )
         )
         while True:  # Inputloop for general options
-            action = get_action()
+            action, _ = get_action()
             mouse_choosen = -1
             if self.mouse_choosen >= 0:
                 mouse_choosen = self.mouse_choosen

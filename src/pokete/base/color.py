@@ -1,9 +1,11 @@
 """Contains the color class"""
+
 from os import environ
 
 
 class Color:
     """Color class that provides all needed escape codes"""
+
     reset = "\033[0m"
     thicc = "\033[1m"
     underlined = "\033[4m"
@@ -29,6 +31,8 @@ class Color:
     gold = "\033[38;5;94m"
     cavegrey = "\033[38;5;236m"
     peach = "\033[38;5;216m"
+
+    bg_cyan = "\033[46m"
 
     if environ.get("TERM", "linux") == "linux":  # this fixes some colors on TTY
         gold = "\033[38;5;9m"

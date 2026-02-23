@@ -1,1 +1,1 @@
-from .map_change_exception import MapChangeExeption
+from .map_change_exception import MapChangeException

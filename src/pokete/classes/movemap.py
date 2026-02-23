@@ -100,7 +100,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, ctx: Context, _x, _y, inp_arr, passthrough=False):
+    def text(self, ctx: Context, _x, _y, inp_arr):
         """Shows dialog text on movemap
         ARGS:
             _x: The message's X
@@ -123,18 +123,17 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                     liner(text[:i], self.width - (_x - self.x + 1), "   ")
                 )
                 loops.std(ctx.with_overview(self))
-                if _ev.get() != "":
+                if _ev.get() is not None:
                     _ev.clear()
                     break
             self.multitext.outp(
                 liner(text, self.width - (_x - self.x + 1), "   ")
             )
-            while _ev.get() == "":
+            while _ev.get() is None:
                 loops.std(ctx.with_overview(self))
                 self.full_show()
         self.multitext.remove()
-        if not passthrough:
-            _ev.clear()
+        _ev.clear()
 
     def resize_view(self):
         """Manages recursive view resizing"""

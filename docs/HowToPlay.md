@@ -84,7 +84,7 @@ By going up to the person behind the counter you can interact with them.
 ![Center](https://raw.githubusercontent.com/lxgr-linux/pokete/master/assets/ss/ss14.png)
 
 ## Pokete shops
-In some towns there are also shops present where you can by items like Potions and Poketeballs.
+In some towns there are also shops present where you can buy items like Potions and Poketeballs.
 
 ![Shop](https://raw.githubusercontent.com/lxgr-linux/pokete/master/assets/ss/ss15.png)
 

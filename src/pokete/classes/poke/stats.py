@@ -6,8 +6,8 @@ import scrap_engine as se
 
 from pokete.base import loops
 from pokete.base.context import Context
-from pokete.base.ui.elements import LabelBox
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.views.boxes import LabelBoxView
 from pokete.classes.model.poke import StatsDict
 
 
@@ -121,7 +121,7 @@ class Stats:
         )
 
 
-class StatsInfoBox(LabelBox):
+class StatsInfoBox(LabelBoxView):
     """Box to show statistics about caught Poketes
     ARGS:
         poke_stats: PokeStats object"""

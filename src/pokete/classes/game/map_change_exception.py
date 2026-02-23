@@ -1,8 +1,8 @@
-"""Contains exception to exit a game loop and enter a new"""
+"""Contains exception to exit a game loop and enter a new one"""
 
 
-class MapChangeExeption(Exception):
-    """Exception to exit a game loop and enter a new
+class MapChangeException(Exception):
+    """Exception to exit a game loop and enter a new one
     ARGS:
         _map: The new map to enter"""
 

@@ -25,6 +25,32 @@ class Moves:
             )
             self.poke.ico.map.show()
             time.sleep(SPEED_OF_TIME * _t)
+        self.impact()
+
+    def impact(self):
+        """Brief flash effect on enemy when attack lands"""
+        if self.poke.enem == self.poke:
+            return
+        enem_ico = self.poke.enem.ico
+        flash_chars = ["*", "X", "*"]
+        flash = se.Text(flash_chars[0], esccode=Color.thicc + Color.yellow)
+        flash.add(
+            enem_ico.map,
+            *(
+                (enem_ico.x, enem_ico.y + enem_ico.height)
+                if self.poke.player
+                else (
+                    enem_ico.x + enem_ico.width,
+                    enem_ico.y,
+                )
+            ),
+        )
+        for char in flash_chars:
+            flash.rechar(char, esccode=Color.thicc + Color.yellow)
+            enem_ico.map.show()
+            time.sleep(SPEED_OF_TIME * 0.1)
+        flash.remove()
+        enem_ico.map.show()
 
     def pound(self):
         """Pound move"""
@@ -32,6 +58,7 @@ class Moves:
             self.poke.ico.move(0, i)
             self.poke.ico.map.show()
             time.sleep(SPEED_OF_TIME * 0.3)
+        self.impact()
 
     def bomb(self):
         """Bomb move"""
@@ -82,7 +109,7 @@ class Moves:
         text.add(
             _map, round((_map.width - 11) / 2), round((_map.height - 9) / 2)
         )
-        self.throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
+        self.__throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
         for i in frames:
             text.rechar(i)
             self.poke.ico.map.show()
@@ -114,12 +141,17 @@ class Moves:
         line.remove()
         del line
 
-    def throw(self, txt="#", factor=1.0, num=1):
-        """Throw move
+    def throw(self):
+        self.__throw()
+        self.impact()
+
+    def __throw(self, txt="#", factor=1.0, num=1, trail=True):
+        """Throw move with trail effect
         ARGS:
             txt: The char that moves across the screen
             factor: Scalar to stretch the vector
-            num: The number of chars thrown"""
+            num: The number of chars thrown
+            trail: Whether to show a fading trail behind projectile"""
         if self.poke.enem == self.poke:
             return
         line = se.Line(
@@ -139,12 +171,22 @@ class Moves:
             self.poke.ico.y + 1,
         )
         self.poke.ico.map.show()
+        trail_char = Color.white + "." + Color.reset
+        trail_len = 3 if trail else 0
         for i in range(len(line.obs) + num * 5 - 1):
             for j in range(0, num * 5, 5):
                 if len(line.obs) > i - j >= 0:
                     line.obs[i - j].rechar(txt)
-                if len(line.obs) >= i - j > 0:
-                    line.obs[i - j - 1].rechar(line.char)
+                # Trail effect: show fading dots behind projectile
+                if trail:
+                    for t in range(1, trail_len + 1):
+                        trail_idx = i - j - t
+                        if 0 <= trail_idx < len(line.obs):
+                            line.obs[trail_idx].rechar(trail_char)
+                # Clear old trail
+                clear_idx = i - j - trail_len - 1 if trail else i - j - 1
+                if len(line.obs) > clear_idx >= 0:
+                    line.obs[clear_idx].rechar(line.char)
             time.sleep(SPEED_OF_TIME * 0.05)
             self.poke.ico.map.show()
         line.remove()
@@ -152,11 +194,13 @@ class Moves:
 
     def gun(self):
         """Gun move"""
-        self.throw(txt=Color.thicc + Color.blue + "o" + Color.reset, num=4)
+        self.__throw(txt=Color.thicc + Color.blue + "o" + Color.reset, num=4)
+        self.impact()
 
     def fireball(self):
         """Fireball move"""
-        self.throw(txt=Color.thicc + Color.red + "*" + Color.reset)
+        self.__throw(txt=Color.thicc + Color.red + "*" + Color.reset)
+        self.impact()
 
     def shine(self, ico=Color.thicc + Color.green + "*" + Color.reset):
         """Shine Move"""
@@ -217,7 +261,7 @@ class Moves:
                 random.choice(range(2)) + cloud.y + 3,
             )
             _map.show()
-            time.sleep(0.05)
+            time.sleep(SPEED_OF_TIME * 0.05)
             drops.append(rain)
         cloud.remove()
         for drop in drops:

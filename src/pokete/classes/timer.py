@@ -137,7 +137,7 @@ class Clock(Box, MouseInteractor):
         raw_time = self.time.time
         with self.center_add(self.map):
             while True:
-                if get_action().triggers(*(Action.CANCEL, Action.CLOCK)):
+                if get_action()[0].triggers(*(Action.CANCEL, Action.CLOCK)):
                     break
                 if self.time.time == raw_time + 1:
                     d_p = not d_p

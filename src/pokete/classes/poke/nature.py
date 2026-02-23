@@ -8,8 +8,8 @@ import scrap_engine as se
 from pokete.base import loops
 from pokete.base.color import Color
 from pokete.base.context import Context
-from pokete.base.ui.elements import LabelBox
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.views.boxes import LabelBoxView
 from pokete.classes.model.poke import NatureDict
 from pokete.util import liner
 
@@ -87,7 +87,7 @@ class PokeNature:
         return cls(nature, grade)
 
 
-class NatureInfo(LabelBox):
+class NatureInfo(LabelBoxView):
     """Box to show information in Detail
     ARGS:
         p_n: PoketeNature object"""

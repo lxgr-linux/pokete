@@ -59,7 +59,7 @@ class AskBoolBox(Box, MouseInteractor):
         with self.center_add(self.map):
             ctx = change_ctx(ctx, self)
             while True:
-                action = get_action()
+                action, _ = get_action()
                 if action.triggers(Action.ACCEPT):
                     ret = True
                     break

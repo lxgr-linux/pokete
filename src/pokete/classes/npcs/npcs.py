@@ -117,12 +117,12 @@ Do you want to accept it?",
             return
         while True:
             self.text(q_a.q)
-            while get_action() is None:
+            while get_action()[0] is None:
                 loops.std(self.ctx)
             if q_a.a == {}:
                 break
             q_a = q_a.a[
-                MultiTextChooseBox(list(q_a.a.keys()), "Answer")(self.ctx)
+                MultiTextChooseBox(list(q_a.a.keys()), "Answer")(self.ctx)[1]
             ]
 
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """This software is licensed under the GPL3
-You should have gotten an copy of the GPL3 license anlonside this software
+You should have gotten a copy of the GPL3 license alongside this software
 Feel free to contribute what ever you want to this game
 New Pokete contributions are especially welcome
-For this see the comments in the definations area
+For this see the comments in the definitions area
 You can contribute here: https://github.com/lxgr-linux/pokete
 Thanks to MaFeLP for your code review and your great feedback"""
 
@@ -25,7 +25,12 @@ from pokete.base.exception_propagation import (
     exception_propagating_periodic_event,
 )
 from pokete.base.input import ACTION_DIRECTIONS, Action, _ev, get_action
-from pokete.base.input_loops import ask_bool, ask_text, text_input
+from pokete.base.input_loops import (
+    ask_bool,
+    ask_text,
+)
+from pokete.base.input_loops.new_text_input import TextInput
+from pokete.base.mouse import mouse_interaction_manager
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
@@ -39,7 +44,7 @@ from pokete.classes.audio import audio
 from pokete.classes.classes import PlayMap
 from pokete.classes.dex import PokeDex
 from pokete.classes.fight import ProtoFigure
-from pokete.classes.game import MapChangeExeption
+from pokete.classes.game import MapChangeException
 from pokete.classes.game_context import GameContext
 from pokete.classes.inv import inv
 from pokete.classes.landscape import MapInteract
@@ -233,7 +238,7 @@ def codes(string: str, figure: Figure):
 # main functions
 ################
 
-''' # this is awfull and has to be removed
+''' # this is awful and has to be removed
 def swap_poke(ctx: Context):
     """Trading with other players in the local network"""
     if not ask_bool(
@@ -288,7 +293,7 @@ def swap_poke(ctx: Context):
                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
-    logging.info("[Swap_poke] Recieved %s", decode_data)
+    logging.info("[Swap_poke] Received %s", decode_data)
     mod_info = decode_data.get("mods", {})
     if loaded_mods.mod_info != mod_info:
         ask_ok(
@@ -363,7 +368,7 @@ def _game(_map: PlayMap, figure: Figure):
         notifier.notify("Weather", "Info", _map.weather.info)
     while True:
         # Directions are not being used yet
-        action = get_action()
+        action, _ = get_action()
         mouse_choosen = -1
         if mvp.movemap.mouse_choosen >= 0:
             mouse_choosen = mvp.movemap.mouse_choosen
@@ -384,16 +389,19 @@ def _game(_map: PlayMap, figure: Figure):
             _ev.clear()
             mvp.movemap.show(init=True)
         elif action.triggers(Action.CONSOLE):
-            inp = text_input(
-                ctx,
+            mvp.movemap.code_label.rechar(":")
+            text_input = TextInput(
                 mvp.movemap.code_label,
-                ":",
-                mvp.movemap.width,
+                mvp.movemap.width - 1,
                 (mvp.movemap.width - 2) * mvp.movemap.height - 1,
-            )[1:]
+            )
+            mouse_interaction_manager.attach([text_input])
+            inp = text_input(ctx)
+            ctx = change_ctx(ctx, mvp.movemap)
             mvp.movemap.code_label.outp(figure.map.pretty_name)
-            codes(inp, figure)
-            _ev.clear()
+            if inp is None:
+                continue
+            codes(inp[1:], figure)
         for statement, x, y in zip(
             [
                 figure.x + 6 > mvp.movemap.x + mvp.movemap.width,
@@ -510,7 +518,7 @@ def main():
         while True:
             try:
                 _game(game_map, figure)
-            except MapChangeExeption as err:
+            except MapChangeException as err:
                 game_map = err.map
 
 

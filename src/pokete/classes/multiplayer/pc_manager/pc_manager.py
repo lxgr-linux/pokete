@@ -1,10 +1,11 @@
 """Manages remote players"""
+
 import logging
 
-from .remote_player import RemotePlayer
-from ..interactions import movemap_deco
-from ...multiplayer.msg.position.update import UpdateDict
 from ... import ob_maps as obmp
+from ...multiplayer.msg.position.update import UpdateDict
+from ..interactions import movemap_deco
+from .remote_player import RemotePlayer
 
 
 class PCManager:
@@ -48,7 +49,8 @@ class PCManager:
             logging.warning(
                 "[PCManager] Trying to remove player with name `%s`, "
                 "but is not present",
-                name)
+                name,
+            )
             return
         pc.remove()
         del self.reg[name]
@@ -62,9 +64,9 @@ class PCManager:
     def get_interactable(self, figure) -> RemotePlayer | None:
         for _, rmtpl in self.reg.items():
             if (
-                rmtpl.map == figure.map and
-                (figure.x - 2 <= rmtpl.x <= figure.x + 2) and
-                (figure.y - 2 <= rmtpl.y <= figure.y + 2)
+                rmtpl.map == figure.map
+                and (figure.x - 2 <= rmtpl.x <= figure.x + 2)
+                and (figure.y - 2 <= rmtpl.y <= figure.y + 2)
             ):
                 return rmtpl
         return None

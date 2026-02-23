@@ -13,7 +13,7 @@ from .tss import tss
 def easy_exit(ctx: Context) -> bool:
     """Loops until Cancel or Accept is given"""
     while True:
-        action = get_action()
+        action, _ = get_action()
         if action.triggers(Action.CANCEL):
             return False
         elif action.triggers(Action.ACCEPT):

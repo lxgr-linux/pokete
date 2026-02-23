@@ -9,7 +9,7 @@ from pokete import release
 from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
-from pokete.base.ui.elements import InfoBox
+from pokete.base.ui.views.boxes import InfoBoxView
 from pokete.util import liner
 
 
@@ -34,7 +34,7 @@ class About(LoopBox):
 
     def __init__(self):
         super().__init__(
-            InfoBox(
+            InfoBoxView(
                 liner(
                     f"""Pokete v{release.VERSION} -- {release.CODENAME}
 by  lxgr-linux <lxgr@protonmail.com>
@@ -43,7 +43,7 @@ This  software is licensed under the GPL3, you should have gotten a \
 copy of the GPL3 license alongside this software.
 Feel  free to contribute what ever you want to this game, \
 new Pokete contributions are especially welcome.
-For  this see the comments in the definations area.
+For  this see the comments in the definitions area.
 You  can contribute here: https://github.com/lxgr-linux/pokete""",
                     60,
                     pre="",
@@ -58,7 +58,7 @@ class Help(LoopBox):
 
     def __init__(self):
         super().__init__(
-            InfoBox(
+            InfoBoxView(
                 """Controls:
 'w':up, 'a':left,
 's':down, 'd':right,
