@@ -107,6 +107,15 @@ class Sand(Meadow):
     esccode = Color.yellow
 
 
+class Misc(se.Text):
+    def __init__(self, string, _):
+        super().__init__(
+            string,
+            ignore=" ",
+            state="float",
+        )
+
+
 class Poketeball(se.Object, MapInteract):
     """Poketeball that can be picked up on the map
     ARGS:

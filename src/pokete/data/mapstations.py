@@ -1,4 +1,4 @@
-from pokete.classes.asset_service.resources import StationDict, DecorationDict
+from pokete.classes.asset_service.resources import DecorationDict, StationDict
 
 stations: dict[str, StationDict] = {
     "playmap_1": {
@@ -9,29 +9,22 @@ stations: dict[str, StationDict] = {
             "text": """ *P#
 ├───
  # #""",
-            "color": "brightgreen"
+            "color": "brightgreen",
         },
-        "add": {
-            "x": 3,
-            "y": 12
-        }
+        "add": {"x": 3, "y": 12},
     },
     "playmap_51": {
         "gen": {
             "additionals": [],
-            "desc":
-                "Some small patches of grass surrounded by forrest, near "
-                "Nice Town.",
-            "a_next": "playmap_1",
+            "desc": "Some small patches of grass surrounded by forrest, near "
+            "Nice Town.",
+            "a_next": "playmap_57",
             "w_next": "cave_1",
             "text": r"""└─┐
 ──┘""",
-            "color": "darkgreen"
+            "color": "darkgreen",
         },
-        "add": {
-            "x": 7,
-            "y": 12
-        }
+        "add": {"x": 7, "y": 12},
     },
     "cave_1": {
         "gen": {
@@ -42,12 +35,9 @@ stations: dict[str, StationDict] = {
             "text": """█
 █
 █""",
-            "color": "cavegrey"
+            "color": "cavegrey",
         },
-        "add": {
-            "x": 7,
-            "y": 9
-        }
+        "add": {"x": 7, "y": 9},
     },
     "playmap_2": {
         "gen": {
@@ -56,12 +46,9 @@ stations: dict[str, StationDict] = {
             "a_next": "cave_1",
             "d_next": "playmap_3",
             "text": """────""",
-            "color": "darkgreen"
+            "color": "darkgreen",
         },
-        "add": {
-            "x": 8,
-            "y": 9
-        }
+        "add": {"x": 8, "y": 9},
     },
     "playmap_3": {
         "gen": {
@@ -73,12 +60,9 @@ stations: dict[str, StationDict] = {
             "text": """P│$
 ─┤
 #│#""",
-            "color": "brightgreen"
+            "color": "brightgreen",
         },
-        "add": {
-            "x": 12,
-            "y": 8
-        }
+        "add": {"x": 12, "y": 8},
     },
     "playmap_4": {
         "gen": {
@@ -89,12 +73,9 @@ stations: dict[str, StationDict] = {
             "text": """├
 │
 │""",
-            "color": "darkgreen"
+            "color": "darkgreen",
         },
-        "add": {
-            "x": 13,
-            "y": 5
-        }
+        "add": {"x": 13, "y": 5},
     },
     "playmap_6": {
         "gen": {
@@ -107,12 +88,9 @@ caves.",
             "text": """│
 │
 ┴──""",
-            "color": "deepgreen"
+            "color": "deepgreen",
         },
-        "add": {
-            "x": 13,
-            "y": 11
-        }
+        "add": {"x": 13, "y": 11},
     },
     "playmap_7": {
         "gen": {
@@ -120,12 +98,9 @@ caves.",
             "desc": "A dark and mysterious cave.",
             "d_next": "playmap_6",
             "text": """██""",
-            "color": "cavegrey"
+            "color": "cavegrey",
         },
-        "add": {
-            "x": 11,
-            "y": 13
-        }
+        "add": {"x": 11, "y": 13},
     },
     "playmap_8": {
         "gen": {
@@ -136,12 +111,9 @@ caves.",
             "d_next": "playmap_12",
             "text": """#
 ─┬─""",
-            "color": "brightyellow"
+            "color": "brightyellow",
         },
-        "add": {
-            "x": 16,
-            "y": 12
-        }
+        "add": {"x": 16, "y": 12},
     },
     "playmap_11": {
         "gen": {
@@ -149,12 +121,9 @@ caves.",
             "desc": "The shore of a lake near an olf fisher village.",
             "w_next": "playmap_8",
             "text": """│""",
-            "color": "yellow"
+            "color": "yellow",
         },
-        "add": {
-            "x": 17,
-            "y": 14
-        }
+        "add": {"x": 17, "y": 14},
     },
     "playmap_12": {
         "gen": {
@@ -164,30 +133,24 @@ caves.",
             "w_next": "playmap_13",
             "text": """ │
 ─┘""",
-            "color": "brown"
+            "color": "brown",
         },
-        "add": {
-            "x": 19,
-            "y": 12
-        }
+        "add": {"x": 19, "y": 12},
     },
     "playmap_13": {
         "gen": {
             "additionals": ["playmap_14", "playmap_20"],
             "desc": "Deepens forest, a big town in the middle of the deepest "
-                    "forest, populated by thousands of people and cultural "
-                    "center of the region.",
+            "forest, populated by thousands of people and cultural "
+            "center of the region.",
             "s_next": "playmap_12",
             "w_next": "playmap_15",
             "text": """#│A
  │
 P│$""",
-            "color": "gold"
+            "color": "gold",
         },
-        "add": {
-            "x": 19,
-            "y": 9
-        }
+        "add": {"x": 19, "y": 9},
     },
     "playmap_15": {
         "gen": {
@@ -196,12 +159,9 @@ P│$""",
             "s_next": "playmap_13",
             "d_next": "playmap_16",
             "text": """┌──""",
-            "color": "brown"
+            "color": "brown",
         },
-        "add": {
-            "x": 20,
-            "y": 8
-        }
+        "add": {"x": 20, "y": 8},
     },
     "playmap_16": {
         "gen": {
@@ -210,12 +170,9 @@ P│$""",
             "a_next": "playmap_15",
             "d_next": "playmap_18",
             "text": """───""",
-            "color": "brightyellow"
+            "color": "brightyellow",
         },
-        "add": {
-            "x": 23,
-            "y": 8
-        }
+        "add": {"x": 23, "y": 8},
     },
     "playmap_18": {
         "gen": {
@@ -224,12 +181,9 @@ P│$""",
             "a_next": "playmap_16",
             "w_next": "playmap_19",
             "text": """──┘""",
-            "color": "darkgreen"
+            "color": "darkgreen",
         },
-        "add": {
-            "x": 26,
-            "y": 8
-        }
+        "add": {"x": 26, "y": 8},
     },
     "playmap_19": {
         "gen": {
@@ -239,33 +193,34 @@ P│$""",
             "w_next": "playmap_21",
             "text": """█
 █""",
-            "color": "cavegrey"
+            "color": "cavegrey",
         },
-        "add": {
-            "x": 28,
-            "y": 6
-        }
+        "add": {"x": 28, "y": 6},
     },
     "playmap_21": {
         "gen": {
-            "additionals": ["playmap_22", "playmap_23", "playmap_24",
-                            "playmap_25", "playmap_26", "playmap_27",
-                            "playmap_29", "playmap_50"],
+            "additionals": [
+                "playmap_22",
+                "playmap_23",
+                "playmap_24",
+                "playmap_25",
+                "playmap_26",
+                "playmap_27",
+                "playmap_29",
+                "playmap_50",
+            ],
             "desc": "The great Rock-ville is the biggest city in the region "
-                    "around the Big mountain. With the Rocky hotel it's "
-                    "also a tourist hotspot.",
+            "around the Big mountain. With the Rocky hotel it's "
+            "also a tourist hotspot.",
             "s_next": "playmap_19",
             "d_next": "playmap_33",
             "w_next": "playmap_40",
             "text": """P│ #
 ┌┴──
 │#C """,
-            "color": "lightgrey"
+            "color": "lightgrey",
         },
-        "add": {
-            "x": 28,
-            "y": 3
-        }
+        "add": {"x": 28, "y": 3},
     },
     "playmap_40": {
         "gen": {
@@ -273,12 +228,9 @@ P│$""",
             "desc": "A Great beach, with great weather, always.",
             "s_next": "playmap_21",
             "text": """│""",
-            "color": "yellow"
+            "color": "yellow",
         },
-        "add": {
-            "x": 29,
-            "y": 2
-        }
+        "add": {"x": 29, "y": 2},
     },
     "playmap_28": {
         "gen": {
@@ -288,29 +240,23 @@ P│$""",
             "d_next": "playmap_30",
             "text": """  ┌──
 ──┘""",
-            "color": "brightgreen"
+            "color": "brightgreen",
         },
-        "add": {
-            "x": 14,
-            "y": 4
-        }
+        "add": {"x": 14, "y": 4},
     },
     "playmap_30": {
         "gen": {
             "additionals": ["playmap_31", "playmap_32"],
             "desc": "With its plant Poketes, Flowy Town may be the greenest "
-                    "spot in the Pokete world and with the great git-tree it "
-                    "may also be one of the most spectacular.",
+            "spot in the Pokete world and with the great git-tree it "
+            "may also be one of the most spectacular.",
             "a_next": "playmap_28",
             "text": """A$P
 ───┤
 # # """,
-            "color": "deepgreen"
+            "color": "deepgreen",
         },
-        "add": {
-            "x": 19,
-            "y": 3
-        }
+        "add": {"x": 19, "y": 3},
     },
     "playmap_33": {
         "gen": {
@@ -319,12 +265,9 @@ P│$""",
             "a_next": "playmap_21",
             "d_next": "playmap_35",
             "text": """──""",
-            "color": "yellow"
+            "color": "yellow",
         },
-        "add": {
-            "x": 34,
-            "y": 4
-        }
+        "add": {"x": 34, "y": 4},
     },
     "playmap_35": {
         "gen": {
@@ -335,37 +278,70 @@ P│$""",
             "text": """──┐
 ┌─┘
 └─┐""",
-            "color": "brightyellow"
+            "color": "brightyellow",
         },
-        "add": {
-            "x": 36,
-            "y": 4
-        }
+        "add": {"x": 36, "y": 4},
     },
     "playmap_39": {
         "gen": {
-            "additionals": ["playmap_41", "playmap_42", "playmap_43",
-                            "playmap_44", "playmap_45", "playmap_46",
-                            "playmap_47", "playmap_48"],
+            "additionals": [
+                "playmap_41",
+                "playmap_42",
+                "playmap_43",
+                "playmap_44",
+                "playmap_45",
+                "playmap_46",
+                "playmap_47",
+                "playmap_48",
+            ],
             "desc": "The great city of Agrawos, agricultural and cultural "
-                    "center of the whole region. It's famous for its great "
-                    "Pokete-Arena and its master trainer. Check out the "
-                    "MowCow-Burger restaurant, which offers the best, "
-                    "juiciest and most delicious Mowcow-burgers, cut from the "
-                    "happiest and most delicious Mowcows anywhere to find!",
+            "center of the whole region. It's famous for its great "
+            "Pokete-Arena and its master trainer. Check out the "
+            "MowCow-Burger restaurant, which offers the best, "
+            "juiciest and most delicious Mowcow-burgers, cut from the "
+            "happiest and most delicious Mowcows anywhere to find!",
             "w_next": "playmap_35",
+            "d_next": "playmap_52",
             "text": """ #│#
  P│A
-├─┘#
+├─┘
  $ #""",
-            "color": "yellow"
+            "color": "yellow",
         },
-        "add": {
-            "x": 36,
-            "y": 7
-        }
+        "add": {"x": 36, "y": 7},
     },
-
+    "playmap_52": {
+        "gen": {
+            "additionals": [
+                "playmap_53",
+                "playmap_54",
+                "playmap_55",
+                "playmap_56",
+            ],
+            "desc": "The town of Watermill is known for "
+            "the beautiful plants and wonderful "
+            "nature reserves."
+            "",
+            "a_next": "playmap_39",
+            "text": """
+____""",
+            "color": "yellow",
+        },
+        "add": {"x": 39, "y": 2},
+    },
+    "playmap_57": {
+        "gen": {
+            "additionals": [],
+            "desc": "A new community surrounding a small field.",
+            "a_next": "playmap_1",
+            "d_next": "playmap_51",
+            "text": """ *P#
+├───
+ # #""",
+            "color": "brightgreen",
+        },
+        "add": {"x": 8, "y": 13},
+    },
 }
 
 decorations: dict[str, DecorationDict] = {
@@ -374,53 +350,37 @@ decorations: dict[str, DecorationDict] = {
             "text": """██
 ████
   ███""",
-            "color": "mediumgrey"
+            "color": "mediumgrey",
         },
-        "add": {
-            "x": 8,
-            "y": 10
-        }
+        "add": {"x": 8, "y": 10},
     },
-
     "cave2": {
         "gen": {
             "text": """█
 ███
  ███""",
-            "color": "mediumgrey"
+            "color": "mediumgrey",
         },
-        "add": {
-            "x": 10,
-            "y": 13
-        }
+        "add": {"x": 10, "y": 13},
     },
-
     "cave1": {
         "gen": {
             "text": """
 ██████
 ██████
      █""",
-            "color": "mediumgrey"
+            "color": "mediumgrey",
         },
-        "add": {
-            "x": 1,
-            "y": 8
-        }
+        "add": {"x": 1, "y": 8},
     },
-
     "cave4-1": {
         "gen": {
             "text": """████
 ████""",
-            "color": "mediumgrey"
+            "color": "mediumgrey",
         },
-        "add": {
-            "x": 23,
-            "y": 1
-        }
+        "add": {"x": 23, "y": 1},
     },
-
     "cave4": {
         "gen": {
             "text": """ ███
@@ -428,91 +388,48 @@ decorations: dict[str, DecorationDict] = {
   ███
   ███
    ██""",
-            "color": "mediumgrey"
+            "color": "mediumgrey",
         },
-        "add": {
-            "x": 23,
-            "y": 3
-        }
+        "add": {"x": 23, "y": 3},
     },
-
     "cave5": {
         "gen": {
             "text": """   ██
 █████
 ████
  ██  """,
-            "color": "mediumgrey"
+            "color": "mediumgrey",
         },
-        "add": {
-            "x": 29,
-            "y": 5
-        }
+        "add": {"x": 29, "y": 5},
     },
     "mountainsee": {
-        "gen": {
-            "text": """█""",
-            "color": "lakeblue"
-        },
-        "add": {
-            "x": 29,
-            "y": 8
-        }
+        "gen": {"text": """█""", "color": "lakeblue"},
+        "add": {"x": 29, "y": 8},
     },
-
     "cave7": {
         "gen": {
             "text": """  ████
   ████
  ███  """,
-            "color": "mediumgrey"
+            "color": "mediumgrey",
         },
-        "add": {
-            "x": 31,
-            "y": 1
-        }
+        "add": {"x": 31, "y": 1},
     },
-
     "rockybeach": {
-        "gen": {
-            "text": """█████""",
-            "color": "lakeblue"
-        },
-        "add": {
-            "x": 27,
-            "y": 1
-        }
+        "gen": {"text": """█████""", "color": "lakeblue"},
+        "add": {"x": 27, "y": 1},
     },
-
     "cave6": {
-        "gen": {
-            "text": """██""",
-            "color": "cavegrey"
-        },
-        "add": {
-            "x": 32,
-            "y": 4
-        }
+        "gen": {"text": """██""", "color": "cavegrey"},
+        "add": {"x": 32, "y": 4},
     },
     "sunnylake": {
-        "gen": {
-            "text": """███""",
-            "color": "lakeblue"
-        },
-        "add": {
-            "x": 12,
-            "y": 4
-        }
+        "gen": {"text": """███""", "color": "lakeblue"},
+        "add": {"x": 12, "y": 4},
     },
     "fisherlake": {
-        "gen": {
-            "text": """ ████ """,
-            "color": "lakeblue"
-        },
-        "add": {
-            "x": 14,
-            "y": 15
-        }
+        "gen": {"text": """ ████ """, "color": "lakeblue"},
+        "add": {"x": 14, "y": 15},
     },
 }
 

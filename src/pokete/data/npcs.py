@@ -26,6 +26,13 @@ npcs: dict[str, NPCDict] = {
         "x": 52,
         "y": 1
     },
+    "healer_2": {
+        "texts": ["Hello, fellow trainer.", "You and your Poketes look exhausted.", "I can heal them!"],
+        "fn": "heal",
+        "map": "playmap_56",
+        "x": 17,
+        "y": 8
+    },
     "npc_1": {
         "texts": [],
         "fn": "playmap_13_introductor",
