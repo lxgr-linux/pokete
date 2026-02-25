@@ -35,9 +35,9 @@ from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.base.ui.notify import notifier
-from pokete.classes import deck, roadmap, timer
 from pokete.classes import movemap as mvp
 from pokete.classes import ob_maps as obmp
+from pokete.classes import roadmap, timer
 from pokete.classes.achievements import achievements
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.audio import audio
@@ -54,6 +54,7 @@ from pokete.classes.multiplayer.communication import com_service
 from pokete.classes.multiplayer.interactions.context_menu import ContextMenu
 from pokete.classes.multiplayer.modeprovider import Mode, modeProvider
 from pokete.classes.multiplayer.pc_manager import pc_manager
+from pokete.classes.new_deck import NewDeck
 from pokete.classes.periodic_events import (
     MovingGrassEvent,
     MovingWaterEvent,
@@ -353,7 +354,7 @@ def _game(_map: PlayMap, figure: Figure):
     )
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: list[tuple[list[Action], tuple]] = [
-        ([Action.DECK], (deck.deck, (ctx, 6, "Your deck"))),
+        ([Action.DECK], (NewDeck(), (ctx, 6, "Your deck"))),
         ([Action.CANCEL, Action.EXIT_GAME], (quit, (ctx,))),
         ([Action.MAP], (roadmap.roadmap, (ctx,))),
         ([Action.INVENTORY], (inv, (ctx,))),

@@ -136,7 +136,12 @@ class BetterChooseBox(Box):
         _map: The map it will be shown on"""
 
     def __init__(
-        self, columns, labels: list[se.Text], name="", _map=None, overview=None
+        self,
+        columns,
+        labels: list[se.HasArea],
+        name="",
+        _map=None,
+        overview=None,
     ):
         self.nest_label_obs: list[list[BetterChooserItem]] = []
         self.set_items(columns, labels, init=True)
@@ -196,7 +201,7 @@ class BetterChooseBox(Box):
             (self.index[1] + _c[1]) % len(self.nest_label_obs[self.index[0]]),
         )
 
-    def set_items(self, columns, labels: list[se.Text], init=False):
+    def set_items(self, columns, labels: list[se.HasArea], init=False):
         """Sets the items shown in the box
         ARGS:
             columns: Number of columns
@@ -205,9 +210,11 @@ class BetterChooseBox(Box):
         for i in self.nest_label_obs:
             for obj in i:
                 self.rem_ob(obj)
-        box_width = sorted(len(i.text) for i in labels)[-1]
+        box_width = sorted(i.width for i in labels)[-1]
+        box_height = sorted(i.height for i in labels)[-1]
+
         label_obs = [
-            BetterChooserItem(3, box_width + 4, label, i)
+            BetterChooserItem(box_height + 2, box_width + 4, label, i)
             for i, label in enumerate(labels)
         ]
         self.nest_label_obs = [
@@ -216,7 +223,7 @@ class BetterChooseBox(Box):
         ]
         if not init:
             self.resize(
-                3 * len(self.nest_label_obs) + 2,
+                (box_height + 2) * len(self.nest_label_obs) + 2,
                 sum(i.width for i in self.nest_label_obs[0]) + 2,
             )
             self.__add_obs()
