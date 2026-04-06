@@ -14,9 +14,9 @@ from pokete.base.ui.elements.text import HightlightableText
 class GenericActionLabel(HightlightableText, MouseInteractor):
     def __init__(self, action: Action, text: str):
         self.action = action
-        assert action.mapping is not None and len(action.mapping) == 1, (
-            "Trying to create Actionlabel with noch char mapping"
-        )
+        assert (
+            action.mapping is not None and len(action.mapping) == 1
+        ), "Trying to create Actionlabel with noch char mapping"
         self.key = Key(action.mapping)
         super().__init__(f"{action.mapping}:{text}")
 

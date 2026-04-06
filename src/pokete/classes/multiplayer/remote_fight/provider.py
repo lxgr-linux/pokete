@@ -9,11 +9,14 @@ from pokete.classes.multiplayer.msg import player, fight
 from pokete.classes.poke.poke import Poke
 from ...fight import Provider
 
+
 class RemoteProvider(Provider):
-    def __init__(self, name: str,
+    def __init__(
+        self,
+        name: str,
         outgoing: bs_rpc.ResponseWriter,
         incomming: Generator[bs_rpc.Body, None, None],
-        com_service
+        com_service,
     ):
         self.player: player.User = com_service.get_player(name)
         self.outgoing = outgoing
@@ -21,16 +24,30 @@ class RemoteProvider(Provider):
         self.name = name
 
         super().__init__(
-            [Poke(
-                poke["name"], _xp=poke["xp"], _hp=poke["hp"], _ap=poke["ap"], _attacks=poke["attacks"], _effects=poke["effects"], player=False, shiny=poke["shiny"], nature=poke["nature"], stats=poke["stats"]
-            ) for poke in self.player["pokes"]], False, 4, self.player["items"])
+            [
+                Poke(
+                    poke["name"],
+                    _xp=poke["xp"],
+                    _hp=poke["hp"],
+                    _ap=poke["ap"],
+                    _attacks=poke["attacks"],
+                    _effects=poke["effects"],
+                    player=False,
+                    shiny=poke["shiny"],
+                    nature=poke["nature"],
+                    stats=poke["stats"],
+                )
+                for poke in self.player["pokes"]
+            ],
+            False,
+            4,
+            self.player["items"],
+        )
 
     def greet(self, fightmap: FightMap):
         fightmap.outp.outp(f"Fight started with {self.name}, good luck!")
 
-    def get_decision(
-        self, ctx: Context, fightmap: FightMap, enem
-    ) -> FightDecision:
+    def get_decision(self, ctx: Context, fightmap: FightMap, enem) -> FightDecision:
         resp = next(self.incomming)
         match resp.type:
             case fight.SEED_TYPE:

@@ -1,4 +1,5 @@
 """Type and PokeType class"""
+
 from pokete.classes.asset_service.service import asset_service
 from pokete.base.color import Color
 
@@ -8,10 +9,7 @@ class Types:
 
     def __init__(self):
         for i, typ in asset_service.get_base_assets().types.items():
-            setattr(self, i,
-                    PokeType(
-                        i, typ.effective, typ.ineffective, typ.color
-                    ))
+            setattr(self, i, PokeType(i, typ.effective, typ.ineffective, typ.color))
         for i in asset_service.get_base_assets().sub_types:
             setattr(self, i, PokeSubType(i))
 
@@ -28,8 +26,7 @@ class PokeType:
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
-        self.color = "" if color is None else "".join(getattr(Color, i)
-                                                      for i in color)
+        self.color = "" if color is None else "".join(getattr(Color, i) for i in color)
 
 
 class PokeSubType(PokeType):

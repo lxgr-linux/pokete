@@ -1,10 +1,11 @@
 """Here starts to definition of all the Poketes
-  If you want to contribute Poketes, you have to keep in mind, that "ico"
-  can be max 11x4 chars big
-  and that the max for attacks is (until now) 4
-  All attributes have to be present make a Pokete work
-  A type has to be present
-  Hornita was inspired and partly designed by Pia <pialandrath@gmail.com>"""
+If you want to contribute Poketes, you have to keep in mind, that "ico"
+can be max 11x4 chars big
+and that the max for attacks is (until now) 4
+All attributes have to be present make a Pokete work
+A type has to be present
+Hornita was inspired and partly designed by Pia <pialandrath@gmail.com>"""
+
 from pokete.classes.asset_service.resources.base import PokeDict
 
 pokes: dict[str, PokeDict] = {
@@ -24,9 +25,7 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 0,
         "night_active": None,
-        "ico": [{
-            "txt": """ """,
-            "esc": []}],
+        "ico": [{"txt": """ """, "esc": []}],
     },
     "steini": {
         "name": "Steini",
@@ -44,12 +43,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 5,
         "night_active": None,
-        "ico": [{
-            "txt": r""" +-------+
+        "ico": [
+            {
+                "txt": r""" +-------+
  | o   o |
  |  www  |
  +-------+ """,
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "mowcow": {
         "name": "Mowcow",
@@ -67,11 +69,14 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    ^__^
+        "ico": [
+            {
+                "txt": r"""    ^__^
     (oo)
     (__)""",
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "bigstone": {
         "name": "Bigstone",
@@ -89,12 +94,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 5,
         "night_active": None,
-        "ico": [{
-            "txt": r"""+---------+
+        "ico": [
+            {
+                "txt": r"""+---------+
 |  o   o  |
 |   ---   |
 +---------+""",
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "poundi": {
         "name": "Poundi",
@@ -112,12 +120,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 4,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   A-A-A
+        "ico": [
+            {
+                "txt": r"""   A-A-A
   < o o >
   < --- >
    VvVvV""",
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "lilstone": {
         "name": "Lilstone",
@@ -135,12 +146,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 25,
         "initiative": 3,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
    _____
    |'ᵕ'|
    ‾‾‾‾‾""",
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "rosi": {
         "name": "Rosi",
@@ -158,12 +172,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 3,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
     (@)
      |
     \|/""",
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "wheeto": {
         "name": "Wheeto",
@@ -181,12 +198,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    \ /
+        "ico": [
+            {
+                "txt": r"""    \ /
     \|/
     \|/
      |""",
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "saugh": {
         "name": "Saugh",
@@ -204,18 +224,21 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 5,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
     .,
   , .. .
  ...,..,.""",
-            "esc": ["yellow"]
-        }, {
-            "txt": r"""
+                "esc": ["yellow"],
+            },
+            {
+                "txt": r"""
 
    *  *""",
-            "esc": ["thicc", "red"]
-        }],
+                "esc": ["thicc", "red"],
+            },
+        ],
     },
     "gobost": {
         "name": "Gobost",
@@ -233,12 +256,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 25,
         "initiative": 6,
         "night_active": None,
-        "ico": [{
-            "txt": r""" .░░░░░░░.
+        "ico": [
+            {
+                "txt": r""" .░░░░░░░.
  ░░o░░░o░░
  ░░░░░░░░░
  ░ ░ ░ ░ ░""",
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "angrilo": {
         "name": "Angrilo",
@@ -256,12 +282,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 7,
         "night_active": None,
-        "ico": [{
-            "txt": r""" .░░░░░░░.
+        "ico": [
+            {
+                "txt": r""" .░░░░░░░.
  ░░\░░░/░░
  .░░( )░░.
 .         .""",
-            "esc": []}],
+                "esc": [],
+            }
+        ],
     },
     "vogli": {
         "name": "Vogli",
@@ -279,12 +308,15 @@ pokes: dict[str, PokeDict] = {
         "initiative": 6,
         "evolve_lvl": 20,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    A
+        "ico": [
+            {
+                "txt": r"""    A
    <')
     www*
     ||     """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "voglo": {
         "name": "Voglo",
@@ -302,12 +334,15 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 35,
         "initiative": 7,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    ?
+        "ico": [
+            {
+                "txt": r"""    ?
    >´)
     www*
     ||     """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "voglus": {
         "name": "Voglus",
@@ -325,15 +360,20 @@ pokes: dict[str, PokeDict] = {
         "evolve_lvl": 0,
         "initiative": 8,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    /
+        "ico": [
+            {
+                "txt": r"""    /
    > }
     WWW'
     ||""",
-            "esc": []}, {
-            "txt": """
+                "esc": [],
+            },
+            {
+                "txt": """
     ´""",
-            "esc": ["thicc", "red"]}]
+                "esc": ["thicc", "red"],
+            },
+        ],
     },
     "ostri": {
         "name": "Ostri",
@@ -352,12 +392,15 @@ it will try to peck out your eyes.",
         "evolve_lvl": 0,
         "initiative": 7,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   !
+        "ico": [
+            {
+                "txt": r"""   !
   >´)
     \www'
      ||""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "karpi": {
         "name": "Karpi",
@@ -375,12 +418,15 @@ it will try to peck out your eyes.",
         "evolve_lvl": 30,
         "initiative": 0,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
 
   <°))))><
            """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "würgos": {
         "name": "Würgos",
@@ -398,12 +444,15 @@ it will try to peck out your eyes.",
         "evolve_lvl": 30,
         "initiative": 3,
         "night_active": None,
-        "ico": [{
-            "txt": r"""  >'({{{
+        "ico": [
+            {
+                "txt": r"""  >'({{{
   }}}}}}}
  {{{{{{{{{
            """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "choka": {
         "name": "Choka",
@@ -421,20 +470,22 @@ it will try to peck out your eyes.",
         "evolve_lvl": 0,
         "initiative": 4,
         "night_active": None,
-        "ico": [{
-            "txt": r""" _______
+        "ico": [
+            {
+                "txt": r""" _______
 /____ * \
  (   \   \
 \______   \ """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "treenator": {
         "name": "Treenator",
         "hp": 25,
         "atc": 2,
         "defense": 2,
-        "attacks": ["apple_drop", "bark_hardening", "branch_stab",
-                    "root_strangler"],
+        "attacks": ["apple_drop", "bark_hardening", "branch_stab", "root_strangler"],
         "pool": [],
         "miss_chance": 0,
         "desc": "A scary and dangerous apple tree.",
@@ -445,12 +496,15 @@ it will try to peck out your eyes.",
         "evolve_lvl": 0,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    (()
+        "ico": [
+            {
+                "txt": r"""    (()
    (()))
      H
      H""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "bato": {
         "name": "Bato",
@@ -468,11 +522,14 @@ it will try to peck out your eyes.",
         "evolve_lvl": 20,
         "initiative": 6,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    ___
+        "ico": [
+            {
+                "txt": r"""    ___
 WW\/* *\/WW
    \v-v/""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "bator": {
         "name": "Bator",
@@ -490,12 +547,15 @@ WW\/* *\/WW
         "evolve_lvl": 0,
         "initiative": 8,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    ___
+        "ico": [
+            {
+                "txt": r"""    ___
 WW\/o o\/WW
    |v-v|
    \___/""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "blub": {
         "name": "Blub",
@@ -513,12 +573,15 @@ WW\/o o\/WW
         "evolve_lvl": 0,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r"""  _____
+        "ico": [
+            {
+                "txt": r"""  _____
  / o   \
  >   v  ><
  \_____/""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "owol": {
         "name": "Owol",
@@ -536,13 +599,16 @@ WW\/o o\/WW
         "evolve_lvl": 0,
         "initiative": 3,
         "night_active": True,
-        "ico": [{
-            "txt": r"""   ,___,
+        "ico": [
+            {
+                "txt": r"""   ,___,
    {o,o}
    /)_)
     ""
 """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "rato": {
         "name": "Rato",
@@ -560,11 +626,14 @@ WW\/o o\/WW
         "evolve_lvl": 25,
         "initiative": 6,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   ^---^
+        "ico": [
+            {
+                "txt": r"""   ^---^
    \o o/
    >\./<""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "ratatat": {
         "name": "Ratatat",
@@ -582,15 +651,20 @@ WW\/o o\/WW
         "evolve_lvl": 0,
         "initiative": 7,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   ^---^
+        "ico": [
+            {
+                "txt": r"""   ^---^
    \   /
    >VvV<
     ^^^""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
     * *""",
-            "esc": ["thicc", "green"]}]
+                "esc": ["thicc", "green"],
+            },
+        ],
     },
     "hornita": {
         "name": "Hornita",
@@ -608,12 +682,15 @@ WW\/o o\/WW
         "evolve_lvl": 0,
         "initiative": 3,
         "night_active": None,
-        "ico": [{
-            "txt": r""" \
+        "ico": [
+            {
+                "txt": r""" \
  =')~
    (¯¯¯¯)~
    //¯¯\\ """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "horny": {
         "name": "Horny",
@@ -631,12 +708,15 @@ WW\/o o\/WW
         "evolve_lvl": 20,
         "initiative": 4,
         "night_active": None,
-        "ico": [{
-            "txt": r"""  ,
+        "ico": [
+            {
+                "txt": r"""  ,
  =')
    (¯¯¯)~
    //¯\\ """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "bushy": {
         "name": "Bushy",
@@ -654,11 +734,14 @@ WW\/o o\/WW
         "evolve_lvl": 20,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
     (()
    (()))""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "wolfior": {
         "name": "Wolfior",
@@ -676,15 +759,20 @@ WW\/o o\/WW
         "evolve_lvl": 25,
         "initiative": 4,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   ^---^
+        "ico": [
+            {
+                "txt": r"""   ^---^
    (   )
    >(.)<""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
     * *
         """,
-            "esc": ["thicc", "red"]}]
+                "esc": ["thicc", "red"],
+            },
+        ],
     },
     "wolfiro": {
         "name": "Wolfiro",
@@ -702,15 +790,20 @@ WW\/o o\/WW
         "evolve_lvl": 0,
         "initiative": 5,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   \^-^/
+        "ico": [
+            {
+                "txt": r"""   \^-^/
    {   }
    >{.}<""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
     * *
         """,
-            "esc": ["thicc", "red"]}]
+                "esc": ["thicc", "red"],
+            },
+        ],
     },
     "lindemon": {
         "name": "Lindemon",
@@ -734,13 +827,14 @@ WW\/o o\/WW
 /v___/  \
 \-^-/_   \
       \_""",
-                "esc": []
-            }, {
+                "esc": [],
+            },
+            {
                 "txt": r""" .
       *""",
-                "esc": ["thicc", "red"]
-            }
-        ]
+                "esc": ["thicc", "red"],
+            },
+        ],
     },
     "rollator": {
         "name": "Rollator",
@@ -758,12 +852,15 @@ WW\/o o\/WW
         "evolve_lvl": 0,
         "initiative": 3,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   _____
+        "ico": [
+            {
+                "txt": r"""   _____
   / o o \
   | ___ |
   \_____/""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "clampi": {
         "name": "Clampi",
@@ -781,14 +878,19 @@ WW\/o o\/WW
         "evolve_lvl": 20,
         "initiative": 3,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    ___
+        "ico": [
+            {
+                "txt": r"""    ___
   -/   \-
   -\___/-""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
      *""",
-            "esc": ["lightblue"]}]
+                "esc": ["lightblue"],
+            },
+        ],
     },
     "crabbat": {
         "name": "Crabbat",
@@ -806,14 +908,19 @@ WW\/o o\/WW
         "evolve_lvl": 40,
         "initiative": 4,
         "night_active": None,
-        "ico": [{
-            "txt": r""" (  ___  )
+        "ico": [
+            {
+                "txt": r""" (  ___  )
   \-   -/
    ^   ^""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
     * *""",
-            "esc": ["lightblue"]}]
+                "esc": ["lightblue"],
+            },
+        ],
     },
     "rustacean": {
         "name": "Rustacean",
@@ -832,14 +939,19 @@ or not you borrowed something.",
         "evolve_lvl": 0,
         "initiative": 5,
         "night_active": None,
-        "ico": [{
-            "txt": r""" {  ^^^  }
+        "ico": [
+            {
+                "txt": r""" {  ^^^  }
   \-   -/
    ^   ^""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
     * *""",
-            "esc": ["lightblue"]}]
+                "esc": ["lightblue"],
+            },
+        ],
     },
     "electrode": {
         "name": "Electrode",
@@ -857,13 +969,18 @@ or not you borrowed something.",
         "evolve_lvl": 30,
         "initiative": 4,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
     ( )""",
-            "esc": []}, {
-            "txt": """
+                "esc": [],
+            },
+            {
+                "txt": """
      +""",
-            "esc": ["lightblue"]}]
+                "esc": ["lightblue"],
+            },
+        ],
     },
     "cubl": {
         "name": "Cubl",
@@ -881,20 +998,25 @@ or not you borrowed something.",
         "evolve_lvl": 30,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   -----
+        "ico": [
+            {
+                "txt": r"""   -----
    |   |
    -----""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
     * *""",
-            "esc": ["lightblue"]}, {
-            "txt": r"""  /     \
+                "esc": ["lightblue"],
+            },
+            {
+                "txt": r"""  /     \
 
   \     /""",
-            "esc": ["cyan"]
-        }
-        ]
+                "esc": ["cyan"],
+            },
+        ],
     },
     "spikl": {
         "name": "Spikl",
@@ -912,22 +1034,25 @@ or not you borrowed something.",
         "evolve_lvl": 0,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""  -------
+        "ico": [
+            {
+                "txt": r"""  -------
   |     |
   -------""",
-            "esc": []},
+                "esc": [],
+            },
             {
                 "txt": r"""
     * *""",
-                "esc": ["lightblue"]},
+                "esc": ["lightblue"],
+            },
             {
                 "txt": r""" /       \
 
  \       /""",
-                "esc": ["cyan"]
-            }
-        ]
+                "esc": ["cyan"],
+            },
+        ],
     },
     "confuso": {
         "name": "Confuso",
@@ -946,19 +1071,25 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
      _
     (_) """,
-            "esc": []}, {
-            "txt": r"""        }
+                "esc": [],
+            },
+            {
+                "txt": r"""        }
       {
        }""",
-            "esc": ["purple"]}, {
-            "txt": r"""       }
+                "esc": ["purple"],
+            },
+            {
+                "txt": r"""       }
        {""",
-            "esc": ["lightblue"]},
-        ]
+                "esc": ["lightblue"],
+            },
+        ],
     },
     "poisopla": {
         "name": "Poisopla",
@@ -976,16 +1107,20 @@ that will confuse the shit out of you.",
         "evolve_lvl": 20,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
        .
  .__ |/|
   \_\||/""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
      w""",
-            "esc": ["purple"]},
-        ]
+                "esc": ["purple"],
+            },
+        ],
     },
     "radishon": {
         "name": "Radishon",
@@ -1003,16 +1138,20 @@ that will confuse the shit out of you.",
         "evolve_lvl": 20,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r""" .__ / __.
+        "ico": [
+            {
+                "txt": r""" .__ / __.
   \_\|/_/""",
-            "esc": ["thicc", "green"]}, {
-            "txt": r"""
+                "esc": ["thicc", "green"],
+            },
+            {
+                "txt": r"""
 
    /o o\
    \ - /""",
-            "esc": ["purple"]},
-        ]
+                "esc": ["purple"],
+            },
+        ],
     },
     "radishuk": {
         "name": "Radishuk",
@@ -1030,21 +1169,27 @@ that will confuse the shit out of you.",
         "evolve_lvl": 40,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r""" .__   __.
+        "ico": [
+            {
+                "txt": r""" .__   __.
   \_\_/_/""",
-            "esc": ["thicc", "green"]}, {
-            "txt": r"""
+                "esc": ["thicc", "green"],
+            },
+            {
+                "txt": r"""
 
    /o o\
    \ - /""",
-            "esc": ["purple"]}, {
-            "txt": r"""
+                "esc": ["purple"],
+            },
+            {
+                "txt": r"""
 
   _       \
 \/      _/""",
-            "esc": ["yellow"]}
-        ]
+                "esc": ["yellow"],
+            },
+        ],
     },
     "radishull": {
         "name": "Radishull",
@@ -1062,18 +1207,22 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
 
    /o o\
    \ - /""",
-            "esc": ["purple"]}, {
-            "txt": r"""  _  \  _\
+                "esc": ["purple"],
+            },
+            {
+                "txt": r"""  _  \  _\
  / \_/_/
   _       \
 \/      _/""",
-            "esc": ["yellow"]}
-        ]
+                "esc": ["yellow"],
+            },
+        ],
     },
     "megapois": {
         "name": "Megapois",
@@ -1091,16 +1240,20 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
     |/.
 .__\|/|
  \_\||/ """,
-            "esc": []}, {
-            "txt": r"""    w w
+                "esc": [],
+            },
+            {
+                "txt": r"""    w w
   w""",
-            "esc": ["purple"]},
-        ]
+                "esc": ["purple"],
+            },
+        ],
     },
     "corcos_day": {
         "name": "Corcos",
@@ -1118,13 +1271,15 @@ that will confuse the shit out of you.",
         "evolve_poke": "raupathor_day",
         "evolve_lvl": 20,
         "initiative": 1,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
     |\
     |'\
     \_|""",
-            "esc": []}
-        ]
+                "esc": [],
+            }
+        ],
     },
     "corcos_night": {
         "name": "Corcos",
@@ -1142,13 +1297,15 @@ that will confuse the shit out of you.",
         "evolve_poke": "raupathor_night",
         "evolve_lvl": 20,
         "initiative": 1,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
     |\
     |'\
     \_|""",
-            "esc": []}
-        ]
+                "esc": [],
+            }
+        ],
     },
     "raupathor_day": {
         "name": "Raupathor",
@@ -1166,14 +1323,16 @@ that will confuse the shit out of you.",
         "evolve_poke": "schmetterling",
         "evolve_lvl": 30,
         "initiative": 3,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
   .__.__.
  ()__)__)}´
   '  '  '
  """,
-            "esc": []}
-        ]
+                "esc": [],
+            }
+        ],
     },
     "raupathor_night": {
         "name": "Raupathor",
@@ -1191,17 +1350,21 @@ that will confuse the shit out of you.",
         "evolve_poke": "mothor",
         "evolve_lvl": 30,
         "initiative": 3,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
    __ __
  ()__)__)}´""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
   .  .  .
 
   '  '  '""",
-            "esc": ["thicc", "blue"]}
-        ]
+                "esc": ["thicc", "blue"],
+            },
+        ],
     },
     "schmetterling": {
         "name": "Schmetterling",
@@ -1219,12 +1382,14 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 4,
-        "ico": [{
-            "txt": r""" .__ o __.
+        "ico": [
+            {
+                "txt": r""" .__ o __.
   \_\|/_/
   /_/'\_\ """,
-            "esc": []}
-        ]
+                "esc": [],
+            }
+        ],
     },
     "mothor": {
         "name": "Mothor",
@@ -1242,17 +1407,21 @@ that will confuse the shit out of you.",
         "evolve_poke": "",
         "evolve_lvl": 0,
         "initiative": 4,
-        "ico": [{
-            "txt": r"""  __`o´__
+        "ico": [
+            {
+                "txt": r"""  __`o´__
   \_\|/_/
   /_/'\_\ """,
-            "esc": []}, {
-            "txt": r""" .       .
+                "esc": [],
+            },
+            {
+                "txt": r""" .       .
 
 
  ´       `""",
-            "esc": ["thicc", "blue"]}
-        ]
+                "esc": ["thicc", "blue"],
+            },
+        ],
     },
     "lil_nut": {
         "name": "Lil Nut",
@@ -1270,13 +1439,15 @@ that will confuse the shit out of you.",
         "evolve_lvl": 35,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
 
     __
    ('')""",
-            "esc": []}
-        ]
+                "esc": [],
+            }
+        ],
     },
     "dicki": {
         "name": "Dicki",
@@ -1294,13 +1465,15 @@ that will confuse the shit out of you.",
         "evolve_lvl": 55,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
     __
    ('')
    |  |""",
-            "esc": []}
-        ]
+                "esc": [],
+            }
+        ],
     },
     "dicko": {
         "name": "Dicko",
@@ -1318,13 +1491,15 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 3,
         "night_active": None,
-        "ico": [{
-            "txt": r"""    __
+        "ico": [
+            {
+                "txt": r"""    __
    ('')
    |  |
    |  |""",
-            "esc": []}
-        ]
+                "esc": [],
+            }
+        ],
     },
     "diamondos": {
         "name": "Diamondos",
@@ -1342,23 +1517,29 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 2,
         "night_active": None,
-        "ico": [{
-            "txt": r"""
+        "ico": [
+            {
+                "txt": r"""
 
     o o
      -""",
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
     /\ /
        >
    <_""",
-            "esc": ["cyan"]}, {
-            "txt": r"""
+                "esc": ["cyan"],
+            },
+            {
+                "txt": r"""
       ^
    <
       _>""",
-            "esc": ["white"]}
-        ]
+                "esc": ["white"],
+            },
+        ],
     },
     "kartmen": {
         "name": "Kartmen",
@@ -1376,12 +1557,15 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r"""  _((((
+        "ico": [
+            {
+                "txt": r"""  _((((
  /O   _\/))
  >_((((/\))
    ((((""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "bablbam": {
         "name": "Bablbam",
@@ -1399,11 +1583,14 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r"""   (.)~
+        "ico": [
+            {
+                "txt": r"""   (.)~
   -)_(-U
  / ; \ """,
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "kakraholt": {
         "name": "Kakraholt",
@@ -1421,20 +1608,27 @@ that will confuse the shit out of you.",
         "evolve_lvl": 0,
         "initiative": 5,
         "night_active": None,
-        "ico": [{
-            "txt": r"""     _
+        "ico": [
+            {
+                "txt": r"""     _
     O O
    /( )\
   /\|^|/\  """,
-            "esc": []}, {
-            "txt": r"""
+                "esc": [],
+            },
+            {
+                "txt": r"""
 
 ->>     ->>""",
-            "esc": ["yellow"]}, {
-            "txt": r"""
+                "esc": ["yellow"],
+            },
+            {
+                "txt": r"""
    +   +
      +     """,
-            "esc": ["lightblue"]}]
+                "esc": ["lightblue"],
+            },
+        ],
     },
     "pavous": {
         "name": "Pavous",
@@ -1452,11 +1646,14 @@ that will confuse the shit out of you.",
         "evolve_lvl": 30,
         "initiative": 3,
         "night_active": None,
-        "ico": [{
-            "txt": r"""  (0)(0)
+        "ico": [
+            {
+                "txt": r"""  (0)(0)
  /  ''  \
 w        w""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "uberpavous": {
         "name": "Uberpavous",
@@ -1474,12 +1671,15 @@ w        w""",
         "evolve_lvl": 0,
         "initiative": 5,
         "night_active": None,
-        "ico": [{
-            "txt": r"""  /\~-~/\
+        "ico": [
+            {
+                "txt": r"""  /\~-~/\
  //\0_0/\\
 //  '''  \\
 W         W""",
-            "esc": []}]
+                "esc": [],
+            }
+        ],
     },
     "peachade": {
         "name": "Peachade",
@@ -1497,27 +1697,32 @@ W         W""",
         "evolve_lvl": 0,
         "initiative": 1,
         "night_active": None,
-        "ico": [{
-            "txt": r"""     / __.
+        "ico": [
+            {
+                "txt": r"""     / __.
      |/_/""",
-            "esc": ["thicc", "green"]
-        },{
-            "txt": r"""
+                "esc": ["thicc", "green"],
+            },
+            {
+                "txt": r"""
 
    /o -\
    \  (/""",
-            "esc": ["thicc", "peach"]
-        },{
-            "txt": r"""
+                "esc": ["thicc", "peach"],
+            },
+            {
+                "txt": r"""
 
 
      x""",
-            "esc": ["thicc", "red"]
-        },{
-            "txt": r"""
+                "esc": ["thicc", "red"],
+            },
+            {
+                "txt": r"""
   *""",
-            "esc": ["thicc", "white"]
-        }]
+                "esc": ["thicc", "white"],
+            },
+        ],
     },
 }
 

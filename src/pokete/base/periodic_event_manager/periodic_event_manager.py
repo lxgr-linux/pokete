@@ -14,9 +14,7 @@ class PeriodicEventManager(Generic[T]):
         self.events: list[PeriodicEvent[T]] = events
         self.tick: int = tick
 
-    def with_events(
-        self, events: list[PeriodicEvent[T]]
-    ) -> "PeriodicEventManager":
+    def with_events(self, events: list[PeriodicEvent[T]]) -> "PeriodicEventManager":
         return PeriodicEventManager(self.events + events, self.tick)
 
     def event(self, ctx: T):

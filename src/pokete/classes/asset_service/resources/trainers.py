@@ -10,11 +10,7 @@ class TrainerPokeArgsDict(TypedDict):
 
 
 class TrainerPokeArgs:
-    def __init__(
-        self,
-        name: str,
-        xp: int
-    ):
+    def __init__(self, name: str, xp: int):
         self.name: str = name
         self.xp: int = xp
 
@@ -29,14 +25,16 @@ class TrainerPokeArgs:
 
     @staticmethod
     def validate(_d: TrainerPokeArgsDict) -> bool:
-        return all([
-            "name" in _d and type(_d["name"]) is str,
-            "xp" in _d and type(_d["xp"]) is int,
-        ])
+        return all(
+            [
+                "name" in _d and type(_d["name"]) is str,
+                "xp" in _d and type(_d["xp"]) is int,
+            ]
+        )
 
     def to_dict(self) -> TrainerPokeArgsDict:
         ret: TrainerPokeArgsDict = {}
-        
+
         ret["name"] = self.name
         ret["xp"] = self.xp
 
@@ -62,7 +60,7 @@ class TrainerArgs:
         lose_texts: list[str],
         win_texts: list[str],
         x: int,
-        y: int
+        y: int,
     ):
         self.name: str = name
         self.gender: str = gender
@@ -88,19 +86,21 @@ class TrainerArgs:
 
     @staticmethod
     def validate(_d: TrainerArgsDict) -> bool:
-        return all([
-            "name" in _d and type(_d["name"]) is str,
-            "gender" in _d and type(_d["gender"]) is str,
-            "texts" in _d and all(type(i) is str for i in _d["texts"]),
-            "lose_texts" in _d and all(type(i) is str for i in _d["lose_texts"]),
-            "win_texts" in _d and all(type(i) is str for i in _d["win_texts"]),
-            "x" in _d and type(_d["x"]) is int,
-            "y" in _d and type(_d["y"]) is int,
-        ])
+        return all(
+            [
+                "name" in _d and type(_d["name"]) is str,
+                "gender" in _d and type(_d["gender"]) is str,
+                "texts" in _d and all(type(i) is str for i in _d["texts"]),
+                "lose_texts" in _d and all(type(i) is str for i in _d["lose_texts"]),
+                "win_texts" in _d and all(type(i) is str for i in _d["win_texts"]),
+                "x" in _d and type(_d["x"]) is int,
+                "y" in _d and type(_d["y"]) is int,
+            ]
+        )
 
     def to_dict(self) -> TrainerArgsDict:
         ret: TrainerArgsDict = {}
-        
+
         ret["name"] = self.name
         ret["gender"] = self.gender
         ret["texts"] = self.texts
@@ -118,11 +118,7 @@ class TrainerDict(TypedDict):
 
 
 class Trainer:
-    def __init__(
-        self,
-        pokes: list["TrainerPokeArgs"],
-        args: "TrainerArgs"
-    ):
+    def __init__(self, pokes: list["TrainerPokeArgs"], args: "TrainerArgs"):
         self.pokes: list["TrainerPokeArgs"] = pokes
         self.args: "TrainerArgs" = args
 
@@ -137,14 +133,16 @@ class Trainer:
 
     @staticmethod
     def validate(_d: TrainerDict) -> bool:
-        return all([
-            "pokes" in _d and all(TrainerPokeArgs.validate(i) for i in _d["pokes"]),
-            "args" in _d and TrainerArgs.validate(_d["args"]),
-        ])
+        return all(
+            [
+                "pokes" in _d and all(TrainerPokeArgs.validate(i) for i in _d["pokes"]),
+                "args" in _d and TrainerArgs.validate(_d["args"]),
+            ]
+        )
 
     def to_dict(self) -> TrainerDict:
         ret: TrainerDict = {}
-        
+
         ret["pokes"] = [TrainerPokeArgs.to_dict(i) for i in self.pokes]
         ret["args"] = TrainerArgs.to_dict(self.args)
 

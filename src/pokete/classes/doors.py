@@ -14,13 +14,19 @@ class CenterDoor(se.Object):
             ob: The object triggering this action"""
         ob.remove()
         i = ob.map.name
-        ob.add(ob.oldmap,
-               ob.oldmap.dor.x
-               if ob.map == obmp.ob_maps["centermap"]
-               else ob.oldmap.shopdor.x,
-               ob.oldmap.dor.y + 1
-               if ob.map == obmp.ob_maps["centermap"]
-               else ob.oldmap.shopdor.y + 1)
+        ob.add(
+            ob.oldmap,
+            (
+                ob.oldmap.dor.x
+                if ob.map == obmp.ob_maps["centermap"]
+                else ob.oldmap.shopdor.x
+            ),
+            (
+                ob.oldmap.dor.y + 1
+                if ob.map == obmp.ob_maps["centermap"]
+                else ob.oldmap.shopdor.y + 1
+            ),
+        )
         ob.oldmap = obmp.ob_maps[i]
         raise game.MapChangeException(ob.map)
 
@@ -34,8 +40,11 @@ class Door(se.Object):
             ob: The object triggering this action"""
         ob.remove()
         i = ob.map.name
-        ob.add(obmp.ob_maps[self.arg_proto["map"]], self.arg_proto["x"],
-               self.arg_proto["y"])
+        ob.add(
+            obmp.ob_maps[self.arg_proto["map"]],
+            self.arg_proto["x"],
+            self.arg_proto["y"],
+        )
         ob.oldmap = obmp.ob_maps[i]
         raise game.MapChangeException(obmp.ob_maps[self.arg_proto["map"]])
 
@@ -44,11 +53,15 @@ class DoorToCenter(Door):
     """Door that leads to the Pokete center"""
 
     def __init__(self):
-        super().__init__("#", state="float",
-                         arg_proto={"map": "centermap",
-                                    "x": int(
-                                        obmp.ob_maps["centermap"].width / 2),
-                                    "y": 7})
+        super().__init__(
+            "#",
+            state="float",
+            arg_proto={
+                "map": "centermap",
+                "x": int(obmp.ob_maps["centermap"].width / 2),
+                "y": 7,
+            },
+        )
 
     def action(self, ob):
         """Triggers the door
@@ -62,10 +75,15 @@ class DoorToShop(Door):
     """Door that leads to the shop"""
 
     def __init__(self):
-        super().__init__("#", state="float",
-                         arg_proto={"map": "shopmap",
-                                    "x": int(obmp.ob_maps["shopmap"].width / 2),
-                                    "y": 7})
+        super().__init__(
+            "#",
+            state="float",
+            arg_proto={
+                "map": "shopmap",
+                "x": int(obmp.ob_maps["shopmap"].width / 2),
+                "y": 7,
+            },
+        )
 
 
 class ChanceDoor(Door):

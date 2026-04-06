@@ -14,15 +14,11 @@ class BaseInv(ChooseBoxView):
         self.money_label = se.Text("$0")
 
         # adding
-        self.add_ob(
-            self.money_label, self.width - 2 - len(self.money_label.text), 0
-        )
+        self.add_ob(self.money_label, self.width - 2 - len(self.money_label.text), 0)
 
     def new_size(self) -> tuple[int, int]:
         return self.map.height - 3, 35
 
     def set_money(self, figure):
         self.money_label.rechar(f"${figure.get_money()}")
-        self.set_ob(
-            self.money_label, self.width - 2 - len(self.money_label.text), 0
-        )
+        self.set_ob(self.money_label, self.width - 2 - len(self.money_label.text), 0)

@@ -6,8 +6,7 @@ from pathlib import Path
 VERSION = "0.10.0-rc4"
 CODENAME = "Grey Edition"
 SAVEPATH = (
-    Path(os.environ.get("XDG_DATA_HOME", str(Path.home()) + "/.local/share"))
-    / "pokete"
+    Path(os.environ.get("XDG_DATA_HOME", str(Path.home()) + "/.local/share")) / "pokete"
 )
 FRAMETIME = 0.05
 

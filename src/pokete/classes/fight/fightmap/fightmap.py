@@ -273,9 +273,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
                 self.mouse_choosen = -1
             if action.triggers(*quick_attacks):
                 attack = player.curr.attack_obs[
-                    quick_attacks.index(
-                        next(i for i in action if i in quick_attacks)
-                    )
+                    quick_attacks.index(next(i for i in action if i in quick_attacks))
                 ]
                 if attack.ap > 0:
                     return FightDecision.attack(attack)
@@ -302,8 +300,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
                 ]
                 if not items:
                     self.outp.outp(
-                        "You don't have any items left!\n"
-                        "What do you want to do?"
+                        "You don't have any items left!\n" "What do you want to do?"
                     )
                     continue
                 item = self.invbox(ctx, items, player.get_inv())

@@ -8,8 +8,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "gender": "She",
                     "lose_texts": ["Hahaha!", "Looooser!"],
                     "name": "Monica",
-                    "texts": ["Hello, noble traveler",
-                              "Are you willing to fight me?"],
+                    "texts": ["Hello, noble traveler", "Are you willing to fight me?"],
                     "win_texts": ["Congratulations!", "Have a great day!"],
                     "x": 23,
                     "y": 10,
@@ -48,8 +47,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "gender": "He",
                     "lose_texts": ["Those years of training " "were worth it"],
                     "name": "Fisherman's Friend",
-                    "texts": ["G'day, young trainer",
-                              "I've lived here for years"],
+                    "texts": ["G'day, young trainer", "I've lived here for years"],
                     "win_texts": ["I haven't trained my " "Pokete in years!"],
                     "x": 42,
                     "y": 7,
@@ -265,8 +263,7 @@ trainers: dict[str, MapTrainersDict] = {
             {
                 "args": {
                     "gender": "He",
-                    "lose_texts": [
-                        "It is stronger than you " "might have expected"],
+                    "lose_texts": ["It is stronger than you " "might have expected"],
                     "name": "Wanderer Murrad",
                     "texts": [
                         "Isn't it a great day?",
@@ -352,8 +349,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "lose_texts": ["You're a loooser!"],
                     "name": "Jessica the fighter",
                     "texts": ["You wont be ready for my " "Treenator!"],
-                    "win_texts": [
-                        "Our best trainer will " "defeat you though!"],
+                    "win_texts": ["Our best trainer will " "defeat you though!"],
                     "x": 16,
                     "y": 6,
                 },
@@ -368,8 +364,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "lose_texts": ["You're a loooser!"],
                     "name": "First Trainer of Rock-ville",
                     "texts": ["Let's have a fair fight!"],
-                    "win_texts": [
-                        "I wish you the best luck " "on your journey!"],
+                    "win_texts": ["I wish you the best luck " "on your journey!"],
                     "x": 22,
                     "y": 10,
                 },
@@ -389,8 +384,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "lose_texts": ["You're a loooser!"],
                     "name": "Steven the Big",
                     "texts": ["I don't think you ever met " "an Electrode!"],
-                    "win_texts": ["Hmph!",
-                                  "It's not as great as I " "thought!"],
+                    "win_texts": ["Hmph!", "It's not as great as I " "thought!"],
                     "x": 36,
                     "y": 47,
                 },
@@ -435,8 +429,7 @@ trainers: dict[str, MapTrainersDict] = {
                         "You have to beat my Pokete " "to enter 'Flowy Town'",
                         "I guess it'll confuse you!",
                     ],
-                    "win_texts": [
-                        "I wish you the best of " "luck in 'Flowy Town'!"],
+                    "win_texts": ["I wish you the best of " "luck in 'Flowy Town'!"],
                     "x": 190,
                     "y": 8,
                 },
@@ -471,8 +464,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "gender": "He",
                     "lose_texts": ["You're a loooser!"],
                     "name": "Guy at the Entrance",
-                    "texts": [
-                        "Welcome to 'Flowy Town', " "home of the flowers."],
+                    "texts": ["Welcome to 'Flowy Town', " "home of the flowers."],
                     "win_texts": [
                         "I wish you the best of "
                         "luck fighting against "
@@ -504,8 +496,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "gender": "He",
                     "lose_texts": ["Your journey came to a " "fast end!"],
                     "name": "Heavy Hans",
-                    "texts": [
-                        "I don't think your Pokete is " "better than mine!"],
+                    "texts": ["I don't think your Pokete is " "better than mine!"],
                     "win_texts": ["The other trainers wont " "be as easy!"],
                     "x": 25,
                     "y": 8,
@@ -518,8 +509,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "lose_texts": ["You're a loooser!"],
                     "name": "Aurelia",
                     "texts": ["You wont be ready for my " "Treenator!"],
-                    "win_texts": [
-                        "Our best trainer will " "defeat you though!"],
+                    "win_texts": ["Our best trainer will " "defeat you though!"],
                     "x": 28,
                     "y": 6,
                 },
@@ -595,8 +585,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "lose_texts": ["HAHAHA, IM BETTER THAN " "YOU!"],
                     "name": "Farmer Ralf",
                     "texts": ["DIE!"],
-                    "win_texts": [
-                        "NOOOOOO; WHYYY ARE YOU " "BETTER ??!!!1!!!111"],
+                    "win_texts": ["NOOOOOO; WHYYY ARE YOU " "BETTER ??!!!1!!!111"],
                     "x": 69,
                     "y": 61,
                 },
@@ -630,8 +619,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "gender": "He",
                     "lose_texts": ["Yeaaah!", "My Pokete is sooo sick!"],
                     "name": "Kevin",
-                    "texts": ["Yo!", "Whaddup?",
-                              "Wanna see my sick-ass " "Pokete?"],
+                    "texts": ["Yo!", "Whaddup?", "Wanna see my sick-ass " "Pokete?"],
                     "win_texts": [
                         "Daaaamn",
                         "Your Pokete is nooot from " "this planet!",
@@ -687,8 +675,7 @@ trainers: dict[str, MapTrainersDict] = {
                     "gender": "He",
                     "lose_texts": ["You'll do better next " "time."],
                     "name": "Farmer Martin",
-                    "texts": ["Howdy, partner!",
-                              "I will be your first " "challenger!"],
+                    "texts": ["Howdy, partner!", "I will be your first " "challenger!"],
                     "win_texts": ["I wish you the best of " "luck"],
                     "x": 19,
                     "y": 7,

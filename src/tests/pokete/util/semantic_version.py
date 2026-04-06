@@ -46,19 +46,13 @@ class SemanticVersionTest(unittest.TestCase):
         )
 
     def test_major_greater(self):
-        self.assertTrue(
-            SemanticVersion.parse("1.2.3") > SemanticVersion.parse("0.3.2")
-        )
+        self.assertTrue(SemanticVersion.parse("1.2.3") > SemanticVersion.parse("0.3.2"))
 
     def test_minor_greater(self):
-        self.assertTrue(
-            SemanticVersion.parse("1.5.0") > SemanticVersion.parse("1.3.2")
-        )
+        self.assertTrue(SemanticVersion.parse("1.5.0") > SemanticVersion.parse("1.3.2"))
 
     def test_patch_greater(self):
-        self.assertTrue(
-            SemanticVersion.parse("1.5.3") > SemanticVersion.parse("1.5.2")
-        )
+        self.assertTrue(SemanticVersion.parse("1.5.3") > SemanticVersion.parse("1.5.2"))
 
     def test_equal_not_greater(self):
         self.assertFalse(
@@ -87,7 +81,8 @@ class SemanticVersionTest(unittest.TestCase):
 
     def test_alpha_greater(self):
         self.assertTrue(
-            SemanticVersion.parse("1.5.3-alpha3") > SemanticVersion.parse("1.5.3-alpha1")
+            SemanticVersion.parse("1.5.3-alpha3")
+            > SemanticVersion.parse("1.5.3-alpha1")
         )
 
     def test_rc_greater_beta(self):
@@ -102,7 +97,8 @@ class SemanticVersionTest(unittest.TestCase):
 
     def test_beta_greater_alpha(self):
         self.assertTrue(
-            SemanticVersion.parse("1.5.3-beta1") > SemanticVersion.parse("1.5.3-alpha60")
+            SemanticVersion.parse("1.5.3-beta1")
+            > SemanticVersion.parse("1.5.3-alpha60")
         )
 
     def test_alpha_greater_bs(self):

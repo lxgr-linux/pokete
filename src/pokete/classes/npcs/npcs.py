@@ -106,9 +106,7 @@ Do you want to accept it?",
     def unset_used(self):
         """Sets the NPC as unused"""
         if self.used:
-            self.ctx.figure.used_npcs.pop(
-                self.ctx.figure.used_npcs.index(self.name)
-            )
+            self.ctx.figure.used_npcs.pop(self.ctx.figure.used_npcs.index(self.name))
 
     def chat(self):
         """Starts a question-answer chat"""
@@ -121,9 +119,7 @@ Do you want to accept it?",
                 loops.std(self.ctx)
             if q_a.a == {}:
                 break
-            q_a = q_a.a[
-                MultiTextChooseBox(list(q_a.a.keys()), "Answer")(self.ctx)[1]
-            ]
+            q_a = q_a.a[MultiTextChooseBox(list(q_a.a.keys()), "Answer")(self.ctx)[1]]
 
 
 class Trainer(NPC, Provider):
@@ -147,9 +143,7 @@ class Trainer(NPC, Provider):
                     * (
                         1.5
                         if enem.curr.type.name in i.type.effective
-                        else 0.5
-                        if enem.curr.type.name in i.type.ineffective
-                        else 1
+                        else 0.5 if enem.curr.type.name in i.type.ineffective else 1
                     )
                     for i in self.curr.attack_obs
                 ],
@@ -213,8 +207,7 @@ class Trainer(NPC, Provider):
         fightmap.outp.outp(f"{self.name} started a fight!")
         time.sleep(SPEED_OF_TIME * 1)
         fightmap.outp.outp(
-            f"{fightmap.outp.text}\n{self.gender} used {self.curr.name} "
-            "against you!"
+            f"{fightmap.outp.text}\n{self.gender} used {self.curr.name} " "against you!"
         )
 
     def handle_defeat(self, ctx: Context, fightmap, winner):

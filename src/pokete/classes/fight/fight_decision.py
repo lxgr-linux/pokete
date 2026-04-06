@@ -33,9 +33,7 @@ class FightDecision:
     def to_dict(self) -> FightDecisionData:
         result: FightDecisionData = {
             "result": self.result.value,
-            "attack": None
-            if self.attack_value is None
-            else self.attack_value.index,
+            "attack": None if self.attack_value is None else self.attack_value.index,
             "item": None if self.item_value is None else self.item_value.name,
             "poke": self.poke,
         }

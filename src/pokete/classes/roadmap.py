@@ -83,9 +83,7 @@ class Station(StationObject):
     def choose(self, figure):
         """Chooses and hightlights the station"""
         Station.choosen = self
-        self.roadmap.rechar_info(
-            self.name if self.has_been_visited(figure) else "???"
-        )
+        self.roadmap.rechar_info(self.name if self.has_been_visited(figure) else "???")
 
     def unchoose(self):
         """Unchooses the station"""
@@ -123,9 +121,7 @@ class Station(StationObject):
         """Returns if the station is a city"""
         return (
             "pokecenter"
-            in asset_service.get_assets()
-            .obmaps[self.associates[0].name]
-            .hard_obs
+            in asset_service.get_assets().obmaps[self.associates[0].name].hard_obs
         )
 
     def hide_if_visited(self, figure, choose=False):
@@ -263,16 +259,8 @@ W ◀ ▶ E
                             asset_service.get_base_assets().pokes[j].name
                             for i in self.sta.associates
                             for j in [
-                                *(
-                                    []
-                                    if i.poke_args is None
-                                    else i.poke_args.pokes
-                                ),
-                                *(
-                                    []
-                                    if i.w_poke_args is None
-                                    else i.w_poke_args.pokes
-                                ),
+                                *([] if i.poke_args is None else i.poke_args.pokes),
+                                *([] if i.w_poke_args is None else i.w_poke_args.pokes),
                             ]
                         )
                     )

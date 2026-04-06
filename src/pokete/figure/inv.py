@@ -32,9 +32,7 @@ class Inventory:
             amount: Amount of items beeing removed"""
         assert amount > 0, "Amounts have to be positive!"
         assert item in self.__inv, f"Item {item} is not in the inventory!"
-        assert self.__inv[item] - amount >= 0, (
-            f"There are not enought {item}s \
+        assert self.__inv[item] - amount >= 0, f"There are not enought {item}s \
 in the inventory!"
-        )
         self.__inv[item] -= amount
         logging.info("[Figure] %d %s(s) removed", amount, item)

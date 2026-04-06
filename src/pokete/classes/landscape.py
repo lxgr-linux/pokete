@@ -56,9 +56,7 @@ class HighGrass(se.Object, MapInteract):
                                 weights=[i.rarity for i in pokes.values()],
                             )[0],
                             random.choice(
-                                range(
-                                    self.arg_proto.minlvl, self.arg_proto.maxlvl
-                                )
+                                range(self.arg_proto.minlvl, self.arg_proto.maxlvl)
                             ),
                         )
                     ),
@@ -114,9 +112,7 @@ class Poketeball(se.Object, MapInteract):
 
     def __init__(self, name):
         self.name = name
-        super().__init__(
-            Color.thicc + Color.red + "o" + Color.reset, state="float"
-        )
+        super().__init__(Color.thicc + Color.red + "o" + Color.reset, state="float")
 
     def action(self, ob):
         """Action triggers the pick up

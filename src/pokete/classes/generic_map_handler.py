@@ -16,8 +16,7 @@ class GenericMapHandler:
 
     def __init__(self, name: str, pretty_name: str, raw_map: str):
         self.string_map = raw_map.split("\n")
-        self.map = PlayMap(*self.get_dimensions(), name=name,
-                           pretty_name=pretty_name)
+        self.map = PlayMap(*self.get_dimensions(), name=name, pretty_name=pretty_name)
         self.add_grass()
         self.add_solid()
 
