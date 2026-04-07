@@ -9,7 +9,6 @@ with patch("os.get_terminal_size", return_value=(80, 24)):
     import pokete.base.tss
     from pokete.classes.deck import Deck
 
-
 class TestDeck(unittest.TestCase):
     def setUp(self):
         self.deck = Deck()

@@ -1,6 +1,7 @@
 """The Deck shows all Poketes a player owns"""
 
 import scrap_engine as se
+from typing import Optional
 
 from pokete.base import loops
 from pokete.base.change import change_ctx
@@ -18,41 +19,45 @@ from pokete.base.ui import Overview
 from pokete.base.ui.elements import StdFrame2
 from pokete.classes import detail
 
+from pokete.base.ui.views.better_choose_box import BetterChooseBoxView
+
 from .poke import Poke
 
-
+"""
 class Index(se.Object):
     def __init__(self):
         super().__init__("*")
         self.index = 0
+"""
 
-
-class Deck(detail.Informer, Overview):
+class Deck(BetterChooseBoxView):
     """Deck to see Poketes in"""
 
     def __init__(self):
-        self.map = GameMap(50, 100, name="deck")
-        self.submap = GameSubmap(self.map, 0, 0, 50, 100, "decksubmap")
-        self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
-        self.move_label = se.Text(f"{Action.MOVE_POKETE.mapping}: Move    ")
-        self.move_free = se.Text(f"{Action.FREE_POKETE.mapping}: Free")
-        self.index = Index()
-        self.figure = None
+        super().__init__(2, [se.Text(" ")], name="Your full deck")
         self.pokes = []
-        self.label = ""
-        self.overview = None
-        # adding
-        self.exit_label.add(self.submap, 0, self.submap.height - 1)
-        self.move_label.add(self.submap, 9, self.submap.height - 1)
-        self.move_free.add(self.submap, 20, self.submap.height - 1)
+        self.figure = None
+        self.in_fight = False
+        self.indici = []
 
+    def choose(self, ctx: Context, idx: int) -> Optional[int]:
+        if not self.pokes or self.pokes[idx].identifier == "__fallback__":
+            return None
+        if self.in_fight:
+            if self.pokes[idx].hp > 0:
+                return idx
+            return None
+        else:
+            detail.detail(ctx, self.pokes[idx])
+            return None
+    """
     def rem_pokes(self):
-        """Removes all Poketes from the Deck"""
+        #Removes all Poketes from the Deck
         for poke in self.pokes:
             self.remove(poke)
 
     def resize_view(self):
-        """Manages recursive view resizing"""
+        #Manages recursive view resizing
         self.exit_label.remove()
         self.move_label.remove()
         self.move_free.remove()
@@ -87,170 +92,83 @@ class Deck(detail.Informer, Overview):
             + 1,
             self.pokes[self.index.index].text_name.y,
         )
-
-    def __call__(self, ctx: Context, p_len, label="Your full deck", in_fight=False):
-        """Opens the deck
-        ARGS:
-            ctx: Context
-            p_len: Number of Pokes being included
-            label: The displayed label
-            in_fight: Whether or not this is called in a fight"""
+    """
+    def __call__(self, ctx: Context, p_len, label="Your full deck",
+                 in_fight=False):
         self.figure = ctx.figure
-        self.overview = ctx.overview
-        ctx = change_ctx(
-            Context(
-                PeriodicEventManager([exception_propagating_periodic_event]),
-                self.submap,
-                self,
-                ctx.figure,
-            ),
-            self,
-        )
-
         self.pokes = self.figure.pokes[:p_len]
-
-        self.exit_label.remove()
-        self.move_label.remove()
-        self.move_free.remove()
-        self.submap.resize(tss.height - 1, tss.width)
-        self.exit_label.add(self.submap, 0, self.submap.height - 1)
-        self.move_label.add(self.submap, 9, self.submap.height - 1)
-        self.move_free.add(self.submap, 20, self.submap.height - 1)
-        self.map.resize(
-            5 * int((len(self.pokes) + 1) / 2) + 2,
-            tss.width,
-            self.map.background,
-        )
-
-        self.label = label
-        se.Text(label, esccode=Color.thicc).add(self.map, 2, 0)
-        se.Square("|", 1, self.map.height - 2).add(
-            self.map, round(self.map.width / 2), 1
-        )
-        StdFrame2(self.map.height - 1, self.map.width).add(self.map, 0, 0)
-        self.move_label.rechar(f"{Action.MOVE_POKETE.mapping}: Move    ")
-        indici = []
-        self.add_all(True)
-        self.index.index = 0
-        if len(self.pokes) > 0:
-            self.index.add(
-                self.map,
-                self.pokes[self.index.index].text_name.x
-                + len(self.pokes[self.index.index].text_name.text)
-                + 1,
-                self.pokes[self.index.index].text_name.y,
-            )
-        self.submap.full_show(init=True)
-        while True:
-            action, _ = get_action()
-            if action.triggers(*ACTION_DIRECTIONS):
-                self.control(action)
-            elif action.triggers(Action.DECK, Action.CANCEL):
-                self.rem_pokes()
-                while len(self.map.obs) > 0:
-                    self.map.obs[0].remove()
-                self.submap.set(0, 0)
-                return None
-            elif action.triggers(Action.MOVE_POKETE):
-                if len(self.pokes) == 0:
-                    continue
-                if not indici:
-                    indici.append(self.index.index)
-                    self.move_label.rechar(f"{Action.MOVE_POKETE.mapping}: Move to ")
-                else:
-                    indici.append(self.index.index)
-                    (
-                        self.figure.pokes[indici[0]],
-                        self.figure.pokes[indici[1]],
-                    ) = (
-                        self.pokes[indici[1]],
-                        self.pokes[indici[0]],
-                    )
-                    self.pokes = self.figure.pokes[:p_len]
-                    indici = []
-                    self.rem_pokes()
-                    self.index.set(0, self.map.height - 1)
-                    self.add_all()
-                    self.index.set(
-                        self.pokes[self.index.index].text_name.x
-                        + len(self.pokes[self.index.index].text_name.text)
-                        + 1,
-                        self.pokes[self.index.index].text_name.y,
-                    )
-                    self.move_label.rechar(f"{Action.MOVE_POKETE.mapping}: Move    ")
-                    self.submap.full_show()
-            elif action.triggers(Action.FREE_POKETE):
-                if self.pokes[self.index.index].identifier == "__fallback__":
-                    pass
-                elif (
-                    len(
-                        [
-                            poke
-                            for poke in self.pokes
-                            if poke.identifier != "__fallback__"
-                        ]
-                    )
-                    <= 1
-                ):
-                    ask_ok(ctx, "You can't free all your Poketes")
-                elif ask_bool(
-                    ctx,
-                    f"Do you really want to free \
-{self.figure.pokes[self.index.index].name}?",
-                ):
-                    self.rem_pokes()
-                    self.figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
-                    self.pokes = self.figure.pokes[: len(self.pokes)]
-                    self.add_all()
-                    self.index.set(
-                        self.pokes[self.index.index].text_name.x
-                        + len(self.pokes[self.index.index].text_name.text)
-                        + 1,
-                        self.pokes[self.index.index].text_name.y,
-                    )
-                    self.figure.balls_label_rechar()
-            elif action.triggers(Action.ACCEPT):
-                if (
-                    len(self.pokes) == 0
-                    or self.pokes[self.index.index].identifier == "__fallback__"
-                ):
-                    continue
-                if in_fight:
-                    if self.pokes[self.index.index].hp > 0:
-                        self.rem_pokes()
-                        while len(self.map.obs) > 0:
-                            self.map.obs[0].remove()
-                        self.submap.set(0, 0)
-                        return self.index.index
-                else:
-                    self.rem_pokes()
-                    detail.detail(
+        self.in_fight = in_fight
+        self.indici = []
+        self.set_items(2, [se.Text(p.name, state="float") for p in self.pokes])
+        self.p_len = p_len
+        self.set_ctx(ctx)
+        ctx = change_ctx(ctx, self)
+        with self:
+            while True:
+                action, _ = get_action()
+                if action.triggers(*ACTION_DIRECTIONS):
+                    self.input(action)
+                elif action.triggers(Action.MOVE_POKETE):
+                    if len(self.pokes) == 0:
+                        continue
+                    if not self.indici:
+                        self.indici.append(self.index[0] * self.columns + self.index[1])
+                    else:
+                        self.indici.append(self.index[0] * self.columns + self.index[1])
+                        (
+                            self.figure.pokes[self.indici[0]],
+                            self.figure.pokes[self.indici[1]],
+                        ) = self.pokes[self.indici[1]], self.pokes[self.indici[0]]
+                        self.pokes = self.figure.pokes[:p_len]
+                        self.indici = []
+                        self.set_items(2, [se.Text(p.name, state="float") for p in self.pokes])
+                elif action.triggers(Action.FREE_POKETE):
+                    if self.pokes[
+                        self.index[0] * self.columns + self.index[1]].identifier == "__fallback__":
+                        pass
+                    elif (
+                        len(
+                            [
+                                poke
+                                for poke in self.pokes
+                                if poke.identifier != "__fallback__"
+                            ]
+                        )
+                        <= 1
+                    ):
+                        ask_ok(ctx, "You can't free all your Poketes")
+                    elif ask_bool(
                         ctx,
-                        self.pokes[self.index.index],
-                    )
-                    self.add_all()
-                    self.index.set(
-                        self.pokes[self.index.index].text_name.x
-                        + len(self.pokes[self.index.index].text_name.text)
-                        + 1,
-                        self.pokes[self.index.index].text_name.y,
-                    )
-                    self.submap.full_show(init=True)
-            loops.std(ctx)
-            if (
-                len(self.pokes) > 0
-                and self.index.y - self.submap.y + 6 > self.submap.height
-            ):
-                self.submap.set(self.submap.x, self.submap.y + 1)
-            elif len(self.pokes) > 0 and self.index.y - 1 < self.submap.y:
-                self.submap.set(self.submap.x, self.submap.y - 1)
-            self.submap.full_show()
+                        f"Do you really want to free \
+                    {self.figure.pokes[self.index[0] * self.columns + self.index[1]].name}?",
+                    ):
+                        self.figure.pokes[self.index[0] * self.columns + self.index[1]] = Poke(
+                            "__fallback__", 10, 0
+                        )
+                        self.pokes = self.figure.pokes[: len(self.pokes)]
+                        self.set_items(2, [se.Text(p.name, state="float") for p in self.pokes])
+                        self.figure.balls_label_rechar()
+                else:
+                    if action.triggers(Action.CANCEL):
+                        break
+                    if action.triggers(Action.ACCEPT):
+                        res = self.choose(
+                            ctx, self.index[0] + self.index[1] * self.columns
+                        )
+                        ctx = change_ctx(ctx, self)
+                        if res is not None:
+                            return res
+                loops.std(ctx)
+        return None
 
+
+
+    """
     def add_all(self, init=False, no_poke=False):
-        """Adds all Poketes to the deck
-        ARGS:
-            init: Whether or not this happens for the first time
-            no_poke: Whether or not pokes should be added"""
+        #Adds all Poketes to the deck
+        #ARGS:
+        #    init: Whether or not this happens for the first time
+        #    no_poke: Whether or not pokes should be added
         j = 0
         for i, poke in enumerate(self.pokes):
             if not no_poke:
@@ -265,11 +183,12 @@ class Deck(detail.Informer, Overview):
                 se.Square("-", self.map.width - 2, 1).add(self.map, 1, j * 5 + 5)
             if i % 2 == 1:
                 j += 1
-
+    """
+    """
     def control(self, inp):
-        """Processes inputs
-        ARGS:
-            inp: Inputted string"""
+        #Processes inputs
+        #ARGS:
+        #    inp: Inputted string
         if len(self.pokes) <= 1:
             return
         for action in inp:
@@ -306,6 +225,6 @@ class Deck(detail.Informer, Overview):
             + 1,
             self.pokes[self.index.index].text_name.y,
         )
-
+    """
 
 deck: Deck = Deck()
