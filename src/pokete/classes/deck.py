@@ -30,11 +30,12 @@ class Index(se.Object):
         self.index = 0
 """
 
+
 class Deck(BetterChooseBoxView):
     """Deck to see Poketes in"""
 
     def __init__(self):
-        super().__init__(2, [se.Text(" ")], name="Your full deck")
+        super().__init__(2, [se.Text("  ")], name="Your full deck")
         self.pokes = []
         self.figure = None
         self.in_fight = False
@@ -50,6 +51,7 @@ class Deck(BetterChooseBoxView):
         else:
             detail.detail(ctx, self.pokes[idx])
             return None
+
     """
     def rem_pokes(self):
         #Removes all Poketes from the Deck
@@ -93,10 +95,10 @@ class Deck(BetterChooseBoxView):
             self.pokes[self.index.index].text_name.y,
         )
     """
-    def __call__(self, ctx: Context, p_len, label="Your full deck",
-                 in_fight=False):
+
+    def __call__(self, ctx: Context, p_len, in_fight=False):
         self.figure = ctx.figure
-        self.pokes = self.figure.pokes[:p_len]
+        self.pokes = ctx.figure.pokes[:p_len]
         self.in_fight = in_fight
         self.indici = []
         self.set_items(2, [se.Text(p.name, state="float") for p in self.pokes])
@@ -112,19 +114,25 @@ class Deck(BetterChooseBoxView):
                     if len(self.pokes) == 0:
                         continue
                     if not self.indici:
-                        self.indici.append(self.index[0] * self.columns + self.index[1])
+                        self.indici.append(
+                            self.index[0] * self.columns + self.index[1])
                     else:
-                        self.indici.append(self.index[0] * self.columns + self.index[1])
+                        self.indici.append(
+                            self.index[0] * self.columns + self.index[1])
                         (
                             self.figure.pokes[self.indici[0]],
                             self.figure.pokes[self.indici[1]],
-                        ) = self.pokes[self.indici[1]], self.pokes[self.indici[0]]
+                        ) = self.pokes[self.indici[1]], self.pokes[
+                            self.indici[0]]
                         self.pokes = self.figure.pokes[:p_len]
                         self.indici = []
-                        self.set_items(2, [se.Text(p.name, state="float") for p in self.pokes])
+                        self.set_items(2,
+                                       [se.Text(p.name, state="float") for p in
+                                        self.pokes])
                 elif action.triggers(Action.FREE_POKETE):
                     if self.pokes[
-                        self.index[0] * self.columns + self.index[1]].identifier == "__fallback__":
+                        self.index[0] * self.columns + self.index[
+                            1]].identifier == "__fallback__":
                         pass
                     elif (
                         len(
@@ -142,26 +150,28 @@ class Deck(BetterChooseBoxView):
                         f"Do you really want to free \
                     {self.figure.pokes[self.index[0] * self.columns + self.index[1]].name}?",
                     ):
-                        self.figure.pokes[self.index[0] * self.columns + self.index[1]] = Poke(
+                        self.figure.pokes[
+                            self.index[0] * self.columns + self.index[
+                                1]] = Poke(
                             "__fallback__", 10, 0
                         )
                         self.pokes = self.figure.pokes[: len(self.pokes)]
-                        self.set_items(2, [se.Text(p.name, state="float") for p in self.pokes])
+                        self.set_items(2,
+                                       [se.Text(p.name, state="float") for p in
+                                        self.pokes])
                         self.figure.balls_label_rechar()
                 else:
                     if action.triggers(Action.CANCEL):
                         break
                     if action.triggers(Action.ACCEPT):
                         res = self.choose(
-                            ctx, self.index[0] + self.index[1] * self.columns
+                            ctx, self.index[1] + self.index[0] * self.columns
                         )
                         ctx = change_ctx(ctx, self)
                         if res is not None:
                             return res
                 loops.std(ctx)
         return None
-
-
 
     """
     def add_all(self, init=False, no_poke=False):
