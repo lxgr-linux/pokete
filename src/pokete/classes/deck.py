@@ -96,7 +96,7 @@ class Deck(BetterChooseBoxView):
         )
     """
 
-    def __call__(self, ctx: Context, p_len, in_fight=False):
+    def __call__(self, ctx: Context, p_len, label="Your full deck", in_fight=False):
         self.figure = ctx.figure
         self.pokes = ctx.figure.pokes[:p_len]
         self.in_fight = in_fight
