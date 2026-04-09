@@ -360,7 +360,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         self.clean_up(player)
         index = None
         while index is None:
-            index = deck.deck(ctx, 6, "Your deck", True)
+            index = deck.deck(ctx, 6, True)
             if allow_exit:
                 break
         if index is not None:
