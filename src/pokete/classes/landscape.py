@@ -6,7 +6,6 @@ import scrap_engine as se
 
 from pokete.base.change import change_ctx
 from pokete.base.color import Color
-from pokete.base.context import Context
 from pokete.base.input_loops import ask_ok
 from pokete.classes import movemap as mvp
 from pokete.classes import timer
@@ -15,15 +14,8 @@ from .asset_service.resources import PokeArgs
 from .asset_service.service import asset_service
 from .fight import Fight, NatureProvider
 from .general import check_walk_back
+from .map_interact import MapInteract
 from .poke import Poke
-
-
-class MapInteract:
-    ctx: Context
-
-    @classmethod
-    def set_ctx(cls, ctx: Context):
-        cls.ctx = ctx
 
 
 class HighGrass(se.Object, MapInteract):

@@ -36,7 +36,7 @@ class Command:
     @staticmethod
     def __line_setter(lines: list[tuple[str, str]], line_spaces: int):
         return "\n".join(
-            f"\t{line[0]}{" " * (line_spaces - len(line[0]))}{line[1]}"
+            f"\t{line[0]}{' ' * (line_spaces - len(line[0]))}{line[1]}"
             for line in lines
         )
 
@@ -54,14 +54,22 @@ class Command:
 
 Usage:
     {ex}{f" {self.usage}" if self.usage else ""} <flags>
-{f"""
+{
+            f'''
 Options:
 {self.__line_setter(option_lines, line_spaces)}
-""" if self.commands else ""}
-{f"""
+'''
+            if self.commands
+            else ""
+        }
+{
+            f'''
 Flags:
 {self.__line_setter(flag_lines, line_spaces)}
-""" if self.flags else ""}
+'''
+            if self.flags
+            else ""
+        }
 {f"\n{self.additional_info}\n" if self.additional_info else ""}
 Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2025""")
 
@@ -74,7 +82,7 @@ Copyright (c) lxgr-linux <lxgr-linux@protonmail.com> 2025""")
         all_flags = [i for f in self.flags for i in f.aliases]
         for flag in flags:
             if flag not in all_flags:
-                print(f":: Error: Unknown flag `{flag}`, " f"try `{ex} --help`")
+                print(f":: Error: Unknown flag `{flag}`, try `{ex} --help`")
                 sys.exit(2)
         if "--help" in flags or "-h" in flags:
             self.__print_help(ex)

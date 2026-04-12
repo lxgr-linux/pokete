@@ -1,11 +1,11 @@
-name: black-format-check
+name: ruff-format-check
 
 on:
   push:
   pull_request:
 
 jobs:
-  black:
+  ruff:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,8 +17,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Black
-        run: pip install black
+      - name: Install Ruff
+        run: pip install ruff
 
-      - name: Run Black check
-        run: black --check .
+      - name: Run Ruff check
+        run: ruff check .

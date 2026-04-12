@@ -61,7 +61,7 @@ class Provider(ABC):
         return
 
     @abstractmethod
-    def get_decision(self, ctx: Context, fightmap: "FightMap", enem) -> FightDecision:
+    def get_decision(self, ctx: Context, fightmap: "FightMap", enem) -> FightDecision:  # noqa: F821
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object

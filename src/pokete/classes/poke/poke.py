@@ -75,8 +75,10 @@ class Poke:
         self.type = self.types[0]
         self.effects = []
         if _attacks is not None:
-            assert len(_attacks) <= 4, f"A Pokete {poke} \
+            assert len(_attacks) <= 4, (
+                f"A Pokete {poke} \
 can't have more than 4 attacks!"
+            )
         else:
             _attacks = self.inf.attacks[:4]
         attacks = asset_service.get_base_assets().attacks
@@ -206,8 +208,10 @@ can't have more than 4 attacks!"
         old_lvl = self.lvl()
         self.xp += _xp
         self.poke_stats.add_xp(_xp)
-        self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
-{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
+        self.text_xp.rechar(
+            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}"
+        )
         self.text_lvl.rechar(f"Lvl:{self.lvl()}")
         logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
         if old_lvl < self.lvl():

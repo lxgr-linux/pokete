@@ -143,7 +143,9 @@ class Trainer(NPC, Provider):
                     * (
                         1.5
                         if enem.curr.type.name in i.type.effective
-                        else 0.5 if enem.curr.type.name in i.type.ineffective else 1
+                        else 0.5
+                        if enem.curr.type.name in i.type.ineffective
+                        else 1
                     )
                     for i in self.curr.attack_obs
                 ],
@@ -207,7 +209,7 @@ class Trainer(NPC, Provider):
         fightmap.outp.outp(f"{self.name} started a fight!")
         time.sleep(SPEED_OF_TIME * 1)
         fightmap.outp.outp(
-            f"{fightmap.outp.text}\n{self.gender} used {self.curr.name} " "against you!"
+            f"{fightmap.outp.text}\n{self.gender} used {self.curr.name} against you!"
         )
 
     def handle_defeat(self, ctx: Context, fightmap, winner):

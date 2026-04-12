@@ -3,57 +3,100 @@
 # part of the pokete project, by <lxgr@protonmail.com>
 
 
-from .trainers import (
-    TrainerPokeArgs,
-    TrainerPokeArgsDict,
-    TrainerArgs,
-    TrainerArgsDict,
-    Trainer,
-    TrainerDict,
-)
-from .npcs import (
-    Chat,
-    ChatDict,
-    NPC,
-    NPCDict,
+from .assets import (
+    Assets,
+    AssetsDict,
+    BaseAssets,
+    BaseAssetsDict,
+    MapTrainers,
+    MapTrainersDict,
 )
 from .coords import (
     Coords,
     CoordsDict,
 )
+from .maps import (
+    Map,
+    MapDict,
+    PokeArgs,
+    PokeArgsDict,
+)
+from .npcs import (
+    NPC,
+    Chat,
+    ChatDict,
+    NPCDict,
+)
 from .obmaps import (
+    Dor,
     DorArgs,
     DorArgsDict,
-    Dor,
     DorDict,
-    SpecialDors,
-    SpecialDorsDict,
     Ob,
     ObDict,
     Obmap,
     ObmapDict,
+    SpecialDors,
+    SpecialDorsDict,
 )
 from .stations import (
-    StationGen,
-    StationGenDict,
-    Station,
-    StationDict,
-    DecorationGen,
-    DecorationGenDict,
     Decoration,
     DecorationDict,
+    DecorationGen,
+    DecorationGenDict,
+    Station,
+    StationDict,
+    StationGen,
+    StationGenDict,
 )
-from .maps import (
-    PokeArgs,
-    PokeArgsDict,
-    Map,
-    MapDict,
+from .trainers import (
+    Trainer,
+    TrainerArgs,
+    TrainerArgsDict,
+    TrainerDict,
+    TrainerPokeArgs,
+    TrainerPokeArgsDict,
 )
-from .assets import (
-    BaseAssets,
-    BaseAssetsDict,
-    MapTrainers,
-    MapTrainersDict,
-    Assets,
-    AssetsDict,
-)
+
+__all__ = [
+    "TrainerPokeArgs",
+    "TrainerPokeArgsDict",
+    "TrainerArgs",
+    "TrainerArgsDict",
+    "Trainer",
+    "TrainerDict",
+    "Chat",
+    "ChatDict",
+    "NPC",
+    "NPCDict",
+    "Coords",
+    "CoordsDict",
+    "DorArgs",
+    "DorArgsDict",
+    "Dor",
+    "DorDict",
+    "SpecialDors",
+    "SpecialDorsDict",
+    "Ob",
+    "ObDict",
+    "Obmap",
+    "ObmapDict",
+    "StationGen",
+    "StationGenDict",
+    "Station",
+    "StationDict",
+    "DecorationGen",
+    "DecorationGenDict",
+    "Decoration",
+    "DecorationDict",
+    "PokeArgs",
+    "PokeArgsDict",
+    "Map",
+    "MapDict",
+    "BaseAssets",
+    "BaseAssetsDict",
+    "MapTrainers",
+    "MapTrainersDict",
+    "Assets",
+    "AssetsDict",
+]

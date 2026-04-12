@@ -55,12 +55,14 @@ class DetailBox(BoxView):
         self.detail_desc.rechar(desc_text)
         self.detail_info.rechar("Type: ")
         self.detail_info += (
-            se.Text(poke.type.name.capitalize(), esccode=poke.type.color) + se.Text(f"""
+            se.Text(poke.type.name.capitalize(), esccode=poke.type.color)
+            + se.Text(f"""
 HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}
-Active: """) + se.Text(active[0], esccode=active[1])
+Active: """)
+            + se.Text(active[0], esccode=active[1])
         )
 
         self.set_ctx(ctx)

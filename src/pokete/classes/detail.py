@@ -208,7 +208,7 @@ class Detail(Informer, Overview):
                 event = TeleportationSingleEvent(self.poke)
             case None, _:
                 return
-        if event != None:
+        if event is not None:
             single_event_periodic_event.add(event)
 
     def cleanup(self):
@@ -250,8 +250,10 @@ class Detail(Informer, Overview):
         else:
             self.world_actions_label.rechar("")
             self.ability_label.remove()
-        self.attack_defense.rechar(f"Attack:{self.poke.atc}\
-{(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}")
+        self.attack_defense.rechar(
+            f"Attack:{self.poke.atc}\
+{(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}"
+        )
         self.initiative_label.rechar(f"Initiative:{self.poke.initiative}")
         for obj, _x, _y in zip([self.poke.desc, self.poke.text_type], [34, 41], [2, 5]):
             obj.add(self.map, _x, _y)

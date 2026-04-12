@@ -20,7 +20,7 @@ class Request(bs_rpc.Body):
 
     def call_for_response(self, context):
         name = self.data["name"]
-        rmtpl = pc_manager.get(name)
+        rmtpl = pc_manager.get(name)  # noqa: F841
         event = MainThreatFightEvent(name)
         single_event_periodic_event.add(event)
         accept = event.wait_accepted()

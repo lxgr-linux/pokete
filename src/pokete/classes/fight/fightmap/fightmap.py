@@ -300,7 +300,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
                 ]
                 if not items:
                     self.outp.outp(
-                        "You don't have any items left!\n" "What do you want to do?"
+                        "You don't have any items left!\nWhat do you want to do?"
                     )
                     continue
                 item = self.invbox(ctx, items, player.get_inv())
