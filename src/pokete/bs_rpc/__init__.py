@@ -24,18 +24,12 @@ class Client:
             "type": body.get_type(),
             "call": call,
             "method": method.value,
-            "body": body.data
+            "body": body.data,
         }
-        self.rw.sendall(
-            str.encode(
-                json.dumps(payload)
-            ) + END_SECTION
-        )
+        self.rw.sendall(str.encode(json.dumps(payload)) + END_SECTION)
 
     def __get_call(self, call_id: int) -> Channel[Body]:
-        if (
-            call := self.calls.get(call_id)
-        ) is not None:
+        if (call := self.calls.get(call_id)) is not None:
             return call
         else:
             raise Exception(f"call id `{call_id}`for response not found")
@@ -66,23 +60,18 @@ class Client:
 
         return ChannelGenerator(ch, close_fn)
 
-    def __eval_msg(self, context, msg:Msg, body:Body):
+    def __eval_msg(self, context, msg: Msg, body: Body):
         match Method(msg["method"]):
             case Method.CALL_FOR_RESPONSE:
                 resp: Body = body.call_for_response(context)
-                self.__send(
-                    resp, msg["call"],
-                    Method.RESPONSE
-                )
+                self.__send(resp, msg["call"], Method.RESPONSE)
             case Method.CALL_FOR_RESPONSES:
+
                 def response_writer(b: Body):
                     self.__send(b, msg["call"], Method.RESPONSE)
 
                 body.call_for_responses(context, response_writer)
-                self.__send(
-                    EmptyMsg({}), msg["call"],
-                    Method.RESPONSE_CLOSE
-                )
+                self.__send(EmptyMsg({}), msg["call"], Method.RESPONSE_CLOSE)
             case Method.RESPONSE:
                 ch = self.__get_call(msg["call"])
                 ch.push(body)
@@ -101,9 +90,7 @@ class Client:
                 msg: Msg = json.loads(msg_parts[0])
                 # logging.info("[BsRpc] Received data: %s", msg)
 
-                body: Body = self.reg.get(msg["type"])(
-                    data=msg["body"]
-                )
+                body: Body = self.reg.get(msg["type"])(data=msg["body"])
 
                 threading.Thread(
                     target=self.__eval_msg, args=(context, msg, body)

@@ -1,4 +1,5 @@
 """Map wrapper for compatibility purposes"""
+
 from abc import ABC
 
 import scrap_engine as se

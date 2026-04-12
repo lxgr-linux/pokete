@@ -145,9 +145,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         self.last_center_map = obmp.ob_maps.get(
             _si.get("last_center_map", "playmap_1"), PlayMap()
         )
-        self.oldmap = obmp.ob_maps.get(
-            _si.get("oldmap", "playmap_1"), PlayMap()
-        )
+        self.oldmap = obmp.ob_maps.get(_si.get("oldmap", "playmap_1"), PlayMap())
         mvp.movemap.name_label.rechar(self.name, esccode=Color.thicc)
         mvp.movemap.code_label.rechar(self.map.pretty_name)
         self.balls_label_rechar()
@@ -174,9 +172,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
             idx: Index of the Poke
             caught_with: Name of ball which was used"""
         poke.set_player(True)
-        poke.set_poke_stats(
-            Stats(poke.name, datetime.now(), caught_with=caught_with)
-        )
+        poke.set_poke_stats(Stats(poke.name, datetime.now(), caught_with=caught_with))
         self.caught_pokes.append(poke.identifier)
         if idx is None:
             id_list = [i.identifier for i in self.pokes]
@@ -349,9 +345,7 @@ def _game(_map: PlayMap, figure: Figure):
         ]
         + _map.extra_actions()
     )
-    ctx = change_ctx(
-        Context(pevm, mvp.movemap, mvp.movemap, figure), mvp.movemap
-    )
+    ctx = change_ctx(Context(pevm, mvp.movemap, mvp.movemap, figure), mvp.movemap)
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: list[tuple[list[Action], tuple]] = [
         ([Action.DECK], (NewDeck(), (ctx, 6, "Your deck"))),
@@ -497,9 +491,7 @@ def main():
             identifier,
             achievement_args,
         ) in asset_service.get_base_assets().achievements.items():
-            achievements.add(
-                identifier, achievement_args.title, achievement_args.desc
-            )
+            achievements.add(identifier, achievement_args.title, achievement_args.desc)
 
         notifier.set_vars(mvp.movemap)
 
@@ -510,11 +502,7 @@ def main():
         figure.set_args(session_info)
         game_map = figure.map
         if figure.name == "DEFAULT":
-            intro(
-                Context(
-                    PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure
-                )
-            )
+            intro(Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure))
             game_map = obmp.ob_maps["intromap"]
         while True:
             try:

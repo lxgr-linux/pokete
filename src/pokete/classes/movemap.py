@@ -72,9 +72,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         """Adds needed labels to movemap"""
         self.underline.add(self, 0, self.height - 2)
         self.name_label.add(self, 2, self.height - 2)
-        self.balls_label.add(
-            self, 4 + len(self.name_label.text), self.height - 2
-        )
+        self.balls_label.add(self, 4 + len(self.name_label.text), self.height - 2)
         self.label_bg.add(self, 0, self.height - 1)
         width = 0
         for label in self.labels:
@@ -126,9 +124,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                 if _ev.get() is not None:
                     _ev.clear()
                     break
-            self.multitext.outp(
-                liner(text, self.width - (_x - self.x + 1), "   ")
-            )
+            self.multitext.outp(liner(text, self.width - (_x - self.x + 1), "   "))
             while _ev.get() is None:
                 loops.std(ctx.with_overview(self))
                 self.full_show()
@@ -170,11 +166,11 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             pokes: The player's Pokes"""
         self.balls_label.rechar(
             "".join(
-                "-"
-                if i >= len(pokes) or pokes[i].identifier == "__fallback__"
-                else "o"
-                if pokes[i].hp > 0
-                else "x"
+                (
+                    "-"
+                    if i >= len(pokes) or pokes[i].identifier == "__fallback__"
+                    else "o" if pokes[i].hp > 0 else "x"
+                )
                 for i in range(6)
             ),
             esccode=Color.thicc,

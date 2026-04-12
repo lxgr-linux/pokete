@@ -13,7 +13,7 @@ from pokete.classes.multiplayer.msg import fight
 
 class RemoteFightController:
     def __init__(self) -> None:
-        #self.active = False
+        # self.active = False
         self.end = Event()
         self.__start = Event()
         self.outgoing: bs_rpc.ResponseWriter
@@ -30,27 +30,28 @@ class RemoteFightController:
             case _:
                 assert False
 
-    def start(self, ctx:Context, name:str):
-        #self.__start.clear()
+    def start(self, ctx: Context, name: str):
+        # self.__start.clear()
         logging.info(f"waiting fight {ctx.figure.name}")
         wait_event(ctx, "Waiting for fight...", self.__start)
         logging.info(f"fight starts {ctx.figure.name}")
 
         starter = self.__wait_starter()
 
-        RemoteFight(starter != name)(ctx, [
-            FigureWrapperProvider(ctx.figure, self.outgoing, self.incomming),
-            RemoteProvider(
-                name, self.outgoing, self.incomming, self.com_service
-            )
-        ])
+        RemoteFight(starter != name)(
+            ctx,
+            [
+                FigureWrapperProvider(ctx.figure, self.outgoing, self.incomming),
+                RemoteProvider(name, self.outgoing, self.incomming, self.com_service),
+            ],
+        )
         logging.info("hmm")
 
     def ready(self, outgoing, incomming: bs_rpc.ChannelGenerator, com_service):
         self.outgoing = outgoing
         self.incomming = incomming()
         self.com_service = com_service
-        #self.active = True
+        # self.active = True
         self.__start.set()
         self.end.clear()
 

@@ -15,7 +15,7 @@ class Attack:
         index: The attacks basic name
         pref: Prefix used for the attack label"""
 
-    def __init__(self, index, pref="", ap:int|None=None):
+    def __init__(self, index, pref="", ap: int | None = None):
         inf = attacks[index]
         # Attributes
         self.index = index
@@ -33,16 +33,13 @@ class Attack:
         self.type = getattr(types, inf["types"][0])
         self.max_ap = self.ap
         # labels
-        self.label_name = se.Text(self.name, esccode=Color.underlined,
-                                  state="float")
+        self.label_name = se.Text(self.name, esccode=Color.underlined, state="float")
         self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}", state="float")
         self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
         self.label_desc = se.Text(self.desc[:10], state="float")
-        self.label_type = se.Text("Type:", state="float") \
-            + se.Text(
-                self.type.name.capitalize(),
-                esccode=self.type.color, state="float"
-            )
+        self.label_type = se.Text("Type:", state="float") + se.Text(
+            self.type.name.capitalize(), esccode=self.type.color, state="float"
+        )
         self.pref = pref
         self.label = self.make_label()
         if ap != None:
@@ -52,9 +49,11 @@ class Attack:
         """Creates label
         RETURNS:
             New label"""
-        return se.Text(f"{self.pref}: ", state="float") \
-            + se.Text(self.name, esccode=self.type.color) \
+        return (
+            se.Text(f"{self.pref}: ", state="float")
+            + se.Text(self.name, esccode=self.type.color)
             + se.Text(f"-{self.ap}")
+        )
 
     def give_effect(self, enem):
         """Gives the associated effect to a Pokete

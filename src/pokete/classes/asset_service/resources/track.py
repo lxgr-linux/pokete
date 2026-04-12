@@ -10,11 +10,7 @@ class TrackInfoDict(TypedDict):
 
 
 class TrackInfo:
-    def __init__(
-        self,
-        name: str,
-        hash: bytes
-    ):
+    def __init__(self, name: str, hash: bytes):
         self.name: str = name
         self.hash: bytes = hash
 
@@ -29,14 +25,16 @@ class TrackInfo:
 
     @staticmethod
     def validate(_d: TrackInfoDict) -> bool:
-        return all([
-            "name" in _d and type(_d["name"]) is str,
-            "hash" in _d and type(_d["hash"]) is bytes,
-        ])
+        return all(
+            [
+                "name" in _d and type(_d["name"]) is str,
+                "hash" in _d and type(_d["hash"]) is bytes,
+            ]
+        )
 
     def to_dict(self) -> TrackInfoDict:
         ret: TrackInfoDict = {}
-        
+
         ret["name"] = self.name
         ret["hash"] = self.hash
 
@@ -49,11 +47,7 @@ class TrackDict(TypedDict):
 
 
 class Track:
-    def __init__(
-        self,
-        info: "TrackInfo",
-        content: bytes
-    ):
+    def __init__(self, info: "TrackInfo", content: bytes):
         self.info: "TrackInfo" = info
         self.content: bytes = content
 
@@ -68,14 +62,16 @@ class Track:
 
     @staticmethod
     def validate(_d: TrackDict) -> bool:
-        return all([
-            "info" in _d and TrackInfo.validate(_d["info"]),
-            "content" in _d and type(_d["content"]) is bytes,
-        ])
+        return all(
+            [
+                "info" in _d and TrackInfo.validate(_d["info"]),
+                "content" in _d and type(_d["content"]) is bytes,
+            ]
+        )
 
     def to_dict(self) -> TrackDict:
         ret: TrackDict = {}
-        
+
         ret["info"] = TrackInfo.to_dict(self.info)
         ret["content"] = self.content
 

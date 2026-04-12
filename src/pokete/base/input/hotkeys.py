@@ -181,9 +181,7 @@ def get_mapping(action: Action, keys: dict[str, ActionList]) -> str:
 
 def hotkeys_save():
     """Returns a save dict"""
-    return {
-        key: [i.name for i in value] for key, value in hotkey_mappings.items()
-    }
+    return {key: [i.name for i in value] for key, value in hotkey_mappings.items()}
 
 
 def hotkeys_from_save(ctx, save, version_change):
@@ -198,16 +196,12 @@ def hotkeys_from_save(ctx, save, version_change):
     new_hotkey_mappings = defaultdict(
         ActionList,
         {
-            key: ActionList(
-                [Action[i] for i in value if i in Action.__members__]
-            )
+            key: ActionList([Action[i] for i in value if i in Action.__members__])
             for key, value in save.items()
         },
     )
     unset = [
-        action
-        for action in Action
-        if get_mapping(action, new_hotkey_mappings) is None
+        action for action in Action if get_mapping(action, new_hotkey_mappings) is None
     ]
     if unset:
         if version_change or ask_bool(

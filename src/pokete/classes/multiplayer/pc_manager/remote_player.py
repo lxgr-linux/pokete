@@ -78,8 +78,7 @@ class NameTag(se.Box, MapInteract):
         self.map = _map
         for obj in self.obs:
             if (
-                _map.width > obj.rx + self.x >= 0
-                and _map.height > obj.ry + self.y >= 0
+                _map.width > obj.rx + self.x >= 0 and _map.height > obj.ry + self.y >= 0
             ):  # Avoid crashing, when out of view
                 obj.add(self.map, obj.rx + self.x, obj.ry + self.y)
         self.added = True

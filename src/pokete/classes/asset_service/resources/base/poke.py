@@ -10,11 +10,7 @@ class BaseIcoDict(TypedDict):
 
 
 class BaseIco:
-    def __init__(
-        self,
-        txt: str,
-        esc: list[str]
-    ):
+    def __init__(self, txt: str, esc: list[str]):
         self.txt: str = txt
         self.esc: list[str] = esc
 
@@ -29,14 +25,16 @@ class BaseIco:
 
     @staticmethod
     def validate(_d: BaseIcoDict) -> bool:
-        return all([
-            "txt" in _d and type(_d["txt"]) is str,
-            "esc" in _d and all(type(i) is str for i in _d["esc"]),
-        ])
+        return all(
+            [
+                "txt" in _d and type(_d["txt"]) is str,
+                "esc" in _d and all(type(i) is str for i in _d["esc"]),
+            ]
+        )
 
     def to_dict(self) -> BaseIcoDict:
         ret: BaseIcoDict = {}
-        
+
         ret["txt"] = self.txt
         ret["esc"] = self.esc
 
@@ -80,7 +78,7 @@ class Poke:
         evolve_lvl: int,
         initiative: int,
         night_active: bool | None,
-        ico: list["BaseIco"]
+        ico: list["BaseIco"],
     ):
         self.name: str = name
         self.hp: int = hp
@@ -124,28 +122,35 @@ class Poke:
 
     @staticmethod
     def validate(_d: PokeDict) -> bool:
-        return all([
-            "name" in _d and type(_d["name"]) is str,
-            "hp" in _d and type(_d["hp"]) is int,
-            "atc" in _d and type(_d["atc"]) is int,
-            "defense" in _d and type(_d["defense"]) is int,
-            "attacks" in _d and all(type(i) is str for i in _d["attacks"]),
-            "pool" in _d and all(type(i) is str for i in _d["pool"]),
-            "miss_chance" in _d and type(_d["miss_chance"]) is float or type(_d["miss_chance"]) is int,
-            "desc" in _d and type(_d["desc"]) is str,
-            "lose_xp" in _d and type(_d["lose_xp"]) is int,
-            "rarity" in _d and type(_d["rarity"]) is float or type(_d["rarity"]) is int,
-            "types" in _d and all(type(i) is str for i in _d["types"]),
-            "evolve_poke" in _d and type(_d["evolve_poke"]) is str,
-            "evolve_lvl" in _d and type(_d["evolve_lvl"]) is int,
-            "initiative" in _d and type(_d["initiative"]) is int,
-            type(_d.get("night_active", None)) is bool or _d.get("night_active", None) is None,
-            "ico" in _d and all(BaseIco.validate(i) for i in _d["ico"]),
-        ])
+        return all(
+            [
+                "name" in _d and type(_d["name"]) is str,
+                "hp" in _d and type(_d["hp"]) is int,
+                "atc" in _d and type(_d["atc"]) is int,
+                "defense" in _d and type(_d["defense"]) is int,
+                "attacks" in _d and all(type(i) is str for i in _d["attacks"]),
+                "pool" in _d and all(type(i) is str for i in _d["pool"]),
+                "miss_chance" in _d
+                and type(_d["miss_chance"]) is float
+                or type(_d["miss_chance"]) is int,
+                "desc" in _d and type(_d["desc"]) is str,
+                "lose_xp" in _d and type(_d["lose_xp"]) is int,
+                "rarity" in _d
+                and type(_d["rarity"]) is float
+                or type(_d["rarity"]) is int,
+                "types" in _d and all(type(i) is str for i in _d["types"]),
+                "evolve_poke" in _d and type(_d["evolve_poke"]) is str,
+                "evolve_lvl" in _d and type(_d["evolve_lvl"]) is int,
+                "initiative" in _d and type(_d["initiative"]) is int,
+                type(_d.get("night_active", None)) is bool
+                or _d.get("night_active", None) is None,
+                "ico" in _d and all(BaseIco.validate(i) for i in _d["ico"]),
+            ]
+        )
 
     def to_dict(self) -> PokeDict:
         ret: PokeDict = {}
-        
+
         ret["name"] = self.name
         ret["hp"] = self.hp
         ret["atc"] = self.atc

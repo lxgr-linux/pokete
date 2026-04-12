@@ -13,9 +13,7 @@ class MouseInteractor(Protocol):
         self,
     ) -> list[se.Area]:
         return [
-            j
-            for i in self.get_all_interactors()
-            for j in i.get_interaction_areas()
+            j for i in self.get_all_interactors() for j in i.get_interaction_areas()
         ]
 
     @abstractmethod

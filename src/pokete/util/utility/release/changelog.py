@@ -43,14 +43,13 @@ def __parse_line(line: str, idx=0, in_code_block=False, illegal_link="") -> str:
     else:
         this_segment += segment
 
-    return (this_segment + __parse_line(
-        line, idx + 1, in_code_block, illegal_link
-    )).replace("<code></code>", "")
+    return (
+        this_segment + __parse_line(line, idx + 1, in_code_block, illegal_link)
+    ).replace("<code></code>", "")
 
 
 def __parse_markup(
-    lines: list[str], idx: int = 0, ul_depth: int = 0,
-    curr_ul_sep="", curr_line_depth=0
+    lines: list[str], idx: int = 0, ul_depth: int = 0, curr_ul_sep="", curr_line_depth=0
 ) -> str:
     if idx == len(lines):
         return ""
@@ -63,7 +62,7 @@ def __parse_markup(
             curr_ul_sep = ul_sep
             ul_depth += 1
             parsed_line += "<ul>"
-        '''if ul_sep != curr_ul_sep:
+        """if ul_sep != curr_ul_sep:
             curr_ul_sep = ul_sep
             if line_depth >= curr_line_depth:
                 ul_depth += 1
@@ -72,7 +71,7 @@ def __parse_markup(
                 ul_depth -= 1
                 parsed_line += "</ul>"
             # Since Appstream does not support nested lists ind their standart, this is left out
-        '''
+        """
         parsed_line += f"<li>{__parse_line(line.lstrip(ul_sep))}</li>"
     elif line_depth == curr_line_depth + 2 and curr_ul_sep != "":
         parsed_line += f"<MERGE_FORMER>{__parse_line(line)}</li>"
@@ -86,11 +85,7 @@ def __parse_markup(
             parsed_line += f"<p>{__parse_line(line)}</p>"
 
     return (
-        parsed_line +
-        __parse_markup(
-            lines, idx + 1, ul_depth,
-            curr_ul_sep, line_depth
-        )
+        parsed_line + __parse_markup(lines, idx + 1, ul_depth, curr_ul_sep, line_depth)
     ).replace("</li><MERGE_FORMER>", "")
 
 
@@ -123,8 +118,7 @@ def __get_full_releases(releases: list[str]):
 
 
 def check_versions(tag: str, raw_releases: RawReleases):
-    all_versions = [__parse_version_date(release[0])[0]
-                    for release in raw_releases]
+    all_versions = [__parse_version_date(release[0])[0] for release in raw_releases]
     if tag.lstrip("v") not in all_versions:
         print(f":: Warning: release tag `{tag}` has no changelog entry!")
 
@@ -138,14 +132,14 @@ def write_changelog(tag: str):
     full_releases = __get_full_releases(releases)
     with open("assets/pokete.metainfo.xml", "r") as metainfo_file:
         content = metainfo_file.read()
-    new_content = re.sub(r'<releases>.*?</releases>', full_releases,
-                         content, flags=re.DOTALL)
+    new_content = re.sub(
+        r"<releases>.*?</releases>", full_releases, content, flags=re.DOTALL
+    )
     with open("assets/pokete.metainfo.xml", "w") as metainfo_file:
         metainfo_file.write(
             "\n".join(
-                line for line in xml.dom.minidom.parseString(
-                    new_content.replace("\n", "")
-                )
+                line
+                for line in xml.dom.minidom.parseString(new_content.replace("\n", ""))
                 .toprettyxml(encoding="UTF-8")
                 .decode("UTF-8")
                 .split("\n")

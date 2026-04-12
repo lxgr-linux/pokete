@@ -11,12 +11,7 @@ class TypeDict(TypedDict):
 
 
 class Type:
-    def __init__(
-        self,
-        effective: list[str],
-        ineffective: list[str],
-        color: list[str]
-    ):
+    def __init__(self, effective: list[str], ineffective: list[str], color: list[str]):
         self.effective: list[str] = effective
         self.ineffective: list[str] = ineffective
         self.color: list[str] = color
@@ -33,15 +28,17 @@ class Type:
 
     @staticmethod
     def validate(_d: TypeDict) -> bool:
-        return all([
-            "effective" in _d and all(type(i) is str for i in _d["effective"]),
-            "ineffective" in _d and all(type(i) is str for i in _d["ineffective"]),
-            "color" in _d and all(type(i) is str for i in _d["color"]),
-        ])
+        return all(
+            [
+                "effective" in _d and all(type(i) is str for i in _d["effective"]),
+                "ineffective" in _d and all(type(i) is str for i in _d["ineffective"]),
+                "color" in _d and all(type(i) is str for i in _d["color"]),
+            ]
+        )
 
     def to_dict(self) -> TypeDict:
         ret: TypeDict = {}
-        
+
         ret["effective"] = self.effective
         ret["ineffective"] = self.ineffective
         ret["color"] = self.color

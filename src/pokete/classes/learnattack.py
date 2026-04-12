@@ -105,9 +105,7 @@ class LearnAttack:
         ):
             if len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)
-                self.poke.attack_obs.append(
-                    Attack(new_attack, len(self.poke.attacks))
-                )
+                self.poke.attack_obs.append(Attack(new_attack, len(self.poke.attacks)))
             else:
                 self.box.add_c_obs(
                     [
@@ -132,9 +130,7 @@ class LearnAttack:
                             )
                             break
                         elif action.triggers(Action.DECK):
-                            detail.detail(
-                                ctx.with_overview(self.box), self.poke, False
-                            )
+                            detail.detail(ctx.with_overview(self.box), self.poke, False)
                             ctx.map.show(init=True)
                         elif action.triggers(Action.INFO):
                             with AttackInfo(new_attack).set_ctx(

@@ -56,9 +56,11 @@ class Informer:
             if in_deck and figure.pokes.index(poke) < 6:
                 poke.pball_small.add(
                     _map,
-                    round(_map.width / 2) - 1
-                    if figure.pokes.index(poke) % 2 == 0
-                    else _map.width - 2,
+                    (
+                        round(_map.width / 2) - 1
+                        if figure.pokes.index(poke) % 2 == 0
+                        else _map.width - 2
+                    ),
                     _y,
                 )
             for eff in poke.effects:
@@ -248,14 +250,10 @@ class Detail(Informer, Overview):
         else:
             self.world_actions_label.rechar("")
             self.ability_label.remove()
-        self.attack_defense.rechar(
-            f"Attack:{self.poke.atc}\
-{(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}"
-        )
+        self.attack_defense.rechar(f"Attack:{self.poke.atc}\
+{(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}")
         self.initiative_label.rechar(f"Initiative:{self.poke.initiative}")
-        for obj, _x, _y in zip(
-            [self.poke.desc, self.poke.text_type], [34, 41], [2, 5]
-        ):
+        for obj, _x, _y in zip([self.poke.desc, self.poke.text_type], [34, 41], [2, 5]):
             obj.add(self.map, _x, _y)
         self.add_attack_labels()
         if (tss.height - 1, tss.width) != (self.map.height, self.map.width):
@@ -311,8 +309,7 @@ class Detail(Informer, Overview):
                             atc.temp_j = -30
                         atc.label_desc.rechar(
                             atc.desc[
-                                atc.temp_i : int(self.map.width / 2 - 1)
-                                + atc.temp_i
+                                atc.temp_i : int(self.map.width / 2 - 1) + atc.temp_i
                             ]
                         )
                     else:

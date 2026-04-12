@@ -55,14 +55,12 @@ class DetailBox(BoxView):
         self.detail_desc.rechar(desc_text)
         self.detail_info.rechar("Type: ")
         self.detail_info += (
-            se.Text(poke.type.name.capitalize(), esccode=poke.type.color)
-            + se.Text(f"""
+            se.Text(poke.type.name.capitalize(), esccode=poke.type.color) + se.Text(f"""
 HP: {poke.hp}
 Attack: {poke.atc}
 Defense: {poke.defense}
 Initiative: {poke.initiative}
-Active: """)
-            + se.Text(active[0], esccode=active[1])
+Active: """) + se.Text(active[0], esccode=active[1])
         )
 
         self.set_ctx(ctx)
@@ -79,9 +77,7 @@ class PokeDex(ChooseBoxView):
         pokes = asset_service.get_base_assets().pokes
         self.p_dict = {
             i[1]: i[-1]
-            for i in sorted(
-                [(pokes[j].types[0], j, pokes[j]) for j in list(pokes)[1:]]
-            )
+            for i in sorted([(pokes[j].types[0], j, pokes[j]) for j in list(pokes)[1:]])
         }
 
     def new_size(self) -> tuple[int, int]:

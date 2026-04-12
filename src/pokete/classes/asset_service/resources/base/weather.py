@@ -10,11 +10,7 @@ class WeatherDict(TypedDict):
 
 
 class Weather:
-    def __init__(
-        self,
-        info: str,
-        effected: dict[str, float]
-    ):
+    def __init__(self, info: str, effected: dict[str, float]):
         self.info: str = info
         self.effected: dict[str, float] = effected
 
@@ -29,14 +25,20 @@ class Weather:
 
     @staticmethod
     def validate(_d: WeatherDict) -> bool:
-        return all([
-            "info" in _d and type(_d["info"]) is str,
-            "effected" in _d and all(type(item) is float or type(item) is int for _, item in _d["effected"].items()),
-        ])
+        return all(
+            [
+                "info" in _d and type(_d["info"]) is str,
+                "effected" in _d
+                and all(
+                    type(item) is float or type(item) is int
+                    for _, item in _d["effected"].items()
+                ),
+            ]
+        )
 
     def to_dict(self) -> WeatherDict:
         ret: WeatherDict = {}
-        
+
         ret["info"] = self.info
         ret["effected"] = self.effected
 

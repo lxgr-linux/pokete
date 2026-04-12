@@ -69,8 +69,7 @@ class TextInput(MouseInteractor):
                 elif input_key == key.BACKSPACE:
                     self.__change_idx(-1)
                     self.__text = (
-                        self.__text[: self.__idx]
-                        + self.__text[self.__idx + 1 :]
+                        self.__text[: self.__idx] + self.__text[self.__idx + 1 :]
                     )
                 elif input_key.has_char():
                     if self.max_len < 0 or len(self.__text) < self.max_len:

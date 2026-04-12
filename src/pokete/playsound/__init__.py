@@ -19,9 +19,7 @@ _playsound = ctypes.cdll.LoadLibrary(
         Path(__file__).parent
         / (
             f"libplaysound.{platform.machine()}."
-            + {sys.platform: "so", "win32": "dll", "darwin": "osx.so"}[
-                sys.platform
-            ]
+            + {sys.platform: "so", "win32": "dll", "darwin": "osx.so"}[sys.platform]
         )
     )
 )

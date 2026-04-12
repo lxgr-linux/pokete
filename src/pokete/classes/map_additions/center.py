@@ -155,9 +155,7 @@ class CenterInteract(se.Object, MapInteract):
                     )
                     if selected_idx is not None:
                         poke = ob.pokes[selected_idx]
-                        message = random.choice(CUDDLE_MESSAGES).format(
-                            name=poke.name
-                        )
+                        message = random.choice(CUDDLE_MESSAGES).format(name=poke.name)
                         mvp.movemap.text(
                             self.ctx,
                             mvp.movemap.bmap.inner.x - mvp.movemap.x + 8,
