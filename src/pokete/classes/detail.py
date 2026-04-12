@@ -208,7 +208,7 @@ class Detail(Informer, Overview):
                 event = TeleportationSingleEvent(self.poke)
             case None, _:
                 return
-        if event != None:
+        if event is not None:
             single_event_periodic_event.add(event)
 
     def cleanup(self):

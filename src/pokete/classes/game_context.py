@@ -26,10 +26,10 @@ class GameContext:
         logging.info("[General] Exiting...")
         audio.kill()
 
-        if exc_type == KeyboardInterrupt:
+        if exc_type == KeyboardInterrupt:  # noqa: E721
             print("\033[?1049l\033[1A\nKeyboardInterrupt")
             return True
-        elif exc_type == SystemExit:
+        elif exc_type == SystemExit:  # noqa: E721
             pass
         else:
             logging.error("[General] Error occurend:", exc_info=True)
