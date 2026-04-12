@@ -3,7 +3,7 @@ import scrap_engine as se
 from pokete.base.color import Color
 
 from ...interactions import Interactor
-from ...landscape import MapInteract
+from ...map_interact import MapInteract
 
 
 class RemotePlayer(se.Object, MapInteract, Interactor):

@@ -28,6 +28,6 @@ def main(ex: str, options: list[str], flags: dict[str, list[str]]):
     else:
         tag = options[0]
         if not __is_tag_valid(tag):
-            print(":: Error: Invalid tag, " f"try `{ex} --help`")
+            print(f":: Error: Invalid tag, try `{ex} --help`")
             sys.exit(2)
         __release(tag)

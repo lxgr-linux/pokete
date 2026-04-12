@@ -28,7 +28,9 @@ class AttackProcess:
         return (
             1.3
             if defender.type.name in attack.type.effective
-            else 0.5 if defender.type.name in attack.type.ineffective else 1
+            else 0.5
+            if defender.type.name in attack.type.ineffective
+            else 1
         )
 
     @staticmethod

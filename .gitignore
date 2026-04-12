@@ -13,3 +13,4 @@ scrap_engine.py
 .vscode
 .vim
 *.spec
+.ruff_cache

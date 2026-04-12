@@ -117,8 +117,11 @@ npcs: dict[str, NPCDict] = {
     },
     "boy_1": {"texts": [], "fn": "playmap_17_boy", "map": "playmap_17", "x": 4, "y": 3},
     "trader_2": {
-        "texts": ["I've lived in this town for long time and therefore have \
-found some cool Poketes.", "Do you want to trade my cool Pokete?"],
+        "texts": [
+            "I've lived in this town for long time and therefore have \
+found some cool Poketes.",
+            "Do you want to trade my cool Pokete?",
+        ],
         "fn": "playmap_20_trader",
         "map": "playmap_20",
         "x": 4,
@@ -453,7 +456,7 @@ found some cool Poketes.", "Do you want to trade my cool Pokete?"],
         "x": 87,
         "y": 15,
     },
-    "npc_31": {
+    "npc_32": {
         "texts": ["In this cave you may find some interesting Poketes."],
         "fn": None,
         "map": "playmap_51",

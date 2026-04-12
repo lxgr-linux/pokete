@@ -125,8 +125,7 @@ class LearnAttack:
                             self.poke.attack_obs[i] = Attack(new_attack, i + 1)
                             ask_ok(
                                 ctx.with_overview(self.box),
-                                f"{self.poke.name} learned "
-                                f"{attacks[new_attack].name}!",
+                                f"{self.poke.name} learned {attacks[new_attack].name}!",
                             )
                             break
                         elif action.triggers(Action.DECK):

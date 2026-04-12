@@ -26,7 +26,7 @@ class SemanticVersion:
 
     def __str__(self) -> str:
         return f"{self.major}.{self.minor}.{self.patch}{
-            ("-"+self.suffix) if self.suffix is not None else ""
+            ('-' + self.suffix) if self.suffix is not None else ''
         }"
 
     def __eq__(self, value) -> bool:

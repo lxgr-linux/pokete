@@ -169,7 +169,9 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                 (
                     "-"
                     if i >= len(pokes) or pokes[i].identifier == "__fallback__"
-                    else "o" if pokes[i].hp > 0 else "x"
+                    else "o"
+                    if pokes[i].hp > 0
+                    else "x"
                 )
                 for i in range(6)
             ),

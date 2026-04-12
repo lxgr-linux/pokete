@@ -8,7 +8,7 @@ import scrap_engine as se
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.tss import tss
 from pokete.classes.asset_service.resources.obmaps import Obmap
-from pokete.classes.map_additions import customizers
+from pokete.classes.map_additions.customizers import customizers
 
 from . import ob_maps as obmp
 from .asset_service.resources import Map

@@ -62,7 +62,7 @@ class Playmap20Trader(NPCAction):
         npc.ctx.figure.add_poke(poke, index)
         npc.set_used()
         ui.ask_ok(
-            f"You received: {poke.name.capitalize()}" f" at level {poke.lvl()}.",
+            f"You received: {poke.name.capitalize()} at level {poke.lvl()}.",
         )
         npc.text(["Cool, huh?"])
 
@@ -119,7 +119,7 @@ class Playmap42Npc21(NPCAction):
                 )
                 npc.text(["Here you go, have $1000!"])
                 if ui.ask_bool(
-                    "The cook gifted you $1000. " "Do you want to accept it?",
+                    "The cook gifted you $1000. Do you want to accept it?",
                 ):
                     npc.ctx.figure.add_money(1000)
                 npc.set_used()
@@ -128,9 +128,8 @@ class Playmap42Npc21(NPCAction):
                 [
                     "Ohhh man...",
                     "All of our beef is empty...",
-                    "How are we going to serve the best MowCow-Burgers "
-                    "without beef?",
-                    "If only someone here could bring me a fitting " "Mowcow!?",
+                    "How are we going to serve the best MowCow-Burgers without beef?",
+                    "If only someone here could bring me a fitting Mowcow!?",
                     "But it has to be at least on level 50 to meet our "
                     "high quality standards.",
                     "I will pay a good price!",
