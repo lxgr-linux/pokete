@@ -456,7 +456,7 @@ found some cool Poketes.",
         "x": 87,
         "y": 15,
     },
-    "npc_31": {
+    "npc_32": {
         "texts": ["In this cave you may find some interesting Poketes."],
         "fn": None,
         "map": "playmap_51",
