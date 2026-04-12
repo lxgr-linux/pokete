@@ -104,8 +104,9 @@ You can find different versions of this wiki:
                 for j, atc in enumerate(
                     [k for k in sorted(attacks) if attacks[k]["types"][0] == typ]
                 ):
-                    out += f"""       {j + 1}. [{attacks[atc]["name"]}](#{attacks[atc]["name"]
-                    .replace(" ", "-").lower()})\n"""
+                    out += f"""       {j + 1}. [{attacks[atc]["name"]}](#{
+                        attacks[atc]["name"].replace(" ", "-").lower()
+                    })\n"""
             out += """3. [Types](#types)
 4. [Items](#items)
 """
@@ -180,7 +181,7 @@ In the following all Poketes with their attributes are displayed.
                     k for k in sorted(list(pokes)[1:]) if pokes[k]["types"][0] == typ
                 ]:
                     if VERBOSE:
-                        print(f' -> Adding {pokes[poke]["name"]}')
+                        print(f" -> Adding {pokes[poke]['name']}")
                     out += Wiki.poke_info(poke)
             return out
         elif page_mode == "index":
@@ -208,17 +209,17 @@ In the following all Poketes with their attributes are displayed.
                 ]:
                     if poke == sorted(list(pokes)[1:])[-1]:
                         if VERBOSE:
-                            print(f'  `-> Adding {pokes[poke]["name"]}')
+                            print(f"  `-> Adding {pokes[poke]['name']}")
                     else:
                         if VERBOSE:
-                            print(f'  |-> Adding {pokes[poke]["name"]}')
+                            print(f"  |-> Adding {pokes[poke]['name']}")
                     out += Wiki.poke_info(poke=poke, multi_page=True)
                 return out
             raise AttributeError(
                 "Pokete_type can not be none, if mode 'multi' is selected."
             )
         raise AttributeError(
-            "Please select a valid page mode of: 'single'," "'index' or 'multi'!"
+            "Please select a valid page mode of: 'single','index' or 'multi'!"
         )
 
     @staticmethod
@@ -238,15 +239,16 @@ In the following all Poketes with their attributes are displayed.
         if (evolve_pokete := pokes[poke]["evolve_poke"]) == "":
             evolve_txt = "- Does not evolve\n"
         else:
-            evolve_txt = f"""- Evolves to [{Wiki.get_name(evolve_pokete)}]({f'./{pokes[evolve_pokete]["types"][0]}'
-            if multi_page else ""}#{evolve_pokete.replace("_", "-")}) at level {pokes[poke]['evolve_lvl']}"""
+            evolve_txt = f"""- Evolves to [{Wiki.get_name(evolve_pokete)}]({
+                f"./{pokes[evolve_pokete]['types'][0]}" if multi_page else ""
+            }#{evolve_pokete.replace("_", "-")}) at level {pokes[poke]["evolve_lvl"]}"""
 
         md_attacks = "\n   + " + "\n   + ".join(
             f"""[{attacks[atc]["name"]}]({
-        f'../attacks/{attacks[atc]["types"][0].capitalize()}'
-        if multi_page else ""
-        }#{attacks[atc]["name"]
-                                                .replace(" ", "-").lower()})"""
+                f"../attacks/{attacks[atc]['types'][0].capitalize()}"
+                if multi_page
+                else ""
+            }#{attacks[atc]["name"].replace(" ", "-").lower()})"""
             for atc in pokes[poke]["attacks"]
         )
         # ico
@@ -271,15 +273,16 @@ In the following all Poketes with their attributes are displayed.
         )
 
         return f"""
-##{'' if multi_page else '##'} {Wiki.get_name(poke)}
+##{"" if multi_page else "##"} {Wiki.get_name(poke)}
 {pokes[poke]["desc"]}
 
 ```
 {ico}
 ```
 
-- Type: [{pokes[poke]["types"][0].capitalize()}]({'../types' if multi_page
-        else '#types'})
+- Type: [{pokes[poke]["types"][0].capitalize()}]({
+            "../types" if multi_page else "#types"
+        })
 - Health points: {pokes[poke]["hp"]}
 - Attack factor: {pokes[poke]["atc"]}
 - Defense factor: {pokes[poke]["defense"]}
@@ -324,20 +327,20 @@ Those are all attacks present in the game.
                             == [k for k in attacks if attacks[k]["types"][0] == typ][-1]
                         ):
                             if VERBOSE:
-                                print(f'  `-> Adding {attacks[atc]["name"]}')
+                                print(f"  `-> Adding {attacks[atc]['name']}")
                         else:
                             if VERBOSE:
-                                print(f'  |-> Adding {attacks[atc]["name"]}')
+                                print(f"  |-> Adding {attacks[atc]['name']}")
                     else:
                         if VERBOSE:
-                            print(f' -> Adding {attacks[atc]["name"]}')
+                            print(f" -> Adding {attacks[atc]['name']}")
                     page += Wiki.attack_info(atc, True)
                 pages.append((f"{typ}.md", page))
             index += "\n\n---\n\n## All attacks sorted by their type:\n"
             for typ in sorted(types):
                 index += f"- [{typ.capitalize()} Attacks](./{typ})\n"
                 for atc in [k for k in attacks if attacks[k]["types"][0] == typ]:
-                    index += f"""  - [{attacks[atc]["name"].capitalize()}](./{typ}#{atc.replace('_', '-')})\n"""
+                    index += f"""  - [{attacks[atc]["name"].capitalize()}](./{typ}#{atc.replace("_", "-")})\n"""
 
             index += "\n"
             pages.insert(0, ("index.md", index))
@@ -351,10 +354,10 @@ Those are all attacks present in the game.
             for atc in [k for k in attacks if attacks[k]["types"][0] == typ]:
                 if atc == [k for k in attacks if attacks[k]["types"][0] == typ][-1]:
                     if VERBOSE:
-                        print(f' `-> Adding {attacks[atc]["name"]}')
+                        print(f" `-> Adding {attacks[atc]['name']}")
                 else:
                     if VERBOSE:
-                        print(f' |-> Adding {attacks[atc]["name"]}')
+                        print(f" |-> Adding {attacks[atc]['name']}")
                 out += Wiki.attack_info(atc)
 
         return out
@@ -382,13 +385,18 @@ Those are all attacks present in the game.
         return f"""\n##{"" if multi_page else "##"} {attacks[attack]["name"]}
 {attacks[attack]["desc"]}
 
-- Type: [{attacks[attack]["types"][0].capitalize()}]({"../types" if multi_page
-        else "#types"})
+- Type: [{attacks[attack]["types"][0].capitalize()}]({
+            "../types" if multi_page else "#types"
+        })
 - Minimum Level: {attacks[attack]["min_lvl"]}
 - Attack factor: {attacks[attack]["factor"]}
 - Missing chance: {attacks[attack]["miss_chance"]}
 - Attack points: {attacks[attack]["ap"]}
-- Effect: {"None" if eff is None else f'[{eff.c_name.capitalize()}]({"../effects" if multi_page else ""}#{eff.c_name.replace("_", "-")})'}
+- Effect: {
+            "None"
+            if eff is None
+            else f"[{eff.c_name.capitalize()}]({'../effects' if multi_page else ''}#{eff.c_name.replace('_', '-')})"
+        }
 """
 
     @staticmethod
@@ -405,7 +413,7 @@ Those are all attacks present in the game.
         A markdown string of all available types.
         """
         out = f"""
-#{'' if multi_page else '#'} Types
+#{"" if multi_page else "#"} Types
 Those are all the Pokete/Attack types that are present in the game with all their (in)effectivities against other types.
 
 |Type|Effective against|Ineffective against|
@@ -439,7 +447,7 @@ Those are all the Pokete/Attack types that are present in the game with all thei
         -------
         A markdown string that contains information about all items.
         """
-        return f"""#{'' if multi_page else '#'} Items
+        return f"""#{"" if multi_page else "#"} Items
 Those are all items present in the game, that can be traded or found.
 
 """ + "\n".join(
@@ -460,7 +468,7 @@ Those are all items present in the game, that can be traded or found.
         -------
         A markdown string with the information about the item.
         """
-        return f"""##{'' if multi_page else '#'} {items[item]["pretty_name"]}
+        return f"""##{"" if multi_page else "#"} {items[item]["pretty_name"]}
 {items[item]["desc"]}
 
 - Price: {items[item]["price"]}
