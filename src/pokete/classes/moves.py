@@ -106,9 +106,7 @@ class Moves:
         ]
         _map = self.poke.ico.map
         text = se.Text("")
-        text.add(
-            _map, round((_map.width - 11) / 2), round((_map.height - 9) / 2)
-        )
+        text.add(_map, round((_map.width - 11) / 2), round((_map.height - 9) / 2))
         self.__throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
         for i in frames:
             text.rechar(i)
@@ -230,9 +228,7 @@ class Moves:
 
     def downgrade(self):
         """Downgrade move"""
-        self.poke.enem.moves.shine(
-            ico=Color.thicc + Color.red + "-" + Color.reset
-        )
+        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-" + Color.reset)
 
     def smell(self):
         self.shine(ico=Color.thicc + Color.peach + "~" + Color.reset)

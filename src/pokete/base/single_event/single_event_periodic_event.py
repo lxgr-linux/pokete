@@ -39,6 +39,4 @@ class SingleEventPeriodicEvent(PeriodicEvent[Context]):
                 break
 
 
-single_event_periodic_event: SingleEventPeriodicEvent = (
-    SingleEventPeriodicEvent()
-)
+single_event_periodic_event: SingleEventPeriodicEvent = SingleEventPeriodicEvent()

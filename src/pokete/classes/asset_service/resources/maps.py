@@ -11,12 +11,7 @@ class PokeArgsDict(TypedDict):
 
 
 class PokeArgs:
-    def __init__(
-        self,
-        pokes: list[str],
-        minlvl: int,
-        maxlvl: int
-    ):
+    def __init__(self, pokes: list[str], minlvl: int, maxlvl: int):
         self.pokes: list[str] = pokes
         self.minlvl: int = minlvl
         self.maxlvl: int = maxlvl
@@ -33,15 +28,17 @@ class PokeArgs:
 
     @staticmethod
     def validate(_d: PokeArgsDict) -> bool:
-        return all([
-            "pokes" in _d and all(type(i) is str for i in _d["pokes"]),
-            "minlvl" in _d and type(_d["minlvl"]) is int,
-            "maxlvl" in _d and type(_d["maxlvl"]) is int,
-        ])
+        return all(
+            [
+                "pokes" in _d and all(type(i) is str for i in _d["pokes"]),
+                "minlvl" in _d and type(_d["minlvl"]) is int,
+                "maxlvl" in _d and type(_d["maxlvl"]) is int,
+            ]
+        )
 
     def to_dict(self) -> PokeArgsDict:
         ret: PokeArgsDict = {}
-        
+
         ret["pokes"] = self.pokes
         ret["minlvl"] = self.minlvl
         ret["maxlvl"] = self.maxlvl
@@ -70,7 +67,7 @@ class Map:
         extra_actions: str | None,
         poke_args: "PokeArgs | None",
         w_poke_args: "PokeArgs | None",
-        weather: str | None
+        weather: str | None,
     ):
         self.height: int = height
         self.width: int = width
@@ -98,20 +95,31 @@ class Map:
 
     @staticmethod
     def validate(_d: MapDict) -> bool:
-        return all([
-            "height" in _d and type(_d["height"]) is int,
-            "width" in _d and type(_d["width"]) is int,
-            "song" in _d and type(_d["song"]) is str,
-            "pretty_name" in _d and type(_d["pretty_name"]) is str,
-            type(_d.get("extra_actions", None)) is str or _d.get("extra_actions", None) is None,
-            True if _d.get("poke_args", None) is None else PokeArgs.validate(_d.get("poke_args", None)),
-            True if _d.get("w_poke_args", None) is None else PokeArgs.validate(_d.get("w_poke_args", None)),
-            type(_d.get("weather", None)) is str or _d.get("weather", None) is None,
-        ])
+        return all(
+            [
+                "height" in _d and type(_d["height"]) is int,
+                "width" in _d and type(_d["width"]) is int,
+                "song" in _d and type(_d["song"]) is str,
+                "pretty_name" in _d and type(_d["pretty_name"]) is str,
+                type(_d.get("extra_actions", None)) is str
+                or _d.get("extra_actions", None) is None,
+                (
+                    True
+                    if _d.get("poke_args", None) is None
+                    else PokeArgs.validate(_d.get("poke_args", None))
+                ),
+                (
+                    True
+                    if _d.get("w_poke_args", None) is None
+                    else PokeArgs.validate(_d.get("w_poke_args", None))
+                ),
+                type(_d.get("weather", None)) is str or _d.get("weather", None) is None,
+            ]
+        )
 
     def to_dict(self) -> MapDict:
         ret: MapDict = {}
-        
+
         ret["height"] = self.height
         ret["width"] = self.width
         ret["song"] = self.song

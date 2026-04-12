@@ -33,9 +33,7 @@ class MovingGrassEvent(PeriodicEvent):
             for obj in self.all_grass_objs:
                 if obj.char == Color.green + ";" + Color.reset:
                     if random.randint(0, 600) == 0:
-                        obj.rechar(
-                            Color.thicc + Color.green + ";" + Color.reset
-                        )
+                        obj.rechar(Color.thicc + Color.green + ";" + Color.reset)
                         check_figure_redraw(obj)
                 else:
                     obj.rechar(Color.green + ";" + Color.reset)

@@ -26,9 +26,7 @@ def transition(_map, poke):
         _map.show()
 
     time.sleep(SPEED_OF_TIME * 0.5)
-    poke.ico.add(
-        _map, round((_map.width - 11) / 2), round((_map.height - 4) / 2)
-    )
+    poke.ico.add(_map, round((_map.width - 11) / 2), round((_map.height - 4) / 2))
     _map.show()
     time.sleep(SPEED_OF_TIME * 1)
     poke.ico.remove()

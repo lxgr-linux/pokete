@@ -10,11 +10,7 @@ class ChatDict(TypedDict):
 
 
 class Chat:
-    def __init__(
-        self,
-        q: list[str],
-        a: dict[str, "Chat"]
-    ):
+    def __init__(self, q: list[str], a: dict[str, "Chat"]):
         self.q: list[str] = q
         self.a: dict[str, "Chat"] = a
 
@@ -29,14 +25,16 @@ class Chat:
 
     @staticmethod
     def validate(_d: ChatDict) -> bool:
-        return all([
-            "q" in _d and all(type(i) is str for i in _d["q"]),
-            "a" in _d and all(Chat.validate(item) for _, item in _d["a"].items()),
-        ])
+        return all(
+            [
+                "q" in _d and all(type(i) is str for i in _d["q"]),
+                "a" in _d and all(Chat.validate(item) for _, item in _d["a"].items()),
+            ]
+        )
 
     def to_dict(self) -> ChatDict:
         ret: ChatDict = {}
-        
+
         ret["q"] = self.q
         ret["a"] = {i: Chat.to_dict(item) for i, item in self.a.items()}
 
@@ -60,7 +58,7 @@ class NPC:
         map: str,
         x: int,
         y: int,
-        chat: "Chat | None"
+        chat: "Chat | None",
     ):
         self.texts: list[str] = texts
         self.fn: str | None = fn
@@ -84,18 +82,24 @@ class NPC:
 
     @staticmethod
     def validate(_d: NPCDict) -> bool:
-        return all([
-            "texts" in _d and all(type(i) is str for i in _d["texts"]),
-            type(_d.get("fn", None)) is str or _d.get("fn", None) is None,
-            "map" in _d and type(_d["map"]) is str,
-            "x" in _d and type(_d["x"]) is int,
-            "y" in _d and type(_d["y"]) is int,
-            True if _d.get("chat", None) is None else Chat.validate(_d.get("chat", None)),
-        ])
+        return all(
+            [
+                "texts" in _d and all(type(i) is str for i in _d["texts"]),
+                type(_d.get("fn", None)) is str or _d.get("fn", None) is None,
+                "map" in _d and type(_d["map"]) is str,
+                "x" in _d and type(_d["x"]) is int,
+                "y" in _d and type(_d["y"]) is int,
+                (
+                    True
+                    if _d.get("chat", None) is None
+                    else Chat.validate(_d.get("chat", None))
+                ),
+            ]
+        )
 
     def to_dict(self) -> NPCDict:
         ret: NPCDict = {}
-        
+
         ret["texts"] = self.texts
         if self.fn is not None:
             ret["fn"] = self.fn

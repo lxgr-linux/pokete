@@ -77,9 +77,7 @@ class Stats:
         """RETURNS:
         A dict containing information to reconstruct the object"""
         ownership_date = (
-            None
-            if self.ownership_date is None
-            else self.ownership_date.isoformat()
+            None if self.ownership_date is None else self.ownership_date.isoformat()
         )
         evolved_date = (
             None if self.evolved_date is None else self.evolved_date.isoformat()
@@ -159,12 +157,8 @@ class StatsInfoBox(LabelBoxView):
                 f"\nNumber of lost battles: {poke_stats.lost_battles}",
                 state="float",
             )
-            + se.Text(
-                f"\nNumber of run away: {poke_stats.run_away}", state="float"
-            )
-            + se.Text(
-                f"\nTotal XP earned: {poke_stats.earned_xp}\n", state="float"
-            )
+            + se.Text(f"\nNumber of run away: {poke_stats.run_away}", state="float")
+            + se.Text(f"\nTotal XP earned: {poke_stats.earned_xp}\n", state="float")
         )
         super().__init__(
             text,

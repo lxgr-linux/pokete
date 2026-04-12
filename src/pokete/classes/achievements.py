@@ -55,9 +55,7 @@ class Achievements:
         ARGS:
             identifier: The Achievements identifier"""
         if not self.is_achieved(identifier):
-            ach = [i for i in self.achievements if i.identifier == identifier][
-                0
-            ]
+            ach = [i for i in self.achievements if i.identifier == identifier][0]
             notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
             logging.info("[Achievements] Unlocked %s", identifier)
@@ -91,11 +89,7 @@ class AchBox(LabelBoxView):
                 esccode=Color.thicc + (Color.green if is_ach else Color.grey),
                 state="float",
             )
-            + (
-                se.Text("\nAt: " + date, state="float")
-                if is_ach
-                else se.Text("")
-            )
+            + (se.Text("\nAt: " + date, state="float") if is_ach else se.Text(""))
             + se.Text("\n" + liner(ach.desc, 30), state="float")
         )
         super().__init__(
@@ -121,9 +115,11 @@ class AchievementOverview(BetterChooseBoxView):
             [
                 se.Text(
                     i.title,
-                    esccode=Color.thicc + Color.green
-                    if achievements.is_achieved(i.identifier)
-                    else "",
+                    esccode=(
+                        Color.thicc + Color.green
+                        if achievements.is_achieved(i.identifier)
+                        else ""
+                    ),
                     state="float",
                 )
                 for i in achievements.achievements

@@ -12,13 +12,7 @@ class ItemDict(TypedDict):
 
 
 class Item:
-    def __init__(
-        self,
-        pretty_name: str,
-        desc: str,
-        price: int | None,
-        fn: str | None
-    ):
+    def __init__(self, pretty_name: str, desc: str, price: int | None, fn: str | None):
         self.pretty_name: str = pretty_name
         self.desc: str = desc
         self.price: int | None = price
@@ -37,16 +31,18 @@ class Item:
 
     @staticmethod
     def validate(_d: ItemDict) -> bool:
-        return all([
-            "pretty_name" in _d and type(_d["pretty_name"]) is str,
-            "desc" in _d and type(_d["desc"]) is str,
-            type(_d.get("price", None)) is int or _d.get("price", None) is None,
-            type(_d.get("fn", None)) is str or _d.get("fn", None) is None,
-        ])
+        return all(
+            [
+                "pretty_name" in _d and type(_d["pretty_name"]) is str,
+                "desc" in _d and type(_d["desc"]) is str,
+                type(_d.get("price", None)) is int or _d.get("price", None) is None,
+                type(_d.get("fn", None)) is str or _d.get("fn", None) is None,
+            ]
+        )
 
     def to_dict(self) -> ItemDict:
         ret: ItemDict = {}
-        
+
         ret["pretty_name"] = self.pretty_name
         ret["desc"] = self.desc
         if self.price is not None:

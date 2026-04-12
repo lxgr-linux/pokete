@@ -15,11 +15,13 @@ from pokete.release import SPEED_OF_TIME
 
 
 class GenericPokeBall(FightItem, ABC):
-    def __init__(self, chance:int, name: str):
+    def __init__(self, chance: int, name: str):
         self.chance = chance
         self.name = name
 
-    def use(self, fightmap: FightMap, obj:Provider, enem:Provider) -> RoundContinuation:
+    def use(
+        self, fightmap: FightMap, obj: Provider, enem: Provider
+    ) -> RoundContinuation:
         """Throws a ball
         ARGS:
             obj: The players Poke object
@@ -35,17 +37,22 @@ class GenericPokeBall(FightItem, ABC):
             return RoundContinuation.CONTINUE_ATTACK
         fightmap.outp.rechar(f"You threw a {self.name.capitalize()}!")
         fightmap.fast_change(
-            [enem.curr.ico, fightmap.deadico1, fightmap.deadico2,
-             fightmap.pball], enem.curr.ico)
+            [enem.curr.ico, fightmap.deadico1, fightmap.deadico2, fightmap.pball],
+            enem.curr.ico,
+        )
         time.sleep(SPEED_OF_TIME * random.choice([1, 2, 3, 4]))
         obj.remove_item(self.name)
         catch_chance = 20 if obj.map == obmp.ob_maps.get("playmap_1", None) else 0
         for effect in enem.curr.effects:
             catch_chance += effect.catch_chance
-        if random.choices([True, False],
-                          weights=[(enem.curr.full_hp / enem.curr.hp)
-                                   * self.chance + catch_chance,
-                                   enem.curr.full_hp], k=1)[0]:
+        if random.choices(
+            [True, False],
+            weights=[
+                (enem.curr.full_hp / enem.curr.hp) * self.chance + catch_chance,
+                enem.curr.full_hp,
+            ],
+            k=1,
+        )[0]:
             audio.play("xDeviruchi - Decisive Battle (End).mp3")
             obj.add_poke(enem.curr, caught_with=self.name)
             fightmap.outp.outp(f"You caught {enem.curr.name}!")
@@ -55,8 +62,10 @@ class GenericPokeBall(FightItem, ABC):
             obj.balls_label_rechar()
             logging.info("[Fighitem][%s] Caught %s", self.name, enem.curr.name)
             achievements.achieve("first_poke")
-            if all(poke in obj.caught_pokes for poke in
-                   asset_service.get_base_assets().pokes):
+            if all(
+                poke in obj.caught_pokes
+                for poke in asset_service.get_base_assets().pokes
+            ):
                 achievements.achieve("catch_em_all")
             return RoundContinuation.EXIT
         fightmap.outp.outp("You missed!")
@@ -67,6 +76,7 @@ class GenericPokeBall(FightItem, ABC):
         logging.info("[Fighitem][%s] Missed", self.name)
         return RoundContinuation.ENEMY_ATTACK
 
+
 class PoketeBall(GenericPokeBall):
     def __init__(self):
         super().__init__(1, "poketeball")
@@ -75,6 +85,7 @@ class PoketeBall(GenericPokeBall):
 class SuperBall(GenericPokeBall):
     def __init__(self):
         super().__init__(6, "superball")
+
 
 class HyperBall(GenericPokeBall):
     def __init__(self):

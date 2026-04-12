@@ -33,7 +33,7 @@ class Attack:
         types: list[str],
         effect: str | None,
         is_generic: bool,
-        ap: int
+        ap: int,
     ):
         self.name: str = name
         self.factor: float = factor
@@ -69,24 +69,30 @@ class Attack:
 
     @staticmethod
     def validate(_d: AttackDict) -> bool:
-        return all([
-            "name" in _d and type(_d["name"]) is str,
-            "factor" in _d and type(_d["factor"]) is float or type(_d["factor"]) is int,
-            type(_d.get("action", None)) is str or _d.get("action", None) is None,
-            "world_action" in _d and type(_d["world_action"]) is str,
-            "move" in _d and all(type(i) is str for i in _d["move"]),
-            "miss_chance" in _d and type(_d["miss_chance"]) is float or type(_d["miss_chance"]) is int,
-            "min_lvl" in _d and type(_d["min_lvl"]) is int,
-            "desc" in _d and type(_d["desc"]) is str,
-            "types" in _d and all(type(i) is str for i in _d["types"]),
-            type(_d.get("effect", None)) is str or _d.get("effect", None) is None,
-            "is_generic" in _d and type(_d["is_generic"]) is bool,
-            "ap" in _d and type(_d["ap"]) is int,
-        ])
+        return all(
+            [
+                "name" in _d and type(_d["name"]) is str,
+                "factor" in _d
+                and type(_d["factor"]) is float
+                or type(_d["factor"]) is int,
+                type(_d.get("action", None)) is str or _d.get("action", None) is None,
+                "world_action" in _d and type(_d["world_action"]) is str,
+                "move" in _d and all(type(i) is str for i in _d["move"]),
+                "miss_chance" in _d
+                and type(_d["miss_chance"]) is float
+                or type(_d["miss_chance"]) is int,
+                "min_lvl" in _d and type(_d["min_lvl"]) is int,
+                "desc" in _d and type(_d["desc"]) is str,
+                "types" in _d and all(type(i) is str for i in _d["types"]),
+                type(_d.get("effect", None)) is str or _d.get("effect", None) is None,
+                "is_generic" in _d and type(_d["is_generic"]) is bool,
+                "ap" in _d and type(_d["ap"]) is int,
+            ]
+        )
 
     def to_dict(self) -> AttackDict:
         ret: AttackDict = {}
-        
+
         ret["name"] = self.name
         ret["factor"] = self.factor
         if self.action is not None:

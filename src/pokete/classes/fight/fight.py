@@ -95,18 +95,13 @@ class Fight:
                                 5,
                                 min(
                                     50
-                                    - (
-                                        player.curr.initiative
-                                        - enem.curr.initiative
-                                    ),
+                                    - (player.curr.initiative - enem.curr.initiative),
                                     95,
                                 ),
                             ):
                                 self.fightmap.failed_to_escape()
                             else:
-                                audio.play(
-                                    "xDeviruchi - Decisive Battle (End).mp3"
-                                )
+                                audio.play("xDeviruchi - Decisive Battle (End).mp3")
                                 self.fightmap.ran_away(player, enem)
                                 logging.info("[Fight] Ended, ran away")
                                 player.curr.poke_stats.set_run_away_battle()
@@ -116,9 +111,7 @@ class Fight:
                         item: InvItem = attack_result.item_value
                         fight_item = fight_items.get(item.func, None)
                         if fight_item is None:
-                            raise Exception(
-                                f"fight_item doesnt exist {item.func}"
-                            )
+                            raise Exception(f"fight_item doesnt exist {item.func}")
                         match fight_item.use(self.fightmap, player, enem):
                             case RoundContinuation.CONTINUE_ATTACK:
                                 continue  # This is the sole reason for the while loop on top

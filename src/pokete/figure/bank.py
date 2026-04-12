@@ -4,10 +4,10 @@ import logging
 class Bank:
     __money: int
 
-    def __init__(self, money:int):
+    def __init__(self, money: int):
         self.__money = money
 
-    def add_money(self, money:int):
+    def add_money(self, money: int):
         """Adds money
         ARGS:
             money: Amount of money being added"""
@@ -19,11 +19,10 @@ class Bank:
             The current money"""
         return self.__money
 
-    def set_money(self, money:int):
+    def set_money(self, money: int):
         """Sets the money to a certain value
         ARGS:
             money: New value"""
         assert money >= 0, "Money has to be positive."
-        logging.info("[Figure] Money set to $%d from $%d",
-                     money, self.__money)
+        logging.info("[Figure] Money set to $%d from $%d", money, self.__money)
         self.__money = money

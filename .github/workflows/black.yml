@@ -1,0 +1,24 @@
+name: black-format-check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  black:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Black
+        run: pip install black
+
+      - name: Run Black check
+        run: black --check .

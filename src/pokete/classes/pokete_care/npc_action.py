@@ -17,9 +17,7 @@ class PoketeCareNPCAction(NPCAction):
         if self.care.poke is None:
             npc.text(["Here you can leave one of your Poketes for some time \
 and we will train it."])
-            if ui.ask_bool(
-                "Do you want to put a Pokete into the Pokete-Care?"
-            ):
+            if ui.ask_bool("Do you want to put a Pokete into the Pokete-Care?"):
                 if (index := ui.choose_poke()) is not None:
                     self.care.poke = npc.ctx.figure.pokes[index]
                     self.care.entry = timer.time.time
@@ -35,9 +33,13 @@ gained {add_xp}xp and reached level {self.care.poke.lvl()}!"])
                 dummy = DummyFigure(self.care.poke)
                 evomap = EvoMap(npc.ctx.map.height, npc.ctx.map.width)
                 while evomap(
-                    Context(PeriodicEventManager([exception_propagating_periodic_event]), npc.ctx.map,
-                            npc.ctx.overview, dummy),
-                    dummy.pokes[0]
+                    Context(
+                        PeriodicEventManager([exception_propagating_periodic_event]),
+                        npc.ctx.map,
+                        npc.ctx.overview,
+                        dummy,
+                    ),
+                    dummy.pokes[0],
                 ):
                     continue
                 npc.ctx.figure.add_poke(dummy.pokes[0])

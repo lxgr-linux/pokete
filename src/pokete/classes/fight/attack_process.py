@@ -19,28 +19,35 @@ class AttackProcess:
     def get_random_factor(attack, attacker) -> float:
         return random.choices(
             [0, 0.75, 1, 1.26],
-            weights=[attack.miss_chance
-                     + attacker.miss_chance,
-                     1, 1, 1], k=1
+            weights=[attack.miss_chance + attacker.miss_chance, 1, 1, 1],
+            k=1,
         )[0]
 
     @staticmethod
     def get_base_effectivity(defender: Poke, attack: Attack) -> float:
         return (
-            1.3 if defender.type.name in attack.type.effective else 0.5
-            if defender.type.name in attack.type.ineffective else 1
+            1.3
+            if defender.type.name in attack.type.effective
+            else 0.5 if defender.type.name in attack.type.ineffective else 1
         )
 
     @staticmethod
-    def get_hp(attacker: Poke, defender: Poke, attack: Attack,
-               random_factor: int, eff: int) -> int:
-        return round((attacker.atc
-                      * attack.factor
-                      / (defender.defense if defender.defense >= 1 else 1))
-                     * random_factor * eff)
+    def get_hp(
+        attacker: Poke, defender: Poke, attack: Attack, random_factor: int, eff: int
+    ) -> int:
+        return round(
+            (
+                attacker.atc
+                * attack.factor
+                / (defender.defense if defender.defense >= 1 else 1)
+            )
+            * random_factor
+            * eff
+        )
 
-    def __call__(self, attacker: Poke, defender: Poke, attack: Attack,
-                 providers: list[Provider]):
+    def __call__(
+        self, attacker: Poke, defender: Poke, attack: Attack, providers: list[Provider]
+    ):
         """Attack process
         ARGS:
             attack: Attack object
@@ -72,18 +79,19 @@ class AttackProcess:
             for i in attack.move:
                 getattr(attacker.moves, i)()
             if attack.action is not None and random_factor != 0:
-                getattr(AttackActions, attack.action)(attacker, defender,
-                                                      providers)
+                getattr(AttackActions, attack.action)(attacker, defender, providers)
             attack.set_ap(attack.ap - 1)
-            self.fightmap.show_effectivity(eff, n_hp, random_factor, attacker,
-                                           attack)
+            self.fightmap.show_effectivity(eff, n_hp, random_factor, attacker, attack)
             if defender == attacker:
                 self.fightmap.show_hurt_it_self(attacker)
             if random_factor != 0:
                 attack.give_effect(defender)
-            for obj in [defender, attacker] if defender != attacker else [
-                defender]:
+            for obj in [defender, attacker] if defender != attacker else [defender]:
                 obj.hp_bar.update(obj.oldhp)
-            logging.info("[Fight][%s] Used %s: %s", attacker.name, attack.name,
-                         str({"eff": eff, "n_hp": n_hp}))
+            logging.info(
+                "[Fight][%s] Used %s: %s",
+                attacker.name,
+                attack.name,
+                str({"eff": eff, "n_hp": n_hp}),
+            )
             self.fightmap.show()

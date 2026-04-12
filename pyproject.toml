@@ -28,3 +28,6 @@ pokete-util = "pokete.util.__main__:main"
 Homepage = "https://github.com/lxgr-linux/pokete"
 Issues = "https://github.com/lxgr-linux/pokete/issue"
 Repository = "https://github.com/lxgr-linux/pokete.git"
+[tool.black]
+line-length = 88
+target-version = ["py312"]

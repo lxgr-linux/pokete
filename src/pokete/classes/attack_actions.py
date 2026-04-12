@@ -70,13 +70,13 @@ class AttackActions:
     def super_sucker(obj, enem, _):
         """Super sucker attack action"""
         enem.hp -= 2
-        obj.hp += 2 if obj.hp+2 <= obj.full_hp else 0
+        obj.hp += 2 if obj.hp + 2 <= obj.full_hp else 0
 
     @staticmethod
     def sucker(obj, enem, __):
         """Sucker attack action"""
         enem.hp -= 1
-        obj.hp += 1 if obj.hp+1 <= obj.full_hp else 0
+        obj.hp += 1 if obj.hp + 1 <= obj.full_hp else 0
 
     @staticmethod
     def rain_dance(obj, _, providers):
@@ -88,9 +88,7 @@ class AttackActions:
     @staticmethod
     def encouragement(obj, _, providers):
         """Encouragement attack action"""
-        for poke in next(
-            prov for prov in providers if prov.curr == obj
-        ).pokes[:6]:
+        for poke in next(prov for prov in providers if prov.curr == obj).pokes[:6]:
             poke.atc += 2
 
 

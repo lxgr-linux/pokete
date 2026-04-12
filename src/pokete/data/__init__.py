@@ -1,10 +1,10 @@
 """This provides p_data. Never ever import this except for in pokete.py since
-   p_data can be manipulated by mods and therefore should be injected and not
-   imported
+p_data can be manipulated by mods and therefore should be injected and not
+imported
 
-   I know all this is very awful...
+I know all this is very awful...
 
-   ...not so awful anymore, since I introduced code generation
+...not so awful anymore, since I introduced code generation
 """
 
 from .poketes import *

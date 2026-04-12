@@ -10,11 +10,7 @@ class CoordsDict(TypedDict):
 
 
 class Coords:
-    def __init__(
-        self,
-        x: int,
-        y: int
-    ):
+    def __init__(self, x: int, y: int):
         self.x: int = x
         self.y: int = y
 
@@ -29,14 +25,16 @@ class Coords:
 
     @staticmethod
     def validate(_d: CoordsDict) -> bool:
-        return all([
-            "x" in _d and type(_d["x"]) is int,
-            "y" in _d and type(_d["y"]) is int,
-        ])
+        return all(
+            [
+                "x" in _d and type(_d["x"]) is int,
+                "y" in _d and type(_d["y"]) is int,
+            ]
+        )
 
     def to_dict(self) -> CoordsDict:
         ret: CoordsDict = {}
-        
+
         ret["x"] = self.x
         ret["y"] = self.y
 
