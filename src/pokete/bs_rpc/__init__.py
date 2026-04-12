@@ -2,10 +2,21 @@ import json
 import threading
 import time
 
-from .channel_generator import ChannelGenerator
-from .msg import Body, Method, Msg, EmptyMsg, ResponseWriter
 from .channel import Channel
+from .channel_generator import ChannelGenerator
+from .msg import Body, EmptyMsg, Method, Msg
 from .registry import Registry
+
+__all__ = [
+    "Client",
+    "ChannelGenerator",
+    "Body",
+    "Method",
+    "Msg",
+    "EmptyMsg",
+    "Channel",
+    "Registry",
+]
 
 END_SECTION = b"<END>"
 

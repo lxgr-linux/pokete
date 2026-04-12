@@ -1,4 +1,3 @@
-import logging
 import pokete.bs_rpc as bs_rpc
 from pokete.bs_rpc.msg import ResponseWriter
 from pokete.classes.multiplayer.msg.position.update import Update
