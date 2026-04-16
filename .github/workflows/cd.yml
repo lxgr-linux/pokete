@@ -1,3 +1,4 @@
+"""
 name: Test CD
 
 on:
@@ -16,3 +17,4 @@ jobs:
       - name: deploy
         run: |
           ~/go/bin/liefer deliver pokete_server ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}} ${{ secrets.LIEFER_PRIVKEY }} --address ${{ secrets.LXGR_HOST }}:8080
+"""
