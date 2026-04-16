@@ -12,7 +12,6 @@ from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import BetterChooseBox
 
-
 T = TypeVar("T")
 
 
@@ -24,7 +23,8 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
         self.__special_ret: Optional[T] = None
 
     @abstractmethod
-    def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
+    def choose(self, ctx: Context, idx: int) -> Optional[T]:
+        ...
 
     @override
     def get_interaction_areas(self) -> list[Area]:
