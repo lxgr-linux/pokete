@@ -88,9 +88,7 @@ class LoadingScreen:
 | |  | (_) |   <  __/ ||  __/
 |_|   \___/|_|\_\___|\__\___|""",
             state="float",
-        ).add(
-            self.map, int(self.map.width / 2) - 15, int(self.map.height / 2) - 4
-        )
+        ).add(self.map, int(self.map.width / 2) - 15, int(self.map.height / 2) - 4)
         se.Text(f"v{release.VERSION}", state="float").add(
             self.map, int(self.map.width / 2) - 15, int(self.map.height / 2) + 2
         )

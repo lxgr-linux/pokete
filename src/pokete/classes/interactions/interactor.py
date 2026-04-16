@@ -11,6 +11,7 @@ from .. import movemap as mvp
 
 class Interactor(InteractorInterface, ABC):
     """Interactor interface for map interactions"""
+
     x: int
     y: int
     ctx: Context
@@ -35,12 +36,22 @@ class Interactor(InteractorInterface, ABC):
         RETURNS:
             bool: Whether or not the walk is possible"""
         vec = se.Line(" ", _x - self.x, _y - self.y)
-        ret = not any([any(j.state == "solid"
-                           for j in
-                           self.map.obmap[i.ry + self.y][i.rx + self.x])
-                       for i in vec.obs][1:])
-        logging.info("[NPC][%s] %s walk check to (%d|%d)",
-                     self.name, 'Succeeded' if ret else 'Failed', _x, _y)
+        ret = not any(
+            [
+                any(
+                    j.state == "solid"
+                    for j in self.map.obmap[i.ry + self.y][i.rx + self.x]
+                )
+                for i in vec.obs
+            ][1:]
+        )
+        logging.info(
+            "[NPC][%s] %s walk check to (%d|%d)",
+            self.name,
+            "Succeeded" if ret else "Failed",
+            _x,
+            _y,
+        )
         return ret
 
     def walk_point(self, _x, _y):
@@ -65,8 +76,9 @@ class Interactor(InteractorInterface, ABC):
         """Shows the exclamation on top of a NPC"""
         exclamation = se.Object("!")
         try:
-            exclamation.add(mvp.movemap, self.x - mvp.movemap.x,
-                            self.y - 1 - mvp.movemap.y)
+            exclamation.add(
+                mvp.movemap, self.x - mvp.movemap.x, self.y - 1 - mvp.movemap.y
+            )
         except se.CoordinateError:
             pass
         mvp.movemap.show()

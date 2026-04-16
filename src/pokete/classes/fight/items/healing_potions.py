@@ -19,9 +19,11 @@ class GenericeHealingPotion(FightItem, ABC):
         logging.info("[Fighitem][%s] Used", self.name)
         return RoundContinuation.ENEMY_ATTACK
 
+
 class HealingPotion(GenericeHealingPotion):
     def __init__(self):
         super().__init__(5, "healing_potion")
+
 
 class SuperPotion(GenericeHealingPotion):
     def __init__(self):

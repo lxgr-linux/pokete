@@ -18,8 +18,9 @@ class ResizeScreen:
         self.warning_label = se.Text("Minimum windowsize is 70x20")
         self.size_label = se.Text(f"{self.width}x{self.height}")
         self.frame = StdFrame(self.height - 1, self.width)
-        self.warning_label.add(self.map, int(self.width / 2) - 13,
-                               int(self.height / 2) - 1)
+        self.warning_label.add(
+            self.map, int(self.width / 2) - 13, int(self.height / 2) - 1
+        )
         self.size_label.add(self.map, 1, 0)
         self.frame.add(self.map, 0, 0)
 
@@ -41,8 +42,9 @@ class ResizeScreen:
             self.warning_label.set(1, 1)
             self.frame.remove()
             self.map.resize(self.height - 1, self.width, " ")
-            self.warning_label.set(int(self.width / 2) - 13,
-                                   int((self.height - 1) / 2) - 1)
+            self.warning_label.set(
+                int(self.width / 2) - 13, int((self.height - 1) / 2) - 1
+            )
             self.size_label.rechar(f"{self.width}x{self.height}")
             self.frame.resize(self.height - 1, self.width)
             self.frame.add(self.map, 0, 0)

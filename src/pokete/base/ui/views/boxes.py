@@ -69,8 +69,7 @@ class InputBoxView(InfoBoxView):
         height = len(infotext.split("\n")) + 3
         width = (
             sorted(
-                [len(i) for i in infotext.split("\n")]
-                + [len(introtext) + 1 + max_len]
+                [len(i) for i in infotext.split("\n")] + [len(introtext) + 1 + max_len]
             )[-1]
             + 4
         )

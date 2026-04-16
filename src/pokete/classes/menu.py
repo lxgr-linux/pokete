@@ -33,9 +33,7 @@ class Menu(ChooseBoxView):
             self.represent_char_input,
             VisSetting("Autosave", "autosave", {True: "On", False: "Off"}),
             VisSetting("Animations", "animations", {True: "On", False: "Off"}),
-            VisSetting(
-                "Save trainers", "save_trainers", {True: "On", False: "Off"}
-            ),
+            VisSetting("Save trainers", "save_trainers", {True: "On", False: "Off"}),
             VisSetting("Audio", "audio", {True: "On", False: "Off"}),
             Slider("Volume", "volume"),
             VisSetting("Load mods", "load_mods", {True: "On", False: "Off"}),

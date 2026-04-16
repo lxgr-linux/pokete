@@ -10,11 +10,7 @@ class AchievementDict(TypedDict):
 
 
 class Achievement:
-    def __init__(
-        self,
-        title: str,
-        desc: str
-    ):
+    def __init__(self, title: str, desc: str):
         self.title: str = title
         self.desc: str = desc
 
@@ -29,14 +25,16 @@ class Achievement:
 
     @staticmethod
     def validate(_d: AchievementDict) -> bool:
-        return all([
-            "title" in _d and type(_d["title"]) is str,
-            "desc" in _d and type(_d["desc"]) is str,
-        ])
+        return all(
+            [
+                "title" in _d and type(_d["title"]) is str,
+                "desc" in _d and type(_d["desc"]) is str,
+            ]
+        )
 
     def to_dict(self) -> AchievementDict:
         ret: AchievementDict = {}
-        
+
         ret["title"] = self.title
         ret["desc"] = self.desc
 

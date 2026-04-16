@@ -13,11 +13,7 @@ class NatureDict(TypedDict):
 
 class Nature:
     def __init__(
-        self,
-        esc: str | None,
-        atc: float | None,
-        def_: float | None,
-        init: float | None
+        self, esc: str | None, atc: float | None, def_: float | None, init: float | None
     ):
         self.esc: str | None = esc
         self.atc: float | None = atc
@@ -37,16 +33,24 @@ class Nature:
 
     @staticmethod
     def validate(_d: NatureDict) -> bool:
-        return all([
-            type(_d.get("esc", None)) is str or _d.get("esc", None) is None,
-            type(_d.get("atc", None)) is float or type(_d.get("atc", None)) is int or _d.get("atc", None) is None,
-            type(_d.get("def_", None)) is float or type(_d.get("def_", None)) is int or _d.get("def_", None) is None,
-            type(_d.get("init", None)) is float or type(_d.get("init", None)) is int or _d.get("init", None) is None,
-        ])
+        return all(
+            [
+                type(_d.get("esc", None)) is str or _d.get("esc", None) is None,
+                type(_d.get("atc", None)) is float
+                or type(_d.get("atc", None)) is int
+                or _d.get("atc", None) is None,
+                type(_d.get("def_", None)) is float
+                or type(_d.get("def_", None)) is int
+                or _d.get("def_", None) is None,
+                type(_d.get("init", None)) is float
+                or type(_d.get("init", None)) is int
+                or _d.get("init", None) is None,
+            ]
+        )
 
     def to_dict(self) -> NatureDict:
         ret: NatureDict = {}
-        
+
         if self.esc is not None:
             ret["esc"] = self.esc
         if self.atc is not None:

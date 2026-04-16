@@ -148,18 +148,14 @@ class VisSetting(se.Text):
         self.name = text
         self.setting = settings(setting)
         self.index = list(options).index(self.setting.val)
-        super().__init__(
-            text + ": " + self.options[self.setting.val], state="float"
-        )
+        super().__init__(text + ": " + self.options[self.setting.val], state="float")
 
     def change(self, ctx: Context):
         """Change the setting"""
         self.index = (self.index + 1) % len(self.options)
         self.setting.val = list(self.options)[self.index]
         self.rechar(self.name + ": " + self.options[self.setting.val])
-        logging.info(
-            "[Setting][%s] set to %s", self.setting.name, self.setting.val
-        )
+        logging.info("[Setting][%s] set to %s", self.setting.name, self.setting.val)
 
 
 class Settings:
@@ -174,9 +170,7 @@ class Settings:
             "audio": True,
             "volume": 50,
         }
-        self.settings = [
-            Setting(name, val) for name, val in self.keywords.items()
-        ]
+        self.settings = [Setting(name, val) for name, val in self.keywords.items()]
 
     def from_dict(self, src):
         """Sets the settings from a dict

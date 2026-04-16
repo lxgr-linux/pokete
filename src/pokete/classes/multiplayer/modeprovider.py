@@ -5,6 +5,7 @@ from enum import Enum, auto
 
 class Mode(Enum):
     """The modes the game can have"""
+
     SINGLE = auto()
     MULTI = auto()
 

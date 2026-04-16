@@ -33,9 +33,7 @@ class AssetSerice:
         assert self.__base_assets is not None
         self.__items = {
             **{
-                name: InvItem(
-                    name, item.pretty_name, item.desc, item.price, item.fn
-                )
+                name: InvItem(name, item.pretty_name, item.desc, item.price, item.fn)
                 for name, item in self.__base_assets.items.items()
             },
             **{

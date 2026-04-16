@@ -18,9 +18,7 @@ class MultiTextChooseBox(ChooseBoxView[tuple[int, str]]):
             name=name,
         )
         self.keys = keys
-        self.elems: list[se.ObjectGroup] = [
-            se.Text(i, state="float") for i in keys
-        ]
+        self.elems: list[se.ObjectGroup] = [se.Text(i, state="float") for i in keys]
         self.fig: Optional[se.Text] = None
 
     def new_size(self) -> tuple[int, int]:

@@ -48,9 +48,7 @@ class Poke:
         stats=None,
     ):
         self.nature = (
-            PokeNature.random()
-            if nature is None
-            else PokeNature.from_dict(nature)
+            PokeNature.random() if nature is None else PokeNature.from_dict(nature)
         )
         self.inf: ResourcePoke = asset_service.get_base_assets().pokes[poke]
         self.moves = Moves(self)
@@ -77,16 +75,12 @@ class Poke:
         self.type = self.types[0]
         self.effects = []
         if _attacks is not None:
-            assert len(_attacks) <= 4, (
-                f"A Pokete {poke} \
+            assert len(_attacks) <= 4, f"A Pokete {poke} \
 can't have more than 4 attacks!"
-            )
         else:
             _attacks = self.inf.attacks[:4]
         attacks = asset_service.get_base_assets().attacks
-        self.attacks = [
-            atc for atc in _attacks if self.lvl() >= attacks[atc].min_lvl
-        ]
+        self.attacks = [atc for atc in _attacks if self.lvl() >= attacks[atc].min_lvl]
         if self.shiny:
             self.hp += 5
         self.attack_obs = [
@@ -174,11 +168,7 @@ can't have more than 4 attacks!"
                 self,
                 name,
                 round(
-                    (
-                        self.lvl()
-                        + getattr(self.inf, name)
-                        + (2 if self.shiny else 0)
-                    )
+                    (self.lvl() + getattr(self.inf, name) + (2 if self.shiny else 0))
                     * self.nature.get_value(name)
                 ),
             )
@@ -216,14 +206,10 @@ can't have more than 4 attacks!"
         old_lvl = self.lvl()
         self.xp += _xp
         self.poke_stats.add_xp(_xp)
-        self.text_xp.rechar(
-            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
-{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}"
-        )
+        self.text_xp.rechar(f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
+{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}")
         self.text_lvl.rechar(f"Lvl:{self.lvl()}")
-        logging.info(
-            "[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp
-        )
+        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
         if old_lvl < self.lvl():
             logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
             return True
@@ -240,9 +226,7 @@ can't have more than 4 attacks!"
             LearnAttack(self)(ctx)
 
     def get_evolve_poke(self) -> "Poke":
-        new = Poke(
-            self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny
-        )
+        new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny)
         new.set_poke_stats(self.poke_stats)
         new.poke_stats.set_evolved_date(datetime.now())
         return new
@@ -277,10 +261,7 @@ can't have more than 4 attacks!"
             _xp: The poketes given xp"""
         obj = cls(poke, _xp)
         for i in range(obj.lvl()):
-            if (
-                i % 5 == 0
-                and (new_attack := LearnAttack.get_attack(obj)) is not None
-            ):
+            if i % 5 == 0 and (new_attack := LearnAttack.get_attack(obj)) is not None:
                 obj.attacks.append(new_attack)
 
         while len(obj.attacks) > 4:

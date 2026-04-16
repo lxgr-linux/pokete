@@ -10,7 +10,8 @@ from pokete.classes.multiplayer.msg import fight
 
 
 class FigureWrapperProvider(Provider):
-    def __init__(self,
+    def __init__(
+        self,
         figure,
         outgoing: bs_rpc.ResponseWriter,
         incomming: Generator[bs_rpc.Body, None, None],
@@ -18,7 +19,9 @@ class FigureWrapperProvider(Provider):
         self.outgoing = outgoing
         self.incomming = incomming
         self.figure = figure
-        super().__init__(figure.pokes, figure.escapable, figure.xp_multiplier, figure.inv)
+        super().__init__(
+            figure.pokes, figure.escapable, figure.xp_multiplier, figure.inv
+        )
 
     @property
     def caught_pokes(self):
@@ -28,14 +31,13 @@ class FigureWrapperProvider(Provider):
     def map(self):
         return self.figure.map
 
-    def remove_item(self, name:str):
+    def remove_item(self, name: str):
         self.figure.remove_item(name)
 
     def greet(self, fightmap: FightMap):
         return super().greet(fightmap)
 
-    def get_decision(self, ctx: Context, fightmap: FightMap, enem
-    ) -> FightDecision:
+    def get_decision(self, ctx: Context, fightmap: FightMap, enem) -> FightDecision:
         result = self.figure.get_decision(ctx, fightmap, enem)
         self.outgoing(fight.FightDecision(result.to_dict()))
 

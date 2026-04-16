@@ -1,6 +1,5 @@
 """Contains the ob_maps dict"""
 
-
 ob_maps = {}
 
 

@@ -23,12 +23,8 @@ class AttackInfoBox(se.Box):
         self.effect_active = False
         self.effect_available = False
         self.attack_info = LabelBox(se.Text("", state="float"), "Attack Info")
-        self.attack_info_label = GenericActionLabel(
-            Action.SCREEN_SWITCH, "Attack Info"
-        )
-        self.effect_info_label = GenericActionLabel(
-            Action.SCREEN_SWITCH, "Effect Info"
-        )
+        self.attack_info_label = GenericActionLabel(Action.SCREEN_SWITCH, "Attack Info")
+        self.effect_info_label = GenericActionLabel(Action.SCREEN_SWITCH, "Effect Info")
         self.effect_info = LabelBox(
             se.Text("", state="float"),
             "Effect Info",
@@ -143,9 +139,7 @@ class AttackBox(ChooseBoxView[Attack]):
                 self.attack_info_box.toggle()
         return False
 
-    def __call__(
-        self, ctx: Context, attack_obs: list[Attack]
-    ) -> Optional[Attack]:
+    def __call__(self, ctx: Context, attack_obs: list[Attack]) -> Optional[Attack]:
         self.attack_obs = attack_obs
         self.elems = [atc.label for atc in attack_obs]
         self.add_elems()

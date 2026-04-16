@@ -38,9 +38,7 @@ class Connector:
 
     def handshake(self, ctx: Context):
         try:
-            greeting_text = com_service.handshake(
-                ctx, self.user_name, release.VERSION
-            )
+            greeting_text = com_service.handshake(ctx, self.user_name, release.VERSION)
             ask_ok(ctx, liner(greeting_text, ctx.map.width - 4))
         except UserPresentException:
             self.ask_user_name(ctx, True)
@@ -96,9 +94,11 @@ class Connector:
         try:
             com_service.connect(
                 self.host_port.host,
-                self.host_port.port
-                if self.host_port.port is not None
-                else DEFAULT_PORT,
+                (
+                    self.host_port.port
+                    if self.host_port.port is not None
+                    else DEFAULT_PORT
+                ),
             )
         except ConnectionException as excpt:
             ask_ok(

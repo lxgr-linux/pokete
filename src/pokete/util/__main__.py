@@ -41,9 +41,7 @@ def main():
                         "Actions run pre branch switch",
                         prepare_before,
                     ),
-                    Command(
-                        "after", "Actions run post branch switch", prepare_after
-                    ),
+                    Command("after", "Actions run post branch switch", prepare_after),
                 ],
             ),
             Command(
