@@ -4,7 +4,7 @@ import time
 
 from .channel import Channel
 from .channel_generator import ChannelGenerator
-from .msg import Body, EmptyMsg, Method, Msg
+from .msg import Body, EmptyMsg, Method, Msg, ResponseWriter
 from .registry import Registry
 
 __all__ = [
@@ -16,6 +16,7 @@ __all__ = [
     "EmptyMsg",
     "Channel",
     "Registry",
+    "ResponseWriter",
 ]
 
 END_SECTION = b"<END>"
