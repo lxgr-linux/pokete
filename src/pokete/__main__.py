@@ -208,7 +208,7 @@ class Debug:
 def autosave(figure):
     """Autosaves the game every 5 mins"""
     while True:
-        time.sleep(SPEED_OF_TIME * 0.1)
+        time.sleep(SPEED_OF_TIME * 300)
         if settings("autosave").val:
             save(figure)
 
