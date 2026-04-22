@@ -498,8 +498,9 @@ def main():
 
         PreGameMap()(session_info, figure)
         figure.set_args(session_info)
-        PropagatingThread(target=autosave, args=(figure,),
-                          daemon=True).start()  # after set_args
+        PropagatingThread(
+            target=autosave, args=(figure,), daemon=True
+        ).start()  # after set_args
         game_map = figure.map
         if figure.name == "DEFAULT":
             intro(Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure))
