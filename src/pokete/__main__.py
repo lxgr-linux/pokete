@@ -495,10 +495,11 @@ def main():
         notifier.set_vars(mvp.movemap)
 
         PropagatingThread(target=timer.time_threat, daemon=True).start()
-        PropagatingThread(target=autosave, args=(figure,), daemon=True).start()
 
         PreGameMap()(session_info, figure)
         figure.set_args(session_info)
+        PropagatingThread(target=autosave, args=(figure,),
+                          daemon=True).start()  # after set_args
         game_map = figure.map
         if figure.name == "DEFAULT":
             intro(Context(PeriodicEventManager([]), mvp.movemap, mvp.movemap, figure))
