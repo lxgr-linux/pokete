@@ -1,27 +1,30 @@
 """The Deck shows all Poketes a player owns"""
 
-import scrap_engine as se
 from typing import Optional
+
+import scrap_engine as se
 
 from pokete.base import loops
 from pokete.base.change import change_ctx
-from pokete.base.color import Color
 from pokete.base.context import Context
+from pokete.base.input import ACTION_DIRECTIONS, Action, get_action
+from pokete.base.input_loops import ask_bool, ask_ok
+from pokete.base.ui.views.better_choose_box import BetterChooseBoxView
+from pokete.classes import detail
+from .poke import Poke
+
+"""
+from pokete.base.color import Color
 from pokete.base.exception_propagation import (
     exception_propagating_periodic_event,
 )
 from pokete.base.game_map import GameMap, GameSubmap
-from pokete.base.input import ACTION_DIRECTIONS, Action, get_action
-from pokete.base.input_loops import ask_bool, ask_ok
+
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements import StdFrame2
-from pokete.classes import detail
-
-from pokete.base.ui.views.better_choose_box import BetterChooseBoxView
-
-from .poke import Poke
+"""
 
 """
 class Index(se.Object):
