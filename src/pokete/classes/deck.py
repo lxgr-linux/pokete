@@ -148,7 +148,8 @@ class Deck(BetterChooseBoxView):
                     elif ask_bool(
                         ctx,
                         f"Do you really want to free \
-                    {self.figure.pokes[self.index[0] * self.columns + self.index[1]].name}?",
+                    {self.figure.pokes[self.index[0] * self.columns +
+                                       self.index[1]].name}?",
                     ):
                         self.figure.pokes[
                             self.index[0] * self.columns + self.index[
@@ -236,5 +237,6 @@ class Deck(BetterChooseBoxView):
             self.pokes[self.index.index].text_name.y,
         )
     """
+
 
 deck: Deck = Deck()
