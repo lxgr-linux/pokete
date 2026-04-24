@@ -8,6 +8,7 @@ from pokete.base.context import Context
 from pokete.base.ui.notify import notifier
 from pokete.base.ui.views.boxes import InfoBoxView
 from pokete.base.ui.views.choose_box import ChooseBoxView
+from .game import ReturnToMenuException
 from pokete.release import SPEED_OF_TIME
 
 from .achievements import AchievementOverview
@@ -28,6 +29,7 @@ class Menu(ChooseBoxView):
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
+        self.return_label = se.Text("Return to main menu", state="float")
         self.elems = [
             self.playername_input,
             self.represent_char_input,
@@ -41,6 +43,7 @@ class Menu(ChooseBoxView):
             self.ach_label,
             self.about_label,
             self.save_label,
+            self.return_label,
             self.exit_label,
         ]
 
@@ -97,6 +100,9 @@ valid single-space character!",
             About()(ctx)
         elif i == self.ach_label:
             AchievementOverview()(ctx)
+        elif i == self.return_label:
+            save(ctx.figure)
+            raise ReturnToMenuException()
         elif isinstance(i, VisSetting) or isinstance(i, Slider):
             i.change(ctx)
         if (
