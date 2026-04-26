@@ -34,8 +34,4 @@ line-length = 88
 target-version = "py312"
 
 [tool.ruff.lint]
-per-file-ignores = {
-    "**/tests/**" = ["F403"],
-    "**/*_test.py" = ["F403"],
-    "**/test_*.py" = ["F403"],
-}
+per-file-ignores = { '**/tests/**' = ["F403"], '**/*_test.py' = ["F403"], '**/test_*.py' = ["F403"] }
