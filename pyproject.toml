@@ -28,3 +28,10 @@ pokete-util = "pokete.util.__main__:main"
 Homepage = "https://github.com/lxgr-linux/pokete"
 Issues = "https://github.com/lxgr-linux/pokete/issue"
 Repository = "https://github.com/lxgr-linux/pokete.git"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+per-file-ignores = { '**/tests/**' = ["F403"], '**/*_test.py' = ["F403"], '**/test_*.py' = ["F403"] }

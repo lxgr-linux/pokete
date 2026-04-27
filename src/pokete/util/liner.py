@@ -30,7 +30,7 @@ def hard_liner(l_len, name):
         The lined string"""
     ret = ""
     for i in range(int(len(name) / l_len) + 1):
-        ret += name[i * l_len:(i + 1) * l_len] + ("\n"
-                                                  if i != int(len(name) / l_len)
-                                                  else "")
+        ret += name[i * l_len : (i + 1) * l_len] + (
+            "\n" if i != int(len(name) / l_len) else ""
+        )
     return ret

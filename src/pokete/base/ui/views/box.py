@@ -25,9 +25,7 @@ class BoxView(Box, MouseInteractor, ABC):
     @override
     def get_partial_interactors(self) -> list[MouseInteractor]:
         return [
-            label
-            for label in self.info_labels
-            if isinstance(label, MouseInteractor)
+            label for label in self.info_labels if isinstance(label, MouseInteractor)
         ]
 
     @override

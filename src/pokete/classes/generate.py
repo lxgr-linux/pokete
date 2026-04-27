@@ -8,7 +8,7 @@ import scrap_engine as se
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.tss import tss
 from pokete.classes.asset_service.resources.obmaps import Obmap
-from pokete.classes.map_additions import customizers
+from pokete.classes.map_additions.customizers import customizers
 
 from . import ob_maps as obmp
 from .asset_service.resources import Map
@@ -36,9 +36,7 @@ class Playmap7Event(PeriodicEvent):
         for obj in self.__all_obs():
             if (
                 obj.added
-                and math.sqrt(
-                    (obj.y - self.fig.y) ** 2 + (obj.x - self.fig.x) ** 2
-                )
+                and math.sqrt((obj.y - self.fig.y) ** 2 + (obj.x - self.fig.x) ** 2)
                 <= 3
             ):
                 obj.rechar(obj.bchar)
@@ -127,13 +125,8 @@ def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]):
             single_door,
         )
     for ball, single_ball in single_map.balls.items():
-        if (
-            f"{_map.name}.{ball}" not in used_npcs
-            or not settings("save_trainers").val
-        ):
-            __parse_obj(
-                _map, ball, Poketeball(f"{_map.name}.{ball}"), single_ball
-            )
+        if f"{_map.name}.{ball}" not in used_npcs or not settings("save_trainers").val:
+            __parse_obj(_map, ball, Poketeball(f"{_map.name}.{ball}"), single_ball)
     if single_map.special_dors is not None:
         for name, cls in [("dor", DoorToCenter), ("shopdor", DoorToShop)]:
             door_ob = getattr(single_map.special_dors, name)

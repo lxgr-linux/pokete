@@ -12,6 +12,7 @@ from pokete.release import SPEED_OF_TIME
 
 from .achievements import AchievementOverview
 from .audio import audio
+from .game import ReturnToMenuException
 from .mods import ModInfo
 from .save import save
 from .settings import Slider, TextInputBox, VisSetting, settings
@@ -28,14 +29,13 @@ class Menu(ChooseBoxView):
         self.about_label = se.Text("About", state="float")
         self.save_label = se.Text("Save", state="float")
         self.exit_label = se.Text("Exit", state="float")
+        self.return_label = se.Text("Return to main menu", state="float")
         self.elems = [
             self.playername_input,
             self.represent_char_input,
             VisSetting("Autosave", "autosave", {True: "On", False: "Off"}),
             VisSetting("Animations", "animations", {True: "On", False: "Off"}),
-            VisSetting(
-                "Save trainers", "save_trainers", {True: "On", False: "Off"}
-            ),
+            VisSetting("Save trainers", "save_trainers", {True: "On", False: "Off"}),
             VisSetting("Audio", "audio", {True: "On", False: "Off"}),
             Slider("Volume", "volume"),
             VisSetting("Load mods", "load_mods", {True: "On", False: "Off"}),
@@ -43,6 +43,7 @@ class Menu(ChooseBoxView):
             self.ach_label,
             self.about_label,
             self.save_label,
+            self.return_label,
             self.exit_label,
         ]
 
@@ -99,6 +100,9 @@ valid single-space character!",
             About()(ctx)
         elif i == self.ach_label:
             AchievementOverview()(ctx)
+        elif i == self.return_label:
+            save(ctx.figure)
+            raise ReturnToMenuException()
         elif isinstance(i, VisSetting) or isinstance(i, Slider):
             i.change(ctx)
         if (

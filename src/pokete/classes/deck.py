@@ -88,9 +88,7 @@ class Deck(detail.Informer, Overview):
             self.pokes[self.index.index].text_name.y,
         )
 
-    def __call__(
-        self, ctx: Context, p_len, label="Your full deck", in_fight=False
-    ):
+    def __call__(self, ctx: Context, p_len, label="Your full deck", in_fight=False):
         """Opens the deck
         ARGS:
             ctx: Context
@@ -158,15 +156,16 @@ class Deck(detail.Informer, Overview):
                     continue
                 if not indici:
                     indici.append(self.index.index)
-                    self.move_label.rechar(
-                        f"{Action.MOVE_POKETE.mapping}: Move to "
-                    )
+                    self.move_label.rechar(f"{Action.MOVE_POKETE.mapping}: Move to ")
                 else:
                     indici.append(self.index.index)
                     (
                         self.figure.pokes[indici[0]],
                         self.figure.pokes[indici[1]],
-                    ) = self.pokes[indici[1]], self.pokes[indici[0]]
+                    ) = (
+                        self.pokes[indici[1]],
+                        self.pokes[indici[0]],
+                    )
                     self.pokes = self.figure.pokes[:p_len]
                     indici = []
                     self.rem_pokes()
@@ -178,9 +177,7 @@ class Deck(detail.Informer, Overview):
                         + 1,
                         self.pokes[self.index.index].text_name.y,
                     )
-                    self.move_label.rechar(
-                        f"{Action.MOVE_POKETE.mapping}: Move    "
-                    )
+                    self.move_label.rechar(f"{Action.MOVE_POKETE.mapping}: Move    ")
                     self.submap.full_show()
             elif action.triggers(Action.FREE_POKETE):
                 if self.pokes[self.index.index].identifier == "__fallback__":
@@ -202,9 +199,7 @@ class Deck(detail.Informer, Overview):
 {self.figure.pokes[self.index.index].name}?",
                 ):
                     self.rem_pokes()
-                    self.figure.pokes[self.index.index] = Poke(
-                        "__fallback__", 10, 0
-                    )
+                    self.figure.pokes[self.index.index] = Poke("__fallback__", 10, 0)
                     self.pokes = self.figure.pokes[: len(self.pokes)]
                     self.add_all()
                     self.index.set(
@@ -267,9 +262,7 @@ class Deck(detail.Informer, Overview):
                     j * 5 + 1,
                 )
             if i % 2 == 0 and init:
-                se.Square("-", self.map.width - 2, 1).add(
-                    self.map, 1, j * 5 + 5
-                )
+                se.Square("-", self.map.width - 2, 1).add(self.map, 1, j * 5 + 5)
             if i % 2 == 1:
                 j += 1
 
@@ -296,11 +289,9 @@ class Deck(detail.Informer, Overview):
                 len(self.pokes) - 1,
                 0,
                 self.index.index % 2,
-                [
-                    i
-                    for i in range(len(self.pokes))
-                    if i % 2 == self.index.index % 2
-                ][-1],
+                [i for i in range(len(self.pokes)) if i % 2 == self.index.index % 2][
+                    -1
+                ],
             ],
         ):
             if inp == direction:

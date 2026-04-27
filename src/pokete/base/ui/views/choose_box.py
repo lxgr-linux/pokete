@@ -52,9 +52,7 @@ class UpDownSwitch(se.Box, MouseInteractor):
                 case MouseEventType.LEFT:
                     if event.pressed:
                         if area_idx == 0:
-                            self.pageable.change_page(
-                                -1, self.pageable.height - 3
-                            )
+                            self.pageable.change_page(-1, self.pageable.height - 3)
                         else:
                             self.pageable.change_page(1, 0)
         else:
@@ -92,9 +90,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
     def get_partial_interactors(self) -> list[MouseInteractor]:
         up_down: list[MouseInteractor] = [self.up_down_switch]
         return [
-            label
-            for label in self.info_labels
-            if isinstance(label, MouseInteractor)
+            label for label in self.info_labels if isinstance(label, MouseInteractor)
         ] + up_down
 
     @abstractmethod
@@ -113,8 +109,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
                 (self.x + self.width - 2, i.y + i.height - 1),
             )
             for i in self.elems[
-                self.page * (self.height - 2) : (self.page + 1)
-                * (self.height - 2)
+                self.page * (self.height - 2) : (self.page + 1) * (self.height - 2)
             ]
         ]
 
@@ -141,8 +136,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
         self.remove_c_obs()
         self.add_c_obs(
             self.elems[
-                self.page * (self.height - 2) : (self.page + 1)
-                * (self.height - 2)
+                self.page * (self.height - 2) : (self.page + 1) * (self.height - 2)
             ]
         )
 
@@ -178,11 +172,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
         return False
 
     def change_page(self, add_page, n_idx):
-        if (
-            0
-            <= (self.page + add_page)
-            < math.ceil(len(self.elems) / (self.height - 2))
-        ):
+        if 0 <= (self.page + add_page) < math.ceil(len(self.elems) / (self.height - 2)):
             self.rem_elems()
             self.page += add_page
             self.add_elems()
@@ -205,9 +195,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
                     self.change_page(add_page, n_idx)
                     action, _ = get_action()
             if action.triggers(Action.ACCEPT):
-                res = self.choose(
-                    ctx, self.page * (self.height - 2) + self.index.index
-                )
+                res = self.choose(ctx, self.page * (self.height - 2) + self.index.index)
                 ctx = change_ctx(ctx, self)
                 if res is not None:
                     return res

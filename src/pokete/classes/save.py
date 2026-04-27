@@ -41,9 +41,7 @@ def save(figure):
         "money": figure.get_money(),
         "settings": settings.to_dict(),
         "caught_poketes": list(
-            dict.fromkeys(
-                figure.caught_pokes + [i.identifier for i in figure.pokes]
-            )
+            dict.fromkeys(figure.caught_pokes + [i.identifier for i in figure.pokes])
         ),
         "visited_maps": figure.visited_maps,
         "hotkeys": hotkeys_save(),

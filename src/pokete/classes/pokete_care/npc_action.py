@@ -15,11 +15,13 @@ class PoketeCareNPCAction(NPCAction):
 
     def act(self, npc: NPCInterface, ui: UIInterface):
         if self.care.poke is None:
-            npc.text(["Here you can leave one of your Poketes for some time \
-and we will train it."])
-            if ui.ask_bool(
-                "Do you want to put a Pokete into the Pokete-Care?"
-            ):
+            npc.text(
+                [
+                    "Here you can leave one of your Poketes for some time \
+and we will train it."
+                ]
+            )
+            if ui.ask_bool("Do you want to put a Pokete into the Pokete-Care?"):
                 if (index := ui.choose_poke()) is not None:
                     self.care.poke = npc.ctx.figure.pokes[index]
                     self.care.entry = timer.time.time
@@ -29,15 +31,24 @@ and we will train it."])
             add_xp = int((timer.time.time - self.care.entry) / 30)
             self.care.entry = timer.time.time
             self.care.poke.add_xp(add_xp)
-            npc.text(["Oh, you're back.", f"Your {self.care.poke.name} \
-gained {add_xp}xp and reached level {self.care.poke.lvl()}!"])
+            npc.text(
+                [
+                    "Oh, you're back.",
+                    f"Your {self.care.poke.name} \
+gained {add_xp}xp and reached level {self.care.poke.lvl()}!",
+                ]
+            )
             if ui.ask_bool("Do you want it back?"):
                 dummy = DummyFigure(self.care.poke)
                 evomap = EvoMap(npc.ctx.map.height, npc.ctx.map.width)
                 while evomap(
-                    Context(PeriodicEventManager([exception_propagating_periodic_event]), npc.ctx.map,
-                            npc.ctx.overview, dummy),
-                    dummy.pokes[0]
+                    Context(
+                        PeriodicEventManager([exception_propagating_periodic_event]),
+                        npc.ctx.map,
+                        npc.ctx.overview,
+                        dummy,
+                    ),
+                    dummy.pokes[0],
                 ):
                     continue
                 npc.ctx.figure.add_poke(dummy.pokes[0])

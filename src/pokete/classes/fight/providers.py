@@ -53,9 +53,7 @@ class Provider(ABC):
 
     def index_conf(self):
         """Sets index correctly"""
-        self.play_index = next(
-            i for i, poke in enumerate(self.pokes) if poke.hp > 0
-        )
+        self.play_index = next(i for i, poke in enumerate(self.pokes) if poke.hp > 0)
 
     def remove_item(self, item: str, amount: int = 1):
         """Removes and item from the providers inventory
@@ -63,9 +61,7 @@ class Provider(ABC):
         return
 
     @abstractmethod
-    def get_decision(
-        self, ctx: Context, fightmap: "FightMap", enem
-    ) -> FightDecision:
+    def get_decision(self, ctx: Context, fightmap: "FightMap", enem) -> FightDecision:  # noqa: F821
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object

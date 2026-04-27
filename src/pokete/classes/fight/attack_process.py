@@ -1,14 +1,15 @@
+import logging
 import random
 import time
-import logging
 
 from pokete.classes.attack import Attack
 from pokete.release import SPEED_OF_TIME
-from .providers import Provider
-from .fightmap import FightMap
+
 from ..attack_actions import AttackActions
 from ..effects import effects
 from ..poke import Poke
+from .fightmap import FightMap
+from .providers import Provider
 
 
 class AttackProcess:
@@ -20,31 +21,43 @@ class AttackProcess:
         return random.choices(
             [0, 0.75, 1, 1.26],
             weights=[attack.miss_chance + attacker.miss_chance, 1, 1, 1],
-            k=1
+            k=1,
         )[0]
 
     @staticmethod
     def get_base_effectivity(defender: Poke, attack: Attack) -> float:
         return (
-            1.3 if defender.type.name in attack.type.effective else 0.5
-            if defender.type.name in attack.type.ineffective else 1
+            1.3
+            if defender.type.name in attack.type.effective
+            else 0.5
+            if defender.type.name in attack.type.ineffective
+            else 1
         )
 
     @staticmethod
-    def get_hp(attacker: Poke, defender: Poke, attack: Attack,
-               random_factor: int, eff: int) -> int:
-        return 0 if random_factor == 0 else max(
-            4,
-            round(
-                (attacker.atc
-                 * attack.factor
-                 / (defender.defense if defender.defense >= 1 else 1))
-                * random_factor * eff
+    def get_hp(
+        attacker: Poke, defender: Poke, attack: Attack, random_factor: int, eff: int
+    ) -> int:
+        return (
+            0
+            if random_factor == 0
+            else max(
+                4,
+                round(
+                    (
+                        attacker.atc
+                        * attack.factor
+                        / (defender.defense if defender.defense >= 1 else 1)
+                    )
+                    * random_factor
+                    * eff
+                ),
             )
         )
 
-    def __call__(self, attacker: Poke, defender: Poke, attack: Attack,
-                 providers: list[Provider]):
+    def __call__(
+        self, attacker: Poke, defender: Poke, attack: Attack, providers: list[Provider]
+    ):
         """Attack process
         ARGS:
             attack: Attack object
@@ -89,6 +102,6 @@ class AttackProcess:
                 "[Fight][%s] Used %s: %s",
                 attacker.name,
                 attack.name,
-                str({"eff": eff, "n_hp": n_hp})
+                str({"eff": eff, "n_hp": n_hp}),
             )
             self.fightmap.show()

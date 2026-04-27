@@ -13,7 +13,7 @@ from .mouse import mouse_manager
 
 
 class Recogniser:
-    ESCAPES: list[int] = [27, 0]
+    ESCAPES: list[int] = [27, 0, 224]  # 224 is for windows
     ESCAPED_KEY_MAPPING: dict[str, key.Key] = {
         "[A": key.UP,
         "[B": key.DOWN,

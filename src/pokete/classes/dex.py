@@ -79,9 +79,7 @@ class PokeDex(ChooseBoxView):
         pokes = asset_service.get_base_assets().pokes
         self.p_dict = {
             i[1]: i[-1]
-            for i in sorted(
-                [(pokes[j].types[0], j, pokes[j]) for j in list(pokes)[1:]]
-            )
+            for i in sorted([(pokes[j].types[0], j, pokes[j]) for j in list(pokes)[1:]])
         }
 
     def new_size(self) -> tuple[int, int]:

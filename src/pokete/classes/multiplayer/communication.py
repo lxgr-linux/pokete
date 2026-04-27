@@ -73,9 +73,7 @@ class CommunicationService:
     """
 
     def __call__(self):
-        PropagatingThread(
-            target=self.__subscribe_position_updates, daemon=True
-        ).start()
+        PropagatingThread(target=self.__subscribe_position_updates, daemon=True).start()
         # threading.Thread(
         #    target=self.__send_position_updates,
         #    daemon=True
@@ -156,9 +154,7 @@ class CommunicationService:
                 return None
 
     def join_fight(self, fight_id: int) -> bs_rpc.ChannelGenerator:
-        return self.client.call_for_responses(
-            fight.Fight({"fight_id": fight_id})
-        )
+        return self.client.call_for_responses(fight.Fight({"fight_id": fight_id}))
 
     def pos_update(self, _map: str, x: int, y: int):
         """Sends a position update to the server

@@ -16,19 +16,26 @@ class GiveBasic(NPCAction):
 class Playmap17Boy(NPCAction):
     def act(self, npc: NPCInterface, ui: UIInterface):
         if "choka" in [i.identifier for i in npc.ctx.figure.pokes[:6]]:
-            npc.text(["Oh, cool!", "You have a Choka!",
-                      "I've never seen one before!",
-                      "Here you go, have $200!"])
-            if ui.ask_bool(
-                "The young boy gifted you $200. Do you want to accept it?"
-            ):
+            npc.text(
+                [
+                    "Oh, cool!",
+                    "You have a Choka!",
+                    "I've never seen one before!",
+                    "Here you go, have $200!",
+                ]
+            )
+            if ui.ask_bool("The young boy gifted you $200. Do you want to accept it?"):
                 npc.ctx.figure.add_money(200)
             npc.set_used()
         else:
-            npc.text(["In this region lives the Würgos Pokete.",
-                      f"At level {asset_service.get_base_assets().pokes['würgos'].evolve_lvl} \
+            npc.text(
+                [
+                    "In this region lives the Würgos Pokete.",
+                    f"At level {asset_service.get_base_assets().pokes['würgos'].evolve_lvl} \
 It evolves into Choka.",
-                      "I have never seen one before!"])
+                    "I have never seen one before!",
+                ]
+            )
 
 
 class Playmap13introductor(NPCAction):
@@ -38,16 +45,12 @@ class Playmap13introductor(NPCAction):
                 [
                     "To get to the other side of this building, "
                     "you have to win some epic fights against Deepest "
-                    "Forests' best trainers!", "This won't be easy!"
+                    "Forests' best trainers!",
+                    "This won't be easy!",
                 ]
             )
         else:
-            npc.text(
-                [
-                    "It looks like you've been succesfull!",
-                    "Congrats!"
-                ]
-            )
+            npc.text(["It looks like you've been succesfull!", "Congrats!"])
             npc.set_used()
 
 
@@ -59,8 +62,7 @@ class Playmap20Trader(NPCAction):
         npc.ctx.figure.add_poke(poke, index)
         npc.set_used()
         ui.ask_ok(
-            f"You received: {poke.name.capitalize()}"
-            f" at level {poke.lvl()}.",
+            f"You received: {poke.name.capitalize()} at level {poke.lvl()}.",
         )
         npc.text(["Cool, huh?"])
 
@@ -77,8 +79,9 @@ class Playmap23Npc8(NPCAction):
 class Playmap39Npc25(NPCAction):
     def act(self, npc: NPCInterface, ui: UIInterface):
         if not npc.get("Leader Sebastian").used:
-            npc.text(["I can't let you go!",
-                      "You first have to defeat our arena leader!"])
+            npc.text(
+                ["I can't let you go!", "You first have to defeat our arena leader!"]
+            )
             npc.ctx.figure.set(npc.ctx.figure.x + 1, npc.ctx.figure.y)
         else:
             npc.text(["Have a pleasant day."])
@@ -93,36 +96,45 @@ class Playmap43Npc23(NPCAction):
 
 class Playmap42Npc21(NPCAction):
     def act(self, npc: NPCInterface, ui: UIInterface):
-        poke_list = [i for i in npc.ctx.figure.pokes[:6]
-                     if i.lvl() >= 50 and i.identifier == "mowcow"]
+        poke_list = [
+            i
+            for i in npc.ctx.figure.pokes[:6]
+            if i.lvl() >= 50 and i.identifier == "mowcow"
+        ]
         if len(poke_list) > 0:
             poke = poke_list[0]
-            npc.text(["Oh great!", "You're my hero!",
-                      f"You brought me a level {poke.lvl()} Mowcow!",
-                      "I'm thanking you!",
-                      "Now I can still serve the best MowCow-Burgers!",
-                      "Can I have it?"])
-            if ui.ask_bool(
-                "Do you want to give your Mowcow to the cook?"
-            ):
+            npc.text(
+                [
+                    "Oh great!",
+                    "You're my hero!",
+                    f"You brought me a level {poke.lvl()} Mowcow!",
+                    "I'm thanking you!",
+                    "Now I can still serve the best MowCow-Burgers!",
+                    "Can I have it?",
+                ]
+            )
+            if ui.ask_bool("Do you want to give your Mowcow to the cook?"):
                 npc.ctx.figure.pokes[npc.ctx.figure.pokes.index(poke)] = Poke(
-                    "__fallback__", 0)
+                    "__fallback__", 0
+                )
                 npc.text(["Here you go, have $1000!"])
                 if ui.ask_bool(
-                    "The cook gifted you $1000. "
-                    "Do you want to accept it?",
+                    "The cook gifted you $1000. Do you want to accept it?",
                 ):
                     npc.ctx.figure.add_money(1000)
                 npc.set_used()
         else:
-            npc.text(["Ohhh man...", "All of our beef is empty...",
-                      "How are we going to serve the best MowCow-Burgers "
-                      "without beef?",
-                      "If only someone here could bring me a fitting "
-                      "Mowcow!?",
-                      "But it has to be at least on level 50 to meet our "
-                      "high quality standards.",
-                      "I will pay a good price!"])
+            npc.text(
+                [
+                    "Ohhh man...",
+                    "All of our beef is empty...",
+                    "How are we going to serve the best MowCow-Burgers without beef?",
+                    "If only someone here could bring me a fitting Mowcow!?",
+                    "But it has to be at least on level 50 to meet our "
+                    "high quality standards.",
+                    "I will pay a good price!",
+                ]
+            )
 
 
 actions: dict[str, NPCAction] = {
