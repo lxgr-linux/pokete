@@ -30,7 +30,7 @@ class DeckItem(se.Box):
 
 class NewDeck(BetterChooseBoxView[int]):
     def __init__(self):
-        super().__init__(2, [se.Text(" ")], "Your Deck")
+        super().__init__(2, 3, [se.Text(" ")], "Your Deck")
         self.pokes: list[Poke]
 
     def choose(self, ctx: Context, idx: int) -> Optional[int]:
@@ -40,6 +40,6 @@ class NewDeck(BetterChooseBoxView[int]):
     def __call__(self, ctx: Context, p_len: int, in_fight=False) -> Optional[int]:
         self.pokes = ctx.figure.pokes[:p_len]
 
-        self.set_items(2, [DeckItem(poke) for poke in self.pokes])
+        self.set_elems(2, 3, [DeckItem(poke) for poke in self.pokes])
 
         return super().__call__(ctx)

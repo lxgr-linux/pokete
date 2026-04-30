@@ -213,6 +213,7 @@ class BetterChooseBox(Box):
         for i in self.nest_label_obs:
             for obj in i:
                 self.rem_ob(obj)
+                obj.remove()
         box_width = sorted(i.width for i in labels)[-1]
         box_height = sorted(i.height for i in labels)[-1]
 
