@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import scrap_engine as se
 
 from pokete.base.context import Context
-from pokete.base.input.mouse import MouseEventType
+from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements import HightlightableText
 

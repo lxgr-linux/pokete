@@ -1,3 +1,4 @@
+import math
 from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar, override
 
@@ -58,6 +59,11 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
                     if event.pressed:
                         self.__special_ret = self.choose(ctx, area_idx)
                         ctx = change_ctx(ctx, self)
+        match event.type:
+            case MouseEventType.SCROLL_UP:
+                self.change_page(-1, 0)
+            case MouseEventType.SCROLL_DOWN:
+                self.change_page(1, 0)
 
     @override
     def get_partial_interactors(self) -> list[MouseInteractor]:
@@ -80,7 +86,11 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
         super().set_items(columns, self.elems[: rows * columns])
 
     def change_page(self, add_page, n_idx):
-        if 0 <= (self.page + add_page) < (len(self.elems) / (self.rows * self.columns)):
+        if (
+            0
+            <= (self.page + add_page)
+            < math.ceil(len(self.elems) / (self.rows * self.columns))
+        ):
             self.page += add_page
             super().set_items(
                 self.columns,
@@ -99,6 +109,19 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
             while True:
                 action, _ = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
+                    if (
+                        action.triggers(Action.UP)
+                        and self.page > 0
+                        and self.index[0] == 0
+                    ):
+                        self.change_page(-1, 0)
+                    elif (
+                        action.triggers(Action.DOWN)
+                        and self.page
+                        < math.ceil(len(self.elems) / (self.rows * self.columns)) + 1
+                        and self.index[0] == self.rows - 1
+                    ):
+                        self.change_page(1, 0)
                     self.input(action)
                 else:
                     if action.triggers(Action.CANCEL):
