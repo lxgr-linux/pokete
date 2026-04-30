@@ -3,10 +3,12 @@
 
 import os
 from os.path import exists, isdir
+
 import scrap_engine as se
+
 from pokete import release
-from pokete.classes.effects import effects, effect_list
-from pokete.data import pokes, attacks, types, items, maps
+from pokete.classes.effects import effect_list, effects
+from pokete.data import attacks, items, maps, pokes, types
 from pokete.util.command import Flag
 
 SILENT = False
