@@ -4,6 +4,7 @@ import scrap_engine as se
 
 from pokete.base.context import Context
 from pokete.base.ui.views.better_choose_box import BetterChooseBoxView
+from pokete.classes.new_detail import NewDetail
 from pokete.classes.poke.poke import Poke
 
 
@@ -42,4 +43,8 @@ class NewDeck(BetterChooseBoxView[int]):
 
         self.set_elems(2, 3, [DeckItem(poke) for poke in self.pokes])
 
-        return super().__call__(ctx)
+        ret = super().__call__(ctx)
+        if ret is None:
+            return ret
+        else:
+            NewDetail()(ctx, self.pokes[ret])
