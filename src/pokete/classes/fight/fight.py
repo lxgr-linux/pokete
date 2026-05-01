@@ -10,13 +10,13 @@ from pokete.base.exception_propagation import (
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
+from pokete.classes.attack import Attack
+from pokete.classes.audio import audio
+from pokete.classes.evo import EvoMap
 from pokete.classes.fight.items.item import RoundContinuation
 from pokete.classes.items.invitem import InvItem
 from pokete.release import SPEED_OF_TIME
 
-from ..attack import Attack
-from ..audio import audio
-from ..poke import EvoMap
 from .attack_process import AttackProcess
 from .fight_decision import Result
 from .fightmap import FightMap
@@ -161,7 +161,7 @@ class Fight:
         if winner.curr.player and winner.curr.add_xp(xp):
             self.fightmap.win_animation(winner)
             winner.curr.set_vars()
-            winner.curr.learn_attack(ctx.with_overview(self.fightmap))
+            learn_attack(winner.curr, ctx.with_overview(self.fightmap))
             evomap = EvoMap(self.fightmap.height, self.fightmap.width)
             evomap(ctx.with_overview(self.fightmap), winner.curr)
 

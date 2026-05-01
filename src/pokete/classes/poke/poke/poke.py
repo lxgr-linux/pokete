@@ -8,17 +8,16 @@ from datetime import datetime
 import scrap_engine as se
 
 from pokete.base.color import Color
-from pokete.base.context import Context
+from pokete.classes.asset_service.resources.base import Poke as ResourcePoke
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.attack import Attack
+from pokete.classes.effects import effects
+from pokete.classes.health_bar import HealthBar
 from pokete.classes.model.poke import PokeDict
+from pokete.classes.moves import Moves
+from pokete.classes.types import types
 
-from ..asset_service.resources.base import Poke as ResourcePoke
-from ..asset_service.service import asset_service
-from ..attack import Attack
-from ..effects import effects
-from ..health_bar import HealthBar
-from ..learnattack import LearnAttack
-from ..moves import Moves
-from ..types import types
+from .learnattack import LearnAttack
 from .nature import PokeNature
 from .stats import Stats
 
@@ -222,11 +221,6 @@ can't have more than 4 attacks!"
         """RETURNS:
         Current level"""
         return int(math.sqrt(self.xp + 1))
-
-    def learn_attack(self, ctx: Context):
-        """Checks if a new attack can be learned and then teaches it the poke"""
-        if self.lvl() % 5 == 0:
-            LearnAttack(self)(ctx)
 
     def get_evolve_poke(self) -> "Poke":
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny)

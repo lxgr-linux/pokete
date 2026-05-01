@@ -42,6 +42,7 @@ from pokete.classes.achievements import achievements
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.audio import audio
 from pokete.classes.classes import PlayMap
+from pokete.classes.deck import Deck
 from pokete.classes.dex import PokeDex
 from pokete.classes.fight import ProtoFigure
 from pokete.classes.game import MapChangeException
@@ -54,14 +55,13 @@ from pokete.classes.multiplayer.communication import com_service
 from pokete.classes.multiplayer.interactions.context_menu import ContextMenu
 from pokete.classes.multiplayer.modeprovider import Mode, modeProvider
 from pokete.classes.multiplayer.pc_manager import pc_manager
-from pokete.classes.new_deck import NewDeck
 from pokete.classes.periodic_events import (
     MovingGrassEvent,
     MovingWaterEvent,
     NotifierEvent,
     TreatNPCEvent,
 )
-from pokete.classes.poke import Poke, Stats
+from pokete.classes.poke.poke import Poke, Stats
 from pokete.classes.pokete_care import pokete_care
 from pokete.classes.pre_game import PreGameMap
 from pokete.classes.save import read_save, save
@@ -348,7 +348,7 @@ def _game(_map: PlayMap, figure: Figure):
     ctx = change_ctx(Context(pevm, mvp.movemap, mvp.movemap, figure), mvp.movemap)
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: list[tuple[list[Action], tuple]] = [
-        ([Action.DECK], (NewDeck(), (ctx, 6, "Your deck"))),
+        ([Action.DECK], (Deck(), (ctx, 6, "Your deck"))),
         ([Action.CANCEL, Action.EXIT_GAME], (quit, (ctx,))),
         ([Action.MAP], (roadmap.roadmap, (ctx,))),
         ([Action.INVENTORY], (inv, (ctx,))),

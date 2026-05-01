@@ -1,12 +1,14 @@
 from pokete.base.context import Context
 from pokete.base.exception_propagation import exception_propagating_periodic_event
 from pokete.base.periodic_event_manager import PeriodicEventManager
-from .pokete_care import PoketeCare
-from .. import timer
-from ..npcs import NPCAction
-from ..npcs.npc_action import NPCInterface, UIInterface
+from pokete.classes import timer
+from pokete.classes.evo import EvoMap
+from pokete.classes.npcs import NPCAction
+from pokete.classes.npcs.npc_action import NPCInterface, UIInterface
+from pokete.classes.poke.poke import Poke
+
 from .dummy import DummyFigure
-from ..poke import EvoMap, Poke
+from .pokete_care import PoketeCare
 
 
 class PoketeCareNPCAction(NPCAction):

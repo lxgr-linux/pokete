@@ -1,9 +1,10 @@
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.single_event import SingleEvent
 from pokete.classes import animations, roadmap
+from pokete.classes.asset_service.service import asset_service
 from pokete.classes.doors import Door
 from pokete.classes.settings import settings
-from pokete.classes.asset_service.service import asset_service
 
 
 class TeleportationSingleEvent(SingleEvent):
@@ -12,7 +13,9 @@ class TeleportationSingleEvent(SingleEvent):
 
     def run(self, ctx: Context):
         # TODO: This is horrible, remove the te
-        if (obj := roadmap.roadmap(ctx, choose=True)) is None:
+        obj = roadmap.roadmap(ctx, choose=True)
+        ctx = change_ctx(ctx, ctx.overview)
+        if obj is None:
             return
         if settings("animations").val:
             animations.transition(ctx.map, self.poke)

@@ -6,9 +6,9 @@ from abc import ABC, abstractmethod
 
 from pokete.base.context import Context
 from pokete.base.input_loops import ask_bool
+from pokete.classes.achievements import achievements
+from pokete.classes.poke.poke import Poke
 
-from ..achievements import achievements
-from ..poke import Poke
 from .fight_decision import FightDecision
 
 

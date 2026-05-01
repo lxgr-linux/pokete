@@ -1,6 +1,8 @@
 from pokete.base.context import Context
-from . import Poke
+from pokete.classes.poke.poke import Poke
+
 from .evomap import EvoMap
+from .learnattack import learn_attack
 
 
 def upgrade_by_one_lvl(ctx: Context, poke: Poke):
@@ -9,6 +11,6 @@ def upgrade_by_one_lvl(ctx: Context, poke: Poke):
         poke: The pokete, that will be upgraded"""
     poke.add_xp((poke.lvl() + 1) ** 2 - 1 - ((poke.lvl()) ** 2 - 1))
     poke.set_vars()
-    poke.learn_attack(ctx)
+    learn_attack(poke, ctx)
     evomap = EvoMap(ctx.map.height, ctx.map.width)
     evomap(ctx, poke)

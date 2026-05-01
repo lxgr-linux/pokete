@@ -13,10 +13,9 @@ from pokete.base.input.hotkeys import ActionList
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.views.box import BoxView
 from pokete.base.ui.views.choose_box import ChooseBoxView
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.poke.poke import Poke, PokeNature
 from pokete.util import liner
-
-from .asset_service.service import asset_service
-from .poke import Poke, PokeNature
 
 
 class DetailBox(BoxView):

@@ -3,17 +3,18 @@ import scrap_engine as se
 from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
-from pokete.base.ui.elements import Box
+from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.overview import Overview
+from pokete.base.ui.views.box import BoxView
 from pokete.classes.items.invitem import InvItem
 from pokete.util import liner
 
 
-class InvBox(Box):
+class InvBox(BoxView):
     """Box wrapper for inv"""
 
     def __init__(self, overview: Overview):
-        super().__init__(7, 21, overview=overview)
+        super().__init__(7, 21, overview=overview, info=[CloseLabel()])
         self.desc_label = se.Text(" ")
         self.add_ob(self.desc_label, 1, 1)
 

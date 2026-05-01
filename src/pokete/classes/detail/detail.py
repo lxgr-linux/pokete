@@ -14,18 +14,17 @@ from pokete.base.mouse import MouseInteractor
 from pokete.base.single_event import SingleEvent, single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
-from pokete.base.ui.elements import ChooseBox
 from pokete.base.ui.elements.box import Box
 from pokete.base.ui.elements.labels import CloseLabel, GenericActionLabel
-from pokete.classes.poke import Poke
-from pokete.classes.poke.nature import NatureInfo
+from pokete.classes.poke.poke import Poke
+from pokete.classes.poke.ui import NatureInfo, StatsInfoBox
 from pokete.classes.single_events import TeleportationSingleEvent
 from pokete.util import liner
 
-from .poke.stats import StatsInfoBox
+from .abilities_choose_box import AbilitiesChooseBox
 
 
-class NewDetail(Box, MouseInteractor):
+class Detail(Box, MouseInteractor):
     """Shows details about a Pokete in a Box (no own map)
     ARGS:
         height: Height of the box
@@ -246,27 +245,11 @@ class NewDetail(Box, MouseInteractor):
                     ctx = change_ctx(ctx, self)
                 elif action.triggers(Action.ABILITIES_INFO):
                     if abb_obs != [] and abb:
-                        with ChooseBox(
-                            len(abb_obs) + 2,
-                            25,
-                            name="Abilities",
-                            c_obs=[se.Text(i.name) for i in abb_obs],
-                            overview=self,
-                        ).center_add(self.map) as box:
-                            while True:
-                                action, _ = get_action()
-                                if action.triggers(Action.UP, Action.DOWN):
-                                    box.input(action)
-                                    self.map.show()
-                                elif action.triggers(Action.ACCEPT):
-                                    self.enq_single_action(
-                                        abb_obs[box.index.index].world_action,
-                                    )
-                                    do_exit = True
-                                    break
-                                elif action.triggers(Action.CANCEL):
-                                    break
-                                loops.std(ctx.with_overview(box))
+                        abilities_box = AbilitiesChooseBox()
+                        ret_action = abilities_box(ctx, abb_obs)
+                        ctx = change_ctx(ctx, self)
+                        if ret_action:
+                            self.enq_single_action(ret_action)
                 # This section generates the Text effect for attack labels
                 for atc in self.poke.attack_obs:
                     if len(atc.desc) > int((self.width - 3) / 2 - 1):
