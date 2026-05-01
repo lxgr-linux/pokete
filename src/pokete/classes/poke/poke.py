@@ -10,7 +10,6 @@ import scrap_engine as se
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.classes.model.poke import PokeDict
-from pokete.util import liner
 
 from ..asset_service.resources.base import Poke as ResourcePoke
 from ..asset_service.service import asset_service
@@ -100,7 +99,7 @@ can't have more than 4 attacks!"
         # Labels
         self.hp_bar = HealthBar(self)
         self.hp_bar.make(self.hp)
-        self.desc = se.Text(liner(self.inf.desc, se.screen_width - 34))
+        self.desc = self.inf.desc
         self.ico = se.Box(4, 11)
         for ico in self.inf.ico:
             esccode = (

@@ -37,7 +37,7 @@ class DetailBox(BoxView):
             None: ("Always", ""),
         }[poke.night_active]
         desc_text = liner(
-            poke.desc.text.replace("\n", " ")
+            poke.desc
             + (
                 f"""\n\n Evolves into {
                     asset_service.get_base_assets().pokes[poke.evolve_poke].name

@@ -5,6 +5,7 @@ from datetime import datetime
 import scrap_engine as se
 
 from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.views.boxes import LabelBoxView
@@ -169,5 +170,6 @@ class StatsInfoBox(LabelBoxView):
     def __call__(self, ctx: Context):
         """Shows the box"""
         self.set_ctx(ctx)
+        ctx = change_ctx(ctx, self)
         with self.center_add(self.map):
-            loops.easy_exit(ctx.with_overview(self))
+            loops.easy_exit(ctx)

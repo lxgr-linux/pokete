@@ -6,6 +6,7 @@ import random
 import scrap_engine as se
 
 from pokete.base import loops
+from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.ui.elements.labels import CloseLabel
@@ -50,7 +51,6 @@ class PokeNature:
     def __init__(self, nature, grade):
         self.nature = nature
         self.grade = grade
-        self.info = NatureInfo(self)
 
     def get_value(self, name):
         """Gets one attribute value by its name
@@ -123,5 +123,6 @@ of its kind.",
     def __call__(self, ctx: Context):
         """Shows the box"""
         self.set_ctx(ctx)
+        ctx = change_ctx(ctx, self)
         with self.center_add(self.map):
-            loops.easy_exit(ctx.with_overview(self))
+            loops.easy_exit(ctx)
