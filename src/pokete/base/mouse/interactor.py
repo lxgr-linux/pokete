@@ -1,4 +1,5 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+from typing import Protocol, runtime_checkable
 
 import scrap_engine as se
 
@@ -6,7 +7,8 @@ from pokete.base.context import Context
 from pokete.base.input.mouse import MouseEvent
 
 
-class MouseInteractor(ABC):
+@runtime_checkable
+class MouseInteractor(Protocol):
     def get_all_interaction_areas(
         self,
     ) -> list[se.Area]:

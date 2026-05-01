@@ -11,6 +11,7 @@ from pokete.classes.doors import CenterDoor
 from pokete.classes.interactions.multi_text_choose_box import MultiTextChooseBox
 from pokete.classes.inv import buy
 from pokete.classes.landscape import MapInteract
+from pokete.classes.new_deck import NewDeck
 from pokete.release import SPEED_OF_TIME
 
 CUDDLE_MESSAGES = [
@@ -133,7 +134,7 @@ class CenterInteract(se.Object, MapInteract):
             case 0:
                 self.__normalize_pokes(ob)
                 ob.balls_label_rechar()
-                deck.deck(self.ctx, len(ob.pokes))
+                NewDeck()(self.ctx, len(ob.pokes))
             case 1:
                 ob.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
