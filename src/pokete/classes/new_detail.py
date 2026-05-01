@@ -1,6 +1,6 @@
 """Contains the NewDetail class - a Box-based detail view for Pokete"""
 
-from typing import Optional
+from typing import Optional, override
 
 import scrap_engine as se
 
@@ -9,17 +9,20 @@ from pokete.base.change import change_ctx
 from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import Action, get_action
+from pokete.base.input.mouse import MouseEvent
+from pokete.base.mouse import MouseInteractor
 from pokete.base.single_event import SingleEvent, single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements import ChooseBox
 from pokete.base.ui.elements.box import Box
+from pokete.base.ui.elements.labels import CloseLabel, GenericActionLabel
 from pokete.classes.single_events import TeleportationSingleEvent
 
 from .poke.stats import StatsInfoBox
 
 
-class NewDetail(Box):
+class NewDetail(Box, MouseInteractor):
     """Shows details about a Pokete in a Box (no own map)
     ARGS:
         height: Height of the box
@@ -30,24 +33,23 @@ class NewDetail(Box):
         self,
         overview: Optional[Overview] = None,
     ):
-        # Default to slightly smaller than screen size
-        height = 17
-        width = max(tss.width - 10, 40)
-        super().__init__(height, width, name="Details", overview=overview)
+        super().__init__(
+            *self.new_size(),
+            name="Details",
+            overview=overview,
+            info=[
+                CloseLabel(),
+                GenericActionLabel(Action.NATURE_INFO, "Nature"),
+                GenericActionLabel(Action.STATS_INFO, "Statistics"),
+                GenericActionLabel(Action.ABILITIES_INFO, "Use ability"),
+            ],
+        )
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc, state="float")
         self.attack_defense = se.Text("Attack:   Defense:", state="float")
         self.world_actions_label = se.Text("Abilities:", state="float")
         self.type_label = se.Text("Type:", state="float")
         self.initiative_label = se.Text("Initiative:", state="float")
-        self.nature_label = se.Text(
-            f"{Action.NATURE_INFO.mapping}: Nature", state="float"
-        )
-        self.stats_label = se.Text(
-            f"{Action.STATS_INFO.mapping}: Statistics", state="float"
-        )
-        self.ability_label = se.Text(
-            f"{Action.ABILITIES_INFO.mapping}: Use ability", state="float"
-        )
+
         self.line_sep1 = se.Square("-", self.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.width - 2, 1, state="float")
         self.line_middle = se.Square("|", 1, 9, state="float")
@@ -57,48 +59,39 @@ class NewDetail(Box):
         self.add_ob(self.world_actions_label, 24, 4)
         self.add_ob(self.type_label, 36, 5)
         self.add_ob(self.initiative_label, 49, 5)
-        self.add_ob(self.nature_label, 9, self.height - 2)
-        self.add_ob(self.stats_label, 20, self.height - 2)
-        self.add_ob(self.ability_label, 35, self.height - 2)
         self.add_ob(self.line_sep1, 1, 6)
         self.add_ob(self.line_sep2, 1, 11)
         self.add_ob(self.line_middle, round(self.width / 2), 7)
         self.poke = None
 
+    def new_size(self) -> tuple[int, int]:
+        return 17, max(tss.width - 10, 40)
+
+    @override
+    def get_interaction_areas(self) -> list[se.Area]:
+        return []
+
+    @override
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent): ...
+
+    @override
+    def get_partial_interactors(self) -> list["MouseInteractor"]:
+        return [
+            label for label in self.info_labels if isinstance(label, MouseInteractor)
+        ]
+
     def resize_view(self):
         """Manages recursive view resizing"""
         if self.poke is None:
             return
-        self.nature_label.remove()
-        abb_added = self.ability_label.added
-        self.ability_label.remove()
-        self.stats_label.remove()
-        self.line_sep1.remove()
-        self.line_sep2.remove()
-        self.line_middle.remove()
-        self.poke.desc.remove()
-        for atc in self.poke.attack_obs:
-            for label in [
-                atc.label_name,
-                atc.label_factor,
-                atc.label_type,
-                atc.label_ap,
-                atc.label_desc,
-            ]:
-                label.remove()
-        self.resize(self.height, self.width)
+        self.remove()
+        self.resize(*self.new_size())
         self.overview.resize_view()
         self.line_sep1.resize(self.width - 2, 1)
         self.line_sep2.resize(self.width - 2, 1)
-        self.line_sep1.add(self.map, 1, 6)
-        self.line_sep2.add(self.map, 1, 11)
-        self.nature_label.add(self.map, 9, self.height - 2)
-        self.stats_label.add(self.map, 20, self.height - 2)
-        if abb_added:
-            self.ability_label.add(self.map, 35, self.height - 2)
-        self.poke.desc.add(self.map, self.poke.desc.x, self.poke.desc.y)
         self.add_attack_labels()
-        self.line_middle.add(self.map, round(self.width / 2), 7)
+        self.add_ob(self.line_middle, round(self.width / 2), 7)
+        self.center_add(self.map)
 
     def add_attack_labels(self):
         """Adds the attack labels to map"""
@@ -154,6 +147,7 @@ class NewDetail(Box):
             self.poke.desc,
             self.poke.text_type,
         ]:
+            self.rem_ob(obj)
             if obj.added:
                 obj.remove()
         for eff in self.poke.effects:
@@ -166,9 +160,10 @@ class NewDetail(Box):
                 atc.label_desc,
                 atc.label_type,
             ]:
+                self.rem_ob(obj)
                 if obj.added:
                     obj.remove()
-            if hasattr(atc, "temp_i"):
+            if hasattr(atc, "temp_i"):  # TODO: Check this out
                 del atc.temp_i
             if hasattr(atc, "temp_j"):
                 del atc.temp_j
@@ -212,11 +207,11 @@ class NewDetail(Box):
                 self.world_actions_label.rechar(
                     "Abilities:" + " ".join([i.name for i in abb_obs])
                 )
-                self.ability_label.add(self.map, self.x + 35, self.y + self.height - 2)
+                # self.ability_label.add(self.map, self.x + 35, self.y + self.height - 2)
             else:
                 self.world_actions_label.rechar("")
-                if self.ability_label.added:
-                    self.ability_label.remove()
+                # if self.ability_label.added:
+                #    self.ability_label.remove()
 
             self.attack_defense.rechar(
                 f"Attack:{self.poke.atc}\
@@ -226,7 +221,7 @@ class NewDetail(Box):
             for obj, _x, _y in zip(
                 [self.poke.desc, self.poke.text_type], [34, 41], [2, 5]
             ):
-                obj.add(self.map, self.x + _x, self.y + _y)
+                self.add_ob(obj, _x, _y)
             self.add_attack_labels()
             self.map.show(init=True)
 
