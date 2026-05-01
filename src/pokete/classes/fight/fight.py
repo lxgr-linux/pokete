@@ -12,7 +12,7 @@ from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.classes.attack import Attack
 from pokete.classes.audio import audio
-from pokete.classes.evo import EvoMap
+from pokete.classes.evo import EvoMap, learn_attack
 from pokete.classes.fight.items.item import RoundContinuation
 from pokete.classes.items.invitem import InvItem
 from pokete.release import SPEED_OF_TIME

@@ -1,13 +1,17 @@
 """Contains the LearnAttack class"""
 
+from typing import Optional, override
+
 import scrap_engine as se
 
 from pokete.base import loops
 from pokete.base.context import Context
-from pokete.base.input import Action, get_action
+from pokete.base.input import Action
+from pokete.base.input.hotkeys import ActionList
 from pokete.base.input_loops import ask_bool, ask_ok
-from pokete.base.ui.elements import Box, ChooseBox
+from pokete.base.ui.elements import Box
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.views.choose_box import ChooseBoxView
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.attack import Attack
 from pokete.classes.detail import Detail
@@ -47,80 +51,133 @@ class AttackInfo(Box):
         return self
 
 
-class LearnAttackBox(LearnAttack):
-    """Lets a Pokete learn a new attack
-    ARGS:
-        poke: The Poke that should learn an attack"""
+class LearnAttackBox(ChooseBoxView[int]):
+    """Lets a Pokete learn a new attack by choosing which attack to replace
 
-    def __init__(self, poke):
-        self.poke = poke
-        self.box = ChooseBox(
-            6,
-            25,
-            name="Attacks",
-            info=f"{Action.DECK.mapping}:Details, {Action.INFO.mapping}:Info",
-        )
+    This is used when the Pokete already knows 4 attacks and needs to choose
+    which one to replace with the new attack.
+    """
 
-    def __call__(self, ctx: Context, attack=None):
-        """Starts the learning process
+    def __init__(self):
+        super().__init__(6, 25, "Attacks")
+        self.poke: Optional[Poke] = None
+        self.new_attack: Optional[str] = None
+
+    @override
+    def new_size(self) -> tuple[int, int]:
+        return 6, 25
+
+    @override
+    def choose(self, ctx: Context, idx: int) -> Optional[int]:
+        """Return the index of the selected attack to replace"""
+        return idx
+
+    @override
+    def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
+        """Handle extra actions like Details and Info"""
+        if action.triggers(Action.DECK):
+            Detail()(ctx.with_overview(self), self.poke, False)
+            ctx.map.show(init=True)
+            return False
+        elif action.triggers(Action.INFO):
+            if self.new_attack:
+                with AttackInfo(self.new_attack).set_ctx(
+                    ctx.with_overview(self)
+                ) as box:
+                    loops.easy_exit(ctx.with_overview(box))
+            ctx.map.show(init=True)
+            return False
+        return False
+
+    def show_attack_replacement(
+        self, ctx: Context, poke: Poke, new_attack: str
+    ) -> bool:
+        """Show the attack replacement dialog
+
         ARGS:
+            ctx: Context object
+            poke: The Poke that will learn the attack
+            new_attack: The attack name to learn
+
+        RETURNS:
+            bool: Whether an attack was replaced
+        """
+        self.poke = poke
+        self.new_attack = new_attack
+        attacks = asset_service.get_base_assets().attacks
+
+        # Set up the list of current attacks
+        self.elems = [
+            se.Text(f"{i + 1}: {j.name}", state="float")
+            for i, j in enumerate(poke.attack_obs)
+        ]
+        self.add_elems()
+
+        with self.add(ctx.map, ctx.map.width - self.width, 0):
+            idx = super().__call__(ctx)
+
+        if idx is not None:
+            # Replace the selected attack
+            poke.attacks[idx] = new_attack
+            poke.attack_obs[idx] = Attack(new_attack, idx + 1)
+            ask_ok(
+                ctx,
+                f"{poke.name} learned {attacks[new_attack].name}!",
+            )
+            return True
+        return False
+
+
+class LearnAttackManager(LearnAttack):
+    """Manages the attack learning process for a Pokete
+
+    Handles automatic attack selection and uses LearnAttackBox when
+    the Pokete needs to choose which attack to replace.
+    """
+
+    def __init__(self, poke: Poke):
+        self.poke = poke
+        self.learn_box = LearnAttackBox()
+
+    def __call__(self, ctx: Context, attack: Optional[str] = None) -> bool:
+        """Starts the learning process
+
+        ARGS:
+            ctx: Context object
             attack: The attack's name that should be learned, if None a fitting
                     attack will be chosen randomly
+
         RETURNS:
-            bool: Whether or not the attack was learned"""
+            bool: Whether or not the attack was learned
+        """
         attacks = asset_service.get_base_assets().attacks
-        self.box.set_ctx(ctx)
+
+        # Get the attack to learn
         if attack is None:
             if (new_attack := self.get_attack(self.poke)) is None:
                 return False
         else:
             new_attack = attack
+
+        # Ask if the Pokete should learn the attack
         if ask_bool(
             ctx,
             f"{self.poke.name} wants to learn {attacks[new_attack].name}!",
         ):
+            # If Pokete has less than 4 attacks, just add it
             if len(self.poke.attacks) < 4:
                 self.poke.attacks.append(new_attack)
                 self.poke.attack_obs.append(Attack(new_attack, len(self.poke.attacks)))
+                return True
             else:
-                self.box.add_c_obs(
-                    [
-                        se.Text(f"{i + 1}: {j.name}", state="float")
-                        for i, j in enumerate(self.poke.attack_obs)
-                    ]
+                # Otherwise, use the LearnAttackBox to choose which to replace
+                return self.learn_box.show_attack_replacement(
+                    ctx, self.poke, new_attack
                 )
-                with self.box.center_add(ctx.map):
-                    while True:
-                        action, _ = get_action()
-                        if action.triggers(Action.UP, Action.DOWN):
-                            self.box.input(action)
-                            ctx.map.show()
-                        elif action.triggers(Action.ACCEPT):
-                            i = self.box.index.index
-                            self.poke.attacks[i] = new_attack
-                            self.poke.attack_obs[i] = Attack(new_attack, i + 1)
-                            ask_ok(
-                                ctx.with_overview(self.box),
-                                f"{self.poke.name} learned {attacks[new_attack].name}!",
-                            )
-                            break
-                        elif action.triggers(Action.DECK):
-                            Detail()(ctx.with_overview(self.box), self.poke, False)
-                            ctx.map.show(init=True)
-                        elif action.triggers(Action.INFO):
-                            with AttackInfo(new_attack).set_ctx(
-                                ctx.with_overview(self.box)
-                            ) as box:
-                                loops.easy_exit(ctx.with_overview(box))
-                        elif action.triggers(Action.CANCEL):
-                            return False
-                        loops.std(ctx.with_overview(self.box))
-                self.box.remove_c_obs()
-            return True
         return False
 
 
 def learn_attack(poke: Poke, ctx: Context):
-    """Checks if a new attack can be learned and then teaches it the poke"""
+    """Checks if a new attack can be learned and then teaches it to the poke"""
     if poke.lvl() % 5 == 0:
-        LearnAttackBox(poke)(ctx)
+        LearnAttackManager(poke)(ctx)

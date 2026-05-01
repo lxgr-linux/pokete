@@ -30,21 +30,27 @@ class DeckItem(se.Box):
 
 
 class Deck(BetterChooseBoxView[int]):
+    default_label = "Your Deck"
+
     def __init__(self):
-        super().__init__(2, 3, [se.Text(" ")], "Your Deck")
+        super().__init__(2, 3, [se.Text(" ")], self.default_label)
         self.pokes: list[Poke]
+        self.in_fight = False
 
     def choose(self, ctx: Context, idx: int) -> Optional[int]:
-        return idx
+        if self.in_fight:
+            return idx
+        Detail()(ctx, self.pokes[idx])
+        return None
 
     @override
-    def __call__(self, ctx: Context, p_len: int, in_fight=False) -> Optional[int]:
+    def __call__(
+        self, ctx: Context, p_len: int, label: str = "", in_fight=False
+    ) -> Optional[int]:
         self.pokes = ctx.figure.pokes[:p_len]
+        self.in_fight = in_fight
 
+        self.name_label.rechar(label if label else self.default_label)
         self.set_elems(2, 3, [DeckItem(poke) for poke in self.pokes])
 
-        ret = super().__call__(ctx)
-        if ret is None:
-            return ret
-        else:
-            Detail()(ctx, self.pokes[ret])
+        return super().__call__(ctx)
