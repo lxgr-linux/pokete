@@ -42,7 +42,7 @@ class AttackProcess:
             0
             if random_factor == 0
             else max(
-                3,
+                4,
                 round(
                     (attacker.atc * attack.factor / max(defender.defense, 1))
                     * random_factor
