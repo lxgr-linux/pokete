@@ -1,10 +1,10 @@
-name: ruff-format-check
+name: pytest
 
 on:
   push:
 
 jobs:
-  ruff:
+  pytest:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,8 +16,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Ruff
-        run: pip install ruff
+      - name: Install Pytest
+        run: pip install pytest scrap_engine
 
-      - name: Run Ruff check
-        run: ruff check .
+      - name: Run Pytest
+        run: |
+          cd src
+          python -m pytest tests -v

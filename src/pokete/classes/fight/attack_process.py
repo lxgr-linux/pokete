@@ -36,16 +36,19 @@ class AttackProcess:
 
     @staticmethod
     def get_hp(
-        attacker: Poke, defender: Poke, attack: Attack, random_factor: int, eff: int
+        attacker: Poke, defender: Poke, attack: Attack, random_factor: float, eff: int
     ) -> int:
-        return round(
-            (
-                attacker.atc
-                * attack.factor
-                / (defender.defense if defender.defense >= 1 else 1)
+        return (
+            0
+            if random_factor == 0
+            else max(
+                3,
+                round(
+                    (attacker.atc * attack.factor / max(defender.defense, 1))
+                    * random_factor
+                    * eff
+                ),
             )
-            * random_factor
-            * eff
         )
 
     def __call__(

@@ -4,9 +4,9 @@ import scrap_engine as se
 
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
-from pokete.base.input_loops.new_text_input import TextInput
 from pokete.base.mouse.interactor import MouseInteractor
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.input import TextInput
 from pokete.base.ui.views.box import BoxView
 
 

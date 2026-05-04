@@ -11,8 +11,8 @@ from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input.hotkeys import Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.input_loops.new_text_input import TextInput
 from pokete.base.mouse import MouseInteractor, mouse_interaction_manager
+from pokete.base.ui.input import TextInput
 from pokete.base.ui.overview import Overview
 
 
