@@ -62,7 +62,6 @@ class Help(LoopBox):
                 """Controls:
 'w':up, 'a':left,
 's':down, 'd':right,
-'e':menu
 
 When walking into the high grass (';') you may get attacked
 by wild Poketes, those can be killed or weakened and caught.

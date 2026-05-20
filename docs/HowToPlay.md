@@ -28,7 +28,7 @@ After first starting the game you can move the character, the one little `a` on 
 
 ![Map](https://raw.githubusercontent.com/lxgr-linux/pokete/master/assets/ss/ss08.png)
 
-You can open the settings/menu by pressing `e`.
+You can open the settings/menu by pressing `2`.
 
 ![Menu](https://raw.githubusercontent.com/lxgr-linux/pokete/master/assets/ss/ss07.png)
 
