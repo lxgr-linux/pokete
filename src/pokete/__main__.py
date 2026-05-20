@@ -348,14 +348,14 @@ def _game(_map: PlayMap, figure: Figure):
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: list[tuple[list[Action], tuple]] = [
         ([Action.DECK], (deck.deck, (ctx, 6, "Your deck"))),
-        ([Action.CANCEL, Action.EXIT_GAME], (quit, (ctx,))),
+        ([Action.MENU], (Menu(), (ctx,))),       
         ([Action.MAP], (roadmap.roadmap, (ctx,))),
         ([Action.INVENTORY], (inv, (ctx,))),
         ([Action.POKEDEX], (PokeDex(), (ctx,))),
         ([Action.CLOCK], (timer.clock, (ctx,))),
         ([Action.HELP], (Help(), (ctx,))),
         ([Action.INTERACT], (ContextMenu(), (ctx,))),
-        ([Action.MENU], (Menu(), (ctx,))),
+        ([Action.CANCEL, Action.EXIT_GAME], (quit, (ctx,))),
     ]
     inp_list = [i for j in inp_dict for i in j[0]]
     if _map.weather is not None:

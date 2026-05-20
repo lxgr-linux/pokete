@@ -38,7 +38,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         self.label_bg = se.Square(" ", self.width, 1, state="float")
         self.labels: list[HightlightableText] = [
             HightlightableText(f"{Action.DECK.mapping}: Deck"),
-            HightlightableText(f"{Action.EXIT_GAME.mapping}: Quit"),
+            HightlightableText(f"{Action.MENU.mapping}: Menu"),
             HightlightableText(f"{Action.MAP.mapping}: Map"),
             HightlightableText(f"{Action.INVENTORY.mapping}: Inv."),
             HightlightableText(f"{Action.POKEDEX.mapping}: Dex"),

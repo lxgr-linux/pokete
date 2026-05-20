@@ -110,7 +110,7 @@ hotkey_mappings: dict[str, ActionList] = {
     "2": ActionList(
         [
             Action.ACT_2,
-            Action.EXIT_GAME,
+            Action.MENU,# Action.EXIT_GAME,
             Action.MOVE_POKETE,
             Action.NATURE_INFO,
             Action.RUN,
@@ -161,7 +161,7 @@ hotkey_mappings: dict[str, ActionList] = {
     "m": ActionList([Action.MAP, Action.MOVE_POKETE]),
     "c": ActionList([Action.CLOCK, Action.QUICK_ATC_3]),
     "?": ActionList([Action.HELP, Action.INFO]),
-    "e": ActionList([Action.MENU, Action.SCREEN_SWITCH]),
+    "e": ActionList([Action.SCREEN_SWITCH]),
     ":": ActionList([Action.CONSOLE]),
     "z": ActionList([Action.QUICK_ATC_1]),
     "x": ActionList([Action.QUICK_ATC_2]),
