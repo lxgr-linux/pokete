@@ -5,6 +5,7 @@ from typing import Never, Optional
 import scrap_engine as se
 
 from pokete.base.context import Context
+from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.notify import notifier
 from pokete.base.ui.views.boxes import InfoBoxView
 from pokete.base.ui.views.choose_box import ChooseBoxView
@@ -21,7 +22,7 @@ from .side_loops import About
 
 class Menu(ChooseBoxView):
     def __init__(self):
-        super().__init__(50, 35, "Menu")
+        super().__init__(50, 35, "Menu", [CloseLabel(),])
         self.playername_input = TextInputBox("Playername:", 17)
         self.represent_char_input = TextInputBox("Char:", 1)
         self.mods_label = se.Text("Mods", state="float")
