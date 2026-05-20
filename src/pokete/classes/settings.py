@@ -116,6 +116,9 @@ class Slider(se.Box, Overview, MouseInteractor):
                 if event.pressed:
                     self.set_slider(area_idx)
                     self.__set_setting()
+            elif event.type == MouseEventType.DRAG_LEFT:
+                self.set_slider(area_idx)
+                self.__set_setting()
 
     def change(self, ctx: Context):
         """Changes the current position by a value
@@ -124,7 +127,7 @@ class Slider(se.Box, Overview, MouseInteractor):
         self.overview = ctx.overview
         ctx = change_ctx(ctx, self)
         while True:
-            action, _ = get_action()
+            action, _ = get_action()          
             if (strength := action.get_x_strength()) != 0:
                 if 0 <= (self.offset + strength) <= self.boundary:
                     self.set_slider(self.offset + strength)
