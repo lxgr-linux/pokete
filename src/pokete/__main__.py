@@ -35,13 +35,14 @@ from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.base.ui.input import TextInput
 from pokete.base.ui.notify import notifier
-from pokete.classes import deck, roadmap, timer
 from pokete.classes import movemap as mvp
 from pokete.classes import ob_maps as obmp
+from pokete.classes import roadmap, timer
 from pokete.classes.achievements import achievements
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.audio import audio
 from pokete.classes.classes import PlayMap
+from pokete.classes.deck import Deck
 from pokete.classes.dex import PokeDex
 from pokete.classes.fight import ProtoFigure
 from pokete.classes.game import MapChangeException, ReturnToMenuException
@@ -60,7 +61,7 @@ from pokete.classes.periodic_events import (
     NotifierEvent,
     TreatNPCEvent,
 )
-from pokete.classes.poke import Poke, Stats
+from pokete.classes.poke.poke import Poke, Stats
 from pokete.classes.pokete_care import pokete_care
 from pokete.classes.pre_game import PreGameMap
 from pokete.classes.save import read_save, save
@@ -347,7 +348,7 @@ def _game(_map: PlayMap, figure: Figure):
     ctx = change_ctx(Context(pevm, mvp.movemap, mvp.movemap, figure), mvp.movemap)
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: list[tuple[list[Action], tuple]] = [
-        ([Action.DECK], (deck.deck, (ctx, 6, "Your deck"))),
+        ([Action.DECK], (Deck(), (ctx, 6, "Your deck"))),
         ([Action.CANCEL, Action.EXIT_GAME], (quit, (ctx,))),
         ([Action.MAP], (roadmap.roadmap, (ctx,))),
         ([Action.INVENTORY], (inv, (ctx,))),

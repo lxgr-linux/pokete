@@ -2,21 +2,23 @@
 
 import logging
 import time
+
 import scrap_engine as se
 
-from pokete.base.exception_propagation import exception_propagating_periodic_event
-from pokete.release import SPEED_OF_TIME
 import pokete.base.game_map as gm
 from pokete.base import loops
 from pokete.base.context import Context
+from pokete.base.exception_propagation import exception_propagating_periodic_event
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
-from ..achievements import achievements
-from ..asset_service.service import asset_service
-from ..classes import OutP
-from ..learnattack import LearnAttack
-from .poke import Poke
+from pokete.classes.achievements import achievements
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.classes import OutP
+from pokete.classes.poke.poke import Poke
+from pokete.release import SPEED_OF_TIME
+
+from .learnattack import LearnAttackBox
 
 
 class EvoMap(gm.GameMap, Overview):
@@ -82,7 +84,7 @@ class EvoMap(gm.GameMap, Overview):
                 0,
             )
         ):
-            LearnAttack(new)(ctx)
+            LearnAttackBox(new)(ctx)
         ctx.figure.pokes[ctx.figure.pokes.index(self)] = new
         if new.identifier not in ctx.figure.caught_pokes:
             ctx.figure.caught_pokes.append(new.identifier)

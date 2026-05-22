@@ -105,12 +105,14 @@ class AchievementOverview(BetterChooseBoxView):
     def __init__(self):
         super().__init__(
             3,
+            3,
             [se.Text(" ")],
             name="Achievements",
         )
 
     def __call__(self, ctx: Context) -> Optional[Never]:
-        self.set_items(
+        self.set_elems(
+            3,
             3,
             [
                 se.Text(

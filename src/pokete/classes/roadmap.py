@@ -11,10 +11,10 @@ from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import MouseInteractor
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.ui.elements import Box
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.views.box import BoxView
 from pokete.base.ui.views.boxes import InfoBoxView
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.classes import PlayMap
@@ -140,7 +140,7 @@ class Station(StationObject):
         self.rechar(self.text, self.color)
 
 
-class RoadMap(Box, MouseInteractor):
+class RoadMap(BoxView):
     """Map you can see and navigate maps on"""
 
     def __init__(self):

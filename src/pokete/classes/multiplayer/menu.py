@@ -29,6 +29,7 @@ class ModeChooser(BetterChooseBoxView[bool]):
     def __init__(self):
         super().__init__(
             1,
+            3,
             [
                 se.Text("Singleplayer", state="float"),
                 se.Text("Multiplayer (Beta)", state="float"),

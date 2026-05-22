@@ -33,7 +33,7 @@ class Notification(LabelBox):
     def shift(self):
         """Shifts the box to the right"""
         self.x += 1
-        for i in get_nested(self):
+        for i in get_nested(self)[0]:
             if i.x == self.map.width - 1:
                 i.remove()
                 i.group.rem_ob(i)

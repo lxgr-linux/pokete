@@ -9,14 +9,14 @@ from pokete.base.input.hotkeys import ActionList
 from pokete.base.input_loops import ask_bool, ask_ok
 from pokete.base.ui.elements.labels import CloseLabel, GenericActionLabel
 from pokete.classes.asset_service.service import asset_service
+from pokete.classes.deck import Deck
+from pokete.classes.evo import upgrade_by_one_lvl
+from pokete.classes.evo.learnattack import LearnAttackBox
 from pokete.classes.items.invitem import InvItem
 from pokete.classes.items.learndisc import LearnDisc
 from pokete.classes.poke.poke import Poke
 from pokete.figure.inv import Inventory
 
-from .. import deck
-from ..learnattack import LearnAttack
-from ..poke import upgrade_by_one_lvl
 from ..types import types
 from .base_inv import BaseInv
 
@@ -44,7 +44,7 @@ class Inv(BaseInv):
                 "Do you want to upgrade one of your Poketes by a level?",
             ):
                 while True:
-                    index = deck.deck(
+                    index = Deck()(
                         ctx,
                         6,
                         label="Your deck",
@@ -69,7 +69,7 @@ class Inv(BaseInv):
                 f"Do you want to teach '{obj.attack.name}'?",
             ):
                 while True:
-                    index = deck.deck(
+                    index = Deck()(
                         ctx,
                         6,
                         label="Your deck",
@@ -91,7 +91,7 @@ class Inv(BaseInv):
                         poke = None
                 if poke is None:
                     return
-                if LearnAttack(poke)(ctx.with_overview(self), obj.attack_name):
+                if LearnAttackBox(poke)(ctx.with_overview(self), obj.attack_name):
                     self.rem_item(ctx.figure, obj.name)
                     if len(self.items) == 0:
                         return None

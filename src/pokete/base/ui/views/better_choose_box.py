@@ -1,3 +1,4 @@
+import math
 from abc import ABC, abstractmethod
 from typing import Generic, Optional, TypeVar, override
 
@@ -11,16 +12,32 @@ from pokete.base.input.hotkeys import ACTION_DIRECTIONS, Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import BetterChooseBox
+from pokete.base.ui.views.pageable import Pageable, UpDownSwitch
 
 T = TypeVar("T")
 
 
-class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
+class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
     def __init__(
-        self, columns, labels: list[se.Text], name="", _map=None, overview=None
+        self, columns, rows, labels: list[se.HasArea], name="", _map=None, overview=None
     ):
-        super().__init__(columns, labels, name, _map, overview)
+        self.elems: list[se.HasArea] = labels
+        self.rows = rows
+        self.page = 0
         self.__special_ret: Optional[T] = None
+        self.up_down_switch = UpDownSwitch(self)
+        super().__init__(
+            columns, self.elems[: rows * columns], name, _map, overview, max_rows=rows
+        )
+        self.__add_up_down_switch()
+
+    def __add_up_down_switch(self):
+        if len(self.elems) / self.columns > self.rows:
+            self.add_ob(
+                self.up_down_switch,
+                self.width - 3 - self.up_down_switch.width,
+                self.height - 1,
+            )
 
     @abstractmethod
     def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
@@ -42,20 +59,69 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
                     if event.pressed:
                         self.__special_ret = self.choose(ctx, area_idx)
                         ctx = change_ctx(ctx, self)
+        match event.type:
+            case MouseEventType.SCROLL_UP:
+                self.change_page(-1, 0)
+            case MouseEventType.SCROLL_DOWN:
+                self.change_page(1, 0)
 
     @override
     def get_partial_interactors(self) -> list[MouseInteractor]:
+        up_down: list[MouseInteractor] = [self.up_down_switch]
         return [
             label for label in self.info_labels if isinstance(label, MouseInteractor)
-        ]
+        ] + up_down
+
+    @override
+    def resize(self, height, width):
+        self.rem_ob(self.up_down_switch)
+        self.up_down_switch.remove()
+        super().resize(height, width)
+        self.__add_up_down_switch()
+
+    def set_elems(self, columns, rows, labels: list[se.HasArea]):
+        self.rows = rows
+        self.page = 0
+        self.elems = labels
+        super().set_items(columns, self.elems[: rows * columns])
+
+    def change_page(self, add_page, n_idx):
+        if (
+            0
+            <= (self.page + add_page)
+            < math.ceil(len(self.elems) / (self.rows * self.columns))
+        ):
+            self.page += add_page
+            super().set_items(
+                self.columns,
+                self.elems[
+                    (self.rows * self.columns) * self.page : (self.rows * self.columns)
+                    * (self.page + 1)
+                ],
+            )
 
     def __call__(self, ctx: Context) -> Optional[T]:
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
+        self.__add_up_down_switch()
+
         with self:
             while True:
                 action, _ = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
+                    if (
+                        action.triggers(Action.UP)
+                        and self.page > 0
+                        and self.index[0] == 0
+                    ):
+                        self.change_page(-1, 0)
+                    elif (
+                        action.triggers(Action.DOWN)
+                        and self.page
+                        < math.ceil(len(self.elems) / (self.rows * self.columns)) + 1
+                        and self.index[0] == self.rows - 1
+                    ):
+                        self.change_page(1, 0)
                     self.input(action)
                 else:
                     if action.triggers(Action.CANCEL):

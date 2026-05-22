@@ -8,18 +8,16 @@ from datetime import datetime
 import scrap_engine as se
 
 from pokete.base.color import Color
-from pokete.base.context import Context
+from pokete.classes.asset_service.resources.base import Poke as ResourcePoke
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.attack import Attack
+from pokete.classes.effects import effects
+from pokete.classes.health_bar import HealthBar
 from pokete.classes.model.poke import PokeDict
-from pokete.util import liner
+from pokete.classes.moves import Moves
+from pokete.classes.types import PokeType, types
 
-from ..asset_service.resources.base import Poke as ResourcePoke
-from ..asset_service.service import asset_service
-from ..attack import Attack
-from ..effects import effects
-from ..health_bar import HealthBar
-from ..learnattack import LearnAttack
-from ..moves import Moves
-from ..types import types
+from .learnattack import LearnAttack
 from .nature import PokeNature
 from .stats import Stats
 
@@ -72,7 +70,7 @@ class Poke:
         self.evolve_poke = self.inf.evolve_poke
         self.evolve_lvl = self.inf.evolve_lvl
         self.types = [getattr(types, i) for i in self.inf.types]
-        self.type = self.types[0]
+        self.type: PokeType = self.types[0]
         self.effects = []
         if _attacks is not None:
             assert len(_attacks) <= 4, (
@@ -100,14 +98,10 @@ can't have more than 4 attacks!"
         # Labels
         self.hp_bar = HealthBar(self)
         self.hp_bar.make(self.hp)
-        self.desc = se.Text(liner(self.inf.desc, se.screen_width - 34))
+        self.desc = self.inf.desc
         self.ico = se.Box(4, 11)
         for ico in self.inf.ico:
-            esccode = (
-                str.join("", [getattr(Color, i) for i in ico.esc])
-                if ico.esc is not None
-                else ""
-            )
+            esccode = str.join("", [getattr(Color, i) for i in ico.esc])
             self.ico.add_ob(
                 se.Text(
                     ico.txt,
@@ -223,11 +217,6 @@ can't have more than 4 attacks!"
         """RETURNS:
         Current level"""
         return int(math.sqrt(self.xp + 1))
-
-    def learn_attack(self, ctx: Context):
-        """Checks if a new attack can be learned and then teaches it the poke"""
-        if self.lvl() % 5 == 0:
-            LearnAttack(self)(ctx)
 
     def get_evolve_poke(self) -> "Poke":
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny)

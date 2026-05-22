@@ -136,21 +136,28 @@ class BetterChooseBox(Box):
         _map: The map it will be shown on"""
 
     def __init__(
-        self, columns, labels: list[se.Text], name="", _map=None, overview=None
+        self,
+        columns,
+        labels: list[se.HasArea],
+        name="",
+        _map=None,
+        overview=None,
+        max_rows: Optional[int] = None,
     ):
-        self.nest_label_obs: list[list[BetterChooserItem]] = []
-        self.set_items(columns, labels, init=True)
         super().__init__(
-            3 * len(self.nest_label_obs) + 2,
-            sum(i.width for i in self.nest_label_obs[0]) + 2,
+            3,
+            3,
             name,
             [CloseLabel()],
             overview=overview,
         )
+        self.nest_label_obs: list[list[BetterChooserItem]] = []
         self.columns = columns
+        self.max_rows: Optional[int] = max_rows
         self.map = _map
         self.__add_obs()
         self.index = (0, 0)
+        self.set_items(columns, labels)
         self.get_item(*self.index).choose()
 
     def set_index(self, _y, _x):
@@ -196,35 +203,44 @@ class BetterChooseBox(Box):
             (self.index[1] + _c[1]) % len(self.nest_label_obs[self.index[0]]),
         )
 
-    def set_items(self, columns, labels: list[se.Text], init=False):
+    def set_items(self, columns, labels: list[se.HasArea]):
         """Sets the items shown in the box
         ARGS:
             columns: Number of columns
             labels: List of se.Texts that will be shown on the items
             init: Whether or not the box is initiated"""
+        self.columns = columns
         for i in self.nest_label_obs:
             for obj in i:
                 self.rem_ob(obj)
-        box_width = sorted(len(i.text) for i in labels)[-1]
+                obj.remove()
+        box_width = sorted(i.width for i in labels)[-1]
+        box_height = sorted(i.height for i in labels)[-1]
+
         label_obs = [
-            BetterChooserItem(3, box_width + 4, label, i)
+            BetterChooserItem(box_height + 2, box_width + 4, label, i)
             for i, label in enumerate(labels)
         ]
         self.nest_label_obs = [
             label_obs[i * columns : (i + 1) * columns]
             for i in range(max(round(len(labels) / columns + 0.49), 1))
         ]
-        if not init:
-            self.resize(
-                3 * len(self.nest_label_obs) + 2,
-                sum(i.width for i in self.nest_label_obs[0]) + 2,
-            )
-            self.__add_obs()
-            try:
-                self.set_index(*self.index)
-            except IndexError:
-                self.index = (0, 0)
-                self.get_item(*self.index).choose()
+
+        rows = min(
+            tr := len(self.nest_label_obs),
+            self.max_rows if self.max_rows is not None else tr,
+        )
+
+        self.resize(
+            (box_height + 2) * rows + 2,
+            sum(i.width for i in self.nest_label_obs[0]) + 2,
+        )
+        self.__add_obs()
+        try:
+            self.set_index(*self.index)
+        except IndexError:
+            self.index = (0, 0)
+            self.get_item(*self.index).choose()
 
     def __add_obs(self):
         """Adds items to the box"""

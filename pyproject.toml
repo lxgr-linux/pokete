@@ -15,14 +15,27 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-dependencies = ["scrap_engine>=1.5.1"]
+dependencies = ["scrap_engine>=1.5.4"]
 
 [project.scripts]
 pokete = "pokete.__main__:main"
 pokete-util = "pokete.util.__main__:main"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*"]
+
 [tool.setuptools.package-data]
 "*" = ["*.mp3", "*.so", "*.dll"]
+
+[tool.basedpyright]
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnannotatedClassAttribute = false
+deprecateTypingAliases = false
+executionEnvironments = [
+    { root = "src" },
+]
 
 [project.urls]
 Homepage = "https://github.com/lxgr-linux/pokete"

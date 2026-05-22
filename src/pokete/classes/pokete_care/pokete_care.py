@@ -1,7 +1,7 @@
 """The Pokete care is a place a Pokete can be brought to, to let it gain xp
 without the player using it"""
 
-from ..poke import Poke
+from pokete.classes.poke.poke import Poke
 
 
 class PoketeCare:

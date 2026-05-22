@@ -1,7 +1,7 @@
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.npcs import NPCAction
 from pokete.classes.npcs.npc_action import NPCInterface, UIInterface
-from pokete.classes.poke import Poke
+from pokete.classes.poke.poke import Poke
 
 
 class GiveBasic(NPCAction):

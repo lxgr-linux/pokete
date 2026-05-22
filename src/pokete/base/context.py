@@ -11,7 +11,7 @@ T = TypeVar("T")
 class Context[T]:
     def __init__(
         self,
-        pevm: PeriodicEventManager,
+        pevm: PeriodicEventManager["Context[T]"],
         _map: CompatMap,
         overview: Overview,
         figure: T,
@@ -21,12 +21,12 @@ class Context[T]:
         self.overview = overview
         self.figure: T = figure
 
-    def with_pevm(self, pevm: PeriodicEventManager) -> "Context":
+    def with_pevm(self, pevm: PeriodicEventManager["Context[T]"]) -> "Context[T]":
         ctx = copy(self)
         ctx.pevm = pevm
         return ctx
 
-    def with_overview(self, overview: Overview) -> "Context":
+    def with_overview(self, overview: Overview) -> "Context[T]":
         ctx = copy(self)
         ctx.overview = overview
         return ctx

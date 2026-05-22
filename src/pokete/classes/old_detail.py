@@ -87,7 +87,7 @@ class Informer:
             eff.cleanup()
 
 
-class Detail(Informer, Overview):
+class OldDetail(Informer, Overview):
     """Shows details about a Pokete
     ARGS:
         height: Height of the map

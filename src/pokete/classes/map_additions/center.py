@@ -4,9 +4,9 @@ import time
 import scrap_engine as se
 
 from pokete.base.input import _ev
-from pokete.classes import deck
 from pokete.classes import movemap as mvp
 from pokete.classes.classes import PlayMap
+from pokete.classes.deck import Deck
 from pokete.classes.doors import CenterDoor
 from pokete.classes.interactions.multi_text_choose_box import MultiTextChooseBox
 from pokete.classes.inv import buy
@@ -133,7 +133,7 @@ class CenterInteract(se.Object, MapInteract):
             case 0:
                 self.__normalize_pokes(ob)
                 ob.balls_label_rechar()
-                deck.deck(self.ctx, len(ob.pokes))
+                Deck()(self.ctx, len(ob.pokes))
             case 1:
                 ob.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
@@ -146,7 +146,7 @@ class CenterInteract(se.Object, MapInteract):
             case 2:
                 self.__normalize_pokes(ob)
                 if ob.pokes:
-                    selected_idx = deck.deck(
+                    selected_idx = Deck()(
                         self.ctx,
                         len(ob.pokes),
                         label="Choose a Pokete to cuddle",
