@@ -84,7 +84,8 @@ class InputBoxView(InfoBoxView):
         )
         self.__input = TextInput(
             self.text,
-            wrap_len=max_len,
+            wrap_len=max_len+1,
+            max_len=max_len,
         )
 
     @override
