@@ -15,7 +15,7 @@ from pokete.classes.effects import effects
 from pokete.classes.health_bar import HealthBar
 from pokete.classes.model.poke import PokeDict
 from pokete.classes.moves import Moves
-from pokete.classes.types import types
+from pokete.classes.types import PokeType, types
 
 from .learnattack import LearnAttack
 from .nature import PokeNature
@@ -70,7 +70,7 @@ class Poke:
         self.evolve_poke = self.inf.evolve_poke
         self.evolve_lvl = self.inf.evolve_lvl
         self.types = [getattr(types, i) for i in self.inf.types]
-        self.type = self.types[0]
+        self.type: PokeType = self.types[0]
         self.effects = []
         if _attacks is not None:
             assert len(_attacks) <= 4, (
@@ -101,11 +101,7 @@ can't have more than 4 attacks!"
         self.desc = self.inf.desc
         self.ico = se.Box(4, 11)
         for ico in self.inf.ico:
-            esccode = (
-                str.join("", [getattr(Color, i) for i in ico.esc])
-                if ico.esc is not None
-                else ""
-            )
+            esccode = str.join("", [getattr(Color, i) for i in ico.esc])
             self.ico.add_ob(
                 se.Text(
                     ico.txt,

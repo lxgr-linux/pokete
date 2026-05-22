@@ -1,7 +1,9 @@
 """Type and PokeType class"""
 
-from pokete.classes.asset_service.service import asset_service
+from typing import Optional
+
 from pokete.base.color import Color
+from pokete.classes.asset_service.service import asset_service
 
 
 class Types:
@@ -22,7 +24,13 @@ class PokeType:
         ineffective: List of type names the type is ineffectice against
         color: Color string"""
 
-    def __init__(self, name, effective, ineffective, color):
+    def __init__(
+        self,
+        name: str,
+        effective: list[str],
+        ineffective: list[str],
+        color: list[Optional[str]],
+    ):
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
