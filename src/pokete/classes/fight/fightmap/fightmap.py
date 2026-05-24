@@ -1,6 +1,7 @@
 """This file contains all relevant classes for fight"""
 
 import time
+from typing import override
 
 import scrap_engine as se
 from scrap_engine.addable.area import Area
@@ -20,6 +21,7 @@ from pokete.base.ui.elements.text import HightlightableText
 from pokete.classes import animations, deck
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.items.invitem import InvItem
+from pokete.classes.poke.ui import PokeLabels
 from pokete.release import SPEED_OF_TIME
 
 from ...classes import OutP
@@ -36,12 +38,13 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         height: The height of the map
         width: The width of the map"""
 
-    def __init__(self, height, width):
+    def __init__(self, height: int, width: int):
         super().__init__(height, width, name="fightmap")
         self.mouse_choosen = -1
         self.box = AttackBox()
         self.invbox = InvBox()
         self.providers: list[Provider] = []
+        self.poke_labels: list[PokeLabels] = []
         self.overview: Overview
         # icos
         self.deadico1 = se.Text(r"""
@@ -87,9 +90,17 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         self.e_sideline.add(self, len(self.e_underline.text), 1)
         self.add_base_boxes()
 
+    def provider_index(self, provider: Provider):
+        return self.providers.index(provider)
+
+    def provider_labels(self, provider: Provider) -> PokeLabels:
+        return self.poke_labels[self.provider_index(provider)]
+
+    @override
     def get_interaction_areas(self) -> list[Area]:
         return [i.get_area() for i in self.labels]
 
+    @override
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
         if area_idx >= 0:
             match event.type:
@@ -124,6 +135,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
             label.add(self, x, self.height - 1)
             x += label.width + 2
 
+    @override
     def resize_view(self):
         """Manages recursive view resizing"""
         player_added = self.providers[0].curr.ico.added
@@ -150,20 +162,18 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         if enem_added:
             self.providers[1].curr.ico.add(self, self.width - 14, 2)
 
-    def clean_up(self, *providers, resize=False):
+    def clean_up(self, *providers: Provider, resize=False):
         """Removes all labels from self
         ARGS:
             providers: The Providers to clean up that the labels belong to
             resize: Whether or not the box is beeing resized"""
         for prov in providers:
+            labels = self.provider_labels(prov)
             for obj in (
-                prov.curr.text_name,
-                prov.curr.text_lvl,
-                prov.curr.text_hp,
-                prov.curr.ico,
-                prov.curr.hp_bar,
-                prov.curr.tril,
-                prov.curr.trir,
+                labels.text_name,
+                labels.text_lvl,
+                labels.hp_bar,
+                labels.ico,
                 prov.curr.pball_small,
             ):
                 obj.remove()
@@ -173,63 +183,57 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
             for j in prov.curr.effects:
                 j.cleanup()
 
-    def __add_player(self, player, resize=False):
+    def __add_player(self, player: Provider, resize=False):
         """Adds player labels
         ARGS:
             player: The player provider object
             resize: Whether or not the box is beeing resized"""
-        player.curr.text_name.add(self, self.width - 17, self.height - 9)
-        player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
-        player.curr.tril.add(self, self.width - 11, self.height - 7)
-        player.curr.trir.add(self, self.width - 2, self.height - 7)
-        player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
-        player.curr.text_hp.add(self, self.width - 17, self.height - 7)
-        player.curr.ico.add(self, 3, self.height - 10)
+        labels = self.provider_labels(player)
+        labels.text_name.add(self, self.width - 17, self.height - 9)
+        labels.text_lvl.add(self, self.width - 17, self.height - 8)
+        labels.hp_bar.add(self, self.width - 17, self.height - 7)
+        labels.ico.add(self, 3, self.height - 10)
         # if not resize:
         #    self.box.box.add_c_obs(
         #        [atc.label for atc in player.curr.attack_obs]
         #    )
         #    self.box.box.set_index(0)
 
-    def __add_1(self, player, enem):
+    def __add_1(self, player: Provider, enem: Provider):
         """Adds enemy and general labels to self
         ARGS:
             player: The player Poke object
             enem: The enemy Poke object that the labels belong to"""
+        labels = self.provider_labels(enem)
         for obj, _x, _y in zip(
             (
-                enem.curr.tril,
-                enem.curr.trir,
-                enem.curr.text_name,
-                enem.curr.text_lvl,
-                enem.curr.text_hp,
-                enem.curr.ico,
-                enem.curr.hp_bar,
+                labels.text_name,
+                labels.text_lvl,
+                labels.hp_bar,
+                labels.ico,
             ),
-            (7, 16, 1, 1, 1, self.width - 14, 8),
-            (3, 3, 1, 2, 3, 2, 3),
+            (1, 1, 1, self.width - 14),
+            (1, 2, 3, 2),
         ):
             obj.add(self, _x, _y)
         if enem.curr.identifier in player.caught_pokes:
             enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)
 
-    def __add_2(self, player):
+    def __add_2(self, player: Provider):
         """Adds player labels with sleeps
         ARGS:
             player: The player Poke object that the labels belong to"""
-        player.curr.text_name.add(self, self.width - 17, self.height - 9)
+        labels = self.provider_labels(player)
+        labels.text_name.add(self, self.width - 17, self.height - 9)
         time.sleep(SPEED_OF_TIME * 0.05)
         self.show()
-        player.curr.text_lvl.add(self, self.width - 17, self.height - 8)
+        labels.text_lvl.add(self, self.width - 17, self.height - 8)
         time.sleep(SPEED_OF_TIME * 0.05)
         self.show()
-        player.curr.tril.add(self, self.width - 11, self.height - 7)
-        player.curr.trir.add(self, self.width - 2, self.height - 7)
-        player.curr.hp_bar.add(self, self.width - 10, self.height - 7)
-        player.curr.text_hp.add(self, self.width - 17, self.height - 7)
+        labels.hp_bar.add(self, self.width - 17, self.height - 7)
         time.sleep(SPEED_OF_TIME * 0.05)
         self.show()
-        player.curr.ico.add(self, 3, self.height - 10)
+        labels.ico.add(self, 3, self.height - 10)
         # self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
         # self.box.box.set_index(0)
 
@@ -326,28 +330,21 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
             prov.greet(self)
         time.sleep(SPEED_OF_TIME * 1)
         self.__add_2(providers[0])
-        self.fast_change(
-            [
-                providers[0].curr.ico,
-                self.deadico2,
-                self.deadico1,
-                providers[0].curr.ico,
-            ],
-            providers[0].curr.ico,
-        )
+        ico = self.provider_labels(providers[0]).ico
+        self.fast_change([ico, self.deadico2, self.deadico1, ico], ico)
         self.outp.outp(f"You used {providers[0].curr.name}")
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
 
-    def add_enemy_after_choosing(self, winner, enem):
+    def add_enemy_after_choosing(self, winner: Provider, enem: Provider):
         self.__add_1(winner, enem)
-        ico = enem.curr.ico
+        ico = self.provider_labels(enem).ico
         self.fast_change([ico, self.deadico2, self.deadico1, ico], ico)
         self.outp.outp(f"{enem.name} used {enem.curr.name}!")
         self.show()
         time.sleep(SPEED_OF_TIME * 2)
 
-    def choose_poke(self, ctx: Context, player, allow_exit=True):
+    def choose_poke(self, ctx: Context, player: Provider, allow_exit=True):
         """Lets the player choose another Pokete from their deck
         ARGS:
             player: The players' used Poke
@@ -362,6 +359,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
                 break
         if index is not None:
             player.play_index = index
+        self.poke_labels[self.provider_index(player)] = PokeLabels(player.curr)
         self.__add_player(player)
         self.outp.outp(f"You have choosen {player.curr.name}")
         for j in player.curr.effects:
@@ -405,7 +403,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         self.outp.outp("You failed to run away!")
         time.sleep(SPEED_OF_TIME * 1)
 
-    def ran_away(self, *providers):
+    def ran_away(self, *providers: Provider):
         self.outp.outp("You ran away!")
         time.sleep(SPEED_OF_TIME * 2)
         self.clean_up(*providers)
@@ -427,6 +425,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
 
     def set_providers(self, providers: list[Provider]):
         self.providers = providers
+        self.poke_labels = [PokeLabels(p.curr) for p in providers]
 
     def show_hurt_it_self(self, attacker):
         time.sleep(SPEED_OF_TIME * 1)

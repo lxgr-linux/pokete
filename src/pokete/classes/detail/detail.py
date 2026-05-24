@@ -17,7 +17,7 @@ from pokete.base.ui import Overview
 from pokete.base.ui.elements.box import Box
 from pokete.base.ui.elements.labels import CloseLabel, GenericActionLabel
 from pokete.classes.poke.poke import Poke
-from pokete.classes.poke.ui import NatureInfo, StatsInfoBox
+from pokete.classes.poke.ui import NatureInfo, PokeLabels, StatsInfoBox
 from pokete.classes.single_events import TeleportationSingleEvent
 from pokete.util import liner
 
@@ -52,6 +52,7 @@ class Detail(Box, MouseInteractor):
         self.type_label = se.Text("Type:", state="float")
         self.initiative_label = se.Text("Initiative:", state="float")
         self.desc_label = se.Text("", "float")
+        self.poke_labels: Optional[PokeLabels] = None
         self.line_sep1 = se.Square("-", self.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.width - 2, 1, state="float")
         self.line_middle = se.Square("|", 1, 9, state="float")
@@ -142,16 +143,12 @@ class Detail(Box, MouseInteractor):
 
     def cleanup(self):
         """Cleans up Pokete info from the box"""
+        assert self.poke_labels
         for obj in [
-            self.poke.text_name,
-            self.poke.ico,
-            self.poke.text_lvl,
-            self.poke.text_hp,
-            self.poke.tril,
-            self.poke.trir,
-            self.poke.hp_bar,
-            self.poke.text_xp,
-            self.poke.text_type,
+            self.poke_labels.ico,
+            self.poke_labels.text_lvl,
+            self.poke_labels.hp_bar,
+            self.poke_labels.text_xp,
         ]:
             self.rem_ob(obj)
             if obj.added:
@@ -183,6 +180,7 @@ class Detail(Box, MouseInteractor):
         RETURNS:
             None (used for interaction within the box)"""
         self.poke = poke
+        self.poke_labels = PokeLabels(poke)
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
 
@@ -193,16 +191,13 @@ class Detail(Box, MouseInteractor):
             if self.poke.identifier != "__fallback__":
                 for obj, __x, __y in zip(
                     [
-                        self.poke.ico,
-                        self.poke.text_lvl,
-                        self.poke.text_hp,
-                        self.poke.tril,
-                        self.poke.trir,
-                        self.poke.hp_bar,
-                        self.poke.text_xp,
+                        self.poke_labels.ico,
+                        self.poke_labels.text_lvl,
+                        self.poke_labels.hp_bar,
+                        self.poke_labels.text_xp,
                     ],
-                    [2, 14, 14, 20, 29, 21, 14],
-                    [1, 2, 3, 3, 3, 3, 4],
+                    [2, 14, 14, 14],
+                    [1, 2, 3, 4],
                 ):
                     self.add_ob(obj, __x, __y)
                 for eff in self.poke.effects:

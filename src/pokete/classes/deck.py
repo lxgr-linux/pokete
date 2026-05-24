@@ -6,25 +6,24 @@ from pokete.base.context import Context
 from pokete.base.ui.views.better_choose_box import BetterChooseBoxView
 from pokete.classes.detail import Detail
 from pokete.classes.poke.poke import Poke
+from pokete.classes.poke.ui import PokeLabels
 
 
 class DeckItem(se.Box):
     def __init__(self, poke: Poke):
         super().__init__(4, 28)
         self.add_ob(poke.text_name, 12, 0)
+        self.__labels = PokeLabels(poke)
         if poke.identifier != "__fallback__":
             for obj, _x, _y in zip(
                 [
-                    poke.ico,
-                    poke.text_lvl,
-                    poke.text_hp,
-                    poke.tril,
-                    poke.trir,
-                    poke.hp_bar,
-                    poke.text_xp,
+                    self.__labels.ico,
+                    self.__labels.text_lvl,
+                    self.__labels.hp_bar,
+                    self.__labels.text_xp,
                 ],
-                [0, 12, 12, 18, 27, 19, 12],
-                [0, 1, 2, 2, 2, 2, 3],
+                [0, 12, 12, 12],
+                [0, 1, 2, 3],
             ):
                 self.add_ob(obj, _x, _y)
 

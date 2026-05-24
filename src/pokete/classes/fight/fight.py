@@ -39,6 +39,8 @@ class Fight:
         audio.play("xDeviruchi - Decisive Battle (Loop).mp3")
         self.providers = providers
         self.fightmap.set_overview(ctx.overview)
+        for prov in self.providers:
+            prov.index_conf()
         self.fightmap.set_providers(providers)
         ctx = change_ctx(
             Context(
@@ -61,8 +63,6 @@ class Fight:
                 for prov in self.providers
             ),
         )
-        for prov in self.providers:
-            prov.index_conf()
         self.fightmap.add_providers(self.providers)
 
         index = self.initial_player_index()

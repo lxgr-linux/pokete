@@ -1,14 +1,14 @@
 import scrap_engine as se
 
 from pokete.base.color import Color
-from pokete.classes.health_bar import HealthBar
 from pokete.classes.poke.poke import Poke
+from pokete.classes.poke.ui.health_bar import HealthBarWrapper
 
 
 class PokeLabels:
-    def __init__(self, poke: Poke) -> None:
+    def __init__(self, poke: Poke):
         # Labels
-        self.hp_bar = HealthBar(self)
+        self.hp_bar: HealthBarWrapper = HealthBarWrapper(poke)
         self.hp_bar.make(poke.hp)
         self.ico = se.Box(4, 11)
         for ico in poke.inf.ico:
@@ -23,7 +23,6 @@ class PokeLabels:
                 0,
                 0,
             )
-        self.text_hp = se.Text(f"HP:{poke.hp}", state="float")
         self.text_lvl = se.Text(f"Lvl:{poke.lvl()}", state="float")
         self.text_name = se.Text(
             (poke.name.upper() if poke.shiny else poke.name),

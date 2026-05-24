@@ -1,5 +1,5 @@
-from abc import ABC
 import logging
+from abc import ABC
 
 from pokete.classes.fight.fightmap.fightmap import FightMap
 from pokete.classes.fight.items.item import FightItem, RoundContinuation
@@ -15,7 +15,7 @@ class GenericeHealingPotion(FightItem, ABC):
         obj.remove_item(self.name)
         obj.curr.oldhp = obj.curr.hp
         obj.curr.hp = min(obj.curr.full_hp, obj.curr.hp + self.hp)
-        obj.curr.hp_bar.update(obj.curr.oldhp)
+        obj.curr.hp_bar.update(obj.curr.oldhp, obj.curr.hp)
         logging.info("[Fighitem][%s] Used", self.name)
         return RoundContinuation.ENEMY_ATTACK
 

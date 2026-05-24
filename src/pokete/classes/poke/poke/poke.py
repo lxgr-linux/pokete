@@ -7,12 +7,10 @@ from datetime import datetime
 
 import scrap_engine as se
 
-from pokete.base.color import Color
 from pokete.classes.asset_service.resources.base import Poke as ResourcePoke
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.attack import Attack
-from pokete.classes.effects import effects
-from pokete.classes.health_bar import HealthBar
+from pokete.classes.effects import Effect, effects
 from pokete.classes.model.poke import PokeDict
 from pokete.classes.moves import Moves
 from pokete.classes.types import PokeType, types
@@ -71,7 +69,7 @@ class Poke:
         self.evolve_lvl = self.inf.evolve_lvl
         self.types = [getattr(types, i) for i in self.inf.types]
         self.type: PokeType = self.types[0]
-        self.effects = []
+        self.effects: list[Effect] = []
         if _attacks is not None:
             assert len(_attacks) <= 4, (
                 f"A Pokete {poke} \
@@ -96,39 +94,7 @@ can't have more than 4 attacks!"
         if _hp != "SKIP":
             self.hp: int = _hp
         # Labels
-        self.hp_bar = HealthBar(self)
-        self.hp_bar.make(self.hp)
         self.desc = self.inf.desc
-        self.ico = se.Box(4, 11)
-        for ico in self.inf.ico:
-            esccode = str.join("", [getattr(Color, i) for i in ico.esc])
-            self.ico.add_ob(
-                se.Text(
-                    ico.txt,
-                    state="float",
-                    esccode=esccode,
-                    ignore=f"{esccode} {Color.reset}",
-                ),
-                0,
-                0,
-            )
-        self.text_hp = se.Text(f"HP:{self.hp}", state="float")
-        self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
-        self.text_name = se.Text(
-            (self.name.upper() if self.shiny else self.name),
-            esccode=Color.underlined + self.type.color,
-            state="float",
-        )
-        self.text_xp = se.Text(
-            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
-{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}",
-            state="float",
-        )
-        self.text_type = se.Text(
-            self.type.name.capitalize(), state="float", esccode=self.type.color
-        )
-        self.tril = se.Object("<", state="float")
-        self.trir = se.Object(">", state="float")
         self.pball_small = se.Object("o")
         self.set_vars()
         if _ap is not None:

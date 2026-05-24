@@ -93,7 +93,7 @@ class AttackProcess:
             if random_factor != 0:
                 attack.give_effect(defender)
             for obj in [defender, attacker] if defender != attacker else [defender]:
-                obj.hp_bar.update(obj.oldhp)
+                obj.hp_bar.update(obj.oldhp, obj.hp)
             logging.info(
                 "[Fight][%s] Used %s: %s",
                 attacker.name,

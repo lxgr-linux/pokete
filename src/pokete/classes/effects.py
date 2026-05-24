@@ -1,12 +1,13 @@
 """Contains everything related to Effects"""
 
-import time
-import random
 import logging
+import random
+import time
+
 import scrap_engine as se
 
-from pokete.release import SPEED_OF_TIME
 from pokete.base.color import Color
+from pokete.release import SPEED_OF_TIME
 
 
 class Effect:
@@ -208,7 +209,7 @@ This is reverted randomly."
         for _ in range(random.randint(1, 3)):
             oldhp = self.obj.hp
             self.obj.hp = max(self.obj.hp - self.damage, 0)
-            self.obj.hp_bar.update(oldhp)
+            self.obj.hp_bar.update(oldhp, obj.hp)
             self.obj.ico.map.outp.outp(f"{self.obj.ext_name} {self.hurt_text}")
             time.sleep(SPEED_OF_TIME * 0.5)
         return 0
