@@ -70,7 +70,9 @@ class Fight:
             i = prov.curr
             for j in i.effects:
                 j.readd()
-        while True:
+        
+        fight_over = False
+        while not fight_over:
             player: Provider = self.providers[index % 2]
             enem: Provider = self.providers[(index + 1) % 2]
             winner: Provider | None = None
@@ -142,10 +144,13 @@ class Fight:
             if winner is not None:
                 if any(p.hp > 0 for p in loser.pokes[:6]):
                     if not loser.handle_defeat(ctx, self.fightmap, winner):
-                        break
+                        fight_over = True  # Set flag to exit outer loop
                 else:
-                    break
-            index += 1
+                    fight_over = True  # Set flag to exit outer loop
+            
+            if not fight_over:
+                index += 1
+                
         audio.play("xDeviruchi - Decisive Battle (End).mp3")
 
         xp = (
