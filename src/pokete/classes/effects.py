@@ -273,16 +273,12 @@ effect_list = [
 ]
 
 
-class Effects:
-    """Contains all effects"""
-
-    def __init__(self):
-        self.effect_list = effect_list
-        for i in self.effect_list:
-            setattr(self, i.c_name, i)
+def _build_effects() -> dict[str, type[Effect]]:
+    """Build the effects dictionary from effect_list"""
+    return {effect_class.c_name: effect_class for effect_class in effect_list}
 
 
-effects = Effects()
+effects: dict[str, type[Effect]] = _build_effects()
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

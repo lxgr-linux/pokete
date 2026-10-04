@@ -82,7 +82,7 @@ class Fight:
                     case Result.ATTACK:
                         attack: Attack = attack_result.attack_value
                         self.attack_process(
-                            player.curr, enem.curr, attack, self.providers
+                            ctx, player.curr, enem.curr, attack, [player, enem]
                         )
 
                     case Result.RUN_AWAY:

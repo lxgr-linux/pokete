@@ -33,7 +33,7 @@ class Attack:
         self.effect = inf["effect"]
         self.is_generic = inf["is_generic"]
         self.ap = inf["ap"]
-        self.type = getattr(types, inf["types"][0])
+        self.type = types[inf["types"][0]]
         self.max_ap = self.ap
         # labels
         self.label_name = se.Text(self.name, esccode=Color.underlined, state="float")
@@ -64,7 +64,7 @@ class Attack:
             enem: Enemy object"""
         if self.effect is not None:
             time.sleep(SPEED_OF_TIME * 1.5)
-            getattr(effects, self.effect)().add(enem)
+            effects[self.effect]().add(enem)
 
     def set_ap(self, _ap):
         """Sets attack points

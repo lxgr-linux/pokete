@@ -79,7 +79,7 @@ class Inv(BaseInv):
                         ctx.map.show(init=True)
                         break
                     poke = ctx.figure.pokes[index]
-                    if getattr(types, obj.attack.types[0]) in poke.types:
+                    if types[obj.attack.types[0]] in poke.types:
                         break
                     if not ask_bool(
                         ctx,

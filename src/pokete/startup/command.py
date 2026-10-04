@@ -34,7 +34,7 @@ class PoketeCommand:
                 if len(values) != 1:
                     logging.error("Flag '%s' takes exactly one argument", flag)
                     sys.exit(1)
-                self.save_dir = Path(flags[flag][0])
+                self.save_dir = Path(values[0])
 
     def run(self) -> tuple[bool, bool, Path]:
         c = RootCommand(
@@ -48,10 +48,10 @@ class PoketeCommand:
                 self.save_dir_flag,
             ],
             additional_info=f"""All save and logfiles are located in ~{SAVEPATH}/
-        Feel free to contribute.
-        See README.md for more information.
-        This software is licensed under the GPLv3, you should have gotten a
-        copy of it alongside this software.""",
+Feel free to contribute.
+See README.md for more information.
+This software is licensed under the GPLv3, you should have gotten a
+copy of it alongside this software.""",
             usage="",
         )
 

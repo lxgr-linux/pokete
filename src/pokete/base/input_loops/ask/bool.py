@@ -1,3 +1,5 @@
+from typing import override
+
 import scrap_engine as se
 from scrap_engine.addable.area import Area
 from scrap_engine.addable.misc.frame import Optional
@@ -37,9 +39,11 @@ class AskBoolBox(Box, MouseInteractor):
             self.__text_label.height + 1,
         )
 
+    @override
     def get_interaction_areas(self) -> list[Area]:
         return [i.get_area() for i in self.__labels]
 
+    @override
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
         if area_idx < 0:
             match event.type:
@@ -73,7 +77,7 @@ class AskBoolBox(Box, MouseInteractor):
         return ret
 
 
-def ask_bool(ctx: Context, text) -> bool:
+def ask_bool(ctx: Context, text: str) -> bool:
     """Asks the player to aswer a yes/no question
     ARGS:
         ctx: Context

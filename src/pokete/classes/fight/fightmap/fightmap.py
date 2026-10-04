@@ -20,6 +20,7 @@ from pokete.base.ui.elements import StdFrame2
 from pokete.base.ui.elements.text import HightlightableText
 from pokete.classes import animations, deck
 from pokete.classes.asset_service.service import asset_service
+from pokete.classes.fight.fightmap.moves import moves
 from pokete.classes.items.invitem import InvItem
 from pokete.classes.poke.ui import PokeLabels
 from pokete.release import SPEED_OF_TIME
@@ -138,12 +139,12 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
     @override
     def resize_view(self):
         """Manages recursive view resizing"""
-        player_added = self.providers[0].curr.ico.added
-        enem_added = self.providers[1].curr.ico.added
+        player_added = self.poke_labels[0].ico.added
+        enem_added = self.poke_labels[1].ico.added
         for obj in [
             self.outp,
             self.p_upperline,
-            self.providers[1].curr.ico,
+            self.poke_labels[1].ico,
             self.frame_big,
             self.p_sideline,
             self.frame_small,
@@ -430,6 +431,12 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
     def show_hurt_it_self(self, attacker):
         time.sleep(SPEED_OF_TIME * 1)
         self.outp.outp(f"{attacker.ext_name} hurt itself!")
+
+    def show_attack_move(self, attack: str, is_player: bool):
+        moves[attack].move(
+            *(self.poke_labels if is_player else reversed(self.poke_labels)),
+            is_player=is_player,
+        )
 
 
 if __name__ == "__main__":

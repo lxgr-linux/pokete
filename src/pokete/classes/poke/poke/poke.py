@@ -12,7 +12,6 @@ from pokete.classes.asset_service.service import asset_service
 from pokete.classes.attack import Attack
 from pokete.classes.effects import Effect, effects
 from pokete.classes.model.poke import PokeDict
-from pokete.classes.moves import Moves
 from pokete.classes.types import PokeType, types
 
 from .learnattack import LearnAttack
@@ -47,7 +46,6 @@ class Poke:
             PokeNature.random() if nature is None else PokeNature.from_dict(nature)
         )
         self.inf: ResourcePoke = asset_service.get_base_assets().pokes[poke]
-        self.moves = Moves(self)
         # Attributes
         self.player = None
         self.affil = ""
@@ -67,7 +65,7 @@ class Poke:
         self.lose_xp = self.inf.lose_xp
         self.evolve_poke = self.inf.evolve_poke
         self.evolve_lvl = self.inf.evolve_lvl
-        self.types = [getattr(types, i) for i in self.inf.types]
+        self.types = [types[i] for i in self.inf.types]
         self.type: PokeType = self.types[0]
         self.effects: list[Effect] = []
         if _attacks is not None:
@@ -101,7 +99,7 @@ can't have more than 4 attacks!"
             self.set_ap(_ap)
         if _effects is not None:
             for eff in _effects:
-                self.effects.append(getattr(effects, eff)(self))
+                self.effects.append(effects[eff](self))
 
         self.poke_stats = (
             Stats(self.name, None)

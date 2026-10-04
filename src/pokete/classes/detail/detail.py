@@ -87,6 +87,7 @@ class Detail(Box, MouseInteractor):
     def __rechar_desc_label(self):
         self.desc_label.rechar(liner(self.poke.desc, self.width - 34))
 
+    @override
     def resize_view(self):
         """Manages recursive view resizing"""
         if self.poke is None:
@@ -187,7 +188,7 @@ class Detail(Box, MouseInteractor):
         with self.center_add(self.map):
             # Add poke info to box
             self.__rechar_desc_label()
-            self.add_ob(self.poke.text_name, 14, 1)
+            self.add_ob(self.poke_labels.text_name, 14, 1)
             if self.poke.identifier != "__fallback__":
                 for obj, __x, __y in zip(
                     [
@@ -220,7 +221,7 @@ class Detail(Box, MouseInteractor):
 {(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}"
             )
             self.initiative_label.rechar(f"Initiative:{self.poke.initiative}")
-            self.add_ob(self.poke.text_type, 42, 5)
+            self.add_ob(self.poke_labels.text_type, 42, 5)
             self.add_attack_labels()
             self.map.show(init=True)
 

@@ -2,10 +2,12 @@ import logging
 import random
 import time
 
+from pokete.base.context import Context
 from pokete.classes.attack import Attack
 from pokete.classes.attack_actions import AttackActions
 from pokete.classes.effects import effects
 from pokete.classes.poke.poke import Poke
+from pokete.classes.weather import Weather
 from pokete.release import SPEED_OF_TIME
 
 from .fightmap import FightMap
@@ -52,30 +54,35 @@ class AttackProcess:
         )
 
     def __call__(
-        self, attacker: Poke, defender: Poke, attack: Attack, providers: list[Provider]
+        self,
+        ctx: Context,
+        attacker: Poke,
+        defender: Poke,
+        attack: Attack,
+        providers: list[Provider],
     ):
         """Attack process
         ARGS:
             attack: Attack object
             defender: Enemy Poke"""
-        weather = providers[0].map.weather
+        weather: Weather = ctx.figure.map.weather
         if attack.ap > 0:
-            for eff in attacker.effects:
-                eff.remove()
-            for eff in attacker.effects:
-                if eff.effect() == 1:
+            for e in attacker.effects:
+                e.remove()
+            for e in attacker.effects:
+                if e.effect() == 1:
                     return
-            if any(isinstance(i, effects.confusion) for i in attacker.effects):
+            if any(isinstance(i, effects["confusion"]) for i in attacker.effects):
                 attacker.enem = defender = attacker
             else:
                 attacker.enem = defender
-            w_eff = 1
+            w_eff: float = 1
             random_factor = self.get_random_factor(attack, attacker)
             if weather is not None:
                 w_eff = weather.effect(attack.type)
                 self.fightmap.show_weather(weather)
 
-            eff = self.get_base_effectivity(defender, attack) * w_eff
+            eff: float = self.get_base_effectivity(defender, attack) * w_eff
             n_hp = self.get_hp(attacker, defender, attack, random_factor, eff)
 
             attacker.backup_hp()
@@ -83,7 +90,7 @@ class AttackProcess:
             defender.set_hp(n_hp)
             time.sleep(SPEED_OF_TIME * 0.4)
             for i in attack.move:
-                getattr(attacker.moves, i)()
+                self.fightmap.show_attack_move(i, bool(attacker.player))
             if attack.action is not None and random_factor != 0:
                 getattr(AttackActions, attack.action)(attacker, defender, providers)
             attack.set_ap(attack.ap - 1)
@@ -92,8 +99,10 @@ class AttackProcess:
                 self.fightmap.show_hurt_it_self(attacker)
             if random_factor != 0:
                 attack.give_effect(defender)
-            for obj in [defender, attacker] if defender != attacker else [defender]:
-                obj.hp_bar.update(obj.oldhp, obj.hp)
+            for prov in providers if providers[0] != providers[1] else [providers[1]]:
+                self.fightmap.provider_labels(prov).hp_bar.update(
+                    prov.curr.oldhp, prov.curr.hp
+                )
             logging.info(
                 "[Fight][%s] Used %s: %s",
                 attacker.name,

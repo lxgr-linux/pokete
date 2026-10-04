@@ -13,7 +13,7 @@ from pokete.util.utility import (
 )
 
 
-def fallback(ex: str, options: list[str], flags: dict[str, list[str]]):
+def fallback(ex: str, options: list[str], _: dict[str, list[str]]):
     if not options:
         not_enough_args(ex)
     not_found(ex, options[0])

@@ -382,7 +382,7 @@ Those are all attacks present in the game.
         eff = (
             None
             if attacks[attack]["effect"] is None
-            else getattr(effects, attacks[attack]["effect"])
+            else effects[attacks[attack]["effect"]]
         )
         return f"""\n##{"" if multi_page else "##"} {attacks[attack]["name"]}
 {attacks[attack]["desc"]}

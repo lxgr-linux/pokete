@@ -12,8 +12,8 @@ from pokete.classes.poke.ui import PokeLabels
 class DeckItem(se.Box):
     def __init__(self, poke: Poke):
         super().__init__(4, 28)
-        self.add_ob(poke.text_name, 12, 0)
         self.__labels = PokeLabels(poke)
+        self.add_ob(self.__labels.text_name, 12, 0)
         if poke.identifier != "__fallback__":
             for obj, _x, _y in zip(
                 [

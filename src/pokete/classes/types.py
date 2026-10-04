@@ -6,14 +6,14 @@ from pokete.base.color import Color
 from pokete.classes.asset_service.service import asset_service
 
 
-class Types:
-    """Class to organize PokeTypese"""
-
-    def __init__(self):
-        for i, typ in asset_service.get_base_assets().types.items():
-            setattr(self, i, PokeType(i, typ.effective, typ.ineffective, typ.color))
-        for i in asset_service.get_base_assets().sub_types:
-            setattr(self, i, PokeSubType(i))
+def _build_types() -> dict[str, "PokeType"]:
+    """Build the types dictionary from base assets"""
+    types_dict: dict[str, PokeType] = {}
+    for i, typ in asset_service.get_base_assets().types.items():
+        types_dict[i] = PokeType(i, typ.effective, typ.ineffective, typ.color)
+    for i in asset_service.get_base_assets().sub_types:
+        types_dict[i] = PokeSubType(i)
+    return types_dict
 
 
 class PokeType:
@@ -29,8 +29,8 @@ class PokeType:
         name: str,
         effective: list[str],
         ineffective: list[str],
-        color: list[Optional[str]],
-    ):
+        color: Optional[list[Optional[str]]],
+    ) -> None:
         self.name = name
         self.effective = effective
         self.ineffective = ineffective
@@ -42,11 +42,11 @@ class PokeSubType(PokeType):
     ARGS:
         name: The types name"""
 
-    def __init__(self, name):
+    def __init__(self, name: str) -> None:
         super().__init__(name, [], [], None)
 
 
-types = Types()
+types: dict[str, PokeType] = _build_types()
 
 if __name__ == "__main__":
     print("\033[31;1mDo not execute this!\033[0m")

@@ -1,67 +1,167 @@
-"""Contains all moves a Pokete can fullfill"""
+"""Contains all moves a Pokete can fulfill"""
 
 import random
 import time
+from abc import ABC, abstractmethod
+from typing import override
 
 import scrap_engine as se
 
 from pokete.base.color import Color
+from pokete.classes.poke.ui import PokeLabels
 from pokete.release import SPEED_OF_TIME
 
 
-class Moves:
-    """This class contains all attack moves
-    ARGS:
-        poke: The Poke that does the moves"""
-
-    def __init__(self, poke):
-        self.poke = poke
-
-    def attack(self):
-        """Attack move"""
-        for i, j, _t in zip([3, -3], [2, -2], [0.3, 0]):
-            self.poke.ico.move(
-                i if self.poke.player else -i, -j if self.poke.player else j
+# Helper functions for animations - no duplication, pure functions
+def _impact(player_labels: PokeLabels, enem_labels: PokeLabels):
+    """Brief flash effect on enemy when attack lands"""
+    if enem_labels.poke == player_labels.poke:
+        return
+    enem_ico = enem_labels.ico
+    flash_chars = ["*", "X", "*"]
+    flash = se.Text(flash_chars[0], esccode=Color.thicc + Color.yellow)
+    flash.add(
+        enem_ico.map,
+        *(
+            (enem_ico.x, enem_ico.y + enem_ico.height)
+            if player_labels.poke.player
+            else (
+                enem_ico.x + enem_ico.width,
+                enem_ico.y,
             )
-            self.poke.ico.map.show()
-            time.sleep(SPEED_OF_TIME * _t)
-        self.impact()
-
-    def impact(self):
-        """Brief flash effect on enemy when attack lands"""
-        if self.poke.enem == self.poke:
-            return
-        enem_ico = self.poke.enem.ico
-        flash_chars = ["*", "X", "*"]
-        flash = se.Text(flash_chars[0], esccode=Color.thicc + Color.yellow)
-        flash.add(
-            enem_ico.map,
-            *(
-                (enem_ico.x, enem_ico.y + enem_ico.height)
-                if self.poke.player
-                else (
-                    enem_ico.x + enem_ico.width,
-                    enem_ico.y,
-                )
-            ),
-        )
-        for char in flash_chars:
-            flash.rechar(char, esccode=Color.thicc + Color.yellow)
-            enem_ico.map.show()
-            time.sleep(SPEED_OF_TIME * 0.1)
-        flash.remove()
+        ),
+    )
+    for char in flash_chars:
+        flash.rechar(char, esccode=Color.thicc + Color.yellow)
         enem_ico.map.show()
+        time.sleep(SPEED_OF_TIME * 0.1)
+    flash.remove()
+    enem_ico.map.show()
 
-    def pound(self):
-        """Pound move"""
+
+def _throw(
+    player_labels: PokeLabels,
+    enem_labels: PokeLabels,
+    txt: str = "#",
+    factor: float = 1.0,
+    num: int = 1,
+    trail: bool = True,
+):
+    """Throw move with trail effect
+    ARGS:
+        player_labels: Labels of attacking pokemon
+        enem_labels: Labels of defending pokemon
+        txt: The char that moves across the screen
+        factor: Scalar to stretch the vector
+        num: The number of chars thrown
+        trail: Whether to show a fading trail behind projectile"""
+    if enem_labels.poke == player_labels.poke:
+        return
+    line = se.Line(
+        " ",
+        (
+            enem_labels.ico.x
+            - player_labels.ico.x
+            + (-11 if player_labels.poke.player else 11)
+        ),
+        enem_labels.ico.y - player_labels.ico.y,
+        l_type="crippled",
+    )
+    line.resize(line.cx * factor, line.cy * factor)
+    line.add(
+        player_labels.ico.map,
+        player_labels.ico.x + (11 if player_labels.poke.player else -1),
+        player_labels.ico.y + 1,
+    )
+    player_labels.ico.map.show()
+    trail_char = Color.white + "." + Color.reset
+    trail_len = 3 if trail else 0
+    for i in range(len(line.obs) + num * 5 - 1):
+        for j in range(0, num * 5, 5):
+            if len(line.obs) > i - j >= 0:
+                line.obs[i - j].rechar(txt)
+            # Trail effect: show fading dots behind projectile
+            if trail:
+                for t in range(1, trail_len + 1):
+                    trail_idx = i - j - t
+                    if 0 <= trail_idx < len(line.obs):
+                        line.obs[trail_idx].rechar(trail_char)
+            # Clear old trail
+            clear_idx = i - j - trail_len - 1 if trail else i - j - 1
+            if len(line.obs) > clear_idx >= 0:
+                line.obs[clear_idx].rechar(line.char)
+        time.sleep(SPEED_OF_TIME * 0.05)
+        player_labels.ico.map.show()
+    line.remove()
+    del line
+
+
+def _shine(player_labels: PokeLabels, ico: str):
+    """Shine animation with custom icon"""
+    shines = [se.Object(ico) for _ in range(4)]
+    for i, _x, _y in zip(
+        shines,
+        [
+            player_labels.ico.x - 1,
+            player_labels.ico.x + 11,
+            player_labels.ico.x - 1,
+            player_labels.ico.x + 11,
+        ],
+        [
+            player_labels.ico.y,
+            player_labels.ico.y,
+            player_labels.ico.y + 3,
+            player_labels.ico.y + 3,
+        ],
+    ):
+        i.add(player_labels.ico.map, _x, _y)
+        player_labels.ico.map.show()
+        time.sleep(SPEED_OF_TIME * 0.2)
+    time.sleep(SPEED_OF_TIME * 0.2)
+    for i in shines:
+        i.remove()
+    player_labels.ico.map.show()
+
+
+class Move(ABC):
+    """Abstract base class for all pokete moves"""
+
+    @abstractmethod
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels): ...
+
+
+class AttackMove(Move):
+    """Attack move - quick strike with knockback animation"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+        for i, j, _t in zip([3, -3], [2, -2], [0.3, 0]):
+            player_labels.ico.move(
+                i if player_labels.poke.player else -i,
+                -j if player_labels.poke.player else j,
+            )
+            player_labels.ico.map.show()
+            time.sleep(SPEED_OF_TIME * _t)
+        _impact(player_labels, enem_labels)
+
+
+class PoundMove(Move):
+    """Pound move - vertical bobbing motion"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
         for i in [-1, 1]:
-            self.poke.ico.move(0, i)
-            self.poke.ico.map.show()
+            player_labels.ico.move(0, i)
+            player_labels.ico.map.show()
             time.sleep(SPEED_OF_TIME * 0.3)
-        self.impact()
+        _impact(player_labels, enem_labels)
 
-    def bomb(self):
-        """Bomb move"""
+
+class BombMove(Move):
+    """Bomb move - explosion animation"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
         frames = [
             """
 
@@ -104,139 +204,116 @@ class Moves:
 .         .
 """,
         ]
-        _map = self.poke.ico.map
+        _map = player_labels.ico.map
         text = se.Text("")
         text.add(_map, round((_map.width - 11) / 2), round((_map.height - 9) / 2))
-        self.__throw(Color.thicc + Color.blue + "o" + Color.reset, 0.5)
+        _throw(
+            player_labels,
+            enem_labels,
+            txt=Color.thicc + Color.blue + "o" + Color.reset,
+            factor=0.5,
+        )
         for i in frames:
             text.rechar(i)
-            self.poke.ico.map.show()
+            player_labels.ico.map.show()
             time.sleep(SPEED_OF_TIME * 0.03)
         time.sleep(SPEED_OF_TIME * 0.03)
         text.remove()
 
-    def arch(self):
-        """Arch move"""
-        if self.poke.enem == self:
+
+class ArchMove(Move):
+    """Arch move - arcing projectile"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+        if enem_labels.poke == player_labels.poke:
             return
         line = se.Line(
             Color.thicc + Color.yellow + "-" + Color.reset,
             (
-                self.poke.enem.ico.x
-                - self.poke.ico.x
-                + (-11 if self.poke.player else 11)
+                enem_labels.ico.x
+                - player_labels.ico.x
+                + (-11 if player_labels.poke.player else 11)
             ),
-            self.poke.enem.ico.y - self.poke.ico.y,
+            enem_labels.ico.y - player_labels.ico.y,
             l_type="crippled",
         )
         line.add(
-            self.poke.ico.map,
-            self.poke.ico.x + (11 if self.poke.player else -1),
-            self.poke.ico.y + 1,
+            player_labels.ico.map,
+            player_labels.ico.x + (11 if player_labels.poke.player else -1),
+            player_labels.ico.y + 1,
         )
-        self.poke.ico.map.show()
+        player_labels.ico.map.show()
         time.sleep(SPEED_OF_TIME * 1)
         line.remove()
         del line
 
-    def throw(self):
-        self.__throw()
-        self.impact()
 
-    def __throw(self, txt="#", factor=1.0, num=1, trail=True):
-        """Throw move with trail effect
-        ARGS:
-            txt: The char that moves across the screen
-            factor: Scalar to stretch the vector
-            num: The number of chars thrown
-            trail: Whether to show a fading trail behind projectile"""
-        if self.poke.enem == self.poke:
-            return
-        line = se.Line(
-            " ",
-            (
-                self.poke.enem.ico.x
-                - self.poke.ico.x
-                + (-11 if self.poke.player else 11)
-            ),
-            self.poke.enem.ico.y - self.poke.ico.y,
-            l_type="crippled",
+class ThrowMove(Move):
+    """Throw move - projectile with impact"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+        _throw(player_labels, enem_labels)
+        _impact(player_labels, enem_labels)
+
+
+class GunMove(Move):
+    """Gun move - rapid-fire projectiles"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+        _throw(
+            player_labels,
+            enem_labels,
+            txt=Color.thicc + Color.blue + "o" + Color.reset,
+            num=4,
         )
-        line.resize(line.cx * factor, line.cy * factor)
-        line.add(
-            self.poke.ico.map,
-            self.poke.ico.x + (11 if self.poke.player else -1),
-            self.poke.ico.y + 1,
+        _impact(player_labels, enem_labels)
+
+
+class FireballMove(Move):
+    """Fireball move - fiery projectile"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+        _throw(
+            player_labels, enem_labels, txt=Color.thicc + Color.red + "*" + Color.reset
         )
-        self.poke.ico.map.show()
-        trail_char = Color.white + "." + Color.reset
-        trail_len = 3 if trail else 0
-        for i in range(len(line.obs) + num * 5 - 1):
-            for j in range(0, num * 5, 5):
-                if len(line.obs) > i - j >= 0:
-                    line.obs[i - j].rechar(txt)
-                # Trail effect: show fading dots behind projectile
-                if trail:
-                    for t in range(1, trail_len + 1):
-                        trail_idx = i - j - t
-                        if 0 <= trail_idx < len(line.obs):
-                            line.obs[trail_idx].rechar(trail_char)
-                # Clear old trail
-                clear_idx = i - j - trail_len - 1 if trail else i - j - 1
-                if len(line.obs) > clear_idx >= 0:
-                    line.obs[clear_idx].rechar(line.char)
-            time.sleep(SPEED_OF_TIME * 0.05)
-            self.poke.ico.map.show()
-        line.remove()
-        del line
+        _impact(player_labels, enem_labels)
 
-    def gun(self):
-        """Gun move"""
-        self.__throw(txt=Color.thicc + Color.blue + "o" + Color.reset, num=4)
-        self.impact()
 
-    def fireball(self):
-        """Fireball move"""
-        self.__throw(txt=Color.thicc + Color.red + "*" + Color.reset)
-        self.impact()
+class ShineMove(Move):
+    """Shine move - glowing stars around pokemon"""
 
-    def shine(self, ico=Color.thicc + Color.green + "*" + Color.reset):
-        """Shine Move"""
-        shines = [se.Object(ico) for _ in range(4)]
-        for i, _x, _y in zip(
-            shines,
-            [
-                self.poke.ico.x - 1,
-                self.poke.ico.x + 11,
-                self.poke.ico.x - 1,
-                self.poke.ico.x + 11,
-            ],
-            [
-                self.poke.ico.y,
-                self.poke.ico.y,
-                self.poke.ico.y + 3,
-                self.poke.ico.y + 3,
-            ],
-        ):
-            i.add(self.poke.ico.map, _x, _y)
-            self.poke.ico.map.show()
-            time.sleep(SPEED_OF_TIME * 0.2)
-        time.sleep(SPEED_OF_TIME * 0.2)
-        for i in shines:
-            i.remove()
-        self.poke.ico.map.show()
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+        _shine(player_labels, ico=Color.thicc + Color.green + "*" + Color.reset)
 
-    def downgrade(self):
-        """Downgrade move"""
-        self.poke.enem.moves.shine(ico=Color.thicc + Color.red + "-" + Color.reset)
 
-    def smell(self):
-        self.shine(ico=Color.thicc + Color.peach + "~" + Color.reset)
+class DowngradeMove(Move):
+    """Downgrade move - red shine effect on enemy"""
 
-    def rain(self):
-        """Rain animation"""
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+        _shine(enem_labels, ico=Color.thicc + Color.red + "-" + Color.reset)
+
+
+class SmellMove(Move):
+    """Smell move - wavy shine effect"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+        _shine(player_labels, ico=Color.thicc + Color.peach + "~" + Color.reset)
+
+
+class RainMove(Move):
+    """Rain move - cloud with falling raindrops"""
+
+    @override
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
         drops = []
-        _map = self.poke.ico.map
+        _map = player_labels.ico.map
         cloud = se.Text("""  _____
  (  )  )_
 (____)___)""")
@@ -263,6 +340,21 @@ class Moves:
         for drop in drops:
             drop.remove()
         _map.show()
+
+
+moves = {
+    "attack": AttackMove(),
+    "pound": PoundMove(),
+    "bomb": BombMove(),
+    "arch": ArchMove(),
+    "throw": ThrowMove(),
+    "gun": GunMove(),
+    "fireball": FireballMove(),
+    "shine": ShineMove(),
+    "downgrade": DowngradeMove(),
+    "smell": SmellMove(),
+    "rain": RainMove(),
+}
 
 
 if __name__ == "__main__":

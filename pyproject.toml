@@ -30,6 +30,7 @@ exclude = ["tests*"]
 
 [tool.basedpyright]
 reportMissingTypeStubs = false
+reportMissingTypeArgument = false
 reportUnknownMemberType = false
 reportUnannotatedClassAttribute = false
 deprecateTypingAliases = false
