@@ -5,11 +5,10 @@ import time
 import scrap_engine as se
 from scrap_engine.addable.area import Area
 
-import pokete.classes.multiplayer.pc_manager as pc_manager
 from pokete.base import loops
 from pokete.base.color import Color
 from pokete.base.context import Context
-from pokete.base.game_map import GameSubmap
+from pokete.base.game_map import GameSubmap, OutP
 from pokete.base.input import Action, _ev
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
@@ -17,10 +16,10 @@ from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements.text import HightlightableText
 from pokete.base.ui.notify import notifier
+from pokete.classes.multiplayer import pc_manager
 from pokete.release import SPEED_OF_TIME
 from pokete.util import liner
 
-from .classes import OutP
 from .multiplayer.interactions import movemap_deco
 
 

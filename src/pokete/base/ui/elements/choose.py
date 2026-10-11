@@ -1,5 +1,3 @@
-from typing import Optional
-
 import scrap_engine as se
 
 from pokete.base.input import (
@@ -36,7 +34,7 @@ class ChooseBox(Box):
         height,
         width,
         name="",
-        info: Optional[list[se.Text]] = None,
+        info: list[se.Text] | None = None,
         index_x=2,
         c_obs=None,
         overview=None,
@@ -142,7 +140,7 @@ class BetterChooseBox(Box):
         name="",
         _map=None,
         overview=None,
-        max_rows: Optional[int] = None,
+        max_rows: int | None = None,
     ):
         super().__init__(
             3,
@@ -152,11 +150,11 @@ class BetterChooseBox(Box):
             overview=overview,
         )
         self.nest_label_obs: list[list[BetterChooserItem]] = []
-        self.columns = columns
-        self.max_rows: Optional[int] = max_rows
+        self.columns: int = columns
+        self.max_rows: int | None = max_rows
         self.map = _map
         self.__add_obs()
-        self.index = (0, 0)
+        self.index: tuple[int, int] = (0, 0)
         self.set_items(columns, labels)
         self.get_item(*self.index).choose()
 
@@ -203,7 +201,7 @@ class BetterChooseBox(Box):
             (self.index[1] + _c[1]) % len(self.nest_label_obs[self.index[0]]),
         )
 
-    def set_items(self, columns, labels: list[se.HasArea]):
+    def set_items(self, columns: int, labels: list[se.HasArea]):
         """Sets the items shown in the box
         ARGS:
             columns: Number of columns
@@ -214,8 +212,8 @@ class BetterChooseBox(Box):
             for obj in i:
                 self.rem_ob(obj)
                 obj.remove()
-        box_width = sorted(i.width for i in labels)[-1]
-        box_height = sorted(i.height for i in labels)[-1]
+        box_width = max(i.width for i in labels)
+        box_height = max(i.height for i in labels)
 
         label_obs = [
             BetterChooserItem(box_height + 2, box_width + 4, label, i)
@@ -250,6 +248,7 @@ class BetterChooseBox(Box):
 
     def __enter__(self):
         """Enter dunder for context management"""
+        assert self.map
         self.center_add(self.map)
         self.map.show()
         return self

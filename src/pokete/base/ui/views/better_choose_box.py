@@ -1,6 +1,6 @@
 import math
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar, override
+from typing import Generic, TypeVar, override
 
 import scrap_engine as se
 from scrap_engine.addable.area import Area
@@ -24,7 +24,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
         self.elems: list[se.HasArea] = labels
         self.rows = rows
         self.page = 0
-        self.__special_ret: Optional[T] = None
+        self.__special_ret: T | None = None
         self.up_down_switch = UpDownSwitch(self)
         super().__init__(
             columns, self.elems[: rows * columns], name, _map, overview, max_rows=rows
@@ -40,7 +40,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
             )
 
     @abstractmethod
-    def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
+    def choose(self, ctx: Context, idx: int) -> T | None: ...
 
     @override
     def get_interaction_areas(self) -> list[Area]:
@@ -100,7 +100,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
                 ],
             )
 
-    def __call__(self, ctx: Context) -> Optional[T]:
+    def __call__(self, ctx: Context) -> T | None:
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
         self.__add_up_down_switch()
@@ -128,7 +128,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
                         break
                     if action.triggers(Action.ACCEPT):
                         res = self.choose(
-                            ctx, self.index[0] + self.index[1] * self.columns
+                            ctx, self.index[1] + (self.index[0] * self.columns)
                         )
                         ctx = change_ctx(ctx, self)
                         if res is not None:

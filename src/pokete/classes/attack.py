@@ -1,14 +1,10 @@
 """Contains the Attack class"""
 
-import time
-
 import scrap_engine as se
 
 from pokete.base.color import Color
 from pokete.data.attacks import attacks
-from pokete.release import SPEED_OF_TIME
 
-from .effects import effects
 from .types import types
 
 
@@ -18,7 +14,7 @@ class Attack:
         index: The attacks basic name
         pref: Prefix used for the attack label"""
 
-    def __init__(self, index, pref="", ap: int | None = None):
+    def __init__(self, index: str, pref: str = "", ap: int | None = None):
         inf = attacks[index]
         # Attributes
         self.index = index
@@ -57,14 +53,6 @@ class Attack:
             + se.Text(self.name, esccode=self.type.color)
             + se.Text(f"-{self.ap}")
         )
-
-    def give_effect(self, enem):
-        """Gives the associated effect to a Pokete
-        ARGS:
-            enem: Enemy object"""
-        if self.effect is not None:
-            time.sleep(SPEED_OF_TIME * 1.5)
-            effects[self.effect]().add(enem)
 
     def set_ap(self, _ap):
         """Sets attack points

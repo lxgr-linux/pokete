@@ -1,8 +1,6 @@
-from typing import Optional
+from typing import override
 
 import scrap_engine as se
-
-from pokete.base.game_map import CompatMap
 
 from ...context import Context
 from ..overview import Overview
@@ -19,16 +17,16 @@ class Box(se.Box, Overview):
 
     def __init__(
         self,
-        height,
-        width,
-        name="",
-        info: Optional[list[se.Text]] = None,
-        overview: Optional[Overview] = None,
-        ctx: Optional[Context] = None,
+        height: int,
+        width: int,
+        name: str = "",
+        info: list[se.Text] | None = None,
+        overview: Overview | None = None,
+        ctx: Context | None = None,
     ):
         super().__init__(height, width)
-        self.map: Optional[CompatMap]
-        self.overview: Optional[Overview] = overview
+        self.map: se.Map | None
+        self.overview: Overview | None = overview
         if ctx:
             self.overview = ctx.overview
             self.map = ctx.map
@@ -60,18 +58,19 @@ class Box(se.Box, Overview):
             self.center_add(self.map)
             self.map.show()
 
-    def center_add(self, _map):
+    def center_add(self, _map: se.Map):
         """Adds the box to the maps center
         ARGS:
             _map: se.Map the box will be added to"""
-        self.add(
+        _ = self.add(
             _map,
             round((_map.width - self.width) / 2),
             round((_map.height - self.height) / 2),
         )
         return self
 
-    def resize(self, height, width):
+    @override
+    def resize(self, height: int, width: int):
         """Resizes the box to a certain size
         See se.Box.resize"""
         super().resize(height, width)
@@ -86,17 +85,19 @@ class Box(se.Box, Overview):
         super().add(_map, x, y)
         return self
 
-    def set_ctx(self, ctx):
+    def set_ctx(self, ctx: Context):
         self.map = ctx.map
         self.overview = ctx.overview
         return self
 
     def __enter__(self):
         """Enter dunder for context management"""
+        assert self.map
         self.map.show()
         return self
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         """Exit dunder for context management"""
+        assert self.map
         self.remove()
         self.map.show()

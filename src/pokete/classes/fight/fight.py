@@ -25,6 +25,8 @@ from .providers import Provider
 
 
 class Fight:
+    log = logging.getLogger("Fight")
+
     def __init__(self):
         self.fightmap: FightMap = FightMap(tss.height - 1, tss.width)
         self.providers: list[Provider] = []
@@ -56,7 +58,7 @@ class Fight:
             ),
             self.fightmap,
         )
-        logging.info(
+        self.log.info(
             "[Fight] Started between %s",
             "and ".join(
                 f"{prov.curr.name} ({type(prov)}) lvl. {prov.curr.lvl()}"
@@ -69,7 +71,7 @@ class Fight:
         for prov in self.providers:
             i = prov.curr
             for j in i.effects:
-                j.readd()
+                self.fightmap.readd_effect(j, prov)
         while True:
             player: Provider = self.providers[index % 2]
             enem: Provider = self.providers[(index + 1) % 2]
@@ -87,7 +89,7 @@ class Fight:
 
                     case Result.RUN_AWAY:
                         if not enem.escapable:
-                            logging.warning(
+                            self.log.warning(
                                 "[Fight]: Trying to run away from inescapbale fight"
                             )
                         else:
@@ -103,7 +105,7 @@ class Fight:
                             else:
                                 audio.play("xDeviruchi - Decisive Battle (End).mp3")
                                 self.fightmap.ran_away(player, enem)
-                                logging.info("[Fight] Ended, ran away")
+                                self.log.info("[Fight] Ended, ran away")
                                 player.curr.poke_stats.set_run_away_battle()
                                 audio.play(ctx.figure.map.song)
                                 return player
@@ -119,7 +121,7 @@ class Fight:
                                 break
                             case RoundContinuation.EXIT:
                                 player.curr.poke_stats.add_battle(True)
-                                logging.info("[Fight] Ended, fightitem")
+                                self.log.info("[Fight] Ended, fightitem")
                                 time.sleep(SPEED_OF_TIME * 2)
                                 audio.play(ctx.figure.map.song)
                                 return player
@@ -172,7 +174,7 @@ class Fight:
 
         self.fightmap.death_animation(loser)
         self.fightmap.clean_up(winner)
-        logging.info(
+        self.log.info(
             "[Fight] Ended, %s(%s) won",
             winner.curr.name,
             "player" if winner.curr.player else "enemy",

@@ -10,7 +10,8 @@ import scrap_engine as se
 from pokete.classes.asset_service.resources.base import Poke as ResourcePoke
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.attack import Attack
-from pokete.classes.effects import Effect, effects
+from pokete.classes.effects import effects
+from pokete.classes.i import IEffect, IPoke
 from pokete.classes.model.poke import PokeDict
 from pokete.classes.types import PokeType, types
 
@@ -19,7 +20,7 @@ from .nature import PokeNature
 from .stats import Stats
 
 
-class Poke:
+class Poke(IPoke):
     """The Pokete class
     ARGS:
         poke: The Pokes generic name
@@ -37,8 +38,8 @@ class Poke:
         _ap=None,
         _attacks=None,
         _effects=None,
-        player=True,
-        shiny=False,
+        player: bool = True,
+        shiny: bool = False,
         nature=None,
         stats=None,
     ):
@@ -67,7 +68,7 @@ class Poke:
         self.evolve_lvl = self.inf.evolve_lvl
         self.types = [types[i] for i in self.inf.types]
         self.type: PokeType = self.types[0]
-        self.effects: list[Effect] = []
+        self.effects: list[IEffect] = []
         if _attacks is not None:
             assert len(_attacks) <= 4, (
                 f"A Pokete {poke} \
@@ -99,7 +100,7 @@ can't have more than 4 attacks!"
             self.set_ap(_ap)
         if _effects is not None:
             for eff in _effects:
-                self.effects.append(effects[eff](self))
+                self.effects.append(effects[eff]())
 
         self.poke_stats = (
             Stats(self.name, None)
@@ -166,11 +167,6 @@ can't have more than 4 attacks!"
         old_lvl = self.lvl()
         self.xp += _xp
         self.poke_stats.add_xp(_xp)
-        self.text_xp.rechar(
-            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
-{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}"
-        )
-        self.text_lvl.rechar(f"Lvl:{self.lvl()}")
         logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
         if old_lvl < self.lvl():
             logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())

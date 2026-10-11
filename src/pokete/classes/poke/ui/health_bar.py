@@ -5,7 +5,7 @@ import time
 import scrap_engine as se
 
 from pokete.base.color import Color
-from pokete.classes.poke.poke.poke import Poke
+from pokete.classes.i import IPoke
 from pokete.release import SPEED_OF_TIME
 
 
@@ -14,7 +14,7 @@ class HealthBar(se.Text[se.Object]):
     ARGS:
         poke: The Poke the healthbar belongs to"""
 
-    def __init__(self, poke: Poke):
+    def __init__(self, poke: IPoke):
         self.poke = poke
         super().__init__(8 * "#", esccode=Color.green, state="float")
 
@@ -32,7 +32,7 @@ class HealthBar(se.Text[se.Object]):
 
 
 class HealthBarWrapper(se.Box):
-    def __init__(self, poke: Poke):
+    def __init__(self, poke: IPoke):
         self.__hp_bar = HealthBar(poke)
         self.__pre = se.Text("<", "float")
         self.__post = se.Text(">", "float")

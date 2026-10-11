@@ -1,6 +1,6 @@
 """Contains the NewDetail class - a Box-based detail view for Pokete"""
 
-from typing import Optional, override
+from typing import override
 
 import scrap_engine as se
 
@@ -33,7 +33,7 @@ class Detail(Box, MouseInteractor):
 
     def __init__(
         self,
-        overview: Optional[Overview] = None,
+        overview: Overview | None = None,
     ):
         super().__init__(
             *self.new_size(),
@@ -52,7 +52,7 @@ class Detail(Box, MouseInteractor):
         self.type_label = se.Text("Type:", state="float")
         self.initiative_label = se.Text("Initiative:", state="float")
         self.desc_label = se.Text("", "float")
-        self.poke_labels: Optional[PokeLabels] = None
+        self.poke_labels: PokeLabels | None = None
         self.line_sep1 = se.Square("-", self.width - 2, 1, state="float")
         self.line_sep2 = se.Square("-", self.width - 2, 1, state="float")
         self.line_middle = se.Square("|", 1, 9, state="float")
@@ -133,7 +133,7 @@ class Detail(Box, MouseInteractor):
 
     def enq_single_action(self, ret_action: str):
         """Enqueues a single event action"""
-        event: Optional[SingleEvent] = None
+        event: SingleEvent | None = None
         match ret_action:
             case "teleport":
                 event = TeleportationSingleEvent(self.poke)
@@ -145,17 +145,17 @@ class Detail(Box, MouseInteractor):
     def cleanup(self):
         """Cleans up Pokete info from the box"""
         assert self.poke_labels
+        assert self.poke
         for obj in [
             self.poke_labels.ico,
             self.poke_labels.text_lvl,
             self.poke_labels.hp_bar,
             self.poke_labels.text_xp,
+            self.poke_labels.effects,
         ]:
             self.rem_ob(obj)
             if obj.added:
                 obj.remove()
-        for eff in self.poke.effects:
-            eff.cleanup()
         for atc in self.poke.attack_obs:
             for obj in [
                 atc.label_name,
@@ -172,7 +172,7 @@ class Detail(Box, MouseInteractor):
             if hasattr(atc, "temp_j"):
                 del atc.temp_j
 
-    def __call__(self, ctx: Context, poke: Poke, abb: bool = True) -> Optional[str]:
+    def __call__(self, ctx: Context, poke: Poke, abb: bool = True) -> str | None:
         """Shows details
         ARGS:
             ctx: Context object
@@ -196,13 +196,12 @@ class Detail(Box, MouseInteractor):
                         self.poke_labels.text_lvl,
                         self.poke_labels.hp_bar,
                         self.poke_labels.text_xp,
+                        self.poke_labels.effects,
                     ],
-                    [2, 14, 14, 14],
-                    [1, 2, 3, 4],
+                    [2, 14, 14, 14, 21],
+                    [1, 2, 3, 4, 2],
                 ):
                     self.add_ob(obj, __x, __y)
-                for eff in self.poke.effects:
-                    eff.add_label()
 
             do_exit = False
             abb_obs = [i for i in self.poke.attack_obs if i.world_action != ""]

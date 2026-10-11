@@ -5,6 +5,7 @@ import time
 from abc import ABC, abstractmethod
 
 from pokete.base.context import Context
+from pokete.base.input_loops import ask_bool
 from pokete.classes.achievements import achievements
 from pokete.classes.poke.poke import Poke
 
@@ -39,9 +40,7 @@ class Provider(ABC):
                 poke.hp = poke.full_hp
                 poke.effects = []
                 poke.miss_chance = poke.full_miss_chance
-                poke.text_hp.rechar(f"HP:{poke.hp}")
                 poke.set_vars()
-                poke.hp_bar.make(poke.hp)
             if poke.player:
                 self.balls_label_rechar()
 

@@ -205,7 +205,7 @@ class Debug:
 def autosave(figure):
     """Autosaves the game every 5 mins"""
     while True:
-        time.sleep(SPEED_OF_TIME * 0.1)
+        time.sleep(SPEED_OF_TIME * 300)
         if settings("autosave").val:
             save(figure)
 
@@ -501,7 +501,7 @@ def main():
         while True:
             PreGameMap()(session_info, figure)
             figure.set_args(session_info)
-            game_map = figure.map
+            game_map: PlayMap = figure.map
             if not autosave_started:
                 PropagatingThread(target=autosave, args=(figure,), daemon=True).start()
                 autosave_started = True

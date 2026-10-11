@@ -1,15 +1,16 @@
 import scrap_engine as se
 
 from pokete.base.color import Color
-from pokete.classes.poke.poke import Poke
+from pokete.classes.i import IPoke
 from pokete.classes.poke.ui.health_bar import HealthBarWrapper
 
 
 class PokeLabels:
-    def __init__(self, poke: Poke):
+    def __init__(self, poke: IPoke):
         # Labels
         self.hp_bar: HealthBarWrapper = HealthBarWrapper(poke)
         self.hp_bar.make(poke.hp)
+        self.effects = EffectsLabel(poke)
         self.ico = se.Box(4, 11)
         for ico in poke.inf.ico:
             esccode = str.join("", [getattr(Color, i) for i in ico.esc])
@@ -37,3 +38,20 @@ class PokeLabels:
         self.text_type = se.Text(
             poke.type.name.capitalize(), state="float", esccode=poke.type.color
         )
+
+
+class EffectsLabel(se.Text[se.Object]):
+    def __init__(self, poke: IPoke):
+        super().__init__("", state="float")
+        self.poke = poke
+        self.update()
+
+    def update(self):
+        was_added = self.added
+        if self.added:
+            self.remove()
+        self.rechar("")
+        for eff in self.poke.effects:
+            self += se.Text(eff.text + " ", state="float", esccode=eff.str_esccode)
+        if was_added:
+            _ = self.add(self.map, self.x, self.y, failsafe=True)

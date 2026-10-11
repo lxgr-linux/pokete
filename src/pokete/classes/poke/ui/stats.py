@@ -5,7 +5,7 @@ from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.views.boxes import LabelBoxView
-from pokete.classes.poke.poke import Stats
+from pokete.classes.i import IStats
 
 
 class StatsInfoBox(LabelBoxView):
@@ -13,7 +13,7 @@ class StatsInfoBox(LabelBoxView):
     ARGS:
         poke_stats: PokeStats object"""
 
-    def __init__(self, poke_stats: Stats):
+    def __init__(self, poke_stats: IStats):
         not_available = "N/A"
         if poke_stats.ownership_date is None:
             ownership_date = not_available

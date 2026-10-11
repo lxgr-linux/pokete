@@ -1,5 +1,6 @@
 """This file contains all relevant classes for fight"""
 
+import random
 import time
 from typing import override
 
@@ -18,14 +19,18 @@ from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements import StdFrame2
 from pokete.base.ui.elements.text import HightlightableText
-from pokete.classes import animations, deck
+from pokete.classes import animations
 from pokete.classes.asset_service.service import asset_service
+from pokete.classes.deck import Deck
+from pokete.classes.effects import Effect
 from pokete.classes.fight.fightmap.moves import moves
+from pokete.classes.i import IEffect
 from pokete.classes.items.invitem import InvItem
+from pokete.classes.poke.poke.poke import Poke
 from pokete.classes.poke.ui import PokeLabels
+from pokete.classes.weather import Weather
 from pokete.release import SPEED_OF_TIME
 
-from ...classes import OutP
 from ...settings import settings
 from ..fight_decision import FightDecision
 from ..providers import Provider
@@ -33,7 +38,7 @@ from .attack import AttackBox
 from .inv import InvBox
 
 
-class FightMap(gm.GameMap, Overview, MouseInteractor):
+class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
     """Wrapper for gm.GameMap
     ARGS:
         height: The height of the map
@@ -66,7 +71,6 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         self.e_sideline = se.Square("|", 1, 3, state="float")
         self.p_upperline = se.Text("+----------------", state="float")
         self.p_sideline = se.Square("|", 1, 4, state="float")
-        self.outp = OutP("", state="float")
         self.label_attack = HightlightableText(
             f"{Action.CHOOSE_ATTACK.mapping}: Attack", state="float"
         )
@@ -175,14 +179,15 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
                 labels.text_lvl,
                 labels.hp_bar,
                 labels.ico,
+                labels.effects,
                 prov.curr.pball_small,
             ):
                 obj.remove()
             # if not resize:
             #    if isinstance(prov, ProtoFigure):
             #        self.box.box.remove_c_obs()
-            for j in prov.curr.effects:
-                j.cleanup()
+            # for j in prov.curr.effects:
+            #    j.cleanup()
 
     def __add_player(self, player: Provider, resize=False):
         """Adds player labels
@@ -194,6 +199,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         labels.text_lvl.add(self, self.width - 17, self.height - 8)
         labels.hp_bar.add(self, self.width - 17, self.height - 7)
         labels.ico.add(self, 3, self.height - 10)
+        labels.effects.add(self, self.width - 10, self.height - 8, failsafe=True)
         # if not resize:
         #    self.box.box.add_c_obs(
         #        [atc.label for atc in player.curr.attack_obs]
@@ -212,9 +218,10 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
                 labels.text_lvl,
                 labels.hp_bar,
                 labels.ico,
+                labels.effects,
             ),
-            (1, 1, 1, self.width - 14),
-            (1, 2, 3, 2),
+            (1, 1, 1, self.width - 14, 8),
+            (1, 2, 3, 2, 2),
         ):
             obj.add(self, _x, _y)
         if enem.curr.identifier in player.caught_pokes:
@@ -229,6 +236,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         time.sleep(SPEED_OF_TIME * 0.05)
         self.show()
         labels.text_lvl.add(self, self.width - 17, self.height - 8)
+        labels.effects.add(self, self.width - 10, self.height - 8, failsafe=True)
         time.sleep(SPEED_OF_TIME * 0.05)
         self.show()
         labels.hp_bar.add(self, self.width - 17, self.height - 7)
@@ -345,33 +353,31 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         self.show()
         time.sleep(SPEED_OF_TIME * 2)
 
-    def choose_poke(self, ctx: Context, player: Provider, allow_exit=True):
+    def choose_poke(self, ctx: Context, player: Provider, allow_exit: bool = True):
         """Lets the player choose another Pokete from their deck
         ARGS:
             player: The players' used Poke
             allow_exit: Whether or not it's allowed to exit without choosing
         RETURNS:
             bool whether or not a Pokete was choosen"""
-        self.clean_up(player)
         index = None
         while index is None:
-            index = deck.deck(ctx, 6, "Your deck", True)
+            index = Deck()(ctx, 6, "Your deck", True)
             if allow_exit:
                 break
         if index is not None:
             player.play_index = index
-        self.poke_labels[self.provider_index(player)] = PokeLabels(player.curr)
-        self.__add_player(player)
-        self.outp.outp(f"You have choosen {player.curr.name}")
-        for j in player.curr.effects:
-            time.sleep(SPEED_OF_TIME * 1)
-            j.readd()
-        if index is None:
-            return False
-        return True
+            self.clean_up(player)
+            self.poke_labels[self.provider_index(player)] = PokeLabels(player.curr)
+            self.__add_player(player)
+            self.outp.outp(f"You have choosen {player.curr.name}")
+            for j in player.curr.effects:
+                time.sleep(SPEED_OF_TIME * 1)
+                self.readd_effect(j, player)
+        return index is not None
 
     def death_animation(self, loser: Provider):
-        ico = loser.curr.ico
+        ico = self.provider_labels(loser).ico
         self.show()
         time.sleep(SPEED_OF_TIME * 1)
         self.fast_change([ico, self.deadico1, self.deadico2], ico)
@@ -420,7 +426,7 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
         }[True]
         self.outp.outp(f"{attacker.ext_name} used {attack.name}! {eff_text}")
 
-    def show_weather(self, weather):
+    def show_weather(self, weather: Weather):
         self.outp.outp(weather.info)
         time.sleep(SPEED_OF_TIME * 1.5)
 
@@ -437,6 +443,59 @@ class FightMap(gm.GameMap, Overview, MouseInteractor):
             *(self.poke_labels if is_player else reversed(self.poke_labels)),
             is_player=is_player,
         )
+
+    def add_effect(self, effect: Effect, poke: Poke, provider: Provider):
+        """Adds the effect to a Pokete
+        ARGS:
+            obj: The Poke the effect is added to"""
+        if poke.type.name in effect.exclude:
+            self.outp.rechar(f"{poke.ext_name} is not affected by ")
+            self.outp.append(
+                se.Text(effect.name, esccode=effect.str_esccode, state="float"),
+                se.Text("!", state="float"),
+            )
+        elif all(type(i) is not type(effect) for i in poke.effects):
+            poke.effects.append(effect)
+            self.provider_labels(provider).effects.update()
+            self.outp.rechar(f"{poke.ext_name} is now ")
+            self.outp.append(
+                se.Text(effect.name, esccode=effect.str_esccode, state="float"),
+                se.Text("!", state="float"),
+            )
+            effect.log.info("[Effect][%s] Added to %s", effect.name, poke.name)
+        else:
+            self.outp.rechar(f"{poke.ext_name} is already ")
+            self.outp.append(
+                se.Text(effect.name, esccode=effect.str_esccode, state="float"),
+                se.Text("!", state="float"),
+            )
+        time.sleep(SPEED_OF_TIME * 2)
+
+    def remove_effect(self, effect: Effect, poke: Poke, provider: Provider):
+        """Removes itself from the current pokete with a certain chance"""
+        if random.randint(0, effect.rem_chance) == 0:
+            self.outp.outp(f"{poke.ext_name} isn't ")
+            self.outp.append(
+                se.Text(effect.name, esccode=effect.str_esccode, state="float"),
+                se.Text(" anymore!", state="float"),
+            )
+            i = poke.effects.index(effect)
+            del poke.effects[i]
+            self.provider_labels(provider).effects.update()
+            effect.log.info(
+                "[Effect][%s] Removed from  %s", self.name, provider.curr.name
+            )
+            time.sleep(SPEED_OF_TIME * 2)
+
+    def readd_effect(self, effect: IEffect, provider: Provider):
+        """Readds label and shows text"""
+        self.outp.outp(f"{provider.curr.ext_name} is still ")
+        self.outp.append(
+            se.Text(effect.name, esccode=effect.str_esccode, state="float"),
+            se.Text("!", state="float"),
+        )
+        self.show()
+        time.sleep(SPEED_OF_TIME * 2)
 
 
 if __name__ == "__main__":

@@ -1,14 +1,14 @@
 """Contains just some small classes"""
 
-from typing import Optional
 import scrap_engine as se
-import pokete.base.game_map as gm
+
+from pokete.base.game_map import GameMap
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.classes.asset_service.resources import PokeArgs
-from .weather import Weather
+from pokete.classes.weather import Weather
 
 
-class PlayMap(gm.GameMap):
+class PlayMap(GameMap):
     """Map the actual player moves on and contains buildings etc
     ARGS:
         height: The maps height
@@ -27,8 +27,8 @@ class PlayMap(gm.GameMap):
         trainers=None,
         name="",
         pretty_name="",
-        poke_args: Optional[PokeArgs] = None,
-        w_poke_args: Optional[PokeArgs] = None,
+        poke_args: PokeArgs | None = None,
+        w_poke_args: PokeArgs | None = None,
         extra_actions: list[PeriodicEvent] | None = None,
         weather=None,
         song="03 Chibi Ninja.mp3",
@@ -65,25 +65,6 @@ class PlayMap(gm.GameMap):
         if self.__extra_actions is not None:
             return self.__extra_actions
         return []
-
-
-class OutP(se.Text):
-    """Output label to better organize output"""
-
-    def outp(self, text):
-        """Rechar and show wrapper
-        ARGS:
-            text: String that's printed out"""
-        self.rechar(text)
-        self.map.full_show()
-
-    def append(self, *args):
-        """Appends another se.Text to the outp
-        ARGS:
-            args: se.Texts that will be appended"""
-        for i in args:
-            self += i
-        self.map.full_show()
 
 
 if __name__ == "__main__":

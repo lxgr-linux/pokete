@@ -1,4 +1,4 @@
-from typing import Optional, override
+from typing import override
 
 import scrap_engine as se
 
@@ -21,9 +21,10 @@ class DeckItem(se.Box):
                     self.__labels.text_lvl,
                     self.__labels.hp_bar,
                     self.__labels.text_xp,
+                    self.__labels.effects,
                 ],
-                [0, 12, 12, 12],
-                [0, 1, 2, 3],
+                [0, 12, 12, 12, 19],
+                [0, 1, 2, 3, 1],
             ):
                 self.add_ob(obj, _x, _y)
 
@@ -36,7 +37,8 @@ class Deck(BetterChooseBoxView[int]):
         self.pokes: list[Poke]
         self.in_fight = False
 
-    def choose(self, ctx: Context, idx: int) -> Optional[int]:
+    @override
+    def choose(self, ctx: Context, idx: int) -> int | None:
         if self.in_fight:
             return idx
         Detail()(ctx, self.pokes[idx])
@@ -45,7 +47,7 @@ class Deck(BetterChooseBoxView[int]):
     @override
     def __call__(
         self, ctx: Context, p_len: int, label: str = "", in_fight=False
-    ) -> Optional[int]:
+    ) -> int | None:
         self.pokes = ctx.figure.pokes[:p_len]
         self.in_fight = in_fight
 

@@ -9,12 +9,12 @@ import pokete.base.game_map as gm
 from pokete.base import loops
 from pokete.base.context import Context
 from pokete.base.exception_propagation import exception_propagating_periodic_event
+from pokete.base.game_map import OutP
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.classes.achievements import achievements
 from pokete.classes.asset_service.service import asset_service
-from pokete.classes.classes import OutP
 from pokete.classes.poke.poke import Poke
 from pokete.release import SPEED_OF_TIME
 

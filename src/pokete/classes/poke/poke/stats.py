@@ -2,10 +2,11 @@
 
 from datetime import datetime
 
+from pokete.classes.i import IStats
 from pokete.classes.model.poke import StatsDict
 
 
-class Stats:
+class Stats(IStats):
     """Holds a poketes statistics data
     ARGS:
         poke_name: The poketes name

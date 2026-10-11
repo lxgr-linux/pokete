@@ -68,9 +68,11 @@ class AttackProcess:
         weather: Weather = ctx.figure.map.weather
         if attack.ap > 0:
             for e in attacker.effects:
-                e.remove()
+                self.fightmap.remove_effect(e, attacker, providers[0])
             for e in attacker.effects:
-                if e.effect() == 1:
+                if e.effect(
+                    attacker, self.fightmap, self.fightmap.provider_labels(providers[0])
+                ):
                     return
             if any(isinstance(i, effects["confusion"]) for i in attacker.effects):
                 attacker.enem = defender = attacker
@@ -98,7 +100,7 @@ class AttackProcess:
             if defender == attacker:
                 self.fightmap.show_hurt_it_self(attacker)
             if random_factor != 0:
-                attack.give_effect(defender)
+                self.give_effect(defender, attack, providers[1])
             for prov in providers if providers[0] != providers[1] else [providers[1]]:
                 self.fightmap.provider_labels(prov).hp_bar.update(
                     prov.curr.oldhp, prov.curr.hp
@@ -110,3 +112,11 @@ class AttackProcess:
                 str({"eff": eff, "n_hp": n_hp}),
             )
             self.fightmap.show()
+
+    def give_effect(self, enem: Poke, attack: Attack, provider: Provider):
+        """Gives the associated effect to a Pokete
+        ARGS:
+            enem: Enemy object"""
+        if attack.effect is not None:
+            time.sleep(SPEED_OF_TIME * 1.5)
+            self.fightmap.add_effect(effects[attack.effect](), enem, provider)
