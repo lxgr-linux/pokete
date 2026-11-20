@@ -2,8 +2,6 @@
 
 from threading import Event
 
-from scrap_engine.addable.misc.frame import Optional
-
 from pokete.base.ui.views.boxes import InfoBoxView, InputBoxView
 
 from ... import loops
@@ -12,10 +10,10 @@ from .bool import ask_bool
 from .ok import ask_ok
 
 __all__ = [
-    "wait_event",
-    "ask_text",
     "ask_bool",
     "ask_ok",
+    "ask_text",
+    "wait_event",
 ]
 
 
@@ -25,7 +23,7 @@ def wait_event(ctx: Context, text: str, event: Event):
         loops.event_wait(ctx, event)
 
 
-def ask_text(ctx: Context, infotext, introtext, text, name, max_len) -> Optional[str]:
+def ask_text(ctx: Context, infotext, introtext, text, name, max_len) -> str | None:
     """Asks the player to input a text
     ARGS:
         ctx: Context

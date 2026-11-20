@@ -2,7 +2,6 @@ from typing import override
 
 import scrap_engine as se
 from scrap_engine.addable.area import Area
-from scrap_engine.addable.misc.frame import Optional
 
 from pokete.base import loops
 from pokete.base.change import change_ctx
@@ -17,7 +16,7 @@ from pokete.base.ui.elements.text import HightlightableText
 class AskBoolBox(Box, MouseInteractor):
     def __init__(self, text: str):
         assert len(text) >= 12, "Text has to be longer then 12 characters!"
-        self.__result: Optional[bool] = None
+        self.__result: bool | None = None
         self.__text_label = se.Text(text)
         self.__yes_label = HightlightableText("[Y]es")
         self.__no_label = HightlightableText("[N]o")
