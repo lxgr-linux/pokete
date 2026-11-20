@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 
 RESPONSE_TYPE = "pokete.fight.response"
 
@@ -10,5 +10,5 @@ class ResponseData(TypedDict):
 
 
 class Response(bs_rpc.Body):
-    def __init__(self, data: ResponseData):
+    def __init__(self, data: ResponseData) -> None:
         super().__init__(RESPONSE_TYPE, data)

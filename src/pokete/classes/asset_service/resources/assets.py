@@ -65,15 +65,15 @@ class BaseAssets:
         types: dict[str, "Type"],
         sub_types: list[str],
         achievements: dict[str, "Achievement"],
-    ):
-        self.items: dict[str, "Item"] = items
-        self.pokes: dict[str, "Poke"] = pokes
-        self.attacks: dict[str, "Attack"] = attacks
-        self.natures: dict[str, "Nature"] = natures
-        self.weathers: dict[str, "Weather"] = weathers
-        self.types: dict[str, "Type"] = types
+    ) -> None:
+        self.items: dict[str, Item] = items
+        self.pokes: dict[str, Poke] = pokes
+        self.attacks: dict[str, Attack] = attacks
+        self.natures: dict[str, Nature] = natures
+        self.weathers: dict[str, Weather] = weathers
+        self.types: dict[str, Type] = types
         self.sub_types: list[str] = sub_types
-        self.achievements: dict[str, "Achievement"] = achievements
+        self.achievements: dict[str, Achievement] = achievements
 
     @classmethod
     def from_dict(cls, _d: BaseAssetsDict | None) -> "BaseAssets | None":
@@ -140,8 +140,8 @@ class MapTrainersDict(TypedDict):
 
 
 class MapTrainers:
-    def __init__(self, trainers: list["Trainer"]):
-        self.trainers: list["Trainer"] = trainers
+    def __init__(self, trainers: list["Trainer"]) -> None:
+        self.trainers: list[Trainer] = trainers
 
     @classmethod
     def from_dict(cls, _d: MapTrainersDict | None) -> "MapTrainers | None":
@@ -185,13 +185,13 @@ class Assets:
         stations: dict[str, "Station"],
         decorations: dict[str, "Decoration"],
         maps: dict[str, "Map"],
-    ):
-        self.trainers: dict[str, "MapTrainers"] = trainers
-        self.npcs: dict[str, "NPC"] = npcs
-        self.obmaps: dict[str, "Obmap"] = obmaps
-        self.stations: dict[str, "Station"] = stations
-        self.decorations: dict[str, "Decoration"] = decorations
-        self.maps: dict[str, "Map"] = maps
+    ) -> None:
+        self.trainers: dict[str, MapTrainers] = trainers
+        self.npcs: dict[str, NPC] = npcs
+        self.obmaps: dict[str, Obmap] = obmaps
+        self.stations: dict[str, Station] = stations
+        self.decorations: dict[str, Decoration] = decorations
+        self.maps: dict[str, Map] = maps
 
     @classmethod
     def from_dict(cls, _d: AssetsDict | None) -> "Assets | None":

@@ -44,7 +44,7 @@ class Effect(IEffect):
         text: str,
         str_esccode: str = "",
         exclude: list[str] | None = None,
-    ):
+    ) -> None:
         self.name = name
         self.text = text
         self.rem_chance = rem_chance
@@ -56,7 +56,7 @@ class Effect(IEffect):
             self.exclude = []
 
     @override
-    def __repr__(self):
+    def __repr__(self) -> None:
         return f"{type(self).__name__}"
 
     def effect(
@@ -75,7 +75,7 @@ class Effect(IEffect):
         return True
 
     @classmethod
-    def ret_md(cls):
+    def ret_md(cls) -> None:
         """Returns a descriptive markdown string"""
         return f"""
 ### {cls.c_name.capitalize()}
@@ -91,7 +91,7 @@ This is reverted randomly."
     c_name = "paralyzation"
     color = Color.thicc + Color.yellow
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("paralyzed", 3, 2, "(Par)", self.color)
 
 
@@ -103,7 +103,7 @@ This is reverted randomly."
     c_name = "sleep"
     color = Color.white
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("sleeping", 4, 3, "(Sle)", self.color)
 
 
@@ -115,7 +115,7 @@ This is reverted randomly."
     c_name = "burning"
     color = Color.thicc + Color.red
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             "burning", 3, 0, "(Bur)", self.color, exclude=["fire", "water"]
         )
@@ -150,7 +150,7 @@ class EffectPoison(EffectBurning):
     c_name = "poison"
     color = Color.purple
 
-    def __init__(self):
+    def __init__(self) -> None:
         super(EffectBurning, self).__init__("poisoned", 4, 2, "(Poi)", self.color)
         self.hurt_text = "got damaged through poison!"
         self.damage = 1
@@ -163,7 +163,7 @@ class EffectConfusion(Effect):
     c_name = "confusion"
     color = Color.lightblue
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("confused", 3, 2, "(Con)", self.color, exclude=["undead"])
 
     @override
@@ -187,7 +187,7 @@ This is reverted randomly."
     c_name = "freezing"
     color = Color.cyan
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("frozen", 3, 3, "(Fro)", self.color, exclude=["ice", "fire"])
 
 

@@ -1,4 +1,3 @@
-from typing import Never, Optional
 
 import scrap_engine as se
 
@@ -24,20 +23,20 @@ from .base_inv import BaseInv
 class Inv(BaseInv):
     """Inventory to see and manage items in"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             "Inventory",
             [CloseLabel(), GenericActionLabel(Action.REMOVE, "remove")],
         )
         self.items: list[InvItem] = []
 
-    def choose(self, ctx: Context, idx: int) -> Optional[Never]:
+    def choose(self, ctx: Context, idx: int) -> None:
         obj = self.items[self.index.index]
         do_interact = self.invbox(ctx, obj)
         ctx = change_ctx(ctx, self)
         if not do_interact:
             return
-        poke: Optional[Poke] = None
+        poke: Poke | None = None
         if obj.name == "treat":
             if ask_bool(
                 ctx,
@@ -94,7 +93,7 @@ class Inv(BaseInv):
                 if LearnAttackBox(poke)(ctx.with_overview(self), obj.attack_name):
                     self.rem_item(ctx.figure, obj.name)
                     if len(self.items) == 0:
-                        return None
+                        return
 
     def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
         if action.triggers(Action.REMOVE):
@@ -110,14 +109,14 @@ class Inv(BaseInv):
             return True
         return False
 
-    def __call__(self, ctx: Context[Inventory]):
+    def __call__(self, ctx: Context[Inventory]) -> None:
         self.resize(ctx.map.height - 3, 35)
         self.set_money(ctx.figure)
         self.add_items(ctx.figure)
         with self.add(ctx.map, ctx.map.width - self.width, 0):
             super().__call__(ctx)
 
-    def rem_item(self, figure, name):
+    def rem_item(self, figure, name) -> None:
         """Removes an item from the inv
         ARGS:
             name: Items name
@@ -131,7 +130,7 @@ class Inv(BaseInv):
             if self.index.index >= len(self.items):
                 self.set_index(len(self.items) - 1)
 
-    def add_items(self, figure: Inventory):
+    def add_items(self, figure: Inventory) -> None:
         """Adds all items to the box
         RETURNS:
             List of Items"""

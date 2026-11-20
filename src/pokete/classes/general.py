@@ -1,8 +1,10 @@
 """Contains some stuff that's used in this module"""
 
 import logging
+
 from pokete.base.context import Context
 from pokete.base.input_loops import ask_ok
+
 from .doors import DoorToCenter
 
 

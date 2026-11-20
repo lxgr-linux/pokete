@@ -10,7 +10,7 @@ from pokete.classes.poke.ui import PokeLabels
 
 
 class DeckItem(se.Box):
-    def __init__(self, poke: Poke):
+    def __init__(self, poke: Poke) -> None:
         super().__init__(4, 28)
         self.__labels = PokeLabels(poke)
         self.add_ob(self.__labels.text_name, 12, 0)
@@ -32,7 +32,7 @@ class DeckItem(se.Box):
 class Deck(BetterChooseBoxView[int]):
     default_label = "Your Deck"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(2, 3, [se.Text(" ")], self.default_label)
         self.pokes: list[Poke]
         self.in_fight = False
@@ -46,7 +46,7 @@ class Deck(BetterChooseBoxView[int]):
 
     @override
     def __call__(
-        self, ctx: Context, p_len: int, label: str = "", in_fight=False
+        self, ctx: Context, p_len: int, label: str = "", in_fight: bool = False
     ) -> int | None:
         self.pokes = ctx.figure.pokes[:p_len]
         self.in_fight = in_fight

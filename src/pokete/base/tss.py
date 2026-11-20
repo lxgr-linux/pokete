@@ -1,6 +1,7 @@
 """Contains everything related to the resizescreen"""
 
 import os
+
 import scrap_engine as se
 
 from .game_map import GameMap
@@ -10,7 +11,7 @@ from .ui.elements import StdFrame
 class ResizeScreen:
     """Screen thats shown when the screen is resized"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.height = 0
         self.width = 0
         self.__set_dimensions()
@@ -24,17 +25,17 @@ class ResizeScreen:
         self.size_label.add(self.map, 1, 0)
         self.frame.add(self.map, 0, 0)
 
-    def __set_dimensions(self):
+    def __set_dimensions(self) -> None:
         width, height = os.get_terminal_size()
         change = self.width != width or self.height != height
         self.height = height
         self.width = width
         return change
 
-    def __check(self):
+    def __check(self) -> None:
         return self.width < 70 or self.height < 20
 
-    def __call__(self):
+    def __call__(self) -> None:
         """Shows the map"""
         change = self.__set_dimensions()
         while self.__check():

@@ -1,5 +1,4 @@
 from functools import total_ordering
-from typing import Optional
 
 
 @total_ordering
@@ -7,8 +6,8 @@ class SemanticVersion:
     __suffix_order = ("rc", "beta", "alpha")
 
     def __init__(
-        self, major: int, minor: int, patch: int, suffix: Optional[str] = None
-    ):
+        self, major: int, minor: int, patch: int, suffix: str | None = None
+    ) -> None:
         self.major = major
         self.minor = minor
         self.patch = patch
@@ -18,7 +17,7 @@ class SemanticVersion:
     def parse(cls, version_str: str) -> "SemanticVersion":
         splid = version_str.split("-")
         prefix = splid[0]
-        suffix: Optional[str] = a if (a := "-".join(splid[1:])) != "" else None
+        suffix: str | None = a if (a := "-".join(splid[1:])) != "" else None
 
         major, minor, patch = (int(i) for i in prefix.split("."))
 
@@ -30,7 +29,7 @@ class SemanticVersion:
         }"
 
     def __eq__(self, value) -> bool:
-        other: "SemanticVersion" = value
+        other: SemanticVersion = value
         return (
             other.major == self.major
             and other.minor == self.minor

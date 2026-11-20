@@ -13,7 +13,7 @@ from pokete.util import liner
 class InvBox(BoxView):
     """Box wrapper for inv"""
 
-    def __init__(self, overview: Overview):
+    def __init__(self, overview: Overview) -> None:
         super().__init__(7, 21, overview=overview, info=[CloseLabel()])
         self.desc_label = se.Text(" ")
         self.add_ob(self.desc_label, 1, 1)
@@ -26,7 +26,7 @@ class InvBox(BoxView):
         with self.add(self.map, self.overview.x - 19, 3):
             return loops.easy_exit(ctx)
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.remove()
         self.overview.resize_view()

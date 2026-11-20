@@ -31,14 +31,14 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
     registry: dict[str, "NPC"] = {}
 
     @classmethod
-    def set_vars(cls, npcactions: dict[str, NPCAction]):
+    def set_vars(cls, npcactions: dict[str, NPCAction]) -> None:
         """Sets all variables needed by NPCs
         ARGS:
             npcactions: NPCActions class"""
         cls.npcactions = npcactions
 
     @classmethod
-    def get(cls, name):
+    def get(cls, name) -> None:
         """Gets a NPC from the registry
         ARGS:
             name: The NPCs name"""
@@ -46,7 +46,7 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
 
     def __init__(
         self, name, texts, _fn=None, chat: Chat | None = None, side_trigger=True
-    ):
+    ) -> None:
         super().__init__(0, 0)
         self.name = name
         self.texts = texts
@@ -62,7 +62,7 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
         self.add_ob(self.main_ob, 0, 0)
         NPC.registry[self.name] = self
 
-    def action(self):
+    def action(self) -> None:
         """Interaction with the NPC triggered by NPCTrigger.action"""
         if self.used and settings("save_trainers").val:
             return
@@ -73,14 +73,14 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
         self.text(self.texts)
         self.func()
 
-    def func(self):
+    def func(self) -> None:
         """The function that's executed after the interaction"""
         if self.__fn is not None:
             action = self.npcactions.get(self.__fn, None)
             if action is not None:
                 action.act(self, UI(self))
 
-    def give(self, name, item_name: str):
+    def give(self, name, item_name: str) -> None:
         """Method that gifts an item to the player
         ARGS:
             name: The displayed name of the npc
@@ -95,20 +95,20 @@ Do you want to accept it?",
             self.ctx.figure.give_item(item.name)
 
     @property
-    def used(self):
+    def used(self) -> None:
         """Indicates whether or not the NPC has been used"""
         return self.name in self.ctx.figure.used_npcs
 
-    def set_used(self):
+    def set_used(self) -> None:
         """Sets the NPC as used"""
         self.ctx.figure.used_npcs.append(self.name)
 
-    def unset_used(self):
+    def unset_used(self) -> None:
         """Sets the NPC as unused"""
         if self.used:
             self.ctx.figure.used_npcs.pop(self.ctx.figure.used_npcs.index(self.name))
 
-    def chat(self):
+    def chat(self) -> None:
         """Starts a question-answer chat"""
         q_a: Chat = self.q_a
         if q_a == {}:
@@ -125,7 +125,7 @@ Do you want to accept it?",
 class Trainer(NPC, Provider):
     """Trainer class to fight against"""
 
-    def __init__(self, pokes, name, gender, texts, lose_texts, win_texts):
+    def __init__(self, pokes, name, gender, texts, lose_texts, win_texts) -> None:
         NPC.__init__(self, name, texts, side_trigger=False)
         Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
@@ -152,7 +152,7 @@ class Trainer(NPC, Provider):
             )[0]
         )
 
-    def add(self, _map, x, y):
+    def add(self, _map, x, y) -> None:
         """Add wrapper
         See se.Box.add"""
         line = se.Line(" ", 0, _map.height, state="float")
@@ -163,7 +163,7 @@ class Trainer(NPC, Provider):
         line.add(_map, x, 0)
         super().add(_map, x, y)
 
-    def action(self):
+    def action(self) -> None:
         """Interaction with the trainer"""
         o_x = self.x
         o_y = self.y
@@ -202,7 +202,7 @@ class Trainer(NPC, Provider):
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.ctx)
 
-    def greet(self, fightmap):
+    def greet(self, fightmap) -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
@@ -212,7 +212,7 @@ class Trainer(NPC, Provider):
             f"{fightmap.outp.text}\n{self.gender} used {self.curr.name} against you!"
         )
 
-    def handle_defeat(self, ctx: Context, fightmap, winner):
+    def handle_defeat(self, ctx: Context, fightmap, winner) -> None:
         """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object

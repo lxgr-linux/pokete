@@ -1,5 +1,5 @@
 class Key:
-    def __init__(self, char: str = "", rep: str = ""):
+    def __init__(self, char: str = "", rep: str = "") -> None:
         self.char = char
         self.__rep = rep
 

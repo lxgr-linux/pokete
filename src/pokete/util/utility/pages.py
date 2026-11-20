@@ -12,9 +12,9 @@ the Tuple specifies the old link and the second argument the new link. With "new
 website.
 """
 
+import json
 import os
 from os.path import exists
-import json
 from urllib import request
 
 from .wiki import Wiki
@@ -234,7 +234,7 @@ def before() -> None:
     create_wiki()
     print("==> Adding Multi-page Wiki...")
     add_wiki_to_files()
-    for file in files.keys():
+    for file in files:
         print(f"==> Preparing {file}")
         properties = files[file]
 

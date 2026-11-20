@@ -9,11 +9,11 @@ class NPCTrigger(se.Object):
     ARGS:
         npc: The NPC it belongs to"""
 
-    def __init__(self, npc: MapInteract):
+    def __init__(self, npc: MapInteract) -> None:
         super().__init__(" ", state="float")
         self.npc = npc
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Action triggers the NPCs action"""
         self.npc.action()
         change_ctx(self.npc.ctx, self.npc.ctx.overview)

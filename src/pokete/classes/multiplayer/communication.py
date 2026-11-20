@@ -1,7 +1,7 @@
 import logging
 import socket
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 from pokete.base.context import Context
 from pokete.base.exception_propagation import PropagatingThread
 from pokete.classes.asset_service.service import asset_service
@@ -24,15 +24,15 @@ from pokete.classes.multiplayer.pc_manager import pc_manager
 
 
 class CommunicationService:
-    def __init__(self):
+    def __init__(self) -> None:
         self.client: bs_rpc.Client
         self.saved_pos = ()
         self.__positions_channel = bs_rpc.Channel[tuple[str, int, int]]()
 
-    def position_channel_generator(self):
+    def position_channel_generator(self) -> None:
         return bs_rpc.ChannelGenerator(self.__positions_channel)
 
-    def __subscribe_position_updates(self):
+    def __subscribe_position_updates(self) -> None:
         gen = self.client.call_for_responses(position.SubscribePosition({}))
 
         for body in gen():
@@ -72,21 +72,21 @@ class CommunicationService:
             ).start()
     """
 
-    def __call__(self):
+    def __call__(self) -> None:
         PropagatingThread(target=self.__subscribe_position_updates, daemon=True).start()
         # threading.Thread(
         #    target=self.__send_position_updates,
         #    daemon=True
         # ).start()
 
-    def connect(self, host: str, port: int):
+    def connect(self, host: str, port: int) -> None:
         con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             con.connect((host, port))
         except Exception as e:
             raise ConnectionException(e)
 
-        def listener():
+        def listener() -> None:
             try:
                 self.client.listen(self)
             finally:
@@ -97,7 +97,7 @@ class CommunicationService:
 
     def handshake(
         self, ctx: Context, user_name, version
-    ):  # Here Context usage outside of the UI context
+    ) -> None:  # Here Context usage outside of the UI context
         """Sends and handles the handshake with the server"""
         resp = self.client.call_for_response(
             msg.Handshake(
@@ -156,7 +156,7 @@ class CommunicationService:
     def join_fight(self, fight_id: int) -> bs_rpc.ChannelGenerator:
         return self.client.call_for_responses(fight.Fight({"fight_id": fight_id}))
 
-    def pos_update(self, _map: str, x: int, y: int):
+    def pos_update(self, _map: str, x: int, y: int) -> None:
         """Sends a position update to the server
         ARGS:
             _map: Name of the map the player is on

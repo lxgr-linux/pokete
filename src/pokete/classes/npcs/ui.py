@@ -5,7 +5,7 @@ from pokete.classes.npcs.npc_action import UIInterface
 
 
 class UI(UIInterface):
-    def __init__(self, npc: MapInteract):
+    def __init__(self, npc: MapInteract) -> None:
         self.__npc: MapInteract = npc
 
     def ask_bool(self, text: str) -> bool:

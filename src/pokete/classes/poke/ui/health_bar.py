@@ -14,11 +14,11 @@ class HealthBar(se.Text[se.Object]):
     ARGS:
         poke: The Poke the healthbar belongs to"""
 
-    def __init__(self, poke: IPoke):
+    def __init__(self, poke: IPoke) -> None:
         self.poke = poke
         super().__init__(8 * "#", esccode=Color.green, state="float")
 
-    def make(self, oldhp: int):
+    def make(self, oldhp: int) -> None:
         """Creates the healthbar
         ARGS:
             oldhp: The hp the bar should be made for"""
@@ -32,7 +32,7 @@ class HealthBar(se.Text[se.Object]):
 
 
 class HealthBarWrapper(se.Box):
-    def __init__(self, poke: IPoke):
+    def __init__(self, poke: IPoke) -> None:
         self.__hp_bar = HealthBar(poke)
         self.__pre = se.Text("<", "float")
         self.__post = se.Text(">", "float")
@@ -43,7 +43,7 @@ class HealthBarWrapper(se.Box):
         self.add_ob(self.__hp_bar, 7, 0)
         self.add_ob(self.__post, self.__hp_bar.width + 7, 0)
 
-    def update(self, oldhp: int, hp: int):
+    def update(self, oldhp: int, hp: int) -> None:
         """Updates the healthbar in steps with easing effect
         ARGS:
             oldhp: The pokes former hp"""
@@ -62,7 +62,7 @@ class HealthBarWrapper(se.Box):
         self.__text_hp.rechar(f"HP:{oldhp}")
         time.sleep(SPEED_OF_TIME * 0.1)
 
-    def make(self, hp: int):
+    def make(self, hp: int) -> None:
         self.__text_hp.rechar(f"HP:{hp}")
         self.__hp_bar.make(hp)
 

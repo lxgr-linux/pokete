@@ -2,7 +2,6 @@
 
 import datetime
 import logging
-from typing import Never, Optional
 
 import scrap_engine as se
 
@@ -25,7 +24,7 @@ class Achievement:
         title: Title ("First Pokete")
         desc: Description ("Catch your first Pokete")"""
 
-    def __init__(self, identifier, title, desc):
+    def __init__(self, identifier, title, desc) -> None:
         self.identifier = identifier
         self.title = title
         self.desc = desc
@@ -34,23 +33,23 @@ class Achievement:
 class Achievements:
     """Manages Achievements"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.achievements = []
         self.achieved = []
 
-    def set_achieved(self, achieved):
+    def set_achieved(self, achieved) -> None:
         """Sets the achieved Achievements
         ARGS:
             achieved: List of identifiers of the achieved Achievements"""
         self.achieved = achieved
 
-    def add(self, identifier, title, desc):
+    def add(self, identifier, title, desc) -> None:
         """Generates an Achievement
 
         See ``Achievement`` for argument info"""
         self.achievements.append(Achievement(identifier, title, desc))
 
-    def achieve(self, identifier):
+    def achieve(self, identifier) -> None:
         """Checks and achieves an Achievement
         ARGS:
             identifier: The Achievements identifier"""
@@ -60,7 +59,7 @@ class Achievements:
             self.achieved.append((identifier, str(datetime.date.today())))
             logging.info("[Achievements] Unlocked %s", identifier)
 
-    def is_achieved(self, identifier):
+    def is_achieved(self, identifier) -> None:
         """Whether or not an identifier is achieved
         ARGS:
             identifier: The Achievements identifier
@@ -75,7 +74,7 @@ class AchBox(LabelBoxView):
         ach: The Achievement
         achievements: Achievement's object"""
 
-    def __init__(self, ach, ach_ob):
+    def __init__(self, ach, ach_ob) -> None:
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = (
             [i[-1] for i in ach_ob.achieved if i[0] == ach.identifier][0]
@@ -102,7 +101,7 @@ class AchBox(LabelBoxView):
 class AchievementOverview(BetterChooseBoxView):
     """Overview for Achievements"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             3,
             3,
@@ -110,7 +109,7 @@ class AchievementOverview(BetterChooseBoxView):
             name="Achievements",
         )
 
-    def __call__(self, ctx: Context) -> Optional[Never]:
+    def __call__(self, ctx: Context) -> None:
         self.set_elems(
             3,
             3,
@@ -129,7 +128,7 @@ class AchievementOverview(BetterChooseBoxView):
         )
         return super().__call__(ctx)
 
-    def choose(self, ctx: Context, idx: int) -> Optional[Never]:
+    def choose(self, ctx: Context, idx: int) -> None:
         ach = achievements.achievements[idx]
         with AchBox(
             ach,

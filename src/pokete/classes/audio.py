@@ -2,7 +2,6 @@
 
 import multiprocessing
 from pathlib import Path
-from typing import Optional
 
 from .settings import settings
 
@@ -27,11 +26,11 @@ def audio_fn(song, play_audio, volume):
 class Audio:
     """Audio controler class"""
 
-    def __init__(self):
-        self.__curr: Optional[multiprocessing.Process] = None
+    def __init__(self) -> None:
+        self.__curr: multiprocessing.Process | None = None
         self.use_audio = True
 
-    def __start(self, song: str):
+    def __start(self, song: str) -> None:
         """Starts playing a song
         ARGS:
             song: The song played"""
@@ -45,14 +44,14 @@ class Audio:
         )
         self.__curr.start()
 
-    def play(self, song):
+    def play(self, song) -> None:
         """Switched the played song
         ARGS:
             song: The song played"""
         self.kill()
         self.__start(song)
 
-    def kill(self):
+    def kill(self) -> None:
         """Kills the running music"""
         if self.__curr is not None:
             self.__curr.terminate()

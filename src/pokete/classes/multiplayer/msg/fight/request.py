@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 from pokete.base.single_event import single_event_periodic_event
 from pokete.classes.multiplayer.remote_fight import MainThreatFightEvent
 
@@ -15,10 +15,10 @@ class RequestData(TypedDict):
 
 
 class Request(bs_rpc.Body):
-    def __init__(self, data: RequestData):
+    def __init__(self, data: RequestData) -> None:
         super().__init__(REQUEST_TYPE, data)
 
-    def call_for_response(self, context):
+    def call_for_response(self, context) -> None:
         name = self.data["name"]
         rmtpl = pc_manager.get(name)  # noqa: F841
         event = MainThreatFightEvent(name)

@@ -13,7 +13,7 @@ from .side_loops import LoopBox
 class DummyMods:
     """Dummy Mods class used when mods are disabled"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.mod_info = {}
         self.mod_obs = []
         self.mod_names = []
@@ -26,7 +26,7 @@ class ModError(Exception):
         name: The mod's name
         err: The error that was thrown"""
 
-    def __init__(self, name, err):
+    def __init__(self, name, err) -> None:
         self.name = name
         self.err = err
         super().__init__(f"The mod '{name}' lacks attributes!\n{err}")
@@ -35,7 +35,7 @@ class ModError(Exception):
 class ModInfo(LoopBox):
     """Gives information about mods"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.text = (
             f"""
 Mods are { {True: "enabled", False: "disabled"}[settings("load_mods").val] }!

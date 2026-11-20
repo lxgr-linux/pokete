@@ -1,6 +1,6 @@
 import math
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar, override
+from typing import TypeVar, override
 
 import scrap_engine as se
 from scrap_engine.addable.area import Area
@@ -17,10 +17,16 @@ from pokete.base.ui.views.pageable import Pageable, UpDownSwitch
 T = TypeVar("T")
 
 
-class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
+class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, Pageable, ABC):
     def __init__(
-        self, columns, rows, labels: list[se.HasArea], name="", _map=None, overview=None
-    ):
+        self,
+        columns: int,
+        rows: int,
+        labels: list[se.HasArea],
+        name: str = "",
+        _map=None,
+        overview=None,
+    ) -> None:
         self.elems: list[se.HasArea] = labels
         self.rows = rows
         self.page = 0
@@ -31,7 +37,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
         )
         self.__add_up_down_switch()
 
-    def __add_up_down_switch(self):
+    def __add_up_down_switch(self) -> None:
         if len(self.elems) / self.columns > self.rows:
             self.add_ob(
                 self.up_down_switch,
@@ -50,7 +56,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
         return int(idx / self.columns), idx % self.columns
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -73,19 +79,19 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], Pageable
         ] + up_down
 
     @override
-    def resize(self, height, width):
+    def resize(self, height: int, width: int) -> None:
         self.rem_ob(self.up_down_switch)
         self.up_down_switch.remove()
         super().resize(height, width)
         self.__add_up_down_switch()
 
-    def set_elems(self, columns, rows, labels: list[se.HasArea]):
+    def set_elems(self, columns: int, rows: int, labels: list[se.HasArea]) -> None:
         self.rows = rows
         self.page = 0
         self.elems = labels
         super().set_items(columns, self.elems[: rows * columns])
 
-    def change_page(self, add_page, n_idx):
+    def change_page(self, add_page: int, n_idx: int) -> None:
         if (
             0
             <= (self.page + add_page)

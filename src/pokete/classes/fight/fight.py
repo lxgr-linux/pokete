@@ -27,17 +27,17 @@ from .providers import Provider
 class Fight:
     log = logging.getLogger("Fight")
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.fightmap: FightMap = FightMap(tss.height - 1, tss.width)
         self.providers: list[Provider] = []
         self.attack_process = AttackProcess(self.fightmap)
 
-    def initial_player_index(self):
+    def initial_player_index(self) -> None:
         return self.providers.index(
             max(self.providers, key=lambda i: i.curr.initiative)
         )
 
-    def __call__(self, ctx: Context, providers: list[Provider]):
+    def __call__(self, ctx: Context, providers: list[Provider]) -> None:
         audio.play("xDeviruchi - Decisive Battle (Loop).mp3")
         self.providers = providers
         self.fightmap.set_overview(ctx.overview)

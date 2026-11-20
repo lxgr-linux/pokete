@@ -15,7 +15,7 @@ from .providers import Provider
 
 
 class AttackProcess:
-    def __init__(self, fightmap: FightMap):
+    def __init__(self, fightmap: FightMap) -> None:
         self.fightmap: FightMap = fightmap
 
     @staticmethod
@@ -60,7 +60,7 @@ class AttackProcess:
         defender: Poke,
         attack: Attack,
         providers: list[Provider],
-    ):
+    ) -> None:
         """Attack process
         ARGS:
             attack: Attack object
@@ -113,7 +113,7 @@ class AttackProcess:
             )
             self.fightmap.show()
 
-    def give_effect(self, enem: Poke, attack: Attack, provider: Provider):
+    def give_effect(self, enem: Poke, attack: Attack, provider: Provider) -> None:
         """Gives the associated effect to a Pokete
         ARGS:
             enem: Enemy object"""

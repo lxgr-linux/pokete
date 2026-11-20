@@ -3,10 +3,10 @@ from .player import PLAYER_TYPE, Player, PlayerData, User
 
 __all__ = [
     "GET_TYPE",
-    "GetData",
-    "Get",
     "PLAYER_TYPE",
-    "PlayerData",
+    "Get",
+    "GetData",
     "Player",
+    "PlayerData",
     "User",
 ]

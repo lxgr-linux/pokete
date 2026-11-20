@@ -22,13 +22,13 @@ def check_figure_redraw(obj):
 class MovingGrassEvent(PeriodicEvent):
     max_tick = 100
 
-    def __init__(self, _map):
+    def __init__(self, _map) -> None:
         self.all_grass_objs = []
         for meadow in Meadow.all_grass:
             if meadow.map == _map:
                 self.all_grass_objs += meadow.obs
 
-    def tick(self, ctx: Context, tick: int):
+    def tick(self, ctx: Context, tick: int) -> None:
         if tick % self.max_tick == 0 and settings("animations").val:
             for obj in self.all_grass_objs:
                 if obj.char == Color.green + ";" + Color.reset:
@@ -41,13 +41,13 @@ class MovingGrassEvent(PeriodicEvent):
 
 
 class MovingWaterEvent(PeriodicEvent):
-    def __init__(self, _map):
+    def __init__(self, _map) -> None:
         self.all_water_objs = []
         for water in Meadow.all_water:
             if water.map == _map:
                 self.all_water_objs += water.obs
 
-    def tick(self, ctx: Context, tick: int):
+    def tick(self, ctx: Context, tick: int) -> None:
         if settings("animations").val:
             for obj in self.all_water_objs:
                 if random.randint(0, 9) == 0:
@@ -66,11 +66,11 @@ class MovingWaterEvent(PeriodicEvent):
 
 
 class TreatNPCEvent(PeriodicEvent):
-    def tick(self, ctx: Context, tick: int):
+    def tick(self, ctx: Context, tick: int) -> None:
         if timer.time.normalized == 6 * 60:
             NPC.get("npc_28").unset_used()
 
 
 class NotifierEvent(PeriodicEvent):
-    def tick(self, ctx: Context, tick: int):
+    def tick(self, ctx: Context, tick: int) -> None:
         notifier.next()

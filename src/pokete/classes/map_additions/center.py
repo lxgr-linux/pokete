@@ -29,7 +29,7 @@ class CenterMap(PlayMap):
         _he: The maps height
         _wi: The maps width"""
 
-    def __init__(self, _he, _wi):
+    def __init__(self, _he, _wi) -> None:
         super().__init__(
             _he,
             _wi,
@@ -70,7 +70,7 @@ class ShopMap(PlayMap):
         _he: The maps height
         _wi: The maps width"""
 
-    def __init__(self, _he, _wi):
+    def __init__(self, _he, _wi) -> None:
         super().__init__(
             _he, _wi, name="shopmap", pretty_name="Pokete-Shop", song="Map.mp3"
         )
@@ -97,7 +97,7 @@ class ShopMap(PlayMap):
 class CenterInteract(se.Object, MapInteract):
     """Triggers a conversation in the Pokete center"""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.menu = MultiTextChooseBox(
             [
@@ -109,11 +109,11 @@ class CenterInteract(se.Object, MapInteract):
             "Select",
         )
 
-    def __normalize_pokes(self, ob):
+    def __normalize_pokes(self, ob) -> None:
         while "__fallback__" in [p.identifier for p in ob.pokes]:
             ob.pokes.pop([p.identifier for p in ob.pokes].index("__fallback__"))
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Triggers the interaction in the Pokete center
         ARGS:
             ob: The object triggering this action"""
@@ -174,7 +174,7 @@ class CenterInteract(se.Object, MapInteract):
 class ShopInteract(se.Object, MapInteract):
     """Triggers an conversation in the shop"""
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Triggers an interaction in the shop
         ARGS:
             ob: The object triggering this action"""

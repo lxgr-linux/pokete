@@ -3,11 +3,12 @@ import scrap_engine as se
 from pokete.classes.classes import PlayMap
 from pokete.classes.doors import ChanceDoor
 from pokete.classes.landscape import HighGrass
+
 from .customizer import MapCustomizer
 
 
 class Cave1Customizer(MapCustomizer):
-    def customize(self, _map: PlayMap):
+    def customize(self, _map: PlayMap) -> None:
         _map.inner = se.Text(
             """##########################################
 ##        ################################
@@ -39,7 +40,7 @@ class Cave1Customizer(MapCustomizer):
 
 
 class Playmap4Customizer(MapCustomizer):
-    def customize(self, _map: PlayMap):
+    def customize(self, _map: PlayMap) -> None:
         _map.dor_playmap_5 = ChanceDoor(
             "~",
             state="float",
@@ -50,7 +51,7 @@ class Playmap4Customizer(MapCustomizer):
 
 
 class Playmap5Customizer(MapCustomizer):
-    def customize(self, _map: PlayMap):
+    def customize(self, _map: PlayMap) -> None:
         _map.inner = se.Square(
             " ", 11, 11, state="float", ob_class=HighGrass, ob_args=_map.poke_args
         )
@@ -59,7 +60,7 @@ class Playmap5Customizer(MapCustomizer):
 
 
 class Playmap7Customizer(MapCustomizer):
-    def customize(self, _map: PlayMap):
+    def customize(self, _map: PlayMap) -> None:
         _map.inner = se.Text(
             """##############################
 #########        #############
@@ -90,7 +91,7 @@ class Playmap7Customizer(MapCustomizer):
 
 
 class Playmap9Customizer(MapCustomizer):
-    def customize(self, _map: PlayMap):
+    def customize(self, _map: PlayMap) -> None:
         _map.inner = se.Text(
             """
 #########################
@@ -112,7 +113,7 @@ class Playmap9Customizer(MapCustomizer):
 
 
 class Playmap19Customizer(MapCustomizer):
-    def customize(self, _map: PlayMap):
+    def customize(self, _map: PlayMap) -> None:
         _map.inner = se.Text(
             """                         ####
                          #  #   ############

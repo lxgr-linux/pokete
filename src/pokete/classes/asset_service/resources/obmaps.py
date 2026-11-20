@@ -13,7 +13,7 @@ class DorArgsDict(TypedDict):
 
 
 class DorArgs:
-    def __init__(self, x: int, y: int, map: str):
+    def __init__(self, x: int, y: int, map: str) -> None:
         self.x: int = x
         self.y: int = y
         self.map: str = map
@@ -55,10 +55,10 @@ class DorDict(TypedDict):
 
 
 class Dor:
-    def __init__(self, x: int, y: int, args: "DorArgs"):
+    def __init__(self, x: int, y: int, args: "DorArgs") -> None:
         self.x: int = x
         self.y: int = y
-        self.args: "DorArgs" = args
+        self.args: DorArgs = args
 
     @classmethod
     def from_dict(cls, _d: DorDict | None) -> "Dor | None":
@@ -96,9 +96,9 @@ class SpecialDorsDict(TypedDict):
 
 
 class SpecialDors:
-    def __init__(self, dor: "Coords | None", shopdor: "Coords | None"):
-        self.dor: "Coords | None" = dor
-        self.shopdor: "Coords | None" = shopdor
+    def __init__(self, dor: "Coords | None", shopdor: "Coords | None") -> None:
+        self.dor: Coords | None = dor
+        self.shopdor: Coords | None = shopdor
 
     @classmethod
     def from_dict(cls, _d: SpecialDorsDict | None) -> "SpecialDors | None":
@@ -145,7 +145,7 @@ class ObDict(TypedDict):
 
 
 class Ob:
-    def __init__(self, x: int, y: int, txt: str, cls: str | None):
+    def __init__(self, x: int, y: int, txt: str, cls: str | None) -> None:
         self.x: int = x
         self.y: int = y
         self.txt: str = txt
@@ -201,12 +201,12 @@ class Obmap:
         dors: dict[str, "Dor"],
         special_dors: "SpecialDors | None",
         balls: dict[str, "Coords"],
-    ):
-        self.hard_obs: dict[str, "Ob"] = hard_obs
-        self.soft_obs: dict[str, "Ob"] = soft_obs
-        self.dors: dict[str, "Dor"] = dors
-        self.special_dors: "SpecialDors | None" = special_dors
-        self.balls: dict[str, "Coords"] = balls
+    ) -> None:
+        self.hard_obs: dict[str, Ob] = hard_obs
+        self.soft_obs: dict[str, Ob] = soft_obs
+        self.dors: dict[str, Dor] = dors
+        self.special_dors: SpecialDors | None = special_dors
+        self.balls: dict[str, Coords] = balls
 
     @classmethod
     def from_dict(cls, _d: ObmapDict | None) -> "Obmap | None":

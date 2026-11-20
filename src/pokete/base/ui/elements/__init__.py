@@ -5,11 +5,11 @@ from .frame import StdFrame, StdFrame2
 from .text import HightlightableText
 
 __all__ = [
-    "Box",
-    "LabelBox",
     "BetterChooseBox",
+    "Box",
     "ChooseBox",
+    "HightlightableText",
+    "LabelBox",
     "StdFrame",
     "StdFrame2",
-    "HightlightableText",
 ]

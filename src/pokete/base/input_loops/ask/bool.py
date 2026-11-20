@@ -14,7 +14,7 @@ from pokete.base.ui.elements.text import HightlightableText
 
 
 class AskBoolBox(Box, MouseInteractor):
-    def __init__(self, text: str):
+    def __init__(self, text: str) -> None:
         assert len(text) >= 12, "Text has to be longer then 12 characters!"
         self.__result: bool | None = None
         self.__text_label = se.Text(text)
@@ -43,7 +43,7 @@ class AskBoolBox(Box, MouseInteractor):
         return [i.get_area() for i in self.__labels]
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx < 0:
             match event.type:
                 case MouseEventType.MOVE:

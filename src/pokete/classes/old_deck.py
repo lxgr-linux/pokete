@@ -22,7 +22,7 @@ from .poke import Poke
 
 
 class Index(se.Object):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("*")
         self.index = 0
 
@@ -30,7 +30,7 @@ class Index(se.Object):
 class OldDeck(Informer, Overview):
     """Deck to see Poketes in"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.map = GameMap(50, 100, name="deck")
         self.submap = GameSubmap(self.map, 0, 0, 50, 100, "decksubmap")
         self.exit_label = se.Text(f"{Action.DECK.mapping}: Exit  ")
@@ -46,12 +46,12 @@ class OldDeck(Informer, Overview):
         self.move_label.add(self.submap, 9, self.submap.height - 1)
         self.move_free.add(self.submap, 20, self.submap.height - 1)
 
-    def rem_pokes(self):
+    def rem_pokes(self) -> None:
         """Removes all Poketes from the Deck"""
         for poke in self.pokes:
             self.remove(poke)
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.exit_label.remove()
         self.move_label.remove()
@@ -88,7 +88,9 @@ class OldDeck(Informer, Overview):
             self.pokes[self.index.index].text_name.y,
         )
 
-    def __call__(self, ctx: Context, p_len, label="Your full deck", in_fight=False):
+    def __call__(
+        self, ctx: Context, p_len, label="Your full deck", in_fight=False
+    ) -> None:
         """Opens the deck
         ARGS:
             ctx: Context
@@ -246,7 +248,7 @@ class OldDeck(Informer, Overview):
                 self.submap.set(self.submap.x, self.submap.y - 1)
             self.submap.full_show()
 
-    def add_all(self, init=False, no_poke=False):
+    def add_all(self, init=False, no_poke=False) -> None:
         """Adds all Poketes to the deck
         ARGS:
             init: Whether or not this happens for the first time
@@ -266,7 +268,7 @@ class OldDeck(Informer, Overview):
             if i % 2 == 1:
                 j += 1
 
-    def control(self, inp):
+    def control(self, inp) -> None:
         """Processes inputs
         ARGS:
             inp: Inputted string"""

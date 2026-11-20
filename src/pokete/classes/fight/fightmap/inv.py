@@ -1,6 +1,5 @@
 """Contains stuff related to fight inventory"""
 
-from typing import Optional
 
 import scrap_engine as se
 
@@ -10,17 +9,17 @@ from pokete.classes.items.invitem import InvItem
 
 
 class InvBox(ChooseBoxView[InvItem]):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(10, 35, "Inventory")
         self.items: list[InvItem] = []
 
-    def choose(self, ctx: Context, idx: int) -> Optional[InvItem]:
+    def choose(self, ctx: Context, idx: int) -> InvItem | None:
         return self.items[idx]
 
     def new_size(self) -> tuple[int, int]:
         return self.map.height - 3, 35
 
-    def __call__(self, ctx: Context, items: list[InvItem], inv) -> Optional[InvItem]:
+    def __call__(self, ctx: Context, items: list[InvItem], inv) -> InvItem | None:
         self.items = items
         self.resize(ctx.map.height - 3, 35)
         self.elems = [se.Text(f"{i.pretty_name}s : {inv[i.name]}") for i in items]

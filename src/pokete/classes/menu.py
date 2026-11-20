@@ -1,6 +1,5 @@
 import sys
 import time
-from typing import Never, Optional
 
 import scrap_engine as se
 
@@ -21,7 +20,7 @@ from .side_loops import About
 
 
 class Menu(ChooseBoxView):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             50,
             35,
@@ -58,7 +57,7 @@ class Menu(ChooseBoxView):
     def new_size(self) -> tuple[int, int]:
         return self.map.height - 3, 35
 
-    def choose(self, ctx: Context, idx: int) -> Optional[Never]:
+    def choose(self, ctx: Context, idx: int) -> None:
         i = self.c_obs[self.index.index]
         audio_before = settings("audio").val
         volume_before = settings("volume").val
@@ -119,7 +118,7 @@ valid single-space character!",
         ):
             audio.play(ctx.figure.map.song)
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         """Opens the dex"""
         self.resize(ctx.map.height - 3, 35)
         self.playername_input.set_value(ctx.figure.name)

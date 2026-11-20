@@ -8,10 +8,10 @@ from pokete.classes.settings import settings
 
 
 class TeleportationSingleEvent(SingleEvent):
-    def __init__(self, poke):
+    def __init__(self, poke) -> None:
         self.poke = poke
 
-    def run(self, ctx: Context):
+    def run(self, ctx: Context) -> None:
         # TODO: This is horrible, remove the te
         obj = roadmap.roadmap(ctx, choose=True)
         ctx = change_ctx(ctx, ctx.overview)

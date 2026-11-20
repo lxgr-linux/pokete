@@ -27,7 +27,7 @@ class EvoMap(gm.GameMap, Overview):
         height: The height of the map
         width: The width of the map"""
 
-    def __init__(self, height, width):
+    def __init__(self, height, width) -> None:
         super().__init__(height, width, name="evomap")
         self.frame_small = se.Frame(height=4, width=width, state="float")
         self.outp = OutP("", state="float")
@@ -36,7 +36,7 @@ class EvoMap(gm.GameMap, Overview):
         self.frame_small.add(self, 0, self.height - 5)
         self.outp.add(self, 1, self.height - 4)
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.frame_small.remove()
         self.outp.remove()

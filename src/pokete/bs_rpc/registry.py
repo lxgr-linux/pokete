@@ -10,7 +10,7 @@ class AlreadyRegistredException(Exception):
 
 
 class Registry:
-    def __init__(self):
+    def __init__(self) -> None:
         self.reg = {}
         self.register(EmptyMsg)
 
@@ -21,7 +21,7 @@ class Registry:
         else:
             raise AlreadyRegistredException(f"Handler for `{t}` is already registered")
 
-    def get(self, msg_type: str):
+    def get(self, msg_type: str) -> None:
         if (type_class := self.reg.get(msg_type, None)) is None:
             raise NotRegistredException(f"Not handler is registered for `{msg_type}`")
         return type_class

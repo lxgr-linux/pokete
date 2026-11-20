@@ -4,22 +4,22 @@ from pokete.base.ui.elements.text import HightlightableText
 
 
 class MovemapDeco(HightlightableText):
-    def __init__(self):
+    def __init__(self) -> None:
         self.blank = False
         super().__init__(self.__get_text())
 
-    def __get_text(self):
+    def __get_text(self) -> None:
         if self.blank:
             return ""
         return f"{Action.INTERACT.mapping}: act"
 
-    def set_active(self):
+    def set_active(self) -> None:
         self.rechar(self.__get_text())
 
-    def set_inactive(self):
+    def set_inactive(self) -> None:
         self.rechar(self.__get_text(), esccode=Color.lightgrey)
 
-    def set_blank(self):
+    def set_blank(self) -> None:
         self.blank = True
         self.rechar("")
 

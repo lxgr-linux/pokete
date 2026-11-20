@@ -10,7 +10,7 @@ class AchievementDict(TypedDict):
 
 
 class Achievement:
-    def __init__(self, title: str, desc: str):
+    def __init__(self, title: str, desc: str) -> None:
         self.title: str = title
         self.desc: str = desc
 

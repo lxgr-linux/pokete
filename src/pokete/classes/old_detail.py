@@ -1,6 +1,5 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
-from typing import Optional
 
 import scrap_engine as se
 
@@ -28,7 +27,7 @@ class Informer:
     """Supplies methods for Deck and Detail"""
 
     @staticmethod
-    def add(poke, figure, _map, _x, _y, in_deck=True):
+    def add(poke, figure, _map, _x, _y, in_deck=True) -> None:
         """Adds a Pokete's info to the deck
         ARGS:
             poke: Poke object
@@ -67,7 +66,7 @@ class Informer:
                 eff.add_label()
 
     @staticmethod
-    def remove(poke):
+    def remove(poke) -> None:
         """Removes a Pokete from the deck
         ARGS:
             poke: Poke object that should be removed"""
@@ -93,7 +92,7 @@ class OldDetail(Informer, Overview):
         height: Height of the map
         width: Width of the map"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.map = gm.GameMap(50, 200, name="detail")
         self.name_label = se.Text("Details", esccode=Color.thicc)
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc)
@@ -133,7 +132,7 @@ class OldDetail(Informer, Overview):
         self.poke = None
         self.overview = None
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.exit_label.remove()
         self.nature_label.remove()
@@ -172,7 +171,7 @@ class OldDetail(Informer, Overview):
         self.add_attack_labels()
         self.line_middle.add(self.map, round(self.map.width / 2), 7)
 
-    def add_attack_labels(self):
+    def add_attack_labels(self) -> None:
         """Adds the atatck labels to map"""
         for atc, _x, _y in zip(
             self.poke.attack_obs,
@@ -201,8 +200,8 @@ class OldDetail(Informer, Overview):
             ):
                 label.add(self.map, _x + __x, _y + __y)
 
-    def enq_single_action(self, ret_action: str):
-        event: Optional[SingleEvent] = None
+    def enq_single_action(self, ret_action: str) -> None:
+        event: SingleEvent | None = None
         match ret_action:
             case "teleport":
                 event = TeleportationSingleEvent(self.poke)
@@ -211,7 +210,7 @@ class OldDetail(Informer, Overview):
         if event is not None:
             single_event_periodic_event.add(event)
 
-    def cleanup(self):
+    def cleanup(self) -> None:
         self.remove(self.poke)
         for obj in [self.poke.desc, self.poke.text_type]:
             obj.remove()
@@ -226,7 +225,7 @@ class OldDetail(Informer, Overview):
                 obj.remove()
             del atc.temp_i, atc.temp_j
 
-    def __call__(self, ctx: Context, poke, abb=True):
+    def __call__(self, ctx: Context, poke, abb=True) -> None:
         """Shows details
         ARGS:
             poke: Poke object whose details are given

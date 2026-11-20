@@ -1,12 +1,13 @@
 import random
-from typing import Generator
+from collections.abc import Generator
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 from pokete.base.context import Context
 from pokete.classes.fight.fight_decision import FightDecision
 from pokete.classes.fight.fightmap.fightmap import FightMap
-from pokete.classes.multiplayer.msg import player, fight
+from pokete.classes.multiplayer.msg import fight, player
 from pokete.classes.poke.poke import Poke
+
 from ...fight import Provider
 
 
@@ -17,7 +18,7 @@ class RemoteProvider(Provider):
         outgoing: bs_rpc.ResponseWriter,
         incomming: Generator[bs_rpc.Body, None, None],
         com_service,
-    ):
+    ) -> None:
         self.player: player.User = com_service.get_player(name)
         self.outgoing = outgoing
         self.incomming = incomming
@@ -44,7 +45,7 @@ class RemoteProvider(Provider):
             self.player["items"],
         )
 
-    def greet(self, fightmap: FightMap):
+    def greet(self, fightmap: FightMap) -> None:
         fightmap.outp.outp(f"Fight started with {self.name}, good luck!")
 
     def get_decision(self, ctx: Context, fightmap: FightMap, enem) -> FightDecision:
@@ -64,5 +65,5 @@ class RemoteProvider(Provider):
             case _:
                 assert False
 
-    def handle_defeat(self, ctx: Context, fightmap, winner):
+    def handle_defeat(self, ctx: Context, fightmap, winner) -> None:
         return

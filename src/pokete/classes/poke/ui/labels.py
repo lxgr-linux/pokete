@@ -6,7 +6,7 @@ from pokete.classes.poke.ui.health_bar import HealthBarWrapper
 
 
 class PokeLabels:
-    def __init__(self, poke: IPoke):
+    def __init__(self, poke: IPoke) -> None:
         # Labels
         self.hp_bar: HealthBarWrapper = HealthBarWrapper(poke)
         self.hp_bar.make(poke.hp)
@@ -41,12 +41,12 @@ class PokeLabels:
 
 
 class EffectsLabel(se.Text[se.Object]):
-    def __init__(self, poke: IPoke):
+    def __init__(self, poke: IPoke) -> None:
         super().__init__("", state="float")
         self.poke = poke
         self.update()
 
-    def update(self):
+    def update(self) -> None:
         was_added = self.added
         if self.added:
             self.remove()

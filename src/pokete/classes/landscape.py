@@ -22,7 +22,7 @@ class HighGrass(se.Object, MapInteract):
 
     arg_proto: PokeArgs
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Action triggers the fight
         ARGS:
             ob: The object triggering this action"""
@@ -68,7 +68,7 @@ class Meadow(se.Text):
     all_water = []
     all_sand = []
 
-    def __init__(self, string, poke_args):
+    def __init__(self, string, poke_args) -> None:
         super().__init__(
             string,
             ignore=self.esccode + " " + Color.reset,
@@ -101,11 +101,11 @@ class Poketeball(se.Object, MapInteract):
     ARGS:
         name: Generic name of the ball"""
 
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.name = name
         super().__init__(Color.thicc + Color.red + "o" + Color.reset, state="float")
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Action triggers the pick up
         ARGS:
             ob: The object triggering this action"""

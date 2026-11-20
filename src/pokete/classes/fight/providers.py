@@ -3,6 +3,7 @@
 import random
 import time
 from abc import ABC, abstractmethod
+from typing import override
 
 from pokete.base.context import Context
 from pokete.base.input_loops import ask_bool
@@ -23,7 +24,7 @@ class Provider(ABC):
         escapable: bool,
         xp_multiplier: int,
         inv: dict[str, int] | None = None,
-    ):
+    ) -> None:
         self.pokes = pokes
         self.escapable = escapable
         self.xp_multiplier = xp_multiplier
@@ -33,7 +34,7 @@ class Provider(ABC):
     def get_inv(self) -> dict[str, int]:
         return self.__inv
 
-    def heal(self):
+    def heal(self) -> None:
         """Heals all poketes"""
         if self.pokes:
             for poke in self.pokes:
@@ -49,30 +50,34 @@ class Provider(ABC):
         """Returns the currently used Pokete"""
         return self.pokes[self.play_index]
 
-    def index_conf(self):
+    def index_conf(self) -> None:
         """Sets index correctly"""
         self.play_index = next(i for i, poke in enumerate(self.pokes) if poke.hp > 0)
 
-    def remove_item(self, item: str, amount: int = 1):
+    def remove_item(self, item: str, amount: int = 1) -> None:
         """Removes and item from the providers inventory
         Accept for the player implementation that shouldnt do anything"""
         return
 
     @abstractmethod
-    def get_decision(self, ctx: Context, fightmap: "FightMap", enem) -> FightDecision:  # noqa: F821
+    def get_decision(
+        self, ctx: Context, fightmap: "FightMap", enem: "Provider"
+    ) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
             enem: The enemy Provider"""
 
     @abstractmethod
-    def greet(self, fightmap):
+    def greet(self, fightmap: "FightMap") -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
 
     @abstractmethod
-    def handle_defeat(self, ctx: Context, fightmap, winner):
+    def handle_defeat(
+        self, ctx: Context, fightmap: "FightMap", winner: "Provider"
+    ) -> None:
         """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
@@ -80,7 +85,7 @@ class Provider(ABC):
         RETURNS:
             bool: whether or not a Pokete was choosen"""
 
-    def handle_win(self, ctx: Context, loser):
+    def handle_win(self, ctx: Context, loser: "Provider") -> None:
         pass
 
 
@@ -89,10 +94,13 @@ class NatureProvider(Provider):
     ARGS:
         poke: One Pokete"""
 
-    def __init__(self, poke):
+    def __init__(self, poke: Poke) -> None:
         super().__init__([poke], escapable=True, xp_multiplier=1)
 
-    def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
+    @override
+    def get_decision(
+        self, ctx: Context, fightmap: "FightMap", enem: "Provider"
+    ) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
@@ -104,13 +112,17 @@ class NatureProvider(Provider):
             )[0]
         )
 
-    def greet(self, fightmap):
+    @override
+    def greet(self, fightmap: "FightMap") -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
         fightmap.outp.outp(f"A wild {self.curr.name} appeared!")
 
-    def handle_defeat(self, ctx: Context, fightmap, winner):
+    @override
+    def handle_defeat(
+        self, ctx: Context, fightmap: "FightMap", winner: "Provider"
+    ) -> None:
         """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
@@ -124,20 +136,27 @@ class ProtoFigure(Provider):
     """Class Figure inherits from to avoid injecting the Figure class
     into fight"""
 
-    def greet(self, fightmap):
+    @override
+    def greet(self, fightmap: "FightMap") -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
         return
 
-    def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
+    @override
+    def get_decision(
+        self, ctx: Context, fightmap: "FightMap", enem: "Provider"
+    ) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
             fightmap: fightmap object
             enem: The enemy Provider"""
         return fightmap.get_figure_attack(ctx, self, enem)
 
-    def handle_defeat(self, ctx: Context, fightmap, winner):
+    @override
+    def handle_defeat(
+        self, ctx: Context, fightmap: "FightMap", winner: "Provider"
+    ) -> bool:
         """Function called when the providers current Pokete dies
         ARGS:
             fightmap: fightmap object
@@ -161,7 +180,8 @@ class ProtoFigure(Provider):
             fightmap.choose_poke(ctx, self, False)
         return True
 
-    def handle_win(self, ctx: Context, loser):
+    @override
+    def handle_win(self, ctx: Context, loser: "Provider") -> None:
         if hasattr(loser, "trainer"):
             achievements.achieve("first_duel")
         self.balls_label_rechar()

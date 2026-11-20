@@ -45,9 +45,9 @@ class MouseManager:
         self.events: bs_rpc.Channel[MouseEvent] = bs_rpc.Channel()
 
     def is_mouse_event(self, inp: str) -> bool:
-        return not not self.pattern.match(inp)
+        return bool(self.pattern.match(inp))
 
-    def handle(self, inp: str):
+    def handle(self, inp: str) -> None:
         # logging.info("handle %s", inp)
         pressed = inp.endswith("m")
 

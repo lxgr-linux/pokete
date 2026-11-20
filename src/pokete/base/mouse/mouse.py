@@ -1,4 +1,3 @@
-from typing import Optional
 
 from pokete import bs_rpc
 from pokete.base.exception_propagation.propagating_thread import (
@@ -17,14 +16,14 @@ from .mouse_optimizing_queue_monitoring_handler import (
 class MouseInteractionManager:
     def __init__(self) -> None:
         self.__interactors: list[MouseInteractor] = []
-        self.__last: Optional[tuple[MouseInteractor, int, MouseEventType, bool]] = None
+        self.__last: tuple[MouseInteractor, int, MouseEventType, bool] | None = None
         queue_monitor.attach(MouseOptimizingQueueMonitoringHandler())
         PropagatingThread(target=self.run, daemon=True).start()
 
-    def attach(self, interactors: list[MouseInteractor]):
+    def attach(self, interactors: list[MouseInteractor]) -> None:
         self.__interactors = interactors
 
-    def run(self):
+    def run(self) -> None:
         for event in bs_rpc.ChannelGenerator(mouse_manager.events)():
             for interactor in self.__interactors:
                 for idx, area in enumerate(interactor.get_all_interaction_areas()):
@@ -37,7 +36,9 @@ class MouseInteractionManager:
                 else:
                     self.cast_event(interactor, -1, event)
 
-    def cast_event(self, interactor: MouseInteractor, idx: int, event: MouseEvent):
+    def cast_event(
+        self, interactor: MouseInteractor, idx: int, event: MouseEvent
+    ) -> None:
         curr = (interactor, idx, event.type, event.pressed)
 
         if curr != self.__last:

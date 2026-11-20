@@ -15,14 +15,14 @@ class PoketeCommand:
         f"Sets the path for save-files and logs, default is: {SAVEPATH}",
     )
 
-    def __init__(self, audio):
+    def __init__(self, audio) -> None:
         self.do_logging = False
         self.load_mods = True
         audio.use_audio = True
         self.audio = audio
         self.save_dir: Path = SAVEPATH
 
-    def root_fn(self, ex: str, options: list[str], flags: dict[str, list[str]]):
+    def root_fn(self, ex: str, options: list[str], flags: dict[str, list[str]]) -> None:
         for flag, values in flags.items():
             if self.log_flag.is_flag(flag):
                 self.do_logging = True

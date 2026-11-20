@@ -1,14 +1,17 @@
 """Contains doors"""
 
 import random
+
 import scrap_engine as se
-from . import game, ob_maps as obmp
+
+from . import game
+from . import ob_maps as obmp
 
 
 class CenterDoor(se.Object):
     """Door class for the map to enter centers and shops"""
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Trigger
         ARGS:
             ob: The object triggering this action"""
@@ -34,7 +37,7 @@ class CenterDoor(se.Object):
 class Door(se.Object):
     """Door class for the map to enter other maps"""
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Trigger
         ARGS:
             ob: The object triggering this action"""
@@ -52,7 +55,7 @@ class Door(se.Object):
 class DoorToCenter(Door):
     """Door that leads to the Pokete center"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             "#",
             state="float",
@@ -63,7 +66,7 @@ class DoorToCenter(Door):
             },
         )
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Triggers the door
         ARGS:
             ob: The object triggering this action"""
@@ -74,7 +77,7 @@ class DoorToCenter(Door):
 class DoorToShop(Door):
     """Door that leads to the shop"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             "#",
             state="float",
@@ -89,7 +92,7 @@ class DoorToShop(Door):
 class ChanceDoor(Door):
     """Same as door but with a chance"""
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Trigger
         ARGS:
             ob: The object triggering this action"""

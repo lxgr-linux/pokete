@@ -14,7 +14,7 @@ class Attack:
         index: The attacks basic name
         pref: Prefix used for the attack label"""
 
-    def __init__(self, index: str, pref: str = "", ap: int | None = None):
+    def __init__(self, index: str, pref: str = "", ap: int | None = None) -> None:
         inf = attacks[index]
         # Attributes
         self.index = index
@@ -43,7 +43,7 @@ class Attack:
         if ap is not None:
             self.set_ap(ap)
 
-    def make_label(self):
+    def make_label(self) -> None:
         """Creates label
         RETURNS:
             New label"""
@@ -53,7 +53,7 @@ class Attack:
             + se.Text(f"-{self.ap}")
         )
 
-    def set_ap(self, _ap):
+    def set_ap(self, _ap) -> None:
         """Sets attack points
         ARGS:
             _ap: Attack points"""

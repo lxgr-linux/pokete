@@ -77,7 +77,7 @@ from pokete.startup.logging import init_logger
 
 """
 class SwapPokeNPCAction(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         swap_poke(npc.ctx)
 """
 
@@ -87,7 +87,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
     ARGS:
         _si: session_info dict"""
 
-    def __init__(self, _si):
+    def __init__(self, _si) -> None:
         r_char = _si.get("represent_char", "a")
         if len(r_char) != 1:
             logging.info(
@@ -116,7 +116,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         self.x = _si["x"]
         self.y = _si["y"]
 
-    def self_add(self):
+    def self_add(self) -> None:
         try:
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
@@ -138,7 +138,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
             self.add(obmp.ob_maps["playmap_1"], 6, 5)
         # self.add(obmp.ob_maps[self.map_name], self.x, self.y)
 
-    def set_args(self, _si):
+    def set_args(self, _si: dict) -> None:
         """Processes data from save file
         ARGS:
             _si: session_info dict"""
@@ -151,21 +151,23 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         self.balls_label_rechar()
         mvp.movemap.add_obs()
 
-    def set(self, x, y):
+    def set(self, x: int, y: int) -> int:
         if (ret := super().set(x, y)) == 0:
             self.update_server_pos()
         return ret
 
-    def add(self, _map, x, y):
+    def add(self, _map: se.Map, x: int, y: int) -> int:
         if (ret := super().add(_map, x, y)) == 0:
             self.update_server_pos()
         return ret
 
-    def update_server_pos(self):
+    def update_server_pos(self) -> None:
         if modeProvider.mode == Mode.MULTI:
             com_service.pos_update(self.map.name, self.x, self.y)
 
-    def add_poke(self, poke: Poke, idx=None, caught_with=None):
+    def add_poke(
+        self, poke: Poke, idx: int | None = None, caught_with: str | None = None
+    ) -> None:
         """Adds a Pokete to the players Poketes
         ARGS:
             poke: Poke object beeing added
@@ -185,7 +187,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
             self.pokes[idx] = poke
         logging.info("[Figure] Added Poke %s", poke.name)
 
-    def balls_label_rechar(self):
+    def balls_label_rechar(self) -> None:
         mvp.movemap.balls_label_rechar(self.pokes)
 
 
@@ -193,7 +195,7 @@ class Debug:
     """Debug class"""
 
     @staticmethod
-    def pos(figure):
+    def pos(figure: "Figure") -> None:
         """Prints the figures' position"""
         print(figure.x, figure.y, figure.map.name)
 
@@ -202,7 +204,7 @@ class Debug:
 #######################
 
 
-def autosave(figure):
+def autosave(figure: "Figure") -> None:
     """Autosaves the game every 5 mins"""
     while True:
         time.sleep(SPEED_OF_TIME * 300)
@@ -214,7 +216,7 @@ def autosave(figure):
 ##############################
 
 
-def codes(string: str, figure: Figure):
+def codes(string: str, figure: Figure) -> None:
     """Cheats"""
     for i in string:
         if i == "w":
@@ -310,13 +312,13 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}"""
 '''
 
 
-def quit(ctx: Context):
+def quit(ctx: Context) -> None:
     if ask_bool(ctx, "Do you really wish to exit?"):
         save(ctx.figure)
         sys.exit()
 
 
-def _game(_map: PlayMap, figure: Figure):
+def _game(_map: PlayMap, figure: Figure) -> None:
     """Game function
     ARGS:
         _map: The map that will be shown"""
@@ -414,7 +416,7 @@ def _game(_map: PlayMap, figure: Figure):
         loops.std(ctx)
 
 
-def intro(ctx: Context):
+def intro(ctx: Context) -> None:
     """Intro to Pokete"""
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = obmp.ob_maps["intromap"]
@@ -448,7 +450,7 @@ def intro(ctx: Context):
     )
 
 
-def main():
+def main() -> None:
     """Main function"""
 
     do_logging, load_mods, save_dir = PoketeCommand(audio).run()

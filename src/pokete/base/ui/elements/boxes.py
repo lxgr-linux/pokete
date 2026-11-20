@@ -1,4 +1,3 @@
-from typing import Optional
 
 import scrap_engine as se
 
@@ -17,13 +16,13 @@ class LabelBox(Box):
         self,
         label: se.Text,
         name="",
-        info: Optional[list[se.Text]] = None,
-        ctx: Optional[Context] = None,
-    ):
+        info: list[se.Text] | None = None,
+        ctx: Context | None = None,
+    ) -> None:
         self.label: se.Text = label
         super().__init__(label.height + 2, label.width + 4, name, info, ctx=ctx)
         self.add_ob(label, 2, 1)
 
-    def resize(self, height, width):
+    def resize(self, height, width) -> None:
         super().resize(height, width)
         self.set_ob(self.label, 2, 1)

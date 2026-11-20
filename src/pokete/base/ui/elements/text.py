@@ -13,12 +13,12 @@ class HightlightableText(se.Text):
         ob_class: type[se.Object] = se.Object,
         ob_args: ArgProto = None,
         ignore: str = "",
-    ):
+    ) -> None:
         self.default_esccode = esccode
         super().__init__(text, state, esccode, ob_class, ob_args, ignore)
 
-    def highlight(self):
+    def highlight(self) -> None:
         self.rechar(self.text, Color.thicc + self.default_esccode)
 
-    def un_highlight(self):
+    def un_highlight(self) -> None:
         self.rechar(self.text, self.default_esccode)

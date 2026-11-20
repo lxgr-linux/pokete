@@ -4,7 +4,6 @@
 class ReturnToMenuException(Exception):
     """Exception to exit the game loop and return to the main menu"""
 
-    pass
 
 
 if __name__ == "__main__":

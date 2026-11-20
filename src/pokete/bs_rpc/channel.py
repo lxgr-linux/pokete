@@ -5,7 +5,7 @@ T = TypeVar("T")
 
 
 class Channel(Generic[T]):
-    def __init__(self):
+    def __init__(self) -> None:
         self.__mutex = threading.Lock()
         self.__state: list[T] = []
         self.__event: threading.Event = threading.Event()
@@ -15,10 +15,10 @@ class Channel(Generic[T]):
     def state(self) -> tuple[T, ...]:
         return tuple(self.__state)
 
-    def close(self):
+    def close(self) -> None:
         self.__closed = True
 
-    def push(self, item: T):
+    def push(self, item: T) -> None:
         with self.__mutex:
             self.__state.append(item)
             self.__event.set()

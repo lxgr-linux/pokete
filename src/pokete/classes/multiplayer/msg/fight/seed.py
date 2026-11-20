@@ -1,5 +1,6 @@
 from typing import TypedDict
-import pokete.bs_rpc as bs_rpc
+
+from pokete import bs_rpc
 
 SEED_TYPE = "pokete.fight.seed"
 
@@ -9,5 +10,5 @@ class SeedData(TypedDict):
 
 
 class Seed(bs_rpc.Body):
-    def __init__(self, data: SeedData):
+    def __init__(self, data: SeedData) -> None:
         super().__init__(SEED_TYPE, data)

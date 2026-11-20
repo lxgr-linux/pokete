@@ -8,7 +8,7 @@ import scrap_engine as se
 class OutP(se.Text):
     """Output label to better organize output"""
 
-    def outp(self, text: str):
+    def outp(self, text: str) -> None:
         """Rechar and show wrapper
         ARGS:
             text: String that's printed out"""
@@ -16,7 +16,7 @@ class OutP(se.Text):
         if self.map:
             self.map.full_show()
 
-    def append(self, *args: se.Text):
+    def append(self, *args: se.Text) -> None:
         """Appends another se.Text to the outp
         ARGS:
             args: se.Texts that will be appended"""
@@ -30,10 +30,10 @@ class CompatMap(ABC):
     height: int
     width: int
 
-    def show(self):
+    def show(self) -> None:
         pass
 
-    def full_show(self):
+    def full_show(self) -> None:
         self.show()
 
 
@@ -51,7 +51,7 @@ class GameMap(se.Map, CompatMap):
         width: int,
         background: str = " ",
         name: str = "",
-    ):
+    ) -> None:
         super().__init__(height, width, background)
         self.name = name
 
@@ -63,7 +63,7 @@ class GameMapWithOutp(GameMap):
         width: int,
         background: str = " ",
         name: str = "",
-    ):
+    ) -> None:
         super().__init__(height, width, background, name)
         self.outp = OutP("", state="float")
 
@@ -86,6 +86,6 @@ class GameSubmap(se.Submap, CompatMap):
         height: int,
         width: int,
         name: str = "",
-    ):
+    ) -> None:
         super().__init__(bmap, x, y, height, width)
         self.name = name

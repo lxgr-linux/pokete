@@ -11,12 +11,12 @@ class RemotePlayer(se.Object, MapInteract, Interactor):
     ARGS:
         name: The players name"""
 
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         super().__init__("a", "float")
         self.name = name
         self.name_tag = NameTag(name)
 
-    def add(self, _map, x, y):
+    def add(self, _map, x, y) -> None:
         """Adds the player remoteplayer to the map
         ARGS:
             _map: The map to add to
@@ -25,16 +25,16 @@ class RemotePlayer(se.Object, MapInteract, Interactor):
         super().add(_map, x, y)
         self.add_name_tag()
 
-    def remove(self):
+    def remove(self) -> None:
         """Removes the player"""
         super().remove()
         self.name_tag.remove()
 
-    def add_name_tag(self):
+    def add_name_tag(self) -> None:
         """Add a nametag to the players position"""
         self.name_tag.add_to_movemap(self.map, self.x, self.y)
 
-    def readd_name_tag(self):
+    def readd_name_tag(self) -> None:
         """Readds the nametag"""
         self.name_tag.remove()
         self.add_name_tag()
@@ -45,7 +45,7 @@ class NameTag(se.Box, MapInteract):
     ARGS:
         name: The remote players name"""
 
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         super().__init__(2, len(name))
         self.pointer = se.Text("v", "float", esccode=Color.thicc)
         self.tag = (
@@ -56,7 +56,7 @@ class NameTag(se.Box, MapInteract):
         self.add_ob(self.tag, 0, 0)
         self.add_ob(self.pointer, round(self.width / 2), 1)
 
-    def add_to_movemap(self, player_map, x, y):
+    def add_to_movemap(self, player_map, x, y) -> None:
         """Adds the nametag to movemap
         ARGS:
             player_map: The map the remte player is on
@@ -69,7 +69,7 @@ class NameTag(se.Box, MapInteract):
                 y - self.ctx.map.y - 2,
             )
 
-    def add(self, _map, x, y):
+    def add(self, _map, x, y) -> None:
         """
         Adds the box to a certain coordinate on a certain map.
         """

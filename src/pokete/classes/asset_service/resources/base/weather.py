@@ -10,7 +10,7 @@ class WeatherDict(TypedDict):
 
 
 class Weather:
-    def __init__(self, info: str, effected: dict[str, float]):
+    def __init__(self, info: str, effected: dict[str, float]) -> None:
         self.info: str = info
         self.effected: dict[str, float] = effected
 

@@ -24,7 +24,7 @@ class FightDecision:
         attack: Attack | None = None,
         item: InvItem | None = None,
         poke: int | None = None,
-    ):
+    ) -> None:
         self.result: Result = result
         self.attack_value: Attack | None = attack
         self.item_value: InvItem | None = item
@@ -40,7 +40,7 @@ class FightDecision:
         return result
 
     @classmethod
-    def from_dict(cls, _d: FightDecisionData, _poke: Poke, _player: User):
+    def from_dict(cls, _d: FightDecisionData, _poke: Poke, _player: User) -> None:
         match _d["result"]:
             case Result.ATTACK.value:
                 logging.info("%s, %s", _d["attack"], _poke.attacks)

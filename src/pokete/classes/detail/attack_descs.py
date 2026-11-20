@@ -13,12 +13,12 @@ class AttackDescs:
         self.__offsets: list[int] = [0 for _ in attacks]
         self.__tics: list[int] = [0 for _ in attacks]
 
-    def resize(self, width: int):
+    def resize(self, width: int) -> None:
         self.__width = width
         for atc, label in zip(self.__attacks, self.labels):
             label.rechar(atc.desc[: int(width / 2 - 1)])
 
-    def inc(self):
+    def inc(self) -> None:
         for idx, (atc, label) in enumerate(zip(self.__attacks, self.labels)):
             if len(atc.desc) > int((self.__width - 3) / 2 - 1):
                 if self.__tics[idx] == 5:

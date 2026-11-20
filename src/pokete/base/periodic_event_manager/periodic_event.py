@@ -10,5 +10,5 @@ class PeriodicEvent(ABC, Generic[T]):
         self,
         ctx: T,
         tick: int,
-    ):
+    ) -> None:
         pass

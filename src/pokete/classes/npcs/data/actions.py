@@ -5,16 +5,16 @@ from pokete.classes.poke.poke import Poke
 
 
 class GiveBasic(NPCAction):
-    def __init__(self, name: str, item: str):
+    def __init__(self, name: str, item: str) -> None:
         self.name = name
         self.item = item
 
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         npc.give(self.name, self.item)
 
 
 class Playmap17Boy(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         if "choka" in [i.identifier for i in npc.ctx.figure.pokes[:6]]:
             npc.text(
                 [
@@ -39,7 +39,7 @@ It evolves into Choka.",
 
 
 class Playmap13introductor(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         if not npc.get("Last Trainer").used:
             npc.text(
                 [
@@ -55,7 +55,7 @@ class Playmap13introductor(NPCAction):
 
 
 class Playmap20Trader(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         if (index := ui.choose_poke()) is None:
             return
         poke = Poke("ostri", 500)
@@ -68,7 +68,7 @@ class Playmap20Trader(NPCAction):
 
 
 class Playmap23Npc8(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         if ui.ask_bool(
             "The man gifted you $100. Do you want to accept it?",
         ):
@@ -77,7 +77,7 @@ class Playmap23Npc8(NPCAction):
 
 
 class Playmap39Npc25(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         if not npc.get("Leader Sebastian").used:
             npc.text(
                 ["I can't let you go!", "You first have to defeat our arena leader!"]
@@ -88,14 +88,14 @@ class Playmap39Npc25(NPCAction):
 
 
 class Playmap43Npc23(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         if ui.ask_bool("Do you also want to have one?"):
             npc.ctx.figure.pokes.append(Poke("mowcow", 2000))
             npc.set_used()
 
 
 class Playmap42Npc21(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         poke_list = [
             i
             for i in npc.ctx.figure.pokes[:6]

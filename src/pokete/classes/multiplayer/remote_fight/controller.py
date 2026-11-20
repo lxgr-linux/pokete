@@ -1,14 +1,14 @@
 import logging
+from collections.abc import Generator
 from threading import Event
-from typing import Generator
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 from pokete.base.context import Context
 from pokete.base.input_loops.ask import wait_event
+from pokete.classes.multiplayer.msg import fight
 from pokete.classes.multiplayer.remote_fight.fight import RemoteFight
 from pokete.classes.multiplayer.remote_fight.figure_wrapper import FigureWrapperProvider
 from pokete.classes.multiplayer.remote_fight.provider import RemoteProvider
-from pokete.classes.multiplayer.msg import fight
 
 
 class RemoteFightController:
@@ -30,7 +30,7 @@ class RemoteFightController:
             case _:
                 assert False
 
-    def start(self, ctx: Context, name: str):
+    def start(self, ctx: Context, name: str) -> None:
         # self.__start.clear()
         logging.info(f"waiting fight {ctx.figure.name}")
         wait_event(ctx, "Waiting for fight...", self.__start)
@@ -47,7 +47,7 @@ class RemoteFightController:
         )
         logging.info("hmm")
 
-    def ready(self, outgoing, incomming: bs_rpc.ChannelGenerator, com_service):
+    def ready(self, outgoing, incomming: bs_rpc.ChannelGenerator, com_service) -> None:
         self.outgoing = outgoing
         self.incomming = incomming()
         self.com_service = com_service

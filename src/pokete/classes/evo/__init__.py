@@ -4,7 +4,7 @@ from .upgrade_by_one_lvl import upgrade_by_one_lvl
 
 __all__ = [
     "EvoMap",
-    "learn_attack",
     "LearnAttack",
+    "learn_attack",
     "upgrade_by_one_lvl",
 ]

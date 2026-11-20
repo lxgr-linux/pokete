@@ -39,7 +39,7 @@ class Recogniser:
         3: key.EXIT,
     }
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.__escape_event = threading.Event()
         self.__escape_input: str | None = None
         self.__fd = None
@@ -47,7 +47,7 @@ class Recogniser:
         if sys.platform == "win32":
             import msvcrt
 
-            def recogniser():
+            def recogniser() -> None:
                 """Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime"""
                 while True:
                     char = msvcrt.getwch()
@@ -60,7 +60,7 @@ class Recogniser:
             import termios
             import tty
 
-            def recogniser():
+            def recogniser() -> None:
                 """Use another (not on xserver relying) way to read keyboard input,
                 to make this shit work in tty or via ssh,
                 where no xserver is available"""
@@ -82,7 +82,7 @@ class Recogniser:
         PropagatingThread(target=self.check_escape, daemon=True).start()
         self.recogniser = recogniser
 
-    def check_escape(self):
+    def check_escape(self) -> None:
         while True:
             self.__escape_event.wait()
             self.__escape_event.clear()
@@ -91,7 +91,7 @@ class Recogniser:
                 _ev.set(key.ESC)
                 self.__escape_input = None
 
-    def set_event(self, char: str, key_mapping: dict[int, key.Key]):
+    def set_event(self, char: str, key_mapping: dict[int, key.Key]) -> None:
         char_ord = ord(char)
         key_mapping.setdefault(char_ord, key.Key(f"{char.rstrip()}"))
         if char_ord in self.ESCAPES:
@@ -110,10 +110,10 @@ class Recogniser:
         else:
             _ev.set(key_mapping[char_ord])
 
-    def __call__(self):
+    def __call__(self) -> None:
         self.recogniser()
 
-    def reset(self):
+    def reset(self) -> None:
         """Resets the terminals state"""
         if sys.platform == "linux":
             import termios

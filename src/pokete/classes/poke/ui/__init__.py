@@ -4,6 +4,6 @@ from .stats import StatsInfoBox
 
 __all__ = [
     "NatureInfo",
-    "StatsInfoBox",
     "PokeLabels",
+    "StatsInfoBox",
 ]

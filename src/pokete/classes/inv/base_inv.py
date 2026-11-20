@@ -1,4 +1,3 @@
-from typing import Optional
 
 import scrap_engine as se
 
@@ -8,7 +7,7 @@ from .box import InvBox
 
 
 class BaseInv(ChooseBoxView):
-    def __init__(self, name: str, info: Optional[list[se.Text]] = None):
+    def __init__(self, name: str, info: list[se.Text] | None = None) -> None:
         super().__init__(50, 35, name, info)
         self.invbox = InvBox(overview=self)
         self.money_label = se.Text("$0")
@@ -19,6 +18,6 @@ class BaseInv(ChooseBoxView):
     def new_size(self) -> tuple[int, int]:
         return self.map.height - 3, 35
 
-    def set_money(self, figure):
+    def set_money(self, figure) -> None:
         self.money_label.rechar(f"${figure.get_money()}")
         self.set_ob(self.money_label, self.width - 2 - len(self.money_label.text), 0)

@@ -1,7 +1,6 @@
 """Generating maps"""
 
 import math
-from typing import Optional
 
 import scrap_engine as se
 
@@ -22,11 +21,11 @@ from pokete.classes.settings import settings
 
 
 class Playmap7Event(PeriodicEvent):
-    def __init__(self, fig):
+    def __init__(self, fig) -> None:
         self.fig = fig
         self.init = False
 
-    def tick(self, tick: int):
+    def tick(self, tick: int) -> None:
         if not self.init:
             self.init = True
             for obj in self.__all_obs():
@@ -42,7 +41,7 @@ class Playmap7Event(PeriodicEvent):
             else:
                 obj.rechar(" ")
 
-    def __all_obs(self):
+    def __all_obs(self) -> None:
         _map = obmp.ob_maps["playmap_7"]
         return (
             _map.get_obj("inner_walls").obs
@@ -70,7 +69,7 @@ def __parse_obj(_map, name, obj, _dict):
 def gen_single_map(
     ob_map: str,
     args: Map,
-    extra_actions: Optional[dict[str, list[PeriodicEvent]]] = None,
+    extra_actions: dict[str, list[PeriodicEvent]] | None = None,
 ) -> PlayMap:
     playmap = PlayMap(
         name=ob_map,
@@ -137,7 +136,7 @@ def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]):
 
 def gen_maps(
     p_maps: dict[str, Map],
-    extra_actions: Optional[dict[str, list[PeriodicEvent]]] = None,
+    extra_actions: dict[str, list[PeriodicEvent]] | None = None,
     fix_center=False,
 ) -> dict[str, PlayMap]:
     """Generates all maps

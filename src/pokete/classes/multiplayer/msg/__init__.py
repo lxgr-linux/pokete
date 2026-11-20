@@ -1,5 +1,6 @@
-import pokete.bs_rpc as bs_rpc
-from . import position, error, map_info, fight, player
+from pokete import bs_rpc
+
+from . import error, fight, map_info, player, position
 from .handshake import Handshake
 
 

@@ -99,14 +99,16 @@ class Move(ABC):
     @abstractmethod
     def move(
         self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
-    ): ...
+    ) -> None: ...
 
 
 class AttackMove(Move):
     """Attack move - quick strike with knockback animation"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         for i, j, _t in zip([3, -3], [2, -2], [0.3, 0]):
             player_labels.ico.move(
                 i if is_player else -i,
@@ -121,7 +123,9 @@ class PoundMove(Move):
     """Pound move - vertical bobbing motion"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         for i in [-1, 1]:
             player_labels.ico.move(0, i)
             player_labels.ico.map.show()
@@ -133,7 +137,9 @@ class BombMove(Move):
     """Bomb move - explosion animation"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         frames = [
             """
 
@@ -198,7 +204,9 @@ class ArchMove(Move):
     """Arch move - arcing projectile"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         if enem_labels == player_labels:
             return
         line = se.Line(
@@ -222,7 +230,9 @@ class ThrowMove(Move):
     """Throw move - projectile with impact"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         _throw(player_labels, enem_labels, is_player)
         _impact(player_labels, enem_labels, is_player)
 
@@ -231,7 +241,9 @@ class GunMove(Move):
     """Gun move - rapid-fire projectiles"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         _throw(
             player_labels,
             enem_labels,
@@ -246,7 +258,9 @@ class FireballMove(Move):
     """Fireball move - fiery projectile"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         _throw(
             player_labels,
             enem_labels,
@@ -266,7 +280,7 @@ class ShineMove(Move):
         enem_labels: PokeLabels,
         is_player: bool,
         ico: str = Color.thicc + Color.green + "*" + Color.reset,
-    ):
+    ) -> None:
         shines = [se.Object(ico) for _ in range(4)]
         for i, _x, _y in zip(
             shines,
@@ -296,7 +310,9 @@ class DowngradeMove(Move):
     """Downgrade move - red shine effect on enemy"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         shine_move = ShineMove()
         shine_move.move(
             enem_labels,
@@ -310,7 +326,9 @@ class SmellMove(Move):
     """Smell move - wavy shine effect"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         shine_move = ShineMove()
         shine_move.move(
             player_labels,
@@ -324,7 +342,9 @@ class RainMove(Move):
     """Rain move - cloud with falling raindrops"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool):
+    def move(
+        self, player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+    ) -> None:
         drops = []
         _map = player_labels.ico.map
         assert _map

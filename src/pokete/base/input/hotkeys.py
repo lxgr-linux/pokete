@@ -4,7 +4,6 @@ import logging
 import sys
 from collections import defaultdict
 from enum import Enum, auto
-from typing import Optional
 
 from pokete.base.input import key
 from pokete.util import liner
@@ -71,14 +70,14 @@ class Action(Enum):
 class ActionList(list):
     """List of actions triggered by a key"""
 
-    def triggers(self, *actions):
+    def triggers(self, *actions) -> None:
         """Checks if the self triggers a set of actions"""
         for action in actions:
             if action in self:
                 return True
         return False
 
-    def get_number(self):
+    def get_number(self) -> None:
         """Returns 0-8 if ACT_1 through ACT_9 is in the list, else -1"""
         for action in self:
             if action.value in range(Action.ACT_1.value, Action.ACT_9.value):
@@ -225,7 +224,7 @@ EMPTY_ACTIONLIST = ActionList()
 
 
 # Returns an action, then clears input; all input is valid to read only once
-def get_action() -> tuple[ActionList, Optional[key.Key]]:
+def get_action() -> tuple[ActionList, key.Key | None]:
     """Returns the current actions list"""
     retval = EMPTY_ACTIONLIST
     raw_input = _ev.get()

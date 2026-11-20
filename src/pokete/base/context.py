@@ -15,7 +15,7 @@ class Context[T]:
         _map: CompatMap,
         overview: Overview,
         figure: T,
-    ):
+    ) -> None:
         self.pevm = pevm
         self.map = _map
         self.overview = overview

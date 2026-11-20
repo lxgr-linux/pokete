@@ -12,10 +12,10 @@ from .pokete_care import PoketeCare
 
 
 class PoketeCareNPCAction(NPCAction):
-    def __init__(self, care: PoketeCare):
+    def __init__(self, care: PoketeCare) -> None:
         self.care: PoketeCare = care
 
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         if self.care.poke is None:
             npc.text(
                 [

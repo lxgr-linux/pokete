@@ -19,7 +19,7 @@ DEFAULT_PORT = 9988
 class Connector:
     """Manages server connection"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.host_port: HostPort = HostPort("localhost")
         self.user_name = ""
         self.saved_pos = ()
@@ -36,7 +36,7 @@ class Connector:
         self.handshake(ctx)
         return True
 
-    def handshake(self, ctx: Context):
+    def handshake(self, ctx: Context) -> None:
         try:
             greeting_text = com_service.handshake(ctx, self.user_name, release.VERSION)
             ask_ok(ctx, liner(greeting_text, ctx.map.width - 4))
@@ -89,7 +89,7 @@ class Connector:
         self.user_name = name
         return True
 
-    def establish_connection(self, ctx):
+    def establish_connection(self, ctx) -> None:
         """Actually connects to the server"""
         try:
             com_service.connect(

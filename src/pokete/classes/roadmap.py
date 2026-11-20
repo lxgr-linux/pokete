@@ -24,19 +24,19 @@ from pokete.util import liner
 class RoadMapException(Exception):
     """Exception thrown when a PlayMap has no corresponding MapStation"""
 
-    def __init__(self, _map):
+    def __init__(self, _map) -> None:
         self.map = _map
         text = f"{_map} {_map.name} has no mapstation"
         super().__init__(text)
 
 
 class StationObject(se.Text):
-    def __init__(self, text, color):
+    def __init__(self, text: str, color: str) -> None:
         super().__init__(text, esccode=color, state="float")
 
 
 class Decoration(StationObject):
-    def __init__(self, text, color=""):
+    def __init__(self, text: str, color: str = "") -> None:
         super().__init__(text, getattr(Color, color, Color.lightgrey))
 
 
@@ -53,17 +53,17 @@ class Station(StationObject):
 
     def __init__(
         self,
-        roadmap,
-        associate,
-        additionals,
-        desc,
-        text,
-        color="",
-        w_next="",
-        a_next="",
-        s_next="",
-        d_next="",
-    ):
+        roadmap: "RoadMap",
+        associate: "PlayMap",
+        additionals: list,
+        desc: str,
+        text: str,
+        color: str = "",
+        w_next: str = "",
+        a_next: str = "",
+        s_next: str = "",
+        d_next: str = "",
+    ) -> None:
         self.desc = desc
         self.roadmap = roadmap
         self.color = getattr(Color, color, "\033[1;37m")
@@ -80,22 +80,22 @@ class Station(StationObject):
         self.s_next = s_next
         self.d_next = d_next
 
-    def choose(self, figure):
+    def choose(self, figure) -> None:
         """Chooses and hightlights the station"""
         Station.choosen = self
         self.roadmap.rechar_info(self.name if self.has_been_visited(figure) else "???")
 
-    def unchoose(self):
+    def unchoose(self) -> None:
         """Unchooses the station"""
         self.un_blink()
 
-    def blink(self):
+    def blink(self) -> None:
         self.rechar(self.text, Color.red + Color.thicc)
 
-    def un_blink(self):
+    def un_blink(self) -> None:
         self.rechar(self.text, self.color)
 
-    def next(self, inp: ActionList, figure):
+    def next(self, inp: ActionList, figure) -> None:
         """Chooses the next station in a certain direction
         ARGS:
             inp: Action Enum"""
@@ -113,18 +113,18 @@ class Station(StationObject):
             self.unchoose()
             getattr(self.roadmap, n_e).choose(figure)
 
-    def has_been_visited(self, figure):
+    def has_been_visited(self, figure) -> bool:
         """Returns if the stations map has been visited before"""
         return self.associates[0].name in figure.visited_maps
 
-    def is_city(self):
+    def is_city(self) -> bool:
         """Returns if the station is a city"""
         return (
             "pokecenter"
             in asset_service.get_assets().obmaps[self.associates[0].name].hard_obs
         )
 
-    def hide_if_visited(self, figure, choose=False):
+    def hide_if_visited(self, figure, choose: bool = False) -> None:
         self.text = self.base_text
         if not self.has_been_visited(figure):
             self.color = Color.white
@@ -143,7 +143,7 @@ class Station(StationObject):
 class RoadMap(BoxView):
     """Map you can see and navigate maps on"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.mouse_choosen = False
         stations = asset_service.get_assets().stations
         decorations = asset_service.get_assets().decorations
@@ -192,7 +192,7 @@ W ◀ ▶ E
         return [i.get_area() for i in self.all_stations]
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             self.sta.unchoose()
             self.all_stations[area_idx].choose(ctx.figure)
@@ -206,7 +206,7 @@ W ◀ ▶ E
         """Gives choosen station"""
         return Station.choosen
 
-    def rechar_info(self, name):
+    def rechar_info(self, name: str) -> None:
         """Changes info label
         ARGS:
             name: String displayed"""
@@ -215,7 +215,7 @@ W ◀ ▶ E
         self.info_label.rechar(name)
         self.add_ob(self.info_label, self.width - 2 - len(name), 0)
 
-    def __call__(self, ctx: Context, choose=False):
+    def __call__(self, ctx: Context, choose: bool = False) -> "PlayMap" | None:
         """Shows the roadmap
         ARGS:
             choose: Bool whether or not this is done to choose a city"""
@@ -303,12 +303,13 @@ roadmap: RoadMap | None = None
 
 
 class BlinkerEvent(PeriodicEvent):
-    def __init__(self, station: Station):
+    def __init__(self, station: Station) -> None:
         self.station = station
         self.blink = False
         self.box: Box | None = None
 
-    def tick(self, ctx: Context, tick: int):
+    @override
+    def tick(self, ctx: Context, tick: int) -> None:
         if tick % 10 == 0:
             if self.blink:
                 self.station.blink()

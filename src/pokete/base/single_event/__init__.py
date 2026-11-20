@@ -5,8 +5,8 @@ from .single_event_periodic_event import single_event_periodic_event
 
 __all__ = [
     "QueueMonitor",
-    "queue_monitor",
     "QueueMonitoringHandler",
     "SingleEvent",
+    "queue_monitor",
     "single_event_periodic_event",
 ]

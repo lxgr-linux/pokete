@@ -23,7 +23,7 @@ class Box(se.Box, Overview):
         info: list[se.Text] | None = None,
         overview: Overview | None = None,
         ctx: Context | None = None,
-    ):
+    ) -> None:
         super().__init__(height, width)
         self.map: se.Map | None
         self.overview: Overview | None = overview
@@ -44,13 +44,13 @@ class Box(se.Box, Overview):
         self.add_ob(self.name_label, 2, 0)
         self.add_info_labels()
 
-    def add_info_labels(self):
+    def add_info_labels(self) -> None:
         label_length = 0
         for label in self.info_labels:
             self.add_ob(label, label_length + 2, self.height - 1)
             label_length += label.width + 1
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         if self.overview is not None:
             self.remove()
@@ -58,7 +58,7 @@ class Box(se.Box, Overview):
             self.center_add(self.map)
             self.map.show()
 
-    def center_add(self, _map: se.Map):
+    def center_add(self, _map: se.Map) -> "Box":
         """Adds the box to the maps center
         ARGS:
             _map: se.Map the box will be added to"""
@@ -70,7 +70,7 @@ class Box(se.Box, Overview):
         return self
 
     @override
-    def resize(self, height: int, width: int):
+    def resize(self, height: int, width: int) -> None:
         """Resizes the box to a certain size
         See se.Box.resize"""
         super().resize(height, width)
@@ -79,24 +79,26 @@ class Box(se.Box, Overview):
         self.set_ob(self.name_label, 2, 0)
         self.add_info_labels()
 
-    def add(self, _map, x, y):
+    def add(self, _map: se.Map, x: int, y: int) -> "Box":
         """Adds the box to a map
         See se.Box.add"""
         super().add(_map, x, y)
         return self
 
-    def set_ctx(self, ctx: Context):
+    def set_ctx(self, ctx: Context) -> "Box":
         self.map = ctx.map
         self.overview = ctx.overview
         return self
 
-    def __enter__(self):
+    def __enter__(self) -> "Box":
         """Enter dunder for context management"""
         assert self.map
         self.map.show()
         return self
 
-    def __exit__(self, exc_type, exc_value, exc_tb):
+    def __exit__(
+        self, exc_type: type | None, exc_value: BaseException | None, exc_tb
+    ) -> None:
         """Exit dunder for context management"""
         assert self.map
         self.remove()

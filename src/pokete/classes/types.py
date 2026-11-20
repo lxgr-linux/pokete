@@ -1,6 +1,5 @@
 """Type and PokeType class"""
 
-from typing import Optional
 
 from pokete.base.color import Color
 from pokete.classes.asset_service.service import asset_service
@@ -29,7 +28,7 @@ class PokeType:
         name: str,
         effective: list[str],
         ineffective: list[str],
-        color: Optional[list[Optional[str]]],
+        color: list[str | None] | None,
     ) -> None:
         self.name = name
         self.effective = effective

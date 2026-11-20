@@ -32,7 +32,7 @@ class PlayMap(GameMap):
         extra_actions: list[PeriodicEvent] | None = None,
         weather=None,
         song="03 Chibi Ninja.mp3",
-    ):
+    ) -> None:
         super().__init__(height, width, name=name)
         self.song = song
         self.trainers = trainers
@@ -47,14 +47,14 @@ class PlayMap(GameMap):
         if weather is not None:
             self.weather = Weather(weather)
 
-    def register_obj(self, name, obj):
+    def register_obj(self, name, obj) -> None:
         """Adds an object to the registry
         ARGS:
             name: Name in registry
             obj: Object"""
         self.registry[name] = obj
 
-    def get_obj(self, name):
+    def get_obj(self, name) -> None:
         """Gets and object from the registry
         ARGS:
             name: Name in registry"""

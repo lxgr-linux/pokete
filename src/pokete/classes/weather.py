@@ -9,11 +9,11 @@ class Weather:
     ARGS:
         index: The weathers name"""
 
-    def __init__(self, index: str):
+    def __init__(self, index: str) -> None:
         self.info = weathers[index]["info"]
         self.effected = weathers[index]["effected"]
 
-    def effect(self, typ: PokeType):
+    def effect(self, typ: PokeType) -> None:
         """Gives an additional attackfactor
         ARGS:
             typ: The attacks type

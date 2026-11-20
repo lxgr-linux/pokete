@@ -9,7 +9,7 @@ class MapInteract:
     ctx: Context
 
     @classmethod
-    def set_ctx(cls, ctx: Context):
+    def set_ctx(cls, ctx: Context) -> None:
         """Set the context for all MapInteract instances"""
         cls.ctx = ctx
 

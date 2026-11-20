@@ -77,27 +77,27 @@ class Time:
     ARGS:
         init_time: The initial time used for the timer"""
 
-    def __init__(self, init_time=0):
+    def __init__(self, init_time=0) -> None:
         self.time = init_time  # time in in-game minutes
         self.last_input = init_time
 
-    def formatted(self):
+    def formatted(self) -> None:
         """Returns the in-game time in a formatted manner"""
         _t = self.normalized
         hours = int(_t / 60)
         minutes = _t % 60
         return f"{hours:02}:{minutes:02}"
 
-    def set(self, t):
+    def set(self, t) -> None:
         self.time = t
         self.last_input = t
 
-    def emit_input(self):
+    def emit_input(self) -> None:
         """Sets the last input time to the current time"""
         self.last_input = self.time
 
     @property
-    def normalized(self):
+    def normalized(self) -> None:
         """Returns normalized time"""
         return self.time % (24 * 60)
 
@@ -110,7 +110,7 @@ class Clock(BoxView, MouseInteractor):
     ARGS:
         time_ob: Time object"""
 
-    def __init__(self, time_ob):
+    def __init__(self, time_ob) -> None:
         self.time = time_ob
         super().__init__(
             9,
@@ -119,7 +119,7 @@ class Clock(BoxView, MouseInteractor):
             [CloseLabel()],
         )
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         """Shows the clock"""
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
@@ -137,7 +137,7 @@ class Clock(BoxView, MouseInteractor):
                 loops.std(ctx)
             self.__rem_obs(letter_obs)
 
-    def __rem_obs(self, letter_obs):
+    def __rem_obs(self, letter_obs) -> None:
         """Removed all letters from the clock
         ARGS:
             letter_obs: The list of letters"""
@@ -145,7 +145,7 @@ class Clock(BoxView, MouseInteractor):
             obj.remove()
             self.rem_ob(obj)
 
-    def draw_letters(self, d_p=True, letter_obs=None):
+    def draw_letters(self, d_p=True, letter_obs=None) -> None:
         """Method to draw the letters on the clock
         ARGS:
             d_p: Whether or not the DOUBLE_POINT should be shown

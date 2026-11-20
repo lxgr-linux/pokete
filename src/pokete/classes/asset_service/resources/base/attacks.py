@@ -34,7 +34,7 @@ class Attack:
         effect: str | None,
         is_generic: bool,
         ap: int,
-    ):
+    ) -> None:
         self.name: str = name
         self.factor: float = factor
         self.action: str | None = action

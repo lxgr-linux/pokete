@@ -17,7 +17,7 @@ class AbilitiesChooseBox(ChooseBoxView[str]):
     the user to select and use them.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(10, 25, "Abilities", info=[CloseLabel()])
         self.abilities = []
 
@@ -32,6 +32,7 @@ class AbilitiesChooseBox(ChooseBoxView[str]):
             return self.abilities[idx].world_action
         return None
 
+    @override
     def __call__(self, ctx: Context, abilities: list[Attack]) -> str | None:
         """Show abilities and let user select one
 

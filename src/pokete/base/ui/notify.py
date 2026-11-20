@@ -16,7 +16,7 @@ class Notification(LabelBox):
         name: The name displayed at the boxes top
         desc: The notifications description"""
 
-    def __init__(self, title, name, desc):
+    def __init__(self, title, name, desc) -> None:
         self.title = title
         self.desc = desc
         label = se.Text(title + "\n", esccode=Color.thicc, state="float") + se.Text(
@@ -24,13 +24,13 @@ class Notification(LabelBox):
         )
         super().__init__(label, name)
 
-    def corner_add(self, _map):
+    def corner_add(self, _map) -> None:
         """Adds the Notification to a map
         ARGS:
             _map: The se.Map to add this to"""
         self.add(_map, _map.width - self.width, 0)
 
-    def shift(self):
+    def shift(self) -> None:
         """Shifts the box to the right"""
         self.x += 1
         for i in get_nested(self)[0]:
@@ -45,20 +45,20 @@ class Notification(LabelBox):
 class Notifier:
     """Class managing notifications"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.map = None
         self.wait = []
         self.notified = False
         self.notification: Notification
         self.counter = -1
 
-    def set_vars(self, _map):
+    def set_vars(self, _map) -> None:
         """Sets map variable
         ARGS:
             _map: The se.Map the notifications will be shown on"""
         self.map = _map
 
-    def notify(self, title, name, desc):
+    def notify(self, title, name, desc) -> None:
         """Initilizes a Notification and manages it
         ARGS:
             title: The bold title shown in the box
@@ -70,7 +70,7 @@ class Notifier:
         else:
             self.__notify(noti)
 
-    def __notify(self, noti: Notification):
+    def __notify(self, noti: Notification) -> None:
         """Shows a Notifications
         ARGS:
             noti: The Notification"""
@@ -79,7 +79,7 @@ class Notifier:
         self.counter = 100
         self.notified = True
 
-    def next(self):
+    def next(self) -> None:
         """Manages counter, removes current and adds next notification"""
         if self.counter >= 0:
             self.counter -= 1

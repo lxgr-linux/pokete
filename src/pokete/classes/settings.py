@@ -1,7 +1,6 @@
 """Contains classes and objects related to settings"""
 
 import logging
-from typing import Optional
 
 import scrap_engine as se
 
@@ -22,7 +21,7 @@ class Setting:
         name: The settings name
         val: The settings value"""
 
-    def __init__(self, name, val):
+    def __init__(self, name, val) -> None:
         self.val = val
         self.name = name
 
@@ -30,7 +29,7 @@ class Setting:
 class SliderCursor(se.Text):
     """Wrapper for se.Text to ensure stuff actually works"""
 
-    def move(self, x=0, y=0):
+    def move(self, x=0, y=0) -> None:
         """
         Moves all objects in the group by a certain vector.
         """
@@ -47,7 +46,7 @@ class Slider(se.Box, Overview, MouseInteractor):
         text: The text to show
         setting: The associated settings name"""
 
-    def __init__(self, text, setting):
+    def __init__(self, text, setting) -> None:
         super().__init__(1, 1)
         self.overview: Overview
         self.setting = settings(setting)
@@ -68,13 +67,13 @@ class Slider(se.Box, Overview, MouseInteractor):
         self.add_ob(self.slider, 0, 0)
         self.set_slider_from_setting()
 
-    def add(self, _map, x, y):
+    def add(self, _map, x, y) -> None:
         """Add wrapper, see se.Box.add"""
         super().add(_map, x, y)
         self.set_top_redraw(self.left)
         self.set_top_redraw(self.right)
 
-    def set_slider(self, x):
+    def set_slider(self, x) -> None:
         """Sets the slider to a certain position
         ARGS:
             x: The position"""
@@ -83,7 +82,7 @@ class Slider(se.Box, Overview, MouseInteractor):
         self.set_top_redraw(self.right)
 
     @staticmethod
-    def set_top_redraw(obj):
+    def set_top_redraw(obj) -> None:
         """Makes sure object is and will be redrawn
         ARGS:
             obj: The object"""
@@ -92,25 +91,25 @@ class Slider(se.Box, Overview, MouseInteractor):
             obj.map.obs.append(obj)
             obj.redraw()
 
-    def set_slider_from_setting(self):
+    def set_slider_from_setting(self) -> None:
         """Sets the sliders position from the given setting"""
         self.set_slider(round(self.boundary * self.setting.val / 100))
 
     @property
-    def offset(self):
+    def offset(self) -> None:
         """The sliders current position"""
         return self.slider.rx - self.left.rx
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         return self.overview.resize_view()
 
-    def __set_setting(self):
+    def __set_setting(self) -> None:
         self.setting.val = round(100 * self.offset / self.boundary)
 
     def get_interaction_areas(self) -> list[se.Area]:
         return [e.get_area() for e in self.line.obs]
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             if event.type == MouseEventType.LEFT:
                 if event.pressed:
@@ -120,7 +119,7 @@ class Slider(se.Box, Overview, MouseInteractor):
                 self.set_slider(area_idx)
                 self.__set_setting()
 
-    def change(self, ctx: Context):
+    def change(self, ctx: Context) -> None:
         """Changes the current position by a value
         ARGS:
             val: The value"""
@@ -144,7 +143,7 @@ class VisSetting(se.Text):
         setting: The settings name the setting belongs to (load_mods)
         options: Dict containing all options ({True: "On", False: "Off"})"""
 
-    def __init__(self, text, setting, options=None):
+    def __init__(self, text, setting, options=None) -> None:
         if options is None:
             options = {}
         self.options = options
@@ -153,7 +152,7 @@ class VisSetting(se.Text):
         self.index = list(options).index(self.setting.val)
         super().__init__(text + ": " + self.options[self.setting.val], state="float")
 
-    def change(self, ctx: Context):
+    def change(self, ctx: Context) -> None:
         """Change the setting"""
         self.index = (self.index + 1) % len(self.options)
         self.setting.val = list(self.options)[self.index]
@@ -164,7 +163,7 @@ class VisSetting(se.Text):
 class Settings:
     """Contains all possible settings"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.keywords = {
             "autosave": True,
             "animations": True,
@@ -175,7 +174,7 @@ class Settings:
         }
         self.settings = [Setting(name, val) for name, val in self.keywords.items()]
 
-    def from_dict(self, src):
+    def from_dict(self, src) -> None:
         """Sets the settings from a dict
         ARGS:
             src: The Dict"""
@@ -186,7 +185,7 @@ class Settings:
             if i not in [j.name for j in self.settings]:
                 self.settings.append(Setting(i, self.keywords[i]))
 
-    def __call__(self, name):
+    def __call__(self, name) -> None:
         """Gets a Setting object
         ARGS:
             name: The Settings name
@@ -194,13 +193,13 @@ class Settings:
             Setting object"""
         return [i for i in self.settings if i.name == name][0]
 
-    def to_dict(self):
+    def to_dict(self) -> None:
         """Returns a dict of all current settings"""
         return {i.name: i.val for i in self.settings}
 
 
 class TextInputBox(se.Box):
-    def __init__(self, label: str, max_len: int):
+    def __init__(self, label: str, max_len: int) -> None:
         super().__init__(1, len(label) + 1 + max_len)
         self.max_len = max_len
         self.label = se.Text(label, state="float")
@@ -209,11 +208,11 @@ class TextInputBox(se.Box):
         self.add_ob(self.value, len(label) + 1, 0)
         self.__input = TextInput(self.value, self.max_len + 1, self.max_len)
 
-    def __call__(self, ctx: Context) -> Optional[str]:
+    def __call__(self, ctx: Context) -> str | None:
         mouse_interaction_manager.attach([self.__input])
         return self.__input(ctx)
 
-    def set_value(self, value: str):
+    def set_value(self, value: str) -> None:
         self.value.rechar(value)
 
 

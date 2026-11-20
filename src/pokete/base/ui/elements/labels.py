@@ -12,7 +12,7 @@ from pokete.base.ui.elements.text import HightlightableText
 
 
 class GenericActionLabel(HightlightableText, MouseInteractor):
-    def __init__(self, action: Action, text: str):
+    def __init__(self, action: Action, text: str) -> None:
         self.action = action
         assert action.mapping is not None and len(action.mapping) == 1, (
             "Trying to create Actionlabel with noch char mapping"
@@ -23,7 +23,7 @@ class GenericActionLabel(HightlightableText, MouseInteractor):
     def get_interaction_areas(self) -> list[Area]:
         return [self.get_area()]
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx == 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -36,5 +36,5 @@ class GenericActionLabel(HightlightableText, MouseInteractor):
 
 
 class CloseLabel(GenericActionLabel):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(Action.CANCEL, "close")

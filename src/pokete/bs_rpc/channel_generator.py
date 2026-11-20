@@ -1,4 +1,5 @@
-from typing import Callable, Generator, Generic, TypeVar
+from collections.abc import Callable, Generator
+from typing import Generic, TypeVar
 
 from .channel import Channel
 
@@ -7,7 +8,7 @@ T = TypeVar("T")
 
 
 class ChannelGenerator(Generic[T]):
-    def __init__(self, ch: Channel[T], close_fn: CloseFn | None = None):
+    def __init__(self, ch: Channel[T], close_fn: CloseFn | None = None) -> None:
         self.__ch: Channel[T] = ch
         self.__close_fn = close_fn
 

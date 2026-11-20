@@ -25,7 +25,7 @@ class AttackInfo(Box):
     ARGS:
         attack: The attack's name"""
 
-    def __init__(self, attack):
+    def __init__(self, attack) -> None:
         atc = Attack(attack)
         desc_label = se.Text(liner(atc.desc, 40))
         super().__init__(
@@ -44,7 +44,7 @@ class AttackInfo(Box):
         self.add_ob(se.Text(f"AP:{atc.max_ap}"), 2, 3)
         self.add_ob(desc_label, 2, 4)
 
-    def __enter__(self):
+    def __enter__(self) -> None:
         """Enter dunder for context management"""
         self.center_add(self.map)
         self.map.show()
@@ -58,7 +58,7 @@ class LearnAttackBox(ChooseBoxView[int]):
     which one to replace with the new attack.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(6, 25, "Attacks")
         self.poke: Poke | None = None
         self.new_attack: str | None = None
@@ -135,7 +135,7 @@ class LearnAttackManager(LearnAttack):
     the Pokete needs to choose which attack to replace.
     """
 
-    def __init__(self, poke: Poke):
+    def __init__(self, poke: Poke) -> None:
         self.poke = poke
         self.learn_box = LearnAttackBox()
 

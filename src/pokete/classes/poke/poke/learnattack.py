@@ -5,7 +5,7 @@ from pokete.classes.asset_service.service import asset_service
 
 class LearnAttack:
     @staticmethod
-    def get_attack(poke):
+    def get_attack(poke) -> None:
         """Gets a learnable attack for a given pokete
         ARGS:
             poke: The pokete

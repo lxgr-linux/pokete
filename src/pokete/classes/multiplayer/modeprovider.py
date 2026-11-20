@@ -13,7 +13,7 @@ class Mode(Enum):
 class ModeProvider:
     """Holds the games mode"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.mode: Mode = Mode.SINGLE
 
 

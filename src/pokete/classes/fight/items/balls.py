@@ -1,21 +1,21 @@
-from abc import ABC
 import logging
 import random
 import time
+from abc import ABC
 
 from pokete.classes.achievements import achievements
-from pokete.classes.fight.fightmap.fightmap import FightMap
-from pokete.classes.fight.providers import Provider
 from pokete.classes.audio import audio
-from ... import ob_maps as obmp
-from pokete.classes.fight.providers import NatureProvider
-from .item import FightItem, RoundContinuation
-from ...asset_service.service import asset_service
+from pokete.classes.fight.fightmap.fightmap import FightMap
+from pokete.classes.fight.providers import NatureProvider, Provider
 from pokete.release import SPEED_OF_TIME
+
+from ... import ob_maps as obmp
+from ...asset_service.service import asset_service
+from .item import FightItem, RoundContinuation
 
 
 class GenericPokeBall(FightItem, ABC):
-    def __init__(self, chance: int, name: str):
+    def __init__(self, chance: int, name: str) -> None:
         self.chance = chance
         self.name = name
 
@@ -78,15 +78,15 @@ class GenericPokeBall(FightItem, ABC):
 
 
 class PoketeBall(GenericPokeBall):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(1, "poketeball")
 
 
 class SuperBall(GenericPokeBall):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(6, "superball")
 
 
 class HyperBall(GenericPokeBall):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(1000, "hyperball")

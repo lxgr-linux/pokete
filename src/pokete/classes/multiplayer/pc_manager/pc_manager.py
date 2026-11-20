@@ -11,11 +11,11 @@ from .remote_player import RemotePlayer
 class PCManager:
     """Manages remote players"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.reg: dict[str, RemotePlayer] = {}
         self.waiting_users: list[UpdateDict] = []
 
-    def set(self, name, _map, x, y):
+    def set(self, name, _map, x, y) -> None:
         """Stets a remote player to a certain position
         ARGS:
             name: The players name
@@ -31,7 +31,7 @@ class PCManager:
     def get(self, name: str) -> RemotePlayer | None:
         return self.reg.get(name, None)
 
-    def set_waiting_users(self):
+    def set_waiting_users(self) -> None:
         for user in self.waiting_users:
             pc_manager.set(
                 user["name"],
@@ -40,7 +40,7 @@ class PCManager:
                 user["position"]["y"],
             )
 
-    def remove(self, name):
+    def remove(self, name) -> None:
         """Removes a remote player
         ARGS:
             name: The Players name"""
@@ -56,7 +56,7 @@ class PCManager:
         del self.reg[name]
         self.check_interactable(pc.ctx.figure)
 
-    def movemap_move(self):
+    def movemap_move(self) -> None:
         """Handles the movemap moving"""
         for _, rmtpl in self.reg.items():
             rmtpl.readd_name_tag()
@@ -71,7 +71,7 @@ class PCManager:
                 return rmtpl
         return None
 
-    def check_interactable(self, figure):
+    def check_interactable(self, figure) -> None:
         rmtpl = self.get_interactable(figure)
         if rmtpl is None:
             movemap_deco.set_inactive()

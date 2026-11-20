@@ -44,7 +44,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         height: The height of the map
         width: The width of the map"""
 
-    def __init__(self, height: int, width: int):
+    def __init__(self, height: int, width: int) -> None:
         super().__init__(height, width, name="fightmap")
         self.mouse_choosen = -1
         self.box = AttackBox()
@@ -95,7 +95,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         self.e_sideline.add(self, len(self.e_underline.text), 1)
         self.add_base_boxes()
 
-    def provider_index(self, provider: Provider):
+    def provider_index(self, provider: Provider) -> None:
         return self.providers.index(provider)
 
     def provider_labels(self, provider: Provider) -> PokeLabels:
@@ -106,7 +106,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         return [i.get_area() for i in self.labels]
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -121,10 +121,10 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
                 label.un_highlight()
             # self.mouse_choosen = -1
 
-    def set_overview(self, overview: Overview):
+    def set_overview(self, overview: Overview) -> None:
         self.overview = overview
 
-    def add_base_boxes(self):
+    def add_base_boxes(self) -> None:
         """Adds the basic map layout"""
         self.outp.add(self, 1, self.height - 4)
         self.p_upperline.add(
@@ -141,7 +141,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
             x += label.width + 2
 
     @override
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         player_added = self.poke_labels[0].ico.added
         enem_added = self.poke_labels[1].ico.added
@@ -167,7 +167,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         if enem_added:
             self.providers[1].curr.ico.add(self, self.width - 14, 2)
 
-    def clean_up(self, *providers: Provider, resize=False):
+    def clean_up(self, *providers: Provider, resize=False) -> None:
         """Removes all labels from self
         ARGS:
             providers: The Providers to clean up that the labels belong to
@@ -189,7 +189,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
             # for j in prov.curr.effects:
             #    j.cleanup()
 
-    def __add_player(self, player: Provider, resize=False):
+    def __add_player(self, player: Provider, resize=False) -> None:
         """Adds player labels
         ARGS:
             player: The player provider object
@@ -206,7 +206,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         #    )
         #    self.box.box.set_index(0)
 
-    def __add_1(self, player: Provider, enem: Provider):
+    def __add_1(self, player: Provider, enem: Provider) -> None:
         """Adds enemy and general labels to self
         ARGS:
             player: The player Poke object
@@ -227,7 +227,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         if enem.curr.identifier in player.caught_pokes:
             enem.curr.pball_small.add(self, len(self.e_underline.text) - 1, 1)
 
-    def __add_2(self, player: Provider):
+    def __add_2(self, player: Provider) -> None:
         """Adds player labels with sleeps
         ARGS:
             player: The player Poke object that the labels belong to"""
@@ -246,7 +246,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         # self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
         # self.box.box.set_index(0)
 
-    def fast_change(self, arr, setob):
+    def fast_change(self, arr, setob) -> None:
         """Changes fast between a list of texts
         ARGS:
             arr: List of se.Texts that will be changed through
@@ -330,7 +330,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
             loops.std(ctx)
             self.show()
 
-    def add_providers(self, providers: list[Provider]):
+    def add_providers(self, providers: list[Provider]) -> None:
         self.resize_view()
         if settings("animations").val:  # Intro animation
             animations.fight_intro(self.height, self.width)
@@ -345,7 +345,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         self.show()
         time.sleep(SPEED_OF_TIME * 0.5)
 
-    def add_enemy_after_choosing(self, winner: Provider, enem: Provider):
+    def add_enemy_after_choosing(self, winner: Provider, enem: Provider) -> None:
         self.__add_1(winner, enem)
         ico = self.provider_labels(enem).ico
         self.fast_change([ico, self.deadico2, self.deadico1, ico], ico)
@@ -353,7 +353,9 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         self.show()
         time.sleep(SPEED_OF_TIME * 2)
 
-    def choose_poke(self, ctx: Context, player: Provider, allow_exit: bool = True):
+    def choose_poke(
+        self, ctx: Context, player: Provider, allow_exit: bool = True
+    ) -> None:
         """Lets the player choose another Pokete from their deck
         ARGS:
             player: The players' used Poke
@@ -376,7 +378,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
                 self.readd_effect(j, player)
         return index is not None
 
-    def death_animation(self, loser: Provider):
+    def death_animation(self, loser: Provider) -> None:
         ico = self.provider_labels(loser).ico
         self.show()
         time.sleep(SPEED_OF_TIME * 1)
@@ -385,39 +387,39 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         self.show()
         self.clean_up(loser)
 
-    def win_animation(self, winner: Provider):
+    def win_animation(self, winner: Provider) -> None:
         time.sleep(SPEED_OF_TIME * 1)
         self.outp.outp(f"{winner.curr.name} reached lvl {winner.curr.lvl()}!")
         winner.curr.moves.shine()
         time.sleep(SPEED_OF_TIME * 0.5)
 
-    def declare_winner(self, winner: Provider, xp: int):
+    def declare_winner(self, winner: Provider, xp: int) -> None:
         time.sleep(SPEED_OF_TIME * 1)
         self.outp.outp(
             f"{winner.curr.ext_name} won!"
             + (f"\nXP + {xp}" if winner.curr.player else "")
         )
 
-    def show_used_all_attacks(self, player: Provider):
+    def show_used_all_attacks(self, player: Provider) -> None:
         time.sleep(SPEED_OF_TIME * 2)
         self.outp.outp(f"{player.curr.ext_name} has used all its' attacks!")
         time.sleep(SPEED_OF_TIME * 3)
 
-    def show_death(self, loser: Provider):
+    def show_death(self, loser: Provider) -> None:
         self.outp.outp(f"{loser.curr.ext_name} is dead!")
 
-    def failed_to_escape(self):
+    def failed_to_escape(self) -> None:
         self.outp.outp("You failed to run away!")
         time.sleep(SPEED_OF_TIME * 1)
 
-    def ran_away(self, *providers: Provider):
+    def ran_away(self, *providers: Provider) -> None:
         self.outp.outp("You ran away!")
         time.sleep(SPEED_OF_TIME * 2)
         self.clean_up(*providers)
 
     def show_effectivity(
         self, eff: int, n_hp: int, random_factor: int, attacker, attack
-    ):
+    ) -> None:
         eff_text = {
             eff < 1: "\nThat was not effective! ",
             eff > 1: "\nThat was very effective! ",
@@ -426,25 +428,25 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         }[True]
         self.outp.outp(f"{attacker.ext_name} used {attack.name}! {eff_text}")
 
-    def show_weather(self, weather: Weather):
+    def show_weather(self, weather: Weather) -> None:
         self.outp.outp(weather.info)
         time.sleep(SPEED_OF_TIME * 1.5)
 
-    def set_providers(self, providers: list[Provider]):
+    def set_providers(self, providers: list[Provider]) -> None:
         self.providers = providers
         self.poke_labels = [PokeLabels(p.curr) for p in providers]
 
-    def show_hurt_it_self(self, attacker):
+    def show_hurt_it_self(self, attacker) -> None:
         time.sleep(SPEED_OF_TIME * 1)
         self.outp.outp(f"{attacker.ext_name} hurt itself!")
 
-    def show_attack_move(self, attack: str, is_player: bool):
+    def show_attack_move(self, attack: str, is_player: bool) -> None:
         moves[attack].move(
             *(self.poke_labels if is_player else reversed(self.poke_labels)),
             is_player=is_player,
         )
 
-    def add_effect(self, effect: Effect, poke: Poke, provider: Provider):
+    def add_effect(self, effect: Effect, poke: Poke, provider: Provider) -> None:
         """Adds the effect to a Pokete
         ARGS:
             obj: The Poke the effect is added to"""
@@ -471,7 +473,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
             )
         time.sleep(SPEED_OF_TIME * 2)
 
-    def remove_effect(self, effect: Effect, poke: Poke, provider: Provider):
+    def remove_effect(self, effect: Effect, poke: Poke, provider: Provider) -> None:
         """Removes itself from the current pokete with a certain chance"""
         if random.randint(0, effect.rem_chance) == 0:
             self.outp.outp(f"{poke.ext_name} isn't ")
@@ -487,7 +489,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
             )
             time.sleep(SPEED_OF_TIME * 2)
 
-    def readd_effect(self, effect: IEffect, provider: Provider):
+    def readd_effect(self, effect: IEffect, provider: Provider) -> None:
         """Readds label and shows text"""
         self.outp.outp(f"{provider.curr.ext_name} is still ")
         self.outp.append(

@@ -1,4 +1,4 @@
-from typing import Optional, override
+from typing import override
 
 import scrap_engine as se
 
@@ -21,14 +21,14 @@ class LabelBoxView(BoxView):
         self,
         label: se.Text,
         name="",
-        info: Optional[list[se.Text]] = None,
-        ctx: Optional[Context] = None,
-    ):
+        info: list[se.Text] | None = None,
+        ctx: Context | None = None,
+    ) -> None:
         self.label: se.Text = label
         super().__init__(label.height + 2, label.width + 4, name, info, ctx=ctx)
         self.add_ob(label, 2, 1)
 
-    def resize(self, height, width):
+    def resize(self, height, width) -> None:
         super().resize(height, width)
         self.set_ob(self.label, 2, 1)
 
@@ -44,12 +44,12 @@ class InfoBoxView(LabelBoxView):
         self,
         text,
         name="",
-        info: Optional[list[se.Text]] = [CloseLabel()],
+        info: list[se.Text] | None = [CloseLabel()],
         ctx=None,
-    ):
+    ) -> None:
         super().__init__(se.Text(text), name=name, info=info, ctx=ctx)
 
-    def __enter__(self):  # Contextmanagement is fucking awesome!
+    def __enter__(self) -> None:  # Contextmanagement is fucking awesome!
         """Enter dunder for contextmanagement"""
         self.center_add(self.map)
         self.map.show()
@@ -65,7 +65,7 @@ class InputBoxView(InfoBoxView):
         name: The boxes desplayed name
         max_len: Max length of the text"""
 
-    def __init__(self, infotext, introtext, text, max_len, name=""):
+    def __init__(self, infotext, introtext, text, max_len, name="") -> None:
         height = len(infotext.split("\n")) + 3
         width = (
             sorted(
@@ -92,7 +92,7 @@ class InputBoxView(InfoBoxView):
     def get_partial_interactors(self) -> list[MouseInteractor]:
         return super().get_partial_interactors() + [self.__input]
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         self.set_ctx(ctx)
         with self:
             ctx = change_ctx(ctx, self)

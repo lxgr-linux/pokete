@@ -11,7 +11,9 @@ class TypeDict(TypedDict):
 
 
 class Type:
-    def __init__(self, effective: list[str], ineffective: list[str], color: list[str]):
+    def __init__(
+        self, effective: list[str], ineffective: list[str], color: list[str]
+    ) -> None:
         self.effective: list[str] = effective
         self.ineffective: list[str] = ineffective
         self.color: list[str] = color

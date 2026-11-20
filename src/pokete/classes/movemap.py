@@ -29,7 +29,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         height: Height of the map
         width: Width of the map"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(se.Map(), 0, 0, height=50, width=100, name="movemap")
         self.mouse_choosen = -1
         self.name_label = se.Text("")
@@ -53,7 +53,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
     def get_interaction_areas(self) -> list[Area]:
         return [i.get_area() for i in self.labels + [movemap_deco]]
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -67,7 +67,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             for label in self.labels:
                 label.un_highlight()
 
-    def add_obs(self):
+    def add_obs(self) -> None:
         """Adds needed labels to movemap"""
         self.underline.add(self, 0, self.height - 2)
         self.name_label.add(self, 2, self.height - 2)
@@ -78,7 +78,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             label.add(self, width, self.height - 1)
             width += label.width + 2
 
-    def assure_distance(self, _x: int, _y: int, width: int, height: int):
+    def assure_distance(self, _x: int, _y: int, width: int, height: int) -> None:
         """This ensures the game does not crash when big
         chunks of text are displayed
         ARGS:
@@ -97,7 +97,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, ctx: Context, _x, _y, inp_arr):
+    def text(self, ctx: Context, _x, _y, inp_arr) -> None:
         """Shows dialog text on movemap
         ARGS:
             _x: The message's X
@@ -130,7 +130,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         self.multitext.remove()
         _ev.clear()
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         if notifier.notified:
             notifier.notification.remove()
@@ -144,7 +144,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         for _, rmtplr in pc_manager.pc_manager.reg.items():
             rmtplr.add_name_tag()
 
-    def resize(self, height, width, background=" "):
+    def resize(self, height, width, background=" ") -> None:
         """Resizes the map and its attributes
         See se.Map.resize"""
         for obj in [
@@ -159,7 +159,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         self.label_bg.resize(self.width, 1)
         self.add_obs()
 
-    def balls_label_rechar(self, pokes):
+    def balls_label_rechar(self, pokes) -> None:
         """Rechars the ball's label
         ARGS:
             pokes: The player's Pokes"""
@@ -177,7 +177,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             esccode=Color.thicc,
         )
 
-    def name_label_rechar(self, name):
+    def name_label_rechar(self, name) -> None:
         """Rechars name_label and sets balls_label correctly
         ARGS:
             name: The player's new name"""

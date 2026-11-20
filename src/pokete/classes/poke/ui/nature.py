@@ -14,7 +14,7 @@ class NatureInfo(LabelBoxView):
     ARGS:
         p_n: PoketeNature object"""
 
-    def __init__(self, p_n):
+    def __init__(self, p_n) -> None:
         atc = self.get_amount(p_n.nature.atc)
         defense = self.get_amount(p_n.nature.defense)
         init = self.get_amount(p_n.nature.initiative)
@@ -34,7 +34,7 @@ of its kind.",
         super().__init__(text, name="Nature", info=[CloseLabel()])
 
     @staticmethod
-    def get_amount(val):
+    def get_amount(val) -> None:
         """Gets the amount denominator for a value"""
         if val == 1:
             return "the same"
@@ -42,7 +42,7 @@ of its kind.",
             return "less"
         return "more"
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         """Shows the box"""
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)

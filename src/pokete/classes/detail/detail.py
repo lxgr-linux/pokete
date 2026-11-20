@@ -35,7 +35,7 @@ class Detail(Box, MouseInteractor):
     def __init__(
         self,
         overview: Overview | None = None,
-    ):
+    ) -> None:
         super().__init__(
             *self.new_size(),
             name="Details",
@@ -81,7 +81,7 @@ class Detail(Box, MouseInteractor):
         return []
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent): ...
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None: ...
 
     @override
     def get_partial_interactors(self) -> list["MouseInteractor"]:
@@ -89,11 +89,11 @@ class Detail(Box, MouseInteractor):
             label for label in self.info_labels if isinstance(label, MouseInteractor)
         ]
 
-    def __rechar_desc_label(self):
+    def __rechar_desc_label(self) -> None:
         self.desc_label.rechar(liner(self.poke.desc, self.width - 34))
 
     @override
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         if self.poke is None:
             return
@@ -108,7 +108,7 @@ class Detail(Box, MouseInteractor):
         self.add_ob(self.line_middle, round(self.width / 2), 7)
         self.center_add(self.map)
 
-    def add_attack_labels(self):
+    def add_attack_labels(self) -> None:
         """Adds the attack labels to map"""
         for atc, _x, _y, desc_label in zip(
             self.poke.attack_obs,
@@ -135,7 +135,7 @@ class Detail(Box, MouseInteractor):
             ):
                 self.add_ob(label, _x + __x, _y + __y)
 
-    def enq_single_action(self, ret_action: str):
+    def enq_single_action(self, ret_action: str) -> None:
         """Enqueues a single event action"""
         event: SingleEvent | None = None
         match ret_action:
@@ -146,7 +146,7 @@ class Detail(Box, MouseInteractor):
         if event is not None:
             single_event_periodic_event.add(event)
 
-    def cleanup(self):
+    def cleanup(self) -> None:
         """Cleans up Pokete info from the box"""
         assert self.poke_labels
         assert self.poke

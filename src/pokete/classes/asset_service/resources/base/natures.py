@@ -14,7 +14,7 @@ class NatureDict(TypedDict):
 class Nature:
     def __init__(
         self, esc: str | None, atc: float | None, def_: float | None, init: float | None
-    ):
+    ) -> None:
         self.esc: str | None = esc
         self.atc: float | None = atc
         self.def_: float | None = def_

@@ -13,7 +13,7 @@ class StatsInfoBox(LabelBoxView):
     ARGS:
         poke_stats: PokeStats object"""
 
-    def __init__(self, poke_stats: IStats):
+    def __init__(self, poke_stats: IStats) -> None:
         not_available = "N/A"
         if poke_stats.ownership_date is None:
             ownership_date = not_available
@@ -55,7 +55,7 @@ class StatsInfoBox(LabelBoxView):
             info=[CloseLabel()],
         )
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         """Shows the box"""
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)

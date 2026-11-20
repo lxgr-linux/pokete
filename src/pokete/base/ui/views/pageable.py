@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import override
 
 import scrap_engine as se
 
@@ -10,11 +11,11 @@ from pokete.base.ui.elements import HightlightableText
 
 class Pageable(ABC):
     @abstractmethod
-    def change_page(self, add_page, n_idx): ...
+    def change_page(self, add_page: int, n_idx: int) -> None: ...
 
 
 class UpDownSwitch(se.Box, MouseInteractor):
-    def __init__(self, pageable: Pageable):
+    def __init__(self, pageable: Pageable) -> None:
         super().__init__(1, 1)
         self.pageable = pageable
         self.up = HightlightableText("<")
@@ -22,10 +23,12 @@ class UpDownSwitch(se.Box, MouseInteractor):
         self.add_ob(self.up, 0, 0)
         self.add_ob(self.down, 1, 0)
 
+    @override
     def get_interaction_areas(self) -> list[se.Area]:
         return [self.up.get_area(), self.down.get_area()]
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    @override
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             match event.type:
                 case MouseEventType.MOVE:

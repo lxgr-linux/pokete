@@ -31,12 +31,12 @@ from pokete.util.semantic_version import SemanticVersion
 
 
 class BGMoverEvent(PeriodicEvent):
-    def __init__(self, _map: se.Submap):
+    def __init__(self, _map: se.Submap) -> None:
         self.map = _map
         self.up = True
         self.right = True
 
-    def tick(self, ctx: Context, tick: int):
+    def tick(self, ctx: Context, tick: int) -> None:
         if tick % 2 == 0:
             if self.map.x + self.map.width >= self.map.bmap.width:
                 self.right = False
@@ -55,7 +55,7 @@ class BGMoverEvent(PeriodicEvent):
 class PreGameMap(GameSubmap, Overview):
     """Map for background"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             self.build_bg_map(),
             0,
@@ -82,12 +82,12 @@ class PreGameMap(GameSubmap, Overview):
 
         return bg_playmap
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
 
-    def __call__(self, session_info, figure):
+    def __call__(self, session_info, figure) -> None:
         pevm = PeriodicEventManager(
             [
                 exception_propagating_periodic_event,

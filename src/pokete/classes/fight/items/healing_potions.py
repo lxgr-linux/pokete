@@ -7,7 +7,7 @@ from pokete.classes.fight.providers import Provider
 
 
 class GenericeHealingPotion(FightItem, ABC):
-    def __init__(self, hp: int, name: str):
+    def __init__(self, hp: int, name: str) -> None:
         self.hp = hp
         self.name = name
 
@@ -21,10 +21,10 @@ class GenericeHealingPotion(FightItem, ABC):
 
 
 class HealingPotion(GenericeHealingPotion):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(5, "healing_potion")
 
 
 class SuperPotion(GenericeHealingPotion):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(15, "super_potion")

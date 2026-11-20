@@ -127,14 +127,14 @@ class Move(ABC):
     """Abstract base class for all pokete moves"""
 
     @abstractmethod
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels): ...
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None: ...
 
 
 class AttackMove(Move):
     """Attack move - quick strike with knockback animation"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         for i, j, _t in zip([3, -3], [2, -2], [0.3, 0]):
             player_labels.ico.move(
                 i if player_labels.poke.player else -i,
@@ -149,7 +149,7 @@ class PoundMove(Move):
     """Pound move - vertical bobbing motion"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         for i in [-1, 1]:
             player_labels.ico.move(0, i)
             player_labels.ico.map.show()
@@ -161,7 +161,7 @@ class BombMove(Move):
     """Bomb move - explosion animation"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         frames = [
             """
 
@@ -225,7 +225,7 @@ class ArchMove(Move):
     """Arch move - arcing projectile"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         if enem_labels.poke == player_labels.poke:
             return
         line = se.Line(
@@ -253,7 +253,7 @@ class ThrowMove(Move):
     """Throw move - projectile with impact"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         _throw(player_labels, enem_labels)
         _impact(player_labels, enem_labels)
 
@@ -262,7 +262,7 @@ class GunMove(Move):
     """Gun move - rapid-fire projectiles"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         _throw(
             player_labels,
             enem_labels,
@@ -276,7 +276,7 @@ class FireballMove(Move):
     """Fireball move - fiery projectile"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         _throw(
             player_labels, enem_labels, txt=Color.thicc + Color.red + "*" + Color.reset
         )
@@ -287,7 +287,7 @@ class ShineMove(Move):
     """Shine move - glowing stars around pokemon"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         _shine(player_labels, ico=Color.thicc + Color.green + "*" + Color.reset)
 
 
@@ -295,7 +295,7 @@ class DowngradeMove(Move):
     """Downgrade move - red shine effect on enemy"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         _shine(enem_labels, ico=Color.thicc + Color.red + "-" + Color.reset)
 
 
@@ -303,7 +303,7 @@ class SmellMove(Move):
     """Smell move - wavy shine effect"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         _shine(player_labels, ico=Color.thicc + Color.peach + "~" + Color.reset)
 
 
@@ -311,7 +311,7 @@ class RainMove(Move):
     """Rain move - cloud with falling raindrops"""
 
     @override
-    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels):
+    def move(self, player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
         drops = []
         _map = player_labels.ico.map
         cloud = se.Text("""  _____

@@ -12,7 +12,9 @@ class ItemDict(TypedDict):
 
 
 class Item:
-    def __init__(self, pretty_name: str, desc: str, price: int | None, fn: str | None):
+    def __init__(
+        self, pretty_name: str, desc: str, price: int | None, fn: str | None
+    ) -> None:
         self.pretty_name: str = pretty_name
         self.desc: str = desc
         self.price: int | None = price

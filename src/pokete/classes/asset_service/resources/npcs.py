@@ -10,9 +10,9 @@ class ChatDict(TypedDict):
 
 
 class Chat:
-    def __init__(self, q: list[str], a: dict[str, "Chat"]):
+    def __init__(self, q: list[str], a: dict[str, "Chat"]) -> None:
         self.q: list[str] = q
-        self.a: dict[str, "Chat"] = a
+        self.a: dict[str, Chat] = a
 
     @classmethod
     def from_dict(cls, _d: ChatDict | None) -> "Chat | None":
@@ -59,13 +59,13 @@ class NPC:
         x: int,
         y: int,
         chat: "Chat | None",
-    ):
+    ) -> None:
         self.texts: list[str] = texts
         self.fn: str | None = fn
         self.map: str = map
         self.x: int = x
         self.y: int = y
-        self.chat: "Chat | None" = chat
+        self.chat: Chat | None = chat
 
     @classmethod
     def from_dict(cls, _d: NPCDict | None) -> "NPC | None":
