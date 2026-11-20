@@ -1,12 +1,13 @@
 """Contains the AbilitiesChooseBox - a ChooseBoxView for selecting Pokete abilities"""
 
-from typing import Optional, override
+from typing import override
 
 import scrap_engine as se
 
 from pokete.base.context import Context
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.views.choose_box import ChooseBoxView
+from pokete.classes.attack import Attack
 
 
 class AbilitiesChooseBox(ChooseBoxView[str]):
@@ -25,13 +26,13 @@ class AbilitiesChooseBox(ChooseBoxView[str]):
         return len(self.elems) + 2, max(i.width for i in self.elems) + 6
 
     @override
-    def choose(self, ctx: Context, idx: int) -> Optional[str]:
+    def choose(self, ctx: Context, idx: int) -> str | None:
         """Return the world_action of the selected ability"""
         if idx < len(self.abilities):
             return self.abilities[idx].world_action
         return None
 
-    def __call__(self, ctx: Context, abilities) -> Optional[str]:
+    def __call__(self, ctx: Context, abilities: list[Attack]) -> str | None:
         """Show abilities and let user select one
 
         ARGS:

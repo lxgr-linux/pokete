@@ -39,12 +39,15 @@ class Detail(Box, MouseInteractor):
             *self.new_size(),
             name="Details",
             overview=overview,
-            info=[
-                CloseLabel(),
-                GenericActionLabel(Action.NATURE_INFO, "Nature"),
-                GenericActionLabel(Action.STATS_INFO, "Statistics"),
-                GenericActionLabel(Action.ABILITIES_INFO, "Use ability"),
-            ],
+            info=[],
+        )
+        self.general_info_labels: list[se.Text] = [
+            CloseLabel(),
+            GenericActionLabel(Action.NATURE_INFO, "Nature"),
+            GenericActionLabel(Action.STATS_INFO, "Statistics"),
+        ]
+        self.abilities_action_label = GenericActionLabel(
+            Action.ABILITIES_INFO, "Use ability"
         )
         self.name_attacks = se.Text("Attacks", esccode=Color.thicc, state="float")
         self.attack_defense = se.Text("Attack:   Defense:", state="float")
@@ -185,6 +188,18 @@ class Detail(Box, MouseInteractor):
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
 
+        # Sets the MF info labels correctly
+        abb_obs = [i for i in self.poke.attack_obs if i.world_action != ""]
+        if abb_obs != [] and abb:
+            self.world_actions_label.rechar(
+                "Abilities:" + " ".join([i.name for i in abb_obs])
+            )
+            self.info_labels = self.general_info_labels + [self.abilities_action_label]
+        else:
+            self.world_actions_label.rechar("")
+            self.info_labels = self.general_info_labels
+        self.add_info_labels()  # Nice superclass calls
+
         with self.center_add(self.map):
             # Add poke info to box
             self.__rechar_desc_label()
@@ -204,16 +219,6 @@ class Detail(Box, MouseInteractor):
                     self.add_ob(obj, __x, __y)
 
             do_exit = False
-            abb_obs = [i for i in self.poke.attack_obs if i.world_action != ""]
-            if abb_obs != [] and abb:
-                self.world_actions_label.rechar(
-                    "Abilities:" + " ".join([i.name for i in abb_obs])
-                )
-                # self.ability_label.add(self.map, self.x + 35, self.y + self.height - 2)
-            else:
-                self.world_actions_label.rechar("")
-                # if self.ability_label.added:
-                #    self.ability_label.remove()
 
             self.attack_defense.rechar(
                 f"Attack:{self.poke.atc}\
