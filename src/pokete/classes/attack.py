@@ -43,7 +43,7 @@ class Attack:
         if ap is not None:
             self.set_ap(ap)
 
-    def make_label(self) -> None:
+    def make_label(self) -> se.Text:
         """Creates label
         RETURNS:
             New label"""
@@ -53,7 +53,7 @@ class Attack:
             + se.Text(f"-{self.ap}")
         )
 
-    def set_ap(self, _ap) -> None:
+    def set_ap(self, _ap: int | str) -> None:
         """Sets attack points
         ARGS:
             _ap: Attack points"""
