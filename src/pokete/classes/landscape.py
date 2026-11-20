@@ -22,7 +22,7 @@ class HighGrass(se.Object, MapInteract):
 
     arg_proto: PokeArgs
 
-    def action(self, ob) -> None:
+    def action(self, ob: se.Object) -> None:
         """Action triggers the fight
         ARGS:
             ob: The object triggering this action"""
@@ -105,7 +105,7 @@ class Poketeball(se.Object, MapInteract):
         self.name = name
         super().__init__(Color.thicc + Color.red + "o" + Color.reset, state="float")
 
-    def action(self, ob) -> None:
+    def action(self, ob: se.Object) -> None:
         """Action triggers the pick up
         ARGS:
             ob: The object triggering this action"""

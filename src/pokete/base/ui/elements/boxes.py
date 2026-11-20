@@ -15,7 +15,7 @@ class LabelBox(Box):
     def __init__(
         self,
         label: se.Text,
-        name="",
+        name: str = "",
         info: list[se.Text] | None = None,
         ctx: Context | None = None,
     ) -> None:
@@ -23,6 +23,6 @@ class LabelBox(Box):
         super().__init__(label.height + 2, label.width + 4, name, info, ctx=ctx)
         self.add_ob(label, 2, 1)
 
-    def resize(self, height, width) -> None:
+    def resize(self, height: int, width: int) -> None:
         super().resize(height, width)
         self.set_ob(self.label, 2, 1)

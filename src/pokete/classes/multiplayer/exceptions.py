@@ -4,13 +4,13 @@ class UserPresentException(Exception):
 
 
 class VersionMismatchException(Exception):
-    def __init__(self, version) -> None:
+    def __init__(self, version: str) -> None:
         self.version = version
         super().__init__("version mismatch")
 
 
 class InvalidPokeException(Exception):
-    def __init__(self, msg) -> None:
+    def __init__(self, msg: str) -> None:
         self.msg = msg
         super().__init__(msg)
 

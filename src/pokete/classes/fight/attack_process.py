@@ -19,7 +19,7 @@ class AttackProcess:
         self.fightmap: FightMap = fightmap
 
     @staticmethod
-    def get_random_factor(attack, attacker) -> float:
+    def get_random_factor(attack: "Attack", attacker: "Poke") -> float:
         return random.choices(
             [0, 0.75, 1, 1.26],
             weights=[attack.miss_chance + attacker.miss_chance, 1, 1, 1],

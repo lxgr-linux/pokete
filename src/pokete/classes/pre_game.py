@@ -87,7 +87,7 @@ class PreGameMap(GameSubmap, Overview):
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
 
-    def __call__(self, session_info, figure) -> None:
+    def __call__(self, session_info: dict, figure: "Figure") -> None:
         pevm = PeriodicEventManager(
             [
                 exception_propagating_periodic_event,
@@ -106,7 +106,7 @@ class PreGameMap(GameSubmap, Overview):
             sys.exit()
 
 
-def check_version(ctx: Context, sinfo) -> None:
+def check_version(ctx: Context, sinfo: dict) -> bool:
     """Checks if version in save file is the same as current version
     ARGS:
         sinfo: session_info dict"""

@@ -96,7 +96,7 @@ class CommunicationService:
         PropagatingThread(target=listener, daemon=True).start()
 
     def handshake(
-        self, ctx: Context, user_name, version
+        self, ctx: Context, user_name: str, version: str
     ) -> None:  # Here Context usage outside of the UI context
         """Sends and handles the handshake with the server"""
         resp = self.client.call_for_response(
@@ -164,7 +164,7 @@ class CommunicationService:
             y: Y-coordinate"""
         self.__positions_channel.push((_map, x, y))
 
-    def get_player(self, name) -> player.User:
+    def get_player(self, name: str) -> player.User:
         resp = self.client.call_for_response(player.Get({"name": name}))
         logging.info(resp)
         match resp.get_type():

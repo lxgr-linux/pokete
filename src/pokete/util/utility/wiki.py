@@ -66,7 +66,7 @@ You can find different versions of this wiki:
         )
 
     @staticmethod
-    def get_name(poke) -> None:
+    def get_name(poke: str) -> str:
         """Returns the name of a Pokete to display in headings"""
         additional = ""
         if "_night" in poke:
@@ -154,7 +154,7 @@ You can find different versions of this wiki:
         return out
 
     @staticmethod
-    def poketes(page_mode="single", pokete_type=None) -> str:
+    def poketes(page_mode: str = "single", pokete_type: str | None = None) -> str:
         """The function to add all poketes and their attributes to the wiki.
 
         Arguments:
@@ -300,7 +300,7 @@ In the following all Poketes with their attributes are displayed.
 """
 
     @staticmethod
-    def attacks(multi_page: bool = False) -> str or list:
+    def attacks(multi_page: bool = False) -> str | list[tuple[str, str]]:
         """The function to all attacks to the wiki.
 
         Arguments

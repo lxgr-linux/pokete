@@ -29,7 +29,7 @@ class MultiTextChooseBox(ChooseBoxView[tuple[int, str]]):
         else:
             return None
 
-    def add_relative(self, _map, x, y) -> None:
+    def add_relative(self, _map: "GameSubmap", x: int, y: int) -> None:
         assert self.fig
         mvp.movemap.assure_distance(
             self.fig.x, self.fig.y, self.width + 2, self.height + 2

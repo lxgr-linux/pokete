@@ -6,10 +6,10 @@ SUBSCRIBE_POSITION_TYPE = "pokete.position.subscribe"
 
 
 class SubscribePosition(bs_rpc.Body):
-    def __init__(self, data) -> None:
+    def __init__(self, data: dict) -> None:
         super().__init__(SUBSCRIBE_POSITION_TYPE, {})
 
-    def call_for_responses(self, context, response_writer: ResponseWriter) -> None:
+    def call_for_responses(self, context: dict, response_writer: ResponseWriter) -> None:
         gen = context.position_channel_generator()
         for coords in gen():
             response_writer(

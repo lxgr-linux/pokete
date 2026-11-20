@@ -89,7 +89,7 @@ class Connector:
         self.user_name = name
         return True
 
-    def establish_connection(self, ctx) -> None:
+    def establish_connection(self, ctx: Context) -> None:
         """Actually connects to the server"""
         try:
             com_service.connect(

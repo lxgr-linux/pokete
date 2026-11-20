@@ -115,7 +115,7 @@ class Inv(BaseInv):
         with self.add(ctx.map, ctx.map.width - self.width, 0):
             super().__call__(ctx)
 
-    def rem_item(self, figure, name) -> None:
+    def rem_item(self, figure: "Figure", name: str) -> None:
         """Removes an item from the inv
         ARGS:
             name: Items name

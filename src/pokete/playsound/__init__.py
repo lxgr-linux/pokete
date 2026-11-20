@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 
-def playsound(file, volume) -> None:
+def playsound(file: str, volume: int) -> None:
     """Plays a mp3 file
     ARGS:
         file: path to file

@@ -12,6 +12,7 @@ from pokete.base.input.hotkeys import ACTION_DIRECTIONS, Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import BetterChooseBox
+from pokete.base.ui.overview import Overview
 from pokete.base.ui.views.pageable import Pageable, UpDownSwitch
 
 T = TypeVar("T")
@@ -24,8 +25,8 @@ class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, Pageable, ABC):
         rows: int,
         labels: list[se.HasArea],
         name: str = "",
-        _map=None,
-        overview=None,
+        _map: "GameSubmap" | None = None,
+        overview: Overview | None = None,
     ) -> None:
         self.elems: list[se.HasArea] = labels
         self.rows = rows

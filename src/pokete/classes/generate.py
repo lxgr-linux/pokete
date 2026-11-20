@@ -21,7 +21,7 @@ from pokete.classes.settings import settings
 
 
 class Playmap7Event(PeriodicEvent):
-    def __init__(self, fig) -> None:
+    def __init__(self, fig: "Figure") -> None:
         self.fig = fig
         self.init = False
 
@@ -41,7 +41,7 @@ class Playmap7Event(PeriodicEvent):
             else:
                 obj.rechar(" ")
 
-    def __all_obs(self) -> list:
+    def __all_obs(self) -> list[se.Object]:
         _map = obmp.ob_maps["playmap_7"]
         return (
             _map.get_obj("inner_walls").obs
@@ -55,7 +55,7 @@ class Playmap7Event(PeriodicEvent):
         )
 
 
-def __parse_obj(_map: "PlayMap", name: str, obj, _dict) -> None:
+def __parse_obj(_map: "PlayMap", name: str, obj: se.Object, _dict) -> None:
     """Parses an object to a maps attribute and adds it
     ARGS:
         _map: The given PlayMap

@@ -9,6 +9,7 @@ from pokete.base.input import (
     ActionList,
 )
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.overview import Overview
 
 from .box import Box
 
@@ -39,7 +40,7 @@ class ChooseBox(Box):
         info: list[se.Text] | None = None,
         index_x: int = 2,
         c_obs: list[se.HasArea] | None = None,
-        overview=None,
+        overview: Overview | None = None,
     ) -> None:
         super().__init__(height, width, name, info, overview=overview)
         self.index_x = index_x
@@ -141,8 +142,8 @@ class BetterChooseBox(Box):
         columns: int,
         labels: list[se.HasArea],
         name: str = "",
-        _map=None,
-        overview=None,
+        _map: "GameSubmap" | None = None,
+        overview: Overview | None = None,
         max_rows: int | None = None,
     ) -> None:
         super().__init__(

@@ -13,9 +13,9 @@ from pokete.base.ui.overview import Overview
 class BoxView(Box, MouseInteractor, ABC):
     def __init__(
         self,
-        height,
-        width,
-        name="",
+        height: int,
+        width: int,
+        name: str = "",
         info: list[se.Text] | None = None,
         overview: Overview | None = None,
         ctx: Context | None = None,

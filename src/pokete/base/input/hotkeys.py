@@ -5,6 +5,7 @@ import sys
 from collections import defaultdict
 from enum import Enum, auto
 
+from pokete.base.context import Context
 from pokete.base.input import key
 from pokete.util import liner
 
@@ -183,7 +184,7 @@ def hotkeys_save() -> None:
     return {key: [i.name for i in value] for key, value in hotkey_mappings.items()}
 
 
-def hotkeys_from_save(ctx, save, version_change) -> None:
+def hotkeys_from_save(ctx: Context, save: dict, version_change: bool) -> None:
     """Sets hotkey_mappings from save"""
     from ..input_loops import ask_bool
 

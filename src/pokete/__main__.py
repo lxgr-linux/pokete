@@ -87,7 +87,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
     ARGS:
         _si: session_info dict"""
 
-    def __init__(self, _si) -> None:
+    def __init__(self, _si: dict) -> None:
         r_char = _si.get("represent_char", "a")
         if len(r_char) != 1:
             logging.info(

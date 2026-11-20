@@ -207,7 +207,7 @@ can't have more than 4 attacks!"
         )
 
     @classmethod
-    def wild(cls, poke, _xp) -> None:
+    def wild(cls, poke: str, _xp: int) -> "Poke":
         """Simulates learning attacks for wild poketes
         ARGS:
             poke: The poketes descriptor

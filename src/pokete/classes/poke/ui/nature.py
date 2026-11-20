@@ -14,7 +14,7 @@ class NatureInfo(LabelBoxView):
     ARGS:
         p_n: PoketeNature object"""
 
-    def __init__(self, p_n) -> None:
+    def __init__(self, p_n: "PokeNature") -> None:
         atc = self.get_amount(p_n.nature.atc)
         defense = self.get_amount(p_n.nature.defense)
         init = self.get_amount(p_n.nature.initiative)

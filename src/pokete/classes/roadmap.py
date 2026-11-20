@@ -24,7 +24,7 @@ from pokete.util import liner
 class RoadMapException(Exception):
     """Exception thrown when a PlayMap has no corresponding MapStation"""
 
-    def __init__(self, _map) -> None:
+    def __init__(self, _map: "PlayMap") -> None:
         self.map = _map
         text = f"{_map} {_map.name} has no mapstation"
         super().__init__(text)

@@ -11,11 +11,11 @@ class PoketeCare:
         entry: The in-game timestamp the poke was given in at
         poke: The Pokete that's in care"""
 
-    def __init__(self, entry=0, poke=None) -> None:
+    def __init__(self, entry: int = 0, poke: "Poke" | None = None) -> None:
         self.entry = entry
         self.poke = poke
 
-    def from_dict(self, _dict) -> None:
+    def from_dict(self, _dict: dict) -> None:
         """Assembles a PoketeCare from _dict"""
         self.entry = _dict.get("entry", 0)
         self.poke = None if _dict.get("poke") is None else Poke.from_dict(_dict["poke"])

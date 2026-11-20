@@ -23,7 +23,7 @@ END_SECTION = b"<END>"
 
 
 class Client:
-    def __init__(self, rw: Any, reg: Registry) -> None:
+    def __init__(self, rw: "ResponseWriter", reg: Registry) -> None:
         self.rw = rw
         self.reg = reg
         self.calls: dict[int, Channel[Body]] = {}
@@ -72,7 +72,7 @@ class Client:
 
         return ChannelGenerator(ch, close_fn)
 
-    def __eval_msg(self, context, msg: Msg, body: Body) -> None:
+    def __eval_msg(self, context: dict, msg: Msg, body: Body) -> None:
         match Method(msg["method"]):
             case Method.CALL_FOR_RESPONSE:
                 resp: Body = body.call_for_response(context)
@@ -91,7 +91,7 @@ class Client:
                 ch = self.__get_call(msg["call"])
                 ch.close()
 
-    def listen(self, context) -> None:
+    def listen(self, context: dict) -> None:
         msg_buf = b""
         while True:
             data = self.rw.recv(32)
