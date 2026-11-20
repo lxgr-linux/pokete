@@ -22,16 +22,16 @@ class PlayMap(GameMap):
 
     def __init__(
         self,
-        height=se.screen_height - 1,
-        width=se.screen_width,
-        trainers=None,
-        name="",
-        pretty_name="",
+        height: int = se.screen_height - 1,
+        width: int = se.screen_width,
+        trainers: list | None = None,
+        name: str = "",
+        pretty_name: str = "",
         poke_args: PokeArgs | None = None,
         w_poke_args: PokeArgs | None = None,
         extra_actions: list[PeriodicEvent] | None = None,
-        weather=None,
-        song="03 Chibi Ninja.mp3",
+        weather: str | None = None,
+        song: str = "03 Chibi Ninja.mp3",
     ) -> None:
         super().__init__(height, width, name=name)
         self.song = song
@@ -47,14 +47,14 @@ class PlayMap(GameMap):
         if weather is not None:
             self.weather = Weather(weather)
 
-    def register_obj(self, name, obj) -> None:
+    def register_obj(self, name: str, obj) -> None:
         """Adds an object to the registry
         ARGS:
             name: Name in registry
             obj: Object"""
         self.registry[name] = obj
 
-    def get_obj(self, name) -> None:
+    def get_obj(self, name: str):
         """Gets and object from the registry
         ARGS:
             name: Name in registry"""

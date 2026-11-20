@@ -38,14 +38,14 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
         cls.npcactions = npcactions
 
     @classmethod
-    def get(cls, name) -> None:
+    def get(cls, name: str) -> "NPC":
         """Gets a NPC from the registry
         ARGS:
             name: The NPCs name"""
         return cls.registry[name]
 
     def __init__(
-        self, name, texts, _fn=None, chat: Chat | None = None, side_trigger=True
+        self, name: str, texts: str, _fn: str | None = None, chat: Chat | None = None, side_trigger: bool = True
     ) -> None:
         super().__init__(0, 0)
         self.name = name
@@ -80,11 +80,11 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
             if action is not None:
                 action.act(self, UI(self))
 
-    def give(self, name, item_name: str) -> None:
+    def give(self, name: str, item_name: str) -> None:
         """Method that gifts an item to the player
         ARGS:
             name: The displayed name of the npc
-            item: Item name"""
+            item_name: Item name"""
         item = asset_service.get_items()[item_name]
         self.set_used()
         if ask_bool(
@@ -95,7 +95,7 @@ Do you want to accept it?",
             self.ctx.figure.give_item(item.name)
 
     @property
-    def used(self) -> None:
+    def used(self) -> bool:
         """Indicates whether or not the NPC has been used"""
         return self.name in self.ctx.figure.used_npcs
 
@@ -125,7 +125,7 @@ Do you want to accept it?",
 class Trainer(NPC, Provider):
     """Trainer class to fight against"""
 
-    def __init__(self, pokes, name, gender, texts, lose_texts, win_texts) -> None:
+    def __init__(self, pokes: list["Poke"], name: str, gender: str, texts: str, lose_texts: str, win_texts: str) -> None:
         NPC.__init__(self, name, texts, side_trigger=False)
         Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
@@ -134,7 +134,7 @@ class Trainer(NPC, Provider):
         self.win_texts = win_texts
         self.trainer = True
 
-    def get_decision(self, ctx: Context, fightmap, enem) -> FightDecision:
+    def get_decision(self, ctx: Context, fightmap: "FightMap", enem: "Provider") -> FightDecision:
         return FightDecision.attack(
             random.choices(
                 self.curr.attack_obs,
@@ -152,7 +152,7 @@ class Trainer(NPC, Provider):
             )[0]
         )
 
-    def add(self, _map, x, y) -> None:
+    def add(self, _map: se.Map, x: int, y: int) -> None:
         """Add wrapper
         See se.Box.add"""
         line = se.Line(" ", 0, _map.height, state="float")
@@ -202,7 +202,7 @@ class Trainer(NPC, Provider):
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.ctx)
 
-    def greet(self, fightmap) -> None:
+    def greet(self, fightmap: "FightMap") -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
@@ -212,9 +212,10 @@ class Trainer(NPC, Provider):
             f"{fightmap.outp.text}\n{self.gender} used {self.curr.name} against you!"
         )
 
-    def handle_defeat(self, ctx: Context, fightmap, winner) -> None:
+    def handle_defeat(self, ctx: Context, fightmap: "FightMap", winner: "Provider") -> bool:
         """Function called when the providers current Pokete dies
         ARGS:
+            ctx: Context object
             fightmap: fightmap object
             winner: the defeating provider"""
         fightmap.death_animation(self)

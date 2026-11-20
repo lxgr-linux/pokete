@@ -8,7 +8,7 @@ from .settings import settings
 MUSIC_PATH = Path(__file__).parents[1] / "assets" / "music"
 
 
-def audio_fn(song, play_audio, volume):
+def audio_fn(song, play_audio, volume) -> None:
     """plays a song in loop
     ARGS:
         song: path to file

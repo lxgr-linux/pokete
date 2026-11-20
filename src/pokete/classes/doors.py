@@ -11,7 +11,7 @@ from . import ob_maps as obmp
 class CenterDoor(se.Object):
     """Door class for the map to enter centers and shops"""
 
-    def action(self, ob) -> None:
+    def action(self, ob: se.Object) -> None:
         """Trigger
         ARGS:
             ob: The object triggering this action"""
@@ -37,7 +37,7 @@ class CenterDoor(se.Object):
 class Door(se.Object):
     """Door class for the map to enter other maps"""
 
-    def action(self, ob) -> None:
+    def action(self, ob: se.Object) -> None:
         """Trigger
         ARGS:
             ob: The object triggering this action"""
@@ -66,7 +66,7 @@ class DoorToCenter(Door):
             },
         )
 
-    def action(self, ob) -> None:
+    def action(self, ob: se.Object) -> None:
         """Triggers the door
         ARGS:
             ob: The object triggering this action"""
@@ -92,7 +92,7 @@ class DoorToShop(Door):
 class ChanceDoor(Door):
     """Same as door but with a chance"""
 
-    def action(self, ob) -> None:
+    def action(self, ob: se.Object) -> None:
         """Trigger
         ARGS:
             ob: The object triggering this action"""

@@ -89,7 +89,7 @@ class OldDeck(Informer, Overview):
         )
 
     def __call__(
-        self, ctx: Context, p_len, label="Your full deck", in_fight=False
+        self, ctx: Context, p_len: int, label: str = "Your full deck", in_fight: bool = False
     ) -> None:
         """Opens the deck
         ARGS:
@@ -248,7 +248,7 @@ class OldDeck(Informer, Overview):
                 self.submap.set(self.submap.x, self.submap.y - 1)
             self.submap.full_show()
 
-    def add_all(self, init=False, no_poke=False) -> None:
+    def add_all(self, init: bool = False, no_poke: bool = False) -> None:
         """Adds all Poketes to the deck
         ARGS:
             init: Whether or not this happens for the first time

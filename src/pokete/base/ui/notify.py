@@ -7,6 +7,7 @@ from pokete.util import liner
 from ..color import Color
 from .elements import LabelBox
 from .util import get_nested
+from typing import Any
 
 
 class Notification(LabelBox):
@@ -16,7 +17,7 @@ class Notification(LabelBox):
         name: The name displayed at the boxes top
         desc: The notifications description"""
 
-    def __init__(self, title, name, desc) -> None:
+    def __init__(self, title: Any, name: str, desc: str) -> None:
         self.title = title
         self.desc = desc
         label = se.Text(title + "\n", esccode=Color.thicc, state="float") + se.Text(
@@ -24,7 +25,7 @@ class Notification(LabelBox):
         )
         super().__init__(label, name)
 
-    def corner_add(self, _map) -> None:
+    def corner_add(self, _map: se.Map) -> None:
         """Adds the Notification to a map
         ARGS:
             _map: The se.Map to add this to"""
@@ -52,13 +53,13 @@ class Notifier:
         self.notification: Notification
         self.counter = -1
 
-    def set_vars(self, _map) -> None:
+    def set_vars(self, _map: se.Map) -> None:
         """Sets map variable
         ARGS:
             _map: The se.Map the notifications will be shown on"""
         self.map = _map
 
-    def notify(self, title, name, desc) -> None:
+    def notify(self, title: Any, name: str, desc: str) -> None:
         """Initilizes a Notification and manages it
         ARGS:
             title: The bold title shown in the box

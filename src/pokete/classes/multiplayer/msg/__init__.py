@@ -4,7 +4,7 @@ from . import error, fight, map_info, player, position
 from .handshake import Handshake
 
 
-def get_registry():
+def get_registry() -> None:
     reg = bs_rpc.Registry()
 
     reg.register(Handshake)

@@ -21,7 +21,7 @@ class Setting:
         name: The settings name
         val: The settings value"""
 
-    def __init__(self, name, val) -> None:
+    def __init__(self, name: str, val) -> None:
         self.val = val
         self.name = name
 
@@ -29,7 +29,7 @@ class Setting:
 class SliderCursor(se.Text):
     """Wrapper for se.Text to ensure stuff actually works"""
 
-    def move(self, x=0, y=0) -> None:
+    def move(self, x: int = 0, y: int = 0) -> None:
         """
         Moves all objects in the group by a certain vector.
         """
@@ -46,7 +46,7 @@ class Slider(se.Box, Overview, MouseInteractor):
         text: The text to show
         setting: The associated settings name"""
 
-    def __init__(self, text, setting) -> None:
+    def __init__(self, text: str, setting: str) -> None:
         super().__init__(1, 1)
         self.overview: Overview
         self.setting = settings(setting)
@@ -67,13 +67,13 @@ class Slider(se.Box, Overview, MouseInteractor):
         self.add_ob(self.slider, 0, 0)
         self.set_slider_from_setting()
 
-    def add(self, _map, x, y) -> None:
+    def add(self, _map, x: int, y: int) -> None:
         """Add wrapper, see se.Box.add"""
         super().add(_map, x, y)
         self.set_top_redraw(self.left)
         self.set_top_redraw(self.right)
 
-    def set_slider(self, x) -> None:
+    def set_slider(self, x: int) -> None:
         """Sets the slider to a certain position
         ARGS:
             x: The position"""
@@ -82,7 +82,7 @@ class Slider(se.Box, Overview, MouseInteractor):
         self.set_top_redraw(self.right)
 
     @staticmethod
-    def set_top_redraw(obj) -> None:
+    def set_top_redraw(obj: se.Object) -> None:
         """Makes sure object is and will be redrawn
         ARGS:
             obj: The object"""
@@ -143,7 +143,7 @@ class VisSetting(se.Text):
         setting: The settings name the setting belongs to (load_mods)
         options: Dict containing all options ({True: "On", False: "Off"})"""
 
-    def __init__(self, text, setting, options=None) -> None:
+    def __init__(self, text: str, setting: str, options: dict | None = None) -> None:
         if options is None:
             options = {}
         self.options = options
@@ -174,7 +174,7 @@ class Settings:
         }
         self.settings = [Setting(name, val) for name, val in self.keywords.items()]
 
-    def from_dict(self, src) -> None:
+    def from_dict(self, src: dict) -> None:
         """Sets the settings from a dict
         ARGS:
             src: The Dict"""
@@ -185,7 +185,7 @@ class Settings:
             if i not in [j.name for j in self.settings]:
                 self.settings.append(Setting(i, self.keywords[i]))
 
-    def __call__(self, name) -> None:
+    def __call__(self, name: str) -> Setting:
         """Gets a Setting object
         ARGS:
             name: The Settings name
@@ -193,7 +193,7 @@ class Settings:
             Setting object"""
         return next(i for i in self.settings if i.name == name)
 
-    def to_dict(self) -> None:
+    def to_dict(self) -> dict:
         """Returns a dict of all current settings"""
         return {i.name: i.val for i in self.settings}
 

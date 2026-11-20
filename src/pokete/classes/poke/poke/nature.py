@@ -17,7 +17,7 @@ class Nature:
         def_: The defense change
         init: The initiative change"""
 
-    def __init__(self, name, esc=None, atc=None, def_=None, init=None) -> None:
+    def __init__(self, name: str, esc: str | None = None, atc: int | None = None, def_: int | None = None, init: int | None = None) -> None:
         self.name = name
         if esc is not None:
             self.esccode = getattr(Color, esc)
@@ -39,11 +39,11 @@ class PokeNature:
         for name, n in asset_service.get_base_assets().natures.items()
     }
 
-    def __init__(self, nature, grade) -> None:
+    def __init__(self, nature: Nature, grade: int) -> None:
         self.nature = nature
         self.grade = grade
 
-    def get_value(self, name) -> None:
+    def get_value(self, name: str) -> float:
         """Gets one attribute value by its name
         ARGS:
             name: The name of the attribute"""
@@ -55,7 +55,7 @@ class PokeNature:
         return {"nature": self.nature.name, "grade": self.grade}
 
     @classmethod
-    def from_dict(cls, _dict: NatureDict) -> None:
+    def from_dict(cls, _dict: NatureDict) -> "PokeNature":
         """Constructs an object from a
         ARGS:
             _dict: dict"""
@@ -64,14 +64,14 @@ class PokeNature:
         return cls(nature, grade)
 
     @classmethod
-    def random(cls) -> None:
+    def random(cls) -> "PokeNature":
         """Creates an instance with random values"""
         nature = random.choice([i for _, i in cls.natures.items()])
         grade = random.randint(1, 2)
         return cls(nature, grade)
 
     @classmethod
-    def dummy(cls) -> None:
+    def dummy(cls) -> "PokeNature":
         """Returns a dummy nature"""
         nature = cls.natures["normal"]
         grade = 1

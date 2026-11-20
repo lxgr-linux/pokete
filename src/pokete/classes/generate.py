@@ -41,7 +41,7 @@ class Playmap7Event(PeriodicEvent):
             else:
                 obj.rechar(" ")
 
-    def __all_obs(self) -> None:
+    def __all_obs(self) -> list:
         _map = obmp.ob_maps["playmap_7"]
         return (
             _map.get_obj("inner_walls").obs
@@ -55,7 +55,7 @@ class Playmap7Event(PeriodicEvent):
         )
 
 
-def __parse_obj(_map, name, obj, _dict):
+def __parse_obj(_map: "PlayMap", name: str, obj, _dict) -> None:
     """Parses an object to a maps attribute and adds it
     ARGS:
         _map: The given PlayMap
@@ -92,7 +92,7 @@ def gen_single_map(
     return playmap
 
 
-def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]):
+def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]) -> None:
     for hard_ob, single_hard_ob in single_map.hard_obs.items():
         __parse_obj(
             _map,
@@ -137,7 +137,7 @@ def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]):
 def gen_maps(
     p_maps: dict[str, Map],
     extra_actions: dict[str, list[PeriodicEvent]] | None = None,
-    fix_center=False,
+    fix_center: bool = False,
 ) -> dict[str, PlayMap]:
     """Generates all maps
     ARGS:
@@ -162,7 +162,7 @@ def gen_maps(
     return maps
 
 
-def gen_obs(figure):
+def gen_obs(figure: "Figure") -> None:
     """Generates all objects on the maps
     ARSG:
         map_data: Contains map_data

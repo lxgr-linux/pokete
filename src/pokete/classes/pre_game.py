@@ -106,7 +106,7 @@ class PreGameMap(GameSubmap, Overview):
             sys.exit()
 
 
-def check_version(ctx: Context, sinfo):
+def check_version(ctx: Context, sinfo) -> None:
     """Checks if version in save file is the same as current version
     ARGS:
         sinfo: session_info dict"""

@@ -15,7 +15,7 @@ class PCManager:
         self.reg: dict[str, RemotePlayer] = {}
         self.waiting_users: list[UpdateDict] = []
 
-    def set(self, name, _map, x, y) -> None:
+    def set(self, name: str, _map: str, x: int, y: int) -> None:
         """Stets a remote player to a certain position
         ARGS:
             name: The players name
@@ -40,7 +40,7 @@ class PCManager:
                 user["position"]["y"],
             )
 
-    def remove(self, name) -> None:
+    def remove(self, name: str) -> None:
         """Removes a remote player
         ARGS:
             name: The Players name"""
@@ -61,7 +61,7 @@ class PCManager:
         for rmtpl in self.reg.values():
             rmtpl.readd_name_tag()
 
-    def get_interactable(self, figure) -> RemotePlayer | None:
+    def get_interactable(self, figure: "Figure") -> RemotePlayer | None:
         for rmtpl in self.reg.values():
             if (
                 rmtpl.map == figure.map
@@ -71,7 +71,7 @@ class PCManager:
                 return rmtpl
         return None
 
-    def check_interactable(self, figure) -> None:
+    def check_interactable(self, figure: "Figure") -> None:
         rmtpl = self.get_interactable(figure)
         if rmtpl is None:
             movemap_deco.set_inactive()

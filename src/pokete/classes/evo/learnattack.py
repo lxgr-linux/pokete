@@ -175,7 +175,7 @@ class LearnAttackManager(LearnAttack):
         return False
 
 
-def learn_attack(poke: Poke, ctx: Context):
+def learn_attack(poke: Poke, ctx: Context) -> None:
     """Checks if a new attack can be learned and then teaches it to the poke"""
     if poke.lvl() % 5 == 0:
         LearnAttackManager(poke)(ctx)

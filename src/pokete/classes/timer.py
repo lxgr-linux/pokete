@@ -77,18 +77,18 @@ class Time:
     ARGS:
         init_time: The initial time used for the timer"""
 
-    def __init__(self, init_time=0) -> None:
+    def __init__(self, init_time: int = 0) -> None:
         self.time = init_time  # time in in-game minutes
         self.last_input = init_time
 
-    def formatted(self) -> None:
+    def formatted(self) -> str:
         """Returns the in-game time in a formatted manner"""
         _t = self.normalized
         hours = int(_t / 60)
         minutes = _t % 60
         return f"{hours:02}:{minutes:02}"
 
-    def set(self, t) -> None:
+    def set(self, t: int) -> None:
         self.time = t
         self.last_input = t
 
@@ -97,7 +97,7 @@ class Time:
         self.last_input = self.time
 
     @property
-    def normalized(self) -> None:
+    def normalized(self) -> int:
         """Returns normalized time"""
         return self.time % (24 * 60)
 
@@ -110,7 +110,7 @@ class Clock(BoxView, MouseInteractor):
     ARGS:
         time_ob: Time object"""
 
-    def __init__(self, time_ob) -> None:
+    def __init__(self, time_ob: Time) -> None:
         self.time = time_ob
         super().__init__(
             9,
@@ -137,7 +137,7 @@ class Clock(BoxView, MouseInteractor):
                 loops.std(ctx)
             self.__rem_obs(letter_obs)
 
-    def __rem_obs(self, letter_obs) -> None:
+    def __rem_obs(self, letter_obs: list) -> None:
         """Removed all letters from the clock
         ARGS:
             letter_obs: The list of letters"""
@@ -145,7 +145,7 @@ class Clock(BoxView, MouseInteractor):
             obj.remove()
             self.rem_ob(obj)
 
-    def draw_letters(self, d_p=True, letter_obs=None) -> None:
+    def draw_letters(self, d_p: bool = True, letter_obs: list | None = None) -> list:
         """Method to draw the letters on the clock
         ARGS:
             d_p: Whether or not the DOUBLE_POINT should be shown
@@ -166,7 +166,7 @@ class Clock(BoxView, MouseInteractor):
 clock = Clock(time)
 
 
-def time_threat():
+def time_threat() -> None:
     """Manages the time counting"""
     while True:
         time_mod.sleep(SPEED_OF_TIME * 1)

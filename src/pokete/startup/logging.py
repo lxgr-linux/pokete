@@ -3,7 +3,7 @@ import logging
 from pokete import release
 
 
-def init_logger(do_logging: bool):
+def init_logger(do_logging: bool) -> None:
     # logging config
     log_file = (release.SAVEPATH / "pokete.log") if do_logging else None
     logging.basicConfig(

@@ -40,7 +40,7 @@ class FightDecision:
         return result
 
     @classmethod
-    def from_dict(cls, _d: FightDecisionData, _poke: Poke, _player: User) -> None:
+    def from_dict(cls, _d: "FightDecisionData", _poke: "Poke", _player: "User") -> "FightDecision | None":
         match _d["result"]:
             case Result.ATTACK.value:
                 logging.info("%s, %s", _d["attack"], _poke.attacks)

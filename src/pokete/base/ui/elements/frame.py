@@ -7,7 +7,7 @@ class StdFrame(se.Frame):
         height: The frames height
         width: The frames width"""
 
-    def __init__(self, height, width) -> None:
+    def __init__(self, height: Any, width) -> None:
         super().__init__(
             width=width,
             height=height,
@@ -24,7 +24,7 @@ class StdFrame2(se.Frame):
         height: The frames height
         width: The frames width"""
 
-    def __init__(self, height, width, state: se.State = "solid") -> None:
+    def __init__(self, height: Any, width, state: se.State = "solid") -> None:
         super().__init__(
             width=width,
             height=height,

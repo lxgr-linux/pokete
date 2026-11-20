@@ -1,4 +1,4 @@
-def sort_vers(vers):
+def sort_vers(vers) -> None:
     """Sorts versions
     ARGS:
         vers: List of versions

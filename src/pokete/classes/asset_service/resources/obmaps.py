@@ -29,7 +29,7 @@ class DorArgs:
         )
 
     @staticmethod
-    def validate(_d: DorArgsDict) -> bool:
+    def validate(_d: "DorArgsDict") -> bool:
         return all(
             [
                 "x" in _d and type(_d["x"]) is int,
@@ -71,7 +71,7 @@ class Dor:
         )
 
     @staticmethod
-    def validate(_d: DorDict) -> bool:
+    def validate(_d: "DorDict") -> bool:
         return all(
             [
                 "x" in _d and type(_d["x"]) is int,
@@ -110,7 +110,7 @@ class SpecialDors:
         )
 
     @staticmethod
-    def validate(_d: SpecialDorsDict) -> bool:
+    def validate(_d: "SpecialDorsDict") -> bool:
         return all(
             [
                 (
@@ -163,7 +163,7 @@ class Ob:
         )
 
     @staticmethod
-    def validate(_d: ObDict) -> bool:
+    def validate(_d: "ObDict") -> bool:
         return all(
             [
                 "x" in _d and type(_d["x"]) is int,
@@ -221,7 +221,7 @@ class Obmap:
         )
 
     @staticmethod
-    def validate(_d: ObmapDict) -> bool:
+    def validate(_d: "ObmapDict") -> bool:
         return all(
             [
                 "hard_obs" in _d

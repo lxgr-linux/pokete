@@ -21,15 +21,15 @@ class Stats(IStats):
 
     def __init__(
         self,
-        poke_name,
-        ownership_date,
-        caught_with=None,
-        evolved_date=None,
-        total_battles=0,
-        lost_battles=0,
-        win_battles=0,
-        earned_xp=0,
-        run_away=0,
+        poke_name: str,
+        ownership_date: "datetime | None",
+        caught_with: str | None = None,
+        evolved_date: "datetime | None" = None,
+        total_battles: int = 0,
+        lost_battles: int = 0,
+        win_battles: int = 0,
+        earned_xp: int = 0,
+        run_away: int = 0,
     ) -> None:
         self.ownership_date = ownership_date
         self.evolved_date = evolved_date
@@ -41,7 +41,7 @@ class Stats(IStats):
         self.caught_with = caught_with
         self.run_away = run_away
 
-    def add_battle(self, win=False) -> None:
+    def add_battle(self, win: bool = False) -> None:
         """Adds a battle to the statistics
         ARGS:
             win: Whether or not the battle was won"""
@@ -51,13 +51,13 @@ class Stats(IStats):
             self.lost_battles += 1
         self.total_battles += 1
 
-    def set_evolved_date(self, evolved_date) -> None:
+    def set_evolved_date(self, evolved_date: "datetime | None") -> None:
         """Sets the date the pokete evolve at
         ARGS:
             evolved_date: The date"""
         self.evolved_date = evolved_date
 
-    def add_xp(self, _xp) -> None:
+    def add_xp(self, _xp: int) -> None:
         """Adds xp to the statistics
         ARGS:
             _xp: Number of xp"""
@@ -89,7 +89,7 @@ class Stats(IStats):
         }
 
     @classmethod
-    def from_dict(cls, _dict: StatsDict, poke_name) -> None:
+    def from_dict(cls, _dict: StatsDict, poke_name: str) -> "Stats":
         """Assembles a PokeStats from _dict"""
         ownership_date = (
             None

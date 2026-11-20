@@ -633,7 +633,7 @@ Those effects can be given to a Pokete through an attack.
                 file.write(getattr(Wiki, name)(multi_page=True))
 
 
-def gen_pics():
+def gen_pics() -> None:
     """The function to generate a markdown file with some example pictures."""
     if QUIET or VERBOSE:
         print(":: Generating pics.md...")

@@ -17,7 +17,7 @@ __all__ = [
 ]
 
 
-def wait_event(ctx: Context, text: str, event: Event):
+def wait_event(ctx: Context, text: str, event: Event) -> None:
     """Shows box until event is set"""
     with InfoBoxView(text, info=None, ctx=ctx):
         loops.event_wait(ctx, event)

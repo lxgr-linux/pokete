@@ -16,7 +16,7 @@ from .settings import settings
 HOME = Path.home()
 
 
-def save(figure):
+def save(figure: "Figure") -> None:
     _map = figure.map.name
     old_map = figure.oldmap.name
     x = figure.x
@@ -56,7 +56,7 @@ def save(figure):
     logging.info("[General] Saved")
 
 
-def read_save():
+def read_save() -> None:
     """Reads from savefile
     RETURNS:
         session_info dict"""

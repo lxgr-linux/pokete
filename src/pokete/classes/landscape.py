@@ -68,7 +68,7 @@ class Meadow(se.Text):
     all_water = []
     all_sand = []
 
-    def __init__(self, string, poke_args) -> None:
+    def __init__(self, string: str, poke_args: PokeArgs) -> None:
         super().__init__(
             string,
             ignore=self.esccode + " " + Color.reset,
@@ -101,7 +101,7 @@ class Poketeball(se.Object, MapInteract):
     ARGS:
         name: Generic name of the ball"""
 
-    def __init__(self, name) -> None:
+    def __init__(self, name: str) -> None:
         self.name = name
         super().__init__(Color.thicc + Color.red + "o" + Color.reset, state="float")
 

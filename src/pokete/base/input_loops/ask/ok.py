@@ -58,7 +58,7 @@ class AskOkBox(Box, MouseInteractor):
             _ev.clear()
 
 
-def ask_ok(ctx: Context, text):
+def ask_ok(ctx: Context, text) -> None:
     """Shows the player some information
     ARGS:
         ctx:Context

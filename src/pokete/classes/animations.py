@@ -10,7 +10,7 @@ from pokete.classes.poke.ui import PokeLabels
 from pokete.release import SPEED_OF_TIME
 
 
-def transition(_map: se.Map, poke: IPoke):
+def transition(_map: se.Map, poke: IPoke) -> None:
     """Transition animation for world actions
     ARGS:
         _map: se.Map object the transition happens on
@@ -45,7 +45,7 @@ def transition(_map: se.Map, poke: IPoke):
     vec_2.remove()
 
 
-def fight_intro(height: int, width: int):
+def fight_intro(height: int, width: int) -> None:
     """Intro animation for fight with enhanced visual effect
     ARGS:
         height: Height of the animation

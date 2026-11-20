@@ -97,7 +97,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, ctx: Context, _x, _y, inp_arr) -> None:
+    def text(self, ctx: Context, _x: int, _y: int, inp_arr: list[str]) -> None:
         """Shows dialog text on movemap
         ARGS:
             _x: The message's X
@@ -144,7 +144,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         for rmtplr in pc_manager.pc_manager.reg.values():
             rmtplr.add_name_tag()
 
-    def resize(self, height, width, background=" ") -> None:
+    def resize(self, height: int, width: int, background: str = " ") -> None:
         """Resizes the map and its attributes
         See se.Map.resize"""
         for obj in [
@@ -159,7 +159,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         self.label_bg.resize(self.width, 1)
         self.add_obs()
 
-    def balls_label_rechar(self, pokes) -> None:
+    def balls_label_rechar(self, pokes: list["Poke"]) -> None:
         """Rechars the ball's label
         ARGS:
             pokes: The player's Pokes"""
@@ -177,7 +177,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             esccode=Color.thicc,
         )
 
-    def name_label_rechar(self, name) -> None:
+    def name_label_rechar(self, name: str) -> None:
         """Rechars name_label and sets balls_label correctly
         ARGS:
             name: The player's new name"""

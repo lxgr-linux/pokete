@@ -238,7 +238,7 @@ def codes(string: str, figure: Figure) -> None:
 ################
 
 ''' # this is awful and has to be removed
-def swap_poke(ctx: Context):
+def swap_poke(ctx: Context) -> None:
     """Trading with other players in the local network"""
     if not ask_bool(
         ctx, "Do you want to trade with another trainer?",

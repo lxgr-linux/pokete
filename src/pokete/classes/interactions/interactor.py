@@ -21,16 +21,16 @@ class Interactor(InteractorInterface, ABC):
     name: str
 
     @abstractmethod
-    def set(self, x, y) -> None:
+    def set(self, x: int, y: int) -> None:
         pass
 
-    def text(self, text) -> None:
+    def text(self, text: str) -> None:
         """Movemap.text wrapper
         ARGS:
             text: Text that should be printed"""
         mvp.movemap.text(self.ctx, self.x, self.y, text)
 
-    def check_walk(self, _x, _y) -> None:
+    def check_walk(self, _x: int, _y: int) -> bool:
         """Checks whether the NPC can walk to a point or not
         ARGS:
             _x: X-coordinate
@@ -56,7 +56,7 @@ class Interactor(InteractorInterface, ABC):
         )
         return ret
 
-    def walk_point(self, _x, _y) -> None:
+    def walk_point(self, _x: int, _y: int) -> bool:
         """Walks the NPC tp a certain point
         ARGS:
             _x: X-coordinate

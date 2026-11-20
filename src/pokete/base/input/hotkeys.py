@@ -178,12 +178,12 @@ def get_mapping(action: Action, keys: dict[str, ActionList]) -> str:
     return ""
 
 
-def hotkeys_save():
+def hotkeys_save() -> None:
     """Returns a save dict"""
     return {key: [i.name for i in value] for key, value in hotkey_mappings.items()}
 
 
-def hotkeys_from_save(ctx, save, version_change):
+def hotkeys_from_save(ctx, save, version_change) -> None:
     """Sets hotkey_mappings from save"""
     from ..input_loops import ask_bool
 

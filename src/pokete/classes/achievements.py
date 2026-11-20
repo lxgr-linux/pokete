@@ -24,7 +24,7 @@ class Achievement:
         title: Title ("First Pokete")
         desc: Description ("Catch your first Pokete")"""
 
-    def __init__(self, identifier, title, desc) -> None:
+    def __init__(self, identifier: str, title: str, desc: str) -> None:
         self.identifier = identifier
         self.title = title
         self.desc = desc
@@ -33,23 +33,25 @@ class Achievement:
 class Achievements:
     """Manages Achievements"""
 
-    def __init__(self) -> None:
-        self.achievements = []
-        self.achieved = []
+    log = logging.getLogger("Achievements")
 
-    def set_achieved(self, achieved) -> None:
+    def __init__(self) -> None:
+        self.achievements: list[Achievement] = []
+        self.achieved: list[tuple[str, str]] = []
+
+    def set_achieved(self, achieved: list[tuple[str, str]]) -> None:
         """Sets the achieved Achievements
         ARGS:
             achieved: List of identifiers of the achieved Achievements"""
         self.achieved = achieved
 
-    def add(self, identifier, title, desc) -> None:
+    def add(self, identifier: str, title: str, desc: str) -> None:
         """Generates an Achievement
 
         See ``Achievement`` for argument info"""
         self.achievements.append(Achievement(identifier, title, desc))
 
-    def achieve(self, identifier) -> None:
+    def achieve(self, identifier: str) -> None:
         """Checks and achieves an Achievement
         ARGS:
             identifier: The Achievements identifier"""
@@ -57,9 +59,9 @@ class Achievements:
             ach = next(i for i in self.achievements if i.identifier == identifier)
             notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
-            logging.info("[Achievements] Unlocked %s", identifier)
+            self.log.info("[Achievements] Unlocked %s", identifier)
 
-    def is_achieved(self, identifier) -> None:
+    def is_achieved(self, identifier: str) -> bool:
         """Whether or not an identifier is achieved
         ARGS:
             identifier: The Achievements identifier
@@ -74,7 +76,7 @@ class AchBox(LabelBoxView):
         ach: The Achievement
         achievements: Achievement's object"""
 
-    def __init__(self, ach, ach_ob) -> None:
+    def __init__(self, ach: Achievement, ach_ob: Achievements) -> None:
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = (
             next(i[-1] for i in ach_ob.achieved if i[0] == ach.identifier)

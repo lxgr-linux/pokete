@@ -26,7 +26,7 @@ class ModError(Exception):
         name: The mod's name
         err: The error that was thrown"""
 
-    def __init__(self, name, err) -> None:
+    def __init__(self, name: Any, err) -> None:
         self.name = name
         self.err = err
         super().__init__(f"The mod '{name}' lacks attributes!\n{err}")
@@ -57,7 +57,7 @@ Currently {len(loaded_mods.mod_info)} mod{"s are" if len(loaded_mods.mod_info) !
         )
 
 
-def try_load_mods(_map):
+def try_load_mods(_map: "se.Map") -> None:
     global loaded_mods
     if settings("load_mods").val:
         try:

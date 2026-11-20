@@ -27,7 +27,7 @@ class EvoMap(gm.GameMap, Overview):
         height: The height of the map
         width: The width of the map"""
 
-    def __init__(self, height, width) -> None:
+    def __init__(self, height: Any, width) -> None:
         super().__init__(height, width, name="evomap")
         self.frame_small = se.Frame(height=4, width=width, state="float")
         self.outp = OutP("", state="float")

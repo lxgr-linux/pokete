@@ -189,7 +189,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
             # for j in prov.curr.effects:
             #    j.cleanup()
 
-    def __add_player(self, player: Provider, resize=False) -> None:
+    def __add_player(self, player: Provider, resize: bool = False) -> None:
         """Adds player labels
         ARGS:
             player: The player provider object
@@ -246,7 +246,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         # self.box.box.add_c_obs([atc.label for atc in player.curr.attack_obs])
         # self.box.box.set_index(0)
 
-    def fast_change(self, arr, setob) -> None:
+    def fast_change(self, arr: list[se.Text], setob: se.Text) -> None:
         """Changes fast between a list of texts
         ARGS:
             arr: List of se.Texts that will be changed through
@@ -418,7 +418,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         self.clean_up(*providers)
 
     def show_effectivity(
-        self, eff: int, n_hp: int, random_factor: int, attacker, attack
+        self, eff: int, n_hp: int, random_factor: int, attacker: "Poke", attack: "Attack"
     ) -> None:
         eff_text = {
             eff < 1: "\nThat was not effective! ",
@@ -436,7 +436,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         self.providers = providers
         self.poke_labels = [PokeLabels(p.curr) for p in providers]
 
-    def show_hurt_it_self(self, attacker) -> None:
+    def show_hurt_it_self(self, attacker: "Poke") -> None:
         time.sleep(SPEED_OF_TIME * 1)
         self.outp.outp(f"{attacker.ext_name} hurt itself!")
 

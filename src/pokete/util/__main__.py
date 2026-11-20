@@ -19,7 +19,7 @@ def fallback(ex: str, options: list[str], _: dict[str, list[str]]):
     not_found(ex, options[0])
 
 
-def main():
+def main() -> None:
     c = RootCommand(
         "util",
         "Pokete utility",

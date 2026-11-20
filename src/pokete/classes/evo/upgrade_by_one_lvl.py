@@ -5,7 +5,7 @@ from .evomap import EvoMap
 from .learnattack import learn_attack
 
 
-def upgrade_by_one_lvl(ctx: Context, poke: Poke):
+def upgrade_by_one_lvl(ctx: Context, poke: Poke) -> None:
     """Upgrades a Pokete by exactly one level, this will only be used by treats
     ARGS:
         poke: The pokete, that will be upgraded"""

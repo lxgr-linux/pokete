@@ -23,7 +23,7 @@ END_SECTION = b"<END>"
 
 
 class Client:
-    def __init__(self, rw, reg: Registry) -> None:
+    def __init__(self, rw: Any, reg: Registry) -> None:
         self.rw = rw
         self.reg = reg
         self.calls: dict[int, Channel[Body]] = {}

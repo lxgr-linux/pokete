@@ -27,7 +27,7 @@ class Informer:
     """Supplies methods for Deck and Detail"""
 
     @staticmethod
-    def add(poke, figure, _map, _x, _y, in_deck=True) -> None:
+    def add(poke: "Poke", figure, _map: se.Map, _x: int, _y: int, in_deck: bool = True) -> None:
         """Adds a Pokete's info to the deck
         ARGS:
             poke: Poke object
@@ -66,7 +66,7 @@ class Informer:
                 eff.add_label()
 
     @staticmethod
-    def remove(poke) -> None:
+    def remove(poke: "Poke") -> None:
         """Removes a Pokete from the deck
         ARGS:
             poke: Poke object that should be removed"""
@@ -200,7 +200,7 @@ class OldDetail(Informer, Overview):
             ):
                 label.add(self.map, _x + __x, _y + __y)
 
-    def enq_single_action(self, ret_action: str) -> None:
+    def enq_single_action(self, ret_action: str | None) -> None:
         event: SingleEvent | None = None
         match ret_action:
             case "teleport":
@@ -225,11 +225,11 @@ class OldDetail(Informer, Overview):
                 obj.remove()
             del atc.temp_i, atc.temp_j
 
-    def __call__(self, ctx: Context, poke, abb=True) -> None:
+    def __call__(self, ctx: Context, poke: "Poke", abb: bool = True) -> None:
         """Shows details
         ARGS:
             poke: Poke object whose details are given
-            abb: Bool whether or not the ability option is overview=Nonshown"""
+            abb: Bool whether or not the ability option is shown"""
         self.poke = poke
         self.overview = ctx.overview
         ctx = Context(

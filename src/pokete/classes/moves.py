@@ -13,7 +13,7 @@ from pokete.release import SPEED_OF_TIME
 
 
 # Helper functions for animations - no duplication, pure functions
-def _impact(player_labels: PokeLabels, enem_labels: PokeLabels):
+def _impact(player_labels: PokeLabels, enem_labels: PokeLabels) -> None:
     """Brief flash effect on enemy when attack lands"""
     if enem_labels.poke == player_labels.poke:
         return
@@ -46,7 +46,7 @@ def _throw(
     factor: float = 1.0,
     num: int = 1,
     trail: bool = True,
-):
+) -> None:
     """Throw move with trail effect
     ARGS:
         player_labels: Labels of attacking pokemon
@@ -96,7 +96,7 @@ def _throw(
     del line
 
 
-def _shine(player_labels: PokeLabels, ico: str):
+def _shine(player_labels: PokeLabels, ico: str) -> None:
     """Shine animation with custom icon"""
     shines = [se.Object(ico) for _ in range(4)]
     for i, _x, _y in zip(

@@ -11,12 +11,12 @@ class RemotePlayer(se.Object, MapInteract, Interactor):
     ARGS:
         name: The players name"""
 
-    def __init__(self, name) -> None:
+    def __init__(self, name: str) -> None:
         super().__init__("a", "float")
         self.name = name
         self.name_tag = NameTag(name)
 
-    def add(self, _map, x, y) -> None:
+    def add(self, _map: se.Map, x: int, y: int) -> None:
         """Adds the player remoteplayer to the map
         ARGS:
             _map: The map to add to
@@ -45,7 +45,7 @@ class NameTag(se.Box, MapInteract):
     ARGS:
         name: The remote players name"""
 
-    def __init__(self, name) -> None:
+    def __init__(self, name: str) -> None:
         super().__init__(2, len(name))
         self.pointer = se.Text("v", "float", esccode=Color.thicc)
         self.tag = (
@@ -56,7 +56,7 @@ class NameTag(se.Box, MapInteract):
         self.add_ob(self.tag, 0, 0)
         self.add_ob(self.pointer, round(self.width / 2), 1)
 
-    def add_to_movemap(self, player_map, x, y) -> None:
+    def add_to_movemap(self, player_map: se.Map, x: int, y: int) -> None:
         """Adds the nametag to movemap
         ARGS:
             player_map: The map the remte player is on
@@ -69,7 +69,7 @@ class NameTag(se.Box, MapInteract):
                 y - self.ctx.map.y - 2,
             )
 
-    def add(self, _map, x, y) -> None:
+    def add(self, _map: se.Map, x: int, y: int) -> None:
         """
         Adds the box to a certain coordinate on a certain map.
         """

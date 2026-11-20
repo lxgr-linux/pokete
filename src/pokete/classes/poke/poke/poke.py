@@ -34,14 +34,14 @@ class Poke(IPoke):
         self,
         poke: str,
         _xp: int,
-        _hp="SKIP",
-        _ap=None,
-        _attacks=None,
-        _effects=None,
+        _hp: str | int = "SKIP",
+        _ap: list | None = None,
+        _attacks: list | None = None,
+        _effects: list | None = None,
         player: bool = True,
         shiny: bool = False,
-        nature=None,
-        stats=None,
+        nature: dict | None = None,
+        stats: dict | None = None,
     ) -> None:
         self.nature = (
             PokeNature.random() if nature is None else PokeNature.from_dict(nature)
@@ -108,7 +108,7 @@ can't have more than 4 attacks!"
             else Stats.from_dict(stats, self.name)
         )
 
-    def set_player(self, player) -> None:
+    def set_player(self, player: bool) -> None:
         """Sets the player attribute when the Pokete changes the owner
         ARGS:
             player: Bool whether or not the Poke new belongs to the player"""
@@ -116,7 +116,7 @@ can't have more than 4 attacks!"
         self.affil = "you" if self.player else "enemy"
         self.ext_name = f"{self.name}({self.affil})"
 
-    def set_poke_stats(self, poke_stats) -> None:
+    def set_poke_stats(self, poke_stats: Stats) -> None:
         """Sets the Poketes stats:
         ARGS:
             poke_stats: PokeStats object"""
@@ -151,14 +151,14 @@ can't have more than 4 attacks!"
             "stats": self.poke_stats.dict(),
         }
 
-    def set_ap(self, aps) -> None:
+    def set_ap(self, aps: list) -> None:
         """Sets attack aps from a list
         ARGS:
             aps: List of attack ap"""
         for atc, ap in zip(self.attack_obs, aps):
             atc.set_ap(ap)
 
-    def add_xp(self, _xp) -> None:
+    def add_xp(self, _xp: int) -> bool:
         """Adds xp to the current pokete
         ARGS:
             _xp: Amount of xp added to the current xp
@@ -173,7 +173,7 @@ can't have more than 4 attacks!"
             return True
         return False
 
-    def lvl(self) -> None:
+    def lvl(self) -> int:
         """RETURNS:
         Current level"""
         return int(math.sqrt(self.xp + 1))
@@ -192,7 +192,7 @@ can't have more than 4 attacks!"
         self.hp = max(self.hp - max(hp, 0), 0)
 
     @classmethod
-    def from_dict(cls, _dict) -> None:
+    def from_dict(cls, _dict: dict) -> "Poke":
         """Assembles a Pokete from _dict"""
         return cls(
             _dict["name"],

@@ -1,4 +1,4 @@
-from typing import override
+from typing import Any, override
 
 import scrap_engine as se
 
@@ -20,7 +20,7 @@ class LabelBoxView(BoxView):
     def __init__(
         self,
         label: se.Text,
-        name="",
+        name: str = "",
         info: list[se.Text] | None = None,
         ctx: Context | None = None,
     ) -> None:
@@ -28,7 +28,8 @@ class LabelBoxView(BoxView):
         super().__init__(label.height + 2, label.width + 4, name, info, ctx=ctx)
         self.add_ob(label, 2, 1)
 
-    def resize(self, height, width) -> None:
+    @override
+    def resize(self, height: int, width: int) -> None:
         super().resize(height, width)
         self.set_ob(self.label, 2, 1)
 
@@ -42,16 +43,17 @@ class InfoBoxView(LabelBoxView):
 
     def __init__(
         self,
-        text,
-        name="",
+        text: str,
+        name: str = "",
         info: list[se.Text] | None = None,
-        ctx=None,
+        ctx: Context | None = None,
     ) -> None:
         if info is None:
             info = [CloseLabel()]
         super().__init__(se.Text(text), name=name, info=info, ctx=ctx)
 
-    def __enter__(self) -> None:  # Contextmanagement is fucking awesome!
+    @override
+    def __enter__(self) -> "InfoBoxView":  # Contextmanagement is fucking awesome!
         """Enter dunder for contextmanagement"""
         self.center_add(self.map)
         self.map.show()
@@ -67,7 +69,7 @@ class InputBoxView(InfoBoxView):
         name: The boxes desplayed name
         max_len: Max length of the text"""
 
-    def __init__(self, infotext, introtext, text, max_len, name="") -> None:
+    def __init__(self, infotext: str, introtext: str, text: str, max_len: int, name: str = "") -> None:
         height = len(infotext.split("\n")) + 3
         width = (
             max([len(i) for i in infotext.split("\n")] + [len(introtext) + 1 + max_len])
@@ -92,7 +94,8 @@ class InputBoxView(InfoBoxView):
     def get_partial_interactors(self) -> list[MouseInteractor]:
         return super().get_partial_interactors() + [self.__input]
 
-    def __call__(self, ctx: Context) -> None:
+    @override
+    def __call__(self, ctx: Context) -> str:
         self.set_ctx(ctx)
         with self:
             ctx = change_ctx(ctx, self)

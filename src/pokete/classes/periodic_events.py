@@ -11,7 +11,7 @@ from .npcs import NPC
 from .settings import settings
 
 
-def check_figure_redraw(obj):
+def check_figure_redraw(obj: object) -> None:
     """Checks whether or not the figure has to be redrawn
     ARGS:
         obj: The obj that this is checked for"""
@@ -22,7 +22,7 @@ def check_figure_redraw(obj):
 class MovingGrassEvent(PeriodicEvent):
     max_tick = 100
 
-    def __init__(self, _map) -> None:
+    def __init__(self, _map: "GameMap") -> None:
         self.all_grass_objs = []
         for meadow in Meadow.all_grass:
             if meadow.map == _map:
@@ -41,7 +41,7 @@ class MovingGrassEvent(PeriodicEvent):
 
 
 class MovingWaterEvent(PeriodicEvent):
-    def __init__(self, _map) -> None:
+    def __init__(self, _map: "GameMap") -> None:
         self.all_water_objs = []
         for water in Meadow.all_water:
             if water.map == _map:

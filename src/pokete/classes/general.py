@@ -8,7 +8,7 @@ from pokete.base.input_loops import ask_ok
 from .doors import DoorToCenter
 
 
-def check_walk_back(ctx: Context, self=None):
+def check_walk_back(ctx: Context, self=None) -> None:
     """Check whether the figure has to be walked back to the last Poketecenter
     or not"""
     if all(i.hp <= 0 for i in ctx.figure.pokes[:6]):

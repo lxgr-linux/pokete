@@ -54,7 +54,7 @@ class StationGen:
         )
 
     @staticmethod
-    def validate(_d: StationGenDict) -> bool:
+    def validate(_d: "StationGenDict") -> bool:
         return all(
             [
                 "additionals" in _d and all(type(i) is str for i in _d["additionals"]),
@@ -68,7 +68,7 @@ class StationGen:
             ]
         )
 
-    def to_dict(self) -> StationGenDict:
+    def to_dict(self) -> "StationGenDict":
         ret: StationGenDict = {}
 
         ret["additionals"] = self.additionals
@@ -107,7 +107,7 @@ class Station:
         )
 
     @staticmethod
-    def validate(_d: StationDict) -> bool:
+    def validate(_d: "StationDict") -> bool:
         return all(
             [
                 "gen" in _d and StationGen.validate(_d["gen"]),
@@ -144,7 +144,7 @@ class DecorationGen:
         )
 
     @staticmethod
-    def validate(_d: DecorationGenDict) -> bool:
+    def validate(_d: "DecorationGenDict") -> bool:
         return all(
             [
                 "text" in _d and type(_d["text"]) is str,
@@ -152,7 +152,7 @@ class DecorationGen:
             ]
         )
 
-    def to_dict(self) -> DecorationGenDict:
+    def to_dict(self) -> "DecorationGenDict":
         ret: DecorationGenDict = {}
 
         ret["text"] = self.text
@@ -181,7 +181,7 @@ class Decoration:
         )
 
     @staticmethod
-    def validate(_d: DecorationDict) -> bool:
+    def validate(_d: "DecorationDict") -> bool:
         return all(
             [
                 "gen" in _d and DecorationGen.validate(_d["gen"]),

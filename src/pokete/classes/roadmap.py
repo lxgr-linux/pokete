@@ -55,7 +55,7 @@ class Station(StationObject):
         self,
         roadmap: "RoadMap",
         associate: "PlayMap",
-        additionals: list,
+        additionals: list[str],
         desc: str,
         text: str,
         color: str = "",
@@ -80,7 +80,7 @@ class Station(StationObject):
         self.s_next = s_next
         self.d_next = d_next
 
-    def choose(self, figure) -> None:
+    def choose(self, figure: "Figure") -> None:
         """Chooses and hightlights the station"""
         Station.choosen = self
         self.roadmap.rechar_info(self.name if self.has_been_visited(figure) else "???")
@@ -95,10 +95,11 @@ class Station(StationObject):
     def un_blink(self) -> None:
         self.rechar(self.text, self.color)
 
-    def next(self, inp: ActionList, figure) -> None:
+    def next(self, inp: ActionList, figure: "Figure") -> None:
         """Chooses the next station in a certain direction
         ARGS:
-            inp: Action Enum"""
+            inp: Action Enum
+            figure: Figure object"""
         for action in inp:
             if action in ACTION_DIRECTIONS:
                 inp = action
@@ -113,7 +114,7 @@ class Station(StationObject):
             self.unchoose()
             getattr(self.roadmap, n_e).choose(figure)
 
-    def has_been_visited(self, figure) -> bool:
+    def has_been_visited(self, figure: "Figure") -> bool:
         """Returns if the stations map has been visited before"""
         return self.associates[0].name in figure.visited_maps
 
@@ -287,7 +288,7 @@ W ◀ ▶ E
 
     # @staticmethod
     # TODO: Add to assetloading validation
-    # def check_maps():
+    # def check_maps() -> None:
     #    """Checks for PlayMaps not having a corresponding MapStation"""
     #    all_road_maps = ["centermap", "shopmap"]
     #    for i, _dict in p_data.stations.items():

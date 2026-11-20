@@ -1,4 +1,4 @@
-def liner(text: str, width: int, pre: str = ""):
+def liner(text: str, width: int, pre: str = "") -> None:
     """Wraps a string after a certain length and respects word endings
     ARGS:
         text: The text that should be lined
@@ -21,7 +21,7 @@ def liner(text: str, width: int, pre: str = ""):
     return out
 
 
-def hard_liner(l_len: int, name: str):
+def hard_liner(l_len: int, name: str) -> None:
     """Wraps a string after a certain length
     ARGS:
         name: The String
