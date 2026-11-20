@@ -35,7 +35,6 @@ class Attack:
         self.label_name = se.Text(self.name, esccode=Color.underlined, state="float")
         self.label_ap = se.Text(f"AP:{self.ap}/{self.max_ap}", state="float")
         self.label_factor = se.Text(f"Attack:{self.factor}", state="float")
-        self.label_desc = se.Text(self.desc[:10], state="float")
         self.label_type = se.Text("Type:", state="float") + se.Text(
             self.type.name.capitalize(), esccode=self.type.color, state="float"
         )

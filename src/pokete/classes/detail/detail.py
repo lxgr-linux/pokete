@@ -16,6 +16,7 @@ from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements.box import Box
 from pokete.base.ui.elements.labels import CloseLabel, GenericActionLabel
+from pokete.classes.detail.attack_descs import AttackDescs
 from pokete.classes.poke.poke import Poke
 from pokete.classes.poke.ui import NatureInfo, PokeLabels, StatsInfoBox
 from pokete.classes.single_events import TeleportationSingleEvent
@@ -69,6 +70,7 @@ class Detail(Box, MouseInteractor):
         self.add_ob(self.line_sep2, 1, 11)
         self.add_ob(self.line_middle, round(self.width / 2), 7)
         self.add_ob(self.desc_label, 34, 2)
+        self.attack_descs: AttackDescs
         self.poke = None
 
     def new_size(self) -> tuple[int, int]:
@@ -99,6 +101,7 @@ class Detail(Box, MouseInteractor):
         self.resize(*self.new_size())
         self.overview.resize_view()
         self.__rechar_desc_label()
+        self.attack_descs.resize(self.width)
         self.line_sep1.resize(self.width - 2, 1)
         self.line_sep2.resize(self.width - 2, 1)
         self.add_attack_labels()
@@ -107,7 +110,7 @@ class Detail(Box, MouseInteractor):
 
     def add_attack_labels(self):
         """Adds the attack labels to map"""
-        for atc, _x, _y in zip(
+        for atc, _x, _y, desc_label in zip(
             self.poke.attack_obs,
             [
                 1,
@@ -116,10 +119,8 @@ class Detail(Box, MouseInteractor):
                 round(self.width / 2) + 1,
             ],
             [7, 7, 12, 12],
+            self.attack_descs.labels,
         ):
-            atc.temp_i = 0
-            atc.temp_j = -30
-            atc.label_desc.rechar(atc.desc[: int(self.width / 2 - 1)])
             atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
             for label, __x, __y in zip(
                 [
@@ -127,7 +128,7 @@ class Detail(Box, MouseInteractor):
                     atc.label_factor,
                     atc.label_type,
                     atc.label_ap,
-                    atc.label_desc,
+                    desc_label,
                 ],
                 [0, 0, 11, 0, 0],
                 [0, 1, 1, 2, 3],
@@ -159,21 +160,17 @@ class Detail(Box, MouseInteractor):
             self.rem_ob(obj)
             if obj.added:
                 obj.remove()
-        for atc in self.poke.attack_obs:
+        for atc, desc_label in zip(self.poke.attack_obs, self.attack_descs.labels):
             for obj in [
                 atc.label_name,
                 atc.label_factor,
                 atc.label_ap,
-                atc.label_desc,
+                desc_label,
                 atc.label_type,
             ]:
                 self.rem_ob(obj)
                 if obj.added:
                     obj.remove()
-            if hasattr(atc, "temp_i"):  # TODO: Check this out
-                del atc.temp_i
-            if hasattr(atc, "temp_j"):
-                del atc.temp_j
 
     def __call__(self, ctx: Context, poke: Poke, abb: bool = True) -> str | None:
         """Shows details
@@ -187,6 +184,7 @@ class Detail(Box, MouseInteractor):
         self.poke_labels = PokeLabels(poke)
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
+        self.attack_descs = AttackDescs(poke.attack_obs, self.width)
 
         # Sets the MF info labels correctly
         abb_obs = [i for i in self.poke.attack_obs if i.world_action != ""]
@@ -250,23 +248,5 @@ class Detail(Box, MouseInteractor):
                         ctx = change_ctx(ctx, self)
                         if ret_action:
                             self.enq_single_action(ret_action)
-                # This section generates the Text effect for attack labels
-                for atc in self.poke.attack_obs:
-                    if len(atc.desc) > int((self.width - 3) / 2 - 1):
-                        if atc.temp_j == 5:
-                            atc.temp_i += 1
-                            atc.temp_j = 0
-                            if (
-                                atc.temp_i
-                                == len(atc.desc) - int(self.width / 2 - 1) + 10
-                            ):
-                                atc.temp_i = 0
-                                atc.temp_j = -30
-                            atc.label_desc.rechar(
-                                atc.desc[
-                                    atc.temp_i : int(self.width / 2 - 1) + atc.temp_i
-                                ]
-                            )
-                        else:
-                            atc.temp_j += 1
+                self.attack_descs.inc()
                 loops.std(ctx)
