@@ -13,8 +13,9 @@ from .multiplayer.modeprovider import Mode, modeProvider
 from .pokete_care import pokete_care
 from .settings import settings
 
-
 HOME = Path.home()
+
+logger = logging.getLogger("Save")
 
 
 def save(figure: "Figure") -> None:
