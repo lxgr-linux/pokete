@@ -14,7 +14,9 @@ from .fightmap import FightMap
 from .providers import Provider
 
 
+
 class AttackProcess:
+    logger = logging.getLogger("AttackProcess")
     def __init__(self, fightmap: FightMap) -> None:
         self.fightmap: FightMap = fightmap
 
@@ -105,7 +107,7 @@ class AttackProcess:
                 self.fightmap.provider_labels(prov).hp_bar.update(
                     prov.curr.oldhp, prov.curr.hp
                 )
-            logging.info(
+            self.logger.info(
                 "[Fight][%s] Used %s: %s",
                 attacker.name,
                 attack.name,

@@ -6,7 +6,9 @@ from pokete.classes.fight.items.item import FightItem, RoundContinuation
 from pokete.classes.fight.providers import Provider
 
 
+
 class GenericeHealingPotion(FightItem, ABC):
+    logger = logging.getLogger("GenericeHealingPotion")
     def __init__(self, hp: int, name: str) -> None:
         self.hp = hp
         self.name = name
@@ -16,15 +18,17 @@ class GenericeHealingPotion(FightItem, ABC):
         obj.curr.oldhp = obj.curr.hp
         obj.curr.hp = min(obj.curr.full_hp, obj.curr.hp + self.hp)
         obj.curr.hp_bar.update(obj.curr.oldhp, obj.curr.hp)
-        logging.info("[Fighitem][%s] Used", self.name)
+        self.logger.info("[Fighitem][%s] Used", self.name)
         return RoundContinuation.ENEMY_ATTACK
 
 
 class HealingPotion(GenericeHealingPotion):
+    logger = logging.getLogger("HealingPotion")
     def __init__(self) -> None:
         super().__init__(5, "healing_potion")
 
 
 class SuperPotion(GenericeHealingPotion):
+    logger = logging.getLogger("SuperPotion")
     def __init__(self) -> None:
         super().__init__(15, "super_potion")

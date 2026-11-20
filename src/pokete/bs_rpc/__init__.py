@@ -1,3 +1,4 @@
+import logging
 import json
 import threading
 import time
@@ -6,6 +7,7 @@ from .channel import Channel
 from .channel_generator import ChannelGenerator
 from .msg import Body, EmptyMsg, Method, Msg, ResponseWriter
 from .registry import Registry
+
 
 __all__ = [
     "Body",
@@ -23,6 +25,7 @@ END_SECTION = b"<END>"
 
 
 class Client:
+    logger = logging.getLogger("Client")
     def __init__(self, rw: "ResponseWriter", reg: Registry) -> None:
         self.rw = rw
         self.reg = reg
@@ -100,7 +103,7 @@ class Client:
                 msg_parts = msg_buf.split(END_SECTION)
 
                 msg: Msg = json.loads(msg_parts[0])
-                # logging.info("[BsRpc] Received data: %s", msg)
+                # self.logger.info("[BsRpc] Received data: %s", msg)
 
                 body: Body = self.reg.get(msg["type"])(data=msg["body"])
 

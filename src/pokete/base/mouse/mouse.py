@@ -1,3 +1,4 @@
+import logging
 
 from pokete import bs_rpc
 from pokete.base.exception_propagation.propagating_thread import (
@@ -14,6 +15,7 @@ from .mouse_optimizing_queue_monitoring_handler import (
 
 
 class MouseInteractionManager:
+    logger = logging.getLogger("MouseInteractionManager")
     def __init__(self) -> None:
         self.__interactors: list[MouseInteractor] = []
         self.__last: tuple[MouseInteractor, int, MouseEventType, bool] | None = None
@@ -45,7 +47,7 @@ class MouseInteractionManager:
             single_event_periodic_event.add(
                 InteractionSingleEvent(interactor, idx, event)
             )
-            # logging.info("Casting %s", curr[2])
+            # self.logger.info("Casting %s", curr[2])
             self.__last = curr
 
 

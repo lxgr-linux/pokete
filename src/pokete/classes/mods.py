@@ -9,6 +9,8 @@ from pokete.base.ui.views.boxes import InfoBoxView
 from .settings import settings
 from .side_loops import LoopBox
 
+logger = logging.getLogger("Mods")
+
 
 class DummyMods:
     """Dummy Mods class used when mods are disabled"""
@@ -34,6 +36,8 @@ class ModError(Exception):
 
 class ModInfo(LoopBox):
     """Gives information about mods"""
+
+    logger = logging.getLogger("ModInfo")
 
     def __init__(self) -> None:
         self.text = (
@@ -72,7 +76,7 @@ def try_load_mods(_map: "se.Map") -> None:
             mod.mod_p_data(p_data)
     else:
         loaded_mods = DummyMods()
-    logging.info(
+    logger.info(
         "[General] %d mods are loaded: (%s)",
         len(loaded_mods.mod_obs),
         ", ".join(loaded_mods.mod_names),

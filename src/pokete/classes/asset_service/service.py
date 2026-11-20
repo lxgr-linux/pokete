@@ -5,15 +5,18 @@ from pokete.classes.items import InvItem, LearnDisc
 
 from .resources import Assets, AssetsDict, BaseAssets, BaseAssetsDict
 
+
 Items = dict[str, InvItem]
 
 
 class ValidationException(Exception):
+    logger = logging.getLogger("ValidationException")
     def __init__(self) -> None:
         super().__init__("Failed to validate data")
 
 
 class AssetSerice:
+    logger = logging.getLogger("AssetSerice")
     def __init__(self) -> None:
         self.__assets: Assets | None = None
         self.__base_assets: BaseAssets | None = None
@@ -47,7 +50,7 @@ class AssetSerice:
 
     def load_assets_from_p_data(self) -> None:
         if self.__assets is not None:
-            logging.warning("[AssetService]: Assets already loaded")
+            self.logger.warning("[AssetService]: Assets already loaded")
         self.load_assets(
             {
                 "trainers": p_data.trainers,

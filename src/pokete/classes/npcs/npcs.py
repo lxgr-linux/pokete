@@ -24,9 +24,11 @@ from .npc_trigger import NPCTrigger
 from .ui import UI
 
 
+
 class NPC(se.Box, NPCInterface, MapInteract, Interactor):
     """An NPC to talk to"""
 
+    logger = logging.getLogger("NPC")
     npcactions: dict[str, NPCAction] = {}
     registry: dict[str, "NPC"] = {}
 
@@ -66,7 +68,7 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
         """Interaction with the NPC triggered by NPCTrigger.action"""
         if self.used and settings("save_trainers").val:
             return
-        logging.info("[NPC][%s] Interaction", self.name)
+        self.logger.info("[NPC][%s] Interaction", self.name)
         self.ctx.map.full_show()
         time.sleep(SPEED_OF_TIME * 0.7)
         self.exclamate()
@@ -125,6 +127,7 @@ Do you want to accept it?",
 class Trainer(NPC, Provider):
     """Trainer class to fight against"""
 
+    logger = logging.getLogger("Trainer")
     def __init__(self, pokes: list["Poke"], name: str, gender: str, texts: str, lose_texts: str, win_texts: str) -> None:
         NPC.__init__(self, name, texts, side_trigger=False)
         Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
@@ -194,7 +197,7 @@ class Trainer(NPC, Provider):
                 else:
                     self.ctx.figure.add_money(20)
                     self.set_used()
-                logging.info(
+                self.logger.info(
                     "[NPC][%s] %s against player",
                     self.name,
                     "Lost" if not is_winner else "Won",

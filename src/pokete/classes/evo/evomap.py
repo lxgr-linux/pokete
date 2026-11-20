@@ -21,12 +21,14 @@ from pokete.release import SPEED_OF_TIME
 from .learnattack import LearnAttackBox
 
 
+
 class EvoMap(gm.GameMap, Overview):
     """Map for evolutions to take place on
     ARGS:
         height: The height of the map
         width: The width of the map"""
 
+    logger = logging.getLogger("EvoMap")
     def __init__(self, height: int, width: int) -> None:
         super().__init__(height, width, name="evomap")
         self.frame_small = se.Frame(height=4, width=width, state="float")
@@ -89,7 +91,7 @@ class EvoMap(gm.GameMap, Overview):
         if new.identifier not in ctx.figure.caught_pokes:
             ctx.figure.caught_pokes.append(new.identifier)
         achievements.achieve("first_evolve")
-        logging.info("[Poke] %s evolved into %s", self.name, new.name)
+        self.logger.info("[Poke] %s evolved into %s", self.name, new.name)
         loops.std(ctx)
         del self
         return True

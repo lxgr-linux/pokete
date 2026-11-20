@@ -2,7 +2,9 @@ import logging
 from copy import copy
 
 
+
 class Inventory:
+    logger = logging.getLogger("Inventory")
     __inv: dict[str, int]
 
     def __init__(self, inv: dict[str, int]) -> None:
@@ -12,7 +14,7 @@ class Inventory:
         """Gives an item to the player"""
         assert amount > 0, "Amounts have to be positive!"
         self.__inv[item] = self.__inv.get(item, 0) + amount
-        logging.info("[Figure] %d %s(s) given", amount, item)
+        self.logger.info("[Figure] %d %s(s) given", amount, item)
 
     def has_item(self, item: str) -> None:
         """Checks if an item is already present
@@ -37,4 +39,4 @@ class Inventory:
 in the inventory!"
         )
         self.__inv[item] -= amount
-        logging.info("[Figure] %d %s(s) removed", amount, item)
+        logger.info("[Figure] %d %s(s) removed", amount, item)

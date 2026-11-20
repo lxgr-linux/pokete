@@ -24,6 +24,7 @@ from pokete.classes.multiplayer.pc_manager import pc_manager
 
 
 class CommunicationService:
+    logger = logging.getLogger("CommunicationService")
     def __init__(self) -> None:
         self.client: bs_rpc.Client
         self.saved_pos = ()
@@ -166,7 +167,7 @@ class CommunicationService:
 
     def get_player(self, name: str) -> player.User:
         resp = self.client.call_for_response(player.Get({"name": name}))
-        logging.info(resp)
+        self.logger.info(resp)
         match resp.get_type():
             case player.PLAYER_TYPE:
                 data: player.PlayerData = resp.data

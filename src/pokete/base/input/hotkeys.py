@@ -11,6 +11,8 @@ from pokete.util import liner
 
 from .event import _ev
 
+logger = logging.getLogger(__name__)
+
 
 class Action(Enum):
     """Keyboad action layer"""
@@ -71,6 +73,7 @@ class Action(Enum):
 class ActionList(list):
     """List of actions triggered by a key"""
 
+    logger = logging.getLogger("ActionList")
     def triggers(self, *actions) -> None:
         """Checks if the self triggers a set of actions"""
         for action in actions:
@@ -175,7 +178,7 @@ def get_mapping(action: Action, keys: dict[str, ActionList]) -> str:
     for _key, actions_list in keys.items():
         if action in actions_list:
             return _key
-    logging.warning("Unset mapping for Action '%s'", action.name)
+    logger.warning("Unset mapping for Action '%s'", action.name)
     return ""
 
 

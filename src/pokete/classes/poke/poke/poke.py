@@ -20,6 +20,7 @@ from .nature import PokeNature
 from .stats import Stats
 
 
+
 class Poke(IPoke):
     """The Pokete class
     ARGS:
@@ -30,6 +31,7 @@ class Poke(IPoke):
         player: Bool whether or not the Poke belongs to the player
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
+    logger = logging.getLogger("Poke")
     def __init__(
         self,
         poke: str,
@@ -167,9 +169,9 @@ can't have more than 4 attacks!"
         old_lvl = self.lvl()
         self.xp += _xp
         self.poke_stats.add_xp(_xp)
-        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        logger.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
         if old_lvl < self.lvl():
-            logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
+            logger.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
             return True
         return False
 

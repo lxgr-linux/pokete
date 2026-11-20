@@ -11,9 +11,11 @@ from .. import movemap as mvp
 from .interactor_interface import InteractorInterface
 
 
+
 class Interactor(InteractorInterface, ABC):
     """Interactor interface for map interactions"""
 
+    logger = logging.getLogger("Interactor")
     x: int
     y: int
     ctx: Context
@@ -47,7 +49,7 @@ class Interactor(InteractorInterface, ABC):
                 for i in vec.obs
             ][1:]
         )
-        logging.info(
+        self.logger.info(
             "[NPC][%s] %s walk check to (%d|%d)",
             self.name,
             "Succeeded" if ret else "Failed",

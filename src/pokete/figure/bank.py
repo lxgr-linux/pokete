@@ -1,7 +1,9 @@
 import logging
 
 
+
 class Bank:
+    logger = logging.getLogger("Bank")
     __money: int
 
     def __init__(self, money: int) -> None:
@@ -24,5 +26,5 @@ class Bank:
         ARGS:
             money: New value"""
         assert money >= 0, "Money has to be positive."
-        logging.info("[Figure] Money set to $%d from $%d", money, self.__money)
+        self.logger.info("[Figure] Money set to $%d from $%d", money, self.__money)
         self.__money = money

@@ -11,7 +11,9 @@ from pokete.classes.multiplayer.remote_fight.figure_wrapper import FigureWrapper
 from pokete.classes.multiplayer.remote_fight.provider import RemoteProvider
 
 
+
 class RemoteFightController:
+    logger = logging.getLogger("RemoteFightController")
     def __init__(self) -> None:
         # self.active = False
         self.end = Event()
@@ -32,9 +34,9 @@ class RemoteFightController:
 
     def start(self, ctx: Context, name: str) -> None:
         # self.__start.clear()
-        logging.info(f"waiting fight {ctx.figure.name}")
+        self.logger.info(f"waiting fight {ctx.figure.name}")
         wait_event(ctx, "Waiting for fight...", self.__start)
-        logging.info(f"fight starts {ctx.figure.name}")
+        self.logger.info(f"fight starts {ctx.figure.name}")
 
         starter = self.__wait_starter()
 
@@ -45,7 +47,7 @@ class RemoteFightController:
                 RemoteProvider(name, self.outgoing, self.incomming, self.com_service),
             ],
         )
-        logging.info("hmm")
+        self.logger.info("hmm")
 
     def ready(self, outgoing, incomming: bs_rpc.ChannelGenerator, com_service) -> None:
         self.outgoing = outgoing

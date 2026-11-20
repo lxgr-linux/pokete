@@ -1,3 +1,4 @@
+import logging
 import sys
 import threading
 import time
@@ -12,6 +13,7 @@ from .mouse import mouse_manager
 
 
 class Recogniser:
+    logger = logging.getLogger("Recogniser")
     ESCAPES: list[int] = [27, 0, 224]  # 224 is for windows
     ESCAPED_KEY_MAPPING: dict[str, key.Key] = {
         "[A": key.UP,
@@ -71,7 +73,7 @@ class Recogniser:
 
                 while True:
                     char = sys.stdin.read(1)
-                    # logging.info("input %s -- %d", char, ord(char))
+                    # self.logger.info("input %s -- %d", char, ord(char))
                     self.set_event(
                         char,
                         self.UNIX_KEY_MAPPING,

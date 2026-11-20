@@ -6,7 +6,9 @@ from pokete.release import CODENAME, SAVEPATH, VERSION
 from pokete.util.command.command import Flag, RootCommand
 
 
+
 class PoketeCommand:
+    logger = logging.getLogger("PoketeCommand")
     log_flag = Flag(["--log"], "Enables logging")
     mods_flag = Flag(["--no_mods"], "Disables mods")
     audio_flag = Flag(["--no_audio"], "Disables audio")
@@ -32,7 +34,7 @@ class PoketeCommand:
                 self.audio.use_audio = False
             elif self.save_dir_flag.is_flag(flag):
                 if len(values) != 1:
-                    logging.error("Flag '%s' takes exactly one argument", flag)
+                    self.logger.error("Flag '%s' takes exactly one argument", flag)
                     sys.exit(1)
                 self.save_dir = Path(values[0])
 

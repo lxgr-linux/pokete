@@ -10,6 +10,7 @@ from pokete.classes.poke.poke import Poke
 from ..attack import Attack
 
 
+
 class Result(Enum):
     ATTACK = auto()
     RUN_AWAY = auto()
@@ -18,6 +19,7 @@ class Result(Enum):
 
 
 class FightDecision:
+    logger = logging.getLogger("FightDecision")
     def __init__(
         self,
         result: Result,
@@ -43,7 +45,7 @@ class FightDecision:
     def from_dict(cls, _d: "FightDecisionData", _poke: "Poke", _player: "User") -> "FightDecision | None":
         match _d["result"]:
             case Result.ATTACK.value:
-                logging.info("%s, %s", _d["attack"], _poke.attacks)
+                self.logger.info("%s, %s", _d["attack"], _poke.attacks)
                 assert _d["attack"] in _poke.attacks
                 attack = _poke.attack_obs[_poke.attacks.index(_d["attack"])]
                 return cls.attack(attack)

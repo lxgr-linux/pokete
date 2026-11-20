@@ -9,7 +9,9 @@ from pokete.base.single_event import single_event_periodic_event
 from .audio import audio
 
 
+
 class GameContext:
+    logger = logging.getLogger("GameContext")
     def __enter__(self) -> None:
         PropagatingThread(target=recogniser, daemon=True).start()
         single_event_periodic_event.monitor()
@@ -24,7 +26,7 @@ class GameContext:
             + "\033[?1000l"
             + "\033[?1003l\033[?1015l\033[?1006l"
         )
-        logging.info("[General] Exiting...")
+        self.logger.info("[General] Exiting...")
         audio.kill()
 
         if exc_type == KeyboardInterrupt:
@@ -33,5 +35,5 @@ class GameContext:
         elif exc_type == SystemExit:
             pass
         else:
-            logging.error("[General] Error occurend:")
+            self.logger.error("[General] Error occurend:")
             return False

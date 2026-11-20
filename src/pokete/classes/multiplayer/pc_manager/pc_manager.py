@@ -8,9 +8,11 @@ from ..interactions import movemap_deco
 from .remote_player import RemotePlayer
 
 
+
 class PCManager:
     """Manages remote players"""
 
+    logger = logging.getLogger("PCManager")
     def __init__(self) -> None:
         self.reg: dict[str, RemotePlayer] = {}
         self.waiting_users: list[UpdateDict] = []
@@ -46,7 +48,7 @@ class PCManager:
             name: The Players name"""
         pc = self.reg.get(name, None)
         if pc is None:
-            logging.warning(
+            self.logger.warning(
                 "[PCManager] Trying to remove player with name `%s`, "
                 "but is not present",
                 name,

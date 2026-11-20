@@ -77,6 +77,7 @@ from pokete.startup.logging import init_logger
 
 """
 class SwapPokeNPCAction(NPCAction):
+    logger = logging.getLogger("SwapPokeNPCAction")
     def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         swap_poke(npc.ctx)
 """
@@ -87,10 +88,12 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
     ARGS:
         _si: session_info dict"""
 
+    logger = logging.getLogger("Figure")
+
     def __init__(self, _si: dict) -> None:
         r_char = _si.get("represent_char", "a")
         if len(r_char) != 1:
-            logging.info(
+            self.logger.info(
                 "[Figure] '%s' is no valid 'represent_char', resetting", r_char
             )
             r_char = "a"
@@ -185,7 +188,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
                 self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
-        logging.info("[Figure] Added Poke %s", poke.name)
+        self.logger.info("[Figure] Added Poke %s", poke.name)
 
     def balls_label_rechar(self) -> None:
         mvp.movemap.balls_label_rechar(self.pokes)
@@ -193,6 +196,8 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
 
 class Debug:
     """Debug class"""
+
+    logger = logging.getLogger("Debug")
 
     @staticmethod
     def pos(figure: "Figure") -> None:
@@ -292,7 +297,7 @@ def swap_poke(ctx: Context) -> None:
                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
-    logging.info("[Swap_poke] Received %s", decode_data)
+    logger.info("[Swap_poke] Received %s", decode_data)
     mod_info = decode_data.get("mods", {})
     if loaded_mods.mod_info != mod_info:
         ask_ok(
@@ -439,11 +444,15 @@ def intro(ctx: Context) -> None:
         [
             "Hello, my child.",
             "You're now ten years old.",
-            ("I think it's now time for you to travel "
-            "the world and become a Pokete-trainer."),
-            ("Therefore, I'll give you this powerful 'Steini', "
-            "15 'Poketeballs' to catch Poketes, and a "
-            "'Healing potion'."),
+            (
+                "I think it's now time for you to travel "
+                "the world and become a Pokete-trainer."
+            ),
+            (
+                "Therefore, I'll give you this powerful 'Steini', "
+                "15 'Poketeballs' to catch Poketes, and a "
+                "'Healing potion'."
+            ),
             "You will be the best Pokete-Trainer in Nice town.",
             "Now go out and become the best!",
         ],

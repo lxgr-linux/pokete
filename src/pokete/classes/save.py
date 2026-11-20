@@ -13,6 +13,7 @@ from .multiplayer.modeprovider import Mode, modeProvider
 from .pokete_care import pokete_care
 from .settings import settings
 
+
 HOME = Path.home()
 
 
@@ -53,7 +54,7 @@ def save(figure: "Figure") -> None:
     with open(release.SAVEPATH / "pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
-    logging.info("[General] Saved")
+    logger.info("[General] Saved")
 
 
 def read_save() -> None:
