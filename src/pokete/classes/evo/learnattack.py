@@ -1,6 +1,6 @@
 """Contains the LearnAttack class"""
 
-from typing import Optional, override
+from typing import override
 
 import scrap_engine as se
 
@@ -60,15 +60,15 @@ class LearnAttackBox(ChooseBoxView[int]):
 
     def __init__(self):
         super().__init__(6, 25, "Attacks")
-        self.poke: Optional[Poke] = None
-        self.new_attack: Optional[str] = None
+        self.poke: Poke | None = None
+        self.new_attack: str | None = None
 
     @override
     def new_size(self) -> tuple[int, int]:
         return 6, 25
 
     @override
-    def choose(self, ctx: Context, idx: int) -> Optional[int]:
+    def choose(self, ctx: Context, idx: int) -> int | None:
         """Return the index of the selected attack to replace"""
         return idx
 
@@ -139,7 +139,7 @@ class LearnAttackManager(LearnAttack):
         self.poke = poke
         self.learn_box = LearnAttackBox()
 
-    def __call__(self, ctx: Context, attack: Optional[str] = None) -> bool:
+    def __call__(self, ctx: Context, attack: str | None = None) -> bool:
         """Starts the learning process
 
         ARGS:

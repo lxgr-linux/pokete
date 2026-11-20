@@ -1,3 +1,5 @@
+from typing import override
+
 from pokete import bs_rpc
 from pokete.base.context import Context
 from pokete.base.periodic_event_manager import PeriodicEvent
@@ -10,6 +12,7 @@ class ExceptionPropagatingPeriodicEvent(PeriodicEvent[Context]):
     def enq(self, e: Exception):
         self.__channel.push(e)
 
+    @override
     def tick(self, ctx: Context, tick: int):
         if not self.__channel.is_empty():
             for e in bs_rpc.ChannelGenerator(self.__channel)():

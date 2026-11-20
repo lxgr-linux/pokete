@@ -22,7 +22,14 @@ from .side_loops import About
 
 class Menu(ChooseBoxView):
     def __init__(self):
-        super().__init__(50, 35, "Menu", [CloseLabel(),])
+        super().__init__(
+            50,
+            35,
+            "Menu",
+            [
+                CloseLabel(),
+            ],
+        )
         self.playername_input = TextInputBox("Playername:", 17)
         self.represent_char_input = TextInputBox("Char:", 1)
         self.mods_label = se.Text("Mods", state="float")

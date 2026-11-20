@@ -1,6 +1,6 @@
 """Contains event var"""
 
-from typing import Callable, Optional
+from collections.abc import Callable
 
 from pokete.base.input.key import Key
 
@@ -12,11 +12,11 @@ class Event:
     ARGS:
         event: Initial char"""
 
-    def __init__(self, event=None):
-        self._ev: Optional[Key] = event
+    def __init__(self, event: Key | None = None):
+        self._ev: Key | None = event
         self.emit_fn: EmitFn
 
-    def get(self) -> Optional[Key]:
+    def get(self) -> Key | None:
         """Getter
         RETURNS:
             Current char"""

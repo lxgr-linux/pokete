@@ -3,6 +3,7 @@
 
 class ReturnToMenuException(Exception):
     """Exception to exit the game loop and return to the main menu"""
+
     pass
 
 

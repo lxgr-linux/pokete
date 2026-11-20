@@ -11,11 +11,11 @@ from .hotkeys import (
 )
 
 __all__ = [
-    "_ev",
     "ACTION_DIRECTIONS",
     "ACTION_UP_DOWN",
     "Action",
     "ActionList",
+    "_ev",
     "get_action",
     "get_mapping",
     "hotkeys_from_save",

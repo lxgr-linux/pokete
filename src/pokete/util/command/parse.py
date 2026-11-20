@@ -14,7 +14,9 @@ def parse(args: list[str]) -> tuple[list[str], dict[str, list[str]]]:
     return options, flags
 
 
-def __index_flags(idx: int, arr: list[str], flag: str, flags: dict[str, list[str]]) -> None:
+def __index_flags(
+    idx: int, arr: list[str], flag: str, flags: dict[str, list[str]]
+) -> None:
     if idx == len(arr):
         return
     if arr[idx].startswith("-"):

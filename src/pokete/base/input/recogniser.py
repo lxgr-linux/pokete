@@ -1,7 +1,6 @@
 import sys
 import threading
 import time
-from typing import Optional
 
 from pokete.base.exception_propagation.propagating_thread import (
     PropagatingThread,
@@ -42,7 +41,7 @@ class Recogniser:
 
     def __init__(self):
         self.__escape_event = threading.Event()
-        self.__escape_input: Optional[str] = None
+        self.__escape_input: str | None = None
         self.__fd = None
         self.__old_settings = None
         if sys.platform == "win32":
