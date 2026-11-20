@@ -191,7 +191,7 @@ class Settings:
             name: The Settings name
         RETURNS:
             Setting object"""
-        return [i for i in self.settings if i.name == name][0]
+        return next(i for i in self.settings if i.name == name)
 
     def to_dict(self) -> None:
         """Returns a dict of all current settings"""

@@ -40,9 +40,7 @@ def test_equals_are_equal():
 
 
 def test_inequals_are_not_equal():
-    assert not (
-        SemanticVersion.parse("5.2.3-rc5") == SemanticVersion.parse("1.3.3-beta")
-    )
+    assert SemanticVersion.parse("5.2.3-rc5") != SemanticVersion.parse("1.3.3-beta")
 
 
 def test_major_greater():

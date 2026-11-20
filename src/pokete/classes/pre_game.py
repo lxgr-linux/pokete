@@ -113,16 +113,15 @@ def check_version(ctx: Context, sinfo):
     if "ver" not in sinfo:
         return False
     ver = sinfo["ver"]
-    if SemanticVersion.parse(VERSION) < SemanticVersion.parse(ver):
-        if not ask_bool(
-            ctx,
-            liner(
-                f"The save file was created \
+    if SemanticVersion.parse(VERSION) < SemanticVersion.parse(ver) and not ask_bool(
+        ctx,
+        liner(
+            f"The save file was created \
 on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
 Do you want to continue?",
-                int(tss.width * 2 / 3),
-            ),
-        ):
-            sys.exit()
+            int(tss.width * 2 / 3),
+        ),
+    ):
+        sys.exit()
     return VERSION != ver

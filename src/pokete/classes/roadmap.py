@@ -221,7 +221,7 @@ W ◀ ▶ E
             choose: Bool whether or not this is done to choose a city"""
         for i in self.all_stations:
             i.hide_if_visited(ctx.figure, choose)
-        [
+        next(
             i
             for i in self.all_stations
             if (
@@ -231,7 +231,7 @@ W ◀ ▶ E
                 else ctx.figure.oldmap
             )
             in i.associates
-        ][0].choose(ctx.figure)
+        ).choose(ctx.figure)
         self.set_ctx(ctx)
         blinker = BlinkerEvent(self.sta)
         ctx = change_ctx(ctx.with_pevm(ctx.pevm.with_events([blinker])), self)
@@ -255,14 +255,14 @@ W ◀ ▶ E
                     and self.sta.has_been_visited(ctx.figure)
                 ):
                     p_list = ", ".join(
-                        set(
+                        {
                             asset_service.get_base_assets().pokes[j].name
                             for i in self.sta.associates
                             for j in [
                                 *([] if i.poke_args is None else i.poke_args.pokes),
                                 *([] if i.w_poke_args is None else i.w_poke_args.pokes),
                             ]
-                        )
+                        }
                     )
                     with InfoBoxView(
                         liner(

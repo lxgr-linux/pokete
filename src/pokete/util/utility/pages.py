@@ -312,13 +312,13 @@ def after() -> None:
     print("==> Making directories...")
     print(" -> wiki-multi-html")
     add_folder("wiki-multi-html", False)
-    for file in new_files.keys():
+    for file in new_files:
         properties = new_files[file]
         if properties["type"] == "folder":
             print(" -> " + file)
             add_folder(file, False)
     documentation_copied = False
-    for file in new_files.keys():
+    for file in new_files:
         properties = new_files[file]
 
         # Copy documentation folder from /tmp/doc/ to current directory
@@ -356,7 +356,7 @@ def after() -> None:
         # (wiki.md) into website links (./wiki)
         if properties["replace_links"]:
             print(" -> Replacing links...")
-            for old in properties["replace_links"].keys():
+            for old in properties["replace_links"]:
                 new = properties["replace_links"][old]
                 if old != list(properties["replace_links"].keys())[-1]:
                     print(f" |-> Replacing {old} with {new}...")

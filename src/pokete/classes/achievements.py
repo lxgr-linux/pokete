@@ -54,7 +54,7 @@ class Achievements:
         ARGS:
             identifier: The Achievements identifier"""
         if not self.is_achieved(identifier):
-            ach = [i for i in self.achievements if i.identifier == identifier][0]
+            ach = next(i for i in self.achievements if i.identifier == identifier)
             notifier.notify(ach.title, "Achievement unlocked!", ach.desc)
             self.achieved.append((identifier, str(datetime.date.today())))
             logging.info("[Achievements] Unlocked %s", identifier)
@@ -77,7 +77,7 @@ class AchBox(LabelBoxView):
     def __init__(self, ach, ach_ob) -> None:
         is_ach = ach_ob.is_achieved(ach.identifier)
         date = (
-            [i[-1] for i in ach_ob.achieved if i[0] == ach.identifier][0]
+            next(i[-1] for i in ach_ob.achieved if i[0] == ach.identifier)
             if is_ach
             else ""
         )

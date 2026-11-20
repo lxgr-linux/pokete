@@ -13,7 +13,7 @@ class MultiTextChooseBox(ChooseBoxView[tuple[int, str]]):
     def __init__(self, keys: list[str], name: str) -> None:
         super().__init__(
             len(keys) + 2,
-            sorted(len(i) for i in keys)[-1] + 6,
+            max(len(i) for i in keys) + 6,
             name=name,
         )
         self.keys = keys

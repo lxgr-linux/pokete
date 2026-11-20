@@ -32,5 +32,5 @@ class GameContext:
         elif exc_type == SystemExit:
             pass
         else:
-            logging.error("[General] Error occurend:", exc_info=True)
+            logging.error("[General] Error occurend:")
             return False

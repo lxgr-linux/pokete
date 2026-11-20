@@ -110,7 +110,7 @@ valid single-space character!",
         elif i == self.return_label:
             save(ctx.figure)
             raise ReturnToMenuException()
-        elif isinstance(i, VisSetting) or isinstance(i, Slider):
+        elif isinstance(i, (VisSetting, Slider)):
             i.change(ctx)
         if (
             audio_before != settings("audio").val

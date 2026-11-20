@@ -49,7 +49,7 @@ class FightDecision:
                 return cls.attack(attack)
             case Result.ITEM.value:
                 assert _d["item"] is not None
-                assert _d["item"] in _player["items"].keys()
+                assert _d["item"] in _player["items"]
                 item = asset_service.get_items()[_d["item"]]
                 return cls.item(item)
             case Result.RUN_AWAY.value:

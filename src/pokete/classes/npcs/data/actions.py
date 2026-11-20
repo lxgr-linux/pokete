@@ -43,9 +43,9 @@ class Playmap13introductor(NPCAction):
         if not npc.get("Last Trainer").used:
             npc.text(
                 [
-                    "To get to the other side of this building, "
+                    ("To get to the other side of this building, "
                     "you have to win some epic fights against Deepest "
-                    "Forests' best trainers!",
+                    "Forests' best trainers!"),
                     "This won't be easy!",
                 ]
             )
@@ -130,8 +130,8 @@ class Playmap42Npc21(NPCAction):
                     "All of our beef is empty...",
                     "How are we going to serve the best MowCow-Burgers without beef?",
                     "If only someone here could bring me a fitting Mowcow!?",
-                    "But it has to be at least on level 50 to meet our "
-                    "high quality standards.",
+                    ("But it has to be at least on level 50 to meet our "
+                    "high quality standards."),
                     "I will pay a good price!",
                 ]
             )

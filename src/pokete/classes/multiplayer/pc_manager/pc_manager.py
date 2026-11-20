@@ -58,11 +58,11 @@ class PCManager:
 
     def movemap_move(self) -> None:
         """Handles the movemap moving"""
-        for _, rmtpl in self.reg.items():
+        for rmtpl in self.reg.values():
             rmtpl.readd_name_tag()
 
     def get_interactable(self, figure) -> RemotePlayer | None:
-        for _, rmtpl in self.reg.items():
+        for rmtpl in self.reg.values():
             if (
                 rmtpl.map == figure.map
                 and (figure.x - 2 <= rmtpl.x <= figure.x + 2)

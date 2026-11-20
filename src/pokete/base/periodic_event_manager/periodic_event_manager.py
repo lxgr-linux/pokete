@@ -1,13 +1,13 @@
 """Contains the pevm"""
 
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 from pokete.base.periodic_event_manager.periodic_event import PeriodicEvent
 
 T = TypeVar("T")
 
 
-class PeriodicEventManager(Generic[T]):
+class PeriodicEventManager[T]:
     """As the name states: It manages periodic events in the game loop"""
 
     def __init__(self, events: list[PeriodicEvent[T]], tick: int = 0) -> None:

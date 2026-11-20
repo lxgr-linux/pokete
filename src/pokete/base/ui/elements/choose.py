@@ -1,4 +1,4 @@
-from typing import override
+from typing import Self, override
 
 import scrap_engine as se
 
@@ -248,7 +248,7 @@ class BetterChooseBox(Box):
             for j, obj in enumerate(arr):
                 self.add_ob(obj, 1 + j * obj.width, 1 + i * obj.height)
 
-    def __enter__(self) -> "BetterChooseBox":
+    def __enter__(self) -> Self:
         """Enter dunder for context management"""
         assert self.map
         self.center_add(self.map)

@@ -1,10 +1,10 @@
 import threading
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-class Channel(Generic[T]):
+class Channel[T]:
     def __init__(self) -> None:
         self.__mutex = threading.Lock()
         self.__state: list[T] = []

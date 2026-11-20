@@ -50,19 +50,18 @@ class MovingWaterEvent(PeriodicEvent):
     def tick(self, ctx: Context, tick: int) -> None:
         if settings("animations").val:
             for obj in self.all_water_objs:
-                if random.randint(0, 9) == 0:
-                    if " " not in obj.char:
-                        obj.rechar(
-                            [
-                                i
-                                for i in [
-                                    Color.lightblue + "~" + Color.reset,
-                                    Color.blue + "~" + Color.reset,
-                                ]
-                                if i != obj.char
-                            ][0]
+                if random.randint(0, 9) == 0 and " " not in obj.char:
+                    obj.rechar(
+                        next(
+                            i
+                            for i in [
+                                Color.lightblue + "~" + Color.reset,
+                                Color.blue + "~" + Color.reset,
+                            ]
+                            if i != obj.char
                         )
-                        check_figure_redraw(obj)
+                    )
+                    check_figure_redraw(obj)
 
 
 class TreatNPCEvent(PeriodicEvent):

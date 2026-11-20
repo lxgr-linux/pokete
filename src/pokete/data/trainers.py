@@ -287,23 +287,23 @@ trainers: dict[str, MapTrainersDict] = {
                 "args": {
                     "gender": "He",
                     "lose_texts": [
-                        "If I'm a problem for "
+                        ("If I'm a problem for "
                         "you, you might not be "
                         "able to fight the other "
-                        "trainers."
+                        "trainers.")
                     ],
                     "name": "Rock-hard Rick",
                     "texts": [
                         "Hello trainer!",
-                        "Welcome to Rock-ville, the "
+                        ("Welcome to Rock-ville, the "
                         "highest place in the Pokete "
                         "world and home of all stone "
-                        "Poketes.",
-                        "When leaving this town "
+                        "Poketes."),
+                        ("When leaving this town "
                         "through the 'Cave of Doom' "
                         "you have to fight against "
                         "the best trainers of this "
-                        "town.",
+                        "town."),
                         "But first, you have to fight me!",
                     ],
                     "win_texts": [
@@ -466,9 +466,9 @@ trainers: dict[str, MapTrainersDict] = {
                     "name": "Guy at the Entrance",
                     "texts": ["Welcome to 'Flowy Town', home of the flowers."],
                     "win_texts": [
-                        "I wish you the best of "
+                        ("I wish you the best of "
                         "luck fighting against "
-                        "our best trainers!"
+                        "our best trainers!")
                     ],
                     "x": 5,
                     "y": 18,
@@ -521,9 +521,9 @@ trainers: dict[str, MapTrainersDict] = {
                     "lose_texts": ["You're a loooser!"],
                     "name": "Master of the Flowers",
                     "texts": [
-                        "I'm the Master of the plants "
+                        ("I'm the Master of the plants "
                         "and I have one of the rarest "
-                        "plant Poketes!"
+                        "plant Poketes!")
                     ],
                     "win_texts": ["This was unfortunate!"],
                     "x": 31,
@@ -720,10 +720,10 @@ trainers: dict[str, MapTrainersDict] = {
                     ],
                     "win_texts": [
                         "You're quite a good trainer.",
-                        "Hopefully you can beat "
+                        ("Hopefully you can beat "
                         "all other trainers with "
                         "whom you may cross "
-                        "paths!",
+                        "paths!"),
                     ],
                     "x": 10,
                     "y": 7,
@@ -750,9 +750,9 @@ trainers: dict[str, MapTrainersDict] = {
                     "texts": [
                         "Oh!",
                         "I haven't seen anyone down here for a while",
-                        "Can I show you my rare Pokete "
+                        ("Can I show you my rare Pokete "
                         "which can only be found in "
-                        "this cave?",
+                        "this cave?"),
                     ],
                     "win_texts": [
                         "Congratulations!",

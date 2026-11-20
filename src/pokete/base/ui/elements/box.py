@@ -1,4 +1,4 @@
-from typing import override
+from typing import Self, override
 
 import scrap_engine as se
 
@@ -90,7 +90,7 @@ class Box(se.Box, Overview):
         self.overview = ctx.overview
         return self
 
-    def __enter__(self) -> "Box":
+    def __enter__(self) -> Self:
         """Enter dunder for context management"""
         assert self.map
         self.map.show()

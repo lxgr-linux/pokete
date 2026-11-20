@@ -135,13 +135,13 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         if notifier.notified:
             notifier.notification.remove()
             saved_coords = self.width - notifier.notification.x
-        for _, rmtplr in pc_manager.pc_manager.reg.items():
+        for rmtplr in pc_manager.pc_manager.reg.values():
             rmtplr.name_tag.remove()
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
         if notifier.notified:
             notifier.notification.add(self, self.width - saved_coords, 0)
-        for _, rmtplr in pc_manager.pc_manager.reg.items():
+        for rmtplr in pc_manager.pc_manager.reg.values():
             rmtplr.add_name_tag()
 
     def resize(self, height, width, background=" ") -> None:

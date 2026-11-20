@@ -209,7 +209,7 @@ In the following all Poketes with their attributes are displayed.
                     for k in sorted(list(pokes)[1:])
                     if pokes[k]["types"][0] == pokete_type
                 ]:
-                    if poke == sorted(list(pokes)[1:])[-1]:
+                    if poke == max(list(pokes)[1:]):
                         if VERBOSE:
                             print(f"  `-> Adding {pokes[poke]['name']}")
                     else:

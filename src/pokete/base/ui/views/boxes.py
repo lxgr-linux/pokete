@@ -44,9 +44,11 @@ class InfoBoxView(LabelBoxView):
         self,
         text,
         name="",
-        info: list[se.Text] | None = [CloseLabel()],
+        info: list[se.Text] | None = None,
         ctx=None,
     ) -> None:
+        if info is None:
+            info = [CloseLabel()]
         super().__init__(se.Text(text), name=name, info=info, ctx=ctx)
 
     def __enter__(self) -> None:  # Contextmanagement is fucking awesome!
@@ -68,9 +70,7 @@ class InputBoxView(InfoBoxView):
     def __init__(self, infotext, introtext, text, max_len, name="") -> None:
         height = len(infotext.split("\n")) + 3
         width = (
-            sorted(
-                [len(i) for i in infotext.split("\n")] + [len(introtext) + 1 + max_len]
-            )[-1]
+            max([len(i) for i in infotext.split("\n")] + [len(introtext) + 1 + max_len])
             + 4
         )
         super(LabelBoxView, self).__init__(height, width, name)

@@ -62,38 +62,37 @@ class Inv(BaseInv):
                     ctx,
                     f"{poke.name} reached level {poke.lvl()}!",
                 )
-        elif isinstance(obj, LearnDisc):
-            if ask_bool(
-                ctx,
-                f"Do you want to teach '{obj.attack.name}'?",
-            ):
-                while True:
-                    index = Deck()(
-                        ctx,
-                        6,
-                        label="Your deck",
-                        in_fight=True,
-                    )
-                    if index is None:
-                        ctx.map.show(init=True)
-                        break
-                    poke = ctx.figure.pokes[index]
-                    if types[obj.attack.types[0]] in poke.types:
-                        break
-                    if not ask_bool(
-                        ctx,
-                        "You can't teach "
-                        f"'{obj.attack.name}' to "
-                        f"'{poke.name}'! \n"
-                        "Do you want to continue?",
-                    ):
-                        poke = None
-                if poke is None:
+        elif isinstance(obj, LearnDisc) and ask_bool(
+            ctx,
+            f"Do you want to teach '{obj.attack.name}'?",
+        ):
+            while True:
+                index = Deck()(
+                    ctx,
+                    6,
+                    label="Your deck",
+                    in_fight=True,
+                )
+                if index is None:
+                    ctx.map.show(init=True)
+                    break
+                poke = ctx.figure.pokes[index]
+                if types[obj.attack.types[0]] in poke.types:
+                    break
+                if not ask_bool(
+                    ctx,
+                    "You can't teach "
+                    f"'{obj.attack.name}' to "
+                    f"'{poke.name}'! \n"
+                    "Do you want to continue?",
+                ):
+                    poke = None
+            if poke is None:
+                return
+            if LearnAttackBox(poke)(ctx.with_overview(self), obj.attack_name):
+                self.rem_item(ctx.figure, obj.name)
+                if len(self.items) == 0:
                     return
-                if LearnAttackBox(poke)(ctx.with_overview(self), obj.attack_name):
-                    self.rem_item(ctx.figure, obj.name)
-                    if len(self.items) == 0:
-                        return
 
     def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
         if action.triggers(Action.REMOVE):
@@ -126,9 +125,8 @@ class Inv(BaseInv):
         figure.remove_item(name)
         self.rem_elems()
         self.add_items(figure)
-        if self.items:
-            if self.index.index >= len(self.items):
-                self.set_index(len(self.items) - 1)
+        if self.items and self.index.index >= len(self.items):
+            self.set_index(len(self.items) - 1)
 
     def add_items(self, figure: Inventory) -> None:
         """Adds all items to the box
