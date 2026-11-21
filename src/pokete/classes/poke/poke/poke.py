@@ -169,9 +169,9 @@ can't have more than 4 attacks!"
         old_lvl = self.lvl()
         self.xp += _xp
         self.poke_stats.add_xp(_xp)
-        logger.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        self.logger.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
         if old_lvl < self.lvl():
-            logger.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
+            self.logger.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
             return True
         return False
 

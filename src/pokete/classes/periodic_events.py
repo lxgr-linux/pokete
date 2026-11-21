@@ -2,6 +2,7 @@ import random
 
 from pokete.base.color import Color
 from pokete.base.context import Context
+from pokete.base.game_map import GameMap
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.ui.notify import notifier
 
@@ -22,7 +23,7 @@ def check_figure_redraw(obj: object) -> None:
 class MovingGrassEvent(PeriodicEvent):
     max_tick = 100
 
-    def __init__(self, _map: "GameMap") -> None:
+    def __init__(self, _map: GameMap) -> None:
         self.all_grass_objs = []
         for meadow in Meadow.all_grass:
             if meadow.map == _map:
@@ -41,7 +42,7 @@ class MovingGrassEvent(PeriodicEvent):
 
 
 class MovingWaterEvent(PeriodicEvent):
-    def __init__(self, _map: "GameMap") -> None:
+    def __init__(self, _map: GameMap) -> None:
         self.all_water_objs = []
         for water in Meadow.all_water:
             if water.map == _map:

@@ -11,7 +11,7 @@ class PoketeCare:
         entry: The in-game timestamp the poke was given in at
         poke: The Pokete that's in care"""
 
-    def __init__(self, entry: int = 0, poke: "Poke" | None = None) -> None:
+    def __init__(self, entry: int = 0, poke: Poke | None = None) -> None:
         self.entry = entry
         self.poke = poke
 

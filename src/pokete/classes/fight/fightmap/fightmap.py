@@ -21,6 +21,7 @@ from pokete.base.ui.elements import StdFrame2
 from pokete.base.ui.elements.text import HightlightableText
 from pokete.classes import animations
 from pokete.classes.asset_service.service import asset_service
+from pokete.classes.attack import Attack
 from pokete.classes.deck import Deck
 from pokete.classes.effects import Effect
 from pokete.classes.fight.fightmap.moves import moves
@@ -422,8 +423,8 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         eff: int,
         n_hp: int,
         random_factor: int,
-        attacker: "Poke",
-        attack: "Attack",
+        attacker: Poke,
+        attack: Attack,
     ) -> None:
         eff_text = {
             eff < 1: "\nThat was not effective! ",

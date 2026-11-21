@@ -2,6 +2,7 @@ import logging
 import sys
 import threading
 import time
+from typing import ClassVar
 
 from pokete.base.exception_propagation.propagating_thread import (
     PropagatingThread,
@@ -14,8 +15,8 @@ from .mouse import mouse_manager
 
 class Recogniser:
     logger = logging.getLogger("Recogniser")
-    ESCAPES: list[int] = [27, 0, 224]  # 224 is for windows
-    ESCAPED_KEY_MAPPING: dict[str, key.Key] = {
+    ESCAPES: ClassVar[list[int]] = [27, 0, 224]  # 224 is for windows
+    ESCAPED_KEY_MAPPING: ClassVar[dict[str, key.Key]] = {
         "[A": key.UP,
         "[B": key.DOWN,
         "[C": key.RIGHT,
@@ -25,14 +26,14 @@ class Recogniser:
         "M": key.RIGHT,
         "K": key.LEFT,
     }
-    UNIX_KEY_MAPPING: dict[int, key.Key] = {
+    UNIX_KEY_MAPPING: ClassVar[dict[int, key.Key]] = {
         13: key.ENTER,
         127: key.BACKSPACE,
         32: key.SPACE,
         27: key.ESC,
         3: key.EXIT,
     }
-    WINDOWS_KEY_MAPPING: dict[int, key.Key] = {
+    WINDOWS_KEY_MAPPING: ClassVar[dict[int, key.Key]] = {
         13: key.ENTER,
         127: key.BACKSPACE,
         8: key.BACKSPACE,

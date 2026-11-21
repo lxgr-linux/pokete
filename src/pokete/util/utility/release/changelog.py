@@ -96,7 +96,7 @@ def __parse_markup(
 
 
 def __parse_version_date(heading: str) -> tuple[str, str]:
-    heading = heading.strip("##").strip()
+    heading = heading.strip("#").strip()
     version_sub, date = heading.split(" - ")
 
     return version_sub.split("[")[1].split("]")[0].strip(), date.strip()

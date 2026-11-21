@@ -1,4 +1,4 @@
-from typing import override
+from typing import Self, override
 
 import scrap_engine as se
 
@@ -53,7 +53,7 @@ class InfoBoxView(LabelBoxView):
         super().__init__(se.Text(text), name=name, info=info, ctx=ctx)
 
     @override
-    def __enter__(self) -> "InfoBoxView":  # Contextmanagement is fucking awesome!
+    def __enter__(self) -> Self:  # Contextmanagement is fucking awesome!
         """Enter dunder for contextmanagement"""
         self.center_add(self.map)
         self.map.show()

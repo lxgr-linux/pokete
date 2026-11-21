@@ -113,7 +113,7 @@ class Fight:
                         item: InvItem = attack_result.item_value
                         fight_item = fight_items.get(item.func, None)
                         if fight_item is None:
-                            raise Exception(f"fight_item doesnt exist {item.func}")
+                            raise KeyError(f"fight_item doesnt exist {item.func}")
                         match fight_item.use(self.fightmap, player, enem):
                             case RoundContinuation.CONTINUE_ATTACK:
                                 continue  # This is the sole reason for the while loop on top

@@ -3,7 +3,7 @@
 import random
 import time
 from abc import ABC, abstractmethod
-from typing import override
+from typing import Protocol, override
 
 from pokete.base.context import Context
 from pokete.base.input_loops import ask_bool
@@ -11,6 +11,25 @@ from pokete.classes.achievements import achievements
 from pokete.classes.poke.poke import Poke
 
 from .fight_decision import FightDecision
+
+
+class IOutp(Protocol):
+    def outp(self, text: str) -> None: ...
+
+
+class IFightMap(Protocol):
+    """Interface representing FightMap, avoiding a circular import with
+    pokete.classes.fight.fightmap.fightmap, which itself imports Provider"""
+
+    outp: IOutp
+
+    def get_figure_attack(
+        self, ctx: Context, player: "Provider", enem: "Provider"
+    ) -> FightDecision: ...
+
+    def choose_poke(
+        self, ctx: Context, player: "Provider", allow_exit: bool = True
+    ) -> None: ...
 
 
 class Provider(ABC):
@@ -61,7 +80,7 @@ class Provider(ABC):
 
     @abstractmethod
     def get_decision(
-        self, ctx: Context, fightmap: "FightMap", enem: "Provider"
+        self, ctx: Context, fightmap: IFightMap, enem: "Provider"
     ) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
@@ -69,14 +88,14 @@ class Provider(ABC):
             enem: The enemy Provider"""
 
     @abstractmethod
-    def greet(self, fightmap: "FightMap") -> None:
+    def greet(self, fightmap: IFightMap) -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
 
     @abstractmethod
     def handle_defeat(
-        self, ctx: Context, fightmap: "FightMap", winner: "Provider"
+        self, ctx: Context, fightmap: IFightMap, winner: "Provider"
     ) -> None:
         """Function called when the providers current Pokete dies
         ARGS:
@@ -99,7 +118,7 @@ class NatureProvider(Provider):
 
     @override
     def get_decision(
-        self, ctx: Context, fightmap: "FightMap", enem: "Provider"
+        self, ctx: Context, fightmap: IFightMap, enem: "Provider"
     ) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
@@ -113,7 +132,7 @@ class NatureProvider(Provider):
         )
 
     @override
-    def greet(self, fightmap: "FightMap") -> None:
+    def greet(self, fightmap: IFightMap) -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
@@ -121,7 +140,7 @@ class NatureProvider(Provider):
 
     @override
     def handle_defeat(
-        self, ctx: Context, fightmap: "FightMap", winner: "Provider"
+        self, ctx: Context, fightmap: IFightMap, winner: "Provider"
     ) -> None:
         """Function called when the providers current Pokete dies
         ARGS:
@@ -137,7 +156,7 @@ class ProtoFigure(Provider):
     into fight"""
 
     @override
-    def greet(self, fightmap: "FightMap") -> None:
+    def greet(self, fightmap: IFightMap) -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
@@ -145,7 +164,7 @@ class ProtoFigure(Provider):
 
     @override
     def get_decision(
-        self, ctx: Context, fightmap: "FightMap", enem: "Provider"
+        self, ctx: Context, fightmap: IFightMap, enem: "Provider"
     ) -> FightDecision:
         """Returns the choosen attack:
         ARGS:
@@ -155,7 +174,7 @@ class ProtoFigure(Provider):
 
     @override
     def handle_defeat(
-        self, ctx: Context, fightmap: "FightMap", winner: "Provider"
+        self, ctx: Context, fightmap: IFightMap, winner: "Provider"
     ) -> bool:
         """Function called when the providers current Pokete dies
         ARGS:

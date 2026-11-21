@@ -18,3 +18,9 @@ class InvalidPokeException(Exception):
 class ConnectionException(Exception):
     def __init__(self, e: Exception) -> None:
         super().__init__("failed to connect", e)
+
+
+class UnexpectedResponseException(Exception):
+    def __init__(self, resp: object) -> None:
+        self.resp = resp
+        super().__init__(f"unexpected response: {resp!r}")

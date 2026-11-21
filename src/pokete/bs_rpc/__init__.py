@@ -47,7 +47,7 @@ class Client:
         if (call := self.calls.get(call_id)) is not None:
             return call
         else:
-            raise Exception(f"call id `{call_id}`for response not found")
+            raise KeyError(f"call id `{call_id}`for response not found")
 
     def __new_call_id(self) -> None:
         call_id = int(time.time())

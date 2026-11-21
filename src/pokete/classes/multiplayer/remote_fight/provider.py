@@ -5,6 +5,7 @@ from pokete import bs_rpc
 from pokete.base.context import Context
 from pokete.classes.fight.fight_decision import FightDecision
 from pokete.classes.fight.fightmap.fightmap import FightMap
+from pokete.classes.multiplayer.communication import CommunicationService
 from pokete.classes.multiplayer.msg import fight, player
 from pokete.classes.poke.poke import Poke
 
@@ -17,7 +18,7 @@ class RemoteProvider(Provider):
         name: str,
         outgoing: bs_rpc.ResponseWriter,
         incomming: Generator[bs_rpc.Body, None, None],
-        com_service: "CommunicationService",
+        com_service: CommunicationService,
     ) -> None:
         self.player: player.User = com_service.get_player(name)
         self.outgoing = outgoing

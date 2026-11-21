@@ -23,6 +23,7 @@ from pokete.classes.asset_service.resources.obmaps import Obmap
 from pokete.classes.audio import audio
 from pokete.classes.classes import PlayMap
 from pokete.classes.generate import gen_single_map, gen_single_map_obs
+from pokete.classes.i import IFigure
 from pokete.classes.map_additions.center import CenterMap, ShopMap
 from pokete.classes.multiplayer.menu import ModeChooser
 from pokete.release import VERSION
@@ -87,7 +88,7 @@ class PreGameMap(GameSubmap, Overview):
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
 
-    def __call__(self, session_info: dict, figure: "Figure") -> None:
+    def __call__(self, session_info: dict, figure: IFigure) -> None:
         pevm = PeriodicEventManager(
             [
                 exception_propagating_periodic_event,

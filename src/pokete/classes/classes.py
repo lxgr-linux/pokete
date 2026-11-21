@@ -47,14 +47,14 @@ class PlayMap(GameMap):
         if weather is not None:
             self.weather = Weather(weather)
 
-    def register_obj(self, name: str, obj: "se.Object") -> None:
+    def register_obj(self, name: str, obj: se.Object) -> None:
         """Adds an object to the registry
         ARGS:
             name: Name in registry
             obj: Object"""
         self.registry[name] = obj
 
-    def get_obj(self, name: str) -> "se.Object" | None:
+    def get_obj(self, name: str) -> se.Object | None:
         """Gets and object from the registry
         ARGS:
             name: Name in registry"""

@@ -134,9 +134,8 @@ class AttackBox(ChooseBoxView[Attack]):
         if action.triggers(Action.INFO):
             self.toggle_atk_box()
             self.map.show()
-        elif action.triggers(Action.SCREEN_SWITCH):
-            if self.attack_info_box.added:
-                self.attack_info_box.toggle()
+        elif action.triggers(Action.SCREEN_SWITCH) and self.attack_info_box.added:
+            self.attack_info_box.toggle()
         return False
 
     def __call__(self, ctx: Context, attack_obs: list[Attack]) -> Attack | None:

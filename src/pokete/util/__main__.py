@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from pokete.util.command import Command, RootCommand, not_enough_args, not_found
 from pokete.util.utility import (
     export,

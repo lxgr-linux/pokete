@@ -2,6 +2,7 @@
 of their stats"""
 
 import random
+from typing import ClassVar
 
 from pokete.base.color import Color
 from pokete.classes.asset_service.service import asset_service
@@ -41,7 +42,7 @@ class PokeNature:
         nature: The Nature of the Pokete
         grade: The Nature's grade, 1 or 2"""
 
-    natures = {
+    natures: ClassVar[dict[str, Nature]] = {
         name: Nature(name, n.esc, n.atc, n.def_, n.init)
         for name, n in asset_service.get_base_assets().natures.items()
     }

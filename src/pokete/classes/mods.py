@@ -2,6 +2,9 @@
 
 import logging
 import sys
+from typing import Any
+
+import scrap_engine as se
 
 import pokete.data as p_data
 from pokete.base.ui.views.boxes import InfoBoxView
@@ -61,7 +64,7 @@ Currently {len(loaded_mods.mod_info)} mod{"s are" if len(loaded_mods.mod_info) !
         )
 
 
-def try_load_mods(_map: "se.Map") -> None:
+def try_load_mods(_map: se.Map) -> None:
     global loaded_mods
     if settings("load_mods").val:
         try:

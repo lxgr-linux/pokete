@@ -16,5 +16,5 @@ class MainThreatFightEvent(SingleEvent):
     def run(self, ctx: Context) -> None:
         accept = ask_bool(ctx, f"'{self.__name}' wants to start a fight with you")
         self.__chan.push(accept)
-        self.__chan.close
+        self.__chan.close()
         remote_fight_controller.start(ctx, self.__name)

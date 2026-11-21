@@ -70,14 +70,15 @@ class TextInput(MouseInteractor):
                     self.__text = (
                         self.__text[: self.__idx] + self.__text[self.__idx + 1 :]
                     )
-                elif input_key.has_char():
-                    if self.max_len < 0 or len(self.__text) < self.max_len:
-                        self.__text = (
-                            self.__text[: self.__idx]
-                            + input_key.char
-                            + self.__text[self.__idx :]
-                        )
-                        self.__change_idx(1)
+                elif input_key.has_char() and (
+                    self.max_len < 0 or len(self.__text) < self.max_len
+                ):
+                    self.__text = (
+                        self.__text[: self.__idx]
+                        + input_key.char
+                        + self.__text[self.__idx :]
+                    )
+                    self.__change_idx(1)
                 self.__rechar_text()
             loops.std(ctx)
         self.__label.rechar(hard_liner(self.wrap_len, self.__text))

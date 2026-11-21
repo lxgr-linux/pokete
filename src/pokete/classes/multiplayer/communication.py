@@ -9,6 +9,7 @@ from pokete.classes.multiplayer import msg
 from pokete.classes.multiplayer.exceptions import (
     ConnectionException,
     InvalidPokeException,
+    UnexpectedResponseException,
     UserPresentException,
     VersionMismatchException,
 )
@@ -85,7 +86,7 @@ class CommunicationService:
         con = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             con.connect((host, port))
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             raise ConnectionException(e)
 
         def listener() -> None:
@@ -174,7 +175,7 @@ class CommunicationService:
                 data: player.PlayerData = resp.data
                 return data["user"]
             case _:
-                raise Exception(resp)
+                raise UnexpectedResponseException(resp)
 
 
 com_service: CommunicationService = CommunicationService()

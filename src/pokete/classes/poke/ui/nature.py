@@ -6,6 +6,7 @@ from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.views.boxes import LabelBoxView
+from pokete.classes.poke.poke.nature import PokeNature
 from pokete.util import liner
 
 
@@ -14,7 +15,7 @@ class NatureInfo(LabelBoxView):
     ARGS:
         p_n: PoketeNature object"""
 
-    def __init__(self, p_n: "PokeNature") -> None:
+    def __init__(self, p_n: PokeNature) -> None:
         atc = self.get_amount(p_n.nature.atc)
         defense = self.get_amount(p_n.nature.defense)
         init = self.get_amount(p_n.nature.initiative)

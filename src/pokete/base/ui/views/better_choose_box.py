@@ -8,6 +8,7 @@ from scrap_engine.addable.area import Area
 from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
+from pokete.base.game_map import GameSubmap
 from pokete.base.input.hotkeys import ACTION_DIRECTIONS, Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
@@ -25,7 +26,7 @@ class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, Pageable, ABC):
         rows: int,
         labels: list[se.HasArea],
         name: str = "",
-        _map: "GameSubmap" | None = None,
+        _map: GameSubmap | None = None,
         overview: Overview | None = None,
     ) -> None:
         self.elems: list[se.HasArea] = labels

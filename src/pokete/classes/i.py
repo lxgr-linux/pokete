@@ -1,5 +1,7 @@
 from typing import Protocol
 
+import scrap_engine as se
+
 from pokete.classes.asset_service.resources.base import Poke as ResourcePoke
 from pokete.classes.types import PokeType
 
@@ -47,3 +49,26 @@ class IPoke(Protocol):
     effects: list[IEffect]
 
     def lvl(self) -> int: ...
+
+
+class IFigure(Protocol):
+    """Interface representing Figure, avoiding a circular import with
+    pokete.__main__, where the concrete Figure class lives"""
+
+    name: str
+    char: str
+    x: int
+    y: int
+    map: se.Map
+    oldmap: se.Map | None
+    last_center_map: se.Map | None
+    caught_pokes: list[str]
+    visited_maps: list[str]
+    used_npcs: list[str]
+    pokes: list[IPoke]
+
+    def get_inv(self) -> dict[str, int]: ...
+    def get_money(self) -> int: ...
+    def remove_item(self, item: str, amount: int = 1) -> None: ...
+    def heal(self) -> None: ...
+    def balls_label_rechar(self) -> None: ...

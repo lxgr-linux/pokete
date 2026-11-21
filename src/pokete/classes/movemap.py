@@ -17,6 +17,7 @@ from pokete.base.ui import Overview
 from pokete.base.ui.elements.text import HightlightableText
 from pokete.base.ui.notify import notifier
 from pokete.classes.multiplayer import pc_manager
+from pokete.classes.poke.poke.poke import Poke
 from pokete.release import SPEED_OF_TIME
 from pokete.util import liner
 
@@ -159,7 +160,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         self.label_bg.resize(self.width, 1)
         self.add_obs()
 
-    def balls_label_rechar(self, pokes: list["Poke"]) -> None:
+    def balls_label_rechar(self, pokes: list[Poke]) -> None:
         """Rechars the ball's label
         ARGS:
             pokes: The player's Pokes"""

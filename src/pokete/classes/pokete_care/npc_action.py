@@ -23,12 +23,14 @@ class PoketeCareNPCAction(NPCAction):
 and we will train it."
                 ]
             )
-            if ui.ask_bool("Do you want to put a Pokete into the Pokete-Care?"):
-                if (index := ui.choose_poke()) is not None:
-                    self.care.poke = npc.ctx.figure.pokes[index]
-                    self.care.entry = timer.time.time
-                    npc.ctx.figure.add_poke(Poke("__fallback__", 0), index)
-                    npc.text(["We will take care of it."])
+            if (
+                ui.ask_bool("Do you want to put a Pokete into the Pokete-Care?")
+                and (index := ui.choose_poke()) is not None
+            ):
+                self.care.poke = npc.ctx.figure.pokes[index]
+                self.care.entry = timer.time.time
+                npc.ctx.figure.add_poke(Poke("__fallback__", 0), index)
+                npc.text(["We will take care of it."])
         else:
             add_xp = int((timer.time.time - self.care.entry) / 30)
             self.care.entry = timer.time.time

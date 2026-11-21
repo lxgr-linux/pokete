@@ -18,13 +18,14 @@ from pokete.base.ui.views.box import BoxView
 from pokete.base.ui.views.boxes import InfoBoxView
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.classes import PlayMap
+from pokete.classes.i import IFigure
 from pokete.util import liner
 
 
 class RoadMapException(Exception):
     """Exception thrown when a PlayMap has no corresponding MapStation"""
 
-    def __init__(self, _map: "PlayMap") -> None:
+    def __init__(self, _map: PlayMap) -> None:
         self.map = _map
         text = f"{_map} {_map.name} has no mapstation"
         super().__init__(text)
@@ -54,7 +55,7 @@ class Station(StationObject):
     def __init__(
         self,
         roadmap: "RoadMap",
-        associate: "PlayMap",
+        associate: PlayMap,
         additionals: list[str],
         desc: str,
         text: str,
@@ -80,7 +81,7 @@ class Station(StationObject):
         self.s_next = s_next
         self.d_next = d_next
 
-    def choose(self, figure: "Figure") -> None:
+    def choose(self, figure: IFigure) -> None:
         """Chooses and hightlights the station"""
         Station.choosen = self
         self.roadmap.rechar_info(self.name if self.has_been_visited(figure) else "???")
@@ -95,7 +96,7 @@ class Station(StationObject):
     def un_blink(self) -> None:
         self.rechar(self.text, self.color)
 
-    def next(self, inp: ActionList, figure: "Figure") -> None:
+    def next(self, inp: ActionList, figure: IFigure) -> None:
         """Chooses the next station in a certain direction
         ARGS:
             inp: Action Enum
@@ -114,7 +115,7 @@ class Station(StationObject):
             self.unchoose()
             getattr(self.roadmap, n_e).choose(figure)
 
-    def has_been_visited(self, figure: "Figure") -> bool:
+    def has_been_visited(self, figure: IFigure) -> bool:
         """Returns if the stations map has been visited before"""
         return self.associates[0].name in figure.visited_maps
 
@@ -216,7 +217,7 @@ W ◀ ▶ E
         self.info_label.rechar(name)
         self.add_ob(self.info_label, self.width - 2 - len(name), 0)
 
-    def __call__(self, ctx: Context, choose: bool = False) -> "PlayMap" | None:
+    def __call__(self, ctx: Context, choose: bool = False) -> PlayMap | None:
         """Shows the roadmap
         ARGS:
             choose: Bool whether or not this is done to choose a city"""

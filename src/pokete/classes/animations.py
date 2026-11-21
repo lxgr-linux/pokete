@@ -60,17 +60,17 @@ def fight_intro(height: int, width: int) -> None:
     fancymap.show()
 
     chars = ["-", "=", "-"]
-    char_idx = 0
-    for i, _l in zip(
-        list(zip(*[j.obs for j in vec_list])),
-        list(zip(*[list(2 * " ") + k for k in [j.obs for j in vec_list]])),
+    for char_idx, (i, _l) in enumerate(
+        zip(
+            list(zip(*[j.obs for j in vec_list])),
+            list(zip(*[list(2 * " ") + k for k in [j.obs for j in vec_list]])),
+        )
     ):
         for j in i:
             j.rechar(chars[char_idx % len(chars)])
         for j in _l:
             if j != " ":
                 j.rechar(" ")
-        char_idx += 1
         fancymap.show()
         time.sleep(SPEED_OF_TIME * 0.008)
 

@@ -12,6 +12,7 @@ from pokete.classes.asset_service.resources.obmaps import Obmap
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.classes import PlayMap
 from pokete.classes.doors import Door, DoorToCenter, DoorToShop
+from pokete.classes.i import IFigure
 from pokete.classes.landscape import Meadow, Poketeball, Sand, Water
 from pokete.classes.map_additions.center import CenterMap, ShopMap
 from pokete.classes.map_additions.customizers import customizers
@@ -21,7 +22,7 @@ from pokete.classes.settings import settings
 
 
 class Playmap7Event(PeriodicEvent):
-    def __init__(self, fig: "Figure") -> None:
+    def __init__(self, fig: IFigure) -> None:
         self.fig = fig
         self.init = False
 
@@ -162,7 +163,7 @@ def gen_maps(
     return maps
 
 
-def gen_obs(figure: "Figure") -> None:
+def gen_obs(figure: IFigure) -> None:
     """Generates all objects on the maps
     ARSG:
         map_data: Contains map_data

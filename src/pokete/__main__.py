@@ -200,7 +200,7 @@ class Debug:
     logger = logging.getLogger("Debug")
 
     @staticmethod
-    def pos(figure: "Figure") -> None:
+    def pos(figure: Figure) -> None:
         """Prints the figures' position"""
         print(figure.x, figure.y, figure.map.name)
 
@@ -209,7 +209,7 @@ class Debug:
 #######################
 
 
-def autosave(figure: "Figure") -> None:
+def autosave(figure: Figure) -> None:
     """Autosaves the game every 5 mins"""
     while True:
         time.sleep(SPEED_OF_TIME * 300)
@@ -227,12 +227,12 @@ def codes(string: str, figure: Figure) -> None:
         if i == "w":
             save(figure)
         elif i == "!":
-            exec(string[string.index("!") + 2 :])
+            exec(string[string.index("!") + 2 :])  # noqa: S102
             return
         elif i == "e":
             try:
-                exec(string[string.index("e") + 2 :])
-            except Exception as exc:
+                exec(string[string.index("e") + 2 :])  # noqa: S102
+            except Exception as exc:  # noqa: BLE001
                 print(exc)
             return
         elif i == "q":

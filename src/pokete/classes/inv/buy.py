@@ -33,11 +33,10 @@ class Buy(BaseInv):
         obj = self.items[self.index.index]
         do_buy: bool = self.invbox(ctx, obj)
         ctx = change_ctx(ctx, self)
-        if do_buy and obj.price is not None:
-            if ctx.figure.get_money() - obj.price >= 0:
-                ctx.figure.add_money(-obj.price)
-                ctx.figure.give_item(obj.name)
-                self.set_money(ctx.figure)
+        if do_buy and obj.price is not None and ctx.figure.get_money() - obj.price >= 0:
+            ctx.figure.add_money(-obj.price)
+            ctx.figure.give_item(obj.name)
+            self.set_money(ctx.figure)
 
     def __call__(self, ctx: Context) -> None:
         self.resize(ctx.map.height - 3, 35)

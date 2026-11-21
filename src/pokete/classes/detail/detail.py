@@ -241,12 +241,11 @@ class Detail(Box, MouseInteractor):
                 elif action.triggers(Action.STATS_INFO):
                     StatsInfoBox(poke.poke_stats)(ctx)
                     ctx = change_ctx(ctx, self)
-                elif action.triggers(Action.ABILITIES_INFO):
-                    if abb_obs != [] and abb:
-                        abilities_box = AbilitiesChooseBox()
-                        ret_action = abilities_box(ctx, abb_obs)
-                        ctx = change_ctx(ctx, self)
-                        if ret_action:
-                            self.enq_single_action(ret_action)
+                elif action.triggers(Action.ABILITIES_INFO) and abb_obs != [] and abb:
+                    abilities_box = AbilitiesChooseBox()
+                    ret_action = abilities_box(ctx, abb_obs)
+                    ctx = change_ctx(ctx, self)
+                    if ret_action:
+                        self.enq_single_action(ret_action)
                 self.attack_descs.inc()
                 loops.std(ctx)

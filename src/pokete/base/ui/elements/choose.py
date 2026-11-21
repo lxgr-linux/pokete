@@ -2,6 +2,7 @@ from typing import Self, override
 
 import scrap_engine as se
 
+from pokete.base.game_map import GameSubmap
 from pokete.base.input import (
     ACTION_DIRECTIONS,
     ACTION_UP_DOWN,
@@ -142,7 +143,7 @@ class BetterChooseBox(Box):
         columns: int,
         labels: list[se.HasArea],
         name: str = "",
-        _map: "GameSubmap" | None = None,
+        _map: GameSubmap | None = None,
         overview: Overview | None = None,
         max_rows: int | None = None,
     ) -> None:

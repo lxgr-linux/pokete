@@ -1,6 +1,7 @@
 """Contains classes that can be placed on playmaps"""
 
 import random
+from typing import ClassVar
 
 import scrap_engine as se
 
@@ -64,9 +65,9 @@ class Meadow(se.Text):
         poke_args: Dict containing relevant information about Pokes"""
 
     esccode = Color.green
-    all_grass = []
-    all_water = []
-    all_sand = []
+    all_grass: ClassVar[list["Meadow"]] = []
+    all_water: ClassVar[list["Meadow"]] = []
+    all_sand: ClassVar[list["Meadow"]] = []
 
     def __init__(self, string: str, poke_args: PokeArgs) -> None:
         super().__init__(

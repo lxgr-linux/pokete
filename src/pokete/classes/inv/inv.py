@@ -10,6 +10,7 @@ from pokete.classes.asset_service.service import asset_service
 from pokete.classes.deck import Deck
 from pokete.classes.evo import upgrade_by_one_lvl
 from pokete.classes.evo.learnattack import LearnAttackBox
+from pokete.classes.i import IFigure
 from pokete.classes.items.invitem import InvItem
 from pokete.classes.items.learndisc import LearnDisc
 from pokete.classes.poke.poke import Poke
@@ -114,7 +115,7 @@ class Inv(BaseInv):
         with self.add(ctx.map, ctx.map.width - self.width, 0):
             super().__call__(ctx)
 
-    def rem_item(self, figure: "Figure", name: str) -> None:
+    def rem_item(self, figure: IFigure, name: str) -> None:
         """Removes an item from the inv
         ARGS:
             name: Items name

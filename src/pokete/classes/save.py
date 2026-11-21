@@ -8,6 +8,7 @@ from pokete.base.input import hotkeys_save
 
 from . import timer
 from .achievements import achievements
+from .i import IFigure
 from .multiplayer.connector import com_service
 from .multiplayer.modeprovider import Mode, modeProvider
 from .pokete_care import pokete_care
@@ -18,7 +19,7 @@ HOME = Path.home()
 logger = logging.getLogger("Save")
 
 
-def save(figure: "Figure") -> None:
+def save(figure: IFigure) -> None:
     _map = figure.map.name
     old_map = figure.oldmap.name
     x = figure.x
@@ -107,6 +108,6 @@ def read_save() -> None:
     elif os.path.exists(ancient_save_file):
         l_dict = {}
         with open(ancient_save_file, "r") as _file:
-            exec(_file.read(), {"session_info": _si}, l_dict)
+            exec(_file.read(), {"session_info": _si}, l_dict)  # noqa: S102
         _si = json.loads(json.dumps(l_dict["session_info"]))
     return _si

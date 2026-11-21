@@ -1,6 +1,7 @@
 import scrap_engine as se
 
 from pokete.base.context import Context
+from pokete.base.game_map import GameSubmap
 from pokete.base.ui.views.choose_box import ChooseBoxView
 
 from .. import movemap as mvp
@@ -28,7 +29,7 @@ class MultiTextChooseBox(ChooseBoxView[tuple[int, str]]):
         else:
             return None
 
-    def add_relative(self, _map: "GameSubmap", x: int, y: int) -> None:
+    def add_relative(self, _map: GameSubmap, x: int, y: int) -> None:
         assert self.fig
         mvp.movemap.assure_distance(
             self.fig.x, self.fig.y, self.width + 2, self.height + 2

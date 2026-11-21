@@ -38,4 +38,4 @@ class Inventory:
 in the inventory!"
         )
         self.__inv[item] -= amount
-        logger.info("[Figure] %d %s(s) removed", amount, item)
+        self.logger.info("[Figure] %d %s(s) removed", amount, item)

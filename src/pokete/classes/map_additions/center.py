@@ -8,6 +8,7 @@ from pokete.classes import movemap as mvp
 from pokete.classes.classes import PlayMap
 from pokete.classes.deck import Deck
 from pokete.classes.doors import CenterDoor
+from pokete.classes.i import IFigure
 from pokete.classes.interactions.multi_text_choose_box import MultiTextChooseBox
 from pokete.classes.inv import buy
 from pokete.classes.landscape import MapInteract
@@ -109,11 +110,11 @@ class CenterInteract(se.Object, MapInteract):
             "Select",
         )
 
-    def __normalize_pokes(self, ob: "Figure") -> None:
+    def __normalize_pokes(self, ob: IFigure) -> None:
         while "__fallback__" in [p.identifier for p in ob.pokes]:
             ob.pokes.pop([p.identifier for p in ob.pokes].index("__fallback__"))
 
-    def action(self, ob: "Figure") -> None:
+    def action(self, ob: IFigure) -> None:
         """Triggers the interaction in the Pokete center
         ARGS:
             ob: The object triggering this action"""

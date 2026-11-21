@@ -43,11 +43,11 @@ class FightDecision:
 
     @classmethod
     def from_dict(
-        cls, _d: "FightDecisionData", _poke: "Poke", _player: "User"
+        cls, _d: FightDecisionData, _poke: Poke, _player: User
     ) -> "FightDecision | None":
         match _d["result"]:
             case Result.ATTACK.value:
-                self.logger.info("%s, %s", _d["attack"], _poke.attacks)
+                cls.logger.info("%s, %s", _d["attack"], _poke.attacks)
                 assert _d["attack"] in _poke.attacks
                 attack = _poke.attack_obs[_poke.attacks.index(_d["attack"])]
                 return cls.attack(attack)

@@ -20,12 +20,12 @@ class Body(ABC):
 
     def call_for_response(self, context: dict) -> "Body":
         """returns Body"""
-        raise Exception(f"call_for_response not implemented for {self.type}")
+        raise NotImplementedError(f"call_for_response not implemented for {self.type}")
 
     def call_for_responses(
         self, context: dict, response_writer: ResponseWriter
     ) -> None:
-        raise Exception(f"call_for_responses not implemented for {self.type}")
+        raise NotImplementedError(f"call_for_responses not implemented for {self.type}")
 
     def get_type(self) -> None:
         return self.type

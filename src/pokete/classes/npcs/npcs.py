@@ -3,6 +3,7 @@
 import logging
 import random
 import time
+from typing import ClassVar
 
 import scrap_engine as se
 
@@ -14,10 +15,11 @@ from pokete.classes.asset_service.service import asset_service
 from pokete.release import SPEED_OF_TIME
 
 from ..asset_service.resources import Chat
-from ..fight import Fight, FightDecision, Provider
+from ..fight import Fight, FightDecision, FightMap, Provider
 from ..general import check_walk_back
 from ..interactions import Interactor, MultiTextChooseBox
 from ..landscape import MapInteract
+from ..poke.poke.poke import Poke
 from ..settings import settings
 from .npc_action import NPCAction, NPCInterface
 from .npc_trigger import NPCTrigger
@@ -28,8 +30,8 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
     """An NPC to talk to"""
 
     logger = logging.getLogger("NPC")
-    npcactions: dict[str, NPCAction] = {}
-    registry: dict[str, "NPC"] = {}
+    npcactions: ClassVar[dict[str, NPCAction]] = {}
+    registry: ClassVar[dict[str, "NPC"]] = {}
 
     @classmethod
     def set_vars(cls, npcactions: dict[str, NPCAction]) -> None:
@@ -135,7 +137,7 @@ class Trainer(NPC, Provider):
 
     def __init__(
         self,
-        pokes: list["Poke"],
+        pokes: list[Poke],
         name: str,
         gender: str,
         texts: str,
@@ -151,7 +153,7 @@ class Trainer(NPC, Provider):
         self.trainer = True
 
     def get_decision(
-        self, ctx: Context, fightmap: "FightMap", enem: "Provider"
+        self, ctx: Context, fightmap: FightMap, enem: "Provider"
     ) -> FightDecision:
         return FightDecision.attack(
             random.choices(
@@ -220,7 +222,7 @@ class Trainer(NPC, Provider):
             self.walk_point(o_x, o_y + (1 if o_y > self.y else -1))
             check_walk_back(self.ctx)
 
-    def greet(self, fightmap: "FightMap") -> None:
+    def greet(self, fightmap: FightMap) -> None:
         """Outputs a greeting text at the fights start:
         ARGS:
             fightmap: fightmap object"""
@@ -231,7 +233,7 @@ class Trainer(NPC, Provider):
         )
 
     def handle_defeat(
-        self, ctx: Context, fightmap: "FightMap", winner: "Provider"
+        self, ctx: Context, fightmap: FightMap, winner: "Provider"
     ) -> bool:
         """Function called when the providers current Pokete dies
         ARGS:

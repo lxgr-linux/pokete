@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """This script generates the Pokete wiki"""
 
 import os

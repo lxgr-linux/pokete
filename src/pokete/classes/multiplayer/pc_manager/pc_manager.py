@@ -3,6 +3,7 @@
 import logging
 
 from ... import ob_maps as obmp
+from ...i import IFigure
 from ...multiplayer.msg.position.update import UpdateDict
 from ..interactions import movemap_deco
 from .remote_player import RemotePlayer
@@ -63,7 +64,7 @@ class PCManager:
         for rmtpl in self.reg.values():
             rmtpl.readd_name_tag()
 
-    def get_interactable(self, figure: "Figure") -> RemotePlayer | None:
+    def get_interactable(self, figure: IFigure) -> RemotePlayer | None:
         for rmtpl in self.reg.values():
             if (
                 rmtpl.map == figure.map
@@ -73,7 +74,7 @@ class PCManager:
                 return rmtpl
         return None
 
-    def check_interactable(self, figure: "Figure") -> None:
+    def check_interactable(self, figure: IFigure) -> None:
         rmtpl = self.get_interactable(figure)
         if rmtpl is None:
             movemap_deco.set_inactive()
