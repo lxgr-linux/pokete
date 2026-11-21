@@ -17,7 +17,14 @@ class Nature:
         def_: The defense change
         init: The initiative change"""
 
-    def __init__(self, name: str, esc: str | None = None, atc: int | None = None, def_: int | None = None, init: int | None = None) -> None:
+    def __init__(
+        self,
+        name: str,
+        esc: str | None = None,
+        atc: int | None = None,
+        def_: int | None = None,
+        init: int | None = None,
+    ) -> None:
         self.name = name
         if esc is not None:
             self.esccode = getattr(Color, esc)

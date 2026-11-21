@@ -4,10 +4,9 @@ import platform
 import sys
 from pathlib import Path
 
-
-
-
 logger = logging.getLogger(__name__)
+
+
 def playsound(file: str, volume: int) -> None:
     """Plays a mp3 file
     ARGS:

@@ -16,6 +16,7 @@ from .mouse_optimizing_queue_monitoring_handler import (
 
 class MouseInteractionManager:
     logger = logging.getLogger("MouseInteractionManager")
+
     def __init__(self) -> None:
         self.__interactors: list[MouseInteractor] = []
         self.__last: tuple[MouseInteractor, int, MouseEventType, bool] | None = None

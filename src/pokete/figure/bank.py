@@ -1,7 +1,6 @@
 import logging
 
 
-
 class Bank:
     logger = logging.getLogger("Bank")
     __money: int

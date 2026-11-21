@@ -1,5 +1,5 @@
-import logging
 import json
+import logging
 import threading
 import time
 
@@ -7,7 +7,6 @@ from .channel import Channel
 from .channel_generator import ChannelGenerator
 from .msg import Body, EmptyMsg, Method, Msg, ResponseWriter
 from .registry import Registry
-
 
 __all__ = [
     "Body",
@@ -26,6 +25,7 @@ END_SECTION = b"<END>"
 
 class Client:
     logger = logging.getLogger("Client")
+
     def __init__(self, rw: "ResponseWriter", reg: Registry) -> None:
         self.rw = rw
         self.reg = reg

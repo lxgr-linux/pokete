@@ -13,7 +13,9 @@ from pokete.release import SPEED_OF_TIME
 
 
 # Helper functions for animations - no duplication, pure functions
-def _impact(player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool) -> None:
+def _impact(
+    player_labels: PokeLabels, enem_labels: PokeLabels, is_player: bool
+) -> None:
     """Brief flash effect on enemy when attack lands"""
     if enem_labels == player_labels:
         return

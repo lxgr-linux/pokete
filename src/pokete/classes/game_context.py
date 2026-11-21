@@ -9,16 +9,21 @@ from pokete.base.single_event import single_event_periodic_event
 from .audio import audio
 
 
-
 class GameContext:
     logger = logging.getLogger("GameContext")
+
     def __enter__(self) -> None:
         PropagatingThread(target=recogniser, daemon=True).start()
         single_event_periodic_event.monitor()
         os.system("")
         print("\033[?1049h" + "\033[?25l" + "\033[?1003h\033[?1015h\033[?1006h")
 
-    def __exit__(self, exc_type: type[BaseException] | None, exc_value: BaseException | None, exc_tb: TracebackType | None) -> None:
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> None:
         recogniser.reset()
         print(
             "\033[?1049l\033[1A"

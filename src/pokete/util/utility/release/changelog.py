@@ -17,7 +17,9 @@ def __get_raw_releases(content: str) -> RawReleases:
     return raw_releases
 
 
-def __parse_line(line: str, idx: int = 0, in_code_block: bool = False, illegal_link: str = "") -> str:
+def __parse_line(
+    line: str, idx: int = 0, in_code_block: bool = False, illegal_link: str = ""
+) -> str:
     if idx == len(line):
         return ""
     this_segment = ""
@@ -49,7 +51,11 @@ def __parse_line(line: str, idx: int = 0, in_code_block: bool = False, illegal_l
 
 
 def __parse_markup(
-    lines: list[str], idx: int = 0, ul_depth: int = 0, curr_ul_sep: str = "", curr_line_depth: int = 0
+    lines: list[str],
+    idx: int = 0,
+    ul_depth: int = 0,
+    curr_ul_sep: str = "",
+    curr_line_depth: int = 0,
 ) -> str:
     if idx == len(lines):
         return ""

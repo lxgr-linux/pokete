@@ -23,7 +23,9 @@ def wait_event(ctx: Context, text: str, event: Event) -> None:
         loops.event_wait(ctx, event)
 
 
-def ask_text(ctx: Context, infotext: str, introtext: str, text: str, name: str, max_len: int) -> str | None:
+def ask_text(
+    ctx: Context, infotext: str, introtext: str, text: str, name: str, max_len: int
+) -> str | None:
     """Asks the player to input a text
     ARGS:
         ctx: Context

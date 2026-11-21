@@ -5,18 +5,19 @@ from pokete.classes.items import InvItem, LearnDisc
 
 from .resources import Assets, AssetsDict, BaseAssets, BaseAssetsDict
 
-
 Items = dict[str, InvItem]
 
 
 class ValidationException(Exception):
     logger = logging.getLogger("ValidationException")
+
     def __init__(self) -> None:
         super().__init__("Failed to validate data")
 
 
 class AssetSerice:
     logger = logging.getLogger("AssetSerice")
+
     def __init__(self) -> None:
         self.__assets: Assets | None = None
         self.__base_assets: BaseAssets | None = None

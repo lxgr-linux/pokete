@@ -20,7 +20,6 @@ from .nature import PokeNature
 from .stats import Stats
 
 
-
 class Poke(IPoke):
     """The Pokete class
     ARGS:
@@ -32,6 +31,7 @@ class Poke(IPoke):
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
     logger = logging.getLogger("Poke")
+
     def __init__(
         self,
         poke: str,

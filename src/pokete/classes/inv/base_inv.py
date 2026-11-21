@@ -1,4 +1,3 @@
-
 import scrap_engine as se
 
 from pokete.base.ui.views.choose_box import ChooseBoxView

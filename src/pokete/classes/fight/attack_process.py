@@ -14,9 +14,9 @@ from .fightmap import FightMap
 from .providers import Provider
 
 
-
 class AttackProcess:
     logger = logging.getLogger("AttackProcess")
+
     def __init__(self, fightmap: FightMap) -> None:
         self.fightmap: FightMap = fightmap
 

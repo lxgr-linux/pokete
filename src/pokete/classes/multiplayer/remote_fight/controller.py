@@ -11,9 +11,9 @@ from pokete.classes.multiplayer.remote_fight.figure_wrapper import FigureWrapper
 from pokete.classes.multiplayer.remote_fight.provider import RemoteProvider
 
 
-
 class RemoteFightController:
     logger = logging.getLogger("RemoteFightController")
+
     def __init__(self) -> None:
         # self.active = False
         self.end = Event()

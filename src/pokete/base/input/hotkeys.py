@@ -74,6 +74,7 @@ class ActionList(list):
     """List of actions triggered by a key"""
 
     logger = logging.getLogger("ActionList")
+
     def triggers(self, *actions) -> None:
         """Checks if the self triggers a set of actions"""
         for action in actions:

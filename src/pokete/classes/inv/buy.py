@@ -1,6 +1,5 @@
 """Classes related to buing stuff"""
 
-
 import scrap_engine as se
 
 from pokete.base.change import change_ctx

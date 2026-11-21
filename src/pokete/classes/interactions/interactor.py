@@ -11,7 +11,6 @@ from .. import movemap as mvp
 from .interactor_interface import InteractorInterface
 
 
-
 class Interactor(InteractorInterface, ABC):
     """Interactor interface for map interactions"""
 

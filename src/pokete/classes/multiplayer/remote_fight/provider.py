@@ -48,7 +48,9 @@ class RemoteProvider(Provider):
     def greet(self, fightmap: FightMap) -> None:
         fightmap.outp.outp(f"Fight started with {self.name}, good luck!")
 
-    def get_decision(self, ctx: Context, fightmap: FightMap, enem: "Provider") -> FightDecision:
+    def get_decision(
+        self, ctx: Context, fightmap: FightMap, enem: "Provider"
+    ) -> FightDecision:
         resp = next(self.incomming)
         match resp.type:
             case fight.SEED_TYPE:
@@ -65,5 +67,7 @@ class RemoteProvider(Provider):
             case _:
                 assert False
 
-    def handle_defeat(self, ctx: Context, fightmap: FightMap, winner: "Provider") -> None:
+    def handle_defeat(
+        self, ctx: Context, fightmap: FightMap, winner: "Provider"
+    ) -> None:
         return

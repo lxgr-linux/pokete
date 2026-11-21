@@ -5,9 +5,9 @@ from pokete.classes.fight.items.item import FightItem, RoundContinuation
 from pokete.classes.fight.providers import Provider
 
 
-
 class ApPotion(FightItem):
     logger = logging.getLogger("ApPotion")
+
     def use(self, fightmap: FightMap, obj, enem: Provider) -> RoundContinuation:
         obj.remove_item("ap_potion")
         for atc in obj.curr.attack_obs:

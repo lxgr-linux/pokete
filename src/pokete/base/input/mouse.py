@@ -6,7 +6,6 @@ from enum import Enum
 from pokete import bs_rpc
 
 
-
 class MouseEventType(Enum):
     LEFT = 0
     MIDDLE = 1
@@ -43,6 +42,7 @@ class MouseEvent:
 
 class MouseManager:
     logger = logging.getLogger("MouseManager")
+
     def __init__(self) -> None:
         self.pattern = re.compile(r"\[<[0-9]*;[0-9]*;[0-9]*[m|M]")
         self.events: bs_rpc.Channel[MouseEvent] = bs_rpc.Channel()

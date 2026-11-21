@@ -1,6 +1,5 @@
 """Contains classes needed for the detail-view of a Pokete"""
 
-
 import scrap_engine as se
 
 import pokete.base.game_map as gm
@@ -27,7 +26,9 @@ class Informer:
     """Supplies methods for Deck and Detail"""
 
     @staticmethod
-    def add(poke: "Poke", figure, _map: se.Map, _x: int, _y: int, in_deck: bool = True) -> None:
+    def add(
+        poke: "Poke", figure, _map: se.Map, _x: int, _y: int, in_deck: bool = True
+    ) -> None:
         """Adds a Pokete's info to the deck
         ARGS:
             poke: Poke object

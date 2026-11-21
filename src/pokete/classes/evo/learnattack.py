@@ -30,9 +30,11 @@ class AttackInfo(Box):
         desc_label = se.Text(liner(atc.desc, 40))
         super().__init__(
             5 + len(desc_label.text.split("\n")),
-            max(len(i)
+            max(
+                len(i)
                 for i in desc_label.text.split("\n")
-                + [atc.label_type.text, atc.label_factor.text])
+                + [atc.label_type.text, atc.label_factor.text]
+            )
             + 4,
             atc.name,
             [CloseLabel()],

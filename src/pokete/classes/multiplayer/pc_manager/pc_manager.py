@@ -8,11 +8,11 @@ from ..interactions import movemap_deco
 from .remote_player import RemotePlayer
 
 
-
 class PCManager:
     """Manages remote players"""
 
     logger = logging.getLogger("PCManager")
+
     def __init__(self) -> None:
         self.reg: dict[str, RemotePlayer] = {}
         self.waiting_users: list[UpdateDict] = []

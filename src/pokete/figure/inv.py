@@ -2,7 +2,6 @@ import logging
 from copy import copy
 
 
-
 class Inventory:
     logger = logging.getLogger("Inventory")
     __inv: dict[str, int]

@@ -89,7 +89,11 @@ class OldDeck(Informer, Overview):
         )
 
     def __call__(
-        self, ctx: Context, p_len: int, label: str = "Your full deck", in_fight: bool = False
+        self,
+        ctx: Context,
+        p_len: int,
+        label: str = "Your full deck",
+        in_fight: bool = False,
     ) -> None:
         """Opens the deck
         ARGS:

@@ -6,7 +6,6 @@ from pokete.release import CODENAME, SAVEPATH, VERSION
 from pokete.util.command.command import Flag, RootCommand
 
 
-
 class PoketeCommand:
     logger = logging.getLogger("PoketeCommand")
     log_flag = Flag(["--log"], "Enables logging")

@@ -14,9 +14,9 @@ from ...asset_service.service import asset_service
 from .item import FightItem, RoundContinuation
 
 
-
 class GenericPokeBall(FightItem, ABC):
     logger = logging.getLogger("GenericPokeBall")
+
     def __init__(self, chance: int, name: str) -> None:
         self.chance = chance
         self.name = name
@@ -81,17 +81,20 @@ class GenericPokeBall(FightItem, ABC):
 
 class PoketeBall(GenericPokeBall):
     logger = logging.getLogger("PoketeBall")
+
     def __init__(self) -> None:
         super().__init__(1, "poketeball")
 
 
 class SuperBall(GenericPokeBall):
     logger = logging.getLogger("SuperBall")
+
     def __init__(self) -> None:
         super().__init__(6, "superball")
 
 
 class HyperBall(GenericPokeBall):
     logger = logging.getLogger("HyperBall")
+
     def __init__(self) -> None:
         super().__init__(1000, "hyperball")

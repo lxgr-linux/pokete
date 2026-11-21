@@ -1,4 +1,4 @@
-from typing import Any, override
+from typing import override
 
 import scrap_engine as se
 
@@ -69,7 +69,9 @@ class InputBoxView(InfoBoxView):
         name: The boxes desplayed name
         max_len: Max length of the text"""
 
-    def __init__(self, infotext: str, introtext: str, text: str, max_len: int, name: str = "") -> None:
+    def __init__(
+        self, infotext: str, introtext: str, text: str, max_len: int, name: str = ""
+    ) -> None:
         height = len(infotext.split("\n")) + 3
         width = (
             max([len(i) for i in infotext.split("\n")] + [len(introtext) + 1 + max_len])

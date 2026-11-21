@@ -418,7 +418,12 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
         self.clean_up(*providers)
 
     def show_effectivity(
-        self, eff: int, n_hp: int, random_factor: int, attacker: "Poke", attack: "Attack"
+        self,
+        eff: int,
+        n_hp: int,
+        random_factor: int,
+        attacker: "Poke",
+        attack: "Attack",
     ) -> None:
         eff_text = {
             eff < 1: "\nThat was not effective! ",

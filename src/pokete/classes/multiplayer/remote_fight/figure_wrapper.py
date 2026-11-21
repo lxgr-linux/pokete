@@ -37,7 +37,9 @@ class FigureWrapperProvider(Provider):
     def greet(self, fightmap: FightMap) -> None:
         return super().greet(fightmap)
 
-    def get_decision(self, ctx: Context, fightmap: FightMap, enem: "Provider") -> FightDecision:
+    def get_decision(
+        self, ctx: Context, fightmap: FightMap, enem: "Provider"
+    ) -> FightDecision:
         result = self.figure.get_decision(ctx, fightmap, enem)
         self.outgoing(fight.FightDecision(result.to_dict()))
 
@@ -51,5 +53,7 @@ class FigureWrapperProvider(Provider):
 
         return result
 
-    def handle_defeat(self, ctx: Context, fightmap: FightMap, winner: "Provider") -> None:
+    def handle_defeat(
+        self, ctx: Context, fightmap: FightMap, winner: "Provider"
+    ) -> None:
         self.figure.handle_defeat(ctx, fightmap, winner)

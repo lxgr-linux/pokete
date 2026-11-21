@@ -24,7 +24,6 @@ from .npc_trigger import NPCTrigger
 from .ui import UI
 
 
-
 class NPC(se.Box, NPCInterface, MapInteract, Interactor):
     """An NPC to talk to"""
 
@@ -47,7 +46,12 @@ class NPC(se.Box, NPCInterface, MapInteract, Interactor):
         return cls.registry[name]
 
     def __init__(
-        self, name: str, texts: str, _fn: str | None = None, chat: Chat | None = None, side_trigger: bool = True
+        self,
+        name: str,
+        texts: str,
+        _fn: str | None = None,
+        chat: Chat | None = None,
+        side_trigger: bool = True,
     ) -> None:
         super().__init__(0, 0)
         self.name = name
@@ -128,7 +132,16 @@ class Trainer(NPC, Provider):
     """Trainer class to fight against"""
 
     logger = logging.getLogger("Trainer")
-    def __init__(self, pokes: list["Poke"], name: str, gender: str, texts: str, lose_texts: str, win_texts: str) -> None:
+
+    def __init__(
+        self,
+        pokes: list["Poke"],
+        name: str,
+        gender: str,
+        texts: str,
+        lose_texts: str,
+        win_texts: str,
+    ) -> None:
         NPC.__init__(self, name, texts, side_trigger=False)
         Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
@@ -137,7 +150,9 @@ class Trainer(NPC, Provider):
         self.win_texts = win_texts
         self.trainer = True
 
-    def get_decision(self, ctx: Context, fightmap: "FightMap", enem: "Provider") -> FightDecision:
+    def get_decision(
+        self, ctx: Context, fightmap: "FightMap", enem: "Provider"
+    ) -> FightDecision:
         return FightDecision.attack(
             random.choices(
                 self.curr.attack_obs,
@@ -215,7 +230,9 @@ class Trainer(NPC, Provider):
             f"{fightmap.outp.text}\n{self.gender} used {self.curr.name} against you!"
         )
 
-    def handle_defeat(self, ctx: Context, fightmap: "FightMap", winner: "Provider") -> bool:
+    def handle_defeat(
+        self, ctx: Context, fightmap: "FightMap", winner: "Provider"
+    ) -> bool:
         """Function called when the providers current Pokete dies
         ARGS:
             ctx: Context object

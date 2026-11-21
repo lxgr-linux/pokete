@@ -21,7 +21,6 @@ from pokete.release import SPEED_OF_TIME
 from .learnattack import LearnAttackBox
 
 
-
 class EvoMap(gm.GameMap, Overview):
     """Map for evolutions to take place on
     ARGS:
@@ -29,6 +28,7 @@ class EvoMap(gm.GameMap, Overview):
         width: The width of the map"""
 
     logger = logging.getLogger("EvoMap")
+
     def __init__(self, height: int, width: int) -> None:
         super().__init__(height, width, name="evomap")
         self.frame_small = se.Frame(height=4, width=width, state="float")

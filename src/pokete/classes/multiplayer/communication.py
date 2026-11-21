@@ -25,6 +25,7 @@ from pokete.classes.multiplayer.pc_manager import pc_manager
 
 class CommunicationService:
     logger = logging.getLogger("CommunicationService")
+
     def __init__(self) -> None:
         self.client: bs_rpc.Client
         self.saved_pos = ()

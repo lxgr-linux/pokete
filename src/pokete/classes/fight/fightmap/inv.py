@@ -1,6 +1,5 @@
 """Contains stuff related to fight inventory"""
 
-
 import scrap_engine as se
 
 from pokete.base.context import Context

@@ -15,7 +15,6 @@ from pokete.base.ui.input import TextInput
 from pokete.base.ui.overview import Overview
 
 
-
 class Setting:
     """Setting class grouping a name and a value
     ARGS:
@@ -145,6 +144,7 @@ class VisSetting(se.Text):
         options: Dict containing all options ({True: "On", False: "Off"})"""
 
     logger = logging.getLogger("VisSetting")
+
     def __init__(self, text: str, setting: str, options: dict | None = None) -> None:
         if options is None:
             options = {}
@@ -202,6 +202,7 @@ class Settings:
 
 class TextInputBox(se.Box):
     logger = logging.getLogger("TextInputBox")
+
     def __init__(self, label: str, max_len: int) -> None:
         super().__init__(1, len(label) + 1 + max_len)
         self.max_len = max_len

@@ -98,7 +98,10 @@ class Box(se.Box, Overview):
         return self
 
     def __exit__(
-        self, exc_type: type[BaseException] | None, exc_value: BaseException | None, exc_tb: TracebackType | None
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         """Exit dunder for context management"""
         assert self.map
