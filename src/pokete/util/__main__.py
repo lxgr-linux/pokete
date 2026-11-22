@@ -1,3 +1,4 @@
+from pokete.base.tss import FixedScreenSizeContext
 from pokete.util.command import Command, RootCommand, not_enough_args, not_found
 from pokete.util.utility import (
     export,
@@ -79,7 +80,8 @@ def main() -> None:
         ],
     )
 
-    c.exec()
+    with FixedScreenSizeContext(100, 100):
+        c.exec()
 
 
 if __name__ == "__main__":
