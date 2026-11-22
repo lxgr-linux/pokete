@@ -55,9 +55,10 @@ class Deck(BetterChooseBoxView[int]):
 
     @override
     def choose(self, ctx: Context, idx: int) -> int | None:
+        absolute_index = (self.page * self.rows * self.columns) + idx
         if self.in_fight:
-            return idx
-        Detail()(ctx, self.pokes[(self.page * self.rows * self.columns) + idx])
+            return absolute_index
+        Detail()(ctx, self.pokes[absolute_index])
         return None
 
     @property
