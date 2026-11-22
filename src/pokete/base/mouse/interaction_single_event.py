@@ -21,10 +21,10 @@ class InteractionSingleEvent(SingleEvent):
     def enabled(self) -> bool:
         return self.__enabled
 
-    def disable(self):
+    def disable(self) -> None:
         self.__enabled = False
 
-    def run(self, ctx: Context):
+    def run(self, ctx: Context) -> None:
         interactors = self.interactor.get_all_interactors()
         if self.idx < 0:
             for interactor in interactors:

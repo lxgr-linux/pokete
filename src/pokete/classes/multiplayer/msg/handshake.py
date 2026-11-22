@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 from pokete.classes.multiplayer.msg.player import player
 
 
@@ -10,5 +10,5 @@ class HandshakeData(TypedDict):
 
 
 class Handshake(bs_rpc.Body):
-    def __init__(self, data: HandshakeData):
+    def __init__(self, data: HandshakeData) -> None:
         super().__init__("pokete.handshake", data)

@@ -1,19 +1,21 @@
 from pokete.base.context import Context
 from pokete.base.exception_propagation import exception_propagating_periodic_event
 from pokete.base.periodic_event_manager import PeriodicEventManager
-from .pokete_care import PoketeCare
-from .. import timer
-from ..npcs import NPCAction
-from ..npcs.npc_action import NPCInterface, UIInterface
+from pokete.classes import timer
+from pokete.classes.evo import EvoMap
+from pokete.classes.npcs import NPCAction
+from pokete.classes.npcs.npc_action import NPCInterface, UIInterface
+from pokete.classes.poke.poke import Poke
+
 from .dummy import DummyFigure
-from ..poke import EvoMap, Poke
+from .pokete_care import PoketeCare
 
 
 class PoketeCareNPCAction(NPCAction):
-    def __init__(self, care: PoketeCare):
+    def __init__(self, care: PoketeCare) -> None:
         self.care: PoketeCare = care
 
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         if self.care.poke is None:
             npc.text(
                 [
@@ -21,12 +23,14 @@ class PoketeCareNPCAction(NPCAction):
 and we will train it."
                 ]
             )
-            if ui.ask_bool("Do you want to put a Pokete into the Pokete-Care?"):
-                if (index := ui.choose_poke()) is not None:
-                    self.care.poke = npc.ctx.figure.pokes[index]
-                    self.care.entry = timer.time.time
-                    npc.ctx.figure.add_poke(Poke("__fallback__", 0), index)
-                    npc.text(["We will take care of it."])
+            if (
+                ui.ask_bool("Do you want to put a Pokete into the Pokete-Care?")
+                and (index := ui.choose_poke()) is not None
+            ):
+                self.care.poke = npc.ctx.figure.pokes[index]
+                self.care.entry = timer.time.time
+                npc.ctx.figure.add_poke(Poke("__fallback__", 0), index)
+                npc.text(["We will take care of it."])
         else:
             add_xp = int((timer.time.time - self.care.entry) / 30)
             self.care.entry = timer.time.time

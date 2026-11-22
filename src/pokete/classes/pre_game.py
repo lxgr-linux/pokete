@@ -23,6 +23,7 @@ from pokete.classes.asset_service.resources.obmaps import Obmap
 from pokete.classes.audio import audio
 from pokete.classes.classes import PlayMap
 from pokete.classes.generate import gen_single_map, gen_single_map_obs
+from pokete.classes.i import IFigure
 from pokete.classes.map_additions.center import CenterMap, ShopMap
 from pokete.classes.multiplayer.menu import ModeChooser
 from pokete.release import VERSION
@@ -31,12 +32,12 @@ from pokete.util.semantic_version import SemanticVersion
 
 
 class BGMoverEvent(PeriodicEvent):
-    def __init__(self, _map: se.Submap):
+    def __init__(self, _map: se.Submap) -> None:
         self.map = _map
         self.up = True
         self.right = True
 
-    def tick(self, ctx: Context, tick: int):
+    def tick(self, ctx: Context, tick: int) -> None:
         if tick % 2 == 0:
             if self.map.x + self.map.width >= self.map.bmap.width:
                 self.right = False
@@ -55,7 +56,7 @@ class BGMoverEvent(PeriodicEvent):
 class PreGameMap(GameSubmap, Overview):
     """Map for background"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             self.build_bg_map(),
             0,
@@ -82,12 +83,12 @@ class PreGameMap(GameSubmap, Overview):
 
         return bg_playmap
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
 
-    def __call__(self, session_info, figure):
+    def __call__(self, session_info: dict, figure: IFigure) -> None:
         pevm = PeriodicEventManager(
             [
                 exception_propagating_periodic_event,
@@ -106,23 +107,22 @@ class PreGameMap(GameSubmap, Overview):
             sys.exit()
 
 
-def check_version(ctx: Context, sinfo):
+def check_version(ctx: Context, sinfo: dict) -> bool:
     """Checks if version in save file is the same as current version
     ARGS:
         sinfo: session_info dict"""
     if "ver" not in sinfo:
         return False
     ver = sinfo["ver"]
-    if SemanticVersion.parse(VERSION) < SemanticVersion.parse(ver):
-        if not ask_bool(
-            ctx,
-            liner(
-                f"The save file was created \
+    if SemanticVersion.parse(VERSION) < SemanticVersion.parse(ver) and not ask_bool(
+        ctx,
+        liner(
+            f"The save file was created \
 on version '{ver}', the current version is '{VERSION}', \
 such a downgrade may result in data loss! \
 Do you want to continue?",
-                int(tss.width * 2 / 3),
-            ),
-        ):
-            sys.exit()
+            int(tss.width * 2 / 3),
+        ),
+    ):
+        sys.exit()
     return VERSION != ver

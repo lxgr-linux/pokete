@@ -8,10 +8,9 @@ from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
 from pokete.base.input import Action, get_action
-from pokete.base.input.mouse import MouseEvent
 from pokete.base.mouse import MouseInteractor
-from pokete.base.ui.elements import Box
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.views.box import BoxView
 from pokete.release import SPEED_OF_TIME
 
 letters = [
@@ -78,27 +77,27 @@ class Time:
     ARGS:
         init_time: The initial time used for the timer"""
 
-    def __init__(self, init_time=0):
+    def __init__(self, init_time: int = 0) -> None:
         self.time = init_time  # time in in-game minutes
         self.last_input = init_time
 
-    def formatted(self):
+    def formatted(self) -> str:
         """Returns the in-game time in a formatted manner"""
         _t = self.normalized
         hours = int(_t / 60)
         minutes = _t % 60
         return f"{hours:02}:{minutes:02}"
 
-    def set(self, t):
+    def set(self, t: int) -> None:
         self.time = t
         self.last_input = t
 
-    def emit_input(self):
+    def emit_input(self) -> None:
         """Sets the last input time to the current time"""
         self.last_input = self.time
 
     @property
-    def normalized(self):
+    def normalized(self) -> int:
         """Returns normalized time"""
         return self.time % (24 * 60)
 
@@ -106,12 +105,12 @@ class Time:
 time = Time()
 
 
-class Clock(Box, MouseInteractor):
+class Clock(BoxView, MouseInteractor):
     """Clock class to display the current time
     ARGS:
         time_ob: Time object"""
 
-    def __init__(self, time_ob):
+    def __init__(self, time_ob: Time) -> None:
         self.time = time_ob
         super().__init__(
             9,
@@ -120,15 +119,7 @@ class Clock(Box, MouseInteractor):
             [CloseLabel()],
         )
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent): ...
-
-    def get_interaction_areas(self) -> list[se.Area]:
-        return []
-
-    def get_partial_interactors(self) -> list["MouseInteractor"]:
-        return [i for i in self.info_labels if isinstance(i, MouseInteractor)]
-
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         """Shows the clock"""
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
@@ -146,7 +137,7 @@ class Clock(Box, MouseInteractor):
                 loops.std(ctx)
             self.__rem_obs(letter_obs)
 
-    def __rem_obs(self, letter_obs):
+    def __rem_obs(self, letter_obs: list) -> None:
         """Removed all letters from the clock
         ARGS:
             letter_obs: The list of letters"""
@@ -154,7 +145,7 @@ class Clock(Box, MouseInteractor):
             obj.remove()
             self.rem_ob(obj)
 
-    def draw_letters(self, d_p=True, letter_obs=None):
+    def draw_letters(self, d_p: bool = True, letter_obs: list | None = None) -> list:
         """Method to draw the letters on the clock
         ARGS:
             d_p: Whether or not the DOUBLE_POINT should be shown
@@ -175,7 +166,7 @@ class Clock(Box, MouseInteractor):
 clock = Clock(time)
 
 
-def time_threat():
+def time_threat() -> None:
     """Manages the time counting"""
     while True:
         time_mod.sleep(SPEED_OF_TIME * 1)

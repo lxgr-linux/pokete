@@ -10,7 +10,7 @@ class TrackInfoDict(TypedDict):
 
 
 class TrackInfo:
-    def __init__(self, name: str, hash: bytes):
+    def __init__(self, name: str, hash: bytes) -> None:
         self.name: str = name
         self.hash: bytes = hash
 
@@ -47,8 +47,8 @@ class TrackDict(TypedDict):
 
 
 class Track:
-    def __init__(self, info: "TrackInfo", content: bytes):
-        self.info: "TrackInfo" = info
+    def __init__(self, info: "TrackInfo", content: bytes) -> None:
+        self.info: TrackInfo = info
         self.content: bytes = content
 
     @classmethod

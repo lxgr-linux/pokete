@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-
+from pokete.base.tss import FixedScreenSizeContext
 from pokete.util.command import Command, RootCommand, not_enough_args, not_found
 from pokete.util.utility import (
     export,
@@ -13,13 +12,13 @@ from pokete.util.utility import (
 )
 
 
-def fallback(ex: str, options: list[str], flags: dict[str, list[str]]):
+def fallback(ex: str, options: list[str], _: dict[str, list[str]]):
     if not options:
         not_enough_args(ex)
     not_found(ex, options[0])
 
 
-def main():
+def main() -> None:
     c = RootCommand(
         "util",
         "Pokete utility",
@@ -81,7 +80,8 @@ def main():
         ],
     )
 
-    c.exec()
+    with FixedScreenSizeContext(100, 100):
+        c.exec()
 
 
 if __name__ == "__main__":

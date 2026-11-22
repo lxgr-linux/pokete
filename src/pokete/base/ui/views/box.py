@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Optional, override
+from typing import override
 
 import scrap_engine as se
 
@@ -13,13 +13,13 @@ from pokete.base.ui.overview import Overview
 class BoxView(Box, MouseInteractor, ABC):
     def __init__(
         self,
-        height,
-        width,
-        name="",
-        info: Optional[list[se.Text]] = None,
-        overview: Optional[Overview] = None,
-        ctx: Optional[Context] = None,
-    ):
+        height: int,
+        width: int,
+        name: str = "",
+        info: list[se.Text] | None = None,
+        overview: Overview | None = None,
+        ctx: Context | None = None,
+    ) -> None:
         super().__init__(height, width, name, info, overview, ctx)
 
     @override
@@ -33,5 +33,5 @@ class BoxView(Box, MouseInteractor, ABC):
         return []
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         pass

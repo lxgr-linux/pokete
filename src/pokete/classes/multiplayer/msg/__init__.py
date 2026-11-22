@@ -1,9 +1,10 @@
-import pokete.bs_rpc as bs_rpc
-from . import position, error, map_info, fight, player
+from pokete import bs_rpc
+
+from . import error, fight, map_info, player, position
 from .handshake import Handshake
 
 
-def get_registry():
+def get_registry() -> None:
     reg = bs_rpc.Registry()
 
     reg.register(Handshake)

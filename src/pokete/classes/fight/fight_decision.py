@@ -18,13 +18,15 @@ class Result(Enum):
 
 
 class FightDecision:
+    logger = logging.getLogger("FightDecision")
+
     def __init__(
         self,
         result: Result,
         attack: Attack | None = None,
         item: InvItem | None = None,
         poke: int | None = None,
-    ):
+    ) -> None:
         self.result: Result = result
         self.attack_value: Attack | None = attack
         self.item_value: InvItem | None = item
@@ -40,16 +42,18 @@ class FightDecision:
         return result
 
     @classmethod
-    def from_dict(cls, _d: FightDecisionData, _poke: Poke, _player: User):
+    def from_dict(
+        cls, _d: FightDecisionData, _poke: Poke, _player: User
+    ) -> "FightDecision | None":
         match _d["result"]:
             case Result.ATTACK.value:
-                logging.info("%s, %s", _d["attack"], _poke.attacks)
+                cls.logger.info("%s, %s", _d["attack"], _poke.attacks)
                 assert _d["attack"] in _poke.attacks
                 attack = _poke.attack_obs[_poke.attacks.index(_d["attack"])]
                 return cls.attack(attack)
             case Result.ITEM.value:
                 assert _d["item"] is not None
-                assert _d["item"] in _player["items"].keys()
+                assert _d["item"] in _player["items"]
                 item = asset_service.get_items()[_d["item"]]
                 return cls.item(item)
             case Result.RUN_AWAY.value:

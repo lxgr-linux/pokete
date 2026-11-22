@@ -3,7 +3,7 @@ class HostPortParseException(Exception):
 
 
 class HostPort:
-    def __init__(self, host: str, port: int | None = None):
+    def __init__(self, host: str, port: int | None = None) -> None:
         self.host: str = host
         self.port: int | None = port
 
@@ -20,5 +20,5 @@ class HostPort:
         else:
             raise HostPortParseException("Invalid format")
 
-    def __str__(self):
+    def __str__(self) -> None:
         return f"{self.host}:{self.port}" if self.port is not None else self.host

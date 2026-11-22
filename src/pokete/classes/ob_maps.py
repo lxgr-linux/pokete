@@ -1,6 +1,8 @@
 """Contains the ob_maps dict"""
 
-ob_maps = {}
+from pokete.classes.classes import PlayMap
+
+ob_maps: dict[str, PlayMap] = {}
 
 
 if __name__ == "__main__":

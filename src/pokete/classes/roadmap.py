@@ -11,32 +11,33 @@ from pokete.base.color import Color
 from pokete.base.context import Context
 from pokete.base.input import ACTION_DIRECTIONS, Action, ActionList, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
-from pokete.base.mouse import MouseInteractor
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.ui.elements import Box
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.views.box import BoxView
 from pokete.base.ui.views.boxes import InfoBoxView
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.classes import PlayMap
+from pokete.classes.i import IFigure
 from pokete.util import liner
 
 
 class RoadMapException(Exception):
     """Exception thrown when a PlayMap has no corresponding MapStation"""
 
-    def __init__(self, _map):
+    def __init__(self, _map: PlayMap) -> None:
         self.map = _map
         text = f"{_map} {_map.name} has no mapstation"
         super().__init__(text)
 
 
 class StationObject(se.Text):
-    def __init__(self, text, color):
+    def __init__(self, text: str, color: str) -> None:
         super().__init__(text, esccode=color, state="float")
 
 
 class Decoration(StationObject):
-    def __init__(self, text, color=""):
+    def __init__(self, text: str, color: str = "") -> None:
         super().__init__(text, getattr(Color, color, Color.lightgrey))
 
 
@@ -53,17 +54,17 @@ class Station(StationObject):
 
     def __init__(
         self,
-        roadmap,
-        associate,
-        additionals,
-        desc,
-        text,
-        color="",
-        w_next="",
-        a_next="",
-        s_next="",
-        d_next="",
-    ):
+        roadmap: "RoadMap",
+        associate: PlayMap,
+        additionals: list[str],
+        desc: str,
+        text: str,
+        color: str = "",
+        w_next: str = "",
+        a_next: str = "",
+        s_next: str = "",
+        d_next: str = "",
+    ) -> None:
         self.desc = desc
         self.roadmap = roadmap
         self.color = getattr(Color, color, "\033[1;37m")
@@ -80,25 +81,26 @@ class Station(StationObject):
         self.s_next = s_next
         self.d_next = d_next
 
-    def choose(self, figure):
+    def choose(self, figure: IFigure) -> None:
         """Chooses and hightlights the station"""
         Station.choosen = self
         self.roadmap.rechar_info(self.name if self.has_been_visited(figure) else "???")
 
-    def unchoose(self):
+    def unchoose(self) -> None:
         """Unchooses the station"""
         self.un_blink()
 
-    def blink(self):
+    def blink(self) -> None:
         self.rechar(self.text, Color.red + Color.thicc)
 
-    def un_blink(self):
+    def un_blink(self) -> None:
         self.rechar(self.text, self.color)
 
-    def next(self, inp: ActionList, figure):
+    def next(self, inp: ActionList, figure: IFigure) -> None:
         """Chooses the next station in a certain direction
         ARGS:
-            inp: Action Enum"""
+            inp: Action Enum
+            figure: Figure object"""
         for action in inp:
             if action in ACTION_DIRECTIONS:
                 inp = action
@@ -113,18 +115,18 @@ class Station(StationObject):
             self.unchoose()
             getattr(self.roadmap, n_e).choose(figure)
 
-    def has_been_visited(self, figure):
+    def has_been_visited(self, figure: IFigure) -> bool:
         """Returns if the stations map has been visited before"""
         return self.associates[0].name in figure.visited_maps
 
-    def is_city(self):
+    def is_city(self) -> bool:
         """Returns if the station is a city"""
         return (
             "pokecenter"
             in asset_service.get_assets().obmaps[self.associates[0].name].hard_obs
         )
 
-    def hide_if_visited(self, figure, choose=False):
+    def hide_if_visited(self, figure, choose: bool = False) -> None:
         self.text = self.base_text
         if not self.has_been_visited(figure):
             self.color = Color.white
@@ -140,10 +142,10 @@ class Station(StationObject):
         self.rechar(self.text, self.color)
 
 
-class RoadMap(Box, MouseInteractor):
+class RoadMap(BoxView):
     """Map you can see and navigate maps on"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.mouse_choosen = False
         stations = asset_service.get_assets().stations
         decorations = asset_service.get_assets().decorations
@@ -192,7 +194,7 @@ W ◀ ▶ E
         return [i.get_area() for i in self.all_stations]
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             self.sta.unchoose()
             self.all_stations[area_idx].choose(ctx.figure)
@@ -206,7 +208,7 @@ W ◀ ▶ E
         """Gives choosen station"""
         return Station.choosen
 
-    def rechar_info(self, name):
+    def rechar_info(self, name: str) -> None:
         """Changes info label
         ARGS:
             name: String displayed"""
@@ -215,13 +217,13 @@ W ◀ ▶ E
         self.info_label.rechar(name)
         self.add_ob(self.info_label, self.width - 2 - len(name), 0)
 
-    def __call__(self, ctx: Context, choose=False):
+    def __call__(self, ctx: Context, choose: bool = False) -> PlayMap | None:
         """Shows the roadmap
         ARGS:
             choose: Bool whether or not this is done to choose a city"""
         for i in self.all_stations:
             i.hide_if_visited(ctx.figure, choose)
-        [
+        next(
             i
             for i in self.all_stations
             if (
@@ -231,7 +233,7 @@ W ◀ ▶ E
                 else ctx.figure.oldmap
             )
             in i.associates
-        ][0].choose(ctx.figure)
+        ).choose(ctx.figure)
         self.set_ctx(ctx)
         blinker = BlinkerEvent(self.sta)
         ctx = change_ctx(ctx.with_pevm(ctx.pevm.with_events([blinker])), self)
@@ -255,14 +257,14 @@ W ◀ ▶ E
                     and self.sta.has_been_visited(ctx.figure)
                 ):
                     p_list = ", ".join(
-                        set(
+                        {
                             asset_service.get_base_assets().pokes[j].name
                             for i in self.sta.associates
                             for j in [
                                 *([] if i.poke_args is None else i.poke_args.pokes),
                                 *([] if i.w_poke_args is None else i.w_poke_args.pokes),
                             ]
-                        )
+                        }
                     )
                     with InfoBoxView(
                         liner(
@@ -287,7 +289,7 @@ W ◀ ▶ E
 
     # @staticmethod
     # TODO: Add to assetloading validation
-    # def check_maps():
+    # def check_maps() -> None:
     #    """Checks for PlayMaps not having a corresponding MapStation"""
     #    all_road_maps = ["centermap", "shopmap"]
     #    for i, _dict in p_data.stations.items():
@@ -303,12 +305,13 @@ roadmap: RoadMap | None = None
 
 
 class BlinkerEvent(PeriodicEvent):
-    def __init__(self, station: Station):
+    def __init__(self, station: Station) -> None:
         self.station = station
         self.blink = False
         self.box: Box | None = None
 
-    def tick(self, ctx: Context, tick: int):
+    @override
+    def tick(self, ctx: Context, tick: int) -> None:
         if tick % 10 == 0:
             if self.blink:
                 self.station.blink()

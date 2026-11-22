@@ -1,6 +1,6 @@
 import math
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar, override
+from typing import TypeVar, override
 
 import scrap_engine as se
 from scrap_engine.addable.area import Area, HasArea
@@ -11,74 +11,36 @@ from pokete.base.context import Context
 from pokete.base.input.hotkeys import (
     ACTION_UP_DOWN,
     Action,
-    ActionList,
     get_action,
 )
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import ChooseBox
-from pokete.base.ui.elements.text import HightlightableText
+from pokete.base.ui.views.extra_actions import HasExtraActions
+from pokete.base.ui.views.pageable import Pageable, UpDownSwitch
 
 T = TypeVar("T")
 
 
-class Pageable(ABC):
-    @abstractmethod
-    def change_page(self, add_page, n_idx): ...
-
-
-class UpDownSwitch(se.Box, MouseInteractor):
-    def __init__(self, pageable: Pageable):
-        super().__init__(1, 1)
-        self.pageable = pageable
-        self.up = HightlightableText("<")
-        self.down = HightlightableText(">")
-        self.add_ob(self.up, 0, 0)
-        self.add_ob(self.down, 1, 0)
-
-    def get_interaction_areas(self) -> list[Area]:
-        return [self.up.get_area(), self.down.get_area()]
-
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
-        if area_idx >= 0:
-            match event.type:
-                case MouseEventType.MOVE:
-                    if area_idx == 0:
-                        self.down.un_highlight()
-                        self.up.highlight()
-                    else:
-                        self.up.un_highlight()
-                        self.down.highlight()
-                case MouseEventType.LEFT:
-                    if event.pressed:
-                        if area_idx == 0:
-                            self.pageable.change_page(-1, self.pageable.height - 3)
-                        else:
-                            self.pageable.change_page(1, 0)
-        else:
-            self.up.un_highlight()
-            self.down.un_highlight()
-
-
-class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
+class ChooseBoxView[T](ChooseBox, MouseInteractor, Pageable, HasExtraActions, ABC):
     def __init__(
         self,
-        height,
-        width,
-        name="",
-        info="",
-        index_x=2,
-        c_obs=None,
+        height: int,
+        width: int,
+        name: str = "",
+        info: list[se.Text] | None = None,
+        index_x: int = 2,
+        c_obs: list[HasArea] | None = None,
         overview=None,
-    ):
+    ) -> None:
         super().__init__(height, width, name, info, index_x, c_obs, overview)
         self.page = 0
         self.elems: list[HasArea] = []
         self.up_down_switch = UpDownSwitch(self)
-        self.__special_ret: Optional[T] = None
+        self.__special_ret: T | None = None
         self.__add_up_down_switch()
 
-    def __add_up_down_switch(self):
+    def __add_up_down_switch(self) -> None:
         if len(self.elems) / (self.height - 2) > 1:
             self.add_ob(
                 self.up_down_switch,
@@ -94,14 +56,16 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
         ] + up_down
 
     @abstractmethod
-    def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
+    def choose(self, ctx: Context, idx: int) -> T | None: ...
 
-    def on_index_change(self, area_idx: int): ...
+    def on_index_change(self, area_idx: int) -> None: ...
 
-    def set_index(self, index: int):
+    @override
+    def set_index(self, index: int) -> None:
         super().set_index(index)
         self.on_index_change(self.page * (self.height - 2) + index)
 
+    @override
     def get_interaction_areas(self) -> list[Area]:
         return [
             (
@@ -113,7 +77,8 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
             ]
         ]
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    @override
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -131,7 +96,7 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
             case MouseEventType.SCROLL_DOWN:
                 self.change_page(1, 0)
 
-    def add_elems(self):
+    def add_elems(self) -> None:
         """Adds c_obs to box"""
         self.remove_c_obs()
         self.add_c_obs(
@@ -143,7 +108,8 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
     @abstractmethod
     def new_size(self) -> tuple[int, int]: ...
 
-    def resize_view(self):
+    @override
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.remove()
         self.overview.resize_view()
@@ -162,23 +128,21 @@ class ChooseBoxView(ChooseBox, MouseInteractor, Generic[T], Pageable, ABC):
         self.add(self.map, self.map.width - self.width, 0)
         self.map.full_show()
 
-    def rem_elems(self):
+    def rem_elems(self) -> None:
         """Removes c_obs to box"""
         for c_ob in self.c_obs:
             c_ob.remove()
         self.remove_c_obs()
 
-    def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
-        return False
-
-    def change_page(self, add_page, n_idx):
+    @override
+    def change_page(self, add_page: int, n_idx: int) -> None:
         if 0 <= (self.page + add_page) < math.ceil(len(self.elems) / (self.height - 2)):
             self.rem_elems()
             self.page += add_page
             self.add_elems()
             self.set_index(n_idx)
 
-    def __call__(self, ctx: Context) -> Optional[T]:
+    def __call__(self, ctx: Context) -> T | None:
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
         self.__add_up_down_switch()

@@ -1,6 +1,7 @@
 """Contains classes that can be placed on playmaps"""
 
 import random
+from typing import ClassVar
 
 import scrap_engine as se
 
@@ -9,13 +10,12 @@ from pokete.base.color import Color
 from pokete.base.input_loops import ask_ok
 from pokete.classes import movemap as mvp
 from pokete.classes import timer
-
-from .asset_service.resources import PokeArgs
-from .asset_service.service import asset_service
-from .fight import Fight, NatureProvider
-from .general import check_walk_back
-from .map_interact import MapInteract
-from .poke import Poke
+from pokete.classes.asset_service.resources import PokeArgs
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.fight import Fight, NatureProvider
+from pokete.classes.general import check_walk_back
+from pokete.classes.map_interact import MapInteract
+from pokete.classes.poke.poke import Poke
 
 
 class HighGrass(se.Object, MapInteract):
@@ -23,7 +23,7 @@ class HighGrass(se.Object, MapInteract):
 
     arg_proto: PokeArgs
 
-    def action(self, ob):
+    def action(self, ob: se.Object) -> None:
         """Action triggers the fight
         ARGS:
             ob: The object triggering this action"""
@@ -65,11 +65,11 @@ class Meadow(se.Text):
         poke_args: Dict containing relevant information about Pokes"""
 
     esccode = Color.green
-    all_grass = []
-    all_water = []
-    all_sand = []
+    all_grass: ClassVar[list["Meadow"]] = []
+    all_water: ClassVar[list["Meadow"]] = []
+    all_sand: ClassVar[list["Meadow"]] = []
 
-    def __init__(self, string, poke_args):
+    def __init__(self, string: str, poke_args: PokeArgs) -> None:
         super().__init__(
             string,
             ignore=self.esccode + " " + Color.reset,
@@ -102,11 +102,11 @@ class Poketeball(se.Object, MapInteract):
     ARGS:
         name: Generic name of the ball"""
 
-    def __init__(self, name):
+    def __init__(self, name: str) -> None:
         self.name = name
         super().__init__(Color.thicc + Color.red + "o" + Color.reset, state="float")
 
-    def action(self, ob):
+    def action(self, ob: se.Object) -> None:
         """Action triggers the pick up
         ARGS:
             ob: The object triggering this action"""

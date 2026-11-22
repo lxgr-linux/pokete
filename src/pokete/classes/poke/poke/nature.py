@@ -2,18 +2,11 @@
 of their stats"""
 
 import random
+from typing import ClassVar
 
-import scrap_engine as se
-
-from pokete.base import loops
 from pokete.base.color import Color
-from pokete.base.context import Context
-from pokete.base.ui.elements.labels import CloseLabel
-from pokete.base.ui.views.boxes import LabelBoxView
+from pokete.classes.asset_service.service import asset_service
 from pokete.classes.model.poke import NatureDict
-from pokete.util import liner
-
-from ..asset_service.service import asset_service
 
 
 class Nature:
@@ -25,7 +18,14 @@ class Nature:
         def_: The defense change
         init: The initiative change"""
 
-    def __init__(self, name, esc=None, atc=None, def_=None, init=None):
+    def __init__(
+        self,
+        name: str,
+        esc: str | None = None,
+        atc: int | None = None,
+        def_: int | None = None,
+        init: int | None = None,
+    ) -> None:
         self.name = name
         if esc is not None:
             self.esccode = getattr(Color, esc)
@@ -42,17 +42,16 @@ class PokeNature:
         nature: The Nature of the Pokete
         grade: The Nature's grade, 1 or 2"""
 
-    natures = {
+    natures: ClassVar[dict[str, Nature]] = {
         name: Nature(name, n.esc, n.atc, n.def_, n.init)
         for name, n in asset_service.get_base_assets().natures.items()
     }
 
-    def __init__(self, nature, grade):
+    def __init__(self, nature: Nature, grade: int) -> None:
         self.nature = nature
         self.grade = grade
-        self.info = NatureInfo(self)
 
-    def get_value(self, name):
+    def get_value(self, name: str) -> float:
         """Gets one attribute value by its name
         ARGS:
             name: The name of the attribute"""
@@ -64,7 +63,7 @@ class PokeNature:
         return {"nature": self.nature.name, "grade": self.grade}
 
     @classmethod
-    def from_dict(cls, _dict: NatureDict):
+    def from_dict(cls, _dict: NatureDict) -> "PokeNature":
         """Constructs an object from a
         ARGS:
             _dict: dict"""
@@ -73,55 +72,15 @@ class PokeNature:
         return cls(nature, grade)
 
     @classmethod
-    def random(cls):
+    def random(cls) -> "PokeNature":
         """Creates an instance with random values"""
         nature = random.choice([i for _, i in cls.natures.items()])
         grade = random.randint(1, 2)
         return cls(nature, grade)
 
     @classmethod
-    def dummy(cls):
+    def dummy(cls) -> "PokeNature":
         """Returns a dummy nature"""
         nature = cls.natures["normal"]
         grade = 1
         return cls(nature, grade)
-
-
-class NatureInfo(LabelBoxView):
-    """Box to show information in Detail
-    ARGS:
-        p_n: PoketeNature object"""
-
-    def __init__(self, p_n):
-        atc = self.get_amount(p_n.nature.atc)
-        defense = self.get_amount(p_n.nature.defense)
-        init = self.get_amount(p_n.nature.initiative)
-        text = (
-            se.Text(f"Nature: {'very ' if p_n.grade == 2 else ''}")
-            + se.Text(p_n.nature.name, esccode=Color.thicc + p_n.nature.esccode)
-            + se.Text(
-                liner(
-                    f"\n\n That means it has {atc} attack, \
-{defense} defense and {init} initiative points compared to normal Poketes \
-of its kind.",
-                    40,
-                    pre="",
-                )
-            )
-        )
-        super().__init__(text, name="Nature", info=[CloseLabel()])
-
-    @staticmethod
-    def get_amount(val):
-        """Gets the amount denominator for a value"""
-        if val == 1:
-            return "the same"
-        if val < 1:
-            return "less"
-        return "more"
-
-    def __call__(self, ctx: Context):
-        """Shows the box"""
-        self.set_ctx(ctx)
-        with self.center_add(self.map):
-            loops.easy_exit(ctx.with_overview(self))

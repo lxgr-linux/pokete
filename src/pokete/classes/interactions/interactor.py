@@ -1,17 +1,20 @@
 import logging
 import time
 from abc import ABC, abstractmethod
+
 import scrap_engine as se
 
-from pokete.release import SPEED_OF_TIME
 from pokete.base.context import Context
-from .interactor_interface import InteractorInterface
+from pokete.release import SPEED_OF_TIME
+
 from .. import movemap as mvp
+from .interactor_interface import InteractorInterface
 
 
 class Interactor(InteractorInterface, ABC):
     """Interactor interface for map interactions"""
 
+    logger = logging.getLogger("Interactor")
     x: int
     y: int
     ctx: Context
@@ -19,16 +22,16 @@ class Interactor(InteractorInterface, ABC):
     name: str
 
     @abstractmethod
-    def set(self, x, y):
+    def set(self, x: int, y: int) -> None:
         pass
 
-    def text(self, text):
+    def text(self, text: str) -> None:
         """Movemap.text wrapper
         ARGS:
             text: Text that should be printed"""
         mvp.movemap.text(self.ctx, self.x, self.y, text)
 
-    def check_walk(self, _x, _y):
+    def check_walk(self, _x: int, _y: int) -> bool:
         """Checks whether the NPC can walk to a point or not
         ARGS:
             _x: X-coordinate
@@ -45,7 +48,7 @@ class Interactor(InteractorInterface, ABC):
                 for i in vec.obs
             ][1:]
         )
-        logging.info(
+        self.logger.info(
             "[NPC][%s] %s walk check to (%d|%d)",
             self.name,
             "Succeeded" if ret else "Failed",
@@ -54,7 +57,7 @@ class Interactor(InteractorInterface, ABC):
         )
         return ret
 
-    def walk_point(self, _x, _y):
+    def walk_point(self, _x: int, _y: int) -> bool:
         """Walks the NPC tp a certain point
         ARGS:
             _x: X-coordinate
@@ -72,7 +75,7 @@ class Interactor(InteractorInterface, ABC):
             time.sleep(SPEED_OF_TIME * 0.2)
         return True
 
-    def exclamate(self):
+    def exclamate(self) -> None:
         """Shows the exclamation on top of a NPC"""
         exclamation = se.Object("!")
         try:

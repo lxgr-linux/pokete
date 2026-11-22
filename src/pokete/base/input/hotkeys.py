@@ -4,12 +4,14 @@ import logging
 import sys
 from collections import defaultdict
 from enum import Enum, auto
-from typing import Optional
 
+from pokete.base.context import Context
 from pokete.base.input import key
 from pokete.util import liner
 
 from .event import _ev
+
+logger = logging.getLogger(__name__)
 
 
 class Action(Enum):
@@ -71,14 +73,16 @@ class Action(Enum):
 class ActionList(list):
     """List of actions triggered by a key"""
 
-    def triggers(self, *actions):
+    logger = logging.getLogger("ActionList")
+
+    def triggers(self, *actions) -> None:
         """Checks if the self triggers a set of actions"""
         for action in actions:
             if action in self:
                 return True
         return False
 
-    def get_number(self):
+    def get_number(self) -> None:
         """Returns 0-8 if ACT_1 through ACT_9 is in the list, else -1"""
         for action in self:
             if action.value in range(Action.ACT_1.value, Action.ACT_9.value):
@@ -175,16 +179,16 @@ def get_mapping(action: Action, keys: dict[str, ActionList]) -> str:
     for _key, actions_list in keys.items():
         if action in actions_list:
             return _key
-    logging.warning("Unset mapping for Action '%s'", action.name)
+    logger.warning("Unset mapping for Action '%s'", action.name)
     return ""
 
 
-def hotkeys_save():
+def hotkeys_save() -> None:
     """Returns a save dict"""
     return {key: [i.name for i in value] for key, value in hotkey_mappings.items()}
 
 
-def hotkeys_from_save(ctx, save, version_change):
+def hotkeys_from_save(ctx: Context, save: dict, version_change: bool) -> None:
     """Sets hotkey_mappings from save"""
     from ..input_loops import ask_bool
 
@@ -225,7 +229,7 @@ EMPTY_ACTIONLIST = ActionList()
 
 
 # Returns an action, then clears input; all input is valid to read only once
-def get_action() -> tuple[ActionList, Optional[key.Key]]:
+def get_action() -> tuple[ActionList, key.Key | None]:
     """Returns the current actions list"""
     retval = EMPTY_ACTIONLIST
     raw_input = _ev.get()

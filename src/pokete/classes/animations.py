@@ -5,14 +5,17 @@ import time
 import scrap_engine as se
 
 import pokete.base.game_map as gm
+from pokete.classes.i import IPoke
+from pokete.classes.poke.ui import PokeLabels
 from pokete.release import SPEED_OF_TIME
 
 
-def transition(_map, poke):
+def transition(_map: se.Map, poke: IPoke) -> None:
     """Transition animation for world actions
     ARGS:
         _map: se.Map object the transition happens on
         poke: Poke object shown in the transition"""
+    labels = PokeLabels(poke)
     vec_1 = se.Line(" ", _map.width, 0)
     vec_2 = se.Line(" ", _map.width, 0)
 
@@ -26,10 +29,10 @@ def transition(_map, poke):
         _map.show()
 
     time.sleep(SPEED_OF_TIME * 0.5)
-    poke.ico.add(_map, round((_map.width - 11) / 2), round((_map.height - 4) / 2))
+    labels.ico.add(_map, round((_map.width - 11) / 2), round((_map.height - 4) / 2))
     _map.show()
     time.sleep(SPEED_OF_TIME * 1)
-    poke.ico.remove()
+    labels.ico.remove()
     _map.show()
 
     for i, j in zip(reversed(vec_2.obs), vec_1.obs):
@@ -42,7 +45,7 @@ def transition(_map, poke):
     vec_2.remove()
 
 
-def fight_intro(height, width):
+def fight_intro(height: int, width: int) -> None:
     """Intro animation for fight with enhanced visual effect
     ARGS:
         height: Height of the animation
@@ -57,17 +60,17 @@ def fight_intro(height, width):
     fancymap.show()
 
     chars = ["-", "=", "-"]
-    char_idx = 0
-    for i, _l in zip(
-        list(zip(*[j.obs for j in vec_list])),
-        list(zip(*[list(2 * " ") + k for k in [j.obs for j in vec_list]])),
+    for char_idx, (i, _l) in enumerate(
+        zip(
+            list(zip(*[j.obs for j in vec_list])),
+            list(zip(*[list(2 * " ") + k for k in [j.obs for j in vec_list]])),
+        )
     ):
         for j in i:
             j.rechar(chars[char_idx % len(chars)])
         for j in _l:
             if j != " ":
                 j.rechar(" ")
-        char_idx += 1
         fancymap.show()
         time.sleep(SPEED_OF_TIME * 0.008)
 

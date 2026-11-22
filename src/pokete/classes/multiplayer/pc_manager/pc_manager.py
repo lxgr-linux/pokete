@@ -3,6 +3,7 @@
 import logging
 
 from ... import ob_maps as obmp
+from ...i import IFigure
 from ...multiplayer.msg.position.update import UpdateDict
 from ..interactions import movemap_deco
 from .remote_player import RemotePlayer
@@ -11,11 +12,13 @@ from .remote_player import RemotePlayer
 class PCManager:
     """Manages remote players"""
 
-    def __init__(self):
+    logger = logging.getLogger("PCManager")
+
+    def __init__(self) -> None:
         self.reg: dict[str, RemotePlayer] = {}
         self.waiting_users: list[UpdateDict] = []
 
-    def set(self, name, _map, x, y):
+    def set(self, name: str, _map: str, x: int, y: int) -> None:
         """Stets a remote player to a certain position
         ARGS:
             name: The players name
@@ -31,7 +34,7 @@ class PCManager:
     def get(self, name: str) -> RemotePlayer | None:
         return self.reg.get(name, None)
 
-    def set_waiting_users(self):
+    def set_waiting_users(self) -> None:
         for user in self.waiting_users:
             pc_manager.set(
                 user["name"],
@@ -40,13 +43,13 @@ class PCManager:
                 user["position"]["y"],
             )
 
-    def remove(self, name):
+    def remove(self, name: str) -> None:
         """Removes a remote player
         ARGS:
             name: The Players name"""
         pc = self.reg.get(name, None)
         if pc is None:
-            logging.warning(
+            self.logger.warning(
                 "[PCManager] Trying to remove player with name `%s`, "
                 "but is not present",
                 name,
@@ -56,13 +59,13 @@ class PCManager:
         del self.reg[name]
         self.check_interactable(pc.ctx.figure)
 
-    def movemap_move(self):
+    def movemap_move(self) -> None:
         """Handles the movemap moving"""
-        for _, rmtpl in self.reg.items():
+        for rmtpl in self.reg.values():
             rmtpl.readd_name_tag()
 
-    def get_interactable(self, figure) -> RemotePlayer | None:
-        for _, rmtpl in self.reg.items():
+    def get_interactable(self, figure: IFigure) -> RemotePlayer | None:
+        for rmtpl in self.reg.values():
             if (
                 rmtpl.map == figure.map
                 and (figure.x - 2 <= rmtpl.x <= figure.x + 2)
@@ -71,7 +74,7 @@ class PCManager:
                 return rmtpl
         return None
 
-    def check_interactable(self, figure):
+    def check_interactable(self, figure: IFigure) -> None:
         rmtpl = self.get_interactable(figure)
         if rmtpl is None:
             movemap_deco.set_inactive()

@@ -1,6 +1,6 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
-from typing import Never, Optional
+from typing import override
 
 import scrap_engine as se
 
@@ -13,21 +13,20 @@ from pokete.base.input.hotkeys import ActionList
 from pokete.base.ui.elements.labels import CloseLabel
 from pokete.base.ui.views.box import BoxView
 from pokete.base.ui.views.choose_box import ChooseBoxView
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.poke.poke import Poke, PokeNature
 from pokete.util import liner
-
-from .asset_service.service import asset_service
-from .poke import Poke, PokeNature
 
 
 class DetailBox(BoxView):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(16, 35, info=[CloseLabel()])
         self.detail_info = se.Text("", state="float")
         self.detail_desc = se.Text("", state="float")
         self.add_ob(self.detail_info, 16, 1)
         self.add_ob(self.detail_desc, 3, 8)
 
-    def __call__(self, ctx: Context, poke_name: str):
+    def __call__(self, ctx: Context, poke_name: str) -> None:
         poke = Poke(poke_name, 0)
         poke.nature = PokeNature.dummy()
         poke.set_vars()
@@ -37,7 +36,7 @@ class DetailBox(BoxView):
             None: ("Always", ""),
         }[poke.night_active]
         desc_text = liner(
-            poke.desc.text.replace("\n", " ")
+            poke.desc
             + (
                 f"""\n\n Evolves into {
                     asset_service.get_base_assets().pokes[poke.evolve_poke].name
@@ -73,7 +72,7 @@ Active: """)
 
 
 class PokeDex(ChooseBoxView):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(50, 35, "Poketedex", info=[CloseLabel()])
         self.detail_box = DetailBox()
         pokes = asset_service.get_base_assets().pokes
@@ -85,17 +84,18 @@ class PokeDex(ChooseBoxView):
     def new_size(self) -> tuple[int, int]:
         return self.map.height - 3, 35
 
-    def choose(self, ctx: Context, idx: int) -> Optional[Never]:
+    def choose(self, ctx: Context, idx: int) -> None:
         if "???" not in self.c_obs[self.index.index].text:
             self.detail_box(
                 ctx,
                 list(self.p_dict)[idx],
             )
 
+    @override
     def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
         return action.triggers(Action.POKEDEX)
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         """Opens the dex"""
         self.resize(ctx.map.height - 3, 35)
         self.elems = [

@@ -1,10 +1,11 @@
 import re
 import sys
 
-from .changelog import write_changelog
-from .appimage import write_appimage
-from .release_py import write_release_py
 from pokete.util.command import not_enough_args
+
+from .appimage import write_appimage
+from .changelog import write_changelog
+from .release_py import write_release_py
 
 TAG_REGEX = r"^v([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z-]+)?$"
 

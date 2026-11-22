@@ -3,12 +3,12 @@ from pokete.classes.npcs.npc_action import NPCInterface, UIInterface
 
 
 class Heal(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         npc.ctx.figure.heal()
 
 
 class Chat(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         npc.chat()
 
 

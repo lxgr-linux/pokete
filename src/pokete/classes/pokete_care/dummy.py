@@ -3,6 +3,6 @@ class DummyFigure:
     ARGS:
         poke: The poke to contain"""
 
-    def __init__(self, poke):
+    def __init__(self, poke) -> None:
         self.pokes = [poke]
         self.caught_pokes = []

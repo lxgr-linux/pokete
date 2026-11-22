@@ -1,12 +1,13 @@
-#!/usr/bin/env python3
 """This script generates the Pokete wiki"""
 
 import os
 from os.path import exists, isdir
+
 import scrap_engine as se
+
 from pokete import release
-from pokete.classes.effects import effects, effect_list
-from pokete.data import pokes, attacks, types, items, maps
+from pokete.classes.effects import effect_list, effects
+from pokete.data import attacks, items, maps, pokes, types
 from pokete.util.command import Flag
 
 SILENT = False
@@ -64,7 +65,7 @@ You can find different versions of this wiki:
         )
 
     @staticmethod
-    def get_name(poke):
+    def get_name(poke: str) -> str:
         """Returns the name of a Pokete to display in headings"""
         additional = ""
         if "_night" in poke:
@@ -152,7 +153,7 @@ You can find different versions of this wiki:
         return out
 
     @staticmethod
-    def poketes(page_mode="single", pokete_type=None) -> str:
+    def poketes(page_mode: str = "single", pokete_type: str | None = None) -> str:
         """The function to add all poketes and their attributes to the wiki.
 
         Arguments:
@@ -207,7 +208,7 @@ In the following all Poketes with their attributes are displayed.
                     for k in sorted(list(pokes)[1:])
                     if pokes[k]["types"][0] == pokete_type
                 ]:
-                    if poke == sorted(list(pokes)[1:])[-1]:
+                    if poke == max(list(pokes)[1:]):
                         if VERBOSE:
                             print(f"  `-> Adding {pokes[poke]['name']}")
                     else:
@@ -298,7 +299,7 @@ In the following all Poketes with their attributes are displayed.
 """
 
     @staticmethod
-    def attacks(multi_page: bool = False) -> str or list:
+    def attacks(multi_page: bool = False) -> str | list[tuple[str, str]]:
         """The function to all attacks to the wiki.
 
         Arguments
@@ -380,7 +381,7 @@ Those are all attacks present in the game.
         eff = (
             None
             if attacks[attack]["effect"] is None
-            else getattr(effects, attacks[attack]["effect"])
+            else effects[attacks[attack]["effect"]]
         )
         return f"""\n##{"" if multi_page else "##"} {attacks[attack]["name"]}
 {attacks[attack]["desc"]}
@@ -631,7 +632,7 @@ Those effects can be given to a Pokete through an attack.
                 file.write(getattr(Wiki, name)(multi_page=True))
 
 
-def gen_pics():
+def gen_pics() -> None:
     """The function to generate a markdown file with some example pictures."""
     if QUIET or VERBOSE:
         print(":: Generating pics.md...")

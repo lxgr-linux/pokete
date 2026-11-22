@@ -1,5 +1,6 @@
 from typing import TypedDict
-import pokete.bs_rpc as bs_rpc
+
+from pokete import bs_rpc
 
 STARTER_TYPE = "pokete.fight.starter"
 
@@ -9,5 +10,5 @@ class StarterData(TypedDict):
 
 
 class Starter(bs_rpc.Body):
-    def __init__(self, data: StarterData):
+    def __init__(self, data: StarterData) -> None:
         super().__init__(STARTER_TYPE, data)

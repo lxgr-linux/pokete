@@ -5,11 +5,10 @@ import time
 import scrap_engine as se
 from scrap_engine.addable.area import Area
 
-import pokete.classes.multiplayer.pc_manager as pc_manager
 from pokete.base import loops
 from pokete.base.color import Color
 from pokete.base.context import Context
-from pokete.base.game_map import GameSubmap
+from pokete.base.game_map import GameSubmap, OutP
 from pokete.base.input import Action, _ev
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
@@ -17,10 +16,11 @@ from pokete.base.tss import tss
 from pokete.base.ui import Overview
 from pokete.base.ui.elements.text import HightlightableText
 from pokete.base.ui.notify import notifier
+from pokete.classes.multiplayer import pc_manager
+from pokete.classes.poke.poke.poke import Poke
 from pokete.release import SPEED_OF_TIME
 from pokete.util import liner
 
-from .classes import OutP
 from .multiplayer.interactions import movemap_deco
 
 
@@ -30,7 +30,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         height: Height of the map
         width: Width of the map"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(se.Map(), 0, 0, height=50, width=100, name="movemap")
         self.mouse_choosen = -1
         self.name_label = se.Text("")
@@ -54,7 +54,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
     def get_interaction_areas(self) -> list[Area]:
         return [i.get_area() for i in self.labels + [movemap_deco]]
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -68,7 +68,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             for label in self.labels:
                 label.un_highlight()
 
-    def add_obs(self):
+    def add_obs(self) -> None:
         """Adds needed labels to movemap"""
         self.underline.add(self, 0, self.height - 2)
         self.name_label.add(self, 2, self.height - 2)
@@ -79,7 +79,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             label.add(self, width, self.height - 1)
             width += label.width + 2
 
-    def assure_distance(self, _x: int, _y: int, width: int, height: int):
+    def assure_distance(self, _x: int, _y: int, width: int, height: int) -> None:
         """This ensures the game does not crash when big
         chunks of text are displayed
         ARGS:
@@ -98,7 +98,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
                 self.show()
                 time.sleep(SPEED_OF_TIME * 0.045)
 
-    def text(self, ctx: Context, _x, _y, inp_arr):
+    def text(self, ctx: Context, _x: int, _y: int, inp_arr: list[str]) -> None:
         """Shows dialog text on movemap
         ARGS:
             _x: The message's X
@@ -131,21 +131,21 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         self.multitext.remove()
         _ev.clear()
 
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         if notifier.notified:
             notifier.notification.remove()
             saved_coords = self.width - notifier.notification.x
-        for _, rmtplr in pc_manager.pc_manager.reg.items():
+        for rmtplr in pc_manager.pc_manager.reg.values():
             rmtplr.name_tag.remove()
         self.resize(tss.height - 1, tss.width, " ")
         self.remap()
         if notifier.notified:
             notifier.notification.add(self, self.width - saved_coords, 0)
-        for _, rmtplr in pc_manager.pc_manager.reg.items():
+        for rmtplr in pc_manager.pc_manager.reg.values():
             rmtplr.add_name_tag()
 
-    def resize(self, height, width, background=" "):
+    def resize(self, height: int, width: int, background: str = " ") -> None:
         """Resizes the map and its attributes
         See se.Map.resize"""
         for obj in [
@@ -160,7 +160,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
         self.label_bg.resize(self.width, 1)
         self.add_obs()
 
-    def balls_label_rechar(self, pokes):
+    def balls_label_rechar(self, pokes: list[Poke]) -> None:
         """Rechars the ball's label
         ARGS:
             pokes: The player's Pokes"""
@@ -178,7 +178,7 @@ class Movemap(GameSubmap, Overview, MouseInteractor):
             esccode=Color.thicc,
         )
 
-    def name_label_rechar(self, name):
+    def name_label_rechar(self, name: str) -> None:
         """Rechars name_label and sets balls_label correctly
         ARGS:
             name: The player's new name"""

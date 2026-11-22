@@ -1,5 +1,6 @@
+import math
 from abc import ABC, abstractmethod
-from typing import Generic, Optional, TypeVar, override
+from typing import TypeVar, override
 
 import scrap_engine as se
 from scrap_engine.addable.area import Area
@@ -7,23 +8,50 @@ from scrap_engine.addable.area import Area
 from pokete.base import loops
 from pokete.base.change import change_ctx
 from pokete.base.context import Context
+from pokete.base.game_map import GameSubmap
 from pokete.base.input.hotkeys import ACTION_DIRECTIONS, Action, get_action
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import BetterChooseBox
+from pokete.base.ui.overview import Overview
+from pokete.base.ui.views.extra_actions import HasExtraActions
+from pokete.base.ui.views.pageable import Pageable, UpDownSwitch
 
 T = TypeVar("T")
 
 
-class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
+class BetterChooseBoxView[T](
+    BetterChooseBox, MouseInteractor, Pageable, HasExtraActions, ABC
+):
     def __init__(
-        self, columns, labels: list[se.Text], name="", _map=None, overview=None
-    ):
-        super().__init__(columns, labels, name, _map, overview)
-        self.__special_ret: Optional[T] = None
+        self,
+        columns: int,
+        rows: int,
+        labels: list[se.HasArea],
+        name: str = "",
+        _map: GameSubmap | None = None,
+        overview: Overview | None = None,
+    ) -> None:
+        self.elems: list[se.HasArea] = labels
+        self.rows = rows
+        self.page = 0
+        self.__special_ret: T | None = None
+        self.up_down_switch = UpDownSwitch(self)
+        super().__init__(
+            columns, self.elems[: rows * columns], name, _map, overview, max_rows=rows
+        )
+        self.__add_up_down_switch()
+
+    def __add_up_down_switch(self) -> None:
+        if len(self.elems) / self.columns > self.rows:
+            self.add_ob(
+                self.up_down_switch,
+                self.width - 3 - self.up_down_switch.width,
+                self.height - 1,
+            )
 
     @abstractmethod
-    def choose(self, ctx: Context, idx: int) -> Optional[T]: ...
+    def choose(self, ctx: Context, idx: int) -> T | None: ...
 
     @override
     def get_interaction_areas(self) -> list[Area]:
@@ -33,7 +61,7 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
         return int(idx / self.columns), idx % self.columns
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx >= 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -42,31 +70,83 @@ class BetterChooseBoxView(BetterChooseBox, MouseInteractor, Generic[T], ABC):
                     if event.pressed:
                         self.__special_ret = self.choose(ctx, area_idx)
                         ctx = change_ctx(ctx, self)
+        match event.type:
+            case MouseEventType.SCROLL_UP:
+                self.change_page(-1, 0)
+            case MouseEventType.SCROLL_DOWN:
+                self.change_page(1, 0)
 
     @override
     def get_partial_interactors(self) -> list[MouseInteractor]:
+        up_down: list[MouseInteractor] = [self.up_down_switch]
         return [
             label for label in self.info_labels if isinstance(label, MouseInteractor)
-        ]
+        ] + up_down
 
-    def __call__(self, ctx: Context) -> Optional[T]:
+    @override
+    def resize(self, height: int, width: int) -> None:
+        self.rem_ob(self.up_down_switch)
+        self.up_down_switch.remove()
+        super().resize(height, width)
+        self.__add_up_down_switch()
+
+    def set_elems(self, columns: int, rows: int, labels: list[se.HasArea]) -> None:
+        self.rows = rows
+        self.page = 0
+        self.elems = labels
+        super().set_items(columns, self.elems[: rows * columns])
+
+    @override
+    def change_page(self, add_page: int, n_idx: int) -> None:
+        if (
+            0
+            <= (self.page + add_page)
+            < math.ceil(len(self.elems) / (self.rows * self.columns))
+        ):
+            self.page += add_page
+            super().set_items(
+                self.columns,
+                self.elems[
+                    (self.rows * self.columns) * self.page : (self.rows * self.columns)
+                    * (self.page + 1)
+                ],
+            )
+
+    def __call__(self, ctx: Context) -> T | None:
         self.set_ctx(ctx)
         ctx = change_ctx(ctx, self)
+        self.__add_up_down_switch()
+
         with self:
             while True:
                 action, _ = get_action()
                 if action.triggers(*ACTION_DIRECTIONS):
+                    if (
+                        action.triggers(Action.UP)
+                        and self.page > 0
+                        and self.index[0] == 0
+                    ):
+                        self.change_page(-1, 0)
+                    elif (
+                        action.triggers(Action.DOWN)
+                        and self.page
+                        < math.ceil(len(self.elems) / (self.rows * self.columns)) + 1
+                        and self.index[0] == self.rows - 1
+                    ):
+                        self.change_page(1, 0)
                     self.input(action)
                 else:
                     if action.triggers(Action.CANCEL):
                         break
-                    if action.triggers(Action.ACCEPT):
+                    elif action.triggers(Action.ACCEPT):
                         res = self.choose(
-                            ctx, self.index[0] + self.index[1] * self.columns
+                            ctx, self.index[1] + (self.index[0] * self.columns)
                         )
                         ctx = change_ctx(ctx, self)
                         if res is not None:
                             return res
+                    if self.handle_extra_actions(ctx, action):
+                        break
                 loops.std(ctx)
                 if self.__special_ret is not None:
                     return self.__special_ret

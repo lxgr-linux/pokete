@@ -1,6 +1,6 @@
 """Contains stuff related to fight attack choosing"""
 
-from typing import Optional, override
+from typing import override
 
 import scrap_engine as se
 
@@ -18,7 +18,7 @@ from ...attack import Attack
 
 
 class AttackInfoBox(se.Box):
-    def __init__(self):
+    def __init__(self) -> None:
         self.effects_dictionary = {e.c_name: e for e in effects.effect_list}
         self.effect_active = False
         self.effect_available = False
@@ -32,26 +32,26 @@ class AttackInfoBox(se.Box):
         )
         super().__init__(1, 1)
 
-    def show_effect(self):
+    def show_effect(self) -> None:
         if self.effect_available:
             self.effect_active = True
             self.rem_ob(self.attack_info)
             self.attack_info.remove()
             self.add_ob(self.effect_info, 0, 0)
 
-    def unshow_effect(self):
+    def unshow_effect(self) -> None:
         self.rem_ob(self.effect_info)
         self.effect_info.remove()
         self.add_ob(self.attack_info, 0, 0)
         self.effect_active = False
 
-    def toggle(self):
+    def toggle(self) -> None:
         if self.effect_active:
             self.unshow_effect()
         else:
             self.show_effect()
 
-    def set_attack(self, attack_ob: Attack):
+    def set_attack(self, attack_ob: Attack) -> None:
         self.attack_info.label.rechar(liner(attack_ob.desc, 37))
         self.effect_available = attack_ob.effect is not None
         if self.effect_available:
@@ -80,7 +80,7 @@ class AttackInfoBox(se.Box):
 
 
 class AttackBox(ChooseBoxView[Attack]):
-    def __init__(self):
+    def __init__(self) -> None:
         self.attack_obs: list[Attack] = []
         self.attack_info_box = AttackInfoBox()
         super().__init__(
@@ -91,7 +91,7 @@ class AttackBox(ChooseBoxView[Attack]):
             index_x=1,
         )
 
-    def toggle_atk_box(self):
+    def toggle_atk_box(self) -> None:
         """Toggles the attack info box"""
         if not self.attack_info_box.added:
             self.add_ob(self.attack_info_box, 26, 0)
@@ -115,11 +115,11 @@ class AttackBox(ChooseBoxView[Attack]):
         return 6, 25
 
     @override
-    def choose(self, ctx: Context, idx: int) -> Optional[Attack]:
+    def choose(self, ctx: Context, idx: int) -> Attack | None:
         return self.attack_obs[idx]
 
     @override
-    def resize_view(self):
+    def resize_view(self) -> None:
         """Resizes the view"""
         self.remove()
         self.overview.resize_view()
@@ -127,19 +127,18 @@ class AttackBox(ChooseBoxView[Attack]):
         self.map.show()
 
     @override
-    def on_index_change(self, area_idx: int):
+    def on_index_change(self, area_idx: int) -> None:
         self.attack_info_box.set_attack(self.attack_obs[area_idx])
 
     def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
         if action.triggers(Action.INFO):
             self.toggle_atk_box()
             self.map.show()
-        elif action.triggers(Action.SCREEN_SWITCH):
-            if self.attack_info_box.added:
-                self.attack_info_box.toggle()
+        elif action.triggers(Action.SCREEN_SWITCH) and self.attack_info_box.added:
+            self.attack_info_box.toggle()
         return False
 
-    def __call__(self, ctx: Context, attack_obs: list[Attack]) -> Optional[Attack]:
+    def __call__(self, ctx: Context, attack_obs: list[Attack]) -> Attack | None:
         self.attack_obs = attack_obs
         self.elems = [atc.label for atc in attack_obs]
         self.add_elems()

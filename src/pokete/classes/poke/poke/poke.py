@@ -7,24 +7,20 @@ from datetime import datetime
 
 import scrap_engine as se
 
-from pokete.base.color import Color
-from pokete.base.context import Context
+from pokete.classes.asset_service.resources.base import Poke as ResourcePoke
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.attack import Attack
+from pokete.classes.effects import effects
+from pokete.classes.i import IEffect, IPoke
 from pokete.classes.model.poke import PokeDict
-from pokete.util import liner
+from pokete.classes.types import PokeType, types
 
-from ..asset_service.resources.base import Poke as ResourcePoke
-from ..asset_service.service import asset_service
-from ..attack import Attack
-from ..effects import effects
-from ..health_bar import HealthBar
-from ..learnattack import LearnAttack
-from ..moves import Moves
-from ..types import types
+from .learnattack import LearnAttack
 from .nature import PokeNature
 from .stats import Stats
 
 
-class Poke:
+class Poke(IPoke):
     """The Pokete class
     ARGS:
         poke: The Pokes generic name
@@ -34,24 +30,25 @@ class Poke:
         player: Bool whether or not the Poke belongs to the player
         shiny: Bool whether or not the Poke is shiny (is extra strong)"""
 
+    logger = logging.getLogger("Poke")
+
     def __init__(
         self,
         poke: str,
         _xp: int,
-        _hp="SKIP",
-        _ap=None,
-        _attacks=None,
-        _effects=None,
-        player=True,
-        shiny=False,
-        nature=None,
-        stats=None,
-    ):
+        _hp: str | int = "SKIP",
+        _ap: list | None = None,
+        _attacks: list | None = None,
+        _effects: list | None = None,
+        player: bool = True,
+        shiny: bool = False,
+        nature: dict | None = None,
+        stats: dict | None = None,
+    ) -> None:
         self.nature = (
             PokeNature.random() if nature is None else PokeNature.from_dict(nature)
         )
         self.inf: ResourcePoke = asset_service.get_base_assets().pokes[poke]
-        self.moves = Moves(self)
         # Attributes
         self.player = None
         self.affil = ""
@@ -71,9 +68,9 @@ class Poke:
         self.lose_xp = self.inf.lose_xp
         self.evolve_poke = self.inf.evolve_poke
         self.evolve_lvl = self.inf.evolve_lvl
-        self.types = [getattr(types, i) for i in self.inf.types]
-        self.type = self.types[0]
-        self.effects = []
+        self.types = [types[i] for i in self.inf.types]
+        self.type: PokeType = self.types[0]
+        self.effects: list[IEffect] = []
         if _attacks is not None:
             assert len(_attacks) <= 4, (
                 f"A Pokete {poke} \
@@ -98,50 +95,14 @@ can't have more than 4 attacks!"
         if _hp != "SKIP":
             self.hp: int = _hp
         # Labels
-        self.hp_bar = HealthBar(self)
-        self.hp_bar.make(self.hp)
-        self.desc = se.Text(liner(self.inf.desc, se.screen_width - 34))
-        self.ico = se.Box(4, 11)
-        for ico in self.inf.ico:
-            esccode = (
-                str.join("", [getattr(Color, i) for i in ico.esc])
-                if ico.esc is not None
-                else ""
-            )
-            self.ico.add_ob(
-                se.Text(
-                    ico.txt,
-                    state="float",
-                    esccode=esccode,
-                    ignore=f"{esccode} {Color.reset}",
-                ),
-                0,
-                0,
-            )
-        self.text_hp = se.Text(f"HP:{self.hp}", state="float")
-        self.text_lvl = se.Text(f"Lvl:{self.lvl()}", state="float")
-        self.text_name = se.Text(
-            (self.name.upper() if self.shiny else self.name),
-            esccode=Color.underlined + self.type.color,
-            state="float",
-        )
-        self.text_xp = se.Text(
-            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
-{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}",
-            state="float",
-        )
-        self.text_type = se.Text(
-            self.type.name.capitalize(), state="float", esccode=self.type.color
-        )
-        self.tril = se.Object("<", state="float")
-        self.trir = se.Object(">", state="float")
+        self.desc = self.inf.desc
         self.pball_small = se.Object("o")
         self.set_vars()
         if _ap is not None:
             self.set_ap(_ap)
         if _effects is not None:
             for eff in _effects:
-                self.effects.append(getattr(effects, eff)(self))
+                self.effects.append(effects[eff]())
 
         self.poke_stats = (
             Stats(self.name, None)
@@ -149,7 +110,7 @@ can't have more than 4 attacks!"
             else Stats.from_dict(stats, self.name)
         )
 
-    def set_player(self, player):
+    def set_player(self, player: bool) -> None:
         """Sets the player attribute when the Pokete changes the owner
         ARGS:
             player: Bool whether or not the Poke new belongs to the player"""
@@ -157,13 +118,13 @@ can't have more than 4 attacks!"
         self.affil = "you" if self.player else "enemy"
         self.ext_name = f"{self.name}({self.affil})"
 
-    def set_poke_stats(self, poke_stats):
+    def set_poke_stats(self, poke_stats: Stats) -> None:
         """Sets the Poketes stats:
         ARGS:
             poke_stats: PokeStats object"""
         self.poke_stats = poke_stats
 
-    def set_vars(self):
+    def set_vars(self) -> None:
         """Updates/sets some vars"""
         for name in ["atc", "defense", "initiative"]:
             setattr(
@@ -192,14 +153,14 @@ can't have more than 4 attacks!"
             "stats": self.poke_stats.dict(),
         }
 
-    def set_ap(self, aps):
+    def set_ap(self, aps: list) -> None:
         """Sets attack aps from a list
         ARGS:
             aps: List of attack ap"""
         for atc, ap in zip(self.attack_obs, aps):
             atc.set_ap(ap)
 
-    def add_xp(self, _xp):
+    def add_xp(self, _xp: int) -> bool:
         """Adds xp to the current pokete
         ARGS:
             _xp: Amount of xp added to the current xp
@@ -208,26 +169,16 @@ can't have more than 4 attacks!"
         old_lvl = self.lvl()
         self.xp += _xp
         self.poke_stats.add_xp(_xp)
-        self.text_xp.rechar(
-            f"XP:{self.xp - (self.lvl() ** 2 - 1)}/\
-{((self.lvl() + 1) ** 2 - 1) - (self.lvl() ** 2 - 1)}"
-        )
-        self.text_lvl.rechar(f"Lvl:{self.lvl()}")
-        logging.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
+        self.logger.info("[Poke][%s] Gained %dxp (curr:%d)", self.name, _xp, self.xp)
         if old_lvl < self.lvl():
-            logging.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
+            self.logger.info("[Poke][%s] Reached lvl. %d", self.name, self.lvl())
             return True
         return False
 
-    def lvl(self):
+    def lvl(self) -> int:
         """RETURNS:
         Current level"""
         return int(math.sqrt(self.xp + 1))
-
-    def learn_attack(self, ctx: Context):
-        """Checks if a new attack can be learned and then teaches it the poke"""
-        if self.lvl() % 5 == 0:
-            LearnAttack(self)(ctx)
 
     def get_evolve_poke(self) -> "Poke":
         new = Poke(self.evolve_poke, self.xp, _attacks=self.attacks, shiny=self.shiny)
@@ -235,15 +186,15 @@ can't have more than 4 attacks!"
         new.poke_stats.set_evolved_date(datetime.now())
         return new
 
-    def backup_hp(self):
+    def backup_hp(self) -> None:
         self.oldhp = self.hp
 
-    def set_hp(self, hp: int):
+    def set_hp(self, hp: int) -> None:
         """Saves saves hp"""
         self.hp = max(self.hp - max(hp, 0), 0)
 
     @classmethod
-    def from_dict(cls, _dict):
+    def from_dict(cls, _dict: dict) -> "Poke":
         """Assembles a Pokete from _dict"""
         return cls(
             _dict["name"],
@@ -258,7 +209,7 @@ can't have more than 4 attacks!"
         )
 
     @classmethod
-    def wild(cls, poke, _xp):
+    def wild(cls, poke: str, _xp: int) -> "Poke":
         """Simulates learning attacks for wild poketes
         ARGS:
             poke: The poketes descriptor

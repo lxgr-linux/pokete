@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 from pokete.classes.asset_service.resources import AssetsDict
 from pokete.classes.multiplayer.msg.position import Position
 from pokete.classes.multiplayer.msg.position.update import UpdateDict
@@ -16,5 +16,5 @@ class InfoData(TypedDict):
 
 
 class Info(bs_rpc.Body):
-    def __init__(self, data: InfoData):
+    def __init__(self, data: InfoData) -> None:
         super().__init__(INFO_TYPE, data)

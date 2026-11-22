@@ -3,13 +3,13 @@ from .subscription import SUBSCRIBE_POSITION_TYPE, SubscribePosition
 from .update import UPDATE_TYPE, Position, Update, UpdateDict
 
 __all__ = [
-    "Update",
-    "UpdateDict",
-    "Position",
-    "UPDATE_TYPE",
-    "SubscribePosition",
+    "REMOVE_TYPE",
     "SUBSCRIBE_POSITION_TYPE",
+    "UPDATE_TYPE",
+    "Position",
     "Remove",
     "RemoveData",
-    "REMOVE_TYPE",
+    "SubscribePosition",
+    "Update",
+    "UpdateDict",
 ]

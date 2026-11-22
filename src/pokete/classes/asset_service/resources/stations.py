@@ -28,7 +28,7 @@ class StationGen:
         w_next: str | None,
         s_next: str | None,
         d_next: str | None,
-    ):
+    ) -> None:
         self.additionals: list[str] = additionals
         self.desc: str = desc
         self.text: str = text
@@ -54,7 +54,7 @@ class StationGen:
         )
 
     @staticmethod
-    def validate(_d: StationGenDict) -> bool:
+    def validate(_d: "StationGenDict") -> bool:
         return all(
             [
                 "additionals" in _d and all(type(i) is str for i in _d["additionals"]),
@@ -68,7 +68,7 @@ class StationGen:
             ]
         )
 
-    def to_dict(self) -> StationGenDict:
+    def to_dict(self) -> "StationGenDict":
         ret: StationGenDict = {}
 
         ret["additionals"] = self.additionals
@@ -93,9 +93,9 @@ class StationDict(TypedDict):
 
 
 class Station:
-    def __init__(self, gen: "StationGen", add: "Coords"):
-        self.gen: "StationGen" = gen
-        self.add: "Coords" = add
+    def __init__(self, gen: "StationGen", add: "Coords") -> None:
+        self.gen: StationGen = gen
+        self.add: Coords = add
 
     @classmethod
     def from_dict(cls, _d: StationDict | None) -> "Station | None":
@@ -107,7 +107,7 @@ class Station:
         )
 
     @staticmethod
-    def validate(_d: StationDict) -> bool:
+    def validate(_d: "StationDict") -> bool:
         return all(
             [
                 "gen" in _d and StationGen.validate(_d["gen"]),
@@ -130,7 +130,7 @@ class DecorationGenDict(TypedDict):
 
 
 class DecorationGen:
-    def __init__(self, text: str, color: str):
+    def __init__(self, text: str, color: str) -> None:
         self.text: str = text
         self.color: str = color
 
@@ -144,7 +144,7 @@ class DecorationGen:
         )
 
     @staticmethod
-    def validate(_d: DecorationGenDict) -> bool:
+    def validate(_d: "DecorationGenDict") -> bool:
         return all(
             [
                 "text" in _d and type(_d["text"]) is str,
@@ -152,7 +152,7 @@ class DecorationGen:
             ]
         )
 
-    def to_dict(self) -> DecorationGenDict:
+    def to_dict(self) -> "DecorationGenDict":
         ret: DecorationGenDict = {}
 
         ret["text"] = self.text
@@ -167,9 +167,9 @@ class DecorationDict(TypedDict):
 
 
 class Decoration:
-    def __init__(self, gen: "DecorationGen", add: "Coords"):
-        self.gen: "DecorationGen" = gen
-        self.add: "Coords" = add
+    def __init__(self, gen: "DecorationGen", add: "Coords") -> None:
+        self.gen: DecorationGen = gen
+        self.add: Coords = add
 
     @classmethod
     def from_dict(cls, _d: DecorationDict | None) -> "Decoration | None":
@@ -181,7 +181,7 @@ class Decoration:
         )
 
     @staticmethod
-    def validate(_d: DecorationDict) -> bool:
+    def validate(_d: "DecorationDict") -> bool:
         return all(
             [
                 "gen" in _d and DecorationGen.validate(_d["gen"]),

@@ -5,5 +5,5 @@ from pokete.classes.classes import PlayMap
 
 class MapCustomizer(ABC):
     @abstractmethod
-    def customize(self, _map: PlayMap):
+    def customize(self, _map: PlayMap) -> None:
         pass

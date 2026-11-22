@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-class PeriodicEvent(ABC, Generic[T]):
+class PeriodicEvent[T](ABC):
     @abstractmethod
     def tick(
         self,
         ctx: T,
         tick: int,
-    ):
+    ) -> None:
         pass

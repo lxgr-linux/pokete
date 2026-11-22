@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 
 GET_TYPE = "pokete.player.get"
 
@@ -10,5 +10,5 @@ class GetData(TypedDict):
 
 
 class Get(bs_rpc.Body):
-    def __init__(self, data: GetData):
+    def __init__(self, data: GetData) -> None:
         super().__init__(GET_TYPE, data)

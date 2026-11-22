@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Self, override
 
 import scrap_engine as se
 
+from pokete.base.game_map import GameSubmap
 from pokete.base.input import (
     ACTION_DIRECTIONS,
     ACTION_UP_DOWN,
@@ -9,6 +10,7 @@ from pokete.base.input import (
     ActionList,
 )
 from pokete.base.ui.elements.labels import CloseLabel
+from pokete.base.ui.overview import Overview
 
 from .box import Box
 
@@ -16,7 +18,7 @@ from .box import Box
 class BoxIndex(se.Object):
     """Index that can be used in ChooseBox"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("*", state="float")
         self.index: int = 0
 
@@ -33,14 +35,14 @@ class ChooseBox(Box):
 
     def __init__(
         self,
-        height,
-        width,
-        name="",
-        info: Optional[list[se.Text]] = None,
-        index_x=2,
-        c_obs=None,
-        overview=None,
-    ):
+        height: int,
+        width: int,
+        name: str = "",
+        info: list[se.Text] | None = None,
+        index_x: int = 2,
+        c_obs: list[se.HasArea] | None = None,
+        overview: Overview | None = None,
+    ) -> None:
         super().__init__(height, width, name, info, overview=overview)
         self.index_x = index_x
         self.index = BoxIndex()
@@ -51,10 +53,10 @@ class ChooseBox(Box):
         # adding
         self.add_ob(self.index, self.index_x, 1)
 
-    def input(self, input: ActionList):
+    def input(self, input: ActionList) -> None:
         """Moves the cursor in the box
         ARGS:
-             inp: Inputted action"""
+             input: Inputted action"""
         assert input.triggers(*ACTION_UP_DOWN)
         y_str = input.get_y_strength()
         if input.triggers(Action.UP):
@@ -74,14 +76,14 @@ class ChooseBox(Box):
                 }[inp]
             )
 
-    def set_index(self, index: int):
+    def set_index(self, index: int) -> None:
         """Sets the cursors index
         ARGS:
-            index: The new index, if None the old index will be used"""
+            index: The new index"""
         self.index.index = index
         self.set_ob(self.index, self.index.rx, self.c_obs[self.index.index].ry)
 
-    def add_c_obs(self, _list):
+    def add_c_obs(self, _list: list[se.HasArea]) -> None:
         """Adds the c_obs (the objects that can be chosen from) to the box
         ARGS:
             _list: List of se.Texts"""
@@ -89,7 +91,7 @@ class ChooseBox(Box):
         for _y, obj in enumerate(self.c_obs):
             self.add_ob(obj, self.index_x * 2, 1 + _y)
 
-    def remove_c_obs(self):
+    def remove_c_obs(self) -> None:
         """Removes the c_obs"""
         for obj in self.c_obs:
             self.rem_ob(obj)
@@ -104,13 +106,13 @@ class BetterChooserItem(Box):
         text: The boxes displayed text
         ind: The bpxes index"""
 
-    def __init__(self, height, width, text, ind):
+    def __init__(self, height: int, width: int, text: se.HasArea, ind: int) -> None:
         super().__init__(height, width)
         self.ind = ind
         self.label = text
         self.add_ob(self.label, 2, 1)
 
-    def choose(self):
+    def choose(self) -> None:
         """Rechars the frame to be highlighted"""
         self.frame.rechar(
             corner_chars=["┏", "┓", "┗", "┛"],
@@ -118,7 +120,7 @@ class BetterChooserItem(Box):
             vertical_chars=["┃", "┃"],
         )
 
-    def unchoose(self):
+    def unchoose(self) -> None:
         """Rechars the frame to be not highlighted"""
         self.frame.rechar(
             corner_chars=["┌", "┐", "└", "┘"],
@@ -135,25 +137,33 @@ class BetterChooseBox(Box):
         name: The boxes displayed name
         _map: The map it will be shown on"""
 
+    @override
     def __init__(
-        self, columns, labels: list[se.Text], name="", _map=None, overview=None
-    ):
-        self.nest_label_obs: list[list[BetterChooserItem]] = []
-        self.set_items(columns, labels, init=True)
+        self,
+        columns: int,
+        labels: list[se.HasArea],
+        name: str = "",
+        _map: GameSubmap | None = None,
+        overview: Overview | None = None,
+        max_rows: int | None = None,
+    ) -> None:
         super().__init__(
-            3 * len(self.nest_label_obs) + 2,
-            sum(i.width for i in self.nest_label_obs[0]) + 2,
+            3,
+            3,
             name,
             [CloseLabel()],
             overview=overview,
         )
-        self.columns = columns
+        self.nest_label_obs: list[list[BetterChooserItem]] = []
+        self.columns: int = columns
+        self.max_rows: int | None = max_rows
         self.map = _map
         self.__add_obs()
-        self.index = (0, 0)
+        self.index: tuple[int, int] = (0, 0)
+        self.set_items(columns, labels)
         self.get_item(*self.index).choose()
 
-    def set_index(self, _y, _x):
+    def set_index(self, _y: int, _x: int) -> None:
         """Sets index and chooses item
         ARGS:
             _y: Y-Coordinate in the box
@@ -162,7 +172,7 @@ class BetterChooseBox(Box):
         self.index = (_y, _x)
         self.get_item(*self.index).choose()
 
-    def get_item(self, _y, _x):
+    def get_item(self, _y: int, _x: int) -> BetterChooserItem:
         """Gives a chosen element
         ARGS:
             _y: Y-Coordinate in the box
@@ -171,10 +181,10 @@ class BetterChooseBox(Box):
             The BetterChooseBoxItem at the coordinate"""
         return self.nest_label_obs[_y][_x]
 
-    def input(self, input: ActionList):
+    def input(self, input: ActionList) -> None:
         """Evaluates user input
         ARGS:
-            inp: Inputted string"""
+            input: Inputted action"""
         assert input.triggers(*ACTION_DIRECTIONS)
         if input.triggers(Action.UP):
             inp = Action.UP
@@ -196,44 +206,53 @@ class BetterChooseBox(Box):
             (self.index[1] + _c[1]) % len(self.nest_label_obs[self.index[0]]),
         )
 
-    def set_items(self, columns, labels: list[se.Text], init=False):
+    def set_items(self, columns: int, labels: list[se.HasArea]) -> None:
         """Sets the items shown in the box
         ARGS:
             columns: Number of columns
-            labels: List of se.Texts that will be shown on the items
-            init: Whether or not the box is initiated"""
+            labels: List of se.Texts that will be shown on the items"""
+        self.columns = columns
         for i in self.nest_label_obs:
             for obj in i:
                 self.rem_ob(obj)
-        box_width = sorted(len(i.text) for i in labels)[-1]
+                obj.remove()
+        box_width = max(i.width for i in labels)
+        box_height = max(i.height for i in labels)
+
         label_obs = [
-            BetterChooserItem(3, box_width + 4, label, i)
+            BetterChooserItem(box_height + 2, box_width + 4, label, i)
             for i, label in enumerate(labels)
         ]
         self.nest_label_obs = [
             label_obs[i * columns : (i + 1) * columns]
             for i in range(max(round(len(labels) / columns + 0.49), 1))
         ]
-        if not init:
-            self.resize(
-                3 * len(self.nest_label_obs) + 2,
-                sum(i.width for i in self.nest_label_obs[0]) + 2,
-            )
-            self.__add_obs()
-            try:
-                self.set_index(*self.index)
-            except IndexError:
-                self.index = (0, 0)
-                self.get_item(*self.index).choose()
 
-    def __add_obs(self):
+        rows = min(
+            tr := len(self.nest_label_obs),
+            self.max_rows if self.max_rows is not None else tr,
+        )
+
+        self.resize(
+            (box_height + 2) * rows + 2,
+            sum(i.width for i in self.nest_label_obs[0]) + 2,
+        )
+        self.__add_obs()
+        try:
+            self.set_index(*self.index)
+        except IndexError:
+            self.index = (0, 0)
+            self.get_item(*self.index).choose()
+
+    def __add_obs(self) -> None:
         """Adds items to the box"""
         for i, arr in enumerate(self.nest_label_obs):
             for j, obj in enumerate(arr):
                 self.add_ob(obj, 1 + j * obj.width, 1 + i * obj.height)
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """Enter dunder for context management"""
+        assert self.map
         self.center_add(self.map)
         self.map.show()
         return self

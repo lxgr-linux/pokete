@@ -8,6 +8,7 @@ from pokete.base.input import hotkeys_save
 
 from . import timer
 from .achievements import achievements
+from .i import IFigure
 from .multiplayer.connector import com_service
 from .multiplayer.modeprovider import Mode, modeProvider
 from .pokete_care import pokete_care
@@ -15,8 +16,10 @@ from .settings import settings
 
 HOME = Path.home()
 
+logger = logging.getLogger("Save")
 
-def save(figure):
+
+def save(figure: IFigure) -> None:
     _map = figure.map.name
     old_map = figure.oldmap.name
     x = figure.x
@@ -53,10 +56,10 @@ def save(figure):
     with open(release.SAVEPATH / "pokete.json", "w+") as file:
         # writes the data to the save file in a nice format
         json.dump(_si, file, indent=4)
-    logging.info("[General] Saved")
+    logger.info("[General] Saved")
 
 
-def read_save():
+def read_save() -> None:
     """Reads from savefile
     RETURNS:
         session_info dict"""
@@ -105,6 +108,6 @@ def read_save():
     elif os.path.exists(ancient_save_file):
         l_dict = {}
         with open(ancient_save_file, "r") as _file:
-            exec(_file.read(), {"session_info": _si}, l_dict)
+            exec(_file.read(), {"session_info": _si}, l_dict)  # noqa: S102
         _si = json.loads(json.dumps(l_dict["session_info"]))
     return _si

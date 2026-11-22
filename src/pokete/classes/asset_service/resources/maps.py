@@ -11,7 +11,7 @@ class PokeArgsDict(TypedDict):
 
 
 class PokeArgs:
-    def __init__(self, pokes: list[str], minlvl: int, maxlvl: int):
+    def __init__(self, pokes: list[str], minlvl: int, maxlvl: int) -> None:
         self.pokes: list[str] = pokes
         self.minlvl: int = minlvl
         self.maxlvl: int = maxlvl
@@ -68,14 +68,14 @@ class Map:
         poke_args: "PokeArgs | None",
         w_poke_args: "PokeArgs | None",
         weather: str | None,
-    ):
+    ) -> None:
         self.height: int = height
         self.width: int = width
         self.song: str = song
         self.pretty_name: str = pretty_name
         self.extra_actions: str | None = extra_actions
-        self.poke_args: "PokeArgs | None" = poke_args
-        self.w_poke_args: "PokeArgs | None" = w_poke_args
+        self.poke_args: PokeArgs | None = poke_args
+        self.w_poke_args: PokeArgs | None = w_poke_args
         self.weather: str | None = weather
 
     @classmethod

@@ -10,7 +10,7 @@ class TrainerPokeArgsDict(TypedDict):
 
 
 class TrainerPokeArgs:
-    def __init__(self, name: str, xp: int):
+    def __init__(self, name: str, xp: int) -> None:
         self.name: str = name
         self.xp: int = xp
 
@@ -61,7 +61,7 @@ class TrainerArgs:
         win_texts: list[str],
         x: int,
         y: int,
-    ):
+    ) -> None:
         self.name: str = name
         self.gender: str = gender
         self.texts: list[str] = texts
@@ -118,9 +118,9 @@ class TrainerDict(TypedDict):
 
 
 class Trainer:
-    def __init__(self, pokes: list["TrainerPokeArgs"], args: "TrainerArgs"):
-        self.pokes: list["TrainerPokeArgs"] = pokes
-        self.args: "TrainerArgs" = args
+    def __init__(self, pokes: list["TrainerPokeArgs"], args: "TrainerArgs") -> None:
+        self.pokes: list[TrainerPokeArgs] = pokes
+        self.args: TrainerArgs = args
 
     @classmethod
     def from_dict(cls, _d: TrainerDict | None) -> "Trainer | None":

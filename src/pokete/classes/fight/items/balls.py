@@ -1,21 +1,23 @@
-from abc import ABC
 import logging
 import random
 import time
+from abc import ABC
 
 from pokete.classes.achievements import achievements
-from pokete.classes.fight.fightmap.fightmap import FightMap
-from pokete.classes.fight.providers import Provider
 from pokete.classes.audio import audio
-from ... import ob_maps as obmp
-from pokete.classes.fight.providers import NatureProvider
-from .item import FightItem, RoundContinuation
-from ...asset_service.service import asset_service
+from pokete.classes.fight.fightmap.fightmap import FightMap
+from pokete.classes.fight.providers import NatureProvider, Provider
 from pokete.release import SPEED_OF_TIME
+
+from ... import ob_maps as obmp
+from ...asset_service.service import asset_service
+from .item import FightItem, RoundContinuation
 
 
 class GenericPokeBall(FightItem, ABC):
-    def __init__(self, chance: int, name: str):
+    logger = logging.getLogger("GenericPokeBall")
+
+    def __init__(self, chance: int, name: str) -> None:
         self.chance = chance
         self.name = name
 
@@ -60,7 +62,7 @@ class GenericPokeBall(FightItem, ABC):
             fightmap.pball.remove()
             fightmap.clean_up(obj, enem)
             obj.balls_label_rechar()
-            logging.info("[Fighitem][%s] Caught %s", self.name, enem.curr.name)
+            self.logger.info("[Fighitem][%s] Caught %s", self.name, enem.curr.name)
             achievements.achieve("first_poke")
             if all(
                 poke in obj.caught_pokes
@@ -73,20 +75,26 @@ class GenericPokeBall(FightItem, ABC):
         fightmap.pball.remove()
         enem.curr.ico.add(fightmap, enem.curr.ico.x, enem.curr.ico.y)
         fightmap.show()
-        logging.info("[Fighitem][%s] Missed", self.name)
+        self.logger.info("[Fighitem][%s] Missed", self.name)
         return RoundContinuation.ENEMY_ATTACK
 
 
 class PoketeBall(GenericPokeBall):
-    def __init__(self):
+    logger = logging.getLogger("PoketeBall")
+
+    def __init__(self) -> None:
         super().__init__(1, "poketeball")
 
 
 class SuperBall(GenericPokeBall):
-    def __init__(self):
+    logger = logging.getLogger("SuperBall")
+
+    def __init__(self) -> None:
         super().__init__(6, "superball")
 
 
 class HyperBall(GenericPokeBall):
-    def __init__(self):
+    logger = logging.getLogger("HyperBall")
+
+    def __init__(self) -> None:
         super().__init__(1000, "hyperball")

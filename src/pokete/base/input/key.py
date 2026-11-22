@@ -1,5 +1,5 @@
 class Key:
-    def __init__(self, char="", rep=""):
+    def __init__(self, char: str = "", rep: str = "") -> None:
         self.char = char
         self.__rep = rep
 
@@ -9,7 +9,7 @@ class Key:
         return self.char
 
     def has_char(self) -> bool:
-        return not not self.char
+        return bool(self.char)
 
 
 UP = Key(rep="up")

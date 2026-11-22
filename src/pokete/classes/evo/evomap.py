@@ -2,21 +2,26 @@
 
 import logging
 import time
+from typing import override
+
 import scrap_engine as se
 
-from pokete.base.exception_propagation import exception_propagating_periodic_event
-from pokete.release import SPEED_OF_TIME
 import pokete.base.game_map as gm
 from pokete.base import loops
 from pokete.base.context import Context
+from pokete.base.exception_propagation import exception_propagating_periodic_event
+from pokete.base.game_map import OutP
 from pokete.base.periodic_event_manager import PeriodicEventManager
 from pokete.base.tss import tss
 from pokete.base.ui import Overview
-from ..achievements import achievements
-from ..asset_service.service import asset_service
-from ..classes import OutP
-from ..learnattack import LearnAttack
-from .poke import Poke
+from pokete.classes.achievements import achievements
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.moves import ShineMove
+from pokete.classes.poke.poke import Poke
+from pokete.classes.poke.ui import PokeLabels
+from pokete.release import SPEED_OF_TIME
+
+from .learnattack import LearnAttackBox
 
 
 class EvoMap(gm.GameMap, Overview):
@@ -25,7 +30,9 @@ class EvoMap(gm.GameMap, Overview):
         height: The height of the map
         width: The width of the map"""
 
-    def __init__(self, height, width):
+    logger = logging.getLogger("EvoMap")
+
+    def __init__(self, height: int, width: int) -> None:
         super().__init__(height, width, name="evomap")
         self.frame_small = se.Frame(height=4, width=width, state="float")
         self.outp = OutP("", state="float")
@@ -34,7 +41,8 @@ class EvoMap(gm.GameMap, Overview):
         self.frame_small.add(self, 0, self.height - 5)
         self.outp.add(self, 1, self.height - 4)
 
-    def resize_view(self):
+    @override
+    def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.frame_small.remove()
         self.outp.remove()
@@ -55,25 +63,32 @@ class EvoMap(gm.GameMap, Overview):
             ctx.figure,
         )
         new = poke.get_evolve_poke()
-        poke.ico.remove()
-        poke.ico.add(self, round(self.width / 2 - 4), round((self.height - 8) / 2))
-        poke.moves.shine()
+        old_labels = PokeLabels(poke)
+        new_labels = PokeLabels(new)
+        old_labels.ico.add(
+            self, round(self.width / 2 - 4), round((self.height - 8) / 2)
+        )
+        ShineMove().move(old_labels, None)
         self.outp.outp("Look!")
         time.sleep(SPEED_OF_TIME * 0.5)
         self.outp.outp(f"{self.outp.text}\n{poke.name} is evolving!")
         time.sleep(SPEED_OF_TIME * 1)
         for i in range(8):
-            for j, k in zip([poke.ico, new.ico], [new.ico, poke.ico]):
+            for j, k in zip(
+                [old_labels.ico, new_labels.ico], [new_labels.ico, old_labels.ico]
+            ):
                 j.remove()
                 k.add(self, round(self.width / 2 - 4), round((self.height - 8) / 2))
                 time.sleep(SPEED_OF_TIME * 0.7 - i * 0.09999)
                 loops.std(ctx)
-        poke.ico.remove()
-        new.ico.add(self, round(self.width / 2 - 4), round((self.height - 8) / 2))
+        old_labels.ico.remove()
+        new_labels.ico.add(
+            self, round(self.width / 2 - 4), round((self.height - 8) / 2)
+        )
         self.show()
         time.sleep(SPEED_OF_TIME * 0.01)
-        new.moves.shine()
-        self.outp.outp(f"{self.name} evolved into {new.name}!")
+        ShineMove().move(new_labels, None)
+        self.outp.outp(f"{poke.name} evolved into {new.name}!")
         time.sleep(SPEED_OF_TIME * 5)
         for i in range(
             max(
@@ -82,12 +97,12 @@ class EvoMap(gm.GameMap, Overview):
                 0,
             )
         ):
-            LearnAttack(new)(ctx)
-        ctx.figure.pokes[ctx.figure.pokes.index(self)] = new
+            LearnAttackBox(new)(ctx)
+        ctx.figure.pokes[ctx.figure.pokes.index(poke)] = new
         if new.identifier not in ctx.figure.caught_pokes:
             ctx.figure.caught_pokes.append(new.identifier)
         achievements.achieve("first_evolve")
-        logging.info("[Poke] %s evolved into %s", self.name, new.name)
+        self.logger.info("[Poke] %s evolved into %s", poke.name, new.name)
         loops.std(ctx)
         del self
         return True

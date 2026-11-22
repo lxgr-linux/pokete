@@ -10,7 +10,7 @@ class LearnDisc(InvItem):
     ARGS:
         attack_name: The name of the attack being taught"""
 
-    def __init__(self, attack_name: str, attack: Attack):
+    def __init__(self, attack_name: str, attack: Attack) -> None:
         self.attack_name = attack_name
         self.attack: Attack = attack
         pretty_name = f"LD-{self.attack.name}"

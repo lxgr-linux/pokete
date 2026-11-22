@@ -4,10 +4,11 @@ import time
 import scrap_engine as se
 
 from pokete.base.input import _ev
-from pokete.classes import deck
 from pokete.classes import movemap as mvp
 from pokete.classes.classes import PlayMap
+from pokete.classes.deck import Deck
 from pokete.classes.doors import CenterDoor
+from pokete.classes.i import IFigure
 from pokete.classes.interactions.multi_text_choose_box import MultiTextChooseBox
 from pokete.classes.inv import buy
 from pokete.classes.landscape import MapInteract
@@ -29,7 +30,7 @@ class CenterMap(PlayMap):
         _he: The maps height
         _wi: The maps width"""
 
-    def __init__(self, _he, _wi):
+    def __init__(self, _he: int, _wi: int) -> None:
         super().__init__(
             _he,
             _wi,
@@ -70,7 +71,7 @@ class ShopMap(PlayMap):
         _he: The maps height
         _wi: The maps width"""
 
-    def __init__(self, _he, _wi):
+    def __init__(self, _he: int, _wi: int) -> None:
         super().__init__(
             _he, _wi, name="shopmap", pretty_name="Pokete-Shop", song="Map.mp3"
         )
@@ -97,7 +98,7 @@ class ShopMap(PlayMap):
 class CenterInteract(se.Object, MapInteract):
     """Triggers a conversation in the Pokete center"""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.menu = MultiTextChooseBox(
             [
@@ -109,11 +110,11 @@ class CenterInteract(se.Object, MapInteract):
             "Select",
         )
 
-    def __normalize_pokes(self, ob):
+    def __normalize_pokes(self, ob: IFigure) -> None:
         while "__fallback__" in [p.identifier for p in ob.pokes]:
             ob.pokes.pop([p.identifier for p in ob.pokes].index("__fallback__"))
 
-    def action(self, ob):
+    def action(self, ob: IFigure) -> None:
         """Triggers the interaction in the Pokete center
         ARGS:
             ob: The object triggering this action"""
@@ -133,7 +134,7 @@ class CenterInteract(se.Object, MapInteract):
             case 0:
                 self.__normalize_pokes(ob)
                 ob.balls_label_rechar()
-                deck.deck(self.ctx, len(ob.pokes))
+                Deck()(self.ctx, len(ob.pokes))
             case 1:
                 ob.heal()
                 time.sleep(SPEED_OF_TIME * 0.5)
@@ -146,7 +147,7 @@ class CenterInteract(se.Object, MapInteract):
             case 2:
                 self.__normalize_pokes(ob)
                 if ob.pokes:
-                    selected_idx = deck.deck(
+                    selected_idx = Deck()(
                         self.ctx,
                         len(ob.pokes),
                         label="Choose a Pokete to cuddle",
@@ -174,7 +175,7 @@ class CenterInteract(se.Object, MapInteract):
 class ShopInteract(se.Object, MapInteract):
     """Triggers an conversation in the shop"""
 
-    def action(self, ob):
+    def action(self, ob) -> None:
         """Triggers an interaction in the shop
         ARGS:
             ob: The object triggering this action"""

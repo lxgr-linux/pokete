@@ -1,0 +1,251 @@
+"""Contains the NewDetail class - a Box-based detail view for Pokete"""
+
+from typing import override
+
+import scrap_engine as se
+
+from pokete.base import loops
+from pokete.base.change import change_ctx
+from pokete.base.color import Color
+from pokete.base.context import Context
+from pokete.base.input import Action, get_action
+from pokete.base.input.mouse import MouseEvent
+from pokete.base.mouse import MouseInteractor
+from pokete.base.single_event import SingleEvent, single_event_periodic_event
+from pokete.base.tss import tss
+from pokete.base.ui import Overview
+from pokete.base.ui.elements.box import Box
+from pokete.base.ui.elements.labels import CloseLabel, GenericActionLabel
+from pokete.classes.detail.attack_descs import AttackDescs
+from pokete.classes.poke.poke import Poke
+from pokete.classes.poke.ui import NatureInfo, PokeLabels, StatsInfoBox
+from pokete.classes.single_events import TeleportationSingleEvent
+from pokete.util import liner
+
+from .abilities_choose_box import AbilitiesChooseBox
+
+
+class Detail(Box, MouseInteractor):
+    """Shows details about a Pokete in a Box (no own map)
+    ARGS:
+        height: Height of the box
+        width: Width of the box
+        overview: Optional overview for the box"""
+
+    def __init__(
+        self,
+        overview: Overview | None = None,
+    ) -> None:
+        super().__init__(
+            *self.new_size(),
+            name="Details",
+            overview=overview,
+            info=[],
+        )
+        self.general_info_labels: list[se.Text] = [
+            CloseLabel(),
+            GenericActionLabel(Action.NATURE_INFO, "Nature"),
+            GenericActionLabel(Action.STATS_INFO, "Statistics"),
+        ]
+        self.abilities_action_label = GenericActionLabel(
+            Action.ABILITIES_INFO, "Use ability"
+        )
+        self.name_attacks = se.Text("Attacks", esccode=Color.thicc, state="float")
+        self.attack_defense = se.Text("Attack:   Defense:", state="float")
+        self.world_actions_label = se.Text("Abilities:", state="float")
+        self.type_label = se.Text("Type:", state="float")
+        self.initiative_label = se.Text("Initiative:", state="float")
+        self.desc_label = se.Text("", "float")
+        self.poke_labels: PokeLabels | None = None
+        self.line_sep1 = se.Square("-", self.width - 2, 1, state="float")
+        self.line_sep2 = se.Square("-", self.width - 2, 1, state="float")
+        self.line_middle = se.Square("|", 1, 9, state="float")
+        # adding elements to box
+        self.add_ob(self.name_attacks, 2, 6)
+        self.add_ob(self.attack_defense, 14, 5)
+        self.add_ob(self.world_actions_label, 24, 4)
+        self.add_ob(self.type_label, 37, 5)
+        self.add_ob(self.initiative_label, 49, 5)
+        self.add_ob(self.line_sep1, 1, 6)
+        self.add_ob(self.line_sep2, 1, 11)
+        self.add_ob(self.line_middle, round(self.width / 2), 7)
+        self.add_ob(self.desc_label, 34, 2)
+        self.attack_descs: AttackDescs
+        self.poke = None
+
+    def new_size(self) -> tuple[int, int]:
+        return 17, max(tss.width - 10, 40)
+
+    @override
+    def get_interaction_areas(self) -> list[se.Area]:
+        return []
+
+    @override
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None: ...
+
+    @override
+    def get_partial_interactors(self) -> list["MouseInteractor"]:
+        return [
+            label for label in self.info_labels if isinstance(label, MouseInteractor)
+        ]
+
+    def __rechar_desc_label(self) -> None:
+        self.desc_label.rechar(liner(self.poke.desc, self.width - 34))
+
+    @override
+    def resize_view(self) -> None:
+        """Manages recursive view resizing"""
+        if self.poke is None:
+            return
+        self.remove()
+        self.resize(*self.new_size())
+        self.overview.resize_view()
+        self.__rechar_desc_label()
+        self.attack_descs.resize(self.width)
+        self.line_sep1.resize(self.width - 2, 1)
+        self.line_sep2.resize(self.width - 2, 1)
+        self.add_attack_labels()
+        self.add_ob(self.line_middle, round(self.width / 2), 7)
+        self.center_add(self.map)
+
+    def add_attack_labels(self) -> None:
+        """Adds the attack labels to map"""
+        for atc, _x, _y, desc_label in zip(
+            self.poke.attack_obs,
+            [
+                1,
+                round(self.width / 2) + 1,
+                1,
+                round(self.width / 2) + 1,
+            ],
+            [7, 7, 12, 12],
+            self.attack_descs.labels,
+        ):
+            atc.label_ap.rechar(f"AP:{atc.ap}/{atc.max_ap}")
+            for label, __x, __y in zip(
+                [
+                    atc.label_name,
+                    atc.label_factor,
+                    atc.label_type,
+                    atc.label_ap,
+                    desc_label,
+                ],
+                [0, 0, 11, 0, 0],
+                [0, 1, 1, 2, 3],
+            ):
+                self.add_ob(label, _x + __x, _y + __y)
+
+    def enq_single_action(self, ret_action: str) -> None:
+        """Enqueues a single event action"""
+        event: SingleEvent | None = None
+        match ret_action:
+            case "teleport":
+                event = TeleportationSingleEvent(self.poke)
+            case None, _:
+                return
+        if event is not None:
+            single_event_periodic_event.add(event)
+
+    def cleanup(self) -> None:
+        """Cleans up Pokete info from the box"""
+        assert self.poke_labels
+        assert self.poke
+        for obj in [
+            self.poke_labels.ico,
+            self.poke_labels.text_lvl,
+            self.poke_labels.hp_bar,
+            self.poke_labels.text_xp,
+            self.poke_labels.effects,
+        ]:
+            self.rem_ob(obj)
+            if obj.added:
+                obj.remove()
+        for atc, desc_label in zip(self.poke.attack_obs, self.attack_descs.labels):
+            for obj in [
+                atc.label_name,
+                atc.label_factor,
+                atc.label_ap,
+                desc_label,
+                atc.label_type,
+            ]:
+                self.rem_ob(obj)
+                if obj.added:
+                    obj.remove()
+
+    def __call__(self, ctx: Context, poke: Poke, abb: bool = True) -> str | None:
+        """Shows details
+        ARGS:
+            ctx: Context object
+            poke: Poke object whose details are given
+            abb: Bool whether or not the ability option is shown
+        RETURNS:
+            None (used for interaction within the box)"""
+        self.poke = poke
+        self.poke_labels = PokeLabels(poke)
+        self.set_ctx(ctx)
+        ctx = change_ctx(ctx, self)
+        self.attack_descs = AttackDescs(poke.attack_obs, self.width)
+
+        # Sets the MF info labels correctly
+        abb_obs = [i for i in self.poke.attack_obs if i.world_action != ""]
+        if abb_obs != [] and abb:
+            self.world_actions_label.rechar(
+                "Abilities:" + " ".join([i.name for i in abb_obs])
+            )
+            self.info_labels = self.general_info_labels + [self.abilities_action_label]
+        else:
+            self.world_actions_label.rechar("")
+            self.info_labels = self.general_info_labels
+        self.add_info_labels()  # Nice superclass calls
+
+        with self.center_add(self.map):
+            # Add poke info to box
+            self.__rechar_desc_label()
+            self.add_ob(self.poke_labels.text_name, 14, 1)
+            if self.poke.identifier != "__fallback__":
+                for obj, __x, __y in zip(
+                    [
+                        self.poke_labels.ico,
+                        self.poke_labels.text_lvl,
+                        self.poke_labels.hp_bar,
+                        self.poke_labels.text_xp,
+                        self.poke_labels.effects,
+                    ],
+                    [2, 14, 14, 14, 21],
+                    [1, 2, 3, 4, 2],
+                ):
+                    self.add_ob(obj, __x, __y)
+
+            do_exit = False
+
+            self.attack_defense.rechar(
+                f"Attack:{self.poke.atc}\
+{(4 - len(str(self.poke.atc))) * ' '}Defense:{self.poke.defense}"
+            )
+            self.initiative_label.rechar(f"Initiative:{self.poke.initiative}")
+            self.add_ob(self.poke_labels.text_type, 42, 5)
+            self.add_attack_labels()
+            self.map.show(init=True)
+
+            while True:
+                if do_exit:
+                    self.cleanup()
+                    return None
+                action, _ = get_action()
+                if action.triggers(Action.DECK, Action.CANCEL):
+                    self.cleanup()
+                    return None
+                if action.triggers(Action.NATURE_INFO):
+                    NatureInfo(poke.nature)(ctx)
+                    ctx = change_ctx(ctx, self)
+                elif action.triggers(Action.STATS_INFO):
+                    StatsInfoBox(poke.poke_stats)(ctx)
+                    ctx = change_ctx(ctx, self)
+                elif action.triggers(Action.ABILITIES_INFO) and abb_obs != [] and abb:
+                    abilities_box = AbilitiesChooseBox()
+                    ret_action = abilities_box(ctx, abb_obs)
+                    ctx = change_ctx(ctx, self)
+                    if ret_action:
+                        self.enq_single_action(ret_action)
+                self.attack_descs.inc()
+                loops.std(ctx)

@@ -2,16 +2,11 @@
 
 from datetime import datetime
 
-import scrap_engine as se
-
-from pokete.base import loops
-from pokete.base.context import Context
-from pokete.base.ui.elements.labels import CloseLabel
-from pokete.base.ui.views.boxes import LabelBoxView
+from pokete.classes.i import IStats
 from pokete.classes.model.poke import StatsDict
 
 
-class Stats:
+class Stats(IStats):
     """Holds a poketes statistics data
     ARGS:
         poke_name: The poketes name
@@ -26,16 +21,16 @@ class Stats:
 
     def __init__(
         self,
-        poke_name,
-        ownership_date,
-        caught_with=None,
-        evolved_date=None,
-        total_battles=0,
-        lost_battles=0,
-        win_battles=0,
-        earned_xp=0,
-        run_away=0,
-    ):
+        poke_name: str,
+        ownership_date: "datetime | None",
+        caught_with: str | None = None,
+        evolved_date: "datetime | None" = None,
+        total_battles: int = 0,
+        lost_battles: int = 0,
+        win_battles: int = 0,
+        earned_xp: int = 0,
+        run_away: int = 0,
+    ) -> None:
         self.ownership_date = ownership_date
         self.evolved_date = evolved_date
         self.total_battles = total_battles
@@ -46,7 +41,7 @@ class Stats:
         self.caught_with = caught_with
         self.run_away = run_away
 
-    def add_battle(self, win=False):
+    def add_battle(self, win: bool = False) -> None:
         """Adds a battle to the statistics
         ARGS:
             win: Whether or not the battle was won"""
@@ -56,19 +51,19 @@ class Stats:
             self.lost_battles += 1
         self.total_battles += 1
 
-    def set_evolved_date(self, evolved_date):
+    def set_evolved_date(self, evolved_date: "datetime | None") -> None:
         """Sets the date the pokete evolve at
         ARGS:
             evolved_date: The date"""
         self.evolved_date = evolved_date
 
-    def add_xp(self, _xp):
+    def add_xp(self, _xp: int) -> None:
         """Adds xp to the statistics
         ARGS:
             _xp: Number of xp"""
         self.earned_xp += _xp
 
-    def set_run_away_battle(self):
+    def set_run_away_battle(self) -> None:
         """Sets a battle that was aborted"""
         self.run_away += 1
         self.total_battles += 1
@@ -94,7 +89,7 @@ class Stats:
         }
 
     @classmethod
-    def from_dict(cls, _dict: StatsDict, poke_name):
+    def from_dict(cls, _dict: StatsDict, poke_name: str) -> "Stats":
         """Assembles a PokeStats from _dict"""
         ownership_date = (
             None
@@ -117,57 +112,3 @@ class Stats:
             _dict.get("earned_xp", 0),
             _dict.get("run_away", 0),
         )
-
-
-class StatsInfoBox(LabelBoxView):
-    """Box to show statistics about caught Poketes
-    ARGS:
-        poke_stats: PokeStats object"""
-
-    def __init__(self, poke_stats: Stats):
-        not_available = "N/A"
-        if poke_stats.ownership_date is None:
-            ownership_date = not_available
-        else:
-            ownership_date = poke_stats.ownership_date.strftime("%x %X")
-
-        if poke_stats.evolved_date is None:
-            evolve_date = not_available
-        else:
-            evolve_date = poke_stats.evolved_date.strftime("%x %X")
-
-        if poke_stats.caught_with is None:
-            caught_with = not_available
-        else:
-            caught_with = poke_stats.caught_with
-
-        text = (
-            se.Text(f"\nOwnership date: {ownership_date}", state="float")
-            + se.Text(f"\nCaught with: {caught_with}", state="float")
-            + se.Text(f"\nEvolved date: {evolve_date}", state="float")
-            + se.Text(
-                f"\nNumber of total battles: {poke_stats.total_battles}",
-                state="float",
-            )
-            + se.Text(
-                f"\nNumber of won battles: {poke_stats.win_battles}",
-                state="float",
-            )
-            + se.Text(
-                f"\nNumber of lost battles: {poke_stats.lost_battles}",
-                state="float",
-            )
-            + se.Text(f"\nNumber of run away: {poke_stats.run_away}", state="float")
-            + se.Text(f"\nTotal XP earned: {poke_stats.earned_xp}\n", state="float")
-        )
-        super().__init__(
-            text,
-            name=f"{poke_stats.poke_name} statistics",
-            info=[CloseLabel()],
-        )
-
-    def __call__(self, ctx: Context):
-        """Shows the box"""
-        self.set_ctx(ctx)
-        with self.center_add(self.map):
-            loops.easy_exit(ctx.with_overview(self))

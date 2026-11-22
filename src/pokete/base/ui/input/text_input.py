@@ -1,4 +1,4 @@
-from typing import Optional, override
+from typing import override
 
 import scrap_engine as se
 
@@ -31,20 +31,19 @@ class TextInput(MouseInteractor):
         return [i.get_area() for i in self.__label.obs]
 
     @override
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
-        if area_idx >= 0:
-            if event.type == MouseEventType.LEFT:
-                self.__change_idx(area_idx - self.__idx)
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
+        if area_idx >= 0 and event.type == MouseEventType.LEFT:
+            self.__change_idx(area_idx - self.__idx)
 
-    def __change_idx(self, amount: int):
+    def __change_idx(self, amount: int) -> None:
         self.__idx = min(max(0, self.__idx + amount), len(self.__text))
 
-    def __rechar_text(self):
+    def __rechar_text(self) -> None:
         self.__label.rechar(hard_liner(self.wrap_len, self.__text + " "))
         pointer = self.__label.obs[self.__idx]
         pointer.rechar(Color.bg_cyan + pointer.char + Color.reset)
 
-    def __call__(self, ctx: Context) -> Optional[str]:
+    def __call__(self, ctx: Context) -> str | None:
         self.__text = self.__label.text
         fallback_text = self.__text
         self.__idx = len(self.__text)
@@ -71,14 +70,15 @@ class TextInput(MouseInteractor):
                     self.__text = (
                         self.__text[: self.__idx] + self.__text[self.__idx + 1 :]
                     )
-                elif input_key.has_char():
-                    if self.max_len < 0 or len(self.__text) < self.max_len:
-                        self.__text = (
-                            self.__text[: self.__idx]
-                            + input_key.char
-                            + self.__text[self.__idx :]
-                        )
-                        self.__change_idx(1)
+                elif input_key.has_char() and (
+                    self.max_len < 0 or len(self.__text) < self.max_len
+                ):
+                    self.__text = (
+                        self.__text[: self.__idx]
+                        + input_key.char
+                        + self.__text[self.__idx :]
+                    )
+                    self.__change_idx(1)
                 self.__rechar_text()
             loops.std(ctx)
         self.__label.rechar(hard_liner(self.wrap_len, self.__text))

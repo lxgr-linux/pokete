@@ -1,7 +1,7 @@
 import random
-from typing import Generator
+from collections.abc import Generator
 
-import pokete.bs_rpc as bs_rpc
+from pokete import bs_rpc
 from pokete.base.context import Context
 from pokete.classes.fight.fight_decision import FightDecision
 from pokete.classes.fight.fightmap.fightmap import FightMap
@@ -12,10 +12,10 @@ from pokete.classes.multiplayer.msg import fight
 class FigureWrapperProvider(Provider):
     def __init__(
         self,
-        figure,
+        figure: "Provider",
         outgoing: bs_rpc.ResponseWriter,
         incomming: Generator[bs_rpc.Body, None, None],
-    ):
+    ) -> None:
         self.outgoing = outgoing
         self.incomming = incomming
         self.figure = figure
@@ -24,20 +24,22 @@ class FigureWrapperProvider(Provider):
         )
 
     @property
-    def caught_pokes(self):
+    def caught_pokes(self) -> list:
         return self.figure.caught_pokes
 
     @property
     def map(self):
         return self.figure.map
 
-    def remove_item(self, name: str):
+    def remove_item(self, name: str) -> None:
         self.figure.remove_item(name)
 
-    def greet(self, fightmap: FightMap):
+    def greet(self, fightmap: FightMap) -> None:
         return super().greet(fightmap)
 
-    def get_decision(self, ctx: Context, fightmap: FightMap, enem) -> FightDecision:
+    def get_decision(
+        self, ctx: Context, fightmap: FightMap, enem: "Provider"
+    ) -> FightDecision:
         result = self.figure.get_decision(ctx, fightmap, enem)
         self.outgoing(fight.FightDecision(result.to_dict()))
 
@@ -51,5 +53,7 @@ class FigureWrapperProvider(Provider):
 
         return result
 
-    def handle_defeat(self, ctx: Context, fightmap, winner):
+    def handle_defeat(
+        self, ctx: Context, fightmap: FightMap, winner: "Provider"
+    ) -> None:
         self.figure.handle_defeat(ctx, fightmap, winner)

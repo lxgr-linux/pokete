@@ -3,6 +3,7 @@ from a string
 This is not in use yet!"""
 
 import scrap_engine as se
+
 from .classes import PlayMap
 from .landscape import Meadow
 
@@ -14,20 +15,20 @@ class GenericMapHandler:
         pretty_name: The maps pretty name
         raw_map: The string the maps ist created from"""
 
-    def __init__(self, name: str, pretty_name: str, raw_map: str):
+    def __init__(self, name: str, pretty_name: str, raw_map: str) -> None:
         self.string_map = raw_map.split("\n")
         self.map = PlayMap(*self.get_dimensions(), name=name, pretty_name=pretty_name)
         self.add_grass()
         self.add_solid()
 
-    def get_dimensions(self):
+    def get_dimensions(self) -> None:
         """Return the maps dimensions"""
 
         height = len(self.string_map)
         width = len(self.string_map[0])
         return height, width
 
-    def add_grass(self):
+    def add_grass(self) -> None:
         """Adds a Meadow to the map"""
 
         self.grass_raw = ""
@@ -41,7 +42,7 @@ class GenericMapHandler:
         self.meadow = Meadow(self.grass_raw, {})
         self.meadow.add(self.map, 0, 0)
 
-    def add_solid(self):
+    def add_solid(self) -> None:
         """Adds all solid objects to the map"""
 
         self.solid_raw = ""

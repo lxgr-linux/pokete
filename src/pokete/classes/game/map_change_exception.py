@@ -6,7 +6,7 @@ class MapChangeException(Exception):
     ARGS:
         _map: The new map to enter"""
 
-    def __init__(self, _map):
+    def __init__(self, _map) -> None:
         self.map = _map
         super().__init__(f"Map change to {_map.name}")
 

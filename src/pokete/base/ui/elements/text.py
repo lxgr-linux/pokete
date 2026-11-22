@@ -1,6 +1,5 @@
-from typing import Type
-
 import scrap_engine as se
+from scrap_engine.addable.object import ArgProto
 
 from pokete.base.color import Color
 
@@ -8,18 +7,18 @@ from pokete.base.color import Color
 class HightlightableText(se.Text):
     def __init__(
         self,
-        text,
+        text: str,
         state: se.State = "float",
-        esccode="",
-        ob_class: Type[se.Object] = se.Object,
-        ob_args=None,
-        ignore="",
-    ):
+        esccode: str = "",
+        ob_class: type[se.Object] = se.Object,
+        ob_args: ArgProto = None,
+        ignore: str = "",
+    ) -> None:
         self.default_esccode = esccode
         super().__init__(text, state, esccode, ob_class, ob_args, ignore)
 
-    def highlight(self):
+    def highlight(self) -> None:
         self.rechar(self.text, Color.thicc + self.default_esccode)
 
-    def un_highlight(self):
+    def un_highlight(self) -> None:
         self.rechar(self.text, self.default_esccode)

@@ -30,15 +30,15 @@ class NPCInterface(InteractorInterface, ABC):
         pass
 
     @abstractmethod
-    def give(self, name: str, item: str):
+    def give(self, name: str, item: str) -> None:
         pass
 
     @abstractmethod
-    def set_used(self):
+    def set_used(self) -> None:
         pass
 
     @abstractmethod
-    def unset_used(self):
+    def unset_used(self) -> None:
         pass
 
     @abstractmethod
@@ -48,5 +48,5 @@ class NPCInterface(InteractorInterface, ABC):
 
 class NPCAction(ABC):
     @abstractmethod
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         pass

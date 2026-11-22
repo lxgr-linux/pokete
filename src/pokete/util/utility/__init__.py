@@ -6,9 +6,9 @@ from .wiki import gen as gen_wiki
 
 __all__ = [
     "gen_wiki",
+    "install",
+    "make_release",
     "prepare_after",
     "prepare_before",
-    "make_release",
-    "install",
     "validate",
 ]

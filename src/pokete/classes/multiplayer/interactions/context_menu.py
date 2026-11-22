@@ -11,12 +11,12 @@ OPTION_QUIT = "Quit..."
 
 
 class ContextMenu:
-    def __init__(self):
+    def __init__(self) -> None:
         self.menu = MultiTextChooseBox(
             [OPTION_FIGHT, OPTION_TRADE, OPTION_QUIT], "Interact"
         )
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         rmtpl = pc_manager.get_interactable(ctx.figure)
         if rmtpl is None:
             return

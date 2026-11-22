@@ -8,7 +8,7 @@ from .interaction_single_event import InteractionSingleEvent
 class MouseOptimizingQueueMonitoringHandler(QueueMonitoringHandler):
     THRESHHOLD = 0.2
 
-    def optimize(self, chan: bs_rpc.Channel[SingleEvent]):
+    def optimize(self, chan: bs_rpc.Channel[SingleEvent]) -> None:
         elements = [
             i
             for i in chan.state

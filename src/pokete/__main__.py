@@ -35,13 +35,14 @@ from pokete.base.single_event import single_event_periodic_event
 from pokete.base.tss import tss
 from pokete.base.ui.input import TextInput
 from pokete.base.ui.notify import notifier
-from pokete.classes import deck, roadmap, timer
 from pokete.classes import movemap as mvp
 from pokete.classes import ob_maps as obmp
+from pokete.classes import roadmap, timer
 from pokete.classes.achievements import achievements
 from pokete.classes.asset_service.service import asset_service
 from pokete.classes.audio import audio
 from pokete.classes.classes import PlayMap
+from pokete.classes.deck import Deck
 from pokete.classes.dex import PokeDex
 from pokete.classes.fight import ProtoFigure
 from pokete.classes.game import MapChangeException, ReturnToMenuException
@@ -60,7 +61,7 @@ from pokete.classes.periodic_events import (
     NotifierEvent,
     TreatNPCEvent,
 )
-from pokete.classes.poke import Poke, Stats
+from pokete.classes.poke.poke import Poke, Stats
 from pokete.classes.pokete_care import pokete_care
 from pokete.classes.pre_game import PreGameMap
 from pokete.classes.save import read_save, save
@@ -76,7 +77,8 @@ from pokete.startup.logging import init_logger
 
 """
 class SwapPokeNPCAction(NPCAction):
-    def act(self, npc: NPCInterface, ui: UIInterface):
+    logger = logging.getLogger("SwapPokeNPCAction")
+    def act(self, npc: NPCInterface, ui: UIInterface) -> None:
         swap_poke(npc.ctx)
 """
 
@@ -86,10 +88,12 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
     ARGS:
         _si: session_info dict"""
 
-    def __init__(self, _si):
+    logger = logging.getLogger("Figure")
+
+    def __init__(self, _si: dict) -> None:
         r_char = _si.get("represent_char", "a")
         if len(r_char) != 1:
-            logging.info(
+            self.logger.info(
                 "[Figure] '%s' is no valid 'represent_char', resetting", r_char
             )
             r_char = "a"
@@ -115,7 +119,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         self.x = _si["x"]
         self.y = _si["y"]
 
-    def self_add(self):
+    def self_add(self) -> None:
         try:
             # Looking if figure would be in centermap,
             # so the player may spawn out of the center
@@ -137,7 +141,7 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
             self.add(obmp.ob_maps["playmap_1"], 6, 5)
         # self.add(obmp.ob_maps[self.map_name], self.x, self.y)
 
-    def set_args(self, _si):
+    def set_args(self, _si: dict) -> None:
         """Processes data from save file
         ARGS:
             _si: session_info dict"""
@@ -150,21 +154,23 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
         self.balls_label_rechar()
         mvp.movemap.add_obs()
 
-    def set(self, x, y):
+    def set(self, x: int, y: int) -> int:
         if (ret := super().set(x, y)) == 0:
             self.update_server_pos()
         return ret
 
-    def add(self, _map, x, y):
+    def add(self, _map: se.Map, x: int, y: int) -> int:
         if (ret := super().add(_map, x, y)) == 0:
             self.update_server_pos()
         return ret
 
-    def update_server_pos(self):
+    def update_server_pos(self) -> None:
         if modeProvider.mode == Mode.MULTI:
             com_service.pos_update(self.map.name, self.x, self.y)
 
-    def add_poke(self, poke: Poke, idx=None, caught_with=None):
+    def add_poke(
+        self, poke: Poke, idx: int | None = None, caught_with: str | None = None
+    ) -> None:
         """Adds a Pokete to the players Poketes
         ARGS:
             poke: Poke object beeing added
@@ -182,17 +188,19 @@ class Figure(se.Object, Inventory, ProtoFigure, Bank):
                 self.pokes.append(poke)
         else:
             self.pokes[idx] = poke
-        logging.info("[Figure] Added Poke %s", poke.name)
+        self.logger.info("[Figure] Added Poke %s", poke.name)
 
-    def balls_label_rechar(self):
+    def balls_label_rechar(self) -> None:
         mvp.movemap.balls_label_rechar(self.pokes)
 
 
 class Debug:
     """Debug class"""
 
+    logger = logging.getLogger("Debug")
+
     @staticmethod
-    def pos(figure):
+    def pos(figure: Figure) -> None:
         """Prints the figures' position"""
         print(figure.x, figure.y, figure.map.name)
 
@@ -201,10 +209,10 @@ class Debug:
 #######################
 
 
-def autosave(figure):
+def autosave(figure: Figure) -> None:
     """Autosaves the game every 5 mins"""
     while True:
-        time.sleep(SPEED_OF_TIME * 0.1)
+        time.sleep(SPEED_OF_TIME * 300)
         if settings("autosave").val:
             save(figure)
 
@@ -213,18 +221,18 @@ def autosave(figure):
 ##############################
 
 
-def codes(string: str, figure: Figure):
+def codes(string: str, figure: Figure) -> None:
     """Cheats"""
     for i in string:
         if i == "w":
             save(figure)
         elif i == "!":
-            exec(string[string.index("!") + 2 :])
+            exec(string[string.index("!") + 2 :])  # noqa: S102
             return
         elif i == "e":
             try:
-                exec(string[string.index("e") + 2 :])
-            except Exception as exc:
+                exec(string[string.index("e") + 2 :])  # noqa: S102
+            except Exception as exc:  # noqa: BLE001
                 print(exc)
             return
         elif i == "q":
@@ -235,7 +243,7 @@ def codes(string: str, figure: Figure):
 ################
 
 ''' # this is awful and has to be removed
-def swap_poke(ctx: Context):
+def swap_poke(ctx: Context) -> None:
     """Trading with other players in the local network"""
     if not ask_bool(
         ctx, "Do you want to trade with another trainer?",
@@ -289,7 +297,7 @@ def swap_poke(ctx: Context):
                                 "poke": figure.pokes[index].dict()})))
             data = sock.recv(1024)
             decode_data = json.loads(data.decode())
-    logging.info("[Swap_poke] Received %s", decode_data)
+    logger.info("[Swap_poke] Received %s", decode_data)
     mod_info = decode_data.get("mods", {})
     if loaded_mods.mod_info != mod_info:
         ask_ok(
@@ -309,13 +317,13 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}"""
 '''
 
 
-def quit(ctx: Context):
+def quit(ctx: Context) -> None:
     if ask_bool(ctx, "Do you really wish to exit?"):
         save(ctx.figure)
         sys.exit()
 
 
-def _game(_map: PlayMap, figure: Figure):
+def _game(_map: PlayMap, figure: Figure) -> None:
     """Game function
     ARGS:
         _map: The map that will be shown"""
@@ -347,7 +355,7 @@ def _game(_map: PlayMap, figure: Figure):
     ctx = change_ctx(Context(pevm, mvp.movemap, mvp.movemap, figure), mvp.movemap)
     MapInteract.set_ctx(ctx)  # Npcs need this global context
     inp_dict: list[tuple[list[Action], tuple]] = [
-        ([Action.DECK], (deck.deck, (ctx, 6, "Your deck"))),
+        ([Action.DECK], (Deck(), (ctx, 6, "Your deck"))),
         ([Action.CANCEL, Action.EXIT_GAME], (quit, (ctx,))),
         ([Action.MAP], (roadmap.roadmap, (ctx,))),
         ([Action.INVENTORY], (inv, (ctx,))),
@@ -413,7 +421,7 @@ def _game(_map: PlayMap, figure: Figure):
         loops.std(ctx)
 
 
-def intro(ctx: Context):
+def intro(ctx: Context) -> None:
     """Intro to Pokete"""
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = obmp.ob_maps["intromap"]
@@ -436,18 +444,22 @@ def intro(ctx: Context):
         [
             "Hello, my child.",
             "You're now ten years old.",
-            "I think it's now time for you to travel "
-            "the world and become a Pokete-trainer.",
-            "Therefore, I'll give you this powerful 'Steini', "
-            "15 'Poketeballs' to catch Poketes, and a "
-            "'Healing potion'.",
+            (
+                "I think it's now time for you to travel "
+                "the world and become a Pokete-trainer."
+            ),
+            (
+                "Therefore, I'll give you this powerful 'Steini', "
+                "15 'Poketeballs' to catch Poketes, and a "
+                "'Healing potion'."
+            ),
             "You will be the best Pokete-Trainer in Nice town.",
             "Now go out and become the best!",
         ],
     )
 
 
-def main():
+def main() -> None:
     """Main function"""
 
     do_logging, load_mods, save_dir = PoketeCommand(audio).run()
@@ -500,7 +512,7 @@ def main():
         while True:
             PreGameMap()(session_info, figure)
             figure.set_args(session_info)
-            game_map = figure.map
+            game_map: PlayMap = figure.map
             if not autosave_started:
                 PropagatingThread(target=autosave, args=(figure,), daemon=True).start()
                 autosave_started = True

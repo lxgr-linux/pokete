@@ -9,24 +9,28 @@ Items = dict[str, InvItem]
 
 
 class ValidationException(Exception):
-    def __init__(self):
+    logger = logging.getLogger("ValidationException")
+
+    def __init__(self) -> None:
         super().__init__("Failed to validate data")
 
 
 class AssetSerice:
-    def __init__(self):
+    logger = logging.getLogger("AssetSerice")
+
+    def __init__(self) -> None:
         self.__assets: Assets | None = None
         self.__base_assets: BaseAssets | None = None
         self.__items: Items = {}
         self.load_base_assets_from_p_data()
 
-    def load_assets(self, assets: AssetsDict):
+    def load_assets(self, assets: AssetsDict) -> None:
         if not Assets.validate(assets):
             raise ValidationException
 
         self.__assets = Assets.from_dict(assets)
 
-    def __load_base_assets(self, base_assets: BaseAssetsDict):
+    def __load_base_assets(self, base_assets: BaseAssetsDict) -> None:
         if not BaseAssets.validate(base_assets):
             raise ValidationException
         self.__base_assets = BaseAssets.from_dict(base_assets)
@@ -45,9 +49,9 @@ class AssetSerice:
     def get_items(self) -> Items:
         return self.__items
 
-    def load_assets_from_p_data(self):
+    def load_assets_from_p_data(self) -> None:
         if self.__assets is not None:
-            logging.warning("[AssetService]: Assets already loaded")
+            self.logger.warning("[AssetService]: Assets already loaded")
         self.load_assets(
             {
                 "trainers": p_data.trainers,
@@ -59,7 +63,7 @@ class AssetSerice:
             }
         )
 
-    def load_base_assets_from_p_data(self):
+    def load_base_assets_from_p_data(self) -> None:
         self.__load_base_assets(
             {
                 "items": p_data.items,

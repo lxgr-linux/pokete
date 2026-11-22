@@ -4,7 +4,7 @@ from types import SimpleNamespace
 # Prevent terminal-size crash during import on Windows/pytest
 os.get_terminal_size = lambda *args, **kwargs: os.terminal_size((80, 24))
 
-from pokete.classes.fight.attack_process import AttackProcess  # noqa: E402
+from pokete.classes.fight.attack_process import AttackProcess
 
 
 def make_attacker(atc: int):

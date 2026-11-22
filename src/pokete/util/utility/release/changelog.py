@@ -7,7 +7,7 @@ RawReleases = list[RawRelease]
 LIST_STARTERS = ("- ", "+ ")
 
 
-def __get_raw_releases(content) -> RawReleases:
+def __get_raw_releases(content: str) -> RawReleases:
     raw_releases: RawReleases = []
     for line in content.split("\n"):
         if line.startswith("## "):
@@ -17,7 +17,9 @@ def __get_raw_releases(content) -> RawReleases:
     return raw_releases
 
 
-def __parse_line(line: str, idx=0, in_code_block=False, illegal_link="") -> str:
+def __parse_line(
+    line: str, idx: int = 0, in_code_block: bool = False, illegal_link: str = ""
+) -> str:
     if idx == len(line):
         return ""
     this_segment = ""
@@ -49,7 +51,11 @@ def __parse_line(line: str, idx=0, in_code_block=False, illegal_link="") -> str:
 
 
 def __parse_markup(
-    lines: list[str], idx: int = 0, ul_depth: int = 0, curr_ul_sep="", curr_line_depth=0
+    lines: list[str],
+    idx: int = 0,
+    ul_depth: int = 0,
+    curr_ul_sep: str = "",
+    curr_line_depth: int = 0,
 ) -> str:
     if idx == len(lines):
         return ""
@@ -90,7 +96,7 @@ def __parse_markup(
 
 
 def __parse_version_date(heading: str) -> tuple[str, str]:
-    heading = heading.strip("##").strip()
+    heading = heading.strip("#").strip()
     version_sub, date = heading.split(" - ")
 
     return version_sub.split("[")[1].split("]")[0].strip(), date.strip()
@@ -111,19 +117,19 @@ def __parse_release_xml(release: tuple[str, list[str]]) -> str:
 </release>"""
 
 
-def __get_full_releases(releases: list[str]):
+def __get_full_releases(releases: list[str]) -> str:
     return f"""<releases>
     {"\n".join(releases)}
 </releases>"""
 
 
-def check_versions(tag: str, raw_releases: RawReleases):
+def check_versions(tag: str, raw_releases: RawReleases) -> None:
     all_versions = [__parse_version_date(release[0])[0] for release in raw_releases]
     if tag.lstrip("v") not in all_versions:
         print(f":: Warning: release tag `{tag}` has no changelog entry!")
 
 
-def write_changelog(tag: str):
+def write_changelog(tag: str) -> None:
     with open("Changelog.md", "r") as changelog_file:
         changelog_content = changelog_file.read()
     raw_releases = __get_raw_releases(changelog_content)

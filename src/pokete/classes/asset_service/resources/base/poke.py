@@ -10,7 +10,7 @@ class BaseIcoDict(TypedDict):
 
 
 class BaseIco:
-    def __init__(self, txt: str, esc: list[str]):
+    def __init__(self, txt: str, esc: list[str]) -> None:
         self.txt: str = txt
         self.esc: list[str] = esc
 
@@ -79,7 +79,7 @@ class Poke:
         initiative: int,
         night_active: bool | None,
         ico: list["BaseIco"],
-    ):
+    ) -> None:
         self.name: str = name
         self.hp: int = hp
         self.atc: int = atc
@@ -95,7 +95,7 @@ class Poke:
         self.evolve_lvl: int = evolve_lvl
         self.initiative: int = initiative
         self.night_active: bool | None = night_active
-        self.ico: list["BaseIco"] = ico
+        self.ico: list[BaseIco] = ico
 
     @classmethod
     def from_dict(cls, _d: PokeDict | None) -> "Poke | None":

@@ -1,5 +1,6 @@
 """Contains Weather class"""
 
+from pokete.classes.types import PokeType
 from pokete.data import weathers
 
 
@@ -8,11 +9,11 @@ class Weather:
     ARGS:
         index: The weathers name"""
 
-    def __init__(self, index):
+    def __init__(self, index: str) -> None:
         self.info = weathers[index]["info"]
         self.effected = weathers[index]["effected"]
 
-    def effect(self, typ):
+    def effect(self, typ: PokeType) -> None:
         """Gives an additional attackfactor
         ARGS:
             typ: The attacks type

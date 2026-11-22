@@ -12,7 +12,7 @@ from pokete.base.ui.elements.text import HightlightableText
 
 
 class AskOkBox(Box, MouseInteractor):
-    def __init__(self, text: str):
+    def __init__(self, text: str) -> None:
         assert len(text) >= 4, "Text has to be longer then 4 characters!"
         self.__do_exit = False
         self.__text_label = se.Text(text)
@@ -32,7 +32,7 @@ class AskOkBox(Box, MouseInteractor):
     def get_interaction_areas(self) -> list[Area]:
         return [self.__ok_label.get_area()]
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx == 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -44,7 +44,7 @@ class AskOkBox(Box, MouseInteractor):
                 case MouseEventType.MOVE:
                     self.__ok_label.un_highlight()
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         self.set_ctx(ctx)
         with self.center_add(self.map):
             ctx = change_ctx(ctx, self)
@@ -58,7 +58,7 @@ class AskOkBox(Box, MouseInteractor):
             _ev.clear()
 
 
-def ask_ok(ctx: Context, text):
+def ask_ok(ctx: Context, text) -> None:
     """Shows the player some information
     ARGS:
         ctx:Context

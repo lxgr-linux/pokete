@@ -1,7 +1,7 @@
 """Contains classes ralated to the mode choosing meni"""
 
 import sys
-from typing import Optional
+from typing import override
 
 import scrap_engine as se
 
@@ -26,9 +26,10 @@ from .pc_manager import pc_manager
 class ModeChooser(BetterChooseBoxView[bool]):
     """The menu to choose modes in"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             1,
+            3,
             [
                 se.Text("Singleplayer", state="float"),
                 se.Text("Multiplayer (Beta)", state="float"),
@@ -37,7 +38,8 @@ class ModeChooser(BetterChooseBoxView[bool]):
             name="Mode",
         )
 
-    def choose(self, ctx: Context, idx: int) -> Optional[bool]:
+    @override
+    def choose(self, ctx: Context, idx: int) -> bool | None:
         try:
             if idx == 0:
                 modeProvider.mode = Mode.SINGLE

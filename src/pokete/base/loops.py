@@ -21,7 +21,7 @@ def easy_exit(ctx: Context) -> bool:
         std(ctx)
 
 
-def event_wait(ctx: Context, event: Event):
+def event_wait(ctx: Context, event: Event) -> None:
     """Loops until an event is set"""
     while True:
         if event.is_set():
@@ -29,7 +29,7 @@ def event_wait(ctx: Context, event: Event):
         std(ctx)
 
 
-def std(ctx: Context):
+def std(ctx: Context) -> None:
     """Standard action executed in most loops"""
     if tss():
         ctx.overview.resize_view()

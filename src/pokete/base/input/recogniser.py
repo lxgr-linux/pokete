@@ -1,7 +1,8 @@
+import logging
 import sys
 import threading
 import time
-from typing import Optional
+from typing import ClassVar
 
 from pokete.base.exception_propagation.propagating_thread import (
     PropagatingThread,
@@ -13,8 +14,9 @@ from .mouse import mouse_manager
 
 
 class Recogniser:
-    ESCAPES: list[int] = [27, 0, 224]  # 224 is for windows
-    ESCAPED_KEY_MAPPING: dict[str, key.Key] = {
+    logger = logging.getLogger("Recogniser")
+    ESCAPES: ClassVar[list[int]] = [27, 0, 224]  # 224 is for windows
+    ESCAPED_KEY_MAPPING: ClassVar[dict[str, key.Key]] = {
         "[A": key.UP,
         "[B": key.DOWN,
         "[C": key.RIGHT,
@@ -24,14 +26,14 @@ class Recogniser:
         "M": key.RIGHT,
         "K": key.LEFT,
     }
-    UNIX_KEY_MAPPING: dict[int, key.Key] = {
+    UNIX_KEY_MAPPING: ClassVar[dict[int, key.Key]] = {
         13: key.ENTER,
         127: key.BACKSPACE,
         32: key.SPACE,
         27: key.ESC,
         3: key.EXIT,
     }
-    WINDOWS_KEY_MAPPING: dict[int, key.Key] = {
+    WINDOWS_KEY_MAPPING: ClassVar[dict[int, key.Key]] = {
         13: key.ENTER,
         127: key.BACKSPACE,
         8: key.BACKSPACE,
@@ -40,15 +42,15 @@ class Recogniser:
         3: key.EXIT,
     }
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.__escape_event = threading.Event()
-        self.__escape_input: Optional[str] = None
+        self.__escape_input: str | None = None
         self.__fd = None
         self.__old_settings = None
         if sys.platform == "win32":
             import msvcrt
 
-            def recogniser():
+            def recogniser() -> None:
                 """Gets keyboard input from msvcrt, the Microsoft Visual C++ Runtime"""
                 while True:
                     char = msvcrt.getwch()
@@ -61,7 +63,7 @@ class Recogniser:
             import termios
             import tty
 
-            def recogniser():
+            def recogniser() -> None:
                 """Use another (not on xserver relying) way to read keyboard input,
                 to make this shit work in tty or via ssh,
                 where no xserver is available"""
@@ -72,7 +74,7 @@ class Recogniser:
 
                 while True:
                     char = sys.stdin.read(1)
-                    # logging.info("input %s -- %d", char, ord(char))
+                    # self.logger.info("input %s -- %d", char, ord(char))
                     self.set_event(
                         char,
                         self.UNIX_KEY_MAPPING,
@@ -83,7 +85,7 @@ class Recogniser:
         PropagatingThread(target=self.check_escape, daemon=True).start()
         self.recogniser = recogniser
 
-    def check_escape(self):
+    def check_escape(self) -> None:
         while True:
             self.__escape_event.wait()
             self.__escape_event.clear()
@@ -92,7 +94,7 @@ class Recogniser:
                 _ev.set(key.ESC)
                 self.__escape_input = None
 
-    def set_event(self, char: str, key_mapping: dict[int, key.Key]):
+    def set_event(self, char: str, key_mapping: dict[int, key.Key]) -> None:
         char_ord = ord(char)
         key_mapping.setdefault(char_ord, key.Key(f"{char.rstrip()}"))
         if char_ord in self.ESCAPES:
@@ -111,10 +113,10 @@ class Recogniser:
         else:
             _ev.set(key_mapping[char_ord])
 
-    def __call__(self):
+    def __call__(self) -> None:
         self.recogniser()
 
-    def reset(self):
+    def reset(self) -> None:
         """Resets the terminals state"""
         if sys.platform == "linux":
             import termios

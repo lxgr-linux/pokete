@@ -1,7 +1,5 @@
 """Classes related to buing stuff"""
 
-from typing import Never, Optional
-
 import scrap_engine as se
 
 from pokete.base.change import change_ctx
@@ -14,7 +12,7 @@ from .base_inv import BaseInv
 class Buy(BaseInv):
     """Menu to buy items in, is triggered in shop"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("Shop")
         invitems = asset_service.get_items()
         self.items = [
@@ -31,17 +29,16 @@ class Buy(BaseInv):
             se.Text(f"{obj.pretty_name} : {obj.price}$") for obj in self.items
         ]
 
-    def choose(self, ctx: Context, idx: int) -> Optional[Never]:
+    def choose(self, ctx: Context, idx: int) -> None:
         obj = self.items[self.index.index]
         do_buy: bool = self.invbox(ctx, obj)
         ctx = change_ctx(ctx, self)
-        if do_buy and obj.price is not None:
-            if ctx.figure.get_money() - obj.price >= 0:
-                ctx.figure.add_money(-obj.price)
-                ctx.figure.give_item(obj.name)
-                self.set_money(ctx.figure)
+        if do_buy and obj.price is not None and ctx.figure.get_money() - obj.price >= 0:
+            ctx.figure.add_money(-obj.price)
+            ctx.figure.give_item(obj.name)
+            self.set_money(ctx.figure)
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         self.resize(ctx.map.height - 3, 35)
         self.set_money(ctx.figure)
         self.add_elems()

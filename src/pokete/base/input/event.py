@@ -1,6 +1,6 @@
 """Contains event var"""
 
-from typing import Callable, Optional
+from collections.abc import Callable
 
 from pokete.base.input.key import Key
 
@@ -12,28 +12,28 @@ class Event:
     ARGS:
         event: Initial char"""
 
-    def __init__(self, event=None):
-        self._ev: Optional[Key] = event
+    def __init__(self, event: Key | None = None) -> None:
+        self._ev: Key | None = event
         self.emit_fn: EmitFn
 
-    def get(self) -> Optional[Key]:
+    def get(self) -> Key | None:
         """Getter
         RETURNS:
             Current char"""
         return self._ev
 
-    def set(self, event: Key):
+    def set(self, event: Key) -> None:
         """Setter
         ARGS:
             event: New char"""
         self._ev = event
         self.emit_fn()
 
-    def clear(self):
+    def clear(self) -> None:
         """Clears the event"""
         self._ev = None
 
-    def set_emit_fn(self, emit_fn: EmitFn):
+    def set_emit_fn(self, emit_fn: EmitFn) -> None:
         """Sets the method used to emit events to the timer"""
         self.emit_fn = emit_fn
 

@@ -1,33 +1,32 @@
 """Generating maps"""
 
 import math
-from typing import Optional
 
 import scrap_engine as se
 
 from pokete.base.periodic_event_manager import PeriodicEvent
 from pokete.base.tss import tss
+from pokete.classes import ob_maps as obmp
+from pokete.classes.asset_service.resources import Map
 from pokete.classes.asset_service.resources.obmaps import Obmap
+from pokete.classes.asset_service.service import asset_service
+from pokete.classes.classes import PlayMap
+from pokete.classes.doors import Door, DoorToCenter, DoorToShop
+from pokete.classes.i import IFigure
+from pokete.classes.landscape import Meadow, Poketeball, Sand, Water
+from pokete.classes.map_additions.center import CenterMap, ShopMap
 from pokete.classes.map_additions.customizers import customizers
-
-from . import ob_maps as obmp
-from .asset_service.resources import Map
-from .asset_service.service import asset_service
-from .classes import PlayMap
-from .doors import Door, DoorToCenter, DoorToShop
-from .landscape import Meadow, Poketeball, Sand, Water
-from .map_additions.center import CenterMap, ShopMap
-from .npcs import NPC, Trainer
-from .poke import Poke
-from .settings import settings
+from pokete.classes.npcs import NPC, Trainer
+from pokete.classes.poke.poke import Poke
+from pokete.classes.settings import settings
 
 
 class Playmap7Event(PeriodicEvent):
-    def __init__(self, fig):
+    def __init__(self, fig: IFigure) -> None:
         self.fig = fig
         self.init = False
 
-    def tick(self, tick: int):
+    def tick(self, tick: int) -> None:
         if not self.init:
             self.init = True
             for obj in self.__all_obs():
@@ -43,7 +42,7 @@ class Playmap7Event(PeriodicEvent):
             else:
                 obj.rechar(" ")
 
-    def __all_obs(self):
+    def __all_obs(self) -> list[se.Object]:
         _map = obmp.ob_maps["playmap_7"]
         return (
             _map.get_obj("inner_walls").obs
@@ -57,7 +56,7 @@ class Playmap7Event(PeriodicEvent):
         )
 
 
-def __parse_obj(_map, name, obj, _dict):
+def __parse_obj(_map: "PlayMap", name: str, obj: se.Object, _dict) -> None:
     """Parses an object to a maps attribute and adds it
     ARGS:
         _map: The given PlayMap
@@ -71,7 +70,7 @@ def __parse_obj(_map, name, obj, _dict):
 def gen_single_map(
     ob_map: str,
     args: Map,
-    extra_actions: Optional[dict[str, list[PeriodicEvent]]] = None,
+    extra_actions: dict[str, list[PeriodicEvent]] | None = None,
 ) -> PlayMap:
     playmap = PlayMap(
         name=ob_map,
@@ -94,7 +93,7 @@ def gen_single_map(
     return playmap
 
 
-def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]):
+def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]) -> None:
     for hard_ob, single_hard_ob in single_map.hard_obs.items():
         __parse_obj(
             _map,
@@ -138,8 +137,8 @@ def gen_single_map_obs(_map: PlayMap, single_map: Obmap, used_npcs: list[str]):
 
 def gen_maps(
     p_maps: dict[str, Map],
-    extra_actions: Optional[dict[str, list[PeriodicEvent]]] = None,
-    fix_center=False,
+    extra_actions: dict[str, list[PeriodicEvent]] | None = None,
+    fix_center: bool = False,
 ) -> dict[str, PlayMap]:
     """Generates all maps
     ARGS:
@@ -164,7 +163,7 @@ def gen_maps(
     return maps
 
 
-def gen_obs(figure):
+def gen_obs(figure: IFigure) -> None:
     """Generates all objects on the maps
     ARSG:
         map_data: Contains map_data

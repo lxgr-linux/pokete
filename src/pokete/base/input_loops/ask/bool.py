@@ -1,6 +1,7 @@
+from typing import override
+
 import scrap_engine as se
 from scrap_engine.addable.area import Area
-from scrap_engine.addable.misc.frame import Optional
 
 from pokete.base import loops
 from pokete.base.change import change_ctx
@@ -13,9 +14,9 @@ from pokete.base.ui.elements.text import HightlightableText
 
 
 class AskBoolBox(Box, MouseInteractor):
-    def __init__(self, text: str):
+    def __init__(self, text: str) -> None:
         assert len(text) >= 12, "Text has to be longer then 12 characters!"
-        self.__result: Optional[bool] = None
+        self.__result: bool | None = None
         self.__text_label = se.Text(text)
         self.__yes_label = HightlightableText("[Y]es")
         self.__no_label = HightlightableText("[N]o")
@@ -37,10 +38,12 @@ class AskBoolBox(Box, MouseInteractor):
             self.__text_label.height + 1,
         )
 
+    @override
     def get_interaction_areas(self) -> list[Area]:
         return [i.get_area() for i in self.__labels]
 
-    def interact(self, ctx: Context, area_idx: int, event: MouseEvent):
+    @override
+    def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx < 0:
             match event.type:
                 case MouseEventType.MOVE:
@@ -73,7 +76,7 @@ class AskBoolBox(Box, MouseInteractor):
         return ret
 
 
-def ask_bool(ctx: Context, text) -> bool:
+def ask_bool(ctx: Context, text: str) -> bool:
     """Asks the player to aswer a yes/no question
     ARGS:
         ctx: Context

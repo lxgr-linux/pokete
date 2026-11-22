@@ -12,9 +12,9 @@ the Tuple specifies the old link and the second argument the new link. With "new
 website.
 """
 
+import json
 import os
 from os.path import exists
-import json
 from urllib import request
 
 from .wiki import Wiki
@@ -180,8 +180,7 @@ def add_wiki_folder(folder_name: str) -> list:
         file = os.path.join(folder_name, item)
         if os.path.isdir(file):
             add_folder(file.replace("./wiki-multi-md/", "./wiki-multi-html/"), True)
-            for f in add_wiki_folder(file):
-                out.append(f)
+            out += add_wiki_folder(file)
         elif os.path.isfile(file):
             if item.endswith(".md"):
                 out.append(file)
@@ -234,9 +233,8 @@ def before() -> None:
     create_wiki()
     print("==> Adding Multi-page Wiki...")
     add_wiki_to_files()
-    for file in files.keys():
+    for file, properties in files.items():
         print(f"==> Preparing {file}")
-        properties = files[file]
 
         if properties["type"] == "documentation" or properties["type"] == "folder":
             continue
@@ -271,7 +269,7 @@ def before() -> None:
         print(" -> Copying to /tmp...")
         os.system(f'cp "{new_name}" "/tmp/{new_name}"')
 
-        files[file]["new_name"] = new_name
+        properties["new_name"] = new_name
 
     print("Saving configuration...")
     with open("/tmp/prepare_pages_saves.py", "w") as f:
@@ -312,13 +310,13 @@ def after() -> None:
     print("==> Making directories...")
     print(" -> wiki-multi-html")
     add_folder("wiki-multi-html", False)
-    for file in new_files.keys():
+    for file in new_files:
         properties = new_files[file]
         if properties["type"] == "folder":
             print(" -> " + file)
             add_folder(file, False)
     documentation_copied = False
-    for file in new_files.keys():
+    for file in new_files:
         properties = new_files[file]
 
         # Copy documentation folder from /tmp/doc/ to current directory
@@ -356,7 +354,7 @@ def after() -> None:
         # (wiki.md) into website links (./wiki)
         if properties["replace_links"]:
             print(" -> Replacing links...")
-            for old in properties["replace_links"].keys():
+            for old in properties["replace_links"]:
                 new = properties["replace_links"][old]
                 if old != list(properties["replace_links"].keys())[-1]:
                     print(f" |-> Replacing {old} with {new}...")
@@ -378,5 +376,4 @@ def prepare_before(ex: str, options: list[str], flags: dict[str, list[str]]):
 
 
 def prepare_after(ex: str, options: list[str], flags: dict[str, list[str]]):
-    global files
     after()

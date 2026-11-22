@@ -7,18 +7,18 @@ I know all this is very awful...
 ...not so awful anymore, since I introduced code generation
 """
 
-from .achievements import *  # noqa: F403
-from .attacks import *  # noqa: F403
-from .items import *  # noqa: F403
-from .map_data import *  # noqa: F403
-from .maps import *  # noqa: F403
-from .mapstations import *  # noqa: F403
-from .natures import *  # noqa: F403
-from .npcs import *  # noqa: F403
-from .poketes import *  # noqa: F403
-from .trainers import *  # noqa: F403
-from .types import *  # noqa: F403
-from .weather import *  # noqa: F403
+from .achievements import *
+from .attacks import *
+from .items import *
+from .map_data import *
+from .maps import *
+from .mapstations import *
+from .natures import *
+from .npcs import *
+from .poketes import *
+from .trainers import *
+from .types import *
+from .weather import *
 
 # from .npc_actions import *
 

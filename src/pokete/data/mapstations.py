@@ -1,4 +1,4 @@
-from pokete.classes.asset_service.resources import StationDict, DecorationDict
+from pokete.classes.asset_service.resources import DecorationDict, StationDict
 
 stations: dict[str, StationDict] = {
     "playmap_1": {

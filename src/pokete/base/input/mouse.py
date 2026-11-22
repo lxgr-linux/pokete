@@ -33,6 +33,7 @@ class MouseEventType(Enum):
 
 @dataclass
 class MouseEvent:
+    logger = logging.getLogger("MouseEvent")
     type: MouseEventType
     x: int
     y: int
@@ -40,15 +41,17 @@ class MouseEvent:
 
 
 class MouseManager:
+    logger = logging.getLogger("MouseManager")
+
     def __init__(self) -> None:
         self.pattern = re.compile(r"\[<[0-9]*;[0-9]*;[0-9]*[m|M]")
         self.events: bs_rpc.Channel[MouseEvent] = bs_rpc.Channel()
 
     def is_mouse_event(self, inp: str) -> bool:
-        return not not self.pattern.match(inp)
+        return bool(self.pattern.match(inp))
 
-    def handle(self, inp: str):
-        # logging.info("handle %s", inp)
+    def handle(self, inp: str) -> None:
+        # self.logger.info("handle %s", inp)
         pressed = inp.endswith("m")
 
         num_vals: list[int] = [
@@ -67,7 +70,7 @@ class MouseManager:
                 )
             )
         else:
-            logging.warning(
+            self.logger.warning(
                 "[Input] Unknown MouseEventType %d", mouse_event_type_literal
             )
 

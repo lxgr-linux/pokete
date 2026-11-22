@@ -14,7 +14,7 @@ class InvItem:
         desc: str,
         price: int | None,
         _fn: str | None = None,
-    ):
+    ) -> None:
         self.name: str = name
         self.pretty_name = pretty_name
         self.desc = desc

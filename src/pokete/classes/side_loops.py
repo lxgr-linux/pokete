@@ -18,10 +18,10 @@ class LoopBox:
     ARGS:
         box: The box to display"""
 
-    def __init__(self, box):
+    def __init__(self, box) -> None:
         self.box = box
 
-    def __call__(self, ctx: Context):
+    def __call__(self, ctx: Context) -> None:
         """Shows the about text"""
         self.box.set_ctx(ctx)
         ctx = change_ctx(ctx, self.box)
@@ -32,7 +32,7 @@ class LoopBox:
 class About(LoopBox):
     """The about text, that can be triggered in the menu"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             InfoBoxView(
                 liner(
@@ -56,7 +56,7 @@ You  can contribute here: https://github.com/lxgr-linux/pokete""",
 class Help(LoopBox):
     """Helptext that can be displayed by pressing '?'"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             InfoBoxView(
                 """Controls:
@@ -77,7 +77,7 @@ https://git.io/JRRqe""",
 class LoadingScreen:
     """Loading screen that's shown at game's start"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         width, height = os.get_terminal_size()
         self.map = gm.GameMap(width=width, height=height - 1)
         se.Text(
@@ -98,7 +98,7 @@ class LoadingScreen:
             int(self.map.height / 2) + 2,
         )
 
-    def __call__(self):
+    def __call__(self) -> None:
         """Shows the loading screen"""
         self.map.show()
 

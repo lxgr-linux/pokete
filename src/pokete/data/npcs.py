@@ -133,8 +133,10 @@ found some cool Poketes.",
             "You may have noticed that traveling between cities is not so comfortable nowadays.",
             "But I can help you.",
             "I can give you this Learning Disc.",
-            "You can use it to teach the 'Flying' attack to one of your flying Poketes so you can ride it to "
-            "the next town.",
+            (
+                "You can use it to teach the 'Flying' attack to one of your flying Poketes so you can ride it to "
+                "the next town."
+            ),
             "Isn't that great?",
         ],
         "fn": "playmap_29_ld_man",
@@ -145,10 +147,14 @@ found some cool Poketes.",
     "lxgr": {
         "texts": [
             "Hello, fellow traveler. My name is lxgr and I created this game. ",
-            "You may be asking yourself: 'Lxgr, what are you doing in this game?', and the answer is: 'standing "
-            "around'.",
-            "I added this NPC because I'm stuck on a train somewere between Hamburg and Rostock, "
-            "and I'm bored.",
+            (
+                "You may be asking yourself: 'Lxgr, what are you doing in this game?', and the answer is: 'standing "
+                "around'."
+            ),
+            (
+                "I added this NPC because I'm stuck on a train somewere between Hamburg and Rostock, "
+                "and I'm bored."
+            ),
             "You can contribute to this game at https://github.com/lxgr-linux/pokete .",
             "If you want to hire me and stuff you can write me at lxgr@protonmail.com .",
         ],
@@ -377,8 +383,10 @@ found some cool Poketes.",
     "npc_24": {
         "texts": [
             "I'm the mayor of Agrawos, the greatest city around.",
-            "Check out the MowCow-Burger restaurant; they have the best MowCow-Burgers! Also take a look at "
-            "the Pokete-Arena!",
+            (
+                "Check out the MowCow-Burger restaurant; they have the best MowCow-Burgers! Also take a look at "
+                "the Pokete-Arena!"
+            ),
             "Here's a special tip: take a look at the temple of the Wheeto.",
         ],
         "fn": None,

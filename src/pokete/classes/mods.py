@@ -2,6 +2,9 @@
 
 import logging
 import sys
+from typing import Any
+
+import scrap_engine as se
 
 import pokete.data as p_data
 from pokete.base.ui.views.boxes import InfoBoxView
@@ -9,11 +12,13 @@ from pokete.base.ui.views.boxes import InfoBoxView
 from .settings import settings
 from .side_loops import LoopBox
 
+logger = logging.getLogger("Mods")
+
 
 class DummyMods:
     """Dummy Mods class used when mods are disabled"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.mod_info = {}
         self.mod_obs = []
         self.mod_names = []
@@ -26,7 +31,7 @@ class ModError(Exception):
         name: The mod's name
         err: The error that was thrown"""
 
-    def __init__(self, name, err):
+    def __init__(self, name: Any, err) -> None:
         self.name = name
         self.err = err
         super().__init__(f"The mod '{name}' lacks attributes!\n{err}")
@@ -35,7 +40,9 @@ class ModError(Exception):
 class ModInfo(LoopBox):
     """Gives information about mods"""
 
-    def __init__(self):
+    logger = logging.getLogger("ModInfo")
+
+    def __init__(self) -> None:
         self.text = (
             f"""
 Mods are { {True: "enabled", False: "disabled"}[settings("load_mods").val] }!
@@ -57,7 +64,7 @@ Currently {len(loaded_mods.mod_info)} mod{"s are" if len(loaded_mods.mod_info) !
         )
 
 
-def try_load_mods(_map):
+def try_load_mods(_map: se.Map) -> None:
     global loaded_mods
     if settings("load_mods").val:
         try:
@@ -72,7 +79,7 @@ def try_load_mods(_map):
             mod.mod_p_data(p_data)
     else:
         loaded_mods = DummyMods()
-    logging.info(
+    logger.info(
         "[General] %d mods are loaded: (%s)",
         len(loaded_mods.mod_obs),
         ", ".join(loaded_mods.mod_names),
