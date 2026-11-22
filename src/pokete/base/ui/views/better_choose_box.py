@@ -14,12 +14,15 @@ from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import BetterChooseBox
 from pokete.base.ui.overview import Overview
+from pokete.base.ui.views.extra_actions import HasExtraActions
 from pokete.base.ui.views.pageable import Pageable, UpDownSwitch
 
 T = TypeVar("T")
 
 
-class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, Pageable, ABC):
+class BetterChooseBoxView[T](
+    BetterChooseBox, MouseInteractor, Pageable, HasExtraActions, ABC
+):
     def __init__(
         self,
         columns: int,
@@ -93,6 +96,7 @@ class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, Pageable, ABC):
         self.elems = labels
         super().set_items(columns, self.elems[: rows * columns])
 
+    @override
     def change_page(self, add_page: int, n_idx: int) -> None:
         if (
             0
@@ -134,13 +138,15 @@ class BetterChooseBoxView[T](BetterChooseBox, MouseInteractor, Pageable, ABC):
                 else:
                     if action.triggers(Action.CANCEL):
                         break
-                    if action.triggers(Action.ACCEPT):
+                    elif action.triggers(Action.ACCEPT):
                         res = self.choose(
                             ctx, self.index[1] + (self.index[0] * self.columns)
                         )
                         ctx = change_ctx(ctx, self)
                         if res is not None:
                             return res
+                    if self.handle_extra_actions(ctx, action):
+                        break
                 loops.std(ctx)
                 if self.__special_ret is not None:
                     return self.__special_ret

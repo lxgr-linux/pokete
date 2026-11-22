@@ -1,5 +1,7 @@
 """Contains the Pokete dex that gives information about all Poketes"""
 
+from typing import override
+
 import scrap_engine as se
 
 from pokete.base import loops
@@ -89,6 +91,7 @@ class PokeDex(ChooseBoxView):
                 list(self.p_dict)[idx],
             )
 
+    @override
     def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
         return action.triggers(Action.POKEDEX)
 

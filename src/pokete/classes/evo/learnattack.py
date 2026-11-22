@@ -1,6 +1,6 @@
 """Contains the LearnAttack class"""
 
-from typing import override
+from typing import Self, override
 
 import scrap_engine as se
 
@@ -25,7 +25,7 @@ class AttackInfo(Box):
     ARGS:
         attack: The attack's name"""
 
-    def __init__(self, attack) -> None:
+    def __init__(self, attack: str) -> None:
         atc = Attack(attack)
         desc_label = se.Text(liner(atc.desc, 40))
         super().__init__(
@@ -44,9 +44,10 @@ class AttackInfo(Box):
         self.add_ob(se.Text(f"AP:{atc.max_ap}"), 2, 3)
         self.add_ob(desc_label, 2, 4)
 
-    def __enter__(self) -> None:
+    @override
+    def __enter__(self) -> Self:
         """Enter dunder for context management"""
-        self.center_add(self.map)
+        _ = self.center_add(self.map)
         self.map.show()
         return self
 

@@ -11,18 +11,18 @@ from pokete.base.context import Context
 from pokete.base.input.hotkeys import (
     ACTION_UP_DOWN,
     Action,
-    ActionList,
     get_action,
 )
 from pokete.base.input.mouse import MouseEvent, MouseEventType
 from pokete.base.mouse import MouseInteractor
 from pokete.base.ui.elements.choose import ChooseBox
+from pokete.base.ui.views.extra_actions import HasExtraActions
 from pokete.base.ui.views.pageable import Pageable, UpDownSwitch
 
 T = TypeVar("T")
 
 
-class ChooseBoxView[T](ChooseBox, MouseInteractor, Pageable, ABC):
+class ChooseBoxView[T](ChooseBox, MouseInteractor, Pageable, HasExtraActions, ABC):
     def __init__(
         self,
         height: int,
@@ -133,9 +133,6 @@ class ChooseBoxView[T](ChooseBox, MouseInteractor, Pageable, ABC):
         for c_ob in self.c_obs:
             c_ob.remove()
         self.remove_c_obs()
-
-    def handle_extra_actions(self, ctx: Context, action: ActionList) -> bool:
-        return False
 
     @override
     def change_page(self, add_page: int, n_idx: int) -> None:

@@ -2,6 +2,7 @@
 
 import logging
 import time
+from typing import override
 
 import scrap_engine as se
 
@@ -38,6 +39,7 @@ class EvoMap(gm.GameMap, Overview):
         self.frame_small.add(self, 0, self.height - 5)
         self.outp.add(self, 1, self.height - 4)
 
+    @override
     def resize_view(self) -> None:
         """Manages recursive view resizing"""
         self.frame_small.remove()

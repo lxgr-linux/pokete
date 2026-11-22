@@ -1,3 +1,5 @@
+from typing import override
+
 from scrap_engine import Area
 
 from pokete.base.context import Context
@@ -12,17 +14,19 @@ from pokete.base.ui.elements.text import HightlightableText
 
 
 class GenericActionLabel(HightlightableText, MouseInteractor):
-    def __init__(self, action: Action, text: str) -> None:
+    def __init__(self, action: Action, text: str, esccode: str = "") -> None:
         self.action = action
         assert action.mapping is not None and len(action.mapping) == 1, (
             "Trying to create Actionlabel with noch char mapping"
         )
         self.key = Key(action.mapping)
-        super().__init__(f"{action.mapping}:{text}")
+        super().__init__(f"{action.mapping}:{text}", esccode=esccode)
 
+    @override
     def get_interaction_areas(self) -> list[Area]:
         return [self.get_area()]
 
+    @override
     def interact(self, ctx: Context, area_idx: int, event: MouseEvent) -> None:
         if area_idx == 0:
             match event.type:

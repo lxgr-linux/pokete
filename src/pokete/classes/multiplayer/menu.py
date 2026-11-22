@@ -1,6 +1,7 @@
 """Contains classes ralated to the mode choosing meni"""
 
 import sys
+from typing import override
 
 import scrap_engine as se
 
@@ -37,6 +38,7 @@ class ModeChooser(BetterChooseBoxView[bool]):
             name="Mode",
         )
 
+    @override
     def choose(self, ctx: Context, idx: int) -> bool | None:
         try:
             if idx == 0:
