@@ -1,11 +1,12 @@
 """Contains the Healthbar class"""
 
 import time
+from typing import override
 
 import scrap_engine as se
 
 from pokete.base.color import Color
-from pokete.classes.i import IPoke
+from pokete.classes.i import IHealthbar, IPoke
 from pokete.release import SPEED_OF_TIME
 
 
@@ -31,7 +32,7 @@ class HealthBar(se.Text[se.Object]):
         self.rechar(bar_num * "#", esccode)
 
 
-class HealthBarWrapper(se.Box):
+class HealthBarWrapper(se.Box, IHealthbar):
     def __init__(self, poke: IPoke) -> None:
         self.__hp_bar = HealthBar(poke)
         self.__pre = se.Text("<", "float")
@@ -43,6 +44,7 @@ class HealthBarWrapper(se.Box):
         self.add_ob(self.__hp_bar, 7, 0)
         self.add_ob(self.__post, self.__hp_bar.width + 7, 0)
 
+    @override
     def update(self, oldhp: int, hp: int) -> None:
         """Updates the healthbar in steps with easing effect
         ARGS:
@@ -62,6 +64,7 @@ class HealthBarWrapper(se.Box):
         self.__text_hp.rechar(f"HP:{oldhp}")
         time.sleep(SPEED_OF_TIME * 0.1)
 
+    @override
     def make(self, hp: int) -> None:
         self.__text_hp.rechar(f"HP:{hp}")
         self.__hp_bar.make(hp)

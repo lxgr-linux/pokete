@@ -9,8 +9,7 @@ import scrap_engine as se
 
 from pokete.base.color import Color
 from pokete.base.game_map import GameMapWithOutp
-from pokete.classes.i import IEffect, IPoke
-from pokete.classes.poke.ui import PokeLabels
+from pokete.classes.i import IEffect, IHasHealthbar, IPoke
 from pokete.release import SPEED_OF_TIME
 
 
@@ -63,7 +62,7 @@ class Effect(IEffect):
         self,
         poke: IPoke,
         fightmap: GameMapWithOutp,
-        poke_labels: PokeLabels,  # pyright: ignore[reportUnusedParameter]
+        poke_labels: IHasHealthbar,  # pyright: ignore[reportUnusedParameter]
     ) -> bool:
         """The action that's executed every attack round"""
         fightmap.outp.outp(f"{poke.ext_name} is still ")
@@ -75,7 +74,7 @@ class Effect(IEffect):
         return True
 
     @classmethod
-    def ret_md(cls) -> None:
+    def ret_md(cls) -> str:
         """Returns a descriptive markdown string"""
         return f"""
 ### {cls.c_name.capitalize()}
@@ -124,7 +123,7 @@ This is reverted randomly."
 
     @override
     def effect(
-        self, poke: IPoke, fightmap: GameMapWithOutp, poke_labels: PokeLabels
+        self, poke: IPoke, fightmap: GameMapWithOutp, poke_labels: IHasHealthbar
     ) -> bool:
         fightmap.outp.outp(f"{poke.ext_name} is still ")
         fightmap.outp.append(
@@ -168,7 +167,7 @@ class EffectConfusion(Effect):
 
     @override
     def effect(
-        self, poke: IPoke, fightmap: GameMapWithOutp, poke_labels: PokeLabels
+        self, poke: IPoke, fightmap: GameMapWithOutp, poke_labels: IHasHealthbar
     ) -> bool:
         fightmap.outp.outp(f"{poke.ext_name} is still ")
         fightmap.outp.append(

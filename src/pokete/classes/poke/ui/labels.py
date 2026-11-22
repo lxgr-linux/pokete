@@ -1,14 +1,14 @@
 import scrap_engine as se
 
 from pokete.base.color import Color
-from pokete.classes.i import IPoke
+from pokete.classes.i import IHasHealthbar, IHealthbar, IPoke
 from pokete.classes.poke.ui.health_bar import HealthBarWrapper
 
 
-class PokeLabels:
+class PokeLabels(IHasHealthbar):
     def __init__(self, poke: IPoke) -> None:
         # Labels
-        self.hp_bar: HealthBarWrapper = HealthBarWrapper(poke)
+        self.hp_bar: IHealthbar = HealthBarWrapper(poke)
         self.hp_bar.make(poke.hp)
         self.effects = EffectsLabel(poke)
         self.ico = se.Box(4, 11)

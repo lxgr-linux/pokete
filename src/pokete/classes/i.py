@@ -6,6 +6,15 @@ from pokete.classes.asset_service.resources.base import Poke as ResourcePoke
 from pokete.classes.types import PokeType
 
 
+class IHealthbar(Protocol):
+    def update(self, oldhp: int, hp: int) -> None: ...
+    def make(self, hp: int) -> None: ...
+
+
+class IHasHealthbar(Protocol):
+    hp_bar: IHealthbar
+
+
 class IEffect(Protocol):
     name: str
     c_name: str
