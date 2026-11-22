@@ -107,4 +107,8 @@ class Deck(BetterChooseBoxView[int]):
         self.name_label.rechar(label if label else self.default_label)
         self.__set_elements()
 
-        return super().__call__(ctx)
+        ret = super().__call__(ctx)
+        # Reset label
+        self.__move_action_label.set_esccode("")
+        self.__move_idx = None
+        return ret

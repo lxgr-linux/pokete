@@ -27,6 +27,7 @@ from pokete.classes.effects import Effect
 from pokete.classes.fight.fightmap.moves import moves
 from pokete.classes.i import IEffect
 from pokete.classes.items.invitem import InvItem
+from pokete.classes.moves import ShineMove
 from pokete.classes.poke.poke.poke import Poke
 from pokete.classes.poke.ui import PokeLabels
 from pokete.classes.weather import Weather
@@ -391,7 +392,7 @@ class FightMap(gm.GameMapWithOutp, Overview, MouseInteractor):
     def win_animation(self, winner: Provider) -> None:
         time.sleep(SPEED_OF_TIME * 1)
         self.outp.outp(f"{winner.curr.name} reached lvl {winner.curr.lvl()}!")
-        winner.curr.moves.shine()
+        ShineMove().move(self.provider_labels(winner), None)
         time.sleep(SPEED_OF_TIME * 0.5)
 
     def declare_winner(self, winner: Provider, xp: int) -> None:

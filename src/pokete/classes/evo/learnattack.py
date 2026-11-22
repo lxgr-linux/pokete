@@ -113,8 +113,9 @@ class LearnAttackBox(ChooseBoxView[int]):
             for i, j in enumerate(poke.attack_obs)
         ]
         self.add_elems()
+        self.set_ctx(ctx)
 
-        with self.add(ctx.map, ctx.map.width - self.width, 0):
+        with self.center_add(self.map):
             idx = super().__call__(ctx)
 
         if idx is not None:
