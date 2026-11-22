@@ -36,9 +36,7 @@ class GameContext:
 
         if exc_type == KeyboardInterrupt:
             print("\033[?1049l\033[1A\nKeyboardInterrupt")
-            return True
         elif exc_type == SystemExit:
             pass
         else:
-            self.logger.error("[General] Error occurend:")
-            return False
+            self.logger.error("[General] Error occurend:", exc_info=True)  # noqa: LOG014
