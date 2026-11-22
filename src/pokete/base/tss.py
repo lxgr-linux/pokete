@@ -14,10 +14,9 @@ class ResizeScreen:
     """Screen thats shown when the screen is resized"""
 
     def __init__(self) -> None:
-        self.height = 0
-        self.width = 0
+        self.height = 20
+        self.width = 70
         self.__do_check: bool = True
-        _ = self.__set_dimensions()
         self.map = GameMap(self.height - 1, self.width)
         self.warning_label = se.Text("Minimum windowsize is 70x20")
         self.size_label = se.Text(f"{self.width}x{self.height}")
